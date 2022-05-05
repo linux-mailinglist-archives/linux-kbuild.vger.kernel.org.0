@@ -2,101 +2,142 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC1FA51B46E
-	for <lists+linux-kbuild@lfdr.de>; Thu,  5 May 2022 02:09:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50C1A51B84A
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 May 2022 08:57:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232605AbiEEAGj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 4 May 2022 20:06:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41836 "EHLO
+        id S239792AbiEEHAh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 5 May 2022 03:00:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351198AbiEDX6x (ORCPT
+        with ESMTP id S236957AbiEEHAe (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 4 May 2022 19:58:53 -0400
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4D974ECFA
-        for <linux-kbuild@vger.kernel.org>; Wed,  4 May 2022 16:54:12 -0700 (PDT)
-Received: by mail-ot1-x343.google.com with SMTP id k25-20020a056830169900b00605f215e55dso1932947otr.13
-        for <linux-kbuild@vger.kernel.org>; Wed, 04 May 2022 16:54:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=ampHH5WJLIBWSsxWwzVjbk5pO9UBFxn81pZ6QIDzZtY=;
-        b=Dn1MT8x7p4Rbn+pctwVkt7IgIdUxT0LRLjox/JaF9ttsZ2N8sUUglHFRxQa3sl75aK
-         h1U1JpCoOjPff8rV+LL0edQuBh+YvYlTbZ4zx127Qa80qMcS49J0d2nS2s7mVVadwp/M
-         vGp6wV8qQhR9tMRiQjyWHIJslgvG4HigF7p24aLxixJ1l99K68kLikab9Y0HgtSpkDYW
-         0+riuhXlj9dAnGs04evyYz4sFXKtm0FlJKiBI2Dtbo7ebvKr6E7XJkxgxzCXhReMwL1D
-         yv9OUeo9KjH+/RIlVXefhsYivAQRdlwo604eWoXrrvRFVxcSgXwgPis+UtVhyLpBWx3z
-         WyWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=ampHH5WJLIBWSsxWwzVjbk5pO9UBFxn81pZ6QIDzZtY=;
-        b=Lf3TYeWgBn7gD1Y3/L5u/O9sY7drFapRV5aH7WXbrWmGvL1TSWYC4/onKx2enQMaKS
-         cYDPX11PR12F594IX5bQIsTdehRRWh86HVCQjtoZYTsoPUA2huTAjSjzDtEnpM2bEsHc
-         lQ2sef8Z07HBYK2u0dYwRauKWv10pVC83mxInMJLZspNdL8FVzXyPCgNPg3MI4yRTZfS
-         dOfO1FO9NLQZuNIGtLH2RXLhMIQuEJYrrje50Hy6pQBk+tm5MSai8tpzSlBycOxBzXaM
-         XTHkkxCOEU4XYrKWfueSvxwFmrx33oQBhJMhdczhjV0qDv9SwVdrE/R2evj+XDgHvG6x
-         7r3Q==
-X-Gm-Message-State: AOAM533cIKRoZL1d4oDDtu3mZQx/gZoJiDFejn+/WCdnFDVXInHlDB2b
-        OGJWfBbL6NKFkL/YZuPmKg5jFNArAd5kffQSwSBGl6IpRESFcA==
-X-Google-Smtp-Source: ABdhPJyXbFHNtxfp8+qt+M9kuv/iG7XfFeFFPd7I4/fmpdxuycMtmf6dIJw5ghtZAT2CwgvAVE/kUl0HxsirxLIU8v0=
-X-Received: by 2002:a9d:6b16:0:b0:605:e0eb:d3d6 with SMTP id
- g22-20020a9d6b16000000b00605e0ebd3d6mr8263208otp.213.1651708440302; Wed, 04
- May 2022 16:54:00 -0700 (PDT)
+        Thu, 5 May 2022 03:00:34 -0400
+Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 198F7377EF;
+        Wed,  4 May 2022 23:56:54 -0700 (PDT)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 2456uUBv002675;
+        Thu, 5 May 2022 15:56:31 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 2456uUBv002675
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1651733791;
+        bh=i8UVQkDD1UoDas2ND/0n+dx2bVcfUGCIy5PTWE5iI2U=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=NtasHN6CYnJgzyHeGmjakUgOvG3aQKwjwNspzBvJfa1nSTNKB4VJeRjgFr0h5iWGJ
+         Ed2Et83jp97YZI9+ZUWaVzBXPPX1vZ//SjsMzPahP6YGDI5Rd6UKLEL/MHair6kyzE
+         HPhD5JAqaR9pf4QesMJeU20UDYZQYyN+9Eq9t/5sTApSPPHiolvlKR3iSxpM9YwyXe
+         2SUg+dGMYYWojipEOySJ7oKWhzNz6zcZYI7ZbcxDIqt71lS+B1o/lBT2V8FMZjjC44
+         pAno5SkQ/NzVS7IwoMVpMOfRvBVdrIQlZgTvw4h4vP7BDlaSmNWsGYuPIPixYu9ei/
+         PJTBm3RAS79dg==
+X-Nifty-SrcIP: [209.85.214.173]
+Received: by mail-pl1-f173.google.com with SMTP id c9so2868684plh.2;
+        Wed, 04 May 2022 23:56:31 -0700 (PDT)
+X-Gm-Message-State: AOAM5311GHW8mMR+MGIR17B/xRk2rCgDmGgXiEvAmLV8Y+9CX++l37uF
+        WTAUnh9wisV+08zzPQpBX0G5goKwElr2M4sYZeo=
+X-Google-Smtp-Source: ABdhPJxsF51fbTyL6C4bazzUfCl2jPYlFrYotwR5hNcMGm8bZWKjxRNEqo5gx4CM+pyfrjnfAbsIB5F+gLE6/gs6RWU=
+X-Received: by 2002:a17:902:9887:b0:151:6e1c:7082 with SMTP id
+ s7-20020a170902988700b001516e1c7082mr25314570plp.162.1651733790231; Wed, 04
+ May 2022 23:56:30 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a05:6802:1a9:0:0:0:0 with HTTP; Wed, 4 May 2022 16:53:59
- -0700 (PDT)
-Reply-To: ortegainvestmmentforrealinvest@gmail.com
-From:   Info <joybhector64@gmail.com>
-Date:   Thu, 5 May 2022 05:23:59 +0530
-Message-ID: <CAP7KLYgH9LcKHS-KgR0zObHAgC6Fr3D+dOJSbDKurTc_12+iFw@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
+References: <20220501084032.1025918-1-masahiroy@kernel.org>
+In-Reply-To: <20220501084032.1025918-1-masahiroy@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 5 May 2022 15:55:23 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ3JmpfJRU4xJisuZCzpN7OkK078MP5okBT-PD=N1R9jg@mail.gmail.com>
+Message-ID: <CAK7LNAQ3JmpfJRU4xJisuZCzpN7OkK078MP5okBT-PD=N1R9jg@mail.gmail.com>
+Subject: Re: [PATCH v2 00/26] kbuild: yet another series of cleanups (modpost
+ and LTO)
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        clang-built-linux <llvm@lists.linux.dev>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:343 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [joybhector64[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [joybhector64[at]gmail.com]
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  3.5 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
--- 
-I am an investor. I came from the USA and I have many investments all
-over the world.
+On Sun, May 1, 2022 at 5:42 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+>
+> This is the third batch of cleanups in this development cycle.
+>
+> Major changes in v2:
+>
+>  - V1 did not work with CONFIG_MODULE_REL_CRCS.
+>    I fixed this for v2.
+>
+>  - Reflect some review comments in v1
+>
+>  - Refactor the code more
+>
+>  - Avoid too long argument error
+>
+>
+>
+> Masahiro Yamada (26):
+>   modpost: use bool type where appropriate
+>   modpost: change mod->gpl_compatible to bool type
+>   modpost: import include/linux/list.h
+>   modpost: traverse modules in order
+>   modpost: add sym_add_unresolved() helper
+>   modpost: traverse unresolved symbols in order
+>   modpost: use doubly linked list for dump_lists
+>   modpost: traverse the namespace_list in order
+>   modpost: dump Module.symvers in the same order of modules.order
+>   modpost: move static EXPORT_SYMBOL check to check_exports()
+>   modpost: make multiple export error
+>   modpost: make sym_add_exported() always allocate a new symbol
+>   modpost: split new_symbol() to symbol allocation and hash table
+>     addition
+>   modpost: mitigate false-negatives for static EXPORT_SYMBOL checks
+>   kbuild: record symbol versions in *.cmd files
+>   kbuild: generate a list of objects in vmlinux
+>   modpost: extract symbol versions from *.cmd files
+>   modpost: generate linker script to collect symbol versions
+>   kbuild: embed symbol versions at final link of vmlinux or modules
+>   kbuild: stop merging *.symversions
+>   genksyms: adjust the output format for .cmd files
+>   kbuild: do not create *.prelink.o for Clang LTO or IBT
+>   kbuild: make built-in.a rule robust against too long argument error
+>   kbuild: make *.mod rule robust against too long argument error
+>   modpost: simplify the ->is_static initialization
+>   modpost: use hlist for hash table implementation
 
-I want you to partner with me to invest in your country I am into many
-investment such as real Estate or buying of properties i can also
-invest money in any of existing business with equity royalty or by %
-percentage so on,
-Warm regards
+Applied 01-13 to linux-kbuild
+with Nick's reviewed-by.
+
+I will send v3 for the rest.
+
+>  .gitignore                  |   1 +
+>  Makefile                    |   1 +
+>  scripts/Kbuild.include      |   4 +
+>  scripts/Makefile.build      | 118 +++------
+>  scripts/Makefile.lib        |   7 -
+>  scripts/Makefile.modfinal   |   6 +-
+>  scripts/Makefile.modpost    |  10 +-
+>  scripts/genksyms/genksyms.c |  17 +-
+>  scripts/link-vmlinux.sh     |  34 +--
+>  scripts/mod/file2alias.c    |   2 -
+>  scripts/mod/list.h          | 265 +++++++++++++++++++
+>  scripts/mod/modpost.c       | 501 ++++++++++++++++++++++--------------
+>  scripts/mod/modpost.h       |  24 +-
+>  scripts/mod/sumversion.c    |   8 +-
+>  14 files changed, 650 insertions(+), 348 deletions(-)
+>  create mode 100644 scripts/mod/list.h
+>
+> --
+> 2.32.0
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
