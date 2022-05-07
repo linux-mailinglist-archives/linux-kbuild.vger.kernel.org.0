@@ -2,174 +2,199 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D3F5151E614
-	for <lists+linux-kbuild@lfdr.de>; Sat,  7 May 2022 11:29:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC82F51E6B0
+	for <lists+linux-kbuild@lfdr.de>; Sat,  7 May 2022 13:44:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1446159AbiEGJdE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 7 May 2022 05:33:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38004 "EHLO
+        id S1384832AbiEGLru (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 7 May 2022 07:47:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1446162AbiEGJdD (ORCPT
+        with ESMTP id S231339AbiEGLrt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 7 May 2022 05:33:03 -0400
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E41456C16
-        for <linux-kbuild@vger.kernel.org>; Sat,  7 May 2022 02:29:16 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id v12so12990380wrv.10
-        for <linux-kbuild@vger.kernel.org>; Sat, 07 May 2022 02:29:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=O46NG4I/Ehd11dycpk2RjsN/cJ86swAD+6NyN8Wu3oM=;
-        b=pEJT+rz+VfSx+i3BXIXcXBka/5Yg7AcIDPJqzI64zSkN1WUpTztaU5kum35UgrsfF9
-         DzOjJPlOXIfoUzWT5jSe26grmDrcE5y4YRZ4YR+l+KCgM4xNILwg4UsizkKWsczzl+De
-         nX6pK3uT0jQrV4KFZSgHFgFeD2qqS/Q51S4GZiQOJ4lfG8T7AE63PEcYjY2oxMoY9aqJ
-         KPWdvUwiryRluS9vjmaRgu1H83GjAAQS1C7TsJMRlMrMgQMCmzL3mmrDMbW3OJyOj5Y9
-         EQP9LAp0ElcPFJCYbA8qRiTa5YvhVwVsbiztmAuOvi5ZjZGIAm5UQjWZ/T6CG7ioVXxa
-         fe5g==
+        Sat, 7 May 2022 07:47:49 -0400
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 129F547398;
+        Sat,  7 May 2022 04:44:03 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-2f7d621d1caso104513787b3.11;
+        Sat, 07 May 2022 04:44:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=O46NG4I/Ehd11dycpk2RjsN/cJ86swAD+6NyN8Wu3oM=;
-        b=0vqacDZa8TyYf0/u73MODOOjdm3BO8Zz9lFk6RYGC6uQ0ogHyjEwYs7yR5Lsk/7MTp
-         RBUKbs1h4rGdSsuvQ65kPz6K8r0FRbtRttpW7BleLDP0J9QD7jyflIhEA40A5Lwm9z8i
-         H2PQIq55HxE7J2c173EJ3beTXhGtkBP2OXjJjJVnDKQCZvJYmnny+sjwDbFeENY+DaZl
-         4QXCO1+Fu5fL3PWF2UwShR1e6eEOGzztGfElgTDB1NtW8hH9qls/rweDqSTw1KIs9mdH
-         9Mu3eVdUr6lnr5IQ6SL3/L1slT2cLegV3Czw55dJLB+mh0uWAnhnFw2mtyPNbYSOs2ke
-         HzZA==
-X-Gm-Message-State: AOAM533dVqweVzwwxNsEgbi7Cvk/TCMQWw3Y/wNhQGQTZODpMfvCzXiG
-        WvLe64vmJRB0Ndx5ZDeMS2m3hMbCSGQ21mtdyatzeA==
-X-Google-Smtp-Source: ABdhPJwmX5iwSt0ucutb+u1FHWUawG0af5FN3nvZMbahKeV3F7Ce0O0VSgqTSlIoIeUQl+Jhb3u7MOWpzqebYk3FohA=
-X-Received: by 2002:a5d:4307:0:b0:207:9f82:e238 with SMTP id
- h7-20020a5d4307000000b002079f82e238mr6283084wrq.430.1651915754752; Sat, 07
- May 2022 02:29:14 -0700 (PDT)
+        bh=9MOQZCLM9tndvvAIgvvf8nfJ90wdD6mwqwPCAcBgMQc=;
+        b=Y4TnKKNM3WdzsSeONQXzi01Edvqv3bD8qk+LURWWedAXlfJqQvnJFm4nEa7Re4nsYC
+         4yLxmHcbU9h8CckErbhJfNB2UUA9ma6XdiYZ/K7S6aYW1tLaIQAQBwu4xNzz5f9R5Kw0
+         PVilO/DPoVw3lGwRggMCFYTRrW0jldywioyCLNU4ehWR9UOxQ3Up8MluiJLrern9PnJJ
+         lgv5rSPZu/Hc0jm5981SELz5W88vN1ZWa3ZzlqDAARu98nldReQoWAjBmck8QvWUpyUV
+         QsFcF8LeF/oypqXPvmdyplBYRBq1kWFBnFM3d0yorcrt8etx9t8B3l+oe4Vf41pkZM9o
+         WG8A==
+X-Gm-Message-State: AOAM530JVRsrfcnlZkAoMgj3Vfzj9Dv0vZgKMeMTS8QvNmOONGnLoe9c
+        ffxm3f+6PYpP3NahC8BXEZOE1Sr1eepVK9jNZ08=
+X-Google-Smtp-Source: ABdhPJyPBjXsBnNAOGooKjQhes3+s7T6g2NnqiNuz2irYPvv4jOxqc6kNjLoyXwFJh/kbltFvHUmcWgah9xURY6piYw=
+X-Received: by 2002:a81:2dc5:0:b0:2f5:c6c8:9ee5 with SMTP id
+ t188-20020a812dc5000000b002f5c6c89ee5mr6366303ywt.518.1651923842223; Sat, 07
+ May 2022 04:44:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220507052451.12890-1-ojeda@kernel.org>
-In-Reply-To: <20220507052451.12890-1-ojeda@kernel.org>
-From:   David Gow <davidgow@google.com>
-Date:   Sat, 7 May 2022 17:29:03 +0800
-Message-ID: <CABVgOSm5S2=QYnHJ+B0JbYtFYKBDRZiOhE5YMKKUKZU56d17HQ@mail.gmail.com>
-Subject: Re: [PATCH v6 00/23] Rust support
-To:     Miguel Ojeda <ojeda@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org,
+References: <20220426155229.436681-1-mailhol.vincent@wanadoo.fr> <CAK7LNAST1uRCLaNwfSLbO-sEy9MdjB54i2EkA6NOw=etNi8oBQ@mail.gmail.com>
+In-Reply-To: <CAK7LNAST1uRCLaNwfSLbO-sEy9MdjB54i2EkA6NOw=etNi8oBQ@mail.gmail.com>
+From:   Vincent MAILHOL <mailhol.vincent@wanadoo.fr>
+Date:   Sat, 7 May 2022 20:43:50 +0900
+Message-ID: <CAMZ6RqKpU++hxn2BNNox4G0zrjLs-w+S+UTiteGDqFemNRjjfg@mail.gmail.com>
+Subject: Re: [RFC PATCH] kbuild: call checksyscalls.sh and check-atomics.sh
+ only if prerequisites change
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-gpio@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-perf-users@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, live-patching@vger.kernel.org
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, May 7, 2022 at 1:25 PM Miguel Ojeda <ojeda@kernel.org> wrote:
+On Sat. 30 Apr 2022 at 02:11, Masahiro Yamada <masahiroy@kernel.org> wrote:
+> On Wed, Apr 27, 2022 at 12:52 AM Vincent Mailhol
+> <mailhol.vincent@wanadoo.fr> wrote:
+> >
+> > Currently, checksyscalls.sh and check-atomics.sh are executed
+> > unconditionally. Most developers will not modify the files being
+> > checked by those scripts and thus do not need to execute these again
+> > for each iterative make. Change Kbuild target so that those two
+> > scripts get executed only if the prerequisite are modified.
+> >
+> > In order to implement this we:
+> >
+> >   1. use the if_change macro instead of cmd. c.f. [1]
+> >
+> >   2. create two dot files: scripts/.checksyscalls and
+> >   scripts/atomic/.check-atomics to keep track of whether the script
+> >   were already executed or not. Otherwise, the prerequisite would
+> >   always be considered as newer than the target (c.f. output "due to
+> >   target missing" of make V=2).
+> >
+> >   3. modify the CLEAN_FILES target of the root Makefile to removed the
+> >   two temporary dot files created in 2.
+> >
+> > We also added an additional dependency to include/linux/atomic/* for
+> > check-atomics.sh to make sure that the script gets executed again if
+> > the header are modified. check-atomics.sh already has a dependency
+> > toward include/generated/asm-offsets.h and so no additional
+> > dependencies were added.
+> >
+> > [1] https://www.kernel.org/doc/html/latest/kbuild/makefiles.html#command-change-detection
+> >
+> > Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+> > ---
+> > Sending this as RFC because I am not an expert of Kbuild. The use of
+> > the dot files was my best shot at tackling this issue. Maybe there is
+> > a smarter way which I just missed?
+> >
+> > If I receive no comments for the next two weeks, I will resend this
+> > patch without the RFC tag.
+> > ---
+> >  Kbuild   | 14 ++++++++------
+> >  Makefile |  3 ++-
+> >  2 files changed, 10 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/Kbuild b/Kbuild
+> > index fa441b98c9f6..d579f4971aa3 100644
+> > --- a/Kbuild
+> > +++ b/Kbuild
+> > @@ -39,21 +39,23 @@ $(offsets-file): arch/$(SRCARCH)/kernel/asm-offsets.s FORCE
+> >  #####
+> >  # Check for missing system calls
+> >
+> > -always-y += missing-syscalls
+> > +always-y += scripts/.missing-syscalls
+> >
+> >  quiet_cmd_syscalls = CALL    $<
+> >        cmd_syscalls = $(CONFIG_SHELL) $< $(CC) $(c_flags) $(missing_syscalls_flags)
+> >
+> > -missing-syscalls: scripts/checksyscalls.sh $(offsets-file) FORCE
+> > -       $(call cmd,syscalls)
+> > +scripts/.missing-syscalls: scripts/checksyscalls.sh $(offsets-file) FORCE
+> > +       $(call if_changed,syscalls)
+> > +       @touch $@
 >
-> Rust support
+> I am not sure about this hunk.
 >
+> Avoiding the needless preprocess is good.
+> But, it is better to display a warning somewhere (maybe 'all' target)
+> until the required syscall is implemented.
 
-<...>
+The classic way to achieve is to raise an error, not a warning.
 
->   - Support running documentation tests in-kernel, based on KUnit.
->
->     Rust documentation tests are typically examples of usage of any
->     item (e.g. function, struct, module...). They are very convenient
->     because they are just written alongside the documentation, e.g.:
->
->         /// Sums two numbers.
->         ///
->         /// # Examples
->         ///
->         /// ```
->         /// assert_eq!(mymod::f(10, 20), 30);
->         /// ```
->         pub fn f(a: i32, b: i32) -> i32 {
->             a + b
->         }
->
->     So far, we were compiling and running them in the host as any
->     other Rust documentation test. However, that meant we could not
->     run tests that used kernel APIs (though we were compile-testing
->     them, which was already useful to keep the documentation in sync
->     with the code).
->
->     Now, the documentation tests for the `kernel` crate are
->     transformed into a KUnit test suite during compilation and run
->     within the kernel at boot time, if enabled. This means now we can
->     run the tests that use kernel APIs.
->
->     They look like this (their name is generated by `rustdoc`, based
->     on the file and line):
->
->         [    0.581961] TAP version 14
->         [    0.582092] 1..1
->         [    0.582267]     # Subtest: rust_kernel_doctests
->         [    0.582358]     1..70
->         [    0.583626]     ok 1 - rust_kernel_doctest_build_assert_rs_12_0
->         [    0.584579]     ok 2 - rust_kernel_doctest_build_assert_rs_55_0
->         [    0.587357]     ok 3 - rust_kernel_doctest_device_rs_361_0
->         [    0.588037]     ok 4 - rust_kernel_doctest_device_rs_386_0
->
->         ...
->
->         [    0.659249]     ok 69 - rust_kernel_doctest_types_rs_445_0
->         [    0.660451]     ok 70 - rust_kernel_doctest_types_rs_509_0
->         [    0.660680] # rust_kernel_doctests: pass:70 fail:0 skip:0 total:70
->         [    0.660894] # Totals: pass:70 fail:0 skip:0 total:70
->         [    0.661135] ok 1 - rust_kernel_doctests
->
->     There are other benefits from this, such as being able to remove
->     unneeded wrapper functions (that were used to avoid running
->     some tests) as well as ensuring test code would actually compile
->     within the kernel (e.g. `alloc` used different `cfg`s).
+This should have been achievable through CONFIG_WERROR, however,
+the below commit deactivated it with -Wno-error (rationale of why
+this was an issue is missing).
 
-It's great to see some KUnit support here!
+commit 20fbb11fe4ea ("don't make the syscall checking produce errors
+from warnings")
 
-It's also possible to run these tests using the KUnit wrapper tool with:
-$ ./tools/testing/kunit/kunit.py run --kconfig_add CONFIG_RUST=y
---make_options LLVM=1 --arch x86_64 'rust_kernel_doctests'
+If we just warn, I am not sure how to emit a warning each time
+until it gets fixed. The normal behaviour everywhere else is to
+only warn during the first build and be quiet (unless
+dependencies change).
 
-That also nicely formats the results.
+> Also, you need to check the timestamp of syscall_32.tbl.
+> When it is updated (i.e. when a new syscall is added),
+> this check must be re-run.
 
-(It obviously doesn't run under UML yet, though I did get it to work
-after indiscriminately hacking out everything that wasn't supported.
-Assuming we can hide the irq and iomem stuff behind the appropriate
-config options, and rework some of the architecture detection to
-either support SUBARCH or check for X86_64 instead of X86, it should
-be pretty easy to get going.)
+ACK
 
-That all being said, I can't say I'm thrilled with the test names
-here: none of them are particularly descriptive, and they'll probably
-not be static (which would make it difficult to track results /
-regressions / etc between kernel versions). Neither of those are
-necessarily deal breakers, though it might make sense to hide them
-behind a kernel option (like all other KUnit tests) so that they can
-easily be excluded where they would otherwise clutter up results. (And
-if there's a way to properly name them, or maybe even split them into
-per-file or per-module suites, that would make them a bit easier to
-deal.) Additionally, there are some plans to taint the kernel[1] when
-KUnit tests run, so having a way to turn them off would be very
-useful.
+Regardless of the above discussion, I think I will give up on
+checksyscalls.sh, at least for the moment. The patch assumed that
+checksyscalls.sh would only be called from ./Kbuild. It appears
+that there is another user: arch/mips/Makefile c.f. kernel test
+robot's report:
+https://lore.kernel.org/llvm/202205030015.JCmg5yPS-lkp@intel.com/
 
-Regardless, this is very neat, and I'm looking forward to taking a
-closer look at it.
+Because of that, only creating a single empty file to check the
+timestamp is insufficient and I could not find a smart way to
+manage all this.
 
-Cheers,
--- David
+> >  #####
+> >  # Check atomic headers are up-to-date
+> >
+> > -always-y += old-atomics
+> > +always-y += scripts/atomic/.old-atomics
+> >
+> >  quiet_cmd_atomics = CALL    $<
+> >        cmd_atomics = $(CONFIG_SHELL) $<
+> >
+> > -old-atomics: scripts/atomic/check-atomics.sh FORCE
+> > -       $(call cmd,atomics)
+> > +scripts/atomic/.old-atomics: scripts/atomic/check-atomics.sh $(wildcard include/linux/atomic/*) FORCE
+> > +       $(call if_changed,atomics)
+> > +       @touch $@
+>
+>
+> Presumably, this is wrong.
+> If the header is manually edited, Kbuild must stop the build.
 
-[1]: https://lore.kernel.org/linux-kselftest/20220429043913.626647-1-davidgow@google.com/
+Currently (i.e. before my patch), Kbuild does not stop the build either.
+c.f. check-atomics.sh which returns 0 inconditionally:
+https://elixir.bootlin.com/linux/v5.17/source/scripts/atomic/check-atomics.sh#L33
+
+This can be easily remediated by making check-atomics.sh return
+an error code if the check does not succeed.
+
+> This change just lets it keep going, and
+> what is worse, the warning is completely silenced
+> second time.
+
+Same comment as before, I expect warnings to only be raised once,
+making this an error would solve the issue.
+
+I will send a v2 but only for check-atomics.sh
+
+
+Yours sincerely,
+Vincent Mailhol
