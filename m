@@ -2,55 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D6D7A51E57E
-	for <lists+linux-kbuild@lfdr.de>; Sat,  7 May 2022 10:15:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 546FF51E5B0
+	for <lists+linux-kbuild@lfdr.de>; Sat,  7 May 2022 10:45:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1391479AbiEGITI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 7 May 2022 04:19:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42964 "EHLO
+        id S1446122AbiEGItj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 7 May 2022 04:49:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1383654AbiEGITH (ORCPT
+        with ESMTP id S1358391AbiEGIti (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 7 May 2022 04:19:07 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4AD2A7
-        for <linux-kbuild@vger.kernel.org>; Sat,  7 May 2022 01:15:20 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id q4so6616204plr.11
-        for <linux-kbuild@vger.kernel.org>; Sat, 07 May 2022 01:15:20 -0700 (PDT)
+        Sat, 7 May 2022 04:49:38 -0400
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 751493CFD6;
+        Sat,  7 May 2022 01:45:53 -0700 (PDT)
+Received: by mail-io1-xd2f.google.com with SMTP id c125so10388780iof.9;
+        Sat, 07 May 2022 01:45:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=xXMo3Iu7KrrtaTJNja1MGuo4fFLfSoIDMgbn2nLpUdo=;
-        b=aB3QfVlpaiIgXfJVGa7V+xBdgjQvqYuHrEHa44Lugwxotnhmu7SYRcLLaANWk71r7Z
-         pj3AAOtEcShLdlyWi5orxLvllFG0gItB9nAOqfTlgDjuD/iOCgN8swAhV0TJGNdEtGoj
-         SWjIiHyeSoakBw0OKka4o4zUdMj/KvNxrvNB8=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3afSRUyqURqd+oMSYddARQ8dgu6A28njYvK52vqSOHE=;
+        b=bsipmcypY4Nr9F6rxV0qF+/yrplNPZ0IzUaGSZBCHKoawh7Fip9CQSr7T9i2N0RRqw
+         iGKGF4cDgKmJ6eoHx6k0ezlu79rFPVUtTqpMoe3f6F7fT6iXT3VJHIN02m0SIWnLfzfF
+         QtRH3qHSNFE0OUI4opgLeKF/ieievW5RVFPYRS42dhcAXTy4TwANrFbcmxpOabTh4gO7
+         x63GRFN2/z+INwysjq9EKstBst8u2GfgG8WJHmpybw7iW3+LWrryu6tbRd1W47Pqa2lX
+         DtboSk8/TbzieN8V4f3XB+LTsdhXmDjt7XFb/2yZQ1u+nMvgFUH9kFQUwEvRpiaF1AE9
+         7Tsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=xXMo3Iu7KrrtaTJNja1MGuo4fFLfSoIDMgbn2nLpUdo=;
-        b=ShoclL8XlI4pXG/zWgKan0Dvvhd1l/cPPDKn5qnZsBitaBKFwhUsBkCJPE8pOGxNRz
-         hgEAWOjN52cay0eaT18qOYGQdgNmX+8BGii3WXqqFwcIWH8HS1UtBN2fwuB+05JtQEyW
-         knAQgjLRg/Bptl99lmc9ff/r12YcBCEU9H+i/ARTxmv/tosmQ+Qsj+8wCLiPAwMaDfg+
-         zMrq/ayABwbuKgppXU+atSDisTqtpGD97bbL7JvfjxDjF2r5WGpa2DLIBImBTXgsH9A5
-         UUyK/Z7gQr6R+tG23tOk4bv0SoCzJo1/pEaCRkQtcwEwVzddUglcCRfnBLqS3uc1lhAT
-         nyuw==
-X-Gm-Message-State: AOAM530zYGUmOl1lzTgwX0AR9a1DqhEI7zj2HcYg6kw/aPfy1p65wpeC
-        A5dzHIMspSHW52xftTF9R+Q7Ow==
-X-Google-Smtp-Source: ABdhPJydSfltgLSAmZDq14SURGTE/xbPPqsxlO5JsmHDH/lqhJQlNRUXyO6s6VCoKMx3frkX+VykWg==
-X-Received: by 2002:a17:902:7597:b0:15e:b5d3:267d with SMTP id j23-20020a170902759700b0015eb5d3267dmr7774306pll.55.1651911320431;
-        Sat, 07 May 2022 01:15:20 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id q1-20020a056a00084100b005107da0f34csm2981701pfk.20.2022.05.07.01.15.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 May 2022 01:15:20 -0700 (PDT)
-Date:   Sat, 7 May 2022 01:15:19 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Miguel Ojeda <ojeda@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3afSRUyqURqd+oMSYddARQ8dgu6A28njYvK52vqSOHE=;
+        b=4rHATvJ+ED6VIipoyyX1mI4eOHqXgMrE9rCNfuj0h4oANzTE5oEXzJsnAZYzocWizj
+         z/0E0fL0SbxNW+TXDnyrbnMh8bFJmhBIs4oRNyBpmduBJvBHSMtoMfmoOilztqZRy8zi
+         KauJbHphOpPUkmJUAxaWFdKKh1M1wvXQZBJVQ2pBmmtxWytUt2ZiBAYCZ7JAEYTw9AMk
+         Drgz3CExxotMhv5DnO4QlQYwk2/J9c8gHjO3jHf7d2Ksubfg23UvEBrv/fq4KlmYnkPF
+         fwXjplEghvL+31Izq9pH7ti086m03R1TVpLfyKBEV8c/Pc+pPIh4Eej1OT2dpNd+Lchl
+         ai/w==
+X-Gm-Message-State: AOAM533Q/pLcqMyWpl0MRZYLJv/fYGaGH9Yfxnl2yWOVUTnuypDobuT0
+        2w6ez+lQeJSndjJDt/4KNskTDTD2DAie5w59vuU=
+X-Google-Smtp-Source: ABdhPJzVvfTAFB1H+iKYF8/l+675Y66bzPEAl6PZoc8GS14ISO+vI49zY9FgcEZBnSnvbXQTIlqAVC8fTwYdsIaDRow=
+X-Received: by 2002:a05:6638:16cf:b0:32b:6ee7:8d7d with SMTP id
+ g15-20020a05663816cf00b0032b6ee78d7dmr3125574jat.256.1651913152910; Sat, 07
+ May 2022 01:45:52 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220507052451.12890-1-ojeda@kernel.org> <20220507052451.12890-19-ojeda@kernel.org>
+ <202205070114.88C59DF@keescook>
+In-Reply-To: <202205070114.88C59DF@keescook>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Sat, 7 May 2022 10:45:41 +0200
+Message-ID: <CANiq72mfUkZDpsAj6ZRWYhydzRq2F45PWOjw1V=k5zh=TX6a7A@mail.gmail.com>
+Subject: Re: [PATCH v6 18/23] docs: add Rust documentation
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
         Jarkko Sakkinen <jarkko@kernel.org>,
         Alex Gaynor <alex.gaynor@gmail.com>,
         Finn Behrens <me@kloenk.de>,
@@ -66,41 +74,37 @@ Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v6 18/23] docs: add Rust documentation
-Message-ID: <202205070114.88C59DF@keescook>
-References: <20220507052451.12890-1-ojeda@kernel.org>
- <20220507052451.12890-19-ojeda@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220507052451.12890-19-ojeda@kernel.org>
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, May 07, 2022 at 07:24:16AM +0200, Miguel Ojeda wrote:
-> Most of the documentation for Rust is written within the source code
-> itself, as it is idiomatic for Rust projects. This applies to both
-> the shared infrastructure at `rust/` as well as any other Rust module
-> (e.g. drivers) written across the kernel.
-> 
-> However, these documents contain general information that does not
-> fit particularly well in the source code, like the Quick Start guide.
-> 
-> It also contains an asset (SVG logo) used for the `rustdoc` target
-> and a few other small changes elsewhere in the documentation folder.
+On Sat, May 7, 2022 at 10:15 AM Kees Cook <keescook@chromium.org> wrote:
+>
+> I like the docs! :) It'll be interesting to see how we can grow
+> cross-linking between rustdoc and kerndoc.
 
-I like the docs! :) It'll be interesting to see how we can grow
-cross-linking between rustdoc and kerndoc.
+Thanks!
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+For cross-referencing, my plan is to start on the Rust side by
+allowing to link C files and items (either their generated docs or the
+source file), since we do that often in the Rust docs. The goal is
+that one can just write an "intra-doc link" in Rust docs just like any
+other one, e.g.:
 
--- 
-Kees Cook
+    /// Wraps the kernel's [`struct sk_buff`].
+    #[repr(transparent)]
+    pub struct SkBuff(UnsafeCell<bindings::sk_buff>);
+
+so that it is as easy as possible to add them.
+
+Cheers,
+Miguel
