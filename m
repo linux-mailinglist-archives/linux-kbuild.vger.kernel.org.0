@@ -2,66 +2,67 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DAC98520425
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 May 2022 20:06:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70DA7520735
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 May 2022 23:55:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240019AbiEISJv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 9 May 2022 14:09:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56232 "EHLO
+        id S231373AbiEIV7U (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 9 May 2022 17:59:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239975AbiEISJt (ORCPT
+        with ESMTP id S231391AbiEIV7F (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 9 May 2022 14:09:49 -0400
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3FB1517FC
-        for <linux-kbuild@vger.kernel.org>; Mon,  9 May 2022 11:05:53 -0700 (PDT)
-Received: by mail-lj1-x232.google.com with SMTP id g16so18044684lja.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 09 May 2022 11:05:53 -0700 (PDT)
+        Mon, 9 May 2022 17:59:05 -0400
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D294F2725D7
+        for <linux-kbuild@vger.kernel.org>; Mon,  9 May 2022 14:52:57 -0700 (PDT)
+Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-2f16645872fso159932107b3.4
+        for <linux-kbuild@vger.kernel.org>; Mon, 09 May 2022 14:52:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=AN921NaxNkeCgd+/kg15uAVOqAqbEenfNO325PUsS6k=;
-        b=cdkkVkNwsvU59Cj0woYu6dSdwau5E9ePg+8kIJ1M1Frwv+LedGaW6DLtMwkXpMZL2B
-         r7hFwQ3ahDz+IJdG4IjbhLPOcTwEoyXCnRmAW2WdhUgxhcdRUNGXAuadJ4tWcsACiMSL
-         D+ZDP9Q++d5BAfIHETxhJRtnfnDfJwFx7k8npnx59zIQ50VN28X5Urs8CGSBmjf10Azm
-         KbxvSubWCFWIqArNH+Eap4Ab+N6ITHlwC+yZnZQK/CX+oo0khGclKQwTivaiOeVCWJ1F
-         QPgepFDot07kcqaOrupthXZjZwE3bspAHq+AIGDvC0XPGQqrRHf5JYMmMeJ86QLYBcxh
-         6SFg==
+        bh=LglPYsJyh/Qh1FDu94XGq/MV3fomSZvl10mHqijKUDo=;
+        b=Mmprp3lzuQ9S3U5gBRl4SSYLlSOiIHLBvkcz5iOM/dqvawddalywuHly3fYkYSta8a
+         /wHH97/JwQuaJpGbSbc8YAh/70zYOA45R/uKi8HnO1a2FSGw1hEO80O8h+7YS8CvTNy/
+         Euq2/8lKMsPIykCcaR4MuOWPN6ENvIUCu3LU2TT18vptardX8ldDEZoc6ReZ3taS3hlH
+         ppaK1jD3PGKIDopg2Ag16lSA/ACo6BplIpJZzarADCnbXO9GoV38XDz5xn7QDtvn169K
+         iMBMjnNR/3DlG0wrr7uwC6BKfn+gNjtsaTLfXV1sdAvCLbMqgxZewCokViv9D/I9eVdh
+         91qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=AN921NaxNkeCgd+/kg15uAVOqAqbEenfNO325PUsS6k=;
-        b=qbsndPnCp7yuZv167ItVT+1jjF1NWWMRxPDQoBJN68NmyoR9lcmbBcWioLtRwQJyAT
-         sbZaAMJvha50SHQ35gIHaD+3eHJo9+hX+GG+ZPjAS9ubeM6D3qQVqOpPeHxPC443qpV4
-         6vUSfC5aG3c6QDjawnO0Of0+fEwfdfu/PIKP9VAeQ1w5sM5F9hz5IpO1BXUeUrX/a3iB
-         yBnyWZB93mElk2zpM6SP1cCNl/Zrj1fXShBMznDqDJWvZ1IRICDEcg4WE0gt+OMc8lUG
-         17RUhAn4vrb7sBCC458y7sEdORcC82gda4MRrbkIII/mM3IiXWD007QAR+NgnJBQSAH4
-         bgfA==
-X-Gm-Message-State: AOAM53079nSPF0g9M5zr0sx6ZYjQY4yfie9SUgYBsV/MNYD0lTBGQL3x
-        6wrwZ8TvhiNvxKmKAWuQFlBSnDqFu30z11haj14jhA==
-X-Google-Smtp-Source: ABdhPJwPwqycR8l/3eeVmCel1hLEu82x6SiaXLmDlHX2zoI+YX9jdJy+XCg/b2Ed5906efBN4BZfCg1kx4JD8JBVFLI=
-X-Received: by 2002:a05:651c:552:b0:250:5c23:d0f2 with SMTP id
- q18-20020a05651c055200b002505c23d0f2mr11376317ljp.239.1652119550281; Mon, 09
- May 2022 11:05:50 -0700 (PDT)
+        bh=LglPYsJyh/Qh1FDu94XGq/MV3fomSZvl10mHqijKUDo=;
+        b=DNTFmAqTEXsd6MgQrV/1wST3veGmTnKbFvBLC3/Uqde1awDZ2SSM8jtOgYsuwUag6u
+         xSOj7wgUFpFaKSeoroTogI0UtLDKC5BKI3KedU3LcjdJn7L9opApT3iGnQ2xbZvAuAGq
+         UV46eAWUWoNfCJ5V12mWwTTBM98MWp6M3bleSTDx/U/xSkWLZd7YskWV/q/DqOYf3DmC
+         iINbUCMZb1GjXQ+P1G3H81g1qVUwXOQ0oi/ZUG8HcljTR1tL0fpm8Ccz9Q2S4Kb+obnU
+         vT0iB2ZZOHHCwYjvZQAIT7Y2TToCquXL9GuQTdPUZ3Ke4JOt6vQPSNgDdBE92mbH+2Wb
+         17Gg==
+X-Gm-Message-State: AOAM531W56mN7eqTRPIJg/OBpoDfKelTz32kc2n2XfKNk1xfnyCfnh43
+        kCz1EXw+teAXS5NYV7yzQtaXO01KyUISrGhruHveJA==
+X-Google-Smtp-Source: ABdhPJxS9tOjdEtMe9p7ieQ7qesYkE+zdDxRJCQOrQnBBXsYJfCE0f7NGG8AtIWCus/riFP6yEy8E50WALQb9P5JyvY=
+X-Received: by 2002:a05:690c:13:b0:2e4:da22:27d9 with SMTP id
+ bc19-20020a05690c001300b002e4da2227d9mr17078815ywb.298.1652133176908; Mon, 09
+ May 2022 14:52:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220508190631.2386038-1-masahiroy@kernel.org> <20220508190631.2386038-11-masahiroy@kernel.org>
-In-Reply-To: <20220508190631.2386038-11-masahiroy@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 9 May 2022 11:05:38 -0700
-Message-ID: <CAKwvOdkhcJB8Bnrt51siRefWe+ZSvHagCs2G011PzkkrD3cxQw@mail.gmail.com>
-Subject: Re: [PATCH v4 10/14] kbuild: check static EXPORT_SYMBOL* by script
- instead of modpost
+References: <20220508190631.2386038-1-masahiroy@kernel.org> <20220508190631.2386038-6-masahiroy@kernel.org>
+In-Reply-To: <20220508190631.2386038-6-masahiroy@kernel.org>
+From:   Sami Tolvanen <samitolvanen@google.com>
+Date:   Mon, 9 May 2022 14:52:21 -0700
+Message-ID: <CABCJKucG4dOLm9pPWrACc+YReBXG4GNM9V0djsy0YTp8pRGmaw@mail.gmail.com>
+Subject: Re: [PATCH v4 05/14] modpost: extract symbol versions from *.cmd files
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
         Peter Zijlstra <peterz@infradead.org>,
         linux-modules@vger.kernel.org, linux-s390@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, clang-built-linux@googlegroups.com,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Ard Biesheuvel <ardb@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
@@ -74,54 +75,61 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, May 8, 2022 at 12:10 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Sun, May 8, 2022 at 12:09 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> diff --git a/scripts/check-local-export b/scripts/check-local-export
-> new file mode 100755
-> index 000000000000..d1721fa63057
-> --- /dev/null
-> +++ b/scripts/check-local-export
-> @@ -0,0 +1,48 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +#
-> +# Copyright (C) 2022 Masahiro Yamada
-> +
-> +set -e
-> +set -o pipefail
-> +
-> +declare -A symbol_types
-> +declare -a export_symbols
-> +
-> +exit_code=0
-> +
-> +while read value type name
-> +do
-> +       # to avoid error for clang LTO; $name may be empty
-> +       if [[ $value = -* && -z $name ]]; then
-> +               continue
-> +       fi
-> +
-> +       # The first field (value) may be empty. If so, fix it up.
-> +       if [[ -z $name ]]; then
-> +          name=${type}
-> +          type=${value}
-> +       fi
+> Currently, CONFIG_MODVERSIONS needs extra link to embed the symbol
+> versions into ELF objects. Then, modpost extracts the version CRCs
+> from them.
+>
+> The following figures show how it currently works, and how I am trying
+> to change it.
+>
+> Current implementation
+> ======================
+>                                                            |----------|
+>                  embed CRC      -------------------------->| final    |
+>        $(CC)       $(LD)       /  |---------|              | link for |
+>        -----> *.o -------> *.o -->| modpost |              | vmlinux  |
+>       /              /            |         |-- *.mod.c -->| or       |
+>      / genksyms     /             |---------|              | module   |
+>   *.c ------> *.symversions                                |----------|
+>
+> Genksyms outputs the calculated CRCs in the form of linker script
+> (*.symversions), which is used by $(LD) to update the object.
+>
+> If CONFIG_LTO_CLANG=y, the build process is much more complex. Embedding
+> the CRCs is postponed until the LLVM bitcode is converted into ELF,
+> creating another intermediate *.prelink.o.
+>
+> However, this complexity is unneeded. There is no reason why we must
+> embed version CRCs in objects so early.
+>
+> There is final link stage for vmlinux (scripts/link-vmlinux.sh) and
+> modules (scripts/Makefile.modfinal). We can link CRCs at the very last
+> moment.
+>
+> New implementation
+> ==================
+>                                                            |----------|
+>                    --------------------------------------->| final    |
+>        $(CC)      /    |---------|                         | link for |
+>        -----> *.o ---->|         |                         | vmlinux  |
+>       /                | modpost |--- .vmlinux.export.c -->| or       |
+>      / genksyms        |         |--- *.mod.c ------------>| module   |
+>   *.c ------> *.cmd -->|---------|                         |----------|
+>
+> Pass the symbol versions to modpost as separate text data, which are
+> available in *.cmd files.
+>
+> This commit changes modpost to extract CRCs from *.cmd files instead of
+> from ELF objects.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+> Tested-by: Nathan Chancellor <nathan@kernel.org>
 
-Consider adding examples of output from NM as comments where you're
-handling special cases.
+This looks good to me, it's great to get rid of the .symversions files!
 
-Aren't BOTH from LTO?  The first case is:
+Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
 
----------------- T strncpy
-
-while the second is
-
-                 U strncpy
-
-IIUC?
-
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
--- 
-Thanks,
-~Nick Desaulniers
+Sami
