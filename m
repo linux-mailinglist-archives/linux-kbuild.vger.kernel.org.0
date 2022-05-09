@@ -2,175 +2,116 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA1AA5207D3
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 May 2022 00:34:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A455A5207E7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 May 2022 00:38:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232030AbiEIWhX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 9 May 2022 18:37:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57890 "EHLO
+        id S231592AbiEIWld (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 9 May 2022 18:41:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231926AbiEIWhA (ORCPT
+        with ESMTP id S229510AbiEIWlc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 9 May 2022 18:37:00 -0400
+        Mon, 9 May 2022 18:41:32 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BED62BA9A1;
-        Mon,  9 May 2022 15:32:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 269061F7E35;
+        Mon,  9 May 2022 15:37:38 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:3d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 6B9FB732;
-        Mon,  9 May 2022 22:32:41 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6B9FB732
+        by ms.lwn.net (Postfix) with ESMTPSA id 9ED4D732;
+        Mon,  9 May 2022 22:37:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9ED4D732
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1652135561; bh=HTkL9Ze4IkU4006Q8Vcgjjy6od50oft28ldpKD38Bhs=;
+        t=1652135857; bh=+K/p8aJYKppOfVB/2Lds90/8PmBqo1/rz5gWoyZ5boc=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=O3uonuVfVJtCWD2RVlNSsfnyOcttu7utR7SmYzjdMc/k1sBtiqfE8PTepkpz2FSdz
-         MIYyj3y8l/9zLf45BoHzjyYSpP1F2olpiwXfjgjIslOyLoRik3ynw4E/FUpO1d1DJh
-         mw6i7t9/Y8qfCiGIm5Cx2B9NkunGgfZVURltzS0Q/g7rS817nX0qwkoXTTdrltmx1S
-         O8/Oy41w4/xLsFfg/edw6omQJHxRoQat3BeWuQ+Q+cXxo+as6aD5xcu6wxyEHLnQpy
-         xl0hOhszcjF3cucI2xUdf/mJ3S00Lebwz7/wpAq0bOhTkJOhH5gp0G7I62ywn9UNjr
-         CFYTtcMzduvCw==
+        b=FtmTZGc2LhZRGi+Lb1lomHQMGAmfneipznhz/s9NSAqpbZEVldkNbPzHoZ9mmO9Cv
+         ebbMwOUDuKYR4AH+UiWRt2dr1Sdu4Ywp1PUr1upzbuYb7aTDqfuzqEORTY3/YZqVG6
+         cT5HOYKtNhyGwgWVHU5ko6/0KbQyjn604SF728Sditw1ovlJiGCcmURqlKUP4uGqt1
+         naxPvLosAkPK4hM8xGpeqWV+/p7eRkPVurfyMXmXBpoVMltbYvEY89Xd/ZdRKuVT5+
+         Qyk8EgecFVKYlO2gOolAM5VgZquswCMjiapglTJaW0HEuAILvqSooM+QglyacUDKDo
+         NaLpDWt1y0qoQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
+To:     Akira Yokosawa <akiyks@gmail.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
         Alex Gaynor <alex.gaynor@gmail.com>,
-        Finn Behrens <me@kloenk.de>,
         Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Sven Van Asbroeck <thesven73@gmail.com>,
-        Wu XiangCheng <bobwxc@email.cn>, Gary Guo <gary@garyguo.net>,
         Boris-Chengbiao Zhou <bobo1239@web.de>,
-        Yuki Okushi <jtitor@2k36.org>, Wei Liu <wei.liu@kernel.org>,
-        Daniel Xu <dxu@dxuuu.xyz>, Julian Merkle <me@jvmerkle.de>,
+        Wu XiangCheng <bobwxc@email.cn>, Daniel Xu <dxu@dxuuu.xyz>,
+        Gary Guo <gary@garyguo.net>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Yuki Okushi <jtitor@2k36.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
+        Julian Merkle <me@jvmerkle.de>, Finn Behrens <me@kloenk.de>,
         Michal Marek <michal.lkml@markovi.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Wei Liu <wei.liu@kernel.org>
 Subject: Re: [PATCH v6 18/23] docs: add Rust documentation
-In-Reply-To: <20220507052451.12890-19-ojeda@kernel.org>
-References: <20220507052451.12890-1-ojeda@kernel.org>
- <20220507052451.12890-19-ojeda@kernel.org>
-Date:   Mon, 09 May 2022 16:32:40 -0600
-Message-ID: <875ymecp6f.fsf@meer.lwn.net>
+In-Reply-To: <92a7010c-5bb2-65df-edde-0ca88e035c2e@gmail.com>
+References: <20220507052451.12890-19-ojeda@kernel.org>
+ <7e9c2e77-8b70-6e15-3f3d-905ab42b0fcd@gmail.com>
+ <CANiq72mBVo4+htxVjY0wB1Y3GO2PEUiZjZKRYT8ddwx84-hAtg@mail.gmail.com>
+ <92a7010c-5bb2-65df-edde-0ca88e035c2e@gmail.com>
+Date:   Mon, 09 May 2022 16:37:36 -0600
+Message-ID: <8735hicoy7.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Miguel Ojeda <ojeda@kernel.org> writes:
+Akira Yokosawa <akiyks@gmail.com> writes:
 
-> Most of the documentation for Rust is written within the source code
-> itself, as it is idiomatic for Rust projects. This applies to both
-> the shared infrastructure at `rust/` as well as any other Rust module
-> (e.g. drivers) written across the kernel.
+> [+To: Jon]
 >
-> However, these documents contain general information that does not
-> fit particularly well in the source code, like the Quick Start guide.
+> On Mon, 9 May 2022 12:41:28 +0200,
+> Miguel Ojeda wrote:
+>> Hi Akira,
+>> 
+>> On Mon, May 9, 2022 at 6:02 AM Akira Yokosawa <akiyks@gmail.com> wrote:
+>>>
+>>> I think you agreed splitting SVG part into its own patch with
+>>> a proper copying info, etc.  Let me see...  So, here is the link:
+>> 
+>> Yes, sorry, will do (in fact, it should have been there in v5 too).
+>> 
+>> By the way, the Linux SVG logo (used to make the one here) is pending
+>> in the linux-doc ML.
 >
-> It also contains an asset (SVG logo) used for the `rustdoc` target
-> and a few other small changes elsewhere in the documentation folder.
+> So you mean the following post:
+>
+>     https://lore.kernel.org/lkml/20220207014418.GA28724@kernel.org/
+>
+> I'm not sure why Jon has not responded.
+>
+> Jon, was there any issue on this patch?
 
-Trying to take a closer look this time...
+Yeah, but the issues are all with me :)  Please accept my apologies for
+letting it slip through the cracks.
 
-I foresee merge conflicts, but so it goes.  Trying to split this apart
-would not make a lot of sense.
+Looking at it now, though, I hesitate to add the logo (and another
+COPYING file) in the top-level Documentation directory - I'd really
+rather people not have to pick through a bunch of unrelated stuff to
+find the actual docs they want.  I'd recommend we make a
+Documentation/images (or .../assets or whatever) and put things like
+logos there.
 
-[...]
-
-> --- /dev/null
-> +++ b/Documentation/rust/arch-support.rst
-> @@ -0,0 +1,34 @@
-> +Arch Support
-> +============
-> +
-> +Currently, the Rust compiler (``rustc``) uses LLVM for code generation,
-> +which limits the supported architectures that can be targeted. In addition,
-> +support for building the kernel with LLVM/Clang varies (please see
-> +Documentation/kbuild/llvm.rst). This support is needed for ``bindgen``
-> +which uses ``libclang``.
-> +
-> +Below is a general summary of architectures that currently work. Level of
-> +support corresponds to ``S`` values in the ``MAINTAINERS`` file.
-> +
-> +.. list-table::
-> +   :widths: 10 10 10
-> +   :header-rows: 1
-
-Please use normal tables rather than list-table; this kind of thing is
-really unreadable in the source form.
-
-> +   * - Architecture
-> +     - Level of support
-> +     - Constraints
-> +   * - ``arm``
-> +     - Maintained
-> +     - ``armv6`` and compatible only, ``RUST_OPT_LEVEL >= 2``
-> +   * - ``arm64``
-> +     - Maintained
-> +     - None
-> +   * - ``powerpc``
-> +     - Maintained
-> +     - ``ppc64le`` only, ``RUST_OPT_LEVEL < 2`` requires ``CONFIG_THREAD_SHIFT=15``
-> +   * - ``riscv``
-> +     - Maintained
-> +     - ``riscv64`` only
-> +   * - ``x86``
-> +     - Maintained
-> +     - ``x86_64`` only
-> diff --git a/Documentation/rust/coding-guidelines.rst b/Documentation/rust/coding-guidelines.rst
-> new file mode 100644
-> index 000000000000..2a71fd68a06d
-> --- /dev/null
-> +++ b/Documentation/rust/coding-guidelines.rst
-> @@ -0,0 +1,214 @@
-> +Coding Guidelines
-> +=================
-> +
-> +This document describes how to write Rust code in the kernel.
-> +
-> +
-> +Style & formatting
-> +------------------
-> +
-> +The code should be formatted using ``rustfmt``. In this way, a person
-> +contributing from time to time to the kernel does not need to learn and
-> +remember one more style guide. More importantly, reviewers and maintainers
-> +do not need to spend time pointing out style issues anymore, and thus
-> +less patch roundtrips may be needed to land a change.
-
-I foresee disagreements over coding style conventions in the
-future... I don't plan to be part of that conversation :)
-
-> +.. note:: Conventions on comments and documentation are not checked by
-> +  ``rustfmt``. Thus those are still needed to be taken care of.
-> +
-> +The default settings of ``rustfmt`` are used. This means the idiomatic Rust
-> +style is followed. For instance, 4 spaces are used for indentation rather
-> +than tabs.
-> +
-> +It is convenient to instruct editors/IDEs to format while typing,
-> +when saving or at commit time. However, if for some reason reformatting
-> +the entire kernel Rust sources is needed at some point, the following can be
-> +run::
-> +
-> +	make LLVM=1 rustfmt
-
-I will ask whether we want this, though.  Why would anybody want to
-mass-reformat the entire body of kernel code?  This seems like something
-that would generate an endless stream of "helpful" patches and a lot of
-churn.
+Disagree?  If not, could I get a version of the patch that does that?  I
+promise not to set on it for three months this time...
 
 Thanks,
 
