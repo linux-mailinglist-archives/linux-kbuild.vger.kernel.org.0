@@ -2,102 +2,68 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 625CB520D5A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 May 2022 07:54:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86FC2520E36
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 May 2022 08:56:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234152AbiEJF6S (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 10 May 2022 01:58:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35936 "EHLO
+        id S237429AbiEJHAu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 10 May 2022 03:00:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233186AbiEJF5s (ORCPT
+        with ESMTP id S237417AbiEJHAr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 10 May 2022 01:57:48 -0400
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BBC5224A6D;
-        Mon,  9 May 2022 22:53:49 -0700 (PDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailout.nyi.internal (Postfix) with ESMTP id CBB235C006F;
-        Tue, 10 May 2022 01:53:45 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Tue, 10 May 2022 01:53:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        joshtriplett.org; h=cc:cc:content-transfer-encoding:content-type
-        :date:date:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to;
-         s=fm3; t=1652162025; x=1652248425; bh=UqqeRMS++PzTUoENYIQlHrxmX
-        YanHi9usrhTSkqWRBY=; b=Fu5cIkJEtzgBvV4/XqoZGzxI90Syy2eSStFQG1Bmq
-        Qzq44qis4oBKK2+44MGfoT6zBG6iuJojCb9ybGYa/X0Fd7wSElE4XRd10wKPRs7e
-        hgcvXNoNSmtzgJKAfbBtMElDOT90E7i8ZaxIBTB0BJ1p1OxaWTGpWnyoXfWfdoig
-        v5JwOom18HqfihBQaBs07kKWXJsqznNkms+5qGr7lnnjt0Rv4WKqZY1ALCPE3qI/
-        yGXKoUuwtYgsNnGnUAMtKLOleMEPe5UeKpffnO6dIWL591ktA3+OlrdTuJhZXp0m
-        k+3mPuIPvMCyuv1IQYUQVqTlz2httcefLpnfpFxWDGPcQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; t=1652162025; x=1652248425; bh=UqqeRMS++PzTU
-        oENYIQlHrxmXYanHi9usrhTSkqWRBY=; b=UNhVoXCIlaYSssxxJzv6+gTP356lr
-        Csm5VdK7uurne8gjADzemSPIgvtaCwsX1FnCjOEp9wJJ01+pvQTyzw6swj9hBm5e
-        cy5Wag2OIi7CDRmQiZloVmbYMGYbyGI4ybtqBdLjiw7P52vN2ceC4IIoNfEox06K
-        AhtG2y/AP8xJ5eceuv8OMO5mXYknc5JH/reD5GY/jIbO6SXIChJNM4hnszow95Mu
-        A3es01Y1zA/qbaWa+fJ3s7YGEp8fsRi6u0PRpyQE13rLgKNQchtx8P51KqXV+mfc
-        n01FF91bK6IShsyjj6LUjWwc9svBLo7MoM7Vao+pwMnW47TmZyS9aZDNw==
-X-ME-Sender: <xms:6P15YkrgxmXL_bXGwWaviRm6XMrjlcrEGve3UktMb3qDyOWmAUlQQA>
-    <xme:6P15YqoXXjsH1mhaSUmAo7NmhlzgdAZdWW6iTxC68WM-y23AT6nuBQxIN87lVOYC0
-    o26TOUlt7PVw-D5QP8>
-X-ME-Received: <xmr:6P15YpMnawRru0JeWelMLekRPpbjZr4ov6wddhSKU6xp3Qq0HZi6f7hdVP4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgedtgddutddvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpeflohhs
-    hhcuvfhrihhplhgvthhtuceojhhoshhhsehjohhshhhtrhhiphhlvghtthdrohhrgheqne
-    cuggftrfgrthhtvghrnhepgeeihfevvdeklefggfejjeeugfduudeggffhjeehkeegheel
-    tddujeffjeekheefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepjhhoshhhsehjohhshhhtrhhiphhlvghtthdrohhrgh
-X-ME-Proxy: <xmx:6P15Yr5XlWFiPj7CElVzyH11o3VZ_PStgxAdue3cQ9JFb6bMNDIQBg>
-    <xmx:6P15Yj7U1pxqEu9m3udW9TVyeeMicQbdOEYiPoTkPJHdB-P4BtAR-A>
-    <xmx:6P15YriuNrhSSJ4-FJxKRUHsGVzrMhlxgebD2OHXvogbusUlZ4rP8w>
-    <xmx:6f15YjpPFIJVuv2qe1NIoT3pZ-4kd4TVf1sNI3LTismj8jORQoLtJg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 10 May 2022 01:53:42 -0400 (EDT)
-Date:   Mon, 9 May 2022 22:53:41 -0700
-From:   Josh Triplett <josh@joshtriplett.org>
-To:     Gaelan Steele <gbs@canishe.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Sven Van Asbroeck <thesven73@gmail.com>,
-        Wu XiangCheng <bobwxc@email.cn>, Gary Guo <gary@garyguo.net>,
-        Boris-Chengbiao Zhou <bobo1239@web.de>,
-        Yuki Okushi <jtitor@2k36.org>, Wei Liu <wei.liu@kernel.org>,
-        Daniel Xu <dxu@dxuuu.xyz>, Julian Merkle <me@jvmerkle.de>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v6 18/23] docs: add Rust documentation
-Message-ID: <Ynn95Sv91TzD4HdT@localhost>
-References: <20220507052451.12890-1-ojeda@kernel.org>
- <20220507052451.12890-19-ojeda@kernel.org>
- <875ymecp6f.fsf@meer.lwn.net>
- <0716311E-FD5A-489A-A17D-C427C1A0EE4E@canishe.com>
+        Tue, 10 May 2022 03:00:47 -0400
+Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 532787485B;
+        Mon,  9 May 2022 23:56:48 -0700 (PDT)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 24A6uWPt006909;
+        Tue, 10 May 2022 15:56:33 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 24A6uWPt006909
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1652165793;
+        bh=fEURvXR77OoRUwAby4ssOCC2y+9cYzZS2BTBBdHY5s4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=wCwaSRXELTeXaq2guIuReTuZg7U66E7IGNEBvRfkfezGlyZXsSMCiDdUr9QEJxarS
+         XrfMKl2ilUNX5U21uZSXL6zLwnIp0vZsPMbwwzeaW+huMjJN0lDJ6x9fPRe4b3ioLX
+         d1CWYofvXhCGeTNOH4b2zCthanuoTTMVhHVGhU/G+RblgSvtBBoQY1q8W0F5FwtyK8
+         pFbA+pcE2bpadKfX8PQAdO+AHk9AEs+Qvcqfz+EpBxXnZR+DExiobCnjj/rrTS0tnx
+         CZPaFmdEMVXzwdp/7Jw3Kyv3btpFQ7MhJ18jWwmea1L+fCMHlCb2QwIfpTWtpSAEz9
+         0NOjUjI1wdR0w==
+X-Nifty-SrcIP: [209.85.216.46]
+Received: by mail-pj1-f46.google.com with SMTP id iq10so15115325pjb.0;
+        Mon, 09 May 2022 23:56:33 -0700 (PDT)
+X-Gm-Message-State: AOAM530Yx4NqOCrZWxlmZ6whAaURMPWAefNzWF9V/GNdyNORuj3wUXlF
+        /LFU6ldwJ4z2CmT+9xRoarpYmzRcrA+ynNgI9jQ=
+X-Google-Smtp-Source: ABdhPJyEgi0eqH+b8oqMunpHr855g62eqCOt9y9rnuZ3PqXxdNPec+4B1Ab1EtAdW8GXjXd92AJ/4rFTNMbUFO627GA=
+X-Received: by 2002:a17:90a:e7cd:b0:1dc:74eb:7526 with SMTP id
+ kb13-20020a17090ae7cd00b001dc74eb7526mr21753943pjb.144.1652165792292; Mon, 09
+ May 2022 23:56:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0716311E-FD5A-489A-A17D-C427C1A0EE4E@canishe.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+References: <20220508190631.2386038-1-masahiroy@kernel.org>
+ <CAK7LNAQtedww_RiemfTV7Ls=M01iKJhY14G3TiuAg=C3bvJjww@mail.gmail.com> <YnmSCNDBlMMJCbjj@dev-arch.thelio-3990X>
+In-Reply-To: <YnmSCNDBlMMJCbjj@dev-arch.thelio-3990X>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 10 May 2022 15:55:21 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATkm+GzqNLgpbh4F+M=U8LU48p2NH9MyqeO6uA_KYJFaQ@mail.gmail.com>
+Message-ID: <CAK7LNATkm+GzqNLgpbh4F+M=U8LU48p2NH9MyqeO6uA_KYJFaQ@mail.gmail.com>
+Subject: Re: [PATCH v4 00/14] kbuild: yet another series of cleanups (modpost,
+ LTO, MODULE_REL_CRCS, export.h)
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-modules <linux-modules@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -105,28 +71,129 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, May 09, 2022 at 08:14:54PM -0700, Gaelan Steele wrote:
-> 
-> 
-> > On May 9, 2022, at 3:32 PM, Jonathan Corbet <corbet@lwn.net> wrote:
-> > 
-> >> +It is convenient to instruct editors/IDEs to format while typing,
-> >> +when saving or at commit time. However, if for some reason reformatting
-> >> +the entire kernel Rust sources is needed at some point, the following can be
-> >> +run::
-> >> +
-> >> +	make LLVM=1 rustfmt
-> > 
-> > I will ask whether we want this, though. Why would anybody want to
-> > mass-reformat the entire body of kernel code? This seems like something
-> > that would generate an endless stream of "helpful" patches and a lot of
-> > churn.
-> 
-> That would only happen if the code diverged from rustfmt’s output in the
-> first place. Generally, in Rust projects, the source tree is always kept
-> formatted with rustfmt - so running `make LLVM=1 rustfmt` would only
-> ever touch code that you’d just changed. 
+On Tue, May 10, 2022 at 7:13 AM Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> On Mon, May 09, 2022 at 01:24:33PM +0900, Masahiro Yamada wrote:
+> > On Mon, May 9, 2022 at 4:09 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > >
+> > > This is the third batch of cleanups in this development cycle.
+> > >
+> > > Major changes in v4:
+> > >  - Move static EXPORT_SYMBOL check to a script
+> > >  - Some refactoring
+> > >
+> > > Major changes in v3:
+> > >
+> > >  - Generate symbol CRCs as C code, and remove CONFIG_MODULE_REL_CRCS.
+> > >
+> > > Major changes in v2:
+> > >
+> > >  - V1 did not work with CONFIG_MODULE_REL_CRCS.
+> > >    I fixed this for v2.
+> > >
+> > >  - Reflect some review comments in v1
+> > >
+> > >  - Refactor the code more
+> > >
+> > >  - Avoid too long argument error
+> >
+> > This series is available at
+> > git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+> > lto-cleanup-v4
+>
+> Hi Masahiro,
+>
+> I checked this out and went to run it through my QEMU tests but I see
+> two new errors.
+>
+> Failure #1:
+>
+> In file included from scripts/mod/section-check.c:3:
+> scripts/mod/modpost.h:15:10: fatal error: 'elfconfig.h' file not found
+> #include "elfconfig.h"
+>          ^~~~~~~~~~~~~
+> 1 error generated.
+>
+> I was able to get past that with
+>
+> diff --git a/scripts/mod/Makefile b/scripts/mod/Makefile
+> index ca739c6c68a1..c33b83bfbcad 100644
+> --- a/scripts/mod/Makefile
+> +++ b/scripts/mod/Makefile
+> @@ -16,7 +16,7 @@ targets += $(devicetable-offsets-file) devicetable-offsets.s
+>
+>  # dependencies on generated files need to be listed explicitly
+>
+> -$(obj)/modpost.o $(obj)/file2alias.o $(obj)/sumversion.o: $(obj)/elfconfig.h
+> +$(obj)/modpost.o $(obj)/file2alias.o $(obj)/sumversion.o $(obj)/section-check.o: $(obj)/elfconfig.h
+>  $(obj)/file2alias.o: $(obj)/$(devicetable-offsets-file)
+>
 
-Exactly. This is convenient for the same reason doing a project-wide
-`cargo fmt` is useful in Rust projects: you can do all your editing,
-then format your code before committing.
+Thanks for testing.
+
+
+I will slightly refactor the code as follows.
+
+
+
+
+@@ -16,7 +16,7 @@ targets += $(devicetable-offsets-file) devicetable-offsets.s
+
+ # dependencies on generated files need to be listed explicitly
+
+-$(obj)/modpost.o $(obj)/file2alias.o $(obj)/sumversion.o: $(obj)/elfconfig.h
++$(addprefix $(obj)/, $(modpost-objs)): $(obj)/elfconfig.h
+
+ $(obj)/file2alias.o: $(obj)/$(devicetable-offsets-file)
+
+ quiet_cmd_elfconfig = MKELF   $@
+
+
+
+
+
+
+
+
+>  quiet_cmd_elfconfig = MKELF   $@
+>
+> Failure #2:
+>
+>   GEN     .version
+>   CHK     include/generated/compile.h
+>   GEN     .tmp_initcalls.lds
+>   LTO     vmlinux.o
+>   OBJTOOL vmlinux.o
+>   MODPOST vmlinux.symvers
+>   MODINFO modules.builtin.modinfo
+>   GEN     modules.builtin
+>   LD      .tmp_vmlinux.btf
+> ld.lld: error: cannot open .vmlinux.export.o: No such file or directory
+>   BTF     .btf.vmlinux.bin.o
+> pahole: .tmp_vmlinux.btf: No such file or directory
+>   CC      .vmlinux.export.c
+>   LD      .tmp_vmlinux.kallsyms1
+> ld.lld: error: .btf.vmlinux.bin.o: unknown file type
+> make[1]: *** [Makefile:1159: vmlinux] Error 1
+>
+> I was not really able to see what is going wrong here. Attached is the
+> configuration that I ran into this with. If you need any other
+> information, please let me know!
+
+Ah, OK.
+This is because .vmlinux.export.o is compiled after gen_btf.
+
+I will swap the order in v5.
+
+
+
+
+
+> Cheers,
+> Nathan
+
+
+
+--
+Best Regards
+Masahiro Yamada
