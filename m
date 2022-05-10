@@ -2,250 +2,226 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A807521662
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 May 2022 15:05:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DFAE521841
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 May 2022 15:30:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241147AbiEJNJF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 10 May 2022 09:09:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37600 "EHLO
+        id S243439AbiEJNeA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 10 May 2022 09:34:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241407AbiEJNJC (ORCPT
+        with ESMTP id S243724AbiEJNcJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 10 May 2022 09:09:02 -0400
-Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13BA0285ECA;
-        Tue, 10 May 2022 06:05:01 -0700 (PDT)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 24AD4gO3008126;
-        Tue, 10 May 2022 22:04:43 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 24AD4gO3008126
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1652187883;
-        bh=qBEayftl5ZwYSJPRCuQSWMNdT3wNrCO/ZLylUnM9Pos=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=nLq/5ipHudJNOcGUJsWwdYUfl6xYm9Kx/LfCF2DY/yWhpE2Mctf32CiOyfNIQ2gBC
-         bGdfW9kjNaCML706UPRh8nLD1Lny1Azy1bLZ2h1RpS3RhbdZZDMMkc5uqHLDsQXABC
-         envI7kUNL04QM+8N4XW1CfSxf0scjWNceOPOA2a/dAh+pxD7eITqXbziVw5bIEp4xH
-         2WKVeNfb8PcpdVWBZW4CJg29uml36zc9AIKtqgWMVaQO517fRQOnyxwr53ndEVRIVV
-         5STEVG0h72KmyM63AeINzu91D9azv4AP8JWDJmYj1EIjvtwg4wchFlg47xQzbS9eVJ
-         p5TsaotGJk1Pg==
-X-Nifty-SrcIP: [209.85.214.176]
-Received: by mail-pl1-f176.google.com with SMTP id m12so2940658plb.4;
-        Tue, 10 May 2022 06:04:43 -0700 (PDT)
-X-Gm-Message-State: AOAM532vNZvbVnwj5oeJMduiGmW5AAaHyTaS5aTvrce5csVhe4i5+jOj
-        opA8Ph3jVoX9Qjr2jfgrJmQK6Dv4V9QsGdJrXQ8=
-X-Google-Smtp-Source: ABdhPJyavnWgf46gRQwW/3BEwUehZ9JzWKuqbx9T+L5WacD6flQsWB/O7++u6qzJBiUbBulyt3k71693TE6NXQEFYOk=
-X-Received: by 2002:a17:903:1205:b0:15e:8cbc:fd2b with SMTP id
- l5-20020a170903120500b0015e8cbcfd2bmr20893636plh.99.1652187882421; Tue, 10
- May 2022 06:04:42 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220508190631.2386038-1-masahiroy@kernel.org>
- <20220508190631.2386038-7-masahiroy@kernel.org> <CAKwvOdm_oSLHddWWSzF5UuYrLCsAwF8AwbUGotUnPvV+6JkSkg@mail.gmail.com>
-In-Reply-To: <CAKwvOdm_oSLHddWWSzF5UuYrLCsAwF8AwbUGotUnPvV+6JkSkg@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 10 May 2022 22:03:31 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASb40kWgvOM42WyS82p42HQ7Mqhwo3GDffg4yHcKgJk0w@mail.gmail.com>
-Message-ID: <CAK7LNASb40kWgvOM42WyS82p42HQ7Mqhwo3GDffg4yHcKgJk0w@mail.gmail.com>
-Subject: Re: [PATCH v4 06/14] kbuild: link symbol CRCs at final link, removing CONFIG_MODULE_REL_CRCS
-To:     Nick Desaulniers <ndesaulniers@google.com>
+        Tue, 10 May 2022 09:32:09 -0400
+Received: from mail.avm.de (mail.avm.de [IPv6:2001:bf0:244:244::94])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 102282CCD02;
+        Tue, 10 May 2022 06:21:53 -0700 (PDT)
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
+        by mail.avm.de (Postfix) with ESMTPS;
+        Tue, 10 May 2022 15:21:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+        t=1652188910; bh=ArbPQjrdfcivZcwPMW1Fg1VSNd1S7aBpYNWcRI+uFAA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XJv4OQXOv1WqA/egsRnFOJw5NUsuSb7Wze6oCS8mK/CG/c9FOuPgJze8tgpspUosO
+         efAEvCU6NslqstuPTBd0Hvj2MMcUAgkJ9Znfoa16YmrtP3xpmIwThrT53wA867ZqF2
+         QWPBXf61e/kuf2EwfUSiXk863g/MQmbNXcTYmvWQ=
+Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
+        by mail-auth.avm.de (Postfix) with ESMTPA id E883281C9E;
+        Tue, 10 May 2022 15:21:48 +0200 (CEST)
+Received: by buildd.core.avm.de (Postfix, from userid 1000)
+        id DD22418149E; Tue, 10 May 2022 15:21:48 +0200 (CEST)
+Date:   Tue, 10 May 2022 15:21:48 +0200
+From:   Nicolas Schier <n.schier@avm.de>
+To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Peter Zijlstra <peterz@infradead.org>,
-        linux-modules <linux-modules@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        clang-built-linux <llvm@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] kbuild: factor out the common installation code into
+ scripts/install.sh
+Message-ID: <Ynpm7HS6OcpJntve@buildd.core.avm.de>
+References: <20220503024716.76666-1-masahiroy@kernel.org>
+ <Yno4m91/H65yX4T1@buildd.core.avm.de>
+ <CAK7LNASDZz4osNX3HgzrK7KVQ0C4uEGOBjbmCfTsBG25jOieXA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAK7LNASDZz4osNX3HgzrK7KVQ0C4uEGOBjbmCfTsBG25jOieXA@mail.gmail.com>
+X-purgate-ID: 149429::1652188909-0000038B-8E522ED6/0/0
+X-purgate-type: clean
+X-purgate-size: 6429
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
+X-purgate: clean
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, May 10, 2022 at 2:51 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
->  On Sun, May 8, 2022 at 12:10 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Tue, May 10, 2022 at 09:56:45PM +0900, Masahiro Yamada wrote:
+> On Tue, May 10, 2022 at 7:04 PM Nicolas Schier <n.schier@avm.de> wrote:
 > >
-> > diff --git a/include/asm-generic/export.h b/include/asm-generic/export.h
-> > index 07a36a874dca..51ce72ce80fa 100644
-> > --- a/include/asm-generic/export.h
-> > +++ b/include/asm-generic/export.h
-> > @@ -2,6 +2,14 @@
-> >  #ifndef __ASM_GENERIC_EXPORT_H
-> >  #define __ASM_GENERIC_EXPORT_H
+> > On Tue,  3 May 2022 11:47 +0900 Masahiro Yamada wrote:
+> > > Many architectures have similar install.sh scripts.
+> > >
+> > > The first half is really generic; verifies that the kernel image and
+> > > System.map exist, then executes ~/bin/${INSTALLKERNEL} or
+> > > /sbin/${INSTALLKERNEL} if available.
+> > >
+> > > The second half is kind of arch-specific. It just copies the kernel image
+> > > and System.map to the destination, but the code is slightly different.
+> > >
+> > > This patch factors out the generic part into scripts/install.sh.
+> > >
+> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > > ---
+> > >
+> > > Changes in v2:
+> > >   - Move the installkernel parameters to scripts/install.sh
+> > >
+> > >  Makefile                     |  3 ++-
+> > >  arch/arm/Makefile            |  4 ++--
+> > >  arch/arm/boot/install.sh     | 21 ------------------
+> > >  arch/arm64/Makefile          |  6 ++----
+> > >  arch/arm64/boot/install.sh   | 21 ------------------
+> > >  arch/ia64/Makefile           |  3 ++-
+> > >  arch/ia64/install.sh         | 10 ---------
+> > >  arch/m68k/Makefile           |  3 ++-
+> > >  arch/m68k/install.sh         | 22 -------------------
+> > >  arch/nios2/Makefile          |  3 +--
+> > >  arch/nios2/boot/install.sh   | 22 -------------------
+> > >  arch/parisc/Makefile         | 11 +++++-----
+> > >  arch/parisc/install.sh       | 28 ------------------------
+> > >  arch/powerpc/Makefile        |  3 +--
+> > >  arch/powerpc/boot/install.sh | 23 --------------------
+> > >  arch/riscv/Makefile          |  7 +++---
+> > >  arch/riscv/boot/install.sh   | 21 ------------------
+> > >  arch/s390/Makefile           |  3 +--
+> > >  arch/s390/boot/install.sh    |  6 ------
+> > >  arch/sparc/Makefile          |  3 +--
+> > >  arch/sparc/boot/install.sh   | 22 -------------------
+> > >  arch/x86/Makefile            |  3 +--
+> > >  arch/x86/boot/install.sh     | 22 -------------------
+> > >  scripts/install.sh           | 41 ++++++++++++++++++++++++++++++++++++
+> > >  24 files changed, 64 insertions(+), 247 deletions(-)
+> > >  mode change 100644 => 100755 arch/arm/boot/install.sh
+> > >  mode change 100644 => 100755 arch/arm64/boot/install.sh
+> > >  mode change 100644 => 100755 arch/ia64/install.sh
+> > >  mode change 100644 => 100755 arch/m68k/install.sh
+> > >  mode change 100644 => 100755 arch/nios2/boot/install.sh
+> > >  mode change 100644 => 100755 arch/parisc/install.sh
+> > >  mode change 100644 => 100755 arch/powerpc/boot/install.sh
+> > >  mode change 100644 => 100755 arch/riscv/boot/install.sh
+> > >  mode change 100644 => 100755 arch/s390/boot/install.sh
+> > >  mode change 100644 => 100755 arch/sparc/boot/install.sh
+> > >  mode change 100644 => 100755 arch/x86/boot/install.sh
+> > >  create mode 100755 scripts/install.sh
+> > >
+> > > diff --git a/Makefile b/Makefile
+> > > index 9a60f732bb3c..154c32af8805 100644
+> > > --- a/Makefile
+> > > +++ b/Makefile
+> > > @@ -1298,7 +1298,8 @@ scripts_unifdef: scripts_basic
+> > >  # to this Makefile to build and install external modules.
+> > >  # Cancel sub_make_done so that options such as M=, V=, etc. are parsed.
+> > >
+> > > -install: sub_make_done :=
+> > > +quiet_cmd_install = INSTALL $(INSTALL_PATH)
+> > > +      cmd_install = unset sub_make_done; $(srctree)/scripts/install.sh
 > >
-> > +/*
-> > + * This comment block is used by fixdep. Please do not remove.
->
-> I don't know much about fixdep. How does that work, if you could summarize?
-
-
-You can find detailed explanation in scripts/basic/fixdep.c
-
-
-In short, it works like this:
-
-fixdep parses every source (including headers).
-If it finds "CONFIG_MODVERSIONS", it adds a dependency
-on $(wildcard include/config/MODVERSIONS)
-to the .cmd files.
-
-If CONFIG_MODVERSIONS is toggled in Kconfig,
-it touches include/config/MODVERSIONS.    [1]
-
-In the next run of Make, all the sources depending on
-CONFIG_MODVERSIONS will be re-compiled because the
-timestamp of include/config/MODVERSIONS is up-to-date.
-
-
-[1]: https://github.com/torvalds/linux/blob/v5.17/scripts/kconfig/confdata.c#L141
-
-
-
-
-
-> > + *
-> > + * When CONFIG_MODVERSIONS is changed from n to y, all source files having
-> > + * EXPORT_SYMBOL variants must be re-compiled because genksyms is run as a
-> > + * side effect of the .o build rule.
-> > + */
-> > +
-> >  #ifndef KSYM_FUNC
-> >  #define KSYM_FUNC(x) x
-> >  #endif
-> > @@ -12,9 +20,6 @@
-> >  #else
-> >  #define KSYM_ALIGN 4
-> >  #endif
-> > -#ifndef KCRC_ALIGN
-> > -#define KCRC_ALIGN 4
-> > -#endif
->
-> The #ifndef is there because arch/m68k/include/asm/export.h:1 defines
-> KCRC_ALIGN. You should delete that, too.
-
-Nice catch! I will clean it up too.
-
-
-
-
->
-> > diff --git a/scripts/genksyms/genksyms.c b/scripts/genksyms/genksyms.c
-> > index 4827c5abe5b7..6e6933ae7911 100644
-> > --- a/scripts/genksyms/genksyms.c
-> > +++ b/scripts/genksyms/genksyms.c
-> > @@ -33,7 +33,7 @@ char *cur_filename;
-> >  int in_source_file;
+> > This is the third 'cmd_install' in the tree; might it be better to take
+> > a more unique name (e.g. cmd_installkernel) to prevent confusion?
+> 
+> If this is confusing, we can rename the ones in
+> scripts/Makefile.{modinst,headersinst}.
+> 
+> This command name matches the build target ("make install"), so
+> I believe this name is good.
+> 
+> 
+> 
 > >
-> >  static int flag_debug, flag_dump_defs, flag_reference, flag_dump_types,
-> > -          flag_preserve, flag_warnings, flag_rel_crcs;
-> > +          flag_preserve, flag_warnings;
+> > For me, it would have been more clear, if we'd also move the default
+> > KBUILD_IMAGE definition here (similar to the corresponding part in
+> > arch/parisc/Makefile):
 > >
-> >  static int errors;
-> >  static int nsyms;
-> > @@ -681,10 +681,7 @@ void export_symbol(const char *name)
-> >                         fputs(">\n", debugfile);
+> > zinstall: KBUILD_IMAGE := $(boot)/Image.gz
 > >
-> >                 /* Used as a linker script. */
->
-> ^ Does this comment still apply?
-
-No.  From this commit going forward,
-the genksyms output will not be used as a linker script.
-
-08/14 will delete this comment anyway, but
-it is possible to remove it in this commit.
-
-
-
-
-
-
-
-
->
-> > -               printf(!flag_rel_crcs ? "__crc_%s = 0x%08lx;\n" :
-> > -                      "SECTIONS { .rodata : ALIGN(4) { "
-> > -                      "__crc_%s = .; LONG(0x%08lx); } }\n",
-> > -                      name, crc);
-> > +               printf("__crc_%s = 0x%08lx;\n", name, crc);
-> >         }
-> >  }
+> > ($(KBUILD_IMAGE) seems not to be used anywhere else in arch/arm64/
+> > tree; but I haven't checked in depth.)
+> 
+> 
+> KBUILD_IMAGE is _indirectly_ used to specify
+> the kernel image for package builds.    [1]
+> 
+> This target returns the value IMAGE_BUILD.   [2]
+> 
+> 
+> $(KBUILD_IMAGE) is definitely used for arm64.
+> 
+> [1]: https://github.com/torvalds/linux/blob/v5.17/scripts/package/builddeb#L150
+> [2]: https://github.com/torvalds/linux/blob/v5.17/Makefile#L1943
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> > > diff --git a/arch/parisc/Makefile b/arch/parisc/Makefile
+> > > index 7583fc39ab2d..aca1710fd658 100644
+> > > --- a/arch/parisc/Makefile
+> > > +++ b/arch/parisc/Makefile
+> > > @@ -184,12 +184,11 @@ vdso_install:
+> > >       $(Q)$(MAKE) $(build)=arch/parisc/kernel/vdso $@
+> > >       $(if $(CONFIG_COMPAT_VDSO), \
+> > >               $(Q)$(MAKE) $(build)=arch/parisc/kernel/vdso32 $@)
+> > > -install:
+> > > -     $(CONFIG_SHELL) $(srctree)/arch/parisc/install.sh \
+> > > -                     $(KERNELRELEASE) vmlinux System.map "$(INSTALL_PATH)"
+> > > -zinstall:
+> > > -     $(CONFIG_SHELL) $(srctree)/arch/parisc/install.sh \
+> > > -                     $(KERNELRELEASE) vmlinuz System.map "$(INSTALL_PATH)"
+> > > +
+> > > +install: KBUILD_IMAGE := vmlinux
+> > > +zinstall: KBUILD_IMAGE := vmlinuz
 > >
-> > diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> > index eceb3ee7ec06..6aee2401f3ad 100755
-> > --- a/scripts/link-vmlinux.sh
-> > +++ b/scripts/link-vmlinux.sh
-> > @@ -88,11 +88,6 @@ modpost_link()
-> >                 gen_initcalls
-> >                 lds="-T .tmp_initcalls.lds"
+> > Does this make the KBUILD_IMAGE definition in line 19 obsolete and
+> > unused?
+> 
+> 
+> As I said above for arm64, KBUILD_IMAGE is used for package builds.
+> 
+> If you delete line 19, it will change the behavior.
+> (fall back to the global default [3])
+> 
+> 
+> [3]: https://github.com/torvalds/linux/blob/v5.17/Makefile#L1059
+> 
+> 
+> 
+> 
+> 
+> > > diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
+> > > index eb541e730d3c..45a9caa37b4e 100644
+> > > --- a/arch/powerpc/Makefile
+> > > +++ b/arch/powerpc/Makefile
+> > > @@ -408,8 +408,7 @@ endef
+> > >
+> > >  PHONY += install
+> > >  install:
 > >
-> > -               if is_enabled CONFIG_MODVERSIONS; then
-> > -                       gen_symversions
->
-> ^ this is the only caller of gen_symversions, right? Then
-> gen_symversions can be cleaned up, too?
+> > I can't find a KBUILD_IMAGE definition in arch/powerpc/Makefile.
+> > Should it be set here as a target-specific varibable, too?
+> 
+> 
+> Right, powerpc does not define KBUILD_IMAGE explicitly.
+> It falls back to [3].
+> 
 
+Thanks for all those illuming clarifications, I have nothing more to ask.
 
-We can keep it in this commit.
-
-The follow-up cleaning is done in 07/14.
-
-To avoid too big commit,
-I separated the build flow change and
-trivial cleanups.
-
-
-
->
-> > -                       lds="${lds} -T .tmp_symversions.lds"
-> > -               fi
-> > -
-> >                 # This might take a while, so indicate that we're doing
-> >                 # an LTO link
-> >                 info LTO ${1}
-> > @@ -183,6 +178,10 @@ vmlinux_link()
-> >                 libs="${KBUILD_VMLINUX_LIBS}"
-> >         fi
-> >
-> > +       if is_enabled CONFIG_MODULES; then
-> > +               objs="${objs} .vmlinux.export.o"
-> > +       fi
-> > +
-> >         if [ "${SRCARCH}" = "um" ]; then
-> >                 wl=-Wl,
-> >                 ld="${CC}"
-> > @@ -312,6 +311,7 @@ cleanup()
-> >         rm -f vmlinux.o
-> >         rm -f .vmlinux.d
-> >         rm -f .vmlinux.objs
-> > +       rm -f .vmlinux.export.c
->
-> Probably can drop the `rm -f .tmp_symversions.lds` here, too?
-
-It will be cleaned up by 07/14.
-
-
-
-
-
-
-
-> --
-> Thanks,
-> ~Nick Desaulniers
-
-
-
---
-Best Regards
-Masahiro Yamada
+Reviewed-by: Nicolas Schier <n.schier@avm.de>
