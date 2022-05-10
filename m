@@ -2,116 +2,229 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 735D05214A2
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 May 2022 14:00:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF3C1521620
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 May 2022 14:58:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241480AbiEJMCf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 10 May 2022 08:02:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42164 "EHLO
+        id S241407AbiEJNCR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 10 May 2022 09:02:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241453AbiEJMBz (ORCPT
+        with ESMTP id S235608AbiEJNCQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 10 May 2022 08:01:55 -0400
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E0212265FF;
-        Tue, 10 May 2022 04:57:53 -0700 (PDT)
-Received: by mail-io1-xd2c.google.com with SMTP id r27so18251486iot.1;
-        Tue, 10 May 2022 04:57:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Nya3smcu6m6BJ3o7w8h7OZ/4ZZg2D1j+6By65hBtg4E=;
-        b=VM/se0UDyiCCdJ4l8cbmpToryRKbD6kiPcp2LmQMrA21sF0s4m3DdEm4RpCOUNwV8I
-         zDeKt5ByRnZNdMNAWT/RDqJPysImrh09HXKZB4Y1tF9UkPcBja4pfU59CsRatHaZAreb
-         F/Jq6/QeHqdzqsxdCwWutFkbsN0RGLfVRpli/1UUeIoe7hos0YR/QDTDjC1kvXAZNXn0
-         3wXQP7jpGBQqFLavn0RI8llPOpbrwgtCUdf6ttw+nQaZHkjte6L2zsJ9KZ+jX0QK0G25
-         6JugcVh4hJcIfD8G7Exyof6Y7VhNfcygJvujMTKIynlQ/6VLsIKKGi5fHpxp2u9jcYG4
-         K9fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Nya3smcu6m6BJ3o7w8h7OZ/4ZZg2D1j+6By65hBtg4E=;
-        b=yyVPLhIM8bpQCBLZkgZHNsqbPWmCG2Hd+7KrSXDCvP3iSdjh0yDVdto7RMzwHO9ndU
-         it5S3/Lp2oc+Q8798V4J6r6WV4C8ZnmaOSzt89XG7+BfigRf+aTBHs6hJV8WhSjr1z9F
-         rRpvg9dbRxMEHxGt3LNu6MKvdOtm1olIPp9V5lDvIxpJTrpqBfJT4SRc6hyaoHc9fvvt
-         TK2IeCiqMKKe0Fgus304oLZs0b4ASkjsHLynfCxtfmeB8NELzSTCgQc+nrmbex/WRWLV
-         oSsvWilPai/mYH3rNIxq9mxgJaHT6UmCkuPhd+eufPZG0zqJh9Gicm1I6OIU4pkGySVq
-         0Icw==
-X-Gm-Message-State: AOAM5336AkptnplJ4u4ufU0Jhkko5iAi91X0qPDti13Pohmp1iqxRBbz
-        T9XE1zbFMCzBo93aSTUhy/GqYTVeqQBu2lsDBG0=
-X-Google-Smtp-Source: ABdhPJw+YkPy7lik4xxTFzDwdo471gN3AwACu2d05g47DAHxJcBzjqEDWZ1Vcu1N5BSpjD7Gb7k5QKIg2zNd9ask5DE=
-X-Received: by 2002:a02:c6af:0:b0:32a:f5f6:34bc with SMTP id
- o15-20020a02c6af000000b0032af5f634bcmr9967949jan.186.1652183872250; Tue, 10
- May 2022 04:57:52 -0700 (PDT)
+        Tue, 10 May 2022 09:02:16 -0400
+Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9752025B07E;
+        Tue, 10 May 2022 05:58:18 -0700 (PDT)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 24ACvu4l008246;
+        Tue, 10 May 2022 21:57:57 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 24ACvu4l008246
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1652187477;
+        bh=mDq58kWqu5y6Ln3TC7JKVH4wytZMH5iO9I4WePnz7Bo=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=25sw6WfcaNFpzlfb4msKJ34LislgAAvnKZ+A6sjKvYBd9jNotcIcDp4pDtnS9cS6K
+         3O0cXfwv4N/y4gT0OqeD3ZyD1dcCXnHQLf/k5kMNR6OCTuMMZzxWj2CxJdyz9E5UtR
+         qIFFiB8R+/giRHrQAIBy/Er/WpaGE+k3Z9Ch2gG/H+skdyAJSXqOs25DtPVarg1sNl
+         8Mvb3gweXIfl6ZOwgeCFUjXlFCaORv7IdZddFp7CxTHWcSly6BZF2vtJGtUV+kAZwS
+         Y3EG9/02SZdaVK1ZHregEwLrvRiwf1lm5uWy7liINijFykYBvvpmnHsOUTuEb0a4ni
+         uz4zxyE12TYHg==
+X-Nifty-SrcIP: [209.85.216.47]
+Received: by mail-pj1-f47.google.com with SMTP id j10-20020a17090a94ca00b001dd2131159aso1994341pjw.0;
+        Tue, 10 May 2022 05:57:57 -0700 (PDT)
+X-Gm-Message-State: AOAM531efcP4zFp6/kXF//US+3T+t2/x5+vFaJB43DDanv3S7E8aNGa+
+        f3Utp1WLuO17oxY9hYiXhtmODJ/Izry85pbVb/A=
+X-Google-Smtp-Source: ABdhPJwVCu7JYNjP+tBUTZDYPZFRxT0HhS9s5h+HxxNYpS2r41IeeCRGW2VFALcZUFeRFcUkknN3i9epiSZ0GRDsIqo=
+X-Received: by 2002:a17:90a:e517:b0:1d7:5bbd:f9f0 with SMTP id
+ t23-20020a17090ae51700b001d75bbdf9f0mr22749582pjy.77.1652187476536; Tue, 10
+ May 2022 05:57:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220507052451.12890-19-ojeda@kernel.org> <7e9c2e77-8b70-6e15-3f3d-905ab42b0fcd@gmail.com>
- <CANiq72mBVo4+htxVjY0wB1Y3GO2PEUiZjZKRYT8ddwx84-hAtg@mail.gmail.com>
- <92a7010c-5bb2-65df-edde-0ca88e035c2e@gmail.com> <8735hicoy7.fsf@meer.lwn.net>
-In-Reply-To: <8735hicoy7.fsf@meer.lwn.net>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 10 May 2022 13:57:40 +0200
-Message-ID: <CANiq72mna9MKSgJYs19k=ieYu4v4TuemLdp1wkyhr9hqJ-tuAQ@mail.gmail.com>
-Subject: Re: [PATCH v6 18/23] docs: add Rust documentation
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Akira Yokosawa <akiyks@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Boris-Chengbiao Zhou <bobo1239@web.de>,
-        Wu XiangCheng <bobwxc@email.cn>, Daniel Xu <dxu@dxuuu.xyz>,
-        Gary Guo <gary@garyguo.net>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Yuki Okushi <jtitor@2k36.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Julian Merkle <me@jvmerkle.de>, Finn Behrens <me@kloenk.de>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Sven Van Asbroeck <thesven73@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Wei Liu <wei.liu@kernel.org>
+References: <20220503024716.76666-1-masahiroy@kernel.org> <Yno4m91/H65yX4T1@buildd.core.avm.de>
+In-Reply-To: <Yno4m91/H65yX4T1@buildd.core.avm.de>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 10 May 2022 21:56:45 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASDZz4osNX3HgzrK7KVQ0C4uEGOBjbmCfTsBG25jOieXA@mail.gmail.com>
+Message-ID: <CAK7LNASDZz4osNX3HgzrK7KVQ0C4uEGOBjbmCfTsBG25jOieXA@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: factor out the common installation code into scripts/install.sh
+To:     Nicolas Schier <n.schier@avm.de>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, May 10, 2022 at 12:37 AM Jonathan Corbet <corbet@lwn.net> wrote:
+On Tue, May 10, 2022 at 7:04 PM Nicolas Schier <n.schier@avm.de> wrote:
 >
-> Yeah, but the issues are all with me :)  Please accept my apologies for
-> letting it slip through the cracks.
+> On Tue,  3 May 2022 11:47 +0900 Masahiro Yamada wrote:
+> > Many architectures have similar install.sh scripts.
+> >
+> > The first half is really generic; verifies that the kernel image and
+> > System.map exist, then executes ~/bin/${INSTALLKERNEL} or
+> > /sbin/${INSTALLKERNEL} if available.
+> >
+> > The second half is kind of arch-specific. It just copies the kernel image
+> > and System.map to the destination, but the code is slightly different.
+> >
+> > This patch factors out the generic part into scripts/install.sh.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> > Changes in v2:
+> >   - Move the installkernel parameters to scripts/install.sh
+> >
+> >  Makefile                     |  3 ++-
+> >  arch/arm/Makefile            |  4 ++--
+> >  arch/arm/boot/install.sh     | 21 ------------------
+> >  arch/arm64/Makefile          |  6 ++----
+> >  arch/arm64/boot/install.sh   | 21 ------------------
+> >  arch/ia64/Makefile           |  3 ++-
+> >  arch/ia64/install.sh         | 10 ---------
+> >  arch/m68k/Makefile           |  3 ++-
+> >  arch/m68k/install.sh         | 22 -------------------
+> >  arch/nios2/Makefile          |  3 +--
+> >  arch/nios2/boot/install.sh   | 22 -------------------
+> >  arch/parisc/Makefile         | 11 +++++-----
+> >  arch/parisc/install.sh       | 28 ------------------------
+> >  arch/powerpc/Makefile        |  3 +--
+> >  arch/powerpc/boot/install.sh | 23 --------------------
+> >  arch/riscv/Makefile          |  7 +++---
+> >  arch/riscv/boot/install.sh   | 21 ------------------
+> >  arch/s390/Makefile           |  3 +--
+> >  arch/s390/boot/install.sh    |  6 ------
+> >  arch/sparc/Makefile          |  3 +--
+> >  arch/sparc/boot/install.sh   | 22 -------------------
+> >  arch/x86/Makefile            |  3 +--
+> >  arch/x86/boot/install.sh     | 22 -------------------
+> >  scripts/install.sh           | 41 ++++++++++++++++++++++++++++++++++++
+> >  24 files changed, 64 insertions(+), 247 deletions(-)
+> >  mode change 100644 => 100755 arch/arm/boot/install.sh
+> >  mode change 100644 => 100755 arch/arm64/boot/install.sh
+> >  mode change 100644 => 100755 arch/ia64/install.sh
+> >  mode change 100644 => 100755 arch/m68k/install.sh
+> >  mode change 100644 => 100755 arch/nios2/boot/install.sh
+> >  mode change 100644 => 100755 arch/parisc/install.sh
+> >  mode change 100644 => 100755 arch/powerpc/boot/install.sh
+> >  mode change 100644 => 100755 arch/riscv/boot/install.sh
+> >  mode change 100644 => 100755 arch/s390/boot/install.sh
+> >  mode change 100644 => 100755 arch/sparc/boot/install.sh
+> >  mode change 100644 => 100755 arch/x86/boot/install.sh
+> >  create mode 100755 scripts/install.sh
+> >
+> > diff --git a/Makefile b/Makefile
+> > index 9a60f732bb3c..154c32af8805 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -1298,7 +1298,8 @@ scripts_unifdef: scripts_basic
+> >  # to this Makefile to build and install external modules.
+> >  # Cancel sub_make_done so that options such as M=, V=, etc. are parsed.
+> >
+> > -install: sub_make_done :=
+> > +quiet_cmd_install = INSTALL $(INSTALL_PATH)
+> > +      cmd_install = unset sub_make_done; $(srctree)/scripts/install.sh
+>
+> This is the third 'cmd_install' in the tree; might it be better to take
+> a more unique name (e.g. cmd_installkernel) to prevent confusion?
 
-No apologies needed! It is not an important patch -- I just thought it
-would be better to have the "base logo" merged before the "derived
-one".
+If this is confusing, we can rename the ones in
+scripts/Makefile.{modinst,headersinst}.
 
-> Looking at it now, though, I hesitate to add the logo (and another
-> COPYING file) in the top-level Documentation directory - I'd really
-> rather people not have to pick through a bunch of unrelated stuff to
-> find the actual docs they want.  I'd recommend we make a
-> Documentation/images (or .../assets or whatever) and put things like
-> logos there.
+This command name matches the build target ("make install"), so
+I believe this name is good.
 
-Yeah, makes sense to avoid dumping things in the top-level directory.
 
-> Disagree?  If not, could I get a version of the patch that does that?  I
-> promise not to set on it for three months this time...
 
-+1, I will send it.
+>
+> For me, it would have been more clear, if we'd also move the default
+> KBUILD_IMAGE definition here (similar to the corresponding part in
+> arch/parisc/Makefile):
+>
+> zinstall: KBUILD_IMAGE := $(boot)/Image.gz
+>
+> ($(KBUILD_IMAGE) seems not to be used anywhere else in arch/arm64/
+> tree; but I haven't checked in depth.)
 
-Thanks Jon!
 
-Cheers,
-Miguel
+KBUILD_IMAGE is _indirectly_ used to specify
+the kernel image for package builds.    [1]
+
+This target returns the value IMAGE_BUILD.   [2]
+
+
+$(KBUILD_IMAGE) is definitely used for arm64.
+
+[1]: https://github.com/torvalds/linux/blob/v5.17/scripts/package/builddeb#L150
+[2]: https://github.com/torvalds/linux/blob/v5.17/Makefile#L1943
+
+
+
+
+
+
+
+> > diff --git a/arch/parisc/Makefile b/arch/parisc/Makefile
+> > index 7583fc39ab2d..aca1710fd658 100644
+> > --- a/arch/parisc/Makefile
+> > +++ b/arch/parisc/Makefile
+> > @@ -184,12 +184,11 @@ vdso_install:
+> >       $(Q)$(MAKE) $(build)=arch/parisc/kernel/vdso $@
+> >       $(if $(CONFIG_COMPAT_VDSO), \
+> >               $(Q)$(MAKE) $(build)=arch/parisc/kernel/vdso32 $@)
+> > -install:
+> > -     $(CONFIG_SHELL) $(srctree)/arch/parisc/install.sh \
+> > -                     $(KERNELRELEASE) vmlinux System.map "$(INSTALL_PATH)"
+> > -zinstall:
+> > -     $(CONFIG_SHELL) $(srctree)/arch/parisc/install.sh \
+> > -                     $(KERNELRELEASE) vmlinuz System.map "$(INSTALL_PATH)"
+> > +
+> > +install: KBUILD_IMAGE := vmlinux
+> > +zinstall: KBUILD_IMAGE := vmlinuz
+>
+> Does this make the KBUILD_IMAGE definition in line 19 obsolete and
+> unused?
+
+
+As I said above for arm64, KBUILD_IMAGE is used for package builds.
+
+If you delete line 19, it will change the behavior.
+(fall back to the global default [3])
+
+
+[3]: https://github.com/torvalds/linux/blob/v5.17/Makefile#L1059
+
+
+
+
+
+> > diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
+> > index eb541e730d3c..45a9caa37b4e 100644
+> > --- a/arch/powerpc/Makefile
+> > +++ b/arch/powerpc/Makefile
+> > @@ -408,8 +408,7 @@ endef
+> >
+> >  PHONY += install
+> >  install:
+>
+> I can't find a KBUILD_IMAGE definition in arch/powerpc/Makefile.
+> Should it be set here as a target-specific varibable, too?
+
+
+Right, powerpc does not define KBUILD_IMAGE explicitly.
+It falls back to [3].
+
+
+
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
