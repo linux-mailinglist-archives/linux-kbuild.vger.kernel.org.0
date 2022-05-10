@@ -2,131 +2,205 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA1AB520BD1
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 May 2022 05:15:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81BA8520D15
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 May 2022 06:45:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232829AbiEJDTG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 9 May 2022 23:19:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58492 "EHLO
+        id S236529AbiEJEtL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 10 May 2022 00:49:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230294AbiEJDTE (ORCPT
+        with ESMTP id S236550AbiEJEtJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 9 May 2022 23:19:04 -0400
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C8B228ABAC;
-        Mon,  9 May 2022 20:15:07 -0700 (PDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.west.internal (Postfix) with ESMTP id B7A573200942;
-        Mon,  9 May 2022 23:15:01 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Mon, 09 May 2022 23:15:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canishe.com; h=
-        cc:cc:content-transfer-encoding:content-type:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to; s=fm2; t=1652152501; x=
-        1652238901; bh=Js/oWYE71aKyhQh1lChvQkRWgN+gDNge5zO1GV3PKcY=; b=t
-        QZieq2rBtxznoUKnPlfNoorA/ODf0wz6ELmer95hypMgqFLW51CVRaX2gnXvBTpD
-        OAnuBmtSBaiMj0qXQnuka9RFCuxiXdLH4c1cnuW0Vi2TSwRE+ArohH2/kfocp39v
-        1+pCu9WxAkHWTpf9xzDywXzt54mRRgHmojuHz77pVoiuMREF6Suum9id8n5YEHZG
-        JOPJlr3vSSgTnrIq8c3IGycl7G9xMlOU9hXuU3FvRJ9aEWzz0qUfhZ80Y6tMN/4M
-        IEhWrxv8fWuufcinxCtsHsbbVkcAQDugKsAf4F/tG8sNyilHB+r/PYCVVsEJAYNp
-        s7fe92E9kLmw94vGL6xag==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; t=1652152501; x=1652238901; bh=Js/oWYE71aKyh
-        Qh1lChvQkRWgN+gDNge5zO1GV3PKcY=; b=kyWYbdbC+5u4hU2GVabZUgaAaF2Kz
-        Pui9obWGO2y90I5gKYbuxsqBy7vwlm4e4VrrFs4XTWo6ZekxzeoTwtUEoNBsc52J
-        a+DcycTZOjrjT8bBMEDHVujqErpIntAhDwiow2NrRgfP+IA20KrNN1WUDL9cwTKz
-        z/EKnPcqXTk2jBAxPk/AUboTv8LWmpz01BCZpa2MDVlTzDcbZTUc5OfCO7SId2Qn
-        iHzYPrFy2G0tFOqf0BacjePL5X6zBGuT4xpthA+OoL5VjUZySpeJdnoEKn/zZC1a
-        lqvQ/5Tha3nN4NlOjI0mla+sL9ik7rkc8/7OmBgrIJhKVrR8qU3GAn0Hw==
-X-ME-Sender: <xms:s9h5Yt7bAvZH0ScZOUfUCuiHZfvAtG_O3KlpwfjB6gxOvB4obd6nFw>
-    <xme:s9h5Yq4tX81jHOWITqPMXdB68bzXvEYAvyzQkTUCOhoOH36tHu1RaZopbtJKfXNLH
-    MrqBu1l6YwMLPcA7Q>
-X-ME-Received: <xmr:s9h5YkcfWexYBqKXhM7YhscygrMLTEo_e91QvVopRev3VbdNvxy1UHJu8whGxxrDfYK41hE8mHcm5ZigCzmYnlOzx3F1YxGO0rj19IiBZxmG>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgedtgdeikecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpegtggfuhfgjffevgffkfhfvofesthhqmhdthhdtjeenucfhrhhomhepifgrvghl
-    rghnucfuthgvvghlvgcuoehgsghssegtrghnihhshhgvrdgtohhmqeenucggtffrrghtth
-    gvrhhnpeehfeevtdeuudegfefhiefhgfdvvdetgfffueduvdehfeffteelveetkeegffev
-    vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgsg
-    hssegtrghnihhshhgvrdgtohhm
-X-ME-Proxy: <xmx:s9h5YmKHY2AG9UatQV372P8S06dhgbK5-caWJhDAq63m5pJcRdmzsQ>
-    <xmx:s9h5YhJ1nnx4CjXK_Q93Z-Y9PVi6E5dN2dY84nTOSxf90QxkDMK8Wg>
-    <xmx:s9h5YvygJHbYO1oYbfbj1pjcPCV8kzCCwjnLS2ruJ9eUlYjf-8c_uQ>
-    <xmx:tdh5Yh49GXViGiNc4l8ODx3i_WqLOTARAeS1VAXam99eOUcz0uLlvQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 9 May 2022 23:14:57 -0400 (EDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
-Subject: Re: [PATCH v6 18/23] docs: add Rust documentation
-From:   Gaelan Steele <gbs@canishe.com>
-In-Reply-To: <875ymecp6f.fsf@meer.lwn.net>
-Date:   Mon, 9 May 2022 20:14:54 -0700
+        Tue, 10 May 2022 00:49:09 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B900293B7C
+        for <linux-kbuild@vger.kernel.org>; Mon,  9 May 2022 21:45:10 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id b19so22041003wrh.11
+        for <linux-kbuild@vger.kernel.org>; Mon, 09 May 2022 21:45:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9s1dagxJlyBeoN8vXdOpsPpdS8AD1RWVJWE0n8ehmas=;
+        b=OrctmfTVDCxyYdwcxCtO+PuFgHBDMDC7Bjk3TGUWyuOKGBhKLCCiUkxtYUOPWSujka
+         /OoqstAYhrGXcYieyOQKBFbwQ9tdHrrlfAgfjS6rNqvPEA5JdQz3D4E5NS7VzL5WOf+E
+         ppcl6vbGTOThxdSbDLD0FF3VNmQjZYs0YaRKW2LrfcKbI7iiYsOvdodP6Nf3qoZXPgQF
+         Um1ef/9fJDTkVoHV63EAahHnEkdwxgxf/Hc8y1wACrWcQPfhb2xVBIshPVinpye5CGSN
+         DoHok7Lf+NgFTiQMqtYLLj/aSoKi0RaOM3+EWbBDgDeG8Kjhw/dRvI6d3AEZbIIqfLAr
+         UHxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9s1dagxJlyBeoN8vXdOpsPpdS8AD1RWVJWE0n8ehmas=;
+        b=qQsAULhc4epFPzdxczY/KnuYd8pHkOrHfrp+9yRJkHY96qNuLYAXxIA3bg9XUM+nbb
+         zu0SjTEIwITopC+/ZhWCjB7h3OE+/F7UinZXuaM4H2UNUfUI7vcHRRIIwCB3zOV/3cPp
+         /FmMHp+qq/kwlORUbsjGUr0c1+DuIdr4FLdiakvG2LCdHTsGgKqpFMR0LtObeNTODubr
+         8/VPZQyt7HaTys62FgLPRbQI8z0lJTU61WMVvLuo0EilTb7jtkGEb95AdYWR+EZTsDMe
+         YLb9RghS0hzaaNU+9VAlofbEldK+08yy+y8HLNnTXyYOY6nTJN7famfLmjgrQ1/5xskf
+         C7EA==
+X-Gm-Message-State: AOAM531aAMI7oC3xLRimuJbZXymeJFtvhweKSsUqiHmgbZhq1FJ8EJbJ
+        kuZZ9eMZwi1XYKXczpf3l+9jn6utgmfIv9OAo2mTOg==
+X-Google-Smtp-Source: ABdhPJzfNwaPy5xjCTvC86K51nEH3yemeJZ1erUUa4xvtvCZqXN7MOjD5hnH0ntxxTlSOXapkot4g5ZMqXe6px9AH2Q=
+X-Received: by 2002:a5d:4806:0:b0:20a:da03:711b with SMTP id
+ l6-20020a5d4806000000b0020ada03711bmr16582569wrq.395.1652157908998; Mon, 09
+ May 2022 21:45:08 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220507052451.12890-1-ojeda@kernel.org> <CABVgOSm5S2=QYnHJ+B0JbYtFYKBDRZiOhE5YMKKUKZU56d17HQ@mail.gmail.com>
+ <CANiq72=0ft6+QLbdwWD6cLm4FhWfv53GSg6HKEwxQ-q2N-UkOw@mail.gmail.com>
+In-Reply-To: <CANiq72=0ft6+QLbdwWD6cLm4FhWfv53GSg6HKEwxQ-q2N-UkOw@mail.gmail.com>
+From:   David Gow <davidgow@google.com>
+Date:   Tue, 10 May 2022 12:44:57 +0800
+Message-ID: <CABVgOSkrvfvA7Ay4GC5wg64S1gibvm5_U5VGBog3sw4_UFo8Cg@mail.gmail.com>
+Subject: Re: [PATCH v6 00/23] Rust support
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 Cc:     Miguel Ojeda <ojeda@kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Jarkko Sakkinen <jarkko@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Sven Van Asbroeck <thesven73@gmail.com>,
-        Wu XiangCheng <bobwxc@email.cn>, Gary Guo <gary@garyguo.net>,
-        Boris-Chengbiao Zhou <bobo1239@web.de>,
-        Yuki Okushi <jtitor@2k36.org>, Wei Liu <wei.liu@kernel.org>,
-        Daniel Xu <dxu@dxuuu.xyz>, Julian Merkle <me@jvmerkle.de>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <0716311E-FD5A-489A-A17D-C427C1A0EE4E@canishe.com>
-References: <20220507052451.12890-1-ojeda@kernel.org>
- <20220507052451.12890-19-ojeda@kernel.org> <875ymecp6f.fsf@meer.lwn.net>
-To:     Jonathan Corbet <corbet@lwn.net>
-X-Mailer: Apple Mail (2.3696.80.82.1.1)
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+        KUnit Development <kunit-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-perf-users@vger.kernel.org,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        live-patching@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL,
+        USER_IN_DEF_SPF_WL autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Sat, May 7, 2022 at 11:03 PM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+>
+> Hi David,
+>
+> On Sat, May 7, 2022 at 11:29 AM David Gow <davidgow@google.com> wrote:
+> >
+> > It's great to see some KUnit support here!
+>
+> Thanks!
+>
+> > It's also possible to run these tests using the KUnit wrapper tool with:
+> > $ ./tools/testing/kunit/kunit.py run --kconfig_add CONFIG_RUST=y
+> > --make_options LLVM=1 --arch x86_64 'rust_kernel_doctests'
+> >
+> > That also nicely formats the results.
+>
+> Indeed!
+>
+>     [16:55:52] ============ rust_kernel_doctests (70 subtests) ============
+>     [16:55:52] [PASSED] rust_kernel_doctest_build_assert_rs_12_0
+>     [16:55:52] [PASSED] rust_kernel_doctest_build_assert_rs_55_0
+>     ...
+>     [16:55:52] [PASSED] rust_kernel_doctest_types_rs_445_0
+>     [16:55:52] [PASSED] rust_kernel_doctest_types_rs_509_0
+>     [16:55:52] ============== [PASSED] rust_kernel_doctests ===============
+>     [16:55:52] ============================================================
+>     [16:55:52] Testing complete. Passed: 70, Failed: 0, Crashed: 0,
+>     Skipped: 0, Errors: 0
+>
 
+I've just sent out a pull request to get this working under UML as
+well, which would simplify running these further:
+https://github.com/Rust-for-Linux/linux/pull/766
 
-> On May 9, 2022, at 3:32 PM, Jonathan Corbet <corbet@lwn.net> wrote:
->=20
->> +It is convenient to instruct editors/IDEs to format while typing,
->> +when saving or at commit time. However, if for some reason =
-reformatting
->> +the entire kernel Rust sources is needed at some point, the =
-following can be
->> +run::
->> +
->> +	make LLVM=3D1 rustfmt
->=20
-> I will ask whether we want this, though. Why would anybody want to
-> mass-reformat the entire body of kernel code? This seems like =
-something
-> that would generate an endless stream of "helpful" patches and a lot =
-of
-> churn.
+> > That all being said, I can't say I'm thrilled with the test names
+> > here: none of them are particularly descriptive, and they'll probably
+> > not be static (which would make it difficult to track results /
+> > regressions / etc between kernel versions). Neither of those are
+>
+> Yeah, the names are not great and would change from time to time
+> across kernel versions.
+>
+> We could ask example writers to give each example a name, but that
+> would make them fairly less convenient. For instance, sometimes they
+> may be very small snippets interleaved with docs' prose (where giving
+> a name may feel a bit of a burden, and people may end writing
+> `foo_example1`, `foo_example2` etc. for each small "step" of an
+> explanation). In other cases they may be very long, testing a wide API
+> surface (e.g. when describing a module or type), where it is also hard
+> to give non-generic names like `rbtree_doctest`. In those kind of
+> cases, I think we would end up with not much better names than
+> automatically generated ones.
+>
+> The other aspect is that, given they are part of the documentation,
+> the prose or how things are explained/split may change, thus the
+> doctests as well. For instance, one may need to split a very long
+> `rbtree_doctest` in pieces, and then the name would need to change
+> anyway.
+>
+> So I think we should avoid asking documentation writers to add a
+> manual name, even if that means a bit ugly test names. Also this way
+> they are consistently named. What do you think?
 
-That would only happen if the code diverged from rustfmt=E2=80=99s =
-output in the
-first place. Generally, in Rust projects, the source tree is always kept
-formatted with rustfmt - so running `make LLVM=3D1 rustfmt` would only
-ever touch code that you=E2=80=99d just changed.=20
+Yeah, these are all fair points: particularly for small doctests.
 
-Gaelan=
+Maybe having an optional name, which more significant tests could use
+to override the file:line names? That could be useful for a few of the
+larger, more often referenced tests.
+
+> One idea could be giving them a name based on the hash of the content
+> and avoiding the line number, so that there is a higher chance for the
+> name to stay the same even when the file gets modified for other
+> reasons.
+
+Ugh: it's a bit ugly either way. I suspect that file:line is still
+probably better, if only because we need some way of looking up the
+test in the code if it fails. I'd hate for people to be randomly
+hashing bits of just to find out what test is failing.
+
+> > necessarily deal breakers, though it might make sense to hide them
+> > behind a kernel option (like all other KUnit tests) so that they can
+> > easily be excluded where they would otherwise clutter up results. (And
+>
+> Currently they are under `CONFIG_RUST_KERNEL_KUNIT_TEST` -- or do you
+> mean something else?
+>
+
+Oops: I missed that (one of the issues with testing this on a
+different machine which had a rust toolchain). Looks good to me.
+
+> > if there's a way to properly name them, or maybe even split them into
+> > per-file or per-module suites, that would make them a bit easier to
+> > deal.) Additionally, there are some plans to taint the kernel[1] when
+>
+> Yeah, splitting them further is definitely possible. We are also
+> likely splitting the `kernel` crate into several, which would also
+> make the suites smaller etc. so perhaps further splits may not be
+> needed.
+
+Ah: I didn't realise the plan was always to have crate-specific
+suites, and possibly to split things up.
+
+The KTAP output specification does actually support arbitrary nesting
+(though KUnit itself doesn't at the moment), which would potentially
+be an option if (e.g.) providing the complete module nesting made
+sense. I'm not convinced that'd make things easier to read, though.
+
+> > Regardless, this is very neat, and I'm looking forward to taking a
+> > closer look at it.
+>
+> Thanks again for taking a look and playing with it, I am glad you
+> liked it! (even if it is just a first approximation, and only supports
+> the `kernel` crate, etc.).
+>
+> Cheers,
+> Miguel
+
+Thanks,
+-- David
