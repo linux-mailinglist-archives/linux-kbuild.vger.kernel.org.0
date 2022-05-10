@@ -2,139 +2,116 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD1D95213ED
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 May 2022 13:36:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 735D05214A2
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 May 2022 14:00:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241093AbiEJLk3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 10 May 2022 07:40:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46858 "EHLO
+        id S241480AbiEJMCf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 10 May 2022 08:02:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241105AbiEJLkY (ORCPT
+        with ESMTP id S241453AbiEJMBz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 10 May 2022 07:40:24 -0400
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D63B18995A;
-        Tue, 10 May 2022 04:36:23 -0700 (PDT)
-Received: by mail-io1-xd35.google.com with SMTP id m6so18178837iob.4;
-        Tue, 10 May 2022 04:36:23 -0700 (PDT)
+        Tue, 10 May 2022 08:01:55 -0400
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E0212265FF;
+        Tue, 10 May 2022 04:57:53 -0700 (PDT)
+Received: by mail-io1-xd2c.google.com with SMTP id r27so18251486iot.1;
+        Tue, 10 May 2022 04:57:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=4EZpR3qbj2OiB8Rs7HNB/ykkYoIogT5opUzlrLNV8YI=;
-        b=VoJKpqMfxxTPHvVta4VrHB92nXtrqsdoFMCKO72GGQiiTNlssKn+AXRFv2R0zA/qJl
-         ctxf5yvCTzchX0hBX89nV/pbn8AMQXcZyobufzGfOBQSZx6nhMaYwA+R8ZttLsdM8Xl+
-         rpydufKYD/6bVeUkxjjhLcjOQR0qGg0c2UaMnbMITS+RV4LBbE8poluGb/ji6ozV4ggX
-         2ZOwstsWV1YYyBdttQncwLva3BWyKTcGbQP+6PrGtjhkepSKztq/WSV1uGa3OR1zPmHp
-         fWEbAq+8c6Bu4dtUV2ivF9jPrKCiNZQT0HzmRt0DR1EBUHs6Rmtmvgahn+B8mMcFvjaB
-         CbRg==
+        bh=Nya3smcu6m6BJ3o7w8h7OZ/4ZZg2D1j+6By65hBtg4E=;
+        b=VM/se0UDyiCCdJ4l8cbmpToryRKbD6kiPcp2LmQMrA21sF0s4m3DdEm4RpCOUNwV8I
+         zDeKt5ByRnZNdMNAWT/RDqJPysImrh09HXKZB4Y1tF9UkPcBja4pfU59CsRatHaZAreb
+         F/Jq6/QeHqdzqsxdCwWutFkbsN0RGLfVRpli/1UUeIoe7hos0YR/QDTDjC1kvXAZNXn0
+         3wXQP7jpGBQqFLavn0RI8llPOpbrwgtCUdf6ttw+nQaZHkjte6L2zsJ9KZ+jX0QK0G25
+         6JugcVh4hJcIfD8G7Exyof6Y7VhNfcygJvujMTKIynlQ/6VLsIKKGi5fHpxp2u9jcYG4
+         K9fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=4EZpR3qbj2OiB8Rs7HNB/ykkYoIogT5opUzlrLNV8YI=;
-        b=xAaRcOLEjXYF8ZIctQZuKRNbZn8skkklilc3NYRN/mlxAeVWmKan3DI33EaAwHnzLp
-         xfdWt8V1rO9cWRd6926JmVlmwkA/rm7H8oT+dYF0v/L5xyB+ucbFBsLFTcQhphWKmNqF
-         fCLm8vDKWmAw7bqIcqXlM9WhJ1NKtDz7Tc3PB8i2t2t1+pAmjSpKoXLPoDVXaSwRKvDe
-         0Y0EUSy47rpAzk+Oyup8Q8yE4oJp2xAdwbM9xeFPyY+01Kw/qQwy7uj/kK8SxOSnXvEz
-         6nfcYkgdOoo5YfSvi0qaYOFfjfcSqANtJcjaGRsk0lUf5YQ6wrXwoAuGquN1/r0MO921
-         GysQ==
-X-Gm-Message-State: AOAM531tgx6cHsW8QamPo789rckrvnVJ/9lCJkC8JO4wGImhriSqwyGR
-        S3WeMC5/YmkPtQ+9hgFu2+kR5Vn+TGHi29FKI+s=
-X-Google-Smtp-Source: ABdhPJxse48OZESZFthVDv8nUynrMkvM0JCiuRjG7/tN4zNaiseDCEGjt9o4QzkyV4Z20WHbORCpQublLG3V37jZ2Dg=
-X-Received: by 2002:a02:8624:0:b0:32b:397d:eeb1 with SMTP id
- e33-20020a028624000000b0032b397deeb1mr9940559jai.264.1652182582955; Tue, 10
- May 2022 04:36:22 -0700 (PDT)
+        bh=Nya3smcu6m6BJ3o7w8h7OZ/4ZZg2D1j+6By65hBtg4E=;
+        b=yyVPLhIM8bpQCBLZkgZHNsqbPWmCG2Hd+7KrSXDCvP3iSdjh0yDVdto7RMzwHO9ndU
+         it5S3/Lp2oc+Q8798V4J6r6WV4C8ZnmaOSzt89XG7+BfigRf+aTBHs6hJV8WhSjr1z9F
+         rRpvg9dbRxMEHxGt3LNu6MKvdOtm1olIPp9V5lDvIxpJTrpqBfJT4SRc6hyaoHc9fvvt
+         TK2IeCiqMKKe0Fgus304oLZs0b4ASkjsHLynfCxtfmeB8NELzSTCgQc+nrmbex/WRWLV
+         oSsvWilPai/mYH3rNIxq9mxgJaHT6UmCkuPhd+eufPZG0zqJh9Gicm1I6OIU4pkGySVq
+         0Icw==
+X-Gm-Message-State: AOAM5336AkptnplJ4u4ufU0Jhkko5iAi91X0qPDti13Pohmp1iqxRBbz
+        T9XE1zbFMCzBo93aSTUhy/GqYTVeqQBu2lsDBG0=
+X-Google-Smtp-Source: ABdhPJw+YkPy7lik4xxTFzDwdo471gN3AwACu2d05g47DAHxJcBzjqEDWZ1Vcu1N5BSpjD7Gb7k5QKIg2zNd9ask5DE=
+X-Received: by 2002:a02:c6af:0:b0:32a:f5f6:34bc with SMTP id
+ o15-20020a02c6af000000b0032af5f634bcmr9967949jan.186.1652183872250; Tue, 10
+ May 2022 04:57:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220507052451.12890-1-ojeda@kernel.org> <CABVgOSm5S2=QYnHJ+B0JbYtFYKBDRZiOhE5YMKKUKZU56d17HQ@mail.gmail.com>
- <CANiq72=0ft6+QLbdwWD6cLm4FhWfv53GSg6HKEwxQ-q2N-UkOw@mail.gmail.com> <CABVgOSkrvfvA7Ay4GC5wg64S1gibvm5_U5VGBog3sw4_UFo8Cg@mail.gmail.com>
-In-Reply-To: <CABVgOSkrvfvA7Ay4GC5wg64S1gibvm5_U5VGBog3sw4_UFo8Cg@mail.gmail.com>
+References: <20220507052451.12890-19-ojeda@kernel.org> <7e9c2e77-8b70-6e15-3f3d-905ab42b0fcd@gmail.com>
+ <CANiq72mBVo4+htxVjY0wB1Y3GO2PEUiZjZKRYT8ddwx84-hAtg@mail.gmail.com>
+ <92a7010c-5bb2-65df-edde-0ca88e035c2e@gmail.com> <8735hicoy7.fsf@meer.lwn.net>
+In-Reply-To: <8735hicoy7.fsf@meer.lwn.net>
 From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 10 May 2022 13:36:11 +0200
-Message-ID: <CANiq72mcvKDW6qO=1PzYR_U0tAwVLyCWFZjFVLL81znWDSYq7A@mail.gmail.com>
-Subject: Re: [PATCH v6 00/23] Rust support
-To:     David Gow <davidgow@google.com>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Date:   Tue, 10 May 2022 13:57:40 +0200
+Message-ID: <CANiq72mna9MKSgJYs19k=ieYu4v4TuemLdp1wkyhr9hqJ-tuAQ@mail.gmail.com>
+Subject: Re: [PATCH v6 18/23] docs: add Rust documentation
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Akira Yokosawa <akiyks@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Boris-Chengbiao Zhou <bobo1239@web.de>,
+        Wu XiangCheng <bobwxc@email.cn>, Daniel Xu <dxu@dxuuu.xyz>,
+        Gary Guo <gary@garyguo.net>,
+        Greg KH <gregkh@linuxfoundation.org>,
         Jarkko Sakkinen <jarkko@kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Yuki Okushi <jtitor@2k36.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-perf-users@vger.kernel.org,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        live-patching@vger.kernel.org
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Julian Merkle <me@jvmerkle.de>, Finn Behrens <me@kloenk.de>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Wei Liu <wei.liu@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi David,
-
-On Tue, May 10, 2022 at 6:45 AM David Gow <davidgow@google.com> wrote:
+On Tue, May 10, 2022 at 12:37 AM Jonathan Corbet <corbet@lwn.net> wrote:
 >
-> I've just sent out a pull request to get this working under UML as
-> well, which would simplify running these further:
-> https://github.com/Rust-for-Linux/linux/pull/766
+> Yeah, but the issues are all with me :)  Please accept my apologies for
+> letting it slip through the cracks.
 
-Thanks a lot!
+No apologies needed! It is not an important patch -- I just thought it
+would be better to have the "base logo" merged before the "derived
+one".
 
-> Yeah, these are all fair points: particularly for small doctests.
->
-> Maybe having an optional name, which more significant tests could use
-> to override the file:line names? That could be useful for a few of the
-> larger, more often referenced tests.
+> Looking at it now, though, I hesitate to add the logo (and another
+> COPYING file) in the top-level Documentation directory - I'd really
+> rather people not have to pick through a bunch of unrelated stuff to
+> find the actual docs they want.  I'd recommend we make a
+> Documentation/images (or .../assets or whatever) and put things like
+> logos there.
 
-Sounds reasonable. I can add support for that.
+Yeah, makes sense to avoid dumping things in the top-level directory.
 
-> Ugh: it's a bit ugly either way. I suspect that file:line is still
-> probably better, if only because we need some way of looking up the
-> test in the code if it fails. I'd hate for people to be randomly
-> hashing bits of just to find out what test is failing.
+> Disagree?  If not, could I get a version of the patch that does that?  I
+> promise not to set on it for three months this time...
 
-One redeeming quality is that the assertion prints the line/file
-number in the generated file, so it would still be possible to check
-where it came from:
++1, I will send it.
 
-    [13:13:43] # rust_kernel_doctest_str_rs_somehash: ASSERTION FAILED
-at rust/doctests_kernel_generated.rs:2209
-    [13:13:43] Expected 2 > 3 to be true, but is false
-    [13:13:43] not ok 43 - rust_kernel_doctest_str_rs_somehash
-    [13:13:43] [FAILED] rust_kernel_doctest_str_rs_somehash
-
-Another alternative is to keep the file:line information around
-without embedding it into the test name, e.g. in a TAP comment or a
-mapping file (which `kunit.py` could read).
-
-But, yeah, before doing hashes or things like that, I would just go
-for simplicity and keep things as they are unless some use case really
-needs doctests to be stable.
-
-> Oops: I missed that (one of the issues with testing this on a
-> different machine which had a rust toolchain). Looks good to me.
->
-> Ah: I didn't realise the plan was always to have crate-specific
-> suites, and possibly to split things up.
->
-> The KTAP output specification does actually support arbitrary nesting
-> (though KUnit itself doesn't at the moment), which would potentially
-> be an option if (e.g.) providing the complete module nesting made
-> sense. I'm not convinced that'd make things easier to read, though.
-
-That is useful to know in case we need it, thanks!
+Thanks Jon!
 
 Cheers,
 Miguel
