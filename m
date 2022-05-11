@@ -2,112 +2,121 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BB7D523AD8
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 May 2022 18:51:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CE24523CD6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 May 2022 20:48:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345098AbiEKQvQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 11 May 2022 12:51:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45966 "EHLO
+        id S1345025AbiEKSsM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 11 May 2022 14:48:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345101AbiEKQuh (ORCPT
+        with ESMTP id S1346479AbiEKSsL (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 11 May 2022 12:50:37 -0400
-Received: from conuserg-08.nifty.com (conuserg-08.nifty.com [210.131.2.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FB56980B0;
-        Wed, 11 May 2022 09:50:04 -0700 (PDT)
-Received: from grover.jp (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
-        by conuserg-08.nifty.com with ESMTP id 24BGlWc7031975;
-        Thu, 12 May 2022 01:47:44 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 24BGlWc7031975
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1652287665;
-        bh=lwhcZwty1WSqzMwcqIa4FpY71JgLgetW2nQZRkklH+o=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Vbl4SEiYvvF37f1IoBEjasxAsVDVSQV8iEM8Mi1h0FEwr6nbrD3P3UYOZTcXB+dwW
-         P4z9VJ4VCWJvC1cJ1pmve8jsN9WLx+eVX79Xl6TrT24LXAougV9Awt53/UrOSkZd43
-         X5EErlnVqv3GL29CA/j+CRK/e3buKnMpnmqT6knIllg7DKJ7KcmM/wga5P7pkHiye6
-         7Ntd8KWojBuvIyoY6awGSQNZfD7l35B6l5NF8xgdOhRDKMrTfKY1D5UlWG6fqVCJ0C
-         yVqCAChqiTv/BoII/V6PNLSr8f0DT6kA6jxx/hAq260ykEre9DLp5hGZYDAkUG3GK/
-         a6HnJhQ6XrVqA==
-X-Nifty-SrcIP: [133.32.177.133]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
+        Wed, 11 May 2022 14:48:11 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 816361AB808
+        for <linux-kbuild@vger.kernel.org>; Wed, 11 May 2022 11:48:09 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id bq30so5155526lfb.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 11 May 2022 11:48:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LjOBAquXwgrrgXm8VNOmvziGW6n+WunCBS4qV3JJbEM=;
+        b=cA8UQtFoVUliUtfWSv912J6B0ub0HcxW8gmIXite+joZhlMbpeCS+bUAZWYfMzZ8Xa
+         G/fJOfLTcngtIL8G90CQr+73lLbCL1AHxsh2R+qmJrgmJRTCuyNKXj7cliEo28pPuXQj
+         6w3VaEUFPmnSDKtF91NPiV/sgjc8ZRv71y4uYb9hxeHwZUr5je/pDiqFgm2aSZ7bIISf
+         /1UJjBBsIPYSlsXi1kwAQ99jbSUPR+9P2r7SaKBX1wGFQEJXaWfpYonbpRKCQDD6CxUK
+         Dp+b87CVNCLP2zVCceaShTI1HSRNKEIjVASMSKh/ElRg8CR6aP+J3pZQ1S3J5UZUSIaH
+         1EZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LjOBAquXwgrrgXm8VNOmvziGW6n+WunCBS4qV3JJbEM=;
+        b=PU5Tevkwo6RHC84MvAVOx2gHjipbBIWqNEIfI7QywTIETEoLsv2q4pNUrkeeBpbNA2
+         +a9Z9WF/0VDzpH5pwwNwcQQ6qKR0q/2ubCh4VF/taCqwmlfzwF8as0qAW/KK+VksL9bE
+         ozMY0fOIZrP41QpnIedrL7jqaQHnnwgS3TJq5kTzj0QJSfL+MXUfQJQ4XtaI1sIERkK5
+         0YaIW3VWjt30ilKqP8sWANAOSgMPW92tH2ExhvBPpsh843wTO34tU9TnVBfXQ7oBOkQO
+         MDPOMRaHdG5mMrUVer9gwLLlnBxJR8v3wIVsN90qqMngMQzwyURRUxflfpjWIwd6xLkV
+         exhQ==
+X-Gm-Message-State: AOAM533aD//yfJ0deCJXDuMLFBy6xl/gSLW9WTnmT9ktaCpXPxK4rEtl
+        XDITj9QfQ16ZksGanmGCevpAzv5rjqNHgPPS184tsw==
+X-Google-Smtp-Source: ABdhPJwORYNYs+f4SpR17x+QtOIu9Uo6dxlRowGZd30bvV7AXP2VnNh+RNLxsgttKR9yFrJ+aoveRa6JaxEnp5h+sgs=
+X-Received: by 2002:a05:6512:1d1:b0:471:f63a:b182 with SMTP id
+ f17-20020a05651201d100b00471f63ab182mr20624164lfp.392.1652294887500; Wed, 11
+ May 2022 11:48:07 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220508190631.2386038-1-masahiroy@kernel.org>
+ <20220508190631.2386038-4-masahiroy@kernel.org> <CAKwvOd=LR=UNOeWJDmM-McJ=FrCWTo8w1ox+KGMQCwCVpiUyFg@mail.gmail.com>
+ <CAK7LNARGNEDzPPUsPjDXsXUUUPSFK2erQRuyPocR_v5hTYRihg@mail.gmail.com>
+In-Reply-To: <CAK7LNARGNEDzPPUsPjDXsXUUUPSFK2erQRuyPocR_v5hTYRihg@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 11 May 2022 11:47:56 -0700
+Message-ID: <CAKwvOdmK4oH0t8Q6F19sWKX1fT=AgS=kfvn05FT01HffLJwgMQ@mail.gmail.com>
+Subject: Re: [PATCH v4 03/14] modpost: split the section mismatch checks into section-check.c
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
         Peter Zijlstra <peterz@infradead.org>,
-        linux-modules@vger.kernel.org, llvm@lists.linux.dev,
+        linux-modules <linux-modules@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
         Ard Biesheuvel <ardb@kernel.org>,
         Sami Tolvanen <samitolvanen@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>
-Subject: [PATCH v5 12/12] kbuild: rebuild multi-object modules when objtool is updated
-Date:   Thu, 12 May 2022 01:45:14 +0900
-Message-Id: <20220511164514.2741934-13-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220511164514.2741934-1-masahiroy@kernel.org>
-References: <20220511164514.2741934-1-masahiroy@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+        clang-built-linux <llvm@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-When CONFIG_LTO_CLANG or CONFIG_X86_KERNEL_IBT is enabled, objtool for
-multi-object modules is postponed until the objects are linked together.
+On Mon, May 9, 2022 at 11:57 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> > > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> > > index a78b75f0eeb0..e7e2c70a98f5 100644
+> > > --- a/scripts/mod/modpost.c
+> > > +++ b/scripts/mod/modpost.c
+> > > @@ -31,7 +31,7 @@ static bool external_module;
+> > >  /* Only warn about unresolved symbols */
+> > >  static bool warn_unresolved;
+> > >
+> > > -static int sec_mismatch_count;
+> > > +int sec_mismatch_count;
+> >
+> > ^ this should go in modpost.h if it is to be used in two translation
+> > units, rather than forward declaring it in section-check.c.  You did
+> > this for the functions.
+>
+>
+> Sorry, I do not understand.
+>
+>
+> In modpost.h, I put the declaration:
+>
+>   extern int sec_mismatch_count;
+>
+> If I moved it to the header without 'extern'
+> I would get multiple definitions.
 
-Make sure to re-run objtool and re-link multi-object modules when
-objtool is updated.
+Yeah, you need to _declare_ it w/ extern in the header, then _define_
+it in one source file.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Acked-by: Josh Poimboeuf <jpoimboe@redhat.com>
----
+That way, if the type ever changes, the sources will agree on type in
+all source files. You will get a redefinition error if the definition
+changes the type of the variable since the last declaration.
 
-(no changes since v4)
-
-Changes in v4:
-  - New
-    Resent of my previous submission
-    https://lore.kernel.org/linux-kbuild/20210831074004.3195284-11-masahiroy@kernel.org/
-
- scripts/Makefile.build | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index f546b5f1f33f..4e6902e099e8 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -404,13 +404,18 @@ $(obj)/modules.order: $(obj-m) FORCE
- $(obj)/lib.a: $(lib-y) FORCE
- 	$(call if_changed,ar)
- 
--quiet_cmd_link_multi-m = LD [M]  $@
--      cmd_link_multi-m = $(LD) $(ld_flags) -r -o $@ @$(patsubst %.o,%.mod,$@) $(cmd_objtool)
-+quiet_cmd_ld_multi_m = LD [M]  $@
-+      cmd_ld_multi_m = $(LD) $(ld_flags) -r -o $@ @$(patsubst %.o,%.mod,$@) $(cmd_objtool)
-+
-+define rule_ld_multi_m
-+	$(call cmd_and_savecmd,ld_multi_m)
-+	$(call cmd,gen_objtooldep)
-+endef
- 
- $(multi-obj-m): objtool-enabled := $(delay-objtool)
- $(multi-obj-m): part-of-module := y
- $(multi-obj-m): %.o: %.mod FORCE
--	$(call if_changed,link_multi-m)
-+	$(call if_changed_rule,ld_multi_m)
- $(call multi_depend, $(multi-obj-m), .o, -objs -y -m)
- 
- targets := $(filter-out $(PHONY), $(targets))
+What you're doing is forward declaring, which works, and is a common
+pattern for (bloated) C++, but is less type safe than sharing a single
+common declaration between multiple source files via a single common
+shared header. (Sorry I didn't respond before you sent v5)
 -- 
-2.32.0
-
+Thanks,
+~Nick Desaulniers
