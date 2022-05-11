@@ -2,138 +2,132 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 81BB45234A8
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 May 2022 15:50:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BEE34523AB4
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 May 2022 18:49:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244118AbiEKNuG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 11 May 2022 09:50:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45924 "EHLO
+        id S1345025AbiEKQtq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 11 May 2022 12:49:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244138AbiEKNuF (ORCPT
+        with ESMTP id S1345023AbiEKQtp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 11 May 2022 09:50:05 -0400
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A2B6239782;
-        Wed, 11 May 2022 06:50:03 -0700 (PDT)
-Received: by mail-io1-xd32.google.com with SMTP id s23so2072854iog.13;
-        Wed, 11 May 2022 06:50:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PPfAjhXsI/sCAXElGiIAWLNhfWDNEi+ZtaHTtSxHBEQ=;
-        b=aGnZg3AT2GqkRlrytHTaN/NZj7se3UweBltQbTucUz8qfefhYRjX8D58C1r2q954R4
-         6DJFBBvHMc/JilfjHyQ5aqY01UN/ab0jVIyzAY5dvdvZIeqaRUit6kQHk967vXUAo93I
-         pB8FjpEP39N8d0YPKBUtmkAzGQERpADWAWEHzgZkXpmv8coKTSst29t7IYGwSgZONziv
-         oI4+fIjhM3bVr2+UA+VQvZRxk3miTrNxlZjLwaex+qmsOl01vetgxC5dI5YMOWpvQjc3
-         XxgpabVXskv3rcn9yXJv3653A48xMi9ZFSBhEqXtI3PP5+XcVG1qaW97tIAzZBRusZCS
-         SidQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PPfAjhXsI/sCAXElGiIAWLNhfWDNEi+ZtaHTtSxHBEQ=;
-        b=Nb95y87xAS8rQvsrczlKK9ref94YMGImjeT860oZAusxTWJZCeC/7LKrvIBdnRAgku
-         +OBgPVBg8X189lH5+5WI1cKzBXyE+TBQPAoUOhCDSXsQmNcCs9zf7tIJe/5mORktkyVy
-         9ZDSIEgk5bqc7XZVIrl7bK151Wvq5L0h+98iMgpZ9uBaltOKmZYvlHenrH048G0193TM
-         qK9r4QsWMcjLxLcHQjA/SCxvNuLzScZFO1IkEQ+NCCqzuHXt2J1w6K/Cy+mSoroajxWm
-         QqWsgVzmAulJ73LVaH8X2ow6QgVi0VxzJr3doOEfE+k7pX4Z+e3svLSAOhAAABcMmuaV
-         97DA==
-X-Gm-Message-State: AOAM5302gSaDbJjhrWq6yyXyegCrGL26Wa3fQxMRaJ6n/sWw05ltk8w3
-        1zL5kd3TsWfGU0aTrFBe1M3c5JdzwmSEicY6Fio=
-X-Google-Smtp-Source: ABdhPJzjJIGp9s2bo97C4Z9816iV19iujbsRA1+GTtjaKDQ3YsQlDo9tdjEGYQ/NX+clvDAPgUUNuHpBQl2DPlIGM9A=
-X-Received: by 2002:a02:8624:0:b0:32b:397d:eeb1 with SMTP id
- e33-20020a028624000000b0032b397deeb1mr12780202jai.264.1652277001693; Wed, 11
- May 2022 06:50:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220507052451.12890-1-ojeda@kernel.org> <20220507052451.12890-19-ojeda@kernel.org>
- <875ymecp6f.fsf@meer.lwn.net>
-In-Reply-To: <875ymecp6f.fsf@meer.lwn.net>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Wed, 11 May 2022 15:49:50 +0200
-Message-ID: <CANiq72mpYjdhq6yZFBmy8zEo7Cjhh-WjOFc4TfKMZh+w4Fu5WA@mail.gmail.com>
-Subject: Re: [PATCH v6 18/23] docs: add Rust documentation
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Sven Van Asbroeck <thesven73@gmail.com>,
-        Wu XiangCheng <bobwxc@email.cn>, Gary Guo <gary@garyguo.net>,
-        Boris-Chengbiao Zhou <bobo1239@web.de>,
-        Yuki Okushi <jtitor@2k36.org>, Wei Liu <wei.liu@kernel.org>,
-        Daniel Xu <dxu@dxuuu.xyz>, Julian Merkle <me@jvmerkle.de>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
+        Wed, 11 May 2022 12:49:45 -0400
+Received: from conuserg-08.nifty.com (conuserg-08.nifty.com [210.131.2.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3F6993982;
+        Wed, 11 May 2022 09:49:41 -0700 (PDT)
+Received: from grover.jp (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
+        by conuserg-08.nifty.com with ESMTP id 24BGlWbt031975;
+        Thu, 12 May 2022 01:47:33 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 24BGlWbt031975
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1652287653;
+        bh=lrObdII52qYaJ8/FrDvrISgaVLdCtE8oZBm6XPqiaSk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=HvtaKjwQOeSVYjh0ysolTKw0r7pYVYcERlcwdZpQLSOyb2htJarI4X6oEKYJW2JkY
+         tUbRVR91L2AF0dD1Rm2Vk0RX7YF7XqkSYZ3t1F7qvDTKnUgrepZMO5x7s6v92Y8eZ8
+         mD9InCNq+6Jxrb8ndZ0bQw05WvtYTPDYOT1UkYxyjwSGbXXDAj5fTVBUD+Xqcx4S7y
+         KKqMgXogOY3dTzJKqvR5i2XOEelm82Cnagl86UAClKILMUQ4PFtcdOa/yuLTeUv18Z
+         MfUEG6YvFOLsG9Wq1OxvL3Wia1Nn2LvlUkFG2cpMeRwfzP8jd0LY0ZWJHKQO1RCJOd
+         Bz2xXMR/ivgfw==
+X-Nifty-SrcIP: [133.32.177.133]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-modules@vger.kernel.org, llvm@lists.linux.dev,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH v5 00/12] kbuild: yet another series of cleanups (modpost, LTO, MODULE_REL_CRCS, export.h)
+Date:   Thu, 12 May 2022 01:45:02 +0900
+Message-Id: <20220511164514.2741934-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, May 10, 2022 at 12:32 AM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> Trying to take a closer look this time...
->
-> I foresee merge conflicts, but so it goes.  Trying to split this apart
-> would not make a lot of sense.
 
-Is there a big change coming to docs? (there are not conflicts in
-linux-next within the docs). Or what do you mean?
+This is the third batch of cleanups in this development cycle.
 
-> Please use normal tables rather than list-table; this kind of thing is
-> really unreadable in the source form.
+Major changes in v5:
+ - Fix build errors
+ - More cleanups
 
-Will do!
+Major changes in v4:
+ - Move static EXPORT_SYMBOL check to a script
+ - Some refactoring
 
-> I foresee disagreements over coding style conventions in the
-> future... I don't plan to be part of that conversation :)
+Major changes in v3:
 
-Do you mean with the tool settings? I guess we may get some proposals
-about tweaking them, yeah, but one reason to stick to the defaults is
-to avoid that! :)
+ - Generate symbol CRCs as C code, and remove CONFIG_MODULE_REL_CRCS.
 
-If you mean enforcing `rustfmt`, please see below.
+Major changes in v2:
 
-> I will ask whether we want this, though.  Why would anybody want to
-> mass-reformat the entire body of kernel code?  This seems like something
-> that would generate an endless stream of "helpful" patches and a lot of
-> churn.
+ - V1 did not work with CONFIG_MODULE_REL_CRCS.
+   I fixed this for v2.
 
-So the idea is that, since everything is already formatted, the output
-of this is empty (in mainline), like Gaelan/Josh mentioned. Thus
-nobody should be sending any formatting patches since there is nothing
-to change.
+ - Reflect some review comments in v1
 
-Now, for those developing and not running `rustfmt` automatically in
-some way (e.g. in their editors), it can be useful to run it before
-submitting the patches: the output should only show changes to
-whatever you changed since everything else should be already
-formatted.
+ - Refactor the code more
 
-Of course, as soon as others start submitting patches independently,
-mistakes may slip through, but we are enforcing this in our CI (and it
-could be done more centrally), so we should notice quickly.
+ - Avoid too long argument error
 
-There could be, of course, bugs in the tool; and there are a few
-situations where the tool may not guarantee formatting stability, but
-hopefully those are rare and small enough so that we can keep
-enforcing this. I think it is worth trying.
 
-Cheers,
-Miguel
+
+Masahiro Yamada (12):
+  modpost: split the section mismatch checks into section-check.c
+  modpost: add sym_find_with_module() helper
+  modpost: extract symbol versions from *.cmd files
+  kbuild: link symbol CRCs at final link, removing
+    CONFIG_MODULE_REL_CRCS
+  kbuild: stop merging *.symversions
+  genksyms: adjust the output format to modpost
+  kbuild: do not create *.prelink.o for Clang LTO or IBT
+  kbuild: check static EXPORT_SYMBOL* by script instead of modpost
+  kbuild: make built-in.a rule robust against too long argument error
+  kbuild: make *.mod rule robust against too long argument error
+  kbuild: add cmd_and_savecmd macro
+  kbuild: rebuild multi-object modules when objtool is updated
+
+ arch/m68k/include/asm/Kbuild    |    1 +
+ arch/m68k/include/asm/export.h  |    2 -
+ arch/powerpc/Kconfig            |    1 -
+ arch/s390/Kconfig               |    1 -
+ arch/um/Kconfig                 |    1 -
+ include/asm-generic/export.h    |   22 +-
+ include/linux/export-internal.h |   16 +
+ include/linux/export.h          |   30 +-
+ init/Kconfig                    |    4 -
+ kernel/module.c                 |   10 +-
+ scripts/Kbuild.include          |   10 +-
+ scripts/Makefile.build          |  134 +--
+ scripts/Makefile.lib            |    7 -
+ scripts/Makefile.modfinal       |    5 +-
+ scripts/Makefile.modpost        |    9 +-
+ scripts/check-local-export      |   64 ++
+ scripts/genksyms/genksyms.c     |   18 +-
+ scripts/link-vmlinux.sh         |   33 +-
+ scripts/mod/Makefile            |    4 +-
+ scripts/mod/modpost.c           | 1395 +++----------------------------
+ scripts/mod/modpost.h           |   34 +-
+ scripts/mod/section-check.c     | 1222 +++++++++++++++++++++++++++
+ 22 files changed, 1541 insertions(+), 1482 deletions(-)
+ delete mode 100644 arch/m68k/include/asm/export.h
+ create mode 100644 include/linux/export-internal.h
+ create mode 100755 scripts/check-local-export
+ create mode 100644 scripts/mod/section-check.c
+
+-- 
+2.32.0
+
