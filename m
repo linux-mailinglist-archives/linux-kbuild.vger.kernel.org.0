@@ -2,59 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9967752437F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 May 2022 05:36:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD8D2524455
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 May 2022 06:37:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343817AbiELDgf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 11 May 2022 23:36:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57332 "EHLO
+        id S1344323AbiELEhY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 12 May 2022 00:37:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343808AbiELDge (ORCPT
+        with ESMTP id S233429AbiELEhX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 11 May 2022 23:36:34 -0400
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A871193F4;
-        Wed, 11 May 2022 20:36:29 -0700 (PDT)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 24C3aGkF002223;
-        Thu, 12 May 2022 12:36:16 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 24C3aGkF002223
+        Thu, 12 May 2022 00:37:23 -0400
+Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0861126135;
+        Wed, 11 May 2022 21:37:21 -0700 (PDT)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 24C4b545004064;
+        Thu, 12 May 2022 13:37:06 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 24C4b545004064
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1652326576;
-        bh=VfPskzDmMntcl9mOqDJFkJyKAm5vxKV4Z3wLx5ippe8=;
+        s=dec2015msa; t=1652330226;
+        bh=tkmfQXshct+rM5sNv86ojAR4iOGgSUB8H7eo3J48fKg=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=wczmTP5mRu9Q317XJvLADN30/rapQ66Vfla6MIyrp18RHxIaKFeAT4+xr4zeIISQq
-         oGFMJr+2+heyZtd3YgKLMEbPMOBkiN6nQptq+2B3WvQQdXRhulos+pFiuVp2N5HV0E
-         R/sGhpELffEpxbJfvkejvFoaD/raChJoWGo0ojHfZai5Tsx0alQMNhUZCLI9vkuxhk
-         bydVjwohwSrac2NzoG9lrJDJvopGWUxlLRNkQXkvddB2aMgya3T0WlRKIWXa4wDEI7
-         HZLJQi923Fv3P0XSIH3QQXAQURvpmPmIcLeK26RbFEIANAizUGnltOaGFZMtREQYCV
-         tvc17ZeCQB7zw==
-X-Nifty-SrcIP: [209.85.215.172]
-Received: by mail-pg1-f172.google.com with SMTP id l11so3438485pgt.13;
-        Wed, 11 May 2022 20:36:16 -0700 (PDT)
-X-Gm-Message-State: AOAM530ISyFLKiEC4x4j6zxlON80FgQvaIoNg56GGSx1q+KP084kHdRJ
-        69Vyscq3u/hIYCqdtq7u0jqNx+QutkNtKehwf18=
-X-Google-Smtp-Source: ABdhPJwUO93A4rM+aSh1Xly4NyDaW5KDkFVzu77d9cJuQFpEQOKPBQtyfzCWZaOT5taGjU3JP75XcJ9pj9AegKGofJA=
-X-Received: by 2002:a63:6989:0:b0:3c2:3c19:d661 with SMTP id
- e131-20020a636989000000b003c23c19d661mr23420542pgc.352.1652326575675; Wed, 11
- May 2022 20:36:15 -0700 (PDT)
+        b=UDf+KO+3kbwc37QIFSTV9bWAie+41gj2MeWrvLn98PFJeT68eleeY1AM7wSMxRyjU
+         pPRvHVuTnkFix5D9kRIO45SdX/nvQQK1u5W7hb+YlXwaIc0eeRvA9RwDQSylp1+Rw0
+         tSiITqUwWvLrx8H7s02aElsbROkTZEgun44WETgkYURxTeWPvY7S+12mOG+cdcCD7G
+         q5xMLcI5JElKBcX3fWFRmxP+H0bOsKaLY1zOYZ3TWa6HI+pXOIz+m8XJYQLmoHFdl1
+         lqNwhC1lG914gG/BmaAp50Ceg3Mk0V74KjqxzZzakr8LRAdYV/3YtH2W2wFjIN4Xeu
+         pZDKO9J8l2e7Q==
+X-Nifty-SrcIP: [209.85.216.51]
+Received: by mail-pj1-f51.google.com with SMTP id l20-20020a17090a409400b001dd2a9d555bso3865616pjg.0;
+        Wed, 11 May 2022 21:37:06 -0700 (PDT)
+X-Gm-Message-State: AOAM5316uxQIGld6VZmgJkqr2jA820EYKMY4fmV4O6TMMr7NeQ4ohFYR
+        zgqVBTtSfXRFdYWZfQNFiHgzG2oU6HOm/VNVMs4=
+X-Google-Smtp-Source: ABdhPJzNzRosrbp98/vX8YbqZjlsEylacSahmJ3sX4Wd7I5BkGLdD5OHiq8O2NX6qWNfI9oi2eO8MzjRgcclDO8j9pE=
+X-Received: by 2002:a17:902:7891:b0:15e:cae9:7620 with SMTP id
+ q17-20020a170902789100b0015ecae97620mr28744958pll.136.1652330225331; Wed, 11
+ May 2022 21:37:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220511164514.2741934-1-masahiroy@kernel.org>
- <20220511164514.2741934-2-masahiroy@kernel.org> <CAKwvOdkMqyssbZ9imYM8Re+NL4U1K2tYj37_1XUtmjj8LSt5GQ@mail.gmail.com>
-In-Reply-To: <CAKwvOdkMqyssbZ9imYM8Re+NL4U1K2tYj37_1XUtmjj8LSt5GQ@mail.gmail.com>
+References: <20220508190631.2386038-1-masahiroy@kernel.org> <20220508190631.2386038-2-masahiroy@kernel.org>
+In-Reply-To: <20220508190631.2386038-2-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 12 May 2022 12:35:03 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASToQxJsySjvpdkr_aHKBh1ZrECwswWpgCezDHcpRHVgQ@mail.gmail.com>
-Message-ID: <CAK7LNASToQxJsySjvpdkr_aHKBh1ZrECwswWpgCezDHcpRHVgQ@mail.gmail.com>
-Subject: Re: [PATCH v5 01/12] modpost: split the section mismatch checks into section-check.c
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Date:   Thu, 12 May 2022 13:35:52 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT3+rZTzt1Ed-V_pjA8wEFEVj7Uxo8PTtEhdyzFcqqM+g@mail.gmail.com>
+Message-ID: <CAK7LNAT3+rZTzt1Ed-V_pjA8wEFEVj7Uxo8PTtEhdyzFcqqM+g@mail.gmail.com>
+Subject: Re: [PATCH v4 01/14] modpost: remove left-over cross_compile declaration
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
         Peter Zijlstra <peterz@infradead.org>,
         linux-modules <linux-modules@vger.kernel.org>,
-        clang-built-linux <llvm@lists.linux.dev>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
         Ard Biesheuvel <ardb@kernel.org>,
         Sami Tolvanen <samitolvanen@google.com>
 Content-Type: text/plain; charset="UTF-8"
@@ -67,121 +68,46 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, May 12, 2022 at 7:31 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On Mon, May 9, 2022 at 4:09 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> On Wed, May 11, 2022 at 9:49 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > -/* sections that we do not want to do full section mismatch check on */
-> > -static const char *const section_white_list[] =
-> > -{
-> > -       ".comment*",
-> > -       ".debug*",
-> > -       ".cranges",             /* sh64 */
-> > -       ".zdebug*",             /* Compressed debug sections. */
-> > -       ".GCC.command.line",    /* record-gcc-switches */
-> > -       ".mdebug*",        /* alpha, score, mips etc. */
-> > -       ".pdr",            /* alpha, score, mips etc. */
-> > -       ".stab*",
-> > -       ".note*",
-> > -       ".got*",
-> > -       ".toc*",
-> > -       ".xt.prop",                              /* xtensa */
-> > -       ".xt.lit",         /* xtensa */
-> > -       ".arcextmap*",                  /* arc */
-> > -       ".gnu.linkonce.arcext*",        /* arc : modules */
-> > -       ".cmem*",                       /* EZchip */
-> > -       ".fmt_slot*",                   /* EZchip */
-> > -       ".gnu.lto*",
-> > -       ".discard.*",
-> > -       NULL
-> > -};
+> This is a remnant of commit 6543becf26ff ("mod/file2alias: make
+> modalias generation safe for cross compiling").
 >
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+
+Applied to linux-kbuild.
+
+
 >
-> > -/**
-> > - * Whitelist to allow certain references to pass with no warning.
-> > - *
-> > - * Pattern 1:
-> > - *   If a module parameter is declared __initdata and permissions=0
-> > - *   then this is legal despite the warning generated.
-> > - *   We cannot see value of permissions here, so just ignore
-> > - *   this pattern.
-> > - *   The pattern is identified by:
-> > - *   tosec   = .init.data
-> > - *   fromsec = .data*
-> > - *   atsym   =__param*
-> > - *
-> > - * Pattern 1a:
-> > - *   module_param_call() ops can refer to __init set function if permissions=0
-> > - *   The pattern is identified by:
-> > - *   tosec   = .init.text
-> > - *   fromsec = .data*
-> > - *   atsym   = __param_ops_*
-> > - *
-> > - * Pattern 2:
-> > - *   Many drivers utilise a *driver container with references to
-> > - *   add, remove, probe functions etc.
-> > - *   the pattern is identified by:
-> > - *   tosec   = init or exit section
-> > - *   fromsec = data section
-> > - *   atsym = *driver, *_template, *_sht, *_ops, *_probe,
-> > - *           *probe_one, *_console, *_timer
-> > - *
-> > - * Pattern 3:
-> > - *   Whitelist all references from .head.text to any init section
-> > - *
-> > - * Pattern 4:
-> > - *   Some symbols belong to init section but still it is ok to reference
-> > - *   these from non-init sections as these symbols don't have any memory
-> > - *   allocated for them and symbol address and value are same. So even
-> > - *   if init section is freed, its ok to reference those symbols.
-> > - *   For ex. symbols marking the init section boundaries.
-> > - *   This pattern is identified by
-> > - *   refsymname = __init_begin, _sinittext, _einittext
-> > - *
-> > - * Pattern 5:
-> > - *   GCC may optimize static inlines when fed constant arg(s) resulting
-> > - *   in functions like cpumask_empty() -- generating an associated symbol
-> > - *   cpumask_empty.constprop.3 that appears in the audit.  If the const that
-> > - *   is passed in comes from __init, like say nmi_ipi_mask, we get a
-> > - *   meaningless section warning.  May need to add isra symbols too...
-> > - *   This pattern is identified by
-> > - *   tosec   = init section
-> > - *   fromsec = text section
-> > - *   refsymname = *.constprop.*
-> > - *
-> > - * Pattern 6:
-> > - *   Hide section mismatch warnings for ELF local symbols.  The goal
-> > - *   is to eliminate false positive modpost warnings caused by
-> > - *   compiler-generated ELF local symbol names such as ".LANCHOR1".
-> > - *   Autogenerated symbol names bypass modpost's "Pattern 2"
-> > - *   whitelisting, which relies on pattern-matching against symbol
-> > - *   names to work.  (One situation where gcc can autogenerate ELF
-> > - *   local symbols is when "-fsection-anchors" is used.)
-> > - **/
+> Changes in v4:
+>   - New patch
 >
-> Losing the ability to git blame (from the top level) the above lines
-> does cause me grief and mental anguish though. It's not gone, just
-> buried a bit deeper.
-
-
-According to 'man git-blame', -C option is needed
-to follow the code move between files.
-
-git blame -C  scripts/mod/section-check.c
-
-showed me the origin commit of each line.
-
-
-
-
-
+>  scripts/mod/modpost.h | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+> index cfa127d2bb8f..d9daeff07b83 100644
+> --- a/scripts/mod/modpost.h
+> +++ b/scripts/mod/modpost.h
+> @@ -174,7 +174,6 @@ static inline unsigned int get_secindex(const struct elf_info *info,
+>  }
+>
+>  /* file2alias.c */
+> -extern unsigned int cross_build;
+>  void handle_moddevtable(struct module *mod, struct elf_info *info,
+>                         Elf_Sym *sym, const char *symname);
+>  void add_moddevtable(struct buffer *buf, struct module *mod);
 > --
-> Thanks,
-> ~Nick Desaulniers
+> 2.32.0
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20220508190631.2386038-2-masahiroy%40kernel.org.
 
 
 
---
+-- 
 Best Regards
 Masahiro Yamada
