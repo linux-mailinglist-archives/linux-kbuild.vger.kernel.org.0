@@ -2,56 +2,64 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0445552611D
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 May 2022 13:40:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9A1E5261B9
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 May 2022 14:22:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356708AbiEMLku (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 13 May 2022 07:40:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33692 "EHLO
+        id S1380193AbiEMMW1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 13 May 2022 08:22:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379933AbiEMLkt (ORCPT
+        with ESMTP id S1379717AbiEMMW1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 13 May 2022 07:40:49 -0400
-Received: from mail.avm.de (mail.avm.de [IPv6:2001:bf0:244:244::120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E49C813E33;
-        Fri, 13 May 2022 04:40:45 -0700 (PDT)
-Received: from mail-auth.avm.de (unknown [IPv6:2001:bf0:244:244::71])
-        by mail.avm.de (Postfix) with ESMTPS;
-        Fri, 13 May 2022 13:40:42 +0200 (CEST)
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-        by mail-auth.avm.de (Postfix) with ESMTPA id C6DCD81DE2;
-        Fri, 13 May 2022 13:40:43 +0200 (CEST)
-Received: by buildd.core.avm.de (Postfix, from userid 1000)
-        id C1600182AE3; Fri, 13 May 2022 13:40:43 +0200 (CEST)
-Date:   Fri, 13 May 2022 13:40:43 +0200
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Fri, 13 May 2022 08:22:27 -0400
+Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A4F313FD56;
+        Fri, 13 May 2022 05:22:24 -0700 (PDT)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 24DCMAHY024757;
+        Fri, 13 May 2022 21:22:11 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 24DCMAHY024757
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1652444531;
+        bh=N9bbKmHP6POe42Fa+GkW40EBGebzX8tThTjuBWdq8ig=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=iTUSZMXFn0b0ySQUWXG+bN57jeWcY/6TqbY5S5aZcQ/kCoZfP7nRnS7sHgViAZRNN
+         wDaiei0KZlaKsN1DmBPtcqARjKtLh8u07vqbDgot1zXlPVl8ozeINxWNhKT78anmeD
+         MQsMYS3nDed1y34788+wUVXLLyUtHPQcemLYtcO3lWOjouuXJK5KAuaFkVsgLpiRHk
+         5EPCMq/z3k46EHOXHAjomlBB+N/bIGiCpnFZq5SuOTa/brRI6+YlJqlwhtj1BF0veO
+         c3ZcdRLraUhwKE/pE0JRarqZEMxev0+S3ZhiPXMpvvMPFVRpa7GrNHeQS9hPkyFUJv
+         JtwfNw6AsK7/A==
+X-Nifty-SrcIP: [209.85.216.52]
+Received: by mail-pj1-f52.google.com with SMTP id o69so7933024pjo.3;
+        Fri, 13 May 2022 05:22:11 -0700 (PDT)
+X-Gm-Message-State: AOAM530E2whA2qvySvkKq0FPrPu9j7KkEl1lBXYvnB7ssGCZf+Ob3VER
+        VU8S9Z8FC+hMgQiSWWdJlywr+R2WOFzpCic0EnQ=
+X-Google-Smtp-Source: ABdhPJxD5Hnw/BzpOuoc03CTdnOknz232P4SJXD9vQoGZjeOfKjWtDeamnUaHXxR78Q1KZ637m8h49Kf8LDy4D9zobk=
+X-Received: by 2002:a17:90a:e517:b0:1d7:5bbd:f9f0 with SMTP id
+ t23-20020a17090ae51700b001d75bbdf9f0mr4634068pjy.77.1652444530238; Fri, 13
+ May 2022 05:22:10 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220513113930.10488-1-masahiroy@kernel.org>
+In-Reply-To: <20220513113930.10488-1-masahiroy@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 13 May 2022 21:20:55 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQvneCi11myLpkikuXh=i5PLtTaLe0nGpDZXgv_Q1L0Ow@mail.gmail.com>
+Message-ID: <CAK7LNAQvneCi11myLpkikuXh=i5PLtTaLe0nGpDZXgv_Q1L0Ow@mail.gmail.com>
+Subject: Re: [PATCH v6 00/10] kbuild: yet another series of cleanups (modpost,
+ LTO, MODULE_REL_CRCS, export.h)
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
         Peter Zijlstra <peterz@infradead.org>,
-        linux-modules@vger.kernel.org, llvm@lists.linux.dev,
+        linux-modules <linux-modules@vger.kernel.org>,
+        clang-built-linux <llvm@lists.linux.dev>,
         Ard Biesheuvel <ardb@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>
-Subject: Re: [PATCH v5 12/12] kbuild: rebuild multi-object modules when
- objtool is updated
-Message-ID: <Yn5Du6mifUMExntW@buildd.core.avm.de>
-References: <20220511164514.2741934-1-masahiroy@kernel.org>
- <20220511164514.2741934-13-masahiroy@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220511164514.2741934-13-masahiroy@kernel.org>
-X-purgate-ID: 149429::1652442042-000003AF-5D1AD51C/0/0
-X-purgate-type: clean
-X-purgate-size: 1858
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
-X-purgate: clean
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,SPF_PASS,
+        Sami Tolvanen <samitolvanen@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -59,56 +67,92 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, May 12, 2022 at 01:45:14AM +0900, Masahiro Yamada wrote:
-> When CONFIG_LTO_CLANG or CONFIG_X86_KERNEL_IBT is enabled, objtool for
-> multi-object modules is postponed until the objects are linked together.
-> 
-> Make sure to re-run objtool and re-link multi-object modules when
-> objtool is updated.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> Acked-by: Josh Poimboeuf <jpoimboe@redhat.com>
-> ---
-> 
-> (no changes since v4)
-> 
+On Fri, May 13, 2022 at 8:42 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+>
+> This is the third batch of cleanups in this development cycle.
+>
+
+
+This series is available at
+git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+ lto-cleanup-v6
+
+
+>
+> Changes in v6:
+>   - Fix false-positive warnings when CONFIG_TRIM_UNUSED_KSYMS=y
+>
+> Changes in v5:
+>   - Fix the build error when CONFIG_DEBUG_INFO_BTF=y (reported by Nathan)
+>   - Clean up arch/m68k/include/asm/export.h (Nick)
+>   - Keep gen_symversions (and will be removed by a later patch)
+>   - Add more comments in the script
+>
 > Changes in v4:
+>   - Rename .vmlinux-symver.c to .vmlinux.export.c
+>     because I notice this approach is useful for further cleanups,
+>     not only for modversioning but also for overall EXPORT_SYMBOL.
+>   - New patch
+>   - New.
+>     Resent of my previous submission.
+>     https://lore.kernel.org/all/20210831074004.3195284-10-masahiroy@kernel.org/
 >   - New
 >     Resent of my previous submission
 >     https://lore.kernel.org/linux-kbuild/20210831074004.3195284-11-masahiroy@kernel.org/
-> 
->  scripts/Makefile.build | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index f546b5f1f33f..4e6902e099e8 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -404,13 +404,18 @@ $(obj)/modules.order: $(obj-m) FORCE
->  $(obj)/lib.a: $(lib-y) FORCE
->  	$(call if_changed,ar)
->  
-> -quiet_cmd_link_multi-m = LD [M]  $@
-> -      cmd_link_multi-m = $(LD) $(ld_flags) -r -o $@ @$(patsubst %.o,%.mod,$@) $(cmd_objtool)
-> +quiet_cmd_ld_multi_m = LD [M]  $@
-> +      cmd_ld_multi_m = $(LD) $(ld_flags) -r -o $@ @$(patsubst %.o,%.mod,$@) $(cmd_objtool)
-> +
-> +define rule_ld_multi_m
-> +	$(call cmd_and_savecmd,ld_multi_m)
-> +	$(call cmd,gen_objtooldep)
-> +endef
->  
->  $(multi-obj-m): objtool-enabled := $(delay-objtool)
->  $(multi-obj-m): part-of-module := y
->  $(multi-obj-m): %.o: %.mod FORCE
-> -	$(call if_changed,link_multi-m)
-> +	$(call if_changed_rule,ld_multi_m)
->  $(call multi_depend, $(multi-obj-m), .o, -objs -y -m)
->  
->  targets := $(filter-out $(PHONY), $(targets))
-> -- 
+>
+> Changes in v3:
+>   - New patch
+>
+> Changes in v2:
+>   - Simplify the implementation (parse .cmd files after ELF)
+>   - New patch
+>  - replace the chain of $(if ...) with $(and )
+>   - New patch
+>   - New patch
+>
+> Masahiro Yamada (10):
+>   modpost: extract symbol versions from *.cmd files
+>   kbuild: link symbol CRCs at final link, removing
+>     CONFIG_MODULE_REL_CRCS
+>   kbuild: stop merging *.symversions
+>   genksyms: adjust the output format to modpost
+>   kbuild: do not create *.prelink.o for Clang LTO or IBT
+>   kbuild: check static EXPORT_SYMBOL* by script instead of modpost
+>   kbuild: make built-in.a rule robust against too long argument error
+>   kbuild: make *.mod rule robust against too long argument error
+>   kbuild: add cmd_and_savecmd macro
+>   kbuild: rebuild multi-object modules when objtool is updated
+>
+>  arch/m68k/include/asm/Kbuild    |   1 +
+>  arch/m68k/include/asm/export.h  |   2 -
+>  arch/powerpc/Kconfig            |   1 -
+>  arch/s390/Kconfig               |   1 -
+>  arch/um/Kconfig                 |   1 -
+>  include/asm-generic/export.h    |  22 ++-
+>  include/linux/export-internal.h |  16 +++
+>  include/linux/export.h          |  30 ++--
+>  init/Kconfig                    |   4 -
+>  kernel/module.c                 |  10 +-
+>  scripts/Kbuild.include          |  10 +-
+>  scripts/Makefile.build          | 134 ++++++------------
+>  scripts/Makefile.lib            |   7 -
+>  scripts/Makefile.modfinal       |   5 +-
+>  scripts/Makefile.modpost        |   9 +-
+>  scripts/check-local-export      |  64 +++++++++
+>  scripts/genksyms/genksyms.c     |  18 +--
+>  scripts/link-vmlinux.sh         |  33 ++---
+>  scripts/mod/modpost.c           | 236 +++++++++++++++++++++-----------
+>  19 files changed, 320 insertions(+), 284 deletions(-)
+>  delete mode 100644 arch/m68k/include/asm/export.h
+>  create mode 100644 include/linux/export-internal.h
+>  create mode 100755 scripts/check-local-export
+>
+> --
 > 2.32.0
-> 
+>
 
-Reviewed-by: Nicolas Schier <n.schier@avm.de>
+
+-- 
+Best Regards
+Masahiro Yamada
