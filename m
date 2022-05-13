@@ -2,57 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0137D525E5C
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 May 2022 11:19:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64EDA5260DA
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 May 2022 13:20:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378936AbiEMJPE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 13 May 2022 05:15:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57304 "EHLO
+        id S1377296AbiEMLUV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 13 May 2022 07:20:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378923AbiEMJPD (ORCPT
+        with ESMTP id S236605AbiEMLUU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 13 May 2022 05:15:03 -0400
-Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D14CA1882BE;
-        Fri, 13 May 2022 02:15:01 -0700 (PDT)
+        Fri, 13 May 2022 07:20:20 -0400
+Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D31E92A7C03;
+        Fri, 13 May 2022 04:20:18 -0700 (PDT)
 Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 24D9ERqI026893;
-        Fri, 13 May 2022 18:14:27 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 24D9ERqI026893
+        by conssluserg-01.nifty.com with ESMTP id 24DBK5Mb007622;
+        Fri, 13 May 2022 20:20:06 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 24DBK5Mb007622
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1652433267;
-        bh=MNi8P0TIeSQvF6fTUb5WzkP1pBowEJarOeoYmEQnwsE=;
+        s=dec2015msa; t=1652440806;
+        bh=YRv/xzScxOrQW/8sn4wWLVoj5v+rd5AiWdMBOiUctKg=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=zQE0jkQj4fxQFUd6EbU1MkOTv9AjSliQKbEYBJXTgTx2rJBxDleE2nvQ/vRYuDOt+
-         rtvl/5syIfBWq5aIlK6JpH3Oc8J9TVWI9VlTxC4F6ZhVK/eT5QNl3rRKfy6cBNZG/W
-         YSWeW5/F1QziK+y/hcyLjnYPXAHZB0DxYe7oo35sTqz95bXkbru8Vdc+XOgJDmGu1P
-         74d5eHnIYfVbRlNvhQfMP83Z4Omt0xC4Gs7gezEsXNTS0XFbTDOh7Z9evuVCMmDUi/
-         cK6edwCc4+3NxaTiVY8dP3U5aHg2mF6cHODuFrfN1RXuF7ftUugQQTBklwCnB9NEut
-         z8nLjcV9QphUw==
+        b=UGqfwMzgeClovZLtU/GqthVETIVynVx++gBYzA2T8pfzgoyiaL4Z7jaKRI988iWEE
+         vtC85R/npyGd6jNzXc9I2Nf3U96knFJSAPuQIiZjG3HPdTLxg28yPh0pKxUSE8/GqV
+         Hg8542rC0YdVOgM6zl/fshK150AlPBFErNmnnsYvv5+moql/4PYhV6KZmmfg162el6
+         dQ9IipdOPTYDYdeHcG+HyPej5i20f6QHl8zp3AiUydBrVFT/TFOyclr+5hu6CU++dF
+         jozcIKEhhATo4P9sZBZs/lEvWgfNWW7Rd5VZ2ovWaf4kfOyQYX0CpHzySSY8L+XaoL
+         N7/IyShNio5Rw==
 X-Nifty-SrcIP: [209.85.214.181]
-Received: by mail-pl1-f181.google.com with SMTP id i1so7371870plg.7;
-        Fri, 13 May 2022 02:14:27 -0700 (PDT)
-X-Gm-Message-State: AOAM531X4EpGk32h/PLldDUkd1buIOwhyIOCziwNAqPQuLZkI/tkNR2Y
-        k1VbUYlDJP4CJSckkcRV61JlDObsP7fs/vpaJeY=
-X-Google-Smtp-Source: ABdhPJygABMRI0O9lGJUpfjyuPvMB+Gl4wNhupLUDv7TQImq96vVJ5o7/bbbI9PWKpzKzpd4U892qwF9cIRI4g1/SLs=
+Received: by mail-pl1-f181.google.com with SMTP id n18so7635257plg.5;
+        Fri, 13 May 2022 04:20:06 -0700 (PDT)
+X-Gm-Message-State: AOAM533FWOrhmkXkACOSLBkQjd6DpSJAWj8U6jgHUgF8+TlT1bc3vBlP
+        f7OrAWBB4WPBYhMQIHNzh9iuzilDu2nTCFtt5WI=
+X-Google-Smtp-Source: ABdhPJz0V9Y2MC7wSh+kiBkNiWNxINnBG3U6cqE/jpzo7kEQOTHjV4DFzyAxYOFsREJncHCrWOgIGQ61+cGpl/V6ZVE=
 X-Received: by 2002:a17:903:1205:b0:15e:8cbc:fd2b with SMTP id
- l5-20020a170903120500b0015e8cbcfd2bmr3956625plh.99.1652433266603; Fri, 13 May
- 2022 02:14:26 -0700 (PDT)
+ l5-20020a170903120500b0015e8cbcfd2bmr4405025plh.99.1652440805394; Fri, 13 May
+ 2022 04:20:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220404061948.2111820-1-masahiroy@kernel.org>
- <CAK8P3a3RWypZ2H6zRTdEWMvg608VFVAoNAQZbUM4GbW7uAWk8A@mail.gmail.com>
- <CAK7LNASxCvbqTLaUmVmmp_cKFNCj8hfVUA2kzEBYRf+u45Y3TQ@mail.gmail.com> <CAK8P3a3GbHJOk5MyKL9TnUXdpEoaUM4_XfzXyc=Xi6c_84cZ=w@mail.gmail.com>
-In-Reply-To: <CAK8P3a3GbHJOk5MyKL9TnUXdpEoaUM4_XfzXyc=Xi6c_84cZ=w@mail.gmail.com>
+References: <20220511164514.2741934-1-masahiroy@kernel.org> <YnwWsYdL2khCikSY@dev-arch.thelio-3990X>
+In-Reply-To: <YnwWsYdL2khCikSY@dev-arch.thelio-3990X>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 13 May 2022 18:13:12 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT86MTKnN0b1bXkojHR4n9tTXVw__cL3QCbUrtMAQ1N1A@mail.gmail.com>
-Message-ID: <CAK7LNAT86MTKnN0b1bXkojHR4n9tTXVw__cL3QCbUrtMAQ1N1A@mail.gmail.com>
-Subject: Re: [PATCH 0/8] UAPI: make more exported headers self-contained, and
- put them into test coverage
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>
+Date:   Fri, 13 May 2022 20:18:50 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATs67zGL7JohD-79Nxig25XCC=T9Dih4Z8iwdhoiWai8w@mail.gmail.com>
+Message-ID: <CAK7LNATs67zGL7JohD-79Nxig25XCC=T9Dih4Z8iwdhoiWai8w@mail.gmail.com>
+Subject: Re: [PATCH v5 00/12] kbuild: yet another series of cleanups (modpost,
+ LTO, MODULE_REL_CRCS, export.h)
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-modules <linux-modules@vger.kernel.org>,
+        clang-built-linux <llvm@lists.linux.dev>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
@@ -63,46 +67,73 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, May 13, 2022 at 6:01 PM Arnd Bergmann <arnd@arndb.de> wrote:
+On Thu, May 12, 2022 at 5:04 AM Nathan Chancellor <nathan@kernel.org> wrote:
 >
-> On Fri, May 13, 2022 at 10:43 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > Hi Arnd,
-> >
-> > On Mon, Apr 4, 2022 at 4:35 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> > >
-> > > On Mon, Apr 4, 2022 at 8:19 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > > >
-> > > >
-> > > > Here are more efforts to put more headers to UAPI compile testing
-> > > > (CONFIG_UAPI_HEADER_TEST).
-> > > >
-> > > > I am sending this series to Arnd because he has deep knowledge for the
-> > > > kernel APIs and manages asm-generic pull requests.
-> > >
-> > > These all look good to me, I can apply them for 5.19 but would wait
-> > > a few days for others to comment.
-> >
-> > Can you apply 01-06 for the next MW?
-> >
-> > I got a 0-day bot report for 07, but
-> > I may not have time to come back to it
-> > in this development cycle.
+> Hi Masahiro,
 >
-> Ok, done now. What about patch 8? I left it out for now, but could
-> include it as well
-> if you want.
+> On Thu, May 12, 2022 at 01:45:02AM +0900, Masahiro Yamada wrote:
+> >
+> > This is the third batch of cleanups in this development cycle.
+> >
+> > Major changes in v5:
+> >  - Fix build errors
+> >  - More cleanups
+> >
+> > Major changes in v4:
+> >  - Move static EXPORT_SYMBOL check to a script
+> >  - Some refactoring
+> >
+> > Major changes in v3:
+> >
+> >  - Generate symbol CRCs as C code, and remove CONFIG_MODULE_REL_CRCS.
+> >
+> > Major changes in v2:
+> >
+> >  - V1 did not work with CONFIG_MODULE_REL_CRCS.
+> >    I fixed this for v2.
+> >
+> >  - Reflect some review comments in v1
+> >
+> >  - Refactor the code more
+> >
+> >  - Avoid too long argument error
+> >
+> >
+> >
+> > Masahiro Yamada (12):
+> >   modpost: split the section mismatch checks into section-check.c
+> >   modpost: add sym_find_with_module() helper
+> >   modpost: extract symbol versions from *.cmd files
+> >   kbuild: link symbol CRCs at final link, removing
+> >     CONFIG_MODULE_REL_CRCS
+> >   kbuild: stop merging *.symversions
+> >   genksyms: adjust the output format to modpost
+> >   kbuild: do not create *.prelink.o for Clang LTO or IBT
+> >   kbuild: check static EXPORT_SYMBOL* by script instead of modpost
+> >   kbuild: make built-in.a rule robust against too long argument error
+> >   kbuild: make *.mod rule robust against too long argument error
+> >   kbuild: add cmd_and_savecmd macro
+> >   kbuild: rebuild multi-object modules when objtool is updated
 >
->         Arnd
+> I applied this series to your latest kbuild branch, built an Arch
+> Linux x86_64 config and Fedora aarch64 config with
+> CONFIG_LTO_CLANG_FULL=y then CONFIG_LTO_CLANG_THIN=y, and boot tested
+> each kernel in QEMU with a full userspace. I did not notice any new
+> warnings/errors and everything appears to work fine.
+>
+> Tested-by: Nathan Chancellor <nathan@kernel.org>
+>
+> Cheers,
+> Nathan
 
 
-No.
+Thanks for your testing.
 
-08 depends on 07.
+I ended up with v6 due to a build issue
+of CONFIG_TRIM_UNUSED_KSYMS,
+but this patch set is getting in good shape.
 
-We do not have __kernel_uintptr_t  yet.
-
-
+Thanks.
 
 
 -- 
