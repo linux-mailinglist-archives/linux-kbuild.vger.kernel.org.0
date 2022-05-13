@@ -2,157 +2,127 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9A1E5261B9
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 May 2022 14:22:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE023526D8C
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 May 2022 01:43:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380193AbiEMMW1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 13 May 2022 08:22:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55366 "EHLO
+        id S229497AbiEMXnG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 13 May 2022 19:43:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379717AbiEMMW1 (ORCPT
+        with ESMTP id S229478AbiEMXnF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 13 May 2022 08:22:27 -0400
-Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A4F313FD56;
-        Fri, 13 May 2022 05:22:24 -0700 (PDT)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 24DCMAHY024757;
-        Fri, 13 May 2022 21:22:11 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 24DCMAHY024757
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1652444531;
-        bh=N9bbKmHP6POe42Fa+GkW40EBGebzX8tThTjuBWdq8ig=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=iTUSZMXFn0b0ySQUWXG+bN57jeWcY/6TqbY5S5aZcQ/kCoZfP7nRnS7sHgViAZRNN
-         wDaiei0KZlaKsN1DmBPtcqARjKtLh8u07vqbDgot1zXlPVl8ozeINxWNhKT78anmeD
-         MQsMYS3nDed1y34788+wUVXLLyUtHPQcemLYtcO3lWOjouuXJK5KAuaFkVsgLpiRHk
-         5EPCMq/z3k46EHOXHAjomlBB+N/bIGiCpnFZq5SuOTa/brRI6+YlJqlwhtj1BF0veO
-         c3ZcdRLraUhwKE/pE0JRarqZEMxev0+S3ZhiPXMpvvMPFVRpa7GrNHeQS9hPkyFUJv
-         JtwfNw6AsK7/A==
-X-Nifty-SrcIP: [209.85.216.52]
-Received: by mail-pj1-f52.google.com with SMTP id o69so7933024pjo.3;
-        Fri, 13 May 2022 05:22:11 -0700 (PDT)
-X-Gm-Message-State: AOAM530E2whA2qvySvkKq0FPrPu9j7KkEl1lBXYvnB7ssGCZf+Ob3VER
-        VU8S9Z8FC+hMgQiSWWdJlywr+R2WOFzpCic0EnQ=
-X-Google-Smtp-Source: ABdhPJxD5Hnw/BzpOuoc03CTdnOknz232P4SJXD9vQoGZjeOfKjWtDeamnUaHXxR78Q1KZ637m8h49Kf8LDy4D9zobk=
-X-Received: by 2002:a17:90a:e517:b0:1d7:5bbd:f9f0 with SMTP id
- t23-20020a17090ae51700b001d75bbdf9f0mr4634068pjy.77.1652444530238; Fri, 13
- May 2022 05:22:10 -0700 (PDT)
+        Fri, 13 May 2022 19:43:05 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44327357FBD;
+        Fri, 13 May 2022 16:32:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652484747; x=1684020747;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FCrz6FYGGtdt+XMMNM0b9J3ZxN7NlsNQNnoSDhr74C4=;
+  b=Z735PrAMnJfx90DSGGlbAxcaSfvBK4ajujT2xi/SdLs0XdjFbvoS2gbr
+   9Xq8RPqwlb/t5p6OX6G28UBNDu2aDHmgyBvbLGFFGmmCtwm8kF1FIaDRs
+   bZMTlWfXYl8Ft6RdDs+rk1FLOsonFZdBXrC1r7LQxVB2HxdDuGIIZvcKk
+   VnPiZ8F2qDc93xmLbrngJPfAhY9mgs4nBHneZm1YGcZxIdhHk1+gbJD/J
+   LRch2ms9blcR7PPGXNOq4iKvZ08tBN/qbChG1bDZNExn/9fR8hLC8HNcL
+   2E+Yk1NEdsGsdG66wkxDFwBqmyiZtLmsnKf4EkcRQBealg0rIRE6L05JA
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10346"; a="270566852"
+X-IronPort-AV: E=Sophos;i="5.91,223,1647327600"; 
+   d="scan'208";a="270566852"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2022 16:32:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,223,1647327600"; 
+   d="scan'208";a="554426409"
+Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 13 May 2022 16:32:24 -0700
+Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1npelj-000MDY-N7;
+        Fri, 13 May 2022 23:32:23 +0000
+Date:   Sat, 14 May 2022 07:31:53 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        Mark Rutland <mark.rutland@arm.com>,
+        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH] kbuild: copy scripts/atomic/atomic-*.h to
+ include/generated/atomic-*.h
+Message-ID: <202205140754.YHGZFvAQ-lkp@intel.com>
+References: <20220513185340.239753-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-References: <20220513113930.10488-1-masahiroy@kernel.org>
-In-Reply-To: <20220513113930.10488-1-masahiroy@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 13 May 2022 21:20:55 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQvneCi11myLpkikuXh=i5PLtTaLe0nGpDZXgv_Q1L0Ow@mail.gmail.com>
-Message-ID: <CAK7LNAQvneCi11myLpkikuXh=i5PLtTaLe0nGpDZXgv_Q1L0Ow@mail.gmail.com>
-Subject: Re: [PATCH v6 00/10] kbuild: yet another series of cleanups (modpost,
- LTO, MODULE_REL_CRCS, export.h)
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Peter Zijlstra <peterz@infradead.org>,
-        linux-modules <linux-modules@vger.kernel.org>,
-        clang-built-linux <llvm@lists.linux.dev>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220513185340.239753-1-masahiroy@kernel.org>
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, May 13, 2022 at 8:42 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
->
-> This is the third batch of cleanups in this development cycle.
->
+Hi Masahiro,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on masahiroy-kbuild/for-next]
+[also build test ERROR on linux/master linus/master v5.18-rc6 next-20220513]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/kbuild-copy-scripts-atomic-atomic-h-to-include-generated-atomic-h/20220514-025623
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
+config: um-x86_64_defconfig (https://download.01.org/0day-ci/archive/20220514/202205140754.YHGZFvAQ-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/3f6dd60121830fdd3733dd804d9ae163d88acc98
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Masahiro-Yamada/kbuild-copy-scripts-atomic-atomic-h-to-include-generated-atomic-h/20220514-025623
+        git checkout 3f6dd60121830fdd3733dd804d9ae163d88acc98
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=um SUBARCH=x86_64 prepare
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   arch/x86/um/user-offsets.c:17:6: warning: no previous prototype for 'foo' [-Wmissing-prototypes]
+      17 | void foo(void)
+         |      ^~~
+   In file included from include/linux/atomic.h:80,
+                    from include/linux/jump_label.h:256,
+                    from arch/x86/include/asm/string_64.h:6,
+                    from arch/x86/include/asm/string.h:5,
+                    from include/linux/string.h:20,
+                    from include/linux/uuid.h:12,
+                    from include/linux/mod_devicetable.h:13,
+                    from scripts/mod/devicetable-offsets.c:3:
+>> include/linux/atomic/atomic-arch-fallback.h:2:10: fatal error: generated/atomic-arch-fallback.h: No such file or directory
+       2 | #include <generated/atomic-arch-fallback.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+   make[2]: *** [scripts/Makefile.build:121: scripts/mod/devicetable-offsets.s] Error 1
+   make[2]: Target '__build' not remade because of errors.
+   make[1]: *** [Makefile:1194: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:219: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-This series is available at
-git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
- lto-cleanup-v6
+vim +2 include/linux/atomic/atomic-arch-fallback.h
 
-
->
-> Changes in v6:
->   - Fix false-positive warnings when CONFIG_TRIM_UNUSED_KSYMS=y
->
-> Changes in v5:
->   - Fix the build error when CONFIG_DEBUG_INFO_BTF=y (reported by Nathan)
->   - Clean up arch/m68k/include/asm/export.h (Nick)
->   - Keep gen_symversions (and will be removed by a later patch)
->   - Add more comments in the script
->
-> Changes in v4:
->   - Rename .vmlinux-symver.c to .vmlinux.export.c
->     because I notice this approach is useful for further cleanups,
->     not only for modversioning but also for overall EXPORT_SYMBOL.
->   - New patch
->   - New.
->     Resent of my previous submission.
->     https://lore.kernel.org/all/20210831074004.3195284-10-masahiroy@kernel.org/
->   - New
->     Resent of my previous submission
->     https://lore.kernel.org/linux-kbuild/20210831074004.3195284-11-masahiroy@kernel.org/
->
-> Changes in v3:
->   - New patch
->
-> Changes in v2:
->   - Simplify the implementation (parse .cmd files after ELF)
->   - New patch
->  - replace the chain of $(if ...) with $(and )
->   - New patch
->   - New patch
->
-> Masahiro Yamada (10):
->   modpost: extract symbol versions from *.cmd files
->   kbuild: link symbol CRCs at final link, removing
->     CONFIG_MODULE_REL_CRCS
->   kbuild: stop merging *.symversions
->   genksyms: adjust the output format to modpost
->   kbuild: do not create *.prelink.o for Clang LTO or IBT
->   kbuild: check static EXPORT_SYMBOL* by script instead of modpost
->   kbuild: make built-in.a rule robust against too long argument error
->   kbuild: make *.mod rule robust against too long argument error
->   kbuild: add cmd_and_savecmd macro
->   kbuild: rebuild multi-object modules when objtool is updated
->
->  arch/m68k/include/asm/Kbuild    |   1 +
->  arch/m68k/include/asm/export.h  |   2 -
->  arch/powerpc/Kconfig            |   1 -
->  arch/s390/Kconfig               |   1 -
->  arch/um/Kconfig                 |   1 -
->  include/asm-generic/export.h    |  22 ++-
->  include/linux/export-internal.h |  16 +++
->  include/linux/export.h          |  30 ++--
->  init/Kconfig                    |   4 -
->  kernel/module.c                 |  10 +-
->  scripts/Kbuild.include          |  10 +-
->  scripts/Makefile.build          | 134 ++++++------------
->  scripts/Makefile.lib            |   7 -
->  scripts/Makefile.modfinal       |   5 +-
->  scripts/Makefile.modpost        |   9 +-
->  scripts/check-local-export      |  64 +++++++++
->  scripts/genksyms/genksyms.c     |  18 +--
->  scripts/link-vmlinux.sh         |  33 ++---
->  scripts/mod/modpost.c           | 236 +++++++++++++++++++++-----------
->  19 files changed, 320 insertions(+), 284 deletions(-)
->  delete mode 100644 arch/m68k/include/asm/export.h
->  create mode 100644 include/linux/export-internal.h
->  create mode 100755 scripts/check-local-export
->
-> --
-> 2.32.0
->
-
+   > 2	#include <generated/atomic-arch-fallback.h>
 
 -- 
-Best Regards
-Masahiro Yamada
+0-DAY CI Kernel Test Service
+https://01.org/lkp
