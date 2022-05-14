@@ -2,57 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE023526D8C
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 May 2022 01:43:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A65E8526EE2
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 May 2022 09:14:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229497AbiEMXnG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 13 May 2022 19:43:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57662 "EHLO
+        id S229885AbiENCw1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 13 May 2022 22:52:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbiEMXnF (ORCPT
+        with ESMTP id S229893AbiENCwZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 13 May 2022 19:43:05 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44327357FBD;
-        Fri, 13 May 2022 16:32:27 -0700 (PDT)
+        Fri, 13 May 2022 22:52:25 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92D023087F0;
+        Fri, 13 May 2022 17:55:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652484747; x=1684020747;
+  t=1652489737; x=1684025737;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=FCrz6FYGGtdt+XMMNM0b9J3ZxN7NlsNQNnoSDhr74C4=;
-  b=Z735PrAMnJfx90DSGGlbAxcaSfvBK4ajujT2xi/SdLs0XdjFbvoS2gbr
-   9Xq8RPqwlb/t5p6OX6G28UBNDu2aDHmgyBvbLGFFGmmCtwm8kF1FIaDRs
-   bZMTlWfXYl8Ft6RdDs+rk1FLOsonFZdBXrC1r7LQxVB2HxdDuGIIZvcKk
-   VnPiZ8F2qDc93xmLbrngJPfAhY9mgs4nBHneZm1YGcZxIdhHk1+gbJD/J
-   LRch2ms9blcR7PPGXNOq4iKvZ08tBN/qbChG1bDZNExn/9fR8hLC8HNcL
-   2E+Yk1NEdsGsdG66wkxDFwBqmyiZtLmsnKf4EkcRQBealg0rIRE6L05JA
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10346"; a="270566852"
+  bh=4ZbrGrP7cxNMuGCiRcEz9C5bHEQF1KFXcDuzuJA6vYk=;
+  b=KCp8mPQ3M0wO/XOaTEgnseLz2KyNT75gCdP1Zut3387/TgcqdFThzrUx
+   8mnjigj7iXIShV8ncffv9r/ygTH2+TCRrgZ6DQiguTw7vTe7rSbP/7luW
+   8m8jwZ1Gq2H4pzF3Wad/Ovffpkjj1XcK1RAcPU37bt/6ixLjUrMUljY0G
+   mdZpRZj5ZGw8SWo3NF0rpGb0retLSwGVBECDKVvhUfxrYyDvl2fK0/zPy
+   gaeIOm+9cHDX3knqJa18uKYi3YaoYo+dbBLz9EHncmKeas+bLEMfeDpCz
+   tMTPk9N4UsH2iZo9W7t9iv/6fKSg5xOtAYW/f5dXxj4VscaYlTR/ExUtx
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10346"; a="268033165"
 X-IronPort-AV: E=Sophos;i="5.91,223,1647327600"; 
-   d="scan'208";a="270566852"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2022 16:32:26 -0700
+   d="scan'208";a="268033165"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2022 17:31:28 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.91,223,1647327600"; 
-   d="scan'208";a="554426409"
+   d="scan'208";a="604048939"
 Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 13 May 2022 16:32:24 -0700
+  by orsmga001.jf.intel.com with ESMTP; 13 May 2022 17:31:26 -0700
 Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
         (envelope-from <lkp@intel.com>)
-        id 1npelj-000MDY-N7;
-        Fri, 13 May 2022 23:32:23 +0000
-Date:   Sat, 14 May 2022 07:31:53 +0800
+        id 1npfgr-000MFY-Sf;
+        Sat, 14 May 2022 00:31:25 +0000
+Date:   Sat, 14 May 2022 08:30:29 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>,
         linux-kbuild@vger.kernel.org
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        Mark Rutland <mark.rutland@arm.com>,
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
         Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
         Masahiro Yamada <masahiroy@kernel.org>
 Subject: Re: [PATCH] kbuild: copy scripts/atomic/atomic-*.h to
  include/generated/atomic-*.h
-Message-ID: <202205140754.YHGZFvAQ-lkp@intel.com>
+Message-ID: <202205140803.I96fumS7-lkp@intel.com>
 References: <20220513185340.239753-1-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -80,37 +80,36 @@ https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/kbuild-copy-scripts-atomic-atomic-h-to-include-generated-atomic-h/20220514-025623
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
-config: um-x86_64_defconfig (https://download.01.org/0day-ci/archive/20220514/202205140754.YHGZFvAQ-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
+config: x86_64-randconfig-a005 (https://download.01.org/0day-ci/archive/20220514/202205140803.I96fumS7-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 38189438b69ca27b4c6ce707c52dbd217583d046)
 reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
         # https://github.com/intel-lab-lkp/linux/commit/3f6dd60121830fdd3733dd804d9ae163d88acc98
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Masahiro-Yamada/kbuild-copy-scripts-atomic-atomic-h-to-include-generated-atomic-h/20220514-025623
         git checkout 3f6dd60121830fdd3733dd804d9ae163d88acc98
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=um SUBARCH=x86_64 prepare
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 prepare
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   arch/x86/um/user-offsets.c:17:6: warning: no previous prototype for 'foo' [-Wmissing-prototypes]
-      17 | void foo(void)
-         |      ^~~
-   In file included from include/linux/atomic.h:80,
-                    from include/linux/jump_label.h:256,
-                    from arch/x86/include/asm/string_64.h:6,
-                    from arch/x86/include/asm/string.h:5,
-                    from include/linux/string.h:20,
-                    from include/linux/uuid.h:12,
-                    from include/linux/mod_devicetable.h:13,
-                    from scripts/mod/devicetable-offsets.c:3:
->> include/linux/atomic/atomic-arch-fallback.h:2:10: fatal error: generated/atomic-arch-fallback.h: No such file or directory
-       2 | #include <generated/atomic-arch-fallback.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
+   In file included from scripts/mod/devicetable-offsets.c:3:
+   In file included from include/linux/mod_devicetable.h:13:
+   In file included from include/linux/uuid.h:12:
+   In file included from include/linux/string.h:20:
+   In file included from arch/x86/include/asm/string.h:5:
+   In file included from arch/x86/include/asm/string_64.h:6:
+   In file included from include/linux/jump_label.h:256:
+   In file included from include/linux/atomic.h:80:
+>> include/linux/atomic/atomic-arch-fallback.h:2:10: fatal error: 'generated/atomic-arch-fallback.h' file not found
+   #include <generated/atomic-arch-fallback.h>
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
    make[2]: *** [scripts/Makefile.build:121: scripts/mod/devicetable-offsets.s] Error 1
    make[2]: Target '__build' not remade because of errors.
    make[1]: *** [Makefile:1194: prepare0] Error 2
