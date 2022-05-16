@@ -2,103 +2,107 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 53964527D58
-	for <lists+linux-kbuild@lfdr.de>; Mon, 16 May 2022 08:04:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6ED415280D1
+	for <lists+linux-kbuild@lfdr.de>; Mon, 16 May 2022 11:25:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240127AbiEPGDr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 16 May 2022 02:03:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44320 "EHLO
+        id S229695AbiEPJYp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 16 May 2022 05:24:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237262AbiEPGDp (ORCPT
+        with ESMTP id S229543AbiEPJYp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 16 May 2022 02:03:45 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04D7D286CB;
-        Sun, 15 May 2022 23:03:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652681024; x=1684217024;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=X1v0gXTVWzrv1Ak0hvGpAZxVte7No78o5+bvzTZpAf4=;
-  b=nhF1v3HU2rBnjImULPdZFpikTa78CLL5jxyMUjv4XGJQq432MWN4T1FO
-   mruEkplEp2vdo8eLIY2NVIpnoPRWPhB3ns7Mz0I+Xbd98yFu0Gqy2pp4d
-   FLQdPeOYT+Q585Utow6JsjwQKdKJWQCevSdaTPyyhqWKA1vltXHWWI2QZ
-   0yJ1nUC7NflmfGCJcLYWODXs864PQdZK424Z/zwYL+5BVxP3rWsEzsPzR
-   ldBMyX70wb4wJS3sGoY9D/LIvI6NT19avRR1xQ9CtqTS9DjnkDaYE1BEu
-   4KmpyysyX7tZMVdf80i98LkqaFLH0Ib1O/JHaVYYm3P9MaYvJcnvCF50f
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10348"; a="269564394"
-X-IronPort-AV: E=Sophos;i="5.91,229,1647327600"; 
-   d="scan'208";a="269564394"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2022 23:03:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,229,1647327600"; 
-   d="scan'208";a="699393422"
-Received: from lkp-server01.sh.intel.com (HELO d1462bc4b09b) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 15 May 2022 23:03:41 -0700
-Received: from kbuild by d1462bc4b09b with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nqTpU-0002C1-99;
-        Mon, 16 May 2022 06:03:40 +0000
-Date:   Mon, 16 May 2022 14:02:54 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [v2 1/2] kbuild: move scripts/mod/ build to modules_prepare
-Message-ID: <202205161340.DscM2Rht-lkp@intel.com>
-References: <20220514040207.282910-1-masahiroy@kernel.org>
+        Mon, 16 May 2022 05:24:45 -0400
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADAB7286E9;
+        Mon, 16 May 2022 02:24:43 -0700 (PDT)
+Received: by mail-lj1-x234.google.com with SMTP id m23so17382501ljc.0;
+        Mon, 16 May 2022 02:24:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=z7SVVP/oC8iSudRPuuLzmqr3tHRZCL2jrSL6ZB0fSOU=;
+        b=lJue4HZt/225QfsuUkRTSvHYS5Cbg3mp+Lpr9wUcZw7loJcdma/LoRNWTuYqIl1GbL
+         PCEFtvcIfGi1zIDzClS9SlFOnTPbno0eL4lPtB+WSG2FcdAIWqqJHAcVNWpTfShSC2r5
+         iKbFrRtscXD8b0XuKDb+TlCueomIWLfj9bvlummAjUJs90IJ/Hd1e+YpN1MES50jUipz
+         c/Sni45fE53n5BQtCLxEh1Sdw2M+kOhGY710ghZRkRIU1CuVDeFeTxOzNXDrSLMONVnH
+         ANcVAzhPPU032K+CZAHtg5RHB+P78ZyjVDNpIb81RtqcePbRZQltRCzrWqptCynWdRv3
+         ddog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=z7SVVP/oC8iSudRPuuLzmqr3tHRZCL2jrSL6ZB0fSOU=;
+        b=AhtcAgtJbZU/keMFCxq9J9uGlPXss+dLvdELSStCd2ti1hc08pqbzuOnTU+WjtrHag
+         o4Za4TwQFBPEgcTf8G04NjrWtL5WN4Tx5SKwidaFac3nNCo0KVh+SA8Bq3RpmZ7MAJrX
+         VWLAGy0jLjYPNGQ2JDViHwrF6jZ+e72e7bndlBJbQ4U5vouBdXslP6EDFYI6iwylBaQc
+         cWUqumUvDugQ58No2Dn5J8MXB4xkxxHA9OZHO5s7O+4IAmzERIpzdApyc2CVrwZROXEb
+         ICVzMfU5K3FE2HqyvuZxOm29ytHGFdYH2qoxwdmunrQ/W3tGkOkYYMtKfnFJJpx1O3uQ
+         3CPA==
+X-Gm-Message-State: AOAM530FysvN+gtxlzsM216m2sckva5csd5pfbCaL66RghOotr+E7GLQ
+        5bEvC2/Bbmsib59Xka6JsvIomrPSvV6YgoQH
+X-Google-Smtp-Source: ABdhPJzoYNjvZDXsDHxWNAIeb11uNTP0eP24NR050plG37dSFPwxbVnz75RZ7RT0JGIZIO0LUtD+sQ==
+X-Received: by 2002:a2e:878d:0:b0:24f:2bf2:5a79 with SMTP id n13-20020a2e878d000000b0024f2bf25a79mr10947871lji.497.1652693081939;
+        Mon, 16 May 2022 02:24:41 -0700 (PDT)
+Received: from localhost.localdomain (81-231-252-146-no39.tbcn.telia.com. [81.231.252.146])
+        by smtp.gmail.com with ESMTPSA id o23-20020ac24e97000000b0047255d2118asm1251739lfr.185.2022.05.16.02.24.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 May 2022 02:24:41 -0700 (PDT)
+From:   Isak Ellmer <isak01@gmail.com>
+To:     masahiroy@kernel.org
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Isak Ellmer <isak01@gmail.com>
+Subject: [PATCH] scripts: kconfig: nconf: make nconfig accept jk keybindings
+Date:   Mon, 16 May 2022 11:24:23 +0200
+Message-Id: <20220516092423.14327-1-isak01@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220514040207.282910-1-masahiroy@kernel.org>
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro,
+Make nconfig accept jk keybindings for movement in addition to arrow keys.
 
-I love your patch! Yet something to improve:
+Signed-off-by: Isak Ellmer <isak01@gmail.com>
+---
+ scripts/kconfig/nconf.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-[auto build test ERROR on masahiroy-kbuild/for-next]
-[also build test ERROR on linux/master linus/master v5.18-rc7 next-20220513]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/kbuild-move-scripts-mod-build-to-modules_prepare/20220514-120519
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
-config: s390-randconfig-m031-20220514 (https://download.01.org/0day-ci/archive/20220516/202205161340.DscM2Rht-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/e538a965b373cb35813fd55f75b7646c4fb92a8d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Masahiro-Yamada/kbuild-move-scripts-mod-build-to-modules_prepare/20220514-120519
-        git checkout e538a965b373cb35813fd55f75b7646c4fb92a8d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> /bin/bash: line 1: scripts/mod/modpost: No such file or directory
-
+diff --git a/scripts/kconfig/nconf.c b/scripts/kconfig/nconf.c
+index 7b371bd7fb36..ded40e5aabf8 100644
+--- a/scripts/kconfig/nconf.c
++++ b/scripts/kconfig/nconf.c
+@@ -1105,9 +1105,11 @@ static void conf(struct menu *menu)
+ 				break;
+ 			switch (res) {
+ 			case KEY_DOWN:
++			case 'j':
+ 				menu_driver(curses_menu, REQ_DOWN_ITEM);
+ 				break;
+ 			case KEY_UP:
++			case 'k':
+ 				menu_driver(curses_menu, REQ_UP_ITEM);
+ 				break;
+ 			case KEY_NPAGE:
+@@ -1287,9 +1289,11 @@ static void conf_choice(struct menu *menu)
+ 				break;
+ 			switch (res) {
+ 			case KEY_DOWN:
++			case 'j':
+ 				menu_driver(curses_menu, REQ_DOWN_ITEM);
+ 				break;
+ 			case KEY_UP:
++			case 'k':
+ 				menu_driver(curses_menu, REQ_UP_ITEM);
+ 				break;
+ 			case KEY_NPAGE:
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.35.1
+
