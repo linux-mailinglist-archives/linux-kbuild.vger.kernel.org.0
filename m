@@ -2,107 +2,173 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6ED415280D1
-	for <lists+linux-kbuild@lfdr.de>; Mon, 16 May 2022 11:25:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A33615280E3
+	for <lists+linux-kbuild@lfdr.de>; Mon, 16 May 2022 11:31:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229695AbiEPJYp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 16 May 2022 05:24:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39502 "EHLO
+        id S233451AbiEPJbn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 16 May 2022 05:31:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229543AbiEPJYp (ORCPT
+        with ESMTP id S229725AbiEPJbk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 16 May 2022 05:24:45 -0400
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADAB7286E9;
-        Mon, 16 May 2022 02:24:43 -0700 (PDT)
-Received: by mail-lj1-x234.google.com with SMTP id m23so17382501ljc.0;
-        Mon, 16 May 2022 02:24:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=z7SVVP/oC8iSudRPuuLzmqr3tHRZCL2jrSL6ZB0fSOU=;
-        b=lJue4HZt/225QfsuUkRTSvHYS5Cbg3mp+Lpr9wUcZw7loJcdma/LoRNWTuYqIl1GbL
-         PCEFtvcIfGi1zIDzClS9SlFOnTPbno0eL4lPtB+WSG2FcdAIWqqJHAcVNWpTfShSC2r5
-         iKbFrRtscXD8b0XuKDb+TlCueomIWLfj9bvlummAjUJs90IJ/Hd1e+YpN1MES50jUipz
-         c/Sni45fE53n5BQtCLxEh1Sdw2M+kOhGY710ghZRkRIU1CuVDeFeTxOzNXDrSLMONVnH
-         ANcVAzhPPU032K+CZAHtg5RHB+P78ZyjVDNpIb81RtqcePbRZQltRCzrWqptCynWdRv3
-         ddog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=z7SVVP/oC8iSudRPuuLzmqr3tHRZCL2jrSL6ZB0fSOU=;
-        b=AhtcAgtJbZU/keMFCxq9J9uGlPXss+dLvdELSStCd2ti1hc08pqbzuOnTU+WjtrHag
-         o4Za4TwQFBPEgcTf8G04NjrWtL5WN4Tx5SKwidaFac3nNCo0KVh+SA8Bq3RpmZ7MAJrX
-         VWLAGy0jLjYPNGQ2JDViHwrF6jZ+e72e7bndlBJbQ4U5vouBdXslP6EDFYI6iwylBaQc
-         cWUqumUvDugQ58No2Dn5J8MXB4xkxxHA9OZHO5s7O+4IAmzERIpzdApyc2CVrwZROXEb
-         ICVzMfU5K3FE2HqyvuZxOm29ytHGFdYH2qoxwdmunrQ/W3tGkOkYYMtKfnFJJpx1O3uQ
-         3CPA==
-X-Gm-Message-State: AOAM530FysvN+gtxlzsM216m2sckva5csd5pfbCaL66RghOotr+E7GLQ
-        5bEvC2/Bbmsib59Xka6JsvIomrPSvV6YgoQH
-X-Google-Smtp-Source: ABdhPJzoYNjvZDXsDHxWNAIeb11uNTP0eP24NR050plG37dSFPwxbVnz75RZ7RT0JGIZIO0LUtD+sQ==
-X-Received: by 2002:a2e:878d:0:b0:24f:2bf2:5a79 with SMTP id n13-20020a2e878d000000b0024f2bf25a79mr10947871lji.497.1652693081939;
-        Mon, 16 May 2022 02:24:41 -0700 (PDT)
-Received: from localhost.localdomain (81-231-252-146-no39.tbcn.telia.com. [81.231.252.146])
-        by smtp.gmail.com with ESMTPSA id o23-20020ac24e97000000b0047255d2118asm1251739lfr.185.2022.05.16.02.24.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 May 2022 02:24:41 -0700 (PDT)
-From:   Isak Ellmer <isak01@gmail.com>
-To:     masahiroy@kernel.org
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Isak Ellmer <isak01@gmail.com>
-Subject: [PATCH] scripts: kconfig: nconf: make nconfig accept jk keybindings
-Date:   Mon, 16 May 2022 11:24:23 +0200
-Message-Id: <20220516092423.14327-1-isak01@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        Mon, 16 May 2022 05:31:40 -0400
+Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D11682A729;
+        Mon, 16 May 2022 02:31:38 -0700 (PDT)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 24G9VJoq019261;
+        Mon, 16 May 2022 18:31:19 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 24G9VJoq019261
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1652693479;
+        bh=gzqkQYz7rXOqzd5Offfjf+c5s3dJ0BdJHrkewXfLFNI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=WH+sysyU2V647wgDL1BuggvCEsWsZQImH759xyr5JN1rOy2whSJZQ3QkLV5H1iOx6
+         86HMo/Qa2u2MEhH5xlBa15co9a9dbLNi7TBTZ278ae5TdmRs6C6k7EuFRB5tPfJqMm
+         4/HUny/Nc1/JMf6QIUScEMWmHHlxgVnuIa3WSlcQrvU8xAdboua5NVcPHRQDF1WQ8z
+         37U07cMPrpv79A4mUF+ZsUW7Cmsm50jcIxmcix1ugtsc3YkWywMbdRRWH8/6cQCPjN
+         8MCC0ytlm25NVMXDTTjfbll3Sz5BDPXf98Oqkv7Rq1mnvqN5OQCEi2ByMVCYcFGqy8
+         1vCk71/eVkj4A==
+X-Nifty-SrcIP: [209.85.214.175]
+Received: by mail-pl1-f175.google.com with SMTP id d22so13871446plr.9;
+        Mon, 16 May 2022 02:31:19 -0700 (PDT)
+X-Gm-Message-State: AOAM533nSEUmkeaV2DnzrR9s/bTRBdoW9+xjSc6JZPZbD+WhvYEezX1x
+        KR/9GNI1F1WBY3jt2XyOK3QYabzoSk5LKwbyS6c=
+X-Google-Smtp-Source: ABdhPJz1c44GCw74wJDg/tk23rkfWOwUq4fAOU9wYejXDcdeaEoye+YPF9IjidGFPdQN5FCxZmrv9OAhNTF8IGSFC0c=
+X-Received: by 2002:a17:903:2411:b0:161:39ef:57f7 with SMTP id
+ e17-20020a170903241100b0016139ef57f7mr13614580plo.136.1652693478552; Mon, 16
+ May 2022 02:31:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220514040207.282910-1-masahiroy@kernel.org> <20220514040207.282910-2-masahiroy@kernel.org>
+ <YoIOhZc3y11n5aMq@FVFF77S0Q05N>
+In-Reply-To: <YoIOhZc3y11n5aMq@FVFF77S0Q05N>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 16 May 2022 18:30:41 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASqZxn3e-DSO0cnYRZ7nY-ztt7rLUry9Fqez+ZT5VMeQw@mail.gmail.com>
+Message-ID: <CAK7LNASqZxn3e-DSO0cnYRZ7nY-ztt7rLUry9Fqez+ZT5VMeQw@mail.gmail.com>
+Subject: Re: [v2 2/2] kbuild: copy scripts/atomic/atomic-*.h to include/generated/atomic-*.h
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Make nconfig accept jk keybindings for movement in addition to arrow keys.
+On Mon, May 16, 2022 at 5:43 PM Mark Rutland <mark.rutland@arm.com> wrote:
+>
+> [adding the atomics maintainers to Cc]
+>
+> On Sat, May 14, 2022 at 01:02:07PM +0900, Masahiro Yamada wrote:
+> > include/linux/atomic/*.h are generated by scripts/atomic/gen-atomics.sh.
+> >
+> > To ensure they are not edited, scripts/atomic/check-atomics.sh checks
+> > sha1sum every time.
+> >
+> > This commit moves include/linux/atomic/*.h to scripts/atomic/*.h_shipped,
+> > which are copied to include/generated/ at build time:
+> >
+> >   COPY    include/generated/atomic-instrumented.h
+> >   COPY    include/generated/atomic-long.h
+> >   COPY    include/generated/atomic-arch-fallback.h
+>
+> FWIW, moving these and copying them at build time is fine by me, given that
+> better indicates that these are generated.
+>
+> > I dropped the sha1sum checks. I hope nobody would try to directly modify
+> > *_shipped files.
+>
+> I'd prefer to keep the sha1sum check, because we're worried that people *will*
+> modify them, and that won't be noticed until the next time they're regenerated.
 
-Signed-off-by: Isak Ellmer <isak01@gmail.com>
----
- scripts/kconfig/nconf.c | 4 ++++
- 1 file changed, 4 insertions(+)
+OK, but is there any reason to embed the checksum to the headers?
 
-diff --git a/scripts/kconfig/nconf.c b/scripts/kconfig/nconf.c
-index 7b371bd7fb36..ded40e5aabf8 100644
---- a/scripts/kconfig/nconf.c
-+++ b/scripts/kconfig/nconf.c
-@@ -1105,9 +1105,11 @@ static void conf(struct menu *menu)
- 				break;
- 			switch (res) {
- 			case KEY_DOWN:
-+			case 'j':
- 				menu_driver(curses_menu, REQ_DOWN_ITEM);
- 				break;
- 			case KEY_UP:
-+			case 'k':
- 				menu_driver(curses_menu, REQ_UP_ITEM);
- 				break;
- 			case KEY_NPAGE:
-@@ -1287,9 +1289,11 @@ static void conf_choice(struct menu *menu)
- 				break;
- 			switch (res) {
- 			case KEY_DOWN:
-+			case 'j':
- 				menu_driver(curses_menu, REQ_DOWN_ITEM);
- 				break;
- 			case KEY_UP:
-+			case 'k':
- 				menu_driver(curses_menu, REQ_UP_ITEM);
- 				break;
- 			case KEY_NPAGE:
+Generally, you can have *.sha1 file to collect the checksums,
+and use the "sha1sum --check" command.
+
+Maybe, scripts/atomic/check-atomics.sh was unneeded.
+
+
+$ sha1sum include/linux/atomic/*.h   >  scripts/atomic/atomics.sha1
+$ cat scripts/atomic/atomics.sha1
+c0f1a9e951f38ccfa146ca2431f9e1611191a402
+include/linux/atomic/atomic-arch-fallback.h
+97ce73d2c176725d199a810eb81c574022ffa899
+include/linux/atomic/atomic-instrumented.h
+b0a5ee2e9497a41795644fa115df184d6331b9c2  include/linux/atomic/atomic-long.h
+$ sha1sum --check   scripts/atomic/atomics.sha1
+include/linux/atomic/atomic-arch-fallback.h: OK
+include/linux/atomic/atomic-instrumented.h: OK
+include/linux/atomic/atomic-long.h: OK
+
+
+It is possible to do "sha1sum --check && cp".
+
+
+
+> > Kbuild runs more and more tools at build time these days because they
+> > are fast enough on modern systems.
+> >
+> > For example,
+> >
+> >  - 29c833061c1d8c2d1d23a62e7061561eadd76cdb
+> >    ("kconfig: generate lexer and parser during build instead of shipping")
+> >
+> >  - 7c0303ff7e67b637c47d8afee533ca9e2a02359b
+> >    ("crypto: arm - generate *.S by Perl at build time instead of shipping them")
+> >
+> > Yet, gen-atomics.sh is too slow.
+>
+> Yes; we'd originally wanted to run them at build time, but that was too slow,
+> and as a compromise we moved to regenerating them whenever we changed the
+> scripting.
+
+I remember it.
+
+https://lore.kernel.org/lkml/20181123153321.8561-1-mark.rutland@arm.com/
+
+
+>
+> > I guess it can be improved because it is just simple text processing.
+> > Then, Kbuild can execute it at build time.
+>
+> It is in theory possible to make them much faster, yes. The actual slowness of
+> the scripting is largely due to using sub-shells resulting in a load of
+> fork+exec, which could be avoided if using a real scripting language.
+>
+> Practically speaking though, we're rather limited in what we can rely upon
+> being available. We chose to use POSIX shell as a lowest-common-demoninator,
+> and anything that'd be *nice* to use isn't going to always be available,
+> meaning that even if we make it faster we can't necessarily build it all the
+> time anyway.
+
+
+Kernel builds already rely on Perl.
+
+The base building of the kernel does not depend on Python,
+but some targets such as "make clang-tidy", "make clang-analyzer"
+need Python3.
+
+
+>
+> Thanks,
+> Mark.
+
+
+BTW, full-quoting to this thread is not a good idea.
+I cut down the code diff.
+
+
+
+
 -- 
-2.35.1
-
+Best Regards
+Masahiro Yamada
