@@ -2,34 +2,34 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8690B52AB0C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 May 2022 20:43:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1905F52AB29
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 May 2022 20:46:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236673AbiEQSnD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 May 2022 14:43:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43714 "EHLO
+        id S230194AbiEQSqN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 May 2022 14:46:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233429AbiEQSnB (ORCPT
+        with ESMTP id S1352370AbiEQSqG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 May 2022 14:43:01 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E313928987
-        for <linux-kbuild@vger.kernel.org>; Tue, 17 May 2022 11:42:59 -0700 (PDT)
+        Tue, 17 May 2022 14:46:06 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E5E5643C
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 May 2022 11:46:03 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1239061389
-        for <linux-kbuild@vger.kernel.org>; Tue, 17 May 2022 18:42:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31246C34100;
-        Tue, 17 May 2022 18:42:58 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8FBA9615AF
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 May 2022 18:46:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B468DC385B8;
+        Tue, 17 May 2022 18:46:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1652812978;
-        bh=HnvVB6Z3O5gkPCZtjNQvuPzy6HZNXr75Y7p/6+RcqG0=;
+        s=korg; t=1652813162;
+        bh=moX25DIR/kkRWj+w6YLaovZ1F51+pgw9W9L2LPyqW+Y=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=14KKEzmcoorQSgSpQ0nGEmqRuigh7yUVN8xcqF3HiEOMCy9zIl3PSWFvxRGSx2pEF
-         ljgjN2Ir5LXOhwnN9HAFzb8k3doEhOP/5A97JlvlgKGvJe8fMzutUzEWV7YHKAFpt1
-         xmItkCdZyC3mdEG/pUxTTW4Y9JCuNQqDhPdPBrFo=
-Date:   Tue, 17 May 2022 11:42:57 -0700
+        b=Iw5CQ/TuC6zEwRT/V078x3SI3Iv6kmdPJ5/odOY/qSUyMZ2rPHu5bEO/Xy5eCMSNY
+         mAB1gXqPeFLR6M5zqyVauCYr6W3K7yq5KwmiwXmTepolqen5YB1R872K6ZsS2/Scb5
+         o05cNNKPwzfjh/PPxWsd1phw3dD3SeR+1S8TXazQ=
+Date:   Tue, 17 May 2022 11:46:01 -0700
 From:   Andrew Morton <akpm@linux-foundation.org>
 To:     ALOK JHA <alok08jha@gmail.com>
 Cc:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
@@ -37,7 +37,7 @@ Cc:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
         Michal Marek <michal.lkml@markovi.net>,
         Kees Cook <keescook@chromium.org>, linux-kbuild@vger.kernel.org
 Subject: Re: [PATCH] Makefile: Globally enable fall-through warning
-Message-Id: <20220517114257.f13bf43126c51eebe8bcd7d8@linux-foundation.org>
+Message-Id: <20220517114601.55016e298905d6b6aa0fa873@linux-foundation.org>
 In-Reply-To: <20220517173534.10878-1-alok08jha@gmail.com>
 References: <20220517173534.10878-1-alok08jha@gmail.com>
 X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
@@ -65,13 +65,22 @@ On Tue, 17 May 2022 23:05:34 +0530 ALOK JHA <alok08jha@gmail.com> wrote:
 > as 'deprecated' so people can be pointed to a single location for
 > justification.
 > 
-> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Michal Marek <michal.lkml@markovi.net>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: linux-kbuild@vger.kernel.org
-> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+> ...
+>
+> --- a/Documentation/process/deprecated.rst
+> +++ b/Documentation/process/deprecated.rst
+> @@ -119,3 +119,17 @@ array may exceed the remaining memory in the stack segment. This could
+>  lead to a crash, possible overwriting sensitive contents at the end of the
+>  stack (when built without `CONFIG_THREAD_INFO_IN_TASK=y`), or overwriting
+>  memory adjacent to the stack (when built without `CONFIG_VMAP_STACK=y`)
+> +
+> +Implicit switch case fall-through
+> +---------------------------------
+>
+> ...
+>
 
-Since you sent the patch, it should have your signoff as well as
-Gustavo's.  Please resend?
+Documentation/process/deprecated.rst already has a section "Implicit
+switch case fall-through".  Maybe you're working against an old kernel.
+Please update when resending.
 
