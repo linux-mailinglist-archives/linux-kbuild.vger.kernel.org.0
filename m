@@ -2,92 +2,131 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A67C529FD6
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 May 2022 12:58:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CD0852A962
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 May 2022 19:36:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344572AbiEQK6Q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 May 2022 06:58:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56094 "EHLO
+        id S1351558AbiEQRgZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 May 2022 13:36:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344720AbiEQK6M (ORCPT
+        with ESMTP id S1351499AbiEQRgU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 May 2022 06:58:12 -0400
-X-Greylist: delayed 360 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 17 May 2022 03:58:04 PDT
-Received: from zg8tndyumtaxlji0oc4xnzya.icoremail.net (zg8tndyumtaxlji0oc4xnzya.icoremail.net [46.101.248.176])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 9E98749906;
-        Tue, 17 May 2022 03:58:04 -0700 (PDT)
-Received: from jleng.ambarella.net (unknown [180.169.129.130])
-        by mail-app4 (Coremail) with SMTP id cS_KCgAHHyIxfoNiwSVaAA--.8062S2;
-        Tue, 17 May 2022 18:51:35 +0800 (CST)
-From:   3090101217@zju.edu.cn
-To:     masahiroy@kernel.org, michal.lkml@markovi.net,
-        ndesaulniers@google.com
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jing Leng <jleng@ambarella.com>
-Subject: [PATCH] kbuild: Fix include path in scripts/Makefile.modpost
-Date:   Tue, 17 May 2022 18:51:28 +0800
-Message-Id: <20220517105128.9720-1-3090101217@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cS_KCgAHHyIxfoNiwSVaAA--.8062S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7urW7Cw43Kr1UXF1rXw17Awb_yoW8Jw1rpw
-        s8Cw13CFZ7JrWvg3WxJrZ3J34j93sayw4Y93W0qF17trnFvrs2vr4ayrZ8uw1Sk348ArWU
-        W347Ca4xAa48Z3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUBab7Iv0xC_Cr1lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
-        0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-        A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xII
-        jxv20xvEc7CjxVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I
-        8E87Iv6xkF7I0E14v26rxl6s0DM2vYz4IE04k24VAvwVAKI4IrM2vYz4IE4I80cI0F6IAv
-        xc0EwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ew
-        Av7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY
-        6r1j6r4UM4x0Y48IcxkI7VAKI48JM4kE6xkIj40Ew7xC0wCY02Avz4vE14v_Gw1l42xK82
-        IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC2
-        0s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMI
-        IF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF
-        0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87
-        Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jrSdgUUUUU=
-X-CM-SenderInfo: qtqziiyqrsilo62m3hxhgxhubq/1tbiAwINBVNG3GxzgAAAsf
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Tue, 17 May 2022 13:36:20 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A438022BFE
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 May 2022 10:36:18 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id s14so17977734plk.8
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 May 2022 10:36:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6EHXC0+5WwGjzxO6nhB0I9+Yv+MYJk1jowBhHlsrX7Y=;
+        b=Umdr47WVACqNYK8t2YdLvvO1D81cAhDB/Bq4A/Yf63zAwWq6VlQkiQjSsqAWFwjt7p
+         Mqw4UHC+ktYyTAt5l3p0FArW8yfRhowxMiX1GwZC5Eqsq3VAXMz00yg3jsgVk2RwbVGX
+         eMWpMQU34/UE0ytl67fFFZD1sEyQ5JfKaVmyll2s1jRiTi1jN6kJCW7YDpOWoaARnFZF
+         txOEKPBk0rjn4NZ90W0h0C5dl3vQcKNQ12kgKoOn0MMuiePDlAATMzAIFH+pHExnWt2l
+         mFMFXLbHZ7vOJd/vqBMBJeBBT/kVJDKhuW8s7L1NMwZT9K7GA2+bWhBT63rsINY99wVG
+         cscg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6EHXC0+5WwGjzxO6nhB0I9+Yv+MYJk1jowBhHlsrX7Y=;
+        b=3AqPB0ZlEHYEtrMw9K1joVmKCvg1QN8v+6JjAgOIUtXa6WnMWX6bXiUA8rdTYREtoD
+         5H0XrIRcSv5A5y7UrWzyyxpeCPvzsikviI26oqe7M7bXLPqx829EpE2F9V4NDs8sOK6/
+         xJVv1s+3Cqx1zMHg1wfIjZ1FDms/xuHpIS2ztpna/R/Y37NOspAz7tu8Nb8xcSVTmVX7
+         r8S7995KKOt62Ul9God56nMGKVyOlD0/xTQ9A4NBwHqRfEqPE9xO2X9Xs0XGgzbgTKfr
+         h+BKJ+etgK+PybIuNBPh35CyFNK+Nkih1rWFfvfesDJdAsfacc+Kj2xxqw+0jwEtbft5
+         VvsA==
+X-Gm-Message-State: AOAM533CmL6u0SHcRB2iT3Pt3R2ww/Eu0JiEI9hFYIntD/ZRsjttveg2
+        v16E4Kqc1mqLopx9sdqQuss=
+X-Google-Smtp-Source: ABdhPJwejyrTCRAjTQ5xpOqSVzKXpCm7iW4ZBpZhRCRsRcZQ9Wm186GrFE3/oUvfKI13+0VzgpdvEw==
+X-Received: by 2002:a17:90a:e7ca:b0:1df:34ec:1fca with SMTP id kb10-20020a17090ae7ca00b001df34ec1fcamr15566367pjb.195.1652808978085;
+        Tue, 17 May 2022 10:36:18 -0700 (PDT)
+Received: from pop-os.login.wijungle.com ([14.139.240.252])
+        by smtp.gmail.com with ESMTPSA id e11-20020a17090a9a8b00b001df4c27e5a5sm1914061pjp.35.2022.05.17.10.36.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 May 2022 10:36:17 -0700 (PDT)
+From:   ALOK JHA <alok08jha@gmail.com>
+To:     alok08jha@gmail.com
+Cc:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Kees Cook <keescook@chromium.org>, linux-kbuild@vger.kernel.org
+Subject: [PATCH] Makefile: Globally enable fall-through warning
+Date:   Tue, 17 May 2022 23:05:34 +0530
+Message-Id: <20220517173534.10878-1-alok08jha@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Jing Leng <jleng@ambarella.com>
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 
-When building an external module, if users don't need to separate the
-compilation output and source code, they run the following command:
-"make -C $(LINUX_SRC_DIR) M=$(PWD)". At this point, "$(KBUILD_EXTMOD)"
-and "$(src)" are the same.
+Now that all the fall-through warnings have been addressed in the
+kernel, enable the fall-through warning globally.
 
-If they need to separate them, they run "make -C $(KERNEL_SRC_DIR)
-O=$(KERNEL_OUT_DIR) M=$(OUT_DIR) src=$(PWD)". Before running the
-command, they need to copy "Kbuild" or "Makefile" to "$(OUT_DIR)" to
-prevent compilation failure.
+Also, update the deprecated.rst file to include implicit fall-through
+as 'deprecated' so people can be pointed to a single location for
+justification.
 
-So the kernel should change the included path to avoid the copy operation.
-
-Signed-off-by: Jing Leng <jleng@ambarella.com>
+Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Michal Marek <michal.lkml@markovi.net>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: linux-kbuild@vger.kernel.org
+Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
 ---
- scripts/Makefile.modpost | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ Documentation/process/deprecated.rst | 14 ++++++++++++++
+ Makefile                             |  3 +++
+ 2 files changed, 17 insertions(+)
 
-diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-index 48585c4d04ad..0273bf7375e2 100644
---- a/scripts/Makefile.modpost
-+++ b/scripts/Makefile.modpost
-@@ -87,8 +87,7 @@ obj := $(KBUILD_EXTMOD)
- src := $(obj)
+diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+index 49e0f64a3427..053b24a6dd38 100644
+--- a/Documentation/process/deprecated.rst
++++ b/Documentation/process/deprecated.rst
+@@ -119,3 +119,17 @@ array may exceed the remaining memory in the stack segment. This could
+ lead to a crash, possible overwriting sensitive contents at the end of the
+ stack (when built without `CONFIG_THREAD_INFO_IN_TASK=y`), or overwriting
+ memory adjacent to the stack (when built without `CONFIG_VMAP_STACK=y`)
++
++Implicit switch case fall-through
++---------------------------------
++The C language allows switch cases to "fall through" when
++a "break" statement is missing at the end of a case. This,
++however, introduces ambiguity in the code, as it's not always
++clear if the missing break is intentional or a bug. As there
++have been a long list of flaws `due to missing "break" statements
++<https://cwe.mitre.org/data/definitions/484.html>`_, we no longer allow
++"implicit fall-through". In order to identify an intentional fall-through
++case, we have adopted the marking used by static analyzers: a comment
++saying `/* Fall through */`. Once the C++17 `__attribute__((fallthrough))`
++is more widely handled by C compilers, static analyzers, and IDEs, we can
++switch to using that instead.
+diff --git a/Makefile b/Makefile
+index 9be5834073f8..bdf8eac51b07 100644
+--- a/Makefile
++++ b/Makefile
+@@ -843,6 +843,9 @@ NOSTDINC_FLAGS += -nostdinc -isystem $(shell $(CC) -print-file-name=include)
+ # warn about C99 declaration after statement
+ KBUILD_CFLAGS += -Wdeclaration-after-statement
  
- # Include the module's Makefile to find KBUILD_EXTRA_SYMBOLS
--include $(if $(wildcard $(KBUILD_EXTMOD)/Kbuild), \
--             $(KBUILD_EXTMOD)/Kbuild, $(KBUILD_EXTMOD)/Makefile)
-+include $(if $(wildcard $(src)/Kbuild), $(src)/Kbuild, $(src)/Makefile)
++# Warn about unmarked fall-throughs in switch statement.
++KBUILD_CFLAGS += $(call cc-option,-Wimplicit-fallthrough=3,)
++
+ # Variable Length Arrays (VLAs) should not be used anywhere in the kernel
+ KBUILD_CFLAGS += -Wvla
  
- # modpost option for external modules
- MODPOST += -e
 -- 
-2.17.1
+2.34.1
 
