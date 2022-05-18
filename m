@@ -2,114 +2,155 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9354952CF26
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 May 2022 11:16:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFCE852E419
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 May 2022 06:52:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234295AbiESJQ2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 19 May 2022 05:16:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47216 "EHLO
+        id S1345456AbiETEwy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 20 May 2022 00:52:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231821AbiESJQ1 (ORCPT
+        with ESMTP id S1345438AbiETEws (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 19 May 2022 05:16:27 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C9DD65537B;
-        Thu, 19 May 2022 02:16:25 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 94A4315DB;
-        Thu, 19 May 2022 02:16:25 -0700 (PDT)
-Received: from FVFF77S0Q05N (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6F1473F73D;
-        Thu, 19 May 2022 02:16:24 -0700 (PDT)
-Date:   Thu, 19 May 2022 10:16:10 +0100
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [v2 2/2] kbuild: copy scripts/atomic/atomic-*.h to
- include/generated/atomic-*.h
-Message-ID: <YoYK2pQ3NSN8tgdd@FVFF77S0Q05N>
-References: <20220514040207.282910-1-masahiroy@kernel.org>
- <20220514040207.282910-2-masahiroy@kernel.org>
- <YoIOhZc3y11n5aMq@FVFF77S0Q05N>
- <CAK7LNASqZxn3e-DSO0cnYRZ7nY-ztt7rLUry9Fqez+ZT5VMeQw@mail.gmail.com>
+        Fri, 20 May 2022 00:52:48 -0400
+X-Greylist: delayed 1141 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 19 May 2022 21:52:43 PDT
+Received: from CN01-SHA-obe.outbound.protection.partner.outlook.cn (mail-shahn0098.outbound.protection.partner.outlook.cn [42.159.164.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48B5F66C8F;
+        Thu, 19 May 2022 21:52:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TiHJToKjSVX3nTTrOixxhqFM7tq2m/9Pa2T0FPaSBxh+RCIwPM87bOEGg2w6/vOlqrfk85dPi+jiLYohbY0g6RKG0z8cXSv7zR2PdQ2XGbhQ5QqzwjkenzaWJ5yMjhqKPSMJhqGTp1l6zgBlLP47Wn9tmetTW23JX6wSoopa3TOw+/b6zA71hws9hmfEF07x7nBA/C9EbxhFp9mjQwOXWZ0JQlw4yzykons+aq3Xj+NYQpbTQ0QA5xRgC7Rz/Qn/PDN6IFJ+11EMtrxSXbAYFTyLtfLMaonfij00TCegHj5QKkA/iAkQaafsGo6uZQJq22JbDQ1ReV4q4rfMZzaUng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XHa7Vpxtm/u3S4otqoZTmpXUuVJNGmaT4A6UJUMDuKo=;
+ b=eas/B2CIFJUUNgvYphL8aPf4q3FRWs0P0HBrBSuPjBj5V6fHjYbgJ29+rs/0Z70m9Fxxi3x4c0dpjgwIUgsv89EUp/LnVdF1oH8DSuu+DrMVmItaowVfFWyVIIzXbOTsDKVxlaMz/EhQ62JQIZJ5GkxLacYsGcbuClJzao5wZuj7MRzya6vfMUR+SwjrA4zh32Cecc3UeumKSBXuY2TNsTl8AhoycvW+6nzHy08XIubG17+AUWBv+fyTOaSKhFB5HHxyYodgol4L0y7myiqceftADV7NO8Hlxy7ox6vWjFPbHUN+PC19uwxHU9FNb95aLQDAzR4fMYS4JAdv7mongg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=gientech.com; dmarc=pass action=none header.from=gientech.com;
+ dkim=pass header.d=gientech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gientech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XHa7Vpxtm/u3S4otqoZTmpXUuVJNGmaT4A6UJUMDuKo=;
+ b=Pq/uj0sd97BXoYkVVNRH/H4HSdJ4l9AHlNCtdPklcCwxbdLcOCDbwLc7uipnQBlHn+b5M8Dnjx5MOa/suG1ODjkacYZpU+OaWHEecQ4qaATGSRVGZ0t7MeHOtj+lUHiYZocnKtFDWdEa4avAk4GwdXbyCkaE2OUAsiTk7bhxl9aN45Y3QNSj7D6rnhMir3MB/KqYTd/Fj2o4Rh6Ybk2JUMXmluA4jlPi0NKjPJsYdQiPXd4uNvAgkvVExm/59dXC4YajkYdikWviy4sFcnNf12ia7YUFF5+kV+MW6o+9t5mjd9cfxYOVC/QbCnHzW3sHOZ+lnrC1iwNmOGb4wAc1rQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=gientech.com;
+Received: from SHXPR01MB0623.CHNPR01.prod.partner.outlook.cn (10.43.110.19) by
+ SHXPR01MB0608.CHNPR01.prod.partner.outlook.cn (10.43.109.143) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5273.14; Fri, 20 May 2022 04:17:56 +0000
+Received: from SHXPR01MB0623.CHNPR01.prod.partner.outlook.cn ([10.43.110.19])
+ by SHXPR01MB0623.CHNPR01.prod.partner.outlook.cn ([10.43.110.19]) with mapi
+ id 15.20.5273.017; Fri, 20 May 2022 04:17:56 +0000
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Ree
+To:     Recipients <cuidong.liu@gientech.com>
+From:   "J Wu" <cuidong.liu@gientech.com>
+Date:   Wed, 18 May 2022 21:19:08 +0000
+Reply-To: contact@jimmywu.online
+X-ClientProxiedBy: BJSPR01CA0017.CHNPR01.prod.partner.outlook.cn
+ (10.43.34.157) To SHXPR01MB0623.CHNPR01.prod.partner.outlook.cn
+ (10.43.110.19)
+Message-ID: <SHXPR01MB0623927F7589F2E9D674399E89D19@SHXPR01MB0623.CHNPR01.prod.partner.outlook.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNASqZxn3e-DSO0cnYRZ7nY-ztt7rLUry9Fqez+ZT5VMeQw@mail.gmail.com>
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ed228b4b-55f4-4343-e05c-08da391419c1
+X-MS-TrafficTypeDiagnostic: SHXPR01MB0608:EE_
+X-Microsoft-Antispam-PRVS: <SHXPR01MB06088088B61351692458919889D39@SHXPR01MB0608.CHNPR01.prod.partner.outlook.cn>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?nWjAc+C1ZnPOhV3W1u9TXGkf46+u3v4Gr5qK40RYAGxvpGwbHhcF2SHpUQ?=
+ =?iso-8859-1?Q?+yddZ25qSY9rbnWTAvtnXSyC2A8iintq4CumskAzjmyr4b07jO8CWq6xSP?=
+ =?iso-8859-1?Q?1vdXpBq8Ut8qc9osKMqmKn9LUF+8xhZbEPwgqZD+/era/ro2OzqDTdcZz0?=
+ =?iso-8859-1?Q?jyFeXZa/lQZQ1Nrq1f5DdMKwYqGfdJkDd2NSCX9MpbIckcTS2ZqnK60pRj?=
+ =?iso-8859-1?Q?cIVNv8dcQYy9Xl7TBYDzgDWhvfxoEFYMZsFOK/+zEphXdOHW1h1D0DSsmL?=
+ =?iso-8859-1?Q?k1hDsE9ss0zxEfqB06oEJrqBeCGPMsLaElLf1h9qHxz7WdEMuvuKUpN3MI?=
+ =?iso-8859-1?Q?tBUB24EcezSZ3Gu4Fvcmb3oZRvioIEIrorte7fLVatdfR6C0KZtIWxHnF3?=
+ =?iso-8859-1?Q?h2zQRXjblyiq3hO/nBEPgcfDZ/bCedQww3YiyE0gytk7xi1X7oqxkK5HTY?=
+ =?iso-8859-1?Q?9aky+uN2roiUMgGHpxO2NvFoX5Y+UYMsXYY75rWPI2g47X1ilXZc2KKoIf?=
+ =?iso-8859-1?Q?lNCwz8a0AROESV2JlnMrePiM7b0pcZ4IMd6h8nmhKQSApMxhEh9iz0eBLA?=
+ =?iso-8859-1?Q?yGQ4w59w4M4E6BGQfpJ7tKTfMeJ9W3htyPRxiD7GDORZd3Zlsn07HDvCxb?=
+ =?iso-8859-1?Q?iBX5Cz1adCV708Mebz+vO1Zq4NIiK9qc0iFvR4rCOxecUjswXRPr42HOLO?=
+ =?iso-8859-1?Q?iZQEtMEOQSrtw99VcPKW6a6aszIoOyuJF/ZtODekHo/OEpmUcLn5BInpsD?=
+ =?iso-8859-1?Q?jtJ2j0xu1yMrPlB3vhJIA3Smdbnw+iNKtCu12mbMUjnmcu6om1Mv6dDA2Q?=
+ =?iso-8859-1?Q?ecCGVf8lFZ/yOajwYfedF5QyJObQC7EkCrANB8FMxxZsMzXTeD3mZJrJbM?=
+ =?iso-8859-1?Q?1HtGJ1tYMXdpe1hlz1zl78xPKSU/o5CRi7zR2BsAHf7rEuuxXloErGwmGB?=
+ =?iso-8859-1?Q?N/UUJjt3qeD/wnLJmSO8AOk3fQxsgzMR812XfTg297ywbfySvovv5AO2lP?=
+ =?iso-8859-1?Q?baMTMWQi/A1U/DqJmxEHv6Z0JOWwdi2iR0YICvlubVNAdgBY6rnZSyWwpf?=
+ =?iso-8859-1?Q?rA=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:SHXPR01MB0623.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:OSPM;SFS:(13230001)(366004)(86362001)(186003)(33656002)(7116003)(38350700002)(38100700002)(508600001)(4270600006)(19618925003)(26005)(6200100001)(6666004)(7696005)(52116002)(9686003)(3480700007)(55016003)(40180700001)(40160700002)(8676002)(6862004)(7416002)(7406005)(7366002)(2906002)(558084003)(66476007)(66556008)(66946007)(8936002)(62346012);DIR:OUT;SFP:1501;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?1IAZfxh+qq6LYEoViwVtkxm/WGAqg9c/3cJB897uRVreYfsY3urp4gIYh0?=
+ =?iso-8859-1?Q?U02yFcYiOYeWzsCtg4PiNkoZ4jX/VITrOUcMQ5JiFKcZEnP4OiaYyvPYvQ?=
+ =?iso-8859-1?Q?p2TwH+y8qOK1JXkqUOC6FPEJrXUDzCFw/kFHibxH7Nn9k3wX1FXo5JCIm3?=
+ =?iso-8859-1?Q?NX1OoDJe1feMv0E1A25JCVwTqfk6wr6Tsru69XZGeZJ6jormhRdHmILu2K?=
+ =?iso-8859-1?Q?kQNen8BYH+jFIdQJlnNvsiJ/8YRqt2u4TVMwSOXKkTR9VsP+3uAaTFvQhN?=
+ =?iso-8859-1?Q?nA8dpEsMfZxASsmyjnxHA85mPdzvLtoMBj3AzB8hC+vkpZFz65+MZXTGe6?=
+ =?iso-8859-1?Q?1CQ3wJkQhiQP6gYkfpTPSBndgdVkrZ07Ead395MnUnc4KtPGTes8iLynl1?=
+ =?iso-8859-1?Q?UQBbPabfEKKD1bTeAFRv2J0q6BwyjkXbkwumpPHxEXOYesc0Rtc94XYPTB?=
+ =?iso-8859-1?Q?zp6ybySKoOZmFAcmtt6C27nbmbQ5b+8pWVcveS5n2Pqpc8QfDkl6F0WB8M?=
+ =?iso-8859-1?Q?wt+jJGhWhgIBYxl9jFMvhNpgC9sLNhTlO5ezIx78xa50wYirYEbx4vCD9R?=
+ =?iso-8859-1?Q?uugabow7bdbfFWP9X7E+4atAfvcMcQSbi0Mii5Mv/zQGvYGxTSPSbYlHUo?=
+ =?iso-8859-1?Q?0ejv8HWNpKGMMYKa0P6jfoezpIz7CONVF4UzT2BKJRy84UwqXk2OOSAQ1E?=
+ =?iso-8859-1?Q?RfmyWI9BQ/RjE5fWfeAeEXgtCWL1WNxo5qXQOQ/tdjMPMeB0/+F0FyuDpk?=
+ =?iso-8859-1?Q?hUuptgiFuJ+DNLPcAKK/AImFa+deMzaUK8Nu6FR/SVeQoXsjb3t1/oyTBF?=
+ =?iso-8859-1?Q?i1Yhv8d6xDm+e3wTuFtgdp5iUFoXn91UaBlNRl/DnlvoVgXbyinYsqfaBU?=
+ =?iso-8859-1?Q?21eo1VxYBwuVZw6nFjFL4wmXBVjCKK8+PUYZxIyZSoH57avi6t0NyvY9MT?=
+ =?iso-8859-1?Q?Sqj9aVkO6i2TixuKlFtbCcWKRC+zA5/4Gnp45kGo+bHXJrDlpGIVQ8xTGI?=
+ =?iso-8859-1?Q?JP33sF4+bCROS/uSdFIcJMbRZgJqDHqqQUiZ/iWJ/Y11eSpo7L64+5Huds?=
+ =?iso-8859-1?Q?wHK5xgjIrpT5V3y71KlaENuQG/ZbHb71HrOQHc5iqICiRUXg4l40o5BcpW?=
+ =?iso-8859-1?Q?K6NYm4a8toL5KRyDILwJZd4egBwHp3jPpzCKuXtY7P2TcjQokMe/rXHpiz?=
+ =?iso-8859-1?Q?UileR/2HdQEC+zuZk5wYSIyRiJVeYBJgDvk/sxm2QSNnIbYdyXhvoiMjd0?=
+ =?iso-8859-1?Q?mfI/k6aQclv+iuwONZC17rjwoyQneSm14M8d1j3QkVLBO668hMv+C1X4MG?=
+ =?iso-8859-1?Q?ajZGBQxGNNRv388Q9nmQacGXUuVw2tJDDKsTsBpih3rjjDfHlMhozFhs03?=
+ =?iso-8859-1?Q?c1Ys2/4Ue5EmsngZERopBpQC4nK7Wo9pI4MgOr/sWXPo6Of++SjXFuXtIF?=
+ =?iso-8859-1?Q?sojFehXYIyBtgzZCvbXvOvCOx76u4JBr/ek1gUN99o8SD0/U+iBrub961s?=
+ =?iso-8859-1?Q?97LLFVV793Kmyb0fsvmAmTaAmGXhKqbQt8ma+rcsOV9LMqt/aJuAcU3Zty?=
+ =?iso-8859-1?Q?Z+HWQpWWfHze8/Otf6oZI0SBq/oXStZVo2cCTzPKdpjxkBMbzdDbZroeOF?=
+ =?iso-8859-1?Q?RFKUK854GSL6NxB97Bb0aNQkInTZU/GrGu98ycyGHn9udTbuRlwc4MylG8?=
+ =?iso-8859-1?Q?ytwGmak+8zIyl6jZfCdQAFdOlK7yAElGahGKr5LA8Ojfpex/6g5mp7sJ5N?=
+ =?iso-8859-1?Q?e6Tw=3D=3D?=
+X-OriginatorOrg: gientech.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed228b4b-55f4-4343-e05c-08da391419c1
+X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0623.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2022 21:19:32.1705
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 89592e53-6f9d-4b93-82b1-9f8da689f1b4
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NO1Czb3StnwszVgKbGJmbrZD54srSJjWHi0YnQjUYjZTKx/vaNqO3l5R7FUGh9gz8Uy2y4PodYoZoWqgsQeP0ysmhvfWObFt9Aolkyq1WgQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0608
+X-Spam-Status: Yes, score=7.4 required=5.0 tests=BAYES_50,DATE_IN_PAST_24_48,
+        DKIM_INVALID,DKIM_SIGNED,FORGED_SPF_HELO,KHOP_HELO_FCRDNS,
+        RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_MSPIKE_H2,RCVD_IN_PSBL,SPF_HELO_PASS,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: *  2.7 RCVD_IN_PSBL RBL: Received via a relay in PSBL
+        *      [42.159.164.98 listed in psbl.surriel.com]
+        *  1.3 RCVD_IN_BL_SPAMCOP_NET RBL: Received via a relay in
+        *      bl.spamcop.net
+        *      [Blocked - see <https://www.spamcop.net/bl.shtml?42.159.164.98>]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4705]
+        * -0.0 RCVD_IN_MSPIKE_H2 RBL: Average reputation (+2)
+        *      [42.159.164.98 listed in wl.mailspike.net]
+        *  0.0 SPF_NONE SPF: sender does not publish an SPF Record
+        * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
+        *  1.3 DATE_IN_PAST_24_48 Date: is 24 to 48 hours before Received:
+        *      date
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        *  0.1 DKIM_INVALID DKIM or DK signature exists, but is not valid
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  1.0 FORGED_SPF_HELO No description available.
+        *  0.0 KHOP_HELO_FCRDNS Relay HELO differs from its IP's reverse DNS
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, May 16, 2022 at 06:30:41PM +0900, Masahiro Yamada wrote:
-> On Mon, May 16, 2022 at 5:43 PM Mark Rutland <mark.rutland@arm.com> wrote:
-> >
-> > [adding the atomics maintainers to Cc]
-> >
-> > On Sat, May 14, 2022 at 01:02:07PM +0900, Masahiro Yamada wrote:
-> > > include/linux/atomic/*.h are generated by scripts/atomic/gen-atomics.sh.
-> > >
-> > > To ensure they are not edited, scripts/atomic/check-atomics.sh checks
-> > > sha1sum every time.
-> > >
-> > > This commit moves include/linux/atomic/*.h to scripts/atomic/*.h_shipped,
-> > > which are copied to include/generated/ at build time:
-> > >
-> > >   COPY    include/generated/atomic-instrumented.h
-> > >   COPY    include/generated/atomic-long.h
-> > >   COPY    include/generated/atomic-arch-fallback.h
-> >
-> > FWIW, moving these and copying them at build time is fine by me, given that
-> > better indicates that these are generated.
-> >
-> > > I dropped the sha1sum checks. I hope nobody would try to directly modify
-> > > *_shipped files.
-> >
-> > I'd prefer to keep the sha1sum check, because we're worried that people *will*
-> > modify them, and that won't be noticed until the next time they're regenerated.
-> 
-> OK, but is there any reason to embed the checksum to the headers?
-> 
-> Generally, you can have *.sha1 file to collect the checksums,
-> and use the "sha1sum --check" command.
-
-TBH, I have no preference either way; splitting it out is fine by me.
-
-The only thing that needs to be ensured is that if the sha1sum tool doesn't
-exist we don't complain about that.
-
-[...]
-
-> > > I guess it can be improved because it is just simple text processing.
-> > > Then, Kbuild can execute it at build time.
-> >
-> > It is in theory possible to make them much faster, yes. The actual slowness of
-> > the scripting is largely due to using sub-shells resulting in a load of
-> > fork+exec, which could be avoided if using a real scripting language.
-> >
-> > Practically speaking though, we're rather limited in what we can rely upon
-> > being available. We chose to use POSIX shell as a lowest-common-demoninator,
-> > and anything that'd be *nice* to use isn't going to always be available,
-> > meaning that even if we make it faster we can't necessarily build it all the
-> > time anyway.
-> 
-> Kernel builds already rely on Perl.
-
-I didn't realise that we always relied upon perl -- I know that there's
-recordmcount.pl, but I didn't think all targets used that, and I thought we
-couldn't rely upon perl when we originally wrote the atomci scripting.
-
-If we can rely upom perl being available then I'm not averse to writing the
-scripting in perl; I'm just not immediately sure about how to handle the
-fallback templates.
-
-Thanks,
-Mark.
+Can you do a job with me?
