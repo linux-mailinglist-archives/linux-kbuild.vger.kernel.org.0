@@ -2,93 +2,114 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FF8452C739
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 May 2022 01:02:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9354952CF26
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 May 2022 11:16:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231164AbiERW6K (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 May 2022 18:58:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46890 "EHLO
+        id S234295AbiESJQ2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 19 May 2022 05:16:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231357AbiERW5W (ORCPT
+        with ESMTP id S231821AbiESJQ1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 May 2022 18:57:22 -0400
-Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com [IPv6:2607:f8b0:4864:20::c32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CDCA69B79
-        for <linux-kbuild@vger.kernel.org>; Wed, 18 May 2022 15:57:06 -0700 (PDT)
-Received: by mail-oo1-xc32.google.com with SMTP id y22-20020a4acb96000000b0035eb01f5b65so685869ooq.5
-        for <linux-kbuild@vger.kernel.org>; Wed, 18 May 2022 15:57:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=mZ3wqB4NmL7z6lpFr/h15h1rYqsZKafJnUpMVahbEPg=;
-        b=ovbcf3BPb/ZrA/FpQ+ZjErGDIEZ9sF3fYOxqsE4Z0xdiTlYY9UY36hS3ty6MLllddq
-         FdZzNc2PcFHW5cwKZ0FlQqx6F8uTY06Ab/cmT+eL89dkm6I4fHT5v6DDGzwY+fqIjM8b
-         RjeYQt93Ckr4p0lPVWY342OwWKznH6xDl4nV36uj7bwrBPcHFh3ePzF5GNEmu/mQBhIV
-         GwWDekgJIDWSV60014hyLdzt2NtjUStY8MI6SiwBWMH8LEBnRGkE0W6Db0zUE9IYWmDQ
-         Ifd6nbhkESdcIbQrjo3sdEfmdPtb1VAIHCw/LAZv1DOtvQwqLYnhML4dVDmuoYeMmVFn
-         q7TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=mZ3wqB4NmL7z6lpFr/h15h1rYqsZKafJnUpMVahbEPg=;
-        b=zS0jBvnvwiuCkB4LkJIWvdFslasveDuzvEkFbZzPf1SWOpdOAG8mQGlr1OA3vBstCl
-         l64ENOwtNWxlkFqvBGPjKaaQb6XZZRS8azSoCXOrtOmJRQLFCk14u5RijaB139w6S+6T
-         8A+ImuOSmUq5hyb7c+1ttZkaXHEC8Zyuj1v1fyKPNkt2MnNUZJj/y4IX78gEtG9g/npA
-         dYKrQAy8+Nihr7eochB1n1TlcFxSA2L6v6ZreKXR/5zO5aISW5kyYrTH2o8xL6meEkkP
-         JHWPTKWfkW7zaeSzqpqu0howlxvrqVKqgRrTw2vluSSFg4ER1s1B/TXtGz9rUueJrkmU
-         TXjw==
-X-Gm-Message-State: AOAM532rSmsU7NNdoRhcoPz62ZHe1Tevxy1Cp+zk4kp+L1DaR6J8HEud
-        NxKt4gIV5EB7B5U87tUMy2QOHJGruQ8t2VXGBkB/ZJeRDZyF9G/0WkOPd26G
-X-Google-Smtp-Source: ABdhPJyyLDAg+sVdsLTxwEXiZ5avjedwK/uWMP/Y3UWcChEjwDE+iXuY4kOycHY8vIqM/rcV0hLTcVdg0IN0RAQYgBc=
-X-Received: by 2002:a5b:f87:0:b0:64a:9aa6:e181 with SMTP id
- q7-20020a5b0f87000000b0064a9aa6e181mr1852277ybh.157.1652914614913; Wed, 18
- May 2022 15:56:54 -0700 (PDT)
+        Thu, 19 May 2022 05:16:27 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C9DD65537B;
+        Thu, 19 May 2022 02:16:25 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 94A4315DB;
+        Thu, 19 May 2022 02:16:25 -0700 (PDT)
+Received: from FVFF77S0Q05N (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6F1473F73D;
+        Thu, 19 May 2022 02:16:24 -0700 (PDT)
+Date:   Thu, 19 May 2022 10:16:10 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [v2 2/2] kbuild: copy scripts/atomic/atomic-*.h to
+ include/generated/atomic-*.h
+Message-ID: <YoYK2pQ3NSN8tgdd@FVFF77S0Q05N>
+References: <20220514040207.282910-1-masahiroy@kernel.org>
+ <20220514040207.282910-2-masahiroy@kernel.org>
+ <YoIOhZc3y11n5aMq@FVFF77S0Q05N>
+ <CAK7LNASqZxn3e-DSO0cnYRZ7nY-ztt7rLUry9Fqez+ZT5VMeQw@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 2002:a05:7000:7143:0:0:0:0 with HTTP; Wed, 18 May 2022 15:56:53
- -0700 (PDT)
-Reply-To: tonywenn@asia.com
-From:   Tony Wen <weboutloock4@gmail.com>
-Date:   Thu, 19 May 2022 06:56:53 +0800
-Message-ID: <CAE2_YrD=5bo8j9+ah-xptEBBV-HEC4=Gb0SRHf996phiopc3WQ@mail.gmail.com>
-Subject: engage
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.2 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNASqZxn3e-DSO0cnYRZ7nY-ztt7rLUry9Fqez+ZT5VMeQw@mail.gmail.com>
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:c32 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4362]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [weboutloock4[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [weboutloock4[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  3.4 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Can I engage your services?
+On Mon, May 16, 2022 at 06:30:41PM +0900, Masahiro Yamada wrote:
+> On Mon, May 16, 2022 at 5:43 PM Mark Rutland <mark.rutland@arm.com> wrote:
+> >
+> > [adding the atomics maintainers to Cc]
+> >
+> > On Sat, May 14, 2022 at 01:02:07PM +0900, Masahiro Yamada wrote:
+> > > include/linux/atomic/*.h are generated by scripts/atomic/gen-atomics.sh.
+> > >
+> > > To ensure they are not edited, scripts/atomic/check-atomics.sh checks
+> > > sha1sum every time.
+> > >
+> > > This commit moves include/linux/atomic/*.h to scripts/atomic/*.h_shipped,
+> > > which are copied to include/generated/ at build time:
+> > >
+> > >   COPY    include/generated/atomic-instrumented.h
+> > >   COPY    include/generated/atomic-long.h
+> > >   COPY    include/generated/atomic-arch-fallback.h
+> >
+> > FWIW, moving these and copying them at build time is fine by me, given that
+> > better indicates that these are generated.
+> >
+> > > I dropped the sha1sum checks. I hope nobody would try to directly modify
+> > > *_shipped files.
+> >
+> > I'd prefer to keep the sha1sum check, because we're worried that people *will*
+> > modify them, and that won't be noticed until the next time they're regenerated.
+> 
+> OK, but is there any reason to embed the checksum to the headers?
+> 
+> Generally, you can have *.sha1 file to collect the checksums,
+> and use the "sha1sum --check" command.
+
+TBH, I have no preference either way; splitting it out is fine by me.
+
+The only thing that needs to be ensured is that if the sha1sum tool doesn't
+exist we don't complain about that.
+
+[...]
+
+> > > I guess it can be improved because it is just simple text processing.
+> > > Then, Kbuild can execute it at build time.
+> >
+> > It is in theory possible to make them much faster, yes. The actual slowness of
+> > the scripting is largely due to using sub-shells resulting in a load of
+> > fork+exec, which could be avoided if using a real scripting language.
+> >
+> > Practically speaking though, we're rather limited in what we can rely upon
+> > being available. We chose to use POSIX shell as a lowest-common-demoninator,
+> > and anything that'd be *nice* to use isn't going to always be available,
+> > meaning that even if we make it faster we can't necessarily build it all the
+> > time anyway.
+> 
+> Kernel builds already rely on Perl.
+
+I didn't realise that we always relied upon perl -- I know that there's
+recordmcount.pl, but I didn't think all targets used that, and I thought we
+couldn't rely upon perl when we originally wrote the atomci scripting.
+
+If we can rely upom perl being available then I'm not averse to writing the
+scripting in perl; I'm just not immediately sure about how to handle the
+fallback templates.
+
+Thanks,
+Mark.
