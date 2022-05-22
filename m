@@ -2,144 +2,135 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D89F52FEF8
-	for <lists+linux-kbuild@lfdr.de>; Sat, 21 May 2022 21:40:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 909B7530162
+	for <lists+linux-kbuild@lfdr.de>; Sun, 22 May 2022 08:55:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345176AbiEUTj5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 21 May 2022 15:39:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56442 "EHLO
+        id S239944AbiEVGuj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 22 May 2022 02:50:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232304AbiEUTj5 (ORCPT
+        with ESMTP id S244601AbiEVGuj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 21 May 2022 15:39:57 -0400
-X-Greylist: delayed 4645 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 21 May 2022 12:39:53 PDT
-Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02hn2211.outbound.protection.partner.outlook.cn [139.219.17.211])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD2393B28B;
-        Sat, 21 May 2022 12:39:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QxlQ/ygfVVPEINRL0DLOXYMdl9sT00YnYllRyth2gly4mi6G9OT6Tiq/JkcTbzIwsSlOd0F4n3F/ZbuB5Y0IZ2Qm6XpImiGfdxSkBJr7P/aWV2pSmGfCoU2xXwW7LgmMiKqfpGFWuGU4Ix9H+lo8RqBsrt8Cn/pCDQ3Fe42q0f6Uci8hZQMzHZRYRJoBgySbFPv7InLbuCVuZBF/gHSLBe0e7lDgZArFRAwyjjidPRitk+S2ltawMCPVLJobS8W1Q77knT4ueg/TNr2j+EH+OPD4qM+Sed7ADsnynpuOI4gw/W68U6p0JssYPQApdHjQRNh70U4FfMwNB4z2BuLxDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3z5uhVUtqN5OyplYkKXQ17d4OAmlRJ8nVcEl3nfclrI=;
- b=oPh1klGPXJWoQL+0vdik6ZeChVZyWeGF4YIZSD5D+wGXEXWu2iuKnNlsBIorz4HeH/4MLh1KuVUwFd69aFuRyWczMim4ZGTKG3qf+Jh5TVtP9we+2t0EGUSERawzUPvunQk6reYI7EnBdSHvHW2//TVSSDcUvhV1s9YOaz2iFwU8zT14P8ZvsqsLxhV2XMaPi4nTid+DjyLXCcmIZ/ng0NMwJ8T4VaESNHCYiQmasEsRadUlQkhuPoa37NRlnyeo2N5/ayaZVb8SbOaquZQeVRgrXgqDd90K6OzoEaGYGo15geNkxUG3wZp9mYPF4FnGoLMkqSRsFaKjIDetRSBXwQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=gientech.com; dmarc=pass action=none header.from=gientech.com;
- dkim=pass header.d=gientech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gientech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3z5uhVUtqN5OyplYkKXQ17d4OAmlRJ8nVcEl3nfclrI=;
- b=WHnNPDuFriuL2nzAkI1mck2cj+/OMC91GgRxuD+N43tXDnPbeiVP4PVZLBPjijJ7ot8mOOKxNtZ2ZQ5O0zf3x03I2K6twMcXnweH7DWmIChF6/t18uekZ4TPnKXGSQ9y0frjfP8iJswRfQ0749GSbItVK6lLuYAFUStjB5/ZR4H/qzQ7m9U3qTYSudvHvzcpDbSQI6xvCUB6RihEOZqRzJ+vvCucD4M1bokc/YQ/SH4F1190HH7+vxO2dmaq0uWZUrj4yxbnW/s6YM9ZXKf5s57aM/uWrmpcDQvS4zi6wIzVrcTxs1g5racvOrHFZPm/elEr3ZhSpmtKcnMTYdGPMw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=gientech.com;
-Received: from SH0PR01MB0729.CHNPR01.prod.partner.outlook.cn (10.43.106.85) by
- SH0PR01MB0635.CHNPR01.prod.partner.outlook.cn (10.43.108.10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5273.14; Sat, 21 May 2022 18:06:25 +0000
-Received: from SH0PR01MB0729.CHNPR01.prod.partner.outlook.cn ([10.43.106.85])
- by SH0PR01MB0729.CHNPR01.prod.partner.outlook.cn ([10.43.106.85]) with mapi
- id 15.20.5273.019; Sat, 21 May 2022 18:06:25 +0000
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: RE..
-To:     Recipients <tianjiao.yang@gientech.com>
-From:   "J Wu" <tianjiao.yang@gientech.com>
-Date:   Sun, 15 May 2022 12:39:17 +0000
-Reply-To: contact@jimmywu.online
-X-ClientProxiedBy: SH2PR01CA016.CHNPR01.prod.partner.outlook.cn (10.41.247.26)
- To SH0PR01MB0729.CHNPR01.prod.partner.outlook.cn (10.43.106.85)
-Message-ID: <SH0PR01MB0729C099185546056248DCE08ACC9@SH0PR01MB0729.CHNPR01.prod.partner.outlook.cn>
+        Sun, 22 May 2022 02:50:39 -0400
+Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 145CA366A8;
+        Sat, 21 May 2022 23:50:36 -0700 (PDT)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 24M6oAek017213;
+        Sun, 22 May 2022 15:50:11 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 24M6oAek017213
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1653202211;
+        bh=5TwfumVCNM+fvix8eWg6i86pc65IzESlNEbAwwhHqrU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ojV6XLeO60FMwlo+YWIjhWtRGEEawpk4CVTb4L9aglvOsxoK5f7z7QbZSOZfJ/tak
+         alBhcAPXcIxYqPD77l9IRzaTuM1+hmJzoN/AY0CLlXq3RF133ODYyShafJ1NmxJjCa
+         q0lpyWHvIylOEdH/w5NWWS57WrNaaAJ1LH6EpwkqOq/sHCzQtTbTby/WMAjGehyBu4
+         kVp9a8pzx79AFXB+F86AeNMng169Yna619lykZelRBT/YmqMzU/NmFg613kiYe1zhM
+         gliHIyRLAvkJUkXtL+XM5BQLs9Sn5t2kQlyC6svng8bF7Ur/kDDSJ0tasHLmdhpwVA
+         4ZAHOIk6oYabQ==
+X-Nifty-SrcIP: [209.85.210.176]
+Received: by mail-pf1-f176.google.com with SMTP id j6so11048580pfe.13;
+        Sat, 21 May 2022 23:50:11 -0700 (PDT)
+X-Gm-Message-State: AOAM532fMMBst104p0OK6IfasNpJJ+yYm0/NoVVgVsywwWk3D97q1g1L
+        YfOKYFhFVqsZOA/3WLXxgrlEa/opzqqV8kKt0/c=
+X-Google-Smtp-Source: ABdhPJxhJ2rh9Olkm7eNlJF8gpCf6NRGhN1KHbnGfK8m1IcXzz+fxX+v0f9XGq/1eBPx2nbsbhKNAZoEfz+GfSITou8=
+X-Received: by 2002:a63:9043:0:b0:3f9:6c36:3de3 with SMTP id
+ a64-20020a639043000000b003f96c363de3mr8127619pge.616.1653202210391; Sat, 21
+ May 2022 23:50:10 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 054d09aa-bd06-4dcc-0df3-08da366ff9a0
-X-MS-TrafficTypeDiagnostic: SH0PR01MB0635:EE_
-X-Microsoft-Antispam-PRVS: <SH0PR01MB0635BBC0862A5718E75F65E68AD29@SH0PR01MB0635.CHNPR01.prod.partner.outlook.cn>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?nTBVRFoLQC9SwW4G6eh49CBemDcEmLOr9uaOxMruhwWCAfTAWIpJQIjEPT?=
- =?iso-8859-1?Q?We+NJUwE0Xn96rKZnN6lLa+4oPnUpMSLwgHcB4btBMfFzo4SXhO+FzvPSI?=
- =?iso-8859-1?Q?T/10v06uAI7UGTr4dkP3pmuYD3xP+bXqzHkAJrWJ9LCKCjEWRPXOqYl9l+?=
- =?iso-8859-1?Q?VvROtXLuKPfJCiAFxYafkffzRYr+lJXDZA2TaeYiSjecvGYx6szMgEwgTe?=
- =?iso-8859-1?Q?A1J5Z8Cy4+wymTlScllABbJlyAbGOAjDD3yrXtkwbmr5ko1CsZqmQX0uT2?=
- =?iso-8859-1?Q?SHGx7TGH+IDZi+OJzFN7K3TTtKlZn5Oa5r+8xlYD7jnTCjajNGwHwnNLZj?=
- =?iso-8859-1?Q?fvqygH4Ej635M5ZHdhuoQpAWor6sqZAzExKLikW3+VUwI4sSD3YIM5Wrxx?=
- =?iso-8859-1?Q?Bc97hdK0ST5LKoU2j4OvHu5xHUbfHwb4BPqYA8iPhDYR1W5buYlQoyMizN?=
- =?iso-8859-1?Q?t4pEQWvZ/BSk2nJaGY/iPczTQLYLJYe4rDlLvt6o8rC8e3JxjhDu3XEWMh?=
- =?iso-8859-1?Q?CSjBtwejbAij4/FdqWPgdAoKhJC4qcYUNNmMKsNpP+NktgOArS6HFRt+w6?=
- =?iso-8859-1?Q?DgUvs8b+Oty9l8kiEvYzxquDXwvZ+pG8HreWJEzfHTeKaQdH/FrN9CInkw?=
- =?iso-8859-1?Q?FP8vlNnyFAoPe8EtklX6kA1WiEFhMadRZhdt2GShOc5TJuZGPDo9Psnh9G?=
- =?iso-8859-1?Q?tuNyJzylQID2F76bKhczcXEubVSDbbsCV17nD4jpxA1Q8ROU9lItMCxdkZ?=
- =?iso-8859-1?Q?8e7Jx/PrvTVlRFTkg/4X+fty6Kyc0QVK1LKmCa5cxXXWMUHxstu9iZw8+y?=
- =?iso-8859-1?Q?9pskNM1pgQVj1P+GcThBwuUJKfyy6prFJ0PKwVd847/iDZyzETKu0PZ8sg?=
- =?iso-8859-1?Q?xEfhmBwd03DtStYuquTa4xYGGqhtTsMLBWEgp8HmgbU7de+b/wXi6ufAbV?=
- =?iso-8859-1?Q?syx0fUjPMpzke0lCpLGjTjNoDlIkXYrQ76EMBb2Ryx1KYyxJbB80NnD70Z?=
- =?iso-8859-1?Q?SllBKdG9UMo7QCSTBEWY2ij+2X/waYMsXSc5Ph+4ox4aN4x5NqJeg2eA0Q?=
- =?iso-8859-1?Q?Mg=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:SH0PR01MB0729.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:OSPM;SFS:(13230001)(366004)(7696005)(9686003)(4270600006)(26005)(3480700007)(52116002)(38350700002)(38100700002)(2906002)(7366002)(7406005)(33656002)(6200100001)(7416002)(40180700001)(8936002)(19618925003)(55016003)(558084003)(86362001)(40160700002)(6862004)(8676002)(66476007)(66556008)(7116003)(508600001)(6666004)(66946007)(186003)(62346012);DIR:OUT;SFP:1501;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?gg00/qmx7frMXAjMpazWJYG/cGG+QL3LQ6yx7w330QrKDoZ9JTelPHhUuJ?=
- =?iso-8859-1?Q?MqV5KN2qTxNgrOlAM0U+LzMOGnEPOcjmb/o6UAMhBijJFjFQDk4gHGilt5?=
- =?iso-8859-1?Q?oJj+xO+2t8siNzkCLiaBG3WEXK7frkFavNOsYsnA4xeknBwEVmq+8RTEsO?=
- =?iso-8859-1?Q?aE5Y2+RIBApKK290nHRzF1v7GlCDQPF0d0ZSqfAtbAde5gneUWV6mpcFRA?=
- =?iso-8859-1?Q?RtqHgoxXHkf5qkrbhvkRfmH6rOOeh8e8WpbvWaMwJZUzELNxwrMiPiV1vt?=
- =?iso-8859-1?Q?sGY4gqSbpgURUwIDUkfjxMP6BZG8wdhMYR8FONAzF5aY2HT1qcDdQs7LsC?=
- =?iso-8859-1?Q?PlDqUQVp3WisgqbIlgSp8lOFcihZIjkl2XwhaAk5moJIud9THg8xO0Smj0?=
- =?iso-8859-1?Q?OcuWW63VVKCGf/4iq7ZYthc8mCYUOVzrPPDCfgfHJR2XzzKt6yt56EQEI8?=
- =?iso-8859-1?Q?BDF4cigTJxbgo3NrqedT8wJv5p7stNqRWOcYkYOlhmpSaj0SFAzAQHvKHm?=
- =?iso-8859-1?Q?HdMb7fEEHuucXqZ1V0O+9Y9AgpLgppzyyA0mpXfwhmxCGPJePitKUAtJk2?=
- =?iso-8859-1?Q?dvxclVSH4qBJhmPd9dHfb/dVLdclJ/2G6Xulh6kGHwVekuxXLA5l5JKC+C?=
- =?iso-8859-1?Q?CodOSEmgk3j7u4Lmh7Bb7c4PxTAyq2XwiEv1C2Tmrt8ObZio1mxruZdu7/?=
- =?iso-8859-1?Q?cm7oKNTcGmpdDwCOmXp6XXMCwohJBieJD1yLSbloCaoJo4eV50xHOMOcl8?=
- =?iso-8859-1?Q?2747XHqTEKmJ/Lo6TZAgTmSF4H/4yXLYaXJDNyMLMZnqtpLXvefalO43ho?=
- =?iso-8859-1?Q?jFqOy/8Ha4+OYvg1bH/Cx69ecL3TasQULkLwIPs31bCFDxYN8tFLyzI8Ay?=
- =?iso-8859-1?Q?Bvp1qfLXWhCYiSxdnsO6jZFRpSJgxpo5pPkdd+kZ4D57i2dtkpcZ+e3Omc?=
- =?iso-8859-1?Q?vpVj2JejanJfF7dwkk8le/nXFjWKGG+237hRhQIL3lVWi/kbbiTDyyCKT9?=
- =?iso-8859-1?Q?qwOp8IDSZli4wIHzFLcyyUDUkHEwKXWbFyrqd4xSgriOmiRPdbn4KIQfG/?=
- =?iso-8859-1?Q?5jwTQR+V1D7hLPgafXGI4hOCp1XoM5/aDDxGUgfQc2gJ5OQZvwK6UboCKI?=
- =?iso-8859-1?Q?WNxiXwCQ3BLS++z03n7Asct6emHyPvgceLfjpii8eRhYqbsTsNZvWT1Pf0?=
- =?iso-8859-1?Q?tNO8z7zl87+a4JUybGe4l2HxBxyCnES0N7aLR6/QVDQEJB1hiLs8FF52Hl?=
- =?iso-8859-1?Q?O5GEXFe7LzzvZtRpc/68wgc4W8AiA+orE/CIQKiJLhIFQ/13JW7GmmMGiP?=
- =?iso-8859-1?Q?Ncq8kPI8rZBjjn8onHcioJruFfIT/1RN5tRn92BRQp+OuMa1r5wH1FNqn0?=
- =?iso-8859-1?Q?lsu3PWSi94nt86oMW6Drk6+eV3Jr11oijBsURb3GVdzpVuludjtCNAj59C?=
- =?iso-8859-1?Q?BL7/knTwWxXBLOI1YU6oLv8BHuwADwxnByxkw1TxDaSbltFBluAimUuseP?=
- =?iso-8859-1?Q?E7A29t9p3GM3vLYEoNnJFGtOLpWk2Z/QlaUXEVB8xEfGwxzuI9VWi6MDZI?=
- =?iso-8859-1?Q?DNejtfqES/Txc8ruDpK6u+x33/ZxUwYijfn0RsOtzNRwj8a8RJsNKGMkhW?=
- =?iso-8859-1?Q?OD7+eRNSmt7xSlYF/8HnPJQ/sn/FdIjE4alRgSOK35UVJvjjHrW5bOk+FC?=
- =?iso-8859-1?Q?P0JogiCbAbw+2aeXIXu/99XF8QvAJ8/WqRyhUFkxBTMJVLVZh0QvRUa1J6?=
- =?iso-8859-1?Q?BpheW4XB/UArAYGWd47Utde1g=3D?=
-X-OriginatorOrg: gientech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 054d09aa-bd06-4dcc-0df3-08da366ff9a0
-X-MS-Exchange-CrossTenant-AuthSource: SH0PR01MB0729.CHNPR01.prod.partner.outlook.cn
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2022 12:39:38.4726
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 89592e53-6f9d-4b93-82b1-9f8da689f1b4
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cWSgi5LZh61AbMJ1oyKwdg1f/5vonCgmw47j+jrumONtPndlfPx584af2wCFZ9V/3yj8Vo3EricyGDZIrFA9ZuhwdZgGbFkuaZJGU+72IdI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SH0PR01MB0635
-X-Spam-Status: Yes, score=7.4 required=5.0 tests=BAYES_50,DATE_IN_PAST_96_XX,
-        DKIM_INVALID,DKIM_SIGNED,NIXSPAM_IXHASH,SPF_HELO_PASS,SPF_PASS,
+References: <20220513113930.10488-1-masahiroy@kernel.org> <CAK7LNAQvneCi11myLpkikuXh=i5PLtTaLe0nGpDZXgv_Q1L0Ow@mail.gmail.com>
+ <CA+icZUUWww3fXvjQcefgFuq=tPO6+FYDbHE2E5PmL-BSJg4+cw@mail.gmail.com>
+In-Reply-To: <CA+icZUUWww3fXvjQcefgFuq=tPO6+FYDbHE2E5PmL-BSJg4+cw@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 22 May 2022 15:49:33 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATx1QcM6BdqBSascV8J8rD6etRgRZj9PjBno5Qrb=p3Yg@mail.gmail.com>
+Message-ID: <CAK7LNATx1QcM6BdqBSascV8J8rD6etRgRZj9PjBno5Qrb=p3Yg@mail.gmail.com>
+Subject: Re: [PATCH v6 00/10] kbuild: yet another series of cleanups (modpost,
+ LTO, MODULE_REL_CRCS, export.h)
+To:     Sedat Dilek <sedat.dilek@gmail.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-modules <linux-modules@vger.kernel.org>,
+        clang-built-linux <llvm@lists.linux.dev>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4864]
-        *  3.0 NIXSPAM_IXHASH http://www.nixspam.org/
-        * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
-        *  3.4 DATE_IN_PAST_96_XX Date: is 96 hours or more before Received:
-        *      date
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        *  0.1 DKIM_INVALID DKIM or DK signature exists, but is not valid
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Can we do this together
+On Sun, May 22, 2022 at 10:45 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+>
+> On Fri, May 13, 2022 at 4:31 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > On Fri, May 13, 2022 at 8:42 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > >
+> > >
+> > > This is the third batch of cleanups in this development cycle.
+> > >
+> >
+> >
+> > This series is available at
+> > git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+> >  lto-cleanup-v6
+> >
+>
+> Hi Masahiro,
+>
+> I cloned the repository on top of latest Linus Git.
+>
+> Not able to boot in Quemu - Not able to boot on bare metal.
+>
+> $ grep module_layout log_quemu-5.18.0-rc7-2-amd64-clang14-lto.txt
+> 366:[    2.173265] floppy: disagrees about version of symbol module_layout
+> 367:[    2.198746] scsi_common: disagrees about version of symbol module_layout
+> 368:[    2.205573] i2c_piix4: disagrees about version of symbol module_layout
+> 369:[    2.210610] psmouse: disagrees about version of symbol module_layout
+> 370:[    2.225138] scsi_common: disagrees about version of symbol module_layout
+> 371:[    2.235536] scsi_common: disagrees about version of symbol module_layout
+> 375:Begin: Running /scripts/local-premount ... [    2.298555]
+> crc32c_intel: disagrees about version of symbol module_layout
+> 376:[    2.303335] crc32c_generic: disagrees about version of symbol
+> module_layout
+> 377:[    2.306667] libcrc32c: disagrees about version of symbol module_layout
+>
+> Infos: LLVM-14 + CONFIG_LTO_CLANG_THIN=y
+>
+> My linux-config and qemu-log are attached.
+>
+
+
+Thanks for your testing.
+
+I was also able to reproduce this issue.
+
+
+The problematic parts are:
+
+[    2.298555] crc32c_intel: disagrees about version of symbol module_layout
+[    2.303335] crc32c_generic: disagrees about version of symbol module_layout
+[    2.306667] libcrc32c: disagrees about version of symbol module_layout
+
+
+
+When CONFIG_LTO_CLANG_THIN=y,
+I cannot see any __crc_* symbols in "nm  vmlinux".
+
+Perhaps, LTO might have discarded all the __crc_* symbols
+from vmlinux, but I am still checking the details...
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
