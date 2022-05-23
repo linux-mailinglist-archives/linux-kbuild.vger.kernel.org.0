@@ -2,160 +2,84 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9468D531C82
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 May 2022 22:57:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52D53531857
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 May 2022 22:53:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232692AbiEWUR5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 23 May 2022 16:17:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52430 "EHLO
+        id S232989AbiEWU0I (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 23 May 2022 16:26:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233374AbiEWUQM (ORCPT
+        with ESMTP id S233150AbiEWU0H (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 23 May 2022 16:16:12 -0400
-Received: from smtp.smtpout.orange.fr (smtp04.smtpout.orange.fr [80.12.242.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E93710576
-        for <linux-kbuild@vger.kernel.org>; Mon, 23 May 2022 13:16:08 -0700 (PDT)
-Received: from [192.168.1.18] ([86.243.180.246])
-        by smtp.orange.fr with ESMTPA
-        id tETGnTFRzAym2tETGnHes4; Mon, 23 May 2022 22:16:07 +0200
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
-X-ME-Date: Mon, 23 May 2022 22:16:07 +0200
-X-ME-IP: 86.243.180.246
-Message-ID: <00061a71-4d7c-0605-80b5-3d909fc3dfaa@wanadoo.fr>
-Date:   Mon, 23 May 2022 22:16:05 +0200
+        Mon, 23 May 2022 16:26:07 -0400
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82F8325FE;
+        Mon, 23 May 2022 13:26:06 -0700 (PDT)
+Received: by mail-io1-xd32.google.com with SMTP id i74so9787123ioa.4;
+        Mon, 23 May 2022 13:26:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3BLAGqefFcKnKvrDQkzzllfdtEJDFmKt1hLfJEqkgnw=;
+        b=DtD1+J6MZV3anfLnN976u1SvMRB4p3Dv+GFIL2oz2VSCrPQcQszE9qmG45a+XMQz3x
+         LBbsWr8WJxvhuFUtvkNLPt3PegpxtJr4gAVZimKb96TyytKTD/gz6wfy5VHS3LwtuNTV
+         jX2WvinoI665o4G/AOZz7+6xfaKBT6g8miAdJGjLZB3Cazi3wNXwg7hpl3gA0zzbGtn4
+         ysRilot8XAIkQlk7RvSFkp1Ya5PJFx+41DG3NctQbJXAUOAHkUVztYwEa6Qert5CnGQ1
+         einJtgHT/+Zd9T59hQde59zDNlAgaTIX1lroraSCp0ail3Put4Z2+W3JpKSWVvCWPR+/
+         H7GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3BLAGqefFcKnKvrDQkzzllfdtEJDFmKt1hLfJEqkgnw=;
+        b=l/9nll5kdOo4z3hrBl4s5r4XSezyWrpXubdHB4ZUBstK/BsHl6FXk9IJeIzbkV8Amt
+         LvWGmrd3mF1E1dGU+veeWm6jkLi+7nmK4i3wz8BrkAYGzqnp7ZnWwdK4lhqoZsXJgP0D
+         uDcw0USvL4XNAZfexWZt/EkmDqe4zBzvUmhxJEBn3bOJ32gffvRWaHP5ZZDjSN9/a5ch
+         5ZNjFKVJ8bpZFOgFxsqbYGkq4uZAwAIWw1pvB/Uwe/mrpaRKl4OU7QznVN+6SPWIbBzg
+         iQ/6RGiSn0WFYHQGF/zG4YogosBgdpp1XBlIuhPk9oN6zld/aGtt4HOX1RNlaS+SRaGL
+         1gqw==
+X-Gm-Message-State: AOAM5320GH3vSPM+i2OVVSY/axnz4H9E7w3PHO1XttWcarm4VlYnWCnK
+        DiRgmDb//HMYEJCKhsQGVpKhMLFmbyy2f9Snlk0=
+X-Google-Smtp-Source: ABdhPJyCkvOTLidTHrw62Wg9JHrwDBE4wyrSaTiPgYgmFPwwAAXuPSf9xiIV/Qgb+mPgIIU99uUs8vla9Hn77s+n27I=
+X-Received: by 2002:a05:6638:16cf:b0:32b:6ee7:8d7d with SMTP id
+ g15-20020a05663816cf00b0032b6ee78d7dmr12242004jat.256.1653337566001; Mon, 23
+ May 2022 13:26:06 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
+References: <23e0ba7863d51ab629498762a97d477645aeafea.1653123744.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <23e0ba7863d51ab629498762a97d477645aeafea.1653123744.git.christophe.jaillet@wanadoo.fr>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Mon, 23 May 2022 22:25:55 +0200
+Message-ID: <CANiq72=GZs5CmAMGAMaHrp1yJ8b7nv3HrsWNeQ42kfy0z5uuAg@mail.gmail.com>
 Subject: Re: [RFC PATCH] kbuild: Add an option to enable -O1 and speed-up
  compilation time
-Content-Language: en-GB
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     dan.carpenter@oracle.com, Masahiro Yamada <masahiroy@kernel.org>,
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     Dan <dan.carpenter@oracle.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>
-References: <23e0ba7863d51ab629498762a97d477645aeafea.1653123744.git.christophe.jaillet@wanadoo.fr>
- <CAKwvOdneqUvq+Nz_zPmJmuPFfAvWQgnzrw1AJt=WqQF2hThF-A@mail.gmail.com>
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <CAKwvOdneqUvq+Nz_zPmJmuPFfAvWQgnzrw1AJt=WqQF2hThF-A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Le 23/05/2022 à 20:26, Nick Desaulniers a écrit :
-> On Sat, May 21, 2022 at 2:04 AM Christophe JAILLET
-> <christophe.jaillet@wanadoo.fr> wrote:
->>
->> Add a new compilation option which speeds-up compilation time.
->> This can be useful when using static checker such as smatch or build-bots.
->> In such cases, the speed and quality of the generated code is not
->> important.
->>
->> Using -O0 would be even better, but unfortunately, building fails with
->> this option.
-> 
-> Which is a tragedy.
-> 
-> As with the Rust series, I'm not a fan of this (or
-> CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3):
-> https://lore.kernel.org/lkml/CAKwvOd=7QTUH69+ZbT7e8einvgcosTbDkyohmPaUBv6_y8RfrQ@mail.gmail.com/
-> 
-> These feel more like attempts to wrap every conceivable command line
-> flag in a kconfig option, which makes me think of that meme from
-> Jurassic Park: "your scientists were so preoccupied with whether or
-> not they could, they didn't stop to think if they should."
-> Not a fan.  I'd ask for measurements, but that would be a request for
-> a "rock fetching quest" for something I still wouldn't be a fan of.
+Hi Christophe,
 
-Hi,
+On Mon, May 23, 2022 at 9:11 AM Christophe JAILLET
+<christophe.jaillet@wanadoo.fr> wrote:
+>
+> +KBUILD_RUSTFLAGS_OPT_LEVEL_MAP := 1
 
-some preliminary tests gave roughly a 5% build time speed-up with -O1.
-That is to say that the impact seems quite limited, after all.
-This was done on building /drivers/net/ or /drivers/net/ethernet/ only.
+The patch seems based on linux-next -- is this intended? Thanks!
 
-I don't have numbers for the impact on memory consumption.
-
-Given the feedbacks on -O1 which is unlikely to be able to build a full 
-kernel and your position on yet another option for a very specific use 
-case, I won't push the idea further.
-
-I'll keep it in my own tree for (small) build time improvement when 
-running smatch.
-
-The idea of turning off a subset of -O2 options would just be some too 
-fine tuning. I'll certainly try it for my own use, but it would end to 
-an un-understandable list of flags in Makefile.
--O1 (or -O0) was simple. A more complex solution is way too much.
-
-
-Thanks for your feedbacks.
-
-CJ
-
-> 
->>
->> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
->> ---
->>   Makefile     | 5 ++++-
->>   init/Kconfig | 8 ++++++++
->>   2 files changed, 12 insertions(+), 1 deletion(-)
->>
->> diff --git a/Makefile b/Makefile
->> index 1f8bef92868f..14467386f947 100644
->> --- a/Makefile
->> +++ b/Makefile
->> @@ -817,7 +817,10 @@ KBUILD_CFLAGS      += $(call cc-disable-warning, format-truncation)
->>   KBUILD_CFLAGS  += $(call cc-disable-warning, format-overflow)
->>   KBUILD_CFLAGS  += $(call cc-disable-warning, address-of-packed-member)
->>
->> -ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
->> +ifdef CONFIG_CC_OPTIMIZE_FOR_COMPILATION_SPEED
->> +KBUILD_CFLAGS += -O1
->> +KBUILD_RUSTFLAGS_OPT_LEVEL_MAP := 1
->> +else ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
->>   KBUILD_CFLAGS += -O2
->>   KBUILD_RUSTFLAGS_OPT_LEVEL_MAP := 2
->>   else ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3
->> diff --git a/init/Kconfig b/init/Kconfig
->> index a96776a9b080..3177a1830c9a 100644
->> --- a/init/Kconfig
->> +++ b/init/Kconfig
->> @@ -1384,6 +1384,14 @@ choice
->>          prompt "Compiler optimization level"
->>          default CC_OPTIMIZE_FOR_PERFORMANCE
->>
->> +config CC_OPTIMIZE_FOR_COMPILATION_SPEED
->> +       bool "Optimize for compilation speed (-O1)"
->> +       help
->> +         This option can be useful when running a static checker such as smatch
->> +         or a build-bot.
->> +         Compilation time is slighly faster than -O2 and it requires less
-> 
-> s/slighly/slightly/
-
-Thanks for taking time for a full review, even on something you are not 
-fan on. This is really appreciated.
-
-CJ
-
-> 
->> +         memory.
->> +
->>   config CC_OPTIMIZE_FOR_PERFORMANCE
->>          bool "Optimize for performance (-O2)"
->>          help
->> --
->> 2.34.1
->>
-> 
-> 
-
+Cheers,
+Miguel
