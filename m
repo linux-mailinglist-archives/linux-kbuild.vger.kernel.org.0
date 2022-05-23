@@ -2,52 +2,64 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3ED09530766
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 May 2022 04:03:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45950530776
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 May 2022 04:05:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243690AbiEWCDB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 22 May 2022 22:03:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40090 "EHLO
+        id S1352776AbiEWCFY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 22 May 2022 22:05:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234027AbiEWCC7 (ORCPT
+        with ESMTP id S1352799AbiEWCFJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 22 May 2022 22:02:59 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08BCE35AB2;
-        Sun, 22 May 2022 19:02:54 -0700 (PDT)
+        Sun, 22 May 2022 22:05:09 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73EB93A1AA;
+        Sun, 22 May 2022 19:04:29 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 5E8C1B80CBE;
-        Mon, 23 May 2022 02:02:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE23BC385AA;
-        Mon, 23 May 2022 02:02:47 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 0DEB7B80EA2;
+        Mon, 23 May 2022 02:04:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20BF2C385AA;
+        Mon, 23 May 2022 02:04:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1653271371;
-        bh=ERwtvphja6U/1OhlgSfEhE5NLiXGu89oIBPKPKs7U8Q=;
-        h=From:To:Cc:Subject:Date:From;
-        b=YYroKg8JiImIEyhxQqxr9dwSw6Gvz1uWiyFTs6/Arz+D78M6TjE788dmc4o88D3+C
-         yz9ghXro/LMf4BlMmFJJKGCcEc/yLsjL5rV7MjA4Hz2v3iDCB0BmwwzOTY9RPA9avG
-         nk14pZu9MJJUMFRvuU+GioRXKmkkvpJxj6j1DzgNG7Id/s3k2fz4KstwpRDeUVGgec
-         /lE4TfznmsR1NMdvfmW9HbRP82C815EbADCMxN60Za904DFLaE8qS4X2vIgDRInjq4
-         EmvQ0mzLy51/Oxa6eLaoEG5p/QnLNDGqO6RTYT5D24v7d8empSxpr6/M1HyKTSFtSS
-         zUUdug5Vel7Kg==
+        s=k20201202; t=1653271466;
+        bh=yr6GBFC+CA8TjJhtX5Bs8hW/G84cYfpKClrmlLJTT+4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=gSDSZbmFQ1GqFtKqLblwGqtodt2EfkUHqf5cRdK9Yf9o0MxKxyinSbVxBNRPod90t
+         sZbNko7Ghj2mGtRAEcSeOnJiOebPCxaDJo0eXLX2uYGtDH/LCSh4f68MZmac/qvW1l
+         9tRPzPj3KvMtvPmYDai5oQZctbugyKHF98/2Q1YIjA876Z6p5AHQIzwJHAXeCfrev/
+         ZOUBeNIG+bFsUlHbN+cor2lX8i7pOvKThWHWVfpgqyqXPzmAlx1yM0DIlADQTkLfxD
+         YMRZ6TrYXFbuUTFcl1Ruc6oB0sTQCq9QgzW5SmocgKs6I8HXxQdfgiVZp8IA+Y7lh5
+         ZcautORqgdlhQ==
 From:   Miguel Ojeda <ojeda@kernel.org>
 To:     Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
         Jarkko Sakkinen <jarkko@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>, kunit-dev@googlegroups.com,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-perf-users@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-um@lists.infradead.org, live-patching@vger.kernel.org
-Subject: [PATCH v7 00/25] Rust support
-Date:   Mon, 23 May 2022 04:01:13 +0200
-Message-Id: <20220523020209.11810-1-ojeda@kernel.org>
+        Miguel Ojeda <ojeda@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Wu XiangCheng <bobwxc@email.cn>, Gary Guo <gary@garyguo.net>,
+        Boris-Chengbiao Zhou <bobo1239@web.de>,
+        Yuki Okushi <jtitor@2k36.org>, Wei Liu <wei.liu@kernel.org>,
+        Daniel Xu <dxu@dxuuu.xyz>, Julian Merkle <me@jvmerkle.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: [PATCH v7 20/25] docs: add Rust documentation
+Date:   Mon, 23 May 2022 04:01:33 +0200
+Message-Id: <20220523020209.11810-21-ojeda@kernel.org>
+In-Reply-To: <20220523020209.11810-1-ojeda@kernel.org>
+References: <20220523020209.11810-1-ojeda@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
@@ -59,527 +71,897 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Rust support
-
-This is the patch series (v7) to add support for Rust as a second
-language to the Linux kernel.
-
-If you are interested in following this effort, please join us in
-the mailing list at:
-
-    rust-for-linux@vger.kernel.org
-
-and take a look at the project itself at:
-
-    https://github.com/Rust-for-Linux
-
-As usual, special thanks go to ISRG (Internet Security Research
-Group) and Google for their financial support on this endeavor.
-
-Cheers,
-Miguel
-
---
-
-# Rust support
-
-This cover letter explains the major changes and updates done since
-the previous ones. For those, please see:
-
-    RFC: https://lore.kernel.org/lkml/20210414184604.23473-1-ojeda@kernel.org/
-    v1:  https://lore.kernel.org/lkml/20210704202756.29107-1-ojeda@kernel.org/
-    v2:  https://lore.kernel.org/lkml/20211206140313.5653-1-ojeda@kernel.org/
-    v3:  https://lore.kernel.org/lkml/20220117053349.6804-1-ojeda@kernel.org/
-    v4:  https://lore.kernel.org/lkml/20220212130410.6901-1-ojeda@kernel.org/
-    v5:  https://lore.kernel.org/lkml/20220317181032.15436-1-ojeda@kernel.org/
-    v6:  https://lore.kernel.org/lkml/20220507052451.12890-1-ojeda@kernel.org/
-
-This is a small round to address the comments made in v6 plus a few
-related changes:
-
-  - Added `%pA` to `Documentation/core-api/printk-formats.rst`.
-
-  - Added `checkpatch.pl` patch to search for `%pA` in C code.
-
-  - Added `checkpatch.pl` patch to enable language-independent checks.
-
-  - Added UML (x86_64) support, for KUnit (thanks David Gow!).
-
-  - Added inline licensing information ("Apache-2.0 OR MIT") in
-    the commit message of the `alloc` patch, as well as in
-    `rust/alloc/README.md` in the following patch.
-
-  - Added SPDX license identifiers to `Documentation/rust/`.
-
-  - Reformatted `Documentation/rust/arch-support.rst` list table
-    into simple table.
-
-  - Removed logo from documentation patch; used Linux GIF one for
-    the Rust generated docs in its place (to be replaced with
-    the SVG one once available).
-
-  - Used `"GPL"` instead of `"GPL v2"` for the `license` field of the
-    `module!` macro.
-
-  - Moved `module_misc_device!` macro in `samples/rust/rust_random.rs`
-    to the top of the file in `samples/rust/` for consistency.
-
-  - Sorted `#include` lists in `rust/kernel/bindings_helper.h`
-    and `rust/helpers.c`.
-
-  - Fixed some English typos.
-
-  - Made the patches more `checkpatch.pl`-clean overall.
-
-  - Picked up Reviewed-by and Acked-by tags.
-
-
-## Patch series status
-
-The Rust support is still to be considered experimental. However,
-support is good enough that kernel developers can start working on the
-Rust abstractions for subsystems and write drivers and other modules.
-
-The current series has just arrived in `linux-next`, as usual.
-Similarly, the preview docs for this series can be seen at:
-
-    https://rust-for-linux.github.io/docs/kernel/
-
-As usual, please see the following link for the live list of unstable
-Rust features we are using:
-
-    https://github.com/Rust-for-Linux/linux/issues/2
-
-
-## Conferences, meetings and liaisons
-
-We would like to remind everyone about the Rust MC (microconference)
-of LPC 2022 (Linux Plumbers Conference):
-
-    https://lpc.events/event/16/contributions/1159/
-
-The Rust MC intends to cover talks and discussions on both Rust for
-Linux as well as other non-kernel Rust topics. The Call for Proposals
-is open!
-
-
-## Acknowledgements
-
-The signatures in the main commits correspond to the people that
-wrote code that has ended up in them at the present time. For details
-on contributions to code and discussions, please see our repository:
-
-    https://github.com/Rust-for-Linux/linux
-
-However, we would like to give credit to everyone that has contributed
-in one way or another to the Rust for Linux project. Since the
-previous cover letter:
-
-  - Kees Cook for his reviews of some of the v6 patches.
-
-  - David Gow and Brendan Higgins for their reviews of the KUnit
-    prerequisite patch and their feedback.
-
-  - Jonathan Corbet and Akira Yokosawa for their review of the
-    documentation patch and feedback on documentation rules.
-
-  - Gary Guo for working on improvements to the Rust compiler that
-    could make our `static_assert!` macro applicable in more cases.
-
-  - bjorn3 for working on making `rustc_parse_format` compile on
-    a stable Rust compiler so that it may be used by lightweight
-    formatting systems (for instance, by the kernel).
-
-  - As usual, bjorn3 and Gary Guo for all the input on Rust compiler
-    details, reviews and suggestions.
-
-  - Esteban Blanc, Arthur Cohen and Martin Schmidt for rebasing their
-    SPI abstraction work.
-
-  - Maciej Falkowski for continuing his work on the Samsung Exynos
-    TRNG driver and the required abstractions around it, such as
-    adding `delay`, `ktime` and `iopoll` abstractions, new methods
-    to `platform::Device` and run-time power management abstractions.
-
-  - Yuheng Su for working on cleaning up the `Module::init` interface.
-
-  - Peng Hao for working on wrapping `mm_struct`.
-
-  - Sergio González Collado for continuing his work on the GitHub CI
-    problem matchers.
-
-  - Wei Liu for taking the time to answer questions from newcomers
-    in Zulip.
-
-  - Philip Li, Yujie Liu et al. for continuing their work on adding
-    Rust support to the Intel 0DAY/LKP kernel test robot.
-
-  - Philip Herron and Arthur Cohen (and his supporters Open Source
-    Security and Embecosm) et al. for their ongoing work on GCC Rust.
-
-  - Antoni Boucher (and his supporters) et al. for their ongoing
-    work on `rustc_codegen_gcc`.
-
-  - Mats Larsen, Marc Poulhiès et al. for their ongoing work on
-    improving Rust support in Compiler Explorer.
-
-  - Many folks that have reported issues, tested the project,
-    helped spread the word, joined discussions and contributed in
-    other ways!
-
-Please see also the acknowledgements on the previous cover letters.
-
-
-Boqun Feng (1):
-  kallsyms: avoid hardcoding the buffer size
-
-Gary Guo (2):
-  rust: add `build_error` crate
-  vsprintf: add new `%pA` format specifier
-
-Miguel Ojeda (18):
-  kallsyms: support "big" kernel symbols
-  kallsyms: increase maximum kernel symbol length to 512
-  kunit: take `kunit_assert` as `const`
-  rust: add C helpers
-  rust: add `compiler_builtins` crate
-  rust: import upstream `alloc` crate
-  rust: adapt `alloc` crate to the kernel
-  rust: add `macros` crate
-  rust: export generated symbols
-  scripts: checkpatch: diagnose uses of `%pA` in the C side
-  scripts: checkpatch: enable language-independent checks for Rust
-  scripts: add `rustdoc_test_{builder,gen}.py` scripts
-  scripts: add `generate_rust_analyzer.py` scripts
-  scripts: decode_stacktrace: demangle Rust symbols
-  docs: add Rust documentation
-  Kbuild: add Rust support
-  samples: add Rust examples
-  MAINTAINERS: Rust
-
-Wedson Almeida Filho (4):
-  rust: add `kernel` crate's `sync` module
-  rust: add `kernel` crate
-  [RFC] drivers: gpio: PrimeCell PL061 in Rust
-  [RFC] drivers: android: Binder IPC in Rust
-
- .gitignore                                   |    5 +
- .rustfmt.toml                                |   12 +
- Documentation/core-api/printk-formats.rst    |   10 +
- Documentation/doc-guide/kernel-doc.rst       |    3 +
- Documentation/index.rst                      |    1 +
- Documentation/kbuild/kbuild.rst              |   17 +
- Documentation/kbuild/makefiles.rst           |   50 +-
- Documentation/process/changes.rst            |   41 +
- Documentation/rust/arch-support.rst          |   25 +
- Documentation/rust/coding-guidelines.rst     |  216 ++
- Documentation/rust/general-information.rst   |   79 +
- Documentation/rust/index.rst                 |   22 +
- Documentation/rust/quick-start.rst           |  232 ++
- MAINTAINERS                                  |   15 +
- Makefile                                     |  175 +-
- arch/Kconfig                                 |    6 +
- arch/arm/Kconfig                             |    1 +
- arch/arm64/Kconfig                           |    1 +
- arch/powerpc/Kconfig                         |    1 +
- arch/riscv/Kconfig                           |    1 +
- arch/riscv/Makefile                          |    5 +
- arch/um/Kconfig                              |    1 +
- arch/x86/Kconfig                             |    1 +
- arch/x86/Makefile                            |   14 +
- drivers/android/Kconfig                      |    6 +
- drivers/android/Makefile                     |    2 +
- drivers/android/allocation.rs                |  266 ++
- drivers/android/context.rs                   |   80 +
- drivers/android/defs.rs                      |   99 +
- drivers/android/node.rs                      |  476 +++
- drivers/android/process.rs                   |  960 +++++
- drivers/android/range_alloc.rs               |  189 +
- drivers/android/rust_binder.rs               |  111 +
- drivers/android/thread.rs                    |  870 +++++
- drivers/android/transaction.rs               |  326 ++
- drivers/gpio/Kconfig                         |    8 +
- drivers/gpio/Makefile                        |    1 +
- drivers/gpio/gpio_pl061_rust.rs              |  370 ++
- include/kunit/test.h                         |    2 +-
- include/linux/kallsyms.h                     |    2 +-
- include/linux/spinlock.h                     |   25 +-
- include/uapi/linux/android/binder.h          |   28 +-
- init/Kconfig                                 |   45 +-
- kernel/kallsyms.c                            |   26 +-
- kernel/livepatch/core.c                      |    4 +-
- lib/Kconfig.debug                            |  155 +
- lib/kunit/test.c                             |    4 +-
- lib/vsprintf.c                               |   13 +
- rust/.gitignore                              |   10 +
- rust/Makefile                                |  398 +++
- rust/alloc/README.md                         |   33 +
- rust/alloc/alloc.rs                          |  438 +++
- rust/alloc/borrow.rs                         |  498 +++
- rust/alloc/boxed.rs                          | 2007 +++++++++++
- rust/alloc/collections/mod.rs                |  156 +
- rust/alloc/fmt.rs                            |  601 ++++
- rust/alloc/lib.rs                            |  226 ++
- rust/alloc/macros.rs                         |  127 +
- rust/alloc/raw_vec.rs                        |  567 +++
- rust/alloc/slice.rs                          | 1282 +++++++
- rust/alloc/str.rs                            |  632 ++++
- rust/alloc/string.rs                         | 2869 +++++++++++++++
- rust/alloc/vec/drain.rs                      |  186 +
- rust/alloc/vec/drain_filter.rs               |  145 +
- rust/alloc/vec/into_iter.rs                  |  356 ++
- rust/alloc/vec/is_zero.rs                    |  106 +
- rust/alloc/vec/mod.rs                        | 3362 ++++++++++++++++++
- rust/alloc/vec/partial_eq.rs                 |   49 +
- rust/alloc/vec/set_len_on_drop.rs            |   30 +
- rust/alloc/vec/spec_extend.rs                |  174 +
- rust/bindgen_parameters                      |   17 +
- rust/build_error.rs                          |   29 +
- rust/compiler_builtins.rs                    |   57 +
- rust/exports.c                               |   20 +
- rust/helpers.c                               |  644 ++++
- rust/kernel/allocator.rs                     |   65 +
- rust/kernel/amba.rs                          |  257 ++
- rust/kernel/bindings.rs                      |   47 +
- rust/kernel/bindings_helper.h                |   46 +
- rust/kernel/build_assert.rs                  |   82 +
- rust/kernel/c_types.rs                       |  119 +
- rust/kernel/chrdev.rs                        |  207 ++
- rust/kernel/clk.rs                           |   79 +
- rust/kernel/cred.rs                          |   46 +
- rust/kernel/device.rs                        |  546 +++
- rust/kernel/driver.rs                        |  442 +++
- rust/kernel/error.rs                         |  565 +++
- rust/kernel/file.rs                          |  860 +++++
- rust/kernel/gpio.rs                          |  478 +++
- rust/kernel/hwrng.rs                         |  242 ++
- rust/kernel/io_buffer.rs                     |  153 +
- rust/kernel/io_mem.rs                        |  275 ++
- rust/kernel/iov_iter.rs                      |   81 +
- rust/kernel/irq.rs                           |  411 +++
- rust/kernel/kasync.rs                        |    6 +
- rust/kernel/kasync/net.rs                    |  322 ++
- rust/kernel/kunit.rs                         |   91 +
- rust/kernel/lib.rs                           |  261 ++
- rust/kernel/linked_list.rs                   |  247 ++
- rust/kernel/miscdev.rs                       |  291 ++
- rust/kernel/mm.rs                            |  149 +
- rust/kernel/module_param.rs                  |  498 +++
- rust/kernel/net.rs                           |  392 ++
- rust/kernel/net/filter.rs                    |  447 +++
- rust/kernel/of.rs                            |   63 +
- rust/kernel/pages.rs                         |  144 +
- rust/kernel/platform.rs                      |  223 ++
- rust/kernel/power.rs                         |  118 +
- rust/kernel/prelude.rs                       |   36 +
- rust/kernel/print.rs                         |  405 +++
- rust/kernel/random.rs                        |   42 +
- rust/kernel/raw_list.rs                      |  361 ++
- rust/kernel/rbtree.rs                        |  563 +++
- rust/kernel/revocable.rs                     |  161 +
- rust/kernel/security.rs                      |   38 +
- rust/kernel/static_assert.rs                 |   38 +
- rust/kernel/std_vendor.rs                    |  160 +
- rust/kernel/str.rs                           |  597 ++++
- rust/kernel/sync.rs                          |  161 +
- rust/kernel/sync/arc.rs                      |  503 +++
- rust/kernel/sync/condvar.rs                  |  138 +
- rust/kernel/sync/guard.rs                    |  169 +
- rust/kernel/sync/locked_by.rs                |  111 +
- rust/kernel/sync/mutex.rs                    |  153 +
- rust/kernel/sync/nowait.rs                   |  188 +
- rust/kernel/sync/revocable.rs                |  250 ++
- rust/kernel/sync/rwsem.rs                    |  197 +
- rust/kernel/sync/seqlock.rs                  |  202 ++
- rust/kernel/sync/smutex.rs                   |  295 ++
- rust/kernel/sync/spinlock.rs                 |  360 ++
- rust/kernel/sysctl.rs                        |  199 ++
- rust/kernel/task.rs                          |  175 +
- rust/kernel/types.rs                         |  679 ++++
- rust/kernel/user_ptr.rs                      |  175 +
- rust/macros/helpers.rs                       |   79 +
- rust/macros/lib.rs                           |   94 +
- rust/macros/module.rs                        |  631 ++++
- samples/Kconfig                              |    2 +
- samples/Makefile                             |    1 +
- samples/rust/Kconfig                         |  140 +
- samples/rust/Makefile                        |   16 +
- samples/rust/hostprogs/.gitignore            |    3 +
- samples/rust/hostprogs/Makefile              |    5 +
- samples/rust/hostprogs/a.rs                  |    7 +
- samples/rust/hostprogs/b.rs                  |    5 +
- samples/rust/hostprogs/single.rs             |   12 +
- samples/rust/rust_chrdev.rs                  |   50 +
- samples/rust/rust_minimal.rs                 |   35 +
- samples/rust/rust_miscdev.rs                 |  143 +
- samples/rust/rust_module_parameters.rs       |   69 +
- samples/rust/rust_netfilter.rs               |   54 +
- samples/rust/rust_platform.rs                |   22 +
- samples/rust/rust_print.rs                   |   54 +
- samples/rust/rust_random.rs                  |   60 +
- samples/rust/rust_semaphore.rs               |  171 +
- samples/rust/rust_semaphore_c.c              |  212 ++
- samples/rust/rust_stack_probing.rs           |   36 +
- samples/rust/rust_sync.rs                    |   93 +
- scripts/.gitignore                           |    1 +
- scripts/Kconfig.include                      |    6 +-
- scripts/Makefile                             |    3 +
- scripts/Makefile.build                       |   60 +
- scripts/Makefile.debug                       |   10 +
- scripts/Makefile.host                        |   34 +-
- scripts/Makefile.lib                         |   12 +
- scripts/Makefile.modfinal                    |    8 +-
- scripts/cc-version.sh                        |   12 +-
- scripts/checkpatch.pl                        |    8 +-
- scripts/decode_stacktrace.sh                 |   14 +
- scripts/generate_rust_analyzer.py            |  134 +
- scripts/generate_rust_target.rs              |  227 ++
- scripts/is_rust_module.sh                    |   13 +
- scripts/kallsyms.c                           |   47 +-
- scripts/kconfig/confdata.c                   |   75 +
- scripts/min-tool-version.sh                  |    6 +
- scripts/rust-is-available-bindgen-libclang.h |    2 +
- scripts/rust-is-available.sh                 |  158 +
- scripts/rustdoc_test_builder.py              |   59 +
- scripts/rustdoc_test_gen.py                  |  164 +
- tools/include/linux/kallsyms.h               |    2 +-
- tools/lib/perf/include/perf/event.h          |    2 +-
- tools/lib/symbol/kallsyms.h                  |    2 +-
- 182 files changed, 37614 insertions(+), 69 deletions(-)
- create mode 100644 .rustfmt.toml
+Most of the documentation for Rust is written within the source code
+itself, as it is idiomatic for Rust projects. This applies to both
+the shared infrastructure at `rust/` as well as any other Rust module
+(e.g. drivers) written across the kernel.
+
+However, these documents contain general information that does not
+fit particularly well in the source code, like the Quick Start guide.
+
+It also contains an asset (SVG logo) used for the `rustdoc` target
+and a few other small changes elsewhere in the documentation folder.
+
+Reviewed-by: Kees Cook <keescook@chromium.org>
+Co-developed-by: Alex Gaynor <alex.gaynor@gmail.com>
+Signed-off-by: Alex Gaynor <alex.gaynor@gmail.com>
+Co-developed-by: Finn Behrens <me@kloenk.de>
+Signed-off-by: Finn Behrens <me@kloenk.de>
+Co-developed-by: Adam Bratschi-Kaye <ark.email@gmail.com>
+Signed-off-by: Adam Bratschi-Kaye <ark.email@gmail.com>
+Co-developed-by: Wedson Almeida Filho <wedsonaf@google.com>
+Signed-off-by: Wedson Almeida Filho <wedsonaf@google.com>
+Co-developed-by: Michael Ellerman <mpe@ellerman.id.au>
+Signed-off-by: Michael Ellerman <mpe@ellerman.id.au>
+Co-developed-by: Sven Van Asbroeck <thesven73@gmail.com>
+Signed-off-by: Sven Van Asbroeck <thesven73@gmail.com>
+Co-developed-by: Wu XiangCheng <bobwxc@email.cn>
+Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
+Co-developed-by: Gary Guo <gary@garyguo.net>
+Signed-off-by: Gary Guo <gary@garyguo.net>
+Co-developed-by: Boris-Chengbiao Zhou <bobo1239@web.de>
+Signed-off-by: Boris-Chengbiao Zhou <bobo1239@web.de>
+Co-developed-by: Yuki Okushi <jtitor@2k36.org>
+Signed-off-by: Yuki Okushi <jtitor@2k36.org>
+Co-developed-by: Wei Liu <wei.liu@kernel.org>
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
+Co-developed-by: Daniel Xu <dxu@dxuuu.xyz>
+Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
+Co-developed-by: Julian Merkle <me@jvmerkle.de>
+Signed-off-by: Julian Merkle <me@jvmerkle.de>
+Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+---
+ Documentation/doc-guide/kernel-doc.rst     |   3 +
+ Documentation/index.rst                    |   1 +
+ Documentation/kbuild/kbuild.rst            |  17 ++
+ Documentation/kbuild/makefiles.rst         |  50 ++++-
+ Documentation/process/changes.rst          |  41 ++++
+ Documentation/rust/arch-support.rst        |  25 +++
+ Documentation/rust/coding-guidelines.rst   | 216 +++++++++++++++++++
+ Documentation/rust/general-information.rst |  79 +++++++
+ Documentation/rust/index.rst               |  22 ++
+ Documentation/rust/quick-start.rst         | 232 +++++++++++++++++++++
+ 10 files changed, 682 insertions(+), 4 deletions(-)
  create mode 100644 Documentation/rust/arch-support.rst
  create mode 100644 Documentation/rust/coding-guidelines.rst
  create mode 100644 Documentation/rust/general-information.rst
  create mode 100644 Documentation/rust/index.rst
  create mode 100644 Documentation/rust/quick-start.rst
- create mode 100644 drivers/android/allocation.rs
- create mode 100644 drivers/android/context.rs
- create mode 100644 drivers/android/defs.rs
- create mode 100644 drivers/android/node.rs
- create mode 100644 drivers/android/process.rs
- create mode 100644 drivers/android/range_alloc.rs
- create mode 100644 drivers/android/rust_binder.rs
- create mode 100644 drivers/android/thread.rs
- create mode 100644 drivers/android/transaction.rs
- create mode 100644 drivers/gpio/gpio_pl061_rust.rs
- create mode 100644 rust/.gitignore
- create mode 100644 rust/Makefile
- create mode 100644 rust/alloc/README.md
- create mode 100644 rust/alloc/alloc.rs
- create mode 100644 rust/alloc/borrow.rs
- create mode 100644 rust/alloc/boxed.rs
- create mode 100644 rust/alloc/collections/mod.rs
- create mode 100644 rust/alloc/fmt.rs
- create mode 100644 rust/alloc/lib.rs
- create mode 100644 rust/alloc/macros.rs
- create mode 100644 rust/alloc/raw_vec.rs
- create mode 100644 rust/alloc/slice.rs
- create mode 100644 rust/alloc/str.rs
- create mode 100644 rust/alloc/string.rs
- create mode 100644 rust/alloc/vec/drain.rs
- create mode 100644 rust/alloc/vec/drain_filter.rs
- create mode 100644 rust/alloc/vec/into_iter.rs
- create mode 100644 rust/alloc/vec/is_zero.rs
- create mode 100644 rust/alloc/vec/mod.rs
- create mode 100644 rust/alloc/vec/partial_eq.rs
- create mode 100644 rust/alloc/vec/set_len_on_drop.rs
- create mode 100644 rust/alloc/vec/spec_extend.rs
- create mode 100644 rust/bindgen_parameters
- create mode 100644 rust/build_error.rs
- create mode 100644 rust/compiler_builtins.rs
- create mode 100644 rust/exports.c
- create mode 100644 rust/helpers.c
- create mode 100644 rust/kernel/allocator.rs
- create mode 100644 rust/kernel/amba.rs
- create mode 100644 rust/kernel/bindings.rs
- create mode 100644 rust/kernel/bindings_helper.h
- create mode 100644 rust/kernel/build_assert.rs
- create mode 100644 rust/kernel/c_types.rs
- create mode 100644 rust/kernel/chrdev.rs
- create mode 100644 rust/kernel/clk.rs
- create mode 100644 rust/kernel/cred.rs
- create mode 100644 rust/kernel/device.rs
- create mode 100644 rust/kernel/driver.rs
- create mode 100644 rust/kernel/error.rs
- create mode 100644 rust/kernel/file.rs
- create mode 100644 rust/kernel/gpio.rs
- create mode 100644 rust/kernel/hwrng.rs
- create mode 100644 rust/kernel/io_buffer.rs
- create mode 100644 rust/kernel/io_mem.rs
- create mode 100644 rust/kernel/iov_iter.rs
- create mode 100644 rust/kernel/irq.rs
- create mode 100644 rust/kernel/kasync.rs
- create mode 100644 rust/kernel/kasync/net.rs
- create mode 100644 rust/kernel/kunit.rs
- create mode 100644 rust/kernel/lib.rs
- create mode 100644 rust/kernel/linked_list.rs
- create mode 100644 rust/kernel/miscdev.rs
- create mode 100644 rust/kernel/mm.rs
- create mode 100644 rust/kernel/module_param.rs
- create mode 100644 rust/kernel/net.rs
- create mode 100644 rust/kernel/net/filter.rs
- create mode 100644 rust/kernel/of.rs
- create mode 100644 rust/kernel/pages.rs
- create mode 100644 rust/kernel/platform.rs
- create mode 100644 rust/kernel/power.rs
- create mode 100644 rust/kernel/prelude.rs
- create mode 100644 rust/kernel/print.rs
- create mode 100644 rust/kernel/random.rs
- create mode 100644 rust/kernel/raw_list.rs
- create mode 100644 rust/kernel/rbtree.rs
- create mode 100644 rust/kernel/revocable.rs
- create mode 100644 rust/kernel/security.rs
- create mode 100644 rust/kernel/static_assert.rs
- create mode 100644 rust/kernel/std_vendor.rs
- create mode 100644 rust/kernel/str.rs
- create mode 100644 rust/kernel/sync.rs
- create mode 100644 rust/kernel/sync/arc.rs
- create mode 100644 rust/kernel/sync/condvar.rs
- create mode 100644 rust/kernel/sync/guard.rs
- create mode 100644 rust/kernel/sync/locked_by.rs
- create mode 100644 rust/kernel/sync/mutex.rs
- create mode 100644 rust/kernel/sync/nowait.rs
- create mode 100644 rust/kernel/sync/revocable.rs
- create mode 100644 rust/kernel/sync/rwsem.rs
- create mode 100644 rust/kernel/sync/seqlock.rs
- create mode 100644 rust/kernel/sync/smutex.rs
- create mode 100644 rust/kernel/sync/spinlock.rs
- create mode 100644 rust/kernel/sysctl.rs
- create mode 100644 rust/kernel/task.rs
- create mode 100644 rust/kernel/types.rs
- create mode 100644 rust/kernel/user_ptr.rs
- create mode 100644 rust/macros/helpers.rs
- create mode 100644 rust/macros/lib.rs
- create mode 100644 rust/macros/module.rs
- create mode 100644 samples/rust/Kconfig
- create mode 100644 samples/rust/Makefile
- create mode 100644 samples/rust/hostprogs/.gitignore
- create mode 100644 samples/rust/hostprogs/Makefile
- create mode 100644 samples/rust/hostprogs/a.rs
- create mode 100644 samples/rust/hostprogs/b.rs
- create mode 100644 samples/rust/hostprogs/single.rs
- create mode 100644 samples/rust/rust_chrdev.rs
- create mode 100644 samples/rust/rust_minimal.rs
- create mode 100644 samples/rust/rust_miscdev.rs
- create mode 100644 samples/rust/rust_module_parameters.rs
- create mode 100644 samples/rust/rust_netfilter.rs
- create mode 100644 samples/rust/rust_platform.rs
- create mode 100644 samples/rust/rust_print.rs
- create mode 100644 samples/rust/rust_random.rs
- create mode 100644 samples/rust/rust_semaphore.rs
- create mode 100644 samples/rust/rust_semaphore_c.c
- create mode 100644 samples/rust/rust_stack_probing.rs
- create mode 100644 samples/rust/rust_sync.rs
- create mode 100755 scripts/generate_rust_analyzer.py
- create mode 100644 scripts/generate_rust_target.rs
- create mode 100755 scripts/is_rust_module.sh
- create mode 100644 scripts/rust-is-available-bindgen-libclang.h
- create mode 100755 scripts/rust-is-available.sh
- create mode 100755 scripts/rustdoc_test_builder.py
- create mode 100755 scripts/rustdoc_test_gen.py
 
-
-base-commit: 4b0986a3613c92f4ec1bdc7f60ec66fea135991f
+diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+index 79aaa55d6bcf..cde7aa67e76f 100644
+--- a/Documentation/doc-guide/kernel-doc.rst
++++ b/Documentation/doc-guide/kernel-doc.rst
+@@ -11,6 +11,9 @@ when it is embedded in source files.
+    reasons. The kernel source contains tens of thousands of kernel-doc
+    comments. Please stick to the style described here.
+ 
++.. note:: kernel-doc does not cover Rust code: please see
++   Documentation/rust/general-information.rst instead.
++
+ The kernel-doc structure is extracted from the comments, and proper
+ `Sphinx C Domain`_ function and type descriptions with anchors are
+ generated from them. The descriptions are filtered for special kernel-doc
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index 1988c19d9daf..ee639a500278 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -82,6 +82,7 @@ merged much easier.
+    maintainer/index
+    fault-injection/index
+    livepatch/index
++   rust/index
+ 
+ 
+ Kernel API documentation
+diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+index ef19b9c13523..08f575e6236c 100644
+--- a/Documentation/kbuild/kbuild.rst
++++ b/Documentation/kbuild/kbuild.rst
+@@ -48,6 +48,10 @@ KCFLAGS
+ -------
+ Additional options to the C compiler (for built-in and modules).
+ 
++KRUSTFLAGS
++----------
++Additional options to the Rust compiler (for built-in and modules).
++
+ CFLAGS_KERNEL
+ -------------
+ Additional options for $(CC) when used to compile
+@@ -57,6 +61,15 @@ CFLAGS_MODULE
+ -------------
+ Additional module specific options to use for $(CC).
+ 
++RUSTFLAGS_KERNEL
++----------------
++Additional options for $(RUSTC) when used to compile
++code that is compiled as built-in.
++
++RUSTFLAGS_MODULE
++----------------
++Additional module specific options to use for $(RUSTC).
++
+ LDFLAGS_MODULE
+ --------------
+ Additional options used for $(LD) when linking modules.
+@@ -69,6 +82,10 @@ HOSTCXXFLAGS
+ ------------
+ Additional flags to be passed to $(HOSTCXX) when building host programs.
+ 
++HOSTRUSTFLAGS
++-------------
++Additional flags to be passed to $(HOSTRUSTC) when building host programs.
++
+ HOSTLDFLAGS
+ -----------
+ Additional flags to be passed when linking host programs.
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index 11a296e52d68..5ea1e72d89c8 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -29,8 +29,9 @@ This document describes the Linux kernel Makefiles.
+ 	   --- 4.1 Simple Host Program
+ 	   --- 4.2 Composite Host Programs
+ 	   --- 4.3 Using C++ for host programs
+-	   --- 4.4 Controlling compiler options for host programs
+-	   --- 4.5 When host programs are actually built
++	   --- 4.4 Using Rust for host programs
++	   --- 4.5 Controlling compiler options for host programs
++	   --- 4.6 When host programs are actually built
+ 
+ 	=== 5 Userspace Program support
+ 	   --- 5.1 Simple Userspace Program
+@@ -835,7 +836,24 @@ Both possibilities are described in the following.
+ 		qconf-cxxobjs := qconf.o
+ 		qconf-objs    := check.o
+ 
+-4.4 Controlling compiler options for host programs
++4.4 Using Rust for host programs
++--------------------------------
++
++	Kbuild offers support for host programs written in Rust. However,
++	since a Rust toolchain is not mandatory for kernel compilation,
++	it may only be used in scenarios where Rust is required to be
++	available (e.g. when  ``CONFIG_RUST`` is enabled).
++
++	Example::
++
++		hostprogs     := target
++		target-rust   := y
++
++	Kbuild will compile ``target`` using ``target.rs`` as the crate root,
++	located in the same directory as the ``Makefile``. The crate may
++	consist of several source files (see ``samples/rust/hostprogs``).
++
++4.5 Controlling compiler options for host programs
+ --------------------------------------------------
+ 
+ 	When compiling host programs, it is possible to set specific flags.
+@@ -867,7 +885,7 @@ Both possibilities are described in the following.
+ 	When linking qconf, it will be passed the extra option
+ 	"-L$(QTDIR)/lib".
+ 
+-4.5 When host programs are actually built
++4.6 When host programs are actually built
+ -----------------------------------------
+ 
+ 	Kbuild will only build host-programs when they are referenced
+@@ -1181,6 +1199,17 @@ When kbuild executes, the following steps are followed (roughly):
+ 	The first example utilises the trick that a config option expands
+ 	to 'y' when selected.
+ 
++    KBUILD_RUSTFLAGS
++	$(RUSTC) compiler flags
++
++	Default value - see top level Makefile
++	Append or modify as required per architecture.
++
++	Often, the KBUILD_RUSTFLAGS variable depends on the configuration.
++
++	Note that target specification file generation (for ``--target``)
++	is handled in ``scripts/generate_rust_target.rs``.
++
+     KBUILD_AFLAGS_KERNEL
+ 	Assembler options specific for built-in
+ 
+@@ -1208,6 +1237,19 @@ When kbuild executes, the following steps are followed (roughly):
+ 	are used for $(CC).
+ 	From commandline CFLAGS_MODULE shall be used (see kbuild.rst).
+ 
++    KBUILD_RUSTFLAGS_KERNEL
++	$(RUSTC) options specific for built-in
++
++	$(KBUILD_RUSTFLAGS_KERNEL) contains extra Rust compiler flags used to
++	compile resident kernel code.
++
++    KBUILD_RUSTFLAGS_MODULE
++	Options for $(RUSTC) when building modules
++
++	$(KBUILD_RUSTFLAGS_MODULE) is used to add arch-specific options that
++	are used for $(RUSTC).
++	From commandline RUSTFLAGS_MODULE shall be used (see kbuild.rst).
++
+     KBUILD_LDFLAGS_MODULE
+ 	Options for $(LD) when linking modules
+ 
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index a337e8eabfe1..a886ac497266 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -31,6 +31,8 @@ you probably needn't concern yourself with pcmciautils.
+ ====================== ===============  ========================================
+ GNU C                  5.1              gcc --version
+ Clang/LLVM (optional)  11.0.0           clang --version
++Rust (optional)        1.60.0           rustc --version
++bindgen (optional)     0.56.0           bindgen --version
+ GNU make               3.81             make --version
+ binutils               2.23             ld -v
+ flex                   2.5.35           flex --version
+@@ -78,6 +80,29 @@ kernels. Older releases aren't guaranteed to work, and we may drop workarounds
+ from the kernel that were used to support older versions. Please see additional
+ docs on :ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
+ 
++Rust (optional)
++---------------
++
++A particular version of the Rust toolchain is required. Newer versions may or
++may not work because the kernel depends on some unstable Rust features, for
++the moment.
++
++Each Rust toolchain comes with several "components", some of which are required
++(like ``rustc``) and some that are optional. The ``rust-src`` component (which
++is optional) needs to be installed to build the kernel. Other components are
++useful for developing.
++
++Please see Documentation/rust/quick-start.rst for instructions on how to
++satisfy the build requirements of Rust support. In particular, the ``Makefile``
++target ``rustavailable`` is useful to check why the Rust toolchain may not
++be detected.
++
++bindgen (optional)
++------------------
++
++``bindgen`` is used to generate the Rust bindings to the C side of the kernel.
++It depends on ``libclang``.
++
+ Make
+ ----
+ 
+@@ -340,6 +365,12 @@ Sphinx
+ Please see :ref:`sphinx_install` in :ref:`Documentation/doc-guide/sphinx.rst <sphinxdoc>`
+ for details about Sphinx requirements.
+ 
++rustdoc
++-------
++
++``rustdoc`` is used to generate the documentation for Rust code. Please see
++Documentation/rust/general-information.rst for more information.
++
+ Getting updated software
+ ========================
+ 
+@@ -356,6 +387,16 @@ Clang/LLVM
+ 
+ - :ref:`Getting LLVM <getting_llvm>`.
+ 
++Rust
++----
++
++- Documentation/rust/quick-start.rst.
++
++bindgen
++-------
++
++- Documentation/rust/quick-start.rst.
++
+ Make
+ ----
+ 
+diff --git a/Documentation/rust/arch-support.rst b/Documentation/rust/arch-support.rst
+new file mode 100644
+index 000000000000..79ebad889720
+--- /dev/null
++++ b/Documentation/rust/arch-support.rst
+@@ -0,0 +1,25 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Arch Support
++============
++
++Currently, the Rust compiler (``rustc``) uses LLVM for code generation,
++which limits the supported architectures that can be targeted. In addition,
++support for building the kernel with LLVM/Clang varies (please see
++Documentation/kbuild/llvm.rst). This support is needed for ``bindgen``
++which uses ``libclang``.
++
++Below is a general summary of architectures that currently work. Level of
++support corresponds to ``S`` values in the ``MAINTAINERS`` file.
++
++============  ================  ==============================================
++Architecture  Level of support  Constraints
++============  ================  ==============================================
++``arm``       Maintained        ``armv6`` and compatible only,
++                                ``RUST_OPT_LEVEL >= 2``.
++``arm64``     Maintained        None.
++``powerpc``   Maintained        ``ppc64le`` only, ``RUST_OPT_LEVEL < 2``
++                                requires ``CONFIG_THREAD_SHIFT=15``.
++``riscv``     Maintained        ``riscv64`` only.
++``x86``       Maintained        ``x86_64`` only.
++============  ================  ==============================================
+diff --git a/Documentation/rust/coding-guidelines.rst b/Documentation/rust/coding-guidelines.rst
+new file mode 100644
+index 000000000000..aa8ed082613e
+--- /dev/null
++++ b/Documentation/rust/coding-guidelines.rst
+@@ -0,0 +1,216 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Coding Guidelines
++=================
++
++This document describes how to write Rust code in the kernel.
++
++
++Style & formatting
++------------------
++
++The code should be formatted using ``rustfmt``. In this way, a person
++contributing from time to time to the kernel does not need to learn and
++remember one more style guide. More importantly, reviewers and maintainers
++do not need to spend time pointing out style issues anymore, and thus
++less patch roundtrips may be needed to land a change.
++
++.. note:: Conventions on comments and documentation are not checked by
++  ``rustfmt``. Thus those are still needed to be taken care of.
++
++The default settings of ``rustfmt`` are used. This means the idiomatic Rust
++style is followed. For instance, 4 spaces are used for indentation rather
++than tabs.
++
++It is convenient to instruct editors/IDEs to format while typing,
++when saving or at commit time. However, if for some reason reformatting
++the entire kernel Rust sources is needed at some point, the following can be
++run::
++
++	make LLVM=1 rustfmt
++
++It is also possible to check if everything is formatted (printing a diff
++otherwise), for instance for a CI, with::
++
++	make LLVM=1 rustfmtcheck
++
++Like ``clang-format`` for the rest of the kernel, ``rustfmt`` works on
++individual files, and does not require a kernel configuration. Sometimes it may
++even work with broken code.
++
++
++Comments
++--------
++
++"Normal" comments (i.e. ``//``, rather than code documentation which starts
++with ``///`` or ``//!``) are written in Markdown the same way as documentation
++comments are, even though they will not be rendered. This improves consistency,
++simplifies the rules and allows to move content between the two kinds of
++comments more easily. For instance:
++
++.. code-block:: rust
++
++	// `object` is ready to be handled now.
++	f(object);
++
++Furthermore, just like documentation, comments are capitalized at the beginning
++of a sentence and ended with a period (even if it is a single sentence). This
++includes ``// SAFETY:``, ``// TODO:`` and other "tagged" comments, e.g.:
++
++.. code-block:: rust
++
++	// FIXME: The error should be handled properly.
++
++Comments should not be used for documentation purposes: comments are intended
++for implementation details, not users. This distinction is useful even if the
++reader of the source file is both an implementor and a user of an API. In fact,
++sometimes it is useful to use both comments and documentation at the same time.
++For instance, for a ``TODO`` list or to comment on the documentation itself.
++For the latter case, comments can be inserted in the middle; that is, closer to
++the line of documentation to be commented. For any other case, comments are
++written after the documentation, e.g.:
++
++.. code-block:: rust
++
++	/// Returns a new [`Foo`].
++	///
++	/// # Examples
++	///
++	// TODO: Find a better example.
++	/// ```
++	/// let foo = f(42);
++	/// ```
++	// FIXME: Use fallible approach.
++	pub fn f(x: i32) -> Foo {
++	    // ...
++	}
++
++One special kind of comments are the ``// SAFETY:`` comments. These must appear
++before every ``unsafe`` block, and they explain why the code inside the block is
++correct/sound, i.e. why it cannot trigger undefined behavior in any case, e.g.:
++
++.. code-block:: rust
++
++	// SAFETY: `p` is valid by the safety requirements.
++	unsafe { *p = 0; }
++
++``// SAFETY:`` comments are not to be confused with the ``# Safety`` sections
++in code documentation. ``# Safety`` sections specify the contract that callers
++(for functions) or implementors (for traits) need to abide by. ``// SAFETY:``
++comments show why a call (for functions) or implementation (for traits) actually
++respects the preconditions stated in a ``# Safety`` section or the language
++reference.
++
++
++Code documentation
++------------------
++
++Rust kernel code is not documented like C kernel code (i.e. via kernel-doc).
++Instead, the usual system for documenting Rust code is used: the ``rustdoc``
++tool, which uses Markdown (a lightweight markup language).
++
++To learn Markdown, there are many guides available out there. For instance,
++the one at:
++
++	https://commonmark.org/help/
++
++This is how a well-documented Rust function may look like:
++
++.. code-block:: rust
++
++	/// Returns the contained [`Some`] value, consuming the `self` value,
++	/// without checking that the value is not [`None`].
++	///
++	/// # Safety
++	///
++	/// Calling this method on [`None`] is *[undefined behavior]*.
++	///
++	/// [undefined behavior]: https://doc.rust-lang.org/reference/behavior-considered-undefined.html
++	///
++	/// # Examples
++	///
++	/// ```
++	/// let x = Some("air");
++	/// assert_eq!(unsafe { x.unwrap_unchecked() }, "air");
++	/// ```
++	pub unsafe fn unwrap_unchecked(self) -> T {
++	    match self {
++	        Some(val) => val,
++
++	        // SAFETY: The safety contract must be upheld by the caller.
++	        None => unsafe { hint::unreachable_unchecked() },
++	    }
++	}
++
++This example showcases a few ``rustdoc`` features and some conventions followed
++in the kernel:
++
++  - The first paragraph must be a single sentence briefly describing what
++    the documented item does. Further explanations must go in extra paragraphs.
++
++  - Unsafe functions must document their safety preconditions under
++    a ``# Safety`` section.
++
++  - While not shown here, if a function may panic, the conditions under which
++    that happens must be described under a ``# Panics`` section.
++
++    Please note that panicking should be very rare and used only with a good
++    reason. In almost all cases, a fallible approach should be used, typically
++    returning a ``Result``.
++
++  - If providing examples of usage would help readers, they must be written in
++    a section called ``# Examples``.
++
++  - Rust items (functions, types, constants...) must be linked appropriately
++    (``rustdoc`` will create a link automatically).
++
++  - Any ``unsafe`` block must be preceded by a ``// SAFETY:`` comment
++    describing why the code inside is sound.
++
++    While sometimes the reason might look trivial and therefore unneeded,
++    writing these comments is not just a good way of documenting what has been
++    taken into account, but most importantly, it provides a way to know that
++    there are no *extra* implicit constraints.
++
++To learn more about how to write documentation for Rust and extra features,
++please take a look at the ``rustdoc`` book at:
++
++	https://doc.rust-lang.org/rustdoc/how-to-write-documentation.html
++
++
++Naming
++------
++
++Rust kernel code follows the usual Rust naming conventions:
++
++	https://rust-lang.github.io/api-guidelines/naming.html
++
++When existing C concepts (e.g. macros, functions, objects...) are wrapped into
++a Rust abstraction, a name as close as reasonably possible to the C side should
++be used in order to avoid confusion and to improve readability when switching
++back and forth between the C and Rust sides. For instance, macros such as
++``pr_info`` from C are named the same in the Rust side.
++
++Having said that, casing should be adjusted to follow the Rust naming
++conventions, and namespacing introduced by modules and types should not be
++repeated in the item names. For instance, when wrapping constants like:
++
++.. code-block:: c
++
++	#define GPIO_LINE_DIRECTION_IN	0
++	#define GPIO_LINE_DIRECTION_OUT	1
++
++The equivalent in Rust may look like (ignoring documentation):
++
++.. code-block:: rust
++
++	pub mod gpio {
++	    pub enum LineDirection {
++	        In = bindings::GPIO_LINE_DIRECTION_IN as _,
++	        Out = bindings::GPIO_LINE_DIRECTION_OUT as _,
++	    }
++	}
++
++That is, the equivalent of ``GPIO_LINE_DIRECTION_IN`` would be referred to as
++``gpio::LineDirection::In``. In particular, it should not be named
++``gpio::gpio_line_direction::GPIO_LINE_DIRECTION_IN``.
+diff --git a/Documentation/rust/general-information.rst b/Documentation/rust/general-information.rst
+new file mode 100644
+index 000000000000..49029ee82e55
+--- /dev/null
++++ b/Documentation/rust/general-information.rst
+@@ -0,0 +1,79 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++General Information
++===================
++
++This document contains useful information to know when working with
++the Rust support in the kernel.
++
++
++Code documentation
++------------------
++
++Rust kernel code is documented using ``rustdoc``, its built-in documentation
++generator.
++
++The generated HTML docs include integrated search, linked items (e.g. types,
++functions, constants), source code, etc. They may be read at (TODO: link when
++in mainline and generated alongside the rest of the documentation):
++
++	http://kernel.org/
++
++The docs can also be easily generated and read locally. This is quite fast
++(same order as compiling the code itself) and no special tools or environment
++are needed. This has the added advantage that they will be tailored to
++the particular kernel configuration used. To generate them, use the ``rustdoc``
++target with the same invocation used for compilation, e.g.::
++
++	make LLVM=1 rustdoc
++
++To read the docs locally in your web browser, run e.g.::
++
++	xdg-open rust/doc/kernel/index.html
++
++To learn about how to write the documentation, please see coding-guidelines.rst.
++
++
++Extra lints
++-----------
++
++While ``rustc`` is a very helpful compiler, some extra lints and analyses are
++available via ``clippy``, a Rust linter. To enable it, pass ``CLIPPY=1`` to
++the same invocation used for compilation, e.g.::
++
++	make LLVM=1 CLIPPY=1
++
++Please note that Clippy may change code generation, thus it should not be
++enabled while building a production kernel.
++
++
++Abstractions vs. bindings
++-------------------------
++
++Abstractions are Rust code wrapping kernel functionality from the C side.
++
++In order to use functions and types from the C side, bindings are created.
++Bindings are the declarations for Rust of those functions and types from
++the C side.
++
++For instance, one may write a ``Mutex`` abstraction in Rust which wraps
++a ``struct mutex`` from the C side and calls its functions through the bindings.
++
++Abstractions are not available for all the kernel internal APIs and concepts,
++but it is intended that coverage is expanded as time goes on. "Leaf" modules
++(e.g. drivers) should not use the C bindings directly. Instead, subsystems
++should provide as-safe-as-possible abstractions as needed.
++
++
++Conditional compilation
++-----------------------
++
++Rust code has access to conditional compilation based on the kernel
++configuration:
++
++.. code-block:: rust
++
++	#[cfg(CONFIG_X)]       // Enabled               (`y` or `m`)
++	#[cfg(CONFIG_X="y")]   // Enabled as a built-in (`y`)
++	#[cfg(CONFIG_X="m")]   // Enabled as a module   (`m`)
++	#[cfg(not(CONFIG_X))]  // Disabled
+diff --git a/Documentation/rust/index.rst b/Documentation/rust/index.rst
+new file mode 100644
+index 000000000000..4ae8c66b94fa
+--- /dev/null
++++ b/Documentation/rust/index.rst
+@@ -0,0 +1,22 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Rust
++====
++
++Documentation related to Rust within the kernel. To start using Rust
++in the kernel, please read the quick-start.rst guide.
++
++.. toctree::
++    :maxdepth: 1
++
++    quick-start
++    general-information
++    coding-guidelines
++    arch-support
++
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quick-start.rst
+new file mode 100644
+index 000000000000..13b7744b1e27
+--- /dev/null
++++ b/Documentation/rust/quick-start.rst
+@@ -0,0 +1,232 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Quick Start
++===========
++
++This document describes how to get started with kernel development in Rust.
++
++
++Requirements: Building
++----------------------
++
++This section explains how to fetch the tools needed for building.
++
++Some of these requirements might be available from Linux distributions
++under names like ``rustc``, ``rust-src``, ``rust-bindgen``, etc. However,
++at the time of writing, they are likely not to be recent enough unless
++the distribution tracks the latest releases.
++
++To easily check whether the requirements are met, the following target
++can be used::
++
++	make LLVM=1 rustavailable
++
++This triggers the same logic used by Kconfig to determine whether
++``RUST_IS_AVAILABLE`` should be enabled; but it also explains why not
++if that is the case.
++
++
++rustc
++*****
++
++A particular version of the Rust compiler is required. Newer versions may or
++may not work because, for the moment, the kernel depends on some unstable
++Rust features.
++
++If ``rustup`` is being used, enter the checked out source code directory
++and run::
++
++	rustup override set $(scripts/min-tool-version.sh rustc)
++
++Otherwise, fetch a standalone installer or install ``rustup`` from:
++
++	https://www.rust-lang.org
++
++
++Rust standard library source
++****************************
++
++The Rust standard library source is required because the build system will
++cross-compile ``core`` and ``alloc``.
++
++If ``rustup`` is being used, run::
++
++	rustup component add rust-src
++
++The components are installed per toolchain, thus upgrading the Rust compiler
++version later on requires re-adding the component.
++
++Otherwise, if a standalone installer is used, the Rust repository may be cloned
++into the installation folder of the toolchain::
++
++	git clone --recurse-submodules \
++		--branch $(scripts/min-tool-version.sh rustc) \
++		https://github.com/rust-lang/rust \
++		$(rustc --print sysroot)/lib/rustlib/src/rust
++
++In this case, upgrading the Rust compiler version later on requires manually
++updating this clone.
++
++
++libclang
++********
++
++``libclang`` (part of LLVM) is used by ``bindgen`` to understand the C code
++in the kernel, which means LLVM needs to be installed; like when the kernel
++is compiled with ``CC=clang`` or ``LLVM=1``.
++
++Linux distributions are likely to have a suitable one available, so it is
++best to check that first.
++
++There are also some binaries for several systems and architectures uploaded at:
++
++	https://releases.llvm.org/download.html
++
++Otherwise, building LLVM takes quite a while, but it is not a complex process:
++
++	https://llvm.org/docs/GettingStarted.html#getting-the-source-code-and-building-llvm
++
++Please see Documentation/kbuild/llvm.rst for more information and further ways
++to fetch pre-built releases and distribution packages.
++
++
++bindgen
++*******
++
++The bindings to the C side of the kernel are generated at build time using
++the ``bindgen`` tool. A particular version is required.
++
++Install it via (note that this will download and build the tool from source)::
++
++	cargo install --locked --version $(scripts/min-tool-version.sh bindgen) bindgen
++
++
++Requirements: Developing
++------------------------
++
++This section explains how to fetch the tools needed for developing. That is,
++they are not needed when just building the kernel.
++
++
++rustfmt
++*******
++
++The ``rustfmt`` tool is used to automatically format all the Rust kernel code,
++including the generated C bindings (for details, please see
++coding-guidelines.rst).
++
++If ``rustup`` is being used, its ``default`` profile already installs the tool,
++thus nothing needs to be done. If another profile is being used, the component
++can be installed manually::
++
++	rustup component add rustfmt
++
++The standalone installers also come with ``rustfmt``.
++
++
++clippy
++******
++
++``clippy`` is a Rust linter. Running it provides extra warnings for Rust code.
++It can be run by passing ``CLIPPY=1`` to ``make`` (for details, please see
++general-information.rst).
++
++If ``rustup`` is being used, its ``default`` profile already installs the tool,
++thus nothing needs to be done. If another profile is being used, the component
++can be installed manually::
++
++	rustup component add clippy
++
++The standalone installers also come with ``clippy``.
++
++
++cargo
++*****
++
++``cargo`` is the Rust native build system. It is currently required to run
++the tests since it is used to build a custom standard library that contains
++the facilities provided by the custom ``alloc`` in the kernel. The tests can
++be run using the ``rusttest`` Make target.
++
++If ``rustup`` is being used, all the profiles already install the tool,
++thus nothing needs to be done.
++
++The standalone installers also come with ``cargo``.
++
++
++rustdoc
++*******
++
++``rustdoc`` is the documentation tool for Rust. It generates pretty HTML
++documentation for Rust code (for details, please see
++general-information.rst).
++
++``rustdoc`` is also used to test the examples provided in documented Rust code
++(called doctests or documentation tests). The ``rusttest`` Make target uses
++this feature.
++
++If ``rustup`` is being used, all the profiles already install the tool,
++thus nothing needs to be done.
++
++The standalone installers also come with ``rustdoc``.
++
++
++rust-analyzer
++*************
++
++The `rust-analyzer <https://rust-analyzer.github.io/>`_ language server can
++be used with many editors to enable syntax highlighting, completion, go to
++definition, and other features.
++
++``rust-analyzer`` needs a configuration file, ``rust-project.json``, which
++can be generated by the ``rust-analyzer`` Make target.
++
++
++Configuration
++-------------
++
++``Rust support`` (``CONFIG_RUST``) needs to be enabled in the ``General setup``
++menu. The option is only shown if a suitable Rust toolchain is found (see
++above), as long as the other requirements are met. In turn, this will make
++visible the rest of options that depend on Rust.
++
++Afterwards, go to::
++
++	Kernel hacking
++	    -> Sample kernel code
++	        -> Rust samples
++
++And enable some sample modules either as built-in or as loadable.
++
++
++Building
++--------
++
++Building a kernel with a complete LLVM toolchain is the best supported setup
++at the moment. That is::
++
++	make LLVM=1
++
++For architectures that do not support a full LLVM toolchain, use::
++
++	make CC=clang
++
++Using GCC also works for some configurations, but it is very experimental at
++the moment.
++
++
++Hacking
++-------
++
++To dive deeper, take a look at the source code of the samples
++at ``samples/rust/``, the Rust support code under ``rust/`` and
++the ``Rust hacking`` menu under ``Kernel hacking``.
++
++If GDB/Binutils is used and Rust symbols are not getting demangled, the reason
++is the toolchain does not support Rust's new v0 mangling scheme yet.
++There are a few ways out:
++
++  - Install a newer release (GDB >= 10.2, Binutils >= 2.36).
++
++  - Some versions of GDB (e.g. vanilla GDB 10.1) are able to use
++    the pre-demangled names embedded in the debug info (``CONFIG_DEBUG_INFO``).
 -- 
 2.36.1
 
