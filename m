@@ -2,112 +2,180 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD9DB530D87
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 May 2022 12:42:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 889D4530EE8
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 May 2022 15:17:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233482AbiEWJmY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 23 May 2022 05:42:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42474 "EHLO
+        id S235406AbiEWMex (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 23 May 2022 08:34:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233429AbiEWJk5 (ORCPT
+        with ESMTP id S235417AbiEWMev (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 23 May 2022 05:40:57 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA84F2F01E;
-        Mon, 23 May 2022 02:40:47 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: usama.anjum)
-        with ESMTPSA id A46991F42DD9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1653298845;
-        bh=V0M8DYvWpS0+hFL3tgf2bcMHWIfVb8jn4R+BMUFe68g=;
-        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-        b=O9ZVdiVM5v1oBXV+1BXIVW0M2VmQ+HfXjC+3XBYXhMWGwaziMJJ0rG9DRsseuYSV9
-         JzSbS7XMPnN3G/5WICA/JK/ENZgqOa62BTrOOrdanpuDbTSi+CvKIkPr8Wf5jPzmF+
-         J/UeZSQk8xU0UnqqOeJkM6uKTVrIY74HR1R0QL7ybH2mdi+l/VoX6myQ23BrhtwIRv
-         jU8cQmVLVfVaAXvL9aG1dZ+WBxMnAUL+sq+U/OdhgFpwSh9dFeElK4o63xCRpwsyzf
-         8lEtJdPgLftM0NesautwPWh+7McBB8olXPES6CyqmP2GL+qmwM/2KuD0gL9v2gvrae
-         iyiQoCHn9GjDA==
-Message-ID: <19f72a58-b80e-f6a8-842f-a924c4b94eeb@collabora.com>
-Date:   Mon, 23 May 2022 14:40:39 +0500
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Cc:     usama.anjum@collabora.com, Michal Marek <michal.lkml@markovi.net>,
+        Mon, 23 May 2022 08:34:51 -0400
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CF2743EEF;
+        Mon, 23 May 2022 05:34:47 -0700 (PDT)
+Received: by mail-qk1-x72a.google.com with SMTP id p123so2486282qke.5;
+        Mon, 23 May 2022 05:34:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=zWW6thDJ98/KzWOHjOmZlsh4+inUgZI3sNPxS+N5zm4=;
+        b=Fb+2IhZRT4kRSIPikn+2vrZ3ASxWPm9JevY9AyDxBmT0f96Tnjg97FewA8Z2eOHV9d
+         3q6EtAFe80QFNOneuVVUOiPoyMHFCfKDdJfI99TA8S8/00y3BM0i+RAy/DTMamwLdVx3
+         LivEDJxlb54BM4jD+44FiMjqRvcC1m4a0vQr/7D/dKXQFxovELDKdyRS3Yd28qPvyfs/
+         z5fsbg4+TG+DgU+1p3W/Rl8KNKTucF/5+P5cMVxJSxoXxA28yYkJ5Eksnb4YX/3MFNb+
+         78tTvvlsUHn7MoUdk/K6sw00DibL6xOgbTxAJMEETVsd3ExtbZ0ILhwN15M7LwQWyu4h
+         iOsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=zWW6thDJ98/KzWOHjOmZlsh4+inUgZI3sNPxS+N5zm4=;
+        b=kglG3W6T+/KJUZL2ee0Xs0viHQocBwigspQDWJJivBMy73TbfbIfCtOkPEuh36at4g
+         eE/KHm4LZTJ4BCwqc84n5TrTudrdB9qHTpvYfTPoFd4//7WK399Wa8etjcaL98GCBZRQ
+         1DByv294wlXCxzzoP0+ppT1gVcVD4ZhqcYjRsNveV7Kp9aj5PYW1O2NCNzjot4s426zf
+         zhaZRklgD72MlEKovku6tu3opLV/xNy4b59adAIZ6wNb2g0L9CnueagY9YXfUlwTSmJD
+         LW4PC0nhPKHY1cWB4eJL71ERH7bGlYWiclnGA4YnQZzl4ZfXqDyun5jyj9S2goT7qAy7
+         QQfA==
+X-Gm-Message-State: AOAM532Y8uZnWKXOF09L4dXhksT4xfF/Rna/tsBKc9NiyYVtPQg5GXxT
+        04C64TC0cUVNlOghGb0rpeI=
+X-Google-Smtp-Source: ABdhPJx6mxt2vccLVo+P6//wIKgsooq5eK5qasPIND7jHo2crxR3T9d9UlTX2rziojU63P7oPRzm9w==
+X-Received: by 2002:a37:a74e:0:b0:6a3:95f5:48f8 with SMTP id q75-20020a37a74e000000b006a395f548f8mr2585829qke.126.1653309286500;
+        Mon, 23 May 2022 05:34:46 -0700 (PDT)
+Received: from mail.google.com ([207.246.89.135])
+        by smtp.gmail.com with ESMTPSA id 9-20020a370809000000b006a346e0f653sm4374569qki.15.2022.05.23.05.34.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 May 2022 05:34:46 -0700 (PDT)
+Date:   Mon, 23 May 2022 20:34:36 +0800
+From:   Changbin Du <changbin.du@gmail.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        KERNEL SELFTEST FRAMEWORK <linux-kselftest@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "kernelci@groups.io" <kernelci@groups.io>,
-        Collabora Kernel ML <kernel@collabora.com>
-Subject: Re: [Bug Report] - kselftest build fails if output directory is first
- level sub-directory
-Content-Language: en-US
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Shuah Khan <shuah@kernel.org>
-References: <c25d7ea7-4f72-4a2b-d8c3-d317e64fcbbb@collabora.com>
- <CAK7LNATL4nMmKgrjS8meavnpn=HisD30QxuPUKDqtWWgbGcSZw@mail.gmail.com>
-From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
-In-Reply-To: <CAK7LNATL4nMmKgrjS8meavnpn=HisD30QxuPUKDqtWWgbGcSZw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+        Arnd Bergmann <arnd@arndb.de>,
+        Changbin Du <changbin.du@gmail.com>
+Subject: Re: [RFC PATCH] kbuild: Add an option to enable -O1 and speed-up
+ compilation time
+Message-ID: <20220523123436.b5gwj55xacc2hxcv@mail.google.com>
+References: <23e0ba7863d51ab629498762a97d477645aeafea.1653123744.git.christophe.jaillet@wanadoo.fr>
+ <CAK7LNASHGyzKS-d+S1GYz_L0pBxxSwk05YfvV+LK4ghZ5xx=cA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNASHGyzKS-d+S1GYz_L0pBxxSwk05YfvV+LK4ghZ5xx=cA@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 5/22/22 10:15 PM, Masahiro Yamada wrote:
-> On Sat, May 21, 2022 at 3:44 PM Muhammad Usama Anjum
-> <usama.anjum@collabora.com> wrote:
->>
->> Hello,
->>
->> kselftest can be built using the kernel's top most Makefile without
->> using kselftest's Makefile directly. But there is bug in the top most
->> Makefile. The build fails if the specified output directory is first
->> level sub-directory. Here is a example to reproduce this bug:
->>
->> make kselftest-all O=build
->>
->> "The Make is working in a wrong directory, that is why the relative path
->> does not work." Masahiro Yamada. Feel free to fix it if someone pin the bug.
->>
->> It should be noted that the build works in some other combinations:
->> make kselftest-all (works)
->> make kselftest-all O=/tmp (works)
->> make kselftest-all O=build/build2 (works)
->>
->> My unsuccessful attempt to fix this bug can be found here:
->> https://lore.kernel.org/lkml/20220223191016.1658728-1-usama.anjum@collabora.com/
->>
->> Thanks,
->> Muhammad Usama Anjum
+On Sun, May 22, 2022 at 12:38:17AM +0900, Masahiro Yamada wrote:
+> (+CC: Arnd, Changbin Du)
 > 
 > 
-> This problem starts from the bad design of the kselftest framework.
-> I did some research before. I think I can fix the root cause but
-> currently I do not have enough time to do it.
+> If -O1 support does not require additional effort,
+> I have no objection to this patch.
+> 
+> (but I do not have enough insight about
+> the compiler's inlining heuristic)
 > 
 > 
-> KBUILD_ABS_SRCTREE is a user-interface to request
-> Kbuild to use the absolute path.
-> If it is forced in the top Makefile, users have no way to
-> negate it.
-> It is true that using the absolute path is a quick work-around
-> because you do not need to care about the current working directory.
 > 
-> If you insist on it,  just go ahead.  It is just two line changes.
-> Once the issue is fixed in a better way, your patch can be reverted easily.
-Thank you for replying. Lets merge it Shuah?
+> BTW, when we attempted to add the -Og support,
+> we fixed various parts, and Linus rejected it.
+> 
+> https://lore.kernel.org/linux-kbuild/CAK7LNARQggM3aKEPRKJqa4tunFAfmfErMZuS-rrnRv6UB1VpPQ@mail.gmail.com/
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+I am afraid that '-O1' has the same situation with '-Og'. As described in GCC
+mannual:
 
+Like -O0, -Og completely disables a number of optimization passes so that 
+individual options controlling them have no effect. Otherwise -Og enables all
+-O1 optimization flags except for those that may interfere with debugging:
+ -fbranch-count-reg  -fdelayed-branch 
+ -fdse  -fif-conversion  -fif-conversion2  
+ -finline-functions-called-once 
+ -fmove-loop-invariants  -fmove-loop-stores  -fssa-phiopt 
+ -ftree-bit-ccp  -ftree-dse  -ftree-pta  -ftree-sra
+
+
+> On Sat, May 21, 2022 at 6:04 PM Christophe JAILLET
+> <christophe.jaillet@wanadoo.fr> wrote:
+> >
+> > Add a new compilation option which speeds-up compilation time.
+> > This can be useful when using static checker such as smatch or build-bots.
+> > In such cases, the speed and quality of the generated code is not
+> > important.
+> >
+> > Using -O0 would be even better, but unfortunately, building fails with
+> > this option.
+> >
+> > Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> > ---
+> >  Makefile     | 5 ++++-
+> >  init/Kconfig | 8 ++++++++
+> >  2 files changed, 12 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/Makefile b/Makefile
+> > index 1f8bef92868f..14467386f947 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -817,7 +817,10 @@ KBUILD_CFLAGS      += $(call cc-disable-warning, format-truncation)
+> >  KBUILD_CFLAGS  += $(call cc-disable-warning, format-overflow)
+> >  KBUILD_CFLAGS  += $(call cc-disable-warning, address-of-packed-member)
+> >
+> > -ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
+> > +ifdef CONFIG_CC_OPTIMIZE_FOR_COMPILATION_SPEED
+> > +KBUILD_CFLAGS += -O1
+> > +KBUILD_RUSTFLAGS_OPT_LEVEL_MAP := 1
+> > +else ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
+> >  KBUILD_CFLAGS += -O2
+> >  KBUILD_RUSTFLAGS_OPT_LEVEL_MAP := 2
+> >  else ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3
+> > diff --git a/init/Kconfig b/init/Kconfig
+> > index a96776a9b080..3177a1830c9a 100644
+> > --- a/init/Kconfig
+> > +++ b/init/Kconfig
+> > @@ -1384,6 +1384,14 @@ choice
+> >         prompt "Compiler optimization level"
+> >         default CC_OPTIMIZE_FOR_PERFORMANCE
+> >
+> > +config CC_OPTIMIZE_FOR_COMPILATION_SPEED
+> > +       bool "Optimize for compilation speed (-O1)"
+> > +       help
+> > +         This option can be useful when running a static checker such as smatch
+> > +         or a build-bot.
+> > +         Compilation time is slighly faster than -O2 and it requires less
+> > +         memory.
+> > +
+> >  config CC_OPTIMIZE_FOR_PERFORMANCE
+> >         bool "Optimize for performance (-O2)"
+> >         help
+> > --
+> > 2.34.1
+> >
 > 
 > 
-> 
+> -- 
+> Best Regards
+> Masahiro Yamada
 
 -- 
-Muhammad Usama Anjum
+Cheers,
+Changbin Du
