@@ -2,58 +2,90 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2287653196B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 May 2022 22:54:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67814531C66
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 May 2022 22:57:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244420AbiEWS2A (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 23 May 2022 14:28:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57566 "EHLO
+        id S244013AbiEWSoi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 23 May 2022 14:44:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244550AbiEWS0R (ORCPT
+        with ESMTP id S243314AbiEWSoZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 23 May 2022 14:26:17 -0400
-Received: from condef-05.nifty.com (condef-05.nifty.com [202.248.20.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76EDD9D4F5;
-        Mon, 23 May 2022 10:59:59 -0700 (PDT)
-Received: from conssluserg-04.nifty.com ([10.126.8.83])by condef-05.nifty.com with ESMTP id 24NHsVbB010676;
-        Tue, 24 May 2022 02:54:31 +0900
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 24NHs68f030856;
-        Tue, 24 May 2022 02:54:06 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 24NHs68f030856
+        Mon, 23 May 2022 14:44:25 -0400
+Received: from condef-08.nifty.com (condef-08.nifty.com [202.248.20.73])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE74F6A079;
+        Mon, 23 May 2022 11:27:18 -0700 (PDT)
+Received: from conssluserg-04.nifty.com ([10.126.8.83])by condef-08.nifty.com with ESMTP id 24NI6ipB016156;
+        Tue, 24 May 2022 03:06:44 +0900
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 24NI5KXv002937;
+        Tue, 24 May 2022 03:05:20 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 24NI5KXv002937
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1653328447;
-        bh=dBNWfUQZFF9+bb53ddySLO4pxcaDK6Q56t+DuFejwTQ=;
+        s=dec2015msa; t=1653329121;
+        bh=xyfMz2s6K1FqS7FKBYD4t23CA7hAJBCjnd+TynP5fZY=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=YPJU5jZglHmdJwUdf3fnigknfY4oOOpL20Ktso2K43HKC/WvVbzhIzA/jezTbwsv7
-         etbq0bAlxhbxIHJREfB+0YsXaeGrvsL5b/uYYU/qjxmWS6s0tr0nvErfvfbCQu4Pbs
-         Gli6n1+H0MR+8jpqmsa0Q1zfRYSDGnpfKQ3ESQuZC6gWD29eyTn+tJovl92cLbtUNh
-         UMS0nB8TD2TuQCXCr7LtVUn24t9HQjXwQGh4ZfkNQqBelD9Fth9OZJpQEsArosaRvp
-         r7Una5mA7A03DN1LDoafUdgmM1udQsZvE3lvn6jLy/omLSMGd/QUbmQLrhPEiAmHpK
-         vetgIOir8o3oA==
-X-Nifty-SrcIP: [209.85.167.173]
-Received: by mail-oi1-f173.google.com with SMTP id e189so18692231oia.8;
-        Mon, 23 May 2022 10:54:06 -0700 (PDT)
-X-Gm-Message-State: AOAM5306K2pylWQ7wBKnuYK4qU0mlooJzjFK07dRNVC+vVtzJoptB77b
-        FweYBbdygK2S5RPY9gbxlf4lLGmrS1dtG1yBB8s=
-X-Google-Smtp-Source: ABdhPJydFROQRPLEMNo6nNdOMTyK1LJ+VThHesO2oiz688jMIImNNSAgs59aHnxolEncb9HDmJvuAvA6S5mjHt72qNU=
-X-Received: by 2002:a05:6808:1805:b0:32b:17e3:c7b with SMTP id
- bh5-20020a056808180500b0032b17e30c7bmr110519oib.37.1653328445708; Mon, 23 May
- 2022 10:54:05 -0700 (PDT)
+        b=wLWMHJLOejJIXhpVDGf9HNSx+SpTPVQUXvZhixAqDXV0z7z7XYTc7NHsjSVsRdrzO
+         5gFFxjxAUV70SlzCQBQA5zl5Eo9n3JLjoa+Z6Z6R/1GbKTffwLWtZu+guZMreSmFOo
+         7q4VUHA2w4OzRP2FjYyb0e0KAjEyh94eDs+96SgIZ2UVW9GimqGFg1VqKzrk/kK8OQ
+         AcR2aj6xN3Rb2zu003g+PPx3SfgMH1DkkD+0tPAJpqKgRxHuThQsY/RooKKGvP/DEB
+         4EQhtFDGmBM6nCZxh15asv7RHHDlLkbFfBaqLcp135Okm0y8QUoLxGBd96f1e5nsjk
+         5xNLqrgDzpRng==
+X-Nifty-SrcIP: [209.85.215.173]
+Received: by mail-pg1-f173.google.com with SMTP id 137so14345838pgb.5;
+        Mon, 23 May 2022 11:05:20 -0700 (PDT)
+X-Gm-Message-State: AOAM530DxU7nDVS7Z5BXL7oz+xUhCMQ2pSYLP0vvfRhu4WCSqnnmZ8f2
+        koha5Px06Y1k+zW+TD4rzjR4rsyWMMZOi9kth9M=
+X-Google-Smtp-Source: ABdhPJx5Lme6JhQ7OKXuXU7KdkCmDLJQv7tFwa3fzbZTWXsLVHVozSYCDjkmkCCK6F2tBUWOu/ge6oucCPgm4OmGxhg=
+X-Received: by 2002:a63:fc5e:0:b0:3db:5804:f3b with SMTP id
+ r30-20020a63fc5e000000b003db58040f3bmr21273043pgk.126.1653329119628; Mon, 23
+ May 2022 11:05:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220517105128.9720-1-3090101217@zju.edu.cn>
-In-Reply-To: <20220517105128.9720-1-3090101217@zju.edu.cn>
+References: <20220209185752.1226407-1-alexandr.lobakin@intel.com> <20220209185752.1226407-2-alexandr.lobakin@intel.com>
+In-Reply-To: <20220209185752.1226407-2-alexandr.lobakin@intel.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 24 May 2022 02:52:45 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARs__+bdMMb0c8whxxzfkcN7U1yjm5PCddqZqshW2o=Cw@mail.gmail.com>
-Message-ID: <CAK7LNARs__+bdMMb0c8whxxzfkcN7U1yjm5PCddqZqshW2o=Cw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Fix include path in scripts/Makefile.modpost
-To:     3090101217@zju.edu.cn
-Cc:     Michal Marek <michal.lkml@markovi.net>,
+Date:   Tue, 24 May 2022 03:04:00 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT3QTfkYLFTBKLxghY_gBQZmud3-4UJMK3tA9eOV4UeTg@mail.gmail.com>
+Message-ID: <CAK7LNAT3QTfkYLFTBKLxghY_gBQZmud3-4UJMK3tA9eOV4UeTg@mail.gmail.com>
+Subject: Re: [PATCH v10 01/15] modpost: fix removing numeric suffixes
+To:     Alexander Lobakin <alexandr.lobakin@intel.com>
+Cc:     linux-hardening@vger.kernel.org, X86 ML <x86@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Kristen Carlson Accardi <kristen@linux.intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Bruce Schlobohm <bruce.schlobohm@intel.com>,
+        Jessica Yu <jeyu@kernel.org>,
+        kernel test robot <lkp@intel.com>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Marios Pomonis <pomonis@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jing Leng <jleng@ambarella.com>
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        live-patching@vger.kernel.org,
+        clang-built-linux <llvm@lists.linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
@@ -64,50 +96,60 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, May 17, 2022 at 7:51 PM <3090101217@zju.edu.cn> wrote:
+On Thu, Feb 10, 2022 at 3:59 AM Alexander Lobakin
+<alexandr.lobakin@intel.com> wrote:
 >
-> From: Jing Leng <jleng@ambarella.com>
+> `-z unique-symbol` linker flag which is planned to use with FG-KASLR
+> to simplify livepatching (hopefully globally later on) triggers the
+> following:
 >
-> When building an external module, if users don't need to separate the
-> compilation output and source code, they run the following command:
-> "make -C $(LINUX_SRC_DIR) M=$(PWD)". At this point, "$(KBUILD_EXTMOD)"
-> and "$(src)" are the same.
+> ERROR: modpost: "param_set_uint.0" [vmlinux] is a static EXPORT_SYMBOL
 >
-> If they need to separate them, they run "make -C $(KERNEL_SRC_DIR)
-> O=$(KERNEL_OUT_DIR) M=$(OUT_DIR) src=$(PWD)". Before running the
-> command, they need to copy "Kbuild" or "Makefile" to "$(OUT_DIR)" to
-> prevent compilation failure.
+> The reason is that for now the condition from remove_dot():
 >
-> So the kernel should change the included path to avoid the copy operation.
+> if (m && (s[n + m] == '.' || s[n + m] == 0))
 >
-> Signed-off-by: Jing Leng <jleng@ambarella.com>
+> which was designed to test if it's a dot or a '\0' after the suffix
+> is never satisfied.
+> This is due to that `s[n + m]` always points to the last digit of a
+> numeric suffix, not on the symbol next to it (from a custom debug
+> print added to modpost):
+>
+> param_set_uint.0, s[n + m] is '0', s[n + m + 1] is '\0'
+>
+> So it's off-by-one and was like that since 2014.
+> Fix this for the sake of upcoming features, but don't bother
+> stable-backporting, as it's well hidden -- apart from that LD flag,
+> can be triggered only by GCC LTO which never landed upstream.
+>
+> Fixes: fcd38ed0ff26 ("scripts: modpost: fix compilation warning")
+> Signed-off-by: Alexander Lobakin <alexandr.lobakin@intel.com>
 > ---
->  scripts/Makefile.modpost | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  scripts/mod/modpost.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-> index 48585c4d04ad..0273bf7375e2 100644
-> --- a/scripts/Makefile.modpost
-> +++ b/scripts/Makefile.modpost
-> @@ -87,8 +87,7 @@ obj := $(KBUILD_EXTMOD)
->  src := $(obj)
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 6bfa33217914..4648b7afe5cc 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -1986,7 +1986,7 @@ static char *remove_dot(char *s)
 >
->  # Include the module's Makefile to find KBUILD_EXTRA_SYMBOLS
-> -include $(if $(wildcard $(KBUILD_EXTMOD)/Kbuild), \
-> -             $(KBUILD_EXTMOD)/Kbuild, $(KBUILD_EXTMOD)/Makefile)
-> +include $(if $(wildcard $(src)/Kbuild), $(src)/Kbuild, $(src)/Makefile)
+>         if (n && s[n]) {
+>                 size_t m = strspn(s + n + 1, "0123456789");
+> -               if (m && (s[n + m] == '.' || s[n + m] == 0))
+> +               if (m && (s[n + m + 1] == '.' || s[n + m + 1] == 0))
+>                         s[n] = 0;
 >
->  # modpost option for external modules
->  MODPOST += -e
+>                 /* strip trailing .lto */
 > --
-> 2.17.1
+> 2.34.1
 >
 
+This trivial patch has not been picked up yet.
 
-I do not think "M=$(OUT_DIR) src=$(PWD)" is the official way,
-but this patch is a clean up.
+I can apply this to my tree, if you want.
 
-Applied to linux-kbuild. Thanks.
+Please let me know your thoughts.
 
 
 -- 
