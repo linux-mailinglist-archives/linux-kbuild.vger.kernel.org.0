@@ -2,105 +2,112 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CD3453082B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 May 2022 05:56:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD9DB530D87
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 May 2022 12:42:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235023AbiEWD4l (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 22 May 2022 23:56:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33244 "EHLO
+        id S233482AbiEWJmY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 23 May 2022 05:42:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229568AbiEWD4k (ORCPT
+        with ESMTP id S233429AbiEWJk5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 22 May 2022 23:56:40 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B9A611F
-        for <linux-kbuild@vger.kernel.org>; Sun, 22 May 2022 20:56:38 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id q21so5851967ejm.1
-        for <linux-kbuild@vger.kernel.org>; Sun, 22 May 2022 20:56:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LKAJkiWmW+IPGP1bXDKaiFUYpV46xzegx9oR3356eFs=;
-        b=gVnl8EntcpMgwE29/c+bjMIurGfrhaKvHuVgNwokXlHj8f0HpRtVO2iTuf2t84JtcC
-         4T8IWNKbLcn4nS8C8o54KCWd2cK+9MGM+jMuIbj4JCyR7HUtw+Hfe5LSZl4Mo/IfVzMY
-         D4Ai8Dmf6YrLPSwpNE0xjpX1Lrp517SuOajXI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LKAJkiWmW+IPGP1bXDKaiFUYpV46xzegx9oR3356eFs=;
-        b=GKJdfF1vA6f69Z9b2BK290jrIWT3dsDhjdaWdJvXcexpwfs551MwiSJs7zmrOo3vtQ
-         f/ztmbZ0wazikBMK30zpQVp4U+TKUj8HrtjLv8M3voXp3mzkinYrBnr5bkyHMztw0mT5
-         TbO78JMeCqmidO72Cj+M7L5WsVe+AmsoDv6yXky2zpGKCK/fraVcJcLMQUC49lU+Ixbk
-         fI+VW8+VclLfZ+A0IFnY6iis+MerHLdTlKkS+iTa6kFkcSwRoYgHImhlyGk+P1w9YzFi
-         LH9tF1XXkFwod6FQmAOz8utd4OPL7jLVBPV61WGm4u7sbeerGPGXKAoOpm7M/bAEVWpi
-         r4kw==
-X-Gm-Message-State: AOAM5327YEDuDVyUDkskiDsKfjYLRQh6YCF1JEDWYfo+95qvep2el6e+
-        +GQrMOfB0IWnAwqhociS04WyReb4qH+ZCauF
-X-Google-Smtp-Source: ABdhPJxHZ9PMOVjXe3M4rEwPY8zZj7OdZi6gTjXfPkR5rVECXQ6iLtAOSaFL6vZAXMF95wHjy1aZ0A==
-X-Received: by 2002:a17:906:b7d6:b0:6fe:a34a:a813 with SMTP id fy22-20020a170906b7d600b006fea34aa813mr13230549ejb.551.1653278196509;
-        Sun, 22 May 2022 20:56:36 -0700 (PDT)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com. [209.85.221.46])
-        by smtp.gmail.com with ESMTPSA id w5-20020aa7cb45000000b0042aa7e0f892sm7731323edt.15.2022.05.22.20.56.34
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 May 2022 20:56:35 -0700 (PDT)
-Received: by mail-wr1-f46.google.com with SMTP id u3so19484902wrg.3
-        for <linux-kbuild@vger.kernel.org>; Sun, 22 May 2022 20:56:34 -0700 (PDT)
-X-Received: by 2002:a5d:5484:0:b0:20f:bf64:cae1 with SMTP id
- h4-20020a5d5484000000b0020fbf64cae1mr10390593wrv.281.1653278194596; Sun, 22
- May 2022 20:56:34 -0700 (PDT)
+        Mon, 23 May 2022 05:40:57 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA84F2F01E;
+        Mon, 23 May 2022 02:40:47 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: usama.anjum)
+        with ESMTPSA id A46991F42DD9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1653298845;
+        bh=V0M8DYvWpS0+hFL3tgf2bcMHWIfVb8jn4R+BMUFe68g=;
+        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+        b=O9ZVdiVM5v1oBXV+1BXIVW0M2VmQ+HfXjC+3XBYXhMWGwaziMJJ0rG9DRsseuYSV9
+         JzSbS7XMPnN3G/5WICA/JK/ENZgqOa62BTrOOrdanpuDbTSi+CvKIkPr8Wf5jPzmF+
+         J/UeZSQk8xU0UnqqOeJkM6uKTVrIY74HR1R0QL7ybH2mdi+l/VoX6myQ23BrhtwIRv
+         jU8cQmVLVfVaAXvL9aG1dZ+WBxMnAUL+sq+U/OdhgFpwSh9dFeElK4o63xCRpwsyzf
+         8lEtJdPgLftM0NesautwPWh+7McBB8olXPES6CyqmP2GL+qmwM/2KuD0gL9v2gvrae
+         iyiQoCHn9GjDA==
+Message-ID: <19f72a58-b80e-f6a8-842f-a924c4b94eeb@collabora.com>
+Date:   Mon, 23 May 2022 14:40:39 +0500
 MIME-Version: 1.0
-References: <000000000000c1925305ac997812@google.com> <000000000000b6b4eb05dfa1b325@google.com>
-In-Reply-To: <000000000000b6b4eb05dfa1b325@google.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sun, 22 May 2022 20:56:18 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whH5pmgyzE6+6C==p2VQFUgGiPhSwX=R2zKs+iHZuX7_A@mail.gmail.com>
-Message-ID: <CAHk-=whH5pmgyzE6+6C==p2VQFUgGiPhSwX=R2zKs+iHZuX7_A@mail.gmail.com>
-Subject: Re: [syzbot] KASAN: use-after-free Read in corrupted (4)
-To:     syzbot <syzbot+48135e34de22e3a82c99@syzkaller.appspotmail.com>
-Cc:     applications@thinkbigglobal.in, David Miller <davem@davemloft.net>,
-        gustavo@padovan.org, Johan Hedberg <johan.hedberg@gmail.com>,
-        linux-bluetooth <linux-bluetooth@vger.kernel.org>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Cc:     usama.anjum@collabora.com, Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        KERNEL SELFTEST FRAMEWORK <linux-kselftest@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Marcel Holtmann <marcel@holtmann.org>,
-        Ingo Molnar <mingo@redhat.com>, Michal Marek <mmarek@suse.com>,
-        Netdev <netdev@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        Will Deacon <will@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        LKML <linux-kernel@vger.kernel.org>,
+        "kernelci@groups.io" <kernelci@groups.io>,
+        Collabora Kernel ML <kernel@collabora.com>
+Subject: Re: [Bug Report] - kselftest build fails if output directory is first
+ level sub-directory
+Content-Language: en-US
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Shuah Khan <shuah@kernel.org>
+References: <c25d7ea7-4f72-4a2b-d8c3-d317e64fcbbb@collabora.com>
+ <CAK7LNATL4nMmKgrjS8meavnpn=HisD30QxuPUKDqtWWgbGcSZw@mail.gmail.com>
+From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <CAK7LNATL4nMmKgrjS8meavnpn=HisD30QxuPUKDqtWWgbGcSZw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, May 22, 2022 at 4:01 PM syzbot
-<syzbot+48135e34de22e3a82c99@syzkaller.appspotmail.com> wrote:
->
-> The issue was bisected to:
->
-> commit c470abd4fde40ea6a0846a2beab642a578c0b8cd
-> Author: Linus Torvalds <torvalds@linux-foundation.org>
-> Date:   Sun Feb 19 22:34:00 2017 +0000
->
->     Linux 4.10
+On 5/22/22 10:15 PM, Masahiro Yamada wrote:
+> On Sat, May 21, 2022 at 3:44 PM Muhammad Usama Anjum
+> <usama.anjum@collabora.com> wrote:
+>>
+>> Hello,
+>>
+>> kselftest can be built using the kernel's top most Makefile without
+>> using kselftest's Makefile directly. But there is bug in the top most
+>> Makefile. The build fails if the specified output directory is first
+>> level sub-directory. Here is a example to reproduce this bug:
+>>
+>> make kselftest-all O=build
+>>
+>> "The Make is working in a wrong directory, that is why the relative path
+>> does not work." Masahiro Yamada. Feel free to fix it if someone pin the bug.
+>>
+>> It should be noted that the build works in some other combinations:
+>> make kselftest-all (works)
+>> make kselftest-all O=/tmp (works)
+>> make kselftest-all O=build/build2 (works)
+>>
+>> My unsuccessful attempt to fix this bug can be found here:
+>> https://lore.kernel.org/lkml/20220223191016.1658728-1-usama.anjum@collabora.com/
+>>
+>> Thanks,
+>> Muhammad Usama Anjum
+> 
+> 
+> This problem starts from the bad design of the kselftest framework.
+> I did some research before. I think I can fix the root cause but
+> currently I do not have enough time to do it.
+> 
+> 
+> KBUILD_ABS_SRCTREE is a user-interface to request
+> Kbuild to use the absolute path.
+> If it is forced in the top Makefile, users have no way to
+> negate it.
+> It is true that using the absolute path is a quick work-around
+> because you do not need to care about the current working directory.
+> 
+> If you insist on it,  just go ahead.  It is just two line changes.
+> Once the issue is fixed in a better way, your patch can be reverted easily.
+Thank you for replying. Lets merge it Shuah?
 
-Heh. That looks very unlikely, so the bisection seems to sadly have
-failed at some point.
+> 
+> 
+> 
 
-At least one of the KASAN reports (that "final oops") does look very
-much like the bug fixed by commit 1bff51ea59a9 ("Bluetooth: fix
-use-after-free error in lock_sock_nested()"), so this may already be
-fixed, but who knows...
-
-But that "update Makefile to 4.10" is not the cause...
-
-               Linus
+-- 
+Muhammad Usama Anjum
