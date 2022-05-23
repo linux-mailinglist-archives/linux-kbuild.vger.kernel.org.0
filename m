@@ -2,183 +2,123 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E2C22531705
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 May 2022 22:52:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D8E3531A5F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 May 2022 22:55:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229962AbiEWTI7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 23 May 2022 15:08:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57182 "EHLO
+        id S231795AbiEWTyM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 23 May 2022 15:54:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231511AbiEWTGw (ORCPT
+        with ESMTP id S231147AbiEWTyM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 23 May 2022 15:06:52 -0400
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7171266AEC
-        for <linux-kbuild@vger.kernel.org>; Mon, 23 May 2022 11:45:05 -0700 (PDT)
-Received: by mail-lj1-x22e.google.com with SMTP id 27so13330567ljw.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 23 May 2022 11:45:05 -0700 (PDT)
+        Mon, 23 May 2022 15:54:12 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13C6562BFD
+        for <linux-kbuild@vger.kernel.org>; Mon, 23 May 2022 12:54:10 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id l20-20020a17090a409400b001dd2a9d555bso282466pjg.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 23 May 2022 12:54:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oOWZUBJqNcdlgAF3ozzceIWa1QLe3KoX8JwY9UNGHd4=;
-        b=UstXh4WwiSYrL1ybcoTWRmyZsv9hEjc6PjZMBIKnBZP0zhT7iTun1KvXZ8H17U8qSH
-         iz+7+bLHxdtL7wvkFkMIpdZu3lQ51hwOwKdx/wG4KzaJXykJmazsGwA7t4UGAtTePw/B
-         mK+BUuXVrIeuhZNDEKPHGY+iv6YBe6R27v/utPWafsuvsLf2TmGu2ewgAfZSdKBowv4l
-         LoP4BWbhRDtTjeIcpB3tIiVwfN42D2mxokpmBrGJMTT5Dd6TNpI3j9kQxH/bd3ESREMT
-         XevvqDcVtKuqvXq0zcj3Z/G0wAyCfCELfimVoPf+6+u9hcQLdRX4KGz8yIs0FLopHIeq
-         RhLw==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=O4+xOyqn0DlQXpBjw3fsuM8J9adeD3sXmNoLX1130DM=;
+        b=VDNuzx6fJMXmw8XNqCUtAVCF02j4OmsqvvTf5vsnBCotQDMHYtj33uCT5ocfpE3D8B
+         cnNLiyFE6mRLGz2/sdfOx1lpRXuJuSayIu45co+2FJj1Fw3D9/ri37qdcaEXMk1SEOuz
+         7Ihg2BhmblaAFoDBviQBO+f2O9yMZrE5akEzE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oOWZUBJqNcdlgAF3ozzceIWa1QLe3KoX8JwY9UNGHd4=;
-        b=SmuEoh8+IZCLXmt/q6/Qk6h1GrUfAaMwBO1nrhYVhPuWnBE/+jV4rOXr1Wnp4rAIwU
-         PNtthEGrntxdA1MtFOMW4dP0PkG17R89nr1k9nlunI1sTox39XtuuocEzkW+wHVyIGE1
-         pEZHCK6CV2IEJhhEgYThO375ltyb1cSANqbTmEO57hRJIEFzqUPLjDAWJMLM1ImeMmTP
-         6gL1WRI/552bmc9wHhOpiu2TJLA5oqMAPhv1UbjEsddzhzwZz3FMc8hcGUwtiSeOXkYq
-         o2vqbxtLZnbheKZtJF2OnHFc8oOnIzjfbFROpPcc+WcBmdP2GuWsHNGLEPQrzpDlrHoN
-         8Kvw==
-X-Gm-Message-State: AOAM53274rCQM0I1arJPbFhIz2LP4ElezkaHMuUMnnK8bgdMrt8E8HWB
-        FdMpSGslEt6C7YqAPFM0XAGeVOaFqqsevsDYBN+7YA==
-X-Google-Smtp-Source: ABdhPJyqr3CCsMipzHURp2FsSWTJB3upstez3xIYqCFafcp/ENDyuWVgPX2GXxQPyyXKkJMEh1xX8mg+wI61pNqucdI=
-X-Received: by 2002:a2e:98cd:0:b0:253:df46:323e with SMTP id
- s13-20020a2e98cd000000b00253df46323emr9603557ljj.295.1653331503220; Mon, 23
- May 2022 11:45:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220523020209.11810-1-ojeda@kernel.org> <20220523020209.11810-22-ojeda@kernel.org>
-In-Reply-To: <20220523020209.11810-22-ojeda@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 23 May 2022 11:44:51 -0700
-Message-ID: <CAKwvOdkTjxNEmCTnuH5f41WB50ef6ErBM2Kp2zJ-t9q_5U8rBA@mail.gmail.com>
-Subject: Re: [PATCH v7 21/25] Kbuild: add Rust support
-To:     Miguel Ojeda <ojeda@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Sven Van Asbroeck <thesven73@gmail.com>,
-        Gary Guo <gary@garyguo.net>,
-        Boris-Chengbiao Zhou <bobo1239@web.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Douglas Su <d0u9.su@outlook.com>,
-        Dariusz Sosnowski <dsosnowski@dsosnowski.pl>,
-        Antonio Terceiro <antonio.terceiro@linaro.org>,
-        Daniel Xu <dxu@dxuuu.xyz>, Miguel Cano <macanroj@gmail.com>,
-        David Gow <davidgow@google.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=O4+xOyqn0DlQXpBjw3fsuM8J9adeD3sXmNoLX1130DM=;
+        b=LHnkc/HK/D22aEcBEvzwq4gqvF521FC0D1BDZwaE6JuC6RxMISu5Kde8jjeQ71DkoX
+         goMGiohek+iVGy+roRLXVHTJs5FCNDRGKJm20nQWK9f5D0iiMqytIEKl3S5exi7/1auT
+         +P8zeUzhfzPLOorXvLGeH4oZhVOpXCI75fulEsv2UTnh5Y9U4qIlazN5s+EfsU1taGVP
+         iKKrzeLPcSRymz3RalotQlIUTU1RugWgGgfpTem/IkRifRvTvTJIFCVbUkncO70m9SZK
+         d6XIB/FHoLl4HB0N43tQJ6df4F/fMN9d7m6X0ho/rXOoYL56Dub3ej4xnl2y0GyiJQVg
+         uA/g==
+X-Gm-Message-State: AOAM5323zUG+xLj2AHkXHEeqDJ520nyowrlxcfyN2mtB0BjjOFMPIAh4
+        pICMxpCmsBxpj5RF2PRDJ+uhUg==
+X-Google-Smtp-Source: ABdhPJxjo5+Q7vy0iVeBvm613vAmply7oSL/QolxFDJ1Xc864vcJBNlii5BlTvQdRkEHxhDc99JGkA==
+X-Received: by 2002:a17:90a:aa8a:b0:1c9:bfd8:9a90 with SMTP id l10-20020a17090aaa8a00b001c9bfd89a90mr650355pjq.118.1653335649635;
+        Mon, 23 May 2022 12:54:09 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id q9-20020a170902f78900b0015e8d4eb292sm3534189pln.220.2022.05.23.12.54.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 May 2022 12:54:09 -0700 (PDT)
+Date:   Mon, 23 May 2022 12:54:06 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Alexander Popov <alex.popov@linux.com>,
+        linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-kbuild@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-um@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH] gcc-plugins: Change all version strings match kernel
+Message-ID: <202205231251.39D012E@keescook>
+References: <20220510235412.3627034-1-keescook@chromium.org>
+ <20220523143054.GA3164771@roeck-us.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220523143054.GA3164771@roeck-us.net>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-> +choice
-> +       prompt "Optimization level"
-> +       default RUST_OPT_LEVEL_SIMILAR_AS_CHOSEN_FOR_C
-> +       depends on RUST
-> +       help
-> +         Controls rustc's `-Copt-level` codegen option.
-> +
-> +         This flag controls the optimization level.
-> +
-> +         If unsure, say "Similar as chosen for C".
-> +
-> +config RUST_OPT_LEVEL_SIMILAR_AS_CHOSEN_FOR_C
-> +       bool "Similar as chosen for C"
-> +       help
-> +         This choice will pick a similar optimization level as chosen in
-> +         the "Compiler optimization level" for C:
-> +
-> +             -O2 is currently mapped to -Copt-level=2
-> +             -O3 is currently mapped to -Copt-level=3
-> +             -Os is currently mapped to -Copt-level=s
-> +
-> +         The mapping may change over time to follow the intended semantics
-> +         of the choice for C as sensibly as possible.
-> +
-> +         This is the default.
-> +
-> +config RUST_OPT_LEVEL_0
-> +       bool "No optimizations (-Copt-level=0)"
-> +       help
-> +         Not recommended for most purposes. It may come in handy for debugging
-> +         suspected optimizer bugs, unexpected undefined behavior, etc.
-> +
-> +         Note that this level will *not* enable debug assertions nor overflow
-> +         checks on its own (like it happens when interacting with rustc
-> +         directly). Use the corresponding configuration options to control
-> +         that instead, orthogonally.
-> +
-> +         Note this level may cause excessive stack usage, which can lead to stack
-> +         overflow and subsequent crashes.
-> +
-> +config RUST_OPT_LEVEL_1
-> +       bool "Basic optimizations (-Copt-level=1)"
-> +       help
-> +         Useful for debugging without getting too lost, but without
-> +         the overhead and boilerplate of no optimizations at all.
-> +
-> +         Note this level may cause excessive stack usage, which can lead to stack
-> +         overflow and subsequent crashes.
-> +
-> +config RUST_OPT_LEVEL_2
-> +       bool "Some optimizations (-Copt-level=2)"
-> +       help
-> +         The sensible choice in most cases.
-> +
-> +config RUST_OPT_LEVEL_3
-> +       bool "All optimizations (-Copt-level=3)"
-> +       help
-> +         Yet more performance (hopefully).
-> +
-> +config RUST_OPT_LEVEL_S
-> +       bool "Optimize for size (-Copt-level=s)"
-> +       help
-> +         Smaller kernel, ideally without too much performance loss.
-> +
-> +config RUST_OPT_LEVEL_Z
-> +       bool "Optimize for size, no loop vectorization (-Copt-level=z)"
-> +       help
-> +         Like the previous level, but also turn off loop vectorization.
+On Mon, May 23, 2022 at 07:30:54AM -0700, Guenter Roeck wrote:
+> On Tue, May 10, 2022 at 04:54:12PM -0700, Kees Cook wrote:
+> > It's not meaningful for the GCC plugins to track their versions separately
+> > from the rest of the kernel. Switch all versions to the kernel version.
+> > 
+> > Fix mismatched indenting while we're at it.
+> > 
+> > Cc: linux-hardening@vger.kernel.org
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> 
+> I see random build failures with this patch in linux-next.
+> 
+> Error log:
+> cc1plus: fatal error: ./include/generated/utsrelease.h: No such file or directory
+> 
+> The problem doesn't happen all the time. Is there some missing dependency ?
 
-I'm super not into having the rust optimization level differ from the
-C optimization level.  This is just someone having too much fun
-wrapping every compiler flag in a kbuild option.  Either folks wan't
-smaller size or more optimizations. Allowing for RUST_OPT_LEVEL_S and
-CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE or RUST_OPT_LEVEL_3 and
-CONFIG_CC_OPTIMIZE_FOR_SIZE is just wacky nonsense that's going to
-make randconfig bug reports more confusing to tease out.
+Here's a prior report I hadn't been able to repro:
+https://lore.kernel.org/linux-mm/202205230239.EZxeZ3Fv-lkp@intel.com
+
+But now I can: I see it with a -j1 build. This fixes it for me:
+
+diff --git a/Makefile b/Makefile
+index 91c91fcf3c24..c04420d5aa3d 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1175,7 +1175,7 @@ include/config/kernel.release: FORCE
+ # Carefully list dependencies so we do not try to build scripts twice
+ # in parallel
+ PHONY += scripts
+-scripts: scripts_basic scripts_dtc
++scripts: include/generated/utsrelease.h scripts_basic scripts_dtc
+ 	$(Q)$(MAKE) $(build)=$(@)
+ 
+ # Things we need to do before we recursively start building the kernel
+diff --git a/scripts/gcc-plugins/Makefile b/scripts/gcc-plugins/Makefile
+index 6f0aecad5d67..c29334669a16 100644
+--- a/scripts/gcc-plugins/Makefile
++++ b/scripts/gcc-plugins/Makefile
+@@ -64,5 +64,5 @@ $(foreach m, $(notdir $(plugin-multi)), $(eval $(obj)/$m: $(addprefix $(obj)/, $
+ quiet_cmd_plugin_cxx_o_c = HOSTCXX $@
+       cmd_plugin_cxx_o_c = $(HOSTCXX) $(plugin_cxxflags) -c -o $@ $<
+ 
+-$(plugin-objs): $(obj)/%.o: $(src)/%.c FORCE
++$(plugin-objs): $(obj)/%.o: $(src)/%.c $(objdir)/include/generated/utsrelease.h FORCE
+ 	$(call if_changed_dep,plugin_cxx_o_c)
+
+Both "include/generated/utsrelease.h" and "scripts" were same-level
+deps, so they were racing. 
+
 -- 
-Thanks,
-~Nick Desaulniers
+Kees Cook
