@@ -2,56 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C1B353329C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 May 2022 22:50:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03BEC5332A3
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 May 2022 22:51:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241715AbiEXUuI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 24 May 2022 16:50:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52500 "EHLO
+        id S241149AbiEXUvg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 24 May 2022 16:51:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241696AbiEXUuH (ORCPT
+        with ESMTP id S241810AbiEXUvd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 24 May 2022 16:50:07 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C78074DC2
-        for <linux-kbuild@vger.kernel.org>; Tue, 24 May 2022 13:50:06 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id l13so26156485lfp.11
-        for <linux-kbuild@vger.kernel.org>; Tue, 24 May 2022 13:50:06 -0700 (PDT)
+        Tue, 24 May 2022 16:51:33 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37F1530549
+        for <linux-kbuild@vger.kernel.org>; Tue, 24 May 2022 13:51:32 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id y32so32802700lfa.6
+        for <linux-kbuild@vger.kernel.org>; Tue, 24 May 2022 13:51:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=xu6EHDS01LsOIawXUSDVH/r2oXuTsWqPdMuqTq7O8gE=;
-        b=Z2hxmeMr7k/9U4EfcQyebztkuf6MneNT2zAKD72w7RpTggD7ZjCpMMA+AG0iEZYZKM
-         nOv7+3nIHvnBr5jgJfjTANm4EXdEmDCo8F/IpMM9lU6y+ts6orITJzVAE8boMr5q+Eoa
-         ByPPQHu+fV51HhIJ8ProKLOEOz2Xtc7SmJo/AGhQGcfaeKUFha4vIjRO+ML3+eEZfL7V
-         q/J83Wecu938JJEhD81Z1yrhLoS8N0dkLwtyvSWexc3D+ObPIISMyWEpfg6lOtYCkh4c
-         aNwCpw7UoT3wICVZZlCRluqnisVWjS5dvL9P6H0hxrfkZk2Z3uD+2bzaO7XMNSuuZ/6C
-         jrSA==
+        bh=FmogMWNp0qvu2mm31zmFjP6h+axm+XxtnUaHfKWv+xM=;
+        b=RR6mv2dpN07ZtLDjgj/gqKwZLXyst5QN24l2SvqPkG15iuStCrKQ41Fl3l85Lg6Tdf
+         vo4zP0ogMNAYQkmt5LjmX2wvt9aMXCU9tI7A8BYlyHSJ3w0lGXEts6mPqi2wakkKfsAq
+         iBcQfmsq1u/dCBzyJ3eyDOwHDoWMIQbF0qe91RsjQ1jotJ9Klr82gRna/odaaQYjAV7p
+         LHIOtPbttOTW9Hcb8kEmiBcBI0HJiKQ+5r18GF5O5uLCzY8rr7PNDf5/Ad1BdnxtkDll
+         i3Eh0+X8VOOVyAfZ0SIC2bAZIkMnFNADAzOGmGOhWEJMWh52/l9sNRt4biSBxBs/AxUd
+         7UvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=xu6EHDS01LsOIawXUSDVH/r2oXuTsWqPdMuqTq7O8gE=;
-        b=f5NikMbp6no4u60IMS5BRXrN2jCovl1PBMFc5Vj9DOhXH4cgkxy51kfNBErcrkOJqV
-         SO1uSc+u17j31AuQ0PHa2LIEcXXaprgjhRy7VvDopg5a6oBEJaN6mLYNbMC8sWg51oWT
-         BXIHRU/4EvgHWOkBTP2AZrI1ncQM/9Q006zcsD4WG1Tw/27vZTQr9hsBAyEFEvfHWQEF
-         ylUuF8nFH+k54v/4Wie2lKt0GGRTx8TrqiEJXDZiogEV7VR+LTKHb0N0vsWDXXFuXi3k
-         yB6nef0AaBMUDTBtYClfAQ11WME3TsVTveyd1WP6m7/JTqGYBaSVdqhj9Fj9erSOEsKT
-         5CKQ==
-X-Gm-Message-State: AOAM532rY9CS/N4qiI0Y1z+IkPS9N+elC3zhPFqGJHxAITpLhph9tDA9
-        IxvXdSM0K+GC47DuXg1C38iVWbNWtVjovPw4WBqwng==
-X-Google-Smtp-Source: ABdhPJyQjBwigtLjvLrVIrEOtKpFLfkTj0wS9QvXw6Cn04KWi9naGQql0vuzXi7YhavlMsx6rr6NzVNT2XkyQjqwJTY=
-X-Received: by 2002:a05:6512:ace:b0:478:9af3:d9cb with SMTP id
- n14-20020a0565120ace00b004789af3d9cbmr1136279lfu.103.1653425404449; Tue, 24
- May 2022 13:50:04 -0700 (PDT)
+        bh=FmogMWNp0qvu2mm31zmFjP6h+axm+XxtnUaHfKWv+xM=;
+        b=EHUiy69EVvR5Cy29gj6gzHcKGWkTLB5BuvxisywE7jTi3oSo7SAts9IJ4zjUwVuIgY
+         OzOZqSb8sBNMuNibsMRsRERztS9CrSLrWLe517KlfwtDDDlQxzQ2j7gkuChI6Q/JDThS
+         26nMbZKM+SeNWddoqs53rhARy+7v7mepIX3Xz9NSrWomnyp24RCercrATJDc+AzLgvgn
+         Oz0pzB7K3XyY4a0zBnS/BipwutIkGcynV97jzZSucgopmy9sUB1D5sfy6NZzoVk5COCW
+         A2QZ6YVZZc9wPQGZh53RScSqxAYm6Abm9BmyBSOZ5UOHm6iFsy1PSaHu/IdKbwQr6ecK
+         NNqQ==
+X-Gm-Message-State: AOAM532v2ZkmdUo5nDR0VRHTomoDxtSlnUTArepniGg4+t131cJp/6UQ
+        bYgkjuHUbBjLBWjS23ft7ZloseBx3vcGnBzen40B5w==
+X-Google-Smtp-Source: ABdhPJzleqZnjuGchdQgqqN8WkUodSeI7NY6Jg+gW6AX7R8T4w34/0v35vDm+YNngitG5zX+TsGnV80HTTcpTjrvAUg=
+X-Received: by 2002:a05:6512:48e:b0:477:c024:1a1c with SMTP id
+ v14-20020a056512048e00b00477c0241a1cmr21489946lfq.100.1653425490353; Tue, 24
+ May 2022 13:51:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220523164626.858340-1-masahiroy@kernel.org> <20220523164626.858340-4-masahiroy@kernel.org>
-In-Reply-To: <20220523164626.858340-4-masahiroy@kernel.org>
+References: <20220523164626.858340-1-masahiroy@kernel.org> <20220523164626.858340-5-masahiroy@kernel.org>
+In-Reply-To: <20220523164626.858340-5-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 24 May 2022 13:49:53 -0700
-Message-ID: <CAKwvOd=6GHg7z_0-2wsF0Z9Jk1Cb_j=Z4_roYBRpHvj-MCzwTw@mail.gmail.com>
-Subject: Re: [PATCH 4/5] modpost: reuse ARRAY_SIZE() macro for section_mismatch()
+Date:   Tue, 24 May 2022 13:51:19 -0700
+Message-ID: <CAKwvOdn00NxJo+_SCHcBx2JO0doZQx9cL0TdFDfQAwMOXDMc8w@mail.gmail.com>
+Subject: Re: [PATCH 5/5] modpost: squash if...else if in find_elf_symbol2()
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>
@@ -60,7 +60,7 @@ X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -69,81 +69,53 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Mon, May 23, 2022 at 9:48 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Move ARRAY_SIZE() from file2alias.c to modpost.h to reuse it in
-> section_mismatch().
+>     if ((addr - sym->st_value) < distance) {
+>             distance = addr - sym->st_value;
+>             near = sym;
+>     } else if ((addr - sym->st_value) == distance) {
+>             near = sym;
+>     }
 >
-> Also, move the variable 'check' inside the for-loop.
+> is equivalent to:
+>
+>     if ((addr - sym->st_value) <= distance) {
+>             distance = addr - sym->st_value;
+>             near = sym;
+>     }
+>
+> (The else-if part can overwrite 'distance' with the same value).
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Thanks for the patch!
+Sure, thanks for the patch!
 Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
 > ---
 >
->  scripts/mod/file2alias.c | 2 --
->  scripts/mod/modpost.c    | 7 +++----
->  scripts/mod/modpost.h    | 3 +++
->  3 files changed, 6 insertions(+), 6 deletions(-)
+>  scripts/mod/modpost.c | 10 +++-------
+>  1 file changed, 3 insertions(+), 7 deletions(-)
 >
-> diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-> index 5258247d78ac..e8a9c6816fec 100644
-> --- a/scripts/mod/file2alias.c
-> +++ b/scripts/mod/file2alias.c
-> @@ -734,8 +734,6 @@ static int do_vio_entry(const char *filename, void *symval,
->         return 1;
->  }
->
-> -#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
-> -
->  static void do_input(char *alias,
->                      kernel_ulong_t *arr, unsigned int min, unsigned int max)
->  {
 > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 77c315dea1a3..48a18b59f908 100644
+> index 48a18b59f908..8c8d2a4bc0b0 100644
 > --- a/scripts/mod/modpost.c
 > +++ b/scripts/mod/modpost.c
-> @@ -1049,8 +1049,6 @@ static const struct sectioncheck *section_mismatch(
->                 const char *fromsec, const char *tosec)
->  {
->         int i;
-> -       int elems = sizeof(sectioncheck) / sizeof(struct sectioncheck);
-> -       const struct sectioncheck *check = &sectioncheck[0];
->
->         /*
->          * The target section could be the SHT_NUL section when we're
-> @@ -1061,14 +1059,15 @@ static const struct sectioncheck *section_mismatch(
->         if (*tosec == '\0')
->                 return NULL;
->
-> -       for (i = 0; i < elems; i++) {
-> +       for (i = 0; i < ARRAY_SIZE(sectioncheck); i++) {
-> +               const struct sectioncheck *check = &sectioncheck[i];
-> +
->                 if (match(fromsec, check->fromsec)) {
->                         if (check->bad_tosec[0] && match(tosec, check->bad_tosec))
->                                 return check;
->                         if (check->good_tosec[0] && !match(tosec, check->good_tosec))
->                                 return check;
+> @@ -1270,13 +1270,9 @@ static Elf_Sym *find_elf_symbol2(struct elf_info *elf, Elf_Addr addr,
+>                         continue;
+>                 if (!is_valid_name(elf, sym))
+>                         continue;
+> -               if (sym->st_value <= addr) {
+> -                       if ((addr - sym->st_value) < distance) {
+> -                               distance = addr - sym->st_value;
+> -                               near = sym;
+> -                       } else if ((addr - sym->st_value) == distance) {
+> -                               near = sym;
+> -                       }
+> +               if (sym->st_value <= addr && addr - sym->st_value <= distance) {
+> +                       distance = addr - sym->st_value;
+> +                       near = sym;
 >                 }
-> -               check++;
 >         }
->         return NULL;
->  }
-> diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
-> index d9daeff07b83..044bdfb894b7 100644
-> --- a/scripts/mod/modpost.h
-> +++ b/scripts/mod/modpost.h
-> @@ -97,6 +97,9 @@ static inline void __endian(const void *src, void *dest, unsigned int size)
->  #endif
->
->  #define NOFAIL(ptr)   do_nofail((ptr), #ptr)
-> +
-> +#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
-> +
->  void *do_nofail(void *ptr, const char *expr);
->
->  struct buffer {
+>         return near;
 > --
 > 2.32.0
 >
