@@ -2,56 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EEE52533296
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 May 2022 22:48:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C1B353329C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 May 2022 22:50:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241694AbiEXUsK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 24 May 2022 16:48:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51300 "EHLO
+        id S241715AbiEXUuI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 24 May 2022 16:50:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238638AbiEXUsK (ORCPT
+        with ESMTP id S241696AbiEXUuH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 24 May 2022 16:48:10 -0400
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0A3374DD2
-        for <linux-kbuild@vger.kernel.org>; Tue, 24 May 2022 13:48:08 -0700 (PDT)
-Received: by mail-lj1-x22f.google.com with SMTP id q1so12611851ljb.5
-        for <linux-kbuild@vger.kernel.org>; Tue, 24 May 2022 13:48:08 -0700 (PDT)
+        Tue, 24 May 2022 16:50:07 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C78074DC2
+        for <linux-kbuild@vger.kernel.org>; Tue, 24 May 2022 13:50:06 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id l13so26156485lfp.11
+        for <linux-kbuild@vger.kernel.org>; Tue, 24 May 2022 13:50:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=7VF1h9VoAjTirhiTdduIUPLKqTj+n1pCpzbChlFIzhY=;
-        b=n2Ms+d/2wyZrpq84XEvd1spFFzFVV5DC3dX27H3EnH0INSQBrRkDaGGliChTegAiRT
-         MjFhrlI2Ssk5UuDUrM3ymBYmD10lwCG2p/vtWqksDNh/rfjqsWKR4bS7uaR6+a+0W1fo
-         k4TlnYdpXaYMoNoDKdo4nhjKPYicW3iyx/UqkA5mphCFj7/IMhDcHdGAIOHqrkBGanAO
-         FrWi+bV5nxmNlS6jUMryeebiHsx6TY+aymnM6giAfAZGgA3vSWfWRjBJhKymugS7Cns8
-         0TV83mKGRjUI5EgOGXVPmT3cs4xPXyf0q4bQTFeRKFin5iwXgmhMD2ivzK5By/j1x/1V
-         JRRA==
+        bh=xu6EHDS01LsOIawXUSDVH/r2oXuTsWqPdMuqTq7O8gE=;
+        b=Z2hxmeMr7k/9U4EfcQyebztkuf6MneNT2zAKD72w7RpTggD7ZjCpMMA+AG0iEZYZKM
+         nOv7+3nIHvnBr5jgJfjTANm4EXdEmDCo8F/IpMM9lU6y+ts6orITJzVAE8boMr5q+Eoa
+         ByPPQHu+fV51HhIJ8ProKLOEOz2Xtc7SmJo/AGhQGcfaeKUFha4vIjRO+ML3+eEZfL7V
+         q/J83Wecu938JJEhD81Z1yrhLoS8N0dkLwtyvSWexc3D+ObPIISMyWEpfg6lOtYCkh4c
+         aNwCpw7UoT3wICVZZlCRluqnisVWjS5dvL9P6H0hxrfkZk2Z3uD+2bzaO7XMNSuuZ/6C
+         jrSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=7VF1h9VoAjTirhiTdduIUPLKqTj+n1pCpzbChlFIzhY=;
-        b=eZe0GN/BrSAW1xaCrJxD2eMpxpUfUU9ZJb41igsh/Gwtxlb58Vhb9XlAUaXz7PRCzx
-         PdpGRkOxlmVw0xR11JGYLz+IiBi4kZatYRq8MVERgDoinuiN1TGU4xEsxX/hWGToeZR6
-         bShu8nTXCyWhNPH7QY+/zjS8TL1zFOmukWjN+3NqIRBbuxHL+HrcsbSgvZN/JezN+3x8
-         o5ZGe3MoEPrZe/1SV2qKamhIesNfagPq8XlNC4ER3Mw2mtJ2pTbE9YzWwNwqo/2ro4gF
-         ARXUZMRmfbwnpE1/gm8RPXa9orTP50arxnMh8bLgXfKLe7XRK2SAIB4JaO8xHq3om2Uu
-         N5RQ==
-X-Gm-Message-State: AOAM531npEvf0KlmC78hESjylFChrHtNMktBqlIdLOLG9f9gIqllXB5J
-        2VgT6HxBJT0Okp2teYZv7W5Wya8DA0+PfA5Nil/o2A==
-X-Google-Smtp-Source: ABdhPJyQO8qS6aGD8XnCH+3Zo+UOwCbzqSC96vwlTbaTtq667oU9uZ0xjiA6D4lx6SD4k6nIcMbrxGib2ITUyM88tn4=
-X-Received: by 2002:a2e:b04d:0:b0:253:e5e3:ec1c with SMTP id
- d13-20020a2eb04d000000b00253e5e3ec1cmr9600787ljl.360.1653425286864; Tue, 24
- May 2022 13:48:06 -0700 (PDT)
+        bh=xu6EHDS01LsOIawXUSDVH/r2oXuTsWqPdMuqTq7O8gE=;
+        b=f5NikMbp6no4u60IMS5BRXrN2jCovl1PBMFc5Vj9DOhXH4cgkxy51kfNBErcrkOJqV
+         SO1uSc+u17j31AuQ0PHa2LIEcXXaprgjhRy7VvDopg5a6oBEJaN6mLYNbMC8sWg51oWT
+         BXIHRU/4EvgHWOkBTP2AZrI1ncQM/9Q006zcsD4WG1Tw/27vZTQr9hsBAyEFEvfHWQEF
+         ylUuF8nFH+k54v/4Wie2lKt0GGRTx8TrqiEJXDZiogEV7VR+LTKHb0N0vsWDXXFuXi3k
+         yB6nef0AaBMUDTBtYClfAQ11WME3TsVTveyd1WP6m7/JTqGYBaSVdqhj9Fj9erSOEsKT
+         5CKQ==
+X-Gm-Message-State: AOAM532rY9CS/N4qiI0Y1z+IkPS9N+elC3zhPFqGJHxAITpLhph9tDA9
+        IxvXdSM0K+GC47DuXg1C38iVWbNWtVjovPw4WBqwng==
+X-Google-Smtp-Source: ABdhPJyQjBwigtLjvLrVIrEOtKpFLfkTj0wS9QvXw6Cn04KWi9naGQql0vuzXi7YhavlMsx6rr6NzVNT2XkyQjqwJTY=
+X-Received: by 2002:a05:6512:ace:b0:478:9af3:d9cb with SMTP id
+ n14-20020a0565120ace00b004789af3d9cbmr1136279lfu.103.1653425404449; Tue, 24
+ May 2022 13:50:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220523164626.858340-1-masahiroy@kernel.org> <20220523164626.858340-3-masahiroy@kernel.org>
-In-Reply-To: <20220523164626.858340-3-masahiroy@kernel.org>
+References: <20220523164626.858340-1-masahiroy@kernel.org> <20220523164626.858340-4-masahiroy@kernel.org>
+In-Reply-To: <20220523164626.858340-4-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 24 May 2022 13:47:55 -0700
-Message-ID: <CAKwvOdnCQUSOUHqL20nAFJ1FcUGQOSz9DWkyS5UU-8C9M-wcNA@mail.gmail.com>
-Subject: Re: [PATCH 3/5] modpost: simplify mod->name allocation
+Date:   Tue, 24 May 2022 13:49:53 -0700
+Message-ID: <CAKwvOd=6GHg7z_0-2wsF0Z9Jk1Cb_j=Z4_roYBRpHvj-MCzwTw@mail.gmail.com>
+Subject: Re: [PATCH 4/5] modpost: reuse ARRAY_SIZE() macro for section_mismatch()
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>
@@ -69,19 +69,10 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Mon, May 23, 2022 at 9:48 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> mod->name is set to the ELF filename with the suffix ".o" stripped.
+> Move ARRAY_SIZE() from file2alias.c to modpost.h to reuse it in
+> section_mismatch().
 >
-> The current code calls strdup() and free() to manipulate the string,
-> but a simpler approach is to pass new_module() with the name length
-> subtracted by 2.
->
-> Also, check if the passed filename ends with ".o" before stripping it.
->
-> The current code blindly chops the suffix
->
->     tmp[strlen(tmp) - 2] = '\0'
->
-> but it will cause buffer under-run if strlen(tmp) < 2;
+> Also, move the variable 'check' inside the for-loop.
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
@@ -90,71 +81,69 @@ Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
 > ---
 >
->  scripts/mod/modpost.c | 25 ++++++++++++-------------
->  1 file changed, 12 insertions(+), 13 deletions(-)
+>  scripts/mod/file2alias.c | 2 --
+>  scripts/mod/modpost.c    | 7 +++----
+>  scripts/mod/modpost.h    | 3 +++
+>  3 files changed, 6 insertions(+), 6 deletions(-)
 >
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 843c64eebe8b..77c315dea1a3 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -172,11 +172,11 @@ static struct module *find_module(const char *modname)
->         return NULL;
+> diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
+> index 5258247d78ac..e8a9c6816fec 100644
+> --- a/scripts/mod/file2alias.c
+> +++ b/scripts/mod/file2alias.c
+> @@ -734,8 +734,6 @@ static int do_vio_entry(const char *filename, void *symval,
+>         return 1;
 >  }
 >
-> -static struct module *new_module(const char *modname)
-> +static struct module *new_module(const char *name, size_t namelen)
+> -#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+> -
+>  static void do_input(char *alias,
+>                      kernel_ulong_t *arr, unsigned int min, unsigned int max)
 >  {
->         struct module *mod;
->
-> -       mod = NOFAIL(malloc(sizeof(*mod) + strlen(modname) + 1));
-> +       mod = NOFAIL(malloc(sizeof(*mod) + namelen + 1));
->         memset(mod, 0, sizeof(*mod));
->
->         INIT_LIST_HEAD(&mod->exported_symbols);
-> @@ -184,8 +184,9 @@ static struct module *new_module(const char *modname)
->         INIT_LIST_HEAD(&mod->missing_namespaces);
->         INIT_LIST_HEAD(&mod->imported_namespaces);
->
-> -       strcpy(mod->name, modname);
-> -       mod->is_vmlinux = (strcmp(modname, "vmlinux") == 0);
-> +       memcpy(mod->name, name, namelen);
-> +       mod->name[namelen] = '\0';
-> +       mod->is_vmlinux = (strcmp(mod->name, "vmlinux") == 0);
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 77c315dea1a3..48a18b59f908 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -1049,8 +1049,6 @@ static const struct sectioncheck *section_mismatch(
+>                 const char *fromsec, const char *tosec)
+>  {
+>         int i;
+> -       int elems = sizeof(sectioncheck) / sizeof(struct sectioncheck);
+> -       const struct sectioncheck *check = &sectioncheck[0];
 >
 >         /*
->          * Set mod->is_gpl_compatible to true by default. If MODULE_LICENSE()
-> @@ -2022,16 +2023,14 @@ static void read_symbols(const char *modname)
->         if (!parse_elf(&info, modname))
->                 return;
+>          * The target section could be the SHT_NUL section when we're
+> @@ -1061,14 +1059,15 @@ static const struct sectioncheck *section_mismatch(
+>         if (*tosec == '\0')
+>                 return NULL;
 >
-> -       {
-> -               char *tmp;
-> -
-> -               /* strip trailing .o */
-> -               tmp = NOFAIL(strdup(modname));
-> -               tmp[strlen(tmp) - 2] = '\0';
-> -               mod = new_module(tmp);
-> -               free(tmp);
-> +       if (!strends(modname, ".o")) {
-> +               error("%s: filename must be suffixed with .o\n", modname);
-> +               return;
->         }
->
-> +       /* strip trailing .o */
-> +       mod = new_module(modname, strlen(modname) - strlen(".o"));
+> -       for (i = 0; i < elems; i++) {
+> +       for (i = 0; i < ARRAY_SIZE(sectioncheck); i++) {
+> +               const struct sectioncheck *check = &sectioncheck[i];
 > +
->         if (!mod->is_vmlinux) {
->                 license = get_modinfo(&info, "license");
->                 if (!license)
-> @@ -2493,7 +2492,7 @@ static void read_dump(const char *fname)
->
->                 mod = find_module(modname);
->                 if (!mod) {
-> -                       mod = new_module(modname);
-> +                       mod = new_module(modname, strlen(modname));
->                         mod->from_dump = true;
+>                 if (match(fromsec, check->fromsec)) {
+>                         if (check->bad_tosec[0] && match(tosec, check->bad_tosec))
+>                                 return check;
+>                         if (check->good_tosec[0] && !match(tosec, check->good_tosec))
+>                                 return check;
 >                 }
->                 s = sym_add_exported(symname, mod, gpl_only);
+> -               check++;
+>         }
+>         return NULL;
+>  }
+> diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+> index d9daeff07b83..044bdfb894b7 100644
+> --- a/scripts/mod/modpost.h
+> +++ b/scripts/mod/modpost.h
+> @@ -97,6 +97,9 @@ static inline void __endian(const void *src, void *dest, unsigned int size)
+>  #endif
+>
+>  #define NOFAIL(ptr)   do_nofail((ptr), #ptr)
+> +
+> +#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
+> +
+>  void *do_nofail(void *ptr, const char *expr);
+>
+>  struct buffer {
 > --
 > 2.32.0
 >
