@@ -2,121 +2,132 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 07B75531D4F
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 May 2022 23:04:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DEA7B532526
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 May 2022 10:22:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230060AbiEWVEU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 23 May 2022 17:04:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36410 "EHLO
+        id S231472AbiEXIWn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 24 May 2022 04:22:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229927AbiEWVET (ORCPT
+        with ESMTP id S231690AbiEXIWm (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 23 May 2022 17:04:19 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDB196C0CF
-        for <linux-kbuild@vger.kernel.org>; Mon, 23 May 2022 14:04:17 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id u30so27623665lfm.9
-        for <linux-kbuild@vger.kernel.org>; Mon, 23 May 2022 14:04:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=eOT6/IEEvL647FHmiCg7MRICtIFsZAtUMIfvYbPx3SA=;
-        b=TB/AO84lC0LITUBGehrw8rhOuiDSejBSA9Qz+lEc73w+ju8dHPmXn5PMLWT3SRdJrU
-         suS0JTx8GWUPOYH/AS5OeqGcjMJNPJXACAtcFXCFsCXYe6Wbnv4pDhnB44c73UUzHCQ0
-         PeCR2iNZ4GvbK+YZKJ3VW+i/zlDerIASKR9O3+qm/zq5vRzAmqvEVuPlRypYI/469BWA
-         EN03DN0SpFnK9+5MrULChGKPma7zq6vsVSYZroWCVM3zKA5Mx1xJRPnT8a7cmvOAag+4
-         ZdTyJdVFRW+/HnPRZy9TJdVxANnzklWvZyv8mPVgMxt+deT1r5U3HKxECduTDfkAer/M
-         Q71g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eOT6/IEEvL647FHmiCg7MRICtIFsZAtUMIfvYbPx3SA=;
-        b=qCMqd5+5Os+EOYoQmCqn/0uiTZN9FqAKS/wJLei6JcwiK+FQTjobraaMGmFyXL0ic2
-         DR+fg3uBMcD/2dEDNyVOofBurzeXuTCKlDqHHGHByq9nosWZ+uWZ4MhkZJFWJsjzY94k
-         l/f3nxuwnhO6cf+kJSmlKXfjCiAmCnRB7Dp3ZwhcKfJP31Ot2w9OM8StBpwh6vvhIKVz
-         cnsnWd+pF3r6aJkYIzNNpp2nrCf3sd6FnNR3Ce5O9B6XNBsVPgnkGPRXq6dfleHJRgvf
-         R6d6L1RLtvEqyr97bQ918ntSXY4zJjU8Wu4bta+wGxpYd4G+Xrzyw+DZCzzPAF4XpNb6
-         5dXA==
-X-Gm-Message-State: AOAM5328yW8csnXgOZuYkfT5dcYBlylmg8gALhZt5gg2KtgCJwGShp+C
-        lgGB6N9vXYw8NxDMsU9HTeuosJ7SqRYN526JIAE0xQ==
-X-Google-Smtp-Source: ABdhPJwiiG4XoO6s8TxJDH+8amPPG6CcR3JcQv0U+ZDwF04t01N4pXb7x0yQtfESBBKBxKqDAER8pmvL0qGIg+evkxM=
-X-Received: by 2002:a05:6512:48e:b0:477:c024:1a1c with SMTP id
- v14-20020a056512048e00b00477c0241a1cmr17906274lfq.100.1653339855792; Mon, 23
- May 2022 14:04:15 -0700 (PDT)
+        Tue, 24 May 2022 04:22:42 -0400
+X-Greylist: delayed 51355 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 24 May 2022 01:22:40 PDT
+Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34DEB6D1B8;
+        Tue, 24 May 2022 01:22:38 -0700 (PDT)
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 24O8M68k006098;
+        Tue, 24 May 2022 17:22:06 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 24O8M68k006098
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1653380526;
+        bh=q6za3m9RvzaPHhFEyPx6fRCSS/LSE+ziJO/OmsbOCfU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Dl4+r03MQKiOYWwkQd6/wGRucqQOHUjMMP1K09kq9aDCZdWfaAVzjAixKYMEBzeDf
+         VXUFTEtIrRdwbhgbm1bXfrunAYFEfkpyHrIyVnRaIKB6BUipVsA3LtAOcMvEj2Klw5
+         9lZNCmy3vO5Uf8zoX1sBvCQ7arLqs8T40s2a7m3kgwdxv8h+a1wYM5gqo2d7OE44u3
+         pWz7tx6XVmKNpxzoQYmH/CRxuBlsjUBYEd70DqwlkiwB3Nemb9RJb0q8kLc4JMmsy4
+         /3KSe+gncDh6z8ZwD2qaoRysEMq+wPnT8nN1FHyYmNrMTCpaDvDPrZ1HgYcDKA0fvS
+         bmCd27m/fkaiw==
+X-Nifty-SrcIP: [209.85.210.177]
+Received: by mail-pf1-f177.google.com with SMTP id h13so9553008pfq.5;
+        Tue, 24 May 2022 01:22:06 -0700 (PDT)
+X-Gm-Message-State: AOAM53391RVzmNfnsdzrtR9XT3EIN0gha+5NOhJV/LvuSIhT7QuGadBE
+        rXj7VZY+4E7Erkvs0LndnddIx3AVLgYWLZx+53c=
+X-Google-Smtp-Source: ABdhPJy/EXBCdolgpL2fr/ku8aEoHDny91aiZJzwlxFQUWE7v6lP7QfKeByb4K/TLGui8Li/7KWEbwkpmOaJDujAqEQ=
+X-Received: by 2002:a63:9043:0:b0:3f9:6c36:3de3 with SMTP id
+ a64-20020a639043000000b003f96c363de3mr15921286pge.616.1653380525571; Tue, 24
+ May 2022 01:22:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220522160117.599023-1-masahiroy@kernel.org>
-In-Reply-To: <20220522160117.599023-1-masahiroy@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 23 May 2022 14:04:04 -0700
-Message-ID: <CAKwvOdnTFvDKDr_tr5digM1HguSQw65Eq+TT=mhr_AUcVGVLpQ@mail.gmail.com>
-Subject: Re: [PATCH] fixup! kbuild: link symbol CRCs at final link, removing CONFIG_MODULE_REL_CRCS
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Peter Zijlstra <peterz@infradead.org>,
-        linux-modules@vger.kernel.org, llvm@lists.linux.dev,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Sedat Dilek <sedat.dilek@gmail.com>
+References: <20220523200222.711011-1-keescook@chromium.org>
+In-Reply-To: <20220523200222.711011-1-keescook@chromium.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 24 May 2022 17:20:45 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASWUH-ZYU76Xj3YPc1na6ALo0dULSR0UNWe=_L9GcVXjQ@mail.gmail.com>
+Message-ID: <CAK7LNASWUH-ZYU76Xj3YPc1na6ALo0dULSR0UNWe=_L9GcVXjQ@mail.gmail.com>
+Subject: Re: [PATCH] gcc-plugins: Require utsrelease.h before scripts target
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        kernel test robot <lkp@intel.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-hardening@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, May 22, 2022 at 9:04 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Tue, May 24, 2022 at 5:02 AM Kees Cook <keescook@chromium.org> wrote:
 >
-> I will squash this into
+> The "utsrelease.h" target was in parallel with the "scripts" target,
+> which meant -j1 or unlucky parallel builds from a distclean state would
+> fail to build the GCC plugins.
 >
->   https://patchwork.kernel.org/project/linux-kbuild/patch/20220513113930.10488-3-masahiroy@kernel.org/
->
-> Sedat Reported an error:
->
->   https://lore.kernel.org/linux-kbuild/CA+icZUWttwjhDNPO1VuVyiMoReH5e83nsYDd0rEoY8-Uwv6pHw@mail.gmail.com/T/#md82f561e348b7959b7270c33ac86fa3edb0d773a
->
-> __used is needed to make the combination of
-> CONFIG_MODVERSIONS and CONFIG_LTO_CLANG working.
-
-Yep, vaguely reminiscent of
-commit f3751ad0116f ("tracepoint: Mark __tracepoint_string's __used")
-
-Acked-by: Nick Desaulniers <ndesaulniers@google.com>
-
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Link: https://lore.kernel.org/linux-mm/202205230239.EZxeZ3Fv-lkp@intel.com
+> Reported-by: Guenter Roeck <linux@roeck-us.net>
+> Link: https://lore.kernel.org/lkml/YouX6g1T7w3FDeM8@cmpxchg.org
+> Fixes: 61f60bac8c05 ("gcc-plugins: Change all version strings match kernel")
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: linux-kbuild@vger.kernel.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 > ---
+>  Makefile                     | 2 +-
+>  scripts/gcc-plugins/Makefile | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 >
->  include/linux/export-internal.h | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> diff --git a/Makefile b/Makefile
+> index 91c91fcf3c24..c04420d5aa3d 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1175,7 +1175,7 @@ include/config/kernel.release: FORCE
+>  # Carefully list dependencies so we do not try to build scripts twice
+>  # in parallel
+>  PHONY += scripts
+> -scripts: scripts_basic scripts_dtc
+> +scripts: include/generated/utsrelease.h scripts_basic scripts_dtc
+>         $(Q)$(MAKE) $(build)=$(@)
 >
-> diff --git a/include/linux/export-internal.h b/include/linux/export-internal.h
-> index 77175d561058..c2b1d4fd5987 100644
-> --- a/include/linux/export-internal.h
-> +++ b/include/linux/export-internal.h
-> @@ -10,7 +10,8 @@
->  #include <linux/compiler.h>
->  #include <linux/types.h>
+>  # Things we need to do before we recursively start building the kernel
+> diff --git a/scripts/gcc-plugins/Makefile b/scripts/gcc-plugins/Makefile
+> index 6f0aecad5d67..c29334669a16 100644
+> --- a/scripts/gcc-plugins/Makefile
+> +++ b/scripts/gcc-plugins/Makefile
+> @@ -64,5 +64,5 @@ $(foreach m, $(notdir $(plugin-multi)), $(eval $(obj)/$m: $(addprefix $(obj)/, $
+>  quiet_cmd_plugin_cxx_o_c = HOSTCXX $@
+>        cmd_plugin_cxx_o_c = $(HOSTCXX) $(plugin_cxxflags) -c -o $@ $<
 >
-> +/* __used is needed to keep __crc_* for LTO */
->  #define SYMBOL_CRC(sym, crc, sec)   \
-> -       u32 __section("___kcrctab" sec "+" #sym) __crc_##sym = crc
-> +       u32 __section("___kcrctab" sec "+" #sym) __used __crc_##sym = crc
->
->  #endif /* __LINUX_EXPORT_INTERNAL_H__ */
+> -$(plugin-objs): $(obj)/%.o: $(src)/%.c FORCE
+> +$(plugin-objs): $(obj)/%.o: $(src)/%.c $(objdir)/include/generated/utsrelease.h FORCE
+
+
+This change is unneeded.
+
+The header dependencies are automatically generated
+by the -MMD option.
+
+     plugin_cxxflags = -Wp,-MMD,$(depfile) $(KBUILD_HOSTCXXFLAGS) -fPIC \
+
+
+
+
+
+
+>         $(call if_changed_dep,plugin_cxx_o_c)
 > --
 > 2.32.0
 >
 
 
 -- 
-Thanks,
-~Nick Desaulniers
+Best Regards
+Masahiro Yamada
