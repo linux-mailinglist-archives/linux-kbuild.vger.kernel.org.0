@@ -2,91 +2,47 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 31762532B74
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 May 2022 15:43:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13199532BC7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 May 2022 15:58:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234042AbiEXNmo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 24 May 2022 09:42:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58078 "EHLO
+        id S233683AbiEXN6V (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 24 May 2022 09:58:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231224AbiEXNmn (ORCPT
+        with ESMTP id S231878AbiEXN6U (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 24 May 2022 09:42:43 -0400
-Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C111475226;
-        Tue, 24 May 2022 06:42:41 -0700 (PDT)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 24ODgDUG022736;
-        Tue, 24 May 2022 22:42:13 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 24ODgDUG022736
+        Tue, 24 May 2022 09:58:20 -0400
+Received: from conuserg-10.nifty.com (conuserg-10.nifty.com [210.131.2.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D3041EAFF;
+        Tue, 24 May 2022 06:58:19 -0700 (PDT)
+Received: from grover.sesame (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id 24ODuUKh017802;
+        Tue, 24 May 2022 22:56:30 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 24ODuUKh017802
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1653399734;
-        bh=aNLlIgPVqKG5chGBjgSqnkX4433JxjcWB7yJEVQZ+Gg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=vXA8HrUWNsrcMbb4jjxlOaE1UOW4nzjC8LOPdbOMXac6+lkDf8ercmWRWQ6PntFhp
-         lbAfJ7j+CQ2UH7nNTb2juSxDe9MRJtGGZ6aySjIrlfVlcX9sJSj0BVCm/FTEkEAEbw
-         A3FQPgOVjUU/yzKOkS2SqKMP52kVy5IEdmzSXSipe+inDpK4wNAA2xuR9MR32X2bYd
-         de/lBb9qz4JB5gK5mtbgS7x4URxRknF7H6BevFWGGucM4329GlHTvZRGpAN6u/qHt5
-         jRTks2KxEk9Lxq4w8hPRb/lid7BQBgy9Fo/YcgPj+aV9bw+6GW5vkSONg8kGGvsLzU
-         PIUGgvvPbp5RQ==
-X-Nifty-SrcIP: [209.85.214.175]
-Received: by mail-pl1-f175.google.com with SMTP id n8so15901205plh.1;
-        Tue, 24 May 2022 06:42:13 -0700 (PDT)
-X-Gm-Message-State: AOAM532fDD7fTgrP2PSZWbA+u73O7vrxW/J+2a+2RkvgM1c2OOfz5JLb
-        SyP6IgYnglXAMWGxmPBxAYDepk5z1FlvutCIXJo=
-X-Google-Smtp-Source: ABdhPJyTdv6DT7AK41vY70QzhcMH2A38iaGQn1upGmFmPJo+2BcK+NmA7eL9uIW06HJVa028vlOfajtpPNm4sy2hH34=
-X-Received: by 2002:a17:90a:e004:b0:1e0:7a66:fb3a with SMTP id
- u4-20020a17090ae00400b001e07a66fb3amr2891041pjy.119.1653399732689; Tue, 24
- May 2022 06:42:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220209185752.1226407-1-alexandr.lobakin@intel.com>
- <20220209185752.1226407-2-alexandr.lobakin@intel.com> <CAK7LNAT3QTfkYLFTBKLxghY_gBQZmud3-4UJMK3tA9eOV4UeTg@mail.gmail.com>
- <20220524113337.4128239-1-alexandr.lobakin@intel.com>
-In-Reply-To: <20220524113337.4128239-1-alexandr.lobakin@intel.com>
+        s=dec2015msa; t=1653400590;
+        bh=sjzxfQyA5cu7vCUn9H7rwWsrKIkATdI1T3gWr3+EvFM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=GUY4tcCCIQYGrBcVGWciRSY8U7mlxzTBftlQnpLAwi6pKuI9k5rkoo0ywSWbefzRr
+         Y22j04/QpwYz9Rze2QXBBzhDa5kKOH8khZWnon1TgKLF6106GcZttWzQzQRFRD8V26
+         aHiE4WkJ5Mwk6EARm/KdgFicHD3xVI5h6aHhJK04/DDwk7nE1NojUapUe+ZXdLGtuX
+         GxYYzc446rfeSX6BmNQKuAZNmIZ1Bg4vGVjumSUIRVGgTNxULvsqTPy0jrWUyFm0rB
+         +J4q2QoyTJdwF/rVw5nNe6S0xxLZpvDqR4pQ/zp0i0MawT35B5V4iGZ15PcdSK4xUm
+         iuAJ0Ib/CSDjQ==
+X-Nifty-SrcIP: [133.32.177.133]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 24 May 2022 22:40:51 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQus0vcWLCgSdMZNcYKam4fKYj9c8Zrb3HggZ7dTBUrxQ@mail.gmail.com>
-Message-ID: <CAK7LNAQus0vcWLCgSdMZNcYKam4fKYj9c8Zrb3HggZ7dTBUrxQ@mail.gmail.com>
-Subject: Re: [PATCH v10 01/15] modpost: fix removing numeric suffixes
-To:     Alexander Lobakin <alexandr.lobakin@intel.com>
-Cc:     linux-hardening@vger.kernel.org, X86 ML <x86@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Kristen Carlson Accardi <kristen@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Bruce Schlobohm <bruce.schlobohm@intel.com>,
-        Jessica Yu <jeyu@kernel.org>,
-        kernel test robot <lkp@intel.com>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
+To:     linux-hardening@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        Guenter Roeck <linux@roeck-us.net>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Marios Pomonis <pomonis@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        live-patching@vger.kernel.org,
-        clang-built-linux <llvm@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>
+Subject: [PATCH] gcc-plugins: use KERNELVERSION for plugin version
+Date:   Tue, 24 May 2022 22:55:41 +0900
+Message-Id: <20220524135541.1453693-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
@@ -96,101 +52,119 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, May 24, 2022 at 8:34 PM Alexander Lobakin
-<alexandr.lobakin@intel.com> wrote:
->
-> From: Masahiro Yamada <masahiroy@kernel.org>
-> Date: Tue, 24 May 2022 03:04:00 +0900
->
-> > On Thu, Feb 10, 2022 at 3:59 AM Alexander Lobakin
-> > <alexandr.lobakin@intel.com> wrote:
-> > >
-> > > `-z unique-symbol` linker flag which is planned to use with FG-KASLR
-> > > to simplify livepatching (hopefully globally later on) triggers the
-> > > following:
-> > >
-> > > ERROR: modpost: "param_set_uint.0" [vmlinux] is a static EXPORT_SYMBOL
-> > >
-> > > The reason is that for now the condition from remove_dot():
-> > >
-> > > if (m && (s[n + m] == '.' || s[n + m] == 0))
-> > >
-> > > which was designed to test if it's a dot or a '\0' after the suffix
-> > > is never satisfied.
-> > > This is due to that `s[n + m]` always points to the last digit of a
-> > > numeric suffix, not on the symbol next to it (from a custom debug
-> > > print added to modpost):
-> > >
-> > > param_set_uint.0, s[n + m] is '0', s[n + m + 1] is '\0'
-> > >
-> > > So it's off-by-one and was like that since 2014.
-> > > Fix this for the sake of upcoming features, but don't bother
-> > > stable-backporting, as it's well hidden -- apart from that LD flag,
-> > > can be triggered only by GCC LTO which never landed upstream.
-> > >
-> > > Fixes: fcd38ed0ff26 ("scripts: modpost: fix compilation warning")
-> > > Signed-off-by: Alexander Lobakin <alexandr.lobakin@intel.com>
-> > > ---
-> > >  scripts/mod/modpost.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > > index 6bfa33217914..4648b7afe5cc 100644
-> > > --- a/scripts/mod/modpost.c
-> > > +++ b/scripts/mod/modpost.c
-> > > @@ -1986,7 +1986,7 @@ static char *remove_dot(char *s)
-> > >
-> > >         if (n && s[n]) {
-> > >                 size_t m = strspn(s + n + 1, "0123456789");
-> > > -               if (m && (s[n + m] == '.' || s[n + m] == 0))
-> > > +               if (m && (s[n + m + 1] == '.' || s[n + m + 1] == 0))
-> > >                         s[n] = 0;
-> > >
-> > >                 /* strip trailing .lto */
-> > > --
-> > > 2.34.1
-> > >
-> >
-> > This trivial patch has not been picked up yet.
-> >
-> > I can apply this to my tree, if you want.
->
-> It's a good idea, I'd like to!
-> I don't use `-z unique-symbol` for FG-KALSR anymore*, but this fix
-> is not directly related to it and can be taken independently.
-> Should I change the commit message or it's ok to take it as it is?
+Commit 61f60bac8c05 ("gcc-plugins: Change all version strings match
+kernel") broke parallel builds.
 
+Instead of adding the dependency between GCC plugins and utsrelease.h,
+let's use KERNELVERSION, which does not require any build artifact.
 
-I am fine with either way.
+Another reason why I want to avoid utsrelease.h is because it depends
+on CONFIG_LOCALVERSION(_AUTO) and localversion* files.
 
-If you want to resubmit this with a fresh commit log,
-please send it to:
-  linux-kbuild@vger.kernel.org
+(include/generated/utsrelease.h depends on include/config/kernel.release,
+which is generated by scripts/setlocalversion)
 
-Then, I will take care of it in this MW.
+I want to keep host tools independent of the kernel configuration.
 
-Thanks.
+There is no good reason to rebuild GCC plugins just because of
+CONFIG_LOCALVERSION being changed.
 
+We just want to associate the plugin versions with the kernel source
+version. KERNELVERSION should be enough for our purpose.
 
+Fixes: 61f60bac8c05 ("gcc-plugins: Change all version strings match kernel")
+Reported-by: kernel test robot <lkp@intel.com>
+Link: https://lore.kernel.org/linux-mm/202205230239.EZxeZ3Fv-lkp@intel.com
+Reported-by: Guenter Roeck <linux@roeck-us.net>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ scripts/gcc-plugins/Makefile                  | 2 +-
+ scripts/gcc-plugins/latent_entropy_plugin.c   | 2 +-
+ scripts/gcc-plugins/randomize_layout_plugin.c | 2 +-
+ scripts/gcc-plugins/sancov_plugin.c           | 2 +-
+ scripts/gcc-plugins/stackleak_plugin.c        | 2 +-
+ scripts/gcc-plugins/structleak_plugin.c       | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
-> >
-> > Please let me know your thoughts.
-> >
-> >
-> > --
-> > Best Regards
-> > Masahiro Yamada
->
-> * I'm planning to submit a new rev of FG-KASLR series soon, but
-> since I'm too busy with XDP for now, it will happen no sooner than
-> in a couple months =\
->
-> Thanks!
-> Al
-
-
-
+diff --git a/scripts/gcc-plugins/Makefile b/scripts/gcc-plugins/Makefile
+index 6f0aecad5d67..b34d11e22636 100644
+--- a/scripts/gcc-plugins/Makefile
++++ b/scripts/gcc-plugins/Makefile
+@@ -28,7 +28,7 @@ GCC_PLUGINS_DIR = $(shell $(CC) -print-file-name=plugin)
+ 
+ plugin_cxxflags	= -Wp,-MMD,$(depfile) $(KBUILD_HOSTCXXFLAGS) -fPIC \
+ 		  -include $(srctree)/include/linux/compiler-version.h \
+-		  -include $(objtree)/include/generated/utsrelease.h \
++		  -DPLUGIN_VERSION=$(call stringify,$(KERNELVERSION)) \
+ 		  -I $(GCC_PLUGINS_DIR)/include -I $(obj) -std=gnu++11 \
+ 		  -fno-rtti -fno-exceptions -fasynchronous-unwind-tables \
+ 		  -ggdb -Wno-narrowing -Wno-unused-variable \
+diff --git a/scripts/gcc-plugins/latent_entropy_plugin.c b/scripts/gcc-plugins/latent_entropy_plugin.c
+index 5d415b2572a8..848918764174 100644
+--- a/scripts/gcc-plugins/latent_entropy_plugin.c
++++ b/scripts/gcc-plugins/latent_entropy_plugin.c
+@@ -82,7 +82,7 @@ __visible int plugin_is_GPL_compatible;
+ static GTY(()) tree latent_entropy_decl;
+ 
+ static struct plugin_info latent_entropy_plugin_info = {
+-	.version	= UTS_RELEASE,
++	.version	= PLUGIN_VERSION,
+ 	.help		= "disable\tturn off latent entropy instrumentation\n",
+ };
+ 
+diff --git a/scripts/gcc-plugins/randomize_layout_plugin.c b/scripts/gcc-plugins/randomize_layout_plugin.c
+index ea2aea570404..951b74ba1b24 100644
+--- a/scripts/gcc-plugins/randomize_layout_plugin.c
++++ b/scripts/gcc-plugins/randomize_layout_plugin.c
+@@ -34,7 +34,7 @@ __visible int plugin_is_GPL_compatible;
+ static int performance_mode;
+ 
+ static struct plugin_info randomize_layout_plugin_info = {
+-	.version	= UTS_RELEASE,
++	.version	= PLUGIN_VERSION,
+ 	.help		= "disable\t\t\tdo not activate plugin\n"
+ 			  "performance-mode\tenable cacheline-aware layout randomization\n"
+ };
+diff --git a/scripts/gcc-plugins/sancov_plugin.c b/scripts/gcc-plugins/sancov_plugin.c
+index f3d629555b84..b76cb9c42cec 100644
+--- a/scripts/gcc-plugins/sancov_plugin.c
++++ b/scripts/gcc-plugins/sancov_plugin.c
+@@ -26,7 +26,7 @@ __visible int plugin_is_GPL_compatible;
+ tree sancov_fndecl;
+ 
+ static struct plugin_info sancov_plugin_info = {
+-	.version	= UTS_RELEASE,
++	.version	= PLUGIN_VERSION,
+ 	.help		= "sancov plugin\n",
+ };
+ 
+diff --git a/scripts/gcc-plugins/stackleak_plugin.c b/scripts/gcc-plugins/stackleak_plugin.c
+index de817d54b8af..ff91885f9470 100644
+--- a/scripts/gcc-plugins/stackleak_plugin.c
++++ b/scripts/gcc-plugins/stackleak_plugin.c
+@@ -44,7 +44,7 @@ static bool verbose = false;
+ static GTY(()) tree track_function_decl;
+ 
+ static struct plugin_info stackleak_plugin_info = {
+-	.version = UTS_RELEASE,
++	.version = PLUGIN_VERSION,
+ 	.help = "track-min-size=nn\ttrack stack for functions with a stack frame size >= nn bytes\n"
+ 		"arch=target_arch\tspecify target build arch\n"
+ 		"disable\t\tdo not activate the plugin\n"
+diff --git a/scripts/gcc-plugins/structleak_plugin.c b/scripts/gcc-plugins/structleak_plugin.c
+index 86b608a24ec0..8bc04068ed39 100644
+--- a/scripts/gcc-plugins/structleak_plugin.c
++++ b/scripts/gcc-plugins/structleak_plugin.c
+@@ -37,7 +37,7 @@
+ __visible int plugin_is_GPL_compatible;
+ 
+ static struct plugin_info structleak_plugin_info = {
+-	.version	= UTS_RELEASE,
++	.version	= PLUGIN_VERSION,
+ 	.help		= "disable\tdo not activate plugin\n"
+ 			  "byref\tinit structs passed by reference\n"
+ 			  "byref-all\tinit anything passed by reference\n"
 -- 
-Best Regards
-Masahiro Yamada
+2.32.0
+
