@@ -2,276 +2,142 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4793353466B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 May 2022 00:25:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E06DB5346C1
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 May 2022 00:43:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236603AbiEYWZp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 25 May 2022 18:25:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54818 "EHLO
+        id S243653AbiEYWnH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 25 May 2022 18:43:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231270AbiEYWZo (ORCPT
+        with ESMTP id S244738AbiEYWnF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 25 May 2022 18:25:44 -0400
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91AE4BA99C
-        for <linux-kbuild@vger.kernel.org>; Wed, 25 May 2022 15:25:42 -0700 (PDT)
-Received: by mail-lj1-x22c.google.com with SMTP id s20so4230865ljd.10
-        for <linux-kbuild@vger.kernel.org>; Wed, 25 May 2022 15:25:42 -0700 (PDT)
+        Wed, 25 May 2022 18:43:05 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF99DA3380
+        for <linux-kbuild@vger.kernel.org>; Wed, 25 May 2022 15:43:03 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id c19so25134891lfv.5
+        for <linux-kbuild@vger.kernel.org>; Wed, 25 May 2022 15:43:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Y4JE5dVY5pJ4L5p/4sGg1xocj3NSEFAKSZJJs4bfl50=;
-        b=fAMfron/HjbN7nd+bsG3ASO/nK1WjlcoVqa4+QdtPam6ciW/bwdYCmk9ujS4Abe4VJ
-         w2sueG/5d5jh11UgLmuXnMAdarDjSChSdXdKrhg3y7F8Pjptb4ff8WlByIdiSkfEbGFm
-         PkRmC+09uBSPSsg344wCJdI8n7v1Yt+vr7kQ9DePitEy6ui34PJ0AU8C5jZKRsffEDfP
-         ug3LM0AmYwwUZHhVNWlMxQzBz79rShyO1d1dkhvX1r4lmvgXBfWQm+lShZOQXq9rxarC
-         SWsS9kfyfYspj/5U44fShRnUcSFmlbceeiOtALpaquQdvDHDNyVkshBPqlQYpF3P0oqm
-         UHfw==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=oz2gVkV0rfGCK+wdnxIRVq+wPrFjy2J+zLB3pC3weio=;
+        b=wCoRfmCbsxPE19Zmdw6DveiRBya3gLcbPlkCQYJ7N/7yJQLRx8NAwqara8WXe8tq/P
+         7ASVnP6pM7uRxH/yKf6GevmzNtwNP9eOTBanOIHO7McHyYS6UQc4498QARj3NhkhyQi4
+         DWO8di2RJlvJrwGP7g3eQA6l8yJsxaozcbWBVe/+NpD0KSwgUGxPK11xgV7ztKWN0G57
+         pcuZNQ/p0OOspIeOC1NR3n15KY9Yfv+WKI3DOFZlPd5UmrjSy2cSr0MpRucPCxYUwV60
+         z0c4jH+te97AyRx4G1tpAuhALhlcwjmo1KWiRXaeyyxZFRjZaPEOKd8D7mz95QY4c7Ti
+         Om3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Y4JE5dVY5pJ4L5p/4sGg1xocj3NSEFAKSZJJs4bfl50=;
-        b=AM+asUwdgcIDu2GDLQ7lEa8yyiF1IP+KVBtMPWRNoi63D3lZB2j15khj6AHhwQ5JHf
-         YBDnjOzHwJP/bZogfjoC2JO5rLaafufJcWhi5L7ikxE4HKA3gwTTyxMT2mdPpCinuDJ2
-         d/w8ggvnBaSlVlTMK8zCwGvOb9kxFt7mkwwjqlO7UIb2U1nRrEBp+PxI7XDS/2V8VQi3
-         QrNmxNWQSsWK38fhyCouzOu2d56cYrYdhKDyDnV1CIA+TLNF0DoS3g08/QYsgMA3gsIt
-         vt1Q2CMcBSEK6LDXQMmoAJkZgB/s83dNw+FvgU5yC0yL+qmrxwfJ9CQOAR1YYD2DwdbZ
-         g4NQ==
-X-Gm-Message-State: AOAM530t2+wh6FqfsArwrzE1B5pftvVtNuwr08K4GWaCkCBcNLsi6wOw
-        boS7O7eFXPPnQkPKblV29UBIyZmg+0vnixi807Twog==
-X-Google-Smtp-Source: ABdhPJyyMkDOBVLKOsbECK6J7ZWww0BuYU20TDN6fYXnxk8xptFKTQXny9GfJRyE8hkAsArQFcu6jZmKOkIJSKODNlQ=
-X-Received: by 2002:a2e:98c3:0:b0:253:e0e1:20 with SMTP id s3-20020a2e98c3000000b00253e0e10020mr14949440ljj.26.1653517540546;
- Wed, 25 May 2022 15:25:40 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=oz2gVkV0rfGCK+wdnxIRVq+wPrFjy2J+zLB3pC3weio=;
+        b=Bm6Sgfs9S/Zc48ZvU1QmjRc5g3ROFJiwXzRO+UmwEyaJc1r/m92d8J9/rB0KocCdsY
+         eNW5JGIEGsER5TdxBe+o08/quBrBZRIOOQZZic/pRmhdrWGmg9C5d20J2T1q0TkxcrZq
+         9PYXWOy6zUmP77kEDDuQFRou5Pt8eCaQZ4x/9wMp3GoN4iXMqdb3Wue+lu7osxf6qo3e
+         8C+jAa8AI5TQhxnDMjpTP4xlZ2z7SPVHtmAJ+VsHi91J3cwW5Jh4nNrHGOei/YppSSmg
+         EtfUm39n3FM1Ko2WRDZfaFOhshUU0eEMCQV+NjK35jJnPQpM56gSYTYigae6aAoqpxHw
+         T+Qg==
+X-Gm-Message-State: AOAM530RB97wKc1p5fLvAJpJSbz/SjShvZbsi0Z+bdqe+Nq8i1y6R4PJ
+        mDuW2yYrcSczt9gVUta8K0UyYg==
+X-Google-Smtp-Source: ABdhPJzfyvl7lu0FBluAxH1xjtbTDlyzPZN0U5W97+zTH7VP0T31OYEE4wxbKw4XNU8aF9swQ9ktgw==
+X-Received: by 2002:a05:6512:12c9:b0:477:c583:ed10 with SMTP id p9-20020a05651212c900b00477c583ed10mr4278948lfg.20.1653518581956;
+        Wed, 25 May 2022 15:43:01 -0700 (PDT)
+Received: from mutt (c-7303e555.07-21-73746f28.bbcust.telenor.se. [85.229.3.115])
+        by smtp.gmail.com with ESMTPSA id g7-20020a056512118700b0047255d21104sm3286144lfr.51.2022.05.25.15.43.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 May 2022 15:43:01 -0700 (PDT)
+Date:   Thu, 26 May 2022 00:42:59 +0200
+From:   Anders Roxell <anders.roxell@linaro.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Alexander Popov <alex.popov@linux.com>,
+        linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH] gcc-plugins: Change all version strings match kernel
+Message-ID: <20220525224259.GA16698@mutt>
+References: <20220510235412.3627034-1-keescook@chromium.org>
+ <20220523143054.GA3164771@roeck-us.net>
+ <202205231251.39D012E@keescook>
 MIME-Version: 1.0
-References: <20220523020209.11810-1-ojeda@kernel.org> <20220523020209.11810-22-ojeda@kernel.org>
-In-Reply-To: <20220523020209.11810-22-ojeda@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 25 May 2022 15:25:28 -0700
-Message-ID: <CAKwvOdn+9qORm8UpDGnPXxiK7B7P_TW5CtXv1+8qkv7UvQr3hQ@mail.gmail.com>
-Subject: Re: [PATCH v7 21/25] Kbuild: add Rust support
-To:     Miguel Ojeda <ojeda@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Sven Van Asbroeck <thesven73@gmail.com>,
-        Gary Guo <gary@garyguo.net>,
-        Boris-Chengbiao Zhou <bobo1239@web.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Douglas Su <d0u9.su@outlook.com>,
-        Dariusz Sosnowski <dsosnowski@dsosnowski.pl>,
-        Antonio Terceiro <antonio.terceiro@linaro.org>,
-        Daniel Xu <dxu@dxuuu.xyz>, Miguel Cano <macanroj@gmail.com>,
-        David Gow <davidgow@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-kbuild@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-um@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <202205231251.39D012E@keescook>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, May 22, 2022 at 7:04 PM Miguel Ojeda <ojeda@kernel.org> wrote:
->
+On 2022-05-23 12:54, Kees Cook wrote:
+> On Mon, May 23, 2022 at 07:30:54AM -0700, Guenter Roeck wrote:
+> > On Tue, May 10, 2022 at 04:54:12PM -0700, Kees Cook wrote:
+> > > It's not meaningful for the GCC plugins to track their versions separately
+> > > from the rest of the kernel. Switch all versions to the kernel version.
+> > > 
+> > > Fix mismatched indenting while we're at it.
+> > > 
+> > > Cc: linux-hardening@vger.kernel.org
+> > > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > 
+> > I see random build failures with this patch in linux-next.
+> > 
+> > Error log:
+> > cc1plus: fatal error: ./include/generated/utsrelease.h: No such file or directory
+> > 
+> > The problem doesn't happen all the time. Is there some missing dependency ?
+> 
+> Here's a prior report I hadn't been able to repro:
+> https://lore.kernel.org/linux-mm/202205230239.EZxeZ3Fv-lkp@intel.com
+> 
+> But now I can: I see it with a -j1 build. This fixes it for me:
+
+I could see this issue when I built an arm64 allmodconfig mainline [1]
+kernel, on sha
+7e062cda7d90 ("Merge tag 'net-next-5.19' of git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next")
+
+To reproduce what I built tuxmake [2] can be used:
+$ tuxmake --runtime podman --target-arch arm64 --toolchain gcc-11 --kconfig http://ix.io/3YBi kernel
+
+> 
+> diff --git a/Makefile b/Makefile
+> index 91c91fcf3c24..c04420d5aa3d 100644
 > --- a/Makefile
 > +++ b/Makefile
-> @@ -120,6 +120,15 @@ endif
->
->  export KBUILD_CHECKSRC
->
-> +# Enable "clippy" (a linter) as part of the Rust compilation.
-> +#
-> +# Use 'make CLIPPY=1' to enable it.
-> +ifeq ("$(origin CLIPPY)", "command line")
-> +  KBUILD_CLIPPY := $(CLIPPY)
-> +endif
+> @@ -1175,7 +1175,7 @@ include/config/kernel.release: FORCE
+>  # Carefully list dependencies so we do not try to build scripts twice
+>  # in parallel
+>  PHONY += scripts
+> -scripts: scripts_basic scripts_dtc
+> +scripts: include/generated/utsrelease.h scripts_basic scripts_dtc
+>  	$(Q)$(MAKE) $(build)=$(@)
+>  
+>  # Things we need to do before we recursively start building the kernel
+> diff --git a/scripts/gcc-plugins/Makefile b/scripts/gcc-plugins/Makefile
+> index 6f0aecad5d67..c29334669a16 100644
+> --- a/scripts/gcc-plugins/Makefile
+> +++ b/scripts/gcc-plugins/Makefile
+> @@ -64,5 +64,5 @@ $(foreach m, $(notdir $(plugin-multi)), $(eval $(obj)/$m: $(addprefix $(obj)/, $
+>  quiet_cmd_plugin_cxx_o_c = HOSTCXX $@
+>        cmd_plugin_cxx_o_c = $(HOSTCXX) $(plugin_cxxflags) -c -o $@ $<
+>  
+> -$(plugin-objs): $(obj)/%.o: $(src)/%.c FORCE
+> +$(plugin-objs): $(obj)/%.o: $(src)/%.c $(objdir)/include/generated/utsrelease.h FORCE
+>  	$(call if_changed_dep,plugin_cxx_o_c)
+> 
+> Both "include/generated/utsrelease.h" and "scripts" were same-level
+> deps, so they were racing. 
 
-Is there a reason to not just turn clippy on always? Might be nicer to
-start off with good practices by default. :^)
+This patch patch solved the build error.
 
-> @@ -1494,7 +1588,8 @@ MRPROPER_FILES += include/config include/generated          \
->                   certs/signing_key.pem \
->                   certs/x509.genkey \
->                   vmlinux-gdb.py \
-> -                 *.spec
-> +                 *.spec \
-> +                 rust/target.json rust/libmacros.so
->
->  # clean - Delete most, but leave enough to build external modules
->  #
-> @@ -1519,6 +1614,9 @@ $(mrproper-dirs):
->
->  mrproper: clean $(mrproper-dirs)
->         $(call cmd,rmfiles)
-> +       @find . $(RCS_FIND_IGNORE) \
-> +               \( -name '*.rmeta' \) \
-> +               -type f -print | xargs rm -f
-
-Are there *.rmeta directories that we _don't_ want to remove via `make
-mrproper`? I'm curious why *.rmeta isn't just part of MRPROPER_FILES?
-
->
->  # distclean
->  #
-> @@ -1606,6 +1704,23 @@ help:
->         @echo  '  kselftest-merge   - Merge all the config dependencies of'
->         @echo  '                      kselftest to existing .config.'
->         @echo  ''
-> +       @echo  'Rust targets:'
-> +       @echo  '  rustavailable   - Checks whether the Rust toolchain is'
-> +       @echo  '                    available and, if not, explains why.'
-> +       @echo  '  rustfmt         - Reformat all the Rust code in the kernel'
-> +       @echo  '  rustfmtcheck    - Checks if all the Rust code in the kernel'
-> +       @echo  '                    is formatted, printing a diff otherwise.'
-> +       @echo  '  rustdoc         - Generate Rust documentation'
-> +       @echo  '                    (requires kernel .config)'
-> +       @echo  '  rusttest        - Runs the Rust tests'
-> +       @echo  '                    (requires kernel .config; downloads external repos)'
-> +       @echo  '  rust-analyzer   - Generate rust-project.json rust-analyzer support file'
-> +       @echo  '                    (requires kernel .config)'
-> +       @echo  '  dir/file.[os]   - Build specified target only'
-> +       @echo  '  dir/file.i      - Build macro expanded source, similar to C preprocessing'
-> +       @echo  '                    (run with RUSTFMT=n to skip reformatting if needed)'
-> +       @echo  '  dir/file.ll     - Build the LLVM assembly file'
-
-I don't think we need to repeat dir/* here again for rust. The
-existing targets listed above (outside this hunk) make sense in both
-contexts.
-
-Does rustc really use .i as a conventional suffix for macro expanded
-sources? (The C compiler might use the -x flag to override the guess
-it would make based on the file extension; I'm curious if rustc can
-ingest .i files or will it warn?)
-
-> diff --git a/init/Kconfig b/init/Kconfig
-> index ddcbefe535e9..3457cf596588 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> +config RUSTC_VERSION_TEXT
-> +       string
-> +       depends on RUST
-> +       default $(shell,command -v $(RUSTC) >/dev/null 2>&1 && $(RUSTC) --version || echo n)
-> +
-> +config BINDGEN_VERSION_TEXT
-> +       string
-> +       depends on RUST
-> +       default $(shell,command -v $(BINDGEN) >/dev/null 2>&1 && $(BINDGEN) --version || echo n)
-
-Are these two kconfigs used anywhere?
-
-> diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
-> index 0496efd6e117..83e850321eb6 100644
-> --- a/scripts/Kconfig.include
-> +++ b/scripts/Kconfig.include
-> @@ -36,12 +36,12 @@ ld-option = $(success,$(LD) -v $(1))
->  as-instr = $(success,printf "%b\n" "$(1)" | $(CC) $(CLANG_FLAGS) -c -x assembler -o /dev/null -)
->
->  # check if $(CC) and $(LD) exist
-> -$(error-if,$(failure,command -v $(CC)),compiler '$(CC)' not found)
-> +$(error-if,$(failure,command -v $(CC)),C compiler '$(CC)' not found)
-
-Not that it's important to do so, but a couple hunks s/compiler/C
-compiler/. Those _could_ probably get submitted ahead of this, but not
-important to do so.
-
-> diff --git a/scripts/Makefile.debug b/scripts/Makefile.debug
-> index 9f39b0130551..fe87389d52c0 100644
-> --- a/scripts/Makefile.debug
-> +++ b/scripts/Makefile.debug
-> @@ -1,4 +1,5 @@
->  DEBUG_CFLAGS   :=
-> +DEBUG_RUSTFLAGS        :=
->
->  ifdef CONFIG_DEBUG_INFO_SPLIT
->  DEBUG_CFLAGS   += -gsplit-dwarf
-> @@ -10,6 +11,12 @@ ifndef CONFIG_AS_IS_LLVM
->  KBUILD_AFLAGS  += -Wa,-gdwarf-2
->  endif
->
-> +ifdef CONFIG_DEBUG_INFO_REDUCED
-> +DEBUG_RUSTFLAGS += -Cdebuginfo=1
-> +else
-> +DEBUG_RUSTFLAGS += -Cdebuginfo=2
-> +endif
-> +
-
-How does enabling or disabling debug info work for rustc? I may have
-missed it, but I was surprised to see no additional flags getting
-passed to rustc based on CONFIG_DEBUG info.
-
-> diff --git a/scripts/generate_rust_target.rs b/scripts/generate_rust_target.rs
-> new file mode 100644
-> index 000000000000..c146a3407183
-> --- /dev/null
-> +++ b/scripts/generate_rust_target.rs
-
-Ah, that explains the host rust build infra.  Bravo! Hard coding the
-target files was my major concern last I looked at the series. I'm
-very happy to see it be generated properly from .config!
-
-I haven't actually reviewed this yet, but it makes me significantly
-more confident in the series to see this approach added. Good job
-whoever wrote this.
-
-> diff --git a/scripts/is_rust_module.sh b/scripts/is_rust_module.sh
-> new file mode 100755
-> index 000000000000..277a64d07f22
-> --- /dev/null
-> +++ b/scripts/is_rust_module.sh
-> @@ -0,0 +1,13 @@
-> +#!/bin/sh
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# is_rust_module.sh module.ko
-> +#
-> +# Returns `0` if `module.ko` is a Rust module, `1` otherwise.
-> +
-> +set -e
-> +
-> +# Using the `16_` prefix ensures other symbols with the same substring
-> +# are not picked up (even if it would be unlikely). The last part is
-> +# used just in case LLVM decides to use the `.` suffix.
-> +${NM} "$*" | grep -qE '^[0-9a-fA-F]+ r _R[^[:space:]]+16___IS_RUST_MODULE[^[:space:]]*$'
-
-Does `$(READELF) -p .comment foo.o` print anything about which
-compiler was used? That seems less brittle IMO.
-
----
-
-Modulo the RUST_OPT_LEVEL_SIMILAR_AS_CHOSEN_FOR_C which I'm not a fan
-of, this is looking good to me. Masahiro, what are your thoughts on
-the build system support?
--- 
-Thanks,
-~Nick Desaulniers
+Cheers,
+Anders
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/
+[2] https://tuxmake.org/install-pypi/
