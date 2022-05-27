@@ -2,107 +2,76 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C554A536449
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 May 2022 16:41:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D1EA536474
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 May 2022 17:02:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241600AbiE0OlD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 27 May 2022 10:41:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57074 "EHLO
+        id S1353520AbiE0PBB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 27 May 2022 11:01:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245525AbiE0OlD (ORCPT
+        with ESMTP id S244329AbiE0PBB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 27 May 2022 10:41:03 -0400
-Received: from conuserg-07.nifty.com (conuserg-07.nifty.com [210.131.2.74])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 423C813C4DB;
-        Fri, 27 May 2022 07:41:00 -0700 (PDT)
-Received: from grover.sesame (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 24REeJ2J013191;
-        Fri, 27 May 2022 23:40:20 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 24REeJ2J013191
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1653662420;
-        bh=qJE4Lyed4RpdGGN2vQmVksXJyu1zJCIMzvjNxBAeCOs=;
-        h=From:To:Cc:Subject:Date:From;
-        b=xuC9fxTko81FYMxDk9S3HKVdt429R17J7GF44ILhG0qLAyDpVcV2Oe7z83bDeoNby
-         EG5HD1/wEtLtKNEUK9CuryuKssQnqm1jUbIoNpkLjN0YnqQAydCmedGmSeEU7gUxnj
-         0tIiKHvH/vOmZrvKUUI6/kggFLeVo+V91Gdo+XjAhEUEwLEuLAtoZXFo1ZDAyn0gSB
-         8qi6UdpPHVjkYd3uuFxtpooBpYUD3YYE4HmJ26bBQM7jsEsd80moyWa+VITr/OTBt3
-         MjckLvZj2Mtd6sz0U4bamxruIoV+DYWPOzMsw15ZftQoBD91XzNyDbeHTuy5RJuwZf
-         f51yhqZx3XRtQ==
-X-Nifty-SrcIP: [133.32.177.133]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Helge Deller <deller@gmx.de>,
-        linux-parisc@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Subject: [PATCH] parisc: fix the exit status of arch/parisc/nm
-Date:   Fri, 27 May 2022 23:39:31 +0900
-Message-Id: <20220527143931.2161635-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.32.0
+        Fri, 27 May 2022 11:01:01 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C41211E489;
+        Fri, 27 May 2022 08:00:58 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 2A7BECE256E;
+        Fri, 27 May 2022 15:00:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C537C385A9;
+        Fri, 27 May 2022 15:00:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1653663655;
+        bh=w2NpgxycBt0MlxXt3B1Zn+UQJWJ0TS1e6pxN8egk8P0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bK3T7dG5/k2NysuzvqujWInfNl0CLANvUvpi+c8CIZv6Hn5aN1yYEG9bjZQLe+RbW
+         6LrdLBsmidPVkPvTXUIHLv3G117tOTGXXdxU1PzChfvY5W/bGUCDojDoNoNexF1ZOm
+         C/xB/WknfheckSX/W3m4P1WrNu21YsdjClQSG5KVQv/B/X6qG6nOsUV5eCTvXO8M+j
+         wBVISt1eB1TzvzczPRIeg2HngrJx5y9xAV+iRm0Hw2Wxi/lyzR6e/CfOebL1ldiSM0
+         jX/2+y1P/u2CH9qLsdsXTmm4ERiLI/crehQ1AWDVhAOZWOwBMyHSN0v5XCEG+5CTeb
+         TlLwMG5+cQI0A==
+Date:   Fri, 27 May 2022 08:00:53 -0700
+From:   Josh Poimboeuf <jpoimboe@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>, llvm@lists.linux.dev,
+        Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Subject: Re: [PATCH v7 1/8] kbuild: replace $(linked-object) with CONFIG
+ options
+Message-ID: <20220527150053.4khs5rlu4vetoxca@treble>
+References: <20220527100155.1996314-1-masahiroy@kernel.org>
+ <20220527100155.1996314-2-masahiroy@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220527100155.1996314-2-masahiroy@kernel.org>
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Parisc overrides 'nm' with a shell script. I was hit by a false-positive
-error of $(NM) because this script returns the exit code of grep instead
-of ${CROSS_COMPILE}nm. (grep exits with 1 if no lines were selected)
+On Fri, May 27, 2022 at 07:01:48PM +0900, Masahiro Yamada wrote:
+> *.prelink.o is created when CONFIG_LTO_CLANG or CONFIG_X86_KERNEL_IBT
+> is enabled.
+> 
+> Replace $(linked-object) with $(CONFIG_LTO_CLANG)$(CONFIG_X86_KERNEL_IBT)
+> so you will get better idea when the --link option is passed.
+> 
+> No functional change is intended.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-I tried to fix it, but in the code review, Helge suggested to remove it
-entirely. [1]
+Acked-by: Josh Poimboeuf <jpoimboe@kernel.org>
 
-This script was added in 2003. [2]
-
-Presumably, it was a workaround for old toolchains (but even the parisc
-maintainer does not know the detail any more).
-
-Hopefully recent tools should work fine.
-
-[1]: https://lore.kernel.org/all/1c12cd26-d8aa-4498-f4c0-29478b9578fe@gmx.de/
-[2]: https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/commit/?id=36eaa6e4c0e0b6950136b956b72fd08155b92ca3
-
-Suggested-by: Helge Deller <deller@gmx.de>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
-I want to apply this to kbuild tree with Helge's Ack
-
- arch/parisc/Makefile | 1 -
- arch/parisc/nm       | 6 ------
- 2 files changed, 7 deletions(-)
- delete mode 100644 arch/parisc/nm
-
-diff --git a/arch/parisc/Makefile b/arch/parisc/Makefile
-index aca1710fd658..e38d993d87f2 100644
---- a/arch/parisc/Makefile
-+++ b/arch/parisc/Makefile
-@@ -18,7 +18,6 @@
- boot := arch/parisc/boot
- KBUILD_IMAGE := $(boot)/bzImage
- 
--NM		= sh $(srctree)/arch/parisc/nm
- CHECKFLAGS	+= -D__hppa__=1
- 
- ifdef CONFIG_64BIT
-diff --git a/arch/parisc/nm b/arch/parisc/nm
-deleted file mode 100644
-index c788308de33f..000000000000
---- a/arch/parisc/nm
-+++ /dev/null
-@@ -1,6 +0,0 @@
--#!/bin/sh
--##
--# Hack to have an nm which removes the local symbols.  We also rely
--# on this nm being hidden out of the ordinarily executable path
--##
--${CROSS_COMPILE}nm $* | grep -v '.LC*[0-9]*$'
 -- 
-2.32.0
-
+Josh
