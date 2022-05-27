@@ -2,166 +2,125 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA536535436
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 May 2022 22:04:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0D505359E2
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 May 2022 09:09:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245211AbiEZUEv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 26 May 2022 16:04:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48822 "EHLO
+        id S1345515AbiE0HJU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 27 May 2022 03:09:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241620AbiEZUEu (ORCPT
+        with ESMTP id S1345528AbiE0HJQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 26 May 2022 16:04:50 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38B6372209;
-        Thu, 26 May 2022 13:04:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=S9y6ecfItCHTZPLBWd79nswqv8BapgWNHqq54ASXQBM=; b=QeKozE9pLJjOGGflthiUPaJOya
-        6YTba/dwspp8MnH0ZXYR8HQ2U5/GlCom4CBSacka4YggyCFcx3RTaznZR/qX2oEVK1iAY7yNcYLcI
-        b55N9QKovEI9OREje0zE1kiVBA8SDTdJIWZXhCvNRXt/8r/CWiCOXBYSE1QIcelik89xYD7QKoKNU
-        DKXmOuHox6EHdFImyNFgCDEDFXAPp0zfxbXBO9YsudK1fzgExuCq/NBDk2NZEwIS1pK01lt2mkPsu
-        JWn5eixJRcEkF2XSfoMi+EdPR6AdWHYVpeGHxxsRM+n4epdcW0FHUeaezCKa81dsnKF1V2/GAaF6l
-        EqICNI2w==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nuJiw-001W4J-54; Thu, 26 May 2022 20:04:46 +0000
-Message-ID: <3b7ec693-f4a5-e1aa-3e07-b22a4008d4c9@infradead.org>
-Date:   Thu, 26 May 2022 13:04:41 -0700
+        Fri, 27 May 2022 03:09:16 -0400
+Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05009FF59B;
+        Fri, 27 May 2022 00:08:31 -0700 (PDT)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 24R77wkV008090;
+        Fri, 27 May 2022 16:07:59 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 24R77wkV008090
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1653635279;
+        bh=mV/udz/FFuiifR9fUggl0SWSX/QJeAsM+es90basFQw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=bZ6koubBA13dDKKMIF4Qj8XW7ypyDItbXW9QeDuyzuJ1VcBBhpyrPd1gi8XFwNr3C
+         FOd4Zi7x5eWmw0zpToh+DeltaWSKMOv/rJxwyEWuGnr2rRR+huri3PWO1akxb4h7I1
+         tZiz09bOYz3rRC0z7QF4U2gEbcL0nIpES61RglMsmqC6b0yryiuCq3eSf8ZhXBgtDf
+         hnKWIYF7V0iGiHPZOofvvv/OJWvYL8FH4xQfJk9bI4BPVa/NMaAkMwt2u6ndFLh1JY
+         mELtIeGoJNElmRK9xbKGUB0+31EPctvX84Akst4scj7aJBtJ952a2NoDH2p7O96d0Y
+         GvHqBcnjd7kEg==
+X-Nifty-SrcIP: [209.85.214.179]
+Received: by mail-pl1-f179.google.com with SMTP id d22so3397859plr.9;
+        Fri, 27 May 2022 00:07:59 -0700 (PDT)
+X-Gm-Message-State: AOAM5319kLs4zkG44vYOw1K2O0PxjrIoHzqE+zMIiV3gLP1XwS/ir//5
+        kTAuvm3Un0tJHnTmopXpbJTS928/ItH0js56/80=
+X-Google-Smtp-Source: ABdhPJylxGPI7tDSEZDye7GXUuW8+TbK0iqVGAGVHq+ghY+58bzx25op6jYR9L4MhCmj303SgIUxmq8grFuWppoIVck=
+X-Received: by 2002:a17:902:9887:b0:151:6e1c:7082 with SMTP id
+ s7-20020a170902988700b001516e1c7082mr40896597plp.162.1653635278105; Fri, 27
+ May 2022 00:07:58 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: kbuild problem: ERROR: modpost: missing MODULE_LICENSE() in
- drivers/iio/afe/iio-rescale.o
-Content-Language: en-US
-To:     Liam Beguin <liambeguin@gmail.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-iio@vger.kernel.org, Peter Rosin <peda@axentia.se>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>
-References: <18500f18-9cd5-a81c-4a55-14e999ed4496@infradead.org>
- <3ae306e0-c6c7-ed12-cacd-62b1c26dba3c@infradead.org>
- <6671de03-c09c-bfaf-e06c-e45af70d4354@infradead.org>
- <6601a387-de9a-a0d0-11b5-01e0cfa75657@infradead.org>
- <7a97bac3-6ade-8e1b-cf0c-4a05c83163a3@infradead.org> <Yo+lHSmeIsx144cv@shaak>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <Yo+lHSmeIsx144cv@shaak>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220524152718.331773-1-alexandr.lobakin@intel.com>
+In-Reply-To: <20220524152718.331773-1-alexandr.lobakin@intel.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 27 May 2022 16:06:35 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARaUvgOeXg5q9JMErYxQsK16JBmK5sWBxhGSu-d+UyrOA@mail.gmail.com>
+Message-ID: <CAK7LNARaUvgOeXg5q9JMErYxQsK16JBmK5sWBxhGSu-d+UyrOA@mail.gmail.com>
+Subject: Re: [PATCH] modpost: fix removing numeric suffixes
+To:     Alexander Lobakin <alexandr.lobakin@intel.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Rusty Russell <rusty@rustcorp.com.au>,
+        Michal Nazarewicz <mina86@mina86.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Wed, May 25, 2022 at 12:28 AM Alexander Lobakin
+<alexandr.lobakin@intel.com> wrote:
+>
+> With the `-z unique-symbol` linker flag or any similar mechanism,
+> it is possible to trigger the following:
+>
+> ERROR: modpost: "param_set_uint.0" [vmlinux] is a static EXPORT_SYMBOL
+>
+> The reason is that for now the condition from remove_dot():
+>
+> if (m && (s[n + m] == '.' || s[n + m] == 0))
+>
+> which was designed to test if it's a dot or a '\0' after the suffix
+> is never satisfied.
+> This is due to that `s[n + m]` always points to the last digit of a
+> numeric suffix, not on the symbol next to it (from a custom debug
+> print added to modpost):
+>
+> param_set_uint.0, s[n + m] is '0', s[n + m + 1] is '\0'
+>
+> So it's off-by-one and was like that since 2014.
+>
+> Fix this for the sake of any potential upcoming features, but don't
+> bother stable-backporting, as it's well hidden -- apart from that
+> LD flag, it can be triggered only with GCC LTO which never landed
+> upstream.
+>
+> Fixes: fcd38ed0ff26 ("scripts: modpost: fix compilation warning")
+> Signed-off-by: Alexander Lobakin <alexandr.lobakin@intel.com>
+> ---
 
 
-On 5/26/22 09:04, Liam Beguin wrote:
-> Hi Randy,
-> 
-> On Thu, May 26, 2022 at 08:36:34AM -0700, Randy Dunlap wrote:
->> Liam:
->>
->> Any comment on this?
->> Otherwise I'll just send a formal patch like this (below).
-> 
-> Apologies for not answering earlier.
-> 
-> I wanted to look more into Masahiro's comment and try to fix the
-> Makefile, but that can be done after.
-> 
-> IMO your patch improves the current Kconfig, so I'd recommend sending
-> the patch. If it can wait a bit, I can look at the Makefile over the
-> weekend.
-> 
-
-Liam,
-
-I'll wait until next week to see if you come up with anything.
-
+Applied to linux-kbuild.
 Thanks.
 
-> 
->>
->> Thanks.
->>
->> On 5/20/22 20:51, Randy Dunlap wrote:
->>> Ok, one more.
->>> [also adding Liam here]
->>>
->>> On 5/20/22 20:17, Randy Dunlap wrote:
->>>>
->>>>
->>>> On 5/20/22 20:08, Randy Dunlap wrote:
->>>>>
->>>>>
->>>>> On 5/20/22 19:40, Randy Dunlap wrote:
->>>>>> Hi,
->>>>>>
->>>>>> In March I reported that a randconfig build complained:
->>>>>>
->>>>>> ERROR: modpost: missing MODULE_LICENSE() in drivers/iio/afe/iio-rescale.o
->>>>>>
->>>>>> (https://lore.kernel.org/all/16509fb6-e40c-e31b-2c80-264c44b0beb9@infradead.org/)
->>>>>>
->>>>>> I am still seeing this problem so I tried to dig into it a bit.
->>>>>> However, I don't see why get_next_modinfo() and friends don't find the
->>>>>> MODULE_LICENSE() since it is in the iio-rescale.o file.
->>>>>>
->>>>>> (BTW, I see this build error on many different $ARCH [around 15 tested]
->>>>>> and with 2 different versions of GCC.)
->>>>>>
->>>>>> Q1: Is modpost checking both vmlinux and iio-rescale.o for modinfo license
->>>>>> strings?
->>>>>>
->>>>>> It looks like it is, because it appears (?) that modpost is looking at
->>>>>> drivers/iio/test/iio-test-rescale.o (<<<<< a kunit test, which is builtin
->>>>>> in my .config) and at drivers/iio/afe/iio-rescale.o (which is built as a
->>>>>> loadable module).
->>>>>>
->>>>>> Is this confusing modpost?
->>>>>> I renamed drivers/iio/afe/iio-rescale.c to afe-rescale.c and changed its
->>>>>> Makefile entry accordingly and the MODULE_LICENSE error goes away.
->>>>>
->>>>> Oh well. This rename causes drivers/iio/test/iio-test-rescale.c to have
->>>>> build errors, so that's not a solution, just some info...
->>>>
->>>> and that was due to not updating drivers/iio/test/Makefile.
->>>> When that is done, the missing MODULE_LICENSE() is back in afe-rescale.o.
->>>>
->>>>>
->>>>>> Is this a modpost error or is kunit messing things up?
->>>>>>
->>>>>> thanks for looking.
->>>
->>> Does this look OK? It allows afe/iio-rescale.o to build XOR
->>> test/iio-rescale.o (not both of them).
->>>
->>> --- a/drivers/iio/test/Kconfig
->>> +++ b/drivers/iio/test/Kconfig
->>> @@ -6,7 +6,7 @@
->>>  # Keep in alphabetical order
->>>  config IIO_RESCALE_KUNIT_TEST
->>>         bool "Test IIO rescale conversion functions"
->>> -       depends on KUNIT=y && !IIO_RESCALE
->>> +       depends on KUNIT=y && IIO_RESCALE=n
->>>         default KUNIT_ALL_TESTS
->>>         help
->>>           If you want to run tests on the iio-rescale code say Y here.
->>>
->>>
->>
->> -- 
->> ~Randy
+
+
+>  scripts/mod/modpost.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 6f5c605ab0fb..fd04ba057490 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -1905,7 +1905,7 @@ static char *remove_dot(char *s)
+>
+>         if (n && s[n]) {
+>                 size_t m = strspn(s + n + 1, "0123456789");
+> -               if (m && (s[n + m] == '.' || s[n + m] == 0))
+> +               if (m && (s[n + m + 1] == '.' || s[n + m + 1] == 0))
+>                         s[n] = 0;
+>         }
+>         return s;
+> --
+> 2.36.1
+>
+
 
 -- 
-~Randy
+Best Regards
+Masahiro Yamada
