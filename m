@@ -2,88 +2,106 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7722E5364FA
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 May 2022 17:51:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D21A53657F
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 May 2022 17:59:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353196AbiE0PvM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 27 May 2022 11:51:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56252 "EHLO
+        id S1354029AbiE0P5x (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 27 May 2022 11:57:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353658AbiE0PvD (ORCPT
+        with ESMTP id S1354031AbiE0P5Y (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 27 May 2022 11:51:03 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D9BF134E29;
-        Fri, 27 May 2022 08:50:58 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 16DB1B8259D;
-        Fri, 27 May 2022 15:50:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FEF8C385B8;
-        Fri, 27 May 2022 15:50:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1653666655;
-        bh=TPf6is16EOLHLwQWRGMgJn/SSSCwI0QxzD/Gb/AqW7Q=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LnbYL7XY/hwZg1VbAnfs/juboFYB8oW1A6Rowzr2+JZ5PEgeSXaopCeK89HOD08y0
-         IXS5aZ4LLvFnvf9wyPEuzTJ1nQhcj/cDNLf/Ez0HBMTCx6JxGso9myFcDFnKGL0LsC
-         K4js/L9rGFQGpKA294BNzS5ydTa/GsxhSRlPuVZrCjpTxZjxRyh3F9oE1t6GYLtHIO
-         2Ll5sGDa9/LOZJr6fvDz+QcuwHRS5wpxIkZzD5Ep5aoPBt3KSXWtFJBchqwYk6fhot
-         7Dl68DW7yr1s6ErTN9TpCq/cAem3HgrHrnT7l3cmgEbeX6+9s8p2Tb2G5F7q9KwUUW
-         5RiJiaLNNq2DA==
-Date:   Fri, 27 May 2022 08:50:53 -0700
-From:   Josh Poimboeuf <jpoimboe@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>, llvm@lists.linux.dev,
-        Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org,
-        Kees Cook <keescook@chromium.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <n.schier@avm.de>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>
-Subject: Re: [PATCH v7 8/8] kbuild: rebuild multi-object modules when objtool
- is updated
-Message-ID: <20220527155053.i4xfrlupuqfu4kem@treble>
-References: <20220527100155.1996314-1-masahiroy@kernel.org>
- <20220527100155.1996314-9-masahiroy@kernel.org>
+        Fri, 27 May 2022 11:57:24 -0400
+Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 366E1E15D4;
+        Fri, 27 May 2022 08:57:11 -0700 (PDT)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 24RFuqOk028702;
+        Sat, 28 May 2022 00:56:53 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 24RFuqOk028702
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1653667013;
+        bh=PA6XyD/D6HG8M6irseqU8qzIX5vvd3VEI+LGWM7fjiE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=kSOCR3gCFab/jTHmTELXTDXk+hGIuZptGJR+5pX1I/A0NThoIE4FDEMrlzijbmwly
+         YUbo5AUSJyMBCZE5HJHZsuadQ6t7k9Se1/nDZlPYKAk4ODE2/GQRTZyAT6IruVLv4b
+         oIpnTF7vY4/HcK0Ddpboj87+0IeNxq+H9+GFprhUO52I29OXaUHYLK4j5NsAUNqzXS
+         7pnDjwyv4XRf6788QVKIaC4Tr9jaDlg6sckk+KFqEBiz79uN7IM3GHtZbGXixDout9
+         TOJN20m+85FwmJT0sdsdHK+tO7+u6zm0r2hX2mIp3vrRntRLLMYJJGTHQZ7M7qZMWO
+         w/mMgFAYfaVAQ==
+X-Nifty-SrcIP: [209.85.216.54]
+Received: by mail-pj1-f54.google.com with SMTP id qe5-20020a17090b4f8500b001e26126abccso2689657pjb.0;
+        Fri, 27 May 2022 08:56:52 -0700 (PDT)
+X-Gm-Message-State: AOAM531d+97GMMYerrc7Rk9VAin5P82P+a4atmWFgmrq/QDT5eOxRRAy
+        3/8SUAm4rWTyR+xLtINJeVdDWXfv4pldRcs+PcA=
+X-Google-Smtp-Source: ABdhPJyzgbwKouLhue0pWOSkA4y536KbEctvagZNS0aJMMSJDL2D422HSRK7IZlnsKLwOTFSJDRTZS25B630WBPZWaw=
+X-Received: by 2002:a17:902:f68f:b0:162:23c6:e61b with SMTP id
+ l15-20020a170902f68f00b0016223c6e61bmr26055413plg.136.1653667012039; Fri, 27
+ May 2022 08:56:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220527100155.1996314-9-masahiroy@kernel.org>
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220527143931.2161635-1-masahiroy@kernel.org> <133bcb8b-2321-6acb-ea2d-3ab82af19dcb@gmx.de>
+In-Reply-To: <133bcb8b-2321-6acb-ea2d-3ab82af19dcb@gmx.de>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 28 May 2022 00:55:29 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATYbNzfZSOMz02ToE-dN1Bcck0qGWTHHcB-ask49JnAgA@mail.gmail.com>
+Message-ID: <CAK7LNATYbNzfZSOMz02ToE-dN1Bcck0qGWTHHcB-ask49JnAgA@mail.gmail.com>
+Subject: Re: [PATCH] parisc: fix the exit status of arch/parisc/nm
+To:     Helge Deller <deller@gmx.de>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Parisc List <linux-parisc@vger.kernel.org>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, May 27, 2022 at 07:01:55PM +0900, Masahiro Yamada wrote:
-> When CONFIG_LTO_CLANG or CONFIG_X86_KERNEL_IBT is enabled, objtool for
-> multi-object modules is postponed until the objects are linked together.
-> 
-> Make sure to re-run objtool and re-link multi-object modules when
-> objtool is updated.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> Acked-by: Josh Poimboeuf <jpoimboe@redhat.com>
-> Tested-by: Nathan Chancellor <nathan@kernel.org>
-> Reviewed-by: Nicolas Schier <n.schier@avm.de>
-> Tested-by: Sedat Dilek <sedat.dilek@gmail.com> # LLVM-14 (x86-64)
+On Sat, May 28, 2022 at 12:32 AM Helge Deller <deller@gmx.de> wrote:
+>
+> On 5/27/22 16:39, Masahiro Yamada wrote:
+> > Parisc overrides 'nm' with a shell script. I was hit by a false-positive
+> > error of $(NM) because this script returns the exit code of grep instead
+> > of ${CROSS_COMPILE}nm. (grep exits with 1 if no lines were selected)
+> >
+> > I tried to fix it, but in the code review, Helge suggested to remove it
+> > entirely. [1]
+> >
+> > This script was added in 2003. [2]
+> >
+> > Presumably, it was a workaround for old toolchains (but even the parisc
+> > maintainer does not know the detail any more).
+> >
+> > Hopefully recent tools should work fine.
+> >
+> > [1]: https://lore.kernel.org/all/1c12cd26-d8aa-4498-f4c0-29478b9578fe@gmx.de/
+> > [2]: https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/commit/?id=36eaa6e4c0e0b6950136b956b72fd08155b92ca3
+> >
+> > Suggested-by: Helge Deller <deller@gmx.de>
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+>
+> Acked-by: Helge Deller <deller@gmx.de>
+>
+> Thank you!
+> Helge
+>
 
-Hi Masahiro,
 
-Is it also possible to rebuild vmlinux.o when objtool changes, for
-CONFIG_LTO_CLANG, CONFIG_X86_KERNEL_IBT, or CONFIG_NOINSTR_VALIDATION?
-That doesn't seem to be happening.
+I just forgot to change the patch subject.
+
+I changed it to
+
+"parisc: remove arch/parisc/nm"
+
+Applied to linux-kbuild.
+Thanks for the ack.
+
+
 
 -- 
-Josh
+Best Regards
+Masahiro Yamada
