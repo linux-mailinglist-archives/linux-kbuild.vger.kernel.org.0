@@ -2,106 +2,124 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D21A53657F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 May 2022 17:59:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C3F953669A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 May 2022 19:33:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354029AbiE0P5x (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 27 May 2022 11:57:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48350 "EHLO
+        id S1349591AbiE0RdL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 27 May 2022 13:33:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354031AbiE0P5Y (ORCPT
+        with ESMTP id S233938AbiE0RdK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 27 May 2022 11:57:24 -0400
-Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 366E1E15D4;
-        Fri, 27 May 2022 08:57:11 -0700 (PDT)
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 24RFuqOk028702;
-        Sat, 28 May 2022 00:56:53 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 24RFuqOk028702
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1653667013;
-        bh=PA6XyD/D6HG8M6irseqU8qzIX5vvd3VEI+LGWM7fjiE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=kSOCR3gCFab/jTHmTELXTDXk+hGIuZptGJR+5pX1I/A0NThoIE4FDEMrlzijbmwly
-         YUbo5AUSJyMBCZE5HJHZsuadQ6t7k9Se1/nDZlPYKAk4ODE2/GQRTZyAT6IruVLv4b
-         oIpnTF7vY4/HcK0Ddpboj87+0IeNxq+H9+GFprhUO52I29OXaUHYLK4j5NsAUNqzXS
-         7pnDjwyv4XRf6788QVKIaC4Tr9jaDlg6sckk+KFqEBiz79uN7IM3GHtZbGXixDout9
-         TOJN20m+85FwmJT0sdsdHK+tO7+u6zm0r2hX2mIp3vrRntRLLMYJJGTHQZ7M7qZMWO
-         w/mMgFAYfaVAQ==
-X-Nifty-SrcIP: [209.85.216.54]
-Received: by mail-pj1-f54.google.com with SMTP id qe5-20020a17090b4f8500b001e26126abccso2689657pjb.0;
-        Fri, 27 May 2022 08:56:52 -0700 (PDT)
-X-Gm-Message-State: AOAM531d+97GMMYerrc7Rk9VAin5P82P+a4atmWFgmrq/QDT5eOxRRAy
-        3/8SUAm4rWTyR+xLtINJeVdDWXfv4pldRcs+PcA=
-X-Google-Smtp-Source: ABdhPJyzgbwKouLhue0pWOSkA4y536KbEctvagZNS0aJMMSJDL2D422HSRK7IZlnsKLwOTFSJDRTZS25B630WBPZWaw=
-X-Received: by 2002:a17:902:f68f:b0:162:23c6:e61b with SMTP id
- l15-20020a170902f68f00b0016223c6e61bmr26055413plg.136.1653667012039; Fri, 27
- May 2022 08:56:52 -0700 (PDT)
+        Fri, 27 May 2022 13:33:10 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56EAA6CAB8
+        for <linux-kbuild@vger.kernel.org>; Fri, 27 May 2022 10:33:08 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id v8so7902065lfd.8
+        for <linux-kbuild@vger.kernel.org>; Fri, 27 May 2022 10:33:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Bj4qyw34YxTvRCJ4T4CzfYuGvBv7f0gh9GISKHTlOYY=;
+        b=SKy17ZMe4xDQzYC7q3+GNm5c5xF1hjIYTQ4puIJ3zzSAcV+Y95jaehz+fj4+GuYZKY
+         uqstDwu/NMw3ISzHC+z5V+hCrCadYuaVQdFTtnBP8Q8u7pIi5sM9tfTFGJ5vBxT4e/vX
+         06o5PPz2i9Lno4XFomQUCKm8wFTMtlQPYpkexnlSFOV4XIsM0W1NRjhzaDH/Et0ksimG
+         8gVuiS6YpZIKXbeANzTrWc6Ay5T6Rv8KwcqMDdYHJIaE8h8hho95NJJ4R3+4lH1wytdb
+         yJyGvtMAfZRZnMr8B/rXDhKZK06APDuvGJb52EsNS62kqaaQvNEemJnHq1qtVlQjaN7O
+         IUiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Bj4qyw34YxTvRCJ4T4CzfYuGvBv7f0gh9GISKHTlOYY=;
+        b=PxhmagW8aoUJK+YJD1QcvSSoHGMTi9eoqn61VH+9SLRRO6xl7z0oRD4RptngmbUOJG
+         rKGh9WIZUfwvOBxh8MfnUwVzvUSlaPhfPhivSlWZOEjXfuyLhTiAhHfrw5U7S65GfqVW
+         vCjQYmkVn04xlsWhrVaQU20javLZ+lisyCc51yEzDY0WAMsH/x0tun2NpiwPaMFYHsC6
+         UlxwanCSsMqlcZJDzHt4DFnFpOWPZQvoz1u2A8nqL3T7ZRavSVzsLpgIJpNV9yli/MCS
+         3wxD4Igaekoe8qaKi06/CiHmFw77TzGmR75oFbpr4oyHvpN0d/4tpt5WceACpHDGt/1F
+         JrQg==
+X-Gm-Message-State: AOAM532HVjrMFUn89THS3MnmwtaACjyDsigpsGJhg72+S82VYcKNzaJF
+        muGbKizAAINqEgvZpNJpyvR7iuC3XVCFtSyGgc7HLQ==
+X-Google-Smtp-Source: ABdhPJzr0zh7RqK3oufVwRmxE56PvSyrvSdp3z1Zx8heuuJjzgu04wiRGDT9v/yTHIeA6z7GEd9gFjjqg5ITn/M97gw=
+X-Received: by 2002:a05:6512:48e:b0:477:c024:1a1c with SMTP id
+ v14-20020a056512048e00b00477c0241a1cmr31618834lfq.100.1653672786348; Fri, 27
+ May 2022 10:33:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220527143931.2161635-1-masahiroy@kernel.org> <133bcb8b-2321-6acb-ea2d-3ab82af19dcb@gmx.de>
-In-Reply-To: <133bcb8b-2321-6acb-ea2d-3ab82af19dcb@gmx.de>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 28 May 2022 00:55:29 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATYbNzfZSOMz02ToE-dN1Bcck0qGWTHHcB-ask49JnAgA@mail.gmail.com>
-Message-ID: <CAK7LNATYbNzfZSOMz02ToE-dN1Bcck0qGWTHHcB-ask49JnAgA@mail.gmail.com>
-Subject: Re: [PATCH] parisc: fix the exit status of arch/parisc/nm
-To:     Helge Deller <deller@gmx.de>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Parisc List <linux-parisc@vger.kernel.org>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>
+References: <20220527100155.1996314-1-masahiroy@kernel.org> <20220527100155.1996314-2-masahiroy@kernel.org>
+In-Reply-To: <20220527100155.1996314-2-masahiroy@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Fri, 27 May 2022 10:32:54 -0700
+Message-ID: <CAKwvOd=sMwYPJyUcKVAu9V3bWszuUJ2NUMC8BMT5AdN5i=ra2A@mail.gmail.com>
+Subject: Re: [PATCH v7 1/8] kbuild: replace $(linked-object) with CONFIG options
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>, llvm@lists.linux.dev,
+        Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, May 28, 2022 at 12:32 AM Helge Deller <deller@gmx.de> wrote:
+On Fri, May 27, 2022 at 3:04 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> On 5/27/22 16:39, Masahiro Yamada wrote:
-> > Parisc overrides 'nm' with a shell script. I was hit by a false-positive
-> > error of $(NM) because this script returns the exit code of grep instead
-> > of ${CROSS_COMPILE}nm. (grep exits with 1 if no lines were selected)
-> >
-> > I tried to fix it, but in the code review, Helge suggested to remove it
-> > entirely. [1]
-> >
-> > This script was added in 2003. [2]
-> >
-> > Presumably, it was a workaround for old toolchains (but even the parisc
-> > maintainer does not know the detail any more).
-> >
-> > Hopefully recent tools should work fine.
-> >
-> > [1]: https://lore.kernel.org/all/1c12cd26-d8aa-4498-f4c0-29478b9578fe@gmx.de/
-> > [2]: https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/commit/?id=36eaa6e4c0e0b6950136b956b72fd08155b92ca3
-> >
-> > Suggested-by: Helge Deller <deller@gmx.de>
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> *.prelink.o is created when CONFIG_LTO_CLANG or CONFIG_X86_KERNEL_IBT
+> is enabled.
 >
-> Acked-by: Helge Deller <deller@gmx.de>
+> Replace $(linked-object) with $(CONFIG_LTO_CLANG)$(CONFIG_X86_KERNEL_IBT)
+> so you will get better idea when the --link option is passed.
 >
-> Thank you!
-> Helge
+> No functional change is intended.
+
+It triggered my PTSD to see this ^ expression; many commits to LLVM
+are labeled "NFCI."
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
 >
-
-
-I just forgot to change the patch subject.
-
-I changed it to
-
-"parisc: remove arch/parisc/nm"
-
-Applied to linux-kbuild.
-Thanks for the ack.
-
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+> Changes in v7:
+>   - New patch
+>
+>  scripts/Makefile.build | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index 06400504150b..f80196eef03a 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -219,7 +219,7 @@ objtool_args =                                                              \
+>         $(if $(CONFIG_STACK_VALIDATION), --stackval)                    \
+>         $(if $(CONFIG_HAVE_STATIC_CALL_INLINE), --static-call)          \
+>         --uaccess                                                       \
+> -       $(if $(linked-object), --link)                                  \
+> +       $(if $($(CONFIG_LTO_CLANG)$(CONFIG_X86_KERNEL_IBT)), --link)    \
+>         $(if $(part-of-module), --module)                               \
+>         $(if $(CONFIG_GCOV_KERNEL), --no-unreachable)
+>
+> @@ -284,7 +284,6 @@ quiet_cmd_cc_prelink_modules = LD [M]  $@
+>  # modules into native code
+>  $(obj)/%.prelink.o: objtool-enabled = y
+>  $(obj)/%.prelink.o: part-of-module := y
+> -$(obj)/%.prelink.o: linked-object := y
+>
+>  $(obj)/%.prelink.o: $(obj)/%.o FORCE
+>         $(call if_changed,cc_prelink_modules)
+> --
+> 2.32.0
+>
 
 
 -- 
-Best Regards
-Masahiro Yamada
+Thanks,
+~Nick Desaulniers
