@@ -2,33 +2,33 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DEEEA535F7A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 May 2022 13:39:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F031D535F61
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 May 2022 13:39:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351492AbiE0Lir (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 27 May 2022 07:38:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45658 "EHLO
+        id S1351462AbiE0LiV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 27 May 2022 07:38:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351442AbiE0LiR (ORCPT
+        with ESMTP id S1351491AbiE0LiQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 27 May 2022 07:38:17 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9EAE12B035;
-        Fri, 27 May 2022 04:38:08 -0700 (PDT)
+        Fri, 27 May 2022 07:38:16 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63E9D12698E;
+        Fri, 27 May 2022 04:38:02 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 26633B824DD;
-        Fri, 27 May 2022 11:38:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BA68C385A9;
-        Fri, 27 May 2022 11:38:05 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2B4BCB824D9;
+        Fri, 27 May 2022 11:38:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C191C385A9;
+        Fri, 27 May 2022 11:37:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1653651485;
-        bh=ZXyitpF3peRkvKwnqrMvERHDgBPpYSOUQQeosSV7WVI=;
+        s=korg; t=1653651479;
+        bh=TdM9kCbzO9r9RHTkFH3ggT2WNkeIKCbHj5t/HggTyXs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Hg5qzty3TWEv9af6//5HxRjnoP+luaCv0KCEeeUAk60+n6eMW9aa25U4XEgUC+M12
-         WnTRGSry9RFwHky2Otpn/ds58TmbuSxOZL6NEtO5SuIRwasMi0GnQN+TW347iTrrAG
-         qY+a9jxz9inu/B4NLfaO9lYtTp2dhdud35ohAi5c=
+        b=oyaleu/Fi5+7oUffh1+z30ee3YGEPhlP5G5CNXcmRJo4yF2Os8Nj3mbnSBNMv9NGK
+         ercFltSTA4MPTpayyjqrGUcSEMvj6a4s8pUCUY2dnJlV6J83NqGAEFM9OnY470bIdo
+         fIcsNY+eJlvM37XJbL8olwKf8aQEefl7uOgoUeLg=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -37,12 +37,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         linux-kbuild@vger.kernel.org, linux-crypto@vger.kernel.org,
         "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: [PATCH 5.10 025/163] lib/crypto: blake2s: include as built-in
-Date:   Fri, 27 May 2022 10:48:25 +0200
-Message-Id: <20220527084831.707647946@linuxfoundation.org>
+Subject: [PATCH 5.15 007/145] lib/crypto: blake2s: include as built-in
+Date:   Fri, 27 May 2022 10:48:28 +0200
+Message-Id: <20220527084851.561294196@linuxfoundation.org>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220527084828.156494029@linuxfoundation.org>
-References: <20220527084828.156494029@linuxfoundation.org>
+In-Reply-To: <20220527084850.364560116@linuxfoundation.org>
+References: <20220527084850.364560116@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -78,6 +78,10 @@ Cc: linux-crypto@vger.kernel.org
 Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
+ arch/arm/crypto/Makefile          |    4 +
+ arch/arm/crypto/blake2s-core.S    |    8 +--
+ arch/arm/crypto/blake2s-glue.c    |   73 ------------------------------------
+ arch/arm/crypto/blake2s-shash.c   |   75 +++++++++++++++++++++++++++++++++++++
  arch/x86/crypto/Makefile          |    4 +
  arch/x86/crypto/blake2s-glue.c    |   68 ++-------------------------------
  arch/x86/crypto/blake2s-shash.c   |   77 ++++++++++++++++++++++++++++++++++++++
@@ -88,12 +92,221 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  lib/crypto/Makefile               |    9 +---
  lib/crypto/blake2s-generic.c      |    6 ++
  lib/crypto/blake2s.c              |    6 --
- 10 files changed, 106 insertions(+), 97 deletions(-)
+ 14 files changed, 189 insertions(+), 174 deletions(-)
+ create mode 100644 arch/arm/crypto/blake2s-shash.c
  create mode 100644 arch/x86/crypto/blake2s-shash.c
 
+--- a/arch/arm/crypto/Makefile
++++ b/arch/arm/crypto/Makefile
+@@ -10,6 +10,7 @@ obj-$(CONFIG_CRYPTO_SHA1_ARM_NEON) += sh
+ obj-$(CONFIG_CRYPTO_SHA256_ARM) += sha256-arm.o
+ obj-$(CONFIG_CRYPTO_SHA512_ARM) += sha512-arm.o
+ obj-$(CONFIG_CRYPTO_BLAKE2S_ARM) += blake2s-arm.o
++obj-$(if $(CONFIG_CRYPTO_BLAKE2S_ARM),y) += libblake2s-arm.o
+ obj-$(CONFIG_CRYPTO_BLAKE2B_NEON) += blake2b-neon.o
+ obj-$(CONFIG_CRYPTO_CHACHA20_NEON) += chacha-neon.o
+ obj-$(CONFIG_CRYPTO_POLY1305_ARM) += poly1305-arm.o
+@@ -31,7 +32,8 @@ sha256-arm-neon-$(CONFIG_KERNEL_MODE_NEO
+ sha256-arm-y	:= sha256-core.o sha256_glue.o $(sha256-arm-neon-y)
+ sha512-arm-neon-$(CONFIG_KERNEL_MODE_NEON) := sha512-neon-glue.o
+ sha512-arm-y	:= sha512-core.o sha512-glue.o $(sha512-arm-neon-y)
+-blake2s-arm-y   := blake2s-core.o blake2s-glue.o
++blake2s-arm-y   := blake2s-shash.o
++libblake2s-arm-y:= blake2s-core.o blake2s-glue.o
+ blake2b-neon-y  := blake2b-neon-core.o blake2b-neon-glue.o
+ sha1-arm-ce-y	:= sha1-ce-core.o sha1-ce-glue.o
+ sha2-arm-ce-y	:= sha2-ce-core.o sha2-ce-glue.o
+--- a/arch/arm/crypto/blake2s-core.S
++++ b/arch/arm/crypto/blake2s-core.S
+@@ -167,8 +167,8 @@
+ .endm
+ 
+ //
+-// void blake2s_compress_arch(struct blake2s_state *state,
+-//			      const u8 *block, size_t nblocks, u32 inc);
++// void blake2s_compress(struct blake2s_state *state,
++//			 const u8 *block, size_t nblocks, u32 inc);
+ //
+ // Only the first three fields of struct blake2s_state are used:
+ //	u32 h[8];	(inout)
+@@ -176,7 +176,7 @@
+ //	u32 f[2];	(in)
+ //
+ 	.align		5
+-ENTRY(blake2s_compress_arch)
++ENTRY(blake2s_compress)
+ 	push		{r0-r2,r4-r11,lr}	// keep this an even number
+ 
+ .Lnext_block:
+@@ -303,4 +303,4 @@ ENTRY(blake2s_compress_arch)
+ 	str		r3, [r12], #4
+ 	bne		1b
+ 	b		.Lcopy_block_done
+-ENDPROC(blake2s_compress_arch)
++ENDPROC(blake2s_compress)
+--- a/arch/arm/crypto/blake2s-glue.c
++++ b/arch/arm/crypto/blake2s-glue.c
+@@ -1,78 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0-or-later
+-/*
+- * BLAKE2s digest algorithm, ARM scalar implementation
+- *
+- * Copyright 2020 Google LLC
+- */
+ 
+ #include <crypto/internal/blake2s.h>
+-#include <crypto/internal/hash.h>
+-
+ #include <linux/module.h>
+ 
+ /* defined in blake2s-core.S */
+-EXPORT_SYMBOL(blake2s_compress_arch);
+-
+-static int crypto_blake2s_update_arm(struct shash_desc *desc,
+-				     const u8 *in, unsigned int inlen)
+-{
+-	return crypto_blake2s_update(desc, in, inlen, blake2s_compress_arch);
+-}
+-
+-static int crypto_blake2s_final_arm(struct shash_desc *desc, u8 *out)
+-{
+-	return crypto_blake2s_final(desc, out, blake2s_compress_arch);
+-}
+-
+-#define BLAKE2S_ALG(name, driver_name, digest_size)			\
+-	{								\
+-		.base.cra_name		= name,				\
+-		.base.cra_driver_name	= driver_name,			\
+-		.base.cra_priority	= 200,				\
+-		.base.cra_flags		= CRYPTO_ALG_OPTIONAL_KEY,	\
+-		.base.cra_blocksize	= BLAKE2S_BLOCK_SIZE,		\
+-		.base.cra_ctxsize	= sizeof(struct blake2s_tfm_ctx), \
+-		.base.cra_module	= THIS_MODULE,			\
+-		.digestsize		= digest_size,			\
+-		.setkey			= crypto_blake2s_setkey,	\
+-		.init			= crypto_blake2s_init,		\
+-		.update			= crypto_blake2s_update_arm,	\
+-		.final			= crypto_blake2s_final_arm,	\
+-		.descsize		= sizeof(struct blake2s_state),	\
+-	}
+-
+-static struct shash_alg blake2s_arm_algs[] = {
+-	BLAKE2S_ALG("blake2s-128", "blake2s-128-arm", BLAKE2S_128_HASH_SIZE),
+-	BLAKE2S_ALG("blake2s-160", "blake2s-160-arm", BLAKE2S_160_HASH_SIZE),
+-	BLAKE2S_ALG("blake2s-224", "blake2s-224-arm", BLAKE2S_224_HASH_SIZE),
+-	BLAKE2S_ALG("blake2s-256", "blake2s-256-arm", BLAKE2S_256_HASH_SIZE),
+-};
+-
+-static int __init blake2s_arm_mod_init(void)
+-{
+-	return IS_REACHABLE(CONFIG_CRYPTO_HASH) ?
+-		crypto_register_shashes(blake2s_arm_algs,
+-					ARRAY_SIZE(blake2s_arm_algs)) : 0;
+-}
+-
+-static void __exit blake2s_arm_mod_exit(void)
+-{
+-	if (IS_REACHABLE(CONFIG_CRYPTO_HASH))
+-		crypto_unregister_shashes(blake2s_arm_algs,
+-					  ARRAY_SIZE(blake2s_arm_algs));
+-}
+-
+-module_init(blake2s_arm_mod_init);
+-module_exit(blake2s_arm_mod_exit);
+-
+-MODULE_DESCRIPTION("BLAKE2s digest algorithm, ARM scalar implementation");
+-MODULE_LICENSE("GPL");
+-MODULE_AUTHOR("Eric Biggers <ebiggers@google.com>");
+-MODULE_ALIAS_CRYPTO("blake2s-128");
+-MODULE_ALIAS_CRYPTO("blake2s-128-arm");
+-MODULE_ALIAS_CRYPTO("blake2s-160");
+-MODULE_ALIAS_CRYPTO("blake2s-160-arm");
+-MODULE_ALIAS_CRYPTO("blake2s-224");
+-MODULE_ALIAS_CRYPTO("blake2s-224-arm");
+-MODULE_ALIAS_CRYPTO("blake2s-256");
+-MODULE_ALIAS_CRYPTO("blake2s-256-arm");
++EXPORT_SYMBOL(blake2s_compress);
+--- /dev/null
++++ b/arch/arm/crypto/blake2s-shash.c
+@@ -0,0 +1,75 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * BLAKE2s digest algorithm, ARM scalar implementation
++ *
++ * Copyright 2020 Google LLC
++ */
++
++#include <crypto/internal/blake2s.h>
++#include <crypto/internal/hash.h>
++
++#include <linux/module.h>
++
++static int crypto_blake2s_update_arm(struct shash_desc *desc,
++				     const u8 *in, unsigned int inlen)
++{
++	return crypto_blake2s_update(desc, in, inlen, blake2s_compress);
++}
++
++static int crypto_blake2s_final_arm(struct shash_desc *desc, u8 *out)
++{
++	return crypto_blake2s_final(desc, out, blake2s_compress);
++}
++
++#define BLAKE2S_ALG(name, driver_name, digest_size)			\
++	{								\
++		.base.cra_name		= name,				\
++		.base.cra_driver_name	= driver_name,			\
++		.base.cra_priority	= 200,				\
++		.base.cra_flags		= CRYPTO_ALG_OPTIONAL_KEY,	\
++		.base.cra_blocksize	= BLAKE2S_BLOCK_SIZE,		\
++		.base.cra_ctxsize	= sizeof(struct blake2s_tfm_ctx), \
++		.base.cra_module	= THIS_MODULE,			\
++		.digestsize		= digest_size,			\
++		.setkey			= crypto_blake2s_setkey,	\
++		.init			= crypto_blake2s_init,		\
++		.update			= crypto_blake2s_update_arm,	\
++		.final			= crypto_blake2s_final_arm,	\
++		.descsize		= sizeof(struct blake2s_state),	\
++	}
++
++static struct shash_alg blake2s_arm_algs[] = {
++	BLAKE2S_ALG("blake2s-128", "blake2s-128-arm", BLAKE2S_128_HASH_SIZE),
++	BLAKE2S_ALG("blake2s-160", "blake2s-160-arm", BLAKE2S_160_HASH_SIZE),
++	BLAKE2S_ALG("blake2s-224", "blake2s-224-arm", BLAKE2S_224_HASH_SIZE),
++	BLAKE2S_ALG("blake2s-256", "blake2s-256-arm", BLAKE2S_256_HASH_SIZE),
++};
++
++static int __init blake2s_arm_mod_init(void)
++{
++	return IS_REACHABLE(CONFIG_CRYPTO_HASH) ?
++		crypto_register_shashes(blake2s_arm_algs,
++					ARRAY_SIZE(blake2s_arm_algs)) : 0;
++}
++
++static void __exit blake2s_arm_mod_exit(void)
++{
++	if (IS_REACHABLE(CONFIG_CRYPTO_HASH))
++		crypto_unregister_shashes(blake2s_arm_algs,
++					  ARRAY_SIZE(blake2s_arm_algs));
++}
++
++module_init(blake2s_arm_mod_init);
++module_exit(blake2s_arm_mod_exit);
++
++MODULE_DESCRIPTION("BLAKE2s digest algorithm, ARM scalar implementation");
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Eric Biggers <ebiggers@google.com>");
++MODULE_ALIAS_CRYPTO("blake2s-128");
++MODULE_ALIAS_CRYPTO("blake2s-128-arm");
++MODULE_ALIAS_CRYPTO("blake2s-160");
++MODULE_ALIAS_CRYPTO("blake2s-160-arm");
++MODULE_ALIAS_CRYPTO("blake2s-224");
++MODULE_ALIAS_CRYPTO("blake2s-224-arm");
++MODULE_ALIAS_CRYPTO("blake2s-256");
++MODULE_ALIAS_CRYPTO("blake2s-256-arm");
 --- a/arch/x86/crypto/Makefile
 +++ b/arch/x86/crypto/Makefile
-@@ -66,7 +66,9 @@ obj-$(CONFIG_CRYPTO_SHA512_SSSE3) += sha
+@@ -62,7 +62,9 @@ obj-$(CONFIG_CRYPTO_SHA512_SSSE3) += sha
  sha512-ssse3-y := sha512-ssse3-asm.o sha512-avx-asm.o sha512-avx2-asm.o sha512_ssse3_glue.o
  
  obj-$(CONFIG_CRYPTO_BLAKE2S_X86) += blake2s-x86_64.o
@@ -289,7 +502,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 +MODULE_LICENSE("GPL v2");
 --- a/crypto/Kconfig
 +++ b/crypto/Kconfig
-@@ -1936,9 +1936,10 @@ config CRYPTO_STATS
+@@ -1919,9 +1919,10 @@ config CRYPTO_STATS
  config CRYPTO_HASH_INFO
  	bool
  
@@ -303,7 +516,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 +source "lib/crypto/Kconfig"
 --- a/drivers/net/Kconfig
 +++ b/drivers/net/Kconfig
-@@ -80,7 +80,6 @@ config WIREGUARD
+@@ -81,7 +81,6 @@ config WIREGUARD
  	select CRYPTO
  	select CRYPTO_LIB_CURVE25519
  	select CRYPTO_LIB_CHACHA20POLY1305
