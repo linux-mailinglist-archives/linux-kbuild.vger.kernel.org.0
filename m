@@ -2,60 +2,46 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 515925363F8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 May 2022 16:22:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C554A536449
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 May 2022 16:41:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352364AbiE0OWp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 27 May 2022 10:22:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43364 "EHLO
+        id S241600AbiE0OlD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 27 May 2022 10:41:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348015AbiE0OWp (ORCPT
+        with ESMTP id S245525AbiE0OlD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 27 May 2022 10:22:45 -0400
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A87D8EC3E9;
-        Fri, 27 May 2022 07:22:40 -0700 (PDT)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 24REMPlw021169;
-        Fri, 27 May 2022 23:22:26 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 24REMPlw021169
+        Fri, 27 May 2022 10:41:03 -0400
+Received: from conuserg-07.nifty.com (conuserg-07.nifty.com [210.131.2.74])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 423C813C4DB;
+        Fri, 27 May 2022 07:41:00 -0700 (PDT)
+Received: from grover.sesame (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id 24REeJ2J013191;
+        Fri, 27 May 2022 23:40:20 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 24REeJ2J013191
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1653661346;
-        bh=D2MGadW7/x48k4PZ30yDzkxYBsA9A8fC1SlKRvJ8QY4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=qmTc1cATyT/3eLxKRJ9scNE9L+75DWWloU8rSwfykSlVT7vJ/UGJfLKi4jIiJSqrV
-         +YP3pGT7pgvH0duNb5n5T0j6mjhaTIc9MvmQ1vsb2cVXTs7rmY4JeUjBVUjLcFICNG
-         vJ32maExOXgPqt/9ko/xZGtI88W7+hiVIa3uGaILxUIzGqXPk7Uh0j08XLwP25MCVZ
-         JjNz8VOVNjW84JK2U3A9Ig8T0rDCD436U7v8gckUpFwU7MW3yA3nLSQyDC7btBPe8u
-         eCYvrYN2xt10i0waFequ2kmWu8ycqmlgsSE7LTT/a5MVuFmBdnkAqyt7GUYuP3E0Yj
-         XHAKTIg0LC0LQ==
-X-Nifty-SrcIP: [209.85.210.176]
-Received: by mail-pf1-f176.google.com with SMTP id bo5so4474857pfb.4;
-        Fri, 27 May 2022 07:22:26 -0700 (PDT)
-X-Gm-Message-State: AOAM530YwXUF7yO/i8oSMeHpXEff6rD0tfsSJIOxTNNuwwvOMiyd77hp
-        Qronbdw3XBAzKR9kXJweQ/C58DkkZNC/JImp2Fc=
-X-Google-Smtp-Source: ABdhPJwgjJPevCtQwvLJf55nk2/tfb2++rXEO/QIaQn3mP9JsdT3MMxmtpojris8JB/UZv4CVw5KuNSHlyXl+IDx7JY=
-X-Received: by 2002:a63:8949:0:b0:3fa:d71a:1025 with SMTP id
- v70-20020a638949000000b003fad71a1025mr12150597pgd.616.1653661345107; Fri, 27
- May 2022 07:22:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220527100155.1996314-1-masahiroy@kernel.org>
- <20220527100155.1996314-4-masahiroy@kernel.org> <1c12cd26-d8aa-4498-f4c0-29478b9578fe@gmx.de>
-In-Reply-To: <1c12cd26-d8aa-4498-f4c0-29478b9578fe@gmx.de>
+        s=dec2015msa; t=1653662420;
+        bh=qJE4Lyed4RpdGGN2vQmVksXJyu1zJCIMzvjNxBAeCOs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=xuC9fxTko81FYMxDk9S3HKVdt429R17J7GF44ILhG0qLAyDpVcV2Oe7z83bDeoNby
+         EG5HD1/wEtLtKNEUK9CuryuKssQnqm1jUbIoNpkLjN0YnqQAydCmedGmSeEU7gUxnj
+         0tIiKHvH/vOmZrvKUUI6/kggFLeVo+V91Gdo+XjAhEUEwLEuLAtoZXFo1ZDAyn0gSB
+         8qi6UdpPHVjkYd3uuFxtpooBpYUD3YYE4HmJ26bBQM7jsEsd80moyWa+VITr/OTBt3
+         MjckLvZj2Mtd6sz0U4bamxruIoV+DYWPOzMsw15ZftQoBD91XzNyDbeHTuy5RJuwZf
+         f51yhqZx3XRtQ==
+X-Nifty-SrcIP: [133.32.177.133]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 27 May 2022 23:21:02 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQC8jRMwOGfDW4TMRUp0aJW5qfn5MT6=sjEXp-2PoBYNQ@mail.gmail.com>
-Message-ID: <CAK7LNAQC8jRMwOGfDW4TMRUp0aJW5qfn5MT6=sjEXp-2PoBYNQ@mail.gmail.com>
-Subject: Re: [PATCH v7 3/8] parisc: fix the exit status of arch/parisc/nm
-To:     Helge Deller <deller@gmx.de>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        clang-built-linux <llvm@lists.linux.dev>,
-        Parisc List <linux-parisc@vger.kernel.org>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Helge Deller <deller@gmx.de>,
+        linux-parisc@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+Subject: [PATCH] parisc: fix the exit status of arch/parisc/nm
+Date:   Fri, 27 May 2022 23:39:31 +0900
+Message-Id: <20220527143931.2161635-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
@@ -65,48 +51,58 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Helge,
+Parisc overrides 'nm' with a shell script. I was hit by a false-positive
+error of $(NM) because this script returns the exit code of grep instead
+of ${CROSS_COMPILE}nm. (grep exits with 1 if no lines were selected)
 
+I tried to fix it, but in the code review, Helge suggested to remove it
+entirely. [1]
 
-On Fri, May 27, 2022 at 10:58 PM Helge Deller <deller@gmx.de> wrote:
->
-> Hello Masahiro,
->
-> On 5/27/22 12:01, Masahiro Yamada wrote:
-> > parisc overrides 'nm' with a shell script. I do not know the reason,
-> > but anyway it is how it has worked since 2003. [1]
->
-> I don't know the reason either...
-> I assume it was that the older toolchains had bugs and kept lots of local
-> symbols like .LC? in the object files.
->
-> I did a small build without the nm script (and removed it's reference
-> in the Makefile), and it did not seem to break anything.
->
-> > A problem is that this script returns the exit code of grep instead of
-> > ${CROSS_COMPILE}nm.
->
-> Instead of fixing this, I'd suggest that you simply remove the nm script
-> alltogether. If you like I can apply such a patch in the parisc git tree,
-> and you just drop this specific patch. Or you change your patch to remove it.
-> Just let me know what you prefer.
+This script was added in 2003. [2]
 
+Presumably, it was a workaround for old toolchains (but even the parisc
+maintainer does not know the detail any more).
 
+Hopefully recent tools should work fine.
 
-This is a prerequisite of my kbuild work:
-https://lore.kernel.org/linux-kbuild/20220527100155.1996314-5-masahiroy@kernel.org/T/#u
+[1]: https://lore.kernel.org/all/1c12cd26-d8aa-4498-f4c0-29478b9578fe@gmx.de/
+[2]: https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/commit/?id=36eaa6e4c0e0b6950136b956b72fd08155b92ca3
 
-Without this, ARCH=parisc builds will be broken due to ${NM} returning 1.
+Suggested-by: Helge Deller <deller@gmx.de>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+I want to apply this to kbuild tree with Helge's Ack
 
-I will send a patch to remove arch/parisc/nm.
-Please give me your ack.
+ arch/parisc/Makefile | 1 -
+ arch/parisc/nm       | 6 ------
+ 2 files changed, 7 deletions(-)
+ delete mode 100644 arch/parisc/nm
 
-Thank you.
+diff --git a/arch/parisc/Makefile b/arch/parisc/Makefile
+index aca1710fd658..e38d993d87f2 100644
+--- a/arch/parisc/Makefile
++++ b/arch/parisc/Makefile
+@@ -18,7 +18,6 @@
+ boot := arch/parisc/boot
+ KBUILD_IMAGE := $(boot)/bzImage
+ 
+-NM		= sh $(srctree)/arch/parisc/nm
+ CHECKFLAGS	+= -D__hppa__=1
+ 
+ ifdef CONFIG_64BIT
+diff --git a/arch/parisc/nm b/arch/parisc/nm
+deleted file mode 100644
+index c788308de33f..000000000000
+--- a/arch/parisc/nm
++++ /dev/null
+@@ -1,6 +0,0 @@
+-#!/bin/sh
+-##
+-# Hack to have an nm which removes the local symbols.  We also rely
+-# on this nm being hidden out of the ordinarily executable path
+-##
+-${CROSS_COMPILE}nm $* | grep -v '.LC*[0-9]*$'
+-- 
+2.32.0
 
-
-
-
---
-Best Regards
-Masahiro Yamada
