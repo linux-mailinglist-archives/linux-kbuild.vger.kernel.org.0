@@ -2,304 +2,193 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 90FA3536D97
-	for <lists+linux-kbuild@lfdr.de>; Sat, 28 May 2022 17:49:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76F88536EBF
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 May 2022 00:50:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238146AbiE1PtP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 28 May 2022 11:49:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56382 "EHLO
+        id S229542AbiE1Wru (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 28 May 2022 18:47:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344876AbiE1PtO (ORCPT
+        with ESMTP id S229805AbiE1Wrt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 28 May 2022 11:49:14 -0400
-Received: from conuserg-10.nifty.com (conuserg-10.nifty.com [210.131.2.77])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 840F412A;
-        Sat, 28 May 2022 08:49:11 -0700 (PDT)
-Received: from grover.sesame (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id 24SFlthN010610;
-        Sun, 29 May 2022 00:47:57 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 24SFlthN010610
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1653752878;
-        bh=5leKPORFlta7S8/2ppM4PVrBXwYq/YHCsbo5q5GZZGw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YVczqZLK4g5wTY9Zadm4ebIhkk1uqTE+rV5SA6qD97oyeL9tcX+GdHlD4skCKnK31
-         02fuOs9PiJFaF+x8fUtmWzZrDsUxfkYEi26YF1zt3X3ya7hBqrK0L155wyyijZIFx5
-         /+cOMffA7wD7gyvhu0n3EK84jplYza5HQswZmyWhWLIa6od8L/LxJmgXCTS6hR5hWd
-         dM0yGJTCZEnCC5gACR1gf0coCzB3dZr3Nnn8YLaN73H3RzkwwOhp2QEIhncbcysXFl
-         JFf03uoZdyY7FKBw7xORc3D5oNtgbsUb4Wz/A3Hpi7qQ3lpY76RALE481k5yaBrsqg
-         gLmkUxeVSNnlA==
-X-Nifty-SrcIP: [133.32.177.133]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org, Josh Poimboeuf <jpoimboe@redhat.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Subject: [PATCH 4/4] kbuild: factor out the common objtool arguments
-Date:   Sun, 29 May 2022 00:47:04 +0900
-Message-Id: <20220528154704.2576290-4-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220528154704.2576290-1-masahiroy@kernel.org>
-References: <20220528154704.2576290-1-masahiroy@kernel.org>
+        Sat, 28 May 2022 18:47:49 -0400
+Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F5DE5BE6F;
+        Sat, 28 May 2022 15:47:48 -0700 (PDT)
+Received: by mail-ot1-x336.google.com with SMTP id t14-20020a9d66ce000000b0060af9ed4b87so5339847otm.9;
+        Sat, 28 May 2022 15:47:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=TKshfHkC5Pvf7ig5EiZ4GmSmW76KnvCWjyhV6RL/CDU=;
+        b=UwshPpQ3sv/eETtkjsspaFEbkyclPdvMYuf8CQ4Sn6hG2bEMM5qxfNc3Pb7jrYWQ4F
+         0fNtNnhxPe0veQ8CPqxyUgnC/l97XfyLlZ497jO8Rx2CHz1gzOssU0HjhlXRsFPhsUZk
+         KBugrFVKBwr6/k9jenpSUTVUilY4zY4OeuxaVZDRNZxi/Hi7651QEuZ7Saju5+RuHNWd
+         qckO+i5aZsUjhbCGOAJPUsQwor+yJpyq3lC4c+kAMk0Krsnldcd1gV1XqDdMJrQHoUKN
+         XKQ8PoSs/5/G7bidV8+wHJ0V4i76l2fBL4rUwR+f1JkHJZHnrmKl21JpeRA8V1Utrv+K
+         PPdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=TKshfHkC5Pvf7ig5EiZ4GmSmW76KnvCWjyhV6RL/CDU=;
+        b=XLYxNlZb2OMSjSC/hjB/HG2B3FunAe5jf2XJxVaEOBlNNzd91pbDZCxjMhj/dn/cKy
+         z61rWEEQpucV2HAlUpe9BQWNRkyNMdjNMXfR/cBUo6G3wp6JtYa+hp+tIjPi3PlIYQ3c
+         BPrNYzAqkXxXkxsxNBp670IFPfsjxxJ8AXXRawkfWArc1X0CF5G3wUxN05vIlszuAtM9
+         CWnv+FtQC9RYmeEQl3brtXZbi7qE0uugkFMEi8zympjWvQ4db5B3h1Lgg8+6vifYPhL3
+         DdZl7lyVFBzPjbTzCWiZUzXBwKTYVAm6a9rTOqWpEVM/B9pbb4dDHCjVePGD+WPEgcUy
+         ozuw==
+X-Gm-Message-State: AOAM530bNjg00BCyL7T3qPeAzQL6FQ+jx2/X3iJ175otIDCiLQTA8Am6
+        eL71iitmYV1EFiEFoFLuzAk=
+X-Google-Smtp-Source: ABdhPJzfxwBZO8/g/x9lRQ5QRk4I7bGfdsN1gA1y2exJEV+YZZXTThQMguwqH9qoNE8Ad3BAzHwvfg==
+X-Received: by 2002:a05:6830:b85:b0:605:4e76:f077 with SMTP id a5-20020a0568300b8500b006054e76f077mr18436775otv.211.1653778067577;
+        Sat, 28 May 2022 15:47:47 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id r33-20020a056870582100b000f169cbbb32sm1865092oap.43.2022.05.28.15.47.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 May 2022 15:47:46 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Sat, 28 May 2022 15:47:45 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-modules@vger.kernel.org, llvm@lists.linux.dev,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>
+Subject: Re: [PATCH v6 01/10] modpost: extract symbol versions from *.cmd
+ files
+Message-ID: <20220528224745.GA2501857@roeck-us.net>
+References: <20220513113930.10488-1-masahiroy@kernel.org>
+ <20220513113930.10488-2-masahiroy@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220513113930.10488-2-masahiroy@kernel.org>
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-scripts/Makefile.build and scripts/link-vmlinux.sh have similar setups
-for the objtool arguments.
+Hi,
 
-It is difficult to factor out them because the vmlinux build rule is
-written in a shell script. It is somewhat tedious to touch the two
-files every time a new objtool option is supported.
+On Fri, May 13, 2022 at 08:39:21PM +0900, Masahiro Yamada wrote:
+> Currently, CONFIG_MODVERSIONS needs extra link to embed the symbol
+> versions into ELF objects. Then, modpost extracts the version CRCs
+> from them.
+> 
+[ ... ]
+> This commit changes modpost to extract CRCs from *.cmd files instead of
+> from ELF objects.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+> Tested-by: Nathan Chancellor <nathan@kernel.org>
+> Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
 
-To reduce the code duplication, implement everything about objtool in
-Makefile.
+This patch results in
 
-Move the objtool for vmlinux.o into scripts/Makefile.vmlinux_o.
+._muldi3_di.o.cmd: No such file or directory
 
-Move the common macros to Makefile.lib so they are shared by
-Makefile.build and Makefile.vmlinux_o.
+when building parisc64:defconfig, and
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+._divsi3.o.cmd: No such file or directory
+
+when building csky:allmodconfig.
+
+Reverting this patch (and the subsequent kbuild patches to avoid
+conflicts) fixes the problem for both architectures. In case it
+helps, the complete build log when rebuilding an image for csky
+is as follows.
+
+#
+# No change to .config
+#
+  HOSTCC  scripts/mod/modpost.o
+  HOSTLD  scripts/mod/modpost
+  CALL    scripts/atomic/check-atomics.sh
+  CALL    scripts/checksyscalls.sh
+  CHK     include/generated/compile.h
+  SO2S    arch/csky/kernel/vdso/vdso-syms.S
+  AS      arch/csky/kernel/vdso/vdso-syms.o
+  AR      arch/csky/kernel/vdso/built-in.a
+  AR      arch/csky/kernel/built-in.a
+  CHK     kernel/kheaders_data.tar.xz
+  GEN     .version
+  CHK     include/generated/compile.h
+  UPD     include/generated/compile.h
+  CC      init/version.o
+  AR      init/built-in.a
+  LD      vmlinux.o
+  MODPOST vmlinux.symvers
+._divsi3.o.cmd: No such file or directory
+make[1]: *** [scripts/Makefile.modpost:59: vmlinux.symvers] Error 1
+make: *** [Makefile:1159: vmlinux] Error 2
+
+This was seen with gcc 11.2 and 11.3.
+
+Guenter
+
 ---
+bisect on mainline:
 
- scripts/Makefile.build     | 26 --------------
- scripts/Makefile.lib       | 26 ++++++++++++++
- scripts/Makefile.vmlinux_o | 26 ++++++++++++++
- scripts/link-vmlinux.sh    | 71 --------------------------------------
- 4 files changed, 52 insertions(+), 97 deletions(-)
+# bad: [9d004b2f4fea97cde123e7f1939b80e77bf2e695] Merge tag 'cxl-for-5.19' of git://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl
+# good: [4b0986a3613c92f4ec1bdc7f60ec66fea135991f] Linux 5.18
+git bisect start 'HEAD' 'v5.18'
+# good: [86c87bea6b42100c67418af690919c44de6ede6e] Merge tag 'devicetree-for-5.19' of git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux
+git bisect good 86c87bea6b42100c67418af690919c44de6ede6e
+# good: [c011dd537ffe47462051930413fed07dbdc80313] Merge tag 'arm-soc-5.19' of git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc
+git bisect good c011dd537ffe47462051930413fed07dbdc80313
+# bad: [df202b452fe6c6d6f1351bad485e2367ef1e644e] Merge tag 'kbuild-v5.19' of git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild
+git bisect bad df202b452fe6c6d6f1351bad485e2367ef1e644e
+# good: [d4dcdc53c492a7b9fa9031cb85e238b21208ada2] Merge tag 'qcom-arm64-for-5.19' of git://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux into arm/dt
+git bisect good d4dcdc53c492a7b9fa9031cb85e238b21208ada2
+# good: [ae862183285cbb2ef9032770d98ffa9becffe9d5] Merge tag 'arm-dt-5.19' of git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc
+git bisect good ae862183285cbb2ef9032770d98ffa9becffe9d5
+# good: [cc3c470ae4ad758b8ddad825ab199f7eaa8b0a9e] Merge tag 'arm-drivers-5.19' of git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc
+git bisect good cc3c470ae4ad758b8ddad825ab199f7eaa8b0a9e
+# good: [ecf0aa5317b0ad6bb015128a5b763c954fd58708] Merge tag 'arm-multiplatform-5.19-1' of git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc
+git bisect good ecf0aa5317b0ad6bb015128a5b763c954fd58708
+# good: [4484054816cab940fc2fde23fa989174fec889d0] modpost: use doubly linked list for dump_lists
+git bisect good 4484054816cab940fc2fde23fa989174fec889d0
+# good: [16477cdfefdb494235a675cc80563d736991d833] Merge tag 'asm-generic-5.19' of git://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic
+git bisect good 16477cdfefdb494235a675cc80563d736991d833
+# good: [a44abaca0e196cfeef2374ed663b97daa1ad112a] modpost: move *.mod.c generation to write_mod_c_files()
+git bisect good a44abaca0e196cfeef2374ed663b97daa1ad112a
+# good: [69c4cc99bbcbf3ef2e1901b569954e9226180840] modpost: add sym_find_with_module() helper
+git bisect good 69c4cc99bbcbf3ef2e1901b569954e9226180840
+# bad: [7b4537199a4a8480b8c3ba37a2d44765ce76cd9b] kbuild: link symbol CRCs at final link, removing CONFIG_MODULE_REL_CRCS
+git bisect bad 7b4537199a4a8480b8c3ba37a2d44765ce76cd9b
+# bad: [f292d875d0dc700b3af0bef04c5abc1dc7b3b62c] modpost: extract symbol versions from *.cmd files
+git bisect bad f292d875d0dc700b3af0bef04c5abc1dc7b3b62c
+# first bad commit: [f292d875d0dc700b3af0bef04c5abc1dc7b3b62c] modpost: extract symbol versions from *.cmd files
 
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 4cb7145071b9..1f01ac65c0cd 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -210,38 +210,12 @@ cmd_record_mcount = $(if $(findstring $(strip $(CC_FLAGS_FTRACE)),$(_c_flags)),
- 	$(sub_cmd_record_mcount))
- endif # CONFIG_FTRACE_MCOUNT_USE_RECORDMCOUNT
- 
--ifdef CONFIG_OBJTOOL
--
--objtool := $(objtree)/tools/objtool/objtool
--
--objtool_args =								\
--	$(if $(CONFIG_HAVE_JUMP_LABEL_HACK), --hacks=jump_label)	\
--	$(if $(CONFIG_HAVE_NOINSTR_HACK), --hacks=noinstr)		\
--	$(if $(CONFIG_X86_KERNEL_IBT), --ibt)				\
--	$(if $(CONFIG_FTRACE_MCOUNT_USE_OBJTOOL), --mcount)		\
--	$(if $(CONFIG_UNWINDER_ORC), --orc)				\
--	$(if $(CONFIG_RETPOLINE), --retpoline)				\
--	$(if $(CONFIG_SLS), --sls)					\
--	$(if $(CONFIG_STACK_VALIDATION), --stackval)			\
--	$(if $(CONFIG_HAVE_STATIC_CALL_INLINE), --static-call)		\
--	--uaccess							\
--	$(if $(delay-objtool), --link)					\
--	$(if $(part-of-module), --module)				\
--	$(if $(CONFIG_GCOV_KERNEL), --no-unreachable)
--
--cmd_objtool = $(if $(objtool-enabled), ; $(objtool) $(objtool_args) $@)
--cmd_gen_objtooldep = $(if $(objtool-enabled), { echo ; echo '$@: $$(wildcard $(objtool))' ; } >> $(dot-target).cmd)
--
--endif # CONFIG_OBJTOOL
--
- # 'OBJECT_FILES_NON_STANDARD := y': skip objtool checking for a directory
- # 'OBJECT_FILES_NON_STANDARD_foo.o := 'y': skip objtool checking for a file
- # 'OBJECT_FILES_NON_STANDARD_foo.o := 'n': override directory skip for a file
- 
- is-standard-object = $(if $(filter-out y%, $(OBJECT_FILES_NON_STANDARD_$(basetarget).o)$(OBJECT_FILES_NON_STANDARD)n),y)
- 
--delay-objtool := $(or $(CONFIG_LTO_CLANG),$(CONFIG_X86_KERNEL_IBT))
--
- $(obj)/%.o: objtool-enabled = $(if $(is-standard-object),$(if $(delay-objtool),$(is-single-obj-m),y))
- 
- ifdef CONFIG_TRIM_UNUSED_KSYMS
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index f75138385449..f691fb231ce5 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -225,6 +225,32 @@ dtc_cpp_flags  = -Wp,-MMD,$(depfile).pre.tmp -nostdinc                    \
- 		 $(addprefix -I,$(DTC_INCLUDE))                          \
- 		 -undef -D__DTS__
- 
-+ifdef CONFIG_OBJTOOL
-+
-+objtool := $(objtree)/tools/objtool/objtool
-+
-+objtool_args =								\
-+	$(if $(CONFIG_HAVE_JUMP_LABEL_HACK), --hacks=jump_label)	\
-+	$(if $(CONFIG_HAVE_NOINSTR_HACK), --hacks=noinstr)		\
-+	$(if $(CONFIG_X86_KERNEL_IBT), --ibt)				\
-+	$(if $(CONFIG_FTRACE_MCOUNT_USE_OBJTOOL), --mcount)		\
-+	$(if $(CONFIG_UNWINDER_ORC), --orc)				\
-+	$(if $(CONFIG_RETPOLINE), --retpoline)				\
-+	$(if $(CONFIG_SLS), --sls)					\
-+	$(if $(CONFIG_STACK_VALIDATION), --stackval)			\
-+	$(if $(CONFIG_HAVE_STATIC_CALL_INLINE), --static-call)		\
-+	--uaccess							\
-+	$(if $(delay-objtool), --link)					\
-+	$(if $(part-of-module), --module)				\
-+	$(if $(CONFIG_GCOV_KERNEL), --no-unreachable)
-+
-+delay-objtool := $(or $(CONFIG_LTO_CLANG),$(CONFIG_X86_KERNEL_IBT))
-+
-+cmd_objtool = $(if $(objtool-enabled), ; $(objtool) $(objtool_args) $@)
-+cmd_gen_objtooldep = $(if $(objtool-enabled), { echo ; echo '$@: $$(wildcard $(objtool))' ; } >> $(dot-target).cmd)
-+
-+endif # CONFIG_OBJTOOL
-+
- # Useful for describing the dependency of composite objects
- # Usage:
- #   $(call multi_depend, multi_used_targets, suffix_to_remove, suffix_to_add)
-diff --git a/scripts/Makefile.vmlinux_o b/scripts/Makefile.vmlinux_o
-index a9b375ca86d5..3c97a1564947 100644
---- a/scripts/Makefile.vmlinux_o
-+++ b/scripts/Makefile.vmlinux_o
-@@ -6,6 +6,9 @@ __default: vmlinux.o
- include include/config/auto.conf
- include $(srctree)/scripts/Kbuild.include
- 
-+# for objtool
-+include $(srctree)/scripts/Makefile.lib
-+
- # Generate a linker script to ensure correct ordering of initcalls for Clang LTO
- # ---------------------------------------------------------------------------
- 
-@@ -24,6 +27,27 @@ ifdef CONFIG_LTO_CLANG
- initcalls-lds := .tmp_initcalls.lds
- endif
- 
-+# objtool for vmlinux.o
-+# ---------------------------------------------------------------------------
-+#
-+# For LTO and IBT, objtool doesn't run on individual translation units.
-+# Run everything on vmlinux instead.
-+
-+objtool-enabled := $(or $(delay-objtool),$(CONFIG_NOINSTR_VALIDATION))
-+
-+# Reuse objtool_args defined in scripts/Makefile.lib if LTO or IBT is enabled.
-+#
-+# Add some more flags as needed.
-+# --no-unreachable and --link might be added twice, but it is fine.
-+#
-+# Expand objtool_args to a simple variable to avoid circular reference.
-+
-+objtool_args := \
-+	$(if $(delay-objtool),$(objtool_args)) \
-+	$(if $(CONFIG_NOINSTR_VALIDATION), --noinstr) \
-+	$(if $(CONFIG_GCOV_KERNEL), --no-unreachable) \
-+	--link
-+
- # Link of vmlinux.o used for section mismatch analysis
- # ---------------------------------------------------------------------------
- 
-@@ -33,9 +57,11 @@ quiet_cmd_ld_vmlinux.o = LD      $@
- 	$(addprefix -T , $(initcalls-lds)) \
- 	--whole-archive $(KBUILD_VMLINUX_OBJS) --no-whole-archive \
- 	--start-group $(KBUILD_VMLINUX_LIBS) --end-group \
-+	$(cmd_objtool)
- 
- define rule_ld_vmlinux.o
- 	$(call cmd_and_savecmd,ld_vmlinux.o)
-+	$(call cmd,gen_objtooldep)
- endef
- 
- vmlinux.o: $(initcalls-lds) $(KBUILD_VMLINUX_OBJS) $(KBUILD_VMLINUX_LIBS) FORCE
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index 90680b6bd710..1ac4e180fa3f 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -45,76 +45,6 @@ info()
- 	printf "  %-7s %s\n" "${1}" "${2}"
- }
- 
--objtool_link()
--{
--	local objtoolcmd;
--	local objtoolopt;
--
--	if ! is_enabled CONFIG_OBJTOOL; then
--		return;
--	fi
--
--	if is_enabled CONFIG_LTO_CLANG || is_enabled CONFIG_X86_KERNEL_IBT; then
--
--		# For LTO and IBT, objtool doesn't run on individual
--		# translation units.  Run everything on vmlinux instead.
--
--		if is_enabled CONFIG_HAVE_JUMP_LABEL_HACK; then
--			objtoolopt="${objtoolopt} --hacks=jump_label"
--		fi
--
--		if is_enabled CONFIG_HAVE_NOINSTR_HACK; then
--			objtoolopt="${objtoolopt} --hacks=noinstr"
--		fi
--
--		if is_enabled CONFIG_X86_KERNEL_IBT; then
--			objtoolopt="${objtoolopt} --ibt"
--		fi
--
--		if is_enabled CONFIG_FTRACE_MCOUNT_USE_OBJTOOL; then
--			objtoolopt="${objtoolopt} --mcount"
--		fi
--
--		if is_enabled CONFIG_UNWINDER_ORC; then
--			objtoolopt="${objtoolopt} --orc"
--		fi
--
--		if is_enabled CONFIG_RETPOLINE; then
--			objtoolopt="${objtoolopt} --retpoline"
--		fi
--
--		if is_enabled CONFIG_SLS; then
--			objtoolopt="${objtoolopt} --sls"
--		fi
--
--		if is_enabled CONFIG_STACK_VALIDATION; then
--			objtoolopt="${objtoolopt} --stackval"
--		fi
--
--		if is_enabled CONFIG_HAVE_STATIC_CALL_INLINE; then
--			objtoolopt="${objtoolopt} --static-call"
--		fi
--
--		objtoolopt="${objtoolopt} --uaccess"
--	fi
--
--	if is_enabled CONFIG_NOINSTR_VALIDATION; then
--		objtoolopt="${objtoolopt} --noinstr"
--	fi
--
--	if [ -n "${objtoolopt}" ]; then
--
--		if is_enabled CONFIG_GCOV_KERNEL; then
--			objtoolopt="${objtoolopt} --no-unreachable"
--		fi
--
--		objtoolopt="${objtoolopt} --link"
--
--		info OBJTOOL ${1}
--		tools/objtool/objtool ${objtoolopt} ${1}
--	fi
--}
--
- # Link of vmlinux
- # ${1} - output file
- # ${2}, ${3}, ... - optional extra .o files
-@@ -298,7 +228,6 @@ ${MAKE} -f "${srctree}/scripts/Makefile.build" obj=init need-builtin=1
- 
- #link vmlinux.o
- ${MAKE} -f "${srctree}/scripts/Makefile.vmlinux_o"
--objtool_link vmlinux.o
- 
- # Generate the list of objects in vmlinux
- for f in ${KBUILD_VMLINUX_OBJS} ${KBUILD_VMLINUX_LIBS}; do
--- 
-2.32.0
+---
+bisect on kbuild-5.19:
 
+# bad: [5ce2176b81f77366bd02c27509b83049f0020544] genksyms: adjust the output format to modpost
+# good: [3123109284176b1532874591f7c81f3837bbdc17] Linux 5.18-rc1
+git bisect start 'HEAD' 'v5.18-rc1'
+# good: [70ddb48db4aaddd3c2a7d8802463e15b21ce8525] modpost: move struct namespace_list to modpost.c
+git bisect good 70ddb48db4aaddd3c2a7d8802463e15b21ce8525
+# good: [e76cc48d8e6df5d949284132981db73d2dd8c6b5] modpost: make sym_add_exported() always allocate a new symbol
+git bisect good e76cc48d8e6df5d949284132981db73d2dd8c6b5
+# good: [78e9e56af3858bf2c52c065daa6c8bee0d72048c] kbuild: record symbol versions in *.cmd files
+git bisect good 78e9e56af3858bf2c52c065daa6c8bee0d72048c
+# good: [69c4cc99bbcbf3ef2e1901b569954e9226180840] modpost: add sym_find_with_module() helper
+git bisect good 69c4cc99bbcbf3ef2e1901b569954e9226180840
+# bad: [7b4537199a4a8480b8c3ba37a2d44765ce76cd9b] kbuild: link symbol CRCs at final link, removing CONFIG_MODULE_REL_CRCS
+git bisect bad 7b4537199a4a8480b8c3ba37a2d44765ce76cd9b
+# bad: [f292d875d0dc700b3af0bef04c5abc1dc7b3b62c] modpost: extract symbol versions from *.cmd files
+git bisect bad f292d875d0dc700b3af0bef04c5abc1dc7b3b62c
+# first bad commit: [f292d875d0dc700b3af0bef04c5abc1dc7b3b62c] modpost: extract symbol versions from *.cmd files
