@@ -2,137 +2,117 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DA80537005
-	for <lists+linux-kbuild@lfdr.de>; Sun, 29 May 2022 08:33:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3120B53715E
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 May 2022 16:38:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229559AbiE2GdM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 29 May 2022 02:33:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53862 "EHLO
+        id S230171AbiE2Oi1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 29 May 2022 10:38:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbiE2GdM (ORCPT
+        with ESMTP id S229934AbiE2Oi0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 29 May 2022 02:33:12 -0400
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA44E939EC;
-        Sat, 28 May 2022 23:33:10 -0700 (PDT)
-Received: by mail-oi1-x231.google.com with SMTP id t144so10490774oie.7;
-        Sat, 28 May 2022 23:33:10 -0700 (PDT)
+        Sun, 29 May 2022 10:38:26 -0400
+Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE2BE71D9B;
+        Sun, 29 May 2022 07:38:23 -0700 (PDT)
+Received: by mail-il1-x12f.google.com with SMTP id v7so427762ilo.3;
+        Sun, 29 May 2022 07:38:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=wCcFMFR31NBokalaM7jIaRNzVLN7MLT7I/IimszoCVU=;
-        b=Xs5+4zNHWV1wHaqtc329Ptc1CPSkfOiOFmq5USV/njSzqoi0sPjOUPKFhOEHAKqAdf
-         IQGb534cZm1ZR9Z68THwySAXMM2m5hUfU40tnEeNK+VcI9jOv/s4RfBxF99ZFyhiGxva
-         0mkdtVdbD+LzRakApD8IhCN4/yrrySQFSU4Yl3dDcvKb2JUwHZg8hK9ZavCWGjKc1Ibu
-         R3O9wEjsmIrFIlDkvmvgxPSZbCeBoqYhPT+8kPVP81yvXLHwGQrrmPL48xct+NWwyJ2C
-         iDFF3ZpMo2mnjZB+r3SSV1xQQBT7iJjx1ONGOMYV5zm3j0sBiTYieQBC6jIxws6KWeTn
-         3veg==
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=ozCrCopKbo0DwEv7Yq/GTtQoqagjPnE8s0vgVexVARc=;
+        b=pddeSOe2cKDs8JAIM8Ezki/L3cd6b0YhLNXlDW7fde5co0nAIW8j2AWc1mFAA0q8H4
+         5BGrXeCFdEH3SXnWPFsrctil6SCAXRHwegINozXORJltcGeyFC51BvrZ6qSq751Yy+SJ
+         c1xyQTpMbCDUitzxOFVGppJK7bB2PvGGfGbSAeXDJL9GE9yiDfFdI6KZUSSNpDfWRy3S
+         ijhIeyLLDgpkxMRwZd1gRCa7CLxAANs4vbI2pEhOg/fCPpbGsgkvFV8wpCc2wqav40go
+         03DccMplDmjbGsXHMk8cMjwqnD0hhC4/KmEXS0onE5rPbwe6rqRwyFCEG8GNHfDNmB+b
+         AnpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=wCcFMFR31NBokalaM7jIaRNzVLN7MLT7I/IimszoCVU=;
-        b=BY93TkJnXk8qbKktRil0Tv6VXRDOzUsr5jO+JFKnqjWLXXkpA9Dv/yXURvgqlloBuP
-         HDypyQcOmD9398b/oeNZ2YOeFD/XxNyChGkI+4iv+/rwViwrym9exrc6iPyiyg+ltpAQ
-         r9DkG1rMXgYTUao96jheosgogBS2PP5xNCYqMVnGa7RRHOZqHZyXaG4E3H3AFPdFxLlg
-         ypiN85oGxgcp7W6DXP9nD2U0Syl+wuD7JZloeOTpmBfcVfUoOz/EPsiWeuxvIvr/cHWa
-         J+weV7eVeqp0VUGDWADwY7SVs16RKwmrutn6taybatqWvBYUCPEmrjn9zsmqSw/fiLya
-         akrw==
-X-Gm-Message-State: AOAM533xd+roLi/ILkyqwMFiHnNokF1UxADiTkC0idyiQguPdIFObi8w
-        2n339jSLFnU35jm+qe8VlR4=
-X-Google-Smtp-Source: ABdhPJwtskMurg5hTIh9/T1r1LMa/L2/1CeRajTfPhgZnOmqelUXvhQw4A1L8IYCxSqz/d0u6yIV7A==
-X-Received: by 2002:a05:6808:344:b0:32a:f6d8:82cc with SMTP id j4-20020a056808034400b0032af6d882ccmr7477989oie.200.1653805990222;
-        Sat, 28 May 2022 23:33:10 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id w62-20020a9d3644000000b0060603221276sm3646163otb.70.2022.05.28.23.33.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 28 May 2022 23:33:09 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <5bcf1c62-80ac-4523-6e2f-b4b788909a26@roeck-us.net>
-Date:   Sat, 28 May 2022 23:33:07 -0700
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=ozCrCopKbo0DwEv7Yq/GTtQoqagjPnE8s0vgVexVARc=;
+        b=YK54j5OfS4B1HIQNbXWE5aRlt1LxC1XTfVO8Cpb90nZ9bjpNymn/scqe86PfUimC0l
+         v9yRq9IoGhBvXLtlQoPHhWDNL/xJpZIoyz7oJ5hDInNU/xI5TGTAt7MbjqpzDK+fTDpv
+         kTVEbu9RK9ubMKszrrdS4MfqQ4cNvpwTZUR2Nyu/EtoY9NFdvEpIBBcmy+F763HVKpbY
+         /OEKwNz8bExwzrH+yzjndfYP3+P+AWkfZ2Yz/4DEIMLu1VOhjE+fNRyt/3KjjN+AZ9hh
+         UR+H3odB5UogcdJxsFF65Si4CG/ue7QPIw6uRDF9jB4jrmfxSwsSI8nCOQBKXlMOIhzI
+         x3OQ==
+X-Gm-Message-State: AOAM531oCSLEVW8HcrqeKNA/jscLYagQgEoQ7M4iBT5Kot4elQYf86m4
+        0lG0pjzXWKisn6s3ka5S+6NtRP5Rubkq/aGEjeDzvBPZ6S3qTw==
+X-Google-Smtp-Source: ABdhPJymjW6pU80AWWjDWF5+oslAfWwSZYf/wRQde7Ls4AOkJRfjXGdjSx03QVYwpol3YBcnmV3kkS+Tt4mIYpKxzbg=
+X-Received: by 2002:a92:6811:0:b0:2cd:994d:7406 with SMTP id
+ d17-20020a926811000000b002cd994d7406mr24939917ilc.245.1653835103129; Sun, 29
+ May 2022 07:38:23 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] kbuild: ignore *.cmd files for objects that come from
- libgcc.a
-Content-Language: en-US
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Guo Ren <guoren@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
+References: <20220528154704.2576290-1-masahiroy@kernel.org>
+In-Reply-To: <20220528154704.2576290-1-masahiroy@kernel.org>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Sun, 29 May 2022 16:37:47 +0200
+Message-ID: <CA+icZUU7zUCD=xrrYLQyKkDMC-Fj-PFcmHbTiPU8ytOpYq8ZDw@mail.gmail.com>
+Subject: Re: [PATCH 1/4] kbuild: remove redundant cleanups in scripts/link-vmlinux.sh
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        linux-csky@vger.kernel.org
-References: <20220529042318.2630379-1-masahiroy@kernel.org>
-From:   Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <20220529042318.2630379-1-masahiroy@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        linux-kernel@vger.kernel.org, Josh Poimboeuf <jpoimboe@redhat.com>,
+        Michal Marek <michal.lkml@markovi.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 5/28/22 21:23, Masahiro Yamada wrote:
-> Guenter Roeck reported the build breakage for parisc and csky.
-> I confirmed nios2 and openrisc are broken as well.
-> 
-> The reason is that they borrow libgcc.a from the toolchains.
-> 
-> For example, see this line in arch/parisc/Makefile:
-> 
->      LIBGCC          := $(shell $(CC) -print-libgcc-file-name)
-> 
-> Some objects in libgcc.a are linked to vmlinux.o, but they do not have
-> .*.cmd files.
-> 
-> Obviously, there is no EXPORT_SYMBOL in external objects. Ignore them.
-> 
-> (Most of the architectures import library code into the kernel tree.
-> Perhaps those 4 architectures can do similar, but I am not sure.)
-> 
-> Fixes: f292d875d0dc ("modpost: extract symbol versions from *.cmd files")
-> Link: https://lore.kernel.org/linux-kbuild/20220528224745.GA2501857@roeck-us.net/T/#mac65c20c71c3e272db0350ecfba53fcd8905b0a0
-> Reported-by: Guenter Roeck <linux@roeck-us.net>
+On Sat, May 28, 2022 at 10:20 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> These are cleaned by the top Makefile.
+>
+> vmlinux.o and .vmlinux.d matches the '*.[aios]' and '.*.d' patterns
+> respectively.
+>
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Tested-by: Guenter Roeck <linux@roeck-us.net>
+I applied this patchset on top of yesterday's kbuild.git#for-next
+(today's did not fit due to "kbuild: do not try to parse *.cmd files
+for objects provided by compiler").
+
+Might be related to this patchset or not:
+
+$ LC_ALL=C ll .*vmlinux*export*
+-rw-r--r-- 1 dileks dileks 4.2K May 29 15:11 ..vmlinux.export.o.cmd
+-rw-r--r-- 1 dileks dileks 508K May 29 15:11 .vmlinux.export.c
+-rw-r--r-- 1 dileks dileks 2.6M May 29 15:11 .vmlinux.export.o
+
+You see the leading double-dot for ..vmlinux.export.o.cmd - intended or not?
+
+Tested-by: Sedat Dilek <sedat.dilek@gmail.com> # LLVM-14 (x86-64)
+
+-Sedat-
 
 > ---
-> 
->   scripts/link-vmlinux.sh | 9 ++++++++-
->   1 file changed, 8 insertions(+), 1 deletion(-)
-> 
+>
+>  scripts/link-vmlinux.sh | 2 --
+>  1 file changed, 2 deletions(-)
+>
 > diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> index a7f6196c7e41..68e4be463a76 100755
+> index a7f6196c7e41..844fc0125d72 100755
 > --- a/scripts/link-vmlinux.sh
 > +++ b/scripts/link-vmlinux.sh
-> @@ -344,9 +344,16 @@ ${MAKE} -f "${srctree}/scripts/Makefile.build" obj=init need-builtin=1
->   modpost_link vmlinux.o
->   objtool_link vmlinux.o
->   
-> -# Generate the list of objects in vmlinux
-> +# Generate the list of in-tree objects in vmlinux
-> +#
-> +# This is used to retrieve symbol versions generated by genksyms.
->   for f in ${KBUILD_VMLINUX_OBJS} ${KBUILD_VMLINUX_LIBS}; do
->   	case ${f} in
-> +	*libgcc.a)
-> +		# Some architectures do '$(CC) --print-libgcc-file-name' to
-> +		# borrow libgcc.a from the toolchain.
-> +		# There is no EXPORT_SYMBOL in external objects. Ignore this.
-> +		;;
->   	*.a)
->   		${AR} t ${f} ;;
->   	*)
-
+> @@ -309,8 +309,6 @@ cleanup()
+>         rm -f System.map
+>         rm -f vmlinux
+>         rm -f vmlinux.map
+> -       rm -f vmlinux.o
+> -       rm -f .vmlinux.d
+>         rm -f .vmlinux.objs
+>         rm -f .vmlinux.export.c
+>  }
+> --
+> 2.32.0
+>
