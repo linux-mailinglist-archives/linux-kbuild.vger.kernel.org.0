@@ -2,166 +2,223 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 129585371ED
-	for <lists+linux-kbuild@lfdr.de>; Sun, 29 May 2022 19:36:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 382A05372B1
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 May 2022 23:20:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231433AbiE2Rg2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 29 May 2022 13:36:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53882 "EHLO
+        id S231831AbiE2VUp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 29 May 2022 17:20:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231364AbiE2RgT (ORCPT
+        with ESMTP id S230326AbiE2VUo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 29 May 2022 13:36:19 -0400
-Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9546D120A9;
-        Sun, 29 May 2022 10:36:17 -0700 (PDT)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 24THZkSf020994;
-        Mon, 30 May 2022 02:35:47 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 24THZkSf020994
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1653845747;
-        bh=6jtSUhM9gFvzm+M4ODWXtbbHHwBS+n0OxXQnbf3F4DU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=pdflkjSchFx34tlC3pHNAlrT2DBoEfq22Uq5I0Z3pKXEyiFqd2R8IAOEtvFXur9U9
-         pve1cdO+Ulk1QEgIlhXXN4Pt2vD3gjznQPowq2cWlNllWf9Av33S0CFVWsZfd4HEhW
-         qV6fAwiQuTpaneOKp2teNh+M3KSgym/U41XIOHeJLo8m4jZp/+aNldE81KqqqjcoME
-         oQWV36wMYp0WAVg768tSAHKd9lO9QSVFC6suMLY+aGYTwJndWLjCKG2xAtOkI+6KTS
-         13CdaYuxyu1ePwZ/b2RoKaJ27i6gIAzLIS+DsUI4ACUcnblWyRDtFWt629VbBUs646
-         a6V8ocBJV+3Pw==
-X-Nifty-SrcIP: [209.85.216.47]
-Received: by mail-pj1-f47.google.com with SMTP id l7-20020a17090aaa8700b001dd1a5b9965so8634374pjq.2;
-        Sun, 29 May 2022 10:35:46 -0700 (PDT)
-X-Gm-Message-State: AOAM530MaUz9ALf61Rcy+hLFNVYr4S0uUKdCxqWJP8ZGN11UqixfJma2
-        Gu6ql5SLQ/hWc/h+IVk3zTYmk8tKBPxiN2U9kKY=
-X-Google-Smtp-Source: ABdhPJzE7BUsmkMsPwC7OB7jGXNPDK1TSjoFiiL4b153MIvt4tvaWlhMlTuaGEWZ8hsyyKmV0CQGDZhPmFYOGeQSqNQ=
-X-Received: by 2002:a17:90b:1d83:b0:1e2:f63e:bc37 with SMTP id
- pf3-20020a17090b1d8300b001e2f63ebc37mr2094884pjb.119.1653845746174; Sun, 29
- May 2022 10:35:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220528154704.2576290-1-masahiroy@kernel.org>
- <20220528154704.2576290-4-masahiroy@kernel.org> <CA+icZUWkOrWYSY3ixxfF=vsuq1xw3mU+p3NMqBpY0OpM02916g@mail.gmail.com>
-In-Reply-To: <CA+icZUWkOrWYSY3ixxfF=vsuq1xw3mU+p3NMqBpY0OpM02916g@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 30 May 2022 02:34:20 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATwgT-FQ99Ex6MOc+rYEe7tc8ffoF-5e12jfbeaEM1vhw@mail.gmail.com>
-Message-ID: <CAK7LNATwgT-FQ99Ex6MOc+rYEe7tc8ffoF-5e12jfbeaEM1vhw@mail.gmail.com>
-Subject: Re: [PATCH 4/4] kbuild: factor out the common objtool arguments
-To:     Sedat Dilek <sedat.dilek@gmail.com>
+        Sun, 29 May 2022 17:20:44 -0400
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C7392CDF4;
+        Sun, 29 May 2022 14:20:43 -0700 (PDT)
+Received: by mail-qv1-xf36.google.com with SMTP id l1so8805096qvh.1;
+        Sun, 29 May 2022 14:20:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Jx+weakhReTpBiyhpJMmr0fal0LRVyBY1kBAbquoL8I=;
+        b=NR2lcqPICYi6a/ghlAaeu7f+fJNQildSlq6WQjlH0j2zdtMWIgvQDiZgwIG6ykc6Ro
+         tktJh8E9RJM9iIizWnKbuwoIuZCFelc9PwFBPWc2Vg25Z+l7J0F0eUaR1Tw0Yd4kxFJp
+         5n+F/jXm8PP98dxIte+YXGKT5eFyeBhdjnYIFiB6gezIYt7f2GMAZxZ0HRm+hT985zEK
+         wEuMnxLH/f+T+zzlGXUumcv57fcU5frdOND3VctNAyLL6Oanx9aOKpHB43yOTAd91w48
+         gCsE9jwX1ZhlKC5G+f0wuxqVzmPvPOF1HTXYWXk5OEi8VaXv29uhX50Tpt6ocf64QeKc
+         KhUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Jx+weakhReTpBiyhpJMmr0fal0LRVyBY1kBAbquoL8I=;
+        b=mVG8E4bWS2MqwYcgw3572XpSPMQ4fz0VBlrcgJK2oIKmwXXe2h4w3XfjPBaf8BzbhM
+         gs2LocPaVjGa8VXb8rwx4iSlDUh0BHlH4ob1s1uevpTaqgEQu0D7Wt/FigJTyw8PMtK3
+         86P+Amj0Mom0J7Wh1jmR5urRrw2g2siLoTZ70vh0uw3QkLbGb/kyZe+UXo9AYcUG8bS7
+         H4n7k77yeaCEw2b34VFOvUfa81bwci7n+RlVpZQLZbe12GKd/dpI6uviyzu+YWjR4l6u
+         HthO/n06YoDZqtFD5jIt53ciNE5ao58VQ+Kv5ZWZvs3nAhtHV+4bTOqrhzyJ65Czkzdn
+         ZWrQ==
+X-Gm-Message-State: AOAM530SfT2o4BF+aLThanqCX3lmSDjAM5jMs0lg36qljW5VQiLw9utx
+        9+hw2MeqVvkz6AddBcfPgd0=
+X-Google-Smtp-Source: ABdhPJwZJreQ+7Cv5dNnc7fZVvv4kOWOtmfezRij1nv08ZXpS6fqq7AHopyxCMblzo2uex6BwPdh/Q==
+X-Received: by 2002:a05:6214:627:b0:461:f1be:50d9 with SMTP id a7-20020a056214062700b00461f1be50d9mr42790694qvx.40.1653859242613;
+        Sun, 29 May 2022 14:20:42 -0700 (PDT)
+Received: from shaak (modemcable055.92-163-184.mc.videotron.ca. [184.163.92.55])
+        by smtp.gmail.com with ESMTPSA id u126-20020ae9d884000000b006a35ac236c4sm6615470qkf.113.2022.05.29.14.20.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 May 2022 14:20:42 -0700 (PDT)
+Date:   Sun, 29 May 2022 17:20:40 -0400
+From:   Liam Beguin <liambeguin@gmail.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Michal Marek <michal.lkml@markovi.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Masahiro Yamada <masahiroy@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-iio@vger.kernel.org, Peter Rosin <peda@axentia.se>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>
+Subject: Re: kbuild problem: ERROR: modpost: missing MODULE_LICENSE() in
+ drivers/iio/afe/iio-rescale.o
+Message-ID: <YpPjqC+kVLIBpNlq@shaak>
+References: <18500f18-9cd5-a81c-4a55-14e999ed4496@infradead.org>
+ <3ae306e0-c6c7-ed12-cacd-62b1c26dba3c@infradead.org>
+ <6671de03-c09c-bfaf-e06c-e45af70d4354@infradead.org>
+ <6601a387-de9a-a0d0-11b5-01e0cfa75657@infradead.org>
+ <7a97bac3-6ade-8e1b-cf0c-4a05c83163a3@infradead.org>
+ <Yo+lHSmeIsx144cv@shaak>
+ <3b7ec693-f4a5-e1aa-3e07-b22a4008d4c9@infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3b7ec693-f4a5-e1aa-3e07-b22a4008d4c9@infradead.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, May 29, 2022 at 11:47 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
->
-> On Sat, May 28, 2022 at 9:45 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > scripts/Makefile.build and scripts/link-vmlinux.sh have similar setups
-> > for the objtool arguments.
-> >
-> > It is difficult to factor out them because the vmlinux build rule is
-> > written in a shell script. It is somewhat tedious to touch the two
-> > files every time a new objtool option is supported.
-> >
-> > To reduce the code duplication, implement everything about objtool in
-> > Makefile.
-> >
-> > Move the objtool for vmlinux.o into scripts/Makefile.vmlinux_o.
-> >
-> > Move the common macros to Makefile.lib so they are shared by
-> > Makefile.build and Makefile.vmlinux_o.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->
-> With some comments (see below).
->
-> Tested-by: Sedat Dilek <sedat.dilek@gmail.com> # LLVM-14 (x86-64)
->
-> -Sedat-
->
-> > ---
-> >
-> >  scripts/Makefile.build     | 26 --------------
-> >  scripts/Makefile.lib       | 26 ++++++++++++++
-> >  scripts/Makefile.vmlinux_o | 26 ++++++++++++++
-> >  scripts/link-vmlinux.sh    | 71 --------------------------------------
-> >  4 files changed, 52 insertions(+), 97 deletions(-)
-> >
-> > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> > index 4cb7145071b9..1f01ac65c0cd 100644
-> > --- a/scripts/Makefile.build
-> > +++ b/scripts/Makefile.build
-> > @@ -210,38 +210,12 @@ cmd_record_mcount = $(if $(findstring $(strip $(CC_FLAGS_FTRACE)),$(_c_flags)),
-> >         $(sub_cmd_record_mcount))
-> >  endif # CONFIG_FTRACE_MCOUNT_USE_RECORDMCOUNT
-> >
-> > -ifdef CONFIG_OBJTOOL
-> > -
-> > -objtool := $(objtree)/tools/objtool/objtool
-> > -
-> > -objtool_args =                                                         \
-> > -       $(if $(CONFIG_HAVE_JUMP_LABEL_HACK), --hacks=jump_label)        \
-> > -       $(if $(CONFIG_HAVE_NOINSTR_HACK), --hacks=noinstr)              \
-> > -       $(if $(CONFIG_X86_KERNEL_IBT), --ibt)                           \
-> > -       $(if $(CONFIG_FTRACE_MCOUNT_USE_OBJTOOL), --mcount)             \
-> > -       $(if $(CONFIG_UNWINDER_ORC), --orc)                             \
-> > -       $(if $(CONFIG_RETPOLINE), --retpoline)                          \
-> > -       $(if $(CONFIG_SLS), --sls)                                      \
-> > -       $(if $(CONFIG_STACK_VALIDATION), --stackval)                    \
-> > -       $(if $(CONFIG_HAVE_STATIC_CALL_INLINE), --static-call)          \
-> > -       --uaccess                                                       \
-> > -       $(if $(delay-objtool), --link)                                  \
-> > -       $(if $(part-of-module), --module)                               \
-> > -       $(if $(CONFIG_GCOV_KERNEL), --no-unreachable)
-> > -
-> > -cmd_objtool = $(if $(objtool-enabled), ; $(objtool) $(objtool_args) $@)
-> > -cmd_gen_objtooldep = $(if $(objtool-enabled), { echo ; echo '$@: $$(wildcard $(objtool))' ; } >> $(dot-target).cmd)
-> > -
-> > -endif # CONFIG_OBJTOOL
-> > -
-> >  # 'OBJECT_FILES_NON_STANDARD := y': skip objtool checking for a directory
-> >  # 'OBJECT_FILES_NON_STANDARD_foo.o := 'y': skip objtool checking for a file
-> >  # 'OBJECT_FILES_NON_STANDARD_foo.o := 'n': override directory skip for a file
-> >
->
-> ^^ What is with this block?
-> If this belongs together with objtool - shall this be moved, too?
+Hi Randy,
 
-No.
-These are unneeded for vmlinux.o
+On Thu, May 26, 2022 at 01:04:41PM -0700, Randy Dunlap wrote:
+> 
+> 
+> On 5/26/22 09:04, Liam Beguin wrote:
+> > Hi Randy,
+> > 
+> > On Thu, May 26, 2022 at 08:36:34AM -0700, Randy Dunlap wrote:
+> >> Liam:
+> >>
+> >> Any comment on this?
+> >> Otherwise I'll just send a formal patch like this (below).
+> > 
+> > Apologies for not answering earlier.
+> > 
+> > I wanted to look more into Masahiro's comment and try to fix the
+> > Makefile, but that can be done after.
+> > 
+> > IMO your patch improves the current Kconfig, so I'd recommend sending
+> > the patch. If it can wait a bit, I can look at the Makefile over the
+> > weekend.
+> > 
+> 
+> Liam,
+> 
+> I'll wait until next week to see if you come up with anything.
+> 
 
+The following patch fixes the issue while addressing Masahiro's comment.
+I also considered `select IIO_RESCALE`, but I'm not sure what's usually
+preferred.
 
+diff --git a/drivers/iio/test/Kconfig b/drivers/iio/test/Kconfig
+index 56ca0ad7e77a..4c66c3f18c34 100644
+--- a/drivers/iio/test/Kconfig
++++ b/drivers/iio/test/Kconfig
+@@ -6,7 +6,7 @@
+ # Keep in alphabetical order
+ config IIO_RESCALE_KUNIT_TEST
+ 	bool "Test IIO rescale conversion functions"
+-	depends on KUNIT=y && !IIO_RESCALE
++	depends on KUNIT=y && IIO_RESCALE=y
+ 	default KUNIT_ALL_TESTS
+ 	help
+ 	  If you want to run tests on the iio-rescale code say Y here.
+diff --git a/drivers/iio/test/Makefile b/drivers/iio/test/Makefile
+index f15ae0a6394f..880360f8d02c 100644
+--- a/drivers/iio/test/Makefile
++++ b/drivers/iio/test/Makefile
+@@ -4,6 +4,6 @@
+ #
+ 
+ # Keep in alphabetical order
+-obj-$(CONFIG_IIO_RESCALE_KUNIT_TEST) += iio-test-rescale.o ../afe/iio-rescale.o
++obj-$(CONFIG_IIO_RESCALE_KUNIT_TEST) += iio-test-rescale.o
+ obj-$(CONFIG_IIO_TEST_FORMAT) += iio-test-format.o
+ CFLAGS_iio-test-format.o += $(DISABLE_STRUCTLEAK_PLUGIN)
 
-> > -       fi
-> > -}
-> > -
-> >  # Link of vmlinux
-> >  # ${1} - output file
-> >  # ${2}, ${3}, ... - optional extra .o files
-> > @@ -298,7 +228,6 @@ ${MAKE} -f "${srctree}/scripts/Makefile.build" obj=init need-builtin=1
-> >
-> >  #link vmlinux.o
->
-> ^^ While you are at it, change the comment to "# Link of vmlinux.o".
+I'll send a patch as soon as you confirm this works for you too.
 
+Cheers,
+Liam
 
-In my plan, this code will be gone sooner or later.
-
-It would be a noise.
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+> 
+> > 
+> >>
+> >> Thanks.
+> >>
+> >> On 5/20/22 20:51, Randy Dunlap wrote:
+> >>> Ok, one more.
+> >>> [also adding Liam here]
+> >>>
+> >>> On 5/20/22 20:17, Randy Dunlap wrote:
+> >>>>
+> >>>>
+> >>>> On 5/20/22 20:08, Randy Dunlap wrote:
+> >>>>>
+> >>>>>
+> >>>>> On 5/20/22 19:40, Randy Dunlap wrote:
+> >>>>>> Hi,
+> >>>>>>
+> >>>>>> In March I reported that a randconfig build complained:
+> >>>>>>
+> >>>>>> ERROR: modpost: missing MODULE_LICENSE() in drivers/iio/afe/iio-rescale.o
+> >>>>>>
+> >>>>>> (https://lore.kernel.org/all/16509fb6-e40c-e31b-2c80-264c44b0beb9@infradead.org/)
+> >>>>>>
+> >>>>>> I am still seeing this problem so I tried to dig into it a bit.
+> >>>>>> However, I don't see why get_next_modinfo() and friends don't find the
+> >>>>>> MODULE_LICENSE() since it is in the iio-rescale.o file.
+> >>>>>>
+> >>>>>> (BTW, I see this build error on many different $ARCH [around 15 tested]
+> >>>>>> and with 2 different versions of GCC.)
+> >>>>>>
+> >>>>>> Q1: Is modpost checking both vmlinux and iio-rescale.o for modinfo license
+> >>>>>> strings?
+> >>>>>>
+> >>>>>> It looks like it is, because it appears (?) that modpost is looking at
+> >>>>>> drivers/iio/test/iio-test-rescale.o (<<<<< a kunit test, which is builtin
+> >>>>>> in my .config) and at drivers/iio/afe/iio-rescale.o (which is built as a
+> >>>>>> loadable module).
+> >>>>>>
+> >>>>>> Is this confusing modpost?
+> >>>>>> I renamed drivers/iio/afe/iio-rescale.c to afe-rescale.c and changed its
+> >>>>>> Makefile entry accordingly and the MODULE_LICENSE error goes away.
+> >>>>>
+> >>>>> Oh well. This rename causes drivers/iio/test/iio-test-rescale.c to have
+> >>>>> build errors, so that's not a solution, just some info...
+> >>>>
+> >>>> and that was due to not updating drivers/iio/test/Makefile.
+> >>>> When that is done, the missing MODULE_LICENSE() is back in afe-rescale.o.
+> >>>>
+> >>>>>
+> >>>>>> Is this a modpost error or is kunit messing things up?
+> >>>>>>
+> >>>>>> thanks for looking.
+> >>>
+> >>> Does this look OK? It allows afe/iio-rescale.o to build XOR
+> >>> test/iio-rescale.o (not both of them).
+> >>>
+> >>> --- a/drivers/iio/test/Kconfig
+> >>> +++ b/drivers/iio/test/Kconfig
+> >>> @@ -6,7 +6,7 @@
+> >>>  # Keep in alphabetical order
+> >>>  config IIO_RESCALE_KUNIT_TEST
+> >>>         bool "Test IIO rescale conversion functions"
+> >>> -       depends on KUNIT=y && !IIO_RESCALE
+> >>> +       depends on KUNIT=y && IIO_RESCALE=n
+> >>>         default KUNIT_ALL_TESTS
+> >>>         help
+> >>>           If you want to run tests on the iio-rescale code say Y here.
+> >>>
+> >>>
+> >>
+> >> -- 
+> >> ~Randy
+> 
+> -- 
+> ~Randy
