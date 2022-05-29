@@ -2,63 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E326B537167
-	for <lists+linux-kbuild@lfdr.de>; Sun, 29 May 2022 16:47:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5CAF537174
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 May 2022 17:03:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230391AbiE2OrJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 29 May 2022 10:47:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39614 "EHLO
+        id S230098AbiE2PDA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 29 May 2022 11:03:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229934AbiE2OrI (ORCPT
+        with ESMTP id S230495AbiE2PC7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 29 May 2022 10:47:08 -0400
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BD726432;
-        Sun, 29 May 2022 07:47:07 -0700 (PDT)
-Received: by mail-il1-x130.google.com with SMTP id 3so6113367ily.2;
-        Sun, 29 May 2022 07:47:07 -0700 (PDT)
+        Sun, 29 May 2022 11:02:59 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C54A2939A7;
+        Sun, 29 May 2022 08:02:57 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id c65so7900951pfb.1;
+        Sun, 29 May 2022 08:02:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=hhqrhJhsaClgvvck9Sdle86jJdiS7n38zO76P0oYBJk=;
-        b=G5zCZeQjgij/x9j+WIEMt67AuFY8XBSL6bkzbHpXJcF7jcxgjeGc5S5nmoXWEBcgeQ
-         x7UVDeXO0X1nMJegFqr/sLhx1ImhEERzOTXszsleVdmENixOzSm9BoN9ocCgr/3LcQ8j
-         xFr5jAGPCKjZJCKinWKTWf79oa3ZtQLwJXy8NsZoz/FvKn6HsSebjqjmAI4moT7OafZy
-         zIZ0yabpPPGSEokaMEydo0Y1fvAByU3cmcqyD2FPJ8sxBYMvR/D4cXLztnLrhJWqbvak
-         uslyq7FC4ykHEjiVZ3GF8TnmkEpTD4zVE9nl0LGaRYKBBrS3EKheTm93rK4awIzPTT8r
-         nFbA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=bLCmpWQzHcqeVCB87cxLHHFCd5x0M9YCEtp4WUsQ82Y=;
+        b=P6z7lxhi9GL7jZKTwXRm/Ke9ijypFXom3hc0wwJF1KlOi5wNneFMPqQ4haGxkaYHQn
+         tuZIl9f9/2/OtHiFgwpz7y/h693fk+PEnkmHNCJtvKE+ZxrNcJV7FQR5uC6H8JANQg3A
+         NoyyIii1y7K/EOvLaEcMd4pK17M1Uk/FbpJz1AFk/wsGjkccadilsK6cAcKSGOoIJoeA
+         W4zNEg8TVM0sKb3RblMsS0+J8a9U6d8qlpRuXbrQkEeDqWMSsIqrarwhPdHDcB3yjb4I
+         SEre0KelOMMHCVyR4O1+HWCzGUXd1jIH8FuLbts5VHMLY6bHtiGMiWYHMBlnxhMGHyZ5
+         7LvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=hhqrhJhsaClgvvck9Sdle86jJdiS7n38zO76P0oYBJk=;
-        b=U3l6LlWMkkbXwsXXJv7wVGeqCk3BZMXKn34pdu6S2vpOdbGlalC10phf0ZQ7KzpPMu
-         dUNZT9ozTQOIC3wra4hKDREsl6wUUdExSx3+ncKVDdrfanYZ+Vam4F3OhHRAXpM+duQu
-         IhxUbBzZyFurFySWkw5X32RffyxWJ8Gbff608GXxWBHgkCcZk8UyEdzzOJacx7zx46fJ
-         TiGOeMspSq6XNXNQO1O7YlG0k2zKzQv3+fhXE65wPLXXWM7yx/tmaAY5pMnZ9OiqUSAq
-         udghgu55E0TqvfFnPIz8W3To3rI4SM6EXAc88c2H1nVACtcSG92PQXcO+rpOzI7Jnpkz
-         kI4Q==
-X-Gm-Message-State: AOAM530YjSFw0D/aCXjlbycqE3ca6T1r8RUeDlrGEdZoARndjMto/yWB
-        j83wNMtoJwe2Ljm6A/wHqcv4RQjjx+ZJowgYb9U=
-X-Google-Smtp-Source: ABdhPJxruu+kkXLX0MVi2Fmhp97UmKzyHBwfBvsCZ7Xm5BaC7ya2im7SAGOqXf+AQZfsQzi0FgTUxrcT9Qhs+y1VqVA=
-X-Received: by 2002:a05:6e02:1aa8:b0:2d1:7099:67ba with SMTP id
- l8-20020a056e021aa800b002d1709967bamr24297718ilv.1.1653835626507; Sun, 29 May
- 2022 07:47:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220528154704.2576290-1-masahiroy@kernel.org> <20220528154704.2576290-4-masahiroy@kernel.org>
-In-Reply-To: <20220528154704.2576290-4-masahiroy@kernel.org>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Sun, 29 May 2022 16:46:30 +0200
-Message-ID: <CA+icZUWkOrWYSY3ixxfF=vsuq1xw3mU+p3NMqBpY0OpM02916g@mail.gmail.com>
-Subject: Re: [PATCH 4/4] kbuild: factor out the common objtool arguments
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=bLCmpWQzHcqeVCB87cxLHHFCd5x0M9YCEtp4WUsQ82Y=;
+        b=4ODDpkrRaBbmqxmu4bhBFpFK6/r5CVjJeagcUTXO+LBQlSegAPUNMryuL37ARjoFLf
+         T5qqu8uElElHA7zSVF3OXaWnbxfLbxAirZbVxVTJK5N1omCToBUj79/Jo/15pDAoYaVB
+         tTMMxuXh3BiqXiYnlSvw+JLvTF6k+g7dkFQZfPdmeoxunn23nw97GLt1iJdwM96Sawfh
+         gXBkGADnMgkIDFiPQBSGtZiFxzVmvLdIUm7J50CZoeWVpRX9BPV5gEin3RomdoOKL+ls
+         T8aM8MwKvDXUyWsyfpQJ3OvZ0WG0cef2ct+VMrk7e6AayYqlRa828cxEp0Yu81n0/JYK
+         RqjQ==
+X-Gm-Message-State: AOAM5306KfWnfIewOFhKty0aQGizDT2K5KpLz//vHgvn/W4JWFSlaPtP
+        DnXyJpKUePAhnfiR8Xq5t0o=
+X-Google-Smtp-Source: ABdhPJzCcBxx7xT7JPAGtcDAhscY5giHijK08sTWr8RdGXxgY5ZS8mRjDiz+ZSiX4bhupXj3aoeAuw==
+X-Received: by 2002:a05:6a00:7d8:b0:518:8f93:555f with SMTP id n24-20020a056a0007d800b005188f93555fmr38432094pfu.31.1653836577104;
+        Sun, 29 May 2022 08:02:57 -0700 (PDT)
+Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
+        by smtp.gmail.com with ESMTPSA id 66-20020a621545000000b0051849bc0c23sm7022050pfv.23.2022.05.29.08.02.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 May 2022 08:02:56 -0700 (PDT)
+Date:   Mon, 30 May 2022 00:02:54 +0900
+From:   Stafford Horne <shorne@gmail.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org,
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Guenter Roeck <linux@roeck-us.net>,
+        Guo Ren <guoren@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org, Josh Poimboeuf <jpoimboe@redhat.com>,
-        Michal Marek <michal.lkml@markovi.net>
-Content-Type: text/plain; charset="UTF-8"
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        linux-csky@vger.kernel.org, Joel Stanley <joel@jms.id.au>,
+        nicolas@debian.org
+Subject: Re: [PATCH] kbuild: ignore *.cmd files for objects that come from
+ libgcc.a
+Message-ID: <YpOLHkUZImdEr7yl@antec>
+References: <20220529042318.2630379-1-masahiroy@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220529042318.2630379-1-masahiroy@kernel.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -69,269 +78,47 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, May 28, 2022 at 9:45 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> scripts/Makefile.build and scripts/link-vmlinux.sh have similar setups
-> for the objtool arguments.
->
-> It is difficult to factor out them because the vmlinux build rule is
-> written in a shell script. It is somewhat tedious to touch the two
-> files every time a new objtool option is supported.
->
-> To reduce the code duplication, implement everything about objtool in
-> Makefile.
->
-> Move the objtool for vmlinux.o into scripts/Makefile.vmlinux_o.
->
-> Move the common macros to Makefile.lib so they are shared by
-> Makefile.build and Makefile.vmlinux_o.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Cc Joel, Nicolas
 
-With some comments (see below).
+On Sun, May 29, 2022 at 01:23:18PM +0900, Masahiro Yamada wrote:
+> Guenter Roeck reported the build breakage for parisc and csky.
+> I confirmed nios2 and openrisc are broken as well.
 
-Tested-by: Sedat Dilek <sedat.dilek@gmail.com> # LLVM-14 (x86-64)
+Joel reported and issue building the openrisc kernel as well with this error:
 
--Sedat-
+    This fails at the link step:
 
-> ---
->
->  scripts/Makefile.build     | 26 --------------
->  scripts/Makefile.lib       | 26 ++++++++++++++
->  scripts/Makefile.vmlinux_o | 26 ++++++++++++++
->  scripts/link-vmlinux.sh    | 71 --------------------------------------
->  4 files changed, 52 insertions(+), 97 deletions(-)
->
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 4cb7145071b9..1f01ac65c0cd 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -210,38 +210,12 @@ cmd_record_mcount = $(if $(findstring $(strip $(CC_FLAGS_FTRACE)),$(_c_flags)),
->         $(sub_cmd_record_mcount))
->  endif # CONFIG_FTRACE_MCOUNT_USE_RECORDMCOUNT
->
-> -ifdef CONFIG_OBJTOOL
-> -
-> -objtool := $(objtree)/tools/objtool/objtool
-> -
-> -objtool_args =                                                         \
-> -       $(if $(CONFIG_HAVE_JUMP_LABEL_HACK), --hacks=jump_label)        \
-> -       $(if $(CONFIG_HAVE_NOINSTR_HACK), --hacks=noinstr)              \
-> -       $(if $(CONFIG_X86_KERNEL_IBT), --ibt)                           \
-> -       $(if $(CONFIG_FTRACE_MCOUNT_USE_OBJTOOL), --mcount)             \
-> -       $(if $(CONFIG_UNWINDER_ORC), --orc)                             \
-> -       $(if $(CONFIG_RETPOLINE), --retpoline)                          \
-> -       $(if $(CONFIG_SLS), --sls)                                      \
-> -       $(if $(CONFIG_STACK_VALIDATION), --stackval)                    \
-> -       $(if $(CONFIG_HAVE_STATIC_CALL_INLINE), --static-call)          \
-> -       --uaccess                                                       \
-> -       $(if $(delay-objtool), --link)                                  \
-> -       $(if $(part-of-module), --module)                               \
-> -       $(if $(CONFIG_GCOV_KERNEL), --no-unreachable)
-> -
-> -cmd_objtool = $(if $(objtool-enabled), ; $(objtool) $(objtool_args) $@)
-> -cmd_gen_objtooldep = $(if $(objtool-enabled), { echo ; echo '$@: $$(wildcard $(objtool))' ; } >> $(dot-target).cmd)
-> -
-> -endif # CONFIG_OBJTOOL
-> -
->  # 'OBJECT_FILES_NON_STANDARD := y': skip objtool checking for a directory
->  # 'OBJECT_FILES_NON_STANDARD_foo.o := 'y': skip objtool checking for a file
->  # 'OBJECT_FILES_NON_STANDARD_foo.o := 'n': override directory skip for a file
->
+      LD      vmlinux.o
+    + or1k-elf-ld -r -o vmlinux.o --whole-archive
+    arch/openrisc/kernel/head.o init/built-in.a usr/built-in.a
+    arch/openrisc/built-in.a kernel/built-in.a certs/built-in.a
+    mm/built-in.a fs/built-in.a ipc/built-in.a security/built-in.a
+    crypto/built-in.a block/built-in.a lib/built-in.a drivers/built-in.a
+    sound/built-in.a net/built-in.a virt/built-in.a --no-whole-archive
+    --start-group lib/lib.a /usr/lib/gcc/or1k-elf/12/libgcc.a --end-group
+    or1k-elf-ld: /usr/lib/gcc/or1k-elf/12/libgcc.a: error adding symbols:
+    archive has no index; run ranlib to add one
 
-^^ What is with this block?
-If this belongs together with objtool - shall this be moved, too?
+Is it the same? It might be good to have details of the error in the commit
+message.
 
->  is-standard-object = $(if $(filter-out y%, $(OBJECT_FILES_NON_STANDARD_$(basetarget).o)$(OBJECT_FILES_NON_STANDARD)n),y)
->
-> -delay-objtool := $(or $(CONFIG_LTO_CLANG),$(CONFIG_X86_KERNEL_IBT))
-> -
->  $(obj)/%.o: objtool-enabled = $(if $(is-standard-object),$(if $(delay-objtool),$(is-single-obj-m),y))
->
->  ifdef CONFIG_TRIM_UNUSED_KSYMS
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index f75138385449..f691fb231ce5 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -225,6 +225,32 @@ dtc_cpp_flags  = -Wp,-MMD,$(depfile).pre.tmp -nostdinc                    \
->                  $(addprefix -I,$(DTC_INCLUDE))                          \
->                  -undef -D__DTS__
->
-> +ifdef CONFIG_OBJTOOL
-> +
-> +objtool := $(objtree)/tools/objtool/objtool
-> +
-> +objtool_args =                                                         \
-> +       $(if $(CONFIG_HAVE_JUMP_LABEL_HACK), --hacks=jump_label)        \
-> +       $(if $(CONFIG_HAVE_NOINSTR_HACK), --hacks=noinstr)              \
-> +       $(if $(CONFIG_X86_KERNEL_IBT), --ibt)                           \
-> +       $(if $(CONFIG_FTRACE_MCOUNT_USE_OBJTOOL), --mcount)             \
-> +       $(if $(CONFIG_UNWINDER_ORC), --orc)                             \
-> +       $(if $(CONFIG_RETPOLINE), --retpoline)                          \
-> +       $(if $(CONFIG_SLS), --sls)                                      \
-> +       $(if $(CONFIG_STACK_VALIDATION), --stackval)                    \
-> +       $(if $(CONFIG_HAVE_STATIC_CALL_INLINE), --static-call)          \
-> +       --uaccess                                                       \
-> +       $(if $(delay-objtool), --link)                                  \
-> +       $(if $(part-of-module), --module)                               \
-> +       $(if $(CONFIG_GCOV_KERNEL), --no-unreachable)
-> +
-> +delay-objtool := $(or $(CONFIG_LTO_CLANG),$(CONFIG_X86_KERNEL_IBT))
-> +
-> +cmd_objtool = $(if $(objtool-enabled), ; $(objtool) $(objtool_args) $@)
-> +cmd_gen_objtooldep = $(if $(objtool-enabled), { echo ; echo '$@: $$(wildcard $(objtool))' ; } >> $(dot-target).cmd)
-> +
-> +endif # CONFIG_OBJTOOL
-> +
->  # Useful for describing the dependency of composite objects
->  # Usage:
->  #   $(call multi_depend, multi_used_targets, suffix_to_remove, suffix_to_add)
-> diff --git a/scripts/Makefile.vmlinux_o b/scripts/Makefile.vmlinux_o
-> index a9b375ca86d5..3c97a1564947 100644
-> --- a/scripts/Makefile.vmlinux_o
-> +++ b/scripts/Makefile.vmlinux_o
-> @@ -6,6 +6,9 @@ __default: vmlinux.o
->  include include/config/auto.conf
->  include $(srctree)/scripts/Kbuild.include
->
-> +# for objtool
-> +include $(srctree)/scripts/Makefile.lib
-> +
->  # Generate a linker script to ensure correct ordering of initcalls for Clang LTO
->  # ---------------------------------------------------------------------------
->
-> @@ -24,6 +27,27 @@ ifdef CONFIG_LTO_CLANG
->  initcalls-lds := .tmp_initcalls.lds
->  endif
->
-> +# objtool for vmlinux.o
-> +# ---------------------------------------------------------------------------
-> +#
-> +# For LTO and IBT, objtool doesn't run on individual translation units.
-> +# Run everything on vmlinux instead.
-> +
-> +objtool-enabled := $(or $(delay-objtool),$(CONFIG_NOINSTR_VALIDATION))
-> +
-> +# Reuse objtool_args defined in scripts/Makefile.lib if LTO or IBT is enabled.
-> +#
-> +# Add some more flags as needed.
-> +# --no-unreachable and --link might be added twice, but it is fine.
-> +#
-> +# Expand objtool_args to a simple variable to avoid circular reference.
-> +
-> +objtool_args := \
-> +       $(if $(delay-objtool),$(objtool_args)) \
-> +       $(if $(CONFIG_NOINSTR_VALIDATION), --noinstr) \
-> +       $(if $(CONFIG_GCOV_KERNEL), --no-unreachable) \
-> +       --link
-> +
->  # Link of vmlinux.o used for section mismatch analysis
->  # ---------------------------------------------------------------------------
->
-> @@ -33,9 +57,11 @@ quiet_cmd_ld_vmlinux.o = LD      $@
->         $(addprefix -T , $(initcalls-lds)) \
->         --whole-archive $(KBUILD_VMLINUX_OBJS) --no-whole-archive \
->         --start-group $(KBUILD_VMLINUX_LIBS) --end-group \
-> +       $(cmd_objtool)
->
->  define rule_ld_vmlinux.o
->         $(call cmd_and_savecmd,ld_vmlinux.o)
-> +       $(call cmd,gen_objtooldep)
->  endef
->
->  vmlinux.o: $(initcalls-lds) $(KBUILD_VMLINUX_OBJS) $(KBUILD_VMLINUX_LIBS) FORCE
-> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> index 90680b6bd710..1ac4e180fa3f 100755
-> --- a/scripts/link-vmlinux.sh
-> +++ b/scripts/link-vmlinux.sh
-> @@ -45,76 +45,6 @@ info()
->         printf "  %-7s %s\n" "${1}" "${2}"
->  }
->
-> -objtool_link()
-> -{
-> -       local objtoolcmd;
-> -       local objtoolopt;
-> -
-> -       if ! is_enabled CONFIG_OBJTOOL; then
-> -               return;
-> -       fi
-> -
-> -       if is_enabled CONFIG_LTO_CLANG || is_enabled CONFIG_X86_KERNEL_IBT; then
-> -
-> -               # For LTO and IBT, objtool doesn't run on individual
-> -               # translation units.  Run everything on vmlinux instead.
-> -
-> -               if is_enabled CONFIG_HAVE_JUMP_LABEL_HACK; then
-> -                       objtoolopt="${objtoolopt} --hacks=jump_label"
-> -               fi
-> -
-> -               if is_enabled CONFIG_HAVE_NOINSTR_HACK; then
-> -                       objtoolopt="${objtoolopt} --hacks=noinstr"
-> -               fi
-> -
-> -               if is_enabled CONFIG_X86_KERNEL_IBT; then
-> -                       objtoolopt="${objtoolopt} --ibt"
-> -               fi
-> -
-> -               if is_enabled CONFIG_FTRACE_MCOUNT_USE_OBJTOOL; then
-> -                       objtoolopt="${objtoolopt} --mcount"
-> -               fi
-> -
-> -               if is_enabled CONFIG_UNWINDER_ORC; then
-> -                       objtoolopt="${objtoolopt} --orc"
-> -               fi
-> -
-> -               if is_enabled CONFIG_RETPOLINE; then
-> -                       objtoolopt="${objtoolopt} --retpoline"
-> -               fi
-> -
-> -               if is_enabled CONFIG_SLS; then
-> -                       objtoolopt="${objtoolopt} --sls"
-> -               fi
-> -
-> -               if is_enabled CONFIG_STACK_VALIDATION; then
-> -                       objtoolopt="${objtoolopt} --stackval"
-> -               fi
-> -
-> -               if is_enabled CONFIG_HAVE_STATIC_CALL_INLINE; then
-> -                       objtoolopt="${objtoolopt} --static-call"
-> -               fi
-> -
-> -               objtoolopt="${objtoolopt} --uaccess"
-> -       fi
-> -
-> -       if is_enabled CONFIG_NOINSTR_VALIDATION; then
-> -               objtoolopt="${objtoolopt} --noinstr"
-> -       fi
-> -
-> -       if [ -n "${objtoolopt}" ]; then
-> -
-> -               if is_enabled CONFIG_GCOV_KERNEL; then
-> -                       objtoolopt="${objtoolopt} --no-unreachable"
-> -               fi
-> -
-> -               objtoolopt="${objtoolopt} --link"
-> -
-> -               info OBJTOOL ${1}
-> -               tools/objtool/objtool ${objtoolopt} ${1}
-> -       fi
-> -}
-> -
->  # Link of vmlinux
->  # ${1} - output file
->  # ${2}, ${3}, ... - optional extra .o files
-> @@ -298,7 +228,6 @@ ${MAKE} -f "${srctree}/scripts/Makefile.build" obj=init need-builtin=1
->
->  #link vmlinux.o
+> The reason is that they borrow libgcc.a from the toolchains.
+> 
+> For example, see this line in arch/parisc/Makefile:
+> 
+>     LIBGCC          := $(shell $(CC) -print-libgcc-file-name)
+> 
+> Some objects in libgcc.a are linked to vmlinux.o, but they do not have
+> .*.cmd files.
+> 
+> Obviously, there is no EXPORT_SYMBOL in external objects. Ignore them.
+> 
+> (Most of the architectures import library code into the kernel tree.
+> Perhaps those 4 architectures can do similar, but I am not sure.)
 
-^^ While you are at it, change the comment to "# Link of vmlinux.o".
+Ill have a look at this.  Could you give an example of what you mean by import
+library code, from where?  OpenRISC imports builtins from libgcc, also we have
+string and other lib routines from within the port.
 
->  ${MAKE} -f "${srctree}/scripts/Makefile.vmlinux_o"
-> -objtool_link vmlinux.o
->
->  # Generate the list of objects in vmlinux
->  for f in ${KBUILD_VMLINUX_OBJS} ${KBUILD_VMLINUX_LIBS}; do
-> --
-> 2.32.0
->
+-Stafford
+ 
