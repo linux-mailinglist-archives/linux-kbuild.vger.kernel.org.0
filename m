@@ -2,101 +2,86 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 51FEF5378CB
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 May 2022 12:07:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6890D537AD7
+	for <lists+linux-kbuild@lfdr.de>; Mon, 30 May 2022 14:55:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233330AbiE3JhZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 30 May 2022 05:37:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43046 "EHLO
+        id S236208AbiE3Mz2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 30 May 2022 08:55:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234823AbiE3JhP (ORCPT
+        with ESMTP id S234887AbiE3Mz0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 30 May 2022 05:37:15 -0400
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E53776291;
-        Mon, 30 May 2022 02:37:13 -0700 (PDT)
-Received: by mail-il1-x130.google.com with SMTP id f7so771100ilr.5;
-        Mon, 30 May 2022 02:37:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=ueNItYj2IC9D3zs28drSgPYCsB+eIJFzInbZyJE4LMU=;
-        b=OX9h2LakIzHNEFy+NFyqg+Uw0oZwl5s13uAynIQOTJ376V6NocwwMgBQ5CEsGAbUD1
-         O6PylJkNGxOSZYQXlQ94OL8GwJM+Lhga4G2bmnTRPE71c3Z9P5DKnMeyfpxnQoc8lC86
-         IPeqLNdhvjBKMTqZKdhthnMCkhvAhqYa4Z78IjpN1r+/S7WI/FG91lxFxwkv996UF9Qx
-         RQMaMGZj4wE4X8Mzp7ReTrDBuBXobgEIuKe1BN5NPqYK9o6YglHvAvyTK87ASrrQqKB4
-         QNZyM8T0It2Ahf48FVDirSSocW72gvQvU343+oO1+Ch4szWbBEkyI2CBB2ryECc2ndW+
-         cdpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=ueNItYj2IC9D3zs28drSgPYCsB+eIJFzInbZyJE4LMU=;
-        b=nvlWDJ7UmFwOdLhk4q3kIPog5JylSMqadASw4N5rHpfQ02NXnJYljkf/f1z8w+eSHE
-         luiNnkcy4GoYtr5K/EJgapIPmlDXOnAXRrNDMzmU5LGKRCKcydT28NifHUpqtAyVksJx
-         ejnWdetBRYivCExuYR9HDk3pGJqUs0CTJvutXEkjY7n85lucdrpg3S/V4SCCRCcs6bbJ
-         6ALsjVr7PhPAozfiUF9tI9AtxFtnccaVvJUB4CoRw/+5Sst2zxOdxrpsM6SqmhxKhmpf
-         3W2wV6n0IBpYnNmec5OSSXaHdR59NpM0lcIQInrm/dSxmRJBPsVgoM4BJKi21TymITYq
-         GCnQ==
-X-Gm-Message-State: AOAM530tM/HHZwblfuaAsWIWxwgsGHI6Mzx49VYwceLjR/bqeO84rQni
-        uQ8A3ezfsMzO/MmFB2CS7BVw56Ox0DEBDLenSfaJyolgimg=
-X-Google-Smtp-Source: ABdhPJz2WGgpxh+JlCa9OHnmgdkBjviT93sy7Wzrg9qe5Wk5cd+NTvPp9Ppr0eScOYm6Tnp0vLs9kbTLflAXfG+PeJE=
-X-Received: by 2002:a92:6811:0:b0:2cd:994d:7406 with SMTP id
- d17-20020a926811000000b002cd994d7406mr26590470ilc.245.1653903433181; Mon, 30
- May 2022 02:37:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220528154704.2576290-1-masahiroy@kernel.org>
- <20220528154704.2576290-4-masahiroy@kernel.org> <CA+icZUWkOrWYSY3ixxfF=vsuq1xw3mU+p3NMqBpY0OpM02916g@mail.gmail.com>
- <CAK7LNATwgT-FQ99Ex6MOc+rYEe7tc8ffoF-5e12jfbeaEM1vhw@mail.gmail.com>
-In-Reply-To: <CAK7LNATwgT-FQ99Ex6MOc+rYEe7tc8ffoF-5e12jfbeaEM1vhw@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Mon, 30 May 2022 11:36:37 +0200
-Message-ID: <CA+icZUX+KE6yrVJ5a2CHRvL7_kpK-zXbvJurtAjzgYmsDtSkCw@mail.gmail.com>
-Subject: Re: [PATCH 4/4] kbuild: factor out the common objtool arguments
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Mon, 30 May 2022 08:55:26 -0400
+Received: from conuserg-07.nifty.com (conuserg-07.nifty.com [210.131.2.74])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 357B1814AE;
+        Mon, 30 May 2022 05:55:25 -0700 (PDT)
+Received: from grover.sesame (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id 24UCs1Mo014963;
+        Mon, 30 May 2022 21:54:02 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 24UCs1Mo014963
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1653915242;
+        bh=nFbsi2wc8vRk4e83EcKIAfJNJNh7XZcOJOriZZ5YswY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=WKHqdJC2YlZLG5PQK6TBY7pTdkefEp/44KaN2lxwhgRJVv/h2As7D6lQ9h2lFZDVg
+         mekXWbWnQfgxacjwk3hx24M3QkIyqQkJSlHqHuL96QNW/oTcSBGaF9puMk7f35J3FE
+         mSfqJ52XOMTrlfpddH+YuU797GBnNeNqpHEVDWt06NucHHTM1WrfFKjGNeSsdAnkVm
+         faBZy/r1UX+ICaCJdzSfwKhu+8JxzcLK/BcRaGcWyfwr98rPT/5AhO5UqNktVdWpuO
+         TkXVPT9f1KnTlXftcYxPamtk7D3sANxtpaLNYcxW5F2o4KgyTF+JN5C8VgDxesg6x3
+         D/8xbBwgk0V+g==
+X-Nifty-SrcIP: [133.32.177.133]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Alessio Igor Bogani <abogani@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Michal Marek <michal.lkml@markovi.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Rusty Russell <rusty@rustcorp.com.au>
+Subject: [PATCH] modpost: fix section mismatch check for exported init/exit sections
+Date:   Mon, 30 May 2022 21:52:58 +0900
+Message-Id: <20220530125258.3149370-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, May 29, 2022 at 7:36 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-...
-> > >  # 'OBJECT_FILES_NON_STANDARD := y': skip objtool checking for a directory
-> > >  # 'OBJECT_FILES_NON_STANDARD_foo.o := 'y': skip objtool checking for a file
-> > >  # 'OBJECT_FILES_NON_STANDARD_foo.o := 'n': override directory skip for a file
-> > >
-> >
-> > ^^ What is with this block?
-> > If this belongs together with objtool - shall this be moved, too?
->
-> No.
-> These are unneeded for vmlinux.o
->
+Since commit f02e8a6596b7 ("module: Sort exported symbols"),
+EXPORT_SYMBOL is placed in the individual section ___ksymtab(_gpl)+<sym>
+(3 leading underscores, not 2).
 
-OK.
+Since then, modpost cannot detect the bad combination of EXPORT_SYMBOL
+and __init/__exit.
 
-> > >  #link vmlinux.o
-> >
-> > ^^ While you are at it, change the comment to "# Link of vmlinux.o".
->
->
-> In my plan, this code will be gone sooner or later.
->
-> It would be a noise.
->
+Fix the .fromsec to ___ksymtab*.
 
-Hope you have fruitful plans :-).
--sed@-
+Fixes: f02e8a6596b7 ("module: Sort exported symbols")
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ scripts/mod/modpost.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 29d5a841e215..620dc8c4c814 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -980,7 +980,7 @@ static const struct sectioncheck sectioncheck[] = {
+ },
+ /* Do not export init/exit functions or data */
+ {
+-	.fromsec = { "__ksymtab*", NULL },
++	.fromsec = { "___ksymtab*", NULL },
+ 	.bad_tosec = { INIT_SECTIONS, EXIT_SECTIONS, NULL },
+ 	.mismatch = EXPORT_TO_INIT_EXIT,
+ 	.symbol_white_list = { DEFAULT_SYMBOL_WHITE_LIST, NULL },
+-- 
+2.32.0
+
