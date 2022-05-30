@@ -2,171 +2,92 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 860075378A4
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 May 2022 12:06:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE7AB53786B
+	for <lists+linux-kbuild@lfdr.de>; Mon, 30 May 2022 12:06:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234639AbiE3JED (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 30 May 2022 05:04:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39896 "EHLO
+        id S232598AbiE3Jdq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 30 May 2022 05:33:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231466AbiE3JEC (ORCPT
+        with ESMTP id S234789AbiE3Jdp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 30 May 2022 05:04:02 -0400
-Received: from conuserg-11.nifty.com (conuserg-11.nifty.com [210.131.2.78])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1884578913;
-        Mon, 30 May 2022 02:04:00 -0700 (PDT)
-Received: from grover.sesame (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id 24U92WD1001546;
-        Mon, 30 May 2022 18:02:37 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 24U92WD1001546
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1653901357;
-        bh=Hu8xQu6PYYBz+qbdMmHfhHa0GrOI0bBWx++tHbmunFE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=stGCYcnjDU1LGJRuTJFeO2l8xB+B3KNxK7CtG/tGKu4fvz21aq9phPCn2ZZL4hkR7
-         ckKvh934QgqAmAbHMOMAnBApG1DtFoImNXdeSUCfpaj+abvtqCHVAZCC+k8KdRJDcp
-         hWqK4fdo7Iry1JN3s9IjPs5Tf6wFUSArMeI25oVeDc434yZ241rUrGSHuYLg6beK2m
-         5hCrEjiS+G7srDE8IctgieoV+WRrkWorNvRKUOEiHdwNPWc89+zQEu2KHJ31VnDJbm
-         CAnJ5htjM7DV89qbqyXIdRDDt7DfopSJlJpV5835R4ZBix4Vi78yNoyHMBOFDNN/Z7
-         ezRGGZfRMTFVQ==
-X-Nifty-SrcIP: [133.32.177.133]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: [PATCH 2/2] modpost: use fnmatch() to simplify match()
-Date:   Mon, 30 May 2022 18:01:39 +0900
-Message-Id: <20220530090139.3030866-2-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220530090139.3030866-1-masahiroy@kernel.org>
-References: <20220530090139.3030866-1-masahiroy@kernel.org>
+        Mon, 30 May 2022 05:33:45 -0400
+Received: from mail-il1-x129.google.com (mail-il1-x129.google.com [IPv6:2607:f8b0:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12982703DB;
+        Mon, 30 May 2022 02:33:45 -0700 (PDT)
+Received: by mail-il1-x129.google.com with SMTP id p1so1206136ilj.9;
+        Mon, 30 May 2022 02:33:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=BGx+e99PPghbdp++D+/i/DC00d+Ut3D/EZRdk+l5k0k=;
+        b=hFw+qJCpardOi5TfC5gK9ZZjLaWJdKD4ITQ0D6gYh3hT/cPDlR2BAuZdfPJosye8yf
+         fZlUra50EpxTrRCUM3p/EWgvTxLpUu34ig62eB2HrqUPu3dSdgLfgPgAYvyHdNThGGv7
+         huDdJX/OHgRVCUUbipoYluhkpnchuQaWKheRQVV2dWr68K5gWChEee2zAKnKnjux905E
+         uNcSIrZhKt5D+2SEh4gnjEJmB6+p+cdwUKhH5j+ga1UmuxIyKmDoR2mulptKakHF0E0e
+         b+hWF2VZBtDzobaB2vbevgUj+IP+XfVA6P9rPJtQeq9TT80KTcjAJT7AhlJF3lengZua
+         H+Yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=BGx+e99PPghbdp++D+/i/DC00d+Ut3D/EZRdk+l5k0k=;
+        b=DPKD5wv76YvKIF/3qZ3EDkuGtOWQnXUIGTP6tS7CNkmU5AHYz1i2oqSZ0RLdyL8WGY
+         zAYgo+9WbPMP/nP7VG3gecFy9NsO5z8amiyZvNKoqMRp6eJGXxdXJSaGOJgJJYQCByhL
+         N/DL3GmbAHeZKP3X0qz7S32bwcVmJ7YlttJ+VZv17fJhllL3CFvToRAsl2saSiSne/7F
+         dUn05T8z7FtiClHXnhgl/++4+1ylJuwNx07AQYO+we557Zwuwqbt+5yzJRtrz00g9HSI
+         Bepr25YPclQlQDddC5/olwji1d04LTRmoEcFo3YI+OnkpnJ8+UfCMCloaij5Xyd4yfP0
+         LWwg==
+X-Gm-Message-State: AOAM533xh5fuMXICoWPUyqqGlwGdsPPp6QkG/u65rPYZiyz4jpn6p5u6
+        jk2tnY0zb7aDrqHLlVeY3Nw67T52IzvghQOmcO84mr/EtHA=
+X-Google-Smtp-Source: ABdhPJzpBCGf/4ji3z6ExVXHZ42C9i6peWshESL3DAtXjme0Wx+ZiP0xnqjolkIvr4dzF2VYbf9FSN5mGRN6SbUrbwM=
+X-Received: by 2002:a92:d149:0:b0:2d1:5bd:1ec2 with SMTP id
+ t9-20020a92d149000000b002d105bd1ec2mr28125953ilg.100.1653903224280; Mon, 30
+ May 2022 02:33:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+References: <20220528154704.2576290-1-masahiroy@kernel.org>
+ <CA+icZUU7zUCD=xrrYLQyKkDMC-Fj-PFcmHbTiPU8ytOpYq8ZDw@mail.gmail.com> <CAK7LNAQZE-JE67HGTzy7r7mRv_2Gzv0LWUOoVr82V9iNx4q-4g@mail.gmail.com>
+In-Reply-To: <CAK7LNAQZE-JE67HGTzy7r7mRv_2Gzv0LWUOoVr82V9iNx4q-4g@mail.gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Mon, 30 May 2022 11:33:08 +0200
+Message-ID: <CA+icZUUPBS6WWtWvEhZ=cHAmKB77BCgGMzHKag+eezcxO1KMAQ@mail.gmail.com>
+Subject: Re: [PATCH 1/4] kbuild: remove redundant cleanups in scripts/link-vmlinux.sh
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Michal Marek <michal.lkml@markovi.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Replace the own implementation for wildcard (glob) matching with
-a function call to the library function, fnmatch().
+On Sun, May 29, 2022 at 7:32 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+...
+> > Might be related to this patchset or not:
+> >
+> > $ LC_ALL=C ll .*vmlinux*export*
+> > -rw-r--r-- 1 dileks dileks 4.2K May 29 15:11 ..vmlinux.export.o.cmd
+> > -rw-r--r-- 1 dileks dileks 508K May 29 15:11 .vmlinux.export.c
+> > -rw-r--r-- 1 dileks dileks 2.6M May 29 15:11 .vmlinux.export.o
+> >
+> > You see the leading double-dot for ..vmlinux.export.o.cmd - intended or not?
+>
+> This is intended.
+>
+> The source file (.vmlinux.export.c) is a dot file.
+>
+> .*.cmd prepends one more dot.
+>
 
-Also, change the return type to 'bool'.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- scripts/mod/modpost.c | 74 ++++++++-----------------------------------
- 1 file changed, 13 insertions(+), 61 deletions(-)
-
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index c1558bacf717..29d5a841e215 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -13,6 +13,7 @@
- 
- #define _GNU_SOURCE
- #include <elf.h>
-+#include <fnmatch.h>
- #include <stdio.h>
- #include <ctype.h>
- #include <string.h>
-@@ -710,29 +711,6 @@ static char *get_modinfo(struct elf_info *info, const char *tag)
- 	return get_next_modinfo(info, tag, NULL);
- }
- 
--/**
-- * Test if string s ends in string sub
-- * return 0 if match
-- **/
--static int strrcmp(const char *s, const char *sub)
--{
--	int slen, sublen;
--
--	if (!s || !sub)
--		return 1;
--
--	slen = strlen(s);
--	sublen = strlen(sub);
--
--	if ((slen == 0) || (sublen == 0))
--		return 1;
--
--	if (sublen > slen)
--		return 1;
--
--	return memcmp(s + slen - sublen, sub, sublen);
--}
--
- static const char *sym_name(struct elf_info *elf, Elf_Sym *sym)
- {
- 	if (sym)
-@@ -741,48 +719,22 @@ static const char *sym_name(struct elf_info *elf, Elf_Sym *sym)
- 		return "(unknown)";
- }
- 
--/* The pattern is an array of simple patterns.
-- * "foo" will match an exact string equal to "foo"
-- * "*foo" will match a string that ends with "foo"
-- * "foo*" will match a string that begins with "foo"
-- * "*foo*" will match a string that contains "foo"
-+/*
-+ * Check whether the 'string' argument matches one of the 'patterns',
-+ * an array of shell wildcard patterns (glob).
-+ *
-+ * Return true is there is a match.
-  */
--static int match(const char *sym, const char * const pat[])
-+static bool match(const char *string, const char *const patterns[])
- {
--	const char *p;
--	while (*pat) {
--		const char *endp;
--
--		p = *pat++;
--		endp = p + strlen(p) - 1;
-+	const char *pattern;
- 
--		/* "*foo*" */
--		if (*p == '*' && *endp == '*') {
--			char *bare = NOFAIL(strndup(p + 1, strlen(p) - 2));
--			char *here = strstr(sym, bare);
--
--			free(bare);
--			if (here != NULL)
--				return 1;
--		}
--		/* "*foo" */
--		else if (*p == '*') {
--			if (strrcmp(sym, p + 1) == 0)
--				return 1;
--		}
--		/* "foo*" */
--		else if (*endp == '*') {
--			if (strncmp(sym, p, strlen(p) - 1) == 0)
--				return 1;
--		}
--		/* no wildcards */
--		else {
--			if (strcmp(p, sym) == 0)
--				return 1;
--		}
-+	while ((pattern = *patterns++)) {
-+		if (!fnmatch(pattern, string, 0))
-+			return true;
- 	}
--	/* no match */
--	return 0;
-+
-+	return false;
- }
- 
- /* sections that we do not want to do full section mismatch check on */
--- 
-2.32.0
-
+Fine with me.
+-sed@-
