@@ -2,66 +2,85 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8321C538CBC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 May 2022 10:23:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6960A538DC7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 May 2022 11:34:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241708AbiEaIXD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 31 May 2022 04:23:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51864 "EHLO
+        id S245269AbiEaJeN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 31 May 2022 05:34:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240646AbiEaIXC (ORCPT
+        with ESMTP id S245263AbiEaJeL (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 31 May 2022 04:23:02 -0400
-Received: from mail.onlinesuccesses.pl (mail.onlinesuccesses.pl [198.244.150.235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDA76201BC
-        for <linux-kbuild@vger.kernel.org>; Tue, 31 May 2022 01:23:01 -0700 (PDT)
-Received: by mail.onlinesuccesses.pl (Postfix, from userid 1002)
-        id 089ECAD862; Tue, 31 May 2022 08:16:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=onlinesuccesses.pl;
-        s=mail; t=1653985037;
-        bh=nE8HqilgMh4dy7+Z8ksfg7Bc9rmPeQtYFq3/3YR2ODU=;
-        h=Date:From:To:Subject:From;
-        b=er0+lSKTDWhB7zSwsEzYplmizggzmOLjGfoQxFA1JhItRgh7+PkuT52c5ReAuNzm8
-         esleA/3hzrtg20sZaZMMeCjJRZ9l/r+GGecomvguV8PIbh4vXik+vYrrQX3EITTtQg
-         HBy0dI2cTfOHFeDEcyVqikKAHBdwN/ohRiSD+/WuImEQ5WMGoV2epW+Gmb3wMnsiTq
-         QRS6HlN8bO7Dp8I7aKfa5po+xkWtGjHiIXhPkLK8hQp6Rvz48lcBfdJiYS0OkqCGFk
-         cZ3ug0Kqz2sGaZq2XZsXRdyH7rW9uAA4AqMt0gpPOjjAnZVqM8OdzKLgmW/tVevLeu
-         M6gshyAQYfxLQ==
-Received: by mail.onlinesuccesses.pl for <linux-kbuild@vger.kernel.org>; Tue, 31 May 2022 08:15:36 GMT
-Message-ID: <20220531064501-0.1.4l.1dcph.0.o98mdj1c4f@onlinesuccesses.pl>
-Date:   Tue, 31 May 2022 08:15:36 GMT
-From:   "Wiktor Zielonko" <wiktor.zielonko@onlinesuccesses.pl>
-To:     <linux-kbuild@vger.kernel.org>
-Subject: Ruch z pierwszej pozycji w Google
-X-Mailer: mail.onlinesuccesses.pl
+        Tue, 31 May 2022 05:34:11 -0400
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A4323DA45
+        for <linux-kbuild@vger.kernel.org>; Tue, 31 May 2022 02:34:10 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id c5-20020a1c3505000000b0038e37907b5bso903817wma.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 31 May 2022 02:34:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=T4el4Ue5w8GMV0gbkTqusU63CSEH0+g225x/jpSlXdM=;
+        b=g6IcS3PMAJZPZmtSDAUoMdS0kr1Myq9fW7JCwh+MQndFIEuoawPbGTQqHe7AH2oPrK
+         vw8VdziFGG9CUhSCKwlDgzT/K4dldRPgpsDfyjJ7qbHELDdA+BmguZn1DIhmJaPkTZYv
+         2YgVAfro7gby8bZq7MIVJjflC6puM4AS0LobUATvDYT+BGUJgqTMIuEo9WrpKNFH8tUP
+         U1t4LXkEtDrg7UIoo6tACH1gopVsUw9l+5m47/tCtfECfvmW8nFZw9fyRlZqV+arKILm
+         gZRBweJ2vMfIzn+qZDZmVADM0ArWgo2kP8PzqNy0CLIWuwYtQvtrDqGbUNelsM+SR+KY
+         6KGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=T4el4Ue5w8GMV0gbkTqusU63CSEH0+g225x/jpSlXdM=;
+        b=0jqVZdAuoypwnfjEMMUCXEj/6SmUF5OTUSTVssJ100tqTtayqVFG/mdfwkUM3q8R6x
+         bu2FQDbzS+MFuq33qM6Fc6Rpu1feGMf8lpbGh8Pe7pnUkr7gzvbfzYC3uR6piOsOsGY/
+         sEDkByGLgPbaskwXa6ZUTV86Esgj7jl9pkskco22QL9f1ocRjqsvJ+EumTaYizy1ThFb
+         XmM6QOq4fLL81SQIH4/ZYtoc5B6ez+oimdiqiVO7+dCm2kUknKRTNl118SdRMYJ4YAt6
+         lZ+PXisfUSHZ1j4sn1mXQiBwSmMk/fe2gVjApeLA+A5NofjThDxAwbvD/chMOzC1BoyY
+         TUqA==
+X-Gm-Message-State: AOAM5309VLtr/ZRGHhv69f05wggi/SOZYc6EnQL2xJDsEsRFC91UjwW4
+        pYSenz3Hp2/71xdIcqS/WDRokJ2RsbTgkgVJLGSUZF0TsNw=
+X-Google-Smtp-Source: ABdhPJwAboKm20wdlu5t8klFV864AwRStQ4J0xmivrWD3CpNfFjEKyZ5ccTTdUMX7ThXJfO+f8nujpSzysw9paroWgg=
+X-Received: by 2002:a05:600c:34c7:b0:397:73ae:a096 with SMTP id
+ d7-20020a05600c34c700b0039773aea096mr22441362wmq.171.1653989648703; Tue, 31
+ May 2022 02:34:08 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 2002:a05:600c:1d91:0:0:0:0 with HTTP; Tue, 31 May 2022 02:34:08
+ -0700 (PDT)
+From:   "Hanni Kasprzak." <hannikasprzak@gmail.com>
+Date:   Tue, 31 May 2022 10:34:08 +0100
+Message-ID: <CAGJcbYMDH1SHs2Hqi+78dWskar9QRzRqZisN+eS9vSXUc98Vcg@mail.gmail.com>
+Subject: CONFIRM
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=2.6 required=5.0 tests=BAYES_50,DEAR_SOMETHING,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_MONEY autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Dzie=C5=84 dobry,=20
+-- 
+Norrebrogade 44
+800 Aarhus c
+Denmark.
 
-jaki=C5=9B czas temu zg=C5=82osi=C5=82a si=C4=99 do nas firma, kt=C3=B3re=
-j strona internetowa nie pozycjonowa=C5=82a si=C4=99 wysoko w wyszukiwarc=
-e Google.=20
+Dear Sir,
 
-Na podstawie wykonanego przez nas audytu SEO zoptymalizowali=C5=9Bmy tre=C5=
-=9Bci na stronie pod k=C4=85tem wcze=C5=9Bniej opracowanych s=C5=82=C3=B3=
-w kluczowych. Nasz wewn=C4=99trzny system codziennie analizuje prawid=C5=82=
-owe dzia=C5=82anie witryny.  Dzi=C4=99ki indywidualnej strategii, firma z=
-dobywa coraz wi=C4=99cej Klient=C3=B3w. =20
+Good day, First let me apologize if this email does not suit your business
+or personal ethics. I am Hanni Kasprzak .I have been diagnosed with
+Esophageal cancer and I am currently undergoing treatment in Denmark.
 
-Czy chcieliby Pa=C5=84stwo zwi=C4=99kszy=C4=87 liczb=C4=99 os=C3=B3b odwi=
-edzaj=C4=85cych stron=C4=99 internetow=C4=85 firmy? M=C3=B3g=C5=82bym prz=
-edstawi=C4=87 ofert=C4=99?=20
+It has defiled all forms of medical treatment and now I have a few months
+to live and I want you to help me distribute my funds to charities. If you
+are Interested please mail me back for more detailed information.
 
+Your immediate response to my direct email: hannikasprzak@gmail.com will be
+appreciated
 
-Pozdrawiam serdecznie,
-Wiktor Zielonko
+Best Regards,
+
+Hanni Kasprzak.
