@@ -2,62 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F6D553AE21
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Jun 2022 22:50:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 201BB53AEDF
+	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Jun 2022 00:50:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229457AbiFAUlz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 1 Jun 2022 16:41:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35966 "EHLO
+        id S231210AbiFAVTu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 1 Jun 2022 17:19:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229470AbiFAUly (ORCPT
+        with ESMTP id S231180AbiFAVTt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 1 Jun 2022 16:41:54 -0400
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2992258711
-        for <linux-kbuild@vger.kernel.org>; Wed,  1 Jun 2022 13:22:37 -0700 (PDT)
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-e5e433d66dso4204450fac.5
-        for <linux-kbuild@vger.kernel.org>; Wed, 01 Jun 2022 13:22:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=Gk4nfCem3ECRa7Gml0J0mN/3RZoOAdfGaQAqyHPKtiI=;
-        b=HLFKV03IvnCnmYNulbqEkPjTK3riUL87h2wHAPtiQ15M9iY6Q8e992KMQxJwLdk6f+
-         yc6asPWVRklcz8AY8oqwyi19SO9Z3FXfSKl8KIcHwdn2diZ16fcVN3Noj9XYHhxCnXOp
-         L86c6aBumcYcai1ti0jT0anzEO5LqUJSpP7KiFxQXIe3O9qnWY7viJfSABa1ly9ubc5O
-         7xqU4M/fQQEbpLLu8u6cCuAo0xRfp/5LoTJYIMP5ne/O4VXGwgI3hKlV02ue3fdzqvYA
-         6IABKhDngCz8ZKTuipfv5GZ/7HEqJFbM8x/u/85qQFiKTPs+Mb3XRU84XoMrlsTu1Zr+
-         PsMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=Gk4nfCem3ECRa7Gml0J0mN/3RZoOAdfGaQAqyHPKtiI=;
-        b=e9tMJZBuOZZN36CA4dhD3YxWi+9bvj7SqlDxxGLzgw+0dYH+NjLM/K8Y0tXO2sqXDD
-         hFLWLWMISHM9PIE/UehgzkTC2cZ6f1QuftbSxWm7H05xeC3YoczaAHPNFakVtZZojnW9
-         7cGTNDBO/Kmp2NU5jO4gnU3GVftauof9VJPGAob0kDJkicBu8jrTXAOiKU8va9ohsstu
-         giFZH6g8azmZ0yYtfzMIP0dZjNsr89XtI0WXB/wfG6O0vh0QGxNrhVp7dDjYhVAivzPx
-         DSTrh38X02lEDN+P6m4dG+eT/WbWCHVsWagAErZNUMtjpbL0aj/rM/SdJyC/Z6BUoCVk
-         k+9g==
-X-Gm-Message-State: AOAM533V+yJNYvcSsod/KU39JnWOsMYMlvq+mX+TUcKWoECted7hXAsn
-        Lxmowux6ww+D4svtJwh+rZwt4gbk2l4BJ16UqOcqbptonYU=
-X-Google-Smtp-Source: ABdhPJzieEZsH3sz7p7h/CGCrygaKC3twss2VqEDgMRTw52PjXyF0yZxDsfC/Wcw+CTWK4gcBihtpQQBph7O0cnThRw=
-X-Received: by 2002:a05:6870:308:b0:f1:ddfe:8ac5 with SMTP id
- m8-20020a056870030800b000f1ddfe8ac5mr16670934oaf.237.1654111051378; Wed, 01
- Jun 2022 12:17:31 -0700 (PDT)
+        Wed, 1 Jun 2022 17:19:49 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C59A3A76E7;
+        Wed,  1 Jun 2022 14:19:38 -0700 (PDT)
+Received: from leknes.fjasle.eu ([46.142.96.91]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MnJUy-1nUtIA27Iy-00jLcz; Wed, 01 Jun 2022 21:49:58 +0200
+Received: from localhost.fjasle.eu (bergen.fjasle.eu [IPv6:fdda:8718:be81:0:6f0:21ff:fe91:394])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by leknes.fjasle.eu (Postfix) with ESMTPS id ABFE93C09F;
+        Wed,  1 Jun 2022 21:49:56 +0200 (CEST)
+Authentication-Results: leknes.fjasle.eu; dkim=none; dkim-atps=neutral
+Received: by localhost.fjasle.eu (Postfix, from userid 1000)
+        id 694BF27B9; Wed,  1 Jun 2022 21:49:55 +0200 (CEST)
+Date:   Wed, 1 Jun 2022 21:49:55 +0200
+From:   Nicolas Schier <nicolas@fjasle.eu>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kernel@vger.kernel.org, Josh Poimboeuf <jpoimboe@redhat.com>,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: Re: [PATCH 2/4] kbuild: clean .tmp_* pattern by make clean
+Message-ID: <YpfC42gQGDJiMMNT@bergen.fjasle.eu>
+References: <20220528154704.2576290-1-masahiroy@kernel.org>
+ <20220528154704.2576290-2-masahiroy@kernel.org>
 MIME-Version: 1.0
-Received: by 2002:a05:6358:3601:b0:a3:2139:251d with HTTP; Wed, 1 Jun 2022
- 12:17:30 -0700 (PDT)
-Reply-To: johnwinery@online.ee
-From:   johnwinery <alicejohnson8974@gmail.com>
-Date:   Wed, 1 Jun 2022 12:17:30 -0700
-Message-ID: <CAFqHCSSUC0MpbjYK8d-GCxOG4b6Qbk2uH3+xQDZte6cPBsxLGA@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <20220528154704.2576290-2-masahiroy@kernel.org>
+Jabber-ID: nicolas@jabber.no
+X-Operating-System: Debian GNU/Linux bookworm/sid
+X-Provags-ID: V03:K1:iWTC9Fl0s+F1OypqFKLOqkbj83zsZ//QByOdoNj6YEXh0YX+PLt
+ E+b8wieuJIY9Pkg98zqSC18mjpdoK4pyi9a5/4uSSDKUtftd2fq2C2LiTV07y8JNsaxzqaj
+ GB/9oxbZmIDmvq/mlhF+qVBhsHO9ABu0fjWIkWlAxZAdknuX3r5RYsyQ/PjWIgpbBV3zHM1
+ ++MOmZ4ncIN9Woa/yjNlg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:HPgegc6THJM=:e24xwd5frNJbGKgbys85Fo
+ oKM78EGdhZ0oSrl+2blQX6alQJjIUVIBR7tXSHg/lUWWXIjrWzFhkNi6JgJAq7X2Bpv5LPIoY
+ D7q51XWHJMnNcmPlq6s0JG6wBS/wPPqafkesWdRLKbPnTqQoOGOZ7gjCQnEgeVA+UfSbcseF1
+ 73A/KkWd2lMaMqX6/EGI76Wone4slykcugSfBAjZydDU9tndfUC0hr29kAHwCgh8lZhUxLk23
+ l9TFmISMiMfZgkWdti6+dC2HWI6TbarbYBrvjFUGaiUAGYJg7+GIFa9x+SnHfEAbGBdfAro7z
+ ilWmcPw0otrgfzmSJkOJvR8JwL/wo+SzXXJJltCFB2OgKuIMo7NX6xwPSMk8HL3Z/WeLJHp3B
+ xuMRVE6QfKpqDKdauYLx3zu6NmTe76lJyu9LoRoUA64VlqHFpP1nNAZxVEqe6fVgDUFzjkCVq
+ f/zxkbWKYqA1ksiI9DqmmPvXhXUkRCk/icJB1bMDLoau3+DFrPCo5zQsm3MqE7KZepREe9GPZ
+ F7QBkKH/K2nx+oUsvAn3IZZBYeN0Xu4Q202qahzdHfzntCJLqEGcKZFSXLNwPWiitQXc2UMib
+ nIirUb0tc7SgHknTQkflU0ymxAmaDJR5ZAFJVIL9NwH7FnCFotvq8jPwrtxUNs6c8uIBATCDQ
+ e9lZKPyeRGu/igg4hkyWPf8/kdd5Hg+/Eg8IGMjSNqlpiPBlL8CJ3wLi9AM7I9iqBXnXea43g
+ 0PvJ7Pd/L2BwYfMXmJcR8oM0O8wRMdAKkJlrdA==
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,4 +69,37 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Greeting ,I had written an earlier mail to you but without response
+On Sun 29 May 2022 00:47:02 +0900, Masahiro Yamada wrote:
+> Change the "make clean" rule to remove all the .tmp_* files.
+> 
+> .tmp_objdiff is the only exception, which should be removed by
+> "make mrproper".
+> 
+> Rename the record directory of objdiff, .tmp_objdiff to .objdiff to
+> avoid the removal by "make clean".
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+> 
+>  Makefile                | 4 ++--
+>  scripts/link-vmlinux.sh | 3 ---
+>  scripts/objdiff         | 2 +-
+>  3 files changed, 3 insertions(+), 6 deletions(-)
+> 
+...
+> diff --git a/scripts/objdiff b/scripts/objdiff
+> index 72b0b63c3fe1..68b8d74e5c6f 100755
+> --- a/scripts/objdiff
+> +++ b/scripts/objdiff
+> @@ -32,7 +32,7 @@ if [ -z "$SRCTREE" ]; then
+>  	exit 1
+>  fi
+>  
+> -TMPD=$SRCTREE/.tmp_objdiff
+> +TMPD=$SRCTREE/.objdiff
+>  
+>  usage() {
+>  	echo >&2 "Usage: $0 <command> <args>"
+
+scripts/objdiff still has two occurrences of .tmp_objdiff (in the 
+comment block at the top).
