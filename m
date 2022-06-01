@@ -2,52 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F1E553A45B
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Jun 2022 13:51:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C43A053A596
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Jun 2022 14:59:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352981AbiFALvC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 1 Jun 2022 07:51:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33088 "EHLO
+        id S1353104AbiFAM7w (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 1 Jun 2022 08:59:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352970AbiFALuv (ORCPT
+        with ESMTP id S232460AbiFAM7v (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 1 Jun 2022 07:50:51 -0400
-Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E69F57163;
-        Wed,  1 Jun 2022 04:50:50 -0700 (PDT)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 251BoWtW017272;
-        Wed, 1 Jun 2022 20:50:33 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 251BoWtW017272
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1654084233;
-        bh=NATsHGCbKK8PLdAiZ14t0wK1RPAlU5XauGOgv25vz2Q=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=FcxrU9gUfili9Q5SstEgSpxLaaV0nz3bM0Yy8fKMH+6R5J9RfiQpf1/ZY4iK/bACG
-         3Zo4oft8Ri09tR/v9CCnUC2XE7okwtkz6yDTqIu/65BmCH1mI2sYtf1ObBXfQq8NWj
-         v+Hmjv90XiAnPyVNjujZHJMojQedtPzYuFMKfCytuWqRfrmclK5auD2V78EpUYTBWV
-         7d3rt94Jl0LsWysMIZEv34HH3S8k/TQ9/xYum6sK9jxDAq06z7EBp0O1zOzRGkFxZ3
-         stFvI1HjNwnUs+96Oh4rs2l2OJy3B/6Eih4MrlVIOa3+ETT9C4bPn9iG62kK6LiAJR
-         /a2+s4Rm85JvQ==
-X-Nifty-SrcIP: [209.85.214.173]
-Received: by mail-pl1-f173.google.com with SMTP id i1so1561459plg.7;
-        Wed, 01 Jun 2022 04:50:32 -0700 (PDT)
-X-Gm-Message-State: AOAM532y68Wi9imx6VZfx5b9EKrWwYV7LfM8pKvJpGPcd8OWaSFzRKa0
-        Nfdid7wgqDfEOhwqyHTHMXBH4JFFFB1cr/Wa06k=
-X-Google-Smtp-Source: ABdhPJyuQ86Chu9+Z6HG3rMD5E8egdmdsP1qvRPB7VUu7U3nrj9aJIk50Z/W4oqMDRDJ4D05ERPURs1SKzSx1NIG6WY=
-X-Received: by 2002:a17:902:f68f:b0:162:23c6:e61b with SMTP id
- l15-20020a170902f68f00b0016223c6e61bmr48058326plg.136.1654084232131; Wed, 01
- Jun 2022 04:50:32 -0700 (PDT)
+        Wed, 1 Jun 2022 08:59:51 -0400
+Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 508B2120A3;
+        Wed,  1 Jun 2022 05:59:51 -0700 (PDT)
+Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-306b5b452b1so17642587b3.1;
+        Wed, 01 Jun 2022 05:59:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8BqBLWoNu4B19J1Fspc2SAHZEi09XiRE7XyWJyBtdXI=;
+        b=Uy6ZSBgjed02+E2fMw0xKiNmN82sv0yobPE8khGV873qgMLIwDwAeTyqtzeZ5QBFlD
+         j7KkJo50kZiEGEokdat0X5GacsYGz4UT/3NRWi7Jn4zTXfhJayUQ14hPLOU3NcIB9Sav
+         LbXjrL+5P74mStixCyakpj5byNs9VRUi20bByV8JfVsu+17/CmNWImqcKWYmP5o+76Rn
+         uteCFMwPDAotIbzRdFl8FCktgyk612VrqvRMIGB5JftCiPIK7DepLE/dXDSHv0KuI+33
+         ZK8f+HwvTUVTl6G7cINeS3jkOvPe1nw/NXuaCchpltovpDscZvj98Bi55pYiq3OySSDV
+         NgYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8BqBLWoNu4B19J1Fspc2SAHZEi09XiRE7XyWJyBtdXI=;
+        b=FbCUdA6igGSWDZGavrtt54orNRcteDBs1FSTCwojkHVn4rQJRqEHaJZNLPRp/hUoEg
+         KFeF1ro/AJq4E3V4sR4+2MrPFxFTOL7XBYBKOEWR7iNtVoFqnqqlW18D8uK9z0UbYTGT
+         tyx73qQ8Oj8qsIHLAiWi5YWoNu/TLrj2/5+0aWegKTcfJUpZAbByahALTOT/fjmCmFt8
+         mWH+yCV0CSt+3WOQ6ZruzyF1F2TdKu4TXSCz1Vaj9bOjQkWjyAh3ccAHxgyWxblVyY+h
+         v9OIWDuyTOqXVm7KzqJCHlOvnjKmxjOdKAD9nWfexicygw5WjP3tX3elAB8W0COpChzR
+         AKUg==
+X-Gm-Message-State: AOAM531KDcPrx4EufCKPPTCNE/Qhw2DJXhSWZ22YKDRX/mRRnHJoubjk
+        1/9rkGzp4XHvYMQsxKx4/WuupfErmFwr/nkUa1TPm9+m
+X-Google-Smtp-Source: ABdhPJyF/ZTRrecG2Ztj6/kVSuGD3ioIxzwAowB8jNZKCcH0dY8zyUa4x6AuqMeup2HB/K6WP/CFUWeqdUoTaa/CCMY=
+X-Received: by 2002:a81:4ecc:0:b0:2ff:5ba5:6239 with SMTP id
+ c195-20020a814ecc000000b002ff5ba56239mr69932035ywb.233.1654088390579; Wed, 01
+ Jun 2022 05:59:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <YpdOBmEmkG0AaOX0@debian>
-In-Reply-To: <YpdOBmEmkG0AaOX0@debian>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 1 Jun 2022 20:49:55 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATjJ-n2FM28FvK6iof=DDs073MJ_fDmvgVGymQvRQj_gw@mail.gmail.com>
-Message-ID: <CAK7LNATjJ-n2FM28FvK6iof=DDs073MJ_fDmvgVGymQvRQj_gw@mail.gmail.com>
+References: <YpdOBmEmkG0AaOX0@debian> <CAK7LNATjJ-n2FM28FvK6iof=DDs073MJ_fDmvgVGymQvRQj_gw@mail.gmail.com>
+In-Reply-To: <CAK7LNATjJ-n2FM28FvK6iof=DDs073MJ_fDmvgVGymQvRQj_gw@mail.gmail.com>
+From:   Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Date:   Wed, 1 Jun 2022 13:59:14 +0100
+Message-ID: <CADVatmNf0DzuaL7ESgCSZV2mQjMdx=X9YD3FRJ-bKRj_-W6T2Q@mail.gmail.com>
 Subject: Re: mainline build failure due to f292d875d0dc ("modpost: extract
  symbol versions from *.cmd files")
-To:     Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Nicolas Schier <nicolas@fjasle.eu>,
         Nathan Chancellor <nathan@kernel.org>,
         Sami Tolvanen <samitolvanen@google.com>,
@@ -58,43 +64,48 @@ Cc:     Nicolas Schier <nicolas@fjasle.eu>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jun 1, 2022 at 8:31 PM Sudip Mukherjee
-<sudipm.mukherjee@gmail.com> wrote:
+On Wed, Jun 1, 2022 at 12:50 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Hi All,
+> On Wed, Jun 1, 2022 at 8:31 PM Sudip Mukherjee
+> <sudipm.mukherjee@gmail.com> wrote:
+> >
+> > Hi All,
+> >
+> > The latest mainline kernel branch fails to build for csky allmodconfig
+> > with the error:
+> >
+> > ._divsi3.o.cmd: No such file or directory
+> > make[1]: *** [scripts/Makefile.modpost:59: vmlinux.symvers] Error 1
+> > make: *** [Makefile:1160: vmlinux] Error 2
+> >
+> > git bisect pointed to f292d875d0dc ("modpost: extract symbol versions from *.cmd files")
+> >
+> > I will be happy to test any patch or provide any extra log if needed.
+> >
+> >
+> > --
+> > Regards
+> > Sudip
 >
-> The latest mainline kernel branch fails to build for csky allmodconfig
-> with the error:
+> A patch exists, and is already queued up in linux-next.
 >
-> ._divsi3.o.cmd: No such file or directory
-> make[1]: *** [scripts/Makefile.modpost:59: vmlinux.symvers] Error 1
-> make: *** [Makefile:1160: vmlinux] Error 2
+> https://patchwork.kernel.org/project/linux-kbuild/patch/20220529042318.2630379-1-masahiroy@kernel.org/
 >
-> git bisect pointed to f292d875d0dc ("modpost: extract symbol versions from *.cmd files")
->
-> I will be happy to test any patch or provide any extra log if needed.
->
->
-> --
-> Regards
-> Sudip
+> I will send a pull request this week.
 
-A patch exists, and is already queued up in linux-next.
-
-https://patchwork.kernel.org/project/linux-kbuild/patch/20220529042318.2630379-1-masahiroy@kernel.org/
-
-I will send a pull request this week.
+Thanks and I can confirm it fixes the build for me also.
 
 
 -- 
-Best Regards
-Masahiro Yamada
+Regards
+Sudip
