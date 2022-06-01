@@ -2,85 +2,92 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6960A538DC7
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 May 2022 11:34:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7706E53A42A
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Jun 2022 13:31:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245269AbiEaJeN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 31 May 2022 05:34:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58766 "EHLO
+        id S1351013AbiFALbY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 1 Jun 2022 07:31:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245263AbiEaJeL (ORCPT
+        with ESMTP id S243810AbiFALbX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 31 May 2022 05:34:11 -0400
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A4323DA45
-        for <linux-kbuild@vger.kernel.org>; Tue, 31 May 2022 02:34:10 -0700 (PDT)
-Received: by mail-wm1-x334.google.com with SMTP id c5-20020a1c3505000000b0038e37907b5bso903817wma.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 31 May 2022 02:34:10 -0700 (PDT)
+        Wed, 1 Jun 2022 07:31:23 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 845BA7035E;
+        Wed,  1 Jun 2022 04:31:22 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id n185so794072wmn.4;
+        Wed, 01 Jun 2022 04:31:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=T4el4Ue5w8GMV0gbkTqusU63CSEH0+g225x/jpSlXdM=;
-        b=g6IcS3PMAJZPZmtSDAUoMdS0kr1Myq9fW7JCwh+MQndFIEuoawPbGTQqHe7AH2oPrK
-         vw8VdziFGG9CUhSCKwlDgzT/K4dldRPgpsDfyjJ7qbHELDdA+BmguZn1DIhmJaPkTZYv
-         2YgVAfro7gby8bZq7MIVJjflC6puM4AS0LobUATvDYT+BGUJgqTMIuEo9WrpKNFH8tUP
-         U1t4LXkEtDrg7UIoo6tACH1gopVsUw9l+5m47/tCtfECfvmW8nFZw9fyRlZqV+arKILm
-         gZRBweJ2vMfIzn+qZDZmVADM0ArWgo2kP8PzqNy0CLIWuwYtQvtrDqGbUNelsM+SR+KY
-         6KGQ==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=8m5w0VP4J7yp0Tfw5vI1hU7tdi7anvKhoAsyYAE5VPU=;
+        b=N994epOtFhDoj3ZPMMDoAZHkX3EoRIKLXRDzZwp+t0E6osKalIPMlP+cvmXi5MYVBu
+         x5hM8D7fXmDwHhz/sGqWSee+ELg1CNUs0Jgy0NUhcQM+q5tx3Ot4tV33TvcjGtj4+2am
+         WpY26WmNPYd4TLHRo7eUnTNX/9s/oWlzojs8uMp0P4Y8pNABP9Bbv5ha13Pk23ABpzND
+         d6ei+PSo//An+YtCLE76ypmA/9x+GSNUfNEriXQIOK5mrJ/k4ttjOLuYFEyp2t0gJSaC
+         9YQmQA/CBMShbtWTUyW0nCXgzMJaZ1TdPL5a+h7m5qHPs2CDeSRu8euDyQNOksb1R/+m
+         7Q2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=T4el4Ue5w8GMV0gbkTqusU63CSEH0+g225x/jpSlXdM=;
-        b=0jqVZdAuoypwnfjEMMUCXEj/6SmUF5OTUSTVssJ100tqTtayqVFG/mdfwkUM3q8R6x
-         bu2FQDbzS+MFuq33qM6Fc6Rpu1feGMf8lpbGh8Pe7pnUkr7gzvbfzYC3uR6piOsOsGY/
-         sEDkByGLgPbaskwXa6ZUTV86Esgj7jl9pkskco22QL9f1ocRjqsvJ+EumTaYizy1ThFb
-         XmM6QOq4fLL81SQIH4/ZYtoc5B6ez+oimdiqiVO7+dCm2kUknKRTNl118SdRMYJ4YAt6
-         lZ+PXisfUSHZ1j4sn1mXQiBwSmMk/fe2gVjApeLA+A5NofjThDxAwbvD/chMOzC1BoyY
-         TUqA==
-X-Gm-Message-State: AOAM5309VLtr/ZRGHhv69f05wggi/SOZYc6EnQL2xJDsEsRFC91UjwW4
-        pYSenz3Hp2/71xdIcqS/WDRokJ2RsbTgkgVJLGSUZF0TsNw=
-X-Google-Smtp-Source: ABdhPJwAboKm20wdlu5t8klFV864AwRStQ4J0xmivrWD3CpNfFjEKyZ5ccTTdUMX7ThXJfO+f8nujpSzysw9paroWgg=
-X-Received: by 2002:a05:600c:34c7:b0:397:73ae:a096 with SMTP id
- d7-20020a05600c34c700b0039773aea096mr22441362wmq.171.1653989648703; Tue, 31
- May 2022 02:34:08 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=8m5w0VP4J7yp0Tfw5vI1hU7tdi7anvKhoAsyYAE5VPU=;
+        b=6IfS547KbmFw8Rt+sJlUt1U0hRPUanPw6vmjDzgcfCiH9DozHBaoJwjBT6VXsq/W4u
+         WeBa4rVtb7PeZDL5SCXhVvW0nDAzZFw9ewgzhhefeOg31QdIj0ncFIRoq8CPG8wK3P6t
+         P4OtUHpHt85K3AAhcavr6+ApbwRNFrHLl0z69elIttc6BR/JwgMcu/8midTKEt6grt6Q
+         hqpRRsP7Pz4EnpFznub7G3O3TjScyj8ECkgylT+3MRATPvWSBhzTCi6DKnE78H3pYJ6A
+         2jYdVwIq2Itoo9qMZXHhDoOqDIRG5rEAID2Z0jquf0TNbDibL9gI3QajOCHNAIdn43IJ
+         sVXg==
+X-Gm-Message-State: AOAM530rKP0YzEiHVij8H4AUGsg0bzjnPolIEYEG4+WMEc5apHyMOTqJ
+        FV1Bi2xF7RFiI76By5llBpk=
+X-Google-Smtp-Source: ABdhPJyBKTFfBtnQ+y6h1hy7sPwwdWf3Q3fF+kHhgmrXnf0hnFooHIh9bxlAkXs6nnPXrAJ38MBfqQ==
+X-Received: by 2002:a05:600c:4fd2:b0:39c:1586:a2e0 with SMTP id o18-20020a05600c4fd200b0039c1586a2e0mr10873557wmq.62.1654083080751;
+        Wed, 01 Jun 2022 04:31:20 -0700 (PDT)
+Received: from debian (host-2-98-37-191.as13285.net. [2.98.37.191])
+        by smtp.gmail.com with ESMTPSA id h1-20020a5d4fc1000000b0020fc4cd81f6sm1303439wrw.60.2022.06.01.04.31.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jun 2022 04:31:20 -0700 (PDT)
+Date:   Wed, 1 Jun 2022 12:31:18 +0100
+From:   Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Sedat Dilek <sedat.dilek@gmail.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        torvalds@linux-foundation.org
+Subject: mainline build failure due to f292d875d0dc ("modpost: extract symbol
+ versions from *.cmd files")
+Message-ID: <YpdOBmEmkG0AaOX0@debian>
 MIME-Version: 1.0
-Received: by 2002:a05:600c:1d91:0:0:0:0 with HTTP; Tue, 31 May 2022 02:34:08
- -0700 (PDT)
-From:   "Hanni Kasprzak." <hannikasprzak@gmail.com>
-Date:   Tue, 31 May 2022 10:34:08 +0100
-Message-ID: <CAGJcbYMDH1SHs2Hqi+78dWskar9QRzRqZisN+eS9vSXUc98Vcg@mail.gmail.com>
-Subject: CONFIRM
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=2.6 required=5.0 tests=BAYES_50,DEAR_SOMETHING,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_MONEY autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: **
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
--- 
-Norrebrogade 44
-800 Aarhus c
-Denmark.
+Hi All,
 
-Dear Sir,
+The latest mainline kernel branch fails to build for csky allmodconfig
+with the error:
 
-Good day, First let me apologize if this email does not suit your business
-or personal ethics. I am Hanni Kasprzak .I have been diagnosed with
-Esophageal cancer and I am currently undergoing treatment in Denmark.
+._divsi3.o.cmd: No such file or directory
+make[1]: *** [scripts/Makefile.modpost:59: vmlinux.symvers] Error 1
+make: *** [Makefile:1160: vmlinux] Error 2
 
-It has defiled all forms of medical treatment and now I have a few months
-to live and I want you to help me distribute my funds to charities. If you
-are Interested please mail me back for more detailed information.
+git bisect pointed to f292d875d0dc ("modpost: extract symbol versions from *.cmd files")
 
-Your immediate response to my direct email: hannikasprzak@gmail.com will be
-appreciated
+I will be happy to test any patch or provide any extra log if needed.
 
-Best Regards,
 
-Hanni Kasprzak.
+--
+Regards
+Sudip
