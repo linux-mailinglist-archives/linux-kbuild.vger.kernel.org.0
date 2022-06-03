@@ -2,95 +2,81 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 82A0653C7B5
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Jun 2022 11:39:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9571353CA91
+	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Jun 2022 15:21:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237876AbiFCJjM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 3 Jun 2022 05:39:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55254 "EHLO
+        id S230191AbiFCNVE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 3 Jun 2022 09:21:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235991AbiFCJjL (ORCPT
+        with ESMTP id S244577AbiFCNVD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 3 Jun 2022 05:39:11 -0400
-Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86EDC3A5EC;
-        Fri,  3 Jun 2022 02:39:10 -0700 (PDT)
-Received: by mail-il1-x132.google.com with SMTP id u2so4782804iln.2;
-        Fri, 03 Jun 2022 02:39:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+4F0qudayc+M93j//60ABCGINuGmdSDmE1k3s0/tpIY=;
-        b=ptoox3EvR5d8yx7hbII4t2fKA+Qr9RtMCdevGQjv+qch0HSQMaD8+vIjTdhK9Ilagx
-         Cbbmd6pw16ZyMLSyyugZ+2QwdozoM/8QcKGp0g2akI7dAKiQ5epQdy3xTh9UFJk0Cach
-         /5I2gpHS2Ppm/kGMc9fesWp19I8XIXcwYtODTzupBlDX+SQNTVzZNLCYwVP6BTvIrgWa
-         +ZVpa0nhY+relt5AdnoDg+0JPX2+rwclUwWxxNytO0LOPOhU24t9LOvuSTjaK7k2fnMQ
-         /yP8l1k7r4dMT78VjaE+nggCU7K0p3w/KlqdbEe7m2nZ9xJTdVRmgdmDyj3q01FZkKkX
-         surg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+4F0qudayc+M93j//60ABCGINuGmdSDmE1k3s0/tpIY=;
-        b=MrcIvJZpJwlfqIKPIbo40Ddr1x5aTxIA4wSKyb5gHjeA78egNEtb/gC3YB1idhr5zr
-         +YHFmelZHPA0C3sx2CxLLlMK9ZEvE17xBQUQx1wUZhl5bnaO2ekQ1+g9/fjDu8RL/J48
-         kG27yR71YeVGaE9VT8qdLquc9sRaGkgBAn4If10QHieopp4IZBzWkVXy/273xrOtVKzy
-         2Ng/LGKwhDMJcSUebrq3J8o7rowUo9ZtTYphOODmKxO4cdbiB5W5SbQFR3prhWdWxSqS
-         rqTUKPmmxDE4N+FTyWPiAztqojBtPPSj479wKa4ULh9fMiLZk+aS7H4zeWKNKexOhBKX
-         x7+Q==
-X-Gm-Message-State: AOAM532alfISIrHex814Y0YvrBJfsIO1voRB1CWEY3g8N6KjC7JMKhQB
-        iFeN4HYAYRmpFiUV9gw1R2tCcRzup4Kf6/2j
-X-Google-Smtp-Source: ABdhPJzFjjxHNNWgJiTr5xAqufCU8cGVjPYvArJY7s9M6OZ/v86cLSHUBr5C1Fsuiht12lQ9uCQKlA==
-X-Received: by 2002:a02:1986:0:b0:331:5c52:5b9b with SMTP id b128-20020a021986000000b003315c525b9bmr5222552jab.69.1654249149977;
-        Fri, 03 Jun 2022 02:39:09 -0700 (PDT)
-Received: from localhost.localdomain (ec2-13-59-0-164.us-east-2.compute.amazonaws.com. [13.59.0.164])
-        by smtp.gmail.com with ESMTPSA id w69-20020a025d48000000b0032e2dce10aesm2314800jaa.160.2022.06.03.02.39.05
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 03 Jun 2022 02:39:09 -0700 (PDT)
-From:   Schspa Shi <schspa@gmail.com>
-To:     ndesaulniers@google.com, masahiroy@kernel.org,
-        michal.lkml@markovi.net
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        peterz@infradead.org, Schspa Shi <schspa@gmail.com>
-Subject: [PATCH] kbuild: Allow to select bash in a modified environment
-Date:   Fri,  3 Jun 2022 17:38:52 +0800
-Message-Id: <20220603093852.13818-1-schspa@gmail.com>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+        Fri, 3 Jun 2022 09:21:03 -0400
+Received: from conuserg-08.nifty.com (conuserg-08.nifty.com [210.131.2.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01B02245A7;
+        Fri,  3 Jun 2022 06:20:59 -0700 (PDT)
+Received: from grover.sesame (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
+        by conuserg-08.nifty.com with ESMTP id 253DK9iZ017775;
+        Fri, 3 Jun 2022 22:20:10 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 253DK9iZ017775
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1654262410;
+        bh=spC6MajrG7NwKyGAmtsaMom7omn96bhzYQ3DbtXXdUQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=lxJ8Xf9aqNk0ACrYsK55j3NPxVmCltv1xvvgs77EktylSY8v+BOjmQ+cHuNJLU4xY
+         f/ox0PHL3BTsRKAR0qgTd1jxziMP0L5QetYEvSFokM4ZBj/Yq+O3+KQhHdZSzAMsc8
+         cfIw0umlUiDOQCgG6arQhr0SZdk1y9zj6zJYRrB47STU6Uu/ZVsXepoPU8i8ZOH3vA
+         DVJlVKn5ki5b85Bk90ESJLyO+DdgjPEbQ8Wb9wM5AD04IlWMVJSKB7k67CMy4KyFTa
+         iX1Y/KuHXalaEU7Fp9TqcLC0H/mBCwcSVGusk4qw1K7d0BW1l1Mz379HS90oF9ldRi
+         vk0visl+cnfIA==
+X-Nifty-SrcIP: [133.32.177.133]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nicolas Schier <n.schier@avm.de>
+Subject: [PATCH] scripts/objdiff: fix stale comments about .tmp_objdiff
+Date:   Fri,  3 Jun 2022 22:20:07 +0900
+Message-Id: <20220603132008.3935851-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This fixes the build error when the system has a default bash version
-which is too old to support associative array variables.
+Fix the two occurrences of .tmp_objdiff in the comment block.
 
-The build error log as fellowing:
-linux/scripts/check-local-export: line 11: declare: -A: invalid option
-declare: usage: declare [-afFirtx] [-p] [name[=value] ...]
-
-Signed-off-by: Schspa Shi <schspa@gmail.com>
+Fixes: 0ef3bf716886 ("kbuild: clean .tmp_* pattern by make clean")
+Reported-by: Nicolas Schier <n.schier@avm.de>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
- scripts/check-local-export | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/check-local-export b/scripts/check-local-export
-index 017119d89cd2..2defd0bf3552 100755
---- a/scripts/check-local-export
-+++ b/scripts/check-local-export
-@@ -1,4 +1,4 @@
--#!/bin/bash
-+#!/usr/bin/env bash
- # SPDX-License-Identifier: GPL-2.0-only
+ scripts/objdiff | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/objdiff b/scripts/objdiff
+index 68b8d74e5c6f..0685bc3ce3df 100755
+--- a/scripts/objdiff
++++ b/scripts/objdiff
+@@ -20,10 +20,10 @@
+ # $ ./scripts/objdiff diff COMMIT_A COMMIT_B
+ # $
+ 
+-# And to clean up (everything is in .tmp_objdiff/*)
++# And to clean up (everything is in .objdiff/*)
+ # $ ./scripts/objdiff clean all
  #
- # Copyright (C) 2022 Masahiro Yamada <masahiroy@kernel.org>
+-# Note: 'make mrproper' will also remove .tmp_objdiff
++# Note: 'make mrproper' will also remove .objdiff
+ 
+ SRCTREE=$(cd $(git rev-parse --show-toplevel 2>/dev/null); pwd)
+ 
 -- 
-2.24.3 (Apple Git-128)
+2.32.0
 
