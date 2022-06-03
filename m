@@ -2,85 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C883053C016
-	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Jun 2022 22:57:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82A0653C7B5
+	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Jun 2022 11:39:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239263AbiFBU4Y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 2 Jun 2022 16:56:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40222 "EHLO
+        id S237876AbiFCJjM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 3 Jun 2022 05:39:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239204AbiFBU4Q (ORCPT
+        with ESMTP id S235991AbiFCJjL (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 2 Jun 2022 16:56:16 -0400
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com [IPv6:2607:f8b0:4864:20::1131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BC8D34B84
-        for <linux-kbuild@vger.kernel.org>; Thu,  2 Jun 2022 13:56:14 -0700 (PDT)
-Received: by mail-yw1-x1131.google.com with SMTP id 00721157ae682-2ec42eae76bso64018857b3.10
-        for <linux-kbuild@vger.kernel.org>; Thu, 02 Jun 2022 13:56:14 -0700 (PDT)
+        Fri, 3 Jun 2022 05:39:11 -0400
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86EDC3A5EC;
+        Fri,  3 Jun 2022 02:39:10 -0700 (PDT)
+Received: by mail-il1-x132.google.com with SMTP id u2so4782804iln.2;
+        Fri, 03 Jun 2022 02:39:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=d+MLllrTnVLTVuNtzK3RkWrOuNSSWMmwIaiBnbLtjnI=;
-        b=bP2Bg9kPaoZeUOZTwDrCf0TcA+yFfRTyMPXiyBc1hgaOcOhU/7J6HXpUJAtG0vGXe2
-         HdiVuKHQ73+Sw6+AW2z0L7B1Zsq49m0EOs8HolvzyvIAHihXph0OX/EBNR9r+H2kwGg5
-         t0Tv6/pTSym6LNcptuCtK0UtS6rHSK3/p0HDzjbM35P+QVVx1b9hFaP01w4lpi2w19ri
-         CpgzaJ6JCIMU59184vXDSaP/UrOHUA/1xCZF0mJMj12N/l7Bbr0PLi7jJ04MvIc6tYCG
-         tcjfS5PI7JJFlAWRY4yMBNBphwLp9KqnO6CQ1HYhKtGa7S81lqwsIX6SVwOghQ5lGL5L
-         qKlw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+4F0qudayc+M93j//60ABCGINuGmdSDmE1k3s0/tpIY=;
+        b=ptoox3EvR5d8yx7hbII4t2fKA+Qr9RtMCdevGQjv+qch0HSQMaD8+vIjTdhK9Ilagx
+         Cbbmd6pw16ZyMLSyyugZ+2QwdozoM/8QcKGp0g2akI7dAKiQ5epQdy3xTh9UFJk0Cach
+         /5I2gpHS2Ppm/kGMc9fesWp19I8XIXcwYtODTzupBlDX+SQNTVzZNLCYwVP6BTvIrgWa
+         +ZVpa0nhY+relt5AdnoDg+0JPX2+rwclUwWxxNytO0LOPOhU24t9LOvuSTjaK7k2fnMQ
+         /yP8l1k7r4dMT78VjaE+nggCU7K0p3w/KlqdbEe7m2nZ9xJTdVRmgdmDyj3q01FZkKkX
+         surg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=d+MLllrTnVLTVuNtzK3RkWrOuNSSWMmwIaiBnbLtjnI=;
-        b=nqaKI8Y4Ima3Xu5wmoLOJ5qWtttDzYqmqMFn4IFnoF+caRL/qKTcahvX+Ucg+WDOg3
-         CSZM1kMmdtq3iThsf8un/Dz6iwHixR0jlJD+O+VcQ6I6eMr5CIstcYuEY1GPOeKoSIn1
-         Rpt/Z5Dya9K8re+9Jjh/FGo7wJRu8w8LYLVSwRp8RxA5S2Gf9HmPT9pCIhqfPdETdVS2
-         OilJ3wGjXjZMRy5kSjq2fve+7ti7ANjlS+9QqFJqFj5qAzHLnMJYDiTSTtVKhONnd2hx
-         dA5GC2YqydaT9RjFw97YtHxPMrkDf+uovvmk4CpJ5cTprik2yUZHDFrMskwTvOiNkpxY
-         haTw==
-X-Gm-Message-State: AOAM533rjpUU+cKpY2QKl+wx6hWklXFfEwkpzsqxuPB/N+OC+iqTt23A
-        Rut/iS0H0+/mv0earE1E0YVoJYeOyMjdgzh0zSo=
-X-Google-Smtp-Source: ABdhPJzz4CIFTzLwRd4bDwRghcuq8KmAMJuf1ZQNKj3c2Lo/OmAL2dCZKUleJ315pEcSs8xxcj3S1aQ8FnTEFw1HYHw=
-X-Received: by 2002:a81:1358:0:b0:30c:2e28:4050 with SMTP id
- 85-20020a811358000000b0030c2e284050mr7698599ywt.206.1654203372355; Thu, 02
- Jun 2022 13:56:12 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+4F0qudayc+M93j//60ABCGINuGmdSDmE1k3s0/tpIY=;
+        b=MrcIvJZpJwlfqIKPIbo40Ddr1x5aTxIA4wSKyb5gHjeA78egNEtb/gC3YB1idhr5zr
+         +YHFmelZHPA0C3sx2CxLLlMK9ZEvE17xBQUQx1wUZhl5bnaO2ekQ1+g9/fjDu8RL/J48
+         kG27yR71YeVGaE9VT8qdLquc9sRaGkgBAn4If10QHieopp4IZBzWkVXy/273xrOtVKzy
+         2Ng/LGKwhDMJcSUebrq3J8o7rowUo9ZtTYphOODmKxO4cdbiB5W5SbQFR3prhWdWxSqS
+         rqTUKPmmxDE4N+FTyWPiAztqojBtPPSj479wKa4ULh9fMiLZk+aS7H4zeWKNKexOhBKX
+         x7+Q==
+X-Gm-Message-State: AOAM532alfISIrHex814Y0YvrBJfsIO1voRB1CWEY3g8N6KjC7JMKhQB
+        iFeN4HYAYRmpFiUV9gw1R2tCcRzup4Kf6/2j
+X-Google-Smtp-Source: ABdhPJzFjjxHNNWgJiTr5xAqufCU8cGVjPYvArJY7s9M6OZ/v86cLSHUBr5C1Fsuiht12lQ9uCQKlA==
+X-Received: by 2002:a02:1986:0:b0:331:5c52:5b9b with SMTP id b128-20020a021986000000b003315c525b9bmr5222552jab.69.1654249149977;
+        Fri, 03 Jun 2022 02:39:09 -0700 (PDT)
+Received: from localhost.localdomain (ec2-13-59-0-164.us-east-2.compute.amazonaws.com. [13.59.0.164])
+        by smtp.gmail.com with ESMTPSA id w69-20020a025d48000000b0032e2dce10aesm2314800jaa.160.2022.06.03.02.39.05
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 03 Jun 2022 02:39:09 -0700 (PDT)
+From:   Schspa Shi <schspa@gmail.com>
+To:     ndesaulniers@google.com, masahiroy@kernel.org,
+        michal.lkml@markovi.net
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        peterz@infradead.org, Schspa Shi <schspa@gmail.com>
+Subject: [PATCH] kbuild: Allow to select bash in a modified environment
+Date:   Fri,  3 Jun 2022 17:38:52 +0800
+Message-Id: <20220603093852.13818-1-schspa@gmail.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-Sender: bbchitex6@gmail.com
-Received: by 2002:a81:d447:0:0:0:0:0 with HTTP; Thu, 2 Jun 2022 13:56:11 -0700 (PDT)
-From:   "Mr.Patrick Joseph" <patrickjos09@gmail.com>
-Date:   Thu, 2 Jun 2022 13:56:11 -0700
-X-Google-Sender-Auth: 2x_0MgxYCCazRZg9th9WovhcOhY
-Message-ID: <CADX4xg+gCaCydEs1Tz5F-66oRNkS3vNJUkBVhip+COD_if2nGA@mail.gmail.com>
-Subject: I expect your urgent reply
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.4 required=5.0 tests=ADVANCE_FEE_5_NEW_MONEY,
-        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,LOTS_OF_MONEY,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,
-        T_MONEY_PERCENT,T_SCC_BODY_TEXT_LINE,UNDISC_MONEY,URG_BIZ autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello Friend,
+This fixes the build error when the system has a default bash version
+which is too old to support associative array variables.
 
-I apologize for contacting you this way, I am writing you this mail to
-solicit for your cooperation in a very confidential business
-transaction of $16.5 million. However, it is not authorized by the
-rules guiding our bank for a citizen of Burkina Faso to make the claim
-of the fund unless you are a foreigner, I ask you can we work
-together, I will be pleased to work with you I propose a 40% of the
-total amount to you after receiving the funds successfully, and I
-assure you that this transaction is 100% risks free. Reply me as soon
-as possible so that I will let you know the next steps and procedures
-to follow in order to finalize this transaction immediately.
+The build error log as fellowing:
+linux/scripts/check-local-export: line 11: declare: -A: invalid option
+declare: usage: declare [-afFirtx] [-p] [name[=value] ...]
 
-I expect your urgent reply
+Signed-off-by: Schspa Shi <schspa@gmail.com>
+---
+ scripts/check-local-export | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards.
-Mr. Patrick Joseph.
+diff --git a/scripts/check-local-export b/scripts/check-local-export
+index 017119d89cd2..2defd0bf3552 100755
+--- a/scripts/check-local-export
++++ b/scripts/check-local-export
+@@ -1,4 +1,4 @@
+-#!/bin/bash
++#!/usr/bin/env bash
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
+ # Copyright (C) 2022 Masahiro Yamada <masahiroy@kernel.org>
+-- 
+2.24.3 (Apple Git-128)
+
