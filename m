@@ -2,143 +2,132 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D9CF953F872
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Jun 2022 10:45:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C800553F99E
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Jun 2022 11:28:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238390AbiFGIpL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 7 Jun 2022 04:45:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57148 "EHLO
+        id S239442AbiFGJ2K (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 7 Jun 2022 05:28:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238403AbiFGIpC (ORCPT
+        with ESMTP id S239454AbiFGJ2F (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 7 Jun 2022 04:45:02 -0400
-Received: from conuserg-11.nifty.com (conuserg-11.nifty.com [210.131.2.78])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBC6160B9C;
-        Tue,  7 Jun 2022 01:45:00 -0700 (PDT)
-Received: from grover.sesame (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id 2578hKA3010951;
-        Tue, 7 Jun 2022 17:43:20 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 2578hKA3010951
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1654591401;
-        bh=Cj3y+Qp/VjL00R1LaGKflQeOz1WUkQnA5jR/e3iAuTM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=LIef4QxqITUfGQJLjVLGmPDVSHahO1iLHJEyvQCP/1vbQh/kGp+1JVcoUX3Nu8sAM
-         MGSQF50CK+RvFQSRHkI0DdO99FAdS8fK/ZZmxYWm27wZsAH7DJ/WdMESOJbKSJoG19
-         bUv7OfHclT08KCLgRNQslG5x0cb7KhVvzXzEzWucWgBMV0/MrPwa2pHkqPV8HjyuC8
-         5V7BlQ0CF0nlW+7W6tZUx+E/uIU9AtAUowItiLsSrry4ECySlBdF5GcxU3hNF8uA5K
-         jgOxJdw5GUDDi4gNXs8GlHu4ArK61UkOhzHsx9X7/5WajN+kl/+eYxTUIq3R8oSKTl
-         UR2zNdTIAwG1Q==
-X-Nifty-SrcIP: [133.32.177.133]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Wang Yugui <wangyugui@e16-tech.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev
-Subject: [PATCH] scripts/check-local-export: avoid 'wait $!' for process substitution
-Date:   Tue,  7 Jun 2022 17:43:17 +0900
-Message-Id: <20220607084317.211785-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.32.0
+        Tue, 7 Jun 2022 05:28:05 -0400
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ED364A3DD
+        for <linux-kbuild@vger.kernel.org>; Tue,  7 Jun 2022 02:28:01 -0700 (PDT)
+Received: by mail-ot1-x334.google.com with SMTP id l9-20020a056830268900b006054381dd35so12540244otu.4
+        for <linux-kbuild@vger.kernel.org>; Tue, 07 Jun 2022 02:28:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=ohM259uqobJqtM7gttWurWj7P+4iDfPJquHax95olDY=;
+        b=gujHBVxqWIlmngbJHwwatlrY6K2BhXGLJOXKENebOL4hOCXVjvoa+7rQ+wCwOuo7nz
+         8e28HbaszMFtjrNu2xJwHUtJo1p0vWs5cPK29M2FpYQX1yrDGputAW1tF1NfmP59wawm
+         4ciGU9SnxDgRMb84mTOs96+/9zN97uENfqj9/+eZfuG77h5pSaMszmbmnWOwi9m+gNzd
+         5NtwsZACk2ULSP0cRt0MdNUxBuwzIbCfzmloCBb/Ue1QhCyZ8f6GEgrTXVIY7durHnKk
+         UWQF6j7yHnTlxlvI9xCgSzii4NusQH9ADfpyzQwiF9b+OrCBSH3adFs9TwqclNBk9aQF
+         O14A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=ohM259uqobJqtM7gttWurWj7P+4iDfPJquHax95olDY=;
+        b=t4kg87pYgEjzHWKLLsVqo47w5URhH8+37w17fqqNUGcjYyejfcjNNznmcxfGD4uJF2
+         bI8gUjJ8RXCnC6UigQ8W8B2k+60jf08pzolUnYcrfC6PqliT7xgqhbutKtF73//H+mOy
+         E7wB1Ghk4IoE/25sO9JUfPMtAddc6V5U90zBsUi5n711lsd7BBmZ1wO0F+daUToLb6Xp
+         Nbv3OUnXw2MXdyz1kMR8pp78bdDDrkbTCG80kdIMtkp5Rqv84+xdSe1PRR1mBV9WPzAa
+         NHV20jcZgaoX1AAaFYInnzl6Sw+QevCTAZeXKaGSUm2u7RbbfTIZy55QBFRWK4hqDqYP
+         EGQw==
+X-Gm-Message-State: AOAM531KyCze46JW8w8X0Ze+GzpzLhwOy9sft4M9gNnP1NSBixuE61as
+        craNoXwv2RP7KO5oeN0XjYrvciQs4Q8PQ5hFc+c=
+X-Google-Smtp-Source: ABdhPJxTYNOyqQTj+pRtv7B26L++zgaw4oyR9fAzq9Xjy/qi86fDOL5mMOdKcDA6Petw4QZgBH7CHdeaexgYk1On3ls=
+X-Received: by 2002:a05:6830:919:b0:60a:fe63:e321 with SMTP id
+ v25-20020a056830091900b0060afe63e321mr11494607ott.227.1654594080399; Tue, 07
+ Jun 2022 02:28:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Received: by 2002:a05:6358:99a5:b0:a2:a1fa:9308 with HTTP; Tue, 7 Jun 2022
+ 02:28:00 -0700 (PDT)
+Reply-To: robertbaileys_spende@aol.com
+From:   Robert Baileys <mercymiji.j@gmail.com>
+Date:   Tue, 7 Jun 2022 11:28:00 +0200
+Message-ID: <CAAD1zOZ9bCDqBnjmbC3dQfgC=P2zTqAS=TP3q5qK5TFB5=Q9dQ@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=6.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,UNDISC_MONEY autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:334 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [mercymiji.j[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  2.3 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  2.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
+        *      email?
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+        *  0.6 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Bash>=4.4 supports 'wait $!' to check the exit status of a process
-substitution, but some people using older bash versions reported an
-error like this:
+--=20
+Hallo, lieber Beg=C3=BCnstigter,
 
-  ./scripts/check-local-export: line 54: wait: pid 17328 is not a child of this shell
+Sie haben diese E-Mail von der Robert Bailey Foundation erhalten. Ich
+bin ein pensionierter Regierungsangestellter aus Harlem und ein
+Powerball-Lotterie-Jackpot-Gewinner von 343,8 Millionen Dollar. Ich
+bin der gr=C3=B6=C3=9Fte Jackpot-Gewinner in der Geschichte der New York Lo=
+ttery
+in Amerika. Ich habe diesen Wettbewerb am 27. Oktober 2018 gewonnen
+und m=C3=B6chte Ihnen mitteilen, dass Google in Kooperation mit Microsoft
+Ihre "E-Mail-Adresse" f=C3=BCr meine Anfrage hat und diese 3.000.000,00
+Millionen Euro kosten wird. Ich spende diese 3 Millionen Euro an Sie,
+um auch Wohlt=C3=A4tigkeitsorganisationen und armen Menschen in Ihrer
+Gemeinde zu helfen, damit wir die Welt zu einem besseren Ort f=C3=BCr alle
+machen k=C3=B6nnen. Bitte besuchen Sie die folgende Website f=C3=BCr weiter=
+e
+Informationen, damit Sie diesen 3 Mio. EUR Ausgaben nicht skeptisch
+gegen=C3=BCberstehen.
+https://nypost.com/2018/11/14/meet-the-winner-of-the-biggest-lottery-jackpo=
+t-in-new-york-history/Sie
+Weitere Best=C3=A4tigungen kann ich auch auf meinem Youtube suchen:
+https://www.youtube.com/watch?v=3DH5vT18Ysavc
+Bitte antworten Sie mir per E-Mail (robertbaileys_spende@aol.com).
+Sie m=C3=BCssen diese E-Mail sofort beantworten, damit die =C3=BCberweisend=
+e
+Bank mit dem Erhalt dieser Spende in H=C3=B6he von 3.000.000,00 Millionen
+Euro beginnen kann.
+Bitte kontaktieren Sie die untenstehende E-Mail-Adresse f=C3=BCr weitere
+Informationen, damit Sie diese Spende von der =C3=BCberweisenden Bank
+erhalten k=C3=B6nnen. E-Mail: robertbaileys_spende@aol.com
 
-I used the process substitution because a pipeline executes each command
-in a subshell; variables modified within the while-loop in the subshell
-context would be lost after the subshell terminates.
+Gr=C3=BC=C3=9Fe,
+Robert Bailey
+* * * * * * * * * * * * * * * *
 
-Fortunately, Bash>=4.2 supports the 'lastpipe' option, which runs the
-last element of a pipeline in the current shell process.
-
-Also, set 'pipefail' to catch errors from ${NM}.
-
-Bash 4.2, released in 2011, is 5 years older than Bash 4.4.
-
-Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Reported-by: Michael Ellerman <mpe@ellerman.id.au>
-Reported-by: Wang Yugui <wangyugui@e16-tech.com>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- scripts/check-local-export | 35 ++++++++++++++++++++---------------
- 1 file changed, 20 insertions(+), 15 deletions(-)
-
-diff --git a/scripts/check-local-export b/scripts/check-local-export
-index da745e2743b7..e21c7b54885d 100755
---- a/scripts/check-local-export
-+++ b/scripts/check-local-export
-@@ -8,11 +8,30 @@
- 
- set -e
- 
-+# catch errors from ${NM}
-+set -o pipefail
-+
-+# Run the last element of a pipeline in the current shell.
-+# Without this, the while-loop would be executed in a subshell, and
-+# the changes made to 'symbol_types' and 'export_symbols' would be lost.
-+shopt -s lastpipe
-+
- declare -A symbol_types
- declare -a export_symbols
- 
- exit_code=0
- 
-+# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
-+# 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
-+# '2>/dev/null'. However, it suppresses real error messages as well. Add a
-+# hand-crafted error message here.
-+#
-+# Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
-+# binutils to 2.37, llvm to 13.0.0.
-+#
-+# Then, the following line will be really simple:
-+#   ${NM} --quiet ${1} |
-+{ ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; false; } } |
- while read value type name
- do
- 	# Skip the line if the number of fields is less than 3.
-@@ -37,21 +56,7 @@ do
- 	if [[ ${name} == __ksymtab_* ]]; then
- 		export_symbols+=(${name#__ksymtab_})
- 	fi
--
--	# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm)
--	# shows 'no symbols' diagnostic (but exits with 0). It is harmless and
--	# hidden by '2>/dev/null'. However, it suppresses real error messages
--	# as well. Add a hand-crafted error message here.
--	#
--	# Use --quiet instead of 2>/dev/null when we upgrade the minimum version
--	# of binutils to 2.37, llvm to 13.0.0.
--	#
--	# Then, the following line will be really simple:
--	#   done < <(${NM} --quiet ${1})
--done < <(${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; false; } )
--
--# Catch error in the process substitution
--wait $!
-+done
- 
- for name in "${export_symbols[@]}"
- do
--- 
-2.32.0
-
+Powerball-Jackpot-Gewinner
+E-Mail: robertbaileys_spende@aol.com
