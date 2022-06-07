@@ -2,48 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 12870540A8F
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Jun 2022 20:23:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C470A540B97
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Jun 2022 20:30:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349752AbiFGSXK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 7 Jun 2022 14:23:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51586 "EHLO
+        id S231715AbiFGS3r (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 7 Jun 2022 14:29:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352556AbiFGSRR (ORCPT
+        with ESMTP id S1350164AbiFGS3I (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 7 Jun 2022 14:17:17 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 563F3139AC0;
-        Tue,  7 Jun 2022 10:52:22 -0700 (PDT)
+        Tue, 7 Jun 2022 14:29:08 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BB8E176D6A;
+        Tue,  7 Jun 2022 10:55:14 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 58187CE2423;
-        Tue,  7 Jun 2022 17:52:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3385C36AFF;
-        Tue,  7 Jun 2022 17:52:17 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B3D32B8236F;
+        Tue,  7 Jun 2022 17:55:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5D15C385A5;
+        Tue,  7 Jun 2022 17:55:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654624338;
-        bh=Yz8ufIfO+lrCnC0TpAFFupi8jMM8xv53gh/YApI8yFs=;
+        s=k20201202; t=1654624512;
+        bh=Tosl0sFoHUFGYGLPVrAc1k/YOMdC+7rWigSw3hphFMo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VgoX6fG3qITc8I+nt/RintceIfyGa6isruJsoirK05BolgHk3ySiC93wuObdasrW8
-         5Fdcd3Jyc6u5HIW9VT5nDOoddSx07u0VYo6zGpM61Lne9z0RpcGoh5Z/brp/zJtikR
-         etcIfcl8Kt4fy+G3oiagOUsMNtfqQ+miVfTpp66fDbakU0cbA7zRP8t72/iT/2HKx/
-         HDnjRk3Cv4+awsWKgPzyvKo9no5tZfBdsK6SXQwBv+/m/a1wuf262uLKWUzTzq1/AN
-         Px89Wf4SFBMIObNbNCq3ggodcGIuPupwq9ppq7YPGPi2W+qcNPhM4z0jHRjeW8sxXG
-         NYMWU8TaDD4uw==
+        b=JWzaLDfB4bqDi1aX+YtnzsP7pM/Hog6BEnSy8LGjkEyyju7xGsOlVvURX43aMKBsS
+         4sy+EMFluT319CvdlXxEez8+nzAkLcSPiVc+a9QrgBmBDV5CbYAeBnfkWCZWwbgMTu
+         ofW2dJD45Yj37EcUM5EyRUX5IlfTSsi/fw/obYASnP845ybc7uK1gxjQdU84xFRG4z
+         aVGbT48LthCP/UtlgdrExB+sxeqElfWLvFA3/f1pzZ1CYaOLxDXOjFMFWy2zVQ7tCR
+         Fn0JEKyKUZWNyfl5kH38SNm3PWRitVlOE5Ty24f+w81xQ6jiDVWQmiEDOd6prbwZul
+         OTnGVr2W2bOHg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Sasha Levin <sashal@kernel.org>, michal.lkml@markovi.net,
         linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 52/68] modpost: fix undefined behavior of is_arm_mapping_symbol()
-Date:   Tue,  7 Jun 2022 13:48:18 -0400
-Message-Id: <20220607174846.477972-52-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.17 46/60] modpost: fix undefined behavior of is_arm_mapping_symbol()
+Date:   Tue,  7 Jun 2022 13:52:43 -0400
+Message-Id: <20220607175259.478835-46-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220607174846.477972-1-sashal@kernel.org>
-References: <20220607174846.477972-1-sashal@kernel.org>
+In-Reply-To: <20220607175259.478835-1-sashal@kernel.org>
+References: <20220607175259.478835-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -100,10 +100,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index ed9d056d2108..2c5c544ccf61 100644
+index e04ae56931e2..c212a1a31530 100644
 --- a/scripts/mod/modpost.c
 +++ b/scripts/mod/modpost.c
-@@ -1267,7 +1267,8 @@ static int secref_whitelist(const struct sectioncheck *mismatch,
+@@ -1260,7 +1260,8 @@ static int secref_whitelist(const struct sectioncheck *mismatch,
  
  static inline int is_arm_mapping_symbol(const char *str)
  {
