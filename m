@@ -2,54 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 47F005403A0
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Jun 2022 18:20:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A4575403FB
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Jun 2022 18:42:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242324AbiFGQUX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 7 Jun 2022 12:20:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50426 "EHLO
+        id S240447AbiFGQm3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 7 Jun 2022 12:42:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344968AbiFGQUK (ORCPT
+        with ESMTP id S1345139AbiFGQm2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 7 Jun 2022 12:20:10 -0400
-Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9708B100516;
-        Tue,  7 Jun 2022 09:20:08 -0700 (PDT)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 257GJoBO025330;
-        Wed, 8 Jun 2022 01:19:51 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 257GJoBO025330
+        Tue, 7 Jun 2022 12:42:28 -0400
+Received: from conuserg-09.nifty.com (conuserg-09.nifty.com [210.131.2.76])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF9CA21826;
+        Tue,  7 Jun 2022 09:42:25 -0700 (PDT)
+Received: from grover.sesame (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
+        by conuserg-09.nifty.com with ESMTP id 257Ge4L0032527;
+        Wed, 8 Jun 2022 01:40:04 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 257Ge4L0032527
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1654618791;
-        bh=6jn4g0bEm4pnbqpqYo5valb6ctHlAIo3Yj8rwsQtilo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=U/Obnu8qP3eDyfPEa2ueMu5okOo9mz3I4EcmjOnQIFg+NfCPrXR/Hgd+jbCy8r4TM
-         9p1ROeAQ/56dphxgCypDD+pHDkVU8LIJLkPlJgjNba9//HrvwbxI0zLNo4lHP93QI/
-         9g+UwvUjRmdQ9XBNL12/Aphcf/Rtsy7yzy7Js2ichMEEjAqw+I2ksHY6ZAn8xPMpw4
-         jXVGsYhjnvouUdqyDoP0rSZHVTCcTTzCjJsGSWq/0Pbzdi3o89NwTDpG53wHLms2L+
-         4zno6JlEvdFy+wtjIvoXJG9K1JlX2BlW65gPB0fs8tm3zyQakERR+uprcvrrAbFa7d
-         OuiWz6wjNdecw==
-X-Nifty-SrcIP: [209.85.210.182]
-Received: by mail-pf1-f182.google.com with SMTP id j6so15909329pfe.13;
-        Tue, 07 Jun 2022 09:19:51 -0700 (PDT)
-X-Gm-Message-State: AOAM533cIR/QsRjrSlVXpd7+woCeptCpRdIdGpRNbtxB9D2bo9i9y05Q
-        uKml8FULNHnlKz86EyBwHh/eNOF0khesLQs994w=
-X-Google-Smtp-Source: ABdhPJz5DeWEk7jFaz5r/SLeE6TLHxM5/3UGC85lnyTqC7mkSeVa3DqNqn5kbJoQ1Ag0SxD1MwqgQ2YERlTO5QBkWLk=
-X-Received: by 2002:a05:6a00:2349:b0:51c:29c0:82f6 with SMTP id
- j9-20020a056a00234900b0051c29c082f6mr8191041pfj.32.1654618790202; Tue, 07 Jun
- 2022 09:19:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <368129160298161a9eb40ad4f489458be6be3b6f.1654569774.git.kevin@kevinlocke.name>
-In-Reply-To: <368129160298161a9eb40ad4f489458be6be3b6f.1654569774.git.kevin@kevinlocke.name>
+        s=dec2015msa; t=1654620005;
+        bh=KIQsPoYwJl2iHAlLQ3N6FDhBbmcoJ7MxPCwB4wOjf9k=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Yk7vi2La1zL4Tvi/uHEi9Ftav84vUtcysbVtd4AYUTjaQPRTS5/EuHa9qKhI7ip4U
+         effPPofbrLiBTmdtoGW33Gt5nFEBmSXMjy0cegNqMhC2CF6yHb2w4JSwv8yR/PQy2i
+         mQu9IdjtkNhlnJv+PiOukZGTOoSMDjlfO+toKa1Kc2ebi4Vwi8KNkqfy9tTMUe3+eu
+         WEhZ03vfegdMEDki/5daPNjuEiFJWsDpwxIoy4Tqn9MIXVDyjAipReKy3icpzZf/lJ
+         lfWYb8P++4EgFMGiO5XIz2gh4TsGngsJQrfzcRXpXlcKTZrneHNE77y6UjC7v0ozRQ
+         OpdZ78+/YGF+A==
+X-Nifty-SrcIP: [133.32.177.133]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 8 Jun 2022 01:19:12 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQZqpXw4UVzFtg55ewgCrgGu3BGHNj3mB0YNfiswAT12Q@mail.gmail.com>
-Message-ID: <CAK7LNAQZqpXw4UVzFtg55ewgCrgGu3BGHNj3mB0YNfiswAT12Q@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: avoid regex RS for POSIX awk
-To:     Kevin Locke <kevin@kevinlocke.name>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Wang Yugui <wangyugui@e16-tech.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: [PATCH v2] scripts/check-local-export: avoid 'wait $!' for process substitution
+Date:   Wed,  8 Jun 2022 01:40:00 +0900
+Message-Id: <20220607164000.447941-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
@@ -59,53 +57,133 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jun 7, 2022 at 11:43 AM Kevin Locke <kevin@kevinlocke.name> wrote:
->
-> In 22f26f21774f8 awk was added to deduplicate *.mod files.  The awk
-> invocation passes -v RS='( |\n)' to match a space or newline character
-> as the record separator.  Unfortunately, POSIX states[1]
->
-> > If RS contains more than one character, the results are unspecified.
->
-> Some implementations (such as the One True Awk[2] used by the BSDs) do
-> not treat RS as a regular expression.  When awk does not support regex
-> RS, build failures such as the following are produced (first error using
-> allmodconfig):
->
->       CC [M]  arch/x86/events/intel/uncore.o
->       CC [M]  arch/x86/events/intel/uncore_nhmex.o
->       CC [M]  arch/x86/events/intel/uncore_snb.o
->       CC [M]  arch/x86/events/intel/uncore_snbep.o
->       CC [M]  arch/x86/events/intel/uncore_discovery.o
->       LD [M]  arch/x86/events/intel/intel-uncore.o
->     ld: cannot find uncore_nhmex.o: No such file or directory
->     ld: cannot find uncore_snb.o: No such file or directory
->     ld: cannot find uncore_snbep.o: No such file or directory
->     ld: cannot find uncore_discovery.o: No such file or directory
->     make[3]: *** [scripts/Makefile.build:422: arch/x86/events/intel/intel-uncore.o] Error 1
->     make[2]: *** [scripts/Makefile.build:487: arch/x86/events/intel] Error 2
->     make[1]: *** [scripts/Makefile.build:487: arch/x86/events] Error 2
->     make: *** [Makefile:1839: arch/x86] Error 2
->
-> To avoid this, use printf(1) to produce a newline between each object
-> path, instead of the space produced by echo(1), so that the default RS
-> can be used by awk.
->
-> [1]: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/awk.html
-> [2]: https://github.com/onetrueawk/awk
->
-> Fixes: 22f26f21774f ("kbuild: get rid of duplication in *.mod files")
-> Signed-off-by: Kevin Locke <kevin@kevinlocke.name>
-> ---
+Bash>=4.4 supports 'wait $!' to check the exit status of a process
+substitution, but some people using older bash versions reported an
+error like this:
 
-Portable and clean solution!
+  ./scripts/check-local-export: line 54: wait: pid 17328 is not a child of this shell
 
-Applied to linux-kbuild/fixes. Thanks.
+I used the process substitution because a pipeline executes each command
+in a subshell; variables modified within the while-loop in the subshell
+context would be lost after the subshell terminates.
 
+Fortunately, Bash>=4.2 supports the 'lastpipe' option, which runs the
+last element of a pipeline in the current shell process.
 
+Also, set 'pipefail' to catch errors from ${NM}.
 
+Bash 4.2, released in 2011, is 5 years older than Bash 4.4.
 
+Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Reported-by: Michael Ellerman <mpe@ellerman.id.au>
+Reported-by: Wang Yugui <wangyugui@e16-tech.com>
+Tested-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+Changes in v2:
+  - Add bash to Documentation/process/changes.rst
+
+ Documentation/process/changes.rst | 12 +++++++++++
+ scripts/check-local-export        | 35 ++++++++++++++++++-------------
+ 2 files changed, 32 insertions(+), 15 deletions(-)
+
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 34415ae1af1b..19c286c23786 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -32,6 +32,7 @@ you probably needn't concern yourself with pcmciautils.
+ GNU C                  5.1              gcc --version
+ Clang/LLVM (optional)  11.0.0           clang --version
+ GNU make               3.81             make --version
++bash                   4.2              bash --version
+ binutils               2.23             ld -v
+ flex                   2.5.35           flex --version
+ bison                  2.0              bison --version
+@@ -84,6 +85,12 @@ Make
+ 
+ You will need GNU make 3.81 or later to build the kernel.
+ 
++Bash
++----
++
++Some bash scripts are used for the kernel build.
++Bash 4.2 or newer is needed.
++
+ Binutils
+ --------
+ 
+@@ -362,6 +369,11 @@ Make
+ 
+ - <ftp://ftp.gnu.org/gnu/make/>
+ 
++Bash
++----
++
++- <ftp://ftp.gnu.org/gnu/bash/>
++
+ Binutils
+ --------
+ 
+diff --git a/scripts/check-local-export b/scripts/check-local-export
+index da745e2743b7..e21c7b54885d 100755
+--- a/scripts/check-local-export
++++ b/scripts/check-local-export
+@@ -8,11 +8,30 @@
+ 
+ set -e
+ 
++# catch errors from ${NM}
++set -o pipefail
++
++# Run the last element of a pipeline in the current shell.
++# Without this, the while-loop would be executed in a subshell, and
++# the changes made to 'symbol_types' and 'export_symbols' would be lost.
++shopt -s lastpipe
++
+ declare -A symbol_types
+ declare -a export_symbols
+ 
+ exit_code=0
+ 
++# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
++# 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
++# '2>/dev/null'. However, it suppresses real error messages as well. Add a
++# hand-crafted error message here.
++#
++# Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
++# binutils to 2.37, llvm to 13.0.0.
++#
++# Then, the following line will be really simple:
++#   ${NM} --quiet ${1} |
++{ ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; false; } } |
+ while read value type name
+ do
+ 	# Skip the line if the number of fields is less than 3.
+@@ -37,21 +56,7 @@ do
+ 	if [[ ${name} == __ksymtab_* ]]; then
+ 		export_symbols+=(${name#__ksymtab_})
+ 	fi
+-
+-	# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm)
+-	# shows 'no symbols' diagnostic (but exits with 0). It is harmless and
+-	# hidden by '2>/dev/null'. However, it suppresses real error messages
+-	# as well. Add a hand-crafted error message here.
+-	#
+-	# Use --quiet instead of 2>/dev/null when we upgrade the minimum version
+-	# of binutils to 2.37, llvm to 13.0.0.
+-	#
+-	# Then, the following line will be really simple:
+-	#   done < <(${NM} --quiet ${1})
+-done < <(${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; false; } )
+-
+-# Catch error in the process substitution
+-wait $!
++done
+ 
+ for name in "${export_symbols[@]}"
+ do
 -- 
-Best Regards
-Masahiro Yamada
+2.32.0
+
