@@ -2,68 +2,143 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6733253F817
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Jun 2022 10:23:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9CF953F872
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Jun 2022 10:45:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232116AbiFGIW6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 7 Jun 2022 04:22:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52556 "EHLO
+        id S238390AbiFGIpL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 7 Jun 2022 04:45:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232029AbiFGIW6 (ORCPT
+        with ESMTP id S238403AbiFGIpC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 7 Jun 2022 04:22:58 -0400
-X-Greylist: delayed 834 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 07 Jun 2022 01:22:57 PDT
-Received: from mail.forindustry.pl (mail.forindustry.pl [37.187.225.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07A8110FF4
-        for <linux-kbuild@vger.kernel.org>; Tue,  7 Jun 2022 01:22:56 -0700 (PDT)
-Received: by mail.forindustry.pl (Postfix, from userid 1002)
-        id 4B462A4698; Tue,  7 Jun 2022 08:05:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=forindustry.pl;
-        s=mail; t=1654589179;
-        bh=Vw5jk5D1DE7WK/GNf/MxRQNyAyPYcC0rMJLibxKTj58=;
-        h=Date:From:To:Subject:From;
-        b=bp6WW+NUMeUBhbL19VINknHbGqRRTyQr0sqU2qop/plocJ18ph24wMFeHS/76BSzL
-         tna9h9+aNx/TOKRUks8o1X0uqkDd+EN+G49q8wIo/Vxf0+h6sM0ScUlWsb2Vl7nyRi
-         dLIr+yZk6oemh6L0vVSlWK0Jutfto7nvx9AF1Wtxx2yrUH6QCE75Ak0tnp4detaCtq
-         JjLOMGhNezM3Rue1JdtcL14xpMdIfchr+WhMaxzconTinjqYjPDy6CFjV+uMEZCCJG
-         R96/Okto8B9KwsiEIS9s6kZaFcBt3tzKMlpvvGdPEPFUE6cqbLd8EhcCDAHkKEh0KC
-         LVY4Rv2/f+kSA==
-Received: by mail.forindustry.pl for <linux-kbuild@vger.kernel.org>; Tue,  7 Jun 2022 08:05:52 GMT
-Message-ID: <20220607064500-0.1.3o.od0j.0.n90g5e8p40@forindustry.pl>
-Date:   Tue,  7 Jun 2022 08:05:52 GMT
-From:   =?UTF-8?Q? "Arkadiusz_Soko=C5=82owski" ?= 
-        <arkadiusz.sokolowski@forindustry.pl>
-To:     <linux-kbuild@vger.kernel.org>
-Subject: Koszty instalacji fotowoltaicznej
-X-Mailer: mail.forindustry.pl
+        Tue, 7 Jun 2022 04:45:02 -0400
+Received: from conuserg-11.nifty.com (conuserg-11.nifty.com [210.131.2.78])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBC6160B9C;
+        Tue,  7 Jun 2022 01:45:00 -0700 (PDT)
+Received: from grover.sesame (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
+        by conuserg-11.nifty.com with ESMTP id 2578hKA3010951;
+        Tue, 7 Jun 2022 17:43:20 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 2578hKA3010951
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1654591401;
+        bh=Cj3y+Qp/VjL00R1LaGKflQeOz1WUkQnA5jR/e3iAuTM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=LIef4QxqITUfGQJLjVLGmPDVSHahO1iLHJEyvQCP/1vbQh/kGp+1JVcoUX3Nu8sAM
+         MGSQF50CK+RvFQSRHkI0DdO99FAdS8fK/ZZmxYWm27wZsAH7DJ/WdMESOJbKSJoG19
+         bUv7OfHclT08KCLgRNQslG5x0cb7KhVvzXzEzWucWgBMV0/MrPwa2pHkqPV8HjyuC8
+         5V7BlQ0CF0nlW+7W6tZUx+E/uIU9AtAUowItiLsSrry4ECySlBdF5GcxU3hNF8uA5K
+         jgOxJdw5GUDDi4gNXs8GlHu4ArK61UkOhzHsx9X7/5WajN+kl/+eYxTUIq3R8oSKTl
+         UR2zNdTIAwG1Q==
+X-Nifty-SrcIP: [133.32.177.133]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Wang Yugui <wangyugui@e16-tech.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev
+Subject: [PATCH] scripts/check-local-export: avoid 'wait $!' for process substitution
+Date:   Tue,  7 Jun 2022 17:43:17 +0900
+Message-Id: <20220607084317.211785-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Bash>=4.4 supports 'wait $!' to check the exit status of a process
+substitution, but some people using older bash versions reported an
+error like this:
 
-stworzyli=C5=9Bmy specjaln=C4=85 ofert=C4=99 dla firm, na kompleksow=C4=85=
- obs=C5=82ug=C4=99 inwestycji w fotowoltaik=C4=99.
+  ./scripts/check-local-export: line 54: wait: pid 17328 is not a child of this shell
 
-Specjalizujemy si=C4=99 w zakresie doboru, monta=C5=BCu i serwisie instal=
-acji fotowoltaicznych, dysponujemy najnowocze=C5=9Bniejszymi rozwi=C4=85z=
-ania, kt=C3=B3re zapewni=C4=85 Pa=C5=84stwu oczekiwane rezultaty.
+I used the process substitution because a pipeline executes each command
+in a subshell; variables modified within the while-loop in the subshell
+context would be lost after the subshell terminates.
 
-Mo=C5=BCemy przygotowa=C4=87 dla Pa=C5=84stwa wst=C4=99pn=C4=85 kalkulacj=
-=C4=99 i przeanalizowa=C4=87 efekty mo=C5=BCliwe do osi=C4=85gni=C4=99cia=
-=2E
+Fortunately, Bash>=4.2 supports the 'lastpipe' option, which runs the
+last element of a pipeline in the current shell process.
 
-Czy s=C4=85 Pa=C5=84stwo otwarci na wst=C4=99pn=C4=85 rozmow=C4=99 w tym =
-temacie?
+Also, set 'pipefail' to catch errors from ${NM}.
 
-Pozdrawiam,
-Arkadiusz Soko=C5=82owski
+Bash 4.2, released in 2011, is 5 years older than Bash 4.4.
+
+Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Reported-by: Michael Ellerman <mpe@ellerman.id.au>
+Reported-by: Wang Yugui <wangyugui@e16-tech.com>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ scripts/check-local-export | 35 ++++++++++++++++++++---------------
+ 1 file changed, 20 insertions(+), 15 deletions(-)
+
+diff --git a/scripts/check-local-export b/scripts/check-local-export
+index da745e2743b7..e21c7b54885d 100755
+--- a/scripts/check-local-export
++++ b/scripts/check-local-export
+@@ -8,11 +8,30 @@
+ 
+ set -e
+ 
++# catch errors from ${NM}
++set -o pipefail
++
++# Run the last element of a pipeline in the current shell.
++# Without this, the while-loop would be executed in a subshell, and
++# the changes made to 'symbol_types' and 'export_symbols' would be lost.
++shopt -s lastpipe
++
+ declare -A symbol_types
+ declare -a export_symbols
+ 
+ exit_code=0
+ 
++# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
++# 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
++# '2>/dev/null'. However, it suppresses real error messages as well. Add a
++# hand-crafted error message here.
++#
++# Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
++# binutils to 2.37, llvm to 13.0.0.
++#
++# Then, the following line will be really simple:
++#   ${NM} --quiet ${1} |
++{ ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; false; } } |
+ while read value type name
+ do
+ 	# Skip the line if the number of fields is less than 3.
+@@ -37,21 +56,7 @@ do
+ 	if [[ ${name} == __ksymtab_* ]]; then
+ 		export_symbols+=(${name#__ksymtab_})
+ 	fi
+-
+-	# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm)
+-	# shows 'no symbols' diagnostic (but exits with 0). It is harmless and
+-	# hidden by '2>/dev/null'. However, it suppresses real error messages
+-	# as well. Add a hand-crafted error message here.
+-	#
+-	# Use --quiet instead of 2>/dev/null when we upgrade the minimum version
+-	# of binutils to 2.37, llvm to 13.0.0.
+-	#
+-	# Then, the following line will be really simple:
+-	#   done < <(${NM} --quiet ${1})
+-done < <(${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; false; } )
+-
+-# Catch error in the process substitution
+-wait $!
++done
+ 
+ for name in "${export_symbols[@]}"
+ do
+-- 
+2.32.0
+
