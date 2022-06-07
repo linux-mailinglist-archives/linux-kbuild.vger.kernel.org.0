@@ -2,132 +2,97 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C800553F99E
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Jun 2022 11:28:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBD5453FAC2
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Jun 2022 12:03:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239442AbiFGJ2K (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 7 Jun 2022 05:28:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41040 "EHLO
+        id S240541AbiFGKDp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 7 Jun 2022 06:03:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239454AbiFGJ2F (ORCPT
+        with ESMTP id S239176AbiFGKDn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 7 Jun 2022 05:28:05 -0400
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ED364A3DD
-        for <linux-kbuild@vger.kernel.org>; Tue,  7 Jun 2022 02:28:01 -0700 (PDT)
-Received: by mail-ot1-x334.google.com with SMTP id l9-20020a056830268900b006054381dd35so12540244otu.4
-        for <linux-kbuild@vger.kernel.org>; Tue, 07 Jun 2022 02:28:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=ohM259uqobJqtM7gttWurWj7P+4iDfPJquHax95olDY=;
-        b=gujHBVxqWIlmngbJHwwatlrY6K2BhXGLJOXKENebOL4hOCXVjvoa+7rQ+wCwOuo7nz
-         8e28HbaszMFtjrNu2xJwHUtJo1p0vWs5cPK29M2FpYQX1yrDGputAW1tF1NfmP59wawm
-         4ciGU9SnxDgRMb84mTOs96+/9zN97uENfqj9/+eZfuG77h5pSaMszmbmnWOwi9m+gNzd
-         5NtwsZACk2ULSP0cRt0MdNUxBuwzIbCfzmloCBb/Ue1QhCyZ8f6GEgrTXVIY7durHnKk
-         UWQF6j7yHnTlxlvI9xCgSzii4NusQH9ADfpyzQwiF9b+OrCBSH3adFs9TwqclNBk9aQF
-         O14A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=ohM259uqobJqtM7gttWurWj7P+4iDfPJquHax95olDY=;
-        b=t4kg87pYgEjzHWKLLsVqo47w5URhH8+37w17fqqNUGcjYyejfcjNNznmcxfGD4uJF2
-         bI8gUjJ8RXCnC6UigQ8W8B2k+60jf08pzolUnYcrfC6PqliT7xgqhbutKtF73//H+mOy
-         E7wB1Ghk4IoE/25sO9JUfPMtAddc6V5U90zBsUi5n711lsd7BBmZ1wO0F+daUToLb6Xp
-         Nbv3OUnXw2MXdyz1kMR8pp78bdDDrkbTCG80kdIMtkp5Rqv84+xdSe1PRR1mBV9WPzAa
-         NHV20jcZgaoX1AAaFYInnzl6Sw+QevCTAZeXKaGSUm2u7RbbfTIZy55QBFRWK4hqDqYP
-         EGQw==
-X-Gm-Message-State: AOAM531KyCze46JW8w8X0Ze+GzpzLhwOy9sft4M9gNnP1NSBixuE61as
-        craNoXwv2RP7KO5oeN0XjYrvciQs4Q8PQ5hFc+c=
-X-Google-Smtp-Source: ABdhPJxTYNOyqQTj+pRtv7B26L++zgaw4oyR9fAzq9Xjy/qi86fDOL5mMOdKcDA6Petw4QZgBH7CHdeaexgYk1On3ls=
-X-Received: by 2002:a05:6830:919:b0:60a:fe63:e321 with SMTP id
- v25-20020a056830091900b0060afe63e321mr11494607ott.227.1654594080399; Tue, 07
- Jun 2022 02:28:00 -0700 (PDT)
+        Tue, 7 Jun 2022 06:03:43 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4762DC0E09;
+        Tue,  7 Jun 2022 03:03:40 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D03C561373;
+        Tue,  7 Jun 2022 10:03:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF87BC34119;
+        Tue,  7 Jun 2022 10:03:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654596219;
+        bh=u1B8uxzMCkFey7cgXnz/vr+zToHpWFs1K5+BWxxYloU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=K26BYJKPorCQqVcj8VFZH7g9DPuMkA/G8siXvq9Rkg3Q2HYIh8PuG+u/cFCKsjBYY
+         gNaYErecq/8WR+Oi6yHa8vmhhQmSAFgAcgTiFGlp934idTcwd6gg83YBH6bfwFRfuk
+         /XqYUH88dY44xe56sijpmV9e06rHlp0vC0PannW61RJZ9Y9WjTGsNwkMIU09Lv29jj
+         wJ/C0UDg/U+Rq1OZ+mgy46Gd/DD4W5RK/aPXs6RXjcqg6ltHNpux6aH8qsYY1snSHx
+         HOLGQj6AEsxuCU29cx+NfqEuqGNQnVtmCB10ZSDNeaYVtmu4vAuXqpDsv8jua93gV5
+         CoLlhPJTAwRag==
+Date:   Tue, 7 Jun 2022 13:01:44 +0300
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     David Howells <dhowells@redhat.com>
+Cc:     torvalds@linux-foundation.org,
+        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@linux.microsoft.com>,
+        keyrings@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] certs: Convert spaces in certs/Makefile to a tab
+Message-ID: <Yp8iCErgXDFBvhzJ@iki.fi>
+References: <165451871967.1941436.17828809503267245815.stgit@warthog.procyon.org.uk>
 MIME-Version: 1.0
-Received: by 2002:a05:6358:99a5:b0:a2:a1fa:9308 with HTTP; Tue, 7 Jun 2022
- 02:28:00 -0700 (PDT)
-Reply-To: robertbaileys_spende@aol.com
-From:   Robert Baileys <mercymiji.j@gmail.com>
-Date:   Tue, 7 Jun 2022 11:28:00 +0200
-Message-ID: <CAAD1zOZ9bCDqBnjmbC3dQfgC=P2zTqAS=TP3q5qK5TFB5=Q9dQ@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=6.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,UNDISC_MONEY autolearn=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <165451871967.1941436.17828809503267245815.stgit@warthog.procyon.org.uk>
+X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:334 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [mercymiji.j[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.3 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  2.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  0.6 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
---=20
-Hallo, lieber Beg=C3=BCnstigter,
+On Mon, Jun 06, 2022 at 01:31:59PM +0100, David Howells wrote:
+> There's a rule in certs/Makefile for which the command begins with eight
+> spaces.  This results in:
+> 
+> 	../certs/Makefile:21: FORCE prerequisite is missing
+> 	../certs/Makefile:21: *** missing separator.  Stop.
+> 
+> Fix this by turning the spaces into a tab.
+> 
+> Fixes: addf466389d9 ("certs: Check that builtin blacklist hashes are valid")
+> Signed-off-by: David Howells <dhowells@redhat.com>
+> cc: Mickaël Salaün <mic@linux.microsoft.com>
+> cc: Jarkko Sakkinen <jarkko@kernel.org>
+> cc: keyrings@vger.kernel.org
+> ---
+> 
+>  certs/Makefile |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/certs/Makefile b/certs/Makefile
+> index bb904f90f139..cb1a9da3fc58 100644
+> --- a/certs/Makefile
+> +++ b/certs/Makefile
+> @@ -18,7 +18,7 @@ CFLAGS_blacklist_hashes.o += -I$(srctree)
+>  
+>  targets += blacklist_hashes_checked
+>  $(obj)/blacklist_hashes_checked: $(SYSTEM_BLACKLIST_HASH_LIST_SRCPREFIX)$(SYSTEM_BLACKLIST_HASH_LIST_FILENAME) scripts/check-blacklist-hashes.awk FORCE
+> -       $(call if_changed,check_blacklist_hashes,$(SYSTEM_BLACKLIST_HASH_LIST_SRCPREFIX)$(CONFIG_SYSTEM_BLACKLIST_HASH_LIST))
+> +	$(call if_changed,check_blacklist_hashes,$(SYSTEM_BLACKLIST_HASH_LIST_SRCPREFIX)$(CONFIG_SYSTEM_BLACKLIST_HASH_LIST))
+>  obj-$(CONFIG_SYSTEM_BLACKLIST_KEYRING) += blacklist_hashes.o
+>  else
+>  obj-$(CONFIG_SYSTEM_BLACKLIST_KEYRING) += blacklist_nohashes.o
+> 
+> 
 
-Sie haben diese E-Mail von der Robert Bailey Foundation erhalten. Ich
-bin ein pensionierter Regierungsangestellter aus Harlem und ein
-Powerball-Lotterie-Jackpot-Gewinner von 343,8 Millionen Dollar. Ich
-bin der gr=C3=B6=C3=9Fte Jackpot-Gewinner in der Geschichte der New York Lo=
-ttery
-in Amerika. Ich habe diesen Wettbewerb am 27. Oktober 2018 gewonnen
-und m=C3=B6chte Ihnen mitteilen, dass Google in Kooperation mit Microsoft
-Ihre "E-Mail-Adresse" f=C3=BCr meine Anfrage hat und diese 3.000.000,00
-Millionen Euro kosten wird. Ich spende diese 3 Millionen Euro an Sie,
-um auch Wohlt=C3=A4tigkeitsorganisationen und armen Menschen in Ihrer
-Gemeinde zu helfen, damit wir die Welt zu einem besseren Ort f=C3=BCr alle
-machen k=C3=B6nnen. Bitte besuchen Sie die folgende Website f=C3=BCr weiter=
-e
-Informationen, damit Sie diesen 3 Mio. EUR Ausgaben nicht skeptisch
-gegen=C3=BCberstehen.
-https://nypost.com/2018/11/14/meet-the-winner-of-the-biggest-lottery-jackpo=
-t-in-new-york-history/Sie
-Weitere Best=C3=A4tigungen kann ich auch auf meinem Youtube suchen:
-https://www.youtube.com/watch?v=3DH5vT18Ysavc
-Bitte antworten Sie mir per E-Mail (robertbaileys_spende@aol.com).
-Sie m=C3=BCssen diese E-Mail sofort beantworten, damit die =C3=BCberweisend=
-e
-Bank mit dem Erhalt dieser Spende in H=C3=B6he von 3.000.000,00 Millionen
-Euro beginnen kann.
-Bitte kontaktieren Sie die untenstehende E-Mail-Adresse f=C3=BCr weitere
-Informationen, damit Sie diese Spende von der =C3=BCberweisenden Bank
-erhalten k=C3=B6nnen. E-Mail: robertbaileys_spende@aol.com
 
-Gr=C3=BC=C3=9Fe,
-Robert Bailey
-* * * * * * * * * * * * * * * *
+Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
 
-Powerball-Jackpot-Gewinner
-E-Mail: robertbaileys_spende@aol.com
+BR, Jarkko
