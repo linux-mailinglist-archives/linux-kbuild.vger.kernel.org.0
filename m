@@ -2,79 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 945415405F2
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Jun 2022 19:32:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12870540A8F
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Jun 2022 20:23:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346986AbiFGRcZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 7 Jun 2022 13:32:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42254 "EHLO
+        id S1349752AbiFGSXK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 7 Jun 2022 14:23:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347314AbiFGRaU (ORCPT
+        with ESMTP id S1352556AbiFGSRR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 7 Jun 2022 13:30:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BED261105D4
-        for <linux-kbuild@vger.kernel.org>; Tue,  7 Jun 2022 10:26:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1654622778;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=3/UV364lqIHTwaOFv7dNLYog86f9+MNfNsOfPzkrNv0=;
-        b=fR5Ka9+A+6b2/FY6s6KRsCbvB4qwYzXitM5gepIn7tO9Lz2JymZL7ZYwWAeaQPfSDX3z1N
-        mY4K/IA7HZ6sujTXwJKcKp17P/4tLlS7oK2S+2QeNV4G3gKu4QsU5kOjFmueAT+4qzcwKs
-        RALs0fH4vSkbL+Hy1PeGVFpanrocsMs=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-640-c5YHgW09NuqwnEy8PgoH1w-1; Tue, 07 Jun 2022 13:26:17 -0400
-X-MC-Unique: c5YHgW09NuqwnEy8PgoH1w-1
-Received: by mail-qt1-f199.google.com with SMTP id 9-20020ac85749000000b00304ee787b02so4292209qtx.11
-        for <linux-kbuild@vger.kernel.org>; Tue, 07 Jun 2022 10:26:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:references:to:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=3/UV364lqIHTwaOFv7dNLYog86f9+MNfNsOfPzkrNv0=;
-        b=kSZWe/jXaraQayE8GCoh30iUVsCOoYV/q6knXOHRyb7WLErDIwLSjQjpp+5qIunhfq
-         L9DRUqkLaFOe3a7tsjfP6njChAqmfe9/IqBxS3jYSWUSbBAvw0kk35JG2G9DTT5SZ7XY
-         AO8AzCBzoNa+t+uPGd8znOFwtO6YACs8YfbFiUElr0VIQnkv8QrhCjOgV4tLPxVb28xQ
-         MNk0KH6FmbODeJD245v4n+dVXx6LjH0ZZggvwgyNx0ySb4q6bzEYsRa/4OpHFZA7b2Iq
-         50sQ8bLKdt1T/U1e12mOgyCEr7b0v+Kn557Kzqi1N/Q/IJSIbDjnj0pKmXYVUw9yFBn2
-         7/SA==
-X-Gm-Message-State: AOAM533aT10pslsiYIwGx/ZOKzx4MRXpFDejGHcQP3ZwKkY916bPnJN/
-        pyMsUkDIte9VkUlJWfYf7dAjOuIhPXlc3IC1Ugy0SE0x1egOKz/0pUukJnistgMPlnTWMZLzPWL
-        EPbB6bPUSZBOoRNUt8hZueaQRKD3Ngp3pw6iFXWddQwp/ggbjp7UDW6vQucOQlSHI1h8pJbbakY
-        YWbLpHgQ==
-X-Received: by 2002:ad4:5bc7:0:b0:466:5cac:64f2 with SMTP id t7-20020ad45bc7000000b004665cac64f2mr23609225qvt.104.1654622776887;
-        Tue, 07 Jun 2022 10:26:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx30DjIOJ2y+staca/O9RZjhhcOcN+i7pCjzHeoud4kpXM7ul0SnctL1ggOMLRPlKA4vqrChA==
-X-Received: by 2002:ad4:5bc7:0:b0:466:5cac:64f2 with SMTP id t7-20020ad45bc7000000b004665cac64f2mr23609187qvt.104.1654622776469;
-        Tue, 07 Jun 2022 10:26:16 -0700 (PDT)
-Received: from [192.168.1.9] (pool-68-163-101-245.bstnma.fios.verizon.net. [68.163.101.245])
-        by smtp.gmail.com with ESMTPSA id t194-20020a3746cb000000b006a371ba1fa5sm13809214qka.32.2022.06.07.10.26.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Jun 2022 10:26:16 -0700 (PDT)
-Subject: Fwd: s390/nospec: add an option to use thunk-extern
-References: <8417373c-9dba-54bd-ce08-2d36d0a2af04@redhat.com>
-To:     linux-s390 <linux-s390@vger.kernel.org>,
+        Tue, 7 Jun 2022 14:17:17 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 563F3139AC0;
+        Tue,  7 Jun 2022 10:52:22 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 58187CE2423;
+        Tue,  7 Jun 2022 17:52:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3385C36AFF;
+        Tue,  7 Jun 2022 17:52:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654624338;
+        bh=Yz8ufIfO+lrCnC0TpAFFupi8jMM8xv53gh/YApI8yFs=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=VgoX6fG3qITc8I+nt/RintceIfyGa6isruJsoirK05BolgHk3ySiC93wuObdasrW8
+         5Fdcd3Jyc6u5HIW9VT5nDOoddSx07u0VYo6zGpM61Lne9z0RpcGoh5Z/brp/zJtikR
+         etcIfcl8Kt4fy+G3oiagOUsMNtfqQ+miVfTpp66fDbakU0cbA7zRP8t72/iT/2HKx/
+         HDnjRk3Cv4+awsWKgPzyvKo9no5tZfBdsK6SXQwBv+/m/a1wuf262uLKWUzTzq1/AN
+         Px89Wf4SFBMIObNbNCq3ggodcGIuPupwq9ppq7YPGPi2W+qcNPhM4z0jHRjeW8sxXG
+         NYMWU8TaDD4uw==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sasha Levin <sashal@kernel.org>, michal.lkml@markovi.net,
         linux-kbuild@vger.kernel.org
-From:   Joe Lawrence <joe.lawrence@redhat.com>
-X-Forwarded-Message-Id: <8417373c-9dba-54bd-ce08-2d36d0a2af04@redhat.com>
-Message-ID: <8569429d-57f8-a0cf-8b17-1291f6973d32@redhat.com>
-Date:   Tue, 7 Jun 2022 13:26:15 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Subject: [PATCH AUTOSEL 5.18 52/68] modpost: fix undefined behavior of is_arm_mapping_symbol()
+Date:   Tue,  7 Jun 2022 13:48:18 -0400
+Message-Id: <20220607174846.477972-52-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220607174846.477972-1-sashal@kernel.org>
+References: <20220607174846.477972-1-sashal@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <8417373c-9dba-54bd-ce08-2d36d0a2af04@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -82,28 +58,61 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-[ adding appropriate lists ]
+From: Masahiro Yamada <masahiroy@kernel.org>
 
--------- Forwarded Message --------
-Subject: Re: s390/nospec: add an option to use thunk-extern
-Date: Thu, 2 Jun 2022 08:02:20 -0400
-From: Joe Lawrence <joe.lawrence@redhat.com>
-To: Vasily Gorbik <gor@linux.ibm.com>
+[ Upstream commit d6b732666a1bae0df3c3ae06925043bba34502b1 ]
 
-Hi Vasily,
+The return value of is_arm_mapping_symbol() is unpredictable when "$"
+is passed in.
 
-I couldn't find the upstream patch post for 1d2ad084800e ("s390/nospec:
-add an option to use thunk-extern"), so replying off-list here.  Feel
-free to cc the appropriate list.
+strchr(3) says:
+  The strchr() and strrchr() functions return a pointer to the matched
+  character or NULL if the character is not found. The terminating null
+  byte is considered part of the string, so that if c is specified as
+  '\0', these functions return a pointer to the terminator.
 
-Regarding this change, as I understand it, when CONFIG_EXPOLINE_EXTERN=y
-out-of-tree kernel modules will need to link against
-arch/s390x/lib/expoline.o, right?
+When str[1] is '\0', strchr("axtd", str[1]) is not NULL, and str[2] is
+referenced (i.e. buffer overrun).
 
-And if so, shouldn't the top level 'prepare_modules' target create
-expoline.o for this purpose?
+Test code
+---------
 
-Regards,
+  char str1[] = "abc";
+  char str2[] = "ab";
+
+  strcpy(str1, "$");
+  strcpy(str2, "$");
+
+  printf("test1: %d\n", is_arm_mapping_symbol(str1));
+  printf("test2: %d\n", is_arm_mapping_symbol(str2));
+
+Result
+------
+
+  test1: 0
+  test2: 1
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ scripts/mod/modpost.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index ed9d056d2108..2c5c544ccf61 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -1267,7 +1267,8 @@ static int secref_whitelist(const struct sectioncheck *mismatch,
+ 
+ static inline int is_arm_mapping_symbol(const char *str)
+ {
+-	return str[0] == '$' && strchr("axtd", str[1])
++	return str[0] == '$' &&
++	       (str[1] == 'a' || str[1] == 'd' || str[1] == 't' || str[1] == 'x')
+ 	       && (str[2] == '\0' || str[2] == '.');
+ }
+ 
 -- 
-Joe
+2.35.1
 
