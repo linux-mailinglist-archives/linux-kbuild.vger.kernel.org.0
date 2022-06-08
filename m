@@ -2,259 +2,136 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29E3A542CCB
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jun 2022 12:12:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CFBA542D5F
+	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jun 2022 12:24:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235754AbiFHKLC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 8 Jun 2022 06:11:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42264 "EHLO
+        id S236907AbiFHKYU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 8 Jun 2022 06:24:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236357AbiFHKK0 (ORCPT
+        with ESMTP id S235886AbiFHKXR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 8 Jun 2022 06:10:26 -0400
-Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [71.19.156.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D03191F6B63
-        for <linux-kbuild@vger.kernel.org>; Wed,  8 Jun 2022 02:55:17 -0700 (PDT)
-Received: from hatter.bewilderbeest.net (174-21-189-245.tukw.qwest.net [174.21.189.245])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: zev)
-        by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 49F51516;
-        Wed,  8 Jun 2022 02:55:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
-        s=thorn; t=1654682114;
-        bh=K00ITh9PLAuc6uSQaSvaQXWcKqLm2Zi5hLcCQu5/Dg8=;
-        h=From:To:Cc:Subject:Date:From;
-        b=WXpvEE7dTqersteTvIhJl+dZUqW4Bmk23WuPCqjq/oiHNcATCkrt/HUENuo1ClYCQ
-         hel/csTCLAJBo8vk2Rj6Pi4u2L6aiscaOS3vJnY0dHxY/YTr8uU2yj1VjKHR3MMvbw
-         vasMtjRyIxHWLZ1dQ762QUx/WwWyxbcDEifBBTYE=
-From:   Zev Weiss <zev@bewilderbeest.net>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Zev Weiss <zev@bewilderbeest.net>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] kconfig: Add findconf script and helper program
-Date:   Wed,  8 Jun 2022 02:54:56 -0700
-Message-Id: <20220608095456.27479-1-zev@bewilderbeest.net>
-X-Mailer: git-send-email 2.36.1
+        Wed, 8 Jun 2022 06:23:17 -0400
+Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B47361FD2A7;
+        Wed,  8 Jun 2022 03:12:52 -0700 (PDT)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 258ACbTK008028;
+        Wed, 8 Jun 2022 19:12:38 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 258ACbTK008028
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1654683158;
+        bh=24/6C8NEUmHevwxStKDk7F68KpU510+2fxKFIdAqq3A=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=FuXTzy4G/Vtp0qokhsvDdEdDoIMgvktmiD4JrTJuiPEGy3qK7miEgqSi+yVm2a1KZ
+         Fyf4CGpKp4q36ewn/tIZxom5Gd1OT0+mKdKjPluDgalSG9zJ8lT+4gwFdqIotCnEqK
+         xmFq6KNid/3rD0Dd5aC0+Z+TzcTHOeX1tJskqsRXzkmW5o2tE43qBB7YogmRXvj5dB
+         y36knmmrwR87tfSFG6HS21YlE1SqhS2fzRmxNuvqyNBJxLMDLEkxmv8e/mUa8TFSNq
+         7PSg5+D0TcaVwc72M2JEY5mWaQ1fYEh0dZ/VaBOjx1HJcfTpLqjagiRBYaPs9mV3uB
+         jIQsdoPzDoEsQ==
+X-Nifty-SrcIP: [209.85.214.175]
+Received: by mail-pl1-f175.google.com with SMTP id o17so17240022pla.6;
+        Wed, 08 Jun 2022 03:12:37 -0700 (PDT)
+X-Gm-Message-State: AOAM530PFgGC86xgldMChdmEXJ1E7rpJvW7Uqwd3NWen4LN+A8Q4D1EG
+        /Ox55tcPx5PAgXkiYT19Fh9figynrFzfE/RffPI=
+X-Google-Smtp-Source: ABdhPJw8Y0S92UZKmmBupTxdDmKXJnYsbVAooLfyJ+OzTjogY19vcMGrkwnfFDA6I6kCmqpsnfSB12KRbP81br76fF4=
+X-Received: by 2002:a17:90b:1d83:b0:1e2:f63e:bc37 with SMTP id
+ pf3-20020a17090b1d8300b001e2f63ebc37mr55045802pjb.119.1654683157131; Wed, 08
+ Jun 2022 03:12:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+References: <368129160298161a9eb40ad4f489458be6be3b6f.1654569774.git.kevin@kevinlocke.name>
+ <05f8480125584a9caea029b9c3111ef4@AcuMS.aculab.com>
+In-Reply-To: <05f8480125584a9caea029b9c3111ef4@AcuMS.aculab.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 8 Jun 2022 19:11:59 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR8RLsfBug+vsbrVfhZPQq4+SuP1wQVXJMWDrNZ3T+0xg@mail.gmail.com>
+Message-ID: <CAK7LNAR8RLsfBug+vsbrVfhZPQq4+SuP1wQVXJMWDrNZ3T+0xg@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: avoid regex RS for POSIX awk
+To:     David Laight <David.Laight@aculab.com>
+Cc:     Kevin Locke <kevin@kevinlocke.name>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-scripts/findconf provides menuconfig's search functionality as a
-standalone, non-interactive command, somewhat in the spirit of
-scripts/config.  It is meant to be useful for tasks like getting a
-quick overview of symbol dependencies or determining which Kconfig
-file to edit for a given symbol, without having to fire up one of the
-interactive config programs.
+On Wed, Jun 8, 2022 at 4:43 PM David Laight <David.Laight@aculab.com> wrote:
+>
+> From: Kevin Locke
+> > Sent: 07 June 2022 03:43
+> >
+> > In 22f26f21774f8 awk was added to deduplicate *.mod files.
+>
+> Can't this be done with gmake's $(sort) function?
+>
+> $(sort list)
+>
+>     Sorts the words of list in lexical order, removing duplicate words.
+>     The output is a list of words separated by single spaces.
 
-It accepts a single command-line flag, '-v', which causes it to also
-print the help text of each matching result.
 
-Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
----
+$(sort ...) does two things,
+  - sort the list alphabetically
+  - deduplicate the elements in the list
 
-This works a bit differently from [gmnq]conf in that it accepts (and
-requires) arguments, but I couldn't see an easy/obvious way of passing
-command-line args through the makefile infrastructure that invokes
-those, so the wrapper script passes things to it via environment
-variables instead.  Suggestions welcome if there's a nicer way of
-achieving that.
+I want to do only deduplication
+without changing the order.
 
- scripts/findconf           | 22 ++++++++++++
- scripts/kconfig/.gitignore |  1 +
- scripts/kconfig/Makefile   |  7 +++-
- scripts/kconfig/findconf.c | 74 ++++++++++++++++++++++++++++++++++++++
- scripts/kconfig/lkc.h      |  1 +
- scripts/kconfig/menu.c     |  2 +-
- 6 files changed, 105 insertions(+), 2 deletions(-)
- create mode 100755 scripts/findconf
- create mode 100644 scripts/kconfig/findconf.c
 
-diff --git a/scripts/findconf b/scripts/findconf
-new file mode 100755
-index 000000000000..c59132548082
---- /dev/null
-+++ b/scripts/findconf
-@@ -0,0 +1,22 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Find Kconfig symbols matching one or more regexen.  Pass '-v' to
-+# also show help text.
-+
-+if [ "$1" = "-v" ]; then
-+	export FINDCONF_SHOW_HELP=1
-+	shift
-+fi
-+
-+if [ $# = 0 ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
-+	echo >&$(($# ? 1 : 2)) "Usage: $(basename $0) [-v] REGEX [REGEX ...]"
-+	exit $((!$#))
-+fi
-+
-+n=0
-+for q in "$@"; do
-+	export FINDCONF_QUERY_$((n++))="$q"
-+done
-+
-+exec make findconfig
-diff --git a/scripts/kconfig/.gitignore b/scripts/kconfig/.gitignore
-index 500e7424b3ef..a3ea0600c731 100644
---- a/scripts/kconfig/.gitignore
-+++ b/scripts/kconfig/.gitignore
-@@ -1,5 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
- /conf
-+/findconf
- /[gmnq]conf
- /[gmnq]conf-cfg
- /qconf-moc.cc
-diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-index b8ef0fb4bbef..99e48b2d8563 100644
---- a/scripts/kconfig/Makefile
-+++ b/scripts/kconfig/Makefile
-@@ -35,6 +35,7 @@ menuconfig-prog	:= mconf
- nconfig-prog	:= nconf
- gconfig-prog	:= gconf
- xconfig-prog	:= qconf
-+findconfig-prog	:= findconf
- 
- define config_rule
- PHONY += $(1)
-@@ -45,7 +46,7 @@ PHONY += build_$(1)
- build_$(1): $(obj)/$($(1)-prog)
- endef
- 
--$(foreach c, config menuconfig nconfig gconfig xconfig, $(eval $(call config_rule,$(c))))
-+$(foreach c, config menuconfig nconfig gconfig xconfig findconfig, $(eval $(call config_rule,$(c))))
- 
- PHONY += localmodconfig localyesconfig
- localyesconfig localmodconfig: $(obj)/conf
-@@ -155,6 +156,10 @@ HOSTCFLAGS_parser.tab.o	:= -I $(srctree)/$(src)
- hostprogs	+= conf
- conf-objs	:= conf.o $(common-objs)
- 
-+# findconf: standalone non-interactive config-symbol search
-+hostprogs	+= findconf
-+findconf-objs	:= findconf.o $(common-objs)
-+
- # nconf: Used for the nconfig target based on ncurses
- hostprogs	+= nconf
- nconf-objs	:= nconf.o nconf.gui.o $(common-objs)
-diff --git a/scripts/kconfig/findconf.c b/scripts/kconfig/findconf.c
-new file mode 100644
-index 000000000000..786408c97eab
---- /dev/null
-+++ b/scripts/kconfig/findconf.c
-@@ -0,0 +1,74 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2022 Zev Weiss <zev@bewilderbeest.net>
-+ *
-+ * Kconfig symbol search a la carte.
-+ */
-+#include "lkc.h"
-+
-+static bool query(const char *q)
-+{
-+	unsigned int i;
-+	const char *help;
-+	struct gstr res;
-+	struct symbol **sym_arr, *sym;
-+	struct property *prop;
-+
-+	sym_arr = sym_re_search(q);
-+
-+	if (!sym_arr) {
-+		printf("%s: no matches found.\n", q);
-+		return false;
-+	}
-+
-+	for (i = 0; sym_arr[i]; i++) {
-+		sym = sym_arr[i];
-+		res = str_new();
-+		get_symbol_str(&res, sym, NULL);
-+		printf("%s", str_get(&res));
-+		str_free(&res);
-+
-+		if (getenv("FINDCONF_SHOW_HELP")) {
-+			for_all_properties(sym, prop, P_SYMBOL) {
-+				if (prop->menu) {
-+					help = menu_get_help(prop->menu);
-+					if (help && *help)
-+						printf("%s\n", help);
-+				}
-+			}
-+		}
-+	}
-+
-+	free(sym_arr);
-+
-+	return true;
-+}
-+
-+int main(int argc, char **argv)
-+{
-+	unsigned int i = 0;
-+	char qvar[32];
-+	bool found = false;
-+
-+	if (argc != 2) {
-+		fprintf(stderr, "Usage: %s KCONFIG\n", argv[0]);
-+		exit(1);
-+	}
-+
-+	conf_parse(argv[1]);
-+	conf_read(NULL);
-+
-+	for (;;) {
-+		snprintf(qvar, sizeof(qvar), "FINDCONF_QUERY_%u", i++);
-+		if (!getenv(qvar))
-+			break;
-+		found = query(getenv(qvar)) || found;
-+	}
-+
-+	if (i == 1) {
-+		fprintf(stderr, "FINDCONF_QUERY_0 not set\n");
-+		return 1;
-+	}
-+
-+	return !found;
-+}
-diff --git a/scripts/kconfig/lkc.h b/scripts/kconfig/lkc.h
-index fa8c010aa683..b4730f580dee 100644
---- a/scripts/kconfig/lkc.h
-+++ b/scripts/kconfig/lkc.h
-@@ -102,6 +102,7 @@ struct menu *menu_get_root_menu(struct menu *menu);
- struct menu *menu_get_parent_menu(struct menu *menu);
- bool menu_has_help(struct menu *menu);
- const char *menu_get_help(struct menu *menu);
-+void get_symbol_str(struct gstr *r, struct symbol *sym, struct list_head *head);
- struct gstr get_relations_str(struct symbol **sym_arr, struct list_head *head);
- void menu_get_ext_help(struct menu *menu, struct gstr *help);
- 
-diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
-index 3d6f7cba8846..4b990c73e431 100644
---- a/scripts/kconfig/menu.c
-+++ b/scripts/kconfig/menu.c
-@@ -800,7 +800,7 @@ static void get_symbol_props_str(struct gstr *r, struct symbol *sym,
- /*
-  * head is optional and may be NULL
-  */
--static void get_symbol_str(struct gstr *r, struct symbol *sym,
-+void get_symbol_str(struct gstr *r, struct symbol *sym,
- 		    struct list_head *head)
- {
- 	struct property *prop;
+
+
+>
+> ...
+> >  # To make this rule robust against "Argument list too long" error,
+> >  # ensure to add $(obj)/ prefix by a shell command.
+> > -cmd_mod = echo $(call real-search, $*.o, .o, -objs -y -m) | \
+> > -     $(AWK) -v RS='( |\n)' '!x[$$0]++ { print("$(obj)/"$$0) }' > $@
+> > +cmd_mod = printf '%s\n' $(call real-search, $*.o, .o, -objs -y -m) | \
+> > +     $(AWK) '!x[$$0]++ { print("$(obj)/"$$0) }' > $@
+>
+> I think the above only works because 'printf' is (usually) a
+> shell builtin - so the kernel's argv[] limit doesn't apply.
+> So the comment isn't really right.
+
+Is there any difference if 'printf' were not built-in?
+
+
+
+Right, for bash and dash, yes, 'printf' is built-in,
+and we do not need to be worried about
+"Argument list too long", but
+I am not sure if we are able to cover all the systems.
+
+
+
+> But I think:
+>
+> cmd_mod = $(addprefix $(obj)/,$(sort $(call real-search, $*.o, .o, -objs -y -m))) >$@
+>
+> will have the required effect.
+
+
+I think 'echo' is missing here.
+As I noted above, I do not want to change the order.
+
+
+
+> Without forking and execing multiple processes.
+>
+>         David
+>
+> -
+> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+> Registration No: 1397386 (Wales)
+>
+
+
 -- 
-2.36.1
-
+Best Regards
+Masahiro Yamada
