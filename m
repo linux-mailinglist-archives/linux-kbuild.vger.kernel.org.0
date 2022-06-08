@@ -2,136 +2,132 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CFBA542D5F
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jun 2022 12:24:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7244543BDE
+	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jun 2022 20:59:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236907AbiFHKYU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 8 Jun 2022 06:24:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34576 "EHLO
+        id S233240AbiFHS71 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 8 Jun 2022 14:59:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235886AbiFHKXR (ORCPT
+        with ESMTP id S233318AbiFHS70 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 8 Jun 2022 06:23:17 -0400
-Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B47361FD2A7;
-        Wed,  8 Jun 2022 03:12:52 -0700 (PDT)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 258ACbTK008028;
-        Wed, 8 Jun 2022 19:12:38 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 258ACbTK008028
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1654683158;
-        bh=24/6C8NEUmHevwxStKDk7F68KpU510+2fxKFIdAqq3A=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=FuXTzy4G/Vtp0qokhsvDdEdDoIMgvktmiD4JrTJuiPEGy3qK7miEgqSi+yVm2a1KZ
-         Fyf4CGpKp4q36ewn/tIZxom5Gd1OT0+mKdKjPluDgalSG9zJ8lT+4gwFdqIotCnEqK
-         xmFq6KNid/3rD0Dd5aC0+Z+TzcTHOeX1tJskqsRXzkmW5o2tE43qBB7YogmRXvj5dB
-         y36knmmrwR87tfSFG6HS21YlE1SqhS2fzRmxNuvqyNBJxLMDLEkxmv8e/mUa8TFSNq
-         7PSg5+D0TcaVwc72M2JEY5mWaQ1fYEh0dZ/VaBOjx1HJcfTpLqjagiRBYaPs9mV3uB
-         jIQsdoPzDoEsQ==
-X-Nifty-SrcIP: [209.85.214.175]
-Received: by mail-pl1-f175.google.com with SMTP id o17so17240022pla.6;
-        Wed, 08 Jun 2022 03:12:37 -0700 (PDT)
-X-Gm-Message-State: AOAM530PFgGC86xgldMChdmEXJ1E7rpJvW7Uqwd3NWen4LN+A8Q4D1EG
-        /Ox55tcPx5PAgXkiYT19Fh9figynrFzfE/RffPI=
-X-Google-Smtp-Source: ABdhPJw8Y0S92UZKmmBupTxdDmKXJnYsbVAooLfyJ+OzTjogY19vcMGrkwnfFDA6I6kCmqpsnfSB12KRbP81br76fF4=
-X-Received: by 2002:a17:90b:1d83:b0:1e2:f63e:bc37 with SMTP id
- pf3-20020a17090b1d8300b001e2f63ebc37mr55045802pjb.119.1654683157131; Wed, 08
- Jun 2022 03:12:37 -0700 (PDT)
+        Wed, 8 Jun 2022 14:59:26 -0400
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67C9C3BBF5;
+        Wed,  8 Jun 2022 11:59:23 -0700 (PDT)
+Received: by mail-io1-xd2b.google.com with SMTP id n144so6814659iod.4;
+        Wed, 08 Jun 2022 11:59:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=tNp7Xl2ONrziHqUHN3+KG6+K6ACxMxBGEDZRaVtiLTM=;
+        b=a0WGY7pQV78GAPPNOoarbrKvv7WINsDSERS1fqq5UgLMq08+sgzqzn07+h0aeSZ6q/
+         0ZKXzXAmt3MPxgUgIzAq3lNkrRor9WRQvHAlBmheIg7tcU7SPknO7gJcCn2p0T+Corg0
+         thumiRq31tj4NczQLAUSmkZ7EHQb938f+O88bHiTQd+72vVZAyrnvqHQJ91w1UsaiYRb
+         NjgYOdfLNvkWBCrZWUuKWMaFYQrwJ56hDLlzkT2T+7ubq8RiQzLNwjfjcjUBIHwbRYz1
+         yf/Y/bKDiWCFC0hI0+eUiLNUE+9iNwt0xgrzNg9/7fZ0WP9DfQFC3gaowf2fBdZ+VOg3
+         q8jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=tNp7Xl2ONrziHqUHN3+KG6+K6ACxMxBGEDZRaVtiLTM=;
+        b=79PlYE2meb+4OCFtjYPpBVnHgNfkOuM0Vc6GBGwLkhnWJjSo34wIUTIdfJ0NMS4E+w
+         9crTrEzvE+cxit4VBhX3bh+2HTT1xZT8s5X/VN1WW8uTuRV9+96AEkn2cdbNbbmymA30
+         0/uaXCcfj6+8KLQS2Zd3x7fA4oVA/yYuNG+cYXtrRcMuJo9m4fW/m5b3hTZ1vV9qtrhD
+         zuNUVYzjPhSlPLw6Eo63xRT7smGHYXETFD8o+hrKTOi2shNHM1sSVN0f6Z/RH79uW+KF
+         HGcbTq70JXk1SGtiXzM2ilLiBqeYnxs2GkJ5ooCtKBZrOAS1waxO7pRqmmJPUxSuyliI
+         eJ5w==
+X-Gm-Message-State: AOAM5328RKLIXVdqJl49PCOi+mfSa/ae1BPEfrMAl/CoZRtOhZfWekkQ
+        MucC2dGFghknnX+9fVGk+uHzww53sim3EvUPIYu350ZSahs=
+X-Google-Smtp-Source: ABdhPJxW16OjrGGZX5DLArE4S3AkQBk7HcuXW56Q+3T+RvHRclRPf7qXKU+SvumA9DgtpOYz6RFLybaDKm7OvZpBPCQ=
+X-Received: by 2002:a05:6638:1415:b0:331:d318:83ab with SMTP id
+ k21-20020a056638141500b00331d31883abmr4969324jad.126.1654714762766; Wed, 08
+ Jun 2022 11:59:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <368129160298161a9eb40ad4f489458be6be3b6f.1654569774.git.kevin@kevinlocke.name>
- <05f8480125584a9caea029b9c3111ef4@AcuMS.aculab.com>
-In-Reply-To: <05f8480125584a9caea029b9c3111ef4@AcuMS.aculab.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 8 Jun 2022 19:11:59 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR8RLsfBug+vsbrVfhZPQq4+SuP1wQVXJMWDrNZ3T+0xg@mail.gmail.com>
-Message-ID: <CAK7LNAR8RLsfBug+vsbrVfhZPQq4+SuP1wQVXJMWDrNZ3T+0xg@mail.gmail.com>
+In-Reply-To: <368129160298161a9eb40ad4f489458be6be3b6f.1654569774.git.kevin@kevinlocke.name>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Wed, 8 Jun 2022 20:58:46 +0200
+Message-ID: <CA+icZUXEswwLtmz-njhJydO33tcAPSnZ5PJkfigzpFrQ6pzP4Q@mail.gmail.com>
 Subject: Re: [PATCH] kbuild: avoid regex RS for POSIX awk
-To:     David Laight <David.Laight@aculab.com>
-Cc:     Kevin Locke <kevin@kevinlocke.name>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+To:     Kevin Locke <kevin@kevinlocke.name>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jun 8, 2022 at 4:43 PM David Laight <David.Laight@aculab.com> wrote:
+On Tue, Jun 7, 2022 at 7:31 AM Kevin Locke <kevin@kevinlocke.name> wrote:
 >
-> From: Kevin Locke
-> > Sent: 07 June 2022 03:43
-> >
-> > In 22f26f21774f8 awk was added to deduplicate *.mod files.
+> In 22f26f21774f8 awk was added to deduplicate *.mod files.  The awk
+> invocation passes -v RS='( |\n)' to match a space or newline character
+> as the record separator.  Unfortunately, POSIX states[1]
 >
-> Can't this be done with gmake's $(sort) function?
+> > If RS contains more than one character, the results are unspecified.
 >
-> $(sort list)
+> Some implementations (such as the One True Awk[2] used by the BSDs) do
+> not treat RS as a regular expression.  When awk does not support regex
+> RS, build failures such as the following are produced (first error using
+> allmodconfig):
 >
->     Sorts the words of list in lexical order, removing duplicate words.
->     The output is a list of words separated by single spaces.
-
-
-$(sort ...) does two things,
-  - sort the list alphabetically
-  - deduplicate the elements in the list
-
-I want to do only deduplication
-without changing the order.
-
-
-
-
+>       CC [M]  arch/x86/events/intel/uncore.o
+>       CC [M]  arch/x86/events/intel/uncore_nhmex.o
+>       CC [M]  arch/x86/events/intel/uncore_snb.o
+>       CC [M]  arch/x86/events/intel/uncore_snbep.o
+>       CC [M]  arch/x86/events/intel/uncore_discovery.o
+>       LD [M]  arch/x86/events/intel/intel-uncore.o
+>     ld: cannot find uncore_nhmex.o: No such file or directory
+>     ld: cannot find uncore_snb.o: No such file or directory
+>     ld: cannot find uncore_snbep.o: No such file or directory
+>     ld: cannot find uncore_discovery.o: No such file or directory
+>     make[3]: *** [scripts/Makefile.build:422: arch/x86/events/intel/intel-uncore.o] Error 1
+>     make[2]: *** [scripts/Makefile.build:487: arch/x86/events/intel] Error 2
+>     make[1]: *** [scripts/Makefile.build:487: arch/x86/events] Error 2
+>     make: *** [Makefile:1839: arch/x86] Error 2
 >
-> ...
-> >  # To make this rule robust against "Argument list too long" error,
-> >  # ensure to add $(obj)/ prefix by a shell command.
-> > -cmd_mod = echo $(call real-search, $*.o, .o, -objs -y -m) | \
-> > -     $(AWK) -v RS='( |\n)' '!x[$$0]++ { print("$(obj)/"$$0) }' > $@
-> > +cmd_mod = printf '%s\n' $(call real-search, $*.o, .o, -objs -y -m) | \
-> > +     $(AWK) '!x[$$0]++ { print("$(obj)/"$$0) }' > $@
+> To avoid this, use printf(1) to produce a newline between each object
+> path, instead of the space produced by echo(1), so that the default RS
+> can be used by awk.
 >
-> I think the above only works because 'printf' is (usually) a
-> shell builtin - so the kernel's argv[] limit doesn't apply.
-> So the comment isn't really right.
-
-Is there any difference if 'printf' were not built-in?
-
-
-
-Right, for bash and dash, yes, 'printf' is built-in,
-and we do not need to be worried about
-"Argument list too long", but
-I am not sure if we are able to cover all the systems.
-
-
-
-> But I think:
+> [1]: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/awk.html
+> [2]: https://github.com/onetrueawk/awk
 >
-> cmd_mod = $(addprefix $(obj)/,$(sort $(call real-search, $*.o, .o, -objs -y -m))) >$@
+> Fixes: 22f26f21774f ("kbuild: get rid of duplication in *.mod files")
+> Signed-off-by: Kevin Locke <kevin@kevinlocke.name>
+
+Tested-by: Sedat Dilek <sedat.dilek@gmail.com> # LLVM-14 (x86-64)
+
+-Sedat-
+
+> ---
+>  scripts/Makefile.build | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> will have the required effect.
-
-
-I think 'echo' is missing here.
-As I noted above, I do not want to change the order.
-
-
-
-> Without forking and execing multiple processes.
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index 1f01ac65c0cd..cac070aee791 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -251,8 +251,8 @@ $(obj)/%.o: $(src)/%.c $(recordmcount_source) FORCE
 >
->         David
+>  # To make this rule robust against "Argument list too long" error,
+>  # ensure to add $(obj)/ prefix by a shell command.
+> -cmd_mod = echo $(call real-search, $*.o, .o, -objs -y -m) | \
+> -       $(AWK) -v RS='( |\n)' '!x[$$0]++ { print("$(obj)/"$$0) }' > $@
+> +cmd_mod = printf '%s\n' $(call real-search, $*.o, .o, -objs -y -m) | \
+> +       $(AWK) '!x[$$0]++ { print("$(obj)/"$$0) }' > $@
 >
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
+>  $(obj)/%.mod: FORCE
+>         $(call if_changed,mod)
+> --
+> 2.35.1
 >
-
-
--- 
-Best Regards
-Masahiro Yamada
