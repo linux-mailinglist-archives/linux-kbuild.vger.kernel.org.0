@@ -2,60 +2,69 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B7244543BDE
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jun 2022 20:59:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02912543C5C
+	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jun 2022 21:06:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233240AbiFHS71 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 8 Jun 2022 14:59:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41658 "EHLO
+        id S234857AbiFHTGh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 8 Jun 2022 15:06:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233318AbiFHS70 (ORCPT
+        with ESMTP id S235600AbiFHTGY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 8 Jun 2022 14:59:26 -0400
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67C9C3BBF5;
-        Wed,  8 Jun 2022 11:59:23 -0700 (PDT)
-Received: by mail-io1-xd2b.google.com with SMTP id n144so6814659iod.4;
-        Wed, 08 Jun 2022 11:59:23 -0700 (PDT)
+        Wed, 8 Jun 2022 15:06:24 -0400
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 222CE4AE0C;
+        Wed,  8 Jun 2022 12:03:49 -0700 (PDT)
+Received: by mail-io1-xd2c.google.com with SMTP id a10so19873521ioe.9;
+        Wed, 08 Jun 2022 12:03:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:reply-to:from:date:message-id
          :subject:to:cc;
-        bh=tNp7Xl2ONrziHqUHN3+KG6+K6ACxMxBGEDZRaVtiLTM=;
-        b=a0WGY7pQV78GAPPNOoarbrKvv7WINsDSERS1fqq5UgLMq08+sgzqzn07+h0aeSZ6q/
-         0ZKXzXAmt3MPxgUgIzAq3lNkrRor9WRQvHAlBmheIg7tcU7SPknO7gJcCn2p0T+Corg0
-         thumiRq31tj4NczQLAUSmkZ7EHQb938f+O88bHiTQd+72vVZAyrnvqHQJ91w1UsaiYRb
-         NjgYOdfLNvkWBCrZWUuKWMaFYQrwJ56hDLlzkT2T+7ubq8RiQzLNwjfjcjUBIHwbRYz1
-         yf/Y/bKDiWCFC0hI0+eUiLNUE+9iNwt0xgrzNg9/7fZ0WP9DfQFC3gaowf2fBdZ+VOg3
-         q8jQ==
+        bh=uHvO6lASenJXAwmtol028iE9jl3QIf1MGNf5sYAD2mI=;
+        b=mCzgaJ5RtUYhEB7TvHlxTBehiR1oOVyn5iAnL2NYhYfUTBEpRGyLQQIlfu/Pkjp41N
+         d+ToihCuCXnhN/EOcOn4VXOJd0D2nUFMx8b2ynE7wq8VLYDAbts2Fqlsypxa0BjUGTJI
+         OC2AzPMxMVPfXZVcC1kngUyf8XdkfJfMcx2BeyhsBP/8eVfjWejkDpY6R4G8wQjBo9C0
+         u6pGK9zoPI39Shrk2R7FLhiQDdA59H3KPEPk1ubgMoO9ml86fC98s5w5UNeXe96sMU7X
+         UA0kJzEDY0GdGSyTDxFv7l1QzrGPLcGEIgCeipt6Lnf/ExBnQ3zWOEWw1OJIuSicWkD7
+         0mzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
          :from:date:message-id:subject:to:cc;
-        bh=tNp7Xl2ONrziHqUHN3+KG6+K6ACxMxBGEDZRaVtiLTM=;
-        b=79PlYE2meb+4OCFtjYPpBVnHgNfkOuM0Vc6GBGwLkhnWJjSo34wIUTIdfJ0NMS4E+w
-         9crTrEzvE+cxit4VBhX3bh+2HTT1xZT8s5X/VN1WW8uTuRV9+96AEkn2cdbNbbmymA30
-         0/uaXCcfj6+8KLQS2Zd3x7fA4oVA/yYuNG+cYXtrRcMuJo9m4fW/m5b3hTZ1vV9qtrhD
-         zuNUVYzjPhSlPLw6Eo63xRT7smGHYXETFD8o+hrKTOi2shNHM1sSVN0f6Z/RH79uW+KF
-         HGcbTq70JXk1SGtiXzM2ilLiBqeYnxs2GkJ5ooCtKBZrOAS1waxO7pRqmmJPUxSuyliI
-         eJ5w==
-X-Gm-Message-State: AOAM5328RKLIXVdqJl49PCOi+mfSa/ae1BPEfrMAl/CoZRtOhZfWekkQ
-        MucC2dGFghknnX+9fVGk+uHzww53sim3EvUPIYu350ZSahs=
-X-Google-Smtp-Source: ABdhPJxW16OjrGGZX5DLArE4S3AkQBk7HcuXW56Q+3T+RvHRclRPf7qXKU+SvumA9DgtpOYz6RFLybaDKm7OvZpBPCQ=
-X-Received: by 2002:a05:6638:1415:b0:331:d318:83ab with SMTP id
- k21-20020a056638141500b00331d31883abmr4969324jad.126.1654714762766; Wed, 08
- Jun 2022 11:59:22 -0700 (PDT)
+        bh=uHvO6lASenJXAwmtol028iE9jl3QIf1MGNf5sYAD2mI=;
+        b=MEn+LBr1yIYwU4SxjHSedzvsCJZMqypWwIzAe/w3PZek1yihDTKQP9ihyHnLnitiu8
+         3/5vdq5mOWYERVuD4oYSw1smH6abdUHDrxV3J3ntFqHsDWh06t4DBhYfHrbP7JuUl9Pd
+         /vybifgoI0l0Vgagn/q5JU6Y2RV2dh536nTkT+RRl+O0Au98nzyWq9hzWrsD8si4HRPQ
+         9g225nDTXZKgyib3jIyXn9fdQhwtlUUQMuS48QmJ4vgrdZdwc231BQLG4014cntgIzyM
+         NZMe48KnHTfu3I/ZRy5HS+Ti+7uK8cOCY2vpaF1Xe++LClU1a7yywM7BEWFKeOZbrcvn
+         8ncg==
+X-Gm-Message-State: AOAM533nfN21469GZHKywSMGt+Pe4+pZk6meJPpYxR/U+lewRMYn8hre
+        2J84Kha/yWeNjHd0LvM518Fyn/PNOrCbcNS6RSPzierx4OA=
+X-Google-Smtp-Source: ABdhPJyPfBPW81UGtdc6N58+KH5F9Ju0Yh1bhwA/dhd1CNQBi4oFOkgVajdsRbnFlopI7Jcb7mSItJulOzBqKQr6Sc0=
+X-Received: by 2002:a05:6638:2188:b0:331:cf8b:af23 with SMTP id
+ s8-20020a056638218800b00331cf8baf23mr5436095jaj.80.1654715021475; Wed, 08 Jun
+ 2022 12:03:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <368129160298161a9eb40ad4f489458be6be3b6f.1654569774.git.kevin@kevinlocke.name>
-In-Reply-To: <368129160298161a9eb40ad4f489458be6be3b6f.1654569774.git.kevin@kevinlocke.name>
+References: <20220607164000.447941-1-masahiroy@kernel.org> <CAKwvOdk5ZrcSmQSPrFzreZ-z_Hpi4Lc-D-Y4NDuHPiUWpXdwzA@mail.gmail.com>
+In-Reply-To: <CAKwvOdk5ZrcSmQSPrFzreZ-z_Hpi4Lc-D-Y4NDuHPiUWpXdwzA@mail.gmail.com>
 Reply-To: sedat.dilek@gmail.com
 From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Wed, 8 Jun 2022 20:58:46 +0200
-Message-ID: <CA+icZUXEswwLtmz-njhJydO33tcAPSnZ5PJkfigzpFrQ6pzP4Q@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: avoid regex RS for POSIX awk
-To:     Kevin Locke <kevin@kevinlocke.name>
+Date:   Wed, 8 Jun 2022 21:03:05 +0200
+Message-ID: <CA+icZUUZ0_92vDofYkgG3QzyuhC3wABwdT16ZPbH=92_0pGoRQ@mail.gmail.com>
+Subject: Re: [PATCH v2] scripts/check-local-export: avoid 'wait $!' for
+ process substitution
+To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+        linux-kbuild@vger.kernel.org,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Wang Yugui <wangyugui@e16-tech.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Tom Rix <trix@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -67,67 +76,56 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jun 7, 2022 at 7:31 AM Kevin Locke <kevin@kevinlocke.name> wrote:
+On Tue, Jun 7, 2022 at 8:42 PM Nick Desaulniers <ndesaulniers@google.com> wrote:
 >
-> In 22f26f21774f8 awk was added to deduplicate *.mod files.  The awk
-> invocation passes -v RS='( |\n)' to match a space or newline character
-> as the record separator.  Unfortunately, POSIX states[1]
+> On Tue, Jun 7, 2022 at 9:41 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > Bash>=4.4 supports 'wait $!' to check the exit status of a process
+> > substitution, but some people using older bash versions reported an
+> > error like this:
+> >
+> > Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> > Reported-by: Michael Ellerman <mpe@ellerman.id.au>
+> > Reported-by: Wang Yugui <wangyugui@e16-tech.com>
+> > Tested-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> > Tested-by: Jon Hunter <jonathanh@nvidia.com>
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 >
-> > If RS contains more than one character, the results are unspecified.
+> Acked-by: Nick Desaulniers <ndesaulniers@google.com>
 >
-> Some implementations (such as the One True Awk[2] used by the BSDs) do
-> not treat RS as a regular expression.  When awk does not support regex
-> RS, build failures such as the following are produced (first error using
-> allmodconfig):
->
->       CC [M]  arch/x86/events/intel/uncore.o
->       CC [M]  arch/x86/events/intel/uncore_nhmex.o
->       CC [M]  arch/x86/events/intel/uncore_snb.o
->       CC [M]  arch/x86/events/intel/uncore_snbep.o
->       CC [M]  arch/x86/events/intel/uncore_discovery.o
->       LD [M]  arch/x86/events/intel/intel-uncore.o
->     ld: cannot find uncore_nhmex.o: No such file or directory
->     ld: cannot find uncore_snb.o: No such file or directory
->     ld: cannot find uncore_snbep.o: No such file or directory
->     ld: cannot find uncore_discovery.o: No such file or directory
->     make[3]: *** [scripts/Makefile.build:422: arch/x86/events/intel/intel-uncore.o] Error 1
->     make[2]: *** [scripts/Makefile.build:487: arch/x86/events/intel] Error 2
->     make[1]: *** [scripts/Makefile.build:487: arch/x86/events] Error 2
->     make: *** [Makefile:1839: arch/x86] Error 2
->
-> To avoid this, use printf(1) to produce a newline between each object
-> path, instead of the space produced by echo(1), so that the default RS
-> can be used by awk.
->
-> [1]: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/awk.html
-> [2]: https://github.com/onetrueawk/awk
->
-> Fixes: 22f26f21774f ("kbuild: get rid of duplication in *.mod files")
-> Signed-off-by: Kevin Locke <kevin@kevinlocke.name>
 
 Tested-by: Sedat Dilek <sedat.dilek@gmail.com> # LLVM-14 (x86-64)
 
 -Sedat-
 
-> ---
->  scripts/Makefile.build | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Some comments below.
 >
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 1f01ac65c0cd..cac070aee791 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -251,8 +251,8 @@ $(obj)/%.o: $(src)/%.c $(recordmcount_source) FORCE
+> > diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+> > index 34415ae1af1b..19c286c23786 100644
+> > --- a/Documentation/process/changes.rst
+> > +++ b/Documentation/process/changes.rst
+> > @@ -32,6 +32,7 @@ you probably needn't concern yourself with pcmciautils.
+> >  GNU C                  5.1              gcc --version
+> >  Clang/LLVM (optional)  11.0.0           clang --version
+> >  GNU make               3.81             make --version
+> > +bash                   4.2              bash --version
 >
->  # To make this rule robust against "Argument list too long" error,
->  # ensure to add $(obj)/ prefix by a shell command.
-> -cmd_mod = echo $(call real-search, $*.o, .o, -objs -y -m) | \
-> -       $(AWK) -v RS='( |\n)' '!x[$$0]++ { print("$(obj)/"$$0) }' > $@
-> +cmd_mod = printf '%s\n' $(call real-search, $*.o, .o, -objs -y -m) | \
-> +       $(AWK) '!x[$$0]++ { print("$(obj)/"$$0) }' > $@
+> /usr/bin/env bash
+> and definitely /bin/bash
+> both show up a lot in kernel sources. At this point, I think bash is a
+> requirement at this point, so it's good to document it finally.
 >
->  $(obj)/%.mod: FORCE
->         $(call if_changed,mod)
+> > +# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
+> > +# 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
+> > +# '2>/dev/null'. However, it suppresses real error messages as well. Add a
+> > +# hand-crafted error message here.
+> > +#
+> > +# Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
+> > +# binutils to 2.37, llvm to 13.0.0.
+>
+> Might be nice to include `TODO:` in the comment block. Vim will
+> highlight these in comments.
+>
 > --
-> 2.35.1
->
+> Thanks,
+> ~Nick Desaulniers
