@@ -2,73 +2,50 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02912543C5C
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jun 2022 21:06:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9864954419C
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Jun 2022 04:48:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234857AbiFHTGh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 8 Jun 2022 15:06:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34004 "EHLO
+        id S230003AbiFICs6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 8 Jun 2022 22:48:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235600AbiFHTGY (ORCPT
+        with ESMTP id S229590AbiFICs5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 8 Jun 2022 15:06:24 -0400
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 222CE4AE0C;
-        Wed,  8 Jun 2022 12:03:49 -0700 (PDT)
-Received: by mail-io1-xd2c.google.com with SMTP id a10so19873521ioe.9;
-        Wed, 08 Jun 2022 12:03:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=uHvO6lASenJXAwmtol028iE9jl3QIf1MGNf5sYAD2mI=;
-        b=mCzgaJ5RtUYhEB7TvHlxTBehiR1oOVyn5iAnL2NYhYfUTBEpRGyLQQIlfu/Pkjp41N
-         d+ToihCuCXnhN/EOcOn4VXOJd0D2nUFMx8b2ynE7wq8VLYDAbts2Fqlsypxa0BjUGTJI
-         OC2AzPMxMVPfXZVcC1kngUyf8XdkfJfMcx2BeyhsBP/8eVfjWejkDpY6R4G8wQjBo9C0
-         u6pGK9zoPI39Shrk2R7FLhiQDdA59H3KPEPk1ubgMoO9ml86fC98s5w5UNeXe96sMU7X
-         UA0kJzEDY0GdGSyTDxFv7l1QzrGPLcGEIgCeipt6Lnf/ExBnQ3zWOEWw1OJIuSicWkD7
-         0mzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=uHvO6lASenJXAwmtol028iE9jl3QIf1MGNf5sYAD2mI=;
-        b=MEn+LBr1yIYwU4SxjHSedzvsCJZMqypWwIzAe/w3PZek1yihDTKQP9ihyHnLnitiu8
-         3/5vdq5mOWYERVuD4oYSw1smH6abdUHDrxV3J3ntFqHsDWh06t4DBhYfHrbP7JuUl9Pd
-         /vybifgoI0l0Vgagn/q5JU6Y2RV2dh536nTkT+RRl+O0Au98nzyWq9hzWrsD8si4HRPQ
-         9g225nDTXZKgyib3jIyXn9fdQhwtlUUQMuS48QmJ4vgrdZdwc231BQLG4014cntgIzyM
-         NZMe48KnHTfu3I/ZRy5HS+Ti+7uK8cOCY2vpaF1Xe++LClU1a7yywM7BEWFKeOZbrcvn
-         8ncg==
-X-Gm-Message-State: AOAM533nfN21469GZHKywSMGt+Pe4+pZk6meJPpYxR/U+lewRMYn8hre
-        2J84Kha/yWeNjHd0LvM518Fyn/PNOrCbcNS6RSPzierx4OA=
-X-Google-Smtp-Source: ABdhPJyPfBPW81UGtdc6N58+KH5F9Ju0Yh1bhwA/dhd1CNQBi4oFOkgVajdsRbnFlopI7Jcb7mSItJulOzBqKQr6Sc0=
-X-Received: by 2002:a05:6638:2188:b0:331:cf8b:af23 with SMTP id
- s8-20020a056638218800b00331cf8baf23mr5436095jaj.80.1654715021475; Wed, 08 Jun
- 2022 12:03:41 -0700 (PDT)
+        Wed, 8 Jun 2022 22:48:57 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DDB48DDDA;
+        Wed,  8 Jun 2022 19:48:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=+1xJAFxrAQpdyFEBOBVg3nYgcbnbFBfxBPaYH1o92/Y=; b=nfe19vEVxrOgRQW2gYcyrPUoBF
+        kwHbDGgnkElQiVJu3sfNxKPGq7Y4pi1IsDKY3/QGS/m5WXab64Sn+xbv5GkpUaVTcIusrUz7n89YF
+        +ShbX2VjgfPCUwdBOXDmB77iBmjgLY36+64JXdvQC48pVnLwnGQZPkdwkz1VMgtYeEopbO6RnbPT0
+        uXgss4TtN3rmn83tPcD9QtYNHXKYEmSIG918rbhuN1MsFt3a0zhGuo6JHjk/loYwtBOsycdNfonwC
+        ztKZqbuiqjVElU1/GpmL5Hak2xfYSIgezfgz6yb7C3Ue7xsPG9ub/ZG2c/VfBOY29Z9O/WhIZAoxr
+        LpQ6X4Dg==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nz8E3-00DBvk-N4; Thu, 09 Jun 2022 02:48:48 +0000
+Message-ID: <6d6d252d-79e9-4b4c-4a62-aa4018a6254c@infradead.org>
+Date:   Wed, 8 Jun 2022 19:48:44 -0700
 MIME-Version: 1.0
-References: <20220607164000.447941-1-masahiroy@kernel.org> <CAKwvOdk5ZrcSmQSPrFzreZ-z_Hpi4Lc-D-Y4NDuHPiUWpXdwzA@mail.gmail.com>
-In-Reply-To: <CAKwvOdk5ZrcSmQSPrFzreZ-z_Hpi4Lc-D-Y4NDuHPiUWpXdwzA@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Wed, 8 Jun 2022 21:03:05 +0200
-Message-ID: <CA+icZUUZ0_92vDofYkgG3QzyuhC3wABwdT16ZPbH=92_0pGoRQ@mail.gmail.com>
-Subject: Re: [PATCH v2] scripts/check-local-export: avoid 'wait $!' for
- process substitution
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Wang Yugui <wangyugui@e16-tech.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Tom Rix <trix@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] kconfig: Add findconf script and helper program
+Content-Language: en-US
+To:     Zev Weiss <zev@bewilderbeest.net>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220608095456.27479-1-zev@bewilderbeest.net>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220608095456.27479-1-zev@bewilderbeest.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,56 +53,70 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jun 7, 2022 at 8:42 PM Nick Desaulniers <ndesaulniers@google.com> wrote:
->
-> On Tue, Jun 7, 2022 at 9:41 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > Bash>=4.4 supports 'wait $!' to check the exit status of a process
-> > substitution, but some people using older bash versions reported an
-> > error like this:
-> >
-> > Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> > Reported-by: Michael Ellerman <mpe@ellerman.id.au>
-> > Reported-by: Wang Yugui <wangyugui@e16-tech.com>
-> > Tested-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> > Tested-by: Jon Hunter <jonathanh@nvidia.com>
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->
-> Acked-by: Nick Desaulniers <ndesaulniers@google.com>
->
+Hi--
 
-Tested-by: Sedat Dilek <sedat.dilek@gmail.com> # LLVM-14 (x86-64)
+On 6/8/22 02:54, Zev Weiss wrote:
+> scripts/findconf provides menuconfig's search functionality as a
+> standalone, non-interactive command, somewhat in the spirit of
+> scripts/config.  It is meant to be useful for tasks like getting a
+> quick overview of symbol dependencies or determining which Kconfig
+> file to edit for a given symbol, without having to fire up one of the
+> interactive config programs.
+> 
+> It accepts a single command-line flag, '-v', which causes it to also
+> print the help text of each matching result.
+> 
+> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+> ---
 
--Sedat-
+I can see how this could be useful.
+It's a little easier to use than what I currently do:
 
-> Some comments below.
->
-> > diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-> > index 34415ae1af1b..19c286c23786 100644
-> > --- a/Documentation/process/changes.rst
-> > +++ b/Documentation/process/changes.rst
-> > @@ -32,6 +32,7 @@ you probably needn't concern yourself with pcmciautils.
-> >  GNU C                  5.1              gcc --version
-> >  Clang/LLVM (optional)  11.0.0           clang --version
-> >  GNU make               3.81             make --version
-> > +bash                   4.2              bash --version
->
-> /usr/bin/env bash
-> and definitely /bin/bash
-> both show up a lot in kernel sources. At this point, I think bash is a
-> requirement at this point, so it's good to document it finally.
->
-> > +# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
-> > +# 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
-> > +# '2>/dev/null'. However, it suppresses real error messages as well. Add a
-> > +# hand-crafted error message here.
-> > +#
-> > +# Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
-> > +# binutils to 2.37, llvm to 13.0.0.
->
-> Might be nice to include `TODO:` in the comment block. Vim will
-> highlight these in comments.
->
-> --
-> Thanks,
-> ~Nick Desaulniers
+$ findconfig  DRM_HISI_HIBMC
+./drivers/gpu/drm/hisilicon/hibmc/Kconfig:2:config DRM_HISI_HIBMC
+
+then $EDITOR that_Kconfig_file
+
+
+In testing, I am seeing this:
+
+#
+# using defaults found in /boot/config-5.3.18-150300.59.63-default
+#
+.config:421:warning: symbol value 'm' invalid for I8K
+.config:2335:warning: symbol value 'm' invalid for MTD_NAND_ECC_SW_HAMMING
+.config:2484:warning: symbol value 'm' invalid for PVPANIC
+.config:8671:warning: symbol value 'm' invalid for INTERCONNECT
+.config:9369:warning: symbol value 'm' invalid for CRYPTO_ARCH_HAVE_LIB_BLAKE2S
+.config:9370:warning: symbol value 'm' invalid for CRYPTO_LIB_BLAKE2S_GENERIC
+.config:9653:warning: symbol value '1' invalid for KASAN_STACK
+
+How do I specify/choose a .config file to be used?
+
+Oh, use KCONFIG_CONFIG=filename
+
+
+Please update (add) usage/help text in scripts/kconfig/Makefile.
+
+> 
+> This works a bit differently from [gmnq]conf in that it accepts (and
+> requires) arguments, but I couldn't see an easy/obvious way of passing
+> command-line args through the makefile infrastructure that invokes
+> those, so the wrapper script passes things to it via environment
+> variables instead.  Suggestions welcome if there's a nicer way of
+> achieving that.
+> 
+>  scripts/findconf           | 22 ++++++++++++
+>  scripts/kconfig/.gitignore |  1 +
+>  scripts/kconfig/Makefile   |  7 +++-
+>  scripts/kconfig/findconf.c | 74 ++++++++++++++++++++++++++++++++++++++
+>  scripts/kconfig/lkc.h      |  1 +
+>  scripts/kconfig/menu.c     |  2 +-
+>  6 files changed, 105 insertions(+), 2 deletions(-)
+>  create mode 100755 scripts/findconf
+>  create mode 100644 scripts/kconfig/findconf.c
+> 
+
+thanks.
+-- 
+~Randy
