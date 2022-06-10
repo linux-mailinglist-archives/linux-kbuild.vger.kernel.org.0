@@ -2,147 +2,161 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B582546F4E
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Jun 2022 23:35:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 473E1546F58
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Jun 2022 23:40:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349954AbiFJVfL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 10 Jun 2022 17:35:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39696 "EHLO
+        id S1347449AbiFJVkG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 10 Jun 2022 17:40:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350600AbiFJVfK (ORCPT
+        with ESMTP id S1347712AbiFJVkF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 10 Jun 2022 17:35:10 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CED557111
-        for <linux-kbuild@vger.kernel.org>; Fri, 10 Jun 2022 14:35:07 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id y19so416470ejq.6
-        for <linux-kbuild@vger.kernel.org>; Fri, 10 Jun 2022 14:35:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=pqrs.dk; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Jlsqq7ENvzaBFmYrM2EurpWQmALPa/xYxdqi5jsfiWY=;
-        b=CXF+NeUoCyYJUvbNACNtBhwGfBuGl/3hLER61cBCZPQ7uXOUZldZy83nBEMs77hhqN
-         BL6+m5kaNZ3H4xImv0ykiTvblGE1e4GBPCsiobg0vr192yJdFpOOfQxu6BahlTTHi2mk
-         N5j3FUWMqS/DwNSBh0ARdPbBjd9Cyiy/usgR8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Jlsqq7ENvzaBFmYrM2EurpWQmALPa/xYxdqi5jsfiWY=;
-        b=PoCSMrA7WPx/Kh6feSNWoHiQ6m84VNcjLj7gbQa8maqzzZtJqL7fuNY3i0FBi6R0dN
-         I2MAoTZ3d4VJKVySQ4MJJblCfh/Geu72aXUWtcFSy60kf3ogYYmfqGRdZHEz1wGDqHs5
-         m0tS4aKCzZbtunEct5HKMPpJ6YkJDrlnkV+DTw/IyB7Q5ir47JpWmaDLheHZiZFslt12
-         U+UpNlqS3MQnUAioTJ/jkSXhujDcwo9dnFsgW7dCDmyslfGllUVX/JdeDr3yBSLqsKgw
-         65ptPcvrp6vxjxe74MGKtx7TJcVRRRHM8ds3YHBgqNXyHspAgYGFzEou+LyUcRSf3UsR
-         uRDw==
-X-Gm-Message-State: AOAM530aEP8FvTVkP79LXLi3Cn4cswet10z9XynGgFG014+PNWvAojVZ
-        zunae0GDPsFNOkN1ffB7aXK68A==
-X-Google-Smtp-Source: ABdhPJy/68a6lYrN5y9k/UonqDtcQMXjmnR26kEr0kn41xqIIOcZuheVhyVvg6y4boW5DKUtnd3hpA==
-X-Received: by 2002:a17:907:868c:b0:6fe:fd7a:e0d7 with SMTP id qa12-20020a170907868c00b006fefd7ae0d7mr41997149ejc.90.1654896905963;
-        Fri, 10 Jun 2022 14:35:05 -0700 (PDT)
-Received: from localhost.localdomain (80.71.142.18.ipv4.parknet.dk. [80.71.142.18])
-        by smtp.gmail.com with ESMTPSA id f16-20020a170906085000b006fec4ee28d0sm80783ejd.189.2022.06.10.14.35.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jun 2022 14:35:05 -0700 (PDT)
-From:   =?UTF-8?q?Alvin=20=C5=A0ipraga?= <alvin@pqrs.dk>
-To:     Nathan Chancellor <nathan@kernel.org>,
+        Fri, 10 Jun 2022 17:40:05 -0400
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2105.outbound.protection.outlook.com [40.107.22.105])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4EA05BD24;
+        Fri, 10 Jun 2022 14:40:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LPf8n+P0Xv+3o1H/ZBmk87+GShJXroXqkl9rjrFsWmwxbZ1efDrG/M9sJDLgBj4sNzh2hILOJVIhc4t7DT4PD8TMZUE+rYSDTQC5nigqcPb89d82jNcGFhmk9QDExZz1pXrM8rXSV+yNF/btdQB50xtNlW57W0VVca1g1KAqVEJZahtU3dAZOOkfgIhYParneDqxKFwI8KZm3isuLhYQLFLn2hZreoDLyc+mD9BJSHF901jtePU2M55KnF1TDSUPZVdd8kJ8woi3ZqlN5Ud4EgOJBVAyRFJ/0MFs8+hhVCTUlAWvV117OZ+O2CRQDruqwaXwCD14NgZnWUFaUCPNaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IPMbjpoepCjtVQrazHo+mC2yYDSfmFPl1CVSulV6f40=;
+ b=SHP8XYpq56UHVp5IfqUFBPz5ITsd3JKqHhnBRCqA75ZcF09KBCTUHLAczuFcf9mmgzMXhue+pa86Ixb99NhSy2kK/4sQmxV0lQnztbLeRc7Q4V1muDV1XuZezgBcwsQG0XV8Yp5GZz3lpRDYzt8LGy5SE4Qm6zjsvZESjtxWgt6qBIIU08YNR2XcU3uyW3TjqJVwsANA9+CjBwsJOTSo1xG4u9zmk0WYy+Tg4MC7JXhModYsDLzCVtRGOED6Qrp60uTZpKGvvGXL/Y4v8rtSz/DBIKv4GwMLOuGfbCm/zymrRtAP6eVLzTRzLFDFOodOHVNFNgHHHpJRIudW28iK8w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bang-olufsen.dk; dmarc=pass action=none
+ header.from=bang-olufsen.dk; dkim=pass header.d=bang-olufsen.dk; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bang-olufsen.dk;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IPMbjpoepCjtVQrazHo+mC2yYDSfmFPl1CVSulV6f40=;
+ b=qSMI4XD3upt9BDwNvAXZYTfowJ77isRdi4REgXhZgfTLL2Vsa4OXyPiDXPWQc021YjyHOlx0ThzYbabpiurOJ41VGFW6dxvjCuJoFHni29rogbjo4OUSOmmGFDz3qli+kZAJ7+ctpZKQmcytuCSruygcyvFSVAnJE//YSyQR2yU=
+Received: from AM6PR03MB3943.eurprd03.prod.outlook.com (2603:10a6:20b:26::24)
+ by AM4PR0302MB2674.eurprd03.prod.outlook.com (2603:10a6:200:94::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.15; Fri, 10 Jun
+ 2022 21:40:00 +0000
+Received: from AM6PR03MB3943.eurprd03.prod.outlook.com
+ ([fe80::4cae:10e4:dfe8:e111]) by AM6PR03MB3943.eurprd03.prod.outlook.com
+ ([fe80::4cae:10e4:dfe8:e111%7]) with mapi id 15.20.5332.014; Fri, 10 Jun 2022
+ 21:40:00 +0000
+From:   =?utf-8?B?QWx2aW4gxaBpcHJhZ2E=?= <ALSI@bang-olufsen.dk>
+To:     =?utf-8?B?QWx2aW4gxaBpcHJhZ2E=?= <alvin@pqrs.dk>
+CC:     Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Tom Rix <trix@redhat.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org,
-        =?UTF-8?q?Alvin=20=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Subject: [PATCH] kbuild: use a pipe rather than process substitution
-Date:   Fri, 10 Jun 2022 23:34:52 +0200
-Message-Id: <20220610213453.630304-1-alvin@pqrs.dk>
-X-Mailer: git-send-email 2.36.1
+        Masahiro Yamada <masahiroy@kernel.org>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "llvm@lists.linux.dev" <llvm@lists.linux.dev>
+Subject: Re: [PATCH] kbuild: use a pipe rather than process substitution
+Thread-Topic: [PATCH] kbuild: use a pipe rather than process substitution
+Thread-Index: AQHYfRH1ryitWurVh0Sl5dfaKRFyRq1JKyCA
+Date:   Fri, 10 Jun 2022 21:40:00 +0000
+Message-ID: <20220610213959.bjrw6nrxaby2lb3g@bang-olufsen.dk>
+References: <20220610213453.630304-1-alvin@pqrs.dk>
+In-Reply-To: <20220610213453.630304-1-alvin@pqrs.dk>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bang-olufsen.dk;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: fe763221-71a9-40f6-d786-08da4b29c573
+x-ms-traffictypediagnostic: AM4PR0302MB2674:EE_
+x-microsoft-antispam-prvs: <AM4PR0302MB26746B952B52E3760F74C6F883A69@AM4PR0302MB2674.eurprd03.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: muovx8ANwlXWmLFefw3B/iL6mDL7gp+nfNBw21e1mumqAu6sI7j6RayIAnDXPRehXD9/E2FanXTh55LAk/q5g8WEkLMjYBe6AAziu8QoKmcRPCoDaoKiGuMhTvmilyVd+abE1xNToHxEBsnUFhQm3HWG5AX6Ja7F2TkJriKje5YP5ihsNMWORj3idC9gRG/KhvucceKHcOjQzuZwQRL3bkiba48Ki41PeW84oCIV9y/GedQiVcMNHLCMkxg0V1MIEE/+0u05b7l4H74WOQhTRjFZhutpb55ZqV1ZQ0bDL+vE+I7eSRKGKHUW1sCS/VonEncMIc0b7OWA55lcbjvV6OYbFDp92GLMsj8fPNsXs5kndsWwFdvQcEvMZapznbSL0QYm+u/No8LYjJAbllT41tzdSniXefRV3H2Rd5TMAyyN3bch6KQQizCW0zBDVuuTltHbP1cM8lV68fRnIEvK6w+X8OqUZdl23CWj4CG4teUVMXUt0W0ua2N4QkjaFGOIl+ZgNPFm3F0sHjLNQ1GpkPlXWcykYwlUB5QbRYPWNv4gz4BSwzT50ulqzaUT+C6QSxOtNtG2VhGzXP5KPu+isz81/dmrZUm+cqg+u9rmhrTe5IFI3IMrFnDWxsbT81uzBphy8PuB6j4iqn42OTr4BCO8kDnUbtbWN+vfbf+tlJMrPReG9wiXyyniXRHnY2bs7ePRP6aMXUGGxQKEAWECI0OEXqlCsAmNfdgZcSUaQURJB8QhtcAsD1ouLN9dP5zk03RCPuzXVd2Y1+dTeu9FAHU3aB7FL5/3umosaj7tYJo=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR03MB3943.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(508600001)(6916009)(38070700005)(186003)(966005)(6486002)(122000001)(54906003)(36756003)(1076003)(71200400001)(66446008)(66556008)(91956017)(66476007)(64756008)(76116006)(2616005)(4326008)(8676002)(85182001)(85202003)(66946007)(2906002)(86362001)(6506007)(8976002)(8936002)(316002)(5660300002)(66574015)(38100700002)(26005)(6512007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cG1pSjhqMUduTnlsUXoxN2hreXIxS1h0MHhjR1lQMnNseWQ0YWFzNEJVS0V5?=
+ =?utf-8?B?WnV4UWYvV3JRMWpuekU2Q1VqSWVmSW5jeXBuR1k0UWJ3OEVJUlVNWHRvWjZU?=
+ =?utf-8?B?SWZsL0VnMjRxOWZEUmpTckMzeTBBQVczekRGUnU0Y3Y3K0REVTM2Si8yNG52?=
+ =?utf-8?B?VG5BR3BJenZGUVJhWWh5MytWaTJETVNKSWQ5Szh3T05LSG8wSFUyK0tqTURL?=
+ =?utf-8?B?ZmQwcnB4UE9BanVWRTV6SGlob0JISnByRE5QYXZqOVNEelRQMmJKa3FneTVY?=
+ =?utf-8?B?MGlCd3RiSkw2T1ZCSUpoLytkOEFzWEVSS1J3NmFuTWdjNFhZLzc4eU5hcGlP?=
+ =?utf-8?B?Q1dkS0oyMmJxaDBJcFZqamNTeVV3bS9XdER4OEdXQ3RlNFhSVU1YMkhyL09u?=
+ =?utf-8?B?S3FXR3V3NVZreTVQeStLWSs3dERHK1IzNHU3cUVSOVVoRW1nMFh3bGlsL0xi?=
+ =?utf-8?B?Myt6YlcrTTkvdWJrL1pwdERsbGw4VnVqNFhDU29QRFhkdlhkZGJycE9nQWkv?=
+ =?utf-8?B?c1FaczNKMVFIbW4yZUlBNWlKR0oySVBuMG5TUFRRM29GVHZVQm1iUERsRTZn?=
+ =?utf-8?B?N1V5TnJxdlp3aTllbWZsdVBVTmtRQ1I3OU91d0pORXhRaWlVTTVoR05aR09W?=
+ =?utf-8?B?TzBkWTBoRTJPL3NzY3hiaVJRQmtLU1QrY0lPbjdWaURINFNTNk1iUXBXV3pr?=
+ =?utf-8?B?MU1oaUFUVWFlOVYyL0JPdEtkUENKSnVvODg1R2lqWjRHS3N1a2gwV3pkUFRX?=
+ =?utf-8?B?aFhFdkgwNkJyQ081aUQ4YzllWDZ4L2ZNYzFZNS92bHRqVUtjbkdHaGNORWpN?=
+ =?utf-8?B?ZjRhclNHTWxWTjhVVk9sWHJiR1FURlFIM3BkNXMzODVTVEo4ZUoyTnhPUG0x?=
+ =?utf-8?B?aWQ5S1N1RGd2TkhndzVFRlhtU2ZZU2ZDSWF0UVgwQTNyQnozZTIzT21jN1N6?=
+ =?utf-8?B?ZVgrdFo3djYrUW9YcTRHSzlUWlR4R0FwYW1SZFJ4TFJad3BsbjZwdHlMU0dU?=
+ =?utf-8?B?Q28zU2Vld1duYkJDaDZpbjl2dmZnaVlIME5UaDg1Ty9UbjN0bG5VNkJkYnlS?=
+ =?utf-8?B?NVpIVUErQ1V4M1JIR3RMNE13S2tJTndTU2VhWWpsZjlrUkx6VEYxVjZHWEw0?=
+ =?utf-8?B?Z0YzS1VWc0tEbkZiNEs1YTIyUEptT1FEMmFxaXcvUjdxWUV0M2FCUUpvVXNy?=
+ =?utf-8?B?bWVnNjFNa2tNZHdSNWV5R0RnSGhMV2NZbmVZN1R2QzJWNStoaUxlUlh0Qnp5?=
+ =?utf-8?B?NjNlTkErdCsrbXYrWmMzcDNKMzltWUkyTXlSbUtFVjkvT3hQcXVBN3hSRmc3?=
+ =?utf-8?B?a0gvdDVzVHlGTjNlK0QwZnNZMDBNaFB6NE1kMGhhdFhEM1E2VmdzK293bm1P?=
+ =?utf-8?B?enIvaXBlZFNVU2I1eTAxSWZKMkNQVEU1V01OWmJHZWFFQUJjZWh0UDZUNjAx?=
+ =?utf-8?B?YXpJN1RpdzRzOUswUDNQL283bXh6dEdjWUhWNDh2YUdYYXVUSHZsck51TmtB?=
+ =?utf-8?B?eG9iN0xwVnhUcHRLTXQ2VTl1ZzM5TitWYk1ja1N0cE9vSFUwQkNndXdVNEZ2?=
+ =?utf-8?B?bUtNbUsra1g0dFpKYUMvRXUvRWs2Zm1KU2lqb0FodkpjN2JaTnk1ZjdTOC9w?=
+ =?utf-8?B?V0pVdGs3eHl3WWx0eEpkTWpsc2JYUFBmM0xuWEw3QVRjN0ovUkFacGg4UXdR?=
+ =?utf-8?B?bWlXWnRvYTMrZ1NhWDN3b0JCMXBNSUUxR1VhbWx3YWduWUcvWXQzU2lvOWVt?=
+ =?utf-8?B?N1J4NWVaNTJ2UnRXZTR1Q1FJTGttS3o2TVhqNlNJSEhiYWNXUThOUGJaR3pj?=
+ =?utf-8?B?cllaMXZuQmFLU1BGTCtBb1h4bmQ3VU1tQmg4dk9OREtQbGdGN3d1Qmluc0dk?=
+ =?utf-8?B?R20rMGdnQVBERDY5SjRlbGtzYnl1NXIrTDVSWmd6MzlYM0dXcXRPRWdqOHdB?=
+ =?utf-8?B?UmkxY2NyUlF4cU1VR1M1SEVTZy9jR3l3RkpnYkxLZjZjU1VvS3BtMnF1UzA3?=
+ =?utf-8?B?UUcxTkdQajhYQzBjSEZlLy9qZWk4T2xJRytTTEIvN2VGY1VNem5tVlRucFNv?=
+ =?utf-8?B?WXRkYWVKQXBST2VCeW5xUFFaa3dSL0ZNMlJ6RDB2bkYxRCtpZ3hSVXplMkRx?=
+ =?utf-8?B?cnFMSDIxdDJGVWcwNzNEQ3FKVy9qZTBDa2ZicUNDcGhnTks2UkR6d3dyU1I4?=
+ =?utf-8?B?MHZlS2NmQStvd3RWSmwyNDVXK1NjMVNPaFlxbXlKUFQyWXhxdU8zRFd2dmN1?=
+ =?utf-8?B?b0VsNThIKzlmT1lPTmJ6QjVrLzZBSitENEZYaEU2ZFVhWU1iZGg0bFp4QWVQ?=
+ =?utf-8?B?b29LbEhnTVJWdGtvQWlLT20xNnY1Uy8xUVdxZUZWTW1kem1jRVN2WUQyTmhq?=
+ =?utf-8?Q?mMc0QqF0D+u3VqEA=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <42FE50489D805649A4A02E983245B304@eurprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+X-OriginatorOrg: bang-olufsen.dk
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR03MB3943.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe763221-71a9-40f6-d786-08da4b29c573
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jun 2022 21:40:00.4479
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 210d08b8-83f7-470a-bc96-381193ca14a1
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: DCMGW18TIejEUl1Cnkfo9XtzTnj2e/sUyBilAdiuIa67X6xFNj8R4SwulaWv4hgtjv//mYc5KTQiaMfFK3o38w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM4PR0302MB2674
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Alvin Šipraga <alsi@bang-olufsen.dk>
-
-Bash process substitution of the form `foo < <(bar)`, as found in
-scripts/check-local-export, can cause issues in chrooted environments
-and with tools such as pseudo. The blamed commit started to cause build
-errors for me when using the Yocto project's devshell environment;
-devshell uses pseudo internally:
-
-.../scripts/check-local-export: line 51: /dev/fd/63: No such file or directory
-
-Replace the process substitution with a simple pipe into the while loop.
-This is functionally equivalent and more portable than the former. Note
-that pipefail is enabled so that the script terminates when ${NM} fails.
-
-Link: https://bugzilla.yoctoproject.org/show_bug.cgi?id=13288
-Fixes: 31cb50b5590f ("kbuild: check static EXPORT_SYMBOL* by script instead of modpost")
-Signed-off-by: Alvin Šipraga <alsi@bang-olufsen.dk>
----
- scripts/check-local-export | 28 +++++++++++++---------------
- 1 file changed, 13 insertions(+), 15 deletions(-)
-
-diff --git a/scripts/check-local-export b/scripts/check-local-export
-index da745e2743b7..42de6f8f2541 100755
---- a/scripts/check-local-export
-+++ b/scripts/check-local-export
-@@ -7,12 +7,24 @@
- # EXPORT_SYMBOL should be used for global symbols.
- 
- set -e
-+set -o pipefail
- 
- declare -A symbol_types
- declare -a export_symbols
- 
- exit_code=0
- 
-+# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm)
-+# shows 'no symbols' diagnostic (but exits with 0). It is harmless and
-+# hidden by '2>/dev/null'. However, it suppresses real error messages
-+# as well. Add a hand-crafted error message here.
-+#
-+# Use --quiet instead of 2>/dev/null when we upgrade the minimum version
-+# of binutils to 2.37, llvm to 13.0.0.
-+#
-+# Then, the following line will be really simple:
-+#   done < <(${NM} --quiet ${1})
-+(${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; false; } ) | \
- while read value type name
- do
- 	# Skip the line if the number of fields is less than 3.
-@@ -37,21 +49,7 @@ do
- 	if [[ ${name} == __ksymtab_* ]]; then
- 		export_symbols+=(${name#__ksymtab_})
- 	fi
--
--	# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm)
--	# shows 'no symbols' diagnostic (but exits with 0). It is harmless and
--	# hidden by '2>/dev/null'. However, it suppresses real error messages
--	# as well. Add a hand-crafted error message here.
--	#
--	# Use --quiet instead of 2>/dev/null when we upgrade the minimum version
--	# of binutils to 2.37, llvm to 13.0.0.
--	#
--	# Then, the following line will be really simple:
--	#   done < <(${NM} --quiet ${1})
--done < <(${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; false; } )
--
--# Catch error in the process substitution
--wait $!
-+done
- 
- for name in "${export_symbols[@]}"
- do
--- 
-2.36.1
-
+T24gRnJpLCBKdW4gMTAsIDIwMjIgYXQgMTE6MzQ6NTJQTSArMDIwMCwgQWx2aW4gxaBpcHJhZ2Eg
+d3JvdGU6DQo+IEZyb206IEFsdmluIMWgaXByYWdhIDxhbHNpQGJhbmctb2x1ZnNlbi5kaz4NCj4g
+DQo+IEJhc2ggcHJvY2VzcyBzdWJzdGl0dXRpb24gb2YgdGhlIGZvcm0gYGZvbyA8IDwoYmFyKWAs
+IGFzIGZvdW5kIGluDQo+IHNjcmlwdHMvY2hlY2stbG9jYWwtZXhwb3J0LCBjYW4gY2F1c2UgaXNz
+dWVzIGluIGNocm9vdGVkIGVudmlyb25tZW50cw0KPiBhbmQgd2l0aCB0b29scyBzdWNoIGFzIHBz
+ZXVkby4gVGhlIGJsYW1lZCBjb21taXQgc3RhcnRlZCB0byBjYXVzZSBidWlsZA0KPiBlcnJvcnMg
+Zm9yIG1lIHdoZW4gdXNpbmcgdGhlIFlvY3RvIHByb2plY3QncyBkZXZzaGVsbCBlbnZpcm9ubWVu
+dDsNCj4gZGV2c2hlbGwgdXNlcyBwc2V1ZG8gaW50ZXJuYWxseToNCj4gDQo+IC4uLi9zY3JpcHRz
+L2NoZWNrLWxvY2FsLWV4cG9ydDogbGluZSA1MTogL2Rldi9mZC82MzogTm8gc3VjaCBmaWxlIG9y
+IGRpcmVjdG9yeQ0KPiANCj4gUmVwbGFjZSB0aGUgcHJvY2VzcyBzdWJzdGl0dXRpb24gd2l0aCBh
+IHNpbXBsZSBwaXBlIGludG8gdGhlIHdoaWxlIGxvb3AuDQo+IFRoaXMgaXMgZnVuY3Rpb25hbGx5
+IGVxdWl2YWxlbnQgYW5kIG1vcmUgcG9ydGFibGUgdGhhbiB0aGUgZm9ybWVyLiBOb3RlDQo+IHRo
+YXQgcGlwZWZhaWwgaXMgZW5hYmxlZCBzbyB0aGF0IHRoZSBzY3JpcHQgdGVybWluYXRlcyB3aGVu
+ICR7Tk19IGZhaWxzLg0KPiANCj4gTGluazogaHR0cHM6Ly9idWd6aWxsYS55b2N0b3Byb2plY3Qu
+b3JnL3Nob3dfYnVnLmNnaT9pZD0xMzI4OA0KPiBGaXhlczogMzFjYjUwYjU1OTBmICgia2J1aWxk
+OiBjaGVjayBzdGF0aWMgRVhQT1JUX1NZTUJPTCogYnkgc2NyaXB0IGluc3RlYWQgb2YgbW9kcG9z
+dCIpDQo+IFNpZ25lZC1vZmYtYnk6IEFsdmluIMWgaXByYWdhIDxhbHNpQGJhbmctb2x1ZnNlbi5k
+az4NCg0KT29wcywgSSBmb3Jnb3QgdG8gY2hlY2sgdGhlIGxpbnV4LWtidWlsZCBsaXN0IGJlZm9y
+ZSBzZW5kaW5nIHRoaXMgcGF0Y2guIEkgc2VlDQp0aGF0IGEgbW9yZSByb2J1c3QgcGF0Y2ggaGFz
+IGJlZW4gcG9zdGVkIHdoaWNoIGFkZHJlc3NlcyBhIHNlcGFyYXRlIGlzc3VlLCBidXQNCndoaWNo
+IGFsc28gc29sdmVzIHRoZSBpc3N1ZSBJIHdhcyB0cnlpbmcgdG8gYWRkcmVzczoNCg0KaHR0cHM6
+Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgta2J1aWxkLzIwMjIwNjA4MDExMTAwLjQ4NjczNS0xLW1h
+c2FoaXJveUBrZXJuZWwub3JnL3Jhdw0KDQpQbGVhc2UgaWdub3JlIHRoaXMuIFRoYW5rcyENCg0K
+S2luZCByZWdhcmRzLA0KQWx2aW4=
