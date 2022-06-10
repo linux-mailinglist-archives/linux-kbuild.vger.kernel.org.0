@@ -2,84 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC365546B24
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Jun 2022 19:01:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DFCE546C82
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Jun 2022 20:37:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346105AbiFJQ5i (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 10 Jun 2022 12:57:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57902 "EHLO
+        id S1350419AbiFJSfm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 10 Jun 2022 14:35:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231317AbiFJQ5h (ORCPT
+        with ESMTP id S1350072AbiFJSfU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 10 Jun 2022 12:57:37 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16F0310C3;
-        Fri, 10 Jun 2022 09:57:31 -0700 (PDT)
-X-UUID: 3074d9628a6c410286eeecd13f5fc3f3-20220611
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5,REQID:a4bc0329-0515-494a-8883-0e46bb75846b,OB:0,LO
-        B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:22,FILE:0,RULE:Release_Ham,ACT
-        ION:release,TS:22
-X-CID-INFO: VERSION:1.1.5,REQID:a4bc0329-0515-494a-8883-0e46bb75846b,OB:0,LOB:
-        0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:22,FILE:0,RULE:Release_Ham,ACTIO
-        N:release,TS:22
-X-CID-META: VersionHash:2a19b09,CLOUDID:e1dd5e50-276a-4a9a-a4c8-ea931023add4,C
-        OID:IGNORED,Recheck:0,SF:28|100|17|19|48|101,TC:nil,Content:-5,EDM:-3,IP:n
-        il,URL:0,File:nil,QS:0,BEC:nil
-X-UUID: 3074d9628a6c410286eeecd13f5fc3f3-20220611
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
-        (envelope-from <miles.chen@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 796968846; Sat, 11 Jun 2022 00:57:25 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
- Sat, 11 Jun 2022 00:57:24 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.3 via Frontend Transport; Sat, 11 Jun 2022 00:57:24 +0800
-From:   Miles Chen <miles.chen@mediatek.com>
-To:     <masahiroy@kernel.org>
-CC:     <corbet@lwn.net>, <jonathanh@nvidia.com>,
-        <linux-doc@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <llvm@lists.linux.dev>,
-        <mpe@ellerman.id.au>, <nathan@kernel.org>,
-        <ndesaulniers@google.com>, <penguin-kernel@I-love.SAKURA.ne.jp>,
-        <trix@redhat.com>, <wangyugui@e16-tech.com>
-Subject: Re: [PATCH v3] scripts/check-local-export: avoid 'wait $!' for process substitution
-Date:   Sat, 11 Jun 2022 00:57:24 +0800
-Message-ID: <20220610165724.16214-1-miles.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220608011100.486735-1-masahiroy@kernel.org>
-References: <20220608011100.486735-1-masahiroy@kernel.org>
+        Fri, 10 Jun 2022 14:35:20 -0400
+X-Greylist: delayed 72 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 10 Jun 2022 11:35:00 PDT
+Received: from conuserg-12.nifty.com (conuserg-12.nifty.com [210.131.2.79])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 632273ED30;
+        Fri, 10 Jun 2022 11:35:00 -0700 (PDT)
+Received: from grover.sesame (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 25AIX5TL020882;
+        Sat, 11 Jun 2022 03:33:05 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 25AIX5TL020882
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1654885986;
+        bh=9V5ZtNuA93j8Q20aLKhJjsp/qlA4DxrP5ew51lWbprM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=EiMGDoVxhBnNAUwmy9Pw4D8rmphe8eCNo0y+s4fv97gyda6/4gSz7svrcCC6tDIQW
+         aP0vbki01SCpg1hqhOCJc4naCcSl0SfPT+qJU7xSLOBGfdpcT+Ret0MBFozRLn5XIp
+         UVOJrKlfMMp/pEzmmedySfSmWAXRkowNr8dxMvxmjVqMgpXrRm3B52le1YCUqlnDBs
+         2NZDyLIkqRMlZyvrMhzWQv9MSgxNZ7474xOBSyN1ger4f19kJWCP1zXBV6tX7vTDy8
+         zzBTSPJRj8Gbv2W92g931cV6L+rKVyDjDTRdAJoThsRtiCCFLpVtndbszNtF06H1QM
+         4e+Hs+bAbBl0w==
+X-Nifty-SrcIP: [133.32.177.133]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Nicolas Pitre <npitre@baylibre.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        linux-modules@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Alessio Igor Bogani <abogani@kernel.org>,
+        Andy Whitcroft <apw@canonical.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Joe Perches <joe@perches.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Rusty Russell <rusty@rustcorp.com.au>,
+        linux-arch@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 0/7] Unify <linux/export.h> and <asm/export.h>, remove EXPORT_DATA_SYMBOL()
+Date:   Sat, 11 Jun 2022 03:32:29 +0900
+Message-Id: <20220610183236.1272216-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE,
-        SPF_HELO_PASS,T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,UNPARSEABLE_RELAY
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
->Bash 4.4, released in 2016, supports 'wait $!' to check the exit status
->of a process substitution, but it seems too new.
->
->Some people using older bash versions (on CentOS 7, Ubuntu 16.04, etc.)
->reported an error like this:
->
->  ./scripts/check-local-export: line 54: wait: pid 17328 is not a child of this shell
 
-Thanks for fixing this!
-I hit this issue and this patch fixes my problem.
+This patch set refactors EXPORT_SYMBOL, <linux/export.h> and <asm/export.h>.
 
-Tested-by: Miles Chen <miles.chen@mediatek.com> 
+You can still put EXPORT_SYMBOL() in *.S file, very close to the definition,
+but you do not need to care about whether it is a function or a data.
+Remove EXPORT_DATA_SYMBOL().
 
->
->I used the process substitution to avoid a pipeline, which executes each
->command in a subshell. If the while-loop is executed in the subshell
->context, variable changes within are lost after the subshell terminates.
 
+
+Masahiro Yamada (7):
+  modpost: fix section mismatch check for exported init/exit sections
+  modpost: put get_secindex() call inside sec_name()
+  kbuild: generate struct kernel_symbol by modpost
+  ia64,export.h: replace EXPORT_DATA_SYMBOL* with EXPORT_SYMBOL*
+  checkpatch: warn if <asm/export.h> is included
+  modpost: merge sym_update_namespace() into sym_add_exported()
+  modpost: use null string instead of NULL pointer for default namespace
+
+ arch/ia64/include/asm/Kbuild    |   1 +
+ arch/ia64/include/asm/export.h  |   3 -
+ arch/ia64/kernel/head.S         |   2 +-
+ arch/ia64/kernel/ivt.S          |   2 +-
+ include/asm-generic/export.h    |  83 +------------------
+ include/linux/export-internal.h |  44 ++++++++++
+ include/linux/export.h          |  97 ++++++++--------------
+ kernel/module/internal.h        |  12 +++
+ kernel/module/main.c            |   1 -
+ scripts/Makefile.build          |   8 +-
+ scripts/check-local-export      |   4 +-
+ scripts/checkpatch.pl           |   7 ++
+ scripts/mod/modpost.c           | 139 +++++++++++++++++---------------
+ scripts/mod/modpost.h           |   1 +
+ 14 files changed, 182 insertions(+), 222 deletions(-)
+ delete mode 100644 arch/ia64/include/asm/export.h
+
+-- 
+2.32.0
 
