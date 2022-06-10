@@ -2,136 +2,84 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A0A2454697E
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Jun 2022 17:38:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E35A546BBF
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Jun 2022 19:39:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344944AbiFJPij convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Fri, 10 Jun 2022 11:38:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42174 "EHLO
+        id S1346813AbiFJRjJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 10 Jun 2022 13:39:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345163AbiFJPi3 (ORCPT
+        with ESMTP id S1350086AbiFJRjI (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 10 Jun 2022 11:38:29 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E70126D925;
-        Fri, 10 Jun 2022 08:38:27 -0700 (PDT)
-Received: from fraeml701-chm.china.huawei.com (unknown [172.18.147.226])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LKQ3K4K7hz67KPP;
-        Fri, 10 Jun 2022 23:33:33 +0800 (CST)
-Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
- fraeml701-chm.china.huawei.com (10.206.15.50) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2375.24; Fri, 10 Jun 2022 17:38:24 +0200
-Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
- fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2375.024;
- Fri, 10 Jun 2022 17:38:24 +0200
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-To:     Eugeniu Rosca <erosca@de.adit-jv.com>
-CC:     Rob Landley <rob@landley.net>, "hpa@zytor.com" <hpa@zytor.com>,
-        "Masahiro Yamada" <masahiroy@kernel.org>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        "Mimi Zohar" <zohar@linux.ibm.com>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "initramfs@vger.kernel.org" <initramfs@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "bug-cpio@gnu.org" <bug-cpio@gnu.org>,
-        "zohar@linux.vnet.ibm.com" <zohar@linux.vnet.ibm.com>,
-        Silviu Vlasceanu <Silviu.Vlasceanu@huawei.com>,
-        Dmitry Kasatkin <dmitry.kasatkin@huawei.com>,
-        "takondra@cisco.com" <takondra@cisco.com>,
-        "kamensky@cisco.com" <kamensky@cisco.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "james.w.mcmechan@gmail.com" <james.w.mcmechan@gmail.com>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        Dirk Behme <dirk.behme@de.bosch.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: RE: [PATCH v4 0/3] initramfs: add support for xattrs in the initial
- ram disk
-Thread-Topic: [PATCH v4 0/3] initramfs: add support for xattrs in the initial
- ram disk
-Thread-Index: AQHYe+tsPH1HC/8x8Uq7oovD5MPpKK1G5r2QgAG+ywCAACILEA==
-Date:   Fri, 10 Jun 2022 15:38:24 +0000
-Message-ID: <4bc349a59e4042f7831b1190914851fe@huawei.com>
-References: <cf9d08ca-74c7-c945-5bf9-7c3495907d1e@huawei.com>
- <541e9ea1-024f-5c22-0b58-f8692e6c1eb1@landley.net>
- <33cfb804-6a17-39f0-92b7-01d54e9c452d@huawei.com>
- <1561909199.3985.33.camel@linux.ibm.com>
- <45164486-782f-a442-e442-6f56f9299c66@huawei.com>
- <1561991485.4067.14.camel@linux.ibm.com>
- <f85ed711-f583-51cd-34e2-80018a592280@huawei.com>
- <0c17bf9e-9b0b-b067-cf18-24516315b682@huawei.com>
- <20220609102627.GA3922@lxhi-065>
- <21b3aeab20554a30b9796b82cc58e55b@huawei.com>
- <20220610153336.GA8881@lxhi-065>
-In-Reply-To: <20220610153336.GA8881@lxhi-065>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.204.63.21]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        Fri, 10 Jun 2022 13:39:08 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE4F43B02E;
+        Fri, 10 Jun 2022 10:39:02 -0700 (PDT)
+X-UUID: fd0036f16f574af79af5206dbd1bf93a-20220611
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5,REQID:9feb1afb-7c45-46c1-a7ee-393b09817e87,OB:0,LO
+        B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+        ON:release,TS:0
+X-CID-META: VersionHash:2a19b09,CLOUDID:ba4c78e7-1f03-4449-90ad-e6cb8f3d1399,C
+        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:-5,EDM:-3,IP:nil,URL:0,File:ni
+        l,QS:0,BEC:nil
+X-UUID: fd0036f16f574af79af5206dbd1bf93a-20220611
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
+        (envelope-from <miles.chen@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 233797589; Sat, 11 Jun 2022 01:38:56 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with ShadowRedundancy id 15.2.792.3;
+ Fri, 10 Jun 2022 17:38:51 +0000
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
+ Sat, 11 Jun 2022 00:57:24 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.3 via Frontend Transport; Sat, 11 Jun 2022 00:57:24 +0800
+From:   Miles Chen <miles.chen@mediatek.com>
+To:     <masahiroy@kernel.org>
+CC:     <corbet@lwn.net>, <jonathanh@nvidia.com>,
+        <linux-doc@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <llvm@lists.linux.dev>,
+        <mpe@ellerman.id.au>, <nathan@kernel.org>,
+        <ndesaulniers@google.com>, <penguin-kernel@I-love.SAKURA.ne.jp>,
+        <trix@redhat.com>, <wangyugui@e16-tech.com>
+Subject: Re: [PATCH v3] scripts/check-local-export: avoid 'wait $!' for process substitution
+Date:   Sat, 11 Jun 2022 00:57:24 +0800
+Message-ID: <20220610165724.16214-1-miles.chen@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20220608011100.486735-1-masahiroy@kernel.org>
+References: <20220608011100.486735-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-> From: Eugeniu Rosca [mailto:erosca@de.adit-jv.com]
-> Sent: Friday, June 10, 2022 5:34 PM
-> Hello Roberto,
-> 
-> On Do, Jun 09, 2022 at 11:05:45 +0000, Roberto Sassu wrote:
-> > > From: Eugeniu Rosca [mailto:erosca@de.adit-jv.com]
-> > > Sent: Thursday, June 9, 2022 12:26 PM
-> > > Dear Roberto,
-> > > Cc: Yamada-san, linux-kbuild
-> > >
-> > > On Mi, Jul 24, 2019 at 05:34:53 +0200, Roberto Sassu wrote:
-> > > > Is there anything I didn't address in this patch set, that is delaying
-> > > > the review? I would appreciate if you can give me a feedback, positive
-> > > > or negative.
-> > > >
-> > > > Thanks a lot!
-> > > >
-> > > > Roberto
-> > >
-> > > Some of our users have recently asked for this patch series.
-> >
-> > Hello
-> >
-> > thanks for your interest in this patch set.
-> >
-> > > Could you please feedback if this is the latest revision available or
-> > > maybe there is a newer one developed and potentially not shared on LKML?
-> >
-> > Yes, it is the latest revision available. There might have been few
-> > fixes in the final code. You may want to have a look at:
-> 
-> Many thanks for the links to the updated patch revisions. It looks
-> like the new versions added a couple of bugfixes and refinements.
-> 
-> With more users now using this feature, do you think there is a higher
-> chance for upstreaming, compared to 2019 (original submission date)?
+>Bash 4.4, released in 2016, supports 'wait $!' to check the exit status
+>of a process substitution, but it seems too new.
+>
+>Some people using older bash versions (on CentOS 7, Ubuntu 16.04, etc.)
+>reported an error like this:
+>
+>  ./scripts/check-local-export: line 54: wait: pid 17328 is not a child of this shell
 
-Hello Eugeniu
+Thanks for fixing this!
+I hit this issue and this patch fixes my problem.
 
-I would be happy to address the remaining concerns, or take more
-suggestions, and then develop a new version of the patch set.
+Tested-by: Miles Chen <miles.chen@mediatek.com> 
 
-Thanks
+>
+>I used the process substitution to avoid a pipeline, which executes each
+>command in a subshell. If the while-loop is executed in the subshell
+>context, variable changes within are lost after the subshell terminates.
 
-Roberto
 
-HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-Managing Director: Li Peng, Yang Xi, Li He
