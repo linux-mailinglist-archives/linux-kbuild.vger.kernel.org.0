@@ -2,60 +2,49 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 39A3D5472F4
-	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Jun 2022 10:41:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CA335476D0
+	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Jun 2022 19:23:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231577AbiFKIlS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 11 Jun 2022 04:41:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57286 "EHLO
+        id S238475AbiFKRXp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 11 Jun 2022 13:23:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231468AbiFKIlQ (ORCPT
+        with ESMTP id S236066AbiFKRXn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 11 Jun 2022 04:41:16 -0400
-Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BEC310C8;
-        Sat, 11 Jun 2022 01:41:13 -0700 (PDT)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 25B8ekfq022701;
-        Sat, 11 Jun 2022 17:40:47 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 25B8ekfq022701
+        Sat, 11 Jun 2022 13:23:43 -0400
+Received: from conuserg-09.nifty.com (conuserg-09.nifty.com [210.131.2.76])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23C963CFD3;
+        Sat, 11 Jun 2022 10:23:38 -0700 (PDT)
+Received: from grover.sesame (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
+        by conuserg-09.nifty.com with ESMTP id 25BHMhjN022692;
+        Sun, 12 Jun 2022 02:22:43 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 25BHMhjN022692
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1654936847;
-        bh=GjObk4qkn+wKKzrcBcuYF59rT44eRBod2haAId0PbXY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=PREvLjGPWl2vpwAWxu9YrCKddWls2iwOpHhGWM+1kaRRovK1JCxy+uSn609YV0gI3
-         08EmkdWb1tfsUC5IIRcF9TVUwP2tsuiirzSg3n/Q/5KcSgJup393cJvlf8XIHkSOLq
-         304Rmb98sPeK4Nix+tSz/RQgmbXaOLkBV0yssM2ySNpzx2x88QOUpmD6ssrxiP3mNr
-         m7dnQhG+MZmxSvlpNzh281ddse/dHcTvqFdvIaBZobn3pqDYiBAsteRN1Iswjqoz24
-         tKpNmExTO5+ytUN2BKTKoNdEjCDwykfiKV0j2dShtcgnxPnLWqhxYO+7DW75Pn7Y2C
-         BF5+6NoT+6RPg==
-X-Nifty-SrcIP: [209.85.221.45]
-Received: by mail-wr1-f45.google.com with SMTP id k19so1264016wrd.8;
-        Sat, 11 Jun 2022 01:40:47 -0700 (PDT)
-X-Gm-Message-State: AOAM533aqmBDJmpKIHiSMTAPCFboIOAaWR17yTdHiC79kqgPKrImZ5FI
-        Je+xhNvngpWKDRv9DW6auFIkMvwcJHOJHeQ7FbM=
-X-Google-Smtp-Source: ABdhPJyiHW2W3e41O1pSCmct30Roanq1/4GAP7WtMOyFwG8Wk3ea+wpvffMHRIqX+Lt7EbWt196HX8/OmJhdHyIm+Iw=
-X-Received: by 2002:adf:f902:0:b0:20e:66db:b9d2 with SMTP id
- b2-20020adff902000000b0020e66dbb9d2mr48895378wrr.682.1654936845690; Sat, 11
- Jun 2022 01:40:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220610213453.630304-1-alvin@pqrs.dk> <20220610213959.bjrw6nrxaby2lb3g@bang-olufsen.dk>
-In-Reply-To: <20220610213959.bjrw6nrxaby2lb3g@bang-olufsen.dk>
+        s=dec2015msa; t=1654968163;
+        bh=nuJ9fX78Hn2THkCVuIttIKmGkLM6Dk/qRQ+cuZnHrm8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=1RE3Uu54helDOf0cj2T9yhUCVy3XiBs+UO77ut4ySI4SO64ULrIRVOQ+HkNGmm+uG
+         kzsxdHqrhl22d2von3RncQU0ZzcKSNLrCDLmZM7rAW8pEflxjxp3JiS7Cpe0kaGeed
+         0mUwg2Z48gF2IdKpl9KZIAhMD0idS/YF5lI1dtPgIFMX+sNn+gWcHHW31bxchV5t0i
+         KwTYeaTUJzcxIwK33X3u8Vg25ev0WrKZd/vZgw5Oy78R3pWrnyu5jQGB0cnE8s1KFC
+         Z0bf1v6DqPtoFyl799xXm5JqwRM0PTRqyPpcnna8HMYTqf5rbCKc5MFUNHkPzCtYjR
+         3FuFK5+b/4x+A==
+X-Nifty-SrcIP: [133.32.177.133]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 11 Jun 2022 17:40:08 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQaN0pH01Ntsn9jRxciaiYtWUA8MJeJ9ELiXrrbQwms6g@mail.gmail.com>
-Message-ID: <CAK7LNAQaN0pH01Ntsn9jRxciaiYtWUA8MJeJ9ELiXrrbQwms6g@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: use a pipe rather than process substitution
-To:     =?UTF-8?Q?Alvin_=C5=A0ipraga?= <ALSI@bang-olufsen.dk>
-Cc:     =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alvin@pqrs.dk>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "llvm@lists.linux.dev" <llvm@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To:     linux-kbuild@vger.kernel.org
+Cc:     David Howells <dhowells@redhat.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        =?UTF-8?q?Micka=8F=AB=B3l=20Sala=8F=AB=E4n?= 
+        <mic@linux.microsoft.com>, Masahiro Yamada <masahiroy@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        keyrings@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/4] certs/blacklist_hashes.c: fix const confusion in certs blacklist
+Date:   Sun, 12 Jun 2022 02:22:30 +0900
+Message-Id: <20220611172233.1494073-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
@@ -65,52 +54,40 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jun 11, 2022 at 6:40 AM Alvin =C5=A0ipraga <ALSI@bang-olufsen.dk> w=
-rote:
->
-> On Fri, Jun 10, 2022 at 11:34:52PM +0200, Alvin =C5=A0ipraga wrote:
-> > From: Alvin =C5=A0ipraga <alsi@bang-olufsen.dk>
-> >
-> > Bash process substitution of the form `foo < <(bar)`, as found in
-> > scripts/check-local-export, can cause issues in chrooted environments
-> > and with tools such as pseudo. The blamed commit started to cause build
-> > errors for me when using the Yocto project's devshell environment;
-> > devshell uses pseudo internally:
-> >
-> > .../scripts/check-local-export: line 51: /dev/fd/63: No such file or di=
-rectory
-> >
-> > Replace the process substitution with a simple pipe into the while loop=
-.
-> > This is functionally equivalent and more portable than the former. Note
-> > that pipefail is enabled so that the script terminates when ${NM} fails=
-.
-> >
-> > Link: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D13288
-> > Fixes: 31cb50b5590f ("kbuild: check static EXPORT_SYMBOL* by script ins=
-tead of modpost")
-> > Signed-off-by: Alvin =C5=A0ipraga <alsi@bang-olufsen.dk>
->
-> Oops, I forgot to check the linux-kbuild list before sending this patch. =
-I see
-> that a more robust patch has been posted which addresses a separate issue=
-, but
-> which also solves the issue I was trying to address:
->
-> https://lore.kernel.org/linux-kbuild/20220608011100.486735-1-masahiroy@ke=
-rnel.org/raw
->
-> Please ignore this. Thanks!
->
-> Kind regards,
-> Alvin
+This file fails to compile as follows:
 
-No problem. I did not notice I had broken yocto builds,
-and it is good to know it has been solved as well.
-Thanks for the report.
+  CC      certs/blacklist_hashes.o
+certs/blacklist_hashes.c:4:1: error: ignoring attribute ‘section (".init.data")’ because it conflicts with previous ‘section (".init.rodata")’ [-Werror=attributes]
+    4 | const char __initdata *const blacklist_hashes[] = {
+      | ^~~~~
+In file included from certs/blacklist_hashes.c:2:
+certs/blacklist.h:5:38: note: previous declaration here
+    5 | extern const char __initconst *const blacklist_hashes[];
+      |                                      ^~~~~~~~~~~~~~~~
 
+Apply the same fix as commit 2be04df5668d ("certs/blacklist_nohashes.c:
+fix const confusion in certs blacklist").
 
+Fixes: 734114f8782f ("KEYS: Add a system blacklist keyring")
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
---=20
-Best Regards
-Masahiro Yamada
+ certs/blacklist_hashes.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/certs/blacklist_hashes.c b/certs/blacklist_hashes.c
+index 344892337be0..d5961aa3d338 100644
+--- a/certs/blacklist_hashes.c
++++ b/certs/blacklist_hashes.c
+@@ -1,7 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0
+ #include "blacklist.h"
+ 
+-const char __initdata *const blacklist_hashes[] = {
++const char __initconst *const blacklist_hashes[] = {
+ #include CONFIG_SYSTEM_BLACKLIST_HASH_LIST
+ 	, NULL
+ };
+-- 
+2.32.0
+
