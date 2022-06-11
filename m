@@ -2,60 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5D4B5476E1
-	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Jun 2022 19:30:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AAE8454772D
+	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Jun 2022 20:48:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229575AbiFKRab (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 11 Jun 2022 13:30:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44248 "EHLO
+        id S230384AbiFKSsc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 11 Jun 2022 14:48:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229552AbiFKRaa (ORCPT
+        with ESMTP id S229672AbiFKSs3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 11 Jun 2022 13:30:30 -0400
+        Sat, 11 Jun 2022 14:48:29 -0400
 Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C7D317AAB;
-        Sat, 11 Jun 2022 10:30:25 -0700 (PDT)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 25BHU9e9000538;
-        Sun, 12 Jun 2022 02:30:10 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 25BHU9e9000538
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48B8F46672;
+        Sat, 11 Jun 2022 11:48:25 -0700 (PDT)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 25BIm5kL003581;
+        Sun, 12 Jun 2022 03:48:06 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 25BIm5kL003581
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1654968610;
-        bh=OSACDTzwM3nmDx5T3K9VpI7ucvHxYTzvbUngRQkLr+Y=;
+        s=dec2015msa; t=1654973286;
+        bh=OJU24WbqmimMYRsIh1ewIsGhAVbQLx3txvyBGLHeO1k=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=TomygkbFlEnETUNK56J/VTJtdffuMsuPj8R/S5mjXn9ys966unGmeQpZ7SkIaFg6t
-         Y/kghcEfgqRC5UpAyZwgmjcNiPwddcuyjUPsim8J+JWK5Ea2/4l3ng1IOPceiZpsbV
-         HlWhPYG/JWBPCJMFoKAVQqqKxBjKaJwjzxE8TjUKu3dIeMBL12/KgfXFaoxqom4XJG
-         IMvmwWA74dFIJOPQ7sbECa4jwjBIoNa21cPi2Ka4U5lSNWZRXtfZzs+Sq6y4EKtYCX
-         JGrHcww7fgGvJdOgB8WoU71nxWsxbORLzYGl2Ad5TS6EXzyNMlzHhTGQv+2LRRpvHj
-         zCqOw7FC4LrAQ==
-X-Nifty-SrcIP: [209.85.221.49]
-Received: by mail-wr1-f49.google.com with SMTP id m24so2246292wrb.10;
-        Sat, 11 Jun 2022 10:30:09 -0700 (PDT)
-X-Gm-Message-State: AOAM5328zT8wuqXjVq9EPKrXKNaDAC58r4seERJ3hj0Em8Vbt1JLTBbk
-        CddWuJOtFmzooZp7V1eupj15OUqxtLG9piDbzjc=
-X-Google-Smtp-Source: ABdhPJxFQ4VR0rikIrQmnyzW5yFwMBQ21UyA+EWB6Z3mCZwhT0pwLKVeOIT4MNgfpM1Ic97A6mYaSh3bwWNFqX/h6fY=
-X-Received: by 2002:a5d:584f:0:b0:219:e106:3e02 with SMTP id
- i15-20020a5d584f000000b00219e1063e02mr11475842wrf.461.1654968608246; Sat, 11
- Jun 2022 10:30:08 -0700 (PDT)
+        b=yPWnpNrh1S682UMdCy2xRKV0nrfelc88TI16XUiek8cvMXVCNlTxhriiqQO+5ADC1
+         dg6rQzE95S0VmLCo3BAi+37VggRNO3qFuQOYznZiQ1C6WUOuoWrM3B5XcHWwxyQSBi
+         56lNT0/EEJwIClXLSEMv0e1JOTdzqZUoPKOJVDYO6325v8W4ETHVohlGhccGOYVXST
+         nsOYnfuN9hFINEuEoxEDpOMb2MGq9/0/1cezB/hYqTP7l62zbTytCoYFNcanmOOo1w
+         3G5bjTr1dxR6EO0ewir9ONz54qAFMyAmoZtie4zDQ0hmU7iWdP41qsvLni41w90wtu
+         NCC8bubAl31ww==
+X-Nifty-SrcIP: [209.85.221.54]
+Received: by mail-wr1-f54.google.com with SMTP id c21so2437729wrb.1;
+        Sat, 11 Jun 2022 11:48:05 -0700 (PDT)
+X-Gm-Message-State: AOAM530EDqZ9bqx6bFmc7UXJccoCaY6KJto6bpuQZ/mBcXPUa9aN+ZT3
+        v10+F3qbAf9DChkSfxFI2t2z34IX4vTDoUQpQ/k=
+X-Google-Smtp-Source: ABdhPJxbHanpX6AbHetOK3rMz1pMBQZREhQ/9hwWAadZPeVmpGmRxmrP9S3VU2JRwZBzpQMKmxbHB5lWZJPn+RgOjgM=
+X-Received: by 2002:a05:6000:156d:b0:210:3135:ce1c with SMTP id
+ 13-20020a056000156d00b002103135ce1cmr50144120wrz.409.1654973284279; Sat, 11
+ Jun 2022 11:48:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <165451871967.1941436.17828809503267245815.stgit@warthog.procyon.org.uk>
- <CAK7LNAS-0kQOvt=7TNn0osf9JO5hZhSp9PaFFBsSx++2Pevc9g@mail.gmail.com>
- <22a067fe-795f-d3ae-fac6-7baa75393349@digikod.net> <75918f49-5670-766a-09a2-f29aef95f2ca@digikod.net>
-In-Reply-To: <75918f49-5670-766a-09a2-f29aef95f2ca@digikod.net>
+References: <20220610183236.1272216-1-masahiroy@kernel.org> <20220610183236.1272216-4-masahiroy@kernel.org>
+In-Reply-To: <20220610183236.1272216-4-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 12 Jun 2022 02:29:31 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARZLL=EA61-j+x8YjujW6U1RKZtL8+qhi1hgFhma5vbzA@mail.gmail.com>
-Message-ID: <CAK7LNARZLL=EA61-j+x8YjujW6U1RKZtL8+qhi1hgFhma5vbzA@mail.gmail.com>
-Subject: Re: [PATCH] certs: Convert spaces in certs/Makefile to a tab
-To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc:     David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jarkko Sakkinen <jarkko@kernel.org>, keyrings@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+Date:   Sun, 12 Jun 2022 03:47:27 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS-VYZ3G3-TmmTQSNuanGsufkoWTv32HNKdDkE+7-6mcg@mail.gmail.com>
+Message-ID: <CAK7LNAS-VYZ3G3-TmmTQSNuanGsufkoWTv32HNKdDkE+7-6mcg@mail.gmail.com>
+Subject: Re: [PATCH 3/7] kbuild: generate struct kernel_symbol by modpost
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Nicolas Pitre <npitre@baylibre.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        linux-modules <linux-modules@vger.kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        linux-ia64@vger.kernel.org,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
@@ -65,62 +68,72 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jun 10, 2022 at 2:17 AM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
-wrote:
+On Sat, Jun 11, 2022 at 3:34 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
+> Commit 7b4537199a4a ("kbuild: link symbol CRCs at final link, removing
+> CONFIG_MODULE_REL_CRCS") made the module versioning implementation
+> arch-agnostic; now all the version CRCs are generated by modpost as C
+> code whether the EXPORT_SYMBOL() is placed in *.c or *.S.
 >
+> Doing similar for the entire data structure of EXPORT_SYMBOL() makes
+> further cleanups possible.
 >
-> On 09/06/2022 19:12, Micka=C3=ABl Sala=C3=BCn wrote:
-> >
-> > On 06/06/2022 18:49, Masahiro Yamada wrote:
-> >> On Mon, Jun 6, 2022 at 9:32 PM David Howells <dhowells@redhat.com> wro=
-te:
-> >>>
-> >>> There's a rule in certs/Makefile for which the command begins with ei=
-ght
-> >>> spaces.  This results in:
-> >>>
-> >>>          ../certs/Makefile:21: FORCE prerequisite is missing
-> >>>          ../certs/Makefile:21: *** missing separator.  Stop.
-> >>>
-> >>> Fix this by turning the spaces into a tab.
-> >>>
-> >>> Fixes: addf466389d9 ("certs: Check that builtin blacklist hashes are
-> >>> valid")
-> >>> Signed-off-by: David Howells <dhowells@redhat.com>
-> >>> cc: Micka=C3=ABl Sala=C3=BCn <mic@linux.microsoft.com>
-> >>> cc: Jarkko Sakkinen <jarkko@kernel.org>
-> >>> cc: keyrings@vger.kernel.org
-> >>
-> >>
-> >> Not only 8-space indentation, but also:
-> >>
-> >>    - config_filename does not exist
-> >>    - $(SYSTEM_BLACKLIST_HASH_LIST_SRCPREFIX) is always empty
-> >>    - $(SYSTEM_BLACKLIST_HASH_LIST_FILENAME) is always empty
-> >
-> > These are imported helpers (not only used for this hash list BTW), henc=
-e
-> > not defined in this Makefile.
+> This commit splits EXPORT_SYMBOL() compilation into two stages.
 >
-> Well, they were defined in scripts/Kbuild.include but they are gone
-> since your commit b8c96a6b466c ("certs: simplify $(srctree)/ handling
-> and remove config_filename macro").
+> When a source file is compiled, EXPORT_SYMBOL() is converted into a
+> dummy symbol in the .discard.export_symbol section.
 >
-> I guess it just happens during the merge. We need to fix that.
+> For example,
+>
+>     EXPORT_SYMBOL(foo);
+>     EXPORT_SYMBOL_NS_GPL(bar, BAR_NAMESPACE);
+>
+> will be expanded into the following assembly code:
+>
+>     .section .discard.export_symbol
+>     __export_symbol.foo:
+>         .asciz ""
+>     .previous
+>
+>     .section .discard.export_symbol
+>     __export_symbol_gpl.bar:
+>         .asciz "BAR_NAMESPACE"
+>     .previous
+>
+> They are just markers to tell modpost the name, license, and namespace
+> of the symbols. They will be dropped from the final vmlinux and modules
+> because the section name starts with ".discard.".
+>
+> Then, modpost extracts all the information of EXPORT_SYMBOL() from the
+> .discard.export_symbol section, then generates C code:
+>
+>     KSYMTAB_ENTRY(foo, "", "");
+>     KSYMTAB_ENTRY(bar, "_gpl", "BAR_NAMESPACE");
+>
+> KSYMTAB_ENTRY() is expanded to struct kernel_symbol that will be linked
+> to the vmlinux or a module.
+>
+> With this change, EXPORT_SYMBOL() works in the same way for *.c and *.S
+> files, providing the following benefits.
+>
+> [1] Deprecate EXPORT_DATA_SYMBOL()
 
-Today, I took a closer look at it.
-I volunteered to fix the build issues with some refactoring.
-
-https://lore.kernel.org/keyrings/20220611172233.1494073-1-masahiroy@kernel.=
-org/T/#t
 
 
+Sorry, please let me take back this.
+
+I completely missed how linkage for ia64 works.
+I used inline assembly in C, so it would break ia64.
+
+Please ignore this patch.
 
 
 
 
 
---=20
+
+
+
+-- 
 Best Regards
 Masahiro Yamada
