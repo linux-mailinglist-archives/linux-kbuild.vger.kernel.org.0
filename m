@@ -2,113 +2,76 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E97CA547751
-	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Jun 2022 21:40:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72E3A547B7C
+	for <lists+linux-kbuild@lfdr.de>; Sun, 12 Jun 2022 20:40:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229868AbiFKTkL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 11 Jun 2022 15:40:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35256 "EHLO
+        id S233330AbiFLSkt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 12 Jun 2022 14:40:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbiFKTkK (ORCPT
+        with ESMTP id S233322AbiFLSkt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 11 Jun 2022 15:40:10 -0400
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1B5F41F9C;
-        Sat, 11 Jun 2022 12:40:09 -0700 (PDT)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 25BJdrR9003088;
-        Sun, 12 Jun 2022 04:39:54 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 25BJdrR9003088
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1654976394;
-        bh=wXwin4eZEHI5KNc+Fb0GU/Ziv0HhoN29n1d+kI7kS0w=;
-        h=From:Date:Subject:To:Cc:From;
-        b=Szb/DGpO95ucjbFGmdNlPoM+S9a565QVlQciS7vQWVv9xvkq/za1ltLH8LZTjdUzq
-         oBF07fEjfnAmvcn49qI771/jC24QWAhyB0wFHFSbD0Qj613WBAKkyBF/3VfTa0+vkP
-         QxYUv3rugVvKApqvQAnkhzEdzo/wUyYDG9HVrbiJ+zpB7SXM3lliI00sG+R19OGkME
-         t3vqr1HizQjcwTMCYp7gmK4vdHttWtLoZh+LRybfRHW1ZqnJCwPXSBTcVapkSI0F6f
-         faSPDMPYMDg7bxxg+YWGCiYP/nlNorV7mC1+dl5mPIUhkjpuBs9s1FKwEXxfloXjE7
-         kNBA6ZwxweqTw==
-X-Nifty-SrcIP: [209.85.221.50]
-Received: by mail-wr1-f50.google.com with SMTP id p10so2463602wrg.12;
-        Sat, 11 Jun 2022 12:39:54 -0700 (PDT)
-X-Gm-Message-State: AOAM530ASsHm90DK06uGul6plZUdXLReX1QiwoYIMDg+OHWjlqRQIlr4
-        ayqfw1R3x61zWWx0RA/IyG9PCzgM0VReoLF89p0=
-X-Google-Smtp-Source: ABdhPJxisRLn831bDoEEmivhcqtYmtpUx1HQs3fIaaEGBuody5EYkkwkU1LB971PD+IyZrq9GIWlmDIGAvfNf/cIk+0=
-X-Received: by 2002:a5d:584f:0:b0:219:e106:3e02 with SMTP id
- i15-20020a5d584f000000b00219e1063e02mr11839388wrf.461.1654976392863; Sat, 11
- Jun 2022 12:39:52 -0700 (PDT)
-MIME-Version: 1.0
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 12 Jun 2022 04:39:16 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASHyyT+tw-G8iNWt0sHmMUKr816sCXKfLpo-_GhVa=9WQ@mail.gmail.com>
-Message-ID: <CAK7LNASHyyT+tw-G8iNWt0sHmMUKr816sCXKfLpo-_GhVa=9WQ@mail.gmail.com>
-Subject: [GIT PULL] Kbuild fixes for v5.19-rc2
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Sun, 12 Jun 2022 14:40:49 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68BC259967;
+        Sun, 12 Jun 2022 11:40:48 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 050DC6101C;
+        Sun, 12 Jun 2022 18:40:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5FAC8C3411D;
+        Sun, 12 Jun 2022 18:40:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1655059247;
+        bh=2KZn07GBeR+9deDA4wywPy95VracK2cBdvXt2GNbF84=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=oi7CNsd6xbUkpMPHok5RJQ6joirKIvak1Klc48D86PPnRrM+xWml/dWbMgMgVVo5i
+         6Rd2wIkJHZHGBLl1L0BozBw1YGwa0HeJQUxBGnSGlejQwJdlMYKx5umDz5euV6qfVS
+         IPJ6jJSEB7lVKNfjKd9Y46+T7REvfokfGP3LbGIWsmzQDaJXWa9GOD1PjzfqfkWcWZ
+         HHdYisK3pvu6lu13R87YEL7S4Erp4L7waYz3B3ulMuDQktjCYCD9/3YV139aYrzfpq
+         28MKZBEYFqRhnfGolmCy6iYJD83YJzLXIBn3bHsiPYEe0RRvNevY26KpUeKtPJUvgB
+         SbAV6QTphWt+Q==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4CCACE737E6;
+        Sun, 12 Jun 2022 18:40:47 +0000 (UTC)
+Subject: Re: [GIT PULL] Kbuild fixes for v5.19-rc2
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <CAK7LNASHyyT+tw-G8iNWt0sHmMUKr816sCXKfLpo-_GhVa=9WQ@mail.gmail.com>
+References: <CAK7LNASHyyT+tw-G8iNWt0sHmMUKr816sCXKfLpo-_GhVa=9WQ@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kbuild.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAK7LNASHyyT+tw-G8iNWt0sHmMUKr816sCXKfLpo-_GhVa=9WQ@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v5.19
+X-PR-Tracked-Commit-Id: 1f7a6cf6b07c74a17343c2559cd5f5018a245961
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: e3b8e2de19e18e4297c0dd747d56ecdc4ff96928
+Message-Id: <165505924731.24195.18010323738696600238.pr-tracker-bot@kernel.org>
+Date:   Sun, 12 Jun 2022 18:40:47 +0000
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello Linus,
+The pull request you sent on Sun, 12 Jun 2022 04:39:16 +0900:
 
-Please pull Kbuild fixes.
-Thank you.
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v5.19
 
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/e3b8e2de19e18e4297c0dd747d56ecdc4ff96928
 
-
-
-The following changes since commit f2906aa863381afb0015a9eb7fefad885d4e5a56:
-
-  Linux 5.19-rc1 (2022-06-05 17:18:54 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-tags/kbuild-fixes-v5.19
-
-for you to fetch changes up to 1f7a6cf6b07c74a17343c2559cd5f5018a245961:
-
-  scripts/gdb: change kernel config dumping method (2022-06-11 18:31:53 +0900)
-
-----------------------------------------------------------------
-Kbuild fixes for v5.19
-
- - Make the *.mod build rule portable for POSIX awk
-
- - Fix regression of 'make nsdeps'
-
- - Make scripts/check-local-export working for older bash versions
-
- - Fix scripts/gdb to extract the .config data from vmlinux
-
-----------------------------------------------------------------
-Kevin Locke (1):
-      kbuild: avoid regex RS for POSIX awk
-
-Kuan-Ying Lee (1):
-      scripts/gdb: change kernel config dumping method
-
-Masahiro Yamada (2):
-      scripts/nsdeps: adjust to the format change of *.mod files
-      scripts/check-local-export: avoid 'wait $!' for process substitution
-
- Documentation/process/changes.rst | 12 ++++++++++++
- scripts/Makefile.build            |  4 ++--
- scripts/check-local-export        | 36 +++++++++++++++++++++---------------
- scripts/gdb/linux/config.py       |  6 +++---
- scripts/nsdeps                    |  5 ++---
- 5 files changed, 40 insertions(+), 23 deletions(-)
-
+Thank you!
 
 -- 
-Best Regards
-Masahiro Yamada
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
