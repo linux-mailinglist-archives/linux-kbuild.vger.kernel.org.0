@@ -2,107 +2,98 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 55ABC549077
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jun 2022 18:26:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72C3C5499A1
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jun 2022 19:17:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348897AbiFMMfA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 13 Jun 2022 08:35:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46978 "EHLO
+        id S240500AbiFMRR0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 13 Jun 2022 13:17:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356758AbiFMMeN (ORCPT
+        with ESMTP id S244491AbiFMROF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 13 Jun 2022 08:34:13 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEBF41A813;
-        Mon, 13 Jun 2022 04:07:42 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C04A2B80EAA;
-        Mon, 13 Jun 2022 11:07:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9DA2C34114;
-        Mon, 13 Jun 2022 11:07:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1655118441;
-        bh=NpwyQtAgrx0bKs8vBVpJf/f7o47VdkRdV2KjNRgFA8A=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sBqF6DwRzm4O6+K3kwKWvMu+ep2imDiElncgpa0cHlBluY5PKID3TuciP32Qy/NRZ
-         jNGA4r2VuTaib/ojinTg0Djn86MDGtuusJa6ja7AMwgxOKFJsp4SCZ99fsPR+M9FyW
-         DpQlVyqq8mkvYX0zCEtD45QbjkBQicPGHAGtRoR8=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org,
-        Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.10 077/172] bootconfig: Make the bootconfig.o as a normal object file
-Date:   Mon, 13 Jun 2022 12:10:37 +0200
-Message-Id: <20220613094908.906993447@linuxfoundation.org>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220613094850.166931805@linuxfoundation.org>
-References: <20220613094850.166931805@linuxfoundation.org>
-User-Agent: quilt/0.66
+        Mon, 13 Jun 2022 13:14:05 -0400
+Received: from smtp-190a.mail.infomaniak.ch (smtp-190a.mail.infomaniak.ch [IPv6:2001:1600:4:17::190a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46EA6554A4
+        for <linux-kbuild@vger.kernel.org>; Mon, 13 Jun 2022 05:20:08 -0700 (PDT)
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4LM9cj5FsVzMpwtX;
+        Mon, 13 Jun 2022 14:20:05 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4LM9cd4MYKzlpb2d;
+        Mon, 13 Jun 2022 14:20:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+        s=20191114; t=1655122805;
+        bh=P8NVyXj34ZvJVQWESPk01PC8KYswBLc2J5cBfxA5wlI=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=aOumEP/IoqVDxckhdOnow8XBOtzF6rPUHSpjAaEiKv4s4qTv9+QazdFI/MV0sY9Oj
+         WNcCDGC2NsIWSWr8htmOXQonlVhjqK6/U6g/yYRD9VTzd/JdIjpyOFwXcDvdlX4LMS
+         ZPoJ0aNzkEJ9Yh+5Wu0QvJ3PdsdwNy2lAdCZDTxY=
+Message-ID: <ff05d732-3202-7c9c-0d4c-d95101ed6ba3@digikod.net>
+Date:   Mon, 13 Jun 2022 14:20:00 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: 
+Subject: Re: [PATCH 1/4] certs/blacklist_hashes.c: fix const confusion in
+ certs blacklist
+Content-Language: en-US
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Cc:     David Howells <dhowells@redhat.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        keyrings@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Eric Snowberg <eric.snowberg@oracle.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Tyler Hicks <tyhicks@linux.microsoft.com>
+References: <20220611172233.1494073-1-masahiroy@kernel.org>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+In-Reply-To: <20220611172233.1494073-1-masahiroy@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Masami Hiramatsu <mhiramat@kernel.org>
 
-[ Upstream commit 6014a23638cdee63a71ef13c51d7c563eb5829ee ]
+On 11/06/2022 19:22, Masahiro Yamada wrote:
+> This file fails to compile as follows:
+> 
+>    CC      certs/blacklist_hashes.o
+> certs/blacklist_hashes.c:4:1: error: ignoring attribute ‘section (".init.data")’ because it conflicts with previous ‘section (".init.rodata")’ [-Werror=attributes]
+>      4 | const char __initdata *const blacklist_hashes[] = {
+>        | ^~~~~
+> In file included from certs/blacklist_hashes.c:2:
+> certs/blacklist.h:5:38: note: previous declaration here
+>      5 | extern const char __initconst *const blacklist_hashes[];
+>        |                                      ^~~~~~~~~~~~~~~~
+> 
+> Apply the same fix as commit 2be04df5668d ("certs/blacklist_nohashes.c:
+> fix const confusion in certs blacklist").
+> 
+> Fixes: 734114f8782f ("KEYS: Add a system blacklist keyring")
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Since the APIs defined in the bootconfig.o are not individually used,
-it is meaningless to build it as library by lib-y. Use obj-y for that.
+Reviewed-by: Mickaël Salaün <mic@linux.microsoft.com>
 
-Link: https://lkml.kernel.org/r/164921225875.1090670.15565363126983098971.stgit@devnote2
-
-Cc: Padmanabha Srinivasaiah <treasure4paddy@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: Nick Desaulniers <ndesaulniers@google.com>
-Cc: Sami Tolvanen <samitolvanen@google.com>
-Cc: Nathan Chancellor <nathan@kernel.org>
-Cc: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Reported-by: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
-Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- lib/Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/lib/Makefile b/lib/Makefile
-index d415fc7067c5..69b8217652ed 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -274,7 +274,7 @@ $(foreach file, $(libfdt_files), \
- 	$(eval CFLAGS_$(file) = -I $(srctree)/scripts/dtc/libfdt))
- lib-$(CONFIG_LIBFDT) += $(libfdt_files)
- 
--lib-$(CONFIG_BOOT_CONFIG) += bootconfig.o
-+obj-$(CONFIG_BOOT_CONFIG) += bootconfig.o
- 
- obj-$(CONFIG_RBTREE_TEST) += rbtree_test.o
- obj-$(CONFIG_INTERVAL_TREE_TEST) += interval_tree_test.o
--- 
-2.35.1
-
-
-
+> ---
+> 
+>   certs/blacklist_hashes.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/certs/blacklist_hashes.c b/certs/blacklist_hashes.c
+> index 344892337be0..d5961aa3d338 100644
+> --- a/certs/blacklist_hashes.c
+> +++ b/certs/blacklist_hashes.c
+> @@ -1,7 +1,7 @@
+>   // SPDX-License-Identifier: GPL-2.0
+>   #include "blacklist.h"
+>   
+> -const char __initdata *const blacklist_hashes[] = {
+> +const char __initconst *const blacklist_hashes[] = {
+>   #include CONFIG_SYSTEM_BLACKLIST_HASH_LIST
+>   	, NULL
+>   };
