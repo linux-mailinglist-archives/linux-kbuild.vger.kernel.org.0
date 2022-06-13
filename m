@@ -2,33 +2,33 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A24E2548E3C
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jun 2022 18:17:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55ABC549077
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jun 2022 18:26:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1382899AbiFMO0A (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 13 Jun 2022 10:26:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49946 "EHLO
+        id S1348897AbiFMMfA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 13 Jun 2022 08:35:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1383860AbiFMOYL (ORCPT
+        with ESMTP id S1356758AbiFMMeN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 13 Jun 2022 10:24:11 -0400
+        Mon, 13 Jun 2022 08:34:13 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51F6121803;
-        Mon, 13 Jun 2022 04:45:36 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEBF41A813;
+        Mon, 13 Jun 2022 04:07:42 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 086A8B80D31;
-        Mon, 13 Jun 2022 11:45:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EC41C3411C;
-        Mon, 13 Jun 2022 11:45:33 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C04A2B80EAA;
+        Mon, 13 Jun 2022 11:07:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9DA2C34114;
+        Mon, 13 Jun 2022 11:07:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1655120733;
-        bh=cFMng5oSijTo5gpNi/AeI5RyKOms4r0P6/RbIrF9OBc=;
+        s=korg; t=1655118441;
+        bh=NpwyQtAgrx0bKs8vBVpJf/f7o47VdkRdV2KjNRgFA8A=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bH8oi/h2/XJHNnm31Mo901Z1No2Mdq/4ZBT8LEInYUDlhbg5iiv2G6bGTpPFya9yQ
-         /ayHXdhVzwCXnbjUiG6TkEeToQEuBLpeNwrLEVQJ4W0DflncyunhFmJRL4KVqtTuO4
-         WUwrwihZmGQhVrBOuPposeyznFrHfsEH38na/xU4=
+        b=sBqF6DwRzm4O6+K3kwKWvMu+ep2imDiElncgpa0cHlBluY5PKID3TuciP32Qy/NRZ
+         jNGA4r2VuTaib/ojinTg0Djn86MDGtuusJa6ja7AMwgxOKFJsp4SCZ99fsPR+M9FyW
+         DpQlVyqq8mkvYX0zCEtD45QbjkBQicPGHAGtRoR8=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -44,12 +44,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Masami Hiramatsu <mhiramat@kernel.org>,
         "Steven Rostedt (Google)" <rostedt@goodmis.org>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.17 137/298] bootconfig: Make the bootconfig.o as a normal object file
-Date:   Mon, 13 Jun 2022 12:10:31 +0200
-Message-Id: <20220613094929.099497550@linuxfoundation.org>
+Subject: [PATCH 5.10 077/172] bootconfig: Make the bootconfig.o as a normal object file
+Date:   Mon, 13 Jun 2022 12:10:37 +0200
+Message-Id: <20220613094908.906993447@linuxfoundation.org>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220613094924.913340374@linuxfoundation.org>
-References: <20220613094924.913340374@linuxfoundation.org>
+In-Reply-To: <20220613094850.166931805@linuxfoundation.org>
+References: <20220613094850.166931805@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -89,10 +89,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/lib/Makefile b/lib/Makefile
-index 300f569c626b..4c0220cb4329 100644
+index d415fc7067c5..69b8217652ed 100644
 --- a/lib/Makefile
 +++ b/lib/Makefile
-@@ -279,7 +279,7 @@ $(foreach file, $(libfdt_files), \
+@@ -274,7 +274,7 @@ $(foreach file, $(libfdt_files), \
  	$(eval CFLAGS_$(file) = -I $(srctree)/scripts/dtc/libfdt))
  lib-$(CONFIG_LIBFDT) += $(libfdt_files)
  
