@@ -2,33 +2,33 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4520554A7BF
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jun 2022 06:12:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46D9954A8EB
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jun 2022 07:53:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232558AbiFNEMV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 14 Jun 2022 00:12:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34722 "EHLO
+        id S236679AbiFNFxw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 14 Jun 2022 01:53:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230239AbiFNEMV (ORCPT
+        with ESMTP id S232833AbiFNFxv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 14 Jun 2022 00:12:21 -0400
-Received: from conuserg-12.nifty.com (conuserg-12.nifty.com [210.131.2.79])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE56E1D0CE;
-        Mon, 13 Jun 2022 21:12:17 -0700 (PDT)
+        Tue, 14 Jun 2022 01:53:51 -0400
+Received: from conuserg-07.nifty.com (conuserg-07.nifty.com [210.131.2.74])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20A341D311;
+        Mon, 13 Jun 2022 22:53:49 -0700 (PDT)
 Received: from grover.sesame (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id 25E4B3db031731;
-        Tue, 14 Jun 2022 13:11:04 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 25E4B3db031731
+        by conuserg-07.nifty.com with ESMTP id 25E5qNim019312;
+        Tue, 14 Jun 2022 14:52:23 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 25E5qNim019312
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1655179864;
-        bh=ZVkd16ycWmSMCRLUde5kxZbFgxzvusFJRN7ajd3LiMQ=;
+        s=dec2015msa; t=1655185943;
+        bh=JjvmcElNPYiIuoDQ6WQQO7xgfdH+JttvtH56H6zA87U=;
         h=From:To:Cc:Subject:Date:From;
-        b=OPpVQed8JKe0hkzF/YiUh/SWpvY8rpP7CmGWe9DtzH/pJasnYMujxWP7Mbys7zlTN
-         IYz39aUQPBA9lymkUDuKTtfwgQenv19WBRfc4JTO/m/Hv1de034mGhrSnp/d9TZGiB
-         PtkTPLLNTykSpa+/hv5edFVLhs/FDDyyfwGGCRwOJcKLvrBo9IkxJZ7XEoY7LD+xTX
-         GEho+fPApDh/6eYrdMoAJwG0lXU16gpbs1oa1ghy/g7KAD0V61gUIBUqCziRIA1lMW
-         tZURsbyeefk8GJcaMjZ8wC3soKylIMAWltt4+jx3DyTG/CMrjAWtq9wNb02idvl8NA
-         +opb79PPutPpg==
+        b=q/lihoFxy7Qb/WR5tZDIEDAx5biV5XbRsOVnjZiJk+cSu8IbrnVXypbuG0snPl9VJ
+         +DnQamGqI88D5y6vnMBpMqsxesMwtII/vGPfPjDGf9DSCRiBprmJKarB8zG1dwDG9P
+         1B6eJE6qxa1wvgNr2h/4tIuGihZAmHJhJEsZLGDrIsL3SHEnSXrdwUBMiYsDFPGZqZ
+         DOhnMLh5y8bmwB9Ud8eW7JQrsWaOHA0cfXQQu4vgYdw4GwL4AEFVjgeyWCc98Mka/6
+         oioEUab+C8em/lyPbJ56OR2nMOUm5rUIKC0ryY5g2n2q+770ADH/dHZ/mGaY/KivFu
+         G0bsdEYQTzs8A==
 X-Nifty-SrcIP: [133.32.177.133]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
@@ -36,9 +36,9 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: remove sed command from cmd_ar_builtin
-Date:   Tue, 14 Jun 2022 13:11:00 +0900
-Message-Id: <20220614041100.1860067-1-masahiroy@kernel.org>
+Subject: [PATCH v2] kbuild: remove sed command from cmd_ar_builtin
+Date:   Tue, 14 Jun 2022 14:51:49 +0900
+Message-Id: <20220614055149.1900535-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -56,11 +56,14 @@ Replace a pipeline of echo and sed with printf to decrease process forks.
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
+Changes in v2:
+  - Avoid the pipeline if there is no object to put in the archive
+
  scripts/Makefile.build | 5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index cac070aee791..d69849133dad 100644
+index cac070aee791..784f46d41959 100644
 --- a/scripts/Makefile.build
 +++ b/scripts/Makefile.build
 @@ -358,9 +358,8 @@ $(subdir-modorder): $(obj)/%/modules.order: $(obj)/% ;
@@ -70,8 +73,8 @@ index cac070aee791..d69849133dad 100644
 -		echo $(patsubst $(obj)/%,%,$(real-prereqs)) | \
 -		sed -E 's:([^ ]+):$(obj)/\1:g' | \
 -		xargs $(AR) cDPrST $@
-+	$(if $(real-prereqs), printf "$(obj)/%s " $(patsubst $(obj)/%,%,$(real-prereqs)), :) | \
-+	xargs $(AR) cDPrST $@
++	$(if $(real-prereqs), printf "$(obj)/%s " $(patsubst $(obj)/%,%,$(real-prereqs)) | xargs) \
++	$(AR) cDPrST $@
  
  $(obj)/built-in.a: $(real-obj-y) FORCE
  	$(call if_changed,ar_builtin)
