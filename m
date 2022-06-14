@@ -2,49 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C7C1554A4D2
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jun 2022 04:12:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BEAD954A506
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jun 2022 04:13:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352760AbiFNCLr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 13 Jun 2022 22:11:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55878 "EHLO
+        id S1353015AbiFNCMB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 13 Jun 2022 22:12:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352836AbiFNCKs (ORCPT
+        with ESMTP id S1352765AbiFNCLW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 13 Jun 2022 22:10:48 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9672036E1E;
-        Mon, 13 Jun 2022 19:07:00 -0700 (PDT)
+        Mon, 13 Jun 2022 22:11:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 565D437A29;
+        Mon, 13 Jun 2022 19:07:09 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 42453B8169E;
-        Tue, 14 Jun 2022 02:06:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D2D5C385A2;
-        Tue, 14 Jun 2022 02:06:49 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4721E60B66;
+        Tue, 14 Jun 2022 02:06:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30FEFC34114;
+        Tue, 14 Jun 2022 02:06:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1655172410;
-        bh=phup9u7RzP6Gwko8+xFwlgoNbt3A73d15Lx+KtUUpa4=;
+        s=k20201202; t=1655172413;
+        bh=uwHDzuN9Io+WZTJmeh6rxLC/HiVmn2fIrdS5XUeVtj8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jQVpSBmaQU8ejZccE7WKnp6Ls5+uDyW31l8PVYSOk6df7DyPaUbkUpCKzQvKJFosV
-         OdMeMzWsNMTLX7u40NA2/iuI5h6jUmPzPJqBnd4CGMM/cnfcSAltH3uYfZnbJFWu+p
-         Vd+lf2F0MGDwUXyNsliWuaU7dz67CQau3eWxdLnrDOZOjS7Xh7Z4tVCo+SMjr2Wvop
-         FgPUWwSO03RLCxB0PHtHZ2qQOClmH4FQMJcHtvFrtFepnk8AgH99BAaHdmNh7aYpqX
-         Cb9OFSxYZnd5BxbhaIk22ojf+f0pc8a2Four3DHjnRoHEHH8AMJsp0J/D5Iup5DcFB
-         uXn5DXJFkiE5g==
+        b=nxl/ySSUcWdlr0Ts7Rr/fyvAmcmQQ/rpbvwJKb5MaVBgrCkjigtcmu9zjaM/g6AL0
+         oVLqe/mISsrztJ5Z+0t1q9/8LbH3gnBNv+BMTayoWmJxb6H+p3Ft0JIpKaSNQO+6oR
+         O/SCKybkMsu1Ujz7oXbIOEup4THItgS9IDpcVnhJoBpUMh0Jb8A48d+PLIq+vVeYCo
+         hlmU6lPOC16+YJyXebT59EC+utEC7UE3NSUjMW0CebH9WW36F5/RAnNTGTexAZFPQz
+         UgDq7VE8+3uFgZ8xOH5ejwy5bT/CHywvvxYMDp8NhG9/TRpdIXlw+w/nv8fRybhjsT
+         AL3EvRcRcuNfg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Nathan Chancellor <nathan@kernel.org>,
         Sasha Levin <sashal@kernel.org>, mmarek@suse.com,
-        linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.17 32/43] gcc-12: disable '-Wdangling-pointer' warning for now
-Date:   Mon, 13 Jun 2022 22:05:51 -0400
-Message-Id: <20220614020602.1098943-32-sashal@kernel.org>
+        schwidefsky@de.ibm.com, heiko.carstens@de.ibm.com,
+        gregkh@linuxfoundation.org, fllinden@amazon.com, ast@kernel.org,
+        daniel@iogearbox.net, linux-kbuild@vger.kernel.org,
+        linux-s390@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.17 34/43] gcc-12: disable '-Warray-bounds' universally for now
+Date:   Mon, 13 Jun 2022 22:05:53 -0400
+Message-Id: <20220614020602.1098943-34-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220614020602.1098943-1-sashal@kernel.org>
 References: <20220614020602.1098943-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -60,62 +64,116 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 From: Linus Torvalds <torvalds@linux-foundation.org>
 
-[ Upstream commit 49beadbd47c270a00754c107a837b4f29df4c822 ]
+[ Upstream commit f0be87c42cbd341d436d06da4792e6b0c83c3aeb ]
 
-While the concept of checking for dangling pointers to local variables
-at function exit is really interesting, the gcc-12 implementation is not
-compatible with reality, and results in false positives.
+In commit 8b202ee21839 ("s390: disable -Warray-bounds") the s390 people
+disabled the '-Warray-bounds' warning for gcc-12, because the new logic
+in gcc would cause warnings for their use of the S390_lowcore macro,
+which accesses absolute pointers.
 
-For example, gcc sees us putting things on a local list head allocated
-on the stack, which involves exactly those kinds of pointers to the
-local stack entry:
+It turns out gcc-12 has many other issues in this area, so this takes
+that s390 warning disable logic, and turns it into a kernel build config
+entry instead.
 
-  In function ‘__list_add’,
-      inlined from ‘list_add_tail’ at include/linux/list.h:102:2,
-      inlined from ‘rebuild_snap_realms’ at fs/ceph/snap.c:434:2:
-  include/linux/list.h:74:19: warning: storing the address of local variable ‘realm_queue’ in ‘*&realm_27(D)->rebuild_item.prev’ [-Wdangling-pointer=]
-     74 |         new->prev = prev;
-        |         ~~~~~~~~~~^~~~~~
+Part of the intent is that we can make this all much more targeted, and
+use this conflig flag to disable it in only particular configurations
+that cause problems, with the s390 case as an example:
 
-But then gcc - understandably - doesn't really understand the big
-picture how the doubly linked list works, so doesn't see how we then end
-up emptying said list head in a loop and the pointer we added has been
-removed.
+        select GCC12_NO_ARRAY_BOUNDS
 
-Gcc also complains about us (intentionally) using this as a way to store
-a kind of fake stack trace, eg
+and we could do that for other configuration cases that cause issues.
 
-  drivers/acpi/acpica/utdebug.c:40:38: warning: storing the address of local variable ‘current_sp’ in ‘acpi_gbl_entry_stack_pointer’ [-Wdangling-pointer=]
-     40 |         acpi_gbl_entry_stack_pointer = &current_sp;
-        |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+Or we could possibly use the CONFIG_CC_NO_ARRAY_BOUNDS thing in a more
+targeted way, and disable the warning only for particular uses: again
+the s390 case as an example:
 
-which is entirely reasonable from a compiler standpoint, and we may want
-to change those kinds of patterns, but not not.
+  KBUILD_CFLAGS_DECOMPRESSOR += $(if $(CONFIG_CC_NO_ARRAY_BOUNDS),-Wno-array-bounds)
 
-So this is one of those "it would be lovely if the compiler were to
-complain about us leaving dangling pointers to the stack", but not this
-way.
+but this ends up just doing it globally in the top-level Makefile, since
+the current issues are spread fairly widely all over:
 
+  KBUILD_CFLAGS-$(CONFIG_CC_NO_ARRAY_BOUNDS) += -Wno-array-bounds
+
+We'll try to limit this later, since the gcc-12 problems are rare enough
+that *much* of the kernel can be built with it without disabling this
+warning.
+
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Nathan Chancellor <nathan@kernel.org>
 Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- Makefile | 3 +++
- 1 file changed, 3 insertions(+)
+ Makefile           |  1 +
+ arch/s390/Kconfig  |  1 +
+ arch/s390/Makefile | 10 +---------
+ init/Kconfig       |  9 +++++++++
+ 4 files changed, 12 insertions(+), 9 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 5450a2c9efa6..e2a1832681e7 100644
+index e2a1832681e7..0a344db643b1 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -799,6 +799,9 @@ endif
- KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
- KBUILD_CFLAGS += $(call cc-disable-warning, unused-const-variable)
+@@ -778,6 +778,7 @@ stackp-flags-$(CONFIG_STACKPROTECTOR_STRONG)      := -fstack-protector-strong
+ KBUILD_CFLAGS += $(stackp-flags-y)
  
-+# These result in bogus false positives
-+KBUILD_CFLAGS += $(call cc-disable-warning, dangling-pointer)
+ KBUILD_CFLAGS-$(CONFIG_WERROR) += -Werror
++KBUILD_CFLAGS-$(CONFIG_CC_NO_ARRAY_BOUNDS) += -Wno-array-bounds
+ KBUILD_CFLAGS += $(KBUILD_CFLAGS-y) $(CONFIG_CC_IMPLICIT_FALLTHROUGH)
+ 
+ ifdef CONFIG_CC_IS_CLANG
+diff --git a/arch/s390/Kconfig b/arch/s390/Kconfig
+index be9f39fd06df..b14a18ac2e71 100644
+--- a/arch/s390/Kconfig
++++ b/arch/s390/Kconfig
+@@ -123,6 +123,7 @@ config S390
+ 	select CPU_NO_EFFICIENT_FFS if !HAVE_MARCH_Z9_109_FEATURES
+ 	select DMA_OPS if PCI
+ 	select DYNAMIC_FTRACE if FUNCTION_TRACER
++	select GCC12_NO_ARRAY_BOUNDS
+ 	select GENERIC_ALLOCATOR
+ 	select GENERIC_CPU_AUTOPROBE
+ 	select GENERIC_CPU_VULNERABILITIES
+diff --git a/arch/s390/Makefile b/arch/s390/Makefile
+index 6e42252214dd..82a44f60ad3c 100644
+--- a/arch/s390/Makefile
++++ b/arch/s390/Makefile
+@@ -30,15 +30,7 @@ KBUILD_CFLAGS_DECOMPRESSOR += -fno-stack-protector
+ KBUILD_CFLAGS_DECOMPRESSOR += $(call cc-disable-warning, address-of-packed-member)
+ KBUILD_CFLAGS_DECOMPRESSOR += $(if $(CONFIG_DEBUG_INFO),-g)
+ KBUILD_CFLAGS_DECOMPRESSOR += $(if $(CONFIG_DEBUG_INFO_DWARF4), $(call cc-option, -gdwarf-4,))
+-
+-ifdef CONFIG_CC_IS_GCC
+-	ifeq ($(call cc-ifversion, -ge, 1200, y), y)
+-		ifeq ($(call cc-ifversion, -lt, 1300, y), y)
+-			KBUILD_CFLAGS += $(call cc-disable-warning, array-bounds)
+-			KBUILD_CFLAGS_DECOMPRESSOR += $(call cc-disable-warning, array-bounds)
+-		endif
+-	endif
+-endif
++KBUILD_CFLAGS_DECOMPRESSOR += $(if $(CONFIG_CC_NO_ARRAY_BOUNDS),-Wno-array-bounds)
+ 
+ UTS_MACHINE	:= s390x
+ STACK_SIZE	:= $(if $(CONFIG_KASAN),65536,16384)
+diff --git a/init/Kconfig b/init/Kconfig
+index 4a7a569706c5..cbe094645917 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -895,6 +895,15 @@ config CC_IMPLICIT_FALLTHROUGH
+ 	default "-Wimplicit-fallthrough=5" if CC_IS_GCC && $(cc-option,-Wimplicit-fallthrough=5)
+ 	default "-Wimplicit-fallthrough" if CC_IS_CLANG && $(cc-option,-Wunreachable-code-fallthrough)
+ 
++# Currently, disable gcc-12 array-bounds globally.
++# We may want to target only particular configurations some day.
++config GCC12_NO_ARRAY_BOUNDS
++	def_bool y
 +
- ifdef CONFIG_FRAME_POINTER
- KBUILD_CFLAGS	+= -fno-omit-frame-pointer -fno-optimize-sibling-calls
- else
++config CC_NO_ARRAY_BOUNDS
++	bool
++	default y if CC_IS_GCC && GCC_VERSION >= 120000 && GCC_VERSION < 130000 && GCC12_NO_ARRAY_BOUNDS
++
+ #
+ # For architectures that know their GCC __int128 support is sound
+ #
 -- 
 2.35.1
 
