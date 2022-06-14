@@ -2,128 +2,120 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87C58549F12
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jun 2022 22:30:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12C0A54A478
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jun 2022 04:09:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233915AbiFMUas (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 13 Jun 2022 16:30:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60424 "EHLO
+        id S1351675AbiFNCHu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 13 Jun 2022 22:07:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344413AbiFMU1p (ORCPT
+        with ESMTP id S1351668AbiFNCGK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 13 Jun 2022 16:27:45 -0400
-Received: from smtp-8faa.mail.infomaniak.ch (smtp-8faa.mail.infomaniak.ch [IPv6:2001:1600:4:17::8faa])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A32EFCE23
-        for <linux-kbuild@vger.kernel.org>; Mon, 13 Jun 2022 12:14:37 -0700 (PDT)
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4LMLq01nMXzMpypd;
-        Mon, 13 Jun 2022 21:14:36 +0200 (CEST)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4LMLpz345czlnRWJ;
-        Mon, 13 Jun 2022 21:14:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1655147676;
-        bh=DptoC5CtpA0paKgo5YiL6B5L56+hCSKBbaRlDlyG1xU=;
-        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
-        b=xuKhCqkbYSiLCXnby1uxSpEEdeUQXoodRpEkkGTao0DtUs51H6UZyCH/10ow6wH7V
-         YD6TCpZWq3lYXZh//b7E4KPv/K1fNIs9sZo3E4DrHCDactJ1Yc2S4CSiF1Wtq1j5XC
-         6FQ2e2qc4OikXYOX0QltmlL5AMQmjl414dOcXXro=
-Message-ID: <9bfdbd00-9f8d-0fc6-34d2-f23aea148c27@digikod.net>
-Date:   Mon, 13 Jun 2022 21:14:34 +0200
+        Mon, 13 Jun 2022 22:06:10 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD474344C1;
+        Mon, 13 Jun 2022 19:05:44 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5F3D3B816A2;
+        Tue, 14 Jun 2022 02:05:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EB7DC385A2;
+        Tue, 14 Jun 2022 02:05:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1655172343;
+        bh=Y0CrsHuCpT5FIY3MPvSOUDooFQA1XjbxrPWWfr7pVxU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=TgX1FSo3b583ILFbr8xJcabnu7MNB/uULhCfcFqLQpKI2suh1+cddSKkKzaNGI9u0
+         zcguBL81BL1wrw4Zg0xERG4pR709EG0bxvEvW5xt4Ik65MRYe4uWeFLnb8IUOBLp5j
+         faWMZcr9vdsFsDKhsINJJb07n8mWiKfi+KuG8xFfuJvV5y7GNNTVLynikMdhzif5ht
+         H8rhExvZeKNyRUWyakkiuCU8QCLE/wj3BeTBGoEBDSO4UYPOUyjaKRW0efcYx6HwL6
+         ++Ovc+zbQLwRCG5aPdFOR2VV9zR8Z5qWlrmHTNtKFwF0EHrpsvbrDAWKIiPIpYLXMl
+         IgaqvJ4H2nqYQ==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Sasha Levin <sashal@kernel.org>, mmarek@suse.com,
+        linux-kbuild@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.18 36/47] gcc-12: disable '-Wdangling-pointer' warning for now
+Date:   Mon, 13 Jun 2022 22:04:29 -0400
+Message-Id: <20220614020441.1098348-36-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220614020441.1098348-1-sashal@kernel.org>
+References: <20220614020441.1098348-1-sashal@kernel.org>
 MIME-Version: 1.0
-User-Agent: 
-Content-Language: en-US
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        keyrings@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Eric Snowberg <eric.snowberg@oracle.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Tyler Hicks <tyhicks@linux.microsoft.com>
-References: <20220611172233.1494073-1-masahiroy@kernel.org>
- <20220611172233.1494073-2-masahiroy@kernel.org>
- <58a20890-557e-f31c-ed59-7e256445a26c@digikod.net>
- <CAK7LNAQ3p2XiLO7tJSJ9JWnqRomCwjYeQy-Z3j0m904Yn6Av_g@mail.gmail.com>
- <f6fbf06a-6507-a908-33ed-1218713de09b@digikod.net>
- <CAK7LNARKT=em99+BY79yWu-i+1O+uDt19pGpw3P=9=baS1AEYQ@mail.gmail.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Subject: Re: [PATCH 2/4] certs: fix and refactor
- CONFIG_SYSTEM_BLACKLIST_HASH_LIST build
-In-Reply-To: <CAK7LNARKT=em99+BY79yWu-i+1O+uDt19pGpw3P=9=baS1AEYQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+From: Linus Torvalds <torvalds@linux-foundation.org>
 
-On 13/06/2022 20:56, Masahiro Yamada wrote:
-> On Tue, Jun 14, 2022 at 3:06 AM Mickaël Salaün <mic@digikod.net> wrote:
->>
->>
->> On 13/06/2022 16:55, Masahiro Yamada wrote:
->>> On Mon, Jun 13, 2022 at 9:34 PM Mickaël Salaün <mic@digikod.net> wrote:
->>>>
->>>>
->>>>
->>>> On 11/06/2022 19:22, Masahiro Yamada wrote:
->>>>> Commit addf466389d9 ("certs: Check that builtin blacklist hashes are
->>>>> valid") was applied 8 months after the submission.
->>>>>
->>>>> In the meantime, the base code had been removed by commit b8c96a6b466c
->>>>> ("certs: simplify $(srctree)/ handling and remove config_filename
->>>>> macro").
->>>>>
->>>>> Fix the Makefile.
->>>>>
->>>>> Create a local copy of $(CONFIG_SYSTEM_BLACKLIST_HASH_LIST). It is
->>>>> included from certs/blacklist_hashes.c and also works as a timestamp.
->>>>>
->>>>> Send error messages from check-blacklist-hashes.awk to stderr instead
->>>>> of stdout.
->>>>>
->>>>> Fixes: addf466389d9 ("certs: Check that builtin blacklist hashes are valid")
->>>>> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->>>>
->>>> Reviewed-by: Mickaël Salaün <mic@linux.microsoft.com>
->>>>
->>>> As a side note, it may let an orphan certs/blacklist_hashes_checked file
->>>> but we can't really do something about that and it's OK.
->>>
->>>
->>> GNU Make uses timestamps of files for dependency tracking,
->>> so Kbuild keeps all intermediate files.
->>>
->>> Keeping certs/blacklist_hashes_checked
->>> is the right thing to do.
->>
->> blacklist_hashes_checked is the file you replaced with
->> blacklist_hash_list, and is then not used in any Makefile anymore. There
->> is then no timestamp issue. I just wanted to mention that it is normal
->> that a git status will show it on build directories also used as source
->> directories that were already using such feature.
-> 
-> 
-> Ah, sorry, I misunderstood your feedback.
-> 
-> If 'git status' is your concern,
-> we can add certs/blacklist_hashes_checked
-> to scripts/remove-stale-files.
-> 
-> addf466389d9d78f255e8b15ac44ab4791029852
-> was merged into mainline just recently, and
-> not contained in any release.
+[ Upstream commit 49beadbd47c270a00754c107a837b4f29df4c822 ]
 
-Indeed, it's all good then.
+While the concept of checking for dangling pointers to local variables
+at function exit is really interesting, the gcc-12 implementation is not
+compatible with reality, and results in false positives.
 
-> 
-> But, if the orphan timestamp matters, I will do it.
-> It is just a one-liner addition.
+For example, gcc sees us putting things on a local list head allocated
+on the stack, which involves exactly those kinds of pointers to the
+local stack entry:
+
+  In function ‘__list_add’,
+      inlined from ‘list_add_tail’ at include/linux/list.h:102:2,
+      inlined from ‘rebuild_snap_realms’ at fs/ceph/snap.c:434:2:
+  include/linux/list.h:74:19: warning: storing the address of local variable ‘realm_queue’ in ‘*&realm_27(D)->rebuild_item.prev’ [-Wdangling-pointer=]
+     74 |         new->prev = prev;
+        |         ~~~~~~~~~~^~~~~~
+
+But then gcc - understandably - doesn't really understand the big
+picture how the doubly linked list works, so doesn't see how we then end
+up emptying said list head in a loop and the pointer we added has been
+removed.
+
+Gcc also complains about us (intentionally) using this as a way to store
+a kind of fake stack trace, eg
+
+  drivers/acpi/acpica/utdebug.c:40:38: warning: storing the address of local variable ‘current_sp’ in ‘acpi_gbl_entry_stack_pointer’ [-Wdangling-pointer=]
+     40 |         acpi_gbl_entry_stack_pointer = &current_sp;
+        |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+
+which is entirely reasonable from a compiler standpoint, and we may want
+to change those kinds of patterns, but not not.
+
+So this is one of those "it would be lovely if the compiler were to
+complain about us leaving dangling pointers to the stack", but not this
+way.
+
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Makefile | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/Makefile b/Makefile
+index eb3adfec0b22..a8de148aeb04 100644
+--- a/Makefile
++++ b/Makefile
+@@ -804,6 +804,9 @@ endif
+ KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
+ KBUILD_CFLAGS += $(call cc-disable-warning, unused-const-variable)
+ 
++# These result in bogus false positives
++KBUILD_CFLAGS += $(call cc-disable-warning, dangling-pointer)
++
+ ifdef CONFIG_FRAME_POINTER
+ KBUILD_CFLAGS	+= -fno-omit-frame-pointer -fno-optimize-sibling-calls
+ else
+-- 
+2.35.1
+
