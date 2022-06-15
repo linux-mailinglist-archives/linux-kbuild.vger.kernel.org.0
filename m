@@ -2,110 +2,88 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0138054BD96
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Jun 2022 00:24:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA45A54BFF1
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Jun 2022 05:04:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243785AbiFNWYM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 14 Jun 2022 18:24:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48334 "EHLO
+        id S242487AbiFODEX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 14 Jun 2022 23:04:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242406AbiFNWYL (ORCPT
+        with ESMTP id S235687AbiFODEX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 14 Jun 2022 18:24:11 -0400
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D3044D609;
-        Tue, 14 Jun 2022 15:24:11 -0700 (PDT)
-Received: by mail-io1-xd2e.google.com with SMTP id e80so10912305iof.3;
-        Tue, 14 Jun 2022 15:24:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to:cc;
-        bh=HU7+1VbBNzYXZnG0+WF8xI/FycmW+RkYu4I+dGFquvo=;
-        b=P6KWcuKWCZmM/ipSJcrD+VlSqzlWnp76FNm1uRNfRAcgn03NbJoun4AmA6lBKX7Z7F
-         /aFiVHH1kAmTqSQvGC4iL95Z+dvfLav4aq07XZsrk9GkHKTm3E+zIJ8C/MzyrRSJ0Aai
-         M7VGfTuuXrc/1kk5SipwaiZHjOYECVXoKzu803i+RRHTg+ou22H1ddnszrafjX4NY57l
-         i3StehSMr6tIIAfmRxEedLQCHuUsp6EQv4uoCqBKBDjS9GrNLma8ai1RPcA89eeJk5yG
-         BD96IkSM90D92oeV6SKEvMqYISWz412MI+Qypno/K71kyGEkQR4wyenMdXlJt8Lfu624
-         54nA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=HU7+1VbBNzYXZnG0+WF8xI/FycmW+RkYu4I+dGFquvo=;
-        b=pfUYAGj/nsX8tJq7o6PIE6CL4fcZTqK+6wQygRYi5X0Ix+YWVAGdHieqGjobRNJQjA
-         N81dO3TDQrJnnrzPPzcTGLMHqtbVvylpUlGBoGjbUruukCJKMPkOqACOed7zJpmqz1PM
-         ys82f1YLjqliO0Xbnlp3btDE4clDqcJGR7BJwr1beRrkrYa24d2C63voe+CMyKVhVLeJ
-         /DJbD5totwboPuLX0lqWwypfMv2/Jw1aufDZ1SMMd9GqGE3/umH58D5w5giCD1MyRkPd
-         GzM3MK+A/e3d3hv2rCZFRKss67KanzscZo80VmJ4cLvB33cwyKL24SxuAyqVEqOYSf5o
-         /RDw==
-X-Gm-Message-State: AOAM531URVj25E66ZUp1JehvkovO7jv81+/oEAHf/yP7oqrezYOG7Ib9
-        Tfo35CHXbvHASXzrTSrEArbmxvqXKBCwXmdCvXxR8u0F4M0lnw==
-X-Google-Smtp-Source: ABdhPJy4mJL3DuTbiR8KG8/dPR3dILa+IhzS+daqkKIS3mklKJaUZENh0rMF/e9F6BcU6ZfPRhzxcqrrIe8yCF+9eOM=
-X-Received: by 2002:a05:6638:1415:b0:331:d318:83ab with SMTP id
- k21-20020a056638141500b00331d31883abmr4185192jad.126.1655245450358; Tue, 14
- Jun 2022 15:24:10 -0700 (PDT)
+        Tue, 14 Jun 2022 23:04:23 -0400
+Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E59644AE10;
+        Tue, 14 Jun 2022 20:04:21 -0700 (PDT)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 25F33w3w010445;
+        Wed, 15 Jun 2022 12:03:59 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 25F33w3w010445
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1655262239;
+        bh=qyIpU0+P63yrWK/J78khVpKLRKXJiye13yDJDLad98g=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=2+K+ZpzacIhm78uLBD6sfrwi218/9naArDxz42E0r3EhYwMpYFuF228M6LLx49+8G
+         wmSg1VE9SDjWvEZ4pIP0kRbPskhigS39Icw1YGexncw++eHVgKU2TzN7bfcPYe/YNa
+         SA7mfohLAG7bIlFvy5Mkkg9YSZ8yi+WDu8ATtWV8/fExfB/27xrJ3Civdw3Cy8kGZg
+         1aTxZ3cfEA1lRJeEjco12Pb700d5qsqQsxg3OE3qUkq9KQkEZj73retanJJQZ+U4Dd
+         hY17wM925S2MzcgqscXp3ZM4lln/N2evBi/pb37Vo5Qvt8aeelaTICG5g/ryG1RdZZ
+         dnRpbqrWOJ3Aw==
+X-Nifty-SrcIP: [209.85.128.54]
+Received: by mail-wm1-f54.google.com with SMTP id e5so5613484wma.0;
+        Tue, 14 Jun 2022 20:03:59 -0700 (PDT)
+X-Gm-Message-State: AOAM530UB2UsTyUyj5vAGsyJBAUdVivq761QXypkTjgOB6pOpeuiZF3B
+        rMnSOy6y6RoNjN4JYTjn2wUr3BxfFmokqWnX9TQ=
+X-Google-Smtp-Source: ABdhPJzdCwWyyuo0xm3GFMsNesoRkt8m+h3KRKA9CSHqNXGlBTtwePv9IXfC/2iK7+cOJq/sBvSioWBnu6L9SV7noYI=
+X-Received: by 2002:a05:600c:35c2:b0:39b:fa1f:4f38 with SMTP id
+ r2-20020a05600c35c200b0039bfa1f4f38mr7536314wmq.22.1655262237660; Tue, 14 Jun
+ 2022 20:03:57 -0700 (PDT)
 MIME-Version: 1.0
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Wed, 15 Jun 2022 00:23:34 +0200
-Message-ID: <CA+icZUX-=vjX1WgJLDGZYZhrpxy+KqynMMFmNPp8pWu0q2sDcg@mail.gmail.com>
-Subject: [Linux v5.19-rc2] rtla: Errors when running `make tools/clean`
-To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-Cc:     linux-trace-devel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
+References: <20220614055149.1900535-1-masahiroy@kernel.org> <CAKwvOdmcLCV6J+PYXCugH=0Pt_=yARZ-Y3SEmYy8F+oBpb1UYw@mail.gmail.com>
+In-Reply-To: <CAKwvOdmcLCV6J+PYXCugH=0Pt_=yARZ-Y3SEmYy8F+oBpb1UYw@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 15 Jun 2022 12:03:21 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATxxvBeooj6t1cPYafS7gd9gNX8YOFghvTbbkusFoQ3pA@mail.gmail.com>
+Message-ID: <CAK7LNATxxvBeooj6t1cPYafS7gd9gNX8YOFghvTbbkusFoQ3pA@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: remove sed command from cmd_ar_builtin
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-[ CC linux-kbuild folks ]
+On Wed, Jun 15, 2022 at 3:59 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> On Mon, Jun 13, 2022 at 10:53 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > Replace a pipeline of echo and sed with printf to decrease process forks.
+>
+> If you're trying to minimize process forks, is it possible to remove
+> the use of xargs as well and just invoke $(AR) with the parameters
+> splatted out? I don't know myself, but maybe you're creative enough?
 
-Hi,
 
-while digging into a perf issue I see this:
+If I remove xargs, we will go back to the situation
+before cd968b97c49214e6557381bddddacbd0e0fb696e.
 
-$ cd /path/to/linux.git
+This patch tries to avoid "too long argument error"
+without forking too many processes.
+Maybe I am too worried about the potential issue, though...
 
-$ LC_ALL=C make -C tools/ clean 2>&1 | tee ../make-log_tools-clean.txt
-...
-  DESCEND tracing
-make[1]: Entering directory '/home/dileks/src/linux-kernel/git/tools/tracing'
- DESCEND latency
-make[2]: Entering directory
-'/home/dileks/src/linux-kernel/git/tools/tracing/latency'
-rm -f latency-collector
-make[2]: Leaving directory
-'/home/dileks/src/linux-kernel/git/tools/tracing/latency'
- DESCEND rtla
-make[2]: Entering directory
-'/home/dileks/src/linux-kernel/git/tools/tracing/rtla'
-make -C /home/dileks/src/linux-kernel/git/tools/tracing/rtla/../../../Documentation/tools/rtla/
-clean
-make[3]: Entering directory
-'/home/dileks/src/linux-kernel/git/Documentation/tools/rtla'
-rm -f rtla-osnoise-hist.1 rtla-osnoise-top.1 rtla-osnoise.1
-rtla-timerlat-hist.1 rtla-timerlat-top.1 rtla-timerlat.1 rtla.1
-make[3]: Leaving directory
-'/home/dileks/src/linux-kernel/git/Documentation/tools/rtla'
-/bin/sh: 1: test: rtla-make[2]:: unexpected operator
-rm: cannot remove '/home/dileks/src/linux-kernel/git': Is a directory
-make[2]: *** [Makefile:120: clean] Error 1
-make[2]: Leaving directory
-'/home/dileks/src/linux-kernel/git/tools/tracing/rtla'
-make[1]: *** [Makefile:26: rtla_clean] Error 2
-make[1]: Leaving directory '/home/dileks/src/linux-kernel/git/tools/tracing'
-make: *** [Makefile:170: tracing_clean] Error 2
-make: Leaving directory '/home/dileks/src/linux-kernel/git/tools'
 
-Please check yourself.
 
-Regards,
--Sedat-
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
