@@ -2,110 +2,154 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4507054FB22
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Jun 2022 18:33:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E76D254FB39
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Jun 2022 18:40:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1383266AbiFQQc3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 17 Jun 2022 12:32:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44036 "EHLO
+        id S231784AbiFQQhX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 17 Jun 2022 12:37:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229602AbiFQQc3 (ORCPT
+        with ESMTP id S231697AbiFQQhX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 17 Jun 2022 12:32:29 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48DE84477B
-        for <linux-kbuild@vger.kernel.org>; Fri, 17 Jun 2022 09:32:28 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id p18so7755580lfr.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 17 Jun 2022 09:32:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=V1BjKgqzkb8k+EA7WjeZGM7NzWRat+g8ENXrH+yDNT4=;
-        b=Z0GR2WW0woH/OoKC6xJWNeyL+rmtSqQdxLlC1Z61A8J2I+X8zkigvk3PzSTuIlU9HB
-         JkXkHXUrdOCrpkmRWFpD81AsGgKg9Dma67Xjd8ZkXGiCjOn+Ji/xHZpqbChUI+olxA8t
-         z3lroIvPfZSWQ4L2BvV+nT+4c8YuZuIcwUwn/V79cvUEXemsyfI9r5BP+17egzxmUKRM
-         Qadg7PkTBQigP9DiBEi+ggHuICrsi5+s2yzH0D/kBKaboQHTiSXiS59e+eZ3Vogls8mW
-         /p5YjGspCFAkdN5RqeI8gx84VnLnvAIcji/rifoh8Mfn4fuxn1LwoSqV11ps+ZtIQ5Ig
-         am6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=V1BjKgqzkb8k+EA7WjeZGM7NzWRat+g8ENXrH+yDNT4=;
-        b=axNZYGqLTWmdLDPx2XAYjJ2mIjYu3J8v1DWqd/7g5s2E0G3y/HIMxP94tCaRDBnD58
-         1Vhe2eU6MatkRKxyrXBBnI2lo6MCwQ+s9l4Wn/oCObrX7O4y8tVepICt9mC2PUlzVpa9
-         qc8s0iMZSW9t/qpJ5M+rWXaHU9PnsNAEJUTGJ5MP49ao51a4uBWd9KKxb9A5XdPDkPNq
-         c+aYKWrlQD1wzH/V676rp4/k2sTuMJRbIK3t7WOwoCtDzA5T2HB0ybTXGSE4ZjzX3/H2
-         zwsqFJmgYcOzZOkqPmJQhwcGOj9wA5054tHea7aQLGuKqdKMGpVPrAmd0WIck0S+qqT+
-         jM6w==
-X-Gm-Message-State: AJIora9YovzGPGTDDA0fjiUFxlsaqT2bC7Pr2X8c6H4fjEmNuXZNhIju
-        akFBaEjbeIyFXrRO9kivP6TGKCWgckucp3pZkLekjg==
-X-Google-Smtp-Source: AGRyM1tQkylKKg1KNaqr/lKtvraCKG7e+Kb14y5tKT0S4FILqUkpk+GYk2MmyU3A0RHdixGbQXfov2i5Mn+0wGRPa1k=
-X-Received: by 2002:a05:6512:3f9f:b0:47d:c87e:f8f3 with SMTP id
- x31-20020a0565123f9f00b0047dc87ef8f3mr6173106lfa.401.1655483546329; Fri, 17
- Jun 2022 09:32:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220616104541.16289-1-jslaby@suse.cz> <CA+icZUW8O-HUSpw-656o6YZOiR2ZiCXjxsJwm2kctT6DHrs=4g@mail.gmail.com>
- <CA+icZUV6bM2_jxyROK5B4XRid6fv8oX6YYNEdHUX8e_1OAdQYA@mail.gmail.com> <CA+icZUUSTcrJqZB-gwNYt5objVg1J5+Ous6_hof0_A6eVCM-Kg@mail.gmail.com>
-In-Reply-To: <CA+icZUUSTcrJqZB-gwNYt5objVg1J5+Ous6_hof0_A6eVCM-Kg@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 17 Jun 2022 09:32:15 -0700
-Message-ID: <CAKwvOdmb5xdF70TzNp=4STCpzkGh16FnuKE1KbdzDhHt=OuRFA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: pass jobserver to cmd_ld_vmlinux.o
-To:     Sedat Dilek <sedat.dilek@gmail.com>,
+        Fri, 17 Jun 2022 12:37:23 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2843A4739B
+        for <linux-kbuild@vger.kernel.org>; Fri, 17 Jun 2022 09:37:22 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1o2Ey7-0007cZ-1m; Fri, 17 Jun 2022 18:37:11 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1o2Ey4-0015oi-MY; Fri, 17 Jun 2022 18:37:10 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1o2Ey4-00H0DT-Vg; Fri, 17 Jun 2022 18:37:08 +0200
+Date:   Fri, 17 Jun 2022 18:37:02 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Jiri Slaby <jslaby@suse.cz>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
+        Kees Cook <keescook@chromium.org>,
+        linux-kbuild@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
         Nathan Chancellor <nathan@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] [RFC] Kbuild: change CONFIG_FRAME_WARN for 32-bit
+Message-ID: <20220617163702.fqyomgoknvinlq6u@pengutronix.de>
+References: <20220617150922.1878926-1-arnd@kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="6vvxfvo7nyze7l5k"
+Content-Disposition: inline
+In-Reply-To: <20220617150922.1878926-1-arnd@kernel.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jun 17, 2022 at 3:35 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
->
-> On Fri, Jun 17, 2022 at 12:53 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> >
-> > On Thu, Jun 16, 2022 at 4:09 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> > >
-> > > On Thu, Jun 16, 2022 at 12:45 PM Jiri Slaby <jslaby@suse.cz> wrote:
-> > > >
-> > > > Until the link-vmlinux.sh split (cf. the commit below), the linker was
-> > > > run with jobserver set in MAKEFLAGS. After the split, the command in
-> > > > Makefile.vmlinux_o is not prefixed by "+" anymore, so this information
-> > > > is lost.
-> > > >
-> > > > Restore it as linkers working in parallel (esp. the LTO ones) make a use
-> > > > of it.
 
-TBH, I agree with Masahiro. I didn't understand this comment "esp. the
-LTO ones."  Jiri, can you clarify what you mean here?
+--6vvxfvo7nyze7l5k
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> [ CC Nathan and Sami ]
->
-> I re-checked as my build-time takes approx. 15mins more than usual
-> with Linux v5.17.
->
-> [ Perf - seconds time elapsed ]
-> v5.17: approx. 12500
-> v5.19: approx. 13500
->
-> +1.000 secs = +16,67mins
+Hello Arnd,
 
-Does this patch make a difference?
-https://lore.kernel.org/linux-kbuild/20220616195759.3214538-1-samitolvanen@google.com/
+your To: was empty, I wonder if that was on purpose?!
 
--- 
-Thanks,
-~Nick Desaulniers
+On Fri, Jun 17, 2022 at 05:08:53PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>=20
+> The introduction of CONFIG_GCC_PLUGIN_LATENT_ENTROPY raised the
+> warning limit for 32-bit architectures to a much higher value in
+> 2016. Initially this had no effect for Arm machines as their kernels
+> tend to be cross-compiled, and the feature detection for the plugin did
+> not work with common cross compilers.
+>=20
+> I could not find the original regression report that led to the warning
+> limit getting raised, but I have been unable to reproduce this with gcc-12
+> and linux-5.18 -- all frame sizes appear to be be below the normal 1024
+> byte limit on at least arm32 and i386.
+>=20
+> However, the KASAN feature introduced later on does raise the frame size
+> of a number of functions above the warning limit, in almost all cases to
+> somewhere below 1280 bytes. The effect is that an arm allmodconfig build
+> produces no warnings because of the check for the latent entropy plugin,
+> but a normal KASAN based build with gcc does produce build warnings or
+> failures when CONFIG_WERROR is set.
+>=20
+> The 1280 byte limit is an arbitrary choice here, as it disables almost
+> all warnings but leaves a few outliers that are probably better addressed
+> with code changes. There are a number of functions that are just below the
+> normal 1024 byte limit at the moment, and an extra 256 bytes for those
+> is within the expectation, but more than that is probably an indication
+> of a bad design or a real bug.
+>=20
+> Cc: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: linux-kbuild@vger.kernel.org
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  lib/Kconfig.debug | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index 3da5f9acb966..8a3afd837e99 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -387,9 +387,9 @@ endif # DEBUG_INFO
+>  config FRAME_WARN
+>  	int "Warn for stack frames larger than"
+>  	range 0 8192
+> -	default 2048 if GCC_PLUGIN_LATENT_ENTROPY
+>  	default 2048 if PARISC
+>  	default 1536 if (!64BIT && XTENSA)
+> +	default 1280 if (!64BIT && KASAN_STACK)
+>  	default 1024 if !64BIT
+>  	default 2048 if 64BIT
+>  	help
+
+I wasn't aware this was configurable with a Kconfig symbol.
+
+Thanks for addressing that issue, the reasoning looks good and right.
+I just now noticed you explained your findings earlier in irc, only
+found them because I digged my irc logs for my original report to you.
+
+Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--6vvxfvo7nyze7l5k
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmKsraYACgkQwfwUeK3K
+7Am13wgAht/EoLIfsWbf01mPJ4JarrmTBuxvcJRWOGPorV9nmUkfVpopm/uNctk+
+Gcag/FXrsgkSbTcM29QN6ziWWgCK08ashS0YFNr1069GCuiTVISlXB2cUoDFYVbf
+o4WQdz0uYvHKJGbWHLbgnaOxnjp3B1X5uujI5k2AL4CeaD7VG4fVBBic4g3lzkdh
+HibLDNrIFFdM3jp/BrQZwrXrusVhkbWn7PO9L4wpD9lSYB9OgCDGu4qHJOCz1DGL
+UQx8FhbPNcG2PLtVfWNCAyaq5q+rpmLlpZnLOkmLzAG3FGsF5XEDIhccgs+5IyDi
+V95j9pAzlh/UBYyHJAxD9/Zknefp4Q==
+=ledw
+-----END PGP SIGNATURE-----
+
+--6vvxfvo7nyze7l5k--
