@@ -2,170 +2,205 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A7F9550318
-	for <lists+linux-kbuild@lfdr.de>; Sat, 18 Jun 2022 07:59:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2DAC55073D
+	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Jun 2022 00:13:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232269AbiFRF6d (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 18 Jun 2022 01:58:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55068 "EHLO
+        id S231538AbiFRWNl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 18 Jun 2022 18:13:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229948AbiFRF6c (ORCPT
+        with ESMTP id S231506AbiFRWNd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 18 Jun 2022 01:58:32 -0400
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E90544EDD4;
-        Fri, 17 Jun 2022 22:58:30 -0700 (PDT)
-Received: by mail-il1-x130.google.com with SMTP id y17so4239714ilj.11;
-        Fri, 17 Jun 2022 22:58:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc:content-transfer-encoding;
-        bh=DoXrvmARzpcu70b8xixzSRDkUeRb3CHYW5cwPvaz0gg=;
-        b=SxLEpZGrEW0KeSJ94LopSHGMJ8WsaYKF5m7zNWZfbfF1DR6YkCsziWy2VS0pFvxglQ
-         /QAkZMfGZyInSCg8e6FS/L+he5TGVgTwB+QX1nWKq2JYI5WVqvAvFiv0oYCLpS06L5Yd
-         6l75DEmB+EDeuD2/IVePgX+lP+8zoe9/tBQI82KKZ1pbfEFsqdMtP47MBNR/B7LWkvLg
-         vp/TOUe4nqvJ+UACN5tiWGSQnOOczfdlIEY9OHUTg25WE+9s6l9LbfM4ZytT4WOj9qQK
-         eo5UOv/0SH3DAB7TcFgpXXXl4HDe2oeVqfsW2trtjNWwRWpLQdNPD5hYCUoQXtkHnJ8Z
-         jCKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc:content-transfer-encoding;
-        bh=DoXrvmARzpcu70b8xixzSRDkUeRb3CHYW5cwPvaz0gg=;
-        b=FGSEQkLQLds0MwYLyI8EiKUGCs8uztIu7n9kC5vdIWoRqIFrnRHpEkeTsn2a6aeONU
-         8f118yymV8/op2IO3NUmQMway/BEyRuGa0uhJZb6AN8/Latk8VI7N8ek6pci4NMulOZ6
-         uI6KElmkQiF8Mt+0ZsxJqlPehQAP8/ewCrNsw0IR5HLweXupgr4VbuWqK6shBNriImK1
-         lc3WK/UNZDANzg0K+yeM3hQuS1BAf3DIcw1v10uUaJPw5K8RXZLG1yZifZW76A5R9c6g
-         ySpTJ61k7Qr1f9w+Wexw9GBE4SUHSemfXEd0cySt9zh9hxaQi0MV9T+Use0cR2i8M6B8
-         Fe9w==
-X-Gm-Message-State: AJIora/m+qX7/Z8ISNnzWrtX2Gd+esrgbv5Hu7tqMqyY/oXCyFj4F4XI
-        f93DYTIwzzr6f1rgvO7GAoo78o50WioTcHfsq24=
-X-Google-Smtp-Source: AGRyM1sxJuiw21Pj5PT7yT8PySn95IoeqFmyHSMOhzBmabqL2+OTVLzZpIP0MKygupfzSPqdv8juE+/CTwm8Xg9FqCA=
-X-Received: by 2002:a05:6e02:f86:b0:2d8:dc34:8694 with SMTP id
- v6-20020a056e020f8600b002d8dc348694mr4171997ilo.245.1655531909882; Fri, 17
- Jun 2022 22:58:29 -0700 (PDT)
+        Sat, 18 Jun 2022 18:13:33 -0400
+Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA083265E;
+        Sat, 18 Jun 2022 15:13:30 -0700 (PDT)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 25IMD8iG007387;
+        Sun, 19 Jun 2022 07:13:09 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 25IMD8iG007387
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1655590389;
+        bh=7jwbvyrhQLV+4aegmk22DRd9SYJoD6/Ana8x4b/1QLk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=HMFT5yD4HPzN0/ok5qxydwtXHQ/zhALcx64F9y1ip3MY6bbwMhcN7cQZ7CNF9HYQp
+         od4k1EOCwEwtaYVr8vDt/jOKNXuujz4L2xAIz7rI8Cu+fHoC/86KZCa0YgO3F4iHWu
+         gt88uw2M1ibhIDrgPZlwHHNrx7BG6/iLMDcfhB13MjRX+t7Nq+WyHFL4TpnoYhvqKN
+         zLanyNywu11ddt+7IAuOb3DlNOi1E35e58XzTFcjzGek1DxCWghlBRruFIMtBS5rsm
+         b7139uVNXxh9zUjilp1WZAbXrwyCx3lb10aGD8HYcQMlp+MNQAExP0lmIpWhtSN7up
+         yy3tnTkOPmK5A==
+X-Nifty-SrcIP: [209.85.221.50]
+Received: by mail-wr1-f50.google.com with SMTP id g4so9839701wrh.11;
+        Sat, 18 Jun 2022 15:13:09 -0700 (PDT)
+X-Gm-Message-State: AJIora/S/9tmwtuJxPrjPXuWdl+K0GETTbwicPs3OWPAuFgvA6818z91
+        qa0mQ57gX3XHgFZVgVtHKWPSnoxVAI0lB/gQReQ=
+X-Google-Smtp-Source: AGRyM1sML4k/551cdhdkCWZlW1l3J3kC8wOqKO/VYoNqgy7eljBeD2d9mRgOZD6mP5Qa9NRBtiZhiYtiGyCKEx6860c=
+X-Received: by 2002:a5d:5e92:0:b0:21a:278c:b901 with SMTP id
+ ck18-20020a5d5e92000000b0021a278cb901mr15492125wrb.461.1655590387823; Sat, 18
+ Jun 2022 15:13:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220616104541.16289-1-jslaby@suse.cz> <CA+icZUW8O-HUSpw-656o6YZOiR2ZiCXjxsJwm2kctT6DHrs=4g@mail.gmail.com>
- <CA+icZUV6bM2_jxyROK5B4XRid6fv8oX6YYNEdHUX8e_1OAdQYA@mail.gmail.com>
- <CA+icZUUSTcrJqZB-gwNYt5objVg1J5+Ous6_hof0_A6eVCM-Kg@mail.gmail.com>
- <CAKwvOdmb5xdF70TzNp=4STCpzkGh16FnuKE1KbdzDhHt=OuRFA@mail.gmail.com>
- <CA+icZUWZKGEQ_VbnRL03SRAicEMi4r4J0dLRgXJgHvRg7DBM7A@mail.gmail.com> <YqzXKaaWRNP9C4b0@dev-arch.thelio-3990X>
-In-Reply-To: <YqzXKaaWRNP9C4b0@dev-arch.thelio-3990X>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Sat, 18 Jun 2022 07:57:54 +0200
-Message-ID: <CA+icZUWa9UBNBiijYCfrVorkKAH11=4KKgRkp-MxCsngWOPTeg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: pass jobserver to cmd_ld_vmlinux.o
-To:     Nathan Chancellor <nathan@kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Jiri Slaby <jslaby@suse.cz>,
+References: <20220611172233.1494073-1-masahiroy@kernel.org>
+ <20220611172233.1494073-2-masahiroy@kernel.org> <58a20890-557e-f31c-ed59-7e256445a26c@digikod.net>
+ <YqopiZgC8vNSKYPt@iki.fi>
+In-Reply-To: <YqopiZgC8vNSKYPt@iki.fi>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 19 Jun 2022 07:12:31 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARSYSupt1nL_JS2prLunRpOhMRG_pPhHfto7+K+QDVp2Q@mail.gmail.com>
+Message-ID: <CAK7LNARSYSupt1nL_JS2prLunRpOhMRG_pPhHfto7+K+QDVp2Q@mail.gmail.com>
+Subject: Re: [PATCH 2/4] certs: fix and refactor CONFIG_SYSTEM_BLACKLIST_HASH_LIST
+ build
+To:     Jarkko Sakkinen <jarkko@kernel.org>
+Cc:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Sami Tolvanen <samitolvanen@google.com>
+        David Howells <dhowells@redhat.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        keyrings@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Eric Snowberg <eric.snowberg@oracle.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Tyler Hicks <tyhicks@linux.microsoft.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jun 17, 2022 at 9:34 PM Nathan Chancellor <nathan@kernel.org> wrote=
-:
+On Thu, Jun 16, 2022 at 3:51 AM Jarkko Sakkinen <jarkko@kernel.org> wrote:
 >
-> On Fri, Jun 17, 2022 at 07:50:58PM +0200, Sedat Dilek wrote:
-> > On Fri, Jun 17, 2022 at 6:32 PM Nick Desaulniers
-> > <ndesaulniers@google.com> wrote:
-> > >
-> > > On Fri, Jun 17, 2022 at 3:35 AM Sedat Dilek <sedat.dilek@gmail.com> w=
-rote:
-> > > >
-> > > > On Fri, Jun 17, 2022 at 12:53 AM Sedat Dilek <sedat.dilek@gmail.com=
-> wrote:
-> > > > >
-> > > > > On Thu, Jun 16, 2022 at 4:09 PM Sedat Dilek <sedat.dilek@gmail.co=
-m> wrote:
-> > > > > >
-> > > > > > On Thu, Jun 16, 2022 at 12:45 PM Jiri Slaby <jslaby@suse.cz> wr=
-ote:
-> > > > > > >
-> > > > > > > Until the link-vmlinux.sh split (cf. the commit below), the l=
-inker was
-> > > > > > > run with jobserver set in MAKEFLAGS. After the split, the com=
-mand in
-> > > > > > > Makefile.vmlinux_o is not prefixed by "+" anymore, so this in=
-formation
-> > > > > > > is lost.
-> > > > > > >
-> > > > > > > Restore it as linkers working in parallel (esp. the LTO ones)=
- make a use
-> > > > > > > of it.
-> > >
-> > > TBH, I agree with Masahiro. I didn't understand this comment "esp. th=
-e
-> > > LTO ones."  Jiri, can you clarify what you mean here?
-> > >
-> > > > [ CC Nathan and Sami ]
-> > > >
-> > > > I re-checked as my build-time takes approx. 15mins more than usual
-> > > > with Linux v5.17.
-> > > >
-> > > > [ Perf - seconds time elapsed ]
-> > > > v5.17: approx. 12500
-> > > > v5.19: approx. 13500
-> > > >
-> > > > +1.000 secs =3D +16,67mins
->
-> So roughly 7.5% increase if I did my math correctly?
->
-> > > Does this patch make a difference?
-> > > https://lore.kernel.org/linux-kbuild/20220616195759.3214538-1-samitol=
-vanen@google.com/
-> > >
+> On Mon, Jun 13, 2022 at 02:34:36PM +0200, Micka=C3=ABl Sala=C3=BCn wrote:
 > >
-> > Running a new build...
+> >
+> > On 11/06/2022 19:22, Masahiro Yamada wrote:
+> > > Commit addf466389d9 ("certs: Check that builtin blacklist hashes are
+> > > valid") was applied 8 months after the submission.
+> > >
+> > > In the meantime, the base code had been removed by commit b8c96a6b466=
+c
+> > > ("certs: simplify $(srctree)/ handling and remove config_filename
+> > > macro").
+> > >
+> > > Fix the Makefile.
+> > >
+> > > Create a local copy of $(CONFIG_SYSTEM_BLACKLIST_HASH_LIST). It is
+> > > included from certs/blacklist_hashes.c and also works as a timestamp.
+> > >
+> > > Send error messages from check-blacklist-hashes.awk to stderr instead
+> > > of stdout.
+> > >
+> > > Fixes: addf466389d9 ("certs: Check that builtin blacklist hashes are =
+valid")
+> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> >
+> > Reviewed-by: Micka=C3=ABl Sala=C3=BCn <mic@linux.microsoft.com>
+> >
+> > As a side note, it may let an orphan certs/blacklist_hashes_checked fil=
+e but
+> > we can't really do something about that and it's OK.
+> >
+> > Thanks!
+> >
+> > > ---
+> > >
+> > >   certs/.gitignore         |  2 +-
+> > >   certs/Makefile           | 20 ++++++++++----------
+> > >   certs/blacklist_hashes.c |  2 +-
+> > >   3 files changed, 12 insertions(+), 12 deletions(-)
+> > >
+> > > diff --git a/certs/.gitignore b/certs/.gitignore
+> > > index 56637aceaf81..cec5465f31c1 100644
+> > > --- a/certs/.gitignore
+> > > +++ b/certs/.gitignore
+> > > @@ -1,5 +1,5 @@
+> > >   # SPDX-License-Identifier: GPL-2.0-only
+> > > -/blacklist_hashes_checked
+> > > +/blacklist_hash_list
+> > >   /extract-cert
+> > >   /x509_certificate_list
+> > >   /x509_revocation_list
+> > > diff --git a/certs/Makefile b/certs/Makefile
+> > > index cb1a9da3fc58..a8d628fd5f7b 100644
+> > > --- a/certs/Makefile
+> > > +++ b/certs/Makefile
+> > > @@ -7,22 +7,22 @@ obj-$(CONFIG_SYSTEM_TRUSTED_KEYRING) +=3D system_ke=
+yring.o system_certificates.o c
+> > >   obj-$(CONFIG_SYSTEM_BLACKLIST_KEYRING) +=3D blacklist.o common.o
+> > >   obj-$(CONFIG_SYSTEM_REVOCATION_LIST) +=3D revocation_certificates.o
+> > >   ifneq ($(CONFIG_SYSTEM_BLACKLIST_HASH_LIST),)
+> > > -quiet_cmd_check_blacklist_hashes =3D CHECK   $(patsubst "%",%,$(2))
+> > > -      cmd_check_blacklist_hashes =3D $(AWK) -f $(srctree)/scripts/ch=
+eck-blacklist-hashes.awk $(2); touch $@
+> > > -$(eval $(call config_filename,SYSTEM_BLACKLIST_HASH_LIST))
+> > > +$(obj)/blacklist_hashes.o: $(obj)/blacklist_hash_list
+> > > +CFLAGS_blacklist_hashes.o :=3D -I $(obj)
+> > > -$(obj)/blacklist_hashes.o: $(obj)/blacklist_hashes_checked
+> > > +quiet_cmd_check_and_copy_blacklist_hash_list =3D GEN     $@
+> > > +      cmd_check_and_copy_blacklist_hash_list =3D \
+> > > +   $(AWK) -f $(srctree)/scripts/check-blacklist-hashes.awk $(CONFIG_=
+SYSTEM_BLACKLIST_HASH_LIST) >&2; \
+> > > +   cat $(CONFIG_SYSTEM_BLACKLIST_HASH_LIST) > $@
+> > > -CFLAGS_blacklist_hashes.o +=3D -I$(srctree)
+> > > -
+> > > -targets +=3D blacklist_hashes_checked
+> > > -$(obj)/blacklist_hashes_checked: $(SYSTEM_BLACKLIST_HASH_LIST_SRCPRE=
+FIX)$(SYSTEM_BLACKLIST_HASH_LIST_FILENAME) scripts/check-blacklist-hashes.a=
+wk FORCE
+> > > -   $(call if_changed,check_blacklist_hashes,$(SYSTEM_BLACKLIST_HASH_=
+LIST_SRCPREFIX)$(CONFIG_SYSTEM_BLACKLIST_HASH_LIST))
+> > > +$(obj)/blacklist_hash_list: $(CONFIG_SYSTEM_BLACKLIST_HASH_LIST) FOR=
+CE
+> > > +   $(call if_changed,check_and_copy_blacklist_hash_list)
+> > >   obj-$(CONFIG_SYSTEM_BLACKLIST_KEYRING) +=3D blacklist_hashes.o
+> > >   else
+> > >   obj-$(CONFIG_SYSTEM_BLACKLIST_KEYRING) +=3D blacklist_nohashes.o
+> > >   endif
+> > > +targets +=3D blacklist_hash_list
+> > >   quiet_cmd_extract_certs  =3D CERT    $@
+> > >         cmd_extract_certs  =3D $(obj)/extract-cert $(extract-cert-in)=
+ $@
+> > > @@ -33,7 +33,7 @@ $(obj)/system_certificates.o: $(obj)/x509_certifica=
+te_list
+> > >   $(obj)/x509_certificate_list: $(CONFIG_SYSTEM_TRUSTED_KEYS) $(obj)/=
+extract-cert FORCE
+> > >     $(call if_changed,extract_certs)
+> > > -targets +=3D x509_certificate_list blacklist_hashes_checked
+> > > +targets +=3D x509_certificate_list
+> > >   # If module signing is requested, say by allyesconfig, but a key ha=
+s not been
+> > >   # supplied, then one will need to be generated to make sure the bui=
+ld does not
+> > > diff --git a/certs/blacklist_hashes.c b/certs/blacklist_hashes.c
+> > > index d5961aa3d338..86d66fe11348 100644
+> > > --- a/certs/blacklist_hashes.c
+> > > +++ b/certs/blacklist_hashes.c
+> > > @@ -2,6 +2,6 @@
+> > >   #include "blacklist.h"
+> > >   const char __initconst *const blacklist_hashes[] =3D {
+> > > -#include CONFIG_SYSTEM_BLACKLIST_HASH_LIST
+> > > +#include "blacklist_hash_list"
+> > >     , NULL
+> > >   };
 >
-> I did a quick benchmark with Fedora's clang 14.0.0 and I didn't see an
-> increase of that proportion with your configuration (only about 1%,
-> which I would expect would be within the noise for new drivers and
-> such):
+> I'll make a PR for 1/4 and 2/4 so that they get into 5.19.
 >
-> Benchmark 1: 5.17
->   Time (abs =E2=89=A1):        287.744 s               [User: 23497.818 s=
-, System: 4444.602 s]
->
-> Benchmark 2: 5.19-rc2
->   Time (abs =E2=89=A1):        290.027 s               [User: 24567.290 s=
-, System: 4834.458 s]
->
-> Summary
->   '5.17' ran
->     1.01 times faster than '5.19-rc2'
->
-> Not to say that there is not an issue but it might be more visible with
-> slower hardware.
->
+> BR, Jarkko
 
-@Nick Desaulniers
-I applied the patch.
-Seen from build-time not really measurable.
-Noticed some binary size reduction.
 
-@Nathan Chancellor
-Yeah, that I was thinking, too.
-This is due to the number of driver (and modules) increased.
+Thank you!
 
-And of course the changes to kbuild-system.
-It's hard to compare.
+What shall we do for 3/4 and 4/4?
 
-Surely, ancient CPU (10 years) plus HDD etc.
+Do you have a plan to queue them up for the next MW?
 
--Sedat-
+Or, shall I apply them to my kbuild tree with your reivewed-by?
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
