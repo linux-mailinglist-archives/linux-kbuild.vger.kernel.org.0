@@ -2,187 +2,98 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAD3555097B
-	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Jun 2022 11:20:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73C2B550C3D
+	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Jun 2022 19:03:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230439AbiFSJUt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 19 Jun 2022 05:20:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46246 "EHLO
+        id S236467AbiFSRDr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 19 Jun 2022 13:03:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229758AbiFSJUs (ORCPT
+        with ESMTP id S232771AbiFSRDr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 19 Jun 2022 05:20:48 -0400
-Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07B9CCE39;
-        Sun, 19 Jun 2022 02:20:46 -0700 (PDT)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 25J9KTZ7020525;
-        Sun, 19 Jun 2022 18:20:29 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 25J9KTZ7020525
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1655630430;
-        bh=GzBeaOrv96WSl2HDC/koas/hAO2oAWJZ/5dV2u+o/r0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=RmY0YDOPdNuheaj3OPET7lzMsgbRvrKH1xfeKyHVZVNdt2xJB2TuEz5mTaVQGvPXU
-         HTumwsMXi28sKqgdSrwyw1ftJlaqncWUb4Te6BTQcd0icQ55RBp5Z24OdyO0ZH5ten
-         VL9XZQylMU9A/aA3ZrtcvhUagUpwMbZSUsgrMfuAdRFuUhD0pcS1PIdwcBUHMs+TNJ
-         oSCb6/sfzy9XqOH4GmQTeLjEFbdkxasbG9EZFzChb1Xlb/iAQOYcZLSAQPewxWz/l4
-         tV3x5gmbL9TIabzUms+Fxih12gD/kUfuIWpskTEo7/h67qbBsA5jIjq1rRCYQAhWRc
-         Tp4DxpELFNiMg==
-X-Nifty-SrcIP: [209.85.128.51]
-Received: by mail-wm1-f51.google.com with SMTP id o37-20020a05600c512500b0039c4ba4c64dso6358816wms.2;
-        Sun, 19 Jun 2022 02:20:29 -0700 (PDT)
-X-Gm-Message-State: AOAM532D6RrNTAU8lDr6cdvrOztzX4vu7L6xZz0wbauRrm/ji7bg7pT/
-        Iba3LYaBzJQh6+ZclVQRs3+RUBsM2ywoUZupmAM=
-X-Google-Smtp-Source: ABdhPJxn9y4W+QhCDeCZ/WYBNmRhqZFk+HIILMW5kaOE99XhNaA5pQ8dqiRBa/13TD+ldeHdPYND5r62z1AAprpnnWA=
-X-Received: by 2002:a05:600c:a42:b0:39c:9086:8a34 with SMTP id
- c2-20020a05600c0a4200b0039c90868a34mr29027144wmq.169.1655630428366; Sun, 19
- Jun 2022 02:20:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220617203948.3714905-1-ndesaulniers@google.com>
- <Yq0MV2Z/hqSuSYbt@dev-arch.thelio-3990X> <CAKwvOdmUMhEe=nqyF-L08c7FL-NWus63JEe=G1MkboB47xjfsA@mail.gmail.com>
-In-Reply-To: <CAKwvOdmUMhEe=nqyF-L08c7FL-NWus63JEe=G1MkboB47xjfsA@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 19 Jun 2022 18:19:51 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATLXO44AKiJJ=XJDpESPpGyE_4YJqAiav926H2veWiWBw@mail.gmail.com>
-Message-ID: <CAK7LNATLXO44AKiJJ=XJDpESPpGyE_4YJqAiav926H2veWiWBw@mail.gmail.com>
-Subject: Re: [PATCH] scripts/Makefile.clang: set --target for host based on
- make -v
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Tom Rix <trix@redhat.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        clang-built-linux <llvm@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Sun, 19 Jun 2022 13:03:47 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CB9921B;
+        Sun, 19 Jun 2022 10:03:45 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id t3-20020a17090a510300b001ea87ef9a3dso8200494pjh.4;
+        Sun, 19 Jun 2022 10:03:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=QaLfF3l2oeMP3+PtS1dJ0Bs3YKBV4FDntFBKrrRE75A=;
+        b=R1e7zOhGxVQp+OCVGRyEExgt40Frj8suO3u+oYNnK86sPynv88KmJraD8fO+pZEAVI
+         86NN1YouHsXHuNx+HdmEVuTnH5dAuzzf3n3tulualQzgEtC4zlNJ/BnOdFr/xwS9v2yX
+         Smixi6ye38/DNL5GRrrbR493xQfCffBcd/5ZO1WIFEDt+rTwiryISSIumKT0sKW0Zx0e
+         ginYzWcdXkaOLqBCYD+NOeq3kmppnqvPmqfupxU1OA64fU74fEf6D67aZ5+Vr7IZ0Cfw
+         wA6f0qkmh+YkHZ/tbv8rlcm2UkCO7IkJoygBXZQhjOM/Dk1twXHIoMNcybxi/FP22XTA
+         81Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=QaLfF3l2oeMP3+PtS1dJ0Bs3YKBV4FDntFBKrrRE75A=;
+        b=XAIiPs+atx8bKCXmor1hHAn0ROQTT56ex5NfuPFJSs5cAfbucXZ7ywvULVlb3YVi0n
+         o0zhOOSHqASCLLQx4bW9MtoVo+lo0Upa1rlvjuXUFCtsbY++e23mxoEq4aXwxxFdOeSF
+         sdI+EgbGlmHd55uQCPY4mmVHghyVCuVkbzhDIKHmhBbf3A4i4/jSfYCkGkkpUgSIVK3Z
+         j06ir3Cban7NkJMpjo75whpuIuYPaoZxhCRsZbhnH29eZZ8f5fKhlnz6uSF5WZloq7lN
+         4KukXlysHXwFc3tdCfrXG+KEcTzFf6zBHFZ5QYheNzuSCfbmPDSs6DKV/rbbCDeJ8jT+
+         7gTQ==
+X-Gm-Message-State: AJIora8Rl2591yz9+3wrM0+wGAt/8l1rGf2COZwBsoAKeF7ozMkOU48U
+        4ucel06rRc7O09dfPsoHWdNRlg0yXZ5O1LLM8p0xYA==
+X-Google-Smtp-Source: AGRyM1tDsCE9DEFOPn2yRF7soyGZMOlTcwGicNt94OFeLnlrdCgAls3byT0cMojnij53Q1QxY3lVUw==
+X-Received: by 2002:a17:90a:5ae1:b0:1db:d0a4:30a4 with SMTP id n88-20020a17090a5ae100b001dbd0a430a4mr22441826pji.128.1655658224772;
+        Sun, 19 Jun 2022 10:03:44 -0700 (PDT)
+Received: from DESKTOP-KIID4IP.localdomain ([119.136.91.123])
+        by smtp.gmail.com with ESMTPSA id v21-20020aa78095000000b0050dc7628171sm7262684pff.75.2022.06.19.10.03.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Jun 2022 10:03:44 -0700 (PDT)
+From:   SangYuhiter <sangyu.code@gmail.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     masahiroy@kernel.org, linux-doc@vger.kernel.org,
+        SangYuhiter <sangyu.code@gmail.com>
+Subject: [PATCH] Documentation: kbuild: fix typo in kconfig-language.rst
+Date:   Mon, 20 Jun 2022 01:03:37 +0800
+Message-Id: <20220619170337.24743-1-sangyu.code@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jun 18, 2022 at 8:26 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> On Fri, Jun 17, 2022 at 4:21 PM Nathan Chancellor <nathan@kernel.org> wrote:
-> >
-> > On Fri, Jun 17, 2022 at 01:39:48PM -0700, Nick Desaulniers wrote:
-> > > We're working on providing statically linked images of clang to host on
-> > > kernel.org. We're building them in Alpine Linux based Docker containers,
-> > > which are MUSL based systems.
-> > >
-> > > In order to keep bootstrapping simpler, I'd like for them to have an
-> > > implicit default --target of x86_64-alpine-linux-musl (set via LLVM's
-> > > cmake variable LLVM_DEFAULT_TARGET_TRIPLE).
-> > >
-> > > Similarly, if one were to use a different build of clang meant for a
-> > > glibc or bionic based system on a MUSL based host, we'd prefer to use
-> > > the correct MUSL based triple for target hosts.
-> > >
-> > > Borrowed from the Zen of Python: Explicit is better than implicit. Let's
-> > > be explicit about the target triple for HOSTCC when building with
-> > > HOSTCC=clang or LLVM=1.
+change "default y/m" to "default y/n"
+add " should be "default y" " in default section d)
 
+Signed-off-by: SangYuhiter <sangyu.code@gmail.com>
+---
+ Documentation/kbuild/kconfig-language.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-If people try to use the clang packaged by you,
-I think the same thing will occur on any project.
+diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+index a7173843a294..ae3add11d5e7 100644
+--- a/Documentation/kbuild/kconfig-language.rst
++++ b/Documentation/kbuild/kconfig-language.rst
+@@ -92,7 +92,7 @@ applicable everywhere (see syntax).
+  release to release.
+ 
+  Note:
+-	Things that merit "default y/m" include:
++	Things that merit "default y/n" include:
+ 
+ 	a) A new Kconfig option for something that used to always be built
+ 	   should be "default y".
+@@ -105,7 +105,7 @@ applicable everywhere (see syntax).
+ 	   "default n". This allows you to provide sane defaults.
+ 
+ 	d) Hardware or infrastructure that everybody expects, such as CONFIG_NET
+-	   or CONFIG_BLOCK. These are rare exceptions.
++	   or CONFIG_BLOCK, should be "default y". These are rare exceptions.
+ 
+ - type definition + default value::
+ 
+-- 
+2.17.1
 
-I do not understand why you are trying to patch the kernel build?
-
-
-If this is a problem, it is specific to your clang package,
-not to the linux kernel.
-
-You need to find a solution in your package.
-
-
-
-
-
-> > >
-> > > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> >
-> > I have tested this with a few different distributions on both aarch64
-> > and x86_64:
-> >
-> > Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-> > Tested-by: Nathan Chancellor <nathan@kernel.org>
-> >
-> > One small comment below.
-> >
-> > > ---
-> > >  Makefile               |  3 +--
-> > >  scripts/Makefile.clang | 10 ++++++++++
-> > >  2 files changed, 11 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/Makefile b/Makefile
-> > > index 1a6678d817bd..87712d9b043c 100644
-> > > --- a/Makefile
-> > > +++ b/Makefile
-> > > @@ -600,10 +600,9 @@ endif
-> > >  # CC_VERSION_TEXT is referenced from Kconfig (so it needs export),
-> > >  # and from include/config/auto.conf.cmd to detect the compiler upgrade.
-> > >  CC_VERSION_TEXT = $(subst $(pound),,$(shell LC_ALL=C $(CC) --version 2>/dev/null | head -n 1))
-> > > +HOSTCC_VERSION_TEXT = $(subst $(pound),,$(shell LC_ALL=C $(HOSTCC) --version 2>/dev/null | head -n 1))
-> > >
-> > > -ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
-> > >  include $(srctree)/scripts/Makefile.clang
-> > > -endif
-> > >
-> > >  # Include this also for config targets because some architectures need
-> > >  # cc-cross-prefix to determine CROSS_COMPILE.
-> > > diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
-> > > index 87285b76adb2..a4505cd62d7b 100644
-> > > --- a/scripts/Makefile.clang
-> > > +++ b/scripts/Makefile.clang
-> > > @@ -1,3 +1,4 @@
-> > > +ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
-> > >  # Individual arch/{arch}/Makefiles should use -EL/-EB to set intended
-> > >  # endianness and -m32/-m64 to set word size based on Kconfigs instead of
-> > >  # relying on the target triple.
-> > > @@ -39,3 +40,12 @@ CLANG_FLAGS        += -Werror=ignored-optimization-argument
-> > >  KBUILD_CFLAGS        += $(CLANG_FLAGS)
-> > >  KBUILD_AFLAGS        += $(CLANG_FLAGS)
-> > >  export CLANG_FLAGS
-> > > +endif
-> > > +
-> > > +# If HOSTCC is clang, set the host target triple explicitly; do not rely on
-> > > +# implicit defaults.
-> > > +ifneq ($(findstring clang,$(HOSTCC_VERSION_TEXT)),)
-> > > +HOST_TRIPLE          := --target=$(shell make --version | head -n2 | tail -n1 | cut -d ' ' -f 3)
-> >
-> > Should we use $(MAKE) instead of make here? I guess the only case where
->
-> oh! yeah, good call. I think so.  Will wait until next Tuesday
-> (Juneteenth holiday in the US on Monday) to send a v2. Thanks for
-> taking a look!
->
-> > it would matter is if someone was calling make via an explicit path and
-> > did not have it available in their PATH so maybe it is not worth
-> > worrying about.
-> >
-> > > +KBUILD_HOSTCFLAGS    += $(HOST_TRIPLE)
-> > > +KBUILD_HOSTLDFLAGS   += $(HOST_TRIPLE)
-> > > +endif
-> > >
-> > > base-commit: 79fe0f863f920c5fcf9dea61676742f813f0b7a6
-> > > --
-> > > 2.36.1.476.g0c4daa206d-goog
-> > >
-> > >
->
->
->
-> --
-> Thanks,
-> ~Nick Desaulniers
-
-
-
---
-Best Regards
-Masahiro Yamada
