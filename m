@@ -2,63 +2,73 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 75A8A553646
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jun 2022 17:38:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38BA25537B6
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jun 2022 18:17:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351927AbiFUPiA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 21 Jun 2022 11:38:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46988 "EHLO
+        id S1353867AbiFUQRA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 21 Jun 2022 12:17:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352920AbiFUPhp (ORCPT
+        with ESMTP id S1353149AbiFUQQ7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 21 Jun 2022 11:37:45 -0400
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CFEE2BB05
-        for <linux-kbuild@vger.kernel.org>; Tue, 21 Jun 2022 08:37:44 -0700 (PDT)
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-2ef5380669cso134827437b3.9
-        for <linux-kbuild@vger.kernel.org>; Tue, 21 Jun 2022 08:37:44 -0700 (PDT)
+        Tue, 21 Jun 2022 12:16:59 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4819CB7F5
+        for <linux-kbuild@vger.kernel.org>; Tue, 21 Jun 2022 09:16:58 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id a29so23227778lfk.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 21 Jun 2022 09:16:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=jNomwlsDfqU5poOBT4be6sMDFMnq8kqupfgjKPBSl0o=;
-        b=Qt4+GtYLdrDWQ6a5jl3LLOu8so+RPUk0wXjzmyqo52tVhlMHxh+jHNFbD0VR2STZ4K
-         5Kj+4Vv9NJyGdkpnEeEXy4dYLuU05zKinvDfx8L62t/nGOK7pk1Bb8nPm9gD3PWmCzB+
-         0FsTPU9LLC+vH9Ahtgte4BU6/x5GtcPAioWD/CA5Kw9kAdi7S6uhutiYCMu9N0ohluZ3
-         xYnZ/jjuUSLbzzkcZ4iY420a6fi0MZTYxsamgxpanWk8sGUMvDQu7WphHBxiNpbkI0FZ
-         svL5BHCVyM70iTmWazyMHlSzSg6z3CND1vVS5DIaHVUVVdEGMhYYjHHg0/En+btpU/PN
-         ionQ==
+        bh=ygOru1V+CqPdzVlc6g44G4+f/031CtJpK0ffalP9wKU=;
+        b=ALJuFmJ2MgWHsuPdnOlWpIyCex1dQSuCHk/q8YBpxShXJT0+RwR/eiW/lM3EwY8BkE
+         JxAx4j5NqMwY6W132S4o14HPBRTVQf1eO8Pt+Dr3GmnKV4muxrKAl1O8QGy68M51ipQl
+         vk2SiezwIGLezoPwDEA2c5p4XsZm9LIO9eMaYy5uG5g4PJGsgmwIDeuiGNW/RBA6U3Xx
+         vJh4/o+nmEivSp/gQCzsr7cUKJrIxBU/sG0soxK5OHfpJpNaaqL3IHqL+lyESjHuVyGk
+         2+0JFYZVnJBkYz8Q0xIE3j2nsmoCGPbBaTAZzLSdsGZCP0UpZNOZ3xofoQ2IaZRKCnU9
+         YNng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=jNomwlsDfqU5poOBT4be6sMDFMnq8kqupfgjKPBSl0o=;
-        b=cqnmdCZrYAmZYSSWZOaSLSlrVCkforZly0SuU73AhgE/l/gOHxwu9arNX+NCAlNa0U
-         H15rngYdelfpxEAjRU6xX1TBj80ZMqr80lvKhUyaIkNeSDD+X4SxyGjr92bmQAnvZeey
-         H1MlToqgEfiJK2pZoz9gScC2wmzkGCQ6zq6gIWpugGf+1oT1jf0Gpq3vrjqMVVARPOXf
-         RwnIdCACm09MQjPfRrbQFivF6e9tq/znawdn1/xgmm2kILGI0l7EE0ftvJZoLiKfJlva
-         OZskz37oWJvF5w+14nDMhnNtlnLgzTPDgqAvyfqTw4DcsMy+me3vkrGgRTTWs56JceDJ
-         4EEQ==
-X-Gm-Message-State: AJIora/75ypvXVlQ1W1tY0ayKlmcjnDLGDwqnXHqLirdNIjEQbrsN1k5
-        r3lZACj0n3xE9OYesazczMXmfCqtpSwDdcaNpE5dOQ==
-X-Google-Smtp-Source: AGRyM1vYstW9b2v9MIEqueYX9u9xiZGFjBQFAh/JjmmuCtc+6VDOyY89kLRdUecjQlJnAPWr+psfhcWdOT9gqpPorWw=
-X-Received: by 2002:a81:100d:0:b0:317:a2a8:833d with SMTP id
- 13-20020a81100d000000b00317a2a8833dmr18684737ywq.69.1655825863727; Tue, 21
- Jun 2022 08:37:43 -0700 (PDT)
+        bh=ygOru1V+CqPdzVlc6g44G4+f/031CtJpK0ffalP9wKU=;
+        b=HmnJwoMqF31EzeoBL+9Lz5oTcIHV489L/ZLbrWxWoDrPDFGw1Xs43M69cPR4QrVY2w
+         xMLdroTCsyu0CK6EF0nXINjJKKJD3xAwi/P/Ykbc0MlSi+SDEKfB+dFL4Z4Yvn4VdFz3
+         ngf7qLGzDh8FeXQkVP0/tXLepLHz3DxkmGbKaC9Q3d3xk2Twg6C+ZWX1M1hMTMSpDY3L
+         vwa+FjnW3oIcbGP87feexqqWbG8t8WsX5kafWILUseV9rkf9quXgrys1IaXdZAsrO5Z1
+         xHttcmOxipNDKOPe37ZsYnE/Ly37kfVQW5F4xGjxsBCyTOKJJRhBDILB+BUcOxkFOAK8
+         zFHw==
+X-Gm-Message-State: AJIora+r+gde1Bl44TDtrxkjiF6IuZZAvVx6FO0yO4066oNMv9XddTiD
+        1k3Li22jfI7bs/bM3OcSYi/Uf2FWgzLxsNyxVhlozg==
+X-Google-Smtp-Source: AGRyM1vl1kY/rfhG1ekDV3os5WgRq3Ow+TaCeNvDbKOJv/JFufeYfnJVlZvB6TAjyXdD2IgK0AXe8ylYTmXYo/BB1uQ=
+X-Received: by 2002:ac2:4d22:0:b0:47f:65b5:35ec with SMTP id
+ h2-20020ac24d22000000b0047f65b535ecmr8877385lfk.432.1655828216350; Tue, 21
+ Jun 2022 09:16:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220616195759.3214538-1-samitolvanen@google.com> <CAK7LNARAAdWPxaMWawQf5Y4kYJ065OMtvrnUaHkjCquL_BZYYQ@mail.gmail.com>
-In-Reply-To: <CAK7LNARAAdWPxaMWawQf5Y4kYJ065OMtvrnUaHkjCquL_BZYYQ@mail.gmail.com>
-From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Tue, 21 Jun 2022 08:37:07 -0700
-Message-ID: <CABCJKudwqKOGfE0Ha9b8DXaZ23bvKk+DhdVbJHoLneV5zJaZzQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Ignore __this_module in gen_autoksyms.sh
+References: <20220621133526.29662-1-mikoxyzzz@gmail.com>
+In-Reply-To: <20220621133526.29662-1-mikoxyzzz@gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 21 Jun 2022 09:16:45 -0700
+Message-ID: <CAKwvOd=Bmu40+_11GOBTeJBjToUf0LNG_RX0RiLcRLimUUkgcw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Kconfig: -O3 enablement
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nicolas Schier <nicolas@fjasle.eu>,
-        Alexander Lobakin <alobakin@pm.me>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Steve Muckle <smuckle@google.com>,
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Miko Larsson <mikoxyzzz@gmail.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Sean Christopherson <seanjc@google.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Chris Down <chris@chrisdown.name>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        John Ogness <john.ogness@linutronix.de>,
+        Elliot Berman <quic_eberman@quicinc.com>,
+        Oleksandr Natalenko <oleksandr@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
@@ -71,37 +81,59 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jun 18, 2022 at 4:01 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Tue, Jun 21, 2022 at 6:35 AM Miko Larsson <mikoxyzzz@gmail.com> wrote:
 >
-> On Fri, Jun 17, 2022 at 4:58 AM Sami Tolvanen <samitolvanen@google.com> wrote:
-> >
-> > Module object files can contain an undefined reference to __this_module,
-> > which isn't resolved until we link the final .ko. The kernel doesn't
-> > export this symbol, so ignore it in gen_autoksyms.sh.
+> Hi,
 >
-> OK, I understand these two sentences.
->
-> > This avoids an
-> > unnecessary vmlinux rebuild with UNUSED_KSYMS_WHITELIST when we have a
-> > symbol list that already contains all the module dependencies.
-> >
->
-> I do not understand how this can happen.
->
->
-> Can you provide me steps to reproduce it?
+> This very small series allows -O3 to be used for all architectures. The
+> first patch marks -O3 as experimental, with the reasoning being that it
+> might expose unwanted regressions to users, and the second patch
+> actually allows -O3 by removing the "depend on ARC" string.
 
-This issue only happens when we have a whitelist that already contains
-all the symbols we need to export. As autoksyms.h contains all the
-necessary symbols in the initial vmlinux build, there should be no
-need to link vmlinux again. However, as the code is looking at
-undefined symbols in module .o files before __this_module is resolved,
-adjust_autoksyms.sh thinks that __this_module is still missing and
-triggers a rebuild, without actually changing anything.
+I think we should just remove -O3 support from KCONFIG.
 
-I suspect this isn't a common situation, but it does happen when
-building Android kernels, which specify a complete list of exported
-symbols. Linking vmlinux.o takes a while with LTO and we would like to
-avoid performing this step more than once.
+If someone wants to mess around with "experimental features," there's
+nothing stopping you from doing:
 
-Sami
+$ make KCFLAGS=-O3
+
+>
+> The reasoning behind this series is to open up -O3 so that bugs related
+> to it (both compiler-related and kernel-related) can be discovered by
+> eyeballs wanting to improve the "-O3 experience," as that might be
+> beneficial to both compilers and the kernel. This has been attempted
+> before [1], but unfortunately nothing ever came of it.
+>
+> [1] https://lore.kernel.org/lkml/20191211104619.114557-1-oleksandr@redhat.com/
+>
+> Cc: linux-kbuild@vger.kernel.org
+> Cc: x86@kernel.org
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Cc: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Cc: Sean Christopherson <seanjc@google.com>
+> Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Chris Down <chris@chrisdown.name>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: John Ogness <john.ogness@linutronix.de>
+> Cc: Elliot Berman <quic_eberman@quicinc.com>
+> Cc: Oleksandr Natalenko <oleksandr@redhat.com>
+>
+> Miko Larsson (2):
+>   Kconfig: Mark -O3 as experimental
+>   Kconfig: Allow -O3 for all architectures
+>
+>  init/Kconfig | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> --
+> 2.36.1
+>
+
+
+-- 
+Thanks,
+~Nick Desaulniers
