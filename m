@@ -2,108 +2,122 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD2B9552EDB
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jun 2022 11:41:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CFBD5533C2
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jun 2022 15:37:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349589AbiFUJlE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 21 Jun 2022 05:41:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52530 "EHLO
+        id S1351477AbiFUNhG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 21 Jun 2022 09:37:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349415AbiFUJkL (ORCPT
+        with ESMTP id S1351745AbiFUNge (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 21 Jun 2022 05:40:11 -0400
-Received: from mail-ua1-x932.google.com (mail-ua1-x932.google.com [IPv6:2607:f8b0:4864:20::932])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6378D27FCD
-        for <linux-kbuild@vger.kernel.org>; Tue, 21 Jun 2022 02:40:02 -0700 (PDT)
-Received: by mail-ua1-x932.google.com with SMTP id q1so4873404uao.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 21 Jun 2022 02:40:02 -0700 (PDT)
+        Tue, 21 Jun 2022 09:36:34 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E15A42C653;
+        Tue, 21 Jun 2022 06:35:23 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id w20so22379473lfa.11;
+        Tue, 21 Jun 2022 06:35:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=/0bRExIb6Mv4sy5raFRmeQINC+UUx7zEZcUUOWWOPJg=;
-        b=NKhg6kSkfnglJlsPDVUWhCY3Iibudx7OhZC5CePFgeNekYJKNrcmU8wB8gkktmjPqY
-         f0o4DET3nwW7oGb1WQAmWVCm6yLISrVrQXMY/9qoCppMNLX7K/jA/JZ+JMs1mNT38j+N
-         qSlM2vTiSOIkQo5cZ6oY4dkMVda7fWn0vzKRT295Q67AStI8u0BTanvw38uSxo4IMvFm
-         mtbeFJOQugEk6bmbrSLJZHxNWvSEoU0AT9TQz59V3jAGDZbWiI6U0Fx8UlroTYMr9wGQ
-         +xC78kHT5AZK7k/f6wmWhdDj3ThC5Cy20ctCKCcYvb/idPExEpgvQXB/UX/ziCu3vO07
-         Q2/g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pdZHMaX5g8pSHRD00mVKf06kitbS5gJvV25hf8xmhcY=;
+        b=KGdPBiADkqwDO4ovi6DPmn8ovwwpLdf559Qi1yyeLnI9/Y6NK7ikUSHZlcJOjVJ9Y4
+         /PusDag0pBT/sNjF3UP5Qi2Bori9lo5Mp04jAtCg6r4hrdueDc8yL9DxRFszbLrRZOM4
+         fu1tYDFLntWtwkI0n7pjFsTOkrnZmYQx7U/wNFXy5gmM36i8Qr7bjIdz+d67Ngr0FwjX
+         TBu0ev8ryJIY1HWFrI6XBh3Cs2fZ9Qbt2ZGgkIdYZqe18qeLqBNZ48mihxOyoYzMfSRE
+         R9Q+PBLOBDu1vTRwsj4t4/HOpq1Brk5usnVOjZhZhjUZ84jwQH1ETdr30TFkJh0UohMP
+         rP5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=/0bRExIb6Mv4sy5raFRmeQINC+UUx7zEZcUUOWWOPJg=;
-        b=bzd9nSNuTT+hlQjVowkIZhyXFnEUr44u5ncrIdo1KL1zjX4+cGNcDV9ElZ9d0qgwkV
-         LHbnO6jQ9lijwafBkWZPj0yM7KfA/32HcTxnOxYOJV8s6J7yvg9JV8xxayBQpPJoT0Ds
-         IuBk171Rc0FUWBXucrluLNrEDJ0ckdk0nZEeidPtnCZC8m74AwQHWdZ+R7Zp3MwRSs70
-         zTAS5/oGNOHtBe5p8eqYgCM5R32KppFrG/Xw0Rwwnq3a0gQWIwnrTUIq4tsJYs/QFZkc
-         w/8ZYE02M1JxqKUCuc7XGUep8oipAZf88uJAnHX8Dc7AqSrJQqj9WNbm3cQWylBcXhns
-         ZWTQ==
-X-Gm-Message-State: AJIora/V1Z/x7fG+ikuPZS+q9ZC5MGK1TBiKInO6ALsf3+DFra5kEeMj
-        jTyJoIytN16EHOreEjP19SGJI5Vz4xuwdfiVjZmsscFxIl/jwuQU
-X-Google-Smtp-Source: AGRyM1sTF/SvvxCyraPE52znD36ZX02jNmxmam87lP8bWzXT3yTfChS1a9JgJI9LjBXh9tpS4qLO5E/t+5efudcEruY=
-X-Received: by 2002:a0d:d7c7:0:b0:317:bfe8:4f2 with SMTP id
- z190-20020a0dd7c7000000b00317bfe804f2mr12417910ywd.276.1655804384555; Tue, 21
- Jun 2022 02:39:44 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pdZHMaX5g8pSHRD00mVKf06kitbS5gJvV25hf8xmhcY=;
+        b=ZLUcw5KRMTULX4DmeMRfjNfwb5ypp9enR2+UoN0LffXVoph2VOsSvQZBxQLGKNTXLA
+         uK3ngVYpHBOPwV6fXiVEuMINoRuYJ+gVvBWzFDjlRxrxrOltzy877mX+8rnXOW5YdmJO
+         kvUtRHLGxMcshVhtfktJdfYdq1q1ezmRIO4xB4txl6nGzoW/htAhkCCrXhuXRM2+sfTJ
+         9EBcvt8iGdvsDAgQy0/qy6qS/ZRfV0zsdgJTq2rWEaxgdyZdZSXfDV2j/a3ehKaHCJVE
+         ACY68wq9EbTl/cHSVcEVCEEZAfN9NY2mC+Ciii1gZu0qubSPLhx7lTi0bh/OxifJvOIv
+         Up/g==
+X-Gm-Message-State: AJIora9C9DDA0NwxJmY95zOwmtUKYx26LT9c34WieubN7QZcwAbOetZ2
+        AsmFK5MyghdvInKD9Ylqx/Ti2FidY11WJ2j7
+X-Google-Smtp-Source: AGRyM1vopnSAwZFPl55nQmKYmC1s2dCSyHZwZPrBjYQvxnkp9vIeFmAFt3gcVBU0zS2nPjXmygRWlA==
+X-Received: by 2002:a19:f207:0:b0:47f:6890:60b0 with SMTP id q7-20020a19f207000000b0047f689060b0mr7500033lfh.327.1655818522123;
+        Tue, 21 Jun 2022 06:35:22 -0700 (PDT)
+Received: from sakura.myxoz.lan (2-248-181-228-no2390.tbcn.telia.com. [2.248.181.228])
+        by smtp.gmail.com with ESMTPSA id a16-20020a19ca10000000b00478a8b7ab1csm347142lfg.150.2022.06.21.06.35.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jun 2022 06:35:21 -0700 (PDT)
+From:   Miko Larsson <mikoxyzzz@gmail.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Miko Larsson <mikoxyzzz@gmail.com>, linux-kbuild@vger.kernel.org,
+        x86@kernel.org, Nathan Chancellor <nathan@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Sean Christopherson <seanjc@google.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Chris Down <chris@chrisdown.name>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        John Ogness <john.ogness@linutronix.de>,
+        Elliot Berman <quic_eberman@quicinc.com>,
+        Oleksandr Natalenko <oleksandr@redhat.com>
+Subject: [PATCH 0/2] Kconfig: -O3 enablement 
+Date:   Tue, 21 Jun 2022 15:35:24 +0200
+Message-Id: <20220621133526.29662-1-mikoxyzzz@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Received: by 2002:a05:7010:e10a:b0:2d9:e631:94d0 with HTTP; Tue, 21 Jun 2022
- 02:39:44 -0700 (PDT)
-Reply-To: dimitryedik@gmail.com
-From:   Dimitry Edik <lsbthdwrds@gmail.com>
-Date:   Tue, 21 Jun 2022 02:39:44 -0700
-Message-ID: <CAGrL05aBO8rbFuij24J-APa+Luis69gEjhj35iv_GZfkHCVYDQ@mail.gmail.com>
-Subject: Dear Partner,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=7.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_MONEY_PERCENT,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,
-        UNDISC_MONEY autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:932 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [lsbthdwrds[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.2 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  2.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-        *  0.0 T_MONEY_PERCENT X% of a lot of money for you
-        *  2.0 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: *******
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello Dear,
+Hi,
 
-My Name is Dimitry Edik from Russia A special assistance to my Russia
-boss who deals in oil import and export He was killed by the Ukraine
-soldiers at the border side. He supplied
-oil to the Philippines company and he was paid over 90 per cent of the
-transaction and the remaining $18.6 Million dollars have been paid into a
-Taiwan bank in the Philippines..i want a partner that will assist me
-with the claims. Is a (DEAL ) 40% for you and 60% for me
-I have all information for the claims.
-Kindly read and reply to me back is 100 per cent risk-free
+This very small series allows -O3 to be used for all architectures. The
+first patch marks -O3 as experimental, with the reasoning being that it
+might expose unwanted regressions to users, and the second patch
+actually allows -O3 by removing the "depend on ARC" string.
 
-Yours Sincerely
-Dimitry Edik
+The reasoning behind this series is to open up -O3 so that bugs related
+to it (both compiler-related and kernel-related) can be discovered by
+eyeballs wanting to improve the "-O3 experience," as that might be
+beneficial to both compilers and the kernel. This has been attempted
+before [1], but unfortunately nothing ever came of it.
+
+[1] https://lore.kernel.org/lkml/20191211104619.114557-1-oleksandr@redhat.com/
+
+Cc: linux-kbuild@vger.kernel.org
+Cc: x86@kernel.org
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: Nick Desaulniers <ndesaulniers@google.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Sean Christopherson <seanjc@google.com>
+Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Chris Down <chris@chrisdown.name>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: John Ogness <john.ogness@linutronix.de>
+Cc: Elliot Berman <quic_eberman@quicinc.com>
+Cc: Oleksandr Natalenko <oleksandr@redhat.com>
+
+Miko Larsson (2):
+  Kconfig: Mark -O3 as experimental
+  Kconfig: Allow -O3 for all architectures
+
+ init/Kconfig | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+-- 
+2.36.1
+
