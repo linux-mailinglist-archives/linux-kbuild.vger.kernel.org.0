@@ -2,116 +2,133 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CB10552C16
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jun 2022 09:32:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD063552D3E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jun 2022 10:42:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347353AbiFUHcS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 21 Jun 2022 03:32:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60568 "EHLO
+        id S229709AbiFUImT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 21 Jun 2022 04:42:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344693AbiFUHb1 (ORCPT
+        with ESMTP id S1345991AbiFUImT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 21 Jun 2022 03:31:27 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B024E65E3;
-        Tue, 21 Jun 2022 00:30:13 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 5B2541F9C6;
-        Tue, 21 Jun 2022 07:30:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1655796612; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=U4DTymAJzJ+35tPlIxji4RhmkYgZWhkrVnEK1homBN0=;
-        b=xDXlEOxSp1VNq0dGCbuV8cBqopmOOBe+A2BB5vgty35t9Pc/P9Zy4i4FWvAzDXkWFKrVsH
-        pB3OKphPeQk5Zzg0nAX5T+R8q37T1TUR75oNH/oCzzYq2pELsarXQyJu0C2STfbnRBlrsk
-        YcOuN/YP1HGwMUimbind212F/PcAhB8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1655796612;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=U4DTymAJzJ+35tPlIxji4RhmkYgZWhkrVnEK1homBN0=;
-        b=hnBmxj3WK/dvg/U4SLwzrQISzWAXPwW72yyFMPep1j5ut5MiSRm/2ycY7Kw53Tm92v7F1T
-        uO3z7yVLSQtDwOAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 26E8613638;
-        Tue, 21 Jun 2022 07:30:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id 5lt1CIRzsWIJZwAAMHmgww
-        (envelope-from <jslaby@suse.cz>); Tue, 21 Jun 2022 07:30:12 +0000
-Message-ID: <14c9839b-c015-69c1-84f0-a99d03877005@suse.cz>
-Date:   Tue, 21 Jun 2022 09:30:11 +0200
+        Tue, 21 Jun 2022 04:42:19 -0400
+Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB44E26117;
+        Tue, 21 Jun 2022 01:42:17 -0700 (PDT)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 25L8ft8O031713;
+        Tue, 21 Jun 2022 17:41:56 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 25L8ft8O031713
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1655800917;
+        bh=EKHBbDTCPyvGCAQJZpjv49SkvfU2WO9PSidvTkgkPa0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=aJDmBgZYFDboHTyeZYL28qU2jAxDDsIlWeQi0Hl+uBvrc9PT1q4476UfA/R97wWbV
+         nqHqW6fr+3+mtHNCppsS/KHEjmJxkQ8zWPEm4LEbR/aJrjjOidwU2QHywYSFPL5ODZ
+         Cn72cFbENj1oXXzVNGcBslQhxQnohc4bWs14gK1ezrqtrtS9KfsqDLSp8+8Kr+HsLQ
+         SvEtpi/UebRNiwz8vuWriUB0lQBM6Q2Pawmt/g4O6d2lWWl0ap6Eprzj0Oa0ElFYNu
+         F2ezpQOksaCdjHE66MuFOZquc5kZimQoUxohTjDU9vQ0FZ3+34VbwSlqfVTjWTLP4A
+         diw3zCMb7gOQQ==
+X-Nifty-SrcIP: [209.85.128.51]
+Received: by mail-wm1-f51.google.com with SMTP id l2-20020a05600c4f0200b0039c55c50482so8943205wmq.0;
+        Tue, 21 Jun 2022 01:41:56 -0700 (PDT)
+X-Gm-Message-State: AOAM531oPk0CmPjl8ACilEhnbDpfZ2ILr8c7/c03/hwxo++FeSU2ufeK
+        9EAwvZRhtxDBjVdTzcO76ZXCRSvB2veWY9j/bgg=
+X-Google-Smtp-Source: ABdhPJzT56CBfFVMiC4fKwNOaeVVeGLbDxCuY2eZLPHge0iXXEIqIJIzyJsOyqSr7xxF9EPh6fyQIIXjd0V9tmmLoRc=
+X-Received: by 2002:a05:600c:a42:b0:39c:9086:8a34 with SMTP id
+ c2-20020a05600c0a4200b0039c90868a34mr38779379wmq.169.1655800915172; Tue, 21
+ Jun 2022 01:41:55 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
+References: <20220616104541.16289-1-jslaby@suse.cz> <CA+icZUW8O-HUSpw-656o6YZOiR2ZiCXjxsJwm2kctT6DHrs=4g@mail.gmail.com>
+ <CA+icZUV6bM2_jxyROK5B4XRid6fv8oX6YYNEdHUX8e_1OAdQYA@mail.gmail.com>
+ <CA+icZUUSTcrJqZB-gwNYt5objVg1J5+Ous6_hof0_A6eVCM-Kg@mail.gmail.com>
+ <CAKwvOdmb5xdF70TzNp=4STCpzkGh16FnuKE1KbdzDhHt=OuRFA@mail.gmail.com> <14c9839b-c015-69c1-84f0-a99d03877005@suse.cz>
+In-Reply-To: <14c9839b-c015-69c1-84f0-a99d03877005@suse.cz>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 21 Jun 2022 17:41:18 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS46hrVh3FNiHHL8_Hqp85VgWnsHyjQ4t-TFH_H344NOg@mail.gmail.com>
+Message-ID: <CAK7LNAS46hrVh3FNiHHL8_Hqp85VgWnsHyjQ4t-TFH_H344NOg@mail.gmail.com>
 Subject: Re: [PATCH] kbuild: pass jobserver to cmd_ld_vmlinux.o
-Content-Language: en-US
-To:     Nick Desaulniers <ndesaulniers@google.com>,
+To:     Jiri Slaby <jslaby@suse.cz>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         Sedat Dilek <sedat.dilek@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Nathan Chancellor <nathan@kernel.org>,
         Sami Tolvanen <samitolvanen@google.com>
-References: <20220616104541.16289-1-jslaby@suse.cz>
- <CA+icZUW8O-HUSpw-656o6YZOiR2ZiCXjxsJwm2kctT6DHrs=4g@mail.gmail.com>
- <CA+icZUV6bM2_jxyROK5B4XRid6fv8oX6YYNEdHUX8e_1OAdQYA@mail.gmail.com>
- <CA+icZUUSTcrJqZB-gwNYt5objVg1J5+Ous6_hof0_A6eVCM-Kg@mail.gmail.com>
- <CAKwvOdmb5xdF70TzNp=4STCpzkGh16FnuKE1KbdzDhHt=OuRFA@mail.gmail.com>
-From:   Jiri Slaby <jslaby@suse.cz>
-In-Reply-To: <CAKwvOdmb5xdF70TzNp=4STCpzkGh16FnuKE1KbdzDhHt=OuRFA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 17. 06. 22, 18:32, Nick Desaulniers wrote:
-> On Fri, Jun 17, 2022 at 3:35 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
->>
->> On Fri, Jun 17, 2022 at 12:53 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
->>>
->>> On Thu, Jun 16, 2022 at 4:09 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
->>>>
->>>> On Thu, Jun 16, 2022 at 12:45 PM Jiri Slaby <jslaby@suse.cz> wrote:
->>>>>
->>>>> Until the link-vmlinux.sh split (cf. the commit below), the linker was
->>>>> run with jobserver set in MAKEFLAGS. After the split, the command in
->>>>> Makefile.vmlinux_o is not prefixed by "+" anymore, so this information
->>>>> is lost.
->>>>>
->>>>> Restore it as linkers working in parallel (esp. the LTO ones) make a use
->>>>> of it.
-> 
-> TBH, I agree with Masahiro. I didn't understand this comment "esp. the
-> LTO ones."  Jiri, can you clarify what you mean here?
+On Tue, Jun 21, 2022 at 4:30 PM Jiri Slaby <jslaby@suse.cz> wrote:
+>
+> On 17. 06. 22, 18:32, Nick Desaulniers wrote:
+> > On Fri, Jun 17, 2022 at 3:35 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+> >>
+> >> On Fri, Jun 17, 2022 at 12:53 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+> >>>
+> >>> On Thu, Jun 16, 2022 at 4:09 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+> >>>>
+> >>>> On Thu, Jun 16, 2022 at 12:45 PM Jiri Slaby <jslaby@suse.cz> wrote:
+> >>>>>
+> >>>>> Until the link-vmlinux.sh split (cf. the commit below), the linker was
+> >>>>> run with jobserver set in MAKEFLAGS. After the split, the command in
+> >>>>> Makefile.vmlinux_o is not prefixed by "+" anymore, so this information
+> >>>>> is lost.
+> >>>>>
+> >>>>> Restore it as linkers working in parallel (esp. the LTO ones) make a use
+> >>>>> of it.
+> >
+> > TBH, I agree with Masahiro. I didn't understand this comment "esp. the
+> > LTO ones."  Jiri, can you clarify what you mean here?
+>
+> Sure. clang is not the only compiler/linker that can handle kernel ;).
+> So while rebasing gcc-LTO-kernel-patches to 5.19-rc (to upstream them
+> later), this broke. See:
+> https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=gcc/lto-wrapper.cc;h=26e06e77be4e0afb2bc3e913062a9c51cab5d205;hb=HEAD#l1336
+>
+> gcc really parses MAKEFLAGS and looks for "--jobserver-auth=" there, if
+> one passes specifies -flto=jobserver.
+>
+> thanks,
+> --
+> js
+> suse labs
 
-Sure. clang is not the only compiler/linker that can handle kernel ;). 
-So while rebasing gcc-LTO-kernel-patches to 5.19-rc (to upstream them 
-later), this broke. See:
-https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=gcc/lto-wrapper.cc;h=26e06e77be4e0afb2bc3e913062a9c51cab5d205;hb=HEAD#l1336
 
-gcc really parses MAKEFLAGS and looks for "--jobserver-auth=" there, if 
-one passes specifies -flto=jobserver.
 
-thanks,
+Then, this patch should go together (or after) the GCC LTO upstreaming.
+
+
+
+
+I still do not understand why you are patching the pre-modpost linking, though.
+
+In my understanding, Clang LTO and GCC LTO are implemented
+in different layers.
+
+Clang LTO is implemented in the linker (i.e. lld).
+
+In contrast,  GCC LTO is implemented in the compiler (i.e. gcc itself)
+The linker (i.e. BFD linker or Gold from GNU binutils project)
+is agnostic about LTO.
+
+
+Your are patching the relocatable link ($(LD) -r),
+but I could not find the code parsing jobserver-auth
+in the binutils-gdb repository.
+
+
+
+
+
 -- 
-js
-suse labs
+Best Regards
+Masahiro Yamada
