@@ -2,48 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7FE15588F8
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Jun 2022 21:33:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55DC7558978
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Jun 2022 21:45:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231547AbiFWTdU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 23 Jun 2022 15:33:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54358 "EHLO
+        id S230496AbiFWToN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 23 Jun 2022 15:44:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232332AbiFWTc4 (ORCPT
+        with ESMTP id S230526AbiFWToB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 23 Jun 2022 15:32:56 -0400
-Received: from conuserg-07.nifty.com (conuserg-07.nifty.com [210.131.2.74])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01A0744751;
-        Thu, 23 Jun 2022 12:13:23 -0700 (PDT)
-Received: from localhost.localdomain (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 25NJC0li007138;
-        Fri, 24 Jun 2022 04:12:00 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 25NJC0li007138
+        Thu, 23 Jun 2022 15:44:01 -0400
+Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 289624F9E3;
+        Thu, 23 Jun 2022 12:35:42 -0700 (PDT)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 25NJZAiJ026139;
+        Fri, 24 Jun 2022 04:35:11 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 25NJZAiJ026139
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1656011521;
-        bh=mZGio26TLh9bx4bTM660/GNv2IG4KQEPMVRi+axAaKM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=yopBilnRtVCQ+3lyWesXAY13fIMfB5vxjtTZB5AeiGdOqJx/BCzcTozE4udtXQiJs
-         LuUvLsLIrSasfup4/sHXWup7RfQEj6IRO0dJxexI3U1HEPYn0WNWUS3a6fgOBbtNod
-         AZZrhVWw9BI6y5ED+Ns2+fQwTGI3I25+CNEV+zWZ/dn8fZpcx4SZ24cAklrgCq4cAL
-         iwSC/3zHxgxYeIg+WfZXRVRyi+vs/hxR/3u845B4qnAgNaSTK8z3uEVzIBwZss78f1
-         hSYzxrwVxf8I29EsoWas9FJ94vIc21p6wQrpa4/nGx7bFlKqMbQd6vhrXgDDvzNI/H
-         eyJ5Hz7xCRycQ==
-X-Nifty-SrcIP: [133.32.177.133]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Sami Tolvanen <samitolvanen@google.com>,
-        linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Pitre <nico@fluxnic.net>
-Subject: [PATCH] kbuild: link vmlinux only once for CONFIG_TRIM_UNUSED_KSYMS (2nd attempt)
-Date:   Fri, 24 Jun 2022 04:11:47 +0900
-Message-Id: <20220623191147.1916067-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.34.1
+        s=dec2015msa; t=1656012911;
+        bh=pEL1WpSAMyD9mSY4a16U3Cj3+7K9DHBU8p8yE5/Cd+M=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Sdy61U8S1Mu+wzsbo79yD/KwiVM9vgopBQ9Z2NbvOlwcpawkA3a7xy0iEOEDeGPF7
+         /2bi6nQmF6xTOlzE0PA0Yj+qZH777RpcOE7gTfR+BPYphWq2y3B/jpo6iVeUdoCMWo
+         rs8RvCcEwQ1gUHgcVw1zWbbWzHTD181NghhQXuNwNxatWSFODy1FHw5BjDiO9Up3do
+         OlZEX4scuTO6xDmeT4dr0bEcFp7qscIOmSrZ9985Syau9p9BQnWKqWUPTXuyrx6bmg
+         mPmfFYTxzgRIICm5jDYcWBW0qVtAhaRtpHsrkU7TMqVXRnl9hoIdvyw7o3TLuDVAgi
+         /pTtygIPHwYKg==
+X-Nifty-SrcIP: [209.85.221.43]
+Received: by mail-wr1-f43.google.com with SMTP id q9so212873wrd.8;
+        Thu, 23 Jun 2022 12:35:10 -0700 (PDT)
+X-Gm-Message-State: AJIora/RI2JdJxw2SiRbGGzKltZTbs76FY91IhbK6WF2zoog/shN7USv
+        pufKEqmraQiXEcPaXQOtuSFjPFsT8JAAaMCc570=
+X-Google-Smtp-Source: AGRyM1srspw7EU7Xm6FsPrhI/NLmn/WuKT0VLoKcN/Mob1luYu0IWi9h8tBScStCWHAgSQBNK+67fnFqeVBqJEJupxs=
+X-Received: by 2002:a5d:5e92:0:b0:21a:278c:b901 with SMTP id
+ ck18-20020a5d5e92000000b0021a278cb901mr9825142wrb.461.1656012909393; Thu, 23
+ Jun 2022 12:35:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220616195759.3214538-1-samitolvanen@google.com>
+ <CAK7LNARAAdWPxaMWawQf5Y4kYJ065OMtvrnUaHkjCquL_BZYYQ@mail.gmail.com> <CABCJKudwqKOGfE0Ha9b8DXaZ23bvKk+DhdVbJHoLneV5zJaZzQ@mail.gmail.com>
+In-Reply-To: <CABCJKudwqKOGfE0Ha9b8DXaZ23bvKk+DhdVbJHoLneV5zJaZzQ@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 24 Jun 2022 04:34:27 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQXFjoS70nvBRiwFA46qLhCDG52x=MzXqBEc3cUaxYkcw@mail.gmail.com>
+Message-ID: <CAK7LNAQXFjoS70nvBRiwFA46qLhCDG52x=MzXqBEc3cUaxYkcw@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Ignore __this_module in gen_autoksyms.sh
+To:     Sami Tolvanen <samitolvanen@google.com>
+Cc:     Nicolas Schier <nicolas@fjasle.eu>,
+        Alexander Lobakin <alobakin@pm.me>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Steve Muckle <smuckle@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
@@ -53,46 +64,61 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-If CONFIG_TRIM_UNUSED_KSYMS is enabled and the kernel is built from
-a pristine state, the vmlinux is linked twice.
+On Wed, Jun 22, 2022 at 12:37 AM Sami Tolvanen <samitolvanen@google.com> wrote:
+>
+> On Sat, Jun 18, 2022 at 4:01 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > On Fri, Jun 17, 2022 at 4:58 AM Sami Tolvanen <samitolvanen@google.com> wrote:
+> > >
+> > > Module object files can contain an undefined reference to __this_module,
+> > > which isn't resolved until we link the final .ko. The kernel doesn't
+> > > export this symbol, so ignore it in gen_autoksyms.sh.
+> >
+> > OK, I understand these two sentences.
+> >
+> > > This avoids an
+> > > unnecessary vmlinux rebuild with UNUSED_KSYMS_WHITELIST when we have a
+> > > symbol list that already contains all the module dependencies.
+> > >
+> >
+> > I do not understand how this can happen.
+> >
+> >
+> > Can you provide me steps to reproduce it?
+>
+> This issue only happens when we have a whitelist that already contains
+> all the symbols we need to export. As autoksyms.h contains all the
+> necessary symbols in the initial vmlinux build, there should be no
+> need to link vmlinux again. However, as the code is looking at
+> undefined symbols in module .o files before __this_module is resolved,
+> adjust_autoksyms.sh thinks that __this_module is still missing and
+> triggers a rebuild, without actually changing anything.
+>
+> I suspect this isn't a common situation, but it does happen when
+> building Android kernels, which specify a complete list of exported
+> symbols. Linking vmlinux.o takes a while with LTO and we would like to
+> avoid performing this step more than once.
+>
+> Sami
 
-Commit 3fdc7d3fe4c0 ("kbuild: link vmlinux only once for
-CONFIG_TRIM_UNUSED_KSYMS") explains why this happens, but it did not fix
-the issue at all.
+Thanks, confirmed.
 
-Now I realized I had applied a wrong patch.
+But, this patch does not shoot the root cause.
+The relink of vmlinux should not happen irrespective of
+UNUSED_KSYMS_WHITELIST.
 
-In v1 patch [1], the autoksyms_recursive target correctly recurses to
-"$(MAKE) -f $(srctree)/Makefile autoksyms_recursive".
 
-In v2 patch [2], I accidentally dropped the diff line, and it recurses to
-"$(MAKE) -f $(srctree)/Makefile vmlinux".
+I thought I had fixed this issue long time before, but
+actually didn't due to my mistake in
+commit 3fdc7d3fe4c0 ("kbuild: link vmlinux only once for
+CONFIG_TRIM_UNUSED_KSYMS").
 
-Restore the code I intended in v1.
 
-[1]: https://lore.kernel.org/linux-kbuild/1521045861-22418-8-git-send-email-yamada.masahiro@socionext.com/
-[2]: https://lore.kernel.org/linux-kbuild/1521166725-24157-8-git-send-email-yamada.masahiro@socionext.com/
+I will pick up this patch anyway, but the re-link of vmlinux
+should be addressed by the other patch.
 
-Fixes: 3fdc7d3fe4c0 ("kbuild: link vmlinux only once for CONFIG_TRIM_UNUSED_KSYMS")
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Makefile b/Makefile
-index 513c1fbf7888..a3ff166c5035 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1141,7 +1141,7 @@ KBUILD_MODULES := 1
- 
- autoksyms_recursive: descend modules.order
- 	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/adjust_autoksyms.sh \
--	  "$(MAKE) -f $(srctree)/Makefile vmlinux"
-+	  "$(MAKE) -f $(srctree)/Makefile autoksyms_recursive"
- endif
- 
- autoksyms_h := $(if $(CONFIG_TRIM_UNUSED_KSYMS), include/generated/autoksyms.h)
 -- 
-2.34.1
-
+Best Regards
+Masahiro Yamada
