@@ -2,43 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CFE9558776
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Jun 2022 20:27:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81A395587C0
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Jun 2022 20:40:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233020AbiFWS1M (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 23 Jun 2022 14:27:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39096 "EHLO
+        id S232452AbiFWSks (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 23 Jun 2022 14:40:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237203AbiFWS0v (ORCPT
+        with ESMTP id S232542AbiFWSkj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 23 Jun 2022 14:26:51 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFD9E12AAD;
-        Thu, 23 Jun 2022 10:27:49 -0700 (PDT)
-Received: from mail-yb1-f177.google.com ([209.85.219.177]) by
- mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MIdS1-1nqOOc3dJN-00Ecgv; Thu, 23 Jun 2022 19:27:48 +0200
-Received: by mail-yb1-f177.google.com with SMTP id 15so247910ybc.2;
-        Thu, 23 Jun 2022 10:27:47 -0700 (PDT)
-X-Gm-Message-State: AJIora8RZpDd+59VbRnMN/KVRZXiNQaIKsAOheSqMW+wYkB1cUNpHNfZ
-        Vw7IRO0bU0HX5nRDiiE/iLW1IYnc/nHLNPRZw2E=
-X-Google-Smtp-Source: AGRyM1sXbb09Op2pKcfwN6L4Ch/Q1/ff1/rtYtQX7EpRNhlw5gpcBOXG6GSX/Y4gtaFZA0hA29oa5+K8UMCqojOyXHY=
-X-Received: by 2002:a25:86cf:0:b0:669:b4e7:7723 with SMTP id
- y15-20020a2586cf000000b00669b4e77723mr2373815ybm.106.1656005266613; Thu, 23
- Jun 2022 10:27:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220621133526.29662-1-mikoxyzzz@gmail.com> <CAKwvOd=Bmu40+_11GOBTeJBjToUf0LNG_RX0RiLcRLimUUkgcw@mail.gmail.com>
- <CAK7LNAT3FrpLnhSgfTo5bxk-9cHm6g1ti58wSY6W-fxMx+mUrA@mail.gmail.com>
-In-Reply-To: <CAK7LNAT3FrpLnhSgfTo5bxk-9cHm6g1ti58wSY6W-fxMx+mUrA@mail.gmail.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 23 Jun 2022 19:27:29 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2SkawPCtBgm4J9rUawRYa1CT_-BqTbdE-SUUa=9VC2pg@mail.gmail.com>
-Message-ID: <CAK8P3a2SkawPCtBgm4J9rUawRYa1CT_-BqTbdE-SUUa=9VC2pg@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Kconfig: -O3 enablement
+        Thu, 23 Jun 2022 14:40:39 -0400
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB960DE939;
+        Thu, 23 Jun 2022 10:44:03 -0700 (PDT)
+Received: by mail-lj1-x236.google.com with SMTP id n15so12550951ljg.8;
+        Thu, 23 Jun 2022 10:44:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=kLUchrIOubSs10x5xtiDZcRvEe4xc2YtaLT4q8v3KIc=;
+        b=HoyHPkXcI6iJBV1lvnAjM0fOa/XVWhe7zBsqVuDWL78EzMB3yfd2EoJe0Rd4CN4cBb
+         9/5z0w0Sr949FJSwskmtonupgvM7FbBB4KFcUMvhWeTJ3gt4OXNgs3LPlFpTj1T2ZR6N
+         xIP+4x3W9NE+SDa3wO3K0N4iyDYOCYWxp1S1nzACvfrzKCkNudEEUsyzZU7X6Eqru2gC
+         DMrr6ayRkLnirAEeIAwc7EfXqQGc74kLi8xbP6wecJA6ug/+19D5jp8OPsKNcuahGdFg
+         LgaUyuGh/t9LR/6MCohaIqhI/QVhACp49G27yLsJxGlCVaPfnqtWnhdcH/t1qQGU4BEE
+         DmwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=kLUchrIOubSs10x5xtiDZcRvEe4xc2YtaLT4q8v3KIc=;
+        b=oXmKbzoy3HLm858B2/TTHJ+zMqXYPHr55S18iECJLj/83G4sszYl0umr+RzLmurfcC
+         Ev1M0NVEwAPsxOkUAgsPrb16ZpVseoi7pk8HV+U4sDW1LV81MsyY0cg4kYjEa6qnTrer
+         gEFrVnN8t4R9MGbeF9XLDqWDYLRQMNb6MZ6PexV7QApSC5UCZR4R87sVRnWOcKHMC0BB
+         hcjdApQbxPrUalf/vw73lEBOwGHv+EKY8EEcDUliqHwkEuXcM0EzNMK//FsI1ogmv6QG
+         mG1YOfDpvy4KfDzKB66J0tXqZPVF3xCxTdxDkvrUsnhs2LO+BPbOh1FHEGD4PqV9qvtP
+         REww==
+X-Gm-Message-State: AJIora8N1Jca+lFcWI3OGJaO3L6oJeMl48QldZi1M2yUUT5gNbkw0C8L
+        91ydYhE+mJVRp4h+Y9VrDa0=
+X-Google-Smtp-Source: AGRyM1sw3nkreR+af3BGIXfmPlInMWhWOBgFsXexGlQHCAxWOgx4Qj+rYioCaAVPEd17nNChvoqpeg==
+X-Received: by 2002:a05:651c:1202:b0:25a:6096:bd7e with SMTP id i2-20020a05651c120200b0025a6096bd7emr5308591lja.304.1656006241352;
+        Thu, 23 Jun 2022 10:44:01 -0700 (PDT)
+Received: from sakura.myxoz.lan (2-248-181-228-no2390.tbcn.telia.com. [2.248.181.228])
+        by smtp.gmail.com with ESMTPSA id h10-20020a056512054a00b0047f834120a3sm1139273lfl.33.2022.06.23.10.44.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jun 2022 10:44:01 -0700 (PDT)
+From:   Miko Larsson <mikoxyzzz@gmail.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         LKML <linux-kernel@vger.kernel.org>,
-        Miko Larsson <mikoxyzzz@gmail.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
@@ -53,25 +66,17 @@ Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         John Ogness <john.ogness@linutronix.de>,
         Elliot Berman <quic_eberman@quicinc.com>,
         Oleksandr Natalenko <oleksandr@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:Cyi0DH3Ra8ysKGtDX+mBsA7v5zjRM8tFt84HZmMpMjGHJWhDpcX
- pGMpm8I6Qnt0Ze+QaYri7NRakaZiRR+n51HZxxV/t1hDj9oVjM/5QsxFz5cDdvekJF9AlCk
- 9tHg1ZJM+XyGrpZduFckyIg5FMeNSWnnATQ+ehbMER06fLl2K2gvlGCXtnflXJWQ6SRvu1E
- CxO7ed1f6WeJCRNlb4eCA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:MROt+qzB0Jw=:AQDMG/uxv0QsQ50AHf4NWn
- Mlkhoi8K1LczfCGgEhI12c3p1RcrK4M2axDBr68sPCExEgW+prjyu+64+ECRABGMV5nhUNeyG
- WwvcPHQhkcIGK9Qr8/1S0q5XAamFaWSDfE82ODrgkcIlemuvwZ05hS0Mh+eXHV/40ZE8EWGSe
- YV7IDSkUjSXgHlgWPi2vKN8//yclP9I0Zg0dFY7gpi0w1cOOuA+1RNDj1qndxLUb/nHT3tv1R
- NMV/uRnQBDibBJfqsAH6ifnlJ86xtrSnGUWeNyPD8ghUF3lAm0n377ZpDFrfTfrz9zIeX/HE8
- S0Lt5UU70IzKpfExW6o8PX0V7sNonCwwMEawMblH/ounOR5qH3e7xHcz+k3PODrz2pBA+SAUY
- KniHnKtuDAJny3EQztwyA13D/2yhLigryaVTxi4qeQJns/4iv/xPtUmg1I7iQ1bJKpMf2zDgp
- jDOw8EG6P5ZPGo52Zb4JQyYg/J5SljDKV5iPsw/LFOsfWkAVo2Z3G/qhbTn1/yv9JeYT+2lZV
- 8MFnRjVR/71YHwUdqvelsOnYglNf0FgzRNvSpSouuKtwYAQRCckZmhbVnqMvZccRXR0j2CBiD
- 9zxxAvwwqb8RtrlEGkZ88/EcTgB1VhHJuO1XJOd9ah5Gd0IY20GQ8WvS8rhFbFUpAPfqgly18
- rg0sSXUXpT/RYErkW1ThMMI8Hjq7EB4pbqSa3gjGBNZH+4A2hMqQ7wG083nyrHLnSOLEjYPva
- 2A9jTSnFrZYTHrz3K6evQKo3NfpyXQGKyGHJAQ==
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+Subject: Re: [PATCH 0/2] Kconfig: -O3 enablement
+Date:   Thu, 23 Jun 2022 19:44:10 +0200
+Message-ID: <4765633.31r3eYUQgx@sakura.myxoz.lan>
+In-Reply-To: <CAK7LNAQ_4QUfBxRu2HpPS99Ay7JTcqFTHsrBmrPk+d8So5tjOQ@mail.gmail.com>
+References: <20220621133526.29662-1-mikoxyzzz@gmail.com> <2650588.mvXUDI8C0e@sakura.myxoz.lan> <CAK7LNAQ_4QUfBxRu2HpPS99Ay7JTcqFTHsrBmrPk+d8So5tjOQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,50 +84,46 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jun 22, 2022 at 3:57 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> On Wed, Jun 22, 2022 at 1:17 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
-> >
-> > On Tue, Jun 21, 2022 at 6:35 AM Miko Larsson <mikoxyzzz@gmail.com> wrote:
-> > >
-> > > Hi,
-> > >
-> > > This very small series allows -O3 to be used for all architectures. The
-> > > first patch marks -O3 as experimental, with the reasoning being that it
-> > > might expose unwanted regressions to users, and the second patch
-> > > actually allows -O3 by removing the "depend on ARC" string.
-> >
-> > I think we should just remove -O3 support from KCONFIG.
-
-I agree that would be best
-
-> > If someone wants to mess around with "experimental features," there's
-> > nothing stopping you from doing:
-> >
-> > $ make KCFLAGS=-O3
-> >
+On Thursday, 23 June 2022 19:15:14 CEST Masahiro Yamada wrote:
+> On Fri, Jun 24, 2022 at 2:00 AM Miko Larsson <mikoxyzzz@gmail.com> wrote:
+> > On Thursday, 23 June 2022 17:44:57 CEST Masahiro Yamada wrote:
+> > > On Fri, Jun 24, 2022 at 12:42 AM Miko Larsson <mikoxyzzz@gmail.com> 
+wrote:
+> > > > On Wednesday, 22 June 2022 03:57:34 CEST Masahiro Yamada wrote:
+> > > > > If you want to say "use this option carefully",
+> > > > > EXPERT might be another option.
+> > > > > 
+> > > > >     depends on ARC || EXPERT
+> > > > 
+> > > > Yeah, this would be a fair compromise, though I think it would be
+> > > > better to use "visible if" instead of "depends on". I can get a v2 of
+> > > > the series together if this is desired.
+> > > 
+> > > Why is "visible if" better than "depends on"?
+> > 
+> > Technically it most likely doesn't matter, but logically it makes more
+> > sense, since we'd make CC_OPTIMIZE_FOR_PERFORMANCE_O3 be visible if
+> > we're on ARC or if we have EXPERT enabled, instead of depending on
+> > them. But yeah, it probably doesn't matter.
+> 
+> Did you write and test the code?
 >
-> ARC uses -O3 since day1.
+
+Admittedly, I didn't, since I had falsely assumed that "visible if" was
+just an "alternative" to "depends on".
+
+> "visible if" is only supported for "menu".
+> This is clearly documented at line 207
+> of Documentation/kbuild/kconfig-language.rst
+> 
+> 
+> Using "visible if" for config entry will just
+> result in the syntax error.
 >
-> "Generic build system uses -O2, we want -O3"
-> in commit cfdbc2e16e65c1ec1c23057640607cee98d1a1bd
->
-> If they want -O3, it is up to the ARC maintainer.
 
-I suppose whatever the reason for using -O3 at the time has
-likely changed by now.
+Oops, yeah, I wasn't aware of this. Sorry.
 
-> If you want to say "use this option carefully",
-> EXPERT might be another option.
->
->     depends on ARC || EXPERT
+--
+~miko
 
-This probably also needs a dependency on !COMPILE_TEST so we don't
-report compile-time problems that are specific to -O3. Maybe a good first
-step would be to turn this into
 
-      depends on ARCH && EXPERT && !COMPILE_TEST
-
-which should help both with compile-testing on ARC, and it would
-prevent it from being visible on other architectures.
-
-        Arnd
