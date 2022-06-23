@@ -2,128 +2,97 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 81A395587C0
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Jun 2022 20:40:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7FE15588F8
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Jun 2022 21:33:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232452AbiFWSks (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 23 Jun 2022 14:40:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53658 "EHLO
+        id S231547AbiFWTdU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 23 Jun 2022 15:33:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232542AbiFWSkj (ORCPT
+        with ESMTP id S232332AbiFWTc4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 23 Jun 2022 14:40:39 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB960DE939;
-        Thu, 23 Jun 2022 10:44:03 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id n15so12550951ljg.8;
-        Thu, 23 Jun 2022 10:44:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=kLUchrIOubSs10x5xtiDZcRvEe4xc2YtaLT4q8v3KIc=;
-        b=HoyHPkXcI6iJBV1lvnAjM0fOa/XVWhe7zBsqVuDWL78EzMB3yfd2EoJe0Rd4CN4cBb
-         9/5z0w0Sr949FJSwskmtonupgvM7FbBB4KFcUMvhWeTJ3gt4OXNgs3LPlFpTj1T2ZR6N
-         xIP+4x3W9NE+SDa3wO3K0N4iyDYOCYWxp1S1nzACvfrzKCkNudEEUsyzZU7X6Eqru2gC
-         DMrr6ayRkLnirAEeIAwc7EfXqQGc74kLi8xbP6wecJA6ug/+19D5jp8OPsKNcuahGdFg
-         LgaUyuGh/t9LR/6MCohaIqhI/QVhACp49G27yLsJxGlCVaPfnqtWnhdcH/t1qQGU4BEE
-         DmwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=kLUchrIOubSs10x5xtiDZcRvEe4xc2YtaLT4q8v3KIc=;
-        b=oXmKbzoy3HLm858B2/TTHJ+zMqXYPHr55S18iECJLj/83G4sszYl0umr+RzLmurfcC
-         Ev1M0NVEwAPsxOkUAgsPrb16ZpVseoi7pk8HV+U4sDW1LV81MsyY0cg4kYjEa6qnTrer
-         gEFrVnN8t4R9MGbeF9XLDqWDYLRQMNb6MZ6PexV7QApSC5UCZR4R87sVRnWOcKHMC0BB
-         hcjdApQbxPrUalf/vw73lEBOwGHv+EKY8EEcDUliqHwkEuXcM0EzNMK//FsI1ogmv6QG
-         mG1YOfDpvy4KfDzKB66J0tXqZPVF3xCxTdxDkvrUsnhs2LO+BPbOh1FHEGD4PqV9qvtP
-         REww==
-X-Gm-Message-State: AJIora8N1Jca+lFcWI3OGJaO3L6oJeMl48QldZi1M2yUUT5gNbkw0C8L
-        91ydYhE+mJVRp4h+Y9VrDa0=
-X-Google-Smtp-Source: AGRyM1sw3nkreR+af3BGIXfmPlInMWhWOBgFsXexGlQHCAxWOgx4Qj+rYioCaAVPEd17nNChvoqpeg==
-X-Received: by 2002:a05:651c:1202:b0:25a:6096:bd7e with SMTP id i2-20020a05651c120200b0025a6096bd7emr5308591lja.304.1656006241352;
-        Thu, 23 Jun 2022 10:44:01 -0700 (PDT)
-Received: from sakura.myxoz.lan (2-248-181-228-no2390.tbcn.telia.com. [2.248.181.228])
-        by smtp.gmail.com with ESMTPSA id h10-20020a056512054a00b0047f834120a3sm1139273lfl.33.2022.06.23.10.44.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jun 2022 10:44:01 -0700 (PDT)
-From:   Miko Larsson <mikoxyzzz@gmail.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Sean Christopherson <seanjc@google.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Chris Down <chris@chrisdown.name>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        John Ogness <john.ogness@linutronix.de>,
-        Elliot Berman <quic_eberman@quicinc.com>,
-        Oleksandr Natalenko <oleksandr@redhat.com>
-Subject: Re: [PATCH 0/2] Kconfig: -O3 enablement
-Date:   Thu, 23 Jun 2022 19:44:10 +0200
-Message-ID: <4765633.31r3eYUQgx@sakura.myxoz.lan>
-In-Reply-To: <CAK7LNAQ_4QUfBxRu2HpPS99Ay7JTcqFTHsrBmrPk+d8So5tjOQ@mail.gmail.com>
-References: <20220621133526.29662-1-mikoxyzzz@gmail.com> <2650588.mvXUDI8C0e@sakura.myxoz.lan> <CAK7LNAQ_4QUfBxRu2HpPS99Ay7JTcqFTHsrBmrPk+d8So5tjOQ@mail.gmail.com>
+        Thu, 23 Jun 2022 15:32:56 -0400
+Received: from conuserg-07.nifty.com (conuserg-07.nifty.com [210.131.2.74])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01A0744751;
+        Thu, 23 Jun 2022 12:13:23 -0700 (PDT)
+Received: from localhost.localdomain (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id 25NJC0li007138;
+        Fri, 24 Jun 2022 04:12:00 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 25NJC0li007138
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1656011521;
+        bh=mZGio26TLh9bx4bTM660/GNv2IG4KQEPMVRi+axAaKM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=yopBilnRtVCQ+3lyWesXAY13fIMfB5vxjtTZB5AeiGdOqJx/BCzcTozE4udtXQiJs
+         LuUvLsLIrSasfup4/sHXWup7RfQEj6IRO0dJxexI3U1HEPYn0WNWUS3a6fgOBbtNod
+         AZZrhVWw9BI6y5ED+Ns2+fQwTGI3I25+CNEV+zWZ/dn8fZpcx4SZ24cAklrgCq4cAL
+         iwSC/3zHxgxYeIg+WfZXRVRyi+vs/hxR/3u845B4qnAgNaSTK8z3uEVzIBwZss78f1
+         hSYzxrwVxf8I29EsoWas9FJ94vIc21p6wQrpa4/nGx7bFlKqMbQd6vhrXgDDvzNI/H
+         eyJ5Hz7xCRycQ==
+X-Nifty-SrcIP: [133.32.177.133]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Sami Tolvanen <samitolvanen@google.com>,
+        linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Pitre <nico@fluxnic.net>
+Subject: [PATCH] kbuild: link vmlinux only once for CONFIG_TRIM_UNUSED_KSYMS (2nd attempt)
+Date:   Fri, 24 Jun 2022 04:11:47 +0900
+Message-Id: <20220623191147.1916067-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thursday, 23 June 2022 19:15:14 CEST Masahiro Yamada wrote:
-> On Fri, Jun 24, 2022 at 2:00 AM Miko Larsson <mikoxyzzz@gmail.com> wrote:
-> > On Thursday, 23 June 2022 17:44:57 CEST Masahiro Yamada wrote:
-> > > On Fri, Jun 24, 2022 at 12:42 AM Miko Larsson <mikoxyzzz@gmail.com> 
-wrote:
-> > > > On Wednesday, 22 June 2022 03:57:34 CEST Masahiro Yamada wrote:
-> > > > > If you want to say "use this option carefully",
-> > > > > EXPERT might be another option.
-> > > > > 
-> > > > >     depends on ARC || EXPERT
-> > > > 
-> > > > Yeah, this would be a fair compromise, though I think it would be
-> > > > better to use "visible if" instead of "depends on". I can get a v2 of
-> > > > the series together if this is desired.
-> > > 
-> > > Why is "visible if" better than "depends on"?
-> > 
-> > Technically it most likely doesn't matter, but logically it makes more
-> > sense, since we'd make CC_OPTIMIZE_FOR_PERFORMANCE_O3 be visible if
-> > we're on ARC or if we have EXPERT enabled, instead of depending on
-> > them. But yeah, it probably doesn't matter.
-> 
-> Did you write and test the code?
->
+If CONFIG_TRIM_UNUSED_KSYMS is enabled and the kernel is built from
+a pristine state, the vmlinux is linked twice.
 
-Admittedly, I didn't, since I had falsely assumed that "visible if" was
-just an "alternative" to "depends on".
+Commit 3fdc7d3fe4c0 ("kbuild: link vmlinux only once for
+CONFIG_TRIM_UNUSED_KSYMS") explains why this happens, but it did not fix
+the issue at all.
 
-> "visible if" is only supported for "menu".
-> This is clearly documented at line 207
-> of Documentation/kbuild/kconfig-language.rst
-> 
-> 
-> Using "visible if" for config entry will just
-> result in the syntax error.
->
+Now I realized I had applied a wrong patch.
 
-Oops, yeah, I wasn't aware of this. Sorry.
+In v1 patch [1], the autoksyms_recursive target correctly recurses to
+"$(MAKE) -f $(srctree)/Makefile autoksyms_recursive".
 
---
-~miko
+In v2 patch [2], I accidentally dropped the diff line, and it recurses to
+"$(MAKE) -f $(srctree)/Makefile vmlinux".
 
+Restore the code I intended in v1.
+
+[1]: https://lore.kernel.org/linux-kbuild/1521045861-22418-8-git-send-email-yamada.masahiro@socionext.com/
+[2]: https://lore.kernel.org/linux-kbuild/1521166725-24157-8-git-send-email-yamada.masahiro@socionext.com/
+
+Fixes: 3fdc7d3fe4c0 ("kbuild: link vmlinux only once for CONFIG_TRIM_UNUSED_KSYMS")
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index 513c1fbf7888..a3ff166c5035 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1141,7 +1141,7 @@ KBUILD_MODULES := 1
+ 
+ autoksyms_recursive: descend modules.order
+ 	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/adjust_autoksyms.sh \
+-	  "$(MAKE) -f $(srctree)/Makefile vmlinux"
++	  "$(MAKE) -f $(srctree)/Makefile autoksyms_recursive"
+ endif
+ 
+ autoksyms_h := $(if $(CONFIG_TRIM_UNUSED_KSYMS), include/generated/autoksyms.h)
+-- 
+2.34.1
 
