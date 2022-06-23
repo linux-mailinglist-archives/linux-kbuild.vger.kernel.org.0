@@ -2,69 +2,69 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A0BBE558991
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Jun 2022 21:51:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91FD055899E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Jun 2022 21:58:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229826AbiFWTvA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 23 Jun 2022 15:51:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51928 "EHLO
+        id S229669AbiFWT6p (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 23 Jun 2022 15:58:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229728AbiFWTu5 (ORCPT
+        with ESMTP id S229527AbiFWT6o (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 23 Jun 2022 15:50:57 -0400
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 684BC13B
-        for <linux-kbuild@vger.kernel.org>; Thu, 23 Jun 2022 12:50:56 -0700 (PDT)
-Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-3176b6ed923so4515657b3.11
-        for <linux-kbuild@vger.kernel.org>; Thu, 23 Jun 2022 12:50:56 -0700 (PDT)
+        Thu, 23 Jun 2022 15:58:44 -0400
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DE953389A
+        for <linux-kbuild@vger.kernel.org>; Thu, 23 Jun 2022 12:58:43 -0700 (PDT)
+Received: by mail-lj1-x236.google.com with SMTP id c30so370101ljr.9
+        for <linux-kbuild@vger.kernel.org>; Thu, 23 Jun 2022 12:58:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=A0c0cqma89+9GUKY/iVUbbVU1cNPUk0oJ5cVoRl/jck=;
-        b=ZyyNFMRx5E/9vt53oa8zxARaSY/cuXaXex0tUYjxfFMVjar+zI2VF0BhKLrJb7oK39
-         CYgTLmmqeQ+sWk0jH1Bcj78r3PASgzRRZy2XLkpZ8qiChRHGj2+hb4vNUUVT1INj8yA6
-         LT1EPXm7Cul0FfmXNy/6qvRJyCF6EtUorIhTRySZqmOZ8ZIGWZoaAmrqdFylW8YNttUj
-         M9TWmpBtuLJxaI9V0RbPatHmrILiHD/rJUrbsE/zYlY6oHeeK2gKAN7lzpvhoofhDlxg
-         Zk4AEK0cpx1IwnW+3LJRs8qcK52k+sP9i0PTMtVIm56LBPuC7Ozz4FMiUvfSQqEL7Li1
-         lc2Q==
+        bh=YZmdOLUgEpuTcs1Er5G/nrfMC7op/4LBGH4A+xFyAt0=;
+        b=ZebJOSWT2zWcG2uvS9eF3zF5SQ4HNIFc/WJ7Bphdxi0+AerWwxhNUpk+VEMC8yc6xp
+         aGFOeMpzCTsccoXpVwW0qQYIANqcICuf2JQDu2E2/B8r0M+GP2tgwouM5IeHrcpE4bgO
+         aA+Ll+TejeUihxrA/Dg8oI4agSim/A3o9gYWF5yTB5rGhl0sO5ocEhni9kIRj0CNUPFO
+         W1uBH2Sg05XhI3I29EhBiPhJNGYtC5OB5kiC+4/o6I1ZFry+SFWV66SOkIJQ9Gn49MWq
+         oW++ew/TpJk2iiIt5mb7xisPBSZyvhmWHIdHNYsJKHRh/wRV6E5lJoY3XSKiONqetOrh
+         e4yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=A0c0cqma89+9GUKY/iVUbbVU1cNPUk0oJ5cVoRl/jck=;
-        b=Sr5QPn4zdtP3SD73isOMygofkJDoh+Ug1XDBz381zDdmkv+e2+QBxNWhkabiOdDocy
-         ESdwh6Cfhvlq70LHBFDIOqnVI0LcSJaak5u6I+ban6GcvMD1FnZDbOwRqJzSyKNUCpkT
-         WSa3vSseglam8gtp5HuSDlcShh+ySK67sxrbXxpVTtLYJO1cBJxbCcvOBM5V9YTVrxlH
-         c0iXoTAmrV+G+nBd+yuShfkIZUA9ygNt1fU4RhjVdi+aU7DZO/ljEXIz/C27fjIIK3Qp
-         Ks6qcFVMrckZSERC0FXAk2MhU+etIAjY6ukJm+UzVszXcHqtZjDLkJpimDL+IexdweEZ
-         I2Dw==
-X-Gm-Message-State: AJIora+bBBCKxh3yz5xuBMilB4KMqi09K9LgAr2iDRxJrmThLyT5pKpF
-        nY6c8LHu7NXMqXGEVzqlcZR+vl96FJWE4V+QPx7nAQ==
-X-Google-Smtp-Source: AGRyM1tzrobr2NzAtujqB5kVrNJZt5e0DxPVJogaxye2ERCF+QHcMFNh9iBbGIqmKcu24EEvO9jCEWNRrFH7KHoPhXg=
-X-Received: by 2002:a81:c44b:0:b0:317:5a3b:3fc5 with SMTP id
- s11-20020a81c44b000000b003175a3b3fc5mr12474505ywj.39.1656013855437; Thu, 23
- Jun 2022 12:50:55 -0700 (PDT)
+        bh=YZmdOLUgEpuTcs1Er5G/nrfMC7op/4LBGH4A+xFyAt0=;
+        b=qx+6KhxRrym9CCv3gCSRXJMPBTo5FS9K+Kx/Ynv49uUkdxKUFI6fNsXFqET3gDO8TD
+         7nVYfzxARazfj8BE/0OHl0+WqKbZpKP2opWHcnuzcfCdGhQ4elv1FrFxBM+DAe6uJ20E
+         sHVnG0xnTujfKaGzdkNqHe1x4w2rKmNHhFBe2vDMyx25FYBk3X4dMKAzrZJj71tayafa
+         h5nGZwgVjFtu/L3fN5WF/fxvDhIMkzOfnfbBnrthba/E4jEDTyb2iEpHt4D3JbIIjFhD
+         aTGOVQTlYlgdcQ3UQQ/VBZsKQ6okdu+Mhki+K9MnX0Em2N7PRtpDGJGkG7Rnd76iRfYN
+         Zwvg==
+X-Gm-Message-State: AJIora+3tNV8mqA6hM5p5UqSA1XcNybNl9UsVsxAIeqRSFQQIKiGpH0d
+        RQMkkN/ug8No7kUWK/AAvI9PC9w/NLPA3L0tTlx40Q==
+X-Google-Smtp-Source: AGRyM1sW41dkNu1yPnHok/IKa2eFD9oNjNnp9/++s2YawW1f4VSUU9UuDeraaVVUzZk6WxiUJgd5EpGB76EEj5iBgdQ=
+X-Received: by 2002:a2e:3109:0:b0:25a:8a0c:40e2 with SMTP id
+ x9-20020a2e3109000000b0025a8a0c40e2mr5029528ljx.26.1656014321462; Thu, 23 Jun
+ 2022 12:58:41 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220623191147.1916067-1-masahiroy@kernel.org>
 In-Reply-To: <20220623191147.1916067-1-masahiroy@kernel.org>
-From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Thu, 23 Jun 2022 12:50:19 -0700
-Message-ID: <CABCJKucFQtqKqZTdF06cCuLJqSp6f6NBmffsU4jGC05XOPqFrg@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Thu, 23 Jun 2022 12:58:29 -0700
+Message-ID: <CAKwvOd=DWQBQC4OnF8Y=T7s0+kAai7QseN7_zYRoraU4a9Nosw@mail.gmail.com>
 Subject: Re: [PATCH] kbuild: link vmlinux only once for CONFIG_TRIM_UNUSED_KSYMS
  (2nd attempt)
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>,
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
         LKML <linux-kernel@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Pitre <nico@fluxnic.net>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -95,6 +95,10 @@ On Thu, Jun 23, 2022 at 12:12 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
 > Fixes: 3fdc7d3fe4c0 ("kbuild: link vmlinux only once for CONFIG_TRIM_UNUSED_KSYMS")
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+
+Thanks for digging into this more!
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
 > ---
 >
 >  Makefile | 2 +-
@@ -113,10 +117,11 @@ On Thu, Jun 23, 2022 at 12:12 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >  endif
 >
 >  autoksyms_h := $(if $(CONFIG_TRIM_UNUSED_KSYMS), include/generated/autoksyms.h)
+> --
+> 2.34.1
+>
 
-Thanks for looking into this, Masahiro! I can confirm that this patch
-fixes the issue with vmlinux getting linked twice in our use case.
 
-Tested-by: Sami Tolvanen <samitolvanen@google.com>
-
-Sami
+-- 
+Thanks,
+~Nick Desaulniers
