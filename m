@@ -2,95 +2,105 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A5FE55A108
-	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Jun 2022 20:55:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 613D955A10E
+	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Jun 2022 20:55:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229607AbiFXSaC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 24 Jun 2022 14:30:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55602 "EHLO
+        id S230495AbiFXSig (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 24 Jun 2022 14:38:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229792AbiFXSaC (ORCPT
+        with ESMTP id S231791AbiFXSiY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 24 Jun 2022 14:30:02 -0400
-Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CDF777FD2;
-        Fri, 24 Jun 2022 11:30:01 -0700 (PDT)
-Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-317741c86fdso32904987b3.2;
-        Fri, 24 Jun 2022 11:30:01 -0700 (PDT)
+        Fri, 24 Jun 2022 14:38:24 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D0D5522F4
+        for <linux-kbuild@vger.kernel.org>; Fri, 24 Jun 2022 11:38:23 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id q6so6320087eji.13
+        for <linux-kbuild@vger.kernel.org>; Fri, 24 Jun 2022 11:38:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linux-foundation.org; s=google;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=eoibeWra5s6gnCP+9Mmkq/WC/3r7V3AJCgLtaYuC/mE=;
-        b=VJf+rCox2IpG7qcJ20g7NmG8hCN3uvuvWPZ+kUAOc/tYAlJLlLvgrjY3FYtqETkE31
-         RKDQnNE67yTQMG/dZdsplZdT07dKmjsbrLlKIGUII/u3gfWz+FjSz1wsP3zUrlW763qq
-         vIKUTwQJuR9Uec+BX0CYct97+wXVypeCyMeuI=
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QiP8VcEZQ30q3Pk2h5Gwsq7YGZeOh6yin9xVA7T6iaI=;
+        b=Q0xRVwsW6uojzuz7GmFCcljGvfW5k7ElXVA7lvUp3NBj47SwMwuuXv7+qvn2HcdJLO
+         UdXVgH1FThd5pleoQfjWrBJWa+YK42yeq+I6luoycW61OhF6AFcqiuRNAj1sPxtaYCFs
+         5B4QaxAYi/epISS4yFeWUbcKzQ3LhfCLhsyac=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=eoibeWra5s6gnCP+9Mmkq/WC/3r7V3AJCgLtaYuC/mE=;
-        b=45tQR+RACLFLzG63+R5s5HZ+p6XEaY5VlgsGw1If+JnI+HT2qzfNgA6d4SdmifKkJT
-         vmQ01M2RgSPvkpeqVG7QhTdxhp/hBz0vJ129Fs8T8CgT8mO6VCurv3aSBgtMaRp7NTuB
-         NI0ObZm90Z4NhD1lETP1neYWmUMt0h5J6LUlEuLwOkJJNC9dDU/UZ8r8CgKkq/i+WjYe
-         tFa2wqcW5HDwmvPrtH0AmFoTRpnYHJgVuWyobtLHV16D/fy90bP00GIP5nfKB+tnEUto
-         6bcT6bndJ+DUhYUxj0ETADDjX26jFbzWi1T/r4U9/zCFHJQG3EA0PEjHeReyAl+xZ9OQ
-         hz4A==
-X-Gm-Message-State: AJIora+zYj0JXfFAHiaDEoycquO6A9jvMZ/S8qEZswznk9HGVtLlgByk
-        VCC1VHeTrcA7Rlrtj4PhHBdHX8+1XHOb5z6jR64=
-X-Google-Smtp-Source: AGRyM1uKmmRLJi1FF1ixJrF8xaXrDOETqtDM+N7saLf6pL9NzQbyKivl+aTQjocIyQqTkudGd/rAYY+QD6zYgiWawms=
-X-Received: by 2002:a81:6c49:0:b0:317:8acd:b8d4 with SMTP id
- h70-20020a816c49000000b003178acdb8d4mr237828ywc.183.1656095400227; Fri, 24
- Jun 2022 11:30:00 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QiP8VcEZQ30q3Pk2h5Gwsq7YGZeOh6yin9xVA7T6iaI=;
+        b=meZNC8A3SMcIYAEb61JBVWxirCa0zJv+uCk44cUbJoES4Z4J3ZikOKroU9cvBeOXKU
+         0fpas6zmYptghAg8PnOsMlZH7zVOYMooCuUP+4vVaEu5+KQWjEYFRww1kGLfid+6uy6a
+         FeIiVO8++jD0nfTerfmPIj04MUT3g9ZUZxCo/3n1pabBQOcQ2nEeqS1klmf3rG3AhFT/
+         Zu75mbXo8dLszyz2T0j11105sRN9qnrznd00ewe2dWIjX9fg3ewBLTIPjqPmDJQvz1k+
+         J85ujW4wLdXQp7/VSFrnDoFNclQpjv+FjIIZMlxbbqwaOFEJpOG6NavJyj0YyElo/E/p
+         sffA==
+X-Gm-Message-State: AJIora/NGdhjlp0tYbOl2LTEuv6QHFXs3vLhejwQjksskCrhCYAwhTsK
+        /BQRmn3p4O7m8cUPxmWXgtol6x+su/lTcXXO
+X-Google-Smtp-Source: AGRyM1sGgkUyLemsYeIrUWZFDEpI+BxWfqhiZpS8+heFHbuvFJAcAiVgTDQHXdMQMtBW4Uvv0sfupA==
+X-Received: by 2002:a17:906:7482:b0:722:ea8f:3a12 with SMTP id e2-20020a170906748200b00722ea8f3a12mr403080ejl.220.1656095901409;
+        Fri, 24 Jun 2022 11:38:21 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com. [209.85.128.41])
+        by smtp.gmail.com with ESMTPSA id v10-20020a1709063bca00b00706e8ac43b8sm1509175ejf.199.2022.06.24.11.38.19
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Jun 2022 11:38:19 -0700 (PDT)
+Received: by mail-wm1-f41.google.com with SMTP id p6-20020a05600c1d8600b003a035657950so1988039wms.4
+        for <linux-kbuild@vger.kernel.org>; Fri, 24 Jun 2022 11:38:19 -0700 (PDT)
+X-Received: by 2002:a05:600c:681:b0:3a0:2da6:d173 with SMTP id
+ a1-20020a05600c068100b003a02da6d173mr5308343wmn.68.1656095898877; Fri, 24 Jun
+ 2022 11:38:18 -0700 (PDT)
 MIME-Version: 1.0
-From:   Linus Torvalds <linus@linux-foundation.org>
-Date:   Fri, 24 Jun 2022 11:29:49 -0700
-Message-ID: <CA+55aFz2sNBbZyg-_i8_Ldr2e8o9dfvdSfHHuRzVtP2VMAUWPg@mail.gmail.com>
+References: <CA+55aFz2sNBbZyg-_i8_Ldr2e8o9dfvdSfHHuRzVtP2VMAUWPg@mail.gmail.com>
+ <CA+55aFyugRmHNV1BbhB_YHf3mgaiU6ND_KL8bu0PPEaRVNwWHg@mail.gmail.com>
+In-Reply-To: <CA+55aFyugRmHNV1BbhB_YHf3mgaiU6ND_KL8bu0PPEaRVNwWHg@mail.gmail.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Fri, 24 Jun 2022 11:38:02 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wg5aP-0fr8Q8ekwGn6KMAtkQbiBYxtnAFhj5LXCCszckQ@mail.gmail.com>
+Message-ID: <CAHk-=wg5aP-0fr8Q8ekwGn6KMAtkQbiBYxtnAFhj5LXCCszckQ@mail.gmail.com>
 Subject: Re: [PATCH 0/2] Kconfig: -O3 enablement
-To:     arnd@arndb.de
-Cc:     bigeasy@linutronix.de, chris@chrisdown.name,
-        dmitry.torokhov@gmail.com, gustavoars@kernel.org,
-        john.ogness@linutronix.de, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, masahiroy@kernel.org,
-        mikoxyzzz@gmail.com, nathan@kernel.org, ndesaulniers@google.com,
-        oleksandr@redhat.com, quic_eberman@quicinc.com, seanjc@google.com,
-        tglx@linutronix.de, vbabka@suse.cz, x86@kernel.org
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Chris Down <chris@chrisdown.name>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>, mikoxyzzz@gmail.com,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Oleksandr Natalenko <oleksandr@redhat.com>,
+        quic_eberman@quicinc.com, Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        "the arch/x86 maintainers" <x86@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=0.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
         RCVD_IN_DNSWL_NONE,SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jun 23 at 7:27:29 PM  Arnd Bergmann <arnd@arndb.de> wrote:
->
-> This probably also needs a dependency on !COMPILE_TEST so we don't
-> report compile-time problems that are specific to -O3.
+> On Fri, Jun 24, 2022 at 11:29 AM Linus Torvalds <linus@linux-foundation.org> wrote:
 
-Honestly, let's just remove -O3 entirely.
+Bah. That was really me, just with a badly set up "reply through lore"
+setup, so with the wrong email address.
 
-Enabling it, and then not even build-testing the result, is just about
-the *worst* possible case. That's just horrible.
+That's what happens when you are
 
-The argument that "but ARC uses it" is not an argument. It was always
-a bad argument, and ARC needs to just fix whatever it is that made it
-an issue (likely already fixed with a compiler upgrade).
+ (a) incompetent
 
-And there is no way I would ever accept this as a "let people try it" when
+ (b) stopped getting the mailing lists as regular email because you
+think lore works so well
 
- - as mentioned, just use KCFLAGS=-O3 if you want to
+ (c) normally rely on being cc'd
 
- - -O3 has a *loong* history of generating worse code than -O2
+My apologies for the incompetence.
 
-so I will *not* be taking these kinds of patches without some very
-serious explanations of why -O3 has suddenly become acceptable again.
-
-Those explanations had better be more than "let people try". They
-should have in-depth actual performance numbers for a real load, not
-some made-up "bigger is better" logic.
-
-                 Linus
+                Linus
