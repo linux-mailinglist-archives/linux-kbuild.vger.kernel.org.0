@@ -2,104 +2,88 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E35E855C427
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Jun 2022 14:49:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE34055CF27
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Jun 2022 15:06:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230194AbiF0H1P (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 27 Jun 2022 03:27:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38656 "EHLO
+        id S232988AbiF0HhL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 27 Jun 2022 03:37:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232326AbiF0H1O (ORCPT
+        with ESMTP id S232611AbiF0HhL (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 27 Jun 2022 03:27:14 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id ECDE35F99;
-        Mon, 27 Jun 2022 00:27:12 -0700 (PDT)
-Received: from linux.localdomain (unknown [113.200.148.30])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxb93MW7li8r1fAA--.5898S2;
-        Mon, 27 Jun 2022 15:27:08 +0800 (CST)
-From:   Tiezhu Yang <yangtiezhu@loongson.cn>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Xuefeng Li <lixuefeng@loongson.cn>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2] modpost: Add line break in the section mismatch warning
-Date:   Mon, 27 Jun 2022 15:27:08 +0800
-Message-Id: <1656314828-3544-1-git-send-email-yangtiezhu@loongson.cn>
-X-Mailer: git-send-email 2.1.0
-X-CM-TRANSID: AQAAf9Dxb93MW7li8r1fAA--.5898S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7uF4UWF1UZF1fJryfuFyUZFb_yoW8Aw48pa
-        yFk3sruryIyr4vqayIkrykZ347J34rWF93C3srCw4Dursruw1kZF97AF4xZF90yFWrAFWF
-        qF48trn5uayqk37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUvK14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-        JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
-        xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-        6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr
-        0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v2
-        6r126r1DMxkIecxEwVAFwVW8CwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJV
-        W8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF
-        1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
-        IIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF
-        0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxh
-        VjvjDU0xZFpf9x0JUVT5LUUUUU=
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Mon, 27 Jun 2022 03:37:11 -0400
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69DF060CF;
+        Mon, 27 Jun 2022 00:37:10 -0700 (PDT)
+Received: by mail-qk1-f171.google.com with SMTP id v6so6337764qkh.2;
+        Mon, 27 Jun 2022 00:37:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dVGtxzki9dy1889GY4WyHn537lHIj+Cle3Or0kD345o=;
+        b=zHgpr+1oJlxmxNpISzb+ghzjzeIUdYbLGetnsNnjXuDnbOa5O822Ov3X4E4JZhGvkX
+         tZtdcMLBWSTlfvWNxieyTGo3IOp3Vb5R4/hEhCC33twVxLJeEk1GDbUzlrDwME8DoMjh
+         yoB53riKC/pCXyPNzDWvz3c84bEeWHQULOShjWGdFzh8OQUMyBCBLH0MvEHs63DU4dcd
+         /87IFn/FZdmSE/CsuwXmxqvWSNt31M0zE0tXywjA9cUN1p/7PvJzSvVx0we8roFT5w36
+         jCmOGWS1aJoa8CtIpo/jfKdBEoqIiJmdmx1k/IQbvrCnN97ih3dQwDYrNk2X8jOU9xdP
+         5qZA==
+X-Gm-Message-State: AJIora9faioRpYRBW9tzFqZuuBwbzf3Vd3EE4AZy28bnil4TZTH7BqqA
+        tMA4N+EH9JdoOOttUvqpCJbmifBIOpTeeQ==
+X-Google-Smtp-Source: AGRyM1vZIw5gS3nkTb1L3s4zJo4iswp62f++zJzVk3Qyx4LtYbQb+zfyWJPk/7/pLHYRzZFuAn6Ylg==
+X-Received: by 2002:a05:620a:2587:b0:6a7:ee6f:bf2a with SMTP id x7-20020a05620a258700b006a7ee6fbf2amr7228946qko.542.1656315429287;
+        Mon, 27 Jun 2022 00:37:09 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id i19-20020a05620a151300b006a91da2fc8dsm8342789qkk.0.2022.06.27.00.37.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Jun 2022 00:37:08 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-3177e60d980so76476647b3.12;
+        Mon, 27 Jun 2022 00:37:08 -0700 (PDT)
+X-Received: by 2002:a81:4fc9:0:b0:318:b0ca:4b13 with SMTP id
+ d192-20020a814fc9000000b00318b0ca4b13mr13550203ywb.502.1656315428350; Mon, 27
+ Jun 2022 00:37:08 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAK7LNARjq-x+8rdXfkVt2YEoJsjnZNntxurYTwOqEaAX71m04w@mail.gmail.com>
+ <CAHk-=wgcsUU-TNoLS7Q6YF3RCSVAKwNM7gFOwqnPQTiU_oGEWA@mail.gmail.com>
+In-Reply-To: <CAHk-=wgcsUU-TNoLS7Q6YF3RCSVAKwNM7gFOwqnPQTiU_oGEWA@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 27 Jun 2022 09:36:56 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX2ym5QVTbFNCbE4Td6yMeG64skYhtqWAHD2AF7ReYdEw@mail.gmail.com>
+Message-ID: <CAMuHMdX2ym5QVTbFNCbE4Td6yMeG64skYhtqWAHD2AF7ReYdEw@mail.gmail.com>
+Subject: Re: [GIT PULL] Kbuild fixes for v5.19-rc4
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The section mismatch warning may be too long, add a line break
-to make it more readable.
+Hi Linus,
 
-Without this patch:
+On Sun, Jun 26, 2022 at 8:30 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+> Now, the only warning that seems to show up for me is about
+> tick_nohz_full_setup. Which is only called from housekeeping_setup()
+> in kernel/sched/isolation.c if I grepped correctly.
 
-  LD      vmlinux.o
-  MODPOST vmlinux.symvers
-WARNING: modpost: vmlinux.o(___ksymtab+prom_init_numa_memory+0x0): Section mismatch in reference from the variable __ksymtab_prom_init_numa_memory to the function .init.text:prom_init_numa_memory()
-The symbol prom_init_numa_memory is exported and annotated __init
-Fix this by removing the __init annotation of prom_init_numa_memory or drop the export.
+It is also exported as a symbol. Meh...
 
-With this patch:
+Gr{oetje,eeting}s,
 
-  LD      vmlinux.o
-  MODPOST vmlinux.symvers
-WARNING: modpost: vmlinux.o(___ksymtab+prom_init_numa_memory+0x0): Section mismatch in reference
-from the variable __ksymtab_prom_init_numa_memory to the function .init.text:prom_init_numa_memory()
-The symbol prom_init_numa_memory is exported and annotated __init
-Fix this by removing the __init annotation of prom_init_numa_memory or drop the export.
+                        Geert
 
-This is based on Linux 5.19-rc4.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
----
-
-v2: update the commit message
-
- scripts/mod/modpost.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 620dc8c..4cc894f 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -1320,8 +1320,8 @@ static void report_sec_mismatch(const char *modname,
- 	get_pretty_name(from_is_func, &from, &from_p);
- 	get_pretty_name(to_is_func, &to, &to_p);
- 
--	warn("%s(%s+0x%llx): Section mismatch in reference from the %s %s%s "
--	     "to the %s %s:%s%s\n",
-+	warn("%s(%s+0x%llx): Section mismatch in reference\n"
-+	     "from the %s %s%s to the %s %s:%s%s\n",
- 	     modname, fromsec, fromaddr, from, fromsym, from_p, to, tosec,
- 	     tosym, to_p);
- 
--- 
-2.1.0
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
