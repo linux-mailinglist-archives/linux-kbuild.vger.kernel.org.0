@@ -2,55 +2,64 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 165B955D2B2
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Jun 2022 15:11:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 27EC355C941
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Jun 2022 14:56:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232137AbiF0HCj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 27 Jun 2022 03:02:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51026 "EHLO
+        id S229450AbiF0HGq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 27 Jun 2022 03:06:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230096AbiF0HCi (ORCPT
+        with ESMTP id S230439AbiF0HGp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 27 Jun 2022 03:02:38 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 214CD5F85;
-        Mon, 27 Jun 2022 00:02:38 -0700 (PDT)
-Received: from localhost.localdomain (unknown [39.45.206.71])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+        Mon, 27 Jun 2022 03:06:45 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEF3E5F7E;
+        Mon, 27 Jun 2022 00:06:44 -0700 (PDT)
+Received: from [192.168.10.6] (unknown [39.45.206.71])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: usama.anjum)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 02B056601824;
-        Mon, 27 Jun 2022 08:02:33 +0100 (BST)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 1D09D6601826;
+        Mon, 27 Jun 2022 08:06:40 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1656313356;
-        bh=NkkjEoi7BGZXZx4C9tWVopSMwjLqJE9iVqgsolVJlSw=;
-        h=From:To:Cc:Subject:Date:From;
-        b=lKK4GWAkOcn735UQAKvXWrnaV0iS4KwEjAcKoYvhhXAyCVszdbqVNqzqagzj6t96Y
-         ZhbM7BsvunS3+mIJRRg27KY8qsj3UxCGy36BxWB9xNfnCYFpGfGNQQxJOr0AVyXzMa
-         eqBxqS897B3bVyjGj7zEEG+dse5/xwu9dIevruuaXdjaLCq3zTSXKreG/hJ7ydB3Yv
-         j4u4I+gvf21bICypl0x+t3Q7KSc9p9MPHABJpWScWUeuH/jVYQu3iubmp4r2SVHz2o
-         DQ4W0Jr1mWjGX7eN9f83S0lb0qH52g+bX5bTHs0uXe1Z22RiTXTFbVpMxwPJ3mYxE0
-         0mvHNtZ2NMBtw==
-From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Kieran Bingham <kbingham@kernel.org>
-Cc:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
-        kernel@collabora.com, Shuah Khan <skhan@linuxfoundation.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1] kbuild: fix sub directory output build of kselftests
-Date:   Mon, 27 Jun 2022 12:02:14 +0500
-Message-Id: <20220627070214.432390-1-usama.anjum@collabora.com>
-X-Mailer: git-send-email 2.30.2
+        s=mail; t=1656313603;
+        bh=Z/LXL4E5/3LOVmaswq+5SAltlEypjsxTl3skxq9i7gI=;
+        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+        b=eMJ5PcCF0uV60I848qRMPOi+VmW3JuLmS63Epy69cjv3OWF14upH354lTVs046V9C
+         o9ToL3nClu6KJ+G9SSLQ7kwdW0K86+jLdOnf+6bW2xcA3+ik9E9vLoSImSCtl312+6
+         hdi83Sz+wmSVnRNG+7l88lGQc1pb2l5h/VTpFuxkAmIrLx0QHfBBu1oMNdsyg3pWai
+         TEQOQJ7jplQQNmV9tT6iUJl6dR6gdJSDM1nSb11n0XFuaF1/r2WATa87aIy9B5lPtZ
+         KVi5wXp1QMimHKzY00Uac+lVTIvtM+l9If14+Lyq3xTHGGoNXf/d7DbAcNrEN5786g
+         im95gOg+BLH/A==
+Message-ID: <519c813b-0bf1-636b-df90-890e07d2ea4d@collabora.com>
+Date:   Mon, 27 Jun 2022 12:06:36 +0500
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Cc:     usama.anjum@collabora.com, Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Shuah Khan <shuah@kernel.org>,
+        KERNEL SELFTEST FRAMEWORK <linux-kselftest@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "kernelci@groups.io" <kernelci@groups.io>
+Subject: Re: [Bug Report] - kselftest build fails if output directory is first
+ level sub-directory
+Content-Language: en-US
+To:     Shuah Khan <skhan@linuxfoundation.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+References: <c25d7ea7-4f72-4a2b-d8c3-d317e64fcbbb@collabora.com>
+ <CAK7LNATL4nMmKgrjS8meavnpn=HisD30QxuPUKDqtWWgbGcSZw@mail.gmail.com>
+ <a9470bfc-bddc-6aa6-0043-d49eb57611fe@linuxfoundation.org>
+From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <a9470bfc-bddc-6aa6-0043-d49eb57611fe@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_SBL_CSS,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,50 +67,33 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Build of kselftests fail if kernel's top most Makefile is used for
-running or building kselftests with separate output directory which is
-sub-directory. srctree is set to .. erroneously.
+>> This problem starts from the bad design of the kselftest framework.
+>> I did some research before. I think I can fix the root cause but
+>> currently I do not have enough time to do it.
+>>
+>>
+>> KBUILD_ABS_SRCTREE is a user-interface to request
+>> Kbuild to use the absolute path.
+>> If it is forced in the top Makefile, users have no way to
+>> negate it.
+>> It is true that using the absolute path is a quick work-around
+>> because you do not need to care about the current working directory.
+>>
+>> If you insist on it,  just go ahead.  It is just two line changes.
+>> Once the issue is fixed in a better way, your patch can be reverted
+>> easily.
+>>
+> Why don't we work on fixing it the wright way? I would rather go that
+> route than using short rem fixes.
+> 
+> Usama, would you be interested in working on a proper fix as recommended
+> by Masahiro?
+I've made another attempt:
+https://lore.kernel.org/lkml/20220627070214.432390-1-usama.anjum@collabora.com/
 
-make kselftest-all O=/linux_mainline/build
-Makefile:1080: ../scripts/Makefile.extrawarn: No such file or directory
+> 
+> thanks,
+> -- Shuah
 
-make kselftest-all O=build
-Makefile:1080: ../scripts/Makefile.extrawarn: No such file or directory
-
-Fix this by comparing abs_srctree with CURDIR instead of abs_objtree.
-CURDIR changes based on from where the command has been run and it sets
-the srctree correctly.
-
-Fixes: 25b146c5b8cee("kbuild: allow Kbuild to start from any directory")
-Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
----
-Changes in V2:
-- Correct the bugfix instead of workaround
-
-V1: https://lore.kernel.org/lkml/20220223191016.1658728-1-usama.anjum@collabora.com/
----
- Makefile | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index e66358b64ede..4090d7afcda4 100644
---- a/Makefile
-+++ b/Makefile
-@@ -238,12 +238,12 @@ ifeq ($(need-sub-make),)
- # so that IDEs/editors are able to understand relative filenames.
- MAKEFLAGS += --no-print-directory
- 
--ifeq ($(abs_srctree),$(abs_objtree))
-+ifeq ($(abs_srctree),$(CURDIR))
-         # building in the source tree
-         srctree := .
- 	building_out_of_srctree :=
- else
--        ifeq ($(abs_srctree)/,$(dir $(abs_objtree)))
-+        ifeq ($(abs_srctree)/,$(dir $(CURDIR)))
-                 # building in a subdirectory of the source tree
-                 srctree := ..
-         else
 -- 
-2.30.2
-
+Muhammad Usama Anjum
