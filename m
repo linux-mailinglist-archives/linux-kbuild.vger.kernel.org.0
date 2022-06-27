@@ -2,137 +2,129 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D24D555C4E8
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Jun 2022 14:50:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 069DB55CF47
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Jun 2022 15:06:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232736AbiF0MvO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 27 Jun 2022 08:51:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52714 "EHLO
+        id S237052AbiF0Qyn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 27 Jun 2022 12:54:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234135AbiF0MvN (ORCPT
+        with ESMTP id S235421AbiF0Qym (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 27 Jun 2022 08:51:13 -0400
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0563B98;
-        Mon, 27 Jun 2022 05:51:12 -0700 (PDT)
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25RCiB0g025896;
-        Mon, 27 Jun 2022 12:51:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=pCyChn19XKYsoLzXEsp1N/D379jlpmk1cKp3W6BozdY=;
- b=KU/LJY894Jhe24pH+MaWV54RzmYsHFFaiLKV8H7dYOLYCmFd5VLqyWqaqg96v6H8Fdtq
- XenNMQeYzymWX4Rc13mqrKfyAUH2gq+He/tBW512I1s1lPjVX73ibzKyNbf9vN+FO1c7
- iYvIHKSpxw0s5XO/UrlIyGHSl7qxf0PipeyWteNBxFNWxJSd0OceIpfQ5yUrtiPXqwu8
- JxfoyCJyzCMLyMCJoE5QouqNKDrqnDqYL2EoMzsQr/fUAVd0BmUGowLWVwYPdkIDoLp+
- pYsE0sk3/ExZyxtB9UvZafsa6GEdmbLphFfDQxkmXtHSgHSHFk94r/odgzU1gQ7Pmh4y bQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gyctg85f8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 27 Jun 2022 12:51:07 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25RCk5xe031845;
-        Mon, 27 Jun 2022 12:51:06 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gyctg85eg-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 27 Jun 2022 12:51:06 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-        by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25RCoemk004136;
-        Mon, 27 Jun 2022 12:51:01 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
-        by ppma04ams.nl.ibm.com with ESMTP id 3gwt08txh4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 27 Jun 2022 12:51:01 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 25RCowHq12517830
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 27 Jun 2022 12:50:58 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 91F5111C04C;
-        Mon, 27 Jun 2022 12:50:58 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 2436611C04A;
-        Mon, 27 Jun 2022 12:50:58 +0000 (GMT)
-Received: from localhost (unknown [9.171.41.134])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Mon, 27 Jun 2022 12:50:58 +0000 (GMT)
-Date:   Mon, 27 Jun 2022 14:50:56 +0200
-From:   Vasily Gorbik <gor@linux.ibm.com>
-To:     Joe Lawrence <joe.lawrence@redhat.com>
-Cc:     Michael Ellerman <mpe@ellerman.id.au>,
-        Sumanth Korikkar <sumanthk@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
+        Mon, 27 Jun 2022 12:54:42 -0400
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B388186F2
+        for <linux-kbuild@vger.kernel.org>; Mon, 27 Jun 2022 09:54:41 -0700 (PDT)
+Received: by mail-io1-xd2b.google.com with SMTP id y18so10196587iof.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 27 Jun 2022 09:54:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=4PFA5xY31bsA5xLySpMra+nYbcLXicy6qxBOudOdw6s=;
+        b=C99mxI++15wHrpzLPS7WtIw1OxAq4W8+KG2tTx6ndyhkpVLjtdCL1+s4z5S5U/++VL
+         G3bThLkPVFOWL30UHDII21uIlDANxc9++0ldJKskucSCSCv5+XNf1/Sx9HmYN9MNNaxd
+         5iu4yIubRTzeVLOBPoxBgPw2voMZ3nyMZ7Jmc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=4PFA5xY31bsA5xLySpMra+nYbcLXicy6qxBOudOdw6s=;
+        b=qwHQ26arBEelBTKYHVrhGVwnyHAUE38FczsneTLT+XyqJv6BVLjCFeJyDjD3H+fXUi
+         r3RCT5lIV6D6tSkaZMK96+GJ+LkkvhUKIP2rtP5Q2hV1y2euhSfiDWCogSjOmuGG4ODX
+         ODoGXMO8HZHhAIfwpcjfTg5pxXhLi06YsNZwYCqp3EFdWYMaglUWHhxaoAi7SF/llAWD
+         HWZfCImgY5RLlZikUJ0Ug/7UsOcs6O1EKGKp8XOnobYm+644jKzSH0IvFQGsRw6yXheo
+         gdlkby1DBofVR0cF2wqqbRjS+glFijpGGvXkGkR6bNR2Nq1Vdr0NvRRQAyg7GJ+sPgqc
+         IC8w==
+X-Gm-Message-State: AJIora89uheZeXH+RO608oHeWmOOXojpTvfjQi+DklEmSUnNeabWn404
+        dxHu8nMOikc6eEFvkkJp6jbFyg==
+X-Google-Smtp-Source: AGRyM1tF/p82Zhcy7H9U5p2rOolwBm86AMPGBqiPAvivGjweR94NYzafyP1fYfeQLL8dgfHWkEh3Jg==
+X-Received: by 2002:a05:6638:3297:b0:335:df89:8f46 with SMTP id f23-20020a056638329700b00335df898f46mr7765812jav.19.1656348880816;
+        Mon, 27 Jun 2022 09:54:40 -0700 (PDT)
+Received: from [192.168.1.128] ([38.15.45.1])
+        by smtp.gmail.com with ESMTPSA id a14-20020a5d980e000000b006696754eef5sm5405348iol.13.2022.06.27.09.54.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Jun 2022 09:54:40 -0700 (PDT)
+Subject: Re: [PATCH v1] kbuild: fix sub directory output build of kselftests
+To:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linux-kbuild@vger.kernel.org
-Subject: [PATCH 2/2] s390/nospec: remove unneeded header includes
-Message-ID: <patch-2.thread-d13b6c.git-d13b6c96fb5f.your-ad-here.call-01656331067-ext-4899@work.hours>
-References: <8569429d-57f8-a0cf-8b17-1291f6973d32@redhat.com>
- <cover.thread-d13b6c.your-ad-here.call-01656331067-ext-4899@work.hours>
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Kieran Bingham <kbingham@kernel.org>
+Cc:     kernel@collabora.com,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20220627070214.432390-1-usama.anjum@collabora.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <15532d64-6744-c8a5-184b-18358211d345@linuxfoundation.org>
+Date:   Mon, 27 Jun 2022 10:54:39 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <cover.thread-d13b6c.your-ad-here.call-01656331067-ext-4899@work.hours>
-X-Patchwork-Bot: notify
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: P8HRJ-gcRCyQQxwQ3gUfOnKEvFwBvvBO
-X-Proofpoint-GUID: Sybcm8SxS9KlLFugOFyct-ToWyLjZddR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-06-27_06,2022-06-24_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 clxscore=1015
- impostorscore=0 lowpriorityscore=0 spamscore=0 suspectscore=0
- mlxlogscore=691 malwarescore=0 adultscore=0 bulkscore=0 priorityscore=1501
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206270055
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220627070214.432390-1-usama.anjum@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Commit 4efd417f298b ("s390: raise minimum supported machine generation
-to z10") removed the usage of alternatives and lowcore in expolines
-macros. Remove unneeded header includes as well.
+On 6/27/22 1:02 AM, Muhammad Usama Anjum wrote:
+> Build of kselftests fail if kernel's top most Makefile is used for
+> running or building kselftests with separate output directory which is
+> sub-directory. srctree is set to .. erroneously.
+> 
+> make kselftest-all O=/linux_mainline/build
+> Makefile:1080: ../scripts/Makefile.extrawarn: No such file or directory
+> 
+> make kselftest-all O=build
+> Makefile:1080: ../scripts/Makefile.extrawarn: No such file or directory
+> 
+> Fix this by comparing abs_srctree with CURDIR instead of abs_objtree.
+> CURDIR changes based on from where the command has been run and it sets
+> the srctree correctly.
+> 
+> Fixes: 25b146c5b8cee("kbuild: allow Kbuild to start from any directory")
+> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+> ---
+> Changes in V2:
+> - Correct the bugfix instead of workaround
+> 
+> V1: https://lore.kernel.org/lkml/20220223191016.1658728-1-usama.anjum@collabora.com/
+> ---
+>   Makefile | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index e66358b64ede..4090d7afcda4 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -238,12 +238,12 @@ ifeq ($(need-sub-make),)
+>   # so that IDEs/editors are able to understand relative filenames.
+>   MAKEFLAGS += --no-print-directory
+>   
+> -ifeq ($(abs_srctree),$(abs_objtree))
+> +ifeq ($(abs_srctree),$(CURDIR))
+>           # building in the source tree
+>           srctree := .
+>   	building_out_of_srctree :=
+>   else
+> -        ifeq ($(abs_srctree)/,$(dir $(abs_objtree)))
+> +        ifeq ($(abs_srctree)/,$(dir $(CURDIR)))
+>                   # building in a subdirectory of the source tree
+>                   srctree := ..
+>           else
+> 
 
-With that, expoline.S doesn't require asm-offsets.h and
-expoline_prepare target dependency could be removed.
+Please resend cc'ing linux-kselftest
 
-Signed-off-by: Vasily Gorbik <gor@linux.ibm.com>
----
- arch/s390/Makefile                  | 2 +-
- arch/s390/include/asm/nospec-insn.h | 2 --
- 2 files changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/arch/s390/Makefile b/arch/s390/Makefile
-index fc72a35a1f07..4cb5d17e7ead 100644
---- a/arch/s390/Makefile
-+++ b/arch/s390/Makefile
-@@ -166,7 +166,7 @@ vdso_prepare: prepare0
- 
- ifdef CONFIG_EXPOLINE_EXTERN
- modules_prepare: expoline_prepare
--expoline_prepare: prepare0
-+expoline_prepare:
- 	$(Q)$(MAKE) $(build)=arch/s390/lib/expoline arch/s390/lib/expoline/expoline.o
- endif
- endif
-diff --git a/arch/s390/include/asm/nospec-insn.h b/arch/s390/include/asm/nospec-insn.h
-index d910d71b5bb5..7e9e99523e95 100644
---- a/arch/s390/include/asm/nospec-insn.h
-+++ b/arch/s390/include/asm/nospec-insn.h
-@@ -2,8 +2,6 @@
- #ifndef _ASM_S390_NOSPEC_ASM_H
- #define _ASM_S390_NOSPEC_ASM_H
- 
--#include <asm/alternative-asm.h>
--#include <asm/asm-offsets.h>
- #include <asm/dwarf.h>
- 
- #ifdef __ASSEMBLY__
--- 
-2.35.1
+thanks,
+-- Shuah
