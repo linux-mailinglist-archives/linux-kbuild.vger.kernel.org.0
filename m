@@ -2,77 +2,69 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E13D855F027
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Jun 2022 23:06:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CF1255F1F1
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Jun 2022 01:40:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231239AbiF1VG3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 28 Jun 2022 17:06:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51752 "EHLO
+        id S229681AbiF1Xfn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 28 Jun 2022 19:35:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229795AbiF1VG0 (ORCPT
+        with ESMTP id S229471AbiF1Xfm (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 28 Jun 2022 17:06:26 -0400
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46CC7387A1
-        for <linux-kbuild@vger.kernel.org>; Tue, 28 Jun 2022 14:06:24 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-3178a95ec78so113443797b3.4
-        for <linux-kbuild@vger.kernel.org>; Tue, 28 Jun 2022 14:06:24 -0700 (PDT)
+        Tue, 28 Jun 2022 19:35:42 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0C0E39179;
+        Tue, 28 Jun 2022 16:35:40 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id e2so19769684edv.3;
+        Tue, 28 Jun 2022 16:35:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=NBjk3KmSTe6O3r+cvxYAfwMjmFb8XoFUly9qB4s0+Dc=;
-        b=APNpMrpOxLHssUGRCp2dDrS3U6YDR8iMB9nY17tSekazF526G5tnofYcL+GneEuIZq
-         hwfpA5ih5ST2vJUY9ymc30ltjAQjNu9EcZrTXbBErDPAYmqsjCf4FF92zmM57HL6jXsv
-         LHZ2cQ9iGYKfcGfulX5G5FbKv/A86hgHPWTUt91XKAkWDwQtSelnXWA7E961ENKU0wEx
-         HDJqKslHHoT+0dvcREMQQkYnXgN73t/2I+gGC5DCxjw+U19FzS8RsJIOzWKprgGyO0PG
-         yt45zBIWo6DdlPfd6gdbfXGGSKc7Js8tqVdY6qDrumSz9qP5hG8AuDxVr1zlYoK3A6q+
-         V60Q==
+        bh=kl62yh9fcFGqVyYLNjMbcUjr7j+88ktEAbLSuJ6L1KY=;
+        b=M6u8xP/isYO4zwe1vwxJwWsp4YrBRQw2N343gV4jBw2i/29+NTYiAMrPcgFlC+b5uV
+         TOYjMeUjdf3jen1z9w7Ivo9JGpHRKUa4zP92JDjV3JLQZOGmXmLTqeeqk6DspIXeW38P
+         Qzf0ZFmhnmXObPKJd9AoBQCs/hwBPeeM4uxRyLQXcpEK/2DZ91pVTxDOllTwv4QG6Xn/
+         wb1xtfzJwLrwJfPP1Fdf/02hjRokHf2olFFpBd+Z4sfh1/4F/SvRfYanxkpu8E/Z8RMm
+         xaXKZT5i7eAnMB0AacjCr63cU8bNTuKBegH4MtldDwTa9/1lZT8SiUXRKaEbM/GGzJPN
+         dSBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=NBjk3KmSTe6O3r+cvxYAfwMjmFb8XoFUly9qB4s0+Dc=;
-        b=gSQcI7q+MNsL9KyYcw4pwvw5taKW3933yFPNTIGCb2SYhRRMqBlz4uqsp0ycdonIO4
-         raMu/CcK+OxavYz82A0e2aT2yVEInnaxq+GwoB4uneYPQoCZ3k0r+nASSo1MewRBc9yP
-         4rQ9JiuoKARgq1fE290Kn/mVPQ2JLthqMwERSXnzfuMHelKGq5lCVEFrwqkrvjKb/8ga
-         MCk2C3Ajzh7HBNNw9PF8XtTHJvIPli/aUGYPR6hnf6l+QiNMXeV+RxNbT5OAYWhq+6Hj
-         u1TwxTQaOZJInqcteeVMfCpKW0DK2Xgr0upWCl1+3ZHCO1pdCG1/xMBipr0fzmP2GMtL
-         UG0Q==
-X-Gm-Message-State: AJIora9ww5apOvYBkAj0Fk4CWabGoctsU2uF8OzLvWeF8K4NrGpLcL6Q
-        /lbKbf310MZeFwo/SegdmHlm6oyxoCZT1tIP+yI=
-X-Google-Smtp-Source: AGRyM1uqbxh15X0ffrMA2K/9ugnCtBuuiODCCvECKPIeqo/pFve31rlV2dvAY//fOQBVv4rrTPbVOCg7ZxjYvEYYrYU=
-X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:fc06:3025:c99d:2af7])
- (user=ndesaulniers job=sendgmr) by 2002:a25:2185:0:b0:66c:97fb:f6ba with SMTP
- id h127-20020a252185000000b0066c97fbf6bamr18361471ybh.169.1656450383533; Tue,
- 28 Jun 2022 14:06:23 -0700 (PDT)
-Date:   Tue, 28 Jun 2022 14:04:07 -0700
-In-Reply-To: <CA+55aFz2sNBbZyg-_i8_Ldr2e8o9dfvdSfHHuRzVtP2VMAUWPg@mail.gmail.com>
-Message-Id: <20220628210407.3343118-1-ndesaulniers@google.com>
-Mime-Version: 1.0
-References: <CA+55aFz2sNBbZyg-_i8_Ldr2e8o9dfvdSfHHuRzVtP2VMAUWPg@mail.gmail.com>
-X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=lvO/pmg+aaCb6dPhyGC1GyOCvPueDrrc8Zeso5CaGKE=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1656450247; l=9154;
- s=20211004; h=from:subject; bh=gvpD1o/b8JZSfOr8fCp8TXjM9bVhNEAdI7IvLmzBEEE=;
- b=nVhj4qFBlP9ZwYTN7PMDRYc5i+NSY2lfu1PyHgoG7UiKXpO4/BxXiJmVb9CLvzUlW9Ck7UIlIhpn
- CPuZETO6BScAKn5vPYakOUaU35pM/Wk9wOP/6OzF2BDoriqIdGNb
-X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
-Subject: [PATCH] kbuild: drop support for CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3
-From:   Nick Desaulniers <ndesaulniers@google.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     arnd@arndb.de, bigeasy@linutronix.de, chris@chrisdown.name,
-        dmitry.torokhov@gmail.com, gustavoars@kernel.org,
-        john.ogness@linutronix.de, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mikoxyzzz@gmail.com,
-        nathan@kernel.org, ndesaulniers@google.com, oleksandr@redhat.com,
-        quic_eberman@quicinc.com, seanjc@google.com, tglx@linutronix.de,
-        vbabka@suse.cz, x86@kernel.org, linux-snps-arc@lists.infradead.org,
-        Vineet Gupta <vgupta@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kl62yh9fcFGqVyYLNjMbcUjr7j+88ktEAbLSuJ6L1KY=;
+        b=2Ty03sKf0Az3VqWZZh1Oml6q4fPlNg61iFus1PfUkhOq5+pDlhpj5Qc07ABPvfkFGm
+         13YjCeHimrIevY+7OmadvW1bec3dihwLOiz+DdYxqyxETRxD0DmpsTfe1OTxArVDWES+
+         JwzeV/xGA0EJAbfTXPX8IeoNXohsfU0oCWAHjedhAdu0ys6n5nVIaGvzBBuXG7TocVFY
+         sgR9cSDJJA62zSimAD2XEeAkbzcou5fIp1JCm9XZdzkkzxl60zrwhb488KRZDqDKwrfN
+         /sy85Yx3YRtayCce/42vVC4NyNYdE/WnerQDCU863wzYhhNVuBcbp/jij8F+qb3vfAC6
+         3iaQ==
+X-Gm-Message-State: AJIora9HxE0ZvEG72YBH3dc0usL6YZLxx8Av898O0SvcVVXyj+l7KrXb
+        0VJjjKV2Jbrp13JT2L0jtHNHynDbFi+YBzyBMDE=
+X-Google-Smtp-Source: AGRyM1t5umLiHjcwLID87ouxNCjRvmkitFjy0Lz5f0X/cd77dmmK/oDjS+pai03X+fSYzgFMpV5cmMDAtNqQnwyE6i0=
+X-Received: by 2002:a05:6402:42c6:b0:435:dc4b:1bb2 with SMTP id
+ i6-20020a05640242c600b00435dc4b1bb2mr602470edc.355.1656459339402; Tue, 28 Jun
+ 2022 16:35:39 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAABZP2wCsXG=qaZ68OwDDPA=uG-4Wb-e6WxMNuHNbJTZ1ruenA@mail.gmail.com>
+ <CAK7LNATNo74bcp6F08iiYjbMrnNeQWsOSys5vYfG88jjpU-kZQ@mail.gmail.com>
+In-Reply-To: <CAK7LNATNo74bcp6F08iiYjbMrnNeQWsOSys5vYfG88jjpU-kZQ@mail.gmail.com>
+From:   Zhouyi Zhou <zhouzhouyi@gmail.com>
+Date:   Wed, 29 Jun 2022 07:35:27 +0800
+Message-ID: <CAABZP2y0ScFKftLJsyi9qP16ezpSMy1UxoDmWp1mDktCxJkh1A@mail.gmail.com>
+Subject: Re: Possible problem in check-local-export during the kernel build
+ process (RCU torture)
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        rcu <rcu@vger.kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        linux-modules <linux-modules@vger.kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -80,242 +72,162 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The difference in most compilers between `-O3` and `-O2` is mostly down
-to whether loops with statically determinable trip counts are fully
-unrolled vs unrolled to a multiple of SIMD width.
+On Tue, Jun 28, 2022 at 3:25 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> On Tue, Jun 28, 2022 at 9:55 AM Zhouyi Zhou <zhouzhouyi@gmail.com> wrote:
+> >
+> > Dear Masahiro:
+> >
+> > 1. The cause of the problem
+> > When I am doing RCU torture test:
+> >
+> > #git clone https://kernel.source.codeaurora.cn/pub/scm/linux/kernel/git/paulmck/linux-rcu.git
+> > #cd linux-rcu
+> > #git checkout remotes/origin/pmladek.2022.06.15a
+> > #./tools/testing/selftests/rcutorture/bin/torture.sh
+> >
+> > The kernel building report error something in both Dell PowerEdge R720
+> > and Thinkpad T14 (Amd).
+> >
+> > For example:
+> > /mnt/rcu/linux-rcu/tools/testing/selftests/rcutorture/res/2022.06.27-10.42.37-torture#
+> > find . -name Make.out|xargs grep Error
+> > ./results-rcutorture-kasan/RUDE01/Make.out:make[2]: ***
+> > [scripts/Makefile.build:257: kernel/trace/power-traces.o] Error 255
+>
+>
+> check-local-export stopped using the process substitution.
+> Seet this commit:
+>
+>
+> commit da4288b95baa1c7c9aa8a476f58b37eb238745b0
+> Author: Masahiro Yamada <masahiroy@kernel.org>
+> Date:   Wed Jun 8 10:11:00 2022 +0900
+>
+>     scripts/check-local-export: avoid 'wait $!' for process substitution
+>
+>
+>
+>
+> You are debugging the stale Kbuild code.
+Thank Masahiro for your help
+I patched da4288b95baa1c7c9aa8a476f58b37eb238745b0 to
+pmladek.2022.06.15a branch of linux-rcu, after 13 hours' RCU torture
+test,
+all the testcases are built successfully!
 
-This patch is effectively a revert of
-commit 15f5db60a137 ("kbuild,arc: add
-CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3 for ARC") without re-adding
-ARCH_CFLAGS
-
-Ever since
-commit cfdbc2e16e65 ("ARC: Build system: Makefiles, Kconfig, Linker
-script")
-ARC has been built with -O3, though the reason for doing so was not
-specified in inline comments or the commit message. This commit does not
-re-add -O3 to arch/arc/Makefile.
-
-Folks looking to experiment with `-O3` (or any compiler flag for that
-matter) may pass them along to the command line invocation of make:
-
-$ make KCFLAGS=-O3
-
-Code that looks to re-add an explicit Kconfig option for `-O3` should
-provide:
-1. A rigorous and reproducible performance profile of a reasonable
-   userspace workload that demonstrates a hot loop in the kernel that
-   would benefit from `-O3` over `-O2`.
-2. Disassembly of said loop body before and after.
-3. Provides stats on terms of increase in file size.
-
-Link: https://lore.kernel.org/linux-kbuild/CA+55aFz2sNBbZyg-_i8_Ldr2e8o9dfvdSfHHuRzVtP2VMAUWPg@mail.gmail.com/
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
----
- Makefile                                   | 2 --
- arch/arc/configs/axs101_defconfig          | 1 -
- arch/arc/configs/axs103_defconfig          | 1 -
- arch/arc/configs/axs103_smp_defconfig      | 1 -
- arch/arc/configs/haps_hs_defconfig         | 1 -
- arch/arc/configs/haps_hs_smp_defconfig     | 1 -
- arch/arc/configs/hsdk_defconfig            | 1 -
- arch/arc/configs/nsim_700_defconfig        | 1 -
- arch/arc/configs/nsimosci_defconfig        | 1 -
- arch/arc/configs/nsimosci_hs_defconfig     | 1 -
- arch/arc/configs/nsimosci_hs_smp_defconfig | 1 -
- arch/arc/configs/tb10x_defconfig           | 1 -
- arch/arc/configs/vdk_hs38_defconfig        | 1 -
- arch/arc/configs/vdk_hs38_smp_defconfig    | 1 -
- init/Kconfig                               | 7 -------
- 15 files changed, 22 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index 8973b285ce6c..b69f6cd7f2e2 100644
---- a/Makefile
-+++ b/Makefile
-@@ -755,8 +755,6 @@ KBUILD_CFLAGS	+= $(call cc-disable-warning, address-of-packed-member)
- 
- ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
- KBUILD_CFLAGS += -O2
--else ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3
--KBUILD_CFLAGS += -O3
- else ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
- KBUILD_CFLAGS += -Os
- endif
-diff --git a/arch/arc/configs/axs101_defconfig b/arch/arc/configs/axs101_defconfig
-index 0016149f9583..e31a8ebc3ecc 100644
---- a/arch/arc/configs/axs101_defconfig
-+++ b/arch/arc/configs/axs101_defconfig
-@@ -9,7 +9,6 @@ CONFIG_NAMESPACES=y
- # CONFIG_UTS_NS is not set
- # CONFIG_PID_NS is not set
- CONFIG_BLK_DEV_INITRD=y
--CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
- CONFIG_EMBEDDED=y
- CONFIG_PERF_EVENTS=y
- # CONFIG_VM_EVENT_COUNTERS is not set
-diff --git a/arch/arc/configs/axs103_defconfig b/arch/arc/configs/axs103_defconfig
-index 5b031582a1cf..e0e8567f0d75 100644
---- a/arch/arc/configs/axs103_defconfig
-+++ b/arch/arc/configs/axs103_defconfig
-@@ -9,7 +9,6 @@ CONFIG_NAMESPACES=y
- # CONFIG_UTS_NS is not set
- # CONFIG_PID_NS is not set
- CONFIG_BLK_DEV_INITRD=y
--CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
- CONFIG_EMBEDDED=y
- CONFIG_PERF_EVENTS=y
- # CONFIG_VM_EVENT_COUNTERS is not set
-diff --git a/arch/arc/configs/axs103_smp_defconfig b/arch/arc/configs/axs103_smp_defconfig
-index d4eec39e0112..fcbc952bc75b 100644
---- a/arch/arc/configs/axs103_smp_defconfig
-+++ b/arch/arc/configs/axs103_smp_defconfig
-@@ -9,7 +9,6 @@ CONFIG_NAMESPACES=y
- # CONFIG_UTS_NS is not set
- # CONFIG_PID_NS is not set
- CONFIG_BLK_DEV_INITRD=y
--CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
- CONFIG_EMBEDDED=y
- CONFIG_PERF_EVENTS=y
- # CONFIG_VM_EVENT_COUNTERS is not set
-diff --git a/arch/arc/configs/haps_hs_defconfig b/arch/arc/configs/haps_hs_defconfig
-index 7337cdf4ffdd..d87ad7e88d62 100644
---- a/arch/arc/configs/haps_hs_defconfig
-+++ b/arch/arc/configs/haps_hs_defconfig
-@@ -11,7 +11,6 @@ CONFIG_NAMESPACES=y
- # CONFIG_UTS_NS is not set
- # CONFIG_PID_NS is not set
- CONFIG_BLK_DEV_INITRD=y
--CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
- CONFIG_EXPERT=y
- CONFIG_PERF_EVENTS=y
- # CONFIG_COMPAT_BRK is not set
-diff --git a/arch/arc/configs/haps_hs_smp_defconfig b/arch/arc/configs/haps_hs_smp_defconfig
-index bc927221afc0..8d82cdb7f86a 100644
---- a/arch/arc/configs/haps_hs_smp_defconfig
-+++ b/arch/arc/configs/haps_hs_smp_defconfig
-@@ -11,7 +11,6 @@ CONFIG_NAMESPACES=y
- # CONFIG_UTS_NS is not set
- # CONFIG_PID_NS is not set
- CONFIG_BLK_DEV_INITRD=y
--CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
- CONFIG_EMBEDDED=y
- CONFIG_PERF_EVENTS=y
- # CONFIG_VM_EVENT_COUNTERS is not set
-diff --git a/arch/arc/configs/hsdk_defconfig b/arch/arc/configs/hsdk_defconfig
-index aa000075a575..f856b03e0fb5 100644
---- a/arch/arc/configs/hsdk_defconfig
-+++ b/arch/arc/configs/hsdk_defconfig
-@@ -9,7 +9,6 @@ CONFIG_NAMESPACES=y
- # CONFIG_PID_NS is not set
- CONFIG_BLK_DEV_INITRD=y
- CONFIG_BLK_DEV_RAM=y
--CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
- CONFIG_EMBEDDED=y
- CONFIG_PERF_EVENTS=y
- # CONFIG_VM_EVENT_COUNTERS is not set
-diff --git a/arch/arc/configs/nsim_700_defconfig b/arch/arc/configs/nsim_700_defconfig
-index 326f6cde7826..a1ce12bf5b16 100644
---- a/arch/arc/configs/nsim_700_defconfig
-+++ b/arch/arc/configs/nsim_700_defconfig
-@@ -11,7 +11,6 @@ CONFIG_NAMESPACES=y
- # CONFIG_UTS_NS is not set
- # CONFIG_PID_NS is not set
- CONFIG_BLK_DEV_INITRD=y
--CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
- CONFIG_KALLSYMS_ALL=y
- CONFIG_EMBEDDED=y
- CONFIG_PERF_EVENTS=y
-diff --git a/arch/arc/configs/nsimosci_defconfig b/arch/arc/configs/nsimosci_defconfig
-index bf39a0091679..ca10f4a2c823 100644
---- a/arch/arc/configs/nsimosci_defconfig
-+++ b/arch/arc/configs/nsimosci_defconfig
-@@ -10,7 +10,6 @@ CONFIG_NAMESPACES=y
- # CONFIG_UTS_NS is not set
- # CONFIG_PID_NS is not set
- CONFIG_BLK_DEV_INITRD=y
--CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
- CONFIG_KALLSYMS_ALL=y
- CONFIG_EMBEDDED=y
- CONFIG_PERF_EVENTS=y
-diff --git a/arch/arc/configs/nsimosci_hs_defconfig b/arch/arc/configs/nsimosci_hs_defconfig
-index 7121bd71c543..31b6ec3683c6 100644
---- a/arch/arc/configs/nsimosci_hs_defconfig
-+++ b/arch/arc/configs/nsimosci_hs_defconfig
-@@ -10,7 +10,6 @@ CONFIG_NAMESPACES=y
- # CONFIG_UTS_NS is not set
- # CONFIG_PID_NS is not set
- CONFIG_BLK_DEV_INITRD=y
--CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
- CONFIG_KALLSYMS_ALL=y
- CONFIG_EMBEDDED=y
- CONFIG_PERF_EVENTS=y
-diff --git a/arch/arc/configs/nsimosci_hs_smp_defconfig b/arch/arc/configs/nsimosci_hs_smp_defconfig
-index f9863b294a70..41a0037f48a5 100644
---- a/arch/arc/configs/nsimosci_hs_smp_defconfig
-+++ b/arch/arc/configs/nsimosci_hs_smp_defconfig
-@@ -8,7 +8,6 @@ CONFIG_IKCONFIG_PROC=y
- # CONFIG_UTS_NS is not set
- # CONFIG_PID_NS is not set
- CONFIG_BLK_DEV_INITRD=y
--CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
- CONFIG_PERF_EVENTS=y
- # CONFIG_COMPAT_BRK is not set
- CONFIG_KPROBES=y
-diff --git a/arch/arc/configs/tb10x_defconfig b/arch/arc/configs/tb10x_defconfig
-index a12656ec0072..d93b65008d4a 100644
---- a/arch/arc/configs/tb10x_defconfig
-+++ b/arch/arc/configs/tb10x_defconfig
-@@ -14,7 +14,6 @@ CONFIG_INITRAMFS_SOURCE="../tb10x-rootfs.cpio"
- CONFIG_INITRAMFS_ROOT_UID=2100
- CONFIG_INITRAMFS_ROOT_GID=501
- # CONFIG_RD_GZIP is not set
--CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
- CONFIG_KALLSYMS_ALL=y
- # CONFIG_AIO is not set
- CONFIG_EMBEDDED=y
-diff --git a/arch/arc/configs/vdk_hs38_defconfig b/arch/arc/configs/vdk_hs38_defconfig
-index d7c858df520c..0c3b21416819 100644
---- a/arch/arc/configs/vdk_hs38_defconfig
-+++ b/arch/arc/configs/vdk_hs38_defconfig
-@@ -4,7 +4,6 @@ CONFIG_HIGH_RES_TIMERS=y
- CONFIG_IKCONFIG=y
- CONFIG_IKCONFIG_PROC=y
- CONFIG_BLK_DEV_INITRD=y
--CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
- CONFIG_EMBEDDED=y
- CONFIG_PERF_EVENTS=y
- # CONFIG_VM_EVENT_COUNTERS is not set
-diff --git a/arch/arc/configs/vdk_hs38_smp_defconfig b/arch/arc/configs/vdk_hs38_smp_defconfig
-index 015c1d43889e..f9ad9d3ee702 100644
---- a/arch/arc/configs/vdk_hs38_smp_defconfig
-+++ b/arch/arc/configs/vdk_hs38_smp_defconfig
-@@ -4,7 +4,6 @@ CONFIG_HIGH_RES_TIMERS=y
- CONFIG_IKCONFIG=y
- CONFIG_IKCONFIG_PROC=y
- CONFIG_BLK_DEV_INITRD=y
--CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3=y
- CONFIG_EMBEDDED=y
- CONFIG_PERF_EVENTS=y
- # CONFIG_VM_EVENT_COUNTERS is not set
-diff --git a/init/Kconfig b/init/Kconfig
-index c7900e8975f1..1b4d8acc3def 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -1401,13 +1401,6 @@ config CC_OPTIMIZE_FOR_PERFORMANCE
- 	  with the "-O2" compiler flag for best performance and most
- 	  helpful compile-time warnings.
- 
--config CC_OPTIMIZE_FOR_PERFORMANCE_O3
--	bool "Optimize more for performance (-O3)"
--	depends on ARC
--	help
--	  Choosing this option will pass "-O3" to your compiler to optimize
--	  the kernel yet more for performance.
--
- config CC_OPTIMIZE_FOR_SIZE
- 	bool "Optimize for size (-Os)"
- 	help
--- 
-2.37.0.rc0.161.g10f37bed90-goog
-
+Tested-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
+>
+> If your main interest is RCU torture,
+> please narrow it down to a standalone script,
+> not the entire Kbuild.
+OK and Thank you and Paul both for your guidance and encouragement ;-)
+>
+>
+>
+>
+>
+>
+>
+>
+>
+> >
+> > 2. I trace the problem to check-local-export
+> > I add some echo statement in Makefile.build
+> > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> > index 1f01ac65c0cd..0d48a2d3efff 100644
+> > --- a/scripts/Makefile.build
+> > +++ b/scripts/Makefile.build
+> > @@ -227,13 +227,21 @@ cmd_check_local_export =
+> > $(srctree)/scripts/check-local-export $@
+> >
+> >  define rule_cc_o_c
+> >         $(call cmd_and_fixdep,cc_o_c)
+> > +       echo "after fixdep $$? $<"
+> >         $(call cmd,gen_ksymdeps)
+> > +       echo "after gen_ksymdeps $$? $<"
+> >         $(call cmd,check_local_export)
+> > +       echo "after check_local_export $$? $<"
+> >         $(call cmd,checksrc)
+> > +       echo "after checksrc $$? $<"
+> >         $(call cmd,checkdoc)
+> > +       echo "after checkdoc $$? $<"
+> >         $(call cmd,gen_objtooldep)
+> > +       echo "after gen_objtooldep $$? $<"
+> >         $(call cmd,gen_symversions_c)
+> > +       echo "after gen_symversions $$? $<"
+> >         $(call cmd,record_mcount)
+> > +       echo "after record_mcount $$? $<"
+> >  endef
+> >
+> > Then I rerun the torture.sh
+> >
+> > The result show it is check_local_export did not continue in all failed builds.
+> >
+> > 3. I trace into wait statement in check-local-export
+> > diff --git a/scripts/check-local-export b/scripts/check-local-export
+> > index da745e2743b7..d35477d95bdc 100755
+> > --- a/scripts/check-local-export
+> > +++ b/scripts/check-local-export
+> > @@ -12,7 +12,7 @@ declare -A symbol_types
+> >  declare -a export_symbols
+> >
+> >  exit_code=0
+> > -
+> > +echo "check-local-export L15 ${0} ${1}"
+> >  while read value type name
+> >  do
+> >         # Skip the line if the number of fields is less than 3.
+> > @@ -50,9 +50,10 @@ do
+> >         #   done < <(${NM} --quiet ${1})
+> >  done < <(${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; false; } )
+> >
+> > +echo "check-local-export L53 ${0} ${1}"
+> >  # Catch error in the process substitution
+> >  wait $!
+> > -
+> > +echo "check-local-export L56 ${0} ${1} $! $?"
+> >  for name in "${export_symbols[@]}"
+> >  do
+> >         # nm(3) says "If lowercase, the symbol is usually local"
+> > @@ -61,5 +62,9 @@ do
+> >                 exit_code=1
+> >         fi
+> >  done
+> > -
+> > +if [ ${exit_code} -ne 0 ] ; then
+> > +    echo "Zhouyi Zhou"
+> > +    echo ${exit_code}
+> > +fi
+> > +echo "check-local-export L69 $? ${exit_code}"
+> >  exit ${exit_code}
+> >
+> > Then I rerun the torture.sh
+> >
+> > The result show it is wait $! in all failed builds because in all failed cases,
+> > there is L53, but no L56
+> >
+> > 4. I look into source code of wait command
+> > #wget http://ftp.gnu.org/gnu/bash/bash-5.0.tar.gz
+> > #tar zxf tar zxf bash-5.0.tar.gz
+> > I found that there are QUIT statements in realization of function wait_for
+> >
+> > 5. My Guess
+> > wait statement in check-local-export may cause bash to quit
+> > I am very interested in this problem, but I am a rookie, I am very
+> > glad to proceed the investigation with your further directions.
+> >
+> > Sorry to have brought you so much trouble.
+> >
+> >
+> > Kind Regard
+> > Thank you very much
+> > Zhouyi
+>
+>
+>
+> --
+> Best Regards
+> Masahiro Yamada
+Best Regards
+Zhouyi
