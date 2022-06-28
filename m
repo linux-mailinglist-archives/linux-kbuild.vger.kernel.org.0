@@ -2,109 +2,115 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C9EB055CDC3
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Jun 2022 15:04:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3C0355E463
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Jun 2022 15:39:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345701AbiF1M2D (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 28 Jun 2022 08:28:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55620 "EHLO
+        id S1346313AbiF1NV3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 28 Jun 2022 09:21:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345706AbiF1M16 (ORCPT
+        with ESMTP id S1346316AbiF1NVM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 28 Jun 2022 08:27:58 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AAB82A73C
-        for <linux-kbuild@vger.kernel.org>; Tue, 28 Jun 2022 05:27:51 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id r20so17486513wra.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 28 Jun 2022 05:27:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=tb0t65jsbHJl74LbXn7xY7xw4eMs9qTMATyi3JCBvfo=;
-        b=U9my8jxUxg/O9/IM764HdUfoUJ1/0PxPY/DxLNTodgfsYi3V5aQYKxoNv4C8F0QnMb
-         AhZ4UNDxOAr9aFw2ia2bXMBqXD85gflBsiu+PE4A7D1Yl8/7m6U/b8wd6mtPzKHEvjpP
-         JNGgiB6zkj9JfswjNmwlMy16fZOMMXkDPvR+YoeWvU/+mi0Rja8j49tv6IvZlswnd9IU
-         GxAJfsKibmF1vZSMv3bZ2vpXH7t9fsE7zFlWLU7ESHp1kscg46v70TFaeElCNQC0KJaH
-         ZlC4LPGJ3u1HrhVgY28KdpW99YFobfyYkFRPzK/O2BlOlQ2IWB1QZSuGhLak8iosgf0V
-         wG1g==
+        Tue, 28 Jun 2022 09:21:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EB7D235A97
+        for <linux-kbuild@vger.kernel.org>; Tue, 28 Jun 2022 06:19:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1656422356;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=qtr8/zsHx2lgXvXWLguSyb54C2tIRyCmz4eBKyNcZb0=;
+        b=FanQX8fbKAboMUhwWZK6X5rjtORLcIMo9+N9BuYj415/quB7NPo1s6G8qlwhkzPUTbVFQz
+        mCQ8oDaX8SYWNTB3GMW2CNhEfLHRkCkHSD+feFRf9RgglzlHLsPPZWvi6CszggkY/PXk3V
+        ZfGByGtIswFMDbvwUNK+MciAK5dO/qs=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-509-GOhJ-48WO4iP0JlvW1LdJg-1; Tue, 28 Jun 2022 09:19:14 -0400
+X-MC-Unique: GOhJ-48WO4iP0JlvW1LdJg-1
+Received: by mail-qk1-f199.google.com with SMTP id k190-20020a37bac7000000b006af6d953751so333361qkf.13
+        for <linux-kbuild@vger.kernel.org>; Tue, 28 Jun 2022 06:19:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=tb0t65jsbHJl74LbXn7xY7xw4eMs9qTMATyi3JCBvfo=;
-        b=vdQ4MIo4GvDH+pgo5viQEC8PNCZsBSWtZ3c4IqZWm1kEdP97XjjvgMXqqo8Jr1doib
-         zZxQ0WSHHlZqeH7RbLsieMvUKpOOgKXW7XXSoyrM9Zinf2sHQ7gDfVYTthFu2nvSdiAa
-         DP1WbNNqT9ujsYmFTtMZVllCrZby6sGgGugMaboGKNJdjtHJMTgE5gZXzJr+/jMQ3fD8
-         61bhYTVKJilwnANc8HUfqdJja72Njh5UByDd5EmaZB+K0wcIqOeJZzWzJeQpedA9y2j+
-         nCRDn7GRmWPywUXTma5700VhA8U5Q4bTO3gX16imPRl9O/f75pH7Cx/vMhTA3e66llXd
-         JGhg==
-X-Gm-Message-State: AJIora+j5e0JlPd36nK0h1kDtwXLTfTP6U/NgbAaC75QZPq+6DF3+9o9
-        gDWPaFlpiHTz9ODj9a2vXEepZw==
-X-Google-Smtp-Source: AGRyM1sEgEQCWJLYG0thDMOLQ9G5zPwdAxURojB8U7z+FJm4KwwTAVmermo6VcLaUomfdQ3hiIRTgQ==
-X-Received: by 2002:a5d:4251:0:b0:21b:885b:2fcc with SMTP id s17-20020a5d4251000000b0021b885b2fccmr17944898wrr.52.1656419270152;
-        Tue, 28 Jun 2022 05:27:50 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
-        by smtp.gmail.com with ESMTPSA id ay36-20020a05600c1e2400b0039746638d6esm17184212wmb.33.2022.06.28.05.27.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jun 2022 05:27:49 -0700 (PDT)
-From:   Daniel Thompson <daniel.thompson@linaro.org>
-To:     Nathan Chancellor <nathan@kernel.org>, Tom Rix <trix@redhat.com>
-Cc:     Daniel Thompson <daniel.thompson@linaro.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=qtr8/zsHx2lgXvXWLguSyb54C2tIRyCmz4eBKyNcZb0=;
+        b=FMgddEfYaI97RRpt4HZZsCI26xYhAcYxetedITB+PbwXgf/gMn/g1IwSMJU6mOvlQ0
+         G9alb0DkVN4yFNV/yTbXiRMpQbjx520t8xGam4Rrnv1tZ8O2Kh3fKKdBspNCXMdvKO3h
+         iY5Q+8z1mxPB3Kr98EXI8PPi9Dpu7xXV4BJi918m/30h9NmsAdkw/M4l469gK0Fk18tl
+         adDE4bJj2R1hYt0+gN4JnVid9/F6CTfWIUqvpEiijsmrc/f1vLKK7vPKuJ+T2JgwmYZr
+         9+dwb/1WozIImSLdG6gaa5pfdyLsQCZDbNYEEgpAYssQW6RKr5vqzD2hkhovQg287YpY
+         Bddw==
+X-Gm-Message-State: AJIora+ZMUwoLMfEmH7vyvg8KN2W+hX7xUXpZpSUKwnCrhvlgbHo6z55
+        iFPj+9TX4CvKC6z41yZzAfB86CPdCCdz2Ct5tIP1rCPz1bo7l5VX/IOP3UW+e8JCUTohlmvAajq
+        lb14UIzUhcfBoO7tAw/pj4S5O
+X-Received: by 2002:a05:620a:2629:b0:6ae:f26f:4a6f with SMTP id z41-20020a05620a262900b006aef26f4a6fmr11211899qko.525.1656422354107;
+        Tue, 28 Jun 2022 06:19:14 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1u6u3ElgI5SXkTszodT7+MkuzdhwyGAU7ALTb5+ws6xpB7rbXIdQWZhAuG2FGgMK9tgjL0AfQ==
+X-Received: by 2002:a05:620a:2629:b0:6ae:f26f:4a6f with SMTP id z41-20020a05620a262900b006aef26f4a6fmr11211875qko.525.1656422353898;
+        Tue, 28 Jun 2022 06:19:13 -0700 (PDT)
+Received: from localhost.localdomain (024-205-208-113.res.spectrum.com. [24.205.208.113])
+        by smtp.gmail.com with ESMTPSA id ay42-20020a05620a17aa00b006af3bc9c6bbsm3262520qkb.52.2022.06.28.06.19.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Jun 2022 06:19:13 -0700 (PDT)
+Subject: Re: [PATCH 0/2] Enable clang tools for kernels build using gcc
+To:     Daniel Thompson <daniel.thompson@linaro.org>,
+        Nathan Chancellor <nathan@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
         linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] Makefile: Enable clang-tidy and clang-analyzer for gcc builds
-Date:   Tue, 28 Jun 2022 13:27:40 +0100
-Message-Id: <20220628122741.93641-3-daniel.thompson@linaro.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220628122741.93641-1-daniel.thompson@linaro.org>
 References: <20220628122741.93641-1-daniel.thompson@linaro.org>
+From:   Tom Rix <trix@redhat.com>
+Message-ID: <0478d832-d902-69ed-7c1c-4f19d942cddf@redhat.com>
+Date:   Tue, 28 Jun 2022 06:19:09 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20220628122741.93641-1-daniel.thompson@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-It is now possible use clang-tidy and clang-analyzer even if your primary
-compiler is gcc. Remove the checks that prevent gcc builds from using
-these tools.
+The limitations of the compilation db are not limited to the kernel.
 
-Signed-off-by: Daniel Thompson <daniel.thompson@linaro.org>
----
- Makefile | 6 ------
- 1 file changed, 6 deletions(-)
+Why shouldn't the change be made in the llvm project ?
 
-diff --git a/Makefile b/Makefile
-index 9ea6867aaf9c..0afef56d8203 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1901,17 +1901,11 @@ targets += $(extmod_prefix)compile_commands.json
- 
- PHONY += clang-tidy clang-analyzer
- 
--ifdef CONFIG_CC_IS_CLANG
- quiet_cmd_clang_tools = CHECK   $<
-       cmd_clang_tools = $(PYTHON3) $(srctree)/scripts/clang-tools/run-clang-tools.py $@ $<
- 
- clang-tidy clang-analyzer: $(extmod_prefix)compile_commands.json
- 	$(call cmd,clang_tools)
--else
--clang-tidy clang-analyzer:
--	@echo "$@ requires CC=clang" >&2
--	@false
--endif
- 
- # Scripts to check various things for consistency
- # ---------------------------------------------------------------------------
--- 
-2.35.1
+Tom
+
+On 6/28/22 5:27 AM, Daniel Thompson wrote:
+> This patch set makes it possible to use clang based tools, such as
+> the clangd completion engine, regardless of our choice of compiler
+> for the actual kernel build.
+>
+> Most of the fine details are included in the patch header for the
+> first patch (since we'd like them to appear in the kernel history so
+> they can help future archaeologists).
+>
+> Daniel Thompson (2):
+>    clang-tools: Generate clang compatible output even with gcc builds
+>    Makefile: Enable clang-tidy and clang-analyzer for gcc builds
+>
+>   Makefile                                    | 11 ++--
+>   scripts/clang-tools/gen_compile_commands.py | 71 ++++++++++++++++++++-
+>   2 files changed, 74 insertions(+), 8 deletions(-)
+>
+>
+> base-commit: a111daf0c53ae91e71fd2bfe7497862d14132e3e
+> --
+> 2.35.1
+>
 
