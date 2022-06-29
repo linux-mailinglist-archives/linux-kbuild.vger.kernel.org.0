@@ -2,118 +2,148 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 76CA355FDC2
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Jun 2022 12:50:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06978560445
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Jun 2022 17:16:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231853AbiF2Ksi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 29 Jun 2022 06:48:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55580 "EHLO
+        id S231501AbiF2PQS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 29 Jun 2022 11:16:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229772AbiF2Ksh (ORCPT
+        with ESMTP id S232755AbiF2PQS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 29 Jun 2022 06:48:37 -0400
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEBC01A38F;
-        Wed, 29 Jun 2022 03:48:35 -0700 (PDT)
-Received: by mail-ed1-x533.google.com with SMTP id r18so13733357edb.9;
-        Wed, 29 Jun 2022 03:48:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=6LFOwjQrAynhPJz9w2u2YY2RBLCZh4UAS01+RkIiElc=;
-        b=dneHmp6YA1cG3nYmf9UuYKaCuH1hXRFEWx3WTF2ty6a9myUn2eqF9gjXMlXa3La8Gg
-         VC10gpLljqL1ooesc7h7mKvbpvw4hc0lzOguyePMZbTAyJTeHzCIAYaTqUgGd1r8dhWT
-         Kndakzd/rpUwN2ODtK1/UwYdfjYTxOAn92w7+RI4Jxk5julwlXtzRS2sN7B4ZSqOO3pW
-         Ad01BneYF9sAorQLTi1e/j4zfnLe5AfFh1bTHXZmNZ03jidbaYrl0VVPJ58gUFWJSZmh
-         EVlxxoxeco5L7nxDkaUNIzOcKfke+Px3y6xgv/EbCA8o+qxDRs6mco8veT05duUJs/VP
-         Ld6w==
+        Wed, 29 Jun 2022 11:16:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5B634D53
+        for <linux-kbuild@vger.kernel.org>; Wed, 29 Jun 2022 08:16:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1656515776;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=+wuv2Q4SapFEU9YAsP/MbzK2Zmj8ccNhg61UhoKXdRY=;
+        b=Rw56Y0+ZRCqoHYenVSpXslBxUxfVpZJ9w3C9J0Sfhm3XYA9GwwNA+4+X/X1JFP8/RWYDnB
+        /Kx3Y2PSQVr0jMzxC7JMF4JWn+A9kte23v7ZLyIf3VjJAiQl+idvk3pKQ8lNXlGG7ipxKf
+        eqQm6ZcuBGvJVdfFjEF2SIEJD0knL/Q=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-227-9s7IqdVCPwmkiAR8PyuMog-1; Wed, 29 Jun 2022 11:16:15 -0400
+X-MC-Unique: 9s7IqdVCPwmkiAR8PyuMog-1
+Received: by mail-qk1-f198.google.com with SMTP id de4-20020a05620a370400b006a9711bd9f8so16497745qkb.9
+        for <linux-kbuild@vger.kernel.org>; Wed, 29 Jun 2022 08:16:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=6LFOwjQrAynhPJz9w2u2YY2RBLCZh4UAS01+RkIiElc=;
-        b=483vX/mcDokS7K+QrlS8wR2Kp77L3k5pmGGXGoEUcSazs+LBmexxVAzGxnaSUJK050
-         QfY+PoA49mhl0QPCEapE3jLynM/ZPVgae82V/G4IKhVyX42JR5fqCBF8T6OZr/+1/Rgi
-         iohpr2lt+IDDHdaouz8+5f41ucHpuo+4u86OxKPWjbwO8Oklsl2xDR2mo9h/W4rXnTqM
-         p/Gzgzc3YSyGsCxrUwzQZtR6UbAEyei/U0xtvWkeuBdzn29xx+UngVJgZyugQi7GPGt5
-         mfjjGd9/T8ttke4s1rxmXnPwp+6b9Jsxlf+QAaKNPkHPmIt8PO7luJ/vGfJn43M75K1q
-         PxGA==
-X-Gm-Message-State: AJIora/0FnAYK0aOrYAjQ9x1C/xQyGn9ZFA8SUMboIGySIKqsKW3eqxx
-        iRj+oR+FVn68Rh3kHewmT/otSK/XLUT6hA==
-X-Google-Smtp-Source: AGRyM1vFiCAQXNLCOYQ/qrf/5NU8lfqplEuPbV4uIYv41Kuoos1HAZTnu7lkf/zQzOzHzELE8gkdpQ==
-X-Received: by 2002:a05:6402:3682:b0:435:b12e:57cd with SMTP id ej2-20020a056402368200b00435b12e57cdmr3396614edb.381.1656499714338;
-        Wed, 29 Jun 2022 03:48:34 -0700 (PDT)
-Received: from sakura.myxoz.lan (195-198-44-182-no2390.tbcn.telia.com. [195.198.44.182])
-        by smtp.gmail.com with ESMTPSA id l2-20020a170906078200b006fe89cafc42sm7676800ejc.172.2022.06.29.03.48.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jun 2022 03:48:33 -0700 (PDT)
-From:   Miko Larsson <mikoxyzzz@gmail.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Cc:     arnd@arndb.de, bigeasy@linutronix.de, chris@chrisdown.name,
-        dmitry.torokhov@gmail.com, gustavoars@kernel.org,
-        john.ogness@linutronix.de, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, nathan@kernel.org,
-        ndesaulniers@google.com, oleksandr@redhat.com,
-        quic_eberman@quicinc.com, seanjc@google.com, tglx@linutronix.de,
-        vbabka@suse.cz, x86@kernel.org, linux-snps-arc@lists.infradead.org,
-        Vineet Gupta <vgupta@kernel.org>
-Subject: Re: [PATCH] kbuild: drop support for CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3
-Date:   Wed, 29 Jun 2022 12:48:45 +0200
-Message-ID: <2842572.mvXUDI8C0e@sakura.myxoz.lan>
-In-Reply-To: <20220628210407.3343118-1-ndesaulniers@google.com>
-References: <CA+55aFz2sNBbZyg-_i8_Ldr2e8o9dfvdSfHHuRzVtP2VMAUWPg@mail.gmail.com> <20220628210407.3343118-1-ndesaulniers@google.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=+wuv2Q4SapFEU9YAsP/MbzK2Zmj8ccNhg61UhoKXdRY=;
+        b=PGkXkeOz/Bo+NRXMYv9dKcZG7GFkfQ8tbXrVDLXOVJNUHN/57GvYj0KqDNJq0T5Bb+
+         3UKWckY0iSMCn0cnlhTreycmsf+z3HSO2Wp16PqcVB0yx0/xWxfS3M9v+Ohr5wl0g/A/
+         Q0rRr1GYV1rB4mm5E3LCSMzGaVSGXnyjN4ID0XlgqMty2mtRqQ5ty5Se2cNw5Nhwm6JL
+         ABC67W2PtEqgZpCDyeGpiGusXnsEYkQ4sphHBUugMvgwRLL4RnnaXh+OvqMleI3hL3yc
+         8Ml80IPqOOsO6npxVvgppnlDCrwJWO0EXj/VVJUa1mjLN/a+kBS6k1lpeUOOFfdlFTUe
+         2vzw==
+X-Gm-Message-State: AJIora8AFgNGS3XLlnJv4LbqFj/nMlEH8RQT/3euGhEyrtSjqlvEOOMn
+        PvtsHsv2T0zU7vAvpq4alqH8M8WlXAzAkpVMOZ3dXVCqa8QOGQa/UH7bi7z2Q1QB5g6/eTM5K/+
+        W3Qpg0vDn/6BSIid2cQ5xzvjI
+X-Received: by 2002:a05:620a:448a:b0:6af:39e9:c31 with SMTP id x10-20020a05620a448a00b006af39e90c31mr2478062qkp.9.1656515774373;
+        Wed, 29 Jun 2022 08:16:14 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1utDyZu7vSMk4vpgIU4ljG9sMhYDfbT33tgD05fOPGbeD7Temlasyp8Dn/Nsd0fD8qv9w7DAQ==
+X-Received: by 2002:a05:620a:448a:b0:6af:39e9:c31 with SMTP id x10-20020a05620a448a00b006af39e90c31mr2478019qkp.9.1656515774074;
+        Wed, 29 Jun 2022 08:16:14 -0700 (PDT)
+Received: from [192.168.1.9] (pool-68-163-101-245.bstnma.fios.verizon.net. [68.163.101.245])
+        by smtp.gmail.com with ESMTPSA id a20-20020a05620a16d400b0069fe1dfbeffsm13269517qkn.92.2022.06.29.08.16.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Jun 2022 08:16:13 -0700 (PDT)
+Subject: Re: s390/nospec: add an option to use thunk-extern
+To:     Vasily Gorbik <gor@linux.ibm.com>
+Cc:     Michael Ellerman <mpe@ellerman.id.au>,
+        Sumanth Korikkar <sumanthk@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        linux-kbuild@vger.kernel.org, "C. Erastus Toe" <ctoe@redhat.com>
+References: <8569429d-57f8-a0cf-8b17-1291f6973d32@redhat.com>
+ <cover.thread-d13b6c.your-ad-here.call-01656331067-ext-4899@work.hours>
+From:   Joe Lawrence <joe.lawrence@redhat.com>
+Message-ID: <ad6a926e-eed1-a5e2-9f8b-0ea1599bbaed@redhat.com>
+Date:   Wed, 29 Jun 2022 11:16:12 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <cover.thread-d13b6c.your-ad-here.call-01656331067-ext-4899@work.hours>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tuesday, 28 June 2022 23:04:07 CEST Nick Desaulniers wrote:
-> The difference in most compilers between `-O3` and `-O2` is mostly down
-> to whether loops with statically determinable trip counts are fully
-> unrolled vs unrolled to a multiple of SIMD width.
+On 6/27/22 8:50 AM, Vasily Gorbik wrote:
+> Hi Joe,
 > 
-> This patch is effectively a revert of
-> commit 15f5db60a137 ("kbuild,arc: add
-> CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3 for ARC") without re-adding
-> ARCH_CFLAGS
+> sorry for late reply.
 > 
-> Ever since
-> commit cfdbc2e16e65 ("ARC: Build system: Makefiles, Kconfig, Linker
-> script")
-> ARC has been built with -O3, though the reason for doing so was not
-> specified in inline comments or the commit message. This commit does not
-> re-add -O3 to arch/arc/Makefile.
+>> I couldn't find the upstream patch post for 1d2ad084800e ("s390/nospec:
+>> add an option to use thunk-extern"), so replying off-list here.  Feel
+>> free to cc the appropriate list.
+>>
+>> Regarding this change, as I understand it, when CONFIG_EXPOLINE_EXTERN=y
+>> out-of-tree kernel modules will need to link against
+>> arch/s390x/lib/expoline.o, right?
+>>
+>> And if so, shouldn't the top level 'prepare_modules' target create
+>> expoline.o for this purpose?
 > 
-> Folks looking to experiment with `-O3` (or any compiler flag for that
-> matter) may pass them along to the command line invocation of make:
+> Thanks for bringing this up. I definitely missed out-of-tree kernel modules
+> build case without a prebuilt kernel. On the other hand this post-linking
+> trick is a rip off from powerpc:
 > 
-> $ make KCFLAGS=-O3
+> KBUILD_LDFLAGS_MODULE += arch/powerpc/lib/crtsavres.o
 > 
-> Code that looks to re-add an explicit Kconfig option for `-O3` should
-> provide:
-> 1. A rigorous and reproducible performance profile of a reasonable
->    userspace workload that demonstrates a hot loop in the kernel that
->    would benefit from `-O3` over `-O2`.
-> 2. Disassembly of said loop body before and after.
-> 3. Provides stats on terms of increase in file size.
+> So, now I wonder why powerpc doesn't have crtsavres.o in 'prepare_modules'.
+> 
+> Anyhow, below is couple of patches to consider. The first one is
+> meant to be backportable, as the second one requires 4efd417f298b.
+> 
+> I had to move expoline.S to a separate directory to be able to call into
+> its Makefile for 'prepare_modules' and avoid warnings for other targets
+> defined in the same Makefile. Not sure if there are better kbuild tricks
+> I could use. Another option I thought about is to keep expoline.S where
+> it is and add a condition into that Makefile:
+> expoline_prepare: prepare0
+> 	$(Q)$(MAKE) $(build)=arch/s390/lib expoline_prepare=1 arch/s390/lib/expoline.o
+> 
+> arch/s390/lib/Makefile:
+> # first target defined
+> obj-$(CONFIG_EXPOLINE_EXTERN) += expoline.o
+> ifndef expoline_prepare
+> # ...other targets...
+> 
+> Vasily Gorbik (2):
+>   s390/nospec: build expoline.o for modules_prepare target
+>   s390/nospec: remove unneeded header includes
+> 
+>  arch/s390/Makefile                      | 8 +++++++-
+>  arch/s390/include/asm/nospec-insn.h     | 2 --
+>  arch/s390/lib/Makefile                  | 3 ++-
+>  arch/s390/lib/expoline/Makefile         | 3 +++
+>  arch/s390/lib/{ => expoline}/expoline.S | 0
+>  5 files changed, 12 insertions(+), 4 deletions(-)
+>  create mode 100644 arch/s390/lib/expoline/Makefile
+>  rename arch/s390/lib/{ => expoline}/expoline.S (100%)
 > 
 
-Might be worth cleaning up the rest of the kernel of instances of -O3,
-too. -O3 used to build lz4 and mips vdso, for instance. Might be a bit
-of a digression, though
+Thanks, Vasily.  We'll test these with OOT and the original gitlab
+pipeline where we spotted potential issue with packaging and report back.
 
---
-~miko
-
+-- 
+Joe
 
