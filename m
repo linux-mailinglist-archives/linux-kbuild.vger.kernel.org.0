@@ -2,92 +2,89 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5D525616B7
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Jun 2022 11:44:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 056C65616EF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Jun 2022 11:57:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233728AbiF3Jov (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 30 Jun 2022 05:44:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49640 "EHLO
+        id S233653AbiF3J5t (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 30 Jun 2022 05:57:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233003AbiF3Jou (ORCPT
+        with ESMTP id S234681AbiF3J5q (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 30 Jun 2022 05:44:50 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA3CB40E69;
-        Thu, 30 Jun 2022 02:44:49 -0700 (PDT)
-Received: from [192.168.10.6] (unknown [39.45.241.119])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        Thu, 30 Jun 2022 05:57:46 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F40043ED5;
+        Thu, 30 Jun 2022 02:57:45 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: usama.anjum)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id C43256601948;
-        Thu, 30 Jun 2022 10:44:45 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1656582288;
-        bh=P0BWtySV4MRg9zO1ItPPouw9QtNHTwKz3nOrSZIaxDI=;
-        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-        b=E0QxmrqoI2wUI1dd89dOh+MH+Yk0NUrB1Jtn2xHixHAfYESASPuxOAFRtsgm3HPhR
-         S52Uh6/Zq8P0XBl2BplIl9Ofxw5oBIZMGoMPm+Arnop/cUAMZeE6MQQQ+vXN+zgBa3
-         CJ8ySoKfySKiG6weR0jnXpzdyamenOCMtXUR7HSqBgFz20Kq8EwlaTcu9JWtdwcE4Q
-         qDP8Dsj6Dh7rWY6wVmYf3J6Kd1s8qwoHKSj1alc9t1251u1oJVdvEBwlXTp1a8r318
-         f5dtsoA78384gKfCiPUkJupKYp5ReBVpjtGjaWr0Gp5Gq5W29oAlt0gt7afzn368Ro
-         TONJSHH26JpUg==
-Message-ID: <95a3eb80-645e-a1b9-8373-46b1ad015e96@collabora.com>
-Date:   Thu, 30 Jun 2022 14:44:40 +0500
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1EA866207F;
+        Thu, 30 Jun 2022 09:57:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C8C6C34115;
+        Thu, 30 Jun 2022 09:57:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656583064;
+        bh=CU8sfltvgR3OfUDZxSf9YawLMsQ0a1whK3wUGRtf0Bs=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=kjV8bTdOSqdmcOfeELu+uLEV0wvLyXOx2uBHEzgnWssDAkuc6rKwgEtymggTqJJk/
+         jFGGckIGTbZ/tqsVcfn6ijY7yU+oZWB4tSXhYcVR0QZsDyIJdpXf1pe99aDEy8nnZi
+         8X/+IIcFkQWz7Es2xzU3Bx6Z4quSUWONKLVUr4E85iyhyf4xHhAPKZ/3he49+AZ3ja
+         uU1I7dCqXm/5QuMh6e2n+p9ZeVRYYeWmCVPaQxMjc/LPhnXKwwNzDCB7fxkcqOI77x
+         yFTYzx54qQPjhOdU/0gCP6CAd84Y8LXaDYs52BTmCB8tiYOgZHrGgnwaojYKd1ueY0
+         WmxNIPWum/oKQ==
+Message-ID: <178bee80-3ccc-812a-2e2e-46540bbdcc51@kernel.org>
+Date:   Thu, 30 Jun 2022 11:57:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Cc:     usama.anjum@collabora.com, Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Kieran Bingham <kbingham@kernel.org>, kernel@collabora.com,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org, guillaume.tucker@collabora.co.uk
-Subject: Re: [PATCH v1] kbuild: fix sub directory output build of kselftests
+Subject: Re: [Linux v5.19-rc2] rtla: Errors when running `make tools/clean`
 Content-Language: en-US
-To:     Shuah Khan <skhan@linuxfoundation.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-References: <20220627070214.432390-1-usama.anjum@collabora.com>
- <15532d64-6744-c8a5-184b-18358211d345@linuxfoundation.org>
- <CAK7LNARxSFSQgmrZe2CXj+V153kymBVyGkXwOPWLNoybQ8+bfg@mail.gmail.com>
- <04f168f8-0369-f0f6-8eab-9d384aced2c8@linuxfoundation.org>
-From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
-In-Reply-To: <04f168f8-0369-f0f6-8eab-9d384aced2c8@linuxfoundation.org>
+To:     sedat.dilek@gmail.com
+Cc:     linux-trace-devel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>
+References: <CA+icZUX-=vjX1WgJLDGZYZhrpxy+KqynMMFmNPp8pWu0q2sDcg@mail.gmail.com>
+ <CA+icZUWFUC5eiKS96vpoPQbX+jx5OYBfD40Ns86sUxE0hcft1w@mail.gmail.com>
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+In-Reply-To: <CA+icZUWFUC5eiKS96vpoPQbX+jx5OYBfD40Ns86sUxE0hcft1w@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro,
+Hi Sedat,
 
->>> Please resend cc'ing linux-kselftest
->>>
->>> thanks,
->>> -- Shuah
+On 6/27/22 08:23, Sedat Dilek wrote:
+> On Wed, Jun 15, 2022 at 12:23 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+>> [ CC linux-kbuild folks ]
 >>
+>> Hi,
 >>
->> Please do not send this any more.
->> This part is good as is.
-I'm confused. Have you accepted or rejected the patch?
-
+>> while digging into a perf issue I see this:
 >>
-> 
-> + linux-kselftest@vger.kernel.org
-> 
-> The reason I suggested resending cc'ing linux-kselftest is because
-> this fixes a kselftest problem.
-> 
-> I am assuming this patch will go through kbuild
-> 
-> Acked-by: Shuah Khan <skhan@linuxfoundation.org>
+>> $ cd /path/to/linux.git
+>>
+>> $ LC_ALL=C make -C tools/ clean 2>&1 | tee ../make-log_tools-clean.txt
+>> ...
 
+Do you mind trying this? 
 
--- 
-Muhammad Usama Anjum
+diff --git a/tools/tracing/rtla/Makefile b/tools/tracing/rtla/Makefile
+index 3822f4ea5f49..1bea2d16d4c1 100644
+--- a/tools/tracing/rtla/Makefile
++++ b/tools/tracing/rtla/Makefile
+@@ -1,6 +1,6 @@
+ NAME	:=	rtla
+ # Follow the kernel version
+-VERSION :=	$(shell cat VERSION 2> /dev/null || make -sC ../../.. kernelversion)
++VERSION :=	$(shell cat VERSION 2> /dev/null || make -sC ../../.. kernelversion | grep -v make)
+ 
+ # From libtracefs:
+ # Makefiles suck: This macro sets a default value of $(2) for the
