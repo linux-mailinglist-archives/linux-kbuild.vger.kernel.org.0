@@ -2,81 +2,92 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0BEB5614D3
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Jun 2022 10:22:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5D525616B7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Jun 2022 11:44:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233383AbiF3IWQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 30 Jun 2022 04:22:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48842 "EHLO
+        id S233728AbiF3Jov (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 30 Jun 2022 05:44:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229873AbiF3IVs (ORCPT
+        with ESMTP id S233003AbiF3Jou (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 30 Jun 2022 04:21:48 -0400
-Received: from conuserg-11.nifty.com (conuserg-11.nifty.com [210.131.2.78])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FD80BC9E;
-        Thu, 30 Jun 2022 01:20:13 -0700 (PDT)
-Received: from grover.sesame ([133.106.249.59]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id 25U8IuIs002167;
-        Thu, 30 Jun 2022 17:18:57 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 25U8IuIs002167
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1656577138;
-        bh=oCy0zw+wURoxfZMcYbF4qQYsFUfZjWgGoas52B3YrXM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=n4iDwOvEiKupwRDEy4cVT3Xg19j1QMhKBNRL8DfdeLoy/wAK2xQrQQVPdMwsz5X0V
-         ETp/isNQ7ab/MYlW9z+27Suk731LdviMqNCC5778bipy5353y9Yw8tsSk0g+tpzQ25
-         AwkukdQN1SJyMtojDOl7ujnyBuKA103WGowDrb8klMPtz2P3NMESD9ghgsiv4szKRS
-         9yNj8n/80xA2HbJ3yxhzq8C+NKTK8Sk+j6TmREPaxKCyjxA4/xyvH/esr5itmrXSF/
-         WhuQDZ1BG214kznXCVul6UTGviTTTXBWVL0Srh0V3gbdYt/upAxFaRLzRcv8ln92Tw
-         qoB0H9fuvx88A==
-X-Nifty-SrcIP: [133.106.249.59]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Revert "scripts/mod/modpost.c: permit '.cranges' secton for sh64 architecture."
-Date:   Thu, 30 Jun 2022 17:18:46 +0900
-Message-Id: <20220630081846.317517-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.32.0
+        Thu, 30 Jun 2022 05:44:50 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA3CB40E69;
+        Thu, 30 Jun 2022 02:44:49 -0700 (PDT)
+Received: from [192.168.10.6] (unknown [39.45.241.119])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: usama.anjum)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id C43256601948;
+        Thu, 30 Jun 2022 10:44:45 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1656582288;
+        bh=P0BWtySV4MRg9zO1ItPPouw9QtNHTwKz3nOrSZIaxDI=;
+        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+        b=E0QxmrqoI2wUI1dd89dOh+MH+Yk0NUrB1Jtn2xHixHAfYESASPuxOAFRtsgm3HPhR
+         S52Uh6/Zq8P0XBl2BplIl9Ofxw5oBIZMGoMPm+Arnop/cUAMZeE6MQQQ+vXN+zgBa3
+         CJ8ySoKfySKiG6weR0jnXpzdyamenOCMtXUR7HSqBgFz20Kq8EwlaTcu9JWtdwcE4Q
+         qDP8Dsj6Dh7rWY6wVmYf3J6Kd1s8qwoHKSj1alc9t1251u1oJVdvEBwlXTp1a8r318
+         f5dtsoA78384gKfCiPUkJupKYp5ReBVpjtGjaWr0Gp5Gq5W29oAlt0gt7afzn368Ro
+         TONJSHH26JpUg==
+Message-ID: <95a3eb80-645e-a1b9-8373-46b1ad015e96@collabora.com>
+Date:   Thu, 30 Jun 2022 14:44:40 +0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Cc:     usama.anjum@collabora.com, Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Kieran Bingham <kbingham@kernel.org>, kernel@collabora.com,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org, guillaume.tucker@collabora.co.uk
+Subject: Re: [PATCH v1] kbuild: fix sub directory output build of kselftests
+Content-Language: en-US
+To:     Shuah Khan <skhan@linuxfoundation.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+References: <20220627070214.432390-1-usama.anjum@collabora.com>
+ <15532d64-6744-c8a5-184b-18358211d345@linuxfoundation.org>
+ <CAK7LNARxSFSQgmrZe2CXj+V153kymBVyGkXwOPWLNoybQ8+bfg@mail.gmail.com>
+ <04f168f8-0369-f0f6-8eab-9d384aced2c8@linuxfoundation.org>
+From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <04f168f8-0369-f0f6-8eab-9d384aced2c8@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This reverts commit 4d10c223baab8be8f717df3625cfece5be26dead.
+Hi Masahiro,
 
-Commit 37744feebc08 ("sh: remove sh5 support") removed the sh64 support
-entirely.
+>>> Please resend cc'ing linux-kselftest
+>>>
+>>> thanks,
+>>> -- Shuah
+>>
+>>
+>> Please do not send this any more.
+>> This part is good as is.
+I'm confused. Have you accepted or rejected the patch?
 
-If ".cranges" section is used for other architectures, it is easy to
-get it back.
+>>
+> 
+> + linux-kselftest@vger.kernel.org
+> 
+> The reason I suggested resending cc'ing linux-kselftest is because
+> this fixes a kselftest problem.
+> 
+> I am assuming this patch will go through kbuild
+> 
+> Acked-by: Shuah Khan <skhan@linuxfoundation.org>
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
- scripts/mod/modpost.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 620dc8c4c814..e15227ee58fc 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -742,7 +742,6 @@ static const char *const section_white_list[] =
- {
- 	".comment*",
- 	".debug*",
--	".cranges",		/* sh64 */
- 	".zdebug*",		/* Compressed debug sections. */
- 	".GCC.command.line",	/* record-gcc-switches */
- 	".mdebug*",        /* alpha, score, mips etc. */
 -- 
-2.32.0
-
+Muhammad Usama Anjum
