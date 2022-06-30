@@ -2,33 +2,33 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4139A56147F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Jun 2022 10:16:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0BEB5614D3
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Jun 2022 10:22:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233777AbiF3INx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 30 Jun 2022 04:13:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36600 "EHLO
+        id S233383AbiF3IWQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 30 Jun 2022 04:22:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233795AbiF3INV (ORCPT
+        with ESMTP id S229873AbiF3IVs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 30 Jun 2022 04:13:21 -0400
+        Thu, 30 Jun 2022 04:21:48 -0400
 Received: from conuserg-11.nifty.com (conuserg-11.nifty.com [210.131.2.78])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05028443F8;
-        Thu, 30 Jun 2022 01:11:02 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FD80BC9E;
+        Thu, 30 Jun 2022 01:20:13 -0700 (PDT)
 Received: from grover.sesame ([133.106.249.59]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id 25U89jbd027588;
-        Thu, 30 Jun 2022 17:09:46 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 25U89jbd027588
+        by conuserg-11.nifty.com with ESMTP id 25U8IuIs002167;
+        Thu, 30 Jun 2022 17:18:57 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 25U8IuIs002167
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1656576587;
-        bh=IQNcLr2Q+Rml5vvqNmFGoUixW6iYHrmzrTzAVBg3K38=;
+        s=dec2015msa; t=1656577138;
+        bh=oCy0zw+wURoxfZMcYbF4qQYsFUfZjWgGoas52B3YrXM=;
         h=From:To:Cc:Subject:Date:From;
-        b=2UbB7kkrA1O4vWKUt5gGyR6+QhuAngLnM8skaKAeuLK7BYDo8qR9P/yZdX6Nl9xtC
-         /4D6PKUBj78yatuw8XfT9zbitF+F7kXDkjG7lRA/iIyS+S69u7nrB6+J9ERXZ3juze
-         az7+Yx/B8e2VoYaAvWUVJITRRP8Tu964Mnhp4DSM1MOwhSyOAslZKbmC2kcMMo8juV
-         9jSg4Lo4RsaenQk4L+BxlQQFjW3AafzTpRQn2Zu+kG7YW7KxtXc+KpxC7b3GEk5Tke
-         g7LeC6A3k+7arSN1GqB/R41IPOYWVq2GisMTFydcHG0PDnMBoCUvXI6OwDT6pFoChG
-         c2AmcmcRqBlVw==
+        b=n4iDwOvEiKupwRDEy4cVT3Xg19j1QMhKBNRL8DfdeLoy/wAK2xQrQQVPdMwsz5X0V
+         ETp/isNQ7ab/MYlW9z+27Suk731LdviMqNCC5778bipy5353y9Yw8tsSk0g+tpzQ25
+         AwkukdQN1SJyMtojDOl7ujnyBuKA103WGowDrb8klMPtz2P3NMESD9ghgsiv4szKRS
+         9yNj8n/80xA2HbJ3yxhzq8C+NKTK8Sk+j6TmREPaxKCyjxA4/xyvH/esr5itmrXSF/
+         WhuQDZ1BG214kznXCVul6UTGviTTTXBWVL0Srh0V3gbdYt/upAxFaRLzRcv8ln92Tw
+         qoB0H9fuvx88A==
 X-Nifty-SrcIP: [133.106.249.59]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
@@ -36,9 +36,9 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: remove unused cmd_none in scripts/Makefile.modinst
-Date:   Thu, 30 Jun 2022 17:09:35 +0900
-Message-Id: <20220630080935.316394-1-masahiroy@kernel.org>
+Subject: [PATCH] Revert "scripts/mod/modpost.c: permit '.cranges' secton for sh64 architecture."
+Date:   Thu, 30 Jun 2022 17:18:46 +0900
+Message-Id: <20220630081846.317517-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -51,32 +51,32 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Commit 65ce9c38326e ("kbuild: move module strip/compression code into
-scripts/Makefile.modinst") added this unused code.
+This reverts commit 4d10c223baab8be8f717df3625cfece5be26dead.
 
-Perhaps, I thought cmd_none was useful for CONFIG_MODULE_COMPRESS_NONE,
-but I did not use it after all.
+Commit 37744feebc08 ("sh: remove sh5 support") removed the sh64 support
+entirely.
+
+If ".cranges" section is used for other architectures, it is easy to
+get it back.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/Makefile.modinst | 3 ---
- 1 file changed, 3 deletions(-)
+ scripts/mod/modpost.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
-index c2c43a0ecfe0..16a02e9237d3 100644
---- a/scripts/Makefile.modinst
-+++ b/scripts/Makefile.modinst
-@@ -28,9 +28,6 @@ modules := $(patsubst $(extmod_prefix)%, $(dst)/%$(suffix-y), $(modules))
- __modinst: $(modules)
- 	@:
- 
--quiet_cmd_none =
--      cmd_none = :
--
- #
- # Installation
- #
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 620dc8c4c814..e15227ee58fc 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -742,7 +742,6 @@ static const char *const section_white_list[] =
+ {
+ 	".comment*",
+ 	".debug*",
+-	".cranges",		/* sh64 */
+ 	".zdebug*",		/* Compressed debug sections. */
+ 	".GCC.command.line",	/* record-gcc-switches */
+ 	".mdebug*",        /* alpha, score, mips etc. */
 -- 
 2.32.0
 
