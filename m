@@ -2,71 +2,110 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D5B2D5630B5
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Jul 2022 11:50:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28624563102
+	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Jul 2022 12:09:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234149AbiGAJtp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 1 Jul 2022 05:49:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43282 "EHLO
+        id S233496AbiGAKI5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 1 Jul 2022 06:08:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234117AbiGAJto (ORCPT
+        with ESMTP id S233332AbiGAKI4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 1 Jul 2022 05:49:44 -0400
-Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com [IPv6:2001:4860:4864:20::33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C34F71BE3
-        for <linux-kbuild@vger.kernel.org>; Fri,  1 Jul 2022 02:49:43 -0700 (PDT)
-Received: by mail-oa1-x33.google.com with SMTP id 586e51a60fabf-101e1a33fe3so2795617fac.11
-        for <linux-kbuild@vger.kernel.org>; Fri, 01 Jul 2022 02:49:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=DMyolhHXpmu1+9rKonQ8Ub5Er3bhcnEayHaPyRlkSA4=;
-        b=cnw/XriYTfd7+ljqbtUdSm/11C8TKX/tvqXbktnSAjwkL0AHNFvOe72UPfYanNMT5+
-         EiC2JU5JXh4IiaakWeCvnbVjMsNS9/KJJuaJlzEs8prbh1o0uP2xqUX2iMaIO5bvBvew
-         WcP+BjazC/Ky0W0DuChJvfsgjfLlKKaLLhCHfK53wS7IIuUqdz6V4MLGkcUjFrZPi+TP
-         McFqFN101rHwn2ODunNEGwIhhmrSnkfMYCuL90IQZbrfNu0dv/ZQ71u88trPnfckKyVA
-         aIJPSa+lq926ofzic5zM0DdgLizr8x/JopaF++0im7bZEz8uoU/jQdZBT0r91isU0qge
-         jg4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=DMyolhHXpmu1+9rKonQ8Ub5Er3bhcnEayHaPyRlkSA4=;
-        b=rjCOYSUmCOh51WelAOhyrQkanC7yIPf6epUPT01l9RYkE/IOEh2CsamrhHv/4GO1Np
-         jdXtufUqoVWips9jJSUOd/6OX6T+hNEnv2c0taZpjqr8l1/HYgJf0yjQQ236TsP3UgTB
-         8trr2fn+5XJFHrasmiyvAEwiajQ1kez4mSIdCCVnbKfqCZ9GGVy3gSTlv1uhvQEc9aIg
-         GzwpMSC/vs14h85a/DC8Eqc8dJAfZpAkwHu4Ya3Zzixy44a7P5j9fZk0YuCOs8lM1cDH
-         ImbfFlyybVYpnHLwKWXpFgUMOiZ/YYccatJDkJpVrj7ZsimMuy0kB/SwEsPEQSoKXl60
-         psaw==
-X-Gm-Message-State: AJIora80x6a4/2Es3nUVKVWEMUbJ1TGCFV/fptKFEmcbsZGqp5q1BKKQ
-        IYYZ8/M69wvLodQkov9RWJUzbJWzLUcJvoHMoFU=
-X-Google-Smtp-Source: AGRyM1uFHGoLoydpQjNzPGbRnoxJKG7MEkjcP0e58UJAUn8NwQcdQARQJy1HoJ3IqQ2b9MudfcYtq2tSETiBMeAa1ig=
-X-Received: by 2002:a05:6870:41ca:b0:101:d588:6241 with SMTP id
- z10-20020a05687041ca00b00101d5886241mr8979313oac.175.1656668982047; Fri, 01
- Jul 2022 02:49:42 -0700 (PDT)
+        Fri, 1 Jul 2022 06:08:56 -0400
+Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80EDA2C13C;
+        Fri,  1 Jul 2022 03:08:55 -0700 (PDT)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 261A8aYu011451;
+        Fri, 1 Jul 2022 19:08:37 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 261A8aYu011451
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1656670117;
+        bh=+AGZqubtv+JE9ARRYLJRXqG6x9IG0KNs7lCiEienC8Q=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=pLZabHSvBltRhJIKJC/Qq8hA/g+Yx6K5p6adHbe6rAsQFelaubCoyNmRwMQ1DrOhH
+         F3v9iKlxhTvTmSn0FXPqKXyfHbJl6ik592Zt52qsoqU+wsR9I7cQVCblqZ7XUHnSEu
+         ojRcy//DhhpDfS2ExR98VAhbqlxbva3u/TrHe5L23ZO+hKseI2orWQDyT1S4eclxL8
+         QcoX5ZwA0OkyYfGPMFa1qxXmx3yUSFN19g0CYkT8Lf1a2NAQXvuSeTp6LaAC9DggeA
+         AiM797ML2tP8iDtTYANyTfXUemWrfI0YC4sZ9swbr4j4zaUUhb1jJ7mzMEQc3bQXQ5
+         Vi3aadKnpBFvg==
+X-Nifty-SrcIP: [209.85.128.50]
+Received: by mail-wm1-f50.google.com with SMTP id j7so997760wmp.2;
+        Fri, 01 Jul 2022 03:08:37 -0700 (PDT)
+X-Gm-Message-State: AJIora94AJLY4R6YXcOHdVxcaKbh07KlJmKhxC+cK0s1hkc1s0tVdolC
+        cALXk5bkAWj+4C0Y3XjxTvD7VHvx1UhJY+362gc=
+X-Google-Smtp-Source: AGRyM1vB8UA94xyy0xpJ0uekSex+ZkmJLWc1ww9wkLTD36KmzyTLEdEMHZJOYxElxMz1J0vVn2hsmHvg4QAQnYAOYRY=
+X-Received: by 2002:a1c:6a06:0:b0:3a0:5099:f849 with SMTP id
+ f6-20020a1c6a06000000b003a05099f849mr16431790wmc.14.1656670115702; Fri, 01
+ Jul 2022 03:08:35 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a05:6839:f85:0:0:0:0 with HTTP; Fri, 1 Jul 2022 02:49:41
- -0700 (PDT)
-Reply-To: fredrich.david.mail@gmail.com
-From:   Mr Fredrich David <randywoods212@gmail.com>
-Date:   Fri, 1 Jul 2022 09:49:41 +0000
-Message-ID: <CAAAmqEbYBD0hNYJLr1Gkw-FLP2WPzdurHvELA9Bmr2eLLQxs0Q@mail.gmail.com>
-Subject: 2!221
-To:     undisclosed-recipients:;
+References: <20220627070214.432390-1-usama.anjum@collabora.com>
+ <15532d64-6744-c8a5-184b-18358211d345@linuxfoundation.org>
+ <CAK7LNARxSFSQgmrZe2CXj+V153kymBVyGkXwOPWLNoybQ8+bfg@mail.gmail.com>
+ <04f168f8-0369-f0f6-8eab-9d384aced2c8@linuxfoundation.org> <95a3eb80-645e-a1b9-8373-46b1ad015e96@collabora.com>
+In-Reply-To: <95a3eb80-645e-a1b9-8373-46b1ad015e96@collabora.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 1 Jul 2022 19:07:50 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARxG2A9us1V7Z+Fjhuu8mJ7kAw6CNH56E+nYymeCvyqSg@mail.gmail.com>
+Message-ID: <CAK7LNARxG2A9us1V7Z+Fjhuu8mJ7kAw6CNH56E+nYymeCvyqSg@mail.gmail.com>
+Subject: Re: [PATCH v1] kbuild: fix sub directory output build of kselftests
+To:     Muhammad Usama Anjum <usama.anjum@collabora.com>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Kieran Bingham <kbingham@kernel.org>, kernel@collabora.com,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>, guillaume.tucker@collabora.co.uk
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
--In risposta alle tue email, ti scrivo per informarti che i progetti
-sono ora completati e sei stato approvato!
-Cordiali saluti,
-Signor Fredrich David
+On Thu, Jun 30, 2022 at 6:44 PM Muhammad Usama Anjum
+<usama.anjum@collabora.com> wrote:
+>
+> Hi Masahiro,
+>
+> >>> Please resend cc'ing linux-kselftest
+> >>>
+> >>> thanks,
+> >>> -- Shuah
+> >>
+> >>
+> >> Please do not send this any more.
+> >> This part is good as is.
+> I'm confused. Have you accepted or rejected the patch?
+
+Sorry for confusion.
+Rejected.
+
+
+
+>
+> >>
+> >
+> > + linux-kselftest@vger.kernel.org
+> >
+> > The reason I suggested resending cc'ing linux-kselftest is because
+> > this fixes a kselftest problem.
+> >
+> > I am assuming this patch will go through kbuild
+> >
+> > Acked-by: Shuah Khan <skhan@linuxfoundation.org>
+>
+>
+> --
+> Muhammad Usama Anjum
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
