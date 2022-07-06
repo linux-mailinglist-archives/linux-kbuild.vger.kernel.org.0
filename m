@@ -2,97 +2,71 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 58A3F56486A
-	for <lists+linux-kbuild@lfdr.de>; Sun,  3 Jul 2022 17:33:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11021568679
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Jul 2022 13:11:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232764AbiGCPc4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 3 Jul 2022 11:32:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39932 "EHLO
+        id S233175AbiGFLLM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 6 Jul 2022 07:11:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232725AbiGCPct (ORCPT
+        with ESMTP id S233114AbiGFLLI (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 3 Jul 2022 11:32:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 82DB4617F
-        for <linux-kbuild@vger.kernel.org>; Sun,  3 Jul 2022 08:32:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1656862367;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Iv0+HrMhZum976pjScbf9QADElxFqlE9HsCHP7+aGKM=;
-        b=Sv9Ht349K3SU5LXGYwdmJGvGobLh9f54zizWAoQZVXoMrfqwJHwArp2HPw9CNFeVYNuoM7
-        u1st8AuwSwRjRK4/V4nyl2Fny5bciBUn1bFFNLjhzjyASOzqhGcpnXwB6Doq/ARa4H57Wj
-        DatXHcLSb+2LK5jCYx0T5uRgXBszXMk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-633-NUozJNsMMkagbP8VZCL5uA-1; Sun, 03 Jul 2022 11:32:46 -0400
-X-MC-Unique: NUozJNsMMkagbP8VZCL5uA-1
-Received: by mail-wm1-f70.google.com with SMTP id o28-20020a05600c511c00b003a04f97f27aso4128072wms.9
-        for <linux-kbuild@vger.kernel.org>; Sun, 03 Jul 2022 08:32:46 -0700 (PDT)
+        Wed, 6 Jul 2022 07:11:08 -0400
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F1F227CE9
+        for <linux-kbuild@vger.kernel.org>; Wed,  6 Jul 2022 04:11:05 -0700 (PDT)
+Received: by mail-lj1-x22c.google.com with SMTP id j23so1302860lji.13
+        for <linux-kbuild@vger.kernel.org>; Wed, 06 Jul 2022 04:11:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DLPkajuMe0XL9xFvAcDgwaTqwHl05fLR3UIhayqJJEo=;
+        b=tA2+mKvEvD3urkdfDJ8B1jO6o6sBdgBUX604+M3abof8COmDMY/nkSOX11z4kBXU2u
+         3zrDRrRVegSpgMZWuXSCcD0J9ctDjz2gpHQRY0KoZAmg+hUTXvtt10m+L988dt9jZAQK
+         Qaqrby9jaAY5+Lx6LfZIZvKx6krK7DPtIw9KqL67FF+i3ipr2OiODfoJPlo3UWdB3cgH
+         fV3k0rmprFph4AUUlrs8bn5Mc7qb8bTqbUGLzs3nwX8tZ0wg/zxKHyL66JE/XQYLjlJ4
+         lgYGuio2HZE4Kfx7MmI8PimtXOo8cvd3SVq9sVa4rMz8JRzItyr9vx4mq1kEF+wKQlJA
+         20/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Iv0+HrMhZum976pjScbf9QADElxFqlE9HsCHP7+aGKM=;
-        b=HorBSDjcmgJU+GTnkvxI0ZxImz2Je9sx/4eLJNRKIMz9QFfTWlqcQam1xv/6Xe7gp8
-         F7XfakU5KT6enSY+psVAaHrAOvELW8cX2hJ3PQ/8vuG7+C6HI1zrcgfFODLxGNC4ntPl
-         /6BuUpSHY9iuCbjsdC6Aqw6zCKz17UWr2raj5705szYG0MjqKXSJ0jBlVwMDbvwtxmXi
-         XAWszIrlfhVqA5cCgn/Bbn2cNcqxzQtwRXXamBtyxX//Mzktrzu9N2qeYCigKzUy8FhA
-         nOdK+lse6htaO9rI4pujkUHLhh/hHzlgg41qPrFT2NG+/tJ0INpgQfTpa9OX8UVJRudl
-         JoiQ==
-X-Gm-Message-State: AJIora89D6iBXyyZOxwBxLwTjR3dt5iQM/p8u49iu2v7Huhdo6MuJ2Hg
-        7SzCZJ3nB+a0LnFkc/IquUCh6okIaVG0/+UOhJL/ULKWfJ20jIcc9OpmhF/eyhTxgT/zOIiPbGD
-        3zAmyjpS6pyxCb+nLLDzNGdI=
-X-Received: by 2002:a1c:f213:0:b0:39b:ad32:5e51 with SMTP id s19-20020a1cf213000000b0039bad325e51mr26523959wmc.72.1656862360593;
-        Sun, 03 Jul 2022 08:32:40 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1u81x4dDlfhwgrRwMPsONX2pkIEuS15eDkH85uIGS4DoSl/PoDGUq3zG4ZJtp8O0Dy0FNYLfQ==
-X-Received: by 2002:a1c:f213:0:b0:39b:ad32:5e51 with SMTP id s19-20020a1cf213000000b0039bad325e51mr26523937wmc.72.1656862360414;
-        Sun, 03 Jul 2022 08:32:40 -0700 (PDT)
-Received: from localhost (cpc111743-lutn13-2-0-cust979.9-3.cable.virginm.net. [82.17.115.212])
-        by smtp.gmail.com with ESMTPSA id u1-20020a5d6ac1000000b0021b95bcaf7fsm46020wrw.59.2022.07.03.08.32.39
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DLPkajuMe0XL9xFvAcDgwaTqwHl05fLR3UIhayqJJEo=;
+        b=AYt4k9btNVMf7lWevF20KYFxUbVl36lb8ZOodXZuUWpHRY/1Q9PTPNjKvK9hEKnndF
+         3uTikEdvoXcfQkeEY77zWhNUmFGFtoOM3RgpQxUFW/ODGfPZbUIpTzYrSw/5z84fktmg
+         UlwDCgLcK3ugxIcZr0NcKegKjhWbgWGGcw4hKUVlDgmnA1yK3VyieuoLNyf5j+rc3CX6
+         xI0ypr9OFsseHwS0er14LuA2XqcTWn8jDqd2m7gHsxrqdWW5SK5Dw95oXir2MFwdKWdq
+         ITNH/Lq3muzg4ZUhd2BWdkOrsWhO1NG/ZeWPEK0BBQoboC9ovl17Wro+iaGJRLIYZiKZ
+         OCjQ==
+X-Gm-Message-State: AJIora9mUkz17OHFRhII9Tmcu0Gb18Ft6xDs/o3/KmRUNCe50LK6jKFi
+        LfFvZ8iEIY3aS1k08OBh9ARUyQ==
+X-Google-Smtp-Source: AGRyM1sFoRAMmlchybuRq1n1aaOOHMNW09tIE6d2Vo+I7ROSLMIyMiNltw2qKdKflFAGl5QvGb1L7Q==
+X-Received: by 2002:a2e:9096:0:b0:25b:c51a:2c14 with SMTP id l22-20020a2e9096000000b0025bc51a2c14mr23787258ljg.209.1657105863714;
+        Wed, 06 Jul 2022 04:11:03 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125])
+        by smtp.gmail.com with ESMTPSA id v14-20020a2ea44e000000b0025a6dbeababsm6166578ljn.111.2022.07.06.04.11.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Jul 2022 08:32:39 -0700 (PDT)
-Date:   Sun, 3 Jul 2022 16:32:38 +0100
-From:   Aaron Tomlin <atomlin@redhat.com>
-To:     David Gow <davidgow@google.com>
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
+        Wed, 06 Jul 2022 04:11:03 -0700 (PDT)
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        Tom Rini <trini@konsulko.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Joe Fradley <joefradley@google.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Lucas De Marchi <lucas.demarchi@intel.com>,
-        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
         linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v5 2/4] module: panic: Taint the kernel when selftest
- modules load
-Message-ID: <20220703153238.z6b7bw7cydfkeirx@ava.usersys.com>
-X-PGP-Key: http://pgp.mit.edu/pks/lookup?search=atomlin%40redhat.com
-X-PGP-Fingerprint: 7906 84EB FA8A 9638 8D1E  6E9B E2DE 9658 19CC 77D6
-References: <20220702040959.3232874-1-davidgow@google.com>
- <20220702040959.3232874-2-davidgow@google.com>
+Subject: [PATCH] kbuild: allow validating individual dtb files against schema
+Date:   Wed,  6 Jul 2022 14:11:02 +0300
+Message-Id: <20220706111102.1493812-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220702040959.3232874-2-davidgow@google.com>
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -100,65 +74,70 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat 2022-07-02 12:09 +0800, David Gow wrote:
-> Taint the kernel with TAINT_TEST whenever a test module loads, by adding
-> a new "TEST" module property, and setting it for all modules in the
-> tools/testing directory. This property can also be set manually, for
-> tests which live outside the tools/testing directory with:
-> MODULE_INFO(test, "Y");
-> 
-> Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
-> Signed-off-by: David Gow <davidgow@google.com>
-> ---
->  kernel/module/main.c  | 7 +++++++
->  scripts/mod/modpost.c | 3 +++
->  2 files changed, 10 insertions(+)
-> 
-> diff --git a/kernel/module/main.c b/kernel/module/main.c
-> index fed58d30725d..730503561eb0 100644
-> --- a/kernel/module/main.c
-> +++ b/kernel/module/main.c
-> @@ -1988,6 +1988,13 @@ static int check_modinfo(struct module *mod, struct load_info *info, int flags)
->  	/* Set up license info based on the info section */
->  	set_license(mod, get_modinfo(info, "license"));
->  
-> +	if (!get_modinfo(info, "test")) {
-> +		if (!test_taint(TAINT_TEST))
-> +			pr_warn_once("%s: loading test module taints kernel.\n",
-> +				     mod->name);
-> +		add_taint_module(mod, TAINT_TEST, LOCKDEP_STILL_OK);
-> +	}
-> +
->  	return 0;
->  }
->  
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 29d5a841e215..5937212b4433 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -2191,6 +2191,9 @@ static void add_header(struct buffer *b, struct module *mod)
->  
->  	if (strstarts(mod->name, "drivers/staging"))
->  		buf_printf(b, "\nMODULE_INFO(staging, \"Y\");\n");
-> +
-> +	if (strstarts(mod->name, "tools/testing"))
-> +		buf_printf(b, "\nMODULE_INFO(test, \"Y\");\n");
->  }
->  
->  static void add_exported_symbols(struct buffer *buf, struct module *mod)
-> -- 
-> 2.37.0.rc0.161.g10f37bed90-goog
-> 
+While it is possible to validate all generated dtb files against the
+schema, it typically results in huge pile of warnings. While working on
+a platform it is quite useful to validate just a single file against
+schema.
 
-Hi David,
+Allow specifying CHECK_DTBS=1 on a make command line to enable
+validation while building dtb files. This reuses the infrastructure
+existing for `make dtbs_check`, making dtbs_check a shortcut for
+`make CHECK_DTBS=1 dt_binding_check dtbs`.
 
-I think this looks good:
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Tom Rini <trini@konsulko.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ Makefile | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
-Reviewed-by: Aaron Tomlin <atomlin@redhat.com>
-
-
-Kind regards,
-
+diff --git a/Makefile b/Makefile
+index 9aa7de1ca58f..f28507d2ee03 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1464,10 +1464,14 @@ endif
+ 
+ ifneq ($(dtstree),)
+ 
+-%.dtb: include/config/kernel.release scripts_dtc
++ifneq ($(CHECK_DTBS),)
++DT_TMP_BINDING := dt_binding
++endif
++
++%.dtb: include/config/kernel.release scripts_dtc $(DT_TMP_BINDING)
+ 	$(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+ 
+-%.dtbo: include/config/kernel.release scripts_dtc
++%.dtbo: include/config/kernel.release scripts_dtc $(DT_TMP_BINDING)
+ 	$(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+ 
+ PHONY += dtbs dtbs_install dtbs_check
+@@ -1498,8 +1502,10 @@ ifneq ($(filter dt_binding_check, $(MAKECMDGOALS)),)
+ export CHECK_DT_BINDING=y
+ endif
+ 
+-PHONY += dt_binding_check
+-dt_binding_check: scripts_dtc
++dt_binding_check: dt_binding
++
++PHONY += dt_binding
++dt_binding: scripts_dtc
+ 	$(Q)$(MAKE) $(build)=Documentation/devicetree/bindings
+ 
+ # ---------------------------------------------------------------------------
+@@ -1774,6 +1780,10 @@ help:
+ 	@echo  '		3: more obscure warnings, can most likely be ignored'
+ 	@echo  '		e: warnings are being treated as errors'
+ 	@echo  '		Multiple levels can be combined with W=12 or W=123'
++	@$(if $(dtstree), \
++		echo '  make CHECK_DTBS=1 [targets] Check all generated dtb files against schema'; \
++		echo '         This can be applied both to "dtbs" and to individual "foo.dtb" targets' ; \
++		)
+ 	@echo  ''
+ 	@echo  'Execute "make" or "make all" to build all targets marked with [*] '
+ 	@echo  'For further info see the ./README file'
 -- 
-Aaron Tomlin
+2.35.1
 
