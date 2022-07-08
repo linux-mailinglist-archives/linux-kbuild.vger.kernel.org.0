@@ -2,95 +2,163 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02E4956A826
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Jul 2022 18:33:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F20AC56AF9D
+	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Jul 2022 03:07:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235444AbiGGQcz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 7 Jul 2022 12:32:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42790 "EHLO
+        id S235628AbiGHAlA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 7 Jul 2022 20:41:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235202AbiGGQcy (ORCPT
+        with ESMTP id S229572AbiGHAk7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 7 Jul 2022 12:32:54 -0400
-Received: from mail-vk1-xa2c.google.com (mail-vk1-xa2c.google.com [IPv6:2607:f8b0:4864:20::a2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB08F564C2
-        for <linux-kbuild@vger.kernel.org>; Thu,  7 Jul 2022 09:32:53 -0700 (PDT)
-Received: by mail-vk1-xa2c.google.com with SMTP id az35so9171788vkb.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 07 Jul 2022 09:32:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-        b=bY+oGaLUEA8DxG31Yw5r5GmnViCkGbf5DnsdM4ZJmw1AKHXP3EXEMy1+apKgIyEJgJ
-         /qHzbPJg5sQnmApePJ4diPT1W7Hn6Qp8YyzBG6/Vj298fMnYmJj1goKRBatg6qpiwgso
-         87XR5fOavQA9e0KdZ9j0ev8CBLc5MdIov6vGGjbx139EiVVem/U58WTpINN5kpzYuHFn
-         ZaGZwPli2ywtcO32dJK2aoFn0wEXqoVq0A24Z0AFzE5kWKx+soAKGorteoKc0SLZBkXT
-         FRlT83SSI2PA7LHI1bCOUTYWSiFxA2hXjWKu8lWmk61dizHdczqayTPpYyitGzAYjXPR
-         koTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-        b=4IF4kmcbf//sB697OeESIb1jncgQLtLuXRdk6+3hAqtpLaUVPFHmLqgf+Jy6PpACOp
-         vH8mxTKJ7s70vuRvy26ocdvmM0JOcHXzBR3kigjJ38xwERwtZLMcK/DkBMYCAkLoH6xf
-         h9A/s0NwQASF0ystV4oPTEpIw9qNMAuuQ6QiR6Jl3mwWFC+RFBJm8kl1pfBFDqwL3Zb1
-         9K3aZnkwPDQVX6pUUQzoEYlAzjIXJTLnVRVvJPFp9wlhypzDwVT9cPS82059hcB09O/S
-         oKcjZa7jWDrFEVQF+CIEBB2y6mabTSVxmcpasjG9O6uc3DEQ4PfwGUHhDMHdU6piRQ2f
-         h6HQ==
-X-Gm-Message-State: AJIora8iy/DqRG+QCMCPuT0UP7jpYsz/vedqtUEHZcnAVLyE2lDucCCV
-        SFoMGgW6UmtmTtEtnY2kTDeCSL93x2pAZO1xWsI=
-X-Google-Smtp-Source: AGRyM1tfqjXOS219tQ/EVg5krIhCOzR828cNVFo/UfB2t/nV0hig5nH4ealejpal6V8913LiCZdO/8U5uXfvK1v2pP4=
-X-Received: by 2002:a1f:c781:0:b0:370:73e4:712e with SMTP id
- x123-20020a1fc781000000b0037073e4712emr26805080vkf.37.1657211573027; Thu, 07
- Jul 2022 09:32:53 -0700 (PDT)
+        Thu, 7 Jul 2022 20:40:59 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBE5370E4F;
+        Thu,  7 Jul 2022 17:40:58 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 6BEA8CE276E;
+        Fri,  8 Jul 2022 00:40:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F750C3411E;
+        Fri,  8 Jul 2022 00:40:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657240855;
+        bh=IXsR/QrzvoIMkoWHmolTYwhwxD9j/FgCzzm8PhvI41I=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BHrJ5+tCKYeD5Tmi/HULyLybxMAX92YkwnxJ0wQIUeGXK/c43NKQS8J8DqdH4Slh4
+         yC8A4kxW/vtHiPmC1kV/FRP0xkTRJ44kLgf9oUzp2m05sNm0dmQcmkBXy0BNOGvtJN
+         lw3ahGiwfRNWHCcUh3MMr95nBVCeQkUdV4kgaiGmAWrKRmm7Oktj/tFgeQGwJwHoNi
+         HGxcnEaS1lnd09pAWMYZacRdZVWa23boN/R2kX/dPum11+hIzPS7ziMtahUDHrA47o
+         BhTva9WGfwu3x1BSP1WTlaDWbkP9n6LXRxIR4nDTwss9wnlJFzH2AvMC9DSrDb1G0P
+         6ioLZ2kFcQCFQ==
+Date:   Thu, 7 Jul 2022 17:40:52 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     David Gow <davidgow@google.com>
+Cc:     Brendan Higgins <brendanhiggins@google.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Joe Fradley <joefradley@google.com>,
+        Daniel Latypov <dlatypov@google.com>,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        Aaron Tomlin <atomlin@redhat.com>,
+        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v5 2/4] module: panic: Taint the kernel when selftest
+ modules load
+Message-ID: <Ysd9FG1fOSnzKv8d@dev-arch.thelio-3990X>
+References: <20220702040959.3232874-1-davidgow@google.com>
+ <20220702040959.3232874-2-davidgow@google.com>
 MIME-Version: 1.0
-Received: by 2002:a59:8fcf:0:b0:2c9:ec1f:8800 with HTTP; Thu, 7 Jul 2022
- 09:32:52 -0700 (PDT)
-Reply-To: nas2ri@yahoo.com
-From:   e <eeeaa258@gmail.com>
-Date:   Thu, 7 Jul 2022 09:32:52 -0700
-Message-ID: <CANwOEui3PRN2rUzWasv9tJ5B+dxjEsaK-JpejGPPYYzZVN2WyA@mail.gmail.com>
-Subject: =?UTF-8?Q?=C2=BFEst=C3=A1s_ah=C3=AD_para_hablar_conmigo_para_obtener_m=C3=A1s_?=
-        =?UTF-8?Q?informaci=C3=B3n_sobre_la_transferencia=2C_por_favor=3F?=
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=6.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,HK_RANDOM_ENVFROM,HK_RANDOM_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220702040959.3232874-2-davidgow@google.com>
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:a2c listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  1.0 HK_RANDOM_ENVFROM Envelope sender username looks random
-        *  1.0 HK_RANDOM_FROM From username looks random
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [eeeaa258[at]gmail.com]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [eeeaa258[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Sat, Jul 02, 2022 at 12:09:57PM +0800, David Gow wrote:
+> Taint the kernel with TAINT_TEST whenever a test module loads, by adding
+> a new "TEST" module property, and setting it for all modules in the
+> tools/testing directory. This property can also be set manually, for
+> tests which live outside the tools/testing directory with:
+> MODULE_INFO(test, "Y");
+> 
+> Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+> Signed-off-by: David Gow <davidgow@google.com>
+> ---
+>  kernel/module/main.c  | 7 +++++++
+>  scripts/mod/modpost.c | 3 +++
+>  2 files changed, 10 insertions(+)
+> 
+> diff --git a/kernel/module/main.c b/kernel/module/main.c
+> index fed58d30725d..730503561eb0 100644
+> --- a/kernel/module/main.c
+> +++ b/kernel/module/main.c
+> @@ -1988,6 +1988,13 @@ static int check_modinfo(struct module *mod, struct load_info *info, int flags)
+>  	/* Set up license info based on the info section */
+>  	set_license(mod, get_modinfo(info, "license"));
+>  
+> +	if (!get_modinfo(info, "test")) {
+> +		if (!test_taint(TAINT_TEST))
+> +			pr_warn_once("%s: loading test module taints kernel.\n",
+> +				     mod->name);
+> +		add_taint_module(mod, TAINT_TEST, LOCKDEP_STILL_OK);
+> +	}
+> +
+>  	return 0;
+>  }
+>  
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 29d5a841e215..5937212b4433 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -2191,6 +2191,9 @@ static void add_header(struct buffer *b, struct module *mod)
+>  
+>  	if (strstarts(mod->name, "drivers/staging"))
+>  		buf_printf(b, "\nMODULE_INFO(staging, \"Y\");\n");
+> +
+> +	if (strstarts(mod->name, "tools/testing"))
+> +		buf_printf(b, "\nMODULE_INFO(test, \"Y\");\n");
+>  }
+>  
+>  static void add_exported_symbols(struct buffer *buf, struct module *mod)
+> -- 
+> 2.37.0.rc0.161.g10f37bed90-goog
+> 
+> 
 
+Hi David,
+
+This change has landed in linux-next as commit e20729ede7ed ("module:
+panic: taint the kernel when selftest modules load") and on all of my
+test machines, I see this new message printed, even though as far as I
+am aware, I am not loading any testing modules. For example, in QEMU, I
+see:
+
+[    0.596978] serio: loading test module taints kernel.
+
+and on my Honeycomb LX2, I see:
+
+[    5.400861] fuse: loading test module taints kernel.
+
+It seems like the get_modinfo() check might be wrong? The following diff
+resolves it for me, I can send a formal patch if necessary (although it
+appears to have gone in via -mm so I assume Andrew can squash this in).
+
+Cheers,
+Nathan
+
+diff --git a/kernel/module/main.c b/kernel/module/main.c
+index 730503561eb0..4f91e41b8bc9 100644
+--- a/kernel/module/main.c
++++ b/kernel/module/main.c
+@@ -1988,7 +1988,7 @@ static int check_modinfo(struct module *mod, struct load_info *info, int flags)
+ 	/* Set up license info based on the info section */
+ 	set_license(mod, get_modinfo(info, "license"));
+ 
+-	if (!get_modinfo(info, "test")) {
++	if (get_modinfo(info, "test")) {
+ 		if (!test_taint(TAINT_TEST))
+ 			pr_warn_once("%s: loading test module taints kernel.\n",
+ 				     mod->name);
