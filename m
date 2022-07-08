@@ -2,197 +2,103 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71E5956B1FF
-	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Jul 2022 07:01:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA8D256BF03
+	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Jul 2022 20:35:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237342AbiGHEyl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 8 Jul 2022 00:54:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55820 "EHLO
+        id S239240AbiGHQYh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 8 Jul 2022 12:24:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237070AbiGHEyk (ORCPT
+        with ESMTP id S239160AbiGHQYL (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 8 Jul 2022 00:54:40 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B75F76E82
-        for <linux-kbuild@vger.kernel.org>; Thu,  7 Jul 2022 21:54:39 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id f2so23570544wrr.6
-        for <linux-kbuild@vger.kernel.org>; Thu, 07 Jul 2022 21:54:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sz8usM5OOAxMSGMRGNk8MoEaRmhzBeAasBjyztwmQ0o=;
-        b=XvQr0qdgMR+nOcAcTf+7xs8BktG18BYs/gyLp5C5uUsjKtaGS7EF9lRf5zMCPTk5BJ
-         91x/Spo8Cfl4CVSPbPoMfLrZsEwhY0cNHM2q7EZ0nlSFf2pbkNNGBgFJwDr4PWfiQA1R
-         rjSqjpl0EY3iSCJAU48gfTIUWBgXCZlfQnTkkQe5IaGiy4iNSAVkSmARbuu5920d6StE
-         Mu+9ay0uGrpKJNlbX9QXXUknZR2EeKcCJs4NUI/9GG+xW0j5zMKpqA9wT3lgzcNdk1P3
-         +DDWrQu8tOvaOqcdVi11eMbXfr8ZoiUe4Ta28ix+r6raRL7MH0DfN1S0WQseo23ZyBuK
-         IaKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sz8usM5OOAxMSGMRGNk8MoEaRmhzBeAasBjyztwmQ0o=;
-        b=YeGSFJ2stegGWSBAakGu1Zxj5J70jz3gYHDJJGTb/QWqV7a6ouLCHCeTHh6NNBp6ix
-         xDfh0cos1xfY4x9sxdwJqpgPd6kdX3o+XK++OQE9jXVfoU29eLb5IUxCyBv+6vH7tByN
-         2Q4cQIi5lkEOH5kUaHQt++R3Dc1YeSUqpP+L4r2wqAvjx18JvXNZc39QqyIjIyOxIY7e
-         lcRNpGyBe681P44icTX/xINprgvSFTSr4REdV0k6d5KWm2fbPzrA31u660/XS8vCIkBa
-         12wDRM3uR3PA0SR/SyZtAgDhZ1ZQi2S2G1Ni+msp0u5dVoD7IwPSJbGF5Hlc0/Ib2hWf
-         rcFg==
-X-Gm-Message-State: AJIora9cQMOifL1f8eZB7tT7555+VroXPamPPsGjmIR6h393w2FAiJzQ
-        SHs0kbEUhYsACuBeOLfLYgB1H8Mt5mMUN4Dsi5xWbQ==
-X-Google-Smtp-Source: AGRyM1tIeGQJ+ivPnEvcRAtn4O4y3vU//xrt6CdwdEW1jsM9325goPmktj2iKPfJEmyAwwTZyTpi7ATaQ047jGlt+PQ=
-X-Received: by 2002:adf:e804:0:b0:21d:6e85:7550 with SMTP id
- o4-20020adfe804000000b0021d6e857550mr1349414wrm.337.1657256077460; Thu, 07
- Jul 2022 21:54:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220702040959.3232874-1-davidgow@google.com> <20220702040959.3232874-2-davidgow@google.com>
- <Ysd9FG1fOSnzKv8d@dev-arch.thelio-3990X>
-In-Reply-To: <Ysd9FG1fOSnzKv8d@dev-arch.thelio-3990X>
-From:   David Gow <davidgow@google.com>
-Date:   Fri, 8 Jul 2022 12:54:26 +0800
-Message-ID: <CABVgOS=-B3HDxS-6N2Yn897C7giPtBe3jxLomY_Om15Kee5UYw@mail.gmail.com>
-Subject: Re: [PATCH v5 2/4] module: panic: Taint the kernel when selftest
- modules load
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Joe Fradley <joefradley@google.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Lucas De Marchi <lucas.demarchi@intel.com>,
-        Aaron Tomlin <atomlin@redhat.com>,
-        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+        Fri, 8 Jul 2022 12:24:11 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB131AE58;
+        Fri,  8 Jul 2022 09:23:47 -0700 (PDT)
+Received: from tincan.cable.virginm.net (cpc108961-cmbg20-2-0-cust263.5-4.cable.virginm.net [80.5.129.8])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: gtucker)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 16DF766019F3;
+        Fri,  8 Jul 2022 17:23:45 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1657297425;
+        bh=MaXFu1tKZOwP1LeucQexBwcWTHfcFcFnbU/l5Ct8xJo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=LL5h5IjWO828ebhQIhKSjVOk+p+BjboJEHUOhzdBFmPAH1FrXV1M+tnOF+T1b+kRN
+         cMAV3iXSZhugeCR+vlora1klamzJz2EOSyiv5Tfp06cRP1T0V6IUv6EzZlQ8RjB2Gi
+         ssG8blELTt5Mo/x1Buee0oxrAwngCzORYjvvt2WJUDdBmyeET1AtROLlfbV4V6pje0
+         9HRS4hMAezmGW4uF5Wj7M9pjo3xWWpT781LEZ5JZW+JbHqLdM+mJbwM2Smy4ODKttI
+         LJI3zYiHCdzzMk4p01EieduPi8Nv/hHbJm3aRfkkOkPQD+4uyVdC+foE+tlI8sO85w
+         zMCCtFmZ+3nUA==
+From:   Guillaume Tucker <guillaume.tucker@collabora.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        Shuah Khan <shuah@kernel.org>,
+        Kees Cook <keescook@chromium.org>
+Cc:     kernel@collabora.com, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: [PATCH 0/4] Fix kselftest build with sub-directory
+Date:   Fri,  8 Jul 2022 17:23:26 +0100
+Message-Id: <cover.1657296695.git.guillaume.tucker@collabora.com>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jul 8, 2022 at 8:40 AM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> On Sat, Jul 02, 2022 at 12:09:57PM +0800, David Gow wrote:
-> > Taint the kernel with TAINT_TEST whenever a test module loads, by adding
-> > a new "TEST" module property, and setting it for all modules in the
-> > tools/testing directory. This property can also be set manually, for
-> > tests which live outside the tools/testing directory with:
-> > MODULE_INFO(test, "Y");
-> >
-> > Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
-> > Signed-off-by: David Gow <davidgow@google.com>
-> > ---
-> >  kernel/module/main.c  | 7 +++++++
-> >  scripts/mod/modpost.c | 3 +++
-> >  2 files changed, 10 insertions(+)
-> >
-> > diff --git a/kernel/module/main.c b/kernel/module/main.c
-> > index fed58d30725d..730503561eb0 100644
-> > --- a/kernel/module/main.c
-> > +++ b/kernel/module/main.c
-> > @@ -1988,6 +1988,13 @@ static int check_modinfo(struct module *mod, struct load_info *info, int flags)
-> >       /* Set up license info based on the info section */
-> >       set_license(mod, get_modinfo(info, "license"));
-> >
-> > +     if (!get_modinfo(info, "test")) {
-> > +             if (!test_taint(TAINT_TEST))
-> > +                     pr_warn_once("%s: loading test module taints kernel.\n",
-> > +                                  mod->name);
-> > +             add_taint_module(mod, TAINT_TEST, LOCKDEP_STILL_OK);
-> > +     }
-> > +
-> >       return 0;
-> >  }
-> >
-> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > index 29d5a841e215..5937212b4433 100644
-> > --- a/scripts/mod/modpost.c
-> > +++ b/scripts/mod/modpost.c
-> > @@ -2191,6 +2191,9 @@ static void add_header(struct buffer *b, struct module *mod)
-> >
-> >       if (strstarts(mod->name, "drivers/staging"))
-> >               buf_printf(b, "\nMODULE_INFO(staging, \"Y\");\n");
-> > +
-> > +     if (strstarts(mod->name, "tools/testing"))
-> > +             buf_printf(b, "\nMODULE_INFO(test, \"Y\");\n");
-> >  }
-> >
-> >  static void add_exported_symbols(struct buffer *buf, struct module *mod)
-> > --
-> > 2.37.0.rc0.161.g10f37bed90-goog
-> >
-> >
->
-> Hi David,
->
-> This change has landed in linux-next as commit e20729ede7ed ("module:
-> panic: taint the kernel when selftest modules load") and on all of my
-> test machines, I see this new message printed, even though as far as I
-> am aware, I am not loading any testing modules. For example, in QEMU, I
-> see:
->
-> [    0.596978] serio: loading test module taints kernel.
->
-> and on my Honeycomb LX2, I see:
->
-> [    5.400861] fuse: loading test module taints kernel.
->
-> It seems like the get_modinfo() check might be wrong? The following diff
-> resolves it for me, I can send a formal patch if necessary (although it
-> appears to have gone in via -mm so I assume Andrew can squash this in).
->
+Earlier attempts to get "make O=build kselftest-all" to work were
+not successful as they made undesirable changes to some functions
+in the top-level Makefile.  This series takes a different
+approach by removing the root cause of the problem within
+kselftest, which is when the sub-Makefile tries to install kernel
+headers "backwards" by calling make with the top-level Makefile.
+The actual issue comes from the fact that $(srctree) is ".." when
+building in a sub-directory with "O=build" which then obviously
+makes "-C $(top_srcdir)" point outside of the real source tree.
 
-Whoops: this is definitely the wrong way round. Thanks very much for
-catching it! (I'd swapped it locally at some point to test, and
-must've accidentally committed it.)
+With this series, the generic kselftest targets work as expected
+from the top level with or without a build directory e.g.:
 
-I've sent out v6 with this fixed (and a couple of other minor changes):
-https://lore.kernel.org/linux-kselftest/20220708044847.531566-2-davidgow@google.com/T/#u
+  $ make kselftest-all
 
-That being said, if just squashing your change below in is easier, I'm
-fine with that, too. (The other changes are minor enough that we could
-live without them and/or send them in separately.)
+  $ make O=build kselftest-all
 
-Unless there are any objections, should Andrew update this patch in
-his tree, and we remove the series from the kunit tree?
+Then in order to build using the sub-Makefile explicitly, the
+headers have to be installed first.  This is arguably a valid
+requirement to have when building a tool from a sub-Makefile.
+For example, "make -C tools/testing/nvdimm/" fails in a similar
+way until <asm/rwonce.h> has been generated by a kernel build.
 
-Cheers,
--- David
+Guillaume Tucker (4):
+  selftests: drop khdr make target
+  selftests: stop using KSFT_KHDR_INSTALL
+  selftests: drop KSFT_KHDR_INSTALL make target
+  Makefile: add headers_install to kselftest targets
 
->
-> diff --git a/kernel/module/main.c b/kernel/module/main.c
-> index 730503561eb0..4f91e41b8bc9 100644
-> --- a/kernel/module/main.c
-> +++ b/kernel/module/main.c
-> @@ -1988,7 +1988,7 @@ static int check_modinfo(struct module *mod, struct load_info *info, int flags)
->         /* Set up license info based on the info section */
->         set_license(mod, get_modinfo(info, "license"));
->
-> -       if (!get_modinfo(info, "test")) {
-> +       if (get_modinfo(info, "test")) {
->                 if (!test_taint(TAINT_TEST))
->                         pr_warn_once("%s: loading test module taints kernel.\n",
->                                      mod->name);
+ Makefile                                      |  4 +-
+ tools/testing/selftests/Makefile              | 28 +-------------
+ tools/testing/selftests/arm64/mte/Makefile    |  1 -
+ tools/testing/selftests/arm64/signal/Makefile |  1 -
+ .../selftests/arm64/signal/test_signals.h     |  4 +-
+ .../selftests/drivers/s390x/uvdevice/Makefile |  1 -
+ .../selftests/futex/functional/Makefile       |  1 -
+ tools/testing/selftests/kvm/Makefile          |  1 -
+ tools/testing/selftests/landlock/Makefile     |  1 -
+ tools/testing/selftests/lib.mk                | 38 -------------------
+ tools/testing/selftests/net/Makefile          |  1 -
+ tools/testing/selftests/net/mptcp/Makefile    |  1 -
+ tools/testing/selftests/tc-testing/Makefile   |  1 -
+ tools/testing/selftests/vm/Makefile           |  1 -
+ 14 files changed, 5 insertions(+), 79 deletions(-)
+
+--
+2.30.2
