@@ -2,53 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B73C56C435
-	for <lists+linux-kbuild@lfdr.de>; Sat,  9 Jul 2022 01:15:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6409856C66B
+	for <lists+linux-kbuild@lfdr.de>; Sat,  9 Jul 2022 05:35:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238498AbiGHVYr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 8 Jul 2022 17:24:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42216 "EHLO
+        id S229545AbiGIDfm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 8 Jul 2022 23:35:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238130AbiGHVYq (ORCPT
+        with ESMTP id S229510AbiGIDfl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 8 Jul 2022 17:24:46 -0400
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFD692B18B
-        for <linux-kbuild@vger.kernel.org>; Fri,  8 Jul 2022 14:24:43 -0700 (PDT)
-Received: by mail-io1-xd2d.google.com with SMTP id e5so165564iof.2
-        for <linux-kbuild@vger.kernel.org>; Fri, 08 Jul 2022 14:24:43 -0700 (PDT)
+        Fri, 8 Jul 2022 23:35:41 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7B4079ED1
+        for <linux-kbuild@vger.kernel.org>; Fri,  8 Jul 2022 20:35:39 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id s1so606027wra.9
+        for <linux-kbuild@vger.kernel.org>; Fri, 08 Jul 2022 20:35:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=42cZlLqESbSzGOIQC6IhKSPqgo/QyLTrwwAMCp9WNzo=;
-        b=IV0paG90JHXaGZbrxl8pRjANIsQWCXppiwcKYlmXVIxXcJ27wNUF4yH2g+6tA4C+qd
-         mamfHwnW/lcS3+Uv/gPQPJf5q/UUMz6XSShpn+/NkJMb/c/gai50uarqyLdYdTFa7a08
-         wnNNt2hidpsVCeeD1GYrXUswLcElFqWYI67m0=
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XD4oGMXoBkLk71rdE6LEIA0no1nRbScnVFySb+rVIb8=;
+        b=fCH1axoKyaQ2v9zP7LHQYgD2kDNtT59Jv6ojDPAsRuXc6K9X2dA+GaGDWq/hJug3Qk
+         SfDN7kRMQCsIKgRkqR20UnqXtq4+3n3R53tHehKGGIt4m/fuOfsN4EHwMBbqyLRbZphI
+         6qJx0iXGc1/vbXeyGoXi8WvQ5k13PHOsqNVb8zyZvWknZDqKHNKnTcph0ljN9d2DulEe
+         92hWnXdsLAfkkBv1RQ26uc4ysNswx8KHLXzscy9id09WXkbWwiGfBmd03onqiA9BUBOr
+         QkT5puUIv5hVgiJvSsGDY8dFcQxQJs1p3eUPFrYSxagtetVF5BGv3G8BPhDpaSMuW907
+         ogWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=42cZlLqESbSzGOIQC6IhKSPqgo/QyLTrwwAMCp9WNzo=;
-        b=r4lDGEsRiT4RRHX8wBhYw9DHQdaCLexOVfhPm3g4jqNc4hZ0lvk8Jfkw0dh+5g/c9R
-         +uAT+2+IJ4Pf3uVUBExGptH4kq/+P4izzHtcydkMc9QkpTiYHSfH00H6u3SZsIK1ia1w
-         uww8WiVo4vGckyhq52B+YRpgu/VWFFnfbNqomEMAhevQHPkOro8jHNx1ibXDKNqnZKoy
-         zhhX0FCuQq+fyVbPRZId/2l54LbE7zqOnLZGb4CgSwQ8T6WWZGjaCsEwzubexZC1JzWb
-         /sPH4nGmBmlGakmL9IZOQ5ma4+L5PboWmkZOdq2/31NV1RKJGF48xqVJTIBCz3ZzgB12
-         MkbA==
-X-Gm-Message-State: AJIora/8wwEOyf9XUAF2dRgnpeJP29CwBkVhGSWtvmdCjlyIDIa5Gv1K
-        ef5RmDi2CJopAV+nbeSLZfTyXg==
-X-Google-Smtp-Source: AGRyM1sZRJgZl+2OfYXRBrVXka293FsGfZm0I0q0MCwgNYiktkDFQ9OSDQ5BXDPGzW4St1/3aCUuqA==
-X-Received: by 2002:a05:6638:438b:b0:33c:b617:fb46 with SMTP id bo11-20020a056638438b00b0033cb617fb46mr3370276jab.238.1657315483051;
-        Fri, 08 Jul 2022 14:24:43 -0700 (PDT)
-Received: from [192.168.1.128] ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id a13-20020a927f0d000000b002d8f50441absm16814624ild.10.2022.07.08.14.24.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Jul 2022 14:24:42 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XD4oGMXoBkLk71rdE6LEIA0no1nRbScnVFySb+rVIb8=;
+        b=SVorXcWt+CaKxL+oonLMMZvJzn5yBl2pmCVEEulIW5I8QOltKDqoTdCNpZlr9GS0EP
+         p5++dGk2P7oPAFGWS12pJWlMASG0zTdIeKT8YPxXBgJAnCD0dG92NbzC43eLaeIaPask
+         xjR78Q6XnVbLwvELXwoT/pVaEOlzp1eexE9Qwx92VNssW3lU3RsCjq3meJfoBLyxStV2
+         fvWSkiIMvOoMKiZu42OX5mLJmSoQl0YTrMMl4DZ1h0dg4WK56jyNiW0aqVBU371jc0Un
+         dmUgXdW/buqBc12zaG64N8cbh19hXqPzekn9jT47rdC7BOymI9TefGEN+raltiJhvCIJ
+         rLPw==
+X-Gm-Message-State: AJIora8GTxkRyQugpJ2Kp3sAGesdDCiuk3cLOBEr1WX9vllYCEBsMNZB
+        jrY6Y3PyQ2Kn7jaj11dYEsKvEmxoSKI9p+/o6eEQrA==
+X-Google-Smtp-Source: AGRyM1shMGyZogpGCQ7rR8WEcQtWqL8IiGW2YMygvlDEPhuGrGBQS1ciC9jpCUsZGsmLEfDWmVRI67mLR1of4gEOnKo=
+X-Received: by 2002:adf:e804:0:b0:21d:6e85:7550 with SMTP id
+ o4-20020adfe804000000b0021d6e857550mr6400492wrm.337.1657337738375; Fri, 08
+ Jul 2022 20:35:38 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220708044847.531566-1-davidgow@google.com> <20220708044847.531566-3-davidgow@google.com>
+ <fc638852-ac9a-abab-8fdb-01b685cdec96@linuxfoundation.org>
+ <CAGS_qxpODhSEs_sMm5Gu55EsYy-M9V98eLU-8O+xGMxncXmY4A@mail.gmail.com>
+ <f25f96ce-1c9b-7e66-a5be-96d7cf2988cf@linuxfoundation.org> <a00efaa8-71e0-c531-b6a4-e3d695ad628b@linuxfoundation.org>
+In-Reply-To: <a00efaa8-71e0-c531-b6a4-e3d695ad628b@linuxfoundation.org>
+From:   David Gow <davidgow@google.com>
+Date:   Sat, 9 Jul 2022 11:35:27 +0800
+Message-ID: <CABVgOSkroVjxTDoKTLBxiX_Fw5qZQmchDpY4U3XCCRYfXbS2bQ@mail.gmail.com>
 Subject: Re: [PATCH v6 3/4] kunit: Taint the kernel when KUnit tests are run
-To:     Daniel Latypov <dlatypov@google.com>
-Cc:     David Gow <davidgow@google.com>,
+To:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     Daniel Latypov <dlatypov@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Brendan Higgins <brendanhiggins@google.com>,
         "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
@@ -57,96 +65,182 @@ Cc:     David Gow <davidgow@google.com>,
         Joe Fradley <joefradley@google.com>,
         Luis Chamberlain <mcgrof@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Jani Nikula <jani.nikula@linux.intel.com>,
         Lucas De Marchi <lucas.demarchi@intel.com>,
         Aaron Tomlin <atomlin@redhat.com>,
         linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Greg KH <gregkh@linuxfoundation.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20220708044847.531566-1-davidgow@google.com>
- <20220708044847.531566-3-davidgow@google.com>
- <fc638852-ac9a-abab-8fdb-01b685cdec96@linuxfoundation.org>
- <CAGS_qxpODhSEs_sMm5Gu55EsYy-M9V98eLU-8O+xGMxncXmY4A@mail.gmail.com>
- <f25f96ce-1c9b-7e66-a5be-96d7cf2988cf@linuxfoundation.org>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <a00efaa8-71e0-c531-b6a4-e3d695ad628b@linuxfoundation.org>
-Date:   Fri, 8 Jul 2022 15:24:41 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <f25f96ce-1c9b-7e66-a5be-96d7cf2988cf@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Kees Cook <keescook@chromium.org>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+        boundary="0000000000002f325905e3570394"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 7/8/22 3:22 PM, Shuah Khan wrote:
-> On 7/8/22 3:00 PM, Daniel Latypov wrote:
->> On Fri, Jul 8, 2022 at 1:22 PM Shuah Khan <skhan@linuxfoundation.org> wrote:
->>>
->>> On 7/7/22 10:48 PM, David Gow wrote:
->>>> Make KUnit trigger the new TAINT_TEST taint when any KUnit test is run.
->>>> Due to KUnit tests not being intended to run on production systems, and
->>>> potentially causing problems (or security issues like leaking kernel
->>>> addresses), the kernel's state should not be considered safe for
->>>> production use after KUnit tests are run.
->>>>
->>>> This both marks KUnit modules as test modules using MODULE_INFO() and
->>>> manually taints the kernel when tests are run (which catches builtin
->>>> tests).
->>>>
->>>> Acked-by: Luis Chamberlain <mcgrof@kernel.org>
->>>> Tested-by: Daniel Latypov <dlatypov@google.com>
->>>> Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
->>>> Signed-off-by: David Gow <davidgow@google.com>
->>>> ---
->>>>
->>>> No changes since v5:
->>>> https://lore.kernel.org/linux-kselftest/20220702040959.3232874-3-davidgow@google.com/
->>>>
->>>> No changes since v4:
->>>> https://lore.kernel.org/linux-kselftest/20220701084744.3002019-3-davidgow@google.com/
->>>>
->>>
->>> David, Brendan, Andrew,
->>>
->>> Just confirming the status of these patches. I applied v4 1/3 and v4 3/4
->>> to linux-kselftest kunit for 5.20-rc1.
->>> I am seeing v5 and v6 now. Andrew applied v5 looks like. Would you like
->>> me to drop the two I applied? Do we have to refresh with v6?
->>
->> Just noting here that there'll be a merge conflict between this patch
->> (3/4) and some other patches lined up to go through the kunit tree:
->> https://patchwork.kernel.org/project/linux-kselftest/patch/20220625050838.1618469-2-davidgow@google.com/
->>
->> Not sure how we want to handle that.
->>
-> 
-> I can go drop the two patches and have Andrew carry the series through
-> mm tree.
-> 
+--0000000000002f325905e3570394
+Content-Type: text/plain; charset="UTF-8"
 
-Sorry spoke too soon. Yes there are others that might have conflicts as
-Daniel pointed out:
+On Sat, Jul 9, 2022 at 5:24 AM Shuah Khan <skhan@linuxfoundation.org> wrote:
+>
+> On 7/8/22 3:22 PM, Shuah Khan wrote:
+> > On 7/8/22 3:00 PM, Daniel Latypov wrote:
+> >> On Fri, Jul 8, 2022 at 1:22 PM Shuah Khan <skhan@linuxfoundation.org> wrote:
+> >>>
+> >>> On 7/7/22 10:48 PM, David Gow wrote:
+> >>>> Make KUnit trigger the new TAINT_TEST taint when any KUnit test is run.
+> >>>> Due to KUnit tests not being intended to run on production systems, and
+> >>>> potentially causing problems (or security issues like leaking kernel
+> >>>> addresses), the kernel's state should not be considered safe for
+> >>>> production use after KUnit tests are run.
+> >>>>
+> >>>> This both marks KUnit modules as test modules using MODULE_INFO() and
+> >>>> manually taints the kernel when tests are run (which catches builtin
+> >>>> tests).
+> >>>>
+> >>>> Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+> >>>> Tested-by: Daniel Latypov <dlatypov@google.com>
+> >>>> Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+> >>>> Signed-off-by: David Gow <davidgow@google.com>
+> >>>> ---
+> >>>>
+> >>>> No changes since v5:
+> >>>> https://lore.kernel.org/linux-kselftest/20220702040959.3232874-3-davidgow@google.com/
+> >>>>
+> >>>> No changes since v4:
+> >>>> https://lore.kernel.org/linux-kselftest/20220701084744.3002019-3-davidgow@google.com/
+> >>>>
+> >>>
+> >>> David, Brendan, Andrew,
+> >>>
+> >>> Just confirming the status of these patches. I applied v4 1/3 and v4 3/4
+> >>> to linux-kselftest kunit for 5.20-rc1.
+> >>> I am seeing v5 and v6 now. Andrew applied v5 looks like. Would you like
+> >>> me to drop the two I applied? Do we have to refresh with v6?
+> >>
+> >> Just noting here that there'll be a merge conflict between this patch
+> >> (3/4) and some other patches lined up to go through the kunit tree:
+> >> https://patchwork.kernel.org/project/linux-kselftest/patch/20220625050838.1618469-2-davidgow@google.com/
+> >>
+> >> Not sure how we want to handle that.
+> >>
+> >
+> > I can go drop the two patches and have Andrew carry the series through
+> > mm tree.
+> >
+>
+> Sorry spoke too soon. Yes there are others that might have conflicts as
+> Daniel pointed out:
+>
+> https://patchwork.kernel.org/project/linux-kselftest/patch/20220625050838.1618469-2-davidgow@google.com/
+>
+> thanks,
+> -- Shuah
+>
 
-https://patchwork.kernel.org/project/linux-kselftest/patch/20220625050838.1618469-2-davidgow@google.com/
+Thanks everyone for pointing these out.
 
-thanks,
--- Shuah
+I've rebased the other series (the KUnit module support one:
+https://lore.kernel.org/linux-kselftest/20220709032001.819487-1-davidgow@google.com/
+) on top of this.
 
+If they all go in via the kselftest/kunit tree, everything should be fine now.
+
+Cheers,
+-- David
+
+--0000000000002f325905e3570394
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
+VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
+AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
+AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
+IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
+dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
+6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
+c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
+I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
+AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
+BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
+CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
+AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
+MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
+My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
+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
+z/tQRXr3iPeVmZCr7nttMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
+dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
+AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
+c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
+LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
+LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
+Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQAx+EQjLATc/sze
+VoZkH7OLz+/no1+y31x4BQ3wjW7lKfay9DAAVym896b7ECttSo95GEvS7pYMikzud57WypK7Bjpi
+ep8YLarLRDrvyyvBuYtyDrIewkuASHtV1oy5E6QZZe2VOxMm6e2oJnFFjbflot4A08D3SwqDwV0i
+OOYwT0BUtHYR/3903Dmdx5Alq+NDvUHDjozgo0f6oIkwDXT3yBV36utQ/jFisd36C8RD5mM+NFpu
+3aqLXARRbKtxw29ErCwulof2dcAonG7cd5j+gmS84sLhKU+BhL1OQVXnJ5tj7xZ5Ri5I23brcwk0
+lk/gWqfgs3ppT9Xk7zVit9q8MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
+R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
+MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCDW
+xOGRhc2KC7kyBAOO9VflVYWYSBCJ/Qfi9dyPQ2bzwzAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMjA3MDkwMzM1MzhaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEADngLlw+7BHWsDfXodA5M
+3ZhqcKoIUGTKOKpkyuCXDO2O0vKj8H+haMpVNzKb2bCYv1uGJ7wmYoCVGlEWyfEav54JNa7H0CId
+0KmpuSkAFG0AmzSaowoyS6brF411oVsZfEorrGd+H/0v2p+yeF5McUzsBxW5J11rFRw/A/YNysqz
+kHZkkNaZN8H46I3fYTGaNNVvYkbFJw3SXDO10Hbg6g1QLMHhcSF23AuLeaNoN1NN3vzLWIgkuq9n
+SSxPm6THzbhMkmIXgPU0J1KeAuk4LmnWoLX0s3q4qWfaBTD8r4BYYa9yC7w/Ojx6KJTiM/kxZXtq
+hAU+ejbbM2raoq4MZQ==
+--0000000000002f325905e3570394--
