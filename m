@@ -2,145 +2,177 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7ED60570DE9
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Jul 2022 01:08:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AD30570E1D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Jul 2022 01:17:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229684AbiGKXIJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 11 Jul 2022 19:08:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32892 "EHLO
+        id S230482AbiGKXRd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 11 Jul 2022 19:17:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229578AbiGKXII (ORCPT
+        with ESMTP id S229869AbiGKXRd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 11 Jul 2022 19:08:08 -0400
-Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A230C87F58
-        for <linux-kbuild@vger.kernel.org>; Mon, 11 Jul 2022 16:08:06 -0700 (PDT)
-Received: by mail-il1-x12c.google.com with SMTP id u13so3896797iln.6
-        for <linux-kbuild@vger.kernel.org>; Mon, 11 Jul 2022 16:08:06 -0700 (PDT)
+        Mon, 11 Jul 2022 19:17:33 -0400
+Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53F7F87F70
+        for <linux-kbuild@vger.kernel.org>; Mon, 11 Jul 2022 16:17:31 -0700 (PDT)
+Received: by mail-io1-xd34.google.com with SMTP id 190so6375418iou.6
+        for <linux-kbuild@vger.kernel.org>; Mon, 11 Jul 2022 16:17:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=pxJlETCPEHBQbahGOg/NSMRU0LrVE7hOLMj3y7kzK9w=;
-        b=X7RGik/jDCOr5Fa+lHlfeG1T2hU9is8O8+tN+LPm4MrRRxsXbb/HJ8jS2ZeFTRlL8d
-         +hMiVojqvGP/3PkP4oqYlWwht1Vkm3nmYFbhncFJONOGdm7taV/GWN7IIfELEU+ZICeV
-         0/Vayy4Y/IV0hsPxo2ms8svdM4BMqceANMYPU=
+        bh=X4V9spvk1I9jjtr8sVusqF9oSSPPa+R7P/GUBMC4gLc=;
+        b=iL2mD/P0V4lfh23PpOV1RJOguNLsoUgdYgJwIjkRgS64rurYUXaVJSd3k7136hlWh+
+         aSX3Sy9hkwO1TextBrkhg7/G0fkAst9YMLYeZGIPYO0n1vg88u4nguP2uIcjBSJdIG2s
+         TQRIQWOEtYP10f+luBeND/Wq3Hi7OU8xOISJE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=pxJlETCPEHBQbahGOg/NSMRU0LrVE7hOLMj3y7kzK9w=;
-        b=Bp5GzORonV9g82sQ7DAy0qFU9gPNGziE3rIWtdCUvpLEi3LkzF2MnuzPLYQoqlhxl9
-         o9/FjxIs7WrQ23U54ynywv/qZMTrgr2rmCwUtzrBrior6lbB9EQSVb4b9Zjxkv8oPoIU
-         7UMs2YZ/5YeXYAfl4w2Pn6F1MVP1NZye5rdOv5zvIHHFj57i/qeYQEdQX1yyti925pdY
-         Ts959uAiM//ZJLjI4utC/u/hEzrjXba1BoyRW4oiXY8ybW5j/Z4hcTe47dtvD9+ybPLY
-         CBBpi2A9ZzmpjZgWBLJFE/cwxks5MpS2CXS4noLQ2fUQRMn1sDsmKmBANE99/0rE8sC7
-         dZAQ==
-X-Gm-Message-State: AJIora8nylqF826Pm9GhSbDClVEWixzCAIdKdvVPmRRLIXARFRZ25DCq
-        sMEvNftwAo+wTboyrIWZK/3tRw==
-X-Google-Smtp-Source: AGRyM1ssd95vtTolGyGBr/dfUJKcR2zMP3hv867l9YAKzLPw+Ul9hCxFMfdhF5VDALH3Niydpu7D6g==
-X-Received: by 2002:a92:c26b:0:b0:2dc:8bee:cade with SMTP id h11-20020a92c26b000000b002dc8beecademr885531ild.160.1657580886020;
-        Mon, 11 Jul 2022 16:08:06 -0700 (PDT)
+        bh=X4V9spvk1I9jjtr8sVusqF9oSSPPa+R7P/GUBMC4gLc=;
+        b=WrzPTgAtcRp2CfQaoyBYNn4ur1jluCcP3MQiS8U33bRFaDNwlIXNsGjahcOn8PBoJx
+         hmUH9I8I0ga+2j9OuT5PVyWAXNCduvYaoOEhzYR2VVAr+FWUzyOkX51VndxMs3js5vBE
+         9WBLg1SZx8xmA9lCQsUa4g289ScpGmE/syafeqSrWt4RyqBEbOd3TGbQzPZOn0tIdM94
+         JW4IokJhCPqVHbyCghMS+VVRWdYia4cJ2UMIY5GDt1DfaExc+x+7XhJTSAYwCNOcO58d
+         0RjU+IIRItFYNZqfELxS4tC+87xjnErburM4uBD1d6/Vfa5Xyx0SfD6/wKdk0446NUgS
+         2F+w==
+X-Gm-Message-State: AJIora8ejxswFR7jQIQ+W1QVYzjZYggnjgl5HFKZDLstKRmKpKD5UIs2
+        y1x7tzH+yBi5Tx7FGzm6ONPCJQ==
+X-Google-Smtp-Source: AGRyM1uj5haGzpa8pwS0HQnvZKEjcACNgX12g8/rtIBFbcZxuC0BrgiAPyKTyF5FN6ouZQ+LKJ9q5Q==
+X-Received: by 2002:a05:6602:2e0c:b0:669:b7a8:fb0a with SMTP id o12-20020a0566022e0c00b00669b7a8fb0amr10334823iow.121.1657581450696;
+        Mon, 11 Jul 2022 16:17:30 -0700 (PDT)
 Received: from [192.168.1.128] ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id s3-20020a056602168300b00678b7e2e040sm4180260iow.7.2022.07.11.16.08.05
+        by smtp.gmail.com with ESMTPSA id y20-20020a056e02119400b002dc239fbd04sm3185890ili.22.2022.07.11.16.17.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Jul 2022 16:08:05 -0700 (PDT)
-Subject: Re: [PATCH 0/4] Fix kselftest build with sub-directory
-To:     Anders Roxell <anders.roxell@linaro.org>
-Cc:     Guillaume Tucker <guillaume.tucker@collabora.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        Mon, 11 Jul 2022 16:17:30 -0700 (PDT)
+Subject: Re: [PATCH v6 3/4] kunit: Taint the kernel when KUnit tests are run
+To:     David Gow <davidgow@google.com>
+Cc:     Daniel Latypov <dlatypov@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Joe Fradley <joefradley@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        Aaron Tomlin <atomlin@redhat.com>,
+        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Shuah Khan <shuah@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        Naresh Kamboju <naresh.kamboju@linaro.org>,
-        kernel@collabora.com, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
         Shuah Khan <skhan@linuxfoundation.org>
-References: <cover.1657296695.git.guillaume.tucker@collabora.com>
- <b39b9e0b-45f3-1818-39fe-58921182d957@linuxfoundation.org>
- <CADYN=9JncW4XKk8zVAuiux4R+FF2Z=LhBh--ajUqyGMC5yyxLQ@mail.gmail.com>
+References: <20220708044847.531566-1-davidgow@google.com>
+ <20220708044847.531566-3-davidgow@google.com>
+ <fc638852-ac9a-abab-8fdb-01b685cdec96@linuxfoundation.org>
+ <CAGS_qxpODhSEs_sMm5Gu55EsYy-M9V98eLU-8O+xGMxncXmY4A@mail.gmail.com>
+ <f25f96ce-1c9b-7e66-a5be-96d7cf2988cf@linuxfoundation.org>
+ <a00efaa8-71e0-c531-b6a4-e3d695ad628b@linuxfoundation.org>
+ <CABVgOSkroVjxTDoKTLBxiX_Fw5qZQmchDpY4U3XCCRYfXbS2bQ@mail.gmail.com>
 From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <fab2e2e1-311f-6e61-2ba7-0119b8281524@linuxfoundation.org>
-Date:   Mon, 11 Jul 2022 17:08:04 -0600
+Message-ID: <4e5ca5b9-cdb8-4ddf-b057-27f721427f52@linuxfoundation.org>
+Date:   Mon, 11 Jul 2022 17:17:29 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <CADYN=9JncW4XKk8zVAuiux4R+FF2Z=LhBh--ajUqyGMC5yyxLQ@mail.gmail.com>
+In-Reply-To: <CABVgOSkroVjxTDoKTLBxiX_Fw5qZQmchDpY4U3XCCRYfXbS2bQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 7/11/22 6:13 AM, Anders Roxell wrote:
-> On Fri, 8 Jul 2022 at 19:14, Shuah Khan <skhan@linuxfoundation.org> wrote:
+On 7/8/22 9:35 PM, David Gow wrote:
+> On Sat, Jul 9, 2022 at 5:24 AM Shuah Khan <skhan@linuxfoundation.org> wrote:
 >>
->> On 7/8/22 10:23 AM, Guillaume Tucker wrote:
->>> Earlier attempts to get "make O=build kselftest-all" to work were
->>> not successful as they made undesirable changes to some functions
->>> in the top-level Makefile.  This series takes a different
->>> approach by removing the root cause of the problem within
->>> kselftest, which is when the sub-Makefile tries to install kernel
->>> headers "backwards" by calling make with the top-level Makefile.
->>> The actual issue comes from the fact that $(srctree) is ".." when
->>> building in a sub-directory with "O=build" which then obviously
->>> makes "-C $(top_srcdir)" point outside of the real source tree.
+>> On 7/8/22 3:22 PM, Shuah Khan wrote:
+>>> On 7/8/22 3:00 PM, Daniel Latypov wrote:
+>>>> On Fri, Jul 8, 2022 at 1:22 PM Shuah Khan <skhan@linuxfoundation.org> wrote:
+>>>>>
+>>>>> On 7/7/22 10:48 PM, David Gow wrote:
+>>>>>> Make KUnit trigger the new TAINT_TEST taint when any KUnit test is run.
+>>>>>> Due to KUnit tests not being intended to run on production systems, and
+>>>>>> potentially causing problems (or security issues like leaking kernel
+>>>>>> addresses), the kernel's state should not be considered safe for
+>>>>>> production use after KUnit tests are run.
+>>>>>>
+>>>>>> This both marks KUnit modules as test modules using MODULE_INFO() and
+>>>>>> manually taints the kernel when tests are run (which catches builtin
+>>>>>> tests).
+>>>>>>
+>>>>>> Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+>>>>>> Tested-by: Daniel Latypov <dlatypov@google.com>
+>>>>>> Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+>>>>>> Signed-off-by: David Gow <davidgow@google.com>
+>>>>>> ---
+>>>>>>
+>>>>>> No changes since v5:
+>>>>>> https://lore.kernel.org/linux-kselftest/20220702040959.3232874-3-davidgow@google.com/
+>>>>>>
+>>>>>> No changes since v4:
+>>>>>> https://lore.kernel.org/linux-kselftest/20220701084744.3002019-3-davidgow@google.com/
+>>>>>>
+>>>>>
+>>>>> David, Brendan, Andrew,
+>>>>>
+>>>>> Just confirming the status of these patches. I applied v4 1/3 and v4 3/4
+>>>>> to linux-kselftest kunit for 5.20-rc1.
+>>>>> I am seeing v5 and v6 now. Andrew applied v5 looks like. Would you like
+>>>>> me to drop the two I applied? Do we have to refresh with v6?
+>>>>
+>>>> Just noting here that there'll be a merge conflict between this patch
+>>>> (3/4) and some other patches lined up to go through the kunit tree:
+>>>> https://patchwork.kernel.org/project/linux-kselftest/patch/20220625050838.1618469-2-davidgow@google.com/
+>>>>
+>>>> Not sure how we want to handle that.
+>>>>
 >>>
->>> With this series, the generic kselftest targets work as expected
->>> from the top level with or without a build directory e.g.:
->>>
->>>     $ make kselftest-all
->>>
->>>     $ make O=build kselftest-all
->>>
->>> Then in order to build using the sub-Makefile explicitly, the
->>> headers have to be installed first.  This is arguably a valid
->>> requirement to have when building a tool from a sub-Makefile.
->>> For example, "make -C tools/testing/nvdimm/" fails in a similar
->>> way until <asm/rwonce.h> has been generated by a kernel build.
->>>
->>> Guillaume Tucker (4):
->>>     selftests: drop khdr make target
->>>     selftests: stop using KSFT_KHDR_INSTALL
->>>     selftests: drop KSFT_KHDR_INSTALL make target
->>>     Makefile: add headers_install to kselftest targets
+>>> I can go drop the two patches and have Andrew carry the series through
+>>> mm tree.
 >>>
 >>
->> This takes us to back to the state before b2d35fa5fc80 added
->> khdr support. I reluctantly agreed to the change and it has
->> proven to be a problematic change. I would rather have had the
->> dependency stated that headers should be installed prior to
->> building tests - test build depends on kernel build anyway and
->> having dependency on headers having build isn't a huge deal.
-> 
-> I agree that it's not a huge deal.
-> 
+>> Sorry spoke too soon. Yes there are others that might have conflicts as
+>> Daniel pointed out:
 >>
->> So I am in favor of getting rid of khdr support. However, this
->> khdr support was a change originated from Linaro test ring. Undoing
->> this might have implication on their workflow.
+>> https://patchwork.kernel.org/project/linux-kselftest/patch/20220625050838.1618469-2-davidgow@google.com/
+>>
+>> thanks,
+>> -- Shuah
+>>
 > 
-> It shouldn't be a problem.
-> I've been running these patches through a smoke test and it looks
-> good.
+> Thanks everyone for pointing these out.
 > 
-> Tested-by: Anders Roxell <anders.roxell@linaro.org>
+> I've rebased the other series (the KUnit module support one:
+> https://lore.kernel.org/linux-kselftest/20220709032001.819487-1-davidgow@google.com/
+> ) on top of this.
 > 
+> If they all go in via the kselftest/kunit tree, everything should be fine now.
+> 
+> Cheers,
+> -- David
 > 
 
-Thank you Anders for confirming this isn't a problem for Linaro workflow
-and testing.
-
-Than you Guillaume for fixing the problem. I will apply these for 5.20-rc1.
+Thank you David. All patches applied now to linux-kselftest kunit for 5.20-rc1
 
 thanks,
 -- Shuah
