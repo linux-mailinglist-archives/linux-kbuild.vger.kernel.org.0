@@ -2,134 +2,113 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5391956D467
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Jul 2022 07:52:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D5805701B9
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Jul 2022 14:09:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229490AbiGKFwI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 11 Jul 2022 01:52:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42806 "EHLO
+        id S231503AbiGKMJa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 11 Jul 2022 08:09:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229469AbiGKFwH (ORCPT
+        with ESMTP id S231465AbiGKMJ3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 11 Jul 2022 01:52:07 -0400
-Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D28D15A16;
-        Sun, 10 Jul 2022 22:52:05 -0700 (PDT)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 26B5pbZA022952;
-        Mon, 11 Jul 2022 14:51:38 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 26B5pbZA022952
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1657518698;
-        bh=nJdtwmIgrVPA0dtmVpPR8fp9Vk3EMrRlmk8wkbLbI2w=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=obxUlw7OF194lDxjAIa3n2rN6jPm7eELxwBq6iY3pQGba6zF0OcdR1XxugDvxyFdn
-         +cmOr74FTMVs+0gU6uh+hcByvVNbJR8I2QYpwNhtru9eOhOb5FvUfpouviOF1Ewh/7
-         oUpUvtwgcrMQvOhvJXXvRZENbaNQlTlJuvJDfmx+In98EK0xbxFuVHn0aEKVWOkEZV
-         lDThjLUdHlO8B06R7ZjtNJ7RtSYnNCaq7RIPT0TjsE6LmIt9kyQ44z/5HFtocPlBl/
-         BFWzF9ER7I9ccZIj0anEW4mmBTouEsiKeqXCfvSr1V2fNVeWtqVDu7T/ODaOT0tV8O
-         Vvzpcq9TjBMaw==
-X-Nifty-SrcIP: [209.85.128.44]
-Received: by mail-wm1-f44.google.com with SMTP id v10-20020a05600c15ca00b003a2db8aa2c4so2387029wmf.2;
-        Sun, 10 Jul 2022 22:51:38 -0700 (PDT)
-X-Gm-Message-State: AJIora+RyjZ7nF0mWwbOblAS2+jl+buoP5H6mj5tyL8f+pXEz2fOyyL/
-        Z/e1AArKLjYluEW9KMHpReMo9/Nl6L85wqqffiQ=
-X-Google-Smtp-Source: AGRyM1vsDrLJ6rtJwQeHonOKDhW3TOmc/Pg1e+zzajG3BZKqRdOLhg3kdPsXEWwSsp+e27u8+CqE7x9sWMupfSPLYJ4=
-X-Received: by 2002:a05:600c:35d6:b0:3a2:e873:6295 with SMTP id
- r22-20020a05600c35d600b003a2e8736295mr2783183wmq.22.1657518696690; Sun, 10
- Jul 2022 22:51:36 -0700 (PDT)
+        Mon, 11 Jul 2022 08:09:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9553D2872C
+        for <linux-kbuild@vger.kernel.org>; Mon, 11 Jul 2022 05:09:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1657541367;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=zaosLVlnWVciYYZyhDp77SGO4ThiR5rxhW3IDyN9u/M=;
+        b=WWSOi4xjtDyGMjeBVaq6KmFQVzxHMp9sWQGW1LfgBRON/MJ4Dqnn7kjnc/ntp5RsL+DJ33
+        EXRLft4Xjx4phfVqm9UdrXttwtXjtMlMVAKJsOaIJNw5p4H6vifddr/ptRvWCQSb/0qOy/
+        uLdXOqRJwjn0QsekncGdtmGifFQ7cQ4=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-317-k7KeYiExP3mXvZjlnnPIGQ-1; Mon, 11 Jul 2022 08:09:26 -0400
+X-MC-Unique: k7KeYiExP3mXvZjlnnPIGQ-1
+Received: by mail-ej1-f70.google.com with SMTP id qa41-20020a17090786a900b00722f313a60eso989579ejc.13
+        for <linux-kbuild@vger.kernel.org>; Mon, 11 Jul 2022 05:09:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zaosLVlnWVciYYZyhDp77SGO4ThiR5rxhW3IDyN9u/M=;
+        b=an4JsxhT9SgVxbn8PVB3dlHc9vsTMs02JJr8N2fAYimLvPcUyEr18ORCJjumRsk6in
+         kGu1TqSGeBq+Akfwe4pL4utrMOJVCNzVdc4ZkzzPGg8bblhw98mSi5oZtpVaL/6g2LNA
+         VIUXbsJ+5vqrOiGLZ4Q4XTRTsed2GhbZkqUFRn+wjzo51S0UzjhLx0Ya8uDCh440Bd0C
+         kf6lXlWIhLefSVqlkBPslC5cPjPAqvHkFAzSl2+rQLpPoqm9Ej68AFlHTSpqfDhVhpjx
+         E2JXwPGGJT1niuIEDjYfLnzMlFmbx/LwQDdCBtHEMOtSqPqNsz1A1Gxx5KNN2OuLKRnL
+         QewQ==
+X-Gm-Message-State: AJIora/hOWXh1nkDVyyd+SI1cvKaHX68ZHadaMkHbaKrCRMoLbRz67g1
+        Wi1lxTWg2BOKxQJBSQsMAwQv7kGixJGaL4+r6BRSkgrULywISxe9wKSOwOCMt1Sqh7J+NbPtrQy
+        LPWIYi6ZAUhTec8aKUV41Tjnj
+X-Received: by 2002:a05:6402:5388:b0:435:71b:5d44 with SMTP id ew8-20020a056402538800b00435071b5d44mr23789587edb.364.1657541365068;
+        Mon, 11 Jul 2022 05:09:25 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sx4F93Z1N0j/+DYzGrIOpdmoa/gpc2hPhZCuvB+R1zB9LqywhzONhW+GjNkgBh2dOlVeS8pg==
+X-Received: by 2002:a05:6402:5388:b0:435:71b:5d44 with SMTP id ew8-20020a056402538800b00435071b5d44mr23789553edb.364.1657541364856;
+        Mon, 11 Jul 2022 05:09:24 -0700 (PDT)
+Received: from localhost.localdomain (nat-pool-brq-t.redhat.com. [213.175.37.10])
+        by smtp.gmail.com with ESMTPSA id pw22-20020a17090720b600b0072b13a10477sm2624320ejb.108.2022.07.11.05.09.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Jul 2022 05:09:24 -0700 (PDT)
+From:   Ondrej Mosnacek <omosnace@redhat.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: dummy-tools: avoid tmpdir leak in dummy gcc
+Date:   Mon, 11 Jul 2022 14:09:23 +0200
+Message-Id: <20220711120923.1004759-1-omosnace@redhat.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-References: <CA+55aFz2sNBbZyg-_i8_Ldr2e8o9dfvdSfHHuRzVtP2VMAUWPg@mail.gmail.com>
- <20220628210407.3343118-1-ndesaulniers@google.com> <2842572.mvXUDI8C0e@sakura.myxoz.lan>
-In-Reply-To: <2842572.mvXUDI8C0e@sakura.myxoz.lan>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 11 Jul 2022 14:50:46 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATrgiJX7VGAda4YaXCso2wMufd_X1Q0XMYfG0yGg4mLBw@mail.gmail.com>
-Message-ID: <CAK7LNATrgiJX7VGAda4YaXCso2wMufd_X1Q0XMYfG0yGg4mLBw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: drop support for CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3
-To:     Miko Larsson <mikoxyzzz@gmail.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Chris Down <chris@chrisdown.name>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Oleksandr Natalenko <oleksandr@redhat.com>,
-        Elliot Berman <quic_eberman@quicinc.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>, X86 ML <x86@kernel.org>,
-        arcml <linux-snps-arc@lists.infradead.org>,
-        Vineet Gupta <vgupta@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jun 29, 2022 at 7:48 PM Miko Larsson <mikoxyzzz@gmail.com> wrote:
->
-> On Tuesday, 28 June 2022 23:04:07 CEST Nick Desaulniers wrote:
-> > The difference in most compilers between `-O3` and `-O2` is mostly down
-> > to whether loops with statically determinable trip counts are fully
-> > unrolled vs unrolled to a multiple of SIMD width.
-> >
-> > This patch is effectively a revert of
-> > commit 15f5db60a137 ("kbuild,arc: add
-> > CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3 for ARC") without re-adding
-> > ARCH_CFLAGS
-> >
-> > Ever since
-> > commit cfdbc2e16e65 ("ARC: Build system: Makefiles, Kconfig, Linker
-> > script")
-> > ARC has been built with -O3, though the reason for doing so was not
-> > specified in inline comments or the commit message. This commit does not
-> > re-add -O3 to arch/arc/Makefile.
-> >
-> > Folks looking to experiment with `-O3` (or any compiler flag for that
-> > matter) may pass them along to the command line invocation of make:
-> >
-> > $ make KCFLAGS=-O3
-> >
-> > Code that looks to re-add an explicit Kconfig option for `-O3` should
-> > provide:
-> > 1. A rigorous and reproducible performance profile of a reasonable
-> >    userspace workload that demonstrates a hot loop in the kernel that
-> >    would benefit from `-O3` over `-O2`.
-> > 2. Disassembly of said loop body before and after.
-> > 3. Provides stats on terms of increase in file size.
-> >
->
-> Might be worth cleaning up the rest of the kernel of instances of -O3,
-> too. -O3 used to build lz4 and mips vdso, for instance. Might be a bit
-> of a digression, though
+When passed -print-file-name=plugin, the dummy gcc script creates a
+temporary directory that is never cleaned up. To avoid cluttering
+$TMPDIR, instead use a static directory included in the source tree.
 
+Fixes: 76426e238834 ("kbuild: add dummy toolchains to enable all cc-option etc. in Kconfig")
+Signed-off-by: Ondrej Mosnacek <omosnace@redhat.com>
+---
+ .../dummy-tools/dummy-plugin-dir/include/plugin-version.h | 0
+ scripts/dummy-tools/gcc                                   | 8 ++------
+ 2 files changed, 2 insertions(+), 6 deletions(-)
+ create mode 100644 scripts/dummy-tools/dummy-plugin-dir/include/plugin-version.h
 
-This patch focuses on the removal of CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3,
-so I think it is OK as-is.
-
-The rest of cleanups, if needed,
-should be submitted separately.
-
-
-
-
->
-> --
-> ~miko
->
->
-
-
+diff --git a/scripts/dummy-tools/dummy-plugin-dir/include/plugin-version.h b/scripts/dummy-tools/dummy-plugin-dir/include/plugin-version.h
+new file mode 100644
+index 000000000000..e69de29bb2d1
+diff --git a/scripts/dummy-tools/gcc b/scripts/dummy-tools/gcc
+index b2483149bbe5..7db825843435 100755
+--- a/scripts/dummy-tools/gcc
++++ b/scripts/dummy-tools/gcc
+@@ -96,12 +96,8 @@ fi
+ 
+ # To set GCC_PLUGINS
+ if arg_contain -print-file-name=plugin "$@"; then
+-	plugin_dir=$(mktemp -d)
+-
+-	mkdir -p $plugin_dir/include
+-	touch $plugin_dir/include/plugin-version.h
+-
+-	echo $plugin_dir
++	# Use $0 to find the in-tree dummy directory
++	echo "$(dirname "$(readlink -f "$0")")/dummy-plugin-dir"
+ 	exit 0
+ fi
+ 
 -- 
-Best Regards
-Masahiro Yamada
+2.36.1
+
