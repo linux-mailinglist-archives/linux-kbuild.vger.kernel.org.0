@@ -2,75 +2,87 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E04D56D02D
-	for <lists+linux-kbuild@lfdr.de>; Sun, 10 Jul 2022 18:46:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DCCE56D417
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Jul 2022 06:51:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229805AbiGJQqY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 10 Jul 2022 12:46:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48612 "EHLO
+        id S229592AbiGKEvL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 11 Jul 2022 00:51:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229810AbiGJQqN (ORCPT
+        with ESMTP id S229526AbiGKEvJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 10 Jul 2022 12:46:13 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B715140D2;
-        Sun, 10 Jul 2022 09:45:40 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 099AE612FE;
-        Sun, 10 Jul 2022 16:45:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 65DE0C341CB;
-        Sun, 10 Jul 2022 16:45:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657471538;
-        bh=nHpjRGWbDTiCJd9Q/y5FYb+xr/bzZ7RpZPOuQGXAq08=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=MpIjpmBpiQ6hfI07YcNof9yZhcllm7N7wjuUTetOzdNCqiDT8Bgzmns2mApE091I5
-         5j4iDdYzQZLEJ0TzZfJVK6+OZ3NdMT5lce8cDRvbZRtQfGOLB3IUfurYPOwe6RWlV+
-         m5U87BZxBtbJMWKB5KrXWxv0TT3ez+RVr7Q1zuHFFTHCh5SE6j2MFciwkgqo9kr8ZB
-         bWdGHV3n0JGu5EEq1GWeQxIW7ZQNJ7fxNHYbq4BFhmr5UooYnvRoRoml0unyE3hzf5
-         NPsgpeh7nxhCQMf38blKGKqdrbgBUNW8XfsKsbRLUgzePHPKY8rpa2emrsi/lq7nMS
-         BKwK95HstFWRw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 47042E45BDB;
-        Sun, 10 Jul 2022 16:45:38 +0000 (UTC)
-Subject: Re: [GIT PULL] Kbuild fixes for v5.19-rc6
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <CAK7LNATwuZpJNN1hwmb==yBXs9msh+Yc7pCVMxujsB1885QakQ@mail.gmail.com>
-References: <CAK7LNATwuZpJNN1hwmb==yBXs9msh+Yc7pCVMxujsB1885QakQ@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kbuild.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAK7LNATwuZpJNN1hwmb==yBXs9msh+Yc7pCVMxujsB1885QakQ@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v5.19-3
-X-PR-Tracked-Commit-Id: f5a4618587fb5c5eb5fec3dcce165ca8fd7d7f91
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 2fbd36dfae40cc90ba6a4761e0efff62e4d919fe
-Message-Id: <165747153828.25707.5034964179370323960.pr-tracker-bot@kernel.org>
-Date:   Sun, 10 Jul 2022 16:45:38 +0000
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Mon, 11 Jul 2022 00:51:09 -0400
+Received: from conuserg-12.nifty.com (conuserg-12.nifty.com [210.131.2.79])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FFB8DF03;
+        Sun, 10 Jul 2022 21:51:07 -0700 (PDT)
+Received: from grover.sesame (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 26B4o0ZG024708;
+        Mon, 11 Jul 2022 13:50:00 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 26B4o0ZG024708
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1657515001;
+        bh=VOCHHLRHh1lLpKyixQ4sfkIWymDvLwbX+ywMi3wCVpo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=rRCj0qF6u9icqqOx8T4cVX6F/su2ZFkjobBuMguq181E4wy2sYH0HhanvoFsvd6fN
+         eJ2sG8pSmdlUR7QZ8UDTaZlKX1CFiqBKxkfoKn7lfeGhPwX8FDYVD8WV6dKpJvLIAJ
+         ES1dh+vGUMsZotwHbhskX8RC0MTxJfyh0RmXMF9z/Dw/7qU1jOsULi7Xp2HNnMEq6v
+         AjiBKYV8IxPJycE6Ew5swXfpl3ww6RK/YalOrKYu2NNbQ6sGQiDPrI5gJqHGxa8HVb
+         o2UQT0aJgo3vNsppAgP9xvPHiD2FEDDhNHi9D2ZZMKMRt89GwcNregJ5GlxpZGyjiy
+         /UKJSQPWR7uqA==
+X-Nifty-SrcIP: [133.32.177.133]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] Revert "scripts/mod/modpost.c: permit '.cranges' secton for sh64 architecture."
+Date:   Mon, 11 Jul 2022 13:49:41 +0900
+Message-Id: <20220711044942.122792-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The pull request you sent on Sun, 10 Jul 2022 21:33:42 +0900:
+This reverts commit 4d10c223baab8be8f717df3625cfece5be26dead.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v5.19-3
+Commit 37744feebc08 ("sh: remove sh5 support") removed the sh64 support
+entirely.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/2fbd36dfae40cc90ba6a4761e0efff62e4d919fe
+Note:
+.cranges was only used for sh64 ever.
+Commit 211dc24b8744 ("Remove sh5 and sh64 support") in binutils-gdb
+already removed the relevant code.
 
-Thank you!
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+---
 
+Changes in v2:
+  - Mention that binutils-gdb also remove the .cranges code.
+
+ scripts/mod/modpost.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index ba7c5a8ad448..7735d095338c 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -753,7 +753,6 @@ static const char *const section_white_list[] =
+ {
+ 	".comment*",
+ 	".debug*",
+-	".cranges",		/* sh64 */
+ 	".zdebug*",		/* Compressed debug sections. */
+ 	".GCC.command.line",	/* record-gcc-switches */
+ 	".mdebug*",        /* alpha, score, mips etc. */
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.32.0
+
