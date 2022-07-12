@@ -2,59 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02F93570F92
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Jul 2022 03:36:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F8E95710C0
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Jul 2022 05:21:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229707AbiGLBge (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 11 Jul 2022 21:36:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55874 "EHLO
+        id S231320AbiGLDVO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 11 Jul 2022 23:21:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229515AbiGLBge (ORCPT
+        with ESMTP id S229839AbiGLDVO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 11 Jul 2022 21:36:34 -0400
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D270C2AE1C;
-        Mon, 11 Jul 2022 18:36:32 -0700 (PDT)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 26C1aA8l029362;
-        Tue, 12 Jul 2022 10:36:11 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 26C1aA8l029362
+        Mon, 11 Jul 2022 23:21:14 -0400
+Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C159D2ED6F;
+        Mon, 11 Jul 2022 20:21:12 -0700 (PDT)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 26C3KxVE015855;
+        Tue, 12 Jul 2022 12:21:00 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 26C3KxVE015855
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1657589771;
-        bh=/DJh0T9UEeSd0UnVmkJ3Yb1uvTEdoJFkOji+14jZ4Ng=;
+        s=dec2015msa; t=1657596060;
+        bh=DOhN9aOTUQ78HPm07pl3GGSxyC8IkiOMP2V1fqQ8GPE=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=UoSn8bUbb/ZWt7KcKridmJV+Sd0BR5TdoznG8B20/ipOYMKgAyl/WTkjPrVlzRqlQ
-         zYiWb+Z+zzYwi7jjiIHHqQUiTQtrvg7OxltvIpB5zQ4L2ALpMWh4USRAW6UqW3v2oB
-         RUyMkI8QUGuZ/CObljwd1UBo6vBg4lEgJHyw/bEDw/yjcg7RT3ko6ydhWzXvzOKHt8
-         etCvMaTk5YYgYEe1IQVsWeKOlR14oqVTPBvC9zRilWYUYYi523co62dp7I6gRTDxtC
-         7Gako/XtVZ3PzVOWfrp5GJWhblp3jfFoxffHez0PKmmywYbn25pNX/RPcfjwIU1mDo
-         EZoMNRWOlQ9UA==
-X-Nifty-SrcIP: [209.85.221.43]
-Received: by mail-wr1-f43.google.com with SMTP id b26so9161542wrc.2;
-        Mon, 11 Jul 2022 18:36:11 -0700 (PDT)
-X-Gm-Message-State: AJIora+ZogMsHMcBLyahFErYjHjPyZdo+fivR4UgvJlOxSJVllNqk2RI
-        ydMQWfTHwAz/vQIItO/YjcpxS/IWZVMfyYTmIJk=
-X-Google-Smtp-Source: AGRyM1sS0c7XakFYh+QVVsDh5Mp5VGqoOVoPqEqwSPVTCvw1lpzi8qbXdMfY3A5T8s0mm3VXDnQr5bgwD4PEB0vMGAQ=
-X-Received: by 2002:a05:6000:104c:b0:21d:87bf:63a2 with SMTP id
- c12-20020a056000104c00b0021d87bf63a2mr18678986wrx.461.1657589769995; Mon, 11
- Jul 2022 18:36:09 -0700 (PDT)
+        b=bqGRbfHV5p8+9Q6NvDM9/fWsnfXgbCyahMluxK8yF62xo9hLlgvfmfHtr/mtgg/tE
+         BHRleVdF8JMhlkGv3wPhYB9fegWQZsdWieMJTz3oL/lKVRHTw7OKsM5ORhXAnjCqul
+         ZdAQcVNNrHwube0Sgvvevh2UhW41wo2LxDcyicFvkH0nIMf0bma3mjBz+P+887WZzg
+         LU1VnfwmhffpYG4oXUEuOmPw2rr4SULsmo9zw9MCes1NWeAwbCIRH1mUgaJDlyROI+
+         XS99qCL5SERxwnEIsVH+X6Wz6izuaaK6vXfC711YVL472Tx/QR+jkCcFV9mI4amBOR
+         1NTiipCXi9DNw==
+X-Nifty-SrcIP: [209.85.128.53]
+Received: by mail-wm1-f53.google.com with SMTP id n185so3988289wmn.4;
+        Mon, 11 Jul 2022 20:20:59 -0700 (PDT)
+X-Gm-Message-State: AJIora8aP52Bp8lQH36lQB+37bk7lrBAos09BWiEJP7aVTzFrA20P5ks
+        anBG3TJBf0V1Y1V+/7kGaXLHnW655fTwcQw8NTU=
+X-Google-Smtp-Source: AGRyM1t7PapFZYY82X2BRYLHLU8fWFry2vboUwz/ie3okECdT1R20+nSKKeMmfqGWck5GBWOApjFmcLyDqj3UvFa+Yc=
+X-Received: by 2002:a1c:6a06:0:b0:3a0:5099:f849 with SMTP id
+ f6-20020a1c6a06000000b003a05099f849mr1398898wmc.14.1657596058483; Mon, 11 Jul
+ 2022 20:20:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1657296695.git.guillaume.tucker@collabora.com> <4d34d06baf945dc31c78f873771cef3a75b60067.1657296695.git.guillaume.tucker@collabora.com>
-In-Reply-To: <4d34d06baf945dc31c78f873771cef3a75b60067.1657296695.git.guillaume.tucker@collabora.com>
+References: <20220711120923.1004759-1-omosnace@redhat.com>
+In-Reply-To: <20220711120923.1004759-1-omosnace@redhat.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 12 Jul 2022 10:35:30 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASe3zQv82pQsTdWtia9nQQm8XGgs_mrUMvbLRkxa0T48Q@mail.gmail.com>
-Message-ID: <CAK7LNASe3zQv82pQsTdWtia9nQQm8XGgs_mrUMvbLRkxa0T48Q@mail.gmail.com>
-Subject: Re: [PATCH 4/4] Makefile: add headers_install to kselftest targets
-To:     Guillaume Tucker <guillaume.tucker@collabora.com>
+Date:   Tue, 12 Jul 2022 12:20:07 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR8UV9jECd41tVfpRDMnZaPaErYm2-d1TmS+T_pZauQwg@mail.gmail.com>
+Message-ID: <CAK7LNAR8UV9jECd41tVfpRDMnZaPaErYm2-d1TmS+T_pZauQwg@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: dummy-tools: avoid tmpdir leak in dummy gcc
+To:     Ondrej Mosnacek <omosnace@redhat.com>
 Cc:     Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Kees Cook <keescook@chromium.org>, kernel@collabora.com,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
@@ -65,63 +61,49 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jul 9, 2022 at 1:23 AM Guillaume Tucker
-<guillaume.tucker@collabora.com> wrote:
+On Mon, Jul 11, 2022 at 9:09 PM Ondrej Mosnacek <omosnace@redhat.com> wrote:
 >
-> Add headers_install as a dependency to kselftest targets so that they
-> can be run directly from the top of the tree.  The kselftest Makefile
-> used to try to call headers_install "backwards" but failed due to the
-> relative path not being consistent.
+> When passed -print-file-name=plugin, the dummy gcc script creates a
+> temporary directory that is never cleaned up. To avoid cluttering
+> $TMPDIR, instead use a static directory included in the source tree.
 >
-> Now we can either run this directly:
->
->   $ make O=build kselftest-all
->
-> or this:
->
->   $ make O=build headers_install
->   $ make O=build -C tools/testing/selftest all
->
-> The same commands work as well when building directly in the source
-> tree (no O=) or any arbitrary path (relative or absolute).
->
-> Signed-off-by: Guillaume Tucker <guillaume.tucker@collabora.com>
+> Fixes: 76426e238834 ("kbuild: add dummy toolchains to enable all cc-option etc. in Kconfig")
+> Signed-off-by: Ondrej Mosnacek <omosnace@redhat.com>
 > ---
->  Makefile | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+
+Applied to linux-kbuild. Thanks.
+
+
+
+>  .../dummy-tools/dummy-plugin-dir/include/plugin-version.h | 0
+>  scripts/dummy-tools/gcc                                   | 8 ++------
+>  2 files changed, 2 insertions(+), 6 deletions(-)
+>  create mode 100644 scripts/dummy-tools/dummy-plugin-dir/include/plugin-version.h
 >
-> diff --git a/Makefile b/Makefile
-> index 1a6678d817bd..afc9d739ba44 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1347,10 +1347,10 @@ tools/%: FORCE
->  # Kernel selftest
+> diff --git a/scripts/dummy-tools/dummy-plugin-dir/include/plugin-version.h b/scripts/dummy-tools/dummy-plugin-dir/include/plugin-version.h
+> new file mode 100644
+> index 000000000000..e69de29bb2d1
+> diff --git a/scripts/dummy-tools/gcc b/scripts/dummy-tools/gcc
+> index b2483149bbe5..7db825843435 100755
+> --- a/scripts/dummy-tools/gcc
+> +++ b/scripts/dummy-tools/gcc
+> @@ -96,12 +96,8 @@ fi
 >
->  PHONY += kselftest
-> -kselftest:
-> +kselftest: headers_install
->         $(Q)$(MAKE) -C $(srctree)/tools/testing/selftests run_tests
-
-Nit.
-Please use 'headers' for in-kernel use of exportedI headers.
-
-kselftest: headers
-
-
+>  # To set GCC_PLUGINS
+>  if arg_contain -print-file-name=plugin "$@"; then
+> -       plugin_dir=$(mktemp -d)
+> -
+> -       mkdir -p $plugin_dir/include
+> -       touch $plugin_dir/include/plugin-version.h
+> -
+> -       echo $plugin_dir
+> +       # Use $0 to find the in-tree dummy directory
+> +       echo "$(dirname "$(readlink -f "$0")")/dummy-plugin-dir"
+>         exit 0
+>  fi
 >
-> -kselftest-%: FORCE
-> +kselftest-%: headers_install FORCE
->         $(Q)$(MAKE) -C $(srctree)/tools/testing/selftests $*
-
-Ditto.
-
-kselftest-%: headers FORCE
-
-
->
->  PHONY += kselftest-merge
 > --
-> 2.30.2
+> 2.36.1
 >
 
 
