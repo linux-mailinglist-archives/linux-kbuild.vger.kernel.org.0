@@ -2,74 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9886E572E4F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Jul 2022 08:38:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C37C572F7C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Jul 2022 09:47:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231622AbiGMGiV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 13 Jul 2022 02:38:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38584 "EHLO
+        id S233330AbiGMHrb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 13 Jul 2022 03:47:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229599AbiGMGiU (ORCPT
+        with ESMTP id S230077AbiGMHra (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 13 Jul 2022 02:38:20 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06904D5167;
-        Tue, 12 Jul 2022 23:38:19 -0700 (PDT)
-Received: from [192.168.0.24] (86.166.5.84.rev.sfr.net [84.5.166.86])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: gtucker)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 254F166015B8;
-        Wed, 13 Jul 2022 07:38:18 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1657694298;
-        bh=JeMidlcjsMt2NttqZPspM91gWwt1ujhVbq5qh8dmUQQ=;
-        h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-        b=gIWYNlnmQZZ3N4WcTGpDAgR7IM1S5P5eavZ4S1331HQNTJ2Txs6276tbW6uFJKlxa
-         NE6oFGeYwMbjpr6oq4osxylO5EH0PxNsl5r+AWzxvx+JiqfY1sv8hT8x0d0Fh3ONyd
-         OBYbeF6wYKXNEDwV43XWQGQLOfY1jycnRK/ujuh6NE2v6kwiEjTPo7w+Zi/31j7UcQ
-         Sd1QDAu4tsludW1wjMaEdY7l/y6Z5hi44OsM7ij5xEfmsE2IKZCRs90x6sUIR/NsE6
-         sbfCv5lOW679WMBHdUnSGNrSbz3Gyf8kKHHaf+MjMmLqOlBGg/HPIHSACN3qkRRvEt
-         2qRlGNqkrrDdg==
-Message-ID: <168ede35-12e0-c535-9d94-23b65a1beb28@collabora.com>
-Date:   Wed, 13 Jul 2022 08:38:14 +0200
+        Wed, 13 Jul 2022 03:47:30 -0400
+X-Greylist: delayed 634 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 13 Jul 2022 00:47:29 PDT
+Received: from mail.connexion24.pl (mail.connexion24.pl [141.94.21.111])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 773A6E587D
+        for <linux-kbuild@vger.kernel.org>; Wed, 13 Jul 2022 00:47:29 -0700 (PDT)
+Received: by mail.connexion24.pl (Postfix, from userid 1002)
+        id 429B5A5B8C; Wed, 13 Jul 2022 07:36:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=connexion24.pl;
+        s=mail; t=1657697796;
+        bh=ChRcLNpIfKnVgp03/tSyWuRw1tWSTk/OEiEnuZMWs58=;
+        h=Date:From:To:Subject:From;
+        b=TMwHNkv2ptyEiRITyxuhqt1YgtCQsgBAkkbhwA3fYXXRp82/QqItoOAy6iNxGCTiY
+         OQ9cEiwK37sRgVDlk9ykuRZeXs6UkQrB/8LZyqIg193xZbpuyFLrO1nJusVDQ94dxR
+         e6/Fh3K05b/4m5/P0dTgmUanLT0uoH+7cmTnb4svyAjE3eJPE/8K/lyHGFhyV7hOPK
+         eFpSis8fRtVkSdnitOv17E0TzPiEkfZkK/wwKQ0pfxwdzOzct76btbiP6Bkrtfdiuq
+         zDS6qbN4a3d59z4+0v1kevCHDCcFHSD6lvJcIvh4FLX1GgF4c3WWLGh39W8XWM4Lxv
+         VPCH1DzFNQtuA==
+Received: by mail.connexion24.pl for <linux-kbuild@vger.kernel.org>; Wed, 13 Jul 2022 07:35:47 GMT
+Message-ID: <20220713064500-0.1.4k.d54t.0.l5jwzxsp6s@connexion24.pl>
+Date:   Wed, 13 Jul 2022 07:35:47 GMT
+From:   "Norbert Karecki" <norbert.karecki@connexion24.pl>
+To:     <linux-kbuild@vger.kernel.org>
+Subject: Wycena paneli fotowoltaicznych
+X-Mailer: mail.connexion24.pl
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 4/4] Makefile: add headers_install to kselftest targets
-Content-Language: en-US
-From:   Guillaume Tucker <guillaume.tucker@collabora.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Kees Cook <keescook@chromium.org>
-Cc:     kernel@collabora.com, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <cover.1657296695.git.guillaume.tucker@collabora.com>
- <4d34d06baf945dc31c78f873771cef3a75b60067.1657296695.git.guillaume.tucker@collabora.com>
-In-Reply-To: <4d34d06baf945dc31c78f873771cef3a75b60067.1657296695.git.guillaume.tucker@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=0.0 required=5.0 tests=BAYES_40,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_SBL_A autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 08/07/2022 18:23, Guillaume Tucker wrote:
-> 
->   $ make O=build headers_install
->   $ make O=build -C tools/testing/selftest all
+Dzie=C5=84 dobry,
 
-Typo, it should be selftests:
+dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
+irm=C4=85.
 
-    $ make O=build -C tools/testing/selftests all
+=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
+ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
 
-Thanks,
-Guillaume
+Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
+ropozycji?
+
+
+Pozdrawiam,
+Norbert Karecki
