@@ -2,52 +2,51 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C76DC575686
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Jul 2022 22:45:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A199575689
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Jul 2022 22:46:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240624AbiGNUpX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 14 Jul 2022 16:45:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56832 "EHLO
+        id S232712AbiGNUqJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 14 Jul 2022 16:46:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240604AbiGNUpW (ORCPT
+        with ESMTP id S240684AbiGNUqH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 14 Jul 2022 16:45:22 -0400
-Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44657545E2
-        for <linux-kbuild@vger.kernel.org>; Thu, 14 Jul 2022 13:45:21 -0700 (PDT)
-Received: by mail-il1-x12d.google.com with SMTP id w16so1128538ilh.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 14 Jul 2022 13:45:21 -0700 (PDT)
+        Thu, 14 Jul 2022 16:46:07 -0400
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C6506D550
+        for <linux-kbuild@vger.kernel.org>; Thu, 14 Jul 2022 13:46:06 -0700 (PDT)
+Received: by mail-io1-xd2b.google.com with SMTP id h145so2412741iof.9
+        for <linux-kbuild@vger.kernel.org>; Thu, 14 Jul 2022 13:46:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=l5kqjDQxPDfnO/p1iTyqBq5xMARQy02hbfQd6S9DIxo=;
-        b=AqJOSaWTPWW4l7m2eAwfo/OBadcln3Rf8X/B99A4tzqg31Qcnc5bc22CJit/vgjfth
-         W2FwUX2BxbbaDgU0hCy05bI62PAzNPis1M/PjZunq0MA/frWB5cZ4l6/BwJNQgneT931
-         +38C0bEI9HaZTFnT5FFoBjVKvVyIFYxfNcE08=
+        bh=uzJm+Sj+EkKmxih+8Av3tySDtz7Tj3n3PPDQES2WsaI=;
+        b=aLtJ+GDDBHB2B/qSZrYgbWNJTuxPN0cULBPboG0K/EllT+YVJ1w8ASTAhu1dQYllnx
+         GVmHYJKBm0GxpTc9auSj7bb20v6ngaTGXVefKgWKg4UyC6nmswoy9o9HTndofHlwCCt6
+         kWyUY7OhJ+HhHKMzEN+H4pSkd/O7gRG84CjhQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=l5kqjDQxPDfnO/p1iTyqBq5xMARQy02hbfQd6S9DIxo=;
-        b=VuKdmaSyZiTDlfUx/lxk4kak0oSXKYFLHpdnZeyCzfKnhqBoTNA6/dvY7jzic0ZeFP
-         5c9TLjW0WU4yhsdRwIjTU5InqcDGdZX/o6jqFck7v57q2nBfjuBMHeQ0/kgNEZO6vRNG
-         w8IRJi77vpGH82ZUOyA9nz1Kr3edpKd7E7iJ/TBQhISpzJEtoMMBts3HHmu3z8Uob9QL
-         6jVffQLhcE2tTuQl/mihZWD8d8EeSUsxOohH3haMml16h0T/tCVxuiXdSJnKXYp2DXIZ
-         st/aU2K8gfkI8Bq9kvY8IFTsEfWmclNE5ZJ6JmA/y+hWBOlDgfnbKU+/n2tJhfPiLlwo
-         lofQ==
-X-Gm-Message-State: AJIora+NvcKIollNm7F9CkvOyoCkJTHnWbtDdtIg38yCRdZBfGISKvHi
-        4O3Pfhk6m/fvV/RiEHmFYQzbBA==
-X-Google-Smtp-Source: AGRyM1twniS5ciAxaVqt5XzCd3NVKOLc6Y2l/ntXh54cUObh6jEh5CbFwC0S90S0IeqfssIWMGSveg==
-X-Received: by 2002:a05:6e02:1a45:b0:2dc:27a6:7651 with SMTP id u5-20020a056e021a4500b002dc27a67651mr5508056ilv.102.1657831520566;
-        Thu, 14 Jul 2022 13:45:20 -0700 (PDT)
+        bh=uzJm+Sj+EkKmxih+8Av3tySDtz7Tj3n3PPDQES2WsaI=;
+        b=LLwGHlfpvCHbYB9TRyoD0R+6qzNGHent8dfAiGlMkEUBKEQjGW5CKT5o9CdC1HHfns
+         pcDLZKKXOl/b9OAM6XUGJ7JV+17JfnQOnANBX79Qe0GflcAyfC74CfLfBligOibB5rua
+         w+Iasld49ephIibHR96KaNxW8WKNkuWvnT6bAYO2Qd0RpomauuJC5wjFTX2Pr371FZcB
+         cPcUTX5lzTaf5HdIA804aXWABxs5C5SitbDJuRMKktye7Tz+RryP1hKnZY+9rj/xEqJu
+         tNZ+GlXM1BZmSkKwGeD6O+mEKFenGkJR8yIKJLTIKG7Qh8AcCrVC6E6nQtJz0PeCsW0Q
+         mo4g==
+X-Gm-Message-State: AJIora9ClsC2NbGgCjfIbpbI7ieDP5N2sEWXQFTxihWweW4QnXnzvwsn
+        0t29xEBiScR4Hg57PiEzw/xR9A==
+X-Google-Smtp-Source: AGRyM1upJn5/LTgFtT6WffvFOhpyeyhyBPk3pCyvkzfBPw8df6OQy4noiodPbQhN7cmpxlq3M5M9RQ==
+X-Received: by 2002:a05:6602:2a43:b0:679:47e1:792c with SMTP id k3-20020a0566022a4300b0067947e1792cmr5426813iov.190.1657831565268;
+        Thu, 14 Jul 2022 13:46:05 -0700 (PDT)
 Received: from [192.168.1.128] ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id p123-20020a022981000000b0033eb2f2ccfasm1147979jap.43.2022.07.14.13.45.18
+        by smtp.gmail.com with ESMTPSA id d187-20020a0262c4000000b00335c432c4b9sm1136492jac.136.2022.07.14.13.46.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Jul 2022 13:45:19 -0700 (PDT)
-Subject: Re: [PATCH] Makefile: replace headers_install with headers for
- kselftest
+        Thu, 14 Jul 2022 13:46:04 -0700 (PDT)
+Subject: Re: [PATCH] selftests/landlock: drop deprecated headers dependency
 To:     Guillaume Tucker <guillaume.tucker@collabora.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
@@ -58,14 +57,14 @@ Cc:     Anders Roxell <anders.roxell@linaro.org>, Tim.Bird@sony.com,
         kernel@collabora.com, linux-kbuild@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
         Shuah Khan <skhan@linuxfoundation.org>
-References: <a7af58feaa6ae6d3b0c8c55972a470cec62341e5.1657693952.git.guillaume.tucker@collabora.com>
+References: <b79c51ed97219b1c10e2e3f2bcd3269305f0f035.1657694067.git.guillaume.tucker@collabora.com>
 From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <f35a71d6-bd96-7aa9-c143-39ae88bc85d5@linuxfoundation.org>
-Date:   Thu, 14 Jul 2022 14:45:18 -0600
+Message-ID: <83f11117-28f5-9599-f231-61dcfbbacd9a@linuxfoundation.org>
+Date:   Thu, 14 Jul 2022 14:46:02 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <a7af58feaa6ae6d3b0c8c55972a470cec62341e5.1657693952.git.guillaume.tucker@collabora.com>
+In-Reply-To: <b79c51ed97219b1c10e2e3f2bcd3269305f0f035.1657694067.git.guillaume.tucker@collabora.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -79,48 +78,19 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 7/13/22 12:33 AM, Guillaume Tucker wrote:
-> Replace headers_install with headers as kselftest uses the header
-> files from within the kernel tree rather than from a system-wide
-> installation.
-> 
-> We can still run this directly:
-> 
->    $ make O=build kselftest-all
-> 
-> and when building from the selftests directory:
-> 
->    $ make O=build headers
->    $ make O=build -C tools/testing/selftests all
+On 7/13/22 12:35 AM, Guillaume Tucker wrote:
+> The khdr make target has been removed, so drop it from the landlock
+> Makefile dependencies as well as related include paths that are
+> standard for headers in the kernel tree.
 > 
 > Signed-off-by: Guillaume Tucker <guillaume.tucker@collabora.com>
-> Reported-by: Masahiro Yamada <masahiroy@kernel.org>
+> Reported-by: Anders Roxell <anders.roxell@linaro.org>
 > ---
->   Makefile | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index fb2f3bb53a6b..5c934d16664c 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1347,10 +1347,10 @@ tools/%: FORCE
->   # Kernel selftest
->   
->   PHONY += kselftest
-> -kselftest: headers_install
-> +kselftest: headers
->   	$(Q)$(MAKE) -C $(srctree)/tools/testing/selftests run_tests
->   
-> -kselftest-%: headers_install FORCE
-> +kselftest-%: headers FORCE
->   	$(Q)$(MAKE) -C $(srctree)/tools/testing/selftests $*
->   
->   PHONY += kselftest-merge
+>   tools/testing/selftests/landlock/Makefile | 9 ++-------
+>   1 file changed, 2 insertions(+), 7 deletions(-)
 > 
 
-Thank you for taking care of this. This will go through kbuild?
-
-Acked-by: Shuah Khan <skhan@linuxfoundation.org>
+Applied to linux-kselftest next for 5.20-rc1
 
 thanks,
 -- Shuah
