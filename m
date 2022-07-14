@@ -2,84 +2,98 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CEFB57442B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Jul 2022 07:07:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3125574719
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Jul 2022 10:37:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232166AbiGNFHp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 14 Jul 2022 01:07:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50986 "EHLO
+        id S236064AbiGNIhW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 14 Jul 2022 04:37:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232146AbiGNFHT (ORCPT
+        with ESMTP id S237071AbiGNIhE (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 14 Jul 2022 01:07:19 -0400
-Received: from conuserg-07.nifty.com (conuserg-07.nifty.com [210.131.2.74])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A7AC193C8;
-        Wed, 13 Jul 2022 22:03:55 -0700 (PDT)
-Received: from grover.sesame (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 26E52j5G024585;
-        Thu, 14 Jul 2022 14:02:47 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 26E52j5G024585
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1657774968;
-        bh=HuP/NgE3e2YKnte18ErEap8o8BxYAN/GPsNIuS117tU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=c8SXeNmkDtTGxvqP6WKnZXeI1xQQTknQNh7wb1FLdX53PfZCgnQy8Vwp1JQ4SoHBC
-         PE2eBp+qakFfKE4/TdhoM6rlhy0PEVGna+ulTWicyp/pqWvKYlrHwjDvzqXQvCn856
-         SInNHSqxMk7xHbZ+rGOe89aOuU9mwcSNmyOW6QFyQHv1EJytm9KU7DPx0n1f+Mp4qY
-         yuc/pwPw3pJ/rAefZIv2yneP+rRs+d8c6alXdsEjKXGLLiIxWfWSjyywRGO3RwYGV0
-         7/3fCOnlnNZxSUOhd0FFdbY4rOm1k+s2HPdxA5vEB0sHhn/SUuLLNs76Elcfhs+dR2
-         L9FM3nyWnXmgw==
-X-Nifty-SrcIP: [133.32.177.133]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] kbuild: error out if $(INSTALL_MOD_PATH) contains % or :
-Date:   Thu, 14 Jul 2022 14:02:43 +0900
-Message-Id: <20220714050243.16411-4-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220714050243.16411-1-masahiroy@kernel.org>
-References: <20220714050243.16411-1-masahiroy@kernel.org>
+        Thu, 14 Jul 2022 04:37:04 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C70A23FA31
+        for <linux-kbuild@vger.kernel.org>; Thu, 14 Jul 2022 01:37:01 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id y11so1634665lfs.6
+        for <linux-kbuild@vger.kernel.org>; Thu, 14 Jul 2022 01:37:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=H3bGT1ZyGPu3PRQJlJHyQI9TvTjBPuNSyHjFOzNfiP0=;
+        b=gaDZ6UkvWmoGLPkb5BiwWKXrxZqJRKNx4T2fn6EvGAM0nTMCvTzxyP4EuJ913j6Iv+
+         SvMX4/pvx4tmhR/0cDdL9pbkcCOAwg/dZQZJjKvYYHG5zoS6pTup2xrhZON7aPFodE61
+         jbdbe7f5x1iqsxnbqtRGk5VVyYe+GfguXyW53v/Jtk7m9BRLrugVau1mwPBhoM15I1rO
+         FgfB/JoMGOti2QefdfOSOcdpcygQeBiN0idXo3yCL6hW5Cz+uWpratECqWcSagxAB5xP
+         zT+sUZ3pJE3RjDVpLi/6z/hZ8yL43zLlaxwdm4ILJ3e9Bke6wVp5k2l7GAKtdogOGzmZ
+         5LQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=H3bGT1ZyGPu3PRQJlJHyQI9TvTjBPuNSyHjFOzNfiP0=;
+        b=Uj/yXCa8AuWpfRvxvIlJzO7EidQtzX7KHn/2mqGx+48la2jWC4KcJBBie2PWcLkcEM
+         V5QB6AC4FQxfGM7/SBmSX8Rg/DbEu2BN1+i+F0N983+DfURquPaMZkGIMGKaOgX2AZD9
+         nXQtT/kkqnsQynbzskOSWSx7rO1gOAYQpjTpE50tYomWbpcBXyzYpQpXtHxN3yO6JMNu
+         iXJ86u0pYzDubfYP7dp+nAcKqrZRKGK5nkWC0HUZqekF0NR9LGsUnmLho8fgAkdJhj1k
+         wcustr8hvoJl1cah25uJI9IdU5nnw+oQDCgQORwYCoDLadQ4xqFRXl0vA0Ged4dMGhMg
+         pRHw==
+X-Gm-Message-State: AJIora8DOPTjwzT2Z0tSXABn89GWpWurgN3Dir/TG1blcqtL/4Bct4Ri
+        s08LVxJe8O7BT15QadAY1n9+cVICy1m/K7eR8oU=
+X-Google-Smtp-Source: AGRyM1vX4Zd9WIWDxqKGtP81mt11peMiDiT310/qUqT5enM4eeA2HoIqQaHp0s5sIeDBZVZu8TIFwya2pg7lDHDFDeo=
+X-Received: by 2002:a05:6512:4004:b0:48a:12dc:7f63 with SMTP id
+ br4-20020a056512400400b0048a12dc7f63mr2033540lfb.131.1657787820892; Thu, 14
+ Jul 2022 01:37:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Received: by 2002:a2e:9041:0:0:0:0:0 with HTTP; Thu, 14 Jul 2022 01:37:00
+ -0700 (PDT)
+Reply-To: abdwabbomaddahm@gmail.com
+From:   Abdwabbo Maddah <abdwabbomaddah746@gmail.com>
+Date:   Thu, 14 Jul 2022 09:37:00 +0100
+Message-ID: <CAFC-3ieta-vbGq7=-xp9Wgp2Sr8SYhFWTPWR2J6JsyQ_pZJxLQ@mail.gmail.com>
+Subject: Get back to me... URGENT
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:129 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4937]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [abdwabbomaddah746[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [abdwabbomaddah746[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.2 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-If the directory pass given to INSTALL_MOD_PATH contains % or :,
-the module_install fails.
-
-% is used in pattern rules, and : as the separator of dependencies.
-
-Bail out with a clearer error message.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- scripts/Makefile.modinst | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
-index 16a02e9237d3..a4c987c23750 100644
---- a/scripts/Makefile.modinst
-+++ b/scripts/Makefile.modinst
-@@ -18,6 +18,9 @@ INSTALL_MOD_DIR ?= extra
- dst := $(MODLIB)/$(INSTALL_MOD_DIR)
- endif
- 
-+$(foreach x, % :, $(if $(findstring $x, $(dst)), \
-+	$(error module installation path cannot contain '$x')))
-+
- suffix-y				:=
- suffix-$(CONFIG_MODULE_COMPRESS_GZIP)	:= .gz
- suffix-$(CONFIG_MODULE_COMPRESS_XZ)	:= .xz
 -- 
-2.34.1
-
+Dear,
+I had sent you a mail but i don't think you received it that's why am
+writing you again.It is important you get back to me as soon as you
+can.
+Abd-Wabbo Maddah
