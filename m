@@ -2,61 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F91B576D23
-	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Jul 2022 11:39:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16BCF576D31
+	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Jul 2022 11:49:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232755AbiGPJi7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 16 Jul 2022 05:38:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35406 "EHLO
+        id S232691AbiGPJtG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 16 Jul 2022 05:49:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232747AbiGPJiw (ORCPT
+        with ESMTP id S232713AbiGPJtC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 16 Jul 2022 05:38:52 -0400
-X-Greylist: delayed 343 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 16 Jul 2022 02:38:42 PDT
-Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55128F58;
-        Sat, 16 Jul 2022 02:38:41 -0700 (PDT)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 26G9cMi1009565;
-        Sat, 16 Jul 2022 18:38:23 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 26G9cMi1009565
+        Sat, 16 Jul 2022 05:49:02 -0400
+Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 507EC13DFE;
+        Sat, 16 Jul 2022 02:48:58 -0700 (PDT)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 26G9mhk7014254;
+        Sat, 16 Jul 2022 18:48:44 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 26G9mhk7014254
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1657964304;
-        bh=+piROnj9mLzn9Znc44Hr/EP2LS2kMptLJort+MxCcoE=;
+        s=dec2015msa; t=1657964924;
+        bh=/dtC549vlGdoSOYGv/+pARyo3Vm0hc5cfGNLXCx56Fc=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=0zCJXA3ZFbeXeWSGWc1BpuDqw8OQO1g8YbwuXq/pxSz1AEQQJ2I+G3GiXuIu4tb9O
-         GSA9r/3KmZ2htvyUB5oWgefNbA+sZQv/iqAnz0kb4oO1UjXYlXM1Wt9iHOXb2Dk+Mf
-         bsKUYtMmIPrCVK+iXGIYr1nC8pRsUeX7Eyz8kyr1LEYBrNmBe84NAOisMtLQXuKN7G
-         Vdis5umY/C7mF75Z9emLKC2z4sFVnWVePv5UQjAWK8E0SWvZsl9wc3QC+aeXEfxCW8
-         zinpvZmeI5EgVX+t5nAng4qi2gewMvwi6p5PR65NosPsZFtbuMCCBhSJbQhBWeaK9d
-         ZxEoJtvjQQYmw==
-X-Nifty-SrcIP: [209.85.221.51]
-Received: by mail-wr1-f51.google.com with SMTP id f2so9795684wrr.6;
-        Sat, 16 Jul 2022 02:38:23 -0700 (PDT)
-X-Gm-Message-State: AJIora9+iWICOULqY+CbcfA59PaMwUfHZT5AwRahNp7pajlzEjo4K3A3
-        oqPYE9lciovtGrRDSpkkD6W/2JIJpqVFf8kzNRg=
-X-Google-Smtp-Source: AGRyM1uXXoYzn2ED5DqKQOCpe4iWzIt1brPfXQM/ByBpjRgvccY6cDJD4uEHMhD/L9qT7xCC9J5p6J4GwE36DcXvo3Y=
-X-Received: by 2002:adf:979b:0:b0:21d:868a:7f2f with SMTP id
- s27-20020adf979b000000b0021d868a7f2fmr15570076wrb.409.1657964302181; Sat, 16
- Jul 2022 02:38:22 -0700 (PDT)
+        b=x5l5l5wL3b1vEeZI3IuHNmnU41MaGPTHXySmfwv2VNCIuNdDP4bX9cvxf3TT8y26v
+         YamuUQcsNKhTp+FW4jShtBGQD7RnNu82WEqEHjRqJ6cL1PQBLrHwariLep/SyXRfJC
+         GYk5vKGLE/y/cP/tZgyrjBwh4QbdVp50fEIJyK1UYMrDraMaqVsnA8xj/HSo7C2iBV
+         +HnL+D2Lw36El/PmNEudVuwvnuq47u68IfEQwDA1YnXSq/EOwtf8fB+cjJIrnEA4US
+         FCsbCMv/Gls2L0mjxTWf2xRvfDwiJbtfCUqsdICOnO7PYV9/brfSSegHdRQYkzF6rk
+         n4cpOMw1wCxcQ==
+X-Nifty-SrcIP: [209.85.128.49]
+Received: by mail-wm1-f49.google.com with SMTP id ay11-20020a05600c1e0b00b003a3013da120so4444642wmb.5;
+        Sat, 16 Jul 2022 02:48:43 -0700 (PDT)
+X-Gm-Message-State: AJIora+FuDEVSue+i0XvxD6EAEIwBjumi0mU2n5/H4CAYKrJzwUhbLb7
+        X+Ja5J4bTRwT9NM6IT/ydl0Rxq12ldmHBS1vklo=
+X-Google-Smtp-Source: AGRyM1uxneNOF13Ebfu4qpArl4lxwbVO1STopASVugNGhMe8fIiYsC3WNvZ1InUkUyB62qUkcKJV7SIbwzUxKBJc2zs=
+X-Received: by 2002:a05:600c:35d6:b0:3a2:e873:6295 with SMTP id
+ r22-20020a05600c35d600b003a2e8736295mr17774399wmq.22.1657964922170; Sat, 16
+ Jul 2022 02:48:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220706114407.1507412-1-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220706114407.1507412-1-dmitry.baryshkov@linaro.org>
+References: <20220623144357.297252-1-dmitry.baryshkov@linaro.org>
+ <CAL_JsqLi31FPBdYPzEW__UmfMTur-0428okopFYVaCbwm045gg@mail.gmail.com> <CAK7LNASMUoPh8sBWWjenf8p6R1kv80ar17-qN-wH9zjNMtnfrQ@mail.gmail.com>
+In-Reply-To: <CAK7LNASMUoPh8sBWWjenf8p6R1kv80ar17-qN-wH9zjNMtnfrQ@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 16 Jul 2022 18:37:42 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQPS+U1qq4K+7Rao9P7p94bMU3Y6g0+ALUd3t=ioZqSnw@mail.gmail.com>
-Message-ID: <CAK7LNAQPS+U1qq4K+7Rao9P7p94bMU3Y6g0+ALUd3t=ioZqSnw@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: allow validating individual dtb files against schema
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+Date:   Sat, 16 Jul 2022 18:48:03 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT_e0sGuzfT3FMJ=afutxiWYQxAJtV2ZcMAPiySg1+aGg@mail.gmail.com>
+Message-ID: <CAK7LNAT_e0sGuzfT3FMJ=afutxiWYQxAJtV2ZcMAPiySg1+aGg@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: Enable DT schema checks for %.dtb targets
+To:     Rob Herring <robh@kernel.org>
+Cc:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        DTML <devicetree@vger.kernel.org>, Tom Rini <trini@konsulko.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Tom Rini <trini@konsulko.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="0000000000004845d005e3e8e52c"
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
         autolearn_force=no version=3.4.6
@@ -66,102 +66,118 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
---0000000000004845d005e3e8e52c
-Content-Type: text/plain; charset="UTF-8"
-
-On Wed, Jul 6, 2022 at 8:44 PM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
+On Sat, Jul 16, 2022 at 5:12 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> While it is possible to validate all generated dtb files against the
-> schema, it typically results in huge pile of warnings. While working on
-> a platform it is quite useful to validate just a single file against
-> schema.
+> On Sat, Jul 16, 2022 at 8:02 AM Rob Herring <robh@kernel.org> wrote:
+> >
+> > On Thu, Jun 23, 2022 at 8:44 AM Dmitry Baryshkov
+> > <dmitry.baryshkov@linaro.org> wrote:
+> > >
+> > > It is possible to build a single dtb, but not with DT schema validation
+> > > enabled. Enable the schema validation to run for %.dtb and %.dtbo
+> > > targets. Anyone building a dtb for a specific platform *should* pay
+> > > attention to schema warnings.
+> > >
+> > > This could be supported with a separate %.dt.yaml target instead.
+> > > However, the .dt.yaml format is considered an intermediate format and
+> > > could possibly go away at some point if schema checking is integrated
+> > > into dtc. Also, the plan is to enable the schema checks by default once
+> > > platforms are free of warnings, and this is a move in that direction.
+> > >
+> > > This patch differs from the previous one ([1]) in the fact that it
+> > > requires specifying VALIDATE_DT=1 to run the checks while doing the
+> > > build. Thus default build procedures would not obtain additional build
+> > > dependency, while maintainers can still build a single DTB file an get
+> > > only corresponding warnings.
+> >
+> > I'd rather this be a kconfig option, so that eventually 'make
+> > allmodconfig; make dtbs' also runs the schema checks. If something can
+> > be enabled for allmodconfig, then builders will automatically start
+> > testing it. Though the extra dependency is a problem here.
 >
-> Allow specifying CHECK_DTBS=1 on a make command line to enable
-> validation while building dtb files. This reuses the infrastructure
-> existing for `make dtbs_check`, making dtbs_check a shortcut for
-> `make CHECK_DTBS=1 dt_binding_check dtbs`.
 >
-> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Cc: Tom Rini <trini@konsulko.com>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: linux-kbuild@vger.kernel.org
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
+> The dependency on libyaml is gone.
 >
-> Changes since v1:
-> - Added dependency to rebuild schema if `make dtbs` was used.
+> As for the dependency on dt-schema, is it a good idea to
+> pull it into the kernel tree somewhere,
+> like we periodically sync scripts/dtc/ with its upstream?
 >
-> ---
->  Makefile | 20 +++++++++++++++-----
->  1 file changed, 15 insertions(+), 5 deletions(-)
+> Any other problematic tool dependency?
 >
-> diff --git a/Makefile b/Makefile
-> index 9aa7de1ca58f..5a9858aa4934 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1464,14 +1464,18 @@ endif
 >
->  ifneq ($(dtstree),)
 >
-> -%.dtb: include/config/kernel.release scripts_dtc
-> +ifneq ($(CHECK_DTBS),)
-> +DT_TMP_BINDING := dt_binding
-> +endif
-> +
-> +%.dtb: include/config/kernel.release scripts_dtc $(DT_TMP_BINDING)
->         $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
 >
-> -%.dtbo: include/config/kernel.release scripts_dtc
-> +%.dtbo: include/config/kernel.release scripts_dtc $(DT_TMP_BINDING)
->         $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
 >
->  PHONY += dtbs dtbs_install dtbs_check
-> -dtbs: include/config/kernel.release scripts_dtc
-> +dtbs: include/config/kernel.release scripts_dtc $(DT_TMP_BINDING)
->         $(Q)$(MAKE) $(build)=$(dtstree)
+> >
+> > >
+> > > [1] https://lore.kernel.org/all/20210913145146.766080-1-robh@kernel.org/
+> > >
+> > > Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+> > > Cc: Tom Rini <trini@konsulko.com>
+> > > Cc: Masahiro Yamada <masahiroy@kernel.org>
+> > > Cc: linux-kbuild@vger.kernel.org
+> > > Co-developed-by: Rob Herring <robh@kernel.org>
+> > > Signed-off-by: Rob Herring <robh@kernel.org>
+> > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > ---
+> > >  Makefile | 18 ++++++++++++++----
+> > >  1 file changed, 14 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/Makefile b/Makefile
+> > > index c43d825a3c4c..0942922384c4 100644
+> > > --- a/Makefile
+> > > +++ b/Makefile
+> > > @@ -1365,11 +1365,17 @@ endif
+> > >
+> > >  ifneq ($(dtstree),)
+> > >
+> > > -%.dtb: include/config/kernel.release scripts_dtc
+> > > -       $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+> > > +ifneq ($(VALIDATE_DT),)
+> > > +DT_YAML = $(dtstree)/$*.dt.yaml
+> >
+> > .dt.yaml files are deprecated now. This probably doesn't do anything.
 >
->  ifneq ($(filter dtbs_check, $(MAKECMDGOALS)),)
-> @@ -1498,8 +1502,10 @@ ifneq ($(filter dt_binding_check, $(MAKECMDGOALS)),)
->  export CHECK_DT_BINDING=y
->  endif
+> Right, this causes a build error.
 >
-> -PHONY += dt_binding_check
-> -dt_binding_check: scripts_dtc
-> +dt_binding_check: dt_binding
-> +
-> +PHONY += dt_binding
-> +dt_binding: scripts_dtc
->         $(Q)$(MAKE) $(build)=Documentation/devicetree/bindings
 >
->  # ---------------------------------------------------------------------------
-> @@ -1774,6 +1780,10 @@ help:
->         @echo  '                3: more obscure warnings, can most likely be ignored'
->         @echo  '                e: warnings are being treated as errors'
->         @echo  '                Multiple levels can be combined with W=12 or W=123'
-> +       @$(if $(dtstree), \
-> +               echo '  make CHECK_DTBS=1 [targets] Check all generated dtb files against schema'; \
-> +               echo '         This can be applied both to "dtbs" and to individual "foo.dtb" targets' ; \
-> +               )
->         @echo  ''
->         @echo  'Execute "make" or "make all" to build all targets marked with [*] '
->         @echo  'For further info see the ./README file'
+> masahiro@grover:~/ref/linux$ make ARCH=arm64 VALIDATE_DT=1
+> arm/foundation-v8.dtb
+> arch/arm64/Makefile:36: Detected assembler with broken .inst;
+> disassembly will be unreliable
+>   DTC     arch/arm64/boot/dts/arm/foundation-v8.dtb
+>   CHECK   arch/arm64/boot/dts/arm/foundation-v8.dtb
+> /home/masahiro/ref/linux/arch/arm64/boot/dts/arm/foundation-v8.dtb:
+> sysreg@10000: '#address-cells' is a required property
+> From schema: /home/masahiro/ref/linux/Documentation/devicetree/bindings/arm/vexpress-sysreg.yaml
+> /home/masahiro/ref/linux/arch/arm64/boot/dts/arm/foundation-v8.dtb:
+> sysreg@10000: '#size-cells' is a required property
+> From schema: /home/masahiro/ref/linux/Documentation/devicetree/bindings/arm/vexpress-sysreg.yaml
+> make[1]: *** No rule to make target
+> 'arch/arm64/boot/dts/arm/foundation-v8.dt.yaml'.  Stop.
+> make: *** [Makefile:1379: arm/foundation-v8.dtb] Error 2
+>
+>
+>
+>
+>
+>
+>
 > --
-> 2.35.1
+> Best Regards
 >
+> Masahiro Yamada
 
 
-I think the idea seems OK to me, but we can make it simpler.
 
 
-First, apply the following clean-up patch to reduce the code duplication.
-https://lore.kernel.org/all/20220716093122.137494-1-masahiroy@kernel.org/T/#u
 
+I think v2 was better than v3 at least.
+(v2 reuses existing CHECK_DTBS instead of adding new VALIDATE_DT)
 
-Then, apply the attached patch.diff
+v2: https://lore.kernel.org/linux-kbuild/20220706114407.1507412-1-dmitry.baryshkov@linaro.org/
 
-Please try it.
-
+I commented there for a simpler implementation if we go this way.
 
 
 
@@ -171,23 +187,3 @@ Please try it.
 -- 
 Best Regards
 Masahiro Yamada
-
---0000000000004845d005e3e8e52c
-Content-Type: text/x-patch; charset="US-ASCII"; name="patch.diff"
-Content-Disposition: attachment; filename="patch.diff"
-Content-Transfer-Encoding: base64
-Content-ID: <f_l5np37ne0>
-X-Attachment-Id: f_l5np37ne0
-
-ZGlmZiAtLWdpdCBhL01ha2VmaWxlIGIvTWFrZWZpbGUKaW5kZXggOGFhNGRiYjhmODc4Li5jYzgw
-YjZiOGQ1ZjggMTAwNjQ0Ci0tLSBhL01ha2VmaWxlCisrKyBiL01ha2VmaWxlCkBAIC0xMzgzLDEz
-ICsxMzgzLDE2IEBAIGR0YnM6IGR0YnNfcHJlcGFyZQogIyB0YXJnZXRzICgsIHdoaWNoIG1heSBy
-dW4gYXMgcm9vdCkgbXVzdCBub3QgbW9kaWZ5IHRoZSB0cmVlLgogZHRic19wcmVwYXJlOiBpbmNs
-dWRlL2NvbmZpZy9rZXJuZWwucmVsZWFzZSBzY3JpcHRzX2R0YwogCisjICdtYWtlIGR0YnNfY2hl
-Y2snIGlzIGEgc2hvcnRoYW5kIG9mICdtYWtlIENIRUNLX0RUQlM9eSBkdGJzJwogaWZuZXEgKCQo
-ZmlsdGVyIGR0YnNfY2hlY2ssICQoTUFLRUNNREdPQUxTKSksKQogZXhwb3J0IENIRUNLX0RUQlM9
-eQotZHRiczogZHRfYmluZGluZ19jaGVjawogZW5kaWYKLQogZHRic19jaGVjazogZHRicwogCitp
-Zm5lcSAoJChDSEVDS19EVEJTKSwpCitkdGJzX3ByZXBhcmU6IGR0X2JpbmRpbmdfY2hlY2sKK2Vu
-ZGlmCisKIGR0YnNfaW5zdGFsbDoKIAkkKFEpJChNQUtFKSAkKGR0Ymluc3QpPSQoZHRzdHJlZSkg
-ZHN0PSQoSU5TVEFMTF9EVEJTX1BBVEgpCiAK
---0000000000004845d005e3e8e52c--
