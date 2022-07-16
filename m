@@ -2,144 +2,122 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF0A8576C89
-	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Jul 2022 10:17:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BAC0576CA4
+	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Jul 2022 10:57:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229748AbiGPIRp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 16 Jul 2022 04:17:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45684 "EHLO
+        id S230476AbiGPI5o (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 16 Jul 2022 04:57:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbiGPIRo (ORCPT
+        with ESMTP id S229779AbiGPI5n (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 16 Jul 2022 04:17:44 -0400
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 897982B1B6
-        for <linux-kbuild@vger.kernel.org>; Sat, 16 Jul 2022 01:17:41 -0700 (PDT)
-Received: from epcas2p4.samsung.com (unknown [182.195.41.56])
-        by mailout2.samsung.com (KnoxPortal) with ESMTP id 20220716081738epoutp02d0b31819dad7dcfc51be82e1838f73c0~CQVfFx-ZH0357503575epoutp02T
-        for <linux-kbuild@vger.kernel.org>; Sat, 16 Jul 2022 08:17:38 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20220716081738epoutp02d0b31819dad7dcfc51be82e1838f73c0~CQVfFx-ZH0357503575epoutp02T
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1657959458;
-        bh=YbtmWAQttKWyKsaH/PRmfTFaX/+xfLODvAEqAlXazk0=;
-        h=From:To:Cc:Subject:Date:References:From;
-        b=SSSYvy5uYsZ1/iF4LX9ZkTu3XpMD9wHH4laUznRHErrMp5f7G8pBWdaNbMrMQuHry
-         g/jK52EVn9qyEu+a6SAFsUeIYNnCu7dm/c8+YOxfDoGtYZGH183qX4BWk7mXVDnigF
-         8nj/4Jm8c7eQ3KrhsTf8MJ8b+VoyMXJOmIvmIcJM=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-        epcas2p1.samsung.com (KnoxPortal) with ESMTP id
-        20220716081737epcas2p14b9444641e87705850b82ed1f0bde8e2~CQVe1Lu631119211192epcas2p1K;
-        Sat, 16 Jul 2022 08:17:37 +0000 (GMT)
-Received: from epsmges2p2.samsung.com (unknown [182.195.36.101]) by
-        epsnrtp2.localdomain (Postfix) with ESMTP id 4LlLgj2xt0z4x9Px; Sat, 16 Jul
-        2022 08:17:37 +0000 (GMT)
-Received: from epcas2p1.samsung.com ( [182.195.41.53]) by
-        epsmges2p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-        D5.D5.09650.12472D26; Sat, 16 Jul 2022 17:17:37 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-        epcas2p3.samsung.com (KnoxPortal) with ESMTPA id
-        20220716081736epcas2p346100e67cf44b1dbb79f6e2a4ab07dbf~CQVd2O1O-3136731367epcas2p3q;
-        Sat, 16 Jul 2022 08:17:36 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20220716081736epsmtrp15f8c8e54330152542ebe72956590543d~CQVd1bCLd1145911459epsmtrp10;
-        Sat, 16 Jul 2022 08:17:36 +0000 (GMT)
-X-AuditID: b6c32a46-0a3ff700000025b2-e0-62d274214053
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        C7.71.08905.02472D26; Sat, 16 Jul 2022 17:17:36 +0900 (KST)
-Received: from perf.dsn.sec.samsung.com (unknown [10.229.95.91]) by
-        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20220716081736epsmtip15700a69fbf6e5e8e578bbafb94e9a81a~CQVdklF4R1154611546epsmtip1C;
-        Sat, 16 Jul 2022 08:17:36 +0000 (GMT)
-From:   Youngmin Nam <youngmin.nam@samsung.com>
-To:     masahiroy@kernel.org, michal.lkml@markovi.net,
-        ndesaulniers@google.com
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        hosung0.kim@samsung.com, d7271.choe@samsung.com,
-        Youngmin Nam <youngmin.nam@samsung.com>
-Subject: [PATCH] Makefile.extrawarn: add -Wformat-insufficient-args for
- clang build
-Date:   Sat, 16 Jul 2022 17:45:32 +0900
-Message-Id: <20220716084532.2324050-1-youngmin.nam@samsung.com>
-X-Mailer: git-send-email 2.34.0
+        Sat, 16 Jul 2022 04:57:43 -0400
+Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4D35B7F4;
+        Sat, 16 Jul 2022 01:57:42 -0700 (PDT)
+Received: by mail-il1-x133.google.com with SMTP id w16so3143262ilh.0;
+        Sat, 16 Jul 2022 01:57:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=IYks55HxgsoLlm9FNEz/2R9Y4bixjWKaygGPwKIVjx0=;
+        b=m7RolDKDIlPqQgPf5OTP/N6sK1eysv8GJE4Xfn8CjMg0SxwuCaAjEySP55tmXp5JVI
+         UpIwNpbxTFBX8XrQHPTU10osewAMlkpehUSHMxLE/z5AscetNKSTakXBmT4sFuZxvdSj
+         6pLhVxcEz3FFMTM6nM4GdyvOJqmUEFJQCr3AOL0xm1yUFCsUy47Z3rBXZtMZzmMP/h9s
+         7WpW+a65qg8gkRMjnKQbAyPOY44lzJH7wId88CcIuxY+ie25eQBbKgS5dR4nb4qAp0au
+         boOEvL+LfokeBh3nWrS03XXVnUDvFPo3DxazMu+hCulyNuyUUotHieO4rDvfdCn9+u/Z
+         mv8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=IYks55HxgsoLlm9FNEz/2R9Y4bixjWKaygGPwKIVjx0=;
+        b=ktvSdf4TMlb6Q1Hgv6aOYZpPzziBvaLsMchFmkogOS3H0KsNo45A3vYq5IIBzlZ2cx
+         FHfO1TCWqKSjhkQtaTPtbJiH0vPdQOBjmIX6zjMr+gzOCv3NRQQB28+ya1uYcv/C3Z+n
+         qMvSLAXKCn7YcxIh2Khg60uL8fAj63x6Ol/+HNSE6PRQvP1M/uit84mDsNuhnAuBcB0t
+         DiLPKQwbKeTgdJRY69dfFzrqokJLfk4jR/Mvo+h1ErOcB5YlvPrIRSRdj913txzXf2kw
+         /xK+u923Ofe2YHINzJ/1aVBqQ0ivEDIMLAhgMTwiwx4XI4KQzegauXIuKG2WO8uCTuzo
+         3SHw==
+X-Gm-Message-State: AJIora/my00CYN3G9LOlSE0yJvFck04MyC4PjO0xyGrs/jfUoT0LOqOY
+        JgZCFT8N5WiVJUDHda09GvnnQwqHboUlppnEAv8=
+X-Google-Smtp-Source: AGRyM1upiXNei9Ij258Ho2aijo3CxpUzFbH2CubB6AzfY4tMP/5ochBIlN/TgfrRN46dYIn9zQ7KIb7ZCJ9pwMhj3ew=
+X-Received: by 2002:a05:6e02:1c8d:b0:2dc:8162:282e with SMTP id
+ w13-20020a056e021c8d00b002dc8162282emr8874969ill.5.1657961861953; Sat, 16 Jul
+ 2022 01:57:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpkk+LIzCtJLcpLzFFi42LZdljTVFex5FKSwYW/ohbX9k5kt/h6/RG7
-        xZ9dO5gsLu+aw2bx8MENVouFZ6ItPkz4z2Sx+MAndgcOjwWbSj02repk87jbZuPRt2UVo8fn
-        TXIBrFHZNhmpiSmpRQqpecn5KZl56bZK3sHxzvGmZgaGuoaWFuZKCnmJuam2Si4+AbpumTlA
-        hygplCXmlAKFAhKLi5X07WyK8ktLUhUy8otLbJVSC1JyCswL9IoTc4tL89L18lJLrAwNDIxM
-        gQoTsjPWPHjAWPCKo2LqmhnsDYyX2LsYOTkkBEwk9n2/yQRiCwnsYJT4djeqi5ELyP7EKLH4
-        wwp2COcbo0TL6lWsMB3Tty9ihUjsBeroOwjlfGWUWHemnRmkik1AV2LbiX+MILaIgJfEtTmf
-        GUGKmAXmMEpMf/AdLCEsECpx+usHsAYWAVWJBSdugNm8AvYSHzoeAR3FAbROXuLPKwGIsKDE
-        yZlPWEBsZqBw89bZzCAzJQQusUvs62+BeshFom/lBiYIW1ji1fEtUHEpiZf9bVB2scSTs0sZ
-        IZobGCV2L37NApEwlpj1rJ0RZDGzgKbE+l36EDcoSxy5BbWXT6Lj8F92iDCvREebEESjmsSv
-        KRsYIWwZoIErmCFsD4lZZ16xQ4I3VuL6tTPsExjlZyH5ZhaSb2Yh7F3AyLyKUSy1oDg3PbXY
-        qMAIHqnJ+bmbGMFpUcttB+OUtx/0DjEycTAeYpTgYFYS4e0+dC5JiDclsbIqtSg/vqg0J7X4
-        EKMpMHgnMkuJJucDE3NeSbyhiaWBiZmZobmRqYG5kjivV8qGRCGB9MSS1OzU1ILUIpg+Jg5O
-        qQamq+qt26/W107wbrx6arfMjcmfzil1lyWbr1qTNelPUEfHli4FX/0tG+sWh+S9mPb64/OP
-        wS2vbI8e5u71yc51nSMgqOV6Rmfd2UW/ZzSserniyRf7x3e2ZOSnbJb+MvO9wvlrtWn5l3N7
-        zd3t5J37X/1NFjAVE/1wPFrKNvbQv91vH0rlcbZwLjwgacxstsjNo/nSlINrhZ4u4djWd+SO
-        sbuZ32cJV4ZNkkmC36tqIkQqzt65XFHtnWn7N5y3Y0v24g/vYkVnvvGQz7vTMfvsopiLc/1W
-        toqqiC9If3T8xKbDHRdYA2OWL7q1r958zyaW68py/unrVli6vPSqKWG6a6YpZtW/wZRR1eip
-        yRZpJZbijERDLeai4kQAAmA3rhQEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrILMWRmVeSWpSXmKPExsWy7bCSnK5CyaUkg+s3lCyu7Z3IbvH1+iN2
-        iz+7djBZXN41h83i4YMbrBYLz0RbfJjwn8li8YFP7A4cHgs2lXpsWtXJ5nG3zcajb8sqRo/P
-        m+QCWKO4bFJSczLLUov07RK4MtY8eMBY8IqjYuqaGewNjJfYuxg5OSQETCSmb1/E2sXIxSEk
-        sJtR4tbu9cwQCRmJ2ysvs0LYwhL3W45AFX1mlLgyeSJYEZuArsS2E/8YQWwRAT+J/mfTwYqY
-        BRYwSmy8cRosISwQLLHk904WEJtFQFViwYkbYM28AvYSHzoeMXUxcgBtkJf480oAIiwocXLm
-        E7ByZqBw89bZzBMY+WYhSc1CklrAyLSKUTK1oDg3PbfYsMAwL7Vcrzgxt7g0L10vOT93EyM4
-        VLU0dzBuX/VB7xAjEwfjIUYJDmYlEd7uQ+eShHhTEiurUovy44tKc1KLDzFKc7AoifNe6DoZ
-        LySQnliSmp2aWpBaBJNl4uCUamASda1kfpxS5V9ecMBIcWtOzum2R868k/2nmj63nXonq4Wt
-        o/SZ8wFvU478wgWKKpd6zdL1VyxdfDzywLaN4ivXyk+T/LDxUm1ftZv7uq1mrsJ2izgVDrzb
-        uvqW0cyub4ovQ198cnC//r9xJ1Nx6t8rx3MfvZ1z7mDtJ4PbDOuPySQtvOGu8cbSyajldanF
-        B/U1hiuOxc26mVKy9iTL7J1xQg9mfy3TNvJ8k19x6WSws2J4ae0u4U/Tp4TuWbX1pYozo21N
-        POOvW//v/jTL+LP7xFFuaaebwV943taEHVmZ62vQGrbmc7VgoqbYbsUQsew5mjcrpl3lDcme
-        3ljSpnfB+8XHy7uKuzmEpt8S+79KiaU4I9FQi7moOBEAGM/T38QCAAA=
-X-CMS-MailID: 20220716081736epcas2p346100e67cf44b1dbb79f6e2a4ab07dbf
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220716081736epcas2p346100e67cf44b1dbb79f6e2a4ab07dbf
-References: <CGME20220716081736epcas2p346100e67cf44b1dbb79f6e2a4ab07dbf@epcas2p3.samsung.com>
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20220523020209.11810-1-ojeda@kernel.org> <20220523020209.11810-22-ojeda@kernel.org>
+ <CAK7LNAQZOTjxJyS3WC1sM7LE-An7DL8xoW=-s1ONe7cq4YukNQ@mail.gmail.com>
+In-Reply-To: <CAK7LNAQZOTjxJyS3WC1sM7LE-An7DL8xoW=-s1ONe7cq4YukNQ@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Sat, 16 Jul 2022 10:57:30 +0200
+Message-ID: <CANiq72k1aPQuvAL=TqNQVBZBmxojKfPBKU3v_2_B=731fhuJbQ@mail.gmail.com>
+Subject: Re: [PATCH v7 21/25] Kbuild: add Rust support
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Gary Guo <gary@garyguo.net>,
+        Boris-Chengbiao Zhou <bobo1239@web.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Douglas Su <d0u9.su@outlook.com>,
+        Dariusz Sosnowski <dsosnowski@dsosnowski.pl>,
+        Antonio Terceiro <antonio.terceiro@linaro.org>,
+        Daniel Xu <dxu@dxuuu.xyz>, Miguel Cano <macanroj@gmail.com>,
+        David Gow <davidgow@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        "open list:SIFIVE DRIVERS" <linux-riscv@lists.infradead.org>,
+        linux-um@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The -Wformat-insufficient-args for clang is useful to detect the situation
-when the total number is unmatched between format specifiers and arguments.
+Hi Masahiro,
 
-Originally, this option is enabled by default(Link[1]), but it is disabled by
--Wno-format explicitly so that we can't detect this unmatched situation.
+On Sat, Jul 16, 2022 at 10:23 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> Is it intentional to print the successful message to stderr?
 
-We can enable it by adding this option after -Wno-format.
+I think it makes sense to change it to `stdout`, given the message is
+the main point of running `rustavailable` for normal users, and those
+that just want the status code may ignore it.
 
-Link[1]: https://releases.llvm.org/13.0.0/tools/clang/docs/DiagnosticsReference.html#wformat-insufficient-args
-Signed-off-by: Youngmin Nam <youngmin.nam@samsung.com>
----
- scripts/Makefile.extrawarn | 1 +
- 1 file changed, 1 insertion(+)
+Thanks for taking a look again!
 
-diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-index f5f0d6f09053..c23d7c286bad 100644
---- a/scripts/Makefile.extrawarn
-+++ b/scripts/Makefile.extrawarn
-@@ -48,6 +48,7 @@ else
- ifdef CONFIG_CC_IS_CLANG
- KBUILD_CFLAGS += -Wno-initializer-overrides
- KBUILD_CFLAGS += -Wno-format
-+KBUILD_CFLAGS += -Wformat-insufficient-args
- KBUILD_CFLAGS += -Wno-sign-compare
- KBUILD_CFLAGS += -Wno-format-zero-length
- KBUILD_CFLAGS += $(call cc-disable-warning, pointer-to-enum-cast)
--- 
-2.34.0
-
+Cheers,
+Miguel
