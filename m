@@ -2,50 +2,51 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A742B576FEC
-	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Jul 2022 17:39:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFA24576FF4
+	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Jul 2022 17:41:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229867AbiGPPja (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 16 Jul 2022 11:39:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48956 "EHLO
+        id S232335AbiGPPl6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 16 Jul 2022 11:41:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbiGPPj3 (ORCPT
+        with ESMTP id S229501AbiGPPl6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 16 Jul 2022 11:39:29 -0400
+        Sat, 16 Jul 2022 11:41:58 -0400
 Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E185E03A;
-        Sat, 16 Jul 2022 08:39:28 -0700 (PDT)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 26GFd0QT023258;
-        Sun, 17 Jul 2022 00:39:01 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 26GFd0QT023258
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 792E41EAC3;
+        Sat, 16 Jul 2022 08:41:57 -0700 (PDT)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 26GFfUl4024720;
+        Sun, 17 Jul 2022 00:41:31 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 26GFfUl4024720
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1657985941;
-        bh=4LPVf+VR1PUnzuCLPExyIR/KKB7VKA49OluYxgnCfT8=;
+        s=dec2015msa; t=1657986091;
+        bh=9l6AqfAq1fUXeNREScyW3EFRwBhnW1ZJsI1ajN6AmNc=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=lRcUsT+IT2FEeRmQ/kIvtzFEUHKFNses9XYR9U80+DhIuCmP8seuYazfJAxR5mbHU
-         7Lr0WZM2euUnhu7iMmOyMJuiUCBLkkszRzHY+kRtX/eU++lds6fT/TO+t/XzJ2MRFq
-         LL28dfaYGgdBKWY27xfpEEOA4jJnkmAEHkstsC9FPTN9DYplPadheL7dtwczRImpYy
-         c/IN4rC2UEFzgJaAY5VeSpRrBwWKD1/mGgYLyDJtFJVX+hHUOKp80FAhsqziygUZgJ
-         x4JEr2k8vVmvUjwvgAV9X2vLBdYvVg2jB6tAdLEhRH02OQgx/ToDJqcxOgkyh7M8jE
-         UBVKLdJ/qN24w==
-X-Nifty-SrcIP: [209.85.221.42]
-Received: by mail-wr1-f42.google.com with SMTP id bu1so10611259wrb.9;
-        Sat, 16 Jul 2022 08:39:01 -0700 (PDT)
-X-Gm-Message-State: AJIora9npfsk6h3MHvJK7098D7CS5Pnb4JhaKjeQrq8hiabD85USt7rZ
-        Koz33VFcWnx21PQbJ8YhYK3C5jgZHwyoDi49g0o=
-X-Google-Smtp-Source: AGRyM1vEf22qrd4TZhzJSKlvInLrRBhABoNNiiwlnYREq7ffKWXvCaHg1t6Aho78RtepXgbIyUvuInxqCGht/FdrNPw=
+        b=s8e1j334nemy0KPJqqC318cG7Oxxo/QQ9jkbsFB0Y4QIk9zd7FE1+U1Wj36+0dJT4
+         bpaFl5g5KeWyxFLriF4HZNlDuGdJR4AtETNCnfiRl/xO0G+VvfNzmbcQl2ndJ4IcCV
+         rQq8nmGKFWyduNV0nbTjMFa+lGHZrjraw80Fnt9i+6anXmt50KlK7pMyCYnio8vcoy
+         BFzPcuSbRn0phYPYt7a1xBq8DhcTpoNNLuy3u2+eV8hyCBXQ1l/9W+9OOE52SOguGc
+         1cZoSbB0FBo6PhK1b9Ees4MbOd88fDve/FBNJYcusok7aXndNJxch7q9Ky45Jq/BDV
+         6Dp1lXd3ZEADQ==
+X-Nifty-SrcIP: [209.85.221.43]
+Received: by mail-wr1-f43.google.com with SMTP id e15so5385469wro.5;
+        Sat, 16 Jul 2022 08:41:31 -0700 (PDT)
+X-Gm-Message-State: AJIora8rm2GaoWVbz/Np9WeWmcFyXHgBqOqOnFkO9RK90BBvAKhPCLDi
+        9phiLC4ppndcbC8Uh4POOXq3TFtxziMzmfiKxf0=
+X-Google-Smtp-Source: AGRyM1t/dRQnd1fMOKpDQNUmKgzbpoxiL6/bhf+qufAWI8vS4tLK4bRl60YwqvphGURlbQHT0V1t+NmA0H97qvjtOpU=
 X-Received: by 2002:adf:d1e2:0:b0:21d:d40b:d816 with SMTP id
- g2-20020adfd1e2000000b0021dd40bd816mr6491732wrd.682.1657985939613; Sat, 16
- Jul 2022 08:38:59 -0700 (PDT)
+ g2-20020adfd1e2000000b0021dd40bd816mr6497954wrd.682.1657986089724; Sat, 16
+ Jul 2022 08:41:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220714050243.16411-1-masahiroy@kernel.org> <20220714050243.16411-3-masahiroy@kernel.org>
-In-Reply-To: <20220714050243.16411-3-masahiroy@kernel.org>
+References: <20220714050243.16411-1-masahiroy@kernel.org> <20220714050243.16411-4-masahiroy@kernel.org>
+In-Reply-To: <20220714050243.16411-4-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 17 Jul 2022 00:38:21 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASP+aXcVY9sm+yM0pYFBCqPxqA-n8TYEwDpqSCjRXx_zg@mail.gmail.com>
-Message-ID: <CAK7LNASP+aXcVY9sm+yM0pYFBCqPxqA-n8TYEwDpqSCjRXx_zg@mail.gmail.com>
-Subject: Re: [PATCH 3/4] kbuild: error out if $(KBUILD_EXTMOD) contains % or :
+Date:   Sun, 17 Jul 2022 00:40:51 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQqSWaLJV7cGDtq3hscqwh2eWUaRs-XgB8v4-mS2bVAQA@mail.gmail.com>
+Message-ID: <CAK7LNAQqSWaLJV7cGDtq3hscqwh2eWUaRs-XgB8v4-mS2bVAQA@mail.gmail.com>
+Subject: Re: [PATCH 4/4] kbuild: error out if $(INSTALL_MOD_PATH) contains %
+ or :
 To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Cc:     Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
@@ -62,16 +63,17 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Thu, Jul 14, 2022 at 2:03 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> If the directory pass given to KBUILD_EXTMOD (or M=) contains % or :,
+> If the directory pass given to INSTALL_MOD_PATH contains % or :,
 
-This is a typo.
+A typo.
 
-directory pass -> directory path
-
-
+directory pass  ->  directory path
 
 
-> the module fails to build.
+
+
+
+> the module_install fails.
 >
 > % is used in pattern rules, and : as the separator of dependencies.
 >
@@ -80,23 +82,23 @@ directory pass -> directory path
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
 >
->  Makefile | 3 +++
+>  scripts/Makefile.modinst | 3 +++
 >  1 file changed, 3 insertions(+)
 >
-> diff --git a/Makefile b/Makefile
-> index faa4880f25f7..ecda62e27553 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -129,6 +129,9 @@ endif
->  $(if $(word 2, $(KBUILD_EXTMOD)), \
->         $(error building multiple external modules is not supported))
+> diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
+> index 16a02e9237d3..a4c987c23750 100644
+> --- a/scripts/Makefile.modinst
+> +++ b/scripts/Makefile.modinst
+> @@ -18,6 +18,9 @@ INSTALL_MOD_DIR ?= extra
+>  dst := $(MODLIB)/$(INSTALL_MOD_DIR)
+>  endif
 >
-> +$(foreach x, % :, $(if $(findstring $x, $(KBUILD_EXTMOD)), \
-> +       $(error module directory path cannot contain '$x')))
+> +$(foreach x, % :, $(if $(findstring $x, $(dst)), \
+> +       $(error module installation path cannot contain '$x')))
 > +
->  # Remove trailing slashes
->  ifneq ($(filter %/, $(KBUILD_EXTMOD)),)
->  KBUILD_EXTMOD := $(shell dirname $(KBUILD_EXTMOD).)
+>  suffix-y                               :=
+>  suffix-$(CONFIG_MODULE_COMPRESS_GZIP)  := .gz
+>  suffix-$(CONFIG_MODULE_COMPRESS_XZ)    := .xz
 > --
 > 2.34.1
 >
