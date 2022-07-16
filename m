@@ -2,110 +2,192 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C1352576CD0
-	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Jul 2022 11:33:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F91B576D23
+	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Jul 2022 11:39:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232036AbiGPJdl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 16 Jul 2022 05:33:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54308 "EHLO
+        id S232755AbiGPJi7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 16 Jul 2022 05:38:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229540AbiGPJdj (ORCPT
+        with ESMTP id S232747AbiGPJiw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 16 Jul 2022 05:33:39 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C91E2655C;
-        Sat, 16 Jul 2022 02:33:39 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id v4-20020a17090abb8400b001ef966652a3so13619775pjr.4;
-        Sat, 16 Jul 2022 02:33:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=NaserlcC6hSl3SwHUAah5zXW3IuFUW5WcFOL2/suCG8=;
-        b=ByuL8OG9nl+Vf3yYQ4gi7DetKcxMxUMuJrV9E2E9JpIX5/jB8cp9mk57+YYI0NNSmV
-         yaKq8Rr2yWGGDal8VYKW8NGP1kN+M7+xu/3q+KPIiBZUc1I8BMA2YvE8B/GELvSEEKOX
-         i3yTCqFrmSekzm4KVTcvE/sEyqdgZ7EE8fwGsOcMN6f8ZAcSCovWerdNjxIg1FvYOfip
-         bSg+hk+OGzkm9ctvm/h892XJ/5fusGSquZnpBwsDEBFfpoxqxm1AvbFWqD5c+bji4Bhg
-         fPDoY9gDMs/bwV+eEITI+/xe50gVPOvkPEs9Pd9KJTTwzsD3S/+O7NfBbibePgTjZtC5
-         cgSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=NaserlcC6hSl3SwHUAah5zXW3IuFUW5WcFOL2/suCG8=;
-        b=opii/Plb1Nch9WTo4RPRH4MrrxEhxgO39hkj41ZXe7qaPuOhABBGe5yTz+jD3vHTZ6
-         Nip0yRchZ7sm8BlERe52rXkm7SsRIUkeEHggwpWJ5JFDbrnATW+T2FXFcJog21QxhX9f
-         EyXn+GrdZKQEH1mUGJMffc+MOBS8lWicvwSxKk7pDsss9D1lmFnpHg3zevBq0ePVhKmO
-         4TgcNx9n9GzbE9tnP/y0vzzo3uWMm/i3jpWP22WlOK9OX/kCK1Z1ay15/Zxq1ZBVQNn9
-         tVu9MELdKXtCZpguTRHyvjlLwwZYOjpw0F2lEMDzcD36I8cvnjKbUXliliz73ZklRrOp
-         jXFQ==
-X-Gm-Message-State: AJIora86or7q2nBSrnq6G5aceqh4obT94tuG16Ezzub8resT/6TmMouc
-        TX01WpnsqC4eA+0/SPgXLvU=
-X-Google-Smtp-Source: AGRyM1uSAFRt/vvd1YRX/u/uEw6Wixbw2nFqqMIBxadlr/p7/1iu7OmearIrb10VU4zG23rgJgwv9g==
-X-Received: by 2002:a17:902:f64c:b0:16c:131:73ff with SMTP id m12-20020a170902f64c00b0016c013173ffmr17492991plg.170.1657964018733;
-        Sat, 16 Jul 2022 02:33:38 -0700 (PDT)
-Received: from debian.me (subs32-116-206-28-23.three.co.id. [116.206.28.23])
-        by smtp.gmail.com with ESMTPSA id c5-20020a170903234500b0016be8da658fsm5057280plh.130.2022.07.16.02.33.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Jul 2022 02:33:38 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 8C956103844; Sat, 16 Jul 2022 16:33:33 +0700 (WIB)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Martin Liska <mliska@suse.cz>, Andi Kleen <ak@linux.intel.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        linux-kbuild@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH 4/4] Documentation: lto: add LTO documentation to toc index
-Date:   Sat, 16 Jul 2022 16:32:50 +0700
-Message-Id: <20220716093249.19326-5-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220716093249.19326-1-bagasdotme@gmail.com>
-References: <20220716093249.19326-1-bagasdotme@gmail.com>
+        Sat, 16 Jul 2022 05:38:52 -0400
+X-Greylist: delayed 343 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 16 Jul 2022 02:38:42 PDT
+Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55128F58;
+        Sat, 16 Jul 2022 02:38:41 -0700 (PDT)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 26G9cMi1009565;
+        Sat, 16 Jul 2022 18:38:23 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 26G9cMi1009565
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1657964304;
+        bh=+piROnj9mLzn9Znc44Hr/EP2LS2kMptLJort+MxCcoE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=0zCJXA3ZFbeXeWSGWc1BpuDqw8OQO1g8YbwuXq/pxSz1AEQQJ2I+G3GiXuIu4tb9O
+         GSA9r/3KmZ2htvyUB5oWgefNbA+sZQv/iqAnz0kb4oO1UjXYlXM1Wt9iHOXb2Dk+Mf
+         bsKUYtMmIPrCVK+iXGIYr1nC8pRsUeX7Eyz8kyr1LEYBrNmBe84NAOisMtLQXuKN7G
+         Vdis5umY/C7mF75Z9emLKC2z4sFVnWVePv5UQjAWK8E0SWvZsl9wc3QC+aeXEfxCW8
+         zinpvZmeI5EgVX+t5nAng4qi2gewMvwi6p5PR65NosPsZFtbuMCCBhSJbQhBWeaK9d
+         ZxEoJtvjQQYmw==
+X-Nifty-SrcIP: [209.85.221.51]
+Received: by mail-wr1-f51.google.com with SMTP id f2so9795684wrr.6;
+        Sat, 16 Jul 2022 02:38:23 -0700 (PDT)
+X-Gm-Message-State: AJIora9+iWICOULqY+CbcfA59PaMwUfHZT5AwRahNp7pajlzEjo4K3A3
+        oqPYE9lciovtGrRDSpkkD6W/2JIJpqVFf8kzNRg=
+X-Google-Smtp-Source: AGRyM1uXXoYzn2ED5DqKQOCpe4iWzIt1brPfXQM/ByBpjRgvccY6cDJD4uEHMhD/L9qT7xCC9J5p6J4GwE36DcXvo3Y=
+X-Received: by 2002:adf:979b:0:b0:21d:868a:7f2f with SMTP id
+ s27-20020adf979b000000b0021d868a7f2fmr15570076wrb.409.1657964302181; Sat, 16
+ Jul 2022 02:38:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+References: <20220706114407.1507412-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220706114407.1507412-1-dmitry.baryshkov@linaro.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 16 Jul 2022 18:37:42 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQPS+U1qq4K+7Rao9P7p94bMU3Y6g0+ALUd3t=ioZqSnw@mail.gmail.com>
+Message-ID: <CAK7LNAQPS+U1qq4K+7Rao9P7p94bMU3Y6g0+ALUd3t=ioZqSnw@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: allow validating individual dtb files against schema
+To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        DTML <devicetree@vger.kernel.org>, Tom Rini <trini@konsulko.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="0000000000004845d005e3e8e52c"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-kernel test robot reported toctree warning:
+--0000000000004845d005e3e8e52c
+Content-Type: text/plain; charset="UTF-8"
 
-Documentation/kbuild/lto-build.rst: WARNING: document isn't included in any toctree
+On Wed, Jul 6, 2022 at 8:44 PM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> While it is possible to validate all generated dtb files against the
+> schema, it typically results in huge pile of warnings. While working on
+> a platform it is quite useful to validate just a single file against
+> schema.
+>
+> Allow specifying CHECK_DTBS=1 on a make command line to enable
+> validation while building dtb files. This reuses the infrastructure
+> existing for `make dtbs_check`, making dtbs_check a shortcut for
+> `make CHECK_DTBS=1 dt_binding_check dtbs`.
+>
+> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Cc: Tom Rini <trini@konsulko.com>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: linux-kbuild@vger.kernel.org
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>
+> Changes since v1:
+> - Added dependency to rebuild schema if `make dtbs` was used.
+>
+> ---
+>  Makefile | 20 +++++++++++++++-----
+>  1 file changed, 15 insertions(+), 5 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index 9aa7de1ca58f..5a9858aa4934 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1464,14 +1464,18 @@ endif
+>
+>  ifneq ($(dtstree),)
+>
+> -%.dtb: include/config/kernel.release scripts_dtc
+> +ifneq ($(CHECK_DTBS),)
+> +DT_TMP_BINDING := dt_binding
+> +endif
+> +
+> +%.dtb: include/config/kernel.release scripts_dtc $(DT_TMP_BINDING)
+>         $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+>
+> -%.dtbo: include/config/kernel.release scripts_dtc
+> +%.dtbo: include/config/kernel.release scripts_dtc $(DT_TMP_BINDING)
+>         $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+>
+>  PHONY += dtbs dtbs_install dtbs_check
+> -dtbs: include/config/kernel.release scripts_dtc
+> +dtbs: include/config/kernel.release scripts_dtc $(DT_TMP_BINDING)
+>         $(Q)$(MAKE) $(build)=$(dtstree)
+>
+>  ifneq ($(filter dtbs_check, $(MAKECMDGOALS)),)
+> @@ -1498,8 +1502,10 @@ ifneq ($(filter dt_binding_check, $(MAKECMDGOALS)),)
+>  export CHECK_DT_BINDING=y
+>  endif
+>
+> -PHONY += dt_binding_check
+> -dt_binding_check: scripts_dtc
+> +dt_binding_check: dt_binding
+> +
+> +PHONY += dt_binding
+> +dt_binding: scripts_dtc
+>         $(Q)$(MAKE) $(build)=Documentation/devicetree/bindings
+>
+>  # ---------------------------------------------------------------------------
+> @@ -1774,6 +1780,10 @@ help:
+>         @echo  '                3: more obscure warnings, can most likely be ignored'
+>         @echo  '                e: warnings are being treated as errors'
+>         @echo  '                Multiple levels can be combined with W=12 or W=123'
+> +       @$(if $(dtstree), \
+> +               echo '  make CHECK_DTBS=1 [targets] Check all generated dtb files against schema'; \
+> +               echo '         This can be applied both to "dtbs" and to individual "foo.dtb" targets' ; \
+> +               )
+>         @echo  ''
+>         @echo  'Execute "make" or "make all" to build all targets marked with [*] '
+>         @echo  'For further info see the ./README file'
+> --
+> 2.35.1
+>
 
-Add LTO documentation (lto-build.rst) to kbuild table of contents.
 
-Link: https://lore.kernel.org/linux-doc/202207161100.lCdR6Unx-lkp@intel.com/
-Fixes: 0350b4dd55922f ("Kbuild, lto: Add Link Time Optimization support")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/kbuild/index.rst | 2 ++
- 1 file changed, 2 insertions(+)
+I think the idea seems OK to me, but we can make it simpler.
 
-diff --git a/Documentation/kbuild/index.rst b/Documentation/kbuild/index.rst
-index cee2f99f734b5a..1937eee7c43705 100644
---- a/Documentation/kbuild/index.rst
-+++ b/Documentation/kbuild/index.rst
-@@ -22,6 +22,8 @@ Kernel Build System
-     gcc-plugins
-     llvm
- 
-+    lto-build
-+
- .. only::  subproject and html
- 
-    Indices
+
+First, apply the following clean-up patch to reduce the code duplication.
+https://lore.kernel.org/all/20220716093122.137494-1-masahiroy@kernel.org/T/#u
+
+
+Then, apply the attached patch.diff
+
+Please try it.
+
+
+
+
+
+
+
 -- 
-An old man doll... just what I always wanted! - Clara
+Best Regards
+Masahiro Yamada
 
+--0000000000004845d005e3e8e52c
+Content-Type: text/x-patch; charset="US-ASCII"; name="patch.diff"
+Content-Disposition: attachment; filename="patch.diff"
+Content-Transfer-Encoding: base64
+Content-ID: <f_l5np37ne0>
+X-Attachment-Id: f_l5np37ne0
+
+ZGlmZiAtLWdpdCBhL01ha2VmaWxlIGIvTWFrZWZpbGUKaW5kZXggOGFhNGRiYjhmODc4Li5jYzgw
+YjZiOGQ1ZjggMTAwNjQ0Ci0tLSBhL01ha2VmaWxlCisrKyBiL01ha2VmaWxlCkBAIC0xMzgzLDEz
+ICsxMzgzLDE2IEBAIGR0YnM6IGR0YnNfcHJlcGFyZQogIyB0YXJnZXRzICgsIHdoaWNoIG1heSBy
+dW4gYXMgcm9vdCkgbXVzdCBub3QgbW9kaWZ5IHRoZSB0cmVlLgogZHRic19wcmVwYXJlOiBpbmNs
+dWRlL2NvbmZpZy9rZXJuZWwucmVsZWFzZSBzY3JpcHRzX2R0YwogCisjICdtYWtlIGR0YnNfY2hl
+Y2snIGlzIGEgc2hvcnRoYW5kIG9mICdtYWtlIENIRUNLX0RUQlM9eSBkdGJzJwogaWZuZXEgKCQo
+ZmlsdGVyIGR0YnNfY2hlY2ssICQoTUFLRUNNREdPQUxTKSksKQogZXhwb3J0IENIRUNLX0RUQlM9
+eQotZHRiczogZHRfYmluZGluZ19jaGVjawogZW5kaWYKLQogZHRic19jaGVjazogZHRicwogCitp
+Zm5lcSAoJChDSEVDS19EVEJTKSwpCitkdGJzX3ByZXBhcmU6IGR0X2JpbmRpbmdfY2hlY2sKK2Vu
+ZGlmCisKIGR0YnNfaW5zdGFsbDoKIAkkKFEpJChNQUtFKSAkKGR0Ymluc3QpPSQoZHRzdHJlZSkg
+ZHN0PSQoSU5TVEFMTF9EVEJTX1BBVEgpCiAK
+--0000000000004845d005e3e8e52c--
