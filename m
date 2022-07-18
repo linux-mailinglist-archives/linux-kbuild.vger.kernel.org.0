@@ -2,106 +2,147 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F763577C48
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Jul 2022 09:17:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16402578786
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Jul 2022 18:38:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233540AbiGRHRw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 18 Jul 2022 03:17:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48308 "EHLO
+        id S234152AbiGRQhe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 18 Jul 2022 12:37:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230131AbiGRHRv (ORCPT
+        with ESMTP id S235018AbiGRQhU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 18 Jul 2022 03:17:51 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2131A175B1;
-        Mon, 18 Jul 2022 00:17:51 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id b133so6073635pfb.6;
-        Mon, 18 Jul 2022 00:17:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=9frmMVgDv0d10SZjPmmu2rF/sm1oZ+hwPYLgP5s6HKA=;
-        b=m0haaQNtPwxpeRdvM8Ie0tqOsa+wlZEaLfySiCVn3eAS9RXg9RbpgrSTAFwlXUN0p2
-         /ar8csDR291Xgl/89K6Isie7MAW57dLXQI1Kay0z1BqOh3KFSLswgCw3cLhjgNo0fxtS
-         tpetAal0/Nd9LoDMObvGLjpW32urAfjrjNegMFs4AHrpte9dmTrpdssLJKRQrgVKxhrn
-         RR2px06dqufZhuWwkwrI543QFnXkBYgl8KLm072TChs+D09vqHK3UCjYyLUDzrHziPPm
-         q/KGFnza+JEKT2JieHrmHbmdIhrvhCpMgOKktYrJYGFlTBh1R5RMwhq5Ne7RiukT+ccL
-         sjRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=9frmMVgDv0d10SZjPmmu2rF/sm1oZ+hwPYLgP5s6HKA=;
-        b=b+JLpfXDxR0oZm6qlA49k87j/pjYZ0l6jStWO13i+RGXg4hT835EDP7NpajARNT028
-         lNf3JUsPvwUNE3RrnzS6kvGTMZZAnCwH83QhdlevNzVExfRD/dMXAfHMWRR4gkzz7qsg
-         yz03TyaqmB59dYVAawXeNhMjbpObwGDhkc3UdDM/EJupyBweUtMQdm4ru4OMogdgskn+
-         VoJOxCPeCe4popOMrfhNpvo8PdZ1jsz3gbIY2iLqS5EyHhQIuWqSBthibkua/mxCWxPs
-         kJXTAAceCFxb8Z0Ndf5/I0k6ttIy/7qlvkTHkJo+p7wq2kY+mMuJpLc7Vn7sZN1ztZhN
-         AfyA==
-X-Gm-Message-State: AJIora8b8E2UqhejHa1FfQ6M14/AmeXG1J5Ju6mPJBIlaUl5elt6IbDw
-        9P0xF2CfphEXXFJ7mWXTwRc=
-X-Google-Smtp-Source: AGRyM1tK4g3Eh7up61gxd/53rQ0egdVwkMakI4qgTIx4877xco7wSjxk9Ftw95BNeNJjQAcsms7Lzg==
-X-Received: by 2002:a63:6d5:0:b0:412:ac9d:814e with SMTP id 204-20020a6306d5000000b00412ac9d814emr24481342pgg.90.1658128670613;
-        Mon, 18 Jul 2022 00:17:50 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-18.three.co.id. [180.214.233.18])
-        by smtp.gmail.com with ESMTPSA id g26-20020aa796ba000000b0052ab5a740aesm8398857pfk.162.2022.07.18.00.17.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Jul 2022 00:17:50 -0700 (PDT)
-Message-ID: <51c4fbf0-bee9-4326-1ef0-bf2d25bde377@gmail.com>
-Date:   Mon, 18 Jul 2022 14:17:44 +0700
+        Mon, 18 Jul 2022 12:37:20 -0400
+X-Greylist: delayed 63 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 18 Jul 2022 09:37:19 PDT
+Received: from esa3.mentor.iphmx.com (esa3.mentor.iphmx.com [68.232.137.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F1432AC7A
+        for <linux-kbuild@vger.kernel.org>; Mon, 18 Jul 2022 09:37:19 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.92,281,1650960000"; 
+   d="scan'208";a="79810792"
+Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
+  by esa3.mentor.iphmx.com with ESMTP; 18 Jul 2022 08:36:16 -0800
+IronPort-SDR: RTjfIgzc+dEN6kC/wiahZ34aDq4N/lz4wt2gOaf3gyvKgbBgy7GQpdrAGz0TSAiEUWi+ya5Unr
+ gmkYsvQK+ohtMCEWFgUOpyY66f9X39W1vVK02qBI1H5onSYK75Pc/1vMoVCUJxGv33IMPq9bQ2
+ oVXSpXODQ6Og1foDv+s8GFj50phjddzVPBJt2HR23rxJmXRZiaFdLlzC1jNdr2lwwmR5DNHLGX
+ AK5/7yyQ++vhwU/PHSyXdo4u6nIwJuPb8F93oY3w+emM9L4h04z8oSkrSns1WQE8vNYUpZYkVK
+ UJM=
+Message-ID: <032ade35-6eb8-d698-ac44-aa45d46752dd@mentor.com>
+Date:   Mon, 18 Jul 2022 17:36:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 0/4] kbuild: lto: documentation fixes
-Content-Language: en-US
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Martin Liska <mliska@suse.cz>, Andi Kleen <ak@linux.intel.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-References: <20220716093249.19326-1-bagasdotme@gmail.com>
- <CAK7LNASvOjn+abQ1196+tpvVYnj9zkPPnuc4on02aQG_YhU_dw@mail.gmail.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <CAK7LNASvOjn+abQ1196+tpvVYnj9zkPPnuc4on02aQG_YhU_dw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v4 0/3] initramfs: add support for xattrs in the initial
+ ram disk
+Content-Language: en-GB
+To:     Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Roberto Sassu <roberto.sassu@huawei.com>
+CC:     Rob Landley <rob@landley.net>, "hpa@zytor.com" <hpa@zytor.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "initramfs@vger.kernel.org" <initramfs@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "bug-cpio@gnu.org" <bug-cpio@gnu.org>,
+        "zohar@linux.vnet.ibm.com" <zohar@linux.vnet.ibm.com>,
+        Silviu Vlasceanu <Silviu.Vlasceanu@huawei.com>,
+        Dmitry Kasatkin <dmitry.kasatkin@huawei.com>,
+        "takondra@cisco.com" <takondra@cisco.com>,
+        "kamensky@cisco.com" <kamensky@cisco.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "james.w.mcmechan@gmail.com" <james.w.mcmechan@gmail.com>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        Dirk Behme <dirk.behme@de.bosch.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+References: <33cfb804-6a17-39f0-92b7-01d54e9c452d@huawei.com>
+ <1561909199.3985.33.camel@linux.ibm.com>
+ <45164486-782f-a442-e442-6f56f9299c66@huawei.com>
+ <1561991485.4067.14.camel@linux.ibm.com>
+ <f85ed711-f583-51cd-34e2-80018a592280@huawei.com>
+ <0c17bf9e-9b0b-b067-cf18-24516315b682@huawei.com>
+ <20220609102627.GA3922@lxhi-065>
+ <21b3aeab20554a30b9796b82cc58e55b@huawei.com>
+ <20220610153336.GA8881@lxhi-065>
+ <4bc349a59e4042f7831b1190914851fe@huawei.com>
+ <20220615092712.GA4068@lxhi-065>
+From:   Jim Baxter <jim_baxter@mentor.com>
+Organization: Siemens Digital Industries Software
+In-Reply-To: <20220615092712.GA4068@lxhi-065>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+X-Originating-IP: [137.202.0.90]
+X-ClientProxiedBy: svr-ies-mbx-13.mgc.mentorg.com (139.181.222.13) To
+ svr-ies-mbx-12.mgc.mentorg.com (139.181.222.12)
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 7/18/22 08:49, Masahiro Yamada wrote:
-> On Sat, Jul 16, 2022 at 6:33 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->>
->> Here is documentation fixes for kbuild LTO feature tree [1]. Two patches
->> fixes warnings reported by kernel test robot, the others are formatting
->> improvements.
+On 15/06/2022 10:27, Eugeniu Rosca wrote:
+> Hello Roberto,
 > 
+> On Fr, Jun 10, 2022 at 03:38:24 +0000, Roberto Sassu wrote:
+>> I would be happy to address the remaining concerns, or take more
+>> suggestions, and then develop a new version of the patch set.
+> I face a number of conflicts when I try to rebase the latest openEuler
+> commits against vanilla master (v5.19-rc2). Do you think it is possible
+> to submit the rebased version to ML?
 > 
-> Please do not submit patches unrelated to the mainline.
+> In addition, I can also see some open/unresolved points from Mimi [*].
+> Did you by chance find some mutual agreement offline or do you think
+> they would still potentially need some attention?
 > 
-> This series applies to the individual repository of Jiri Slaby.
+> Maybe we can resume the discussion once you submit the rebased series?
+> 
+> Many thanks and looking forward to it.
+> 
+> [*] Potentially comments which deserve a reply/clarification/resolution
+> 
+> https://lore.kernel.org/lkml/1561985652.4049.24.camel@linux.ibm.com/#t
+> https://lore.kernel.org/lkml/1561908456.3985.23.camel@linux.ibm.com/
+> 
+> BR, Eugeniu.
 > 
 
-Seems like you missed the wording on cover letter, which said:
 
-> Here is documentation fixes for kbuild LTO feature tree [1]
+Hello,
 
-with link to the target tree, which is another way to say "The
-series is applied on top of this tree, not the mainline".
+I have been testing these patches and do not see the xattr information when
+trying to retrieve it within the initramfs, do you have an example of how
+you tested this originally?
 
-Thanks.
 
--- 
-An old man doll... just what I always wanted! - Clara
+So far I have set the xattr in the rootfs before creating the cpio file like this:
+$ setfattr -n user.comment -v "this is a comment" test.txt
+If I access the data here it works:
+$ getfattr test.txt 
+# file: test.txt
+user.comment
+
+
+Then I package it and try to verify it with this command:
+$getfattr /test.txt
+
+Which returns to the command line without the data.
+
+
+
+I believe the cpio is working because I see the file /METADATA\!\!\! in
+the target root filesystem, which shows the following when viewed with cat -e:
+00000028^A^Auser.comment^@this is a comment
+
+This matches the data I fed in at the start, so I believe the data is being
+transferred correctly but I am accessioning it with the wrong tools.
+
+Thank you for any help.
+
+Best regards,
+Jim
