@@ -2,63 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E3774579867
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Jul 2022 13:26:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39E965798B1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Jul 2022 13:44:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236561AbiGSL0z (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 19 Jul 2022 07:26:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34836 "EHLO
+        id S237385AbiGSLoA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 19 Jul 2022 07:44:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236074AbiGSL0x (ORCPT
+        with ESMTP id S233953AbiGSLn7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 19 Jul 2022 07:26:53 -0400
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com [IPv6:2001:4860:4864:20::29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DE6339B9D
-        for <linux-kbuild@vger.kernel.org>; Tue, 19 Jul 2022 04:26:51 -0700 (PDT)
-Received: by mail-oa1-x29.google.com with SMTP id 586e51a60fabf-10d6e8990b9so3113096fac.7
-        for <linux-kbuild@vger.kernel.org>; Tue, 19 Jul 2022 04:26:51 -0700 (PDT)
+        Tue, 19 Jul 2022 07:43:59 -0400
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com [IPv6:2001:4860:4864:20::30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5A2441D0C
+        for <linux-kbuild@vger.kernel.org>; Tue, 19 Jul 2022 04:43:58 -0700 (PDT)
+Received: by mail-oa1-x30.google.com with SMTP id 586e51a60fabf-10d6e8990b9so3215705fac.7
+        for <linux-kbuild@vger.kernel.org>; Tue, 19 Jul 2022 04:43:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=landley-net.20210112.gappssmtp.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=020GL0O0hflXIxVwmtfRiD+2r8usxk+LpcYhr4gv+S8=;
-        b=jTC6FmREwwRm6mWYH7G34+k++tluRwbkr8cS0HSWRGwVLzTj+m4tF48rD3YjRQr3+L
-         gtQ7k1PWASf2VskYTcp9cMIrGDV/Rn1Br+cFrmDn6WpQaxOYKGirm6oDYmQ1HbrGEUXG
-         W+ZW/je304Bx1ohhsGP0TgQquEH5m5vDnA6Q/FaHnWvLpp8YcHPK7aD2W37sBKT40JV2
-         0kMXTdElzVdfKGd/ut+q/eDzqjq+mPt01qdKu+m/j2RHRzjdB/lcwvw2kG+JYZLLpi9Y
-         whdPBeRqdkgP6b4vauNBo1eCvEpSy036spvRs6EPK+66TAg1gjDmfNO9viCGyQAofFJg
-         x1uA==
+        bh=Va7Ue4HqT06P0u8ZRW43Z0Px0BXsVi2YgJ23VtJAGE4=;
+        b=gmFEGz70M+E8Ceybb/tf91iagosJh4629EfUTFd5g6M7IY/U61Sb1imjd3ZPEpnUcH
+         tFZ+VtRXyXJ7QQX6xctuIbayj1Lc/steGSVVSvV1TAQ4OCUC12MSz4qN2+j4eg14M67V
+         EtP5cWAAtRhDGBrvIY7TwdwxJTwxjbbQm3DltE5mC5Q1kYv579w4cxu4DN2WTmSPaLn6
+         jypi4VkBvW2XIIMDp1WDe1+wEYoxHGfqJRzFeoiyBDT/ABKOfLkFnK0jDxOfD3MUAZcO
+         cD8SEDcHGKzsXc1kuCvNGFVTtnjw5FR0nq0aPjBK0FT4VDYg0kANyA0HOQjvQLxMIWFW
+         17CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=020GL0O0hflXIxVwmtfRiD+2r8usxk+LpcYhr4gv+S8=;
-        b=LQMK+VvnY5ZHhD7Xwmv1AUu2dJQUTCzg518j3Dy1EXCd4iLVFNLRmKmWz4TrsMW6a1
-         kdgUpGlyAkFG7E72dK4hUD1KIYr9bIOYAKudVLdKoqFiT4qsfzG1LRzLGyESt5hZXxQy
-         D5MZJiiuYAnmJQ7YIyd+BBXUi5L0RMkJwppfsVI2z0Qsn5qln2x+t7gp8D+7Kt38Oi5Z
-         oeEs2W29KI1fKfpN+uWgSRf4y8HW1+ftLRi8yDTbgBdA5PnNBmL8hQmqaIR9FUU5HNtR
-         /oqhjzlp+ug4hFrf22KcUbmDKj49oDRxyrJDkUvDcWejqNh3My80cA1sScFc3cfLIzia
-         TzgA==
-X-Gm-Message-State: AJIora9ulmVGnL9/kF3A2YhVizA0hiOWTsqIAcDuiRSDI/cPhISZR9Dm
-        PjHDyAMWXN+LicNHyqenjCo0dg==
-X-Google-Smtp-Source: AGRyM1tk8HI8+1ViLbB6aMm2aE0/A4gRLdN+YTFW9qiCQewVFUO0cN0LIZLYNEfPELYIwGnDIdRbsA==
-X-Received: by 2002:a05:6871:890:b0:10b:f3eb:b45d with SMTP id r16-20020a056871089000b0010bf3ebb45dmr18169031oaq.294.1658230010898;
-        Tue, 19 Jul 2022 04:26:50 -0700 (PDT)
+        bh=Va7Ue4HqT06P0u8ZRW43Z0Px0BXsVi2YgJ23VtJAGE4=;
+        b=Z+SK2py/iv1bBJCgLz6e60/vUj0/qwy2iitO5Nmd8Y+/fXG7dAc2YZ6CcWeuZ+yncV
+         FWOfAnNV79A31jO88Tr482+XY3Dvp9N2AFokftlMqVx+qOzXd3NF80L1qO//VpNToacO
+         VBp0xdudLsF3ADTRH19CuPCmcuJcABmPw9QCbVIQu5sbvEIl1s98OYosvwecYkslm4tb
+         WjJmBQkoJQrmXFHCivAS0IK19HjL7rQRHK8WN489xtfEgn8KBa+Bd85kkyoz8aQJ2WoW
+         6Wj5CfFnlzBd8Bl++FnbbR8o2GMGfWNex8Txaot8YWRqEAMuuX4cvTHxjBrBl6vWa0GJ
+         1NoQ==
+X-Gm-Message-State: AJIora8wqKjvgiTr1BVbIVjnW7llTeWP1s58WKveFUI7gn45TFGTdB/b
+        h8/AAPqjJ8FYkXuqBlRVKw5jSg==
+X-Google-Smtp-Source: AGRyM1tzgD1tJvn/z19AqAkZSQddLk7ZVlnucF2n9u/2w0+Sgiu1Jl5hyMwFQvdkiWIk3dxFDn+nJg==
+X-Received: by 2002:a05:6870:2216:b0:10c:f8f9:3395 with SMTP id i22-20020a056870221600b0010cf8f93395mr13624058oaf.257.1658231036685;
+        Tue, 19 Jul 2022 04:43:56 -0700 (PDT)
 Received: from [192.168.86.210] ([136.62.38.22])
-        by smtp.gmail.com with ESMTPSA id cb1-20020a056830618100b00616c46f6daasm6116229otb.31.2022.07.19.04.26.49
+        by smtp.gmail.com with ESMTPSA id i16-20020a4ad390000000b00435a4c8e3c2sm1415890oos.40.2022.07.19.04.43.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Jul 2022 04:26:50 -0700 (PDT)
-Message-ID: <14f9274e-87bd-9202-59c0-7f2ca836144d@landley.net>
-Date:   Tue, 19 Jul 2022 06:33:42 -0500
+        Tue, 19 Jul 2022 04:43:56 -0700 (PDT)
+Message-ID: <dc86769f-0ac6-d9f3-c003-54d3793ccfec@landley.net>
+Date:   Tue, 19 Jul 2022 06:50:48 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
 Subject: Re: [PATCH v4 0/3] initramfs: add support for xattrs in the initial
  ram disk
 Content-Language: en-US
-To:     Jim Baxter <jim_baxter@mentor.com>,
-        Roberto Sassu <roberto.sassu@huawei.com>,
+To:     Roberto Sassu <roberto.sassu@huawei.com>,
+        Jim Baxter <jim_baxter@mentor.com>,
         Eugeniu Rosca <erosca@de.adit-jv.com>
 Cc:     "hpa@zytor.com" <hpa@zytor.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
@@ -97,145 +97,53 @@ References: <33cfb804-6a17-39f0-92b7-01d54e9c452d@huawei.com>
  <032ade35-6eb8-d698-ac44-aa45d46752dd@mentor.com>
  <f82d4961986547b28b6de066219ad08b@huawei.com>
  <737ddf72-05f4-a47e-c901-fec5b1dfa7a6@mentor.com>
+ <8e6a723874644449be99fcebb0905058@huawei.com>
 From:   Rob Landley <rob@landley.net>
-In-Reply-To: <737ddf72-05f4-a47e-c901-fec5b1dfa7a6@mentor.com>
+In-Reply-To: <8e6a723874644449be99fcebb0905058@huawei.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
-
-On 7/18/22 13:08, Jim Baxter wrote:
-> 
-> 
-> Best regards,
-> 
-> *Jim Baxter*
-> 
-> Siemens Digital Industries Software
-> Automotive Business Unit
-> DI SW STS ABU
-> UK
-> Tel.: +44 (161) 926-1656
-> mailto:jim.baxter@siemens.com <mailto:jim.baxter@siemens.com>
-> sw.siemens.com <https://sw.siemens.com/>
-> 
-> On 18/07/2022 17:49, Roberto Sassu wrote:
->>> From: Jim Baxter [mailto:jim_baxter@mentor.com]
->>> Sent: Monday, July 18, 2022 6:36 PM
->>>
->>>
->>> Hello,
->>>
->>> I have been testing these patches and do not see the xattr information when
->>> trying to retrieve it within the initramfs, do you have an example of how
->>> you tested this originally?
+On 7/19/22 01:55, Roberto Sassu wrote:
+>> Thank you, I have tested that patch but the problem remained. Here is my
+>> command line, I wonder if there is something wrong.
 >> 
->> Hi Jim, all
->> 
->> apologies, I didn't find yet the time to look at this.
+>> Kernel command line: rw rootfstype=initramtmpfs root=/dev/ram0
+>> initrd=0x500000000 rootwait
 > 
-> Hello Roberto,
-> 
-> Thank you for your response, I can wait until you have looked at the patches,
-> I asked the question to make sure it was not something wrong in my
-> configuration.
-> 
->> 
->> Uhm, I guess this could be solved with:
->> 
->> https://github.com/openeuler-mirror/kernel/commit/18a502f7e3b1de7b9ba0c70896ce08ee13d052da
->> 
->> and adding initramtmpfs to the kernel command line. You are
->> probably using ramfs, which does not have xattr support.
->> 
-> 
-> 
-> Thank you, I have tested that patch but the problem remained. Here is my
-> command line, I wonder if there is something wrong.
-> 
-> Kernel command line: rw rootfstype=initramtmpfs root=/dev/ram0 initrd=0x500000000 rootwait 
+> It is just initramtmpfs, without rootfstype=.
 
-/dev/ram0 is a block device. Trying to provide it to tmpfs is like trying to say:
+Whoever wrote that patch really doesn't understand how this stuff works. I can
+tell from the name.
 
-  mount -t proc /dev/sda1 /proc
+Technically, initramfs is the loader, I.E. "init ramfs". The filesystem instance
+is called "rootfs" (hence the name in /proc/mounts when the insane special case
+the kernel added doesn't hide information from people, making all this harder to
+understand for no obvious reason).
 
-There's nowhere for the block device to GO because it's not a block backed
-filesystem.
+ramfs and tmpfs are two different filesystems that COULD be used to implement
+rootfs. (Last I checked they were the only ram backed filesystems in Linux.)
 
-There's four types of filesystem: block back, pipe backed, ram backed, and
-synthetic.
+If a system administrator says they're going to install your server's root
+partition using the "reiserxfs" filesystem, I would not be reassured.
 
-- Only block backed filesystems take a block device argument. Block backed
-filesystems require two drivers: one to handle I/O to the block device and one
-to interpret the filesystem format with the block device. You do not "format"
-any other kind of filesystem. (There's no mkfs.nfs or mkfs.proc: it doesn't work
-that way.)
-
-- Pipe backed ones include network filesystems (nfs, samba), FUSE filesystems,
-or hybrid weirdness like https://wiki.qemu.org/Documentation/9psetup . These
-drivers talk a protocol over a pipe (or network socket, or char device, or...)
-to a server at the far end that serves up the filesystem contents. Usually their
-source argument is a server address plus filesystem identification plus login
-credentials. Often they have a wrapper program that assembles this argument for you.
-
-- Ram backed filesystems (ramfs, tmpfs) treat the "source" argument to mount(2)
-as basically a comment, and ignore it. When you're adding things like size
-limitations, it goes in the "data" argument (I.E. mount -o thingy).
-
-- synthetic filesystems are just interfaces to the kernel that make up their
-contents programmatically (proc, sys, cgroup...) and no two are alike, although
-they generally ignore their "source" argument and look at "data" too.
-
-I wrote up documention about this many years ago...
-
-  https://landley.net/toybox/doc/mount.html
-
-> I also found that root is always mounted as rootfs in my initramfs system
-> which I understood to be tmpfs, is that incorrect?
-
-Yes, although the kernel tries to hide this by lying in /proc/mounts for bad
-reasons.
-> I modified the file before packing. To pack I use the following commands:
-> 
-> $ ./usr/gen_initramfs.sh -l initramfs.list -e xattr ../rootfs > initramfs.cpio
-> $ gzip initramfs.cpio
-> $ mkimage -A arm64 -O linux -T ramdisk -d initramfs.cpio.gz uRamdisk
-> 
-> The kernel is loaded using:
-> booti ${kernaddr} ${initramaddr} ${dtbaddr}
-
-Remove the root= argument from your kernel command line. It is explicitly
-telling the kernel "we will not be staying in rootfs" and thus it doesn't use
-tmpfs for it. In your case, you're saying "we're going to overmount the initial
-ramfs with a ram disk block device", which is nonsensical because nothing can
-have populated it so it will be all zeroes (unformatted) and thus the filesystem
-type detection staircase in
-https://github.com/torvalds/linux/blob/v5.18/init/do_mounts_rd.c#L38 won't be
-able to find a filesystem type to mount on it and it's guaranteed to fail.
-
-Note: initramfs was introduced in the early 2000s, and back in the 1990s there
-was an older "initrd" mechanism that DID use ramdisks (which are a chunk of ram
-used as a block device). I wrote documention about THAT too:
-
-  https://www.kernel.org/doc/Documentation/filesystems/ramfs-rootfs-initramfs.txt
-
-Basically the mechanism you're feeding init.cpio.gz in through was originally
-written to populate a ramdisk, and you'd make an ext2 image or something and
-gzip that. These days, the kernel decompresses the first few bytes of the file
-and if the result is a cpio signature it calls the initramfs plumbing
-(extracting the archive into the ram backed filesystem) and if not it extracts
-it into the /dev/ram0 block device and treats it as an initial ram disk. In
-NEITHER case do you need root= because that's used AFTER initramfs and initrd
-have both failed to find an /init program. (Well initrd looks for /linuxrc
-instead of /init because historical cruft, and then there was pivot_root...
-Don't go there.)
+> Roberto
 
 Rob
+
+P.S. Note: there IS another boot option, you can have a pipe backed root
+filesystem! CONFIG_ROOT_NFS for NFS or CONFIG_CIFS_ROOT for Samba. No, I don't
+know why the order isn't consistent.
+
+P.P.S. If you want to run a command other than /init out of initramfs or initrd,
+use the rdinit=/run/this option. Note the root= overmount mechanism is
+completely different code and uses the init=/run/this argument instead, which
+means nothing to initramfs. Again, specifying root= says we are NOT staying in
+initramfs.
