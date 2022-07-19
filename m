@@ -2,101 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FBD9579425
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Jul 2022 09:29:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 488E8579565
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Jul 2022 10:41:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233919AbiGSH3e (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 19 Jul 2022 03:29:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53604 "EHLO
+        id S237002AbiGSIl4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 19 Jul 2022 04:41:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233598AbiGSH3e (ORCPT
+        with ESMTP id S231337AbiGSIlz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 19 Jul 2022 03:29:34 -0400
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EAA731361;
-        Tue, 19 Jul 2022 00:29:33 -0700 (PDT)
-Received: by mail-ed1-f48.google.com with SMTP id y8so18419010eda.3;
-        Tue, 19 Jul 2022 00:29:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=A69jVjwpcXy4XlXaFIpNcd6h86BbCjk4wfR3cQladC4=;
-        b=pPqXdGz8gqqAq3CJH7ip2apePZWuQ8zqpIqmAIAdw4FLiD863HyAEIk5JaQyA4zAcK
-         fs2TqGAE0IfuExCwqBEULdFfuyEgkb+yiSZt80/n9sdzJIAjBXnu8NWQlvBK+LLqk6EP
-         OVrQRRMMCaUZGWHt/o2PudcOo7d6O8CzfRolmHSy0eTdX5qA8h1yvUypWjqu8YnheA7n
-         wo67encMML6iPPmKMiYlsix9EQI0Ahh1LdsTM1dB2Yhhblf+C8/bNi/gkAUuuMc1jtWt
-         80vTkvML0XkpTxDChcqUHnlWDiEd/C6rvxy9KBsh63JJceu/zLO+LE0r2Fzx4sw5gDTe
-         slnw==
-X-Gm-Message-State: AJIora+gqF7Y6QIloByEfz4e5ECVRQ/9Y5N6USN4dFz1fYuzaGemJcCl
-        /xCwbMN/wvOm2ck9uZFMl3mZUw8EpaE=
-X-Google-Smtp-Source: AGRyM1uyKJbAeE1LL0/xy8QCy3leak7UxnARBgApJ/NJTOapGYNNOP4BnEZboZViwWEpfLK3PnlWag==
-X-Received: by 2002:a05:6402:3454:b0:43a:86c8:637 with SMTP id l20-20020a056402345400b0043a86c80637mr42068430edc.393.1658215771535;
-        Tue, 19 Jul 2022 00:29:31 -0700 (PDT)
-Received: from ?IPV6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
-        by smtp.gmail.com with ESMTPSA id h9-20020aa7c609000000b0043ab1ad0b6bsm9996135edq.37.2022.07.19.00.29.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Jul 2022 00:29:30 -0700 (PDT)
-Message-ID: <292b1e65-6ac3-80c7-1ab6-c0e750fd03f4@kernel.org>
-Date:   Tue, 19 Jul 2022 09:29:28 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 0/4] kbuild: lto: documentation fixes
-Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Tue, 19 Jul 2022 04:41:55 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46628205C1;
+        Tue, 19 Jul 2022 01:41:54 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id C8BE034A06;
+        Tue, 19 Jul 2022 08:41:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1658220112; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=H4IwtKgVrBQfJjnt1jdw4py3dKEs3tHhhDUJgnRuAiI=;
+        b=dbYienbZamQI5KxKNpQOngqwP+yH2Up281vDCGa4ya6dJE8M8mJF5/ePX1PePs57SatNzV
+        v72wgTxehxZ6Ijsoa0XDGeVXAm6WEHlE4F+Nw2qJK7K7eCma36W88WkeUsMxTmNlExEboL
+        eOmidB/DR2CAbuOsDoJcoUwnKVQ4bYE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1658220112;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=H4IwtKgVrBQfJjnt1jdw4py3dKEs3tHhhDUJgnRuAiI=;
+        b=xbw/6FcBWjJgdDAkIa6WLOzenYEEyRAMQsYdap9tx63d4ypOvnl5kuj+uUMfub3dyIzTkI
+        1fx4wJoqIqXfDnCw==
+Received: from localhost.localdomain (unknown [10.100.201.122])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 812192C141;
+        Tue, 19 Jul 2022 08:41:52 +0000 (UTC)
+From:   Jiri Slaby <jslaby@suse.cz>
+To:     masahiroy@kernel.org
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jiri Slaby <jslaby@suse.cz>,
+        Sedat Dilek <sedat.dilek@gmail.com>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Martin Liska <mliska@suse.cz>, Andi Kleen <ak@linux.intel.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-References: <20220716093249.19326-1-bagasdotme@gmail.com>
- <CAK7LNASvOjn+abQ1196+tpvVYnj9zkPPnuc4on02aQG_YhU_dw@mail.gmail.com>
- <51c4fbf0-bee9-4326-1ef0-bf2d25bde377@gmail.com>
-From:   Jiri Slaby <jirislaby@kernel.org>
-In-Reply-To: <51c4fbf0-bee9-4326-1ef0-bf2d25bde377@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        "Signed-off-by : Martin Liska" <mliska@suse.cz>
+Subject: [PATCH v2 1/2] kbuild: pass jobserver to cmd_ld_vmlinux.o
+Date:   Tue, 19 Jul 2022 10:41:48 +0200
+Message-Id: <20220719084149.29950-1-jslaby@suse.cz>
+X-Mailer: git-send-email 2.37.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_SOFTFAIL
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 18. 07. 22, 9:17, Bagas Sanjaya wrote:
-> On 7/18/22 08:49, Masahiro Yamada wrote:
->> On Sat, Jul 16, 2022 at 6:33 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->>>
->>> Here is documentation fixes for kbuild LTO feature tree [1]. Two patches
->>> fixes warnings reported by kernel test robot, the others are formatting
->>> improvements.
->>
->>
->> Please do not submit patches unrelated to the mainline.
->>
->> This series applies to the individual repository of Jiri Slaby.
->>
-> 
-> Seems like you missed the wording on cover letter, which said:
-> 
->> Here is documentation fixes for kbuild LTO feature tree [1]
-> 
-> with link to the target tree, which is another way to say "The
-> series is applied on top of this tree, not the mainline".
+Until the link-vmlinux.sh split (cf. the commit below), the linker was
+run with jobserver set in MAKEFLAGS. After the split, the command in
+Makefile.vmlinux_o is not prefixed by "+" anymore, so this information
+is lost.
 
-Yeah, but why to send the patches to all those people provided they have 
-no idea such a tree and changes exist at all?
+Restore it as linkers working in parallel (esp. the LTO ones) make a use
+of it. In this case, it is gcc producing this warning otherwise:
+lto-wrapper: warning: jobserver is not available: ‘--jobserver-auth=’ is not present in ‘MAKEFLAGS’
 
-Anyway, applied to my tree.
+Cc: Sedat Dilek <sedat.dilek@gmail.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Michal Marek <michal.lkml@markovi.net>
+Cc: Nick Desaulniers <ndesaulniers@google.com>
+Cc: Signed-off-by: Martin Liska <mliska@suse.cz>
+Fixes: 5d45950dfbb1 (kbuild: move vmlinux.o link to scripts/Makefile.vmlinux_o)
+Signed-off-by: Jiri Slaby <jslaby@suse.cz>
+---
 
-thanks,
+Notes:
+    [v2] only commit message updated
+
+ scripts/Makefile.vmlinux_o | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/Makefile.vmlinux_o b/scripts/Makefile.vmlinux_o
+index 84019814f33f..886db0659d9c 100644
+--- a/scripts/Makefile.vmlinux_o
++++ b/scripts/Makefile.vmlinux_o
+@@ -65,7 +65,7 @@ define rule_ld_vmlinux.o
+ endef
+ 
+ vmlinux.o: $(initcalls-lds) $(KBUILD_VMLINUX_OBJS) $(KBUILD_VMLINUX_LIBS) FORCE
+-	$(call if_changed_rule,ld_vmlinux.o)
++	+$(call if_changed_rule,ld_vmlinux.o)
+ 
+ targets += vmlinux.o
+ 
 -- 
-js
+2.37.1
+
