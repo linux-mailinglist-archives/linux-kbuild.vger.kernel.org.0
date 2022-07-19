@@ -2,130 +2,119 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DEAAE579E9F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Jul 2022 15:03:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCFFC579F84
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Jul 2022 15:21:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242861AbiGSNDT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 19 Jul 2022 09:03:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54316 "EHLO
+        id S243567AbiGSNVZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 19 Jul 2022 09:21:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242502AbiGSNBS (ORCPT
+        with ESMTP id S234089AbiGSNVL (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 19 Jul 2022 09:01:18 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E42309C242;
-        Tue, 19 Jul 2022 05:26:06 -0700 (PDT)
-Received: from fraeml701-chm.china.huawei.com (unknown [172.18.147.207])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LnJ103Zbcz6HJf3;
-        Tue, 19 Jul 2022 20:24:20 +0800 (CST)
-Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
- fraeml701-chm.china.huawei.com (10.206.15.50) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2375.24; Tue, 19 Jul 2022 14:26:02 +0200
-Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
- fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2375.024;
- Tue, 19 Jul 2022 14:26:02 +0200
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-To:     Rob Landley <rob@landley.net>, Jim Baxter <jim_baxter@mentor.com>,
-        "Eugeniu Rosca" <erosca@de.adit-jv.com>
-CC:     "hpa@zytor.com" <hpa@zytor.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "initramfs@vger.kernel.org" <initramfs@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "bug-cpio@gnu.org" <bug-cpio@gnu.org>,
-        "zohar@linux.vnet.ibm.com" <zohar@linux.vnet.ibm.com>,
-        Silviu Vlasceanu <Silviu.Vlasceanu@huawei.com>,
-        Dmitry Kasatkin <dmitry.kasatkin@huawei.com>,
-        "takondra@cisco.com" <takondra@cisco.com>,
-        "kamensky@cisco.com" <kamensky@cisco.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "james.w.mcmechan@gmail.com" <james.w.mcmechan@gmail.com>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        Dirk Behme <dirk.behme@de.bosch.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: RE: [PATCH v4 0/3] initramfs: add support for xattrs in the initial
- ram disk
-Thread-Topic: [PATCH v4 0/3] initramfs: add support for xattrs in the initial
- ram disk
-Thread-Index: AQHYe+tsPH1HC/8x8Uq7oovD5MPpKK1G5r2QgAG+ywCAACILEIAHUz4AgDRUxQCAACKFgP//9y0AgAD3swCAADE5AIAAIobA
-Date:   Tue, 19 Jul 2022 12:26:02 +0000
-Message-ID: <5b8b0bcac01b477eaa777ceb8c109f58@huawei.com>
-References: <33cfb804-6a17-39f0-92b7-01d54e9c452d@huawei.com>
-        <1561909199.3985.33.camel@linux.ibm.com>
-        <45164486-782f-a442-e442-6f56f9299c66@huawei.com>
-        <1561991485.4067.14.camel@linux.ibm.com>
-        <f85ed711-f583-51cd-34e2-80018a592280@huawei.com>
-        <0c17bf9e-9b0b-b067-cf18-24516315b682@huawei.com>
-        <20220609102627.GA3922@lxhi-065>
-        <21b3aeab20554a30b9796b82cc58e55b@huawei.com>
-        <20220610153336.GA8881@lxhi-065>
-        <4bc349a59e4042f7831b1190914851fe@huawei.com>
-        <20220615092712.GA4068@lxhi-065>
-        <032ade35-6eb8-d698-ac44-aa45d46752dd@mentor.com>
-        <f82d4961986547b28b6de066219ad08b@huawei.com>
-        <737ddf72-05f4-a47e-c901-fec5b1dfa7a6@mentor.com>
-        <8e6a723874644449be99fcebb0905058@huawei.com>
- <dc86769f-0ac6-d9f3-c003-54d3793ccfec@landley.net>
-In-Reply-To: <dc86769f-0ac6-d9f3-c003-54d3793ccfec@landley.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.221.98.153]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Tue, 19 Jul 2022 09:21:11 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A05E5A160;
+        Tue, 19 Jul 2022 05:37:22 -0700 (PDT)
+Received: from [192.168.1.72] (136.203.115.78.rev.sfr.net [78.115.203.136])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: gtucker)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 82A216601A38;
+        Tue, 19 Jul 2022 13:37:19 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1658234240;
+        bh=wWppogLD5zvn424zVkczPstVmt7AHw1XWt3/QUo8fcs=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=YfR11FBpG+V4i8kKp3fXf+IFG0HHjy2q54moSk2syuggQPp6vlROFGrbrDyrm9pS5
+         bj6+44CcyVsvWl26P6y+h/05hIXG/+Hw5DOv14dH9lcBUlnO85tEnDQuZ8GYPA1OxO
+         BnIviNip25/4X3aIZoq8wSvPebv/quZQ1uKjxAx+KqHfA1z6mVIxA05NVHjHkCcl0a
+         AiFZqbodH5pIU0Hwymd4F5KiGsJMWE6NcLTd3IiYO7DwQAFRIOl/cg1inNmHgvZTno
+         96fPbiNXfMo6agx1KoJAKCxdPtHJce8QanLcVu1lINgdwF//KaJPrrwRs9dHY9ZTol
+         QBz+CK0zkD93Q==
+Message-ID: <8fc9d169-78ff-0fe4-67c0-784097861f12@collabora.com>
+Date:   Tue, 19 Jul 2022 14:37:15 +0200
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] Makefile: replace headers_install with headers for
+ kselftest
+Content-Language: en-US
+To:     Shuah Khan <skhan@linuxfoundation.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Kees Cook <keescook@chromium.org>
+Cc:     Anders Roxell <anders.roxell@linaro.org>, Tim.Bird@sony.com,
+        kernel@collabora.com, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <a7af58feaa6ae6d3b0c8c55972a470cec62341e5.1657693952.git.guillaume.tucker@collabora.com>
+ <f35a71d6-bd96-7aa9-c143-39ae88bc85d5@linuxfoundation.org>
+From:   Guillaume Tucker <guillaume.tucker@collabora.com>
+In-Reply-To: <f35a71d6-bd96-7aa9-c143-39ae88bc85d5@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-PiBGcm9tOiBSb2IgTGFuZGxleSBbbWFpbHRvOnJvYkBsYW5kbGV5Lm5ldF0NCj4gU2VudDogVHVl
-c2RheSwgSnVseSAxOSwgMjAyMiAxOjUxIFBNDQo+IE9uIDcvMTkvMjIgMDE6NTUsIFJvYmVydG8g
-U2Fzc3Ugd3JvdGU6DQo+ID4+IFRoYW5rIHlvdSwgSSBoYXZlIHRlc3RlZCB0aGF0IHBhdGNoIGJ1
-dCB0aGUgcHJvYmxlbSByZW1haW5lZC4gSGVyZSBpcyBteQ0KPiA+PiBjb21tYW5kIGxpbmUsIEkg
-d29uZGVyIGlmIHRoZXJlIGlzIHNvbWV0aGluZyB3cm9uZy4NCj4gPj4NCj4gPj4gS2VybmVsIGNv
-bW1hbmQgbGluZTogcncgcm9vdGZzdHlwZT1pbml0cmFtdG1wZnMgcm9vdD0vZGV2L3JhbTANCj4g
-Pj4gaW5pdHJkPTB4NTAwMDAwMDAwIHJvb3R3YWl0DQo+ID4NCj4gPiBJdCBpcyBqdXN0IGluaXRy
-YW10bXBmcywgd2l0aG91dCByb290ZnN0eXBlPS4NCj4gDQo+IFdob2V2ZXIgd3JvdGUgdGhhdCBw
-YXRjaCByZWFsbHkgZG9lc24ndCB1bmRlcnN0YW5kIGhvdyB0aGlzIHN0dWZmIHdvcmtzLiBJIGNh
-bg0KPiB0ZWxsIGZyb20gdGhlIG5hbWUuDQoNCkhpIFJvYg0KDQpzdXJlbHksIEkgc2hvdWxkIGhh
-dmUgYmVlbiBtb3JlIGNhcmVmdWwgaW4gY2hvb3NpbmcgdGhlIG5hbWUgb2YNCnRoZSBvcHRpb24u
-DQoNCj4gVGVjaG5pY2FsbHksIGluaXRyYW1mcyBpcyB0aGUgbG9hZGVyLCBJLkUuICJpbml0IHJh
-bWZzIi4gVGhlIGZpbGVzeXN0ZW0gaW5zdGFuY2UNCj4gaXMgY2FsbGVkICJyb290ZnMiIChoZW5j
-ZSB0aGUgbmFtZSBpbiAvcHJvYy9tb3VudHMgd2hlbiB0aGUgaW5zYW5lIHNwZWNpYWwgY2FzZQ0K
-PiB0aGUga2VybmVsIGFkZGVkIGRvZXNuJ3QgaGlkZSBpbmZvcm1hdGlvbiBmcm9tIHBlb3BsZSwg
-bWFraW5nIGFsbCB0aGlzIGhhcmRlciB0bw0KPiB1bmRlcnN0YW5kIGZvciBubyBvYnZpb3VzIHJl
-YXNvbikuDQoNCk9rLCB0aGFua3MgZm9yIHRoZSBleHBsYW5hdGlvbi4NCg0KPiByYW1mcyBhbmQg
-dG1wZnMgYXJlIHR3byBkaWZmZXJlbnQgZmlsZXN5c3RlbXMgdGhhdCBDT1VMRCBiZSB1c2VkIHRv
-IGltcGxlbWVudA0KPiByb290ZnMuIChMYXN0IEkgY2hlY2tlZCB0aGV5IHdlcmUgdGhlIG9ubHkg
-cmFtIGJhY2tlZCBmaWxlc3lzdGVtcyBpbiBMaW51eC4pDQoNClllcywgdGhhdCBwYXJ0IEkgZ290
-IGl0Lg0KDQo+IElmIGEgc3lzdGVtIGFkbWluaXN0cmF0b3Igc2F5cyB0aGV5J3JlIGdvaW5nIHRv
-IGluc3RhbGwgeW91ciBzZXJ2ZXIncyByb290DQo+IHBhcnRpdGlvbiB1c2luZyB0aGUgInJlaXNl
-cnhmcyIgZmlsZXN5c3RlbSwgSSB3b3VsZCBub3QgYmUgcmVhc3N1cmVkLg0KDQpEZWZpbml0ZWx5
-Lg0KDQpbLi4uXQ0KDQo+IFAuUC5TLiBJZiB5b3Ugd2FudCB0byBydW4gYSBjb21tYW5kIG90aGVy
-IHRoYW4gL2luaXQgb3V0IG9mIGluaXRyYW1mcyBvciBpbml0cmQsDQo+IHVzZSB0aGUgcmRpbml0
-PS9ydW4vdGhpcyBvcHRpb24uIE5vdGUgdGhlIHJvb3Q9IG92ZXJtb3VudCBtZWNoYW5pc20gaXMN
-Cj4gY29tcGxldGVseSBkaWZmZXJlbnQgY29kZSBhbmQgdXNlcyB0aGUgaW5pdD0vcnVuL3RoaXMg
-YXJndW1lbnQgaW5zdGVhZCwgd2hpY2gNCj4gbWVhbnMgbm90aGluZyB0byBpbml0cmFtZnMuIEFn
-YWluLCBzcGVjaWZ5aW5nIHJvb3Q9IHNheXMgd2UgYXJlIE5PVCBzdGF5aW5nIGluDQo+IGluaXRy
-YW1mcy4NCg0KU29ycnksIGl0IHdhcyBzb21lIHRpbWUgYWdvLiBJIGhhdmUgdG8gZ28gYmFjayBh
-bmQgc2VlIHdoeSB3ZSBuZWVkZWQNCmEgc2VwYXJhdGUgb3B0aW9uLiBNYXliZSBvbWl0dGluZyBy
-b290PSB3YXMgaW1wYWN0aW5nIG9uIG1vdW50aW5nDQp0aGUgcmVhbCByb290IGZpbGVzeXN0ZW0u
-IFdpbGwgZ2V0IHRoYXQgaW5mb3JtYXRpb24uDQoNCkludHVpdGl2ZWx5LCBnaXZlbiB0aGF0IHJv
-b3Q9IGlzIGNvbnN1bWVkIGZvciBleGFtcGxlIGJ5IGRyYWN1dCwgaXQgc2VlbXMNCmEgc2FmZXIg
-Y2hvaWNlIHRvIGhhdmUgYW4gb3B0aW9uIHRvIGV4cGxpY2l0bHkgY2hvb3NlIHRoZSBkZXNpcmVk
-IGZpbGVzeXN0ZW0uDQoNClJvYmVydG8NCg==
+On 14/07/2022 22:45, Shuah Khan wrote:
+> On 7/13/22 12:33 AM, Guillaume Tucker wrote:
+>> Replace headers_install with headers as kselftest uses the header
+>> files from within the kernel tree rather than from a system-wide
+>> installation.
+>>
+>> We can still run this directly:
+>>
+>>    $ make O=build kselftest-all
+>>
+>> and when building from the selftests directory:
+>>
+>>    $ make O=build headers
+>>    $ make O=build -C tools/testing/selftests all
+>>
+>> Signed-off-by: Guillaume Tucker <guillaume.tucker@collabora.com>
+>> Reported-by: Masahiro Yamada <masahiroy@kernel.org>
+>> ---
+>>   Makefile | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Makefile b/Makefile
+>> index fb2f3bb53a6b..5c934d16664c 100644
+>> --- a/Makefile
+>> +++ b/Makefile
+>> @@ -1347,10 +1347,10 @@ tools/%: FORCE
+>>   # Kernel selftest
+>>     PHONY += kselftest
+>> -kselftest: headers_install
+>> +kselftest: headers
+>>       $(Q)$(MAKE) -C $(srctree)/tools/testing/selftests run_tests
+>>   -kselftest-%: headers_install FORCE
+>> +kselftest-%: headers FORCE
+>>       $(Q)$(MAKE) -C $(srctree)/tools/testing/selftests $*
+>>     PHONY += kselftest-merge
+>>
+> 
+> Thank you for taking care of this. This will go through kbuild?
+
+You're welcome.
+
+Masahiro-san,
+
+A you OK with applying this in the kbuild tree ahead of the
+upcoming merge window?
+
+Best wishes,
+Guillaume
+ 
+> Acked-by: Shuah Khan <skhan@linuxfoundation.org>
+> 
+> thanks,
+> -- Shuah
+> 
