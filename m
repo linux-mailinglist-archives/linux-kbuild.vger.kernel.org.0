@@ -2,79 +2,86 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D59B1578A11
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Jul 2022 21:01:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84F155790E8
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Jul 2022 04:38:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234295AbiGRTBe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 18 Jul 2022 15:01:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55290 "EHLO
+        id S234480AbiGSCh6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 18 Jul 2022 22:37:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234895AbiGRTB2 (ORCPT
+        with ESMTP id S229585AbiGSCh6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 18 Jul 2022 15:01:28 -0400
-Received: from mail-ua1-x92b.google.com (mail-ua1-x92b.google.com [IPv6:2607:f8b0:4864:20::92b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11FDC2FFC3
-        for <linux-kbuild@vger.kernel.org>; Mon, 18 Jul 2022 12:01:17 -0700 (PDT)
-Received: by mail-ua1-x92b.google.com with SMTP id y11so5640015uae.5
-        for <linux-kbuild@vger.kernel.org>; Mon, 18 Jul 2022 12:01:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=h0ZslgqQ94UM3iGDYCZGEx8ZwvbYHY5ZrQARiO/Kpbc=;
-        b=IQXHlBQ3jHSYUTt89EYBBYMpS/rXYtHBaNUJ6e2ZzB07/ETpvOJM0/ZijryokIEfDh
-         oJG0jiachEiIldTcksV5XzU+dy3csOVeMrzVRYAIpdf4PUrGYfI/KNNvcLIWjvmc8oHa
-         yWKlPWKnOFkuEw2Mq2CzZYpqcRK9kJ+LygeUXE0izxh4s3I+nauj1w40rP+480vJCi+X
-         rAPSoEvo8wXV23cydMjOZnuzBivYToT/OwjRuq1iqX/8Isb8Rqougy46FnOdoQuh9Z/u
-         z7xKihQATs9EIIDqpmGAQl/2n//vpMk3ZDpLHQioaLk/1hVBrL4som/CgeyT77yPFwbn
-         VU6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=h0ZslgqQ94UM3iGDYCZGEx8ZwvbYHY5ZrQARiO/Kpbc=;
-        b=L4NWwtcfyMES0YxFkITmDfy8dOIDuaOOYbCjG4gRy/M+c7sGbhaGOo7xh+s3lzcZcU
-         erTZJD/Ewmiug+fd8N3Msq6pFSeWMJraKbZ9IsqJmSr7xO5RXMsoUeIxLi7ePh0x+soS
-         ENqBtRO/GmoCcWGIi7PIOcQuV5HTzp8+JqTfBE8PQEMtDdJvI16EQGEM+c3uYHbLmeEz
-         +vRGcUV7wK5uGEnGKzobIn/VrtCx5juGBe3n/zepGkBtsCkETD3N9O1EpvkFdEk4TbM4
-         1PrX8UgMTuTpba9xFD5BXpeNNQoq6Njmc5T2oC3H/w98j/w19hgD8QC+lFP/CM3ROGL/
-         9lmw==
-X-Gm-Message-State: AJIora+FXn9tQWOotH1l4c9pSRluWuuumbt/eUusozFG6W+TuM3lOmdU
-        iNoOW8eoHmrDzWQsYKntP1q2B70ybaEm5X7dJh8Cifdwy7WGwQ==
-X-Google-Smtp-Source: AGRyM1sOF4caZ/Mzb7i1HwUB8dyXYAmjf9y+Pd1nVHRKiUHeMR6opOrMc10oZNu5DLkN2HS0cpkKNGEh0T+MU99Jmes=
-X-Received: by 2002:a81:5747:0:b0:31d:1bb8:65b7 with SMTP id
- l68-20020a815747000000b0031d1bb865b7mr30830046ywb.168.1658170865217; Mon, 18
- Jul 2022 12:01:05 -0700 (PDT)
+        Mon, 18 Jul 2022 22:37:58 -0400
+Received: from conuserg-08.nifty.com (conuserg-08.nifty.com [210.131.2.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 128A322BDA;
+        Mon, 18 Jul 2022 19:37:56 -0700 (PDT)
+Received: from grover.jp (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
+        by conuserg-08.nifty.com with ESMTP id 26J2bJ4H004522;
+        Tue, 19 Jul 2022 11:37:19 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 26J2bJ4H004522
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1658198239;
+        bh=HQK6QEDJxQcORRIWR/HJ2dPOwcOH2XLZjLHhiFJZjLc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=136eVUOFw7hnvltqX0qb8mAv8hsb5qD3E5F5G99GR4eflY3VlUd6kIAU0PRMVrnMW
+         6biWEwuhmOWrkUJ0s1FGlsmq7ueWmaWZnvHY4TmEwoZHBTT9uUhS8mIH7OVW0BfsAy
+         EZV0eiazj1AjM8X29LjcSy8jo9/NE2+vKKzedFuwabxHy3zFh7powUjwo+9hqNEahE
+         C0B6S15AYGF3qNkW3chx+rmvbnceYg2f7R2JU7MKK0qDLHaXUYRQUPArdkX2BxiTbT
+         N0RMxmgGcjq68wW+T5HUQSyD5GSkuYDCu4iqR6mZLbbTY4GR7kNCcRlHolV3S43GKv
+         STyuVN8/cOp6Q==
+X-Nifty-SrcIP: [133.32.177.133]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] kconfig: shorten the temporary directory name for cc-option
+Date:   Tue, 19 Jul 2022 11:35:39 +0900
+Message-Id: <20220719023539.2199045-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Received: by 2002:a05:6919:4004:b0:cc:50ff:b3d8 with HTTP; Mon, 18 Jul 2022
- 12:01:04 -0700 (PDT)
-Reply-To: lilywilliam989@gmail.com
-From:   Lily William <sgtalberts@gmail.com>
-Date:   Mon, 18 Jul 2022 11:01:04 -0800
-Message-ID: <CALPTejMFgL0Bg7jCKa7j+5KxVv_jnSM4ZPq-QhHCiUpG_ZswsQ@mail.gmail.com>
-Subject: Hi Dear,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Dear,
+The cc-option macro creates the temporary directory, .tmp_$$$$, which
+is expanded into .tmp_<PID><PID>, but the second <PID> is redundant.
+(<PID> is the process ID of the sub-shell)
 
-My name is Dr Lily William from the United States.I am a French and
-American nationality (dual) living in the U.S and sometimes in France
-for Work Purpose.
+If it were the Makefile code, .tmp_$$$$ would be the correct code.
+(see the TMPOUT macro in scripts/Malefile.compiler)
 
-I hope you consider my friend request. I will share some of my pics
-and more details about myself when I get your response.
+In Makefile, '$$' is an escape sequence of '$'. Make expands '$$$$'
+into '$$', then shell expands it into the process ID.
 
-Thanks
+This does not apply to Kconfig because Kconfig requires variable
+references to be enclosed by curly braces, like ${variable}.
+The '$' that is not followed by '{' loses its special function.
 
-With love
-Lily
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ scripts/Kconfig.include | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
+index 0496efd6e117..c1f4222d223d 100644
+--- a/scripts/Kconfig.include
++++ b/scripts/Kconfig.include
+@@ -25,7 +25,7 @@ failure = $(if-success,$(1),n,y)
+ 
+ # $(cc-option,<flag>)
+ # Return y if the compiler supports <flag>, n otherwise
+-cc-option = $(success,mkdir .tmp_$$$$; trap "rm -rf .tmp_$$$$" EXIT; $(CC) -Werror $(CLANG_FLAGS) $(1) -c -x c /dev/null -o .tmp_$$$$/tmp.o)
++cc-option = $(success,mkdir .tmp_$$; trap "rm -rf .tmp_$$" EXIT; $(CC) -Werror $(CLANG_FLAGS) $(1) -c -x c /dev/null -o .tmp_$$/tmp.o)
+ 
+ # $(ld-option,<flag>)
+ # Return y if the linker supports <flag>, n otherwise
+-- 
+2.34.1
+
