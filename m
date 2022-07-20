@@ -2,154 +2,120 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 076DB57A561
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Jul 2022 19:31:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5655557B5E6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Jul 2022 13:52:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239289AbiGSRby (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 19 Jul 2022 13:31:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59330 "EHLO
+        id S232744AbiGTLwF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 20 Jul 2022 07:52:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239577AbiGSRbu (ORCPT
+        with ESMTP id S229490AbiGTLwE (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 19 Jul 2022 13:31:50 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 984DA5A885;
-        Tue, 19 Jul 2022 10:31:49 -0700 (PDT)
-Received: from [192.168.1.72] (136.203.115.78.rev.sfr.net [78.115.203.136])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: gtucker)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 329456601955;
-        Tue, 19 Jul 2022 18:31:47 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1658251907;
-        bh=jIA5oD7gpTgXWAfR2Mm2w19/e/vskjL1LF249/HQPKo=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=XMqXepdPgkUEe+ogPiW5sOOGjTJFuh6/M+BipmxwVp3FCwN7dpsUWnWnAUEhR18Pr
-         IEJGPkx05XNPQW+iy+mj455M9z2dBSwFX7gb7RdXIoMZFq4I5/GF4iOpO+NA/pTRvg
-         dTgUg+EpRKJVBVj2vfB1PsUzsaIWrAXOvvNx4yFCwnks9erHHkRtGjXCl+RZHcNRE2
-         3wZcbfqg4rK1pm26yBuaXP5Mvb4HNbHc1R2xR5n/RHUFUXh8NxRj87oCpkfHf8Kum+
-         YCTY/Imwu0T0nLGfwQpxznP8WyhtB1glBCo6LeW3/vkRDwUGYjH2JQPxhWfV3kTrH5
-         RBZhOR6FRgaNg==
-Message-ID: <81241d70-7952-2f55-9181-d18679068998@collabora.com>
-Date:   Tue, 19 Jul 2022 19:31:46 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] Makefile: replace headers_install with headers for
- kselftest
+        Wed, 20 Jul 2022 07:52:04 -0400
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B227157268;
+        Wed, 20 Jul 2022 04:52:03 -0700 (PDT)
+Received: from fraeml705-chm.china.huawei.com (unknown [172.18.147.201])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Lnv9H1bNxz6J6Mk;
+        Wed, 20 Jul 2022 19:48:35 +0800 (CST)
+Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
+ fraeml705-chm.china.huawei.com (10.206.15.54) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2375.24; Wed, 20 Jul 2022 13:52:01 +0200
+Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
+ fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2375.024;
+ Wed, 20 Jul 2022 13:52:01 +0200
+From:   Roberto Sassu <roberto.sassu@huawei.com>
+To:     Rob Landley <rob@landley.net>, Jim Baxter <jim_baxter@mentor.com>,
+        "Eugeniu Rosca" <erosca@de.adit-jv.com>
+CC:     "hpa@zytor.com" <hpa@zytor.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "initramfs@vger.kernel.org" <initramfs@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "bug-cpio@gnu.org" <bug-cpio@gnu.org>,
+        "zohar@linux.vnet.ibm.com" <zohar@linux.vnet.ibm.com>,
+        Silviu Vlasceanu <Silviu.Vlasceanu@huawei.com>,
+        Dmitry Kasatkin <dmitry.kasatkin@huawei.com>,
+        "takondra@cisco.com" <takondra@cisco.com>,
+        "kamensky@cisco.com" <kamensky@cisco.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "james.w.mcmechan@gmail.com" <james.w.mcmechan@gmail.com>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        Dirk Behme <dirk.behme@de.bosch.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: RE: [PATCH v4 0/3] initramfs: add support for xattrs in the initial
+ ram disk
+Thread-Topic: [PATCH v4 0/3] initramfs: add support for xattrs in the initial
+ ram disk
+Thread-Index: AQHYe+tsPH1HC/8x8Uq7oovD5MPpKK1G5r2QgAG+ywCAACILEIAHUz4AgDRUxQCAACKFgP//9y0AgAD3swCAADE5AIAAIobAgAAFq4CAAYjhkA==
+Date:   Wed, 20 Jul 2022 11:52:00 +0000
+Message-ID: <0b9971555f6b4a319614570aae8bcdf3@huawei.com>
+References: <33cfb804-6a17-39f0-92b7-01d54e9c452d@huawei.com>
+        <1561909199.3985.33.camel@linux.ibm.com>
+        <45164486-782f-a442-e442-6f56f9299c66@huawei.com>
+        <1561991485.4067.14.camel@linux.ibm.com>
+        <f85ed711-f583-51cd-34e2-80018a592280@huawei.com>
+        <0c17bf9e-9b0b-b067-cf18-24516315b682@huawei.com>
+        <20220609102627.GA3922@lxhi-065>
+        <21b3aeab20554a30b9796b82cc58e55b@huawei.com>
+        <20220610153336.GA8881@lxhi-065>
+        <4bc349a59e4042f7831b1190914851fe@huawei.com>
+        <20220615092712.GA4068@lxhi-065>
+        <032ade35-6eb8-d698-ac44-aa45d46752dd@mentor.com>
+        <f82d4961986547b28b6de066219ad08b@huawei.com>
+        <737ddf72-05f4-a47e-c901-fec5b1dfa7a6@mentor.com>
+        <8e6a723874644449be99fcebb0905058@huawei.com>
+        <dc86769f-0ac6-d9f3-c003-54d3793ccfec@landley.net>
+        <5b8b0bcac01b477eaa777ceb8c109f58@huawei.com>
+ <3d77db23-51da-be5e-b40d-a92aeb568833@landley.net>
+In-Reply-To: <3d77db23-51da-be5e-b40d-a92aeb568833@landley.net>
+Accept-Language: en-US
 Content-Language: en-US
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Anders Roxell <anders.roxell@linaro.org>,
-        Tim Bird <Tim.Bird@sony.com>, kernel@collabora.com,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
-References: <a7af58feaa6ae6d3b0c8c55972a470cec62341e5.1657693952.git.guillaume.tucker@collabora.com>
- <f35a71d6-bd96-7aa9-c143-39ae88bc85d5@linuxfoundation.org>
- <8fc9d169-78ff-0fe4-67c0-784097861f12@collabora.com>
- <CAK7LNAQ4iMBwu4bOmmOrMudNH49ruz-7AK_H3-ceTixd=G+brQ@mail.gmail.com>
-From:   Guillaume Tucker <guillaume.tucker@collabora.com>
-In-Reply-To: <CAK7LNAQ4iMBwu4bOmmOrMudNH49ruz-7AK_H3-ceTixd=G+brQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.221.98.153]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 19/07/2022 17:06, Masahiro Yamada wrote:
-> On Tue, Jul 19, 2022 at 9:37 PM Guillaume Tucker
-> <guillaume.tucker@collabora.com> wrote:
->>
->> On 14/07/2022 22:45, Shuah Khan wrote:
->>> On 7/13/22 12:33 AM, Guillaume Tucker wrote:
->>>> Replace headers_install with headers as kselftest uses the header
->>>> files from within the kernel tree rather than from a system-wide
->>>> installation.
->>>>
->>>> We can still run this directly:
->>>>
->>>>    $ make O=build kselftest-all
->>>>
->>>> and when building from the selftests directory:
->>>>
->>>>    $ make O=build headers
->>>>    $ make O=build -C tools/testing/selftests all
->>>>
->>>> Signed-off-by: Guillaume Tucker <guillaume.tucker@collabora.com>
->>>> Reported-by: Masahiro Yamada <masahiroy@kernel.org>
->>>> ---
->>>>   Makefile | 4 ++--
->>>>   1 file changed, 2 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/Makefile b/Makefile
->>>> index fb2f3bb53a6b..5c934d16664c 100644
->>>> --- a/Makefile
->>>> +++ b/Makefile
->>>> @@ -1347,10 +1347,10 @@ tools/%: FORCE
->>>>   # Kernel selftest
->>>>     PHONY += kselftest
->>>> -kselftest: headers_install
->>>> +kselftest: headers
->>>>       $(Q)$(MAKE) -C $(srctree)/tools/testing/selftests run_tests
->>>>   -kselftest-%: headers_install FORCE
->>>> +kselftest-%: headers FORCE
->>>>       $(Q)$(MAKE) -C $(srctree)/tools/testing/selftests $*
->>>>     PHONY += kselftest-merge
->>>>
->>>
->>> Thank you for taking care of this. This will go through kbuild?
->>
->> You're welcome.
->>
->> Masahiro-san,
->>
->> A you OK with applying this in the kbuild tree ahead of the
->> upcoming merge window?
-> 
-> 
-> No.
-> 
-> This is a fix-up patch on top of the previous one [1],
-> which  was applied to the kselftest tree.
-> 
-> This cannot apply to the kbuild tree.
-
-OK thank you for confirming.
-
-Shuah, I guess you're happy to apply it to the kselftest tree
-instead then?
-
-Guillaume
-
-> [1]: https://lore.kernel.org/linux-kbuild/168ede35-12e0-c535-9d94-23b65a1beb28@collabora.com/T/#mb8ec7004f7c9b89fbb50c19022760e19701af7f6
-> 
-> 
-> 
-> 
-> 
-> 
->> Best wishes,
->> Guillaume
->>
->>> Acked-by: Shuah Khan <skhan@linuxfoundation.org>
->>>
->>> thanks,
->>> -- Shuah
->>>
-> 
-> 
-> 
-
+PiBGcm9tOiBSb2IgTGFuZGxleSBbbWFpbHRvOnJvYkBsYW5kbGV5Lm5ldF0NCj4gU2VudDogVHVl
+c2RheSwgSnVseSAxOSwgMjAyMiA0OjE1IFBNDQo+IE9uIDcvMTkvMjIgMDc6MjYsIFJvYmVydG8g
+U2Fzc3Ugd3JvdGU6DQo+ID4+IFAuUC5TLiBJZiB5b3Ugd2FudCB0byBydW4gYSBjb21tYW5kIG90
+aGVyIHRoYW4gL2luaXQgb3V0IG9mIGluaXRyYW1mcyBvciBpbml0cmQsDQo+ID4+IHVzZSB0aGUg
+cmRpbml0PS9ydW4vdGhpcyBvcHRpb24uIE5vdGUgdGhlIHJvb3Q9IG92ZXJtb3VudCBtZWNoYW5p
+c20gaXMNCj4gPj4gY29tcGxldGVseSBkaWZmZXJlbnQgY29kZSBhbmQgdXNlcyB0aGUgaW5pdD0v
+cnVuL3RoaXMgYXJndW1lbnQgaW5zdGVhZCwNCj4gd2hpY2gNCj4gPj4gbWVhbnMgbm90aGluZyB0
+byBpbml0cmFtZnMuIEFnYWluLCBzcGVjaWZ5aW5nIHJvb3Q9IHNheXMgd2UgYXJlIE5PVCBzdGF5
+aW5nDQo+IGluDQo+ID4+IGluaXRyYW1mcy4NCj4gPg0KPiA+IFNvcnJ5LCBpdCB3YXMgc29tZSB0
+aW1lIGFnby4gSSBoYXZlIHRvIGdvIGJhY2sgYW5kIHNlZSB3aHkgd2UgbmVlZGVkDQo+ID4gYSBz
+ZXBhcmF0ZSBvcHRpb24uDQo+IA0KPiBEaWQgSSBtZW50aW9uIHRoYXQgaW5pdC9kb19tb3VudHMu
+YyBhbHJlYWR5IGhhczoNCj4gDQo+IF9fc2V0dXAoInJvb3Rmc3R5cGU9IiwgZnNfbmFtZXNfc2V0
+dXApOw0KDQpJdCBpcyBjb25zdW1lZCBieSBkcmFjdXQgdG9vLCBmb3IgdGhlIHJlYWwgcm9vdCBm
+aWxlc3lzdGVtLg0KDQpbLi4uXQ0KDQo+IExvdHMgb2Ygc3lzdGVtcyBydW5uaW5nIGZyb20gaW5p
+dHJhbWZzIGFscmVhZHkgRE9OJ1QgaGF2ZSBhIHJvb3Q9LCBzbyB5b3UncmUNCj4gc2F5aW5nIGRy
+YWN1dCBiZWluZyBicm9rZW4gd2hlbiB0aGVyZSBpcyBubyByb290PSBpcyBzb21ldGhpbmcgdG8g
+d29yayBhcm91bmQNCj4gcmF0aGVyIHRoYW4gZml4IGluIGRyYWN1dCwgZXZlbiB0aG91Z2ggaXQn
+cyBiZWVuIGVhc3kgdG8gY3JlYXRlIGEgc3lzdGVtIHdpdGhvdXQNCj4gYSByb290PSBmb3IgYSBk
+ZWNhZGUgYW5kIGEgaGFsZiBhbHJlYWR5Li4uDQoNCklmIHRoZXJlIGlzIGEgcG9zc2liaWxpdHkg
+dGhhdCByb290PSBvciByb290ZnN0eXBlPSBhcmUgdXNlZCBieQ0Kc29tZW9uZSBlbHNlLCBJIHdv
+dWxkIG5vdCBjb3VudCBvbiB0aG9zZSB0byBtYWtlIGEgc2VsZWN0aW9uDQpvZiB0aGUgZmlsZXN5
+c3RlbSBmb3Igcm9vdGZzLg0KDQpPbiB0aGUgb3RoZXIgaGFuZCwgd2hhdCBjYW4gZ28gd3Jvbmcg
+aW4gaGF2aW5nIGEgZGVkaWNhdGVkLA0Kbm90IHVzZWQgYnkgYW55b25lIG9wdGlvbiB0byBkbyB0
+aGlzIGpvYj8NCg0KVGhhbmtzDQoNClJvYmVydG8NCg==
