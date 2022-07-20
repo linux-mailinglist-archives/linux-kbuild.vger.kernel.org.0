@@ -2,88 +2,120 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CFC3257BF42
-	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Jul 2022 22:37:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98A5357C0D1
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Jul 2022 01:23:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229715AbiGTUhv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 20 Jul 2022 16:37:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53732 "EHLO
+        id S229626AbiGTXXn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 20 Jul 2022 19:23:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbiGTUhv (ORCPT
+        with ESMTP id S229595AbiGTXXm (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 20 Jul 2022 16:37:51 -0400
-X-Greylist: delayed 604 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 20 Jul 2022 13:37:49 PDT
-Received: from pb-smtp1.pobox.com (pb-smtp1.pobox.com [64.147.108.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DF0622BD8;
-        Wed, 20 Jul 2022 13:37:49 -0700 (PDT)
-Received: from pb-smtp1.pobox.com (unknown [127.0.0.1])
-        by pb-smtp1.pobox.com (Postfix) with ESMTP id 761E3125CAF;
-        Wed, 20 Jul 2022 16:21:58 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=date:from
-        :to:cc:subject:in-reply-to:message-id:references:mime-version
-        :content-type; s=sasl; bh=u+GuoWlBG33c/AK7UMiDpiQVnxq6c+R/USfLvd
-        6Hsb8=; b=AWU9bSoqAulqrt9x8y6d+RZE8+idTvowVlTykIjcY6fwxsHzvpC77s
-        WC0mn6SwNoigg+Z6XbAAVOTxxT16SvRsO3QqLY/TQiNQMWVZr/WIX1dajWyQ0lcb
-        tVCzqshCM7QxPp2LLVUE0lsBDqGyBD5gf9eLRCRsPZulrw0bbx5MA=
-Received: from pb-smtp1.nyi.icgroup.com (unknown [127.0.0.1])
-        by pb-smtp1.pobox.com (Postfix) with ESMTP id 6D2E3125CAE;
-        Wed, 20 Jul 2022 16:21:58 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
- h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=u+GuoWlBG33c/AK7UMiDpiQVnxq6c+R/USfLvd6Hsb8=; b=tDWbhUKacircgw5p5fNNCe7ds/o2wQYMAlg4Azoo/hugaAKgzjONfyBEhMV/Vu/SUO0BUNMDjYdoxC2/+ZHPeDTqGIczma1B7GFQ0ksGFcPxthKg0Kealixzy3SnFEgwownRy/3UTIQ/tbw9bkCHT/uIV5pdxPKJy/duQ554pHE=
-Received: from yoda.home (unknown [96.21.170.108])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by pb-smtp1.pobox.com (Postfix) with ESMTPSA id D2FE7125CAD;
-        Wed, 20 Jul 2022 16:21:57 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-Received: from xanadu.home (xanadu [192.168.2.2])
-        by yoda.home (Postfix) with ESMTPSA id BA6E336CF17;
-        Wed, 20 Jul 2022 16:21:56 -0400 (EDT)
-Date:   Wed, 20 Jul 2022 16:21:56 -0400 (EDT)
-From:   Nicolas Pitre <nico@fluxnic.net>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-cc:     Olliver Schinagl <oliver+list@schinagl.nl>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-In-Reply-To: <CANiq72kz+Txauo+103_-fN_J8PhhCdJUH5XepShUQmJzW6a4tA@mail.gmail.com>
-Message-ID: <1163467-64s-p66r-r077-35s058258150@syhkavp.arg>
-References: <20210414184604.23473-1-ojeda@kernel.org> <fae4873e-2ff9-df35-0ab9-34bf4417b717@schinagl.nl> <CANiq72mRxM-7griYF+0FWqYoSoNL8ad=L-i6a2-GsaCeb0C6qQ@mail.gmail.com> <ba8cb315-9d73-2f45-8bf9-d9473d369dca@schinagl.nl>
- <CANiq72kz+Txauo+103_-fN_J8PhhCdJUH5XepShUQmJzW6a4tA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Pobox-Relay-ID: 9ABA17EC-0869-11ED-AC82-5E84C8D8090B-78420484!pb-smtp1.pobox.com
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,URIBL_CSS autolearn=ham autolearn_force=no version=3.4.6
+        Wed, 20 Jul 2022 19:23:42 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DC3A15A07
+        for <linux-kbuild@vger.kernel.org>; Wed, 20 Jul 2022 16:23:41 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id j2-20020a2597c2000000b0064b3e54191aso14277143ybo.20
+        for <linux-kbuild@vger.kernel.org>; Wed, 20 Jul 2022 16:23:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=R+/1pbXuzmkVkOVy5qVFEBVHEW28THt6o2fZNxe3Mxk=;
+        b=PdnjK40uqE0rlZAfyoGITLGrx0eRz5JxZ7VRQIerUO+mUtU6DdggO5Ajy3NGMqmKow
+         IeTieM6BTy5sLQqE8tqL1gpZrGtnd8WELTcYjwIotVkVpwAmvUXJSnkmcFGeAh4xIinb
+         7RBd2n0ycGcN6sTR2j6mt5AOt68f/L+sYICQWEAnAyOAx2po/n6Ub2jx+vDZ3Ys7cOR/
+         cLNwNFxXPYWtryBkP+jxU/WJARD+Up+a9L3wTOxEIWs6amWDeG9gjWhf2pMlFsiXhGCB
+         qqDicb5nVMv2sAlb/DqGazIarpYZDaOi91FxuwIMwuUd+WPztxwagBMiWLBinCi1D6Sw
+         34MA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=R+/1pbXuzmkVkOVy5qVFEBVHEW28THt6o2fZNxe3Mxk=;
+        b=ADDosfHTvas9tiVc3IlttOidFq2amxsdsjklGrV5iHP7UnI5D8+mQ3Zx4oGV7tg3Fd
+         w8eg1oUyr4dIzwS1YoRDvvgJE/mb7KnReQVka3ob18SUcNklu3zuvkmwjLiYhig9Gtep
+         RZib/Yl7OrRwTb97IbMFdKZY4krFoe5bkbbeW1VgMxPq5+DjAFZEhEM1BneGs8+QDhzV
+         4gMSa0vx4zeng/tYVvnOtv5QZm48HnYKvYH/oRsescX12UprLTF3IRMoygcUGst1TEZE
+         g6McHnH6vTXH+EKrdq7XfJ6GR/b902ipZvJWZP9lldu9AqOFtAKcl3rJrnOCVvHHpAsP
+         ftlA==
+X-Gm-Message-State: AJIora+iU7kdAL38HWVXFgsE04QBxmQG8mjdPe6hhvxUL0cvfE9vePOY
+        5Y6Uqz+7WzoV6W8Dyd982DOTNO5x4PpVw1hQxw==
+X-Google-Smtp-Source: AGRyM1s5yy+h6QaK+AjrtLq6y3FlnydodI5uH79guzSZhcFTGxDYwsSbdfDP6/AXl1R0X9J2R2ETP9lL6nC7QgPDCw==
+X-Received: from justinstitt.mtv.corp.google.com ([2620:15c:211:202:c00d:c17d:52be:ff65])
+ (user=justinstitt job=sendgmr) by 2002:a05:6902:102f:b0:66f:1145:af6e with
+ SMTP id x15-20020a056902102f00b0066f1145af6emr38142323ybt.509.1658359420516;
+ Wed, 20 Jul 2022 16:23:40 -0700 (PDT)
+Date:   Wed, 20 Jul 2022 16:23:32 -0700
+Message-Id: <20220720232332.2720091-1-justinstitt@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.37.0.170.g444d1eabd0-goog
+Subject: [PATCH] Makefile.extrawarn: re-enable -Wformat for clang
+From:   Justin Stitt <justinstitt@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Tom Rix <trix@redhat.com>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+        Justin Stitt <justinstitt@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, 20 Jul 2022, Miguel Ojeda wrote:
+There's been an ongoing mission to re-enable the -Wformat warning for
+Clang. A previous attempt at enabling the warning showed that there were
+many instances of this warning throughout the codebase. The sheer amount
+of these warnings really polluted builds and thus -Wno-format was added
+to _temporarily_ toggle them off.
 
-> On Mon, Jul 18, 2022 at 8:56 AM Olliver Schinagl
-> <oliver+list@schinagl.nl> wrote:
-> 
-> > Secondly, and more importantly so; you argue 'who cares about people
-> > with disablements, atleast its equally hard to read everywhere' which is
-> > a very poor argument :p
-> 
-> No, and I want to be __very__ clear about this: at no point I have
-> argued "who cares about people with disabilities" or anything like it.
-> It is insulting that you even suggest it.
+After many patches the warning has largely been eradicated for x86,
+x86_64, arm, and arm64 on a variety of configs. The time to enable the
+warning has never been better as it seems for the first time we are
+ahead of them and can now solve them as they appear rather than tackling
+from a backlog.
 
-What "people with disablements" have to do with this anyway?
-I don't get it.
+As to the root cause of this large backlog of warnings, Clang seems to
+pickup on some more nuanced cases of format warnings caused by implicit
+integer conversion as well as default argument promotions from
+printf-like functions.
 
 
-Nicolas
+Link: https://github.com/ClangBuiltLinux/linux/issues/378
+Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
+Signed-off-by: Justin Stitt <justinstitt@google.com>
+---
+Previous attempt: (https://patchwork.kernel.org/project/linux-kbuild/patch/20190201210853.244043-1-jflat@chromium.org/)
+
+Note:
+For this patch to land on its feet, the plethora of supporting patches that
+fixed various -Wformat warnings need to be picked up. Thanfully, a lot
+of them have!
+
+Here are the patches still waiting to be picked up:
+* https://lore.kernel.org/all/20220718230626.1029318-1-justinstitt@google.com/
+* https://lore.kernel.org/all/20220711222919.2043613-1-justinstitt@google.com/
+
+ scripts/Makefile.extrawarn | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+index f5f0d6f09053..9bbaf7112a9b 100644
+--- a/scripts/Makefile.extrawarn
++++ b/scripts/Makefile.extrawarn
+@@ -47,7 +47,6 @@ else
+ 
+ ifdef CONFIG_CC_IS_CLANG
+ KBUILD_CFLAGS += -Wno-initializer-overrides
+-KBUILD_CFLAGS += -Wno-format
+ KBUILD_CFLAGS += -Wno-sign-compare
+ KBUILD_CFLAGS += -Wno-format-zero-length
+ KBUILD_CFLAGS += $(call cc-disable-warning, pointer-to-enum-cast)
+-- 
+2.37.0.170.g444d1eabd0-goog
+
