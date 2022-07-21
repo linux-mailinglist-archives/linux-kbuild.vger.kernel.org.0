@@ -2,57 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B1DA57D4CC
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Jul 2022 22:32:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBF3F57D60B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Jul 2022 23:34:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230392AbiGUUcV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 21 Jul 2022 16:32:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59622 "EHLO
+        id S229533AbiGUVeC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 21 Jul 2022 17:34:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230019AbiGUUcU (ORCPT
+        with ESMTP id S233284AbiGUVeA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 21 Jul 2022 16:32:20 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AFAD8810A
-        for <linux-kbuild@vger.kernel.org>; Thu, 21 Jul 2022 13:32:19 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id b11so5060504eju.10
-        for <linux-kbuild@vger.kernel.org>; Thu, 21 Jul 2022 13:32:19 -0700 (PDT)
+        Thu, 21 Jul 2022 17:34:00 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE34A93609
+        for <linux-kbuild@vger.kernel.org>; Thu, 21 Jul 2022 14:33:56 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id mf4so5395168ejc.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 21 Jul 2022 14:33:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=zccUArvHbZkwSLlopBVJYUUMkElLghD6qyHZAjaPBgs=;
-        b=NFaShSkqPcwWe0I+zdT08zjLl533SqHJSZMCnmrymqmk4kjxbEiMj1gB+9m9KkqG7L
-         dTg9IOB4dnPKkcRkYGmYvzzXlf0B83BKWotFKSZAx57vDpeJ4Qgfe+ihjM36eO717Yy0
-         9Fv2ZOi8mbDTHegwxc7Vtpf+ATsjJLllPJookEK7zZJMRVvOatBpCrqkcf1rmrxgwBSl
-         2LE29TlLfDA9j3RVQHvM7ulDp7BOLhbSmbkmD8vRZwCR2TjhSgpMRJbIDt5Oh7UvlWjj
-         XQKXYil5HWSvMMYpbf4d9Z7WCDOnqOfJuBI3iFZLdX2KeWf+tZASuEHVkIjfQRZEd7fT
-         IYJw==
+        bh=6xUsjVHY4IFcGnNL3OHzfi3JB5gT58E2JC8oUj6p4aw=;
+        b=QK5KgP4Pw8Qhd81Gt7Q/YqCKFqcFaVIzeAogVjNZziqjSL7qGMk8SdNI4JGDbn4bG4
+         f/n92TTgYo5Ji0MoMMclGV2jdemeszTxbjdfb4GuMmsC3s7S0gEDqRG2tyCN7GMHTdPA
+         T1CW8NeOhwjlVhZ0ZIH+S7SIAattFW6Yll0JijutGeeLAGACCjbKmgr6tdy/5lpz7+nr
+         tH/RDM60E/w2cxzUNrP9EWsZ0dAO+aEQY407TAQ7YSoobmY1I3J97lupDeF8iz3sUSP+
+         YXLaZzd0iBkiWDFshO4NbIzrrYpCQbae6bpb30mzGdx0FB/wT1V4jkXDoXE3VSOaKMYR
+         ALww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=zccUArvHbZkwSLlopBVJYUUMkElLghD6qyHZAjaPBgs=;
-        b=fRclQSyZN4vuumnT9Gea2Q5YHLkPRfqFckJgFTovnhQWmejh0l7uUczTwK4Y8vsxXt
-         xGLZ6CJ6B4HXKzMspa7biyzSekURSY6fcTSJRNGSTdEmqF1bw8myfF2R9k+QmA5MaxY7
-         k02mA9k90PnxTsE0JquOMLYPZ9dW1ec4j6HmIHa8fvsRShgX7/D20NG/wrSmDGE02EvA
-         k5JmfsySs/EiyBys+r7scKGTWZRPiLBCFvAaIvxWP05VrvwujU1ex/zWIXVjKnn+m23c
-         2N+X8TGU8+eX0hII7VtxDBNS0jfFBeGm9z0T8Q0B3Nco9KqdBMcVmBeSIdCoHF9yPzse
-         QHpQ==
-X-Gm-Message-State: AJIora9JcamqW0HNnyybbA07w+j3yVkEMVVU72gQFDAxXDFlXeQqPBpw
-        qB/zNEkTAfoj02zkCUuDt/6pA0230nOZW0Qs8IgBfQ==
-X-Google-Smtp-Source: AGRyM1tzSQvKpl4YX6qzJ+Vj/spOW9tVhxrOJT0ZUayhQgAX5cMte9FQvPliZEAikinTo3i3z6T+rs/cSN3MZufNFus=
-X-Received: by 2002:a17:906:cc5a:b0:72b:1459:6faa with SMTP id
- mm26-20020a170906cc5a00b0072b14596faamr285506ejb.221.1658435537581; Thu, 21
- Jul 2022 13:32:17 -0700 (PDT)
+        bh=6xUsjVHY4IFcGnNL3OHzfi3JB5gT58E2JC8oUj6p4aw=;
+        b=RdKjELjL+hAFKba4gab24MO7i0z5Us+8js1FP1H3Dm6EXvN4n6q9y7x+zEDz39WxJy
+         6bTHDUKX0067SE8YV9gUoJ0+ptaGMyKMYXKOLhTfcArRcVd6X4JnYjhn3M5RKwHM7fP4
+         P9egmTYXqG8oXgT9BHF0QRF8loMVT0TskRs4Pjqah7Z3mehkf1zkkhmBk4wZ+p6VJZGI
+         /cYiivFErSkhcZ6Yeq96ntzKRgRjVIPwWJa9kAVcXB1PbGdoX948JLxYep769RtQniWB
+         bS3IFFNu0NZTd7OUjQC8p+ygZlR6mehy2MO/eADGuiTZqSjrj8ab3lVHxVNtbGS/Fnpp
+         eYUw==
+X-Gm-Message-State: AJIora9JvSKhH5TbCZhW/0OcIQ4Um7JkpmsyIFOLviLeianwqFq2sDkK
+        asOpjDdLJmCW27pXX2ZYE0DU98dvChj7GshOQbEXebUuVf+CLA==
+X-Google-Smtp-Source: AGRyM1t+5Z1ri6oq59SvaDNCDL7Tqss8HA7T2eDkmR3PEXwm6aUMQ9ZPJ5JCeCC5LfviidyjdZnUI3NCNtMK7CwGFTc=
+X-Received: by 2002:a17:906:5a67:b0:72b:610d:4aa4 with SMTP id
+ my39-20020a1709065a6700b0072b610d4aa4mr501939ejc.294.1658439234626; Thu, 21
+ Jul 2022 14:33:54 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220720232332.2720091-1-justinstitt@google.com>
  <CAKwvOdnSjyOdCZZ9AegCyfns3bvH3fbtbVgdThO2+rJAE=1bag@mail.gmail.com>
  <YtlsY2A2ZWK97Y8O@dev-arch.thelio-3990X> <YtmrCJjQrSbv8Aj1@dev-arch.thelio-3990X>
 In-Reply-To: <YtmrCJjQrSbv8Aj1@dev-arch.thelio-3990X>
 From:   Justin Stitt <justinstitt@google.com>
-Date:   Thu, 21 Jul 2022 13:32:06 -0700
-Message-ID: <CAFhGd8pNqX=ieoUciJpmm3VSj5yBsZsnsq-HryTYTWczdocFZQ@mail.gmail.com>
+Date:   Thu, 21 Jul 2022 14:33:43 -0700
+Message-ID: <CAFhGd8pk+0XEz0tMiJcwMM7B3NYF=yF4cHW8A-6-81SgpKFPNw@mail.gmail.com>
 Subject: Re: [PATCH] Makefile.extrawarn: re-enable -Wformat for clang
 To:     Nathan Chancellor <nathan@kernel.org>
 Cc:     Nick Desaulniers <ndesaulniers@google.com>,
@@ -65,7 +65,7 @@ Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -133,7 +133,9 @@ On Thu, Jul 21, 2022 at 12:37 PM Nathan Chancellor <nathan@kernel.org> wrote:
 > I still see the following warnings. I have suggested fixes, which I am happy to
 > send unless Justin wants to.
 
-I can tackle these by EOD.
+Thanks for reporting these. I got the patches sent out!
+
+I added bookkeeping below each warning.
 
 >
 > ========================================================================
@@ -168,6 +170,9 @@ I can tackle these by EOD.
 >                         return 0;
 >                 }
 >
+
+Patch: https://lore.kernel.org/all/20220721210331.4012015-1-justinstitt@google.com/
+
 > ========================================================================
 >
 > ARCH=hexagon allmodconfig + CONFIG_FRAME_WARN=0:
@@ -206,6 +211,9 @@ I can tackle these by EOD.
 >  #define REC_NUM_DEFAULT ((THREAD_SIZE / REC_STACK_SIZE) * 2)
 >
 >
+
+Patch: https://lore.kernel.org/all/20220721212012.4060328-1-justinstitt@google.com/
+
 > ========================================================================
 >
 > ARCH=arm allmodconfig:
@@ -230,6 +238,7 @@ I can tackle these by EOD.
 > This one is not clang specific and already has a fix pending:
 >
 > https://lore.kernel.org/20220718050356.227647-1-hch@lst.de/
+Patch: ^^^^^^^^^
 >
 > ========================================================================
 >
@@ -290,6 +299,9 @@ I can tackle these by EOD.
 >                  SOF_ABI_MAJOR, SOF_ABI_MINOR, SOF_ABI_PATCH);
 >
 >
+
+Patch: https://lore.kernel.org/all/20220721211218.4039288-1-justinstitt@google.com/
+
 > ========================================================================
 >
 > I would really like to see patches in flight for these before this patch
