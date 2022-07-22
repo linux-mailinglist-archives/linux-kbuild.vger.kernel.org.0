@@ -2,59 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0840757D961
-	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Jul 2022 06:18:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F11E757D96B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Jul 2022 06:21:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229505AbiGVESu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 22 Jul 2022 00:18:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50018 "EHLO
+        id S229979AbiGVEV0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 22 Jul 2022 00:21:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbiGVESu (ORCPT
+        with ESMTP id S229479AbiGVEVZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 22 Jul 2022 00:18:50 -0400
-Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 546E097489;
-        Thu, 21 Jul 2022 21:18:46 -0700 (PDT)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 26M4IWK8014154;
-        Fri, 22 Jul 2022 13:18:33 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 26M4IWK8014154
+        Fri, 22 Jul 2022 00:21:25 -0400
+Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 605CC97498;
+        Thu, 21 Jul 2022 21:21:24 -0700 (PDT)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 26M4L7ML021313;
+        Fri, 22 Jul 2022 13:21:08 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 26M4L7ML021313
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1658463514;
-        bh=Ok0nOaP8oSs4IsxJgNmxPBZo8Rj007X6d6MNVegX7o4=;
+        s=dec2015msa; t=1658463668;
+        bh=OEip7BONkb2erWAIqYnB3BgqhTayepaKvTIy6aAPLK4=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=LILVG5vXh/gx1pg20dkI23AA+joRtwJIvR4opJPw/Wl4OavC6gbljUAo7XGEum154
-         eyJbT0ofZkTI7qVX1hRJA3UtEV/EkZdIktTXJWX2a0tk3xEWx0NbjsLnqNtI5UINfp
-         DDNS/gycvdXIlucqTcYJeIBYDweRCLmfyBE2JylmXLhHqKGR8Jb0lusuOgMronzbIf
-         CBEIKc7irOCA0pQctVPNnaoqcuOkFDkSmDwWq7ae8IjOTWuG8JhQkAjD6JEirK033l
-         YoIMiEAZcdOFje7hcyI4ij5QJRp1dWSceBg1r9Wnzcd2CE/YHp+a1Cmv47aKps8f8+
-         SOyrOumC9zAxg==
-X-Nifty-SrcIP: [209.85.221.47]
-Received: by mail-wr1-f47.google.com with SMTP id d16so4881085wrv.10;
-        Thu, 21 Jul 2022 21:18:33 -0700 (PDT)
-X-Gm-Message-State: AJIora/ZSkVB0tXL5nX1+8yr6kY8lHo9i1/G9CtQQDfnTOdcAwYICAXr
-        XxdxXPUbIPpgQFunFhzOMfUJ9SNyUPJdGA08yJ4=
-X-Google-Smtp-Source: AGRyM1u5nfm43QHHmAHAOm+9cxM7c8Tn1/hWbXKtPajhve+bG846G4KjqKggTUGEwubKaGd3M8kNT3hnvqT8ZbqPwlg=
-X-Received: by 2002:adf:d1e2:0:b0:21d:d40b:d816 with SMTP id
- g2-20020adfd1e2000000b0021dd40bd816mr953262wrd.682.1658463512097; Thu, 21 Jul
- 2022 21:18:32 -0700 (PDT)
+        b=vRNMEmwRXdykKsKDONRyITF3SjwpIBUPDDaNvVbKabic7RgAEgsCPxtD+w1FFj9KI
+         8LXat4NqAUwFS/J2WVNIEYskrk1BgSlWQxaGXvjslXOd1Zis9L1CX+o66n67lmlzNs
+         C+WzazpEm15wUQYpZlAn73c8Fa3zdc/0bSh184yaUQYwzhrcLGTEJeW4+zRcY8kH2y
+         Mk4vH6W76vI/IvMpGvIhsf4VCuIuroHUgn/EsKBLwvjAhBxOf4a3sc9vNf7W+mBkJx
+         hDOwBQYdAYokFtwL46wMQVY5zjo08kNp9A7U01jnjgPqhUSuxoGC7eF6cRabqsiaJv
+         vf84Loc1gKl1A==
+X-Nifty-SrcIP: [209.85.128.43]
+Received: by mail-wm1-f43.google.com with SMTP id x23-20020a05600c179700b003a30e3e7989so1822064wmo.0;
+        Thu, 21 Jul 2022 21:21:08 -0700 (PDT)
+X-Gm-Message-State: AJIora/lVMz07bnTtravYmEGB3B722P5uN/ESaBJG7k4iSwe9+P7Ylea
+        G8z6DkBt0Cq4ufP0eBs//ZUW45fPFTugfSim3bI=
+X-Google-Smtp-Source: AGRyM1slKDNAES6s8DwAXFmZqCz0NU9JeRmpExdPGRV1IIItxxTteO7GbspvNtzdeSMHsI/VDdE211QpWd7KePOFFbg=
+X-Received: by 2002:a05:600c:a42:b0:39c:9086:8a34 with SMTP id
+ c2-20020a05600c0a4200b0039c90868a34mr10786453wmq.169.1658463667129; Thu, 21
+ Jul 2022 21:21:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220720232332.2720091-1-justinstitt@google.com>
- <CAKwvOdnSjyOdCZZ9AegCyfns3bvH3fbtbVgdThO2+rJAE=1bag@mail.gmail.com> <YtlsY2A2ZWK97Y8O@dev-arch.thelio-3990X>
-In-Reply-To: <YtlsY2A2ZWK97Y8O@dev-arch.thelio-3990X>
+References: <CGME20220716081736epcas2p346100e67cf44b1dbb79f6e2a4ab07dbf@epcas2p3.samsung.com>
+ <20220716084532.2324050-1-youngmin.nam@samsung.com>
+In-Reply-To: <20220716084532.2324050-1-youngmin.nam@samsung.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 22 Jul 2022 13:17:55 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASi_yrPhf0wv+0nqRcNhhbwUn-PzHvuiV2W1EsTqd_D8Q@mail.gmail.com>
-Message-ID: <CAK7LNASi_yrPhf0wv+0nqRcNhhbwUn-PzHvuiV2W1EsTqd_D8Q@mail.gmail.com>
-Subject: Re: [PATCH] Makefile.extrawarn: re-enable -Wformat for clang
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>,
-        Michal Marek <michal.lkml@markovi.net>,
+Date:   Fri, 22 Jul 2022 13:20:30 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR3YGoQU6ZTZmC84C1OoH0rPinjoyPDXCD0BDPoRS4NDA@mail.gmail.com>
+Message-ID: <CAK7LNAR3YGoQU6ZTZmC84C1OoH0rPinjoyPDXCD0BDPoRS4NDA@mail.gmail.com>
+Subject: Re: [PATCH] Makefile.extrawarn: add -Wformat-insufficient-args for
+ clang build
+To:     Youngmin Nam <youngmin.nam@samsung.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <llvm@lists.linux.dev>,
-        Justin Stitt <justinstitt@google.com>
+        hosung0.kim@samsung.com, d7271.choe@samsung.com
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
@@ -65,106 +64,46 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jul 22, 2022 at 12:10 AM Nathan Chancellor <nathan@kernel.org> wrote:
+On Sat, Jul 16, 2022 at 5:17 PM Youngmin Nam <youngmin.nam@samsung.com> wrote:
 >
-> On Thu, Jul 21, 2022 at 07:27:34AM -0700, Nick Desaulniers wrote:
-> > On Wed, Jul 20, 2022 at 4:23 PM Justin Stitt <justinstitt@google.com> wrote:
-> > >
-> > > There's been an ongoing mission to re-enable the -Wformat warning for
-> > > Clang. A previous attempt at enabling the warning showed that there were
-> > > many instances of this warning throughout the codebase. The sheer amount
-> > > of these warnings really polluted builds and thus -Wno-format was added
-> > > to _temporarily_ toggle them off.
-> > >
-> > > After many patches the warning has largely been eradicated for x86,
-> > > x86_64, arm, and arm64 on a variety of configs. The time to enable the
-> > > warning has never been better as it seems for the first time we are
-> > > ahead of them and can now solve them as they appear rather than tackling
-> > > from a backlog.
-> > >
-> > > As to the root cause of this large backlog of warnings, Clang seems to
-> > > pickup on some more nuanced cases of format warnings caused by implicit
-> > > integer conversion as well as default argument promotions from
-> > > printf-like functions.
-> > >
-> > >
-> > > Link: https://github.com/ClangBuiltLinux/linux/issues/378
-> > > Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
-> > > Signed-off-by: Justin Stitt <justinstitt@google.com>
-> > > ---
-> > > Previous attempt: (https://patchwork.kernel.org/project/linux-kbuild/patch/20190201210853.244043-1-jflat@chromium.org/)
-> > >
-> > > Note:
-> > > For this patch to land on its feet, the plethora of supporting patches that
-> > > fixed various -Wformat warnings need to be picked up. Thanfully, a lot
-> > > of them have!
-> > >
-> > > Here are the patches still waiting to be picked up:
-> > > * https://lore.kernel.org/all/20220718230626.1029318-1-justinstitt@google.com/
-> > > * https://lore.kernel.org/all/20220711222919.2043613-1-justinstitt@google.com/
-> >
-> > Hi Masahiro, Nathan, and Tom,
-> > What are your thoughts for _when_ in the release cycle this should be
-> > picked up?  I worry that if we don't remove this soon, we will
-> > backslide, and more -Wformat issues will crop up making removing this
-> > in the future like digging in sand.  Justin has chased down many
-> > instances of this warning, and I'm happy to help clean up fallout from
-> > landing this.
+> The -Wformat-insufficient-args for clang is useful to detect the situation
+> when the total number is unmatched between format specifiers and arguments.
 >
-> Let me do a series of builds with the two patches above against
-> next-20220721 to see if there are any instances of this warning across
-> the less frequently tested architectures then I will review/ack this.
+> Originally, this option is enabled by default(Link[1]), but it is disabled by
+> -Wno-format explicitly so that we can't detect this unmatched situation.
 >
-> I don't think we need to worry much about backslide, as -Wformat is
-> enabled with W=1, which the 0day folks already test with, so new
-> instances of this warning should get reported to the authors when they
-> are introduced so they can be fixed immediately. However, I would still
-> like to see this applied sooner rather than later, although I would also
-> like us to be completely warning clean before doing so, especially with
-> -Werror now being selected with all{mod,yes}config. -rc8 is this Sunday
-> and final should be July 31st so I think this could be applied at some
-> point between those two dates then maybe sent to Linus for a late pull
-> request once all other trees have been merged but that is ultimately up
-> to Masahiro.
-
-OK, I think that will be good timing.
-Please ping me if I forget to pick it up.
-
-I still worry about my pull request being rejected.
-
-
-
-
-
+> We can enable it by adding this option after -Wno-format.
 >
-> Cheers,
-> Nathan
->
-> > >
-> > >  scripts/Makefile.extrawarn | 1 -
-> > >  1 file changed, 1 deletion(-)
-> > >
-> > > diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-> > > index f5f0d6f09053..9bbaf7112a9b 100644
-> > > --- a/scripts/Makefile.extrawarn
-> > > +++ b/scripts/Makefile.extrawarn
-> > > @@ -47,7 +47,6 @@ else
-> > >
-> > >  ifdef CONFIG_CC_IS_CLANG
-> > >  KBUILD_CFLAGS += -Wno-initializer-overrides
-> > > -KBUILD_CFLAGS += -Wno-format
-> > >  KBUILD_CFLAGS += -Wno-sign-compare
-> > >  KBUILD_CFLAGS += -Wno-format-zero-length
-> > >  KBUILD_CFLAGS += $(call cc-disable-warning, pointer-to-enum-cast)
-> > > --
-> > > 2.37.0.170.g444d1eabd0-goog
-> > >
-> >
-> >
-> > --
-> > Thanks,
-> > ~Nick Desaulniers
+> Link[1]: https://releases.llvm.org/13.0.0/tools/clang/docs/DiagnosticsReference.html#wformat-insufficient-args
+> Signed-off-by: Youngmin Nam <youngmin.nam@samsung.com>
+> ---
 
+
+Please let me hold on this patch because
+I'd rather go straight to the removal of  -Wno-format.
+
+https://lore.kernel.org/linux-kbuild/CAFhGd8pk+0XEz0tMiJcwMM7B3NYF=yF4cHW8A-6-81SgpKFPNw@mail.gmail.com/T/#m4becf6ed91f25217b59a840ed1829f36e49fe347
+
+
+
+>  scripts/Makefile.extrawarn | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+> index f5f0d6f09053..c23d7c286bad 100644
+> --- a/scripts/Makefile.extrawarn
+> +++ b/scripts/Makefile.extrawarn
+> @@ -48,6 +48,7 @@ else
+>  ifdef CONFIG_CC_IS_CLANG
+>  KBUILD_CFLAGS += -Wno-initializer-overrides
+>  KBUILD_CFLAGS += -Wno-format
+> +KBUILD_CFLAGS += -Wformat-insufficient-args
+>  KBUILD_CFLAGS += -Wno-sign-compare
+>  KBUILD_CFLAGS += -Wno-format-zero-length
+>  KBUILD_CFLAGS += $(call cc-disable-warning, pointer-to-enum-cast)
+> --
+> 2.34.0
+>
 
 
 -- 
