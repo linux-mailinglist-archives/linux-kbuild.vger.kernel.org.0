@@ -2,312 +2,280 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CBF3F57D60B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Jul 2022 23:34:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3708E57D882
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Jul 2022 04:24:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229533AbiGUVeC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 21 Jul 2022 17:34:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50524 "EHLO
+        id S229781AbiGVCY3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 21 Jul 2022 22:24:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233284AbiGUVeA (ORCPT
+        with ESMTP id S233969AbiGVCY1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 21 Jul 2022 17:34:00 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE34A93609
-        for <linux-kbuild@vger.kernel.org>; Thu, 21 Jul 2022 14:33:56 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id mf4so5395168ejc.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 21 Jul 2022 14:33:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6xUsjVHY4IFcGnNL3OHzfi3JB5gT58E2JC8oUj6p4aw=;
-        b=QK5KgP4Pw8Qhd81Gt7Q/YqCKFqcFaVIzeAogVjNZziqjSL7qGMk8SdNI4JGDbn4bG4
-         f/n92TTgYo5Ji0MoMMclGV2jdemeszTxbjdfb4GuMmsC3s7S0gEDqRG2tyCN7GMHTdPA
-         T1CW8NeOhwjlVhZ0ZIH+S7SIAattFW6Yll0JijutGeeLAGACCjbKmgr6tdy/5lpz7+nr
-         tH/RDM60E/w2cxzUNrP9EWsZ0dAO+aEQY407TAQ7YSoobmY1I3J97lupDeF8iz3sUSP+
-         YXLaZzd0iBkiWDFshO4NbIzrrYpCQbae6bpb30mzGdx0FB/wT1V4jkXDoXE3VSOaKMYR
-         ALww==
+        Thu, 21 Jul 2022 22:24:27 -0400
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B668A97A0A
+        for <linux-kbuild@vger.kernel.org>; Thu, 21 Jul 2022 19:24:25 -0700 (PDT)
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com [209.85.210.70])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 427EE3F131
+        for <linux-kbuild@vger.kernel.org>; Fri, 22 Jul 2022 02:24:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1658456663;
+        bh=gE2fBCxSAZxAZ1e5pYBDGgK4+lgINM9j58AumI+dplg=;
+        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
+        b=YbKCXytefaaqCKNx2yTnpabC2q1+DCbtNlAI3jJL0rLGfN66MhCzrQmn7qBqGKGTP
+         MbxldIoTD99N4T/Xm30NaBA3nhPugNpMqkJLMW/fIBuLp/c2n+0Bjb4LYU6/21Cbvf
+         GIhEkROOX58pqr6REfRk0z4BYv4Ofg3vUDxaldALXaIRu5DgWEJO9WqMI7ogi41bNq
+         8raj9pO0AOBKZ7YGLbVnuuIv6HJYjgWtaPssf17PBysX7ti0wAsjES6s2zqKYFoPSo
+         JxXydNfiNxbTZBPTnaDz3pisKejPKqqzyNlMKq/8t+wTJNYr39xvr5kORrNeJkiXQn
+         6ThLWJ3vGqYOA==
+Received: by mail-ot1-f70.google.com with SMTP id cy24-20020a056830699800b0061c76d644e3so1636501otb.21
+        for <linux-kbuild@vger.kernel.org>; Thu, 21 Jul 2022 19:24:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6xUsjVHY4IFcGnNL3OHzfi3JB5gT58E2JC8oUj6p4aw=;
-        b=RdKjELjL+hAFKba4gab24MO7i0z5Us+8js1FP1H3Dm6EXvN4n6q9y7x+zEDz39WxJy
-         6bTHDUKX0067SE8YV9gUoJ0+ptaGMyKMYXKOLhTfcArRcVd6X4JnYjhn3M5RKwHM7fP4
-         P9egmTYXqG8oXgT9BHF0QRF8loMVT0TskRs4Pjqah7Z3mehkf1zkkhmBk4wZ+p6VJZGI
-         /cYiivFErSkhcZ6Yeq96ntzKRgRjVIPwWJa9kAVcXB1PbGdoX948JLxYep769RtQniWB
-         bS3IFFNu0NZTd7OUjQC8p+ygZlR6mehy2MO/eADGuiTZqSjrj8ab3lVHxVNtbGS/Fnpp
-         eYUw==
-X-Gm-Message-State: AJIora9JvSKhH5TbCZhW/0OcIQ4Um7JkpmsyIFOLviLeianwqFq2sDkK
-        asOpjDdLJmCW27pXX2ZYE0DU98dvChj7GshOQbEXebUuVf+CLA==
-X-Google-Smtp-Source: AGRyM1t+5Z1ri6oq59SvaDNCDL7Tqss8HA7T2eDkmR3PEXwm6aUMQ9ZPJ5JCeCC5LfviidyjdZnUI3NCNtMK7CwGFTc=
-X-Received: by 2002:a17:906:5a67:b0:72b:610d:4aa4 with SMTP id
- my39-20020a1709065a6700b0072b610d4aa4mr501939ejc.294.1658439234626; Thu, 21
- Jul 2022 14:33:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220720232332.2720091-1-justinstitt@google.com>
- <CAKwvOdnSjyOdCZZ9AegCyfns3bvH3fbtbVgdThO2+rJAE=1bag@mail.gmail.com>
- <YtlsY2A2ZWK97Y8O@dev-arch.thelio-3990X> <YtmrCJjQrSbv8Aj1@dev-arch.thelio-3990X>
-In-Reply-To: <YtmrCJjQrSbv8Aj1@dev-arch.thelio-3990X>
-From:   Justin Stitt <justinstitt@google.com>
-Date:   Thu, 21 Jul 2022 14:33:43 -0700
-Message-ID: <CAFhGd8pk+0XEz0tMiJcwMM7B3NYF=yF4cHW8A-6-81SgpKFPNw@mail.gmail.com>
-Subject: Re: [PATCH] Makefile.extrawarn: re-enable -Wformat for clang
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Tom Rix <trix@redhat.com>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gE2fBCxSAZxAZ1e5pYBDGgK4+lgINM9j58AumI+dplg=;
+        b=lg48txNeako2fM6477Vg3h9p3UxV+8yjXNKHJQkdC9TLPEDQSG4jv2ADoT+yKxxmDH
+         WXWf8V/FrP32kxj71uZ6c0HwarhV+jtPq+Ix2dBK0ZICLtVEKTPbaVFLJxwyqRslDs8h
+         eMMJ9OT44Cao3Rf6gkG6bDh/o142fe0HiSpwNOVIQFggf536ixEUooYmuJSS+l4BN6y3
+         +sXmALhTFXMP+99kfIF2bpf/7orHUB8VgB8nQ2Hj0jicPmTrYOmO/49dQqedFxlXwdGC
+         omvkOrL458bVBw3FYpumGgluh/jKfa6irCUYAUJzDKcB1QAe2L7FtE1smHkG9oRP9+RK
+         0jig==
+X-Gm-Message-State: AJIora8xwgAQZCRZwwpwyD/Wxu3UedSiXoNQK/NzXEGDWAClWm64uYM9
+        2G/ohZkEqfo7wPF3IljcCqQ0uLOYQ4am5A0T4Z6o17VH5r13/0IDPmFdJeZdquEDOILJnnPHyOk
+        uUQF79f1z69JRQbnkepOxePBZ/qKa5CMfAoFi1RgUuA==
+X-Received: by 2002:aca:5808:0:b0:33a:6ce9:6cef with SMTP id m8-20020aca5808000000b0033a6ce96cefmr485650oib.37.1658456661917;
+        Thu, 21 Jul 2022 19:24:21 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vUAvmwMyR83RiCEZqwtI9Za2Pb9qs6xEjYboEZH5/ptc+/s/m6H+qePEdaPU6dNi8LehfMlA==
+X-Received: by 2002:aca:5808:0:b0:33a:6ce9:6cef with SMTP id m8-20020aca5808000000b0033a6ce96cefmr485634oib.37.1658456661608;
+        Thu, 21 Jul 2022 19:24:21 -0700 (PDT)
+Received: from mfo-t470.. ([2804:14c:4e1:8732:c479:1206:16fb:ce1f])
+        by smtp.gmail.com with ESMTPSA id k23-20020a056870959700b000f5f4ad194bsm1814528oao.25.2022.07.21.19.24.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Jul 2022 19:24:21 -0700 (PDT)
+From:   Mauricio Faria de Oliveira <mfo@canonical.com>
+To:     linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>
+Subject: [RFC PATCH 0/6] Introduce "sysctl:" module aliases
+Date:   Thu, 21 Jul 2022 23:24:10 -0300
+Message-Id: <20220722022416.137548-1-mfo@canonical.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jul 21, 2022 at 12:37 PM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> On Thu, Jul 21, 2022 at 08:10:27AM -0700, Nathan Chancellor wrote:
-> > On Thu, Jul 21, 2022 at 07:27:34AM -0700, Nick Desaulniers wrote:
-> > > On Wed, Jul 20, 2022 at 4:23 PM Justin Stitt <justinstitt@google.com> wrote:
-> > > >
-> > > > There's been an ongoing mission to re-enable the -Wformat warning for
-> > > > Clang. A previous attempt at enabling the warning showed that there were
-> > > > many instances of this warning throughout the codebase. The sheer amount
-> > > > of these warnings really polluted builds and thus -Wno-format was added
-> > > > to _temporarily_ toggle them off.
-> > > >
-> > > > After many patches the warning has largely been eradicated for x86,
-> > > > x86_64, arm, and arm64 on a variety of configs. The time to enable the
-> > > > warning has never been better as it seems for the first time we are
-> > > > ahead of them and can now solve them as they appear rather than tackling
-> > > > from a backlog.
-> > > >
-> > > > As to the root cause of this large backlog of warnings, Clang seems to
-> > > > pickup on some more nuanced cases of format warnings caused by implicit
-> > > > integer conversion as well as default argument promotions from
-> > > > printf-like functions.
-> > > >
-> > > >
-> > > > Link: https://github.com/ClangBuiltLinux/linux/issues/378
-> > > > Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
-> > > > Signed-off-by: Justin Stitt <justinstitt@google.com>
-> > > > ---
-> > > > Previous attempt: (https://patchwork.kernel.org/project/linux-kbuild/patch/20190201210853.244043-1-jflat@chromium.org/)
-> > > >
-> > > > Note:
-> > > > For this patch to land on its feet, the plethora of supporting patches that
-> > > > fixed various -Wformat warnings need to be picked up. Thanfully, a lot
-> > > > of them have!
-> > > >
-> > > > Here are the patches still waiting to be picked up:
-> > > > * https://lore.kernel.org/all/20220718230626.1029318-1-justinstitt@google.com/
-> > > > * https://lore.kernel.org/all/20220711222919.2043613-1-justinstitt@google.com/
-> > >
-> > > Hi Masahiro, Nathan, and Tom,
-> > > What are your thoughts for _when_ in the release cycle this should be
-> > > picked up?  I worry that if we don't remove this soon, we will
-> > > backslide, and more -Wformat issues will crop up making removing this
-> > > in the future like digging in sand.  Justin has chased down many
-> > > instances of this warning, and I'm happy to help clean up fallout from
-> > > landing this.
-> >
-> > Let me do a series of builds with the two patches above against
-> > next-20220721 to see if there are any instances of this warning across
-> > the less frequently tested architectures then I will review/ack this.
->
-> Alright, against next-20220721, I applied:
->
-> * https://lore.kernel.org/20220712204900.660569-1-justinstitt@google.com/ (applied to net-next, just not in this -next release)
-> * https://lore.kernel.org/20220718230626.1029318-1-justinstitt@google.com/ (not picked up)
-> * https://lore.kernel.org/20220711222919.2043613-1-justinstitt@google.com/ (not picked up)
->
-> I still see the following warnings. I have suggested fixes, which I am happy to
-> send unless Justin wants to.
+This series allows modules to have "sysctl:<procname>" module aliases
+for sysctl entries, registering sysctl tables with modpost/file2alias.
+(Similarly to "pci:<IDs>" aliases for PCI ID tables in device drivers.)
 
-Thanks for reporting these. I got the patches sent out!
+The issue behind it: if a sysctl value is in /etc/sysctl.{conf,d/*.conf}
+but does not exist in /proc/sys/ when the userspace tool that applies it
+runs, it does not get set.
 
-I added bookkeeping below each warning.
+It would be nice if the tool could run 'modprobe sysctl:<something>' and
+get that '/proc/sys/.../something' up (as an administrator configured it)
+and then set it, as intended. (A bit like PCI ID-based module loading.)
 
->
-> ========================================================================
->
-> ARCH=arm allmodconfig:
->
-> ../drivers/iommu/msm_iommu.c:603:6: error: format specifies type 'unsigned short' but the argument has type 'int' [-Werror,-Wformat]
->                                  sid);
->                                  ^~~
-> ../include/linux/dev_printk.h:146:70: note: expanded from macro 'dev_warn'
->         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
->                                                                     ~~~     ^~~~~~~~~~~
-> ../include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
->                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
->                              ~~~    ^~~~~~~~~~~
-> 1 error generated.
->
-> Introduced by commit f78ebca8ff3d ("iommu/msm: Add support for generic master
-> bindings").
->
-> diff --git a/drivers/iommu/msm_iommu.c b/drivers/iommu/msm_iommu.c
-> index 428919a474c1..6a24aa804ea3 100644
-> --- a/drivers/iommu/msm_iommu.c
-> +++ b/drivers/iommu/msm_iommu.c
-> @@ -599,7 +599,7 @@ static int insert_iommu_master(struct device *dev,
->
->         for (sid = 0; sid < master->num_mids; sid++)
->                 if (master->mids[sid] == spec->args[0]) {
-> -                       dev_warn(dev, "Stream ID 0x%hx repeated; ignoring\n",
-> +                       dev_warn(dev, "Stream ID 0x%x repeated; ignoring\n",
->                                  sid);
->                         return 0;
->                 }
->
+...
 
-Patch: https://lore.kernel.org/all/20220721210331.4012015-1-justinstitt@google.com/
+The series is relatively simple, except for patch 4 (IMHO) due to ELF.
 
-> ========================================================================
->
-> ARCH=hexagon allmodconfig + CONFIG_FRAME_WARN=0:
->
-> ../drivers/misc/lkdtm/bugs.c:107:3: error: format specifies type 'unsigned long' but the argument has type 'int' [-Werror,-Wformat]
->                 REC_STACK_SIZE, recur_count);
->                 ^~~~~~~~~~~~~~
-> ../include/linux/printk.h:537:34: note: expanded from macro 'pr_info'
->         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
->                                 ~~~     ^~~~~~~~~~~
-> ../include/linux/printk.h:464:60: note: expanded from macro 'printk'
-> #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
->                                                     ~~~    ^~~~~~~~~~~
-> ../include/linux/printk.h:436:19: note: expanded from macro 'printk_index_wrap'
->                 _p_func(_fmt, ##__VA_ARGS__);                           \
->                         ~~~~    ^~~~~~~~~~~
-> ../drivers/misc/lkdtm/bugs.c:32:24: note: expanded from macro 'REC_STACK_SIZE'
-> #define REC_STACK_SIZE (THREAD_SIZE / 8)
->                        ^~~~~~~~~~~~~~~~~
-> 1 error generated.
->
-> Introduced by commit 24cccab42c41 ("lkdtm/bugs: Adjust recursion test to avoid
-> elision").
->
-> diff --git a/drivers/misc/lkdtm/bugs.c b/drivers/misc/lkdtm/bugs.c
-> index 009239ad1d8a..6381255aaecc 100644
-> --- a/drivers/misc/lkdtm/bugs.c
-> +++ b/drivers/misc/lkdtm/bugs.c
-> @@ -29,7 +29,7 @@ struct lkdtm_list {
->  #if defined(CONFIG_FRAME_WARN) && (CONFIG_FRAME_WARN > 0)
->  #define REC_STACK_SIZE (_AC(CONFIG_FRAME_WARN, UL) / 2)
->  #else
-> -#define REC_STACK_SIZE (THREAD_SIZE / 8)
-> +#define REC_STACK_SIZE ((unsigned long)(THREAD_SIZE / 8))
->  #endif
->  #define REC_NUM_DEFAULT ((THREAD_SIZE / REC_STACK_SIZE) * 2)
->
->
+- Patches 1-2 simplify ELF code in modpost.c (code moves, not in-depth).
+- Patches 3-4 implement the feature (patch 4 is more in-depth).
+- Patches 5-6 consume and expose it.
 
-Patch: https://lore.kernel.org/all/20220721212012.4060328-1-justinstitt@google.com/
+I have tested it on x86_64 with next-20220721, and it looks correct
+('modprobe sysctl:nf_conntrack_max' works; other aliases there; see below).
 
-> ========================================================================
->
-> ARCH=arm allmodconfig:
->
-> ../drivers/nvme/target/auth.c:492:18: error: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Werror,-Wformat]
->                         ctrl->cntlid, ctrl->dh_keysize, buf_size);
->                                       ^~~~~~~~~~~~~~~~
-> ../include/linux/printk.h:517:37: note: expanded from macro 'pr_warn'
->         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
->                                    ~~~     ^~~~~~~~~~~
-> ../include/linux/printk.h:464:60: note: expanded from macro 'printk'
-> #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
->                                                     ~~~    ^~~~~~~~~~~
-> ../include/linux/printk.h:436:19: note: expanded from macro 'printk_index_wrap'
->                 _p_func(_fmt, ##__VA_ARGS__);                           \
->                         ~~~~    ^~~~~~~~~~~
-> 1 error generated.
->
-> Introduced by commit 71ebe3842ebe ("nvmet-auth: Diffie-Hellman key exchange
-> support").
->
-> This one is not clang specific and already has a fix pending:
->
-> https://lore.kernel.org/20220718050356.227647-1-hch@lst.de/
-Patch: ^^^^^^^^^
->
-> ========================================================================
->
-> Pretty much every allmodconfig:
->
-> ../sound/soc/sof/ipc3-topology.c:2343:4: error: format specifies type 'unsigned char' but the argument has type 'int' [-Werror,-Wformat]
->                  SOF_ABI_MAJOR, SOF_ABI_MINOR, SOF_ABI_PATCH);
->                  ^~~~~~~~~~~~~
-> ../include/linux/dev_printk.h:150:67: note: expanded from macro 'dev_info'
->         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
->                                                                  ~~~     ^~~~~~~~~~~
-> ../include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
->                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
->                              ~~~    ^~~~~~~~~~~
-> ../include/uapi/sound/sof/abi.h:30:23: note: expanded from macro 'SOF_ABI_MAJOR'
-> #define SOF_ABI_MAJOR 3
->                       ^
-> ../sound/soc/sof/ipc3-topology.c:2343:19: error: format specifies type 'unsigned char' but the argument has type 'int' [-Werror,-Wformat]
->                  SOF_ABI_MAJOR, SOF_ABI_MINOR, SOF_ABI_PATCH);
->                                 ^~~~~~~~~~~~~
-> ../include/linux/dev_printk.h:150:67: note: expanded from macro 'dev_info'
->         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
->                                                                  ~~~     ^~~~~~~~~~~
-> ../include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
->                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
->                              ~~~    ^~~~~~~~~~~
-> ../include/uapi/sound/sof/abi.h:31:23: note: expanded from macro 'SOF_ABI_MINOR'
-> #define SOF_ABI_MINOR 22
->                       ^~
-> ../sound/soc/sof/ipc3-topology.c:2343:34: error: format specifies type 'unsigned char' but the argument has type 'int' [-Werror,-Wformat]
->                  SOF_ABI_MAJOR, SOF_ABI_MINOR, SOF_ABI_PATCH);
->                                                ^~~~~~~~~~~~~
-> ../include/linux/dev_printk.h:150:67: note: expanded from macro 'dev_info'
->         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
->                                                                  ~~~     ^~~~~~~~~~~
-> ../include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
->                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
->                              ~~~    ^~~~~~~~~~~
-> ../include/uapi/sound/sof/abi.h:32:23: note: expanded from macro 'SOF_ABI_PATCH'
-> #define SOF_ABI_PATCH 0
->                       ^
-> 3 errors generated.
->
-> Introduced by commit 323aa1f093e6 ("ASoC: SOF: Add a new IPC op for parsing
-> topology manifest") for little reason it seems?
->
-> diff --git a/sound/soc/sof/ipc3-topology.c b/sound/soc/sof/ipc3-topology.c
-> index b2cc046b9f60..65923e7a5976 100644
-> --- a/sound/soc/sof/ipc3-topology.c
-> +++ b/sound/soc/sof/ipc3-topology.c
-> @@ -2338,7 +2338,7 @@ static int sof_ipc3_parse_manifest(struct snd_soc_component *scomp, int index,
->         }
->
->         dev_info(scomp->dev,
-> -                "Topology: ABI %d:%d:%d Kernel ABI %hhu:%hhu:%hhu\n",
-> +                "Topology: ABI %d:%d:%d Kernel ABI %d:%d:%d\n",
->                  man->priv.data[0], man->priv.data[1], man->priv.data[2],
->                  SOF_ABI_MAJOR, SOF_ABI_MINOR, SOF_ABI_PATCH);
->
->
+I plan to test other archs by cross-building 'allmodconfig' and checking
+the .mod.c files and modpost output (eg, warnings) for no changes at all,
+and nf_conntrack.mod.c for expected sysctl aliases. [based on feedback.]
+(i.e., changes didn't break modpost, and ELF code works on other archs.)
 
-Patch: https://lore.kernel.org/all/20220721211218.4039288-1-justinstitt@google.com/
+Happy to receive suggestions to improve test coverage and functionality.
 
-> ========================================================================
->
-> I would really like to see patches in flight for these before this patch
-> is accepted but it is really awesome to see how close we are :)
->
-> Cheers,
-> Nathan
+I didn't look much at auto-registration with modpost using the register
+functions for sysctl, but it seems it would need plumbing, if possible.
 
--Justin
+Let's see review/feedback on the basics first.
+
+thanks,
+Mauricio
+
+...
+
+Some context.
+
+Even though that issue might be expected and obvious, its consequences
+sometimes are not.
+
+An example is the nf_conntrack_max value, that in busy gateways/routers
+/cloud deployments can affect performance and functionality more subtly,
+or even fill the kernel log non-stop with 'table full, dropping packet',
+if a value greater than the default value is not used.
+
+The current solution (workaround, arguably) for this is to include such
+modules in /etc/modules (or in /etc/modules-load.d/*.conf with systemd),
+which loads them before an userspace tool (procps's sysctl or systemd's
+systemd-sysctl{,.service}) runs, so /proc/sys/... exists when it runs.
+
+...
+
+That is simple, indeed, but comes w/ technical debt. (ugly stuff warning!)
+
+Now there are many _different_ pieces of code that use the _same_ module
+doing that (eg, deployment tools/scripts for openstack nova and neutron,
+firewalls, and maybe more).
+
+And sometimes when components are split or deployed to different nodes
+it turns out that in the next reboot we figure (through an issue) that
+some component did set /etc/sysctl.conf but not /etc/modules.conf, or
+relied in the ex-colocated component doing that.
+
+This has generated several one-off fixes at this point in some projects.
+(I have submitted one of those, actually, a while ago.)
+
+Also, some of those fixes (or original code) put 'nf_conntrack_ipv{4,6}'
+in /etc/modules, getting 'nf_conntrack' loaded via module dependencies
+(maybe it was the right module for them at the time, for some reason).
+
+So, that component (or a colocated component) got nf_conntrack.ko too.
+
+*BUT* after an upgrade from Ubuntu 18.04 (4.15-based kernel) to 20.04
+(5.4-based kernel), the nf_conntrack_ipv{4,6}.ko modules do not exist
+anymore, and now nf_conntrack.ko is no longer loaded, and the sysctl
+nf_conntrack_max is no longer applied. (Someone had to figure it out.)
+
+And now maybe we'd need release/kernel-version checks in scripts that
+use the workaround of /etc/modules for /etc/sysctl.conf configuration.
+
+(Yes, it was ugly stuff.)
+
+...
+
+Well, this last point seemed like "ok, that's enough; we can do better."
+
+I'm not sure this approach is "better" in all reasons, but hopefully it
+might help starting something that is. 🙏
+
+cheers,
+Mauricio
+
+...
+
+Tests:
+
+    $ cat /proc/sys/kernel/modprobe_sysctl_alias
+    1
+    
+    $ cat /proc/sys/net/netfilter/nf_conntrack_max
+    cat: /proc/sys/net/netfilter/nf_conntrack_max: No such file or directory
+    
+    $ lsmod | grep nf_conntrack
+    $
+    
+    $ sudo modprobe sysctl:nf_conntrack_max
+    
+    $ cat /proc/sys/net/netfilter/nf_conntrack_max
+    262144
+    
+    $ lsmod | grep nf_conntrack
+    nf_conntrack          110592  0
+    nf_defrag_ipv6         20480  1 nf_conntrack
+    nf_defrag_ipv4         16384  1 nf_conntrack
+    
+    $ modinfo nf_conntrack | grep ^alias:
+    alias:          nf_conntrack-10
+    alias:          nf_conntrack-2
+    alias:          ip_conntrack
+    alias:          sysctl:nf_conntrack_icmpv6_timeout
+    alias:          sysctl:nf_conntrack_icmp_timeout
+    alias:          sysctl:nf_conntrack_udp_timeout_stream
+    alias:          sysctl:nf_conntrack_udp_timeout
+    alias:          sysctl:nf_conntrack_tcp_max_retrans
+    alias:          sysctl:nf_conntrack_tcp_ignore_invalid_rst
+    alias:          sysctl:nf_conntrack_tcp_be_liberal
+    alias:          sysctl:nf_conntrack_tcp_loose
+    alias:          sysctl:nf_conntrack_tcp_timeout_unacknowledged
+    alias:          sysctl:nf_conntrack_tcp_timeout_max_retrans
+    alias:          sysctl:nf_conntrack_tcp_timeout_close
+    alias:          sysctl:nf_conntrack_tcp_timeout_time_wait
+    alias:          sysctl:nf_conntrack_tcp_timeout_last_ack
+    alias:          sysctl:nf_conntrack_tcp_timeout_close_wait
+    alias:          sysctl:nf_conntrack_tcp_timeout_fin_wait
+    alias:          sysctl:nf_conntrack_tcp_timeout_established
+    alias:          sysctl:nf_conntrack_tcp_timeout_syn_recv
+    alias:          sysctl:nf_conntrack_tcp_timeout_syn_sent
+    alias:          sysctl:nf_conntrack_generic_timeout
+    alias:          sysctl:nf_conntrack_helper
+    alias:          sysctl:nf_conntrack_acct
+    alias:          sysctl:nf_conntrack_expect_max
+    alias:          sysctl:nf_conntrack_log_invalid
+    alias:          sysctl:nf_conntrack_checksum
+    alias:          sysctl:nf_conntrack_buckets
+    alias:          sysctl:nf_conntrack_count
+    alias:          sysctl:nf_conntrack_max
+    
+    $ modinfo r8169 | grep ^alias:
+    alias:          pci:v000010ECd00003000sv*sd*bc*sc*i*
+    alias:          pci:v000010ECd00008125sv*sd*bc*sc*i*
+    alias:          pci:v00000001d00008168sv*sd00002410bc*sc*i*
+    alias:          pci:v00001737d00001032sv*sd00000024bc*sc*i*
+    alias:          pci:v000016ECd00000116sv*sd*bc*sc*i*
+    alias:          pci:v00001259d0000C107sv*sd*bc*sc*i*
+    alias:          pci:v00001186d00004302sv*sd*bc*sc*i*
+    alias:          pci:v00001186d00004300sv*sd*bc*sc*i*
+    alias:          pci:v00001186d00004300sv00001186sd00004B10bc*sc*i*
+    alias:          pci:v000010ECd00008169sv*sd*bc*sc*i*
+    alias:          pci:v000010FFd00008168sv*sd*bc*sc*i*
+    alias:          pci:v000010ECd00008168sv*sd*bc*sc*i*
+    alias:          pci:v000010ECd00008167sv*sd*bc*sc*i*
+    alias:          pci:v000010ECd00008162sv*sd*bc*sc*i*
+    alias:          pci:v000010ECd00008161sv*sd*bc*sc*i*
+    alias:          pci:v000010ECd00008136sv*sd*bc*sc*i*
+    alias:          pci:v000010ECd00008129sv*sd*bc*sc*i*
+    alias:          pci:v000010ECd00002600sv*sd*bc*sc*i*
+    alias:          pci:v000010ECd00002502sv*sd*bc*sc*i*
+
+Mauricio Faria de Oliveira (6):
+  modpost: factor out elf/arch-specific code from section_rel[a]()
+  modpost: deduplicate section_rel[a]()
+  sysctl, mod_devicetable: shadow struct ctl_table.procname for
+    file2alias
+  module, modpost: introduce support for MODULE_SYSCTL_TABLE
+  netfilter: conntrack: use MODULE_SYSCTL_TABLE
+  sysctl: introduce /proc/sys/kernel/modprobe_sysctl_alias
+
+ fs/proc/proc_sysctl.c                   |  27 ++++
+ include/linux/mod_devicetable.h         |  25 ++++
+ include/linux/module.h                  |   8 ++
+ include/linux/sysctl.h                  |  11 +-
+ kernel/sysctl.c                         |  10 ++
+ net/netfilter/nf_conntrack_standalone.c |   4 +
+ scripts/mod/devicetable-offsets.c       |   3 +
+ scripts/mod/file2alias.c                | 111 +++++++++++++++
+ scripts/mod/modpost.c                   | 178 +++++++++++++-----------
+ scripts/mod/modpost.h                   |   3 +
+ 10 files changed, 296 insertions(+), 84 deletions(-)
+
+-- 
+2.25.1
+
