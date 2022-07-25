@@ -2,43 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 48EF257FEDA
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Jul 2022 14:17:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5058657FFCD
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Jul 2022 15:30:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231722AbiGYMRa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 25 Jul 2022 08:17:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59118 "EHLO
+        id S233197AbiGYNaz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 25 Jul 2022 09:30:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234329AbiGYMR3 (ORCPT
+        with ESMTP id S234461AbiGYNay (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 25 Jul 2022 08:17:29 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 923811A3B5
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Jul 2022 05:17:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 395FB61050
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Jul 2022 12:17:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77E19C341C6
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Jul 2022 12:17:27 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="ATDtDJaN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1658751446;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=bK/YvwfROKSRDyXQJn91Dl18uO1oeV6IpFanZCzkJ48=;
-        b=ATDtDJaNVRBzkl/6lXMsyNUyLERW3WRW5IFv0p+5yG8cY2GMRHSNhNxFVHNyJDIvNrsuWV
-        NlBB4OSEX0eP0KZtpNM22Gf3RWRy3ko0jXCUKfrPFeLj1Yk9ebaA0i1gUqsv/HUay42iNC
-        YKfDEOYiDhY/5RuYl+lCOAhH1MvC6qw=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id f8d6440d (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO)
-        for <linux-kbuild@vger.kernel.org>;
-        Mon, 25 Jul 2022 12:17:25 +0000 (UTC)
-Date:   Mon, 25 Jul 2022 14:15:00 +0200
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     Albert Huang <huangjie.albert@bytedance.com>
+        Mon, 25 Jul 2022 09:30:54 -0400
+Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F307FD128
+        for <linux-kbuild@vger.kernel.org>; Mon, 25 Jul 2022 06:30:52 -0700 (PDT)
+Received: by mail-il1-x133.google.com with SMTP id w16so5699202ilh.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 25 Jul 2022 06:30:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=kqgRYaQ+5Ei5P1sHb0JfmZ6zpThHEKr7E+RUOHeaoYM=;
+        b=jy6Ofg3IZ4r4qf3yeNRhJBzx3l0jYTUvPpUQxq9PzqtaRD5mYFBt27ndkR5BopQFDq
+         PJKLlVqdlkVPeCmFpp7LFGlCrHLts4jS8J9KyCpYTEscdTQaFpSBg75OaFNOEWEKsCG1
+         ekNRnLJP3HClMuPZiFlGhJCRs9Mo5mcYiCHj9W99lrh2JkzOHiVq//SorMjsnVNegZvU
+         ed2eMd6CYWmY7q3zoeGDpG32aanOs7hpRCAVlH4AJ+rj0r3EWVc7flluL0scu+cVjh2o
+         CHzt3i1f214fyDZgk+n7lwVjQugC8qOhB7UFJvxpyS+gHUgxj/SzyFD6hvxok626BOEq
+         VZ8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=kqgRYaQ+5Ei5P1sHb0JfmZ6zpThHEKr7E+RUOHeaoYM=;
+        b=pFg/qwJdrr1K4TqqJGA8gGP8cCRnJfFsRkqvcrbWiMfhCUeJQC1/P/teD9U/ZOgfMM
+         7ZzZkp+L0M8rnpZmFD9DyVbK1wBApp9Y3rBtrrDb5hE/UEmdNfv9BcKsSIZivFOZfl6Q
+         magS1cJareJMww82dY5eujbnUk0+eXR9n3J6Juz8PJ3NwRwZPC43DM/E+KREKhp9WK3i
+         qjstS3q+hb01ULL40pFex+8/72TlJLKsI5EE8QYmhCaSUuTLD2mWZG0A0rjNIgf0FeVt
+         V3gXYX0k/wqQFHC+oOu10gb5WYXKZ6e9JV3dOvfbG0F2DeQl4+JsvmEJtLBMQGKT2t0J
+         zhxg==
+X-Gm-Message-State: AJIora8Z8men7PNEf/TiqZKQvPO+HvynHoPrkZLXASBP+riFMjn6P0RY
+        Scy80dDm7NCnttoyR4LNPhML9tHBHTyZramKcDQ25g==
+X-Google-Smtp-Source: AGRyM1svsFvJjM44MlpBpazZSBO0gFEQ3hiwRw4WeKR9Juffr2OOgH3srO5bGTVALtUNMqlqZMnZxnFr1Wuh6SmpRU8=
+X-Received: by 2002:a05:6e02:5a6:b0:2dd:164c:15a2 with SMTP id
+ k6-20020a056e0205a600b002dd164c15a2mr4895579ils.105.1658755852411; Mon, 25
+ Jul 2022 06:30:52 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220725083904.56552-1-huangjie.albert@bytedance.com>
+ <20220725083904.56552-2-huangjie.albert@bytedance.com> <Yt6GPsWcG9iWHBUg@zx2c4.com>
+In-Reply-To: <Yt6GPsWcG9iWHBUg@zx2c4.com>
+From:   =?UTF-8?B?6buE5p2w?= <huangjie.albert@bytedance.com>
+Date:   Mon, 25 Jul 2022 21:30:41 +0800
+Message-ID: <CABKxMyNj7Oo3X47APa8Ro-CCK3=XFogorJ2maTCstgsrrC28kg@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH 1/4] kexec: reuse crash kernel reserved
+ memory for normal kexec
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
 Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
@@ -48,30 +64,22 @@ Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
         "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Brijesh Singh <brijesh.singh@amd.com>,
-        Michael Roth <michael.roth@amd.com>,
-        Nathan Chancellor <nathan@kernel.org>,
         Kuppuswamy Sathyanarayanan 
         <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Michael Roth <michael.roth@amd.com>,
+        Nathan Chancellor <nathan@kernel.org>,
         Ard Biesheuvel <ardb@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Sean Christopherson <seanjc@google.com>,
         Joerg Roedel <jroedel@suse.de>,
         Mark Rutland <mark.rutland@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Sean Christopherson <seanjc@google.com>,
         Kees Cook <keescook@chromium.org>,
         linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
         linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 2/4] kexec: add CONFING_KEXEC_PURGATORY_SKIP_SIG
-Message-ID: <Yt6JRBToqY5ts6OU@zx2c4.com>
-References: <20220725083904.56552-1-huangjie.albert@bytedance.com>
- <20220725083904.56552-3-huangjie.albert@bytedance.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220725083904.56552-3-huangjie.albert@bytedance.com>
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,24 +87,49 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Albert,
+Jason A. Donenfeld <Jason@zx2c4.com> =E4=BA=8E2022=E5=B9=B47=E6=9C=8825=E6=
+=97=A5=E5=91=A8=E4=B8=80 20:02=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Hi Albert,
+>
+> On Mon, Jul 25, 2022 at 04:38:53PM +0800, Albert Huang wrote:
+> > The kexec userspace tool also needs to add parameter options(-r) that
+> > support the use of reserved memory (see another patch for kexec)
+> >
+> > [...]
+> >
+> > -     if (kexec_on_panic) {
+> > +     if (kexec_on_panic && kexec_on_reserved) {
+>
+> Two small questions related to this:
+>
+> - Why does kexec-tools need an option, or more specifically, why does
+>   userspace need to communicate about this at all? Can't the kernel just
+>   automatically use the available reserved memory in the case that's not
+>   already being used by the panic handler kernel? I'm curious about
+>   whether there are caveats that would make this occasionally
+>   undesirable, hence suggesting an option.
 
-On Mon, Jul 25, 2022 at 04:38:54PM +0800, Albert Huang wrote:
-> +config KEXEC_PURGATORY_SKIP_SIG
-> +	bool "skip kexec purgatory signature verification"
-> +	depends on ARCH_HAS_KEXEC_PURGATORY
-> +	help
-> +	  this options makes the kexec purgatory do  not signature verification
-> +	  which would get hundreds of milliseconds saved during kexec boot. If we can
-> +	  confirm that the data of each segment loaded by kexec will not change we may
-> +	  enable this option
-> +
+Because the crash kernel will also use this part of the memory,
+so do not use this mechanism unless explicitly specified. So I tend to
+add an option
 
-Some grammar nits here, but actually, wouldn't it be better to make this
-depend on some other signature things instead? Like if the parent kernel
-actually did a big signature computation, then maybe the purgatory step
-is needed, but if it didn't bother, then maybe you can skip it. This
-way, you don't need a compile-time option that might change some aspect
-of signature verification people might otherwise be relying on.
+>
+> - I don't totally understand how this works, so I might be a bit off
+>   here, but is there any chance that this could be made to co-exist with
+>   kexec_on_panic? Can a larger region just be reserved, specifically for
+>   this, rather than piggy backing on the panic handler region?
+>
+> > +static struct page *kimage_alloc_reserverd_control_pages(struct kimage=
+ *image,
+> > +     case KEXEC_TYPE_RESERVED_MEM:
+> > +             pages =3D kimage_alloc_reserverd_control_pages(image, ord=
+er);
+>
+> Nit:
+>   reserverd -> reserved
 
-Jason
+thanks for that, I will correct it
+
+>
+> Jason
