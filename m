@@ -2,69 +2,65 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A9CE580307
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Jul 2022 18:43:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9477580312
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Jul 2022 18:47:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236478AbiGYQnK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 25 Jul 2022 12:43:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42080 "EHLO
+        id S231281AbiGYQrF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 25 Jul 2022 12:47:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236299AbiGYQnJ (ORCPT
+        with ESMTP id S230227AbiGYQrF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 25 Jul 2022 12:43:09 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E635DA1
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Jul 2022 09:43:08 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id q23so5701095lfr.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Jul 2022 09:43:08 -0700 (PDT)
+        Mon, 25 Jul 2022 12:47:05 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A76A8BE27
+        for <linux-kbuild@vger.kernel.org>; Mon, 25 Jul 2022 09:47:03 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id p11so14117269lfu.5
+        for <linux-kbuild@vger.kernel.org>; Mon, 25 Jul 2022 09:47:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=6GXN4LpbvWNFX8wB7bFkXQ9JIKeCsqQJeuvH6j+VamE=;
-        b=TPKDQMzbZgN6H+Ftdpl/d2CbZ3dOR41Yd+IPC/laL4QqRJjOysTqT8QIwhZbrffX7X
-         5Z7F/PBdnMSca6lEOHBKW5d1OFdVCsXJ+SGNbiHfhaWfICEfLuKqNRPT4O1sYTpAh4Wb
-         v/4TCGjMp//GWe26w2moqZaozrOgRarYBe5oeosA15mAGVDZ8SM2IgcvUsaUeDrhMSoh
-         A19vzL8jV4t7yfANUFrDgaDTGD6xJw3S20Jw5mtAFWztKOoft6+Lhg6jRnWcJayWJcDd
-         ss0oUhDETHNFMojUC9KfVhIPJHHFm5RYRa8xQtG9LAv3X939LJ3z1RpsI/8MyHw4XY9Z
-         Wkqg==
+        bh=K/pBROa2cxulg04mS4nY9g+xJXu7b+OWgs5E6WiaGlk=;
+        b=qXycICYK/067txSS/FCBMFsUwF4g4Y3jCP46hSOPLJQN9W1UCXiEGeAOVALmqvaqtV
+         TOd5rXfX90KAcJc4cr8hU2Xr9pjBb6gmtsn+TfkSTeEzm5JYYmCljhvbeTyX1lVcqUn5
+         13d8f8gchsrOHImcd0tHJjiKKz3hTB9141Rzl0F//imFhUGXyixS8lJdN2tBDeJt8EST
+         4rMIRBr8Roy8+Irq46VsWx2GEmgylOPPRivQ5M327dlqrDxQshg8P99ZLMhjnpR8AivS
+         ZM+awjLXKJcDnnEngsVbNfzuFnrIYetgONhZ/Xbbsqfdtf1iGxwImqa36RxGP4E0GO8C
+         +kmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=6GXN4LpbvWNFX8wB7bFkXQ9JIKeCsqQJeuvH6j+VamE=;
-        b=yKPT0m+piqGJPSb2x0cxo6SD60WyNusrR/2MAHeA9ktEEojdikeH8OjqeEVuYsQEFC
-         x0vDO/vv8kO/DEM7OX29mPPNZY2ZJ/xBiAr5c82khBUmEcTEOO4hTrnwV5hu6p9KmDXq
-         tVmn0yJfDSkrGG33pglOLzvCPk3xi3fWS2z/se9DKiOfR3SMkaIEt13cD+5ndZYCHNSB
-         sdoGi9ZTG9kjrqxtwwcnCSiptJahLS7lePcR8HpDJeuZ41OJCuWn6BeL3jX9lpsjZQNC
-         iO26P24JM8X5hHVQs2RDgKdSoQLmt8izL1JgGHa82FkvZKcidrcGobtL/hPj/6yUiIsX
-         lrFA==
-X-Gm-Message-State: AJIora9owaBzi4PJK3HadDVXamyze/xwZobhseJwlFax3n5b6PvFagxm
-        mkaKEdFwXxJXPR3kzlF16SRywB+Zb4fztrSa0OCMO3A/ui8=
-X-Google-Smtp-Source: AGRyM1u4LwpNuQcu1clupnA8Af/UahPp2RV+KMGfCQyROw4AGJp8En2cKS+W4Z+fOHQP0sy6Gu3dzkyLOpdpNlLaNXw=
-X-Received: by 2002:a05:6512:3e24:b0:48a:97af:d76e with SMTP id
- i36-20020a0565123e2400b0048a97afd76emr985048lfv.432.1658767386174; Mon, 25
- Jul 2022 09:43:06 -0700 (PDT)
+        bh=K/pBROa2cxulg04mS4nY9g+xJXu7b+OWgs5E6WiaGlk=;
+        b=5JOzB2R4SBLtHKZlLFGqd01YsHdM7uPTw6SzkXwZwumHP3xbOFXwLaVNY33a1j4wJT
+         Bk2LwJG7I3CiqO7fWyWRlg7y3ZJmBDrXvv2UYPGqEt3BBgVchonY6m9uirZ6eoAcg9Hp
+         BmBzS4QcbaXel4Amjk31tfHbchsqcuEnbg7iCGs+ZPLqn1TX0SYv8TioU2v/r9OhcfA5
+         jv2cymztOpkeDRtkH1ml6pdILf5x2Qc8Bih4w37xssBV0uRGvDh0EiA9XWfcl0Dr9sW+
+         1Qsy9VpP1OnQv1D19UwXUPTZN/FOn+DbEZnsHd2quKOMk1eNc9Lh4gl5PIMziJBT+ylQ
+         m3qA==
+X-Gm-Message-State: AJIora9UGdF9onuoIu02pBCnN5VQuFkNwWEvtfjPHt+3S5nF+rpLMLjh
+        JAPTRrCC28Va7o8A1+pIVMglDGaVOgfz0UVA1t70tA==
+X-Google-Smtp-Source: AGRyM1sbl/0EjcN5ppaNFnALxBedCjWF4X60IusdTDXaQ103NDsUxDekVhpAWrm9Bn4zif9yEz5u9HL7hC9h1nl5Ma4=
+X-Received: by 2002:a05:6512:1190:b0:48a:19d5:ef23 with SMTP id
+ g16-20020a056512119000b0048a19d5ef23mr4694530lfr.401.1658767621669; Mon, 25
+ Jul 2022 09:47:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220610183236.1272216-1-masahiroy@kernel.org> <20220610183236.1272216-8-masahiroy@kernel.org>
-In-Reply-To: <20220610183236.1272216-8-masahiroy@kernel.org>
+References: <20220716080530.119961-1-masahiroy@kernel.org>
+In-Reply-To: <20220716080530.119961-1-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 25 Jul 2022 09:42:53 -0700
-Message-ID: <CAKwvOd=TCSWmG_sca9e49V-h3ZRdtP+cEazoO26vf475mJfyzg@mail.gmail.com>
-Subject: Re: [PATCH 7/7] modpost: use null string instead of NULL pointer for
- default namespace
+Date:   Mon, 25 Jul 2022 09:46:49 -0700
+Message-ID: <CAKwvOdmiecdvuP-xnKgyhand9r5nsivJNSy3sbAmKo2MHzhQAA@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: remove RCS_TAR_IGNORE
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
-        Nicolas Pitre <npitre@baylibre.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        linux-modules@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+Cc:     linux-kbuild@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>,
         linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,96 +68,78 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jun 10, 2022 at 11:34 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Sat, Jul 16, 2022 at 1:06 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> The default namespace is the null string, "".
+> This reverts the 20-year-old commit [1], hard-coding '--exclude .git'
+> instead of '--exclude CVS'.
 >
-> When set, the null string "" is converted to NULL:
+> RCS_TAR_IGNORE is used for packaging the mainline kernel, so I cannot
+> imagine other version control systems would be used.
 >
->   s->namespace = namespace[0] ? NOFAIL(strdup(namespace)) : NULL;
+> I keep RCS_FIND_IGNORE because it is used for external modules, e.g.
+> 'make clean M=...', where git may not be used.
 >
-> When printed, the NULL pointer is get back to the null string:
->
->   sym->namespace ?: ""
->
-> This saves 1 byte memory allocated for "", but loses the readability.
->
-> In kernel-space, we strive to save memory, but modpost is a userspace
-> tool used to build the kernel. On modern systems, such small piece of
-> memory is not a big deal.
->
-> Handle the namespace string as is.
+> [1]: https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/commit/?id=c2dd03a9e2d8bf508f6b3d9ee327c37a928b3351
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Sorry for the late review.  If this is still useful:
+Thanks for the patch!
 Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-
-Feel free to ping me via mail if I'm falling behind. Otherwise you
-should join us on IRC. (#clangbuiltlinux on libera)
 
 > ---
 >
->  scripts/mod/modpost.c | 16 +++++++++++-----
->  1 file changed, 11 insertions(+), 5 deletions(-)
+>  Makefile                 | 5 +----
+>  scripts/Makefile.package | 2 +-
+>  scripts/package/mkspec   | 2 +-
+>  3 files changed, 3 insertions(+), 6 deletions(-)
 >
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 0db2cbb74a2a..5a1785645943 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -296,6 +296,13 @@ static bool contains_namespace(struct list_head *head, const char *namespace)
->  {
->         struct namespace_list *list;
+> diff --git a/Makefile b/Makefile
+> index 80b19675ae91..8b166766b4ef 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -552,13 +552,10 @@ export KBUILD_AFLAGS_KERNEL KBUILD_CFLAGS_KERNEL
+>  export PAHOLE_FLAGS
 >
-> +       /*
-> +        * The default namespace is null string "", which is always implicitly
-> +        * contained.
-> +        */
-> +       if (!namespace[0])
-> +               return true;
-> +
->         list_for_each_entry(list, head, list) {
->                 if (!strcmp(list->namespace, namespace))
->                         return true;
-> @@ -371,7 +378,7 @@ static struct symbol *sym_add_exported(const char *name, struct module *mod,
->         s = alloc_symbol(name);
->         s->module = mod;
->         s->is_gpl_only = gpl_only;
-> -       s->namespace = namespace[0] ? NOFAIL(strdup(namespace)) : NULL;
-> +       s->namespace = NOFAIL(strdup(namespace));
->         list_add_tail(&s->list, &mod->exported_symbols);
->         hash_add_symbol(s);
+>  # Files to ignore in find ... statements
+> -
+> +# (Take care of various version control systems for external modules?)
+>  export RCS_FIND_IGNORE := \( -name SCCS -o -name BitKeeper -o -name .svn -o    \
+>                           -name CVS -o -name .pc -o -name .hg -o -name .git \) \
+>                           -prune -o
+> -export RCS_TAR_IGNORE := --exclude SCCS --exclude BitKeeper --exclude .svn \
+> -                        --exclude CVS --exclude .pc --exclude .hg --exclude .git
+> -
+>  # ===========================================================================
+>  # Rules shared between *config targets and build targets
 >
-> @@ -2117,8 +2124,7 @@ static void check_exports(struct module *mod)
->                 else
->                         basename = mod->name;
+> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+> index 5017f6b2da80..d9c91ebcf2bf 100644
+> --- a/scripts/Makefile.package
+> +++ b/scripts/Makefile.package
+> @@ -45,7 +45,7 @@ if test "$(objtree)" != "$(srctree)"; then \
+>         false; \
+>  fi ; \
+>  $(srctree)/scripts/setlocalversion --save-scmversion; \
+> -tar -I $(KGZIP) -c $(RCS_TAR_IGNORE) -f $(2).tar.gz \
+> +tar -I $(KGZIP) -c --exclude=.git -f $(2).tar.gz \
+>         --transform 's:^:$(2)/:S' $(TAR_CONTENT) $(3); \
+>  rm -f $(objtree)/.scmversion
 >
-> -               if (exp->namespace &&
-> -                   !contains_namespace(&mod->imported_namespaces, exp->namespace)) {
-> +               if (!contains_namespace(&mod->imported_namespaces, exp->namespace)) {
->                         modpost_log(allow_missing_ns_imports ? LOG_WARN : LOG_ERROR,
->                                     "module %s uses symbol %s from namespace %s, but does not import it.\n",
->                                     basename, exp->name, exp->namespace);
-> @@ -2201,7 +2207,7 @@ static void add_exported_symbols(struct buffer *buf, struct module *mod)
->         list_for_each_entry(sym, &mod->exported_symbols, list)
->                 buf_printf(buf, "KSYMTAB_ENTRY(%s, \"%s\", \"%s\");\n",
->                            sym->name, sym->is_gpl_only ? "_gpl" : "",
-> -                          sym->namespace ?: "");
-> +                          sym->namespace);
+> diff --git a/scripts/package/mkspec b/scripts/package/mkspec
+> index 54906174bda2..97efc85b845c 100755
+> --- a/scripts/package/mkspec
+> +++ b/scripts/package/mkspec
+> @@ -29,7 +29,7 @@ fi
 >
->         if (!modversions)
->                 return;
-> @@ -2471,7 +2477,7 @@ static void write_dump(const char *fname)
->                         buf_printf(&buf, "0x%08x\t%s\t%s\tEXPORT_SYMBOL%s\t%s\n",
->                                    sym->crc, sym->name, mod->name,
->                                    sym->is_gpl_only ? "_GPL" : "",
-> -                                  sym->namespace ?: "");
-> +                                  sym->namespace);
->                 }
->         }
->         write_buf(&buf, fname);
+>  PROVIDES="$PROVIDES kernel-$KERNELRELEASE"
+>  __KERNELRELEASE=$(echo $KERNELRELEASE | sed -e "s/-/_/g")
+> -EXCLUDES="$RCS_TAR_IGNORE --exclude=*vmlinux* --exclude=*.mod \
+> +EXCLUDES="--exclude=.git --exclude=*vmlinux* --exclude=*.mod \
+>  --exclude=*.o --exclude=*.ko --exclude=*.cmd --exclude=Documentation \
+>  --exclude=.config.old --exclude=.missing-syscalls.d --exclude=*.s"
+>
 > --
-> 2.32.0
+> 2.34.1
 >
 
 
