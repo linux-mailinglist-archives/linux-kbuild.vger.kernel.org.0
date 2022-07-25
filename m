@@ -2,52 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C15A057FB78
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Jul 2022 10:39:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4134557FB7C
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Jul 2022 10:39:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233186AbiGYIja (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 25 Jul 2022 04:39:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52326 "EHLO
+        id S234113AbiGYIju (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 25 Jul 2022 04:39:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbiGYIj3 (ORCPT
+        with ESMTP id S234078AbiGYIjt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 25 Jul 2022 04:39:29 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 007EA13F11
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Jul 2022 01:39:28 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id b10so9738425pjq.5
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Jul 2022 01:39:28 -0700 (PDT)
+        Mon, 25 Jul 2022 04:39:49 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C10D14089
+        for <linux-kbuild@vger.kernel.org>; Mon, 25 Jul 2022 01:39:46 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id d7so9761429plr.9
+        for <linux-kbuild@vger.kernel.org>; Mon, 25 Jul 2022 01:39:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Amwcf3EAj1ZxcGutEEAzUz751/Dy5KvsTcGRq8AfA0Q=;
-        b=jo8T+MgUl15kH1BqxkbwiWY/qbgoEYehBHZY0ciEJqcTGxiQvzgqHT3qYG64kZB09L
-         Ldp30ym3utCxsNXD0V4cE/IQTpTcr9nRvBMD8Q7YAAWg3nuvXaPW8p0T+Ss6vm0Y/Yz2
-         c3ItMQi8wGERX8KSJ2K/S66Eusd/msC+By5V0onbSOZucoh+78CE4Quq8eUB9G/ZjX/r
-         VAcg/FmLu8rR5LtaIHTj5E1hEJjbErtRfjTCu/r8mUSjd3FlSVr66dNJmqOnSGXCzka7
-         O4gm4SAldX1ww5OQz2FoSYCoBaXaUHuiE0sTeH4IAX89RZRT44a1VE2hEWrb87YYQU1t
-         vaKg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=l2mUZlhHXaJYVViscPjc1ubjCnfx3TCozkJkbzk0hd8=;
+        b=0L3lA508COfe7MYrJ4i5QeT8+Aln6nIuQKE4RjJ1Lx3z6h7Hy9kUjWZ0Dtq1oiyrfw
+         PTns7AvxZBE1CNzq4WUT071rCS1NHGXXCF7WZaZEf938VsriD1eqv04CegdB7dT6uLgC
+         n45h8c6GSP1avg2epBxw/331XhByphoSroy9C5tUw1F2RKtd/suhkKBROlBS9PyCn5kx
+         MBEHexqpPKHlAMcBgOVZMIZfQFopzw0/3/4nQRyWQSx9kLldSLNLCkSrOIeR7ZttkNOy
+         69niKl5UAS4TQhyHuFiRJXva4MR5Ab7tJcW2fxkEqXfrHoriDinHkKfs98Tc4K0u3mat
+         MMsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Amwcf3EAj1ZxcGutEEAzUz751/Dy5KvsTcGRq8AfA0Q=;
-        b=Y0ZGOij0nQ/6yFAXMPzleV9HNA6PuX0CEIA5yoR0k3DszB3YWOii5NB1M7yPxg/MYO
-         l22nFqCcl0ShbGiVKuRgPqXIni66H2UHqIH5AM2FnHMkGEXZ4DitdeYc+vq/kfk6xeOi
-         UX3eef3aRLwlK+x9nxq9SS0oLbZuuj6CG8CO37Z7EuxJTB2oUJzedzEXFn+3/RbUdfWx
-         QZcjgfnhfsZUvChLsHFjWtbCCiMiKvfhhScULFfPN2o2SrPo69rPIK/6hCa0FkMUERdk
-         TbsSixTuU7m9kvQRba/UWm1gxdq52hUpdVV0EX2uuHVMAwl3GuDcRGf/cgNwxZ5/Nqxh
-         4hSg==
-X-Gm-Message-State: AJIora+wDPxq/+zz7RA/fpHSYUb0isyabjEz610V+eAbi5Zyi/nuJcqz
-        Of5/kAWbEvohxWWU7Rf8Zkt9pw==
-X-Google-Smtp-Source: AGRyM1vA3xEsnyiCOvmZ0T36BbcmH6gcseRwQ4GKU8Ef92TFiEimRCNdKBzLgFPlKmAJbKNRVTAXbw==
-X-Received: by 2002:a17:90a:c907:b0:1ef:7655:98d7 with SMTP id v7-20020a17090ac90700b001ef765598d7mr12871560pjt.117.1658738368493;
-        Mon, 25 Jul 2022 01:39:28 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=l2mUZlhHXaJYVViscPjc1ubjCnfx3TCozkJkbzk0hd8=;
+        b=gVLlAJhyAlPdKdUC3IL9p/830m4I5RM6LQel1v2l1bWkkE/5g7h0SZOIYtHKR4GGTq
+         xsdBvdQVV9JvpBgLPu5irvjzblYdzDlzWRp41xOskYemJxl2C3cYmwX1ZP3jwat8+ams
+         KQ+cm/s08EltUFdSWB1/6wzWlyWAd8y71aHMiIQL2yAUtc+/iiFKzxKHVteqRtqI3aoz
+         Gc7auYz+Ogv1dUx3tToDEFWZAN5NJOHlhR/LXo1MzJOv/DgbEV/Ao82ESegAQETU/g01
+         barYpY3OHZKgEk0Y4ZfyNH6AhEeJ1fHwMW4Hz1GmoBvFRVBz4GDN/BdXHxAKLRKapIVw
+         BeaA==
+X-Gm-Message-State: AJIora/IBYyMsIbPNcQZ5p3MdWjzfSiVqhX9pRqh7trrBVv18JnZ6KQS
+        LNWc5Pnk/ilXVWrA2mOBMvy9qA==
+X-Google-Smtp-Source: AGRyM1siiSysQPlgusyaQKwzG5LJXqkZAwzcxclETgd4W9LqD/TVNYUmNWTVv5wHUkaSyZ+EVYdOQQ==
+X-Received: by 2002:a17:90b:4d92:b0:1f0:47e4:f36 with SMTP id oj18-20020a17090b4d9200b001f047e40f36mr13052394pjb.194.1658738385695;
+        Mon, 25 Jul 2022 01:39:45 -0700 (PDT)
 Received: from C02FG34NMD6R.bytedance.net ([139.177.225.241])
-        by smtp.gmail.com with ESMTPSA id 128-20020a621886000000b0052abc2438f1sm8893479pfy.55.2022.07.25.01.39.20
+        by smtp.gmail.com with ESMTPSA id 128-20020a621886000000b0052abc2438f1sm8893479pfy.55.2022.07.25.01.39.38
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 25 Jul 2022 01:39:28 -0700 (PDT)
+        Mon, 25 Jul 2022 01:39:45 -0700 (PDT)
 From:   Albert Huang <huangjie.albert@bytedance.com>
 Cc:     "huangjie.albert" <huangjie.albert@bytedance.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -59,21 +59,24 @@ Cc:     "huangjie.albert" <huangjie.albert@bytedance.com>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
         "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Michael Roth <michael.roth@amd.com>,
         Kuppuswamy Sathyanarayanan 
         <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Michael Roth <michael.roth@amd.com>,
         Nathan Chancellor <nathan@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Sean Christopherson <seanjc@google.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
         Joerg Roedel <jroedel@suse.de>,
         Mark Rutland <mark.rutland@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Sean Christopherson <seanjc@google.com>,
         Kees Cook <keescook@chromium.org>,
         linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
         linux-kbuild@vger.kernel.org
-Subject: [PATCH 0/4] faster kexec reboot
-Date:   Mon, 25 Jul 2022 16:38:52 +0800
-Message-Id: <20220725083904.56552-1-huangjie.albert@bytedance.com>
+Subject: [PATCH 1/4] kexec: reuse crash kernel reserved memory for normal kexec
+Date:   Mon, 25 Jul 2022 16:38:53 +0800
+Message-Id: <20220725083904.56552-2-huangjie.albert@bytedance.com>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
+In-Reply-To: <20220725083904.56552-1-huangjie.albert@bytedance.com>
+References: <20220725083904.56552-1-huangjie.albert@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -89,53 +92,251 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 From: "huangjie.albert" <huangjie.albert@bytedance.com>
 
-In many time-sensitive scenarios, we need a shorter time to restart 
-the kernel. However, in the current kexec fast restart code, there 
-are many places in the memory copy operation, verification operation 
-and decompression operation, which take more time than 500ms. Through 
-the following patch series. machine_kexec-->start_kernel only takes 15ms
+normally, for kexec reboot, each segment of the second os
+(such as : kernel、initrd、etc.) will be copied to discontinuous
+physical memory during kexec load.  and then a memory copy will
+be performed when kexec -e is executed to copy each segment of
+the second os to contiguous physical memory, which will Affects
+the time the kexec switch to the  new os. Therefore, if we reuse
+the crash kernel reserved memory for kexec. When kexec loads the
+second os, each segment of the second OS is directly copied to the
+contiguous physical memory, so there is no need to make a second copy
+when kexec -e is executed later.
 
-How to measure time:
+The kexec userspace tool also needs to add parameter options(-r) that
+support the use of reserved memory (see another patch for kexec)
 
-c code:
-uint64_t current_cycles(void)
-{
-    uint32_t low, high;
-    asm volatile("rdtsc" : "=a"(low), "=d"(high));
-    return ((uint64_t)low) | ((uint64_t)high << 32);
-}
-assembly code:
-       pushq %rax
-       pushq %rdx
-       rdtsc
-       mov   %eax,%eax
-       shl   $0x20,%rdx
-       or    %rax,%rdx
-       movq  %rdx,0x840(%r14)
-       popq  %rdx
-       popq  %rax
-the timestamp may store in boot_params or kexec control page, so we can
-get the all timestamp after kernel boot up.
+examples:
+bzimage: 53M initramfs: 28M
+can save aboat 40 ms, The larger the image size, the greater the time
+savings
 
-huangjie.albert (4):
-  kexec: reuse crash kernel reserved memory for normal kexec
-  kexec: add CONFING_KEXEC_PURGATORY_SKIP_SIG
-  x86: Support the uncompressed kernel to speed up booting
-  x86: boot: avoid memory copy if kernel is uncompressed
+Signed-off-by: huangjie.albert <huangjie.albert@bytedance.com>
+---
+ include/linux/kexec.h      |  9 +++++----
+ include/uapi/linux/kexec.h |  2 ++
+ kernel/kexec.c             | 19 ++++++++++++++++++-
+ kernel/kexec_core.c        | 16 +++++++++-------
+ kernel/kexec_file.c        | 20 ++++++++++++++++++--
+ 5 files changed, 52 insertions(+), 14 deletions(-)
 
- arch/x86/Kconfig                   | 10 +++++++++
- arch/x86/boot/compressed/Makefile  |  5 ++++-
- arch/x86/boot/compressed/head_64.S |  8 +++++--
- arch/x86/boot/compressed/misc.c    | 35 +++++++++++++++++++++++++-----
- arch/x86/purgatory/purgatory.c     |  7 ++++++
- include/linux/kexec.h              |  9 ++++----
- include/uapi/linux/kexec.h         |  2 ++
- kernel/kexec.c                     | 19 +++++++++++++++-
- kernel/kexec_core.c                | 16 ++++++++------
- kernel/kexec_file.c                | 20 +++++++++++++++--
- scripts/Makefile.lib               |  5 +++++
- 11 files changed, 114 insertions(+), 22 deletions(-)
-
+diff --git a/include/linux/kexec.h b/include/linux/kexec.h
+index 475683cd67f1..9a8b9932b42a 100644
+--- a/include/linux/kexec.h
++++ b/include/linux/kexec.h
+@@ -305,9 +305,10 @@ struct kimage {
+ 	unsigned long control_page;
+ 
+ 	/* Flags to indicate special processing */
+-	unsigned int type : 1;
++	unsigned int type : 2;
+ #define KEXEC_TYPE_DEFAULT 0
+ #define KEXEC_TYPE_CRASH   1
++#define KEXEC_TYPE_RESERVED_MEM 2
+ 	unsigned int preserve_context : 1;
+ 	/* If set, we are using file mode kexec syscall */
+ 	unsigned int file_mode:1;
+@@ -377,14 +378,14 @@ extern int kexec_load_disabled;
+ 
+ /* List of defined/legal kexec flags */
+ #ifndef CONFIG_KEXEC_JUMP
+-#define KEXEC_FLAGS    KEXEC_ON_CRASH
++#define KEXEC_FLAGS    (KEXEC_ON_CRASH | KEXEC_RESERVED_MEM)
+ #else
+-#define KEXEC_FLAGS    (KEXEC_ON_CRASH | KEXEC_PRESERVE_CONTEXT)
++#define KEXEC_FLAGS    (KEXEC_ON_CRASH | KEXEC_PRESERVE_CONTEXT | KEXEC_RESERVED_MEM)
+ #endif
+ 
+ /* List of defined/legal kexec file flags */
+ #define KEXEC_FILE_FLAGS	(KEXEC_FILE_UNLOAD | KEXEC_FILE_ON_CRASH | \
+-				 KEXEC_FILE_NO_INITRAMFS)
++				 KEXEC_FILE_NO_INITRAMFS | KEXEC_FILE_RESERVED_MEM)
+ 
+ /* flag to track if kexec reboot is in progress */
+ extern bool kexec_in_progress;
+diff --git a/include/uapi/linux/kexec.h b/include/uapi/linux/kexec.h
+index 981016e05cfa..c29011eb7fc2 100644
+--- a/include/uapi/linux/kexec.h
++++ b/include/uapi/linux/kexec.h
+@@ -12,6 +12,7 @@
+ /* kexec flags for different usage scenarios */
+ #define KEXEC_ON_CRASH		0x00000001
+ #define KEXEC_PRESERVE_CONTEXT	0x00000002
++#define KEXEC_RESERVED_MEM	0x00000004
+ #define KEXEC_ARCH_MASK		0xffff0000
+ 
+ /*
+@@ -24,6 +25,7 @@
+ #define KEXEC_FILE_UNLOAD	0x00000001
+ #define KEXEC_FILE_ON_CRASH	0x00000002
+ #define KEXEC_FILE_NO_INITRAMFS	0x00000004
++#define KEXEC_FILE_RESERVED_MEM 0x00000008
+ 
+ /* These values match the ELF architecture values.
+  * Unless there is a good reason that should continue to be the case.
+diff --git a/kernel/kexec.c b/kernel/kexec.c
+index b5e40f069768..0d9ea52c81c1 100644
+--- a/kernel/kexec.c
++++ b/kernel/kexec.c
+@@ -27,8 +27,14 @@ static int kimage_alloc_init(struct kimage **rimage, unsigned long entry,
+ 	int ret;
+ 	struct kimage *image;
+ 	bool kexec_on_panic = flags & KEXEC_ON_CRASH;
++	bool kexec_on_reserved = flags & KEXEC_RESERVED_MEM;
+ 
+-	if (kexec_on_panic) {
++	if (kexec_on_panic && kexec_on_reserved) {
++		pr_err("both kexec_on_panic and kexec_on_reserved is true, they can not coexist");
++		return -EINVAL;
++	}
++
++	if (kexec_on_panic || kexec_on_reserved) {
+ 		/* Verify we have a valid entry point */
+ 		if ((entry < phys_to_boot_phys(crashk_res.start)) ||
+ 		    (entry > phys_to_boot_phys(crashk_res.end)))
+@@ -50,6 +56,12 @@ static int kimage_alloc_init(struct kimage **rimage, unsigned long entry,
+ 		image->type = KEXEC_TYPE_CRASH;
+ 	}
+ 
++	if (kexec_on_reserved) {
++		/* Enable special reserved kernel control page alloc policy. */
++		image->control_page = crashk_res.start;
++		image->type = KEXEC_TYPE_RESERVED_MEM;
++	}
++
+ 	ret = sanity_check_segment_list(image);
+ 	if (ret)
+ 		goto out_free_image;
+@@ -110,6 +122,11 @@ static int do_kexec_load(unsigned long entry, unsigned long nr_segments,
+ 		dest_image = &kexec_image;
+ 	}
+ 
++	if (flags & KEXEC_RESERVED_MEM) {
++		if (kexec_crash_image)
++			arch_kexec_unprotect_crashkres();
++	}
++
+ 	if (nr_segments == 0) {
+ 		/* Uninstall image */
+ 		kimage_free(xchg(dest_image, NULL));
+diff --git a/kernel/kexec_core.c b/kernel/kexec_core.c
+index 4d34c78334ce..6220c2e0d6f7 100644
+--- a/kernel/kexec_core.c
++++ b/kernel/kexec_core.c
+@@ -230,13 +230,13 @@ int sanity_check_segment_list(struct kimage *image)
+ 	 * Verify we have good destination addresses.  Normally
+ 	 * the caller is responsible for making certain we don't
+ 	 * attempt to load the new image into invalid or reserved
+-	 * areas of RAM.  But crash kernels are preloaded into a
++	 * areas of RAM.  But crash kernels (or we specify to load
++	 * the new image into reserved areas) are preloaded into a
+ 	 * reserved area of ram.  We must ensure the addresses
+ 	 * are in the reserved area otherwise preloading the
+ 	 * kernel could corrupt things.
+ 	 */
+-
+-	if (image->type == KEXEC_TYPE_CRASH) {
++	if (image->type == KEXEC_TYPE_CRASH || image->type == KEXEC_TYPE_RESERVED_MEM) {
+ 		for (i = 0; i < nr_segments; i++) {
+ 			unsigned long mstart, mend;
+ 
+@@ -414,7 +414,7 @@ static struct page *kimage_alloc_normal_control_pages(struct kimage *image,
+ 	return pages;
+ }
+ 
+-static struct page *kimage_alloc_crash_control_pages(struct kimage *image,
++static struct page *kimage_alloc_reserverd_control_pages(struct kimage *image,
+ 						      unsigned int order)
+ {
+ 	/* Control pages are special, they are the intermediaries
+@@ -491,7 +491,8 @@ struct page *kimage_alloc_control_pages(struct kimage *image,
+ 		pages = kimage_alloc_normal_control_pages(image, order);
+ 		break;
+ 	case KEXEC_TYPE_CRASH:
+-		pages = kimage_alloc_crash_control_pages(image, order);
++	case KEXEC_TYPE_RESERVED_MEM:
++		pages = kimage_alloc_reserverd_control_pages(image, order);
+ 		break;
+ 	}
+ 
+@@ -846,7 +847,7 @@ static int kimage_load_normal_segment(struct kimage *image,
+ 	return result;
+ }
+ 
+-static int kimage_load_crash_segment(struct kimage *image,
++static int kimage_load_reserved_segment(struct kimage *image,
+ 					struct kexec_segment *segment)
+ {
+ 	/* For crash dumps kernels we simply copy the data from
+@@ -924,7 +925,8 @@ int kimage_load_segment(struct kimage *image,
+ 		result = kimage_load_normal_segment(image, segment);
+ 		break;
+ 	case KEXEC_TYPE_CRASH:
+-		result = kimage_load_crash_segment(image, segment);
++	case KEXEC_TYPE_RESERVED_MEM:
++		result = kimage_load_reserved_segment(image, segment);
+ 		break;
+ 	}
+ 
+diff --git a/kernel/kexec_file.c b/kernel/kexec_file.c
+index f9261c07b048..5242ad7e5302 100644
+--- a/kernel/kexec_file.c
++++ b/kernel/kexec_file.c
+@@ -277,7 +277,7 @@ kimage_file_alloc_init(struct kimage **rimage, int kernel_fd,
+ 	int ret;
+ 	struct kimage *image;
+ 	bool kexec_on_panic = flags & KEXEC_FILE_ON_CRASH;
+-
++	bool kexec_on_reserved = flags & KEXEC_FILE_RESERVED_MEM;
+ 	image = do_kimage_alloc_init();
+ 	if (!image)
+ 		return -ENOMEM;
+@@ -290,6 +290,12 @@ kimage_file_alloc_init(struct kimage **rimage, int kernel_fd,
+ 		image->type = KEXEC_TYPE_CRASH;
+ 	}
+ 
++	if (kexec_on_reserved) {
++		/* Enable special crash kernel control page alloc policy. */
++		image->control_page = crashk_res.start;
++		image->type = KEXEC_TYPE_RESERVED_MEM;
++	}
++
+ 	ret = kimage_file_prepare_segments(image, kernel_fd, initrd_fd,
+ 					   cmdline_ptr, cmdline_len, flags);
+ 	if (ret)
+@@ -346,6 +352,11 @@ SYSCALL_DEFINE5(kexec_file_load, int, kernel_fd, int, initrd_fd,
+ 	if (!mutex_trylock(&kexec_mutex))
+ 		return -EBUSY;
+ 
++	if ((flags & KEXEC_FILE_ON_CRASH) && (flags & KEXEC_FILE_RESERVED_MEM)) {
++		pr_err("both kexec_on_panic and kexec_on_reserved is true, they can not coexist");
++		return -EINVAL;
++	}
++
+ 	dest_image = &kexec_image;
+ 	if (flags & KEXEC_FILE_ON_CRASH) {
+ 		dest_image = &kexec_crash_image;
+@@ -353,6 +364,11 @@ SYSCALL_DEFINE5(kexec_file_load, int, kernel_fd, int, initrd_fd,
+ 			arch_kexec_unprotect_crashkres();
+ 	}
+ 
++	if (flags & KEXEC_FILE_RESERVED_MEM) {
++		if (kexec_crash_image)
++			arch_kexec_unprotect_crashkres();
++	}
++
+ 	if (flags & KEXEC_FILE_UNLOAD)
+ 		goto exchange;
+ 
+@@ -588,7 +604,7 @@ static int kexec_walk_memblock(struct kexec_buf *kbuf,
+ static int kexec_walk_resources(struct kexec_buf *kbuf,
+ 				int (*func)(struct resource *, void *))
+ {
+-	if (kbuf->image->type == KEXEC_TYPE_CRASH)
++	if (kbuf->image->type == KEXEC_TYPE_CRASH || kbuf->image->type == KEXEC_TYPE_RESERVED_MEM)
+ 		return walk_iomem_res_desc(crashk_res.desc,
+ 					   IORESOURCE_SYSTEM_RAM | IORESOURCE_BUSY,
+ 					   crashk_res.start, crashk_res.end,
 -- 
 2.31.1
 
