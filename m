@@ -2,31 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D32B9580345
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Jul 2022 19:04:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4329B580AE5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Jul 2022 07:53:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235991AbiGYREl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 25 Jul 2022 13:04:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55972 "EHLO
+        id S237577AbiGZFx2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 26 Jul 2022 01:53:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232601AbiGYREk (ORCPT
+        with ESMTP id S230339AbiGZFx1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 25 Jul 2022 13:04:40 -0400
-Received: from out03.mta.xmission.com (out03.mta.xmission.com [166.70.13.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 200A41D32B;
-        Mon, 25 Jul 2022 10:04:39 -0700 (PDT)
-Received: from in02.mta.xmission.com ([166.70.13.52]:34794)
-        by out03.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1oG1VW-00DJGN-Hv; Mon, 25 Jul 2022 11:04:38 -0600
-Received: from ip68-227-174-4.om.om.cox.net ([68.227.174.4]:60902 helo=email.froward.int.ebiederm.org.xmission.com)
-        by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1oG1VV-000BTE-CQ; Mon, 25 Jul 2022 11:04:38 -0600
-From:   "Eric W. Biederman" <ebiederm@xmission.com>
-To:     Albert Huang <huangjie.albert@bytedance.com>
+        Tue, 26 Jul 2022 01:53:27 -0400
+Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2ECA227B01
+        for <linux-kbuild@vger.kernel.org>; Mon, 25 Jul 2022 22:53:26 -0700 (PDT)
+Received: by mail-io1-xd34.google.com with SMTP id q14so10506449iod.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 25 Jul 2022 22:53:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=9NqP8zb13cEgKtZZvdVuc+bb8giuTenSXo8OvwSJLpc=;
+        b=TGYN7fdgHROPKhTokOlKbDXQsF3DrUWRscdFhO4StXlgImpnjc+ST+m5zQ2mDI5JY5
+         oLc0+lzu61o5iTTW6v6CUQERKYP0HeLhXsCOqSWoGidrFECb+qFvWSMhWgtz5zWOJmKN
+         B1Rx9tkp22OEJEhu5ZXANe4PcZkbHFe6jFoqdVA8RFQbx62sZ/LWZafa29FDud4j7YqZ
+         +WEmM93hNeShSdCI5Z3Gvk4jK9jfSHYQhLJe3uZNgFxH0kBUeOnAuj7hqqOkmLrZtAHf
+         QiOMZwOBh+CSVBUYt+CqEuWcL96yoIRySBl0yzvWgRzhMrFiAokfvP+ic8GVPdkxnLs8
+         QpaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=9NqP8zb13cEgKtZZvdVuc+bb8giuTenSXo8OvwSJLpc=;
+        b=RNABi+c1LT3Z9YGWn1OjJ+KcV14fE+unJFWKAYr7MH4LiMTzM8EkKIauVZusVMVult
+         XF05iOZz1HUuvOU8MWkj1NswjXIPSF/QcKYNjRurM+Xym6IM7DxwMPm2KKGb4YXKIL1t
+         9q+sHpgChlD7cNnS3WDXSalThqXzQ4o2j/Q3rA4Wa+ctNmga46mloldgsfdB8py4scm/
+         sgCm5dh4iqsn8HQcgjZTK3GS844caCzY80rKNYlqN/UVlHfS8jXYY66PxZDFHAel8cIr
+         zRgn/78UFhIHu8WLuzE+Bn1jPGGxllkv2JS5uAGaQraqn9+mBmXsmtq/47eq4GdM72K8
+         guOQ==
+X-Gm-Message-State: AJIora/2qUvZUMbdBCz2tFltXOPr+xpEBH7J2jv897oBhdcoDDm6OKKx
+        9piiPr/189j0EbCJFNpjZCxKJxGspQPncYhla4N4tQ==
+X-Google-Smtp-Source: AGRyM1uV3p3HFDDQtbSh8ayK0mb85b+LYxf4LJzrYTfZLwrZCur97v0IGP8j7Jfd7EJ0OiLrkutbcVdgUOweXJ5+oOY=
+X-Received: by 2002:a5e:a618:0:b0:67c:27b4:1f93 with SMTP id
+ q24-20020a5ea618000000b0067c27b41f93mr5476177ioi.75.1658814805551; Mon, 25
+ Jul 2022 22:53:25 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220725083904.56552-1-huangjie.albert@bytedance.com> <8735epf7j5.fsf@email.froward.int.ebiederm.org>
+In-Reply-To: <8735epf7j5.fsf@email.froward.int.ebiederm.org>
+From:   =?UTF-8?B?6buE5p2w?= <huangjie.albert@bytedance.com>
+Date:   Tue, 26 Jul 2022 13:53:13 +0800
+Message-ID: <CABKxMyOwHC9ZhL9Gxt-MVg-sy3d1kqzPviQOH845rers7inX3Q@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH 0/4] faster kexec reboot
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
 Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
@@ -46,145 +72,167 @@ Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Kees Cook <keescook@chromium.org>,
         linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
         linux-kbuild@vger.kernel.org
-References: <20220725083904.56552-1-huangjie.albert@bytedance.com>
-Date:   Mon, 25 Jul 2022 12:04:30 -0500
-In-Reply-To: <20220725083904.56552-1-huangjie.albert@bytedance.com> (Albert
-        Huang's message of "Mon, 25 Jul 2022 16:38:52 +0800")
-Message-ID: <8735epf7j5.fsf@email.froward.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1oG1VV-000BTE-CQ;;;mid=<8735epf7j5.fsf@email.froward.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.174.4;;;frm=ebiederm@xmission.com;;;spf=softfail
-X-XM-AID: U2FsdGVkX1/2kczJ4XYA0lOcB5AL9pRg/30yBi3yeu0=
-X-SA-Exim-Connect-IP: 68.227.174.4
-X-SA-Exim-Mail-From: ebiederm@xmission.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
-X-Spam-DCC: XMission; sa06 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: ***;Albert Huang <huangjie.albert@bytedance.com>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 575 ms - load_scoreonly_sql: 0.04 (0.0%),
-        signal_user_changed: 11 (1.9%), b_tie_ro: 10 (1.7%), parse: 1.01
-        (0.2%), extract_message_metadata: 13 (2.3%), get_uri_detail_list: 2.6
-        (0.5%), tests_pri_-1000: 22 (3.8%), tests_pri_-950: 1.16 (0.2%),
-        tests_pri_-900: 0.98 (0.2%), tests_pri_-90: 83 (14.5%), check_bayes:
-        82 (14.2%), b_tokenize: 11 (2.0%), b_tok_get_all: 13 (2.3%),
-        b_comp_prob: 3.9 (0.7%), b_tok_touch_all: 49 (8.5%), b_finish: 0.89
-        (0.2%), tests_pri_0: 427 (74.3%), check_dkim_signature: 0.57 (0.1%),
-        check_dkim_adsp: 3.0 (0.5%), poll_dns_idle: 1.09 (0.2%), tests_pri_10:
-        2.0 (0.4%), tests_pri_500: 10 (1.7%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH 0/4] faster kexec reboot
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Albert Huang <huangjie.albert@bytedance.com> writes:
+Hi
+Eric W. Biederman
+Thank you for your advice and opinion, I am very honored
 
-> From: "huangjie.albert" <huangjie.albert@bytedance.com>
+Eric W. Biederman <ebiederm@xmission.com> =E4=BA=8E2022=E5=B9=B47=E6=9C=882=
+6=E6=97=A5=E5=91=A8=E4=BA=8C 01:04=E5=86=99=E9=81=93=EF=BC=9A
 >
-> In many time-sensitive scenarios, we need a shorter time to restart 
-> the kernel. However, in the current kexec fast restart code, there 
-> are many places in the memory copy operation, verification operation 
-> and decompression operation, which take more time than 500ms. Through 
-> the following patch series. machine_kexec-->start_kernel only takes
-> 15ms
+> Albert Huang <huangjie.albert@bytedance.com> writes:
+>
+> > From: "huangjie.albert" <huangjie.albert@bytedance.com>
+> >
+> > In many time-sensitive scenarios, we need a shorter time to restart
+> > the kernel. However, in the current kexec fast restart code, there
+> > are many places in the memory copy operation, verification operation
+> > and decompression operation, which take more time than 500ms. Through
+> > the following patch series. machine_kexec-->start_kernel only takes
+> > 15ms
+>
+> Is this a tiny embedded device you are taking the timings of?
+>
+> How are you handling driver shutdown and restart?  I would expect those
+> to be a larger piece of the puzzle than memory.
 
-Is this a tiny embedded device you are taking the timings of?
-
-How are you handling driver shutdown and restart?  I would expect those
-to be a larger piece of the puzzle than memory.
-
-My desktop can do something like 128GiB/s.  Which would suggest that
-copying 128MiB of kernel+initrd would take perhaps 10ms.  The SHA256
-implementation may not be tuned so that could be part of the performance
-issue.  The SHA256 hash has a reputation for having fast
-implementations.  I chose SHA256 originally simply because it has more
-bits so it makes the odds of detecting an error higher.
-
-
-If all you care about is booting a kernel as fast as possible it make
-make sense to have a large reserved region of memory like we have for
-the kexec on panic kernel.  If that really makes sense I recommend
-adding a second kernel command line option and a reserving second region
-of reserved memory.  That makes telling if the are any conflicts simple.
-
-
-I am having a hard time seeing how anyone else would want these options.
-Losing megabytes of memory simply because you might reboot using kexec
-seems like the wrong side of a trade-off.
-
-The CONFIG_KEXEC_PURGATORY_SKIP_SIG option is very misnamed.  It is not
-signature verification that is happening it is a hash verification.
-There are not encrypted bits at play.  Instead there is a check to
-ensure that the kernel has not been corrupted by in-flight DMA that some
-driver forgot to shut down.
-
-So you are building a version of kexec that if something goes wrong it
-could very easily eat your data, or otherwise do some very bad things
-that are absolutely non-trivial to debug.
-
-That the decision to skip the sha256 hash that prevents corruption is
-happening at compile time, instead of at run-time, will guarantee the
-option is simply not available on any general purpose kernel
-configuration.  Given how dangerous it is to skip the hash verification
-it is probably not a bad thing overall, but it is most definitely
-something that will make maintenance more difficult.
-
-
-If done well I don't see why anyone would mind a uncompressed kernel
-but I don't see what the advantage of what you are doing is over using
-vmlinux is the build directory.  It isn't a bzImage but it is the
-uncompressed kernel.
-
-As I proof of concept I think what you are doing goes a way to showing
-that things can be improved.  My overall sense is that improving things
-the way you are proposing does not help the general case and simply adds
-to the maintenance burden.
-
-Eric
+There is no way to make the code universal in the time optimization here,
+and various devices need to be customized, but we have some solutions to
+achieve the maintenance and recovery of these devices,
+especially the scanning and initialization of pci devices
 
 >
-> How to measure time:
+> My desktop can do something like 128GiB/s.  Which would suggest that
+> copying 128MiB of kernel+initrd would take perhaps 10ms.  The SHA256
+> implementation may not be tuned so that could be part of the performance
+> issue.  The SHA256 hash has a reputation for having fast
+> implementations.  I chose SHA256 originally simply because it has more
+> bits so it makes the odds of detecting an error higher.
 >
-> c code:
-> uint64_t current_cycles(void)
-> {
->     uint32_t low, high;
->     asm volatile("rdtsc" : "=a"(low), "=d"(high));
->     return ((uint64_t)low) | ((uint64_t)high << 32);
-> }
-> assembly code:
->        pushq %rax
->        pushq %rdx
->        rdtsc
->        mov   %eax,%eax
->        shl   $0x20,%rdx
->        or    %rax,%rdx
->        movq  %rdx,0x840(%r14)
->        popq  %rdx
->        popq  %rax
-> the timestamp may store in boot_params or kexec control page, so we can
-> get the all timestamp after kernel boot up.
+
+Yes, sha256 is a better choice, but if there is no memory copy between
+kexec load
+and kexec -e, and this part of the memory is reserved. Don't think
+this part of memory will be changed.
+Especially in virtual machine scenarios
+
 >
-> huangjie.albert (4):
->   kexec: reuse crash kernel reserved memory for normal kexec
->   kexec: add CONFING_KEXEC_PURGATORY_SKIP_SIG
->   x86: Support the uncompressed kernel to speed up booting
->   x86: boot: avoid memory copy if kernel is uncompressed
+> If all you care about is booting a kernel as fast as possible it make
+> make sense to have a large reserved region of memory like we have for
+> the kexec on panic kernel.  If that really makes sense I recommend
+> adding a second kernel command line option and a reserving second region
+> of reserved memory.  That makes telling if the are any conflicts simple.
 >
->  arch/x86/Kconfig                   | 10 +++++++++
->  arch/x86/boot/compressed/Makefile  |  5 ++++-
->  arch/x86/boot/compressed/head_64.S |  8 +++++--
->  arch/x86/boot/compressed/misc.c    | 35 +++++++++++++++++++++++++-----
->  arch/x86/purgatory/purgatory.c     |  7 ++++++
->  include/linux/kexec.h              |  9 ++++----
->  include/uapi/linux/kexec.h         |  2 ++
->  kernel/kexec.c                     | 19 +++++++++++++++-
->  kernel/kexec_core.c                | 16 ++++++++------
->  kernel/kexec_file.c                | 20 +++++++++++++++--
->  scripts/Makefile.lib               |  5 +++++
->  11 files changed, 114 insertions(+), 22 deletions(-)
+
+I initially implemented re-adding a parameter and region, but I
+figured out later
+that it doesn't really make sense and would waste extra memory.
+
+>
+> I am having a hard time seeing how anyone else would want these options.
+> Losing megabytes of memory simply because you might reboot using kexec
+> seems like the wrong side of a trade-off.
+
+Reuse the memory reserved by the crash kernel? Why does it increase
+memory consumption?
+
+>
+> The CONFIG_KEXEC_PURGATORY_SKIP_SIG option is very misnamed.  It is not
+> signature verification that is happening it is a hash verification.
+> There are not encrypted bits at play.  Instead there is a check to
+> ensure that the kernel has not been corrupted by in-flight DMA that some
+> driver forgot to shut down.
+>
+Thanks for pointing that out.
+but Even if the data is detected to have been changed, there is
+currently no way to recover it.
+I don't have a good understanding of this place yet. maybe for security rea=
+sons=EF=BC=9F
+
+
+> So you are building a version of kexec that if something goes wrong it
+> could very easily eat your data, or otherwise do some very bad things
+> that are absolutely non-trivial to debug.
+>
+> That the decision to skip the sha256 hash that prevents corruption is
+> happening at compile time, instead of at run-time, will guarantee the
+> option is simply not available on any general purpose kernel
+> configuration.  Given how dangerous it is to skip the hash verification
+> it is probably not a bad thing overall, but it is most definitely
+> something that will make maintenance more difficult.
+>
+
+Maybe parameters will be a better choice. What do you think ?
+
+>
+> If done well I don't see why anyone would mind a uncompressed kernel
+> but I don't see what the advantage of what you are doing is over using
+> vmlinux is the build directory.  It isn't a bzImage but it is the
+> uncompressed kernel.
+>
+
+
+> As I proof of concept I think what you are doing goes a way to showing
+> that things can be improved.  My overall sense is that improving things
+> the way you are proposing does not help the general case and simply adds
+> to the maintenance burden.
+
+I don't think so. The kernel startup time of some lightweight virtual
+machines maybe
+100-200ms (start_kernel->init). But this kexec->start_kernel took more
+than 500ms.
+This is still valuable, and the overall code size is also very small.
+
+> Eric
+>
+> >
+> > How to measure time:
+> >
+> > c code:
+> > uint64_t current_cycles(void)
+> > {
+> >     uint32_t low, high;
+> >     asm volatile("rdtsc" : "=3Da"(low), "=3Dd"(high));
+> >     return ((uint64_t)low) | ((uint64_t)high << 32);
+> > }
+> > assembly code:
+> >        pushq %rax
+> >        pushq %rdx
+> >        rdtsc
+> >        mov   %eax,%eax
+> >        shl   $0x20,%rdx
+> >        or    %rax,%rdx
+> >        movq  %rdx,0x840(%r14)
+> >        popq  %rdx
+> >        popq  %rax
+> > the timestamp may store in boot_params or kexec control page, so we can
+> > get the all timestamp after kernel boot up.
+> >
+> > huangjie.albert (4):
+> >   kexec: reuse crash kernel reserved memory for normal kexec
+> >   kexec: add CONFING_KEXEC_PURGATORY_SKIP_SIG
+> >   x86: Support the uncompressed kernel to speed up booting
+> >   x86: boot: avoid memory copy if kernel is uncompressed
+> >
+> >  arch/x86/Kconfig                   | 10 +++++++++
+> >  arch/x86/boot/compressed/Makefile  |  5 ++++-
+> >  arch/x86/boot/compressed/head_64.S |  8 +++++--
+> >  arch/x86/boot/compressed/misc.c    | 35 +++++++++++++++++++++++++-----
+> >  arch/x86/purgatory/purgatory.c     |  7 ++++++
+> >  include/linux/kexec.h              |  9 ++++----
+> >  include/uapi/linux/kexec.h         |  2 ++
+> >  kernel/kexec.c                     | 19 +++++++++++++++-
+> >  kernel/kexec_core.c                | 16 ++++++++------
+> >  kernel/kexec_file.c                | 20 +++++++++++++++--
+> >  scripts/Makefile.lib               |  5 +++++
+> >  11 files changed, 114 insertions(+), 22 deletions(-)
