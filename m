@@ -2,170 +2,109 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FE01580FD8
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Jul 2022 11:27:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E142158156B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Jul 2022 16:35:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231477AbiGZJ1U (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 26 Jul 2022 05:27:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33398 "EHLO
+        id S239405AbiGZOfb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 26 Jul 2022 10:35:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229749AbiGZJ1U (ORCPT
+        with ESMTP id S239361AbiGZOf2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 Jul 2022 05:27:20 -0400
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 117D02E9F6;
-        Tue, 26 Jul 2022 02:27:18 -0700 (PDT)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 26Q9QrdN024374;
-        Tue, 26 Jul 2022 18:26:53 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 26Q9QrdN024374
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1658827614;
-        bh=d6NNJ+nW6fZ2WWBYBA5DCiVLw0ZFlnZQJAM4KipXE4A=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=jPARB7HAapfEkUCDpves2bids8NaztvHxYcrpmaz30aXBKKCq5Fls6fPm6JMl4NEB
-         A+CXQn86ICJNahuYe+wJUVp4X42qyknJGMTFem8Fg39gyqprHgP6bGqygnGJySLLpY
-         Fi0TJ4n8AGHy1QHghgmYAb6tG67BBglbtafIao4SUkicjwCuxWlMCf234yupSWwONe
-         QXTA/NB4xuFdazVACjtFGA/3J6GXfrlFE7KiQy3L10fGJswdIINwUuYL80GwdwbA/X
-         1oaSD81CRh1UXkmTAspo/hdqn56A4uPd0xGP0lEi/wZspTN5MpNFXg4n7sMAhQFY4U
-         xr5ezJ4ImSfvQ==
-X-Nifty-SrcIP: [209.85.128.41]
-Received: by mail-wm1-f41.google.com with SMTP id w8-20020a05600c014800b003a32e89bc4eso7783829wmm.5;
-        Tue, 26 Jul 2022 02:26:53 -0700 (PDT)
-X-Gm-Message-State: AJIora/2pKak2LpGwKZTl3vd0m6XP8zASBoBMlLp0+mjXsh8PgPb+uHl
-        x6DEomJxckWccPXLwh36ZnUSnHhXNk2KwJ6TOHg=
-X-Google-Smtp-Source: AGRyM1uGeaCDAN8z8yKxHxFJ9V3AepuKKOjXcNTD81j1E/+9R+DcEVLuRRv9FUeLk7HNSkZXBvwGr+EHMfBpPdhcGfg=
-X-Received: by 2002:a05:600c:35ce:b0:3a3:1b7f:bbd8 with SMTP id
- r14-20020a05600c35ce00b003a31b7fbbd8mr11063089wmq.22.1658827612274; Tue, 26
- Jul 2022 02:26:52 -0700 (PDT)
+        Tue, 26 Jul 2022 10:35:28 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A89F15FDF
+        for <linux-kbuild@vger.kernel.org>; Tue, 26 Jul 2022 07:35:26 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id ez10so26387104ejc.13
+        for <linux-kbuild@vger.kernel.org>; Tue, 26 Jul 2022 07:35:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=lLG88JCPgF7Yhflf4FNi4GQedsSNMbwmPtgneUr9Mu0=;
+        b=Nh6yhuk/aIMnslDUOuPndz9/LdCefExgEmHC2GvZaS074idlrWCFK9IXVr75sC4COi
+         77cqtdopPbdNkT6x5uaheIxm63AZ0QTxIEvCUQElsg9UEWc73kVMg30jbSXbYNGLUV8U
+         RJNAaPZiXc+0D5EVVGweRRqDQtVZN/jrxCIYwzeCR/tHLMU4KWqCrjp3Y3sx4N1morOg
+         3lEpX6f9qn7FXW1b+s459oZ4D6zNytZ5sa3aAiR/+AJ+o21Bh92d+7fp8/Mzg1L1Q6L+
+         z7/QGfNLHNk5t5EwGPdt5jm85ZUZc99wfuq7m9zTpC8ElSPSEQlFW1OU1ttSuPYfZ0uH
+         1OKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=lLG88JCPgF7Yhflf4FNi4GQedsSNMbwmPtgneUr9Mu0=;
+        b=SnGmyjitwmLGfJIGAY+zrMUhwO054HYQuoPEw/8ruN4gQi6OBvrBVZ7HFy7yob06go
+         YcBbDT11Sg4+5zp1tLXgZZ4gfNCMY6guoq/tJ2lvWF3fhZxjCtZeAYtGLtz2uDDi/EEF
+         CUEZK5JRXhAqd+twWMNObeyNxXHYchpzcD1lXwB1irIa5IX7Y5STaquyT0l/paBIWYUA
+         ec1IR1gVGPEKqFiexS+ZVkGHg1XkhI7M6txUDUpOT1OeXEVpreUYo8KM+lc8yNs7n/0P
+         G/7Tu1+ogkVk+Jt6suFqTCwawRgxvZiuzbcDize+fssUSMF4EOiJmfDNFunZL0SPII6a
+         i4uQ==
+X-Gm-Message-State: AJIora9DiG60BYjgCcLpGRFtVp46z0nKOR4t5KwcLZVzpUjo1FJSuxc7
+        QR6Ljir6BW76uGpF6UJI08KUna0ThDzv2lcy5so=
+X-Google-Smtp-Source: AGRyM1vqfDqPYbhSiZkLjp0yyYCQf2pkn5dqaqNe1JVfehbsMWdhIBxQj4kdS+qEU7x7+1rXX+MFudzpfpTsmnGz0RQ=
+X-Received: by 2002:a17:906:6a1c:b0:72f:2174:13db with SMTP id
+ qw28-20020a1709066a1c00b0072f217413dbmr13425982ejc.687.1658846124567; Tue, 26
+ Jul 2022 07:35:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220722022416.137548-1-mfo@canonical.com> <20220722022416.137548-4-mfo@canonical.com>
-In-Reply-To: <20220722022416.137548-4-mfo@canonical.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 26 Jul 2022 18:25:51 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARvJEhEOwg_PHe3WKT9BkSchnGOmeiUaB+7E__NS9qrVw@mail.gmail.com>
-Message-ID: <CAK7LNARvJEhEOwg_PHe3WKT9BkSchnGOmeiUaB+7E__NS9qrVw@mail.gmail.com>
-Subject: Re: [RFC PATCH 3/6] sysctl, mod_devicetable: shadow struct
- ctl_table.procname for file2alias
-To:     Mauricio Faria de Oliveira <mfo@canonical.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-modules <linux-modules@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>
+Received: by 2002:a17:906:241b:0:0:0:0 with HTTP; Tue, 26 Jul 2022 07:35:23
+ -0700 (PDT)
+Reply-To: clmloans9@gmail.com
+From:   MR ANTHONY EDWARD <zayyanusaidu009@gmail.com>
+Date:   Tue, 26 Jul 2022 15:35:23 +0100
+Message-ID: <CADM+8wR9Tg=hsdnNiedSSRWbgV8hrksz2nrTMjTskPnhfi_Qbw@mail.gmail.com>
+Subject: SICHERES KREDITANGEBOT BEI 2%
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=5.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,
+        T_HK_NAME_FM_MR_MRS,UNDISC_FREEM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:62f listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [clmloans9[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [zayyanusaidu009[at]gmail.com]
+        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [zayyanusaidu009[at]gmail.com]
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
+        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jul 22, 2022 at 11:24 AM Mauricio Faria de Oliveira
-<mfo@canonical.com> wrote:
->
-> In order to expose a sysctl entry to modpost (file2alias.c, precisely)
-> we have to shadow 'struct ctl_table' in mod_devicetable.h, as scripts
-> should not access kernel headers or its types (see file2alias.c).
->
-> The required field is '.procname' (basename of '/proc/sys/.../entry').
->
-> Since 'struct ctl_table' is annotated for structure randomization and
-> we need a known offset for '.procname' (remember, no kernel headers),
-> take it out of the randomized portion (as in, eg, 'struct task_struct').
->
-> Of course, add build-time checks for struct size and .procname offset
-> between both structs. (This has to be done on kernel side; for headers.)
->
-> With that in place, use the regular macros in devicetable-offsets.c to
-> define SIZE_... and OFF_... macros for the shadow struct and the field
-> of interest.
->
-> Signed-off-by: Mauricio Faria de Oliveira <mfo@canonical.com>
-> ---
->  fs/proc/proc_sysctl.c             | 19 +++++++++++++++++++
->  include/linux/mod_devicetable.h   | 25 +++++++++++++++++++++++++
->  include/linux/sysctl.h            | 11 ++++++++++-
->  kernel/sysctl.c                   |  1 +
->  scripts/mod/devicetable-offsets.c |  3 +++
->  5 files changed, 58 insertions(+), 1 deletion(-)
->
-> diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
-> index 021e83fe831f..ebbf8702387e 100644
-> --- a/fs/proc/proc_sysctl.c
-> +++ b/fs/proc/proc_sysctl.c
-> @@ -19,6 +19,24 @@
->  #include <linux/kmemleak.h>
->  #include "internal.h"
->
-> +#ifdef CONFIG_MODULES
-> +#include <linux/mod_devicetable.h>
-> +
-> +static void check_struct_sysctl_device_id(void)
-> +{
-> +       /*
-> +        * The shadow struct sysctl_device_id for file2alias.c needs
-> +        * the same size of struct ctl_table and offset for procname.
-> +        */
-> +       BUILD_BUG_ON(sizeof(struct sysctl_device_id)
-> +                       != sizeof(struct ctl_table));
-> +       BUILD_BUG_ON(offsetof(struct sysctl_device_id, procname)
-> +                       != offsetof(struct ctl_table, procname));
+--=20
+Ben=C3=B6tigen Sie ein Gesch=C3=A4ftsdarlehen oder ein Darlehen jeglicher A=
+rt?
+Wenn ja, kontaktieren Sie uns
 
-
-Nit:
-
-If you use static_assert(), you can remove
- check_struct_sysctl_device_id().
-
-
-You can write static_assert() out of a function.
-
-
-
-> diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-> index 223376959d29..15073621cfa8 100644
-> --- a/kernel/sysctl.c
-> +++ b/kernel/sysctl.c
-> @@ -2487,6 +2487,7 @@ int __init sysctl_init_bases(void)
->
->         return 0;
->  }
-> +
-
-
-Noise.
-
-
-
-
->  #endif /* CONFIG_SYSCTL */
->  /*
->   * No sense putting this after each symbol definition, twice,
-> diff --git a/scripts/mod/devicetable-offsets.c b/scripts/mod/devicetable-offsets.c
-> index c0d3bcb99138..43b2549940d2 100644
-> --- a/scripts/mod/devicetable-offsets.c
-> +++ b/scripts/mod/devicetable-offsets.c
-> @@ -262,5 +262,8 @@ int main(void)
->         DEVID(ishtp_device_id);
->         DEVID_FIELD(ishtp_device_id, guid);
->
-> +       DEVID(sysctl_device_id);
-> +       DEVID_FIELD(sysctl_device_id, procname);
-> +
->         return 0;
->  }
-> --
-> 2.25.1
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+*Vollst=C3=A4ndiger Name:
+* Ben=C3=B6tigte Menge:
+*Leihdauer:
+*Mobiltelefon:
+*Land:
