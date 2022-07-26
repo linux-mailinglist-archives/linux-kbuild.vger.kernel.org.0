@@ -2,109 +2,105 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E142158156B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Jul 2022 16:35:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB8175817F1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Jul 2022 18:53:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239405AbiGZOfb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 26 Jul 2022 10:35:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44718 "EHLO
+        id S234121AbiGZQx0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 26 Jul 2022 12:53:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239361AbiGZOf2 (ORCPT
+        with ESMTP id S229648AbiGZQx0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 Jul 2022 10:35:28 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A89F15FDF
-        for <linux-kbuild@vger.kernel.org>; Tue, 26 Jul 2022 07:35:26 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id ez10so26387104ejc.13
-        for <linux-kbuild@vger.kernel.org>; Tue, 26 Jul 2022 07:35:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=lLG88JCPgF7Yhflf4FNi4GQedsSNMbwmPtgneUr9Mu0=;
-        b=Nh6yhuk/aIMnslDUOuPndz9/LdCefExgEmHC2GvZaS074idlrWCFK9IXVr75sC4COi
-         77cqtdopPbdNkT6x5uaheIxm63AZ0QTxIEvCUQElsg9UEWc73kVMg30jbSXbYNGLUV8U
-         RJNAaPZiXc+0D5EVVGweRRqDQtVZN/jrxCIYwzeCR/tHLMU4KWqCrjp3Y3sx4N1morOg
-         3lEpX6f9qn7FXW1b+s459oZ4D6zNytZ5sa3aAiR/+AJ+o21Bh92d+7fp8/Mzg1L1Q6L+
-         z7/QGfNLHNk5t5EwGPdt5jm85ZUZc99wfuq7m9zTpC8ElSPSEQlFW1OU1ttSuPYfZ0uH
-         1OKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=lLG88JCPgF7Yhflf4FNi4GQedsSNMbwmPtgneUr9Mu0=;
-        b=SnGmyjitwmLGfJIGAY+zrMUhwO054HYQuoPEw/8ruN4gQi6OBvrBVZ7HFy7yob06go
-         YcBbDT11Sg4+5zp1tLXgZZ4gfNCMY6guoq/tJ2lvWF3fhZxjCtZeAYtGLtz2uDDi/EEF
-         CUEZK5JRXhAqd+twWMNObeyNxXHYchpzcD1lXwB1irIa5IX7Y5STaquyT0l/paBIWYUA
-         ec1IR1gVGPEKqFiexS+ZVkGHg1XkhI7M6txUDUpOT1OeXEVpreUYo8KM+lc8yNs7n/0P
-         G/7Tu1+ogkVk+Jt6suFqTCwawRgxvZiuzbcDize+fssUSMF4EOiJmfDNFunZL0SPII6a
-         i4uQ==
-X-Gm-Message-State: AJIora9DiG60BYjgCcLpGRFtVp46z0nKOR4t5KwcLZVzpUjo1FJSuxc7
-        QR6Ljir6BW76uGpF6UJI08KUna0ThDzv2lcy5so=
-X-Google-Smtp-Source: AGRyM1vqfDqPYbhSiZkLjp0yyYCQf2pkn5dqaqNe1JVfehbsMWdhIBxQj4kdS+qEU7x7+1rXX+MFudzpfpTsmnGz0RQ=
-X-Received: by 2002:a17:906:6a1c:b0:72f:2174:13db with SMTP id
- qw28-20020a1709066a1c00b0072f217413dbmr13425982ejc.687.1658846124567; Tue, 26
- Jul 2022 07:35:24 -0700 (PDT)
+        Tue, 26 Jul 2022 12:53:26 -0400
+Received: from conuserg-07.nifty.com (conuserg-07.nifty.com [210.131.2.74])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB0A863C1;
+        Tue, 26 Jul 2022 09:53:24 -0700 (PDT)
+Received: from localhost.localdomain (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id 26QGq6sm002811;
+        Wed, 27 Jul 2022 01:52:06 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 26QGq6sm002811
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1658854326;
+        bh=bsANJFQL0PDyyCjbc6YJJ6rzr0lsBYl+Br0sYpHU1oU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=fXkCFkPFyyI6MsyzwKg9vrCaid8MdGXQlfGJNVn3KKhDKnDYisp6cY/o5XgD+LPql
+         uen8ATRdaMJeqFs+CmpvnlFcPr7m9au3CttXz3uTs4BnCn2o4CQddOY7BdgDTAy4sg
+         T1fkwFQLbuCbJYoiBf6QcJ2p7HCTd03cPAMBlrEioc+c6mRbcv120q9fVShgRpNEgy
+         8QMLMtzNPRoFm7yGmAKR0oiol3d3F9SdIeUuZLjAhlQBQisQQMj/V7zDWmjP+ULsKW
+         UAlA+xAty9OyuF0zl8GKC2sVWuQ8hQQ0P040LN8ujR2EM+L2tS4E6oZgm5bE4ekPxL
+         0iC3bP+D1CJGQ==
+X-Nifty-SrcIP: [133.32.177.133]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] modpost: remove unused Elf_Sword macro
+Date:   Wed, 27 Jul 2022 01:52:04 +0900
+Message-Id: <20220726165204.3363120-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Received: by 2002:a17:906:241b:0:0:0:0 with HTTP; Tue, 26 Jul 2022 07:35:23
- -0700 (PDT)
-Reply-To: clmloans9@gmail.com
-From:   MR ANTHONY EDWARD <zayyanusaidu009@gmail.com>
-Date:   Tue, 26 Jul 2022 15:35:23 +0100
-Message-ID: <CADM+8wR9Tg=hsdnNiedSSRWbgV8hrksz2nrTMjTskPnhfi_Qbw@mail.gmail.com>
-Subject: SICHERES KREDITANGEBOT BEI 2%
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=5.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,
-        T_HK_NAME_FM_MR_MRS,UNDISC_FREEM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:62f listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [clmloans9[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [zayyanusaidu009[at]gmail.com]
-        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [zayyanusaidu009[at]gmail.com]
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
-        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
---=20
-Ben=C3=B6tigen Sie ein Gesch=C3=A4ftsdarlehen oder ein Darlehen jeglicher A=
-rt?
-Wenn ja, kontaktieren Sie uns
+Commit 9ad21c3f3ecf ("kbuild: try harder to find symbol names in
+modpost") added Elf_Sword (in a wrong way), but did not use it at all.
 
-*Vollst=C3=A4ndiger Name:
-* Ben=C3=B6tigte Menge:
-*Leihdauer:
-*Mobiltelefon:
-*Land:
+BTW, the current code looks weird.
+
+The fix for the 32-bit part would be:
+
+    Elf64_Sword    -->    Elf32_Sword
+
+(weirdness in the prefix, Elf32_ vs Elf64_)
+
+The fix for the 64-bit part would be:
+
+    Elf64_Sxword   -->    Elf64_Sword
+
+(the size is different between Sword and Sxword)
+
+Note:
+
+    Elf32_Sword   ==  Elf64_Sword   ==  int32_t
+    Elf32_Sxword  ==  Elf64_Sxword  ==  int64_t
+
+Anyway, let's drop unused code instead of fixing it.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ scripts/mod/modpost.h | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+index 68cd4aeeae3d..620f2fd08e05 100644
+--- a/scripts/mod/modpost.h
++++ b/scripts/mod/modpost.h
+@@ -26,7 +26,6 @@
+ #define Elf_Shdr    Elf32_Shdr
+ #define Elf_Sym     Elf32_Sym
+ #define Elf_Addr    Elf32_Addr
+-#define Elf_Sword   Elf64_Sword
+ #define Elf_Section Elf32_Half
+ #define ELF_ST_BIND ELF32_ST_BIND
+ #define ELF_ST_TYPE ELF32_ST_TYPE
+@@ -41,7 +40,6 @@
+ #define Elf_Shdr    Elf64_Shdr
+ #define Elf_Sym     Elf64_Sym
+ #define Elf_Addr    Elf64_Addr
+-#define Elf_Sword   Elf64_Sxword
+ #define Elf_Section Elf64_Half
+ #define ELF_ST_BIND ELF64_ST_BIND
+ #define ELF_ST_TYPE ELF64_ST_TYPE
+-- 
+2.34.1
+
