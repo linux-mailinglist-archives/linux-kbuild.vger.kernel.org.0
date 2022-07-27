@@ -2,73 +2,69 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CD09582391
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Jul 2022 11:59:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CA785823C7
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Jul 2022 12:06:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229763AbiG0J7F (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 27 Jul 2022 05:59:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37270 "EHLO
+        id S231723AbiG0KGW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 27 Jul 2022 06:06:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229507AbiG0J7E (ORCPT
+        with ESMTP id S230057AbiG0KGV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 27 Jul 2022 05:59:04 -0400
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5261327B29
-        for <linux-kbuild@vger.kernel.org>; Wed, 27 Jul 2022 02:59:02 -0700 (PDT)
-Received: by mail-lj1-x22c.google.com with SMTP id h12so1689803ljg.7
-        for <linux-kbuild@vger.kernel.org>; Wed, 27 Jul 2022 02:59:02 -0700 (PDT)
+        Wed, 27 Jul 2022 06:06:21 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B327A1AF17
+        for <linux-kbuild@vger.kernel.org>; Wed, 27 Jul 2022 03:06:19 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id p11so21557820lfu.5
+        for <linux-kbuild@vger.kernel.org>; Wed, 27 Jul 2022 03:06:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=GwqFtPt/xmNEM9oGm20Ezy8JHRp4k937wt14MI6jUS4=;
-        b=IN9Xzww+/6pEM6LT6pKFO5qZW1gBv8j/A0PvWMT4vMvcZUbYJOfwhc+k6Op2JIzVvM
-         VsDi2DYYDxVdVLbxWkGlN7cFc7walUDcTJhJ/O3AV2Wxg3J6TaF+SvJe2QDN3JNLaY9A
-         dExWVNjuMOz2YZ/5b3yx3YZNvlf2HNbSfumQko3+exRj/kYs3kNVaAGoSqj/aovU7o7x
-         QfIh6+WetoQKV+fJnjSaMPyWI7M7zgwSGvKkPJnYcI6q5KK8CN87V8XV+9C1sDM7zSiZ
-         Hn+8AsAVhlrCddg5GCSqoUr/R5ktG5gvYKL7tjT/dvL3iyi3PUoBfVJHH20Nj6ElOguU
-         V9qA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=H6IDJ4C5bccFAxeK6xcFNoHFKmsJbrdAcR26crWC790=;
+        b=E40hhx8eHoltQCcwgV1s2lHhJD1E4fOiMhzkBsFpZZPMX/7dKKSk4nCywaP/Z4T1H6
+         WKAQY44NHZ3ni5KSmOm6zPXj+OqcHI5X6YeSxo3q4/DTJH4Kb14rEp2GC1kY8AY2NiId
+         39SM9VN749ErK7Xx54LKCWcka55Ut4JlDBa0VBDF0L+2P+BDC29SO5W7q4V4zE+Lr38m
+         cRnjz/YFUZShfeG2uTx7uPzurUwB/0WoVPuIe2bGcgN9yp/53xC8QlYBJ4vKeq7b1BXf
+         cIf814COo2wg0GtktE7zRrZxZTbr6WkcLZ+UzYUcJKuJenRcDCcSWa5FSQ6bo6t0GKF3
+         /wQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=GwqFtPt/xmNEM9oGm20Ezy8JHRp4k937wt14MI6jUS4=;
-        b=WqIJqWrQ0TzPjKbrrOb4TiWMYUSVBuJkIKQUPH/nqJp9T9RT5yh0p7s2ATS0bRnZec
-         ggGuLoxVjMXNkUrW3J6nsRYtMgZI1NrD5jOG2lFXEMmgBRl1BvUnnve3aBqS9vvqkogM
-         1fDrSjmocQUzLJ4WbuoconQcGSefGp1KcjoK0gG/Cm6mpki0QquPZnipAcYQBKwepgnV
-         HNibFhSuMksrjwuw9c5/G5O1iuvVlKwD71D/QgC+HgCNCdIT4qYbUBShFlAyDfOu/+ZN
-         QSLY9oNIbdTdvWFPzek+hroRuIzAtUID+rSqwN//DrHrBGKlpeLhU7o0ZFcEP5grF5iM
-         ImBw==
-X-Gm-Message-State: AJIora84NQWuy85qIG2NnuTmMH40xi2sms2uHkDjvtD21n7AVlM6blix
-        InP27OSu+cpGXKy6XFD/+JDKvRU0QnlpNA==
-X-Google-Smtp-Source: AGRyM1vOjpH1M1Y46yNkQ5PFkJlMXeww9/PEnzRuXfOLskRj6ZXLJYgoIgP3L7K1Cog13GSAXoFR4A==
-X-Received: by 2002:a2e:a408:0:b0:25d:f594:146a with SMTP id p8-20020a2ea408000000b0025df594146amr7321581ljn.76.1658915940447;
-        Wed, 27 Jul 2022 02:59:00 -0700 (PDT)
-Received: from [192.168.43.7] ([188.162.64.29])
-        by smtp.gmail.com with ESMTPSA id v16-20020a05651203b000b0048a8899df3esm1800155lfp.168.2022.07.27.02.58.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Jul 2022 02:58:59 -0700 (PDT)
-Message-ID: <721e4896-6edb-9427-1dbb-0b17742615e6@linaro.org>
-Date:   Wed, 27 Jul 2022 12:58:58 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] kbuild: add dtbs_prepare target
-Content-Language: en-GB
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org, devicetree@vger.kernel.org,
-        Rob Herring <robh@kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org
-References: <20220716093122.137494-1-masahiroy@kernel.org>
+        bh=H6IDJ4C5bccFAxeK6xcFNoHFKmsJbrdAcR26crWC790=;
+        b=iYfrJVWMk54c6MOEo/8f2C6Fv/cXU3O2nJuGJYoa0sn5vS+2sItYbm/c9DmN/dnRgB
+         aGkNnAWRbft8f6vR1PAIoxTxXO1JWxiFj5VcZEcRcuynB957m+JFdB7uaH2vFNjG0PEI
+         yHWhyEjxmiSvD/nQdbJMQTUjaTs9rfHbMp+V2YCqjBLpQ/apci3H4IKgDBeAyHXvqhNX
+         iOTPwae3EWNPuk7+fbocBWHlRqAeKm4or7xscJQMP02h3J7KuGzwY2bteYkBxzYNatfa
+         QxMU0LkCL+z1n8b+vOhHxboqStDhKdRFlAGz+mRdkYdUljRGmQfzj5eZDFZxWzx8TPBs
+         GZ8g==
+X-Gm-Message-State: AJIora/ifasHXq1nPJV+4ukMBb1VaJ7ot8j+SDQ3r9lzwh0MNBasnedT
+        T95ffvjWwdT++pWm/ypjZvkIeQ==
+X-Google-Smtp-Source: AGRyM1uOR9dx5+hwW2p1CfkA3e40RUcouNyUvvVCWkoflGa09VHVX+uy7YmdKgma3ApZjtq9G/gxTQ==
+X-Received: by 2002:a05:6512:c2a:b0:489:db52:fc18 with SMTP id z42-20020a0565120c2a00b00489db52fc18mr7628573lfu.99.1658916378062;
+        Wed, 27 Jul 2022 03:06:18 -0700 (PDT)
+Received: from eriador.lumag.spb.ru ([188.162.64.29])
+        by smtp.gmail.com with ESMTPSA id k6-20020a05651c10a600b0025dd5b3fabesm3670900ljn.102.2022.07.27.03.06.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Jul 2022 03:06:17 -0700 (PDT)
 From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220716093122.137494-1-masahiroy@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        linux-arm-msm@vger.kernel.org
+Subject: [PATCH] kbuild: take into account DT_SCHEMA_FILES changes while checking dtbs
+Date:   Wed, 27 Jul 2022 13:06:15 +0300
+Message-Id: <20220727100615.638072-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,61 +72,49 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 16/07/2022 12:31, Masahiro Yamada wrote:
-> Factor out the common prerequisites for DT compilation into the new
-> target, dtbs_prepare.
-> 
-> Add comments in case you wonder why include/config/kernel.release is
-> the prerequisite. Our policy is that installation targets must not
-> (re)compile any build artifacts in the tree. If we make modules_install
-> depend on include/config/kernel.release and it is executed under the
-> root privilege, it may be owned by root.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+It is useful to be able to recheck dtbs files against a limited set of
+DT schema files. This can be accomplished by using differnt
+DT_SCHEMA_FILES argument values while rerunning make dtbs_check. However
+for some reason if_changed_rule doesn't pick up the rule_dtc changes
+(and doesn't retrigger the build).
 
-With the comment fixed:
+Fix this by changing if_changed_rule to if_changed_dep and squashing DTC
+and dt-validate into a single new command. Then if_changed_dep triggers
+on DT_SCHEMA_FILES changes and reruns the build/check.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Tested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ scripts/Makefile.lib | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-> ---
-> 
->   Makefile | 14 ++++++++++----
->   1 file changed, 10 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index a9bd55edb75e..8aa4dbb8f878 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1367,16 +1367,22 @@ endif
->   
->   ifneq ($(dtstree),)
->   
-> -%.dtb: include/config/kernel.release scripts_dtc
-> +%.dtb: dtbs_prepare
->   	$(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
->   
-> -%.dtbo: include/config/kernel.release scripts_dtc
-> +%.dtbo: dtbs_prepare
->   	$(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
->   
-> -PHONY += dtbs dtbs_install dtbs_check
-> -dtbs: include/config/kernel.release scripts_dtc
-> +PHONY += dtbs dtbs_prepare dtbs_install dtbs_check
-> +dtbs: dtbs_prepare
->   	$(Q)$(MAKE) $(build)=$(dtstree)
->   
-> +# include/config/kernel.release is not actually required for building DTBs,
-> +# but for installing DTBs because INSTALL_DTBS_PATH contains $(KERNELRELEASE).
-> +# We do not want to move it to dtbs_install. The policy is installation
-> +# targets (, which may run as root) must not modify the tree.
-> +dtbs_prepare: include/config/kernel.release scripts_dtc
-> +
->   ifneq ($(filter dtbs_check, $(MAKECMDGOALS)),)
->   export CHECK_DTBS=y
->   dtbs: dt_binding_check
-
-
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index c88b98b5dc44..3df470289382 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -383,17 +383,15 @@ DT_CHECKER_FLAGS ?= $(if $(DT_SCHEMA_FILES),-l $(DT_SCHEMA_FILES),-m)
+ DT_BINDING_DIR := Documentation/devicetree/bindings
+ DT_TMP_SCHEMA := $(objtree)/$(DT_BINDING_DIR)/processed-schema.json
+ 
+-quiet_cmd_dtb_check =	CHECK   $@
+-      cmd_dtb_check =	$(DT_CHECKER) $(DT_CHECKER_FLAGS) -u $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $@ || true
++quiet_cmd_dtb =	DTC/CHECK   $@
++      cmd_dtb =	$(cmd_dtc) ; $(DT_CHECKER) $(DT_CHECKER_FLAGS) -u $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $@ || true
++else
++quiet_cmd_dtb = $(quiet_cmd_dtc)
++      cmd_dtb = $(cmd_dtc)
+ endif
+ 
+-define rule_dtc
+-	$(call cmd_and_fixdep,dtc)
+-	$(call cmd,dtb_check)
+-endef
+-
+ $(obj)/%.dtb: $(src)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE
+-	$(call if_changed_rule,dtc)
++	$(call if_changed_dep,dtb)
+ 
+ $(obj)/%.dtbo: $(src)/%.dts $(DTC) FORCE
+ 	$(call if_changed_dep,dtc)
 -- 
-With best wishes
-Dmitry
+2.35.1
+
