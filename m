@@ -2,66 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 907A258316F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Jul 2022 20:06:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7121583174
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Jul 2022 20:08:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238591AbiG0SGw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 27 Jul 2022 14:06:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45888 "EHLO
+        id S243294AbiG0SIF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 27 Jul 2022 14:08:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238776AbiG0SG3 (ORCPT
+        with ESMTP id S239182AbiG0SHr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 27 Jul 2022 14:06:29 -0400
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A3E8743D8
-        for <linux-kbuild@vger.kernel.org>; Wed, 27 Jul 2022 10:10:33 -0700 (PDT)
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
+        Wed, 27 Jul 2022 14:07:47 -0400
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD7C4C7AC2
+        for <linux-kbuild@vger.kernel.org>; Wed, 27 Jul 2022 10:11:22 -0700 (PDT)
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com [209.85.160.72])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id CF5FC3F119
-        for <linux-kbuild@vger.kernel.org>; Wed, 27 Jul 2022 17:10:31 +0000 (UTC)
+        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id E89593F144
+        for <linux-kbuild@vger.kernel.org>; Wed, 27 Jul 2022 17:11:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1658941831;
-        bh=MwbKTIqeQ2TTy8ePNbXBDPk1jZx92UHbKiiI/PaCj6g=;
+        s=20210705; t=1658941880;
+        bh=H/YoNoMBJ5KLzizvRdlp2kaTQKAcETzt8x9wjboShNc=;
         h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
          To:Cc:Content-Type;
-        b=vUEizXPH6F6Ph8M6VK549GJIbDDAr9NlH6GfFEBSIpxSP2GI2OflSoApd/atDs9Gi
-         sAHjl2KixQ8cyQ8ggUIF4FHOl3uncFxB3hzRrkkO0xjADVXrHzaTC6uj6rENLnotkq
-         smo/fzWwOnXa2aLO0B14Y/XgJIf7qeDUYymdIVdRFPqF++8hcU/uba7xR//iKT35ak
-         Y8IcLUdZYz+s1fqJ+7ZOrxfHW+35+RkTGIiYc4ufqKVvFqpUcYs3em3uLPBp3vRo3W
-         QmvxMDdzAt8je2jwD5HrhjAa7nYX2uEkSXUNPhPd2k8JMixz9y6yAANof05T4JPKUF
-         wif86LGxGs+zg==
-Received: by mail-oi1-f198.google.com with SMTP id b205-20020aca34d6000000b0033a33a68361so8004881oia.10
-        for <linux-kbuild@vger.kernel.org>; Wed, 27 Jul 2022 10:10:31 -0700 (PDT)
+        b=f294ewGx3RuSG3n7RyP908ORZRmbHecmM5VYwd9wR8OGMeSoiOgbk6YtQXC4VTZ4S
+         nKiy1hi/htLv4QHn5YuzkepU7QVIlFfJ4QCG8YdE9W9gBEUt7ItVPTCTz9DOo0+/DD
+         BQwninWot1opMfUg0re/qunCpuYKxCaszaIG3xjFyYZc6Wod8iHbkWNKE7h7ZZP6jA
+         XhHJZzBPJFPUBl51Q/NDQ6YQ539fmzKBUt8/qxMW/iOn9M0iaUFZVU3odIIVGJ6/QG
+         8hbcvadoNLdlvWmsS+3tSBr/d9pqrMcigh2ja8ucrKwR5MmrKFMlFwd8SQfCpyBvYD
+         K6YrN8vrcL/uw==
+Received: by mail-oa1-f72.google.com with SMTP id 586e51a60fabf-10e6895d473so334008fac.17
+        for <linux-kbuild@vger.kernel.org>; Wed, 27 Jul 2022 10:11:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=MwbKTIqeQ2TTy8ePNbXBDPk1jZx92UHbKiiI/PaCj6g=;
-        b=Ztu/m/jK5hDky0gjrr2RzuDNRBGWSlbSVPPR8HcoWCpsUQLH0sC3xJUxKLGoDC1dYV
-         1Xqr2y67qXyPcuQewj3jOvULtVBTA3oXo54MTqdgVT0MeCsOypVvFzx8XqxLCPtQMxxE
-         MF6OrCfQtsaOOYeqoXJYottdqgYoIk5H+qFXWVJxLm7vYaqyjPMxLvaryqYLsXtJfBXx
-         FmbMsy4AQ1KdsmR6SzMUAEA9wt4zp9qhrF/OQoI7/qD15Qo/yNckcvYBGScMEwAB7zKp
-         8wK8kLHtv4Lc37/sM8rBtY4X8wLqx3Cak3Hn9LrUgaBeExd8dgvJtxCfldptkHtCFDDH
-         k12Q==
-X-Gm-Message-State: AJIora/329+QGKTl4UsWoSn0bhsk0YLju1O2vmRlNbC4mcfSA7fbOl7Y
-        dgoD5Yfp/MaXRxOaDw9keh2oPxehv0zwzTuAbTsK+WJQqrU1xoHIHZnT2YypqTslxg+/Ap1+myr
-        DKsP7wdeReWHTiAzA6WTsnqZBiIYu4axDw6M8K8vks/87r0pj69DctpGXKQ==
-X-Received: by 2002:a05:6870:f2a9:b0:f2:c0bc:411d with SMTP id u41-20020a056870f2a900b000f2c0bc411dmr2737766oap.239.1658941830718;
-        Wed, 27 Jul 2022 10:10:30 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vBKZhLdkbcpF/TatWlbNU7aYa3ip9lhe72pmXXNtN2IB53IwzoKcN7+r9ei2CnBpFXQD7d/DMa6iQKKEY3MnM=
-X-Received: by 2002:a05:6870:f2a9:b0:f2:c0bc:411d with SMTP id
- u41-20020a056870f2a900b000f2c0bc411dmr2737745oap.239.1658941830466; Wed, 27
- Jul 2022 10:10:30 -0700 (PDT)
+        bh=H/YoNoMBJ5KLzizvRdlp2kaTQKAcETzt8x9wjboShNc=;
+        b=ttonXk7DRBYZUQxEnaqLjfWbjI28FDgH1jtSJvh/oSqrTEHmiMdXZ7z1mYtsCRb77t
+         a1Il5/REyhxfgi+LY/97PoLJhVdPou8Y525+H7qiEaEHwZg+vd1cDu4ycKpqKiNDM8Mb
+         xm6CRrEGTNI0MZ+GXl3Z7p2TPvoVQIZY21Z97oz5LSwO0x3TXWVFCgu2YxHRaAe2aTYn
+         GDHkEwWek4rO6MdmbNmWfebyJF9AYgo2HmQs+zK/maY7epPWeFgf37qB5HdZQcA/ymZA
+         fitO/xl1sPj9d5sFO+Kfupf5/akr+S9iv/6dn6nnhGiLP6P8vRH+kWDngeM4x+1q7tGN
+         Sq3Q==
+X-Gm-Message-State: AJIora+OEBnQiWC4oYjTG4QMx3I6nzWr663D1sSjEFhjIRj4rcALsJr5
+        MmaRFTgg3kiia//sde764tJRKuTTrPbnJd/uEsE6pkjTqPtoe63arWC7+yJIl1xD0x29ZSk1rZM
+        lk1+BJFfk1fWKDie0FuY7w5JoKMwSOE9B53e2UaZFZyekbFuYhpYxC94thg==
+X-Received: by 2002:a9d:2602:0:b0:61c:30c1:fa03 with SMTP id a2-20020a9d2602000000b0061c30c1fa03mr9316718otb.86.1658941879716;
+        Wed, 27 Jul 2022 10:11:19 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sUAq7yzvxs08MQ/1pmGOGHFSPETa6NtLulFJUJqWOK5wr+vL658B/OM4yj6drYQZjU8O1hrMUjyEk+FKH3IyE=
+X-Received: by 2002:a9d:2602:0:b0:61c:30c1:fa03 with SMTP id
+ a2-20020a9d2602000000b0061c30c1fa03mr9316702otb.86.1658941879435; Wed, 27 Jul
+ 2022 10:11:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220722022416.137548-1-mfo@canonical.com> <20220722022416.137548-3-mfo@canonical.com>
- <CAK7LNARTN55RE18vXjMuAUO37kMeawBD4G=UcS6_j7U0asCZEA@mail.gmail.com>
-In-Reply-To: <CAK7LNARTN55RE18vXjMuAUO37kMeawBD4G=UcS6_j7U0asCZEA@mail.gmail.com>
+References: <20220722022416.137548-1-mfo@canonical.com> <20220722022416.137548-7-mfo@canonical.com>
+ <CAK7LNARbSjmZgp1vg5m2j4oRYHgCUv7Wsj+4-OYdo9Cpe0Xs3A@mail.gmail.com>
+In-Reply-To: <CAK7LNARbSjmZgp1vg5m2j4oRYHgCUv7Wsj+4-OYdo9Cpe0Xs3A@mail.gmail.com>
 From:   Mauricio Faria de Oliveira <mfo@canonical.com>
-Date:   Wed, 27 Jul 2022 14:10:18 -0300
-Message-ID: <CAO9xwp2GpYHSNnvoXze=ye3OZoOxuoBv40BS+rv4UCdV=O_oHg@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/6] modpost: deduplicate section_rel[a]()
+Date:   Wed, 27 Jul 2022 14:11:08 -0300
+Message-ID: <CAO9xwp33Q9ksED_MxPFJYT=DSsEX5=g_C-b5mcF4irU9dy6Vaw@mail.gmail.com>
+Subject: Re: [RFC PATCH 6/6] sysctl: introduce /proc/sys/kernel/modprobe_sysctl_alias
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         linux-modules <linux-modules@vger.kernel.org>,
@@ -75,167 +75,152 @@ Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jul 26, 2022 at 6:20 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Tue, Jul 26, 2022 at 6:24 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
 > On Fri, Jul 22, 2022 at 11:24 AM Mauricio Faria de Oliveira
 > <mfo@canonical.com> wrote:
 > >
-> > Now both functions are almost identical, and we can again generalize
-> > the relocation types Elf_Rela/Elf_Rel with Elf_Rela, and handle some
-> > differences with conditionals on section header type (SHT_RELA/REL).
+> > The goal of the earlier patches is to let sysctl userspace tools
+> > load the kernel module with a sysctl entry that is not available
+> > yet in /proc/sys/ when the tool runs (so it can become available).
 > >
-> > The important bit is to make sure the loop increment uses the right
-> > size for pointer arithmethic.
+> > Let's expose this file for userspace for two reasons:
 > >
-> > The original reason for split functions to make program logic easier
-> > to follow; commit 5b24c0715fc4 ("kbuild: code refactoring in modpost").
+> > 1) Allow such tools to identify that the running kernel has the
+> >    code which produces sysctl module aliases, so they could run
+> >    'modprobe sysctl:<entry>' only when it may actually help.
 > >
-> > Hopefully these 2 commits may help improving that, without an impact
-> > in understanding the code due to generalization of relocation types.
+> > 2) Allow an administrator to hint such tools not to do that, if
+> >    that is desired for some reason (e.g., rather have the tools
+> >    fail if something is misconfigured in a critical deployment).
+>
+> This flag is just a hint.
+> User-space tools are still able to ignore it.
+>
+> Perhaps, such administrator's choice might be specified in
+> tools' configuration file.
+>
+> For example,
+>
+> /etc/modprobe.d/forbid-sysctl-alias.conf
+>
+> may specify
+>
+>     blacklist:  sysctl:*
+>
+> if they want to forbid sysctl aliasing.
+> (but I do not know if this works or not).
+
+Yes, it's just a hint. I considered this isn't strong enough, but
+didn't think more into it.
+
+Now, your idea with modprobe.d is strong enough. We have to change it a bit, as
+only 'alias' supports wildcards per modprobe.d(5), then add 'install'
+to make sure.
+
+# cat /etc/modprobe.d/disable-sysctl-alias.conf
+alias sysctl:* sysctl_alias_off
+install sysctl_alias_off /bin/false
+# or /bin/true, per the sysadmin.
+
+# modprobe sysctl:nf_conntrack_max
+modprobe: ERROR: ../libkmod/libkmod-module.c:990 command_do() Error
+running install command '/bin/false' for module sysctl_alias_off:
+retcode 1
+modprobe: ERROR: could not insert 'sysctl_alias_off': Invalid argument
+
+I'll document this in the commit message for now.
+
+P.S.: Since the flag is a hint to userspace tools in sense 1) as well
+(so they know not to run modprobe if sysctl aliases aren't expected),
+the idea or the file itself seems worth keeping -- but maybe differently.
+
+Thanks,
+
+
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+> > Also add a module parameter for that (proc.modprobe_sysctl_alias),
+> > for another method that doesn't depend on sysctl tools to be set
+> > (that wouldn't fail them to try and set it if it's not there yet).
 > >
 > > Signed-off-by: Mauricio Faria de Oliveira <mfo@canonical.com>
 > > ---
-> >  scripts/mod/modpost.c | 61 ++++++++++++++++---------------------------
-> >  1 file changed, 23 insertions(+), 38 deletions(-)
+> >  fs/proc/proc_sysctl.c  | 8 ++++++++
+> >  include/linux/module.h | 1 +
+> >  kernel/sysctl.c        | 9 +++++++++
+> >  3 files changed, 18 insertions(+)
 > >
-> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > index 4c1038dccae0..d1ed67fa290b 100644
-> > --- a/scripts/mod/modpost.c
-> > +++ b/scripts/mod/modpost.c
-> > @@ -1794,63 +1794,49 @@ static int get_relx_sym(struct elf_info *elf, Elf_Shdr *sechdr, Elf_Rela *rela,
-> >         return 0;
+> > diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
+> > index ebbf8702387e..1e63819fcda8 100644
+> > --- a/fs/proc/proc_sysctl.c
+> > +++ b/fs/proc/proc_sysctl.c
+> > @@ -33,6 +33,14 @@ static void check_struct_sysctl_device_id(void)
+> >         BUILD_BUG_ON(offsetof(struct sysctl_device_id, procname)
+> >                         != offsetof(struct ctl_table, procname));
 > >  }
-> >
-> > -static void section_rela(const char *modname, struct elf_info *elf,
-> > +/* The caller must ensure sechdr->sh_type == SHT_RELA or SHT_REL. */
-> > +static void section_relx(const char *modname, struct elf_info *elf,
-> >                          Elf_Shdr *sechdr)
-> >  {
-> >         Elf_Sym  *sym;
-> > -       Elf_Rela *rela;
-> > +       Elf_Rela *relx; /* access .r_addend in SHT_RELA _only_! */
-> >         Elf_Rela r;
-> > +       size_t relx_size;
-> >         const char *fromsec;
-> >
-> >         Elf_Rela *start = (void *)elf->hdr + sechdr->sh_offset;
-> >         Elf_Rela *stop  = (void *)start + sechdr->sh_size;
-> >
-> >         fromsec = sech_name(elf, sechdr);
-> > -       fromsec += strlen(".rela");
-> > +       if (sechdr->sh_type == SHT_RELA) {
-> > +               relx_size = sizeof(Elf_Rela);
-> > +               fromsec += strlen(".rela");
-> > +       } else if (sechdr->sh_type == SHT_REL) {
-> > +               relx_size = sizeof(Elf_Rel);
-> > +               fromsec += strlen(".rel");
-> > +       } else {
-> > +               error("%s: [%s.ko] not relocation section\n", fromsec, modname);
->
->
-> Nit.
->
-> modname already contains the suffix  ".o".
->
-> For vmlinux, the error message will print like this:
-> [vmlinux.o.ko]
-
-Oops, I missed the '.o' suffix difference between modname and mod->name.
-
-If it's OK, I just removed '.ko' as it's simpler than plumbing 'mod' in
-(i.e., for  "[%s%s]" with mod->name, mod->is_vmlinux ? "" : ".ko" ).
-
-And just noting for myself/other readers:
-
-Similar calls in do_sysctl_{entry,table}() with '.ko' are OK because their
-modname is mod->name (without '.o' suffix), and shouldn't run for vmlinux,
-just modules (MODULE_SYSCTL_TABLE is defined if MODULE is defined).
-
-Thanks!
-
-
->
->
->
->
->
-> > +               return;
-> > +       }
 > > +
-> >         /* if from section (name) is know good then skip it */
-> >         if (match(fromsec, section_white_list))
-> >                 return;
+> > +/*
+> > + * Hint sysctl userspace tools whether or not to run modprobe with sysctl alias
+> > + * ('modprobe sysctl:entry') if they cannot find the file '/proc/sys/.../entry'
+> > + */
+> > +int modprobe_sysctl_alias = 1;
+> > +module_param(modprobe_sysctl_alias, int, 0644);
+> > +
+> >  #else
+> >  static void check_struct_sysctl_device_id(void) {}
+> >  #endif
+> > diff --git a/include/linux/module.h b/include/linux/module.h
+> > index 3010f687df19..5f565491c596 100644
+> > --- a/include/linux/module.h
+> > +++ b/include/linux/module.h
+> > @@ -304,6 +304,7 @@ struct notifier_block;
+> >  #ifdef CONFIG_MODULES
 > >
-> > -       for (rela = start; rela < stop; rela++) {
-> > -               if (get_relx_sym(elf, sechdr, rela, &r, &sym))
-> > +       for (relx = start; relx < stop; relx = (void *)relx + relx_size) {
-> > +               if (get_relx_sym(elf, sechdr, relx, &r, &sym))
-> >                         continue;
-> >
-> >                 switch (elf->hdr->e_machine) {
-> >                 case EM_RISCV:
-> > -                       if (!strcmp("__ex_table", fromsec) &&
-> > +                       if (sechdr->sh_type == SHT_RELA &&
-> > +                           !strcmp("__ex_table", fromsec) &&
-> >                             ELF_R_TYPE(r.r_info) == R_RISCV_SUB32)
-> >                                 continue;
-> >                         break;
-> >                 }
-> >
-> > -               if (is_second_extable_reloc(start, rela, fromsec))
-> > -                       find_extable_entry_size(fromsec, &r);
-> > -               check_section_mismatch(modname, elf, &r, sym, fromsec);
-> > -       }
-> > -}
-> > -
-> > -static void section_rel(const char *modname, struct elf_info *elf,
-> > -                       Elf_Shdr *sechdr)
-> > -{
-> > -       Elf_Sym *sym;
-> > -       Elf_Rel *rel;
-> > -       Elf_Rela r;
-> > -       const char *fromsec;
-> > -
-> > -       Elf_Rel *start = (void *)elf->hdr + sechdr->sh_offset;
-> > -       Elf_Rel *stop  = (void *)start + sechdr->sh_size;
-> > -
-> > -       fromsec = sech_name(elf, sechdr);
-> > -       fromsec += strlen(".rel");
-> > -       /* if from section (name) is know good then skip it */
-> > -       if (match(fromsec, section_white_list))
-> > -               return;
-> > -
-> > -       for (rel = start; rel < stop; rel++) {
-> > -               if (get_relx_sym(elf, sechdr, (Elf_Rela *)rel, &r, &sym)
-> > -                       continue;
-> > -
-> > -               if (is_second_extable_reloc(start, rel, fromsec))
-> > +               if (is_second_extable_reloc(start, relx, fromsec))
-> >                         find_extable_entry_size(fromsec, &r);
-> >                 check_section_mismatch(modname, elf, &r, sym, fromsec);
-> >         }
-> > @@ -1877,10 +1863,9 @@ static void check_sec_ref(const char *modname, struct elf_info *elf)
-> >         for (i = 0; i < elf->num_sections; i++) {
-> >                 check_section(modname, elf, &elf->sechdrs[i]);
-> >                 /* We want to process only relocation sections and not .init */
-> > -               if (sechdrs[i].sh_type == SHT_RELA)
-> > -                       section_rela(modname, elf, &elf->sechdrs[i]);
-> > -               else if (sechdrs[i].sh_type == SHT_REL)
-> > -                       section_rel(modname, elf, &elf->sechdrs[i]);
-> > +               if (sechdrs[i].sh_type == SHT_RELA ||
-> > +                   sechdrs[i].sh_type == SHT_REL)
-> > +                       section_relx(modname, elf, &elf->sechdrs[i]);
-> >         }
-> >  }
-> >
+> >  extern int modules_disabled; /* for sysctl */
+> > +extern int modprobe_sysctl_alias; /* for proc sysctl */
+> >  /* Get/put a kernel symbol (calls must be symmetric) */
+> >  void *__symbol_get(const char *symbol);
+> >  void *__symbol_get_gpl(const char *symbol);
+> > diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+> > index 15073621cfa8..b396cfcb55fc 100644
+> > --- a/kernel/sysctl.c
+> > +++ b/kernel/sysctl.c
+> > @@ -1763,6 +1763,15 @@ static struct ctl_table kern_table[] = {
+> >                 .mode           = 0644,
+> >                 .proc_handler   = proc_dostring,
+> >         },
+> > +#ifdef CONFIG_PROC_SYSCTL
+> > +       {
+> > +               .procname       = "modprobe_sysctl_alias",
+> > +               .data           = &modprobe_sysctl_alias,
+> > +               .maxlen         = sizeof(modprobe_sysctl_alias),
+> > +               .mode           = 0644,
+> > +               .proc_handler   = proc_dointvec,
+> > +       },
+> > +#endif
+> >         {
+> >                 .procname       = "modules_disabled",
+> >                 .data           = &modules_disabled,
 > > --
 > > 2.25.1
 > >
