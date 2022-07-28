@@ -2,124 +2,264 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CD7258322C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Jul 2022 20:39:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51828583690
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Jul 2022 03:56:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234483AbiG0Sj1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 27 Jul 2022 14:39:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48970 "EHLO
+        id S233956AbiG1B4I (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 27 Jul 2022 21:56:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243305AbiG0SjN (ORCPT
+        with ESMTP id S233484AbiG1B4H (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 27 Jul 2022 14:39:13 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30A4E58B5F;
-        Wed, 27 Jul 2022 10:36:21 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 457CAB8200D;
-        Wed, 27 Jul 2022 17:36:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9146C433B5;
-        Wed, 27 Jul 2022 17:36:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658943378;
-        bh=Xl6d7YyAtLFXVLl6Ln+ny8Wog2OwDSUSA9+ZSYKIOdw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=IYPAGyhuvTrsIitUMGuHCgmfmlfCeZIGgKOXoWE1/ZITtnddMLiyh8HQ9KXCxZwtK
-         q+czlO4HrUOL4WmwUYUtxAZR5wLXRTgmQSxnIymXS/tvmehJPVZsV50eF/ryhWxPgm
-         kvR9oVsvJImHrKn5+eXBEjBwOQmP69Tofq7kW4/7NvzK8hAFe3E2CJzSf+a1go8XID
-         5EUHIth9R6DtkHl6zxjhfhWm20bAm0yJ8+BEidXmx5i7Sc6XUOGHY0bPUAoLmC3dTW
-         j52n66WRU3C6VR55rTGdLcQh/af5GuGqr9m+hyKjQg9vGuNf9JQHmAxNZh3KmNXJdi
-         38YpuO07hImug==
-Received: by mail-vs1-f51.google.com with SMTP id 125so17261625vsx.7;
-        Wed, 27 Jul 2022 10:36:18 -0700 (PDT)
-X-Gm-Message-State: AJIora+HBLR2Y4VYxJFFcXCY5ak8xckOJcc7FTC6mRYkUC3ze6m+tyVK
-        rHcHstXbAFtkYNYS+8f1eyB9U9I3t9hNO+ygQg==
-X-Google-Smtp-Source: AGRyM1sqajAmGpG1DBpnRP1OvqhcDouhF5LqwT+puFHiLc7y1VR9ZhXVBVVc1JXtlVOPyDLfejXswbayiyasf8Agx3o=
-X-Received: by 2002:a05:6102:21aa:b0:35a:1419:1bc7 with SMTP id
- i10-20020a05610221aa00b0035a14191bc7mr2601385vsb.26.1658943377685; Wed, 27
- Jul 2022 10:36:17 -0700 (PDT)
+        Wed, 27 Jul 2022 21:56:07 -0400
+Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FB9A4D801
+        for <linux-kbuild@vger.kernel.org>; Wed, 27 Jul 2022 18:56:04 -0700 (PDT)
+Received: by mail-io1-xd2a.google.com with SMTP id 125so455285iou.6
+        for <linux-kbuild@vger.kernel.org>; Wed, 27 Jul 2022 18:56:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=ghVRaKpA3w2oJXBOA2AbjqUBZ9us/Teyabu+e6c3M8w=;
+        b=P/LsS62sFa9dYqH9nqR68yKc+0md1rd+9GzxPihHMXLNuy6QceFKGQPFjpi63cN7EE
+         D+1Pem5fb3OCJ5CRuxa+I/sIDP2Jrdimp0Ba5wvekG5X9ZyJVOnnUlUu6V7IvxPsclyd
+         qiw0iSggJ2uVuimajJekRU6MjFHvN/UlwmlExqM4hs+obx5yLkhSwffnc32fW3JxtuZT
+         /Z+oYhCNLcB3qPC33ErlAzxe78sjbWFUISMdmQi0Wn6Xz7SCHKqChU1NiiN6VqWp8S6y
+         zshHl5Rft47KXYIpU9ExCioyoXm62vW3d9IDleW+wBfyZKNdr3nyB/bizXcHBRz5vIgv
+         b7qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=ghVRaKpA3w2oJXBOA2AbjqUBZ9us/Teyabu+e6c3M8w=;
+        b=D/rFlBxnpb1ajYvJhvjf8dxmWCmBer2lyxyKSc+dK6biT4mECcb3kMg0oRcvIwAhmw
+         5SDFeuQnOm3XrHMaAEZiVVFDBqh6yHMFfGljUDLMEWKye3aOOc8/1mpcuVMYJOYKh4WA
+         iccREv9TMLGz073n4XzTk8NY2qYrAr/cuJ7EuxExwuwFL9T7MHmwfe51ua8g+nhOIaFT
+         Q69IxQMgEMN8heNlMuHjLxCXTwDUINIrFPH4doYthiAirylYtx1q7saQnAyxbXiqrcMz
+         ckpeHKs0SRWabOV37YApSXrTl65k1iRvwsjzlTLGwaYE/c3W/KP/SM0hREfraj22lsWa
+         XF3w==
+X-Gm-Message-State: AJIora/87zOSNi5eEQR9kLCTs2eDNlk8AqWs7XuNQczwgEk7h6lU835t
+        wOHjdsU5/E1YSN6OgJjdaMpybQ9fyBK8IofWJzgJPw==
+X-Google-Smtp-Source: AGRyM1vSKzJol69nakS/gv207Uye8H5wbZ232je3cmt5SST4SX3pvujSthz0USXF7QBZ+SB0TA1nk1mXEryMMhnUzbU=
+X-Received: by 2002:a05:6602:2b84:b0:67b:d178:38bb with SMTP id
+ r4-20020a0566022b8400b0067bd17838bbmr8574838iov.120.1658973363562; Wed, 27
+ Jul 2022 18:56:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220727100615.638072-1-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220727100615.638072-1-dmitry.baryshkov@linaro.org>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Wed, 27 Jul 2022 11:36:06 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJjLn8ypBo+bBoO+CE-si7gemP02fi8EWk97QRPPpNoVg@mail.gmail.com>
-Message-ID: <CAL_JsqJjLn8ypBo+bBoO+CE-si7gemP02fi8EWk97QRPPpNoVg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: take into account DT_SCHEMA_FILES changes while
- checking dtbs
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+References: <20220725083904.56552-1-huangjie.albert@bytedance.com>
+ <8735epf7j5.fsf@email.froward.int.ebiederm.org> <CABKxMyOwHC9ZhL9Gxt-MVg-sy3d1kqzPviQOH845rers7inX3Q@mail.gmail.com>
+In-Reply-To: <CABKxMyOwHC9ZhL9Gxt-MVg-sy3d1kqzPviQOH845rers7inX3Q@mail.gmail.com>
+From:   =?UTF-8?B?6buE5p2w?= <huangjie.albert@bytedance.com>
+Date:   Thu, 28 Jul 2022 09:55:52 +0800
+Message-ID: <CABKxMyMMghgyVk5S0-uyPp5uBPLdOMAMw7zW6q4vBHb_iJxrow@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH 0/4] faster kexec reboot
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Michael Roth <michael.roth@amd.com>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Sean Christopherson <seanjc@google.com>,
+        Joerg Roedel <jroedel@suse.de>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
+        linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 27, 2022 at 4:06 AM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
+=E9=BB=84=E6=9D=B0 <huangjie.albert@bytedance.com> =E4=BA=8E2022=E5=B9=B47=
+=E6=9C=8826=E6=97=A5=E5=91=A8=E4=BA=8C 13:53=E5=86=99=E9=81=93=EF=BC=9A
 >
-> It is useful to be able to recheck dtbs files against a limited set of
-> DT schema files. This can be accomplished by using differnt
-> DT_SCHEMA_FILES argument values while rerunning make dtbs_check. However
-> for some reason if_changed_rule doesn't pick up the rule_dtc changes
-> (and doesn't retrigger the build).
+> Hi
+> Eric W. Biederman
+> Thank you for your advice and opinion, I am very honored
 >
-> Fix this by changing if_changed_rule to if_changed_dep and squashing DTC
-> and dt-validate into a single new command. Then if_changed_dep triggers
-> on DT_SCHEMA_FILES changes and reruns the build/check.
+> Eric W. Biederman <ebiederm@xmission.com> =E4=BA=8E2022=E5=B9=B47=E6=9C=
+=8826=E6=97=A5=E5=91=A8=E4=BA=8C 01:04=E5=86=99=E9=81=93=EF=BC=9A
+> >
+> > Albert Huang <huangjie.albert@bytedance.com> writes:
+> >
+> > > From: "huangjie.albert" <huangjie.albert@bytedance.com>
+> > >
+> > > In many time-sensitive scenarios, we need a shorter time to restart
+> > > the kernel. However, in the current kexec fast restart code, there
+> > > are many places in the memory copy operation, verification operation
+> > > and decompression operation, which take more time than 500ms. Through
+> > > the following patch series. machine_kexec-->start_kernel only takes
+> > > 15ms
+> >
+> > Is this a tiny embedded device you are taking the timings of?
+> >
+> > How are you handling driver shutdown and restart?  I would expect those
+> > to be a larger piece of the puzzle than memory.
 >
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  scripts/Makefile.lib | 14 ++++++--------
->  1 file changed, 6 insertions(+), 8 deletions(-)
+> There is no way to make the code universal in the time optimization here,
+> and various devices need to be customized, but we have some solutions to
+> achieve the maintenance and recovery of these devices,
+> especially the scanning and initialization of pci devices
 >
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index c88b98b5dc44..3df470289382 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -383,17 +383,15 @@ DT_CHECKER_FLAGS ?= $(if $(DT_SCHEMA_FILES),-l $(DT_SCHEMA_FILES),-m)
->  DT_BINDING_DIR := Documentation/devicetree/bindings
->  DT_TMP_SCHEMA := $(objtree)/$(DT_BINDING_DIR)/processed-schema.json
+> >
+> > My desktop can do something like 128GiB/s.  Which would suggest that
+> > copying 128MiB of kernel+initrd would take perhaps 10ms.  The SHA256
+> > implementation may not be tuned so that could be part of the performanc=
+e
+> > issue.  The SHA256 hash has a reputation for having fast
+> > implementations.  I chose SHA256 originally simply because it has more
+> > bits so it makes the odds of detecting an error higher.
+> >
 >
-> -quiet_cmd_dtb_check =  CHECK   $@
-> -      cmd_dtb_check =  $(DT_CHECKER) $(DT_CHECKER_FLAGS) -u $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $@ || true
-> +quiet_cmd_dtb =        DTC/CHECK   $@
+> Yes, sha256 is a better choice, but if there is no memory copy between
+> kexec load
+> and kexec -e, and this part of the memory is reserved. Don't think
+> this part of memory will be changed.
+> Especially in virtual machine scenarios
+>
 
-This is supposed to be 7 chars or less. DTCCHK or DTC_CHK perhaps. Or
-always do just 'DTC'. I can fixup when applying.
+hi  Eric :
 
-I'll give it a few days for other comments.
+Do you know why this sha256 check is put here? I feel that it is
+better to put it in the system call of kexec -e.
+If the verification is not passed, the second kernel will not be
+started, and some prompt information will be
+printed at the same time, which seems to be better than when the
+second kernel is started.
+Doing the verification operation will be more friendly, and it can
+also reduce downtime.
 
-> +      cmd_dtb =        $(cmd_dtc) ; $(DT_CHECKER) $(DT_CHECKER_FLAGS) -u $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $@ || true
-> +else
-> +quiet_cmd_dtb = $(quiet_cmd_dtc)
-> +      cmd_dtb = $(cmd_dtc)
->  endif
+BR
+albert.
+
+> >
+> > If all you care about is booting a kernel as fast as possible it make
+> > make sense to have a large reserved region of memory like we have for
+> > the kexec on panic kernel.  If that really makes sense I recommend
+> > adding a second kernel command line option and a reserving second regio=
+n
+> > of reserved memory.  That makes telling if the are any conflicts simple=
+.
+> >
 >
-> -define rule_dtc
-> -       $(call cmd_and_fixdep,dtc)
-> -       $(call cmd,dtb_check)
-> -endef
-> -
->  $(obj)/%.dtb: $(src)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE
-> -       $(call if_changed_rule,dtc)
-> +       $(call if_changed_dep,dtb)
+> I initially implemented re-adding a parameter and region, but I
+> figured out later
+> that it doesn't really make sense and would waste extra memory.
 >
->  $(obj)/%.dtbo: $(src)/%.dts $(DTC) FORCE
->         $(call if_changed_dep,dtc)
-> --
-> 2.35.1
+> >
+> > I am having a hard time seeing how anyone else would want these options=
+.
+> > Losing megabytes of memory simply because you might reboot using kexec
+> > seems like the wrong side of a trade-off.
 >
+> Reuse the memory reserved by the crash kernel? Why does it increase
+> memory consumption?
+>
+> >
+> > The CONFIG_KEXEC_PURGATORY_SKIP_SIG option is very misnamed.  It is not
+> > signature verification that is happening it is a hash verification.
+> > There are not encrypted bits at play.  Instead there is a check to
+> > ensure that the kernel has not been corrupted by in-flight DMA that som=
+e
+> > driver forgot to shut down.
+> >
+> Thanks for pointing that out.
+> but Even if the data is detected to have been changed, there is
+> currently no way to recover it.
+> I don't have a good understanding of this place yet. maybe for security r=
+easons=EF=BC=9F
+>
+>
+> > So you are building a version of kexec that if something goes wrong it
+> > could very easily eat your data, or otherwise do some very bad things
+> > that are absolutely non-trivial to debug.
+> >
+> > That the decision to skip the sha256 hash that prevents corruption is
+> > happening at compile time, instead of at run-time, will guarantee the
+> > option is simply not available on any general purpose kernel
+> > configuration.  Given how dangerous it is to skip the hash verification
+> > it is probably not a bad thing overall, but it is most definitely
+> > something that will make maintenance more difficult.
+> >
+>
+> Maybe parameters will be a better choice. What do you think ?
+>
+> >
+> > If done well I don't see why anyone would mind a uncompressed kernel
+> > but I don't see what the advantage of what you are doing is over using
+> > vmlinux is the build directory.  It isn't a bzImage but it is the
+> > uncompressed kernel.
+> >
+>
+>
+> > As I proof of concept I think what you are doing goes a way to showing
+> > that things can be improved.  My overall sense is that improving things
+> > the way you are proposing does not help the general case and simply add=
+s
+> > to the maintenance burden.
+>
+> I don't think so. The kernel startup time of some lightweight virtual
+> machines maybe
+> 100-200ms (start_kernel->init). But this kexec->start_kernel took more
+> than 500ms.
+> This is still valuable, and the overall code size is also very small.
+>
+> > Eric
+> >
+> > >
+> > > How to measure time:
+> > >
+> > > c code:
+> > > uint64_t current_cycles(void)
+> > > {
+> > >     uint32_t low, high;
+> > >     asm volatile("rdtsc" : "=3Da"(low), "=3Dd"(high));
+> > >     return ((uint64_t)low) | ((uint64_t)high << 32);
+> > > }
+> > > assembly code:
+> > >        pushq %rax
+> > >        pushq %rdx
+> > >        rdtsc
+> > >        mov   %eax,%eax
+> > >        shl   $0x20,%rdx
+> > >        or    %rax,%rdx
+> > >        movq  %rdx,0x840(%r14)
+> > >        popq  %rdx
+> > >        popq  %rax
+> > > the timestamp may store in boot_params or kexec control page, so we c=
+an
+> > > get the all timestamp after kernel boot up.
+> > >
+> > > huangjie.albert (4):
+> > >   kexec: reuse crash kernel reserved memory for normal kexec
+> > >   kexec: add CONFING_KEXEC_PURGATORY_SKIP_SIG
+> > >   x86: Support the uncompressed kernel to speed up booting
+> > >   x86: boot: avoid memory copy if kernel is uncompressed
+> > >
+> > >  arch/x86/Kconfig                   | 10 +++++++++
+> > >  arch/x86/boot/compressed/Makefile  |  5 ++++-
+> > >  arch/x86/boot/compressed/head_64.S |  8 +++++--
+> > >  arch/x86/boot/compressed/misc.c    | 35 +++++++++++++++++++++++++---=
+--
+> > >  arch/x86/purgatory/purgatory.c     |  7 ++++++
+> > >  include/linux/kexec.h              |  9 ++++----
+> > >  include/uapi/linux/kexec.h         |  2 ++
+> > >  kernel/kexec.c                     | 19 +++++++++++++++-
+> > >  kernel/kexec_core.c                | 16 ++++++++------
+> > >  kernel/kexec_file.c                | 20 +++++++++++++++--
+> > >  scripts/Makefile.lib               |  5 +++++
+> > >  11 files changed, 114 insertions(+), 22 deletions(-)
