@@ -2,59 +2,54 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8942D584C30
-	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Jul 2022 08:53:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0383584C5D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Jul 2022 09:05:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235167AbiG2GxI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 29 Jul 2022 02:53:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40132 "EHLO
+        id S234637AbiG2HFM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 29 Jul 2022 03:05:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234288AbiG2Gw6 (ORCPT
+        with ESMTP id S232555AbiG2HFK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 29 Jul 2022 02:52:58 -0400
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAAC580505
-        for <linux-kbuild@vger.kernel.org>; Thu, 28 Jul 2022 23:52:56 -0700 (PDT)
-Received: by mail-qt1-x830.google.com with SMTP id b21so2715227qte.12
-        for <linux-kbuild@vger.kernel.org>; Thu, 28 Jul 2022 23:52:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=B9NJPMCqsZZzif8NOi6LqBERuaw3Qi0GLNSjXaKH72E=;
-        b=ouhZLlcvdbHtvTf8YiOPEo07AwaL3uSKyKjAL/0/JobC+hqJYFj2hPitySQnXMVmXr
-         jX6Vj8FadMnkc9GRr+1qhzOjhORahTchrfixJIj93dV669SrEQNR/NYkeBnpX9XCDKrD
-         EjuCOGzLj3ynVi0ctabQWqVkPDbPd2Ig6ob8oT4bMqPeiiV0pQaRf8KZSEl9n6KNLinf
-         3GuoC/3SaicfSNEPRZpHzpFr/uSBf4MFNIdKJWjH3Wa3b6Ln/wBd32CagEzMmi8daPFs
-         xu4o2NbjuLbjWvnAuwsi4guqdXJXAAkf1Ot94cP4ACDhDg5aBIDVeqPoEMatRMlmFHI1
-         qiXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=B9NJPMCqsZZzif8NOi6LqBERuaw3Qi0GLNSjXaKH72E=;
-        b=02vWInnC84Uhjf2P9RSRgTHBmqLU5SSNM1NzCiMRJUg3oI/3wqh2x6oi9mn5WmJjIb
-         ImtYLGUSCsIVEUXuc6ZswLfVm/Emm989nMYvW9wbFls3KsJEsiucgmNP65vqUI0XueQZ
-         LKg1vlDDFYlslOa8cPaGRpZnXwLyCAEyl1zteO/E3Gwz8WvJZL6JRB0EsczLUg9KybhX
-         vyefVRVE3G/77vIHpKPhmvH9hOUsx8Lw7BMOHEQjHC9Ul6D5prwNeOS815b3fAzYGW2I
-         TnM9OhcycF0DL5TPFlSRsQ4tNUagpjb8xJy+Ypc0cH6vBI6765u8u9xOAD/mMOd7sm6d
-         hDqA==
-X-Gm-Message-State: AJIora+o938G6IdM/5weLiCptIMaj5AyQVaQVQl1GArx5cLBCb6S7fjk
-        FPl8JQg0fWKtQ9jRK2xTxzI7C+1o6tEoOaSqk4ziCw==
-X-Google-Smtp-Source: AGRyM1ulXYs5LWVIFJXKUv4+yuTHZrksYcFCAawy5yUnHHithMuDKkcC43SQczJ+AibEVdQ6zRlR2WiS6vf9kyrleIc=
-X-Received: by 2002:ac8:5942:0:b0:31f:39f6:aba7 with SMTP id
- 2-20020ac85942000000b0031f39f6aba7mr2122937qtz.295.1659077575797; Thu, 28 Jul
- 2022 23:52:55 -0700 (PDT)
+        Fri, 29 Jul 2022 03:05:10 -0400
+Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DF1E804B5;
+        Fri, 29 Jul 2022 00:05:05 -0700 (PDT)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 26T74ixh006854;
+        Fri, 29 Jul 2022 16:04:45 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 26T74ixh006854
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1659078285;
+        bh=zgcVv9ou1RtF1Lk7IdDqlk85KCCiF+CiJyanFd0uOSk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=SdByZfjXpf0pNYUp54aHfa77D/Ec4GTD5+bpn7mjtH5/3OV3ic1nnleP4c70DkZvY
+         OyzKSB8BEd3gTU5RqWr7YCh/MOkMwgF/IEZRY9j0iyhReqZupNOyj0WdhyCD+hoyFR
+         PlZf4AgoxZhWuMxg2VpyRO1QHONQ9zx+SI5+3fc9waLFGqpQjMv6bc2ayLgJKHmBk5
+         RobSY9dsbY0V6V8O5MLBpAmXaAjINhod23Ykz2mJwhaF2adVMgf7a/vWGExY+hfLBq
+         XAEaJhA8V7fBcKbhrVocrTt9tJQTmZrfSwL4K1Wdbw5TRB6L95k0GJEmV3kDK+Rvxx
+         KClzS7lTp1Dlw==
+X-Nifty-SrcIP: [209.85.221.44]
+Received: by mail-wr1-f44.google.com with SMTP id h8so4892625wrw.1;
+        Fri, 29 Jul 2022 00:04:45 -0700 (PDT)
+X-Gm-Message-State: ACgBeo3aJX0Q3DXuZSOrIsAOtt9vcl/IkpzPKPfx/o6sSKd5a7TnNAO+
+        KFqKTSngtWGvnWM1FcGIKBTOgKejAH9W7zjji80=
+X-Google-Smtp-Source: AA6agR5p/eqFZH1NGWuPsZLVtJ0LrfcEDmeMMGzeyjq6QZGNrTguS/ZpVQuCo6woW1u3tXiDtxEdD9QTCPJVXdAzfEw=
+X-Received: by 2002:adf:d1e2:0:b0:21d:d40b:d816 with SMTP id
+ g2-20020adfd1e2000000b0021dd40bd816mr1352131wrd.682.1659078283592; Fri, 29
+ Jul 2022 00:04:43 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220727100615.638072-1-dmitry.baryshkov@linaro.org>
- <CAL_JsqJjLn8ypBo+bBoO+CE-si7gemP02fi8EWk97QRPPpNoVg@mail.gmail.com> <CAK7LNARXbXZFpxiHuLhzjJ4YahfV6z3dNPAdkkmeOXONBx8u3w@mail.gmail.com>
-In-Reply-To: <CAK7LNARXbXZFpxiHuLhzjJ4YahfV6z3dNPAdkkmeOXONBx8u3w@mail.gmail.com>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date:   Fri, 29 Jul 2022 09:52:44 +0300
-Message-ID: <CAA8EJprM4WAgfVTJ15azFtSH6POL5uuseHO=zVxRd44RmqKZjw@mail.gmail.com>
+ <CAL_JsqJjLn8ypBo+bBoO+CE-si7gemP02fi8EWk97QRPPpNoVg@mail.gmail.com>
+ <CAK7LNARXbXZFpxiHuLhzjJ4YahfV6z3dNPAdkkmeOXONBx8u3w@mail.gmail.com> <CAA8EJprM4WAgfVTJ15azFtSH6POL5uuseHO=zVxRd44RmqKZjw@mail.gmail.com>
+In-Reply-To: <CAA8EJprM4WAgfVTJ15azFtSH6POL5uuseHO=zVxRd44RmqKZjw@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 29 Jul 2022 16:03:43 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQU42fpqPqUipZYx+685B+Rc8JGdaKcP3TdfQWUept1nQ@mail.gmail.com>
+Message-ID: <CAK7LNAQU42fpqPqUipZYx+685B+Rc8JGdaKcP3TdfQWUept1nQ@mail.gmail.com>
 Subject: Re: [PATCH] kbuild: take into account DT_SCHEMA_FILES changes while
  checking dtbs
-To:     Masahiro Yamada <masahiroy@kernel.org>
+To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
@@ -64,65 +59,115 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
         linux-arm-msm <linux-arm-msm@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, 29 Jul 2022 at 08:55, Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Fri, Jul 29, 2022 at 3:53 PM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
 >
-> On Thu, Jul 28, 2022 at 2:36 AM Rob Herring <robh+dt@kernel.org> wrote:
+> On Fri, 29 Jul 2022 at 08:55, Masahiro Yamada <masahiroy@kernel.org> wrote:
 > >
-> > On Wed, Jul 27, 2022 at 4:06 AM Dmitry Baryshkov
-> > <dmitry.baryshkov@linaro.org> wrote:
+> > On Thu, Jul 28, 2022 at 2:36 AM Rob Herring <robh+dt@kernel.org> wrote:
 > > >
-> > > It is useful to be able to recheck dtbs files against a limited set of
-> > > DT schema files. This can be accomplished by using differnt
-> > > DT_SCHEMA_FILES argument values while rerunning make dtbs_check. However
-> > > for some reason if_changed_rule doesn't pick up the rule_dtc changes
-> > > (and doesn't retrigger the build).
+> > > On Wed, Jul 27, 2022 at 4:06 AM Dmitry Baryshkov
+> > > <dmitry.baryshkov@linaro.org> wrote:
+> > > >
+> > > > It is useful to be able to recheck dtbs files against a limited set of
+> > > > DT schema files. This can be accomplished by using differnt
+> > > > DT_SCHEMA_FILES argument values while rerunning make dtbs_check. However
+> > > > for some reason if_changed_rule doesn't pick up the rule_dtc changes
+> > > > (and doesn't retrigger the build).
+> > > >
+> > > > Fix this by changing if_changed_rule to if_changed_dep and squashing DTC
+> > > > and dt-validate into a single new command. Then if_changed_dep triggers
+> > > > on DT_SCHEMA_FILES changes and reruns the build/check.
+> > > >
+> > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > > ---
+> > > >  scripts/Makefile.lib | 14 ++++++--------
+> > > >  1 file changed, 6 insertions(+), 8 deletions(-)
+> > > >
+> > > > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> > > > index c88b98b5dc44..3df470289382 100644
+> > > > --- a/scripts/Makefile.lib
+> > > > +++ b/scripts/Makefile.lib
+> > > > @@ -383,17 +383,15 @@ DT_CHECKER_FLAGS ?= $(if $(DT_SCHEMA_FILES),-l $(DT_SCHEMA_FILES),-m)
+> > > >  DT_BINDING_DIR := Documentation/devicetree/bindings
+> > > >  DT_TMP_SCHEMA := $(objtree)/$(DT_BINDING_DIR)/processed-schema.json
+> > > >
+> > > > -quiet_cmd_dtb_check =  CHECK   $@
+> > > > -      cmd_dtb_check =  $(DT_CHECKER) $(DT_CHECKER_FLAGS) -u $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $@ || true
+> > > > +quiet_cmd_dtb =        DTC/CHECK   $@
 > > >
-> > > Fix this by changing if_changed_rule to if_changed_dep and squashing DTC
-> > > and dt-validate into a single new command. Then if_changed_dep triggers
-> > > on DT_SCHEMA_FILES changes and reruns the build/check.
+> > > This is supposed to be 7 chars or less. DTCCHK or DTC_CHK perhaps. Or
+> > > always do just 'DTC'. I can fixup when applying.
 > > >
-> > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > ---
-> > >  scripts/Makefile.lib | 14 ++++++--------
-> > >  1 file changed, 6 insertions(+), 8 deletions(-)
-> > >
-> > > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> > > index c88b98b5dc44..3df470289382 100644
-> > > --- a/scripts/Makefile.lib
-> > > +++ b/scripts/Makefile.lib
-> > > @@ -383,17 +383,15 @@ DT_CHECKER_FLAGS ?= $(if $(DT_SCHEMA_FILES),-l $(DT_SCHEMA_FILES),-m)
-> > >  DT_BINDING_DIR := Documentation/devicetree/bindings
-> > >  DT_TMP_SCHEMA := $(objtree)/$(DT_BINDING_DIR)/processed-schema.json
-> > >
-> > > -quiet_cmd_dtb_check =  CHECK   $@
-> > > -      cmd_dtb_check =  $(DT_CHECKER) $(DT_CHECKER_FLAGS) -u $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $@ || true
-> > > +quiet_cmd_dtb =        DTC/CHECK   $@
+> > > I'll give it a few days for other comments.
 > >
-> > This is supposed to be 7 chars or less. DTCCHK or DTC_CHK perhaps. Or
-> > always do just 'DTC'. I can fixup when applying.
 > >
-> > I'll give it a few days for other comments.
+> >
+> > When you change DT_SCHEMA_FILES, re-running dt-validate should be enough.
+> > You do not need to re-run dtc.
+> >
+> > I guess the strangeness comes from the fact that you are trying to do the
+> >  two different things in a single rule.
 >
->
->
-> When you change DT_SCHEMA_FILES, re-running dt-validate should be enough.
-> You do not need to re-run dtc.
->
-> I guess the strangeness comes from the fact that you are trying to do the
->  two different things in a single rule.
+> The issue is that with the current rules the dt-validate isn't
+> re-executed on DT_SCHEMA_FILES changes. Thus comes my proposal.
 
-The issue is that with the current rules the dt-validate isn't
-re-executed on DT_SCHEMA_FILES changes. Thus comes my proposal.
+Correct.
+
+
+
+What I said is like this.
+
+
+
+# touch the timestamp file, %.dtb.checked
+$(obj)/%.dtb.checked: $(obj)/%.dtb $(DT_TMP_SCHEMA) FORCE
+        $(call if_changed_rule,dtb_check)
+
+$(obj)/%.dtb: $(src)/%.dts $(DTC) $FORCE
+        $(call if_changed_rule,dtc)
+
+$(obj)/%.dtbo: $(src)/%.dts $(DTC) FORCE
+        $(call if_changed_dep,dtc)
+
+
+With the dtc/check split, we can avoid unneeded regeneration of
+%.dtb when DT_TMP_SCHEMA or DT_SCHEMA_FILES is
+changed.
+
+
+One drawback is we track %.dtb.checked and and %.dtb separately,
+so something like 53182e81f47d4ea0c727c49ad23cb782173ab849
+may come back.
+
+
+
+
+
+
+BTW, we do not check %.dtbo, why?
+
+At least, 53182e81f47d4ea0c727c49ad23cb782173ab849
+was trying to check %.dtbo
+
+
+
+
+> --
+> With best wishes
+> Dmitry
+
+
 
 -- 
-With best wishes
-Dmitry
+Best Regards
+Masahiro Yamada
