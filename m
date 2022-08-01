@@ -2,54 +2,46 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F9E9586345
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Aug 2022 06:16:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B24765866F1
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Aug 2022 11:42:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238898AbiHAEQX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 1 Aug 2022 00:16:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49282 "EHLO
+        id S230227AbiHAJmA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 1 Aug 2022 05:42:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229497AbiHAEQW (ORCPT
+        with ESMTP id S230174AbiHAJl6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 1 Aug 2022 00:16:22 -0400
-Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D12166303
-        for <linux-kbuild@vger.kernel.org>; Sun, 31 Jul 2022 21:16:20 -0700 (PDT)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 2714Futd029295
-        for <linux-kbuild@vger.kernel.org>; Mon, 1 Aug 2022 13:15:57 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 2714Futd029295
+        Mon, 1 Aug 2022 05:41:58 -0400
+Received: from conuserg-10.nifty.com (conuserg-10.nifty.com [210.131.2.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E33837192;
+        Mon,  1 Aug 2022 02:41:57 -0700 (PDT)
+Received: from grover.sesame ([133.106.54.139]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id 2719ejxu028043;
+        Mon, 1 Aug 2022 18:40:45 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 2719ejxu028043
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1659327357;
-        bh=JzIIFFlyHriUlJmmYAecRbEzPwCfn+KCkQwLwtoFp8M=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=lggOYhUpZdj0Oemnvs5m9XZcp8h4iQW5upoOKj/MuLk4mTWSbRXomXlwI8/JbUX2o
-         4erWoq67ztETm5NW6ZZQvGcEfRerc/3P05qISE0ngJqKQIcu4DtiDpTQBdgnQE73vJ
-         jPqdY/w7oJbdLFQSzyD3qyOeiutDu/pLlM70gxFWKjCPCY/ZMsEOytYludbcgfeJMY
-         yEIl1SC48U+SWGYeCuJWizfNznNeLDjmqVF3QZALH+cRHmXKvRRFinET0CskTTYVxV
-         47CKzxUjyNdaCrO5OK6k1KhG5+Flb4rJ9w9Qh+dD6VyZ5QbzUNAdHP+dnRnUxN8wRT
-         k32A1LhhPgcJg==
-X-Nifty-SrcIP: [209.85.128.52]
-Received: by mail-wm1-f52.google.com with SMTP id x23-20020a05600c179700b003a30e3e7989so5019048wmo.0
-        for <linux-kbuild@vger.kernel.org>; Sun, 31 Jul 2022 21:15:56 -0700 (PDT)
-X-Gm-Message-State: AJIora+sKraKgetYldeJtSTulmOCXVBfnO3mGvK40mu1WBb3zo041/vu
-        CVzSoXE8mDdKxyl05UXvABdjNUlp+60JzH+eYxk=
-X-Google-Smtp-Source: AGRyM1ugT4cGdSzw+VS5WZvtrVKJcRPGeVnes5yMNrsUCPmycJdg2e1z3bM4pxI4voyEUD+83mZVYZtLDbjRKPC4AdE=
-X-Received: by 2002:a05:600c:1da8:b0:3a3:1969:b0d with SMTP id
- p40-20020a05600c1da800b003a319690b0dmr9905660wms.172.1659327355460; Sun, 31
- Jul 2022 21:15:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAGRSmLsBwZdDhcKjnC0=COU7B+kM8vuRjPv_znZ5=p3k+QCONg@mail.gmail.com>
-In-Reply-To: <CAGRSmLsBwZdDhcKjnC0=COU7B+kM8vuRjPv_znZ5=p3k+QCONg@mail.gmail.com>
+        s=dec2015msa; t=1659346846;
+        bh=t99GlSsT7vbIGrGiCUuJvD+nKsJBskTcdf/ObhFgXWI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=YXzWfU9BtSCQtsx4ZQhSFcNG51BH/46O/St8t+dyveoQ/8SURDGcJ1v6ZnesvRR2e
+         kXvgxlb60DftfQCVLDNpzHH3JBx6v8KSD5uxahsCWJXs/CwLleSUyfh5EpNhY5HaN2
+         z0J+1A2wR/ntMcjIiiVguF9zB06wPW7N6PEGnurWyJPde4HC5R+/jj2UQsUu4ANlWN
+         4595RoCYdCBqeIusgc8onF/VGIjrwgWdhZIiaxcppeVDi/sOJpsXl+3AVqEaiQI5gy
+         d/n7mbv5l0F/nohGBCZbnDOxEbrwJSPvxjZk++cPB2NK4WeZ41ia/8upKoImF2t5pF
+         DPl+6CcEZjTiw==
+X-Nifty-SrcIP: [133.106.54.139]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 1 Aug 2022 13:14:54 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQpTBtfnCGpO2O+w--=DPNJL14y+2Xc7GimH1j2qyd2SA@mail.gmail.com>
-Message-ID: <CAK7LNAQpTBtfnCGpO2O+w--=DPNJL14y+2Xc7GimH1j2qyd2SA@mail.gmail.com>
-Subject: Re: kbuild self-created module file errors with: ERROR: modpos:
- missing MODULE_LICENSE
-To:     "David F." <df7729@gmail.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/4] modpost: shorten warning messages in report_sec_mismatch()
+Date:   Mon,  1 Aug 2022 18:38:59 +0900
+Message-Id: <20220801093902.1506297-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
         autolearn_force=no version=3.4.6
@@ -59,52 +51,244 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Aug 1, 2022 at 2:16 AM David F. <df7729@gmail.com> wrote:
->
-> Years ago I set up a series of makefiles and bash scripts to build
-> both a support library for kernel modules and my own kernel modules.
-> Now years later, I don't recall much about how all this works but it
-> has until moving to 5.15 (from 5.10. kernels).  Although, there was an
-> issue with it not supporting libraries at some upgrade point, but this
-> list helped me with a patch so it would build the .a libraries and
-> link with them.
->
-> Looking at the makefile for building the library it has a note that I
-> needed to set up a fake obj-m for it to actually build the library.
-> So what I have is:
->
-> # Setup module name for kbuild
-> obj-m:=junk.o
-> junk-objs:=lib.a
->
-> There is no reference to any junk_mod.c file, it appears kbuild
-> automatically creates the junk-mod.c file itself.   The problem is the
-> build now fails due to the:
-> ERROR: modpost: missing MODULE_LICENSE() in /.../junk.obj
->
-> Is there some other makefile option to make kbuild set the
-> MODULE_LICENSE() or perhaps ignore it since it's not needed in this
-> type of case?
+Each section mismatch results in long warning messages. Too much.
 
+Make each warning fit in one line, and remove a lot of messy code.
 
-You need to add MODULE_LICENSE()
-somewhere in your module source code.
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ scripts/mod/modpost.c | 179 +++---------------------------------------
+ 1 file changed, 9 insertions(+), 170 deletions(-)
 
-
-
-
-
-
->
-> Or should I take this junk.mod.c file and now modify it and then
-> actually copy it over as the actual source to use to force the library
-> to be created?
->
-> Thanks!!
-
-
-
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index a8ee27496da7..9e8ae2636ec1 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -1238,42 +1238,6 @@ static Elf_Sym *find_elf_symbol2(struct elf_info *elf, Elf_Addr addr,
+ 	return near;
+ }
+ 
+-/*
+- * Convert a section name to the function/data attribute
+- * .init.text => __init
+- * .memexitconst => __memconst
+- * etc.
+- *
+- * The memory of returned value has been allocated on a heap. The user of this
+- * method should free it after usage.
+-*/
+-static char *sec2annotation(const char *s)
+-{
+-	if (match(s, init_exit_sections)) {
+-		char *p = NOFAIL(malloc(20));
+-		char *r = p;
+-
+-		*p++ = '_';
+-		*p++ = '_';
+-		if (*s == '.')
+-			s++;
+-		while (*s && *s != '.')
+-			*p++ = *s++;
+-		*p = '\0';
+-		if (*s == '.')
+-			s++;
+-		if (strstr(s, "rodata") != NULL)
+-			strcat(p, "const ");
+-		else if (strstr(s, "data") != NULL)
+-			strcat(p, "data ");
+-		else
+-			strcat(p, " ");
+-		return r;
+-	} else {
+-		return NOFAIL(strdup(""));
+-	}
+-}
+-
+ static int is_function(Elf_Sym *sym)
+ {
+ 	if (sym)
+@@ -1282,19 +1246,6 @@ static int is_function(Elf_Sym *sym)
+ 		return -1;
+ }
+ 
+-static void print_section_list(const char * const list[20])
+-{
+-	const char *const *s = list;
+-
+-	while (*s) {
+-		fprintf(stderr, "%s", *s);
+-		s++;
+-		if (*s)
+-			fprintf(stderr, ", ");
+-	}
+-	fprintf(stderr, "\n");
+-}
+-
+ static inline void get_pretty_name(int is_func, const char** name, const char** name_p)
+ {
+ 	switch (is_func) {
+@@ -1312,141 +1263,31 @@ static inline void get_pretty_name(int is_func, const char** name, const char**
+ static void report_sec_mismatch(const char *modname,
+ 				const struct sectioncheck *mismatch,
+ 				const char *fromsec,
+-				unsigned long long fromaddr,
+ 				const char *fromsym,
+-				int from_is_func,
+-				const char *tosec, const char *tosym,
+-				int to_is_func)
++				const char *tosec, const char *tosym)
+ {
+-	const char *from, *from_p;
+-	const char *to, *to_p;
+-	char *prl_from;
+-	char *prl_to;
+-
+ 	sec_mismatch_count++;
+ 
+-	get_pretty_name(from_is_func, &from, &from_p);
+-	get_pretty_name(to_is_func, &to, &to_p);
+-
+-	warn("%s(%s+0x%llx): Section mismatch in reference from the %s %s%s "
+-	     "to the %s %s:%s%s\n",
+-	     modname, fromsec, fromaddr, from, fromsym, from_p, to, tosec,
+-	     tosym, to_p);
+-
+ 	switch (mismatch->mismatch) {
+ 	case TEXT_TO_ANY_INIT:
+-		prl_from = sec2annotation(fromsec);
+-		prl_to = sec2annotation(tosec);
+-		fprintf(stderr,
+-		"The function %s%s() references\n"
+-		"the %s %s%s%s.\n"
+-		"This is often because %s lacks a %s\n"
+-		"annotation or the annotation of %s is wrong.\n",
+-		prl_from, fromsym,
+-		to, prl_to, tosym, to_p,
+-		fromsym, prl_to, tosym);
+-		free(prl_from);
+-		free(prl_to);
+-		break;
+-	case DATA_TO_ANY_INIT: {
+-		prl_to = sec2annotation(tosec);
+-		fprintf(stderr,
+-		"The variable %s references\n"
+-		"the %s %s%s%s\n"
+-		"If the reference is valid then annotate the\n"
+-		"variable with __init* or __refdata (see linux/init.h) "
+-		"or name the variable:\n",
+-		fromsym, to, prl_to, tosym, to_p);
+-		print_section_list(mismatch->symbol_white_list);
+-		free(prl_to);
+-		break;
+-	}
++	case DATA_TO_ANY_INIT:
+ 	case TEXT_TO_ANY_EXIT:
+-		prl_to = sec2annotation(tosec);
+-		fprintf(stderr,
+-		"The function %s() references a %s in an exit section.\n"
+-		"Often the %s %s%s has valid usage outside the exit section\n"
+-		"and the fix is to remove the %sannotation of %s.\n",
+-		fromsym, to, to, tosym, to_p, prl_to, tosym);
+-		free(prl_to);
+-		break;
+-	case DATA_TO_ANY_EXIT: {
+-		prl_to = sec2annotation(tosec);
+-		fprintf(stderr,
+-		"The variable %s references\n"
+-		"the %s %s%s%s\n"
+-		"If the reference is valid then annotate the\n"
+-		"variable with __exit* (see linux/init.h) or "
+-		"name the variable:\n",
+-		fromsym, to, prl_to, tosym, to_p);
+-		print_section_list(mismatch->symbol_white_list);
+-		free(prl_to);
+-		break;
+-	}
++	case DATA_TO_ANY_EXIT:
+ 	case XXXINIT_TO_SOME_INIT:
+ 	case XXXEXIT_TO_SOME_EXIT:
+-		prl_from = sec2annotation(fromsec);
+-		prl_to = sec2annotation(tosec);
+-		fprintf(stderr,
+-		"The %s %s%s%s references\n"
+-		"a %s %s%s%s.\n"
+-		"If %s is only used by %s then\n"
+-		"annotate %s with a matching annotation.\n",
+-		from, prl_from, fromsym, from_p,
+-		to, prl_to, tosym, to_p,
+-		tosym, fromsym, tosym);
+-		free(prl_from);
+-		free(prl_to);
+-		break;
+ 	case ANY_INIT_TO_ANY_EXIT:
+-		prl_from = sec2annotation(fromsec);
+-		prl_to = sec2annotation(tosec);
+-		fprintf(stderr,
+-		"The %s %s%s%s references\n"
+-		"a %s %s%s%s.\n"
+-		"This is often seen when error handling "
+-		"in the init function\n"
+-		"uses functionality in the exit path.\n"
+-		"The fix is often to remove the %sannotation of\n"
+-		"%s%s so it may be used outside an exit section.\n",
+-		from, prl_from, fromsym, from_p,
+-		to, prl_to, tosym, to_p,
+-		prl_to, tosym, to_p);
+-		free(prl_from);
+-		free(prl_to);
+-		break;
+ 	case ANY_EXIT_TO_ANY_INIT:
+-		prl_from = sec2annotation(fromsec);
+-		prl_to = sec2annotation(tosec);
+-		fprintf(stderr,
+-		"The %s %s%s%s references\n"
+-		"a %s %s%s%s.\n"
+-		"This is often seen when error handling "
+-		"in the exit function\n"
+-		"uses functionality in the init path.\n"
+-		"The fix is often to remove the %sannotation of\n"
+-		"%s%s so it may be used outside an init section.\n",
+-		from, prl_from, fromsym, from_p,
+-		to, prl_to, tosym, to_p,
+-		prl_to, tosym, to_p);
+-		free(prl_from);
+-		free(prl_to);
++		warn("%s: section mismatch in reference: %s (section: %s) -> %s (section: %s)\n",
++		     modname, fromsym, fromsec, tosym, tosec);
+ 		break;
+ 	case EXPORT_TO_INIT_EXIT:
+-		prl_to = sec2annotation(tosec);
+-		fprintf(stderr,
+-		"The symbol %s is exported and annotated %s\n"
+-		"Fix this by removing the %sannotation of %s "
+-		"or drop the export.\n",
+-		tosym, prl_to, prl_to, tosym);
+-		free(prl_to);
++		warn("%s: EXPORT_SYMBOL used for init/exit symbol: %s (section: %s)\n",
++		     modname, tosym, tosec);
+ 		break;
+ 	case EXTABLE_TO_NON_TEXT:
+-		fatal("There's a special handler for this mismatch type, "
+-		      "we should never get here.");
++		fatal("There's a special handler for this mismatch type, we should never get here.\n");
+ 		break;
+ 	}
+-	fprintf(stderr, "\n");
+ }
+ 
+ static void default_mismatch_handler(const char *modname, struct elf_info *elf,
+@@ -1470,9 +1311,7 @@ static void default_mismatch_handler(const char *modname, struct elf_info *elf,
+ 	if (secref_whitelist(mismatch,
+ 			     fromsec, fromsym, tosec, tosym)) {
+ 		report_sec_mismatch(modname, mismatch,
+-				    fromsec, r->r_offset, fromsym,
+-				    is_function(from), tosec, tosym,
+-				    is_function(to));
++				    fromsec, fromsym, tosec, tosym);
+ 	}
+ }
+ 
 -- 
-Best Regards
-Masahiro Yamada
+2.34.1
+
