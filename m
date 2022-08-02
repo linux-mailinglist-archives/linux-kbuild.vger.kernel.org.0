@@ -2,65 +2,73 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C336C58811A
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Aug 2022 19:36:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 657FC588148
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Aug 2022 19:46:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230153AbiHBRgB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 2 Aug 2022 13:36:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60254 "EHLO
+        id S231224AbiHBRqa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 2 Aug 2022 13:46:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229545AbiHBRf7 (ORCPT
+        with ESMTP id S232716AbiHBRq3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 2 Aug 2022 13:35:59 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5905BBCAD
-        for <linux-kbuild@vger.kernel.org>; Tue,  2 Aug 2022 10:35:57 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id y11so22934798lfs.6
-        for <linux-kbuild@vger.kernel.org>; Tue, 02 Aug 2022 10:35:57 -0700 (PDT)
+        Tue, 2 Aug 2022 13:46:29 -0400
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C33EABF44;
+        Tue,  2 Aug 2022 10:46:28 -0700 (PDT)
+Received: by mail-io1-xd30.google.com with SMTP id z132so11229406iof.0;
+        Tue, 02 Aug 2022 10:46:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=KMSbpoPgZo1nXG06BELKlRTAIPdpj4wofQosM2wSXKI=;
-        b=r3PRTJMvCLPoJ7ojXKsINdDqMe3s1XbeycrpPF6SPPTi308tOITiHq4rgU+dsSHoqE
-         Y6oiG1cSBCWCQTeFKT385yv56/VzNeK2w4JMLu0FO+4WYt2w6T+fRZV7WfuAcgJiMceP
-         gpIHJny2a9YmJJ3xud4kx75xOKezDrfDjsWXSJzxfa+PSUyYWfFpIe2n40hrW/FitCGM
-         1fcEkrLlf2GibxJvp90oY3KJFe9ZkDDaMfGDhJh/CFU6Q+P36NMthgr5vWvGnYDHxezO
-         UKGFLmfvnbohg3S14jjl1pa3vfTep/gsPjDCsQdIy3A0LLbHlQkkjUowxqVA6olX+jAe
-         kMng==
+        bh=KjAZA+RBJyFCRVs3/+3jiKse67/26F8E/TlaG4k7TyI=;
+        b=G1ZC9vkFJ4/eIUWgdyFRStYtBBwbb1Zif38+6Kd6XjFeJpq0EDYF5HEYZANxccxOAb
+         HmDVHGEm41eETriohYDDkKfsfhiS1kgVPFbEY4rtweJ1QJ1w8sFeRIN71ItWO6BPmvwR
+         8ySNPXjJA7WIgGsGRmXgKwdyXVub6MJulx221Nk9d5iPBQyqj6nT41qN3sjBcMtODkzh
+         YVggKsNuk881EIvL8fVF0dABkRzDdp+uzsz7L1RfHwhrgeGxg09GhCRL77vLtcefM4Z1
+         g8BDmDPc0IdBGSMtP/pcTI7F8/Li326UqJekszusX2sd2U1KdEOWLdx+003Nps6DRXrj
+         M3lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=KMSbpoPgZo1nXG06BELKlRTAIPdpj4wofQosM2wSXKI=;
-        b=co6qcZUDiaUHds0kQhBROeZQ6rLs9d+Y3KKElAu5Pg+c46EKCyKVCjkzWVAraIJYlU
-         SV/FdkYSLKuvWb1xuEgtIPJkbWMSgEN+qZATx+BUB/jNXKXb3ctS1BSEOFwjL/GXYCIX
-         VGX4kQq/JszbJB4dr22tzwqqbikRJdVsLL8/i5CdghWueTBQXSr45TlEDVZCngp1lGM0
-         eMXiPDpmv4Mr8RxQuSRMDdQbttdpKxbJaSKPgwmCEeYMmJWOLde4GtOVdQDZR/8QDXvB
-         EFv/dyeYDZMgje5XsPBY73FXlhhHKym3c5TUZYFPTjzxyD6pP6KBYNGo/vhaGk9hP65b
-         OBZQ==
-X-Gm-Message-State: ACgBeo2jert0LscNqNm+CVBobj+9Div5H0rTQuUPWfhHSTKWxZLRWxDx
-        0nsy+MgA7SqC+f8o1kGx6sNI6l9Ve6f8JdddoJuzeA==
-X-Google-Smtp-Source: AGRyM1s5fn8r1OS8bSQ7BGQMtJRW4mpj0vVcOawjZ0SJoS3KoP9R1J3iBmnRwCT7BaVVLrI2T9kdeYqYZTy29ZZLFKU=
-X-Received: by 2002:ac2:4f03:0:b0:48a:6061:bd8e with SMTP id
- k3-20020ac24f03000000b0048a6061bd8emr8481056lfr.647.1659461755489; Tue, 02
- Aug 2022 10:35:55 -0700 (PDT)
+        bh=KjAZA+RBJyFCRVs3/+3jiKse67/26F8E/TlaG4k7TyI=;
+        b=60seINrQDXCdijBLG5HC52XF1E2xB/G9/Z6SBaEfaRC1Q4NsklXq+yxUtyOXXA9GC6
+         Fyod7MiNhgLD5TZiupDhglBhmi48p0+6spTHDVYvnqVSpNrms/wa0MaMdI9B2EBKNU6M
+         N8GmT79dk9084i2Xss+bDNzfzN+12PYq0vHBjUQ5tZ6DPTl5kuxAMrJohjE8uOMsc67q
+         W+JG8vyH1XQWhjd7zfGaXsLejMC/U3bV0RTAl+fhT8DW8G6KcwCwtJLwxq3QBveF8Xs3
+         lB/IYiO8Rh3CMfHBBQnI5COUeTAoSsZ7h6x2IqLe+zG5aqCTWa3iJ1gcBc8LOP/XN8CL
+         tO8Q==
+X-Gm-Message-State: AJIora8nPtNAL0sNkUSWJ/DNhbKBPUg2JcHuaVJLQ1JhFtm19vvrHcYB
+        sj+mHmWNcOWigORMDxd7UgMe4xNdmDfaJDaonko=
+X-Google-Smtp-Source: AGRyM1sTchBu9DJxxSaHL1GJ3B7rxsIGwFJokjusWYxkrpam9ZondCiC/NMBhmRLcxl3wlnfbZ37BaFnTFAFjGKVsvA=
+X-Received: by 2002:a05:6638:25cb:b0:341:6546:1534 with SMTP id
+ u11-20020a05663825cb00b0034165461534mr8585003jat.308.1659462388257; Tue, 02
+ Aug 2022 10:46:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220726165204.3363120-1-masahiroy@kernel.org>
-In-Reply-To: <20220726165204.3363120-1-masahiroy@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 2 Aug 2022 10:35:44 -0700
-Message-ID: <CAKwvOdkjcaxK7N0T-PUbfjvMqpftEXG2QQJ7NsqxgidwuPko1g@mail.gmail.com>
-Subject: Re: [PATCH] modpost: remove unused Elf_Sword macro
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
+References: <20220802015052.10452-1-ojeda@kernel.org> <YukYByl76DKqa+iD@casper.infradead.org>
+ <CANiq72k7JKqq5-8Nqf3Q2r2t_sAffC8g86A+v8yBc=W-1--_Tg@mail.gmail.com>
+ <YukuUtuXm/xPUuoP@casper.infradead.org> <CANiq72kgwssTSE7F+4xkRrXBGVgHeWxCyjeZ-NHLUXWnFjMyTg@mail.gmail.com>
+In-Reply-To: <CANiq72kgwssTSE7F+4xkRrXBGVgHeWxCyjeZ-NHLUXWnFjMyTg@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Tue, 2 Aug 2022 19:46:17 +0200
+Message-ID: <CANiq72=551t+CeiuCZz-SSx+uDaz238xjDFMRmkTwRuSFNcqmw@mail.gmail.com>
+Subject: Re: [PATCH v8 00/31] Rust support
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-um@lists.infradead.org,
+        live-patching@vger.kernel.org, linux-fsdevel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,67 +76,15 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jul 26, 2022 at 9:53 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Tue, Aug 2, 2022 at 5:09 PM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
 >
-> Commit 9ad21c3f3ecf ("kbuild: try harder to find symbol names in
-> modpost") added Elf_Sword (in a wrong way), but did not use it at all.
->
-> BTW, the current code looks weird.
->
-> The fix for the 32-bit part would be:
->
->     Elf64_Sword    -->    Elf32_Sword
->
-> (weirdness in the prefix, Elf32_ vs Elf64_)
->
-> The fix for the 64-bit part would be:
->
->     Elf64_Sxword   -->    Elf64_Sword
->
-> (the size is different between Sword and Sxword)
->
-> Note:
->
->     Elf32_Sword   ==  Elf64_Sword   ==  int32_t
->     Elf32_Sxword  ==  Elf64_Sxword  ==  int64_t
->
-> Anyway, let's drop unused code instead of fixing it.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Yeah, patch 17, exactly (patch 11 is the `alloc` import). I have asked
+> Konstantin privately about them.
 
-Thanks for the patch!
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+The patches are showing up now in lore -- not sure if it was just a
+delay (which would be consistent with the lack of bounce) or somebody
+did something (thank you if so!).
 
-> ---
->
->  scripts/mod/modpost.h | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
-> index 68cd4aeeae3d..620f2fd08e05 100644
-> --- a/scripts/mod/modpost.h
-> +++ b/scripts/mod/modpost.h
-> @@ -26,7 +26,6 @@
->  #define Elf_Shdr    Elf32_Shdr
->  #define Elf_Sym     Elf32_Sym
->  #define Elf_Addr    Elf32_Addr
-> -#define Elf_Sword   Elf64_Sword
->  #define Elf_Section Elf32_Half
->  #define ELF_ST_BIND ELF32_ST_BIND
->  #define ELF_ST_TYPE ELF32_ST_TYPE
-> @@ -41,7 +40,6 @@
->  #define Elf_Shdr    Elf64_Shdr
->  #define Elf_Sym     Elf64_Sym
->  #define Elf_Addr    Elf64_Addr
-> -#define Elf_Sword   Elf64_Sxword
->  #define Elf_Section Elf64_Half
->  #define ELF_ST_BIND ELF64_ST_BIND
->  #define ELF_ST_TYPE ELF64_ST_TYPE
-> --
-> 2.34.1
->
-
-
--- 
-Thanks,
-~Nick Desaulniers
+Cheers,
+Miguel
