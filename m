@@ -2,126 +2,79 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14362587680
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Aug 2022 06:56:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A085A587C63
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Aug 2022 14:26:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231849AbiHBE4z (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 2 Aug 2022 00:56:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58440 "EHLO
+        id S236213AbiHBM05 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 2 Aug 2022 08:26:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232999AbiHBE4y (ORCPT
+        with ESMTP id S231732AbiHBM04 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 2 Aug 2022 00:56:54 -0400
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AABB427FC2
-        for <linux-kbuild@vger.kernel.org>; Mon,  1 Aug 2022 21:56:52 -0700 (PDT)
-Received: by mail-ot1-x332.google.com with SMTP id l9-20020a056830268900b006054381dd35so9605849otu.4
-        for <linux-kbuild@vger.kernel.org>; Mon, 01 Aug 2022 21:56:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/DNm5z+T5vJx1r2SUsHpauC1vXYlnGi8hqsGThWGfWg=;
-        b=O/Rzz34M7G0I63oDVHhuLPnS1uTpQ23XzylGQBzraYLlcnYlhnXfMGGOIeKC9kQ5H1
-         I/H+UyV0bHrAvuC1ZX4IxlCwLcW+AcxO0VvKhFwb5u/77/HkcjFdaBcfcPPfiVP/J7Gr
-         dA7KvjGzK/8aB4a1beiPhF8R63lox2HjEMlIjcoiMgfdLrBTFoc3lOpLryByaSOpGs5F
-         LciQ8U6q4brTLUD0/6r+JxpzUXOh3ip4AFoZApd2HAUucb9mDCLrchlL1vY1fU9ItFTc
-         vL7+6PIXensHNleOGrmIvcYkWz6ogLHQUmJNvgi5stS3T7zuSsyjSR/Q49Be8tDIUOEf
-         vS/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/DNm5z+T5vJx1r2SUsHpauC1vXYlnGi8hqsGThWGfWg=;
-        b=vauL4lwbwumDfpY7BPcS80Gt+BQreewhlhhcDUXxy4xJ54ag/8FwEVp23gAGxijfiC
-         Ipc2SEzyd89iUIsWqasoL3mq26b/MnA4A0afucW5QHnFQW+kuH8AgGhN4WgvihJrT5Ym
-         XX6AJ+F9daSrK9Ly29L+lrERwgMAmZXJX519HvhnbkS1oFps55WnZsIg7Q4/sO/DyuUq
-         iQaOtQ+9hqa3BHZbcLrQdnRaH2xPAU5RfU+RgUvSD49KHVhEpYkA/wyAjiI1sXdCoHVj
-         p6HIBDWB7swu1LjIgaDg5t+CwjvTcIQpsvFE7QzawOcXP/UOqai7d6egFKLG131jLrXr
-         6KrA==
-X-Gm-Message-State: ACgBeo3VMJ5o3TBg3R6teuiTgh8FiBbIUU0fhuv6POZruAADCGf+vT2z
-        VzOrz94XDYJrprOBNxrFSfTZTcCSLXulpCynyafI6yTH
-X-Google-Smtp-Source: AA6agR5I1A8Ul6ZCwIf8lIHiYXvi/TLd3Q24ceKNFyMc8hbpuEswGd6PNQzK+HM8MEge4H9y/Ca3eLGK/9z/ENCZoPE=
-X-Received: by 2002:a9d:2c2a:0:b0:62a:129f:305e with SMTP id
- f39-20020a9d2c2a000000b0062a129f305emr3622287otb.86.1659416211996; Mon, 01
- Aug 2022 21:56:51 -0700 (PDT)
+        Tue, 2 Aug 2022 08:26:56 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78B83D85;
+        Tue,  2 Aug 2022 05:26:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=i+Zl91q4t+AZoHrEuNohjOyc7HDaxjH2xIeIWp7puuQ=; b=wBqS2CGpTw57Y88TURyJ4aTzj8
+        8rA9zlyUQVdeZi0SP6WeltO8x64WM2LPUJbZVVC9vyEvcTQAvLSqpCU4SHM0zaQY9o9OrcdaBHZUh
+        chmVGrmleKNL5N3TDrjg+ibrLYbwS53UAzvK3KElODt+f7h/w5gi+6ldrpx7Tm/yeEUiofU0dBDeX
+        FbHeAzOiq9gf3BwXU38L2H1pGh5PUVyhGn6vnq+zYqs/YA3Pvf7oi7Z7cPZG0u/xpO9Hz/Tp1HGwz
+        oL5k2sD1WrQc2lLN3YLU266NK2sWUfhJXbwwljK9tqmKmI8tRrOhN3HJGG+3q4+Epob0XnjfJ2x5S
+        xfW/iZZw==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oIqz1-008LTX-CP; Tue, 02 Aug 2022 12:26:47 +0000
+Date:   Tue, 2 Aug 2022 13:26:47 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Miguel Ojeda <ojeda@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-um@lists.infradead.org,
+        live-patching@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v8 00/31] Rust support
+Message-ID: <YukYByl76DKqa+iD@casper.infradead.org>
+References: <20220802015052.10452-1-ojeda@kernel.org>
 MIME-Version: 1.0
-References: <CAGRSmLsBwZdDhcKjnC0=COU7B+kM8vuRjPv_znZ5=p3k+QCONg@mail.gmail.com>
- <CAK7LNAQpTBtfnCGpO2O+w--=DPNJL14y+2Xc7GimH1j2qyd2SA@mail.gmail.com>
-In-Reply-To: <CAK7LNAQpTBtfnCGpO2O+w--=DPNJL14y+2Xc7GimH1j2qyd2SA@mail.gmail.com>
-From:   "David F." <df7729@gmail.com>
-Date:   Mon, 1 Aug 2022 21:56:41 -0700
-Message-ID: <CAGRSmLvVwZNnG-3CBeX+QuLbX9B72gABBCpSP2XfdM3pLEJhxA@mail.gmail.com>
-Subject: Re: kbuild self-created module file errors with: ERROR: modpos:
- missing MODULE_LICENSE
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220802015052.10452-1-ojeda@kernel.org>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The source module has it.  This is a library that is built and to
-build it, the makefile needed the obj-m:=junk.o item, when the error
-comes up, it points to junk as the problem file.  I tried just copying
-my own junk.mod.c but it appears its always overwritten.   I just
-patched the kernel to go back to a warning instead of error and now
-it's all working fine.
+On Tue, Aug 02, 2022 at 03:49:47AM +0200, Miguel Ojeda wrote:
+> Some of the improvements to the abstractions and example drivers are:
+> 
+>   - Filesystem support (`fs` module), including:
+> 
+>       + `INode` type (which wraps `struct inode`).
+>       + `DEntry` type (which wraps `struct dentry`).
+>       + `Filename` type (which wraps `struct filename`).
+>       + `Registration` type.
+>       + `Type` and `Context` traits.
+>       + `SuperBlock` type (which wraps `struct super_block` and takes
+>         advantage of typestates for its initialization).
+>       + File system parameters support (with a `Value` enum; `Spec*`
+>         and `Constant*` types, `define_fs_params!` macro...).
+>       + File system flags.
+>       + `module_fs!` macro to simplify registering kernel modules that
+>         only implement a single file system.
+>       + A file system sample.
 
-On Sun, Jul 31, 2022 at 9:16 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Mon, Aug 1, 2022 at 2:16 AM David F. <df7729@gmail.com> wrote:
-> >
-> > Years ago I set up a series of makefiles and bash scripts to build
-> > both a support library for kernel modules and my own kernel modules.
-> > Now years later, I don't recall much about how all this works but it
-> > has until moving to 5.15 (from 5.10. kernels).  Although, there was an
-> > issue with it not supporting libraries at some upgrade point, but this
-> > list helped me with a patch so it would build the .a libraries and
-> > link with them.
-> >
-> > Looking at the makefile for building the library it has a note that I
-> > needed to set up a fake obj-m for it to actually build the library.
-> > So what I have is:
-> >
-> > # Setup module name for kbuild
-> > obj-m:=junk.o
-> > junk-objs:=lib.a
-> >
-> > There is no reference to any junk_mod.c file, it appears kbuild
-> > automatically creates the junk-mod.c file itself.   The problem is the
-> > build now fails due to the:
-> > ERROR: modpost: missing MODULE_LICENSE() in /.../junk.obj
-> >
-> > Is there some other makefile option to make kbuild set the
-> > MODULE_LICENSE() or perhaps ignore it since it's not needed in this
-> > type of case?
->
->
-> You need to add MODULE_LICENSE()
-> somewhere in your module source code.
->
->
->
->
->
->
->
-> >
-> > Or should I take this junk.mod.c file and now modify it and then
-> > actually copy it over as the actual source to use to force the library
-> > to be created?
-> >
-> > Thanks!!
->
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+None of this (afaict) has been discussed on linux-fsdevel.  And I may
+have missed somethiing, but I don't see the fs module in this series
+of patches.  Could linux-fsdevel be cc'd on the development of Rust
+support for filesystems in the future?
