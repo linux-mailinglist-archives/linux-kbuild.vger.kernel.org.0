@@ -2,58 +2,65 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B1A105880CF
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Aug 2022 19:10:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C336C58811A
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Aug 2022 19:36:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232483AbiHBRKu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 2 Aug 2022 13:10:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43012 "EHLO
+        id S230153AbiHBRgB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 2 Aug 2022 13:36:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233741AbiHBRKt (ORCPT
+        with ESMTP id S229545AbiHBRf7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 2 Aug 2022 13:10:49 -0400
-Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC7D41EAE6;
-        Tue,  2 Aug 2022 10:10:47 -0700 (PDT)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 272HAXwx017499;
-        Wed, 3 Aug 2022 02:10:34 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 272HAXwx017499
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1659460234;
-        bh=H30PAH1MVagmr+DocuLDEfTLf80xpGIilp7LXmrFWDA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Kb7f/tdIPYeAHcEGjMrCdmaIM2M9EG8Ly7RLUOr2UAzE0w57Xq2sClimpSdWb+wkZ
-         bf2pDsUHWWiOaIpUOukO1DRdMEednH8giZDq2UpSlzSVkL6yZYt+qCTS9rW0o0VnQi
-         b2VwymG8p3tVOOWTLPsTXWHo4R+eRy7VohKIfQ4MvctTa433DPSYL/rDMubeNYoT13
-         vjfCwtMoaKMph9QGVqds8pA+o8KQ7GpcQFjoVe3FzqqgK2FwwWywDUgRMjqhwuYoSB
-         IvX0MTLYC2j34pXQvy1uz/GDDE5xkdi4H3h3k8xMg1m8mpbuv0e5gmvu4GP3gI5WbK
-         I29dbh7WAjWKA==
-X-Nifty-SrcIP: [209.85.128.53]
-Received: by mail-wm1-f53.google.com with SMTP id i128-20020a1c3b86000000b003a3a22178beso571554wma.3;
-        Tue, 02 Aug 2022 10:10:33 -0700 (PDT)
-X-Gm-Message-State: ACgBeo2YWwwIYhxP6PtDutZVJSXPJn+IY7fAGomi4czdi0GW74DKtKzK
-        LXv+fST+WxuNqfycaIrREd4Knxvrn5n86CL2xfg=
-X-Google-Smtp-Source: AA6agR4WDUvwILyzHBc8Y5fxbKXqaQqBUelJlkN0GZTbZz+5ss+2UTV07uzo3adpUpnkYrQQFpyUXJIxFkhMEkdX/zM=
-X-Received: by 2002:a05:600c:35ce:b0:3a3:1b7f:bbd8 with SMTP id
- r14-20020a05600c35ce00b003a31b7fbbd8mr288103wmq.22.1659460232334; Tue, 02 Aug
- 2022 10:10:32 -0700 (PDT)
+        Tue, 2 Aug 2022 13:35:59 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5905BBCAD
+        for <linux-kbuild@vger.kernel.org>; Tue,  2 Aug 2022 10:35:57 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id y11so22934798lfs.6
+        for <linux-kbuild@vger.kernel.org>; Tue, 02 Aug 2022 10:35:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=KMSbpoPgZo1nXG06BELKlRTAIPdpj4wofQosM2wSXKI=;
+        b=r3PRTJMvCLPoJ7ojXKsINdDqMe3s1XbeycrpPF6SPPTi308tOITiHq4rgU+dsSHoqE
+         Y6oiG1cSBCWCQTeFKT385yv56/VzNeK2w4JMLu0FO+4WYt2w6T+fRZV7WfuAcgJiMceP
+         gpIHJny2a9YmJJ3xud4kx75xOKezDrfDjsWXSJzxfa+PSUyYWfFpIe2n40hrW/FitCGM
+         1fcEkrLlf2GibxJvp90oY3KJFe9ZkDDaMfGDhJh/CFU6Q+P36NMthgr5vWvGnYDHxezO
+         UKGFLmfvnbohg3S14jjl1pa3vfTep/gsPjDCsQdIy3A0LLbHlQkkjUowxqVA6olX+jAe
+         kMng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KMSbpoPgZo1nXG06BELKlRTAIPdpj4wofQosM2wSXKI=;
+        b=co6qcZUDiaUHds0kQhBROeZQ6rLs9d+Y3KKElAu5Pg+c46EKCyKVCjkzWVAraIJYlU
+         SV/FdkYSLKuvWb1xuEgtIPJkbWMSgEN+qZATx+BUB/jNXKXb3ctS1BSEOFwjL/GXYCIX
+         VGX4kQq/JszbJB4dr22tzwqqbikRJdVsLL8/i5CdghWueTBQXSr45TlEDVZCngp1lGM0
+         eMXiPDpmv4Mr8RxQuSRMDdQbttdpKxbJaSKPgwmCEeYMmJWOLde4GtOVdQDZR/8QDXvB
+         EFv/dyeYDZMgje5XsPBY73FXlhhHKym3c5TUZYFPTjzxyD6pP6KBYNGo/vhaGk9hP65b
+         OBZQ==
+X-Gm-Message-State: ACgBeo2jert0LscNqNm+CVBobj+9Div5H0rTQuUPWfhHSTKWxZLRWxDx
+        0nsy+MgA7SqC+f8o1kGx6sNI6l9Ve6f8JdddoJuzeA==
+X-Google-Smtp-Source: AGRyM1s5fn8r1OS8bSQ7BGQMtJRW4mpj0vVcOawjZ0SJoS3KoP9R1J3iBmnRwCT7BaVVLrI2T9kdeYqYZTy29ZZLFKU=
+X-Received: by 2002:ac2:4f03:0:b0:48a:6061:bd8e with SMTP id
+ k3-20020ac24f03000000b0048a6061bd8emr8481056lfr.647.1659461755489; Tue, 02
+ Aug 2022 10:35:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220730173636.1303357-1-masahiroy@kernel.org> <b655dfc5-f490-9722-6ac6-ac4b7e8b7b5b@quicinc.com>
-In-Reply-To: <b655dfc5-f490-9722-6ac6-ac4b7e8b7b5b@quicinc.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 3 Aug 2022 02:09:29 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATWYdcUkRXVANG4Dc-3Fr-qyh1y8ZcM0knY1f3KEsKspw@mail.gmail.com>
-Message-ID: <CAK7LNATWYdcUkRXVANG4Dc-3Fr-qyh1y8ZcM0knY1f3KEsKspw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] modpost: add array range check to sec_name()
-To:     Jeff Johnson <quic_jjohnson@quicinc.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+References: <20220726165204.3363120-1-masahiroy@kernel.org>
+In-Reply-To: <20220726165204.3363120-1-masahiroy@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 2 Aug 2022 10:35:44 -0700
+Message-ID: <CAKwvOdkjcaxK7N0T-PUbfjvMqpftEXG2QQJ7NsqxgidwuPko1g@mail.gmail.com>
+Subject: Re: [PATCH] modpost: remove unused Elf_Sword macro
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -61,17 +68,67 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 2, 2022 at 5:29 AM Jeff Johnson <quic_jjohnson@quicinc.com> wrote:
+On Tue, Jul 26, 2022 at 9:53 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> On 7/30/2022 10:36 AM, Masahiro Yamada wrote:
-> > The section index is always positive, so the argunent, secindex, should
+> Commit 9ad21c3f3ecf ("kbuild: try harder to find symbol names in
+> modpost") added Elf_Sword (in a wrong way), but did not use it at all.
 >
-> nit: s/argunent/argument/
+> BTW, the current code looks weird.
+>
+> The fix for the 32-bit part would be:
+>
+>     Elf64_Sword    -->    Elf32_Sword
+>
+> (weirdness in the prefix, Elf32_ vs Elf64_)
+>
+> The fix for the 64-bit part would be:
+>
+>     Elf64_Sxword   -->    Elf64_Sword
+>
+> (the size is different between Sword and Sxword)
+>
+> Note:
+>
+>     Elf32_Sword   ==  Elf64_Sword   ==  int32_t
+>     Elf32_Sxword  ==  Elf64_Sxword  ==  int64_t
+>
+> Anyway, let's drop unused code instead of fixing it.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Thanks.
-I will not send v2 just because of this typo.
-I locally fixed it.
+Thanks for the patch!
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
+> ---
+>
+>  scripts/mod/modpost.h | 2 --
+>  1 file changed, 2 deletions(-)
+>
+> diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+> index 68cd4aeeae3d..620f2fd08e05 100644
+> --- a/scripts/mod/modpost.h
+> +++ b/scripts/mod/modpost.h
+> @@ -26,7 +26,6 @@
+>  #define Elf_Shdr    Elf32_Shdr
+>  #define Elf_Sym     Elf32_Sym
+>  #define Elf_Addr    Elf32_Addr
+> -#define Elf_Sword   Elf64_Sword
+>  #define Elf_Section Elf32_Half
+>  #define ELF_ST_BIND ELF32_ST_BIND
+>  #define ELF_ST_TYPE ELF32_ST_TYPE
+> @@ -41,7 +40,6 @@
+>  #define Elf_Shdr    Elf64_Shdr
+>  #define Elf_Sym     Elf64_Sym
+>  #define Elf_Addr    Elf64_Addr
+> -#define Elf_Sword   Elf64_Sxword
+>  #define Elf_Section Elf64_Half
+>  #define ELF_ST_BIND ELF64_ST_BIND
+>  #define ELF_ST_TYPE ELF64_ST_TYPE
+> --
+> 2.34.1
+>
+
 
 -- 
-Best Regards
-Masahiro Yamada
+Thanks,
+~Nick Desaulniers
