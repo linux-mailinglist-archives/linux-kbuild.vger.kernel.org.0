@@ -2,329 +2,153 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B9235881C5
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Aug 2022 20:13:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40EE258821A
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Aug 2022 20:55:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234620AbiHBSNl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 2 Aug 2022 14:13:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60698 "EHLO
+        id S229779AbiHBSzU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 2 Aug 2022 14:55:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230293AbiHBSNk (ORCPT
+        with ESMTP id S229498AbiHBSzT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 2 Aug 2022 14:13:40 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 053044AD68
-        for <linux-kbuild@vger.kernel.org>; Tue,  2 Aug 2022 11:13:38 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id c17so4611024lfb.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 02 Aug 2022 11:13:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RfAmeIhpMtEjE+n6tE+gFwawGbWrsqhmqXKSU+whqmc=;
-        b=Sgh8aeC7x64vARyPgwe8pZ3HUDFse2tcOJvVUz8LPNYSEnSsIM/Is7UoaACkUvNPvG
-         QGxPIiJNwQztYPTpWPhWpYkCc7MHsE242mjlSddOOhZj2BKJdCHM1tkOwn0tumvmq5U3
-         UnHw/dMWaNxDSjU09BXg6STjRv9DpnHlIoFCCHWPDToo/9rBDOOKOYCxYpYGik5XYwG8
-         R3lYXPsGxyct22bR6qgSmaXk818F1o0gne/oVg5ihBEPV3T8CnMZwFbxxlD1C7G5avOd
-         Hm44bMeeXtFnYhw3ZgIq46NYqPXulCAxrXp4HqNpuM5vYp8gteiaNI+G8W6BdmI7HePo
-         cVPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RfAmeIhpMtEjE+n6tE+gFwawGbWrsqhmqXKSU+whqmc=;
-        b=0FMFpWXsCW9Lr4R1TGmLp869Tcflz11xcEzFkcqK/gflFGCnafuSh9LHASuZWslWHn
-         JnJvOLOk76yJtLmpxClHFpwPzwCXvSnhc+HoLB8RoXoZis0T8BNUGgfMmRs58so9bf5J
-         KJpqjzqvfU0cVZdOW2h1xvCxxfdNhUAp/2Q3CMoKTuvJXmGVAOyE9l72hXQyNIdVzwzV
-         TkbD0XWhPPvQIXLkBO/aCqaOaiSHr4YRHqfwcC5t4b6GIQYplKcq2M5//3I9UohCiTuf
-         bDwaQczxkArL8SLRJGvte3utKv4YMroWPuj4xRSJPqrk0lgwZB7VS/+NqkhMBrZKrHTz
-         MSDg==
-X-Gm-Message-State: ACgBeo3c3tK6YFO+B1hvDeJYciI5zP8Jj48Hrz4AJubxW45BfWyF6Hjx
-        /PZr7gKm0h0ceP40kU6oNLU6wQTF+f2kdFzMcvuVFw==
-X-Google-Smtp-Source: AA6agR5IZ3f2t5nb+xFmpy44jVFACoSxNadQbNDWn3Ir2XwLUgWDvka1g8gFJ9sJ4TgfG8IsHsST2MaWS+CO6SDDPoA=
-X-Received: by 2002:a05:6512:158b:b0:48b:38:cff8 with SMTP id
- bp11-20020a056512158b00b0048b0038cff8mr2926407lfb.100.1659464016072; Tue, 02
- Aug 2022 11:13:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220801093902.1506297-1-masahiroy@kernel.org>
-In-Reply-To: <20220801093902.1506297-1-masahiroy@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 2 Aug 2022 11:13:24 -0700
-Message-ID: <CAKwvOd=cBXzA9SfYtK-h_dAqLyg=5iZ6YjztTfNschKUMBTK9Q@mail.gmail.com>
-Subject: Re: [PATCH 1/4] modpost: shorten warning messages in report_sec_mismatch()
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        Tue, 2 Aug 2022 14:55:19 -0400
+X-Greylist: delayed 355 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 02 Aug 2022 11:55:17 PDT
+Received: from mail.owenrafferty.com (owenrafferty.com [45.76.27.4])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6E895FA5
+        for <linux-kbuild@vger.kernel.org>; Tue,  2 Aug 2022 11:55:16 -0700 (PDT)
+Received: from localhost (unknown [184.55.81.148])
+        by mail.owenrafferty.com (Postfix) with ESMTPSA id E6BDA80CF8;
+        Tue,  2 Aug 2022 18:49:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=owenrafferty.com;
+        s=mail; t=1659466160;
+        bh=NTqXy1saBp74YKhgca7OJOS5mwD3aUeBbx1mMiABJF4=;
+        h=From:Date:Subject:To:Cc:From;
+        b=Jz9eCx4drdoj69Z4SYTmbVbgQHrow4wY1A8Llb6x6QiVdz/2cVuR+MaJGCKReQ/ny
+         vogrMsBcJTp+BTvcjnVYMtbxU4xSBkRd6LfPz0rgmCbx8uDNqzeE7IK9axmuQ5VfZL
+         mCeO1tf1GQfflUbW+IVRyIBnARrUUl/oAqJgwPNLRdnZekIjpeTeXfRBxfa/TUFCXJ
+         h3OmDcOYmrTRI/NjNyvzIEGu3AYXMf6EoHGHTAbEhaXu9cQtGjX+XhIQOHy4+twSWb
+         9Oz8ik/2SjrWEBETeLEIHekog0tjL0pIChVjUYQBPzHfVevsmVBSYzvuoyyLHpKi93
+         LCnP+h7I5eb2w==
+X-Mailbox-Line: From 18a919882d8aa7b8970888a565ebbbeefdce9f12 Mon Sep 17 00:00:00 2001
+Message-Id: <18a919882d8aa7b8970888a565ebbbeefdce9f12.1659465303.git.owen@owenrafferty.com>
+From:   Owen Rafferty <owen@owenrafferty.com>
+Date:   Tue, 2 Aug 2022 13:30:34 -0500
+Subject: [PATCH] kbuild: rewrite check-local-export in posix shell
+To:     linux-kbuild@vger.kernel.org
+Cc:     masahiroy@kernel.org
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Aug 1, 2022 at 2:41 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> Each section mismatch results in long warning messages. Too much.
+Remove the bash build dependency for those who otherwise do not have it
+installed. This should also provide a slight speedup.
 
-:(
+Signed-off-by: Owen Rafferty <owen@owenrafferty.com>
+---
+ scripts/check-local-export | 62 +++++++++++++++++---------------------
+ 1 file changed, 28 insertions(+), 34 deletions(-)
 
-Yes; they are too verbose.  That said, I have found the
-recommendations about annotations for function attributes handy in the
-past and would be sad to see them go.  They remind me of "note"
-diagnostics from the compiler that add additional context to
-"warning"/"error" diagnostics on what the recommended next steps are
-for fixing them.
-
-Is there a "happy middle ground" here?
-
->
-> Make each warning fit in one line, and remove a lot of messy code.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->  scripts/mod/modpost.c | 179 +++---------------------------------------
->  1 file changed, 9 insertions(+), 170 deletions(-)
->
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index a8ee27496da7..9e8ae2636ec1 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -1238,42 +1238,6 @@ static Elf_Sym *find_elf_symbol2(struct elf_info *elf, Elf_Addr addr,
->         return near;
->  }
->
-> -/*
-> - * Convert a section name to the function/data attribute
-> - * .init.text => __init
-> - * .memexitconst => __memconst
-> - * etc.
-> - *
-> - * The memory of returned value has been allocated on a heap. The user of this
-> - * method should free it after usage.
-> -*/
-> -static char *sec2annotation(const char *s)
-> -{
-> -       if (match(s, init_exit_sections)) {
-> -               char *p = NOFAIL(malloc(20));
-> -               char *r = p;
-> -
-> -               *p++ = '_';
-> -               *p++ = '_';
-> -               if (*s == '.')
-> -                       s++;
-> -               while (*s && *s != '.')
-> -                       *p++ = *s++;
-> -               *p = '\0';
-> -               if (*s == '.')
-> -                       s++;
-> -               if (strstr(s, "rodata") != NULL)
-> -                       strcat(p, "const ");
-> -               else if (strstr(s, "data") != NULL)
-> -                       strcat(p, "data ");
-> -               else
-> -                       strcat(p, " ");
-> -               return r;
-> -       } else {
-> -               return NOFAIL(strdup(""));
-> -       }
-> -}
-> -
->  static int is_function(Elf_Sym *sym)
->  {
->         if (sym)
-> @@ -1282,19 +1246,6 @@ static int is_function(Elf_Sym *sym)
->                 return -1;
->  }
->
-> -static void print_section_list(const char * const list[20])
-> -{
-> -       const char *const *s = list;
-> -
-> -       while (*s) {
-> -               fprintf(stderr, "%s", *s);
-> -               s++;
-> -               if (*s)
-> -                       fprintf(stderr, ", ");
-> -       }
-> -       fprintf(stderr, "\n");
-> -}
-> -
->  static inline void get_pretty_name(int is_func, const char** name, const char** name_p)
->  {
->         switch (is_func) {
-> @@ -1312,141 +1263,31 @@ static inline void get_pretty_name(int is_func, const char** name, const char**
->  static void report_sec_mismatch(const char *modname,
->                                 const struct sectioncheck *mismatch,
->                                 const char *fromsec,
-> -                               unsigned long long fromaddr,
->                                 const char *fromsym,
-> -                               int from_is_func,
-> -                               const char *tosec, const char *tosym,
-> -                               int to_is_func)
-> +                               const char *tosec, const char *tosym)
->  {
-> -       const char *from, *from_p;
-> -       const char *to, *to_p;
-> -       char *prl_from;
-> -       char *prl_to;
-> -
->         sec_mismatch_count++;
->
-> -       get_pretty_name(from_is_func, &from, &from_p);
-> -       get_pretty_name(to_is_func, &to, &to_p);
-> -
-> -       warn("%s(%s+0x%llx): Section mismatch in reference from the %s %s%s "
-> -            "to the %s %s:%s%s\n",
-> -            modname, fromsec, fromaddr, from, fromsym, from_p, to, tosec,
-> -            tosym, to_p);
-> -
->         switch (mismatch->mismatch) {
->         case TEXT_TO_ANY_INIT:
-> -               prl_from = sec2annotation(fromsec);
-> -               prl_to = sec2annotation(tosec);
-> -               fprintf(stderr,
-> -               "The function %s%s() references\n"
-> -               "the %s %s%s%s.\n"
-> -               "This is often because %s lacks a %s\n"
-> -               "annotation or the annotation of %s is wrong.\n",
-> -               prl_from, fromsym,
-> -               to, prl_to, tosym, to_p,
-> -               fromsym, prl_to, tosym);
-> -               free(prl_from);
-> -               free(prl_to);
-> -               break;
-> -       case DATA_TO_ANY_INIT: {
-> -               prl_to = sec2annotation(tosec);
-> -               fprintf(stderr,
-> -               "The variable %s references\n"
-> -               "the %s %s%s%s\n"
-> -               "If the reference is valid then annotate the\n"
-> -               "variable with __init* or __refdata (see linux/init.h) "
-> -               "or name the variable:\n",
-> -               fromsym, to, prl_to, tosym, to_p);
-> -               print_section_list(mismatch->symbol_white_list);
-> -               free(prl_to);
-> -               break;
-> -       }
-> +       case DATA_TO_ANY_INIT:
->         case TEXT_TO_ANY_EXIT:
-> -               prl_to = sec2annotation(tosec);
-> -               fprintf(stderr,
-> -               "The function %s() references a %s in an exit section.\n"
-> -               "Often the %s %s%s has valid usage outside the exit section\n"
-> -               "and the fix is to remove the %sannotation of %s.\n",
-> -               fromsym, to, to, tosym, to_p, prl_to, tosym);
-> -               free(prl_to);
-> -               break;
-> -       case DATA_TO_ANY_EXIT: {
-> -               prl_to = sec2annotation(tosec);
-> -               fprintf(stderr,
-> -               "The variable %s references\n"
-> -               "the %s %s%s%s\n"
-> -               "If the reference is valid then annotate the\n"
-> -               "variable with __exit* (see linux/init.h) or "
-> -               "name the variable:\n",
-> -               fromsym, to, prl_to, tosym, to_p);
-> -               print_section_list(mismatch->symbol_white_list);
-> -               free(prl_to);
-> -               break;
-> -       }
-> +       case DATA_TO_ANY_EXIT:
->         case XXXINIT_TO_SOME_INIT:
->         case XXXEXIT_TO_SOME_EXIT:
-> -               prl_from = sec2annotation(fromsec);
-> -               prl_to = sec2annotation(tosec);
-> -               fprintf(stderr,
-> -               "The %s %s%s%s references\n"
-> -               "a %s %s%s%s.\n"
-> -               "If %s is only used by %s then\n"
-> -               "annotate %s with a matching annotation.\n",
-> -               from, prl_from, fromsym, from_p,
-> -               to, prl_to, tosym, to_p,
-> -               tosym, fromsym, tosym);
-> -               free(prl_from);
-> -               free(prl_to);
-> -               break;
->         case ANY_INIT_TO_ANY_EXIT:
-> -               prl_from = sec2annotation(fromsec);
-> -               prl_to = sec2annotation(tosec);
-> -               fprintf(stderr,
-> -               "The %s %s%s%s references\n"
-> -               "a %s %s%s%s.\n"
-> -               "This is often seen when error handling "
-> -               "in the init function\n"
-> -               "uses functionality in the exit path.\n"
-> -               "The fix is often to remove the %sannotation of\n"
-> -               "%s%s so it may be used outside an exit section.\n",
-> -               from, prl_from, fromsym, from_p,
-> -               to, prl_to, tosym, to_p,
-> -               prl_to, tosym, to_p);
-> -               free(prl_from);
-> -               free(prl_to);
-> -               break;
->         case ANY_EXIT_TO_ANY_INIT:
-> -               prl_from = sec2annotation(fromsec);
-> -               prl_to = sec2annotation(tosec);
-> -               fprintf(stderr,
-> -               "The %s %s%s%s references\n"
-> -               "a %s %s%s%s.\n"
-> -               "This is often seen when error handling "
-> -               "in the exit function\n"
-> -               "uses functionality in the init path.\n"
-> -               "The fix is often to remove the %sannotation of\n"
-> -               "%s%s so it may be used outside an init section.\n",
-> -               from, prl_from, fromsym, from_p,
-> -               to, prl_to, tosym, to_p,
-> -               prl_to, tosym, to_p);
-> -               free(prl_from);
-> -               free(prl_to);
-> +               warn("%s: section mismatch in reference: %s (section: %s) -> %s (section: %s)\n",
-> +                    modname, fromsym, fromsec, tosym, tosec);
->                 break;
->         case EXPORT_TO_INIT_EXIT:
-> -               prl_to = sec2annotation(tosec);
-> -               fprintf(stderr,
-> -               "The symbol %s is exported and annotated %s\n"
-> -               "Fix this by removing the %sannotation of %s "
-> -               "or drop the export.\n",
-> -               tosym, prl_to, prl_to, tosym);
-> -               free(prl_to);
-> +               warn("%s: EXPORT_SYMBOL used for init/exit symbol: %s (section: %s)\n",
-> +                    modname, tosym, tosec);
->                 break;
->         case EXTABLE_TO_NON_TEXT:
-> -               fatal("There's a special handler for this mismatch type, "
-> -                     "we should never get here.");
-> +               fatal("There's a special handler for this mismatch type, we should never get here.\n");
->                 break;
->         }
-> -       fprintf(stderr, "\n");
->  }
->
->  static void default_mismatch_handler(const char *modname, struct elf_info *elf,
-> @@ -1470,9 +1311,7 @@ static void default_mismatch_handler(const char *modname, struct elf_info *elf,
->         if (secref_whitelist(mismatch,
->                              fromsec, fromsym, tosec, tosym)) {
->                 report_sec_mismatch(modname, mismatch,
-> -                                   fromsec, r->r_offset, fromsym,
-> -                                   is_function(from), tosec, tosym,
-> -                                   is_function(to));
-> +                                   fromsec, fromsym, tosec, tosym);
->         }
->  }
->
-> --
-> 2.34.1
->
-
-
+diff --git a/scripts/check-local-export b/scripts/check-local-export
+index 6ccc2f467416..08fa4c989244 100755
+--- a/scripts/check-local-export
++++ b/scripts/check-local-export
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/bin/sh
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
+ # Copyright (C) 2022 Masahiro Yamada <masahiroy@kernel.org>
+@@ -8,31 +8,11 @@
+ 
+ set -e
+ 
+-# catch errors from ${NM}
+-set -o pipefail
+-
+-# Run the last element of a pipeline in the current shell.
+-# Without this, the while-loop would be executed in a subshell, and
+-# the changes made to 'symbol_types' and 'export_symbols' would be lost.
+-shopt -s lastpipe
+-
+-declare -A symbol_types
+-declare -a export_symbols
++symbol_types=""
++export_symbols=""
+ 
+ exit_code=0
+ 
+-# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
+-# 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
+-# '2>/dev/null'. However, it suppresses real error messages as well. Add a
+-# hand-crafted error message here.
+-#
+-# TODO:
+-# Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
+-# binutils to 2.37, llvm to 13.0.0.
+-# Then, the following line will be really simple:
+-#   ${NM} --quiet ${1} |
+-
+-{ ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; false; } } |
+ while read value type name
+ do
+ 	# Skip the line if the number of fields is less than 3.
+@@ -46,26 +26,40 @@ do
+ 	# case 2)
+ 	#   For Clang LTO, llvm-nm outputs a line with type 't' but empty name:
+ 	#     "---------------- t"
+-	if [[ -z ${name} ]]; then
++	if [ -z ${name} ]; then
+ 		continue
+ 	fi
+ 
+-	# save (name, type) in the associative array
+-	symbol_types[${name}]=${type}
++	# save (name, type) in "associative array"
++	symbol_types="$symbol_types ${name},${type}"
+ 
+ 	# append the exported symbol to the array
+-	if [[ ${name} == __ksymtab_* ]]; then
+-		export_symbols+=(${name#__ksymtab_})
+-	fi
+-done
++	case ${name} in __ksymtab_*)
++		export_symbols="$export_symbols ${name#__ksymtab_}"
++	esac
+ 
+-for name in "${export_symbols[@]}"
++# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
++# 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
++# '2>/dev/null'. However, it suppresses real error messages as well. Add a
++# hand-crafted error message here.
++#
++# TODO:
++# Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
++# binutils to 2.37, llvm to 13.0.0.
++# Then, the following line will be simple:
++# $(${NM} --quiet ${1} || kill -INT $$)
++done <<EOF
++$( ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; kill -INT $$; })
++EOF
++
++for name in $export_symbols
+ do
+-	# nm(3) says "If lowercase, the symbol is usually local"
+-	if [[ ${symbol_types[$name]} =~ [a-z] ]]; then
++	type="${symbol_types##* $name,}"
++	type="${type%% *}"
++	case ${type} in [a-z])
+ 		echo "$@: error: local symbol '${name}' was exported" >&2
+ 		exit_code=1
+-	fi
++	esac
+ done
+ 
+ exit ${exit_code}
 -- 
-Thanks,
-~Nick Desaulniers
+2.37.1
+
