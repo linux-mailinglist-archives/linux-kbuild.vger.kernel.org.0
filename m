@@ -2,73 +2,65 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 657FC588148
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Aug 2022 19:46:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 319BB588158
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Aug 2022 19:50:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231224AbiHBRqa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 2 Aug 2022 13:46:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40010 "EHLO
+        id S230471AbiHBRut (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 2 Aug 2022 13:50:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232716AbiHBRq3 (ORCPT
+        with ESMTP id S229499AbiHBRus (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 2 Aug 2022 13:46:29 -0400
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C33EABF44;
-        Tue,  2 Aug 2022 10:46:28 -0700 (PDT)
-Received: by mail-io1-xd30.google.com with SMTP id z132so11229406iof.0;
-        Tue, 02 Aug 2022 10:46:28 -0700 (PDT)
+        Tue, 2 Aug 2022 13:50:48 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD0972183
+        for <linux-kbuild@vger.kernel.org>; Tue,  2 Aug 2022 10:50:47 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id r14so16453729ljp.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 02 Aug 2022 10:50:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=KjAZA+RBJyFCRVs3/+3jiKse67/26F8E/TlaG4k7TyI=;
-        b=G1ZC9vkFJ4/eIUWgdyFRStYtBBwbb1Zif38+6Kd6XjFeJpq0EDYF5HEYZANxccxOAb
-         HmDVHGEm41eETriohYDDkKfsfhiS1kgVPFbEY4rtweJ1QJ1w8sFeRIN71ItWO6BPmvwR
-         8ySNPXjJA7WIgGsGRmXgKwdyXVub6MJulx221Nk9d5iPBQyqj6nT41qN3sjBcMtODkzh
-         YVggKsNuk881EIvL8fVF0dABkRzDdp+uzsz7L1RfHwhrgeGxg09GhCRL77vLtcefM4Z1
-         g8BDmDPc0IdBGSMtP/pcTI7F8/Li326UqJekszusX2sd2U1KdEOWLdx+003Nps6DRXrj
-         M3lw==
+        bh=Xdy7hWwptYMJy32CiaLwvAQbz8oNM1G9eZE8H1Il2oY=;
+        b=CGwnOqBC+bjVuuqljzZFhjGYoj4lHLYyCUnrDtGSSqJucGri6nZoc/hBXxxFf1weV7
+         V4oal4+Max/oDV/0+y8aGt1jat7tkecMaC95ZpF+X/OBbV1m2/PcmjbkfjrQnCmmsH+H
+         wgNG5l+3bQJcguuLMDZEL9eWW23Vq4GcNLbXFczCWoMVIJBTEJVhLjiZ4dLmrQEbR81m
+         5pmTLa0mGQvFa4Q1wo7shcUKT8FGLhq/FQ9wQzgt4EKk9ZA4GAC7hY5Gt0eSkIVhsYdL
+         NNbDdEIHdPs+PH1DAwL3qzMSZVnj5NfxICUvnRq7x8zoPlvwcNUBjhtdgkZBv4KUD8YP
+         ygUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=KjAZA+RBJyFCRVs3/+3jiKse67/26F8E/TlaG4k7TyI=;
-        b=60seINrQDXCdijBLG5HC52XF1E2xB/G9/Z6SBaEfaRC1Q4NsklXq+yxUtyOXXA9GC6
-         Fyod7MiNhgLD5TZiupDhglBhmi48p0+6spTHDVYvnqVSpNrms/wa0MaMdI9B2EBKNU6M
-         N8GmT79dk9084i2Xss+bDNzfzN+12PYq0vHBjUQ5tZ6DPTl5kuxAMrJohjE8uOMsc67q
-         W+JG8vyH1XQWhjd7zfGaXsLejMC/U3bV0RTAl+fhT8DW8G6KcwCwtJLwxq3QBveF8Xs3
-         lB/IYiO8Rh3CMfHBBQnI5COUeTAoSsZ7h6x2IqLe+zG5aqCTWa3iJ1gcBc8LOP/XN8CL
-         tO8Q==
-X-Gm-Message-State: AJIora8nPtNAL0sNkUSWJ/DNhbKBPUg2JcHuaVJLQ1JhFtm19vvrHcYB
-        sj+mHmWNcOWigORMDxd7UgMe4xNdmDfaJDaonko=
-X-Google-Smtp-Source: AGRyM1sTchBu9DJxxSaHL1GJ3B7rxsIGwFJokjusWYxkrpam9ZondCiC/NMBhmRLcxl3wlnfbZ37BaFnTFAFjGKVsvA=
-X-Received: by 2002:a05:6638:25cb:b0:341:6546:1534 with SMTP id
- u11-20020a05663825cb00b0034165461534mr8585003jat.308.1659462388257; Tue, 02
- Aug 2022 10:46:28 -0700 (PDT)
+        bh=Xdy7hWwptYMJy32CiaLwvAQbz8oNM1G9eZE8H1Il2oY=;
+        b=tKxoZWJrdlbxKODlqmLTa1TsNnAwr4g8bA3xWVVHGoyHWKV/0VsjhFey+lwonCmscg
+         28hNfDy7KyRBQX1wDqpp6vNNK9MLQbglBsdSE5XlyOWqoG9GecTBMoArv+V3Sx1NAATd
+         630DNQTf54ftty+hhjlSypHX00KVqlcYwJqFYe+Vc7c8HxpuLPAMc5+CNy8nS64KBK79
+         ZakTwXumx+y1AgUaUrP2YDTXXt6OHqgusMDVBaWkWkGIlO/pVSUHO08+jsfjfIb01Q2M
+         We4e9foiRmWcdYYPlefNX11JckyL5pIzWwViQWscS9wyYRjI5v/TKebixeotq3P9skDY
+         rK7Q==
+X-Gm-Message-State: ACgBeo3I/VUgH5KgCWgsQhn30csn/hYD17H66+HPTELvU+YQR8uDgpno
+        XIKG70qrLWp9NKMkF5WT+3x6ZIHx20xFXGuFP6BUEg==
+X-Google-Smtp-Source: AA6agR4YwbemLLnQOTtoivWc2JzeSJXcJqlpsoikkvB0iGAZPbYKpfBqi1u5j2VaWEn/Rh9iqR8Q4kcjsdpzDL4rzbI=
+X-Received: by 2002:a2e:be10:0:b0:25e:55bb:7296 with SMTP id
+ z16-20020a2ebe10000000b0025e55bb7296mr2622841ljq.400.1659462645710; Tue, 02
+ Aug 2022 10:50:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220802015052.10452-1-ojeda@kernel.org> <YukYByl76DKqa+iD@casper.infradead.org>
- <CANiq72k7JKqq5-8Nqf3Q2r2t_sAffC8g86A+v8yBc=W-1--_Tg@mail.gmail.com>
- <YukuUtuXm/xPUuoP@casper.infradead.org> <CANiq72kgwssTSE7F+4xkRrXBGVgHeWxCyjeZ-NHLUXWnFjMyTg@mail.gmail.com>
-In-Reply-To: <CANiq72kgwssTSE7F+4xkRrXBGVgHeWxCyjeZ-NHLUXWnFjMyTg@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 2 Aug 2022 19:46:17 +0200
-Message-ID: <CANiq72=551t+CeiuCZz-SSx+uDaz238xjDFMRmkTwRuSFNcqmw@mail.gmail.com>
-Subject: Re: [PATCH v8 00/31] Rust support
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-um@lists.infradead.org,
-        live-patching@vger.kernel.org, linux-fsdevel@vger.kernel.org
+References: <20220726180748.4101236-1-masahiroy@kernel.org>
+In-Reply-To: <20220726180748.4101236-1-masahiroy@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 2 Aug 2022 10:50:34 -0700
+Message-ID: <CAKwvOdkMzzG_a3BHociq23JeyyOAawgPTUm3UAzx2BzZOh2z-g@mail.gmail.com>
+Subject: Re: [PATCH] modpost: refactor get_secindex()
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,15 +68,88 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 2, 2022 at 5:09 PM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
+On Tue, Jul 26, 2022 at 11:08 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Yeah, patch 17, exactly (patch 11 is the `alloc` import). I have asked
-> Konstantin privately about them.
+> SPECIAL() is only used in get_secindex(). Squash it.
+>
+> Make the code more readable with more comments.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+>  scripts/mod/modpost.h | 30 ++++++++++++++++++------------
+>  1 file changed, 18 insertions(+), 12 deletions(-)
+>
+> diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+> index bd874f906781..33b376d9ba71 100644
+> --- a/scripts/mod/modpost.h
+> +++ b/scripts/mod/modpost.h
+> @@ -156,22 +156,28 @@ static inline int is_shndx_special(unsigned int i)
+>         return i != SHN_XINDEX && i >= SHN_LORESERVE && i <= SHN_HIRESERVE;
+>  }
+>
+> -/*
+> - * Move reserved section indices SHN_LORESERVE..SHN_HIRESERVE out of
+> - * the way to -256..-1, to avoid conflicting with real section
+> - * indices.
+> - */
+> -#define SPECIAL(i) ((i) - (SHN_HIRESERVE + 1))
+> -
+>  /* Accessor for sym->st_shndx, hides ugliness of "64k sections" */
+>  static inline unsigned int get_secindex(const struct elf_info *info,
+>                                         const Elf_Sym *sym)
+>  {
+> -       if (is_shndx_special(sym->st_shndx))
+> -               return SPECIAL(sym->st_shndx);
+> -       if (sym->st_shndx != SHN_XINDEX)
+> -               return sym->st_shndx;
+> -       return info->symtab_shndx_start[sym - info->symtab_start];
+> +       unsigned int index = sym->st_shndx;
 
-The patches are showing up now in lore -- not sure if it was just a
-delay (which would be consistent with the lack of bounce) or somebody
-did something (thank you if so!).
+I think `Elf_Section` would be preferable to `unsigned int` for the
+type of `index`?
 
-Cheers,
-Miguel
+> +
+> +       /*
+> +        * Elf{32,64}_Sym::st_shndx is 2 byte. Big section numbers are available
+
+Then I'd update the comment, too, to mention `Elf_Section` rather than
+`Elf{32,64}_Sym::st_shndx`.
+
+> +        * in the .symtab_shndx section.
+> +        */
+> +       if (index == SHN_XINDEX)
+> +               return info->symtab_shndx_start[sym - info->symtab_start];
+> +
+> +       /*
+> +        * Move reserved section indices SHN_LORESERVE..SHN_HIRESERVE out of
+> +        * the way to UINT_MAX-255..UINT_MAX, to avoid conflicting with real
+> +        * section indices.
+> +        */
+> +       if (index >= SHN_LORESERVE)
+
+^ should this also check that `index <= SHN_HIRESERVE`?  Perhaps just
+call is_shndx_special() like the code did before?
+
+Or SHN_HIRESERVE is #defined in include/uapi/linux/elf.h to 0xffff and
+SHN_XINDEX is ... not defined in kernel sources (what?! perhaps
+<elf.h>?)...but should have the same value of 0xffff according to
+https://docs.oracle.com/cd/E19683-01/817-3677/chapter6-94076/index.html
+
+I guess this is fine then, but I would prefer not open coding types
+when dealing with ELF. (i.e. my first suggestion in this thread).
+
+> +               return index - SHN_HIRESERVE - 1;
+> +
+> +       return index;
+>  }
+>
+>  /* file2alias.c */
+> --
+> 2.34.1
+>
+
+
+-- 
+Thanks,
+~Nick Desaulniers
