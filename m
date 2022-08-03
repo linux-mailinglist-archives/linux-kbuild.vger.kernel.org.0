@@ -2,109 +2,181 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97DC7589099
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Aug 2022 18:37:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3EAE589301
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Aug 2022 22:12:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236504AbiHCQhS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 3 Aug 2022 12:37:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57112 "EHLO
+        id S237045AbiHCUMv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 3 Aug 2022 16:12:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229487AbiHCQhP (ORCPT
+        with ESMTP id S236087AbiHCUMu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 3 Aug 2022 12:37:15 -0400
-Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CAD595AC;
-        Wed,  3 Aug 2022 09:37:13 -0700 (PDT)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 273Gaq3r030112;
-        Thu, 4 Aug 2022 01:36:53 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 273Gaq3r030112
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1659544614;
-        bh=ysJgM4fZWZmqQUC+nTSmxgg0XgP0ESWrADh1sTBXrx4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=RqKkEB8TUNqgcMB3vxvO5v+Vou4ynr2CFtx15kRnc78z3UeRNlQlAS9ueaOP/Y2oR
-         QiwTPQEQuUkSDim1bfqGyPS4WOt0pZxjRNKZ8vV980ORIS/EenbCLLtDnb7oNlziXi
-         DPaoaGn068Re0KDA8lWwpZNDEzhBaJUZIq5qBOc7sjM/ic2IQrWOYbyaJlVX5pF6HA
-         bkVXzDVabdJy5y3dIO0U3lNKJWhC3kaGlPzAMqn9hGhVtUU6WVAxyC6uOJ7eSrxdqi
-         i+u+t4M2jDXknR4Zz5bLdqWQgAt6vj90nz3kXAQjHUYvV3ByjZjifjYXIoavQ4yudF
-         NYT7bQj9vSfGw==
-X-Nifty-SrcIP: [209.85.128.53]
-Received: by mail-wm1-f53.google.com with SMTP id v5so8990809wmj.0;
-        Wed, 03 Aug 2022 09:36:53 -0700 (PDT)
-X-Gm-Message-State: ACgBeo0kDBDakGFQSX5LuESA8JIBsb/I43xPPoPhrrDdYL+X9cpXwhQ+
-        d+iw4OsguYYVynmxNsu4MhAVv3Irj873oJw0rhw=
-X-Google-Smtp-Source: AA6agR70PHxcjjt6xjXHpj6sPCYxedkdq/Dm3+iBk1Pbvk7vEWk36K0NGUFTvplRbvSmgDtHPouJKSYQ2XLlgZ7uC4A=
-X-Received: by 2002:a05:600c:4349:b0:3a4:a4fa:450 with SMTP id
- r9-20020a05600c434900b003a4a4fa0450mr3391470wme.157.1659544611993; Wed, 03
- Aug 2022 09:36:51 -0700 (PDT)
+        Wed, 3 Aug 2022 16:12:50 -0400
+Received: from mail.owenrafferty.com (owenrafferty.com [45.76.27.4])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F8543AB32
+        for <linux-kbuild@vger.kernel.org>; Wed,  3 Aug 2022 13:12:49 -0700 (PDT)
+Received: from localhost (unknown [184.55.81.148])
+        by mail.owenrafferty.com (Postfix) with ESMTPSA id 3DC4180D04;
+        Wed,  3 Aug 2022 20:12:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=owenrafferty.com;
+        s=mail; t=1659557568;
+        bh=uOCYODqwo9hshoYvpiSaXspNrS36tHiJAqEetnXM060=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TXJd8CTSP0tUnc6/CLpF2+TezzZaW/CDoj2SHsG91is9FXdvQIvrmFTY3dMgPzPpu
+         1A3OQuFdXSx/7h9GWmdUI1WY9+udxOn9WfduL/bOc4+W+mwgRxyvv3CU68/DMXX/Ms
+         shNUG1Nb/Q+74PRH48k3GJlHrAmPbsMLuXlAQn7Ty4c+0bv2HIURuRVGEoNlUBAdGl
+         wMH5cEzGNGEh0/gXtGqSp4gE60oDK/6sAbVa1Vuk1Cc42+MU+CNlfj/ueivRwpmMQh
+         UcQ35Ve+1q99mjoUzmGxejxyXc8HHfsZtJLxe/BPrCR+4+uW2HXO6kxHLHRjPfSLgw
+         xgrerN90ZV6Lg==
+Date:   Wed, 3 Aug 2022 15:12:47 -0500
+From:   Owen Rafferty <owen@owenrafferty.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH] kbuild: rewrite check-local-export in posix shell
+Message-ID: <YurWv4VQbMNICK8/@niobium.localdomain>
+References: <18a919882d8aa7b8970888a565ebbbeefdce9f12.1659465303.git.owen@owenrafferty.com>
+ <CAK7LNASEEU1-GqH1BiwU5P3L0kF5vwQ2WQ4njZrHQt0Z9ok47g@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220801093902.1506297-1-masahiroy@kernel.org> <CAKwvOd=cBXzA9SfYtK-h_dAqLyg=5iZ6YjztTfNschKUMBTK9Q@mail.gmail.com>
-In-Reply-To: <CAKwvOd=cBXzA9SfYtK-h_dAqLyg=5iZ6YjztTfNschKUMBTK9Q@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 4 Aug 2022 01:35:48 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARBpsFzYfCLwHEzjYNWnM9BLX3tEzvmPKjiKWzkU-yjrg@mail.gmail.com>
-Message-ID: <CAK7LNARBpsFzYfCLwHEzjYNWnM9BLX3tEzvmPKjiKWzkU-yjrg@mail.gmail.com>
-Subject: Re: [PATCH 1/4] modpost: shorten warning messages in report_sec_mismatch()
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNASEEU1-GqH1BiwU5P3L0kF5vwQ2WQ4njZrHQt0Z9ok47g@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Aug 3, 2022 at 3:13 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
->
-> On Mon, Aug 1, 2022 at 2:41 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On 22/08/03 12:40PM, Masahiro Yamada wrote:
+> On Wed, Aug 3, 2022 at 3:49 AM Owen Rafferty <owen@owenrafferty.com> wrote:
 > >
-> > Each section mismatch results in long warning messages. Too much.
+> > Remove the bash build dependency for those who otherwise do not have it
+> > installed. This should also provide a slight speedup.
 >
-> :(
+> I do not know if this is worth the effort,
+> but do you have any benchmark on how fast it is?
+
+To be clear, I'm not asking for every single bash script in the tree to be
+rewritten in posix shell -- it was only this script that made bash a hard
+dependency (on x86 at least).
+
+For a configuration suitable for my system w/ 4 HT cores:
+
+bash
+    real8m 47.79s     user54m 30.91s    sys13m 56.88s
+
+sh (dash)
+    real7m 34.94s     user46m 42.63s    sys11m 54.02s
+
+> >
+> > Signed-off-by: Owen Rafferty <owen@owenrafferty.com>
+> > ---
+> >  scripts/check-local-export | 62 +++++++++++++++++---------------------
+> >  1 file changed, 28 insertions(+), 34 deletions(-)
+> >
+> > diff --git a/scripts/check-local-export b/scripts/check-local-export
+> > index 6ccc2f467416..08fa4c989244 100755
+> > --- a/scripts/check-local-export
+> > +++ b/scripts/check-local-export
+> > @@ -1,4 +1,4 @@
+> > -#!/usr/bin/env bash
+> > +#!/bin/sh
+> >  # SPDX-License-Identifier: GPL-2.0-only
+> >  #
+> >  # Copyright (C) 2022 Masahiro Yamada <masahiroy@kernel.org>
+> > @@ -8,31 +8,11 @@
+> >
+> >  set -e
+> >
+> > -# catch errors from ${NM}
+> > -set -o pipefail
+> > -
+> > -# Run the last element of a pipeline in the current shell.
+> > -# Without this, the while-loop would be executed in a subshell, and
+> > -# the changes made to 'symbol_types' and 'export_symbols' would be lost.
+> > -shopt -s lastpipe
+> > -
+> > -declare -A symbol_types
+> > -declare -a export_symbols
+> > +symbol_types=""
+> > +export_symbols=""
+> >
+> >  exit_code=0
+> >
+> > -# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
+> > -# 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
+> > -# '2>/dev/null'. However, it suppresses real error messages as well. Add a
+> > -# hand-crafted error message here.
+> > -#
+> > -# TODO:
+> > -# Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
+> > -# binutils to 2.37, llvm to 13.0.0.
+> > -# Then, the following line will be really simple:
+> > -#   ${NM} --quiet ${1} |
+> > -
+> > -{ ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; false; } } |
+> >  while read value type name
+> >  do
+> >         # Skip the line if the number of fields is less than 3.
+> > @@ -46,26 +26,40 @@ do
+> >         # case 2)
+> >         #   For Clang LTO, llvm-nm outputs a line with type 't' but empty name:
+> >         #     "---------------- t"
+> > -       if [[ -z ${name} ]]; then
+> > +       if [ -z ${name} ]; then
+> >                 continue
+> >         fi
+> >
+> > -       # save (name, type) in the associative array
+> > -       symbol_types[${name}]=${type}
+> > +       # save (name, type) in "associative array"
+> > +       symbol_types="$symbol_types ${name},${type}"
+> >
+> >         # append the exported symbol to the array
+> > -       if [[ ${name} == __ksymtab_* ]]; then
+> > -               export_symbols+=(${name#__ksymtab_})
+> > -       fi
+> > -done
+> > +       case ${name} in __ksymtab_*)
+> > +               export_symbols="$export_symbols ${name#__ksymtab_}"
+> > +       esac
+> >
+> > -for name in "${export_symbols[@]}"
+> > +# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
+> > +# 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
+> > +# '2>/dev/null'. However, it suppresses real error messages as well. Add a
+> > +# hand-crafted error message here.
+> > +#
+> > +# TODO:
+> > +# Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
+> > +# binutils to 2.37, llvm to 13.0.0.
+> > +# Then, the following line will be simple:
+> > +# $(${NM} --quiet ${1} || kill -INT $$)
+> > +done <<EOF
+> > +$( ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; kill -INT $$; })
+> > +EOF
+> > +
+> > +for name in $export_symbols
+> >  do
+> > -       # nm(3) says "If lowercase, the symbol is usually local"
+> > -       if [[ ${symbol_types[$name]} =~ [a-z] ]]; then
+> > +       type="${symbol_types##* $name,}"
+> > +       type="${type%% *}"
+> > +       case ${type} in [a-z])
+> >                 echo "$@: error: local symbol '${name}' was exported" >&2
+> >                 exit_code=1
+> > -       fi
+> > +       esac
+> >  done
+> >
+> >  exit ${exit_code}
+> > --
+> > 2.37.1
+> >
 >
-> Yes; they are too verbose.  That said, I have found the
-> recommendations about annotations for function attributes handy in the
-> past and would be sad to see them go.  They remind me of "note"
-> diagnostics from the compiler that add additional context to
-> "warning"/"error" diagnostics on what the recommended next steps are
-> for fixing them.
 >
-> Is there a "happy middle ground" here?
-
-I do not know.
-modpost became painfully ugly.
-
-
-Moreover, the current hint is not necessarily precise.
-("lacks a __initdata" in the following)
-
-
-
-[sample code]
-int dummy __initdata;
-void set_dummy(void) { dummy = 1; }
-
-
-[warning]
-WARNING: modpost: vmlinux.o(.text+0x194412): Section mismatch in
-reference from the function set_dummy() to the variable
-.init.data:dummy
-The function set_dummy() references
-the variable __initdata dummy.
-This is often because set_dummy lacks a __initdata
-annotation or the annotation of dummy is wrong.
-
-
-
-
---
-Best Regards
-
-
-Masahiro Yamada
+> --
+> Best Regards
+> Masahiro Yamada
