@@ -2,46 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DBF34588DF3
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Aug 2022 15:54:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97DC7589099
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Aug 2022 18:37:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238304AbiHCNyp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 3 Aug 2022 09:54:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42832 "EHLO
+        id S236504AbiHCQhS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 3 Aug 2022 12:37:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238326AbiHCNy0 (ORCPT
+        with ESMTP id S229487AbiHCQhP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 3 Aug 2022 09:54:26 -0400
-Received: from conuserg-07.nifty.com (conuserg-07.nifty.com [210.131.2.74])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8158343E6B;
-        Wed,  3 Aug 2022 06:52:02 -0700 (PDT)
-Received: from grover.sesame (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 273DokZX018578;
-        Wed, 3 Aug 2022 22:50:46 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 273DokZX018578
+        Wed, 3 Aug 2022 12:37:15 -0400
+Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CAD595AC;
+        Wed,  3 Aug 2022 09:37:13 -0700 (PDT)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 273Gaq3r030112;
+        Thu, 4 Aug 2022 01:36:53 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 273Gaq3r030112
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1659534646;
-        bh=4lNUVwZLKGFu7RDUkST96BO8Yb9Fnq+wtWdIdDRUbnQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=D67NGJDpiuW4RkHT362dOxIXziItoAApb9cP0KVmchF3oKAjGnCacLheNCXO42Lmw
-         OQNEcFXt21Bb/t6m1mnjLbDX4yrWMA9vGq0UdtIQGT9HCJ+jolTHz1396+sfS8Qgfw
-         +lUDpqYuAT+pX77MpDUtNfiaftRPYZlgD6cxeBdixkbowtEruIJ4PVt1M035Tq3uTo
-         KgNDtLF+Qpz2r37AOXQBZKia64LZzBDez9eDURgl+ZXmUr/D16bvfF2ZdN8LVE5lqb
-         +8I38UlK28pNCwvQifXOlLLYLGnbXHKAwa1iX+ZPtAGyyqiPxKo/Jj54YVJuNAGwuL
-         MFed38GPKUW6w==
-X-Nifty-SrcIP: [133.32.177.133]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2] modpost: refactor get_secindex()
-Date:   Wed,  3 Aug 2022 22:50:13 +0900
-Message-Id: <20220803135013.1818199-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.34.1
+        s=dec2015msa; t=1659544614;
+        bh=ysJgM4fZWZmqQUC+nTSmxgg0XgP0ESWrADh1sTBXrx4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=RqKkEB8TUNqgcMB3vxvO5v+Vou4ynr2CFtx15kRnc78z3UeRNlQlAS9ueaOP/Y2oR
+         QiwTPQEQuUkSDim1bfqGyPS4WOt0pZxjRNKZ8vV980ORIS/EenbCLLtDnb7oNlziXi
+         DPaoaGn068Re0KDA8lWwpZNDEzhBaJUZIq5qBOc7sjM/ic2IQrWOYbyaJlVX5pF6HA
+         bkVXzDVabdJy5y3dIO0U3lNKJWhC3kaGlPzAMqn9hGhVtUU6WVAxyC6uOJ7eSrxdqi
+         i+u+t4M2jDXknR4Zz5bLdqWQgAt6vj90nz3kXAQjHUYvV3ByjZjifjYXIoavQ4yudF
+         NYT7bQj9vSfGw==
+X-Nifty-SrcIP: [209.85.128.53]
+Received: by mail-wm1-f53.google.com with SMTP id v5so8990809wmj.0;
+        Wed, 03 Aug 2022 09:36:53 -0700 (PDT)
+X-Gm-Message-State: ACgBeo0kDBDakGFQSX5LuESA8JIBsb/I43xPPoPhrrDdYL+X9cpXwhQ+
+        d+iw4OsguYYVynmxNsu4MhAVv3Irj873oJw0rhw=
+X-Google-Smtp-Source: AA6agR70PHxcjjt6xjXHpj6sPCYxedkdq/Dm3+iBk1Pbvk7vEWk36K0NGUFTvplRbvSmgDtHPouJKSYQ2XLlgZ7uC4A=
+X-Received: by 2002:a05:600c:4349:b0:3a4:a4fa:450 with SMTP id
+ r9-20020a05600c434900b003a4a4fa0450mr3391470wme.157.1659544611993; Wed, 03
+ Aug 2022 09:36:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220801093902.1506297-1-masahiroy@kernel.org> <CAKwvOd=cBXzA9SfYtK-h_dAqLyg=5iZ6YjztTfNschKUMBTK9Q@mail.gmail.com>
+In-Reply-To: <CAKwvOd=cBXzA9SfYtK-h_dAqLyg=5iZ6YjztTfNschKUMBTK9Q@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 4 Aug 2022 01:35:48 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARBpsFzYfCLwHEzjYNWnM9BLX3tEzvmPKjiKWzkU-yjrg@mail.gmail.com>
+Message-ID: <CAK7LNARBpsFzYfCLwHEzjYNWnM9BLX3tEzvmPKjiKWzkU-yjrg@mail.gmail.com>
+Subject: Re: [PATCH 1/4] modpost: shorten warning messages in report_sec_mismatch()
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
         autolearn_force=no version=3.4.6
@@ -51,64 +60,51 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-SPECIAL() is only used in get_secindex(). Squash it.
+On Wed, Aug 3, 2022 at 3:13 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
+>
+> On Mon, Aug 1, 2022 at 2:41 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > Each section mismatch results in long warning messages. Too much.
+>
+> :(
+>
+> Yes; they are too verbose.  That said, I have found the
+> recommendations about annotations for function attributes handy in the
+> past and would be sad to see them go.  They remind me of "note"
+> diagnostics from the compiler that add additional context to
+> "warning"/"error" diagnostics on what the recommended next steps are
+> for fixing them.
+>
+> Is there a "happy middle ground" here?
 
-Make the code more readable with more comments.
+I do not know.
+modpost became painfully ugly.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
-Changes in v2:
-  - Revive 'index <= SHN_HIRESERVE)' check
+Moreover, the current hint is not necessarily precise.
+("lacks a __initdata" in the following)
 
- scripts/mod/modpost.h | 30 ++++++++++++++++++------------
- 1 file changed, 18 insertions(+), 12 deletions(-)
 
-diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
-index bd874f906781..1178f40a73f3 100644
---- a/scripts/mod/modpost.h
-+++ b/scripts/mod/modpost.h
-@@ -156,22 +156,28 @@ static inline int is_shndx_special(unsigned int i)
- 	return i != SHN_XINDEX && i >= SHN_LORESERVE && i <= SHN_HIRESERVE;
- }
- 
--/*
-- * Move reserved section indices SHN_LORESERVE..SHN_HIRESERVE out of
-- * the way to -256..-1, to avoid conflicting with real section
-- * indices.
-- */
--#define SPECIAL(i) ((i) - (SHN_HIRESERVE + 1))
--
- /* Accessor for sym->st_shndx, hides ugliness of "64k sections" */
- static inline unsigned int get_secindex(const struct elf_info *info,
- 					const Elf_Sym *sym)
- {
--	if (is_shndx_special(sym->st_shndx))
--		return SPECIAL(sym->st_shndx);
--	if (sym->st_shndx != SHN_XINDEX)
--		return sym->st_shndx;
--	return info->symtab_shndx_start[sym - info->symtab_start];
-+	unsigned int index = sym->st_shndx;
-+
-+	/*
-+	 * Elf{32,64}_Sym::st_shndx is 2 byte. Big section numbers are available
-+	 * in the .symtab_shndx section.
-+	 */
-+	if (index == SHN_XINDEX)
-+		return info->symtab_shndx_start[sym - info->symtab_start];
-+
-+	/*
-+	 * Move reserved section indices SHN_LORESERVE..SHN_HIRESERVE out of
-+	 * the way to UINT_MAX-255..UINT_MAX, to avoid conflicting with real
-+	 * section indices.
-+	 */
-+	if (index >= SHN_LORESERVE && index <= SHN_HIRESERVE)
-+		return index - SHN_HIRESERVE - 1;
-+
-+	return index;
- }
- 
- /* file2alias.c */
--- 
-2.34.1
 
+[sample code]
+int dummy __initdata;
+void set_dummy(void) { dummy = 1; }
+
+
+[warning]
+WARNING: modpost: vmlinux.o(.text+0x194412): Section mismatch in
+reference from the function set_dummy() to the variable
+.init.data:dummy
+The function set_dummy() references
+the variable __initdata dummy.
+This is often because set_dummy lacks a __initdata
+annotation or the annotation of dummy is wrong.
+
+
+
+
+--
+Best Regards
+
+
+Masahiro Yamada
