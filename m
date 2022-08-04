@@ -2,181 +2,122 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F3EAE589301
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Aug 2022 22:12:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C47D5897DD
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Aug 2022 08:48:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237045AbiHCUMv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 3 Aug 2022 16:12:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57122 "EHLO
+        id S238754AbiHDGsC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 4 Aug 2022 02:48:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236087AbiHCUMu (ORCPT
+        with ESMTP id S238727AbiHDGsB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 3 Aug 2022 16:12:50 -0400
-Received: from mail.owenrafferty.com (owenrafferty.com [45.76.27.4])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F8543AB32
-        for <linux-kbuild@vger.kernel.org>; Wed,  3 Aug 2022 13:12:49 -0700 (PDT)
-Received: from localhost (unknown [184.55.81.148])
-        by mail.owenrafferty.com (Postfix) with ESMTPSA id 3DC4180D04;
-        Wed,  3 Aug 2022 20:12:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=owenrafferty.com;
-        s=mail; t=1659557568;
-        bh=uOCYODqwo9hshoYvpiSaXspNrS36tHiJAqEetnXM060=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TXJd8CTSP0tUnc6/CLpF2+TezzZaW/CDoj2SHsG91is9FXdvQIvrmFTY3dMgPzPpu
-         1A3OQuFdXSx/7h9GWmdUI1WY9+udxOn9WfduL/bOc4+W+mwgRxyvv3CU68/DMXX/Ms
-         shNUG1Nb/Q+74PRH48k3GJlHrAmPbsMLuXlAQn7Ty4c+0bv2HIURuRVGEoNlUBAdGl
-         wMH5cEzGNGEh0/gXtGqSp4gE60oDK/6sAbVa1Vuk1Cc42+MU+CNlfj/ueivRwpmMQh
-         UcQ35Ve+1q99mjoUzmGxejxyXc8HHfsZtJLxe/BPrCR+4+uW2HXO6kxHLHRjPfSLgw
-         xgrerN90ZV6Lg==
-Date:   Wed, 3 Aug 2022 15:12:47 -0500
-From:   Owen Rafferty <owen@owenrafferty.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH] kbuild: rewrite check-local-export in posix shell
-Message-ID: <YurWv4VQbMNICK8/@niobium.localdomain>
-References: <18a919882d8aa7b8970888a565ebbbeefdce9f12.1659465303.git.owen@owenrafferty.com>
- <CAK7LNASEEU1-GqH1BiwU5P3L0kF5vwQ2WQ4njZrHQt0Z9ok47g@mail.gmail.com>
+        Thu, 4 Aug 2022 02:48:01 -0400
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42E4C3AB22;
+        Wed,  3 Aug 2022 23:48:00 -0700 (PDT)
+Received: by mail-ej1-f46.google.com with SMTP id c24so4397491ejd.11;
+        Wed, 03 Aug 2022 23:48:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=5C7rvtcpzk2BbJJ0+B6At0AsmYoyb/SdIgBeDzMA0yw=;
+        b=JvjS4jjIqUdPWZrpG240FrCuxC3k7i3vLDQqYyXzRn5it71GvZ9zGxNTIz18KBueC0
+         LmFhlJ+d43I5qQWELVnJGK0ExTEjrG/Ysj604VJN5qaqUKLmrFbjDmPXA1xyCrwu8TiN
+         r5atRq72cMqsNsft/bowoiFZsepULTJH49kLihiQtBLHfjjS1ZjPw1CuTTMeLdOJFvVD
+         /Ns4WhC8r6ajAUwgn5W41C8irapRfKt8Q12BVM8+Fatz5gkGhVfhFXEpnS8HmftqOa9j
+         FkAE6Gao2uvzl4A/QmWdAC6g7qPvy2W4g6dVX3aG0kKVxTA+wPgMsTc0czXjKr/NnLoi
+         jJPw==
+X-Gm-Message-State: ACgBeo3k0Ezqvx+sIHpBqWCDFEFm5pYfmNZb2FsTWzhlYKCmfzI76zsI
+        5vg6uSPFTs2sZkuoMI9CFxM=
+X-Google-Smtp-Source: AA6agR6af04MGTADwH+Gf4eafBH82jSQwB8xdmG8C0QXBmLPLLWcIJ58NNfyXGYhW1Rc9cP5AEP0uQ==
+X-Received: by 2002:a17:906:cc50:b0:730:b5fd:89cf with SMTP id mm16-20020a170906cc5000b00730b5fd89cfmr331349ejb.221.1659595678841;
+        Wed, 03 Aug 2022 23:47:58 -0700 (PDT)
+Received: from ?IPV6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
+        by smtp.gmail.com with ESMTPSA id t22-20020a05640203d600b0043ce5d4d2c3sm205165edw.14.2022.08.03.23.47.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Aug 2022 23:47:58 -0700 (PDT)
+Message-ID: <f1e00958-d889-d6d0-db41-fb79cb614a7a@kernel.org>
+Date:   Thu, 4 Aug 2022 08:47:57 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNASEEU1-GqH1BiwU5P3L0kF5vwQ2WQ4njZrHQt0Z9ok47g@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 3/3] Revert "Kbuild, lto, workaround: Don't warn for
+ initcall_reference in modpost"
+Content-Language: en-US
+To:     Nick Desaulniers <ndesaulniers@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org, Andi Kleen <ak@linux.intel.com>,
+        "H. Peter Anvin" <hpa@linux.intel.com>
+References: <20220730173636.1303357-1-masahiroy@kernel.org>
+ <20220730173636.1303357-3-masahiroy@kernel.org>
+ <CAKwvOdkq1or=UOWJLU2DaS=MFGO9OmH7HG6=FDKS6h_saoKLAw@mail.gmail.com>
+From:   Jiri Slaby <jirislaby@kernel.org>
+In-Reply-To: <CAKwvOdkq1or=UOWJLU2DaS=MFGO9OmH7HG6=FDKS6h_saoKLAw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 22/08/03 12:40PM, Masahiro Yamada wrote:
-> On Wed, Aug 3, 2022 at 3:49 AM Owen Rafferty <owen@owenrafferty.com> wrote:
-> >
-> > Remove the bash build dependency for those who otherwise do not have it
-> > installed. This should also provide a slight speedup.
->
-> I do not know if this is worth the effort,
-> but do you have any benchmark on how fast it is?
+On 02. 08. 22, 20:04, Nick Desaulniers wrote:
+> On Sat, Jul 30, 2022 at 10:37 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>>
+>> This reverts commit 77ab21adae509c5540956729e2d03bc1a59bc82a.
+>>
+>> That commit was 8 years old, and it said "This is a workaround".
+>> If this is needed for GCC LTO, it should be added in a proper way.
+>>
+>> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> 
+> Please don't forget to cc the author & reviewers for a patch when
+> submitting a revert.
+> 
+> + Jiri in case a patch needs to be carried in any downstream trees for
+> re-application.
 
-To be clear, I'm not asking for every single bash script in the tree to be
-rewritten in posix shell -- it was only this script that made bash a hard
-dependency (on x86 at least).
+IMO we already got rid of -fno-toplevel-reorder (we have noreorder 
+attribute now), so:
 
-For a configuration suitable for my system w/ 4 HT cores:
+Acked-by: Jiri Slaby <jirislaby@kernel.org>
 
-bash
-    real8m 47.79s     user54m 30.91s    sys13m 56.88s
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-sh (dash)
-    real7m 34.94s     user46m 42.63s    sys11m 54.02s
+Thanks for letting me know.
 
-> >
-> > Signed-off-by: Owen Rafferty <owen@owenrafferty.com>
-> > ---
-> >  scripts/check-local-export | 62 +++++++++++++++++---------------------
-> >  1 file changed, 28 insertions(+), 34 deletions(-)
-> >
-> > diff --git a/scripts/check-local-export b/scripts/check-local-export
-> > index 6ccc2f467416..08fa4c989244 100755
-> > --- a/scripts/check-local-export
-> > +++ b/scripts/check-local-export
-> > @@ -1,4 +1,4 @@
-> > -#!/usr/bin/env bash
-> > +#!/bin/sh
-> >  # SPDX-License-Identifier: GPL-2.0-only
-> >  #
-> >  # Copyright (C) 2022 Masahiro Yamada <masahiroy@kernel.org>
-> > @@ -8,31 +8,11 @@
-> >
-> >  set -e
-> >
-> > -# catch errors from ${NM}
-> > -set -o pipefail
-> > -
-> > -# Run the last element of a pipeline in the current shell.
-> > -# Without this, the while-loop would be executed in a subshell, and
-> > -# the changes made to 'symbol_types' and 'export_symbols' would be lost.
-> > -shopt -s lastpipe
-> > -
-> > -declare -A symbol_types
-> > -declare -a export_symbols
-> > +symbol_types=""
-> > +export_symbols=""
-> >
-> >  exit_code=0
-> >
-> > -# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
-> > -# 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
-> > -# '2>/dev/null'. However, it suppresses real error messages as well. Add a
-> > -# hand-crafted error message here.
-> > -#
-> > -# TODO:
-> > -# Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
-> > -# binutils to 2.37, llvm to 13.0.0.
-> > -# Then, the following line will be really simple:
-> > -#   ${NM} --quiet ${1} |
-> > -
-> > -{ ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; false; } } |
-> >  while read value type name
-> >  do
-> >         # Skip the line if the number of fields is less than 3.
-> > @@ -46,26 +26,40 @@ do
-> >         # case 2)
-> >         #   For Clang LTO, llvm-nm outputs a line with type 't' but empty name:
-> >         #     "---------------- t"
-> > -       if [[ -z ${name} ]]; then
-> > +       if [ -z ${name} ]; then
-> >                 continue
-> >         fi
-> >
-> > -       # save (name, type) in the associative array
-> > -       symbol_types[${name}]=${type}
-> > +       # save (name, type) in "associative array"
-> > +       symbol_types="$symbol_types ${name},${type}"
-> >
-> >         # append the exported symbol to the array
-> > -       if [[ ${name} == __ksymtab_* ]]; then
-> > -               export_symbols+=(${name#__ksymtab_})
-> > -       fi
-> > -done
-> > +       case ${name} in __ksymtab_*)
-> > +               export_symbols="$export_symbols ${name#__ksymtab_}"
-> > +       esac
-> >
-> > -for name in "${export_symbols[@]}"
-> > +# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
-> > +# 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
-> > +# '2>/dev/null'. However, it suppresses real error messages as well. Add a
-> > +# hand-crafted error message here.
-> > +#
-> > +# TODO:
-> > +# Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
-> > +# binutils to 2.37, llvm to 13.0.0.
-> > +# Then, the following line will be simple:
-> > +# $(${NM} --quiet ${1} || kill -INT $$)
-> > +done <<EOF
-> > +$( ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; kill -INT $$; })
-> > +EOF
-> > +
-> > +for name in $export_symbols
-> >  do
-> > -       # nm(3) says "If lowercase, the symbol is usually local"
-> > -       if [[ ${symbol_types[$name]} =~ [a-z] ]]; then
-> > +       type="${symbol_types##* $name,}"
-> > +       type="${type%% *}"
-> > +       case ${type} in [a-z])
-> >                 echo "$@: error: local symbol '${name}' was exported" >&2
-> >                 exit_code=1
-> > -       fi
-> > +       esac
-> >  done
-> >
-> >  exit ${exit_code}
-> > --
-> > 2.37.1
-> >
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+>>   scripts/mod/modpost.c | 3 ---
+>>   1 file changed, 3 deletions(-)
+>>
+>> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+>> index c6a055c0291e..a8ee27496da7 100644
+>> --- a/scripts/mod/modpost.c
+>> +++ b/scripts/mod/modpost.c
+>> @@ -1462,9 +1462,6 @@ static void default_mismatch_handler(const char *modname, struct elf_info *elf,
+>>          from = find_elf_symbol2(elf, r->r_offset, fromsec);
+>>          fromsym = sym_name(elf, from);
+>>
+>> -       if (strstarts(fromsym, "reference___initcall"))
+>> -               return;
+>> -
+>>          tosec = sec_name(elf, get_secindex(elf, sym));
+>>          to = find_elf_symbol(elf, r->r_addend, sym);
+>>          tosym = sym_name(elf, to);
+>> --
+>> 2.34.1
+>>
+> 
+> 
+
+
+-- 
+js
+suse labs
