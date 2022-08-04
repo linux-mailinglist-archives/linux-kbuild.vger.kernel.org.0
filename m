@@ -2,136 +2,115 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D690A589F2D
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Aug 2022 18:13:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78633589F71
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Aug 2022 18:34:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234880AbiHDQNu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 4 Aug 2022 12:13:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34402 "EHLO
+        id S234319AbiHDQeu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 4 Aug 2022 12:34:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233963AbiHDQNt (ORCPT
+        with ESMTP id S231523AbiHDQet (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 4 Aug 2022 12:13:49 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D004E3334D;
-        Thu,  4 Aug 2022 09:13:40 -0700 (PDT)
-Received: from leknes.fjasle.eu ([46.142.48.43]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1M2OIy-1oI06b118Y-003tc5; Thu, 04 Aug 2022 18:12:55 +0200
-Received: by leknes.fjasle.eu (Postfix, from userid 1000)
-        id B0A483C0ED; Thu,  4 Aug 2022 18:12:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1659629571; bh=F6zcAi3GnAmA1c7S2vD3kZIcL5Z0tXsBHo/rLW0nbmU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DHlXJMg/zdHbJ43F4TLRvx8icimtJsu5P2MFylAZxVu6+sn0ybUhuG56kjyxyZUpO
-         Y5AZtRxHeQY2BPqZGUVqnRMCG5tmQgA+2KZl5eAo8Z4Q7u5IMLpNI2znPvxtfPYmNj
-         ySbAD9Amsh4LTXdKH111OrHsgalu/1+gyJ48Ri5A=
-Date:   Thu, 4 Aug 2022 18:12:50 +0200
-From:   Nicolas Schier <nicolas@fjasle.eu>
+        Thu, 4 Aug 2022 12:34:49 -0400
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D695713DD4;
+        Thu,  4 Aug 2022 09:34:48 -0700 (PDT)
+Received: by mail-io1-f48.google.com with SMTP id s7so143196ioa.0;
+        Thu, 04 Aug 2022 09:34:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=kCx9JdWdancCYSGcllxZfjVPNoWqqE8En1+spKcWJ1E=;
+        b=IgmGhACQ7qhdF7vDfMadKt6RsyHtkico3JrPK8M3a+QbtlNrVXoTR03yK/1WxVernf
+         c7jN0GJLSBZyZn5Vt6N0fhjeRT1bwfgyx8QLvjXuBE9+UNephQpnpvSK4KOjSEPRtUgt
+         QR3K+jPfqoSNa8HZeF9gi/AP7tSCSAI/6yIHD5vBwpT54IZkf/SGb4IMokzeodbsHxwC
+         XLF8GRJklq2lLU5QwbuGqx5u02vR6GkyO751HXNmdO/5WzitnhOE1m/egfCUVNCtXhMz
+         5rCFlCuIcvF4VLtZJTQfqhF48nMcZngbETOrnphP2r0dnUFku5A+hcNvdo1Lp9/x9USo
+         4ysQ==
+X-Gm-Message-State: ACgBeo3dNSON8bbWiJuAVJ/e/DTcjGa4954iyqQpsf4b0UtwqxzfCdnL
+        rptLhDY3IK0TkzV3K5zGfAhTK1nXcA==
+X-Google-Smtp-Source: AA6agR50sVE/RzsezlgaQpb9JEYlwzuYKGSeXvtQrGkKoTuogjdIQ0YFlbrp7JhZhaVRTLIEHkKczQ==
+X-Received: by 2002:a6b:3f43:0:b0:681:8ab4:508a with SMTP id m64-20020a6b3f43000000b006818ab4508amr1098418ioa.213.1659630887984;
+        Thu, 04 Aug 2022 09:34:47 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id g10-20020a02850a000000b00339e42c3e2fsm630198jai.80.2022.08.04.09.34.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Aug 2022 09:34:47 -0700 (PDT)
+Received: (nullmailer pid 4141 invoked by uid 1000);
+        Thu, 04 Aug 2022 16:34:45 -0000
+Date:   Thu, 4 Aug 2022 10:34:45 -0600
+From:   Rob Herring <robh@kernel.org>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org,
-        David Laight <David.Laight@aculab.com>,
+Cc:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: set EXIT trap before creating temporary directory
-Message-ID: <YuvwAkqHRk2pbh4f@fjasle.eu>
-References: <20220728031433.1077354-1-masahiroy@kernel.org>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Tom Rini <trini@konsulko.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH v3] kbuild: Enable DT schema checks for %.dtb targets
+Message-ID: <20220804163445.GA4145453-robh@kernel.org>
+References: <20220623144357.297252-1-dmitry.baryshkov@linaro.org>
+ <CAL_JsqLi31FPBdYPzEW__UmfMTur-0428okopFYVaCbwm045gg@mail.gmail.com>
+ <CAK7LNASMUoPh8sBWWjenf8p6R1kv80ar17-qN-wH9zjNMtnfrQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220728031433.1077354-1-masahiroy@kernel.org>
-X-Provags-ID: V03:K1:jmKz5ldisbRGcZkI9xiMXZ17FfWcH83IvGNnk3WEXMtGx4CnvS7
- CMwDFPURRF7yLecABRbMDMBJg6zeDycvK2Xh9nt2arD6Fb10fxIXPfzeQqADGmWE9JY7aho
- SUjoYGTMU29hLlJq+ABCjnvXIw5OItxPo/2tA4H6X6nRzfyWO+6+rgTGtUMeKwPHOlEnAbS
- OGHwXHGTPZj8GUuIysANw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pmYRc3oEKLM=:Lskx7ZNXzE73dmTlCCKqJH
- NfYEeP2Sm0uD1kJFk+pkqny+/yqYI4/5I0kK4MRxYBYfpk22IQKdLtXuUVHfYbWYbeDvDRTq8
- gb9R3vVOaBod85SgED8EvyyilgMfkuB17HRhcIa4Wp4hHb0Pm+JyKbdKorq2NeVj/mLQ/kutF
- x0vn+GGEACBd4bKuMJSd9r+eQr4yu6XRZUs8HVf+LxNOOT/GdKi2eE2uR412s6jDFrtp63wsC
- TzL+fkQekI2SAPiwblZSLoWPQnyzPPBtmB9dKeHugQl7y6eaGKcemXuhELRljO/GzBkAjRE9i
- OM/nnHvpBgB8WBErnfzGAZTS8+7+T/ZxTzVc85hUCLhc6GNmlYUPxP0kTA3aKFjU2adWt9I7F
- bENSmaNs8eRyacQ+q7vAqBkeHnGiszcqcmti40nIjPsxZjBEm8YSU3p3Moyez9uj3702A7pm/
- RfRBsrZTlj6OrPikAV2nzAhw+iGZAOZb0YOmYqpeYE0KByh1S1PuvHUJsnvBdptWpMHuMcNbe
- ejezn/pEn7QP39C6YgeLzKbkBLngXIU3huAqoK5qqS9fCzfEQbD9F4vzc1u8YLu7pvGF/qD19
- 5fprbQs1HhfQWXLestSFDWiJ/NQSnVI8zkPbdxVvcG3AsCtMQnkRjBJG/dg5T3gCDV9Nf6eXI
- /ZIGW4+CO/T/W7WcyLRqMPsJuQck3xisG1FBNYkT2yqXhbhREUGjdG+e6LYI+nkWeUHtEHPE2
- T4P5eZC4IsdR8BmhKaOw18ZABQh40qKTfRWZMQ==
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <CAK7LNASMUoPh8sBWWjenf8p6R1kv80ar17-qN-wH9zjNMtnfrQ@mail.gmail.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jul 28, 2022 at 12:14:33PM +0900, Masahiro Yamada wrote:
-> Swap the order of 'mkdir' and 'trap' just in case the subshell is
-> interrupted between 'mkdir' and 'trap' although the effect might be
-> subtle.
+On Sat, Jul 16, 2022 at 05:12:38PM +0900, Masahiro Yamada wrote:
+> On Sat, Jul 16, 2022 at 8:02 AM Rob Herring <robh@kernel.org> wrote:
+> >
+> > On Thu, Jun 23, 2022 at 8:44 AM Dmitry Baryshkov
+> > <dmitry.baryshkov@linaro.org> wrote:
+> > >
+> > > It is possible to build a single dtb, but not with DT schema validation
+> > > enabled. Enable the schema validation to run for %.dtb and %.dtbo
+> > > targets. Anyone building a dtb for a specific platform *should* pay
+> > > attention to schema warnings.
+> > >
+> > > This could be supported with a separate %.dt.yaml target instead.
+> > > However, the .dt.yaml format is considered an intermediate format and
+> > > could possibly go away at some point if schema checking is integrated
+> > > into dtc. Also, the plan is to enable the schema checks by default once
+> > > platforms are free of warnings, and this is a move in that direction.
+> > >
+> > > This patch differs from the previous one ([1]) in the fact that it
+> > > requires specifying VALIDATE_DT=1 to run the checks while doing the
+> > > build. Thus default build procedures would not obtain additional build
+> > > dependency, while maintainers can still build a single DTB file an get
+> > > only corresponding warnings.
+> >
+> > I'd rather this be a kconfig option, so that eventually 'make
+> > allmodconfig; make dtbs' also runs the schema checks. If something can
+> > be enabled for allmodconfig, then builders will automatically start
+> > testing it. Though the extra dependency is a problem here.
 > 
-> Please not this is not a perfect solution to avoid the left-over tmp
-
-not -> note?
-
-> directory. There are more cases that miss to remove the tmp directory,
-> for example:
 > 
->  - When interrupted, dash does not invoke the EXIT trap (bash does)
+> The dependency on libyaml is gone.
 > 
->  - 'rm' command might be interrupted before removing the directory
-> 
-> I am not addressing all the cases since the tmp directory is harmless
-> after all.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
->  scripts/Kconfig.include   | 2 +-
->  scripts/Makefile.compiler | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+> As for the dependency on dt-schema, is it a good idea to
+> pull it into the kernel tree somewhere,
+> like we periodically sync scripts/dtc/ with its upstream?
 
-Do you want to add the same for filechk macro in scripts/Kbuild.include?
+I don't want that. We want DT stuff less coupled to the kernel. Doing 
+that also means the person syncing dtschema into the kernel is the one 
+stuck fixing any new warnings. That mostly ends up being me anyways, but 
+I don't want to guarantee that. Also, that would only shift the 
+dependencies to json-schema, ruamel.yaml, pylibfdt, etc. python 
+packages.
 
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+For dtc, I'd actually like to remove it from the kernel.
 
-Kind regards,
-Nicolas
-
-> 
-> diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
-> index c1f4222d223d..a0ccceb22cf8 100644
-> --- a/scripts/Kconfig.include
-> +++ b/scripts/Kconfig.include
-> @@ -25,7 +25,7 @@ failure = $(if-success,$(1),n,y)
->  
->  # $(cc-option,<flag>)
->  # Return y if the compiler supports <flag>, n otherwise
-> -cc-option = $(success,mkdir .tmp_$$; trap "rm -rf .tmp_$$" EXIT; $(CC) -Werror $(CLANG_FLAGS) $(1) -c -x c /dev/null -o .tmp_$$/tmp.o)
-> +cc-option = $(success,trap "rm -rf .tmp_$$" EXIT; mkdir .tmp_$$; $(CC) -Werror $(CLANG_FLAGS) $(1) -c -x c /dev/null -o .tmp_$$/tmp.o)
->  
->  # $(ld-option,<flag>)
->  # Return y if the linker supports <flag>, n otherwise
-> diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
-> index 86ecd2ac874c..94d0d40cddb3 100644
-> --- a/scripts/Makefile.compiler
-> +++ b/scripts/Makefile.compiler
-> @@ -21,8 +21,8 @@ TMPOUT = $(if $(KBUILD_EXTMOD),$(firstword $(KBUILD_EXTMOD))/).tmp_$$$$
->  # automatically cleaned up.
->  try-run = $(shell set -e;		\
->  	TMP=$(TMPOUT)/tmp;		\
-> -	mkdir -p $(TMPOUT);		\
->  	trap "rm -rf $(TMPOUT)" EXIT;	\
-> +	mkdir -p $(TMPOUT);		\
->  	if ($(1)) >/dev/null 2>&1;	\
->  	then echo "$(2)";		\
->  	else echo "$(3)";		\
-> -- 
-> 2.34.1
-
--- 
-epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
-↳ gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
-     -- frykten for herren er opphav til kunnskap --
+Rob
