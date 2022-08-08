@@ -2,53 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D003C58C28C
-	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Aug 2022 06:32:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C44C158C315
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Aug 2022 07:55:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230364AbiHHEcS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 8 Aug 2022 00:32:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34744 "EHLO
+        id S235837AbiHHFzD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 8 Aug 2022 01:55:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232177AbiHHEcG (ORCPT
+        with ESMTP id S235801AbiHHFzC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 8 Aug 2022 00:32:06 -0400
-Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC88F959E
-        for <linux-kbuild@vger.kernel.org>; Sun,  7 Aug 2022 21:32:04 -0700 (PDT)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 2784VWPh003563
-        for <linux-kbuild@vger.kernel.org>; Mon, 8 Aug 2022 13:31:32 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 2784VWPh003563
+        Mon, 8 Aug 2022 01:55:02 -0400
+Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F97C2DC9;
+        Sun,  7 Aug 2022 22:55:00 -0700 (PDT)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 2785sh62023443;
+        Mon, 8 Aug 2022 14:54:44 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 2785sh62023443
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1659933093;
-        bh=2jLUnR9cMLago4Xbut6kZNDj+vjmmgZuyrHtLq3MI6c=;
+        s=dec2015msa; t=1659938085;
+        bh=qejQ7qBbGWyXlXw+9ltBzYOdnZJ6o0o+M0Ple7B/+Yc=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=QmRayufv1NMtebCCKr6wHrTO9BAb7KxZAVhXboik0hdgURGCBRJ+E4lIJURXJEs1C
-         xCHr2HZ4Jil3s5pqyUiS68MaCcI98J8806g+FMtdsHtUEFVQ7YENNj/5MXO2dGX4AN
-         bp6zRgdyBqka0QQ19T0jdG6+rlHKWW0jmbYab7DDUs7Y06iccw7koN1+YllvHkxNgD
-         P4Mpc3rFVZbRtKzyAMACcWB3W1t+rf7wh34l5ZsPt7yM+soRefjm/iybKqnuXlgOOL
-         /mzcNdTvp+Fc73iq97AVcZJls81Avkc9aCNJiM8KdlKg70tTtn5XSol/QMumq61vsa
-         XKiXrAvoVIYkA==
-X-Nifty-SrcIP: [209.85.221.49]
-Received: by mail-wr1-f49.google.com with SMTP id z16so9457036wrh.12
-        for <linux-kbuild@vger.kernel.org>; Sun, 07 Aug 2022 21:31:32 -0700 (PDT)
-X-Gm-Message-State: ACgBeo0K4BlH2yttDqwj+6///ZIJC2TMVZdd30ExirX0CBesdDj0iMui
-        5yrgmOcozvviCxx98qzotYp4xlJqksiMURwFZqI=
-X-Google-Smtp-Source: AA6agR6rL7YZFeFQmbeuU3ir+Hj6LnmeQZpS5zdpelfzs4BGHl9hxgDvpkUCLLDZmj8g8mGjElIZbXb6Y/FBjHDy0zI=
-X-Received: by 2002:a05:6000:1f9a:b0:21e:d4a7:a4c0 with SMTP id
- bw26-20020a0560001f9a00b0021ed4a7a4c0mr10167566wrb.409.1659933091348; Sun, 07
- Aug 2022 21:31:31 -0700 (PDT)
+        b=xf4BG++C4DsMw1wETGD16aAQgXcOyMOxYC2YWW7ygBM7SEqeSyBBPTemr6qeyddWl
+         wav4+MXO1jLQ+yWnY+H7OJyLkbVwIyGP3QDCPV5Osc8pVfc1+AHHn0lecHbJFdW+MY
+         uXc2o+8qOrZadUUEvaYJbb8MAWGqgmpVAlC3ZehWTRzSQfuSLhG635F7bwHbgONzoP
+         7Tszn2Vgn8lwVuqsBRpwQAXvlAeuiO+TPY3m1nC31wuRIniQ/z1MIHpCL7Q2pT6xQb
+         5XlMHSaEdws5tdcC3fWZiWARshGt7cNzkTOH5vcd1dnmFqhees5B/3AY7xYULe0xnn
+         mctvHC4lcUI1w==
+X-Nifty-SrcIP: [209.85.128.49]
+Received: by mail-wm1-f49.google.com with SMTP id 17-20020a05600c241100b003a536b6d536so1766738wmp.2;
+        Sun, 07 Aug 2022 22:54:44 -0700 (PDT)
+X-Gm-Message-State: ACgBeo339nN0gBO86FflYa03XFF1XRtpFBfykPGY0jREJg+P3q16ZOig
+        +WLjLJGdeyZRiuqRqbbTRBiwalyTZRKyPMOi6c0=
+X-Google-Smtp-Source: AA6agR67yrrIq8MxybypgJHhJrFW1rEbYpjlPy4b/RNP2FAT2d6tNuWjP4sOb5OhWgDNVEW9M61wQ1NMknMtRkFldGA=
+X-Received: by 2002:a05:600c:35ce:b0:3a3:1b7f:bbd8 with SMTP id
+ r14-20020a05600c35ce00b003a31b7fbbd8mr11090211wmq.22.1659938083218; Sun, 07
+ Aug 2022 22:54:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <18a919882d8aa7b8970888a565ebbbeefdce9f12.1659465303.git.owen@owenrafferty.com>
- <CAK7LNASEEU1-GqH1BiwU5P3L0kF5vwQ2WQ4njZrHQt0Z9ok47g@mail.gmail.com> <YurWv4VQbMNICK8/@niobium.localdomain>
-In-Reply-To: <YurWv4VQbMNICK8/@niobium.localdomain>
+References: <20220513113930.10488-1-masahiroy@kernel.org> <CAK7LNAQvneCi11myLpkikuXh=i5PLtTaLe0nGpDZXgv_Q1L0Ow@mail.gmail.com>
+ <2c496d24174e63b27ec047f383df6700@matoro.tk>
+In-Reply-To: <2c496d24174e63b27ec047f383df6700@matoro.tk>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 8 Aug 2022 13:30:54 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT+4fOkJ5WDb9t5qXCqS+GhnbnG8wBffxNa1ZJ3=4Ps3Q@mail.gmail.com>
-Message-ID: <CAK7LNAT+4fOkJ5WDb9t5qXCqS+GhnbnG8wBffxNa1ZJ3=4Ps3Q@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: rewrite check-local-export in posix shell
-To:     Owen Rafferty <owen@owenrafferty.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Date:   Mon, 8 Aug 2022 14:54:06 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASWKhj0tZK6jA1PsYje+idTjzdbYa9avyGeakVScj843A@mail.gmail.com>
+Message-ID: <CAK7LNASWKhj0tZK6jA1PsYje+idTjzdbYa9avyGeakVScj843A@mail.gmail.com>
+Subject: Re: [PATCH v6 00/10] kbuild: yet another series of cleanups (modpost,
+ LTO, MODULE_REL_CRCS, export.h)
+To:     matoro <matoro_mailinglist_kernel@matoro.tk>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-modules <linux-modules@vger.kernel.org>,
+        clang-built-linux <llvm@lists.linux.dev>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
@@ -59,182 +69,150 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Aug 4, 2022 at 5:12 AM Owen Rafferty <owen@owenrafferty.com> wrote:
+Hi Matoro,
+
+Thanks for the report.
+
+
+I have qemu-system-sparc installed on my Ubuntu machine,
+so I think I will be able to test it on sparc, at least.
+
+How did you test these 4 architectures (sparc, alpha, riscv, ia64)?
+QEMU?
+
+Thanks
+
+
+
+
+On Sat, Aug 6, 2022 at 8:39 AM matoro
+<matoro_mailinglist_kernel@matoro.tk> wrote:
 >
-> On 22/08/03 12:40PM, Masahiro Yamada wrote:
-> > On Wed, Aug 3, 2022 at 3:49 AM Owen Rafferty <owen@owenrafferty.com> wrote:
-> > >
-> > > Remove the bash build dependency for those who otherwise do not have it
-> > > installed. This should also provide a slight speedup.
+> Hi Masahiro, I'm sorry to raise this after release but this seems to be
+> broken on SOME architectures.  So far I have tested:
+>
+> Affected - sparc, alpha
+> Unaffected - riscv, ia64
+>
+> The affected systems are unable to load modules, similar to the
+> previously reported issue.  All module loading fails with "disagrees
+> about version of symbol module_layout".
+>
+> Bisect blames 7b4537199a4a8480b8c3ba37a2d44765ce76cd9b, but this does
+> not revert cleanly.  Presumably CONFIG_MODVERSIONS=n would fix, but this
+> is a pretty core feature.
+>
+> Unlike the issue Sedat reported, this is on a GNU toolchain, no clang
+> involved.
+>
+> Here are the configs I am using (with make olddefconfig on upgrade to
+> 5.19):
+>
+> Broken - sparc - https://dpaste.com/5A8F2JD6U
+> Broken - alpha - https://dpaste.com/FYKK23L9X
+> Working - riscv - https://dpaste.com/HV6Y4V6NT
+> Working - ia64 - https://dpaste.com/HDLDNEAK4
+>
+> Please let me know if there's anything I can do to help track down this
+> regression.
+>
+>
+> -------- Original Message --------
+> Subject: Re: [PATCH v6 00/10] kbuild: yet another series of cleanups
+> (modpost, LTO, MODULE_REL_CRCS, export.h)
+> Date: 2022-05-13 08:20
+>  From: Masahiro Yamada <masahiroy@kernel.org>
+> To: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+>
+> On Fri, May 13, 2022 at 8:42 PM Masahiro Yamada <masahiroy@kernel.org>
+> wrote:
 > >
-> > I do not know if this is worth the effort,
-> > but do you have any benchmark on how fast it is?
->
-> To be clear, I'm not asking for every single bash script in the tree to be
-> rewritten in posix shell -- it was only this script that made bash a hard
-> dependency (on x86 at least).
->
-> For a configuration suitable for my system w/ 4 HT cores:
->
-> bash
->     real8m 47.79s     user54m 30.91s    sys13m 56.88s
->
-> sh (dash)
->     real7m 34.94s     user46m 42.63s    sys11m 54.02s
-
-
-
-You need to explain what command you measured.
-
-But, never mind. I did it by myself.
-
-
-
-
-With x86_64 defconfig build, I got  2824 objects.
-
-$ find  .  -name "*.o" | grep -v vmlinux | wc
-   2824    2824   78929
-
-
-Without your patch,
-
-$ export NM=nm
-$ time sh -c 'find . -name "*.o" | grep -v vmlinux | xargs -n1
-./scripts/check-local-export'
-
-real 0m58.816s
-user 0m30.772s
-sys 0m31.420s
-
-
-
-
-
-With your patch
-$ export NM=nm
-$ time sh -c 'find . -name "*.o" | grep -v vmlinux | xargs -n1
-./scripts/check-local-export'
-
-real 8m22.922s
-user 7m53.015s
-sys 0m30.147s
-
-
-
-
-
-So, it is the opposite.
-Your patch makes the code extremely slow.
-More than 8x slower.
-
-
-+       type="${symbol_types##* $name,}"
-+       type="${type%% *}"
-
-This code is really slow.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-> > > -# the changes made to 'symbol_types' and 'export_symbols' would be lost.
-> > > -shopt -s lastpipe
-> > > -
-> > > -declare -A symbol_types
-> > > -declare -a export_symbols
-> > > +symbol_types=""
-> > > +export_symbols=""
-> > >
-> > >  exit_code=0
-> > >
-> > > -# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
-> > > -# 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
-> > > -# '2>/dev/null'. However, it suppresses real error messages as well. Add a
-> > > -# hand-crafted error message here.
-> > > -#
-> > > -# TODO:
-> > > -# Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
-> > > -# binutils to 2.37, llvm to 13.0.0.
-> > > -# Then, the following line will be really simple:
-> > > -#   ${NM} --quiet ${1} |
-> > > -
-> > > -{ ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; false; } } |
-> > >  while read value type name
-> > >  do
-> > >         # Skip the line if the number of fields is less than 3.
-> > > @@ -46,26 +26,40 @@ do
-> > >         # case 2)
-> > >         #   For Clang LTO, llvm-nm outputs a line with type 't' but empty name:
-> > >         #     "---------------- t"
-> > > -       if [[ -z ${name} ]]; then
-> > > +       if [ -z ${name} ]; then
-> > >                 continue
-> > >         fi
-> > >
-> > > -       # save (name, type) in the associative array
-> > > -       symbol_types[${name}]=${type}
-> > > +       # save (name, type) in "associative array"
-> > > +       symbol_types="$symbol_types ${name},${type}"
-> > >
-> > >         # append the exported symbol to the array
-> > > -       if [[ ${name} == __ksymtab_* ]]; then
-> > > -               export_symbols+=(${name#__ksymtab_})
-> > > -       fi
-> > > -done
-> > > +       case ${name} in __ksymtab_*)
-> > > +               export_symbols="$export_symbols ${name#__ksymtab_}"
-> > > +       esac
-> > >
-> > > -for name in "${export_symbols[@]}"
-> > > +# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
-> > > +# 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
-> > > +# '2>/dev/null'. However, it suppresses real error messages as well. Add a
-> > > +# hand-crafted error message here.
-> > > +#
-> > > +# TODO:
-> > > +# Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
-> > > +# binutils to 2.37, llvm to 13.0.0.
-> > > +# Then, the following line will be simple:
-> > > +# $(${NM} --quiet ${1} || kill -INT $$)
-> > > +done <<EOF
-> > > +$( ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; kill -INT $$; })
-> > > +EOF
-> > > +
-> > > +for name in $export_symbols
-> > >  do
-> > > -       # nm(3) says "If lowercase, the symbol is usually local"
-> > > -       if [[ ${symbol_types[$name]} =~ [a-z] ]]; then
-> > > +       type="${symbol_types##* $name,}"
-> > > +       type="${type%% *}"
-> > > +       case ${type} in [a-z])
-> > >                 echo "$@: error: local symbol '${name}' was exported" >&2
-> > >                 exit_code=1
-> > > -       fi
-> > > +       esac
-> > >  done
-> > >
-> > >  exit ${exit_code}
-> > > --
-> > > 2.37.1
-> > >
 > >
+> > This is the third batch of cleanups in this development cycle.
+> >
+>
+>
+> This series is available at
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+>   lto-cleanup-v6
+>
+>
+> >
+> > Changes in v6:
+> >   - Fix false-positive warnings when CONFIG_TRIM_UNUSED_KSYMS=y
+> >
+> > Changes in v5:
+> >   - Fix the build error when CONFIG_DEBUG_INFO_BTF=y (reported by
+> > Nathan)
+> >   - Clean up arch/m68k/include/asm/export.h (Nick)
+> >   - Keep gen_symversions (and will be removed by a later patch)
+> >   - Add more comments in the script
+> >
+> > Changes in v4:
+> >   - Rename .vmlinux-symver.c to .vmlinux.export.c
+> >     because I notice this approach is useful for further cleanups,
+> >     not only for modversioning but also for overall EXPORT_SYMBOL.
+> >   - New patch
+> >   - New.
+> >     Resent of my previous submission.
+> >
+> > https://lore.kernel.org/all/20210831074004.3195284-10-masahiroy@kernel.org/
+> >   - New
+> >     Resent of my previous submission
+> >
+> > https://lore.kernel.org/linux-kbuild/20210831074004.3195284-11-masahiroy@kernel.org/
+> >
+> > Changes in v3:
+> >   - New patch
+> >
+> > Changes in v2:
+> >   - Simplify the implementation (parse .cmd files after ELF)
+> >   - New patch
+> >  - replace the chain of $(if ...) with $(and )
+> >   - New patch
+> >   - New patch
+> >
+> > Masahiro Yamada (10):
+> >   modpost: extract symbol versions from *.cmd files
+> >   kbuild: link symbol CRCs at final link, removing
+> >     CONFIG_MODULE_REL_CRCS
+> >   kbuild: stop merging *.symversions
+> >   genksyms: adjust the output format to modpost
+> >   kbuild: do not create *.prelink.o for Clang LTO or IBT
+> >   kbuild: check static EXPORT_SYMBOL* by script instead of modpost
+> >   kbuild: make built-in.a rule robust against too long argument error
+> >   kbuild: make *.mod rule robust against too long argument error
+> >   kbuild: add cmd_and_savecmd macro
+> >   kbuild: rebuild multi-object modules when objtool is updated
+> >
+> >  arch/m68k/include/asm/Kbuild    |   1 +
+> >  arch/m68k/include/asm/export.h  |   2 -
+> >  arch/powerpc/Kconfig            |   1 -
+> >  arch/s390/Kconfig               |   1 -
+> >  arch/um/Kconfig                 |   1 -
+> >  include/asm-generic/export.h    |  22 ++-
+> >  include/linux/export-internal.h |  16 +++
+> >  include/linux/export.h          |  30 ++--
+> >  init/Kconfig                    |   4 -
+> >  kernel/module.c                 |  10 +-
+> >  scripts/Kbuild.include          |  10 +-
+> >  scripts/Makefile.build          | 134 ++++++------------
+> >  scripts/Makefile.lib            |   7 -
+> >  scripts/Makefile.modfinal       |   5 +-
+> >  scripts/Makefile.modpost        |   9 +-
+> >  scripts/check-local-export      |  64 +++++++++
+> >  scripts/genksyms/genksyms.c     |  18 +--
+> >  scripts/link-vmlinux.sh         |  33 ++---
+> >  scripts/mod/modpost.c           | 236 +++++++++++++++++++++-----------
+> >  19 files changed, 320 insertions(+), 284 deletions(-)
+> >  delete mode 100644 arch/m68k/include/asm/export.h
+> >  create mode 100644 include/linux/export-internal.h
+> >  create mode 100755 scripts/check-local-export
 > >
 > > --
-> > Best Regards
-> > Masahiro Yamada
-
+> > 2.32.0
+> >
+>
 
 
 -- 
