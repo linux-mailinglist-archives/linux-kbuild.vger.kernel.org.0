@@ -2,50 +2,51 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C44C158C315
-	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Aug 2022 07:55:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C33758CCBF
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Aug 2022 19:37:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235837AbiHHFzD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 8 Aug 2022 01:55:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42682 "EHLO
+        id S243354AbiHHRhh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 8 Aug 2022 13:37:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235801AbiHHFzC (ORCPT
+        with ESMTP id S235852AbiHHRhg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 8 Aug 2022 01:55:02 -0400
-Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F97C2DC9;
-        Sun,  7 Aug 2022 22:55:00 -0700 (PDT)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 2785sh62023443;
-        Mon, 8 Aug 2022 14:54:44 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 2785sh62023443
+        Mon, 8 Aug 2022 13:37:36 -0400
+Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 592FE13E91;
+        Mon,  8 Aug 2022 10:37:35 -0700 (PDT)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 278HbJRH004735;
+        Tue, 9 Aug 2022 02:37:20 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 278HbJRH004735
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1659938085;
-        bh=qejQ7qBbGWyXlXw+9ltBzYOdnZJ6o0o+M0Ple7B/+Yc=;
+        s=dec2015msa; t=1659980240;
+        bh=BuY1TMSXWdED7zukVvB5l/59DaxxbcqQ2IOZciXPWIY=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=xf4BG++C4DsMw1wETGD16aAQgXcOyMOxYC2YWW7ygBM7SEqeSyBBPTemr6qeyddWl
-         wav4+MXO1jLQ+yWnY+H7OJyLkbVwIyGP3QDCPV5Osc8pVfc1+AHHn0lecHbJFdW+MY
-         uXc2o+8qOrZadUUEvaYJbb8MAWGqgmpVAlC3ZehWTRzSQfuSLhG635F7bwHbgONzoP
-         7Tszn2Vgn8lwVuqsBRpwQAXvlAeuiO+TPY3m1nC31wuRIniQ/z1MIHpCL7Q2pT6xQb
-         5XlMHSaEdws5tdcC3fWZiWARshGt7cNzkTOH5vcd1dnmFqhees5B/3AY7xYULe0xnn
-         mctvHC4lcUI1w==
-X-Nifty-SrcIP: [209.85.128.49]
-Received: by mail-wm1-f49.google.com with SMTP id 17-20020a05600c241100b003a536b6d536so1766738wmp.2;
-        Sun, 07 Aug 2022 22:54:44 -0700 (PDT)
-X-Gm-Message-State: ACgBeo339nN0gBO86FflYa03XFF1XRtpFBfykPGY0jREJg+P3q16ZOig
-        +WLjLJGdeyZRiuqRqbbTRBiwalyTZRKyPMOi6c0=
-X-Google-Smtp-Source: AA6agR67yrrIq8MxybypgJHhJrFW1rEbYpjlPy4b/RNP2FAT2d6tNuWjP4sOb5OhWgDNVEW9M61wQ1NMknMtRkFldGA=
-X-Received: by 2002:a05:600c:35ce:b0:3a3:1b7f:bbd8 with SMTP id
- r14-20020a05600c35ce00b003a31b7fbbd8mr11090211wmq.22.1659938083218; Sun, 07
- Aug 2022 22:54:43 -0700 (PDT)
+        b=P7aSEtMvrm0rPN77TPEfS9Fwxu6H4SqYPBOM+Yqn9iXKeuLQpG9dbACaBGz/W04jX
+         17vcTbboznbJeo8gfBomBvUtXO8dO0hZQ6rSz8+PFYnpuR3LZgXc0Qtw4OgCsYYC80
+         n76wofFLTf89hE7+t0ixRY2UehFA29CtNWdhHvd2AAyYxloFIpYY2WtqtyBEX/GInf
+         IR2eo6FRZ7Ww0mu9Cs1D3Gu7dJK/klwaPyZmgKX1Sbl4N0AcnCISvmZPZbjCDQlsgQ
+         A91G7WzyIyo7vVkBxQNwvXBl65B8jbVQ8NkTT2zBiXoY450RrNOk2+5YY7eOOv5NEG
+         fDEaL/i65BtDA==
+X-Nifty-SrcIP: [209.85.221.45]
+Received: by mail-wr1-f45.google.com with SMTP id l4so11641169wrm.13;
+        Mon, 08 Aug 2022 10:37:20 -0700 (PDT)
+X-Gm-Message-State: ACgBeo3Mh86Q7RDjk1RcsF4t1XMDbnUZay6vpFqqdRI8Qsj/7kmkuWvm
+        35WjqSCdTKRxT2x5KILcj06OjyOAaQmhOCwWgLg=
+X-Google-Smtp-Source: AA6agR5TLez3BClNRdpePrpc8q6eKNE0zlD502ux+r07wV1rDelRX/GyGxXX4tLJF8qojzyjNwVqNb0ZK6QfgKdcSTM=
+X-Received: by 2002:a05:6000:1f83:b0:223:60ee:6c08 with SMTP id
+ bw3-20020a0560001f8300b0022360ee6c08mr1572173wrb.682.1659980238492; Mon, 08
+ Aug 2022 10:37:18 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220513113930.10488-1-masahiroy@kernel.org> <CAK7LNAQvneCi11myLpkikuXh=i5PLtTaLe0nGpDZXgv_Q1L0Ow@mail.gmail.com>
- <2c496d24174e63b27ec047f383df6700@matoro.tk>
-In-Reply-To: <2c496d24174e63b27ec047f383df6700@matoro.tk>
+ <2c496d24174e63b27ec047f383df6700@matoro.tk> <CAK7LNASWKhj0tZK6jA1PsYje+idTjzdbYa9avyGeakVScj843A@mail.gmail.com>
+ <38a9853e59db8946999316ce3a6b4621@matoro.tk>
+In-Reply-To: <38a9853e59db8946999316ce3a6b4621@matoro.tk>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 8 Aug 2022 14:54:06 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASWKhj0tZK6jA1PsYje+idTjzdbYa9avyGeakVScj843A@mail.gmail.com>
-Message-ID: <CAK7LNASWKhj0tZK6jA1PsYje+idTjzdbYa9avyGeakVScj843A@mail.gmail.com>
+Date:   Tue, 9 Aug 2022 02:36:41 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATa1fdwQsuC3LOkzhr1SaR6ipJqe1b0fAC1pk3LX9wDhA@mail.gmail.com>
+Message-ID: <CAK7LNATa1fdwQsuC3LOkzhr1SaR6ipJqe1b0fAC1pk3LX9wDhA@mail.gmail.com>
 Subject: Re: [PATCH v6 00/10] kbuild: yet another series of cleanups (modpost,
  LTO, MODULE_REL_CRCS, export.h)
 To:     matoro <matoro_mailinglist_kernel@matoro.tk>
@@ -69,150 +70,75 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Matoro,
-
-Thanks for the report.
-
-
-I have qemu-system-sparc installed on my Ubuntu machine,
-so I think I will be able to test it on sparc, at least.
-
-How did you test these 4 architectures (sparc, alpha, riscv, ia64)?
-QEMU?
-
-Thanks
-
-
-
-
-On Sat, Aug 6, 2022 at 8:39 AM matoro
+On Mon, Aug 8, 2022 at 10:27 PM matoro
 <matoro_mailinglist_kernel@matoro.tk> wrote:
 >
-> Hi Masahiro, I'm sorry to raise this after release but this seems to be
-> broken on SOME architectures.  So far I have tested:
+> I have real hardware for all these arches in my collection.  I use it
+> for testing the latest kernel and toolchains on as many of the
+> less-popular arches as possible, exactly to find issues like this one :)
 >
-> Affected - sparc, alpha
-> Unaffected - riscv, ia64
+> Specifically we support all of these in Gentoo.  To double-check this
+> wasn't a config issue, I asked another user who also runs sparc to try
+> building 5.19 with his config (not copying mine), and he observed the
+> same problem.  You can reach us in #gentoo-sparc on Libera.
 >
-> The affected systems are unable to load modules, similar to the
-> previously reported issue.  All module loading fails with "disagrees
-> about version of symbol module_layout".
->
-> Bisect blames 7b4537199a4a8480b8c3ba37a2d44765ce76cd9b, but this does
-> not revert cleanly.  Presumably CONFIG_MODVERSIONS=n would fix, but this
-> is a pretty core feature.
->
-> Unlike the issue Sedat reported, this is on a GNU toolchain, no clang
-> involved.
->
-> Here are the configs I am using (with make olddefconfig on upgrade to
-> 5.19):
->
-> Broken - sparc - https://dpaste.com/5A8F2JD6U
-> Broken - alpha - https://dpaste.com/FYKK23L9X
-> Working - riscv - https://dpaste.com/HV6Y4V6NT
-> Working - ia64 - https://dpaste.com/HDLDNEAK4
->
-> Please let me know if there's anything I can do to help track down this
-> regression.
->
->
-> -------- Original Message --------
-> Subject: Re: [PATCH v6 00/10] kbuild: yet another series of cleanups
-> (modpost, LTO, MODULE_REL_CRCS, export.h)
-> Date: 2022-05-13 08:20
->  From: Masahiro Yamada <masahiroy@kernel.org>
-> To: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
->
-> On Fri, May 13, 2022 at 8:42 PM Masahiro Yamada <masahiroy@kernel.org>
-> wrote:
-> >
-> >
-> > This is the third batch of cleanups in this development cycle.
-> >
->
->
-> This series is available at
-> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
->   lto-cleanup-v6
->
->
-> >
-> > Changes in v6:
-> >   - Fix false-positive warnings when CONFIG_TRIM_UNUSED_KSYMS=y
-> >
-> > Changes in v5:
-> >   - Fix the build error when CONFIG_DEBUG_INFO_BTF=y (reported by
-> > Nathan)
-> >   - Clean up arch/m68k/include/asm/export.h (Nick)
-> >   - Keep gen_symversions (and will be removed by a later patch)
-> >   - Add more comments in the script
-> >
-> > Changes in v4:
-> >   - Rename .vmlinux-symver.c to .vmlinux.export.c
-> >     because I notice this approach is useful for further cleanups,
-> >     not only for modversioning but also for overall EXPORT_SYMBOL.
-> >   - New patch
-> >   - New.
-> >     Resent of my previous submission.
-> >
-> > https://lore.kernel.org/all/20210831074004.3195284-10-masahiroy@kernel.org/
-> >   - New
-> >     Resent of my previous submission
-> >
-> > https://lore.kernel.org/linux-kbuild/20210831074004.3195284-11-masahiroy@kernel.org/
-> >
-> > Changes in v3:
-> >   - New patch
-> >
-> > Changes in v2:
-> >   - Simplify the implementation (parse .cmd files after ELF)
-> >   - New patch
-> >  - replace the chain of $(if ...) with $(and )
-> >   - New patch
-> >   - New patch
-> >
-> > Masahiro Yamada (10):
-> >   modpost: extract symbol versions from *.cmd files
-> >   kbuild: link symbol CRCs at final link, removing
-> >     CONFIG_MODULE_REL_CRCS
-> >   kbuild: stop merging *.symversions
-> >   genksyms: adjust the output format to modpost
-> >   kbuild: do not create *.prelink.o for Clang LTO or IBT
-> >   kbuild: check static EXPORT_SYMBOL* by script instead of modpost
-> >   kbuild: make built-in.a rule robust against too long argument error
-> >   kbuild: make *.mod rule robust against too long argument error
-> >   kbuild: add cmd_and_savecmd macro
-> >   kbuild: rebuild multi-object modules when objtool is updated
-> >
-> >  arch/m68k/include/asm/Kbuild    |   1 +
-> >  arch/m68k/include/asm/export.h  |   2 -
-> >  arch/powerpc/Kconfig            |   1 -
-> >  arch/s390/Kconfig               |   1 -
-> >  arch/um/Kconfig                 |   1 -
-> >  include/asm-generic/export.h    |  22 ++-
-> >  include/linux/export-internal.h |  16 +++
-> >  include/linux/export.h          |  30 ++--
-> >  init/Kconfig                    |   4 -
-> >  kernel/module.c                 |  10 +-
-> >  scripts/Kbuild.include          |  10 +-
-> >  scripts/Makefile.build          | 134 ++++++------------
-> >  scripts/Makefile.lib            |   7 -
-> >  scripts/Makefile.modfinal       |   5 +-
-> >  scripts/Makefile.modpost        |   9 +-
-> >  scripts/check-local-export      |  64 +++++++++
-> >  scripts/genksyms/genksyms.c     |  18 +--
-> >  scripts/link-vmlinux.sh         |  33 ++---
-> >  scripts/mod/modpost.c           | 236 +++++++++++++++++++++-----------
-> >  19 files changed, 320 insertions(+), 284 deletions(-)
-> >  delete mode 100644 arch/m68k/include/asm/export.h
-> >  create mode 100644 include/linux/export-internal.h
-> >  create mode 100755 scripts/check-local-export
-> >
-> > --
-> > 2.32.0
-> >
->
+> As for testing, I make all this hardware available on an as-needed
+> basis.  So if you can't or don't want to fiddle with qemu, just let me
+> know (email or IRC, same username on Libera), and I will get you direct
+> access to my hardware.  Thanks!!
+
+
+I found the root cause.
+
+When I build the sparc kernel, I see a warning
+
+WARNING: modpost: EXPORT symbol "_mcount" [vmlinux] version generation
+failed, symbol will not be versioned.
+
+
+Then, modpost missed to write out the entry.
+
+With the following patch, you will be able to load the module.
+
+I will send a patch with a proper commit log tomorrow. I need some sleep now.
+
+
+
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 29474cee10b1..337bd36a890a 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -2206,13 +2206,11 @@ static void add_exported_symbols(struct buffer
+*buf, struct module *mod)
+        /* record CRCs for exported symbols */
+        buf_printf(buf, "\n");
+        list_for_each_entry(sym, &mod->exported_symbols, list) {
+-               if (!sym->crc_valid) {
++               if (!sym->crc_valid)
+                        warn("EXPORT symbol \"%s\" [%s%s] version
+generation failed, symbol will not be versioned.\n"
+                             "Is \"%s\" prototyped in
+<asm/asm-prototypes.h>?\n",
+                             sym->name, mod->name, mod->is_vmlinux ? "" : ".ko",
+                             sym->name);
+-                       continue;
+-               }
+
+                buf_printf(buf, "SYMBOL_CRC(%s, 0x%08x, \"%s\");\n",
+                           sym->name, sym->crc, sym->is_gpl_only ? "_gpl" : "");
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 -- 
