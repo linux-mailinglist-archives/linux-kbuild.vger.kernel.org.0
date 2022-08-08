@@ -2,113 +2,241 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C83858BAF3
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Aug 2022 15:17:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D003C58C28C
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Aug 2022 06:32:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234249AbiHGNRi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 7 Aug 2022 09:17:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40734 "EHLO
+        id S230364AbiHHEcS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 8 Aug 2022 00:32:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233212AbiHGNRf (ORCPT
+        with ESMTP id S232177AbiHHEcG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 7 Aug 2022 09:17:35 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB9226428
-        for <linux-kbuild@vger.kernel.org>; Sun,  7 Aug 2022 06:17:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1659878254; x=1691414254;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5LkY7sPBU10nuctFmocWNxR2VcDfO7Fiu4f6zRwFdfY=;
-  b=jyO9MJ3PYNj70v6uBfxa/d++m7B1pp4J9XXVW0TIydcsvnb7jDnrpt0m
-   4cdfxi6Ymv+MnT9F5A5OLKGa1khkm5QGRdH3fSuhshrkgx70OIWOWaxwJ
-   YpHUfBiSJsvpwhtthE+fmTDJd8LPSk+PDmOGtL5qqkz7D2mwbRUF4Xmjm
-   fMD6s/m8MoevdFumVw72Wdyel678WqbcOECmrL3khU68ue30hfl+GmQ3K
-   iWj+u3fs9ygO7bMC8KQbekJwgL/fQ21wOaS723KfeBDsFxYb6RPc7NU94
-   dvbpoLiB4d5s3LSi2RscsRA4yvWafFLWkLvF9gwAp8l88h9a7TOYoR/+O
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10432"; a="270823274"
-X-IronPort-AV: E=Sophos;i="5.93,220,1654585200"; 
-   d="scan'208";a="270823274"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2022 06:17:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,220,1654585200"; 
-   d="scan'208";a="931735581"
-Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 07 Aug 2022 06:17:33 -0700
-Received: from kbuild by e0eace57cfef with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oKg9s-000LJl-2P;
-        Sun, 07 Aug 2022 13:17:32 +0000
-Date:   Sun, 7 Aug 2022 21:16:41 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     kbuild-all@lists.01.org, linux-kbuild@vger.kernel.org
-Subject: [masahiroy-kbuild:modpost-wip 26/40] kernel/foo.c:13:6: warning: no
- previous prototype for 'foo_register'
-Message-ID: <202208072106.I92R3WA8-lkp@intel.com>
+        Mon, 8 Aug 2022 00:32:06 -0400
+Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC88F959E
+        for <linux-kbuild@vger.kernel.org>; Sun,  7 Aug 2022 21:32:04 -0700 (PDT)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 2784VWPh003563
+        for <linux-kbuild@vger.kernel.org>; Mon, 8 Aug 2022 13:31:32 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 2784VWPh003563
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1659933093;
+        bh=2jLUnR9cMLago4Xbut6kZNDj+vjmmgZuyrHtLq3MI6c=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=QmRayufv1NMtebCCKr6wHrTO9BAb7KxZAVhXboik0hdgURGCBRJ+E4lIJURXJEs1C
+         xCHr2HZ4Jil3s5pqyUiS68MaCcI98J8806g+FMtdsHtUEFVQ7YENNj/5MXO2dGX4AN
+         bp6zRgdyBqka0QQ19T0jdG6+rlHKWW0jmbYab7DDUs7Y06iccw7koN1+YllvHkxNgD
+         P4Mpc3rFVZbRtKzyAMACcWB3W1t+rf7wh34l5ZsPt7yM+soRefjm/iybKqnuXlgOOL
+         /mzcNdTvp+Fc73iq97AVcZJls81Avkc9aCNJiM8KdlKg70tTtn5XSol/QMumq61vsa
+         XKiXrAvoVIYkA==
+X-Nifty-SrcIP: [209.85.221.49]
+Received: by mail-wr1-f49.google.com with SMTP id z16so9457036wrh.12
+        for <linux-kbuild@vger.kernel.org>; Sun, 07 Aug 2022 21:31:32 -0700 (PDT)
+X-Gm-Message-State: ACgBeo0K4BlH2yttDqwj+6///ZIJC2TMVZdd30ExirX0CBesdDj0iMui
+        5yrgmOcozvviCxx98qzotYp4xlJqksiMURwFZqI=
+X-Google-Smtp-Source: AA6agR6rL7YZFeFQmbeuU3ir+Hj6LnmeQZpS5zdpelfzs4BGHl9hxgDvpkUCLLDZmj8g8mGjElIZbXb6Y/FBjHDy0zI=
+X-Received: by 2002:a05:6000:1f9a:b0:21e:d4a7:a4c0 with SMTP id
+ bw26-20020a0560001f9a00b0021ed4a7a4c0mr10167566wrb.409.1659933091348; Sun, 07
+ Aug 2022 21:31:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <18a919882d8aa7b8970888a565ebbbeefdce9f12.1659465303.git.owen@owenrafferty.com>
+ <CAK7LNASEEU1-GqH1BiwU5P3L0kF5vwQ2WQ4njZrHQt0Z9ok47g@mail.gmail.com> <YurWv4VQbMNICK8/@niobium.localdomain>
+In-Reply-To: <YurWv4VQbMNICK8/@niobium.localdomain>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 8 Aug 2022 13:30:54 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT+4fOkJ5WDb9t5qXCqS+GhnbnG8wBffxNa1ZJ3=4Ps3Q@mail.gmail.com>
+Message-ID: <CAK7LNAT+4fOkJ5WDb9t5qXCqS+GhnbnG8wBffxNa1ZJ3=4Ps3Q@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: rewrite check-local-export in posix shell
+To:     Owen Rafferty <owen@owenrafferty.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git modpost-wip
-head:   d37b0bfa125f03dbeb16ee01480bd6d8a69e7ac0
-commit: 70ec473283598a6d32c3a36014bae676a5feb39b [26/40] [please ignore] kbuild local test (please ignore 0-day bot report)
-config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20220807/202208072106.I92R3WA8-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git/commit/?id=70ec473283598a6d32c3a36014bae676a5feb39b
-        git remote add masahiroy-kbuild https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-        git fetch --no-tags masahiroy-kbuild modpost-wip
-        git checkout 70ec473283598a6d32c3a36014bae676a5feb39b
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=um SUBARCH=i386 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> kernel/foo.c:13:6: warning: no previous prototype for 'foo_register' [-Wmissing-prototypes]
-      13 | void foo_register(void)
-         |      ^~~~~~~~~~~~
->> kernel/foo.c:22:13: warning: no previous prototype for 'hoge' [-Wmissing-prototypes]
-      22 | void __init hoge(void)
-         |             ^~~~
---
->> kernel/bar.c:10:5: warning: no previous prototype for 'bar' [-Wmissing-prototypes]
-      10 | int bar(int *x)
-         |     ^~~
+On Thu, Aug 4, 2022 at 5:12 AM Owen Rafferty <owen@owenrafferty.com> wrote:
+>
+> On 22/08/03 12:40PM, Masahiro Yamada wrote:
+> > On Wed, Aug 3, 2022 at 3:49 AM Owen Rafferty <owen@owenrafferty.com> wrote:
+> > >
+> > > Remove the bash build dependency for those who otherwise do not have it
+> > > installed. This should also provide a slight speedup.
+> >
+> > I do not know if this is worth the effort,
+> > but do you have any benchmark on how fast it is?
+>
+> To be clear, I'm not asking for every single bash script in the tree to be
+> rewritten in posix shell -- it was only this script that made bash a hard
+> dependency (on x86 at least).
+>
+> For a configuration suitable for my system w/ 4 HT cores:
+>
+> bash
+>     real8m 47.79s     user54m 30.91s    sys13m 56.88s
+>
+> sh (dash)
+>     real7m 34.94s     user46m 42.63s    sys11m 54.02s
 
 
-vim +/foo_register +13 kernel/foo.c
 
-    12	
-  > 13	void foo_register(void)
-    14	{
-    15		bar(&foo.y);
-    16	}
-    17	
-    18	struct table {
-    19		void (*callback)(void);
-    20	};
-    21	
-  > 22	void __init hoge(void)
-    23	{}
-    24	EXPORT_SYMBOL(hoge);
-    25	
+You need to explain what command you measured.
+
+But, never mind. I did it by myself.
+
+
+
+
+With x86_64 defconfig build, I got  2824 objects.
+
+$ find  .  -name "*.o" | grep -v vmlinux | wc
+   2824    2824   78929
+
+
+Without your patch,
+
+$ export NM=nm
+$ time sh -c 'find . -name "*.o" | grep -v vmlinux | xargs -n1
+./scripts/check-local-export'
+
+real 0m58.816s
+user 0m30.772s
+sys 0m31.420s
+
+
+
+
+
+With your patch
+$ export NM=nm
+$ time sh -c 'find . -name "*.o" | grep -v vmlinux | xargs -n1
+./scripts/check-local-export'
+
+real 8m22.922s
+user 7m53.015s
+sys 0m30.147s
+
+
+
+
+
+So, it is the opposite.
+Your patch makes the code extremely slow.
+More than 8x slower.
+
+
++       type="${symbol_types##* $name,}"
++       type="${type%% *}"
+
+This code is really slow.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+> > > -# the changes made to 'symbol_types' and 'export_symbols' would be lost.
+> > > -shopt -s lastpipe
+> > > -
+> > > -declare -A symbol_types
+> > > -declare -a export_symbols
+> > > +symbol_types=""
+> > > +export_symbols=""
+> > >
+> > >  exit_code=0
+> > >
+> > > -# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
+> > > -# 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
+> > > -# '2>/dev/null'. However, it suppresses real error messages as well. Add a
+> > > -# hand-crafted error message here.
+> > > -#
+> > > -# TODO:
+> > > -# Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
+> > > -# binutils to 2.37, llvm to 13.0.0.
+> > > -# Then, the following line will be really simple:
+> > > -#   ${NM} --quiet ${1} |
+> > > -
+> > > -{ ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; false; } } |
+> > >  while read value type name
+> > >  do
+> > >         # Skip the line if the number of fields is less than 3.
+> > > @@ -46,26 +26,40 @@ do
+> > >         # case 2)
+> > >         #   For Clang LTO, llvm-nm outputs a line with type 't' but empty name:
+> > >         #     "---------------- t"
+> > > -       if [[ -z ${name} ]]; then
+> > > +       if [ -z ${name} ]; then
+> > >                 continue
+> > >         fi
+> > >
+> > > -       # save (name, type) in the associative array
+> > > -       symbol_types[${name}]=${type}
+> > > +       # save (name, type) in "associative array"
+> > > +       symbol_types="$symbol_types ${name},${type}"
+> > >
+> > >         # append the exported symbol to the array
+> > > -       if [[ ${name} == __ksymtab_* ]]; then
+> > > -               export_symbols+=(${name#__ksymtab_})
+> > > -       fi
+> > > -done
+> > > +       case ${name} in __ksymtab_*)
+> > > +               export_symbols="$export_symbols ${name#__ksymtab_}"
+> > > +       esac
+> > >
+> > > -for name in "${export_symbols[@]}"
+> > > +# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
+> > > +# 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
+> > > +# '2>/dev/null'. However, it suppresses real error messages as well. Add a
+> > > +# hand-crafted error message here.
+> > > +#
+> > > +# TODO:
+> > > +# Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
+> > > +# binutils to 2.37, llvm to 13.0.0.
+> > > +# Then, the following line will be simple:
+> > > +# $(${NM} --quiet ${1} || kill -INT $$)
+> > > +done <<EOF
+> > > +$( ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; kill -INT $$; })
+> > > +EOF
+> > > +
+> > > +for name in $export_symbols
+> > >  do
+> > > -       # nm(3) says "If lowercase, the symbol is usually local"
+> > > -       if [[ ${symbol_types[$name]} =~ [a-z] ]]; then
+> > > +       type="${symbol_types##* $name,}"
+> > > +       type="${type%% *}"
+> > > +       case ${type} in [a-z])
+> > >                 echo "$@: error: local symbol '${name}' was exported" >&2
+> > >                 exit_code=1
+> > > -       fi
+> > > +       esac
+> > >  done
+> > >
+> > >  exit ${exit_code}
+> > > --
+> > > 2.37.1
+> > >
+> >
+> >
+> > --
+> > Best Regards
+> > Masahiro Yamada
+
+
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Best Regards
+Masahiro Yamada
