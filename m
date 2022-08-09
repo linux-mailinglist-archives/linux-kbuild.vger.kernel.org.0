@@ -2,107 +2,130 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F142E58E2EC
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Aug 2022 00:17:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30B4758E372
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Aug 2022 00:57:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229867AbiHIWQY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 9 Aug 2022 18:16:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37298 "EHLO
+        id S229511AbiHIW5H (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 9 Aug 2022 18:57:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229943AbiHIWPS (ORCPT
+        with ESMTP id S229495AbiHIW5G (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 9 Aug 2022 18:15:18 -0400
-Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7548026AE5
-        for <linux-kbuild@vger.kernel.org>; Tue,  9 Aug 2022 15:15:16 -0700 (PDT)
-Received: by mail-io1-xd2a.google.com with SMTP id d187so3997644iof.4
-        for <linux-kbuild@vger.kernel.org>; Tue, 09 Aug 2022 15:15:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc;
-        bh=GI1h58u9NHz7rI/vIwOU5DkUcoHPmL+b4tk5i/xxv5Y=;
-        b=QTP95oQi+RYhXbI8sz4RyTZp0RSE4jP48cyyUmWbTiK1ItvOHbADVtjkGHK/8zFbqv
-         EIzUG3d4HgG5eAQxnVHuBpH33ycuIiNpMEXk8S0LHARhhQGb6AufQVVn/40aQfLvP77W
-         778oK7qnpGZXO0Q2aGCYT4Mad4FGDHlh1br3s7D4D+9Vr7gPQrhXDR8bwR1fyz6kQ1n2
-         /mI7/+oIm6xqfpBjeRephfywWnzvzUcqvvdKwYuFsxmTm/GRVEQb9jKfBsLPvHEPeyBR
-         SLk52BQ10Zm7GZ4Mv5gugSKJZhGFXVOipaGDVsAOq6ABLyMrmGMv+5RYTjL3cqduwO+M
-         O1Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc;
-        bh=GI1h58u9NHz7rI/vIwOU5DkUcoHPmL+b4tk5i/xxv5Y=;
-        b=JBT6TFIdP9U8gRch5aKqVb6q/4KpMz+sa1EJzwHx3laQq0wJ/lRv2yinXLk9KqWGFn
-         j95+wsKp4jmfRnPdXqR6MyZWJz2UtsreX5uvj3VeU0ILG6VrC4W4nLpZwJ1OLb4z17PJ
-         V8fNmOfUgYO9Vc5fwGNS+uSHXaJshp2qfwS2b3UkgBP/7NWgyXSkrY+1pjECAOVDBhkt
-         RujgsXrWpDLJx5Im4t8PrMKuSkTLI/3oyT8w6VTFClKSQs/OtWydli0Cky38VCFO57my
-         BLBqTtUTmVuDkrj7noq8fpa/qS79HOooSrm+68se/LVqzXhfM6k7srXFGltI2dhF0YmF
-         BO0w==
-X-Gm-Message-State: ACgBeo2b3QcSe8nPNl6Dlj6EQrq1jLILIKS7PVfhjV+ixteStYTKdY2K
-        Ou/L2S6CPh+zkWCCSNXBZSTXJtLSmUrS/hqpEnM48FNYdMIRxg==
-X-Google-Smtp-Source: AA6agR7pJ6r7fhR2kV9XLe+oV3h+/ej1weqLnpTQS1YP5ule1vsDwGSNCnOW6LlEIY2xTapZFY+hu5KXPqSjTYpoaJM=
-X-Received: by 2002:a63:4642:0:b0:41b:d353:c5c7 with SMTP id
- v2-20020a634642000000b0041bd353c5c7mr20359415pgk.568.1660083303718; Tue, 09
- Aug 2022 15:15:03 -0700 (PDT)
+        Tue, 9 Aug 2022 18:57:06 -0400
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [IPv6:2a03:a000:7:0:5054:ff:fe1c:15ff])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5279E51A11;
+        Tue,  9 Aug 2022 15:57:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Type:MIME-Version:
+        Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=edVxyr423oZ8eji5jKyoqmmfbB+pc4gAM9RMUae1Dto=; b=LpQcDYU/3F7Iy9NfCPcFfpyNb+
+        hVKw8Htc6GlIZFh9xN6vswp6mGCo1Odb2oINjPnuPLiuFtT3yC+leJ00zoDGOtPya8Rbkx38MUzip
+        +8RHfiZSK/tFbM5UNdSxyZhAPizStbYzUNPhW7GOHHbIGMupJ9k5ciFbg49+VdD49OMKRk8rNjly5
+        PkfMYdb+kuSEV89yrJgwtn9Wg27JzmklGnZL11yjwK64Xs6T9p02OW/X4IG0uYkBTIo9M9/GQEO0I
+        kRlSHEMbj15jiRmi9GCSKIm357arVCmE8oUXXgXA1mQ6MHWs9sL8zW2POqlHNLmoQj0NC1Xgqd8HB
+        9yXph8Gw==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.95 #2 (Red Hat Linux))
+        id 1oLY9m-002w8U-TG;
+        Tue, 09 Aug 2022 22:57:03 +0000
+Date:   Tue, 9 Aug 2022 23:57:02 +0100
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Subject: [kconfig][RFC] getting things like CONFIG_ARCH_HAS_SYSCALL_WRAPPER
+ without bothering with selects
+Message-ID: <YvLmPl8sgR2q3WgE@ZenIV>
 MIME-Version: 1.0
-Received: by 2002:a05:6a10:e8a6:b0:2d4:fb1c:cc5e with HTTP; Tue, 9 Aug 2022
- 15:15:03 -0700 (PDT)
-Reply-To: wijh555@gmail.com
-From:   "Dr. Ali Moses" <alimoses07@gmail.com>
-Date:   Tue, 9 Aug 2022 15:15:03 -0700
-Message-ID: <CADWzZe65tcOX2+bMZfMLLauGpHEQ9Cdv814nLU=uQvKzDFrEVg@mail.gmail.com>
-Subject: Good Day,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.2 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:d2a listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [alimoses07[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [wijh555[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [alimoses07[at]gmail.com]
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Sender: Al Viro <viro@ftp.linux.org.uk>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
--- 
-Hello,
-We the Board Directors believe you are in good health, doing great and
-with the hope that this mail will meet you in good condition, We are
-privileged and delighted to reach you via email" And we are urgently
-waiting to hear from you. and again your number is not connecting.
+	Sometimes we have situations when we want linux/foo.h
+include asm/bar.h if the latter exists; one example is
+includes of asm/syscall_wrapper.h.  Right now there are two
+ways to do that:
+	1) ARCH_HAS_BAR_H, explicitly selected by architectures
+that have asm/bar.h and include guarded by #ifdef CONFIG_ARCH_HAS_BAR_H
+	2) include/asm-default/bar.h, either empty or with
+something like #define __ARCH_HAS_NO_BAR_H, with mandatory-y += bar.h
+in include/asm-generic/Kbuild and unconditional includes of asm/bar.h,
+possibly followed by #ifdef __ARCH_HAS_NO_BAR_H ... #endif
 
-My regards,
-Dr. Ali Moses..
+However, kconfig could do (1) without selects - something like
+bool ARCH_HAS_BAR_H
+	def_bool $(header-exists,bar.h)
 
-Sincerely,
-Prof. Chin Guang
+Does anybody see problems with the patch below?
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+---
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 1652a9800ebe..277437f329ce 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -42,7 +42,6 @@ config ARM64
+ 	select ARCH_HAS_STRICT_MODULE_RWX
+ 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
+ 	select ARCH_HAS_SYNC_DMA_FOR_CPU
+-	select ARCH_HAS_SYSCALL_WRAPPER
+ 	select ARCH_HAS_TEARDOWN_DMA_OPS if IOMMU_SUPPORT
+ 	select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
+ 	select ARCH_HAS_VM_GET_PAGE_PROT
+diff --git a/arch/s390/Kconfig b/arch/s390/Kconfig
+index 91c0b80a8bf0..86e905b8462c 100644
+--- a/arch/s390/Kconfig
++++ b/arch/s390/Kconfig
+@@ -78,7 +78,6 @@ config S390
+ 	select ARCH_HAS_SET_MEMORY
+ 	select ARCH_HAS_STRICT_KERNEL_RWX
+ 	select ARCH_HAS_STRICT_MODULE_RWX
+-	select ARCH_HAS_SYSCALL_WRAPPER
+ 	select ARCH_HAS_UBSAN_SANITIZE_ALL
+ 	select ARCH_HAS_VDSO_DATA
+ 	select ARCH_HAVE_NMI_SAFE_CMPXCHG
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index be0b95e51df6..64592d027a0d 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -92,7 +92,6 @@ config X86
+ 	select ARCH_HAS_STRICT_KERNEL_RWX
+ 	select ARCH_HAS_STRICT_MODULE_RWX
+ 	select ARCH_HAS_SYNC_CORE_BEFORE_USERMODE
+-	select ARCH_HAS_SYSCALL_WRAPPER
+ 	select ARCH_HAS_UBSAN_SANITIZE_ALL
+ 	select ARCH_HAS_VM_GET_PAGE_PROT
+ 	select ARCH_HAS_DEBUG_WX
+diff --git a/init/Kconfig b/init/Kconfig
+index c7900e8975f1..ce88397c4e46 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -2257,4 +2257,4 @@ config ARCH_HAS_SYNC_CORE_BEFORE_USERMODE
+ # kernel/time/posix-stubs.c. All these overrides need to be available in
+ # <asm/syscall_wrapper.h>.
+ config ARCH_HAS_SYSCALL_WRAPPER
+-	def_bool n
++	def_bool $(header-exists,syscall_wrapper.h)
+diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
+index 0496efd6e117..465bb836f82a 100644
+--- a/scripts/Kconfig.include
++++ b/scripts/Kconfig.include
+@@ -23,6 +23,10 @@ success = $(if-success,$(1),y,n)
+ # Return n if <command> exits with 0, y otherwise
+ failure = $(if-success,$(1),n,y)
+ 
++# $(header-exists,<header>)
++# Return y if arch/$(ARCH)/include/asm/<header> exists, n otherwise
++header-exists = $(success,test -e $(srctree)/arch/$(ARCH)/include/asm/$(1))
++
+ # $(cc-option,<flag>)
+ # Return y if the compiler supports <flag>, n otherwise
+ cc-option = $(success,mkdir .tmp_$$$$; trap "rm -rf .tmp_$$$$" EXIT; $(CC) -Werror $(CLANG_FLAGS) $(1) -c -x c /dev/null -o .tmp_$$$$/tmp.o)
