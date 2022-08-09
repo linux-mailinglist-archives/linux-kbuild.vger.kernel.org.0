@@ -2,65 +2,51 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 95DEC58DB00
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Aug 2022 17:21:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62DA358DCD0
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Aug 2022 19:08:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244895AbiHIPVf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 9 Aug 2022 11:21:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57936 "EHLO
+        id S237321AbiHIRIM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 9 Aug 2022 13:08:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244935AbiHIPVP (ORCPT
+        with ESMTP id S245092AbiHIRIK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 9 Aug 2022 11:21:15 -0400
-Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 331D9201B0;
-        Tue,  9 Aug 2022 08:21:11 -0700 (PDT)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 279FKsRH030769;
-        Wed, 10 Aug 2022 00:20:55 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 279FKsRH030769
+        Tue, 9 Aug 2022 13:08:10 -0400
+Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E66941DA49;
+        Tue,  9 Aug 2022 10:08:07 -0700 (PDT)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 279H7VxJ019248;
+        Wed, 10 Aug 2022 02:07:32 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 279H7VxJ019248
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1660058456;
-        bh=ehY71FsW601x63CPvQxCDEV9npZMmiq6LrR++w99gUA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=tLGudliSNeG9Nc0FoTKiVDAu8sncXeUiRS06KvvArcDOwbr7L5QMJCexOQjQMcLbK
-         ZarPoq8eETKY2ZpKN0kt/IAgTzzytLPwj91kMDINFTpVuUd6d7xusTksGMSsZEa4QA
-         +nUdKV0btTPlkMPthPd6l3sMIttoA77FODvlZre9XopAsJY7u/Dpx9bUttvvxIbTEM
-         EZavvf8BADbYdDY2M53RmjeSsrE4Fagu8hW+d10KfrkRBaLx+sDrUVWv6J8fuMeDTu
-         OuzSu2USI7XWy6wrInEhnqT5q0OTfyRkAmMHluJf6fBsmBDpwFMSRufTHp+BBiVobu
-         4rzbwvNdl8gjA==
-X-Nifty-SrcIP: [209.85.221.46]
-Received: by mail-wr1-f46.google.com with SMTP id q30so14656810wra.11;
-        Tue, 09 Aug 2022 08:20:55 -0700 (PDT)
-X-Gm-Message-State: ACgBeo3rhEiykvngggdzBVhY8m7/xnEhp/8A/klI9MzwkbGtUoJwTUM7
-        sfGg1z2xgkpsnOuazc59y1BBTbpN+djifHsuABE=
-X-Google-Smtp-Source: AA6agR45uaVj3oXaxHlj5+fMWTKPWeF0jBcj5Tb6P2TOZfXqs2wTkF3S5mzwUFGqv5PmDLDsxkjjWUPTy93NqkrARws=
-X-Received: by 2002:a05:6000:168f:b0:220:748e:82c0 with SMTP id
- y15-20020a056000168f00b00220748e82c0mr14432497wrd.477.1660058453881; Tue, 09
- Aug 2022 08:20:53 -0700 (PDT)
+        s=dec2015msa; t=1660064852;
+        bh=rr3DZMLkaG4oy2qKkuCOhZ3c8Lq3XQ930xsc+I0K9ew=;
+        h=From:Date:Subject:To:Cc:From;
+        b=qJguDYMeNsaC/InxaBEa/ZyKlgMIpwjbDS31AT0tGW6kT2aY0zbgKcOHFvIG4RqIU
+         UxL8DBNAYRB3ANio722tdnab2bSE/CmPD68GVD7haQdMKyIbZ0MqGW+Bp4qdMxU/Zi
+         pTuCGM1MmWbYpJMA7q04e1xN/6sOhexLFzV6bk0RUXF46pi1TzqPz6O+l7FSZo6I4n
+         33D/LsTnJOAY2e2eoKkoVqPH8vb1EXVwfATNUGN2AtzawnRBVoCbZcbd4YF2qzPLD+
+         8lOKp/4btXYs01TaIpr7E9sGDxfRzcOaA63lYapIHw5++d9uRp7XTIhuYIi7lv+ccj
+         sh8GJtmNRM+3A==
+X-Nifty-SrcIP: [209.85.221.51]
+Received: by mail-wr1-f51.google.com with SMTP id p10so14995026wru.8;
+        Tue, 09 Aug 2022 10:07:31 -0700 (PDT)
+X-Gm-Message-State: ACgBeo2iHKPcA9t/j4n7j+UaarYXwQGE7aNTnGBhIuofoQS2rd8/feUv
+        b7l/CS2igPDamg1iqHgBdO6ZWIRx3pqtxw09rkk=
+X-Google-Smtp-Source: AA6agR7bSLbQfQnSdmzzw7nHJvS9NI1lXFc5N5lcXvW3wdR+L0bY5y529wqH9BxszkqPrq5v9OlXUC6v7IFrvJQezOI=
+X-Received: by 2002:a5d:54cb:0:b0:220:6426:6219 with SMTP id
+ x11-20020a5d54cb000000b0022064266219mr14357759wrv.461.1660064850247; Tue, 09
+ Aug 2022 10:07:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220513113930.10488-1-masahiroy@kernel.org> <CAK7LNAQvneCi11myLpkikuXh=i5PLtTaLe0nGpDZXgv_Q1L0Ow@mail.gmail.com>
- <2c496d24174e63b27ec047f383df6700@matoro.tk> <CAK7LNASWKhj0tZK6jA1PsYje+idTjzdbYa9avyGeakVScj843A@mail.gmail.com>
- <38a9853e59db8946999316ce3a6b4621@matoro.tk> <CAK7LNATa1fdwQsuC3LOkzhr1SaR6ipJqe1b0fAC1pk3LX9wDhA@mail.gmail.com>
- <d4f30a7313f1ff43d0c919fc556f08fe@matoro.tk>
-In-Reply-To: <d4f30a7313f1ff43d0c919fc556f08fe@matoro.tk>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 10 Aug 2022 00:20:13 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASGewXa8bHy1SZNzTi+V5aoHdV6OysY0z76SQNs92iB9Q@mail.gmail.com>
-Message-ID: <CAK7LNASGewXa8bHy1SZNzTi+V5aoHdV6OysY0z76SQNs92iB9Q@mail.gmail.com>
-Subject: Re: [PATCH v6 00/10] kbuild: yet another series of cleanups (modpost,
- LTO, MODULE_REL_CRCS, export.h)
-To:     matoro <matoro_mailinglist_kernel@matoro.tk>
+Date:   Wed, 10 Aug 2022 02:06:51 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATwE1L4oS6R=7gHfiE6+9Dksvtvu-BGE07N6=JHVQ5hKQ@mail.gmail.com>
+Message-ID: <CAK7LNATwE1L4oS6R=7gHfiE6+9Dksvtvu-BGE07N6=JHVQ5hKQ@mail.gmail.com>
+Subject: [GIT PULL] Kbuild updates for v5.20-rc1
+To:     Linus Torvalds <torvalds@linux-foundation.org>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Peter Zijlstra <peterz@infradead.org>,
-        linux-modules <linux-modules@vger.kernel.org>,
-        clang-built-linux <llvm@lists.linux.dev>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
@@ -71,71 +57,131 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 9, 2022 at 3:42 AM matoro
-<matoro_mailinglist_kernel@matoro.tk> wrote:
->
-> That patch doesn't apply to the v5.19 stable tag, so I just manually
-> edited and it worked perfect!  Thank you!!
->
-> Sorry I didn't mention that warning - I did see it, but it still showed
-> up even on the old kernel, so I thought it was irrelevant.  Much
-> appreciated!
->
-> -------- Original Message --------
-> Subject: Re: [PATCH v6 00/10] kbuild: yet another series of cleanups
-> (modpost, LTO, MODULE_REL_CRCS, export.h)
-> Date: 2022-08-08 13:36
->  From: Masahiro Yamada <masahiroy@kernel.org>
-> To: matoro <matoro_mailinglist_kernel@matoro.tk>
->
-> On Mon, Aug 8, 2022 at 10:27 PM matoro
-> <matoro_mailinglist_kernel@matoro.tk> wrote:
-> >
-> > I have real hardware for all these arches in my collection.  I use it
-> > for testing the latest kernel and toolchains on as many of the
-> > less-popular arches as possible, exactly to find issues like this one
-> > :)
-> >
-> > Specifically we support all of these in Gentoo.  To double-check this
-> > wasn't a config issue, I asked another user who also runs sparc to try
-> > building 5.19 with his config (not copying mine), and he observed the
-> > same problem.  You can reach us in #gentoo-sparc on Libera.
-> >
-> > As for testing, I make all this hardware available on an as-needed
-> > basis.  So if you can't or don't want to fiddle with qemu, just let me
-> > know (email or IRC, same username on Libera), and I will get you direct
-> > access to my hardware.  Thanks!!
->
->
-> I found the root cause.
->
-> When I build the sparc kernel, I see a warning
->
-> WARNING: modpost: EXPORT symbol "_mcount" [vmlinux] version generation
-> failed, symbol will not be versioned.
->
->
-> Then, modpost missed to write out the entry.
->
-> With the following patch, you will be able to load the module.
->
-> I will send a patch with a proper commit log tomorrow. I need some sleep
-> now.
+Hi Linus,
 
-
-
-I posted a patch:
-
-
-https://patchwork.kernel.org/project/linux-kbuild/patch/20220809141117.641543-1-masahiroy@kernel.org/
-
-
-If you want me to record your full name in Reported/Tested-by,
-please let me know.
+Please pull Kbuild updates for v5.20-rc1.
+Thank you.
 
 
 
 
+The following changes since commit 32346491ddf24599decca06190ebca03ff9de7f8:
+
+  Linux 5.19-rc6 (2022-07-10 14:40:51 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-v5.20
+
+for you to fetch changes up to 672fb6740cbfde34f4d367ffa3c939b608a927e1:
+
+  modpost: remove .symbol_white_list field entirely (2022-08-04 20:32:13 +0900)
+
+----------------------------------------------------------------
+Kbuild updates for v5.20
+
+ - Remove the support for -O3 (CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3)
+
+ - Fix error of rpm-pkg cross-builds
+
+ - Support riscv for checkstack tool
+
+ - Re-enable -Wformwat warnings for Clang
+
+ - Clean up modpost, Makefiles, and misc scripts
+
+----------------------------------------------------------------
+Baruch Siach (2):
+      init/Kconfig: update KALLSYMS_ALL help text
+      docs: kbuild: fix typo
+
+Justin Stitt (1):
+      Makefile.extrawarn: re-enable -Wformat for clang
+
+Masahiro Yamada (22):
+      certs: move scripts/check-blacklist-hashes.awk to certs/
+      certs: unify blacklist_hashes.c and blacklist_nohashes.c
+      kbuild: remove sed command from cmd_ar_builtin
+      Revert "scripts/mod/modpost.c: permit '.cranges' secton for sh64
+architecture."
+      kbuild: rpm-pkg: fix build error when _arch is undefined
+      kbuild: rpm-pkg: pass 'linux' to --target option of rpmbuild
+      kbuild: error out if $(KBUILD_EXTMOD) contains % or :
+      kbuild: error out if $(INSTALL_MOD_PATH) contains % or :
+      kconfig: shorten the temporary directory name for cc-option
+      modpost: drop executable ELF support
+      modpost: use sym_get_data() to get module device_table data
+      kbuild: add dtbs_prepare target
+      modpost: remove unused Elf_Sword macro
+      kbuild: set EXIT trap before creating temporary directory
+      modpost: refactor get_secindex()
+      modpost: add array range check to sec_name()
+      modpost: use more reliable way to get fromsec in section_rel(a)()
+      Revert "Kbuild, lto, workaround: Don't warn for
+initcall_reference in modpost"
+      modpost: shorten warning messages in report_sec_mismatch()
+      modpost: add PATTERNS() helper macro
+      modpost: remove unneeded .symbol_white_list initializers
+      modpost: remove .symbol_white_list field entirely
+
+Nick Desaulniers (1):
+      kbuild: drop support for CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE_O3
+
+Nicolas Schier (1):
+      scripts: headers_install.sh: Update config leak ignore entries
+
+Ondrej Mosnacek (1):
+      kbuild: dummy-tools: avoid tmpdir leak in dummy gcc
+
+Randy Dunlap (1):
+      kconfig: Qt5: tell the user which packages are required
+
+Wadim Mueller (1):
+      checkstack: add riscv support for scripts/checkstack.pl
+
+ Documentation/kbuild/kconfig-language.rst                     |   2 +-
+ MAINTAINERS                                                   |   1 -
+ Makefile                                                      |  18 ++-
+ arch/arc/configs/axs101_defconfig                             |   1 -
+ arch/arc/configs/axs103_defconfig                             |   1 -
+ arch/arc/configs/axs103_smp_defconfig                         |   1 -
+ arch/arc/configs/haps_hs_defconfig                            |   1 -
+ arch/arc/configs/haps_hs_smp_defconfig                        |   1 -
+ arch/arc/configs/hsdk_defconfig                               |   1 -
+ arch/arc/configs/nsim_700_defconfig                           |   1 -
+ arch/arc/configs/nsimosci_defconfig                           |   1 -
+ arch/arc/configs/nsimosci_hs_defconfig                        |   1 -
+ arch/arc/configs/nsimosci_hs_smp_defconfig                    |   1 -
+ arch/arc/configs/tb10x_defconfig                              |   1 -
+ arch/arc/configs/vdk_hs38_defconfig                           |   1 -
+ arch/arc/configs/vdk_hs38_smp_defconfig                       |   1 -
+ certs/Makefile                                                |  14 +-
+ certs/blacklist_hashes.c                                      |   1 -
+ certs/blacklist_nohashes.c                                    |   6 -
+ {scripts => certs}/check-blacklist-hashes.awk                 |   0
+ init/Kconfig                                                  |  16 +-
+ scripts/Kconfig.include                                       |   2 +-
+ scripts/Makefile.build                                        |   5 +-
+ scripts/Makefile.compiler                                     |   2 +-
+ scripts/Makefile.extrawarn                                    |   1 -
+ scripts/Makefile.modinst                                      |   3 +
+ scripts/Makefile.package                                      |   4 +-
+ scripts/checkstack.pl                                         |   4 +
+ scripts/dummy-tools/dummy-plugin-dir/include/plugin-version.h |   0
+ scripts/dummy-tools/gcc                                       |   8 +-
+ scripts/headers_install.sh                                    |   2 -
+ scripts/kconfig/qconf-cfg.sh                                  |   1 +
+ scripts/mod/file2alias.c                                      |   4 +-
+ scripts/mod/modpost.c                                         | 281
+++++++-----------------------------
+ scripts/mod/modpost.h                                         |  33 ++--
+ scripts/package/mkspec                                        |   3 +
+ 36 files changed, 111 insertions(+), 313 deletions(-)
+ delete mode 100644 certs/blacklist_nohashes.c
+ rename {scripts => certs}/check-blacklist-hashes.awk (100%)
+ create mode 100644
+scripts/dummy-tools/dummy-plugin-dir/include/plugin-version.h
 
 -- 
 Best Regards
