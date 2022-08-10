@@ -2,92 +2,75 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EC5F58E98D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Aug 2022 11:26:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA82A58F260
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Aug 2022 20:33:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231559AbiHJJ0b (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 10 Aug 2022 05:26:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52170 "EHLO
+        id S232870AbiHJSdp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 10 Aug 2022 14:33:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231750AbiHJJ0K (ORCPT
+        with ESMTP id S232361AbiHJSdk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 10 Aug 2022 05:26:10 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09F7958B7E;
-        Wed, 10 Aug 2022 02:26:08 -0700 (PDT)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id E718A202EE;
-        Wed, 10 Aug 2022 09:26:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1660123566; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=fpr5Y5mYpw0WsJ35coqguIchpHb9iIINxR8BHQJF12A=;
-        b=Vymy5Qn0iv7xtQy8hRP/Z2M9P1/dH4yzKJomcwkW0yvPi4mK98LMvPDm7hAtx0nGKVDKHR
-        6yv8oNSeakD0ugn2YSZ/jZRX6k2BO+EhRy0usr+52PozWmoh5flpg5zD+HvWnDCpRAKNkI
-        Wb6UH5zX328JL4puFQPJVQwi5vwdESg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1660123566;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=fpr5Y5mYpw0WsJ35coqguIchpHb9iIINxR8BHQJF12A=;
-        b=cvuvuGDygDllzRWsoW5TNcGTph+iMtI8oixdI9eeNrZNdpXgA41EBDK1RxOksB9R7HQ0Cu
-        dvJrkT/Jk5MVjmAA==
-Received: from localhost.localdomain (unknown [10.100.201.122])
+        Wed, 10 Aug 2022 14:33:40 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F28628C007;
+        Wed, 10 Aug 2022 11:33:39 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id A27442C2A8;
-        Wed, 10 Aug 2022 09:26:06 +0000 (UTC)
-From:   Jiri Slaby <jslaby@suse.cz>
-To:     masahiroy@kernel.org
-Cc:     linux-kernel@vger.kernel.org, Jiri Slaby <jslaby@suse.cz>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org
-Subject: [PATCH] kbuild: dummy-tools: pretend we understand __LONG_DOUBLE_128__
-Date:   Wed, 10 Aug 2022 11:26:03 +0200
-Message-Id: <20220810092603.20368-1-jslaby@suse.cz>
-X-Mailer: git-send-email 2.37.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 418BB61387;
+        Wed, 10 Aug 2022 18:33:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9F59FC43470;
+        Wed, 10 Aug 2022 18:33:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1660156418;
+        bh=3LQE8e+xAar+8oMfHFeV0FMZ51q6xZjbB19S3+NkmmY=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=Plc/e3kdu7lz38G7TpNpj9ZsfYGHrBLDWyGw8HixJ85/1gvkazb/mCd/Ccqf9W6om
+         HL6fIaXrg7OxvcL7zL2aL4wGr34LVs4xJymooCMF4DJhDNAq7XEoWVMN7ovynkukbc
+         CUsuDC3LMCORJwxuaZRNjYv5CL+XJEaOjt5g8eEfBlF2gN+cLvkz5KoyR8JzW/UYAW
+         igVdZNqlZ3OjVDcP6Q8La3BgwIlUtRg2jhB8x+bRCvJ0vQw8S10w+R0tcaiCwJT7As
+         7wW+2E7bV7n8NPdov36oc9yN2fImQU/TEH0Ee3zSy99lDH5suCpeYiUL4QhVhrVDLP
+         syxninomwIlcQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8867EC43141;
+        Wed, 10 Aug 2022 18:33:38 +0000 (UTC)
+Subject: Re: [GIT PULL] Kbuild updates for v5.20-rc1
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <CAK7LNATwE1L4oS6R=7gHfiE6+9Dksvtvu-BGE07N6=JHVQ5hKQ@mail.gmail.com>
+References: <CAK7LNATwE1L4oS6R=7gHfiE6+9Dksvtvu-BGE07N6=JHVQ5hKQ@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAK7LNATwE1L4oS6R=7gHfiE6+9Dksvtvu-BGE07N6=JHVQ5hKQ@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-v5.20
+X-PR-Tracked-Commit-Id: 672fb6740cbfde34f4d367ffa3c939b608a927e1
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 0af5cb349a2c97fbabb3cede96efcde9d54b7940
+Message-Id: <166015641855.32353.7374106395383229409.pr-tracker-bot@kernel.org>
+Date:   Wed, 10 Aug 2022 18:33:38 +0000
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-There is a test in powerpc's Kconfig which checks __LONG_DOUBLE_128__
-and sets CONFIG_PPC_LONG_DOUBLE_128 if it is understood by the compiler.
+The pull request you sent on Wed, 10 Aug 2022 02:06:51 +0900:
 
-We currently don't handle it, so this results in PPC_LONG_DOUBLE_128 not
-being in super-config generated by dummy-tools. So take this into
-account in the gcc script and preprocess __LONG_DOUBLE_128__ as "1".
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-v5.20
 
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Michal Marek <michal.lkml@markovi.net>
-Cc: Nick Desaulniers <ndesaulniers@google.com>
-Cc: linux-kbuild@vger.kernel.org
-Signed-off-by: Jiri Slaby <jslaby@suse.cz>
----
- scripts/dummy-tools/gcc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/0af5cb349a2c97fbabb3cede96efcde9d54b7940
 
-diff --git a/scripts/dummy-tools/gcc b/scripts/dummy-tools/gcc
-index 7db825843435..1db1889f6d81 100755
---- a/scripts/dummy-tools/gcc
-+++ b/scripts/dummy-tools/gcc
-@@ -59,7 +59,7 @@ fi
- if arg_contain -E "$@"; then
- 	# For scripts/cc-version.sh; This emulates GCC 20.0.0
- 	if arg_contain - "$@"; then
--		sed -n '/^GCC/{s/__GNUC__/20/; s/__GNUC_MINOR__/0/; s/__GNUC_PATCHLEVEL__/0/; p;}'
-+		sed -n '/^GCC/{s/__GNUC__/20/; s/__GNUC_MINOR__/0/; s/__GNUC_PATCHLEVEL__/0/; p;}; s/__LONG_DOUBLE_128__/1/ p'
- 		exit 0
- 	else
- 		echo "no input files" >&2
+Thank you!
+
 -- 
-2.37.1
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
