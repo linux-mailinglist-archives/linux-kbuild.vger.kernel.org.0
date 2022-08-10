@@ -2,140 +2,84 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D20A558F458
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Aug 2022 00:25:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5862E58F49E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Aug 2022 01:01:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231602AbiHJWYw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 10 Aug 2022 18:24:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55378 "EHLO
+        id S229696AbiHJXBu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 10 Aug 2022 19:01:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229524AbiHJWYv (ORCPT
+        with ESMTP id S229646AbiHJXBt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 10 Aug 2022 18:24:51 -0400
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8704E8D3C4
-        for <linux-kbuild@vger.kernel.org>; Wed, 10 Aug 2022 15:24:50 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-329dc6c0d21so67066057b3.16
-        for <linux-kbuild@vger.kernel.org>; Wed, 10 Aug 2022 15:24:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
-         :date:from:to:cc;
-        bh=SfdBfi7Mx5CiwtaCrFt88m0cxW+5UTO23z89f2bNn7U=;
-        b=lFVVLrMHSHntzCbJbyph7o0sN9PiQWnco1EwL5WqfpRf91tH8qslTCY2g6b5jCOk0Y
-         ylmBq8ftUplOQdBpBqkp3ThkH4lxxi/CVL77eItkBxjPdQuWw83xFeIVqr7U9p17oTkf
-         RuX//pcNkDSuZxN9B4v0bwdy5sxlS409E/UzfLDDS4qa94yMtoSW2wynFs9xpXd+cEe3
-         xgSxkLLZB4x8JIDxwsOOwGJg9eXFqXi3+wwN4DSkMjzJloEX1g1jkMyPMG2Tl59W0Cht
-         YWY1kwvmssEbmYUYUB1IpOkepodDZTcEealsM8/s47LAOtxjmj1zX5RolaHtaZtjjexX
-         CUDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
-         :date:x-gm-message-state:from:to:cc;
-        bh=SfdBfi7Mx5CiwtaCrFt88m0cxW+5UTO23z89f2bNn7U=;
-        b=yIVQhMsf/mflH8L+Rc/eMoCQjhza0Fo+XAUVcwjULC95Q727n5u30L2CkqXcSm634S
-         kcd3aeyotq3R73q/Li3YGBch7IQV+ZtkleTLiG0O3WpRMc4v/4PYsRiItUTETeCGkLO0
-         mLmdXH/gxDrw30QPRI3ejNaYvzFfdDggeVHaBu1hFMmHzaX7Z9WHmHxgpQDlm7a6g/do
-         FaLh49aVugy1V8JM8Ot/weXSKVJg5uYfuMpDBgta02h9ck6PngdQ1D22oaPE/wyOS3UY
-         m7PUGyhrmGMiwMPDo5x7kFwkJH4Chb8Xp72PkLcVn9Dg3BbM8CsPnBr/oWV6wYCBDUoE
-         Fsnw==
-X-Gm-Message-State: ACgBeo3bqd/soo0zP06vuy0u5NL53u3csYKyNgZpPgFRmS8dP70+gKNw
-        yyPtI40hxPE/6QAZjy7YVslK1KLeLT2UvsbmU28=
-X-Google-Smtp-Source: AA6agR4QjOycVp/Hc0eH+Ub7N3pwJKBVI05zs+zNFYtKuxseil48HLi4FC6N8tMyPjHVz3IabbpGdRcPn9GV4DRM+Iw=
-X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:88ad:cd41:8dd7:539])
- (user=ndesaulniers job=sendgmr) by 2002:a05:6902:102d:b0:676:d624:ee91 with
- SMTP id x13-20020a056902102d00b00676d624ee91mr26116199ybt.10.1660170289777;
- Wed, 10 Aug 2022 15:24:49 -0700 (PDT)
-Date:   Wed, 10 Aug 2022 15:24:40 -0700
-In-Reply-To: <20220809013653.xtmeekefwkbo46vk@google.com>
-Message-Id: <20220810222442.2296651-1-ndesaulniers@google.com>
-Mime-Version: 1.0
-References: <20220809013653.xtmeekefwkbo46vk@google.com>
-X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=lvO/pmg+aaCb6dPhyGC1GyOCvPueDrrc8Zeso5CaGKE=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1660170281; l=2213;
- i=ndesaulniers@google.com; s=20211004; h=from:subject; bh=NinzIQmJcVXIzZMcPO+2uxtDhfBTzMzImrwCDVtvkFI=;
- b=KwgbZQliMALRYCIiUtuswI2ERGyH/jroMTb2yxtIvxH5YrYQgqdkc82NBm+3bqWUsKHABcX+vMgf
- ou2NSWLDDw2gBtN4XOxLwNlbbjGhaKdIrRpkZSYVD5Ow5Td6GGTM
-X-Mailer: git-send-email 2.37.1.559.g78731f0fdb-goog
-Subject: [PATCH v2 1/2] Makefile: link with -z noexecstack --no-warn-rwx-segments
-From:   Nick Desaulniers <ndesaulniers@google.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>
-Cc:     Fangrui Song <maskray@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Nick Clifton <nickc@redhat.com>, axboe@kernel.dk,
-        brijesh.singh@amd.com, hpa@zytor.com,
-        kirill.shutemov@linux.intel.com, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev, michael.roth@amd.com, n.schier@avm.de,
-        nathan@kernel.org, sathyanarayanan.kuppuswamy@linux.intel.com,
-        trix@redhat.com, x86@kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        Wed, 10 Aug 2022 19:01:49 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F6216068D;
+        Wed, 10 Aug 2022 16:01:48 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1904EB81ECC;
+        Wed, 10 Aug 2022 23:01:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48AABC433C1;
+        Wed, 10 Aug 2022 23:01:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1660172505;
+        bh=NnDvxipWRWd22orltCAXMkg0yBGFjX0zipam7lQ+xZk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=fQxNqwPVBp5/BwVHJmmCpTrKNt8De6t9ihL+6vUTvAmr8X94LXBb1Kr1ATSYdCpp7
+         5795/Y/AupALDlYajNSBCEJsSYz44G3JlGqSkE0776U+lFbAj8TA3ooZwWD+rVEEiS
+         41EueM3llhm6ZoHPJK3oG52p2khuVOlPNUbBfc8okBbFsOx6acrpuFhjiZwRrcibeX
+         4B70Xbe5flokCaxsL5cjvTWEVP6BeDVQaKNsEaVhegJ1ZeUq3ROqnTzpIeCRggwD9d
+         oxYKF60xbEmGx/vyc1ER0LVhwdIdJBJ30ljgMYcSyhxcktgoE1hlEKfX+X+0RryuBG
+         F2DQuYibHMKPA==
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+        Nathan Chancellor <nathan@kernel.org>
+Subject: [PATCH] scripts/Makefile.extrawarn: Do not disable clang's -Wformat-zero-length
+Date:   Wed, 10 Aug 2022 16:01:33 -0700
+Message-Id: <20220810230133.1895778-1-nathan@kernel.org>
+X-Mailer: git-send-email 2.37.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Users of GNU ld (BFD) from binutils 2.39+ will observe multiple
-instances of a new warning when linking kernels in the form:
+There are no instances of this warning in the tree across several
+difference architectures and configurations. This was added by
+commit 26ea6bb1fef0 ("kbuild, LLVMLinux: Supress warnings unless W=1-3")
+back in 2014, where it might have been necessary, but there are no
+instances of it now so stop disabling it to increase warning coverage
+for clang.
 
-  ld: warning: vmlinux: missing .note.GNU-stack
-  section implies executable stack
-  ld: NOTE: This behaviour is deprecated and will be removed in a future
-  version of the linker
-  ld: warning: vmlinux has a LOAD segment with RWX permissions
-
-Generally, we would like to avoid the stack being executable. Because
-there could be a need for the stack to be executable, assembler sources
-have to opt-in to this security feature via explicit creation of the
-.note.GNU-stack feature (which compilers create by default) or command
-line flag --noexecstack. Or we can simply tell the linker the production
-of such sections is irrelevant and to link the stack as --noexecstack.
-
-LLVM's LLD linker defaults to -z noexecstack, so this flag isn't
-strictly necessary when linking with LLD, only BFD, but it doesn't hurt
-to be explicit here for all linkers IMO. --no-warn-rwx-segments is
-currently BFD specific and only available in the current latest release,
-so it's wrapped in an ld-option check.
-
-While the kernel makes extensive usage of ELF sections, it doesn't use
-permissions from ELF segments.
-
-Link: https://lore.kernel.org/linux-block/3af4127a-f453-4cf7-f133-a181cce06f73@kernel.dk/
-Link: https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=ba951afb99912da01a6e8434126b8fac7aa75107
-Link: https://github.com/llvm/llvm-project/issues/57009
-Reported-by: Jens Axboe <axboe@kernel.dk>
-Suggested-by: Fangrui Song <maskray@google.com>
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 ---
- Makefile | 5 +++++
- 1 file changed, 5 insertions(+)
+ scripts/Makefile.extrawarn | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/Makefile b/Makefile
-index dc6295f91263..230e6e7679f9 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1033,6 +1033,11 @@ KBUILD_CFLAGS   += $(KCFLAGS)
- KBUILD_LDFLAGS_MODULE += --build-id=sha1
- LDFLAGS_vmlinux += --build-id=sha1
- 
-+KBUILD_LDFLAGS	+= -z noexecstack
-+ifeq ($(CONFIG_LD_IS_BFD),y)
-+KBUILD_LDFLAGS	+= $(call ld-option,--no-warn-rwx-segments)
-+endif
-+
- ifeq ($(CONFIG_STRIP_ASM_SYMS),y)
- LDFLAGS_vmlinux	+= $(call ld-option, -X,)
- endif
+diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+index 9bbaf7112a9b..69cec45c4e71 100644
+--- a/scripts/Makefile.extrawarn
++++ b/scripts/Makefile.extrawarn
+@@ -48,7 +48,6 @@ else
+ ifdef CONFIG_CC_IS_CLANG
+ KBUILD_CFLAGS += -Wno-initializer-overrides
+ KBUILD_CFLAGS += -Wno-sign-compare
+-KBUILD_CFLAGS += -Wno-format-zero-length
+ KBUILD_CFLAGS += $(call cc-disable-warning, pointer-to-enum-cast)
+ KBUILD_CFLAGS += -Wno-tautological-constant-out-of-range-compare
+ KBUILD_CFLAGS += $(call cc-disable-warning, unaligned-access)
+
+base-commit: aeb6e6ac18c73ec287b3b1e2c913520699358c13
 -- 
-2.37.1.559.g78731f0fdb-goog
+2.37.1
 
