@@ -2,59 +2,67 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F34E590664
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Aug 2022 20:47:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8391C5906FF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Aug 2022 21:35:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235813AbiHKSjc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 11 Aug 2022 14:39:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46952 "EHLO
+        id S235403AbiHKTfs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 Aug 2022 15:35:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235777AbiHKSjb (ORCPT
+        with ESMTP id S234978AbiHKTfr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 11 Aug 2022 14:39:31 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 940DE61D71
-        for <linux-kbuild@vger.kernel.org>; Thu, 11 Aug 2022 11:39:28 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id x9so16459939ljj.13
-        for <linux-kbuild@vger.kernel.org>; Thu, 11 Aug 2022 11:39:28 -0700 (PDT)
+        Thu, 11 Aug 2022 15:35:47 -0400
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D94C18E3A
+        for <linux-kbuild@vger.kernel.org>; Thu, 11 Aug 2022 12:35:45 -0700 (PDT)
+Received: by mail-ed1-x52a.google.com with SMTP id x21so24216457edd.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 11 Aug 2022 12:35:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc;
-        bh=uknUURtTflTbQ0gGtXa6dIUydyF1mi0HrKwpU5X0dRk=;
-        b=YXoXLAzBSz8OdrWcHCDDkhCNBRWKN5NiX8gPHmU+9yseVsP5YoszwIF1rg0pbrQ5xf
-         peyfnkEKdmld8A3zk6kBFlMgaOKYe0DyBgVIMjvj2HgW3jREWU5T3u6ri8aGmF2yyWPp
-         tOWubduW5HGIsenv44TykOYICvcA3O99J1vNlBlh0tzsDyZYBUAdR6y8VWZJ8IyWy3a2
-         Y6XqDr85iUvT1UPpsh9/M2hYA7bJO5ueruWL2v7dWANn84+1W8kxg//M03Y/Df7EkXnB
-         smtD4NdOgDF3QwzhzoLZhfbFhL16YL011jcxfSZecBJ08PvXnqhg8Whu5WpopdkZSNjF
-         yCsw==
+        d=linux-foundation.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=AzBK0WvHSrjzg7grX+nes2MRnQT5gXizb5gZy8rBp+Y=;
+        b=YPzqKiu3/1o3+WhxBPnQHsvCyowjo+jxKKgQpHpM/fSe0hAtExcgjfDRYL+DvDpxMR
+         9yug45riOHPwiTBowOYniLR3wG4ldyZ91Y/uoORgKhhD5rn8U1L+JMwtkF1RwMwiqB8v
+         KUJ3rQcmlz1eggM89F78Q19q/K8nsvl/UoH9Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
-        bh=uknUURtTflTbQ0gGtXa6dIUydyF1mi0HrKwpU5X0dRk=;
-        b=b9OeP0mNPJRAWYKajX9hfBw8naxQtg7fPTLyJnVQYrWlUw6D/o49TTCTCrcIrr9aRL
-         gFCQdWRAproi9N4FSHp+qQb/MB7jC9fSqbwJoqcJsEQmvDgs5lbt1XagLyqm/SVnhtRN
-         mPPuU5G9FIoybsS8PpIkr5ZOOwrO1mz3Z5//MuMIo3J4alDzuEe02Q88yozGxBCZoItJ
-         /Ya7v6aA1hXIr+Ow5TEgtD0GwCA1AXdY4Py/lc01BgmwG+rgSm1wa1Wbct26mP8dYB8o
-         H6FDrtfQSx8EyzWOxtyAbgc7wleCXkUbRf6kIGaXQnmTA9kTKf674Dk0BpQFf5T/wxmW
-         eC3w==
-X-Gm-Message-State: ACgBeo2O2IPf16DjJ5cIw54VxsWfPbx5eezA2qQN8FoCa0986x5erIq6
-        FCXxkeX11otchCV6aogGC3lY2t3JFBlldhz7ZA9RiA==
-X-Google-Smtp-Source: AA6agR7XTTaYi8RLnWWf+Naws8X6HS7OihvdTEknJwY4+WIdMldKbmojcTo1NXA7a4F4Z7AsGY1sMmTBAZ9HtrhSm/4=
-X-Received: by 2002:a2e:b5aa:0:b0:261:70f3:fd58 with SMTP id
- f10-20020a2eb5aa000000b0026170f3fd58mr138561ljn.295.1660243166694; Thu, 11
- Aug 2022 11:39:26 -0700 (PDT)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=AzBK0WvHSrjzg7grX+nes2MRnQT5gXizb5gZy8rBp+Y=;
+        b=3/U+r3TRaZ2k6O3yxoqXMArCqu64lnKc/5/LMKYvuip+rBEwBA8tp6TSTCucJONlte
+         /kLFDsnJxDz8Q6bcuzrPve8PkgXPw3bOsdCWQPRCk7mzvMA1Y9haMMgroK3wLTpk5SkP
+         1yTzZNlUq0t1+XsSxvTyJjB6nXNqFP328yQsbXKtyQHZY3AtnvHryujSlbhj6bwG4TUp
+         IuD3Ki18xa/+GYt2w9bwSUhjbzb7LxXhL+xiNiZX5EZMZEmiPXYlff6eD5SdGowTcYEC
+         uPojQ7g9iqkqtBWRI5pYhogyMytCwjF+iNR4V2kXCRuRHdCu+YrGcSmbwHT+XmkYORpx
+         seiA==
+X-Gm-Message-State: ACgBeo3xObl3ZsKPH+h0IK664E9QJEFjX/BSOphRf2LFHwnU+/+CO8Fb
+        2hAFNeEIUb7U/GohxbUfDTlxTH+sWALQBazl
+X-Google-Smtp-Source: AA6agR5bn8oDDm8XIYf+H2D4sqYsnVXXgySzofHacAKEZiB8zhwSfM2LkhlSIA+klVEy5FFFPC8zWg==
+X-Received: by 2002:aa7:db44:0:b0:43d:267c:edd9 with SMTP id n4-20020aa7db44000000b0043d267cedd9mr552532edt.385.1660246543952;
+        Thu, 11 Aug 2022 12:35:43 -0700 (PDT)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com. [209.85.128.51])
+        by smtp.gmail.com with ESMTPSA id kx11-20020a170907774b00b006fe0abb00f0sm3797022ejc.209.2022.08.11.12.35.42
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Aug 2022 12:35:43 -0700 (PDT)
+Received: by mail-wm1-f51.google.com with SMTP id s23so2741340wmj.4
+        for <linux-kbuild@vger.kernel.org>; Thu, 11 Aug 2022 12:35:42 -0700 (PDT)
+X-Received: by 2002:a1c:f603:0:b0:3a5:23ca:3e7c with SMTP id
+ w3-20020a1cf603000000b003a523ca3e7cmr438228wmc.38.1660246542464; Thu, 11 Aug
+ 2022 12:35:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <YvSxeDkmwxcJL+Z0@debian> <YvUZ+9kJ/AvUMxzO@dev-arch.thelio-3990X> <CAHk-=wivP4zipYnwNWCLF5cd24GLs3m8=Sp7M-CmmPva_UC+3Q@mail.gmail.com>
-In-Reply-To: <CAHk-=wivP4zipYnwNWCLF5cd24GLs3m8=Sp7M-CmmPva_UC+3Q@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 11 Aug 2022 11:39:15 -0700
-Message-ID: <CAKwvOdnQjgtwqFXLv+QtWPfpHosM5fxE5oqbX0VUD53F8L6bRg@mail.gmail.com>
+References: <YvSxeDkmwxcJL+Z0@debian> <YvUZ+9kJ/AvUMxzO@dev-arch.thelio-3990X>
+ <CAHk-=wivP4zipYnwNWCLF5cd24GLs3m8=Sp7M-CmmPva_UC+3Q@mail.gmail.com> <CAKwvOdnQjgtwqFXLv+QtWPfpHosM5fxE5oqbX0VUD53F8L6bRg@mail.gmail.com>
+In-Reply-To: <CAKwvOdnQjgtwqFXLv+QtWPfpHosM5fxE5oqbX0VUD53F8L6bRg@mail.gmail.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Thu, 11 Aug 2022 12:35:26 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgJA=e-CLcvU5LRKu0bMLeAewXtOM6as1hFVeQAVkMPbg@mail.gmail.com>
+Message-ID: <CAHk-=wgJA=e-CLcvU5LRKu0bMLeAewXtOM6as1hFVeQAVkMPbg@mail.gmail.com>
 Subject: Re: mainline build failure for arm64 allmodconfig with clang
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Joe Perches <joe@perches.com>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Joe Perches <joe@perches.com>,
+        Nathan Chancellor <nathan@kernel.org>,
         "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
@@ -62,125 +70,141 @@ Cc:     Nathan Chancellor <nathan@kernel.org>,
         clang-built-linux <llvm@lists.linux.dev>,
         Justin Stitt <justinstitt@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Aug 11, 2022 at 8:39 AM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Thu, Aug 11, 2022 at 11:39 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
 >
-> On Thu, Aug 11, 2022 at 8:05 AM Nathan Chancellor <nathan@kernel.org> wro=
-te:
-> >
-> > Right, these are exposed by commit 258fafcd0683 ("Makefile.extrawarn:
-> > re-enable -Wformat for clang").
->
-> Christ. Why is clang's format warning SO COMPLETELY BROKEN?
->
-> The warning is *WRONG*, for chrissake. Printing an 'int' with '%hhu'
-> is perfectly fine, and has well-defined semantics, and is what you
-> *want* to do in some cases.
+> Generally, printing an int with %hhu may truncate depending on the
+> value of the int.
 
-Generally, printing an int with %hhu may truncate depending on the
-value of the int.
+Yes.
 
-Perhaps there's something different we can be doing for literals though.
+HOWEVER.
 
-> I'm going to turn it off again, because honestly, this is a clang bug.
-> I don't care one whit if there are pending "fixes" for this clang bug,
-> until those fixes are in *clang*, not in the correct kernel code.
->
-> For chrissake, the value it is trying to print out as a char is '3'.
+That truncation is *LITERALLY THE MAIN REASON TO EVER USE %hhu IN THE
+FIRST PLACE*.
 
-If your referring to SOF_ABI_MAJOR from
+See the issue?
 
-commit b7bf23c0865f ("ASoC: SOF: ipc3-topology: Fix clang -Wformat warning"=
-)
+Warning about "this may truncate bits" when the main reason to use
+that format string in the first place is said bit truncation is kind
+of stupid, isn't it?
 
-in -next, 3 is an int literal.  No truncation occurs, sure, but just
-use the correct format flag!
+I suspect most people have no idea what '%hhu' means in the first
+place, and probably have to look it up. It's a pretty specialized
+thing, with a pretty specialized reason.
 
-Otherwise please also considering reverting
-commit cbacb5ab0aa0 ("docs: printk-formats: Stop encouraging use of
-unnecessary %h[xudi] and %hh[xudi]")
-since for the past 3 years, we've been recommending that kernel
-developers not use %h or %hh.  You allude to this in your "Admittedly,
-" note in
-commit 21f9c8a13bb2 ("Revert "Makefile.extrawarn: re-enable -Wformat
-for clang"")
-. Otherwise, please reinstate this patch.
+The most common reason that I've ever seen for using it has been "oh,
+I have a 'char', and I don't know or care about the sign of it, I want
+to print it out consistently, and %hhu does that for me".
 
-I don't care which you pick, but let's be consistent?
+And often that char isn't actually a 'char', it is actually an 'int',
+either because you have situations like 'getch()', or you have simply
+just the usual C expression rules, ie you have something like
 
-Because having explicit documented practices then reverting things
-when those are followed is quite obnoxious.
+        isprint(c) ? c : '.'
 
-> But even if it wasn't, and even if you wanted to print out "0xf365" as
-> a "char" value, then that is how C varargs *work*. It's an "int".
+where even if 'c' is of type 'char', the end result is 'int'.
 
-This is a different case than using a literal value in which no
-truncation would occur.  (Your points about 3 and 'a' (no truncation)
-are distinct from 0xf365 (truncation)).
+And guess what? Truncating out those sign bits - if char is signed,
+which it may or may not be - is then what the whole and only point of
+it is.
 
-It would be anomolous to the compiler whether the truncation in such a
-case was intentional vs accidental.
+Really.
 
-printf("%hhx\n", 0xf365); // -Wformat: warning: format specifies type
-'unsigned char' but the argument has type 'int'
+So if a compiler warns about it, the compiler is BROKEN.
 
-should be
+And if a compiler writer says "well, then you should have added a cast
+to 'unsigned char'", then the compiler writer is clueless and WRONG,
+because if you add the cast, then the '%hhu' becomes pointless again,
+and you would have been better off using the simpler and more obvious
+%u (or the even more obvious %d).
 
-printf("%hhx\n", (unsigned char)0xf365); // intentional truncation, no warn=
-ing
+See what I'm saying when I'm emphasizing that THE MAIN REASON TO USE
+'%hhu' IS BECAUSE YOU KNOW AND WANT THAT TRUNCATION.
 
-A cast in that case helps inform the compiler that "I know what I'm
-doing," and a comment helps code reviewers & maintainers.
+> Perhaps there's something different we can be doing for literals though.
 
-> In fact, even a *character* is an "int". This program:
->
->         #include <stdio.h>
->
->         int main(int argc, char **argv)
->         {
->                 printf("%hhu\n", 'a');
->         }
->
-> generates a warning with "clang -Wformat", and dammit, if you are a
-> clang developer and you see no problem with that warning, then I don't
-> know what to say.
+No.
 
-Yeah, that is noisy.  I think if we had an argument that is a literal,
-we should be able to tell then and there whether that value would
-result in truncation (and avoiding diagnosing if no truncation occurs,
-or split that into -Wformat-me-harder so that we could set
--Wno-format-me-harder).
+Look, literals just make that warning look obviously stupid. With a
+literal, even a less-than-gifted rodent goes "that warning is stupid".
+Adding a cast to 'unsigned char' looks stupid to begin with, but it is
+then *extra* stupid when you know the function is a varargs functions
+and it will just be cast right back to 'int' anyway.
 
-printf("%hhu\n", 256); // should this produce a warning? Which
-compilers do so? ;)
+It happens to be what at least one kernel use was, and it happens to
+be what my example was, just to *really* point out how stupid that
+warning is.
 
-Though, isn't %c the correct format flag for characters?
+But the deeper truth is that the warning is wrong even for the case
+where there are upper bits, because that's when '%hhu' really matters.
 
->
-> Nathan, please make clang people see some sense.
->
-> Because no, I'm not in the least interested in getting kernel "fixes"
-> for this issue. -Wformat for clang goes away until people have gotten
-> their heads extracted from their derri=C3=A8res.
->
-> This is ridiculous.
->
->               Linus
+So that warning only makes '%hhu' pointless.
 
+The only thing that warning shows is that some clang person understodd
+the *syntax* of %hhu, but didn't understand the *meaning* of it, and
+the use of it.
 
+> I don't care which you pick, but let's be consistent?
 
---
-Thanks,
-~Nick Desaulniers
+The thing is, I don't care at all if some kernel developer decides to
+use '%hhu'. It's odd, but it's not wrong. It's perhaps worth
+discouraging just because it's so odd and unusual, but at the same
+time I really don't care very deeply.
+
+But what I *do* care about is when a compiler is so broken that it
+gives completely mindless warnings because it doesn't understand what
+it going on.
+
+At that point I go "let's turn off this warning, because the people
+who did that warning are clearly not doing the right thing, and that
+warning causes pointless problems".
+
+And until clang fixes their idiotic warning policy, that -Wformat
+stays turned off.
+
+Now, if you can show that the clang people understand why that warning
+is completely bogus and broken, adn they've fixed it in their
+development tree, at that point I'm willing to turn the warning on
+again and work around it in the kernel.
+
+But as long as clang just gets it fundamentally wrong, and as long as
+clang developers continue to think that their broken warning is
+"correct", then I refuse to turn that garbage on.
+
+See where I'm coming from? The warning is fundamentally broken.
+
+I'm willing to work around compiler bugs in the kernel. But if the
+compiler people in question don't even think they are bugs, I'm not
+working around them, I'm turning them off.
+
+This is not that different from the whole "type-based alias analysis"
+thing. It's fundamentally broken garbage, and it gets turned off.
+
+See the difference?
+
+One is "oh, compiler bug, we'll work around it".
+
+The other is "the compiler is being actively wrong unless you pass the
+right flag to the compiler".
+
+Right now it appears that clang is being actively wrong, and that
+passing '-Wformat' to clang is simply the wrong thing to do. Because
+that warning has clearly been actively added. It's not some oversight,
+it's literally extra code just to mess things up.
+
+But the moment I hear that clang removed that warning in their
+development tree, it turns from active malice to just a mostly
+harmless bug.
+
+               Linus
