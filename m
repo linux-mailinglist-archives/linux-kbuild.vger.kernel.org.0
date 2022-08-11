@@ -2,129 +2,122 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 793C458FEB1
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Aug 2022 17:02:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3986B5900BB
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Aug 2022 17:47:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235400AbiHKPC1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 11 Aug 2022 11:02:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48664 "EHLO
+        id S236493AbiHKPqc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 Aug 2022 11:46:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234066AbiHKPCZ (ORCPT
+        with ESMTP id S236586AbiHKPpu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 11 Aug 2022 11:02:25 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7169D24BEA;
-        Thu, 11 Aug 2022 08:02:24 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2E776B82144;
-        Thu, 11 Aug 2022 15:02:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54807C433C1;
-        Thu, 11 Aug 2022 15:02:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660230141;
-        bh=2+gh8k2LlVNKWFxEu+WPl9ll4HYEyNbUFNiZpgXDGUU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jA46IFbUYlcBl2dGV9Jq7CrjslaVz98zknQlszPazfdGk4wzKtUoJJ5b1MbENzJHW
-         5aspY8ejQaW+oyvA/kBZu+r8VCxN2lujGULnMXO1TK3WyeNlPE3Ps9CKSIJ8guRUyt
-         vfeT8igf/6BcLLTluwkWFxTeKK3rUNGh5llG24ZElfspS5qeOVrJ+sPaw3k6c1AGXt
-         woZNRztzkLE/HU4m8vGw3ow6U5WP7x5uaC2h2w11+0W+EMHQRwIBgOAHacW2retu49
-         sDNb7/+U/wE1f8in/OGoBxTmYQWz2Sb4kSxiRsndlBwFP7nU60P1XFCF4bE8QNelo6
-         fNCL2h0Pgu0zw==
-Date:   Thu, 11 Aug 2022 08:02:19 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Thu, 11 Aug 2022 11:45:50 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8923698A4A
+        for <linux-kbuild@vger.kernel.org>; Thu, 11 Aug 2022 08:39:59 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id s11so23391693edd.13
+        for <linux-kbuild@vger.kernel.org>; Thu, 11 Aug 2022 08:39:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc;
+        bh=x6h3ZUYE+fSHbOcAtnhM53hC5fi6FUTsoF2x5uuPJ2I=;
+        b=HeMQ8zAXI4QJmplndokyGN4KBA2GRue+xq74R5DjkSz15v0bKh6AhytDDiX37HKdpR
+         ho0aHxKcelq9/L6PPYv9w2sMZURJjljYqPVMZ8dH8/fres9luFz8AHpK4pO9dGonPjXy
+         0MmrvWv42qdBW0TVMQOjQ0rRic8iIwEMO3R/Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+        bh=x6h3ZUYE+fSHbOcAtnhM53hC5fi6FUTsoF2x5uuPJ2I=;
+        b=qilUVGKKmepL7sz2zuj5p+Cghw2WXJIfO1MBx1Ew1w1+Do28dcx3wQ5K6BZDRsiAaG
+         kVvAtGrFY74N6HQ1r+oj0nNF32f6hbbTF0KD6zUTcnWsMBK8luW9JwnWN8K5WCOqDa1e
+         Z0NNXFzO8ymPMHoMEdwALr7IOtukKJtrZpb/C8o55I8SxQ/mSYazazEIbI35KlF9Y+u9
+         YkdxBWwTBg07yd2GdWIdQzncslSUzGHYE5h6ik74KsGeyA3rQ8fBZ8LGsZIH86Svt5vh
+         5PARyBygxZ+Pnk7X6yxzkAKyaKxFX1NmpLOBOXpQdwjPgbyVe8MmV79u87Bpg3eIIQvr
+         rf2A==
+X-Gm-Message-State: ACgBeo1tarOywAcINGzWah0tYKQN6W6UdFvmVHCgldeibN0W8ekSMfb3
+        uZ2Ks9PHwnMvbrAi7ApTb06TkIRFi998v+KO
+X-Google-Smtp-Source: AA6agR7vm7BD2fGR710sGABWyD55bx/g76UmntI5RPLhRjeLjxz2m7EOCxIm1aehOiA+9rdVFRfqWw==
+X-Received: by 2002:a05:6402:11cf:b0:43d:fc84:c51a with SMTP id j15-20020a05640211cf00b0043dfc84c51amr30811105edw.80.1660232397954;
+        Thu, 11 Aug 2022 08:39:57 -0700 (PDT)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com. [209.85.221.45])
+        by smtp.gmail.com with ESMTPSA id et13-20020a056402378d00b0043ba24a26casm9042650edb.23.2022.08.11.08.39.53
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Aug 2022 08:39:53 -0700 (PDT)
+Received: by mail-wr1-f45.google.com with SMTP id bv3so21762648wrb.5
+        for <linux-kbuild@vger.kernel.org>; Thu, 11 Aug 2022 08:39:53 -0700 (PDT)
+X-Received: by 2002:a05:6000:1888:b0:222:ca41:dc26 with SMTP id
+ a8-20020a056000188800b00222ca41dc26mr11935404wri.442.1660232392668; Thu, 11
+ Aug 2022 08:39:52 -0700 (PDT)
+MIME-Version: 1.0
+References: <YvSxeDkmwxcJL+Z0@debian> <YvUZ+9kJ/AvUMxzO@dev-arch.thelio-3990X>
+In-Reply-To: <YvUZ+9kJ/AvUMxzO@dev-arch.thelio-3990X>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Thu, 11 Aug 2022 08:39:36 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wivP4zipYnwNWCLF5cd24GLs3m8=Sp7M-CmmPva_UC+3Q@mail.gmail.com>
+Message-ID: <CAHk-=wivP4zipYnwNWCLF5cd24GLs3m8=Sp7M-CmmPva_UC+3Q@mail.gmail.com>
+Subject: Re: mainline build failure for arm64 allmodconfig with clang
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
         linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        torvalds@linux-foundation.org,
         clang-built-linux <llvm@lists.linux.dev>
-Subject: Re: mainline build failure for arm64 allmodconfig with clang
-Message-ID: <YvUZ+9kJ/AvUMxzO@dev-arch.thelio-3990X>
-References: <YvSxeDkmwxcJL+Z0@debian>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YvSxeDkmwxcJL+Z0@debian>
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Sudip,
+On Thu, Aug 11, 2022 at 8:05 AM Nathan Chancellor <nathan@kernel.org> wrote=
+:
+>
+> Right, these are exposed by commit 258fafcd0683 ("Makefile.extrawarn:
+> re-enable -Wformat for clang").
 
-On Thu, Aug 11, 2022 at 08:36:24AM +0100, Sudip Mukherjee (Codethink) wrote:
-> Hi All,
-> 
-> The latest mainline kernel branch fails to build for arm64 allmodconfig
-> with clang. The errors are:
-> 
-> sound/soc/sof/ipc3-topology.c:2343:4: error: format specifies type 'unsigned char' but the argument has type 'int' [-Werror,-Wformat]
->                  SOF_ABI_MAJOR, SOF_ABI_MINOR, SOF_ABI_PATCH);
->                  ^~~~~~~~~~~~~
-> ./include/linux/dev_printk.h:150:67: note: expanded from macro 'dev_info'
->         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
->                                                                  ~~~     ^~~~~~~~~~~
-> ./include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
->                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
->                              ~~~    ^~~~~~~~~~~
-> ./include/uapi/sound/sof/abi.h:30:23: note: expanded from macro 'SOF_ABI_MAJOR'
-> #define SOF_ABI_MAJOR 3
->                       ^
-> sound/soc/sof/ipc3-topology.c:2343:19: error: format specifies type 'unsigned char' but the argument has type 'int' [-Werror,-Wformat]
->                  SOF_ABI_MAJOR, SOF_ABI_MINOR, SOF_ABI_PATCH);
->                                 ^~~~~~~~~~~~~
-> ./include/linux/dev_printk.h:150:67: note: expanded from macro 'dev_info'
->         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
->                                                                  ~~~     ^~~~~~~~~~~
-> ./include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
->                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
->                              ~~~    ^~~~~~~~~~~
-> ./include/uapi/sound/sof/abi.h:31:23: note: expanded from macro 'SOF_ABI_MINOR'
-> #define SOF_ABI_MINOR 23
->                       ^~
-> sound/soc/sof/ipc3-topology.c:2343:34: error: format specifies type 'unsigned char' but the argument has type 'int' [-Werror,-Wformat]
->                  SOF_ABI_MAJOR, SOF_ABI_MINOR, SOF_ABI_PATCH);
->                                                ^~~~~~~~~~~~~
-> ./include/linux/dev_printk.h:150:67: note: expanded from macro 'dev_info'
->         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
->                                                                  ~~~     ^~~~~~~~~~~
-> ./include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
->                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
->                              ~~~    ^~~~~~~~~~~
-> ./include/uapi/sound/sof/abi.h:32:23: note: expanded from macro 'SOF_ABI_PATCH'
-> #define SOF_ABI_PATCH 0
->                       ^
-> 3 errors generated.
-> 
-> drivers/ntb/hw/idt/ntb_hw_idt.c:2409:28: error: format specifies type 'unsigned char' but the argument has type 'int' [-Werror,-Wformat]
->                                 "\t%hhu-%hhu.\t", idx, idx + cnt - 1);
->                                         ~~~~           ^~~~~~~~~~~~~
->                                         %d
-> drivers/ntb/hw/idt/ntb_hw_idt.c:2438:29: error: format specifies type 'unsigned char' but the argument has type 'int' [-Werror,-Wformat]
->                                         "\t%hhu-%hhu.\t", idx, idx + cnt - 1);
->                                                 ~~~~           ^~~~~~~~~~~~~
->                                                 %d
-> drivers/ntb/hw/idt/ntb_hw_idt.c:2484:15: error: format specifies type 'unsigned char' but the argument has type 'int' [-Werror,-Wformat]
->                         idx, data, src, ndev->peers[src].port);
->                                    ^~~
-> 3 errors generated.
-> 
-> For both, git bisect points to 0af5cb349a2c ("Merge tag 'kbuild-v5.20' of git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild")
+Christ. Why is clang's format warning SO COMPLETELY BROKEN?
 
-Right, these are exposed by commit 258fafcd0683 ("Makefile.extrawarn:
-re-enable -Wformat for clang"). They both have fixes in -next so I am
-hoping they will be in Linus's tree soon:
+The warning is *WRONG*, for chrissake. Printing an 'int' with '%hhu'
+is perfectly fine, and has well-defined semantics, and is what you
+*want* to do in some cases.
 
-b7bf23c0865f ("ASoC: SOF: ipc3-topology: Fix clang -Wformat warning")
-a44252d5c3bb ("ntb: idt: fix clang -Wformat warnings")
+I'm going to turn it off again, because honestly, this is a clang bug.
+I don't care one whit if there are pending "fixes" for this clang bug,
+until those fixes are in *clang*, not in the correct kernel code.
 
-Cheers,
-Nathan
+For chrissake, the value it is trying to print out as a char is '3'.
+
+But even if it wasn't, and even if you wanted to print out "0xf365" as
+a "char" value, then that is how C varargs *work*. It's an "int".
+
+In fact, even a *character* is an "int". This program:
+
+        #include <stdio.h>
+
+        int main(int argc, char **argv)
+        {
+                printf("%hhu\n", 'a');
+        }
+
+generates a warning with "clang -Wformat", and dammit, if you are a
+clang developer and you see no problem with that warning, then I don't
+know what to say.
+
+Nathan, please make clang people see some sense.
+
+Because no, I'm not in the least interested in getting kernel "fixes"
+for this issue. -Wformat for clang goes away until people have gotten
+their heads extracted from their derri=C3=A8res.
+
+This is ridiculous.
+
+              Linus
