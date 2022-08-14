@@ -2,52 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC267591D42
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Aug 2022 02:24:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65650591D84
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Aug 2022 04:02:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229555AbiHNAYI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 13 Aug 2022 20:24:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35286 "EHLO
+        id S229525AbiHNCCn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 13 Aug 2022 22:02:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230159AbiHNAYH (ORCPT
+        with ESMTP id S229484AbiHNCCl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 13 Aug 2022 20:24:07 -0400
-Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B381261111
-        for <linux-kbuild@vger.kernel.org>; Sat, 13 Aug 2022 17:24:04 -0700 (PDT)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 27E0NgX0018284
-        for <linux-kbuild@vger.kernel.org>; Sun, 14 Aug 2022 09:23:43 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 27E0NgX0018284
+        Sat, 13 Aug 2022 22:02:41 -0400
+Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73C9761D85;
+        Sat, 13 Aug 2022 19:02:40 -0700 (PDT)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 27E22JNM016629;
+        Sun, 14 Aug 2022 11:02:20 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 27E22JNM016629
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1660436623;
-        bh=4YmdIPvumDKsUURHenp6j8amd8HK2XcjfDTs8+TMmoQ=;
+        s=dec2015msa; t=1660442540;
+        bh=+ryfJrFedXpCQcojonYdgaqJJ6AJncGa31MxYiq2M6I=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ehBXFnSGqgnJN7rc/M/LMWSpxwd/h53C8v3fYgT+5kN/xrT0u0Gzyx85AQk4nQry2
-         D5t0te1Wv/UH7R+kBHXdCx7ydYk+V9rTzeBcM2Dh9ZgFad70ay6QIokrlcmnuVodOV
-         845Y4eEmQlj6hyv1BCr/hkPkou4L36s09DWQ19MFFOtLinS6zCQBjG954oaBb5oRZ5
-         EnhGfWlBUTAhY8isu5tMIa0NkJWEv4AEw/S5Km8z2DMHejqAyz6ZJ4AJ57ZPv2jhf+
-         RawqX0mIgpm98xXRW1QRaBfe2B3aHd1kQebeHkYAkvhpBBG6KaTPXMZ+oKIjiaghJM
-         LX7tcQQsR8bag==
-X-Nifty-SrcIP: [209.85.221.54]
-Received: by mail-wr1-f54.google.com with SMTP id bv3so5046571wrb.5
-        for <linux-kbuild@vger.kernel.org>; Sat, 13 Aug 2022 17:23:43 -0700 (PDT)
-X-Gm-Message-State: ACgBeo2/oDBJTtD/g02TgCXhh0zng+LnkvBMAEamjAfw5vPBo/upw470
-        8RhYaFBGfcTMekyeuWFugxGv3wIXhiigpCiaqzo=
-X-Google-Smtp-Source: AA6agR4ipbEsDyCJn3iGcZUn47vhpmunGUom4eKDSAqPGiS583JX20D+dTDcWSM7SPQIyuIUcEWKIRuBWc2qZUP2szA=
-X-Received: by 2002:a05:6000:168f:b0:220:748e:82c0 with SMTP id
- y15-20020a056000168f00b00220748e82c0mr5145626wrd.477.1660436621309; Sat, 13
- Aug 2022 17:23:41 -0700 (PDT)
+        b=DnQvfUwM4j4K+0r5l5brVYkRdnvUehq3cCiFdpTKYgv0eadlk6G3mKPWtORseTg5x
+         Lsao8FrJsnXZrlGsjoAhUKBFJdC6rU0apmIF2iHHQiSuhwqPP/Ob8Hr+Ll5V37lWOF
+         BZdGEnzijxZ4v27/kPOajVK/VcQmrUzCjlLKV8XG/I8wawshCQDhkxP6MraWhCQQEx
+         RsZy47lt3u09+2npv895sniq41+2aez2hkX8mfVergHl5IbRcEAR9GxsrOXCwtYgo8
+         4A7CrBaqAREq7o+0MjJwMre4MFPHQzoYBDGZhXAnczXROlx6JdSWY8wtpgqFRD16qR
+         BFSe/xEyAHUpA==
+X-Nifty-SrcIP: [209.85.221.48]
+Received: by mail-wr1-f48.google.com with SMTP id j1so5210609wrw.1;
+        Sat, 13 Aug 2022 19:02:20 -0700 (PDT)
+X-Gm-Message-State: ACgBeo0dFpg3I2/FanHpOXbD8GdAOhUnI5dqOqw4vvFz7kUN8JiyB3Su
+        r1mEZ/qmismOABGNq4nmOnNbHeJGdmyQgBGxERk=
+X-Google-Smtp-Source: AA6agR7t1UEnvNygcrmvh3C0+i5LvZbUzhc2NIcpeRqpCaYYQ5brSfPXMb5aFJ4lvkG78X7qv7RPJKpjk8IXFL1PJ5E=
+X-Received: by 2002:a05:6000:1f83:b0:223:60ee:6c08 with SMTP id
+ bw3-20020a0560001f8300b0022360ee6c08mr5182335wrb.682.1660442538656; Sat, 13
+ Aug 2022 19:02:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <a2ccf1338513f3a2250cd0a9fe5894f83ce3e4a7.1660314650.git.owen@owenrafferty.com>
-In-Reply-To: <a2ccf1338513f3a2250cd0a9fe5894f83ce3e4a7.1660314650.git.owen@owenrafferty.com>
+References: <20220814002021.16990-1-dmitrii.bundin.a@gmail.com>
+In-Reply-To: <20220814002021.16990-1-dmitrii.bundin.a@gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 14 Aug 2022 09:23:04 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATbLrc=s7=SOs7QUwcxchmEy4G8OXp3Mn_03a4_-xAf6A@mail.gmail.com>
-Message-ID: <CAK7LNATbLrc=s7=SOs7QUwcxchmEy4G8OXp3Mn_03a4_-xAf6A@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: rewrite check-local-export in sh/awk
-To:     Owen Rafferty <owen@owenrafferty.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Date:   Sun, 14 Aug 2022 11:01:36 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARPAmsJD5XKAw7m_X2g7Fi-CAAsWDQiP7+ANBjkg7R7ng@mail.gmail.com>
+Message-ID: <CAK7LNARPAmsJD5XKAw7m_X2g7Fi-CAAsWDQiP7+ANBjkg7R7ng@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: add configurable debug info level
+To:     Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Kees Cook <keescook@chromium.org>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Isabella Basso <isabbasso@riseup.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Fangrui Song <maskray@google.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
@@ -58,207 +72,122 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Aug 12, 2022 at 11:36 PM Owen Rafferty <owen@owenrafferty.com> wrote:
++CC: Fangrui Song <maskray@google.com>
+
+
+
+
+On Sun, Aug 14, 2022 at 9:25 AM Dmitrii Bundin
+<dmitrii.bundin.a@gmail.com> wrote:
 >
-> Remove the bash build dependency for those who otherwise do not
-> have it installed. This also provides a significant speedup:
+> Provides a way to configure debug info level (-glevel).
+> Debug level 3 includes extra information such as macro definitions. With
+> level 3 enabled it's possible to expand macros right from the debugging
+> session in gdb simplifying debugging when complicated macros involved.
+> The default level is set to 2 to not change the default build behavior.
 >
-> $ make defconfig
-> $ make yes2modconfig
->
-> ...
->
-> $ find  .  -name "*.o" | grep -v vmlinux | wc
->      3169      3169     89615
-> $ export NM=nm
-> $ time sh -c 'find . -name "*.o" | grep -v vmlinux | xargs -n1
-> ./scripts/check-local-export'
->
-> Without patch:
->     0m15.90s real     0m12.17s user     0m05.28s system
->
-> With patch:
-> dash + nawk
->     0m02.16s real     0m02.92s user     0m00.34s system
->
-> dash + busybox awk
->     0m02.36s real     0m03.36s user     0m00.34s system
->
-> dash + gawk
->     0m02.07s real     0m03.26s user     0m00.32s system
->
-> bash + gawk
->     0m03.55s real     0m05.00s user     0m00.54s system
->
-> Signed-off-by: Owen Rafferty <owen@owenrafferty.com>
-
-
-
-
-How did you get those small numbers?
-
-
-The script invokes ${NM} internally,
-so it is impossible to become faster than nm.
-
-For me, it takes 55 sec just for running nm.
-
-
-
-
-$ find . -name "*.o"  | wc
-   3191    3191   90085
-
-$ time sh -c 'find . -name "*.o" | grep -v vmlinux | xargs -n1 nm >/dev/null'
-nm: ./arch/x86/entry/vdso/vdso32/note.o: no symbols
-nm: ./arch/x86/entry/vdso/vdso-note.o: no symbols
-
-real 0m55.783s
-user 0m24.887s
-sys 0m30.905s
-
-
-
-
-
-
-
-
-
-
-
+> Signed-off-by: Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
 > ---
 >
-> Notes:
->     [v2] commit message updated
+> Changes in v2: https://lore.kernel.org/all/20220804223504.4739-1-dmitrii.bundin.a@gmail.com/
+>   - Replace hardcoded -g3 with a configurable debug info level
 >
->  scripts/check-local-export | 95 ++++++++++++++++++--------------------
->  1 file changed, 46 insertions(+), 49 deletions(-)
+>  lib/Kconfig.debug      | 11 +++++++++++
+>  scripts/Makefile.debug |  2 +-
+>  2 files changed, 12 insertions(+), 1 deletion(-)
 >
-> diff --git a/scripts/check-local-export b/scripts/check-local-export
-> index 6ccc2f467416..67eaa7cf08c0 100755
-> --- a/scripts/check-local-export
-> +++ b/scripts/check-local-export
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/env bash
-> +#!/bin/sh
->  # SPDX-License-Identifier: GPL-2.0-only
->  #
->  # Copyright (C) 2022 Masahiro Yamada <masahiroy@kernel.org>
-> @@ -8,19 +8,6 @@
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index 2e24db4bff19..a17c12c20290 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -304,6 +304,17 @@ config DEBUG_INFO_REDUCED
+>           DEBUG_INFO build and compile times are reduced too.
+>           Only works with newer gcc versions.
 >
->  set -e
->
-> -# catch errors from ${NM}
-> -set -o pipefail
-> -
-> -# Run the last element of a pipeline in the current shell.
-> -# Without this, the while-loop would be executed in a subshell, and
-> -# the changes made to 'symbol_types' and 'export_symbols' would be lost.
-> -shopt -s lastpipe
-> -
-> -declare -A symbol_types
-> -declare -a export_symbols
-> -
-> -exit_code=0
-> -
->  # If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
->  # 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
->  # '2>/dev/null'. However, it suppresses real error messages as well. Add a
-> @@ -29,43 +16,53 @@ exit_code=0
->  # TODO:
->  # Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
->  # binutils to 2.37, llvm to 13.0.0.
-> -# Then, the following line will be really simple:
-> -#   ${NM} --quiet ${1} |
-> +# Then, the following line will be simpler:
-> +#   { ${NM} --quiet ${1} || kill 0; } |
+> +config DEBUG_INFO_LEVEL
+> +       int "Debug info level"
+> +       range 0 3
+> +       default "2"
+> +       help
+> +         Sets the level of how much debug information to generate (-glevel).
+> +         Level 1 produces minimal debug information without including information
+> +         about local variables. Level 3 includes extra information like macro
+> +         definitions. Setting up level 3 will require significantly more disk
+> +         space and increase built time. Level 0 produces no debug information.
 > +
-> +{ ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; kill 0; } } |
-> +awk -v "file=${1}" '
-> +BEGIN {
-> +       exit_code = 0
-> +       i = 0
-> +}
-> +
-> +# Skip the line if the number of fields is less than 3.
-> +#
-> +# case 1)
-> +#   For undefined symbols, the first field (value) is empty.
-> +#   The outout looks like this:
-> +#     "                 U _printk"
-> +#   It is unneeded to record undefined symbols.
-> +#
-> +# case 2)
-> +#   For Clang LTO, llvm-nm outputs a line with type t but empty name:
-> +#     "---------------- t"
-> +!length($3) {
-> +       next
-> +}
+
+
+
+We already have CONFIG_DEBUG_INFO_NONE to
+disable the debug info.
+
+
+The combination of CONFIG_DEBUG_INFO=y and
+CONFIG_DEBUG_INFO_LEVEL=0  (-g0)
+would emulate CONFIG_DEBUG_INFO_NONE ?
+
+
+
+Using 'int' does not look sensible to me.
+
+
+
+
+
+>  config DEBUG_INFO_COMPRESSED
+>         bool "Compressed debugging information"
+>         depends on $(cc-option,-gz=zlib)
+> diff --git a/scripts/Makefile.debug b/scripts/Makefile.debug
+> index 9f39b0130551..28beffc42e71 100644
+> --- a/scripts/Makefile.debug
+> +++ b/scripts/Makefile.debug
+> @@ -3,7 +3,7 @@ DEBUG_CFLAGS    :=
+>  ifdef CONFIG_DEBUG_INFO_SPLIT
+>  DEBUG_CFLAGS   += -gsplit-dwarf
+>  else
+> -DEBUG_CFLAGS   += -g
+> +DEBUG_CFLAGS   += -g$(CONFIG_DEBUG_INFO_LEVEL)
+>  endif
 >
-> -{ ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; false; } } |
-> -while read value type name
-> -do
-> -       # Skip the line if the number of fields is less than 3.
-> -       #
-> -       # case 1)
-> -       #   For undefined symbols, the first field (value) is empty.
-> -       #   The outout looks like this:
-> -       #     "                 U _printk"
-> -       #   It is unneeded to record undefined symbols.
-> -       #
-> -       # case 2)
-> -       #   For Clang LTO, llvm-nm outputs a line with type 't' but empty name:
-> -       #     "---------------- t"
-> -       if [[ -z ${name} ]]; then
-> -               continue
-> -       fi
-> +# save (name, type) in the associative array
-> +{ symbol_types[$3]=$2 }
->
-> -       # save (name, type) in the associative array
-> -       symbol_types[${name}]=${type}
-> +# append the exported symbol to the array
-> +($3 ~ /^__ksymtab_/) {
-> +       export_symbols[i] = $3
-> +       sub(/^__ksymtab_/, "", export_symbols[i])
-> +       i++
-> +}
->
-> -       # append the exported symbol to the array
-> -       if [[ ${name} == __ksymtab_* ]]; then
-> -               export_symbols+=(${name#__ksymtab_})
-> -       fi
-> -done
-> +END {
-> +       for (j = 0; j < i; ++j) {
-> +               name = export_symbols[j]
-> +               # nm(3) says "If lowercase, the symbol is usually local"
-> +               if (symbol_types[name] ~ /[a-z]/) {
-> +                       printf "%s: error: local symbol %s was exported\n",
-> +                               file, name | "cat 1>&2"
-> +                       exit_code = 1
-> +               }
-> +       }
->
-> -for name in "${export_symbols[@]}"
-> -do
-> -       # nm(3) says "If lowercase, the symbol is usually local"
-> -       if [[ ${symbol_types[$name]} =~ [a-z] ]]; then
-> -               echo "$@: error: local symbol '${name}' was exported" >&2
-> -               exit_code=1
-> -       fi
-> -done
-> +       exit exit_code
-> +}'
->
-> -exit ${exit_code}
-> +exit $?
+>  ifndef CONFIG_AS_IS_LLVM
 > --
-> 2.37.2
+> 2.17.1
 >
 
 
--- 
+I want to consult Fangrui Song for this part.
+
+
+With this Makefile code, CONFIG_DEBUG_INFO_SPLIT
+takes the presidency over CONFIG_DEBUG_INFO_LEVEL.
+
+
+When CONFIG_DEBUG_INFO_SPLIT is enabled (-gsplit-dwarf),
+it always uses the default -g2 level.
+CONFIG_DEBUG_INFO_LEVEL is just ignored silently.
+
+
+
+It might be sensible in older GCC/Clang behavior because
+-gsplit-dwarf implied -g2.
+
+
+But, with this commit:
+https://reviews.llvm.org/D80391
+
+-gsplit-dwarf and -g<level> are orthogonal
+for GCC 11+/Clang 12+, correct?
+
+
+I think "splitting debug files" and "debug level"
+should be controlled independently.
+(but it depends on the compiler version, if I understood correctly)
+
+
+
+
+
+
+--
 Best Regards
 Masahiro Yamada
