@@ -2,167 +2,86 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E70BA59278D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Aug 2022 03:34:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 248D4592D3E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Aug 2022 12:52:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229861AbiHOBei (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 14 Aug 2022 21:34:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50828 "EHLO
+        id S233321AbiHOKhs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 15 Aug 2022 06:37:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbiHOBeh (ORCPT
+        with ESMTP id S229752AbiHOKhr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 14 Aug 2022 21:34:37 -0400
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5069C5E;
-        Sun, 14 Aug 2022 18:34:36 -0700 (PDT)
-Received: by mail-lj1-x229.google.com with SMTP id x10so6343934ljq.4;
-        Sun, 14 Aug 2022 18:34:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
-         :cc;
-        bh=SUz1TqPyL7KJmvxJDlgGqvLb94MqI6W6P3Guvvw/hls=;
-        b=kSVveydjmJOefsqBmiJ5KB4R6JWr/+FK1rl1S8263XwJ3mXjbw7kBW7K5OCyKY2AjV
-         UOmeUQgx8+sxaXmhnQaNSquRfteVH0+QikmFQKYIBvDTRLYjph4FvDZVxIwaZVtSlRa9
-         BaKC2Zn/E8GiYqBZkEXOGGIDHF8Fi2ayOpjBSBprgXTnwygYHUvsAb8PkeXU0IW0c6/U
-         mo9yfy8Ml7TVfoCwS52nnM8QqqOPhWuFuKlIChmbXh1DnfyACneEbd1lJ8QvE1Sarorg
-         acZver1QBUEx76udAw6L6UBaqXAuCclABv4CGBYGV0FM40bySFi3S3qe/DBGrQrU6yR4
-         eC9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-gm-message-state:from:to:cc;
-        bh=SUz1TqPyL7KJmvxJDlgGqvLb94MqI6W6P3Guvvw/hls=;
-        b=5UCsWnVsHDxVdptrvbr8BLL03/ekpqoWbxgnT+bYJpbgG/vcIPbz10qpxC81djo6GR
-         nvLM1KgcXgiJSwL1drwESfo9p7J59DjQ0Zt3wONL+5QPKeoU4cBw4p++nqcrjnDwCQf5
-         ZWYdat+6byZ9UaJf1MExdj9jHgkHlhMMluS66KZbnkDvZorFM8ATqE8OJYGiBl6BahqC
-         yPY9af670HVv9FObq3m6XoDmFXVxo2uxlbu3FAaadFJEZwZm2poX366AG2oNcG8A51G9
-         U3T9soimeLPgEQhdIgQPrUWgbl6s8iwpBqSm/X2NYCrBtczP0zbZx/xLL7CBut6hn2h9
-         Uwsg==
-X-Gm-Message-State: ACgBeo0s/GLE5gOdNbChPnk/bEWgiMEDXjYJ44mJucjVCauFHLmq7rVZ
-        5B0JLgi8906xKW0kZsclehI=
-X-Google-Smtp-Source: AA6agR7Md0UfdPjsovzukZNxlPYXrTJQQn+a5dQY+6HkmzW+7IsXxSwhieZpJdyGyWFgpst9DIwF1w==
-X-Received: by 2002:a2e:b0ec:0:b0:25e:55ec:a9c with SMTP id h12-20020a2eb0ec000000b0025e55ec0a9cmr4088993ljl.226.1660527274877;
-        Sun, 14 Aug 2022 18:34:34 -0700 (PDT)
-Received: from localhost.localdomain (37-145-44-55.broadband.corbina.ru. [37.145.44.55])
-        by smtp.gmail.com with ESMTPSA id u1-20020ac258c1000000b0047f7722b73csm946039lfo.142.2022.08.14.18.34.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Aug 2022 18:34:34 -0700 (PDT)
-From:   Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
-To:     masahiroy@kernel.org
-Cc:     akpm@linux-foundation.org, dan.j.williams@intel.com,
-        edumazet@google.com, isabbasso@riseup.net, jpoimboe@kernel.org,
-        keescook@chromium.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux@rasmusvillemoes.dk,
-        dmitrii.bundin.a@gmail.com, maskray@google.com,
-        michal.lkml@markovi.net, nathan@kernel.org,
-        ndesaulniers@google.com, peterz@infradead.org, vbabka@suse.cz
-Subject: [PATCH v3] kbuild: add debug level and macro defs options
-Date:   Mon, 15 Aug 2022 04:33:17 +0300
-Message-Id: <20220815013317.26121-1-dmitrii.bundin.a@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CANXV_XwgZMCGXijfoUyZ9+KyM6Rgeqiq-sCfubyj_16d-2CN=A@mail.gmail.com>
-References: <CANXV_XwgZMCGXijfoUyZ9+KyM6Rgeqiq-sCfubyj_16d-2CN=A@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 15 Aug 2022 06:37:47 -0400
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E90861117E
+        for <linux-kbuild@vger.kernel.org>; Mon, 15 Aug 2022 03:37:45 -0700 (PDT)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-122-Hgrs_dzPPQ2BICeey52XBw-1; Mon, 15 Aug 2022 11:37:43 +0100
+X-MC-Unique: Hgrs_dzPPQ2BICeey52XBw-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.38; Mon, 15 Aug 2022 11:37:42 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.040; Mon, 15 Aug 2022 11:37:42 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Linus Torvalds' <torvalds@linux-foundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>
+CC:     Joe Perches <joe@perches.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        clang-built-linux <llvm@lists.linux.dev>,
+        Justin Stitt <justinstitt@google.com>
+Subject: RE: mainline build failure for arm64 allmodconfig with clang
+Thread-Topic: mainline build failure for arm64 allmodconfig with clang
+Thread-Index: AQHYrbmR1EwWNARIT0SmjROGCil0pq2vyTZA
+Date:   Mon, 15 Aug 2022 10:37:42 +0000
+Message-ID: <de9ccf7da0aa441b855fdfbd7761115a@AcuMS.aculab.com>
+References: <YvSxeDkmwxcJL+Z0@debian> <YvUZ+9kJ/AvUMxzO@dev-arch.thelio-3990X>
+ <CAHk-=wivP4zipYnwNWCLF5cd24GLs3m8=Sp7M-CmmPva_UC+3Q@mail.gmail.com>
+ <CAKwvOdnQjgtwqFXLv+QtWPfpHosM5fxE5oqbX0VUD53F8L6bRg@mail.gmail.com>
+ <CAHk-=wgJA=e-CLcvU5LRKu0bMLeAewXtOM6as1hFVeQAVkMPbg@mail.gmail.com>
+In-Reply-To: <CAHk-=wgJA=e-CLcvU5LRKu0bMLeAewXtOM6as1hFVeQAVkMPbg@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
+MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Adds config options to control debug info level and producing of macro
-definitions for GCC/Clang.
-
-Option DEBUG_INFO_LEVEL is responsible for controlling debug info level.
-Before GCC 11 and Clang 12 -gsplit-dwarf implicitly uses -g2. To provide
-a way to override the setting with, e.g. -g1, DEBUG_INFO_LEVEL is set
-independently from DEBUG_INFO_SPLIT.
-
-Option DEBUG_MACRO_DEFINITIONS is responsible for controlling inclusion
-of macro definitions. Since Clang uses -fdebug-macro to control if macro
-definitions are produced which is different from GCC, provides a
-compiler-specific way of handling macro inclusion. The option is handled
-after DEBUG_INFO_LEVEL since -g3 -g2 implies -g2, but -g2 -g3 implies
--g3 and GCC uses -g3 to produce macro definitions.
-
-Signed-off-by: Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
----
-
-Changes in v2: https://lore.kernel.org/all/20220804223504.4739-1-dmitrii.bundin.a@gmail.com/
-  - Replace hardcoded -g3 with a configurable debug info level
-
-Changes in v3: https://lore.kernel.org/all/20220814002021.16990-1-dmitrii.bundin.a@gmail.com/
-  - Make -g<level> and -gdwarf-split to be set independently
-  - Add a separate option to control macro definitions for GCC/Clang
-
- lib/Kconfig.debug      | 20 ++++++++++++++++++++
- scripts/Makefile.debug | 12 ++++++++++--
- 2 files changed, 30 insertions(+), 2 deletions(-)
-
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 2e24db4bff19..ace6f2eddb56 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -304,6 +304,26 @@ config DEBUG_INFO_REDUCED
- 	  DEBUG_INFO build and compile times are reduced too.
- 	  Only works with newer gcc versions.
- 
-+config DEBUG_INFO_LEVEL
-+	int "Debug info level"
-+	range 1 3
-+	default "2"
-+	help
-+	  Sets the level of how much debug information to generate (-glevel).
-+	  Level 1 produces minimal debug information without including information
-+	  about local variables. Level 3 includes extra information like macro
-+	  definitions. Setting up level 3 will require significantly more disk
-+	  space and increase built time.
-+
-+config DEBUG_MACRO_DEFINITIONS
-+	bool "Add macro definitions to debug info"
-+	default n
-+	help
-+	  Generates macro definitions to provide a way to expand macros right
-+	  in the debugging session. This information can be used with macro expand,
-+	  info macro in gdb. This option is equivalent to setting -g3 in GCC and
-+	  -fdebug-macro in Clang.
-+
- config DEBUG_INFO_COMPRESSED
- 	bool "Compressed debugging information"
- 	depends on $(cc-option,-gz=zlib)
-diff --git a/scripts/Makefile.debug b/scripts/Makefile.debug
-index 9f39b0130551..29cd04234e75 100644
---- a/scripts/Makefile.debug
-+++ b/scripts/Makefile.debug
-@@ -2,8 +2,6 @@ DEBUG_CFLAGS	:=
- 
- ifdef CONFIG_DEBUG_INFO_SPLIT
- DEBUG_CFLAGS	+= -gsplit-dwarf
--else
--DEBUG_CFLAGS	+= -g
- endif
- 
- ifndef CONFIG_AS_IS_LLVM
-@@ -16,6 +14,16 @@ dwarf-version-$(CONFIG_DEBUG_INFO_DWARF5) := 5
- DEBUG_CFLAGS	+= -gdwarf-$(dwarf-version-y)
- endif
- 
-+DEBUG_CFLAGS	+= -g$(CONFIG_DEBUG_INFO_LEVEL)
-+ifdef CONFIG_DEBUG_MACRO_DEFINITIONS
-+ifdef CONFIG_CC_IS_GCC
-+DEBUG_CFLAGS	+= -g3
-+endif
-+ifdef CONFIG_CC_IS_CLANG
-+DEBUG_CFLAGS	+= -fdebug-macro
-+endif
-+endif
-+
- ifdef CONFIG_DEBUG_INFO_REDUCED
- DEBUG_CFLAGS	+= -fno-var-tracking
- ifdef CONFIG_CC_IS_GCC
--- 
-2.17.1
+Li4uDQo+IEFuZCBvZnRlbiB0aGF0IGNoYXIgaXNuJ3QgYWN0dWFsbHkgYSAnY2hhcicsIGl0IGlz
+IGFjdHVhbGx5IGFuICdpbnQnLA0KPiBlaXRoZXIgYmVjYXVzZSB5b3UgaGF2ZSBzaXR1YXRpb25z
+IGxpa2UgJ2dldGNoKCknLCBvciB5b3UgaGF2ZSBzaW1wbHkNCj4ganVzdCB0aGUgdXN1YWwgQyBl
+eHByZXNzaW9uIHJ1bGVzLCBpZSB5b3UgaGF2ZSBzb21ldGhpbmcgbGlrZQ0KPiANCj4gICAgICAg
+ICBpc3ByaW50KGMpID8gYyA6ICcuJw0KPiANCj4gd2hlcmUgZXZlbiBpZiAnYycgaXMgb2YgdHlw
+ZSAnY2hhcicsIHRoZSBlbmQgcmVzdWx0IGlzICdpbnQnLg0KDQpXaGljaCBpcywgb2YgY291cnNl
+LCBpbnZhbGlkIEMgOi0pDQpUaGUgZG9tYWluIG9mIHRoZSBpc3h4eHgoKSBmdW5jdGlvbnMgaXMg
+J3RoZSB2YWx1ZXMgb2YgY2hhcg0KY2FzdCB0byB1bnNpZ25lZCBpbnQnIGFuZCBFT0YuDQpTbyB0
+eXBpY2FsbHkgWy0xIC4uIDI1NV0uDQpQYXNzaW5nIGEgc2lnbmVkIGNoYXIgdmFyaWFibGUgdG8g
+aXNwcmludCgpIGlzIGxpa2VseSB0bw0KZ2VuZXJhdGUgdW5kZXNpcmVkIGJlaGF2aW91ciAobGlr
+ZSBhIGNvZGUgZHVtcCkuDQoNCkl0IGhhcyB0byBiZSBzYWlkIHRoYXQgSSBkaWQgYSBmdWxsIHRy
+YXdsIHRocm91Z2ggdGhlIE5ldEJTRA0KdXNlcnNwYWNlIGNvZGUgYmFzZSB0byBmaXggYWxsIHRo
+ZSBpc3h4eCgpIGNhbGxzIGFuZCBmYWlsZWQNCnRvIGZpbmQgYSBzaW5nbGUgb25lIHRoYXQgY291
+bGQgYWN0dWFsbHkgcGFzcyBFT0YuDQoNCglEYXZpZA0KDQotDQpSZWdpc3RlcmVkIEFkZHJlc3Mg
+TGFrZXNpZGUsIEJyYW1sZXkgUm9hZCwgTW91bnQgRmFybSwgTWlsdG9uIEtleW5lcywgTUsxIDFQ
+VCwgVUsNClJlZ2lzdHJhdGlvbiBObzogMTM5NzM4NiAoV2FsZXMpDQo=
 
