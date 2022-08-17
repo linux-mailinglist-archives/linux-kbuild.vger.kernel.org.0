@@ -2,40 +2,34 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5A98597339
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Aug 2022 17:44:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A4C45973CC
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Aug 2022 18:12:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237376AbiHQPli (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 17 Aug 2022 11:41:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39448 "EHLO
+        id S240957AbiHQQL7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 17 Aug 2022 12:11:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237920AbiHQPli (ORCPT
+        with ESMTP id S240960AbiHQQL0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 17 Aug 2022 11:41:38 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9C9D93524;
-        Wed, 17 Aug 2022 08:41:36 -0700 (PDT)
-Received: from mail-ej1-f52.google.com ([209.85.218.52]) by
- mrelayeu.kundenserver.de (mreue106 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MF418-1o8z5i3rIW-00FQkz; Wed, 17 Aug 2022 17:41:34 +0200
-Received: by mail-ej1-f52.google.com with SMTP id qn6so25179890ejc.11;
-        Wed, 17 Aug 2022 08:41:34 -0700 (PDT)
-X-Gm-Message-State: ACgBeo1Rgp6LovAz0JAkiWVLzs+8zSZO/OQDR9sB7wiFQaeCs/bqe8Mk
-        TwgH0h2L6YkNgkAE6nbMBOmI9f2tvbgX4INyi1k=
-X-Google-Smtp-Source: AA6agR6Zf7lY1qLm89sTihdpHsj0aQ4umr8ol/DRSTBvAYEQUmT2uPZZqvLUfFS8neOBi78/JbDKpYlk6svZGBrs0nY=
-X-Received: by 2002:a05:6402:520e:b0:43d:df14:fbed with SMTP id
- s14-20020a056402520e00b0043ddf14fbedmr23980070edd.16.1660749886667; Wed, 17
- Aug 2022 08:24:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220802015052.10452-1-ojeda@kernel.org> <20220802015052.10452-28-ojeda@kernel.org>
- <CAK8P3a0jqhGY9E85VC9gNem5q6-dWeq0H6-7bhJopinMnLtOKQ@mail.gmail.com> <CANiq72nNucEhXAXkXSujnGkpQrkv3-Pcn7ua8N=2XB-suAjs9w@mail.gmail.com>
-In-Reply-To: <CANiq72nNucEhXAXkXSujnGkpQrkv3-Pcn7ua8N=2XB-suAjs9w@mail.gmail.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 17 Aug 2022 17:24:30 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2YuGsSJY2-=npqXMHXEr+zaF36iDrM+kP=9nS85FLpbA@mail.gmail.com>
-Message-ID: <CAK8P3a2YuGsSJY2-=npqXMHXEr+zaF36iDrM+kP=9nS85FLpbA@mail.gmail.com>
-Subject: Re: [PATCH v8 27/31] Kbuild: add Rust support
+        Wed, 17 Aug 2022 12:11:26 -0400
+Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E29D655A8;
+        Wed, 17 Aug 2022 09:11:17 -0700 (PDT)
+Date:   Wed, 17 Aug 2022 16:11:02 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail3; t=1660752671; x=1661011871;
+        bh=D7wmN5qV4emk+fg1faj1v+A7IXjv09X2AsHUIrsCn0k=;
+        h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
+         References:Feedback-ID:From:To:Cc:Date:Subject:Reply-To:
+         Feedback-ID:Message-ID;
+        b=IsDoc4npeWk0r72wVIlqVnw1Z7A9wz2QzGggjZ0LMDtOAWxh+wgWqOxMimKAoNGPA
+         yQN4hx+K4ji7Zo2YxqmLF+UAutLDoxVMcJ5EiOksPgBWJNSTfvRP01jcLdgn+U/IHR
+         lXnXYbDak+b9zfyGitx64bR07jPvJyYjob9QCO1BPGcMIKqF9J+JjWjsL3zFXa06e8
+         N9wayJKKpjGwuTW5ohs6cw9SrMhUNZU/zi/Ag4HZHPPprbH7yJA/VSPu9aTVjB/7Os
+         cou5MU5UT4+ZoTjhexXmeuzWC0G1mjkOuHMhvDsrU4XPDLebMxpzFTvKSYtr/3IUaN
+         pv0TUeeu7un9Q==
 To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+From:   =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>
 Cc:     Arnd Bergmann <arnd@arndb.de>, Miguel Ojeda <ojeda@kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -61,7 +55,6 @@ Cc:     Arnd Bergmann <arnd@arndb.de>, Miguel Ojeda <ojeda@kernel.org>,
         rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
         Boqun Feng <boqun.feng@gmail.com>,
         linux-um@lists.infradead.org,
-        =?UTF-8?Q?Bj=C3=83B_6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
         Michal Marek <michal.lkml@markovi.net>,
         Daniel Xu <dxu@dxuuu.xyz>, David Gow <davidgow@google.com>,
         Paul Walmsley <paul.walmsley@sifive.com>,
@@ -80,67 +73,85 @@ Cc:     Arnd Bergmann <arnd@arndb.de>, Miguel Ojeda <ojeda@kernel.org>,
         linuxppc-dev@lists.ozlabs.org,
         Philip Herron <philip.herron@embecosm.com>,
         Arthur Cohen <arthur.cohen@embecosm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:eXbnbKGaDunZKIWkmyxhB8JjF42zkxbqO9DQpNxilCxkOdDGvEC
- IOo0sFmv3vXHvATdT3zHtfXTdV/h7zmvQF+I4NwGfJruHC6KiDLGiQWcNUIpvq9qE5z6DmF
- korprzDGE8fyt2ZHvPun+Ve8GdkWmpGMsU9WvvhRAafuOHH9LrO5SG0/G4sIvIb4gb/5guq
- I/XwgHni631gXBarQ/uMA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:qtiHavHKD3E=:4apZo3DZSgnojVIYSbgDqs
- vyy85KaU4l307fk54wn+6uT19liOexUQqBdAWVdiREIRYDR0Nrc/rCGFifrO8QsrhIpfYtdk/
- AMrQeFu0ulvjySd92fSwlLqWKVBa4qsMm3g3G6Vx+ALG/ckwLZY5y1fAV4G4jnDlApuTvBGu7
- STavyKQVvZbvJzlsFaOxLhBLKiqA36TWIptbZfmXQJ1nCHOWhQxPxoSbHFN1X35R3ZciDTC0U
- cQ+JAE0fnleqxcqdovcM/JocpFj0VsWRLv/FyXq0ewvIgrsSlMkuDobX6yaT1kAxaNZwwE9QC
- TqseZY8GTv8DmrD6JI2GIg753p6uqq1ipbiNXNJu7QmtCyaYEWtxnCyVZQ7wlE50kp20hNJ/y
- 4NM3kNVBxDQjhw389pV0C9e9xLCsKkzIJcNRBu3gvCkeRmKg5NooRMd5B9Si/tTIK15LIEgBQ
- 4dQlOKYF3sSp0hAm/k9JtfrF7pUj0Sv3zlUje/KJLN92GbQJgppCZilv76eIEfPxPSSbJb7Qd
- groZCl1ZIjOLhHwjJkBUc15Xhd2Uw0P96m5TXIbJVpCxNUjbItZPX0dqshI97lUwMO/HDcVWO
- iOStY+p5/vBThINDzoQ+LeePBaXWYbL0Mjc5cdyj69XIQFUNoGrP5FjnQg8s3p91S27FjatJD
- Ml4OqbTcaZYsiClrVKTCE2E2s6YN/aMnyqczYjxZGm8zocWlfEV86bF5SxmvvQfc6iaSMj52I
- auNnii8gA+Z43Rx9urIV5KPmqBAMnQ+NX7E3vwz+C5WR1hQLyD7fk3zZeREsF4CBAtUS52EaF
- yqxTrBgQXqvudjoupJp/jKI5gl5xQWOjK0IMDKp5u6vaLFpl7JkxBRj3oE6iOfs1gVBZsh7+o
- ccDLlDuz4FtF4GbQxoVA==
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
+Reply-To: =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>
+Subject: Re: [PATCH v8 27/31] Kbuild: add Rust support
+Message-ID: <rYTolA_zKqIX3oCL_i-vlIqKS99s0bYQmRKAdcScDq0mcyxti3imzP7AvJzBpiI6RAuH5RU5BpU4xuEY1Vzq57CuY5v47tO3SuUNAMd7seM=@protonmail.com>
+In-Reply-To: <CANiq72nNucEhXAXkXSujnGkpQrkv3-Pcn7ua8N=2XB-suAjs9w@mail.gmail.com>
+References: <20220802015052.10452-1-ojeda@kernel.org> <20220802015052.10452-28-ojeda@kernel.org> <CAK8P3a0jqhGY9E85VC9gNem5q6-dWeq0H6-7bhJopinMnLtOKQ@mail.gmail.com> <CANiq72nNucEhXAXkXSujnGkpQrkv3-Pcn7ua8N=2XB-suAjs9w@mail.gmail.com>
+Feedback-ID: 27884398:user:proton
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Aug 17, 2022 at 5:13 PM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
-> On Wed, Aug 17, 2022 at 4:40 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> >
+On Wednesday, August 17th, 2022 at 17:13, Miguel Ojeda <miguel.ojeda.sandon=
+is@gmail.com> wrote:
+
+> Hi Arnd,
+>=20
+> On Wed, Aug 17, 2022 at 4:40 PM Arnd Bergmann arnd@arndb.de wrote:
+>=20
+> > Hi Miguel,
+> >=20
 > > I tried enabling rust support in the gcc builds I provide at
-> > https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/arm64/12.1.0/
->
+> > https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/arm64/12.=
+1.0/
+>=20
+>=20
 > Thanks for giving it a go!
->
+>=20
 > > to make this more accessible, but it appears that the command line
 > > options here are not portable:
-> >
-> >  /home/arnd/cross/x86_64/gcc-12.1.0+rust-nolibc/x86_64-linux/bin/x86_64-linux-gccrs
->
+> >=20
+> > /home/arnd/cross/x86_64/gcc-12.1.0+rust-nolibc/x86_64-linux/bin/x86_64-=
+linux-gccrs
+>=20
+>=20
 > So you mean with GCC Rust, right? (i.e. we have "GCC builds" working,
 > via compiling the Rust side with LLVM and linking with the GCC C side,
 > but it is not intended for production or to be supported, even if we
 > cover it in our CI, test it boots and loads modules etc.).
+>=20
+> Indeed, `gccrs` does not support `rustc` flags yet. I am not sure if
+> the GCC Rust team will eventually provide a driver for those like
+> clang does for e.g. `cl` -- I would hope they do, since many projects
+> would benefit from it, but maybe they plan to start simply by
+> modifying Cargo to call them as they need instead.
 
-Yes, I meant GCC rust, with the contents of
-https://gcc.gnu.org/git/?p=gcc.git;a=shortlog;h=refs/heads/devel/rust/master
-merged into the gcc-12.1.0 release tag.
+There is already a prototype of such a driver. It can be found at https://g=
+ithub.com/Rust-GCC/cargo-gccrs. Unlike what the name suggests it is not car=
+go specific. It consists of two binaries. The first calls cargo, but tells =
+it to use the second binary instead of a real rustc. This second part then =
+translates all arguments to what gccrs expects. It is possible to directly =
+invoke this second binary. For now it probably won't work for rust-for-linu=
+x though as it doesn't have all arguments that are used by rust-for-linux i=
+mplemented.
 
-> > I guess nobody has tried this so far. Would you think that fixing this is only
-> > a matter for fixing the build system to pass the correct flags depending on the
+>=20
+> If they don't support it, we will have to map the flags on our side --
+> it should not be a big problem. However, see below...
+>=20
+> > I guess nobody has tried this so far. Would you think that fixing this =
+is only
+> > a matter for fixing the build system to pass the correct flags dependin=
+g on the
 > > compiler, or is this broken in a more fundamental way?
->
+>=20
+>=20
 > If you meant GCC Rust, then it is a bit too early for the compiler. As
 > far as I now, they are working on compiling the `core` crate and
 > supporting more stable language features. They are also researching
 > the integration of the borrow checker, though we wouldn't need that
 > for "only" compiling the kernel.
->
+>=20
 > Now, if they decided to focus on supporting Rust for Linux early on
 > (which would be great), they would still need to work on the delta
 > between what what they target now and what we use (which includes both
@@ -148,45 +159,33 @@ merged into the gcc-12.1.0 release tag.
 > like the platform (target spec) support, the flags / `rustc` driver
 > (though I would be happy to do as much as possible on our side to
 > help), etc.
->
+>=20
 > (We privately talked about possible timelines for all that if they
 > were to focus on Rust for Linux etc., but I let them comment or not on
 > that... Cc'ing them! :)
+>=20
+> Cheers,
+> Miguel
 
-Thanks for the explanation. My hope was that building the kernel
-would actually be easier here than building the more complicated
-rust user space.
+As alternative to GCC Rust there is also github.com/rust-lang/rustc_codegen=
+_gcc/ which uses libgccjit as backend for the official rust compiler rather=
+ than writing a full Rust frontend for GCC from scratch. With a bit of patc=
+hing to force it to be used, I was able to compile all Rust samples with GC=
+C using rustc_codegen_gcc. However it gives warnings of the following kind:
 
-The gcc cross-compilers on kernel.org are similarly easy to build for
-all architectures the kernel supports because the complexity is
-usually in picking a working libc for the more obscure architectures,
-so I was naively thinking that this would work for building the
-rust support across all architectures in Linux.
+    ld.lld: warning: rust/built-in.a(core.o):(.data.rel.local) is being pla=
+ced in '.data.rel.local'
 
-I tried one more step and just removed the unsupported command
-line flags to see what would happen, but that did not get me any
-further:
+And hangs very early in the boot process. If I enable early logging, it pri=
+nts up to "Booting the kernel." and then does nothing. This is probably bec=
+ause support for setting a different relocation model is not yet implemente=
+d. I opened https://github.com/rust-lang/rustc_codegen_gcc/issues/205 for t=
+his.
 
-/home/arnd/cross/x86_64/gcc-12.1.0+rust-nolibc/x86_64-linux/bin/x86_64-linux-gccrs
--frust-edition=2021 -Dunsafe_op_in_unsafe_fn -Drust_2018_idioms
--Dunreachable_pub -Dnon_ascii_idents
--Drustdoc::missing_crate_level_docs -Dclippy::correctness
--Dclippy::style -Dclippy::suspicious -Dclippy::complexity
--Dclippy::perf -Dclippy::let_unit_value -Dclippy::mut_mut
--Dclippy::needless_bitwise_bool -Dclippy::needless_continue  -O
-/git/arm-soc/scripts/generate_rust_target.rs; mv
-scripts/generate_rust_target.d scripts/.generate_rust_target.d; sed -i
-'/^#/d' scripts/.generate_rust_target.d
-rust1: internal compiler error: Segmentation fault
-0x7f37ee04b51f ???
-./signal/../sysdeps/unix/sysv/linux/x86_64/libc_sigaction.c:0
-0x7f37ee032fcf __libc_start_call_main
-../sysdeps/nptl/libc_start_call_main.h:58
-0x7f37ee03307c __libc_start_main_impl
-../csu/libc-start.c:409
-Please submit a full bug report, with preprocessed source (by using
--freport-bug).
-Please include the complete backtrace with any bug report.
-See <https://gcc.gnu.org/bugs/> for instructions.
+There may be other issues, but rustc_codegen_gcc is probably going to be th=
+e easiest route towards a LLVM free rust-for-linux build. By the way note t=
+hat rust-bindgen which we use for generating rust bindings from C headers d=
+epends on LLVM. See https://github.com/rust-lang/rust-bindgen/issues/1949.
 
-      Arnd
+Cheers,
+Bjorn
