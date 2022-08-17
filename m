@@ -2,55 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B6655971E6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Aug 2022 16:55:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB8E659727E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Aug 2022 17:05:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237340AbiHQOrY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 17 Aug 2022 10:47:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60928 "EHLO
+        id S237595AbiHQPBK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 17 Aug 2022 11:01:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239587AbiHQOrW (ORCPT
+        with ESMTP id S240760AbiHQPAi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 17 Aug 2022 10:47:22 -0400
+        Wed, 17 Aug 2022 11:00:38 -0400
 Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8301E9C535;
-        Wed, 17 Aug 2022 07:47:18 -0700 (PDT)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 27HEki8o017757;
-        Wed, 17 Aug 2022 23:46:45 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 27HEki8o017757
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4419D9DB4F;
+        Wed, 17 Aug 2022 07:59:55 -0700 (PDT)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 27HExIXk024020;
+        Wed, 17 Aug 2022 23:59:19 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 27HExIXk024020
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1660747605;
-        bh=nZDn4EG1hSljD8i6cO2cRJtiYUDlU40VfU1RrxVLsqs=;
+        s=dec2015msa; t=1660748359;
+        bh=FHt2nZrGSCf9qOiD+r5SuwxQICecd3mmE4Ixe0LI74o=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=en+MVomvOTLh0w/3mToNxslXYH/Cr5rIdqSgpdbdQX8hHsegxZzR8wHuhd5Lrgfnq
-         9m7ylb1h9W9UiquTr6Pyx6d12uCqQ5/pMCNr2DOC1NHgNtvFzAHR3NcNGZBWfqInHp
-         8CyYhM45D2SE2aCEPkDs7ndaK24KQEw5USDykWdb28TxtVmJhDcSh04gx7LUcTNKg9
-         pe/tYTWbJeRZWdP0PP2Eh0fBCFp00n7hzbyVE53kxxdvN+mxJN3Hnmk5Qq9QmmCiDH
-         J9CGbfSROLyhwu0xX2OSRkxMlWC+w+XXs0Jvr/LvB++65Vupd7m9ojckCXHTXuXhev
-         RWYtSj2IhHi1A==
-X-Nifty-SrcIP: [209.85.221.47]
-Received: by mail-wr1-f47.google.com with SMTP id v3so16525752wrp.0;
-        Wed, 17 Aug 2022 07:46:45 -0700 (PDT)
-X-Gm-Message-State: ACgBeo05vdTsCggMikYVsC7aPTeZqOPEAUWjq+MMfl880Ze5o9UJDD/1
-        GjNmGgJs1N18Eue/0r6qm29ZJeGBJuqPvRB2Y1A=
-X-Google-Smtp-Source: AA6agR5yWUa1GjgceQACTCMBOffaN+qHyvUBReYgIREcBl22CRbDgKPtEY1xcyZKtb4MBiBrMXqeO06/2AR87lwHjvo=
-X-Received: by 2002:a05:6000:2ab:b0:223:6167:a213 with SMTP id
- l11-20020a05600002ab00b002236167a213mr14645075wry.310.1660747603852; Wed, 17
- Aug 2022 07:46:43 -0700 (PDT)
+        b=BuLVQoLue5bdPxYZKtA0km06WMwIjeTWGNEH2H5YAPLnANatHAojD52WGxKQ3+e4R
+         /2keW2hRsCybPEitAcPJbQ421et3T3muUqxlKImUFSv+pKkuYBlGf9yzTeLLy8u4c5
+         F8/yeuCshPjE8UPI6a1A+9BjP4u3xWppDFbDIX/sy0TClfKfjQ9xPq79tdse4/TSsh
+         sB56yiD+65uthK/RO55RNqcI7Ny+kOSVVkDDabAXN41//3PtteBTeHeLMddJRvyYJN
+         RKnF/FclCw8YD+szns51WmTWPvos6e3JAwXQ9GNx8RkeoODAdQZAprgAu6YQiZMQuK
+         gsFg+EyfiWJVg==
+X-Nifty-SrcIP: [209.85.221.50]
+Received: by mail-wr1-f50.google.com with SMTP id f8so2832162wru.13;
+        Wed, 17 Aug 2022 07:59:19 -0700 (PDT)
+X-Gm-Message-State: ACgBeo1dVcfZnEZd2/Wgl5vM1t1xW3crEp1jaG5W0Fyp2+40k19vAW9P
+        wy70G0gj+CMidx0zkB23NowNEkFhtd04tItR5Wo=
+X-Google-Smtp-Source: AA6agR6CbTRfX2of9AxOS02diGmGtpMLUScSdMhG/oInVkxzstjB3b5SizwmELRx8+M3XRta/GU+UAO6T4P7zadKzRU=
+X-Received: by 2002:a5d:6d89:0:b0:225:16c2:6816 with SMTP id
+ l9-20020a5d6d89000000b0022516c26816mr4942806wrs.380.1660748357841; Wed, 17
+ Aug 2022 07:59:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220809141117.641543-1-masahiroy@kernel.org>
-In-Reply-To: <20220809141117.641543-1-masahiroy@kernel.org>
+References: <20220813230928.1260981-1-masahiroy@kernel.org>
+In-Reply-To: <20220813230928.1260981-1-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 17 Aug 2022 23:45:59 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQBhA607fmriSLYSAHBZCYG4MrT9MttU+7j3M911sujbA@mail.gmail.com>
-Message-ID: <CAK7LNAQBhA607fmriSLYSAHBZCYG4MrT9MttU+7j3M911sujbA@mail.gmail.com>
-Subject: Re: [PATCH] modpost: fix module versioning when a symbol lacks valid CRC
+Date:   Wed, 17 Aug 2022 23:58:33 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS0jxKzBE454dVB48UEOK4TsfK7skcKNeLNu92XkjuaEQ@mail.gmail.com>
+Message-ID: <CAK7LNAS0jxKzBE454dVB48UEOK4TsfK7skcKNeLNu92XkjuaEQ@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: fix the modules order between drivers and libs
 To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     matoro <matoro_mailinglist_kernel@matoro.tk>,
-        Michal Marek <michal.lkml@markovi.net>,
+Cc:     Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -63,89 +61,54 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 9, 2022 at 11:13 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Sun, Aug 14, 2022 at 8:10 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Since commit 7b4537199a4a ("kbuild: link symbol CRCs at final link,
-> removing CONFIG_MODULE_REL_CRCS"), module versioning is broken on
-> some architectures. Loading a module fails with "disagrees about
-> version of symbol module_layout".
+> Commit b2c885549122 ("kbuild: update modules.order only when contained
+> modules are updated") accidentally changed the modules order.
 >
-> On such architectures (e.g. ARCH=sparc build with sparc64_defconfig),
-> modpost shows a warning, like follows:
+> Prior to that commit, the modules order was determined based on
+> vmlinux-dirs, which lists core-y/m, drivers-y/m, libs-y/m, in this order.
 >
->   WARNING: modpost: EXPORT symbol "_mcount" [vmlinux] version generation failed, symbol will not be versioned.
->   Is "_mcount" prototyped in <asm/asm-prototypes.h>?
+> Now, subdir-modorder lists them in a different order: core-y/m, libs-y/m,
+> drivers-y/m.
 >
-> Previously, it was a harmless warning (CRC check was just skipped),
-> but now wrong CRCs are used for comparison because invalid CRCs are
-> just skipped.
+> Presumably, there was no practical issue because the modules in drivers
+> and libs are orthogonal, but there is no reason to have this distortion.
 >
->   $ sparc64-linux-gnu-nm -n vmlinux
->     [snip]
->   0000000000c2cea0 r __ksymtab__kstrtol
->   0000000000c2ceb8 r __ksymtab__kstrtoul
->   0000000000c2ced0 r __ksymtab__local_bh_enable
->   0000000000c2cee8 r __ksymtab__mcount
->   0000000000c2cf00 r __ksymtab__printk
->   0000000000c2cf18 r __ksymtab__raw_read_lock
->   0000000000c2cf30 r __ksymtab__raw_read_lock_bh
->     [snip]
->   0000000000c53b34 D __crc__kstrtol
->   0000000000c53b38 D __crc__kstrtoul
->   0000000000c53b3c D __crc__local_bh_enable
->   0000000000c53b40 D __crc__printk
->   0000000000c53b44 D __crc__raw_read_lock
->   0000000000c53b48 D __crc__raw_read_lock_bh
+> Get back to the original order.
 >
-> Please notice __crc__mcount is missing here.
->
-> When the module subsystem looks up a CRC that comes after, it results
-> in reading out a wrong address. For example, when __crc__printk is
-> needed, the module subsystem reads 0xc53b44 instead of 0xc53b40.
->
-> All CRC entries must be output for correct index accessing. Invalid
-> CRCs will be unused, but are needed to keep the one-to-one mapping
-> between __ksymtab_* and __crc_*.
->
-> The best is to fix all modpost warnings, but several warnings are still
-> remaining on less popular architectures.
->
-> Fixes: 7b4537199a4a ("kbuild: link symbol CRCs at final link, removing CONFIG_MODULE_REL_CRCS")
-> Reported-by: matoro <matoro_mailinglist_kernel@matoro.tk>
+> Fixes: b2c885549122 ("kbuild: update modules.order only when contained modules are updated")
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> Tested-by: matoro <matoro_mailinglist_kernel@matoro.tk>
+> ---
 
 
 Applied to linux-kbuild/fixes.
 
 
-
-
-
-> ---
 >
->  scripts/mod/modpost.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+>  Makefile | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
 >
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 8484c0798f28..22dc332eebfa 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -2018,13 +2018,11 @@ static void add_exported_symbols(struct buffer *buf, struct module *mod)
->         /* record CRCs for exported symbols */
->         buf_printf(buf, "\n");
->         list_for_each_entry(sym, &mod->exported_symbols, list) {
-> -               if (!sym->crc_valid) {
-> +               if (!sym->crc_valid)
->                         warn("EXPORT symbol \"%s\" [%s%s] version generation failed, symbol will not be versioned.\n"
->                              "Is \"%s\" prototyped in <asm/asm-prototypes.h>?\n",
->                              sym->name, mod->name, mod->is_vmlinux ? "" : ".ko",
->                              sym->name);
-> -                       continue;
-> -               }
+> diff --git a/Makefile b/Makefile
+> index 5f5c43a52455..c4e06e8020f1 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1113,13 +1113,11 @@ vmlinux-alldirs := $(sort $(vmlinux-dirs) Documentation \
+>                      $(patsubst %/,%,$(filter %/, $(core-) \
+>                         $(drivers-) $(libs-))))
 >
->                 buf_printf(buf, "SYMBOL_CRC(%s, 0x%08x, \"%s\");\n",
->                            sym->name, sym->crc, sym->is_gpl_only ? "_gpl" : "");
+> -subdir-modorder := $(addsuffix modules.order,$(filter %/, \
+> -                       $(core-y) $(core-m) $(libs-y) $(libs-m) \
+> -                       $(drivers-y) $(drivers-m)))
+> -
+>  build-dirs     := $(vmlinux-dirs)
+>  clean-dirs     := $(vmlinux-alldirs)
+>
+> +subdir-modorder := $(addsuffix /modules.order, $(build-dirs))
+> +
+>  # Externally visible symbols (used by link-vmlinux.sh)
+>  KBUILD_VMLINUX_OBJS := $(head-y) $(patsubst %/,%/built-in.a, $(core-y))
+>  KBUILD_VMLINUX_OBJS += $(addsuffix built-in.a, $(filter %/, $(libs-y)))
 > --
 > 2.34.1
 >
