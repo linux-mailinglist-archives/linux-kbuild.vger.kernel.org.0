@@ -2,202 +2,179 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E1CFE597CFB
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Aug 2022 06:18:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9584F598287
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Aug 2022 13:55:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237427AbiHREOc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 18 Aug 2022 00:14:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43780 "EHLO
+        id S244282AbiHRLyz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 18 Aug 2022 07:54:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231547AbiHREOa (ORCPT
+        with ESMTP id S243934AbiHRLyy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 18 Aug 2022 00:14:30 -0400
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9247246237;
-        Wed, 17 Aug 2022 21:14:27 -0700 (PDT)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 27I4E7qI006188;
-        Thu, 18 Aug 2022 13:14:07 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 27I4E7qI006188
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1660796048;
-        bh=fBjy9ghAjzX3QmOyrKyUNLeSrFTRlq0iDhHqAd6gtCc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=rencAVO4D0TjfrSZRafx6aNs97RkaK6uOnpKGl6E5lsaGih4qlNq/RoiZa+5kWvLf
-         33Nc30864pLLL+uzW23zb1CxeK5xQ8vQBGcBF0qMDMxPM6wKEDQzqG7sKBTepuXvM4
-         jp3p0P1Q7sRAiqIAX6euDcGXoMnd6EdaPVgcB4ixGQ6EqbHsL8K15IZ3Q917oWzqdq
-         9UouUpYU3fi3uSyshjqckt5YiXFUX3xwZ7/J1j52377iaJKsaXRSnUmdRpD/m6jyyg
-         cag6sBjFIhCL0+NPYTdaf+WN7k8xwUUt7H/cidZEYRxr7zDXh3mzOYsqE1ukUXfUDB
-         S71DuIJ2aDy5w==
-X-Nifty-SrcIP: [209.85.221.49]
-Received: by mail-wr1-f49.google.com with SMTP id bu15so325415wrb.7;
-        Wed, 17 Aug 2022 21:14:07 -0700 (PDT)
-X-Gm-Message-State: ACgBeo0ITk3jvadC4LsiTvO8aFW3O2v4IE7jBMMKitgLFwA48TTd6sln
-        AyS+Ot+i92i8L9TLnHiRzBwfwe6XtdhKNyIXyPQ=
-X-Google-Smtp-Source: AA6agR4lIVWc1fU/ENmobcLFg29NAbQPZK6jhJ3GLzTATiknyvOtX3MN9QCQOB5BlsrG7eYJ+SRc8fjkhJ8llgCZ8KM=
-X-Received: by 2002:a5d:6248:0:b0:222:cd3b:94c8 with SMTP id
- m8-20020a5d6248000000b00222cd3b94c8mr467318wrv.97.1660796046168; Wed, 17 Aug
- 2022 21:14:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <CANXV_XwgZMCGXijfoUyZ9+KyM6Rgeqiq-sCfubyj_16d-2CN=A@mail.gmail.com>
- <20220815013317.26121-1-dmitrii.bundin.a@gmail.com>
-In-Reply-To: <20220815013317.26121-1-dmitrii.bundin.a@gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 18 Aug 2022 13:13:21 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQzVto=rEpASc-JOF_TW0KhNT93jD0E2gfk8UES3PWFiw@mail.gmail.com>
-Message-ID: <CAK7LNAQzVto=rEpASc-JOF_TW0KhNT93jD0E2gfk8UES3PWFiw@mail.gmail.com>
-Subject: Re: [PATCH v3] kbuild: add debug level and macro defs options
-To:     Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Isabella Basso <isabbasso@riseup.net>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        =?UTF-8?B?Ru+/ve+/ve+/vW5nLXJ177+977+977+9IFPvv73vv73vv71uZw==?= 
-        <maskray@google.com>, Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
+        Thu, 18 Aug 2022 07:54:54 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39EAC7FFAD;
+        Thu, 18 Aug 2022 04:54:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1660823693; x=1692359693;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=HsOPy0Z5++etcYrSFF3B5HZWLyK0D1O3GxxmVs0sLSg=;
+  b=izyX/pymDfYB4qgMUZIUpYDra3Q5fIx9SBuvGGtXRIl7YOA6reXREuJ+
+   2Z5u61uAx/IWtTAcnTcGOmMoVpDPQletoO37RJBC2Pg3Sb8b90oqxH8ot
+   Y6/3XiBf/IW6dWPu/fQSASTm0FqHAgT5fl2px+tiYw4vxVMwh9gJHZsEh
+   tKzTTRyCWr5Q9duXXtH/so2M+UiqsbmOIzZDsuhOaPdWE60FzsLol9AZJ
+   vhgc3NKwDLAXBNSQHsBsk92dpeQkLNiB8hTqm2f/Kzdg1qlqnwpXx6nyF
+   kOYwIszSRth9S0rlrlElor6b1WWVlB3J1yBC9tNVq3JOtqd2ucdPLQ7+B
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10442"; a="290304652"
+X-IronPort-AV: E=Sophos;i="5.93,246,1654585200"; 
+   d="scan'208";a="290304652"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2022 04:54:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,246,1654585200"; 
+   d="scan'208";a="935783750"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+  by fmsmga005.fm.intel.com with ESMTP; 18 Aug 2022 04:54:49 -0700
+Received: from newjersey.igk.intel.com (newjersey.igk.intel.com [10.102.20.203])
+        by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id 27IBsmfr013911;
+        Thu, 18 Aug 2022 12:54:48 +0100
+From:   Alexander Lobakin <alexandr.lobakin@intel.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Petr Mladek <pmladek@suse.com>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        linux-kbuild@vger.kernel.org, live-patching@vger.kernel.org,
+        lkp@intel.com, stable@vger.kernel.org,
+        Alexander Lobakin <alexandr.lobakin@intel.com>
+Subject: [RFC PATCH 0/3] kallsyms: add option to include relative filepaths into kallsyms
+Date:   Thu, 18 Aug 2022 13:53:03 +0200
+Message-Id: <20220818115306.1109642-1-alexandr.lobakin@intel.com>
+X-Mailer: git-send-email 2.37.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Aug 15, 2022 at 10:34 AM Dmitrii Bundin
-<dmitrii.bundin.a@gmail.com> wrote:
->
-> Adds config options to control debug info level and producing of macro
-> definitions for GCC/Clang.
->
-> Option DEBUG_INFO_LEVEL is responsible for controlling debug info level.
-> Before GCC 11 and Clang 12 -gsplit-dwarf implicitly uses -g2. To provide
-> a way to override the setting with, e.g. -g1, DEBUG_INFO_LEVEL is set
-> independently from DEBUG_INFO_SPLIT.
->
-> Option DEBUG_MACRO_DEFINITIONS is responsible for controlling inclusion
-> of macro definitions. Since Clang uses -fdebug-macro to control if macro
-> definitions are produced which is different from GCC, provides a
-> compiler-specific way of handling macro inclusion. The option is handled
-> after DEBUG_INFO_LEVEL since -g3 -g2 implies -g2, but -g2 -g3 implies
-> -g3 and GCC uses -g3 to produce macro definitions.
+This is an early RFC to not rewrite stuff one more time later on if
+the implementation is not acceptable or any major design changes are
+required. For the TODO list, please scroll to the end.
 
+Make kallsyms independent of symbols positions in vmlinux (or module)
+by including relative filepath in each symbol's kallsyms value. I.e.
 
+dev_gro_receive -> net/core/gro.c:dev_gro_receive
 
+For the implementation details, please look at the patch 3/3.
+Patch 2/3 is just a stub, I plan to reuse kallsyms enhancement from
+the Rust series for it.
+Patch 1/3 is a fix of one modpost macro straight from 2.6.12-rc2.
 
-I am not sure if DEBUG_INFO_LEVEL is useful
-because the macro debug data is now enabled
-by DEBUG_MACRO_DEFINITIONS.
+A nice side effect is that it's now easier to debug the kernel, as
+stacktraces will now tell every call's place in the file tree:
 
--g1 is only possible via DEBUG_INFO_LEVEL, but
-presumably it is not your main interest
-(and not sure if there is anybody interested)
-because the main motivation for your v1
-is to generate macro debug data.
+[    0.733191] Call Trace:
+[    0.733668]  <TASK>
+[    0.733980]  lib/dump_stack.c:dump_stack_lvl+0x48/0x68
+[    0.734689]  kernel/panic.c:panic+0xf8/0x2ae
+[    0.735291]  init/do_mounts.c:mount_block_root+0x143/0x1ea
+[    0.736046]  init/do_mounts.c:prepare_namespace+0x13f/0x16e
+[    0.736798]  init/main.c:kernel_init_freeable+0x240/0x24f
+[    0.737549]  ? init/main.c:rest_init+0xc0/0xc0
+[    0.738171]  init/main.c:kernel_init+0x1a/0x140
+[    0.738765]  arch/x86/entry/entry_64.S:ret_from_fork+0x1f/0x30
+[    0.739529]  </TASK>
 
+Here are some stats:
 
-BTW, DEBUG_INFO_MACRO might be more consistent
-(as the others are prefixed DEBUG_INFO_*), but that might
-be just my personal preference.
+Despite running a small utility on each object file and a script on
+each built-in.a plus one at the kallsyms generation process, it adds
+only 3 seconds to the whole clean build time:
 
+make -j$(($(nproc) + 1)) all compile_commands.json  19071.12s user 3481.97s system 4587% cpu 8:11.64 total
+make -j$(($(nproc) + 1)) all compile_commands.json  19202.88s user 3598.80s system 4607% cpu 8:14.85 total
 
+Compressed kallsyms become bigger by 1.4 Mbytes on x86_64 standard
+distroconfig - 60% of the kallsyms and 2.4% of the decompressed
+vmlinux in the memory:
 
+ffffffff8259ab30 D kallsyms_offsets
+ffffffff82624ed0 D kallsyms_relative_base
+ffffffff82624ed8 D kallsyms_num_syms
+ffffffff82624ee0 D kallsyms_names
+ffffffff827e9c68 D kallsyms_markers
+ffffffff827ea510 D kallsyms_token_table
+ffffffff827ea8c0 D kallsyms_token_index
+ffffffff827eaac0 d .LC1
 
+->
 
+ffffffff8259ac30 D kallsyms_offsets
+ffffffff82624fb8 D kallsyms_relative_base
+ffffffff82624fc0 D kallsyms_num_syms
+ffffffff82624fc8 D kallsyms_names
+ffffffff8294de50 D kallsyms_markers
+ffffffff8294e6f8 D kallsyms_token_table
+ffffffff8294eac8 D kallsyms_token_index
+ffffffff8294ecc8 d .LC1
 
+TODO:
+ * ELF rel and MIPS relocation support (only rela currently, just
+   to test on x86_64);
+ * modules support. Currently, the kernel reuses standard ELF strtab
+   for module kallsyms. My plan is to create a new section which will
+   have the same symbol order as symtab, but point to new complete
+   strings with filepaths, and use this section solely for kallsyms
+   (leaving symtab alone);
+ * LTO support (now relies on that object files are ELFs);
+ * the actual kallsyms/livepatching/probes code which will use
+   filepaths instead of indexes/positions.
 
+Have fun!
 
->
-> Signed-off-by: Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
-> ---
->
-> Changes in v2: https://lore.kernel.org/all/20220804223504.4739-1-dmitrii.bundin.a@gmail.com/
->   - Replace hardcoded -g3 with a configurable debug info level
->
-> Changes in v3: https://lore.kernel.org/all/20220814002021.16990-1-dmitrii.bundin.a@gmail.com/
->   - Make -g<level> and -gdwarf-split to be set independently
->   - Add a separate option to control macro definitions for GCC/Clang
->
->  lib/Kconfig.debug      | 20 ++++++++++++++++++++
->  scripts/Makefile.debug | 12 ++++++++++--
->  2 files changed, 30 insertions(+), 2 deletions(-)
->
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index 2e24db4bff19..ace6f2eddb56 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -304,6 +304,26 @@ config DEBUG_INFO_REDUCED
->           DEBUG_INFO build and compile times are reduced too.
->           Only works with newer gcc versions.
->
-> +config DEBUG_INFO_LEVEL
-> +       int "Debug info level"
-> +       range 1 3
-> +       default "2"
-> +       help
-> +         Sets the level of how much debug information to generate (-glevel).
-> +         Level 1 produces minimal debug information without including information
-> +         about local variables. Level 3 includes extra information like macro
-> +         definitions. Setting up level 3 will require significantly more disk
-> +         space and increase built time.
-> +
-> +config DEBUG_MACRO_DEFINITIONS
-> +       bool "Add macro definitions to debug info"
-> +       default n
-> +       help
-> +         Generates macro definitions to provide a way to expand macros right
-> +         in the debugging session. This information can be used with macro expand,
-> +         info macro in gdb. This option is equivalent to setting -g3 in GCC and
-> +         -fdebug-macro in Clang.
-> +
->  config DEBUG_INFO_COMPRESSED
->         bool "Compressed debugging information"
->         depends on $(cc-option,-gz=zlib)
-> diff --git a/scripts/Makefile.debug b/scripts/Makefile.debug
-> index 9f39b0130551..29cd04234e75 100644
-> --- a/scripts/Makefile.debug
-> +++ b/scripts/Makefile.debug
-> @@ -2,8 +2,6 @@ DEBUG_CFLAGS    :=
->
->  ifdef CONFIG_DEBUG_INFO_SPLIT
->  DEBUG_CFLAGS   += -gsplit-dwarf
-> -else
-> -DEBUG_CFLAGS   += -g
->  endif
->
->  ifndef CONFIG_AS_IS_LLVM
-> @@ -16,6 +14,16 @@ dwarf-version-$(CONFIG_DEBUG_INFO_DWARF5) := 5
->  DEBUG_CFLAGS   += -gdwarf-$(dwarf-version-y)
->  endif
->
-> +DEBUG_CFLAGS   += -g$(CONFIG_DEBUG_INFO_LEVEL)
-> +ifdef CONFIG_DEBUG_MACRO_DEFINITIONS
-> +ifdef CONFIG_CC_IS_GCC
-> +DEBUG_CFLAGS   += -g3
-> +endif
-> +ifdef CONFIG_CC_IS_CLANG
-> +DEBUG_CFLAGS   += -fdebug-macro
-> +endif
-> +endif
-> +
->  ifdef CONFIG_DEBUG_INFO_REDUCED
->  DEBUG_CFLAGS   += -fno-var-tracking
->  ifdef CONFIG_CC_IS_GCC
-> --
-> 2.17.1
->
+Alexander Lobakin (3):
+  modpost: fix TO_NATIVE() with expressions and consts
+  [STUB] increase kallsyms length limit
+  kallsyms: add option to include relative filepaths into kallsyms
 
+ .gitignore                |   1 +
+ Makefile                  |   2 +-
+ include/linux/kallsyms.h  |   2 +-
+ init/Kconfig              |  26 ++-
+ kernel/livepatch/core.c   |   4 +-
+ scripts/Makefile.build    |   7 +-
+ scripts/Makefile.lib      |  10 +-
+ scripts/Makefile.modfinal |   3 +-
+ scripts/gen_sympaths.pl   | 270 ++++++++++++++++++++++++++
+ scripts/kallsyms.c        |  89 +++++++--
+ scripts/link-vmlinux.sh   |  14 +-
+ scripts/mod/.gitignore    |   1 +
+ scripts/mod/Makefile      |   9 +
+ scripts/mod/modpost.h     |   7 +-
+ scripts/mod/sympath.c     | 385 ++++++++++++++++++++++++++++++++++++++
+ 15 files changed, 796 insertions(+), 34 deletions(-)
+ create mode 100755 scripts/gen_sympaths.pl
+ create mode 100644 scripts/mod/sympath.c
 
---
-Best Regards
-Masahiro Yamada
+-- 
+2.37.2
+
