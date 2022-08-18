@@ -2,173 +2,106 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C07095986EF
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Aug 2022 17:09:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FD0E598C40
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Aug 2022 20:59:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344056AbiHRPI7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 18 Aug 2022 11:08:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42212 "EHLO
+        id S1343810AbiHRS5P (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 18 Aug 2022 14:57:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344052AbiHRPIw (ORCPT
+        with ESMTP id S231651AbiHRS5P (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 18 Aug 2022 11:08:52 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83F0C6565D;
-        Thu, 18 Aug 2022 08:08:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1660835331; x=1692371331;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=TeTULpA5GIa1PuFYDxit9KmGEMhkRijHwhLM1hJOi10=;
-  b=mrGe1M3ntn1qTlOvNvUGtCBznPAqDJB+gSvEKpLbeDvu66LPuofOyN2l
-   pTG3sBfDDuX0OJZqYpc8nn0hptKOuBQZed0NbY6yXx61TNKrfh9aDj/nu
-   RNCvFNyczCUcMOugGPu1nXXkXmGdtHE3kyi120r3M+dFS8UhagQAWq5ws
-   VOquAt3TkhF5r9kk52akCBebL+NGuZhPBWcdrpjnJLOe9z8KYR5nrC3Zl
-   fTFKvKyltu9iBKYLRz3qquHKJwM4R7m2b0lNaMfb0EX+Y5BVm1me7ZQjJ
-   JIsLUCUTkn12irBrCFF5FUQA4y5vgyrocLDv7r941SLGXYrlO92Pe0GOz
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10443"; a="318803193"
-X-IronPort-AV: E=Sophos;i="5.93,246,1654585200"; 
-   d="scan'208";a="318803193"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2022 08:08:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,246,1654585200"; 
-   d="scan'208";a="734080808"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
-  by orsmga004.jf.intel.com with ESMTP; 18 Aug 2022 08:08:47 -0700
-Received: from newjersey.igk.intel.com (newjersey.igk.intel.com [10.102.20.203])
-        by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id 27IF8jgm008292;
-        Thu, 18 Aug 2022 16:08:45 +0100
-From:   Alexander Lobakin <alexandr.lobakin@intel.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
-        linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
-        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Petr Mladek <pmladek@suse.com>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
-        linux-kbuild@vger.kernel.org, live-patching@vger.kernel.org,
-        lkp@intel.com, stable@vger.kernel.org
-Subject: Re: [RFC PATCH 1/3] modpost: fix TO_NATIVE() with expressions and consts
-Date:   Thu, 18 Aug 2022 17:07:06 +0200
-Message-Id: <20220818150706.1114737-1-alexandr.lobakin@intel.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <Yv5ITarFK9Z3bkhZ@kroah.com>
-References: <20220818115306.1109642-1-alexandr.lobakin@intel.com> <20220818115306.1109642-2-alexandr.lobakin@intel.com> <Yv4v5vwXDER3GA2y@kroah.com> <20220818140153.1113308-1-alexandr.lobakin@intel.com> <Yv5ITarFK9Z3bkhZ@kroah.com>
+        Thu, 18 Aug 2022 14:57:15 -0400
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66282C00C1;
+        Thu, 18 Aug 2022 11:57:14 -0700 (PDT)
+Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-335624d1e26so66154557b3.4;
+        Thu, 18 Aug 2022 11:57:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=jK0n39xQ810MROGPsbeMRM5qQPZlNI1veyppbstNpHA=;
+        b=X0UqfG9ae4aeJjWWYWcm7t7ngzCRgqJ0PGL4FEzY2q8pDCUF+w8GwGA8o7zJZhoQB+
+         lW94C2Edsin8khebe+w6bWBFfq5zOy+rqDYLWUerDVWbJr/uiLFsW/mWTE7sQpBsKNWD
+         drKyYXQhShk9sO3noKDEPSsfL4OkUPQn1GHfkJVvLTjd6/JGi/VXx4OS7Ub8GxRHQhmn
+         w4DEptzeV2AqeYjI/b1lv67U6NavhMMjHEWF+mDBuCWTnIz0YZYUhkvBw/n0UdS+h95R
+         F4IqIJXofGSY2TrOLdzIgR0VaCe8fvHtqLpHMi1sbj5XzdlQrAD2tdjV/pva7Y9uQ0s6
+         Iw3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=jK0n39xQ810MROGPsbeMRM5qQPZlNI1veyppbstNpHA=;
+        b=CUjY8Bw5fmDK1XwtJmXYTecIiy5qhGLsH1YWC2qpeEUCXO8zKRtJdiP3Z6wO17t0o8
+         4euV6i9I3i8EH8F//iMx8Ttw4lbmqOOrcXHLbC5nnWu/VfK/N5VaTgIaBoF+tj6Pg1rr
+         JoHzC9em5d4UkPRxqgJXdQf7sH3dQWvHd7HxDSkggs45yj0oow6ck8BdvHJGlj9Zy5R4
+         bwCWUQHDHlRsT8Ax+fIAtLXzZGhPrmMwXVRo6a/er3FYehwjisddnxS2nqP6bxreIyqH
+         GZ5LkDKqheZh6bAhpsinqO2SodViD0JKZko9/j4wfJfFBbtLH+4VxEWSga1I3CXFEdsC
+         fJnQ==
+X-Gm-Message-State: ACgBeo0dblMfSNb4ibpPFOKjROXbiqCOh2C9tr6DzkCR9joSyYm8nhvR
+        8N7hTc/wHdKeX3JpY/Xi2kYBviXE1s0cGJg9uDo=
+X-Google-Smtp-Source: AA6agR7II+Y32947N8bMB/RkKLPAm/USuhInjF24TROpCOOsXqL/2Y6U2RnLr4HNyQQGUbQULXgzQCV6+S6+4bh/8Kc=
+X-Received: by 2002:a25:22c5:0:b0:694:dfa2:9d0 with SMTP id
+ i188-20020a2522c5000000b00694dfa209d0mr420217ybi.107.1660849033550; Thu, 18
+ Aug 2022 11:57:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <CANXV_XwgZMCGXijfoUyZ9+KyM6Rgeqiq-sCfubyj_16d-2CN=A@mail.gmail.com>
+ <20220815013317.26121-1-dmitrii.bundin.a@gmail.com> <CAK7LNAQzVto=rEpASc-JOF_TW0KhNT93jD0E2gfk8UES3PWFiw@mail.gmail.com>
+In-Reply-To: <CAK7LNAQzVto=rEpASc-JOF_TW0KhNT93jD0E2gfk8UES3PWFiw@mail.gmail.com>
+From:   Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
+Date:   Thu, 18 Aug 2022 21:57:02 +0300
+Message-ID: <CANXV_XzGHQ8_X2t37DwRjS7kKFX0kWDpwHEg3k+zZ4YfV98gjw@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: add debug level and macro defs options
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Isabella Basso <isabbasso@riseup.net>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        =?UTF-8?B?Ru+/ve+/ve+/vW5nLXJ177+977+977+9IFPvv73vv73vv71uZw==?= 
+        <maskray@google.com>, Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Greg KH <gregkh@linuxfoundation.org>
-Date: Thu, 18 Aug 2022 16:10:21 +0200
+On Thu, Aug 18, 2022 at 7:14 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> -g1 is only possible via DEBUG_INFO_LEVEL, but
+> presumably it is not your main interest
+> (and not sure if there is anybody interested)
+> because the main motivation for your v1
+> is to generate macro debug data.
 
-> On Thu, Aug 18, 2022 at 04:01:53PM +0200, Alexander Lobakin wrote:
-> > From: Greg KH <gregkh@linuxfoundation.org>
-> > Date: Thu, 18 Aug 2022 14:26:14 +0200
-> > 
-> > > On Thu, Aug 18, 2022 at 01:53:04PM +0200, Alexander Lobakin wrote:
-> > > > Macro TO_NATIVE() directly takes a reference to its argument @x
-> > > > without making an intermediate variable. This makes compilers
-> > > > emit build warnings and errors if @x is an expression or a deref
-> > > > of a const pointer (when target Endianness != host Endianness):
-> > > > 
-> > > > >> scripts/mod/modpost.h:87:18: error: lvalue required as unary '&' operand
-> > > >       87 |         __endian(&(x), &(__x), sizeof(__x));                    \
-> > > >          |                  ^
-> > > >    scripts/mod/sympath.c:19:25: note: in expansion of macro 'TO_NATIVE'
-> > > >       19 | #define t(x)            TO_NATIVE(x)
-> > > >          |                         ^~~~~~~~~
-> > > >    scripts/mod/sympath.c:100:31: note: in expansion of macro 't'
-> > > >      100 |                 eh->e_shoff = t(h(eh->e_shoff) + off);
-> > > > 
-> > > > >> scripts/mod/modpost.h:87:24: warning: passing argument 2 of '__endian'
-> > > > discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-> > > >       87 |         __endian(&(x), &(__x), sizeof(__x));                    \
-> > > >          |                        ^~~~~~
-> > > >    scripts/mod/sympath.c:18:25: note: in expansion of macro 'TO_NATIVE'
-> > > >       18 | #define h(x)            TO_NATIVE(x)
-> > > >          |                         ^~~~~~~~~
-> > > >    scripts/mod/sympath.c:178:48: note: in expansion of macro 'h'
-> > > >      178 |              iter < end; iter = (void *)iter + h(eh->e_shentsize)) {
-> > > 
-> > > How come this hasn't shown up in cross-builds today?
-> > 
-> > It doesn't happen with the current code.
-> 
-> Great, so there is no bug that you are trying to fix :)
-> 
-> > > > Create a temporary variable, assign @x to it and don't use @x after
-> > > > that. This makes it possible to pass expressions as an argument.
-> > > > Also, do a cast-away for the second argument when calling __endian()
-> > > > to avoid 'discarded qualifiers' warning, as typeof() preserves
-> > > > qualifiers and makes compilers think that we're passing pointer
-> > > > to a const.
-> > > > 
-> > > > Reported-by: kernel test robot <lkp@intel.com>
-> > > > Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> > > > Cc: stable@vger.kernel.org # 4.9+
-> > > 
-> > > Where are these build warnings showing up at that we don't see them
-> > > today, yet this is needed to go back to all stable trees?
-> > 
-> > I thought all fixes should go to the applicable stable trees, am I
-> > wrong? If so, I'll drop the tag in the next spin.
-> 
-> But this isn't fixing a bug in the code today that anyone can hit, so
-> why would you mark it as such?
+I tested the build process with -g1 and it turned out to generate an
+image that is 20% lesser in size.
+This is indeed not really my use-case, but are you sure it might not
+be helpful in general?
 
-So do you mean that a fix is a fix not when it makes some wrong code
-work properly, but only when there's a certain bug report and this
-fix seems to resolve it?
-I.e, if there are no ways to reach some code in which 2 + 2 == 5,
-there is no bug? A loaded shotgun can't be considered loaded unless
-someone shots his leg?
+The reason to add DEBUG_INFO_LEVEL was also motivated by the
+GCC11+/Clang12+ behavior of -gsplit-dwarf to provide an orthogonal
+debug level config.
+"The later -g<level> wins" behavior in turns works identically for
+both older and newer compiler versions so such an implementation
+provides version independent build behavior.
+Testing on gcc-11, -gdwarf-<level>/-gdwarf still implies -g2.
+It seemed a clearer way to me to explicitly set a debug level that
+just wins instead of relying on implicits.
 
-I mean, I understand the rule "don't touch if it works", but dunno,
-I don't feel it's: 1) completely justified; 2) always followed in
-the current stable trees.
-But I'm not a -stable maintainer :)
-
-> 
-> > I remember we had such discussion already regarding fixing stuff in
-> > modpost, which can happen only with never mainlained GCC LTO or with
-> > the in-dev code. At the end that fix made it into the stables IIRC.
-> 
-> I don't remember taking fixes for out-of-tree LTO stuff, but I shouldn't
-> have :)
-
-This: [0]
-
-There is no way to repro it on the stable kernels, but it's here
-backported :)
-
-> 
-> thanks,
-> 
-> greg k-h
-
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=linux-4.19.y&id=03bd6eaab3e1cbd4e5060b36a67000165f6e0482
-
-Thanks,
-Olek
+Regards
+Dmitrii
