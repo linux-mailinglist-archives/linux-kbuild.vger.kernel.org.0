@@ -2,252 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DFABD59943A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Aug 2022 06:47:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17B6B5995AA
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Aug 2022 09:09:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345384AbiHSEis (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 19 Aug 2022 00:38:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39316 "EHLO
+        id S1346771AbiHSG6e (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 19 Aug 2022 02:58:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243004AbiHSEir (ORCPT
+        with ESMTP id S1346750AbiHSG6c (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 19 Aug 2022 00:38:47 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 680B42D1EB;
-        Thu, 18 Aug 2022 21:38:36 -0700 (PDT)
-Received: from leknes.fjasle.eu ([46.142.96.59]) by mrelayeu.kundenserver.de
- (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MLA2e-1o6ogd3stm-00IAcv; Fri, 19 Aug 2022 06:38:02 +0200
-Received: from localhost.fjasle.eu (bergen.fjasle.eu [IPv6:fdda:8718:be81:0:6f0:21ff:fe91:394])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by leknes.fjasle.eu (Postfix) with ESMTPS id 4EF603C09F;
-        Fri, 19 Aug 2022 06:38:00 +0200 (CEST)
-Authentication-Results: leknes.fjasle.eu; dkim=none; dkim-atps=neutral
-Received: by localhost.fjasle.eu (Postfix, from userid 1000)
-        id 771FC23F; Fri, 19 Aug 2022 06:37:58 +0200 (CEST)
-Date:   Fri, 19 Aug 2022 06:37:58 +0200
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, Ingo Molnar <mingo@kernel.org>,
-        Rob Herring <robh@kernel.org>,
+        Fri, 19 Aug 2022 02:58:32 -0400
+Received: from conuserg-08.nifty.com (conuserg-08.nifty.com [210.131.2.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E08322662;
+        Thu, 18 Aug 2022 23:58:26 -0700 (PDT)
+Received: from grover.sesame ([133.106.49.178]) (authenticated)
+        by conuserg-08.nifty.com with ESMTP id 27J6uUCM012757;
+        Fri, 19 Aug 2022 15:56:30 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 27J6uUCM012757
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1660892191;
+        bh=kLteZgzDyCsUaZbAhJIThD6Chhgc+3Ar23SEEf1zkz8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=wwV9lkhrn16+U7gm+YFpddQAOvKBNo21MwndzEd1hbUr5kQl01tjwsDdVc1rl+xuX
+         ZTamMEMDp2YkQHqXjbVIAqB7aPluHPQOqjmsMPsCLtDFxOrPSOWIj2MkPDORKwYw4E
+         ayzZXLlBofkKBB48QKEQQ/GsniPrWVxmR2OBdaq3cfz9TdCNCPQvL5atvzrEa5JyAQ
+         HoPAo5IX3mX75x86HjMUnU8L87RTl8xY2FD23/iQGxhKKfwEPRzbV8FHP80hpdEdph
+         DmX0c7fME6ugquFwnRmAl2PLIf+HRQ22WC/FEdF7zHSVgRoz8YRlPi2UEpdqBevZL9
+         8SrWSPzrXPZoQ==
+X-Nifty-SrcIP: [133.106.49.178]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Purdie <richard.purdie@linuxfoundation.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: remove the target in signal traps when
- interrupted
-Message-ID: <Yv8TpkJkDYHJj2hX@bergen.fjasle.eu>
-References: <20220807004809.69076-1-masahiroy@kernel.org>
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [RFC PATCH 0/3] kbuild: change the default shell to bash
+Date:   Fri, 19 Aug 2022 15:56:00 +0900
+Message-Id: <20220819065604.295572-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20220807004809.69076-1-masahiroy@kernel.org>
-Jabber-ID: nicolas@jabber.no
-X-Operating-System: Debian GNU/Linux bookworm/sid
-X-Provags-ID: V03:K1:Yqdq/f5Jen/0ZdzyaBCmZ/ZXM3bdn1h3slDuhYfqDUN+KvZFTF0
- C7R16oYN5i1ewHFMd1alCQD2zaclYTvfs0hn3vvPMRplbzTrQLsnewhqTo79MtOJKNSi3ji
- sLmkjpCS8V3Aa5ts3Y2Fv43EX7WLTtZ+2Ij5i+0yJyePZcdvgPN7+P9yb0DQvVbSFc25W8F
- GwpG7NZqzh6CKxoN+NfTQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:w3rdDOdXIiY=:64P/+gQpetcYaq5hWoXQWj
- FwWV32xDNTli8HObF2SKy17ES69oH7LKNHlN3PGLEX5/B9jDyGghSvxwT1jz4xh9M5vCcG/YQ
- kMSZd+PQIbRseKwRx8/oAcnENm+jjcPsgdWFymLcEf+nQfL4XDho7JyItxphM9jnlw7VFHvJr
- Zp8V5UL6yawDVsCTd8i8FsiqOGoCcYapMuhrqHQfj4KAad0xaShUXgjqu6jv2fk07c664skk3
- TePwIbtQVmZmSDiRxvkS0ik+pamJjLdRA66ZysBkb6/DK9PAHxEqx+0V5q98mYGiylp/c4wVM
- mh9g4mw5/cdsd3FNevcYnY8E4ilgeqSoDTEdiU1g02BjvATb0PVrW6oKF8Pbdtm7ifcrM5WiP
- he/qhvmTeLe8g6Wm8afUjgsYxcwMcALhU2jRzSO1jKrOoIreo7iPTwfWJofuKY0RoPxcCQkg9
- OhCk6wj6crwpokf/DebJXnIwWLR2QrEI0fj3ttO35KO5ZRTam2Owf87q6j+/74ifiOoBeq5AJ
- Fxuxbb6xP5r/mCfibxn1cNvthemzlvHpYKIaD6XdQwxiZesIifL4IVXhGcqe9RRc5AGA7r6qE
- Sg/uPSFBlu+lq8vF0rNp+bEWiKVpjWPgOKQ/6a+Xfyzj4MuW9eiKyUPa00RiNRi2/eIE3cWJ0
- AMnfhE2RIxGfZyhlLoo+ckfl00r/+1Ihohu9itb1ONEaRF/dNwvr2MT9cPQrFb6E03fvuxorv
- AkOd7mG+cNhw2BRTw3DMtH92kQxgPPa0O2268A==
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun 07 Aug 2022 09:48:09 +0900 Masahiro Yamada wrote:
-> When receiving some signal, GNU Make automatically deletes the target if
-> it has already been changed by the interrupted recipe.
-> 
-> If the target is possibly incomplete due to interruption, it must be
-> deleted so that it will be remade from scratch on the next run of make.
-> Otherwise, the target would remain corrupted permanently because its
-> timestamp had already been updated.
-> 
-> Thanks to this behavior of Make, you can stop the build any time by
-> pressing Ctrl-C, and just run 'make' to resume it.
-> 
-> Kbuild also relies on this feature, but it is equivalently important
-> for any build systems that make decisions based on timestamps (if you
-> want to support stop/resume reliably).
-> 
-> However, this does not always work as claimed; Make immediately dies
-> with Ctrl-C if its stderr goes into a pipe.
-> 
->   [Test Makefile]
-> 
->     foo:
->             echo hello > $@
->             sleep 3
->             echo world >> $@
-> 
->   [Test Result]
-> 
->     $ make                         # hit Ctrl-C
->     echo hello > foo
->     sleep 3
->     ^Cmake: *** Deleting file 'foo'
->     make: *** [Makefile:3: foo] Interrupt
-> 
->     $ make 2>&1 | cat              # hit Ctrl-C
->     echo hello > foo
->     sleep 3
->     ^C$                            # 'foo' is often left-over
-> 
-> The reason is because SIGINT is sent to the entire process group.
-> In this example, SIGINT kills 'cat', and 'make' writes the message to
-> the closed pipe, then dies with SIGPIPE.
-> 
-> A typical bad scenario (as reported by [1], [2]) is to save build log
-> by using the 'tee' command:
-> 
->     $ make 2>&1 | tee log
-> 
-> Again, this can be problematic for any build systems based on Make, so
-> I hope it will be fixed in GNU Make. The maintainer of GNU Make stated
-> this is a long-standing issue and difficult to fix [3]. It has not been
-> fixed yet as of writing.
-> 
-> So, we cannot rely on Make cleaning the target. We can do it by
-> ourselves, in signal traps.
-> 
-> As far as I understand, Make takes care of SIGHUP, SIGINT, SIGQUIT, and
-> SITERM for the target removal. I added the traps for them, and also for
-> SIGPIPE just in case cmd_* rule prints something to stdout or stderr
-> (but I did not observe an actual case where SIGPIPE was triggered).
-> 
-> [Note 1]
-> 
-> The trap handler might be worth explaining.
-> 
->     rm -f $@; trap - $(sig); kill -s $(sig) $$
-> 
-> This lets the shell kill itself by the signal it caught, so the parent
-> process can tell the child has exited on the signal. Generally, this is
-> a proper manner for handling signals, in case the calling program (like
-> Bash) may monitor WIFSIGNALED() and WTERMSIG() for WCE (Wait and
-> Cooperative Exit) [4] although this may not be a big deal here because
-> GNU Make handles SIGHUP, SIGINT, SIGQUIT in WUE (Wait and Unconditional
-> Exit) and SIGTERM in IUE (Immediate Unconditional Exit).
-> 
-> [Note 2]
-> 
-> Reverting 392885ee82d3 ("kbuild: let fixdep directly write to .*.cmd
-> files") would directly address [1], but it only saves if_changed_dep.
-> As reported in [2], all commands that use redirection can potentially
-> leave an empty (i.e. broken) target.
-> 
-> [Note 3]
-> 
-> Another (even safer) approach might be to always write to a temporary
-> file, and rename it to $@ at the end of the recipe.
-> 
->    <command>  > $(tmp-target)
->    mv $(tmp-target) $@
-> 
-> It would require a lot of Makefile changes, and result in ugly code,
-> so I did not take it.
-> 
-> [Note 4]
-> 
-> A little more thoughts about a pattern rule with multiple targets (or
-> a grouped target).
-> 
->     %.x %.y: %.z
->             <recipe>
-> 
-> When interrupted, GNU Make deletes both %.x and %.y, while this solution
-> only deletes $@. Probably, this is not a big deal. The next run of make
-> will execute the rule again to create $@ along with the other files.
-> 
-> [1]: https://lore.kernel.org/all/YLeot94yAaM4xbMY@gmail.com/
-> [2]: https://lore.kernel.org/all/20220510221333.2770571-1-robh@kernel.org/
-> [3]: https://lists.gnu.org/archive/html/help-make/2021-06/msg00001.html
-> [4]: https://www.cons.org/cracauer/sigint.html
-> 
-> Reported-by: Ingo Molnar <mingo@kernel.org>
-> Reported-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
-> If you are happy to help test this patch, that will be appreciated.
-> 
-> Without applying this patch,
-> 
->     $ make -j<nr-proc> 2>&1 | tee log
-> 
-> Then, you will see an error reported in [1].
-> You may need to repeat it dozen of times to reproduce it.
-> The more CPU cores you have, the easier you will get the error.
-> 
-> Apply this patch, and repeat the same.
-> You will no longer see that error (hopefully).
-> 
-> 
->  scripts/Kbuild.include | 23 ++++++++++++++++++++++-
->  1 file changed, 22 insertions(+), 1 deletion(-)
-> 
-> diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-> index ece44b735061..9432a7f33186 100644
-> --- a/scripts/Kbuild.include
-> +++ b/scripts/Kbuild.include
-> @@ -100,8 +100,29 @@ echo-cmd = $(if $($(quiet)cmd_$(1)),\
->   quiet_redirect :=
->  silent_redirect := exec >/dev/null;
->  
-> +# Delete the target on interruption
-> +#
-> +# GNU Make automatically deletes the target if it has already been changed by
-> +# the interrupted recipe. So, you can safely stop the build by Ctrl-C (Make
-> +# will delete incomplete targets), and resume it later.
-> +#
-> +# However, this does not work when the stderr is piped to another program, like
-> +#  $ make >&2 | tee log
-> +# Make dies with SIGPIPE before cleaning the targets.
-> +#
-> +# To address it, we cleans the target in signal traps.
 
-s/cleans/clean/
+This is related to the discussion about the portability [1].
 
-> +#
-> +# Make deletes the target when it catches SIGHUP, SIGINT, SIGQUIT, SIGTERM.
-> +# So, we cover them, and also SIGPIPE just in case.
-> +#
-> +# Of course, this is unneeded for phony targets.
-> +delete-on-interrupt = \
-> +	$(if $(filter-out $(PHONY), $@), \
-> +		$(foreach sig, HUP INT QUIT TERM PIPE, \
-> +			trap 'rm -f $@; trap - $(sig); kill -s $(sig) $$$$' $(sig);))
-> +
->  # printing commands
-> -cmd = @set -e; $(echo-cmd) $($(quiet)redirect) $(cmd_$(1))
-> +cmd = @set -e; $(echo-cmd) $($(quiet)redirect) $(delete-on-interrupt) $(cmd_$(1))
->  
->  ###
->  # if_changed      - execute command if any prerequisite is newer than
-> -- 
-> 2.34.1
+I wrote this code some time ago for some reason. My motivation at that
+time was trap handling.
 
-Thanks for the patch and the verbose reasoning.  I would like to see 
-stable@k.o added if you think it is appropriate (patch applies cleanly 
-to 5.4, 5.15).
+We use the EXIT trap in several places. The POSIX [2] mentions the 'EXIT'
+as the trap condition, but nothing about the actual conditions that trigger
+the EXIT trap. Bash invokes the EXIT trap when it exits after receiving
+an unhandled signal, while dash does not.
 
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+I did not submit the patches because I lost the use-case of the EXIT trap
+except cleaning temporary files. It is harmless to have temp files left over.
 
-Kind regards,
-Nicolas
+Recently, I saw a bug report regarding the portability of 'echo'
+('echo' is a shell's built-in command. The behavior is different between
+bash and dash).
+
+I am sharing this patch set as RFC in case somebody might have interest or comment.
+I am still wondering if this might be a big hammer, though.
+
+[1]: https://lore.kernel.org/all/e902a360e3759c7f87d98d71d79a0d5cbe935e3e.camel@linuxfoundation.org/
+[2]: https://pubs.opengroup.org/onlinepubs/009604599/utilities/trap.html
+
+
+
+Masahiro Yamada (3):
+  kconfig: move declarations for prepossessing to internal.h
+  kconfig: allow to choose the shell for $(shell ) functions
+  kbuild: use bash as the default shell for Make and Kconfig
+
+ .../kbuild/kconfig-macro-language.rst         |  4 ++
+ Makefile                                      |  7 ++
+ scripts/Kconfig.include                       |  3 +
+ scripts/kconfig/confdata.c                    |  1 +
+ scripts/kconfig/internal.h                    | 18 +++++
+ scripts/kconfig/lexer.l                       |  1 +
+ scripts/kconfig/lkc_proto.h                   | 13 ----
+ scripts/kconfig/parser.y                      |  1 +
+ scripts/kconfig/preprocess.c                  | 66 +++++++++++++++----
+ 9 files changed, 87 insertions(+), 27 deletions(-)
+
+-- 
+2.34.1
+
