@@ -2,77 +2,69 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC7AC59A8EC
-	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Aug 2022 00:59:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13A6459A978
+	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Aug 2022 01:35:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243124AbiHSWwS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 19 Aug 2022 18:52:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38226 "EHLO
+        id S241923AbiHSXdT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 19 Aug 2022 19:33:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243127AbiHSWwR (ORCPT
+        with ESMTP id S240543AbiHSXdS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 19 Aug 2022 18:52:17 -0400
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 436D610B519;
-        Fri, 19 Aug 2022 15:52:16 -0700 (PDT)
-Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-33365a01f29so158236267b3.2;
-        Fri, 19 Aug 2022 15:52:16 -0700 (PDT)
+        Fri, 19 Aug 2022 19:33:18 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F8B42190
+        for <linux-kbuild@vger.kernel.org>; Fri, 19 Aug 2022 16:33:14 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id q7so4279825lfu.5
+        for <linux-kbuild@vger.kernel.org>; Fri, 19 Aug 2022 16:33:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=ePCvzW/muyp3tHWutyEFwLQrrnxA3ArTLs/J6HTRfLY=;
-        b=SfiS+2alq9htL30QUKpIzaZuP0u+uU0NCMdQbyKqhjNx1WVYuFMypqJ++I2zmlD5HR
-         9EbF5AxpHXlEEWbfAucgwKtDi5+WBpUfAxM4rU50kJzaPf5s3ewjBNfqOSTq8JP0esyV
-         vxFl7+urp6LmiQsFJ45WjtPikSukan5lkMRISDwUG82TpAo8pA+VLDKlB5lBRKDPbGnt
-         6XCwsGn1g6s1sSC7C/gu8+xPYgadWY8qZzPkH0Uq7B2fM8hoXT5qN2gSQO0BamXMbLZZ
-         LOrTxLUyddhiWJJaKiFaHYiFvkQICKV5+rnAtYuo49/lSn6Y2bd5XNSS3bq+D8Erb75h
-         exLw==
+        bh=Y7BwhUziN7Shv1IDBl73QA6DiHDSzdgJ+ZuTLbMJXkA=;
+        b=Ns54S2g0WBfzfkVQ7/nUOVRNeJaY6npkvHh5zPjpWOZ2JmKtTcTlturtO5zz/h6fyr
+         e354YBuRd+kKsyTy14dJMoQYiD7ll25eIDfcdKLDeq82K7bGN+x/BXRWG4FsL0yhHHkj
+         r+WE5mJQpLd9OcYg5Em0yjmJffK7BiDgDa5hiTS+XWT2Qso4P44deem8MyK77H7dTM4c
+         r0mb92hdAoDu2oX0yWLCx5/ad3Gg9yHQ2rL0wm24k0guhLoRORzYID1pD3RAZ3hU6mDT
+         ycg3m2U0UaA1iJN1rSSwPbjiarcDqYbxCY8/OjcHd2dqsUJSi/6oyQTwuEbg4NXcBzl3
+         LCIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=ePCvzW/muyp3tHWutyEFwLQrrnxA3ArTLs/J6HTRfLY=;
-        b=5DP9umjBja69OQDEIln8NTnE4pgHDy2so5eAmbqvfjhVfDRjnXXBWH5I6vQHt+H6rR
-         Dpd207En9AyXhj+FaeRLUSN4B1WIaDz31qOiOXeL5H2DLX+NxHkQeiTDA/bQGgxYxzLX
-         InwVhpy67YOUVWHnCcQY7nEsftzl6treUrlkKz7gA9tnfbpHL9MoWqaWbQyrnYPibE/e
-         klrMrGSCiNU4DZMo835C9FCpsMVtJQDiD1ae7raUwJ35A8csa0Vi68dhAlhnMJXvGWx8
-         lqS9ernRQn0jSUfkV3/+wagiBFoCFtQsGK86KriKseiGLpJn6q/cELr6hMwZg/BiscK1
-         DmKQ==
-X-Gm-Message-State: ACgBeo1oXugSReVPUYnfB43Na92pgiPRhV/JyPhoEhYwbIjx0ervbD6R
-        pEhfGg5sndm09rzSZqBkkSXGnXcZHtfBKPnFZ0ZI7Y4fOILi0B3t1tRDLDXL
-X-Google-Smtp-Source: AA6agR4afgOfJkc1z2NyLelaUeWkE/UX7xu/DhdJa5LYX3dRn/DDZ6MqrQtqwibT6A2u/RJbfYWYN3143SCmPeprUoU=
-X-Received: by 2002:a25:ac9e:0:b0:68e:ccf4:ea04 with SMTP id
- x30-20020a25ac9e000000b0068eccf4ea04mr9510879ybi.287.1660949535520; Fri, 19
- Aug 2022 15:52:15 -0700 (PDT)
+        bh=Y7BwhUziN7Shv1IDBl73QA6DiHDSzdgJ+ZuTLbMJXkA=;
+        b=cL17Od53/KGAT036DWf3UHxSKIdGUbvl6d4QjxAAOIuoBfAD8y55C0r+iRR8xaFhB0
+         ThvcmMRh3MZGKc9/uMilFoXG3OdokrH70hdaRDg7wfClRSz49+77r/MXBvm5DzqCTu9j
+         Bhkqsy3/ZjrG4RXO0nLExvY5fEfJge4rOJTBLE9g1jw9nx5GwvvWMKkdceeeoqrUzytN
+         lwHqBnBQ4fbRPw3legfy5hVTpDwkNa3WbLT3u5Vv/oQ9W0DoF4LlnY+cAHuWRzcuwfSj
+         /Om/m1tB6RX25aQuej8EvjdZKaerU/DFktuFeHhS80y1ixtYUpJMnxlSV0oQlCdPmryg
+         JPuA==
+X-Gm-Message-State: ACgBeo0SwcXILkW1LgXGm2rRur2Y1bbYi6g9CwcE9Qk/Y/vyRHK63LLb
+        aWPzdLN3II3jHbCd52TwGRLSPgUGrEsZOa8i3hLRxYR8UfE8tA==
+X-Google-Smtp-Source: AA6agR6S8k2SWNo73q0AqnEABg/vA4UxgEFYZMPy3fg9+zE7sPqCQNmlirz1q5SseKIFDBSMz2y0P8IyMhiFebJK3UM=
+X-Received: by 2002:ac2:4f03:0:b0:48a:6061:bd8e with SMTP id
+ k3-20020ac24f03000000b0048a6061bd8emr3463711lfr.647.1660951992444; Fri, 19
+ Aug 2022 16:33:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <CANXV_XwgZMCGXijfoUyZ9+KyM6Rgeqiq-sCfubyj_16d-2CN=A@mail.gmail.com>
- <20220815013317.26121-1-dmitrii.bundin.a@gmail.com> <CAKwvOdnnSAozX8bQ9HeSw12BV9OjpzyDmXk_BGczjVVQNN+7tQ@mail.gmail.com>
-In-Reply-To: <CAKwvOdnnSAozX8bQ9HeSw12BV9OjpzyDmXk_BGczjVVQNN+7tQ@mail.gmail.com>
-From:   Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
-Date:   Sat, 20 Aug 2022 01:52:04 +0300
-Message-ID: <CANXV_Xw2wzwDdJkyV1nHPQm2JTt48SLrNc7YwrfcxOwuFA-z3w@mail.gmail.com>
-Subject: Re: [PATCH v3] kbuild: add debug level and macro defs options
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Isabella Basso <isabbasso@riseup.net>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
+References: <CGME20220716081736epcas2p346100e67cf44b1dbb79f6e2a4ab07dbf@epcas2p3.samsung.com>
+ <20220716084532.2324050-1-youngmin.nam@samsung.com> <CAK7LNAR3YGoQU6ZTZmC84C1OoH0rPinjoyPDXCD0BDPoRS4NDA@mail.gmail.com>
+In-Reply-To: <CAK7LNAR3YGoQU6ZTZmC84C1OoH0rPinjoyPDXCD0BDPoRS4NDA@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Fri, 19 Aug 2022 16:33:00 -0700
+Message-ID: <CAKwvOd=FBDqutQ-6De577GDje=YR32GxDbkgcGeP9J=2Lb3CqQ@mail.gmail.com>
+Subject: Re: [PATCH] Makefile.extrawarn: add -Wformat-insufficient-args for
+ clang build
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Youngmin Nam <youngmin.nam@samsung.com>,
+        Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Fangrui Song <maskray@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>
+        hosung0.kim@samsung.com, d7271.choe@samsung.com
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -80,40 +72,63 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Aug 19, 2022 at 8:42 PM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On Thu, Jul 21, 2022 at 9:22 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Is any of this really necessary?
+> On Sat, Jul 16, 2022 at 5:17 PM Youngmin Nam <youngmin.nam@samsung.com> wrote:
+> >
+> > The -Wformat-insufficient-args for clang is useful to detect the situation
+> > when the total number is unmatched between format specifiers and arguments.
+> >
+> > Originally, this option is enabled by default(Link[1]), but it is disabled by
+> > -Wno-format explicitly so that we can't detect this unmatched situation.
+> >
+> > We can enable it by adding this option after -Wno-format.
+> >
+> > Link[1]: https://releases.llvm.org/13.0.0/tools/clang/docs/DiagnosticsReference.html#wformat-insufficient-args
+> > Signed-off-by: Youngmin Nam <youngmin.nam@samsung.com>
+> > ---
+>
+>
+> Please let me hold on this patch because
+> I'd rather go straight to the removal of  -Wno-format.
+>
+> https://lore.kernel.org/linux-kbuild/CAFhGd8pk+0XEz0tMiJcwMM7B3NYF=yF4cHW8A-6-81SgpKFPNw@mail.gmail.com/T/#m4becf6ed91f25217b59a840ed1829f36e49fe347
 
-Consider the case if CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y.
-Prior to GCC11/Clang12 -gsplit-dwarf implied -g2. So on newer
-compilers with -gsplit-dwarf in use there would be no debug symbols
-produced. -gdwarf-4/5 still implies -g2, but in case
-CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y neither of the options are
-set. So it seems like a reasonable choice to provide a debug info
-level config that would explicitly set the level without relying on
-implicits. The default value of the config is set to -g2 to not change
-the build behavior that was before introducing the option. And it
-works for both older and newer versions of GCC/Clang in the same way.
-The benefits of the -g1 option are indeed questionable except that it
-produces an image with ~20% less in size.
+Let's see what the feedback on
+https://reviews.llvm.org/D132266 is. If it lands, I will send a series
+with this patch first, then wrap it in the else clause of a
+conditional like: if clang version >= 16 then enable -Wformat else
+enable -Wformat-insufficient-args.
 
-> It seems like a great way to bloat
-> vmlinux artifacts built with CONFIG_DEBUG_INFO even further.
-The defaults were chosen to not change the build behavior that was
-before introducing the options. Or did you mean something else?
+>
+>
+>
+> >  scripts/Makefile.extrawarn | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+> > index f5f0d6f09053..c23d7c286bad 100644
+> > --- a/scripts/Makefile.extrawarn
+> > +++ b/scripts/Makefile.extrawarn
+> > @@ -48,6 +48,7 @@ else
+> >  ifdef CONFIG_CC_IS_CLANG
+> >  KBUILD_CFLAGS += -Wno-initializer-overrides
+> >  KBUILD_CFLAGS += -Wno-format
+> > +KBUILD_CFLAGS += -Wformat-insufficient-args
+> >  KBUILD_CFLAGS += -Wno-sign-compare
+> >  KBUILD_CFLAGS += -Wno-format-zero-length
+> >  KBUILD_CFLAGS += $(call cc-disable-warning, pointer-to-enum-cast)
+> > --
+> > 2.34.0
+> >
+>
+>
+> --
+> Best Regards
+> Masahiro Yamada
 
-> The
-> above link mentions "when debugging with GDB."  In that case, please
-> don't add new Kconfigs for these; just set -g3 when
-> CONFIG_GDB_SCRIPTS=y.
 
-CONFIG_GDB_SCRIPTS does not necessarily mean that -g3 is wanted, -g2
-(default) is usually a reasonable choice. The -g3 option is very
-useful when debugging macro-intensive code, but requires much more
-disk space to build. I documented it explicitly in the help section of
-DEBUG_INFO_LEVEL. GCC and Clang use different options to include macro
-definitions so it was handled depending on the compiler used.
 
-Regards
-Dmitrii
+-- 
+Thanks,
+~Nick Desaulniers
