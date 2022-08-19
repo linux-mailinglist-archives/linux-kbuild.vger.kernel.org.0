@@ -2,107 +2,127 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D7943599822
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Aug 2022 11:06:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A1FC599A27
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Aug 2022 12:55:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347954AbiHSI7G (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 19 Aug 2022 04:59:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51508 "EHLO
+        id S1348063AbiHSKvt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 19 Aug 2022 06:51:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347898AbiHSI64 (ORCPT
+        with ESMTP id S1346527AbiHSKvt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 19 Aug 2022 04:58:56 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C8D4D87CA;
-        Fri, 19 Aug 2022 01:58:48 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id y4so3623446plb.2;
-        Fri, 19 Aug 2022 01:58:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=nWaJnY+l7BaR73wsAx3UWKzK5S7csngJ+iHmS6igh5w=;
-        b=VFaYIMiguTV6F5C0msAYjc7i3JnNpfV5c6Gn0NF9J102niQQ9Vr5VqE8UUKvZuCQIb
-         GA/m+FE9hXDBPCSftQueIwfbY0xohgGAxtytNwF56kA0vcN8h/3E0OAi8LdkNvyWDJWy
-         NBKy2e2uIwXPhfbsDt88wBWYbua4SesIT2+qBuxUY96jPn9ve9rzihW2aPKGtPO/Fzlz
-         hH7dDU3Tg83gqR4UpN+e+3TdxNPwBCxgwAqQK/HEBfX1SZfhzSJOyVJ3qHM21VjNuSnY
-         PcCtxDf8cN2dC3MpnBfbGysWOYmY5VqBOZywbdKMSqJ005OsN4xxJIjvrbSA/dIv2bLg
-         /4Pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=nWaJnY+l7BaR73wsAx3UWKzK5S7csngJ+iHmS6igh5w=;
-        b=nVVOHS1jOQZQyZVQbNF+xqKqEGzr1PIwa5Y8TQpj4aYaGuFxn5fUEroWKwamWQqSsj
-         Ek+GUKW6t10CqAQ48A/QOIZOZIURTyNOqprY+5SweXeN/33M660VL+PPlCdYO6n9l1CK
-         FFEUZSVwx+tIxgobwHcVw7ZQEnQciWV6S+eE3K8JnIj/p2lGCVxHwA4BVEG0Q/A/s/IH
-         qloJLUciI/L8SnU7Xx9JgUhqTXzqcHFLNejZIpwMSoFBuWTi6sifc2JEaOs8u+abhnUb
-         fTlzKwKS+AKKLngLYKZPTKleTjQ7uihFb/b6w6db7HhozS0EMO/iWK0O2DKXCEqwTmI/
-         3tRQ==
-X-Gm-Message-State: ACgBeo0D6BUi2ey/okkqvRJFXMieseo5px1wTGE4c5VyXCnsD20c889x
-        1VxPO/2evRmDxGfVZsZjRzkrpv9WJgk=
-X-Google-Smtp-Source: AA6agR6q5ONCG2ueuWev3RJd3j6DwcTj9Kzi/o2D0bvWo8WVDZ3K1W3YsDf7NLr/oakCI+ZgkhzgyA==
-X-Received: by 2002:a17:90a:c782:b0:1f7:a4ed:11a1 with SMTP id gn2-20020a17090ac78200b001f7a4ed11a1mr7501758pjb.12.1660899526766;
-        Fri, 19 Aug 2022 01:58:46 -0700 (PDT)
-Received: from [192.168.43.80] (subs32-116-206-28-23.three.co.id. [116.206.28.23])
-        by smtp.gmail.com with ESMTPSA id i8-20020a63e448000000b0041c35462316sm2490349pgk.26.2022.08.19.01.58.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Aug 2022 01:58:46 -0700 (PDT)
-Message-ID: <831ebaf6-6fea-65ea-aa60-c47f6f05dbb0@gmail.com>
-Date:   Fri, 19 Aug 2022 15:58:40 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [RFC PATCH 2/3] kconfig: allow to choose the shell for $(shell )
- functions
-Content-Language: en-US
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Purdie <richard.purdie@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+        Fri, 19 Aug 2022 06:51:49 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD6D012D27;
+        Fri, 19 Aug 2022 03:51:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1660906307; x=1692442307;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=Xg/Wu+E2dA7UBAkvJ0UOV8Vgqyso5h+bxyEw+kxytDA=;
+  b=evbgrOx7JRtVBTNd1166m8L/k2LQTrnr+WPYlwKZvVEnKUeDvg9eh/RO
+   1zLJXhy7nWPS8ODmI+SZrjxjG+pn2s8j6bmUDA7jtrKKCjVLnxGzG0rgP
+   HlBmm5KgxnnNzBT7D3FUw52DHAoK0rBvvgeCjcgg0IfqRI9TWJL9iBqQ8
+   x8XUCwRYf8/PpIxzw5a16WsleLYfQankLH31neVQ1XQU7LwlQFXogMXc5
+   UaBU28m7X0d4jmDV+TLhx6H2H0WmXRxm0ihgSKOA/dq1G699lzNEhuLAW
+   XaeCvMNRZyz066Iwu0+z6onJEb+/3vI5xmhSrFfRnffJsrl3uz0B3p4W2
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10443"; a="290555766"
+X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; 
+   d="scan'208";a="290555766"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2022 03:51:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; 
+   d="scan'208";a="641215598"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+  by orsmga001.jf.intel.com with ESMTP; 19 Aug 2022 03:51:42 -0700
+Received: from newjersey.igk.intel.com (newjersey.igk.intel.com [10.102.20.203])
+        by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id 27JApf69026305;
+        Fri, 19 Aug 2022 11:51:41 +0100
+From:   Alexander Lobakin <alexandr.lobakin@intel.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
+        linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220819065604.295572-1-masahiroy@kernel.org>
- <20220819065604.295572-3-masahiroy@kernel.org>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220819065604.295572-3-masahiroy@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Petr Mladek <pmladek@suse.com>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        linux-kbuild@vger.kernel.org, live-patching@vger.kernel.org,
+        lkp@intel.com, stable@vger.kernel.org
+Subject: Re: [RFC PATCH 3/3] kallsyms: add option to include relative filepaths into kallsyms
+Date:   Fri, 19 Aug 2022 12:50:01 +0200
+Message-Id: <20220819105001.1130876-1-alexandr.lobakin@intel.com>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <Yv5IfiwqGumJwVGT@kroah.com>
+References: <20220818115306.1109642-1-alexandr.lobakin@intel.com> <20220818115306.1109642-4-alexandr.lobakin@intel.com> <Yv4vT6s6UHYvXOlX@kroah.com> <20220818135629.1113036-1-alexandr.lobakin@intel.com> <Yv5IfiwqGumJwVGT@kroah.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 8/19/22 13:56, Masahiro Yamada wrote:
-> GNU Make uses /bin/sh by default for running recipe lines and $(shell )
-> functions. You can change the shell by setting the 'SHELL' variable.
-> Unlike most variables, 'SHELL' is never set from the environment. [1]
-> 
-> Currently, Kconfig does not provide any way to change the default shell.
-> /bin/sh is always used for running $(shell,...) because do_shell() is
-> implemented by using popen(3).
-> 
-> This commit allows users to change the shell for Kconfig in a similar
-> way to GNU Make; you can set the 'SHELL' variable in a Kconfig file to
-> override the default shell. It is not taken from the environment. The
-> change is effective only for $(shell,...) invocations called after the
-> 'SHELL' assignment.
-> 
+From: Greg KH <gregkh@linuxfoundation.org>
+Date: Thu, 18 Aug 2022 16:11:10 +0200
 
-Hmmm...
+> On Thu, Aug 18, 2022 at 03:56:29PM +0200, Alexander Lobakin wrote:
+> > From: Greg KH <gregkh@linuxfoundation.org>
+> > Date: Thu, 18 Aug 2022 14:23:43 +0200
+> > 
+> > > On Thu, Aug 18, 2022 at 01:53:06PM +0200, Alexander Lobakin wrote:
+> > > > Currently, kallsyms kernel code copes with symbols with the same
+> > > > name by indexing them according to their position in vmlinux and
+> > > > requiring to provide an index of the desired symbol. This is not
+> > > > really quite reliable and is fragile to any features performing
+> > > > symbol or section manipulations such as FG-KASLR.
+> > > 
+> > > Ah, here's the reasoning, stuff like this should go into the 0/X message
+> > > too, right?
+> > > 
+> > > Anyway, what is currently broken that requires this?  What will this
+> > > make easier in the future?  What in the future will depend on this?
+> > 
+> > 2) FG-KASLR will depend and probably some more crazy hardening
+> >    stuff. And/or perf-based function/symbol placement, which is
+> >    in the "discuss and dream sometimes" stage.
+> 
+> I have no idea what "FG-KASLR" is.  Why not submit these changes when
+> whatever that is is ready for submission?
 
-Can we say that if we run SHELL=/bin/bash make nconfig, Kconfig will use
-$SHELL but we can't set it as environment variable?
+It doesn't matter much, the main idea is that the current approach
+with relying on symbol positions in the vmlinux is broken when we
+reorder symbols during the kernel initialization.
+As I said, this is an early RFC do discuss the idea and the
+implementation. I could submit it along with FG-KASLR, but then if
+there would be major change requests, I'd need to redo lots of
+stuff, which is not very efficient. It's better to settle down the
+implementation details in advance.
+Plus this kallsyms feature goes standalone as it gets bigger. It
+will contain a pack of commits and touch several different
+subsystems. Mixing all of this with FG-KASLR in one series doesn't
+sound good to me.
 
--- 
-An old man doll... just what I always wanted! - Clara
+> 
+> thanks,
+> 
+> greg k-h
+
+Thanks,
+Olek
