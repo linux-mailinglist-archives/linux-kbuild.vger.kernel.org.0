@@ -2,133 +2,154 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 13A6459A978
-	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Aug 2022 01:35:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 215F559ACCF
+	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Aug 2022 11:18:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241923AbiHSXdT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 19 Aug 2022 19:33:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39708 "EHLO
+        id S245125AbiHTJQs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 20 Aug 2022 05:16:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240543AbiHSXdS (ORCPT
+        with ESMTP id S231132AbiHTJQr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 19 Aug 2022 19:33:18 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F8B42190
-        for <linux-kbuild@vger.kernel.org>; Fri, 19 Aug 2022 16:33:14 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id q7so4279825lfu.5
-        for <linux-kbuild@vger.kernel.org>; Fri, 19 Aug 2022 16:33:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=Y7BwhUziN7Shv1IDBl73QA6DiHDSzdgJ+ZuTLbMJXkA=;
-        b=Ns54S2g0WBfzfkVQ7/nUOVRNeJaY6npkvHh5zPjpWOZ2JmKtTcTlturtO5zz/h6fyr
-         e354YBuRd+kKsyTy14dJMoQYiD7ll25eIDfcdKLDeq82K7bGN+x/BXRWG4FsL0yhHHkj
-         r+WE5mJQpLd9OcYg5Em0yjmJffK7BiDgDa5hiTS+XWT2Qso4P44deem8MyK77H7dTM4c
-         r0mb92hdAoDu2oX0yWLCx5/ad3Gg9yHQ2rL0wm24k0guhLoRORzYID1pD3RAZ3hU6mDT
-         ycg3m2U0UaA1iJN1rSSwPbjiarcDqYbxCY8/OjcHd2dqsUJSi/6oyQTwuEbg4NXcBzl3
-         LCIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=Y7BwhUziN7Shv1IDBl73QA6DiHDSzdgJ+ZuTLbMJXkA=;
-        b=cL17Od53/KGAT036DWf3UHxSKIdGUbvl6d4QjxAAOIuoBfAD8y55C0r+iRR8xaFhB0
-         ThvcmMRh3MZGKc9/uMilFoXG3OdokrH70hdaRDg7wfClRSz49+77r/MXBvm5DzqCTu9j
-         Bhkqsy3/ZjrG4RXO0nLExvY5fEfJge4rOJTBLE9g1jw9nx5GwvvWMKkdceeeoqrUzytN
-         lwHqBnBQ4fbRPw3legfy5hVTpDwkNa3WbLT3u5Vv/oQ9W0DoF4LlnY+cAHuWRzcuwfSj
-         /Om/m1tB6RX25aQuej8EvjdZKaerU/DFktuFeHhS80y1ixtYUpJMnxlSV0oQlCdPmryg
-         JPuA==
-X-Gm-Message-State: ACgBeo0SwcXILkW1LgXGm2rRur2Y1bbYi6g9CwcE9Qk/Y/vyRHK63LLb
-        aWPzdLN3II3jHbCd52TwGRLSPgUGrEsZOa8i3hLRxYR8UfE8tA==
-X-Google-Smtp-Source: AA6agR6S8k2SWNo73q0AqnEABg/vA4UxgEFYZMPy3fg9+zE7sPqCQNmlirz1q5SseKIFDBSMz2y0P8IyMhiFebJK3UM=
-X-Received: by 2002:ac2:4f03:0:b0:48a:6061:bd8e with SMTP id
- k3-20020ac24f03000000b0048a6061bd8emr3463711lfr.647.1660951992444; Fri, 19
- Aug 2022 16:33:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <CGME20220716081736epcas2p346100e67cf44b1dbb79f6e2a4ab07dbf@epcas2p3.samsung.com>
- <20220716084532.2324050-1-youngmin.nam@samsung.com> <CAK7LNAR3YGoQU6ZTZmC84C1OoH0rPinjoyPDXCD0BDPoRS4NDA@mail.gmail.com>
-In-Reply-To: <CAK7LNAR3YGoQU6ZTZmC84C1OoH0rPinjoyPDXCD0BDPoRS4NDA@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 19 Aug 2022 16:33:00 -0700
-Message-ID: <CAKwvOd=FBDqutQ-6De577GDje=YR32GxDbkgcGeP9J=2Lb3CqQ@mail.gmail.com>
-Subject: Re: [PATCH] Makefile.extrawarn: add -Wformat-insufficient-args for
- clang build
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Youngmin Nam <youngmin.nam@samsung.com>,
+        Sat, 20 Aug 2022 05:16:47 -0400
+Received: from conuserg-09.nifty.com (conuserg-09.nifty.com [210.131.2.76])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9CFAB4430;
+        Sat, 20 Aug 2022 02:16:46 -0700 (PDT)
+Received: from grover.sesame (133-32-182-133.west.xps.vectant.ne.jp [133.32.182.133]) (authenticated)
+        by conuserg-09.nifty.com with ESMTP id 27K9FiMS016772;
+        Sat, 20 Aug 2022 18:15:44 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 27K9FiMS016772
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1660986945;
+        bh=MDlM2ezt7enZ+5N0kMoHRQz+q0tdiPxN4ldECtwKlWs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=rruKtIhpW+mjCAIi5rPbs53ivNGHP9ehWm/Agyg928NYsdSwce5WjYsMLqay2g6KT
+         m2SsKzSS5bvGdI5PhvAVofeduLwQC2wckFIRnjdR6JSDy3nzX47AGdS2zX+C/dPFnf
+         anknFsMmH8M8gwXQsG7Rcuz3X+LYX6fcZBLqNfJyUGe4aIf5T3YKYFsiDp+n0fuE8a
+         5b6qqqf5zBZdk8pJsSaf4P/BgWHC/VoBtppcFQI+Xgrc9DKulTI5Pn1hLBlkBtbxmL
+         3Ti9qtL0pOa3wBSx1C5gOw+8gL6/CMFAcgkLO0xGZMIoxqti3QY+r5jydnKH2nnajF
+         1YIKdKd4YUkGg==
+X-Nifty-SrcIP: [133.32.182.133]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        hosung0.kim@samsung.com, d7271.choe@samsung.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/4] kbuild: add phony targets to ./Kbuild
+Date:   Sat, 20 Aug 2022 18:15:28 +0900
+Message-Id: <20220820091531.682096-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jul 21, 2022 at 9:22 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Sat, Jul 16, 2022 at 5:17 PM Youngmin Nam <youngmin.nam@samsung.com> wrote:
-> >
-> > The -Wformat-insufficient-args for clang is useful to detect the situation
-> > when the total number is unmatched between format specifiers and arguments.
-> >
-> > Originally, this option is enabled by default(Link[1]), but it is disabled by
-> > -Wno-format explicitly so that we can't detect this unmatched situation.
-> >
-> > We can enable it by adding this option after -Wno-format.
-> >
-> > Link[1]: https://releases.llvm.org/13.0.0/tools/clang/docs/DiagnosticsReference.html#wformat-insufficient-args
-> > Signed-off-by: Youngmin Nam <youngmin.nam@samsung.com>
-> > ---
->
->
-> Please let me hold on this patch because
-> I'd rather go straight to the removal of  -Wno-format.
->
-> https://lore.kernel.org/linux-kbuild/CAFhGd8pk+0XEz0tMiJcwMM7B3NYF=yF4cHW8A-6-81SgpKFPNw@mail.gmail.com/T/#m4becf6ed91f25217b59a840ed1829f36e49fe347
+missing-syscalls and old-atomics are meant to be phony targets.
+Adding them to always-y is odd. (always-y should generate something).
 
-Let's see what the feedback on
-https://reviews.llvm.org/D132266 is. If it lands, I will send a series
-with this patch first, then wrap it in the else clause of a
-conditional like: if clang version >= 16 then enable -Wformat else
-enable -Wformat-insufficient-args.
+Add a new phony target 'prepare', which depends on all the other.
 
->
->
->
-> >  scripts/Makefile.extrawarn | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-> > index f5f0d6f09053..c23d7c286bad 100644
-> > --- a/scripts/Makefile.extrawarn
-> > +++ b/scripts/Makefile.extrawarn
-> > @@ -48,6 +48,7 @@ else
-> >  ifdef CONFIG_CC_IS_CLANG
-> >  KBUILD_CFLAGS += -Wno-initializer-overrides
-> >  KBUILD_CFLAGS += -Wno-format
-> > +KBUILD_CFLAGS += -Wformat-insufficient-args
-> >  KBUILD_CFLAGS += -Wno-sign-compare
-> >  KBUILD_CFLAGS += -Wno-format-zero-length
-> >  KBUILD_CFLAGS += $(call cc-disable-warning, pointer-to-enum-cast)
-> > --
-> > 2.34.0
-> >
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ Kbuild   | 26 +++++++++++++-------------
+ Makefile |  2 +-
+ 2 files changed, 14 insertions(+), 14 deletions(-)
 
-
+diff --git a/Kbuild b/Kbuild
+index fa441b98c9f6..e122d93cee32 100644
+--- a/Kbuild
++++ b/Kbuild
+@@ -2,18 +2,18 @@
+ #
+ # Kbuild for top-level directory of the kernel
+ 
+-#####
++# Prepare global headers and check sanity before descending into sub-directories
++# ---------------------------------------------------------------------------
++
+ # Generate bounds.h
+ 
+ bounds-file := include/generated/bounds.h
+ 
+-always-y := $(bounds-file)
+ targets := kernel/bounds.s
+ 
+ $(bounds-file): kernel/bounds.s FORCE
+ 	$(call filechk,offsets,__LINUX_BOUNDS_H__)
+ 
+-#####
+ # Generate timeconst.h
+ 
+ timeconst-file := include/generated/timeconst.h
+@@ -23,12 +23,10 @@ filechk_gentimeconst = echo $(CONFIG_HZ) | bc -q $<
+ $(timeconst-file): kernel/time/timeconst.bc FORCE
+ 	$(call filechk,gentimeconst)
+ 
+-#####
+ # Generate asm-offsets.h
+ 
+ offsets-file := include/generated/asm-offsets.h
+ 
+-always-y += $(offsets-file)
+ targets += arch/$(SRCARCH)/kernel/asm-offsets.s
+ 
+ arch/$(SRCARCH)/kernel/asm-offsets.s: $(timeconst-file) $(bounds-file)
+@@ -36,24 +34,26 @@ arch/$(SRCARCH)/kernel/asm-offsets.s: $(timeconst-file) $(bounds-file)
+ $(offsets-file): arch/$(SRCARCH)/kernel/asm-offsets.s FORCE
+ 	$(call filechk,offsets,__ASM_OFFSETS_H__)
+ 
+-#####
+ # Check for missing system calls
+ 
+-always-y += missing-syscalls
+-
+ quiet_cmd_syscalls = CALL    $<
+       cmd_syscalls = $(CONFIG_SHELL) $< $(CC) $(c_flags) $(missing_syscalls_flags)
+ 
+-missing-syscalls: scripts/checksyscalls.sh $(offsets-file) FORCE
++PHONY += missing-syscalls
++missing-syscalls: scripts/checksyscalls.sh $(offsets-file)
+ 	$(call cmd,syscalls)
+ 
+-#####
+ # Check atomic headers are up-to-date
+ 
+-always-y += old-atomics
+-
+ quiet_cmd_atomics = CALL    $<
+       cmd_atomics = $(CONFIG_SHELL) $<
+ 
+-old-atomics: scripts/atomic/check-atomics.sh FORCE
++PHONY += old-atomics
++old-atomics: scripts/atomic/check-atomics.sh
+ 	$(call cmd,atomics)
++
++# A phony target that depends on all the preparation targets
++
++PHONY += prepare
++prepare: $(offsets-file) missing-syscalls old-atomics
++	@:
+diff --git a/Makefile b/Makefile
+index 697ab397fe31..4fcced0d3907 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1202,7 +1202,7 @@ archprepare: outputmakefile archheaders archscripts scripts include/config/kerne
+ 
+ prepare0: archprepare
+ 	$(Q)$(MAKE) $(build)=scripts/mod
+-	$(Q)$(MAKE) $(build)=.
++	$(Q)$(MAKE) $(build)=. prepare
+ 
+ # All the preparing..
+ prepare: prepare0
 -- 
-Thanks,
-~Nick Desaulniers
+2.34.1
+
