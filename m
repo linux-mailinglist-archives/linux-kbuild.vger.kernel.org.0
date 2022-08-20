@@ -2,118 +2,75 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B300659AF5F
-	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Aug 2022 20:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9020B59B0B6
+	for <lists+linux-kbuild@lfdr.de>; Sun, 21 Aug 2022 00:09:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229520AbiHTSIG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 20 Aug 2022 14:08:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44616 "EHLO
+        id S233992AbiHTV7r (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 20 Aug 2022 17:59:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbiHTSIF (ORCPT
+        with ESMTP id S235100AbiHTV7m (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 20 Aug 2022 14:08:05 -0400
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEEE333409;
-        Sat, 20 Aug 2022 11:08:04 -0700 (PDT)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 27KI7p6l015563;
-        Sun, 21 Aug 2022 03:07:52 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 27KI7p6l015563
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1661018872;
-        bh=FeKZHjTdfUk4w1z7Mg9u17SjMLtylIKx4GxJxFhubsI=;
-        h=From:Date:Subject:To:Cc:From;
-        b=iQHvwLiJ6H+FnXnJy6H7RWbreVoh89NfucfaSFJ4HS+KqU6qd8kghgeOt/D/myYaP
-         V9DcAwpo0JeoaArrL422LeE6mKykmaMW60oVgnZDyL7yuZhwGAyRNYeXLTdlhokq9X
-         CUZT2KOISImFSF6bAEFbp6LXCqaJA577czMZ+pGMTrTTHqewdb98/8DANqfcH9dQOJ
-         97cnqM/u7jLXi6GnEr2hLXXBBMNC6pN3RKmJe7bw3m8D7sIEM49fd4ILpipjmWE8sh
-         BY4h24rS+sbTZivhhfkleVIG/0atqluT2XXMTpiyzASIu0B3q2keHUstWE6YUK546R
-         +589/DSjMqg1A==
-X-Nifty-SrcIP: [209.85.221.52]
-Received: by mail-wr1-f52.google.com with SMTP id h24so8559518wrb.8;
-        Sat, 20 Aug 2022 11:07:51 -0700 (PDT)
-X-Gm-Message-State: ACgBeo1Ik4c5eKHELOuZZ1TD7RFQFFO9UY5v0h2+XeOo2prmJE2Ls6fK
-        8azEyXfM0JVeLFBkNsbq1AqSA2hMaUVJh3EXWOY=
-X-Google-Smtp-Source: AA6agR4TasFP18ZxhVawsw1UwGnDki15bB7tF77Y96KPQcoE6yovSm6Sya5lA2Lg29iUTaLPAX71nUQQjP/u9X4Ulx0=
-X-Received: by 2002:a5d:6248:0:b0:222:cd3b:94c8 with SMTP id
- m8-20020a5d6248000000b00222cd3b94c8mr7118916wrv.97.1661018870405; Sat, 20 Aug
- 2022 11:07:50 -0700 (PDT)
-MIME-Version: 1.0
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 21 Aug 2022 03:07:03 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS55=qvacmoL3Ooio3yqYR9PLBjRjyp=ZWgdHojO1meoQ@mail.gmail.com>
-Message-ID: <CAK7LNAS55=qvacmoL3Ooio3yqYR9PLBjRjyp=ZWgdHojO1meoQ@mail.gmail.com>
-Subject: [GIT PULL] Kbuild fixes for v6.0-rc2
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Sat, 20 Aug 2022 17:59:42 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEACF27B25;
+        Sat, 20 Aug 2022 14:59:40 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6D01F60C33;
+        Sat, 20 Aug 2022 21:59:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D0828C433D6;
+        Sat, 20 Aug 2022 21:59:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661032779;
+        bh=DxX4Mo2TrLWZZueRdak/bhqXmMip5cQ9KQlzd0gOVwc=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=dMshRntZ/jBl5xVIl6SjJnbexGhEk+7GKz4qFua98jHRuH+iWFoMnCyE/HubQw8lV
+         Fg+HaUSRVut8qKWZwC86KDgEC3ez/6iw7mvepN3Hq95tyiCEPpr2XBHuzUj2kyDGow
+         RoLPm44QrCX9kxOVnfLIAyLKllb/QhEeps1MDh4jqjmB7D+PMyd8+no6WQYjtrgOoI
+         /4VPCr1E8AiR3P2MAsc2Jl1urRWNU2QQDEGfuKnjRBLFrR2XaIL2B+XI70RLJ/uPav
+         adcFZh03siK3WWsf0Iwvpku/F2omi4WWQlQAjw2s5Etb6xB3Ai/wLPiFrg0Zh6okQU
+         69QujlIqMbCfw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B25B9E2A056;
+        Sat, 20 Aug 2022 21:59:39 +0000 (UTC)
+Subject: Re: [GIT PULL] Kbuild fixes for v6.0-rc2
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <CAK7LNAS55=qvacmoL3Ooio3yqYR9PLBjRjyp=ZWgdHojO1meoQ@mail.gmail.com>
+References: <CAK7LNAS55=qvacmoL3Ooio3yqYR9PLBjRjyp=ZWgdHojO1meoQ@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAK7LNAS55=qvacmoL3Ooio3yqYR9PLBjRjyp=ZWgdHojO1meoQ@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.0
+X-PR-Tracked-Commit-Id: 4be72c1b9f298b4ad42391322eaddef64b282716
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 15b3f48a4339e3c16acf18624e2b7f60bc5e9a2c
+Message-Id: <166103277972.18400.4844385308575892489.pr-tracker-bot@kernel.org>
+Date:   Sat, 20 Aug 2022 21:59:39 +0000
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello Linus,
+The pull request you sent on Sun, 21 Aug 2022 03:07:03 +0900:
 
-Please pull some Kbuild fixes.
-Thanks.
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.0
 
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/15b3f48a4339e3c16acf18624e2b7f60bc5e9a2c
 
-
-
-
-The following changes since commit 568035b01cfb107af8d2e4bd2fb9aea22cf5b868:
-
-  Linux 6.0-rc1 (2022-08-14 15:50:18 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-tags/kbuild-fixes-v6.0
-
-for you to fetch changes up to 4be72c1b9f298b4ad42391322eaddef64b282716:
-
-  scripts/clang-tools: Remove DeprecatedOrUnsafeBufferHandling check
-(2022-08-21 02:47:49 +0900)
-
-----------------------------------------------------------------
-Kbuild fixes for v6.0
-
- - Fix module versioning broken on some architectures
-
- - Make dummy-tools enable CONFIG_PPC_LONG_DOUBLE_128
-
- - Remove -Wformat-zero-length, which has no warning instance
-
- - Fix the order between drivers and libs in modules.order
-
- - Fix false-positive warnings in clang-analyzer
-
-----------------------------------------------------------------
-Guru Das Srinagesh (1):
-      scripts/clang-tools: Remove DeprecatedOrUnsafeBufferHandling check
-
-Jiri Slaby (1):
-      kbuild: dummy-tools: pretend we understand __LONG_DOUBLE_128__
-
-Masahiro Yamada (2):
-      modpost: fix module versioning when a symbol lacks valid CRC
-      kbuild: fix the modules order between drivers and libs
-
-Nathan Chancellor (1):
-      scripts/Makefile.extrawarn: Do not disable clang's -Wformat-zero-length
-
- Makefile                               | 6 ++----
- scripts/Makefile.extrawarn             | 1 -
- scripts/clang-tools/run-clang-tools.py | 1 +
- scripts/dummy-tools/gcc                | 2 +-
- scripts/mod/modpost.c                  | 4 +---
- 5 files changed, 5 insertions(+), 9 deletions(-)
+Thank you!
 
 -- 
-Best Regards
-Masahiro Yamada
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
