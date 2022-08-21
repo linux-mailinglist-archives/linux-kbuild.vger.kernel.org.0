@@ -2,75 +2,112 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6705259B13C
-	for <lists+linux-kbuild@lfdr.de>; Sun, 21 Aug 2022 04:05:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5297E59B30E
+	for <lists+linux-kbuild@lfdr.de>; Sun, 21 Aug 2022 12:11:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235635AbiHUCCa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 20 Aug 2022 22:02:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50414 "EHLO
+        id S230113AbiHUKLw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 21 Aug 2022 06:11:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235095AbiHUCC3 (ORCPT
+        with ESMTP id S229436AbiHUKLv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 20 Aug 2022 22:02:29 -0400
-Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com [IPv6:2607:f8b0:4864:20::e2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DAFB2C669
-        for <linux-kbuild@vger.kernel.org>; Sat, 20 Aug 2022 19:02:27 -0700 (PDT)
-Received: by mail-vs1-xe2a.google.com with SMTP id o123so7954754vsc.3
-        for <linux-kbuild@vger.kernel.org>; Sat, 20 Aug 2022 19:02:27 -0700 (PDT)
+        Sun, 21 Aug 2022 06:11:51 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9286FFD3E;
+        Sun, 21 Aug 2022 03:11:49 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id ce26so476817ejb.11;
+        Sun, 21 Aug 2022 03:11:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc;
-        bh=o2rScCjvXVxWvz35qYLyGk2pLCsnGqfLECgC0wg1Bvk=;
-        b=pjjIRFCyndrRiNZHN0JpGZ5blK2zqs/kNdZ1mUM6gGHE4okaBMrIVXKGRmyheUmWEG
-         ikoY9Dhf5RGE9aFOlM5NXuRabG8v3xWjbKbRT5dDfXMaMfPz+8Qc3Z87TkZruXA1roc+
-         LGkD0zoJY0ctwbNcMqpyBxtsTRghUGbB2NXxpOIyI6EF/TAaTfzAuCdrq15tawNWXVHN
-         0rvG9UQ0dtEK3E/lly8+Hs/OJBHHIZbp8cCbwMyZkJUF0pzCubJ6Kk4OLGXZOZjEsFvK
-         Vqi2X1BI3RmtN3v3Cz1vAF+dv2vNq8/GzROUMPczQYioiNeY5z4j3oX9G/RNRtv3jMWn
-         UHmw==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc;
+        bh=8ith3DKWqelfwAhl4fXB2Zj3+XrRanGIkq2gbaZNWZg=;
+        b=BVQpXwpBZgmCcpri72t9UYGSUWNIWbGX+mvKI914QY8tRVzJe+eeIW6Qh/v466eoXH
+         fqtZ9qkt9kzrgFQw4vvsffJYWvxDWABGWdj72gGBl+UQVV0nFx/FqLnPInnnqSkwvZiz
+         QAx3e/fFprENPZEkS4XD1h1f1dkIll6fgX8OBhc6HyYzEUEfBsScjnLGiqwELqIQJfdE
+         CXpkfkItL/NTWXet387ZBCBynIWBmmn5KciXvLRb/KXwolyGql54ceQ8n2zKycvV0r3S
+         RNr8UB6ykcmIvdBDzec7uUOA0eGooPOq6M9o5dvWGS520weyqQRDNqRik0CYBOTV/P1m
+         j0ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc;
-        bh=o2rScCjvXVxWvz35qYLyGk2pLCsnGqfLECgC0wg1Bvk=;
-        b=APJylV4GqM2PXcwdwlvAiHC96xBHOyLHr6lE+A8YqrI+ktag+axlQ7k8D6+IF1aPh9
-         HnwOCUEW9BoGT+ZWeouSejvLf7aPe64pgrdE4YCKvM7HXkR/KQo9G4aMTpvuyX5k4nRS
-         bBlm9gH4y8/zJVV0od3Kup8RsKHag07ryWPTnd5WjdsvD2Bca8H5Ifu/pRJL9hlx//cH
-         tLVhQJZD24ezG4XjOA7HMdxAq3oCmGzbI6di6Re8lr7MtI9nE9MiEDigmMMieeudAQeH
-         Z9bBTK8CN4H4lkZ3X+952fVZFHIrchkL2LyP+Ar6yVpZCrmLQiFcSXR7Dyol5Ly62qkk
-         AyMA==
-X-Gm-Message-State: ACgBeo0GX7j6HE9VsztBm/g+fSEixXkcsiQzuxGPPwvimlMt4APcaICK
-        PbLGfRsDLUzCDp0OSlTrHXFE9WIC2FCA8m/OiXc=
-X-Google-Smtp-Source: AA6agR4tqyTvSA2j73rDHOrYiN4l2RiaiQetEFVKsP4y7AXlS9PmQdjpgGeYmWbE7QhlAj2S/eKP0KhKJDbKlAvUaB4=
-X-Received: by 2002:a67:ed51:0:b0:38d:34b9:98b9 with SMTP id
- m17-20020a67ed51000000b0038d34b998b9mr5150458vsp.68.1661047346500; Sat, 20
- Aug 2022 19:02:26 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc;
+        bh=8ith3DKWqelfwAhl4fXB2Zj3+XrRanGIkq2gbaZNWZg=;
+        b=6VsinoZI2o3WE51q0ZzibGqafmGtJq02mwLNQywbJm+VUjt0yNrScWZcsyDsOfvoWj
+         j6ix5Nd+cLmbxPaltGMe7etCbXNKy0hVA02ln0UgNxX17og17Y4Ct3RcXrHnH82TkUXW
+         0Nvxk1BBsgyWfiQcN4ISJx3z6A/1jciNY+w1pUhonzpstzTHwXW+uen/TbvIkRGfzxgG
+         H3W73OFfjBLHy7Fs4faqSX5ZbkpdGQW+1WjbRvkU/3afnqh5Ya08hHZSZVdGzrV9k5ze
+         Qrn1wqWhq251bQeMvptyjUCDRgKY5iu+rBABkTcYUnh/idVEWuY4x0mmQVrGaPvbU8vS
+         hKvQ==
+X-Gm-Message-State: ACgBeo04Z8gv5Oi5EtlvtKCDP1zBTIIJap2BnkK7JO02zg9BaX0b8Kqr
+        nDuwggEs0jxr1VBDmom0xLc=
+X-Google-Smtp-Source: AA6agR4kTu9YlV5YYbUUlwVhkyNFi6XbWVbAuGGc7J+qELenLCeL3rXs3jHQa/zJy5NHEabc6B1vAQ==
+X-Received: by 2002:a17:907:288a:b0:730:7f77:9550 with SMTP id em10-20020a170907288a00b007307f779550mr9534282ejc.216.1661076708009;
+        Sun, 21 Aug 2022 03:11:48 -0700 (PDT)
+Received: from gmail.com (195-38-113-151.pool.digikabel.hu. [195.38.113.151])
+        by smtp.gmail.com with ESMTPSA id j15-20020aa7c0cf000000b0043bbc9503ddsm6251027edp.76.2022.08.21.03.11.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Aug 2022 03:11:47 -0700 (PDT)
+Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
+Date:   Sun, 21 Aug 2022 12:11:45 +0200
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
+        kvm@vger.kernel.org, llvm@lists.linux.dev,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Borislav Petkov <bp@suse.de>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Subject: Re: [PATCH v2] asm goto: eradicate CC_HAS_ASM_GOTO
+Message-ID: <YwIE4WDJXWK/LOR6@gmail.com>
+References: <CAADnVQJFc9AnH_9CW+bSRotkKvOmkO9jq-RF6dmyPYOpq691Yg@mail.gmail.com>
+ <20220819190640.2763586-1-ndesaulniers@google.com>
 MIME-Version: 1.0
-Received: by 2002:ab0:6052:0:0:0:0:0 with HTTP; Sat, 20 Aug 2022 19:02:25
- -0700 (PDT)
-Reply-To: wijh555@gmail.com
-From:   "Prof. Chin Guang" <confianzayrentabilidad@gmail.com>
-Date:   Sat, 20 Aug 2022 19:02:25 -0700
-Message-ID: <CANrrfX4sY6LO8ifO5KY27366Wp-rZKWTb=YBaBrxtYe62sRGLg@mail.gmail.com>
-Subject: Greetings,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: ****
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220819190640.2763586-1-ndesaulniers@google.com>
+X-Spam-Status: No, score=1.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
--- 
-The Board Directors want to know if you are in good health doing great and
-with the hope that this mail will meet you in good condition, We are
-privileged and delighted to reach you via email" And we are urgently
-waiting to hear from you. and again your number is not connecting.
 
-Sincerely,
-Prof. Chin Guang
+* Nick Desaulniers <ndesaulniers@google.com> wrote:
+
+> GCC has supported asm goto since 4.5, and Clang has since version 9.0.0.
+> The minimum supported versions of these tools for the build according to
+> Documentation/process/changes.rst are 5.1 and 11.0.0 respectively.
+> 
+> Remove the feature detection script, Kconfig option, and clean up some
+> fallback code that is no longer supported.
+> 
+> The removed script was also testing for a GCC specific bug that was
+> fixed in the 4.7 release.
+> 
+> Also remove workarounds for bpftrace using clang older than 9.0.0, since
+> other BPF backend fixes are required at this point.
+> 
+> Link: https://lore.kernel.org/lkml/CAK7LNATSr=BXKfkdW8f-H5VT_w=xBpT2ZQcZ7rm6JfkdE+QnmA@mail.gmail.com/
+> Link: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=48637
+> Acked-by: Borislav Petkov <bp@suse.de>
+> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
+> Suggested-by: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+
+Reviewed-by: Ingo Molnar <mingo@kernel.org>
+
+Good riddance.
+
+Thanks,
+
+	Ingo
