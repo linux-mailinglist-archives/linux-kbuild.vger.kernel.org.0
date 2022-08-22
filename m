@@ -2,109 +2,106 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EB3359B90F
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Aug 2022 08:12:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E35CD59C1C6
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Aug 2022 16:42:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232775AbiHVGMW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 22 Aug 2022 02:12:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60430 "EHLO
+        id S235207AbiHVOmO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 22 Aug 2022 10:42:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229727AbiHVGMV (ORCPT
+        with ESMTP id S234896AbiHVOmN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 22 Aug 2022 02:12:21 -0400
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A92A26AD2;
-        Sun, 21 Aug 2022 23:12:21 -0700 (PDT)
-Received: by mail-ot1-x32f.google.com with SMTP id h20-20020a056830165400b00638ac7ddba5so7064090otr.4;
-        Sun, 21 Aug 2022 23:12:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=xRBPID2afPJAp96OqaGvBdjqx78UAxNzgaJTyGjabr8=;
-        b=fAsoPJBfZm1Q3Pe+7+Kgk49YdcBBzb5wbtHRNl3NBQ8lbJi6wNFGOyGP+hoP0LKlyB
-         VYzze1ue1TiTDDgBtSEp6kziMzbSiH5Fii+zpt7cBoV90iAQvRLmQHESUpqo3Y2Wp0tT
-         txhLSz77VhTqtxhPw3vHrTEWUE1Rg3dXr9mmw80FeRscTk39kroT1YD6ySvLqCPXYB/M
-         jKGtS5Jkl9M0Xr8BvbyheUI4MSQ3LYilhkgfoy9UPRCTcOE8FZLGdRPd5ma1WAVAWUHJ
-         rX8xGUAGM5/iqMLz3tWKZo8+A29cJCX4/zNpzemWmun70fPvCnhrk/oSR+OdcQSW3niU
-         7edw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=xRBPID2afPJAp96OqaGvBdjqx78UAxNzgaJTyGjabr8=;
-        b=GDmbLoeM4H5ljqQY3FvjqMmqus7MvH38CTOUOPYK/hVR0rHUS/gPlm7r4CyiGTrqQ5
-         /ZTKHs+8YZ36SCBnWFwSqhDkxLG1crLaZYt0aEK970mw0INpvChvkJ70dZcH5FJmWz+H
-         C5Uk3n2VoNABbWQH9F+lYrNjVErQIw6cdBwHfCTEc77oF+wqzeMWAFrUEvyQVMDSE2eO
-         6lRCrhKS665f71bmOyW2TskDwbxTJ+2ZIBMyO3kd6hNu1Q8OsVfpyYEu1/quV0m+Njed
-         WdSOOW8K0BZrS+Qtot7+8glD2hdO5s0btaY/owzzjLuwfZCuztxN8MgDfiDh6QXIddyi
-         gR3A==
-X-Gm-Message-State: ACgBeo33geumml56BpLk6OmlwwStbg+amnqz+fn3iAGnHDoD0GG6ZkU9
-        se3DDVr3YyHYjyEvA0jfVJJVuV2m6h2kgYHrKR4=
-X-Google-Smtp-Source: AA6agR5/3lpDfPcI8hjqmqqJiTVbPVyi0UuVROvgrbHtJM/EtFwkEW7IgrfmM3wwNBrbhTG/o1jOsrLr57VaSHZoKMc=
-X-Received: by 2002:a05:6830:2a8e:b0:638:c41c:d5a1 with SMTP id
- s14-20020a0568302a8e00b00638c41cd5a1mr7455068otu.367.1661148740694; Sun, 21
- Aug 2022 23:12:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAADnVQJFc9AnH_9CW+bSRotkKvOmkO9jq-RF6dmyPYOpq691Yg@mail.gmail.com>
- <20220819190640.2763586-1-ndesaulniers@google.com> <CAHk-=whLcuvDDS3rZfEgDrwbdJrTx8HCRNiZ5cDc80-_gzHCxw@mail.gmail.com>
-In-Reply-To: <CAHk-=whLcuvDDS3rZfEgDrwbdJrTx8HCRNiZ5cDc80-_gzHCxw@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Mon, 22 Aug 2022 08:11:44 +0200
-Message-ID: <CA+icZUUX1gPvnExa=zyVqB8xYOTai+nfHp6E7+qRE2mXXa2M=A@mail.gmail.com>
-Subject: Re: [PATCH v2] asm goto: eradicate CC_HAS_ASM_GOTO
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Mon, 22 Aug 2022 10:42:13 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C216F371B1;
+        Mon, 22 Aug 2022 07:42:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1661179332; x=1692715332;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=M+vT8QnLNMo6qMrgIuZIijfJ1dcMOL8NnZ+wIrdoKs8=;
+  b=KOF1lzIXGyI5m8XUrvL3Bhl/HnkoFz3+84m6P1JgqBFP1p1pa2ZNSZRB
+   76L2oLDuJ0rhqKD7twkIF+CBuZNb+TxBZ7o9/rcI/3VH+IN/M9Vxq8lLe
+   fKneQfP62cu1CImAKguTKxtQ5sxCYm8cnDDDpTcGpzOPXT94zAjh8AUwm
+   IybKoSrMS8dxNuolMlC0wf4VidXk3p1H7s/OiU/KVof12Dzu5ptF7jElX
+   aelbQx2Sf6WrQMxvcTR9q+8BTdYKdlR1LeftsEfnWlAbQn314DMRW174O
+   s8Ua15HSXMB3JyL+Xpo9fnUmsC2QrWNzsUiPMBeI3ziC9LWgzxdBmVXNl
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10447"; a="379721069"
+X-IronPort-AV: E=Sophos;i="5.93,255,1654585200"; 
+   d="scan'208";a="379721069"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2022 07:42:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,255,1654585200"; 
+   d="scan'208";a="608981332"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+  by orsmga002.jf.intel.com with ESMTP; 22 Aug 2022 07:42:06 -0700
+Received: from newjersey.igk.intel.com (newjersey.igk.intel.com [10.102.20.203])
+        by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id 27MEg4HA003194;
+        Mon, 22 Aug 2022 15:42:04 +0100
+From:   Alexander Lobakin <alexandr.lobakin@intel.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
-        kvm@vger.kernel.org, llvm@lists.linux.dev,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Borislav Petkov <bp@suse.de>,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Michal Marek <michal.lkml@markovi.net>,
+        "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+        "Anil S Keshavamurthy" <anil.s.keshavamurthy@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Petr Mladek <pmladek@suse.com>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        linux-kbuild@vger.kernel.org, live-patching@vger.kernel.org,
+        lkp@intel.com,
+        =?UTF-8?q?F=C4=81ng-ru=C3=AC=20S=C3=B2ng?= <maskray@google.com>,
+        linux-hardening@vger.kernel.org, x86@kernel.org,
+        Borislav Petkov <bp@alien8.de>,
+        Kees Cook <keescook@chromium.org>,
+        Marios Pomonis <pomonis@google.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
+        llvm@lists.linux.dev, Jessica Yu <jeyu@kernel.org>
+Subject: Re: [RFC PATCH 0/3] kallsyms: add option to include relative filepaths into kallsyms
+Date:   Mon, 22 Aug 2022 16:40:22 +0200
+Message-Id: <20220822144022.7127-1-alexandr.lobakin@intel.com>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20220818115306.1109642-1-alexandr.lobakin@intel.com>
+References: <20220818115306.1109642-1-alexandr.lobakin@intel.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Aug 21, 2022 at 7:13 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> Applied directly, just because I love seeing old nasty stuff like this go away.
->
->              Linus
+From: Alexander Lobakin <alexandr.lobakin@intel.com>
+Date: Thu, 18 Aug 2022 13:53:03 +0200
 
-Hi,
+> This is an early RFC to not rewrite stuff one more time later on if
+> the implementation is not acceptable or any major design changes are
+> required. For the TODO list, please scroll to the end.
+> 
+> Make kallsyms independent of symbols positions in vmlinux (or module)
+> by including relative filepath in each symbol's kallsyms value. I.e.
+> 
+> dev_gro_receive -> net/core/gro.c:dev_gro_receive
 
-Small nitpick:
+Oops, forgot to Cc some more folks I was talking to regarding the
+previous implementation <O> Fixed, pls let me know if you prefer to
+get a resend.
 
---- a/arch/x86/include/asm/rmwcc.h
-+++ b/arch/x86/include/asm/rmwcc.h
-...
--#if !defined(__GCC_ASM_FLAG_OUTPUTS__) && defined(CONFIG_CC_HAS_ASM_GOTO)
-+#ifndef __GCC_ASM_FLAG_OUTPUTS__
-...
--#else /* defined(__GCC_ASM_FLAG_OUTPUTS__) ||
-!defined(CONFIG_CC_HAS_ASM_GOTO) */
-+#else /* defined(__GCC_ASM_FLAG_OUTPUTS__) */
-...
--#endif /* defined(__GCC_ASM_FLAG_OUTPUTS__) ||
-!defined(CONFIG_CC_HAS_ASM_GOTO) */
-+#endif /* defined(__GCC_ASM_FLAG_OUTPUTS__) */
+> -- 
+> 2.37.2
 
-Shouldn't that be...
-
-#if !defined(__GCC_ASM_FLAG_OUTPUTS__)
-
-...to fit the 2 comments?
-
-Best regards,
--Sedat-
+Thanks,
+Olek
