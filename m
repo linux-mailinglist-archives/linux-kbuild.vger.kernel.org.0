@@ -2,57 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF70859C457
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Aug 2022 18:46:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C56359CAE9
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Aug 2022 23:37:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229627AbiHVQpt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 22 Aug 2022 12:45:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36940 "EHLO
+        id S237715AbiHVVgb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 22 Aug 2022 17:36:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235257AbiHVQpq (ORCPT
+        with ESMTP id S232271AbiHVVga (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 22 Aug 2022 12:45:46 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29DF4186CA
-        for <linux-kbuild@vger.kernel.org>; Mon, 22 Aug 2022 09:45:43 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id z6so16085547lfu.9
-        for <linux-kbuild@vger.kernel.org>; Mon, 22 Aug 2022 09:45:42 -0700 (PDT)
+        Mon, 22 Aug 2022 17:36:30 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF0BB52E67
+        for <linux-kbuild@vger.kernel.org>; Mon, 22 Aug 2022 14:36:28 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id a16so8787836lfs.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 22 Aug 2022 14:36:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=c8213vY56JPgpNVjirb5hpOo+919ft+msz2yWaNpPZI=;
-        b=sVGHevnabAGTzofmnF3jp/fLog8EfKc0DKAPZbFU2sgZdYKZkmzADOntd2mGXPL1CG
-         izSHAg1fHkqd6KO4NofkUQcrCC3EF4RZNR2fHe7TxJ/eXsZcBkr0isVIg3M8bqlKNq5A
-         do3tL8pk8wZT2ZgacoITiaRGrVACzxT14bXyCWUmGwAMl3VRpJVorhl0DZ61raANYhl4
-         cWEz4DDmvgj7lvd9tg4EW2fdqY8bYQ1dPArbXiGS/asbl75JpQ7qCSvcl2elqbB6SSmC
-         W+qgidYejdBaaNaFs9Ex8WDMQK60Gmh1F1SY7b7FPG8EZrfQPa7RG10cu0eaZcT9y15Q
-         MsJg==
+        bh=5ru0aABhHpkFT/xNIs3ZgPkQqBJ5OZsLkRi6XtgKWDc=;
+        b=dcayZoNHlCo4X2lBZCOuItLTviaZ8g58d6ch9c4HiqsrmeMeUSPmuGQecK7tHnrrcU
+         BGZDNtotPI8KTh71ufRsdBAJD9I0Wn/JaS/a7cuRQDPcdnZDdr/puIhkK7LQ17LqLP5m
+         F7mSDEKTuFxE0vpJK7tIpCoMZbPYmyZue3712Yl2OWgNZkQLUxtOw67pP67r7PPaDnhE
+         Dr5EV0ORbmC57dz2HQvVdfUabDG0a3X94rd8sabU5Gtm3YMD/R+b5qXEve4IGMY19D6n
+         BGVAXE8R6X58ZONsUKzTfAJuS/dmi8A3ymiKeFW/UExxBF4ePGcUFyPDhIOVZoMoPMMc
+         aMFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=c8213vY56JPgpNVjirb5hpOo+919ft+msz2yWaNpPZI=;
-        b=jhGZOfIzLBn5QL7A3o0BBHBTx3ausab08ctNg1w01hCLI21Kg/WXys3r1fUNkF7zem
-         2qMyFnEFV9r9PrE5oYa6FGSSJgwPJdiebWJlPhbcq5P7shR0BjelSSkdYI63v1wuf5SJ
-         X5Rk3ajdMtmyrUO8Go7zR1PjWwB1O6dWibO7S98KfRyaOb2LxyMXqznqYOYZDANKeVzW
-         BI3y7gBC0AIV2h3CJ7mfuFgv2kPUILqhEL0q5yG4TrIuYZnjClrZQztLW3ilfX1UHJnc
-         rMZqBGC6JZVH7DusGUWVQGFHrIuu4MXKuVHfoxpKrXZ7on2Jmi4XhHVZZL8mn9ICkkYq
-         qOfg==
-X-Gm-Message-State: ACgBeo3wBIcSJ4d1Tv3s7JAJCdgqgNkPU+WvkU/kFO9IamHkZmxw2KsN
-        aTvXkDU2xNGcV2x1HLppv7tm5aalxefsgwIJxMpafA==
-X-Google-Smtp-Source: AA6agR7bzbop2QQFAsGGE7kJOaXMj9YwmQlZlHYeH4IWfCINA6AxrWn2ao3yspUUtbDO2bplWpt7ZFA9tDk61kPzMv0=
-X-Received: by 2002:a05:6512:1316:b0:48d:2549:1158 with SMTP id
- x22-20020a056512131600b0048d25491158mr6862876lfu.626.1661186740924; Mon, 22
- Aug 2022 09:45:40 -0700 (PDT)
+        bh=5ru0aABhHpkFT/xNIs3ZgPkQqBJ5OZsLkRi6XtgKWDc=;
+        b=DliFygIlpVKLXStrYORL0shaRRLj/M9yw4lVmILReSSDJuZl+1GMJI7dZuRHV7vtq3
+         lbT2h87f/bmXYcDEgDrmP4YIniw/J6Sa89cqYJC72SJXMqdydu6eqN1SnXfXLdW14/2U
+         mLdZ6SIvPBf/oUbct2x26ONUIshA9b4An6GaOhLLJMz1SaMclwis/oQSSAfiXWElJWlX
+         nO0IEgLfTZfEArPMChFM6A0rmgzQUuOcWMt9fjk3hvhdWVtOOQWJhfRksb7+KszqNqDF
+         fD6QJZgOxSBhNvwrpjcgr+5ES1gUDYBre5D+VdRTp2tC28ageN2e5Wv4cyo4wavf09px
+         23gg==
+X-Gm-Message-State: ACgBeo0dfLeNo5QtzoqV572ocqe+YaxRpaRA7QzfhaOA/0ofitZJXkrY
+        gNGx31HsOejhzNkH+Do1ez80N+bidNf1TKmCoK5gzA==
+X-Google-Smtp-Source: AA6agR4VQdfm3FFb0/UvTwdOZ1B/U6O/llTvGCtgfXsaf06xvjwNGX6p0asM/se/N286IcpWF+PmcstxsiQQmfXjyoo=
+X-Received: by 2002:a05:6512:33d6:b0:492:c423:1672 with SMTP id
+ d22-20020a05651233d600b00492c4231672mr7240817lfg.432.1661204186888; Mon, 22
+ Aug 2022 14:36:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <CANXV_XwgZMCGXijfoUyZ9+KyM6Rgeqiq-sCfubyj_16d-2CN=A@mail.gmail.com>
  <20220815013317.26121-1-dmitrii.bundin.a@gmail.com> <CAKwvOdnnSAozX8bQ9HeSw12BV9OjpzyDmXk_BGczjVVQNN+7tQ@mail.gmail.com>
- <CANXV_Xw2wzwDdJkyV1nHPQm2JTt48SLrNc7YwrfcxOwuFA-z3w@mail.gmail.com>
-In-Reply-To: <CANXV_Xw2wzwDdJkyV1nHPQm2JTt48SLrNc7YwrfcxOwuFA-z3w@mail.gmail.com>
+ <CANXV_Xw2wzwDdJkyV1nHPQm2JTt48SLrNc7YwrfcxOwuFA-z3w@mail.gmail.com> <CAKwvOdkiq_byi1QeCvSGb2fd+0AJ1k9WNnsHJMeaaQcPRy1Wxg@mail.gmail.com>
+In-Reply-To: <CAKwvOdkiq_byi1QeCvSGb2fd+0AJ1k9WNnsHJMeaaQcPRy1Wxg@mail.gmail.com>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 22 Aug 2022 09:45:28 -0700
-Message-ID: <CAKwvOdkiq_byi1QeCvSGb2fd+0AJ1k9WNnsHJMeaaQcPRy1Wxg@mail.gmail.com>
+Date:   Mon, 22 Aug 2022 14:36:14 -0700
+Message-ID: <CAKwvOdkPwbD-c0V-up2Ufzb-Uh7LLyD12X0FKeBa=hn+cSPA9Q@mail.gmail.com>
 Subject: Re: [PATCH v3] kbuild: add debug level and macro defs options
 To:     Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
@@ -82,75 +82,20 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Aug 19, 2022 at 3:52 PM Dmitrii Bundin
-<dmitrii.bundin.a@gmail.com> wrote:
+On Mon, Aug 22, 2022 at 9:45 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
 >
-> On Fri, Aug 19, 2022 at 8:42 PM Nick Desaulniers
-> <ndesaulniers@google.com> wrote:
-> >
-> > Is any of this really necessary?
+> > So it seems like a reasonable choice to provide a debug info
+> > level config that would explicitly set the level without relying on
+> > implicits. The default value of the config is set to -g2 to not change
+> > the build behavior that was before introducing the option. And it
+> > works for both older and newer versions of GCC/Clang in the same way.
+> > The benefits of the -g1 option are indeed questionable except that it
+> > produces an image with ~20% less in size.
 >
-> Consider the case if CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y.
-> Prior to GCC11/Clang12 -gsplit-dwarf implied -g2. So on newer
-> compilers with -gsplit-dwarf in use there would be no debug symbols
-> produced.
+> Until there's a concrete need, YAGNI.
 
-```
-diff --git a/scripts/Makefile.debug b/scripts/Makefile.debug
-index 9f39b0130551..a881954c1382 100644
---- a/scripts/Makefile.debug
-+++ b/scripts/Makefile.debug
-@@ -1,7 +1,7 @@
- DEBUG_CFLAGS   :=
-
- ifdef CONFIG_DEBUG_INFO_SPLIT
--DEBUG_CFLAGS   += -gsplit-dwarf
-+DEBUG_CFLAGS   += -gsplit-dwarf -g2
- else
- DEBUG_CFLAGS   += -g
- endif
-```
-
-or perhaps that simply needs to be `-g -gsplit-dwarf`?  In which case,
-that if/else could just be re-arranged.
-
-> -gdwarf-4/5 still implies -g2, but in case
-> CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y neither of the options are
-> set.
-
--g is set, which has an implicit default level.
-
-> So it seems like a reasonable choice to provide a debug info
-> level config that would explicitly set the level without relying on
-> implicits. The default value of the config is set to -g2 to not change
-> the build behavior that was before introducing the option. And it
-> works for both older and newer versions of GCC/Clang in the same way.
-> The benefits of the -g1 option are indeed questionable except that it
-> produces an image with ~20% less in size.
-
-Until there's a concrete need, YAGNI.
-
->
-> > It seems like a great way to bloat
-> > vmlinux artifacts built with CONFIG_DEBUG_INFO even further.
-> The defaults were chosen to not change the build behavior that was
-> before introducing the options. Or did you mean something else?
->
-> > The
-> > above link mentions "when debugging with GDB."  In that case, please
-> > don't add new Kconfigs for these; just set -g3 when
-> > CONFIG_GDB_SCRIPTS=y.
->
-> CONFIG_GDB_SCRIPTS does not necessarily mean that -g3 is wanted, -g2
-> (default) is usually a reasonable choice. The -g3 option is very
-> useful when debugging macro-intensive code, but requires much more
-> disk space to build. I documented it explicitly in the help section of
-> DEBUG_INFO_LEVEL. GCC and Clang use different options to include macro
-> definitions so it was handled depending on the compiler used.
-
-Honestly, I really don't think we need to be wrapping every compiler
-command line flag under the sun in a kconfig option.
-
+Or add -g1 to CONFIG_DEBUG_INFO_REDUCED.
 -- 
 Thanks,
 ~Nick Desaulniers
