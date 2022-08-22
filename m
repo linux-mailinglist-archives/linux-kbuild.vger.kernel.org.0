@@ -2,106 +2,155 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E35CD59C1C6
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Aug 2022 16:42:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF70859C457
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Aug 2022 18:46:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235207AbiHVOmO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 22 Aug 2022 10:42:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58682 "EHLO
+        id S229627AbiHVQpt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 22 Aug 2022 12:45:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234896AbiHVOmN (ORCPT
+        with ESMTP id S235257AbiHVQpq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 22 Aug 2022 10:42:13 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C216F371B1;
-        Mon, 22 Aug 2022 07:42:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1661179332; x=1692715332;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=M+vT8QnLNMo6qMrgIuZIijfJ1dcMOL8NnZ+wIrdoKs8=;
-  b=KOF1lzIXGyI5m8XUrvL3Bhl/HnkoFz3+84m6P1JgqBFP1p1pa2ZNSZRB
-   76L2oLDuJ0rhqKD7twkIF+CBuZNb+TxBZ7o9/rcI/3VH+IN/M9Vxq8lLe
-   fKneQfP62cu1CImAKguTKxtQ5sxCYm8cnDDDpTcGpzOPXT94zAjh8AUwm
-   IybKoSrMS8dxNuolMlC0wf4VidXk3p1H7s/OiU/KVof12Dzu5ptF7jElX
-   aelbQx2Sf6WrQMxvcTR9q+8BTdYKdlR1LeftsEfnWlAbQn314DMRW174O
-   s8Ua15HSXMB3JyL+Xpo9fnUmsC2QrWNzsUiPMBeI3ziC9LWgzxdBmVXNl
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10447"; a="379721069"
-X-IronPort-AV: E=Sophos;i="5.93,255,1654585200"; 
-   d="scan'208";a="379721069"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2022 07:42:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,255,1654585200"; 
-   d="scan'208";a="608981332"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
-  by orsmga002.jf.intel.com with ESMTP; 22 Aug 2022 07:42:06 -0700
-Received: from newjersey.igk.intel.com (newjersey.igk.intel.com [10.102.20.203])
-        by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id 27MEg4HA003194;
-        Mon, 22 Aug 2022 15:42:04 +0100
-From:   Alexander Lobakin <alexandr.lobakin@intel.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
-        "Anil S Keshavamurthy" <anil.s.keshavamurthy@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Petr Mladek <pmladek@suse.com>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
-        linux-kbuild@vger.kernel.org, live-patching@vger.kernel.org,
-        lkp@intel.com,
-        =?UTF-8?q?F=C4=81ng-ru=C3=AC=20S=C3=B2ng?= <maskray@google.com>,
-        linux-hardening@vger.kernel.org, x86@kernel.org,
-        Borislav Petkov <bp@alien8.de>,
-        Kees Cook <keescook@chromium.org>,
-        Marios Pomonis <pomonis@google.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
-        llvm@lists.linux.dev, Jessica Yu <jeyu@kernel.org>
-Subject: Re: [RFC PATCH 0/3] kallsyms: add option to include relative filepaths into kallsyms
-Date:   Mon, 22 Aug 2022 16:40:22 +0200
-Message-Id: <20220822144022.7127-1-alexandr.lobakin@intel.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220818115306.1109642-1-alexandr.lobakin@intel.com>
-References: <20220818115306.1109642-1-alexandr.lobakin@intel.com>
+        Mon, 22 Aug 2022 12:45:46 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29DF4186CA
+        for <linux-kbuild@vger.kernel.org>; Mon, 22 Aug 2022 09:45:43 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id z6so16085547lfu.9
+        for <linux-kbuild@vger.kernel.org>; Mon, 22 Aug 2022 09:45:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=c8213vY56JPgpNVjirb5hpOo+919ft+msz2yWaNpPZI=;
+        b=sVGHevnabAGTzofmnF3jp/fLog8EfKc0DKAPZbFU2sgZdYKZkmzADOntd2mGXPL1CG
+         izSHAg1fHkqd6KO4NofkUQcrCC3EF4RZNR2fHe7TxJ/eXsZcBkr0isVIg3M8bqlKNq5A
+         do3tL8pk8wZT2ZgacoITiaRGrVACzxT14bXyCWUmGwAMl3VRpJVorhl0DZ61raANYhl4
+         cWEz4DDmvgj7lvd9tg4EW2fdqY8bYQ1dPArbXiGS/asbl75JpQ7qCSvcl2elqbB6SSmC
+         W+qgidYejdBaaNaFs9Ex8WDMQK60Gmh1F1SY7b7FPG8EZrfQPa7RG10cu0eaZcT9y15Q
+         MsJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=c8213vY56JPgpNVjirb5hpOo+919ft+msz2yWaNpPZI=;
+        b=jhGZOfIzLBn5QL7A3o0BBHBTx3ausab08ctNg1w01hCLI21Kg/WXys3r1fUNkF7zem
+         2qMyFnEFV9r9PrE5oYa6FGSSJgwPJdiebWJlPhbcq5P7shR0BjelSSkdYI63v1wuf5SJ
+         X5Rk3ajdMtmyrUO8Go7zR1PjWwB1O6dWibO7S98KfRyaOb2LxyMXqznqYOYZDANKeVzW
+         BI3y7gBC0AIV2h3CJ7mfuFgv2kPUILqhEL0q5yG4TrIuYZnjClrZQztLW3ilfX1UHJnc
+         rMZqBGC6JZVH7DusGUWVQGFHrIuu4MXKuVHfoxpKrXZ7on2Jmi4XhHVZZL8mn9ICkkYq
+         qOfg==
+X-Gm-Message-State: ACgBeo3wBIcSJ4d1Tv3s7JAJCdgqgNkPU+WvkU/kFO9IamHkZmxw2KsN
+        aTvXkDU2xNGcV2x1HLppv7tm5aalxefsgwIJxMpafA==
+X-Google-Smtp-Source: AA6agR7bzbop2QQFAsGGE7kJOaXMj9YwmQlZlHYeH4IWfCINA6AxrWn2ao3yspUUtbDO2bplWpt7ZFA9tDk61kPzMv0=
+X-Received: by 2002:a05:6512:1316:b0:48d:2549:1158 with SMTP id
+ x22-20020a056512131600b0048d25491158mr6862876lfu.626.1661186740924; Mon, 22
+ Aug 2022 09:45:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <CANXV_XwgZMCGXijfoUyZ9+KyM6Rgeqiq-sCfubyj_16d-2CN=A@mail.gmail.com>
+ <20220815013317.26121-1-dmitrii.bundin.a@gmail.com> <CAKwvOdnnSAozX8bQ9HeSw12BV9OjpzyDmXk_BGczjVVQNN+7tQ@mail.gmail.com>
+ <CANXV_Xw2wzwDdJkyV1nHPQm2JTt48SLrNc7YwrfcxOwuFA-z3w@mail.gmail.com>
+In-Reply-To: <CANXV_Xw2wzwDdJkyV1nHPQm2JTt48SLrNc7YwrfcxOwuFA-z3w@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Mon, 22 Aug 2022 09:45:28 -0700
+Message-ID: <CAKwvOdkiq_byi1QeCvSGb2fd+0AJ1k9WNnsHJMeaaQcPRy1Wxg@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: add debug level and macro defs options
+To:     Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Isabella Basso <isabbasso@riseup.net>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Fangrui Song <maskray@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Alexander Lobakin <alexandr.lobakin@intel.com>
-Date: Thu, 18 Aug 2022 13:53:03 +0200
+On Fri, Aug 19, 2022 at 3:52 PM Dmitrii Bundin
+<dmitrii.bundin.a@gmail.com> wrote:
+>
+> On Fri, Aug 19, 2022 at 8:42 PM Nick Desaulniers
+> <ndesaulniers@google.com> wrote:
+> >
+> > Is any of this really necessary?
+>
+> Consider the case if CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y.
+> Prior to GCC11/Clang12 -gsplit-dwarf implied -g2. So on newer
+> compilers with -gsplit-dwarf in use there would be no debug symbols
+> produced.
 
-> This is an early RFC to not rewrite stuff one more time later on if
-> the implementation is not acceptable or any major design changes are
-> required. For the TODO list, please scroll to the end.
-> 
-> Make kallsyms independent of symbols positions in vmlinux (or module)
-> by including relative filepath in each symbol's kallsyms value. I.e.
-> 
-> dev_gro_receive -> net/core/gro.c:dev_gro_receive
+```
+diff --git a/scripts/Makefile.debug b/scripts/Makefile.debug
+index 9f39b0130551..a881954c1382 100644
+--- a/scripts/Makefile.debug
++++ b/scripts/Makefile.debug
+@@ -1,7 +1,7 @@
+ DEBUG_CFLAGS   :=
 
-Oops, forgot to Cc some more folks I was talking to regarding the
-previous implementation <O> Fixed, pls let me know if you prefer to
-get a resend.
+ ifdef CONFIG_DEBUG_INFO_SPLIT
+-DEBUG_CFLAGS   += -gsplit-dwarf
++DEBUG_CFLAGS   += -gsplit-dwarf -g2
+ else
+ DEBUG_CFLAGS   += -g
+ endif
+```
 
-> -- 
-> 2.37.2
+or perhaps that simply needs to be `-g -gsplit-dwarf`?  In which case,
+that if/else could just be re-arranged.
 
+> -gdwarf-4/5 still implies -g2, but in case
+> CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y neither of the options are
+> set.
+
+-g is set, which has an implicit default level.
+
+> So it seems like a reasonable choice to provide a debug info
+> level config that would explicitly set the level without relying on
+> implicits. The default value of the config is set to -g2 to not change
+> the build behavior that was before introducing the option. And it
+> works for both older and newer versions of GCC/Clang in the same way.
+> The benefits of the -g1 option are indeed questionable except that it
+> produces an image with ~20% less in size.
+
+Until there's a concrete need, YAGNI.
+
+>
+> > It seems like a great way to bloat
+> > vmlinux artifacts built with CONFIG_DEBUG_INFO even further.
+> The defaults were chosen to not change the build behavior that was
+> before introducing the options. Or did you mean something else?
+>
+> > The
+> > above link mentions "when debugging with GDB."  In that case, please
+> > don't add new Kconfigs for these; just set -g3 when
+> > CONFIG_GDB_SCRIPTS=y.
+>
+> CONFIG_GDB_SCRIPTS does not necessarily mean that -g3 is wanted, -g2
+> (default) is usually a reasonable choice. The -g3 option is very
+> useful when debugging macro-intensive code, but requires much more
+> disk space to build. I documented it explicitly in the help section of
+> DEBUG_INFO_LEVEL. GCC and Clang use different options to include macro
+> definitions so it was handled depending on the compiler used.
+
+Honestly, I really don't think we need to be wrapping every compiler
+command line flag under the sun in a kconfig option.
+
+-- 
 Thanks,
-Olek
+~Nick Desaulniers
