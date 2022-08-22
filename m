@@ -2,158 +2,115 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 07E0859CB87
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Aug 2022 00:35:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4931659CBAB
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Aug 2022 00:43:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229819AbiHVWfa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 22 Aug 2022 18:35:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51326 "EHLO
+        id S238293AbiHVWmz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 22 Aug 2022 18:42:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238461AbiHVWfX (ORCPT
+        with ESMTP id S237790AbiHVWmy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 22 Aug 2022 18:35:23 -0400
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F109C48C90
-        for <linux-kbuild@vger.kernel.org>; Mon, 22 Aug 2022 15:35:19 -0700 (PDT)
-Received: by mail-lj1-x22f.google.com with SMTP id w23so6807184ljj.7
-        for <linux-kbuild@vger.kernel.org>; Mon, 22 Aug 2022 15:35:19 -0700 (PDT)
+        Mon, 22 Aug 2022 18:42:54 -0400
+Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37CF95141B;
+        Mon, 22 Aug 2022 15:42:53 -0700 (PDT)
+Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-33365a01f29so334613457b3.2;
+        Mon, 22 Aug 2022 15:42:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc;
-        bh=/3Qz2I07qNsEqmUXX8sV18RiE73NXZbJtJL/a6pTzOM=;
-        b=oWPtAluKai50SM+qKue2D41Qzws4/k+V5RWd5eefNxz1X9aicH59ZvpfnjRJXMaLQs
-         oqxP/yJYA/pA0XUC3IAQ2pMsUZC5KWJCBsJB87xXEHpXJYh3UsodLH0bSrdVTyW8PqVU
-         fl7bU/ZoUTjyKr6lYqkht34lemnsdk4xtG++3RabmhF1f8ccW1cPhtNqTlSyiEEcsLzu
-         YmlkZJbQ8uLeYszYrnjAf1BiPDqMYPF7w2OYYQuBY8Qlu0DW1tannUkwgTEalQVTDxVO
-         5e5PuucVBSjpt4Fd7T9Y4gljaVUNRJApsbm1Vq6Mzh8cdPFYHKbekz+4ISdZpBbhyJKO
-         Yejw==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=HSdoxsJ0k6gi0gsdGDs4RmvY3VdrRt/X1WP13pkBsqU=;
+        b=C3O0dWqKjUV3GXIxPrazUCrC1qZ8vJXzfPUCnaeFt/paXuYseHJFcPGlmSxCM14FGF
+         WJbmQlxGHA2MgIuv+R+K5DzQkVq8q6aSUY/f6hG8Xr9LTg/y31VSixfUpY72oo5SjjOE
+         egfTtL0WveMBMQE1lZgccfd5I4v6eFLVO9C/BIosaS50mLcQuMN7ImL6MMihx7HYao7o
+         TiQS65HRw+zHe7q0hZ5iVJIZhZMikl588HNHGk/AM7peHpw8OiF6HBUCCWBaxvBufxgs
+         5kE7xT5n8cdsBza4ZP1G1jXZj4o+sq9t+ozeeWlSqN3PovjjkP7tZb3ptMxUa5A0O5r6
+         HygA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
-        bh=/3Qz2I07qNsEqmUXX8sV18RiE73NXZbJtJL/a6pTzOM=;
-        b=Tk+vi8vFokQAkGkf4Ap7kB9eCgzIzTiWHLIjaMtYp2qyC1ug6i+yLUZDGLbu+ajGFL
-         erg+DFQzf1H98xprnBC21ifN+idf2EUJLapLPZD/HtzHDstx8rMyNp0Ur2DY4QPWZaqH
-         GvDE4Ww/It5nR4fNCIhr0ZT92WQOSYka4YMykjpev8GPH+peBzvTUMCBv2gGYZvMhbYq
-         1dYonW/hCdNQ2tsM5bQS8R5WnVHsVoN84MhSJC2sUhbWMWm6qzG4H9P5J5T7muAFEVOR
-         8s6bumi2uRQo1ttaTVjnOscwJGvHQvOsEUj6+g/tA9ZcCRBon8WSJRRka1W5PNwU4XYe
-         NRDw==
-X-Gm-Message-State: ACgBeo2LqXCCNSGakdB/uCa9y+OYZj4g0r0o9wFgkAvb4PgVg+K10IxR
-        ADi2h8CBkHj3kljVG2YCuIbv0d5Lcfm+DaeARmdiHw==
-X-Google-Smtp-Source: AA6agR7Tldikzvhh2Bk23FXDw9lViwJukpyd5ZjJCRNzpjlVddMHxOB5z715HFFouGcVhLUk2TreqJEweh3FvxQ/Ygg=
-X-Received: by 2002:a2e:9dc5:0:b0:25e:6fa0:1243 with SMTP id
- x5-20020a2e9dc5000000b0025e6fa01243mr6684227ljj.513.1661207718102; Mon, 22
- Aug 2022 15:35:18 -0700 (PDT)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=HSdoxsJ0k6gi0gsdGDs4RmvY3VdrRt/X1WP13pkBsqU=;
+        b=MurVcqXqDcgMGJ8Psbme+rkLG9NcEJhKnHE6AlMSsyWvK35bwqX5+La3d2wGGUKtB0
+         Sx+pY10DGTRWiGCgDsrdEQq+b6ZLCp/QsprMi+Q/49Id46kXnCV534t88tfmw51XLWui
+         Q/91DGeyrNzHj2Okg9sTp3aQMR9hWBeuUrTp2sGW++4wlD1D9iYSqQPdaiimtZLzgHpy
+         lkX9qnGPELVGFb8IYUW137wcNSzL9X9uv0lPaHHvythap8HWFe3XqBpiu7OUYRDTaRbX
+         AQoUVC8f2OhxoDLNY980gkN7Kh17PlQ55VSTFyJ/6NHDnhccXDkO+vCT48TyWStl02rb
+         iVmA==
+X-Gm-Message-State: ACgBeo1aiYfCbNuGh0xREM9sZSerrQTKc8t+vp5sBW3PlQGvES9ogfu1
+        wS96g6FyjfrBUpkg0jUbftHlvzRRkVuJ4bmpNzU=
+X-Google-Smtp-Source: AA6agR5j2z1EgEY6ADYmvGvAzZLL2kTZhI6Ws+fREQaJa7ShHYh+KSQlTaAXsJcSSTgeLsWdxumZ0lziQUjPKdz+S7s=
+X-Received: by 2002:a25:8a85:0:b0:671:715e:a1b0 with SMTP id
+ h5-20020a258a85000000b00671715ea1b0mr21425930ybl.98.1661208172405; Mon, 22
+ Aug 2022 15:42:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220805154231.31257-1-ojeda@kernel.org> <20220805154231.31257-24-ojeda@kernel.org>
-In-Reply-To: <20220805154231.31257-24-ojeda@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 22 Aug 2022 15:35:05 -0700
-Message-ID: <CAKwvOd=y5T9bh4398K+5=82q=vVbkjQQ76KyXLy-qoM2Tph08A@mail.gmail.com>
-Subject: Re: [PATCH v9 23/27] Kbuild: add Rust support
-To:     Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, patches@lists.linux.dev,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Sven Van Asbroeck <thesven73@gmail.com>,
-        Gary Guo <gary@garyguo.net>,
-        Boris-Chengbiao Zhou <bobo1239@web.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Douglas Su <d0u9.su@outlook.com>,
-        Dariusz Sosnowski <dsosnowski@dsosnowski.pl>,
-        Antonio Terceiro <antonio.terceiro@linaro.org>,
-        Daniel Xu <dxu@dxuuu.xyz>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Martin Rodriguez Reboredo <yakoyoku@gmail.com>,
+References: <CANXV_XwgZMCGXijfoUyZ9+KyM6Rgeqiq-sCfubyj_16d-2CN=A@mail.gmail.com>
+ <20220815013317.26121-1-dmitrii.bundin.a@gmail.com> <CAKwvOdnnSAozX8bQ9HeSw12BV9OjpzyDmXk_BGczjVVQNN+7tQ@mail.gmail.com>
+ <CANXV_Xw2wzwDdJkyV1nHPQm2JTt48SLrNc7YwrfcxOwuFA-z3w@mail.gmail.com>
+ <CAKwvOdkiq_byi1QeCvSGb2fd+0AJ1k9WNnsHJMeaaQcPRy1Wxg@mail.gmail.com> <CAKwvOdkPwbD-c0V-up2Ufzb-Uh7LLyD12X0FKeBa=hn+cSPA9Q@mail.gmail.com>
+In-Reply-To: <CAKwvOdkPwbD-c0V-up2Ufzb-Uh7LLyD12X0FKeBa=hn+cSPA9Q@mail.gmail.com>
+From:   Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
+Date:   Tue, 23 Aug 2022 01:42:41 +0300
+Message-ID: <CANXV_XzdTTYc2w7Ur8zY=ijOofg91yfF7RLhedbVH0rmi3c2yA@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: add debug level and macro defs options
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Isabella Basso <isabbasso@riseup.net>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Fangrui Song <maskray@google.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org
+        Nathan Chancellor <nathan@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
- On Fri, Aug 5, 2022 at 8:44 AM Miguel Ojeda <ojeda@kernel.org> wrote:
+On Tue, Aug 23, 2022 at 12:36 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
 >
-> Having most of the new files in place, we now enable Rust support
-> in the build system, including `Kconfig` entries related to Rust,
-> the Rust configuration printer and a few other bits.
+> or perhaps that simply needs to be `-g -gsplit-dwarf`?  In which case,
+> that if/else could just be re-arranged.
 
-Cool, I'm finally happy with this patch.
+How about simply assigning DEBUG_CFLAGS   := -g at the very beginning
+without any conditions? This would provide the default with the
+possibility of overriding later and -gsplit-dwarf does not necessarily
+come with -g implicitly.
 
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-Tested-by: Nick Desaulniers <ndesaulniers@google.com>
+> Honestly, I really don't think we need to be wrapping every compiler
+> command line flag under the sun in a kconfig option.
 
-I built and boot tested with CONFIG_RUST enabled, played with
-CLIPPY=3D1, and built all of the new make targets for rust.
+This indeed sounds reasonable to me. So the key point here is to not
+bloat the kconfig with options related to every compiler flag. But I
+think it still might be useful to provide some option that would
+include sort of full debug information compilers may produce. With
+this approach there would be, in fact 3 different levels of debug
+information supported by Kconfig: reduced, default and full. The full
+level would increase everything like -g3, and -fdebug-macro for Clang,
+and probably others.
 
-Thanks for all of the work that went into these series from all of the
-authors and Miguel for your determination. Keep it up!
+> Or add -g1 to CONFIG_DEBUG_INFO_REDUCED.
 
-I've left comments on other patches (and I will leave one on
-rust/compiler_builtins.rs because I still don't like that approach)
-and there may be small cleanups we can do here or there, but I think
-we're in good shape to land something and start iterating on it
-upstream.  I'll file bugs in your issue tracker for small nits I come
-across, but so far, it's been more-so questions.
+I ran some tests and there was indeed some decrease in size. That
+combination probably might be useful.
 
----
+Any thoughts?
 
-LWN recently demonstrated that most fixes are in relatively younger
-code: https://lwn.net/Articles/902854/
-
-An analysis of 0day exploits found in the wild in 2021 showed that for
-Android, researchers are attacking drivers:
-https://googleprojectzero.blogspot.com/2022/04/the-more-you-know-more-you-k=
-now-you.html
-
-Multiple independent reports cite high numbers (70% or more) of memory
-safety issues in native code:
-https://www.memorysafety.org/docs/memory-safety/
-
-I have colleagues that are developing a microkernel (they then use a
-memory unsafe language for their kernel as well :^P ) to move as much
-functionality as possible into lower levels of privilege.  It's
-interesting and I wish them well, but I also prefer more incremental
-approaches to existing solutions, and suspect the way of the monolith
-to still give us the best performance.
-
-I learned an interesting word the other day: Corten Steel
-from the YouTube channel Practical Engineering (it's a great channel
-on Civil Engineering):
-https://www.youtube.com/watch?v=3D2RbiCOFffRs&t=3D523s
-transcript:
-
->> I should also note that there are even steel alloys whose rust is protec=
-tive! Weathering steel (sometimes known by its trade name of Corten Steel) =
-is a group of alloys that are naturally resilient against rust because of p=
-assivation. A special blend of elements, including manganese, nickel, silic=
-on, and chromium don=E2=80=99t keep the steel from rusting, but they allow =
-the layer of rust to stay attached, forming a protective layer that signifi=
-cantly slows corrosion.
-
-My hope is that Rust may provide a layer of Corten Steel to the Linux
-kernel to help us protect newly written driver code from memory safety
-related issues, so that Linux remains the best option for developing
-products for the next 30 years. I also suspect it may bring in a whole
-new generation of hackers to the kernel ecosystem.  That is my
-blessing for Rust in the Linux kernel.
---
-Thanks,
-~Nick Desaulniers
+Regards
+Dmitrii
