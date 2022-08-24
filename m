@@ -2,230 +2,107 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FF5459FDFC
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Aug 2022 17:13:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BA2B5A0271
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Aug 2022 22:04:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239346AbiHXPNP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 24 Aug 2022 11:13:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40748 "EHLO
+        id S239909AbiHXUEd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 24 Aug 2022 16:04:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239419AbiHXPNO (ORCPT
+        with ESMTP id S233529AbiHXUEc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 24 Aug 2022 11:13:14 -0400
-Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5855992F67;
-        Wed, 24 Aug 2022 08:13:11 -0700 (PDT)
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 27OFCjVB013992;
-        Thu, 25 Aug 2022 00:12:46 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 27OFCjVB013992
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1661353966;
-        bh=fVvaRhYbr7WqSGRQrnnYvU3l+AHOJziVA/x4NFlZgNA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=SWPfw5FByzSsAK8YH9O2qotcC/hLiEILV5uVffOA/uM4+LKlS7oFBPvuXo+DdSWxZ
-         ej/+7awez8uneRqxStI64AtKE3IK+I9nLDXF9+Y+kOzEiUg39Tq2VUbCZqTUKkxNx2
-         o6lRPsgFn6mFxm86EozCnPx+HnUgT6CIMj7AHDdNEZ1Wn1/gdY4LqxWSdySwcDFJxa
-         dyaeveEm6PYaK2iPEqw6jYWJW9fyklqOOYPXTwn61G9PZBL75G3tGNzHxz53uIOASe
-         kH60xluch7C2RzjPxplIc/q6OtBscByXqSkEpHKrodqF7d8lp/5rm0KnjrC6KWocrL
-         yR+mYxrVly2vg==
-X-Nifty-SrcIP: [209.85.210.52]
-Received: by mail-ot1-f52.google.com with SMTP id h20-20020a056830165400b00638ac7ddba5so11992125otr.4;
-        Wed, 24 Aug 2022 08:12:46 -0700 (PDT)
-X-Gm-Message-State: ACgBeo1z6lm52VFuxmSjaGnyH3/keUS6E+68CJL6ElpBqdgEOg0VGj+u
-        lPqpSivUN76P59NpJiixKR77h8seQxjwYrI28ck=
-X-Google-Smtp-Source: AA6agR6SVxhGHjPqzDSRHvstOHoynSvOcXtoHpO+BvUGcwbnHt28FtUhLXip+Cg3SfnsPxu9gTrs2FtahV+hGrPQY3I=
-X-Received: by 2002:a9d:4806:0:b0:637:cdca:f8d3 with SMTP id
- c6-20020a9d4806000000b00637cdcaf8d3mr11459091otf.225.1661353965051; Wed, 24
- Aug 2022 08:12:45 -0700 (PDT)
+        Wed, 24 Aug 2022 16:04:32 -0400
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 233CD7C1F9;
+        Wed, 24 Aug 2022 13:04:31 -0700 (PDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.nyi.internal (Postfix) with ESMTP id 9C2A05C00FD;
+        Wed, 24 Aug 2022 16:04:28 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Wed, 24 Aug 2022 16:04:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flux.ci; h=cc:cc
+        :content-transfer-encoding:date:date:from:from:in-reply-to
+        :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+         s=fm2; t=1661371468; x=1661457868; bh=NPbNMhmf4CJLdJ3iB6KsqUGsg
+        lvPQTKvSwbqWfOSQnM=; b=Y+4tkFT9TB03Pt9wUla+qpcrM//6mpUA93VKKBOo8
+        SktWce1Bkr9lCetsL6byq0oJlA9Rnr/T6i/LKimeBQgyjDoQOJXas8V+09FwPZrB
+        WJ0dQndp1aMk8pq5s6Sh1KV5k5cpv3mXrWhtXG/7ZVpSxG05A3MmKiZQ+VVPLlkH
+        WBwYXY+ssChQTVCpbygqXwq/CkZLSQEBv35mIL7ulQsldDQR7hk04XHIZyle6rEW
+        d1pieTcOmgxeBg7K814VPXag6jxisqvqupctXcXLUGLZQV6Pn6jySrp2OxSsgmGs
+        s49aIjCDwLClFkGN3RKz/PyQ1UcP6YRERZmLTldNLr//w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:message-id
+        :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+        1661371468; x=1661457868; bh=NPbNMhmf4CJLdJ3iB6KsqUGsglvPQTKvSwb
+        qWfOSQnM=; b=IeZBrKCenhpU51FTR8KJRQ5vLAkJVOjLXVYMy2wYU93JjMFsitk
+        xrpOAk373SYHsiT54uZpYArrjQMansdEBlMCbd2onoe9JnsTjhpWHtpYnkwEdCvp
+        e/ifHStfUlSIV9iFV9wZwcWLsziFaW1vKNAO4tPLr3sVbLFanV0t0adGFD7ydNcx
+        h08BqlPRVPausWmWF389q71VYYsVeODsl8NoBZ86SJwca39xKt50PimChA5fOUOX
+        v3SiJoei2wGK1QkdTcFBvCMl8OLPpTBXrZ/+sUxMPUUXPREt9+6AV3xGqmjAKskV
+        SmJAsPHKVavdhQtnpMRn1Aw9xFIJni6BNmQ==
+X-ME-Sender: <xms:S4QGY9WP8pABdAqQm6lES-fw1yYH3zC-Mhx-WZkx7YA8gwgSz1bujw>
+    <xme:S4QGY9m30jrWKkyNbs-SJInLRA_ulCHMQtRsUqvKXhwML0LI-BWBlb6zP0hvJWjUn
+    oWOl_KnTrwvwynm1Fc>
+X-ME-Received: <xmr:S4QGY5aVUf4poPa7JLhmwGlikM1uF539O4088hxJVh40tI3V-QE4Att5pQxF3Z9lSao0Q_WE7XP1xYK9BFkeZel4QggJLgAMLpZSYgOO4g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejuddgudegjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefvhhhithgr
+    thcutehurghrvggvshhukhhsrghkuhhluceothhhihhtrghtsehflhhugidrtghiqeenuc
+    ggtffrrghtthgvrhhnpeetvdeijeeludevgeeiffevgefffeeivedvffdvteevgeeuteej
+    ieeuffehkeevhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehthhhithgrthesfhhluhigrdgtih
+X-ME-Proxy: <xmx:S4QGYwXhTNTxXKGOiO_hKpljXbvix2AuweOsPTGBX3jbjJ8SbXEaiQ>
+    <xmx:S4QGY3kRxnm9Vg5OaJbyogZKVf-4aqgiVlQreF8_BYFC90WOPRrH9Q>
+    <xmx:S4QGY9fCelfBI15K97ni0Y6zah5jkYpYNgIzxiOi0T090EP0oAiL8w>
+    <xmx:TIQGYwDx-VeNICW0-c0n8rypT7cD5C5DLH8CgJGezBHs82YyM3fo3g>
+Feedback-ID: i6a314685:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 24 Aug 2022 16:04:25 -0400 (EDT)
+From:   Thitat Auareesuksakul <thitat@flux.ci>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Thitat Auareesuksakul <thitat@flux.ci>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] scripts/extract-ikconfig: add zstd compression support
+Date:   Thu, 25 Aug 2022 03:03:40 +0700
+Message-Id: <20220824200340.45673-1-thitat@flux.ci>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-References: <20220817152027.16928-1-masahiroy@kernel.org> <20220824002355.GA391120-robh@kernel.org>
-In-Reply-To: <20220824002355.GA391120-robh@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 25 Aug 2022 00:12:08 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASSc9Txf7dLL=Fb-uG3n9vWbHDezFMAmnMuajAm7wjHwQ@mail.gmail.com>
-Message-ID: <CAK7LNASSc9Txf7dLL=Fb-uG3n9vWbHDezFMAmnMuajAm7wjHwQ@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: fix wrong use of if_changed_rule
-To:     Rob Herring <robh@kernel.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Sam Protsenko <semen.protsenko@linaro.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Aug 24, 2022 at 9:23 AM Rob Herring <robh@kernel.org> wrote:
->
-> On Thu, Aug 18, 2022 at 12:20:26AM +0900, Masahiro Yamada wrote:
-> > The intent for if_changed_rule is to re-run the rule when the command
-> > line is changed, but this if_changed_rule does not do anything for it.
->
-> This is the issue with DT_SCHEMA_FILES changes not causing a rebuild?
->
-> > $(cmd-check) for this rule is always empty because:
-> >
-> >  [1] $(cmd_$@) is empty because .processed-schema.json.cmd does not exist
-> >  [2] $(cmd_$1) is empty because cmd_chkdt is not defined
-> >
-> > To address [1], use cmd_and_cmdsave instead of cmd.
-> >
-> > To address [2], rename rule_chkdt to rule_mk_schema so that the stem
-> > parts of cmd_* and rule_* match, like commit 7a0496056064 ("kbuild:
-> > fix DT binding schema rule to detect command line changes").
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> > Another possibility might be to split out yamllint and chk_bindings
-> > as standalone build rules instead of running them as a side-effect
-> > of the schema build. (but it it up to Rob's preference)
->
-> That is the direction I'd like to go. Something like the below patch
-> perhaps.
->
-> The main issue (or feature?) is that 'dt_binding_lint' and
-> 'dt_binding_schema' targets are still rerun every time even with the
-> dummy target files.
+Add extract-ikconfig support for kernel images compressed with zstd.
 
+Signed-off-by: Thitat Auareesuksakul <thitat@flux.ci>
+---
+ scripts/extract-ikconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-Not a feature.
-It is just because the code is wrong.
-
-
-You need to add
-
-targets += dt_binding_lint.checked
-
-  or
-
-always-$(CHECK_DT_BINDING) += dt_binding_lint.checked
-
-
-
->
-> I think the top level makefile can be simplified a bit more with this
-> change, but this is what I got to being somewhat functional.
-
-
-I do not understand why the top Makefile needs a change.
-
-It is just a matter of adding the timestamp files to always-y
-in Documentation/devicetree/bindings/Makefile, isn'ts it?
-
-
-
-
-
-
-> diff --git a/Documentation/devicetree/bindings/Makefile b/Documentation/devicetree/bindings/Makefile
-> index 1eaccf135b30..ec3d8a926331 100644
-> --- a/Documentation/devicetree/bindings/Makefile
-> +++ b/Documentation/devicetree/bindings/Makefile
-> @@ -34,11 +34,13 @@ CHK_DT_DOCS := $(shell $(find_cmd))
->  quiet_cmd_yamllint = LINT    $(src)
->        cmd_yamllint = ($(find_cmd) | \
->                       xargs -n200 -P$$(nproc) \
-> -                    $(DT_SCHEMA_LINT) -f parsable -c $(srctree)/$(src)/.yamllint >&2) || true
-> +                    $(DT_SCHEMA_LINT) -f parsable -c $(srctree)/$(src)/.yamllint >&2) || true; \
-> +                     touch $(obj)/dt_binding_lint.checked
->
-> -quiet_cmd_chk_bindings = CHKDT   $@
-> +quiet_cmd_chk_bindings = CHKDT   $(src)
->        cmd_chk_bindings = ($(find_cmd) | \
-> -                         xargs -n200 -P$$(nproc) $(DT_DOC_CHECKER) -u $(srctree)/$(src)) || true
-> +                         xargs -n200 -P$$(nproc) $(DT_DOC_CHECKER) -u $(srctree)/$(src)) || true; \
-> +                         touch $(obj)/dt_binding_schema.checked
->
->  quiet_cmd_mk_schema = SCHEMA  $@
->        cmd_mk_schema = f=$$(mktemp) ; \
-> @@ -46,12 +48,6 @@ quiet_cmd_mk_schema = SCHEMA  $@
->                        $(DT_MK_SCHEMA) -j $(DT_MK_SCHEMA_FLAGS) @$$f > $@ ; \
->                       rm -f $$f
->
-> -define rule_chkdt
-> -       $(if $(DT_SCHEMA_LINT),$(call cmd,yamllint),)
-> -       $(call cmd,chk_bindings)
-> -       $(call cmd,mk_schema)
-> -endef
-> -
->  DT_DOCS = $(patsubst $(srctree)/%,%,$(shell $(find_all_cmd)))
->
->  override DTC_FLAGS := \
-> @@ -64,8 +60,25 @@ override DTC_FLAGS := \
->  # Disable undocumented compatible checks until warning free
->  override DT_CHECKER_FLAGS ?=
->
-> -$(obj)/processed-schema.json: $(DT_DOCS) $(src)/.yamllint check_dtschema_version FORCE
-> -       $(call if_changed_rule,chkdt)
-> +dt_binding_lint: $(obj)/dt_binding_lint.checked
-> +
-> +$(obj)/dt_binding_lint.checked: $(CHK_DT_DOCS) $(src)/.yamllint FORCE
-> +       $(call if_changed,yamllint)
-> +
-> +dt_binding_schema: $(obj)/dt_binding_schema.checked
-> +
-> +$(obj)/dt_binding_schema.checked: $(CHK_DT_DOCS) check_dtschema_version FORCE
-> +       $(call if_changed,chk_bindings)
-> +
-> +dt_binding_examples: CHECK_DT_BINDING = y
-> +
-> +dt_binding_examples: $(obj)/processed-schema.json $(patsubst $(srctree)/%.yaml,%.example.dtb, $(CHK_DT_DOCS))
-> +
-> +dt_binding_check: dt_binding_lint dt_binding_examples dt_binding_schema
-> +
-> +
-> +$(obj)/processed-schema.json: $(DT_DOCS) check_dtschema_version FORCE
-> +       $(call if_changed,mk_schema)
->
->  always-y += processed-schema.json
->  always-$(CHECK_DT_BINDING) += $(patsubst $(srctree)/$(src)/%.yaml,%.example.dts, $(CHK_DT_DOCS))
-> diff --git a/Makefile b/Makefile
-> index c7705f749601..0f197e3bd1f9 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1391,7 +1391,7 @@ dtbs_prepare: include/config/kernel.release scripts_dtc
->
->  ifneq ($(filter dtbs_check, $(MAKECMDGOALS)),)
->  export CHECK_DTBS=y
-> -dtbs: dt_binding_check
-> +dtbs: dt_binding_schema
->  endif
->
->  dtbs_check: dtbs
-> @@ -1409,13 +1409,14 @@ PHONY += scripts_dtc
->  scripts_dtc: scripts_basic
->         $(Q)$(MAKE) $(build)=scripts/dtc
->
-> -ifneq ($(filter dt_binding_check, $(MAKECMDGOALS)),)
-> +ifneq ($(filter dt_binding_examples, $(MAKECMDGOALS)),)
->  export CHECK_DT_BINDING=y
->  endif
->
-> -PHONY += dt_binding_check
-> -dt_binding_check: scripts_dtc
-> -       $(Q)$(MAKE) $(build)=Documentation/devicetree/bindings
-> +DT_BINDING_TARGETS := dt_binding_check dt_binding_lint dt_binding_schema dt_binding_examples
-> +PHONY += $(DT_BINDING_TARGETS)
-> +$(DT_BINDING_TARGETS): scripts_dtc
-> +       $(Q)$(MAKE) $(build)=Documentation/devicetree/bindings $@
->
->  # ---------------------------------------------------------------------------
->  # Modules
-
-
-
+diff --git a/scripts/extract-ikconfig b/scripts/extract-ikconfig
+index 3b42f255e2ba..8df33e7d6daa 100755
+--- a/scripts/extract-ikconfig
++++ b/scripts/extract-ikconfig
+@@ -62,6 +62,7 @@ try_decompress 'BZh'          xy    bunzip2
+ try_decompress '\135\0\0\0'   xxx   unlzma
+ try_decompress '\211\114\132' xy    'lzop -d'
+ try_decompress '\002\041\114\030' xyy 'lz4 -d -l'
++try_decompress '\050\265\057\375' xxx unzstd
+ 
+ # Bail out:
+ echo "$me: Cannot find kernel config." >&2
 -- 
-Best Regards
-Masahiro Yamada
+2.37.2
+
