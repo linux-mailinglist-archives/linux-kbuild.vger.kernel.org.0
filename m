@@ -2,88 +2,116 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 507185A0A4F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Aug 2022 09:32:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1F0B5A0ABE
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Aug 2022 09:53:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238318AbiHYHaj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 25 Aug 2022 03:30:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53298 "EHLO
+        id S236838AbiHYHxQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 25 Aug 2022 03:53:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237671AbiHYHaV (ORCPT
+        with ESMTP id S234910AbiHYHxK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 25 Aug 2022 03:30:21 -0400
-X-Greylist: delayed 501 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 25 Aug 2022 00:30:19 PDT
-Received: from mail.avm.de (mail.avm.de [IPv6:2001:bf0:244:244::119])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 119E39A9A9;
-        Thu, 25 Aug 2022 00:30:19 -0700 (PDT)
-Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
-        by mail.avm.de (Postfix) with ESMTPS;
-        Thu, 25 Aug 2022 09:21:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-        t=1661412116; bh=/+UC0gRCiFWQcMuy4Xj0qMCo2bQnVRVF/PnuYavamBU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hI+XGEjVal0XVZcBbCZY4poHtGOSgWwflU0pGH50eFNfESJzpF/JBeerdSxtQC8dt
-         pfSdEMmRpzRgSFMDlJ/Vhl9LnWi0WTR4hL5AlWVPVltlPvGE7JDO3aM+rGgUux8CLE
-         ytGgIjK7q/QUei6W5p6w2NNb+yf+N/clLDpBm2cE=
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-        by mail-auth.avm.de (Postfix) with ESMTPA id 7C5E4801AA;
-        Thu, 25 Aug 2022 09:21:56 +0200 (CEST)
-Received: by buildd.core.avm.de (Postfix, from userid 1000)
-        id 70EF318149F; Thu, 25 Aug 2022 09:21:56 +0200 (CEST)
-Date:   Thu, 25 Aug 2022 09:21:56 +0200
-From:   Nicolas Schier <n.schier@avm.de>
-To:     Thitat Auareesuksakul <thitat@flux.ci>
+        Thu, 25 Aug 2022 03:53:10 -0400
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACA69A00E6;
+        Thu, 25 Aug 2022 00:53:08 -0700 (PDT)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 4MCwDt5BS1z4xV9;
+        Thu, 25 Aug 2022 17:53:02 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+        s=201909; t=1661413983;
+        bh=UtVip1icK7gJdBlHq+HFWJBnOoW3QoCQ+h8pU+n3KkA=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=ZLFEHd4Sc+LArWxSHPMZaxUV5Xt5HbCBwxEJoAOkDftQUBd3UvDzQ3SPoUGfIq8+Y
+         XOXVABGmUJRXNewPOhBZ4PnZBgAclyRWiDmLWWWIEoOxbTyf0lT9HmzLfn6qDXHVP8
+         4cFLNr2mtb3VMBT0+X8XSw8kOQcDbMBET6kwqKOBcIoT5DWSkK5aoD9YgXXoTklXi4
+         4vn7aZmWvMmRDrzEWJ1c3IdlA0o+UvHCBus9SLXerZ9zIaIxILLCzH95mjf0d5/kTH
+         Nh5wLMJbIfMZsTuGrUc2j6C3xLq/AaC3ujgNFv8DeGoG8jRuDO1B7lmoCz2us+rszT
+         QVS80HXLzHXbw==
+From:   Michael Ellerman <mpe@ellerman.id.au>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        linuxppc-dev@lists.ozlabs.org
 Cc:     linux-kbuild@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] scripts/extract-ikconfig: add zstd compression support
-Message-ID: <YwcjFCXF7lKpU3r5@buildd.core.avm.de>
-References: <20220824200340.45673-1-thitat@flux.ci>
+Subject: Re: [PATCH] powerpc: align syscall table for ppc32
+In-Reply-To: <20220820165129.1147589-1-masahiroy@kernel.org>
+References: <20220820165129.1147589-1-masahiroy@kernel.org>
+Date:   Thu, 25 Aug 2022 17:53:02 +1000
+Message-ID: <874jy0lpy9.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220824200340.45673-1-thitat@flux.ci>
-X-purgate-ID: 149429::1661412116-8F3FE9DB-1C6824EF/0/0
-X-purgate-type: clean
-X-purgate-size: 868
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
-X-purgate: clean
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Aug 25, 2022 at 03:03:40AM +0700, Thitat Auareesuksakul wrote:
-> Add extract-ikconfig support for kernel images compressed with zstd.
-> 
-> Signed-off-by: Thitat Auareesuksakul <thitat@flux.ci>
-> ---
+Masahiro Yamada <masahiroy@kernel.org> writes:
+> Christophe Leroy reported that commit 7b4537199a4a ("kbuild: link
+> symbol CRCs at final link,  removing CONFIG_MODULE_REL_CRCS") broke
+> mpc85xx_defconfig + CONFIG_RELOCATABLE=y.
+>
+>     LD      vmlinux
+>     SYSMAP  System.map
+>     SORTTAB vmlinux
+>     CHKREL  vmlinux
+>   WARNING: 451 bad relocations
+>   c0b312a9 R_PPC_UADDR32     .head.text-0x3ff9ed54
+>   c0b312ad R_PPC_UADDR32     .head.text-0x3ffac224
+>   c0b312b1 R_PPC_UADDR32     .head.text-0x3ffb09f4
+>   c0b312b5 R_PPC_UADDR32     .head.text-0x3fe184dc
+>   c0b312b9 R_PPC_UADDR32     .head.text-0x3fe183a8
+>       ...
+>
+> The compiler emits a bunch of R_PPC_UADDR32, which is not supported by
+> arch/powerpc/kernel/reloc_32.S.
+>
+> The reason is there exists an unaligned symbol.
+>
+>   $ powerpc-linux-gnu-nm -n vmlinux
+>     ...
+>   c0b31258 d spe_aligninfo
+>   c0b31298 d __func__.0
+>   c0b312a9 D sys_call_table
+>   c0b319b8 d __func__.0
+>
+> Commit 7b4537199a4a is not the root cause. Even before that, I can
+> reproduce the same issue for mpc85xx_defconfig + CONFIG_RELOCATABLE=y
+> + CONFIG_MODVERSIONS=n.
+>
+> It is just that nobody did not notice it because when CONFIG_MODVERSIONS
+> is enabled, a __crc_* symbol inserted before sys_call_table was hiding
+> the unalignment issue.
+>
+> I checked the commit history, but I could not understand commit
+> 46b45b10f142 ("[POWERPC] Align the sys_call_table").
+>
+> It said 'Our _GLOBAL macro does a ".align 2" so the alignment is fine
+> for 32 bit'. I checked the _GLOBAL in include/asm-powerpc/ppc_asm.h
+> at that time. _GLOBAL specifies ".align 2" for ppc64, but no .align
+> for ppc32.
+>
+> Commit c857c43b34ec ("powerpc: Don't use a function descriptor for
+> system call table") removed _GLOBAL from the syscall table.
+>
+> Anyway, adding alignment to the syscall table for ppc32 fixes the issue.
+>
+> I am not giving Fixes tag because I do not know since when it has been
+> broken, but presumably it has been for a long while.
 
-Tested-by: Nicolas Schier <n.schier@avm.de>
+Thanks.
 
->  scripts/extract-ikconfig | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/scripts/extract-ikconfig b/scripts/extract-ikconfig
-> index 3b42f255e2ba..8df33e7d6daa 100755
-> --- a/scripts/extract-ikconfig
-> +++ b/scripts/extract-ikconfig
-> @@ -62,6 +62,7 @@ try_decompress 'BZh'          xy    bunzip2
->  try_decompress '\135\0\0\0'   xxx   unlzma
->  try_decompress '\211\114\132' xy    'lzop -d'
->  try_decompress '\002\041\114\030' xyy 'lz4 -d -l'
-> +try_decompress '\050\265\057\375' xxx unzstd
->  
->  # Bail out:
->  echo "$me: Cannot find kernel config." >&2
-> -- 
-> 2.37.2
-> 
+I trimmed the change log a bit just to say ~= it's been broken for ever,
+and added a Cc to stable.
+
+cheers
