@@ -2,116 +2,129 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1F0B5A0ABE
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Aug 2022 09:53:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C065A5A0C48
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Aug 2022 11:15:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236838AbiHYHxQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 25 Aug 2022 03:53:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51806 "EHLO
+        id S229657AbiHYJP4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 25 Aug 2022 05:15:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234910AbiHYHxK (ORCPT
+        with ESMTP id S235750AbiHYJPz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 25 Aug 2022 03:53:10 -0400
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACA69A00E6;
-        Thu, 25 Aug 2022 00:53:08 -0700 (PDT)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4MCwDt5BS1z4xV9;
-        Thu, 25 Aug 2022 17:53:02 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-        s=201909; t=1661413983;
-        bh=UtVip1icK7gJdBlHq+HFWJBnOoW3QoCQ+h8pU+n3KkA=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=ZLFEHd4Sc+LArWxSHPMZaxUV5Xt5HbCBwxEJoAOkDftQUBd3UvDzQ3SPoUGfIq8+Y
-         XOXVABGmUJRXNewPOhBZ4PnZBgAclyRWiDmLWWWIEoOxbTyf0lT9HmzLfn6qDXHVP8
-         4cFLNr2mtb3VMBT0+X8XSw8kOQcDbMBET6kwqKOBcIoT5DWSkK5aoD9YgXXoTklXi4
-         4vn7aZmWvMmRDrzEWJ1c3IdlA0o+UvHCBus9SLXerZ9zIaIxILLCzH95mjf0d5/kTH
-         Nh5wLMJbIfMZsTuGrUc2j6C3xLq/AaC3ujgNFv8DeGoG8jRuDO1B7lmoCz2us+rszT
-         QVS80HXLzHXbw==
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        linuxppc-dev@lists.ozlabs.org
-Cc:     linux-kbuild@vger.kernel.org,
+        Thu, 25 Aug 2022 05:15:55 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A51064B0F0;
+        Thu, 25 Aug 2022 02:15:54 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id u14so23753941wrq.9;
+        Thu, 25 Aug 2022 02:15:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:subject:cc:to:from:from:to:cc;
+        bh=rE9qzKn8fr9Qet7CHqO5LOfoqE9kcAR4goeb/eXRqec=;
+        b=kgrtHCCIH6IoVNUpb2iR0dq+7tJeY////+cIJWuR6ZKZUJAas5DDwRDhwMQ0WXLhiq
+         QnCGv3r0PGJF8I53iHvS0qOMGJ9W8Ili6KKxnWGrrxvF2diz4HzX5qTVFl6r0Txg85+3
+         4dR1iSd53t5KhbNKA8IlFQzos8HVEuLyrwCIjeZ8ui7o97ubT3pX57gfhuoerbfrMdE8
+         jE/ZBDL1FYwKBNEDcGYJT17VaokCJBK0r+q4sF/L5KC2wxIcqZU1+qmwskwIgKDkUbMI
+         KECsLE6XuQNQKwqsk7WELepfZDFz13Iptsy6K8NeqLMawMLnblj7wk5o3lFzkngYEwTf
+         38tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=rE9qzKn8fr9Qet7CHqO5LOfoqE9kcAR4goeb/eXRqec=;
+        b=lS+l0HBaIeCZJ6+0djaC/c5bkgh/pjvIeNW5c+qzEgfAOiWyog8XbU6Y3Nb4j/izYP
+         Q+wMZt9qQf22unnSyzADH7R78ccm9vvNPENS6/YseU7aoLN9GDPIIk3XbIq+8lifVoKn
+         MB98oOrR9e9/G80c41gh8BzuV9iSjxeFhh3kMBSKTgFa8hMt29TWO4bqRHImru/5pSWs
+         uPiyDJeI5wW695Ib5YWDgQh90j2261/DrejypFtuViBzrMKMlLWGy39VytgDdGupi/NE
+         4GHbTkvc1mvIes3wfapl76a2Z7W1HvztKKLQ8ZTBYgyyBDXwSb71YF9Dg0yLKqs4Yyp4
+         hx7w==
+X-Gm-Message-State: ACgBeo0PuBynG0hkZaRjnPpDBZrlZTHaSM/LdbQeZCFDNZ2unGL05Zrk
+        s1SZtCg2Gz4M9qYyOjWtlg8=
+X-Google-Smtp-Source: AA6agR7Gp5lPd3O//yzoESmSgXksfcJB3i/H5xOQ7Fs2C5/jmHfwlY4qn8K+AjmSgpDKWg/l+0HaKA==
+X-Received: by 2002:a5d:4a84:0:b0:225:20e3:3ba6 with SMTP id o4-20020a5d4a84000000b0022520e33ba6mr1676826wrq.306.1661418952858;
+        Thu, 25 Aug 2022 02:15:52 -0700 (PDT)
+Received: from felia.fritz.box (200116b8261c340005cd4c2b92078212.dip.versatel-1u1.de. [2001:16b8:261c:3400:5cd:4c2b:9207:8212])
+        by smtp.gmail.com with ESMTPSA id o8-20020a05600c4fc800b003a603fbad5bsm4950821wmq.45.2022.08.25.02.15.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Aug 2022 02:15:52 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Andi Kleen <ak@linux.intel.com>,
+        "H . Peter Anvin" <hpa@linux.intel.com>,
+        linux-kbuild@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] powerpc: align syscall table for ppc32
-In-Reply-To: <20220820165129.1147589-1-masahiroy@kernel.org>
-References: <20220820165129.1147589-1-masahiroy@kernel.org>
-Date:   Thu, 25 Aug 2022 17:53:02 +1000
-Message-ID: <874jy0lpy9.fsf@mpe.ellerman.id.au>
-MIME-Version: 1.0
-Content-Type: text/plain
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] scripts: remove obsolete gcc-ld script
+Date:   Thu, 25 Aug 2022 11:15:17 +0200
+Message-Id: <20220825091517.30842-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Masahiro Yamada <masahiroy@kernel.org> writes:
-> Christophe Leroy reported that commit 7b4537199a4a ("kbuild: link
-> symbol CRCs at final link,  removing CONFIG_MODULE_REL_CRCS") broke
-> mpc85xx_defconfig + CONFIG_RELOCATABLE=y.
->
->     LD      vmlinux
->     SYSMAP  System.map
->     SORTTAB vmlinux
->     CHKREL  vmlinux
->   WARNING: 451 bad relocations
->   c0b312a9 R_PPC_UADDR32     .head.text-0x3ff9ed54
->   c0b312ad R_PPC_UADDR32     .head.text-0x3ffac224
->   c0b312b1 R_PPC_UADDR32     .head.text-0x3ffb09f4
->   c0b312b5 R_PPC_UADDR32     .head.text-0x3fe184dc
->   c0b312b9 R_PPC_UADDR32     .head.text-0x3fe183a8
->       ...
->
-> The compiler emits a bunch of R_PPC_UADDR32, which is not supported by
-> arch/powerpc/kernel/reloc_32.S.
->
-> The reason is there exists an unaligned symbol.
->
->   $ powerpc-linux-gnu-nm -n vmlinux
->     ...
->   c0b31258 d spe_aligninfo
->   c0b31298 d __func__.0
->   c0b312a9 D sys_call_table
->   c0b319b8 d __func__.0
->
-> Commit 7b4537199a4a is not the root cause. Even before that, I can
-> reproduce the same issue for mpc85xx_defconfig + CONFIG_RELOCATABLE=y
-> + CONFIG_MODVERSIONS=n.
->
-> It is just that nobody did not notice it because when CONFIG_MODVERSIONS
-> is enabled, a __crc_* symbol inserted before sys_call_table was hiding
-> the unalignment issue.
->
-> I checked the commit history, but I could not understand commit
-> 46b45b10f142 ("[POWERPC] Align the sys_call_table").
->
-> It said 'Our _GLOBAL macro does a ".align 2" so the alignment is fine
-> for 32 bit'. I checked the _GLOBAL in include/asm-powerpc/ppc_asm.h
-> at that time. _GLOBAL specifies ".align 2" for ppc64, but no .align
-> for ppc32.
->
-> Commit c857c43b34ec ("powerpc: Don't use a function descriptor for
-> system call table") removed _GLOBAL from the syscall table.
->
-> Anyway, adding alignment to the syscall table for ppc32 fixes the issue.
->
-> I am not giving Fixes tag because I do not know since when it has been
-> broken, but presumably it has been for a long while.
+Since commit 8564ed2b3888 ("Kbuild, lto: Add a gcc-ld script to let run gcc
+as ld") in 2014, there was not specific work on this the gcc-ld script
+other than treewide clean-ups.
 
-Thanks.
+There are no users within the kernel tree, and probably no out-of-tree
+users either, and there is no dedicated maintainer in MAINTAINERS.
 
-I trimmed the change log a bit just to say ~= it's been broken for ever,
-and added a Cc to stable.
+Delete this obsolete gcc-ld script.
 
-cheers
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+If there are no objections, I would like to get this patch included
+through the kbuild tree.
+
+Masahiro-san, please pick this patch.
+
+ scripts/gcc-ld | 30 ------------------------------
+ 1 file changed, 30 deletions(-)
+ delete mode 100755 scripts/gcc-ld
+
+diff --git a/scripts/gcc-ld b/scripts/gcc-ld
+deleted file mode 100755
+index 997b818c3962..000000000000
+--- a/scripts/gcc-ld
++++ /dev/null
+@@ -1,30 +0,0 @@
+-#!/bin/sh
+-# SPDX-License-Identifier: GPL-2.0
+-# run gcc with ld options
+-# used as a wrapper to execute link time optimizations
+-# yes virginia, this is not pretty
+-
+-ARGS="-nostdlib"
+-
+-while [ "$1" != "" ] ; do
+-	case "$1" in
+-	-save-temps|-m32|-m64) N="$1" ;;
+-	-r) N="$1" ;;
+-	-[Wg]*) N="$1" ;;
+-	-[olv]|-[Ofd]*|-nostdlib) N="$1" ;;
+-	--end-group|--start-group)
+-		 N="-Wl,$1" ;;
+-	-[RTFGhIezcbyYu]*|\
+---script|--defsym|-init|-Map|--oformat|-rpath|\
+--rpath-link|--sort-section|--section-start|-Tbss|-Tdata|-Ttext|\
+---version-script|--dynamic-list|--version-exports-symbol|--wrap|-m)
+-		A="$1" ; shift ; N="-Wl,$A,$1" ;;
+-	-[m]*) N="$1" ;;
+-	-*) N="-Wl,$1" ;;
+-	*)  N="$1" ;;
+-	esac
+-	ARGS="$ARGS $N"
+-	shift
+-done
+-
+-exec $CC $ARGS
+-- 
+2.17.1
+
