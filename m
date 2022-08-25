@@ -2,129 +2,187 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C065A5A0C48
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Aug 2022 11:15:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AB565A0FEC
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Aug 2022 14:05:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229657AbiHYJP4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 25 Aug 2022 05:15:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43630 "EHLO
+        id S240094AbiHYMFS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 25 Aug 2022 08:05:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235750AbiHYJPz (ORCPT
+        with ESMTP id S237774AbiHYMFQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 25 Aug 2022 05:15:55 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A51064B0F0;
-        Thu, 25 Aug 2022 02:15:54 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id u14so23753941wrq.9;
-        Thu, 25 Aug 2022 02:15:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:subject:cc:to:from:from:to:cc;
-        bh=rE9qzKn8fr9Qet7CHqO5LOfoqE9kcAR4goeb/eXRqec=;
-        b=kgrtHCCIH6IoVNUpb2iR0dq+7tJeY////+cIJWuR6ZKZUJAas5DDwRDhwMQ0WXLhiq
-         QnCGv3r0PGJF8I53iHvS0qOMGJ9W8Ili6KKxnWGrrxvF2diz4HzX5qTVFl6r0Txg85+3
-         4dR1iSd53t5KhbNKA8IlFQzos8HVEuLyrwCIjeZ8ui7o97ubT3pX57gfhuoerbfrMdE8
-         jE/ZBDL1FYwKBNEDcGYJT17VaokCJBK0r+q4sF/L5KC2wxIcqZU1+qmwskwIgKDkUbMI
-         KECsLE6XuQNQKwqsk7WELepfZDFz13Iptsy6K8NeqLMawMLnblj7wk5o3lFzkngYEwTf
-         38tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=rE9qzKn8fr9Qet7CHqO5LOfoqE9kcAR4goeb/eXRqec=;
-        b=lS+l0HBaIeCZJ6+0djaC/c5bkgh/pjvIeNW5c+qzEgfAOiWyog8XbU6Y3Nb4j/izYP
-         Q+wMZt9qQf22unnSyzADH7R78ccm9vvNPENS6/YseU7aoLN9GDPIIk3XbIq+8lifVoKn
-         MB98oOrR9e9/G80c41gh8BzuV9iSjxeFhh3kMBSKTgFa8hMt29TWO4bqRHImru/5pSWs
-         uPiyDJeI5wW695Ib5YWDgQh90j2261/DrejypFtuViBzrMKMlLWGy39VytgDdGupi/NE
-         4GHbTkvc1mvIes3wfapl76a2Z7W1HvztKKLQ8ZTBYgyyBDXwSb71YF9Dg0yLKqs4Yyp4
-         hx7w==
-X-Gm-Message-State: ACgBeo0PuBynG0hkZaRjnPpDBZrlZTHaSM/LdbQeZCFDNZ2unGL05Zrk
-        s1SZtCg2Gz4M9qYyOjWtlg8=
-X-Google-Smtp-Source: AA6agR7Gp5lPd3O//yzoESmSgXksfcJB3i/H5xOQ7Fs2C5/jmHfwlY4qn8K+AjmSgpDKWg/l+0HaKA==
-X-Received: by 2002:a5d:4a84:0:b0:225:20e3:3ba6 with SMTP id o4-20020a5d4a84000000b0022520e33ba6mr1676826wrq.306.1661418952858;
-        Thu, 25 Aug 2022 02:15:52 -0700 (PDT)
-Received: from felia.fritz.box (200116b8261c340005cd4c2b92078212.dip.versatel-1u1.de. [2001:16b8:261c:3400:5cd:4c2b:9207:8212])
-        by smtp.gmail.com with ESMTPSA id o8-20020a05600c4fc800b003a603fbad5bsm4950821wmq.45.2022.08.25.02.15.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Aug 2022 02:15:52 -0700 (PDT)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Andi Kleen <ak@linux.intel.com>,
-        "H . Peter Anvin" <hpa@linux.intel.com>,
-        linux-kbuild@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] scripts: remove obsolete gcc-ld script
-Date:   Thu, 25 Aug 2022 11:15:17 +0200
-Message-Id: <20220825091517.30842-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Thu, 25 Aug 2022 08:05:16 -0400
+X-Greylist: delayed 117 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 25 Aug 2022 05:05:08 PDT
+Received: from mxout.security-mail.net (mxout.security-mail.net [85.31.212.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B71F91B783
+        for <linux-kbuild@vger.kernel.org>; Thu, 25 Aug 2022 05:05:07 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by fx302.security-mail.net (Postfix) with ESMTP id B8B333D3B1A1
+        for <linux-kbuild@vger.kernel.org>; Thu, 25 Aug 2022 14:03:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
+        s=sec-sig-email; t=1661428987;
+        bh=c3uYyBl6qvCHN1q+Vp2nMomyuSSZyQtk8GD6AReFogg=;
+        h=Date:Subject:References:To:From:In-Reply-To;
+        b=RfXgYwb6FvMA0qtaFaa5Jo1rFeAAG4RBKlnmA1/wwFmp1zc1hqTdORetVdToCdR5x
+         rFNi/SEGRAa3cVHZveNuUx9ORQ9FGqA+kuQ6WVwhDmR1pIvJxiI3ruLG4XwnsHJuYI
+         DxtDQ1I5EzBc2dMAgv1oExFmf/slS7ZHOArnpIAQ=
+Received: from fx302 (localhost [127.0.0.1]) by fx302.security-mail.net
+ (Postfix) with ESMTP id 632903D3B1D8; Thu, 25 Aug 2022 14:03:07 +0200 (CEST)
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
+ fx302.security-mail.net (Postfix) with ESMTPS id C2D4E3D3B01D; Thu, 25 Aug
+ 2022 14:03:06 +0200 (CEST)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPS id 3E85227E038A; Thu, 25 Aug 2022
+ 14:03:03 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
+ (Postfix) with ESMTP id 27E3327E0394; Thu, 25 Aug 2022 14:03:03 +0200 (CEST)
+Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
+ (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
+ f2JAeIGqXzVT; Thu, 25 Aug 2022 14:03:03 +0200 (CEST)
+Received: from [127.0.0.1] (unknown [192.168.37.161]) by zimbra2.kalray.eu
+ (Postfix) with ESMTPSA id E9D5827E038A; Thu, 25 Aug 2022 14:03:02 +0200
+ (CEST)
+X-Virus-Scanned: E-securemail, by Secumail
+Secumail-id: <a93b.630764fa.c2622.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 27E3327E0394
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
+ s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1661428983;
+ bh=HGxFO3zfun4rb0tLinDLjetXRC3Xrh4uCBUGEF7M5U8=;
+ h=Message-ID:Date:MIME-Version:To:From;
+ b=N2I0P2FxIYtse7t5r8XIS6fmoMI4vO129nEEu9OJEjqMOlAmd4NLuB+1pmvkcwZIf
+ 1cYx+DX9vMGZxeFIMe8qUPN3MqEKgR7jNXfbxQa0VDCBqRtrBn76XlIJZmIAF4eQ7F
+ a/6Co6kUnvj1ri9xLw0pH9ML6rtlnadvdIgRNp94=
+Message-ID: <ccc8a0ba-31f4-f9a7-7955-a0511cf793b6@kalray.eu>
+Date:   Thu, 25 Aug 2022 14:03:02 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Fwd: [RFC PATCH 0/1] Fix __kcrctab+* sections alignment
+References: <20220817161438.32039-1-ysionneau@kalray.eu>
+Content-Language: en-us
+To:     linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org
+From:   Yann Sionneau <ysionneau@kalray.eu>
+In-Reply-To: <20220817161438.32039-1-ysionneau@kalray.eu>
+X-Forwarded-Message-Id: <20220817161438.32039-1-ysionneau@kalray.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ALTERMIMEV2_out: done
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Since commit 8564ed2b3888 ("Kbuild, lto: Add a gcc-ld script to let run gcc
-as ld") in 2014, there was not specific work on this the gcc-ld script
-other than treewide clean-ups.
+Forwarding to linux-kbuild and linux-arch
 
-There are no users within the kernel tree, and probably no out-of-tree
-users either, and there is no dedicated maintainer in MAINTAINERS.
 
-Delete this obsolete gcc-ld script.
+-------- Forwarded Message --------
+Subject: 	[RFC PATCH 0/1] Fix __kcrctab+* sections alignment
+Date: 	Wed, 17 Aug 2022 18:14:37 +0200
+From: 	Yann Sionneau <ysionneau@kalray.eu>
+To: 	linux-kernel@vger.kernel.org
+CC: 	Nicolas Schier <nicolas@fjasle.eu>, Masahiro Yamada 
+<masahiroy@kernel.org>, Jules Maselbas <jmaselbas@kalray.eu>, Julian 
+Vetter <jvetter@kalray.eu>, Yann Sionneau <ysionneau@kalray.eu>
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-If there are no objections, I would like to get this patch included
-through the kbuild tree.
 
-Masahiro-san, please pick this patch.
 
- scripts/gcc-ld | 30 ------------------------------
- 1 file changed, 30 deletions(-)
- delete mode 100755 scripts/gcc-ld
+Hello, At Kalray we have our (non-upstreamed-yet) kvx Linux port 
+(https://github.com/kalray/linux_coolidge).
 
-diff --git a/scripts/gcc-ld b/scripts/gcc-ld
-deleted file mode 100755
-index 997b818c3962..000000000000
---- a/scripts/gcc-ld
-+++ /dev/null
-@@ -1,30 +0,0 @@
--#!/bin/sh
--# SPDX-License-Identifier: GPL-2.0
--# run gcc with ld options
--# used as a wrapper to execute link time optimizations
--# yes virginia, this is not pretty
--
--ARGS="-nostdlib"
--
--while [ "$1" != "" ] ; do
--	case "$1" in
--	-save-temps|-m32|-m64) N="$1" ;;
--	-r) N="$1" ;;
--	-[Wg]*) N="$1" ;;
--	-[olv]|-[Ofd]*|-nostdlib) N="$1" ;;
--	--end-group|--start-group)
--		 N="-Wl,$1" ;;
--	-[RTFGhIezcbyYu]*|\
----script|--defsym|-init|-Map|--oformat|-rpath|\
---rpath-link|--sort-section|--section-start|-Tbss|-Tdata|-Ttext|\
----version-script|--dynamic-list|--version-exports-symbol|--wrap|-m)
--		A="$1" ; shift ; N="-Wl,$A,$1" ;;
--	-[m]*) N="$1" ;;
--	-*) N="-Wl,$1" ;;
--	*)  N="$1" ;;
--	esac
--	ARGS="$ARGS $N"
--	shift
--done
--
--exec $CC $ARGS
+When I did the rebase on 5.19 I noticed the kernel module would not load 
+anymore and would say
+
+[ 10.071771] Found checksum 0 vs module B4E7D8E
+[ 10.071824] libphy: disagrees about version of symbol module_layout
+
+The CRC of module_layout in libphy.ko seems fine, but surprisingly, the 
+CRC of module_layout in vmlinux is 0.
+
+I dig a little bit to try and understand why.
+
+.vmlinux.export.c contains:
+SYMBOL_CRC(module_layout, 0x0b4e7d8e, "");
+
+Dumping the section '___kcrctab+module_layout' of .vmlinux.export.o I get:
+Hex dump of section '___kcrctab+module_layout':
+0x00000000 8e7d4e0b .}N.
+
+Dumping __kcrctab section of vmlinux:
+Hex dump of section '__kcrctab':
+0xffffff80055b7090 572828d0 00000000 b96e414c 00000000 W((......nAL....
+0xffffff80055b70a0 b0179638 00000000 e3eb8db7 00000000 ...8............
+0xffffff80055b70b0 7a10c1c7 00000000 3d04478a 00000000 z.......=.G.....
+0xffffff80055b70c0 a5d7be15 00000000 d188008b 00000000 ................
+0xffffff80055b70d0 6214323b 00000000 bba48601 00000000 b.2;............
+0xffffff80055b70e0 6bfbba55 00000000 251fa090 00000000 k..U....%.......
+0xffffff80055b70f0 2861bde8 00000000 81c8241d 00000000 (a........$.....
+etc
+
+You can see that in fact there is some kind of 4-bytes padding 
+in-between each CRC32.
+
+And indeed by looking at ___kcrctab+module_layout section alignment in 
+.vmlinux.export.o I can see:
+Section Headers:
+[Nr] Name Type Address Off Size ES Flg Lk Inf Al
+[...snip snip...]
+[6189] ___kcrctab+module_layout PROGBITS 0000000000000000 00c188 000004 
+00 WA 0 0 8
+
+So somehow, the section really contains 4 bytes of the CRC32 but even 
+though the section contains a u32, the toolchain creates an 8-bytes 
+aligned section.
+This ends up creating 4-bytes padding with 0s once the linker collects 
+all those ___kcrctab+* into __kcrctab for vmlinux ELF.
+
+Do you think this is an issue in Linux kernel generic code? (See 
+attached patch that makes our module probe again)
+Or is this an issue with our toolchain?
+
+On 5.16.20 our modules were loading fine and the __kcrctab did not 
+contain any 4-bytes 00000000 gaps.
+I think it is related to this change: 
+https://lore.kernel.org/linux-kbuild/20220528224745.GA2501857@roeck-us.net/T/
+In the change, we can see that the previous version was using assembly 
+to create the sections and there was the presence of a ".balign 
+KCRC_ALIGN" which was defined to whatever is the arch-specific way to 
+encode a "4 bytes" alignement (be it 2 for "2^2" for m68k or directly 4 
+for others) for the assembler.
+
+How to reproduce:
+1/ generate the toolchain
+$ git clone https://github.com/kalray/build-scripts
+$ cd build-scripts
+$ source last.refs
+$ ./build-kvx-xgcc.sh output
+
+2/ fetch and build our v5.19 kernel
+$ git clone -b kalray-linux-v5.19 https://github.com/kalray/linux_coolidge
+$ cd linux_coolidge
+$ make ARCH=kvx O=build_kvx CROSS_COMPILE=kvx-elf- default_defconfig
+$ make ARCH=kvx O=build_kvx CROSS_COMPILE=kvx-elf- -j$(($(nproc) + 1))
+
+You won't have a rootfs but you will be able to observe the content of 
+__kcrctab section of vmlinux
+PS: the kalray-linux-v5.19 branch already contains the attached-patch to 
+add __aligned(4) requirement.
+PPS: Please CC me, I am not subscribed to the mailing list
+
+Yann Sionneau (1):
+Fix __kcrctab+* sections alignment
+
+include/linux/export-internal.h | 2 +-
+1 file changed, 1 insertion(+), 1 deletion(-)
+
 -- 
-2.17.1
+2.37.2
+
+
+
+
 
