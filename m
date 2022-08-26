@@ -2,169 +2,183 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 678DB5A2F2F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Aug 2022 20:47:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CFD05A2FF9
+	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Aug 2022 21:31:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345006AbiHZSpM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 26 Aug 2022 14:45:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42800 "EHLO
+        id S231512AbiHZTbL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 26 Aug 2022 15:31:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345001AbiHZSoe (ORCPT
+        with ESMTP id S231216AbiHZTbK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 26 Aug 2022 14:44:34 -0400
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7121E924B
-        for <linux-kbuild@vger.kernel.org>; Fri, 26 Aug 2022 11:41:31 -0700 (PDT)
-Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-33dc345ad78so57708797b3.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 26 Aug 2022 11:41:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=lPP8ZIOLS6D+TcMlycR/OR+lDE15x2XXqZgNT5DKzz4=;
-        b=BVoMBeOyrKSnw5NxEVstnntoqejvil646ntiJcHVzelMDsUyoG4srhTizGO05tCtK+
-         CE0IZGiImHFzl1kLyh714dY5gNVaPOf8nQmzWq/if8zDPgdu9BprwDZ4WLIk6zLefVMJ
-         6RRoxnlM2kFggt+ANGnUVzLD9OzLvjQXb+hW9jKKiWjkJ8qM7f9lA3Re7Lw++7VKuZdB
-         EF8/CHvz/TrzEl/T6gsE1yHmkY90PncBgphWcS1QLuAj0+P4F6Tsr74swhuEiaVvBNfX
-         lcQL/sPlxOc+t/BvST3O6GOemuTzNMLWae3vts46vCKVZqdN/9Wg/sx1lYQDGI0j6MNK
-         xF+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=lPP8ZIOLS6D+TcMlycR/OR+lDE15x2XXqZgNT5DKzz4=;
-        b=kYN2SJsIvOfRz8RnnPmN5mJpE3VMBCenMVAA2ptLLZYz+tpIhwMt/1opsHiLwI/AJi
-         eONbpTFq9FnGm/socGvI6sQqQiM5v4vsd+dukR7WL08McflLCKMVXalk1cQIvOHanGEm
-         fgTxpsq/77WzCSYf0b2d8hTI6QgHCYjz2g5K7d3/W5imuzkeLNHUrkLM0sufrAc+1JmV
-         1kzDIKYocLvOr0YNk3tS0jenF4ZHRXvgeQS7l7+e3gxKF0cvI5wmH7/n1xadomndWYDY
-         bnmOtcZJWF5pTcV7rfmlRDwnz+I7zUF5/1Xg0nfwL5GrxlHVCs91P5scW5vdgTwUGEIK
-         GI5A==
-X-Gm-Message-State: ACgBeo2oClxLPp2ESbnvCrkJQvX3BVQ1iCVZAsWiIVkfdfy4onprDWac
-        2lnht/GCWN0gNLaWwLPn9uoRaH7AdeiIJ0Kgs1F/
-X-Google-Smtp-Source: AA6agR5MtS59v09QYLLx6jYr4V9/pL3zI66lHd0PcVCw+PDNHvxhf3OxtN3YY9xkS3yHZTo8pd69rqgZk8naUfex53Y=
-X-Received: by 2002:a25:6ec5:0:b0:676:d7ec:65c5 with SMTP id
- j188-20020a256ec5000000b00676d7ec65c5mr982536ybc.610.1661539288470; Fri, 26
- Aug 2022 11:41:28 -0700 (PDT)
+        Fri, 26 Aug 2022 15:31:10 -0400
+Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3CA2DF081;
+        Fri, 26 Aug 2022 12:31:07 -0700 (PDT)
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 27QJUcRD001061;
+        Sat, 27 Aug 2022 04:30:39 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 27QJUcRD001061
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1661542239;
+        bh=+nw3Nx+rFUerwVQE7ZwmA3S056SF1lsKenKwHJV0wp4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=NQ3pqEANnoMsyzTO09OVpDVr687r0Op9rQBlLNfhE3L9+rIhJlG2i7oSrWgVwiRLX
+         LRc+ZgGo87rm6o6XGZZ+srJfkLpt+ciw2FP4Dsja3y0OY7uvRpNzqM6beONdqBQNYY
+         PomEEJTSRFlBduZirSc26kaa50Kk0xk/3/xrUaR/YCP5l9LKpy4kJUlihqvLRuQljH
+         5piDYIa4TpW6nr+oIlSi5uOnWMLlnfTkuJOARzdfXMgK+QTUa/ewTCOhgJ5QtuX9zV
+         kIo7J1G83hJPMHdSQwxviYRVsGQgiugU2eHtoPQO/NU6fkbV1HoI8tkogUEM9JYQP/
+         J/buXldLdWSKg==
+X-Nifty-SrcIP: [209.85.160.45]
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-11c896b879bso3301490fac.3;
+        Fri, 26 Aug 2022 12:30:39 -0700 (PDT)
+X-Gm-Message-State: ACgBeo397Y28jqUsbYOUpCA2cdabYen8HVrv+aDEFr6NGRgb84JAVP9p
+        nKBoF4ArzfPx4Xc2PKyJVWBUOUmdPMiv7Q6I33I=
+X-Google-Smtp-Source: AA6agR44EvWwy8CvbYlUTJWEeYNapNxihNzWItB2ttXfjVDxBLVDsCYk7Og6OUpuQ9Ohmx6x+Fi9G1nUTWOektEokh8=
+X-Received: by 2002:a05:6870:f626:b0:10d:a798:f3aa with SMTP id
+ ek38-20020a056870f62600b0010da798f3aamr2517902oab.194.1661542237976; Fri, 26
+ Aug 2022 12:30:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220826181035.859042-1-ndesaulniers@google.com> <20220826181035.859042-3-ndesaulniers@google.com>
-In-Reply-To: <20220826181035.859042-3-ndesaulniers@google.com>
-From:   Bill Wendling <morbo@google.com>
-Date:   Fri, 26 Aug 2022 11:41:17 -0700
-Message-ID: <CAGG=3QWSAUakO42kubrCap8fp-gm1ERJJAYXTnP1iHk_wrH=BQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] Makefile.debug: re-enable debug info for .S files
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+References: <20220824203934.2855320-1-robh@kernel.org>
+In-Reply-To: <20220824203934.2855320-1-robh@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 27 Aug 2022 04:30:01 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS8nH+9HnfhV8yEtxShBbSYGQdOyVxbNJmbQJjEiqHPzA@mail.gmail.com>
+Message-ID: <CAK7LNAS8nH+9HnfhV8yEtxShBbSYGQdOyVxbNJmbQJjEiqHPzA@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Split up DT binding build targets
+To:     Rob Herring <robh@kernel.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Tom Rix <trix@redhat.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        clang-built-linux <llvm@lists.linux.dev>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Dmitrii Bundin <dmitrii.bundin.a@gmail.com>,
-        Fangrui Song <maskray@google.com>,
-        Alexey Alexandrov <aalexand@google.com>,
-        Greg Thelen <gthelen@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        DTML <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="000000000000e000e005e729f253"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Aug 26, 2022 at 11:10 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> Alexey reported that the fraction of unknown filename instances in
-> kallsyms grew from ~0.3% to ~10% recently; Bill and Greg tracked it down
-> to assembler defined symbols, which regressed as a result of:
->
-> commit b8a9092330da ("Kbuild: do not emit debug info for assembly with LLVM_IAS=1")
->
-> In that commit, I allude to restoring debug info for assembler defined
-> symbols in a follow up patch, but it seems I forgot to do so in
->
-> commit a66049e2cf0e ("Kbuild: make DWARF version a choice")
->
-> This patch does a few things:
-> 1. Add -g to KBUILD_AFLAGS. This will instruct the compiler to instruct
->    the assembler to emit debug info. But this can cause an issue for
->    folks using a newer compiler but older assembler, because the
->    implicit default DWARF version changed from v4 to v5 in gcc-11 and
->    clang-14.
-> 2. If the user is using CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT, use a
->    version check to explicitly set -Wa,-gdwarf-<version> for the
->    assembler. There's another problem with this; GAS only gained support
->    for explicit DWARF versions 3-5 in the 2.36 GNU binutils release.
-> 3. Wrap -Wa,-gdwarf-<version> in as-option call to test whether the
->    assembler supports that explicit DWARF version.
->
-> Link: https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=31bf18645d98b4d3d7357353be840e320649a67d
-> Fixes: b8a9092330da ("Kbuild: do not emit debug info for assembly with LLVM_IAS=1")
-> Reported-by: Alexey Alexandrov <aalexand@google.com>
-> Reported-by: Bill Wendling <morbo@google.com>
-> Reported-by: Greg Thelen <gthelen@google.com>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
->  scripts/Makefile.debug | 22 ++++++++++++++++++----
->  1 file changed, 18 insertions(+), 4 deletions(-)
->
-> diff --git a/scripts/Makefile.debug b/scripts/Makefile.debug
-> index 9f39b0130551..a7a6da7f6e7d 100644
-> --- a/scripts/Makefile.debug
-> +++ b/scripts/Makefile.debug
-> @@ -4,18 +4,32 @@ ifdef CONFIG_DEBUG_INFO_SPLIT
->  DEBUG_CFLAGS   += -gsplit-dwarf
->  else
->  DEBUG_CFLAGS   += -g
-> +KBUILD_AFLAGS  += -g
->  endif
->
-> -ifndef CONFIG_AS_IS_LLVM
-> -KBUILD_AFLAGS  += -Wa,-gdwarf-2
-> +ifdef CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
-> +# gcc-11+, clang-14+
-> +ifeq ($(shell [ $(CONFIG_GCC_VERSION) -ge 110000 -o $(CONFIG_CLANG_VERSION) -ge 140000 ] && echo y),y)
+--000000000000e000e005e729f253
+Content-Type: text/plain; charset="UTF-8"
 
-Do you think this would be better as a macro? Maybe something like:
-
-if $(call cc-min-version,110000,140000)
-
-where the first argument is GCC's min version and second Clang's min
-version. It would be more readable and reusable.
-
--bw
-
-> +dwarf-version-y := 5
-> +else
-> +dwarf-version-y := 4
->  endif
-> -
-> -ifndef CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
-> +else # !CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
->  dwarf-version-$(CONFIG_DEBUG_INFO_DWARF4) := 4
->  dwarf-version-$(CONFIG_DEBUG_INFO_DWARF5) := 5
->  DEBUG_CFLAGS   += -gdwarf-$(dwarf-version-y)
->  endif
+On Thu, Aug 25, 2022 at 5:39 AM Rob Herring <robh@kernel.org> wrote:
 >
-> +# Binutils 2.35+ (or clang) required for -gdwarf-{4|5}.
-> +# https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=31bf18645d98b4d3d7357353be840e320649a67d
-> +ifneq ($(call as-option,-Wa$(comma)-gdwarf-$(dwarf-version-y)),)
-> +KBUILD_AFLAGS  += -Wa,-gdwarf-$(dwarf-version-y)
-> +else
-> +ifndef CONFIG_AS_IS_LLVM
-> +KBUILD_AFLAGS  += -Wa,-gdwarf-2
-> +endif
-> +endif
-> +
->  ifdef CONFIG_DEBUG_INFO_REDUCED
->  DEBUG_CFLAGS   += -fno-var-tracking
->  ifdef CONFIG_CC_IS_GCC
-> --
-> 2.37.2.672.g94769d06f0-goog
+> The DT binding validation target, dt_binding_check, is composed of
+> multiple steps which can't be run individually. This resulted in
+> the passing of make variables to control which steps were run for
+> 'dtbs_check'. Some steps are also doing multiple things in a single rule
+> which is error prone[1].
 >
+> Rework the build to split each of the steps into its own make target.
+> This allows users more fine grained control over what's run and makes
+> for easier make dependencies.
+
+
+I do not think it makes the code easier.
+
+
+A tricky case is that multiple targets run in parallel.
+
+
+"make  -j$(nproc)  dtbs_check  dt_binding_examples"
+
+
+Two different threads dive into Documentation/devicetree/bindings/Makefile,
+and try to build the same file simultaneously.
+
+If you run the command above, you will see two lines of
+
+  SCHEMA  Documentation/devicetree/bindings/processed-schema.json
+
+processed-schema.json may result in a corrupted file.
+
+
+
+
+
+> The new targets are:
+>
+> dt_binding_lint - Runs yamllint on the bindings
+> dt_binding_schemas - Validates the binding schemas
+> dt_binding_examples - Builds and validates the binding examples
+
+
+I still do not understand why so many phony targets are necessary.
+
+Why isn't the change as simple as the attached file?
+
+
+-- 
+Best Regards
+Masahiro Yamada
+
+--000000000000e000e005e729f253
+Content-Type: text/x-patch; charset="US-ASCII"; name="diff.patch"
+Content-Disposition: attachment; filename="diff.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_l7av8q5t0>
+X-Attachment-Id: f_l7av8q5t0
+
+ZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9NYWtlZmlsZSBi
+L0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9NYWtlZmlsZQppbmRleCAxZWFjY2Yx
+MzViMzAuLjQyOGViMDFkMmZjMiAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
+L2JpbmRpbmdzL01ha2VmaWxlCisrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5n
+cy9NYWtlZmlsZQpAQCAtMyw5ICszLDYgQEAgRFRfRE9DX0NIRUNLRVIgPz0gZHQtZG9jLXZhbGlk
+YXRlCiBEVF9FWFRSQUNUX0VYID89IGR0LWV4dHJhY3QtZXhhbXBsZQogRFRfTUtfU0NIRU1BID89
+IGR0LW1rLXNjaGVtYQogCi1EVF9TQ0hFTUFfTElOVCA9ICQoc2hlbGwgd2hpY2ggeWFtbGxpbnQg
+fHwgXAotICBlY2hvICJ3YXJuaW5nOiBweXRob24gcGFja2FnZSAneWFtbGxpbnQnIG5vdCBpbnN0
+YWxsZWQsIHNraXBwaW5nIiA+JjIpCi0KIERUX1NDSEVNQV9NSU5fVkVSU0lPTiA9IDIwMjIuMwog
+CiBQSE9OWSArPSBjaGVja19kdHNjaGVtYV92ZXJzaW9uCkBAIC0zMiwxMyArMjksMjUgQEAgZmlu
+ZF9jbWQgPSAkKGZpbmRfYWxsX2NtZCkgfCBncmVwIC1GICIkKERUX1NDSEVNQV9GSUxFUykiCiBD
+SEtfRFRfRE9DUyA6PSAkKHNoZWxsICQoZmluZF9jbWQpKQogCiBxdWlldF9jbWRfeWFtbGxpbnQg
+PSBMSU5UICAgICQoc3JjKQotICAgICAgY21kX3lhbWxsaW50ID0gKCQoZmluZF9jbWQpIHwgXAor
+ICAgICAgY21kX3lhbWxsaW50ID0gaWYgISBjb21tYW5kIC12IHlhbWxsaW50ID4vZGV2L251bGw7
+IHRoZW4gXAorICAgICAgICAgICAgICAgICAgICAgICAgIGVjaG8gIndhcm5pbmc6IHB5dGhvbiBw
+YWNrYWdlICd5YW1sbGludCcgbm90IGluc3RhbGxlZCwgc2tpcHBpbmciID4mMjsgXAorICAgICAg
+ICAgICAgICAgICAgICAgICAgIGV4aXQgMDsgXAorICAgICAgICAgICAgICAgICAgICAgZmk7IFwK
+KyAgICAgICAgICAgICAgICAgICAgICgkKGZpbmRfY21kKSB8IFwKICAgICAgICAgICAgICAgICAg
+ICAgIHhhcmdzIC1uMjAwIC1QJCQobnByb2MpIFwKLQkJICAgICAkKERUX1NDSEVNQV9MSU5UKSAt
+ZiBwYXJzYWJsZSAtYyAkKHNyY3RyZWUpLyQoc3JjKS8ueWFtbGxpbnQgPiYyKSB8fCB0cnVlCisg
+ICAgICAgICAgICAgICAgICAgICB5YW1sbGludCAtZiBwYXJzYWJsZSAtYyAkKHNyY3RyZWUpLyQo
+c3JjKS8ueWFtbGxpbnQgPiYyKSB8fCB0cnVlOyBcCisgICAgICAgICAgICAgICAgICAgICB0b3Vj
+aCAkQAorCiskKG9iaikvZHRfYmluZGluZ19saW50LmNoZWNrZWQ6ICQoQ0hLX0RUX0RPQ1MpICQo
+c3JjKS8ueWFtbGxpbnQgRk9SQ0UKKwkkKGNhbGwgaWZfY2hhbmdlZCx5YW1sbGludCkKIAotcXVp
+ZXRfY21kX2Noa19iaW5kaW5ncyA9IENIS0RUICAgJEAKK3F1aWV0X2NtZF9jaGtfYmluZGluZ3Mg
+PSBDSEtEVCAgICQoc3JjKQogICAgICAgY21kX2Noa19iaW5kaW5ncyA9ICgkKGZpbmRfY21kKSB8
+IFwKLSAgICAgICAgICAgICAgICAgICAgICAgICB4YXJncyAtbjIwMCAtUCQkKG5wcm9jKSAkKERU
+X0RPQ19DSEVDS0VSKSAtdSAkKHNyY3RyZWUpLyQoc3JjKSkgfHwgdHJ1ZQorICAgICAgICAgICAg
+ICAgICAgICAgICAgIHhhcmdzIC1uMjAwIC1QJCQobnByb2MpICQoRFRfRE9DX0NIRUNLRVIpIC11
+ICQoc3JjdHJlZSkvJChzcmMpKSB8fCB0cnVlOyBcCisgICAgICAgICAgICAgICAgICAgICAgICAg
+dG91Y2ggJEAKKworJChvYmopL2R0X2JpbmRpbmdfc2NoZW1hcy5jaGVja2VkOiAkKENIS19EVF9E
+T0NTKSBjaGVja19kdHNjaGVtYV92ZXJzaW9uIEZPUkNFCisJJChjYWxsIGlmX2NoYW5nZWQsY2hr
+X2JpbmRpbmdzKQogCiBxdWlldF9jbWRfbWtfc2NoZW1hID0gU0NIRU1BICAkQAogICAgICAgY21k
+X21rX3NjaGVtYSA9IGY9JCQobWt0ZW1wKSA7IFwKQEAgLTQ2LDE0ICs1NSwxMSBAQCBxdWlldF9j
+bWRfbWtfc2NoZW1hID0gU0NIRU1BICAkQAogICAgICAgICAgICAgICAgICAgICAgICQoRFRfTUtf
+U0NIRU1BKSAtaiAkKERUX01LX1NDSEVNQV9GTEFHUykgQCQkZiA+ICRAIDsgXAogCQkgICAgICBy
+bSAtZiAkJGYKIAotZGVmaW5lIHJ1bGVfY2hrZHQKLQkkKGlmICQoRFRfU0NIRU1BX0xJTlQpLCQo
+Y2FsbCBjbWQseWFtbGxpbnQpLCkKLQkkKGNhbGwgY21kLGNoa19iaW5kaW5ncykKLQkkKGNhbGwg
+Y21kLG1rX3NjaGVtYSkKLWVuZGVmCi0KIERUX0RPQ1MgPSAkKHBhdHN1YnN0ICQoc3JjdHJlZSkv
+JSwlLCQoc2hlbGwgJChmaW5kX2FsbF9jbWQpKSkKIAorJChvYmopL3Byb2Nlc3NlZC1zY2hlbWEu
+anNvbjogJChEVF9ET0NTKSBjaGVja19kdHNjaGVtYV92ZXJzaW9uIEZPUkNFCisJJChjYWxsIGlm
+X2NoYW5nZWQsbWtfc2NoZW1hKQorCiBvdmVycmlkZSBEVENfRkxBR1MgOj0gXAogCS1Xbm8tYXZv
+aWRfdW5uZWNlc3NhcnlfYWRkcl9zaXplIFwKIAktV25vLWdyYXBoX2NoaWxkX2FkZHJlc3MgXApA
+QCAtNjQsMTAgKzcwLDggQEAgb3ZlcnJpZGUgRFRDX0ZMQUdTIDo9IFwKICMgRGlzYWJsZSB1bmRv
+Y3VtZW50ZWQgY29tcGF0aWJsZSBjaGVja3MgdW50aWwgd2FybmluZyBmcmVlCiBvdmVycmlkZSBE
+VF9DSEVDS0VSX0ZMQUdTID89CiAKLSQob2JqKS9wcm9jZXNzZWQtc2NoZW1hLmpzb246ICQoRFRf
+RE9DUykgJChzcmMpLy55YW1sbGludCBjaGVja19kdHNjaGVtYV92ZXJzaW9uIEZPUkNFCi0JJChj
+YWxsIGlmX2NoYW5nZWRfcnVsZSxjaGtkdCkKLQogYWx3YXlzLXkgKz0gcHJvY2Vzc2VkLXNjaGVt
+YS5qc29uCithbHdheXMtJChDSEVDS19EVF9CSU5ESU5HKSArPSBkdF9iaW5kaW5nX2xpbnQuY2hl
+Y2tlZCBkdF9iaW5kaW5nX3NjaGVtYXMuY2hlY2tlZAogYWx3YXlzLSQoQ0hFQ0tfRFRfQklORElO
+RykgKz0gJChwYXRzdWJzdCAkKHNyY3RyZWUpLyQoc3JjKS8lLnlhbWwsJS5leGFtcGxlLmR0cywg
+JChDSEtfRFRfRE9DUykpCiBhbHdheXMtJChDSEVDS19EVF9CSU5ESU5HKSArPSAkKHBhdHN1YnN0
+ICQoc3JjdHJlZSkvJChzcmMpLyUueWFtbCwlLmV4YW1wbGUuZHRiLCAkKENIS19EVF9ET0NTKSkK
+IAo=
+--000000000000e000e005e729f253--
