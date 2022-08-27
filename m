@@ -2,24 +2,25 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D32145A38EB
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Aug 2022 18:55:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7393E5A38F0
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Aug 2022 18:57:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233308AbiH0Qzk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 27 Aug 2022 12:55:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49500 "EHLO
+        id S233705AbiH0Q5z (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 27 Aug 2022 12:57:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230024AbiH0Qzj (ORCPT
+        with ESMTP id S230024AbiH0Q5y (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 27 Aug 2022 12:55:39 -0400
-Received: from mail.owenrafferty.com (owenrafferty.com [45.76.27.4])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CEBF580A4
-        for <linux-kbuild@vger.kernel.org>; Sat, 27 Aug 2022 09:55:36 -0700 (PDT)
+        Sat, 27 Aug 2022 12:57:54 -0400
+X-Greylist: delayed 139 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 27 Aug 2022 09:57:53 PDT
+Received: from mail.owenrafferty.com (owenrafferty.com [IPv6:2001:19f0:5c01:1f5a:5400:3ff:fe72:9a03])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DAF259251
+        for <linux-kbuild@vger.kernel.org>; Sat, 27 Aug 2022 09:57:53 -0700 (PDT)
 Received: from localhost (unknown [184.55.81.148])
-        by mail.owenrafferty.com (Postfix) with ESMTPSA id 7CB798044D;
-        Sat, 27 Aug 2022 16:55:33 +0000 (UTC)
+        by mail.owenrafferty.com (Postfix) with ESMTPSA id 9C5F580451;
+        Sat, 27 Aug 2022 16:57:52 +0000 (UTC)
 Authentication-Results: mail.owenrafferty.com; dkim=permerror (bad message/signature format)
-Message-ID: <e1bec102a17d0013a8e09e4b485a5ee3.owen@owenrafferty.com>
+Message-ID: <effcbadb336e88f9ab802e000b964f12.owen@owenrafferty.com>
 X-Spam-Status: No, score=3.3 required=5.0 tests=BAYES_00,MISSING_DATE,
         MISSING_FROM,MISSING_HEADERS,MISSING_SUBJECT,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
@@ -28,7 +29,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 From:   <owen@owenrafferty.com>
 To:     unlisted-recipients:; (no To-header on input)
-Date:   Sat, 27 Aug 2022 12:55:39 -0400
+Date:   Sat, 27 Aug 2022 12:57:54 -0400
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -39,7 +40,7 @@ References: <CAK7LNAR+Lp2g1kzGNALoge7_51_PKcOd37ebZTV=X-QJEwCn5w@mail.gmail.com>
 From: Owen Rafferty <owen@owenrafferty.com>
 Date: Sat, 27 Aug 2022 11:52:18 -0500
 Subject: [PATCH v3] kbuild: rewrite check-local-export in sh/awk
-To: masahiro@kernel.org
+To: masahiroy@kernel.org
 Cc: linux-kbuild@vger.kernel.org
 
 ---
