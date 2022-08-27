@@ -2,58 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C9D235A380E
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Aug 2022 16:08:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FCC75A3821
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Aug 2022 16:33:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231961AbiH0OIT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 27 Aug 2022 10:08:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54688 "EHLO
+        id S231133AbiH0Odt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 27 Aug 2022 10:33:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229677AbiH0OIT (ORCPT
+        with ESMTP id S229544AbiH0Ods (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 27 Aug 2022 10:08:19 -0400
+        Sat, 27 Aug 2022 10:33:48 -0400
 Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A34634C63D;
-        Sat, 27 Aug 2022 07:08:17 -0700 (PDT)
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 27RE7wOu030481;
-        Sat, 27 Aug 2022 23:07:58 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 27RE7wOu030481
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 677166CD2B;
+        Sat, 27 Aug 2022 07:33:47 -0700 (PDT)
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 27REXN6q011142;
+        Sat, 27 Aug 2022 23:33:24 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 27REXN6q011142
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1661609279;
-        bh=rDdXeC6ksXnnkis/qhKihUlu0s9cxqurOTuBcsF8uWk=;
+        s=dec2015msa; t=1661610804;
+        bh=r3RuiVhz02YDOYCKUD6tQkz2KkGo9JNyPIOr+gWiuFw=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=kB/lLvLKiWp6aor1SzHSpNb3CXqldiPR5pXqvPcZTIuEgLQ5e/l2a+/i/v3Fb3WVx
-         QrjbRYkJaI3kUefcql6YXxSSZJ6kYOa515r6CPjbuieLMehk343C8VtGMy1G7qKSKA
-         lqH3DjdeX079Zz8Z+sraaDS+SjbjyxfO1r/SHEADAJtozGviDm0PuVznrh7xdo7+ro
-         m3+d28cSwRBLoSd7V0QDEf6wvxoy+kmK6gc9xaGnbPS3LuOWCbX7ZEAwtRouYS8ins
-         wVwecgBppwQsw/V/nGEkZXr+U8qGj5xioqM00LdV35avgRDM/BLf1j7UV/UplO0Zrd
-         Yco6WNrRtHt8w==
-X-Nifty-SrcIP: [209.85.160.46]
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-11c5ee9bf43so5510199fac.5;
-        Sat, 27 Aug 2022 07:07:58 -0700 (PDT)
-X-Gm-Message-State: ACgBeo1eERXUbkOz/jyhlfZo7UV73JqSDofjV6tVkFHsK4IK9/nOecxj
-        +Yi9yVMSNWxMWAKB7A+CRi+9EcHEKElWd0A6RcE=
-X-Google-Smtp-Source: AA6agR5fJD/Xapf90KSFwv8M9XMZ8ikXGsv8r4iY/lMSPUKVUay0NL70sR1gmsF1lexfUYKLBj8R7YAhDoCeUvAY1Xg=
-X-Received: by 2002:a05:6870:f626:b0:10d:a798:f3aa with SMTP id
- ek38-20020a056870f62600b0010da798f3aamr3979227oab.194.1661609277673; Sat, 27
- Aug 2022 07:07:57 -0700 (PDT)
+        b=BfS4oCWg4bw0zw6AY6qJ26K069UIZ59LWTklITdRbn89nN6nnYjLZlt59NtYzV3FO
+         8PzuSFzNCmHxew9BMxzbEO91Lb8P8rnLsMmKYg73G4U5GnOWb25MWpCVtTE7Veox5J
+         5yuGAQmrBcMgf3sNKdZJBArLlFqSXO0Lt2ULp3ndKlFifz8NFQROZ5zJObtQc7dH4M
+         3Vistdjm9IuT2nCa5ubtbabBw0pudT8/gl4cN4xsbSrTLGXQZNVItagrkyMO5EULq5
+         0V+UJ/zCAYsIJqxj+6wJQt6C1Pn5CQj+wm7ergQK/W44xIW0BmnWEizn0WqQkT/vIp
+         DgJz4iXblDHpg==
+X-Nifty-SrcIP: [209.85.167.175]
+Received: by mail-oi1-f175.google.com with SMTP id a133so5452164oif.4;
+        Sat, 27 Aug 2022 07:33:23 -0700 (PDT)
+X-Gm-Message-State: ACgBeo3sy6nlsKuZbJYxrwsdmzN+vK9vVxFExUZ5s1uCUKkcJokx1Dyn
+        xY11A4f13mm3nnCus4evTSysZFxOZfvnmkCky3I=
+X-Google-Smtp-Source: AA6agR7rXve0v0yJlspa5QxdePWwu0GRH6Fgsj/LGMckPZ7PTktOTsd9toOIdunYrHD1TLI+2JlKxmb175dYEwzL3bc=
+X-Received: by 2002:a05:6808:1189:b0:33a:34b3:6788 with SMTP id
+ j9-20020a056808118900b0033a34b36788mr3602323oil.194.1661610802833; Sat, 27
+ Aug 2022 07:33:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220825091517.30842-1-lukas.bulwahn@gmail.com> <CAKwvOdkY=ye4PKi8KwP-ux73pwZs+J_Oq3wR7ep8S81=aCWtqA@mail.gmail.com>
-In-Reply-To: <CAKwvOdkY=ye4PKi8KwP-ux73pwZs+J_Oq3wR7ep8S81=aCWtqA@mail.gmail.com>
+References: <20220824200340.45673-1-thitat@flux.ci> <YwcjFCXF7lKpU3r5@buildd.core.avm.de>
+In-Reply-To: <YwcjFCXF7lKpU3r5@buildd.core.avm.de>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 27 Aug 2022 23:07:06 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT918p5v0Ak8p3a3yQKk7tYUphv=h8p9xkXa411iY_EjA@mail.gmail.com>
-Message-ID: <CAK7LNAT918p5v0Ak8p3a3yQKk7tYUphv=h8p9xkXa411iY_EjA@mail.gmail.com>
-Subject: Re: [PATCH] scripts: remove obsolete gcc-ld script
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        "H . Peter Anvin" <hpa@linux.intel.com>,
+Date:   Sat, 27 Aug 2022 23:32:32 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQxM4HswuOAyV_CgG7sxLnkco6ioR5vVC3c3dKfu2aj=w@mail.gmail.com>
+Message-ID: <CAK7LNAQxM4HswuOAyV_CgG7sxLnkco6ioR5vVC3c3dKfu2aj=w@mail.gmail.com>
+Subject: Re: [PATCH] scripts/extract-ikconfig: add zstd compression support
+To:     Nicolas Schier <n.schier@avm.de>
+Cc:     Thitat Auareesuksakul <thitat@flux.ci>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        kernel-janitors@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -65,89 +62,38 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Aug 26, 2022 at 2:20 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On Thu, Aug 25, 2022 at 4:22 PM Nicolas Schier <n.schier@avm.de> wrote:
 >
-> + Jiri in case this needs to be carried downstream.
->
-> On Thu, Aug 25, 2022 at 2:15 AM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+> On Thu, Aug 25, 2022 at 03:03:40AM +0700, Thitat Auareesuksakul wrote:
+> > Add extract-ikconfig support for kernel images compressed with zstd.
 > >
-> > Since commit 8564ed2b3888 ("Kbuild, lto: Add a gcc-ld script to let run gcc
-> > as ld") in 2014, there was not specific work on this the gcc-ld script
-> > other than treewide clean-ups.
-> >
-> > There are no users within the kernel tree, and probably no out-of-tree
-> > users either, and there is no dedicated maintainer in MAINTAINERS.
-> >
-> > Delete this obsolete gcc-ld script.
-> >
-> > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
->
-> No callers in-tree; happy to bring it back though should there later
-> be. Thanks for the patch.
->
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
->
+> > Signed-off-by: Thitat Auareesuksakul <thitat@flux.ci>
 > > ---
-> > If there are no objections, I would like to get this patch included
-> > through the kbuild tree.
+>
+> Tested-by: Nicolas Schier <n.schier@avm.de>
+>
+> >  scripts/extract-ikconfig | 1 +
+> >  1 file changed, 1 insertion(+)
 > >
-> > Masahiro-san, please pick this patch.
+> > diff --git a/scripts/extract-ikconfig b/scripts/extract-ikconfig
+> > index 3b42f255e2ba..8df33e7d6daa 100755
+> > --- a/scripts/extract-ikconfig
+> > +++ b/scripts/extract-ikconfig
+> > @@ -62,6 +62,7 @@ try_decompress 'BZh'          xy    bunzip2
+> >  try_decompress '\135\0\0\0'   xxx   unlzma
+> >  try_decompress '\211\114\132' xy    'lzop -d'
+> >  try_decompress '\002\041\114\030' xyy 'lz4 -d -l'
+> > +try_decompress '\050\265\057\375' xxx unzstd
 > >
-> >  scripts/gcc-ld | 30 ------------------------------
-> >  1 file changed, 30 deletions(-)
-> >  delete mode 100755 scripts/gcc-ld
-> >
-> > diff --git a/scripts/gcc-ld b/scripts/gcc-ld
-> > deleted file mode 100755
-> > index 997b818c3962..000000000000
-> > --- a/scripts/gcc-ld
-> > +++ /dev/null
-> > @@ -1,30 +0,0 @@
-> > -#!/bin/sh
-> > -# SPDX-License-Identifier: GPL-2.0
-> > -# run gcc with ld options
-> > -# used as a wrapper to execute link time optimizations
-> > -# yes virginia, this is not pretty
-> > -
-> > -ARGS="-nostdlib"
-> > -
-> > -while [ "$1" != "" ] ; do
-> > -       case "$1" in
-> > -       -save-temps|-m32|-m64) N="$1" ;;
-> > -       -r) N="$1" ;;
-> > -       -[Wg]*) N="$1" ;;
-> > -       -[olv]|-[Ofd]*|-nostdlib) N="$1" ;;
-> > -       --end-group|--start-group)
-> > -                N="-Wl,$1" ;;
-> > -       -[RTFGhIezcbyYu]*|\
-> > ---script|--defsym|-init|-Map|--oformat|-rpath|\
-> > --rpath-link|--sort-section|--section-start|-Tbss|-Tdata|-Ttext|\
-> > ---version-script|--dynamic-list|--version-exports-symbol|--wrap|-m)
-> > -               A="$1" ; shift ; N="-Wl,$A,$1" ;;
-> > -       -[m]*) N="$1" ;;
-> > -       -*) N="-Wl,$1" ;;
-> > -       *)  N="$1" ;;
-> > -       esac
-> > -       ARGS="$ARGS $N"
-> > -       shift
-> > -done
-> > -
-> > -exec $CC $ARGS
+> >  # Bail out:
+> >  echo "$me: Cannot find kernel config." >&2
 > > --
-> > 2.17.1
+> > 2.37.2
 > >
->
->
-> --
-> Thanks,
-> ~Nick Desaulniers
 
 
+Applied to linux-kbuild. Thanks.
 
-
-Applied to linux-kbuild.
-Thanks.
 
 
 -- 
