@@ -2,180 +2,172 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 464895A38D7
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Aug 2022 18:43:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D32145A38EB
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Aug 2022 18:55:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230088AbiH0Qnp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 27 Aug 2022 12:43:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33116 "EHLO
+        id S233308AbiH0Qzk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 27 Aug 2022 12:55:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229905AbiH0Qno (ORCPT
+        with ESMTP id S230024AbiH0Qzj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 27 Aug 2022 12:43:44 -0400
-Received: from conuserg-11.nifty.com (conuserg-11.nifty.com [210.131.2.78])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4FB3474D6;
-        Sat, 27 Aug 2022 09:43:43 -0700 (PDT)
-Received: from localhost.localdomain (133-32-182-133.west.xps.vectant.ne.jp [133.32.182.133]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id 27RGfBPI000611;
-        Sun, 28 Aug 2022 01:41:12 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 27RGfBPI000611
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1661618473;
-        bh=+GhN5QiWk8VZrsPB7KRVM8ziElAEYMkGxB8N3aqbfbA=;
-        h=From:To:Cc:Subject:Date:From;
-        b=wow0twov1tOYfhfBWw3b+32Zrm/G3bdf9F7iFroPW/Z6t0so1GOsdJXwBfs3ovRM9
-         7WRVpZuCLVm+8mx5OiE57OGePMReAnAsUp2hUhH15ybhqWrfyjh0Coawe5jgqKJW1H
-         13KMbG8bkA6YoQ/m3kDNbF1lkRtD3SyhiBAKzQBibFpl0tNwLs0O6fkUbejiXPthqE
-         WHTGpbRnkWJ9i4oACKbUzmbl0q9c0ZuS4+/Ps14O7b1ZTxc43XugUsz5gGPY3pxRAw
-         LVG1/EBV7B9JOCktDqG35C5IqSJgUr4T2cBX/u+8xRh/KX0F7ZEirwZPAGo3VquVou
-         Abyatq9iw6TKQ==
-X-Nifty-SrcIP: [133.32.182.133]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        linuxppc-dev@lists.ozlabs.org
-Cc:     linux-kbuild@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Daniel Axtens <dja@axtens.net>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] powerpc: clean up binutils version check
-Date:   Sun, 28 Aug 2022 01:40:56 +0900
-Message-Id: <20220827164056.3365356-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        Sat, 27 Aug 2022 12:55:39 -0400
+Received: from mail.owenrafferty.com (owenrafferty.com [45.76.27.4])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CEBF580A4
+        for <linux-kbuild@vger.kernel.org>; Sat, 27 Aug 2022 09:55:36 -0700 (PDT)
+Received: from localhost (unknown [184.55.81.148])
+        by mail.owenrafferty.com (Postfix) with ESMTPSA id 7CB798044D;
+        Sat, 27 Aug 2022 16:55:33 +0000 (UTC)
+Authentication-Results: mail.owenrafferty.com; dkim=permerror (bad message/signature format)
+Message-ID: <e1bec102a17d0013a8e09e4b485a5ee3.owen@owenrafferty.com>
+X-Spam-Status: No, score=3.3 required=5.0 tests=BAYES_00,MISSING_DATE,
+        MISSING_FROM,MISSING_HEADERS,MISSING_SUBJECT,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+From:   <owen@owenrafferty.com>
+To:     unlisted-recipients:; (no To-header on input)
+Date:   Sat, 27 Aug 2022 12:55:39 -0400
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The checkbin in arch/powerpc/Makefile errors out if ld <= 2.24.
-So, the requirement on PPC is binutils >= 2.25. It is cleaner to
-specify it in scripts/min-tool-version.sh. If binutils < 2.25 is
-used, the toolchain check will fail in the Kconfig stage going
-forward.
+From 0e70974912f6b2cd95a18192418a438f9c57f690 Mon Sep 17 00:00:00 2001
+In-Reply-To: <CAK7LNAR+Lp2g1kzGNALoge7_51_PKcOd37ebZTV=X-QJEwCn5w@mail.gmail.com>
+References: <CAK7LNAR+Lp2g1kzGNALoge7_51_PKcOd37ebZTV=X-QJEwCn5w@mail.gmail.com>
+From: Owen Rafferty <owen@owenrafferty.com>
+Date: Sat, 27 Aug 2022 11:52:18 -0500
+Subject: [PATCH v3] kbuild: rewrite check-local-export in sh/awk
+To: masahiro@kernel.org
+Cc: linux-kbuild@vger.kernel.org
 
-Since binutils >= 2.25 is already required, another version test
-for --save-restore-funcs on PPC64 is always met.
-
-PPC is the last user of ld-ifversion. With all the callers removed,
-the macro definition in scripts/Makefile.compiler can go away.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
+ scripts/check-local-export | 96 +++++++++++++++++++-------------------
+ 1 file changed, 47 insertions(+), 49 deletions(-)
 
- arch/powerpc/Makefile       | 21 ---------------------
- arch/powerpc/lib/Makefile   |  8 --------
- scripts/Makefile.compiler   |  4 ----
- scripts/min-tool-version.sh |  8 +++++++-
- 4 files changed, 7 insertions(+), 34 deletions(-)
-
-diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
-index 02742facf895..fb607758eeca 100644
---- a/arch/powerpc/Makefile
-+++ b/arch/powerpc/Makefile
-@@ -46,13 +46,7 @@ UTS_MACHINE := $(subst $(space),,$(machine-y))
- ifdef CONFIG_PPC32
- KBUILD_LDFLAGS_MODULE += arch/powerpc/lib/crtsavres.o
- else
--ifeq ($(call ld-ifversion, -ge, 22500, y),y)
--# Have the linker provide sfpr if possible.
--# There is a corresponding test in arch/powerpc/lib/Makefile
- KBUILD_LDFLAGS_MODULE += --save-restore-funcs
--else
--KBUILD_LDFLAGS_MODULE += arch/powerpc/lib/crtsavres.o
--endif
- endif
+diff --git a/scripts/check-local-export b/scripts/check-local-export
+index 6ccc2f467416..0c049ff44aca 100755
+--- a/scripts/check-local-export
++++ b/scripts/check-local-export
+@@ -1,26 +1,14 @@
+-#!/usr/bin/env bash
++#!/bin/sh
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
+ # Copyright (C) 2022 Masahiro Yamada <masahiroy@kernel.org>
++# Copyright (C) 2022 Owen Rafferty <owen@owenrafferty.com>
+ #
+ # Exit with error if a local exported symbol is found.
+ # EXPORT_SYMBOL should be used for global symbols.
  
- ifdef CONFIG_CPU_LITTLE_ENDIAN
-@@ -395,8 +389,6 @@ vdso_prepare: prepare0
- 		$(build)=arch/powerpc/kernel/vdso include/generated/vdso64-offsets.h)
- endif
+ set -e
  
--archprepare: checkbin
+-# catch errors from ${NM}
+-set -o pipefail
 -
- archheaders:
- 	$(Q)$(MAKE) $(build)=arch/powerpc/kernel/syscalls all
- 
-@@ -411,16 +403,3 @@ else
- 	$(eval KBUILD_CFLAGS += -mstack-protector-guard-offset=$(shell awk '{if ($$2 == "TASK_CANARY") print $$3;}' include/generated/asm-offsets.h))
- endif
- endif
+-# Run the last element of a pipeline in the current shell.
+-# Without this, the while-loop would be executed in a subshell, and
+-# the changes made to 'symbol_types' and 'export_symbols' would be lost.
+-shopt -s lastpipe
 -
--PHONY += checkbin
--# Check toolchain versions:
--# - gcc-4.6 is the minimum kernel-wide version so nothing required.
--checkbin:
--	@if test "x${CONFIG_LD_IS_LLD}" != "xy" -a \
--		"x$(call ld-ifversion, -le, 22400, y)" = "xy" ; then \
--		echo -n '*** binutils 2.24 miscompiles weak symbols ' ; \
--		echo 'in some circumstances.' ; \
--		echo    '*** binutils 2.23 do not define the TOC symbol ' ; \
--		echo -n '*** Please use a different binutils version.' ; \
--		false ; \
+-declare -A symbol_types
+-declare -a export_symbols
+-
+-exit_code=0
+-
+ # If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
+ # 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
+ # '2>/dev/null'. However, it suppresses real error messages as well. Add a
+@@ -29,43 +17,53 @@ exit_code=0
+ # TODO:
+ # Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
+ # binutils to 2.37, llvm to 13.0.0.
+-# Then, the following line will be really simple:
+-#   ${NM} --quiet ${1} |
++# Then, the following line will be simpler:
++#   { ${NM} --quiet ${1} || kill 0; } |
++
++{ ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; kill 0; } } |
++${AWK} -v "file=${1}" '
++BEGIN {
++	i = 0
++}
++
++# Skip the line if the number of fields is less than 3.
++#
++# case 1)
++#   For undefined symbols, the first field (value) is empty.
++#   The outout looks like this:
++#     "                 U _printk"
++#   It is unneeded to record undefined symbols.
++#
++# case 2)
++#   For Clang LTO, llvm-nm outputs a line with type t but empty name:
++#     "---------------- t"
++!length($3) {
++	next
++}
+ 
+-{ ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; false; } } |
+-while read value type name
+-do
+-	# Skip the line if the number of fields is less than 3.
+-	#
+-	# case 1)
+-	#   For undefined symbols, the first field (value) is empty.
+-	#   The outout looks like this:
+-	#     "                 U _printk"
+-	#   It is unneeded to record undefined symbols.
+-	#
+-	# case 2)
+-	#   For Clang LTO, llvm-nm outputs a line with type 't' but empty name:
+-	#     "---------------- t"
+-	if [[ -z ${name} ]]; then
+-		continue
 -	fi
-diff --git a/arch/powerpc/lib/Makefile b/arch/powerpc/lib/Makefile
-index 8560c912186d..5eb3971ccb9c 100644
---- a/arch/powerpc/lib/Makefile
-+++ b/arch/powerpc/lib/Makefile
-@@ -38,14 +38,6 @@ obj-$(CONFIG_PPC32)	+= div64.o copy_32.o crtsavres.o
++# save (name, type) in the associative array
++{ symbol_types[$3]=$2 }
  
- obj-$(CONFIG_FUNCTION_ERROR_INJECTION)	+= error-inject.o
+-	# save (name, type) in the associative array
+-	symbol_types[${name}]=${type}
++# append the exported symbol to the array
++($3 ~ /^__ksymtab_/) {
++	export_symbols[i] = $3
++	sub(/^__ksymtab_/, "", export_symbols[i])
++	i++
++}
  
--# See corresponding test in arch/powerpc/Makefile
--# 64-bit linker creates .sfpr on demand for final link (vmlinux),
--# so it is only needed for modules, and only for older linkers which
--# do not support --save-restore-funcs
--ifeq ($(call ld-ifversion, -lt, 22500, y),y)
--extra-$(CONFIG_PPC64)	+= crtsavres.o
--endif
--
- obj-$(CONFIG_PPC_BOOK3S_64) += copyuser_power7.o copypage_power7.o \
- 			       memcpy_power7.o restart_table.o
+-	# append the exported symbol to the array
+-	if [[ ${name} == __ksymtab_* ]]; then
+-		export_symbols+=(${name#__ksymtab_})
+-	fi
+-done
++END {
++	exit_code = 0
++	for (j = 0; j < i; ++j) {
++		name = export_symbols[j]
++		# nm(3) says "If lowercase, the symbol is usually local"
++		if (symbol_types[name] ~ /[a-z]/) {
++			printf "%s: error: local symbol %s was exported\n",
++				file, name | "cat 1>&2"
++			exit_code = 1
++		}
++	}
  
-diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
-index 94d0d40cddb3..63e7d79dd877 100644
---- a/scripts/Makefile.compiler
-+++ b/scripts/Makefile.compiler
-@@ -68,7 +68,3 @@ cc-ifversion = $(shell [ $(CONFIG_GCC_VERSION)0 $(1) $(2)000 ] && echo $(3) || e
- # ld-option
- # Usage: KBUILD_LDFLAGS += $(call ld-option, -X, -Y)
- ld-option = $(call try-run, $(LD) $(KBUILD_LDFLAGS) $(1) -v,$(1),$(2),$(3))
--
--# ld-ifversion
--# Usage:  $(call ld-ifversion, -ge, 22252, y)
--ld-ifversion = $(shell [ $(CONFIG_LD_VERSION)0 $(1) $(2)0 ] && echo $(3) || echo $(4))
-diff --git a/scripts/min-tool-version.sh b/scripts/min-tool-version.sh
-index 250925aab101..7df9f2150ea1 100755
---- a/scripts/min-tool-version.sh
-+++ b/scripts/min-tool-version.sh
-@@ -14,7 +14,13 @@ fi
+-for name in "${export_symbols[@]}"
+-do
+-	# nm(3) says "If lowercase, the symbol is usually local"
+-	if [[ ${symbol_types[$name]} =~ [a-z] ]]; then
+-		echo "$@: error: local symbol '${name}' was exported" >&2
+-		exit_code=1
+-	fi
+-done
++	exit exit_code
++}'
  
- case "$1" in
- binutils)
--	echo 2.23.0
-+	if [ "$SRCARCH" = powerpc ]; then
-+		# binutils 2.24 miscompiles weak symbols in some circumstances
-+		# binutils 2.23 do not define the TOC symbol
-+		echo 2.25.0
-+	else
-+		echo 2.23.0
-+	fi
- 	;;
- gcc)
- 	echo 5.1.0
+-exit ${exit_code}
++exit $?
 -- 
-2.34.1
+2.37.2
 
