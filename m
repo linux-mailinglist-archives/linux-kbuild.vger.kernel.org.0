@@ -2,59 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A546C5A3DF0
-	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Aug 2022 16:06:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB30E5A3EC9
+	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Aug 2022 19:21:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229519AbiH1OGD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 28 Aug 2022 10:06:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34326 "EHLO
+        id S230117AbiH1RVi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 28 Aug 2022 13:21:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbiH1OGB (ORCPT
+        with ESMTP id S229882AbiH1RVi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 28 Aug 2022 10:06:01 -0400
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E346411829;
-        Sun, 28 Aug 2022 07:05:57 -0700 (PDT)
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 27SE5hJY027964;
-        Sun, 28 Aug 2022 23:05:43 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 27SE5hJY027964
+        Sun, 28 Aug 2022 13:21:38 -0400
+Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C48BC6566;
+        Sun, 28 Aug 2022 10:21:36 -0700 (PDT)
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 27SHLMZg016374;
+        Mon, 29 Aug 2022 02:21:22 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 27SHLMZg016374
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1661695544;
-        bh=7p5xEPIE0raguxuqb9tD1++pwdD0zB8NLEYhYSPu/IQ=;
+        s=dec2015msa; t=1661707283;
+        bh=/wxBK7m8lAXZFpL9USnpvkitak2d1egNjzQJgsP+0AI=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ZDCRt1bfvQTNSNT/0wrEHkz5x+qJ+FXgOtLTL/KKBxoJ4U2gU673SXYI1OhtLDjVA
-         4XLEkOhfXkCpw2EAZFg+Ci1SkH+8a3F9K0klteXaFDVVORVkUE1Cj6Id2lLTNS9KRM
-         jbGk4fy8ZqSS5wXWgi2CUx2b2dtpNjaPvDDHxDTIz+i3rSQd1MHnBXRO+PdznuyfkN
-         hK8TrqJoNlZ1v/iDC4Hii66gyDP63+t+UJ0mH99Q5UQhuEUUE4t0+kgJq+c+Kp025b
-         mj/NtaHQf0p9/G/Q0zZ2gGuDCxUmwBOgRPKQmW2yVyjgNmVb3cRnckrEay3GMRSN/t
-         58myAFCNffXdA==
-X-Nifty-SrcIP: [209.85.160.52]
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-11eb8b133fbso3311365fac.0;
-        Sun, 28 Aug 2022 07:05:43 -0700 (PDT)
-X-Gm-Message-State: ACgBeo1l70qejLS2GnPlkxahj1z/7tn9kK1AirLDA0zNkziVBnQi89Xe
-        ZMamCt7jwbeoamd67CCInlB33nm23C3lE+Z3wsU=
-X-Google-Smtp-Source: AA6agR6kkMIeaI/O17CfGjD2nBsyny/Gn0xIrAbAaim7m9/xcWUWWXRceQCWXvs2mtYynFImUo+tpNppj3iJP84luWg=
-X-Received: by 2002:a05:6870:c58b:b0:10b:d21d:ad5e with SMTP id
- ba11-20020a056870c58b00b0010bd21dad5emr5664935oab.287.1661695542843; Sun, 28
- Aug 2022 07:05:42 -0700 (PDT)
+        b=nF0fZbOjdn6s7I5wZJo6mjT43EuIf/CCthIsgwiVAePFc7gqW8ZvMXhJIr7GqnR9z
+         c3PZBwjmMGjoIshkb1xoI/rVTDv9j0isAYCYLnccK4k/19Xr5p5YZCAFQFzeqyeK0B
+         nywh6tGVayn+jv4zBpcj0+qmtKjfGPmw2OvFXBJfO5K2iZJLkV25TdjGvVeUzN12iC
+         vAnyE741BQeWM8gvHWn62yTtZZzX4y9h10MlAf257TElmSbOpl+lIMRIblhNrZRlCA
+         DniJxpGs98UjvqXiQZy2/zC1HW/tEHtdupNQ46ZB/rkDqNMwcVgiVHOVAc2dCIBIsr
+         ClA9ABUL4EDqw==
+X-Nifty-SrcIP: [209.85.210.50]
+Received: by mail-ot1-f50.google.com with SMTP id 6-20020a9d0106000000b0063963134d04so4493750otu.3;
+        Sun, 28 Aug 2022 10:21:22 -0700 (PDT)
+X-Gm-Message-State: ACgBeo2AlioGlCj3s2/mZFWZjSnq1jDzuWwhC4Xf/QgkFO4jtsct/oBf
+        +Mv9gT2lsgUvrEC7DlGktpYYcJkAQNDF+W1Zdwg=
+X-Google-Smtp-Source: AA6agR68BX+UgxMBvfbvnw8JIecIq4RkerD74kWTFUvD19k9KrVWyW402aX0SzT1wD2UifkGw8qhmHOws4cncnOU4uk=
+X-Received: by 2002:a05:6830:2985:b0:61c:c1bb:206a with SMTP id
+ t5-20020a056830298500b0061cc1bb206amr5061631otu.343.1661707281453; Sun, 28
+ Aug 2022 10:21:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220817161438.32039-2-ysionneau@kalray.eu> <31ce5305-a76b-13d7-ea55-afca82c46cf2@kalray.eu>
- <CAMj1kXF8mZ_pK38T=dCU6Rewqq23pPM5HwnZHyx1cGgo0F7Mew@mail.gmail.com>
- <fbf47f7c-7d42-4510-6dd4-92f46ec70819@kalray.eu> <CAMj1kXHeSemLqAhbBLMGkK4G1225NZbaQvnR3wAWYfJr4AReaw@mail.gmail.com>
- <CAMuHMdUJZBPuD1=3SMg4G1-UoBr5Evd8mBfhxxuAaoh=K6Rm+w@mail.gmail.com> <CAMj1kXF6TchD4g0qO1OeEwt8QYU_TZEriE=1yaCxXrNGBYjmCA@mail.gmail.com>
-In-Reply-To: <CAMj1kXF6TchD4g0qO1OeEwt8QYU_TZEriE=1yaCxXrNGBYjmCA@mail.gmail.com>
+References: <20220826181035.859042-1-ndesaulniers@google.com>
+ <20220826181035.859042-2-ndesaulniers@google.com> <YwkPNyHvxR2dM+CQ@dev-arch.thelio-3990X>
+ <CAKwvOdmR8D_GTM=ZhnhLzR3d9Ra46WpcO1W_CujGjMb+QR-_3w@mail.gmail.com>
+In-Reply-To: <CAKwvOdmR8D_GTM=ZhnhLzR3d9Ra46WpcO1W_CujGjMb+QR-_3w@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 28 Aug 2022 23:05:06 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ0wiBZB7XDZVodXWtP5m_H-e_xQ78z_eJ82W3pFrKWfQ@mail.gmail.com>
-Message-ID: <CAK7LNAQ0wiBZB7XDZVodXWtP5m_H-e_xQ78z_eJ82W3pFrKWfQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/1] Fix __kcrctab+* sections alignment
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Yann Sionneau <ysionneau@kalray.eu>,
-        Arnd Bergmann <arnd@arndb.de>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>
+Date:   Mon, 29 Aug 2022 02:20:45 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATcHt7GcXZ=jMszyH=+M_LC9Qr6yeAGRCBbE6xriLxtUQ@mail.gmail.com>
+Message-ID: <CAK7LNATcHt7GcXZ=jMszyH=+M_LC9Qr6yeAGRCBbE6xriLxtUQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] Makefile.compiler: s/KBUILD_CFLAGS/KBUILD_AFLAGS/ for as-option
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Tom Rix <trix@redhat.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <llvm@lists.linux.dev>,
+        X86 ML <x86@kernel.org>,
+        Dmitrii Bundin <dmitrii.bundin.a@gmail.com>,
+        Fangrui Song <maskray@google.com>,
+        Alexey Alexandrov <aalexand@google.com>,
+        Bill Wendling <morbo@google.com>,
+        Greg Thelen <gthelen@google.com>,
+        Arvind Sankar <nivedita@alum.mit.edu>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
@@ -65,62 +72,110 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Aug 26, 2022 at 7:17 PM Ard Biesheuvel <ardb@kernel.org> wrote:
+On Sat, Aug 27, 2022 at 3:35 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
 >
-> On Thu, 25 Aug 2022 at 20:01, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Fri, Aug 26, 2022 at 11:21 AM Nathan Chancellor <nathan@kernel.org> wrote:
 > >
-> > Hi Ard,
+> > Hi Nick,
 > >
-> > On Thu, Aug 25, 2022 at 2:56 PM Ard Biesheuvel <ardb@kernel.org> wrote:
-> > > On Thu, 25 Aug 2022 at 14:21, Yann Sionneau <ysionneau@kalray.eu> wrote:
-> > > > Well, I am not completely sure about that. See my cover letter, previous
-> > > > mechanism for symbol CRC was actually enforcing the section alignment to
-> > > > 4 bytes boundary as well.
+> > I think the title would be a little more readable if it was:
 > >
-> > Yes, because else it may become 2-byte aligned on m68k.
+> > Makefile.compiler: Use KBUILD_AFLAGS for as-option
+>
+> Thanks, yeah that looks better; I expect a v2 of this series will be necessary.
+>
 > >
-> > > > Also, I'm not sure it is forbidden for an architecture/compiler
-> > > > implementation to actually enforce a stronger alignment on u32, which in
-> > > > theory would not break anything.
-> > > >
+> > On Fri, Aug 26, 2022 at 11:10:33AM -0700, Nick Desaulniers wrote:
+> > > as-instr uses KBUILD_AFLAGS, but as-option uses KBUILD_CFLAGS.  This can
+> > > cause as-option to fail unexpectedly because clang will emit
+> > > -Werror,-Wunused-command-line-argument for various -m and -f flags for
+> > > assembler sources.
 > > >
-> > > u32 is a Linux type, and Linux expects natural alignment (and padding).
+> > > Callers of as-option (and as-instr) likely want to be adding flags to
+> > > KBUILD_AFLAGS/aflags-y, not KBUILD_CFLAGS/cflags-y.
+
+Indeed, it has been weird since the day-1 of as-option.
+
+commit cad8244840d1a148f638925758afd1cdf81fc839
+Author: Paul Mundt <lethal@linux-sh.org>
+Date:   Mon Jan 16 22:14:19 2006 -0800
+
+    [PATCH] sh: Move CPU subtype configuration to its own Kconfig
+
+
+
+
+
+
+
+
+> > >
+> > > Link: https://github.com/ClangBuiltLinux/linux/issues/1699
+> > > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> > > ---
+> > >  arch/x86/boot/compressed/Makefile | 5 +++--
+> > >  scripts/Makefile.compiler         | 6 +++---
+> > >  2 files changed, 6 insertions(+), 5 deletions(-)
+> > >
+> > > diff --git a/arch/x86/boot/compressed/Makefile b/arch/x86/boot/compressed/Makefile
+> > > index 35ce1a64068b..fb3db714a028 100644
+> > > --- a/arch/x86/boot/compressed/Makefile
+> > > +++ b/arch/x86/boot/compressed/Makefile
+> > > @@ -48,8 +48,6 @@ KBUILD_CFLAGS += -Wno-pointer-sign
+> > >  KBUILD_CFLAGS += $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
+> > >  KBUILD_CFLAGS += -fno-asynchronous-unwind-tables
+> > >  KBUILD_CFLAGS += -D__DISABLE_EXPORTS
+> > > -# Disable relocation relaxation in case the link is not PIE.
+> > > -KBUILD_CFLAGS += $(call as-option,-Wa$(comma)-mrelax-relocations=no)
+> > >  KBUILD_CFLAGS += -include $(srctree)/include/linux/hidden.h
+> > >
+> > >  # sev.c indirectly inludes inat-table.h which is generated during
+> > > @@ -58,6 +56,9 @@ KBUILD_CFLAGS += -include $(srctree)/include/linux/hidden.h
+> > >  CFLAGS_sev.o += -I$(objtree)/arch/x86/lib/
+> > >
+> > >  KBUILD_AFLAGS  := $(KBUILD_CFLAGS) -D__ASSEMBLY__
+> > > +# Disable relocation relaxation in case the link is not PIE.
+> > > +KBUILD_AFLAGS += $(call as-option,-Wa$(comma)-mrelax-relocations=no)
+> > > +
 > >
-> > Is it? You probably mean its alignment should not be larger than
-> > 4 bytes? Less has been working since basically forever.
-> >
+> > Commit 09e43968db40 ("x86/boot/compressed: Disable relocation
+> > relaxation") added this to address
+> > https://github.com/ClangBuiltLinux/linux/issues/1121, is it correct to
+> > move it to only being used for the .S files in arch/x86/boot/compressed?
+
+Good catch!
+
+
 >
-> You are quite right. of course. And indeed, the issue here is padding
-> not alignment.
+> + Arvind
 >
-
-I do not know if __align(4) should be used to avoid the padding issue.
-
-
-
-Do you think it is a good idea to use an inline assembler,
-as prior to 7b4537199a4a8480b8c3ba37a2d44765ce76cd9b ?
-
-
-This patch:
-
-diff --git a/include/linux/export-internal.h b/include/linux/export-internal.h
-index c2b1d4fd5987..fb90f326b1b5 100644
---- a/include/linux/export-internal.h
-+++ b/include/linux/export-internal.h
-@@ -12,6 +12,9 @@
-
- /* __used is needed to keep __crc_* for LTO */
- #define SYMBOL_CRC(sym, crc, sec)   \
--       u32 __section("___kcrctab" sec "+" #sym) __used __crc_##sym = crc
-+       asm(".section \"___kcrctab" sec "+" #sym "\",\"a\""     "\n" \
-+           "__crc_" #sym ":"                                   "\n" \
-+           ".long " #crc                                       "\n" \
-+           ".previous"                                         "\n")
-
- #endif /* __LINUX_EXPORT_INTERNAL_H__ */
+> Hmm...that makes me think we might need two different as-option flags;
+> one that does use KBUILD_CFLAGS, and whose result is meant to be added
+> to cflags-y, then another that uses KBUILD_AFLAGS and is added to
+> aflagsy-y.
+>
+> (My patch 2/3 in the series would use the latter)
+>
+> Let's see what thoughts Masahiro has.
 
 
+How about this?
+
+KBUILD_CFLAGS += $(call as-option,-Wa$(comma)-mrelax-relocations=no)
+
+    to
+
+KBUILD_CFLAGS += $(call cc-option,-Wa$(comma)-mrelax-relocations=no)
+
+
+You can insert this one-liner before this patch.
+
+
+
+
+In Kconfig, -Wa,<as-option> is tested by cc-option.
+(See commit 4d0831e8a029c03f49f434f28b8faef9f0bd403f)
 
 
 
@@ -128,5 +183,4 @@ index c2b1d4fd5987..fb90f326b1b5 100644
 
 --
 Best Regards
-
 Masahiro Yamada
