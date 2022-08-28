@@ -2,145 +2,149 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 17AAB5A39BF
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Aug 2022 21:39:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42BE45A3AE6
+	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Aug 2022 04:40:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231648AbiH0TjD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 27 Aug 2022 15:39:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38092 "EHLO
+        id S231384AbiH1Ckc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 27 Aug 2022 22:40:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231639AbiH0TjC (ORCPT
+        with ESMTP id S229836AbiH1Ck1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 27 Aug 2022 15:39:02 -0400
-Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33BE14AD65;
-        Sat, 27 Aug 2022 12:39:01 -0700 (PDT)
-Received: from pps.filterd (m0134420.ppops.net [127.0.0.1])
-        by mx0b-002e3701.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27RJVwxt002296;
-        Sat, 27 Aug 2022 19:38:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pps0720;
- bh=FNSOarG3m3NOFX/OEoKlVy1pfEGSdzdls18eAWThtAc=;
- b=jBWYRHxlsySUr+7fUnV/p4mLnKtbP9dkm3xz8kZb7J1KWxNoKJXjbpWP7xvEZuz5P6Fo
- Sj22ZuydqHHrejuRROiB/4cvcr7aa7NYZyzzb+kUhmrT5mk7VMu+DNL0Z+9r58b3k9V+
- PCB7MbWXST+unrgtGuC0gwxO4H2BF3iHoRX6wdKljMbRwuO0FESLA9zBxNz1kOjdDHaM
- CSlSIdTrXVuuHrWSF0/L+T7yR/XfQWDQUmibo6w8zHpzUE7ITz9Y7GGtow+ZFfdDW7I+
- v+InspiZz7+pJYKPdeRIWzZdw3CWaRj1qxx/ckBxsK2uJ3PLPqdOqaHcKt71guBoPNmm +Q== 
-Received: from p1lg14879.it.hpe.com (p1lg14879.it.hpe.com [16.230.97.200])
-        by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 3j78n648m7-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 27 Aug 2022 19:38:42 +0000
-Received: from p1lg14886.dc01.its.hpecorp.net (unknown [10.119.18.237])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by p1lg14879.it.hpe.com (Postfix) with ESMTPS id B40B2D2EE;
-        Sat, 27 Aug 2022 19:38:41 +0000 (UTC)
-Received: from adevxp033-sys.us.rdlabs.hpecorp.net (unknown [16.231.227.36])
-        by p1lg14886.dc01.its.hpecorp.net (Postfix) with ESMTP id D2791802CFD;
-        Sat, 27 Aug 2022 19:38:39 +0000 (UTC)
-From:   Robert Elliott <elliott@hpe.com>
-To:     mpe@ellerman.id.au, nanya@linux.vnet.ibm.com,
-        keescook@chromium.org, asahiroy@kernel.org,
-        michal.lkml@markovi.net, corbet@lwn.net
-Cc:     ndesaulniers@google.com, linux-hardening@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Robert Elliott <elliott@hpe.com>
-Subject: [PATCH] docs/core-api: expand Fedora instructions for GCC plugins
-Date:   Sat, 27 Aug 2022 14:38:36 -0500
-Message-Id: <20220827193836.2582079-1-elliott@hpe.com>
-X-Mailer: git-send-email 2.37.1
-X-Proofpoint-ORIG-GUID: KIr6ioxv73pUUBLLNYDlkb2JbTavYLny
-X-Proofpoint-GUID: KIr6ioxv73pUUBLLNYDlkb2JbTavYLny
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        Sat, 27 Aug 2022 22:40:27 -0400
+Received: from conuserg-11.nifty.com (conuserg-11.nifty.com [210.131.2.78])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E06F193D6;
+        Sat, 27 Aug 2022 19:40:23 -0700 (PDT)
+Received: from localhost.localdomain (133-32-182-133.west.xps.vectant.ne.jp [133.32.182.133]) (authenticated)
+        by conuserg-11.nifty.com with ESMTP id 27S2e6Gi030639;
+        Sun, 28 Aug 2022 11:40:06 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 27S2e6Gi030639
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1661654407;
+        bh=ocidS8XFOfEEmbYSEB7PbP5TSOCw4R4WsbL4pz/6neY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=bPD+Cd/zVbPh7T0NQdMUOA5P+rhcaqnY0CMBNs0winyjqdC17dDXLrD/PiHC705ZD
+         UqhTAwTy4d0R0709nVMDi/e7hIL7KKqv1XfyqSl9VWEf3be9Xx1gawCHfCARE24Tz+
+         GyYEH4tmUVXCSFw3yjBcV4mRTAV6Rpy1Qcwy3R789JDYnZYkGrCVoykupDZgx9jPrk
+         u4C2JoBsTwfjARnwTZNBdGifWainPetMXUpduMj7ATZLOXqX9K6xRz3DYWO6rqD+ay
+         93wU39xVn7ttWVgQbnmjZ4LPeAX1Il9GvBo3yNmFzHbyPUzpp5BA1O9wCxPoX/FxdW
+         vIK/keTPW1CTQ==
+X-Nifty-SrcIP: [133.32.182.133]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH 00/15] kbuild: various cleanups
+Date:   Sun, 28 Aug 2022 11:39:48 +0900
+Message-Id: <20220828024003.28873-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-HPE-SCL: -1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-27_10,2022-08-25_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
- lowpriorityscore=0 suspectscore=0 impostorscore=0 mlxlogscore=666
- clxscore=1011 priorityscore=1501 mlxscore=0 spamscore=0 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208270073
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-In Fedora 36, cross-compiling an allmodconfig configuration
-for other architectures on x86 fails with this problem:
+  - Avoid updating init/built-in.a twice
+  - Run modpost just once instead of twice
+  - Link vmlinux and modules in parallel
+  - Remove head-y syntax
 
-In file included from ../scripts/gcc-plugins/gcc-common.h:95,
-                 from ../scripts/gcc-plugins/latent_entropy_plugin.c:78:
-/usr/lib/gcc/aarch64-linux-gnu/12/plugin/include/builtins.h:23:10: fatal
-error: mpc.h: No such file or directory
-   23 | #include <mpc.h>
-      |          ^~~~~~~
-compilation terminated.
+These are ground works to make the further refactoring possible.
 
-In that distro, that header file is available in the separate
-libmpc-devel package.
+This patch set is applicable after the following series:
+  https://patchwork.kernel.org/project/linux-kbuild/list/?series=669437
 
-Although future versions of Fedora might correctly mark
-that dependency, mention this additional package.
 
-To help detect such problems ahead of time, describe the
-    gcc -print-file-name=plugin
-command that is used by scripts/gcc-plugins/Kconfig to detect
-plugins [1].
+Masahiro Yamada (15):
+  kbuild: remove duplicated dependency between modules and modules_check
+  kbuild: refactor single builds of *.ko
+  kbuild: move 'PHONY += modules_prepare' to the common part
+  init/version.c: remove #include <linux/version.h>
+  kbuild: build init/built-in.a just once
+  kbuild: generate include/generated/compile.h in top Makefile
+  scripts/mkcompile_h: move LC_ALL=C to '$LD -v'
+  Revert "kbuild: Make scripts/compile.h when sh != bash"
+  kbuild: rename modules.order in sub-directories to .modules.order
+  kbuild: move core-y in top Makefile to ./Kbuild
+  kbuild: move .vmlinux.objs rule to Makefile.modpost
+  kbuild: move vmlinux.o rule to the top Makefile
+  kbuild: unify two modpost invocations
+  kbuild: use obj-y instead extra-y for objects placed at the head
+  kbuild: remove head-y syntax
 
-[1] https://lore.kernel.org/lkml/CAHk-=wjjiYjCp61gdAMpDOsUBU-A2hFFKJoVx5VAC7yV4K6WYg@xxxxxxxxxxxxxx/
+ Documentation/kbuild/makefiles.rst          |  27 +----
+ Kbuild                                      |  16 +++
+ Makefile                                    | 120 ++++++++++++--------
+ arch/alpha/Makefile                         |   2 -
+ arch/alpha/kernel/Makefile                  |   4 +-
+ arch/arc/Makefile                           |   2 -
+ arch/arc/kernel/Makefile                    |   4 +-
+ arch/arm/Makefile                           |   3 -
+ arch/arm/kernel/Makefile                    |   4 +-
+ arch/arm64/Makefile                         |   3 -
+ arch/arm64/kernel/Makefile                  |   4 +-
+ arch/csky/Makefile                          |   2 -
+ arch/csky/kernel/Makefile                   |   4 +-
+ arch/hexagon/Makefile                       |   2 -
+ arch/hexagon/kernel/Makefile                |   3 +-
+ arch/ia64/Makefile                          |   1 -
+ arch/ia64/kernel/Makefile                   |   4 +-
+ arch/loongarch/Makefile                     |   2 -
+ arch/loongarch/kernel/Makefile              |   4 +-
+ arch/m68k/68000/Makefile                    |   2 +-
+ arch/m68k/Makefile                          |   9 --
+ arch/m68k/coldfire/Makefile                 |   2 +-
+ arch/m68k/kernel/Makefile                   |  21 ++--
+ arch/microblaze/Makefile                    |   1 -
+ arch/microblaze/kernel/Makefile             |   4 +-
+ arch/mips/Makefile                          |   2 -
+ arch/mips/kernel/Makefile                   |   4 +-
+ arch/nios2/Makefile                         |   1 -
+ arch/nios2/kernel/Makefile                  |   2 +-
+ arch/openrisc/Makefile                      |   2 -
+ arch/openrisc/kernel/Makefile               |   4 +-
+ arch/parisc/Makefile                        |   2 -
+ arch/parisc/kernel/Makefile                 |   4 +-
+ arch/powerpc/Makefile                       |  12 --
+ arch/powerpc/kernel/Makefile                |  22 ++--
+ arch/riscv/Makefile                         |   2 -
+ arch/riscv/kernel/Makefile                  |   2 +-
+ arch/s390/Makefile                          |   2 -
+ arch/s390/boot/version.c                    |   1 +
+ arch/s390/kernel/Makefile                   |   4 +-
+ arch/sh/Makefile                            |   2 -
+ arch/sh/kernel/Makefile                     |   4 +-
+ arch/sparc/Makefile                         |   2 -
+ arch/sparc/kernel/Makefile                  |   3 +-
+ arch/x86/Makefile                           |   5 -
+ arch/x86/boot/compressed/kaslr.c            |   1 +
+ arch/x86/boot/version.c                     |   1 +
+ arch/x86/kernel/Makefile                    |  10 +-
+ arch/xtensa/Makefile                        |   2 -
+ arch/xtensa/kernel/Makefile                 |   4 +-
+ init/Makefile                               |  55 ++++++---
+ init/build-version                          |  10 ++
+ init/version-timestamp.c                    |  31 +++++
+ init/version.c                              |  37 +++---
+ scripts/Makefile.build                      |  20 ++--
+ scripts/Makefile.lib                        |   8 +-
+ scripts/Makefile.modfinal                   |   2 +-
+ scripts/Makefile.modpost                    | 112 ++++++++----------
+ scripts/Makefile.vmlinux_o                  |   6 +-
+ scripts/clang-tools/gen_compile_commands.py |  19 +---
+ scripts/head-object-list.txt                |  53 +++++++++
+ scripts/link-vmlinux.sh                     |  51 ++-------
+ scripts/mkcompile_h                         |  96 ++--------------
+ 63 files changed, 393 insertions(+), 457 deletions(-)
+ create mode 100755 init/build-version
+ create mode 100644 init/version-timestamp.c
+ create mode 100644 scripts/head-object-list.txt
 
-Fixes: 43e96ef8b70c50f ("docs/core-api: Add Fedora instructions for GCC plugins");
-Signed-off-by: Robert Elliott <elliott@hpe.com>
----
- Documentation/kbuild/gcc-plugins.rst | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/kbuild/gcc-plugins.rst b/Documentation/kbuild/gcc-plugins.rst
-index 0ba76719f1b9..c578c6ba3eb6 100644
---- a/Documentation/kbuild/gcc-plugins.rst
-+++ b/Documentation/kbuild/gcc-plugins.rst
-@@ -90,7 +90,11 @@ e.g., on Ubuntu for gcc-10::
- 
- Or on Fedora::
- 
--	dnf install gcc-plugin-devel
-+	dnf install gcc-plugin-devel libmpc-devel
-+
-+Or on Fedora when using cross-compilers that include plugins::
-+
-+	dnf install libmpc-devel
- 
- Enable the GCC plugin infrastructure and some plugin(s) you want to use
- in the kernel config::
-@@ -99,6 +103,19 @@ in the kernel config::
- 	CONFIG_GCC_PLUGIN_LATENT_ENTROPY=y
- 	...
- 
-+Run gcc (native or cross-compiler) to ensure plugin headers are detected::
-+
-+	gcc -print-file-name=plugin
-+	CROSS_COMPILE=arm-linux-gnu- ${CROSS_COMPILE}gcc -print-file-name=plugin
-+
-+The word "plugin" means they are not detected::
-+
-+	plugin
-+
-+A full path means they are detected::
-+
-+       /usr/lib/gcc/x86_64-redhat-linux/12/plugin
-+
- To compile the minimum tool set including the plugin(s)::
- 
- 	make scripts
 -- 
-2.37.1
+2.34.1
 
