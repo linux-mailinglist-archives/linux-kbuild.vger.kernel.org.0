@@ -2,217 +2,106 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B2B4A5A5459
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Aug 2022 21:14:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0326A5A5483
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Aug 2022 21:26:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229593AbiH2TOt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 29 Aug 2022 15:14:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35370 "EHLO
+        id S229811AbiH2T0H (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 29 Aug 2022 15:26:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229490AbiH2TOr (ORCPT
+        with ESMTP id S229566AbiH2T0F (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 29 Aug 2022 15:14:47 -0400
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD841239
-        for <linux-kbuild@vger.kernel.org>; Mon, 29 Aug 2022 12:14:44 -0700 (PDT)
-Received: by mail-lj1-x22f.google.com with SMTP id s15so3878679ljp.5
-        for <linux-kbuild@vger.kernel.org>; Mon, 29 Aug 2022 12:14:44 -0700 (PDT)
+        Mon, 29 Aug 2022 15:26:05 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBCA5895F9
+        for <linux-kbuild@vger.kernel.org>; Mon, 29 Aug 2022 12:26:02 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id jm11so8928565plb.13
+        for <linux-kbuild@vger.kernel.org>; Mon, 29 Aug 2022 12:26:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=Y8cn/Ka3pcZLBE1C037RI6dkwIa2wol9roLu1FJAIwI=;
-        b=cF+kdAvc4wBcoWhrn/GOzEioVwY+NRlToBqYoVLuTvU9cB/S9BjUxM8IeKAuLlNfLs
-         guxPRuRbI4aNt0dY7ubYOam97BUkWCvn2zaohD+yHmSmgxHdMlkIQhOORX/BNs0DnxSD
-         FT6goqc6eE2lYQLdw9NjixEPA1a3hsprxC+cDgM3/LIwOKRzCzLyD7le4hmCakgQ0D0j
-         qHgxEtdVqmW+EJ5LtmaTr2QQRTXHtWLcz71Y6QM/cGMUW+VzafNLIlTf8vArp0uYIrw/
-         Qh+kh8gLNj5UZZaVLMu95sLnyFB3F9eFXiMfPbmm5m1qh3iP9z4e2IbaNsvNs8IA17HF
-         Qbkg==
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=VhWA9zltNIvjVh8Z8DuaAQPbsy5x2B8HO8rAH51nZcs=;
+        b=eJWdBVSqu/L3b4Gx52Gb4jKAo92U2TKDhf7bztvP63HYkGxkmA2CVM9dFnWwHtbxyi
+         /oqM5qROQsahReI/SrXkrJbmthPE66kBHogzexruiDDXvtE1a30nJPJFmAlle+/lnR0z
+         /2BBq6o/dTJ7AVRL7iOu8FeE1wwhMaUGWML4E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=Y8cn/Ka3pcZLBE1C037RI6dkwIa2wol9roLu1FJAIwI=;
-        b=xbn671vFmbc8Sz9ENXH/4vkJJaVh7zGbl4F9nDs5QcvUlOpQWdZUdGryPVAruO+TjP
-         8EMMMArcCn3+aiGcawrlxCU7KKX2fSXWYr3Avmcw0yo4b1ORzlVzQ2r9VCG9sXibWH7s
-         8mWkYy1MLVM8V1LHnvGiZAR4y9D+0QS5A2vycqr5H8iniomXPi9UyKAaZCwHumiDtX42
-         Ybo9wnJjYMIRt0J2CGonYD2IYvK9e6A+HkkAxvjCKWQQ0i+fej8kmk3dmtiHvOf7kOhk
-         xjHY30cmAtNL1KjaZvxy6ueUaj8fELNFYuNwJlxJvLbqMfNF9HTwMgc0Dhq47LB1RKJ/
-         ULFg==
-X-Gm-Message-State: ACgBeo00EX1smLjonLSt32ol7K2yaxcqqG8M4EAlsar+57TSaqRr15iy
-        vsmOi3EsMOecpQ6OvYLD9uuaYteumHn9O0tXeDHRUcuXyakt+Q==
-X-Google-Smtp-Source: AA6agR5P7HwgcXKioSMOaHmqYnD0Zdm6r3YM9ykmsuJ9lZHHOWUMc2YeLsDh/5cR/Rn2ia4E+vs5JMAz7+l704S1p8U=
-X-Received: by 2002:a2e:a910:0:b0:261:b408:1169 with SMTP id
- j16-20020a2ea910000000b00261b4081169mr6255451ljq.360.1661800482927; Mon, 29
- Aug 2022 12:14:42 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=VhWA9zltNIvjVh8Z8DuaAQPbsy5x2B8HO8rAH51nZcs=;
+        b=HOlunVyvVQPvLNqvYS5nDPWWxBNYxubbWeOAFajionD2RmnPFjASLKRpoZFX7ZQDyn
+         +DoRhtg5y3aKoTSQu3gF3BXTcWGZkWc7Y6WNToxo06QWrcRM2BTKl9zukG3FxmpFBLkK
+         198aOJRROMZQ+RjD1Xg6jSAMvIxPgFSF9Gf/QBOFwx9v3gRO+dSwlohP+p1z2ObGbpx7
+         E6po8Dqjr6m49fAUvisq38WpoEVoEYQ/vgoAzGbWFuyKUIc8SXN53brRgaLaMZiQhFPE
+         +y3bCkvwjovsx5fI+TEVOkhYms3c8dl/D9rYen9Sn85xOhHjbjUqnmiptZ2NT5i0LAMV
+         TwiA==
+X-Gm-Message-State: ACgBeo0qofVijaQCk626ZMZhS4ujJN6Um79LwoXO48aCeUjzUcNnusJ6
+        OJtCZRGigQt/Y1udjidtcFERzUJL3QA6KQ==
+X-Google-Smtp-Source: AA6agR7u3y84UCyhfAk1IOVCe6FUtEm4rdvgw806xCycjSX/X3gzP52Q1hWrrhqe4GxNhc/peNJs5A==
+X-Received: by 2002:a17:902:7003:b0:172:cbb0:9af8 with SMTP id y3-20020a170902700300b00172cbb09af8mr18161965plk.57.1661801161717;
+        Mon, 29 Aug 2022 12:26:01 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id t17-20020a170902e85100b00172e6c66f84sm7901946plg.148.2022.08.29.12.26.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Aug 2022 12:26:00 -0700 (PDT)
+Date:   Mon, 29 Aug 2022 12:25:59 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Robert Elliott <elliott@hpe.com>
+Cc:     mpe@ellerman.id.au, nanya@linux.vnet.ibm.com, asahiroy@kernel.org,
+        michal.lkml@markovi.net, corbet@lwn.net, ndesaulniers@google.com,
+        linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/core-api: expand Fedora instructions for GCC plugins
+Message-ID: <202208291225.A0D3FAFC@keescook>
+References: <20220827193836.2582079-1-elliott@hpe.com>
 MIME-Version: 1.0
-References: <20220827164056.3365356-1-masahiroy@kernel.org>
-In-Reply-To: <20220827164056.3365356-1-masahiroy@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 29 Aug 2022 12:14:31 -0700
-Message-ID: <CAKwvOdkZY5R-pU-Obz0GgwXfL=POqXkkMwidj=C3pip_vxMuog@mail.gmail.com>
-Subject: Re: [PATCH] powerpc: clean up binutils version check
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        linuxppc-dev@lists.ozlabs.org, linux-kbuild@vger.kernel.org,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Daniel Axtens <dja@axtens.net>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220827193836.2582079-1-elliott@hpe.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Aug 27, 2022 at 9:43 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> The checkbin in arch/powerpc/Makefile errors out if ld <= 2.24.
-> So, the requirement on PPC is binutils >= 2.25. It is cleaner to
-> specify it in scripts/min-tool-version.sh. If binutils < 2.25 is
-> used, the toolchain check will fail in the Kconfig stage going
-> forward.
+On Sat, Aug 27, 2022 at 02:38:36PM -0500, Robert Elliott wrote:
+> In Fedora 36, cross-compiling an allmodconfig configuration
+> for other architectures on x86 fails with this problem:
+> 
+> In file included from ../scripts/gcc-plugins/gcc-common.h:95,
+>                  from ../scripts/gcc-plugins/latent_entropy_plugin.c:78:
+> /usr/lib/gcc/aarch64-linux-gnu/12/plugin/include/builtins.h:23:10: fatal
+> error: mpc.h: No such file or directory
+>    23 | #include <mpc.h>
+>       |          ^~~~~~~
+> compilation terminated.
+> 
+> In that distro, that header file is available in the separate
+> libmpc-devel package.
+> 
+> Although future versions of Fedora might correctly mark
+> that dependency, mention this additional package.
+> 
+> To help detect such problems ahead of time, describe the
+>     gcc -print-file-name=plugin
+> command that is used by scripts/gcc-plugins/Kconfig to detect
+> plugins [1].
+> 
+> [1] https://lore.kernel.org/lkml/CAHk-=wjjiYjCp61gdAMpDOsUBU-A2hFFKJoVx5VAC7yV4K6WYg@xxxxxxxxxxxxxx/
+> 
+> Fixes: 43e96ef8b70c50f ("docs/core-api: Add Fedora instructions for GCC plugins");
+> Signed-off-by: Robert Elliott <elliott@hpe.com>
 
-Thoughts on making binutils 2.25.1 the new minimal support version for
-all architectures? We already require GCC 5.1. Looking at
+Thanks!
 
-https://gcc.gnu.org/releases.html
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-that was released on April 22, 2015.  Looking at
-
-https://ftp.gnu.org/gnu/binutils/
-
-2.25 was released on 2014-12-23 and 2.25.1 on 2015-07-21.
-
-Current minimum is 2.23 released on 2012-10-22.  Almost 10 years old.
-
->
-> Since binutils >= 2.25 is already required, another version test
-> for --save-restore-funcs on PPC64 is always met.
->
-> PPC is the last user of ld-ifversion. With all the callers removed,
-> the macro definition in scripts/Makefile.compiler can go away.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->  arch/powerpc/Makefile       | 21 ---------------------
->  arch/powerpc/lib/Makefile   |  8 --------
->  scripts/Makefile.compiler   |  4 ----
->  scripts/min-tool-version.sh |  8 +++++++-
->  4 files changed, 7 insertions(+), 34 deletions(-)
->
-> diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
-> index 02742facf895..fb607758eeca 100644
-> --- a/arch/powerpc/Makefile
-> +++ b/arch/powerpc/Makefile
-> @@ -46,13 +46,7 @@ UTS_MACHINE := $(subst $(space),,$(machine-y))
->  ifdef CONFIG_PPC32
->  KBUILD_LDFLAGS_MODULE += arch/powerpc/lib/crtsavres.o
->  else
-> -ifeq ($(call ld-ifversion, -ge, 22500, y),y)
-> -# Have the linker provide sfpr if possible.
-> -# There is a corresponding test in arch/powerpc/lib/Makefile
->  KBUILD_LDFLAGS_MODULE += --save-restore-funcs
-> -else
-> -KBUILD_LDFLAGS_MODULE += arch/powerpc/lib/crtsavres.o
-> -endif
->  endif
->
->  ifdef CONFIG_CPU_LITTLE_ENDIAN
-> @@ -395,8 +389,6 @@ vdso_prepare: prepare0
->                 $(build)=arch/powerpc/kernel/vdso include/generated/vdso64-offsets.h)
->  endif
->
-> -archprepare: checkbin
-> -
->  archheaders:
->         $(Q)$(MAKE) $(build)=arch/powerpc/kernel/syscalls all
->
-> @@ -411,16 +403,3 @@ else
->         $(eval KBUILD_CFLAGS += -mstack-protector-guard-offset=$(shell awk '{if ($$2 == "TASK_CANARY") print $$3;}' include/generated/asm-offsets.h))
->  endif
->  endif
-> -
-> -PHONY += checkbin
-> -# Check toolchain versions:
-> -# - gcc-4.6 is the minimum kernel-wide version so nothing required.
-> -checkbin:
-> -       @if test "x${CONFIG_LD_IS_LLD}" != "xy" -a \
-> -               "x$(call ld-ifversion, -le, 22400, y)" = "xy" ; then \
-> -               echo -n '*** binutils 2.24 miscompiles weak symbols ' ; \
-> -               echo 'in some circumstances.' ; \
-> -               echo    '*** binutils 2.23 do not define the TOC symbol ' ; \
-> -               echo -n '*** Please use a different binutils version.' ; \
-> -               false ; \
-> -       fi
-> diff --git a/arch/powerpc/lib/Makefile b/arch/powerpc/lib/Makefile
-> index 8560c912186d..5eb3971ccb9c 100644
-> --- a/arch/powerpc/lib/Makefile
-> +++ b/arch/powerpc/lib/Makefile
-> @@ -38,14 +38,6 @@ obj-$(CONFIG_PPC32)  += div64.o copy_32.o crtsavres.o
->
->  obj-$(CONFIG_FUNCTION_ERROR_INJECTION) += error-inject.o
->
-> -# See corresponding test in arch/powerpc/Makefile
-> -# 64-bit linker creates .sfpr on demand for final link (vmlinux),
-> -# so it is only needed for modules, and only for older linkers which
-> -# do not support --save-restore-funcs
-> -ifeq ($(call ld-ifversion, -lt, 22500, y),y)
-> -extra-$(CONFIG_PPC64)  += crtsavres.o
-> -endif
-> -
->  obj-$(CONFIG_PPC_BOOK3S_64) += copyuser_power7.o copypage_power7.o \
->                                memcpy_power7.o restart_table.o
->
-> diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
-> index 94d0d40cddb3..63e7d79dd877 100644
-> --- a/scripts/Makefile.compiler
-> +++ b/scripts/Makefile.compiler
-> @@ -68,7 +68,3 @@ cc-ifversion = $(shell [ $(CONFIG_GCC_VERSION)0 $(1) $(2)000 ] && echo $(3) || e
->  # ld-option
->  # Usage: KBUILD_LDFLAGS += $(call ld-option, -X, -Y)
->  ld-option = $(call try-run, $(LD) $(KBUILD_LDFLAGS) $(1) -v,$(1),$(2),$(3))
-> -
-> -# ld-ifversion
-> -# Usage:  $(call ld-ifversion, -ge, 22252, y)
-> -ld-ifversion = $(shell [ $(CONFIG_LD_VERSION)0 $(1) $(2)0 ] && echo $(3) || echo $(4))
-> diff --git a/scripts/min-tool-version.sh b/scripts/min-tool-version.sh
-> index 250925aab101..7df9f2150ea1 100755
-> --- a/scripts/min-tool-version.sh
-> +++ b/scripts/min-tool-version.sh
-> @@ -14,7 +14,13 @@ fi
->
->  case "$1" in
->  binutils)
-> -       echo 2.23.0
-> +       if [ "$SRCARCH" = powerpc ]; then
-> +               # binutils 2.24 miscompiles weak symbols in some circumstances
-> +               # binutils 2.23 do not define the TOC symbol
-> +               echo 2.25.0
-> +       else
-> +               echo 2.23.0
-> +       fi
->         ;;
->  gcc)
->         echo 5.1.0
-> --
-> 2.34.1
->
-
+Jon, do you want to take this since it's entirely in the .rst file?
 
 -- 
-Thanks,
-~Nick Desaulniers
+Kees Cook
