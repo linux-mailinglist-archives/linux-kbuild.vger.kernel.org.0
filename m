@@ -2,122 +2,156 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1891B5A4088
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Aug 2022 03:07:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD9E95A4385
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Aug 2022 09:08:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229538AbiH2BHN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 28 Aug 2022 21:07:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50142 "EHLO
+        id S229543AbiH2HIB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 29 Aug 2022 03:08:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbiH2BHM (ORCPT
+        with ESMTP id S229457AbiH2HIA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 28 Aug 2022 21:07:12 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2532B21258;
-        Sun, 28 Aug 2022 18:07:11 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C5971B80BA6;
-        Mon, 29 Aug 2022 01:07:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70022C4347C;
-        Mon, 29 Aug 2022 01:07:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661735228;
-        bh=j8/zqgqNyC238z42ZPV1ON5xd+ITJAITq0g3ep8McsM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=YRvCl4g4oGgxKzPA836qQYoF4bx5v6YEuiyvBYTijOE2fyi+U0il9dMvuXdDcWP7v
-         4n4ji8GRNc578a+4stpuFiEGdjwtxLqHiMWrptl87wx+L+2kVm3ZV5VO+qhpn/6ijD
-         Xd/3dc7nsKMmEEovFvTvhCmWNcn5DkHP+6KxxDWR4Sa7t4GyeaKFZNQleglq4rmTS4
-         cCprnhMPZsN7yur1bdLcrVo0npS6a7EqAv1tjeFpU/k0f9kAduLV72mY97+tnER1Lw
-         /DRz7/JPR/y5O0yn8asC04oRF/YA7GKiUIY9gTG3VuyIT98jJVNAxiKeHMnRuoZf6e
-         AUdEkc9OeAn8A==
-Received: by mail-vs1-f43.google.com with SMTP id m66so6898384vsm.12;
-        Sun, 28 Aug 2022 18:07:08 -0700 (PDT)
-X-Gm-Message-State: ACgBeo3nJ3h48FAv1p16bcsh+mNAS3kX+BEfVyLM5XF9mbcsRUYHjsgi
-        YfZhHJdxkFAPANuVhVhKKnBmlArCtUVWWXhIOw==
-X-Google-Smtp-Source: AA6agR4fQb9xrIurzt54N3Y2edfUMuKjgVXXkR09se9ZwVek3NCyjgznD4ZHMdHxJO8T40Gr1zdCrEOKkKvjzLB8zP0=
-X-Received: by 2002:a05:6102:3353:b0:38c:9170:a96b with SMTP id
- j19-20020a056102335300b0038c9170a96bmr2915159vse.26.1661735227313; Sun, 28
- Aug 2022 18:07:07 -0700 (PDT)
+        Mon, 29 Aug 2022 03:08:00 -0400
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 099724D25B;
+        Mon, 29 Aug 2022 00:07:59 -0700 (PDT)
+Received: by mail-ed1-f43.google.com with SMTP id b44so8900707edf.9;
+        Mon, 29 Aug 2022 00:07:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=g0EP4Oyc9NAr4lZott25SkpzseNMp6ZScl0ZwkOE8NY=;
+        b=y9sriilQTLe6O0EFBV7XqF0LTzkvCzVvmBZ+l3yPP5Pr4xFZHNRMv38d1GXybE4k8C
+         BGbGRLI/TehaQu8uhWwSEIFu1aiem39nDTMzJauljS9TBemF/emOQIszYFRwW3J8kHYA
+         t4wRGnKvMOHPdr4QU4oQihi/pBRcrB76gW1FVKA0kcSZge1GW2z0JVHjgaercGaeLaED
+         iqXeBj7VfGJOgsFxdl6q5ZNj5YrUAqz6EOBRsG2aaQe+EnqUIJ5Y9NcJSuAFgQd0DqhZ
+         +wsvA4roK8jJax98ydmzopEzc+DWYqMbQ4b5kP5dCRffwHs3UOJiRwrihMBIeaYgG5DW
+         lt6Q==
+X-Gm-Message-State: ACgBeo2lpQTEgUQwtjbwaFO3KKcLfHh9wbHVf6wb57PildCWuGCbh/Ni
+        WsdHhUfmftx8JH3RRdgz/xU=
+X-Google-Smtp-Source: AA6agR5Hh7Nn7AW2WJDI4RPSZM8LxksjvM53WEB3AFLUSEq2+8eIOWa/cvqn4/3eNwLvWJlYr9ea+w==
+X-Received: by 2002:a05:6402:4411:b0:437:b723:72 with SMTP id y17-20020a056402441100b00437b7230072mr15694927eda.38.1661756877587;
+        Mon, 29 Aug 2022 00:07:57 -0700 (PDT)
+Received: from [192.168.1.49] (185-219-167-24-static.vivo.cz. [185.219.167.24])
+        by smtp.gmail.com with ESMTPSA id qq12-20020a17090720cc00b0073dcdf9b0bcsm4236366ejb.17.2022.08.29.00.07.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Aug 2022 00:07:57 -0700 (PDT)
+Message-ID: <384c1908-6602-1a07-875f-0b2e56a06707@kernel.org>
+Date:   Mon, 29 Aug 2022 09:07:55 +0200
 MIME-Version: 1.0
-References: <20220824203934.2855320-1-robh@kernel.org> <CAK7LNAS8nH+9HnfhV8yEtxShBbSYGQdOyVxbNJmbQJjEiqHPzA@mail.gmail.com>
-In-Reply-To: <CAK7LNAS8nH+9HnfhV8yEtxShBbSYGQdOyVxbNJmbQJjEiqHPzA@mail.gmail.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Sun, 28 Aug 2022 20:06:56 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKA7gLF=FkzMbiH6NyDo6M7=i2LLSAYFw5sETwszZY5zw@mail.gmail.com>
-Message-ID: <CAL_JsqKA7gLF=FkzMbiH6NyDo6M7=i2LLSAYFw5sETwszZY5zw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Split up DT binding build targets
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH] scripts: remove obsolete gcc-ld script
+Content-Language: en-US
+To:     Nick Desaulniers <ndesaulniers@google.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     Andi Kleen <ak@linux.intel.com>,
+        "H . Peter Anvin" <hpa@linux.intel.com>,
+        linux-kbuild@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Martin Liska <martin.liska@suse.com>
+References: <20220825091517.30842-1-lukas.bulwahn@gmail.com>
+ <CAKwvOdkY=ye4PKi8KwP-ux73pwZs+J_Oq3wR7ep8S81=aCWtqA@mail.gmail.com>
+From:   Jiri Slaby <jirislaby@kernel.org>
+In-Reply-To: <CAKwvOdkY=ye4PKi8KwP-ux73pwZs+J_Oq3wR7ep8S81=aCWtqA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Aug 26, 2022 at 2:31 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Thu, Aug 25, 2022 at 5:39 AM Rob Herring <robh@kernel.org> wrote:
-> >
-> > The DT binding validation target, dt_binding_check, is composed of
-> > multiple steps which can't be run individually. This resulted in
-> > the passing of make variables to control which steps were run for
-> > 'dtbs_check'. Some steps are also doing multiple things in a single rule
-> > which is error prone[1].
-> >
-> > Rework the build to split each of the steps into its own make target.
-> > This allows users more fine grained control over what's run and makes
-> > for easier make dependencies.
->
->
-> I do not think it makes the code easier.
->
->
-> A tricky case is that multiple targets run in parallel.
->
->
-> "make  -j$(nproc)  dtbs_check  dt_binding_examples"
->
->
-> Two different threads dive into Documentation/devicetree/bindings/Makefile,
-> and try to build the same file simultaneously.
->
-> If you run the command above, you will see two lines of
->
->   SCHEMA  Documentation/devicetree/bindings/processed-schema.json
->
-> processed-schema.json may result in a corrupted file.
+On 25. 08. 22, 19:19, Nick Desaulniers wrote:
+> + Jiri in case this needs to be carried downstream.
 
-Indeed... :(
+Thanks.
 
->
-> > The new targets are:
-> >
-> > dt_binding_lint - Runs yamllint on the bindings
-> > dt_binding_schemas - Validates the binding schemas
-> > dt_binding_examples - Builds and validates the binding examples
->
->
-> I still do not understand why so many phony targets are necessary.
+> On Thu, Aug 25, 2022 at 2:15 AM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+>>
+>> Since commit 8564ed2b3888 ("Kbuild, lto: Add a gcc-ld script to let run gcc
+>> as ld") in 2014, there was not specific work on this the gcc-ld script
+>> other than treewide clean-ups.
+>>
+>> There are no users within the kernel tree, and probably no out-of-tree
+>> users either, and there is no dedicated maintainer in MAINTAINERS.
 
-I thought that's what you were suggesting, but I guess you meant just
-separate internal targets. Separate targets exposed to the user are
-useful as well. I've had some requests to be able to skip running
-yamllint for example. The processed schema can be used for a few other
-tools now, so being able to just build it is useful.
+There are out-of-tree users.
 
-Rob
+>> Delete this obsolete gcc-ld script.
+>>
+>> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> 
+> No callers in-tree; happy to bring it back though should there later
+> be. Thanks for the patch.
+
+I agree to have this downstream-only for the time being. We have updates 
+for it queued, so we'd only start tracking the full content now...
+
+BTW the script is not nice at all. How do the clang people cope with the 
+issue? (Running gcc-ld instead of ld with proper arguments when linking 
+using (full) LTO. For example "-z now" -> "-Wl,-z,now".)
+
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> 
+>> ---
+>> If there are no objections, I would like to get this patch included
+>> through the kbuild tree.
+>>
+>> Masahiro-san, please pick this patch.
+>>
+>>   scripts/gcc-ld | 30 ------------------------------
+>>   1 file changed, 30 deletions(-)
+>>   delete mode 100755 scripts/gcc-ld
+>>
+>> diff --git a/scripts/gcc-ld b/scripts/gcc-ld
+>> deleted file mode 100755
+>> index 997b818c3962..000000000000
+>> --- a/scripts/gcc-ld
+>> +++ /dev/null
+>> @@ -1,30 +0,0 @@
+>> -#!/bin/sh
+>> -# SPDX-License-Identifier: GPL-2.0
+>> -# run gcc with ld options
+>> -# used as a wrapper to execute link time optimizations
+>> -# yes virginia, this is not pretty
+>> -
+>> -ARGS="-nostdlib"
+>> -
+>> -while [ "$1" != "" ] ; do
+>> -       case "$1" in
+>> -       -save-temps|-m32|-m64) N="$1" ;;
+>> -       -r) N="$1" ;;
+>> -       -[Wg]*) N="$1" ;;
+>> -       -[olv]|-[Ofd]*|-nostdlib) N="$1" ;;
+>> -       --end-group|--start-group)
+>> -                N="-Wl,$1" ;;
+>> -       -[RTFGhIezcbyYu]*|\
+>> ---script|--defsym|-init|-Map|--oformat|-rpath|\
+>> --rpath-link|--sort-section|--section-start|-Tbss|-Tdata|-Ttext|\
+>> ---version-script|--dynamic-list|--version-exports-symbol|--wrap|-m)
+>> -               A="$1" ; shift ; N="-Wl,$A,$1" ;;
+>> -       -[m]*) N="$1" ;;
+>> -       -*) N="-Wl,$1" ;;
+>> -       *)  N="$1" ;;
+>> -       esac
+>> -       ARGS="$ARGS $N"
+>> -       shift
+>> -done
+>> -
+>> -exec $CC $ARGS
+
+
+-- 
+js
+suse labs
+
