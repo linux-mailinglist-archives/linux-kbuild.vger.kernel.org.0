@@ -2,70 +2,149 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E1DAD5A7E61
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Aug 2022 15:12:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1C3F5A849E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Aug 2022 19:42:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231734AbiHaNMp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 31 Aug 2022 09:12:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38434 "EHLO
+        id S232079AbiHaRl5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 31 Aug 2022 13:41:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231737AbiHaNMn (ORCPT
+        with ESMTP id S232078AbiHaRlT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 31 Aug 2022 09:12:43 -0400
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14AD8C697C;
-        Wed, 31 Aug 2022 06:12:40 -0700 (PDT)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4MHl2r5mBlz4xGF;
-        Wed, 31 Aug 2022 23:12:36 +1000 (AEST)
-From:   Michael Ellerman <patch-notifications@ellerman.id.au>
-To:     Nicholas Piggin <npiggin@gmail.com>, linuxppc-dev@lists.ozlabs.org,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-In-Reply-To: <20220820165129.1147589-1-masahiroy@kernel.org>
-References: <20220820165129.1147589-1-masahiroy@kernel.org>
-Subject: Re: [PATCH] powerpc: align syscall table for ppc32
-Message-Id: <166195152285.42804.18346309084097390915.b4-ty@ellerman.id.au>
-Date:   Wed, 31 Aug 2022 23:12:02 +1000
+        Wed, 31 Aug 2022 13:41:19 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DABD711C07
+        for <linux-kbuild@vger.kernel.org>; Wed, 31 Aug 2022 10:40:37 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id n17so19229601wrm.4
+        for <linux-kbuild@vger.kernel.org>; Wed, 31 Aug 2022 10:40:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=n/oAIIbQC6X9/4TYjpXgoCLnqch074NpwWXcWhpGZUU=;
+        b=kzWNO0R5mowae1zsB33fojPTZwHoiimNytdIdEM9pAl9vTa3Km02k8esak+mL45vSJ
+         XHlpH5qoILPtWK/pDKEvlh4xe4S3bsXvLbxG8xZ34ERouN2lElUkWXkQQ0wZD1QdCEvE
+         pYp2eFyBg0AModntqsO5EUP3Aoyc4RsDQngD4NVmVROQAEN4+Q6/feAv1WDh+z6PTH8Q
+         W0I9equd8n5PcsPy2cdsjGxjBafA0r5/CGliM6dOBkSkSXJAiBytlaR1eTNhV1RGBJ9v
+         bW7CANGbl7HCnIGKz483Z92xH1mfXxhkdEB4HHWLc59xZI2abJ4UQW+xDEnzDwlZ32jp
+         ZW7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=n/oAIIbQC6X9/4TYjpXgoCLnqch074NpwWXcWhpGZUU=;
+        b=wtTvCXsxqYUyRqXeMJfX0BSjju6Kf584GNU2ODAUv2lmQme/d7yAqwmZ9GHI+4c6eS
+         aaVGq3aC1IPunqBoSwYC92H41MaF/BJK6ZsJTagIKAumH9134OBzyfzn7MB6DHbhCy8N
+         CMNyMHXxLNwpaHsE9CsNLLp858Z9fsUnQLKG59k8r/ZPhebgzNRfCUtCA3vetn4pBqyf
+         as6QRpZg/ppewk0mTk2lZwW0FerTm2yqqQgBzP1AFIarcH4FPmosGcUa5d4e77M4puSc
+         HplJKbNZ1+XXRk4SVhYv2lHts+uDm5LCNxw3hpjKvQGchFQRJjxjNJhnoB+cblgGgbkY
+         FEKw==
+X-Gm-Message-State: ACgBeo1PdFSOni68OmcyC3jMb66fezqDg5FRiKW3/dnApVMtrGm0zpO0
+        Kp27r0smAYHfi6cG1wUAXyRG12iEmrBdNqep8O9RMRvk36bz5w==
+X-Google-Smtp-Source: AA6agR7jf/5wN9tWi2BmC7xA0UtJf55pCgzE1Qm3Wv4DAx6hUBuxcAAXc5Ctfg8gLto5EW/U5x+6kyyr2Z80D+5uwSI=
+X-Received: by 2002:a05:6000:813:b0:226:da5a:84a9 with SMTP id
+ bt19-20020a056000081300b00226da5a84a9mr9049383wrb.309.1661967636251; Wed, 31
+ Aug 2022 10:40:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20220826181035.859042-1-ndesaulniers@google.com> <20220826181035.859042-4-ndesaulniers@google.com>
+In-Reply-To: <20220826181035.859042-4-ndesaulniers@google.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 31 Aug 2022 10:40:24 -0700
+Message-ID: <CAKwvOdnOz_iH2x1a_CSBqPSbjbXcv7b3ojYa2TahWArAFjqj9A@mail.gmail.com>
+Subject: Re: [PATCH 3/3] Makefile.debug: set -g unconditional on CONFIG_DEBUG_INFO_SPLIT
+To:     Andi Kleen <ak@linux.intel.com>, Arnd Bergmann <arnd@kernel.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Tom Rix <trix@redhat.com>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev, x86@kernel.org,
+        Dmitrii Bundin <dmitrii.bundin.a@gmail.com>,
+        Fangrui Song <maskray@google.com>,
+        Alexey Alexandrov <aalexand@google.com>,
+        Bill Wendling <morbo@google.com>,
+        Greg Thelen <gthelen@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, 21 Aug 2022 01:51:29 +0900, Masahiro Yamada wrote:
-> Christophe Leroy reported that commit 7b4537199a4a ("kbuild: link
-> symbol CRCs at final link,  removing CONFIG_MODULE_REL_CRCS") broke
-> mpc85xx_defconfig + CONFIG_RELOCATABLE=y.
-> 
->     LD      vmlinux
->     SYSMAP  System.map
->     SORTTAB vmlinux
->     CHKREL  vmlinux
->   WARNING: 451 bad relocations
->   c0b312a9 R_PPC_UADDR32     .head.text-0x3ff9ed54
->   c0b312ad R_PPC_UADDR32     .head.text-0x3ffac224
->   c0b312b1 R_PPC_UADDR32     .head.text-0x3ffb09f4
->   c0b312b5 R_PPC_UADDR32     .head.text-0x3fe184dc
->   c0b312b9 R_PPC_UADDR32     .head.text-0x3fe183a8
->       ...
-> 
-> [...]
+On Fri, Aug 26, 2022 at 11:10 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> Dmitrii, Fangrui, and Mashahiro note:
+>
+>   Before GCC 11 and Clang 12 -gsplit-dwarf implicitly uses -g2.
+>
+> Fix CONFIG_DEBUG_INFO_SPLIT for gcc-11+ & clang-12+ which now need -g
+> specified in order for -gsplit-dwarf to work at all.
 
-Applied to powerpc/fixes.
+Looking at
+commit 866ced950bcd ("kbuild: Support split debug info v4")
+I'm curious whether -gsplit-dwarf needed to be mutually exclusive with
+-g, possibly for older compilers? Andi, do you recall?
+I have gcc-9 handy; that doesn't seem to be the case. I get the same
+size binary with `-gsplit-dwarf` as I do with `-g -gsplit-dwarf`.  So
+it does seem like mutual exclusion between the two is not necessary.
 
-[1/1] powerpc: align syscall table for ppc32
-      https://git.kernel.org/powerpc/c/c7acee3d2f128a38b68fb7af85dbbd91bfd0b4ad
+x86_64-gcc-5.5.0-nolibc-x86_64-linux.tar.gz from
+https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/x86_64/5.5.0/
+seems to really need libisl.so.15...
+$ cd /tmp
+$ wget https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/x86_64/5.5.0/x86_64-gcc-5.5.0-nolibc-x86_64-linux.tar.gz
+$ echo "void foo(void) {}" > x.c
+$ ./gcc-5.5.0-nolibc/x86_64-linux/bin/x86_64-linux-gcc-5.5.0
+-gsplit-dwarf x.c -c
+/tmp/gcc-5.5.0-nolibc/x86_64-linux/bin/../libexec/gcc/x86_64-linux/5.5.0/cc1:
+error while loading shared libraries: libisl.so.15: cannot open shared
+object file: No such file or directory
+$ find /usr/lib -name libisl\*
+/usr/lib/x86_64-linux-gnu/libisl.so.23.2.0
+/usr/lib/x86_64-linux-gnu/libisl.so.23
+/usr/lib/x86_64-linux-gnu/libisl.a
+/usr/lib/x86_64-linux-gnu/libisl.so
 
-cheers
+>
+> Link: https://lore.kernel.org/lkml/20220815013317.26121-1-dmitrii.bundin.a@gmail.com/
+> Link: https://lore.kernel.org/lkml/CAK7LNARPAmsJD5XKAw7m_X2g7Fi-CAAsWDQiP7+ANBjkg7R7ng@mail.gmail.com/
+> Link: https://reviews.llvm.org/D80391
+> Reported-by: Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
+> Reported-by: Fangrui Song <maskray@google.com>
+> Reported-by: Masahiro Yamada <masahiroy@kernel.org>
+> Suggested-by: Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> ---
+>  scripts/Makefile.debug | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>
+> diff --git a/scripts/Makefile.debug b/scripts/Makefile.debug
+> index a7a6da7f6e7d..0f9912f7bd4c 100644
+> --- a/scripts/Makefile.debug
+> +++ b/scripts/Makefile.debug
+> @@ -1,10 +1,8 @@
+> -DEBUG_CFLAGS   :=
+> +DEBUG_CFLAGS   := -g
+> +KBUILD_AFLAGS  += -g
+>
+>  ifdef CONFIG_DEBUG_INFO_SPLIT
+>  DEBUG_CFLAGS   += -gsplit-dwarf
+> -else
+> -DEBUG_CFLAGS   += -g
+> -KBUILD_AFLAGS  += -g
+>  endif
+>
+>  ifdef CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+> --
+> 2.37.2.672.g94769d06f0-goog
+>
+
+
+-- 
+Thanks,
+~Nick Desaulniers
