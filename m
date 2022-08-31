@@ -2,37 +2,37 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 737385A86E6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Aug 2022 21:41:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA7EC5A8703
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Aug 2022 21:53:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230444AbiHaTlw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 31 Aug 2022 15:41:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56138 "EHLO
+        id S229921AbiHaTxp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 31 Aug 2022 15:53:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231310AbiHaTlv (ORCPT
+        with ESMTP id S229459AbiHaTxo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 31 Aug 2022 15:41:51 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7C8315A28;
-        Wed, 31 Aug 2022 12:41:50 -0700 (PDT)
+        Wed, 31 Aug 2022 15:53:44 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E593FEE694;
+        Wed, 31 Aug 2022 12:53:43 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5527D618A9;
-        Wed, 31 Aug 2022 19:41:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF367C433C1;
-        Wed, 31 Aug 2022 19:41:48 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 9D746B8229E;
+        Wed, 31 Aug 2022 19:53:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D145C433C1;
+        Wed, 31 Aug 2022 19:53:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661974909;
-        bh=HRWavCzgmnCOxdEIVx7+y9IkB5Wmqi/7g7aSXe2NXRg=;
+        s=k20201202; t=1661975621;
+        bh=N5TjKLihYMVZTqpkJpU1DkSXGCpIGAfU9cCiHtsQBH4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=b8WqCtVSCuFCRKcfQAMJUyol59M3aBLEHSL2tIw1elWim4H3JyXMGYXSKYCoHbx4r
-         O+k2i5O2EwomK9Z95rPnWw+MabuJm/4nNj052nudaa2rNIXBFWR407H80wiXT6G7Bm
-         sBCLi3QFc0sjnM6vNIOYoRDC9UfCrmWVLMCEaDQvZ5DPBcKl4N6RV1gBk1mb6qZ0tJ
-         jxsL4niMedp4Sphn17x8lXYv7lFGXLJyjrXUo6KwBPQRHLx0u3R8CDAsvz4TgvwpKj
-         E0ygwGRMoeQXWrNNv4lQWQHKPOYkC8T2Qusj4crWm+/el6vMJwrNhOW7A6wOraIx1j
-         KIoei8qyd0UXw==
-Date:   Wed, 31 Aug 2022 12:41:47 -0700
+        b=He34/htdVOXIkyJME9bifggAm9VZzyhjNtrCgeAb8boy87iFI0PTZF8IerC+BI4ty
+         Kyt7h0zZn4sbTfwnicU0VTMDr46ZWvBSt/Om29T2t8jNRCShwPn9xU8Lr4U3MGb/15
+         wzbfhPTZaM5pV2az5o5vs8xp4+yzlyzpdvxxc+/0hMSSh2lZnRz1N1My6SrM0jRNsB
+         YFnIB8phWnxpCS2MBGhY/5haDh30LXsyoE3JsROXrMZDNhsdVxw2y7+3aYP4MKsnYZ
+         QlOiu8zoGjw5wcmcaU349yurKR3/N2owIzUEpb2twwk2TWl/CrKgxQmWQQLwu7yGWp
+         Aq49H3BqYImZg==
+Date:   Wed, 31 Aug 2022 12:53:38 -0700
 From:   Nathan Chancellor <nathan@kernel.org>
 To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
@@ -43,17 +43,15 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Fangrui Song <maskray@google.com>,
         Alexey Alexandrov <aalexand@google.com>,
         Bill Wendling <morbo@google.com>,
-        Greg Thelen <gthelen@google.com>,
-        Arvind Sankar <nivedita@alum.mit.edu>
-Subject: Re: [PATCH v2 1/5] x86/boot/compressed: prefer cc-option for CFLAGS
- additions
-Message-ID: <Yw+5e0lpJsZS3eWD@dev-arch.thelio-3990X>
+        Greg Thelen <gthelen@google.com>
+Subject: Re: [PATCH v2 2/5] Makefile.compiler: Use KBUILD_AFLAGS for as-option
+Message-ID: <Yw+8QgtSbB2/3Eiq@dev-arch.thelio-3990X>
 References: <20220831184408.2778264-1-ndesaulniers@google.com>
- <20220831184408.2778264-2-ndesaulniers@google.com>
+ <20220831184408.2778264-3-ndesaulniers@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220831184408.2778264-2-ndesaulniers@google.com>
+In-Reply-To: <20220831184408.2778264-3-ndesaulniers@google.com>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -64,57 +62,66 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Aug 31, 2022 at 11:44:04AM -0700, Nick Desaulniers wrote:
-> We have an issue where as-option is testing new options with accumulated
-> CFLAGS. This makes it so that we can't use as-option to update AFLAGS
-> since many CFLAGS aren't valid AFLAGS. This is being fixed in a follow
-> up patch. Before doing so, move the assembler test for
-> -Wa,-mrelax-relocations=no from using as-option to cc-option.
+On Wed, Aug 31, 2022 at 11:44:05AM -0700, Nick Desaulniers wrote:
+> as-instr uses KBUILD_AFLAGS, but as-option uses KBUILD_CFLAGS.  This can
+> cause as-option to fail unexpectedly because clang will emit
+> -Werror,-Wunused-command-line-argument for various -m and -f flags for
+> assembler sources.
 
-I think the first couple of sentences might sound clearer without the
-"we". Maybe something like the following?
+Now that I am looking closer at it, where does that '-Werror' come from?
+For cc-option, we add it to elevate clang's warnings about unused '-f',
+'-m', and '-W' flags to errors so that we do not add those flags.
+However, I do not see '-Werror' in as-option. I am going to assume it
+came from CONFIG_WERROR, as I believe Android has that turned on by
+default. I think that is the real problem: without '-Werror', the only
+error that should come from as-option is when an option isn't supported
+by the assembler, as clang will still warn but those will not be fatal
+but with '-Werror', those warnings turn fatal, causing all subsequent
+as-option calls to fail.
 
-"as-option tests new options using KBUILD_CFLAGS, which causes problems
-when using as-option to update KBUILD_AFLAGS because many compiler
-options are not valid assembler options."
+Do not get me wrong, I still believe this is the correct fix but I think
+it would be good to describe exactly under which conditions this is a
+real issue in case we ever have to revisit this.
 
-> Cc: Arvind Sankar <nivedita@alum.mit.edu>
-> Cc: x86@kernel.org
-> Link: https://lore.kernel.org/llvm/CAK7LNATcHt7GcXZ=jMszyH=+M_LC9Qr6yeAGRCBbE6xriLxtUQ@mail.gmail.com/
-> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
+> Callers of as-option (and as-instr) likely want to be adding flags to
+> KBUILD_AFLAGS/aflags-y, not KBUILD_CFLAGS/cflags-y.
+> 
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1699
 > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 
-Regardless of the commit message:
+Regardless of changes to the commit message:
 
 Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-Additionally, I did verify that '-Wa,-mrelax-relocations=no' still shows
-up in arch/x86/boot/compressed so:
-
-Tested-by: Nathan Chancellor <nathan@kernel.org>
-
 > ---
 > Changes v1 -> v2:
-> * Split off of v1 [1/3].
-> * Use cc-option to update CFLAGS, as per Masahiro.
-> * Add Masahiro's Suggested-by, Cc Arvind.
+> * Split off changes to arch/x86/boot/compressed/Makefile into parent
+>   patch, as per Masahiro.
 > 
->  arch/x86/boot/compressed/Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  scripts/Makefile.compiler | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/arch/x86/boot/compressed/Makefile b/arch/x86/boot/compressed/Makefile
-> index 35ce1a64068b..85934204d905 100644
-> --- a/arch/x86/boot/compressed/Makefile
-> +++ b/arch/x86/boot/compressed/Makefile
-> @@ -49,7 +49,7 @@ KBUILD_CFLAGS += $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
->  KBUILD_CFLAGS += -fno-asynchronous-unwind-tables
->  KBUILD_CFLAGS += -D__DISABLE_EXPORTS
->  # Disable relocation relaxation in case the link is not PIE.
-> -KBUILD_CFLAGS += $(call as-option,-Wa$(comma)-mrelax-relocations=no)
-> +KBUILD_CFLAGS += $(call cc-option,-Wa$(comma)-mrelax-relocations=no)
->  KBUILD_CFLAGS += -include $(srctree)/include/linux/hidden.h
+> diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
+> index 94d0d40cddb3..d1739f0d3ce3 100644
+> --- a/scripts/Makefile.compiler
+> +++ b/scripts/Makefile.compiler
+> @@ -29,13 +29,13 @@ try-run = $(shell set -e;		\
+>  	fi)
 >  
->  # sev.c indirectly inludes inat-table.h which is generated during
+>  # as-option
+> -# Usage: cflags-y += $(call as-option,-Wa$(comma)-isa=foo,)
+> +# Usage: aflags-y += $(call as-option,-Wa$(comma)-isa=foo,)
+>  
+>  as-option = $(call try-run,\
+> -	$(CC) $(KBUILD_CFLAGS) $(1) -c -x assembler /dev/null -o "$$TMP",$(1),$(2))
+> +	$(CC) $(KBUILD_AFLAGS) $(1) -c -x assembler /dev/null -o "$$TMP",$(1),$(2))
+>  
+>  # as-instr
+> -# Usage: cflags-y += $(call as-instr,instr,option1,option2)
+> +# Usage: aflags-y += $(call as-instr,instr,option1,option2)
+>  
+>  as-instr = $(call try-run,\
+>  	printf "%b\n" "$(1)" | $(CC) $(KBUILD_AFLAGS) -c -x assembler -o "$$TMP" -,$(2),$(3))
 > -- 
 > 2.37.2.672.g94769d06f0-goog
 > 
