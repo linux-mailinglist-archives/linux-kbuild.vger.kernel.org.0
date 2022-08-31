@@ -2,68 +2,54 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E0B2D5A67D3
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Aug 2022 18:02:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 772945A76DF
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Aug 2022 08:46:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230304AbiH3QC7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 30 Aug 2022 12:02:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46696 "EHLO
+        id S230301AbiHaGqW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 31 Aug 2022 02:46:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230150AbiH3QC6 (ORCPT
+        with ESMTP id S229570AbiHaGqS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 30 Aug 2022 12:02:58 -0400
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1889EEC72;
-        Tue, 30 Aug 2022 09:02:55 -0700 (PDT)
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 27UG2Jjo030590;
-        Wed, 31 Aug 2022 01:02:20 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 27UG2Jjo030590
+        Wed, 31 Aug 2022 02:46:18 -0400
+Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB77C51A17
+        for <linux-kbuild@vger.kernel.org>; Tue, 30 Aug 2022 23:46:03 -0700 (PDT)
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 27V6jm1e028889
+        for <linux-kbuild@vger.kernel.org>; Wed, 31 Aug 2022 15:45:49 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 27V6jm1e028889
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1661875340;
-        bh=H2q6GsBXBNOWOoYdMHQTssZI3S7WHvmPpJBukTaedbs=;
+        s=dec2015msa; t=1661928349;
+        bh=Q/OFPqOYoZLfkrMHdaNW5FRyOpRPIi4WS61Pu69uYCs=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ot8Tg+6/1s1kmiJLw1ydznab3YOfSiNXdCuw44p+8JjqI2khZ0fujC+26zRSDhwWe
-         DriNnvPcUk8ZlxIwtzCJJTdzcfp1ikChCPhVm/QlpNc1URRYswQsxeFvz5Y0qsraMP
-         mRYwQADHO0SyShIr1WqN8KD2TMDqPbWQh1GNhTUmGsblS/tgNY0MijCVFg6p3111gU
-         wRjbSA8tvEKeD4emv1i5AmDFdHLz+rOxkLH6z7nPhgTmoH3VbBtN1+G4F3L05FzzDm
-         OfKjq5LyGqtgjxTxAV0M3OFc0698u7R1tn7uq7E9V4GsqZZBw2ddZKaChAlqfY6RKf
-         1WgBF7+vpczlw==
-X-Nifty-SrcIP: [209.85.160.50]
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-11ee4649dfcso11342336fac.1;
-        Tue, 30 Aug 2022 09:02:19 -0700 (PDT)
-X-Gm-Message-State: ACgBeo0bUtGaGPigNuOS44Aem3h8Nb8VGHnkN3VUiCde7jUp3H62LwQP
-        fcOp03WtReQCC0wX2BegmfxPUGWR2Rvgz8H+Qtg=
-X-Google-Smtp-Source: AA6agR6MoD4lCTIAFc8q3Sk8P7vy+Sb/2h4auKZ7ZeB5eFyZj15pT1A0AmZO39Wc+iLf5CYwY4KHo8nucUreL/XP98k=
-X-Received: by 2002:a05:6870:c58b:b0:10b:d21d:ad5e with SMTP id
- ba11-20020a056870c58b00b0010bd21dad5emr10217645oab.287.1661875338862; Tue, 30
- Aug 2022 09:02:18 -0700 (PDT)
+        b=p4HR8QjMEAXlkZzVFbrCe0bcwCg3Yvsr6KcuDO+bBZco5MTMPR3r7ieR7xBbpCwIY
+         5TzkpjIBoZoDRkP2HaslXXNhdSIYDpP5Eqz5F7NRvOGgcdOqAdwFU9addaFPBJUce5
+         l0UI1l9VZZVlSymqqMzozEyh2XrFmA3bmv4DwlIz/AqfLay5E2rdgeH4Jv4AhgyksZ
+         5bCR0C8Sv54O61C/rKJME5RD0BY6VBMYuqWYiBYIcA4/Sko/4w9no6OZvGl+nEahq5
+         +Q15VN+Dh1n0AqryoPld9ONc3Mks+ylG1/OWmRcvChJMZAFdQ3B7nkHw4ANR8tRJNo
+         b+9D2VWkXM+PQ==
+X-Nifty-SrcIP: [209.85.160.52]
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-11c4d7d4683so22076960fac.8
+        for <linux-kbuild@vger.kernel.org>; Tue, 30 Aug 2022 23:45:49 -0700 (PDT)
+X-Gm-Message-State: ACgBeo09+jFYxGlktPSIRfsY+yaMj5wU6xYjt7Ltl84w3b81WFaP8nSJ
+        VGp+LDZDaATniB2pu3Quz4La0SD6cOKLEmRAGXk=
+X-Google-Smtp-Source: AA6agR4Ch2wBMF6Felj0kvay2oleS/eDRihJzRoklSzOQkis8zFGJa5nHPOcC4/382yKukltEOZ2xKPTBrM16RVcnbU=
+X-Received: by 2002:a05:6808:2099:b0:343:49f5:5300 with SMTP id
+ s25-20020a056808209900b0034349f55300mr608082oiw.287.1661928348350; Tue, 30
+ Aug 2022 23:45:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220827164056.3365356-1-masahiroy@kernel.org>
- <58a90319-668f-7c87-4168-e0df10644aa7@csgroup.eu> <CAK7LNATJiQc5HMdsct1S5z15-b1fzc5-Y2xtBs6oT17Na79H_w@mail.gmail.com>
- <7daf34ca-ed5e-90ea-8ccc-6821127cbd96@csgroup.eu> <87o7w2j9jn.fsf@mpe.ellerman.id.au>
-In-Reply-To: <87o7w2j9jn.fsf@mpe.ellerman.id.au>
+References: <CAK7LNAR+Lp2g1kzGNALoge7_51_PKcOd37ebZTV=X-QJEwCn5w@mail.gmail.com>
+ <0e70974912f6b2cd95a18192418a438f9c57f690.1661730960.git.owen@owenrafferty.com>
+In-Reply-To: <0e70974912f6b2cd95a18192418a438f9c57f690.1661730960.git.owen@owenrafferty.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 31 Aug 2022 01:01:25 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASshE1zomfsvJf61YrAWH-AfFzx8y_NBey5MWH+3G4gvQ@mail.gmail.com>
-Message-ID: <CAK7LNASshE1zomfsvJf61YrAWH-AfFzx8y_NBey5MWH+3G4gvQ@mail.gmail.com>
-Subject: Re: [PATCH] powerpc: clean up binutils version check
-To:     Michael Ellerman <mpe@ellerman.id.au>
-Cc:     Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Daniel Axtens <dja@axtens.net>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Date:   Wed, 31 Aug 2022 15:44:55 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATtFv9C4ppgxBWD+R5JtHUtCMb5yqvP1Vxsr2Ki7U466Q@mail.gmail.com>
+Message-ID: <CAK7LNATtFv9C4ppgxBWD+R5JtHUtCMb5yqvP1Vxsr2Ki7U466Q@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: rewrite check-local-export in sh/awk
+To:     Owen Rafferty <owen@owenrafferty.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
@@ -73,66 +59,163 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 30, 2022 at 7:44 PM Michael Ellerman <mpe@ellerman.id.au> wrote=
-:
+On Mon, Aug 29, 2022 at 8:57 AM Owen Rafferty <owen@owenrafferty.com> wrote:
 >
-> Christophe Leroy <christophe.leroy@csgroup.eu> writes:
-> > Le 27/08/2022 =C3=A0 20:03, Masahiro Yamada a =C3=A9crit :
-> >> On Sun, Aug 28, 2022 at 2:37 AM Christophe Leroy
-> >> <christophe.leroy@csgroup.eu> wrote:
-> >>> Le 27/08/2022 =C3=A0 18:40, Masahiro Yamada a =C3=A9crit :
-> >>>> The checkbin in arch/powerpc/Makefile errors out if ld <=3D 2.24.
-> >>>> So, the requirement on PPC is binutils >=3D 2.25. It is cleaner to
-> >>>> specify it in scripts/min-tool-version.sh. If binutils < 2.25 is
-> >>>> used, the toolchain check will fail in the Kconfig stage going
-> >>>> forward.
-> >>>>
-> >>>> Since binutils >=3D 2.25 is already required, another version test
-> >>>> for --save-restore-funcs on PPC64 is always met.
-> ...
-> >>>> diff --git a/scripts/min-tool-version.sh b/scripts/min-tool-version.=
-sh
-> >>>> index 250925aab101..7df9f2150ea1 100755
-> >>>> --- a/scripts/min-tool-version.sh
-> >>>> +++ b/scripts/min-tool-version.sh
-> >>>> @@ -14,7 +14,13 @@ fi
-> >>>>
-> >>>>    case "$1" in
-> >>>>    binutils)
-> >>>> -     echo 2.23.0
-> >>>> +     if [ "$SRCARCH" =3D powerpc ]; then
-> >>>
-> >>> Isn't this limitation only for ppc64le ?
-> >>>
-> >>> Refer commit 60e065f70bdb ("powerpc: Reject binutils 2.24 when buildi=
-ng
-> >>> little endian")
-> >>
-> >> I do not see any CONFIG check in the current checkbin.
-> >>
-> >> Refer commit a3ad84da0760 ("powerpc/toc: Future proof
-> >> kernel toc")
-> >
-> > That's odd. There is no toc on PPC32.
->
-> I think that's just a bug in a3ad84da0760.
->
-> But that means we inadvertantly dropped support for 2.24 about 8 months
-> ago, and no one noticed.
->
-> Let's see what the responses are to Nick's proposal to increase the
-> minimum to 2.25.1.
->
-> cheers
+> ---
+>  scripts/check-local-export | 96 +++++++++++++++++++-------------------
+>  1 file changed, 47 insertions(+), 49 deletions(-)
 
 
 
-Either way is fine with me, but in that case,
-do I need to get a higher-level Ack from Linus?
 
-The current one can go to the ppc tree
-since apparently it does not affect any other arches.
+V3 improved the code, but the entire commit log disappeared.
+I guess it is by accident.
 
---=20
+
+
+v2:
+https://patchwork.kernel.org/project/linux-kbuild/patch/a2ccf1338513f3a2250cd0a9fe5894f83ce3e4a7.1660314650.git.owen@owenrafferty.com/
+
+v3:
+https://patchwork.kernel.org/project/linux-kbuild/patch/0e70974912f6b2cd95a18192418a438f9c57f690.1661730960.git.owen@owenrafferty.com/
+
+
+
+Do you want me to restore the log from v2?
+
+
+
+
+
+
+
+> diff --git a/scripts/check-local-export b/scripts/check-local-export
+> index 6ccc2f467416..0c049ff44aca 100755
+> --- a/scripts/check-local-export
+> +++ b/scripts/check-local-export
+> @@ -1,26 +1,14 @@
+> -#!/usr/bin/env bash
+> +#!/bin/sh
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  #
+>  # Copyright (C) 2022 Masahiro Yamada <masahiroy@kernel.org>
+> +# Copyright (C) 2022 Owen Rafferty <owen@owenrafferty.com>
+>  #
+>  # Exit with error if a local exported symbol is found.
+>  # EXPORT_SYMBOL should be used for global symbols.
+>
+>  set -e
+>
+> -# catch errors from ${NM}
+> -set -o pipefail
+> -
+> -# Run the last element of a pipeline in the current shell.
+> -# Without this, the while-loop would be executed in a subshell, and
+> -# the changes made to 'symbol_types' and 'export_symbols' would be lost.
+> -shopt -s lastpipe
+> -
+> -declare -A symbol_types
+> -declare -a export_symbols
+> -
+> -exit_code=0
+> -
+>  # If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
+>  # 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
+>  # '2>/dev/null'. However, it suppresses real error messages as well. Add a
+> @@ -29,43 +17,53 @@ exit_code=0
+>  # TODO:
+>  # Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
+>  # binutils to 2.37, llvm to 13.0.0.
+> -# Then, the following line will be really simple:
+> -#   ${NM} --quiet ${1} |
+> +# Then, the following line will be simpler:
+> +#   { ${NM} --quiet ${1} || kill 0; } |
+> +
+> +{ ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; kill 0; } } |
+> +${AWK} -v "file=${1}" '
+> +BEGIN {
+> +       i = 0
+> +}
+> +
+> +# Skip the line if the number of fields is less than 3.
+> +#
+> +# case 1)
+> +#   For undefined symbols, the first field (value) is empty.
+> +#   The outout looks like this:
+> +#     "                 U _printk"
+> +#   It is unneeded to record undefined symbols.
+> +#
+> +# case 2)
+> +#   For Clang LTO, llvm-nm outputs a line with type t but empty name:
+> +#     "---------------- t"
+> +!length($3) {
+> +       next
+> +}
+>
+> -{ ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; false; } } |
+> -while read value type name
+> -do
+> -       # Skip the line if the number of fields is less than 3.
+> -       #
+> -       # case 1)
+> -       #   For undefined symbols, the first field (value) is empty.
+> -       #   The outout looks like this:
+> -       #     "                 U _printk"
+> -       #   It is unneeded to record undefined symbols.
+> -       #
+> -       # case 2)
+> -       #   For Clang LTO, llvm-nm outputs a line with type 't' but empty name:
+> -       #     "---------------- t"
+> -       if [[ -z ${name} ]]; then
+> -               continue
+> -       fi
+> +# save (name, type) in the associative array
+> +{ symbol_types[$3]=$2 }
+>
+> -       # save (name, type) in the associative array
+> -       symbol_types[${name}]=${type}
+> +# append the exported symbol to the array
+> +($3 ~ /^__ksymtab_/) {
+> +       export_symbols[i] = $3
+> +       sub(/^__ksymtab_/, "", export_symbols[i])
+> +       i++
+> +}
+>
+> -       # append the exported symbol to the array
+> -       if [[ ${name} == __ksymtab_* ]]; then
+> -               export_symbols+=(${name#__ksymtab_})
+> -       fi
+> -done
+> +END {
+> +       exit_code = 0
+> +       for (j = 0; j < i; ++j) {
+> +               name = export_symbols[j]
+> +               # nm(3) says "If lowercase, the symbol is usually local"
+> +               if (symbol_types[name] ~ /[a-z]/) {
+> +                       printf "%s: error: local symbol %s was exported\n",
+> +                               file, name | "cat 1>&2"
+> +                       exit_code = 1
+> +               }
+> +       }
+>
+> -for name in "${export_symbols[@]}"
+> -do
+> -       # nm(3) says "If lowercase, the symbol is usually local"
+> -       if [[ ${symbol_types[$name]} =~ [a-z] ]]; then
+> -               echo "$@: error: local symbol '${name}' was exported" >&2
+> -               exit_code=1
+> -       fi
+> -done
+> +       exit exit_code
+> +}'
+>
+> -exit ${exit_code}
+> +exit $?
+> --
+> 2.37.2
+>
+
+
+-- 
 Best Regards
 Masahiro Yamada
