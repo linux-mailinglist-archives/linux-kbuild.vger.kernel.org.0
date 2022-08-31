@@ -2,66 +2,41 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D8545A85F8
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Aug 2022 20:44:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 737385A86E6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Aug 2022 21:41:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232965AbiHaSoc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 31 Aug 2022 14:44:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46508 "EHLO
+        id S230444AbiHaTlw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 31 Aug 2022 15:41:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233009AbiHaSo3 (ORCPT
+        with ESMTP id S231310AbiHaTlv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 31 Aug 2022 14:44:29 -0400
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28FED26FD
-        for <linux-kbuild@vger.kernel.org>; Wed, 31 Aug 2022 11:44:26 -0700 (PDT)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-340a4dcb403so190023017b3.22
-        for <linux-kbuild@vger.kernel.org>; Wed, 31 Aug 2022 11:44:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc;
-        bh=nxmpsFmEnqVW7vmZQzr2xRuU6Ch0EkVsaTgU/u2vV4k=;
-        b=SAAFmWyauBySzjpJrNvt73SE2HPay3Orf8jgDhjx36QAx7OjiDOdYgsm0SfNZdYfwR
-         1aWZ13i7QRQptij6GuG9iGtF5yNsL2kRXMc/dvOv+5aTsicc+ef1Ql2h5biLg+VJPx0G
-         rmMAQwuOVN9lN15VJGyMBfX+4vBc79LhEGOh+DryEgZCI6vTG2qdzrFp2UzJi1YWMD9a
-         vVxzoMSlkBRJLBl9oBX4X28ujseOHFASxxhznifxHhpBPOECjZcdTeTNVIfpWNZ/Xz1a
-         F2xgmh8MU7SgOqR7WoUtklnxM60uI9cp0b8xB0qwWelT9D1xKvMAqzogZGtG4cA2VV1t
-         OZqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc;
-        bh=nxmpsFmEnqVW7vmZQzr2xRuU6Ch0EkVsaTgU/u2vV4k=;
-        b=Ff2cK2uqjIh6DD8BgL/YIFm0cMQt/cmQhfel6gJC4AoT7ZAsIokb79ZTMBdvhbwHYg
-         CcpUCxD7oHavfEaE8ZwYOKzRnZzKM040i3WzGkkH9joJxx1BgCpQKPEeFhOxiqIE5FvO
-         yzZLLX2qFGloUAgn7QMRWvcJBnLY/+yR4P5aqjOHVJYK1tev0iKt4FjG/1tWrZB8/RJw
-         bdpa2GIjBj6/zF4F/32rUYVHlb+zzDortv8CU3Gc60/RA4ICWOz23uc0EYC7L5R17gWq
-         5RfbPrctwhrYmlVFwPQ4pew1qZ0JOBZoQZhbOK+jwh+VCB+EFCkVi8GPfEEV6w2sf4rp
-         xoiA==
-X-Gm-Message-State: ACgBeo1sB+CoAyPrdjGFt50EWjU8XrwG697Vm0iQ3tG/OVcn6PngKqou
-        r+ykgKTUJNYorL2DkWkK2jAgGSi4FFxj82KMvwo=
-X-Google-Smtp-Source: AA6agR79hkk5fE74ISpRQrASiipyjZ0iIGE2aErmcWn9sSqmbylmLaYlnrPt+lkeerueBeb+/SoRGdoJiwqeKBj6cUk=
-X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:0:100e:712:5f5d:95d5:9a3:d41])
- (user=ndesaulniers job=sendgmr) by 2002:a0d:e850:0:b0:33d:c65e:db0f with SMTP
- id r77-20020a0de850000000b0033dc65edb0fmr19134259ywe.253.1661971465422; Wed,
- 31 Aug 2022 11:44:25 -0700 (PDT)
-Date:   Wed, 31 Aug 2022 11:44:08 -0700
-In-Reply-To: <20220831184408.2778264-1-ndesaulniers@google.com>
-Mime-Version: 1.0
-References: <20220831184408.2778264-1-ndesaulniers@google.com>
-X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=lvO/pmg+aaCb6dPhyGC1GyOCvPueDrrc8Zeso5CaGKE=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1661971448; l=1621;
- i=ndesaulniers@google.com; s=20211004; h=from:subject; bh=vWDrWFVICt3Ai14ovaPS7sV9hqYwW1jW8tWWfH+heHY=;
- b=7NUjXNp3Kko38nPRelaw4RlNwQnLJ60Pq2Feeg9ta5r0PFwgmr+eznfGI29OX44l2Ycx4qKFO/UY
- y+0hS6/tAzQOJuSLTxlLvDIvqPKvb5NZIizBF2kXCnKd1dlp6AQn
-X-Mailer: git-send-email 2.37.2.672.g94769d06f0-goog
-Message-ID: <20220831184408.2778264-6-ndesaulniers@google.com>
-Subject: [PATCH v2 5/5] Makefile.debug: set -g unconditional on CONFIG_DEBUG_INFO_SPLIT
-From:   Nick Desaulniers <ndesaulniers@google.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
+        Wed, 31 Aug 2022 15:41:51 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7C8315A28;
+        Wed, 31 Aug 2022 12:41:50 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5527D618A9;
+        Wed, 31 Aug 2022 19:41:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF367C433C1;
+        Wed, 31 Aug 2022 19:41:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661974909;
+        bh=HRWavCzgmnCOxdEIVx7+y9IkB5Wmqi/7g7aSXe2NXRg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=b8WqCtVSCuFCRKcfQAMJUyol59M3aBLEHSL2tIw1elWim4H3JyXMGYXSKYCoHbx4r
+         O+k2i5O2EwomK9Z95rPnWw+MabuJm/4nNj052nudaa2rNIXBFWR407H80wiXT6G7Bm
+         sBCLi3QFc0sjnM6vNIOYoRDC9UfCrmWVLMCEaDQvZ5DPBcKl4N6RV1gBk1mb6qZ0tJ
+         jxsL4niMedp4Sphn17x8lXYv7lFGXLJyjrXUo6KwBPQRHLx0u3R8CDAsvz4TgvwpKj
+         E0ygwGRMoeQXWrNNv4lQWQHKPOYkC8T2Qusj4crWm+/el6vMJwrNhOW7A6wOraIx1j
+         KIoei8qyd0UXw==
+Date:   Wed, 31 Aug 2022 12:41:47 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
         Tom Rix <trix@redhat.com>, linux-kbuild@vger.kernel.org,
         linux-kernel@vger.kernel.org, llvm@lists.linux.dev, x86@kernel.org,
         Dmitrii Bundin <dmitrii.bundin.a@gmail.com>,
@@ -69,64 +44,77 @@ Cc:     Michal Marek <michal.lkml@markovi.net>,
         Alexey Alexandrov <aalexand@google.com>,
         Bill Wendling <morbo@google.com>,
         Greg Thelen <gthelen@google.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andi Kleen <ak@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Arvind Sankar <nivedita@alum.mit.edu>
+Subject: Re: [PATCH v2 1/5] x86/boot/compressed: prefer cc-option for CFLAGS
+ additions
+Message-ID: <Yw+5e0lpJsZS3eWD@dev-arch.thelio-3990X>
+References: <20220831184408.2778264-1-ndesaulniers@google.com>
+ <20220831184408.2778264-2-ndesaulniers@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220831184408.2778264-2-ndesaulniers@google.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Dmitrii, Fangrui, and Mashahiro note:
+On Wed, Aug 31, 2022 at 11:44:04AM -0700, Nick Desaulniers wrote:
+> We have an issue where as-option is testing new options with accumulated
+> CFLAGS. This makes it so that we can't use as-option to update AFLAGS
+> since many CFLAGS aren't valid AFLAGS. This is being fixed in a follow
+> up patch. Before doing so, move the assembler test for
+> -Wa,-mrelax-relocations=no from using as-option to cc-option.
 
-  Before GCC 11 and Clang 12 -gsplit-dwarf implicitly uses -g2.
+I think the first couple of sentences might sound clearer without the
+"we". Maybe something like the following?
 
-Fix CONFIG_DEBUG_INFO_SPLIT for gcc-11+ & clang-12+ which now need -g
-specified in order for -gsplit-dwarf to work at all.
+"as-option tests new options using KBUILD_CFLAGS, which causes problems
+when using as-option to update KBUILD_AFLAGS because many compiler
+options are not valid assembler options."
 
--gsplit-dwarf has been mutually exclusive with -g since support for
-CONFIG_DEBUG_INFO_SPLIT was introduced in
-commit 866ced950bcd ("kbuild: Support split debug info v4")
-I don't think it ever needed to be.
+> Cc: Arvind Sankar <nivedita@alum.mit.edu>
+> Cc: x86@kernel.org
+> Link: https://lore.kernel.org/llvm/CAK7LNATcHt7GcXZ=jMszyH=+M_LC9Qr6yeAGRCBbE6xriLxtUQ@mail.gmail.com/
+> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 
-Link: https://lore.kernel.org/lkml/20220815013317.26121-1-dmitrii.bundin.a@gmail.com/
-Link: https://lore.kernel.org/lkml/CAK7LNARPAmsJD5XKAw7m_X2g7Fi-CAAsWDQiP7+ANBjkg7R7ng@mail.gmail.com/
-Link: https://reviews.llvm.org/D80391
-Cc: Andi Kleen <ak@linux.intel.com>
-Reported-by: Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
-Reported-by: Fangrui Song <maskray@google.com>
-Reported-by: Masahiro Yamada <masahiroy@kernel.org>
-Suggested-by: Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
----
-Changes v1 -> v2:
-* Add reference to 866ced950bcd, cc Andi, in commit message.
+Regardless of the commit message:
 
- scripts/Makefile.debug | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-diff --git a/scripts/Makefile.debug b/scripts/Makefile.debug
-index 46e88f0ca998..b6eb532af3cc 100644
---- a/scripts/Makefile.debug
-+++ b/scripts/Makefile.debug
-@@ -1,10 +1,8 @@
--DEBUG_CFLAGS	:=
-+DEBUG_CFLAGS	:= -g
-+KBUILD_AFLAGS	+= -g
- 
- ifdef CONFIG_DEBUG_INFO_SPLIT
- DEBUG_CFLAGS	+= -gsplit-dwarf
--else
--DEBUG_CFLAGS	+= -g
--KBUILD_AFLAGS	+= -g
- endif
- 
- ifdef CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
--- 
-2.37.2.672.g94769d06f0-goog
+Additionally, I did verify that '-Wa,-mrelax-relocations=no' still shows
+up in arch/x86/boot/compressed so:
 
+Tested-by: Nathan Chancellor <nathan@kernel.org>
+
+> ---
+> Changes v1 -> v2:
+> * Split off of v1 [1/3].
+> * Use cc-option to update CFLAGS, as per Masahiro.
+> * Add Masahiro's Suggested-by, Cc Arvind.
+> 
+>  arch/x86/boot/compressed/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/arch/x86/boot/compressed/Makefile b/arch/x86/boot/compressed/Makefile
+> index 35ce1a64068b..85934204d905 100644
+> --- a/arch/x86/boot/compressed/Makefile
+> +++ b/arch/x86/boot/compressed/Makefile
+> @@ -49,7 +49,7 @@ KBUILD_CFLAGS += $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
+>  KBUILD_CFLAGS += -fno-asynchronous-unwind-tables
+>  KBUILD_CFLAGS += -D__DISABLE_EXPORTS
+>  # Disable relocation relaxation in case the link is not PIE.
+> -KBUILD_CFLAGS += $(call as-option,-Wa$(comma)-mrelax-relocations=no)
+> +KBUILD_CFLAGS += $(call cc-option,-Wa$(comma)-mrelax-relocations=no)
+>  KBUILD_CFLAGS += -include $(srctree)/include/linux/hidden.h
+>  
+>  # sev.c indirectly inludes inat-table.h which is generated during
+> -- 
+> 2.37.2.672.g94769d06f0-goog
+> 
