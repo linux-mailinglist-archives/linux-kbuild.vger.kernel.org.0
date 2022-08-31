@@ -2,37 +2,37 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA7EC5A8703
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Aug 2022 21:53:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA7345A873B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Aug 2022 22:08:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229921AbiHaTxp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 31 Aug 2022 15:53:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40956 "EHLO
+        id S232014AbiHaUIQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 31 Aug 2022 16:08:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbiHaTxo (ORCPT
+        with ESMTP id S230437AbiHaUIO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 31 Aug 2022 15:53:44 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E593FEE694;
-        Wed, 31 Aug 2022 12:53:43 -0700 (PDT)
+        Wed, 31 Aug 2022 16:08:14 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EED0DC6964;
+        Wed, 31 Aug 2022 13:08:13 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9D746B8229E;
-        Wed, 31 Aug 2022 19:53:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D145C433C1;
-        Wed, 31 Aug 2022 19:53:40 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 71DA661922;
+        Wed, 31 Aug 2022 20:08:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5457C433D6;
+        Wed, 31 Aug 2022 20:08:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661975621;
-        bh=N5TjKLihYMVZTqpkJpU1DkSXGCpIGAfU9cCiHtsQBH4=;
+        s=k20201202; t=1661976492;
+        bh=zKMHNZ+XLBme4WkFy77n13v6pA/KXZ5Eql5mbdiwYIY=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=He34/htdVOXIkyJME9bifggAm9VZzyhjNtrCgeAb8boy87iFI0PTZF8IerC+BI4ty
-         Kyt7h0zZn4sbTfwnicU0VTMDr46ZWvBSt/Om29T2t8jNRCShwPn9xU8Lr4U3MGb/15
-         wzbfhPTZaM5pV2az5o5vs8xp4+yzlyzpdvxxc+/0hMSSh2lZnRz1N1My6SrM0jRNsB
-         YFnIB8phWnxpCS2MBGhY/5haDh30LXsyoE3JsROXrMZDNhsdVxw2y7+3aYP4MKsnYZ
-         QlOiu8zoGjw5wcmcaU349yurKR3/N2owIzUEpb2twwk2TWl/CrKgxQmWQQLwu7yGWp
-         Aq49H3BqYImZg==
-Date:   Wed, 31 Aug 2022 12:53:38 -0700
+        b=cLb7sXLuNwOZot0OZeBWG/0+l7IPTuYWZ3wBEg+BzhOwAA/0ZICj41rSVegYddNjv
+         n42Mn2JRIyMPbLKqj3N4uO8pOqZJbV3ChRs+/dqGgs4KxenXScsNYhypbcVFj+rGE8
+         AoBGY878hEQZwCF8o7USVP1MpLA5PI2UicNRTNbu3LsFwv2FozWXsRIyR1DhDuFPgW
+         Hfwrl1TCvoWA68ZwccdQzWkXWv5l2dTksjFtdzHiWCDTmnN6Jd/M94lkIpbtbNxorI
+         x6xXurY5CWW64KBR/AzYLLFgpPDUR7fMESwNCWjqTlmJwlVDfQpgllHJRWlXF/Veup
+         BzsPHoHJjhXPQ==
+Date:   Wed, 31 Aug 2022 13:08:10 -0700
 From:   Nathan Chancellor <nathan@kernel.org>
 To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
@@ -43,15 +43,18 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Fangrui Song <maskray@google.com>,
         Alexey Alexandrov <aalexand@google.com>,
         Bill Wendling <morbo@google.com>,
-        Greg Thelen <gthelen@google.com>
-Subject: Re: [PATCH v2 2/5] Makefile.compiler: Use KBUILD_AFLAGS for as-option
-Message-ID: <Yw+8QgtSbB2/3Eiq@dev-arch.thelio-3990X>
+        Greg Thelen <gthelen@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 3/5] Makefile.compiler: replace cc-ifversion with
+ compiler-specific macros
+Message-ID: <Yw+/qjgveoN0q89t@dev-arch.thelio-3990X>
 References: <20220831184408.2778264-1-ndesaulniers@google.com>
- <20220831184408.2778264-3-ndesaulniers@google.com>
+ <20220831184408.2778264-4-ndesaulniers@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220831184408.2778264-3-ndesaulniers@google.com>
+In-Reply-To: <20220831184408.2778264-4-ndesaulniers@google.com>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -62,66 +65,202 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Aug 31, 2022 at 11:44:05AM -0700, Nick Desaulniers wrote:
-> as-instr uses KBUILD_AFLAGS, but as-option uses KBUILD_CFLAGS.  This can
-> cause as-option to fail unexpectedly because clang will emit
-> -Werror,-Wunused-command-line-argument for various -m and -f flags for
-> assembler sources.
-
-Now that I am looking closer at it, where does that '-Werror' come from?
-For cc-option, we add it to elevate clang's warnings about unused '-f',
-'-m', and '-W' flags to errors so that we do not add those flags.
-However, I do not see '-Werror' in as-option. I am going to assume it
-came from CONFIG_WERROR, as I believe Android has that turned on by
-default. I think that is the real problem: without '-Werror', the only
-error that should come from as-option is when an option isn't supported
-by the assembler, as clang will still warn but those will not be fatal
-but with '-Werror', those warnings turn fatal, causing all subsequent
-as-option calls to fail.
-
-Do not get me wrong, I still believe this is the correct fix but I think
-it would be good to describe exactly under which conditions this is a
-real issue in case we ever have to revisit this.
-
-> Callers of as-option (and as-instr) likely want to be adding flags to
-> KBUILD_AFLAGS/aflags-y, not KBUILD_CFLAGS/cflags-y.
+On Wed, Aug 31, 2022 at 11:44:06AM -0700, Nick Desaulniers wrote:
+> cc-ifversion is GCC specific. Replace it with compiler specific
+> variants. Update the users of cc-ifversion to use these new macros.
+> Provide a helper for checking compiler versions for GCC and Clang
+> simultaneously, that will be used in a follow up patch.
 > 
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1699
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> Link: https://github.com/ClangBuiltLinux/linux/issues/350
+> Link: https://lore.kernel.org/llvm/CAGG=3QWSAUakO42kubrCap8fp-gm1ERJJAYXTnP1iHk_wrH=BQ@mail.gmail.com/
+> Suggested-by: Bill Wendling <morbo@google.com>
 > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 
-Regardless of changes to the commit message:
+These are so much nicer. I find the name kind of awkward but the only
+thing I could come up with that sounded better was 'gcc-is-at-least' or
+'clang-is-at-least' and I don't really feel like painting sheds today,
+it's hot outside :)
 
 Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
+Some comments below.
+
 > ---
 > Changes v1 -> v2:
-> * Split off changes to arch/x86/boot/compressed/Makefile into parent
->   patch, as per Masahiro.
+> * New patch.
 > 
->  scripts/Makefile.compiler | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  Documentation/kbuild/makefiles.rst          | 44 +++++++++++++++------
+>  Makefile                                    |  4 +-
+>  drivers/gpu/drm/amd/display/dc/dml/Makefile | 12 ++----
+>  scripts/Makefile.compiler                   | 15 +++++--
+>  4 files changed, 49 insertions(+), 26 deletions(-)
 > 
+> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+> index 11a296e52d68..e46f5b45c422 100644
+> --- a/Documentation/kbuild/makefiles.rst
+> +++ b/Documentation/kbuild/makefiles.rst
+> @@ -682,22 +682,42 @@ more details, with real examples.
+>  	In the above example, -Wno-unused-but-set-variable will be added to
+>  	KBUILD_CFLAGS only if gcc really accepts it.
+>  
+> -    cc-ifversion
+> -	cc-ifversion tests the version of $(CC) and equals the fourth parameter
+> -	if version expression is true, or the fifth (if given) if the version
+> -	expression is false.
+> +    gcc-min-version
+> +	gcc-min-version tests if the value of $(CONFIG_GCC_VERSION) is greater than
+> +	or equal to the provided value and evaluates to y if so.
+>  
+>  	Example::
+>  
+> -		#fs/reiserfs/Makefile
+> -		ccflags-y := $(call cc-ifversion, -lt, 0402, -O1)
+> +		cflags-$(call gcc-min-version, 70100) := -foo
+>  
+> -	In this example, ccflags-y will be assigned the value -O1 if the
+> -	$(CC) version is less than 4.2.
+> -	cc-ifversion takes all the shell operators:
+> -	-eq, -ne, -lt, -le, -gt, and -ge
+> -	The third parameter may be a text as in this example, but it may also
+> -	be an expanded variable or a macro.
+> +	In this example, cflags-y will be assigned the value -foo if $(CC) is gcc and
+> +	$(CONFIG_GCC_VERSION) is >= 7.1.
+> +
+> +    clang-min-version
+> +	clang-min-version tests if the value of $(CONFIG_CLANG_VERSION) is greater
+> +	than or equal to the provided value and evaluates to y if so.
+> +
+> +	Example::
+> +
+> +		cflags-$(call clang-min-version, 110000) := -foo
+> +
+> +	In this example, cflags-y will be assigned the value -foo if $(CC) is clang
+> +	and $(CONFIG_CLANG_VERSION) is >= 11.0.0.
+> +
+> +    cc-min-version
+> +	cc-min-version tests if the value of $(CONFIG_GCC_VERSION) is greater
+> +	than or equal to the first value provided, or if the value of
+> +	$(CONFIG_CLANG_VERSION) is greater than or equal to the second value
+> +	provided, and evaluates
+> +	to y if so.
+> +
+> +	Example::
+> +
+> +		cflags-$(call cc-min-version, 70100, 110000) := -foo
+> +
+> +	In this example, cflags-y will be assigned the value -foo if $(CC) is gcc and
+> +	$(CONFIG_GCC_VERSION) is >= 7.1, or if $(CC) is clang and
+> +	$(CONFIG_CLANG_VERSION) is >= 11.0.0.
+>  
+>      cc-cross-prefix
+>  	cc-cross-prefix is used to check if there exists a $(CC) in path with
+> diff --git a/Makefile b/Makefile
+> index 952d354069a4..caa39ecb1136 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -972,7 +972,7 @@ ifdef CONFIG_CC_IS_GCC
+>  KBUILD_CFLAGS += -Wno-maybe-uninitialized
+>  endif
+>  
+> -ifdef CONFIG_CC_IS_GCC
+> +ifeq ($(call gcc-min-version, 90100),y)
+>  # The allocators already balk at large sizes, so silence the compiler
+>  # warnings for bounds checks involving those possible values. While
+>  # -Wno-alloc-size-larger-than would normally be used here, earlier versions
+> @@ -984,7 +984,7 @@ ifdef CONFIG_CC_IS_GCC
+>  # ignored, continuing to default to PTRDIFF_MAX. So, left with no other
+>  # choice, we must perform a versioned check to disable this warning.
+>  # https://lore.kernel.org/lkml/20210824115859.187f272f@canb.auug.org.au
+> -KBUILD_CFLAGS += $(call cc-ifversion, -ge, 0901, -Wno-alloc-size-larger-than)
+> +KBUILD_CFLAGS += -Wno-alloc-size-larger-than
+>  endif
+
+It might be interesting to move this up to where KBUILD_CFLAGS-y is used
+to make it:
+
+  KBUILD_CFLAGS-$(call gcc-min-version, 90100) += -Wno-alloc-size-larger-than
+
+But the comment would have to come with so it probably isn't worth
+doing. Just throwing it out as an observation.
+
+>  
+>  # disable invalid "can't wrap" optimizations for signed / pointers
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/Makefile b/drivers/gpu/drm/amd/display/dc/dml/Makefile
+> index 86a3b5bfd699..d8ee4743b2e3 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/Makefile
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/Makefile
+> @@ -33,20 +33,14 @@ ifdef CONFIG_PPC64
+>  dml_ccflags := -mhard-float -maltivec
+>  endif
+>  
+> -ifdef CONFIG_CC_IS_GCC
+> -ifeq ($(call cc-ifversion, -lt, 0701, y), y)
+> -IS_OLD_GCC = 1
+> -endif
+> -endif
+> -
+>  ifdef CONFIG_X86
+> -ifdef IS_OLD_GCC
+> +ifeq ($(call gcc-min-version, 70100),y)
+> +dml_ccflags += -msse2
+
+I think you just dropped '-msse2' for clang.
+
+I guess this wants to be:
+
+  ifeq ($(call cc-min-version, 70100, 110000),y)
+
+but it kind of feels bad to hardcode the kernel's minimum supported
+version of clang somewhere that is not super easy to grep for when we
+upgrade it (I guess I'll add cc-min-version to my list of things to look
+for, in addition to the Kconfig variables). Perhaps we should codify it
+in a place that can be used within make (using
+'scripts/min-tool-version.sh' even) so that we could do something like:
+
+  ifeq ($(call cc-min-version, 70100, $(MIN_CLANG_VERSION)),y)
+
+Up to you though.
+
+> +else
+>  # Stack alignment mismatch, proceed with caution.
+>  # GCC < 7.1 cannot compile code using `double` and -mpreferred-stack-boundary=3
+>  # (8B stack alignment).
+>  dml_ccflags += -mpreferred-stack-boundary=4
+> -else
+> -dml_ccflags += -msse2
+>  endif
+>  endif
+>  
 > diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
-> index 94d0d40cddb3..d1739f0d3ce3 100644
+> index d1739f0d3ce3..13dade724fa3 100644
 > --- a/scripts/Makefile.compiler
 > +++ b/scripts/Makefile.compiler
-> @@ -29,13 +29,13 @@ try-run = $(shell set -e;		\
->  	fi)
+> @@ -61,9 +61,18 @@ cc-option-yn = $(call try-run,\
+>  cc-disable-warning = $(call try-run,\
+>  	$(CC) -Werror $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS) -W$(strip $(1)) -c -x c /dev/null -o "$$TMP",-Wno-$(strip $(1)))
 >  
->  # as-option
-> -# Usage: cflags-y += $(call as-option,-Wa$(comma)-isa=foo,)
-> +# Usage: aflags-y += $(call as-option,-Wa$(comma)-isa=foo,)
+> -# cc-ifversion
+> -# Usage:  EXTRA_CFLAGS += $(call cc-ifversion, -lt, 0402, -O1)
+> -cc-ifversion = $(shell [ $(CONFIG_GCC_VERSION)0 $(1) $(2)000 ] && echo $(3) || echo $(4))
+> +# gcc-min-version
+> +# Usage: cflags-$(call gcc-min-version, 70100) += -foo
+> +gcc-min-version = $(shell [ $(CONFIG_GCC_VERSION) -ge $(1) ] && echo y)
+> +
+> +# clang-min-version
+> +# Usage: cflags-$(call clang-min-version, 110000) += -foo
+> +clang-min-version = $(shell [ $(CONFIG_CLANG_VERSION) -ge $(1) ] && echo y)
+> +
+> +# cc-min-version
+> +# Usage: cflags-$(call cc-min-version, 701000, 110000)
+> +#                                      ^ GCC   ^ Clang
+> +cc-min-version = $(filter y, $(call gcc-min-version, $(1)), $(call clang-min-version, $(2)))
 >  
->  as-option = $(call try-run,\
-> -	$(CC) $(KBUILD_CFLAGS) $(1) -c -x assembler /dev/null -o "$$TMP",$(1),$(2))
-> +	$(CC) $(KBUILD_AFLAGS) $(1) -c -x assembler /dev/null -o "$$TMP",$(1),$(2))
->  
->  # as-instr
-> -# Usage: cflags-y += $(call as-instr,instr,option1,option2)
-> +# Usage: aflags-y += $(call as-instr,instr,option1,option2)
->  
->  as-instr = $(call try-run,\
->  	printf "%b\n" "$(1)" | $(CC) $(KBUILD_AFLAGS) -c -x assembler -o "$$TMP" -,$(2),$(3))
+>  # ld-option
+>  # Usage: KBUILD_LDFLAGS += $(call ld-option, -X, -Y)
 > -- 
 > 2.37.2.672.g94769d06f0-goog
 > 
