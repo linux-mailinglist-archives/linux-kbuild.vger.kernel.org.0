@@ -2,57 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A1C3F5A849E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Aug 2022 19:42:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12D225A85EE
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Aug 2022 20:44:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232079AbiHaRl5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 31 Aug 2022 13:41:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48816 "EHLO
+        id S230480AbiHaSoO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 31 Aug 2022 14:44:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232078AbiHaRlT (ORCPT
+        with ESMTP id S231698AbiHaSoO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 31 Aug 2022 13:41:19 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DABD711C07
-        for <linux-kbuild@vger.kernel.org>; Wed, 31 Aug 2022 10:40:37 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id n17so19229601wrm.4
-        for <linux-kbuild@vger.kernel.org>; Wed, 31 Aug 2022 10:40:37 -0700 (PDT)
+        Wed, 31 Aug 2022 14:44:14 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B09E2F0
+        for <linux-kbuild@vger.kernel.org>; Wed, 31 Aug 2022 11:44:13 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id h9-20020a256c09000000b0069671af62ecso2755287ybc.4
+        for <linux-kbuild@vger.kernel.org>; Wed, 31 Aug 2022 11:44:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=n/oAIIbQC6X9/4TYjpXgoCLnqch074NpwWXcWhpGZUU=;
-        b=kzWNO0R5mowae1zsB33fojPTZwHoiimNytdIdEM9pAl9vTa3Km02k8esak+mL45vSJ
-         XHlpH5qoILPtWK/pDKEvlh4xe4S3bsXvLbxG8xZ34ERouN2lElUkWXkQQ0wZD1QdCEvE
-         pYp2eFyBg0AModntqsO5EUP3Aoyc4RsDQngD4NVmVROQAEN4+Q6/feAv1WDh+z6PTH8Q
-         W0I9equd8n5PcsPy2cdsjGxjBafA0r5/CGliM6dOBkSkSXJAiBytlaR1eTNhV1RGBJ9v
-         bW7CANGbl7HCnIGKz483Z92xH1mfXxhkdEB4HHWLc59xZI2abJ4UQW+xDEnzDwlZ32jp
-         ZW7g==
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc;
+        bh=HMnrAce4vWD3UCA7lMg2iTbiqidDXP3N3F6sBkVh6kA=;
+        b=eptYYARpDhhvHfa2enq2HomA+8RjHyMXfGJJl4oe6djSqcQFOPAig8gbLpsABe8yXq
+         OMj3SA6IAcf8NwGVsmCaYZoD+UeorfMMNsPm2D6WY/4GLSKJJIvKA1/FcLwWAm+V1Aio
+         PEJXbg9147fZoOx7Pl6cvWv7DsSwszHIB7luuRgoBx9GbmFDZ2nhdumltWAXfzuACtRv
+         M8mi+hGEjyYRJCvvK8V+6BJAqqBTxJU1N9PoDVo1lCiWf8AbFPD7CWy4za+a5EWn80u9
+         1p7YbxOLD0Rpt0VDiFAHThf2RFnzotJYi8ki8bK57JW6p+3csDgYVZrQTTvszf0V7WU/
+         Catw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=n/oAIIbQC6X9/4TYjpXgoCLnqch074NpwWXcWhpGZUU=;
-        b=wtTvCXsxqYUyRqXeMJfX0BSjju6Kf584GNU2ODAUv2lmQme/d7yAqwmZ9GHI+4c6eS
-         aaVGq3aC1IPunqBoSwYC92H41MaF/BJK6ZsJTagIKAumH9134OBzyfzn7MB6DHbhCy8N
-         CMNyMHXxLNwpaHsE9CsNLLp858Z9fsUnQLKG59k8r/ZPhebgzNRfCUtCA3vetn4pBqyf
-         as6QRpZg/ppewk0mTk2lZwW0FerTm2yqqQgBzP1AFIarcH4FPmosGcUa5d4e77M4puSc
-         HplJKbNZ1+XXRk4SVhYv2lHts+uDm5LCNxw3hpjKvQGchFQRJjxjNJhnoB+cblgGgbkY
-         FEKw==
-X-Gm-Message-State: ACgBeo1PdFSOni68OmcyC3jMb66fezqDg5FRiKW3/dnApVMtrGm0zpO0
-        Kp27r0smAYHfi6cG1wUAXyRG12iEmrBdNqep8O9RMRvk36bz5w==
-X-Google-Smtp-Source: AA6agR7jf/5wN9tWi2BmC7xA0UtJf55pCgzE1Qm3Wv4DAx6hUBuxcAAXc5Ctfg8gLto5EW/U5x+6kyyr2Z80D+5uwSI=
-X-Received: by 2002:a05:6000:813:b0:226:da5a:84a9 with SMTP id
- bt19-20020a056000081300b00226da5a84a9mr9049383wrb.309.1661967636251; Wed, 31
- Aug 2022 10:40:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220826181035.859042-1-ndesaulniers@google.com> <20220826181035.859042-4-ndesaulniers@google.com>
-In-Reply-To: <20220826181035.859042-4-ndesaulniers@google.com>
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc;
+        bh=HMnrAce4vWD3UCA7lMg2iTbiqidDXP3N3F6sBkVh6kA=;
+        b=cBfFTX9lPki3h9HOlQC3XXeaE+rvW3dgGSp9o1HcVnwiw9Lxl1MXQYdmr50FKAJkHq
+         4GX8GpXO066RqT5O8ciUbIrrGiUT+Pk9atiTuC3ZeRYKmjmnnXldG2eQMHzYr8RcWlcV
+         KSS6Jq1tt1PKkfDah7MQBLCK6vuumVzxRgIbe2iOARydQeoCgqC6ERKQKiT5V8LK8SvH
+         EdWaXV0uxwVOeUKzujOpbHcKGSqPcpm/HVTK88GqK2F3YsRqIpfV3FkxYcTBVTxGyuhC
+         9hdJxFwecV92VniOHwnlepFKxEruCe243SJCBl1UrMOEiG85wg+FISzrWYE+fyi1Xtcy
+         izjw==
+X-Gm-Message-State: ACgBeo0nDZpTPTuJZG5QqROu8/TIbvQVCajBZ9+TzBS/0Ott9nPTkSHe
+        K4Dnj12m7HbfzzEZ3/Gko4JNUoRJC7co0Sv+Xk0=
+X-Google-Smtp-Source: AA6agR4HPXKyje7xDSih23ECowddXTnlM8omhB/HfshCPDzUrBPoRUAAnBwmr6M7l4LvcGfkA2OwfmoMhigVBQ0feKs=
+X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:0:100e:712:5f5d:95d5:9a3:d41])
+ (user=ndesaulniers job=sendgmr) by 2002:a81:1243:0:b0:337:7a6e:9984 with SMTP
+ id 64-20020a811243000000b003377a6e9984mr20145246yws.64.1661971452512; Wed, 31
+ Aug 2022 11:44:12 -0700 (PDT)
+Date:   Wed, 31 Aug 2022 11:44:03 -0700
+Mime-Version: 1.0
+X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=lvO/pmg+aaCb6dPhyGC1GyOCvPueDrrc8Zeso5CaGKE=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1661971447; l=2027;
+ i=ndesaulniers@google.com; s=20211004; h=from:subject; bh=MJ8zIIzbHDfP7Z3iWSiaUiv1c1n3/TDVg9Pl6Q1NkNc=;
+ b=SLBxGFb8Uf8kJ3PXOwa6d70wUc9fm9s1Y8AVDT56OZAq30m5l4vm2Bm0fO5aCLmnwPjH1GzhwYdl
+ mZtY1qPvB13iqhak8C0rk03P3rz7kYlC514lL/fGzXXEDli2SjpI
+X-Mailer: git-send-email 2.37.2.672.g94769d06f0-goog
+Message-ID: <20220831184408.2778264-1-ndesaulniers@google.com>
+Subject: [PATCH v2 0/5] fix debug info for asm and DEBUG_INFO_SPLIT
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 31 Aug 2022 10:40:24 -0700
-Message-ID: <CAKwvOdnOz_iH2x1a_CSBqPSbjbXcv7b3ojYa2TahWArAFjqj9A@mail.gmail.com>
-Subject: Re: [PATCH 3/3] Makefile.debug: set -g unconditional on CONFIG_DEBUG_INFO_SPLIT
-To:     Andi Kleen <ak@linux.intel.com>, Arnd Bergmann <arnd@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Michal Marek <michal.lkml@markovi.net>,
         Nathan Chancellor <nathan@kernel.org>,
         Tom Rix <trix@redhat.com>, linux-kbuild@vger.kernel.org,
@@ -62,12 +66,11 @@ Cc:     Michal Marek <michal.lkml@markovi.net>,
         Alexey Alexandrov <aalexand@google.com>,
         Bill Wendling <morbo@google.com>,
         Greg Thelen <gthelen@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
+        Nick Desaulniers <ndesaulniers@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,76 +78,51 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Aug 26, 2022 at 11:10 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> Dmitrii, Fangrui, and Mashahiro note:
->
->   Before GCC 11 and Clang 12 -gsplit-dwarf implicitly uses -g2.
->
-> Fix CONFIG_DEBUG_INFO_SPLIT for gcc-11+ & clang-12+ which now need -g
-> specified in order for -gsplit-dwarf to work at all.
+Alexey reported that the fraction of unknown filename instances in
+kallsyms grew from ~0.3% to ~10% recently; Bill and Greg tracked it down
+to assembler defined symbols, which regressed as a result of:
 
-Looking at
-commit 866ced950bcd ("kbuild: Support split debug info v4")
-I'm curious whether -gsplit-dwarf needed to be mutually exclusive with
--g, possibly for older compilers? Andi, do you recall?
-I have gcc-9 handy; that doesn't seem to be the case. I get the same
-size binary with `-gsplit-dwarf` as I do with `-g -gsplit-dwarf`.  So
-it does seem like mutual exclusion between the two is not necessary.
+commit b8a9092330da ("Kbuild: do not emit debug info for assembly with LLVM_IAS=1")
 
-x86_64-gcc-5.5.0-nolibc-x86_64-linux.tar.gz from
-https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/x86_64/5.5.0/
-seems to really need libisl.so.15...
-$ cd /tmp
-$ wget https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/x86_64/5.5.0/x86_64-gcc-5.5.0-nolibc-x86_64-linux.tar.gz
-$ echo "void foo(void) {}" > x.c
-$ ./gcc-5.5.0-nolibc/x86_64-linux/bin/x86_64-linux-gcc-5.5.0
--gsplit-dwarf x.c -c
-/tmp/gcc-5.5.0-nolibc/x86_64-linux/bin/../libexec/gcc/x86_64-linux/5.5.0/cc1:
-error while loading shared libraries: libisl.so.15: cannot open shared
-object file: No such file or directory
-$ find /usr/lib -name libisl\*
-/usr/lib/x86_64-linux-gnu/libisl.so.23.2.0
-/usr/lib/x86_64-linux-gnu/libisl.so.23
-/usr/lib/x86_64-linux-gnu/libisl.a
-/usr/lib/x86_64-linux-gnu/libisl.so
+In that commit, I allude to restoring debug info for assembler defined
+symbols in a follow up patch, but it seems I forgot to do so in
 
->
-> Link: https://lore.kernel.org/lkml/20220815013317.26121-1-dmitrii.bundin.a@gmail.com/
-> Link: https://lore.kernel.org/lkml/CAK7LNARPAmsJD5XKAw7m_X2g7Fi-CAAsWDQiP7+ANBjkg7R7ng@mail.gmail.com/
-> Link: https://reviews.llvm.org/D80391
-> Reported-by: Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
-> Reported-by: Fangrui Song <maskray@google.com>
-> Reported-by: Masahiro Yamada <masahiroy@kernel.org>
-> Suggested-by: Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
->  scripts/Makefile.debug | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->
-> diff --git a/scripts/Makefile.debug b/scripts/Makefile.debug
-> index a7a6da7f6e7d..0f9912f7bd4c 100644
-> --- a/scripts/Makefile.debug
-> +++ b/scripts/Makefile.debug
-> @@ -1,10 +1,8 @@
-> -DEBUG_CFLAGS   :=
-> +DEBUG_CFLAGS   := -g
-> +KBUILD_AFLAGS  += -g
->
->  ifdef CONFIG_DEBUG_INFO_SPLIT
->  DEBUG_CFLAGS   += -gsplit-dwarf
-> -else
-> -DEBUG_CFLAGS   += -g
-> -KBUILD_AFLAGS  += -g
->  endif
->
->  ifdef CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
-> --
-> 2.37.2.672.g94769d06f0-goog
->
+commit a66049e2cf0e ("Kbuild: make DWARF version a choice")
 
+Do so requires a fixup for as-option, which seems to be failing when
+used in scripts/Makefile.debug.
+
+Also includes a fix for DEBUG_INFO_SPLIT while I'm here.  Dmitrii
+reports that this has been broken since gcc-11+ & clang-12+. I'm
+guessing no one uses this .config option...since no one else has
+reported it being broken yet...
+
+Changes from v1 -> v2:
+* 5 patches now, rather than 3.
+* Split change to arch/x86/boot/compressed/Makefile off of first patch,
+  as per Masahiro.
+* Introduce compiler specific macros, as per Bill, and eradicate
+  cc-ifversion while I'm at it.
+* Update commit message of final patch to refer to 866ced950bcd.
+
+v1: https://lore.kernel.org/llvm/20220826181035.859042-1-ndesaulniers@google.com/
+
+
+Nick Desaulniers (5):
+  x86/boot/compressed: prefer cc-option for CFLAGS additions
+  Makefile.compiler: Use KBUILD_AFLAGS for as-option
+  Makefile.compiler: replace cc-ifversion with compiler-specific macros
+  Makefile.debug: re-enable debug info for .S files
+  Makefile.debug: set -g unconditional on CONFIG_DEBUG_INFO_SPLIT
+
+ Documentation/kbuild/makefiles.rst          | 44 +++++++++++++++------
+ Makefile                                    |  4 +-
+ arch/x86/boot/compressed/Makefile           |  2 +-
+ drivers/gpu/drm/amd/display/dc/dml/Makefile | 12 ++----
+ scripts/Makefile.compiler                   | 21 +++++++---
+ scripts/Makefile.debug                      | 26 ++++++++----
+ 6 files changed, 72 insertions(+), 37 deletions(-)
 
 -- 
-Thanks,
-~Nick Desaulniers
+2.37.2.672.g94769d06f0-goog
+
