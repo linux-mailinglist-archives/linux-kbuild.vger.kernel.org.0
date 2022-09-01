@@ -2,84 +2,85 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CDD1A5A9202
-	for <lists+linux-kbuild@lfdr.de>; Thu,  1 Sep 2022 10:21:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B7F45A9576
+	for <lists+linux-kbuild@lfdr.de>; Thu,  1 Sep 2022 13:11:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234205AbiIAIV4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 1 Sep 2022 04:21:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36070 "EHLO
+        id S233262AbiIALLU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 1 Sep 2022 07:11:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234236AbiIAIVn (ORCPT
+        with ESMTP id S232629AbiIALLQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 1 Sep 2022 04:21:43 -0400
-Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B1309E8B5;
-        Thu,  1 Sep 2022 01:21:40 -0700 (PDT)
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 2818LPGK013562;
-        Thu, 1 Sep 2022 17:21:26 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 2818LPGK013562
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1662020486;
-        bh=pNu2mRekQdnmjRBKbAVVw81nkqpftwyn7RqAHAETuOg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=RSpN2UH7Zsbo9e7veyXT6kJwwNCl2wLMqttWfei6bNRPgmNcIfArZXK7dk4bCNbLz
-         +nKR/hWtMZU5+VoWsNosvYifg/AxHutqQXypTHkZf1b7S0B7dVp1WveVVruO7Kw8mS
-         SvqAQaxBFU2SrXbpOApyfhlOTve1tXyBrCc6BQ7e0IqghxWff2ZIjs5PqVpuiPKISv
-         hiA+Ft6pdo/lrsSOK8dRrPxy/mEEUOsYvWSOce39WWB62VFj9Q/5sdrdrCV77kV1Lq
-         Hr7ekZBiB8FT1h4tsFkTZ37mvvA5F2ceQWj6DxGr//ji7sPGgHGdS5wsRME5CLkZt6
-         dfF1TOTJ4EF4g==
-X-Nifty-SrcIP: [209.85.160.52]
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-11f34610d4aso19066482fac.9;
-        Thu, 01 Sep 2022 01:21:25 -0700 (PDT)
-X-Gm-Message-State: ACgBeo2hUSkJlv4ayKdAwoAXuiHB7NlHzCIp1+DW0JNeomhyZSGWatFx
-        +1KBJx/GJsYwJAVwCi8h94Mpm6DFyG84qvdbKjg=
-X-Google-Smtp-Source: AA6agR6wHVcvBE38npDjxrhrkbQsogGCuTbd+PGzpdXi8/QMAPLEyKyXahO+1XD/k1+ekV0tQ5Y7XPXxj/R1+fXeCmY=
-X-Received: by 2002:a05:6808:1189:b0:33a:34b3:6788 with SMTP id
- j9-20020a056808118900b0033a34b36788mr2805155oil.194.1662020484891; Thu, 01
- Sep 2022 01:21:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAK7LNATbAVE8QY_QZQkiaNy9UZb2tH30eP50n0TNpgsHVrTKJQ@mail.gmail.com>
- <YxBZ5wcGUSQ/VeHD@rli9-MOBL1.ccr.corp.intel.com>
-In-Reply-To: <YxBZ5wcGUSQ/VeHD@rli9-MOBL1.ccr.corp.intel.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 1 Sep 2022 17:20:48 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQYiRr2-m73bBK-Ly8Tg35SK+nJw5bxULhuFh1vG=nN8g@mail.gmail.com>
-Message-ID: <CAK7LNAQYiRr2-m73bBK-Ly8Tg35SK+nJw5bxULhuFh1vG=nN8g@mail.gmail.com>
-Subject: Re: [LKP] Fix make.cross for 0day bot
-To:     Philip Li <philip.li@intel.com>
-Cc:     lkp@lists.01.org, 0day robot <lkp@intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Thu, 1 Sep 2022 07:11:16 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0E37511AFA2;
+        Thu,  1 Sep 2022 04:11:14 -0700 (PDT)
+Received: from bogon.localdomain (unknown [113.200.148.30])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8Cx72tEkxBj+LgOAA--.61423S2;
+        Thu, 01 Sep 2022 19:11:02 +0800 (CST)
+From:   Youling Tang <tangyouling@loongson.cn>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Huacai Chen <chenhuacai@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        loongarch@lists.linux.dev,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Xuerui Wang <kernel@xen0n.name>, Xi Ruoyao <xry111@xry111.site>
+Subject: [PATCH] mksysmap: Fix the mismatch of 'L0' symbols in System.map
+Date:   Thu,  1 Sep 2022 19:10:59 +0800
+Message-Id: <1662030659-21558-1-git-send-email-tangyouling@loongson.cn>
+X-Mailer: git-send-email 2.1.0
+X-CM-TRANSID: AQAAf8Cx72tEkxBj+LgOAA--.61423S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrZF4fZw13KFW8Ar1rJF13Arb_yoWDJFbE9a
+        1IqFn5GrW8Zrn0yr18Zr4YvFykWayayayrAryxJr1Sqw1DGrWfGFyDKasYqFnxAF109r47
+        J39rZrnYkrn29jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbFxYjsxI4VWDJwAYFVCjjxCrM7AC8VAFwI0_Gr0_Xr1l1xkIjI8I
+        6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+        8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0
+        cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4
+        A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
+        w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4UMc
+        vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCFx2Iq
+        xVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r
+        106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AK
+        xVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7
+        xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_
+        Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jO-B_UUUUU=
+X-CM-SenderInfo: 5wdqw5prxox03j6o00pqjv00gofq/
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Sep 1, 2022 at 4:06 PM Philip Li <philip.li@intel.com> wrote:
->
-> On Thu, Sep 01, 2022 at 03:55:52PM +0900, Masahiro Yamada wrote:
-> > Hello,  maintainers of Intel 0day bot,
-> >
-> > make.cross is supposed to use the latest GCC by default
-> > (according to the comment "use highest available version")
-> > but actually chooses GCC 9.3.0 rather than gcc-12.1.0.
->
-> thanks a lot for pointing out the issue and fixing it. Do you mind to send
-> a PR to https://github.com/intel/lkp-tests, or you suggest we composing
-> a patch based on your fix below?
->
+When System.map was generated, the kernel used mksysmap to filter the
+kernel symbols, we need to filter "L0" symbols in LoongArch architecture.
 
+$ cat System.map | grep L0
+9000000000221540 t L0
 
-Sure, I will make a PR.
-Thanks.
+The L0 symbol exists in System.map, but not in .tmp_System.map. When
+"cmp -s System.map .tmp_System.map" will show "Inconsistent kallsyms
+data" error message in link-vmlinux.sh script.
 
+Signed-off-by: Youling Tang <tangyouling@loongson.cn>
+---
+ scripts/mksysmap | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/scripts/mksysmap b/scripts/mksysmap
+index 9aa23d15862a..ad8bbc52267d 100755
+--- a/scripts/mksysmap
++++ b/scripts/mksysmap
+@@ -41,4 +41,4 @@
+ # so we just ignore them to let readprofile continue to work.
+ # (At least sparc64 has __crc_ in the middle).
+ 
+-$NM -n $1 | grep -v '\( [aNUw] \)\|\(__crc_\)\|\( \$[adt]\)\|\( \.L\)' > $2
++$NM -n $1 | grep -v '\( [aNUw] \)\|\(__crc_\)\|\( \$[adt]\)\|\( \.L\)\|\( L0\)' > $2
 -- 
-Best Regards
-Masahiro Yamada
+2.36.1
+
