@@ -2,60 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62E805AAA9E
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Sep 2022 10:51:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DCF35AAB3B
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Sep 2022 11:19:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236071AbiIBIv2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 2 Sep 2022 04:51:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45622 "EHLO
+        id S235177AbiIBJT1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 2 Sep 2022 05:19:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236107AbiIBIvN (ORCPT
+        with ESMTP id S235457AbiIBJTL (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 2 Sep 2022 04:51:13 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14D857B1D6;
-        Fri,  2 Sep 2022 01:50:33 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id nc14so2486295ejc.4;
-        Fri, 02 Sep 2022 01:50:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date;
-        bh=1i7j/swt16X4UVbcDcaXz040PkNBu1+BieE4zMZT53M=;
-        b=R7m0JXjIGgvtEMkwEzdKz/sEvLuNbFj0OElMpeGlnRSJe0a0zDy/n8DwmFtuJeOqPE
-         n51SJqi9JZ11It7JZBV3m0HZjRWAPkZc9Bp7IBPC8Iwct65MAk8Mch9CZKLsnd5bNIGT
-         SHtpV/k2fC5kZ5KVOVbQydAbm9R3EhE/9/tO1oMumWtHbQ3qo0HOfpHGHQrgtf6GWTgL
-         /gtPKGfgCfgbfUx6XaIc8C7YeQhlL+uYHZ0nbudsyt4kPNF9ysvmcCE8ESSfh1VsiHIj
-         YpqDYur4SqoLXO/p/5iUXB1CJxe/FaYRWLWa/SALL4WKyAW0NCKFnCrA99jZQUb1QPdg
-         f7VA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=1i7j/swt16X4UVbcDcaXz040PkNBu1+BieE4zMZT53M=;
-        b=I7WV7GVJS+FT7B7SKszEc/G2gcAwlxe2cVygUe1JforMGmzAVzjE314ERRK9xuOQUy
-         gxRq6K3cue+j1skvA9jFcKdk20FIIkhclnhlqguTC8X2UxW1Gg1eF2rZMJ+6LXLMZX25
-         Gez0b68VPVoDg5Lpom4qQ2aWxF7t+ODkCeKjSyNYkrDROgyo8jsrKEB3MBmhwbcngoe+
-         HXHY2INTddfpk2jJFJzfuro7KRKCPBFGqcbMrZd0f66N1lQ5VtJaOti+NnTBHCvoFCAY
-         6Swnarhuyt70pPgQ062RJUJgO8gUpL+vN8KfA2LWYkx/2KWtMTrpnUoXGJ5+j1xx63VE
-         YjAQ==
-X-Gm-Message-State: ACgBeo2L+v/egHf1pvcU9fi3CstAmioZjUtkpL8kkrDorBiyAVNTsxEK
-        CNR2DTfggOojUz12rWGIbVY=
-X-Google-Smtp-Source: AA6agR6MLwDBwdlGP1Bjq9Oj0xDdHx8qYK872NibXhNrSObgImW/WO16U9G8PdeOG2u66dkUJYt3hQ==
-X-Received: by 2002:a17:907:a049:b0:73d:c6c9:5263 with SMTP id gz9-20020a170907a04900b0073dc6c95263mr26015814ejc.563.1662108631627;
-        Fri, 02 Sep 2022 01:50:31 -0700 (PDT)
-Received: from gmail.com (1F2EF751.nat.pool.telekom.hu. [31.46.247.81])
-        by smtp.gmail.com with ESMTPSA id cb26-20020a0564020b7a00b0043d1a9f6e4asm1016225edb.9.2022.09.02.01.50.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Sep 2022 01:50:30 -0700 (PDT)
-Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
-Date:   Fri, 2 Sep 2022 10:50:28 +0200
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Nathan Chancellor <nathan@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Fri, 2 Sep 2022 05:19:11 -0400
+Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 732C9C9921;
+        Fri,  2 Sep 2022 02:19:07 -0700 (PDT)
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 2829IljR015545;
+        Fri, 2 Sep 2022 18:18:47 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 2829IljR015545
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1662110327;
+        bh=2NU7ltVrdW8WvUhptKYwPRrhqjFrbzpv9sQRVWxQ4iQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=197CkrWH499oMFvUYG74D7yrIrAzL5slRCWZUUncTi3iQL/nNk+tlrifiL79TEf/W
+         nw2Ne/Ux2wssrBpGQuyfwTrf+LqDn3qnk26f+B2+27lJ4KlGdRNuVXaPBnRFjbBn0t
+         HfctgsmA7nbzQ1/MutlN46MtFVFz+9yVnUKfiPaqimPblTcke/141aOoWmsiofnT2e
+         quG7hKJBWgWxiCjZnDnnmT8/SjUrvAUPthqiWtWR7Zay+1FD4yRI1c+uWhWgG1F9zl
+         uDboETlZiaXAY43atrH4lt7tBQpdx+99u91N6KWpHeG7Ctr3Bb4w0gvVbQhKHrTbAf
+         DpFDcPkDsblKw==
+X-Nifty-SrcIP: [209.85.210.42]
+Received: by mail-ot1-f42.google.com with SMTP id m21-20020a9d6ad5000000b00638df677850so1038930otq.5;
+        Fri, 02 Sep 2022 02:18:47 -0700 (PDT)
+X-Gm-Message-State: ACgBeo3f+Gj677HtApUIBfcErx612UYA78FIrURe2Hlt2ee8DBL9m05Q
+        and3mQm+UaY0s2qagsnGmp0l2ruzmrePeGNIV3w=
+X-Google-Smtp-Source: AA6agR5Jk+EwlwFw19cN+nxmckn79O0R9R8/XDCTaCoK3DCv+k2L1LHlFboI9zmnQD83Lk8T2rvmuPtSDnQx5kmRNNc=
+X-Received: by 2002:a9d:4806:0:b0:637:cdca:f8d3 with SMTP id
+ c6-20020a9d4806000000b00637cdcaf8d3mr14445392otf.225.1662110326367; Fri, 02
+ Sep 2022 02:18:46 -0700 (PDT)
+MIME-Version: 1.0
+References: <YjhdcJB4FaLfsoyO@gmail.com> <CAHk-=wjS6ptr5=JqmmyEb_qTjDz_68+S=h1o1bL1fEyArVOymA@mail.gmail.com>
+ <YjpLiKRUIB4TGJm0@zn.tnic> <CAHk-=wifoM9VOp-55OZCRcO9MnqQ109UTuCiXeZ-eyX_JcNVGg@mail.gmail.com>
+ <YjsCpoRK7W4l6tSh@zn.tnic> <CAHk-=wi9pLxm+dXoCaiGO+f0EbhyfAR_L510vD0c2=hj6rbMXg@mail.gmail.com>
+ <YjwsUT/6PkRPjnHE@gmail.com> <YjySjys3QZAWFlfo@dev-arch.thelio-3990X>
+ <YkC08gKqJOUM7CA8@gmail.com> <YkHXQTKImf7Wr+Sk@dev-arch.thelio-3990X> <YxHD1MkulyL3yB9y@gmail.com>
+In-Reply-To: <YxHD1MkulyL3yB9y@gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 2 Sep 2022 18:18:10 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASyp8SzO3G+th5RgmRNBM_ryKuy0XzaMrdUdo8Sd6RR0A@mail.gmail.com>
+Message-ID: <CAK7LNASyp8SzO3G+th5RgmRNBM_ryKuy0XzaMrdUdo8Sd6RR0A@mail.gmail.com>
+Subject: Re: [PATCH] x86/config: Make the x86 defconfigs a bit more usable
+To:     Ingo Molnar <mingo@kernel.org>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Borislav Petkov <bp@alien8.de>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
@@ -65,105 +63,121 @@ Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Andrew Morton <akpm@linux-foundation.org>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: Re: [PATCH] x86/config: Make the x86 defconfigs a bit more usable
-Message-ID: <YxHD1MkulyL3yB9y@gmail.com>
-References: <YjhdcJB4FaLfsoyO@gmail.com>
- <CAHk-=wjS6ptr5=JqmmyEb_qTjDz_68+S=h1o1bL1fEyArVOymA@mail.gmail.com>
- <YjpLiKRUIB4TGJm0@zn.tnic>
- <CAHk-=wifoM9VOp-55OZCRcO9MnqQ109UTuCiXeZ-eyX_JcNVGg@mail.gmail.com>
- <YjsCpoRK7W4l6tSh@zn.tnic>
- <CAHk-=wi9pLxm+dXoCaiGO+f0EbhyfAR_L510vD0c2=hj6rbMXg@mail.gmail.com>
- <YjwsUT/6PkRPjnHE@gmail.com>
- <YjySjys3QZAWFlfo@dev-arch.thelio-3990X>
- <YkC08gKqJOUM7CA8@gmail.com>
- <YkHXQTKImf7Wr+Sk@dev-arch.thelio-3990X>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YkHXQTKImf7Wr+Sk@dev-arch.thelio-3990X>
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Fri, Sep 2, 2022 at 5:50 PM Ingo Molnar <mingo@kernel.org> wrote:
+>
+>
+> * Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> > On Sun, Mar 27, 2022 at 09:03:14PM +0200, Ingo Molnar wrote:
+> > > Yeah, good catch! ...
+> > >
+> > > I use defconfigs by explicitly adding in the architecture:
+> > >
+> > >   kepler:~/tip> make ARCH=i386 defconfig
+> > >
+> > >   kepler:~/tip> kconfig-arch
+> > >   i386
+> > >
+> > > ... so never I noticed this bug.
+> >
+> > Ah, good point!
+> >
+> > > I fixed this in the latest version (attached).
+> > >
+> > > Arguably 'make ARCH=i386 savedefconfig' should preserve this, so that
+> > > refreshing defconfigs on bi-arch architectures is idempotent, but that's no
+> > > excuse to regress the existing defconfig behavior.
+> >
+> > Hmmm, I thought that it would, but I think the behavior of savedefconfig
+> > is actually correct with regards to how it handles CONFIG_64BIT in the
+> > presence of an explicit ARCH value, based on how CONFIG_64BIT is
+> > defined:
+> >
+> > config 64BIT
+> >       bool "64-bit kernel" if "$(ARCH)" = "x86"
+> >       default "$(ARCH)" != "i386"
+> >       help
+> >         Say yes to build a 64-bit kernel - formerly known as x86_64
+> >         Say no to build a 32-bit kernel - formerly known as i386
+> >
+> > As the default is no when ARCH == i386 and there is no prompt in that
+> > situation, "# CONFIG_64BIT is not set" gets dropped, as that is the
+> > default. Using savedefconfig without the ARCH variable would do the
+> > right thing.
+> >
+> > I tried playing around with these Kconfig symbols to see if I could get
+> > something that would work for savedefconfig with or without ARCH, but I
+> > could not really come up with anything. I did not try super hard though,
+> > it might still be possible.
+>
+> Unfortunately, even without the ARCH=i386 'make savedefconfig' doesn't seem
+> to be doing the right thing & is dropping the '# CONFIG_64BIT is not set'
+> line:
 
-* Nathan Chancellor <nathan@kernel.org> wrote:
 
-> On Sun, Mar 27, 2022 at 09:03:14PM +0200, Ingo Molnar wrote:
-> > Yeah, good catch! ...
-> > 
-> > I use defconfigs by explicitly adding in the architecture:
-> > 
-> >   kepler:~/tip> make ARCH=i386 defconfig
-> > 
-> >   kepler:~/tip> kconfig-arch
-> >   i386
-> > 
-> > ... so never I noticed this bug.
-> 
-> Ah, good point!
-> 
-> > I fixed this in the latest version (attached).
-> > 
-> > Arguably 'make ARCH=i386 savedefconfig' should preserve this, so that 
-> > refreshing defconfigs on bi-arch architectures is idempotent, but that's no 
-> > excuse to regress the existing defconfig behavior.
-> 
-> Hmmm, I thought that it would, but I think the behavior of savedefconfig
-> is actually correct with regards to how it handles CONFIG_64BIT in the
-> presence of an explicit ARCH value, based on how CONFIG_64BIT is
-> defined:
-> 
-> config 64BIT
-> 	bool "64-bit kernel" if "$(ARCH)" = "x86"
-> 	default "$(ARCH)" != "i386"
-> 	help
-> 	  Say yes to build a 64-bit kernel - formerly known as x86_64
-> 	  Say no to build a 32-bit kernel - formerly known as i386
-> 
-> As the default is no when ARCH == i386 and there is no prompt in that
-> situation, "# CONFIG_64BIT is not set" gets dropped, as that is the
-> default. Using savedefconfig without the ARCH variable would do the
-> right thing.
-> 
-> I tried playing around with these Kconfig symbols to see if I could get
-> something that would work for savedefconfig with or without ARCH, but I
-> could not really come up with anything. I did not try super hard though,
-> it might still be possible.
+Oh, really?
 
-Unfortunately, even without the ARCH=i386 'make savedefconfig' doesn't seem 
-to be doing the right thing & is dropping the '# CONFIG_64BIT is not set' 
-line:
+Without ARCH=i386, it works correctly for me.
 
- kepler:~/tip> make ARCH=i386 defconfig
- *** Default configuration is based on 'i386_defconfig'
- #
- # configuration written to .config
- #
- kepler:~/tip> make savedefconfig
- kepler:~/tip> diff -up arch/x86/configs/i386_defconfig defconfig
- --- arch/x86/configs/i386_defconfig	2022-09-02 10:45:43.117430882 +0200
- +++ defconfig	2022-09-02 10:46:56.663864901 +0200
- @@ -282,4 +282,3 @@ CONFIG_PROVIDE_OHCI1394_DMA_INIT=y
-  CONFIG_EARLY_PRINTK_DBGP=y
-  CONFIG_DEBUG_BOOT_PARAMS=y
-  CONFIG_UNWINDER_FRAME_POINTER=y
- -# CONFIG_64BIT is not set
- kepler:~/tip> 
 
-This is annoying in that every time I modify the i386 defconfig and use 
-'make savedefconfig', I have to manually revert that change ...
 
-This reduces the usability of 'make savedefconfig' quite a bit.
+masahiro@zoe:~/ref/linux$ make i386_defconfig savedefconfig
+#
+# No change to .config
+#
+masahiro@zoe:~/ref/linux$ grep CONFIG_64BIT defconfig
+# CONFIG_64BIT is not set
 
-Maybe Masahiro-san can tell me how I'm doing this wrong?
 
-Thanks,
 
-	Ingo
+
+I guess you gave ARCH=i386 somewhere.
+
+
+
+
+
+
+
+>  kepler:~/tip> make ARCH=i386 defconfig
+>  *** Default configuration is based on 'i386_defconfig'
+>  #
+>  # configuration written to .config
+>  #
+>  kepler:~/tip> make savedefconfig
+>  kepler:~/tip> diff -up arch/x86/configs/i386_defconfig defconfig
+>  --- arch/x86/configs/i386_defconfig    2022-09-02 10:45:43.117430882 +0200
+>  +++ defconfig  2022-09-02 10:46:56.663864901 +0200
+>  @@ -282,4 +282,3 @@ CONFIG_PROVIDE_OHCI1394_DMA_INIT=y
+>   CONFIG_EARLY_PRINTK_DBGP=y
+>   CONFIG_DEBUG_BOOT_PARAMS=y
+>   CONFIG_UNWINDER_FRAME_POINTER=y
+>  -# CONFIG_64BIT is not set
+>  kepler:~/tip>
+>
+> This is annoying in that every time I modify the i386 defconfig and use
+> 'make savedefconfig', I have to manually revert that change ...
+>
+> This reduces the usability of 'make savedefconfig' quite a bit.
+>
+> Maybe Masahiro-san can tell me how I'm doing this wrong?
+>
+> Thanks,
+>
+>         Ingo
+
+
+
+--
+Best Regards
+Masahiro Yamada
