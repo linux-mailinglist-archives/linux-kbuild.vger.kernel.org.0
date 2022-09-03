@@ -2,168 +2,131 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42CC25ABBFD
-	for <lists+linux-kbuild@lfdr.de>; Sat,  3 Sep 2022 03:12:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 717485ABC5A
+	for <lists+linux-kbuild@lfdr.de>; Sat,  3 Sep 2022 04:37:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229742AbiICBMH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 2 Sep 2022 21:12:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52788 "EHLO
+        id S229995AbiICCho (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 2 Sep 2022 22:37:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbiICBMG (ORCPT
+        with ESMTP id S229538AbiICChn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 2 Sep 2022 21:12:06 -0400
-Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 142D5CE32B;
-        Fri,  2 Sep 2022 18:12:04 -0700 (PDT)
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 2831BfNL007480;
-        Sat, 3 Sep 2022 10:11:41 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 2831BfNL007480
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1662167502;
-        bh=d1zZMjIp/AEHUFQaxKnZBp8fdpmaAc/pofnE8yjoj0Q=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=RvpB/SQMo96ICeGqOoYzZR985R9GyCMDlN+mwMjn5EwdfWIYOitLm0k32VB+6DwDi
-         zjcbewmZ76ZIcAbaxfHRsZU75b4hxDgHXYupFt5IEoMzAOg8T6ArhQ+LIuYsPkBgrH
-         Ts335P0Eu+WGad8AiBOaeBAKBCVasValNRknV6nUW5by0AInrjF9QdY8kIp+oZ4rKW
-         1HkUyONcQaAxT+mYSnqYF0vv19P4OjTt6W263grjTQyDCOr9HGeq/GkOLFh79ylLjr
-         3hadkAfYdl0Wukv70mKNGLaHfn2mIJWvq2+jDvIdaxq6n29FEdKX9+UDR5fspzxwpt
-         nTPVY6hn2ldXg==
-X-Nifty-SrcIP: [209.85.160.50]
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-11e7e0a63e2so8917776fac.4;
-        Fri, 02 Sep 2022 18:11:41 -0700 (PDT)
-X-Gm-Message-State: ACgBeo23/9Bx9fBSgqXY+V8F2t8atsEQ3Ya176aHpL0xOIoKMQYPYwMW
-        9CNhLIyeNTvdN/DQ6yAbb7JwJPx0IrmGA7xOeVk=
-X-Google-Smtp-Source: AA6agR72d0VE/5+VJ8O5be1iaUMumL9bYP4n7YcvmqeZwMvwba4zChF2mHdngQ3NQeGza6WcSrTPTKGhHRRK+itE67o=
-X-Received: by 2002:a05:6808:1189:b0:33a:34b3:6788 with SMTP id
- j9-20020a056808118900b0033a34b36788mr3025795oil.194.1662167500600; Fri, 02
- Sep 2022 18:11:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220902130846.654526-1-masahiroy@kernel.org>
-In-Reply-To: <20220902130846.654526-1-masahiroy@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 3 Sep 2022 10:11:04 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASAJPb06oE7yAhAtAWSB5_So_1PP8L8jgnkpgEb035JoA@mail.gmail.com>
-Message-ID: <CAK7LNASAJPb06oE7yAhAtAWSB5_So_1PP8L8jgnkpgEb035JoA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: use objtool-args-y to clean up objtool arguments
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
+        Fri, 2 Sep 2022 22:37:43 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60FC4E97C6;
+        Fri,  2 Sep 2022 19:37:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662172662; x=1693708662;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=uZjszkbsmhce7t/ileXAuZqNCiVsozNNHJWKPtgsoeY=;
+  b=dCbHuhnO+nO5CbfjlxMNU3xgVKh9pgpQQNSLU7Irj/FncX6JIjWKGOpx
+   2+IwxFHkx8l0L9xw9dgenPUu3hL7B8RPk8v4YyzWjaCNU146hjeQTAb9/
+   rxcGg3h/uRQZ8j7iB4Vyo28/AzN9yQdWM2kZKa4nDm5B0A0aPs4PvjYne
+   /UDPUzKg/rA9FMQRGqkLHvsyrPLal/lai+JzyvEF5jRREp9e6jDLmmLWA
+   VDqzG8i4j0PD6ToYLX0l4ny3qrwMMiXQrCyheua+Z6BLckm2ibxpSv0xu
+   U+Gq7sWWyq6coEXNeibqfULdOjruqAoi0ObvO89Jk5evurGVxSYthy1iW
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10458"; a="360080006"
+X-IronPort-AV: E=Sophos;i="5.93,286,1654585200"; 
+   d="scan'208";a="360080006"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2022 19:37:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,286,1654585200"; 
+   d="scan'208";a="609165471"
+Received: from lkp-server02.sh.intel.com (HELO 95dfd251caa2) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 02 Sep 2022 19:37:40 -0700
+Received: from kbuild by 95dfd251caa2 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oUJ2R-0000uT-1B;
+        Sat, 03 Sep 2022 02:37:39 +0000
+Date:   Sat, 3 Sep 2022 10:36:50 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Cc:     kbuild-all@lists.01.org, Peter Zijlstra <peterz@infradead.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: use objtool-args-y to clean up objtool arguments
+Message-ID: <202209031000.bJCDq6zH-lkp@intel.com>
+References: <20220902130846.654526-1-masahiroy@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220902130846.654526-1-masahiroy@kernel.org>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Sep 2, 2022 at 10:11 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> Based on Linus' patch.
->
-> Link: https://lore.kernel.org/lkml/CAHk-=wgjTMQgiKzBZTmb=uWGDEQxDdyF1+qxBkODYciuNsmwnw@mail.gmail.com/
-> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->  scripts/Makefile.lib       | 31 ++++++++++++++++---------------
->  scripts/Makefile.vmlinux_o | 17 ++++++++---------
->  2 files changed, 24 insertions(+), 24 deletions(-)
->
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index b594705d571a..731f735240f8 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -229,25 +229,26 @@ ifdef CONFIG_OBJTOOL
->
->  objtool := $(objtree)/tools/objtool/objtool
->
-> -objtool_args =                                                         \
-> -       $(if $(CONFIG_HAVE_JUMP_LABEL_HACK), --hacks=jump_label)        \
-> -       $(if $(CONFIG_HAVE_NOINSTR_HACK), --hacks=noinstr)              \
-> -       $(if $(CONFIG_X86_KERNEL_IBT), --ibt)                           \
-> -       $(if $(CONFIG_FTRACE_MCOUNT_USE_OBJTOOL), --mcount)             \
-> -       $(if $(CONFIG_UNWINDER_ORC), --orc)                             \
-> -       $(if $(CONFIG_RETPOLINE), --retpoline)                          \
-> -       $(if $(CONFIG_RETHUNK), --rethunk)                              \
-> -       $(if $(CONFIG_SLS), --sls)                                      \
-> -       $(if $(CONFIG_STACK_VALIDATION), --stackval)                    \
-> -       $(if $(CONFIG_HAVE_STATIC_CALL_INLINE), --static-call)          \
-> -       $(if $(CONFIG_HAVE_UACCESS_VALIDATION), --uaccess)              \
-> +objtool-args-$(CONFIG_HAVE_JUMP_LABEL_HACK)            += --hacks=jump_label
-> +objtool-args-$(CONFIG_HAVE_NOINSTR_HACK)               += --hacks=noinstr
-> +objtool-args-$(CONFIG_X86_KERNEL_IBT)                  += --ibt
-> +objtool-args-$(CONFIG_FTRACE_MCOUNT_USE_OBJTOOL)       += --mcount
-> +objtool-args-$(CONFIG_UNWINDER_ORC)                    += --orc
-> +objtool-args-$(CONFIG_RETPOLINE)                       += --retpoline
-> +objtool-args-$(CONFIG_RETHUNK)                         += --rethunk
-> +objtool-args-$(CONFIG_SLS)                             += --sls
-> +objtool-args-$(CONFIG_STACK_VALIDATION)                        += --stackval
-> +objtool-args-$(CONFIG_HAVE_STATIC_CALL_INLINE)         += --static-call
-> +objtool-args-$(CONFIG_HAVE_UACCESS_VALIDATION)         += --uaccess
-> +objtool-args-$(CONFIG_GCOV_KERNEL)                     += --no-unreachable
-> +
-> +objtool-args = $(objtool-args-y)                                       \
->         $(if $(delay-objtool), --link)                                  \
-> -       $(if $(part-of-module), --module)                               \
-> -       $(if $(CONFIG_GCOV_KERNEL), --no-unreachable)
-> +       $(if $(part-of-module), --module)
->
->  delay-objtool := $(or $(CONFIG_LTO_CLANG),$(CONFIG_X86_KERNEL_IBT))
->
-> -cmd_objtool = $(if $(objtool-enabled), ; $(objtool) $(objtool_args) $@)
-> +cmd_objtool = $(if $(objtool-enabled), ; $(objtool) $(objtool-args) $@)
->  cmd_gen_objtooldep = $(if $(objtool-enabled), { echo ; echo '$@: $$(wildcard $(objtool))' ; } >> $(dot-target).cmd)
->
->  endif # CONFIG_OBJTOOL
-> diff --git a/scripts/Makefile.vmlinux_o b/scripts/Makefile.vmlinux_o
-> index 81a4e0484457..df928a6717a1 100644
-> --- a/scripts/Makefile.vmlinux_o
-> +++ b/scripts/Makefile.vmlinux_o
-> @@ -35,18 +35,17 @@ endif
->
->  objtool-enabled := $(or $(delay-objtool),$(CONFIG_NOINSTR_VALIDATION))
->
-> -# Reuse objtool_args defined in scripts/Makefile.lib if LTO or IBT is enabled.
-> +# Reuse objtool-args-y defined in scripts/Makefile.lib if LTO or IBT is enabled.
-> +# (Expand objtool-args-y to a simple variable to avoid circular reference)
->  #
->  # Add some more flags as needed.
-> -# --no-unreachable and --link might be added twice, but it is fine.
-> -#
-> -# Expand objtool_args to a simple variable to avoid circular reference.
-> +# --no-unreachable might be added twice, but it is fine.
-> +
-> +objtool-args-$(delay-objtool)                  := $(objtool-args-y)
+Hi Masahiro,
 
-This line is wrong. I will change like follows:
+I love your patch! Yet something to improve:
 
-objtool-args-y    := $(if $(delay-objtool), $(objtool-args-y))
+[auto build test ERROR on masahiroy-kbuild/for-next]
+[also build test ERROR on linux/master linus/master v6.0-rc3 next-20220901]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/kbui=
+ld-use-objtool-args-y-to-clean-up-objtool-arguments/20220902-221441
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbu=
+ild.git for-next
+config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/202=
+20903/202209031000.bJCDq6zH-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
+reproduce (this is a W=3D1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/9cb92b4715f74a8869c=
+a8ec50a8dcdc4fb5b384e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Masahiro-Yamada/kbuild-use-objtool=
+-args-y-to-clean-up-objtool-arguments/20220902-221441
+        git checkout 9cb92b4715f74a8869ca8ec50a8dcdc4fb5b384e
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=3D1 O=3Dbuild_dir ARCH=3Dx86_64 SHELL=3D/bin/bash
 
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-> +objtool-args-$(CONFIG_GCOV_KERNEL)             += --no-unreachable
-> +objtool-args-$(CONFIG_NOINSTR_VALIDATION)      += --noinstr $(if $(CONFIG_CPU_UNRET_ENTRY), --unret))
->
-> -objtool_args := \
-> -       $(if $(delay-objtool),$(objtool_args)) \
-> -       $(if $(CONFIG_NOINSTR_VALIDATION), --noinstr $(if $(CONFIG_CPU_UNRET_ENTRY), --unret)) \
-> -       $(if $(CONFIG_GCOV_KERNEL), --no-unreachable) \
-> -       --link
-> +objtool-args = $(objtool-args-y) --link
->
->  # Link of vmlinux.o used for section mismatch analysis
->  # ---------------------------------------------------------------------------
-> --
-> 2.34.1
->
+All errors (new ones prefixed by >>):
 
+>> /bin/bash: -c: line 1: syntax error near unexpected token `)'
+   /bin/bash: -c: line 1: `set -e;  echo '  LD      vmlinux.o';  ld -m elf_=
+x86_64 -z noexecstack --no-warn-rwx-segments -r -o vmlinux.o  --whole-archi=
+ve arch/x86/kernel/head_64.o arch/x86/kernel/head64.o arch/x86/kernel/ebda.=
+o arch/x86/kernel/platform-quirks.o init/built-in.a usr/built-in.a arch/x86=
+/built-in.a kernel/built-in.a certs/built-in.a mm/built-in.a fs/built-in.a =
+ipc/built-in.a security/built-in.a crypto/built-in.a io_uring/built-in.a li=
+b/built-in.a arch/x86/lib/built-in.a  lib/lib.a  arch/x86/lib/lib.a drivers=
+/built-in.a sound/built-in.a net/built-in.a virt/built-in.a arch/x86/pci/bu=
+ilt-in.a arch/x86/power/built-in.a arch/x86/video/built-in.a --no-whole-arc=
+hive --start-group  --end-group  ; ./tools/objtool/objtool --hacks=3Djump_l=
+abel --hacks=3Dnoinstr --orc --static-call --uaccess --no-unreachable --no-=
+unreachable --noinstr ) --link vmlinux.o; printf '%s\n' 'cmd_vmlinux.o :=3D=
+ ld -m elf_x86_64 -z noexecstack --no-warn-rwx-segments -r -o vmlinux.o  --=
+whole-archive arch/x86/kernel/head_64.o arch/x86/kernel/head64.o arch/x86/k=
+ernel/ebda.o arch/x86/kernel/platform-quirks.o init/built-in.a usr/built-in=
+=2Ea arch/x86/built-in.a kernel/built-in.a certs/built-in.a mm/built-in.a f=
+s/built-in.a ipc/built-in.a security/built-in.a crypto/built-in.a io_uring/=
+built-in.a lib/built-in.a arch/x86/lib/built-in.a  lib/lib.a  arch/x86/lib/=
+lib.a drivers/built-in.a sound/built-in.a net/built-in.a virt/built-in.a ar=
+ch/x86/pci/built-in.a arch/x86/power/built-in.a arch/x86/video/built-in.a -=
+-no-whole-archive --start-group  --end-group  ; ./tools/objtool/objtool --h=
+acks=3Djump_label --hacks=3Dnoinstr --orc --static-call --uaccess --no-unre=
+achable --no-unreachable --noinstr ) --link vmlinux.o' > ./.vmlinux.o.cmd'
 
--- 
-Best Regards
-Masahiro Yamada
+--=20
+0-DAY CI Kernel Test Service
+https://01.org/lkp
