@@ -2,219 +2,156 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B9845ACE89
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Sep 2022 11:13:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8B7B5ACF50
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Sep 2022 11:56:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237179AbiIEJK0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 5 Sep 2022 05:10:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47356 "EHLO
+        id S236209AbiIEJy3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 5 Sep 2022 05:54:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237161AbiIEJKX (ORCPT
+        with ESMTP id S235804AbiIEJy2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 5 Sep 2022 05:10:23 -0400
-Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CF8B2529E;
-        Mon,  5 Sep 2022 02:10:20 -0700 (PDT)
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 2859A5GC022169;
-        Mon, 5 Sep 2022 18:10:06 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 2859A5GC022169
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1662369006;
-        bh=4BbPbSzeFLnJFI+hMdkPwj9aQwOKx7JySs0IWqZPQ0E=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=K/mdEeMRVWUJ43uBAY659SEzldpJrYqmzDMddLj0aB0c56GoecW80PmlDDWYOBpfL
-         9bHh6vsGCFA/d53NC+q3BwVLoFvzDrUKtMgyA3z5iGlNJBpLEaIcyQ0Of/foUdMafK
-         zUOic0nRiESCOt98VhDySaaAXwmn4LntcT8541AJv/6pNJrCT6OZinJjDcgbCVlaNR
-         okCu1UQFRXhzxW4aTnxWqabtQZrmYjiMBpjnShwT8s7LKypx4NZE24sUBg2m2v+Ip7
-         IDLxZ4oZmMkjpIUx3qQ9CZsDLW2VJES/duDlV3G+bE/05uV9/obzK5bLWM5Uuq4Mxx
-         A1L8Hj+SAmV0w==
-X-Nifty-SrcIP: [209.85.161.52]
-Received: by mail-oo1-f52.google.com with SMTP id n11-20020a4aa7cb000000b0044b3583d373so1400849oom.2;
-        Mon, 05 Sep 2022 02:10:06 -0700 (PDT)
-X-Gm-Message-State: ACgBeo115IqWZ9mykR52DDHBrO/JPysEI0nBwxkvP5uKVTKQNwQRiLIx
-        mvrJpqamLlada7KVhSKKuOZ2J1mdtyNFf/WG/xA=
-X-Google-Smtp-Source: AA6agR762y627dWmUGyX6sAQX7gCT5K0+/66Ge89+EYNKHtueHA4CGyB7PqUnbc1v/EXYM/a2gYwd3gnsxX4Rw7avhg=
-X-Received: by 2002:a4a:9789:0:b0:451:437b:cc58 with SMTP id
- w9-20020a4a9789000000b00451437bcc58mr6570173ooi.96.1662369004999; Mon, 05 Sep
- 2022 02:10:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220831184408.2778264-1-ndesaulniers@google.com>
- <20220831184408.2778264-3-ndesaulniers@google.com> <Yw+8QgtSbB2/3Eiq@dev-arch.thelio-3990X>
-In-Reply-To: <Yw+8QgtSbB2/3Eiq@dev-arch.thelio-3990X>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 5 Sep 2022 18:09:28 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASQJ-B2kRGXea-dQt+1BgEsp_aLEPS_uJb1R6FSOj1Khg@mail.gmail.com>
-Message-ID: <CAK7LNASQJ-B2kRGXea-dQt+1BgEsp_aLEPS_uJb1R6FSOj1Khg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] Makefile.compiler: Use KBUILD_AFLAGS for as-option
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Tom Rix <trix@redhat.com>,
+        Mon, 5 Sep 2022 05:54:28 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63230C63;
+        Mon,  5 Sep 2022 02:54:24 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id z14-20020a7bc7ce000000b003a5db0388a8so6609466wmk.1;
+        Mon, 05 Sep 2022 02:54:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date;
+        bh=MV2yVYWQa/VSrYQcP1/auWjWA4tf381Y8eSWdMP1o3M=;
+        b=jBbb6UUEguRWkGOUZqXUuTWj2WO/U32hJ8rNaaOxApdB1f3aXJR5LpwwV5ETk5b/V+
+         8Wa1D8yzFQGXULu2RuBgDuQAHW1AT4uD32q12Q5Ye9zX0qY79nTsNpFWvdXpd98W2gtf
+         gJbCS5d4LWxsebUO1XT1AuQHVcmS0ix1Wwx3HpAvy0j1/vCq4rOh8fpMI8WmT+3yEX4z
+         q9O+PuxZ9SQQYRYgTFyr2Hw78yBMA4usVjRDeSE5TMHFHKRCeJ7kfgjOFdtECKa6w5D8
+         sBxx3eq+CQOw4o/e3aj13169xrg7JLBlRBt0rWupTSkEX8FecM6/2flLwj9oqVn2Awi2
+         xtNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=MV2yVYWQa/VSrYQcP1/auWjWA4tf381Y8eSWdMP1o3M=;
+        b=E0f/H5hjHhCA2SjXvEfyw93ELtXo4idFCKkIdpV8RZO0yTdWStJLJiTI1pBLXtQ1/O
+         QeMW1TsphAJn75ebjwNkl6bVBaLjo2cfWJlz1+MG+8+gs7hWXSKHvYcNjrBiI9WR1BnN
+         dno7S/GzPaztHbnd8XCnn/csKbDwoP/W1Cj2bN9k1fAPQDpT5OkAq54e3QOdklodsGlF
+         dhCArjLwL77SPLYSzwJj0X69uj5RRUIU67syP65KUX3i+F6/auZ+3vbjoSCmDnv901Xb
+         vcs/eaE4L9YaK0iHCAjDJYqndJzu+1AsZWPXlo5NoHdZTOk3TvqPQt79SPnME2Rpp51E
+         Woeg==
+X-Gm-Message-State: ACgBeo1W6wt8CBHKz7XYVCIj8U4W+LNPZZAn5rIMBzh5CJs74X5qNRFC
+        lzCPlVqYTaPhC4A6eyoWpSmn6o9o3aY=
+X-Google-Smtp-Source: AA6agR4wi642iZWrZbWE75w3/OrRgTl0FFOnaKGWR//tV+j5u8opEPTAytoYZJ7fG+rvFwHZczEO2g==
+X-Received: by 2002:a05:600c:6025:b0:3a6:ff6:de7e with SMTP id az37-20020a05600c602500b003a60ff6de7emr10025027wmb.173.1662371662913;
+        Mon, 05 Sep 2022 02:54:22 -0700 (PDT)
+Received: from gmail.com (1F2EF41B.nat.pool.telekom.hu. [31.46.244.27])
+        by smtp.gmail.com with ESMTPSA id m9-20020a05600c4f4900b003a84375d0d1sm18183891wmq.44.2022.09.05.02.54.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Sep 2022 02:54:22 -0700 (PDT)
+Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
+Date:   Mon, 5 Sep 2022 11:54:20 +0200
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Borislav Petkov <bp@alien8.de>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <llvm@lists.linux.dev>,
-        X86 ML <x86@kernel.org>,
-        Dmitrii Bundin <dmitrii.bundin.a@gmail.com>,
-        Fangrui Song <maskray@google.com>,
-        Alexey Alexandrov <aalexand@google.com>,
-        Bill Wendling <morbo@google.com>,
-        Greg Thelen <gthelen@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Waiman Long <longman@redhat.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: Re: [PATCH] x86/config: Make the x86 defconfigs a bit more usable
+Message-ID: <YxXHTMl/7PhVRSA9@gmail.com>
+References: <YjsCpoRK7W4l6tSh@zn.tnic>
+ <CAHk-=wi9pLxm+dXoCaiGO+f0EbhyfAR_L510vD0c2=hj6rbMXg@mail.gmail.com>
+ <YjwsUT/6PkRPjnHE@gmail.com>
+ <YjySjys3QZAWFlfo@dev-arch.thelio-3990X>
+ <YkC08gKqJOUM7CA8@gmail.com>
+ <YkHXQTKImf7Wr+Sk@dev-arch.thelio-3990X>
+ <YxHD1MkulyL3yB9y@gmail.com>
+ <CAK7LNASyp8SzO3G+th5RgmRNBM_ryKuy0XzaMrdUdo8Sd6RR0A@mail.gmail.com>
+ <YxR0UlS0Jpz9uqb7@gmail.com>
+ <CAK7LNATnGO3LHZ7VvJRziDqz50gRq7MUJPOJLMfcv=pCiA=-mg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNATnGO3LHZ7VvJRziDqz50gRq7MUJPOJLMfcv=pCiA=-mg@mail.gmail.com>
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Sep 1, 2022 at 4:53 AM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> On Wed, Aug 31, 2022 at 11:44:05AM -0700, Nick Desaulniers wrote:
-> > as-instr uses KBUILD_AFLAGS, but as-option uses KBUILD_CFLAGS.  This can
-> > cause as-option to fail unexpectedly because clang will emit
-> > -Werror,-Wunused-command-line-argument for various -m and -f flags for
-> > assembler sources.
->
-> Now that I am looking closer at it, where does that '-Werror' come from?
 
+* Masahiro Yamada <masahiroy@kernel.org> wrote:
 
-
-
-The related commit is
-c3f0d0bc5b01ad90c45276952802455750444b4f
-
-The previous discussion with Arnd is
-https://lore.kernel.org/linux-kbuild/20170314213724.3836900-1-arnd@arndb.de/
-
-
-
-
-
-> For cc-option, we add it to elevate clang's warnings about unused '-f',
-> '-m', and '-W' flags to errors so that we do not add those flags.
-> However, I do not see '-Werror' in as-option. I am going to assume it
-> came from CONFIG_WERROR, as I believe Android has that turned on by
-> default.
-
-
-CONFIG_WERROR is added to CFLAGS.
-But, I guess it is more correct to do likewise for others.
-(https://patchwork.kernel.org/project/linux-kbuild/patch/20220905083619.672091-1-masahiroy@kernel.org/)
-
-
-
-> I think that is the real problem: without '-Werror', the only
-> error that should come from as-option is when an option isn't supported
-> by the assembler, as clang will still warn but those will not be fatal
-> but with '-Werror', those warnings turn fatal, causing all subsequent
-> as-option calls to fail.
-
-
-
-Presumably, it is correct to add -Werror to as-option as well.
-We have no reason to add it to cc-option, but not to as-option.
-
-
-
-
-I also believe '-x assembler' should be changed to
-'-x assembler-with-cpp'.
-
-
-As I mentioned somewhere before, our assembly code (*.S) is always
-preprocessed. There is no *.s file in the kernel source tree.
-
-
-So, '-x assembler-with-cpp' matches the real situation.
-
-
-One interesting thing is, clang does not warn
-[-Wunused-command-line-argument] for *.S files.
-
-
-
-
-$ clang -fomit-frame-pointer -c -x assembler /dev/null -o /dev/null
-clang: warning: argument unused during compilation:
-'-fomit-frame-pointer' [-Wunused-command-line-argument]
-
-$ clang -fomit-frame-pointer -c -x assembler-with-cpp /dev/null -o /dev/null
-
-
-
-The root cause is we are using '-x assembler', which
-never happens in the kernel tree.
-
-
-
-
-To sum up, the code I think correct is:
-
-
-as-option = $(call try-run,\
-   $(CC) -Werror $(KBUILD_AFLAGS) $(1) -c -x assembler-with-cpp
-/dev/null -o "$$TMP",$(1),$(2))
-
-
-
-
-
-
-> Do not get me wrong, I still believe this is the correct fix but I think
-> it would be good to describe exactly under which conditions this is a
-> real issue in case we ever have to revisit this.
->
-> > Callers of as-option (and as-instr) likely want to be adding flags to
-> > KBUILD_AFLAGS/aflags-y, not KBUILD_CFLAGS/cflags-y.
+> On Sun, Sep 4, 2022 at 6:48 PM Ingo Molnar <mingo@kernel.org> wrote:
 > >
-> > Link: https://github.com/ClangBuiltLinux/linux/issues/1699
-> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
->
-> Regardless of changes to the commit message:
->
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
->
-> > ---
-> > Changes v1 -> v2:
-> > * Split off changes to arch/x86/boot/compressed/Makefile into parent
-> >   patch, as per Masahiro.
 > >
-> >  scripts/Makefile.compiler | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > * Masahiro Yamada <masahiroy@kernel.org> wrote:
 > >
-> > diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
-> > index 94d0d40cddb3..d1739f0d3ce3 100644
-> > --- a/scripts/Makefile.compiler
-> > +++ b/scripts/Makefile.compiler
-> > @@ -29,13 +29,13 @@ try-run = $(shell set -e;         \
-> >       fi)
+> > > > Unfortunately, even without the ARCH=i386 'make savedefconfig' doesn't
+> > > > seem to be doing the right thing & is dropping the '# CONFIG_64BIT is
+> > > > not set' line:
+> > >
+> > >
+> > > Oh, really?
+> > >
+> > > Without ARCH=i386, it works correctly for me.
+> > >
+> > >
+> > >
+> > > masahiro@zoe:~/ref/linux$ make i386_defconfig savedefconfig
+> > > #
+> > > # No change to .config
+> > > #
+> > > masahiro@zoe:~/ref/linux$ grep CONFIG_64BIT defconfig
+> > > # CONFIG_64BIT is not set
 > >
-> >  # as-option
-> > -# Usage: cflags-y += $(call as-option,-Wa$(comma)-isa=foo,)
-> > +# Usage: aflags-y += $(call as-option,-Wa$(comma)-isa=foo,)
+> > Yeah, so why do these two seemingly identical commands produce two
+> > different .config's:
 > >
-> >  as-option = $(call try-run,\
-> > -     $(CC) $(KBUILD_CFLAGS) $(1) -c -x assembler /dev/null -o "$$TMP",$(1),$(2))
-> > +     $(CC) $(KBUILD_AFLAGS) $(1) -c -x assembler /dev/null -o "$$TMP",$(1),$(2))
+> >   $ make ARCH=i386 defconfig
+> >   *** Default configuration is based on 'i386_defconfig'
 > >
-> >  # as-instr
-> > -# Usage: cflags-y += $(call as-instr,instr,option1,option2)
-> > +# Usage: aflags-y += $(call as-instr,instr,option1,option2)
+> >   $ make i386_defconfig
 > >
-> >  as-instr = $(call try-run,\
-> >       printf "%b\n" "$(1)" | $(CC) $(KBUILD_AFLAGS) -c -x assembler -o "$$TMP" -,$(2),$(3))
-> > --
-> > 2.37.2.672.g94769d06f0-goog
-> >
+> > ?
+> 
+> 
+> 
+> As Nathan explained in this thread,
+> the prompt of CONFIG_64BIT is hidden
+> when ARCH=i386.
 
+Yeah, so my 'why' question was more about why we'd tolerate the UI 
+inconsistency in seemingly similar commands generating subtly different 
+.config's.
 
+In other words, what should we modify in this Kconfig block, or in other 
+parts of the kernel:
 
---
-Best Regards
+> config 64BIT
+>         bool "64-bit kernel" if "$(ARCH)" = "x86"
+>         default "$(ARCH)" != "i386"
+>         help
+>           Say yes to build a 64-bit kernel - formerly known as x86_64
+>           Say no to build a 32-bit kernel - formerly known as i386
 
+... to not have this Kconfig UI quirk/bug/inconsistency?
 
+I hope we agree that the status quo is not ideal.
 
-Masahiro Yamada
+Thanks,
+
+	Ingo
