@@ -2,84 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 93BFC5AD66C
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Sep 2022 17:29:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87F745AD6D8
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Sep 2022 17:49:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237835AbiIEP2x (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 5 Sep 2022 11:28:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35110 "EHLO
+        id S236801AbiIEPti (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 5 Sep 2022 11:49:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239018AbiIEP2G (ORCPT
+        with ESMTP id S231915AbiIEPth (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 5 Sep 2022 11:28:06 -0400
-Received: from smtpout140.security-mail.net (smtpout140.security-mail.net [85.31.212.145])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AF3061D6B
-        for <linux-kbuild@vger.kernel.org>; Mon,  5 Sep 2022 08:27:07 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by fx405.security-mail.net (Postfix) with ESMTP id 5A5D43238B8
-        for <linux-kbuild@vger.kernel.org>; Mon,  5 Sep 2022 17:27:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
-        s=sec-sig-email; t=1662391621;
-        bh=zdy2QXF7MZMFGNyk77sQ05u9I4p5QqpNO9Ia4s+hDvc=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=zG0G5iuMcuhtCjPAbyJRPZqOnyY+201/nAT7FL/BDszISeiJbCrzCuYAckiInulcM
-         GBfTu0YLcu2slafKftWeCflvS0vCYLjqfiPEgn+z02gqFkcLGxDu3js7HrHGzoVh3J
-         OtUPrn/sg8y9xo/WfvIBW1r33tou0j8Z/Mm2h/KA=
-Received: from fx405 (localhost [127.0.0.1]) by fx405.security-mail.net
- (Postfix) with ESMTP id D55B8323760; Mon,  5 Sep 2022 17:26:59 +0200 (CEST)
-Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx405.security-mail.net (Postfix) with ESMTPS id B90BC3236DA; Mon,  5 Sep
- 2022 17:26:58 +0200 (CEST)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id 9615027E03D4; Mon,  5 Sep 2022
- 17:26:58 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id 7CCD727E03D5; Mon,  5 Sep 2022 17:26:58 +0200 (CEST)
-Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
- (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- 7zYpXFzw6Yh4; Mon,  5 Sep 2022 17:26:58 +0200 (CEST)
-Received: from [192.168.37.161] (unknown [192.168.37.161]) by
- zimbra2.kalray.eu (Postfix) with ESMTPSA id 5F3AE27E03D4; Mon,  5 Sep 2022
- 17:26:58 +0200 (CEST)
-X-Virus-Scanned: E-securemail, by Secumail
-Secumail-id: <ca03.63161542.b7743.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 7CCD727E03D5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1662391618;
- bh=5fVZGOTj7NTj14wWTuioM5QqJkWBjEEHl0LCCfYjenk=;
- h=Message-ID:Date:MIME-Version:To:From;
- b=BVGjM7pFF/BzkKhEFeQiJPX3OTXMNiUAs8qaR5XLHNYA6q32olrrOa8QYFX1+7Pof
- /LfU7AGxseqOWxcjbECHEgg2yt2vhmnNqNF5MpNA5v2+d88DVAM0fUllNkBLTtFs6P
- 57M/8hdaI1qaQCns7niXF8tGeFaQlZ//QszaINJQ=
-Message-ID: <ebec96c9-4ac8-50a3-1b30-92e1f41523fb@kalray.eu>
-Date:   Mon, 5 Sep 2022 17:26:58 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [RFC PATCH 1/1] Fix __kcrctab+* sections alignment
-Content-Language: en-us
+        Mon, 5 Sep 2022 11:49:37 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93B1CBE2E;
+        Mon,  5 Sep 2022 08:49:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662392974; x=1693928974;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=j4dSqL5ePx7/RgmSjVnwY1XTrQJDptROJraA9QiwKZo=;
+  b=cJviAoSe1FeewcYUkdmYPBKDsq1s66nmr68wV9uk8T5QYrW5pgkDHIVR
+   GWu9gjTkfCfdj51+vkVY3825+OnEYizxAwsrytoy/mWOOAYNiscbtmWE8
+   898TGfZQJL93JzTemy2c1uNVVEHYgzJ+dWOQ2ZhydA0SCfCbRY2kYNXYS
+   cQuKO76fE1o545fgKMURS/roqLVktpztLtoUfdfU0ucT2KKYCzorwlH2Z
+   JQtSbU5TuzZ0uvQWX7tECaeVJq+ISyGsnyxhUu81jcxI5wAVjsXWGc2Dl
+   H8zkb8Mov2YqK2ZswRTDnVQkDzhC2ITecSyj9C1qRVpE1dFkPglkyYMNS
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10461"; a="294000823"
+X-IronPort-AV: E=Sophos;i="5.93,291,1654585200"; 
+   d="scan'208";a="294000823"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2022 08:49:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,291,1654585200"; 
+   d="scan'208";a="702933706"
+Received: from lkp-server02.sh.intel.com (HELO 95dfd251caa2) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 05 Sep 2022 08:49:32 -0700
+Received: from kbuild by 95dfd251caa2 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oVELr-0004IN-3C;
+        Mon, 05 Sep 2022 15:49:31 +0000
+Date:   Mon, 5 Sep 2022 23:48:42 +0800
+From:   kernel test robot <lkp@intel.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>
-References: <20220817161438.32039-2-ysionneau@kalray.eu>
- <31ce5305-a76b-13d7-ea55-afca82c46cf2@kalray.eu>
- <CAMj1kXF8mZ_pK38T=dCU6Rewqq23pPM5HwnZHyx1cGgo0F7Mew@mail.gmail.com>
- <fbf47f7c-7d42-4510-6dd4-92f46ec70819@kalray.eu>
- <CAMj1kXHeSemLqAhbBLMGkK4G1225NZbaQvnR3wAWYfJr4AReaw@mail.gmail.com>
- <CAMuHMdUJZBPuD1=3SMg4G1-UoBr5Evd8mBfhxxuAaoh=K6Rm+w@mail.gmail.com>
- <CAMj1kXF6TchD4g0qO1OeEwt8QYU_TZEriE=1yaCxXrNGBYjmCA@mail.gmail.com>
- <CAK7LNAQ0wiBZB7XDZVodXWtP5m_H-e_xQ78z_eJ82W3pFrKWfQ@mail.gmail.com>
-From:   Yann Sionneau <ysionneau@kalray.eu>
-In-Reply-To: <CAK7LNAQ0wiBZB7XDZVodXWtP5m_H-e_xQ78z_eJ82W3pFrKWfQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ALTERMIMEV2_out: done
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        linux-kbuild@vger.kernel.org
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] kbuild: move -Wundef from KBUILD_CFLAGS to
+ KBUILD_CPPFLAGS
+Message-ID: <202209052329.sY4Fx2fi-lkp@intel.com>
+References: <20220905083619.672091-2-masahiroy@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220905083619.672091-2-masahiroy@kernel.org>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -87,67 +69,90 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello Masahiro,
+Hi Masahiro,
 
-On 8/28/22 16:05, Masahiro Yamada wrote:
-> On Fri, Aug 26, 2022 at 7:17 PM Ard Biesheuvel <ardb@kernel.org> wrote:
->> On Thu, 25 Aug 2022 at 20:01, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->>> Hi Ard,
->>>
->>> On Thu, Aug 25, 2022 at 2:56 PM Ard Biesheuvel <ardb@kernel.org> wrote:
->>>> On Thu, 25 Aug 2022 at 14:21, Yann Sionneau <ysionneau@kalray.eu> wrote:
->>>>> Well, I am not completely sure about that. See my cover letter, previous
->>>>> mechanism for symbol CRC was actually enforcing the section alignment to
->>>>> 4 bytes boundary as well.
->>> Yes, because else it may become 2-byte aligned on m68k.
->>>
->>>>> Also, I'm not sure it is forbidden for an architecture/compiler
->>>>> implementation to actually enforce a stronger alignment on u32, which in
->>>>> theory would not break anything.
->>>>>
->>>> u32 is a Linux type, and Linux expects natural alignment (and padding).
->>> Is it? You probably mean its alignment should not be larger than
->>> 4 bytes? Less has been working since basically forever.
->>>
->> You are quite right. of course. And indeed, the issue here is padding
->> not alignment.
->>
-> I do not know if __align(4) should be used to avoid the padding issue.
->
->
->
-> Do you think it is a good idea to use an inline assembler,
-> as prior to 7b4537199a4a8480b8c3ba37a2d44765ce76cd9b ?
->
->
-> This patch:
->
-> diff --git a/include/linux/export-internal.h b/include/linux/export-internal.h
-> index c2b1d4fd5987..fb90f326b1b5 100644
-> --- a/include/linux/export-internal.h
-> +++ b/include/linux/export-internal.h
-> @@ -12,6 +12,9 @@
->
->   /* __used is needed to keep __crc_* for LTO */
->   #define SYMBOL_CRC(sym, crc, sec)   \
-> -       u32 __section("___kcrctab" sec "+" #sym) __used __crc_##sym = crc
-> +       asm(".section \"___kcrctab" sec "+" #sym "\",\"a\""     "\n" \
-> +           "__crc_" #sym ":"                                   "\n" \
-> +           ".long " #crc                                       "\n" \
-> +           ".previous"                                         "\n")
->
->   #endif /* __LINUX_EXPORT_INTERNAL_H__ */
+I love your patch! Perhaps something to improve:
 
-I can confirm that this patch solves my kernel module CRC issues on kvx 
-port.
+[auto build test WARNING on masahiroy-kbuild/for-next]
+[also build test WARNING on linus/master v6.0-rc4]
+[cannot apply to next-20220901]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks,
+url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/kbuild-move-Werror-from-KBUILD_CFLAGS-to-KBUILD_CPPFLAGS/20220905-164209
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
+config: riscv-randconfig-r042-20220905 (https://download.01.org/0day-ci/archive/20220905/202209052329.sY4Fx2fi-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project c55b41d5199d2394dd6cdb8f52180d8b81d809d4)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/2f8ee1865d7d00ad27460d94056c7752cad8481f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Masahiro-Yamada/kbuild-move-Werror-from-KBUILD_CFLAGS-to-KBUILD_CPPFLAGS/20220905-164209
+        git checkout 2f8ee1865d7d00ad27460d94056c7752cad8481f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> arch/riscv/kernel/head.S:329:5: warning: 'CONFIG_RISCV_BOOT_SPINWAIT' is not defined, evaluates to 0 [-Wundef]
+   #if CONFIG_RISCV_BOOT_SPINWAIT
+       ^
+   1 warning generated.
+
+
+vim +/CONFIG_RISCV_BOOT_SPINWAIT +329 arch/riscv/kernel/head.S
+
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  316  
+76d4467a97bd8c Qiu Wenbo         2020-08-13  317  	call setup_trap_vector
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  318  	/* Restore C environment */
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  319  	la tp, init_task
+c637b911e06697 Christoph Hellwig 2019-04-15  320  	la sp, init_thread_union + THREAD_SIZE
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  321  
+8ad8b72721d0f0 Nick Hu           2020-01-06  322  #ifdef CONFIG_KASAN
+8ad8b72721d0f0 Nick Hu           2020-01-06  323  	call kasan_early_init
+8ad8b72721d0f0 Nick Hu           2020-01-06  324  #endif
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  325  	/* Start the kernel */
+335b139057ef79 Damien Le Moal    2020-03-16  326  	call soc_early_init
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  327  	tail start_kernel
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  328  
+2ffc48fc7071da Atish Patra       2022-01-20 @329  #if CONFIG_RISCV_BOOT_SPINWAIT
+0b39eb38f85908 Atish Patra       2022-01-20  330  .Lsecondary_start:
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  331  	/* Set trap vector to spin forever to help debug */
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  332  	la a3, .Lsecondary_park
+a4c3733d32a72f Christoph Hellwig 2019-10-28  333  	csrw CSR_TVEC, a3
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  334  
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  335  	slli a3, a0, LGREG
+c78f94f35cf648 Atish Patra       2022-01-20  336  	la a1, __cpu_spinwait_stack_pointer
+44c922572952d8 Vitaly Wool       2021-04-13  337  	XIP_FIXUP_OFFSET a1
+c78f94f35cf648 Atish Patra       2022-01-20  338  	la a2, __cpu_spinwait_task_pointer
+44c922572952d8 Vitaly Wool       2021-04-13  339  	XIP_FIXUP_OFFSET a2
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  340  	add a1, a3, a1
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  341  	add a2, a3, a2
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  342  
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  343  	/*
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  344  	 * This hart didn't win the lottery, so we wait for the winning hart to
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  345  	 * get far enough along the boot process that it should continue.
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  346  	 */
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  347  .Lwait_for_cpu_up:
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  348  	/* FIXME: We should WFI to save some energy here. */
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  349  	REG_L sp, (a1)
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  350  	REG_L tp, (a2)
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  351  	beqz sp, .Lwait_for_cpu_up
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  352  	beqz tp, .Lwait_for_cpu_up
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  353  	fence
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  354  
+153c46faf6ae49 Jisheng Zhang     2021-11-29  355  	tail .Lsecondary_start_common
+2ffc48fc7071da Atish Patra       2022-01-20  356  #endif /* CONFIG_RISCV_BOOT_SPINWAIT */
+76d2a0493a17d4 Palmer Dabbelt    2017-07-10  357  
 
 -- 
-
-Yann
-
-
-
-
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
