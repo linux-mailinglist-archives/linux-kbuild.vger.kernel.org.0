@@ -2,44 +2,43 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EDA45AF3ED
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Sep 2022 20:51:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 273FB5AF47A
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Sep 2022 21:35:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229463AbiIFSu7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 6 Sep 2022 14:50:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32838 "EHLO
+        id S229549AbiIFTfy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 6 Sep 2022 15:35:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbiIFSu5 (ORCPT
+        with ESMTP id S229493AbiIFTfw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 6 Sep 2022 14:50:57 -0400
+        Tue, 6 Sep 2022 15:35:52 -0400
 Received: from conuserg-07.nifty.com (conuserg-07.nifty.com [210.131.2.74])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ED337B2B6;
-        Tue,  6 Sep 2022 11:50:56 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C82889CE7;
+        Tue,  6 Sep 2022 12:35:50 -0700 (PDT)
 Received: from zoe.. (133-32-182-133.west.xps.vectant.ne.jp [133.32.182.133]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 286InaOb018748;
-        Wed, 7 Sep 2022 03:49:37 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 286InaOb018748
+        by conuserg-07.nifty.com with ESMTP id 286JYjqX018889;
+        Wed, 7 Sep 2022 04:34:45 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 286JYjqX018889
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1662490177;
-        bh=4f8pc2B57gs1haEvHPNa1HDXqw3G4PfAJtWsxZ08q9U=;
+        s=dec2015msa; t=1662492886;
+        bh=buj24yq3s8ReDMkxdHKGvu3Cnge/yLfAR/qMi/tJe6c=;
         h=From:To:Cc:Subject:Date:From;
-        b=ojyREgNNjekrT2nbGqtetz/G/lBGdIIKbobVodj6dIp8wZnJq1MCvs++Nt1jHlh8c
-         PUq5KOozPLmKlugpyGADeX44hVZEh4MfDh2ezxWIVbX7xavAEhCU2Ujd4F0yL0apQt
-         9MRveCllzcOy61UphTNBHBw2M59edqe4DzlIeAE4Hj5z5dML1RlXaVMMLC1MQ73NYU
-         aa/ssrijvejeKCP0sbMseMZraT7+xXLF6qE1K8ZEp9WHBc2LbNNrBjSQCFR7MJ9GKU
-         gom9Q7pIezN3qEHfo19OKtFNMkI0yfUwX7Qv93ZuU5df/2jGQapKjGjLCraQr2xVtj
-         igqQI3HeS0J/A==
+        b=s7zaK5N+ehEANgy1X+xjmV3aDseitIuEh7EmzeRvVRHMf1xV4RGdUdGHjWJpOoFuT
+         9K9K3qNnd8XOFHqtaodT5NKWc01pkDu/jViDERsJvjRFLwbFONucrPpWwcN1qZ1fWX
+         vD/T+GFxqTEU0sfAHgDIvXpZhYvdHPg+zyK/9vMaCevwyuUI1p70oHjh1NuiyKCLhW
+         Y3CZyiDaPDxNiws6PFD39eQZ0rp7QrCHjiNoUxl/QyLEwL1UImROW02mqwMSk9CePG
+         WWbAogDNangs3ENTzyFl1lW195/MuN0Uqmn5Wi/S3ZJfK2MKENVW52bTwi6lPQSzlV
+         k4IEjknoprwGw==
 X-Nifty-SrcIP: [133.32.182.133]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>
-Subject: [PATCH v2] kbuild: use objtool-args-y to clean up objtool arguments
-Date:   Wed,  7 Sep 2022 03:49:35 +0900
-Message-Id: <20220906184935.1157228-1-masahiroy@kernel.org>
+Subject: [PATCH 1/2] kbuild: use modpost-args-y to clean up modpost arguments
+Date:   Wed,  7 Sep 2022 04:34:35 +0900
+Message-Id: <20220906193436.2135744-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -52,93 +51,83 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Based on Linus' patch. Refactor scripts/Makefile.vmlinux_o as well.
+Separate the modpost executable (scripts/mod/modpost) and the command
+parameters for the next commit.
 
-Link: https://lore.kernel.org/lkml/CAHk-=wgjTMQgiKzBZTmb=uWGDEQxDdyF1+qxBkODYciuNsmwnw@mail.gmail.com/
-Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
-Changes in v2:
-  - bug fix
+ Makefile                 |  2 +-
+ scripts/Makefile.modpost | 22 +++++++++++-----------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
- scripts/Makefile.lib       | 31 ++++++++++++++++---------------
- scripts/Makefile.vmlinux_o | 15 ++++-----------
- 2 files changed, 20 insertions(+), 26 deletions(-)
-
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 9bdc9ed37f49..3392721e1355 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -231,25 +231,26 @@ ifdef CONFIG_OBJTOOL
- 
- objtool := $(objtree)/tools/objtool/objtool
- 
--objtool_args =								\
--	$(if $(CONFIG_HAVE_JUMP_LABEL_HACK), --hacks=jump_label)	\
--	$(if $(CONFIG_HAVE_NOINSTR_HACK), --hacks=noinstr)		\
--	$(if $(CONFIG_X86_KERNEL_IBT), --ibt)				\
--	$(if $(CONFIG_FTRACE_MCOUNT_USE_OBJTOOL), --mcount)		\
--	$(if $(CONFIG_UNWINDER_ORC), --orc)				\
--	$(if $(CONFIG_RETPOLINE), --retpoline)				\
--	$(if $(CONFIG_RETHUNK), --rethunk)				\
--	$(if $(CONFIG_SLS), --sls)					\
--	$(if $(CONFIG_STACK_VALIDATION), --stackval)			\
--	$(if $(CONFIG_HAVE_STATIC_CALL_INLINE), --static-call)		\
--	$(if $(CONFIG_HAVE_UACCESS_VALIDATION), --uaccess)		\
-+objtool-args-$(CONFIG_HAVE_JUMP_LABEL_HACK)		+= --hacks=jump_label
-+objtool-args-$(CONFIG_HAVE_NOINSTR_HACK)		+= --hacks=noinstr
-+objtool-args-$(CONFIG_X86_KERNEL_IBT)			+= --ibt
-+objtool-args-$(CONFIG_FTRACE_MCOUNT_USE_OBJTOOL)	+= --mcount
-+objtool-args-$(CONFIG_UNWINDER_ORC)			+= --orc
-+objtool-args-$(CONFIG_RETPOLINE)			+= --retpoline
-+objtool-args-$(CONFIG_RETHUNK)				+= --rethunk
-+objtool-args-$(CONFIG_SLS)				+= --sls
-+objtool-args-$(CONFIG_STACK_VALIDATION)			+= --stackval
-+objtool-args-$(CONFIG_HAVE_STATIC_CALL_INLINE)		+= --static-call
-+objtool-args-$(CONFIG_HAVE_UACCESS_VALIDATION)		+= --uaccess
-+objtool-args-$(CONFIG_GCOV_KERNEL)			+= --no-unreachable
-+
-+objtool-args = $(objtool-args-y)					\
- 	$(if $(delay-objtool), --link)					\
--	$(if $(part-of-module), --module)				\
--	$(if $(CONFIG_GCOV_KERNEL), --no-unreachable)
-+	$(if $(part-of-module), --module)
- 
- delay-objtool := $(or $(CONFIG_LTO_CLANG),$(CONFIG_X86_KERNEL_IBT))
- 
--cmd_objtool = $(if $(objtool-enabled), ; $(objtool) $(objtool_args) $@)
-+cmd_objtool = $(if $(objtool-enabled), ; $(objtool) $(objtool-args) $@)
- cmd_gen_objtooldep = $(if $(objtool-enabled), { echo ; echo '$@: $$(wildcard $(objtool))' ; } >> $(dot-target).cmd)
- 
- endif # CONFIG_OBJTOOL
-diff --git a/scripts/Makefile.vmlinux_o b/scripts/Makefile.vmlinux_o
-index 81a4e0484457..68c22879bade 100644
---- a/scripts/Makefile.vmlinux_o
-+++ b/scripts/Makefile.vmlinux_o
-@@ -35,18 +35,11 @@ endif
- 
- objtool-enabled := $(or $(delay-objtool),$(CONFIG_NOINSTR_VALIDATION))
- 
--# Reuse objtool_args defined in scripts/Makefile.lib if LTO or IBT is enabled.
--#
--# Add some more flags as needed.
--# --no-unreachable and --link might be added twice, but it is fine.
--#
--# Expand objtool_args to a simple variable to avoid circular reference.
-+vmlinux-objtool-args-$(delay-objtool)			+= $(objtool-args-y)
-+vmlinux-objtool-args-$(CONFIG_GCOV_KERNEL)		+= --no-unreachable
-+vmlinux-objtool-args-$(CONFIG_NOINSTR_VALIDATION)	+= --noinstr $(if $(CONFIG_CPU_UNRET_ENTRY), --unret)
- 
--objtool_args := \
--	$(if $(delay-objtool),$(objtool_args)) \
--	$(if $(CONFIG_NOINSTR_VALIDATION), --noinstr $(if $(CONFIG_CPU_UNRET_ENTRY), --unret)) \
--	$(if $(CONFIG_GCOV_KERNEL), --no-unreachable) \
--	--link
-+objtool-args = $(vmlinux-objtool-args-y) --link
- 
- # Link of vmlinux.o used for section mismatch analysis
+diff --git a/Makefile b/Makefile
+index aee4f0769d9d..e07236209606 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1908,7 +1908,7 @@ tags TAGS cscope gtags: FORCE
  # ---------------------------------------------------------------------------
+ 
+ PHONY += nsdeps
+-nsdeps: export KBUILD_NSDEPS=1
++nsdeps: export KBUILD_NSDEPS=y
+ nsdeps: modules
+ 	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/nsdeps
+ 
+diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+index ceb1d78140e7..87821a5fe16b 100644
+--- a/scripts/Makefile.modpost
++++ b/scripts/Makefile.modpost
+@@ -38,17 +38,17 @@ __modpost:
+ include include/config/auto.conf
+ include $(srctree)/scripts/Kbuild.include
+ 
+-MODPOST = scripts/mod/modpost								\
+-	$(if $(CONFIG_MODVERSIONS),-m)							\
+-	$(if $(CONFIG_MODULE_SRCVERSION_ALL),-a)					\
+-	$(if $(CONFIG_SECTION_MISMATCH_WARN_ONLY),,-E)					\
+-	$(if $(KBUILD_NSDEPS),-d $(MODULES_NSDEPS))					\
+-	$(if $(CONFIG_MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS)$(KBUILD_NSDEPS),-N)	\
+-	-o $@
++MODPOST = scripts/mod/modpost
++
++modpost-args-$(CONFIG_MODVERSIONS)				+= -m
++modpost-args-$(CONFIG_MODULE_SRCVERSION_ALL)			+= -a
++modpost-args-$(CONFIG_MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS)	+= -N
++modpost-args-$(KBUILD_NSDEPS)					+= -N -d $(MODULES_NSDEPS)
++modpost-args-y += $(if $(CONFIG_SECTION_MISMATCH_WARN_ONLY),,-E)
+ 
+ # 'make -i -k' ignores compile errors, and builds as many modules as possible.
+ ifneq ($(findstring i,$(filter-out --%,$(MAKEFLAGS))),)
+-MODPOST += -n
++modpost-args-y += -n
+ endif
+ 
+ ifeq ($(KBUILD_EXTMOD),)
+@@ -99,12 +99,12 @@ module.symvers-if-present := $(wildcard Module.symvers)
+ output-symdump := $(KBUILD_EXTMOD)/Module.symvers
+ missing-input := $(filter-out $(module.symvers-if-present), Module.symvers)
+ 
+-MODPOST += -e $(addprefix -i ,$(module.symvers-if-present) $(KBUILD_EXTRA_SYMBOLS))
++modpost-args-y += -e $(addprefix -i ,$(module.symvers-if-present) $(KBUILD_EXTRA_SYMBOLS))
+ 
+ endif # ($(KBUILD_EXTMOD),)
+ 
+ ifneq ($(KBUILD_MODPOST_WARN)$(missing-input),)
+-MODPOST += -w
++modpost-args-y += -w
+ endif
+ 
+ modorder-if-needed := $(if $(KBUILD_MODULES), $(MODORDER))
+@@ -117,7 +117,7 @@ quiet_cmd_modpost = MODPOST $@
+ 		echo >&2 "WARNING: $(missing-input) is missing."; \
+ 		echo >&2 "         Modules may not have dependencies or modversions."; \
+ 		echo >&2 "         You may get many unresolved symbol warnings.";) \
+-	sed 's/ko$$/o/' $(or $(modorder-if-needed), /dev/null) | $(MODPOST) $(vmlinux.o-if-present) -T -
++	sed 's/ko$$/o/' $(or $(modorder-if-needed), /dev/null) | $(MODPOST) $(modpost-args-y) $(vmlinux.o-if-present) -T - -o $@
+ 
+ targets += $(output-symdump)
+ $(output-symdump): $(modorder-if-needed) $(vmlinux.o-if-present) $(moudle.symvers-if-present) FORCE
 -- 
 2.34.1
 
