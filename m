@@ -2,58 +2,54 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FD295AD70C
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Sep 2022 18:03:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC85B5ADEFE
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Sep 2022 07:46:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237142AbiIEQCc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 5 Sep 2022 12:02:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58234 "EHLO
+        id S231958AbiIFFi5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 6 Sep 2022 01:38:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236344AbiIEQCb (ORCPT
+        with ESMTP id S230060AbiIFFi4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 5 Sep 2022 12:02:31 -0400
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B99FA4AD5D;
-        Mon,  5 Sep 2022 09:02:29 -0700 (PDT)
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 285G2GMb015407;
-        Tue, 6 Sep 2022 01:02:17 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 285G2GMb015407
+        Tue, 6 Sep 2022 01:38:56 -0400
+Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EDE543316;
+        Mon,  5 Sep 2022 22:38:54 -0700 (PDT)
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 2865cQbG025453;
+        Tue, 6 Sep 2022 14:38:26 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 2865cQbG025453
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1662393737;
-        bh=AXX+q4cSSF44b3H1EkqtDdmN+QPCNlmjjiXXce2p9MQ=;
+        s=dec2015msa; t=1662442707;
+        bh=xDCM2ELtfWbaxIghoVdhy/grpBGllqEuV+LeUEWP1Ds=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=QWotCvp8/JtSYftB+faoLCc7Kgv04UtuH/wn+Z7r1Y4lQysb6fzzlSMLVWuAQaSGt
-         LhN7SQDxMPtvZ3V4TgMmcHkMi8hvyXGYBshsVfS6DA5Ykf8i1wOMvWUMCASVahYC4r
-         F7U7QgY9m4eWSeEV55eh30aoEG3KsELPORHRcgoNOT84CjVtKVSKzteen16YalcAA9
-         COE6mWvCX7DlWYP4HRvtIITNqEXRzcm+Q9Oqf2MDGOClbDUN4IiYB2hXLBqifm9sW4
-         Qw2ohB+GTyZHfcncJblV2+QX9T7lTZZp59zDyXECTmmglGIOxZN3r8Lfcq6Lgkdu71
-         2RwXSmQ6ZEl7g==
-X-Nifty-SrcIP: [209.85.160.44]
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-11eab59db71so22235725fac.11;
-        Mon, 05 Sep 2022 09:02:17 -0700 (PDT)
-X-Gm-Message-State: ACgBeo1YSmJjMGko0SKQIRCFSd1by2jjSYMsb+JDY+dXym2aPTS0jSkV
-        +Xk5LTDFUEh9Sx7XaqPk1BSc9Q77uVjZOsQVEqU=
-X-Google-Smtp-Source: AA6agR65jnyCeKkMdJOxL7lqKg65Nmc1Fk9Jacn1YzGFOihFta0f01is88Mb4DWZDkEyFMPeSgDZ7yIpdlbP+jGA+FY=
-X-Received: by 2002:a05:6870:f626:b0:10d:a798:f3aa with SMTP id
- ek38-20020a056870f62600b0010da798f3aamr9453327oab.194.1662393736259; Mon, 05
- Sep 2022 09:02:16 -0700 (PDT)
+        b=zTF21be2xWgdhSjv2TwodKVjuJGi0Wtzia5qTmbRXgAZiY1NJgXaqumwLiQWGOvTs
+         qK5OXstgKtY3Kjbn3LhNap4WDeuK0XzG6PY+prV/fZYHlWBbNvj8G2sgZudazw+mIF
+         0sBQ2ALD5TwCz4zOWBf6pVFV4N3M/6xp/OjbPJd2HlbeN2H/eCgAVeNi0Rzs5l6r9v
+         rKZ/+oUT9qX0f0PcJvSqlnQet7+eZzDLjlY6X9CVe/oy3TtkI00bCo8gCrRqx+f326
+         a+Dlwj9QZ92KHr6J/0AM5Ncu90Mpku8Mp9HiZ5dMPiB7wYU/iHfBwHJEuE+dOzIcMq
+         TgNkHpGHajx7g==
+X-Nifty-SrcIP: [209.85.160.41]
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-11f34610d4aso25719977fac.9;
+        Mon, 05 Sep 2022 22:38:26 -0700 (PDT)
+X-Gm-Message-State: ACgBeo3JWKYv4ai0i/5RWYv7aDXtu/mOTAuGre4inY7oZwO0wvwBHi28
+        6GDW6ym2hUz+yAniXkh3Lx3gjfNIU53AlB/qldw=
+X-Google-Smtp-Source: AA6agR67ml6xVcQPsgWC4IEh9NlgKqQkUD+yzlEWC3f8vVi+rYODcebxIPaYwAMPI4GuNHLB0RRnghEbe5QkXQxURhM=
+X-Received: by 2002:a05:6870:c58b:b0:10b:d21d:ad5e with SMTP id
+ ba11-20020a056870c58b00b0010bd21dad5emr10425730oab.287.1662442705835; Mon, 05
+ Sep 2022 22:38:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220905083619.672091-2-masahiroy@kernel.org> <202209052329.sY4Fx2fi-lkp@intel.com>
-In-Reply-To: <202209052329.sY4Fx2fi-lkp@intel.com>
+References: <20220828024003.28873-1-masahiroy@kernel.org>
+In-Reply-To: <20220828024003.28873-1-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 6 Sep 2022 01:01:40 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASF62o3iRq+tFr=j88dsWxo6YjJ3_mYiAP4pX3DcQpP9A@mail.gmail.com>
-Message-ID: <CAK7LNASF62o3iRq+tFr=j88dsWxo6YjJ3_mYiAP4pX3DcQpP9A@mail.gmail.com>
-Subject: Re: [PATCH 2/2] kbuild: move -Wundef from KBUILD_CFLAGS to KBUILD_CPPFLAGS
-To:     kernel test robot <lkp@intel.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <llvm@lists.linux.dev>,
-        kbuild-all@lists.01.org, Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Tue, 6 Sep 2022 14:37:49 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQNVA0eVEZ_BEKVaVNq0J2iQnyPVJRCPwsXepnm_4UcfQ@mail.gmail.com>
+Message-ID: <CAK7LNAQNVA0eVEZ_BEKVaVNq0J2iQnyPVJRCPwsXepnm_4UcfQ@mail.gmail.com>
+Subject: Re: [PATCH 00/15] kbuild: various cleanups
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
@@ -63,78 +59,122 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Sep 6, 2022 at 12:49 AM kernel test robot <lkp@intel.com> wrote:
+On Sun, Aug 28, 2022 at 11:40 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Hi Masahiro,
+>   - Avoid updating init/built-in.a twice
+>   - Run modpost just once instead of twice
+>   - Link vmlinux and modules in parallel
+>   - Remove head-y syntax
 >
-> I love your patch! Perhaps something to improve:
+> These are ground works to make the further refactoring possible.
 >
-> [auto build test WARNING on masahiroy-kbuild/for-next]
-> [also build test WARNING on linus/master v6.0-rc4]
-> [cannot apply to next-20220901]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> This patch set is applicable after the following series:
+>   https://patchwork.kernel.org/project/linux-kbuild/list/?series=669437
 >
-> url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/kb=
-uild-move-Werror-from-KBUILD_CFLAGS-to-KBUILD_CPPFLAGS/20220905-164209
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-k=
-build.git for-next
-> config: riscv-randconfig-r042-20220905 (https://download.01.org/0day-ci/a=
-rchive/20220905/202209052329.sY4Fx2fi-lkp@intel.com/config)
-> compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project c55b=
-41d5199d2394dd6cdb8f52180d8b81d809d4)
-> reproduce (this is a W=3D1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install riscv cross compiling tool for clang build
->         # apt-get install binutils-riscv64-linux-gnu
->         # https://github.com/intel-lab-lkp/linux/commit/2f8ee1865d7d00ad2=
-7460d94056c7752cad8481f
->         git remote add linux-review https://github.com/intel-lab-lkp/linu=
-x
->         git fetch --no-tags linux-review Masahiro-Yamada/kbuild-move-Werr=
-or-from-KBUILD_CFLAGS-to-KBUILD_CPPFLAGS/20220905-164209
->         git checkout 2f8ee1865d7d00ad27460d94056c7752cad8481f
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=
-=3D1 O=3Dbuild_dir ARCH=3Driscv SHELL=3D/bin/bash arch/riscv/
 >
-> If you fix the issue, kindly add following tag where applicable
-> Reported-by: kernel test robot <lkp@intel.com>
+> Masahiro Yamada (15):
+>   kbuild: remove duplicated dependency between modules and modules_check
+>   kbuild: refactor single builds of *.ko
+>   kbuild: move 'PHONY += modules_prepare' to the common part
+>   init/version.c: remove #include <linux/version.h>
+>   kbuild: build init/built-in.a just once
+>   kbuild: generate include/generated/compile.h in top Makefile
+>   scripts/mkcompile_h: move LC_ALL=C to '$LD -v'
+>   Revert "kbuild: Make scripts/compile.h when sh != bash"
+>   kbuild: rename modules.order in sub-directories to .modules.order
+>   kbuild: move core-y in top Makefile to ./Kbuild
+>   kbuild: move .vmlinux.objs rule to Makefile.modpost
+>   kbuild: move vmlinux.o rule to the top Makefile
+>   kbuild: unify two modpost invocations
+>   kbuild: use obj-y instead extra-y for objects placed at the head
+>   kbuild: remove head-y syntax
+
+
+
+I moved 01-08 to for-next.
+
+10 broke single target builds.
+
+I will send v2 for the rest.
+
+
+
+
+
+
+>  Documentation/kbuild/makefiles.rst          |  27 +----
+>  Kbuild                                      |  16 +++
+>  Makefile                                    | 120 ++++++++++++--------
+>  arch/alpha/Makefile                         |   2 -
+>  arch/alpha/kernel/Makefile                  |   4 +-
+>  arch/arc/Makefile                           |   2 -
+>  arch/arc/kernel/Makefile                    |   4 +-
+>  arch/arm/Makefile                           |   3 -
+>  arch/arm/kernel/Makefile                    |   4 +-
+>  arch/arm64/Makefile                         |   3 -
+>  arch/arm64/kernel/Makefile                  |   4 +-
+>  arch/csky/Makefile                          |   2 -
+>  arch/csky/kernel/Makefile                   |   4 +-
+>  arch/hexagon/Makefile                       |   2 -
+>  arch/hexagon/kernel/Makefile                |   3 +-
+>  arch/ia64/Makefile                          |   1 -
+>  arch/ia64/kernel/Makefile                   |   4 +-
+>  arch/loongarch/Makefile                     |   2 -
+>  arch/loongarch/kernel/Makefile              |   4 +-
+>  arch/m68k/68000/Makefile                    |   2 +-
+>  arch/m68k/Makefile                          |   9 --
+>  arch/m68k/coldfire/Makefile                 |   2 +-
+>  arch/m68k/kernel/Makefile                   |  21 ++--
+>  arch/microblaze/Makefile                    |   1 -
+>  arch/microblaze/kernel/Makefile             |   4 +-
+>  arch/mips/Makefile                          |   2 -
+>  arch/mips/kernel/Makefile                   |   4 +-
+>  arch/nios2/Makefile                         |   1 -
+>  arch/nios2/kernel/Makefile                  |   2 +-
+>  arch/openrisc/Makefile                      |   2 -
+>  arch/openrisc/kernel/Makefile               |   4 +-
+>  arch/parisc/Makefile                        |   2 -
+>  arch/parisc/kernel/Makefile                 |   4 +-
+>  arch/powerpc/Makefile                       |  12 --
+>  arch/powerpc/kernel/Makefile                |  22 ++--
+>  arch/riscv/Makefile                         |   2 -
+>  arch/riscv/kernel/Makefile                  |   2 +-
+>  arch/s390/Makefile                          |   2 -
+>  arch/s390/boot/version.c                    |   1 +
+>  arch/s390/kernel/Makefile                   |   4 +-
+>  arch/sh/Makefile                            |   2 -
+>  arch/sh/kernel/Makefile                     |   4 +-
+>  arch/sparc/Makefile                         |   2 -
+>  arch/sparc/kernel/Makefile                  |   3 +-
+>  arch/x86/Makefile                           |   5 -
+>  arch/x86/boot/compressed/kaslr.c            |   1 +
+>  arch/x86/boot/version.c                     |   1 +
+>  arch/x86/kernel/Makefile                    |  10 +-
+>  arch/xtensa/Makefile                        |   2 -
+>  arch/xtensa/kernel/Makefile                 |   4 +-
+>  init/Makefile                               |  55 ++++++---
+>  init/build-version                          |  10 ++
+>  init/version-timestamp.c                    |  31 +++++
+>  init/version.c                              |  37 +++---
+>  scripts/Makefile.build                      |  20 ++--
+>  scripts/Makefile.lib                        |   8 +-
+>  scripts/Makefile.modfinal                   |   2 +-
+>  scripts/Makefile.modpost                    | 112 ++++++++----------
+>  scripts/Makefile.vmlinux_o                  |   6 +-
+>  scripts/clang-tools/gen_compile_commands.py |  19 +---
+>  scripts/head-object-list.txt                |  53 +++++++++
+>  scripts/link-vmlinux.sh                     |  51 ++-------
+>  scripts/mkcompile_h                         |  96 ++--------------
+>  63 files changed, 393 insertions(+), 457 deletions(-)
+>  create mode 100755 init/build-version
+>  create mode 100644 init/version-timestamp.c
+>  create mode 100644 scripts/head-object-list.txt
 >
-> All warnings (new ones prefixed by >>):
->
-> >> arch/riscv/kernel/head.S:329:5: warning: 'CONFIG_RISCV_BOOT_SPINWAIT' =
-is not defined, evaluates to 0 [-Wundef]
->    #if CONFIG_RISCV_BOOT_SPINWAIT
->        ^
->    1 warning generated.
+> --
+> 2.34.1
 >
 
 
-
-Hmm, it looks like my patch started to uncover a couple of coding mistakes.
-
-
-
-
-
-
-=E3=80=80#if CONFIG_RISCV_BOOT_SPINWAIT
-          -->
-
-  #ifdef CONFIG_RISCV_BOOT_SPINWAIT
-
-
-(CONFIG_RISCV_BOOT_SPINWAIT is a bool option)
-
-
-
-
-
---=20
+-- 
 Best Regards
 Masahiro Yamada
