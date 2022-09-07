@@ -2,143 +2,125 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 327065AFB7C
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Sep 2022 06:59:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52B475AFB86
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Sep 2022 07:05:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229488AbiIGE7p (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 7 Sep 2022 00:59:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38878 "EHLO
+        id S229661AbiIGFFh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 7 Sep 2022 01:05:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229662AbiIGE7j (ORCPT
+        with ESMTP id S229631AbiIGFFg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 7 Sep 2022 00:59:39 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11BFF120B4
-        for <linux-kbuild@vger.kernel.org>; Tue,  6 Sep 2022 21:59:36 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id h9-20020a256c09000000b0069671af62ecso10124610ybc.4
-        for <linux-kbuild@vger.kernel.org>; Tue, 06 Sep 2022 21:59:36 -0700 (PDT)
+        Wed, 7 Sep 2022 01:05:36 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D5B87C1E7
+        for <linux-kbuild@vger.kernel.org>; Tue,  6 Sep 2022 22:05:35 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id bj14so5249341wrb.12
+        for <linux-kbuild@vger.kernel.org>; Tue, 06 Sep 2022 22:05:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date;
-        bh=c0DpBOnZ7fHKw3QNWuDsBHLUoP21ketOwjbqwElOkqs=;
-        b=G3opd2Kk7smjSi01ZxULHYBb3aZEPYHUyBy3/mRzPOA7AoYOgM1AG5Hr7cycpkvp2k
-         7zmIUTwbwGDC2E7T4vT/WYWusN78+R87+am64PQyPlKsAzEmY50QiKUKIAoq02QVC52q
-         AeM1hmMw/deHDfPRbcEMAs2fdxfnRnwQin//MD28AjsSEt8iOmIlErdGoPa9zNXWO15A
-         X4/SX+bm7r1NdOrUdFOy1qu4GZ4TxCTv6HXUl8Hqc7sWxBBNwG8BE1eVwLXfWAwS1aQw
-         +0gDpWtqgpEKjBXTHa3efxgcMH+NWtwBBFv0w/mQISgkan8BA28APqByaEUis7YN7XH1
-         gbPA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=7IkNcBKROZDe2svNOYayhMA1/a0HRnLUmIvfHwVW83g=;
+        b=jl1pBdPjIR7HAtqWy+xpe+7nHp3bSmGOzUZapTfXlJD2/iSmmJeBl6Rk7IQu17M5iy
+         Fum5G6E8b2J/dmp0cUopju7+GlUuMotsE4noU4U34dXI38OYuNMVH/YvqtKHXZFdt/kZ
+         edQzy66ZVrIsygnn2PcY08npLQ7CH2eVCI1yP/ZcJjXonQMfADXUHACb2l3aFlT0TGd7
+         gfBGYDzF2E9hrb/JZ9dQQ4RpD0KXRqPv0WkG+etJi7VzNVp5tZw/FB7WsfLohdK5ai0U
+         AqsxV25fK/XVVxTRmm9tDoYa8XpP/Qb830FT2szPkixe48b8/zQ1NjA3CBMOC4TT/WD3
+         0jnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date;
-        bh=c0DpBOnZ7fHKw3QNWuDsBHLUoP21ketOwjbqwElOkqs=;
-        b=pv4v3xBfmeLh51XCLROS0/b1Odn1O2lda8ISi56UJpGUJfQBAcebEsxHjMr+06BS6F
-         5LpumZbOydsBd/BO/HZj7zO+oU5L31MOqwrARkCPB1Azz5p+U1ZO+OnyIL2hCsjvzbaH
-         /KlqW4PCtRhVCs/NS5k7D7603lv1tZgY0G4SGbkc7mlHtYS5QutmlcZA9b5PHg6xGK58
-         6GNoGmUwfFV1kT1Z0v3rcsGp+k+tAh6pU/wyaQJuxtHOlf2xX8WfbRLmZZAPrWlRu5F0
-         GdfOQoXKLNa6GhD/MBSfIQHJ2xUj9G0yX4Pt+9R3SaNfyp5vOVhgrkiY5h4A36NauDnu
-         9whA==
-X-Gm-Message-State: ACgBeo193OSCri2YJlYyH3d/CIpxFzPR3jQn8FjjcfsWK47KCanWXHIr
-        Vq6mw0e/nCEHxudxMaZAqBc9llSTfdtxj8eYWU0=
-X-Google-Smtp-Source: AA6agR4yqG8oXRGrN2c3vGVjKmn+ZXcqxyGd3kFbqy9a7TH8mlfm2goz1npG5dcXN3vR8r+Mk+rzj0/w3aimHdWPBSI=
-X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:0:100e:712:9755:c523:9dcb:2228])
- (user=ndesaulniers job=sendgmr) by 2002:a25:26c9:0:b0:6a9:922:4a6d with SMTP
- id m192-20020a2526c9000000b006a909224a6dmr1571274ybm.239.1662526775388; Tue,
- 06 Sep 2022 21:59:35 -0700 (PDT)
-Date:   Tue,  6 Sep 2022 21:59:07 -0700
-In-Reply-To: <20220907045907.484043-1-ndesaulniers@google.com>
-Mime-Version: 1.0
-References: <20220907045907.484043-1-ndesaulniers@google.com>
-X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=lvO/pmg+aaCb6dPhyGC1GyOCvPueDrrc8Zeso5CaGKE=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1662526746; l=2043;
- i=ndesaulniers@google.com; s=20211004; h=from:subject; bh=0UUXvo2ECsHljJrCvpyFZ/IOiA9qf1pxH+OXOsjnp1k=;
- b=EPZloRmrF5sgzyoix1T+c/b0M8kYWBCLqwRogtnVgQh3+LO3Uy4aqeBCu1Thtarw+ZI/xgMsperC
- QC/5HfWjCEpJsJsOsjwgYmvtS6GTbJlSsOD2ruSzWrRZsqSP2wbm
-X-Mailer: git-send-email 2.37.2.789.g6183377224-goog
-Message-ID: <20220907045907.484043-6-ndesaulniers@google.com>
-Subject: [PATCH v3 5/5] Makefile.debug: set -g unconditional on CONFIG_DEBUG_INFO_SPLIT
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=7IkNcBKROZDe2svNOYayhMA1/a0HRnLUmIvfHwVW83g=;
+        b=0CwV40SSsiSDehSYry6f4dvFNa7Vt+38UI+0ix8PKrWgrwcqe6BGYI6iP7IO8rpGqq
+         N4T7Pxk5oYs1fN0g4Q6+gfoChBAwlbymQAbQP+D255fdOOs0Sn9FAaiO2IqtqaPxQpS3
+         rNTs4wJXH2qE4naFJhywZgshEz+4u3sG+9Zuf6WI2dqZS56RXm7MAkybz4IeOirrqgld
+         hZhC9SdkYwE/sLhIuVxDutW8bSJOx0nH9sW2huOlR22QwXtWzg7r9ud2e4c1b4v9N44m
+         LXJXrO+P9CSY2utglv5UJB0iMGiKfZ5Wg3VrHzr4rLJmSWCmiMYFW1HGKGHoIXbz9Uqf
+         K0EA==
+X-Gm-Message-State: ACgBeo0GyddzwO+KE42vge5bSEuyJtiI2bsA4cWwnYNCjtCQK1vRYslZ
+        /RiOD6EYmbKpWEqYrdEJbUDMGfQLOQ+ePNMekACi5d9qq/A=
+X-Google-Smtp-Source: AA6agR5xMz1crSLnEY2JX1frHd4Sog5WgE7koMrc+outnsENL5YUmTaNsUhsxsMOhbw8cQJfIhmyWN+8fmeYkn95+IM=
+X-Received: by 2002:a5d:6084:0:b0:228:67c1:e160 with SMTP id
+ w4-20020a5d6084000000b0022867c1e160mr794726wrt.83.1662527133494; Tue, 06 Sep
+ 2022 22:05:33 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220905083619.672091-1-masahiroy@kernel.org>
+In-Reply-To: <20220905083619.672091-1-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 6 Sep 2022 22:05:21 -0700
+Message-ID: <CAKwvOdnFZJK+MjSgQpg8MZoMPOM+G8kfhNaH6sTaLU=eP7nK+g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kbuild: move -Werror from KBUILD_CFLAGS to KBUILD_CPPFLAGS
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Tom Rix <trix@redhat.com>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev, x86@kernel.org,
-        Dmitrii Bundin <dmitrii.bundin.a@gmail.com>,
-        Fangrui Song <maskray@google.com>,
-        Alexey Alexandrov <aalexand@google.com>,
-        Bill Wendling <morbo@google.com>,
-        Greg Thelen <gthelen@google.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andi Kleen <ak@linux.intel.com>
+Cc:     linux-kbuild@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Dmitrii, Fangrui, and Mashahiro note:
+On Mon, Sep 5, 2022 at 1:37 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> CONFIG_WERROR makes warnings into errors, but it only happens for *.c
+> files because -Werror is added to KBUILD_CFLAGS.
+>
+> For example, you can put a #warning directive in any preprocessed
+> source file:
+>
+>     #warning "blah blah ..."
+>
+> If it is placed in a *.c file, it emits a warning by default, and it
+> is promoted to an error when CONFIG_WERROR is enabled:
+>
+>     error: #warning "blah blah ..." [-Werror=cpp]
+>
+> If it is placed in a *.S file, it is still a warning.
+>
+> Move it to KBUILD_CPPFLAGS, so it works in the same way for *.c,
+> *.S, *.lds.S or whatever needs preprocessing.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-  Before GCC 11 and Clang 12 -gsplit-dwarf implicitly uses -g2.
+Thanks for the patch. I see in lore you sent many more cleanups but
+didn't cc me explicitly...I should probably subscribe to that mailing
+list! I probably won't have time to review many patches until after
+Linux Plumbers Conf next week.
 
-Fix CONFIG_DEBUG_INFO_SPLIT for gcc-11+ & clang-12+ which now need -g
-specified in order for -gsplit-dwarf to work at all.
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
--gsplit-dwarf has been mutually exclusive with -g since support for
-CONFIG_DEBUG_INFO_SPLIT was introduced in
-commit 866ced950bcd ("kbuild: Support split debug info v4")
-I don't think it ever needed to be.
+> ---
+>
+>  Makefile | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/Makefile b/Makefile
+> index ebcb75442d7f..027d9163eff6 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -788,7 +788,8 @@ stackp-flags-$(CONFIG_STACKPROTECTOR_STRONG)      := -fstack-protector-strong
+>
+>  KBUILD_CFLAGS += $(stackp-flags-y)
+>
+> -KBUILD_CFLAGS-$(CONFIG_WERROR) += -Werror
+> +KBUILD_CPPFLAGS-$(CONFIG_WERROR) += -Werror
+> +KBUILD_CPPFLAGS += $(KBUILD_CPPFLAGS-y)
+>  KBUILD_CFLAGS-$(CONFIG_CC_NO_ARRAY_BOUNDS) += -Wno-array-bounds
+>  KBUILD_CFLAGS += $(KBUILD_CFLAGS-y) $(CONFIG_CC_IMPLICIT_FALLTHROUGH)
+>
+> --
+> 2.34.1
+>
 
-Link: https://lore.kernel.org/lkml/20220815013317.26121-1-dmitrii.bundin.a@gmail.com/
-Link: https://lore.kernel.org/lkml/CAK7LNARPAmsJD5XKAw7m_X2g7Fi-CAAsWDQiP7+ANBjkg7R7ng@mail.gmail.com/
-Link: https://reviews.llvm.org/D80391
-Cc: Andi Kleen <ak@linux.intel.com>
-Reported-by: Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
-Reported-by: Fangrui Song <maskray@google.com>
-Reported-by: Masahiro Yamada <masahiroy@kernel.org>
-Suggested-by: Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
----
-Changes v2 -> v3:
-* Pick up Nathan's RB tag.
 
-Changes v1 -> v2:
-* Add reference to 866ced950bcd, cc Andi, in commit message.
-
- scripts/Makefile.debug | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
-
-diff --git a/scripts/Makefile.debug b/scripts/Makefile.debug
-index 2845145c1220..c20f8f2e76bf 100644
---- a/scripts/Makefile.debug
-+++ b/scripts/Makefile.debug
-@@ -1,10 +1,4 @@
--DEBUG_CFLAGS	:=
--
--ifdef CONFIG_DEBUG_INFO_SPLIT
--DEBUG_CFLAGS	+= -gsplit-dwarf
--else
--debug-cflags-y	+= -g
--endif
-+DEBUG_CFLAGS	:= -g
- 
- debug-flags-$(CONFIG_DEBUG_INFO_DWARF4)	+= -gdwarf-4
- debug-flags-$(CONFIG_DEBUG_INFO_DWARF5)	+= -gdwarf-5
-@@ -15,6 +9,8 @@ ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_AS_IS_GNU),yy)
- KBUILD_AFLAGS	+= $(addprefix -Wa$(comma), $(debug-flags-y))
- endif
- 
-+debug-flags-$(CONFIG_DEBUG_INFO_SPLIT)	+= -gsplit-dwarf
-+
- ifdef CONFIG_DEBUG_INFO_REDUCED
- DEBUG_CFLAGS	+= -fno-var-tracking
- ifdef CONFIG_CC_IS_GCC
 -- 
-2.37.2.789.g6183377224-goog
-
+Thanks,
+~Nick Desaulniers
