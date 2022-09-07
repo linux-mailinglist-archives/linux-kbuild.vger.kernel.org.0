@@ -2,55 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD9675AFB03
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Sep 2022 06:15:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB7985AFB47
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Sep 2022 06:27:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229502AbiIGEPP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 7 Sep 2022 00:15:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39658 "EHLO
+        id S229718AbiIGE1X (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 7 Sep 2022 00:27:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbiIGEPN (ORCPT
+        with ESMTP id S229677AbiIGE1W (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 7 Sep 2022 00:15:13 -0400
-Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 133FB8274A;
-        Tue,  6 Sep 2022 21:15:11 -0700 (PDT)
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 2874Em80017335;
-        Wed, 7 Sep 2022 13:14:49 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 2874Em80017335
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1662524089;
-        bh=0hTBLT8N18H/BI5SDUzZKCK5eLhcJNLu+ZRFya2Xhg8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=jcefueL0JvqinQJe5NOVxG01SEwbq3bwWY/zq0BoaN7T6h+bC3QJoxNANDud3/YTC
-         IvLjMt14vtpAhyrU9Ub/nmdn0VjYgg4MTpJxpxY4cXIfo5Uceyrryejza+bl/uyY/Q
-         vX7qCduKcLcDA6kG3rh9L2+r3z4eqwneZNnP/9sWu6mfP9H29W2GywFC+VlPkxFb/d
-         8P3Z+6MPXaxviL0KpGT7cwCvRGAEBnlJmYvUyFRIohXcygTo7JiTzeSIAGBkRwIgZi
-         5xnPoxYk3L9WYXEqzE7yTlU4eIjC+NLEkjJb4SbTNS+0VP+FVzOPfPr6dcFN7+2jCe
-         ywMd18PANee6A==
-X-Nifty-SrcIP: [209.85.160.52]
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-1225219ee46so33271572fac.2;
-        Tue, 06 Sep 2022 21:14:49 -0700 (PDT)
-X-Gm-Message-State: ACgBeo1QRjjTYSn1ZONMa1GOPs832aqKPhIJ7OpOOs7DepofoFThBayG
-        gGLOyUzIHy71z+Y0AqxfjXJgKoJ0zpGw8pMU0fc=
-X-Google-Smtp-Source: AA6agR4dMRG833gu29zjUBYVXOLf9kiGqLu3V7VD2BEjRI3GOvYDJ2evaD1DM7vJ7ecszrkPYMrJQcXRuxhD4RzH+sU=
-X-Received: by 2002:a05:6808:90a:b0:34b:826c:6116 with SMTP id
- w10-20020a056808090a00b0034b826c6116mr5927986oih.194.1662524087917; Tue, 06
- Sep 2022 21:14:47 -0700 (PDT)
+        Wed, 7 Sep 2022 00:27:22 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D245C857C2
+        for <linux-kbuild@vger.kernel.org>; Tue,  6 Sep 2022 21:27:20 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id c131-20020a1c3589000000b003a84b160addso10299108wma.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 06 Sep 2022 21:27:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=+FvGAIQA6g0/NKJ5BUw0y3xxvyJZjvMl5VPNjIGS+gw=;
+        b=fpFTiwJW/9HvCH0gN6PmxI2K53uPz9gBdr1uC6fWNNa+Yx2q4zXBfLBnLrLL4w3XVx
+         SLH0tKobr810W8SeuIsF/R2PCYkbKSLv+lmLCZskEcCW/ReZBReXUqszaDzEfFcTKv5a
+         nlDcskBpwttZ34MdXcWaUtu6tDmajbA9c41A/neaA2mh3GnOvQKKqzuB1ioTDStJQQXt
+         xna02FYQMvtubUmq9TwhowBPyJ7e1nA1MBzfX5LWcMRawYKCTR5xizIKZeEBxzDEnR/2
+         uIhvFAPVIakt8m/dzFlXO7ui+42zBaUsdjRuE1ZQ5tGPkhpeNVPMTm3qieQMennUpYpz
+         Ss5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=+FvGAIQA6g0/NKJ5BUw0y3xxvyJZjvMl5VPNjIGS+gw=;
+        b=Iok2ahnpMZEV3/AeJLxEknyON4Ye6GATmFJ9rOt22k9F5N4qLjykYM6LVdfnGCg/Ki
+         zlD7AWdBNpqmFbJxlOuqdXIPRISSZspdDHPovRIDA0AdgiZLx0wxDN5M4Dz018tNPIoh
+         9WYvHwCR3wwwojvZxgMn9nqGI+HKVLMuDFhRTyTjhfoBei2X0fy8h6WFr/T9YpTXl9ap
+         OWKoXNCcdRO8ZgI/7z9f1J1l6rbSoZdWqsZZDZdjWPNm9Uwhf6KKrmY7+ek9H5RHalpI
+         pXDWMUnxACteOlmWRiE4TSXVlGL99tSHeR6vU7G4KwgH4puNe0PBL3c1y0sncJPhTlVy
+         XTeQ==
+X-Gm-Message-State: ACgBeo30RkcIpWOanWbrvILQxZr++g+MP6F0dVG2vDnpiiOI3tyBojQl
+        YGxd13cr7h8Yqh61yiWeQp36Ml9C9XWspjXI8gIH5w==
+X-Google-Smtp-Source: AA6agR7UdGjjmLFmbENHxkNrUGWnPqjf+1gmEg2hCrJPIR4g+trGtUUyjsmLEtD6nr9EhMHcg0XC6n+JH7pk509CMSI=
+X-Received: by 2002:a05:600c:ad2:b0:3a5:36ca:ec38 with SMTP id
+ c18-20020a05600c0ad200b003a536caec38mr685223wmr.21.1662524839234; Tue, 06 Sep
+ 2022 21:27:19 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220831184408.2778264-1-ndesaulniers@google.com>
- <20220831184408.2778264-3-ndesaulniers@google.com> <Yw+8QgtSbB2/3Eiq@dev-arch.thelio-3990X>
- <CAK7LNASQJ-B2kRGXea-dQt+1BgEsp_aLEPS_uJb1R6FSOj1Khg@mail.gmail.com> <YxdwbKA5ThYJcPBP@dev-arch.thelio-3990X>
-In-Reply-To: <YxdwbKA5ThYJcPBP@dev-arch.thelio-3990X>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 7 Sep 2022 13:14:10 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASBAMRwGPH1gyt5JeBTVX3UkmC4DGkbjSxrwWFO+4+yEg@mail.gmail.com>
-Message-ID: <CAK7LNASBAMRwGPH1gyt5JeBTVX3UkmC4DGkbjSxrwWFO+4+yEg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] Makefile.compiler: Use KBUILD_AFLAGS for as-option
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
+ <20220831184408.2778264-5-ndesaulniers@google.com> <CAK7LNATWDH01=ZKLnsxc0vcib1zGDbEq8jLQwhWP7HkkmSb_Mw@mail.gmail.com>
+In-Reply-To: <CAK7LNATWDH01=ZKLnsxc0vcib1zGDbEq8jLQwhWP7HkkmSb_Mw@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 6 Sep 2022 21:27:07 -0700
+Message-ID: <CAKwvOdnU4xLuPzTo1_PN3bfvVS3=2UbwsNP_BRYLxHa-e1J+ng@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] Makefile.debug: re-enable debug info for .S files
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>,
         Tom Rix <trix@redhat.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -62,53 +67,146 @@ Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         Bill Wendling <morbo@google.com>,
         Greg Thelen <gthelen@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Sep 7, 2022 at 1:08 AM Nathan Chancellor <nathan@kernel.org> wrote:
+On Mon, Sep 5, 2022 at 12:50 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> On Mon, Sep 05, 2022 at 06:09:28PM +0900, Masahiro Yamada wrote:
-> > On Thu, Sep 1, 2022 at 4:53 AM Nathan Chancellor <nathan@kernel.org> wrote:
-> > >
-> > > On Wed, Aug 31, 2022 at 11:44:05AM -0700, Nick Desaulniers wrote:
-> > > > as-instr uses KBUILD_AFLAGS, but as-option uses KBUILD_CFLAGS.  This can
-> > > > cause as-option to fail unexpectedly because clang will emit
-> > > > -Werror,-Wunused-command-line-argument for various -m and -f flags for
-> > > > assembler sources.
-> > >
-> > > Now that I am looking closer at it, where does that '-Werror' come from?
+> On Thu, Sep 1, 2022 at 3:44 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
 > >
-> > The related commit is
-> > c3f0d0bc5b01ad90c45276952802455750444b4f
+> > Alexey reported that the fraction of unknown filename instances in
+> > kallsyms grew from ~0.3% to ~10% recently; Bill and Greg tracked it down
+> > to assembler defined symbols, which regressed as a result of:
 > >
-> > The previous discussion with Arnd is
-> > https://lore.kernel.org/linux-kbuild/20170314213724.3836900-1-arnd@arndb.de/
+> > commit b8a9092330da ("Kbuild: do not emit debug info for assembly with LLVM_IAS=1")
+> >
+> > In that commit, I allude to restoring debug info for assembler defined
+> > symbols in a follow up patch, but it seems I forgot to do so in
+> >
+> > commit a66049e2cf0e ("Kbuild: make DWARF version a choice")
+> >
+> > This patch does a few things:
+> > 1. Add -g to KBUILD_AFLAGS. This will instruct the compiler to instruct
+> >    the assembler to emit debug info. But this can cause an issue for
+> >    folks using a newer compiler but older assembler, because the
+> >    implicit default DWARF version changed from v4 to v5 in gcc-11 and
+> >    clang-14.
 >
-> Right, although this is for cc-option, not as-option, no?
+>
+>
+> What kind of bad things happen for "KBUILD_AFLAGS += -g"?
+>
+>
+> I think 'gcc -g -c -o foo.o foo.S' will invoke 'as --gdwarf-2' as the backend
+> if gcc is configured to work with old binutils.
+
+That's fine for CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT I think?
+
+What other problems were you envisioning?
+
+>
+>
+>
+>
+> > diff --git a/scripts/Makefile.debug b/scripts/Makefile.debug
+> > index 9f39b0130551..46e88f0ca998 100644
+> > --- a/scripts/Makefile.debug
+> > +++ b/scripts/Makefile.debug
+> > @@ -4,18 +4,32 @@ ifdef CONFIG_DEBUG_INFO_SPLIT
+> >  DEBUG_CFLAGS   += -gsplit-dwarf
+> >  else
+> >  DEBUG_CFLAGS   += -g
+> > +KBUILD_AFLAGS  += -g
+> >  endif
+> >
+> > -ifndef CONFIG_AS_IS_LLVM
+> > -KBUILD_AFLAGS  += -Wa,-gdwarf-2
+> > +ifdef CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+> > +# gcc-11+, clang-14+
+> > +ifeq ($(call cc-min-version, 110000, 140000),y)
+> > +dwarf-version-y := 5
+> > +else
+> > +dwarf-version-y := 4
+>
+>
+>
+> If you explicitly specify the DWARF version
+> for CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT,
+> what is the point of CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT?
+>
+>
+> When CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y,
+> I believe the right thing to do is to pass only -g,
+> and let the tool do whatever it thinks is appropriate.
+
+Ok, sure, I will revise.
+
+>
+>
+>
+>
+>
+>
+> >  endif
+> > -
+> > -ifndef CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+> > +else # !CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+> >  dwarf-version-$(CONFIG_DEBUG_INFO_DWARF4) := 4
+> >  dwarf-version-$(CONFIG_DEBUG_INFO_DWARF5) := 5
+> >  DEBUG_CFLAGS   += -gdwarf-$(dwarf-version-y)
+> >  endif
+> >
+> > +# Binutils 2.35+ (or clang) required for -gdwarf-{4|5}.
+> > +# https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=31bf18645d98b4d3d7357353be840e320649a67d
+> > +ifneq ($(call as-option,-Wa$(comma)-gdwarf-$(dwarf-version-y)),)
+>
+>
+>
+> When is this as-option supposed to fail?
+>
+>
+> Binutils <= 2.34 always accepts whatever -gdwarf-* option.
+> Surprisingly or not, it accepts -gdwarf-6, -gdwarf-7, ...
+>
+> No matter what DWARF version you specify, GAS silently downgrades
+> it to DWARF-2.
+>
+>
+> masahiro@zoe:~/tools/binutils-2.34/bin$ ./as --version | head -n 1
+> GNU assembler (GNU Binutils) 2.34
+> masahiro@zoe:~/tools/binutils-2.34/bin$ cat /dev/null | ./as -gdwarf-5
+> -o /dev/null -
+> masahiro@zoe:~/tools/binutils-2.34/bin$ echo $?
+> 0
+> masahiro@zoe:~/tools/binutils-2.34/bin$ cat /dev/null | ./as
+> -gdwarf-100 -o /dev/null -
+> masahiro@zoe:~/tools/binutils-2.34/bin$ echo $?
+> 0
+
+ah, right. Maybe an explicit version check is necessary then.
+
+>
+>
+>
+>
+> Overall, I am not convinced with this patch.
+>
+>
+>
+> Please see the attached patch.
+> Is there any problem with writing this more simply?
 
 
-
-Sorry, I misunderstood your comments.
-My reference is about -Werror in cc-option. It is unrelated to as-option.
-
-
-
-You are right.
-Currently, as-option takes KBUILD_CFLAGS instead of KBUILD_AFLAGS.
-
-The '-Werror,' of -Werror,-Wunused-command-line-argument
-presumably came from CONFIG_WERROR.
-
-
-
-
-
+Thanks for the inspiration, I will use that as an inspiration/base for
+a new patch.
 -- 
-Best Regards
-Masahiro Yamada
+Thanks,
+~Nick Desaulniers
