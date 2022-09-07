@@ -2,141 +2,147 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 75B165AF86D
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Sep 2022 01:35:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D1A55AF8E8
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Sep 2022 02:11:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229707AbiIFXe7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 6 Sep 2022 19:34:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40802 "EHLO
+        id S229552AbiIGALW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 6 Sep 2022 20:11:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229711AbiIFXe6 (ORCPT
+        with ESMTP id S229540AbiIGALS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 6 Sep 2022 19:34:58 -0400
-Received: from gandalf.ozlabs.org (mail.ozlabs.org [IPv6:2404:9400:2221:ea00::3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D8C731EF2;
-        Tue,  6 Sep 2022 16:34:56 -0700 (PDT)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4MMhYq38SZz4xD3;
-        Wed,  7 Sep 2022 09:34:39 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-        s=201909; t=1662507291;
-        bh=4US3THlCO1EMb1gSb9ztork5wBimNJa/nZMcdS+Fg/M=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=VE9G55kF0YvBPTmfEKRNLaOLD928FpPFqAcNpL+f8KrrJ98Z6/s7Ls4ACxDbQLjiz
-         E4hCICN6PrT1JV2Doci74i6u8iUELHz6WKa8weEmztx+WhmmFKzJcxoPtF0rjggIKm
-         BxWXqa3X6MefPexoJt+3HkCQG+lj0E3/25I9+R69dkW0ybhEIbZYoAeJYlfHpx/47O
-         +OsAyVQq2IrWk3kDEj8NBKVhMDl9QoQPtrUhII0czRT5IizvjFTt7liWxxkcoVacqF
-         jNKoxW2w8uKB9ovSNUnPneATOBtcgGJn4FyjeS4nZe4Px07FEr1ktrhp2CX3Vu8dGP
-         TTu5Vt4Ozw+Sg==
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Sven Van Asbroeck <thesven73@gmail.com>,
-        Gary Guo <gary@garyguo.net>,
-        Boris-Chengbiao Zhou <bobo1239@web.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Douglas Su <d0u9.su@outlook.com>,
-        Dariusz Sosnowski <dsosnowski@dsosnowski.pl>,
-        Antonio Terceiro <antonio.terceiro@linaro.org>,
-        Daniel Xu <dxu@dxuuu.xyz>, Miguel Cano <macanroj@gmail.com>,
-        David Gow <davidgow@google.com>,
-        Tiago Lam <tiagolam@gmail.com>,
-        =?utf-8?Q?Bj=C3=B6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-        Martin Rodriguez Reboredo <yakoyoku@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        "open list:SIFIVE DRIVERS" <linux-riscv@lists.infradead.org>,
-        linux-um@lists.infradead.org
-Subject: Re: [PATCH v8 27/31] Kbuild: add Rust support
-In-Reply-To: <CAK7LNARTX+2Z=pnGbbUepxskE+KZ1f5YsfQukJ88ijPBQt9_GA@mail.gmail.com>
-References: <20220802015052.10452-1-ojeda@kernel.org>
- <20220802015052.10452-28-ojeda@kernel.org>
- <CAK7LNARTX+2Z=pnGbbUepxskE+KZ1f5YsfQukJ88ijPBQt9_GA@mail.gmail.com>
-Date:   Wed, 07 Sep 2022 09:34:38 +1000
-Message-ID: <8735d4t6up.fsf@mpe.ellerman.id.au>
+        Tue, 6 Sep 2022 20:11:18 -0400
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E83CF7C51E
+        for <linux-kbuild@vger.kernel.org>; Tue,  6 Sep 2022 17:11:11 -0700 (PDT)
+Received: by mail-yb1-xb34.google.com with SMTP id y82so11038473yby.6
+        for <linux-kbuild@vger.kernel.org>; Tue, 06 Sep 2022 17:11:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=lLG25Crj6LfgDaHR+loX2NoAIZ0fxOyvF8tlzDPfGI4=;
+        b=o3CVvDbH3fxbMKnnqt5sbTG/ksB3HeTEWZl7YPi9kdDa0ynFoRqdGtoFbR1JIZp78O
+         WtjOP2kho6SCRpmjAzO5yVu4lGMU7Ltg95y8U458jvl6CmEu47XxpmPaIdXwjuZJWmUg
+         jEBSH/X7q5EWgRiKhjvHbGyPE/2CXnlTfV/5AxDl18YInYSpybjj0v8pM9kxXPXlexcW
+         ArvAbytoqFTxlqJ/4mGITfQeTayYR32kSntL/fX2XcXu+wPx3mzgqLtTyACdrNG9A1gv
+         KK7YRllTBYepIO9AbwPjvvkZXpYJET4bVNFbw+v+z1VjUGzRSydSQTG/PhjhlxOm/IHe
+         LbcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=lLG25Crj6LfgDaHR+loX2NoAIZ0fxOyvF8tlzDPfGI4=;
+        b=hXi6+rH7j5Qemj+b2j0kc3Bhayk0pqiGeN4/1U5t8B0LrIQh29YDqtwH4eVA5Cid1L
+         RoAvJzCQ0irRhU3sBep3/hmEDbwXvIZIBKsWiyXjWMDgqXW8UfzUW8lAZNE8Xtk01wLd
+         qo06KPz/hJPkkUhN+bvbubL5QA8ByOLR6V9aw6IW+dMX+udTRwcPMmxUOj0Q0wArB4PQ
+         TmNrhGxAGMZk4siCzDztUl590rFbZb3azS+CVbzYf6XV5TNb6U9yOjCpVHEq9Z6mpKdm
+         h0qSvFEj9bCDg/XT7rGV9LEI1Z28gJSTQWyEgiOSnGUZjOmwcVo8lZNkg5SrFcEGVcTP
+         +SLA==
+X-Gm-Message-State: ACgBeo2y0paIHhHoi8GU2MiDqWrwldaKY0KpBl5cjPUoW7V3Ay0hgITU
+        k321AKeFBTk8jfwp+90BjQyydw2/oAI6ze4qfdR+Dg==
+X-Google-Smtp-Source: AA6agR4TrPP+3HCsx3CksfJHfhZouFxXx8tYj2cKokkfW1BCWjWZxusW2S77Vq+jgIdGkOYt7ERSlpadN22+jk2TOcU=
+X-Received: by 2002:a05:6902:2cb:b0:684:aebe:49ab with SMTP id
+ w11-20020a05690202cb00b00684aebe49abmr1002336ybh.242.1662509470939; Tue, 06
+ Sep 2022 17:11:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20220803122655.100254-1-nipun.gupta@amd.com> <20220906134801.4079497-1-nipun.gupta@amd.com>
+ <20220906134801.4079497-4-nipun.gupta@amd.com>
+In-Reply-To: <20220906134801.4079497-4-nipun.gupta@amd.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Tue, 6 Sep 2022 17:10:34 -0700
+Message-ID: <CAGETcx_W8QVe+CdpocN2rHjp08TwsW22FaJgrYW=0JNge_N6KQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 3/7] iommu/arm-smmu-v3: support ops registration
+ for CDX bus
+To:     Nipun Gupta <nipun.gupta@amd.com>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        gregkh@linuxfoundation.org, rafael@kernel.org,
+        eric.auger@redhat.com, alex.williamson@redhat.com,
+        cohuck@redhat.com, puneet.gupta@amd.com,
+        song.bao.hua@hisilicon.com, mchehab+huawei@kernel.org,
+        maz@kernel.org, f.fainelli@gmail.com, jeffrey.l.hugo@gmail.com,
+        Michael.Srba@seznam.cz, mani@kernel.org, yishaih@nvidia.com,
+        jgg@ziepe.ca, jgg@nvidia.com, robin.murphy@arm.com,
+        will@kernel.org, joro@8bytes.org, masahiroy@kernel.org,
+        ndesaulniers@google.com, linux-arm-kernel@lists.infradead.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, kvm@vger.kernel.org, okaya@kernel.org,
+        harpreet.anand@amd.com, nikhil.agarwal@amd.com,
+        michal.simek@amd.com, aleksandar.radovanovic@amd.com, git@amd.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Masahiro Yamada <masahiroy@kernel.org> writes:
-> On Tue, Aug 2, 2022 at 10:53 AM Miguel Ojeda <ojeda@kernel.org> wrote:
->>
->> Having all the new files in place, we now enable Rust support
->> in the build system, including `Kconfig` entries related to Rust,
->> the Rust configuration printer, the target specification
->> generation script, the version detection script and a few
->> other bits.
-...
->> +
->> +config RUSTC_VERSION_TEXT
->> +       string
->> +       depends on RUST
->> +       default $(shell,command -v $(RUSTC) >/dev/null 2>&1 && $(RUSTC) --version || echo n)
->> +
->> +config BINDGEN_VERSION_TEXT
->> +       string
->> +       depends on RUST
->> +       default $(shell,command -v $(BINDGEN) >/dev/null 2>&1 && $(BINDGEN) --version || echo n)
->> +
+On Tue, Sep 6, 2022 at 6:48 AM Nipun Gupta <nipun.gupta@amd.com> wrote:
 >
-> Where are these config options used?
+> With new CDX bus supported for AMD FPGA devices on ARM
+> platform, the bus requires registration for the SMMU v3
+> driver.
 >
-> I grep'ed but no hit.
+> Signed-off-by: Nipun Gupta <nipun.gupta@amd.com>
+> ---
+>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 16 ++++++++++++++--
+>  1 file changed, 14 insertions(+), 2 deletions(-)
 >
-> masahiro@zoe:~/ref/linux-next$ git grep RUSTC_VERSION_TEXT
-> init/Kconfig:config RUSTC_VERSION_TEXT
-> masahiro@zoe:~/ref/linux-next$ git grep BINDGEN_VERSION_TEXT
-> init/Kconfig:config BINDGEN_VERSION_TEXT
+> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> index d32b02336411..8ec9f2baf12d 100644
+> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> @@ -29,6 +29,7 @@
+>  #include <linux/platform_device.h>
+>
+>  #include <linux/amba/bus.h>
+> +#include <linux/cdx/cdx_bus.h>
+>
+>  #include "arm-smmu-v3.h"
+>  #include "../../iommu-sva-lib.h"
+> @@ -3690,16 +3691,27 @@ static int arm_smmu_set_bus_ops(struct iommu_ops *ops)
+>                 if (err)
+>                         goto err_reset_pci_ops;
+>         }
+> +#endif
+> +#ifdef CONFIG_CDX_BUS
+> +       if (cdx_bus_type.iommu_ops != ops) {
+> +               err = bus_set_iommu(&cdx_bus_type, ops);
+> +               if (err)
+> +                       goto err_reset_amba_ops;
+> +       }
 
-That came up before in a review by Nick:
+I'm not an expert on IOMMUs, so apologies if the question is stupid.
 
-Miguel wrote:
-> Nick wrote:
-> > Are these two kconfigs used anywhere?
-> 
-> Not for the moment, but it could still be useful when getting
-> `.config` reports (and we could add it to `LINUX_COMPILER` etc. in the
-> future).
+Why does the CDX bus need special treatment here (like PCI) when there
+are so many other busses (eg: I2C, SPI, etc) that don't need any
+changes here?
 
-https://lore.kernel.org/all/CANiq72n2bU3LSGu-4v66nif_95EVq--z2X_F2V7JBPU8v=h8EA@mail.gmail.com/
+-Saravana
 
-
-cheers
+>  #endif
+>         if (platform_bus_type.iommu_ops != ops) {
+>                 err = bus_set_iommu(&platform_bus_type, ops);
+>                 if (err)
+> -                       goto err_reset_amba_ops;
+> +                       goto err_reset_cdx_ops;
+>         }
+>
+>         return 0;
+>
+> -err_reset_amba_ops:
+> +err_reset_cdx_ops:
+> +#ifdef CONFIG_CDX_BUS
+> +       bus_set_iommu(&cdx_bus_type, NULL);
+> +#endif
+> +err_reset_amba_ops: __maybe_unused;
+>  #ifdef CONFIG_ARM_AMBA
+>         bus_set_iommu(&amba_bustype, NULL);
+>  #endif
+> --
+> 2.25.1
+>
