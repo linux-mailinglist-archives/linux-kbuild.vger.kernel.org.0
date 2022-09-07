@@ -2,101 +2,65 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D45445B0C74
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Sep 2022 20:25:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5D075B0DE4
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Sep 2022 22:16:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229785AbiIGSZa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 7 Sep 2022 14:25:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41308 "EHLO
+        id S229660AbiIGUQ2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 7 Sep 2022 16:16:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229526AbiIGSZ2 (ORCPT
+        with ESMTP id S229445AbiIGUQ1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 7 Sep 2022 14:25:28 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90385B24A6
-        for <linux-kbuild@vger.kernel.org>; Wed,  7 Sep 2022 11:25:27 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id t184so22871721yba.4
-        for <linux-kbuild@vger.kernel.org>; Wed, 07 Sep 2022 11:25:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=t1RT2GVL7So8FRxhttvNmfTvwaG7wye3XjohR9wIDto=;
-        b=d+pqtCM7emIqHqqcL0FHUBGevoq1D8aCT3LyylUG8lQcnvelI9T0US5vu7KwGPVIz5
-         mzmXu8yMHa9xjZQzxqTF0/OFT6/PbcNpNEbMVWHQnSUEWUa9uberuGAQO/UfPpx5mNoE
-         8IDPGgqmMCtXrV1CSCjdVYO83arausSfcFTWgtHvxSZSQ7yJF0wgjKzWER5gVVJH6zl1
-         v9bx+QXgNeTUfPfAxLV0r78mUzP8aWPtsX7iEPZCtL7BOr3YEcBUoMhKNX/kqUr7B+XQ
-         BOZgcuBdvMpanoRIG32KLgFjh9qtARUy+mu3yK6NIznET5lMXvuweEY0jSuS6p13b8bp
-         gk5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=t1RT2GVL7So8FRxhttvNmfTvwaG7wye3XjohR9wIDto=;
-        b=IsU33XW5CcEgEGUE1F60oU6P/CvpZv7nZLNKb445CKScTfhRQP+gjzTbbNoR+dTzDc
-         2ntlkPXpFNH4xg8Z4yI4UNI+22teWeotBNqrR8gQgvbki1SjuZZ7ZNWhQy0J8Mm/hc3g
-         L7RPo+jL0DVJHD+lBKeIe9l9cm2KFxOCaOzbDUj0n22FumqtLqQBcCZ6ZHhjtTInjcVa
-         O+46xAA41MOzvZgLCIAJXUpjkVuaPpsEBMeeedCQKijnafOvSNDhoOV54HmqpJ1Myfso
-         zvmDrFQWk5vNoqz8haTIf+ciOZScdHqWyhuMd9/O9j61YVdCJJQ+yINd2lR+ZDVpUKIN
-         +yMQ==
-X-Gm-Message-State: ACgBeo1OP4uVnZqhOUtTQVxLK8wDgmeMXm0SvVyrpjy8gF8aWbAsQJEx
-        b+0nxWWenIv55HDM5y+q5idn2Pb5zHT2+SDCyb5nYg==
-X-Google-Smtp-Source: AA6agR5g3t8dPU742opp3p0IGn/aiTc1yTYGIe5tHSK58+GIreEcSzS0Uo9FzFd2YosZaWBi6GX37ZkiUG1Bh97oglc=
-X-Received: by 2002:a25:3cc4:0:b0:696:5790:438d with SMTP id
- j187-20020a253cc4000000b006965790438dmr3664251yba.563.1662575126653; Wed, 07
- Sep 2022 11:25:26 -0700 (PDT)
+        Wed, 7 Sep 2022 16:16:27 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5085579EC5;
+        Wed,  7 Sep 2022 13:16:21 -0700 (PDT)
+Received: from leknes.fjasle.eu ([46.142.49.87]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MbRwP-1p39QX2McD-00bvPR; Wed, 07 Sep 2022 22:16:00 +0200
+Received: from localhost.fjasle.eu (bergen.fjasle.eu [IPv6:fdda:8718:be81:0:6f0:21ff:fe91:394])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (Client did not present a certificate)
+        by leknes.fjasle.eu (Postfix) with ESMTPS id 7D65A3C09F;
+        Wed,  7 Sep 2022 22:15:59 +0200 (CEST)
+Authentication-Results: leknes.fjasle.eu; dkim=none; dkim-atps=neutral
+Received: by localhost.fjasle.eu (Postfix, from userid 1000)
+        id D363E3C6B; Wed,  7 Sep 2022 22:15:57 +0200 (CEST)
+Date:   Wed, 7 Sep 2022 22:15:57 +0200
+From:   Nicolas Schier <nicolas@fjasle.eu>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org
+Subject: Re: [PATCH v2 0/8] kbuild: various cleanups
+Message-ID: <Yxj7/WxCcdIuEHG6@bergen.fjasle.eu>
+References: <20220906061313.1445810-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-References: <20220803122655.100254-1-nipun.gupta@amd.com> <20220906134801.4079497-1-nipun.gupta@amd.com>
- <20220906134801.4079497-4-nipun.gupta@amd.com> <CAGETcx_W8QVe+CdpocN2rHjp08TwsW22FaJgrYW=0JNge_N6KQ@mail.gmail.com>
- <DM6PR12MB30829DDDC62B36B17F87B204E8419@DM6PR12MB3082.namprd12.prod.outlook.com>
- <f5cf7bd7-4cd9-ef9c-7f25-f814b2f1e41f@arm.com>
-In-Reply-To: <f5cf7bd7-4cd9-ef9c-7f25-f814b2f1e41f@arm.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Wed, 7 Sep 2022 11:24:50 -0700
-Message-ID: <CAGETcx9LE=E2focmbEsdQV3s2NR4-9H35ODkgSxZY5_7SEJ1Qw@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 3/7] iommu/arm-smmu-v3: support ops registration
- for CDX bus
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     "Gupta, Nipun" <Nipun.Gupta@amd.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "rafael@kernel.org" <rafael@kernel.org>,
-        "eric.auger@redhat.com" <eric.auger@redhat.com>,
-        "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
-        "cohuck@redhat.com" <cohuck@redhat.com>,
-        "Gupta, Puneet (DCG-ENG)" <puneet.gupta@amd.com>,
-        "song.bao.hua@hisilicon.com" <song.bao.hua@hisilicon.com>,
-        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
-        "maz@kernel.org" <maz@kernel.org>,
-        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
-        "jeffrey.l.hugo@gmail.com" <jeffrey.l.hugo@gmail.com>,
-        "Michael.Srba@seznam.cz" <Michael.Srba@seznam.cz>,
-        "mani@kernel.org" <mani@kernel.org>,
-        "yishaih@nvidia.com" <yishaih@nvidia.com>,
-        "jgg@ziepe.ca" <jgg@ziepe.ca>, "jgg@nvidia.com" <jgg@nvidia.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "ndesaulniers@google.com" <ndesaulniers@google.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "okaya@kernel.org" <okaya@kernel.org>,
-        "Anand, Harpreet" <harpreet.anand@amd.com>,
-        "Agarwal, Nikhil" <nikhil.agarwal@amd.com>,
-        "Simek, Michal" <michal.simek@amd.com>,
-        "Radovanovic, Aleksandar" <aleksandar.radovanovic@amd.com>,
-        "git (AMD-Xilinx)" <git@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="hKJQcIhkK02ICY+m"
+Content-Disposition: inline
+In-Reply-To: <20220906061313.1445810-1-masahiroy@kernel.org>
+Jabber-ID: nicolas@jabber.no
+X-Operating-System: Debian GNU/Linux bookworm/sid
+X-Provags-ID: V03:K1:mbqiW6nNSfkXCdVLPO8j3hNgZZIVQ1f1O++++JHzjgbvY9BZEzT
+ SqyvfsK4aLzPqnKZYAWOXMsZ7Lyn0mbOm5HUiU2OH0BVQMuCFV1ttNeUhauHfagMxXm54o2
+ yovLgjZT3J+yEBleshK6EouI/LRruJS1+dB7d384uUkG8+AJ2c317iySqSXEtyHkcultoDV
+ 5LzreVoBV3pnM5ZFsP67g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:cX8yd2ZMl0g=:ebJ6VZCE2BGeky+xTBJLyh
+ DzBraCzGk+5FDXx7AodA3YUN5Yx86iOGfMOXZ2aWPiK4LTP8ukkFbVQK2NfWjl1V9Mx7mzN0C
+ eqXNjJJTDNxhRPH9n5wNKsLodeg8Rjop9x508zGIWMbc568nnRzC44398AdKllf1M/3/GWLhU
+ mpD4uFlvNCUqEu2f58kaHbZtacPJPxFuoeZs8yMu9qpRnbmtPGDXSRVJatTvGD/wtC3TxzEb2
+ c5Ke1C64DOCkN4O5daULZTql3RrgkIVi0/meBCe7lILTQjucOyK1qS63z9fDrxu6yz3lP4bGZ
+ NcP74sRgQX1VBjRudLzgcON2rHjPJTUA0DdrPB3EBPAOxQ9oAOD5L5lpU3XNZx4/cImuKr1IK
+ s2rT9htW+t3gles3B8mC6t2H2GiBGyvoZj8dK0mdXFtTbYxdPHxhSsMmxw59iK4togfrjgqfJ
+ eD+Vvq7ZXFN/tSH1j36vs5RRvKhCVQXzRpQRQ4kUQocA5qZ6maLZxCqEuDCPlRzjAm2gOJ87W
+ KkdSbLutHWY0+a/DCJRYjYqQo4NNf9MEl43h+8dS/RZzZYktJAYuwxtlR9WL2KwJFOU+4pSb4
+ 8HIsgoyoeJGLr7ZBcZFRGNcsTTuExsKC768UmwhNw/9de86ZlP4TQs9I1W+IFrl5m6NL4ILTj
+ jLrPN6h7YjcuKMGlrV+FVEW2jYAQfa+FoBvMo8kFWEYT+wECHYOALFsOhZ4FgqgZGx83AKu1Q
+ 21Wn3BJz0Qa8Y1G4im+X1rOegB/gvLUsImHfnuRZWj7bmRH88xpZRApSn0C5Vvygo1rEHkztJ
+ E8cx+Ws
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -104,140 +68,54 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Sep 7, 2022 at 1:27 AM Robin Murphy <robin.murphy@arm.com> wrote:
->
-> On 2022-09-07 04:17, Gupta, Nipun wrote:
-> > [AMD Official Use Only - General]
-> >
-> >
-> >
-> >> -----Original Message-----
-> >> From: Saravana Kannan <saravanak@google.com>
-> >> Sent: Wednesday, September 7, 2022 5:41 AM
-> >> To: Gupta, Nipun <Nipun.Gupta@amd.com>
-> >> Cc: robh+dt@kernel.org; krzysztof.kozlowski+dt@linaro.org;
-> >> gregkh@linuxfoundation.org; rafael@kernel.org; eric.auger@redhat.com;
-> >> alex.williamson@redhat.com; cohuck@redhat.com; Gupta, Puneet (DCG-ENG)
-> >> <puneet.gupta@amd.com>; song.bao.hua@hisilicon.com;
-> >> mchehab+huawei@kernel.org; maz@kernel.org; f.fainelli@gmail.com;
-> >> jeffrey.l.hugo@gmail.com; Michael.Srba@seznam.cz; mani@kernel.org;
-> >> yishaih@nvidia.com; jgg@ziepe.ca; jgg@nvidia.com; robin.murphy@arm.com;
-> >> will@kernel.org; joro@8bytes.org; masahiroy@kernel.org;
-> >> ndesaulniers@google.com; linux-arm-kernel@lists.infradead.org; linux-
-> >> kbuild@vger.kernel.org; linux-kernel@vger.kernel.org;
-> >> devicetree@vger.kernel.org; kvm@vger.kernel.org; okaya@kernel.org; Anand,
-> >> Harpreet <harpreet.anand@amd.com>; Agarwal, Nikhil
-> >> <nikhil.agarwal@amd.com>; Simek, Michal <michal.simek@amd.com>;
-> >> Radovanovic, Aleksandar <aleksandar.radovanovic@amd.com>; git (AMD-Xilinx)
-> >> <git@amd.com>
-> >> Subject: Re: [RFC PATCH v3 3/7] iommu/arm-smmu-v3: support ops registration
-> >> for CDX bus
-> >>
-> >> [CAUTION: External Email]
-> >>
-> >> On Tue, Sep 6, 2022 at 6:48 AM Nipun Gupta <nipun.gupta@amd.com> wrote:
-> >>>
-> >>> With new CDX bus supported for AMD FPGA devices on ARM
-> >>> platform, the bus requires registration for the SMMU v3
-> >>> driver.
-> >>>
-> >>> Signed-off-by: Nipun Gupta <nipun.gupta@amd.com>
-> >>> ---
-> >>>   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 16 ++++++++++++++--
-> >>>   1 file changed, 14 insertions(+), 2 deletions(-)
-> >>>
-> >>> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> >> b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> >>> index d32b02336411..8ec9f2baf12d 100644
-> >>> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> >>> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> >>> @@ -29,6 +29,7 @@
-> >>>   #include <linux/platform_device.h>
-> >>>
-> >>>   #include <linux/amba/bus.h>
-> >>> +#include <linux/cdx/cdx_bus.h>
-> >>>
-> >>>   #include "arm-smmu-v3.h"
-> >>>   #include "../../iommu-sva-lib.h"
-> >>> @@ -3690,16 +3691,27 @@ static int arm_smmu_set_bus_ops(struct
-> >> iommu_ops *ops)
-> >>>                  if (err)
-> >>>                          goto err_reset_pci_ops;
-> >>>          }
-> >>> +#endif
-> >>> +#ifdef CONFIG_CDX_BUS
-> >>> +       if (cdx_bus_type.iommu_ops != ops) {
-> >>> +               err = bus_set_iommu(&cdx_bus_type, ops);
-> >>> +               if (err)
-> >>> +                       goto err_reset_amba_ops;
-> >>> +       }
-> >>
-> >> I'm not an expert on IOMMUs, so apologies if the question is stupid.
-> >>
-> >> Why does the CDX bus need special treatment here (like PCI) when there
-> >> are so many other busses (eg: I2C, SPI, etc) that don't need any
-> >> changes here?
-> >
-> > AFAIU, the devices on I2C/SPI does not use SMMU. Apart from PCI/AMBA,
-> > FSL-MC is another similar bus (on SMMUv2) which uses SMMU ops.
-> >
-> > The devices here are behind SMMU. Robin can kindly correct or add
-> > more here from SMMU perspective.
->
-> Indeed, there is no need to describe and handle how DMA may or may not
-> be translated for I2C/SPI/USB/etc. because they are not DMA-capable
-> buses (in those cases the relevant bus *controller* often does DMA, but
-> it does that for itself as the platform/PCI/etc. device it is).
 
-Ok this is what I was guessing was the reason, but didn't want to make
-that assumption.
+--hKJQcIhkK02ICY+m
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-So if there are other cases like AMBA, FSL-MC where the devices can do
-direct DMA, why do those buses not need a #ifdef section in this
-function like CDX? Or put another way, why does CDX need special treatment?
+On Tue,  6 Sep 2022 15:13:05 +0900 Masahiro Yamada wrote:
+>=20
+>  - Refactor single target build to make it work more correctly
+>  - Link vmlinux and modules in parallel
+>  - Remove head-y syntax
+>=20
+>=20
+> Masahiro Yamada (8):
+>   kbuild: fix and refactor single target build
+>   kbuild: rename modules.order in sub-directories to .modules.order
+>   kbuild: move core-y and drivers-y to ./Kbuild
+>   kbuild: move .vmlinux.objs rule to Makefile.modpost
+>   kbuild: move vmlinux.o rule to the top Makefile
+>   kbuild: unify two modpost invocations
+>   kbuild: use obj-y instead extra-y for objects placed at the head
+>   kbuild: remove head-y syntax
 
-> Note that I have a series pending[1] that will make this patch a whole
-> lot simpler.
+I'm not able to apply the patchset, neither on your current kbuild=20
+branch nor on for-next.  What am I missing here?  Could you give me a=20
+hint for a patchset base?
 
-Thanks for the pointer. I'll make some comments in that series about
-bus notifiers.
+Thanks and kind regards,
+Nicolas
 
+--hKJQcIhkK02ICY+m
+Content-Type: application/pgp-signature; name="signature.asc"
 
--Saravana
+-----BEGIN PGP SIGNATURE-----
 
->
-> Thanks,
-> Robin.
->
-> [1]
-> https://lore.kernel.org/linux-iommu/cover.1660572783.git.robin.murphy@arm.com/T/#t
->
-> >
-> > Thanks,
-> > Nipun
-> >
-> >>
-> >> -Saravana
-> >>
-> >>>   #endif
-> >>>          if (platform_bus_type.iommu_ops != ops) {
-> >>>                  err = bus_set_iommu(&platform_bus_type, ops);
-> >>>                  if (err)
-> >>> -                       goto err_reset_amba_ops;
-> >>> +                       goto err_reset_cdx_ops;
-> >>>          }
-> >>>
-> >>>          return 0;
-> >>>
-> >>> -err_reset_amba_ops:
-> >>> +err_reset_cdx_ops:
-> >>> +#ifdef CONFIG_CDX_BUS
-> >>> +       bus_set_iommu(&cdx_bus_type, NULL);
-> >>> +#endif
-> >>> +err_reset_amba_ops: __maybe_unused;
-> >>>   #ifdef CONFIG_ARM_AMBA
-> >>>          bus_set_iommu(&amba_bustype, NULL);
-> >>>   #endif
-> >>> --
-> >>> 2.25.1
-> >>>
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmMY+/0ACgkQB1IKcBYm
+EmkEiBAAkCa2NYVixVsjRRb65SA+QAIyoK0Hes6o9vPdgIcoMVca5e4t9n6imP+C
+FAdCmmv5+TZwaJyKiDI3Kv57nlrOkkumBK/PhlUUejaVXH1LUjcojXZP7GEsifEu
+osbHXuP5M7Q3lpbouOm6Wicm2q45qHrEPW10Shs2wJCiwkz4T3d510/XHrrxjOwC
+EyNsmIeySZw0Rze9a9ZdUZWCQ5n1KAGNhhTQdM1lv7NDDiZWr26DO/lk0ywevSLe
+Wh2As7XEomTahK/ZjiX0Qxez3Zn0Fcf/t1L3zLImbIT4M/mTarOGio6C86hgbZDh
+QXW8Jzq+oO09IiDm+8MWOL/0uZKxJDPyuIHa7n+6BmqXcDrvlKoNsZ231JLmOmcN
+jQ6EnIEeLGc7ZIv+ZZ1rL0HkpJOqPHO9EM1x9mEqLNZRUm3OrhhTePj7Lc/+dZdT
+6ysBtCitZp3wX1+7aw+/jcIjZUvZ7aZXAWBOOUTKGJueC1l0vu3Q7aP6E64gnGb7
+g5S0TnHtDfoeJLJoE65o1hPwm0jxJGi5xJKOR2ptKe2+rY5B6SY8CziS216URtS8
+PIVj6w1qsSljdbJdC/uUcr6CX3GP+Vl6A9OzVikHuVa83tCUU/wuFBMXbOfQ5QOQ
+I4jAJMV89B3a/Mn29ey4tuxYiHXbd940SjBwIWhJV5ZBndNh56A=
+=+bbr
+-----END PGP SIGNATURE-----
+
+--hKJQcIhkK02ICY+m--
