@@ -2,220 +2,103 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE3FA5B10CF
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Sep 2022 02:15:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5411F5B124C
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Sep 2022 04:01:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230105AbiIHAPE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 7 Sep 2022 20:15:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47022 "EHLO
+        id S230001AbiIHCBv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 7 Sep 2022 22:01:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229598AbiIHAPD (ORCPT
+        with ESMTP id S229716AbiIHCBu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 7 Sep 2022 20:15:03 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01FEE580A3
-        for <linux-kbuild@vger.kernel.org>; Wed,  7 Sep 2022 17:14:58 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id d189so21285539ybh.12
-        for <linux-kbuild@vger.kernel.org>; Wed, 07 Sep 2022 17:14:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=GUHy3tTXYEVlHWPOZt/B5s9dwh1oEap8QDDRaqRD42s=;
-        b=EkFoA2DUckJoc39LOiNtYCaU9cFbXVmazyNV12a3KStazGUhhJR1U6XnXODK0TIRz4
-         +N76WdVdDqe2MYv/D4T4eFF42LX7csfZYrgd36cDl4ZF2OYpoYcAFEEFgAyx8F58tbal
-         P0WKobLZgcRhq24wI/kQMtsCJmAgIaCYCjQo4lYSmesUuH6LFbT1w/aGaw0ARdAlSFXd
-         J2GIhzFoViVMPvlNGlBbz2nzmN6QV9n01RRBkPte6KTFKKFHwsasefqsYFjEHKOZjYhz
-         aBKTtDKp2Rsg+pzX3OQRfEjjk6SnI7xmv7hIDzZp8hxzLZ5KYlmECPeru8AFaesdazSU
-         faJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=GUHy3tTXYEVlHWPOZt/B5s9dwh1oEap8QDDRaqRD42s=;
-        b=tWdTqlnKX10conab55vQWZ1CzaUuXLhnkEy+ALgHckpOOuNqUfXj2L+oR8gniixptR
-         R90aCb51JUOu9cHrWXvfMj72iSpTIEAYZdjXmhZPK/Mo2Ufe2pIJKrz21Abjchvm/lwH
-         40dHzBVQQzMXcyjq1BSxPZxoynnfkZZfUAMCSezttvZMXG1g8hfhUCn+0o77v7HoMcRR
-         B+nmavoi3CdfIqrPtVrq68KBM7aw59m8UbMt5OnfxGqA8akND2PzmwNRntLEsLPKkAV4
-         +W5RWCgnu2hh47YKwXMhnvSYxdmGD+Itx7857MDPxflhUNcMVF+wmbX0hhpTfgFr6cYU
-         m7jw==
-X-Gm-Message-State: ACgBeo1zyK/HualER99GlcN4oIog0ZBrvf57mEYE+x0UrLIl9RpGtGMs
-        HTNAaqyOJ6maM3WBIEfSEBaMAEYMkL5GQXRXxbC3qg==
-X-Google-Smtp-Source: AA6agR7IHk6cdCdDMOwQoLbNgYeM+zGxAHtlj9Ps+Z38Lyz7NBVqyyguZjbICAsIreBFAhf/MXWHt+Mk9Zkk8gYuoS4=
-X-Received: by 2002:a25:1486:0:b0:6a8:f3e1:58ba with SMTP id
- 128-20020a251486000000b006a8f3e158bamr4883435ybu.80.1662596096986; Wed, 07
- Sep 2022 17:14:56 -0700 (PDT)
+        Wed, 7 Sep 2022 22:01:50 -0400
+Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37D147B2BF;
+        Wed,  7 Sep 2022 19:01:49 -0700 (PDT)
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 28821XjL012230;
+        Thu, 8 Sep 2022 11:01:34 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 28821XjL012230
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1662602494;
+        bh=6Y1Bya3aPZIeSCr6IhdukpsTZDl2mHIQOZnpZe9hjBU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=hC6w73/jbQba9O4cZKC0LRYCxDjbEM7J4YwUZ+TXWkQ6p+n1ytM22WZ+1NNPqOUrq
+         ZtDzyIpKPB2UGdcOFYc3TIZ/3OIZCA519hrGV/3vCt/ef+hGI50ch/xJyGYvW5M4mO
+         l1g6cqI4BkcKuoWzvynpDu3v9hv1KFHUce5+W/A5ACyvxPdfHuZnnEiHzfG3Y+vasj
+         kLski423IKrQiQh0RGx9esWdiyt0axCXTcxFs9G0NGhdkMh2SxmmtLB1UJSsdoeMOi
+         XttpO2B3Na0Pm8PuS/F84vEvl3+NKW3SE0NWYBBnYzHeOik6pkGyY2EXmGhwQtxstP
+         SGapoNPOx+Q7g==
+X-Nifty-SrcIP: [209.85.161.45]
+Received: by mail-oo1-f45.google.com with SMTP id c9-20020a4a4f09000000b0044e1294a737so2744625oob.3;
+        Wed, 07 Sep 2022 19:01:33 -0700 (PDT)
+X-Gm-Message-State: ACgBeo2xwQWhlJyGe8tgJDwOsixTqNKCVQ5ZezKH+7rvTUXM6/ObnRGK
+        abimIXtgkrH8LqJ6n/DK1hsSrMtWZEcIYb2ZUDs=
+X-Google-Smtp-Source: AA6agR5LEebdg5DlSdHbvjogjPHbIZgd4TjczzfDaGtjQ3D+KX3gf7+iYfPULy+rgzHwPdEJkWdG1FpOt2ozkzowVUw=
+X-Received: by 2002:a4a:9789:0:b0:451:437b:cc58 with SMTP id
+ w9-20020a4a9789000000b00451437bcc58mr2283450ooi.96.1662602492951; Wed, 07 Sep
+ 2022 19:01:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220803122655.100254-1-nipun.gupta@amd.com> <20220906134801.4079497-1-nipun.gupta@amd.com>
- <20220906134801.4079497-4-nipun.gupta@amd.com> <CAGETcx_W8QVe+CdpocN2rHjp08TwsW22FaJgrYW=0JNge_N6KQ@mail.gmail.com>
- <DM6PR12MB30829DDDC62B36B17F87B204E8419@DM6PR12MB3082.namprd12.prod.outlook.com>
- <f5cf7bd7-4cd9-ef9c-7f25-f814b2f1e41f@arm.com> <CAGETcx9LE=E2focmbEsdQV3s2NR4-9H35ODkgSxZY5_7SEJ1Qw@mail.gmail.com>
- <9e537066-525f-4a8c-ffc1-926ac130c6e6@arm.com>
-In-Reply-To: <9e537066-525f-4a8c-ffc1-926ac130c6e6@arm.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Wed, 7 Sep 2022 17:14:20 -0700
-Message-ID: <CAGETcx8geH_DP4yHKxH=kXW=iJ3tchb5oRmqQ-Ugs6gmw1MwYg@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 3/7] iommu/arm-smmu-v3: support ops registration
- for CDX bus
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     "Gupta, Nipun" <Nipun.Gupta@amd.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "rafael@kernel.org" <rafael@kernel.org>,
-        "eric.auger@redhat.com" <eric.auger@redhat.com>,
-        "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
-        "cohuck@redhat.com" <cohuck@redhat.com>,
-        "Gupta, Puneet (DCG-ENG)" <puneet.gupta@amd.com>,
-        "song.bao.hua@hisilicon.com" <song.bao.hua@hisilicon.com>,
-        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
-        "maz@kernel.org" <maz@kernel.org>,
-        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
-        "jeffrey.l.hugo@gmail.com" <jeffrey.l.hugo@gmail.com>,
-        "Michael.Srba@seznam.cz" <Michael.Srba@seznam.cz>,
-        "mani@kernel.org" <mani@kernel.org>,
-        "yishaih@nvidia.com" <yishaih@nvidia.com>,
-        "jgg@ziepe.ca" <jgg@ziepe.ca>, "jgg@nvidia.com" <jgg@nvidia.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "ndesaulniers@google.com" <ndesaulniers@google.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "okaya@kernel.org" <okaya@kernel.org>,
-        "Anand, Harpreet" <harpreet.anand@amd.com>,
-        "Agarwal, Nikhil" <nikhil.agarwal@amd.com>,
-        "Simek, Michal" <michal.simek@amd.com>,
-        "Radovanovic, Aleksandar" <aleksandar.radovanovic@amd.com>,
-        "git (AMD-Xilinx)" <git@amd.com>
+References: <20220906061313.1445810-1-masahiroy@kernel.org>
+ <Yxj7/WxCcdIuEHG6@bergen.fjasle.eu> <Yxj8lTPByGnahpWq@bergen.fjasle.eu>
+In-Reply-To: <Yxj8lTPByGnahpWq@bergen.fjasle.eu>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 8 Sep 2022 11:00:56 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQuJibnWaseXVwc9eLAeQkj6AhyxVk-YHeRgEi7vjNBjg@mail.gmail.com>
+Message-ID: <CAK7LNAQuJibnWaseXVwc9eLAeQkj6AhyxVk-YHeRgEi7vjNBjg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/8] kbuild: various cleanups
+To:     Nicolas Schier <nicolas@fjasle.eu>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Sep 7, 2022 at 1:40 PM Robin Murphy <robin.murphy@arm.com> wrote:
+On Thu, Sep 8, 2022 at 5:18 AM Nicolas Schier <nicolas@fjasle.eu> wrote:
 >
-> On 2022-09-07 19:24, Saravana Kannan wrote:
-> > On Wed, Sep 7, 2022 at 1:27 AM Robin Murphy <robin.murphy@arm.com> wrote:
-> >>
-> >> On 2022-09-07 04:17, Gupta, Nipun wrote:
-> >>> [AMD Official Use Only - General]
-> >>>
-> >>>
-> >>>
-> >>>> -----Original Message-----
-> >>>> From: Saravana Kannan <saravanak@google.com>
-> >>>> Sent: Wednesday, September 7, 2022 5:41 AM
-> >>>> To: Gupta, Nipun <Nipun.Gupta@amd.com>
-> >>>> Cc: robh+dt@kernel.org; krzysztof.kozlowski+dt@linaro.org;
-> >>>> gregkh@linuxfoundation.org; rafael@kernel.org; eric.auger@redhat.com;
-> >>>> alex.williamson@redhat.com; cohuck@redhat.com; Gupta, Puneet (DCG-ENG)
-> >>>> <puneet.gupta@amd.com>; song.bao.hua@hisilicon.com;
-> >>>> mchehab+huawei@kernel.org; maz@kernel.org; f.fainelli@gmail.com;
-> >>>> jeffrey.l.hugo@gmail.com; Michael.Srba@seznam.cz; mani@kernel.org;
-> >>>> yishaih@nvidia.com; jgg@ziepe.ca; jgg@nvidia.com; robin.murphy@arm.com;
-> >>>> will@kernel.org; joro@8bytes.org; masahiroy@kernel.org;
-> >>>> ndesaulniers@google.com; linux-arm-kernel@lists.infradead.org; linux-
-> >>>> kbuild@vger.kernel.org; linux-kernel@vger.kernel.org;
-> >>>> devicetree@vger.kernel.org; kvm@vger.kernel.org; okaya@kernel.org; Anand,
-> >>>> Harpreet <harpreet.anand@amd.com>; Agarwal, Nikhil
-> >>>> <nikhil.agarwal@amd.com>; Simek, Michal <michal.simek@amd.com>;
-> >>>> Radovanovic, Aleksandar <aleksandar.radovanovic@amd.com>; git (AMD-Xilinx)
-> >>>> <git@amd.com>
-> >>>> Subject: Re: [RFC PATCH v3 3/7] iommu/arm-smmu-v3: support ops registration
-> >>>> for CDX bus
-> >>>>
-> >>>> [CAUTION: External Email]
-> >>>>
-> >>>> On Tue, Sep 6, 2022 at 6:48 AM Nipun Gupta <nipun.gupta@amd.com> wrote:
-> >>>>>
-> >>>>> With new CDX bus supported for AMD FPGA devices on ARM
-> >>>>> platform, the bus requires registration for the SMMU v3
-> >>>>> driver.
-> >>>>>
-> >>>>> Signed-off-by: Nipun Gupta <nipun.gupta@amd.com>
-> >>>>> ---
-> >>>>>    drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 16 ++++++++++++++--
-> >>>>>    1 file changed, 14 insertions(+), 2 deletions(-)
-> >>>>>
-> >>>>> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> >>>> b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> >>>>> index d32b02336411..8ec9f2baf12d 100644
-> >>>>> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> >>>>> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> >>>>> @@ -29,6 +29,7 @@
-> >>>>>    #include <linux/platform_device.h>
-> >>>>>
-> >>>>>    #include <linux/amba/bus.h>
-> >>>>> +#include <linux/cdx/cdx_bus.h>
-> >>>>>
-> >>>>>    #include "arm-smmu-v3.h"
-> >>>>>    #include "../../iommu-sva-lib.h"
-> >>>>> @@ -3690,16 +3691,27 @@ static int arm_smmu_set_bus_ops(struct
-> >>>> iommu_ops *ops)
-> >>>>>                   if (err)
-> >>>>>                           goto err_reset_pci_ops;
-> >>>>>           }
-> >>>>> +#endif
-> >>>>> +#ifdef CONFIG_CDX_BUS
-> >>>>> +       if (cdx_bus_type.iommu_ops != ops) {
-> >>>>> +               err = bus_set_iommu(&cdx_bus_type, ops);
-> >>>>> +               if (err)
-> >>>>> +                       goto err_reset_amba_ops;
-> >>>>> +       }
-> >>>>
-> >>>> I'm not an expert on IOMMUs, so apologies if the question is stupid.
-> >>>>
-> >>>> Why does the CDX bus need special treatment here (like PCI) when there
-> >>>> are so many other busses (eg: I2C, SPI, etc) that don't need any
-> >>>> changes here?
-> >>>
-> >>> AFAIU, the devices on I2C/SPI does not use SMMU. Apart from PCI/AMBA,
-> >>> FSL-MC is another similar bus (on SMMUv2) which uses SMMU ops.
-> >>>
-> >>> The devices here are behind SMMU. Robin can kindly correct or add
-> >>> more here from SMMU perspective.
-> >>
-> >> Indeed, there is no need to describe and handle how DMA may or may not
-> >> be translated for I2C/SPI/USB/etc. because they are not DMA-capable
-> >> buses (in those cases the relevant bus *controller* often does DMA, but
-> >> it does that for itself as the platform/PCI/etc. device it is).
+> On Wed, 7 Sep 2022 22:15:57 +0200 Nicolas Schier wrote:
+> > On Tue,  6 Sep 2022 15:13:05 +0900 Masahiro Yamada wrote:
+> > >
+> > >  - Refactor single target build to make it work more correctly
+> > >  - Link vmlinux and modules in parallel
+> > >  - Remove head-y syntax
+> > >
+> > >
+> > > Masahiro Yamada (8):
+> > >   kbuild: fix and refactor single target build
+> > >   kbuild: rename modules.order in sub-directories to .modules.order
+> > >   kbuild: move core-y and drivers-y to ./Kbuild
+> > >   kbuild: move .vmlinux.objs rule to Makefile.modpost
+> > >   kbuild: move vmlinux.o rule to the top Makefile
+> > >   kbuild: unify two modpost invocations
+> > >   kbuild: use obj-y instead extra-y for objects placed at the head
+> > >   kbuild: remove head-y syntax
 > >
-> > Ok this is what I was guessing was the reason, but didn't want to make
-> > that assumption.
+> > I'm not able to apply the patchset, neither on your current kbuild
+> > branch nor on for-next.  What am I missing here?  Could you give me a
+> > hint for a patchset base?
 > >
-> > So if there are other cases like AMBA, FSL-MC where the devices can do
-> > direct DMA, why do those buses not need a #ifdef section in this
-> > function like CDX? Or put another way, why does CDX need special treatment?
+> > Thanks and kind regards,
+> > Nicolas
 >
-> Er, it doesn't? The only non-optional bus here is platform, since the
-> others *can* be configured out and *are* #ifdefed accordingly.
-
-Ah ok. Also I somehow missed the #ifdef AMBA there and thought there
-was only #ifdef PCI and the rest of the buses somehow got it working
-without having to muck around arm-smmu-v3.c.
-
-Thanks for the explanation. I'm done here :)
-
--Saravana
-
-> This
-> patch is fine for the kernel it was based on, it'll just want rewriting
-> now that I've cleaned all this horrible driver boilerplate up. And
-> according to the thread on patch #4 there might need to be additional
-> changes for CDX to express a reserved MSI region for SMMU support to
-> actually work properly.
 >
-> Robin.
+> ooops.  It _is_ already on kbuild, sorry for the noise.
+
+
+Yes.
+If you are happy to review and/or test the branch,
+I will add Reviewed-by/Tested-by when I rebase it.
+
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
