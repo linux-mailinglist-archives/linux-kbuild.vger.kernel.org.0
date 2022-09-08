@@ -2,108 +2,124 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EFFBD5B2177
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Sep 2022 17:02:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B4D35B21EE
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Sep 2022 17:22:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232258AbiIHPCj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 8 Sep 2022 11:02:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54592 "EHLO
+        id S231243AbiIHPWX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 8 Sep 2022 11:22:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231981AbiIHPCi (ORCPT
+        with ESMTP id S232148AbiIHPWV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 8 Sep 2022 11:02:38 -0400
-Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C043CED9A5;
-        Thu,  8 Sep 2022 08:02:35 -0700 (PDT)
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 288F26HX020965;
-        Fri, 9 Sep 2022 00:02:07 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 288F26HX020965
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1662649327;
-        bh=8hQteixhTRn0IXFAmCEqnMliHvXuSMH7IbIKeVN8/rQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=WyohYophnaNZeLJr8jkYQ8cIE01qdIWlIuOr1CCUXAZDh1wPUuW3dcrlNWenG1EZD
-         4nesU49MQMbrTya6ETvsACljXAWwdnVphffel7Nq4jH5P5pSAdV02S7nsJ7VguuluS
-         kK7WP7+pGSpMRm9vDQVC22FiVzsFfTCQiSpIQLaKqvUaBZsfErF/k2v6mZHDLSga3t
-         GLO59188ubtP5O19aj4D16tqufBF7odnVFq9zoi++rWgF70FDKfA9Yuwb8saz456Cq
-         VU4nQ+4EKRGMc8wrdYQrMkZ8cCO15K55xxw7lcvYoDKyRpa5wX+LonNVWnt+t3ZXhj
-         1zxCcH6o26ATw==
-X-Nifty-SrcIP: [209.85.210.48]
-Received: by mail-ot1-f48.google.com with SMTP id t11-20020a05683014cb00b0063734a2a786so12510577otq.11;
-        Thu, 08 Sep 2022 08:02:07 -0700 (PDT)
-X-Gm-Message-State: ACgBeo12REupkMkTEj71Vv0MzH4gZtcp8iuDUlP9HhKz3m3/FB33f55C
-        GDgGy4jm4LkinVeE/llKwe5Bu4AGrUcggTNMo1w=
-X-Google-Smtp-Source: AA6agR5EIgPiVg+b9R2y17Oh6bb4VRfCwISrVT+nftqwkQ3XwlwJlQzx0MbpWzAc8RpiE3LyivfufYGI7/vyN8EjMDU=
-X-Received: by 2002:a9d:4806:0:b0:637:cdca:f8d3 with SMTP id
- c6-20020a9d4806000000b00637cdcaf8d3mr3689470otf.225.1662649326153; Thu, 08
- Sep 2022 08:02:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220907230339.271633-1-danielwa@cisco.com> <CAK7LNAQSUkWz9hvEmB1wSCMJ0Do209QZOgAxO=oSK6HQa7XgTg@mail.gmail.com>
- <20220908143859.GF4320@zorba>
-In-Reply-To: <20220908143859.GF4320@zorba>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 9 Sep 2022 00:01:30 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQEEVF7x1_gX-Y2fFf6Cp3RtRLr41YLkv+s8YHzo1ikKA@mail.gmail.com>
-Message-ID: <CAK7LNAQEEVF7x1_gX-Y2fFf6Cp3RtRLr41YLkv+s8YHzo1ikKA@mail.gmail.com>
-Subject: Re: [RFC-PATCH] Makefile: dts: include directory makefile for DTC_FLAGS
-To:     Daniel Walker <danielwa@cisco.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        xe-linux-external@cisco.com,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Thu, 8 Sep 2022 11:22:21 -0400
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19F70F9133;
+        Thu,  8 Sep 2022 08:22:16 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 73104580CA1;
+        Thu,  8 Sep 2022 11:22:15 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute3.internal (MEProxy); Thu, 08 Sep 2022 11:22:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm1; t=1662650535; x=1662654135; bh=kC7+ylBuxz
+        7d2bUcPE2qQ6TKqn7ANl3Ger2SvB6Lr70=; b=AFDoBjy3RS4b6YPkV7qnjD/AlC
+        ftszlirLCdkWhfghBa0PhHCp5ZwS4NJCbTazgEJ5YCIzxne2PaJFIAypDlE9B1mX
+        5BHASLphoVrdLs1YTnvk34ONiwX5RnT+GGtfhtfF+qOehseQ6MM/VRGHzKt05v+5
+        d8OQwp6mKQGhJDVLm/Xwgn46qKlvtxh5o9wTsNzxEdQUQF7vsppgWw9IMv31FoB2
+        rZDIj36ZUK/ki1IGdQLvmj1/Jz7agUyVWYnJBcToHa0ZRk2/6J9O3+pCPAFfaV4J
+        iX3zRVeJNow5yVAF54GAAIv6JtG2o/I93qsfNQdaU/H+hAVBDY9C+Oh7oHvQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm2; t=1662650535; x=1662654135; bh=kC7+ylBuxz7d2bUcPE2qQ6TKqn7A
+        Nl3Ger2SvB6Lr70=; b=Ia6C89wvzfO2D3QEcMRhjyjZpPS57joZaaPfl4Oxjmbq
+        g1bHe+5SlutEWhXz9THjPkxXkhIdSNSkwKfjCoTIdCwB+t0I7ZCtXgl9FG44UPf+
+        SovjdaiXO5glAW5kgvX1uavzuZKaJk224JbRm6jClOmM7CSJdCFR4YSCt9ghPg1o
+        H30ii1YlNf/etoVvvSyptUE3Xpi5j0NiNV3Kdcbff9Zl46EFDq2PxeyHWn8728K+
+        d2Cr/Gd0azumpETzdaBgMQY1ZbJ1JKA+nT/hAlNtHkbimsVxBsLFIrxKVsNTXbqo
+        eU4/2FbqetbU1oHhzALOhX2pRizVaFrwPuCVakPMwA==
+X-ME-Sender: <xms:pggaY6psuV0qF0eXGK6fe8gfllyXQKrDgHQ65YMJ5PW3iLzZ8I-IVg>
+    <xme:pggaY4ocQmB0k6yhCHL3RbOE3NQM1rMWueYdxu-a6xEwY7W0DPm7hYx3qQnPT0f8K
+    I7u5ZMf1hyyNLDN93E>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedtfedgvdekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:pggaY_N6YlReyOnYzR-zt63N4kx5FNrpKKxzpP0PQJszdjgvAaav7g>
+    <xmx:pggaY54XTL8c3Hm3tMTZEb3j6v2WQqywOado5g3KD7gDcNEc7yjWTw>
+    <xmx:pggaY57GidZ2eM6JkNbkcJP0co7wPMB14mX0Fmeo5IFGfAOutnWBlw>
+    <xmx:pwgaY6PyoY4G4z6uiB0oD7BXBVrRzjWXLDB7DWW9zShUhXMy1JrkTQ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 4F46CB60083; Thu,  8 Sep 2022 11:22:14 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-927-gf4c98c8499-fm-20220826.002-gf4c98c84
+Mime-Version: 1.0
+Message-Id: <5c5caaa7-d062-466e-9761-2e3083c0dcd6@www.fastmail.com>
+In-Reply-To: <20220908104337.11940-1-lukas.bulwahn@gmail.com>
+References: <20220908104337.11940-1-lukas.bulwahn@gmail.com>
+Date:   Thu, 08 Sep 2022 17:21:53 +0200
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Lukas Bulwahn" <lukas.bulwahn@gmail.com>,
+        "Russell King" <linux@armlinux.org.uk>,
+        linux-arm-kernel@lists.infradead.org,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
+        "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, "Peter Chen" <peter.chen@kernel.org>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        "Mike Rapoport" <rppt@linux.ibm.com>, linux-mm@kvack.org,
+        "Masahiro Yamada" <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/6] Remove CONFIG_EMBEDDED
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Sep 8, 2022 at 11:39 PM Daniel Walker <danielwa@cisco.com> wrote:
+On Thu, Sep 8, 2022, at 12:43 PM, Lukas Bulwahn wrote:
 >
-> On Thu, Sep 08, 2022 at 04:08:06PM +0900, Masahiro Yamada wrote:
-> > On Thu, Sep 8, 2022 at 8:03 AM Daniel Walker <danielwa@cisco.com> wrote:
-> > >
-> > > The current Makefile will drop the DTC_FLAGS depending on how you
-> > > build. For example,
-> > >
-> > > make dtbs
-> > >
-> > > includes correct DTC_FLAGS. However if you run,
-> > >
-> > > make nvidia/tegra210-p2371-2180.dtb
-> > >
-> > > The DTC_FLAGS are dropped. This appears to be caused by the top level
-> > > Makefile not including the Makefile from the directory where the dts lives.
-> > >
-> > > This normally doesn't matter because most dts files have nothing added
-> > > from the Makefile. This changes when you have overlays, and the
-> > > DTC_FLAGS modifier is mandatory for the dtb to work correctly.
-> >
-> >
-> > I recently fixed another issue of single target builds.
-> > https://patchwork.kernel.org/project/linux-kbuild/patch/20220906061313.1445810-2-masahiroy@kernel.org/
-> >
-> >
-> > It fixed your issue as well.
-> >
-> >
+> For these minor changes in a few subsystems, I would hope that:
 >
-> Yeah, it fixes the issue I was seeing. Are you planning to resubmit this or is
-> the v2 the final version ?
+>   Patch "arm: make config ARM_PATCH_PHYS_VIRT visible with EXPERT"
+>     is picked by arm architecture maintainer Russell King.
 >
-> Daniel
+>   Patch "x86: make config X86_FEATURE_NAMES visible with EXPERT"
+>     is picked by x86 architecture maintainers.
+>
+>   Patch "media: remove reference to CONFIG_EMBEDDED in MEDIA_SUPPORT_FILTER"
+>     is picked by media maintainer Mauro Carvalho Chehab.
+>
+>   Patch "usb: chipidea: make configs for glue drivers visible with EXPERT"
+>     is picked by Peter Chen or usb maintainer Greg Kroah-Hartman.
+>
+>   Patch "mm: Kconfig: make config SECRETMEM visible with EXPERT"
+>     is acked by Mike Rapoport, and
+>     is picked by mm maintainer Andrew Morton.
+>
+> Once all of these patches above have been merged to mainline:
+>
+>   Patch "init/Kconfig: remove confusing config EMBEDDED"
+>     can probably just be picked by the kbuild maintainer Masahiro
 
+Nice series!
 
-I do not have a plan to submit v3
-(unless a new issue comes up)
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+Acked-by: Arnd Bergmann <arnd@arndb.de>
