@@ -2,55 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5411F5B124C
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Sep 2022 04:01:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDB1A5B1567
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Sep 2022 09:09:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230001AbiIHCBv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 7 Sep 2022 22:01:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43616 "EHLO
+        id S231253AbiIHHJD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 8 Sep 2022 03:09:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229716AbiIHCBu (ORCPT
+        with ESMTP id S229884AbiIHHJB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 7 Sep 2022 22:01:50 -0400
-Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37D147B2BF;
-        Wed,  7 Sep 2022 19:01:49 -0700 (PDT)
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 28821XjL012230;
-        Thu, 8 Sep 2022 11:01:34 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 28821XjL012230
+        Thu, 8 Sep 2022 03:09:01 -0400
+Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7D918FD5B;
+        Thu,  8 Sep 2022 00:09:00 -0700 (PDT)
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 28878hgN022035;
+        Thu, 8 Sep 2022 16:08:44 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 28878hgN022035
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1662602494;
-        bh=6Y1Bya3aPZIeSCr6IhdukpsTZDl2mHIQOZnpZe9hjBU=;
+        s=dec2015msa; t=1662620924;
+        bh=PVKlmhmwpV0pLgSi1ek3+0DUiw2m6Eg7M0VOWvovdBc=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=hC6w73/jbQba9O4cZKC0LRYCxDjbEM7J4YwUZ+TXWkQ6p+n1ytM22WZ+1NNPqOUrq
-         ZtDzyIpKPB2UGdcOFYc3TIZ/3OIZCA519hrGV/3vCt/ef+hGI50ch/xJyGYvW5M4mO
-         l1g6cqI4BkcKuoWzvynpDu3v9hv1KFHUce5+W/A5ACyvxPdfHuZnnEiHzfG3Y+vasj
-         kLski423IKrQiQh0RGx9esWdiyt0axCXTcxFs9G0NGhdkMh2SxmmtLB1UJSsdoeMOi
-         XttpO2B3Na0Pm8PuS/F84vEvl3+NKW3SE0NWYBBnYzHeOik6pkGyY2EXmGhwQtxstP
-         SGapoNPOx+Q7g==
-X-Nifty-SrcIP: [209.85.161.45]
-Received: by mail-oo1-f45.google.com with SMTP id c9-20020a4a4f09000000b0044e1294a737so2744625oob.3;
-        Wed, 07 Sep 2022 19:01:33 -0700 (PDT)
-X-Gm-Message-State: ACgBeo2xwQWhlJyGe8tgJDwOsixTqNKCVQ5ZezKH+7rvTUXM6/ObnRGK
-        abimIXtgkrH8LqJ6n/DK1hsSrMtWZEcIYb2ZUDs=
-X-Google-Smtp-Source: AA6agR5LEebdg5DlSdHbvjogjPHbIZgd4TjczzfDaGtjQ3D+KX3gf7+iYfPULy+rgzHwPdEJkWdG1FpOt2ozkzowVUw=
-X-Received: by 2002:a4a:9789:0:b0:451:437b:cc58 with SMTP id
- w9-20020a4a9789000000b00451437bcc58mr2283450ooi.96.1662602492951; Wed, 07 Sep
- 2022 19:01:32 -0700 (PDT)
+        b=u+9uVVlzjc67QvrIeS4fdznX24JcMq6U12l6W0QXg0TGNza7drsjsaNVJ8WERBk3N
+         OeEZDB0pnKquBVp2CR+xPPL7sxf02x3PxTANOZj9pt8eochK2H94ol6wNb/9tdn+fu
+         Tbb8OjzKg9RjtXS4vrcttPwnfIu9cidT6dUhDTKmuaCM0Me3zv8FHv7oi2YPugeZH4
+         RG25KmLY5fHQtQeq7nP8ILsca831gLSjfTGPxkOX6Ad0jdq1qI1KsZyLyxiPjlUd6c
+         tGxaMrPjbyI6ZjEzom5A2FIrn/Fzr4zdBAxrUKeAnbrdkBx09doGWvBzRyeTn6XBe0
+         drZSVWKLwCS1g==
+X-Nifty-SrcIP: [209.85.210.51]
+Received: by mail-ot1-f51.google.com with SMTP id z22-20020a056830129600b0063711f456ceso11795904otp.7;
+        Thu, 08 Sep 2022 00:08:43 -0700 (PDT)
+X-Gm-Message-State: ACgBeo34w2uAOZHM8pC9L0XhrM7QcakaFiMyTV6hq8B3/MQ9Gm4n65FX
+        wh7fnYVbXFt/WvRG1a/x8RdUdExQS/1UZnqepdQ=
+X-Google-Smtp-Source: AA6agR74fU7kTwBXWyksY2XmkALd8hye53EFmB770dfrBQd9tfEOHH7g+N6eDGv2TAlx/g/i4VqXrHA2Ycq/xFHFxBs=
+X-Received: by 2002:a9d:4806:0:b0:637:cdca:f8d3 with SMTP id
+ c6-20020a9d4806000000b00637cdcaf8d3mr2968943otf.225.1662620923019; Thu, 08
+ Sep 2022 00:08:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220906061313.1445810-1-masahiroy@kernel.org>
- <Yxj7/WxCcdIuEHG6@bergen.fjasle.eu> <Yxj8lTPByGnahpWq@bergen.fjasle.eu>
-In-Reply-To: <Yxj8lTPByGnahpWq@bergen.fjasle.eu>
+References: <20220907230339.271633-1-danielwa@cisco.com>
+In-Reply-To: <20220907230339.271633-1-danielwa@cisco.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 8 Sep 2022 11:00:56 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQuJibnWaseXVwc9eLAeQkj6AhyxVk-YHeRgEi7vjNBjg@mail.gmail.com>
-Message-ID: <CAK7LNAQuJibnWaseXVwc9eLAeQkj6AhyxVk-YHeRgEi7vjNBjg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/8] kbuild: various cleanups
-To:     Nicolas Schier <nicolas@fjasle.eu>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>
+Date:   Thu, 8 Sep 2022 16:08:06 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQSUkWz9hvEmB1wSCMJ0Do209QZOgAxO=oSK6HQa7XgTg@mail.gmail.com>
+Message-ID: <CAK7LNAQSUkWz9hvEmB1wSCMJ0Do209QZOgAxO=oSK6HQa7XgTg@mail.gmail.com>
+Subject: Re: [RFC-PATCH] Makefile: dts: include directory makefile for DTC_FLAGS
+To:     Daniel Walker <danielwa@cisco.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        xe-linux-external@cisco.com,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
@@ -61,42 +62,67 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Sep 8, 2022 at 5:18 AM Nicolas Schier <nicolas@fjasle.eu> wrote:
+On Thu, Sep 8, 2022 at 8:03 AM Daniel Walker <danielwa@cisco.com> wrote:
 >
-> On Wed, 7 Sep 2022 22:15:57 +0200 Nicolas Schier wrote:
-> > On Tue,  6 Sep 2022 15:13:05 +0900 Masahiro Yamada wrote:
-> > >
-> > >  - Refactor single target build to make it work more correctly
-> > >  - Link vmlinux and modules in parallel
-> > >  - Remove head-y syntax
-> > >
-> > >
-> > > Masahiro Yamada (8):
-> > >   kbuild: fix and refactor single target build
-> > >   kbuild: rename modules.order in sub-directories to .modules.order
-> > >   kbuild: move core-y and drivers-y to ./Kbuild
-> > >   kbuild: move .vmlinux.objs rule to Makefile.modpost
-> > >   kbuild: move vmlinux.o rule to the top Makefile
-> > >   kbuild: unify two modpost invocations
-> > >   kbuild: use obj-y instead extra-y for objects placed at the head
-> > >   kbuild: remove head-y syntax
-> >
-> > I'm not able to apply the patchset, neither on your current kbuild
-> > branch nor on for-next.  What am I missing here?  Could you give me a
-> > hint for a patchset base?
-> >
-> > Thanks and kind regards,
-> > Nicolas
+> The current Makefile will drop the DTC_FLAGS depending on how you
+> build. For example,
 >
+> make dtbs
 >
-> ooops.  It _is_ already on kbuild, sorry for the noise.
+> includes correct DTC_FLAGS. However if you run,
+>
+> make nvidia/tegra210-p2371-2180.dtb
+>
+> The DTC_FLAGS are dropped. This appears to be caused by the top level
+> Makefile not including the Makefile from the directory where the dts lives.
+>
+> This normally doesn't matter because most dts files have nothing added
+> from the Makefile. This changes when you have overlays, and the
+> DTC_FLAGS modifier is mandatory for the dtb to work correctly.
 
 
-Yes.
-If you are happy to review and/or test the branch,
-I will add Reviewed-by/Tested-by when I rebase it.
+I recently fixed another issue of single target builds.
+https://patchwork.kernel.org/project/linux-kbuild/patch/20220906061313.1445810-2-masahiroy@kernel.org/
 
 
+It fixed your issue as well.
+
+
+
+
+
+
+>
+> This change adds a -f argument which includes the Makefile from the
+> directory where the dts file reside. This change is also required for
+> dtbo files.
+>
+> Cc: xe-linux-external@cisco.com
+> Signed-off-by: Daniel Walker <danielwa@cisco.com>
+> ---
+>  Makefile | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index ac16bd92b156..bc245e2dc8d1 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1460,10 +1460,10 @@ endif
+>  ifneq ($(dtstree),)
+>
+>  %.dtb: dtbs_prepare
+> -       $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+> +       $(Q)$(MAKE) -f $(srctree)/$(dtstree)/$(dir $@)Makefile $(build)=$(dtstree) $(dtstree)/$@
+>
+>  %.dtbo: dtbs_prepare
+> -       $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+> +       $(Q)$(MAKE) -f $(srctree)/$(dtstree)/$(dir $@)Makefile $(build)=$(dtstree) $(dtstree)/$@
+>
+>  PHONY += dtbs dtbs_prepare dtbs_install dtbs_check
+>  dtbs: dtbs_prepare
+> --
+> 2.25.1
+>
 
 
 -- 
