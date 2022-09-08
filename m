@@ -2,112 +2,65 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B172D5B1A79
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Sep 2022 12:51:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 409A95B1B05
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Sep 2022 13:13:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230345AbiIHKva (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 8 Sep 2022 06:51:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42422 "EHLO
+        id S229589AbiIHLN2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 8 Sep 2022 07:13:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229971AbiIHKv3 (ORCPT
+        with ESMTP id S229630AbiIHLNW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 8 Sep 2022 06:51:29 -0400
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A2F0F5C4B
-        for <linux-kbuild@vger.kernel.org>; Thu,  8 Sep 2022 03:51:27 -0700 (PDT)
-Received: by mail-lj1-x234.google.com with SMTP id bx38so19361972ljb.10
-        for <linux-kbuild@vger.kernel.org>; Thu, 08 Sep 2022 03:51:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=Ps3lqStzHySPsxXJuGxo0vZdDPyhFg6keE7WeVb52JA=;
-        b=o/ruHuZsbRb3J4aRBZSNXOgC0gbQJiJQr5k8dC92i0jMhf4DWYiRJfo+94HIhCkSv3
-         /HokU7euLiM46BwzGLn18PdHnMEmhjQ22T2l9e2PEYMIp/Dzv3ee4+Z8khE0tVYKjjC5
-         RRyvFN0+9G5E+N0fKvZ0CbSsELx+4GZqMSNdA3KOvpN0NdTMazePQa8e4JY+draSONWD
-         NKONpCiI8VbPQ4ftetNBDNKgF4G2obYeIhDAKZZ1kPWF5KxflbrX+wfDLp5PJsdicUJz
-         tG3xAxGZn5FUM+Fevz9VzBu7oLiD4/7J7FrK0i0tlOKmsMbEnOo5L5LJpu/5RCBbrrWk
-         raHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=Ps3lqStzHySPsxXJuGxo0vZdDPyhFg6keE7WeVb52JA=;
-        b=qNz7JJNZLr7ftNOiYfS8xao0ph2ZcHhac+O5Z8PvYe1i4Ba9aO5QRLssUMWzMg9XX6
-         8pDq4owm+PDldCSD1bWXNKrwC4GAbzburl/mRpzajnz9wCHYjacf2RUz+tRCJlVPuLcG
-         +Izok/wxiYgLfvgCgVGhqCe3PMzqwiC+/hPoIDUuwYhooedRo/lXM52OkyxFuFCJVmVM
-         +iTYq+laqmKLdyuWPPxRssdvlgOCA1QS3G1PkfFR2maClCOemKNeSJ4AIC3Fep8Oim0T
-         z9GXrIHteHGzJIpbhCsbVpr20Y8Tr4fvCLW7HRqYDk/MOlDJzK7jLZyPvO1FTyCvdwpR
-         X+FA==
-X-Gm-Message-State: ACgBeo3/kovubysUq+y8o2mXkg2rQ5iZF7LePwPqFW86NmAz2sX5EBDV
-        81xmfDBi76dMjFRDVMrwBpGV3ASpJLac8g==
-X-Google-Smtp-Source: AA6agR7L+QQqZcc4iA8yVL5wfSIRSeMTKBKrT1SGqVSWUuzNvpwI8LZVG/KWcNq8Zx8VBagz06spwA==
-X-Received: by 2002:a2e:bc21:0:b0:25e:c921:f7d7 with SMTP id b33-20020a2ebc21000000b0025ec921f7d7mr2224729ljf.91.1662634285764;
-        Thu, 08 Sep 2022 03:51:25 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id x19-20020a056512079300b00492d270db5esm2986308lfr.242.2022.09.08.03.51.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Sep 2022 03:51:25 -0700 (PDT)
-Message-ID: <4b648759-1e0d-db2c-5fc6-bf586bff775e@linaro.org>
-Date:   Thu, 8 Sep 2022 12:51:23 +0200
+        Thu, 8 Sep 2022 07:13:22 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37FBAD99E9;
+        Thu,  8 Sep 2022 04:13:16 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 88232CE1F07;
+        Thu,  8 Sep 2022 11:13:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C14B1C433D6;
+        Thu,  8 Sep 2022 11:13:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1662635590;
+        bh=iJAltEe80iBgnEcTrGpToVAW8pvN4/7NYz8vdUhpFAs=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Q86NaGdXLc8cdu7XwxAzrwSH9WjGvlaAPr6xEVBgQ3CQSOqxk2Qz3Y6McraLUAxi+
+         BK5cTAl72DtjcF9dEmM+dvXs0F8xQrsEv9mr+//QNoMKfX8LEgzNTj/RwyEjWdVYBp
+         vEfYZ0JY2orfoKTZxaSp48W2D3D9VDkO5rDxEQ1cyJXiJBCABfZfNmloz2qSRfDZxe
+         FPjVLsQ3wfRSYbQHmDJQUVL5dlyiIO2Rw+j9kwyRS9nMKxCVA+mFGTeNLhLoONM+F2
+         i6XDpxbJePNuDNxveXOopz2fCr56iNg6KH3k5wWwCQYxITLeKhLHU5sG7vrfAu4TNi
+         npKBqh2BnhmUQ==
+Date:   Thu, 8 Sep 2022 13:13:03 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     Russell King <linux@armlinux.org.uk>,
+        linux-arm-kernel@lists.infradead.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        linux-media@vger.kernel.org, Peter Chen <peter.chen@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@linux.ibm.com>, linux-mm@kvack.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/6] media: remove reference to CONFIG_EMBEDDED in
+ MEDIA_SUPPORT_FILTER
+Message-ID: <20220908131303.1fe813cd@coco.lan>
+In-Reply-To: <20220908104337.11940-4-lukas.bulwahn@gmail.com>
+References: <20220908104337.11940-1-lukas.bulwahn@gmail.com>
+        <20220908104337.11940-4-lukas.bulwahn@gmail.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [RFC PATCH v3 1/7] dt-bindings: bus: add CDX bus device tree
- bindings
-Content-Language: en-US
-To:     "Gupta, Nipun" <Nipun.Gupta@amd.com>, Rob Herring <robh@kernel.org>
-Cc:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "eric.auger@redhat.com" <eric.auger@redhat.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "jeffrey.l.hugo@gmail.com" <jeffrey.l.hugo@gmail.com>,
-        "maz@kernel.org" <maz@kernel.org>,
-        "Gupta, Puneet (DCG-ENG)" <puneet.gupta@amd.com>,
-        "Michael.Srba@seznam.cz" <Michael.Srba@seznam.cz>,
-        "cohuck@redhat.com" <cohuck@redhat.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "okaya@kernel.org" <okaya@kernel.org>,
-        "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
-        "song.bao.hua@hisilicon.com" <song.bao.hua@hisilicon.com>,
-        "jgg@nvidia.com" <jgg@nvidia.com>,
-        "mani@kernel.org" <mani@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "robin.murphy@arm.com" <robin.murphy@arm.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "rafael@kernel.org" <rafael@kernel.org>,
-        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
-        "jgg@ziepe.ca" <jgg@ziepe.ca>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "Agarwal, Nikhil" <nikhil.agarwal@amd.com>,
-        "Anand, Harpreet" <harpreet.anand@amd.com>,
-        "yishaih@nvidia.com" <yishaih@nvidia.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "git (AMD-Xilinx)" <git@amd.com>,
-        "saravanak@google.com" <saravanak@google.com>,
-        "Radovanovic, Aleksandar" <aleksandar.radovanovic@amd.com>,
-        "Simek, Michal" <michal.simek@amd.com>,
-        "ndesaulniers@google.com" <ndesaulniers@google.com>
-References: <20220803122655.100254-1-nipun.gupta@amd.com>
- <20220906134801.4079497-1-nipun.gupta@amd.com>
- <20220906134801.4079497-2-nipun.gupta@amd.com>
- <1662486402.681939.780022.nullmailer@robh.at.kernel.org>
- <DM6PR12MB3082B9C670B5F58215259A76E8419@DM6PR12MB3082.namprd12.prod.outlook.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <DM6PR12MB3082B9C670B5F58215259A76E8419@DM6PR12MB3082.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -115,21 +68,38 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 07/09/2022 05:13, Gupta, Nipun wrote:
->>
->> If you already ran 'make dt_binding_check' and didn't see the above
->> error(s), then make sure 'yamllint' is installed and dt-schema is up to
->> date:
->>
->> pip3 install dtschema --upgrade
->>
->> Please check and re-submit.
+Em Thu,  8 Sep 2022 12:43:34 +0200
+Lukas Bulwahn <lukas.bulwahn@gmail.com> escreveu:
+
+> The config EMBEDDED selects EXPERT, i.e., when EMBEDDED is enabled, EXPERT
+> is usually also enabled. Hence, it sufficient to have the option
+> MEDIA_SUPPORT_FILTER set to y if !EXPERT.
 > 
-> I did run make dt_binding_check, but did not see the issue.
-> Will update the dtschema and fix this.
+> This way, MEDIA_SUPPORT_FILTER does not refer to CONFIG_EMBEDDED anymore
+> and allows us to remove CONFIG_EMBEDDED in the close future.
+> 
+> Remove the reference to CONFIG_EMBEDDED in MEDIA_SUPPORT_FILTER.
+> 
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> ---
+>  drivers/media/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
+> index ba6592b3dab2..283b78b5766e 100644
+> --- a/drivers/media/Kconfig
+> +++ b/drivers/media/Kconfig
+> @@ -24,7 +24,7 @@ if MEDIA_SUPPORT
+>  
+>  config MEDIA_SUPPORT_FILTER
+>  	bool "Filter media drivers"
+> -	default y if !EMBEDDED && !EXPERT
+> +	default y if !EXPERT
+>  	help
+>  	   Configuring the media subsystem can be complex, as there are
+>  	   hundreds of drivers and other config options.
 
-Regardless whether you saw it or not, the example DTS is incorrect...
-Even if there are no errors, please do not add incorrect DTS.
+Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Best regards,
-Krzysztof
+Thanks,
+Mauro
