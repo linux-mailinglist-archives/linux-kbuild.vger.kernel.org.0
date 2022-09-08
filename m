@@ -2,132 +2,141 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 23B545B1BD8
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Sep 2022 13:49:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 864755B1C92
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Sep 2022 14:17:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231140AbiIHLtY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 8 Sep 2022 07:49:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35958 "EHLO
+        id S229574AbiIHMQ6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 8 Sep 2022 08:16:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229644AbiIHLtX (ORCPT
+        with ESMTP id S231166AbiIHMQ5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 8 Sep 2022 07:49:23 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5733AB5;
-        Thu,  8 Sep 2022 04:49:22 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5E47B14BF;
-        Thu,  8 Sep 2022 04:49:28 -0700 (PDT)
-Received: from [10.57.15.197] (unknown [10.57.15.197])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4DC473F71A;
-        Thu,  8 Sep 2022 04:49:12 -0700 (PDT)
-Message-ID: <919bfaae-0a1d-de88-8211-f9fa476e6ebf@arm.com>
-Date:   Thu, 8 Sep 2022 12:49:05 +0100
+        Thu, 8 Sep 2022 08:16:57 -0400
+X-Greylist: delayed 1552 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 08 Sep 2022 05:16:55 PDT
+Received: from mxout70.expurgate.net (mxout70.expurgate.net [91.198.224.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A0A0E2287;
+        Thu,  8 Sep 2022 05:16:55 -0700 (PDT)
+Received: from [127.0.0.1] (helo=localhost)
+        by relay.expurgate.net with smtp (Exim 4.92)
+        (envelope-from <prvs=226421540e=fe@dev.tdt.de>)
+        id 1oWFoE-000Tdy-NY; Thu, 08 Sep 2022 13:35:02 +0200
+Received: from [195.243.126.94] (helo=securemail.tdt.de)
+        by relay.expurgate.net with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <fe@dev.tdt.de>)
+        id 1oWFoD-000TUm-Ru; Thu, 08 Sep 2022 13:35:01 +0200
+Received: from securemail.tdt.de (localhost [127.0.0.1])
+        by securemail.tdt.de (Postfix) with ESMTP id 5C20B240049;
+        Thu,  8 Sep 2022 13:35:02 +0200 (CEST)
+Received: from mail.dev.tdt.de (unknown [10.2.4.42])
+        by securemail.tdt.de (Postfix) with ESMTP id D0FE2240040;
+        Thu,  8 Sep 2022 13:35:01 +0200 (CEST)
+Received: from localhost.localdomain (unknown [10.2.3.40])
+        by mail.dev.tdt.de (Postfix) with ESMTPSA id 6F1DD292C3;
+        Thu,  8 Sep 2022 13:35:00 +0200 (CEST)
+From:   Florian Eckert <fe@dev.tdt.de>
+To:     masahiroy@kernel.org, michal.lkml@markovi.net,
+        ndesaulniers@google.com
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, Eckert.Florian@googlemail.com
+Subject: [PATCH] fs/proc: add compile time info
+Date:   Thu,  8 Sep 2022 13:34:49 +0200
+Message-ID: <20220908113449.259942-1-fe@dev.tdt.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [RFC PATCH v3 4/7] bus/cdx: add cdx-MSI domain with gic-its
- domain as parent
-Content-Language: en-GB
-To:     "Radovanovic, Aleksandar" <aleksandar.radovanovic@amd.com>,
-        Marc Zyngier <maz@kernel.org>
-Cc:     Jason Gunthorpe <jgg@nvidia.com>,
-        "Gupta, Nipun" <Nipun.Gupta@amd.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "rafael@kernel.org" <rafael@kernel.org>,
-        "eric.auger@redhat.com" <eric.auger@redhat.com>,
-        "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
-        "cohuck@redhat.com" <cohuck@redhat.com>,
-        "Gupta, Puneet (DCG-ENG)" <puneet.gupta@amd.com>,
-        "song.bao.hua@hisilicon.com" <song.bao.hua@hisilicon.com>,
-        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
-        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
-        "jeffrey.l.hugo@gmail.com" <jeffrey.l.hugo@gmail.com>,
-        "saravanak@google.com" <saravanak@google.com>,
-        "Michael.Srba@seznam.cz" <Michael.Srba@seznam.cz>,
-        "mani@kernel.org" <mani@kernel.org>,
-        "yishaih@nvidia.com" <yishaih@nvidia.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "ndesaulniers@google.com" <ndesaulniers@google.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "okaya@kernel.org" <okaya@kernel.org>,
-        "Anand, Harpreet" <harpreet.anand@amd.com>,
-        "Agarwal, Nikhil" <nikhil.agarwal@amd.com>,
-        "Simek, Michal" <michal.simek@amd.com>,
-        "git (AMD-Xilinx)" <git@amd.com>
-References: <20220803122655.100254-1-nipun.gupta@amd.com>
- <20220906134801.4079497-1-nipun.gupta@amd.com>
- <20220906134801.4079497-5-nipun.gupta@amd.com> <YxeBCsA32jnwMjSj@nvidia.com>
- <87leqvv3g7.wl-maz@kernel.org>
- <MN2PR12MB4358E3CFD2E3ECECC14471F489419@MN2PR12MB4358.namprd12.prod.outlook.com>
- <87illzuzyw.wl-maz@kernel.org>
- <MN2PR12MB43581495197F603E901BBACA89419@MN2PR12MB4358.namprd12.prod.outlook.com>
- <87edwmuw4f.wl-maz@kernel.org>
- <SA0PR12MB4365D5D2C05EAB412567D42B89409@SA0PR12MB4365.namprd12.prod.outlook.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <SA0PR12MB4365D5D2C05EAB412567D42B89409@SA0PR12MB4365.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-10.1 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+Content-Transfer-Encoding: quoted-printable
+X-purgate-ID: 151534::1662636902-527FC6FE-A96F9D50/0/0
+X-purgate: clean
+X-purgate-type: clean
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 2022-09-08 10:51, Radovanovic, Aleksandar wrote:
-> [AMD Official Use Only - General]
-> 
-> 
-> 
->> -----Original Message-----
->> From: Marc Zyngier <maz@kernel.org>
->> Sent: 08 September 2022 09:08
->> To: Radovanovic, Aleksandar <aleksandar.radovanovic@amd.com>
->> Cc: Jason Gunthorpe <jgg@nvidia.com>; Gupta, Nipun
->> <Nipun.Gupta@amd.com>; robh+dt@kernel.org;
->> krzysztof.kozlowski+dt@linaro.org; gregkh@linuxfoundation.org;
->> rafael@kernel.org; eric.auger@redhat.com; alex.williamson@redhat.com;
->> cohuck@redhat.com; Gupta, Puneet (DCG-ENG)
->> <puneet.gupta@amd.com>; song.bao.hua@hisilicon.com;
->> mchehab+huawei@kernel.org; f.fainelli@gmail.com;
->> jeffrey.l.hugo@gmail.com; saravanak@google.com;
->> Michael.Srba@seznam.cz; mani@kernel.org; yishaih@nvidia.com;
->> robin.murphy@arm.com; will@kernel.org; joro@8bytes.org;
->> masahiroy@kernel.org; ndesaulniers@google.com; linux-arm-
->> kernel@lists.infradead.org; linux-kbuild@vger.kernel.org; linux-
->> kernel@vger.kernel.org; devicetree@vger.kernel.org; kvm@vger.kernel.org;
->> okaya@kernel.org; Anand, Harpreet <harpreet.anand@amd.com>; Agarwal,
->> Nikhil <nikhil.agarwal@amd.com>; Simek, Michal <michal.simek@amd.com>;
->> git (AMD-Xilinx) <git@amd.com>
->> Subject: Re: [RFC PATCH v3 4/7] bus/cdx: add cdx-MSI domain with gic-its
->> domain as parent
->>
->> [CAUTION: External Email]
->>   
->> OK, so you definitely need a mapping, but it cannot be a translation, and it
->> needs to be in all the possible address spaces. OMG.
-> 
-> Could you elaborate why it needs to be in all the possible address spaces? I'm in no way familiar with kernel IOVA allocation, so not sure I understand this requirement. Note that each CDX device will have its own unique StreamID (in general case, equal to DeviceID sent to the GIC), so, from a SMMU perspective, the mapping can be specific to that device. As long as that IOVA is not allocated to any DMA region for _that_ device, things should be OK? But, I appreciate it might not be that simple from a kernel perspective.
+We already have this information available during the build process.
+This information is output in the first line of the boot log during the
+boot process.
 
-That's the point - any device could could have its own mapping, 
-therefore that hole has to be punched in *every* mapping that any of 
-those devices could use, so that MSI writes don't unexpectedly fault, or 
-corrupt memory if that address is free to be used to map a DMA buffer. 
-At least the HiSilicon PCI quirk is functionally similar (for slightly 
-different underlying reasons) so there's already precedent and an 
-example that you can follow to a reasonable degree.
+Unfortunately, this information is only readbale humans when
+they look at the first line of the boolog. In order for this information
+to be further processed by the machine and other userland services,
+it should be separately readable as epoch date in the proc directory.
 
-Robin.
+Signed-off-by: Florian Eckert <fe@dev.tdt.de>
+---
+ fs/proc/Makefile       |  1 +
+ fs/proc/compile_time.c | 20 ++++++++++++++++++++
+ scripts/mkcompile_h    |  5 ++++-
+ 3 files changed, 25 insertions(+), 1 deletion(-)
+ create mode 100644 fs/proc/compile_time.c
+
+diff --git a/fs/proc/Makefile b/fs/proc/Makefile
+index bd08616ed8ba..ee61a8c2c840 100644
+--- a/fs/proc/Makefile
++++ b/fs/proc/Makefile
+@@ -23,6 +23,7 @@ proc-y	+=3D stat.o
+ proc-y	+=3D uptime.o
+ proc-y	+=3D util.o
+ proc-y	+=3D version.o
++proc-y	+=3D compile_time.o
+ proc-y	+=3D softirqs.o
+ proc-y	+=3D namespaces.o
+ proc-y	+=3D self.o
+diff --git a/fs/proc/compile_time.c b/fs/proc/compile_time.c
+new file mode 100644
+index 000000000000..4cf659d3c28c
+--- /dev/null
++++ b/fs/proc/compile_time.c
+@@ -0,0 +1,20 @@
++// SPDX-License-Identifier: GPL-2.0
++#include <generated/compile.h>
++#include <linux/fs.h>
++#include <linux/init.h>
++#include <linux/proc_fs.h>
++#include <linux/seq_file.h>
++
++static int compile_time_proc_show(struct seq_file *m, void *v)
++{
++	seq_printf(m, "%s\n", LINUX_COMPILE_EPOCH);
++	return 0;
++}
++
++static int __init proc_compile_time_init(void)
++{
++	proc_create_single("compile_time", 0, NULL, compile_time_proc_show);
++	return 0;
++}
++
++fs_initcall(proc_compile_time_init);
+diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
+index ca40a5258c87..d0e927602276 100755
+--- a/scripts/mkcompile_h
++++ b/scripts/mkcompile_h
+@@ -24,8 +24,10 @@ else
+ fi
+=20
+ if [ -z "$KBUILD_BUILD_TIMESTAMP" ]; then
+-	TIMESTAMP=3D`date`
++	LINUX_COMPILE_EPOCH=3D$(date +%s)
++	TIMESTAMP=3D$(date -d "@$LINUX_COMPILE_EPOCH")
+ else
++	LINUX_COMPILE_EPOCH=3D$(date -d "$KBUILD_BUILD_TIMESTAMP" +%s)
+ 	TIMESTAMP=3D$KBUILD_BUILD_TIMESTAMP
+ fi
+ if test -z "$KBUILD_BUILD_USER"; then
+@@ -64,6 +66,7 @@ UTS_VERSION=3D"$(echo $UTS_VERSION $CONFIG_FLAGS $TIMES=
+TAMP | cut -b -$UTS_LEN)"
+=20
+   echo \#define UTS_VERSION \"$UTS_VERSION\"
+=20
++  printf '#define LINUX_COMPILE_EPOCH "%s"\n' "$LINUX_COMPILE_EPOCH"
+   printf '#define LINUX_COMPILE_BY "%s"\n' "$LINUX_COMPILE_BY"
+   echo \#define LINUX_COMPILE_HOST \"$LINUX_COMPILE_HOST\"
+=20
+--=20
+2.30.2
+
