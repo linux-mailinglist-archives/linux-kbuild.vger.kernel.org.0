@@ -2,56 +2,54 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EDB1A5B1567
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Sep 2022 09:09:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E7A75B1578
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Sep 2022 09:16:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231253AbiIHHJD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 8 Sep 2022 03:09:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39662 "EHLO
+        id S229970AbiIHHQq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 8 Sep 2022 03:16:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229884AbiIHHJB (ORCPT
+        with ESMTP id S229498AbiIHHQp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 8 Sep 2022 03:09:01 -0400
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7D918FD5B;
-        Thu,  8 Sep 2022 00:09:00 -0700 (PDT)
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 28878hgN022035;
-        Thu, 8 Sep 2022 16:08:44 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 28878hgN022035
+        Thu, 8 Sep 2022 03:16:45 -0400
+Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF6092656A;
+        Thu,  8 Sep 2022 00:16:44 -0700 (PDT)
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 2887GSk7002753;
+        Thu, 8 Sep 2022 16:16:28 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 2887GSk7002753
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1662620924;
-        bh=PVKlmhmwpV0pLgSi1ek3+0DUiw2m6Eg7M0VOWvovdBc=;
+        s=dec2015msa; t=1662621389;
+        bh=Zi1KVRpArAd4GR+l41DO7f/S57oZpGFbgNVPesyN+LI=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=u+9uVVlzjc67QvrIeS4fdznX24JcMq6U12l6W0QXg0TGNza7drsjsaNVJ8WERBk3N
-         OeEZDB0pnKquBVp2CR+xPPL7sxf02x3PxTANOZj9pt8eochK2H94ol6wNb/9tdn+fu
-         Tbb8OjzKg9RjtXS4vrcttPwnfIu9cidT6dUhDTKmuaCM0Me3zv8FHv7oi2YPugeZH4
-         RG25KmLY5fHQtQeq7nP8ILsca831gLSjfTGPxkOX6Ad0jdq1qI1KsZyLyxiPjlUd6c
-         tGxaMrPjbyI6ZjEzom5A2FIrn/Fzr4zdBAxrUKeAnbrdkBx09doGWvBzRyeTn6XBe0
-         drZSVWKLwCS1g==
-X-Nifty-SrcIP: [209.85.210.51]
-Received: by mail-ot1-f51.google.com with SMTP id z22-20020a056830129600b0063711f456ceso11795904otp.7;
-        Thu, 08 Sep 2022 00:08:43 -0700 (PDT)
-X-Gm-Message-State: ACgBeo34w2uAOZHM8pC9L0XhrM7QcakaFiMyTV6hq8B3/MQ9Gm4n65FX
-        wh7fnYVbXFt/WvRG1a/x8RdUdExQS/1UZnqepdQ=
-X-Google-Smtp-Source: AA6agR74fU7kTwBXWyksY2XmkALd8hye53EFmB770dfrBQd9tfEOHH7g+N6eDGv2TAlx/g/i4VqXrHA2Ycq/xFHFxBs=
-X-Received: by 2002:a9d:4806:0:b0:637:cdca:f8d3 with SMTP id
- c6-20020a9d4806000000b00637cdcaf8d3mr2968943otf.225.1662620923019; Thu, 08
- Sep 2022 00:08:43 -0700 (PDT)
+        b=HYgzSQA08bn/vrZoJrrsfn1nafgpdBorzTYJJ17aN/376DKO61InNDkP7mWtR+s8u
+         oiiu7gDNTjlT1gmEtHO9pO41lv7EBg/k+aQb7Wihs/tz/+l4JWVqFTWIZRf1/TgUPz
+         3KnSIs6wGZlcLyhQrqi5l075iCRIXEQTKfNYmdJv7pMimwYiJeA8k6Mc1mgjWayA0L
+         saG08GhyVKRXcQLXnB21STQckf2zSW4Pnx8KzYpKhNfV38rwQdG9JkX5koWYKWIycJ
+         fjBjLoZXr31w5HJcI4T4+uDs/QJHknple84JeFbKLoRWTc4VwsACMIUGiS7R5OcDzJ
+         A1ISG6xBJdJ7A==
+X-Nifty-SrcIP: [209.85.160.43]
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-1280590722dso8623750fac.1;
+        Thu, 08 Sep 2022 00:16:28 -0700 (PDT)
+X-Gm-Message-State: ACgBeo3pu5aVcQrUKVcEWhStTTlSqGuTSVWzg4/KP3pte+rsXcu4Nd6m
+        ylY/Kkt8Us0DMNw5QjSnbugmO2pcOPF+gQ1q33c=
+X-Google-Smtp-Source: AA6agR5xWpm1RVlxiP0x+wSspMDyK7HdF4a5HOzRxJyNSy1PDSTemdEx7Juu4iK1N3Ml/H8qsNZ8nDiNxaRx2DoAIBw=
+X-Received: by 2002:a05:6808:90a:b0:34b:826c:6116 with SMTP id
+ w10-20020a056808090a00b0034b826c6116mr868875oih.194.1662621387757; Thu, 08
+ Sep 2022 00:16:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220907230339.271633-1-danielwa@cisco.com>
-In-Reply-To: <20220907230339.271633-1-danielwa@cisco.com>
+References: <20220906061313.1445810-1-masahiroy@kernel.org> <20220906061313.1445810-8-masahiroy@kernel.org>
+In-Reply-To: <20220906061313.1445810-8-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 8 Sep 2022 16:08:06 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQSUkWz9hvEmB1wSCMJ0Do209QZOgAxO=oSK6HQa7XgTg@mail.gmail.com>
-Message-ID: <CAK7LNAQSUkWz9hvEmB1wSCMJ0Do209QZOgAxO=oSK6HQa7XgTg@mail.gmail.com>
-Subject: Re: [RFC-PATCH] Makefile: dts: include directory makefile for DTC_FLAGS
-To:     Daniel Walker <danielwa@cisco.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        xe-linux-external@cisco.com,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Thu, 8 Sep 2022 16:15:50 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR_nbuzH6Cj8E7jgZq+wuKEt9ra6RiRE2dUwPi1ZJOoWw@mail.gmail.com>
+Message-ID: <CAK7LNAR_nbuzH6Cj8E7jgZq+wuKEt9ra6RiRE2dUwPi1ZJOoWw@mail.gmail.com>
+Subject: Re: [PATCH v2 7/8] kbuild: use obj-y instead extra-y for objects
+ placed at the head
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
@@ -62,67 +60,63 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Sep 8, 2022 at 8:03 AM Daniel Walker <danielwa@cisco.com> wrote:
+On Tue, Sep 6, 2022 at 3:13 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> The current Makefile will drop the DTC_FLAGS depending on how you
-> build. For example,
+> The objects placed at the head of vmlinux need special treatments:
 >
-> make dtbs
+>  - arch/$(SRCARCH)/Makefile adds them to head-y in order to place
+>    them before other archives in the linker command line.
 >
-> includes correct DTC_FLAGS. However if you run,
+>  - arch/$(SRCARCH)/kernel/Makefile adds them to extra-y instead of
+>    obj-y to avoid them going into built-in.a.
 >
-> make nvidia/tegra210-p2371-2180.dtb
+> This commit gets rid of the latter.
 >
-> The DTC_FLAGS are dropped. This appears to be caused by the top level
-> Makefile not including the Makefile from the directory where the dts lives.
+> Create vmlinux.a to collect all the objects that are unconditionally
+> linked to vmlinux. The objects listed in head-y are moved to the head
+> of vmlinux.a by using 'ar m'.
 >
-> This normally doesn't matter because most dts files have nothing added
-> from the Makefile. This changes when you have overlays, and the
-> DTC_FLAGS modifier is mandatory for the dtb to work correctly.
-
-
-I recently fixed another issue of single target builds.
-https://patchwork.kernel.org/project/linux-kbuild/patch/20220906061313.1445810-2-masahiroy@kernel.org/
-
-
-It fixed your issue as well.
-
-
-
-
-
-
+> With this, arch/$(SRCARCH)/kernel/Makefile can consistently use obj-y
+> for builtin objects.
 >
-> This change adds a -f argument which includes the Makefile from the
-> directory where the dts file reside. This change is also required for
-> dtbo files.
+> There is no *.o that is directly linked to vmlinux. Drop unneeded code
+> in scripts/clang-tools/gen_compile_commands.py.
 >
-> Cc: xe-linux-external@cisco.com
-> Signed-off-by: Daniel Walker <danielwa@cisco.com>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
->  Makefile | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/Makefile b/Makefile
-> index ac16bd92b156..bc245e2dc8d1 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1460,10 +1460,10 @@ endif
->  ifneq ($(dtstree),)
+> (no changes since v1)
 >
->  %.dtb: dtbs_prepare
-> -       $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
-> +       $(Q)$(MAKE) -f $(srctree)/$(dtstree)/$(dir $@)Makefile $(build)=$(dtstree) $(dtstree)/$@
+
+
+
+
+> @@ -198,12 +198,12 @@ KCOV_INSTRUMENT_paca.o := n
+>  CFLAGS_setup_64.o              += -fno-stack-protector
+>  CFLAGS_paca.o                  += -fno-stack-protector
 >
->  %.dtbo: dtbs_prepare
-> -       $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
-> +       $(Q)$(MAKE) -f $(srctree)/$(dtstree)/$(dir $@)Makefile $(build)=$(dtstree) $(dtstree)/$@
+> -extra-$(CONFIG_PPC_FPU)                += fpu.o
+> -extra-$(CONFIG_ALTIVEC)                += vector.o
+> -extra-$(CONFIG_PPC64)          += entry_64.o
+> -extra-$(CONFIG_PPC_OF_BOOT_TRAMPOLINE) += prom_init.o
+> +obj-$(CONFIG_PPC_FPU)          += fpu.o
+> +obj-$(CONFIG_ALTIVEC)          += vector.o
+> +obj-$(CONFIG_PPC64)            += entry_64.o
+> +obj-$(CONFIG_PPC_OF_BOOT_TRAMPOLINE)   += prom_init.o
 >
->  PHONY += dtbs dtbs_prepare dtbs_install dtbs_check
->  dtbs: dtbs_prepare
-> --
-> 2.25.1
->
+> -extra-$(CONFIG_PPC_OF_BOOT_TRAMPOLINE) += prom_init_check
+> +obj-$(CONFIG_PPC_OF_BOOT_TRAMPOLINE)   += prom_init_check
+
+
+This line should not be changed.
+
+I fixed it up locally.
+
+https://lore.kernel.org/lkml/CAK7LNARzFmJjpyUciy1LRvaFo72aZcqRbzY-63ArpeszC+HfmQ@mail.gmail.com/
+
+
+
+
 
 
 -- 
