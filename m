@@ -2,139 +2,220 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE28D5B1022
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Sep 2022 01:04:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE3FA5B10CF
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Sep 2022 02:15:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229583AbiIGXEt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 7 Sep 2022 19:04:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34960 "EHLO
+        id S230105AbiIHAPE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 7 Sep 2022 20:15:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229787AbiIGXEq (ORCPT
+        with ESMTP id S229598AbiIHAPD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 7 Sep 2022 19:04:46 -0400
-X-Greylist: delayed 63 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 07 Sep 2022 16:04:45 PDT
-Received: from alln-iport-2.cisco.com (alln-iport-2.cisco.com [173.37.142.89])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EB892A95E
-        for <linux-kbuild@vger.kernel.org>; Wed,  7 Sep 2022 16:04:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=1445; q=dns/txt; s=iport;
-  t=1662591885; x=1663801485;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=SLlPm/SYAr6MHV57O37iy4qpo4ZJe+PXVGQYATH7WfQ=;
-  b=Q7bowQ8vh6t39ceJwWZjSbrwfO8yXtZ4ylAIqtNLBj941FgWc6sAFgcP
-   HIJ9Gk6sJvH8hXBGilKumEKzu6Imc56h/eGmUVoCBnPdw2v/nGojF6IZL
-   Y6OuVTKA7ZgXwN1MWfO1KsoOek/INbI0xWsfWqoIfS8ULflyR2pbOb253
-   E=;
-X-IPAS-Result: =?us-ascii?q?A0ATAACWIhljmJRdJa1aHQEBAQEJARIBBQUBgXsIAQsBg?=
- =?us-ascii?q?3k+RYxtiHGdCIElA1QLAQEBD0IEAQGFBoRnAiU0CQ4BAgQBAQEBAwIDAQEBA?=
- =?us-ascii?q?QEBAwEBBQEBAQIBBwQUAQEBAQEBAQEdGQUQDieFdYZ7AUaBPgESgn2DIQOmF?=
- =?us-ascii?q?YIrgQGIHYFlFIEpAYpshVkcgUlEgRWBPIIsil0iBJIxhWUDCQQHBUpCAwsfD?=
- =?us-ascii?q?hY2AxUDFAMFJAcDGQ8jDQ0EHQwDAwUlAwICGwcCAgMCBhUFAgIXHhg4CAQIB?=
- =?us-ascii?q?CskDwUCBy8FBC8CHgQFBhEIAhYCBgQEBAQVAhAIAggmFwcTMxkBBVkQCSEWB?=
- =?us-ascii?q?igNBQYTAyBHJgUHPg8oMjU5Kx0bCoEOKgkfFQMEBAMCBhMDAyACECwxFAQpE?=
- =?us-ascii?q?xItBytzCQIDImwDAwQoLAMJIR8HKCY8B1kSKAUDAxAiPQYDCQMCJBNHfQ4xF?=
- =?us-ascii?q?BcFAxAZmQYBPVEBgi9zomedH4E1g1yBRohGlgIaMpZykgQtllogonGEUIFhO?=
- =?us-ascii?q?oFbMxoIGxWDIlEZD445jlckMTsCBgsBAQMJilIBAQ?=
-IronPort-Data: A9a23:d/oTRKLpEbkkMU47FE+RO5UlxSXFcZb7ZxGr2PjKsXjdYENSgjdVx
- zEdUDqCbP7cZmr8e4wnPojg80wGvZeBndZkGwEd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
- 63yUvGZcIZsCCW0Si6FatANl1EkvU2zbue6WbWs1hxZH1c+En9w0U07xobVv6Yx6TSHK1LV0
- T/Ni5W31G+Ng1aY5UpNtspvADs21BjDkGtwUm4WPJinj3eC/5UhN6/zEInqR5fOria4KcbhL
- wrL5OnREmo0ZH7BAPv9+lrwWhVirrI/oWFih1IOM5VOjCSuqQQT/7kgGvBHZnwMyBO3rfVNx
- /JKvNuZHFJB0q3kwIzxUjFCGC14eKZB4rKCeCL5us2IxEqAeHzpqxlsJBhpZstDpaAmWicXq
- axwxDMlNnhvg8q6ybS6R+1zj+woLdLgO8UUvXQIITTxXK16HsqeHPqWjTNe9GsIv/9FDeiOX
- dIUOAdoQTbvZR4RHkhCXfrSm8/x1iWgLFW0smm9oasx/niWzwFr1rXpGMTad8bMRshPmEuc4
- GXc8AzRBhAcKczayjCY83agrvHAkDm9W48IErC8sPlwjzW7wGAeExQLUV26rOOiokG5XN1bJ
- gof/S9Gha0z/0yiSp/5XBi8iHuNpB0bRdsWFeAmgCmIw7Hd4weDAXksTTNbbtEi8sgsSlQXO
- kShhdjlA3lkt6eYDCvHsLyVtji1fyMSKAfueBPoUyMkzsb4jotogSmUDfBdIouJgfryEHbZl
- mXiQDcFu50fissC1qOe9F/Bgi6xqpWhcuLTzliMNo5Cxl4kDLNJd7BE+nCAt6ccc9zxok2p+
- SlaxJDEs4jiGLnXzESwrPMx8KZFDhpvGAfdil5mBZU68DLFF5WLIt0IsGgWyKuEzq85ldLBe
- kTfv0Za44VeeSLwK6R2eIm2Tc8tyMAM9OgJtNiJP7KigbAoJGdrGR2Cg2bLhQgBd2B3yskC1
- W+zK5rEMJrjIf0PIMCKb+kcy6Q34Ss12HneQ5v2pzz+j+TEOSHIFexebgrRBgzc0E9iiFiFm
- zq4H5baoyizrMWiCsUq2ddJdAtTfSRT6W7e8pALJoZv3TaK6El4W6OOntvNiqRunr9eka/T7
- 2qhV0pDoGcTdlWZQThmnktLMeu1Nb4m9CpTFXV1bT6AhSN5Ca7xt/h3SnfCVeR9nACV5aQqH
- 6BtlgTpKqkndwkrDBxENcal99Y8JEzw7e9MVgL8CAUCk1dbb1Sh0rfZksHHrUHi0gLfWRMCn
- oCd
-IronPort-HdrOrdr: A9a23:zoR4z62zwW9dUMbJFWxypgqjBL0kLtp133Aq2lEZdPWaSKClfq
- eV7ZYmPHDP5gr5NEtLpTniAtjifZqjz/9ICOAqVN/IYOCMggSVxe9ZgLcK6geQfhEWjtQ86U
- +lGJIOb+EZyjNB/KLH3DU=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="5.93,298,1654560000"; 
-   d="scan'208";a="934725774"
-Received: from rcdn-core-12.cisco.com ([173.37.93.148])
-  by alln-iport-2.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 07 Sep 2022 23:03:41 +0000
-Received: from localhost.localdomain ([10.25.130.54])
-        by rcdn-core-12.cisco.com (8.15.2/8.15.2) with ESMTP id 287N3deT010146;
-        Wed, 7 Sep 2022 23:03:39 GMT
-From:   Daniel Walker <danielwa@cisco.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Cc:     xe-linux-external@cisco.com, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [RFC-PATCH] Makefile: dts: include directory makefile for DTC_FLAGS
-Date:   Wed,  7 Sep 2022 16:03:38 -0700
-Message-Id: <20220907230339.271633-1-danielwa@cisco.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 7 Sep 2022 20:15:03 -0400
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01FEE580A3
+        for <linux-kbuild@vger.kernel.org>; Wed,  7 Sep 2022 17:14:58 -0700 (PDT)
+Received: by mail-yb1-xb36.google.com with SMTP id d189so21285539ybh.12
+        for <linux-kbuild@vger.kernel.org>; Wed, 07 Sep 2022 17:14:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=GUHy3tTXYEVlHWPOZt/B5s9dwh1oEap8QDDRaqRD42s=;
+        b=EkFoA2DUckJoc39LOiNtYCaU9cFbXVmazyNV12a3KStazGUhhJR1U6XnXODK0TIRz4
+         +N76WdVdDqe2MYv/D4T4eFF42LX7csfZYrgd36cDl4ZF2OYpoYcAFEEFgAyx8F58tbal
+         P0WKobLZgcRhq24wI/kQMtsCJmAgIaCYCjQo4lYSmesUuH6LFbT1w/aGaw0ARdAlSFXd
+         J2GIhzFoViVMPvlNGlBbz2nzmN6QV9n01RRBkPte6KTFKKFHwsasefqsYFjEHKOZjYhz
+         aBKTtDKp2Rsg+pzX3OQRfEjjk6SnI7xmv7hIDzZp8hxzLZ5KYlmECPeru8AFaesdazSU
+         faJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=GUHy3tTXYEVlHWPOZt/B5s9dwh1oEap8QDDRaqRD42s=;
+        b=tWdTqlnKX10conab55vQWZ1CzaUuXLhnkEy+ALgHckpOOuNqUfXj2L+oR8gniixptR
+         R90aCb51JUOu9cHrWXvfMj72iSpTIEAYZdjXmhZPK/Mo2Ufe2pIJKrz21Abjchvm/lwH
+         40dHzBVQQzMXcyjq1BSxPZxoynnfkZZfUAMCSezttvZMXG1g8hfhUCn+0o77v7HoMcRR
+         B+nmavoi3CdfIqrPtVrq68KBM7aw59m8UbMt5OnfxGqA8akND2PzmwNRntLEsLPKkAV4
+         +W5RWCgnu2hh47YKwXMhnvSYxdmGD+Itx7857MDPxflhUNcMVF+wmbX0hhpTfgFr6cYU
+         m7jw==
+X-Gm-Message-State: ACgBeo1zyK/HualER99GlcN4oIog0ZBrvf57mEYE+x0UrLIl9RpGtGMs
+        HTNAaqyOJ6maM3WBIEfSEBaMAEYMkL5GQXRXxbC3qg==
+X-Google-Smtp-Source: AA6agR7IHk6cdCdDMOwQoLbNgYeM+zGxAHtlj9Ps+Z38Lyz7NBVqyyguZjbICAsIreBFAhf/MXWHt+Mk9Zkk8gYuoS4=
+X-Received: by 2002:a25:1486:0:b0:6a8:f3e1:58ba with SMTP id
+ 128-20020a251486000000b006a8f3e158bamr4883435ybu.80.1662596096986; Wed, 07
+ Sep 2022 17:14:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-SMTP-Client: 10.25.130.54, [10.25.130.54]
-X-Outbound-Node: rcdn-core-12.cisco.com
-X-Spam-Status: No, score=-11.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIMWL_WL_MED,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <20220803122655.100254-1-nipun.gupta@amd.com> <20220906134801.4079497-1-nipun.gupta@amd.com>
+ <20220906134801.4079497-4-nipun.gupta@amd.com> <CAGETcx_W8QVe+CdpocN2rHjp08TwsW22FaJgrYW=0JNge_N6KQ@mail.gmail.com>
+ <DM6PR12MB30829DDDC62B36B17F87B204E8419@DM6PR12MB3082.namprd12.prod.outlook.com>
+ <f5cf7bd7-4cd9-ef9c-7f25-f814b2f1e41f@arm.com> <CAGETcx9LE=E2focmbEsdQV3s2NR4-9H35ODkgSxZY5_7SEJ1Qw@mail.gmail.com>
+ <9e537066-525f-4a8c-ffc1-926ac130c6e6@arm.com>
+In-Reply-To: <9e537066-525f-4a8c-ffc1-926ac130c6e6@arm.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Wed, 7 Sep 2022 17:14:20 -0700
+Message-ID: <CAGETcx8geH_DP4yHKxH=kXW=iJ3tchb5oRmqQ-Ugs6gmw1MwYg@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 3/7] iommu/arm-smmu-v3: support ops registration
+ for CDX bus
+To:     Robin Murphy <robin.murphy@arm.com>
+Cc:     "Gupta, Nipun" <Nipun.Gupta@amd.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "rafael@kernel.org" <rafael@kernel.org>,
+        "eric.auger@redhat.com" <eric.auger@redhat.com>,
+        "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+        "cohuck@redhat.com" <cohuck@redhat.com>,
+        "Gupta, Puneet (DCG-ENG)" <puneet.gupta@amd.com>,
+        "song.bao.hua@hisilicon.com" <song.bao.hua@hisilicon.com>,
+        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
+        "maz@kernel.org" <maz@kernel.org>,
+        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
+        "jeffrey.l.hugo@gmail.com" <jeffrey.l.hugo@gmail.com>,
+        "Michael.Srba@seznam.cz" <Michael.Srba@seznam.cz>,
+        "mani@kernel.org" <mani@kernel.org>,
+        "yishaih@nvidia.com" <yishaih@nvidia.com>,
+        "jgg@ziepe.ca" <jgg@ziepe.ca>, "jgg@nvidia.com" <jgg@nvidia.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "joro@8bytes.org" <joro@8bytes.org>,
+        "masahiroy@kernel.org" <masahiroy@kernel.org>,
+        "ndesaulniers@google.com" <ndesaulniers@google.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "okaya@kernel.org" <okaya@kernel.org>,
+        "Anand, Harpreet" <harpreet.anand@amd.com>,
+        "Agarwal, Nikhil" <nikhil.agarwal@amd.com>,
+        "Simek, Michal" <michal.simek@amd.com>,
+        "Radovanovic, Aleksandar" <aleksandar.radovanovic@amd.com>,
+        "git (AMD-Xilinx)" <git@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The current Makefile will drop the DTC_FLAGS depending on how you
-build. For example,
+On Wed, Sep 7, 2022 at 1:40 PM Robin Murphy <robin.murphy@arm.com> wrote:
+>
+> On 2022-09-07 19:24, Saravana Kannan wrote:
+> > On Wed, Sep 7, 2022 at 1:27 AM Robin Murphy <robin.murphy@arm.com> wrote:
+> >>
+> >> On 2022-09-07 04:17, Gupta, Nipun wrote:
+> >>> [AMD Official Use Only - General]
+> >>>
+> >>>
+> >>>
+> >>>> -----Original Message-----
+> >>>> From: Saravana Kannan <saravanak@google.com>
+> >>>> Sent: Wednesday, September 7, 2022 5:41 AM
+> >>>> To: Gupta, Nipun <Nipun.Gupta@amd.com>
+> >>>> Cc: robh+dt@kernel.org; krzysztof.kozlowski+dt@linaro.org;
+> >>>> gregkh@linuxfoundation.org; rafael@kernel.org; eric.auger@redhat.com;
+> >>>> alex.williamson@redhat.com; cohuck@redhat.com; Gupta, Puneet (DCG-ENG)
+> >>>> <puneet.gupta@amd.com>; song.bao.hua@hisilicon.com;
+> >>>> mchehab+huawei@kernel.org; maz@kernel.org; f.fainelli@gmail.com;
+> >>>> jeffrey.l.hugo@gmail.com; Michael.Srba@seznam.cz; mani@kernel.org;
+> >>>> yishaih@nvidia.com; jgg@ziepe.ca; jgg@nvidia.com; robin.murphy@arm.com;
+> >>>> will@kernel.org; joro@8bytes.org; masahiroy@kernel.org;
+> >>>> ndesaulniers@google.com; linux-arm-kernel@lists.infradead.org; linux-
+> >>>> kbuild@vger.kernel.org; linux-kernel@vger.kernel.org;
+> >>>> devicetree@vger.kernel.org; kvm@vger.kernel.org; okaya@kernel.org; Anand,
+> >>>> Harpreet <harpreet.anand@amd.com>; Agarwal, Nikhil
+> >>>> <nikhil.agarwal@amd.com>; Simek, Michal <michal.simek@amd.com>;
+> >>>> Radovanovic, Aleksandar <aleksandar.radovanovic@amd.com>; git (AMD-Xilinx)
+> >>>> <git@amd.com>
+> >>>> Subject: Re: [RFC PATCH v3 3/7] iommu/arm-smmu-v3: support ops registration
+> >>>> for CDX bus
+> >>>>
+> >>>> [CAUTION: External Email]
+> >>>>
+> >>>> On Tue, Sep 6, 2022 at 6:48 AM Nipun Gupta <nipun.gupta@amd.com> wrote:
+> >>>>>
+> >>>>> With new CDX bus supported for AMD FPGA devices on ARM
+> >>>>> platform, the bus requires registration for the SMMU v3
+> >>>>> driver.
+> >>>>>
+> >>>>> Signed-off-by: Nipun Gupta <nipun.gupta@amd.com>
+> >>>>> ---
+> >>>>>    drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 16 ++++++++++++++--
+> >>>>>    1 file changed, 14 insertions(+), 2 deletions(-)
+> >>>>>
+> >>>>> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> >>>> b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> >>>>> index d32b02336411..8ec9f2baf12d 100644
+> >>>>> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> >>>>> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> >>>>> @@ -29,6 +29,7 @@
+> >>>>>    #include <linux/platform_device.h>
+> >>>>>
+> >>>>>    #include <linux/amba/bus.h>
+> >>>>> +#include <linux/cdx/cdx_bus.h>
+> >>>>>
+> >>>>>    #include "arm-smmu-v3.h"
+> >>>>>    #include "../../iommu-sva-lib.h"
+> >>>>> @@ -3690,16 +3691,27 @@ static int arm_smmu_set_bus_ops(struct
+> >>>> iommu_ops *ops)
+> >>>>>                   if (err)
+> >>>>>                           goto err_reset_pci_ops;
+> >>>>>           }
+> >>>>> +#endif
+> >>>>> +#ifdef CONFIG_CDX_BUS
+> >>>>> +       if (cdx_bus_type.iommu_ops != ops) {
+> >>>>> +               err = bus_set_iommu(&cdx_bus_type, ops);
+> >>>>> +               if (err)
+> >>>>> +                       goto err_reset_amba_ops;
+> >>>>> +       }
+> >>>>
+> >>>> I'm not an expert on IOMMUs, so apologies if the question is stupid.
+> >>>>
+> >>>> Why does the CDX bus need special treatment here (like PCI) when there
+> >>>> are so many other busses (eg: I2C, SPI, etc) that don't need any
+> >>>> changes here?
+> >>>
+> >>> AFAIU, the devices on I2C/SPI does not use SMMU. Apart from PCI/AMBA,
+> >>> FSL-MC is another similar bus (on SMMUv2) which uses SMMU ops.
+> >>>
+> >>> The devices here are behind SMMU. Robin can kindly correct or add
+> >>> more here from SMMU perspective.
+> >>
+> >> Indeed, there is no need to describe and handle how DMA may or may not
+> >> be translated for I2C/SPI/USB/etc. because they are not DMA-capable
+> >> buses (in those cases the relevant bus *controller* often does DMA, but
+> >> it does that for itself as the platform/PCI/etc. device it is).
+> >
+> > Ok this is what I was guessing was the reason, but didn't want to make
+> > that assumption.
+> >
+> > So if there are other cases like AMBA, FSL-MC where the devices can do
+> > direct DMA, why do those buses not need a #ifdef section in this
+> > function like CDX? Or put another way, why does CDX need special treatment?
+>
+> Er, it doesn't? The only non-optional bus here is platform, since the
+> others *can* be configured out and *are* #ifdefed accordingly.
 
-make dtbs
+Ah ok. Also I somehow missed the #ifdef AMBA there and thought there
+was only #ifdef PCI and the rest of the buses somehow got it working
+without having to muck around arm-smmu-v3.c.
 
-includes correct DTC_FLAGS. However if you run,
+Thanks for the explanation. I'm done here :)
 
-make nvidia/tegra210-p2371-2180.dtb
+-Saravana
 
-The DTC_FLAGS are dropped. This appears to be caused by the top level
-Makefile not including the Makefile from the directory where the dts lives.
-
-This normally doesn't matter because most dts files have nothing added
-from the Makefile. This changes when you have overlays, and the
-DTC_FLAGS modifier is mandatory for the dtb to work correctly.
-
-This change adds a -f argument which includes the Makefile from the
-directory where the dts file reside. This change is also required for
-dtbo files.
-
-Cc: xe-linux-external@cisco.com
-Signed-off-by: Daniel Walker <danielwa@cisco.com>
----
- Makefile | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index ac16bd92b156..bc245e2dc8d1 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1460,10 +1460,10 @@ endif
- ifneq ($(dtstree),)
- 
- %.dtb: dtbs_prepare
--	$(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
-+	$(Q)$(MAKE) -f $(srctree)/$(dtstree)/$(dir $@)Makefile $(build)=$(dtstree) $(dtstree)/$@
- 
- %.dtbo: dtbs_prepare
--	$(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
-+	$(Q)$(MAKE) -f $(srctree)/$(dtstree)/$(dir $@)Makefile $(build)=$(dtstree) $(dtstree)/$@
- 
- PHONY += dtbs dtbs_prepare dtbs_install dtbs_check
- dtbs: dtbs_prepare
--- 
-2.25.1
-
+> This
+> patch is fine for the kernel it was based on, it'll just want rewriting
+> now that I've cleaned all this horrible driver boilerplate up. And
+> according to the thread on patch #4 there might need to be additional
+> changes for CDX to express a reserved MSI region for SMMU support to
+> actually work properly.
+>
+> Robin.
