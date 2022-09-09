@@ -2,128 +2,105 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 74A0D5B3457
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Sep 2022 11:47:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 136CE5B40C4
+	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Sep 2022 22:35:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231136AbiIIJrX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 9 Sep 2022 05:47:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60434 "EHLO
+        id S230101AbiIIUfc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 9 Sep 2022 16:35:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230435AbiIIJrV (ORCPT
+        with ESMTP id S229788AbiIIUfb (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 9 Sep 2022 05:47:21 -0400
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9216DFA6A7;
-        Fri,  9 Sep 2022 02:47:19 -0700 (PDT)
-Received: by mail-yb1-xb35.google.com with SMTP id f131so1860867ybf.7;
-        Fri, 09 Sep 2022 02:47:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=jfc5PI7vUD4Aq68rXzOdTc1GotoBc8f6RchZ+GS6IIs=;
-        b=c704vzTIEE8fD/+/yEejZ7dnnrVdpFgSizdgMZGxd8hZWJzMFgmZ5EdxpBlbOUvAiV
-         UQNGbMKvyIxj4+AF6dbyQIpPlzKw+9WRX+pf6AxZusOzuIp904FHwapLxuZWjRvIjeJf
-         ptoKp+v53gvE4UhNe8CdSyRhZfVnBoFPuZk88c09lR0b7uM3YomAA+haLBE671ddHqt9
-         5O23+VDPTnCnyUQOmnbvzeqZid4M8FkuKKCt1CKRl2K3GVKhLKLAYSATr40xRAU41ihb
-         JRU2ZscubQRTTjS6NFsUdEJv8luO2yB46THkdYNHN3FqL6Tgt4ObN2jxmU0iSe6vZW//
-         4mKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=jfc5PI7vUD4Aq68rXzOdTc1GotoBc8f6RchZ+GS6IIs=;
-        b=jK5k6/D1IU1Zjm6URqDbSEvoa8L8yRV5A5AcFjdzRNBsrclVsv256A4PdteLC24IaW
-         AD7qhpUnvdNcFF++l9EZAZn+5GsS4ac9QptOGhve8ImJVmqgtPsOYD7eAQIAD/Fvc0Mb
-         F/vfd8QNtJ0e9Ji2RJ4dRNpHkeZeJoo1LVWgQKy0i20s3HFZS1mlUxKWcCdlQhPKJ/jH
-         zekdj1kuqAz6AojX8T/rZweycriT7eQQfJDi76I0QtdGaEYTsdsDQ0ekTANeeupOCf9C
-         5c9yhxwvhWcjMoRJEkFMpcrRIizxXMxxw74m1LwibUIUM6MJXcmzaGpEveLj+FtLXZI3
-         ccsQ==
-X-Gm-Message-State: ACgBeo0mij3n7Xhh1NfzQdojZ9BIVFcqQ9ri8IJFM6Uk7LyNJXUF3yIO
-        8E0cbUHqLfquOSr9j24++dV35fPkp8zV+IVyds0=
-X-Google-Smtp-Source: AA6agR5iecDvFUTm3i7dnv6+ipXhF18SNJAuAN5Vk4ZI4UmY6mu5QedSKsbgiHyH5fdvRxxAyuv6TJXapYjUleCR1Vk=
-X-Received: by 2002:a25:d791:0:b0:6ae:2ee3:710e with SMTP id
- o139-20020a25d791000000b006ae2ee3710emr6161116ybg.389.1662716838695; Fri, 09
- Sep 2022 02:47:18 -0700 (PDT)
+        Fri, 9 Sep 2022 16:35:31 -0400
+Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F1C1A1A51;
+        Fri,  9 Sep 2022 13:35:29 -0700 (PDT)
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 289KZ99Q017430;
+        Sat, 10 Sep 2022 05:35:09 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 289KZ99Q017430
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1662755709;
+        bh=rH1NP6uWb5FT/e2uz2unz8AGL349fphr8MvxQi9NiSs=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=VDA1FxXrDxd7dgHP4xK+4mvQiage/NY4J2C9vRyxdTbN2ZKC4lZP5SIi64rdLncc1
+         5428ez4kDdUQCfFIVQ2vxwCv8MO4WOHjQhzxIMc2KFP+x1nZmtMUXRfcru4rTZe5DY
+         Nj1Do/xgz0xEoLP2ISmUP3Du/tG7bSrMCASJM3YQuDzFKW1ermJbqHpkUptLVZY17J
+         yxU1n5q60KIgbTyFQRS2NI1AwrjTgi9IJw1A8ogQ9kXiuoTAwvH0pHxXqH2/o4xaeK
+         G4qpKHaH5VLuVu5q9/5hXyr+E61jASe/kXFeV6PiIUBdhWfVkOonE2xmTPgiEFgqe6
+         W095btzBJFPBA==
+X-Nifty-SrcIP: [209.85.160.41]
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-127f5411b9cso6942616fac.4;
+        Fri, 09 Sep 2022 13:35:09 -0700 (PDT)
+X-Gm-Message-State: ACgBeo26r1ngucz1QrQO0xqbBSdu4mSFuSefkYAsLf34v1nz/hHs1Oq/
+        3YDSRRJ6UMY2OP013BeslmmEPSdBxqaRNcoxNlQ=
+X-Google-Smtp-Source: AA6agR6dL09UltxzlxRkGBfGKrUUYZ2bafO2jfFPKuEOiCf04AJFdBbWcLrwkKb2VeRhUwPR42iE5Q+EoGneHl3m+O8=
+X-Received: by 2002:a05:6870:c58b:b0:10b:d21d:ad5e with SMTP id
+ ba11-20020a056870c58b00b0010bd21dad5emr5903018oab.287.1662755708354; Fri, 09
+ Sep 2022 13:35:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220908104337.11940-1-lukas.bulwahn@gmail.com>
- <20220908104337.11940-7-lukas.bulwahn@gmail.com> <ca25a32d-aadb-f0d0-9e24-70fbabc4d377@csgroup.eu>
-In-Reply-To: <ca25a32d-aadb-f0d0-9e24-70fbabc4d377@csgroup.eu>
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Fri, 9 Sep 2022 11:47:07 +0200
-Message-ID: <CAKXUXMwo-X+cM9f_K=JpnjAcPr89OKCZ4JRAFMYCaTwt85UJ5Q@mail.gmail.com>
-Subject: Re: [PATCH 6/6] init/Kconfig: remove confusing config EMBEDDED
-To:     Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc:     Russell King <linux@armlinux.org.uk>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Peter Chen <peter.chen@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@ozlabs.org>,
-        "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <1662030659-21558-1-git-send-email-tangyouling@loongson.cn>
+In-Reply-To: <1662030659-21558-1-git-send-email-tangyouling@loongson.cn>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 10 Sep 2022 05:34:32 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARn=v=ugnvYAeq2rfWyStZKkWQcbaaxSJdxrdHE20X31w@mail.gmail.com>
+Message-ID: <CAK7LNARn=v=ugnvYAeq2rfWyStZKkWQcbaaxSJdxrdHE20X31w@mail.gmail.com>
+Subject: Re: [PATCH] mksysmap: Fix the mismatch of 'L0' symbols in System.map
+To:     Youling Tang <tangyouling@loongson.cn>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        loongarch@lists.linux.dev,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Xuerui Wang <kernel@xen0n.name>, Xi Ruoyao <xry111@xry111.site>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-> >   init/Kconfig | 8 --------
-> >   1 file changed, 8 deletions(-)
-> >
-> > diff --git a/init/Kconfig b/init/Kconfig
-> > index 9e3fd79b089c..d7429e0b8cae 100644
-> > --- a/init/Kconfig
-> > +++ b/init/Kconfig
-> > @@ -1818,14 +1818,6 @@ config DEBUG_RSEQ
-> >
-> >         If unsure, say N.
-> >
-> > -config EMBEDDED
-> > -     bool "Embedded system"
-> > -     select EXPERT
-> > -     help
-> > -       This option should be enabled if compiling the kernel for
-> > -       an embedded system so certain expert options are available
-> > -       for configuration.
-> > -
-> >   config HAVE_PERF_EVENTS
-> >       bool
-> >       help
+On Thu, Sep 1, 2022 at 8:11 PM Youling Tang <tangyouling@loongson.cn> wrote:
 >
-> That's fine, but what happens to existing defconfigs then ?
+> When System.map was generated, the kernel used mksysmap to filter the
+> kernel symbols, we need to filter "L0" symbols in LoongArch architecture.
 >
-> $ git grep -w CONFIG_EMBEDDED arch/powerpc/
-> arch/powerpc/configs/40x/klondike_defconfig:CONFIG_EMBEDDED=y
-> arch/powerpc/configs/44x/fsp2_defconfig:CONFIG_EMBEDDED=y
-> arch/powerpc/configs/52xx/tqm5200_defconfig:CONFIG_EMBEDDED=y
-> arch/powerpc/configs/mgcoge_defconfig:CONFIG_EMBEDDED=y
-> arch/powerpc/configs/microwatt_defconfig:CONFIG_EMBEDDED=y
-> arch/powerpc/configs/ps3_defconfig:CONFIG_EMBEDDED=y
+> $ cat System.map | grep L0
+> 9000000000221540 t L0
 >
-> They need to get converted to selecting CONFIG_EXPERT instead.
+> The L0 symbol exists in System.map, but not in .tmp_System.map. When
+> "cmp -s System.map .tmp_System.map" will show "Inconsistent kallsyms
+> data" error message in link-vmlinux.sh script.
 >
-> And that needs to be done before you remove CONFIG_EMBEDDED.
+> Signed-off-by: Youling Tang <tangyouling@loongson.cn>
+> ---
+>  scripts/mksysmap | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/mksysmap b/scripts/mksysmap
+> index 9aa23d15862a..ad8bbc52267d 100755
+> --- a/scripts/mksysmap
+> +++ b/scripts/mksysmap
+> @@ -41,4 +41,4 @@
+>  # so we just ignore them to let readprofile continue to work.
+>  # (At least sparc64 has __crc_ in the middle).
+>
+> -$NM -n $1 | grep -v '\( [aNUw] \)\|\(__crc_\)\|\( \$[adt]\)\|\( \.L\)' > $2
+> +$NM -n $1 | grep -v '\( [aNUw] \)\|\(__crc_\)\|\( \$[adt]\)\|\( \.L\)\|\( L0\)' > $2
+> --
+> 2.36.1
 >
 
-Agree. Let us get the first five patches included. Then adjust the
-configs for all architectures and then delete the CONFIG_EMBEDDED.
 
-Lukas
+Applied to linux-kbuild/fixes.
+Thanks.
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
