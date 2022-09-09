@@ -2,50 +2,51 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DFF95B4145
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Sep 2022 23:08:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50A675B41E8
+	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Sep 2022 23:59:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230251AbiIIVIF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 9 Sep 2022 17:08:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57468 "EHLO
+        id S229612AbiIIV7w (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 9 Sep 2022 17:59:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230348AbiIIVHb (ORCPT
+        with ESMTP id S229698AbiIIV7w (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 9 Sep 2022 17:07:31 -0400
-Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A3FD14997A;
-        Fri,  9 Sep 2022 14:07:01 -0700 (PDT)
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 289L6lgP011950;
-        Sat, 10 Sep 2022 06:06:47 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 289L6lgP011950
+        Fri, 9 Sep 2022 17:59:52 -0400
+Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B1562B245;
+        Fri,  9 Sep 2022 14:59:49 -0700 (PDT)
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 289LxaGs001263;
+        Sat, 10 Sep 2022 06:59:37 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 289LxaGs001263
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1662757608;
-        bh=DvVjZAUBnzPdzYN9rjZzo+TIJCdrmJ3YhUlFxpG7vGI=;
+        s=dec2015msa; t=1662760777;
+        bh=qJ2xNANFGAA/u/uDw9DaUYVB6Q16K2/fBd9dXrsPcNY=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=U2JFcjwV5YL62vzETSjjXzSL7xXv1l5nwQZMpsL2CZa1RDg153qvR+MXB9kqQDjZn
-         MsCL02yPUkz1RpHa2BcJXrUcxjewxbD0Lc+WvONW7qedyceWc2I0COSCZLMzM+adlv
-         L22PYEv+MW5IP09VA2iJiiiEhQ3LKR6zOKvaGfoJJy8+ONcS3ab/1hXI4/6UhlLX9V
-         p/Mc9umZWIQuIaVWd5kFsNQ5Z3p4/QgxZ3GEUDQksroWZEztTS+zeq7+P8GQUdr5Y5
-         bRK46ub9Zsh3c1AhrlzKW9LC/nOnqEqsbRIEa8HhfJk8Cw7Fa7CjpjOCvpDcqF9fzr
-         /hS913z6AiMvg==
-X-Nifty-SrcIP: [209.85.160.49]
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-1278624b7c4so7149902fac.5;
-        Fri, 09 Sep 2022 14:06:47 -0700 (PDT)
-X-Gm-Message-State: ACgBeo3FBb9ZCsZHU1OAG3NgFnE3SHg1Oqj8WshpnER8KziTf2spmfRk
-        fL9ba0EdAPXtcQCWO/CVKoQerNlra32/Tif1H2s=
-X-Google-Smtp-Source: AA6agR4y2JcV0EsyjVkDa6p8pvwM4sY7V8jOR09Bz5w0m7vWO0Itq4SKFTWHNC0vbVHJ/VE4SXL8VeOx9uH4eMX5lOo=
-X-Received: by 2002:a05:6870:f626:b0:10d:a798:f3aa with SMTP id
- ek38-20020a056870f62600b0010da798f3aamr5974490oab.194.1662757606749; Fri, 09
- Sep 2022 14:06:46 -0700 (PDT)
+        b=r4EwVh2luXtYErjnUICPEoNsg1wkLrw1g7D9ahitEB0HkdC/jYOr3+TjNI/Ck9Zmy
+         l4/VTbJ5zagGGkj7Bu9U6HyZsXsPkrPwZSa9rjU6XE6zyuJiMeVebXObkd7eSPqvRE
+         LVm1cmZceJu3R9Q3ZVj/8IAJWRqbIjrFxCOT50AsRSQ503g3MWI+OyHHoy5Ht0Dk7E
+         iAZISxeMbOq4nQc5H46znlWHTQiL046MscL9UnV9b0XNNuVVcXyd0IdzLz3CS8GDzl
+         bHpM3dTQDwSuUbK5e85Hp+xZE8urta3P6XaXYCb9jU1eIToOAuH8kdilegGPFazJNV
+         XqAIol6DApwYQ==
+X-Nifty-SrcIP: [209.85.161.41]
+Received: by mail-oo1-f41.google.com with SMTP id z23-20020a4ad1b7000000b0044931ffdcafso488592oor.4;
+        Fri, 09 Sep 2022 14:59:37 -0700 (PDT)
+X-Gm-Message-State: ACgBeo1vHXVCm4NiNYkPpcbdtsL8NqJCrtEpUhIonOfhbjb/U3uFQOIs
+        /+lwf1D/F+/Yj6eXFxSwhENYMdXxb6178XbQtIw=
+X-Google-Smtp-Source: AA6agR72P3R97llgZiBPvMKMBd85181rfh9FbVRqi/ZZxrmTbOjBMXr/bhgI9jBCYkdfKfxC2nnzR7CajL6bHAWUM1A=
+X-Received: by 2002:a4a:9789:0:b0:451:437b:cc58 with SMTP id
+ w9-20020a4a9789000000b00451437bcc58mr5606771ooi.96.1662760776232; Fri, 09 Sep
+ 2022 14:59:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220907045907.484043-1-ndesaulniers@google.com> <20220907045907.484043-3-ndesaulniers@google.com>
-In-Reply-To: <20220907045907.484043-3-ndesaulniers@google.com>
+References: <20220907045907.484043-1-ndesaulniers@google.com> <20220907045907.484043-4-ndesaulniers@google.com>
+In-Reply-To: <20220907045907.484043-4-ndesaulniers@google.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 10 Sep 2022 06:06:10 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR0e2sA4QMssbMf8B0459_LoB9ykfTmFmFVXOjqBea4-w@mail.gmail.com>
-Message-ID: <CAK7LNAR0e2sA4QMssbMf8B0459_LoB9ykfTmFmFVXOjqBea4-w@mail.gmail.com>
-Subject: Re: [PATCH v3 2/5] Makefile.compiler: Use KBUILD_AFLAGS for as-option
+Date:   Sat, 10 Sep 2022 06:59:00 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARe+iZBB9OkkpOTGxi+GwTnk8pigjd3KYHR-ZGoyiZEAw@mail.gmail.com>
+Message-ID: <CAK7LNARe+iZBB9OkkpOTGxi+GwTnk8pigjd3KYHR-ZGoyiZEAw@mail.gmail.com>
+Subject: Re: [PATCH v3 3/5] Makefile.compiler: replace cc-ifversion with
+ compiler-specific macros
 To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     Michal Marek <michal.lkml@markovi.net>,
         Nathan Chancellor <nathan@kernel.org>,
@@ -71,74 +72,29 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Wed, Sep 7, 2022 at 1:59 PM Nick Desaulniers <ndesaulniers@google.com> wrote:
 >
-> as-instr uses KBUILD_AFLAGS, but as-option uses KBUILD_CFLAGS.  This can
-> cause as-option to fail unexpectedly when CONFIG_WERROR is set, because
-> clang will emit -Werror,-Wunused-command-line-argument for various -m
-> and -f flags for assembler sources.
->
-> Callers of as-option (and as-instr) likely want to be adding flags to
-> KBUILD_AFLAGS/aflags-y, not KBUILD_CFLAGS/cflags-y.
->
-> Also, change as-option and as-instr to use -x assembler-with-cpp since
-> kernel sources are .S files that use the compiler as the driver. And
-> then add -Werror as well.
->
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1699
-> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
+> cc-ifversion is GCC specific. Replace it with compiler specific
+> variants. Update the users of cc-ifversion to use these new macros.
 
 
 
-01 and 02, applied to linux-kbuild/fixes.
-Thanks.
+Now, this is independent of the rest of this series.
+
+
+
+Can you rebase this on top of Linus' tree
+so that you use clean up
+b0839b281c427e844143dba3893e25c83cdd6c17
+
+Otherwise, clang-min-version will not get any users.
 
 
 
 
-> Changes v2 -> v1:
-> * Add -x assembler-with-cpp -Werror to both as-option and (new)
->   as-instr, as per Masahiro.
-> * Add Masahiro's SB tag.
->
-> Changes v1 -> v2:
-> * Split off changes to arch/x86/boot/compressed/Makefile into parent
->   patch, as per Masahiro.
->
->  scripts/Makefile.compiler | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
-> index 94d0d40cddb3..a66638b5f4a5 100644
-> --- a/scripts/Makefile.compiler
-> +++ b/scripts/Makefile.compiler
-> @@ -29,16 +29,16 @@ try-run = $(shell set -e;           \
->         fi)
->
->  # as-option
-> -# Usage: cflags-y += $(call as-option,-Wa$(comma)-isa=foo,)
-> +# Usage: aflags-y += $(call as-option,-Wa$(comma)-isa=foo,)
->
->  as-option = $(call try-run,\
-> -       $(CC) $(KBUILD_CFLAGS) $(1) -c -x assembler /dev/null -o "$$TMP",$(1),$(2))
-> +       $(CC) -Werror $(KBUILD_AFLAGS) $(1) -c -x assembler-with-cpp /dev/null -o "$$TMP",$(1),$(2))
->
->  # as-instr
-> -# Usage: cflags-y += $(call as-instr,instr,option1,option2)
-> +# Usage: aflags-y += $(call as-instr,instr,option1,option2)
->
->  as-instr = $(call try-run,\
-> -       printf "%b\n" "$(1)" | $(CC) $(KBUILD_AFLAGS) -c -x assembler -o "$$TMP" -,$(2),$(3))
-> +       printf "%b\n" "$(1)" | $(CC) -Werror $(KBUILD_AFLAGS) -c -x assembler-with-cpp -o "$$TMP" -,$(2),$(3))
->
->  # __cc-option
->  # Usage: MY_CFLAGS += $(call __cc-option,$(CC),$(MY_CFLAGS),-march=winchip-c6,-march=i586)
-> --
-> 2.37.2.789.g6183377224-goog
->
 
 
--- 
+
+
+
+--
 Best Regards
 Masahiro Yamada
