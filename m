@@ -2,60 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 549145B2EEF
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Sep 2022 08:31:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BFADE5B2EFD
+	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Sep 2022 08:31:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231158AbiIIGbJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 9 Sep 2022 02:31:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57218 "EHLO
+        id S231173AbiIIGaz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 9 Sep 2022 02:30:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229706AbiIIGa6 (ORCPT
+        with ESMTP id S231153AbiIIGaq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 9 Sep 2022 02:30:58 -0400
-Received: from condef-10.nifty.com (condef-10.nifty.com [202.248.20.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D89CDEE535;
-        Thu,  8 Sep 2022 23:30:55 -0700 (PDT)
-Received: from conssluserg-05.nifty.com ([10.126.8.84])by condef-10.nifty.com with ESMTP id 2896MtUp010741;
-        Fri, 9 Sep 2022 15:22:55 +0900
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 2896MbQw025804;
-        Fri, 9 Sep 2022 15:22:37 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 2896MbQw025804
+        Fri, 9 Sep 2022 02:30:46 -0400
+Received: from condef-04.nifty.com (condef-04.nifty.com [202.248.20.69])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EACEAF16F3;
+        Thu,  8 Sep 2022 23:30:43 -0700 (PDT)
+Received: from conssluserg-06.nifty.com ([10.126.8.85])by condef-04.nifty.com with ESMTP id 2896NABh024113;
+        Fri, 9 Sep 2022 15:23:10 +0900
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 2896Mokw030025;
+        Fri, 9 Sep 2022 15:22:51 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 2896Mokw030025
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1662704558;
-        bh=MYlsGWZEaj6riF53CJWpIUBe3dUwLTh06kCOuMwA78I=;
+        s=dec2015msa; t=1662704571;
+        bh=pCvB9G6yeR8kJw81jIzOej+Uwp6mWXS5ZOAc45JxQvc=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=EmF3zkc3LNSyQbmWSHXGfk4e90+a8K9lM7qun/spg8Uv+kAInTvVhTw/sjDonAAJA
-         xUw0VJKG2lOxoIpdR9vBUJhs6923AKBqB8h/m7RrKUlIUYUDUHf5uMOsN1SmKybUyA
-         R1q2rsiAeqCImofKS5mh8sytxF42GLVvpIqT1oWvYJjiob2iyq9tCj+Fa5dHEGXQfE
-         /itBstjrb9wcEqjRxldkiPS9qpx23RQeVng1seRrfW6x07iM5g8bcMtx+9+cEEaEJj
-         w6dvkeuw2VVsRpUrpabG/pKZWsZlmMzoIy+BCLb0jxbAfEL6u3ubypS/y6/+Foo5Pi
-         RR9GIKIJ4b9Pg==
-X-Nifty-SrcIP: [209.85.210.52]
-Received: by mail-ot1-f52.google.com with SMTP id v2-20020a056830090200b006397457afecso470093ott.13;
-        Thu, 08 Sep 2022 23:22:37 -0700 (PDT)
-X-Gm-Message-State: ACgBeo1dBNuyUH1dFc4BLbCqe3Dq/y+VLxnIJ9LA0ib82l61EbqB1snb
-        PoTqYChOlSvd2I7/Du5WFPdDZnY3+0PrIKJXO/s=
-X-Google-Smtp-Source: AA6agR6D+NvAoj+USNTBBy4mDLL9rmTs8LTzmXobal0BhXDFou2m+Sac50RiyG6CPG0cg/e8ofovoO8np947WoZjx2g=
-X-Received: by 2002:a9d:4806:0:b0:637:cdca:f8d3 with SMTP id
- c6-20020a9d4806000000b00637cdcaf8d3mr4944442otf.225.1662704556432; Thu, 08
- Sep 2022 23:22:36 -0700 (PDT)
+        b=YpKElwj0g3TKFWqfl5JHh+WHWrEd0F/CwCHeRyz1Ahu9EAAZcXE1IuMjkDluJYoth
+         t//MxmXtr4EN6Q5pxEQuX5Qwf1PeR2tG6rw4LX+y2qvUZ+xrgi5kkQBgGtU0uczIaj
+         5I+pc9Rvwfa78x+pTeQzKp4yjA7LWqMxzaXjMv8vRLRXRkyRKcIg/eeIrS1Zn9FwUl
+         qiRqWpZcEMgqEW4CcziwK2tO5j8LIlsV/ezPPHrSWRNI7bdXT3mV2zF80rzJmH90OZ
+         gRdFHx1vaneFzc7mwh7cAmRBmI9o2Td3lFe8XIy5E8FIS/b02A0kvGUSFfp/qL9wkT
+         JS6sUy2mmv+5g==
+X-Nifty-SrcIP: [209.85.160.43]
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-1279948d93dso1478503fac.10;
+        Thu, 08 Sep 2022 23:22:51 -0700 (PDT)
+X-Gm-Message-State: ACgBeo386PcH0HGBOl4/t1WvWd3vyJN8sPn2uWoeRJmCze2kA5xoSHcF
+        yxINQANrr5T2pPpgA93GGZ/vggROay4R7eLoFug=
+X-Google-Smtp-Source: AA6agR6JhlCvtCQhMAFYXJvEMXqp9TWxkU7aGJYTgIGDGNHX5CbLq4f7HwYyeEmRym3c0wzZsgLiFzEotoORl8hXz+Y=
+X-Received: by 2002:a05:6870:f626:b0:10d:a798:f3aa with SMTP id
+ ek38-20020a056870f62600b0010da798f3aamr3955139oab.194.1662704570329; Thu, 08
+ Sep 2022 23:22:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220908104337.11940-1-lukas.bulwahn@gmail.com> <20220908104337.11940-3-lukas.bulwahn@gmail.com>
-In-Reply-To: <20220908104337.11940-3-lukas.bulwahn@gmail.com>
+References: <20220908104337.11940-1-lukas.bulwahn@gmail.com>
+ <20220908104337.11940-4-lukas.bulwahn@gmail.com> <20220908131303.1fe813cd@coco.lan>
+ <20220908182050.7a1c46cd@coco.lan>
+In-Reply-To: <20220908182050.7a1c46cd@coco.lan>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 9 Sep 2022 15:22:00 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQju9D9=SD_BYVbwk9t1vWdN4+4htGMwiCeWd7V+FjxkA@mail.gmail.com>
-Message-ID: <CAK7LNAQju9D9=SD_BYVbwk9t1vWdN4+4htGMwiCeWd7V+FjxkA@mail.gmail.com>
-Subject: Re: [PATCH 2/6] x86: make config X86_FEATURE_NAMES visible with EXPERT
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Russell King <linux@armlinux.org.uk>,
+Date:   Fri, 9 Sep 2022 15:22:14 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARDY-XvbNbiHT8n4ztAv+Wh_ZZ1PLdbZZVBOuLVrmw5cQ@mail.gmail.com>
+Message-ID: <CAK7LNARDY-XvbNbiHT8n4ztAv+Wh_ZZ1PLdbZZVBOuLVrmw5cQ@mail.gmail.com>
+Subject: Re: [PATCH 3/6] media: remove reference to CONFIG_EMBEDDED in MEDIA_SUPPORT_FILTER
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
         linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         X86 ML <x86@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
         Peter Chen <peter.chen@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -76,95 +78,56 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Sep 8, 2022 at 7:43 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+On Fri, Sep 9, 2022 at 1:20 AM Mauro Carvalho Chehab <mchehab@kernel.org> wrote:
 >
-> Commit 6a108a14fa35 ("kconfig: rename CONFIG_EMBEDDED to CONFIG_EXPERT")
-> introduces CONFIG_EXPERT to carry the previous intent of CONFIG_EMBEDDED
-> and just gives that intent a much better name. That has been clearly a good
-> and long overdue renaming, and it is clearly an improvement to the kernel
-> build configuration that has shown to help managing the kernel build
-> configuration in the last decade.
+> Em Thu, 8 Sep 2022 13:13:03 +0200
+> Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
 >
-> However, rather than bravely and radically just deleting CONFIG_EMBEDDED,
-> this commit gives CONFIG_EMBEDDED a new intended semantics, but keeps it
-> open for future contributors to implement that intended semantics:
+> > Em Thu,  8 Sep 2022 12:43:34 +0200
+> > Lukas Bulwahn <lukas.bulwahn@gmail.com> escreveu:
+> >
+> > > The config EMBEDDED selects EXPERT, i.e., when EMBEDDED is enabled, EXPERT
+> > > is usually also enabled. Hence, it sufficient to have the option
+> > > MEDIA_SUPPORT_FILTER set to y if !EXPERT.
+> > >
+> > > This way, MEDIA_SUPPORT_FILTER does not refer to CONFIG_EMBEDDED anymore
+> > > and allows us to remove CONFIG_EMBEDDED in the close future.
+> > >
+> > > Remove the reference to CONFIG_EMBEDDED in MEDIA_SUPPORT_FILTER.
+> > >
+> > > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> > > ---
+> > >  drivers/media/Kconfig | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
+> > > index ba6592b3dab2..283b78b5766e 100644
+> > > --- a/drivers/media/Kconfig
+> > > +++ b/drivers/media/Kconfig
+> > > @@ -24,7 +24,7 @@ if MEDIA_SUPPORT
+> > >
+> > >  config MEDIA_SUPPORT_FILTER
+> > >     bool "Filter media drivers"
+> > > -   default y if !EMBEDDED && !EXPERT
+> > > +   default y if !EXPERT
+> > >     help
+> > >        Configuring the media subsystem can be complex, as there are
+> > >        hundreds of drivers and other config options.
+> >
+> > Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 >
->     A new CONFIG_EMBEDDED option is added that automatically selects
->     CONFIG_EXPERT when enabled and can be used in the future to isolate
->     options that should only be considered for embedded systems (RISC
->     architectures, SLOB, etc).
+> As this is independent on the rest of the series, I just went ahead
+> and merged it on media tree.
+> >
+> > Thanks,
+> > Mauro
 >
-> Since then, this CONFIG_EMBEDDED implicitly had two purposes:
 >
->   - It can make even more options visible beyond what CONFIG_EXPERT makes
->     visible. In other words, it may introduce another level of enabling the
->     visibility of configuration options: always visible, visible with
->     CONFIG_EXPERT and visible with CONFIG_EMBEDDED.
 >
->   - Set certain default values of some configurations differently,
->     following the assumption that configuring a kernel build for an
->     embedded system generally starts with a different set of default values
->     compared to kernel builds for all other kind of systems.
->
-> Considering the first purpose, at the point in time where CONFIG_EMBEDDED
-> was renamed to CONFIG_EXPERT, CONFIG_EXPERT already made 130 more options
-> become visible throughout all different menus for the kernel configuration.
-> Over the last decade, this has gradually increased, so that currently, with
-> CONFIG_EXPERT, roughly 170 more options become visible throughout all
-> different menus for the kernel configuration. In comparison, currently with
-> CONFIG_EMBEDDED enabled, just seven more options are visible, one in x86,
-> one in arm, and five for the ChipIdea Highspeed Dual Role Controller.
->
-> As the numbers suggest, these two levels of enabling the visibility of even
-> more configuration options---beyond what CONFIG_EXPERT enables---never
-> evolved to a good solution in the last decade. In other words, this
-> additional level of visibility of configuration option with CONFIG_EMBEDDED
-> compared to CONFIG_EXPERT has since its introduction never become really
-> valuable. It requires quite some investigation to actually understand what
-> is additionally visible and it does not differ significantly in complexity
-> compared to just enabling CONFIG_EXPERT. This CONFIG_EMBEDDED---or any
-> other config to show more detailed options beyond CONFIG_EXPERT---is
-> unlikely to be valuable unless somebody puts significant effort in
-> identifying how such visibility options can be properly split and creating
-> clear criteria, when some config option is visible with CONFIG_EXPERT and
-> when some config option is visible only with some further option enabled
-> beyond CONFIG_EXPERT, such as CONFIG_EMBEDDED attempted to do. For now, it
-> is much more reasonable to simply make those additional seven options that
-> visible with CONFIG_EMBEDDED, visible with CONFIG_EXPERT, and then remove
-> CONFIG_EMBEDDED. If anyone spends significant effort in structuring the
-> visibility of config options, they may re-introduce suitable new config
-> options simply as they see fit.
->
-> Make the config X86_FEATURE_NAMES visible when CONFIG_EXPERT is enabled.
->
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-
+> Thanks,
+> Mauro
 
 Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
-
-
-
-> ---
->  arch/x86/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> index 2ec0b1eabe86..7807eb1c8df8 100644
-> --- a/arch/x86/Kconfig
-> +++ b/arch/x86/Kconfig
-> @@ -438,7 +438,7 @@ config SMP
->           If you don't know what to do here, say N.
->
->  config X86_FEATURE_NAMES
-> -       bool "Processor feature human-readable names" if EMBEDDED
-> +       bool "Processor feature human-readable names" if EXPERT
->         default y
->         help
->           This option compiles in a table of x86 feature bits and corresponding
-> --
-> 2.17.1
->
-
 
 -- 
 Best Regards
