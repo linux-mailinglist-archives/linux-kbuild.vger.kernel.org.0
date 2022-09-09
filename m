@@ -2,58 +2,64 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 136CE5B40C4
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Sep 2022 22:35:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 898005B4121
+	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Sep 2022 22:57:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230101AbiIIUfc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 9 Sep 2022 16:35:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50844 "EHLO
+        id S229767AbiIIU5g (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 9 Sep 2022 16:57:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229788AbiIIUfb (ORCPT
+        with ESMTP id S229550AbiIIU5e (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 9 Sep 2022 16:35:31 -0400
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F1C1A1A51;
-        Fri,  9 Sep 2022 13:35:29 -0700 (PDT)
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 289KZ99Q017430;
-        Sat, 10 Sep 2022 05:35:09 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 289KZ99Q017430
+        Fri, 9 Sep 2022 16:57:34 -0400
+Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07D2DC59F4;
+        Fri,  9 Sep 2022 13:57:32 -0700 (PDT)
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 289KvJw1004258;
+        Sat, 10 Sep 2022 05:57:20 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 289KvJw1004258
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1662755709;
-        bh=rH1NP6uWb5FT/e2uz2unz8AGL349fphr8MvxQi9NiSs=;
+        s=dec2015msa; t=1662757040;
+        bh=uqz24ZSjysiHUZlmL5XaHf2ZhL6SzB9+49wyUsEx67Q=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=VDA1FxXrDxd7dgHP4xK+4mvQiage/NY4J2C9vRyxdTbN2ZKC4lZP5SIi64rdLncc1
-         5428ez4kDdUQCfFIVQ2vxwCv8MO4WOHjQhzxIMc2KFP+x1nZmtMUXRfcru4rTZe5DY
-         Nj1Do/xgz0xEoLP2ISmUP3Du/tG7bSrMCASJM3YQuDzFKW1ermJbqHpkUptLVZY17J
-         yxU1n5q60KIgbTyFQRS2NI1AwrjTgi9IJw1A8ogQ9kXiuoTAwvH0pHxXqH2/o4xaeK
-         G4qpKHaH5VLuVu5q9/5hXyr+E61jASe/kXFeV6PiIUBdhWfVkOonE2xmTPgiEFgqe6
-         W095btzBJFPBA==
-X-Nifty-SrcIP: [209.85.160.41]
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-127f5411b9cso6942616fac.4;
-        Fri, 09 Sep 2022 13:35:09 -0700 (PDT)
-X-Gm-Message-State: ACgBeo26r1ngucz1QrQO0xqbBSdu4mSFuSefkYAsLf34v1nz/hHs1Oq/
-        3YDSRRJ6UMY2OP013BeslmmEPSdBxqaRNcoxNlQ=
-X-Google-Smtp-Source: AA6agR6dL09UltxzlxRkGBfGKrUUYZ2bafO2jfFPKuEOiCf04AJFdBbWcLrwkKb2VeRhUwPR42iE5Q+EoGneHl3m+O8=
-X-Received: by 2002:a05:6870:c58b:b0:10b:d21d:ad5e with SMTP id
- ba11-20020a056870c58b00b0010bd21dad5emr5903018oab.287.1662755708354; Fri, 09
- Sep 2022 13:35:08 -0700 (PDT)
+        b=BweEZeCLjEO3xjp9rjSb1j7Wn1RQaEjuczoyUfGU+LW3RPcEBOZuRacHEHeKVLIOD
+         cYdZKvbxAohqLXWOsu/wacwUJSG9Rc/c7YI+AH+AcfX22brU/5zSUEhHJIV4xEy/cZ
+         nr9ZYZn8NmAvVO+kognjgfxz1Q6lt7e+5S89SnKH+SRKW8yVjrYNzzoWeNcWkT0w7H
+         uJikYJCj1f0hnpnn5kBf7Q1K31fSuIocfIHii/OsyyXvShUxypquucrB4g3xQ3iT1w
+         Nx6JZtaDyRc5iFxSbM3ZQy7nGSlUNZuJkdlgnsk2phBqgU4MAL+MLjiCicU0KkkQzL
+         6oTmxQszYInjg==
+X-Nifty-SrcIP: [209.85.160.43]
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-1225219ee46so7102128fac.2;
+        Fri, 09 Sep 2022 13:57:20 -0700 (PDT)
+X-Gm-Message-State: ACgBeo2l0VDFaL8bguvvkevRCJuo4L1YuLTs0MNVC/DT4yhxaMoWY2HJ
+        U0nhpvbU3VUX8DnoW7bl8rYO056Q5c/zKWpZyvU=
+X-Google-Smtp-Source: AA6agR66+XO9Ke2tjFAZRiZGfx7pHOR7RKRdiA3vlsCmufJS6NDQDpZTXaoqbZ/Ykghz+SYA4kk37sT798vD5adC45g=
+X-Received: by 2002:a05:6870:f626:b0:10d:a798:f3aa with SMTP id
+ ek38-20020a056870f62600b0010da798f3aamr5953724oab.194.1662757038871; Fri, 09
+ Sep 2022 13:57:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <1662030659-21558-1-git-send-email-tangyouling@loongson.cn>
-In-Reply-To: <1662030659-21558-1-git-send-email-tangyouling@loongson.cn>
+References: <20220907045907.484043-1-ndesaulniers@google.com> <20220907045907.484043-6-ndesaulniers@google.com>
+In-Reply-To: <20220907045907.484043-6-ndesaulniers@google.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 10 Sep 2022 05:34:32 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARn=v=ugnvYAeq2rfWyStZKkWQcbaaxSJdxrdHE20X31w@mail.gmail.com>
-Message-ID: <CAK7LNARn=v=ugnvYAeq2rfWyStZKkWQcbaaxSJdxrdHE20X31w@mail.gmail.com>
-Subject: Re: [PATCH] mksysmap: Fix the mismatch of 'L0' symbols in System.map
-To:     Youling Tang <tangyouling@loongson.cn>
+Date:   Sat, 10 Sep 2022 05:56:42 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARhKobLF4Lw0dqSMqW0SPwmrV9HRas=4L8NoahKTeMCgQ@mail.gmail.com>
+Message-ID: <CAK7LNARhKobLF4Lw0dqSMqW0SPwmrV9HRas=4L8NoahKTeMCgQ@mail.gmail.com>
+Subject: Re: [PATCH v3 5/5] Makefile.debug: set -g unconditional on CONFIG_DEBUG_INFO_SPLIT
+To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Huacai Chen <chenhuacai@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Tom Rix <trix@redhat.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        loongarch@lists.linux.dev,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Xuerui Wang <kernel@xen0n.name>, Xi Ruoyao <xry111@xry111.site>
+        clang-built-linux <llvm@lists.linux.dev>,
+        X86 ML <x86@kernel.org>,
+        Dmitrii Bundin <dmitrii.bundin.a@gmail.com>,
+        Fangrui Song <maskray@google.com>,
+        Alexey Alexandrov <aalexand@google.com>,
+        Bill Wendling <morbo@google.com>,
+        Greg Thelen <gthelen@google.com>,
+        Andi Kleen <ak@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
@@ -64,41 +70,94 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Sep 1, 2022 at 8:11 PM Youling Tang <tangyouling@loongson.cn> wrote:
+On Wed, Sep 7, 2022 at 1:59 PM Nick Desaulniers <ndesaulniers@google.com> wrote:
 >
-> When System.map was generated, the kernel used mksysmap to filter the
-> kernel symbols, we need to filter "L0" symbols in LoongArch architecture.
+> Dmitrii, Fangrui, and Mashahiro note:
 >
-> $ cat System.map | grep L0
-> 9000000000221540 t L0
+>   Before GCC 11 and Clang 12 -gsplit-dwarf implicitly uses -g2.
 >
-> The L0 symbol exists in System.map, but not in .tmp_System.map. When
-> "cmp -s System.map .tmp_System.map" will show "Inconsistent kallsyms
-> data" error message in link-vmlinux.sh script.
+> Fix CONFIG_DEBUG_INFO_SPLIT for gcc-11+ & clang-12+ which now need -g
+> specified in order for -gsplit-dwarf to work at all.
 >
-> Signed-off-by: Youling Tang <tangyouling@loongson.cn>
+> -gsplit-dwarf has been mutually exclusive with -g since support for
+> CONFIG_DEBUG_INFO_SPLIT was introduced in
+> commit 866ced950bcd ("kbuild: Support split debug info v4")
+> I don't think it ever needed to be.
+>
+> Link: https://lore.kernel.org/lkml/20220815013317.26121-1-dmitrii.bundin.a@gmail.com/
+> Link: https://lore.kernel.org/lkml/CAK7LNARPAmsJD5XKAw7m_X2g7Fi-CAAsWDQiP7+ANBjkg7R7ng@mail.gmail.com/
+> Link: https://reviews.llvm.org/D80391
+> Cc: Andi Kleen <ak@linux.intel.com>
+> Reported-by: Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
+> Reported-by: Fangrui Song <maskray@google.com>
+> Reported-by: Masahiro Yamada <masahiroy@kernel.org>
+> Suggested-by: Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 > ---
->  scripts/mksysmap | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Changes v2 -> v3:
+> * Pick up Nathan's RB tag.
 >
-> diff --git a/scripts/mksysmap b/scripts/mksysmap
-> index 9aa23d15862a..ad8bbc52267d 100755
-> --- a/scripts/mksysmap
-> +++ b/scripts/mksysmap
-> @@ -41,4 +41,4 @@
->  # so we just ignore them to let readprofile continue to work.
->  # (At least sparc64 has __crc_ in the middle).
+> Changes v1 -> v2:
+> * Add reference to 866ced950bcd, cc Andi, in commit message.
 >
-> -$NM -n $1 | grep -v '\( [aNUw] \)\|\(__crc_\)\|\( \$[adt]\)\|\( \.L\)' > $2
-> +$NM -n $1 | grep -v '\( [aNUw] \)\|\(__crc_\)\|\( \$[adt]\)\|\( \.L\)\|\( L0\)' > $2
+>  scripts/Makefile.debug | 10 +++-------
+>  1 file changed, 3 insertions(+), 7 deletions(-)
+>
+> diff --git a/scripts/Makefile.debug b/scripts/Makefile.debug
+> index 2845145c1220..c20f8f2e76bf 100644
+> --- a/scripts/Makefile.debug
+> +++ b/scripts/Makefile.debug
+> @@ -1,10 +1,4 @@
+> -DEBUG_CFLAGS   :=
+> -
+> -ifdef CONFIG_DEBUG_INFO_SPLIT
+> -DEBUG_CFLAGS   += -gsplit-dwarf
+> -else
+> -debug-cflags-y += -g
+> -endif
+> +DEBUG_CFLAGS   := -g
+>
+>  debug-flags-$(CONFIG_DEBUG_INFO_DWARF4)        += -gdwarf-4
+>  debug-flags-$(CONFIG_DEBUG_INFO_DWARF5)        += -gdwarf-5
+> @@ -15,6 +9,8 @@ ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_AS_IS_GNU),yy)
+>  KBUILD_AFLAGS  += $(addprefix -Wa$(comma), $(debug-flags-y))
+>  endif
+>
+> +debug-flags-$(CONFIG_DEBUG_INFO_SPLIT) += -gsplit-dwarf
+> +
+
+
+This patch changes the behavior that is not mentioned in the commit log.
+
+
+
+
+Previously, -gsplit-dwarf was passed only when compiling *.c files.
+(DEBUG_CFLAGS).
+
+Now it is passed also when compiling *.S files.
+(debug-flags-y is appended to KBUILD_AFLAGS)
+
+
+Please confirm if this makes sense, and if so,
+please mention it in the commit log.
+
+
+
+As far as I tested, I did not see this change was useful.
+
+When *.S is compiled to *.o, *.dwo is also created,
+but it does not contain any debug info.
+
+
+
+>  ifdef CONFIG_DEBUG_INFO_REDUCED
+>  DEBUG_CFLAGS   += -fno-var-tracking
+>  ifdef CONFIG_CC_IS_GCC
 > --
-> 2.36.1
+> 2.37.2.789.g6183377224-goog
 >
-
-
-Applied to linux-kbuild/fixes.
-Thanks.
-
 
 
 -- 
