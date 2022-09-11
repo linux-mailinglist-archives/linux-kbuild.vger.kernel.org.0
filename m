@@ -2,76 +2,117 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A4CF5B4C70
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Sep 2022 09:12:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 973C35B4EC1
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Sep 2022 14:24:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229808AbiIKHMa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 11 Sep 2022 03:12:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36156 "EHLO
+        id S230196AbiIKMYw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 11 Sep 2022 08:24:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229845AbiIKHM3 (ORCPT
+        with ESMTP id S230090AbiIKMYv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 11 Sep 2022 03:12:29 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C232C2714B
-        for <linux-kbuild@vger.kernel.org>; Sun, 11 Sep 2022 00:12:28 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id bj12so13325266ejb.13
-        for <linux-kbuild@vger.kernel.org>; Sun, 11 Sep 2022 00:12:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date;
-        bh=pBOo2rmv6aDzYpCnD04lJQIWjwidr/slc5gncwNFUgM=;
-        b=NeQbzVIqbJyFLz4+VLJTFN3uo/nnNLHceVe+YqTTgk/x4JfyJKsgK2VZgcUIp6f23J
-         4mdexbe2mAqBpK6bT9jEgB/EkX6bq5eBohxLDU2Xn5InaJiKWGNyGNRFxUcSJwEoIPVs
-         Ha+jK51dYhbx2J6E4Iepp9g6eQyfqAwllXLE9Vn+8WsQvfGlxFSkNmVvVaOLHbGOHAuI
-         1YTtH4MgMxi9FCbSIWebVILKbGq+g7vqtlSSgiY9EywQYEphETq5nDSEyk80bPYMTRyG
-         gVNn4Hol1TF3QSIDu9Px4E0Vw5GltrIgwVOGwHIKPd9E+PjmpeONET0193QpJ2XYScIW
-         2XYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=pBOo2rmv6aDzYpCnD04lJQIWjwidr/slc5gncwNFUgM=;
-        b=K3I399I1taAG4LhT8BfuUhYd1A79YAOrDEnUtvU2ukjzL7VAh+QV8VU6LE4eyDKH6L
-         87ghyw1Eu2gq6MysRMpaAV+kEnYOpenQrz5SlNbohVKVLQQlcpi8tbUtzVbyAo5XmPMt
-         pnVuRFqakZru+JObklXsCnoPnxnA0+zmujuXxBzx1vgpBdH7de6z5Osz8k0QHL4ab+Yg
-         jo5hWQXhXeuKu8pzQ6TMFpJijnDlXl9fL2uFwFcZLJmweBwZT87HgB+NtjOt4Iko2ma1
-         jJJq1ZEF6SMoLv2XB6LyUnj5lpFBABNppq+x7mZdPR8JdFo9Eo2UlOZ0dpqsqIdbNraw
-         uFuQ==
-X-Gm-Message-State: ACgBeo1CSd6BjmI7pn74Ue8XPz0jVTV6O/+CRwC4mwGr59tPT8FK124e
-        LhFjpbeFEK3VE+WIOVZJ1u3vYw1lwdpX5SCbutK8exe3f+Lxrokg
-X-Google-Smtp-Source: AA6agR4qKFMqe3u/AGuOmuPPnhufIDrmwRMizBg1TX9e2I9v56bb9HHt80uz4QcvbOifL3RvJT2ss2eaoWWl/AmejnY=
-X-Received: by 2002:a05:6402:34cb:b0:451:61c9:a316 with SMTP id
- w11-20020a05640234cb00b0045161c9a316mr4217022edc.268.1662879997974; Sun, 11
- Sep 2022 00:06:37 -0700 (PDT)
+        Sun, 11 Sep 2022 08:24:51 -0400
+Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD771240AA;
+        Sun, 11 Sep 2022 05:24:47 -0700 (PDT)
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 28BCOZex029075;
+        Sun, 11 Sep 2022 21:24:36 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 28BCOZex029075
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1662899076;
+        bh=GQ03xwoGNDq52aqnQEQ/BAf1toU8NsXlr/BYPbrzfFY=;
+        h=From:Date:Subject:To:Cc:From;
+        b=hi/qylNg/A0WmA+nBMjBb8VyaaxAXKIeTg3FjDABgilLKv3O0Jx+dcTb6Z2F5IwPp
+         Uy2+2oIJeacqdsgCoc1krHdRSRvLRhfiKVZwFQ0dUKU3i1D38GcGJNa3jOW/WAgvDl
+         JQbuoig/x1W0iQKBhEGEWHuPtt7abNInANuLFH5AsPKFwPfIaZdSWfWgcSDyGr+v4X
+         fSJf6MqqgvU3/oaxsnSjGkQptmLPL5y+DL9Qc6v49EycBYHSGHMPeoNwFWV4OmjwQE
+         8a+Gpry5644CqJi90L0lk6tOD94sU86z+auAV0MWyWTULcXsYFNHkLMBaxqS/KbUwo
+         CTx9hyyjIU1Ow==
+X-Nifty-SrcIP: [209.85.160.45]
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-12803ac8113so16423753fac.8;
+        Sun, 11 Sep 2022 05:24:35 -0700 (PDT)
+X-Gm-Message-State: ACgBeo0FG0K23AEemU0rMa9ffGmdCqD7LYedrfKrFV6CPyl1P9mz1mVv
+        MBXQbdIS9bvN5fk95upokAJYlGmC1RktTwVJRQ8=
+X-Google-Smtp-Source: AA6agR4IDQlmqXtVVX+3L56RW++8IoCwq2DzqhwdRVX+eUmN5eaJtxslcfFGrrEbsHWPH0K5y5hRR6t/Pg5dOqyWOdY=
+X-Received: by 2002:a05:6870:c58b:b0:10b:d21d:ad5e with SMTP id
+ ba11-20020a056870c58b00b0010bd21dad5emr9334676oab.287.1662899074869; Sun, 11
+ Sep 2022 05:24:34 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ab4:aaa2:0:0:0:0:0 with HTTP; Sun, 11 Sep 2022 00:06:37
- -0700 (PDT)
-Reply-To: abdwabbom447@gmail.com
-From:   Maddah Hussain <abdwabbomaddahm@gmail.com>
-Date:   Sun, 11 Sep 2022 00:06:37 -0700
-Message-ID: <CAHqwJXLwdvZuSio3-YZK-9HYo9GC49m4tUTgLZ4HwyQo0VqOrg@mail.gmail.com>
-Subject: Get Back to me (URGENT)
-To:     undisclosed-recipients:;
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 11 Sep 2022 21:23:58 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASxoB67Tdzj78FA9iuRr2WxcH+-knSkziv36TFOW4KhHQ@mail.gmail.com>
+Message-ID: <CAK7LNASxoB67Tdzj78FA9iuRr2WxcH+-knSkziv36TFOW4KhHQ@mail.gmail.com>
+Subject: [GIT PULL] Kbuild fixes for v6.0-rc5
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: ****
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Hello Linus,
+
+
+Please pull some Kbuild fixes.
+Thanks.
+
+
+
+
+
+The following changes since commit b90cb1053190353cc30f0fef0ef1f378ccc063c5:
+
+  Linux 6.0-rc3 (2022-08-28 15:05:29 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-fixes-v6.0-2
+
+for you to fetch changes up to c17a2538704f926ee4d167ba625e09b1040d8439:
+
+  mksysmap: Fix the mismatch of 'L0' symbols in System.map (2022-09-10
+05:35:13 +0900)
+
+----------------------------------------------------------------
+Kbuild fixes for v6.0 (2nd)
+
+ - Remove unused scripts/gcc-ld script
+
+ - Add zstd support to scripts/extract-ikconfig
+
+ - Check 'make headers' for UML
+
+ - Fix scripts/mksysmap to ignore local symbols
+
+----------------------------------------------------------------
+Lukas Bulwahn (1):
+      scripts: remove obsolete gcc-ld script
+
+Masahiro Yamada (1):
+      kbuild: disable header exports for UML in a straightforward way
+
+Thitat Auareesuksakul (1):
+      scripts/extract-ikconfig: add zstd compression support
+
+Youling Tang (1):
+      mksysmap: Fix the mismatch of 'L0' symbols in System.map
+
+ Makefile                 |  3 +--
+ scripts/extract-ikconfig |  1 +
+ scripts/gcc-ld           | 30 ------------------------------
+ scripts/mksysmap         |  2 +-
+ 4 files changed, 3 insertions(+), 33 deletions(-)
+ delete mode 100755 scripts/gcc-ld
+
+
 -- 
-Dear,
-
-I had sent you a mail but i don't think you received it that's why am
-writing you again.It is important you get back to me as soon as you
-can.
-
-Maddah Hussain
+Best Regards
+Masahiro Yamada
