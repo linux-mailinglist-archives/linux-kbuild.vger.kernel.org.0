@@ -2,75 +2,92 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB7635B50E1
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Sep 2022 21:37:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9D105B54E6
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Sep 2022 08:58:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229722AbiIKThC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 11 Sep 2022 15:37:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53478 "EHLO
+        id S229982AbiILG6d (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 12 Sep 2022 02:58:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229705AbiIKThB (ORCPT
+        with ESMTP id S229861AbiILG63 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 11 Sep 2022 15:37:01 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AEC82558E;
-        Sun, 11 Sep 2022 12:37:00 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9E62461083;
-        Sun, 11 Sep 2022 19:36:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 04BB4C4347C;
-        Sun, 11 Sep 2022 19:36:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1662925019;
-        bh=2FcVKFfoqpFAmEwtevtXWoAEUeA20iOdUGEBgr9Zb2M=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=RNCa4anhwxY2tXwTiTEEQaJXmXi9bEqWRoh8JG6sUUELzNDOGhhRcwBOQrGsm93fo
-         QY2bb687EM0SRjf/uIioKQ53+jnm3f4oqFl3jhG9/3Rg6rpJbT/WE8ZqcSdPyyVOiq
-         GX5XetKfqCGs15ZNqu6OpwtGR1nYnodtiu9PLZuEr0n7U3jDBjZgN8ocLHAYsSCkUi
-         3+4NbIaNvy8VN13RTRdlhNhG8+BN9WY80a8tVuDbIfM56WvVC8ccBkvWAnlME+C95H
-         WYBoqN9a8ghLsjq2QsUwyLI9LW3MTYpVM3wkA3CNdO0SLb9HpGIv/tWiNkCDXZ7K3Y
-         wYSF9t8uShSGQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E4F6BC04E59;
-        Sun, 11 Sep 2022 19:36:58 +0000 (UTC)
-Subject: Re: [GIT PULL] Kbuild fixes for v6.0-rc5
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <CAK7LNASxoB67Tdzj78FA9iuRr2WxcH+-knSkziv36TFOW4KhHQ@mail.gmail.com>
-References: <CAK7LNASxoB67Tdzj78FA9iuRr2WxcH+-knSkziv36TFOW4KhHQ@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAK7LNASxoB67Tdzj78FA9iuRr2WxcH+-knSkziv36TFOW4KhHQ@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.0-2
-X-PR-Tracked-Commit-Id: c17a2538704f926ee4d167ba625e09b1040d8439
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 4ed9c1e971b1f6474793da20496fa53c35d4a37b
-Message-Id: <166292501893.24843.7917908249853034042.pr-tracker-bot@kernel.org>
-Date:   Sun, 11 Sep 2022 19:36:58 +0000
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Mon, 12 Sep 2022 02:58:29 -0400
+X-Greylist: delayed 187 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 11 Sep 2022 23:58:26 PDT
+Received: from condef-09.nifty.com (condef-09.nifty.com [202.248.20.74])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA1D418E25;
+        Sun, 11 Sep 2022 23:58:26 -0700 (PDT)
+Received: from conuserg-12.nifty.com ([10.126.8.75])by condef-09.nifty.com with ESMTP id 28C6s6lr029577;
+        Mon, 12 Sep 2022 15:54:07 +0900
+Received: from zoe.. (133-32-182-133.west.xps.vectant.ne.jp [133.32.182.133]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 28C6qKb0002757;
+        Mon, 12 Sep 2022 15:52:20 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 28C6qKb0002757
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1662965541;
+        bh=K8lS0G39upk9M7Zr/tS02duG7tDM8J18wNby8hcDebA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=qLh8/t/pLV4otPJynnlFtK9MO30eONulvw2fQLCjQDHJ3C2su/WNDz+5DwkPVqd28
+         OBtkk1ZrbxIdIDDgfmVLlqto5lwOIQDOe3q4CDaXOHMbXeNSUrIu8YW/FCJZbT+DJO
+         +rs/kgCWlXmxazZm+awrI9LP04aa5nNXMvvx5fr6gIGBPkDi/L+ZPFjRhvPmUOtESL
+         hUJ3a1kCTjx5+asDbvZ8B76m9UVLm2MWTaHLaT5dNoHEyJISfXkqkvYPd7Ifs6CIck
+         SoX+9pZbmJ6cNbUWFtP7/QfOc1Y++WAgTaSW34zjZN3L50Yid+q5GcKzsL5KhdC1oj
+         uXBRAalFavv+w==
+X-Nifty-SrcIP: [133.32.182.133]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     David Howells <dhowells@redhat.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        keyrings@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Adam Borowski <kilobyte@angband.pl>,
+        linux-kbuild@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH] certs: make system keyring depend on built-in x509 parser
+Date:   Mon, 12 Sep 2022 15:52:10 +0900
+Message-Id: <20220912065210.7932-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The pull request you sent on Sun, 11 Sep 2022 21:23:58 +0900:
+Commit e90886291c7c ("certs: make system keyring depend on x509 parser")
+is not the right fix because x509_load_certificate_list() can be modular.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.0-2
+The combination of CONFIG_SYSTEM_TRUSTED_KEYRING=y and
+CONFIG_X509_CERTIFICATE_PARSER=m still results in the following error:
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/4ed9c1e971b1f6474793da20496fa53c35d4a37b
+    LD      .tmp_vmlinux.kallsyms1
+  ld: certs/system_keyring.o: in function `load_system_certificate_list':
+  system_keyring.c:(.init.text+0x8c): undefined reference to `x509_load_certificate_list'
+  make: *** [Makefile:1169: vmlinux] Error 1
 
-Thank you!
+Fixes: e90886291c7c ("certs: make system keyring depend on x509 parser")
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ certs/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/certs/Kconfig b/certs/Kconfig
+index bf9b511573d7..1f109b070877 100644
+--- a/certs/Kconfig
++++ b/certs/Kconfig
+@@ -43,7 +43,7 @@ config SYSTEM_TRUSTED_KEYRING
+ 	bool "Provide system-wide ring of trusted keys"
+ 	depends on KEYS
+ 	depends on ASYMMETRIC_KEY_TYPE
+-	depends on X509_CERTIFICATE_PARSER
++	depends on X509_CERTIFICATE_PARSER = y
+ 	help
+ 	  Provide a system keyring to which trusted keys can be added.  Keys in
+ 	  the keyring are considered to be trusted.  Keys may be added at will
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.34.1
+
