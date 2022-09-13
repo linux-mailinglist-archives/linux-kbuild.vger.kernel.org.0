@@ -2,79 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ADCA55B6802
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Sep 2022 08:38:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF41F5B6944
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Sep 2022 10:13:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230430AbiIMGi1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 13 Sep 2022 02:38:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56968 "EHLO
+        id S229977AbiIMINv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 13 Sep 2022 04:13:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229997AbiIMGi0 (ORCPT
+        with ESMTP id S230521AbiIMINv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 13 Sep 2022 02:38:26 -0400
-X-Greylist: delayed 52187 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 12 Sep 2022 23:38:24 PDT
-Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B09A4F183;
-        Mon, 12 Sep 2022 23:38:24 -0700 (PDT)
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 28D6c01e019386;
-        Tue, 13 Sep 2022 15:38:01 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 28D6c01e019386
+        Tue, 13 Sep 2022 04:13:51 -0400
+Received: from condef-05.nifty.com (condef-05.nifty.com [202.248.20.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 837D85A819;
+        Tue, 13 Sep 2022 01:13:49 -0700 (PDT)
+Received: from conuserg-10.nifty.com ([10.126.8.73])by condef-05.nifty.com with ESMTP id 28D8AWoq009223;
+        Tue, 13 Sep 2022 17:10:33 +0900
+Received: from zoe.. (133-32-182-133.west.xps.vectant.ne.jp [133.32.182.133]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id 28D87jCf012679;
+        Tue, 13 Sep 2022 17:07:46 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 28D87jCf012679
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1663051081;
-        bh=tV9nEuhwkJ7n1kuPj+d/5yMKIVBWOfelLB6nLnhI3Mk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=nm7qyo/ZC8X5f+9Ia6Hy/XzQk6ncm8qP33zbXv9UtHpUJqgVPmyYTyw7o7AuLActU
-         5krhadDZtEg101BvUQFJNd1U/RdwtulP5zGgTYqYqDFNeHECFrtCWOuPiSLIDpPUFK
-         KFMXczU460o4Nvr+PVrQHFsRkhQVf5EH6lUjhczfQEfdYrc0pt/UAgEj9lYT1qVQTj
-         6OZ3+oMpCx+uxWqLzDQ/DDmyF1hh+O2+JGBZ38ANs4Leadxx4DkWXquNBPMqiI0SSS
-         7wMzK7FsiuYTTJLuK/vWGzpDX3xVQXPb+UM2YPGCPXpKYczsWn/nYkHbVWwAL/Gc6k
-         OLKmroaCMPRtg==
-X-Nifty-SrcIP: [209.85.210.52]
-Received: by mail-ot1-f52.google.com with SMTP id ck2-20020a056830648200b0065603aef276so1995683otb.12;
-        Mon, 12 Sep 2022 23:38:00 -0700 (PDT)
-X-Gm-Message-State: ACgBeo1sRIqBoChayjWSBZpZfaeb8cxVeiFDzbbA/aza6viJgoso2UFC
-        JBdO3BwumHd1PttITVtGwUudAlTwiBfKjLNGF1M=
-X-Google-Smtp-Source: AA6agR4ojz4kLyVwdg7KfNkE5DVjkROUMO6/BtwnXe2vVwLJN+exmsnfjgUzLo1y5NNjY/Xb+Bo/6iEHpf8JX1AtcYE=
-X-Received: by 2002:a05:6830:658b:b0:63b:3501:7167 with SMTP id
- cn11-20020a056830658b00b0063b35017167mr12198963otb.343.1663051079814; Mon, 12
- Sep 2022 23:37:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220805154231.31257-1-ojeda@kernel.org> <20220805154231.31257-24-ojeda@kernel.org>
- <CAK7LNAQ=JfmrnGAUNXm_4RTz0fOhzfYC=htZ-VuEx=HAJPNtmw@mail.gmail.com> <CANiq72kZEqAwr_m14mAFjHsFJTLjj7i4He0qyrprubpmBfOFdw@mail.gmail.com>
-In-Reply-To: <CANiq72kZEqAwr_m14mAFjHsFJTLjj7i4He0qyrprubpmBfOFdw@mail.gmail.com>
+        s=dec2015msa; t=1663056466;
+        bh=hRKy+xo91mWnaRkbQI9H0BNDjBw4xFC3PaudVH84uKI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=yNo192wRuaSEhwqz7Jo8da84KuMEajeifSpBAT169iQ62zrvK+SonqP89FxangvIr
+         wbPKULN2CWPJMgvuSjz+t25TRjr9rUdf+govCwoYsVXB/SORJ6os0IGJV9L5xEH+/y
+         wC/cJQQlhLwBCtYuxhsLfzVzx2f27W+JyMYw8jj5DgvlZLQItTvrqpLtnazYJ480Bq
+         W/1gted+z6CmebVkUdaVNWYRgdG7e7L6P1fenC4I7RShjZSd3nViUnfX/VvmrjYuEu
+         ZOEW1EyIsCbjHZlkcmg0D3pAkHDbnk7GmtcqOF4gtvbVeJ9T2AgVaEfUAmdIudHFu+
+         ms6D1GOMMWHmw==
+X-Nifty-SrcIP: [133.32.182.133]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 13 Sep 2022 15:37:23 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASzund0a=t6gz3Mfex3j6jMfjYW--nqv9x_wY=RzSR-=g@mail.gmail.com>
-Message-ID: <CAK7LNASzund0a=t6gz3Mfex3j6jMfjYW--nqv9x_wY=RzSR-=g@mail.gmail.com>
-Subject: Re: [PATCH v9 23/27] Kbuild: add Rust support
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        patches@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Sven Van Asbroeck <thesven73@gmail.com>,
-        Gary Guo <gary@garyguo.net>,
-        Boris-Chengbiao Zhou <bobo1239@web.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Douglas Su <d0u9.su@outlook.com>,
-        Dariusz Sosnowski <dsosnowski@dsosnowski.pl>,
-        Antonio Terceiro <antonio.terceiro@linaro.org>,
-        Daniel Xu <dxu@dxuuu.xyz>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Martin Rodriguez Reboredo <yakoyoku@gmail.com>,
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org
+Subject: [PATCH v2] kbuild: move -Wundef from KBUILD_CFLAGS to KBUILD_CPPFLAGS
+Date:   Tue, 13 Sep 2022 17:07:27 +0900
+Message-Id: <20220913080727.608495-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
@@ -84,46 +64,146 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Sep 13, 2022 at 1:18 AM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> Hi Masahiro,
->
-> On Mon, Sep 12, 2022 at 5:08 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > I have not figured out where this difference comes from.
->
-> It is the `RUSTC_BOOTSTRAP` environment variable: it allows to use
-> unstable featuers in the stable compiler.
+The use of an undefined macro in an #if directive is warned, but only
+in *.c files. No warning from other files such as *.S, *.lds.S.
 
+Since -Wundef is a preprocessor-related warning, it should be added to
+KBUILD_CPPFLAGS instead of KBUILD_CFLAGS.
 
-Thanks, I learned a new thing.
+Fix some uncovered issues.
 
+[1] Add -D__LINUX_ARM_ARCH__=* to KBUILD_CPPFLAGS
 
->
-> We currently set it in the global `Makefile`, but we could be more
-> explicit and do it on each command if you think that would be better.
+In file included from arch/arm/kernel/vmlinux.lds.S:13:
+./arch/arm/include/asm/cache.h:23:31: warning: "__LINUX_ARM_ARCH__" is not defined, evaluates to 0 [-Wundef]
+   23 | #if defined(CONFIG_AEABI) && (__LINUX_ARM_ARCH__ >= 5)
+      |                               ^~~~~~~~~~~~~~~~~~
 
+[2] Add missing #include <asm/pgtable.h>
 
-I checked "make compile_commands.json", but it collects build commands
-only for C.
+In file included from arch/arm/mm/cache-v7.S:17:
+arch/arm/mm/proc-macros.S:109:5: warning: "L_PTE_SHARED" is not defined, evaluates to 0 [-Wundef]
+  109 | #if L_PTE_SHARED != PTE_EXT_SHARED
+      |     ^~~~~~~~~~~~
+arch/arm/mm/proc-macros.S:109:21: warning: "PTE_EXT_SHARED" is not defined, evaluates to 0 [-Wundef]
+  109 | #if L_PTE_SHARED != PTE_EXT_SHARED
+      |                     ^~~~~~~~~~~~~~
+arch/arm/mm/proc-macros.S:113:10: warning: "L_PTE_XN" is not defined, evaluates to 0 [-Wundef]
+  113 |         (L_PTE_XN+L_PTE_USER+L_PTE_RDONLY+L_PTE_DIRTY+L_PTE_YOUNG+\
+      |          ^~~~~~~~
+arch/arm/mm/proc-macros.S:113:19: warning: "L_PTE_USER" is not defined, evaluates to 0 [-Wundef]
+  113 |         (L_PTE_XN+L_PTE_USER+L_PTE_RDONLY+L_PTE_DIRTY+L_PTE_YOUNG+\
+      |                   ^~~~~~~~~~
+arch/arm/mm/proc-macros.S:113:30: warning: "L_PTE_RDONLY" is not defined, evaluates to 0 [-Wundef]
+  113 |         (L_PTE_XN+L_PTE_USER+L_PTE_RDONLY+L_PTE_DIRTY+L_PTE_YOUNG+\
+      |                              ^~~~~~~~~~~~
+arch/arm/mm/proc-macros.S:113:43: warning: "L_PTE_DIRTY" is not defined, evaluates to 0 [-Wundef]
+  113 |         (L_PTE_XN+L_PTE_USER+L_PTE_RDONLY+L_PTE_DIRTY+L_PTE_YOUNG+\
+      |                                           ^~~~~~~~~~~
+arch/arm/mm/proc-macros.S:113:55: warning: "L_PTE_YOUNG" is not defined, evaluates to 0 [-Wundef]
+  113 |         (L_PTE_XN+L_PTE_USER+L_PTE_RDONLY+L_PTE_DIRTY+L_PTE_YOUNG+\
+      |                                                       ^~~~~~~~~~~
+arch/arm/mm/proc-macros.S:114:10: warning: "L_PTE_PRESENT" is not defined, evaluates to 0 [-Wundef]
+  114 |          L_PTE_PRESENT) > L_PTE_SHARED
+      |          ^~~~~~~~~~~~~
+arch/arm/mm/proc-macros.S:114:27: warning: "L_PTE_SHARED" is not defined, evaluates to 0 [-Wundef]
+  114 |          L_PTE_PRESENT) > L_PTE_SHARED
+      |                           ^~~~~~~~~~~~
 
+[3] #if -> #ifdef
 
-I did not see any bad scenario with the current approach.
+arch/riscv/kernel/head.S:329:5: warning: "CONFIG_RISCV_BOOT_SPINWAIT" is not defined, evaluates to 0 [-Wundef]
+  329 | #if CONFIG_RISCV_BOOT_SPINWAIT
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
+[4] #elif -> #elif defined()
 
+arch/s390/boot/decompressor.c:28:7: warning: "CONFIG_KERNEL_ZSTD" is not defined, evaluates to 0 [-Wundef]
+   28 | #elif CONFIG_KERNEL_ZSTD
+      |       ^~~~~~~~~~~~~~~~~~
 
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+Changes in v2:
+  - Fix warnings
 
+ Makefile                      | 4 ++--
+ arch/arm/Makefile             | 1 +
+ arch/arm/mm/proc-macros.S     | 1 +
+ arch/riscv/kernel/head.S      | 2 +-
+ arch/s390/boot/decompressor.c | 2 +-
+ 5 files changed, 6 insertions(+), 4 deletions(-)
 
+diff --git a/Makefile b/Makefile
+index 4beeb96f9d81..bf4328535cf9 100644
+--- a/Makefile
++++ b/Makefile
+@@ -523,12 +523,12 @@ LINUXINCLUDE    := \
+ 		$(USERINCLUDE)
+ 
+ KBUILD_AFLAGS   := -D__ASSEMBLY__ -fno-PIE
+-KBUILD_CFLAGS   := -Wall -Wundef -Werror=strict-prototypes -Wno-trigraphs \
++KBUILD_CFLAGS   := -Wall -Werror=strict-prototypes -Wno-trigraphs \
+ 		   -fno-strict-aliasing -fno-common -fshort-wchar -fno-PIE \
+ 		   -Werror=implicit-function-declaration -Werror=implicit-int \
+ 		   -Werror=return-type -Wno-format-security \
+ 		   -std=gnu11
+-KBUILD_CPPFLAGS := -D__KERNEL__
++KBUILD_CPPFLAGS := -D__KERNEL__ -Wundef
+ KBUILD_AFLAGS_KERNEL :=
+ KBUILD_CFLAGS_KERNEL :=
+ KBUILD_AFLAGS_MODULE  := -DMODULE
+diff --git a/arch/arm/Makefile b/arch/arm/Makefile
+index 29d15c9a433e..4bb5743fe3a4 100644
+--- a/arch/arm/Makefile
++++ b/arch/arm/Makefile
+@@ -129,6 +129,7 @@ AFLAGS_ISA	:=$(CFLAGS_ISA)
+ endif
+ 
+ # Need -Uarm for gcc < 3.x
++KBUILD_CPPFLAGS	+= $(filter -D%, $(arch-y))
+ KBUILD_CFLAGS	+=$(CFLAGS_ABI) $(CFLAGS_ISA) $(arch-y) $(tune-y) $(call cc-option,-mshort-load-bytes,$(call cc-option,-malignment-traps,)) -msoft-float -Uarm
+ KBUILD_AFLAGS	+=$(CFLAGS_ABI) $(AFLAGS_ISA) $(arch-y) $(tune-y) -include asm/unified.h -msoft-float
+ 
+diff --git a/arch/arm/mm/proc-macros.S b/arch/arm/mm/proc-macros.S
+index fa6999e24b07..e43f6d716b4b 100644
+--- a/arch/arm/mm/proc-macros.S
++++ b/arch/arm/mm/proc-macros.S
+@@ -6,6 +6,7 @@
+  *  VM_EXEC
+  */
+ #include <asm/asm-offsets.h>
++#include <asm/pgtable.h>
+ #include <asm/thread_info.h>
+ 
+ #ifdef CONFIG_CPU_V7M
+diff --git a/arch/riscv/kernel/head.S b/arch/riscv/kernel/head.S
+index b865046e4dbb..4bf6c449d78b 100644
+--- a/arch/riscv/kernel/head.S
++++ b/arch/riscv/kernel/head.S
+@@ -326,7 +326,7 @@ clear_bss_done:
+ 	call soc_early_init
+ 	tail start_kernel
+ 
+-#if CONFIG_RISCV_BOOT_SPINWAIT
++#ifdef CONFIG_RISCV_BOOT_SPINWAIT
+ .Lsecondary_start:
+ 	/* Set trap vector to spin forever to help debug */
+ 	la a3, .Lsecondary_park
+diff --git a/arch/s390/boot/decompressor.c b/arch/s390/boot/decompressor.c
+index e27c2140d620..f96657faffdc 100644
+--- a/arch/s390/boot/decompressor.c
++++ b/arch/s390/boot/decompressor.c
+@@ -25,7 +25,7 @@
+ 
+ #ifdef CONFIG_KERNEL_BZIP2
+ #define BOOT_HEAP_SIZE	0x400000
+-#elif CONFIG_KERNEL_ZSTD
++#elif defined(CONFIG_KERNEL_ZSTD)
+ #define BOOT_HEAP_SIZE	0x30000
+ #else
+ #define BOOT_HEAP_SIZE	0x10000
+-- 
+2.34.1
 
-
->
-> If you want that we keep using the global export, then we can add a
-> comment explaining this to clarify.
->
-> Cheers,
-> Miguel
---
-Best Regards
-Masahiro Yamada
