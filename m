@@ -2,58 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 869CD5B5E06
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Sep 2022 18:18:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ADCA55B6802
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Sep 2022 08:38:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229635AbiILQS4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 12 Sep 2022 12:18:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34950 "EHLO
+        id S230430AbiIMGi1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 13 Sep 2022 02:38:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229560AbiILQSz (ORCPT
+        with ESMTP id S229997AbiIMGi0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 12 Sep 2022 12:18:55 -0400
-Received: from mail-il1-x134.google.com (mail-il1-x134.google.com [IPv6:2607:f8b0:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4FA63868A;
-        Mon, 12 Sep 2022 09:18:54 -0700 (PDT)
-Received: by mail-il1-x134.google.com with SMTP id m16so4805076ilg.3;
-        Mon, 12 Sep 2022 09:18:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=dKtqFa8Lj7sKVbipP1evfO/jZ1JEKgMyQWZPo5L2svY=;
-        b=LYJrUWkBI5r0+ftj5RafEIHZV3TKIYV+GtfpLp5bklqBn7NVcwrDDRIvV40oAViNnw
-         PAYijJ1aNQ4wlDinX3lV3rhtEr6tMQHvjF4Qpem/VsESXWSpyHspJurr8+MBPgRUnyS1
-         JSyYvDet2ykXQxZD7W0xJQ/PbXRNVY8laRRXUVrXu8sLgFQQEl/CQnZve/OUnnSCjOC9
-         SWBwhTCcO23qhLn2kVpDFhkjIR4NmaqXoDjc0wRMDxkqLUhcCuzscCc2alA3Bl4rAfUt
-         b5JxVOVq1YMz+KhSjV168EA76QkBJyrj/895rj3CdO4d8Ut7a/C9fvaelZoVGDGCEllR
-         K/2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=dKtqFa8Lj7sKVbipP1evfO/jZ1JEKgMyQWZPo5L2svY=;
-        b=Z8HIHWjrHTTpQL4YWbVNpS5pVfa/1Ij5usrAUhmaIsTWwK6CUKPPFaJ5Pugg8zWZdS
-         pn6PAv+rWCt3i03UJMvUAggMs4LiOoW0cG92h7RF3dCDbtm9hpIyKVCRoAWNXrRXwXeE
-         tRytTY477Fd30MY+9SnHS/zDOZJEr5eymwiepSokmTYnwTuxWNFld6rtmghNcLbFsjC2
-         +50U+msnwdaigM/hA6edJvKvBPARXxK9YM7Ko+ZLKwzzKv5A+vG03AAD0tG6m48//uA4
-         aB4wbF9nk0xSyIlPdl45NcMaUkeW/6xR2NibHJ0UMFgYS2rjFo2ZzDcYmKXYIHI/drcG
-         iD5Q==
-X-Gm-Message-State: ACgBeo2wlpfoxvcydeojEc8KT/jBxnMNc2q+rByxP4e5tiyoYeNeCZxQ
-        qbuIcOjoR/kvZqT26Xh9PmkMk8auYidpUCr3qWw=
-X-Google-Smtp-Source: AA6agR6MemFAoJLParyi3ed9uKb3AZKl39DwttCreIuRBOy0bqj7TVF1woYsiMJbd8RxkweMyI0pKSKSOrXHyq4gx6o=
-X-Received: by 2002:a05:6e02:1aac:b0:2f1:94e3:1805 with SMTP id
- l12-20020a056e021aac00b002f194e31805mr10813730ilv.72.1662999534105; Mon, 12
- Sep 2022 09:18:54 -0700 (PDT)
+        Tue, 13 Sep 2022 02:38:26 -0400
+X-Greylist: delayed 52187 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 12 Sep 2022 23:38:24 PDT
+Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B09A4F183;
+        Mon, 12 Sep 2022 23:38:24 -0700 (PDT)
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 28D6c01e019386;
+        Tue, 13 Sep 2022 15:38:01 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 28D6c01e019386
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1663051081;
+        bh=tV9nEuhwkJ7n1kuPj+d/5yMKIVBWOfelLB6nLnhI3Mk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=nm7qyo/ZC8X5f+9Ia6Hy/XzQk6ncm8qP33zbXv9UtHpUJqgVPmyYTyw7o7AuLActU
+         5krhadDZtEg101BvUQFJNd1U/RdwtulP5zGgTYqYqDFNeHECFrtCWOuPiSLIDpPUFK
+         KFMXczU460o4Nvr+PVrQHFsRkhQVf5EH6lUjhczfQEfdYrc0pt/UAgEj9lYT1qVQTj
+         6OZ3+oMpCx+uxWqLzDQ/DDmyF1hh+O2+JGBZ38ANs4Leadxx4DkWXquNBPMqiI0SSS
+         7wMzK7FsiuYTTJLuK/vWGzpDX3xVQXPb+UM2YPGCPXpKYczsWn/nYkHbVWwAL/Gc6k
+         OLKmroaCMPRtg==
+X-Nifty-SrcIP: [209.85.210.52]
+Received: by mail-ot1-f52.google.com with SMTP id ck2-20020a056830648200b0065603aef276so1995683otb.12;
+        Mon, 12 Sep 2022 23:38:00 -0700 (PDT)
+X-Gm-Message-State: ACgBeo1sRIqBoChayjWSBZpZfaeb8cxVeiFDzbbA/aza6viJgoso2UFC
+        JBdO3BwumHd1PttITVtGwUudAlTwiBfKjLNGF1M=
+X-Google-Smtp-Source: AA6agR4ojz4kLyVwdg7KfNkE5DVjkROUMO6/BtwnXe2vVwLJN+exmsnfjgUzLo1y5NNjY/Xb+Bo/6iEHpf8JX1AtcYE=
+X-Received: by 2002:a05:6830:658b:b0:63b:3501:7167 with SMTP id
+ cn11-20020a056830658b00b0063b35017167mr12198963otb.343.1663051079814; Mon, 12
+ Sep 2022 23:37:59 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220805154231.31257-1-ojeda@kernel.org> <20220805154231.31257-24-ojeda@kernel.org>
- <CAK7LNAQ=JfmrnGAUNXm_4RTz0fOhzfYC=htZ-VuEx=HAJPNtmw@mail.gmail.com>
-In-Reply-To: <CAK7LNAQ=JfmrnGAUNXm_4RTz0fOhzfYC=htZ-VuEx=HAJPNtmw@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 12 Sep 2022 17:18:43 +0100
-Message-ID: <CANiq72kZEqAwr_m14mAFjHsFJTLjj7i4He0qyrprubpmBfOFdw@mail.gmail.com>
+ <CAK7LNAQ=JfmrnGAUNXm_4RTz0fOhzfYC=htZ-VuEx=HAJPNtmw@mail.gmail.com> <CANiq72kZEqAwr_m14mAFjHsFJTLjj7i4He0qyrprubpmBfOFdw@mail.gmail.com>
+In-Reply-To: <CANiq72kZEqAwr_m14mAFjHsFJTLjj7i4He0qyrprubpmBfOFdw@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 13 Sep 2022 15:37:23 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASzund0a=t6gz3Mfex3j6jMfjYW--nqv9x_wY=RzSR-=g@mail.gmail.com>
+Message-ID: <CAK7LNASzund0a=t6gz3Mfex3j6jMfjYW--nqv9x_wY=RzSR-=g@mail.gmail.com>
 Subject: Re: [PATCH v9 23/27] Kbuild: add Rust support
-To:     Masahiro Yamada <masahiroy@kernel.org>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 Cc:     Miguel Ojeda <ojeda@kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -80,30 +75,55 @@ Cc:     Miguel Ojeda <ojeda@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro,
-
-On Mon, Sep 12, 2022 at 5:08 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Tue, Sep 13, 2022 at 1:18 AM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
 >
-> I have not figured out where this difference comes from.
+> Hi Masahiro,
+>
+> On Mon, Sep 12, 2022 at 5:08 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > I have not figured out where this difference comes from.
+>
+> It is the `RUSTC_BOOTSTRAP` environment variable: it allows to use
+> unstable featuers in the stable compiler.
 
-It is the `RUSTC_BOOTSTRAP` environment variable: it allows to use
-unstable featuers in the stable compiler.
 
-We currently set it in the global `Makefile`, but we could be more
-explicit and do it on each command if you think that would be better.
+Thanks, I learned a new thing.
 
-If you want that we keep using the global export, then we can add a
-comment explaining this to clarify.
 
-Cheers,
-Miguel
+>
+> We currently set it in the global `Makefile`, but we could be more
+> explicit and do it on each command if you think that would be better.
+
+
+I checked "make compile_commands.json", but it collects build commands
+only for C.
+
+
+I did not see any bad scenario with the current approach.
+
+
+
+
+
+
+
+
+>
+> If you want that we keep using the global export, then we can add a
+> comment explaining this to clarify.
+>
+> Cheers,
+> Miguel
+--
+Best Regards
+Masahiro Yamada
