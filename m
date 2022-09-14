@@ -2,56 +2,41 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E3BD25B8570
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Sep 2022 11:46:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B79145B87C0
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Sep 2022 14:02:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230385AbiINJqU convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Wed, 14 Sep 2022 05:46:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44552 "EHLO
+        id S229714AbiINMCN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 14 Sep 2022 08:02:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229877AbiINJqS (ORCPT
+        with ESMTP id S229693AbiINMCM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Sep 2022 05:46:18 -0400
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 791A661D7C
-        for <linux-kbuild@vger.kernel.org>; Wed, 14 Sep 2022 02:46:13 -0700 (PDT)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-97-cVSXdUInMX6xYwzzN9bkjA-1; Wed, 14 Sep 2022 10:46:10 +0100
-X-MC-Unique: cVSXdUInMX6xYwzzN9bkjA-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.38; Wed, 14 Sep
- 2022 10:46:08 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.040; Wed, 14 Sep 2022 10:46:08 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Nathan Chancellor' <nathan@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-CC:     "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>
-Subject: RE: [PATCH 05/15] kbuild: build init/built-in.a just once
-Thread-Topic: [PATCH 05/15] kbuild: build init/built-in.a just once
-Thread-Index: AQHYx0ts+NPkxXYHC0WeQrq6VU/re63erc0g
-Date:   Wed, 14 Sep 2022 09:46:08 +0000
-Message-ID: <87548726b6cc4f518836db38d45a04f2@AcuMS.aculab.com>
-References: <20220828024003.28873-1-masahiroy@kernel.org>
- <20220828024003.28873-6-masahiroy@kernel.org>
- <YyBAFL9CBsM9gl38@dev-arch.thelio-3990X>
-In-Reply-To: <YyBAFL9CBsM9gl38@dev-arch.thelio-3990X>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Wed, 14 Sep 2022 08:02:12 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 134FF1CFEA
+        for <linux-kbuild@vger.kernel.org>; Wed, 14 Sep 2022 05:02:11 -0700 (PDT)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.55])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MSJkW3Bb3zlVrg;
+        Wed, 14 Sep 2022 19:58:11 +0800 (CST)
+Received: from huawei.com (10.175.103.91) by dggpemm500022.china.huawei.com
+ (7.185.36.162) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 14 Sep
+ 2022 20:02:09 +0800
+From:   Zeng Heng <zengheng4@huawei.com>
+To:     <dhowells@redhat.com>
+CC:     <linux-kbuild@vger.kernel.org>, <liwei391@huawei.com>
+Subject: [PATCH] scripts: remove unused argument 'type'
+Date:   Wed, 14 Sep 2022 20:09:21 +0800
+Message-ID: <20220914120921.3739309-1-zengheng4@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemm500022.china.huawei.com (7.185.36.162)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -60,20 +45,45 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-...
-> > +VERSION=$(cat .version) 2>/dev/null &&
-> > +VERSION=$(expr $VERSION + 1) 2>/dev/null ||
-> > +VERSION=1
+Remove unused function argument, and there is
+no logic changes.
 
-What's wrong with:
-VERSION=$(($(cat .version 2>/dev/null) + 1))
+Signed-off-by: Zeng Heng <zengheng4@huawei.com>
+---
+ scripts/asn1_compiler.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-If you are worried about .version not containing a valid
-number and $((...)) failing then use ${VERSION:-1} later.
-
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+diff --git a/scripts/asn1_compiler.c b/scripts/asn1_compiler.c
+index adabd4145264..71d4a7c87900 100644
+--- a/scripts/asn1_compiler.c
++++ b/scripts/asn1_compiler.c
+@@ -832,7 +832,7 @@ static void parse(void)
+ 
+ static struct element *element_list;
+ 
+-static struct element *alloc_elem(struct token *type)
++static struct element *alloc_elem(void)
+ {
+ 	struct element *e = calloc(1, sizeof(*e));
+ 	if (!e) {
+@@ -860,7 +860,7 @@ static struct element *parse_type(struct token **_cursor, struct token *end,
+ 	char *p;
+ 	int labelled = 0, implicit = 0;
+ 
+-	top = element = alloc_elem(cursor);
++	top = element = alloc_elem();
+ 	element->class = ASN1_UNIV;
+ 	element->method = ASN1_PRIM;
+ 	element->tag = token_to_tag[cursor->token_type];
+@@ -939,7 +939,7 @@ static struct element *parse_type(struct token **_cursor, struct token *end,
+ 		if (!implicit)
+ 			element->method |= ASN1_CONS;
+ 		element->compound = implicit ? TAG_OVERRIDE : SEQUENCE;
+-		element->children = alloc_elem(cursor);
++		element->children = alloc_elem();
+ 		element = element->children;
+ 		element->class = ASN1_UNIV;
+ 		element->method = ASN1_PRIM;
+-- 
+2.25.1
 
