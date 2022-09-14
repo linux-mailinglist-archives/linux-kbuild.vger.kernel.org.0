@@ -2,41 +2,54 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 243B55B7EAF
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Sep 2022 03:52:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 888E45B83DC
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Sep 2022 11:04:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229575AbiINBwR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 13 Sep 2022 21:52:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43106 "EHLO
+        id S230227AbiINJEy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 14 Sep 2022 05:04:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229550AbiINBwP (ORCPT
+        with ESMTP id S231208AbiINJED (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 13 Sep 2022 21:52:15 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 728BB6C772
-        for <linux-kbuild@vger.kernel.org>; Tue, 13 Sep 2022 18:52:14 -0700 (PDT)
-Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.56])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MS3Bl135LzlVjQ;
-        Wed, 14 Sep 2022 09:48:15 +0800 (CST)
-Received: from huawei.com (10.175.103.91) by dggpemm500022.china.huawei.com
- (7.185.36.162) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 14 Sep
- 2022 09:52:12 +0800
-From:   Zeng Heng <zengheng4@huawei.com>
-To:     <masahiroy@kernel.org>
-CC:     <linux-kbuild@vger.kernel.org>, <liwei391@huawei.com>
-Subject: [PATCH resend v2] Kconfig: remove sym_set_choice_value
-Date:   Wed, 14 Sep 2022 09:59:06 +0800
-Message-ID: <20220914015906.3943200-1-zengheng4@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 14 Sep 2022 05:04:03 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F2EEFFE;
+        Wed, 14 Sep 2022 02:02:34 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id AC134B816ED;
+        Wed, 14 Sep 2022 09:02:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEC0AC433D7;
+        Wed, 14 Sep 2022 09:02:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1663146143;
+        bh=GSzmj0FzqakisPTTZIhSa7o3h/CHGOigwlG7aO/LbGs=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=PO77PIbb7IJBTz7pAW8Q9bPkaIX6jhvxQHZ046QzTsH6K9YIAsV6AsR3J+5XQ89eY
+         CmMDIIP8f+YZlE+KQWysGiJ5geA+Fv19H+gXoqf6zWJ0Xo6ua+u1jqy5Q62vz6K5Hf
+         6yIl6c88wmpVPuXHZFB/I2THlnr13iBozT7jru9kdROYbxRI660ELvnKv8leLMPkh8
+         uYajBfc+/QMiaZVV6DOyVNKVT/HKvUYUG79FtuNMixTjISCo5xG9iGkFoCAy/oLq0h
+         J8etQsFg7SI9lpsXJqXe6KTP51zW3I8+diY3VqzUd3K3kUyEBrLzNd1R6y2cbca/hG
+         3FE44Zhw7KiMA==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Youling Tang <tangyouling@loongson.cn>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, michal.lkml@markovi.net,
+        linux-kbuild@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.19 22/22] mksysmap: Fix the mismatch of 'L0' symbols in System.map
+Date:   Wed, 14 Sep 2022 05:01:03 -0400
+Message-Id: <20220914090103.470630-22-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220914090103.470630-1-sashal@kernel.org>
+References: <20220914090103.470630-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500022.china.huawei.com (7.185.36.162)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -45,46 +58,37 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Following Masahiro's suggestion,
-sym_set_choice_value could be removed and directly
-call sym_set_tristate_value instead.
+From: Youling Tang <tangyouling@loongson.cn>
 
-Signed-off-by: Zeng Heng <zengheng4@huawei.com>
-Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
+[ Upstream commit c17a2538704f926ee4d167ba625e09b1040d8439 ]
+
+When System.map was generated, the kernel used mksysmap to filter the
+kernel symbols, we need to filter "L0" symbols in LoongArch architecture.
+
+$ cat System.map | grep L0
+9000000000221540 t L0
+
+The L0 symbol exists in System.map, but not in .tmp_System.map. When
+"cmp -s System.map .tmp_System.map" will show "Inconsistent kallsyms
+data" error message in link-vmlinux.sh script.
+
+Signed-off-by: Youling Tang <tangyouling@loongson.cn>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- scripts/kconfig/conf.c | 2 +-
- scripts/kconfig/lkc.h  | 5 -----
- 2 files changed, 1 insertion(+), 6 deletions(-)
+ scripts/mksysmap | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
-index 4178065ca27f..33d19e419908 100644
---- a/scripts/kconfig/conf.c
-+++ b/scripts/kconfig/conf.c
-@@ -551,7 +551,7 @@ static int conf_choice(struct menu *menu)
- 			print_help(child);
- 			continue;
- 		}
--		sym_set_choice_value(sym, child->sym);
-+		sym_set_tristate_value(child->sym, yes);
- 		for (child = child->list; child; child = child->next) {
- 			indent += 2;
- 			conf(child);
-diff --git a/scripts/kconfig/lkc.h b/scripts/kconfig/lkc.h
-index fa8c010aa683..903738a9233a 100644
---- a/scripts/kconfig/lkc.h
-+++ b/scripts/kconfig/lkc.h
-@@ -124,11 +124,6 @@ static inline struct symbol *sym_get_choice_value(struct symbol *sym)
- 	return (struct symbol *)sym->curr.val;
- }
+diff --git a/scripts/mksysmap b/scripts/mksysmap
+index 9aa23d15862a0..ad8bbc52267d0 100755
+--- a/scripts/mksysmap
++++ b/scripts/mksysmap
+@@ -41,4 +41,4 @@
+ # so we just ignore them to let readprofile continue to work.
+ # (At least sparc64 has __crc_ in the middle).
  
--static inline bool sym_set_choice_value(struct symbol *ch, struct symbol *chval)
--{
--	return sym_set_tristate_value(chval, yes);
--}
--
- static inline bool sym_is_choice(struct symbol *sym)
- {
- 	return sym->flags & SYMBOL_CHOICE ? true : false;
+-$NM -n $1 | grep -v '\( [aNUw] \)\|\(__crc_\)\|\( \$[adt]\)\|\( \.L\)' > $2
++$NM -n $1 | grep -v '\( [aNUw] \)\|\(__crc_\)\|\( \$[adt]\)\|\( \.L\)\|\( L0\)' > $2
 -- 
-2.25.1
+2.35.1
 
