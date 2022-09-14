@@ -2,54 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 078775B84A5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Sep 2022 11:15:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3BD25B8570
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Sep 2022 11:46:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231476AbiINJP1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 14 Sep 2022 05:15:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54624 "EHLO
+        id S230385AbiINJqU convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Wed, 14 Sep 2022 05:46:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231621AbiINJNz (ORCPT
+        with ESMTP id S229877AbiINJqS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Sep 2022 05:13:55 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82EA87CB65;
-        Wed, 14 Sep 2022 02:06:17 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2D307B81618;
-        Wed, 14 Sep 2022 09:05:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D207C43470;
-        Wed, 14 Sep 2022 09:05:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1663146339;
-        bh=GSzmj0FzqakisPTTZIhSa7o3h/CHGOigwlG7aO/LbGs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZrpvAbyIpWi5gnFXKnR6rAXo3y6z7S7kSkfBd6W7hg4s40wR+preYNaFwFAjynyyA
-         wHmUIsCEoW3NKBZZp17u9IFs0L7ckb2IUKT5YaZ418C2qln0Mm5ikgg3mWPEuRf9zV
-         YyPHc25l0SG55XpmAqF0JN6ginvaYRKXn7eE3B0kVTAQBKIkwE/ItKIar/UFYaDQk6
-         3FPCt+ld5sXlc4SqziuolnH8OLJec9fsW43Q94QqLQgbaALmMTmB28wNvQB3mydElq
-         XAJrgRjT1Y2Y8ZrM35BSPE6k8ClzjOciv1/COKLTWgR3fq8J/bZ8slosfUbR37kINl
-         Wn4r6eLSBUT0g==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Youling Tang <tangyouling@loongson.cn>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, michal.lkml@markovi.net,
-        linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 8/8] mksysmap: Fix the mismatch of 'L0' symbols in System.map
-Date:   Wed, 14 Sep 2022 05:05:12 -0400
-Message-Id: <20220914090514.471614-8-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220914090514.471614-1-sashal@kernel.org>
-References: <20220914090514.471614-1-sashal@kernel.org>
+        Wed, 14 Sep 2022 05:46:18 -0400
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 791A661D7C
+        for <linux-kbuild@vger.kernel.org>; Wed, 14 Sep 2022 02:46:13 -0700 (PDT)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-97-cVSXdUInMX6xYwzzN9bkjA-1; Wed, 14 Sep 2022 10:46:10 +0100
+X-MC-Unique: cVSXdUInMX6xYwzzN9bkjA-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.38; Wed, 14 Sep
+ 2022 10:46:08 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.040; Wed, 14 Sep 2022 10:46:08 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Nathan Chancellor' <nathan@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+CC:     "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>
+Subject: RE: [PATCH 05/15] kbuild: build init/built-in.a just once
+Thread-Topic: [PATCH 05/15] kbuild: build init/built-in.a just once
+Thread-Index: AQHYx0ts+NPkxXYHC0WeQrq6VU/re63erc0g
+Date:   Wed, 14 Sep 2022 09:46:08 +0000
+Message-ID: <87548726b6cc4f518836db38d45a04f2@AcuMS.aculab.com>
+References: <20220828024003.28873-1-masahiroy@kernel.org>
+ <20220828024003.28873-6-masahiroy@kernel.org>
+ <YyBAFL9CBsM9gl38@dev-arch.thelio-3990X>
+In-Reply-To: <YyBAFL9CBsM9gl38@dev-arch.thelio-3990X>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -58,37 +60,20 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Youling Tang <tangyouling@loongson.cn>
+...
+> > +VERSION=$(cat .version) 2>/dev/null &&
+> > +VERSION=$(expr $VERSION + 1) 2>/dev/null ||
+> > +VERSION=1
 
-[ Upstream commit c17a2538704f926ee4d167ba625e09b1040d8439 ]
+What's wrong with:
+VERSION=$(($(cat .version 2>/dev/null) + 1))
 
-When System.map was generated, the kernel used mksysmap to filter the
-kernel symbols, we need to filter "L0" symbols in LoongArch architecture.
+If you are worried about .version not containing a valid
+number and $((...)) failing then use ${VERSION:-1} later.
 
-$ cat System.map | grep L0
-9000000000221540 t L0
+	David
 
-The L0 symbol exists in System.map, but not in .tmp_System.map. When
-"cmp -s System.map .tmp_System.map" will show "Inconsistent kallsyms
-data" error message in link-vmlinux.sh script.
-
-Signed-off-by: Youling Tang <tangyouling@loongson.cn>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- scripts/mksysmap | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/mksysmap b/scripts/mksysmap
-index 9aa23d15862a0..ad8bbc52267d0 100755
---- a/scripts/mksysmap
-+++ b/scripts/mksysmap
-@@ -41,4 +41,4 @@
- # so we just ignore them to let readprofile continue to work.
- # (At least sparc64 has __crc_ in the middle).
- 
--$NM -n $1 | grep -v '\( [aNUw] \)\|\(__crc_\)\|\( \$[adt]\)\|\( \.L\)' > $2
-+$NM -n $1 | grep -v '\( [aNUw] \)\|\(__crc_\)\|\( \$[adt]\)\|\( \.L\)\|\( L0\)' > $2
--- 
-2.35.1
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
