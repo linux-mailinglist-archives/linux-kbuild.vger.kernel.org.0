@@ -2,56 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0BE55B88C2
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Sep 2022 15:02:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C03725B9370
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Sep 2022 06:00:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229614AbiINNCE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 14 Sep 2022 09:02:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35120 "EHLO
+        id S229448AbiIOEAy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 15 Sep 2022 00:00:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229528AbiINNCC (ORCPT
+        with ESMTP id S229519AbiIOEAx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Sep 2022 09:02:02 -0400
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83EA95FF68;
-        Wed, 14 Sep 2022 06:02:01 -0700 (PDT)
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 28ED1R4a014976;
-        Wed, 14 Sep 2022 22:01:28 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 28ED1R4a014976
+        Thu, 15 Sep 2022 00:00:53 -0400
+Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B885816BC
+        for <linux-kbuild@vger.kernel.org>; Wed, 14 Sep 2022 21:00:50 -0700 (PDT)
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 28F40D2i007787
+        for <linux-kbuild@vger.kernel.org>; Thu, 15 Sep 2022 13:00:14 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 28F40D2i007787
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1663160488;
-        bh=GHK0IfYXttT8oUk7P8LGQ/L+MqLy4KjmkGPRYqdgRGk=;
+        s=dec2015msa; t=1663214414;
+        bh=iUiaBtFrAxRsLj/w3fZABQ2RbE5kqvthDXqBZeyEe5g=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=WKYNzDVf3KqZhgFkD9Y6UYk9SCHF937eL8esdN5TTBJNHhIfcmGH5kM3LuywhJcKw
-         Y8bYjthrzs7+QxegaAf+jWoPOobGAECcnwVyQB2C7c9qFZyzaoV5PvAw9R3W1V/sSY
-         RPHLZ2lshfolLD5HLO0oVIIs60EKtMH/hG/7Xr+HjWdV3CWkijCMNBL/lk6WYXejdD
-         TWtEpCosBegRH2Gf1Aun5i9vHMmFq6aUYZS+wmAfmPi0RL/KMJBYkELafZO/vvlHtY
-         k4PltKgIJ6Gx41BWVJQOlAZnp+o3G9iijlmj6ytSZ3CCM5iWHufwUOOFtONP7NGqXT
-         F+jlNa3N1TPrw==
-X-Nifty-SrcIP: [209.85.210.49]
-Received: by mail-ot1-f49.google.com with SMTP id br15-20020a056830390f00b0061c9d73b8bdso10258410otb.6;
-        Wed, 14 Sep 2022 06:01:28 -0700 (PDT)
-X-Gm-Message-State: ACgBeo25jCg+5AzclDjNBix+LhHt6xeXRdjbuUZcmoFjEkQk7VcpGRCE
-        gUgctkv2dzK7BpIaLsyFk558rAuEizVfhv4GKP4=
-X-Google-Smtp-Source: AA6agR4cg3jwwz2A4UjnKmkW0MBA79aiJh/S5irfGe0u9ixCJS4JHA0qwPYTgg+9UtO/x8BpQjZlS1xcfY6pcFqLo8c=
-X-Received: by 2002:a05:6830:3111:b0:655:bf20:250 with SMTP id
- b17-20020a056830311100b00655bf200250mr8795042ots.225.1663160487192; Wed, 14
- Sep 2022 06:01:27 -0700 (PDT)
+        b=QoetNf4I7XdBD0ynEmQ6admH+rvzt0N1yvwGiA9fGsiLjRPpNPkIfNYCWGbrutmrp
+         3Unf06TGuwvIf4GEWFpkQtWN1xKtWEe6HejPnMmH/k/Hnh2EZ2fGeTupOzuv/XrYqj
+         +FlK80550wj/1wjkAd4tOfjgRBaReyzYOCcqIAn1caF6cIZ8TRs00srE2gqZEntAYX
+         E6W+TYF26tmKxjqhHM2GAwVTIZ5TEEHKCIBbPdCAyZaGXwKlv71N9dsgBngbZnc4bn
+         Kv5wkQsZCXGTYDlursvS7xAa8fy0BPOH27H9O7Zt3tu9GlY+owwSyQqMHnfzgSmXeJ
+         /BeVQXvMjvLNA==
+X-Nifty-SrcIP: [209.85.167.171]
+Received: by mail-oi1-f171.google.com with SMTP id n124so771292oih.7
+        for <linux-kbuild@vger.kernel.org>; Wed, 14 Sep 2022 21:00:14 -0700 (PDT)
+X-Gm-Message-State: ACgBeo3v6mFTOlUDJvnuJsbVhEKE+5dQlhXR3JoaUTwdbgsTW5c+4gT0
+        ZM+af3C2Rdz4BjsbpZV2rFPXxokyWuObhKjA1pA=
+X-Google-Smtp-Source: AA6agR5/QHXZ1RXZ5wDsxa74PjGcEXvf+tmr+ZmnhzAyoBlzQ0CfbzgWMj4gCb+az0v50tJUI1hHkCTFcwGru4UJMVc=
+X-Received: by 2002:a05:6808:1b85:b0:34d:8ce1:d5b0 with SMTP id
+ cj5-20020a0568081b8500b0034d8ce1d5b0mr3270975oib.194.1663214412998; Wed, 14
+ Sep 2022 21:00:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220828024003.28873-1-masahiroy@kernel.org> <20220828024003.28873-6-masahiroy@kernel.org>
- <YyBAFL9CBsM9gl38@dev-arch.thelio-3990X> <87548726b6cc4f518836db38d45a04f2@AcuMS.aculab.com>
-In-Reply-To: <87548726b6cc4f518836db38d45a04f2@AcuMS.aculab.com>
+References: <20220914015906.3943200-1-zengheng4@huawei.com>
+In-Reply-To: <20220914015906.3943200-1-zengheng4@huawei.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 14 Sep 2022 22:00:50 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR7uYWKza4ZSHegJjBhvj7ToOg6kUpa3Mf9hRgAg3xtcA@mail.gmail.com>
-Message-ID: <CAK7LNAR7uYWKza4ZSHegJjBhvj7ToOg6kUpa3Mf9hRgAg3xtcA@mail.gmail.com>
-Subject: Re: [PATCH 05/15] kbuild: build init/built-in.a just once
-To:     David Laight <David.Laight@aculab.com>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>
+Date:   Thu, 15 Sep 2022 12:59:36 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR8m380p6awGQ8J38gaxG5UDG=MQ6rr5A3U2nM9ThyjLw@mail.gmail.com>
+Message-ID: <CAK7LNAR8m380p6awGQ8J38gaxG5UDG=MQ6rr5A3U2nM9ThyjLw@mail.gmail.com>
+Subject: Re: [PATCH resend v2] Kconfig: remove sym_set_choice_value
+To:     Zeng Heng <zengheng4@huawei.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        liwei391@huawei.com
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
@@ -62,59 +59,57 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Sep 14, 2022 at 6:46 PM David Laight <David.Laight@aculab.com> wrote:
+On Wed, Sep 14, 2022 at 10:52 AM Zeng Heng <zengheng4@huawei.com> wrote:
 >
-> ...
-> > > +VERSION=$(cat .version) 2>/dev/null &&
-> > > +VERSION=$(expr $VERSION + 1) 2>/dev/null ||
-> > > +VERSION=1
+> Following Masahiro's suggestion,
+> sym_set_choice_value could be removed and directly
+> call sym_set_tristate_value instead.
 >
-> What's wrong with:
-> VERSION=$(($(cat .version 2>/dev/null) + 1))
-
-
-One reason was, the original code used 'expr'.
+> Signed-off-by: Zeng Heng <zengheng4@huawei.com>
+> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
 
 
 
-> If you are worried about .version not containing a valid
-> number and $((...)) failing then use ${VERSION:-1} later.
+Applied to linux-kbuild.
+Thanks.
 
 
-Maybe another reason is,
-I want to make the behavior deterministic when
-the .version file contains a non-integer string.
-
-
-
-
-$ unset FOO
-$ echo FOO > .version
-$ echo $(($(cat .version 2>/dev/null) + 1))
-1
-
-
-$ export FOO=100
-$ echo FOO > .version
-$ echo $(($(cat .version 2>/dev/null) + 1))
-101
-
-
-
-
-I want the script to consistently return 1
-whether or not 'FOO' is available in the user's environment.
-
-
-
-
-
-
->         David
+> ---
+>  scripts/kconfig/conf.c | 2 +-
+>  scripts/kconfig/lkc.h  | 5 -----
+>  2 files changed, 1 insertion(+), 6 deletions(-)
 >
+> diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
+> index 4178065ca27f..33d19e419908 100644
+> --- a/scripts/kconfig/conf.c
+> +++ b/scripts/kconfig/conf.c
+> @@ -551,7 +551,7 @@ static int conf_choice(struct menu *menu)
+>                         print_help(child);
+>                         continue;
+>                 }
+> -               sym_set_choice_value(sym, child->sym);
+> +               sym_set_tristate_value(child->sym, yes);
+>                 for (child = child->list; child; child = child->next) {
+>                         indent += 2;
+>                         conf(child);
+> diff --git a/scripts/kconfig/lkc.h b/scripts/kconfig/lkc.h
+> index fa8c010aa683..903738a9233a 100644
+> --- a/scripts/kconfig/lkc.h
+> +++ b/scripts/kconfig/lkc.h
+> @@ -124,11 +124,6 @@ static inline struct symbol *sym_get_choice_value(struct symbol *sym)
+>         return (struct symbol *)sym->curr.val;
+>  }
+>
+> -static inline bool sym_set_choice_value(struct symbol *ch, struct symbol *chval)
+> -{
+> -       return sym_set_tristate_value(chval, yes);
+> -}
 > -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
+>  static inline bool sym_is_choice(struct symbol *sym)
+>  {
+>         return sym->flags & SYMBOL_CHOICE ? true : false;
+> --
+> 2.25.1
 >
 
 
