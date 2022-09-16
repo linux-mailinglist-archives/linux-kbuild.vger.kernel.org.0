@@ -2,139 +2,260 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4266D5BAD8B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Sep 2022 14:41:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8DCA5BAF21
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Sep 2022 16:21:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229614AbiIPMle (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 16 Sep 2022 08:41:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55926 "EHLO
+        id S230164AbiIPOV1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 16 Sep 2022 10:21:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbiIPMld (ORCPT
+        with ESMTP id S230194AbiIPOVZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 16 Sep 2022 08:41:33 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03F3AA6AEB;
-        Fri, 16 Sep 2022 05:41:32 -0700 (PDT)
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28GCP112025532;
-        Fri, 16 Sep 2022 12:41:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=8MVoDvB4SqNFBOByHaTdY7CgpP45sKEOY1RYgqE6ac0=;
- b=mUbv0oH8rIUZgsogEk6hRYrmwdj01DwaVw7YMc79YS8qEUoBCZBVkst57GGIF2PbX0KD
- 1kbcXX9BkTJs57snbwDesSXzgmpvd/qyYsJ4vew+kTMbJEpf6BY04nIi5tWHtqXk+Rdz
- wnEOsBnxJVf8UmszmoX9ahGkcXLjWZzUnX2ucYQvEAgcgdUptAFcYjqzLbkRjY+/9e/1
- 8i9jW3gfxf+Pvmfmaur3nxFZ7wesOn3YUWGHlQtMNSiBa9Xi7OX9qY7lwEl3elLMHqpl
- RHVzKWfDj6daQiBXdOScGy8nGpITJ2z57r4ueJgvMVOTWEtPvyY84JtL63x+zBpHWJb2 YQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jms4p0sxw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 16 Sep 2022 12:41:22 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28GCRr9V012110;
-        Fri, 16 Sep 2022 12:41:22 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com [159.122.73.71])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jms4p0svb-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 16 Sep 2022 12:41:21 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
-        by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28GCcBc3002645;
-        Fri, 16 Sep 2022 12:41:19 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
-        by ppma02fra.de.ibm.com with ESMTP id 3jm91t8r35-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 16 Sep 2022 12:41:19 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 28GCfGiU42271022
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 16 Sep 2022 12:41:16 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id BA790AE051;
-        Fri, 16 Sep 2022 12:41:16 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 7F815AE045;
-        Fri, 16 Sep 2022 12:41:16 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri, 16 Sep 2022 12:41:16 +0000 (GMT)
-From:   Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC PATCH] kbuild: rpm-pkg: fix breakage when V=1 is used
-Date:   Fri, 16 Sep 2022 14:41:12 +0200
-Message-Id: <20220916124112.1175522-1-scgl@linux.ibm.com>
-X-Mailer: git-send-email 2.34.1
+        Fri, 16 Sep 2022 10:21:25 -0400
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69CAFB2494
+        for <linux-kbuild@vger.kernel.org>; Fri, 16 Sep 2022 07:21:21 -0700 (PDT)
+Received: by mail-yb1-xb2b.google.com with SMTP id a67so32788375ybb.3
+        for <linux-kbuild@vger.kernel.org>; Fri, 16 Sep 2022 07:21:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=iR5BONjwpz9Se1WnQ4xbldjKHvjER4CLZPmNi3OwpWM=;
+        b=WDntF1cpYJ8PKekvfh14jCk9tFIm9K6QFtayNUsM22ZS039Tse4eTsQ2mlAxZCeywo
+         AUpDAbIy4KQEFQKU3ybE+N9BThZp9mCbg3aMaNMk47YPyz57C0h2bJt4EJem0rAHk6T0
+         TZ1p3aijBEfGH9Ci8fX/k3B+goEA2BzMGWmVjzCMoALNV0iZNXY8Bqs20gANdz/jVS3e
+         PmaUKeVFekQyKhYKSGwnCEAF1bHpAppnvBU6RZunHN/NRE9r6iIwxd51lC8OuckdHJ76
+         TLH5lQIqfEcsERo8KSd/u7MwjYNaOO79sJEkslADnln5srezGWn5XPnvthRC341ZGFgl
+         nbkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=iR5BONjwpz9Se1WnQ4xbldjKHvjER4CLZPmNi3OwpWM=;
+        b=zHbuwwHYaIz0cSc1HSVKuYCbL6/vy1clHw+tcu+yNwgE2QpaUap9Avotr5OqE5K3yg
+         UE7m3DQzx63ydQRkZrb//PC67K1kdWuuYyspFK272V+01cBnAnOhzYIeItHoE2QNHW5f
+         Tb3yyO4jnSwPjgAi/xr9heOmFhPVC8bkoep23Y0uAwNzvzvDiQCqnG0T146Gklm4di9m
+         24Qs6zy9xAvW6mpbr7/G1LKoKiDvnaaxNGX0wBb5LaS+yBYyZlzcSFWcLJ/qBuR8JADy
+         4wxfqg8ctXCYoUJe1Ay6xK1kz//7J32T81ddhjHzAj82gWDb0IY8f2UBuF6BHwsq35fz
+         36pg==
+X-Gm-Message-State: ACrzQf2OgW1stmioxtVRjEUDFLTkNKnrTL2litQUP9cFlVy8I1sB1I2c
+        2whufEsmm9T4JZZQu+uUiAjd5kdxh3i45w2wXAaqlA==
+X-Google-Smtp-Source: AMsMyM4s9s+Ffu+AyJJje6DLSFRoZ/jxLLckSjng6rcH6Th4EMV4HIYll7SY1kQzLW9G7GtcWjm7a9ZYwEqb/2NxTeo=
+X-Received: by 2002:a25:81cf:0:b0:6a9:4d0d:5ee6 with SMTP id
+ n15-20020a2581cf000000b006a94d0d5ee6mr4594549ybm.153.1663338080452; Fri, 16
+ Sep 2022 07:21:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: lUz6XvSvSx7UF8zcAjmHR8jpqRQPNk2J
-X-Proofpoint-GUID: uU_xWPU3qkZCWUBC4OgQVjjtAS77-eIX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-16_06,2022-09-16_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 malwarescore=0
- lowpriorityscore=0 impostorscore=0 phishscore=0 clxscore=1011
- suspectscore=0 priorityscore=1501 mlxscore=0 spamscore=0 adultscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2209160092
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220727100615.638072-1-dmitry.baryshkov@linaro.org>
+ <CAL_JsqJjLn8ypBo+bBoO+CE-si7gemP02fi8EWk97QRPPpNoVg@mail.gmail.com>
+ <CAK7LNARXbXZFpxiHuLhzjJ4YahfV6z3dNPAdkkmeOXONBx8u3w@mail.gmail.com>
+ <CAA8EJprM4WAgfVTJ15azFtSH6POL5uuseHO=zVxRd44RmqKZjw@mail.gmail.com>
+ <CAK7LNAQU42fpqPqUipZYx+685B+Rc8JGdaKcP3TdfQWUept1nQ@mail.gmail.com>
+ <CAA8EJprMsEE-fkpP=QGgpCga5rb9_mJF51cvRjeWsG7NBeijSA@mail.gmail.com>
+ <CAL_JsqLptaL_Uv++dEzUx83n3c+AAu9rYUv6Zbb7sLbJE35wWA@mail.gmail.com>
+ <CAA8EJprBAtdWAGG=a7BYc_Zwx9B5Dqsy4n3dhvP5cA40agR8ew@mail.gmail.com>
+ <CAK7LNARpPvBH0i55nD0v+8KDeqy2eK996TRhwE-KNAF+8mG3xQ@mail.gmail.com>
+ <CAA8EJppdS4st0G21Nk1SU9fbXCcEefHO=8E=upOPdjgRYhPBLA@mail.gmail.com> <CAK7LNARZUkkyjUZCp5cXs_ROz+KzJPPGkoFpTKFXJaixXGofkw@mail.gmail.com>
+In-Reply-To: <CAK7LNARZUkkyjUZCp5cXs_ROz+KzJPPGkoFpTKFXJaixXGofkw@mail.gmail.com>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date:   Fri, 16 Sep 2022 17:21:09 +0300
+Message-ID: <CAA8EJpoDgHeYs2JwBwGksh10_5ZEQvJ7ARLig=HfX4K2uuL2XQ@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: take into account DT_SCHEMA_FILES changes while
+ checking dtbs
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Doing make V=1 binrpm-pkg results in:
+On Fri, 16 Sept 2022 at 04:10, Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> On Thu, Sep 15, 2022 at 8:40 PM Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+> >
+> > On Thu, 15 Sept 2022 at 07:51, Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > >
+> > > On Sun, Sep 11, 2022 at 2:36 AM Dmitry Baryshkov
+> > >
+> > > <dmitry.baryshkov@linaro.org> wrote:
+> > > >
+> > > > On Thu, 4 Aug 2022 at 18:27, Rob Herring <robh+dt@kernel.org> wrote:
+> > > > >
+> > > > > On Fri, Jul 29, 2022 at 1:46 AM Dmitry Baryshkov
+> > > > > <dmitry.baryshkov@linaro.org> wrote:
+> > > > > >
+> > > > > > On Fri, 29 Jul 2022 at 10:05, Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > > > > > >
+> > > > > > > On Fri, Jul 29, 2022 at 3:53 PM Dmitry Baryshkov
+> > > > > > > <dmitry.baryshkov@linaro.org> wrote:
+> > > > > > > >
+> > > > > > > > On Fri, 29 Jul 2022 at 08:55, Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > > > > > > > >
+> > > > > > > > > On Thu, Jul 28, 2022 at 2:36 AM Rob Herring <robh+dt@kernel.org> wrote:
+> > > > > > > > > >
+> > > > > > > > > > On Wed, Jul 27, 2022 at 4:06 AM Dmitry Baryshkov
+> > > > > > > > > > <dmitry.baryshkov@linaro.org> wrote:
+> > > > > > > > > > >
+> > > > > > > > > > > It is useful to be able to recheck dtbs files against a limited set of
+> > > > > > > > > > > DT schema files. This can be accomplished by using differnt
+> > > > > > > > > > > DT_SCHEMA_FILES argument values while rerunning make dtbs_check. However
+> > > > > > > > > > > for some reason if_changed_rule doesn't pick up the rule_dtc changes
+> > > > > > > > > > > (and doesn't retrigger the build).
+> > > > > > > > > > >
+> > > > > > > > > > > Fix this by changing if_changed_rule to if_changed_dep and squashing DTC
+> > > > > > > > > > > and dt-validate into a single new command. Then if_changed_dep triggers
+> > > > > > > > > > > on DT_SCHEMA_FILES changes and reruns the build/check.
+> > > > > > > > > > >
+> > > > > > > > > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > > > > > > > > > ---
+> > > > > > > > > > >  scripts/Makefile.lib | 14 ++++++--------
+> > > > > > > > > > >  1 file changed, 6 insertions(+), 8 deletions(-)
+> > > > > > > > > > >
+> > > > > > > > > > > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> > > > > > > > > > > index c88b98b5dc44..3df470289382 100644
+> > > > > > > > > > > --- a/scripts/Makefile.lib
+> > > > > > > > > > > +++ b/scripts/Makefile.lib
+> > > > > > > > > > > @@ -383,17 +383,15 @@ DT_CHECKER_FLAGS ?= $(if $(DT_SCHEMA_FILES),-l $(DT_SCHEMA_FILES),-m)
+> > > > > > > > > > >  DT_BINDING_DIR := Documentation/devicetree/bindings
+> > > > > > > > > > >  DT_TMP_SCHEMA := $(objtree)/$(DT_BINDING_DIR)/processed-schema.json
+> > > > > > > > > > >
+> > > > > > > > > > > -quiet_cmd_dtb_check =  CHECK   $@
+> > > > > > > > > > > -      cmd_dtb_check =  $(DT_CHECKER) $(DT_CHECKER_FLAGS) -u $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $@ || true
+> > > > > > > > > > > +quiet_cmd_dtb =        DTC/CHECK   $@
+> > > > > > > > > >
+> > > > > > > > > > This is supposed to be 7 chars or less. DTCCHK or DTC_CHK perhaps. Or
+> > > > > > > > > > always do just 'DTC'. I can fixup when applying.
+> > > > > > > > > >
+> > > > > > > > > > I'll give it a few days for other comments.
+> > > > > > > > >
+> > > > > > > > >
+> > > > > > > > >
+> > > > > > > > > When you change DT_SCHEMA_FILES, re-running dt-validate should be enough.
+> > > > > > > > > You do not need to re-run dtc.
+> > > > > > > > >
+> > > > > > > > > I guess the strangeness comes from the fact that you are trying to do the
+> > > > > > > > >  two different things in a single rule.
+> > > > > > > >
+> > > > > > > > The issue is that with the current rules the dt-validate isn't
+> > > > > > > > re-executed on DT_SCHEMA_FILES changes. Thus comes my proposal.
+> > > > > > >
+> > > > > > > Correct.
+> > > > > > >
+> > > > > > > What I said is like this.
+> > > > > > >
+> > > > > > > # touch the timestamp file, %.dtb.checked
+> > > > > > > $(obj)/%.dtb.checked: $(obj)/%.dtb $(DT_TMP_SCHEMA) FORCE
+> > > > >
+> > > > > Not really a fan of the thousands of files that creates. Maybe if it
+> > > > > was turned into something useful like a list of schemas that apply to
+> > > > > the dtb. IOW, a dependency list. That would speed up re-running after
+> > > > > a schema change. Though if a schema change created new dependencies,
+> > > > > that wouldn't work.
+> > > > >
+> > > > > > >         $(call if_changed_rule,dtb_check)
+> > > > > > >
+> > > > > > > $(obj)/%.dtb: $(src)/%.dts $(DTC) $FORCE
+> > > > > > >         $(call if_changed_rule,dtc)
+> > > > > > >
+> > > > > > > $(obj)/%.dtbo: $(src)/%.dts $(DTC) FORCE
+> > > > > > >         $(call if_changed_dep,dtc)
+> > > > > > >
+> > > > > > >
+> > > > > > > With the dtc/check split, we can avoid unneeded regeneration of
+> > > > > > > %.dtb when DT_TMP_SCHEMA or DT_SCHEMA_FILES is
+> > > > > > > changed.
+> > > > > > >
+> > > > > > >
+> > > > > > > One drawback is we track %.dtb.checked and and %.dtb separately,
+> > > > > > > so something like 53182e81f47d4ea0c727c49ad23cb782173ab849
+> > > > > > > may come back.
+> > > > > >
+> > > > > > It's up to you and Rob, but I'd really prefer a simpler solution here.
+> > > > > > Regenerating dtbs sounds like a minor pain compared to hacking the
+> > > > > > top-level Makefile again. What I really like is that if one has
+> > > > > > CHECK_DTBS=y (for whatever reason), he can not generate dtb without
+> > > > > > validation.
+> > > > >
+> > > > > I lean towards just rebuilding the dtbs. That's pretty quick and
+> > > > > ensures we get dtc warnings with schema warnings. In the long run, I
+> > > > > would like to make the schema checks not optional to run. The
+> > > > > impediment to doing that is lots of warnings (but not not some
+> > > > > platforms), adding a tool dependency, and validation time.
+> > > >
+> > > > Rob, Masahiro, do we have any conclusion here? I can change my patch,
+> > > > but I'd like to understand in which way I should change it.
+> > > > Fixing/testing yaml changes is a bit painful w/o this change.
+> > > >
+> > > > --
+> > > > With best wishes
+> > > > Dmitry
+> > >
+> > >
+> > >
+> > >
+> > > I am fine with the patch as long as you fix DTC/CHECK to DTC.
+> >
+> > Ack, I completely forgot about this part. Please excuse me. I'll
+> > change it to DTC_CHK (as suggested before) to fit into 7 chars in v2.
+> >
+> > >
+> > > Another idea is to re-check the schema every time,
+> > > like this:
+> >
+> > I think this will add the external build dependency. We tried a
+> > similar approach several releases ago and had to revert the change.
+>
+>
+> If you are talking about
+> 75e895343d5a2fcbdf4cb3d31ab7492bd65925f0,
+> you are completely misunderstanding.
+>
+> Look at my code closely.
+> It is how the sparse checker works with C=2.
 
- Executing(%install): /bin/sh -e /var/tmp/rpm-tmp.EgV6qJ
- + umask 022
- + cd .
- + /bin/rm -rf /home/scgl/rpmbuild/BUILDROOT/kernel-6.0.0_rc5+-1.s390x
- + /bin/mkdir -p /home/scgl/rpmbuild/BUILDROOT
- + /bin/mkdir /home/scgl/rpmbuild/BUILDROOT/kernel-6.0.0_rc5+-1.s390x
- + mkdir -p /home/scgl/rpmbuild/BUILDROOT/kernel-6.0.0_rc5+-1.s390x/boot
- + make -f ./Makefile image_name
- + cp test -e include/generated/autoconf.h -a -e include/config/auto.conf || ( \ echo >&2; \ echo >&2 " ERROR: Kernel configuration is invalid."; \ echo >&2 " include/generated/autoconf.h or include/config/auto.conf are missing.";\ echo >&2 " Run 'make oldconfig && make prepare' on kernel src to fix it."; \ echo >&2 ; \ /bin/false) arch/s390/boot/bzImage /home/scgl/rpmbuild/BUILDROOT/kernel-6.0.0_rc5+-1.s390x/boot/vmlinuz-6.0.0-rc5+
- cp: invalid option -- 'e'
- Try 'cp --help' for more information.
- error: Bad exit status from /var/tmp/rpm-tmp.EgV6qJ (%install)
+Ah, I see. Then I'm fine with either your patch or mine v2 at your
+(and Rob's) preference.
 
-Because the make call to get the image name is verbose and prints
-additional information.
+> > > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> > > index 3fb6a99e78c4..9fc9f39fb12e 100644
+> > > --- a/scripts/Makefile.lib
+> > > +++ b/scripts/Makefile.lib
+> > > @@ -375,13 +375,9 @@ quiet_cmd_dtb_check =      CHECK   $@
+> > >        cmd_dtb_check =  $(DT_CHECKER) $(DT_CHECKER_FLAGS) -u
+> > > $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA
+> > > ) $@ || true
+> > >  endif
+> > >
+> > > -define rule_dtc
+> > > -       $(call cmd_and_fixdep,dtc)
+> > > -       $(call cmd,dtb_check)
+> > > -endef
+> > > -
+> > >  $(obj)/%.dtb: $(src)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE
+> > > -       $(call if_changed_rule,dtc)
+> > > +       $(call if_changed_dep,dtc)
+> > > +       $(call cmd,dtb_check)
+> > >
+> > >  $(obj)/%.dtbo: $(src)/%.dts $(DTC) FORCE
+> > >         $(call if_changed_dep,dtc)
+> > >
+> > >
 
-Fixes: 21b42eb46834 ("kbuild: rpm-pkg: fix binrpm-pkg breakage when O= is used")
-Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
----
 
-
-I don't know much about Kbuild so there may be better ways to fix this.
-
-
- scripts/package/mkspec | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-index 8fa7c5b8a1a1..c920c1b18e7a 100755
---- a/scripts/package/mkspec
-+++ b/scripts/package/mkspec
-@@ -88,10 +88,10 @@ $S
- 	mkdir -p %{buildroot}/boot
- 	%ifarch ia64
- 	mkdir -p %{buildroot}/boot/efi
--	cp \$($MAKE image_name) %{buildroot}/boot/efi/vmlinuz-$KERNELRELEASE
-+	cp \$($MAKE -s image_name) %{buildroot}/boot/efi/vmlinuz-$KERNELRELEASE
- 	ln -s efi/vmlinuz-$KERNELRELEASE %{buildroot}/boot/
- 	%else
--	cp \$($MAKE image_name) %{buildroot}/boot/vmlinuz-$KERNELRELEASE
-+	cp \$($MAKE -s image_name) %{buildroot}/boot/vmlinuz-$KERNELRELEASE
- 	%endif
- $M	$MAKE %{?_smp_mflags} INSTALL_MOD_PATH=%{buildroot} modules_install
- 	$MAKE %{?_smp_mflags} INSTALL_HDR_PATH=%{buildroot}/usr headers_install
 -- 
-2.34.1
-
+With best wishes
+Dmitry
