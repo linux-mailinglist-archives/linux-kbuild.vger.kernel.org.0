@@ -2,255 +2,148 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C02E5BA3BE
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Sep 2022 03:11:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0F455BA3E8
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Sep 2022 03:17:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229743AbiIPBLA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 15 Sep 2022 21:11:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55322 "EHLO
+        id S229861AbiIPBRq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 15 Sep 2022 21:17:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229749AbiIPBK5 (ORCPT
+        with ESMTP id S229544AbiIPBRh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 15 Sep 2022 21:10:57 -0400
-X-Greylist: delayed 73136 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 15 Sep 2022 18:10:51 PDT
-Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09EC9501AC;
-        Thu, 15 Sep 2022 18:10:51 -0700 (PDT)
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 28G1AUmm017285;
-        Fri, 16 Sep 2022 10:10:30 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 28G1AUmm017285
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1663290630;
-        bh=3KdVhX/ek+RoM1zR1D7PkB6f0EicE4mePH412t8y/g8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=NWx10Z0NwYJiRy+sISz+EQL1F8M9lbaWTCEQonoJyj2GdlcZ5cjVgPzSmFRkpib43
-         EduhmA/qZHU5P0pz0BUF4i2pfGw/mw7s4v3El1YhbG29Li5EO0TVYz7zKBPSBYPFOv
-         Ysd/drLvJMQYFV9L4qTddo0DefFix43ROCb94L/RwL7uhlOUUFpP/GGqFvHNcEO6Qm
-         RUgV52/Yhm4+1SwRh1msDSzjl3okyhbGei7PePuSPqylfVGK0M4lLTl1xJAxO4dME0
-         jCZgnvCsitkS7SXoQqrwyGhyNkyNmbdc1ls7xx+hhdHzLnqFkcvEPPTGMln+3t01O2
-         5ZxZrc3wbZ/Wg==
-X-Nifty-SrcIP: [209.85.167.181]
-Received: by mail-oi1-f181.google.com with SMTP id m81so2711437oia.1;
-        Thu, 15 Sep 2022 18:10:30 -0700 (PDT)
-X-Gm-Message-State: ACrzQf3W7oVBv8Ef05W4I6v+Di6tKWGB3gnjWT3NO5jB+xRFzLpuikkW
-        2JS73zd7d8thi/lAekXJGR9t/RCKqeMFnupXhOE=
-X-Google-Smtp-Source: AMsMyM5lHMEqblldfjyoSZX78K8K5cYMBjCgLS8+JcbL3D0tvPqTgPw4byoUsUQkl/TH80N/4HdRUGYFeUM4IWwv7Ag=
-X-Received: by 2002:a54:400c:0:b0:34f:9913:262 with SMTP id
- x12-20020a54400c000000b0034f99130262mr1266968oie.287.1663290629299; Thu, 15
- Sep 2022 18:10:29 -0700 (PDT)
+        Thu, 15 Sep 2022 21:17:37 -0400
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01hn2205.outbound.protection.outlook.com [52.100.0.205])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C90A7757A;
+        Thu, 15 Sep 2022 18:17:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=S4zNsTA1GtSbc/0kAsfDc0D42MqMUxzKoKQxE+jbb4HFKt0l1Xa6OySfaHegb1mGJyat185df5zerzg05KYlbuS2xLe6QJgBNvAwOYT/6SHtRQFFfT1zPeQXkZneWVhz4QNh2WbINDhHSPVdJgvK2ds3KTAFlXPI7klef5eDdM6z/mOEA1nafD8f/uC1JJJ/v5BUiQooqnBHPszEPRvMSAip1wDuVdIttjpHdbKFE6oPl+c6nrOogdqTNY0VCsFAEOOI4Bbv9ygbY49M8QHFT8LjAhQ+UuAwgyv4BbRtH/RBqVjdPyPoTEry00wHj+00dgoJ52sn9V6btFE6mlebYQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Bs10Md+15nMnyayKLyd22Uv+/ZH79IcFcpzuzGLq1Fg=;
+ b=ABF4zgQLqPSYDA3/AOmTmGs5pbxsOCLrHKldFkHAyKG7Eb9cDwIhH6cPVvalVW27VQ/GOR0WWe75cAGbXNNME98XP8O1A5Y/2r7W9M5AmB0RgHQ1ggFSuMtcY34fo/iwYY+WMWaEqd3mdi7tgLGpqQh8JIlWBPodeEUHR7PEWk9paY1QEKp+A44rnl+beLFnRAgLbbLrnMmJQpwjd3EjMynNffn9W0DEfSQMjtHyqTiKwm/qg8hSF8FW+RVQY+vfGA/YRFiPyNddJmy/v4iYAbcqYEXC0ex5AXseQpzknyjuRygZR/bXjPdhoGBKwf/ihIA2b1PAeTshDafVBOyXZg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 45.14.71.5) smtp.rcpttodomain=mail.uni-mainz.de smtp.mailfrom=t4.cims.jp;
+ dmarc=bestguesspass action=none header.from=t4.cims.jp; dkim=none (message
+ not signed); arc=none (0)
+Received: from SG2PR02CA0089.apcprd02.prod.outlook.com (2603:1096:4:90::29) by
+ KL1PR0401MB4130.apcprd04.prod.outlook.com (2603:1096:820:21::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.14; Fri, 16 Sep
+ 2022 01:17:34 +0000
+Received: from SG2APC01FT0020.eop-APC01.prod.protection.outlook.com
+ (2603:1096:4:90:cafe::13) by SG2PR02CA0089.outlook.office365.com
+ (2603:1096:4:90::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.16 via Frontend
+ Transport; Fri, 16 Sep 2022 01:17:33 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 45.14.71.5)
+ smtp.mailfrom=t4.cims.jp; dkim=none (message not signed)
+ header.d=none;dmarc=bestguesspass action=none header.from=t4.cims.jp;
+Received-SPF: Pass (protection.outlook.com: domain of t4.cims.jp designates
+ 45.14.71.5 as permitted sender) receiver=protection.outlook.com;
+ client-ip=45.14.71.5; helo=User; pr=M
+Received: from mail.prasarana.com.my (58.26.8.159) by
+ SG2APC01FT0020.mail.protection.outlook.com (10.13.36.117) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5632.12 via Frontend Transport; Fri, 16 Sep 2022 01:17:32 +0000
+Received: from MRL-EXH-02.prasarana.com.my (10.128.66.101) by
+ MRL-EXH-02.prasarana.com.my (10.128.66.101) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.14; Fri, 16 Sep 2022 09:17:02 +0800
+Received: from User (45.14.71.5) by MRL-EXH-02.prasarana.com.my
+ (10.128.66.101) with Microsoft SMTP Server id 15.1.2176.14 via Frontend
+ Transport; Fri, 16 Sep 2022 09:16:27 +0800
+Reply-To: <rhashimi202222@kakao.com>
+From:   Consultant Swift Capital Loans Ltd <info@t4.cims.jp>
+Subject: I hope you are doing well, and business is great!
+Date:   Fri, 16 Sep 2022 09:17:13 +0800
 MIME-Version: 1.0
-References: <20220727100615.638072-1-dmitry.baryshkov@linaro.org>
- <CAL_JsqJjLn8ypBo+bBoO+CE-si7gemP02fi8EWk97QRPPpNoVg@mail.gmail.com>
- <CAK7LNARXbXZFpxiHuLhzjJ4YahfV6z3dNPAdkkmeOXONBx8u3w@mail.gmail.com>
- <CAA8EJprM4WAgfVTJ15azFtSH6POL5uuseHO=zVxRd44RmqKZjw@mail.gmail.com>
- <CAK7LNAQU42fpqPqUipZYx+685B+Rc8JGdaKcP3TdfQWUept1nQ@mail.gmail.com>
- <CAA8EJprMsEE-fkpP=QGgpCga5rb9_mJF51cvRjeWsG7NBeijSA@mail.gmail.com>
- <CAL_JsqLptaL_Uv++dEzUx83n3c+AAu9rYUv6Zbb7sLbJE35wWA@mail.gmail.com>
- <CAA8EJprBAtdWAGG=a7BYc_Zwx9B5Dqsy4n3dhvP5cA40agR8ew@mail.gmail.com>
- <CAK7LNARpPvBH0i55nD0v+8KDeqy2eK996TRhwE-KNAF+8mG3xQ@mail.gmail.com> <CAA8EJppdS4st0G21Nk1SU9fbXCcEefHO=8E=upOPdjgRYhPBLA@mail.gmail.com>
-In-Reply-To: <CAA8EJppdS4st0G21Nk1SU9fbXCcEefHO=8E=upOPdjgRYhPBLA@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 16 Sep 2022 10:09:53 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARZUkkyjUZCp5cXs_ROz+KzJPPGkoFpTKFXJaixXGofkw@mail.gmail.com>
-Message-ID: <CAK7LNARZUkkyjUZCp5cXs_ROz+KzJPPGkoFpTKFXJaixXGofkw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: take into account DT_SCHEMA_FILES changes while
- checking dtbs
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-ID: <b6ddaece-1ca6-43f5-8952-0fc7d50aeeb1@MRL-EXH-02.prasarana.com.my>
+To:     Undisclosed recipients:;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-SkipListedInternetSender: ip=[45.14.71.5];domain=User
+X-MS-Exchange-ExternalOriginalInternetSender: ip=[45.14.71.5];domain=User
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SG2APC01FT0020:EE_|KL1PR0401MB4130:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5ad405e9-5ae2-43d1-aa10-08da97813b2d
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: =?windows-1251?Q?FHqI8+s7pKKRlS69NfkDlp1BxodDyoLQZMN7ITGboB71dh486cANKC47?=
+ =?windows-1251?Q?1kYhoZSVY9O6IgjlubSS0jLTtf3V9SK6sqkanngfUQ/Zz4DSZY1HOClW?=
+ =?windows-1251?Q?ntReVrwe8DBG1jzuoM8kimh9zadoh5ZbTRkPc46r11pB8NN8DEaDbZyq?=
+ =?windows-1251?Q?c94xsQGITRm4Ub4NhZQzwlUCZwbw0Z5cgoLuKXoSIS+bY6LQNTlzuTv8?=
+ =?windows-1251?Q?Zilwj1VupMrGVJ5MHKDIGpmA+f2jUvCZlGzLDwVJKbsJtTukkRAgan5P?=
+ =?windows-1251?Q?qtsh+tRTtnJJg5mkNhv1sZO2IOt3Sn2mEXLvcC8r+qFhF0sHnbntOP0m?=
+ =?windows-1251?Q?Pqy9sPZ5M1ukYPP3QkDAbYa40wB+prhusbZE0aiToCrXJPQ4B90OUmU1?=
+ =?windows-1251?Q?Z+yrIMtvD38sw5oUqYfTdhttdrhmTLKC7ENigvomCFB6l6gUX9LTdQs4?=
+ =?windows-1251?Q?HmzwAPWCQEMxBqpQDXE1ZzAyESwCn12NftDmcco8RmV1YblR22RF7yym?=
+ =?windows-1251?Q?5NuKJa/PUPUuaOx4nAQNHHgwiC1SqG2fAecociulPUJ9Z58Q4xa8R6D5?=
+ =?windows-1251?Q?3AnB1YHozvT9pD4bprgQzMRh0cyDU+DJPonD1vXYk/GAa51nysO4ODKE?=
+ =?windows-1251?Q?qcjq9iUTE8DmC4nhN5ok6tYVgiqDEU885P9bnGV+/yDRwZiWfyZYyI96?=
+ =?windows-1251?Q?a3k/I0RBGpA2s7FvvjakB5qS4KymcmE6uKjWnnCSDoca9G9debA/Z2Qu?=
+ =?windows-1251?Q?di8gzhRgRIzN0pWeN8c/rAjH6xaeu3mj0cd11lskX/qBwf7JOrGiZ331?=
+ =?windows-1251?Q?99utJAGwP6vqDh141fsr2q+c7JYDudamBAi0WjqHSjSg81AOP0LFM/TY?=
+ =?windows-1251?Q?zGaQhSDiTQWT9bwFAQxGY7E5ZKgrzl8+Pp9gPbbt/Mkkq8vSTvbPAv8S?=
+ =?windows-1251?Q?p6QF0P+L+MQE9YgqjIm/DdHCmbN9J/RFxnZZPU1cJV6LoWi2Aa5aR6yV?=
+ =?windows-1251?Q?gnqsrOACuT2B5QHPGCvYyIJQYcYDZbvJRXYBgNwNPiIWVi48nU2GWvP+?=
+ =?windows-1251?Q?A8Fk/0LV6OtLSLNmSpnazPhzco9KgJCSxOI/XiJDNWM1WJ7U+G4cWoju?=
+ =?windows-1251?Q?UFmjSzd/XaXEoVZLK79nlBXMYOWxAAFQ3ZpS2F1ahwcOJQE09xZh1Jv3?=
+ =?windows-1251?Q?PTF+b5aMPsmmgmmbpucQMey3UR+15oFAUI7bEgbEj7D6iqk55VP48EAs?=
+ =?windows-1251?Q?PfC3X2qOo4OIy7J7wsqwrHVXVpuLlsDuD10exlN5lcteVtv8sgGKLbpX?=
+ =?windows-1251?Q?qZP8PZXW+QlbgjYwDt1b76z8HM8PJ8ficinjDlGO/NRizKRX?=
+X-Forefront-Antispam-Report: CIP:58.26.8.159;CTRY:JP;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:User;PTR:45.14.71.5.static.xtom.com;CAT:OSPM;SFS:(13230022)(4636009)(136003)(376002)(39860400002)(396003)(346002)(451199015)(46966006)(40470700004)(66899012)(81166007)(31686004)(4744005)(2906002)(5660300002)(40460700003)(82740400003)(7406005)(7416002)(956004)(31696002)(26005)(9686003)(40480700001)(6666004)(41300700001)(498600001)(86362001)(8936002)(32850700003)(156005)(36906005)(316002)(336012)(35950700001)(82310400005)(109986005)(8676002)(70206006)(70586007)(47076005)(2700400008);DIR:OUT;SFP:1501;
+X-OriginatorOrg: myprasarana.onmicrosoft.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2022 01:17:32.5145
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ad405e9-5ae2-43d1-aa10-08da97813b2d
+X-MS-Exchange-CrossTenant-Id: 3cbb2ff2-27fb-4993-aecf-bf16995e64c0
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3cbb2ff2-27fb-4993-aecf-bf16995e64c0;Ip=[58.26.8.159];Helo=[mail.prasarana.com.my]
+X-MS-Exchange-CrossTenant-AuthSource: SG2APC01FT0020.eop-APC01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0401MB4130
+X-Spam-Status: Yes, score=6.2 required=5.0 tests=AXB_XMAILER_MIMEOLE_OL_024C2,
+        AXB_X_FF_SEZ_S,BAYES_50,FORGED_MUA_OUTLOOK,FSL_CTYPE_WIN1251,
+        FSL_NEW_HELO_USER,HEADER_FROM_DIFFERENT_DOMAINS,NSL_RCVD_FROM_USER,
+        SPF_HELO_PASS,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5049]
+        *  0.0 NSL_RCVD_FROM_USER Received from User
+        *  0.0 FSL_CTYPE_WIN1251 Content-Type only seen in 419 spam
+        *  3.2 AXB_X_FF_SEZ_S Forefront sez this is spam
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
+        *  0.2 HEADER_FROM_DIFFERENT_DOMAINS From and EnvelopeFrom 2nd level
+        *      mail domains are different
+        *  0.0 AXB_XMAILER_MIMEOLE_OL_024C2 Yet another X header trait
+        *  0.0 FSL_NEW_HELO_USER Spam's using Helo and User
+        *  1.9 FORGED_MUA_OUTLOOK Forged mail pretending to be from MS Outlook
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Sep 15, 2022 at 8:40 PM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> On Thu, 15 Sept 2022 at 07:51, Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > On Sun, Sep 11, 2022 at 2:36 AM Dmitry Baryshkov
-> >
-> > <dmitry.baryshkov@linaro.org> wrote:
-> > >
-> > > On Thu, 4 Aug 2022 at 18:27, Rob Herring <robh+dt@kernel.org> wrote:
-> > > >
-> > > > On Fri, Jul 29, 2022 at 1:46 AM Dmitry Baryshkov
-> > > > <dmitry.baryshkov@linaro.org> wrote:
-> > > > >
-> > > > > On Fri, 29 Jul 2022 at 10:05, Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > > > > >
-> > > > > > On Fri, Jul 29, 2022 at 3:53 PM Dmitry Baryshkov
-> > > > > > <dmitry.baryshkov@linaro.org> wrote:
-> > > > > > >
-> > > > > > > On Fri, 29 Jul 2022 at 08:55, Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > > > > > > >
-> > > > > > > > On Thu, Jul 28, 2022 at 2:36 AM Rob Herring <robh+dt@kernel.org> wrote:
-> > > > > > > > >
-> > > > > > > > > On Wed, Jul 27, 2022 at 4:06 AM Dmitry Baryshkov
-> > > > > > > > > <dmitry.baryshkov@linaro.org> wrote:
-> > > > > > > > > >
-> > > > > > > > > > It is useful to be able to recheck dtbs files against a limited set of
-> > > > > > > > > > DT schema files. This can be accomplished by using differnt
-> > > > > > > > > > DT_SCHEMA_FILES argument values while rerunning make dtbs_check. However
-> > > > > > > > > > for some reason if_changed_rule doesn't pick up the rule_dtc changes
-> > > > > > > > > > (and doesn't retrigger the build).
-> > > > > > > > > >
-> > > > > > > > > > Fix this by changing if_changed_rule to if_changed_dep and squashing DTC
-> > > > > > > > > > and dt-validate into a single new command. Then if_changed_dep triggers
-> > > > > > > > > > on DT_SCHEMA_FILES changes and reruns the build/check.
-> > > > > > > > > >
-> > > > > > > > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > > > > > > > > ---
-> > > > > > > > > >  scripts/Makefile.lib | 14 ++++++--------
-> > > > > > > > > >  1 file changed, 6 insertions(+), 8 deletions(-)
-> > > > > > > > > >
-> > > > > > > > > > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> > > > > > > > > > index c88b98b5dc44..3df470289382 100644
-> > > > > > > > > > --- a/scripts/Makefile.lib
-> > > > > > > > > > +++ b/scripts/Makefile.lib
-> > > > > > > > > > @@ -383,17 +383,15 @@ DT_CHECKER_FLAGS ?= $(if $(DT_SCHEMA_FILES),-l $(DT_SCHEMA_FILES),-m)
-> > > > > > > > > >  DT_BINDING_DIR := Documentation/devicetree/bindings
-> > > > > > > > > >  DT_TMP_SCHEMA := $(objtree)/$(DT_BINDING_DIR)/processed-schema.json
-> > > > > > > > > >
-> > > > > > > > > > -quiet_cmd_dtb_check =  CHECK   $@
-> > > > > > > > > > -      cmd_dtb_check =  $(DT_CHECKER) $(DT_CHECKER_FLAGS) -u $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $@ || true
-> > > > > > > > > > +quiet_cmd_dtb =        DTC/CHECK   $@
-> > > > > > > > >
-> > > > > > > > > This is supposed to be 7 chars or less. DTCCHK or DTC_CHK perhaps. Or
-> > > > > > > > > always do just 'DTC'. I can fixup when applying.
-> > > > > > > > >
-> > > > > > > > > I'll give it a few days for other comments.
-> > > > > > > >
-> > > > > > > >
-> > > > > > > >
-> > > > > > > > When you change DT_SCHEMA_FILES, re-running dt-validate should be enough.
-> > > > > > > > You do not need to re-run dtc.
-> > > > > > > >
-> > > > > > > > I guess the strangeness comes from the fact that you are trying to do the
-> > > > > > > >  two different things in a single rule.
-> > > > > > >
-> > > > > > > The issue is that with the current rules the dt-validate isn't
-> > > > > > > re-executed on DT_SCHEMA_FILES changes. Thus comes my proposal.
-> > > > > >
-> > > > > > Correct.
-> > > > > >
-> > > > > > What I said is like this.
-> > > > > >
-> > > > > > # touch the timestamp file, %.dtb.checked
-> > > > > > $(obj)/%.dtb.checked: $(obj)/%.dtb $(DT_TMP_SCHEMA) FORCE
-> > > >
-> > > > Not really a fan of the thousands of files that creates. Maybe if it
-> > > > was turned into something useful like a list of schemas that apply to
-> > > > the dtb. IOW, a dependency list. That would speed up re-running after
-> > > > a schema change. Though if a schema change created new dependencies,
-> > > > that wouldn't work.
-> > > >
-> > > > > >         $(call if_changed_rule,dtb_check)
-> > > > > >
-> > > > > > $(obj)/%.dtb: $(src)/%.dts $(DTC) $FORCE
-> > > > > >         $(call if_changed_rule,dtc)
-> > > > > >
-> > > > > > $(obj)/%.dtbo: $(src)/%.dts $(DTC) FORCE
-> > > > > >         $(call if_changed_dep,dtc)
-> > > > > >
-> > > > > >
-> > > > > > With the dtc/check split, we can avoid unneeded regeneration of
-> > > > > > %.dtb when DT_TMP_SCHEMA or DT_SCHEMA_FILES is
-> > > > > > changed.
-> > > > > >
-> > > > > >
-> > > > > > One drawback is we track %.dtb.checked and and %.dtb separately,
-> > > > > > so something like 53182e81f47d4ea0c727c49ad23cb782173ab849
-> > > > > > may come back.
-> > > > >
-> > > > > It's up to you and Rob, but I'd really prefer a simpler solution here.
-> > > > > Regenerating dtbs sounds like a minor pain compared to hacking the
-> > > > > top-level Makefile again. What I really like is that if one has
-> > > > > CHECK_DTBS=y (for whatever reason), he can not generate dtb without
-> > > > > validation.
-> > > >
-> > > > I lean towards just rebuilding the dtbs. That's pretty quick and
-> > > > ensures we get dtc warnings with schema warnings. In the long run, I
-> > > > would like to make the schema checks not optional to run. The
-> > > > impediment to doing that is lots of warnings (but not not some
-> > > > platforms), adding a tool dependency, and validation time.
-> > >
-> > > Rob, Masahiro, do we have any conclusion here? I can change my patch,
-> > > but I'd like to understand in which way I should change it.
-> > > Fixing/testing yaml changes is a bit painful w/o this change.
-> > >
-> > > --
-> > > With best wishes
-> > > Dmitry
-> >
-> >
-> >
-> >
-> > I am fine with the patch as long as you fix DTC/CHECK to DTC.
->
-> Ack, I completely forgot about this part. Please excuse me. I'll
-> change it to DTC_CHK (as suggested before) to fit into 7 chars in v2.
->
-> >
-> > Another idea is to re-check the schema every time,
-> > like this:
->
-> I think this will add the external build dependency. We tried a
-> similar approach several releases ago and had to revert the change.
+Hello,
 
+I hope you are doing well, and business is great!
+However, if you need working capital to further grow and expand your business, we may be a perfect fit for you. I am Ms. Kaori Ichikawa Swift Capital Loans Ltd Consultant, Our loans are NOT based on your personal credit, and NO collateral is required.
 
-If you are talking about
-75e895343d5a2fcbdf4cb3d31ab7492bd65925f0,
-you are completely misunderstanding.
+We are a Direct Lender who can approve your loan today, and fund as Early as Tomorrow.
 
-Look at my code closely.
-It is how the sparse checker works with C=2.
+Once your reply I will send you the official website to complete your application
 
+Waiting for your reply.
 
-
-
-
-> > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> > index 3fb6a99e78c4..9fc9f39fb12e 100644
-> > --- a/scripts/Makefile.lib
-> > +++ b/scripts/Makefile.lib
-> > @@ -375,13 +375,9 @@ quiet_cmd_dtb_check =      CHECK   $@
-> >        cmd_dtb_check =  $(DT_CHECKER) $(DT_CHECKER_FLAGS) -u
-> > $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA
-> > ) $@ || true
-> >  endif
-> >
-> > -define rule_dtc
-> > -       $(call cmd_and_fixdep,dtc)
-> > -       $(call cmd,dtb_check)
-> > -endef
-> > -
-> >  $(obj)/%.dtb: $(src)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE
-> > -       $(call if_changed_rule,dtc)
-> > +       $(call if_changed_dep,dtc)
-> > +       $(call cmd,dtb_check)
-> >
-> >  $(obj)/%.dtbo: $(src)/%.dts $(DTC) FORCE
-> >         $(call if_changed_dep,dtc)
-> >
-> >
->
-> --
-> With best wishes
-> Dmitry
-
---
-Best Regards
-Masahiro Yamada
+Regards
+Ms. Kaori Ichikawa
+Consultant Swift Capital Loans Ltd
