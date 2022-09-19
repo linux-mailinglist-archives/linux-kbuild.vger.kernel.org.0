@@ -2,72 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A0EC5BD3B9
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Sep 2022 19:30:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F3D45BD405
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Sep 2022 19:46:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231255AbiISRan (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 19 Sep 2022 13:30:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39628 "EHLO
+        id S229602AbiISRp7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 19 Sep 2022 13:45:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231330AbiISRak (ORCPT
+        with ESMTP id S229618AbiISRp6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 19 Sep 2022 13:30:40 -0400
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EAE927175
-        for <linux-kbuild@vger.kernel.org>; Mon, 19 Sep 2022 10:30:38 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-34546b03773so255817057b3.9
-        for <linux-kbuild@vger.kernel.org>; Mon, 19 Sep 2022 10:30:38 -0700 (PDT)
+        Mon, 19 Sep 2022 13:45:58 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C66683DBCD
+        for <linux-kbuild@vger.kernel.org>; Mon, 19 Sep 2022 10:45:55 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id 66-20020a251145000000b006a7b4a27d04so25973658ybr.20
+        for <linux-kbuild@vger.kernel.org>; Mon, 19 Sep 2022 10:45:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date;
-        bh=s6uRkLrexDp9AuGMyAs7SqQv5eI0LnBw/AxscLv33eg=;
-        b=K/Kvf34Ybxb1LFBqrZoKkACQgHyv4I1QScwmZvyn+qM1dIy+smtpSYautDp5op7gJU
-         qnmLqtZCvZASSkHNNy7A0D0Lq+4YHS8o1qh8mZqKy9m/klmLjt3nRjrdgFcpsequdAcM
-         68bvJZS3B7fbvfmV7CVjmq1CQA5y9Dnva7iT4sC7/GKUycyZe8YnGsdVDD4fAqH0EZpu
-         +4MWmskGe66wmsRGjCL+p7sOZp3c5ncxumEFIokiC8/9pkkiJ611StSAi+qeFkc6W7rg
-         tKPX3j6S2gqIQ75Q4R9hw93RYPYdeOov2NXSgSkZTP2uzTTJbSnPUd0ri+zoJyZfjvam
-         wRDg==
+        bh=PKu0ljoFnQHIVcfEdQ+Ybwv+0gUXFz3XYuciSgp3qWg=;
+        b=luk6DOvV6LFTWCbZhs1jzNg0sUPXjpsXxtYi72o5Hq02AsL6hMVNKwcNXXfaFr6TG7
+         Ua6yHpWwpe4LlndgiFaWAKg9OXUCMJAMO9yBbIpAxlNSv7W4cp56mi2BZ09WTECscSuT
+         lGpybwfKtkTjeFUuvRkQ+NScUQ4DccHLk7TG2Xy8xzI2qsli2NMb5xrRaDPPyB4ahhYJ
+         W0zdz4ac7AlnkN9m4KZR4sqvF5iOJ5cucxVm28azQQcvOYxMWeJXbzw0kESMn7YaPueg
+         RM4Xw9bBNG1jM0phke0BzgLYcJ5+HIvCbYb2XSETooua/Mx03pUeWi4qmscrv62nfKlu
+         F8/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date;
-        bh=s6uRkLrexDp9AuGMyAs7SqQv5eI0LnBw/AxscLv33eg=;
-        b=XI7havV3wXyv8Kd+Wx6LYnw9uTOP0gzJirFK7hTr5LcI+rcX2pK+Z5a3uJ6tALDuxD
-         IGzDMviphte3+MTdYKcKLFJfrp3prfnoWLIaG3q3ZtzewiDBHpdKw3APRsEmNlS6Ge59
-         L5F+MOt1PXL8FB4Yg9OiKAet6a4ek9mer33qkdgYW9MB0Majd52TOEY1p97MWHtsK51V
-         jvJVbQwK6QAd+NXI6z8yWuf2QV9B7SyR4RarWbyaS9kfp4R99m88q62sZSJBDdQtmzCg
-         WOZljNP3iaKDJAe6wl2CNXBC7gIn2odR6EaBtQJ5E89PdFe3Lk6287HNJMoxkI4N6fj6
-         WDdA==
-X-Gm-Message-State: ACrzQf2McDlyHQGc00CVrMn9pQHBEyU7BNwaQAU8nlx8X+H1ONM/m56u
-        KHkYFNLCh8fpXjYQVyw/8ZtBgE6uL7HfKffwA0c=
-X-Google-Smtp-Source: AMsMyM7Xw97MlDeNMoxeK4C9Q8yZvzyx5YmMmdhCqbBrCkMO2dSAQn1JLxTtaeoCnl54hW+OljS/Ds62sezBoCwwLGw=
+        bh=PKu0ljoFnQHIVcfEdQ+Ybwv+0gUXFz3XYuciSgp3qWg=;
+        b=vzZU44an2rLCs4f2eeNCC2T5u6omrot0nu5z3l1h7ebGbOJ+O7iZg9f6ZmeYmsEP9m
+         2amskqzBSR4aBitC54u+OJr+UgiKLJQRARoehnv1A0VQrt2/heEzSOcnDFbcPbR3DeSc
+         QlwPtKsFvlaGJilkYG2GxLkuwW/5Y660Jldle0P72BhlTjtaCs7kyYQzLntHXhBUsUYl
+         eC6HPXid/Un8X+SbsqZCu4QhwARVivL06ome8d9qFIwFSc0IY/FkPgDLeTLPYWepmx9O
+         FlIvnH+nE50xfbbhIb2MOLTeSb6gqhb1myeUGUPYqa6l9LVjM7c11q4+bTjPYzfiktHA
+         a8WA==
+X-Gm-Message-State: ACrzQf0lkc9x+UufqiMJnelvmyLmbuLs+OPZdm8gMt57xQzdzj1dnWLS
+        ug8Yl1/fG1bVbUkzhXx2tNB26bCCtV2nyaZPBGc=
+X-Google-Smtp-Source: AMsMyM4fwUmSVIg3ujsHJWyzu3hU2W+uKibbsvMQlGqxE4x+PE3kBbqFOa+cEosOMwaGQ6Hjhk7WX0XUfQyzwvK8yGU=
 X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:0:100e:712:2923:f5c9:c5a4:11b5])
- (user=ndesaulniers job=sendgmr) by 2002:a81:a1c2:0:b0:345:350d:87a3 with SMTP
- id y185-20020a81a1c2000000b00345350d87a3mr15443885ywg.248.1663608637200; Mon,
- 19 Sep 2022 10:30:37 -0700 (PDT)
-Date:   Mon, 19 Sep 2022 10:30:30 -0700
+ (user=ndesaulniers job=sendgmr) by 2002:a81:6a07:0:b0:348:c973:d2a2 with SMTP
+ id f7-20020a816a07000000b00348c973d2a2mr16207386ywc.375.1663609555128; Mon,
+ 19 Sep 2022 10:45:55 -0700 (PDT)
+Date:   Mon, 19 Sep 2022 10:45:47 -0700
 In-Reply-To: <CAK7LNAT_cMLGLBz7ugaLpJD3QmZmY8FK56x9nihvWeYhJpi2ag@mail.gmail.com>
 Mime-Version: 1.0
 References: <CAK7LNAT_cMLGLBz7ugaLpJD3QmZmY8FK56x9nihvWeYhJpi2ag@mail.gmail.com>
 X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=lvO/pmg+aaCb6dPhyGC1GyOCvPueDrrc8Zeso5CaGKE=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1663608630; l=1713;
- i=ndesaulniers@google.com; s=20211004; h=from:subject; bh=cdm/EgJkMgVfXemuVsGW5smIaKhzDdLe8UcPfmZXEsM=;
- b=Y4JtRN4iXagKcRSnVdBlksOjDtas21bn99X7rSkhO86XxKEYotN6z0T6jJuHh6tAcb1hMHaGeByh
- gwoIis1HC1A4hpsZ/yK7pCa0Caqzr6Go1ZktWCvEicmd/c4rLC/s
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1663609547; l=3328;
+ i=ndesaulniers@google.com; s=20211004; h=from:subject; bh=Pnx8FAPeseVXdLH6uhA0b1eLRdAedgT/4Q3UMuOJNF8=;
+ b=tdlA4sKRv7MinmRq5+YHLSBvUqEaAOvk9h098+TSyRhu39EnO42vonlXrehoFf6FZbr+F791BgPf
+ R8cU2QiZBms8h9i674Peuhq/Drlc9K8Va38hFBY9t+z+gJix6jH+
 X-Mailer: git-send-email 2.37.3.968.ga6b4b080e4-goog
-Message-ID: <20220919173030.3726922-1-ndesaulniers@google.com>
-Subject: [PATCH v4] Makefile.debug: set -g unconditional on CONFIG_DEBUG_INFO_SPLIT
+Message-ID: <20220919174547.3730737-1-ndesaulniers@google.com>
+Subject: [PATCH v4] Makefile.debug: re-enable debug info for .S files
 From:   Nick Desaulniers <ndesaulniers@google.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         clang-built-linux <llvm@lists.linux.dev>,
+        Bill Wendling <morbo@google.com>,
+        Greg Thelen <gthelen@google.com>,
+        Alexey Alexandrov <aalexand@google.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Dmitrii Bundin <dmitrii.bundin.a@gmail.com>,
-        Fangrui Song <maskray@google.com>,
         Nathan Chancellor <nathan@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
@@ -80,52 +80,86 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Dmitrii, Fangrui, and Mashahiro note:
+Alexey reported that the fraction of unknown filename instances in
+kallsyms grew from ~0.3% to ~10% recently; Bill and Greg tracked it down
+to assembler defined symbols, which regressed as a result of:
 
-  Before GCC 11 and Clang 12 -gsplit-dwarf implicitly uses -g2.
+commit b8a9092330da ("Kbuild: do not emit debug info for assembly with LLVM_IAS=1")
 
-Fix CONFIG_DEBUG_INFO_SPLIT for gcc-11+ & clang-12+ which now need -g
-specified in order for -gsplit-dwarf to work at all.
+In that commit, I allude to restoring debug info for assembler defined
+symbols in a follow up patch, but it seems I forgot to do so in
 
--gsplit-dwarf has been mutually exclusive with -g since support for
-CONFIG_DEBUG_INFO_SPLIT was introduced in
-commit 866ced950bcd ("kbuild: Support split debug info v4")
-I don't think it ever needed to be.
+commit a66049e2cf0e ("Kbuild: make DWARF version a choice")
 
-Link: https://lore.kernel.org/lkml/20220815013317.26121-1-dmitrii.bundin.a@gmail.com/
-Link: https://lore.kernel.org/lkml/CAK7LNARPAmsJD5XKAw7m_X2g7Fi-CAAsWDQiP7+ANBjkg7R7ng@mail.gmail.com/
-Link: https://reviews.llvm.org/D80391
-Cc: Andi Kleen <ak@linux.intel.com>
-Reported-by: Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
-Reported-by: Fangrui Song <maskray@google.com>
-Reported-by: Masahiro Yamada <masahiroy@kernel.org>
-Suggested-by: Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
+Link: https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=31bf18645d98b4d3d7357353be840e320649a67d
+Fixes: b8a9092330da ("Kbuild: do not emit debug info for assembly with LLVM_IAS=1")
+Reported-by: Alexey Alexandrov <aalexand@google.com>
+Reported-by: Bill Wendling <morbo@google.com>
+Reported-by: Greg Thelen <gthelen@google.com>
 Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
 Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 ---
 Changes v3 -> v4:
-* Split into its own patch; we don't have any out of line assembler
-  files using .debug_* or .cfi_* directives that would produce
-  meaningful debug info in .dwo files.
+* Break out into its own patch.
+* Move addition of debug-flags-y to DEBUG_CFLAGS and KBUILD_AFLAGS up
+  grouping the -gdwarf-* handling together.
 
- scripts/Makefile.debug | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ lib/Kconfig.debug      |  4 +++-
+ scripts/Makefile.debug | 18 +++++++++---------
+ 2 files changed, 12 insertions(+), 10 deletions(-)
 
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index bcbe60d6c80c..d3e5f36bb01e 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -264,8 +264,10 @@ config DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+ config DEBUG_INFO_DWARF4
+ 	bool "Generate DWARF Version 4 debuginfo"
+ 	select DEBUG_INFO
++	depends on !CC_IS_CLANG || (CC_IS_CLANG && (AS_IS_LLVM || (AS_IS_GNU && AS_VERSION >= 23502)))
+ 	help
+-	  Generate DWARF v4 debug info. This requires gcc 4.5+ and gdb 7.0+.
++	  Generate DWARF v4 debug info. This requires gcc 4.5+, binutils 2.35.2
++	  if using clang without clang's integrated assembler, and gdb 7.0+.
+ 
+ 	  If you have consumers of DWARF debug info that are not ready for
+ 	  newer revisions of DWARF, you may wish to choose this or have your
 diff --git a/scripts/Makefile.debug b/scripts/Makefile.debug
-index 9f39b0130551..26d6a9d97a20 100644
+index 26d6a9d97a20..d6aecd78b942 100644
 --- a/scripts/Makefile.debug
 +++ b/scripts/Makefile.debug
-@@ -1,9 +1,7 @@
--DEBUG_CFLAGS	:=
-+DEBUG_CFLAGS	:= -g
- 
- ifdef CONFIG_DEBUG_INFO_SPLIT
+@@ -4,15 +4,15 @@ ifdef CONFIG_DEBUG_INFO_SPLIT
  DEBUG_CFLAGS	+= -gsplit-dwarf
--else
--DEBUG_CFLAGS	+= -g
  endif
  
- ifndef CONFIG_AS_IS_LLVM
+-ifndef CONFIG_AS_IS_LLVM
+-KBUILD_AFLAGS	+= -Wa,-gdwarf-2
+-endif
+-
+-ifndef CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+-dwarf-version-$(CONFIG_DEBUG_INFO_DWARF4) := 4
+-dwarf-version-$(CONFIG_DEBUG_INFO_DWARF5) := 5
+-DEBUG_CFLAGS	+= -gdwarf-$(dwarf-version-y)
++debug-flags-$(CONFIG_DEBUG_INFO_DWARF4)	+= -gdwarf-4
++debug-flags-$(CONFIG_DEBUG_INFO_DWARF5)	+= -gdwarf-5
++ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_AS_IS_GNU),yy)
++# Clang does not pass -g or -gdwarf-* option down to GAS.
++# Add -Wa, prefix to explicitly specify the flags.
++KBUILD_AFLAGS	+= $(addprefix -Wa$(comma), $(debug-flags-y))
+ endif
++DEBUG_CFLAGS	+= $(debug-flags-y)
++KBUILD_AFLAGS	+= $(debug-flags-y)
+ 
+ ifdef CONFIG_DEBUG_INFO_REDUCED
+ DEBUG_CFLAGS	+= -fno-var-tracking
+@@ -27,5 +27,5 @@ KBUILD_AFLAGS	+= -gz=zlib
+ KBUILD_LDFLAGS	+= --compress-debug-sections=zlib
+ endif
+ 
+-KBUILD_CFLAGS += $(DEBUG_CFLAGS)
++KBUILD_CFLAGS	+= $(DEBUG_CFLAGS)
+ export DEBUG_CFLAGS
 -- 
 2.37.3.968.ga6b4b080e4-goog
 
