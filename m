@@ -2,66 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E070B5BCB65
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Sep 2022 14:04:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CCE55BCBA1
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Sep 2022 14:18:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230009AbiISMEY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 19 Sep 2022 08:04:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60346 "EHLO
+        id S229797AbiISMSc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 19 Sep 2022 08:18:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229737AbiISMEX (ORCPT
+        with ESMTP id S229606AbiISMSa (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 19 Sep 2022 08:04:23 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00A6410552;
-        Mon, 19 Sep 2022 05:04:20 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id q9-20020a17090a178900b0020265d92ae3so6874107pja.5;
-        Mon, 19 Sep 2022 05:04:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=eI4u84KYFK+dj/YqAg8H8+uUIvvv2P6EQfy6KpkjQso=;
-        b=MUfutWPv9hFaiv0rFYWgouVFFl9iEyNOiQucdWCOv1Q+1uFXnyFphu+1o/IVbLdh6a
-         n9wdFD5k2tClYGXGTfIygGvf8rhHBfSKgA5iioGTNU4Ew/UG/5fuo/D8JmKOF4cE+y+7
-         dLLgtFvdNWH+Yo2CDOa2EEdr1dhX7jCDEYbenJ0RccIqGF1BdVsuQFxSGoyAjDu5xx92
-         NYnQUa25uMvABwQWFXQ6zt19ToPt0QnLJ4w7KOzxsnfVKhyTiKnqkddYRpx4Jq0Nu44E
-         Jbk1yI2YB6+PYHGZMlwlJb/043Ue5HlQe7fBFkmHYnblR83PNTvF+KpJRF6lA7qFF9z/
-         /Kww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=eI4u84KYFK+dj/YqAg8H8+uUIvvv2P6EQfy6KpkjQso=;
-        b=nujl4tSnCfiZ+xxezclBmozAMZFlxyr3AZbgHBgVmOtbQYxP0aymGh7D64MUdeiEU4
-         z7pTrVusORr1JFVNQ0MPNXObxNc6JYbrN4AWyDjl3lzAuObPQtqqAtjY/EfVCVuYoF+/
-         eTmSt5xZhlbsaCIqAOTAPta1wmYHN9Rz3PY5aXeDounPKOQLVf33hM9QA+vqN9B+ZSFe
-         6nh7u50rM+376NGjkx7CbAaY+5C3iCUfUndFEkeCVF5E9POli9ZdTFJGVdu42C9IwAMn
-         M7APvo2FMta7XbACiuzJ0G6g/4jUU1RkA8YAywGQQdCv9ThczgQHTGd/N5cAwZRZEggc
-         yxRg==
-X-Gm-Message-State: ACrzQf12NnPsl+pDt+xD114se/O3c8M1tSg/0/hK+m/+CaUXyoXs8aLC
-        WSvC/zmO9+9CDhPn284EQpY=
-X-Google-Smtp-Source: AMsMyM6+4wgWqU8vuU2PV5k979vWE40wnlNWl9JwSYqRpywEgtYXerH1IRsAyhDrYJ24EAsr/wL17Q==
-X-Received: by 2002:a17:903:110d:b0:178:9066:8c66 with SMTP id n13-20020a170903110d00b0017890668c66mr9811194plh.68.1663589060400;
-        Mon, 19 Sep 2022 05:04:20 -0700 (PDT)
-Received: from bobo.ibm.com (118-208-203-28.tpgi.com.au. [118.208.203.28])
-        by smtp.gmail.com with ESMTPSA id 72-20020a62174b000000b0053eec4bb1b1sm20074355pfx.64.2022.09.19.05.04.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Sep 2022 05:04:19 -0700 (PDT)
-From:   Nicholas Piggin <npiggin@gmail.com>
-To:     Nick Terrell <terrelln@fb.com>
-Cc:     Nicholas Piggin <npiggin@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: [PATCH] lib: zstd: build common files separately for compress and decompress
-Date:   Mon, 19 Sep 2022 22:04:08 +1000
-Message-Id: <20220919120408.3956424-1-npiggin@gmail.com>
-X-Mailer: git-send-email 2.37.2
+        Mon, 19 Sep 2022 08:18:30 -0400
+Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE511DF16;
+        Mon, 19 Sep 2022 05:18:25 -0700 (PDT)
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 28JCHxhu019959;
+        Mon, 19 Sep 2022 21:17:59 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 28JCHxhu019959
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1663589879;
+        bh=8aWuQLPgUjO2hHTxhxUtJFCPMusYzMKoXSzZIe6HxdA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Ruc0JgvNiI9SIk8G1CCrirmc/BevOwTVD5nwrpVJek1jkSh9INKB9qpO3wo2l7cVg
+         +/HVuWbF4Jll7/WmujvHpc839rhzH0CAZ3ygAu6EIE7tTWAu3xcRVO3mIDZ94Pj6SA
+         W6ZpGMelTdbRKoM7YnUMw454UbPWeirRHJsCEEJ04m5cCqbVHDeBC9wSIt9UB+g/Rg
+         211LNQ9Lv64NKMXnxt8esFQtg5BThox4qLz077yKC+4+UbAGztH5gfL255ZtI38agi
+         CgYlFqqSwXwiAg9vXfggOkawPPllKTGRnw7zOzjkkbagcYIBohhrgxUA3GuB8gra+K
+         3YNdQsnoiYuGw==
+X-Nifty-SrcIP: [209.85.167.169]
+Received: by mail-oi1-f169.google.com with SMTP id o64so481537oib.12;
+        Mon, 19 Sep 2022 05:17:59 -0700 (PDT)
+X-Gm-Message-State: ACgBeo0eFjwET1EXIN+OIii/ZEfiA6zh7qNX250ti+Sm1mIDOgrBw3BG
+        P2hFb1Eb/P4juNCbjkcn4GDIiJkHEuFk1HBCCb4=
+X-Google-Smtp-Source: AA6agR5fCHiLt8KV0h3AaofSngs2QdHWjXGKyrzvVJlIx/iHDXkG8XPEuzGsNgncjjO04CTaMIj0HVFHj810SyI0/Zk=
+X-Received: by 2002:a05:6808:1b85:b0:34d:8ce1:d5b0 with SMTP id
+ cj5-20020a0568081b8500b0034d8ce1d5b0mr11850446oib.194.1663589878451; Mon, 19
+ Sep 2022 05:17:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+References: <20220906061313.1445810-1-masahiroy@kernel.org>
+ <20220906061313.1445810-8-masahiroy@kernel.org> <CAMuHMdUpY92WGNqTOV0-jaB+q1q0nS4wxkhrC8jb-uGU9KbogQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdUpY92WGNqTOV0-jaB+q1q0nS4wxkhrC8jb-uGU9KbogQ@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 19 Sep 2022 21:17:22 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATqy4DCAB2LuK7dpiYDjRciXHE_E6gAvHHfvYAfe9CqGg@mail.gmail.com>
+Message-ID: <CAK7LNATqy4DCAB2LuK7dpiYDjRciXHE_E6gAvHHfvYAfe9CqGg@mail.gmail.com>
+Subject: Re: [PATCH v2 7/8] kbuild: use obj-y instead extra-y for objects
+ placed at the head
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,366 +62,67 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-It is possible for compress to be built as a module and decompress to
-be built in, and kernel and module C flags can be different. This can
-cause module built code to be linked into the kernel or vice versa.
+On Mon, Sep 19, 2022 at 5:10 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Yamada-san,
+>
+> On Tue, Sep 6, 2022 at 8:15 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > The objects placed at the head of vmlinux need special treatments:
+> >
+> >  - arch/$(SRCARCH)/Makefile adds them to head-y in order to place
+> >    them before other archives in the linker command line.
+> >
+> >  - arch/$(SRCARCH)/kernel/Makefile adds them to extra-y instead of
+> >    obj-y to avoid them going into built-in.a.
+> >
+> > This commit gets rid of the latter.
+> >
+> > Create vmlinux.a to collect all the objects that are unconditionally
+> > linked to vmlinux. The objects listed in head-y are moved to the head
+> > of vmlinux.a by using 'ar m'.
+> >
+> > With this, arch/$(SRCARCH)/kernel/Makefile can consistently use obj-y
+> > for builtin objects.
+> >
+> > There is no *.o that is directly linked to vmlinux. Drop unneeded code
+> > in scripts/clang-tools/gen_compile_commands.py.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Use symbolic links from the common code to compression and decompression
-module directories to avoid this problem.
 
-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
----
-I'm not sure if this is the preferred way to fix it. I hadn't
-thought about this problem before but now I notice it in zstd
-it seems like it could be a pitfall in other parts of the kernel
-as well. Is there a better way to solve it? Or some way to
-automatically detect the conflict and fail the build rather than
-silently succeed?
 
-Thanks,
-Nick
 
- lib/zstd/Makefile                           | 20 ++++++++++----------
- lib/zstd/compress/common/bitstream.h        |  1 +
- lib/zstd/compress/common/compiler.h         |  1 +
- lib/zstd/compress/common/cpu.h              |  1 +
- lib/zstd/compress/common/debug.c            |  1 +
- lib/zstd/compress/common/debug.h            |  1 +
- lib/zstd/compress/common/entropy_common.c   |  1 +
- lib/zstd/compress/common/error_private.c    |  1 +
- lib/zstd/compress/common/error_private.h    |  1 +
- lib/zstd/compress/common/fse.h              |  1 +
- lib/zstd/compress/common/fse_decompress.c   |  1 +
- lib/zstd/compress/common/huf.h              |  1 +
- lib/zstd/compress/common/mem.h              |  1 +
- lib/zstd/compress/common/zstd_common.c      |  1 +
- lib/zstd/compress/common/zstd_deps.h        |  1 +
- lib/zstd/compress/common/zstd_internal.h    |  1 +
- lib/zstd/decompress/common/bitstream.h      |  1 +
- lib/zstd/decompress/common/compiler.h       |  1 +
- lib/zstd/decompress/common/cpu.h            |  1 +
- lib/zstd/decompress/common/debug.c          |  1 +
- lib/zstd/decompress/common/debug.h          |  1 +
- lib/zstd/decompress/common/entropy_common.c |  1 +
- lib/zstd/decompress/common/error_private.c  |  1 +
- lib/zstd/decompress/common/error_private.h  |  1 +
- lib/zstd/decompress/common/fse.h            |  1 +
- lib/zstd/decompress/common/fse_decompress.c |  1 +
- lib/zstd/decompress/common/huf.h            |  1 +
- lib/zstd/decompress/common/mem.h            |  1 +
- lib/zstd/decompress/common/zstd_common.c    |  1 +
- lib/zstd/decompress/common/zstd_deps.h      |  1 +
- lib/zstd/decompress/common/zstd_internal.h  |  1 +
- 31 files changed, 40 insertions(+), 10 deletions(-)
- create mode 120000 lib/zstd/compress/common/bitstream.h
- create mode 120000 lib/zstd/compress/common/compiler.h
- create mode 120000 lib/zstd/compress/common/cpu.h
- create mode 120000 lib/zstd/compress/common/debug.c
- create mode 120000 lib/zstd/compress/common/debug.h
- create mode 120000 lib/zstd/compress/common/entropy_common.c
- create mode 120000 lib/zstd/compress/common/error_private.c
- create mode 120000 lib/zstd/compress/common/error_private.h
- create mode 120000 lib/zstd/compress/common/fse.h
- create mode 120000 lib/zstd/compress/common/fse_decompress.c
- create mode 120000 lib/zstd/compress/common/huf.h
- create mode 120000 lib/zstd/compress/common/mem.h
- create mode 120000 lib/zstd/compress/common/zstd_common.c
- create mode 120000 lib/zstd/compress/common/zstd_deps.h
- create mode 120000 lib/zstd/compress/common/zstd_internal.h
- create mode 120000 lib/zstd/decompress/common/bitstream.h
- create mode 120000 lib/zstd/decompress/common/compiler.h
- create mode 120000 lib/zstd/decompress/common/cpu.h
- create mode 120000 lib/zstd/decompress/common/debug.c
- create mode 120000 lib/zstd/decompress/common/debug.h
- create mode 120000 lib/zstd/decompress/common/entropy_common.c
- create mode 120000 lib/zstd/decompress/common/error_private.c
- create mode 120000 lib/zstd/decompress/common/error_private.h
- create mode 120000 lib/zstd/decompress/common/fse.h
- create mode 120000 lib/zstd/decompress/common/fse_decompress.c
- create mode 120000 lib/zstd/decompress/common/huf.h
- create mode 120000 lib/zstd/decompress/common/mem.h
- create mode 120000 lib/zstd/decompress/common/zstd_common.c
- create mode 120000 lib/zstd/decompress/common/zstd_deps.h
- create mode 120000 lib/zstd/decompress/common/zstd_internal.h
+Thanks for the report.
 
-diff --git a/lib/zstd/Makefile b/lib/zstd/Makefile
-index fc45339fc3a3..6d785268f8c3 100644
---- a/lib/zstd/Makefile
-+++ b/lib/zstd/Makefile
-@@ -13,11 +13,11 @@ obj-$(CONFIG_ZSTD_DECOMPRESS) += zstd_decompress.o
- 
- zstd_compress-y := \
- 		zstd_compress_module.o \
--		common/debug.o \
--		common/entropy_common.o \
--		common/error_private.o \
--		common/fse_decompress.o \
--		common/zstd_common.o \
-+		compress/common/debug.o \
-+		compress/common/entropy_common.o \
-+		compress/common/error_private.o \
-+		compress/common/fse_decompress.o \
-+		compress/common/zstd_common.o \
- 		compress/fse_compress.o \
- 		compress/hist.o \
- 		compress/huf_compress.o \
-@@ -33,11 +33,11 @@ zstd_compress-y := \
- 
- zstd_decompress-y := \
- 		zstd_decompress_module.o \
--		common/debug.o \
--		common/entropy_common.o \
--		common/error_private.o \
--		common/fse_decompress.o \
--		common/zstd_common.o \
-+		decompress/common/debug.o \
-+		decompress/common/entropy_common.o \
-+		decompress/common/error_private.o \
-+		decompress/common/fse_decompress.o \
-+		decompress/common/zstd_common.o \
- 		decompress/huf_decompress.o \
- 		decompress/zstd_ddict.o \
- 		decompress/zstd_decompress.o \
-diff --git a/lib/zstd/compress/common/bitstream.h b/lib/zstd/compress/common/bitstream.h
-new file mode 120000
-index 000000000000..de97b72f47ce
---- /dev/null
-+++ b/lib/zstd/compress/common/bitstream.h
-@@ -0,0 +1 @@
-+../../common/bitstream.h
-\ No newline at end of file
-diff --git a/lib/zstd/compress/common/compiler.h b/lib/zstd/compress/common/compiler.h
-new file mode 120000
-index 000000000000..a316286adf05
---- /dev/null
-+++ b/lib/zstd/compress/common/compiler.h
-@@ -0,0 +1 @@
-+../../common/compiler.h
-\ No newline at end of file
-diff --git a/lib/zstd/compress/common/cpu.h b/lib/zstd/compress/common/cpu.h
-new file mode 120000
-index 000000000000..35282be494a2
---- /dev/null
-+++ b/lib/zstd/compress/common/cpu.h
-@@ -0,0 +1 @@
-+../../common/cpu.h
-\ No newline at end of file
-diff --git a/lib/zstd/compress/common/debug.c b/lib/zstd/compress/common/debug.c
-new file mode 120000
-index 000000000000..5d7b272026d6
---- /dev/null
-+++ b/lib/zstd/compress/common/debug.c
-@@ -0,0 +1 @@
-+../../common/debug.c
-\ No newline at end of file
-diff --git a/lib/zstd/compress/common/debug.h b/lib/zstd/compress/common/debug.h
-new file mode 120000
-index 000000000000..15c1e1cd5c95
---- /dev/null
-+++ b/lib/zstd/compress/common/debug.h
-@@ -0,0 +1 @@
-+../../common/debug.h
-\ No newline at end of file
-diff --git a/lib/zstd/compress/common/entropy_common.c b/lib/zstd/compress/common/entropy_common.c
-new file mode 120000
-index 000000000000..221119c32817
---- /dev/null
-+++ b/lib/zstd/compress/common/entropy_common.c
-@@ -0,0 +1 @@
-+../../common/entropy_common.c
-\ No newline at end of file
-diff --git a/lib/zstd/compress/common/error_private.c b/lib/zstd/compress/common/error_private.c
-new file mode 120000
-index 000000000000..f87d3cf6851f
---- /dev/null
-+++ b/lib/zstd/compress/common/error_private.c
-@@ -0,0 +1 @@
-+../../common/error_private.c
-\ No newline at end of file
-diff --git a/lib/zstd/compress/common/error_private.h b/lib/zstd/compress/common/error_private.h
-new file mode 120000
-index 000000000000..30d469222942
---- /dev/null
-+++ b/lib/zstd/compress/common/error_private.h
-@@ -0,0 +1 @@
-+../../common/error_private.h
-\ No newline at end of file
-diff --git a/lib/zstd/compress/common/fse.h b/lib/zstd/compress/common/fse.h
-new file mode 120000
-index 000000000000..29c44ebdd2da
---- /dev/null
-+++ b/lib/zstd/compress/common/fse.h
-@@ -0,0 +1 @@
-+../../common/fse.h
-\ No newline at end of file
-diff --git a/lib/zstd/compress/common/fse_decompress.c b/lib/zstd/compress/common/fse_decompress.c
-new file mode 120000
-index 000000000000..658e375541f1
---- /dev/null
-+++ b/lib/zstd/compress/common/fse_decompress.c
-@@ -0,0 +1 @@
-+../../common/fse_decompress.c
-\ No newline at end of file
-diff --git a/lib/zstd/compress/common/huf.h b/lib/zstd/compress/common/huf.h
-new file mode 120000
-index 000000000000..7c9142232da6
---- /dev/null
-+++ b/lib/zstd/compress/common/huf.h
-@@ -0,0 +1 @@
-+../../common/huf.h
-\ No newline at end of file
-diff --git a/lib/zstd/compress/common/mem.h b/lib/zstd/compress/common/mem.h
-new file mode 120000
-index 000000000000..0d9921eb1ca4
---- /dev/null
-+++ b/lib/zstd/compress/common/mem.h
-@@ -0,0 +1 @@
-+../../common/mem.h
-\ No newline at end of file
-diff --git a/lib/zstd/compress/common/zstd_common.c b/lib/zstd/compress/common/zstd_common.c
-new file mode 120000
-index 000000000000..5a7475cd3b87
---- /dev/null
-+++ b/lib/zstd/compress/common/zstd_common.c
-@@ -0,0 +1 @@
-+../../common/zstd_common.c
-\ No newline at end of file
-diff --git a/lib/zstd/compress/common/zstd_deps.h b/lib/zstd/compress/common/zstd_deps.h
-new file mode 120000
-index 000000000000..21b3a7e967da
---- /dev/null
-+++ b/lib/zstd/compress/common/zstd_deps.h
-@@ -0,0 +1 @@
-+../../common/zstd_deps.h
-\ No newline at end of file
-diff --git a/lib/zstd/compress/common/zstd_internal.h b/lib/zstd/compress/common/zstd_internal.h
-new file mode 120000
-index 000000000000..3bf2b94e718f
---- /dev/null
-+++ b/lib/zstd/compress/common/zstd_internal.h
-@@ -0,0 +1 @@
-+../../common/zstd_internal.h
-\ No newline at end of file
-diff --git a/lib/zstd/decompress/common/bitstream.h b/lib/zstd/decompress/common/bitstream.h
-new file mode 120000
-index 000000000000..de97b72f47ce
---- /dev/null
-+++ b/lib/zstd/decompress/common/bitstream.h
-@@ -0,0 +1 @@
-+../../common/bitstream.h
-\ No newline at end of file
-diff --git a/lib/zstd/decompress/common/compiler.h b/lib/zstd/decompress/common/compiler.h
-new file mode 120000
-index 000000000000..a316286adf05
---- /dev/null
-+++ b/lib/zstd/decompress/common/compiler.h
-@@ -0,0 +1 @@
-+../../common/compiler.h
-\ No newline at end of file
-diff --git a/lib/zstd/decompress/common/cpu.h b/lib/zstd/decompress/common/cpu.h
-new file mode 120000
-index 000000000000..35282be494a2
---- /dev/null
-+++ b/lib/zstd/decompress/common/cpu.h
-@@ -0,0 +1 @@
-+../../common/cpu.h
-\ No newline at end of file
-diff --git a/lib/zstd/decompress/common/debug.c b/lib/zstd/decompress/common/debug.c
-new file mode 120000
-index 000000000000..5d7b272026d6
---- /dev/null
-+++ b/lib/zstd/decompress/common/debug.c
-@@ -0,0 +1 @@
-+../../common/debug.c
-\ No newline at end of file
-diff --git a/lib/zstd/decompress/common/debug.h b/lib/zstd/decompress/common/debug.h
-new file mode 120000
-index 000000000000..15c1e1cd5c95
---- /dev/null
-+++ b/lib/zstd/decompress/common/debug.h
-@@ -0,0 +1 @@
-+../../common/debug.h
-\ No newline at end of file
-diff --git a/lib/zstd/decompress/common/entropy_common.c b/lib/zstd/decompress/common/entropy_common.c
-new file mode 120000
-index 000000000000..221119c32817
---- /dev/null
-+++ b/lib/zstd/decompress/common/entropy_common.c
-@@ -0,0 +1 @@
-+../../common/entropy_common.c
-\ No newline at end of file
-diff --git a/lib/zstd/decompress/common/error_private.c b/lib/zstd/decompress/common/error_private.c
-new file mode 120000
-index 000000000000..f87d3cf6851f
---- /dev/null
-+++ b/lib/zstd/decompress/common/error_private.c
-@@ -0,0 +1 @@
-+../../common/error_private.c
-\ No newline at end of file
-diff --git a/lib/zstd/decompress/common/error_private.h b/lib/zstd/decompress/common/error_private.h
-new file mode 120000
-index 000000000000..30d469222942
---- /dev/null
-+++ b/lib/zstd/decompress/common/error_private.h
-@@ -0,0 +1 @@
-+../../common/error_private.h
-\ No newline at end of file
-diff --git a/lib/zstd/decompress/common/fse.h b/lib/zstd/decompress/common/fse.h
-new file mode 120000
-index 000000000000..29c44ebdd2da
---- /dev/null
-+++ b/lib/zstd/decompress/common/fse.h
-@@ -0,0 +1 @@
-+../../common/fse.h
-\ No newline at end of file
-diff --git a/lib/zstd/decompress/common/fse_decompress.c b/lib/zstd/decompress/common/fse_decompress.c
-new file mode 120000
-index 000000000000..658e375541f1
---- /dev/null
-+++ b/lib/zstd/decompress/common/fse_decompress.c
-@@ -0,0 +1 @@
-+../../common/fse_decompress.c
-\ No newline at end of file
-diff --git a/lib/zstd/decompress/common/huf.h b/lib/zstd/decompress/common/huf.h
-new file mode 120000
-index 000000000000..7c9142232da6
---- /dev/null
-+++ b/lib/zstd/decompress/common/huf.h
-@@ -0,0 +1 @@
-+../../common/huf.h
-\ No newline at end of file
-diff --git a/lib/zstd/decompress/common/mem.h b/lib/zstd/decompress/common/mem.h
-new file mode 120000
-index 000000000000..0d9921eb1ca4
---- /dev/null
-+++ b/lib/zstd/decompress/common/mem.h
-@@ -0,0 +1 @@
-+../../common/mem.h
-\ No newline at end of file
-diff --git a/lib/zstd/decompress/common/zstd_common.c b/lib/zstd/decompress/common/zstd_common.c
-new file mode 120000
-index 000000000000..5a7475cd3b87
---- /dev/null
-+++ b/lib/zstd/decompress/common/zstd_common.c
-@@ -0,0 +1 @@
-+../../common/zstd_common.c
-\ No newline at end of file
-diff --git a/lib/zstd/decompress/common/zstd_deps.h b/lib/zstd/decompress/common/zstd_deps.h
-new file mode 120000
-index 000000000000..21b3a7e967da
---- /dev/null
-+++ b/lib/zstd/decompress/common/zstd_deps.h
-@@ -0,0 +1 @@
-+../../common/zstd_deps.h
-\ No newline at end of file
-diff --git a/lib/zstd/decompress/common/zstd_internal.h b/lib/zstd/decompress/common/zstd_internal.h
-new file mode 120000
-index 000000000000..3bf2b94e718f
---- /dev/null
-+++ b/lib/zstd/decompress/common/zstd_internal.h
-@@ -0,0 +1 @@
-+../../common/zstd_internal.h
-\ No newline at end of file
--- 
-2.37.2
+I will squash the following:
 
+
+
+diff --git a/arch/m68k/kernel/Makefile b/arch/m68k/kernel/Makefile
+index 1755e6cd309f..af015447dfb4 100644
+--- a/arch/m68k/kernel/Makefile
++++ b/arch/m68k/kernel/Makefile
+@@ -16,7 +16,7 @@ obj-$(CONFIG_SUN3X)   := head.o
+ obj-$(CONFIG_VIRT)     := head.o
+ obj-$(CONFIG_SUN3)     := sun3-head.o
+
+-obj-y  := entry.o irq.o module.o process.o ptrace.o
++obj-y  += entry.o irq.o module.o process.o ptrace.o
+ obj-y  += setup.o signal.o sys_m68k.o syscalltable.o time.o traps.o
+
+ obj-$(CONFIG_MMU_MOTOROLA) += ints.o vectors.o
+
+
+
+
+
+
+
+
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
