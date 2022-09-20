@@ -2,167 +2,140 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C3775BE5F0
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Sep 2022 14:34:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B58F5BE722
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Sep 2022 15:33:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229895AbiITMey (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 20 Sep 2022 08:34:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52062 "EHLO
+        id S229542AbiITNdK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 20 Sep 2022 09:33:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230391AbiITMev (ORCPT
+        with ESMTP id S229676AbiITNdJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 20 Sep 2022 08:34:51 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B2F2E69;
-        Tue, 20 Sep 2022 05:34:49 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id E5AE121B56;
-        Tue, 20 Sep 2022 12:34:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1663677287; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=kEBiP8Irblq9kj6QD799kTTxDt9/WWTcEX16z78NVkU=;
-        b=jEoqDmjkCh7lyGBrkzZd8PrCQUDJjtkeuHecIFyS92AX6uJ7FFPOFurawsKVDMSiRx/x2Y
-        /t/mkCBA2Gzgk765VaD/hh5sp+XrNqZRIgdhd4oYuD7qTh0xYoyU9Uw0+gVTljiht/APIO
-        xvV45IMK5+ddhtcbpGH5+9kAE19jUnc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1663677287;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=kEBiP8Irblq9kj6QD799kTTxDt9/WWTcEX16z78NVkU=;
-        b=5g+WP+tvoIEfKRnDKwmXYo9RZENhPK4LXtcae6P0xhY4a8NNflV/TV6EZc8QVEwRUhJkjf
-        mLB27rIOwLIDCeCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B3AA113ABB;
-        Tue, 20 Sep 2022 12:34:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id LwACKmezKWPHWwAAMHmgww
-        (envelope-from <mliska@suse.cz>); Tue, 20 Sep 2022 12:34:47 +0000
-Message-ID: <e1261036-238a-513c-1b6d-fa4f47e6edb2@suse.cz>
-Date:   Tue, 20 Sep 2022 14:34:47 +0200
+        Tue, 20 Sep 2022 09:33:09 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD007578A0;
+        Tue, 20 Sep 2022 06:33:07 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id w10so1503795pll.11;
+        Tue, 20 Sep 2022 06:33:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date;
+        bh=USvrs3UqdxmJVsfGHVufPx+zKN2HZu7qWUWjtAqweNc=;
+        b=G/Xk3OOgV88Bxn3Ll3F+ZN7VzG73hcONtPoz8GIZb1IrSfcY78S7cjzlsZTPMjVVOt
+         QObn1jeJtb4tBGlbstQ/iT/7FCHQu829ozHl5hOAA1eqmyeCNg5ka/vam8YgLiac9e6v
+         fqvJpFAJgVvws2vCM+U8jIwBu99jURFq2evlkgnTTzMjOnnc9IBevT+OhOBNW7QXqhG0
+         w/jq6suWMjEIQEnYNHlOcyHbifrnr9DPHFCNjttJvET13Qpu7QW5BCeO+0VfoRPIen1+
+         8ZiZSt5a8p4d6KIRvtS7u3VE1W4jbEWqiZajmX4VGzUJ7ZTMWu1ht4Fafjz3krJ99xTR
+         /SrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date;
+        bh=USvrs3UqdxmJVsfGHVufPx+zKN2HZu7qWUWjtAqweNc=;
+        b=4mIyfc6LdnG1x2eMAXv++ddb1bQpCxRy75iOxdBbqhvXXfIngz0FFHeLPCj2oaXrkv
+         o/92K+2CL7QTyG1Z4gwom1p9gHrzkfcjCeOltAgmXGQzQwwoiJdOC7w2PZ3Ij+k4jwHf
+         l6togxGln8NlvWHvVCo7XdZI/Awvdj0XC6rMTs1arqwGnN/9a6tMhrC4AuOnb7rSxID5
+         F5htvq1uotyN7jZoIx63GzSIl7NU4BM3UcpXUYi1Uw9ZAlkfeRdKb7i0D7u1qpFfC2yy
+         EaVMrmeSK0C+Ha1k0vW4E5wLyOMDswpD4hjDVO2JXSoFbcJz6cls0FCQ+EPVRWzdH3HI
+         tkdw==
+X-Gm-Message-State: ACrzQf0ONxJXRk7gFV4av+XkMxbWEz0tCLtOh+UDhkMjF9b3Utt9FU9N
+        sPpQk0r+VlmpNUNLfDDDiyQ=
+X-Google-Smtp-Source: AMsMyM6ESnDu9n1wSpa24KqgwDm7YUPn8gK6IepDB9S9HLM3RI3NEL8k4QjdDgDYxvO2JN86bbIIkA==
+X-Received: by 2002:a17:903:32cc:b0:178:41c1:2e41 with SMTP id i12-20020a17090332cc00b0017841c12e41mr4831315plr.126.1663680786829;
+        Tue, 20 Sep 2022 06:33:06 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id fu1-20020a17090ad18100b002000d577cc3sm1412719pjb.55.2022.09.20.06.33.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Sep 2022 06:33:05 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <af58a33c-2637-e761-ddc0-13159adf7c4e@roeck-us.net>
+Date:   Tue, 20 Sep 2022 06:33:03 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 2/2] kbuild: lto: preserve MAKEFLAGS for module linking
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 7/8] kbuild: use obj-y instead extra-y for objects
+ placed at the head
 Content-Language: en-US
-To:     Jiri Slaby <jirislaby@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-References: <20220719084149.29950-1-jslaby@suse.cz>
- <20220719084149.29950-2-jslaby@suse.cz>
- <CAK7LNATNy6-W+9USiO1pEK1syj1M1fVB1Zda2NuDmPogVp4cmQ@mail.gmail.com>
- <0d2464f2-b900-4fd9-74cb-61d635d45799@kernel.org>
-From:   =?UTF-8?Q?Martin_Li=c5=a1ka?= <mliska@suse.cz>
-In-Reply-To: <0d2464f2-b900-4fd9-74cb-61d635d45799@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org
+References: <20220906061313.1445810-1-masahiroy@kernel.org>
+ <20220906061313.1445810-8-masahiroy@kernel.org>
+ <20220919225053.GA769506@roeck-us.net>
+ <CAMuHMdUxrXgJ7HHgk1vSyg6_S8TN3RvEW=QNgH9U0UueM41N-Q@mail.gmail.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <CAMuHMdUxrXgJ7HHgk1vSyg6_S8TN3RvEW=QNgH9U0UueM41N-Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 9/20/22 10:06, Jiri Slaby wrote:
-> On 19. 07. 22, 11:15, Masahiro Yamada wrote:
->> On Tue, Jul 19, 2022 at 5:41 PM Jiri Slaby <jslaby@suse.cz> wrote:
->>>
->>> From: Martin Liska <mliska@suse.cz>
->>>
->>> Prefix command in makefile run in order to preserve access to jobserver.
->>> This is needed for gcc at least.
->>>
->>> Fixes this warning:
->>> lto-wrapper: warning: jobserver is not available: ‘--jobserver-auth=’ is not present in ‘MAKEFLAGS’
->>
->>
->> What is lto-wrapper ?
+On 9/19/22 23:56, Geert Uytterhoeven wrote:
+> Hi Günter,
 > 
-> lto-wrapper is a part of gcc:
-> https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=gcc/lto-wrapper.cc
+> On Tue, Sep 20, 2022 at 12:59 AM Guenter Roeck <linux@roeck-us.net> wrote:
+>> On Tue, Sep 06, 2022 at 03:13:12PM +0900, Masahiro Yamada wrote:
+>>> The objects placed at the head of vmlinux need special treatments:
+>>>
+>>>   - arch/$(SRCARCH)/Makefile adds them to head-y in order to place
+>>>     them before other archives in the linker command line.
+>>>
+>>>   - arch/$(SRCARCH)/kernel/Makefile adds them to extra-y instead of
+>>>     obj-y to avoid them going into built-in.a.
+>>>
+>>> This commit gets rid of the latter.
+>>>
+>>> Create vmlinux.a to collect all the objects that are unconditionally
+>>> linked to vmlinux. The objects listed in head-y are moved to the head
+>>> of vmlinux.a by using 'ar m'.
+>>>
+>>> With this, arch/$(SRCARCH)/kernel/Makefile can consistently use obj-y
+>>> for builtin objects.
+>>>
+>>> There is no *.o that is directly linked to vmlinux. Drop unneeded code
+>>> in scripts/clang-tools/gen_compile_commands.py.
+>>>
+>>> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+>>> Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
 > 
-> And is invoked during the link of LTO objects (also to link in parallel if jobserver is available).
+> Where does this R-b come from? It was not present in Yamada-san's
+> posting. Added by b4?
+> 
 
-Yes, it's a driver that is invoked by Linker when it decides to use LTO mode in GCC compiler.
-Later on the lto-wrapper connects to make's jobserver and runs in parallel. Note a recent [1]
-make implemented named pipes when it comes to communication with jobserver. And thus the '+'
-won't be needed in the future, but we need it for now.
+Maybe added by patchwork ? That is where I picked up the mbox.
 
-Cheers,
-Martin
+Guenter
 
-[1] https://git.savannah.gnu.org/cgit/make.git/commit/?id=7ad2593b2d2bb5b9332f4444d8bf93ac6f958bc6
-
+>> The following build failure is seen when building m68k:defconfig in
+>> next-20220919.
 > 
-> I am leaving the unanswered questions below for Martin to answer.
+> [...]
 > 
->>> Cc: Sedat Dilek <sedat.dilek@gmail.com>
->>> Cc: Masahiro Yamada <masahiroy@kernel.org>
->>> Cc: Michal Marek <michal.lkml@markovi.net>
->>> Cc: Nick Desaulniers <ndesaulniers@google.com>
->>> Fixes: 5d45950dfbb1 (kbuild: move vmlinux.o link to scripts/Makefile.vmlinux_o)
->>> Signed-off-by: Martin Liska <mliska@suse.cz>
->>> Signed-off-by: Jiri Slaby <jslaby@suse.cz>
->>> ---
->>>
->>> Notes:
->>>      [v2] this is new in v2
->>>
->>>   scripts/Makefile.build | 6 +++---
->>>   1 file changed, 3 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
->>> index bb63374fb055..493f3c4e8461 100644
->>> --- a/scripts/Makefile.build
->>> +++ b/scripts/Makefile.build
->>> @@ -247,8 +247,8 @@ endef
->>>
->>>   # Built-in and composite module parts
->>>   $(obj)/%.o: $(src)/%.c $(recordmcount_source) FORCE
->>> -       $(call if_changed_rule,cc_o_c)
->>> -       $(call cmd,force_checksrc)
->>> +       +$(call if_changed_rule,cc_o_c)
->>> +       +$(call cmd,force_checksrc)
->>
->>
->> cmd_force_checksrc invokes sparse.
->> How is it related to GCC?
->>
->>
->>
->>
->>>
->>>   # To make this rule robust against "Argument list too long" error,
->>>   # ensure to add $(obj)/ prefix by a shell command.
->>> @@ -457,7 +457,7 @@ endef
->>>   $(multi-obj-m): objtool-enabled := $(delay-objtool)
->>>   $(multi-obj-m): part-of-module := y
->>>   $(multi-obj-m): %.o: %.mod FORCE
->>> -       $(call if_changed_rule,ld_multi_m)
->>> +       +$(call if_changed_rule,ld_multi_m)
->>>   $(call multi_depend, $(multi-obj-m), .o, -objs -y -m)
->>
->>
->> cmd_ld_multi_m invokes $(LD) directly.
->> How is it related to gcc?
+>> # first bad commit: [6676e2cdd7c339dc40331faccbaac1112d2c1d78] kbuild: use obj-y instead extra-y for objects placed at the head
 > 
+> I did provide my R-b on Yamada-san's fix for this issue, which was
+> sent later in this thread.
 > 
+> Gr{oetje,eeting}s,
 > 
+>                          Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                  -- Linus Torvalds
 
