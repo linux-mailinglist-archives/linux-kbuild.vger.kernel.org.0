@@ -2,39 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C1235E6800
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Sep 2022 18:01:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 079035E6B66
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Sep 2022 21:03:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229575AbiIVQBp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 22 Sep 2022 12:01:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57332 "EHLO
+        id S231913AbiIVTDQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 22 Sep 2022 15:03:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229499AbiIVQBo (ORCPT
+        with ESMTP id S230241AbiIVTDO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 22 Sep 2022 12:01:44 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F32E2B089D
-        for <linux-kbuild@vger.kernel.org>; Thu, 22 Sep 2022 09:01:42 -0700 (PDT)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=irc.pengutronix.de)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <j.zink@pengutronix.de>)
-        id 1obOdx-0004PM-AU; Thu, 22 Sep 2022 18:01:41 +0200
-Message-ID: <33059074b78110d4717efe09b887dd28ac77fe7f.camel@pengutronix.de>
-Subject: PROBLEM: Segfault in kconfig
-From:   Johannes Zink <j.zink@pengutronix.de>
-To:     masahiroy@kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     kernel@pengutronix.de
-Date:   Thu, 22 Sep 2022 18:01:40 +0200
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
+        Thu, 22 Sep 2022 15:03:14 -0400
+X-Greylist: delayed 600 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 22 Sep 2022 12:03:12 PDT
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B35BFB300;
+        Thu, 22 Sep 2022 12:03:12 -0700 (PDT)
+Received: from vertex.localdomain (pool-173-49-113-140.phlapa.fios.verizon.net [173.49.113.140])
+        (Authenticated sender: zack)
+        by letterbox.kde.org (Postfix) with ESMTPSA id 68B6B33CA5E;
+        Thu, 22 Sep 2022 19:45:29 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+        t=1663872330; bh=KXR8aFo7IH4MA/ibI65C7sV8IgOxAzdBucUz3STBYMM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Wzq8w4AZNvIbdNn4rk/xDh84qL1TfMVadvxauUIhNwLpn3o4LW1oYVbM4c0sk2mJm
+         kEP9lU8cqqdVUZ3ehX4kZbGtqdQDv4hleu646pjsfY0uKFPjPRByZ3TBhoFkCTtDUw
+         +03D8PjyYTBYzn2cBFHG1mYAO770Co+jehX+ybDG4YIg/EW/aHIlY7DFFT+9YYrQSL
+         RTEdZLTHFTLGgD4LyU8rbC5rzrpIZHuLNSCC7tuAA3FgnT0nigr/FYE6+MO5/cldzb
+         Mk4Z414+ofgPrn7qUw2Wx32Bk93tJsnbGVU28coR8TWc05GdGk+aUpMrVMHDWeJjpQ
+         FtHwIylLSiCOw==
+From:   Zack Rusin <zack@kde.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Zack Rusin <zackr@vmware.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: Add an option to skip vmlinux.bz2 in the rpm's
+Date:   Thu, 22 Sep 2022 14:45:25 -0400
+Message-Id: <20220922184525.3021522-1-zack@kde.org>
+X-Mailer: git-send-email 2.34.1
+Reply-To: Zack Rusin <zackr@vmware.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: j.zink@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -42,100 +51,59 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi everyone, 
+From: Zack Rusin <zackr@vmware.com>
 
-[1.] One line summary of the problem: 
-     kconfig crashes with segfault under rare circumstances
-[2.] Full description of the problem/report:
-     Under certain circumstances jump keys are displayed on the search 
-     results even if a symbol is deactivated by one of its 
-     dependencies. Using the jump keys then triggers a segmentation 
-     fault due to a NULL dereference. Perform the following steps to 
-     trigger the issue
-     
-     1.: ARCH=arm64 make defconfig
-     2.: ARCH=arm64 make menuconfig
+The debug vmlinux takes up the vast majority of space in the built
+rpm's. While having it enabled by default is a good idea because it
+makes debugging easier, having an option to skip it is highly valuable
+for CI/CD systems where small packages are a lot easier to deal with
+e.g. kernel rpm built using binrpm-pkg on Fedora 36 default 5.19.8 kernel
+config and localmodconfig goes from 255MB to 65MB which is an almost
+4x difference.
 
-     3.: press '/' key to search for the string "EFI". Use jump key 
-         (1) to jump to search result. Press 'n' key to deactivate the 
-         entry. 
-     4.: press '/' to seach for the string "ACPI". Use the jump key 
-         (1) to jump to the search result. 
+To skip adding vmlinux.bz2 to the built rpm add SKIP_RPM_VMLINUX
+environment variable which when set to "y", e.g. via
+"SKIP_RPM_VMLINUX=y make binrpm-pkg" won't include vmlinux.bz2 in the
+built rpm.
 
-     Menuconfig then crashes with a segfault.
-    
-[3.] Keywords (i.e., modules, networking, kernel):
-     kconfig, mconf
-[4.] Kernel information
-[4.1.] Kernel version (from /proc/version):
-       v6.0.0-rc6
-[4.2.] Kernel .config file: 
-       arm64 default defconfig
-[5.] Most recent kernel version which did not have the bug: 
-     v5.15
-[6.] Output of Oops.. message (if applicable) with symbolic information
-     resolved (see Documentation/admin-guide/bug-hunting.rst): 
-     not applicable
-[7.] A small shell script or example program which triggers the
-     problem (if possible):
-     not applicable, please see description in [2.]
-[8.] Environment
-[8.1.] Software (add the output of the ver_linux script here): 
-       not applicable
-[8.2.] Processor information (from /proc/cpuinfo):
-       not applicable
-[8.3.] Module information (from /proc/modules):
-       not applicable
-[8.4.] Loaded driver and hardware information (/proc/ioports,
-/proc/iomem):
-       not applicable
-[8.5.] PCI information ('lspci -vvv' as root):
-       not applicable
-[8.6.] SCSI information (from /proc/scsi/scsi):
-       not applicable
-[8.7.] Other information that might be relevant to the problem
-       (please look in /proc and include all information that you
-       think to be relevant):
-       not applicable
-[X.] Other notes, patches, fixes, workarounds:
-    
-     I found that the attached patch is a very hacky workaround to 
-     keep menuconfig from crashing, but I am pretty sure the jump 
-     keys should not have be activated for unaccessable entries in the
-     first place. I found it quite hard to find the corresponding part
-     in mconf, which is why I decided to send this bugreport instead 
-     of sending a patch. Maybe someone on this list either knows mconf 
-     really well and can just fix it, or guide me to where I can dig 
-     around (though in that case I could really use some help on how 
-     to debug menuconfig, since I found it challenging to get it 
-     working with gdb)
-     
-Best regards
-Johannes
-
+Signed-off-by: Zack Rusin <zackr@vmware.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Michal Marek <michal.lkml@markovi.net>
+Cc: Nick Desaulniers <ndesaulniers@google.com>
+Cc: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
 ---
-scripts/kconfig/mconf.c | 3 ++-                                       
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ scripts/package/mkspec | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/kconfig/mconf.c b/scripts/kconfig/mconf.c        
-index 9d3cf510562f..60a82f701bd3 100644                               
---- a/scripts/kconfig/mconf.c                                         
-+++ b/scripts/kconfig/mconf.c                                         
-@@ -447,7 +447,8 @@ static void search_conf(void)                     
-                again = false;
-                for (i = 0; i < JUMP_NB && keys[i]; i++)
-                        if (dres == keys[i]) {
--                               conf(targets[i]->parent, targets[i]); 
-+                               if (targets[i]->parent)               
-+                                       conf(targets[i]->parent,
-targets[i]);
-                                again = true;
-                        }
-                str_free(&res);
-
+diff --git a/scripts/package/mkspec b/scripts/package/mkspec
+index 7c477ca7dc98..5a71fc0852b0 100755
+--- a/scripts/package/mkspec
++++ b/scripts/package/mkspec
+@@ -23,6 +23,12 @@ else
+ 	M=DEL
+ fi
+ 
++if [ "$RPM_SKIP_VMLINUX" = y ]; then
++	D=DEL
++else
++	D=
++fi
++
+ if grep -q CONFIG_DRM=y .config; then
+ 	PROVIDES=kernel-drm
+ fi
+@@ -94,8 +100,8 @@ $M	$MAKE %{?_smp_mflags} INSTALL_MOD_PATH=%{buildroot} modules_install
+ 	$MAKE %{?_smp_mflags} INSTALL_HDR_PATH=%{buildroot}/usr headers_install
+ 	cp System.map %{buildroot}/boot/System.map-$KERNELRELEASE
+ 	cp .config %{buildroot}/boot/config-$KERNELRELEASE
+-	bzip2 -9 --keep vmlinux
+-	mv vmlinux.bz2 %{buildroot}/boot/vmlinux-$KERNELRELEASE.bz2
++$D	bzip2 -9 --keep vmlinux
++$D	mv vmlinux.bz2 %{buildroot}/boot/vmlinux-$KERNELRELEASE.bz2
+ $S$M	rm -f %{buildroot}/lib/modules/$KERNELRELEASE/build
+ $S$M	rm -f %{buildroot}/lib/modules/$KERNELRELEASE/source
+ $S$M	mkdir -p %{buildroot}/usr/src/kernels/$KERNELRELEASE
 -- 
-Pengutronix e.K.                | Johannes Zink                  |
-Steuerwalder Str. 21            | https://www.pengutronix.de/    |
-31137 Hildesheim, Germany       | Phone: +49-5121-206917-0       |
-Amtsgericht Hildesheim, HRA 2686| Fax:   +49-5121-206917-5555    |
+2.34.1
 
