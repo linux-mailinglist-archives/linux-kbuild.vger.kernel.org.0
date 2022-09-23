@@ -2,104 +2,141 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 430515E6DD1
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Sep 2022 23:15:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7BD75E71E2
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Sep 2022 04:27:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230258AbiIVVPw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 22 Sep 2022 17:15:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36902 "EHLO
+        id S231845AbiIWC1d (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 22 Sep 2022 22:27:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230458AbiIVVPv (ORCPT
+        with ESMTP id S231712AbiIWC1b (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 22 Sep 2022 17:15:51 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FEFEB7EEC
-        for <linux-kbuild@vger.kernel.org>; Thu, 22 Sep 2022 14:15:49 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id s14-20020a17090a6e4e00b0020057c70943so3752419pjm.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 22 Sep 2022 14:15:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gimpelevich-san-francisco-ca-us.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:disposition-notification-to
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date;
-        bh=F/fSD3tiHwAEumeXG+qiH5G3ZfY9Y6LXUkEueVgh6Fk=;
-        b=tGeOq2JWiIBsL3jWhqw00ZY4tOCMc7IQwKuz2NBmLdlz6nI72CPqI5nvU4wYA7wrSK
-         4ZtSaaYV2fWWtkk6v6ylkQsxeFK/GpQhc5Kroq/oD899bc22M7UnBHR9Kf264D7iCyFg
-         NPoBZnxVotT//5zKC5GKwBGbCnKU2NoIe0/OJHqWzMDG0yR4UwOL74fYkFPbPFTM/EZy
-         2FWS/hle0d47gTgQgX7IgjjsLEVfb3z04geb4y98if+3dNiERqjRRvZk0HyzSwRUfTWQ
-         BRQKsTwaWXeqkdmv1qnX1MPytI/80wucocrAmC2XiQFJs11GsU5g6AGI7NkC7/vFD3PI
-         B1fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:disposition-notification-to
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=F/fSD3tiHwAEumeXG+qiH5G3ZfY9Y6LXUkEueVgh6Fk=;
-        b=RP2A9+5rGMW2WvXOSnwKruXOKMVwT7d+aDve8m5xSPJq3493sZ96cVZt+cF5ARK1vn
-         hFzDY2F8zBqtU3IgUgplt92PlmxRGiUnGJQYmZg5E/gL2EepyCtCONV3gqJZxhkGZLUv
-         6yuJHFXcPahuCUBSC3aE7HR1YBOuTVurboV48wVhsNXR9+7SzUkeEebPWdfvMwWIpOSL
-         nTFRI/wQtKmKr8hPKzvXH7siMJxchQJS40L8H+5i8qbkzMD2RIw3siPOgY6dpnJUQ3ss
-         NIy7wx7/vxNxLaiU4c1jUzznV/JA8AYxoBK/rYm95qberLu/9PnZ66QTN6Nw9Vfwq4z4
-         qIGg==
-X-Gm-Message-State: ACrzQf2F/UKvfzFSKIZcbS+cCGpaWYGV09ETrW5o87sJH8zgFnC6aQMq
-        pgxFezGEfT4yzHJIpa4KS1BqUw==
-X-Google-Smtp-Source: AMsMyM5ldt2VrAPEWUNgs13BVkUvJnBv9O5XNfcE5ETCAxNGwR13fNpzdtYlY5dOXChaPEyxe5tV+Q==
-X-Received: by 2002:a17:902:7897:b0:178:9292:57b9 with SMTP id q23-20020a170902789700b00178929257b9mr5370369pll.102.1663881348801;
-        Thu, 22 Sep 2022 14:15:48 -0700 (PDT)
-Received: from [192.168.72.152] (157-131-203-68.fiber.dynamic.sonic.net. [157.131.203.68])
-        by smtp.gmail.com with ESMTPSA id d6-20020a170902b70600b00173368e9dedsm4485709pls.252.2022.09.22.14.15.47
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 22 Sep 2022 14:15:48 -0700 (PDT)
-Message-ID: <1663881344.25129.23.camel@chimera>
-Subject: Re: [PATCH 0/8] generic command line v4
-From:   Daniel Gimpelevich <daniel@gimpelevich.san-francisco.ca.us>
-To:     Daniel Walker <danielwa@cisco.com>
-Cc:     Sean Anderson <sean.anderson@seco.com>,
-        Will Deacon <will@kernel.org>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Rob Herring <robh@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>, x86@kernel.org,
-        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-efi@vger.kernel.org
-Date:   Thu, 22 Sep 2022 14:15:44 -0700
-In-Reply-To: <20220922211026.GW4320@zorba>
-References: <20210416040924.2882771-1-danielwa@cisco.com>
-         <b517fac5-2fdc-a8c9-75d0-174c67f5a2de@seco.com>
-         <20220922205334.GV4320@zorba>
-         <dcff9b0f-82c8-5aa7-0fff-b749a05fcb20@seco.com>
-         <20220922211026.GW4320@zorba>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Thu, 22 Sep 2022 22:27:31 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CAD1115A58;
+        Thu, 22 Sep 2022 19:27:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663900050; x=1695436050;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jAYDgleBPbTOdu0y3VZbHd+A4x8iiSPAjiS8UjgjHoQ=;
+  b=bi0fMUog5pEpdwn8HZZy5rP9mWbYmheutKqZpwgOqNAtl/w4yC/EHm3Z
+   CNxK/z5p/XCIKn8+0/TUL1FKSLy4kCI3+W++g99O0/G4kmywHQ/wYvGma
+   XsrLJnfxNYmO2hmS59VeV6B54nUi65mtp95KL8IVH3p5d9WgVyNtwe453
+   b5PePvjjY6NDFsZPaidVRStWcVddz0WwapZ1Kq5vTSlwYvNbJnzHawBTa
+   oZJ1A+eQ297MzFlhAYkjTb6ySu8WIr9CKBCxcz5lJfUhZLC71NHDzuLnC
+   uY3+JoyW5sZnmdB6YilQ6NzNd1rieHF//YTWlTFEt//YIbj52ucRMs2J9
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="362296220"
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
+   d="scan'208";a="362296220"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2022 19:27:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
+   d="scan'208";a="709136696"
+Received: from lkp-server01.sh.intel.com (HELO c0a60f19fe7e) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 22 Sep 2022 19:27:25 -0700
+Received: from kbuild by c0a60f19fe7e with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1obYPU-0005DM-30;
+        Fri, 23 Sep 2022 02:27:24 +0000
+Date:   Fri, 23 Sep 2022 10:26:54 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org
+Subject: Re: [PATCH v2] kbuild: move -Wundef from KBUILD_CFLAGS to
+ KBUILD_CPPFLAGS
+Message-ID: <202209231052.nj1STd5X-lkp@intel.com>
+References: <20220913080727.608495-1-masahiroy@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220913080727.608495-1-masahiroy@kernel.org>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, 2022-09-22 at 14:10 -0700, Daniel Walker wrote:
-> On Thu, Sep 22, 2022 at 05:03:46PM -0400, Sean Anderson wrote:
-[snip]
-> > As recently as last month, someone's patch to add such support was
-> > rejected for this reason [1].
-> > 
-> > --Sean
-> > 
-> > [1] https://lore.kernel.org/linux-arm-kernel/20220812084613.GA3107@willie-the-truck/
-> 
-> 
-> I had no idea.. Thanks for pointing that out. I guess I will re-submit in that
-> case.
-> 
-> Daniel
+Hi Masahiro,
 
-This has been happening repeatedly since circa 2014, on multiple
-architectures. It's quite frustrating, really.
+I love your patch! Perhaps something to improve:
 
+[auto build test WARNING on masahiroy-kbuild/for-next]
+[also build test WARNING on s390/features soc/for-next linus/master v6.0-rc6]
+[cannot apply to next-20220921]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/kbuild-move-Wundef-from-KBUILD_CFLAGS-to-KBUILD_CPPFLAGS/20220913-161447
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
+config: arm64-buildonly-randconfig-r003-20220922 (https://download.01.org/0day-ci/archive/20220923/202209231052.nj1STd5X-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/ccf1a82d3dedb27a2b1b21f64e09183b197e1f6f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Masahiro-Yamada/kbuild-move-Wundef-from-KBUILD_CFLAGS-to-KBUILD_CPPFLAGS/20220913-161447
+        git checkout ccf1a82d3dedb27a2b1b21f64e09183b197e1f6f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/kernel/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+   In file included from arch/arm64/kernel/vmlinux.lds.S:65:
+>> arch/arm64/include/asm/kernel-pgtable.h:135:41: warning: "PMD_SHIFT" is not defined, evaluates to 0 [-Wundef]
+     135 | #define ARM64_MEMSTART_SHIFT            PMD_SHIFT
+         |                                         ^~~~~~~~~
+   arch/arm64/include/asm/kernel-pgtable.h:144:5: note: in expansion of macro 'ARM64_MEMSTART_SHIFT'
+     144 | #if ARM64_MEMSTART_SHIFT < SECTION_SIZE_BITS
+         |     ^~~~~~~~~~~~~~~~~~~~
+
+
+vim +/PMD_SHIFT +135 arch/arm64/include/asm/kernel-pgtable.h
+
+87d1587bef394c Suzuki K. Poulose 2015-10-19  122  
+a7f8de168ace48 Ard Biesheuvel    2016-02-16  123  /*
+a7f8de168ace48 Ard Biesheuvel    2016-02-16  124   * To make optimal use of block mappings when laying out the linear
+a7f8de168ace48 Ard Biesheuvel    2016-02-16  125   * mapping, round down the base of physical memory to a size that can
+a7f8de168ace48 Ard Biesheuvel    2016-02-16  126   * be mapped efficiently, i.e., either PUD_SIZE (4k granule) or PMD_SIZE
+a7f8de168ace48 Ard Biesheuvel    2016-02-16  127   * (64k granule), or a multiple that can be mapped using contiguous bits
+a7f8de168ace48 Ard Biesheuvel    2016-02-16  128   * in the page tables: 32 * PMD_SIZE (16k granule)
+a7f8de168ace48 Ard Biesheuvel    2016-02-16  129   */
+06e9bf2fd9b372 Ard Biesheuvel    2016-03-30  130  #if defined(CONFIG_ARM64_4K_PAGES)
+06e9bf2fd9b372 Ard Biesheuvel    2016-03-30  131  #define ARM64_MEMSTART_SHIFT		PUD_SHIFT
+06e9bf2fd9b372 Ard Biesheuvel    2016-03-30  132  #elif defined(CONFIG_ARM64_16K_PAGES)
+ca6ece6a76a8b5 Anshuman Khandual 2021-06-14  133  #define ARM64_MEMSTART_SHIFT		CONT_PMD_SHIFT
+a7f8de168ace48 Ard Biesheuvel    2016-02-16  134  #else
+06e9bf2fd9b372 Ard Biesheuvel    2016-03-30 @135  #define ARM64_MEMSTART_SHIFT		PMD_SHIFT
+06e9bf2fd9b372 Ard Biesheuvel    2016-03-30  136  #endif
+06e9bf2fd9b372 Ard Biesheuvel    2016-03-30  137  
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
