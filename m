@@ -2,106 +2,93 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49C395E8A25
-	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Sep 2022 10:25:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 014465E8F25
+	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Sep 2022 20:06:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233454AbiIXIZs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 24 Sep 2022 04:25:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41648 "EHLO
+        id S233833AbiIXSGz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 24 Sep 2022 14:06:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232947AbiIXIZq (ORCPT
+        with ESMTP id S229674AbiIXSGx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 24 Sep 2022 04:25:46 -0400
-Received: from conuserg-08.nifty.com (conuserg-08.nifty.com [210.131.2.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CCC99834E;
-        Sat, 24 Sep 2022 01:25:44 -0700 (PDT)
-Received: from zoe.. (133-32-182-133.west.xps.vectant.ne.jp [133.32.182.133]) (authenticated)
-        by conuserg-08.nifty.com with ESMTP id 28O8ORHv029703;
-        Sat, 24 Sep 2022 17:24:27 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 28O8ORHv029703
+        Sat, 24 Sep 2022 14:06:53 -0400
+Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C7C85F117;
+        Sat, 24 Sep 2022 11:06:52 -0700 (PDT)
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 28OI6YeX027777;
+        Sun, 25 Sep 2022 03:06:35 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 28OI6YeX027777
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1664007868;
-        bh=sMkUufAHfBH0H8k/JIFMju5E/jWE8QckwtzK4cXYTF8=;
-        h=From:To:Cc:Subject:Date:From;
-        b=m0C5CfoOdkAyiNI1SRjgJjSLjw8gATM4RCnPNqUdbTqBMbGWTIQAJGfEsZU1IGIFQ
-         aJ7F1aRA5ZxQDSYPYNkXkZDSHKtq6eW61ydFMeCgOSraxqgQCH1hDSTaSeveJPlCsB
-         WVMhkBjC6G7anyXe2pUA2b3h1Lz/pB5ocfjClSskucEIA1UBeePipas8DS/m/W6GqG
-         soVivyR65/a5Joe9MuBWXi9XA0YEn0oLMYK/SOcyHX2L9yakn9CArFshYHtqWZZQro
-         x5gscvzP4B0m5AqUD6ulZh1qoA/w4NyOAp3UHmmbwr41lV6+hIvW+E52C8x+9+bzQb
-         udnFiE86ot/pw==
-X-Nifty-SrcIP: [133.32.182.133]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: [PATCH] kbuild: hide error checker logs for V=1 builds
-Date:   Sat, 24 Sep 2022 17:24:25 +0900
-Message-Id: <20220924082425.3116757-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.34.1
+        s=dec2015msa; t=1664042795;
+        bh=hDMgnX158MrDwG0mktalw7fgYIgMHBpCkQ8IghHeCnU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Ki8kE+FCBcCOj4n/pXw8dAZsRcR/UQsAIl22GS4E47CzeZ/ZwVTpa2G0+3Eg5UCzP
+         tI2gW9Z1/REzWFQUcMR6mxdT2dafW8lTzeCn/jVZQ2IzqhFy4Rc3uLdR78hbJ1g+2P
+         6P/tXAEnBQrGM2yGb9i3c/wvbYhMCwz9Npn3ODyQcUDLpEaauKgiEBXIOFleY3cr2/
+         oWcKOAdooObrTXbW3B1VqlSQ+COJ3hgsFo3KQ01Fby3e6T96isMSF01bXQCHHb8zm6
+         oEjqAQqBC7cxhEAtrIbsptQU8jX8nfZNVpSO7DlIsz9jddlxsWGN7rWCIceZo98uRi
+         hnqIVaOa2pqNg==
+X-Nifty-SrcIP: [209.85.167.181]
+Received: by mail-oi1-f181.google.com with SMTP id n124so3600083oih.7;
+        Sat, 24 Sep 2022 11:06:35 -0700 (PDT)
+X-Gm-Message-State: ACrzQf2s9B7sXQL2iP+YaXYt7BPBlJ/qu5paqJUX2XHhBymq7s/YfhWJ
+        QWS/jpZ9CCLM9gf00LeJTKh3w0hGNUHHoH214eE=
+X-Google-Smtp-Source: AMsMyM5C7PeWsxuWI4pCUFTQKEkOlybdhD/fZqkx7/gtDW87MSNKtMkuaJwplsZWYra/W+Kl7ygy4fb3uhY3CcEIxHY=
+X-Received: by 2002:a54:400c:0:b0:34f:9913:262 with SMTP id
+ x12-20020a54400c000000b0034f99130262mr6658522oie.287.1664042794103; Sat, 24
+ Sep 2022 11:06:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,
-        SPF_SOFTFAIL autolearn=no autolearn_force=no version=3.4.6
+References: <20220906061313.1445810-1-masahiroy@kernel.org>
+In-Reply-To: <20220906061313.1445810-1-masahiroy@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 25 Sep 2022 03:05:58 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARqw8_M5VE6pJ-HpWchK5f5L-iN7MC6A+x6bZBRkTrE=A@mail.gmail.com>
+Message-ID: <CAK7LNARqw8_M5VE6pJ-HpWchK5f5L-iN7MC6A+x6bZBRkTrE=A@mail.gmail.com>
+Subject: Re: [PATCH v2 0/8] kbuild: various cleanups
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-V=1 (verbose build) shows commands executed by Make, but it may cause
-misunderstanding.
+On Tue, Sep 6, 2022 at 3:13 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+>
+>  - Refactor single target build to make it work more correctly
+>  - Link vmlinux and modules in parallel
+>  - Remove head-y syntax
+>
+>
+> Masahiro Yamada (8):
+>   kbuild: fix and refactor single target build
+>   kbuild: rename modules.order in sub-directories to .modules.order
+>   kbuild: move core-y and drivers-y to ./Kbuild
+>   kbuild: move .vmlinux.objs rule to Makefile.modpost
+>   kbuild: move vmlinux.o rule to the top Makefile
+>   kbuild: unify two modpost invocations
+>   kbuild: use obj-y instead extra-y for objects placed at the head
+>   kbuild: remove head-y syntax
 
-For example, the following command shows the outstanding error message.
 
-  $ make V=1 INSTALL_PATH=/tmp install
-  test -e include/generated/autoconf.h -a -e include/config/auto.conf || (                \
-  echo >&2;                                                       \
-  echo >&2 "  ERROR: Kernel configuration is invalid.";           \
-  echo >&2 "         include/generated/autoconf.h or include/config/auto.conf are missing.";\
-  echo >&2 "         Run 'make oldconfig && make prepare' on kernel src to fix it.";      \
-  echo >&2 ;                                                      \
-  /bin/false)
-    unset sub_make_done; ./scripts/install.sh
+Various bugs have been reported for v2.
 
-It is not an error. Make just showed the recipe lines it has executed,
-but people may think that 'make install' has failed.
 
-Likewise, the combination of V=1 and O= shows confusing
-"*** The source tree is not clean, please run 'make mrproper'".
+I applied 1/8.
+dropped 2/8.
+will send v3 for the rest.
 
-Suppress such misleading logs.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
- Makefile | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index a5e9d9388649..833052fcf48a 100644
---- a/Makefile
-+++ b/Makefile
-@@ -583,7 +583,7 @@ quiet_cmd_makefile = GEN     Makefile
- 	} > Makefile
- 
- outputmakefile:
--	$(Q)if [ -f $(srctree)/.config -o \
-+	@if [ -f $(srctree)/.config -o \
- 		 -d $(srctree)/include/config -o \
- 		 -d $(srctree)/arch/$(SRCARCH)/include/generated ]; then \
- 		echo >&2 "***"; \
-@@ -739,7 +739,7 @@ else # !may-sync-config
- PHONY += include/config/auto.conf
- 
- include/config/auto.conf:
--	$(Q)test -e include/generated/autoconf.h -a -e $@ || (		\
-+	@test -e include/generated/autoconf.h -a -e $@ || (		\
- 	echo >&2;							\
- 	echo >&2 "  ERROR: Kernel configuration is invalid.";		\
- 	echo >&2 "         include/generated/autoconf.h or $@ are missing.";\
+
 -- 
-2.34.1
-
+Best Regards
+Masahiro Yamada
