@@ -2,120 +2,131 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4109D5E80C7
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Sep 2022 19:34:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BC8F5E8703
+	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Sep 2022 03:35:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231601AbiIWReI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 23 Sep 2022 13:34:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48872 "EHLO
+        id S232941AbiIXBfw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 23 Sep 2022 21:35:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230495AbiIWReI (ORCPT
+        with ESMTP id S232921AbiIXBfu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 23 Sep 2022 13:34:08 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41C5875FC6;
-        Fri, 23 Sep 2022 10:34:07 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id F3AD0B839A7;
-        Fri, 23 Sep 2022 17:34:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B088C433C1;
-        Fri, 23 Sep 2022 17:34:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1663954444;
-        bh=FiCQ39KpHYBHnMz5U2BvF3FQdfKbQciCmb1jqa2PQws=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WO/8o2Z6Og+SP3LSp2vHjP7PVXf7mNszKQ/YTCYsA7Ia9xk7N0MHAqnsoyegvpSqP
-         UP+Tv/+6et8I1WuhRHmkDLWPDptMtrdlmP28wGfu7mTDKvi46oMzIVA1RGCNj/iQWM
-         1GJZeWNQBoBaMhZc5CAJQS3Sk31Wex+xU+fxhawsINTSrbDGdfiW3tTOoYmj8igo8t
-         s9ysMjZVTL8lJOmFvMqgYxxvDkCOE6h/ilR9hvL/YBp9EuX0lvQ2XsRjAtTyIEfpK4
-         Ez6tLBSjI4qyhHaXPbR4UHkX01zIiYx096XEpON2FXEoCwamRXpDBXpEpr8mOib5oj
-         SZZ7jqiZG6TeQ==
-Date:   Fri, 23 Sep 2022 10:34:02 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Zack Rusin <zackr@vmware.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: Add an option to skip vmlinux.bz2 in the rpm's
-Message-ID: <Yy3uCtztO3uDgecE@dev-arch.thelio-3990X>
-References: <20220922184525.3021522-1-zack@kde.org>
+        Fri, 23 Sep 2022 21:35:50 -0400
+Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C77B0A1D7C;
+        Fri, 23 Sep 2022 18:35:48 -0700 (PDT)
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 28O1ZLxJ030264;
+        Sat, 24 Sep 2022 10:35:21 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 28O1ZLxJ030264
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1663983322;
+        bh=/eLm7kKAZKPCAlDhAPCPjGLOw0pwSMAx5ayENfiXi90=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=z3W5UjEM36Hd+teTYWabSF73H+Epg+dz36is+jLAPjj8t18qdKsxShsG57qr0TQvO
+         7VLhRx+FKaYdnVYti01RvqXyQ9kEOP0LKP5YgPSjmXcf+5QN3oFeFMHD0DS4pSgND0
+         SrxKIi7LF2yMqMvhd9nC0uzb4evLY8TmuoQsT8YaYBOqHz1g1Msf66qPvglqF4XFIy
+         jsl5oi5hLeUaval+kt6QGWO4LkSfg1UIeOntbV4U2qojgUH0w8TgvV3GGk0rt5zKf2
+         yz6O+Vh7H3bbIMtlRkOE+Ga708O/SWCz/bNk39Tav5XDtt+4Mw8WIo5zhFPqvsgLAo
+         2ZWffF4NmyC3A==
+X-Nifty-SrcIP: [209.85.160.51]
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-127ba06d03fso2534363fac.3;
+        Fri, 23 Sep 2022 18:35:21 -0700 (PDT)
+X-Gm-Message-State: ACrzQf3Zqr01O4v7M7TjePnxsWKM5nVPTtzD80YVC8kJnke5uQnZLZYz
+        osJMbJrTfR/xwwPGc3GOfyf6D+zpGp/DP1g/yoI=
+X-Google-Smtp-Source: AMsMyM7jDHG6fhLgJft9ukvYkQPpcaymaIhsRbZ8UWBkTjR00kGt1uhvttwYCbOEb54mnP9okRPMqipDdmwDGit90Zc=
+X-Received: by 2002:a05:6870:3103:b0:12d:5b7b:e6f2 with SMTP id
+ v3-20020a056870310300b0012d5b7be6f2mr12103882oaa.194.1663983320733; Fri, 23
+ Sep 2022 18:35:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220922184525.3021522-1-zack@kde.org>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <CAK7LNAT_cMLGLBz7ugaLpJD3QmZmY8FK56x9nihvWeYhJpi2ag@mail.gmail.com>
+ <20220919173030.3726922-1-ndesaulniers@google.com>
+In-Reply-To: <20220919173030.3726922-1-ndesaulniers@google.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 24 Sep 2022 10:34:43 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAST8aBoJMx5aRgxkTv1iht37GWTzHZMbzGzPFKJKkD8PQ@mail.gmail.com>
+Message-ID: <CAK7LNAST8aBoJMx5aRgxkTv1iht37GWTzHZMbzGzPFKJKkD8PQ@mail.gmail.com>
+Subject: Re: [PATCH v4] Makefile.debug: set -g unconditional on CONFIG_DEBUG_INFO_SPLIT
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <llvm@lists.linux.dev>,
+        Andi Kleen <ak@linux.intel.com>,
+        Dmitrii Bundin <dmitrii.bundin.a@gmail.com>,
+        Fangrui Song <maskray@google.com>,
+        Nathan Chancellor <nathan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Sep 22, 2022 at 02:45:25PM -0400, Zack Rusin wrote:
-> From: Zack Rusin <zackr@vmware.com>
-> 
-> The debug vmlinux takes up the vast majority of space in the built
-> rpm's. While having it enabled by default is a good idea because it
-> makes debugging easier, having an option to skip it is highly valuable
-> for CI/CD systems where small packages are a lot easier to deal with
-> e.g. kernel rpm built using binrpm-pkg on Fedora 36 default 5.19.8 kernel
-> config and localmodconfig goes from 255MB to 65MB which is an almost
-> 4x difference.
-> 
-> To skip adding vmlinux.bz2 to the built rpm add SKIP_RPM_VMLINUX
-> environment variable which when set to "y", e.g. via
-> "SKIP_RPM_VMLINUX=y make binrpm-pkg" won't include vmlinux.bz2 in the
-> built rpm.
-> 
-> Signed-off-by: Zack Rusin <zackr@vmware.com>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: Michal Marek <michal.lkml@markovi.net>
-> Cc: Nick Desaulniers <ndesaulniers@google.com>
-> Cc: linux-kbuild@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-
-Yes please, this seems to slightly improve the time spent actually
-building and installing the package.
-
-Tested-by: Nathan Chancellor <nathan@kernel.org>
-
+On Tue, Sep 20, 2022 at 2:30 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> Dmitrii, Fangrui, and Mashahiro note:
+>
+>   Before GCC 11 and Clang 12 -gsplit-dwarf implicitly uses -g2.
+>
+> Fix CONFIG_DEBUG_INFO_SPLIT for gcc-11+ & clang-12+ which now need -g
+> specified in order for -gsplit-dwarf to work at all.
+>
+> -gsplit-dwarf has been mutually exclusive with -g since support for
+> CONFIG_DEBUG_INFO_SPLIT was introduced in
+> commit 866ced950bcd ("kbuild: Support split debug info v4")
+> I don't think it ever needed to be.
+>
+> Link: https://lore.kernel.org/lkml/20220815013317.26121-1-dmitrii.bundin.a@gmail.com/
+> Link: https://lore.kernel.org/lkml/CAK7LNARPAmsJD5XKAw7m_X2g7Fi-CAAsWDQiP7+ANBjkg7R7ng@mail.gmail.com/
+> Link: https://reviews.llvm.org/D80391
+> Cc: Andi Kleen <ak@linux.intel.com>
+> Reported-by: Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
+> Reported-by: Fangrui Song <maskray@google.com>
+> Reported-by: Masahiro Yamada <masahiroy@kernel.org>
+> Suggested-by: Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 > ---
->  scripts/package/mkspec | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-> index 7c477ca7dc98..5a71fc0852b0 100755
-> --- a/scripts/package/mkspec
-> +++ b/scripts/package/mkspec
-> @@ -23,6 +23,12 @@ else
->  	M=DEL
->  fi
->  
-> +if [ "$RPM_SKIP_VMLINUX" = y ]; then
-> +	D=DEL
-> +else
-> +	D=
-> +fi
-> +
->  if grep -q CONFIG_DRM=y .config; then
->  	PROVIDES=kernel-drm
->  fi
-> @@ -94,8 +100,8 @@ $M	$MAKE %{?_smp_mflags} INSTALL_MOD_PATH=%{buildroot} modules_install
->  	$MAKE %{?_smp_mflags} INSTALL_HDR_PATH=%{buildroot}/usr headers_install
->  	cp System.map %{buildroot}/boot/System.map-$KERNELRELEASE
->  	cp .config %{buildroot}/boot/config-$KERNELRELEASE
-> -	bzip2 -9 --keep vmlinux
-> -	mv vmlinux.bz2 %{buildroot}/boot/vmlinux-$KERNELRELEASE.bz2
-> +$D	bzip2 -9 --keep vmlinux
-> +$D	mv vmlinux.bz2 %{buildroot}/boot/vmlinux-$KERNELRELEASE.bz2
->  $S$M	rm -f %{buildroot}/lib/modules/$KERNELRELEASE/build
->  $S$M	rm -f %{buildroot}/lib/modules/$KERNELRELEASE/source
->  $S$M	mkdir -p %{buildroot}/usr/src/kernels/$KERNELRELEASE
-> -- 
-> 2.34.1
-> 
-> 
+
+
+Applied to linux-kbuild/fixes.
+Thanks.
+
+
+
+> Changes v3 -> v4:
+> * Split into its own patch; we don't have any out of line assembler
+>   files using .debug_* or .cfi_* directives that would produce
+>   meaningful debug info in .dwo files.
+>
+>  scripts/Makefile.debug | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/scripts/Makefile.debug b/scripts/Makefile.debug
+> index 9f39b0130551..26d6a9d97a20 100644
+> --- a/scripts/Makefile.debug
+> +++ b/scripts/Makefile.debug
+> @@ -1,9 +1,7 @@
+> -DEBUG_CFLAGS   :=
+> +DEBUG_CFLAGS   := -g
+>
+>  ifdef CONFIG_DEBUG_INFO_SPLIT
+>  DEBUG_CFLAGS   += -gsplit-dwarf
+> -else
+> -DEBUG_CFLAGS   += -g
+>  endif
+>
+>  ifndef CONFIG_AS_IS_LLVM
+> --
+> 2.37.3.968.ga6b4b080e4-goog
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
