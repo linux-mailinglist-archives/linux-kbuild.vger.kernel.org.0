@@ -2,123 +2,153 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA6135E9BB2
-	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Sep 2022 10:10:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA9965E9C69
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Sep 2022 10:48:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233832AbiIZIKd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 26 Sep 2022 04:10:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33498 "EHLO
+        id S233511AbiIZIso (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 26 Sep 2022 04:48:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234247AbiIZIKN (ORCPT
+        with ESMTP id S234580AbiIZIs3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 26 Sep 2022 04:10:13 -0400
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E90C91572F;
-        Mon, 26 Sep 2022 01:10:03 -0700 (PDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailout.nyi.internal (Postfix) with ESMTP id 3F3B35C00D9;
-        Mon, 26 Sep 2022 04:10:02 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
-  by compute2.internal (MEProxy); Mon, 26 Sep 2022 04:10:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-         h=cc:cc:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm2; t=1664179802; x=1664266202; bh=kU
-        oCi2yT1GwD1ISOCgS7Z4CUQnF93+E9jTByctv07pA=; b=kiA47cQdqnCwoNrsgU
-        wIO8oxm2UF8wrn048UyULmo6cmWkdwJTjaFpTAshkknSSK5s7ECibWNzoYNzeCoE
-        wmgQ2Oa4o7IMYPEXAHvtOdFG3lYNtuLdjOs8QeAqUAgOeTLn2VziDVg8uPE7mibz
-        1duHcPWT5/0o0pLA0ExVZhwyvZSNPfe1ToIL42MsVNh+wJo2vawOfcNcexyA1bvs
-        9EyynETxlwt/VoXSphFQFumH3K4XCvFjbSvwaF/ZjIUAfstW0NEuDvuAI/wj5Xst
-        5plKpbRgUBRd7wmGaGFXg7UFOyxzbAo+TyQYhDuyG2TakvpLWEGkgI/hG3I53xox
-        iksQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1664179802; x=1664266202; bh=kUoCi2yT1GwD1ISOCgS7Z4CUQnF9
-        3+E9jTByctv07pA=; b=KKLgz9moR3Jb69T09+NZHuE/0e0JD65ExOz3uPzge2XY
-        24ooOcgBZJrQuxqF65s0gTlNJtmW2iE0ki1ClcDQwoYoJhx+Atom3l0rW7CzJ4za
-        VEpvFhEaV1zdFzYm5KttM2fUN39g688msOtIIlckBBzozypTTUG3AxjsvrAF4Pmu
-        KrCxzxMpjfkOnKcKvNUEI8VvOcP7iRIIUWeyYhL0SM5nBWLxJTzK8ocqOqk1BxRZ
-        BDfbMs65IrQ9QRJKxTvl/AR/YlRf4dz0hNAGYrHOcAoE0vgrCJ6btss5sMQaY3aW
-        Hn2B5fNQhVbObmIkodLIPKHLZwZjayY/XZaWDwj7hQ==
-X-ME-Sender: <xms:WV4xYzhIDIDVXGgSFLsmg4vdcx1gwkftdb0oMlFvxubCzA3Pz9yvXg>
-    <xme:WV4xYwAss_mJITZFcbTf1QYd2ikzI8RB7nsCpi6gwhk0763cp29bG_yjz_U9yzJ-t
-    dfbfV942WGb8V_YMjs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeegvddgtddvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfufhv
-    vghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrf
-    grthhtvghrnhepgeegkeektdejveeiteffvddugffggeeuudehvdfgtddvudfgjedtuedu
-    vdevueevnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghrufhiii
-    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdr
-    uggvvh
-X-ME-Proxy: <xmx:WV4xYzEUMtKswNS3oToI_WJsMsmiVxdC7GfmYQuMpgw3dXK6kUa1BA>
-    <xmx:WV4xYwQLht2Tx4uUZZTthtsabBN7bZ1rbPqGLpnU8QfQPOmRSNwTtg>
-    <xmx:WV4xYwwN7JuznA08G2hCE0tmMjrYL26lpQbwifZcXZz5dPFBReAAUw>
-    <xmx:Wl4xYzy2P6-GQXVmsGzTXZB3usRbZZhVPeRjBTW6KHmGLCv7KnGaMQ>
-Feedback-ID: i51094778:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 9E3F3A6007C; Mon, 26 Sep 2022 04:10:01 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-935-ge4ccd4c47b-fm-20220914.001-ge4ccd4c4
-Mime-Version: 1.0
-Message-Id: <ba821ade-1573-4c35-8fbb-285283817147@app.fastmail.com>
-In-Reply-To: <CAH7mPvj64Scp6_Nbaj8KOfkoV5f7_N5L=Tv5Z9zGyn5SS+gsUw@mail.gmail.com>
-References: <CAH7mPvj64Scp6_Nbaj8KOfkoV5f7_N5L=Tv5Z9zGyn5SS+gsUw@mail.gmail.com>
-Date:   Mon, 26 Sep 2022 10:09:41 +0200
-From:   "Sven Peter" <sven@svenpeter.dev>
-To:     "Nick Desaulniers" <nick.desaulniers@gmail.com>,
-        "Linus Torvalds" <torvalds@linux-foundation.org>,
-        "Masahiro Yamada" <masahiroy@kernel.org>,
-        "Hector Martin" <marcan@marcan.st>
-Cc:     "Nick Desaulniers" <ndesaulniers@google.com>,
-        clang-built-linux <llvm@lists.linux.dev>,
-        "Linux Kbuild mailing list" <linux-kbuild@vger.kernel.org>,
-        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
-        asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: Any interest in building the Linux kernel from a MacOS host?
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 26 Sep 2022 04:48:29 -0400
+Received: from fx301.security-mail.net (smtpout30.security-mail.net [85.31.212.37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E16A73C8DC
+        for <linux-kbuild@vger.kernel.org>; Mon, 26 Sep 2022 01:48:27 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by fx301.security-mail.net (Postfix) with ESMTP id 84D2A24BD129
+        for <linux-kbuild@vger.kernel.org>; Mon, 26 Sep 2022 10:48:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
+        s=sec-sig-email; t=1664182106;
+        bh=NhdN4X2rJAjNwMFvV5i0ZCxVGsFvSLAwOMfe3tyVvP4=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=ErNVj95STC4oGgOAoazE+hTr+BLTG0JXk1QkBx8XM53S8IOYrkTaT8NfjXSuac/ZG
+         C/y47mzxjC7piGtroqQbq5Y+Q+u4NskJTHuBGsOgYGFAIY5wNEqDG1P5Y0KV/SGiP9
+         81Fwm78HLYNvuewWuuODkFs1Z5JVFdKsHFoPog7E=
+Received: from fx301 (localhost [127.0.0.1]) by fx301.security-mail.net
+ (Postfix) with ESMTP id 8CDF024BD119; Mon, 26 Sep 2022 10:48:25 +0200 (CEST)
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
+ fx301.security-mail.net (Postfix) with ESMTPS id D95C624BD11B; Mon, 26 Sep
+ 2022 10:48:24 +0200 (CEST)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPS id B4DBE27E042B; Mon, 26 Sep 2022
+ 10:48:24 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
+ (Postfix) with ESMTP id 9B33027E0430; Mon, 26 Sep 2022 10:48:24 +0200 (CEST)
+Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
+ (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
+ ElWjOXGInmPY; Mon, 26 Sep 2022 10:48:24 +0200 (CEST)
+Received: from [192.168.37.161] (unknown [192.168.37.161]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPSA id 830AE27E042B; Mon, 26 Sep 2022
+ 10:48:24 +0200 (CEST)
+X-Virus-Scanned: E-securemail, by Secumail
+Secumail-id: <8417.63316758.d8444.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 9B33027E0430
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
+ s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1664182104;
+ bh=+oh7OesxMW2QIgyF4sMQoAESyP9oZENY6yeIPTgQmRM=;
+ h=Message-ID:Date:MIME-Version:To:From;
+ b=R/AWeJLr7/Whjf8JKEa241CYkIYIbscdP8OEDWItPXZhXuMu4DBhoJP2fUy36vamI
+ sOjmdZVxKhVtuzkiGCOcYDK5LR1KUGhu+LZUg1qUFVdrEh+zB/9pP3KMx+UQG+jPgT
+ MU0nDNinl9eu7YH9ODuoCt3FFJyPWpibFdfB1htU=
+Message-ID: <197eb354-2fc8-1712-3c83-34be9391efa8@kalray.eu>
+Date:   Mon, 26 Sep 2022 10:48:24 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [RFC PATCH 1/1] Fix __kcrctab+* sections alignment
+Content-Language: en-us
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux-Arch <linux-arch@vger.kernel.org>
+References: <20220817161438.32039-2-ysionneau@kalray.eu>
+ <31ce5305-a76b-13d7-ea55-afca82c46cf2@kalray.eu>
+ <CAMj1kXF8mZ_pK38T=dCU6Rewqq23pPM5HwnZHyx1cGgo0F7Mew@mail.gmail.com>
+ <fbf47f7c-7d42-4510-6dd4-92f46ec70819@kalray.eu>
+ <CAMj1kXHeSemLqAhbBLMGkK4G1225NZbaQvnR3wAWYfJr4AReaw@mail.gmail.com>
+ <CAMuHMdUJZBPuD1=3SMg4G1-UoBr5Evd8mBfhxxuAaoh=K6Rm+w@mail.gmail.com>
+ <CAMj1kXF6TchD4g0qO1OeEwt8QYU_TZEriE=1yaCxXrNGBYjmCA@mail.gmail.com>
+ <CAK7LNAQ0wiBZB7XDZVodXWtP5m_H-e_xQ78z_eJ82W3pFrKWfQ@mail.gmail.com>
+From:   Yann Sionneau <ysionneau@kalray.eu>
+In-Reply-To: <CAK7LNAQ0wiBZB7XDZVodXWtP5m_H-e_xQ78z_eJ82W3pFrKWfQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ALTERMIMEV2_out: done
+X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Sep 26, 2022, at 09:51, Nick Desaulniers wrote:
-> Not sure if this is potentially interesting to anyone but I was able
-> to get the kernel building from MacOS my M2 Air with a small amount of
-> effort (read: duct tape and bailing wire).  
 
-I originally tried exactly that last year but I guess my duct tape wasn't
-quite strong enough ;)
-
-> If this might seem helpful
-> to anyone's workflow, I wouldn't mind pursuing this (with some
-> cleanup, sending a more formal patch set).  Maybe this helps us
-> bootstrap or get Linux up and running sooner on these machines?
-
-I've been either using a Linux VM or just a bare metal system running
-on these machine for quite a while now to build kernels. This would've
-been useful when I originally started though and VMs weren't working very
-well yet so maybe it's still worth pursuing.
-
-
+On 8/28/22 16:05, Masahiro Yamada wrote:
+> On Fri, Aug 26, 2022 at 7:17 PM Ard Biesheuvel <ardb@kernel.org> wrote:
+>> On Thu, 25 Aug 2022 at 20:01, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>>> Hi Ard,
+>>>
+>>> On Thu, Aug 25, 2022 at 2:56 PM Ard Biesheuvel <ardb@kernel.org> wrote:
+>>>> On Thu, 25 Aug 2022 at 14:21, Yann Sionneau <ysionneau@kalray.eu> wrote:
+>>>>> Well, I am not completely sure about that. See my cover letter, previous
+>>>>> mechanism for symbol CRC was actually enforcing the section alignment to
+>>>>> 4 bytes boundary as well.
+>>> Yes, because else it may become 2-byte aligned on m68k.
+>>>
+>>>>> Also, I'm not sure it is forbidden for an architecture/compiler
+>>>>> implementation to actually enforce a stronger alignment on u32, which in
+>>>>> theory would not break anything.
+>>>>>
+>>>> u32 is a Linux type, and Linux expects natural alignment (and padding).
+>>> Is it? You probably mean its alignment should not be larger than
+>>> 4 bytes? Less has been working since basically forever.
+>>>
+>> You are quite right. of course. And indeed, the issue here is padding
+>> not alignment.
+>>
+> I do not know if __align(4) should be used to avoid the padding issue.
 >
-> Take a look at the commit message linked below for the trials & 
-> tribulations:
-> https://github.com/ClangBuiltLinux/linux/commit/f06333e29addbc3d714adb340355f471c1dfe95a
 >
-> Thanks,
-> ~Nick Desaulniers
+>
+> Do you think it is a good idea to use an inline assembler,
+> as prior to 7b4537199a4a8480b8c3ba37a2d44765ce76cd9b ?
+>
+>
+> This patch:
+>
+> diff --git a/include/linux/export-internal.h b/include/linux/export-internal.h
+> index c2b1d4fd5987..fb90f326b1b5 100644
+> --- a/include/linux/export-internal.h
+> +++ b/include/linux/export-internal.h
+> @@ -12,6 +12,9 @@
+>
+>   /* __used is needed to keep __crc_* for LTO */
+>   #define SYMBOL_CRC(sym, crc, sec)   \
+> -       u32 __section("___kcrctab" sec "+" #sym) __used __crc_##sym = crc
+> +       asm(".section \"___kcrctab" sec "+" #sym "\",\"a\""     "\n" \
+> +           "__crc_" #sym ":"                                   "\n" \
+> +           ".long " #crc                                       "\n" \
+> +           ".previous"                                         "\n")
+>
+>   #endif /* __LINUX_EXPORT_INTERNAL_H__ */
+
+Ping on this topic, should we "fix our toolchain"?
+
+Or should Linux code be modified to add either __align(4) or use the 
+inline assembler? (I've tried your inline asm patch and it seems to fix 
+the issue I'm having).
+
+Or both?
+
+Thanks,
+
+Yann
 
 
-Best,
 
 
-Sven
+
