@@ -2,56 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C914C5EAEEC
-	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Sep 2022 19:59:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DA185EB286
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Sep 2022 22:45:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230261AbiIZR74 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 26 Sep 2022 13:59:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54692 "EHLO
+        id S229775AbiIZUpF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 26 Sep 2022 16:45:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230119AbiIZR72 (ORCPT
+        with ESMTP id S229458AbiIZUpD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 26 Sep 2022 13:59:28 -0400
-Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A5EE18E38;
-        Mon, 26 Sep 2022 10:39:42 -0700 (PDT)
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 28QHdOcb007145;
-        Tue, 27 Sep 2022 02:39:25 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 28QHdOcb007145
+        Mon, 26 Sep 2022 16:45:03 -0400
+Received: from condef-03.nifty.com (condef-03.nifty.com [202.248.20.68])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 322546052F;
+        Mon, 26 Sep 2022 13:44:58 -0700 (PDT)
+Received: from conuserg-10.nifty.com ([10.126.8.73])by condef-03.nifty.com with ESMTP id 28QKbh0O030098;
+        Tue, 27 Sep 2022 05:38:02 +0900
+Received: from zoe.. (133-32-182-133.west.xps.vectant.ne.jp [133.32.182.133]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id 28QKaWu0018737;
+        Tue, 27 Sep 2022 05:36:32 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 28QKaWu0018737
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1664213965;
-        bh=NUXkh+ReKtVXbxDHPOxGNjBIp9MG0B2ir380jnriUR4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=JVgH9BQNVlC0KZIVuq9zZZN0mtFEiZ9XyFCYsx+7r+EA8CrbIHCAoktr+oJjfrU76
-         suJqMGl7D5O7yyzq7Lioklqd6cBuph7n99H+a2cniPQXZKaCI/zGSUyMRMUodc76B5
-         sHDbyx09hLbiS3w3Sb31rdKRhxA4WACZlGSNRXfJ2y+o3OykLxvPb23GWSVetWN2jx
-         iWxhYVdlr2vZgAevkvMGeQukH646CiAjgJ18BpDu8PoJFJF6C+aYrGLQf5OlZW5HtK
-         lbZxXLh0EjKCEidOykYTyc40Bk/XYd68Y+3DTLC/yCPiGsRK/gKG2TdqHY3b7i5b1j
-         MucgjSrqWoAlA==
-X-Nifty-SrcIP: [209.85.167.178]
-Received: by mail-oi1-f178.google.com with SMTP id q10so1564763oib.5;
-        Mon, 26 Sep 2022 10:39:25 -0700 (PDT)
-X-Gm-Message-State: ACrzQf3DtUrEjDCmLL16fSrXRYY9mnLfDJepBVHmRXlUYsnnOMlTWELm
-        TGeAabCMBIO1woHf6TJeiTdGFhRO/9vGRsEPH5s=
-X-Google-Smtp-Source: AMsMyM6FI4csgjZx2tF7mvFhP490u//OkYNu0xENfDLkI/JjUo8UkQaFkURoFvCNNHuyK19mZPnGu1GLeQvvN+8w0B4=
-X-Received: by 2002:a05:6808:1b85:b0:34d:8ce1:d5b0 with SMTP id
- cj5-20020a0568081b8500b0034d8ce1d5b0mr15342309oib.194.1664213964111; Mon, 26
- Sep 2022 10:39:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220922184525.3021522-1-zack@kde.org>
-In-Reply-To: <20220922184525.3021522-1-zack@kde.org>
+        s=dec2015msa; t=1664224593;
+        bh=lb3a5drEKLdeXLqemWkYG7kTPErJKgT8MUmB5b6StBw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=a0YahL0BCSGVdAPKTAvRLbUz1CEmuSqTisgJkZhpPdf5aOB/6N3O7lfN8i6WkILYH
+         /tMFaRU/7p5oMro4eu7J3wmU/ugb8CldXDvypeUz8UwVQQzTotVmzHrejPOpnd8coZ
+         weoiQBHgYWpZuSAIsxGidIM6A0+mD1hPpTcRdEx4Lsd+AiLcuDayy6f1AdWh/qKve7
+         HSO3sHYh67nj4r+EIC1g7lookLFpd/TILUGwwzUxMLy0q+nCDMz84bv7Jd/XXVpai8
+         jDQhhALoBKsisEs8gB/2qRd6VSdDcA/ItUPryjxJNBtZHDeBJj18XQajVT4ZPZEJAn
+         lkX62AmoE/DfA==
+X-Nifty-SrcIP: [133.32.182.133]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 27 Sep 2022 02:38:47 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARRUbcZLNUOY-is=EVC7Ov8-0SHS=207=XbQkkjS59g4Q@mail.gmail.com>
-Message-ID: <CAK7LNARRUbcZLNUOY-is=EVC7Ov8-0SHS=207=XbQkkjS59g4Q@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Add an option to skip vmlinux.bz2 in the rpm's
-To:     Zack Rusin <zackr@vmware.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-ia64@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Nicolas Pitre <npitre@baylibre.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Tom Rix <trix@redhat.com>, linux-modules@vger.kernel.org,
+        llvm@lists.linux.dev
+Subject: [PATCH v2 0/7] Unify <linux/export.h> and <asm/export.h>, remove EXPORT_DATA_SYMBOL(), faster TRIM_UNUSED_KSYMS
+Date:   Tue, 27 Sep 2022 05:36:18 +0900
+Message-Id: <20220926203625.1117261-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
         autolearn_force=no version=3.4.6
@@ -61,81 +61,59 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Sep 23, 2022 at 3:45 AM Zack Rusin <zack@kde.org> wrote:
->
-> From: Zack Rusin <zackr@vmware.com>
->
-> The debug vmlinux takes up the vast majority of space in the built
-> rpm's. While having it enabled by default is a good idea because it
-> makes debugging easier, having an option to skip it is highly valuable
-> for CI/CD systems where small packages are a lot easier to deal with
-> e.g. kernel rpm built using binrpm-pkg on Fedora 36 default 5.19.8 kernel
-> config and localmodconfig goes from 255MB to 65MB which is an almost
-> 4x difference.
->
-> To skip adding vmlinux.bz2 to the built rpm add SKIP_RPM_VMLINUX
-> environment variable which when set to "y", e.g. via
-> "SKIP_RPM_VMLINUX=y make binrpm-pkg" won't include vmlinux.bz2 in the
-> built rpm.
->
-> Signed-off-by: Zack Rusin <zackr@vmware.com>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: Michal Marek <michal.lkml@markovi.net>
-> Cc: Nick Desaulniers <ndesaulniers@google.com>
-> Cc: linux-kbuild@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> ---
->  scripts/package/mkspec | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-> index 7c477ca7dc98..5a71fc0852b0 100755
-> --- a/scripts/package/mkspec
-> +++ b/scripts/package/mkspec
-> @@ -23,6 +23,12 @@ else
->         M=DEL
->  fi
->
-> +if [ "$RPM_SKIP_VMLINUX" = y ]; then
-> +       D=DEL
-> +else
-> +       D=
-> +fi
-> +
->  if grep -q CONFIG_DRM=y .config; then
->         PROVIDES=kernel-drm
->  fi
-> @@ -94,8 +100,8 @@ $M   $MAKE %{?_smp_mflags} INSTALL_MOD_PATH=%{buildroot} modules_install
->         $MAKE %{?_smp_mflags} INSTALL_HDR_PATH=%{buildroot}/usr headers_install
->         cp System.map %{buildroot}/boot/System.map-$KERNELRELEASE
->         cp .config %{buildroot}/boot/config-$KERNELRELEASE
-> -       bzip2 -9 --keep vmlinux
-> -       mv vmlinux.bz2 %{buildroot}/boot/vmlinux-$KERNELRELEASE.bz2
-> +$D     bzip2 -9 --keep vmlinux
-> +$D     mv vmlinux.bz2 %{buildroot}/boot/vmlinux-$KERNELRELEASE.bz2
->  $S$M   rm -f %{buildroot}/lib/modules/$KERNELRELEASE/build
->  $S$M   rm -f %{buildroot}/lib/modules/$KERNELRELEASE/source
->  $S$M   mkdir -p %{buildroot}/usr/src/kernels/$KERNELRELEASE
-> --
-> 2.34.1
->
+This patch set refactors EXPORT_SYMBOL, <linux/export.h> and <asm/export.h>.
+Also, re-implement TRIM_UNUSED_KSYMS in one-pass.
+
+You can still put EXPORT_SYMBOL() in *.S file, very close to the definition,
+but you do not need to care about whether it is a function or a data.
+Remove EXPORT_DATA_SYMBOL().
+
+In v1, I broke ia64 because of missing distinction between functions and data.
+
+V2 handles it correctly.
+If the exported symbols is a function, KSYMTAB_FUNC is output.
+Otherwise, KSYMTAB_DATA is output.
 
 
 
+Masahiro Yamada (7):
+  kbuild: generate KSYMTAB entries by modpost
+  ia64,export.h: replace EXPORT_DATA_SYMBOL* with EXPORT_SYMBOL*
+  modpost: merge sym_update_namespace() into sym_add_exported()
+  modpost: use null string instead of NULL pointer for default namespace
+  modpost: squash report_sec_mismatch() and remove enum mismatch
+  kbuild: implement CONFIG_TRIM_UNUSED_KSYMS without recursion
+  kbuild: move modules.builtin(.modinfo) rules to Makefile.vmlinux_o
 
-This came from fc370ecfdb37b853bd8e2118c7ad9f99fa9ac5cd
-I do not know how useful or annoying it is.
-Presumably, it was a cheesy work, and rather annoying than useful.
+ .gitignore                      |   1 -
+ Makefile                        |  24 +---
+ arch/ia64/include/asm/Kbuild    |   1 +
+ arch/ia64/include/asm/export.h  |   3 -
+ arch/ia64/kernel/head.S         |   2 +-
+ arch/ia64/kernel/ivt.S          |   2 +-
+ include/asm-generic/export.h    |  83 +-----------
+ include/linux/export-internal.h |  67 +++++++++-
+ include/linux/export.h          | 114 +++-------------
+ kernel/module/internal.h        |   1 +
+ kernel/module/main.c            |   1 -
+ scripts/Makefile.build          |  15 +--
+ scripts/Makefile.modpost        |   8 +-
+ scripts/Makefile.vmlinux_o      |  26 +++-
+ scripts/adjust_autoksyms.sh     |  73 ----------
+ scripts/basic/fixdep.c          |   3 +-
+ scripts/check-local-export      |   4 +-
+ scripts/gen_autoksyms.sh        |  62 ---------
+ scripts/gen_ksymdeps.sh         |  30 -----
+ scripts/link-vmlinux.sh         |  12 +-
+ scripts/mod/modpost.c           | 228 ++++++++++++++++----------------
+ scripts/mod/modpost.h           |   1 +
+ scripts/remove-stale-files      |   2 +
+ 23 files changed, 258 insertions(+), 505 deletions(-)
+ delete mode 100644 arch/ia64/include/asm/export.h
+ delete mode 100755 scripts/adjust_autoksyms.sh
+ delete mode 100755 scripts/gen_autoksyms.sh
+ delete mode 100755 scripts/gen_ksymdeps.sh
 
+-- 
+2.34.1
 
-In debian (scripts/package/mkdebian), this kind of stuff is
-a separate debug package, and only built when CONFIG_DEBUG_INFO=y.
-
-
-Take more time in case somebody may come up with a better idea.
-
-
-
---
-Best Regards
-Masahiro Yamada
