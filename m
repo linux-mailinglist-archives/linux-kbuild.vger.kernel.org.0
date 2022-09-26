@@ -2,81 +2,123 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 06D625E9B4C
-	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Sep 2022 09:58:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA6135E9BB2
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Sep 2022 10:10:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234174AbiIZH6C (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 26 Sep 2022 03:58:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40810 "EHLO
+        id S233832AbiIZIKd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 26 Sep 2022 04:10:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234195AbiIZH5b (ORCPT
+        with ESMTP id S234247AbiIZIKN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 26 Sep 2022 03:57:31 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F34E3B96C;
-        Mon, 26 Sep 2022 00:51:33 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id z13so12240997ejp.6;
-        Mon, 26 Sep 2022 00:51:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date;
-        bh=JTLxaDlZ0s+4KzzKxJ2iMAsNQ8edLuUfFix3kOf4hxE=;
-        b=IUYcYkeAKAq3Z9pkfcGCw7GFVb5ytx/L103zWixWaVGGHUW4qaqsi7qFcQb8U9ylb+
-         ZH86Rft2dsUKJJPRUWtJ5SbNWB4vsOoMJNFE+RdK2CQvW8sUrWj7ZCHcXFtyYAbTbzre
-         05ZZb0uTlCJrtnHgUYE3Xmren2i+EwAw2RU0lcC0cs3q9HG0Ad8Uv35WTJuvWm79HW5P
-         K9F9i3i+Ol/SXFaX85xP+/7swtxTbQVL4rKPAMc8iyX8adFMUbWloN1UPCTGZq2Il07D
-         +TiUZOOKWEghMgGbQMmJULxQ0z/4vUcpXar06SX6FjLR2L+k5eC9evSI2aDdcl09Dz7X
-         ZLQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=JTLxaDlZ0s+4KzzKxJ2iMAsNQ8edLuUfFix3kOf4hxE=;
-        b=KmgHMocMQ9Y6YJbWL5ftrssp3VgQoHZN2LND2utvLdy049Mg7UcrnNgu0sMK0kamD/
-         uyDfLCrDk3JbWyeUchI5irO1sB2GGWd8eglzOHjomg74TvTWHDtI4XRq9tG1MBLpSZmN
-         cOqz9QAse/FO6g5DQfDhFORiuiwccz4t2lbGoHpSBLut+FR+OysWnKjo3fDrgUwYflsG
-         FEmKXhSrfLg3HLSoY4Xsp/ct6dBTykil6ZEPnNzDrmOzf/8WkAHPU/qAZXN5rfsJUC3X
-         3OIKUzFLqGxuKv5tkCBP0ZJnn90rp8ZmmMNBzRsCvWvl8AgjmU5dDuHiFGAGwjj6C88N
-         wCUQ==
-X-Gm-Message-State: ACrzQf0sib6u/u7WsDnNp570DeSc9GQFHvH1Gmvt4Jb19kA6b55HKwsc
-        BsxsAljRsmyVNDpcCWWZmYHtcRa+EIN8TK+ApzM=
-X-Google-Smtp-Source: AMsMyM54PjI7r9RBNywo7Vr4XI825HD15QzPS4xTM54XWF4bEobGfMMFwon7099h/YE9taKhiPm8G8gbvIN0ntLE4AA=
-X-Received: by 2002:a17:906:9c83:b0:779:c14c:55e4 with SMTP id
- fj3-20020a1709069c8300b00779c14c55e4mr16698857ejc.619.1664178690895; Mon, 26
- Sep 2022 00:51:30 -0700 (PDT)
-MIME-Version: 1.0
-From:   Nick Desaulniers <nick.desaulniers@gmail.com>
-Date:   Mon, 26 Sep 2022 00:51:19 -0700
-Message-ID: <CAH7mPvj64Scp6_Nbaj8KOfkoV5f7_N5L=Tv5Z9zGyn5SS+gsUw@mail.gmail.com>
-Subject: Any interest in building the Linux kernel from a MacOS host?
-To:     torvalds@linux-foundation.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        "marcan@marcan.st" <marcan@marcan.st>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>, llvm@lists.linux.dev,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mon, 26 Sep 2022 04:10:13 -0400
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E90C91572F;
+        Mon, 26 Sep 2022 01:10:03 -0700 (PDT)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailout.nyi.internal (Postfix) with ESMTP id 3F3B35C00D9;
+        Mon, 26 Sep 2022 04:10:02 -0400 (EDT)
+Received: from imap47 ([10.202.2.97])
+  by compute2.internal (MEProxy); Mon, 26 Sep 2022 04:10:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+         h=cc:cc:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm2; t=1664179802; x=1664266202; bh=kU
+        oCi2yT1GwD1ISOCgS7Z4CUQnF93+E9jTByctv07pA=; b=kiA47cQdqnCwoNrsgU
+        wIO8oxm2UF8wrn048UyULmo6cmWkdwJTjaFpTAshkknSSK5s7ECibWNzoYNzeCoE
+        wmgQ2Oa4o7IMYPEXAHvtOdFG3lYNtuLdjOs8QeAqUAgOeTLn2VziDVg8uPE7mibz
+        1duHcPWT5/0o0pLA0ExVZhwyvZSNPfe1ToIL42MsVNh+wJo2vawOfcNcexyA1bvs
+        9EyynETxlwt/VoXSphFQFumH3K4XCvFjbSvwaF/ZjIUAfstW0NEuDvuAI/wj5Xst
+        5plKpbRgUBRd7wmGaGFXg7UFOyxzbAo+TyQYhDuyG2TakvpLWEGkgI/hG3I53xox
+        iksQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm2; t=1664179802; x=1664266202; bh=kUoCi2yT1GwD1ISOCgS7Z4CUQnF9
+        3+E9jTByctv07pA=; b=KKLgz9moR3Jb69T09+NZHuE/0e0JD65ExOz3uPzge2XY
+        24ooOcgBZJrQuxqF65s0gTlNJtmW2iE0ki1ClcDQwoYoJhx+Atom3l0rW7CzJ4za
+        VEpvFhEaV1zdFzYm5KttM2fUN39g688msOtIIlckBBzozypTTUG3AxjsvrAF4Pmu
+        KrCxzxMpjfkOnKcKvNUEI8VvOcP7iRIIUWeyYhL0SM5nBWLxJTzK8ocqOqk1BxRZ
+        BDfbMs65IrQ9QRJKxTvl/AR/YlRf4dz0hNAGYrHOcAoE0vgrCJ6btss5sMQaY3aW
+        Hn2B5fNQhVbObmIkodLIPKHLZwZjayY/XZaWDwj7hQ==
+X-ME-Sender: <xms:WV4xYzhIDIDVXGgSFLsmg4vdcx1gwkftdb0oMlFvxubCzA3Pz9yvXg>
+    <xme:WV4xYwAss_mJITZFcbTf1QYd2ikzI8RB7nsCpi6gwhk0763cp29bG_yjz_U9yzJ-t
+    dfbfV942WGb8V_YMjs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeegvddgtddvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfufhv
+    vghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrf
+    grthhtvghrnhepgeegkeektdejveeiteffvddugffggeeuudehvdfgtddvudfgjedtuedu
+    vdevueevnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdr
+    uggvvh
+X-ME-Proxy: <xmx:WV4xYzEUMtKswNS3oToI_WJsMsmiVxdC7GfmYQuMpgw3dXK6kUa1BA>
+    <xmx:WV4xYwQLht2Tx4uUZZTthtsabBN7bZ1rbPqGLpnU8QfQPOmRSNwTtg>
+    <xmx:WV4xYwwN7JuznA08G2hCE0tmMjrYL26lpQbwifZcXZz5dPFBReAAUw>
+    <xmx:Wl4xYzy2P6-GQXVmsGzTXZB3usRbZZhVPeRjBTW6KHmGLCv7KnGaMQ>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 9E3F3A6007C; Mon, 26 Sep 2022 04:10:01 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-935-ge4ccd4c47b-fm-20220914.001-ge4ccd4c4
+Mime-Version: 1.0
+Message-Id: <ba821ade-1573-4c35-8fbb-285283817147@app.fastmail.com>
+In-Reply-To: <CAH7mPvj64Scp6_Nbaj8KOfkoV5f7_N5L=Tv5Z9zGyn5SS+gsUw@mail.gmail.com>
+References: <CAH7mPvj64Scp6_Nbaj8KOfkoV5f7_N5L=Tv5Z9zGyn5SS+gsUw@mail.gmail.com>
+Date:   Mon, 26 Sep 2022 10:09:41 +0200
+From:   "Sven Peter" <sven@svenpeter.dev>
+To:     "Nick Desaulniers" <nick.desaulniers@gmail.com>,
+        "Linus Torvalds" <torvalds@linux-foundation.org>,
+        "Masahiro Yamada" <masahiroy@kernel.org>,
+        "Hector Martin" <marcan@marcan.st>
+Cc:     "Nick Desaulniers" <ndesaulniers@google.com>,
+        clang-built-linux <llvm@lists.linux.dev>,
+        "Linux Kbuild mailing list" <linux-kbuild@vger.kernel.org>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
         asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Subject: Re: Any interest in building the Linux kernel from a MacOS host?
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Not sure if this is potentially interesting to anyone but I was able
-to get the kernel building from MacOS my M2 Air with a small amount of
-effort (read: duct tape and bailing wire).  If this might seem helpful
-to anyone's workflow, I wouldn't mind pursuing this (with some
-cleanup, sending a more formal patch set).  Maybe this helps us
-bootstrap or get Linux up and running sooner on these machines?
+On Mon, Sep 26, 2022, at 09:51, Nick Desaulniers wrote:
+> Not sure if this is potentially interesting to anyone but I was able
+> to get the kernel building from MacOS my M2 Air with a small amount of
+> effort (read: duct tape and bailing wire).  
 
-Take a look at the commit message linked below for the trials & tribulations:
-https://github.com/ClangBuiltLinux/linux/commit/f06333e29addbc3d714adb340355f471c1dfe95a
+I originally tried exactly that last year but I guess my duct tape wasn't
+quite strong enough ;)
 
-Thanks,
-~Nick Desaulniers
+> If this might seem helpful
+> to anyone's workflow, I wouldn't mind pursuing this (with some
+> cleanup, sending a more formal patch set).  Maybe this helps us
+> bootstrap or get Linux up and running sooner on these machines?
+
+I've been either using a Linux VM or just a bare metal system running
+on these machine for quite a while now to build kernels. This would've
+been useful when I originally started though and VMs weren't working very
+well yet so maybe it's still worth pursuing.
+
+
+>
+> Take a look at the commit message linked below for the trials & 
+> tribulations:
+> https://github.com/ClangBuiltLinux/linux/commit/f06333e29addbc3d714adb340355f471c1dfe95a
+>
+> Thanks,
+> ~Nick Desaulniers
+
+
+Best,
+
+
+Sven
