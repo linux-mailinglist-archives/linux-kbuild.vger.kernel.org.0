@@ -2,74 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 781FB5E9092
-	for <lists+linux-kbuild@lfdr.de>; Sun, 25 Sep 2022 02:52:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA07C5E97B3
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Sep 2022 03:27:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229589AbiIYAwy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 24 Sep 2022 20:52:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49128 "EHLO
+        id S233133AbiIZB1j (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 25 Sep 2022 21:27:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230507AbiIYAww (ORCPT
+        with ESMTP id S232951AbiIZB1j (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 24 Sep 2022 20:52:52 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1354E4198D;
-        Sat, 24 Sep 2022 17:52:52 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BFE1EB80E04;
-        Sun, 25 Sep 2022 00:52:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6D295C433B5;
-        Sun, 25 Sep 2022 00:52:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664067170;
-        bh=j9am2kZAdO+nRId7qVnK9cQT/UzppQODSnmNopj4yVQ=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=u4FzjlgVU5yFeaEcz1peGDftekCoKgrg/vzzdksDMV49+TlXGVco2pwJ1GYuvkdGT
-         3dSQAeTeeoxOndTy9wsh61et9iU9HG4ThSlPI+j9RCrcq7X30l5/v1zE//JcY0Cdl0
-         tVFaf1QBwoTp2W8WpJor6Ndrmhl0XCN7f5VkSmdte43by0TrSsORmnwzo6jtFN4u5H
-         2K6nuHIxNIkJoH4za/OC+tU4aPxOIbRT0PCF+iit4olumOpgvVHyeQgNk/JIeAU7cV
-         vap1M7/Q6a5lLDA/iN7NkPVIDXiwIIy7dRuwm/aQnYEoJb1mG0D2pYcacTwXhysQRn
-         uJtqomrqhKbjg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4E22CE4D03B;
-        Sun, 25 Sep 2022 00:52:50 +0000 (UTC)
-Subject: Re: [GIT PULL] Kbuild fixes for v6.0-rc7
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <CAK7LNATDVBT1NKZtUkjk3GpqxEtOc8JLjY3XMjREHrp94t13-w@mail.gmail.com>
-References: <CAK7LNATDVBT1NKZtUkjk3GpqxEtOc8JLjY3XMjREHrp94t13-w@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAK7LNATDVBT1NKZtUkjk3GpqxEtOc8JLjY3XMjREHrp94t13-w@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.0-3
-X-PR-Tracked-Commit-Id: 32ef9e5054ec0321b9336058c58ec749e9c6b0fe
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 105a36f3694edc680f3e9318cdd3c03722e42554
-Message-Id: <166406717031.14733.7857303199549809776.pr-tracker-bot@kernel.org>
-Date:   Sun, 25 Sep 2022 00:52:50 +0000
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Sun, 25 Sep 2022 21:27:39 -0400
+Received: from conuserg-09.nifty.com (conuserg-09.nifty.com [210.131.2.76])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C2862870C;
+        Sun, 25 Sep 2022 18:27:37 -0700 (PDT)
+Received: from zoe.. (133-32-182-133.west.xps.vectant.ne.jp [133.32.182.133]) (authenticated)
+        by conuserg-09.nifty.com with ESMTP id 28Q1QPJ3025665;
+        Mon, 26 Sep 2022 10:26:25 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 28Q1QPJ3025665
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1664155585;
+        bh=fUzRAJ3xUhcdybtGiaG/LLCfLPKmRi+rkIOIMmXKiNE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Lq2RbSwSBw4LKwWHJN5jkgjwVO9JX7TbpynkoWh7ibJve6XlCiokBn9eHqu/JuE8p
+         f+fzaqOh79uCSO6O/ClkJkK3TTb0THOJhtjE+6bqs3Y1UubCZKXZEGPUrDw2+54W4j
+         KmgIR9hL5e6Nihc3S/WyYYBxIrUAKmy/YKK2QVj5CeazNfnOseAvcOAdffQM77nrVK
+         I6HkXocuJuiSQGSpiHCibRSsKS13AOy6JkMDkH1IRp2II98z4DVyTdi/IH6HCAVGgj
+         pRA+0Bdakdk3Fj44QiPFynT9+RvZzuO76kqxC/NOCmpQ3hErIJ5H8lDJLvR3jX5nz+
+         rRy6WBvASNclw==
+X-Nifty-SrcIP: [133.32.182.133]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Subject: [PATCH] kbuild: suppress warnings for single builds of vmlinux.lds, *.a, etc.
+Date:   Mon, 26 Sep 2022 10:26:09 +0900
+Message-Id: <20220926012609.3976305-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The pull request you sent on Sun, 25 Sep 2022 03:34:44 +0900:
+vmlinux-deps is unneeded because the dependency can directly list
+$(KBUILD_LDS) $(KBUILD_VMLINUX_OBJS) $(KBUILD_VMLINUX_LIBS)
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.0-3
+Do not cancel the rule; building an individual vmlinux.lds, built-in.a,
+or lib.a is working now, but the warning "overriding recipe for target"
+is shown.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/105a36f3694edc680f3e9318cdd3c03722e42554
+Without this patch:
 
-Thank you!
+  $ make arch/x86/kernel/vmlinux.lds
+  Makefile:1798: warning: overriding recipe for target 'arch/x86/kernel/vmlinux.lds'
+  Makefile:1162: warning: ignoring old recipe for target 'arch/x86/kernel/vmlinux.lds'
+    [ snip ]
+    LDS     arch/x86/kernel/vmlinux.lds
 
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ Makefile | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 244c07f1cc70..3e6974b4ebf2 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1118,7 +1118,8 @@ endif
+ export KBUILD_VMLINUX_OBJS KBUILD_VMLINUX_LIBS
+ export KBUILD_LDS          := arch/$(SRCARCH)/kernel/vmlinux.lds
+ 
+-vmlinux-deps := $(KBUILD_LDS) $(KBUILD_VMLINUX_OBJS) $(KBUILD_VMLINUX_LIBS)
++# The actual objects are generated when descending.
++$(sort $(KBUILD_LDS) $(KBUILD_VMLINUX_OBJS) $(KBUILD_VMLINUX_LIBS)): .
+ 
+ # Recurse until adjust_autoksyms.sh is satisfied
+ PHONY += autoksyms_recursive
+@@ -1157,10 +1158,6 @@ vmlinux: scripts/link-vmlinux.sh vmlinux.o $(KBUILD_LDS) FORCE
+ 
+ targets := vmlinux
+ 
+-# The actual objects are generated when descending,
+-# make sure no implicit rule kicks in
+-$(sort $(vmlinux-deps)): . ;
+-
+ filechk_kernel.release = \
+ 	echo "$(KERNELVERSION)$$($(CONFIG_SHELL) $(srctree)/scripts/setlocalversion $(srctree))"
+ 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.34.1
+
