@@ -2,208 +2,230 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DB895ECA61
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Sep 2022 19:02:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93F845ED03F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Sep 2022 00:26:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232139AbiI0RCe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 27 Sep 2022 13:02:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54774 "EHLO
+        id S230118AbiI0W0J (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 27 Sep 2022 18:26:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232091AbiI0RCX (ORCPT
+        with ESMTP id S229567AbiI0W0I (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 27 Sep 2022 13:02:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67599EC56F;
-        Tue, 27 Sep 2022 10:02:21 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AA1B660691;
-        Tue, 27 Sep 2022 17:02:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E01FBC433C1;
-        Tue, 27 Sep 2022 17:02:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664298140;
-        bh=JCOanzPCr3oWRV3li2/XhhZZdBH07whiMGtrcocbS5o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uuH2xvOc9JWfUDgIUBwiaABl73mOIi6AvtG60UI6YKqHCQJfFb1wxD7GxK+zze9Jk
-         mvFlDwCz5/g2/Vu4Fe2vbEncyC79edGp8rKRkYcnHx33yoPixlLjQIXYpq1seZ498q
-         D7CiA1SWGGh+k8Rpoesm96GFOZlva74hSPq8pI1flI0ZV90Iuq9/CXANJjn/Bnuk7c
-         OZKVgb7+rtF22rHRFugwziCsvQk2Kpn3sdcDNeySgsFOz8GpoaI1DlbHAN95MiPDqt
-         jRXw+RzN3Jjnv+/SWxqwTgVf3SrByEH/7eDPI3BTl0BksdWKwHx7Kx5H5d02/n/vax
-         fJkhLb0RvqyFw==
-Date:   Tue, 27 Sep 2022 10:02:17 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Zeng Heng <zengheng4@huawei.com>, masahiroy@kernel.org,
-        michal.lkml@markovi.net, akpm@linux-foundation.org,
-        peterz@infradead.org, keescook@chromium.org, davidgow@google.com,
-        jpoimboe@kernel.org, dan.j.williams@intel.com, ojeda@kernel.org,
-        isabbasso@riseup.net, dmitrii.bundin.a@gmail.com, vbabka@suse.cz,
-        linux@rasmusvillemoes.dk, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, liwei391@huawei.com,
-        weiyongjun1@huawei.com, clang-built-linux <llvm@lists.linux.dev>,
-        linux-toolchains <linux-toolchains@vger.kernel.org>
-Subject: Re: [PATCH -next] Makefile: add implicit enum-conversion check for
- compile build
-Message-ID: <YzMsmYTzX2Ni5zGP@dev-arch.thelio-3990X>
-References: <20220927153125.811911-1-zengheng4@huawei.com>
- <CAKwvOdm2r_PPogCecGL4TMeYLq3qNkCbt7zqYTLmQf-PAQMGMg@mail.gmail.com>
+        Tue, 27 Sep 2022 18:26:08 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 964291CDB67
+        for <linux-kbuild@vger.kernel.org>; Tue, 27 Sep 2022 15:26:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=d8EJAmjmjZ/ULOV1Kn914cukTj85eQIB91jRsExRs6U=; b=ZWT2JDxu+N+eyyS2nMPl0cKjIO
+        Q6HF3FEwic0cGz1NLb2O/vXKClrFdITIaSTlmTYBnMe4BYEOJWXYgSQMj/70RMeW6apODGtVZKIQu
+        hB9kv3K3Ih4YWp50DlPKQyhHC22Wjhq/+xXbKMcJwIB/THRFxqe4GyrFg2jxLn2B6V9m//2o/M6OE
+        nQlB3t5DtG8dwsG9/XfhlBkzQm1SAYf1tgMVv4kTt8NNQao6sy5AMI5MuVfke7dZaKb0COFmM1nWn
+        C09VzE+art4CLf+S+aK4+WLwR/65JZ2zFjCuL/R/pyhZ+u++Ovnf5GvkiEpqVwqktvzX64v+4OZcE
+        s2b4iShQ==;
+Received: from [2601:1c2:d80:3110::a2e7]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1odJ1d-00CuYK-A1; Tue, 27 Sep 2022 22:26:01 +0000
+Message-ID: <e628cb91-0ed8-993e-7904-c7bf010b7462@infradead.org>
+Date:   Tue, 27 Sep 2022 15:25:59 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKwvOdm2r_PPogCecGL4TMeYLq3qNkCbt7zqYTLmQf-PAQMGMg@mail.gmail.com>
-X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v4] kbuild: rewrite check-local-export in sh/awk
+Content-Language: en-US
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Owen Rafferty <owen@owenrafferty.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>
+References: <CAK7LNATtFv9C4ppgxBWD+R5JtHUtCMb5yqvP1Vxsr2Ki7U466Q@mail.gmail.com>
+ <b0cf49ac1a3ece40e133fa80e3ceae7891d6ed8d.1661979510.git.owen@owenrafferty.com>
+ <CAK7LNARYiJNiFKL2pQWCOocxkYWiJ66S4gBDE=54tFYJnfO--g@mail.gmail.com>
+ <CAK7LNAQBijdVUVE3zpLCp2wXJ6FeC9Ar7ii_bMTPYWvGKgJJTQ@mail.gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <CAK7LNAQBijdVUVE3zpLCp2wXJ6FeC9Ar7ii_bMTPYWvGKgJJTQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Sep 27, 2022 at 09:45:17AM -0700, Nick Desaulniers wrote:
-> On Tue, Sep 27, 2022 at 8:15 AM Zeng Heng <zengheng4@huawei.com> wrote:
-> >
-> > Provide implicit enum-conversion warning option
-> > in general build. When it set enabled, it can
-> > detect implicit enum type conversion and find
-> > potential conversion errors like below
-> > (use "allmodconfig"):
-> >
-> > drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/display_mode_vba_20.c:3904:46:
-> > error: implicit conversion from ‘enum <anonymous>’ to ‘enum odm_combine_mode’ [-Werror=enum-conversion]
-> >  3904 |       locals->ODMCombineEnablePerState[i][k] = true;
-> >       |                                              ^
-> >
-> > The '-Wenum-conversion' could be regarded as
-> > effective check on compile runtime and
-> > call attention on potential mistakes.
-> >
-> > Anothor practical example could be referred to:
-> > https://lore.kernel.org/all/CADnq5_OE0yZvEYGu82QJHL9wvVcTFZrmeTgX7URgh7FVA=jqYg@mail.gmail.com
-> >
-> > "-Wenum-conversion" was firstly introduced from
-> > GNU gcc-10.
-> 
-> What about clang? ;)
-> 
-> >
-> > Although "-Wenum-conversion" could be enabled
-> > by "-Wextra" when compiling with 'W=1' option,
-> > there are many warnings generated by '-Wextra'
-> > that cause too much noise in a build.
-> 
-> With clang, I believe that -Wenum-conversion is part of -Wall or
-> -Wextra; so enabling this explicitly is only necessary for GCC.  I
-> wonder why it's not part of -Wall or -Wextra for GCC?  Perhaps worth a
-> bug report/feature request?
+Hi,
 
-With clang, -Wenum-conversion is just default enabled, not even behind
--Wall:
-
-$ cat test.c
-enum enum1 { A = 1 };
-enum enum2 { B = 2 };
-
-enum enum1 foo(enum enum2 bar)
-{
-    return bar;
-}
-
-$ clang -fsyntax-only test.c
-test.c:11:9: warning: implicit conversion from enumeration type 'enum enum2' to different enumeration type 'enum enum1' [-Wenum-conversion]
-        return bar;
-        ~~~~~~ ^~~
-1 warning generated.
-
-On the other hand, GCC does have it under -Wextra:
-
-$ gcc -fsyntax-only test.c
-
-$ gcc -Wextra -fsyntax-only test.c
-test.c: In function ‘foo’:
-test.c:6:16: warning: implicit conversion from ‘enum enum2’ to ‘enum enum1’ [-Wenum-conversion]
-    6 |         return bar;
-      |                ^~~
-
-But the kernel does not build with -Wextra aside from W=[123], hence
-this warning has to be explicitly requested for GCC.
-
-> >
-> > Seeing the details from the following link:
-> > https://gcc.gnu.org/onlinedocs/gcc-11.3.0/gcc/Warning-Options.html
-> >
-> > Because there are still some concerned warnings
-> > exist, the patch marks the option disabled in default
-> > for avoiding compile failed like using "allmodconfig".
-
-But there is no dependency to avoid this getting enabled by allmodconfig
-(such as 'depends on !COMPILE_TEST') so I don't see the point in the
-current form; 'default n' does nothing to prevent it. Regardless, I
-agree with Nick's sentiment below.
-
-> > Signed-off-by: Zeng Heng <zengheng4@huawei.com>
-> > ---
-> >  Makefile          | 5 +++++
-> >  lib/Kconfig.debug | 7 +++++++
-> >  2 files changed, 12 insertions(+)
-> >
-> > diff --git a/Makefile b/Makefile
-> > index ebd48fc956a3..1790a3624358 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -880,6 +880,11 @@ endif
-> >  KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
-> >  KBUILD_CFLAGS += $(call cc-disable-warning, unused-const-variable)
-> >
-> > +# check implicit enum conversion
-> > +ifdef CONFIG_ENUM_CONVERSION
-> > +KBUILD_CFLAGS += -Wenum-conversion
-> > +endif
-> 
-> Having a kconfig for this is overkill.  cc-option with a comment about
-> the compiler default versions is the way to go.
-
-Agreed. If there is some reason -Wenum-conversion cannot be enabled for
-GCC right now (such as existing warnings, which the commit message
-appears to alude to), they should be cleaned up first then
--Wenum-conversion should just be unconditionally enabled for all
-compilers that support it via cc-option, not half enabled via Kconfig so
-that maybe people will clean up the warnings. That is not how enabling
-warnings works:
-
-https://lore.kernel.org/CAHk-=wg-mH-_GYpkhz_psjBWG6ZcjKnPo83fg7YMj_by+-LRTQ@mail.gmail.com/
-
-> > +
-> >  # These result in bogus false positives
-> >  KBUILD_CFLAGS += $(call cc-disable-warning, dangling-pointer)
-> >
-> > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> > index 4f2b81229a2f..a64e06a747d8 100644
-> > --- a/lib/Kconfig.debug
-> > +++ b/lib/Kconfig.debug
-> > @@ -417,6 +417,13 @@ config FRAME_WARN
-> >           Setting this too low will cause a lot of warnings.
-> >           Setting it to 0 disables the warning.
-> >
-> > +config ENUM_CONVERSION
-> > +       bool "Warn for implicit enum conversion"
-> > +       depends on GCC_VERSION >= 100300
-> > +       default n
-> > +       help
-> > +         Tell gcc to warn at build time for implicit enum conversion.
-> > +
-> >  config STRIP_ASM_SYMS
-> >         bool "Strip assembler-generated symbols during link"
-> >         default n
-> > --
-> > 2.25.1
-> >
+On 9/6/22 02:28, Masahiro Yamada wrote:
+> On Sun, Sep 4, 2022 at 1:01 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>>
+>> On Thu, Sep 1, 2022 at 6:03 AM Owen Rafferty <owen@owenrafferty.com> wrote:
+>>>
+>>> Signed-off-by: Owen Rafferty <owen@owenrafferty.com>
+>>> ---
+>>
+>>
+>> Please input something in the commit log.
+>>
+>> I think the benchmark in v2 is worth mentioning
+>> because "awk is faster than bash" is one benefit
+>> of applying this patch.
+>>
+>>
 > 
 > 
-> -- 
-> Thanks,
-> ~Nick Desaulniers
 > 
+> Applied to linux-kbuild. Thanks.
+> 
+> 
+> (V5 was not delivered to ML somehow,
+> but I found it in my mailbox.)
+
+Yeah, I haven't seen that one either.
+
+For whatever is in linux-next-20220927, I am seeing something
+unpleasant. I'm not positive that it's due to this patch, so I'm
+still checking/testing (but I'm about to leave home for awhile so
+I wanted to go ahead and let people know about this).
+
+I do N number of randconfig builds in a script (say 10).
+What I am seeing is that when an 'nm' error happens, the
+script is Terminated and not continued. E.g., if the error
+is on randconfig build #4, builds 5-10 are never started.
+The controlling script dies.
+
+
+>>>  scripts/check-local-export | 96 +++++++++++++++++++-------------------
+>>>  1 file changed, 47 insertions(+), 49 deletions(-)
+>>>
+>>> diff --git a/scripts/check-local-export b/scripts/check-local-export
+>>> index 6ccc2f467416..0c049ff44aca 100755
+>>> --- a/scripts/check-local-export
+>>> +++ b/scripts/check-local-export
+>>> @@ -1,26 +1,14 @@
+>>> -#!/usr/bin/env bash
+>>> +#!/bin/sh
+>>>  # SPDX-License-Identifier: GPL-2.0-only
+>>>  #
+>>>  # Copyright (C) 2022 Masahiro Yamada <masahiroy@kernel.org>
+>>> +# Copyright (C) 2022 Owen Rafferty <owen@owenrafferty.com>
+>>>  #
+>>>  # Exit with error if a local exported symbol is found.
+>>>  # EXPORT_SYMBOL should be used for global symbols.
+>>>
+>>>  set -e
+>>>
+>>> -# catch errors from ${NM}
+>>> -set -o pipefail
+>>> -
+>>> -# Run the last element of a pipeline in the current shell.
+>>> -# Without this, the while-loop would be executed in a subshell, and
+>>> -# the changes made to 'symbol_types' and 'export_symbols' would be lost.
+>>> -shopt -s lastpipe
+>>> -
+>>> -declare -A symbol_types
+>>> -declare -a export_symbols
+>>> -
+>>> -exit_code=0
+>>> -
+>>>  # If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
+>>>  # 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
+>>>  # '2>/dev/null'. However, it suppresses real error messages as well. Add a
+>>> @@ -29,43 +17,53 @@ exit_code=0
+>>>  # TODO:
+>>>  # Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
+>>>  # binutils to 2.37, llvm to 13.0.0.
+>>> -# Then, the following line will be really simple:
+>>> -#   ${NM} --quiet ${1} |
+>>> +# Then, the following line will be simpler:
+>>> +#   { ${NM} --quiet ${1} || kill 0; } |
+>>> +
+>>> +{ ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; kill 0; } } |
+>>> +${AWK} -v "file=${1}" '
+>>> +BEGIN {
+>>> +       i = 0
+>>> +}
+>>> +
+>>> +# Skip the line if the number of fields is less than 3.
+>>> +#
+>>> +# case 1)
+>>> +#   For undefined symbols, the first field (value) is empty.
+>>> +#   The outout looks like this:
+>>> +#     "                 U _printk"
+>>> +#   It is unneeded to record undefined symbols.
+>>> +#
+>>> +# case 2)
+>>> +#   For Clang LTO, llvm-nm outputs a line with type t but empty name:
+>>> +#     "---------------- t"
+>>> +!length($3) {
+>>> +       next
+>>> +}
+>>>
+>>> -{ ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; false; } } |
+>>> -while read value type name
+>>> -do
+>>> -       # Skip the line if the number of fields is less than 3.
+>>> -       #
+>>> -       # case 1)
+>>> -       #   For undefined symbols, the first field (value) is empty.
+>>> -       #   The outout looks like this:
+>>> -       #     "                 U _printk"
+>>> -       #   It is unneeded to record undefined symbols.
+>>> -       #
+>>> -       # case 2)
+>>> -       #   For Clang LTO, llvm-nm outputs a line with type 't' but empty name:
+>>> -       #     "---------------- t"
+>>> -       if [[ -z ${name} ]]; then
+>>> -               continue
+>>> -       fi
+>>> +# save (name, type) in the associative array
+>>> +{ symbol_types[$3]=$2 }
+>>>
+>>> -       # save (name, type) in the associative array
+>>> -       symbol_types[${name}]=${type}
+>>> +# append the exported symbol to the array
+>>> +($3 ~ /^__ksymtab_/) {
+>>> +       export_symbols[i] = $3
+>>> +       sub(/^__ksymtab_/, "", export_symbols[i])
+>>> +       i++
+>>> +}
+>>>
+>>> -       # append the exported symbol to the array
+>>> -       if [[ ${name} == __ksymtab_* ]]; then
+>>> -               export_symbols+=(${name#__ksymtab_})
+>>> -       fi
+>>> -done
+>>> +END {
+>>> +       exit_code = 0
+>>> +       for (j = 0; j < i; ++j) {
+>>> +               name = export_symbols[j]
+>>> +               # nm(3) says "If lowercase, the symbol is usually local"
+>>> +               if (symbol_types[name] ~ /[a-z]/) {
+>>> +                       printf "%s: error: local symbol %s was exported\n",
+>>> +                               file, name | "cat 1>&2"
+>>> +                       exit_code = 1
+>>> +               }
+>>> +       }
+>>>
+>>> -for name in "${export_symbols[@]}"
+>>> -do
+>>> -       # nm(3) says "If lowercase, the symbol is usually local"
+>>> -       if [[ ${symbol_types[$name]} =~ [a-z] ]]; then
+>>> -               echo "$@: error: local symbol '${name}' was exported" >&2
+>>> -               exit_code=1
+>>> -       fi
+>>> -done
+>>> +       exit exit_code
+>>> +}'
+>>>
+>>> -exit ${exit_code}
+>>> +exit $?
+>>> --
+>>> 2.37.3
+
+Thanks.
+
+-- 
+~Randy
