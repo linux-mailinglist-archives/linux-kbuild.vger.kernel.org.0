@@ -2,129 +2,177 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F007B5EC760
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Sep 2022 17:15:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A13BA5EC9E3
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Sep 2022 18:46:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230482AbiI0PPh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 27 Sep 2022 11:15:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34504 "EHLO
+        id S233015AbiI0QqS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 27 Sep 2022 12:46:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230207AbiI0PPg (ORCPT
+        with ESMTP id S233171AbiI0Qph (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 27 Sep 2022 11:15:36 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2768BCBD;
-        Tue, 27 Sep 2022 08:15:33 -0700 (PDT)
-Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.53])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4McNRb3128zHppC;
-        Tue, 27 Sep 2022 23:13:15 +0800 (CST)
-Received: from huawei.com (10.175.103.91) by dggpemm500022.china.huawei.com
- (7.185.36.162) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Tue, 27 Sep
- 2022 23:15:30 +0800
-From:   Zeng Heng <zengheng4@huawei.com>
-To:     <masahiroy@kernel.org>, <michal.lkml@markovi.net>,
-        <ndesaulniers@google.com>, <akpm@linux-foundation.org>,
-        <peterz@infradead.org>, <keescook@chromium.org>,
-        <davidgow@google.com>, <nathan@kernel.org>, <jpoimboe@kernel.org>,
-        <dan.j.williams@intel.com>, <ojeda@kernel.org>,
-        <isabbasso@riseup.net>, <dmitrii.bundin.a@gmail.com>,
-        <vbabka@suse.cz>, <linux@rasmusvillemoes.dk>
-CC:     <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <liwei391@huawei.com>, <weiyongjun1@huawei.com>,
-        <zengheng4@huawei.com>
-Subject: [PATCH -next] Makefile: add implicit enum-conversion check for compile build
-Date:   Tue, 27 Sep 2022 23:31:25 +0800
-Message-ID: <20220927153125.811911-1-zengheng4@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        Tue, 27 Sep 2022 12:45:37 -0400
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B14CA1C128
+        for <linux-kbuild@vger.kernel.org>; Tue, 27 Sep 2022 09:45:30 -0700 (PDT)
+Received: by mail-pg1-x533.google.com with SMTP id c7so9883216pgt.11
+        for <linux-kbuild@vger.kernel.org>; Tue, 27 Sep 2022 09:45:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date;
+        bh=ghIr72d2MFWvVwzY3IxpJDMS5fyhMuvWUPUhopPN/qk=;
+        b=K48GzDxdHhXcap5UllwByJj0tI7kwKfo9xjWBjGAHwE5rdcf9RcSbdsQfKAwyhHc7N
+         o4P8EyCHs8tKNMTikv/JzA9qUP9dYc49/+OSdohoV4ceYj2l82iv5RLw4hxz4877Qtxi
+         hZnpBGv7DyN1hlKa2RbKrC1zGiLQyOxO2pNfNh8BfexgGU/po7eZA9sZY18TSzNHNlkJ
+         chr/K0WNdWeoDHzAZWRcwj5/ppCKpgZtCalznQKf7LLqa7c19cBf4wosicUeGoVcNfDJ
+         GnaP5a5XS9iXSDcGeexRAa+IjyGQLWV89KCZnbZOWGWgBRQYczARFSjMOtEnvt3BS8rv
+         UD/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=ghIr72d2MFWvVwzY3IxpJDMS5fyhMuvWUPUhopPN/qk=;
+        b=iLkeElRunFtq+IEitXsLqf5HYTDJSmpBI4QsCyLPRx8llLKDhM4la68t56p9xBYkhn
+         ckiuCLvVmMKIBalKR9tYscgQ/7QjMV6qdhinbGYsjIR+Yqz/3wJVKDJHI1/jjl6VlOcD
+         DbaGmbGYVwimeuOsfY8EkOjH0BqvVKcyIFADosojI2YuwXAyOB6K5RESTfYbTvwyjq1D
+         UCQcIDJIaw1NPDPwCdZjFXvPlCYRx2evimpdZAam62f3jckIWigx8sREkmH/3BkHOhjX
+         S9O6dH+5DOptfE+/qBeagJK3mDlN0U9/cXEPMWcFnWixEgoBspyfD+YcC4sWUmMua5JC
+         tj1g==
+X-Gm-Message-State: ACrzQf2Yg2kVq6XFZiTufe5FqQTCyM6c92hwMAIrMJgWzhCNIH+MOUpQ
+        CfNcP8ENvi0a9XdAwN9vdnjdVxaGIiNbFnqeuYR2yA==
+X-Google-Smtp-Source: AMsMyM43m6tgs4G5qKkkxE77ZyJQmNDRdrfNh2BPt8T8lYzbrTNppaqkTELd+catwTn4ZNL8SRmR5P3qzcrLknIA/xI=
+X-Received: by 2002:a63:e709:0:b0:438:98e8:d1c with SMTP id
+ b9-20020a63e709000000b0043898e80d1cmr25730430pgi.403.1664297129249; Tue, 27
+ Sep 2022 09:45:29 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220927153125.811911-1-zengheng4@huawei.com>
+In-Reply-To: <20220927153125.811911-1-zengheng4@huawei.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 27 Sep 2022 09:45:17 -0700
+Message-ID: <CAKwvOdm2r_PPogCecGL4TMeYLq3qNkCbt7zqYTLmQf-PAQMGMg@mail.gmail.com>
+Subject: Re: [PATCH -next] Makefile: add implicit enum-conversion check for
+ compile build
+To:     Zeng Heng <zengheng4@huawei.com>
+Cc:     masahiroy@kernel.org, michal.lkml@markovi.net,
+        akpm@linux-foundation.org, peterz@infradead.org,
+        keescook@chromium.org, davidgow@google.com, nathan@kernel.org,
+        jpoimboe@kernel.org, dan.j.williams@intel.com, ojeda@kernel.org,
+        isabbasso@riseup.net, dmitrii.bundin.a@gmail.com, vbabka@suse.cz,
+        linux@rasmusvillemoes.dk, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, liwei391@huawei.com,
+        weiyongjun1@huawei.com, clang-built-linux <llvm@lists.linux.dev>,
+        linux-toolchains <linux-toolchains@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500022.china.huawei.com (7.185.36.162)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Provide implicit enum-conversion warning option
-in general build. When it set enabled, it can
-detect implicit enum type conversion and find
-potential conversion errors like below
-(use "allmodconfig"):
+On Tue, Sep 27, 2022 at 8:15 AM Zeng Heng <zengheng4@huawei.com> wrote:
+>
+> Provide implicit enum-conversion warning option
+> in general build. When it set enabled, it can
+> detect implicit enum type conversion and find
+> potential conversion errors like below
+> (use "allmodconfig"):
+>
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/display_mode_vba_20.c:=
+3904:46:
+> error: implicit conversion from =E2=80=98enum <anonymous>=E2=80=99 to =E2=
+=80=98enum odm_combine_mode=E2=80=99 [-Werror=3Denum-conversion]
+>  3904 |       locals->ODMCombineEnablePerState[i][k] =3D true;
+>       |                                              ^
+>
+> The '-Wenum-conversion' could be regarded as
+> effective check on compile runtime and
+> call attention on potential mistakes.
+>
+> Anothor practical example could be referred to:
+> https://lore.kernel.org/all/CADnq5_OE0yZvEYGu82QJHL9wvVcTFZrmeTgX7URgh7FV=
+A=3DjqYg@mail.gmail.com
+>
+> "-Wenum-conversion" was firstly introduced from
+> GNU gcc-10.
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/display_mode_vba_20.c:3904:46:
-error: implicit conversion from ‘enum <anonymous>’ to ‘enum odm_combine_mode’ [-Werror=enum-conversion]
- 3904 |       locals->ODMCombineEnablePerState[i][k] = true;
-      |                                              ^
+What about clang? ;)
 
-The '-Wenum-conversion' could be regarded as
-effective check on compile runtime and
-call attention on potential mistakes.
+>
+> Although "-Wenum-conversion" could be enabled
+> by "-Wextra" when compiling with 'W=3D1' option,
+> there are many warnings generated by '-Wextra'
+> that cause too much noise in a build.
 
-Anothor practical example could be referred to:
-https://lore.kernel.org/all/CADnq5_OE0yZvEYGu82QJHL9wvVcTFZrmeTgX7URgh7FVA=jqYg@mail.gmail.com
+With clang, I believe that -Wenum-conversion is part of -Wall or
+-Wextra; so enabling this explicitly is only necessary for GCC.  I
+wonder why it's not part of -Wall or -Wextra for GCC?  Perhaps worth a
+bug report/feature request?
 
-"-Wenum-conversion" was firstly introduced from
-GNU gcc-10.
+>
+> Seeing the details from the following link:
+> https://gcc.gnu.org/onlinedocs/gcc-11.3.0/gcc/Warning-Options.html
+>
+> Because there are still some concerned warnings
+> exist, the patch marks the option disabled in default
+> for avoiding compile failed like using "allmodconfig".
+>
+> Signed-off-by: Zeng Heng <zengheng4@huawei.com>
+> ---
+>  Makefile          | 5 +++++
+>  lib/Kconfig.debug | 7 +++++++
+>  2 files changed, 12 insertions(+)
+>
+> diff --git a/Makefile b/Makefile
+> index ebd48fc956a3..1790a3624358 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -880,6 +880,11 @@ endif
+>  KBUILD_CFLAGS +=3D $(call cc-disable-warning, unused-but-set-variable)
+>  KBUILD_CFLAGS +=3D $(call cc-disable-warning, unused-const-variable)
+>
+> +# check implicit enum conversion
+> +ifdef CONFIG_ENUM_CONVERSION
+> +KBUILD_CFLAGS +=3D -Wenum-conversion
+> +endif
 
-Although "-Wenum-conversion" could be enabled
-by "-Wextra" when compiling with 'W=1' option,
-there are many warnings generated by '-Wextra'
-that cause too much noise in a build.
+Having a kconfig for this is overkill.  cc-option with a comment about
+the compiler default versions is the way to go.
 
-Seeing the details from the following link:
-https://gcc.gnu.org/onlinedocs/gcc-11.3.0/gcc/Warning-Options.html
+> +
+>  # These result in bogus false positives
+>  KBUILD_CFLAGS +=3D $(call cc-disable-warning, dangling-pointer)
+>
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index 4f2b81229a2f..a64e06a747d8 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -417,6 +417,13 @@ config FRAME_WARN
+>           Setting this too low will cause a lot of warnings.
+>           Setting it to 0 disables the warning.
+>
+> +config ENUM_CONVERSION
+> +       bool "Warn for implicit enum conversion"
+> +       depends on GCC_VERSION >=3D 100300
+> +       default n
+> +       help
+> +         Tell gcc to warn at build time for implicit enum conversion.
+> +
+>  config STRIP_ASM_SYMS
+>         bool "Strip assembler-generated symbols during link"
+>         default n
+> --
+> 2.25.1
+>
 
-Because there are still some concerned warnings
-exist, the patch marks the option disabled in default
-for avoiding compile failed like using "allmodconfig".
 
-Signed-off-by: Zeng Heng <zengheng4@huawei.com>
----
- Makefile          | 5 +++++
- lib/Kconfig.debug | 7 +++++++
- 2 files changed, 12 insertions(+)
-
-diff --git a/Makefile b/Makefile
-index ebd48fc956a3..1790a3624358 100644
---- a/Makefile
-+++ b/Makefile
-@@ -880,6 +880,11 @@ endif
- KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
- KBUILD_CFLAGS += $(call cc-disable-warning, unused-const-variable)
- 
-+# check implicit enum conversion
-+ifdef CONFIG_ENUM_CONVERSION
-+KBUILD_CFLAGS += -Wenum-conversion
-+endif
-+
- # These result in bogus false positives
- KBUILD_CFLAGS += $(call cc-disable-warning, dangling-pointer)
- 
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 4f2b81229a2f..a64e06a747d8 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -417,6 +417,13 @@ config FRAME_WARN
- 	  Setting this too low will cause a lot of warnings.
- 	  Setting it to 0 disables the warning.
- 
-+config ENUM_CONVERSION
-+	bool "Warn for implicit enum conversion"
-+	depends on GCC_VERSION >= 100300
-+	default n
-+	help
-+	  Tell gcc to warn at build time for implicit enum conversion.
-+
- config STRIP_ASM_SYMS
- 	bool "Strip assembler-generated symbols during link"
- 	default n
--- 
-2.25.1
-
+--=20
+Thanks,
+~Nick Desaulniers
