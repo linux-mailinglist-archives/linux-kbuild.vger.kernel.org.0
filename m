@@ -2,193 +2,127 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 54D895EDE31
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Sep 2022 15:53:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65D8A5EDF54
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Sep 2022 16:56:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234227AbiI1Nxm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 28 Sep 2022 09:53:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53984 "EHLO
+        id S234229AbiI1O4r (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Sep 2022 10:56:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233988AbiI1Nxl (ORCPT
+        with ESMTP id S234152AbiI1O4f (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 28 Sep 2022 09:53:41 -0400
-Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7C47786C9;
-        Wed, 28 Sep 2022 06:53:36 -0700 (PDT)
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 28SDrNKs023141;
-        Wed, 28 Sep 2022 22:53:24 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 28SDrNKs023141
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1664373204;
-        bh=vkTBDrLr+gSufE4juAwoGOnL+v5TpMQd9Yf1dOOyAlQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=gi7dnhj2nQnit3b/guZ+qZAtmsI2UyVy5RJMJBfcbyuDZf5J96a04A6b/EjKYR4a8
-         wXBy7ge82hp2ocrzXYCYKTPtzKteG/dVWZcH+XfH6wSUpWVqloOLiyWelWf0GCsjiK
-         enmNCh8nGp9Ib0RDAVRmS09OgkSwNy2sUYrVj7vLu3L7wBXPkFQdBX/nNbhsAsyI3T
-         BMOoyTL29Z//aWonBC/8UrrldVr/NZQRkLtk7DNaGVSInhv8gVsSbTLz/CxytsOMDI
-         RXvuFn3Y2x+gCy1yWvRB23FQPvp1BkncOMkTkztFrxu5fhO+DRSNE+vNrpSZ31gX8O
-         tXZkh8BFV2qTw==
-X-Nifty-SrcIP: [209.85.160.50]
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-12803ac8113so17350060fac.8;
-        Wed, 28 Sep 2022 06:53:24 -0700 (PDT)
-X-Gm-Message-State: ACrzQf1ygWZyY0/An+0f3UICl8fwIMHFynLDbjTbMdCN0h9NdmT00H4t
-        E17oxvH+91z55OEWa4H2ToT0NZR4EqFzACMAc8k=
-X-Google-Smtp-Source: AMsMyM4SwXr39hWrhV2jlwLsIq7xsRglwAQ3lU3A0QYTQ6046/z0prPzH2+3QIrGInbvIoFsdlz7vAZB/75K7rBW+lw=
-X-Received: by 2002:a05:6870:6326:b0:131:9200:c99d with SMTP id
- s38-20020a056870632600b001319200c99dmr3805771oao.194.1664373203265; Wed, 28
- Sep 2022 06:53:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220928063947.299333-1-masahiroy@kernel.org> <20220928063947.299333-7-masahiroy@kernel.org>
- <06cf88841dfb48d8ba89dd22adcd1db9@AcuMS.aculab.com>
-In-Reply-To: <06cf88841dfb48d8ba89dd22adcd1db9@AcuMS.aculab.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 28 Sep 2022 22:52:46 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATo0uzbBy+90dX==jjwZ-0da=tS1FfvDJedQU0dSfW++A@mail.gmail.com>
-Message-ID: <CAK7LNATo0uzbBy+90dX==jjwZ-0da=tS1FfvDJedQU0dSfW++A@mail.gmail.com>
-Subject: Re: [PATCH v3 6/8] modpost: use null string instead of NULL pointer
- for default namespace
-To:     David Laight <David.Laight@aculab.com>
-Cc:     "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Nicolas Pitre <npitre@baylibre.com>,
+        Wed, 28 Sep 2022 10:56:35 -0400
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 561298E4F5;
+        Wed, 28 Sep 2022 07:56:33 -0700 (PDT)
+Received: by mail-wr1-f50.google.com with SMTP id v28so7382944wrd.3;
+        Wed, 28 Sep 2022 07:56:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=bARmEyRufSITUVxna55CaMh6exv5QYh2cquo7v7gbWQ=;
+        b=YQdrG+ATC167Sfus1o+GoS4lIXe6Od7q3XTj9NC0C5bF1eqRhi2rAEhbjYDUVIPG2i
+         UW2t2RZtIbMvqSVQ9A/SkT1BbNubVqGIeLMgT8cjD2OiB+CkrWE0+6gDihn4q27LF5vu
+         7cdf2SiGK0ZIBW1pJ3fJ1webDN+fpXbklEhXeflcdto3so4wJNu0GN2xs2N2OAOFiTqs
+         6r0uRk7xAPDAS22J+VuD/2zex8ZQwf9e4Fm8TPU931m7uhVhrzy/r79URBkPtZI8utdS
+         ctqxppaV9x5nolTAWyO61SM6h4plzvvk8SXEnTR4bbnr9/YiWSrJ/kdLX7UqPgtHp2jS
+         8Vhg==
+X-Gm-Message-State: ACrzQf1IbtKwH0bbDY5sU7J+Hh08RcxzeqzAGnYJ1mm1RAcWJP5IBkj7
+        Nf+HS1QJuPAScsYon55MShI=
+X-Google-Smtp-Source: AMsMyM6G1PVBH4Fol3S2xXl1qdx7DG+MwA3jmufrru5yN8AHgBBS6/+sd4Er40venbVkI2KFTvaYeQ==
+X-Received: by 2002:adf:b613:0:b0:22c:c9d9:a27d with SMTP id f19-20020adfb613000000b0022cc9d9a27dmr2159577wre.257.1664376991806;
+        Wed, 28 Sep 2022 07:56:31 -0700 (PDT)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id bx31-20020a5d5b1f000000b0022a2bacabbasm4554808wrb.31.2022.09.28.07.56.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Sep 2022 07:56:31 -0700 (PDT)
+Date:   Wed, 28 Sep 2022 14:56:29 +0000
+From:   Wei Liu <wei.liu@kernel.org>
+To:     Miguel Ojeda <ojeda@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, patches@lists.linux.dev,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Michal Marek <michal.lkml@markovi.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
-        autolearn_force=no version=3.4.6
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Gary Guo <gary@garyguo.net>,
+        Boris-Chengbiao Zhou <bobo1239@web.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Douglas Su <d0u9.su@outlook.com>,
+        Dariusz Sosnowski <dsosnowski@dsosnowski.pl>,
+        Antonio Terceiro <antonio.terceiro@linaro.org>,
+        Daniel Xu <dxu@dxuuu.xyz>,
+        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+        Martin Rodriguez Reboredo <yakoyoku@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, Wei Liu <wei.liu@kernel.org>
+Subject: Re: [PATCH v10 23/27] Kbuild: add Rust support
+Message-ID: <YzRgnXFRaC4fd0u2@liuwe-devbox-debian-v2>
+References: <20220927131518.30000-1-ojeda@kernel.org>
+ <20220927131518.30000-24-ojeda@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220927131518.30000-24-ojeda@kernel.org>
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Sep 28, 2022 at 6:53 PM David Laight <David.Laight@aculab.com> wrote:
->
-> From: Masahiro Yamada
-> > Sent: 28 September 2022 07:40
-> >
-> > The default namespace is the null string, "".
-> >
-> > When set, the null string "" is converted to NULL:
-> >
-> >   s->namespace = namespace[0] ? NOFAIL(strdup(namespace)) : NULL;
-> >
-> > When printed, the NULL pointer is get back to the null string:
-> >
-> >   sym->namespace ?: ""
-> >
-> > This saves 1 byte memory allocated for "", but loses the readability.
->
-> The code size changes are far larger that any data sizes.
->
-> > In kernel-space, we strive to save memory, but modpost is a userspace
-> > tool used to build the kernel. On modern systems, such small piece of
-> > memory is not a big deal.
-> >
-> > Handle the namespace string as is.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-> > ---
-> >
-> > (no changes since v1)
-> >
-> >  scripts/mod/modpost.c | 17 +++++++++++------
-> >  1 file changed, 11 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > index 0bb5bbd176b4..29f30558a398 100644
-> > --- a/scripts/mod/modpost.c
-> > +++ b/scripts/mod/modpost.c
-> > @@ -297,6 +297,13 @@ static bool contains_namespace(struct list_head *head, const char *namespace)
-> >  {
-> >       struct namespace_list *list;
-> >
-> > +     /*
-> > +      * The default namespace is null string "", which is always implicitly
-> > +      * contained.
-> > +      */
-> > +     if (!namespace[0])
-> > +             return true;
-> > +
-> >       list_for_each_entry(list, head, list) {
-> >               if (!strcmp(list->namespace, namespace))
-> >                       return true;
-> > @@ -366,7 +373,7 @@ static struct symbol *sym_add_exported(const char *name, struct module *mod,
-> >       s = alloc_symbol(name);
-> >       s->module = mod;
-> >       s->is_gpl_only = gpl_only;
-> > -     s->namespace = namespace[0] ? NOFAIL(strdup(namespace)) : NULL;
-> > +     s->namespace = NOFAIL(strdup(namespace));
-> >       list_add_tail(&s->list, &mod->exported_symbols);
-> >       hash_add_symbol(s);
-> >
-> > @@ -1928,8 +1935,7 @@ static void check_exports(struct module *mod)
-> >               else
-> >                       basename = mod->name;
-> >
-> > -             if (exp->namespace &&
-> > -                 !contains_namespace(&mod->imported_namespaces, exp->namespace)) {
-> > +             if (!contains_namespace(&mod->imported_namespaces, exp->namespace)) {
->
-> Do you still need to optimise/check for the default namespace?
+On Tue, Sep 27, 2022 at 03:14:54PM +0200, Miguel Ojeda wrote:
+> Having most of the new files in place, we now enable Rust support
+> in the build system, including `Kconfig` entries related to Rust,
+> the Rust configuration printer and a few other bits.
+> 
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> Tested-by: Nick Desaulniers <ndesaulniers@google.com>
+> Co-developed-by: Alex Gaynor <alex.gaynor@gmail.com>
+> Signed-off-by: Alex Gaynor <alex.gaynor@gmail.com>
+> Co-developed-by: Finn Behrens <me@kloenk.de>
+> Signed-off-by: Finn Behrens <me@kloenk.de>
+> Co-developed-by: Adam Bratschi-Kaye <ark.email@gmail.com>
+> Signed-off-by: Adam Bratschi-Kaye <ark.email@gmail.com>
+> Co-developed-by: Wedson Almeida Filho <wedsonaf@google.com>
+> Signed-off-by: Wedson Almeida Filho <wedsonaf@google.com>
+> Co-developed-by: Michael Ellerman <mpe@ellerman.id.au>
+> Signed-off-by: Michael Ellerman <mpe@ellerman.id.au>
+> Co-developed-by: Sven Van Asbroeck <thesven73@gmail.com>
+> Signed-off-by: Sven Van Asbroeck <thesven73@gmail.com>
+> Co-developed-by: Gary Guo <gary@garyguo.net>
+> Signed-off-by: Gary Guo <gary@garyguo.net>
+> Co-developed-by: Boris-Chengbiao Zhou <bobo1239@web.de>
+> Signed-off-by: Boris-Chengbiao Zhou <bobo1239@web.de>
+> Co-developed-by: Boqun Feng <boqun.feng@gmail.com>
+> Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
+> Co-developed-by: Douglas Su <d0u9.su@outlook.com>
+> Signed-off-by: Douglas Su <d0u9.su@outlook.com>
+> Co-developed-by: Dariusz Sosnowski <dsosnowski@dsosnowski.pl>
+> Signed-off-by: Dariusz Sosnowski <dsosnowski@dsosnowski.pl>
+> Co-developed-by: Antonio Terceiro <antonio.terceiro@linaro.org>
+> Signed-off-by: Antonio Terceiro <antonio.terceiro@linaro.org>
+> Co-developed-by: Daniel Xu <dxu@dxuuu.xyz>
+> Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
+> Co-developed-by: Björn Roy Baron <bjorn3_gh@protonmail.com>
+> Signed-off-by: Björn Roy Baron <bjorn3_gh@protonmail.com>
+> Co-developed-by: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+> Signed-off-by: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-
-
-I am not sure if I understood your comment, but
-I changed the contains_namespace() body so that
-contains_namespace(&mod->imported_namespaces, "")
-returns true.
-
-
-
-
-
-
-
-
-
-
-
->         David
->
-> >                       modpost_log(allow_missing_ns_imports ? LOG_WARN : LOG_ERROR,
-> >                                   "module %s uses symbol %s from namespace %s, but does not import it.\n",
-> >                                   basename, exp->name, exp->namespace);
-> > @@ -2015,8 +2021,7 @@ static void add_exported_symbols(struct buffer *buf, struct module *mod)
-> >       list_for_each_entry(sym, &mod->exported_symbols, list)
-> >               buf_printf(buf, "KSYMTAB_%s(%s, \"%s\", \"%s\");\n",
-> >                          sym->is_func ? "FUNC" : "DATA", sym->name,
-> > -                        sym->is_gpl_only ? "_gpl" : "",
-> > -                        sym->namespace ?: "");
-> > +                        sym->is_gpl_only ? "_gpl" : "", sym->namespace);
-> >
-> >       if (!modversions)
-> >               return;
-> > @@ -2284,7 +2289,7 @@ static void write_dump(const char *fname)
-> >                       buf_printf(&buf, "0x%08x\t%s\t%s\tEXPORT_SYMBOL%s\t%s\n",
-> >                                  sym->crc, sym->name, mod->name,
-> >                                  sym->is_gpl_only ? "_GPL" : "",
-> > -                                sym->namespace ?: "");
-> > +                                sym->namespace);
-> >               }
-> >       }
-> >       write_buf(&buf, fname);
-> > --
-> > 2.34.1
->
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+Reviewed-by: Wei Liu <wei.liu@kernel.org>
