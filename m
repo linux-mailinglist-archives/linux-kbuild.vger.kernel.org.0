@@ -2,61 +2,69 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E220B5EE81E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Sep 2022 23:16:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2D155EE82E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Sep 2022 23:18:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234401AbiI1VQL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 28 Sep 2022 17:16:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52884 "EHLO
+        id S231499AbiI1VS2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Sep 2022 17:18:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234388AbiI1VPv (ORCPT
+        with ESMTP id S234660AbiI1VSD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 28 Sep 2022 17:15:51 -0400
-Received: from condef-01.nifty.com (condef-01.nifty.com [202.248.20.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2A46476D9;
-        Wed, 28 Sep 2022 14:10:33 -0700 (PDT)
-Received: from conssluserg-02.nifty.com ([10.126.8.81])by condef-01.nifty.com with ESMTP id 28SL6gC7000770;
-        Thu, 29 Sep 2022 06:06:42 +0900
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 28SL5q68001910;
-        Thu, 29 Sep 2022 06:05:53 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 28SL5q68001910
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1664399153;
-        bh=9up+bTK5BWQ+kwLY4kLOa7NGKSwEXLj5uD5cGziJ5To=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=l3lK4KpEimBu9kNN3NdsTgWZYUiRP6a7evwtiMaAed7gzcGZk1vlv4lwASNgN08ez
-         q+A+DR7SHnqJFBdBj+AJXKhaOB4FHXIOeY82ygyJgElxazdlSVFkQCoqf7XKcgRUPi
-         qUw2gO/lULtJCu7Lj6Ad1PLo1npHKWo42VSVM9f6538MOkFkcn4qn0YqZRrnlJibBb
-         SxoadZyn7VuaEp53OpYL2UK0Gm0z9g8lPr9Cnj/PMx8Gla8T2HHJJ3KkGBCc2GVZCj
-         csKUWv60JDvWXNkeoDYXgUbCaErF0yCzzB1JuAaE7kIP0+/QXo8K53n0Uekyp1AxAe
-         +j48axC9FlBlQ==
-X-Nifty-SrcIP: [209.85.167.181]
-Received: by mail-oi1-f181.google.com with SMTP id s125so16797537oie.4;
-        Wed, 28 Sep 2022 14:05:53 -0700 (PDT)
-X-Gm-Message-State: ACrzQf3Pd69jcEclYFnIXBLan3MmFcH7fIGEkDOZPpEx5ZiUNwuOcOIx
-        E+YfozMARUrgFy6Ttw35d5CW13gcRUTXKQ9P4BA=
-X-Google-Smtp-Source: AMsMyM6Vv0mXNByGI64xVVwo+ve0W4Oeq9motr7ErKJeVs+xPXBnbO2weKAtdYXWjczfclkJ8MDFyuRIPMKH14k/VZY=
-X-Received: by 2002:a54:400c:0:b0:34f:9913:262 with SMTP id
- x12-20020a54400c000000b0034f99130262mr5193714oie.287.1664399152276; Wed, 28
- Sep 2022 14:05:52 -0700 (PDT)
+        Wed, 28 Sep 2022 17:18:03 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC80BE234E
+        for <linux-kbuild@vger.kernel.org>; Wed, 28 Sep 2022 14:13:59 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id w10so12753800pll.11
+        for <linux-kbuild@vger.kernel.org>; Wed, 28 Sep 2022 14:13:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=v0k9ORqQb3RbZ04b8VgsYD7iTc3Y46CtHEmVrhJH2aA=;
+        b=fDfRgrlfSwRvlwVBa7jPlMJDqaCg6wsEHOT7OqSyBKAwnbZk6dz9cP4cMffi0sp/Yg
+         fypu2QW/qpEFEenbak6VjgyLvGsb45/wHZrOWfvj5mMxNp1NiOt62JtWip07ZAcQNBSX
+         SPhKDIg/NI9KoQR2FwaZ6LlP9suMPm8BiBT9Ernxw8IpwhJ5SD34AEJT0yOKm8xlcoVe
+         eUhZ1K5yQOPppu8f6js57n9XanNs8w844SysHgQWa3uTQTP26mMUvEE1lwd0wHXyqvk5
+         yndOqptt7kEva4tqdWYz7DIS8xize+NdLxGSKJkvw/Ft8LmNvbchLTmnH7x9fLvQz8Qx
+         gZGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=v0k9ORqQb3RbZ04b8VgsYD7iTc3Y46CtHEmVrhJH2aA=;
+        b=jDnYdo4Wsg7dc6cOGWiPDRmHbHUtLTM3UqeM4fnJQFUxOP6I0CmvRtCDHRuNEFOJhU
+         f0K0cOQcWt8VjOjJA4LH6FC0dke1va7+WUsvAMqo1iU7k2nnPJJNIARsWI26bZfC9JM6
+         CCDZj8ES8e7ajs5+rmAneu0hp+voOPjLBZ1PWd6iBWARBKbRe37QXVEpzrBZZeayrjRE
+         0VWBANntXjLlcMXebH1+gDZmIf7GOVFj59ot6K1ayyeEnC0cBtMN2LstrF8jEvr2ZAOp
+         be9CZn5o049VgJHHgMK3s3ruA06LnJjsh+l/+YBz0lpXbCQmfL3DFI1fIzzAQglPB1CL
+         OJNg==
+X-Gm-Message-State: ACrzQf22Ng9YCPJeI0vZj+BP9u4h17wNl8oUIChNxK90nHDTwRJK5rnH
+        jcBhJsBHINX0tZYp9HUxHTnXrHdo8M5g5/m6A7wXkw==
+X-Google-Smtp-Source: AMsMyM5UboqUpZNmThgqY9aypu7QDq6EQiZROsKNTuF1cWEnMhwu6Bc1VIOtQQrULDIr++MWCEcRuu19vGWr2u4E0Kk=
+X-Received: by 2002:a17:90b:1d0f:b0:202:be3e:a14a with SMTP id
+ on15-20020a17090b1d0f00b00202be3ea14amr12512808pjb.102.1664399639224; Wed, 28
+ Sep 2022 14:13:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220924181915.3251186-1-masahiroy@kernel.org>
- <20220924181915.3251186-6-masahiroy@kernel.org> <YzSnlIChHmKdKFt8@bergen.fjasle.eu>
-In-Reply-To: <YzSnlIChHmKdKFt8@bergen.fjasle.eu>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 29 Sep 2022 06:05:15 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQm9CQe26=rgid36KX3JTfwP0zOhZBXCjssj_hOvFePDw@mail.gmail.com>
-Message-ID: <CAK7LNAQm9CQe26=rgid36KX3JTfwP0zOhZBXCjssj_hOvFePDw@mail.gmail.com>
-Subject: Re: [PATCH v3 5/7] kbuild: unify two modpost invocations
-To:     Nicolas Schier <nicolas@fjasle.eu>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <nathan@kernel.org>
+References: <20220928182523.3105953-1-nathan@kernel.org>
+In-Reply-To: <20220928182523.3105953-1-nathan@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 28 Sep 2022 14:13:47 -0700
+Message-ID: <CAKwvOdmPLqX=oCwg43TYHj=tdoaU5OYc=bO906u=LeqcSrx+Dw@mail.gmail.com>
+Subject: Re: [PATCH] lib/Kconfig.debug: Add check for non-constant
+ .{s,u}leb128 support to DWARF5
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Tom Rix <trix@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+        linux-kbuild@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        llvm@lists.linux.dev, Conor Dooley <conor.dooley@microchip.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,134 +72,96 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Sep 29, 2022 at 4:59 AM Nicolas Schier <nicolas@fjasle.eu> wrote:
+On Wed, Sep 28, 2022 at 11:25 AM Nathan Chancellor <nathan@kernel.org> wrote:
 >
-> On Sun, 25 Sep 2022 03:19:13 +0900 Masahiro Yamada wrote:
-> > Currently, modpost is executed twice; first for vmlinux, second
-> > for modules.
-> >
-> > This commit merges them.
-> >
-> > Current build flow
-> > ==================
-> >
-> >   1) build obj-y and obj-m objects
-> >     2) link vmlinux.o
-> >       3) modpost for vmlinux
-> >         4) link vmlinux
-> >           5) modpost for modules
-> >             6) link modules (*.ko)
-> >
-> > The build steps 1) through 6) are serialized, that is, modules are
-> > built after vmlinux. You do not get benefits of parallel builds when
-> > scripts/link-vmlinux.sh is being run.
-> >
-> > New build flow
-> > ==============
-> >
-> >   1) build obj-y and obj-m objects
-> >     2) link vmlinux.o
-> >       3) modpost for vmlinux and modules
-> >         4a) link vmlinux
-> >         4b) link modules (*.ko)
-> >
-> > In the new build flow, modpost is invoked just once.
-> >
-> > vmlinux and modules are built in parallel. One exception is
-> > CONFIG_DEBUG_INFO_BTF_MODULES=y, where modules depend on vmlinux.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> > (no changes since v1)
-> >
-> >  Makefile                  | 30 ++++++++++---
-> >  scripts/Makefile.modfinal |  2 +-
-> >  scripts/Makefile.modpost  | 93 ++++++++++++---------------------------
-> >  scripts/link-vmlinux.sh   |  3 --
-> >  4 files changed, 53 insertions(+), 75 deletions(-)
-> >
-> > diff --git a/Makefile b/Makefile
-> > index b5dfb54b1993..cf9d7b1d8c14 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -1152,7 +1152,7 @@ cmd_link-vmlinux =                                                 \
-> >       $(CONFIG_SHELL) $< "$(LD)" "$(KBUILD_LDFLAGS)" "$(LDFLAGS_vmlinux)";    \
-> >       $(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
-> >
-> > -vmlinux: scripts/link-vmlinux.sh vmlinux.o $(KBUILD_LDS) FORCE
-> > +vmlinux: scripts/link-vmlinux.sh vmlinux.o $(KBUILD_LDS) modpost FORCE
-> >       +$(call if_changed_dep,link-vmlinux)
-> >
-> >  targets := vmlinux
-> > @@ -1428,7 +1428,13 @@ endif
-> >  # Build modules
-> >  #
-> >
-> > -modules: $(if $(KBUILD_BUILTIN),vmlinux) modules_prepare
-> > +# *.ko are usually independent of vmlinux, but CONFIG_DEBUG_INFOBTF_MODULES
-> > +# is an exception.
-> > +ifdef CONFIG_DEBUG_INFO_BTF_MODULES
-> > +modules: vmlinux
-> > +endif
-> > +
-> > +modules: modules_prepare
-> >
-> >  # Target to prepare building external modules
-> >  modules_prepare: prepare
-> > @@ -1741,8 +1747,12 @@ ifdef CONFIG_MODULES
-> >  $(MODORDER): $(build-dir)
-> >       @:
-> >
-> > -modules: modules_check
-> > -     $(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
-> > +# KBUILD_MODPOST_NOFINAL can be set to skip the final link of modules.
-> > +# This is solely useful to speed up test compiles.
-> > +modules: modpost
-> > +ifneq ($(KBUILD_MODPOST_NOFINAL),1)
-> > +     $(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modfinal
-> > +endif
-> >
-> >  PHONY += modules_check
-> >  modules_check: $(MODORDER)
-> > @@ -1773,6 +1783,11 @@ KBUILD_MODULES :=
-> >
-> >  endif # CONFIG_MODULES
-> >
-> > +PHONY += modpost
-> > +modpost: $(if $(single-build),, $(if $(KBUILD_BUILTIN), vmlinux.o)) \
-> > +      $(if $(KBUILD_MODULES), modules_check)
-> > +     $(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
-> > +
-> >  # Single targets
-> >  # ---------------------------------------------------------------------------
-> >  # To build individual files in subdirectories, you can do like this:
-> > @@ -1792,16 +1807,19 @@ single-ko := $(sort $(filter %.ko, $(MAKECMDGOALS)))
-> >  single-no-ko := $(filter-out $(single-ko), $(MAKECMDGOALS)) \
-> >               $(foreach x, o mod, $(patsubst %.ko, %.$x, $(single-ko)))
-> >
-> > -$(single-ko): single_modpost
-> > +$(single-ko): single_modules
-> >       @:
-> >  $(single-no-ko): $(build-dir)
-> >       @:
-> >
-> >  # Remove MODORDER when done because it is not the real one.
-> >  PHONY += single_modpost
+> When building with a RISC-V kernel with DWARF5 debug info using clang
+> and the GNU assembler, several instances of the following error appear:
 >
-> PHONY += single_modules
-
-
-Thank you for your close review!
-I will fix it locally.
-
-
-
-
+>   /tmp/vgettimeofday-48aa35.s:2963: Error: non-constant .uleb128 is not supported
 >
-> Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+> Dumping the .s file reveals these .uleb128 directives come from
+> .debug_loc and .debug_ranges:
 >
+>   .Ldebug_loc0:
+>           .byte   4                               # DW_LLE_offset_pair
+>           .uleb128 .Lfunc_begin0-.Lfunc_begin0    #   starting offset
+>           .uleb128 .Ltmp1-.Lfunc_begin0           #   ending offset
+>           .byte   1                               # Loc expr size
+>           .byte   90                              # DW_OP_reg10
+>           .byte   0                               # DW_LLE_end_of_list
+>
+>   .Ldebug_ranges0:
+>           .byte   4                               # DW_RLE_offset_pair
+>           .uleb128 .Ltmp6-.Lfunc_begin0           #   starting offset
+>           .uleb128 .Ltmp27-.Lfunc_begin0          #   ending offset
+>           .byte   4                               # DW_RLE_offset_pair
+>           .uleb128 .Ltmp28-.Lfunc_begin0          #   starting offset
+>           .uleb128 .Ltmp30-.Lfunc_begin0          #   ending offset
+>           .byte   0                               # DW_RLE_end_of_list
+>
+> There is an outstanding binutils issue to support a non-constant operand
+> to .sleb128 and .uleb128 in GAS for RISC-V but there does not appear to
+> be any movement on it, due to concerns over how it would work with
+> linker relaxation.
+>
+> To avoid these build errors, prevent DWARF5 from being selected when
+> using clang and an assembler that does not have support for these symbol
+> deltas, which can be easily checked in Kconfig with as-instr plus the
+> small test program from the dwz test suite from the binutils issue.
+>
+> Link: https://sourceware.org/bugzilla/show_bug.cgi?id=27215
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1719
+> Tested-by: Conor Dooley <conor.dooley@microchip.com>
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+>  lib/Kconfig.debug | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index d3e5f36bb01e..19de03ead2ed 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -231,6 +231,9 @@ config DEBUG_INFO
+>           in the "Debug information" choice below, indicating that debug
+>           information will be generated for build targets.
+>
+> +config AS_HAS_NON_CONST_LEB128
+> +       def_bool $(as-instr,.uleb128 .Lexpr_end4 - .Lexpr_start3\n.Lexpr_start3:\n.Lexpr_end4:)
+> +
+>  choice
+>         prompt "Debug information"
+>         depends on DEBUG_KERNEL
+> @@ -277,6 +280,10 @@ config DEBUG_INFO_DWARF5
+>         bool "Generate DWARF Version 5 debuginfo"
+>         select DEBUG_INFO
+>         depends on !CC_IS_CLANG || (CC_IS_CLANG && (AS_IS_LLVM || (AS_IS_GNU && AS_VERSION >= 23502)))
+> +       # Clang is known to generate .{s,u}leb128 with symbol deltas with
+> +       # DWARF5, which some targets may not support.
+> +       # https://sourceware.org/bugzilla/show_bug.cgi?id=27215
+> +       depends on !CC_IS_CLANG || AS_HAS_NON_CONST_LEB128
+
+Reraising my concern from
+https://github.com/ClangBuiltLinux/linux/issues/1719#issuecomment-1258678969
+
+We've put a fair amount of work into getting CC=clang LLVM_IAS=0 to
+work for DWARF v5 (both on the GNU binutils side, and Kbuild), I'd
+hate to see that effectively knee-capped because of an issue in GNU
+binutils that is only relevant for one architecture.
+
+I'd concede support for ARCH=riscv, but not for all other
+architectures, which this effectively does.
+
+>         help
+>           Generate DWARF v5 debug info. Requires binutils 2.35.2, gcc 5.0+ (gcc
+>           5.0+ accepts the -gdwarf-5 flag but only had partial support for some
+>
+> base-commit: f76349cf41451c5c42a99f18a9163377e4b364ff
+> --
+> 2.37.3
+>
+>
+
 
 -- 
-Best Regards
-Masahiro Yamada
+Thanks,
+~Nick Desaulniers
