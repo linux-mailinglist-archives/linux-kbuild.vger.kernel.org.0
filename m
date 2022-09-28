@@ -2,69 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D2D155EE82E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Sep 2022 23:18:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35EDC5EE846
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Sep 2022 23:24:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231499AbiI1VS2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 28 Sep 2022 17:18:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59052 "EHLO
+        id S232166AbiI1VYM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Sep 2022 17:24:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234660AbiI1VSD (ORCPT
+        with ESMTP id S231577AbiI1VYL (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 28 Sep 2022 17:18:03 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC80BE234E
-        for <linux-kbuild@vger.kernel.org>; Wed, 28 Sep 2022 14:13:59 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id w10so12753800pll.11
-        for <linux-kbuild@vger.kernel.org>; Wed, 28 Sep 2022 14:13:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=v0k9ORqQb3RbZ04b8VgsYD7iTc3Y46CtHEmVrhJH2aA=;
-        b=fDfRgrlfSwRvlwVBa7jPlMJDqaCg6wsEHOT7OqSyBKAwnbZk6dz9cP4cMffi0sp/Yg
-         fypu2QW/qpEFEenbak6VjgyLvGsb45/wHZrOWfvj5mMxNp1NiOt62JtWip07ZAcQNBSX
-         SPhKDIg/NI9KoQR2FwaZ6LlP9suMPm8BiBT9Ernxw8IpwhJ5SD34AEJT0yOKm8xlcoVe
-         eUhZ1K5yQOPppu8f6js57n9XanNs8w844SysHgQWa3uTQTP26mMUvEE1lwd0wHXyqvk5
-         yndOqptt7kEva4tqdWYz7DIS8xize+NdLxGSKJkvw/Ft8LmNvbchLTmnH7x9fLvQz8Qx
-         gZGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=v0k9ORqQb3RbZ04b8VgsYD7iTc3Y46CtHEmVrhJH2aA=;
-        b=jDnYdo4Wsg7dc6cOGWiPDRmHbHUtLTM3UqeM4fnJQFUxOP6I0CmvRtCDHRuNEFOJhU
-         f0K0cOQcWt8VjOjJA4LH6FC0dke1va7+WUsvAMqo1iU7k2nnPJJNIARsWI26bZfC9JM6
-         CCDZj8ES8e7ajs5+rmAneu0hp+voOPjLBZ1PWd6iBWARBKbRe37QXVEpzrBZZeayrjRE
-         0VWBANntXjLlcMXebH1+gDZmIf7GOVFj59ot6K1ayyeEnC0cBtMN2LstrF8jEvr2ZAOp
-         be9CZn5o049VgJHHgMK3s3ruA06LnJjsh+l/+YBz0lpXbCQmfL3DFI1fIzzAQglPB1CL
-         OJNg==
-X-Gm-Message-State: ACrzQf22Ng9YCPJeI0vZj+BP9u4h17wNl8oUIChNxK90nHDTwRJK5rnH
-        jcBhJsBHINX0tZYp9HUxHTnXrHdo8M5g5/m6A7wXkw==
-X-Google-Smtp-Source: AMsMyM5UboqUpZNmThgqY9aypu7QDq6EQiZROsKNTuF1cWEnMhwu6Bc1VIOtQQrULDIr++MWCEcRuu19vGWr2u4E0Kk=
-X-Received: by 2002:a17:90b:1d0f:b0:202:be3e:a14a with SMTP id
- on15-20020a17090b1d0f00b00202be3ea14amr12512808pjb.102.1664399639224; Wed, 28
- Sep 2022 14:13:59 -0700 (PDT)
+        Wed, 28 Sep 2022 17:24:11 -0400
+Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9E91255AC
+        for <linux-kbuild@vger.kernel.org>; Wed, 28 Sep 2022 14:24:10 -0700 (PDT)
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 28SLNtF2004975
+        for <linux-kbuild@vger.kernel.org>; Thu, 29 Sep 2022 06:23:56 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 28SLNtF2004975
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1664400236;
+        bh=OjiQ1doNog/JWhX86lsP3omApwC7zYFePhvL1UK0FWE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=yHU9aG6pKjsGxnJXYXCgfW1e4Jto8de+dOBZPDmb5q/HPld0My5+iwewRVyIbkQJx
+         SS/1oL9680sIYnWQLOo7zb2JyGkMK1owsg9CmCRnHazw88E9HV7cIAGoZnKOIrcD6r
+         LnJvscySVbX/gJzCjINmRnALwgLf9MYghIB6qshiJ5C8lpF+L3619P4A1GngNu0qkJ
+         /vjzwDVBN7HS5bhUGiglER9qbbZfleLdp93Y6YLLFFTrxNMmEDGDyS2wg0I85JbhKK
+         gMP9YOyLBKhE7wfzf4A+0DsF8hKxQPM3tDhFEz1BC5mBSqMVkHQzdkFvxvmO8yRJRs
+         5ZHzDx08dB4ww==
+X-Nifty-SrcIP: [209.85.160.49]
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-131886d366cso7319106fac.10
+        for <linux-kbuild@vger.kernel.org>; Wed, 28 Sep 2022 14:23:56 -0700 (PDT)
+X-Gm-Message-State: ACrzQf2/ButdM07qc/qsW6s2jljFpMxhb+zMyLX6RvB2MzQotaUIB7i1
+        IYla9PSvBy5q/WvKPwLkZEYPZ/GUSxI+FaXZeLI=
+X-Google-Smtp-Source: AMsMyM5QaERGmUmNYsGikUKPSIHfA17ssg2n+Up0k1P0HZnNsSsRCWBgihdwqY/bR4yHS5Wk2L69g/4nTVaqU07DrhE=
+X-Received: by 2002:a05:6870:c58b:b0:10b:d21d:ad5e with SMTP id
+ ba11-20020a056870c58b00b0010bd21dad5emr6456370oab.287.1664400234933; Wed, 28
+ Sep 2022 14:23:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220928182523.3105953-1-nathan@kernel.org>
-In-Reply-To: <20220928182523.3105953-1-nathan@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 28 Sep 2022 14:13:47 -0700
-Message-ID: <CAKwvOdmPLqX=oCwg43TYHj=tdoaU5OYc=bO906u=LeqcSrx+Dw@mail.gmail.com>
-Subject: Re: [PATCH] lib/Kconfig.debug: Add check for non-constant
- .{s,u}leb128 support to DWARF5
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Tom Rix <trix@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>,
-        linux-kbuild@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        llvm@lists.linux.dev, Conor Dooley <conor.dooley@microchip.com>
+References: <CAK7LNATtFv9C4ppgxBWD+R5JtHUtCMb5yqvP1Vxsr2Ki7U466Q@mail.gmail.com>
+ <b0cf49ac1a3ece40e133fa80e3ceae7891d6ed8d.1661979510.git.owen@owenrafferty.com>
+ <CAK7LNARYiJNiFKL2pQWCOocxkYWiJ66S4gBDE=54tFYJnfO--g@mail.gmail.com>
+ <CAK7LNAQBijdVUVE3zpLCp2wXJ6FeC9Ar7ii_bMTPYWvGKgJJTQ@mail.gmail.com>
+ <e628cb91-0ed8-993e-7904-c7bf010b7462@infradead.org> <CAK7LNATche7qAiTROUYsp9h4E6OEbvddYgArkZHx-OHxqqLwVQ@mail.gmail.com>
+In-Reply-To: <CAK7LNATche7qAiTROUYsp9h4E6OEbvddYgArkZHx-OHxqqLwVQ@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 29 Sep 2022 06:23:18 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS3-KoEiwqFTgNa4DPWrBYuPcy7mPpJ-6+dtYsa=bjaNQ@mail.gmail.com>
+Message-ID: <CAK7LNAS3-KoEiwqFTgNa4DPWrBYuPcy7mPpJ-6+dtYsa=bjaNQ@mail.gmail.com>
+Subject: Re: [PATCH v4] kbuild: rewrite check-local-export in sh/awk
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Owen Rafferty <owen@owenrafferty.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,96 +64,97 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Sep 28, 2022 at 11:25 AM Nathan Chancellor <nathan@kernel.org> wrote:
+On Wed, Sep 28, 2022 at 2:38 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> When building with a RISC-V kernel with DWARF5 debug info using clang
-> and the GNU assembler, several instances of the following error appear:
+> On Wed, Sep 28, 2022 at 7:26 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+> >
+> > Hi,
+> >
+> > On 9/6/22 02:28, Masahiro Yamada wrote:
+> > > On Sun, Sep 4, 2022 at 1:01 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > >>
+> > >> On Thu, Sep 1, 2022 at 6:03 AM Owen Rafferty <owen@owenrafferty.com> wrote:
+> > >>>
+> > >>> Signed-off-by: Owen Rafferty <owen@owenrafferty.com>
+> > >>> ---
+> > >>
+> > >>
+> > >> Please input something in the commit log.
+> > >>
+> > >> I think the benchmark in v2 is worth mentioning
+> > >> because "awk is faster than bash" is one benefit
+> > >> of applying this patch.
+> > >>
+> > >>
+> > >
+> > >
+> > >
+> > > Applied to linux-kbuild. Thanks.
+> > >
+> > >
+> > > (V5 was not delivered to ML somehow,
+> > > but I found it in my mailbox.)
+> >
+> > Yeah, I haven't seen that one either.
+> >
+> > For whatever is in linux-next-20220927, I am seeing something
+> > unpleasant. I'm not positive that it's due to this patch, so I'm
+> > still checking/testing (but I'm about to leave home for awhile so
+> > I wanted to go ahead and let people know about this).
+> >
+> > I do N number of randconfig builds in a script (say 10).
+> > What I am seeing is that when an 'nm' error happens, the
+> > script is Terminated and not continued. E.g., if the error
+> > is on randconfig build #4, builds 5-10 are never started.
+> > The controlling script dies.
+> >
 >
->   /tmp/vgettimeofday-48aa35.s:2963: Error: non-constant .uleb128 is not supported
 >
-> Dumping the .s file reveals these .uleb128 directives come from
-> .debug_loc and .debug_ranges:
+> Hmm, I have not yet observed such an error.
 >
->   .Ldebug_loc0:
->           .byte   4                               # DW_LLE_offset_pair
->           .uleb128 .Lfunc_begin0-.Lfunc_begin0    #   starting offset
->           .uleb128 .Ltmp1-.Lfunc_begin0           #   ending offset
->           .byte   1                               # Loc expr size
->           .byte   90                              # DW_OP_reg10
->           .byte   0                               # DW_LLE_end_of_list
+> If it happens depending on a particular configuration,
+> please share the .config file.
 >
->   .Ldebug_ranges0:
->           .byte   4                               # DW_RLE_offset_pair
->           .uleb128 .Ltmp6-.Lfunc_begin0           #   starting offset
->           .uleb128 .Ltmp27-.Lfunc_begin0          #   ending offset
->           .byte   4                               # DW_RLE_offset_pair
->           .uleb128 .Ltmp28-.Lfunc_begin0          #   starting offset
->           .uleb128 .Ltmp30-.Lfunc_begin0          #   ending offset
->           .byte   0                               # DW_RLE_end_of_list
 >
-> There is an outstanding binutils issue to support a non-constant operand
-> to .sleb128 and .uleb128 in GAS for RISC-V but there does not appear to
-> be any movement on it, due to concerns over how it would work with
-> linker relaxation.
->
-> To avoid these build errors, prevent DWARF5 from being selected when
-> using clang and an assembler that does not have support for these symbol
-> deltas, which can be easily checked in Kconfig with as-instr plus the
-> small test program from the dwz test suite from the binutils issue.
->
-> Link: https://sourceware.org/bugzilla/show_bug.cgi?id=27215
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1719
-> Tested-by: Conor Dooley <conor.dooley@microchip.com>
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> ---
->  lib/Kconfig.debug | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index d3e5f36bb01e..19de03ead2ed 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -231,6 +231,9 @@ config DEBUG_INFO
->           in the "Debug information" choice below, indicating that debug
->           information will be generated for build targets.
->
-> +config AS_HAS_NON_CONST_LEB128
-> +       def_bool $(as-instr,.uleb128 .Lexpr_end4 - .Lexpr_start3\n.Lexpr_start3:\n.Lexpr_end4:)
-> +
->  choice
->         prompt "Debug information"
->         depends on DEBUG_KERNEL
-> @@ -277,6 +280,10 @@ config DEBUG_INFO_DWARF5
->         bool "Generate DWARF Version 5 debuginfo"
->         select DEBUG_INFO
->         depends on !CC_IS_CLANG || (CC_IS_CLANG && (AS_IS_LLVM || (AS_IS_GNU && AS_VERSION >= 23502)))
-> +       # Clang is known to generate .{s,u}leb128 with symbol deltas with
-> +       # DWARF5, which some targets may not support.
-> +       # https://sourceware.org/bugzilla/show_bug.cgi?id=27215
-> +       depends on !CC_IS_CLANG || AS_HAS_NON_CONST_LEB128
 
-Reraising my concern from
-https://github.com/ClangBuiltLinux/linux/issues/1719#issuecomment-1258678969
 
-We've put a fair amount of work into getting CC=clang LLVM_IAS=0 to
-work for DWARF v5 (both on the GNU binutils side, and Kbuild), I'd
-hate to see that effectively knee-capped because of an issue in GNU
-binutils that is only relevant for one architecture.
+Owen provided the following fix-up.
+I see his mail in my mailbox, but not in ML.
+(Does the ML reject mails from non-subscribers?)
 
-I'd concede support for ARCH=riscv, but not for all other
-architectures, which this effectively does.
 
->         help
->           Generate DWARF v5 debug info. Requires binutils 2.35.2, gcc 5.0+ (gcc
->           5.0+ accepts the -gdwarf-5 flag but only had partial support for some
->
-> base-commit: f76349cf41451c5c42a99f18a9163377e4b364ff
-> --
-> 2.37.3
->
->
+
+
+diff --git a/scripts/check-local-export b/scripts/check-local-export
+index 0c049ff44aca..f90b5a9c67b3 100755
+--- a/scripts/check-local-export
++++ b/scripts/check-local-export
+@@ -8,6 +8,7 @@
+ # EXPORT_SYMBOL should be used for global symbols.
+
+ set -e
++pid=$$
+
+ # If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
+ # 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
+@@ -20,7 +21,7 @@ set -e
+ # Then, the following line will be simpler:
+ #   { ${NM} --quiet ${1} || kill 0; } |
+
+-{ ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; kill 0; } } |
++{ ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; kill $pid; } } |
+ ${AWK} -v "file=${1}" '
+ BEGIN {
+
+
+
+
+I squashed the diff to the original patch.
+Thanks.
+
+
 
 
 -- 
-Thanks,
-~Nick Desaulniers
+Best Regards
+Masahiro Yamada
