@@ -2,59 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B4F2F5ED5CC
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Sep 2022 09:17:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF0C65ED7D7
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Sep 2022 10:33:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233418AbiI1HRr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 28 Sep 2022 03:17:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38586 "EHLO
+        id S232841AbiI1Idn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Sep 2022 04:33:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233341AbiI1HRo (ORCPT
+        with ESMTP id S232494AbiI1IdQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 28 Sep 2022 03:17:44 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 562DE85FBA;
-        Wed, 28 Sep 2022 00:17:40 -0700 (PDT)
-Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.54])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Mcnlc1w6RzWgtp;
-        Wed, 28 Sep 2022 15:13:32 +0800 (CST)
-Received: from [10.174.179.163] (10.174.179.163) by
- dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 28 Sep 2022 15:17:37 +0800
-Message-ID: <27399204-e9c7-57f0-23dd-1eb420cc59dd@huawei.com>
-Date:   Wed, 28 Sep 2022 15:17:36 +0800
+        Wed, 28 Sep 2022 04:33:16 -0400
+Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E79049019C;
+        Wed, 28 Sep 2022 01:33:04 -0700 (PDT)
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 28S8WkWP018062;
+        Wed, 28 Sep 2022 17:32:46 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 28S8WkWP018062
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1664353967;
+        bh=pdvXxuZ3aBaOu0wH2+xtJ+wALAcqF6k5PeLWYOgeG6I=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=W6koqCLv8BxVMBNSx2U45HYIx0hWxZIPWutZFq2pzZkR2AnRw8baai/br2kkeAr13
+         fNZDC3b/8oWAHMkO9P9lC2IBFSYyFfwgTNNePYMIBw85lBEb2wuzkui4pCXVM5oeSb
+         ecuS2C5BZgyX5Y41e7y8yKRBza1/GlvJK2mrI1l4+J3KlyZWztu73Zfl8Clt5hq9Ez
+         Q9Ddn1+IxOq4nPhFs5pM3eOQw8MqwV/SZujxNgxx4hOUVZd0B1Yo47VHoY8RJCQOU7
+         wsEjocwDymsOAPmDbEpEL4o4hpa0RiuUpCGvLBdZpXe/P0C5lyWQx63rmJSNrdr+iW
+         BMtg3LL5dq8SQ==
+X-Nifty-SrcIP: [209.85.160.52]
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-131886d366cso4777931fac.10;
+        Wed, 28 Sep 2022 01:32:46 -0700 (PDT)
+X-Gm-Message-State: ACrzQf3yDq/PWEV8+rfj6Vu4fryi0wuXZFbc8AN7CDTY00Iawbvx7QPk
+        0RXWe9mEu9rcl1fAyRO2+PeDz2vDzhebgHLikIA=
+X-Google-Smtp-Source: AMsMyM7On7YMV++vQCuZhdVZol9C6aPMbbY63JBvqiVUUIvcRJYiPr2sBeMsxcI4mk+5rkvEoFS5XGO/LUoMbbU46YU=
+X-Received: by 2002:a05:6870:c58b:b0:10b:d21d:ad5e with SMTP id
+ ba11-20020a056870c58b00b0010bd21dad5emr4576130oab.287.1664353965529; Wed, 28
+ Sep 2022 01:32:45 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH -next] Makefile: add implicit enum-conversion check for
- compile build
-Content-Language: en-US
-To:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-CC:     <masahiroy@kernel.org>, <michal.lkml@markovi.net>,
-        <akpm@linux-foundation.org>, <peterz@infradead.org>,
-        <keescook@chromium.org>, <davidgow@google.com>,
-        <jpoimboe@kernel.org>, <dan.j.williams@intel.com>,
-        <ojeda@kernel.org>, <isabbasso@riseup.net>,
-        <dmitrii.bundin.a@gmail.com>, <vbabka@suse.cz>,
-        <linux@rasmusvillemoes.dk>, <linux-kbuild@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <liwei391@huawei.com>,
-        <weiyongjun1@huawei.com>, clang-built-linux <llvm@lists.linux.dev>,
-        linux-toolchains <linux-toolchains@vger.kernel.org>
-References: <20220927153125.811911-1-zengheng4@huawei.com>
- <CAKwvOdm2r_PPogCecGL4TMeYLq3qNkCbt7zqYTLmQf-PAQMGMg@mail.gmail.com>
- <YzMsmYTzX2Ni5zGP@dev-arch.thelio-3990X>
-From:   Zeng Heng <zengheng4@huawei.com>
-In-Reply-To: <YzMsmYTzX2Ni5zGP@dev-arch.thelio-3990X>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.179.163]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500022.china.huawei.com (7.185.36.162)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-6.5 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+References: <20220924181915.3251186-3-masahiroy@kernel.org>
+ <202209250350.jJ8vDPnH-lkp@intel.com> <CAK7LNAT9rrSZ2NfTB2G_YZUwE48NbDHPJbM4NbjtwSGWA1YR4Q@mail.gmail.com>
+ <CAKwvOdk8s5y_QQ7Gvp9E=LdxBtNnn4zkCzu40sHexxEZwwfO5w@mail.gmail.com>
+In-Reply-To: <CAKwvOdk8s5y_QQ7Gvp9E=LdxBtNnn4zkCzu40sHexxEZwwfO5w@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 28 Sep 2022 17:32:09 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQWrOYZws4U5GpmzyAOWab2wdZi1mgK4wouEqH3KeAQiA@mail.gmail.com>
+Message-ID: <CAK7LNAQWrOYZws4U5GpmzyAOWab2wdZi1mgK4wouEqH3KeAQiA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/7] kbuild: list sub-directories in ./Kbuild
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     kernel test robot <lkp@intel.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        kbuild-all@lists.01.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        David Gow <davidgow@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,149 +66,66 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
-On 2022/9/28 1:02, Nathan Chancellor wrote:
-> On Tue, Sep 27, 2022 at 09:45:17AM -0700, Nick Desaulniers wrote:
->> On Tue, Sep 27, 2022 at 8:15 AM Zeng Heng <zengheng4@huawei.com> wrote:
->>> Provide implicit enum-conversion warning option
->>> in general build. When it set enabled, it can
->>> detect implicit enum type conversion and find
->>> potential conversion errors like below
->>> (use "allmodconfig"):
->>>
->>> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/display_mode_vba_20.c:3904:46:
->>> error: implicit conversion from ‘enum <anonymous>’ to ‘enum odm_combine_mode’ [-Werror=enum-conversion]
->>>   3904 |       locals->ODMCombineEnablePerState[i][k] = true;
->>>        |                                              ^
->>>
->>> The '-Wenum-conversion' could be regarded as
->>> effective check on compile runtime and
->>> call attention on potential mistakes.
->>>
->>> Anothor practical example could be referred to:
->>> https://lore.kernel.org/all/CADnq5_OE0yZvEYGu82QJHL9wvVcTFZrmeTgX7URgh7FVA=jqYg@mail.gmail.com
->>>
->>> "-Wenum-conversion" was firstly introduced from
->>> GNU gcc-10.
->> What about clang? ;)
->>
->>> Although "-Wenum-conversion" could be enabled
->>> by "-Wextra" when compiling with 'W=1' option,
->>> there are many warnings generated by '-Wextra'
->>> that cause too much noise in a build.
->> With clang, I believe that -Wenum-conversion is part of -Wall or
->> -Wextra; so enabling this explicitly is only necessary for GCC.  I
->> wonder why it's not part of -Wall or -Wextra for GCC?  Perhaps worth a
->> bug report/feature request?
-> With clang, -Wenum-conversion is just default enabled, not even behind
-> -Wall:
+On Tue, Sep 27, 2022 at 6:06 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
 >
-> $ cat test.c
-> enum enum1 { A = 1 };
-> enum enum2 { B = 2 };
+> On Sat, Sep 24, 2022 at 5:29 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > On Sun, Sep 25, 2022 at 5:28 AM kernel test robot <lkp@intel.com> wrote:
+> > >
+> > > Hi Masahiro,
+> > >
+> > > I love your patch! Perhaps something to improve:
+> > >
+> > > [auto build test WARNING on masahiroy-kbuild/for-next]
+> > > [cannot apply to arm64/for-next/core gerg-m68knommu/for-next geert-m68k/for-next deller-parisc/for-next powerpc/next s390/features tip/x86/core linus/master v6.0-rc6 next-20220923]
+> > > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > > And when submitting patch, we suggest to use '--base' as documented in
+> > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > >
+> > > url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/kbuild-various-cleanups/20220925-022150
+> > > base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
+> > > config: um-x86_64_defconfig
+> > > compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
+> > > reproduce (this is a W=1 build):
+> > >         # https://github.com/intel-lab-lkp/linux/commit/d721cc5614aaa17b2965db04e9319d4ef5f7eaf7
+> > >         git remote add linux-review https://github.com/intel-lab-lkp/linux
+> > >         git fetch --no-tags linux-review Masahiro-Yamada/kbuild-various-cleanups/20220925-022150
+> > >         git checkout d721cc5614aaa17b2965db04e9319d4ef5f7eaf7
+> > >         # save the config file
+> > >         mkdir build_dir && cp config build_dir/.config
+> > >         make W=1 O=build_dir ARCH=um SUBARCH=x86_64 SHELL=/bin/bash
+> > >
+> > > If you fix the issue, kindly add following tag where applicable
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > >
+> > > All warnings (new ones prefixed by >>):
+> > >
+> > > >> /usr/bin/ld: warning: ./arch/x86/um/vdso/vdso.o: missing .note.GNU-stack section implies executable stack
+> > >    /usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+> > >    /usr/bin/ld: warning: .tmp_vmlinux.kallsyms1 has a LOAD segment with RWX permissions
+> > >    /usr/bin/ld: warning: .tmp_vmlinux.kallsyms1.o: missing .note.GNU-stack section implies executable stack
+> > >    /usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+> > >    /usr/bin/ld: warning: .tmp_vmlinux.kallsyms2 has a LOAD segment with RWX permissions
+> > >    /usr/bin/ld: warning: .tmp_vmlinux.kallsyms2.o: missing .note.GNU-stack section implies executable stack
+> > >    /usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+> > >    /usr/bin/ld: warning: vmlinux has a LOAD segment with RWX permissions
 >
-> enum enum1 foo(enum enum2 bar)
-> {
->      return bar;
-> }
->
-> $ clang -fsyntax-only test.c
-> test.c:11:9: warning: implicit conversion from enumeration type 'enum enum2' to different enumeration type 'enum enum1' [-Wenum-conversion]
->          return bar;
->          ~~~~~~ ^~~
-> 1 warning generated.
->
-> On the other hand, GCC does have it under -Wextra:
->
-> $ gcc -fsyntax-only test.c
->
-> $ gcc -Wextra -fsyntax-only test.c
-> test.c: In function ‘foo’:
-> test.c:6:16: warning: implicit conversion from ‘enum enum2’ to ‘enum enum1’ [-Wenum-conversion]
->      6 |         return bar;
->        |                ^~~
->
-> But the kernel does not build with -Wextra aside from W=[123], hence
-> this warning has to be explicitly requested for GCC.
-
-Thanks to your replenish about clang.
+> See also:
+> https://lore.kernel.org/lkml/20220921064855.2841607-1-davidgow@google.com/
 
 
->>> Seeing the details from the following link:
->>> https://gcc.gnu.org/onlinedocs/gcc-11.3.0/gcc/Warning-Options.html
->>>
->>> Because there are still some concerned warnings
->>> exist, the patch marks the option disabled in default
->>> for avoiding compile failed like using "allmodconfig".
-> But there is no dependency to avoid this getting enabled by allmodconfig
-> (such as 'depends on !COMPILE_TEST') so I don't see the point in the
-> current form; 'default n' does nothing to prevent it. Regardless, I
-> agree with Nick's sentiment below.
->
->>> Signed-off-by: Zeng Heng <zengheng4@huawei.com>
->>> ---
->>>   Makefile          | 5 +++++
->>>   lib/Kconfig.debug | 7 +++++++
->>>   2 files changed, 12 insertions(+)
->>>
->>> diff --git a/Makefile b/Makefile
->>> index ebd48fc956a3..1790a3624358 100644
->>> --- a/Makefile
->>> +++ b/Makefile
->>> @@ -880,6 +880,11 @@ endif
->>>   KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
->>>   KBUILD_CFLAGS += $(call cc-disable-warning, unused-const-variable)
->>>
->>> +# check implicit enum conversion
->>> +ifdef CONFIG_ENUM_CONVERSION
->>> +KBUILD_CFLAGS += -Wenum-conversion
->>> +endif
->> Having a kconfig for this is overkill.  cc-option with a comment about
->> the compiler default versions is the way to go.
-Got it.
-> Agreed. If there is some reason -Wenum-conversion cannot be enabled for
-> GCC right now (such as existing warnings, which the commit message
-> appears to alude to), they should be cleaned up first then
-> -Wenum-conversion should just be unconditionally enabled for all
-> compilers that support it via cc-option, not half enabled via Kconfig so
-> that maybe people will clean up the warnings. That is not how enabling
-> warnings works:
->
-> https://lore.kernel.org/CAHk-=wg-mH-_GYpkhz_psjBWG6ZcjKnPo83fg7YMj_by+-LRTQ@mail.gmail.com/
 
-Have sent the patches to fix the involving warnings.
+Ah, thank you.
+My binutils version is 2.38, and
+that is why I was not able to reproduce the issue.
 
-If all the concerned warnings were repaired, I would send the v2 again.
 
-Thanks all.
+With binutils 2.39, now I see the warnings in the mainline kernel.
+My patch is not the root cause.
 
->>> +
->>>   # These result in bogus false positives
->>>   KBUILD_CFLAGS += $(call cc-disable-warning, dangling-pointer)
->>>
->>> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
->>> index 4f2b81229a2f..a64e06a747d8 100644
->>> --- a/lib/Kconfig.debug
->>> +++ b/lib/Kconfig.debug
->>> @@ -417,6 +417,13 @@ config FRAME_WARN
->>>            Setting this too low will cause a lot of warnings.
->>>            Setting it to 0 disables the warning.
->>>
->>> +config ENUM_CONVERSION
->>> +       bool "Warn for implicit enum conversion"
->>> +       depends on GCC_VERSION >= 100300
->>> +       default n
->>> +       help
->>> +         Tell gcc to warn at build time for implicit enum conversion.
->>> +
->>>   config STRIP_ASM_SYMS
->>>          bool "Strip assembler-generated symbols during link"
->>>          default n
->>> --
->>> 2.25.1
->>>
->>
->> -- 
->> Thanks,
->> ~Nick Desaulniers
->>
+
+
+-- 
+Best Regards
+Masahiro Yamada
