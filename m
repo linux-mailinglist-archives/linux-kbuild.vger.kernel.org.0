@@ -2,68 +2,70 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8B8B5EE497
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Sep 2022 20:47:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E479D5EE4D0
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Sep 2022 21:10:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232346AbiI1SrV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 28 Sep 2022 14:47:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58054 "EHLO
+        id S233186AbiI1TKd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Sep 2022 15:10:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229496AbiI1SrU (ORCPT
+        with ESMTP id S232170AbiI1TKc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 28 Sep 2022 14:47:20 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97D9DE952D;
-        Wed, 28 Sep 2022 11:47:11 -0700 (PDT)
+        Wed, 28 Sep 2022 15:10:32 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E66976A4A9;
+        Wed, 28 Sep 2022 12:10:25 -0700 (PDT)
 Received: from leknes.fjasle.eu ([46.142.49.177]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1M9npV-1oYMt008Sj-005p09; Wed, 28 Sep 2022 20:46:39 +0200
+ (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1Mow06-1p18ZR3rKg-00qSZY; Wed, 28 Sep 2022 21:09:56 +0200
 Received: from localhost.fjasle.eu (bergen.fjasle.eu [IPv6:fdda:8718:be81:0:6f0:21ff:fe91:394])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (Client did not present a certificate)
-        by leknes.fjasle.eu (Postfix) with ESMTPS id 73F423C004;
-        Wed, 28 Sep 2022 20:46:36 +0200 (CEST)
+        by leknes.fjasle.eu (Postfix) with ESMTPS id 303523C004;
+        Wed, 28 Sep 2022 21:09:54 +0200 (CEST)
 Authentication-Results: leknes.fjasle.eu; dkim=none; dkim-atps=neutral
 Received: by localhost.fjasle.eu (Postfix, from userid 1000)
-        id EF7412D3A; Wed, 28 Sep 2022 20:46:33 +0200 (CEST)
-Date:   Wed, 28 Sep 2022 20:46:33 +0200
+        id 7FCC2B4D; Wed, 28 Sep 2022 21:09:53 +0200 (CEST)
+Date:   Wed, 28 Sep 2022 21:09:53 +0200
 From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>
-Subject: Re: [PATCH] kbuild: hide error checker logs for V=1 builds
-Message-ID: <YzSWiSiA+1nf/6fI@bergen.fjasle.eu>
-References: <20220924082425.3116757-1-masahiroy@kernel.org>
- <CAKwvOd=RkYuiEJ1Kz+JnLSsLi_X-G22YPeqwLtZrwC+s8awfrA@mail.gmail.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <nathan@kernel.org>
+Subject: Re: [PATCH v3 1/7] kbuild: hard-code KBUILD_ALLDIRS in
+ scripts/Makefile.package
+Message-ID: <YzScAYUStPbp9o0i@bergen.fjasle.eu>
+References: <20220924181915.3251186-1-masahiroy@kernel.org>
+ <20220924181915.3251186-2-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="xZife1hMvmdF4+mP"
+        protocol="application/pgp-signature"; boundary="yisc45JTu+esueRF"
 Content-Disposition: inline
-In-Reply-To: <CAKwvOd=RkYuiEJ1Kz+JnLSsLi_X-G22YPeqwLtZrwC+s8awfrA@mail.gmail.com>
+In-Reply-To: <20220924181915.3251186-2-masahiroy@kernel.org>
 Jabber-ID: nicolas@jabber.no
 X-Operating-System: Debian GNU/Linux bookworm/sid
-X-Provags-ID: V03:K1:XMIeaSQt7aUaSc5YtPNr1oEbAyYCr4FGT1fK13ktG/cbG/b9kGj
- AFtDD3P5+QsU0DHAoW5ZiTicJVDYe8TVMjNneXEaWdowEFxtQ4aW9QbpUkoyzeflApxjmfD
- JOlgvsweY7IwlNVEqURmi4jYIoC0fePAogwuT1Jj/Z7rVZGMuQ5M9l5qH2v6q4W/Gp53mYR
- jqZnSh0Qez5PExCGyLU2Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:csBDPrEbHDU=:rgp5MxjcU6/ZwSlvO6xU+I
- pAUYIcOpln8WAALHpZcdizhMMh+DfRu6+VVgCBgsSOILCakpNZa2fhUT4SQMXGfXGpowqZQSe
- p3K0M3hd2ZLPV333Q0yzFbSQUrhqT3z6RyVdZnTaya4Z8b6r9KvaF6Yzln6XE3UkWsL7upuKJ
- 3NmBN9KuBCEnvs/yTXSggrvYhBpwwFm9+3VUQyLN3ZxJru2dQyOW55h+7yvpKWP9ZJdOE1pip
- w4RwoOwmZ5ooMT617v+eJdKfSW//t6fsOTeivnYlNhsLaAhsfTJlySbVKLL89fp030WgCn6rC
- UuOYvEsMXL3VtRumziBDfLqNmk44Y920tNRH4Gvy3nYFALh1VNQjVh+c59Tv4BkzDc28WjOa2
- dSygIqeGYQf7wOyIUCPSU+e8JGQ+AWBu7kI0RwZxuw51QIr+KkOGXNAF/srSk/379hWVx4syC
- hUeSGm4Tj0RrJVBXMnmmZaU6vOJMP+D2F4xGLzD+JgTz5WAizkeiS0vpZb4uATRzKI9BUJy1I
- SomaQQFSkjA4TfJTQ8VYpX+Lt4GZCbqGwvz6CHlOuVxwOTjJfAQX2qGJyLqE5MvsgOtXzJan9
- c9tOQHGRsLPW70S9LSAfF+XjxkMVtGQQlVXdW9BgyZhGKODY7Mgn4GJ4WYi90nJ2YV8CZ0UKB
- VB1C6hOm8dqDB4DwDYKHQAP74o+sNWkp/GTaOm7QSdkdbGboFj8nSKp8YEPJwIgvKnxZLGgDr
- a4MHl5lzCfycC40weGnOMvZZWR7mbH80oSuyYcZ5EziiFgVvYJ20jAsr7t/ddx5lak6rJFZm0
- bBab2p0
+X-Provags-ID: V03:K1:KLB40yBRNF3j4INUsUj1VHniQuyqvKGqpeRCIP/Jt6wnFKpl7Fj
+ 2kka9RLgLaW3Aq0aan4q/Df+dqzcczGxzTLXa9dvjDhcNEdj132kD9vkq20USnCIeRZwqEA
+ SZi3S03gz803ihnUUASf56Vdzf5uH+SYVdIt1GDWtBvcJ/DOlMSb+iW5kzTi+MDw6//ZqHI
+ F27fQ6w606K7PnQPAyt8A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xWfgeOQ8fzU=:kekw7fS0mmwRT0uLAvOpvL
+ fiHDPT/P2tQAvs4bKPQOG7FjzTX2SEpW95McmIWCKS6OGolTVD2ZdJlU3G+I2bAjeDBO5FoNp
+ 0n2G52F24ajgjvQUDxKnxe1x8Xib+vu2ozk3Y2ihB4GJ/91tHW7mMOuwct0Ce0vkPJqLN5Uso
+ umkKigxQyqw9cWAhkR+PcOFvk7CYWWy0+tFZ7GF96gfqtXtAJAxQpVIuJDEu5zGiqJee4Ogew
+ 8mNbwcCX47RR3AeQS3ZaisoMxJayEZWyG/680XRcO+CWfJf/ZbDqepImml/VZfdvzt6tbdI17
+ Jyo0E3dawOdck8kJ2Zq+cxVhDEWOQ7FWNlQ6TuPTU0sQMCkQXET+EgcSlk3SiiCZpjlsJavCB
+ IrakeZPvoDy4C2O5Tn1kiR087oZ+DKA/2Yet5FTtfvVr31hMKYV3p103LaDqzkFYAUUjoWv1B
+ 8SiacZycDpSdI0DzPtbxUN+bGPIiP5IMdHKfdnn0o6hg1S/oPRTO0VgRQHVgZa2UxXwFnL1SG
+ Wdz3gBXDHlghyy5UvRcZgDSBDEl+u+59D+LsQNUGZmA/orOpR6zG8stJju48GHAkIPKPThASp
+ xRIb/eOoiIOOEMq/c/FIeLV1SF8n0MydbBuEPmfnPFkfrAbFvNmBJ9Mgwq3WakguG8+kpiSMR
+ t0xhnGnDxScPFtCLH2AzFH4ezoIyv+1pAk83Do+wjB4EfO2qBvtCoKXEPMIA3WX13RSe4t7BP
+ uAfD0BOP74DRCWw8346xlwPrbEmtTPYYxm7dpz2IQ5sqMqqzq1oAlhDCKngu05mkX95QVG38k
+ jW7Wkc8
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE autolearn=ham autolearn_force=no
-        version=3.4.6
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -71,114 +73,91 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
---xZife1hMvmdF4+mP
+--yisc45JTu+esueRF
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 26 Sep 2022 14:44:46 -0700 Nick Desaulniers wrote:
-> On Sat, Sep 24, 2022 at 1:25 AM Masahiro Yamada=20
-> <masahiroy@kernel.org> wrote:
-> >
-> > V=3D1 (verbose build) shows commands executed by Make, but it may cause
-> > misunderstanding.
-> >
-> > For example, the following command shows the outstanding error message.
-> >
-> >   $ make V=3D1 INSTALL_PATH=3D/tmp install
-> >   test -e include/generated/autoconf.h -a -e include/config/auto.conf |=
-| (                \
-> >   echo >&2;                                                       \
-> >   echo >&2 "  ERROR: Kernel configuration is invalid.";           \
-> >   echo >&2 "         include/generated/autoconf.h or include/config/aut=
-o.conf are missing.";\
-> >   echo >&2 "         Run 'make oldconfig && make prepare' on kernel src=
- to fix it.";      \
-> >   echo >&2 ;                                                      \
-> >   /bin/false)
-> >     unset sub_make_done; ./scripts/install.sh
-> >
-> > It is not an error. Make just showed the recipe lines it has executed,
-> > but people may think that 'make install' has failed.
-> >
-> > Likewise, the combination of V=3D1 and O=3D shows confusing
-> > "*** The source tree is not clean, please run 'make mrproper'".
-> >
-> > Suppress such misleading logs.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+On Sun, 25 Sep 2022 03:19:09 +0900 Masahiro Yamada wrote:
+> My plan is to list subdirectories in ./Kbuild. Once it occurs,
+> $(vmlinux-alldirs) will not contain all subdirectories.
 >=20
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-
-oh yes, thanks for that patch!
+> Let's hard-code the directory list until I get around to implementing
+> a more sophisticated way for generating a source tarball.
+>=20
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
 
 Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
-> > ---
-> >
-> >  Makefile | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Makefile b/Makefile
-> > index a5e9d9388649..833052fcf48a 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -583,7 +583,7 @@ quiet_cmd_makefile =3D GEN     Makefile
-> >         } > Makefile
-> >
-> >  outputmakefile:
-> > -       $(Q)if [ -f $(srctree)/.config -o \
-> > +       @if [ -f $(srctree)/.config -o \
-> >                  -d $(srctree)/include/config -o \
-> >                  -d $(srctree)/arch/$(SRCARCH)/include/generated ]; the=
-n \
-> >                 echo >&2 "***"; \
-> > @@ -739,7 +739,7 @@ else # !may-sync-config
-> >  PHONY +=3D include/config/auto.conf
-> >
-> >  include/config/auto.conf:
-> > -       $(Q)test -e include/generated/autoconf.h -a -e $@ || (         =
- \
-> > +       @test -e include/generated/autoconf.h -a -e $@ || (            =
- \
-> >         echo >&2;                                                      =
- \
-> >         echo >&2 "  ERROR: Kernel configuration is invalid.";          =
- \
-> >         echo >&2 "         include/generated/autoconf.h or $@ are missi=
-ng.";\
-> > --
-> > 2.34.1
-> >
+> Changes in v3:
+>   - New patch
 >=20
+>  Makefile                 | 2 --
+>  scripts/Makefile.package | 5 ++++-
+>  2 files changed, 4 insertions(+), 3 deletions(-)
 >=20
+> diff --git a/Makefile b/Makefile
+> index 57cf4a5bea6d..eb4bbbc898d0 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1129,8 +1129,6 @@ KBUILD_VMLINUX_OBJS +=3D $(patsubst %/,%/built-in.a=
+, $(drivers-y))
+> =20
+>  export KBUILD_VMLINUX_OBJS KBUILD_VMLINUX_LIBS
+>  export KBUILD_LDS          :=3D arch/$(SRCARCH)/kernel/vmlinux.lds
+> -# used by scripts/Makefile.package
+> -export KBUILD_ALLDIRS :=3D $(sort $(filter-out arch/%,$(vmlinux-alldirs)=
+) LICENSES arch include scripts tools)
+> =20
+>  vmlinux-deps :=3D $(KBUILD_LDS) $(KBUILD_VMLINUX_OBJS) $(KBUILD_VMLINUX_=
+LIBS)
+> =20
+> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+> index 5017f6b2da80..8bbcced67c22 100644
+> --- a/scripts/Makefile.package
+> +++ b/scripts/Makefile.package
+> @@ -29,7 +29,10 @@ KDEB_SOURCENAME ?=3D linux-upstream
+>  KBUILD_PKG_ROOTCMD ?=3D"fakeroot -u"
+>  export KDEB_SOURCENAME
+>  # Include only those top-level files that are needed by make, plus the G=
+PL copy
+> -TAR_CONTENT :=3D $(KBUILD_ALLDIRS) .config .scmversion Makefile \
+> +TAR_CONTENT :=3D Documentation LICENSES arch block certs crypto drivers =
+fs \
+> +               include init io_uring ipc kernel lib mm net samples scrip=
+ts \
+> +               security sound tools usr virt \
+> +               .config .scmversion Makefile \
+>                 Kbuild Kconfig COPYING $(wildcard localversion*)
+>  MKSPEC     :=3D $(srctree)/scripts/package/mkspec
+> =20
 > --=20
-> Thanks,
-> ~Nick Desaulniers
+> 2.34.1
 
 --=20
 epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
 =E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
      -- frykten for herren er opphav til kunnskap --
 
---xZife1hMvmdF4+mP
+--yisc45JTu+esueRF
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmM0loUACgkQB1IKcBYm
-EmmrLw/9E735yNM2hGBs8HBNLCZEGNVCfEpRK2x4w3vG2+i8SqNsprNiVOWwWKvu
-JJhqAO1PPzoyKmd4e2Y0nL29SE+l6YxVdsqKyuMschqkR5Rx3JQQQzVHBJYhl0Vn
-JXz7M9WtCAv334iXX/lk6NQ9TIu8ctQOm5hMvyvewDZxVe0KahwP/JcoujHaB17m
-YxqcFAlo5fcYsocNNXzykqQaHQLTNZwb0Cni3LOzA4EIsRWjacfDJCTeuia3PU1j
-l5EcRPF9diSQZ8d17aFvgS6azPJ7b8My7hPSdouOL5UYzgUzXlehjTyGzjf+TvAL
-Ko1gk9T3u9knG9pHkwMIxVp+Q0OcO4WUVFL2Iu/HMktWnmBiH3vcA7St0N/JPGGx
-pAMPEEBfnd/i38nxiVirIN2tEhvHbux19o+dmuN4IhyqJ4ytcFzG5vsHJOxL14GH
-hlX6LpKKK8Cv8TrVlXebjuZ6JjhZFZoxbvBn8AdiJPdOXCHzuFjPrUQGmkg3d6M+
-rOqTR84DxatK9sd1TpX1m9zunPNQZdStNA7aP5UFWGlQDlih9JCTbt0DNMMKTj+j
-gn95XOIy+NObMCuDfHqNARURICtPneb99P9N4njRRhh89niGTDZ2f9JG2Zuc2Emq
-4SP2UfIO5s8txFAzn6bLTzD9Z1AGBqO1TZvljhkq1sP2hoN7h+Q=
-=y17r
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmM0m/gACgkQB1IKcBYm
+Emmz6A/9GudZhGDEuiScPxyeaDy8UnaNrQ46o6QWmCK7meL9JifsDg33A+C/w2E5
+4wTarbibMH1Z2NUx5R8KYUiNFdKHvQmj5tGb5bvUBeEfbBXKFPnINEPRLy5pZd4M
+MI0AI/bEmfJBRh9p32D1PpmIQaytKbb+0z8VoVV5rluWWXl8d/QFxxn8sTO3s+21
+MYCXrSRP8Jj4qbdZ27uCkCvLHBaKoBLZpzMx7vJSpgmDjIy0rOsbCtNLmilI1bOt
+uMOh8ND3sSRQ96Olg7VPsanP3axjpP9DN1FmY8DRAjA2//115mN884P2+hIlEu6j
+LiXZXhcyIqyR6nUqC6fhqRKWCaB3FcYBFTT2QE1UJwJcwLAA9TvXkC2nYr8Bn8+B
+gDWykOU/s/mws4GBnVSqO85DQkT/9PW1JgD0Xam4gxT+Sl5ETHCWkf8s0w397+vN
+jLHyvY9VKUGsqLe0WmKEfScohzVaNV4eKAqCP0jndr8mSpGFQ2ONuYHUPo3NwTGY
+rbhjzvE6UEnS0JVaX/BXZtE/tg14MK0jq/lPVbcmEQdFXoRPZdelMGC8i2nuaeeL
+sgZ42vXFLJs1qYU5JMB2QxUKlMi3k5KLHZ9i5IEGCFXSdOvDZ6Wx3A1pO1JiimaL
+5tD0/FWrjjA3baDGLEDqS/TWQLEoCDmxlDguSl710B6sjYNXfe0=
+=RsJ9
 -----END PGP SIGNATURE-----
 
---xZife1hMvmdF4+mP--
+--yisc45JTu+esueRF--
