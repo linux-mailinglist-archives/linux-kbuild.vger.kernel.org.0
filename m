@@ -2,120 +2,130 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E1A65ED44D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Sep 2022 07:39:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EC045ED520
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Sep 2022 08:42:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229567AbiI1Fjh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 28 Sep 2022 01:39:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51466 "EHLO
+        id S233290AbiI1Gmk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Sep 2022 02:42:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230185AbiI1Fjh (ORCPT
+        with ESMTP id S233196AbiI1Gl4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 28 Sep 2022 01:39:37 -0400
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0089102C
-        for <linux-kbuild@vger.kernel.org>; Tue, 27 Sep 2022 22:39:33 -0700 (PDT)
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 28S5d3UK023029
-        for <linux-kbuild@vger.kernel.org>; Wed, 28 Sep 2022 14:39:03 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 28S5d3UK023029
+        Wed, 28 Sep 2022 02:41:56 -0400
+Received: from conuserg-08.nifty.com (conuserg-08.nifty.com [210.131.2.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C9789FCF;
+        Tue, 27 Sep 2022 23:41:33 -0700 (PDT)
+Received: from zoe.. (133-32-182-133.west.xps.vectant.ne.jp [133.32.182.133]) (authenticated)
+        by conuserg-08.nifty.com with ESMTP id 28S6e0G1004120;
+        Wed, 28 Sep 2022 15:40:01 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 28S6e0G1004120
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1664343543;
-        bh=j7WsjhYS8dKZSH3tfHHxY4XaYgKONTNLQPBqrbmADVY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=fVub2KR1LwSTC3G9AB0fqvINJBuk8PTxXt6+AE0S40pG6YIUhTfLhVwOQUkZ9oF9f
-         cr/OhPPD9BzP1xCC9T6d78wD91kiD8Pdqc1ivfNivK5yDdt9yr0P5zXb+5M0pJImDx
-         3mL0bj5ZM3JeCIrjqyWrBv9RPAKhPXV76KRXJt4tDr96V2f7CcCvNPNYimVD0wfEfc
-         D8KkbkXF4nNBQO0uIvZjNJTQb1H2qTTt5Fa4GVcdfqtGhudq83tCo2Me94L/VaKTKX
-         rkee3ZXmSrgNvN2CIDvVmIeanidYzzjFmYJ8tIu5L7PcwEqEh1zXmme/61RTktg1ko
-         f6KTtXt7TzUXA==
-X-Nifty-SrcIP: [209.85.167.174]
-Received: by mail-oi1-f174.google.com with SMTP id m81so14309622oia.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 27 Sep 2022 22:39:03 -0700 (PDT)
-X-Gm-Message-State: ACrzQf2TRZwqhBRpuOiBH1DEYvl1a0sCFv0Ovv0/+bz2o0u5B3DMO68E
-        YedzMGNER56mVZwcqs383z7PSF8i21H+EOkr5q4=
-X-Google-Smtp-Source: AMsMyM7uHct7YRXfZazSKGBPNW1oA2o9WuqMb2pJY8Youe6pNhs8OyR+EZSe7NzQvBVK4irAMl27ry9bbatfCtOABQA=
-X-Received: by 2002:a54:400c:0:b0:34f:9913:262 with SMTP id
- x12-20020a54400c000000b0034f99130262mr3443524oie.287.1664343542543; Tue, 27
- Sep 2022 22:39:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAK7LNATtFv9C4ppgxBWD+R5JtHUtCMb5yqvP1Vxsr2Ki7U466Q@mail.gmail.com>
- <b0cf49ac1a3ece40e133fa80e3ceae7891d6ed8d.1661979510.git.owen@owenrafferty.com>
- <CAK7LNARYiJNiFKL2pQWCOocxkYWiJ66S4gBDE=54tFYJnfO--g@mail.gmail.com>
- <CAK7LNAQBijdVUVE3zpLCp2wXJ6FeC9Ar7ii_bMTPYWvGKgJJTQ@mail.gmail.com> <e628cb91-0ed8-993e-7904-c7bf010b7462@infradead.org>
-In-Reply-To: <e628cb91-0ed8-993e-7904-c7bf010b7462@infradead.org>
+        s=dec2015msa; t=1664347202;
+        bh=bMCdFStQWZxbQk1gnDYL3CYDG5GATkG7hQ6PvF/Ni/8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=zf8famM/zizOFxIt3oYqdutBJGCGMDtkJOGKUlSLT9VRrbo9zHExkpzA1iVxSLOh/
+         Oyt8iYIg532sXu1vuU1NUJy+TmrspHKQa50z7G1Jl7qjk/pem8zJB3O1/lPEzKI4SS
+         L8GwUNl26Vqk3PNauHk2YIv19nEf2yJJRCKrzqT6qxewU16Ddn4ZbpsSY+DxbguJF7
+         yEAuEbH1vrMESkNhAnrfQdF33O0/BrtmuH07MPMaeIm4uwvLrPybNhgVvtYX274aPD
+         rghIvbMv6VoszIUPOuddyty09b8Q3pHnJd95hTqhbWTgO520iTtQrI3oUlDbQBptbq
+         yf0pYtaWX6FGw==
+X-Nifty-SrcIP: [133.32.182.133]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 28 Sep 2022 14:38:26 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATche7qAiTROUYsp9h4E6OEbvddYgArkZHx-OHxqqLwVQ@mail.gmail.com>
-Message-ID: <CAK7LNATche7qAiTROUYsp9h4E6OEbvddYgArkZHx-OHxqqLwVQ@mail.gmail.com>
-Subject: Re: [PATCH v4] kbuild: rewrite check-local-export in sh/awk
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Owen Rafferty <owen@owenrafferty.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
-        autolearn_force=no version=3.4.6
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-ia64@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Nicolas Pitre <npitre@baylibre.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, linux-modules@vger.kernel.org,
+        llvm@lists.linux.dev
+Subject: [PATCH v3 0/8] Unify <linux/export.h> and <asm/export.h>, remove EXPORT_DATA_SYMBOL(), faster TRIM_UNUSED_KSYMS
+Date:   Wed, 28 Sep 2022 15:39:39 +0900
+Message-Id: <20220928063947.299333-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,
+        SPF_SOFTFAIL autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Sep 28, 2022 at 7:26 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> Hi,
->
-> On 9/6/22 02:28, Masahiro Yamada wrote:
-> > On Sun, Sep 4, 2022 at 1:01 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >>
-> >> On Thu, Sep 1, 2022 at 6:03 AM Owen Rafferty <owen@owenrafferty.com> wrote:
-> >>>
-> >>> Signed-off-by: Owen Rafferty <owen@owenrafferty.com>
-> >>> ---
-> >>
-> >>
-> >> Please input something in the commit log.
-> >>
-> >> I think the benchmark in v2 is worth mentioning
-> >> because "awk is faster than bash" is one benefit
-> >> of applying this patch.
-> >>
-> >>
-> >
-> >
-> >
-> > Applied to linux-kbuild. Thanks.
-> >
-> >
-> > (V5 was not delivered to ML somehow,
-> > but I found it in my mailbox.)
->
-> Yeah, I haven't seen that one either.
->
-> For whatever is in linux-next-20220927, I am seeing something
-> unpleasant. I'm not positive that it's due to this patch, so I'm
-> still checking/testing (but I'm about to leave home for awhile so
-> I wanted to go ahead and let people know about this).
->
-> I do N number of randconfig builds in a script (say 10).
-> What I am seeing is that when an 'nm' error happens, the
-> script is Terminated and not continued. E.g., if the error
-> is on randconfig build #4, builds 5-10 are never started.
-> The controlling script dies.
->
+
+This patch set refactors EXPORT_SYMBOL, <linux/export.h> and <asm/export.h>.
+Also, re-implement TRIM_UNUSED_KSYMS in one-pass.
+
+You can still put EXPORT_SYMBOL() in *.S file, very close to the definition,
+but you do not need to care about whether it is a function or a data.
+Remove EXPORT_DATA_SYMBOL().
+
+In v1, I broke ia64 because of missing distinction between functions and data.
+
+V2 handles it correctly.
+If the exported symbols is a function, KSYMTAB_FUNC is output.
+Otherwise, KSYMTAB_DATA is output.
 
 
-Hmm, I have not yet observed such an error.
+Changes in v3:
+  - Move to the head of the series
+  - New patch
+  - Move struct kernel_symbol to kernel/module/internal.h
+  - Some cleanups
 
-If it happens depending on a particular configuration,
-please share the .config file.
+Changes in v2:
+  - New patch
+  - Use KSYMTAB_FUNC and KSYMTAB_DATA for functions and data, respectively
+    This distinction is needed for ia64.
+  - New patch
+  - New patch
 
+Masahiro Yamada (8):
+  kbuild: move modules.builtin(.modinfo) rules to Makefile.vmlinux_o
+  kbuild: rebuild .vmlinux.export.o when its prerequisite is updated
+  kbuild: generate KSYMTAB entries by modpost
+  ia64,export.h: replace EXPORT_DATA_SYMBOL* with EXPORT_SYMBOL*
+  modpost: squash sym_update_namespace() into sym_add_exported()
+  modpost: use null string instead of NULL pointer for default namespace
+  modpost: squash report_sec_mismatch() and remove enum mismatch
+  kbuild: implement CONFIG_TRIM_UNUSED_KSYMS without recursion
 
-
-
+ .gitignore                      |   1 -
+ Makefile                        |  37 ++----
+ arch/ia64/include/asm/Kbuild    |   1 +
+ arch/ia64/include/asm/export.h  |   3 -
+ arch/ia64/kernel/head.S         |   2 +-
+ arch/ia64/kernel/ivt.S          |   2 +-
+ include/asm-generic/export.h    |  83 +-----------
+ include/linux/export-internal.h |  49 +++++++
+ include/linux/export.h          | 114 +++-------------
+ kernel/module/internal.h        |  12 ++
+ scripts/Makefile.build          |  15 +--
+ scripts/Makefile.modpost        |   8 +-
+ scripts/Makefile.vmlinux        |  21 ++-
+ scripts/Makefile.vmlinux_o      |  26 +++-
+ scripts/adjust_autoksyms.sh     |  73 ----------
+ scripts/basic/fixdep.c          |   3 +-
+ scripts/check-local-export      |   4 +-
+ scripts/gen_autoksyms.sh        |  62 ---------
+ scripts/gen_ksymdeps.sh         |  30 -----
+ scripts/link-vmlinux.sh         |  12 --
+ scripts/mod/modpost.c           | 228 ++++++++++++++++----------------
+ scripts/mod/modpost.h           |   1 +
+ scripts/remove-stale-files      |   2 +
+ 23 files changed, 270 insertions(+), 519 deletions(-)
+ delete mode 100644 arch/ia64/include/asm/export.h
+ delete mode 100755 scripts/adjust_autoksyms.sh
+ delete mode 100755 scripts/gen_autoksyms.sh
+ delete mode 100755 scripts/gen_ksymdeps.sh
 
 -- 
-Best Regards
-Masahiro Yamada
+2.34.1
+
