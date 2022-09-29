@@ -2,63 +2,73 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AABB55EFE1E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Sep 2022 21:45:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33AB55EFF01
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Sep 2022 23:07:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229501AbiI2Tpn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 29 Sep 2022 15:45:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42312 "EHLO
+        id S229515AbiI2VHt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 29 Sep 2022 17:07:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbiI2Tpn (ORCPT
+        with ESMTP id S229824AbiI2VHs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 29 Sep 2022 15:45:43 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 304861C612E;
-        Thu, 29 Sep 2022 12:45:30 -0700 (PDT)
-Received: from leknes.fjasle.eu ([46.142.98.59]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MsI0I-1pXLCj2IyA-00tns0; Thu, 29 Sep 2022 21:44:59 +0200
-Received: by leknes.fjasle.eu (Postfix, from userid 1000)
-        id 5018E3C0EE; Thu, 29 Sep 2022 21:44:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1664480681; bh=/IdJ/iIOnaSJvNrs5eWWK6bLbVF1qoMoWNVY5xgybgk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oJeD9ZktKIGUe7odDOSO9lIhA72OKyPU7cGeIpO4Q9fxk675D3DeF2gkBCu9Up8Ce
-         9iDodBraXtRiWMVqfgtolBr5IrSXaHW56WKm2H4jBldsWhohA45Vu7TeazVI/6Cg0I
-         raj8HkDAetPGdZ1KJOvVwrJMB439T0e5YsHoU8Ok=
-Date:   Thu, 29 Sep 2022 21:44:36 +0200
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-ia64@vger.kernel.org
-Subject: Re: [PATCH] ia64: simplify esi object addition in Makefile
-Message-ID: <YzX1pC8KpAwLFzfq@fjasle.eu>
-References: <20220929181715.2504087-1-masahiroy@kernel.org>
+        Thu, 29 Sep 2022 17:07:48 -0400
+Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5A7D1B8C82;
+        Thu, 29 Sep 2022 14:07:46 -0700 (PDT)
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 28TL7NGT003772;
+        Fri, 30 Sep 2022 06:07:24 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 28TL7NGT003772
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1664485644;
+        bh=iLVh07jKsWnF/nynGPwOpn80jqLcwNey7UtDaG17CHs=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=izohTiN6tnHamGY3bka2pIwi9VZh9wJsLgD342C98radP3sA9XzYQmfWRxfAWjQ0K
+         KuHSa3XqK/awQQkGl11tuR0JsU9V/iiWiL401B1U5tlWPrElfwWJNWm1ju9alYO7kT
+         MChlb7gX5k0RkLkA8RLbVT1kUiZtllwetNvSY5YG5UTRcpHPPol5Z3boTf015kn8aO
+         dWHx+c+c4hmRT1NFO/B+8+cg1ntK5eUFgLiK2zJnmaGEcXmupYpaEEru3S/Mu5El64
+         zgW+NAujF+BBkEsTdFx2PEmgJxQGHB+4f8ZACdIeth4nSrziUZ56bSBuLYOf9SsH7A
+         REzIXfM9jmgbQ==
+X-Nifty-SrcIP: [209.85.160.45]
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-131b7bb5077so3303675fac.2;
+        Thu, 29 Sep 2022 14:07:24 -0700 (PDT)
+X-Gm-Message-State: ACrzQf2CXNFBkb/83Xo5lqNatOaLRDBsa3c/KrHQVUbS5x0NSAo1Qotk
+        54cw7husbNTqgeCsisyEVIpm+/qJZbz44ew2Rrg=
+X-Google-Smtp-Source: AMsMyM4fem0edsXmUM889roku0P2y8yY3ZF1UrAPxL8lHPaqJ5cdkmOCnxKrnr52z6c1NhIQmiLfFBiTFbVcCQStdvg=
+X-Received: by 2002:a05:6870:6326:b0:131:9200:c99d with SMTP id
+ s38-20020a056870632600b001319200c99dmr8103058oao.194.1664485643280; Thu, 29
+ Sep 2022 14:07:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Tq5f2PmMQquE+b+1"
-Content-Disposition: inline
-In-Reply-To: <20220929181715.2504087-1-masahiroy@kernel.org>
-X-Provags-ID: V03:K1:TmOsAeIV+WN5ZcZgZbtSZvQ0lIlIcYig/S1kFd9BhuGxqH7yWfd
- EV8Rt0i8Fm8HpgysL2gZArxD8GyqMZU6e+rJJP/cvqMMfGR2eJrY9mYIkDVQYATUW9+agH+
- pL0h92MXNtPNJB6acO2yS/8JyDbx9LH44+NQvm0zFdbLrlSrkNhrWfpfdiQ/gToHF6cLRiP
- UcykgXQzSngPsj4EAUTTQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:UlYbnXWmEg0=:oFh6/PnQzsl/VKLSINNy+7
- enqcqupYhrFYPe8A9mzPVE+g30gXNn0H1Ew+lZhxB2Kl+JtDRhxlHEYupym9PSQc8Ap4phVry
- bK1HwOCNsodwyUqc9RHzFBRE806MfOMswCxpODMkG7634A5cLBYepfNUJnlenAFLLFJpRsZaN
- KiWvI4IHJLM2uHDb4gMd/EtDzujItFSHhWmFt78Rv1txu3QAF0YJyMMDjLk/ZsmSNgoyhVAhl
- y/h6cVFcRaMMXbj8mLk8nfdt5a8ynBSWpz3lCO3OQ4x5OwC7IRBEcXhL8J1e10BPB+D7R8vpd
- +RSKmA6zj/SAf/XqObic5vSTgY6t19MsupWGxPmeTtAt2HrCMShO1Dp0IICv+zdJqwQ6+bLBe
- tyMGB7Z3ePhy1sAqUD/AJMVBSj/IQgLe49Vqkm8Oxy28I6sY+GKtplhyhxy70lncVEbtqj/mo
- ZuIZek+9irK5tq4sgS2GemgXfI6vYFIk0Gf6Rc7W3UPRE/2ua4pBWOOuyL7/clV30eR+vQO85
- 6Yx5lLMcUjPkEjXlCnVeOFfEU/XRFSHv9mrq6h8VkIAtRiZyrfTCiCzh+ZYR6iqAvdbQMNaqz
- 0Qr4bc6B0NawGRkPyvg02XK/WQRjbStie6KCG3WR4RIiPXD6e/7Zu8BpehOw+ZceH3ePMiVrY
- EZT/s06P2q8J0ZLmjLAeGOul5YOedmfOCR1oUOwllDVgj0rdXh1n6D/FNawotOZNB36XmA1u4
- ZQNo3L+8gHMFP+GYAL9uU8505MfFSmlxbqNv0ONU7iKhJCoSdsBcDqJxeQpv/ANYYlRs7mo1z
- ID2IN++
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+References: <CANXV_XwgZMCGXijfoUyZ9+KyM6Rgeqiq-sCfubyj_16d-2CN=A@mail.gmail.com>
+ <20220815013317.26121-1-dmitrii.bundin.a@gmail.com> <CAKwvOdnnSAozX8bQ9HeSw12BV9OjpzyDmXk_BGczjVVQNN+7tQ@mail.gmail.com>
+ <CANXV_Xw2wzwDdJkyV1nHPQm2JTt48SLrNc7YwrfcxOwuFA-z3w@mail.gmail.com>
+ <CAKwvOdkiq_byi1QeCvSGb2fd+0AJ1k9WNnsHJMeaaQcPRy1Wxg@mail.gmail.com>
+ <CAKwvOdkPwbD-c0V-up2Ufzb-Uh7LLyD12X0FKeBa=hn+cSPA9Q@mail.gmail.com> <CANXV_XzdTTYc2w7Ur8zY=ijOofg91yfF7RLhedbVH0rmi3c2yA@mail.gmail.com>
+In-Reply-To: <CANXV_XzdTTYc2w7Ur8zY=ijOofg91yfF7RLhedbVH0rmi3c2yA@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 30 Sep 2022 06:06:46 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATeW+c5+Kxnj9M4N+yNSv+7ot7bLTHzO3Z0Xb_XEW_6Nw@mail.gmail.com>
+Message-ID: <CAK7LNATeW+c5+Kxnj9M4N+yNSv+7ot7bLTHzO3Z0Xb_XEW_6Nw@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: add debug level and macro defs options
+To:     Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Isabella Basso <isabbasso@riseup.net>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Fangrui Song <maskray@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,62 +76,103 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Tue, Aug 23, 2022 at 7:42 AM Dmitrii Bundin
+<dmitrii.bundin.a@gmail.com> wrote:
+>
+> On Tue, Aug 23, 2022 at 12:36 AM Nick Desaulniers
+> <ndesaulniers@google.com> wrote:
+> >
+> > or perhaps that simply needs to be `-g -gsplit-dwarf`?  In which case,
+> > that if/else could just be re-arranged.
+>
+> How about simply assigning DEBUG_CFLAGS   := -g at the very beginning
+> without any conditions? This would provide the default with the
+> possibility of overriding later and -gsplit-dwarf does not necessarily
+> come with -g implicitly.
 
---Tq5f2PmMQquE+b+1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Sep 30, 2022 at 03:17:15AM +0900, Masahiro Yamada wrote:
-> CONFIG_IA64_ESI is a bool option. I do not know why the Makefile was
-> written like this, but this should not have any functional change.
->=20
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->=20
->  arch/ia64/kernel/Makefile | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
->=20
-> diff --git a/arch/ia64/kernel/Makefile b/arch/ia64/kernel/Makefile
-> index 4a1fcb121dda..ae9ff07de4ab 100644
-> --- a/arch/ia64/kernel/Makefile
-> +++ b/arch/ia64/kernel/Makefile
-> @@ -34,10 +34,7 @@ mca_recovery-y			+=3D mca_drv.o mca_drv_asm.o
->  obj-$(CONFIG_IA64_MC_ERR_INJECT)+=3D err_inject.o
->  obj-$(CONFIG_STACKTRACE)	+=3D stacktrace.o
-> =20
-> -obj-$(CONFIG_IA64_ESI)		+=3D esi.o
-> -ifneq ($(CONFIG_IA64_ESI),)
-> -obj-y				+=3D esi_stub.o	# must be in kernel proper
-> -endif
-> +obj-$(CONFIG_IA64_ESI)		+=3D esi.o esi_stub.o # must be in kernel proper
->  obj-$(CONFIG_INTEL_IOMMU)	+=3D pci-dma.o
-> =20
->  obj-$(CONFIG_ELF_CORE)		+=3D elfcore.o
-> --=20
-> 2.34.1
-
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+This was fixed by commit 32ef9e5054ec0321b9336058c58ec749e9c6b0fe,
+which is now in the mainline.
 
 
---Tq5f2PmMQquE+b+1
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmM19ZUACgkQB1IKcBYm
-EmkEbBAAm5UCu4BTNWub0JzpHT+zh4G3HV6bTXxys44FjP8YWOp6s7CJU6XMiWMo
-UMQDondudm8qiED+ubk1gihfQTfAtwSLO5rXf1mrxqFbJ2n9eazvitBYM4v7uxsh
-M4BMCjPXCxSvbsfbzYCe6qodGc6nmT1/K+fXovJwl7I0WxCzOyELi3O4s5U/rsiU
-osB2pNSN9X0nqywj7iaEsPYYswXVXN4QhXg2ogKEKsei41E7pZVWaix+JwPPYosa
-81YK+18IyCCzVwXiQ8FsHBas6hxHVl2/l1XfhQoG/heQ7ZfbBSlDl7qSKceblDb4
-Ue3cG365ejb2ghYtb3wBCH/WE3wDZ7H95OsCWbubJbr+TwyXLX5jlwV5cf9RoE2s
-cw8jiX5nnmBTiIPt0ithvI0BfppjJAfjZkBVYzujpVVDgmKLV6HGfshg3xFDOmMJ
-M9C1EIiapWWwnoISfgp/QL4YCFcP2lIE9Wgq88Dz9bd2dN43kStvxTu7uUkfgdr8
-O0bYOv5etL8TrDAY63OEJ2d0RnttwFJnLLf8lrq3f0GT98Lb1OzS40rK8bE759VI
-uZOyeRl3ntWl18HBIXnB7LVt6SDfMiwLrty2i+iFGFzDNxl9GYlZG4aqnLwt1EeG
-gMuZeNVk5HzpdSqsxIs36jN4QeK/M7FiXlKPeeB2VB6q4EiifhU=
-=23js
------END PGP SIGNATURE-----
+> > Honestly, I really don't think we need to be wrapping every compiler
+> > command line flag under the sun in a kconfig option.
+>
+> This indeed sounds reasonable to me. So the key point here is to not
+> bloat the kconfig with options related to every compiler flag. But I
+> think it still might be useful to provide some option that would
+> include sort of full debug information compilers may produce. With
+> this approach there would be, in fact 3 different levels of debug
+> information supported by Kconfig: reduced, default and full. The full
+> level would increase everything like -g3, and -fdebug-macro for Clang,
+> and probably others.
 
---Tq5f2PmMQquE+b+1--
+
+I think that would be much saner than this patch.
+
+
+
+CONFIG_DEBUG_INFO_LEVEL is a direct way to specify the debug level.
+
+CONFIG_DEBUG_MACRO_DEFINITIONS is feature-driven.
+
+Do not mix two different ways.
+
+
+
+
+
+
+CONFIG_DEBUG_INFO_LEVEL is here just because Andrew Morton suggested that.
+
+
+The debug level is compiler-specific. There is no guarantee
+that there is a common range.
+
+
+The debug level range of GCC is 0-3.
+Clang accepts 3, but -g3 has no effect.
+The debug level range of Rustc is 0-2.
+
+See how badly scripts/Makefile.debug looks in linux-next.
+
+
+
+
+
+How should Rustc behave for CONFIG_DEBUG_INFO_LEVEL=3 ?
+
+-Cdebuginfo=3 is a compile error.
+
+  RUSTC L rust/core.o
+error: debug info level needs to be between 0-2 (instead was `3`)
+
+
+
+You cannot directly specify the debug level number given that
+we support multiple compilers with different policy for
+debug level options.
+
+
+
+
+
+
+> > Or add -g1 to CONFIG_DEBUG_INFO_REDUCED.
+>
+> I ran some tests and there was indeed some decrease in size. That
+> combination probably might be useful.
+>
+> Any thoughts?
+>
+> Regards
+> Dmitrii
+
+
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
