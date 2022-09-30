@@ -2,74 +2,71 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E695C5F0746
-	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Sep 2022 11:12:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CA345F1167
+	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Sep 2022 20:14:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231279AbiI3JM2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 30 Sep 2022 05:12:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58108 "EHLO
+        id S231872AbiI3SOa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 30 Sep 2022 14:14:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229780AbiI3JM1 (ORCPT
+        with ESMTP id S232130AbiI3SON (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 30 Sep 2022 05:12:27 -0400
-Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A563D14AD50;
-        Fri, 30 Sep 2022 02:12:24 -0700 (PDT)
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 28U9C57w032344;
-        Fri, 30 Sep 2022 18:12:06 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 28U9C57w032344
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1664529126;
-        bh=HA2of/puN6xRLdK9PexIdFYmyloxm9i54QDhPTAM0Uo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=GNukAmlmCpqR93YDlJq6hpb/LTJq9jZKlbJxYDtGCUNKmKXH2JQYAmsXgB6pF+8aB
-         GywO0ANdXFQBVudMuuDKP0CTtpK/glYVCX1yKZrp7LSi+CfGPGF+ybQGBmjkxGr1I3
-         Gcbzbytu0uuG3XohtI+cdy52hTAV9UMHj1QHonkTYz9NAoSpHGEwgtmkR0+QTJu24B
-         ClySX4yQ3MvTfSef74HWLnW+Ew5NF/Q5eDUSIpKJ6GIjWMZwxCmYfyGJn459FBRolI
-         gD53DN4qQauRcpJ1AlEQPcTc0mZeHkpHbSGK3JQMGl2nY3sUSwpwbuhlySCzMdnW7H
-         7O6YT7hVk0qNQ==
-X-Nifty-SrcIP: [209.85.161.54]
-Received: by mail-oo1-f54.google.com with SMTP id k10-20020a4ad10a000000b004756ab911f8so1824143oor.2;
-        Fri, 30 Sep 2022 02:12:06 -0700 (PDT)
-X-Gm-Message-State: ACrzQf0JfSZyGIbSmmAsnM0/TPixzKyfJ4RfDWk5K92CW/gn4V4182IW
-        ICuRtss1NGKuN8eJKBc5nA7EIPNqJhXgQjq3TnY=
-X-Google-Smtp-Source: AMsMyM7P2o/PpH4uAWWWa8HvGCeVVx36H+mnwjxjpLX3pX8Pthy0bgqohZUCu+KDoYAB97WUfM2VpRVLtdoczYTwjyY=
-X-Received: by 2002:a05:6830:658b:b0:63b:3501:7167 with SMTP id
- cn11-20020a056830658b00b0063b35017167mr3118609otb.343.1664529124867; Fri, 30
- Sep 2022 02:12:04 -0700 (PDT)
+        Fri, 30 Sep 2022 14:14:13 -0400
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68F381EDF68
+        for <linux-kbuild@vger.kernel.org>; Fri, 30 Sep 2022 11:13:35 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id d10so4912534pfh.6
+        for <linux-kbuild@vger.kernel.org>; Fri, 30 Sep 2022 11:13:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date;
+        bh=csppaKmQ1ESJt0WGd0PBHaMkSLI1suVHoGARj7x1z+c=;
+        b=nNRUnwrAE4/ZhAggVoCMVewDLJhPFl1kxsKTRupBBnShTfF+x75jwYc2po3v+kimjU
+         i1boPexvizor3SY8Y2xO9XN9BIMnuYBK0o4wQduStit6w9MzYXUdjPFHxacobnKw/u/N
+         vH6j9KJuHwf+E5OrRws1VninG2Ytv2gtVmVE16leLlZwjNeeApywcvLjrt5fUthIYRp3
+         ZfTMI0X7AE9Zd4E9oiC2cagJzpeHmS3PMIwnGJLZ7CgFMyGhRYOveZ9TBsQu0519amfh
+         FOPFgfkhBGhyfgC9bn+i/KzLN/WBINbz3UJ4fVahBKKXGLEWSZvAJd2gwmYhKHDlEc/o
+         VtBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=csppaKmQ1ESJt0WGd0PBHaMkSLI1suVHoGARj7x1z+c=;
+        b=rHpaPfQHaXf2ydDNl0oi5OJ0KysAKy08GhIckUMTc1twduiJHEqLF5PRGu7ptOEElV
+         vEgRBv/GZ/Bq30HZlFJJz5DknixBqDCieWpmFIFG4udf0dQ/+w8xnMgW/L2DKVQlh7li
+         7IO0MkkQnAB6L/GZ57+Mpyqiz4+xTHgmamnYH9XLzfqPZ5Q8Ovm+Z5kBKM1QP3o1P8r5
+         9RwK8f705mdm31wwZKf82mQe9gpaBQSrHmwTu8hJRdmNZBQ+72miWq5xi1C2t9+JBbJN
+         Nrx1MsAlRZKLZoqSGtWLE7fYlHpc5ez7JLOTAnKe0KpfNIyBuv7nxUgG/AUJiH6IQt29
+         2G7Q==
+X-Gm-Message-State: ACrzQf3sA9uF1yR9xvt14g+pegCfE1edXEm3K38TFzKjCGg65xcGIz2n
+        bIhww93AkPlajEIlJOxdBRlqgCb15JeDSLq6TEnXxg==
+X-Google-Smtp-Source: AMsMyM4WPZBeH1UOcgkarIzc3EwJ8qMxeWdcIqwDAbLOVzpbyKHs4boy4ez766cTMTdd70FQi+/DZ4syvDpSJ64ibRo=
+X-Received: by 2002:a63:e709:0:b0:438:98e8:d1c with SMTP id
+ b9-20020a63e709000000b0043898e80d1cmr8765081pgi.403.1664561614652; Fri, 30
+ Sep 2022 11:13:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <CANXV_XwgZMCGXijfoUyZ9+KyM6Rgeqiq-sCfubyj_16d-2CN=A@mail.gmail.com>
- <20220815013317.26121-1-dmitrii.bundin.a@gmail.com> <CAKwvOdnnSAozX8bQ9HeSw12BV9OjpzyDmXk_BGczjVVQNN+7tQ@mail.gmail.com>
- <CANXV_Xw2wzwDdJkyV1nHPQm2JTt48SLrNc7YwrfcxOwuFA-z3w@mail.gmail.com>
- <CAKwvOdkiq_byi1QeCvSGb2fd+0AJ1k9WNnsHJMeaaQcPRy1Wxg@mail.gmail.com>
- <CAKwvOdkPwbD-c0V-up2Ufzb-Uh7LLyD12X0FKeBa=hn+cSPA9Q@mail.gmail.com>
- <CANXV_XzdTTYc2w7Ur8zY=ijOofg91yfF7RLhedbVH0rmi3c2yA@mail.gmail.com> <CAK7LNATeW+c5+Kxnj9M4N+yNSv+7ot7bLTHzO3Z0Xb_XEW_6Nw@mail.gmail.com>
-In-Reply-To: <CAK7LNATeW+c5+Kxnj9M4N+yNSv+7ot7bLTHzO3Z0Xb_XEW_6Nw@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 30 Sep 2022 18:11:28 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATqfCxwvYMUtoQZkoTk5yqZ_q+HJgcf934ib3NEG91oiw@mail.gmail.com>
-Message-ID: <CAK7LNATqfCxwvYMUtoQZkoTk5yqZ_q+HJgcf934ib3NEG91oiw@mail.gmail.com>
-Subject: Re: [PATCH v3] kbuild: add debug level and macro defs options
-To:     Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Isabella Basso <isabbasso@riseup.net>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
+References: <20220930085351.2648034-1-masahiroy@kernel.org>
+In-Reply-To: <20220930085351.2648034-1-masahiroy@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Fri, 30 Sep 2022 11:13:23 -0700
+Message-ID: <CAKwvOdnS8mGiNWPyn+jA7=MdZ3NsO0zrq2hAK8bvndf_4z1MJQ@mail.gmail.com>
+Subject: Re: [PATCH] Kconfig.debug: split debug-level and DWARF-version into
+ separate choices
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Kees Cook <keescook@chromium.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Fangrui Song <maskray@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
         Nathan Chancellor <nathan@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>
+        Miguel Ojeda <ojeda@kernel.org>,
+        Dmitrii Bundin <dmitrii.bundin.a@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,126 +74,195 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Sep 30, 2022 at 6:06 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Fri, Sep 30, 2022 at 1:55 AM Masahiro Yamada <masahiroy@kernel.org> wrot=
+e:
 >
-> On Tue, Aug 23, 2022 at 7:42 AM Dmitrii Bundin
-> <dmitrii.bundin.a@gmail.com> wrote:
-> >
-> > On Tue, Aug 23, 2022 at 12:36 AM Nick Desaulniers
-> > <ndesaulniers@google.com> wrote:
-> > >
-> > > or perhaps that simply needs to be `-g -gsplit-dwarf`?  In which case,
-> > > that if/else could just be re-arranged.
-> >
-> > How about simply assigning DEBUG_CFLAGS   := -g at the very beginning
-> > without any conditions? This would provide the default with the
-> > possibility of overriding later and -gsplit-dwarf does not necessarily
-> > come with -g implicitly.
+> Commit f9b3cd245784 ("Kconfig.debug: make DEBUG_INFO selectable from
+> a choice") added CONFIG_DEBUG_INFO_NONE into the DWARF version choice,
+> but it should rather belong to the debug level choice.
 >
-> This was fixed by commit 32ef9e5054ec0321b9336058c58ec749e9c6b0fe,
-> which is now in the mainline.
+> This commit cosolidates CONFIG options into two choices:
+
+s/cosolidates/consolidates/
+
 >
+>  - Debug info level (NONE / REDUCED / DEFAULT)
 >
+>  - DWARF format (DWARF_TOOLCHAIN_DEFAULT / DWARF4 / DWARF5)
 >
+> This is more consistent with compilers' policy because the -g0 compiler
+> flag means "no debug info".
 >
-> > > Honestly, I really don't think we need to be wrapping every compiler
-> > > command line flag under the sun in a kconfig option.
-> >
-> > This indeed sounds reasonable to me. So the key point here is to not
-> > bloat the kconfig with options related to every compiler flag. But I
-> > think it still might be useful to provide some option that would
-> > include sort of full debug information compilers may produce. With
-> > this approach there would be, in fact 3 different levels of debug
-> > information supported by Kconfig: reduced, default and full. The full
-> > level would increase everything like -g3, and -fdebug-macro for Clang,
-> > and probably others.
+>   GCC manual:
 >
+>     -g<level>
 >
-> I think that would be much saner than this patch.
+>       Request debugging information and also use level to specify how
+>       much information. The default level is 2.
 >
+>       Level 0 produces no debug information at all. Thus, -g0 negates -g.
 >
+>       Level 1 produces minimal information, enough for making backtraces
+>       in parts of the program that you don=E2=80=99t plan to debug. This =
+includes
+>       descriptions of functions and external variables, and line number
+>       tables, but no information about local variables.
 >
-> CONFIG_DEBUG_INFO_LEVEL is a direct way to specify the debug level.
+>       Level 3 includes extra information, such as all the macro
+>       definitions present in the program. Some debuggers support macro
+>       expansion when you use -g3.
 >
-> CONFIG_DEBUG_MACRO_DEFINITIONS is feature-driven.
+>   Rustc Codegen manual:
 >
-> Do not mix two different ways.
+>     debuginfo
 >
+>       This flag controls the generation of debug information. It takes
+>       one of the following values:
 >
+>       0: no debug info at all (the default).
+>       1: line tables only.
+>       2: full debug info.
 >
+> I moved CONFIG_DEBUG_INFO_REDUCED into the debug level choice.
 >
+> This change will make it easier to add another debug info level if
+> necessary.
 >
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+
+SGTM; thanks for the patch!
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
+> ---
 >
-> CONFIG_DEBUG_INFO_LEVEL is here just because Andrew Morton suggested that.
+>  lib/Kconfig.debug | 60 +++++++++++++++++++++++++++++------------------
+>  1 file changed, 37 insertions(+), 23 deletions(-)
 >
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index d3e5f36bb01e..03e75a54be6c 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -232,17 +232,11 @@ config DEBUG_INFO
+>           information will be generated for build targets.
 >
-> The debug level is compiler-specific. There is no guarantee
-> that there is a common range.
+>  choice
+> -       prompt "Debug information"
+> +       prompt "Debug information level"
+>         depends on DEBUG_KERNEL
+>         help
+>           Selecting something other than "None" results in a kernel image
+>           that will include debugging info resulting in a larger kernel i=
+mage.
+> -         This adds debug symbols to the kernel and modules (gcc -g), and
+> -         is needed if you intend to use kernel crashdump or binary objec=
+t
+> -         tools like crash, kgdb, LKCD, gdb, etc on the kernel.
+> -
+> -         Choose which version of DWARF debug info to emit. If unsure,
+> -         select "Toolchain default".
 >
+>  config DEBUG_INFO_NONE
+>         bool "Disable debug information"
+> @@ -250,9 +244,41 @@ config DEBUG_INFO_NONE
+>           Do not build the kernel with debugging information, which will
+>           result in a faster and smaller build.
 >
-> The debug level range of GCC is 0-3.
-> Clang accepts 3, but -g3 has no effect.
-> The debug level range of Rustc is 0-2.
+> +config DEBUG_INFO_REDUCED
+> +       bool "Reduced debugging information"
+> +       select DEBUG_INFO
+> +       help
+> +         If you say Y here compiler is instructed to generate less debug=
+ging
+> +         information for structure types. This means that tools that
+> +         need full debugging information (like kgdb or systemtap) won't
+> +         be happy. But if you merely need debugging information to
+> +         resolve line numbers there is no loss. Advantage is that
+> +         build directory object sizes shrink dramatically over a full
+> +         DEBUG_INFO build and compile times are reduced too.
+> +         Only works with newer gcc versions.
+> +
+> +config DEBUG_INFO_DEFAULT
+> +       bool "Default-level debugging information"
+> +       select DEBUG_INFO
+> +       help
+> +         If you say Y here compiler is instructed to generate the defaul=
+t
+> +         level of debugging information.
+> +
+> +         This adds debug symbols to the kernel and modules (gcc -g), and
+> +         is needed if you intend to use kernel crashdump or binary objec=
+t
+> +         tools like crash, kgdb, LKCD, gdb, etc on the kernel.
+> +
+> +endchoice # "Debug information level"
+> +
+> +choice
+> +       prompt "DWARF version"
+> +       depends on DEBUG_INFO
+> +       prompt "DWARF version"
+> +       help
+> +         Which version of DWARF debug info to emit.
+> +
+>  config DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+>         bool "Rely on the toolchain's implicit default DWARF version"
+> -       select DEBUG_INFO
+>         help
+>           The implicit default version of DWARF debug info produced by a
+>           toolchain changes over time.
+> @@ -261,9 +287,10 @@ config DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+>           support newer revisions, and prevent testing newer versions, bu=
+t
+>           those should be less common scenarios.
 >
-> See how badly scripts/Makefile.debug looks in linux-next.
+> +         If unsure, say Y.
+> +
+>  config DEBUG_INFO_DWARF4
+>         bool "Generate DWARF Version 4 debuginfo"
+> -       select DEBUG_INFO
+>         depends on !CC_IS_CLANG || (CC_IS_CLANG && (AS_IS_LLVM || (AS_IS_=
+GNU && AS_VERSION >=3D 23502)))
+>         help
+>           Generate DWARF v4 debug info. This requires gcc 4.5+, binutils =
+2.35.2
+> @@ -275,7 +302,6 @@ config DEBUG_INFO_DWARF4
 >
+>  config DEBUG_INFO_DWARF5
+>         bool "Generate DWARF Version 5 debuginfo"
+> -       select DEBUG_INFO
+>         depends on !CC_IS_CLANG || (CC_IS_CLANG && (AS_IS_LLVM || (AS_IS_=
+GNU && AS_VERSION >=3D 23502)))
+>         help
+>           Generate DWARF v5 debug info. Requires binutils 2.35.2, gcc 5.0=
++ (gcc
+> @@ -290,22 +316,10 @@ config DEBUG_INFO_DWARF5
+>           config if they rely on tooling that has not yet been updated to
+>           support DWARF Version 5.
 >
+> -endchoice # "Debug information"
+> +endchoice # "DWARF version"
 >
+>  if DEBUG_INFO
 >
->
-> How should Rustc behave for CONFIG_DEBUG_INFO_LEVEL=3 ?
->
-> -Cdebuginfo=3 is a compile error.
->
->   RUSTC L rust/core.o
-> error: debug info level needs to be between 0-2 (instead was `3`)
->
->
->
-> You cannot directly specify the debug level number given that
-> we support multiple compilers with different policy for
-> debug level options.
->
->
->
->
->
->
-> > > Or add -g1 to CONFIG_DEBUG_INFO_REDUCED.
-> >
-> > I ran some tests and there was indeed some decrease in size. That
-> > combination probably might be useful.
-> >
-> > Any thoughts?
-> >
-> > Regards
-> > Dmitrii
->
->
->
->
->
+> -config DEBUG_INFO_REDUCED
+> -       bool "Reduce debugging information"
+> -       help
+> -         If you say Y here gcc is instructed to generate less debugging
+> -         information for structure types. This means that tools that
+> -         need full debugging information (like kgdb or systemtap) won't
+> -         be happy. But if you merely need debugging information to
+> -         resolve line numbers there is no loss. Advantage is that
+> -         build directory object sizes shrink dramatically over a full
+> -         DEBUG_INFO build and compile times are reduced too.
+> -         Only works with newer gcc versions.
+> -
+>  config DEBUG_INFO_COMPRESSED
+>         bool "Compressed debugging information"
+>         depends on $(cc-option,-gz=3Dzlib)
 > --
-> Best Regards
-> Masahiro Yamada
+> 2.34.1
+>
 
 
-
-
-
-
-I proposed to do a ground-work like the following first.
-https://patchwork.kernel.org/project/linux-kbuild/patch/20220930085351.2648034-1-masahiroy@kernel.org/
-
-
-
-On top of that, it is easier to add CONFIG_DEBUG_INFO_FULL or whatever.
-
-
-And, -g1 for CONFIG_DEBUG_INFO_REDUCED if you think it is worthwhile.
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+--=20
+Thanks,
+~Nick Desaulniers
