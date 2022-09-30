@@ -2,69 +2,80 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE2935F1260
-	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Sep 2022 21:27:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5E585F13B8
+	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Sep 2022 22:33:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230167AbiI3T1B (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 30 Sep 2022 15:27:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36146 "EHLO
+        id S231408AbiI3UdX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 30 Sep 2022 16:33:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231408AbiI3T07 (ORCPT
+        with ESMTP id S232542AbiI3UdT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 30 Sep 2022 15:26:59 -0400
-Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E501DBF1CE;
-        Fri, 30 Sep 2022 12:26:58 -0700 (PDT)
-Received: by mail-io1-xd29.google.com with SMTP id p202so4043272iod.6;
-        Fri, 30 Sep 2022 12:26:58 -0700 (PDT)
+        Fri, 30 Sep 2022 16:33:19 -0400
+Received: from mail-pj1-x104a.google.com (mail-pj1-x104a.google.com [IPv6:2607:f8b0:4864:20::104a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E319C1D7BFB
+        for <linux-kbuild@vger.kernel.org>; Fri, 30 Sep 2022 13:33:16 -0700 (PDT)
+Received: by mail-pj1-x104a.google.com with SMTP id m2-20020a17090a158200b002058e593c2bso3193524pja.2
+        for <linux-kbuild@vger.kernel.org>; Fri, 30 Sep 2022 13:33:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=CyFCz/PtxiRojOro3Tz6mAJs1BnBuc5nNL9d7R4p0VM=;
-        b=Ol34SH8f6LSSLIoWabQ2NpBwBBP5p5lAyhUs9K12JJbo2ENGWC6drB0y/He03EdGs9
-         l/eif+wWKjSIp+xlbVw8oab1YRGXwXYcS334ER9DA/NMOHSoIGg4xsK89nbf5f6uTT/T
-         ZhXKlT0nB/1PL5IO8DOr6YrPcPeAZ2OhlP+tVcb1E5WrJth7mpjEhOQrUEYbinjD0PCe
-         5NOv2hC9Qtt+WLpdW4z29/P5sd/ley1mXZ0mB6HfpLga/+h7ir41zte82Ln8iEerSt6K
-         0ms1CbL7RLHg+W5XW2MhTZ28dKAoPcBoB/Qf7wrvoiYLG7+CyyiT/mZYldF9UTvqEm5Q
-         QIsQ==
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date;
+        bh=SMQsBtCCyLRrqpBDgN2Zoeao+ul/V+LJS6j1U8pzQAU=;
+        b=JVe8vVsAiLOpWL3/NzYtEi2BruvEjHVm4AEMgx5mc+Ak77rP8Jn9WKf6W8EyjFam2W
+         KfDCzI3KrvVgqbNhjxoez9qP5YEmbdUysYr9GoCP1FW6BXKAoMJg3z62g2AVRExvSItO
+         ST7N4OvdR10yDD31HpFVvaviiwtZXkcWkUHN4BUBKZ6kbWrOx9bHCUDM1hnbjh0OB/LZ
+         +4evEXvbMukJR3Z7UJPKMhEQvgUVk6VZoGsD4dxkiwBIDf5lgOZLoh6U9oNmPRixYW2z
+         InT4O0wyUrlRVLU87m+DiRzIw7QXhJZJDPnK6cg+xujAwI/HKnh7B0Qa97c09DHyCmIL
+         5A3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=CyFCz/PtxiRojOro3Tz6mAJs1BnBuc5nNL9d7R4p0VM=;
-        b=GW3xHsktXbp/UG6FDkfA051WbJDuOYkYsmeK6pcnKqvXvuXjKW9/znCLLNd9KckKDX
-         +YAZVVymznAddkWyCk7h3F1T2rj3vUWh/AXYBlmV98N/cw9tthbSZoOXkdVwPfsiV5sm
-         Mvvi+fGgiH17VElMS1CDPXO4+g+ctLvjc3oPPzS61PLMjzUvQ6Cryd7AAKzeF8OgxfnJ
-         zPk0yg3KjejR2supRcmf+b9slmRqsp2SYudYcPZJ/M1IX8y0zhCjfE3Bc0dW1OjT1YJx
-         GNm2lHE/DHVhDD5C9zcacQBLd2Pvo6ArnsovA1H8FqzE8eABjXyfjq3kAx8eF5GhGRHu
-         pdoQ==
-X-Gm-Message-State: ACrzQf2UGUJkkZQ/wsRXSkOtOwYdBP3P0Bglsf/1zMHvmRX7E8yvym0g
-        8x1FwukAU4C7cTtG2a+1P6pkm2QGDnUzUsqpvSg=
-X-Google-Smtp-Source: AMsMyM7GnmJ4BsLjWakf62ggAye8LVDlOXcW9ycAf2aRyun7/LwPPppKdGkXdOZ/3YWo7oNEUxGvCjtbpcySHaz6+9k=
-X-Received: by 2002:a05:6602:1509:b0:69b:35ba:4720 with SMTP id
- g9-20020a056602150900b0069b35ba4720mr4601029iow.155.1664566018344; Fri, 30
- Sep 2022 12:26:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220930085351.2648034-1-masahiroy@kernel.org>
-In-Reply-To: <20220930085351.2648034-1-masahiroy@kernel.org>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Fri, 30 Sep 2022 21:26:47 +0200
-Message-ID: <CANiq72krEBRL5DGHJuaeruBnJ_GeZKVjwZPLJ9iy0ogbHcH-Dg@mail.gmail.com>
-Subject: Re: [PATCH] Kconfig.debug: split debug-level and DWARF-version into
- separate choices
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=SMQsBtCCyLRrqpBDgN2Zoeao+ul/V+LJS6j1U8pzQAU=;
+        b=eyjRPnRNhxkv6xE+vXostsahRtMK1H4t+bHYT8zmNf921SQsi92mQj2vzPUo4wEYPh
+         QoM6mbwRcOq5JxCGKEHs7hBoU8fOnJXdrXCHFshTzxNzONgt+DruUw0IZXTDeY36aL1i
+         DsU9oPwHtzO5PcgN47XHOxnaSqp9UhS5tLMdEjJ7Ql0UIWGAF1EEWyMx5CfkSaKO0qXJ
+         r8DqSr0FASqdEUTIyX3cOkyujXZu8EeZI9gQ0SvEpueBz8c5cKVyPw1GVi12HJBpa7Io
+         PykQytmGtPdwOTi/NLQy0Rz1YvoPcNycixHjOw3P0uKtMBYCTsTm3ekzIqDgDGXwzb+b
+         SYMQ==
+X-Gm-Message-State: ACrzQf3qw6gySnmBorq2rzzLTT2Ys25bFQA24uBi0T/g7jQdhdykytmh
+        Lu2mBahhXG8s8YWMjIOeWfUEfPSHFbhlf8l8sMw=
+X-Google-Smtp-Source: AMsMyM4eAqTCDUfydVdhf5U7mW3z+20dr+NzSt2BRmPuylTSU+w9kmiWK1I1Beyd2swmkxphq45pk8BzPKKFXP13glo=
+X-Received: from samitolvanen.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4f92])
+ (user=samitolvanen job=sendgmr) by 2002:a17:90b:1b06:b0:20a:6d32:b05e with
+ SMTP id nu6-20020a17090b1b0600b0020a6d32b05emr35559pjb.103.1664569996339;
+ Fri, 30 Sep 2022 13:33:16 -0700 (PDT)
+Date:   Fri, 30 Sep 2022 20:33:10 +0000
+Mime-Version: 1.0
+X-Developer-Key: i=samitolvanen@google.com; a=openpgp; fpr=35CCFB63B283D6D3AEB783944CB5F6848BBC56EE
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1362; i=samitolvanen@google.com;
+ h=from:subject; bh=cb9uxuoR+cjTVhl0LEU/KRuB1nV8Tr++NRhDrxG0pH4=;
+ b=owEB7QES/pANAwAKAUy19oSLvFbuAcsmYgBjN1KGfuXEg/p2HFc8oG4zdl0hi2M0tCCEpmBR8vbU
+ mUEvbkOJAbMEAAEKAB0WIQQ1zPtjsoPW0663g5RMtfaEi7xW7gUCYzdShgAKCRBMtfaEi7xW7o3tC/
+ 4gIorPccJBNlneIDwxrzmurGTgMjEeX26RFRVwv1bFgkbufV7u5gYf1jZCrCRrckERcBv7s33gacaH
+ yEHS51srndw7V5ol/CX17484w4zcqhkH2nNeZP996dY9m6tYwJsHHSYgRv5N6gcwzUaFa6+rPqHFbb
+ 5yH2tr+5q4c6aN5Ra9Wj83rCOw6aaNCnvOG8nhhT69MHyX6esWf1sec64IIyd8q7v1d8aXKIdz2PJ4
+ Ae7bsBLZClrEcol4ijmrLF1iGizStoGTNj9xMwG9w5v/2b5mrtgqtq40qS0dW57Gp/QJjPuRcPYoMb
+ dD8q9EpQazoDLbScLb62qEOwX1G/H7GRmB1Q21KJGAmwCinxforNZFI9L4RyQXmkVzx+G6aeFH2vcl
+ tMleRf8wUgpPUQOHrLzwcC4hZwapkOsp2NYhpt6QjGO3nqowr769r+oK0/H5CN55y9+JJotNsKuaAg
+ 3ZRV9R/cRNiXFj9x7u3YnkUfAVkxpRQnoMA5t3T9cxrQs=
+X-Mailer: git-send-email 2.38.0.rc1.362.ged0d419d3c-goog
+Message-ID: <20220930203310.4010564-1-samitolvanen@google.com>
+Subject: [PATCH] Makefile.extrawarn: Move -Wcast-function-type-strict to W=1
+From:   Sami Tolvanen <samitolvanen@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         Nathan Chancellor <nathan@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Dmitrii Bundin <dmitrii.bundin.a@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>
+        Tom Rix <trix@redhat.com>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+        Kees Cook <keescook@chromium.org>,
+        Sami Tolvanen <samitolvanen@google.com>, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,27 +83,37 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Sep 30, 2022 at 10:55 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
->   Rustc Codegen manual:
->
->     debuginfo
->
->       This flag controls the generation of debug information. It takes
->       one of the following values:
->
->       0: no debug info at all (the default).
->       1: line tables only.
->       2: full debug info.
+We enable -Wcast-function-type globally in the kernel to warn about
+mismatching types in function pointer casts. Compilers currently
+warn only about ABI incompability with this flag, but Clang 16 will
+enable a stricter version of the check by default that checks for an
+exact type match. This will be very noisy in the kernel, so disable
+-Wcast-function-type-strict without W=1 until the new warnings have
+been addressed.
 
-Thanks for including Rust here! :)
+Cc: stable@vger.kernel.org
+Link: https://reviews.llvm.org/D134831
+Link: https://github.com/ClangBuiltLinux/linux/issues/1724
+Suggested-by: Nathan Chancellor <nathan@kernel.org>
+Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+---
+ scripts/Makefile.extrawarn | 1 +
+ 1 file changed, 1 insertion(+)
 
-Acked-by: Miguel Ojeda <ojeda@kernel.org>
+diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+index 6ae482158bc4..52bd7df84fd6 100644
+--- a/scripts/Makefile.extrawarn
++++ b/scripts/Makefile.extrawarn
+@@ -64,6 +64,7 @@ KBUILD_CFLAGS += -Wno-sign-compare
+ KBUILD_CFLAGS += $(call cc-disable-warning, pointer-to-enum-cast)
+ KBUILD_CFLAGS += -Wno-tautological-constant-out-of-range-compare
+ KBUILD_CFLAGS += $(call cc-disable-warning, unaligned-access)
++KBUILD_CFLAGS += $(call cc-disable-warning, cast-function-type-strict)
+ endif
+ 
+ endif
 
-> +         Only works with newer gcc versions.
+base-commit: 7bc6e90d7aa4170039abe80b9f4e8c8e4eb35091
+-- 
+2.38.0.rc1.362.ged0d419d3c-goog
 
-Unrelated, but in a future patch it would be useful for users to say
-which versions.
-
-Cheers,
-Miguel
