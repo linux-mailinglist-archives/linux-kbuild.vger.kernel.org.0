@@ -2,90 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EEBA5F1CF2
-	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Oct 2022 16:48:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DD6A5F1F63
+	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Oct 2022 22:31:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229477AbiJAOsq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 1 Oct 2022 10:48:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56500 "EHLO
+        id S229468AbiJAUbA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 1 Oct 2022 16:31:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbiJAOsp (ORCPT
+        with ESMTP id S229534AbiJAUa6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 1 Oct 2022 10:48:45 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FDE676741
-        for <linux-kbuild@vger.kernel.org>; Sat,  1 Oct 2022 07:48:44 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id h8-20020a17090a054800b00205ccbae31eso11614036pjf.5
-        for <linux-kbuild@vger.kernel.org>; Sat, 01 Oct 2022 07:48:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=WXUW6n+YocspZHBa1uHAP+hmukxgAOqdWaMPFjgZfq0=;
-        b=oQrIcLm2/AzOeI7DlA81NFJX3B3BOsT+QRzwk3H2jTaTTc0+eHKpvnX2twWCBiSkJV
-         lCl7IMk+VpTcE67HGBRnpdj5AIo2AfprWmaW5ZzSnjWBd/jmIIJy25vQd2Reec9WinPH
-         l27pxL9fsGWW2OiZd6AEjAlJQ8twp/pbDh14U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=WXUW6n+YocspZHBa1uHAP+hmukxgAOqdWaMPFjgZfq0=;
-        b=lXqeh4kSO4ndaClaXY8Hxe58TJ1FKawWgk2acgn21MES6rDEgVBSueMEiCGDQKYwOV
-         dWynkDBcshR2HMEtZ6h+QVatrQnlr85isrVELpQFzxoLDMPcitGxQosyqNQu3XDhrwO/
-         6vPBu4kHZdlLqoXBde6qS9lFkscMrldtBpGsJdtetVectGXa3narVnSpkNUb2dToQV/Y
-         CphgE122yZI0gvKD99jpTDIdee1MaSfGznR1jcZ9cgRvNz3GQiXlNAkA6INC3eafRySY
-         scatV58fMIFVRnOBUZ2mK6Asx8k7lz07ZSrwsoBSl+Cr6/Uzm2qJ0BQ6ADMt6mZkBSS4
-         d9ag==
-X-Gm-Message-State: ACrzQf2i1hGuDJn/J0YjBr5fzVmGbXkhppMl+oHmvnXllR/hfovvZkZk
-        Ck48TaGzSKPFfs7/n6twvM5H9g==
-X-Google-Smtp-Source: AMsMyM7OFcoeT8Wign6R573YRonn6hDxkXDAJo6yXcperZ70XVD7CulLRtdLOLh3tmxu8dyxA/PQXA==
-X-Received: by 2002:a17:902:d54e:b0:178:2da7:1bea with SMTP id z14-20020a170902d54e00b001782da71beamr14035113plf.161.1664635723987;
-        Sat, 01 Oct 2022 07:48:43 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id x6-20020a63f706000000b00429c5270710sm3532975pgh.1.2022.10.01.07.48.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Oct 2022 07:48:43 -0700 (PDT)
-From:   Kees Cook <keescook@chromium.org>
-To:     samitolvanen@google.com, masahiroy@kernel.org,
-        michal.lkml@markovi.net
-Cc:     Kees Cook <keescook@chromium.org>, trix@redhat.com,
-        llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] Makefile.extrawarn: Move -Wcast-function-type-strict to W=1
-Date:   Sat,  1 Oct 2022 07:48:25 -0700
-Message-Id: <166463570274.4070760.11444179166073924518.b4-ty@chromium.org>
+        Sat, 1 Oct 2022 16:30:58 -0400
+Received: from conuserg-10.nifty.com (conuserg-10.nifty.com [210.131.2.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36B6D43145;
+        Sat,  1 Oct 2022 13:30:54 -0700 (PDT)
+Received: from zoe.. (133-32-182-133.west.xps.vectant.ne.jp [133.32.182.133]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id 291KSpu6001629;
+        Sun, 2 Oct 2022 05:28:51 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 291KSpu6001629
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1664656132;
+        bh=WVaRutAdMwkgqQFDUdeEzlxZSqRe3cLAvSUNcchojDA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=j6kmEy224q8ZfOfuLzGoOWgSoT8FuglYZUZiuTOOjJZKYSXpgdY6lKAmX77OZOE4G
+         o6TsfYF7eUy3AS0HkiVjztHgf3bXgib2OvhBKj6EC9ISoLCeCpQWfytUknRumCkOHm
+         K8FbecrmhsvMFdUUkBL9QYb2al60AKRp+KHSh5N905HJz1N3Jw28+RsU5cpn6ps4zr
+         u47JKN3lzT7bfMQv0b9osivN1ISqxdkKUM+DqKYVib8rGRrxauoFQlydLEH3TCEJAA
+         wmkwT/y1uuXGcPXBq8w0tTiDJetSclHGnlYwUaidFZWZe/jRhK9Ei7QNLtUXfGH7N8
+         wIjYL+RwFEknQ==
+X-Nifty-SrcIP: [133.32.182.133]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH] docs: bump minimal GNU Make version to 3.82
+Date:   Sun,  2 Oct 2022 05:28:35 +0900
+Message-Id: <20221001202836.3110985-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220930203310.4010564-1-samitolvanen@google.com>
-References: <20220930203310.4010564-1-samitolvanen@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+        SPF_SOFTFAIL autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, 30 Sep 2022 20:33:10 +0000, Sami Tolvanen wrote:
-> We enable -Wcast-function-type globally in the kernel to warn about
-> mismatching types in function pointer casts. Compilers currently
-> warn only about ABI incompability with this flag, but Clang 16 will
-> enable a stricter version of the check by default that checks for an
-> exact type match. This will be very noisy in the kernel, so disable
-> -Wcast-function-type-strict without W=1 until the new warnings have
-> been addressed.
-> 
-> [...]
+GNU Make 3.81 fails in CONFIG_RUST=y builds.
 
-Applied to for-next/hardening, thanks!
+  rust/Makefile:105: *** multiple target patterns.  Stop.
+  make[1]: *** [prepare] Error 2
+  make: *** [__sub-make] Error 2
 
-[1/1] Makefile.extrawarn: Move -Wcast-function-type-strict to W=1
-      https://git.kernel.org/kees/c/2120635108b3
+The error message looks weird, but the reason is that the 'private'
+keyword is only supported since GNU Make 3.82.
 
+GNU Make 3.81 is still able to build the kernel if CONFIG_RUST is
+disabled, but it might be a good timing to bump the minimal GNU Make
+version. Perhaps, I am the last person who was testing GNU Make 3.81.
+
+GNU Make 3.81 was released in 2006, GNU Make 3.82 in 2010.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ Documentation/process/changes.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 19c286c23786..26a7fd875cfa 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -31,7 +31,7 @@ you probably needn't concern yourself with pcmciautils.
+ ====================== ===============  ========================================
+ GNU C                  5.1              gcc --version
+ Clang/LLVM (optional)  11.0.0           clang --version
+-GNU make               3.81             make --version
++GNU make               3.82             make --version
+ bash                   4.2              bash --version
+ binutils               2.23             ld -v
+ flex                   2.5.35           flex --version
+@@ -83,7 +83,7 @@ docs on :ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
+ Make
+ ----
+ 
+-You will need GNU make 3.81 or later to build the kernel.
++You will need GNU make 3.82 or later to build the kernel.
+ 
+ Bash
+ ----
 -- 
-Kees Cook
+2.34.1
 
