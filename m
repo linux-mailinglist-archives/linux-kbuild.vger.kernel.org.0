@@ -2,118 +2,90 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A5E585F13B8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Sep 2022 22:33:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EEBA5F1CF2
+	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Oct 2022 16:48:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231408AbiI3UdX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 30 Sep 2022 16:33:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59734 "EHLO
+        id S229477AbiJAOsq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 1 Oct 2022 10:48:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232542AbiI3UdT (ORCPT
+        with ESMTP id S229468AbiJAOsp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 30 Sep 2022 16:33:19 -0400
-Received: from mail-pj1-x104a.google.com (mail-pj1-x104a.google.com [IPv6:2607:f8b0:4864:20::104a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E319C1D7BFB
-        for <linux-kbuild@vger.kernel.org>; Fri, 30 Sep 2022 13:33:16 -0700 (PDT)
-Received: by mail-pj1-x104a.google.com with SMTP id m2-20020a17090a158200b002058e593c2bso3193524pja.2
-        for <linux-kbuild@vger.kernel.org>; Fri, 30 Sep 2022 13:33:16 -0700 (PDT)
+        Sat, 1 Oct 2022 10:48:45 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FDE676741
+        for <linux-kbuild@vger.kernel.org>; Sat,  1 Oct 2022 07:48:44 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id h8-20020a17090a054800b00205ccbae31eso11614036pjf.5
+        for <linux-kbuild@vger.kernel.org>; Sat, 01 Oct 2022 07:48:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date;
-        bh=SMQsBtCCyLRrqpBDgN2Zoeao+ul/V+LJS6j1U8pzQAU=;
-        b=JVe8vVsAiLOpWL3/NzYtEi2BruvEjHVm4AEMgx5mc+Ak77rP8Jn9WKf6W8EyjFam2W
-         KfDCzI3KrvVgqbNhjxoez9qP5YEmbdUysYr9GoCP1FW6BXKAoMJg3z62g2AVRExvSItO
-         ST7N4OvdR10yDD31HpFVvaviiwtZXkcWkUHN4BUBKZ6kbWrOx9bHCUDM1hnbjh0OB/LZ
-         +4evEXvbMukJR3Z7UJPKMhEQvgUVk6VZoGsD4dxkiwBIDf5lgOZLoh6U9oNmPRixYW2z
-         InT4O0wyUrlRVLU87m+DiRzIw7QXhJZJDPnK6cg+xujAwI/HKnh7B0Qa97c09DHyCmIL
-         5A3Q==
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+        bh=WXUW6n+YocspZHBa1uHAP+hmukxgAOqdWaMPFjgZfq0=;
+        b=oQrIcLm2/AzOeI7DlA81NFJX3B3BOsT+QRzwk3H2jTaTTc0+eHKpvnX2twWCBiSkJV
+         lCl7IMk+VpTcE67HGBRnpdj5AIo2AfprWmaW5ZzSnjWBd/jmIIJy25vQd2Reec9WinPH
+         l27pxL9fsGWW2OiZd6AEjAlJQ8twp/pbDh14U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=SMQsBtCCyLRrqpBDgN2Zoeao+ul/V+LJS6j1U8pzQAU=;
-        b=eyjRPnRNhxkv6xE+vXostsahRtMK1H4t+bHYT8zmNf921SQsi92mQj2vzPUo4wEYPh
-         QoM6mbwRcOq5JxCGKEHs7hBoU8fOnJXdrXCHFshTzxNzONgt+DruUw0IZXTDeY36aL1i
-         DsU9oPwHtzO5PcgN47XHOxnaSqp9UhS5tLMdEjJ7Ql0UIWGAF1EEWyMx5CfkSaKO0qXJ
-         r8DqSr0FASqdEUTIyX3cOkyujXZu8EeZI9gQ0SvEpueBz8c5cKVyPw1GVi12HJBpa7Io
-         PykQytmGtPdwOTi/NLQy0Rz1YvoPcNycixHjOw3P0uKtMBYCTsTm3ekzIqDgDGXwzb+b
-         SYMQ==
-X-Gm-Message-State: ACrzQf3qw6gySnmBorq2rzzLTT2Ys25bFQA24uBi0T/g7jQdhdykytmh
-        Lu2mBahhXG8s8YWMjIOeWfUEfPSHFbhlf8l8sMw=
-X-Google-Smtp-Source: AMsMyM4eAqTCDUfydVdhf5U7mW3z+20dr+NzSt2BRmPuylTSU+w9kmiWK1I1Beyd2swmkxphq45pk8BzPKKFXP13glo=
-X-Received: from samitolvanen.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4f92])
- (user=samitolvanen job=sendgmr) by 2002:a17:90b:1b06:b0:20a:6d32:b05e with
- SMTP id nu6-20020a17090b1b0600b0020a6d32b05emr35559pjb.103.1664569996339;
- Fri, 30 Sep 2022 13:33:16 -0700 (PDT)
-Date:   Fri, 30 Sep 2022 20:33:10 +0000
-Mime-Version: 1.0
-X-Developer-Key: i=samitolvanen@google.com; a=openpgp; fpr=35CCFB63B283D6D3AEB783944CB5F6848BBC56EE
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1362; i=samitolvanen@google.com;
- h=from:subject; bh=cb9uxuoR+cjTVhl0LEU/KRuB1nV8Tr++NRhDrxG0pH4=;
- b=owEB7QES/pANAwAKAUy19oSLvFbuAcsmYgBjN1KGfuXEg/p2HFc8oG4zdl0hi2M0tCCEpmBR8vbU
- mUEvbkOJAbMEAAEKAB0WIQQ1zPtjsoPW0663g5RMtfaEi7xW7gUCYzdShgAKCRBMtfaEi7xW7o3tC/
- 4gIorPccJBNlneIDwxrzmurGTgMjEeX26RFRVwv1bFgkbufV7u5gYf1jZCrCRrckERcBv7s33gacaH
- yEHS51srndw7V5ol/CX17484w4zcqhkH2nNeZP996dY9m6tYwJsHHSYgRv5N6gcwzUaFa6+rPqHFbb
- 5yH2tr+5q4c6aN5Ra9Wj83rCOw6aaNCnvOG8nhhT69MHyX6esWf1sec64IIyd8q7v1d8aXKIdz2PJ4
- Ae7bsBLZClrEcol4ijmrLF1iGizStoGTNj9xMwG9w5v/2b5mrtgqtq40qS0dW57Gp/QJjPuRcPYoMb
- dD8q9EpQazoDLbScLb62qEOwX1G/H7GRmB1Q21KJGAmwCinxforNZFI9L4RyQXmkVzx+G6aeFH2vcl
- tMleRf8wUgpPUQOHrLzwcC4hZwapkOsp2NYhpt6QjGO3nqowr769r+oK0/H5CN55y9+JJotNsKuaAg
- 3ZRV9R/cRNiXFj9x7u3YnkUfAVkxpRQnoMA5t3T9cxrQs=
-X-Mailer: git-send-email 2.38.0.rc1.362.ged0d419d3c-goog
-Message-ID: <20220930203310.4010564-1-samitolvanen@google.com>
-Subject: [PATCH] Makefile.extrawarn: Move -Wcast-function-type-strict to W=1
-From:   Sami Tolvanen <samitolvanen@google.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Tom Rix <trix@redhat.com>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-        Kees Cook <keescook@chromium.org>,
-        Sami Tolvanen <samitolvanen@google.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=WXUW6n+YocspZHBa1uHAP+hmukxgAOqdWaMPFjgZfq0=;
+        b=lXqeh4kSO4ndaClaXY8Hxe58TJ1FKawWgk2acgn21MES6rDEgVBSueMEiCGDQKYwOV
+         dWynkDBcshR2HMEtZ6h+QVatrQnlr85isrVELpQFzxoLDMPcitGxQosyqNQu3XDhrwO/
+         6vPBu4kHZdlLqoXBde6qS9lFkscMrldtBpGsJdtetVectGXa3narVnSpkNUb2dToQV/Y
+         CphgE122yZI0gvKD99jpTDIdee1MaSfGznR1jcZ9cgRvNz3GQiXlNAkA6INC3eafRySY
+         scatV58fMIFVRnOBUZ2mK6Asx8k7lz07ZSrwsoBSl+Cr6/Uzm2qJ0BQ6ADMt6mZkBSS4
+         d9ag==
+X-Gm-Message-State: ACrzQf2i1hGuDJn/J0YjBr5fzVmGbXkhppMl+oHmvnXllR/hfovvZkZk
+        Ck48TaGzSKPFfs7/n6twvM5H9g==
+X-Google-Smtp-Source: AMsMyM7OFcoeT8Wign6R573YRonn6hDxkXDAJo6yXcperZ70XVD7CulLRtdLOLh3tmxu8dyxA/PQXA==
+X-Received: by 2002:a17:902:d54e:b0:178:2da7:1bea with SMTP id z14-20020a170902d54e00b001782da71beamr14035113plf.161.1664635723987;
+        Sat, 01 Oct 2022 07:48:43 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id x6-20020a63f706000000b00429c5270710sm3532975pgh.1.2022.10.01.07.48.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Oct 2022 07:48:43 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     samitolvanen@google.com, masahiroy@kernel.org,
+        michal.lkml@markovi.net
+Cc:     Kees Cook <keescook@chromium.org>, trix@redhat.com,
+        llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH] Makefile.extrawarn: Move -Wcast-function-type-strict to W=1
+Date:   Sat,  1 Oct 2022 07:48:25 -0700
+Message-Id: <166463570274.4070760.11444179166073924518.b4-ty@chromium.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220930203310.4010564-1-samitolvanen@google.com>
+References: <20220930203310.4010564-1-samitolvanen@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-We enable -Wcast-function-type globally in the kernel to warn about
-mismatching types in function pointer casts. Compilers currently
-warn only about ABI incompability with this flag, but Clang 16 will
-enable a stricter version of the check by default that checks for an
-exact type match. This will be very noisy in the kernel, so disable
--Wcast-function-type-strict without W=1 until the new warnings have
-been addressed.
+On Fri, 30 Sep 2022 20:33:10 +0000, Sami Tolvanen wrote:
+> We enable -Wcast-function-type globally in the kernel to warn about
+> mismatching types in function pointer casts. Compilers currently
+> warn only about ABI incompability with this flag, but Clang 16 will
+> enable a stricter version of the check by default that checks for an
+> exact type match. This will be very noisy in the kernel, so disable
+> -Wcast-function-type-strict without W=1 until the new warnings have
+> been addressed.
+> 
+> [...]
 
-Cc: stable@vger.kernel.org
-Link: https://reviews.llvm.org/D134831
-Link: https://github.com/ClangBuiltLinux/linux/issues/1724
-Suggested-by: Nathan Chancellor <nathan@kernel.org>
-Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
----
- scripts/Makefile.extrawarn | 1 +
- 1 file changed, 1 insertion(+)
+Applied to for-next/hardening, thanks!
 
-diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-index 6ae482158bc4..52bd7df84fd6 100644
---- a/scripts/Makefile.extrawarn
-+++ b/scripts/Makefile.extrawarn
-@@ -64,6 +64,7 @@ KBUILD_CFLAGS += -Wno-sign-compare
- KBUILD_CFLAGS += $(call cc-disable-warning, pointer-to-enum-cast)
- KBUILD_CFLAGS += -Wno-tautological-constant-out-of-range-compare
- KBUILD_CFLAGS += $(call cc-disable-warning, unaligned-access)
-+KBUILD_CFLAGS += $(call cc-disable-warning, cast-function-type-strict)
- endif
- 
- endif
+[1/1] Makefile.extrawarn: Move -Wcast-function-type-strict to W=1
+      https://git.kernel.org/kees/c/2120635108b3
 
-base-commit: 7bc6e90d7aa4170039abe80b9f4e8c8e4eb35091
 -- 
-2.38.0.rc1.362.ged0d419d3c-goog
+Kees Cook
 
