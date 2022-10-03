@@ -2,51 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EED35F3435
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Oct 2022 19:10:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04BA45F3458
+	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Oct 2022 19:20:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229715AbiJCRKU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 3 Oct 2022 13:10:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34666 "EHLO
+        id S229496AbiJCRUV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 3 Oct 2022 13:20:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229565AbiJCRKL (ORCPT
+        with ESMTP id S229561AbiJCRUU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 3 Oct 2022 13:10:11 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6D81192B9;
-        Mon,  3 Oct 2022 10:10:08 -0700 (PDT)
+        Mon, 3 Oct 2022 13:20:20 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C61FD1AF0E;
+        Mon,  3 Oct 2022 10:20:17 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id F322FB811B2;
-        Mon,  3 Oct 2022 17:10:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C41CC433D6;
-        Mon,  3 Oct 2022 17:10:05 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6BECE60FA8;
+        Mon,  3 Oct 2022 17:20:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A3B3C433C1;
+        Mon,  3 Oct 2022 17:20:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664817005;
-        bh=jrqogJN868qyHKjau9Ij3FcAorXeaYlWGK7fPCmyOzw=;
+        s=k20201202; t=1664817616;
+        bh=CqZMJfdEljuMYZz99/OJQk9Jg5oI7uCfP2nJ0LqL300=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tRUOnk/O14dqEtGuH88iwm/y+qBbJD6alLUrOSPbQnajN0YWqLWN3yji8kYnXY0cy
-         r1eQRcD4BwLLJ4Xl8i+w0wnlk6vFhrU/tBA7iv5NksgGv3rZbBJcPbNUgawCfzfeBv
-         0iJ0OYjU+F+Y7dYtcAtj35NWkeKI43BsXaP4uvYej3z2KAOOQGlSkha95/hElXG00H
-         PZ4ND6RbRaPhR9xBeZn3+nEJurAuU8OCgl8Nnj2CHc14UfBUrOJCtYCSKybFduKdgH
-         j/ZltU+OQwj6dtyhLUQjPy5LD+a+832dGVzDFHsNIdDS4hH2Up3+Ma3QEkN7eb5Qxt
-         d75j0gjeu7BNg==
-Date:   Mon, 3 Oct 2022 10:10:03 -0700
+        b=fxyTqpSuDAjJWIWx3yTPuqp6qOrbj68hHEhCY2v8aTDqq3dYF/WZqXMw2famWQTU1
+         lUIC3U+A6hRBcl0xs7DconznDcWdxELy7cqIlDQtl2eflxu2dLNpf71JiHaiTEeM28
+         8qYhkWbMsJdyfd8UoCtGKgmL1iLpjoC4EdnZj0Dy8t9+5nNK6meCmpyXINBSuBx+Ej
+         4KC45Z1hxCvksbqTrghEqs4dhhlZYpknby2VEZmnsy/6RuaGRQtmXoJUN3RhPhkDyr
+         BLpGoLRyQ7DVrTx6geWoRLjMFPLJMi0HLnsoDuClJWNeYjuwfdkEcSbBx6W+Wg1xRK
+         EXjQT8bXk6vtg==
+Date:   Mon, 3 Oct 2022 10:20:14 -0700
 From:   Nathan Chancellor <nathan@kernel.org>
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, llvm@lists.linux.dev
-Subject: Re: [PATCH 2/3] Kconfig.debug: add toolchain checks for
- DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
-Message-ID: <YzsXa0GCGT6A0szV@dev-arch.thelio-3990X>
+        Miguel Ojeda <ojeda@kernel.org>
+Subject: Re: [PATCH 3/3] Kconfig.debug: split debug-level and DWARF-version
+ into separate choices
+Message-ID: <YzsZzjjJFcPILOji@dev-arch.thelio-3990X>
 References: <20221002181107.51286-1-masahiroy@kernel.org>
- <20221002181107.51286-3-masahiroy@kernel.org>
+ <20221002181107.51286-4-masahiroy@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221002181107.51286-3-masahiroy@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221002181107.51286-4-masahiroy@kernel.org>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -56,108 +57,183 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Oct 03, 2022 at 03:11:06AM +0900, Masahiro Yamada wrote:
-> CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT passes the -g option to the
-> command line. The actual DWARF version is up to the toolchain.
+On Mon, Oct 03, 2022 at 03:11:07AM +0900, Masahiro Yamada wrote:
+> Commit f9b3cd245784 ("Kconfig.debug: make DEBUG_INFO selectable from
+> a choice") added CONFIG_DEBUG_INFO_NONE into the DWARF version choice,
+> but it should rather belong to the debug level choice.
 > 
-> The combination of GCC and GAS works fine, and Clang with the integrated
-> assembler is good too.
+> This commit consolidates CONFIG options into two choices:
 > 
-> The combination of Clang and GAS is a bit tricky, but at least, the
-> default -g flag worked until LLVM 14 was released because Clang <=13
-> defaults to DWARF v4.
+>  - Debug info level (NONE / REDUCED / DEFAULT)
 > 
-> Clang 14 switched to DWARF v5 by default.
+>  - DWARF format (DWARF_TOOLCHAIN_DEFAULT / DWARF4 / DWARF5)
 > 
-> Now, CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT has the same issue as
-> addressed by commit 98cd6f521f10 ("Kconfig: allow explicit opt in to
-> DWARF v5").
+> This is more consistent with compilers' policy because the -g0 compiler
+> flag means "no debug info".
 > 
-> CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y for Clang >= 14 and
-> GAS < 2.35 produces a ton of errors like follows:
+>   GCC manual:
 > 
->   /tmp/main-c2741c.s: Assembler messages:
->   /tmp/main-c2741c.s:109: Error: junk at end of line, first unrecognized character is `"'
->   /tmp/main-c2741c.s:109: Error: file number less than one
+>     -g<level>
 > 
-> Add 'depends on' to check toolchains.
+>       Request debugging information and also use level to specify how
+>       much information. The default level is 2.
+> 
+>       Level 0 produces no debug information at all. Thus, -g0 negates -g.
+> 
+>       Level 1 produces minimal information, enough for making backtraces
+>       in parts of the program that you don’t plan to debug. This includes
+>       descriptions of functions and external variables, and line number
+>       tables, but no information about local variables.
+> 
+>       Level 3 includes extra information, such as all the macro
+>       definitions present in the program. Some debuggers support macro
+>       expansion when you use -g3.
+> 
+>   Rustc Codegen manual:
+> 
+>     debuginfo
+> 
+>       This flag controls the generation of debug information. It takes
+>       one of the following values:
+> 
+>       0: no debug info at all (the default).
+>       1: line tables only.
+>       2: full debug info.
+> 
+> I moved CONFIG_DEBUG_INFO_REDUCED into the debug level choice.
+> 
+> This change will make it easier to add another debug info level if
+> necessary.
 > 
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> Acked-by: Miguel Ojeda <ojeda@kernel.org>
+
+As far as I can tell, this will require updating defconfigs again to
+include an explicit 'CONFIG_DEBUG_INFO_DEFAULT=y', right? It might be
+nice to do that as part of this change to keep everything working, as
+there was some fallout from the last time:
+
+92f89ec1b534 ("powerpc: Restore CONFIG_DEBUG_INFO in defconfigs")
+ddd366bf01de ("ARM: defconfig: address renamed CONFIG_DEBUG_INFO=y")
+
+Regardless, I think this is a good change.
+
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+
 > ---
 > 
->  lib/Kconfig.debug | 1 +
->  1 file changed, 1 insertion(+)
+>  lib/Kconfig.debug | 59 +++++++++++++++++++++++++++++------------------
+>  1 file changed, 36 insertions(+), 23 deletions(-)
 > 
 > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index f4b2165f24db..cc90414d492e 100644
+> index cc90414d492e..ce1faae1a979 100644
 > --- a/lib/Kconfig.debug
 > +++ b/lib/Kconfig.debug
-> @@ -253,6 +253,7 @@ config DEBUG_INFO_NONE
+> @@ -234,15 +234,10 @@ config DEBUG_INFO
+>  choice
+>  	prompt "Debug information"
+>  	depends on DEBUG_KERNEL
+> +	depends on !CC_IS_CLANG || AS_IS_LLVM || CLANG_VERSION < 140000 || (AS_IS_GNU && AS_VERSION >= 23502)
+>  	help
+>  	  Selecting something other than "None" results in a kernel image
+>  	  that will include debugging info resulting in a larger kernel image.
+> -	  This adds debug symbols to the kernel and modules (gcc -g), and
+> -	  is needed if you intend to use kernel crashdump or binary object
+> -	  tools like crash, kgdb, LKCD, gdb, etc on the kernel.
+> -
+> -	  Choose which version of DWARF debug info to emit. If unsure,
+> -	  select "Toolchain default".
+>  
+>  config DEBUG_INFO_NONE
+>  	bool "Disable debug information"
+> @@ -250,10 +245,40 @@ config DEBUG_INFO_NONE
+>  	  Do not build the kernel with debugging information, which will
+>  	  result in a faster and smaller build.
+>  
+> +config DEBUG_INFO_REDUCED
+> +	bool "Reduced debugging information"
+> +	select DEBUG_INFO
+> +	help
+> +	  If you say Y here compiler is instructed to generate less debugging
+> +	  information for structure types. This means that tools that
+> +	  need full debugging information (like kgdb or systemtap) won't
+> +	  be happy. But if you merely need debugging information to
+> +	  resolve line numbers there is no loss. Advantage is that
+> +	  build directory object sizes shrink dramatically over a full
+> +	  DEBUG_INFO build and compile times are reduced too.
+> +	  Only works with newer gcc versions.
+> +
+> +config DEBUG_INFO_DEFAULT
+> +	bool "Default-level debugging information"
+> +	select DEBUG_INFO
+> +	help
+> +	  If you say Y here compiler is instructed to generate the default
+> +	  level of debugging information.
+> +
+> +	  This adds debug symbols to the kernel and modules (gcc -g), and
+> +	  is needed if you intend to use kernel crashdump or binary object
+> +	  tools like crash, kgdb, LKCD, gdb, etc on the kernel.
+> +
+> +endchoice # "Debug information"
+> +
+> +choice
+> +	prompt "DWARF version"
+> +	depends on DEBUG_INFO
+> +	help
+> +	  Which version of DWARF debug info to emit.
+> +
 >  config DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
 >  	bool "Rely on the toolchain's implicit default DWARF version"
->  	select DEBUG_INFO
-> +	depends on !CC_IS_CLANG || AS_IS_LLVM || CLANG_VERSION < 140000 || (AS_IS_GNU && AS_VERSION >= 23502)
+> -	select DEBUG_INFO
+> -	depends on !CC_IS_CLANG || AS_IS_LLVM || CLANG_VERSION < 140000 || (AS_IS_GNU && AS_VERSION >= 23502)
 >  	help
 >  	  The implicit default version of DWARF debug info produced by a
 >  	  toolchain changes over time.
+> @@ -262,9 +287,10 @@ config DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+>  	  support newer revisions, and prevent testing newer versions, but
+>  	  those should be less common scenarios.
+>  
+> +	  If unsure, say Y.
+> +
+>  config DEBUG_INFO_DWARF4
+>  	bool "Generate DWARF Version 4 debuginfo"
+> -	select DEBUG_INFO
+>  	depends on !CC_IS_CLANG || AS_IS_LLVM || (AS_IS_GNU && AS_VERSION >= 23502)
+>  	help
+>  	  Generate DWARF v4 debug info. This requires gcc 4.5+, binutils 2.35.2
+> @@ -276,7 +302,6 @@ config DEBUG_INFO_DWARF4
+>  
+>  config DEBUG_INFO_DWARF5
+>  	bool "Generate DWARF Version 5 debuginfo"
+> -	select DEBUG_INFO
+>  	depends on !CC_IS_CLANG || AS_IS_LLVM || (AS_IS_GNU && AS_VERSION >= 23502)
+>  	help
+>  	  Generate DWARF v5 debug info. Requires binutils 2.35.2, gcc 5.0+ (gcc
+> @@ -291,22 +316,10 @@ config DEBUG_INFO_DWARF5
+>  	  config if they rely on tooling that has not yet been updated to
+>  	  support DWARF Version 5.
+>  
+> -endchoice # "Debug information"
+> +endchoice # "DWARF version"
+>  
+>  if DEBUG_INFO
+>  
+> -config DEBUG_INFO_REDUCED
+> -	bool "Reduce debugging information"
+> -	help
+> -	  If you say Y here gcc is instructed to generate less debugging
+> -	  information for structure types. This means that tools that
+> -	  need full debugging information (like kgdb or systemtap) won't
+> -	  be happy. But if you merely need debugging information to
+> -	  resolve line numbers there is no loss. Advantage is that
+> -	  build directory object sizes shrink dramatically over a full
+> -	  DEBUG_INFO build and compile times are reduced too.
+> -	  Only works with newer gcc versions.
+> -
+>  config DEBUG_INFO_COMPRESSED
+>  	bool "Compressed debugging information"
+>  	depends on $(cc-option,-gz=zlib)
 > -- 
 > 2.34.1
 > 
-> 
-
-Could we do something like this instead? Bikeshed the configuration
-names as much as you want but we are duplicating most of this
-conditional in a few different places so it would be good to consolidate
-those in my opinion. Even though the DWARF4 and DWARF5 conditions are
-the same, they might diverge so I think it makes sense to keep them
-separate.
-
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index cc90414d492e..8e34a639cd40 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -231,6 +231,17 @@ config DEBUG_INFO
- 	  in the "Debug information" choice below, indicating that debug
- 	  information will be generated for build targets.
- 
-+config CC_AND_AS_SUPPORT_DWARF4
-+	def_bool !CC_IS_CLANG || AS_IS_LLVM || (AS_IS_GNU && AS_VERSION >= 23502)
-+
-+config CC_AND_AS_SUPPORT_DWARF5
-+	def_bool !CC_IS_CLANG || AS_IS_LLVM || (AS_IS_GNU && AS_VERSION >= 23502)
-+
-+config CC_AND_AS_SUPPORT_DWARF_DEFAULT
-+	bool
-+	default y if CC_AND_AS_SUPPORT_DWARF5 && (CLANG_VERSION >= 140000 || GCC_VERSION >= 110000)
-+	default y if CC_AND_AS_SUPPORT_DWARF4 && (CLANG_VERSION < 140000 || GCC_VERSION < 110000)
-+
- choice
- 	prompt "Debug information"
- 	depends on DEBUG_KERNEL
-@@ -253,7 +264,7 @@ config DEBUG_INFO_NONE
- config DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
- 	bool "Rely on the toolchain's implicit default DWARF version"
- 	select DEBUG_INFO
--	depends on !CC_IS_CLANG || AS_IS_LLVM || CLANG_VERSION < 140000 || (AS_IS_GNU && AS_VERSION >= 23502)
-+	depends on CC_AND_AS_SUPPORT_DWARF_DEFAULT
- 	help
- 	  The implicit default version of DWARF debug info produced by a
- 	  toolchain changes over time.
-@@ -265,7 +276,7 @@ config DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
- config DEBUG_INFO_DWARF4
- 	bool "Generate DWARF Version 4 debuginfo"
- 	select DEBUG_INFO
--	depends on !CC_IS_CLANG || AS_IS_LLVM || (AS_IS_GNU && AS_VERSION >= 23502)
-+	depends on CC_AND_AS_SUPPORT_DWARF4
- 	help
- 	  Generate DWARF v4 debug info. This requires gcc 4.5+, binutils 2.35.2
- 	  if using clang without clang's integrated assembler, and gdb 7.0+.
-@@ -277,7 +288,7 @@ config DEBUG_INFO_DWARF4
- config DEBUG_INFO_DWARF5
- 	bool "Generate DWARF Version 5 debuginfo"
- 	select DEBUG_INFO
--	depends on !CC_IS_CLANG || AS_IS_LLVM || (AS_IS_GNU && AS_VERSION >= 23502)
-+	depends on CC_AND_AS_SUPPORT_DWARF5
- 	help
- 	  Generate DWARF v5 debug info. Requires binutils 2.35.2, gcc 5.0+ (gcc
- 	  5.0+ accepts the -gdwarf-5 flag but only had partial support for some
