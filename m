@@ -2,207 +2,123 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C9A75F3727
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Oct 2022 22:32:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6970D5F3763
+	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Oct 2022 22:58:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230004AbiJCUcZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 3 Oct 2022 16:32:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52764 "EHLO
+        id S229623AbiJCU6F (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 3 Oct 2022 16:58:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229588AbiJCUcY (ORCPT
+        with ESMTP id S229611AbiJCU55 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 3 Oct 2022 16:32:24 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5FDA367BB;
-        Mon,  3 Oct 2022 13:32:22 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 50AECB815E0;
-        Mon,  3 Oct 2022 20:32:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD526C433C1;
-        Mon,  3 Oct 2022 20:32:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664829140;
-        bh=8097KvnB831d5ZPSPTQ+6cWMWPRMudOKNi61uuYy4oQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lO6ULvauyvudSS8PzstswshNiAcPClYQxzQVryCAGQm+UYdWGHeifunU+bBoCQpIm
-         uKfscS0AGmJQjEJ+QMMMwsSCDt9MsCUBCuwtzdEizvjnFavBJytjhJL/M9rPiF0T8z
-         SXJa7q37YQm9EqVeYZ3YPdHg0OskT2Vj3yadUzVYAgnrWPT2v90l70RfCHCgfD+hPZ
-         jyIhkyQXHPW0zqKDTxcHzguP7x5xiQMNiQIBaYHwsdfhRb8nAc3i18GEOGSYHEGDHp
-         0RZtKyPY8+AFPls+G9PPOuVjAOe6MYFSNc3Vh4JAOHer74RCR/hSeqoXQdOKEUKPOD
-         uWjQWbR5/XhyQ==
-Date:   Mon, 3 Oct 2022 13:32:18 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mon, 3 Oct 2022 16:57:57 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DC144B0DF
+        for <linux-kbuild@vger.kernel.org>; Mon,  3 Oct 2022 13:57:55 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id x32-20020a17090a38a300b00209dced49cfso8435678pjb.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 03 Oct 2022 13:57:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=ku6V0uIMACEoIGbJ5aRjuUpzl2e0iFbWX6RQH44sWX0=;
+        b=P4qZU0rxjthTT1WyI1k5fzDz6fUkOmv0yf4SjPl8Dz6WsrcZfuYXAZ4zKn8b2mEllU
+         6MvuK60tViVQN4OGOd0kzNlRFcd8Xt+jO+LeIR95c9Th9d86j6q3BML6q7RQ3Ari/Q4I
+         RZm1SVelMLTBf7LFMZf5BpXatRLMaV6LFBnQ8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=ku6V0uIMACEoIGbJ5aRjuUpzl2e0iFbWX6RQH44sWX0=;
+        b=YA5ygDEYe9bnkgcO29e1E2q8L02MzY5pILU3cz96CX2lDoS1u+oR8lySmwbiAQDyZL
+         PxRZIJmDmUpC55K9GrK1iXmXRiXB7vYJGZx5Hq6hsG7/vgK1hreTKR+bqf50M6C3OvLY
+         k9+87Nh9NdY1ghYPRyF4h3gfDa7mC4Y1h1LhwjJfE00Xt8igJ3lRZsZffXr6vRDRXx9x
+         XjVqdLxDni2BlVIWbWMJU8qfiDjVVW9RpmgpMQDrC8cB748DJwoyHCh7esZE/+w+4JGV
+         I3Q77LQC0boMUz2aKCs8fj9Kx6Of+Zm0QAbytBNnGESusGcd1DjrBjcTiYUqgtppMzQh
+         tItA==
+X-Gm-Message-State: ACrzQf152t8WoTeP1ova/CHQOfcNXJ6EiQDOByx5FhogMV3BliB41ejV
+        tZaZcSpYrTrhjzbgzE7Akv1LlyAHCHrikA==
+X-Google-Smtp-Source: AMsMyM4mJRybC6nqfHNqmr0/NlnExJovhirAQBcmovq5U1cGY5pmsKlLbbrllGAlzfcxIpgHGgV5fQ==
+X-Received: by 2002:a17:90b:254a:b0:200:53f:891d with SMTP id nw10-20020a17090b254a00b00200053f891dmr14196360pjb.168.1664830674759;
+        Mon, 03 Oct 2022 13:57:54 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id m10-20020a17090a668a00b00203ab277966sm10527636pjj.7.2022.10.03.13.57.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Oct 2022 13:57:54 -0700 (PDT)
+Date:   Mon, 3 Oct 2022 13:57:53 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, llvm@lists.linux.dev
-Subject: Re: [PATCH 2/3] Kconfig.debug: add toolchain checks for
- DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
-Message-ID: <YztG0rb+cgf0IfPo@dev-arch.thelio-3990X>
-References: <20221002181107.51286-1-masahiroy@kernel.org>
- <20221002181107.51286-3-masahiroy@kernel.org>
- <YzsXa0GCGT6A0szV@dev-arch.thelio-3990X>
- <CAK7LNASnp4DA9AADx4Nj9b_h6r5wfPFUaonfmOfaHaSizpyfgg@mail.gmail.com>
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
+        stable@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] hardening: Remove Clang's enable flag for
+ -ftrivial-auto-var-init=zero
+Message-ID: <202210031356.C32F69B6@keescook>
+References: <20220930060624.2411883-1-keescook@chromium.org>
+ <YzsQr/DqrNzJILkr@dev-arch.thelio-3990X>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK7LNASnp4DA9AADx4Nj9b_h6r5wfPFUaonfmOfaHaSizpyfgg@mail.gmail.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <YzsQr/DqrNzJILkr@dev-arch.thelio-3990X>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 04, 2022 at 05:18:49AM +0900, Masahiro Yamada wrote:
-> On Tue, Oct 4, 2022 at 2:10 AM Nathan Chancellor <nathan@kernel.org> wrote:
-> >
-> > On Mon, Oct 03, 2022 at 03:11:06AM +0900, Masahiro Yamada wrote:
-> > > CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT passes the -g option to the
-> > > command line. The actual DWARF version is up to the toolchain.
-> > >
-> > > The combination of GCC and GAS works fine, and Clang with the integrated
-> > > assembler is good too.
-> > >
-> > > The combination of Clang and GAS is a bit tricky, but at least, the
-> > > default -g flag worked until LLVM 14 was released because Clang <=13
-> > > defaults to DWARF v4.
-> > >
-> > > Clang 14 switched to DWARF v5 by default.
-> > >
-> > > Now, CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT has the same issue as
-> > > addressed by commit 98cd6f521f10 ("Kconfig: allow explicit opt in to
-> > > DWARF v5").
-> > >
-> > > CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y for Clang >= 14 and
-> > > GAS < 2.35 produces a ton of errors like follows:
-> > >
-> > >   /tmp/main-c2741c.s: Assembler messages:
-> > >   /tmp/main-c2741c.s:109: Error: junk at end of line, first unrecognized character is `"'
-> > >   /tmp/main-c2741c.s:109: Error: file number less than one
-> > >
-> > > Add 'depends on' to check toolchains.
-> > >
-> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > ---
-> > >
-> > >  lib/Kconfig.debug | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > >
-> > > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> > > index f4b2165f24db..cc90414d492e 100644
-> > > --- a/lib/Kconfig.debug
-> > > +++ b/lib/Kconfig.debug
-> > > @@ -253,6 +253,7 @@ config DEBUG_INFO_NONE
-> > >  config DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
-> > >       bool "Rely on the toolchain's implicit default DWARF version"
-> > >       select DEBUG_INFO
-> > > +     depends on !CC_IS_CLANG || AS_IS_LLVM || CLANG_VERSION < 140000 || (AS_IS_GNU && AS_VERSION >= 23502)
-> > >       help
-> > >         The implicit default version of DWARF debug info produced by a
-> > >         toolchain changes over time.
-> > > --
-> > > 2.34.1
-> > >
-> > >
-> >
-> > Could we do something like this instead? Bikeshed the configuration
-> > names as much as you want but we are duplicating most of this
-> > conditional in a few different places so it would be good to consolidate
-> > those in my opinion. Even though the DWARF4 and DWARF5 conditions are
-> > the same, they might diverge so I think it makes sense to keep them
-> > separate.
-> >
-> > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> > index cc90414d492e..8e34a639cd40 100644
-> > --- a/lib/Kconfig.debug
-> > +++ b/lib/Kconfig.debug
-> > @@ -231,6 +231,17 @@ config DEBUG_INFO
-> >           in the "Debug information" choice below, indicating that debug
-> >           information will be generated for build targets.
-> >
-> > +config CC_AND_AS_SUPPORT_DWARF4
-> > +       def_bool !CC_IS_CLANG || AS_IS_LLVM || (AS_IS_GNU && AS_VERSION >= 23502)
-> > +
-> > +config CC_AND_AS_SUPPORT_DWARF5
-> > +       def_bool !CC_IS_CLANG || AS_IS_LLVM || (AS_IS_GNU && AS_VERSION >= 23502)
-> > +
-> > +config CC_AND_AS_SUPPORT_DWARF_DEFAULT
-> > +       bool
-> > +       default y if CC_AND_AS_SUPPORT_DWARF5 && (CLANG_VERSION >= 140000 || GCC_VERSION >= 110000)
-> > +       default y if CC_AND_AS_SUPPORT_DWARF4 && (CLANG_VERSION < 140000 || GCC_VERSION < 110000)
+On Mon, Oct 03, 2022 at 09:41:19AM -0700, Nathan Chancellor wrote:
+> On Thu, Sep 29, 2022 at 11:06:24PM -0700, Kees Cook wrote:
+> > Now that Clang's -enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang
+> > option is no longer required, remove it from the command line. Clang 16
+> > and later will warn when it is used, which will cause Kconfig to think
+> > it can't use -ftrivial-auto-var-init=zero at all. Check for whether it
+> > is required and only use it when so.
+> > 
+> > Cc: Nathan Chancellor <nathan@kernel.org>
+> > Cc: Masahiro Yamada <masahiroy@kernel.org>
+> > Cc: Nick Desaulniers <ndesaulniers@google.com>
+> > Cc: linux-kbuild@vger.kernel.org
+> > Cc: llvm@lists.linux.dev
+> > Cc: stable@vger.kernel.org
+> > Fixes: f02003c860d9 ("hardening: Avoid harmless Clang option under CONFIG_INIT_STACK_ALL_ZERO")
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
 > 
+> Thanks for sending this change!
 > 
-> No, this is an overkill.
-> 
-> In my patch, you can enable DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
-> for the combination of:
->     CC_IS_CLANG=y
->     CLANG_VERSION < 140000
->     AS_IS_GNU=y
->     AS_VERSION < 23502
-> 
-> But, your code disallows it.
-> 
-> You are requiring binutils 2.35.2 for Clang+GAS, but
-> it is not necessary.
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> Tested-by: Nathan Chancellor <nathan@kernel.org>
 
-Ah, I figured that part was necessary because of the condition added to
-CONFIG_DEBUG_INFO_DWARF4 by commit 32ef9e5054ec ("Makefile.debug:
-re-enable debug info for .S files") but I see now that was because of
-some binutils behavior that you pointed out on Nick's v2 of that change,
-which I failed to pay attention to because I had already reviewed the
-change and did not read subsequent reviews/revisions as I should have,
-so my apologies.
+Thanks!
 
-https://lore.kernel.org/CAK7LNATWDH01=ZKLnsxc0vcib1zGDbEq8jLQwhWP7HkkmSb_Mw@mail.gmail.com/
-
-Regardless, I still think the duplication in these conditions is
-unfortunate and I would like to see it cleaned up in some way but I
-don't have a strong opinion on the matter. To the original change:
-
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-
-Once these are applied to linux-kbuild, I will send a v2 of my RISC-V
-fix.
-
-> >  choice
-> >         prompt "Debug information"
-> >         depends on DEBUG_KERNEL
-> > @@ -253,7 +264,7 @@ config DEBUG_INFO_NONE
-> >  config DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
-> >         bool "Rely on the toolchain's implicit default DWARF version"
-> >         select DEBUG_INFO
-> > -       depends on !CC_IS_CLANG || AS_IS_LLVM || CLANG_VERSION < 140000 || (AS_IS_GNU && AS_VERSION >= 23502)
-> > +       depends on CC_AND_AS_SUPPORT_DWARF_DEFAULT
-> >         help
-> >           The implicit default version of DWARF debug info produced by a
-> >           toolchain changes over time.
-> > @@ -265,7 +276,7 @@ config DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
-> >  config DEBUG_INFO_DWARF4
-> >         bool "Generate DWARF Version 4 debuginfo"
-> >         select DEBUG_INFO
-> > -       depends on !CC_IS_CLANG || AS_IS_LLVM || (AS_IS_GNU && AS_VERSION >= 23502)
-> > +       depends on CC_AND_AS_SUPPORT_DWARF4
-> >         help
-> >           Generate DWARF v4 debug info. This requires gcc 4.5+, binutils 2.35.2
-> >           if using clang without clang's integrated assembler, and gdb 7.0+.
-> > @@ -277,7 +288,7 @@ config DEBUG_INFO_DWARF4
-> >  config DEBUG_INFO_DWARF5
-> >         bool "Generate DWARF Version 5 debuginfo"
-> >         select DEBUG_INFO
-> > -       depends on !CC_IS_CLANG || AS_IS_LLVM || (AS_IS_GNU && AS_VERSION >= 23502)
-> > +       depends on CC_AND_AS_SUPPORT_DWARF5
-> >         help
-> >           Generate DWARF v5 debug info. Requires binutils 2.35.2, gcc 5.0+ (gcc
-> >           5.0+ accepts the -gdwarf-5 flag but only had partial support for some
 > 
+> Please consider getting this to Linus ASAP so that this can start
+> filtering into stable now that the LLVM change has landed, as I lost the
+> ability to use CONFIG_INIT_STACK_ALL_ZERO after upgrading my toolchain
+> over the weekend :)
+
+Yup -- it's in my PR for the hardening tree sent on Saturday.
+
+> Additionally, I am not sure the fixes tag is going to ensure that this
+> change automatically makes it back to 5.15 and 5.10, which have
+> commit f0fe00d4972a ("security: allow using Clang's zero initialization
+> for stack variables") but not commit f02003c860d9 ("hardening: Avoid
+> harmless Clang option under CONFIG_INIT_STACK_ALL_ZERO"). I guess if I
+> am reading the stable documentation right, we could do something like:
 > 
+> Cc: stable@vger.kernel.org # dcb7c0b9461c + f02003c860d9
+> Fixes: f0fe00d4972a ("security: allow using Clang's zero initialization for stack variables")
 > 
-> -- 
-> Best Regards
-> Masahiro Yamada
+> but I am not sure. I guess we can always just send manual backports
+> once it is merged.
+
+Ah, good point. Yeah, probably just do backports of f02003c860d9 and
+this one.
+
+-- 
+Kees Cook
