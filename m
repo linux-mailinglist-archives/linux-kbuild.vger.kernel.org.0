@@ -2,135 +2,163 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91D6F5F2E8A
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Oct 2022 11:56:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6892C5F3319
+	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Oct 2022 18:10:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229505AbiJCJ4I (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 3 Oct 2022 05:56:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50278 "EHLO
+        id S229724AbiJCQK5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 3 Oct 2022 12:10:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230122AbiJCJ4D (ORCPT
+        with ESMTP id S229582AbiJCQK4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 3 Oct 2022 05:56:03 -0400
-Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com [IPv6:2607:f8b0:4864:20::c2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC8EE3678B
-        for <linux-kbuild@vger.kernel.org>; Mon,  3 Oct 2022 02:56:02 -0700 (PDT)
-Received: by mail-oo1-xc2c.google.com with SMTP id c22-20020a4a4f16000000b00474a44441c8so6417941oob.7
-        for <linux-kbuild@vger.kernel.org>; Mon, 03 Oct 2022 02:56:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date;
-        bh=QzZ3/SzpNpkysByhRubab1VaNdi5Oa8ArCUSibq14IU=;
-        b=jyDudqFeNBoWAN8W4pWK9Q08YDvOptcnMiEZ39SDfaN/pOnbU4Ry+U7ekIxLTBWYeh
-         NSAGNn42keeOjOaTOkmBdKsfWOBAdgmU9WPr3k9uYhh6A7mb2mkIQJIW8/cxTsautXxJ
-         pKy5zgxeJNWykGMesGxghSPQZ29FzIjXJuwOHORuhhW0bc1P6WaSCRnchTKq3p4pZV5R
-         AU5EExLnRvW2qWTgoqimkdj02FA2Q7/RInCAbyX0s0go8QK1AZ4gxmxhM+A+uiOwRgxn
-         O6kwlOn462pkcAwElUG90KPdqK37zEZ/5AurJOX2YZ+I4Imd2L1TCvaDhRFS8OzkXQRO
-         nVCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=QzZ3/SzpNpkysByhRubab1VaNdi5Oa8ArCUSibq14IU=;
-        b=JUj9SRIOFEpUbNjwLowwFVAqeceizEFexoQoahHRV4FXqgyEhG6ncBVeuJ9mCTmz49
-         4iRE/ydkT5TIz+lzeME2D1TQnBLQKllq9tlfaUG9w0dkrQsnAiP6CpvgDuqfA566CqO+
-         pkezdaDnXn23oSdO+2gKafKj2765/aX3GFlHftUkAqgtYPzdchaVzJJCzmvqo7PP5ZY4
-         aCBW7PYK+xoFFxCv9awemG8r3X+M8uG/ZzmwOZG3rZDTcNKItGhLbCFwQkSBcT0OnadB
-         yD3CxRiCPC1UOhLKb1z/txzgfdhANe68deL77+csniE8v8/yQTjjOPtsbTyuoCq3Wz2B
-         XifQ==
-X-Gm-Message-State: ACrzQf2Vx+GVK7JOeZbnbGy6g38YrwSSTUMKetLGHWK38R8TfKA6kKXT
-        vZcRAPucdDS48ojDv2o85xipeEPUaDzZm1WjdvxbEqPJQx3MLQ==
-X-Google-Smtp-Source: AMsMyM7ARRbuH4ujnGwMwZwl49FfRODnhyvrEdfLEYONMR0AnAjigf7Um3EFdCkln7i+3RI9EdK96mo74dbxIPW5jqI=
-X-Received: by 2002:a05:6830:6084:b0:65c:3942:e3bf with SMTP id
- by4-20020a056830608400b0065c3942e3bfmr7937630otb.49.1664790961942; Mon, 03
- Oct 2022 02:56:01 -0700 (PDT)
-MIME-Version: 1.0
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Mon, 3 Oct 2022 11:55:26 +0200
-Message-ID: <CA+icZUXQgnhcsjHMcm_KwD4O6FfUFv1vTDmdW4vGJ6oX-Y1GnA@mail.gmail.com>
-Subject: base-files: /etc/os-release should contain VERSION variables for
- testing and unstable
-To:     1008735@bugs.debian.org, Gioele Barabucci <gioele@svario.it>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Mon, 3 Oct 2022 12:10:56 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B0DF2C65D;
+        Mon,  3 Oct 2022 09:10:54 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8CA7D61137;
+        Mon,  3 Oct 2022 16:10:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AC1EC433D6;
+        Mon,  3 Oct 2022 16:10:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1664813454;
+        bh=VNuWSL+WeJYDCChgOKB7QTNXhZXJ1iCWHHhQoDC15/M=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=VqLI6a7LmhNtbdijFB574BY8yHNZT2SmoFuyIHKCkvsfY38pwiC3Ce5QzLG/WTVhP
+         qb0hCuXYC3l0JlnLOLUKnZjyR2su6ycCNigHzT32/3wBUmppA/Qu1Nl0BJQwB5nsHh
+         AHvOt8msRJuAaPfYDrWBxc9pLIcodATPpBaUuB6zOjRcCaezSifnZRNk3yt76p1yIP
+         oueDYo4LvY9nK1pG1owc6Fg6N2CYI1sge37kw44oCzHatb08SnmTDXvu5z4QBj1uRD
+         Zq1vnspuDlFkemOqNq7zTqbMtI7m5jQCI1rVj77qevdHd14ng04Cj3m1mUHYtl04UO
+         i1aENRviLNfCw==
+Date:   Mon, 3 Oct 2022 09:10:51 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Tom Rix <trix@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+        linux-kbuild@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        llvm@lists.linux.dev, Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH] lib/Kconfig.debug: Add check for non-constant
+ .{s,u}leb128 support to DWARF5
+Message-ID: <YzsJi7sT54dJtvKw@dev-arch.thelio-3990X>
+References: <20220928182523.3105953-1-nathan@kernel.org>
+ <CAK7LNATqoW-3fmFZBAbPuKhdRn4UD_o8jthVsBanyYzFWpzSSA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNATqoW-3fmFZBAbPuKhdRn4UD_o8jthVsBanyYzFWpzSSA@mail.gmail.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-[ CC linux-kbuild folks (see [0] ]
+On Mon, Oct 03, 2022 at 03:47:30AM +0900, Masahiro Yamada wrote:
+> On Thu, Sep 29, 2022 at 3:25 AM Nathan Chancellor <nathan@kernel.org> wrote:
+> >
+> > When building with a RISC-V kernel with DWARF5 debug info using clang
+> > and the GNU assembler, several instances of the following error appear:
+> >
+> >   /tmp/vgettimeofday-48aa35.s:2963: Error: non-constant .uleb128 is not supported
+> >
+> > Dumping the .s file reveals these .uleb128 directives come from
+> > .debug_loc and .debug_ranges:
+> >
+> >   .Ldebug_loc0:
+> >           .byte   4                               # DW_LLE_offset_pair
+> >           .uleb128 .Lfunc_begin0-.Lfunc_begin0    #   starting offset
+> >           .uleb128 .Ltmp1-.Lfunc_begin0           #   ending offset
+> >           .byte   1                               # Loc expr size
+> >           .byte   90                              # DW_OP_reg10
+> >           .byte   0                               # DW_LLE_end_of_list
+> >
+> >   .Ldebug_ranges0:
+> >           .byte   4                               # DW_RLE_offset_pair
+> >           .uleb128 .Ltmp6-.Lfunc_begin0           #   starting offset
+> >           .uleb128 .Ltmp27-.Lfunc_begin0          #   ending offset
+> >           .byte   4                               # DW_RLE_offset_pair
+> >           .uleb128 .Ltmp28-.Lfunc_begin0          #   starting offset
+> >           .uleb128 .Ltmp30-.Lfunc_begin0          #   ending offset
+> >           .byte   0                               # DW_RLE_end_of_list
+> >
+> > There is an outstanding binutils issue to support a non-constant operand
+> > to .sleb128 and .uleb128 in GAS for RISC-V but there does not appear to
+> > be any movement on it, due to concerns over how it would work with
+> > linker relaxation.
+> >
+> > To avoid these build errors, prevent DWARF5 from being selected when
+> > using clang and an assembler that does not have support for these symbol
+> > deltas, which can be easily checked in Kconfig with as-instr plus the
+> > small test program from the dwz test suite from the binutils issue.
+> >
+> > Link: https://sourceware.org/bugzilla/show_bug.cgi?id=27215
+> > Link: https://github.com/ClangBuiltLinux/linux/issues/1719
+> > Tested-by: Conor Dooley <conor.dooley@microchip.com>
+> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> > ---
+> >  lib/Kconfig.debug | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> >
+> > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> > index d3e5f36bb01e..19de03ead2ed 100644
+> > --- a/lib/Kconfig.debug
+> > +++ b/lib/Kconfig.debug
+> > @@ -231,6 +231,9 @@ config DEBUG_INFO
+> >           in the "Debug information" choice below, indicating that debug
+> >           information will be generated for build targets.
+> >
+> > +config AS_HAS_NON_CONST_LEB128
+> > +       def_bool $(as-instr,.uleb128 .Lexpr_end4 - .Lexpr_start3\n.Lexpr_start3:\n.Lexpr_end4:)
+> > +
+> >  choice
+> >         prompt "Debug information"
+> >         depends on DEBUG_KERNEL
+> > @@ -277,6 +280,10 @@ config DEBUG_INFO_DWARF5
+> >         bool "Generate DWARF Version 5 debuginfo"
+> >         select DEBUG_INFO
+> >         depends on !CC_IS_CLANG || (CC_IS_CLANG && (AS_IS_LLVM || (AS_IS_GNU && AS_VERSION >= 23502)))
+> > +       # Clang is known to generate .{s,u}leb128 with symbol deltas with
+> > +       # DWARF5, which some targets may not support.
+> > +       # https://sourceware.org/bugzilla/show_bug.cgi?id=27215
+> 
+> If you plan to patch both DWARF_TOOLCHAIN_DEFAULT and DWARF5,
+> it will be cleaner to move this comment to AS_HAS_NON_CONST_LEB128.
 
-Hi,
+Sure, that sounds reasonable! I can base this change on the series that
+you recently sent:
 
-I am using Debian/unstable AMD64 and doing Linux-kernel upstream
-development and testing.
+https://lore.kernel.org/20221002181107.51286-1-masahiroy@kernel.org/
 
-People using bindeb-pkg (mkdebian) from Linux-kernel sources
-(scripts/packages) to build and test their selfmade Debian kernels get
-a now a "n/a" for distribution.
+> > +       depends on !CC_IS_CLANG || AS_HAS_NON_CONST_LEB128
+> 
+> The condition "!CC_IS_CLANG" is repeated here.
+> 
+> If you use the following patch as basic,
+> https://lore.kernel.org/lkml/20221002181107.51286-2-masahiroy@kernel.org/T/#u
+> 
+> you can write the code like this:
+> 
+> !CC_IS_CLANG || AS_IS_LLVM || (AS_IS_GNU && AS_VERSION >= 23502 &&
+> AS_HAS_NON_CONST_LEB128)
 
-Background (see [1]):
+Right, I had initially had something along this line but the length of
+the line bothered some folks in pre-review so I opted for a second line.
+With your clean ups, it seems reasonable to move it back to the original
+line.
 
-[ scripts/package/mkdebian ]
+> Another big hammer solution is to give up Clang+GAS for CONFIG_DEBUG_INFO.
+> If we go this way, this patch is unneeded, though.
+> Thoughts?
 
-# Try to determine distribution
-if [ -n "$KDEB_CHANGELOG_DIST" ]; then
-        distribution=$KDEB_CHANGELOG_DIST
-# In some cases lsb_release returns the codename as n/a, which breaks
-dpkg-parsechangelog
-elif distribution=$(lsb_release -cs 2>/dev/null) && [ -n
-"$distribution" ] && [ "$distribution" != "n/a" ]; then
-        : # nothing to do in this case
-else
-        distribution="unstable"
-        echo >&2 "Using default distribution of 'unstable' in the changelog"
-        echo >&2 "Install lsb-release or set \$KDEB_CHANGELOG_DIST explicitly"
-fi
+I think this is a simple enough solution to avoid that big hammer at the
+moment but if we continue to run into corner cases like this, that is
+certainly worth considering.
 
-Personally, I set hardcoded in my kernel build-script as a workaround:
-
-distribution="bookworm"
-
-Gioele suggested me to enrich /etc/os-release with:
-
-VERSION_ID=unstable <--- XXX: I prefer sid because of PRETTY_NAME and
-it's shorter
-VERSION_CODENAME=bookworm
-
-In the end the file looks like:
-
-PRETTY_NAME="Debian GNU/Linux bookworm/sid"
-NAME="Debian GNU/Linux"
-ID=debian
-VERSION_ID=sid
-VERSION_CODENAME=bookworm
-HOME_URL="https://www.debian.org/"
-SUPPORT_URL="https://www.debian.org/support"
-BUG_REPORT_URL="https://bugs.debian.org/"
-
-...and this seems to work:
-
-# lsb_release -cs
-No LSB modules are available.
-bookworm
-
-Please, provide a solution not to break workflows that were successful
-for years.
-
-Thanks.
-
-Best regards,
--Sedat-
-
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/MAINTAINERS#n11005
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/package/mkdebian#n123
+Cheers,
+Nathan
