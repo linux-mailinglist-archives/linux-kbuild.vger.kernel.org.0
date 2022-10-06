@@ -2,92 +2,171 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 116055F5D9A
-	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Oct 2022 02:19:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BE305F677B
+	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Oct 2022 15:15:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229640AbiJFATb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 5 Oct 2022 20:19:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40044 "EHLO
+        id S229676AbiJFNPI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 6 Oct 2022 09:15:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229768AbiJFAT2 (ORCPT
+        with ESMTP id S229496AbiJFNPH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 5 Oct 2022 20:19:28 -0400
-Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4C437A768;
-        Wed,  5 Oct 2022 17:19:26 -0700 (PDT)
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 2960J5I8015309;
-        Thu, 6 Oct 2022 09:19:06 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 2960J5I8015309
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1665015546;
-        bh=itNOCR5gHtTQrdnJYXTJ9ngkBQvQLMn5fhd9zkw7mxE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=EI3lpVwylC1M2wCxCFRUzbXfsMuANn43jr19db5l/53yqpzVUC6+6Z9pCw5edYSsy
-         gv34wuXqw76s9fqJ3sQnWux4NSijZGnKjmjm0e6dBcbO3xNZaYHBfjcpEjxQ2sybrf
-         gfFvEaaXZof+0TxlWHksSbjvOdYjtCh5qqdf0gy91tYCww7SghGngVtwueiTSt5vVf
-         mXny5wVZaPXVDxrZmvBLlh7JE4etreJGeJe0Kfg7y2Trdmdg2Iy1sE737iicBZ9CmW
-         KukSS074jpxrECiXl3XGPYe89wjpTYQTvDRR1MB2+zhpPnpdMHOMZT50tjDby0ohxn
-         l4PxFTskQszlA==
-X-Nifty-SrcIP: [209.85.160.50]
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-1326637be6eso480526fac.13;
-        Wed, 05 Oct 2022 17:19:06 -0700 (PDT)
-X-Gm-Message-State: ACrzQf3DMgHDxuoNDEPc72UpuGRO9980cO6xEP2kAwsBrxSuAeQtod7K
-        fFsxXiG/WAxyvKfZtYIQ4Ym8OJS0+/EOLrUkks8=
-X-Google-Smtp-Source: AMsMyM4LZp9IHbDPVhKdcdqhFmwxHOwXb30w+ZDcwdrOF2TcxdbsSMat7DRkf5Zhi/Vp8IfqzcyQM7iEtVyJCnTdfLA=
-X-Received: by 2002:a05:6870:8a09:b0:132:554d:2f3d with SMTP id
- p9-20020a0568708a0900b00132554d2f3dmr4011406oaq.194.1665015545341; Wed, 05
- Oct 2022 17:19:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <20221001202836.3110985-1-masahiroy@kernel.org> <CANiq72=GidTB23dH1kXu1jTMSH-7Qe-2NLaD5ChrzLEU3X=O7w@mail.gmail.com>
-In-Reply-To: <CANiq72=GidTB23dH1kXu1jTMSH-7Qe-2NLaD5ChrzLEU3X=O7w@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 6 Oct 2022 09:18:29 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQaUh58ou=+ZtqXgkd8AGqXqnzryJXy0201ORrgezwPXw@mail.gmail.com>
-Message-ID: <CAK7LNAQaUh58ou=+ZtqXgkd8AGqXqnzryJXy0201ORrgezwPXw@mail.gmail.com>
-Subject: Re: [PATCH] docs: bump minimal GNU Make version to 3.82
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     linux-kbuild@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+        Thu, 6 Oct 2022 09:15:07 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62B719E0C4
+        for <linux-kbuild@vger.kernel.org>; Thu,  6 Oct 2022 06:15:04 -0700 (PDT)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=irc.pengutronix.de)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <j.zink@pengutronix.de>)
+        id 1ogQiM-00016t-Jp; Thu, 06 Oct 2022 15:15:02 +0200
+Message-ID: <ba6223f9fcae7d27de439e75f93b3a1352a30890.camel@pengutronix.de>
+Subject: Re: PROBLEM: Segfault in kconfig
+From:   Johannes Zink <j.zink@pengutronix.de>
+To:     masahiroy@kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     kernel@pengutronix.de
+Date:   Thu, 06 Oct 2022 15:15:00 +0200
+In-Reply-To: <33059074b78110d4717efe09b887dd28ac77fe7f.camel@pengutronix.de>
+References: <33059074b78110d4717efe09b887dd28ac77fe7f.camel@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
-        autolearn_force=no version=3.4.6
+User-Agent: Evolution 3.38.3-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: j.zink@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Oct 3, 2022 at 4:22 AM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> On Sat, Oct 1, 2022 at 10:30 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > The error message looks weird, but the reason is that the 'private'
-> > keyword is only supported since GNU Make 3.82.
->
-> Sorry about that. Indeed, it was added in 3.82 [1,2]. Given GCC 5.1
-> (the current minimum) was released 5 years later, I guess it is OK to
-> increase it.
->
-> Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
->
-> [1] https://git.savannah.gnu.org/cgit/make.git/commit/?id=5b4d419476e9fbda8ea26017f6ec15956d103ed9
-> [2] https://git.savannah.gnu.org/cgit/make.git/tree/ChangeLog?h=3.82#n814
->
-> Cheers,
-> Miguel
+Hi everyone, 
 
+On Thu, 2022-09-22 at 18:01 +0200, Johannes Zink wrote:
+> Hi everyone, 
+> 
+> [1.] One line summary of the problem: 
+>      kconfig crashes with segfault under rare circumstances
+> [2.] Full description of the problem/report:
+>      Under certain circumstances jump keys are displayed on the
+> search 
+>      results even if a symbol is deactivated by one of its 
+>      dependencies. Using the jump keys then triggers a segmentation 
+>      fault due to a NULL dereference. Perform the following steps to 
+>      trigger the issue
+>      
+>      1.: ARCH=arm64 make defconfig
+>      2.: ARCH=arm64 make menuconfig
+> 
+>      3.: press '/' key to search for the string "EFI". Use jump key 
+>          (1) to jump to search result. Press 'n' key to deactivate
+> the 
+>          entry. 
+>      4.: press '/' to seach for the string "ACPI". Use the jump key 
+>          (1) to jump to the search result. 
+> 
+>      Menuconfig then crashes with a segfault.
+>     
+> [3.] Keywords (i.e., modules, networking, kernel):
+>      kconfig, mconf
+> [4.] Kernel information
+> [4.1.] Kernel version (from /proc/version):
+>        v6.0.0-rc6
+> [4.2.] Kernel .config file: 
+>        arm64 default defconfig
+> [5.] Most recent kernel version which did not have the bug: 
+>      v5.15
+> [6.] Output of Oops.. message (if applicable) with symbolic
+> information
+>      resolved (see Documentation/admin-guide/bug-hunting.rst): 
+>      not applicable
+> [7.] A small shell script or example program which triggers the
+>      problem (if possible):
+>      not applicable, please see description in [2.]
+> [8.] Environment
+> [8.1.] Software (add the output of the ver_linux script here): 
+>        not applicable
+> [8.2.] Processor information (from /proc/cpuinfo):
+>        not applicable
+> [8.3.] Module information (from /proc/modules):
+>        not applicable
+> [8.4.] Loaded driver and hardware information (/proc/ioports,
+> /proc/iomem):
+>        not applicable
+> [8.5.] PCI information ('lspci -vvv' as root):
+>        not applicable
+> [8.6.] SCSI information (from /proc/scsi/scsi):
+>        not applicable
+> [8.7.] Other information that might be relevant to the problem
+>        (please look in /proc and include all information that you
+>        think to be relevant):
+>        not applicable
+> [X.] Other notes, patches, fixes, workarounds:
+>     
+>      I found that the attached patch is a very hacky workaround to 
+>      keep menuconfig from crashing, but I am pretty sure the jump 
+>      keys should not have be activated for unaccessable entries in
+> the
+>      first place. I found it quite hard to find the corresponding
+> part
+>      in mconf, which is why I decided to send this bugreport instead 
+>      of sending a patch. Maybe someone on this list either knows
+> mconf 
+>      really well and can just fix it, or guide me to where I can dig 
+>      around (though in that case I could really use some help on how 
+>      to debug menuconfig, since I found it challenging to get it 
+>      working with gdb)
+>      
+> Best regards
+> Johannes
+> 
+> ---
+> scripts/kconfig/mconf.c | 3 ++-                                      
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/scripts/kconfig/mconf.c b/scripts/kconfig/mconf.c       
+> index 9d3cf510562f..60a82f701bd3 100644                              
+> --- a/scripts/kconfig/mconf.c                                        
+> +++ b/scripts/kconfig/mconf.c                                        
+> @@ -447,7 +447,8 @@ static void search_conf(void)                    
+>                 again = false;
+>                 for (i = 0; i < JUMP_NB && keys[i]; i++)
+>                         if (dres == keys[i]) {
+> -                               conf(targets[i]->parent, targets[i]);
+> +                               if (targets[i]->parent)              
+> +                                       conf(targets[i]->parent,
+> targets[i]);
+>                                 again = true;
+>                         }
+>                 str_free(&res);
+> 
 
-Applied to linux-kbuild.
+Just a gentle ping and TL;DR on this issue: 
 
+Menuconfig crashes with a segfault if performing the steps 
 
+1.: ARCH=arm64 make defconfig
+2.: ARCH=arm64 make menuconfig
+3.: press '/' key to search for the string "EFI". Use jump key 
+    (1) to jump to search result. Press 'n' key to deactivate
+    the entry. 
+4.: press '/' to seach for the string "ACPI". Use the jump key 
+    (1) to jump to the search result. 
+
+For more details please see the detailed report in the original
+message.
+
+Has anyone any input on this?
+
+Best regards
 
 -- 
-Best Regards
-Masahiro Yamada
+Pengutronix e.K.                | Johannes Zink                  |
+Steuerwalder Str. 21            | https://www.pengutronix.de/    |
+31137 Hildesheim, Germany       | Phone: +49-5121-206917-0       |
+Amtsgericht Hildesheim, HRA 2686| Fax:   +49-5121-206917-5555    |
+
