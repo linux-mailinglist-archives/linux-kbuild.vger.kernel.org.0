@@ -2,122 +2,119 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34BB15F763F
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Oct 2022 11:29:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 296FD5F76C7
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Oct 2022 12:22:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229479AbiJGJ3M (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Oct 2022 05:29:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34920 "EHLO
+        id S229628AbiJGKWa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 Oct 2022 06:22:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229509AbiJGJ3L (ORCPT
+        with ESMTP id S229452AbiJGKW3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Oct 2022 05:29:11 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58625120BCD
-        for <linux-kbuild@vger.kernel.org>; Fri,  7 Oct 2022 02:29:10 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E1028B822A5
-        for <linux-kbuild@vger.kernel.org>; Fri,  7 Oct 2022 09:29:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B6D4C43140
-        for <linux-kbuild@vger.kernel.org>; Fri,  7 Oct 2022 09:29:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665134947;
-        bh=yxbVCMWLFJy47kHwmOYiNZk4lnYPr+zwr2slBli/+68=;
+        Fri, 7 Oct 2022 06:22:29 -0400
+Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1B833DBED;
+        Fri,  7 Oct 2022 03:22:27 -0700 (PDT)
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 297AMEvQ026718;
+        Fri, 7 Oct 2022 19:22:15 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 297AMEvQ026718
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1665138135;
+        bh=v6R9VW9CvNnIPxZU2kpYVPvJFCqUvYSumQarCG0Cerk=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=IzPdfQI/genKJ+poJsjdM8mskgKQB5+QIckuG6dup2vPFbKjZKEa3Tww9avDz5Fka
-         utxEWVlEL7sc8s4fj4N4gppAmEpj0NoHJS+QSGCqW+LyqIs/fE0TOTt7VD817rQ8LI
-         g8RfA/cqjPNuTEBu0wi5i6DL7HwWIiURN7NLkKFb8Bn8L0S8xkWhakw0G8x/geps2D
-         cDgTaZP2W+2q2BBdOZY7O7T0XKm9ZptrC4pK94f3QYEQqvIpDao2Fin9lwp9phadV+
-         CwPzPg+Tbj73lfkuS3PYsJ1jUu190HqYDdJW0IjzcdUQjjwyCsbA7f1nlfbgL9RNbe
-         P2rnvQ8D35cVg==
-Received: by mail-lf1-f42.google.com with SMTP id b1so1473678lfs.7
-        for <linux-kbuild@vger.kernel.org>; Fri, 07 Oct 2022 02:29:07 -0700 (PDT)
-X-Gm-Message-State: ACrzQf1yiIQu+v72MMWl+X/NY0On3nV06kN3b4Lt06mjL+SGvbQS8R/m
-        M+YbPOD/sZRz3gJ348zNeItSDMXJ5WE/2SD3Qzg=
-X-Google-Smtp-Source: AMsMyM639U9dFcr0nMyz9VBR5TRaZHqUIAQtyUFHIYT88cQ4a+7Y3KO5HlUYAb+Bd820+eKyvFXy9y0yYUmvj3M3fDw=
-X-Received: by 2002:a05:6512:104a:b0:4a2:9c7b:c9c with SMTP id
- c10-20020a056512104a00b004a29c7b0c9cmr771471lfb.122.1665134945513; Fri, 07
- Oct 2022 02:29:05 -0700 (PDT)
+        b=zLSJjHLIQJAkeagXnGYLwewIgt97fZLTzOId4Oe8VaS10oWFyd9D+CNgzkwUOlRVc
+         JEegGYepg822P00bA0N/ktpVz7Od6lVius4h4rtoHWlOyeCjUr5oe1C+457OTZMnH6
+         QpW6iUVrYSxr6ZVPRf9Q70yrdcFpTo9/FOMR94tiJQzy6ffL7ZhTV3Alj8dKKyMVEO
+         QZ/hH9OaK0hEKBFTCMTRouTa0vWlvOIqhjj4/mp0hoTjOwrtCiOTw3S+mVoNi9UTlR
+         AroDM6GIpTyuc9c4CJ50gO+3diiSvj1ja4wW9v2V1Cu8p4dyVdfKWUepyeXpj49acI
+         6K0wXPsNUgySQ==
+X-Nifty-SrcIP: [209.85.160.44]
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-132fb4fd495so5076569fac.12;
+        Fri, 07 Oct 2022 03:22:15 -0700 (PDT)
+X-Gm-Message-State: ACrzQf2nYq3OFkh3JYTwcuc+uyA9Vw1fzimcAUwgm1YcYBxlcmWV11V7
+        HCEOSdddAx0zpIS6Ro9B8aMY0ypJhJMeCOxv7RA=
+X-Google-Smtp-Source: AMsMyM6p4RmVl0lWCJhJ6LJiYVBZr+poUdbCGiq93ZYl33z69uioaMPeZvHhvZHGTn59a1RuLFsTqu2SZdyREGXDS0k=
+X-Received: by 2002:a05:6870:c58b:b0:10b:d21d:ad5e with SMTP id
+ ba11-20020a056870c58b00b0010bd21dad5emr2087845oab.287.1665138134138; Fri, 07
+ Oct 2022 03:22:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <633f0406.050a0220.9431e.d406@mx.google.com> <Yz8H+CIgq9A8WI6J@sirena.org.uk>
- <CAK7LNART_52inEq0-wXiR=70D7-9TGaCa_f6bpA+ud3Mra3FOQ@mail.gmail.com> <CAK7LNAQ2L7fLG1zzS-MkgqKS+JYEvX62wPhZg-S+4vMk0cjNVg@mail.gmail.com>
-In-Reply-To: <CAK7LNAQ2L7fLG1zzS-MkgqKS+JYEvX62wPhZg-S+4vMk0cjNVg@mail.gmail.com>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Fri, 7 Oct 2022 11:28:54 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXE7pE+1w06i3XX6XhA2KXsYU2JPetoFSZw60RS85wpmdQ@mail.gmail.com>
-Message-ID: <CAMj1kXE7pE+1w06i3XX6XhA2KXsYU2JPetoFSZw60RS85wpmdQ@mail.gmail.com>
-Subject: Re: next/master bisection: baseline.login on qemu_arm-virt-gicv3
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Mark Brown <broonie@kernel.org>, kernelci-results@groups.io,
-        bot@kernelci.org, Russell King <linux@armlinux.org.uk>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, gtucker@collabora.com,
-        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>
+References: <20221003222133.20948-1-aliraza@bu.edu> <20221003222133.20948-11-aliraza@bu.edu>
+ <d2089a89-21a9-1e05-5d58-91b8411f7141@gmail.com> <53c84c25-31ff-29d5-c6fb-85cb307f1704@bu.edu>
+In-Reply-To: <53c84c25-31ff-29d5-c6fb-85cb307f1704@bu.edu>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 7 Oct 2022 19:21:37 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT-Q=sS-9L1eRuOnomqqDNyRp2knZh+2SYLqB2Gn8ekHg@mail.gmail.com>
+Message-ID: <CAK7LNAT-Q=sS-9L1eRuOnomqqDNyRp2knZh+2SYLqB2Gn8ekHg@mail.gmail.com>
+Subject: Re: [RFC UKL 10/10] Kconfig: Add config option for enabling and
+ sample for testing UKL
+To:     Ali Raza <aliraza@bu.edu>
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-kernel@vger.kernel.org,
+        corbet@lwn.net, michal.lkml@markovi.net, ndesaulniers@google.com,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, hpa@zytor.com, luto@kernel.org,
+        ebiederm@xmission.com, keescook@chromium.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, arnd@arndb.de, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+        bristot@redhat.com, vschneid@redhat.com, pbonzini@redhat.com,
+        jpoimboe@kernel.org, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        x86@kernel.org, rjones@redhat.com, munsoner@bu.edu, tommyu@bu.edu,
+        drepper@redhat.com, lwoodman@redhat.com, mboydmcse@gmail.com,
+        okrieg@bu.edu, rmancuso@bu.edu
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, 7 Oct 2022 at 07:40, Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Fri, Oct 7, 2022 at 6:29 AM Ali Raza <aliraza@bu.edu> wrote:
 >
-> On Fri, Oct 7, 2022 at 2:11 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> On 10/3/22 22:11, Bagas Sanjaya wrote:
+> > On 10/4/22 05:21, Ali Raza wrote:
+> >> Add the KConfig file that will enable building UKL. Documentation
+> >> introduces the technical details for how UKL works and the motivations
+> >> behind why it is useful. Sample provides a simple program that still uses
+> >> the standard system call interface, but does not require a modified C
+> >> library.
+> >>
+> > <snipped>
+> >>  Documentation/index.rst   |   1 +
+> >>  Documentation/ukl/ukl.rst | 104 ++++++++++++++++++++++++++++++++++++++
+> >>  Kconfig                   |   2 +
+> >>  kernel/Kconfig.ukl        |  41 +++++++++++++++
+> >>  samples/ukl/Makefile      |  16 ++++++
+> >>  samples/ukl/README        |  17 +++++++
+> >>  samples/ukl/syscall.S     |  28 ++++++++++
+> >>  samples/ukl/tcp_server.c  |  99 ++++++++++++++++++++++++++++++++++++
+> >>  8 files changed, 308 insertions(+)
+> >>  create mode 100644 Documentation/ukl/ukl.rst
+> >>  create mode 100644 kernel/Kconfig.ukl
+> >>  create mode 100644 samples/ukl/Makefile
+> >>  create mode 100644 samples/ukl/README
+> >>  create mode 100644 samples/ukl/syscall.S
+> >>  create mode 100644 samples/ukl/tcp_server.c
 > >
-> > On Fri, Oct 7, 2022 at 1:53 AM Mark Brown <broonie@kernel.org> wrote:
-> > >
-> > > On Thu, Oct 06, 2022 at 09:36:22AM -0700, KernelCI bot wrote:
-> > >
-> > > The KernelCI bisection bot found a boot regression on qemu in today's
-> > > -next for a multi_v7_defconfig with additional debug options running on
-> > > virt-gicv3 which it identified as being triggered by 5750121ae738
-> > > ("kbuild: list sub-directories in ./Kbuild") which does seem surprising
-> > > but the bot did test a revert so it seemed worth reporting
+> > Shouldn't the documentation be split into its own patch?
 > >
-> >
-> >
-> > Please tell me the command line arguments to qemu-system-arm.
-> > Especially, how to turn on gicv3.
+> Thanks for pointing that out.
 >
->
-> I found it in the qemu manual:
-> https://www.qemu.org/docs/master/system/arm/virt.html?highlight=gic%20version
->
->
->
->
-> The arm virt machine with gicv3 booted as far as I tested.
->
-> So, I need to know more details about the settings of the KernelCI.
->
->
->
->
-> This is my qemu command line.
->
->
-> qemu-system-arm -machine virt,gic-version=3 \
-> -kernel /home/masahiro/tools/qemu-arm_virt/kernel \
-> -initrd /home/masahiro/tools/qemu-arm_virt/initrd \
-> -drive file=fat:rw:/home/masahiro/tools/qemu-arm_virt/disk-shared,if=none,format=raw,id=drive0
-> \
-> -netdev bridge,id=netdev0,br=virbr0,helper=/usr/lib/qemu/qemu-bridge-helper \
-> -serial stdio -monitor vc:800x600 -cpu cortex-a15 \
-> -smp 4 -device virtio-blk-pci,drive=drive0 \
-> -device virtio-net-pci,netdev=netdev0 -append console=ttyAMA0
->
+> --Ali
 >
 
-You need to pass a firmware image as well.
 
--bios QEMU_EFI.fd
+The commit subject "Kconfig:" is used for changes
+under scripts/kconfig/.
 
-https://snapshots.linaro.org/components/kernel/leg-virt-tianocore-edk2-upstream/4666/QEMU-ARM/RELEASE_GCC5/QEMU_EFI.fd
+Please use something else.
 
-(the firmware execution can be quite slow under emulation so give it some time)
+
+-- 
+Best Regards
+Masahiro Yamada
