@@ -2,106 +2,123 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B6195F7B58
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Oct 2022 18:23:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A11015F7ED4
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Oct 2022 22:32:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229648AbiJGQXj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Oct 2022 12:23:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49626 "EHLO
+        id S229931AbiJGUcw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 Oct 2022 16:32:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229947AbiJGQXg (ORCPT
+        with ESMTP id S230141AbiJGUct (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Oct 2022 12:23:36 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 834B6102528
-        for <linux-kbuild@vger.kernel.org>; Fri,  7 Oct 2022 09:23:33 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id 10so5055932pli.0
-        for <linux-kbuild@vger.kernel.org>; Fri, 07 Oct 2022 09:23:33 -0700 (PDT)
+        Fri, 7 Oct 2022 16:32:49 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2396127BDB
+        for <linux-kbuild@vger.kernel.org>; Fri,  7 Oct 2022 13:32:40 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id a2-20020a5b0002000000b006b48689da76so5564838ybp.16
+        for <linux-kbuild@vger.kernel.org>; Fri, 07 Oct 2022 13:32:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eVKfZA3SwiGf8qlPzooH70x5W9OPocalRMd2pDz1Njs=;
-        b=p2/iQy2rmgnIEXndt1c2isSc528d1W0zf8zkAfgqNNIl5UA0prvbJAsSh7vGwFQM/0
-         4bR6mo4ZdZ8xl1o1XciNISLkeYTSgYbfTvjTDDOwlrNZuZ/5X/kU9bgmcnPUEC3n0r8c
-         GusLDh2umCN6OKQqwHZQApqruIhHANWWSGXx9J68P+SuOpjXsdK21rgSL3Rk0gTtzdgA
-         9VciZozMJ6WZqF5PHv7zRUiuVReKM2VcGq6PUlnDv+QmsVHlb0wrAihiuy9rn1cHNWSJ
-         BskEWzzqJ4s3Umuv6V6W51Ea0YGoeCtlS33EayGiVwGjl0ixsOvfxvZec4OgHHeZ94D+
-         ZTvA==
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=H5PXFuGO6LsvTkGWSyH4IIntX/pmrPgQBzEpfjypKsw=;
+        b=kNHjn6x5hUfuwCtRtaf+cYbg52QTq7S6GaEZitIAjgKwdSB3u0cm0l4Z6cQKD87jUI
+         7G35Df2pOwo9gMegtlSck62AyJCe/hQYv41mG0jr5PlAfqmsxJ6cNbn41KEX8eK0jdAk
+         x00IK7IRfBlhy98VPZbjK0kKoaNqW/+apqS1HiT9CgaBtWfZpXvHBTNzCCO71Xgtsxwz
+         tJcPDlCgmP2sGYhAzqtCk0MkIyVJN8Oe7CbnUo8EpzgQYIM63Z2IbcoSqN3r/6cIXyS8
+         YVq7TDHTpzUCi016DXCol0Sa1pUcq5lk7P3ZalJgZxc6tcDSo29XOspe2BLCNt1a5pXn
+         FQFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eVKfZA3SwiGf8qlPzooH70x5W9OPocalRMd2pDz1Njs=;
-        b=dASNd3UVMo/HmlRXdxJaetOyoo2g5QxeVQRS4Exgt185KEliEGP+6I8XGWR5ot7urE
-         mSLRsxC6WdLTR0yA8hP0chRI5Ex6ZWyRp3EItg7F7vrscpouVVo91cd50AeZ3S6rMe8D
-         /Wocav4h/KWtJ9o4ncJxaBQJuUk6l2R3h9HAomVcgRpaoPm4o0YuGHQ3egwce/Z+kkIc
-         aEUbAZx29GCcaOS0AyBJ7hk7rzP33u/K4dofAKJGCAoY9UF16TTpevYRIaE/ZlDZOrnl
-         OHHD6GbW5ThtCV/BkwzQHYA2F8ID61xlgpAvd/KUOVr8UnqSwQXydI7wTbuhvtoYQT++
-         DO8A==
-X-Gm-Message-State: ACrzQf2FgfgvnazOAoFByoLi+7Rwv3IOE8BN5oxiOnBUxb6B7WbIrwFw
-        L5pzyHSFeM4z+udBiQnQRrqzoI9A4qiljyhKyvA=
-X-Google-Smtp-Source: AMsMyM4aNBOg2ixK2Ti0iz9E/9RVTENMJ07GV2dAkCNAb+dyKVlrCjBfxPMdCqWIQ4OR+51pVLKtY9y3EHVDJ1tA6vw=
-X-Received: by 2002:a17:90b:4d0c:b0:20b:c983:2d85 with SMTP id
- mw12-20020a17090b4d0c00b0020bc9832d85mr3153480pjb.45.1665159811878; Fri, 07
- Oct 2022 09:23:31 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a05:7022:10e:b0:45:df8d:92fb with HTTP; Fri, 7 Oct 2022
- 09:23:31 -0700 (PDT)
-Reply-To: mrs.feleciajonathan001@gmail.com
-From:   "Mrs.Felecia Jonathan" <salifdene5@gmail.com>
-Date:   Fri, 7 Oct 2022 09:23:31 -0700
-Message-ID: <CAC0oiJZaJ6zkQTCyu5MfoaAN_pdJQvFjhWBTDQVyRWNJ1WW1sQ@mail.gmail.com>
-Subject: HI
-To:     undisclosed-recipients:;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=H5PXFuGO6LsvTkGWSyH4IIntX/pmrPgQBzEpfjypKsw=;
+        b=H9dCA4bkX1LMftpp6HC0Hqayw8PxydxyN/lEFGi4lUR7REcIFrRsNrbpBxn4HvyGmc
+         XQRMD8yijxnl+W3OGzdIxelLQNm5OiE+FBkhyPw4bpxwpxWvXyu7ZgxJefR9gkpLFoU8
+         UjraY94ww95nj1bpppT53fr3+MjgEC955xkDyvFJo2jDGcsnS1nOj2hFOCQERRwo4EVs
+         gonaZ5ASV0WTqzv04XulVbT0n3eHWzG1Iv88jKYSmsi5Zti8VqyL8oF1QVW8EtI7RLjH
+         P0ki8RT0nCnLLDrZ4W0WEhhf4TFdiQH8xeuQKCDRYNKxZAhS6cMfCt27o2/lm5igXkWS
+         a23g==
+X-Gm-Message-State: ACrzQf3wZv+UrjPyv2qgKDNk9hssYMb8aTlgWZb8xzdhu4pEdQhMqd3S
+        a3vZUUQrEt5V5w5QDnR0HB60I5Qh3ZwSQKQxg10=
+X-Google-Smtp-Source: AMsMyM5xkodeESX8Qe1smo5uI+0KcKPVRF8fNmAe7oJoszCv7gYXUaxSXjbqe03Q4+THi22jagWiUXAdbj+BsGqXHJA=
+X-Received: from ndesaulniers-desktop.svl.corp.google.com ([2620:0:100e:712:35a0:96d6:8c4e:f207])
+ (user=ndesaulniers job=sendgmr) by 2002:a25:8a8a:0:b0:6bc:e04a:d340 with SMTP
+ id h10-20020a258a8a000000b006bce04ad340mr6415762ybl.549.1665174760237; Fri,
+ 07 Oct 2022 13:32:40 -0700 (PDT)
+Date:   Fri,  7 Oct 2022 13:32:36 -0700
+Mime-Version: 1.0
+X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=UIrHvErwpgNbhCkRZAYSX0CFd/XFEwqX3D0xqtqjNug=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1665174756; l=1716;
+ i=ndesaulniers@google.com; s=20220923; h=from:subject; bh=TzGJay1lXQMdgQA/ZyjvCG6BrJE34h1xkzf3M2zsIDQ=;
+ b=GirJqyZImL21fWOg762M3V4qsRhWN8goTG9W87OS1Xjtj8APnccjbNLrKgsb+Bz7D+7np/E1o89C
+ EmDaEm5BA81mqRB58hnAPO8IdaObGngDH2RIkMQBUmPcBnuRdCgk
+X-Mailer: git-send-email 2.38.0.rc2.412.g84df46c1b4-goog
+Message-ID: <20221007203236.1750890-1-ndesaulniers@google.com>
+Subject: [PATCH] kbuild: add -fno-discard-value-names to cmd_cc_ll_c
+From:   Nick Desaulniers <ndesaulniers@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Tom Rix <trix@redhat.com>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+        Nick Desaulniers <ndesaulniers@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.2 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:632 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [salifdene5[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [salifdene5[at]gmail.com]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [mrs.feleciajonathan001[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
-        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
- Am a dying woman here in the hospital, i was diagnose as a Cancer
-patient over  2 Years ago. I am A business woman how
-dealing with Gold Exportation.I Am from Us California
-I have a charitable and unfufilment
+When debugging LLVM IR, it can be handy for clang to not discard value
+names used for local variables and parameters. Compare the generated IR.
 
-project that am about to handover to you, if you are interested please
-Reply
-hope to hear from you.
-Regard
-Mrs. Felecia Jonathan
+Implicit Default (-fdiscard-value-names):
+  define i32 @core_sys_select(i32 %0, ptr %1, ptr %2, ptr %3, ptr %4) {
+    %6 = alloca i64
+    %7 = alloca %struct.poll_wqueues
+    %8 = alloca [64 x i32]
+
+Explicit -fno-discard-value-names:
+  define i32 @core_sys_select(i32 %n, ptr %inp, ptr %outp, ptr %exp,
+                              ptr %end_time) {
+    %expire.i = alloca i64
+    %table.i = alloca %struct.poll_wqueues
+    %stack_fds = alloca [64 x i32]
+
+The rule for generating human readable LLVM IR (.ll) is only useful as a
+debugging feature:
+
+$ make LLVM=1 fs/select.ll
+
+Clang defaults to -fdiscard-value-names to save memory when generating
+LLVM IR. For debugging purposes, the improvement in readability at a
+cost of more verbose IR is a cost we're happy to pay.
+
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+---
+ scripts/Makefile.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 27be77c0d6d8..d0e4f476dfee 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -140,7 +140,7 @@ $(obj)/%.symtypes : $(src)/%.c FORCE
+ # LLVM assembly
+ # Generate .ll files from .c
+ quiet_cmd_cc_ll_c = CC $(quiet_modtag)  $@
+-      cmd_cc_ll_c = $(CC) $(c_flags) -emit-llvm -S -o $@ $<
++      cmd_cc_ll_c = $(CC) $(c_flags) -emit-llvm -S -fno-discard-value-names -o $@ $<
+ 
+ $(obj)/%.ll: $(src)/%.c FORCE
+ 	$(call if_changed_dep,cc_ll_c)
+
+base-commit: 93ed07a23fd08b8613f64cf0a15d7fbdaca010fd
+-- 
+2.38.0.rc2.412.g84df46c1b4-goog
+
