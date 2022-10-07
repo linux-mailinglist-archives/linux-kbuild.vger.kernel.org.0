@@ -2,119 +2,117 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 296FD5F76C7
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Oct 2022 12:22:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B74765F7771
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Oct 2022 13:31:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229628AbiJGKWa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Oct 2022 06:22:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42954 "EHLO
+        id S229638AbiJGLbf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 Oct 2022 07:31:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbiJGKW3 (ORCPT
+        with ESMTP id S229470AbiJGLbe (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Oct 2022 06:22:29 -0400
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1B833DBED;
-        Fri,  7 Oct 2022 03:22:27 -0700 (PDT)
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 297AMEvQ026718;
-        Fri, 7 Oct 2022 19:22:15 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 297AMEvQ026718
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1665138135;
-        bh=v6R9VW9CvNnIPxZU2kpYVPvJFCqUvYSumQarCG0Cerk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=zLSJjHLIQJAkeagXnGYLwewIgt97fZLTzOId4Oe8VaS10oWFyd9D+CNgzkwUOlRVc
-         JEegGYepg822P00bA0N/ktpVz7Od6lVius4h4rtoHWlOyeCjUr5oe1C+457OTZMnH6
-         QpW6iUVrYSxr6ZVPRf9Q70yrdcFpTo9/FOMR94tiJQzy6ffL7ZhTV3Alj8dKKyMVEO
-         QZ/hH9OaK0hEKBFTCMTRouTa0vWlvOIqhjj4/mp0hoTjOwrtCiOTw3S+mVoNi9UTlR
-         AroDM6GIpTyuc9c4CJ50gO+3diiSvj1ja4wW9v2V1Cu8p4dyVdfKWUepyeXpj49acI
-         6K0wXPsNUgySQ==
-X-Nifty-SrcIP: [209.85.160.44]
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-132fb4fd495so5076569fac.12;
-        Fri, 07 Oct 2022 03:22:15 -0700 (PDT)
-X-Gm-Message-State: ACrzQf2nYq3OFkh3JYTwcuc+uyA9Vw1fzimcAUwgm1YcYBxlcmWV11V7
-        HCEOSdddAx0zpIS6Ro9B8aMY0ypJhJMeCOxv7RA=
-X-Google-Smtp-Source: AMsMyM6p4RmVl0lWCJhJ6LJiYVBZr+poUdbCGiq93ZYl33z69uioaMPeZvHhvZHGTn59a1RuLFsTqu2SZdyREGXDS0k=
-X-Received: by 2002:a05:6870:c58b:b0:10b:d21d:ad5e with SMTP id
- ba11-20020a056870c58b00b0010bd21dad5emr2087845oab.287.1665138134138; Fri, 07
- Oct 2022 03:22:14 -0700 (PDT)
+        Fri, 7 Oct 2022 07:31:34 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 909A3A485D
+        for <linux-kbuild@vger.kernel.org>; Fri,  7 Oct 2022 04:31:33 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2B35E61CAF
+        for <linux-kbuild@vger.kernel.org>; Fri,  7 Oct 2022 11:31:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64212C433D6;
+        Fri,  7 Oct 2022 11:31:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1665142292;
+        bh=Q2H3etKtwAPG5oSTTciYJ34vGRDEVtRGOummqim0Mhs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ol4KmGXY7t+S083oEM90oj3Y3NDPM5UtnFRqKr1/Ji3nrrtNax+kSGZDS4qi5VprH
+         8cYEXmavoId3adpwpKRxwK7xKu6EZoFvhx5gJXaXqfv7835aBCQ0BtA/LMo0cKfiI3
+         l/w6SoHM7tqOP21R2B8VjQDFJoEQTiYvxq4gPEXrUFRMU68V6gCyb0PLeVTYQKEg7k
+         0vOOhGot2xSrLvnRROrVCr7Q4r0wZn+jksTdR7e6Nq1hShZKyA9ddXGeo7Oo5CPZNB
+         kOSamuZghTWPNFhd2Oet+YzEUOgxw+WAVG07HM4Nn3Q+OFzJ9OXOlwtfFet/1JQZb0
+         mqT5P1TutSmVQ==
+Date:   Fri, 7 Oct 2022 12:31:27 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     kernelci-results@groups.io, bot@kernelci.org,
+        Russell King <linux@armlinux.org.uk>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, gtucker@collabora.com,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: Re: next/master bisection: baseline.login on qemu_arm-virt-gicv3
+Message-ID: <Y0AOD/EfGEiGevsD@sirena.org.uk>
+References: <633f0406.050a0220.9431e.d406@mx.google.com>
+ <Yz8H+CIgq9A8WI6J@sirena.org.uk>
+ <CAK7LNART_52inEq0-wXiR=70D7-9TGaCa_f6bpA+ud3Mra3FOQ@mail.gmail.com>
+ <CAK7LNAQ2L7fLG1zzS-MkgqKS+JYEvX62wPhZg-S+4vMk0cjNVg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20221003222133.20948-1-aliraza@bu.edu> <20221003222133.20948-11-aliraza@bu.edu>
- <d2089a89-21a9-1e05-5d58-91b8411f7141@gmail.com> <53c84c25-31ff-29d5-c6fb-85cb307f1704@bu.edu>
-In-Reply-To: <53c84c25-31ff-29d5-c6fb-85cb307f1704@bu.edu>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 7 Oct 2022 19:21:37 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT-Q=sS-9L1eRuOnomqqDNyRp2knZh+2SYLqB2Gn8ekHg@mail.gmail.com>
-Message-ID: <CAK7LNAT-Q=sS-9L1eRuOnomqqDNyRp2knZh+2SYLqB2Gn8ekHg@mail.gmail.com>
-Subject: Re: [RFC UKL 10/10] Kconfig: Add config option for enabling and
- sample for testing UKL
-To:     Ali Raza <aliraza@bu.edu>
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, michal.lkml@markovi.net, ndesaulniers@google.com,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, hpa@zytor.com, luto@kernel.org,
-        ebiederm@xmission.com, keescook@chromium.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, arnd@arndb.de, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com, vschneid@redhat.com, pbonzini@redhat.com,
-        jpoimboe@kernel.org, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        x86@kernel.org, rjones@redhat.com, munsoner@bu.edu, tommyu@bu.edu,
-        drepper@redhat.com, lwoodman@redhat.com, mboydmcse@gmail.com,
-        okrieg@bu.edu, rmancuso@bu.edu
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="aNqoaOQnVvAfZvJE"
+Content-Disposition: inline
+In-Reply-To: <CAK7LNAQ2L7fLG1zzS-MkgqKS+JYEvX62wPhZg-S+4vMk0cjNVg@mail.gmail.com>
+X-Cookie: Approved for veterans.
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Oct 7, 2022 at 6:29 AM Ali Raza <aliraza@bu.edu> wrote:
->
-> On 10/3/22 22:11, Bagas Sanjaya wrote:
-> > On 10/4/22 05:21, Ali Raza wrote:
-> >> Add the KConfig file that will enable building UKL. Documentation
-> >> introduces the technical details for how UKL works and the motivations
-> >> behind why it is useful. Sample provides a simple program that still uses
-> >> the standard system call interface, but does not require a modified C
-> >> library.
-> >>
-> > <snipped>
-> >>  Documentation/index.rst   |   1 +
-> >>  Documentation/ukl/ukl.rst | 104 ++++++++++++++++++++++++++++++++++++++
-> >>  Kconfig                   |   2 +
-> >>  kernel/Kconfig.ukl        |  41 +++++++++++++++
-> >>  samples/ukl/Makefile      |  16 ++++++
-> >>  samples/ukl/README        |  17 +++++++
-> >>  samples/ukl/syscall.S     |  28 ++++++++++
-> >>  samples/ukl/tcp_server.c  |  99 ++++++++++++++++++++++++++++++++++++
-> >>  8 files changed, 308 insertions(+)
-> >>  create mode 100644 Documentation/ukl/ukl.rst
-> >>  create mode 100644 kernel/Kconfig.ukl
-> >>  create mode 100644 samples/ukl/Makefile
-> >>  create mode 100644 samples/ukl/README
-> >>  create mode 100644 samples/ukl/syscall.S
-> >>  create mode 100644 samples/ukl/tcp_server.c
-> >
-> > Shouldn't the documentation be split into its own patch?
-> >
-> Thanks for pointing that out.
->
-> --Ali
->
 
+--aNqoaOQnVvAfZvJE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The commit subject "Kconfig:" is used for changes
-under scripts/kconfig/.
+On Fri, Oct 07, 2022 at 02:38:06PM +0900, Masahiro Yamada wrote:
 
-Please use something else.
+> The arm virt machine with gicv3 booted as far as I tested.
+>=20
+> So, I need to know more details about the settings of the KernelCI.
 
+The HTML versions of the boot logs include the qemu command, these days
+it's run using docker so so you can even get the specific version of
+qemu version that was being used by kernelci in case that's important:
 
--- 
-Best Regards
-Masahiro Yamada
+docker run --network=3Dhost --cap-add=3DNET_ADMIN --interactive --tty --rm =
+--init --name=3Dlava-docker-qemu-7496529-2.1.1-gexyjab5hb --device=3D/dev/k=
+vm --device=3D/dev/net/tun --mount=3Dtype=3Dbind,source=3D/var/lib/lava/dis=
+patcher/tmp,destination=3D/var/lib/lava/dispatcher/tmp kernelci/qemu qemu-s=
+ystem-arm -cpu cortex-a15 -machine virt-2.11,gic-version=3D3 -nographic -ne=
+t nic,model=3Dvirtio,macaddr=3DDE:AD:BE:EF:45:5C -net bridge,br=3Dvirbr0 -m=
+ 1024 -monitor none -kernel /var/lib/lava/dispatcher/tmp/7496529/deployimag=
+es-blwzkdvs/kernel/zImage -append "console=3DttyAMA0,115200 root=3D/dev/ram=
+0 debug verbose console_msg_format=3Dsyslog earlycon" -initrd /var/lib/lava=
+/dispatcher/tmp/7496529/deployimages-blwzkdvs/ramdisk/rootfs.cpio.gz -drive=
+ format=3Dqcow2,file=3D/var/lib/lava/dispatcher/tmp/7496529/apply-overlay-g=
+uest-f5mnvw0l/lava-guest.qcow2,media=3Ddisk,if=3Dvirtio,id=3Dlavatest
+
+Everything from qemu-system-arm on is the command that's run inside the
+container.
+
+The logs also show the download of the filesystems that would be used,
+though we don't get as far as actually using them so it's a bit moot:
+
+https://storage.kernelci.org/next/master/next-20221004/arm/multi_v7_defconf=
+ig+debug/gcc-10/lab-collabora/baseline-qemu_arm-virt-gicv3.html
+
+--aNqoaOQnVvAfZvJE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmNADg4ACgkQJNaLcl1U
+h9BJAAf+Npyk7jWqnSrDAijhBdUVA69VSGfk28Ab7NcG85hAG4cJtCOBDJh2+tvf
+kLIPEZW7MWNW8exN6MdwfDimkzniiRZKIWUPQ56x+FAhNYDm+NNRRctVTxl0SAQj
+E4n6Tyab/sj8pA44f//zi5+c8KP/Fmwa0GM/R4EgQti3IcLGvM6TDsGPskHg4hXg
+D+rUV9mnRb3ENNv2LZYY1sR5Oe5xj3mhgprvaxTkgMGEbn1acfWPnbeIugH/YkiT
+e7OvZ3nFG8M/8HIzBrUN6eKlTS0xc4hYHgUpzKgFC3Lbi/Auntya9qX6IjxHBB1W
+Pg65FOJbN9/R3LXM35E2NJFDYgtn4A==
+=3zkl
+-----END PGP SIGNATURE-----
+
+--aNqoaOQnVvAfZvJE--
