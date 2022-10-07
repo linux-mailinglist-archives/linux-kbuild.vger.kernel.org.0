@@ -2,119 +2,106 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 50D405F79C5
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Oct 2022 16:36:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B6195F7B58
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Oct 2022 18:23:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229674AbiJGOgU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Oct 2022 10:36:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52204 "EHLO
+        id S229648AbiJGQXj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 Oct 2022 12:23:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229737AbiJGOgS (ORCPT
+        with ESMTP id S229947AbiJGQXg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Oct 2022 10:36:18 -0400
-Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A331E72EDC
-        for <linux-kbuild@vger.kernel.org>; Fri,  7 Oct 2022 07:36:16 -0700 (PDT)
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 297Ea20m025817
-        for <linux-kbuild@vger.kernel.org>; Fri, 7 Oct 2022 23:36:02 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 297Ea20m025817
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1665153363;
-        bh=CDCun5TRVs5h8TGjahdouMxcsGU5T69DdqQ+1z+O7vI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=BKOmmTeNVYOYas61IU86k4HDc/EPQfHINjz+BIc3Hs7sWZNUHw/dz3s48j7nKuk9L
-         nshTlTp0pITK+YQDwrYfb/yZPZGfu8Qr4poqV8d3OGZzYyCcV3p3VsOilC0ZuelF4w
-         //8ppsNFCAVRfnHoMrLTgcuSKEGgvbsRWvQrIYlKtYSMkRGq59mgCvAzv7+U3tqOfk
-         WUDOeWwgTuZubOtJC3fMOD2zhgkSuKISJD0NN6NPKTm8BKEdhUeQULdseLHICCeok0
-         OZ4kV8mcDq90aIymmsGfp9LoLiHbHsQaPwMarlR0tEOjMG+tkVNAVlkxJRkSOfWUK4
-         j9TAhCj2rVttA==
-X-Nifty-SrcIP: [209.85.167.182]
-Received: by mail-oi1-f182.google.com with SMTP id n83so5678229oif.11
-        for <linux-kbuild@vger.kernel.org>; Fri, 07 Oct 2022 07:36:02 -0700 (PDT)
-X-Gm-Message-State: ACrzQf3uthJDz9hV666R/x9Ac2wvf4rDjhayJCjVVk764joPKQUORA+G
-        sgbXEwhgU5MBkpnlwhuZi6kvQwLUjB6eUTDztCo=
-X-Google-Smtp-Source: AMsMyM7ZyWosPTx0XaHGbJLw4PoFATCCm2cIMmCKbiRYhXCC/GgS3iOp0GS6QaUJwrfAuN3MC+BUZRPjQUlLgSQWpKw=
-X-Received: by 2002:a05:6808:1b85:b0:34d:8ce1:d5b0 with SMTP id
- cj5-20020a0568081b8500b0034d8ce1d5b0mr7660537oib.194.1665153361395; Fri, 07
- Oct 2022 07:36:01 -0700 (PDT)
+        Fri, 7 Oct 2022 12:23:36 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 834B6102528
+        for <linux-kbuild@vger.kernel.org>; Fri,  7 Oct 2022 09:23:33 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id 10so5055932pli.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 07 Oct 2022 09:23:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eVKfZA3SwiGf8qlPzooH70x5W9OPocalRMd2pDz1Njs=;
+        b=p2/iQy2rmgnIEXndt1c2isSc528d1W0zf8zkAfgqNNIl5UA0prvbJAsSh7vGwFQM/0
+         4bR6mo4ZdZ8xl1o1XciNISLkeYTSgYbfTvjTDDOwlrNZuZ/5X/kU9bgmcnPUEC3n0r8c
+         GusLDh2umCN6OKQqwHZQApqruIhHANWWSGXx9J68P+SuOpjXsdK21rgSL3Rk0gTtzdgA
+         9VciZozMJ6WZqF5PHv7zRUiuVReKM2VcGq6PUlnDv+QmsVHlb0wrAihiuy9rn1cHNWSJ
+         BskEWzzqJ4s3Umuv6V6W51Ea0YGoeCtlS33EayGiVwGjl0ixsOvfxvZec4OgHHeZ94D+
+         ZTvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eVKfZA3SwiGf8qlPzooH70x5W9OPocalRMd2pDz1Njs=;
+        b=dASNd3UVMo/HmlRXdxJaetOyoo2g5QxeVQRS4Exgt185KEliEGP+6I8XGWR5ot7urE
+         mSLRsxC6WdLTR0yA8hP0chRI5Ex6ZWyRp3EItg7F7vrscpouVVo91cd50AeZ3S6rMe8D
+         /Wocav4h/KWtJ9o4ncJxaBQJuUk6l2R3h9HAomVcgRpaoPm4o0YuGHQ3egwce/Z+kkIc
+         aEUbAZx29GCcaOS0AyBJ7hk7rzP33u/K4dofAKJGCAoY9UF16TTpevYRIaE/ZlDZOrnl
+         OHHD6GbW5ThtCV/BkwzQHYA2F8ID61xlgpAvd/KUOVr8UnqSwQXydI7wTbuhvtoYQT++
+         DO8A==
+X-Gm-Message-State: ACrzQf2FgfgvnazOAoFByoLi+7Rwv3IOE8BN5oxiOnBUxb6B7WbIrwFw
+        L5pzyHSFeM4z+udBiQnQRrqzoI9A4qiljyhKyvA=
+X-Google-Smtp-Source: AMsMyM4aNBOg2ixK2Ti0iz9E/9RVTENMJ07GV2dAkCNAb+dyKVlrCjBfxPMdCqWIQ4OR+51pVLKtY9y3EHVDJ1tA6vw=
+X-Received: by 2002:a17:90b:4d0c:b0:20b:c983:2d85 with SMTP id
+ mw12-20020a17090b4d0c00b0020bc9832d85mr3153480pjb.45.1665159811878; Fri, 07
+ Oct 2022 09:23:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <633f0406.050a0220.9431e.d406@mx.google.com> <Yz8H+CIgq9A8WI6J@sirena.org.uk>
- <CAK7LNART_52inEq0-wXiR=70D7-9TGaCa_f6bpA+ud3Mra3FOQ@mail.gmail.com>
- <CAK7LNAQ2L7fLG1zzS-MkgqKS+JYEvX62wPhZg-S+4vMk0cjNVg@mail.gmail.com> <Y0AOD/EfGEiGevsD@sirena.org.uk>
-In-Reply-To: <Y0AOD/EfGEiGevsD@sirena.org.uk>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 7 Oct 2022 23:35:25 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASR0ufUDmAUdkH1sEtXH9DoG5_==XcNw+KxvpoUg=57bA@mail.gmail.com>
-Message-ID: <CAK7LNASR0ufUDmAUdkH1sEtXH9DoG5_==XcNw+KxvpoUg=57bA@mail.gmail.com>
-Subject: Re: next/master bisection: baseline.login on qemu_arm-virt-gicv3
-To:     Mark Brown <broonie@kernel.org>
-Cc:     kernelci-results@groups.io, bot@kernelci.org,
-        Russell King <linux@armlinux.org.uk>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, gtucker@collabora.com,
-        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>
+Received: by 2002:a05:7022:10e:b0:45:df8d:92fb with HTTP; Fri, 7 Oct 2022
+ 09:23:31 -0700 (PDT)
+Reply-To: mrs.feleciajonathan001@gmail.com
+From:   "Mrs.Felecia Jonathan" <salifdene5@gmail.com>
+Date:   Fri, 7 Oct 2022 09:23:31 -0700
+Message-ID: <CAC0oiJZaJ6zkQTCyu5MfoaAN_pdJQvFjhWBTDQVyRWNJ1WW1sQ@mail.gmail.com>
+Subject: HI
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
-        autolearn_force=no version=3.4.6
+X-Spam-Status: Yes, score=5.2 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:632 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [salifdene5[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [salifdene5[at]gmail.com]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [mrs.feleciajonathan001[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
+        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Oct 7, 2022 at 8:31 PM Mark Brown <broonie@kernel.org> wrote:
->
-> On Fri, Oct 07, 2022 at 02:38:06PM +0900, Masahiro Yamada wrote:
->
-> > The arm virt machine with gicv3 booted as far as I tested.
-> >
-> > So, I need to know more details about the settings of the KernelCI.
->
-> The HTML versions of the boot logs include the qemu command, these days
-> it's run using docker so so you can even get the specific version of
-> qemu version that was being used by kernelci in case that's important:
->
-> docker run --network=3Dhost --cap-add=3DNET_ADMIN --interactive --tty --r=
-m --init --name=3Dlava-docker-qemu-7496529-2.1.1-gexyjab5hb --device=3D/dev=
-/kvm --device=3D/dev/net/tun --mount=3Dtype=3Dbind,source=3D/var/lib/lava/d=
-ispatcher/tmp,destination=3D/var/lib/lava/dispatcher/tmp kernelci/qemu qemu=
--system-arm -cpu cortex-a15 -machine virt-2.11,gic-version=3D3 -nographic -=
-net nic,model=3Dvirtio,macaddr=3DDE:AD:BE:EF:45:5C -net bridge,br=3Dvirbr0 =
--m 1024 -monitor none -kernel /var/lib/lava/dispatcher/tmp/7496529/deployim=
-ages-blwzkdvs/kernel/zImage -append "console=3DttyAMA0,115200 root=3D/dev/r=
-am0 debug verbose console_msg_format=3Dsyslog earlycon" -initrd /var/lib/la=
-va/dispatcher/tmp/7496529/deployimages-blwzkdvs/ramdisk/rootfs.cpio.gz -dri=
-ve format=3Dqcow2,file=3D/var/lib/lava/dispatcher/tmp/7496529/apply-overlay=
--guest-f5mnvw0l/lava-guest.qcow2,media=3Ddisk,if=3Dvirtio,id=3Dlavatest
->
-> Everything from qemu-system-arm on is the command that's run inside the
-> container.
->
-> The logs also show the download of the filesystems that would be used,
-> though we don't get as far as actually using them so it's a bit moot:
->
-> https://storage.kernelci.org/next/master/next-20221004/arm/multi_v7_defco=
-nfig+debug/gcc-10/lab-collabora/baseline-qemu_arm-virt-gicv3.html
+ Am a dying woman here in the hospital, i was diagnose as a Cancer
+patient over  2 Years ago. I am A business woman how
+dealing with Gold Exportation.I Am from Us California
+I have a charitable and unfufilment
 
-
-
-
-
-
-I suspect "+debug" in "multi_v7_defconfig+debug"
-because the failure log says "ftrace bug" multiple times.
-
-
-Which config options does "+debug" enable?
-
-Can you share the .config file?
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+project that am about to handover to you, if you are interested please
+Reply
+hope to hear from you.
+Regard
+Mrs. Felecia Jonathan
