@@ -2,74 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FFFB5FA482
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Oct 2022 22:05:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E86935FAA37
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Oct 2022 03:39:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229651AbiJJUF2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 10 Oct 2022 16:05:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56138 "EHLO
+        id S229824AbiJKBim (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 10 Oct 2022 21:38:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229827AbiJJUFN (ORCPT
+        with ESMTP id S229676AbiJKBid (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 10 Oct 2022 16:05:13 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EFF39FD0;
-        Mon, 10 Oct 2022 13:05:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DE5F160EFB;
-        Mon, 10 Oct 2022 20:05:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4B313C433D6;
-        Mon, 10 Oct 2022 20:05:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665432311;
-        bh=yLv3ICh4+I7b0dgrE2R+b8Hd6EQbkWbmXK5ezOHOZQc=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=qAstQwersBC5pqnHVBMI5hLbAxk8aDAd2apYg1DAr9p7lUW8hgxWPairt0uD7Y4b2
-         5qgHVNNW4c2CPvVVlu+jxIrjJouoxLI2OTwig96BSPgsrjl3SDoL7KDV7Cjrl0v3DZ
-         t2nmRqlJThShi29n4Fc4M/hRNictyiGj+0zRIZX4fs1hVsXd5kE0oC55lv1NwtG0nd
-         g27pKJprf/tv7j6RBngAtKNsWT8LFqj6lq7aJMW0Uf87/Ul3wh/2cPZjdT6HomDB4Y
-         udtghc7W7Mc3vb20oavln6fsly5tMR0rxf8YfkV04bU1WbLdImeb2Fkr+6Hpg9xhQs
-         +ynRGFchetbbg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 0AF7EE43EFE;
-        Mon, 10 Oct 2022 20:05:11 +0000 (UTC)
-Subject: Re: [GIT PULL] Kbuild updates for v6.1-rc1
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <CAK7LNASzGEiQfPTaLmhG4k7VAwB5yznd-VqWdJHEF2YjgSQTcA@mail.gmail.com>
-References: <CAK7LNASzGEiQfPTaLmhG4k7VAwB5yznd-VqWdJHEF2YjgSQTcA@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kbuild.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAK7LNASzGEiQfPTaLmhG4k7VAwB5yznd-VqWdJHEF2YjgSQTcA@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-v6.1
-X-PR-Tracked-Commit-Id: 0715fdb03e2c4f5748d245a231e422602ed29f33
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 8afc66e8d43be8edcf442165b70d50dd33091e68
-Message-Id: <166543231104.6988.6365668300308952249.pr-tracker-bot@kernel.org>
-Date:   Mon, 10 Oct 2022 20:05:11 +0000
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 10 Oct 2022 21:38:33 -0400
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7C242CDF9
+        for <linux-kbuild@vger.kernel.org>; Mon, 10 Oct 2022 18:38:32 -0700 (PDT)
+Received: by mail-io1-xd29.google.com with SMTP id p16so4071690iod.6
+        for <linux-kbuild@vger.kernel.org>; Mon, 10 Oct 2022 18:38:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8/x54dpNtflIDUBDnoBNjlqmFphEjwfRNTQlm4zS9vE=;
+        b=HHZN3Y2sTUZr4Q71s0Ks54/jPd8qD2hsVd4EdHu+JvmFpodZle4Ma8Kk9jmcUDlEmG
+         6sPqghQ+XWc2wpdmFIJgEGdLv820fuaYzLVfy5yGfgPkhcvx4uIcrzbQUqZzF4UcXGev
+         F8MKXW14Kt//a/9WBLv2w6mK9ZroFWMWnVfC5PHSiwx3suEBw3sieAm3VZekdtJp5qhZ
+         MWzAOkUeLMwBIhGblxGaN8RYOtMt54cAAqhGKIAnk7h3aQx2b9qz7tij9wgCkQowWwuU
+         slTl9kdfYsXPs1Xqm5r6dT7sxiWS4ckISpaeH4XYiIpSYq/dNThVT/ajxV3HDgT4kLTU
+         xZiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8/x54dpNtflIDUBDnoBNjlqmFphEjwfRNTQlm4zS9vE=;
+        b=SMMwOqIyTtKI004IOBDIxoBKiAjLnUmhqmpcuYprNOluscGs3zja42VmvjqSoVXX66
+         194SGJ3/FFcE7E10OFbwAwq8MKYR1mDyhJ8TgfPE2XZS/U+34lRwG/uJwjwKGhgZe44B
+         eLbonQN5oZnwAOyu7m3qv2C5/VgLr6K7CuUQeSiWe7BmD2q9mBmc8Oxbc7hX511vpawl
+         yhEy+/XDqIGsQVZILiOk8MreLUHltFm6MfL9zQgSm5wFmtg7zUANTO9HPb7BOBwqKnEH
+         lGR4dxo1Odr1VxP7rkl3SpCwGzPQI4oDqIbuOpLlqX4Kd1TrHdXR4520Ek3Bagsjrxx5
+         KZ3g==
+X-Gm-Message-State: ACrzQf2whkLPVHioiyRXsiVkPR4AirwNvwCI0UXnJXO+50u/IxqC9Qhf
+        w0pA3v6jMz/4+VWsiCo7UCvWOb3gOX4Vaw==
+X-Google-Smtp-Source: AMsMyM4rYCjzVRegUw9SG2g9qoMZxvOC/tr8qsydePnFaPGAzu+jgNcv+RXu+2qyXHSH1CoMNDYjrw==
+X-Received: by 2002:a02:a682:0:b0:34c:14fc:b490 with SMTP id j2-20020a02a682000000b0034c14fcb490mr11582401jam.196.1665452311981;
+        Mon, 10 Oct 2022 18:38:31 -0700 (PDT)
+Received: from localhost ([2607:fea8:a2e2:2d00::deb2])
+        by smtp.gmail.com with UTF8SMTPSA id f11-20020a02a10b000000b0036390180240sm4240557jag.177.2022.10.10.18.38.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Oct 2022 18:38:31 -0700 (PDT)
+From:   Richard Acayan <mailingradian@gmail.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Richard Acayan <mailingradian@gmail.com>
+Subject: [PATCH] modpost: put modpost options before argument
+Date:   Mon, 10 Oct 2022 21:38:28 -0400
+Message-Id: <20221011013828.267658-1-mailingradian@gmail.com>
+X-Mailer: git-send-email 2.38.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The pull request you sent on Thu, 6 Oct 2022 23:29:44 +0900:
+The musl implementation of getopt stops looking for options after the
+first non-option argument. Put the options before the non-option
+argument so environments using musl can still build the kernel and
+modules.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-v6.1
+Fixes: f73edc8951b2 ("kbuild: unify two modpost invocations")
+Link: https://git.musl-libc.org/cgit/musl/tree/src/misc/getopt.c?h=dc9285ad1dc19349c407072cc48ba70dab86de45#n44
+Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+---
+ scripts/Makefile.modpost | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/8afc66e8d43be8edcf442165b70d50dd33091e68
-
-Thank you!
-
+diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+index 7740ce3b29e8..8489a3402eb8 100644
+--- a/scripts/Makefile.modpost
++++ b/scripts/Makefile.modpost
+@@ -119,7 +119,7 @@ quiet_cmd_modpost = MODPOST $@
+ 		echo >&2 "WARNING: $(missing-input) is missing."; \
+ 		echo >&2 "         Modules may not have dependencies or modversions."; \
+ 		echo >&2 "         You may get many unresolved symbol warnings.";) \
+-	sed 's/ko$$/o/' $(or $(modorder-if-needed), /dev/null) | $(MODPOST) $(modpost-args) $(vmlinux.o-if-present) -T -
++	sed 's/ko$$/o/' $(or $(modorder-if-needed), /dev/null) | $(MODPOST) $(modpost-args) -T - $(vmlinux.o-if-present)
+ 
+ targets += $(output-symdump)
+ $(output-symdump): $(modorder-if-needed) $(vmlinux.o-if-present) $(moudle.symvers-if-present) $(MODPOST) FORCE
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.38.0
+
