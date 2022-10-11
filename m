@@ -2,62 +2,69 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA3C75FB4CF
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Oct 2022 16:43:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09D785FBCAD
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Oct 2022 23:10:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229811AbiJKOnz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 11 Oct 2022 10:43:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47510 "EHLO
+        id S229577AbiJKVKm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 11 Oct 2022 17:10:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229785AbiJKOnz (ORCPT
+        with ESMTP id S229532AbiJKVKk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 11 Oct 2022 10:43:55 -0400
-Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 601865141C;
-        Tue, 11 Oct 2022 07:43:51 -0700 (PDT)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 29BEhQVh028058;
-        Tue, 11 Oct 2022 23:43:27 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 29BEhQVh028058
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1665499407;
-        bh=f7cFsivqt5aB8JibP0uT38jXQu/Wbj/dqE/9O7jlMto=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=qOGRld0JJhbnaZ4tp5bXCh8X+a3tamoliyOdSOL++AcJ/NyAFRT5sqviP1CMKFnRu
-         fPS+ED2Q8niO2KVFkOcs+YhcAMZDfPbwoNYDII+FAamLnWBaBA47uqxdj7UbD73T3S
-         THyJCcbvTodfRvi3TnwAeohLJoBtpIyLv3GH2bSoFamML7yuMu1X2bUs84u17+xzGM
-         dXiCupNuOYdvKTxmEj0dpWy4ZxvKf10u0YoQSsbDZtUoz5JzB6ILdlaxIX6xnhp0WK
-         MhjJRRwPl5wtZlmWCCsbsUZ42Qj2WtQlne0HE/7a6Tk9sBlKOYDx2v1svR5rp8D9EV
-         TTnZgyo9ca72Q==
-X-Nifty-SrcIP: [209.85.167.41]
-Received: by mail-lf1-f41.google.com with SMTP id b2so21451496lfp.6;
-        Tue, 11 Oct 2022 07:43:26 -0700 (PDT)
-X-Gm-Message-State: ACrzQf1sCJbpYJdVCzOzDuctB8MSBVhPQe6FLVlhxvo4DAOzjLowXwiR
-        ZDYjJY1R9+WvbXG1kAnPf+YnkM/2OSIVBMt3pbY=
-X-Google-Smtp-Source: AMsMyM6WYbxn4XqdnP3i8B7Mg5ouZcvg+JX5c5rIz8T9AFPEHexE5+sM5jJfYqjyUaDcsRGwDNd1eVbsUFwlrGrxgCk=
-X-Received: by 2002:a05:6512:2310:b0:4a2:593e:3443 with SMTP id
- o16-20020a056512231000b004a2593e3443mr8490807lfu.226.1665499405103; Tue, 11
- Oct 2022 07:43:25 -0700 (PDT)
+        Tue, 11 Oct 2022 17:10:40 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A69711087
+        for <linux-kbuild@vger.kernel.org>; Tue, 11 Oct 2022 14:10:38 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id g8-20020a17090a128800b0020c79f987ceso110307pja.5
+        for <linux-kbuild@vger.kernel.org>; Tue, 11 Oct 2022 14:10:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oafogegdaPZXzoXHnF3Oghbpz4xzRGdJpbKq76q2a2Y=;
+        b=jnczQYliYIsLsFbP/UZl/kvgenSOJLgaf8Pfm1gb8cHOLkDDEW/2cL9PG94IxYEW4q
+         suMuqxEBoUSfPSr3l/S2pPP9K5AJA9cI9+5wWr/qdpXCWpBciZLC0oZsQXhwfXtf2OsA
+         6RJxL7AzUa28+fyVCxQacl3gaAztM+w+YBCduYXw0Egcpc7YFDWfvnNpJ8RcD+rpETnN
+         kt85vhSqQmsz/hifsR8afjplOuiFTmszmZeKLXMiVESMeAbxVrGzZ3PjqGltw8pWZY1Y
+         Ev74QT2hKYNO4YwgVSkfOPntQ6+e6GjXQekolNwSW1WOKXOVG3Fknivha7plE/WWXlUk
+         FW+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oafogegdaPZXzoXHnF3Oghbpz4xzRGdJpbKq76q2a2Y=;
+        b=Sn3+DmnygGJ8Vay/LPX2rx8j8AWGo98APhk58KvOBt7opD5zIltlQlK9L/Rg3I9plL
+         j9a1ufd0Uy9gHex3SRm+TsqL+SE9hzgFv12ppArwGPSKf/mEVNMecw62+DScXxv5IkKq
+         Y92iBoGC4mcdHAgnLUOvjowOWIGsz4D5Nj/4xhOo0ykyKebpPANOLPxHDRGcXTdzYYCY
+         koJBC5YRtTzL2WNTssdnYsRq52/o7lGiIPYmI3tyZJslAO2+Yao2RvQHagDx6isYlcyN
+         vqusajP6q6SxSFgeA0XBAzEcb+XGbY4SbUPbwWIzCTvGe+UiS8acIn0kO4BSRgIs/rnk
+         riyg==
+X-Gm-Message-State: ACrzQf2q73EgZInI7UZ7vOWMbopZMnrStNn7OL7aOcZQGEONZQztt5tK
+        DjctW2MsjyY31VWw/XqgzqK3AlSAbsZlSLgzS8cm2g==
+X-Google-Smtp-Source: AMsMyM6PldU15XpYKT+5xulQiXStYTcESn3GyVSq7lLp6grdvkqvA9V1svb1pzlVoyZmAjU53mCAHKZxCjfWfjlGatM=
+X-Received: by 2002:a17:90b:33c3:b0:20a:ebc3:6514 with SMTP id
+ lk3-20020a17090b33c300b0020aebc36514mr1188220pjb.147.1665522637959; Tue, 11
+ Oct 2022 14:10:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220928063947.299333-3-masahiroy@kernel.org> <202210090942.a159fe4-yujie.liu@intel.com>
- <CAK7LNASUhDMo72eNge_GvdfbmOkpBCJA88Xw=_V69jcf+_072Q@mail.gmail.com> <f09f2fb1-ae86-5419-4361-bdd8f8a22e11@intel.com>
-In-Reply-To: <f09f2fb1-ae86-5419-4361-bdd8f8a22e11@intel.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 11 Oct 2022 23:42:46 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASFi-q-fbMq+3orWnJS6b3Yc7ZQAvRDNvwTSCj2UkP1MQ@mail.gmail.com>
-Message-ID: <CAK7LNASFi-q-fbMq+3orWnJS6b3Yc7ZQAvRDNvwTSCj2UkP1MQ@mail.gmail.com>
-Subject: Re: [kbuild] b3830bad81: System_halted
-To:     Yujie Liu <yujie.liu@intel.com>
-Cc:     lkp@lists.01.org, lkp@intel.com, linux-kbuild@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-ia64@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Nicolas Pitre <npitre@baylibre.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
+References: <20221011032327.2761241-1-zengheng4@huawei.com>
+In-Reply-To: <20221011032327.2761241-1-zengheng4@huawei.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 11 Oct 2022 14:10:26 -0700
+Message-ID: <CAKwvOdn=4Vzgt6zo64tTc+d=QHVrWxRe2JzBC8ydyc_wst1EEA@mail.gmail.com>
+Subject: Re: [PATCH -next] Makefile: add implicit enum-conversion check for
+ compile build
+To:     Zeng Heng <zengheng4@huawei.com>
+Cc:     masahiroy@kernel.org, michal.lkml@markovi.net, nathan@kernel.org,
+        trix@redhat.com, linux-kbuild@vger.kernel.org,
+        llvm@lists.linux.dev, liwei391@huawei.com
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,58 +72,105 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 11, 2022 at 6:37 PM Yujie Liu <yujie.liu@intel.com> wrote:
+On Mon, Oct 10, 2022 at 8:24 PM Zeng Heng <zengheng4@huawei.com> wrote:
 >
-> On 10/11/2022 03:29, Masahiro Yamada wrote:
-> > On Sun, Oct 9, 2022 at 10:21 AM kernel test robot <yujie.liu@intel.com> wrote:
-> >>
-> >> Greeting,
-> >>
-> >> FYI, we noticed the following commit (built with gcc-11):
-> >>
-> >> commit: b3830bad81e872632431363853c810c5f652a040 ("[PATCH v3 2/8] kbuild: rebuild .vmlinux.export.o when its prerequisite is updated")
-> >> url: https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/Unify-linux-export-h-and-asm-export-h-remove-EXPORT_DATA_SYMBOL-faster-TRIM_UNUSED_KSYMS/20220928-144539
-> >> base: https://git.kernel.org/cgit/linux/kernel/git/masahiroy/linux-kbuild.git for-next
-> >> patch link: https://lore.kernel.org/linux-kbuild/20220928063947.299333-3-masahiroy@kernel.org
-> >>
-> >> in testcase: boot
-> >>
-> >> on test machine: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -smp 2 -m 16G
-> >>
-> >> caused below changes (please refer to attached dmesg/kmsg for entire log/backtrace):
-> >
-> >
-> > I think this is a false-positive alarm.
-> >
-> > As I replied before [1], I know my patch set is broken.
-> > I think 0day bot is testing the patch set I had already retracted.
-> >
-> > I only picked up low-hanging fruits with fixes to my tree,
-> > and did boot tests.
-> >
-> > Please let me know if linux-next is broken.
-> >
-> >
-> > [1] : https://lore.kernel.org/linux-kbuild/CAK7LNATcD6k+R66YFVg_mhe7-FGNc0nYaTPuORCcd34Qw3ra2g@mail.gmail.com/T/#t
-> >
+> Enable implicit enum-conversion warning option in kernel gcc build.
+> When it set enabled, it can detect implicit enum type conversion
+> and locate conversion errors like below (use "allmodconfig"):
 >
-> Sorry for this false-positive report.
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/display_mode_vba_20.c:=
+3904:46:
+> error: implicit conversion from =E2=80=98enum <anonymous>=E2=80=99 to =E2=
+=80=98enum odm_combine_mode=E2=80=99
+> [-Werror=3Denum-conversion]
+>  3904 |       locals->ODMCombineEnablePerState[i][k] =3D true;
+>       |                                              ^
 >
-> Thanks for the info, we noticed that this patch has been merged into
-> linux-next, so we tested below commits:
+> The '-Wenum-conversion' could be regarded as effective check in
+> compile runtime and call attention on potential mistakes, which is
+> firstly introduced from GNU gcc-10.
 >
-> b9f85101cad33 (tag: next-20221011, linux-next/master) Add linux-next specific files for 20221011
-> 5d4aeffbf7092 kbuild: rebuild .vmlinux.export.o when its prerequisite is updated
+> Although "-Wenum-conversion" could be enabled by "-Wextra"
+> when compiling with 'W=3D[123]' option, there are many warnings
+> generated by '-Wextra' that cause too much noise in the build.
 >
-> They all passed the boot tests.
+> Seeing the more details from the following link:
+> https://gcc.gnu.org/onlinedocs/gcc-11.3.0/gcc/Warning-Options.html
+>
+> Therefore, "-Wenum-conversion" warning option needs to be
+> explicitly requested for GCC when compilation process is only
+> companied with '-Wall'.
+>
+> With clang, -Wenum-conversion is just default enabled, not even
+> behind -Wall.
+
+Probably didn't need the examples below since you already provide an
+example above, too, but it doesn't matter.  Thanks for the patch.
+
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
+>
+> Provide a couple examples for reference as below:
+>
+> $ cat test.c
+> enum enum1 { A =3D 1 };
+> enum enum2 { B =3D 2 };
+>
+> enum enum1 foo(enum enum2 bar)
+> {
+>     return bar;
+> }
+>
+> $ gcc -Wall -fsyntax-only test.c
+>
+> $ gcc -Wall -Wenum-conversion -fsyntax-only test.c
+> test.c: In function =E2=80=98foo=E2=80=99:
+> test.c:6:9: warning: implicit conversion from =E2=80=98enum enum2=E2=80=
+=99 to =E2=80=98enum enum1=E2=80=99 [-Wenum-conversion]
+>     6 |  return bar;
+>       |         ^~~
+>
+> $ gcc -Wextra -fsyntax-only test.c
+> test.c: In function =E2=80=98foo=E2=80=99:
+> test.c:6:9: warning: implicit conversion from =E2=80=98enum enum2=E2=80=
+=99 to =E2=80=98enum enum1=E2=80=99 [-Wenum-conversion]
+>     6 |  return bar;
+>       |         ^~~
+>
+> $ clang -fsyntax-only test.c
+> test.c:6:9: warning: implicit conversion from enumeration type 'enum enum=
+2' to different enumeration type 'enum enum1' [-Wenum-conversion]
+>         return bar;
+>         ~~~~~~ ^~~
+> 1 warning generated.
+>
+> Signed-off-by: Zeng Heng <zengheng4@huawei.com>
+> Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
+> Suggested-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+>  Makefile | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/Makefile b/Makefile
+> index 8f6ed52fa08f..72103d22df23 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -880,6 +880,10 @@ endif
+>  KBUILD_CFLAGS +=3D $(call cc-disable-warning, unused-but-set-variable)
+>  KBUILD_CFLAGS +=3D $(call cc-disable-warning, unused-const-variable)
+>
+> +# implicit enum conversion checking is supported since from gcc-10
+> +# this warning option has to be explicitly requested for GCC
+> +KBUILD_CFLAGS +=3D $(call cc-option, -Wenum-conversion)
+> +
+>  # These result in bogus false positives
+>  KBUILD_CFLAGS +=3D $(call cc-disable-warning, dangling-pointer)
+>
+> --
+> 2.25.1
+>
 
 
-Thank you for testing them!
-
-
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+--=20
+Thanks,
+~Nick Desaulniers
