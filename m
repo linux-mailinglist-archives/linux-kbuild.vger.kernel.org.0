@@ -2,57 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86FC95FBD0D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Oct 2022 23:36:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A602F5FBD0E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Oct 2022 23:36:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229446AbiJKVge (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 11 Oct 2022 17:36:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41450 "EHLO
+        id S229454AbiJKVgh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 11 Oct 2022 17:36:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbiJKVgd (ORCPT
+        with ESMTP id S229436AbiJKVgf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 11 Oct 2022 17:36:33 -0400
+        Tue, 11 Oct 2022 17:36:35 -0400
 Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB7167A775
-        for <linux-kbuild@vger.kernel.org>; Tue, 11 Oct 2022 14:36:27 -0700 (PDT)
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 29BLa3NB015996
-        for <linux-kbuild@vger.kernel.org>; Wed, 12 Oct 2022 06:36:03 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 29BLa3NB015996
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74C087A536
+        for <linux-kbuild@vger.kernel.org>; Tue, 11 Oct 2022 14:36:34 -0700 (PDT)
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 29BLaJI8016109
+        for <linux-kbuild@vger.kernel.org>; Wed, 12 Oct 2022 06:36:19 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 29BLaJI8016109
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1665524164;
-        bh=1xiHuOIhCXv9cmT4wyT8wFlNoveMxozMd1fUtU9/tZI=;
+        s=dec2015msa; t=1665524179;
+        bh=FG7FIrINJLDG1C9EQ7AOLrV21jlfq/ZPPC77vWXwuPM=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=m99Q56LQNOooDDWWTy9Vxr4H0OR4AC7VhY8mK7Gz3ktpVsT9VSJpx2peQknec8Jdt
-         9yvOmYk2fC/U9HkxzG1yKgEcJjsCKN4xteRKvegI+Ef4jaL5bgFpu4TyHtLgs1mrGg
-         YcY2m9d5HxDynhz/YMNWuROHDaZCBYlnJelYJSqq7NfBJ2M6CxxsNXttF3m29xn294
-         rSyzZ6TRACfdFK95vWiV9eS5x3kACMallV1jqMXWzcSquqsvvUa60fNTrcLxs7iR8b
-         D0kmNdUsX6JWepNRumSpmFzbnwGrgvIt07WNjf7KpYEyIVQ7IXBHdJXnBxhr3tCdsJ
-         m2SWlafcwXbRA==
-X-Nifty-SrcIP: [209.85.160.43]
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-134072c15c1so14261373fac.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 11 Oct 2022 14:36:03 -0700 (PDT)
-X-Gm-Message-State: ACrzQf1LiyKmxEQYO3nAy7DYIGmye+gCU2+IPSfepy1zgAIG33lBGZnZ
-        fOyyum+gkMwffHN2bnlKyFXS304tvdvg7pSeqi0=
-X-Google-Smtp-Source: AMsMyM6v64vpV95ouNcRXIrUzy2RvsBh4w4NffHVMs8HI/+CZhislBCDqe3eFdHm9YPoU72smBmSnsD55wr2DT+jpQ4=
-X-Received: by 2002:a05:6870:c58b:b0:10b:d21d:ad5e with SMTP id
- ba11-20020a056870c58b00b0010bd21dad5emr681050oab.287.1665524162610; Tue, 11
- Oct 2022 14:36:02 -0700 (PDT)
+        b=Jbou0Z0cjemKrF5WSPQyqxxB2pWhljvCFsPb/E+RJY8XXaDPu+ccAEuE8mcqSN0sW
+         Dm0b/OdlvwuisOC/nLGnYUG5k8uqQyHLZH44xT1nedhvYEM4iF2xMArL0n4yrSzhhj
+         XV9blMOtXnrRO5nQoHA6izomECTyr1hDPLvhKVeWDdzfqgfKAtbkAn1G741B9n2vPw
+         uYcnPSomJoPEjgdDSRnbJcdaUyFXq1H0Hl/lzcPZ6R4xlF7Okm+AmilZQiIke0Z2xs
+         j9qEomOCnSD3R1sauOTMNtMx+wzDfbouhH4ewRD0aqKNroignh+2+7oacAfPSTbTco
+         YVK/ORg2muh2Q==
+X-Nifty-SrcIP: [209.85.167.178]
+Received: by mail-oi1-f178.google.com with SMTP id w74so9081676oie.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 11 Oct 2022 14:36:19 -0700 (PDT)
+X-Gm-Message-State: ACrzQf1ykvZzKDZaEgsxcON6eTAQNMnAt5wuM5UE8QA2AMIvGjt5Npfk
+        teGMb9a8EgCfT7Q1RuE0C0HNzc+KyZcH2fNHExs=
+X-Google-Smtp-Source: AMsMyM7wqiXu6svoaV7RAGhNyOiJnq1m3RJdTOSSdZ7DKolhUiNKDV8GVgMpz1Jeqn4TQ6i5AoF+NrO6NxaTO9njcO0=
+X-Received: by 2002:a05:6808:1b85:b0:34d:8ce1:d5b0 with SMTP id
+ cj5-20020a0568081b8500b0034d8ce1d5b0mr596590oib.194.1665524178327; Tue, 11
+ Oct 2022 14:36:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221011032327.2761241-1-zengheng4@huawei.com> <CAKwvOdn=4Vzgt6zo64tTc+d=QHVrWxRe2JzBC8ydyc_wst1EEA@mail.gmail.com>
-In-Reply-To: <CAKwvOdn=4Vzgt6zo64tTc+d=QHVrWxRe2JzBC8ydyc_wst1EEA@mail.gmail.com>
+References: <20221011013828.267658-1-mailingradian@gmail.com>
+In-Reply-To: <20221011013828.267658-1-mailingradian@gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 12 Oct 2022 06:35:26 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASyaZsohRvp3UDSOY8tr9XJ1f0eCaRobmnwqd2v4BLgwg@mail.gmail.com>
-Message-ID: <CAK7LNASyaZsohRvp3UDSOY8tr9XJ1f0eCaRobmnwqd2v4BLgwg@mail.gmail.com>
-Subject: Re: [PATCH -next] Makefile: add implicit enum-conversion check for
- compile build
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Zeng Heng <zengheng4@huawei.com>, michal.lkml@markovi.net,
-        nathan@kernel.org, trix@redhat.com, linux-kbuild@vger.kernel.org,
-        llvm@lists.linux.dev, liwei391@huawei.com
+Date:   Wed, 12 Oct 2022 06:35:42 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARg2F66LrgU4AxT08HEabayW5k+2oQpgcbPhMHBx9R3zA@mail.gmail.com>
+Message-ID: <CAK7LNARg2F66LrgU4AxT08HEabayW5k+2oQpgcbPhMHBx9R3zA@mail.gmail.com>
+Subject: Re: [PATCH] modpost: put modpost options before argument
+To:     Richard Acayan <mailingradian@gmail.com>
+Cc:     linux-kbuild@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
         autolearn_force=no version=3.4.6
@@ -62,117 +61,42 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Oct 12, 2022 at 6:10 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On Tue, Oct 11, 2022 at 10:38 AM Richard Acayan <mailingradian@gmail.com> wrote:
 >
-> On Mon, Oct 10, 2022 at 8:24 PM Zeng Heng <zengheng4@huawei.com> wrote:
-> >
-> > Enable implicit enum-conversion warning option in kernel gcc build.
-> > When it set enabled, it can detect implicit enum type conversion
-> > and locate conversion errors like below (use "allmodconfig"):
-> >
-> > drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn20/display_mode_vba_20.=
-c:3904:46:
-> > error: implicit conversion from =E2=80=98enum <anonymous>=E2=80=99 to =
-=E2=80=98enum odm_combine_mode=E2=80=99
-> > [-Werror=3Denum-conversion]
-> >  3904 |       locals->ODMCombineEnablePerState[i][k] =3D true;
-> >       |                                              ^
-> >
-> > The '-Wenum-conversion' could be regarded as effective check in
-> > compile runtime and call attention on potential mistakes, which is
-> > firstly introduced from GNU gcc-10.
-> >
-> > Although "-Wenum-conversion" could be enabled by "-Wextra"
-> > when compiling with 'W=3D[123]' option, there are many warnings
-> > generated by '-Wextra' that cause too much noise in the build.
-> >
-> > Seeing the more details from the following link:
-> > https://gcc.gnu.org/onlinedocs/gcc-11.3.0/gcc/Warning-Options.html
-> >
-> > Therefore, "-Wenum-conversion" warning option needs to be
-> > explicitly requested for GCC when compilation process is only
-> > companied with '-Wall'.
-> >
-> > With clang, -Wenum-conversion is just default enabled, not even
-> > behind -Wall.
+> The musl implementation of getopt stops looking for options after the
+> first non-option argument. Put the options before the non-option
+> argument so environments using musl can still build the kernel and
+> modules.
 >
-> Probably didn't need the examples below since you already provide an
-> example above, too, but it doesn't matter.  Thanks for the patch.
->
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
->
-> >
-> > Provide a couple examples for reference as below:
-> >
-> > $ cat test.c
-> > enum enum1 { A =3D 1 };
-> > enum enum2 { B =3D 2 };
-> >
-> > enum enum1 foo(enum enum2 bar)
-> > {
-> >     return bar;
-> > }
-> >
-> > $ gcc -Wall -fsyntax-only test.c
-> >
-> > $ gcc -Wall -Wenum-conversion -fsyntax-only test.c
-> > test.c: In function =E2=80=98foo=E2=80=99:
-> > test.c:6:9: warning: implicit conversion from =E2=80=98enum enum2=E2=80=
-=99 to =E2=80=98enum enum1=E2=80=99 [-Wenum-conversion]
-> >     6 |  return bar;
-> >       |         ^~~
-> >
-> > $ gcc -Wextra -fsyntax-only test.c
-> > test.c: In function =E2=80=98foo=E2=80=99:
-> > test.c:6:9: warning: implicit conversion from =E2=80=98enum enum2=E2=80=
-=99 to =E2=80=98enum enum1=E2=80=99 [-Wenum-conversion]
-> >     6 |  return bar;
-> >       |         ^~~
-> >
-> > $ clang -fsyntax-only test.c
-> > test.c:6:9: warning: implicit conversion from enumeration type 'enum en=
-um2' to different enumeration type 'enum enum1' [-Wenum-conversion]
-> >         return bar;
-> >         ~~~~~~ ^~~
-> > 1 warning generated.
-> >
-> > Signed-off-by: Zeng Heng <zengheng4@huawei.com>
-> > Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
-> > Suggested-by: Nathan Chancellor <nathan@kernel.org>
-> > ---
-> >  Makefile | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/Makefile b/Makefile
-> > index 8f6ed52fa08f..72103d22df23 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -880,6 +880,10 @@ endif
-> >  KBUILD_CFLAGS +=3D $(call cc-disable-warning, unused-but-set-variable)
-> >  KBUILD_CFLAGS +=3D $(call cc-disable-warning, unused-const-variable)
-> >
-> > +# implicit enum conversion checking is supported since from gcc-10
-> > +# this warning option has to be explicitly requested for GCC
-> > +KBUILD_CFLAGS +=3D $(call cc-option, -Wenum-conversion)
-> > +
-> >  # These result in bogus false positives
-> >  KBUILD_CFLAGS +=3D $(call cc-disable-warning, dangling-pointer)
-> >
-> > --
-> > 2.25.1
-> >
->
->
-> --
-> Thanks,
-> ~Nick Desaulniers
-
-
+> Fixes: f73edc8951b2 ("kbuild: unify two modpost invocations")
+> Link: https://git.musl-libc.org/cgit/musl/tree/src/misc/getopt.c?h=dc9285ad1dc19349c407072cc48ba70dab86de45#n44
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> ---
 
 Applied to linux-kbuild. Thanks.
 
 
---=20
+>  scripts/Makefile.modpost | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+> index 7740ce3b29e8..8489a3402eb8 100644
+> --- a/scripts/Makefile.modpost
+> +++ b/scripts/Makefile.modpost
+> @@ -119,7 +119,7 @@ quiet_cmd_modpost = MODPOST $@
+>                 echo >&2 "WARNING: $(missing-input) is missing."; \
+>                 echo >&2 "         Modules may not have dependencies or modversions."; \
+>                 echo >&2 "         You may get many unresolved symbol warnings.";) \
+> -       sed 's/ko$$/o/' $(or $(modorder-if-needed), /dev/null) | $(MODPOST) $(modpost-args) $(vmlinux.o-if-present) -T -
+> +       sed 's/ko$$/o/' $(or $(modorder-if-needed), /dev/null) | $(MODPOST) $(modpost-args) -T - $(vmlinux.o-if-present)
+>
+>  targets += $(output-symdump)
+>  $(output-symdump): $(modorder-if-needed) $(vmlinux.o-if-present) $(moudle.symvers-if-present) $(MODPOST) FORCE
+> --
+> 2.38.0
+>
+
+
+-- 
 Best Regards
 Masahiro Yamada
