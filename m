@@ -2,101 +2,68 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A602F5FBD0E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Oct 2022 23:36:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36DF35FC16C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Oct 2022 09:49:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229454AbiJKVgh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 11 Oct 2022 17:36:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41482 "EHLO
+        id S229507AbiJLHt4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 12 Oct 2022 03:49:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbiJKVgf (ORCPT
+        with ESMTP id S229735AbiJLHtv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 11 Oct 2022 17:36:35 -0400
-Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74C087A536
-        for <linux-kbuild@vger.kernel.org>; Tue, 11 Oct 2022 14:36:34 -0700 (PDT)
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 29BLaJI8016109
-        for <linux-kbuild@vger.kernel.org>; Wed, 12 Oct 2022 06:36:19 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 29BLaJI8016109
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1665524179;
-        bh=FG7FIrINJLDG1C9EQ7AOLrV21jlfq/ZPPC77vWXwuPM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Jbou0Z0cjemKrF5WSPQyqxxB2pWhljvCFsPb/E+RJY8XXaDPu+ccAEuE8mcqSN0sW
-         Dm0b/OdlvwuisOC/nLGnYUG5k8uqQyHLZH44xT1nedhvYEM4iF2xMArL0n4yrSzhhj
-         XV9blMOtXnrRO5nQoHA6izomECTyr1hDPLvhKVeWDdzfqgfKAtbkAn1G741B9n2vPw
-         uYcnPSomJoPEjgdDSRnbJcdaUyFXq1H0Hl/lzcPZ6R4xlF7Okm+AmilZQiIke0Z2xs
-         j9qEomOCnSD3R1sauOTMNtMx+wzDfbouhH4ewRD0aqKNroignh+2+7oacAfPSTbTco
-         YVK/ORg2muh2Q==
-X-Nifty-SrcIP: [209.85.167.178]
-Received: by mail-oi1-f178.google.com with SMTP id w74so9081676oie.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 11 Oct 2022 14:36:19 -0700 (PDT)
-X-Gm-Message-State: ACrzQf1ykvZzKDZaEgsxcON6eTAQNMnAt5wuM5UE8QA2AMIvGjt5Npfk
-        teGMb9a8EgCfT7Q1RuE0C0HNzc+KyZcH2fNHExs=
-X-Google-Smtp-Source: AMsMyM7wqiXu6svoaV7RAGhNyOiJnq1m3RJdTOSSdZ7DKolhUiNKDV8GVgMpz1Jeqn4TQ6i5AoF+NrO6NxaTO9njcO0=
-X-Received: by 2002:a05:6808:1b85:b0:34d:8ce1:d5b0 with SMTP id
- cj5-20020a0568081b8500b0034d8ce1d5b0mr596590oib.194.1665524178327; Tue, 11
- Oct 2022 14:36:18 -0700 (PDT)
+        Wed, 12 Oct 2022 03:49:51 -0400
+X-Greylist: delayed 481 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 12 Oct 2022 00:49:49 PDT
+Received: from mail.boldway.com.pl (mail.boldway.com.pl [94.177.231.63])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 513261005A
+        for <linux-kbuild@vger.kernel.org>; Wed, 12 Oct 2022 00:49:47 -0700 (PDT)
+Received: by mail.boldway.com.pl (Postfix, from userid 1001)
+        id DEFB3A2BA9; Wed, 12 Oct 2022 08:40:47 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=boldway.com.pl;
+        s=mail; t=1665560503;
+        bh=RtBjpjUNoJ/j/EYqWuwzdZ8bva3lv/f6xLrylOv7rgo=;
+        h=Date:From:To:Subject:From;
+        b=ZHXF1R+eX3uykHlsmyyIs2LmZh/Eaut65MwYDVEYu/N+D/PLvvrs/uSHDSIU0nGRe
+         Sq8zKPIC2m2oF5eKfcNsdixLfX6VBbPmQiOGQSLEZwdk8siQQWHwMK1UQbgEFvZSiW
+         BLLJZeU4n6hSqLjVP8ih0R8Jk7B/wJ6+kA9ri88pdL+HaCBbssQkauLq/fX9m5faWE
+         2qHXE6EIwBkRx1lNDQWD+S7cVERnjsyJUyIOhC5sZxoDdc2T4qaiXTMZ4uO4b3fgdZ
+         bg0E5El+xawnrkE2dZYz7oozy+yEJmkvY9b+NJfl61fwRUDY3RGOTACBJL98asO9Io
+         liHoRmJE8x7IA==
+Received: by mail.boldway.com.pl for <linux-kbuild@vger.kernel.org>; Wed, 12 Oct 2022 07:40:26 GMT
+Message-ID: <20221012074500-0.1.5c.akbo.0.x3ykgk3fwa@boldway.com.pl>
+Date:   Wed, 12 Oct 2022 07:40:26 GMT
+From:   =?UTF-8?Q? "Adam_Szczepa=C5=84ski" ?= 
+        <adam.szczepanski@boldway.com.pl>
+To:     <linux-kbuild@vger.kernel.org>
+Subject: Problem z kredytowanie firmy
+X-Mailer: mail.boldway.com.pl
 MIME-Version: 1.0
-References: <20221011013828.267658-1-mailingradian@gmail.com>
-In-Reply-To: <20221011013828.267658-1-mailingradian@gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 12 Oct 2022 06:35:42 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARg2F66LrgU4AxT08HEabayW5k+2oQpgcbPhMHBx9R3zA@mail.gmail.com>
-Message-ID: <CAK7LNARg2F66LrgU4AxT08HEabayW5k+2oQpgcbPhMHBx9R3zA@mail.gmail.com>
-Subject: Re: [PATCH] modpost: put modpost options before argument
-To:     Richard Acayan <mailingradian@gmail.com>
-Cc:     linux-kbuild@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=3.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FUZZY_CREDIT,
+        RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 11, 2022 at 10:38 AM Richard Acayan <mailingradian@gmail.com> wrote:
->
-> The musl implementation of getopt stops looking for options after the
-> first non-option argument. Put the options before the non-option
-> argument so environments using musl can still build the kernel and
-> modules.
->
-> Fixes: f73edc8951b2 ("kbuild: unify two modpost invocations")
-> Link: https://git.musl-libc.org/cgit/musl/tree/src/misc/getopt.c?h=dc9285ad1dc19349c407072cc48ba70dab86de45#n44
-> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
-> ---
+Dzie=C5=84 dobry
 
-Applied to linux-kbuild. Thanks.
+reprezentuj=C4=99 firm=C4=99 zapewniaj=C4=85c=C4=85 skuteczn=C4=85 i szyb=
+k=C4=85 pomoc w pozyskiwaniu =C5=9Brodk=C3=B3w na rozw=C3=B3j przedsi=C4=99=
+biorstwa.
 
+Du=C5=BCe do=C5=9Bwiadczenie w temacie finansowania przedsi=C4=99biorstw,=
+ znajomo=C5=9B=C4=87 specyfiki proces=C3=B3w w r=C3=B3=C5=BCnych bankach =
+i dost=C4=99p do wielu produkt=C3=B3w, r=C3=B3wnie=C5=BC tych niestandard=
+owych i z UE, pozwalaj=C4=85 nam na dob=C3=B3r najkorzystniejszego dla Pa=
+=C5=84stwa rozwi=C4=85zania. Gwarantujemy minimum formalno=C5=9Bci.=20
 
->  scripts/Makefile.modpost | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-> index 7740ce3b29e8..8489a3402eb8 100644
-> --- a/scripts/Makefile.modpost
-> +++ b/scripts/Makefile.modpost
-> @@ -119,7 +119,7 @@ quiet_cmd_modpost = MODPOST $@
->                 echo >&2 "WARNING: $(missing-input) is missing."; \
->                 echo >&2 "         Modules may not have dependencies or modversions."; \
->                 echo >&2 "         You may get many unresolved symbol warnings.";) \
-> -       sed 's/ko$$/o/' $(or $(modorder-if-needed), /dev/null) | $(MODPOST) $(modpost-args) $(vmlinux.o-if-present) -T -
-> +       sed 's/ko$$/o/' $(or $(modorder-if-needed), /dev/null) | $(MODPOST) $(modpost-args) -T - $(vmlinux.o-if-present)
->
->  targets += $(output-symdump)
->  $(output-symdump): $(modorder-if-needed) $(vmlinux.o-if-present) $(moudle.symvers-if-present) $(MODPOST) FORCE
-> --
-> 2.38.0
->
+Czy s=C4=85 Pa=C5=84stwo zainteresowani wsparciem w dokapitalizowaniu fir=
+my?
 
-
--- 
-Best Regards
-Masahiro Yamada
+Pozdrawiam
+Adam Szczepa=C5=84ski
