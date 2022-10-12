@@ -2,120 +2,96 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EB3B5FC9B4
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Oct 2022 19:04:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8BAF5FCA30
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Oct 2022 20:02:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229672AbiJLREB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 12 Oct 2022 13:04:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52776 "EHLO
+        id S229657AbiJLSCT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 12 Oct 2022 14:02:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229506AbiJLREA (ORCPT
+        with ESMTP id S229572AbiJLSCQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 12 Oct 2022 13:04:00 -0400
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 510E41CB25;
-        Wed, 12 Oct 2022 10:03:59 -0700 (PDT)
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 29CH3imf029337;
-        Thu, 13 Oct 2022 02:03:45 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 29CH3imf029337
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1665594225;
-        bh=gJFvJD5Toog9MSkzt/sgw8zJUGXxC6L2j5lcvOuhyvc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=FPmni/c29hTC74FYjRoka6FdYhSZe1ihxsJcxid+CqNTlumTIoOtwq6V26BPasqOF
-         Y6hCNg2y2XJcTAinAXX+SVQolNxlQcUfdwjnbEqd3pezUewn1IwNUCr7hOJfKGZmXA
-         190G8iCtMC50y6EZiIGSmCNyctcDTvV7/Ef8rxY35p9KwS7T+cCs86GVXKJto13u2q
-         692V2pSsOjOTpvEe1OE/IRQp+Bru+guE/U5agL58do/PSF53oVjlzGT0Zor7ba6TH2
-         FWolRNggit22kwZQ+6lVmtUeUF6QnPeF7jgb1v7kfMiUl8pBGgCAXO/xN5EYuS/Pk0
-         imsVLXZtyjFBg==
-X-Nifty-SrcIP: [209.85.167.180]
-Received: by mail-oi1-f180.google.com with SMTP id u15so13822917oie.2;
-        Wed, 12 Oct 2022 10:03:45 -0700 (PDT)
-X-Gm-Message-State: ACrzQf38LyT4f3HK9bTAfCbDnNUMb5fly6id6M0JfP9Em9eQQZ6ww2UA
-        InwOSWh1XRK8JsR/Dkhy9KPn2NCfWS3tXGiTg4I=
-X-Google-Smtp-Source: AMsMyM77GatT3gECuVsuDHWuGP7T8aoZ5IGgwm+DSWdTKTNVGyt2580CFjAUOuEjW2JlMjodOZGrHfbZ4tPWgTbS6qc=
-X-Received: by 2002:a05:6808:1b85:b0:34d:8ce1:d5b0 with SMTP id
- cj5-20020a0568081b8500b0034d8ce1d5b0mr2622350oib.194.1665594224127; Wed, 12
- Oct 2022 10:03:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20221004162905.24997-1-masahiroy@kernel.org> <20221004162905.24997-2-masahiroy@kernel.org>
-In-Reply-To: <20221004162905.24997-2-masahiroy@kernel.org>
+        Wed, 12 Oct 2022 14:02:16 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B760BFDB62;
+        Wed, 12 Oct 2022 11:02:14 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 478F4B81B99;
+        Wed, 12 Oct 2022 18:02:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E88EFC433D7;
+        Wed, 12 Oct 2022 18:02:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1665597732;
+        bh=ZF4qL49nEN3dgbNT5/iWT+wzWCTZQWUxR97n4OT4C50=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Vdx99f4muWHSbtReYZ8NdrIvMzZk1MngJpsteWJAj8jCJRQNXu6su9b2vQlZRmmXy
+         m2uH0S6HZ0OXZd+awxpSCnUgsrA4d6CfFydSNVA83/nQH5bUc8R2ye8HgvjsK6yo0X
+         xpfQoO9mx0zev52U8nBAgB334pVe8pdPjnA4cZH0ZjSTiCvs2TIcIM8OYab43TWxkd
+         Ouq0VeOZ/tn0ULrJtiFTcJ9CtSf+g6eTeK31PQ3+UlqftNGqEVAj9E21E63m9LupYb
+         110+w9DTxdXlW/azN7e8tJXgo8DtvE2J+BAcscddZfVFQKQz8Izo+Bc5JBcSP6U1kx
+         piEBUrtl+nSfA==
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 13 Oct 2022 02:03:07 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASeVxHhgdmSWadqF_t-zNPfuZa-NADg37pbosZGOikK-A@mail.gmail.com>
-Message-ID: <CAK7LNASeVxHhgdmSWadqF_t-zNPfuZa-NADg37pbosZGOikK-A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] Kconfig.debug: add toolchain checks for DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
 To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <nathan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
-        autolearn_force=no version=3.4.6
+Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Subject: [PATCH v3 1/2] kbuild: move -Werror from KBUILD_CFLAGS to KBUILD_CPPFLAGS
+Date:   Thu, 13 Oct 2022 03:01:17 +0900
+Message-Id: <20221012180118.331005-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Oct 5, 2022 at 1:30 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT does not give explicit
-> -gdwarf-* flag. The actual DWARF version is up to the toolchain.
->
-> The combination of GCC and GAS works fine, and Clang with the integrated
-> assembler is good too.
->
-> The combination of Clang and GAS is tricky, but at least, the -g flag
-> works for Clang <=13, which defaults to DWARF v4.
->
-> Clang 14 switched its default to DWARF v5.
->
-> Now, CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT has the same issue as
-> addressed by commit 98cd6f521f10 ("Kconfig: allow explicit opt in to
-> DWARF v5").
->
-> CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y for Clang >= 14 and
-> GAS < 2.35 produces a ton of errors like follows:
->
->   /tmp/main-c2741c.s: Assembler messages:
->   /tmp/main-c2741c.s:109: Error: junk at end of line, first unrecognized character is `"'
->   /tmp/main-c2741c.s:109: Error: file number less than one
->
-> Add 'depends on' to check toolchains.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-> ---
+CONFIG_WERROR turns warnings into errors, which  happens only for *.c
+files because -Werror is added to KBUILD_CFLAGS.
 
-Applied to linux-kbuild.
+Adding it to KBUILD_CPPFLAGS makes more sense because preprocessors
+understand the -Werror option.
 
+For example, you can put a #warning directive in any preprocessed code.
 
+    warning: #warning "this is a warning message" [-Wcpp]
 
-> (no changes since v1)
->
->  lib/Kconfig.debug | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index f4b2165f24db..cc90414d492e 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -253,6 +253,7 @@ config DEBUG_INFO_NONE
->  config DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
->         bool "Rely on the toolchain's implicit default DWARF version"
->         select DEBUG_INFO
-> +       depends on !CC_IS_CLANG || AS_IS_LLVM || CLANG_VERSION < 140000 || (AS_IS_GNU && AS_VERSION >= 23502)
->         help
->           The implicit default version of DWARF debug info produced by a
->           toolchain changes over time.
-> --
-> 2.34.1
->
+If -Werror is added, it is promoted to an error.
 
+    error: #warning "this is a warning message" [-Werror=cpp]
 
+This commit moves -Werror to KBUILD_CPPFLAGS so it works in the same way
+for *.c, *.S, *.lds.S or whatever needs preprocessing.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+---
+
+(no changes since v1)
+
+ Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index 85a63a1d29b3..790760d26ea0 100644
+--- a/Makefile
++++ b/Makefile
+@@ -859,7 +859,8 @@ stackp-flags-$(CONFIG_STACKPROTECTOR_STRONG)      := -fstack-protector-strong
+ 
+ KBUILD_CFLAGS += $(stackp-flags-y)
+ 
+-KBUILD_CFLAGS-$(CONFIG_WERROR) += -Werror
++KBUILD_CPPFLAGS-$(CONFIG_WERROR) += -Werror
++KBUILD_CPPFLAGS += $(KBUILD_CPPFLAGS-y)
+ KBUILD_CFLAGS-$(CONFIG_CC_NO_ARRAY_BOUNDS) += -Wno-array-bounds
+ 
+ KBUILD_RUSTFLAGS-$(CONFIG_WERROR) += -Dwarnings
 -- 
-Best Regards
-Masahiro Yamada
+2.34.1
+
