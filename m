@@ -2,114 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62E305FD961
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Oct 2022 14:43:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EEC95FD9BC
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Oct 2022 15:00:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229799AbiJMMni (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 13 Oct 2022 08:43:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42570 "EHLO
+        id S229793AbiJMNAC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 13 Oct 2022 09:00:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229746AbiJMMnf (ORCPT
+        with ESMTP id S229797AbiJMNAB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 13 Oct 2022 08:43:35 -0400
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0967FF8D8
-        for <linux-kbuild@vger.kernel.org>; Thu, 13 Oct 2022 05:43:32 -0700 (PDT)
-Received: by mail-qt1-x82b.google.com with SMTP id r19so875721qtx.6
-        for <linux-kbuild@vger.kernel.org>; Thu, 13 Oct 2022 05:43:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5GLjOW0BdIWUzC24491suSRlciPNhdwolicX7+j12wA=;
-        b=SAEIiL74kEmoL7i6K+FYqWYt1OQC0cAaHX12qGeOzYXKJYjkEQAv7uljHXJ4swa6JR
-         xHlzlAi1STF9FMZLYrCuntQOvDs5BQQQPxJNF3wfOuWu4E3nVEPIqcgSDMeXg4W9foEx
-         0k+Hg9nLfuR5H3rbCakZXpB23lScKeqGXgHhy6TUwyz+9v5bENkOeE6fD/gpEwe5Bxf8
-         M/NMiVb+q2oJLRq1/nR2hNa+gk4jKzwubgW4zUEfNWFDeL0SX384wdAplhzPwDYznJw8
-         lgiepffTEMTrRRlC+4XC2iHdyDe8mR5JOTJf66zXX3BgrzWWTN5zjDZrFb7Xy67Npu6b
-         X8Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5GLjOW0BdIWUzC24491suSRlciPNhdwolicX7+j12wA=;
-        b=ZnZAAIhVk4b82uES8xEOH7/X0fr9Oo9FSToiQCGSi2lWW5CXLzx9GL5zmgksq3NI8M
-         oJZ8/gnO4YDyOjtN1vQV/dDztFj2LuXb3T2I4AUF0T6nGcCTH4h3DtvvCF/QzKxAIuNn
-         wMZNGDbwAMLdbEoArUHhD1TedILcQv7/Fr1KsLfVqlb3v9pl2CkDR1L/plE+QfTpDP3P
-         PuE+uBD2kgaYpwU2ejzoTJPaCtxsGFTXaQBX+8CK6VmzPKdbTgpuVo8jW5qKZeRJAHIs
-         B1tJTx1MNNTdRsJOFi+MnD96m2yyKZSuBhkcRqR6OHCkPG3M7Ll3PKMSagia+F3sbbyk
-         AfqA==
-X-Gm-Message-State: ACrzQf251UVPLYZEhMTIbTXR381JgLZK0deT4yUuIJSwFUcdE14EnNmB
-        +I4R223i1h78tQMRe69XSEjePA==
-X-Google-Smtp-Source: AMsMyM6G5JimpMoD9asbrrZ+i9ANXy1SXyDx3Pt9ou8Ri40WatBI18xwZQ0CGdktSGP9wh6uVBoUDg==
-X-Received: by 2002:a05:622a:90:b0:394:1a9b:638e with SMTP id o16-20020a05622a009000b003941a9b638emr27765696qtw.314.1665665011242;
-        Thu, 13 Oct 2022 05:43:31 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-47-55-122-23.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.122.23])
-        by smtp.gmail.com with ESMTPSA id h19-20020a05620a401300b006eeb185c209sm2752971qko.50.2022.10.13.05.43.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Oct 2022 05:43:30 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1oixYf-002fJN-2g;
-        Thu, 13 Oct 2022 09:43:29 -0300
-Date:   Thu, 13 Oct 2022 09:43:29 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     "Radovanovic, Aleksandar" <aleksandar.radovanovic@amd.com>
-Cc:     "Gupta, Nipun" <Nipun.Gupta@amd.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "rafael@kernel.org" <rafael@kernel.org>,
-        "eric.auger@redhat.com" <eric.auger@redhat.com>,
-        "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
-        "cohuck@redhat.com" <cohuck@redhat.com>,
-        "Gupta, Puneet (DCG-ENG)" <puneet.gupta@amd.com>,
-        "song.bao.hua@hisilicon.com" <song.bao.hua@hisilicon.com>,
-        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
-        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
-        "jeffrey.l.hugo@gmail.com" <jeffrey.l.hugo@gmail.com>,
-        "saravanak@google.com" <saravanak@google.com>,
-        "Michael.Srba@seznam.cz" <Michael.Srba@seznam.cz>,
-        "mani@kernel.org" <mani@kernel.org>,
-        "yishaih@nvidia.com" <yishaih@nvidia.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "ndesaulniers@google.com" <ndesaulniers@google.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "okaya@kernel.org" <okaya@kernel.org>,
-        "Anand, Harpreet" <harpreet.anand@amd.com>,
-        "Agarwal, Nikhil" <nikhil.agarwal@amd.com>,
-        "Simek, Michal" <michal.simek@amd.com>,
-        "git (AMD-Xilinx)" <git@amd.com>
-Subject: Re: [RFC PATCH v3 4/7] bus/cdx: add cdx-MSI domain with gic-its
- domain as parent
-Message-ID: <Y0gH8R8tEqn6sqZ5@ziepe.ca>
-References: <20220803122655.100254-1-nipun.gupta@amd.com>
- <20220906134801.4079497-1-nipun.gupta@amd.com>
- <20220906134801.4079497-5-nipun.gupta@amd.com>
- <87h71juxuk.wl-maz@kernel.org>
- <DM6PR12MB30820EE430405FF50C7F856BE8229@DM6PR12MB3082.namprd12.prod.outlook.com>
- <MN2PR12MB43586084670E14691920952889229@MN2PR12MB4358.namprd12.prod.outlook.com>
- <Y0a65a9leWXpKfTo@ziepe.ca>
- <MN2PR12MB4358A871519748CD7A6DB7A089229@MN2PR12MB4358.namprd12.prod.outlook.com>
- <Y0bRZTP9Kc6mdCiu@ziepe.ca>
- <MN2PR12MB4358277977C1B7E0BC214AC789229@MN2PR12MB4358.namprd12.prod.outlook.com>
+        Thu, 13 Oct 2022 09:00:01 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E56E9326F0;
+        Thu, 13 Oct 2022 05:59:59 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5AD2B61791;
+        Thu, 13 Oct 2022 12:59:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4942C433D6;
+        Thu, 13 Oct 2022 12:59:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1665665998;
+        bh=ty4DVOvK4AGDUGTtZoOUbJX9Ux5kvrzSPuUsAB0rHC0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JAJebx8Ie/kcBEpP4FPEtyz2oh2jGF//ZUn0k/4310cOiSsdTyE0Nl0ieQcmcSK9W
+         JdqYCDYZYDNybmxiiKFBQyHwM2AJIuQtUy7VVO6P2wpcVGnWiZf/2G7zSXZW+D6nt+
+         dNG8r/u4IfbBRuNt0QPQlk3lFUMRSCDWCRnN3JBk+jO002WNW4okR9W8lpYrc3iuJb
+         zZSdANS/Y1rsaUbh9fR32Ty8uQ/slVhtxf7KVsxbLkew9geodPdFQIcHUmIITlCS6a
+         e61Gof24sdGMtsLl2Z93L9ZB5eE5zH8OKv5YrtRPNtv2W3bo7nzYzV3nmx4rcrZ9m3
+         O2FyJhphl8a4w==
+Date:   Thu, 13 Oct 2022 13:59:52 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     linux-toolchains@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: gcc 5 & 6 & others already out of date?
+Message-ID: <Y0gLyLbdOCetX5LN@sirena.org.uk>
+References: <CAHmME9prBJHmo9Bw6aobuGLjtxLsjxKJ9wopOv5+BY6ZtuKaNg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="48OdjAggKb0Ho9wZ"
 Content-Disposition: inline
-In-Reply-To: <MN2PR12MB4358277977C1B7E0BC214AC789229@MN2PR12MB4358.namprd12.prod.outlook.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+In-Reply-To: <CAHmME9prBJHmo9Bw6aobuGLjtxLsjxKJ9wopOv5+BY6ZtuKaNg@mail.gmail.com>
+X-Cookie: Do you like "TENDER VITTLES"?
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -117,38 +56,84 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Oct 12, 2022 at 03:09:26PM +0000, Radovanovic, Aleksandar wrote:
 
-> > On Wed, Oct 12, 2022 at 01:37:54PM +0000, Radovanovic, Aleksandar wrote:
-> > > > On Wed, Oct 12, 2022 at 10:34:23AM +0000, Radovanovic, Aleksandar
-> > wrote:
-> > > >
-> > > >
-> > > > > As for GITS_TRANSLATER, we can take up to 4 different IOVAs, which
-> > > > > limits us to 4 CDX devices (should be sufficient for current HW
-> > > > > use-cases). Also, it means that the address part must be the same
-> > > > > for all vectors within a single CDX device. I'm assuming this is
-> > > > > OK as it is going to be a single interrupt and IOMMU domain anyway.
-> > > >
-> > > > This is not at all how MSI is supposed to work.
-> > >
-> > > In the general case, no, they're not.
-> > 
-> > I don't mean that you can hack this to work - I mean that in MSI the
-> > addr/data is supposed to come from the end point itself, not from some kind
-> > of shared structure. This is important because the actual act of generating
-> > the write has to be coherent with the DMA the device is doing, as the MSI
-> > write must push any DMA data to visibility to meet the "producer /
-> > consumer" model.
-> > 
-> 
-> I'm not sure I follow your argument, the limitation here is that the MSI
-> address value is shared between vectors of the same device (requester id
-> or endpoint, whichever way you prefer to call it), not between
-> devices.
+--48OdjAggKb0Ho9wZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-That isn't what you said, you said "we can take up to 4 different
-IOVAs, which limits us to 4 CDX devices" - which sounds like HW being
-shared across devices??
+On Wed, Oct 12, 2022 at 07:36:40PM -0600, Jason A. Donenfeld wrote:
 
-Jason
+> But also, it's not just Rust. Clang support has been an incremental
+> thing, and the kernel has dropped old Clang versions as they no longer
+> make sense. Heck, the new KCFI implementation requires bleeding edge
+
+I suspect that if clang starts being the default system compiler for one
+of the distros with longer support windows we'll start treating it more
+like GCC, right now clang is in the position where for the most part
+people using clang are actively seeking it out and explicitly picking a
+clang version rather than just trying to build the kernel with whatever
+compiler they got by default.
+
+> And then there's old trusty gcc. Gcc also improves according to a nice
+> cadence, and we know people are using later gccs because nobody is
+> catching the build errors from old gccs. So let's stop pretending we
+> support old compilers. We clearly don't. Maybe some subset of code
+> does, but by and large, I doubt many developers are actually daily
+> driving gcc 5.1 and doing allyesconfig builds with it. Yes, many are
+> rightfully cautious of gcc 12 and stick with gcc 11 still, and that's
+> reasonable, but 11 or even 10 is still way larger than 5.1.
+
+> The truth is, people tend to use more recent toolchains. And if Clang
+> hasn't broken the will of the stranglers, then surely Rust will.
+
+The expected users for old toolchains was always users doing something
+like building a newer kernel on an old enterprise distro rather than
+people actually developing anything AIUI.
+
+> So, what are your thoughts on just abandoning this charade all
+> together, and saying that we support the last 2 or 3 releases of a
+> compiler (and related toolchain - binutils and such) at the time of
+
+Two or three releases seems a bit ambitious, I'm sitting here in front
+of a Debian stable system which probably has another year or so of being
+the latest release left and it's sitting at GCC 10.2 with the latest
+release of GCC being 12.2.  Probably also worth noting that GCC did a
+9.5 release in May this year as it went out of their support window.
+
+> the kernel's release, and admit that our C is a moving target, just as
+> our Rust inevitably will be. Then we don't have to have these tortured
+> conversations every few years about 4.9 or 5.1 or 6.3 or whatever
+> enterprise [il-]logic has tended to dictate how things have worked
+> until now.
+
+> As usual, feel free to chase me off with pitchforks. I'm sure some
+> RHEL folks hate this. But I think it's at least worth consideration.
+
+I do think it would be helpful to track where the choices of baseline
+versions are coming from, if nothing else that'd probably make the
+conversations about upgrading them easier even if we don't actually bump
+them until we run into trouble.
+
+A quick look suggests that RHEL 7 is at GCC 4.8 (so running into trouble
+anyway), RHEL 8 at 8.x, SLES looks like it makes newer compilers
+available even for the old releases (eg, there's GCCs up to 10 available
+for SLES 12 AFAICT).  Ubuntu 16.04 does seem to use GCC 5 but it's on
+extended security support at this point, their 18.04 is at GCC 7.4 from
+the looks of it.
+
+--48OdjAggKb0Ho9wZ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmNIC8cACgkQJNaLcl1U
+h9BCgAf6A/5E2Ut+JiGZPdR9DndRFlci8g8GrHdWfZDlttljHH5HSNF7ilQOpsCC
+Bm39Np/tfXRXbu4dfoiF7hRNj2zPj2gV2hkWCWjZ/G9OznYMo1QgQDdyi+2LPsnR
+LDkXm5x4glf85lCvNGZZNaHoIg+8kePe6el9EavPTa+PUemZ2fAcG1p5va6IM8sR
+JiJarlReyfYIeeUukbDlm4jCt+cjLZjCr9sDtnBpLPorABOH84Nb2lTAmmFYcwAs
+ECQt/lJPlZnus15TmNPAadU3jVJHzE3HDlwRJq6a14PRT2hevExVTUUErBGz0bh5
+yKiP+H4wEoCTgdyjQnvSs0aq+pPyxw==
+=6G3B
+-----END PGP SIGNATURE-----
+
+--48OdjAggKb0Ho9wZ--
