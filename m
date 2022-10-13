@@ -2,138 +2,166 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EEC95FD9BC
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Oct 2022 15:00:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBDC55FDBFA
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Oct 2022 16:05:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229793AbiJMNAC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 13 Oct 2022 09:00:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51122 "EHLO
+        id S230175AbiJMOFX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 13 Oct 2022 10:05:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229797AbiJMNAB (ORCPT
+        with ESMTP id S230143AbiJMOFU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 13 Oct 2022 09:00:01 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E56E9326F0;
-        Thu, 13 Oct 2022 05:59:59 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5AD2B61791;
-        Thu, 13 Oct 2022 12:59:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4942C433D6;
-        Thu, 13 Oct 2022 12:59:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665665998;
-        bh=ty4DVOvK4AGDUGTtZoOUbJX9Ux5kvrzSPuUsAB0rHC0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JAJebx8Ie/kcBEpP4FPEtyz2oh2jGF//ZUn0k/4310cOiSsdTyE0Nl0ieQcmcSK9W
-         JdqYCDYZYDNybmxiiKFBQyHwM2AJIuQtUy7VVO6P2wpcVGnWiZf/2G7zSXZW+D6nt+
-         dNG8r/u4IfbBRuNt0QPQlk3lFUMRSCDWCRnN3JBk+jO002WNW4okR9W8lpYrc3iuJb
-         zZSdANS/Y1rsaUbh9fR32Ty8uQ/slVhtxf7KVsxbLkew9geodPdFQIcHUmIITlCS6a
-         e61Gof24sdGMtsLl2Z93L9ZB5eE5zH8OKv5YrtRPNtv2W3bo7nzYzV3nmx4rcrZ9m3
-         O2FyJhphl8a4w==
-Date:   Thu, 13 Oct 2022 13:59:52 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     linux-toolchains@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: gcc 5 & 6 & others already out of date?
-Message-ID: <Y0gLyLbdOCetX5LN@sirena.org.uk>
-References: <CAHmME9prBJHmo9Bw6aobuGLjtxLsjxKJ9wopOv5+BY6ZtuKaNg@mail.gmail.com>
+        Thu, 13 Oct 2022 10:05:20 -0400
+Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 377603F1E1
+        for <linux-kbuild@vger.kernel.org>; Thu, 13 Oct 2022 07:05:05 -0700 (PDT)
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 29DE3ObB020274
+        for <linux-kbuild@vger.kernel.org>; Thu, 13 Oct 2022 23:03:25 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 29DE3ObB020274
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1665669805;
+        bh=oLq/97lp0beFieI9AdlWkZAhQYA90bFw+zH427wHvQw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=VpNheZogKbRNLlVa31k2gSdlp/mNMJr0VZvufkp8PFI9v5/QZ+xGQKLbivUu19ZSN
+         s6tnB7xz9LI2X1x2scQkjfwuIuukz+is2+mNLz01TQ8VMBOgIs0vQVRCaiC5AMisIv
+         p1wWnnXxe2Mz4yOULOn2VRPNDO+G2UAFR2v0ico96Lo/Zs17k2bIY3A+fKfXJQF9HY
+         FEdo6QiTPODOaUSwdK/5kTgWzUboFIu/mLkQe/oH1Nt7WtXnkzLl4f2H9hTVuAQ91v
+         4ZxpW6R2eW/qs7CLlJyxkkSEIBQrVNEDmKIPx7mxl0nRPWEoAVc52jP8zdUKCDYs3e
+         HlZfMj/5GCVug==
+X-Nifty-SrcIP: [209.85.160.51]
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-1326637be6eso2348976fac.13
+        for <linux-kbuild@vger.kernel.org>; Thu, 13 Oct 2022 07:03:25 -0700 (PDT)
+X-Gm-Message-State: ACrzQf2z/kWJwwX+i+teW2vx8voBsFyNvzaFol8uUEkEsaldWr8tbTIn
+        Sj/XeDk1mkmiieS3KMUT8yjZPM7M93ao1dqG0I8=
+X-Google-Smtp-Source: AMsMyM6p+emgxpoWDSNU0eTENVZmwK6fsPj+YarTHZtiqQuChjukBv9MyGhs0X/2xokiuYsh6UgTboYlRC13X3Youhw=
+X-Received: by 2002:a05:6870:c58b:b0:10b:d21d:ad5e with SMTP id
+ ba11-20020a056870c58b00b0010bd21dad5emr5344902oab.287.1665669804269; Thu, 13
+ Oct 2022 07:03:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="48OdjAggKb0Ho9wZ"
-Content-Disposition: inline
-In-Reply-To: <CAHmME9prBJHmo9Bw6aobuGLjtxLsjxKJ9wopOv5+BY6ZtuKaNg@mail.gmail.com>
-X-Cookie: Do you like "TENDER VITTLES"?
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <CA+icZUXQgnhcsjHMcm_KwD4O6FfUFv1vTDmdW4vGJ6oX-Y1GnA@mail.gmail.com>
+In-Reply-To: <CA+icZUXQgnhcsjHMcm_KwD4O6FfUFv1vTDmdW4vGJ6oX-Y1GnA@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 13 Oct 2022 23:02:47 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ0ynrZjtpHH=84C5qoTbV0D8SbimSFgCdC2STLcNK5DQ@mail.gmail.com>
+Message-ID: <CAK7LNAQ0ynrZjtpHH=84C5qoTbV0D8SbimSFgCdC2STLcNK5DQ@mail.gmail.com>
+Subject: Re: base-files: /etc/os-release should contain VERSION variables for
+ testing and unstable
+To:     sedat.dilek@gmail.com
+Cc:     1008735@bugs.debian.org, Gioele Barabucci <gioele@svario.it>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Hi Sedat,
 
---48OdjAggKb0Ho9wZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Sorry for my late replay.
 
-On Wed, Oct 12, 2022 at 07:36:40PM -0600, Jason A. Donenfeld wrote:
 
-> But also, it's not just Rust. Clang support has been an incremental
-> thing, and the kernel has dropped old Clang versions as they no longer
-> make sense. Heck, the new KCFI implementation requires bleeding edge
+On Mon, Oct 3, 2022 at 6:56 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+>
+> [ CC linux-kbuild folks (see [0] ]
 
-I suspect that if clang starts being the default system compiler for one
-of the distros with longer support windows we'll start treating it more
-like GCC, right now clang is in the position where for the most part
-people using clang are actively seeking it out and explicitly picking a
-clang version rather than just trying to build the kernel with whatever
-compiler they got by default.
 
-> And then there's old trusty gcc. Gcc also improves according to a nice
-> cadence, and we know people are using later gccs because nobody is
-> catching the build errors from old gccs. So let's stop pretending we
-> support old compilers. We clearly don't. Maybe some subset of code
-> does, but by and large, I doubt many developers are actually daily
-> driving gcc 5.1 and doing allyesconfig builds with it. Yes, many are
-> rightfully cautious of gcc 12 and stick with gcc 11 still, and that's
-> reasonable, but 11 or even 10 is still way larger than 5.1.
 
-> The truth is, people tend to use more recent toolchains. And if Clang
-> hasn't broken the will of the stranglers, then surely Rust will.
+Can you give me more context of this email?
 
-The expected users for old toolchains was always users doing something
-like building a newer kernel on an old enterprise distro rather than
-people actually developing anything AIUI.
 
-> So, what are your thoughts on just abandoning this charade all
-> together, and saying that we support the last 2 or 3 releases of a
-> compiler (and related toolchain - binutils and such) at the time of
 
-Two or three releases seems a bit ambitious, I'm sitting here in front
-of a Debian stable system which probably has another year or so of being
-the latest release left and it's sitting at GCC 10.2 with the latest
-release of GCC being 12.2.  Probably also worth noting that GCC did a
-9.5 release in May this year as it went out of their support window.
 
-> the kernel's release, and admit that our C is a moving target, just as
-> our Rust inevitably will be. Then we don't have to have these tortured
-> conversations every few years about 4.9 or 5.1 or 6.3 or whatever
-> enterprise [il-]logic has tended to dictate how things have worked
-> until now.
+> Hi,
+>
+> I am using Debian/unstable AMD64 and doing Linux-kernel upstream
+> development and testing.
+>
+> People using bindeb-pkg (mkdebian) from Linux-kernel sources
+> (scripts/packages) to build and test their selfmade Debian kernels get
+> a now a "n/a" for distribution.
 
-> As usual, feel free to chase me off with pitchforks. I'm sure some
-> RHEL folks hate this. But I think it's at least worth consideration.
 
-I do think it would be helpful to track where the choices of baseline
-versions are coming from, if nothing else that'd probably make the
-conversations about upgrading them easier even if we don't actually bump
-them until we run into trouble.
 
-A quick look suggests that RHEL 7 is at GCC 4.8 (so running into trouble
-anyway), RHEL 8 at 8.x, SLES looks like it makes newer compilers
-available even for the old releases (eg, there's GCCs up to 10 available
-for SLES 12 AFAICT).  Ubuntu 16.04 does seem to use GCC 5 but it's on
-extended security support at this point, their 18.04 is at GCC 7.4 from
-the looks of it.
+Right, if I try the latest sid,
+"lsb_release -cs" returns "n/a".
+It returned "sid" before IIRC.
 
---48OdjAggKb0Ho9wZ
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+What was changed in Debian?
+Any change in the lsb_release program?
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmNIC8cACgkQJNaLcl1U
-h9BCgAf6A/5E2Ut+JiGZPdR9DndRFlci8g8GrHdWfZDlttljHH5HSNF7ilQOpsCC
-Bm39Np/tfXRXbu4dfoiF7hRNj2zPj2gV2hkWCWjZ/G9OznYMo1QgQDdyi+2LPsnR
-LDkXm5x4glf85lCvNGZZNaHoIg+8kePe6el9EavPTa+PUemZ2fAcG1p5va6IM8sR
-JiJarlReyfYIeeUukbDlm4jCt+cjLZjCr9sDtnBpLPorABOH84Nb2lTAmmFYcwAs
-ECQt/lJPlZnus15TmNPAadU3jVJHzE3HDlwRJq6a14PRT2hevExVTUUErBGz0bh5
-yKiP+H4wEoCTgdyjQnvSs0aq+pPyxw==
-=6G3B
------END PGP SIGNATURE-----
 
---48OdjAggKb0Ho9wZ--
+
+
+
+
+
+>
+> Background (see [1]):
+>
+> [ scripts/package/mkdebian ]
+>
+> # Try to determine distribution
+> if [ -n "$KDEB_CHANGELOG_DIST" ]; then
+>         distribution=$KDEB_CHANGELOG_DIST
+> # In some cases lsb_release returns the codename as n/a, which breaks
+> dpkg-parsechangelog
+> elif distribution=$(lsb_release -cs 2>/dev/null) && [ -n
+> "$distribution" ] && [ "$distribution" != "n/a" ]; then
+>         : # nothing to do in this case
+> else
+>         distribution="unstable"
+>         echo >&2 "Using default distribution of 'unstable' in the changelog"
+>         echo >&2 "Install lsb-release or set \$KDEB_CHANGELOG_DIST explicitly"
+> fi
+>
+> Personally, I set hardcoded in my kernel build-script as a workaround:
+>
+> distribution="bookworm"
+>
+> Gioele suggested me to enrich /etc/os-release with:
+>
+> VERSION_ID=unstable <--- XXX: I prefer sid because of PRETTY_NAME and
+> it's shorter
+> VERSION_CODENAME=bookworm
+>
+> In the end the file looks like:
+>
+> PRETTY_NAME="Debian GNU/Linux bookworm/sid"
+> NAME="Debian GNU/Linux"
+> ID=debian
+> VERSION_ID=sid
+> VERSION_CODENAME=bookworm
+> HOME_URL="https://www.debian.org/"
+> SUPPORT_URL="https://www.debian.org/support"
+> BUG_REPORT_URL="https://bugs.debian.org/"
+>
+> ...and this seems to work:
+>
+> # lsb_release -cs
+> No LSB modules are available.
+> bookworm
+>
+> Please, provide a solution not to break workflows that were successful
+> for years.
+>
+> Thanks.
+>
+> Best regards,
+> -Sedat-
+>
+> [0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/MAINTAINERS#n11005
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/package/mkdebian#n123
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
