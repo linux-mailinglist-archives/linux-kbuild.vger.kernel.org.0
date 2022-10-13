@@ -2,64 +2,64 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 778605FE38F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Oct 2022 22:54:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A8E05FE3AC
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Oct 2022 23:03:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229907AbiJMUyL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 13 Oct 2022 16:54:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33408 "EHLO
+        id S229876AbiJMVDs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 13 Oct 2022 17:03:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229876AbiJMUyJ (ORCPT
+        with ESMTP id S229462AbiJMVDr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 13 Oct 2022 16:54:09 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C47AE17578F
-        for <linux-kbuild@vger.kernel.org>; Thu, 13 Oct 2022 13:54:08 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id l4so2893398plb.8
-        for <linux-kbuild@vger.kernel.org>; Thu, 13 Oct 2022 13:54:08 -0700 (PDT)
+        Thu, 13 Oct 2022 17:03:47 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A1941849A1
+        for <linux-kbuild@vger.kernel.org>; Thu, 13 Oct 2022 14:03:43 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id 128so2609254pga.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 13 Oct 2022 14:03:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=GoFfFfDn3VQkpPm7uWehivLwKK9ykq+Mq5wgEF+ifbk=;
-        b=Tp9qi0TuTxLiRmZJ73P8Jqkz5cFz3/ZraH6x6b8QsdXVOf6tJ4xob/q5yBhG3kqenY
-         c/Dxlz2HSmhD+1ISeYTEjlw0e6LHvjCtbcKXEZ0jJrz0wqdDEmmC7GhKf9xSa0FDHnhZ
-         OMZ02jj3XG8hcZuSleqn7zMtYT729WnP6KvFJNtEuaE9FYt71fAwfUBYrSLcHMcjWjNa
-         LavgOyN5QbdnTuat00mf9C9ytjJ0hyHpsvkrms7qL2Zw1oBd3ICaYyB4LC+Aq+VZiJxG
-         dRMYW7nYNzhs2zEI1HKxloCJDfo1c2nkExyMYAgo2iJ1rysvwEVQ0PB6ZIzjjuIRy+oe
-         Eqhw==
+        bh=Il2rGNYxjJhMHsk4sRcQXbmRvOqimaNvSUOoFHIkwzI=;
+        b=Sucl3acqPxAh3PDJMN7H/QG54qu+L8Ldkn452tfm/zBPyu6xLwjH5VWQe65r1hjUGb
+         Ovffl2ubmHUkygNdK5y/O7oubxLittCZ1Vrnl87UB8VFWZOoo7EJ5k5xNa9hOWOuHWId
+         /d9l+ocLqICXDa5NJxBrEA7c6jfDCa8sMpRPWAXnSsXtIR3cr/V9iIiWaEPuUeyS25LS
+         gBQ4q3jD6BbPFOE2UaXWT3F4HBeMj+KEg8uPeh5kw+fJosVAweLeF3+ItLolGcSP8TPH
+         jHALUrqkTTnK7SVGDOsgmIk10MbmKjtSQq1HNZZ5mU6Lbr2MB9EVlcSB6FNU2PSqCC+m
+         ypaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GoFfFfDn3VQkpPm7uWehivLwKK9ykq+Mq5wgEF+ifbk=;
-        b=NvcEyTdpJ21QSNOYYKGsSfw25H5KpbBmLfeYnjMn6er8ea1fLSurtn+7QOYly8wgM0
-         Dw9tzITsFCufv6ccwcMpLmlJqZYOC4vGeow3QPamOfRWaKQaDucNKpDq7QpK7vt89xai
-         xqKw6mfK2tNU7VcFPyrUhoy0eKhXwd7v1IUMoDUhZKJT4rurKOEu4OVXWz9NuBUSE1QW
-         AyYLGpJtTi64MzPmH3QF9rKasZlmzGlTPZTMy5uH/cotWEihbUyFqcUtD6cV/mYzxSmF
-         etiuO51Yf9LxtdezsQjIJcqT14gphjMMGk6L30KxHTj+zmHw4tK9M2ykFeEMfFMa9VGo
-         ZqDA==
-X-Gm-Message-State: ACrzQf2QPOIPOS9cq1/UJruAD1XeHMawg+4C8u95wF5fhOq3KA/bi5pT
-        4eTLBI2CT2TnYvF5FwXNcV4eIrqc4EvwfUi3Te5rag==
-X-Google-Smtp-Source: AMsMyM66I+rqXcc4prQlLIG+LwbinW4pY3ihokxrORiav1V7qXz9FmyouE/WnDWoPn8qucVCvDJ2Ko9xoTY3Yt42WV8=
-X-Received: by 2002:a17:902:b218:b0:184:710c:8c52 with SMTP id
- t24-20020a170902b21800b00184710c8c52mr1632657plr.95.1665694448056; Thu, 13
- Oct 2022 13:54:08 -0700 (PDT)
+        bh=Il2rGNYxjJhMHsk4sRcQXbmRvOqimaNvSUOoFHIkwzI=;
+        b=LZbbFwWLgPVYIAc0019YYhpzHjKDnqzSuj0fyhDuLaqCgBUH72VZ0358rl6nUDRV8r
+         tJ2+qdd3t2sHL4Vn1GxGSkFcGqH0xeKlSzNxSKovhP/s6a9INqyKOGb4LHL6bOes3QX9
+         nc7qgbLb9S5ZAHNASompv+44xna6947gbVI/SggNj7GkfkvKWBnJxLIVzUN9awMWdrN8
+         g83eU+0DcfDxfl63iT19/ggfXLCsNAZDPAEXjhgYFxdvMutcfm9Z6Kg0FIFYb2Isv1aa
+         MnwxchwcWAKguoZ3fqnzBH5PwvLgBPQ2X5BbOK+SznMEyo4BHaHqn19hzGYygCrlg38s
+         5OzQ==
+X-Gm-Message-State: ACrzQf0Gv+ANVtXL1lLzKWL205LAXI+RAunxEjlDMyUl4vWui6ZP2JyG
+        4g/8Jd9aWTJsj/xh115FJakk6NrqFqJmRwFCURpsLw==
+X-Google-Smtp-Source: AMsMyM42YtJqYefQMBVHhnTMp0GFTbHFPOu1pCWOZPMJcZ97coTvBuJUTPCOTwN6f6MsKjIV4SvHzXL+2nB+RIFpJLw=
+X-Received: by 2002:a63:2cd2:0:b0:41c:5901:67d8 with SMTP id
+ s201-20020a632cd2000000b0041c590167d8mr1531488pgs.365.1665695022463; Thu, 13
+ Oct 2022 14:03:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221007203236.1750890-1-ndesaulniers@google.com>
- <Y0htZDJoTuQegVQR@dev-arch.thelio-3990X> <20221013204151.skzateatn2keencb@google.com>
-In-Reply-To: <20221013204151.skzateatn2keencb@google.com>
+References: <CAHmME9prBJHmo9Bw6aobuGLjtxLsjxKJ9wopOv5+BY6ZtuKaNg@mail.gmail.com>
+ <Y0gLyLbdOCetX5LN@sirena.org.uk> <Y0gteD0QYVlYxSZh@zx2c4.com> <87mt9zwotq.fsf@oldenburg.str.redhat.com>
+In-Reply-To: <87mt9zwotq.fsf@oldenburg.str.redhat.com>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 13 Oct 2022 13:53:56 -0700
-Message-ID: <CAKwvOdmoXLvfgEWx740mw+Uqy3nfPM=a7ywVeOJ5XivGT=yRog@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: add -fno-discard-value-names to cmd_cc_ll_c
-To:     Fangrui Song <maskray@google.com>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Tom Rix <trix@redhat.com>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Date:   Thu, 13 Oct 2022 14:03:30 -0700
+Message-ID: <CAKwvOdnP=FTzhm1S-_ZyQaF+LGYkF1DWUekRzvEmxAr=u=FTCQ@mail.gmail.com>
+Subject: Re: gcc 5 & 6 & others already out of date?
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Mark Brown <broonie@kernel.org>,
+        linux-toolchains@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
@@ -72,94 +72,29 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Oct 13, 2022 at 1:41 PM Fangrui Song <maskray@google.com> wrote:
+On Thu, Oct 13, 2022 at 11:44 AM Florian Weimer <fweimer@redhat.com> wrote:
 >
-> On 2022-10-13, Nathan Chancellor wrote:
-> >On Fri, Oct 07, 2022 at 01:32:36PM -0700, Nick Desaulniers wrote:
-> >> When debugging LLVM IR, it can be handy for clang to not discard value
-> >> names used for local variables and parameters. Compare the generated IR.
-> >>
-> >> Implicit Default (-fdiscard-value-names):
-> >>   define i32 @core_sys_select(i32 %0, ptr %1, ptr %2, ptr %3, ptr %4) {
-> >>     %6 = alloca i64
-> >>     %7 = alloca %struct.poll_wqueues
-> >>     %8 = alloca [64 x i32]
-> >>
-> >> Explicit -fno-discard-value-names:
-> >>   define i32 @core_sys_select(i32 %n, ptr %inp, ptr %outp, ptr %exp,
-> >>                               ptr %end_time) {
-> >>     %expire.i = alloca i64
-> >>     %table.i = alloca %struct.poll_wqueues
-> >>     %stack_fds = alloca [64 x i32]
-> >>
-> >> The rule for generating human readable LLVM IR (.ll) is only useful as a
-> >> debugging feature:
-> >>
-> >> $ make LLVM=1 fs/select.ll
-> >>
-> >> Clang defaults to -fdiscard-value-names to save memory when generating
-> >> LLVM IR. For debugging purposes, the improvement in readability at a
-> >> cost of more verbose IR is a cost we're happy to pay.
+> * Jason A. Donenfeld:
 >
-> A LLVM_ENABLE_ASSEERTIONS=off build of Clang defaults to -fdiscard-value-names.
+> > It's also easy, nearly trivial, to download toolchains. Arnd provides a
+> > bunch with his crosstool. "Must use a toolchain from your distro" is a
+> > requirement that affects nobody.
 >
-> A LLVM_ENABLE_ASSEERTIONS=on build of Clang defaults to -fno-discard-value-names.
->
-> See clang/lib/Driver/ToolChains/Clang.cpp:5030
+> But not everything will be built with the cross-compiler.  For the
+> kernel build tools and other userspace components, you'll need a native
+> toolchain that can build programs that can actually run on the build
+> host.
 
-Thanks!
+... when using GCC. We don't have this pain when using clang.
 
-I thought I recalled this; I was literally just rereading through
-https://github.com/ClangBuiltLinux/linux/issues/1467#issuecomment-1046071624
-again to understand.
+https://docs.kernel.org/kbuild/llvm.html#llvm-utilities
 
-That would be useful to include in the commit message, and is more
-precise than "Clang defaults to -fdiscard-value-names to save memory
-when generating LLVM IR."  Masahiro, would you mind including or
-replacing that, or shall I send a v2?
+i.e.
+$ make ARCH=arm LLVM=1
 
-I was surprised to find later in the day that I was running an
-assertions-disabled (ie. release) build of clang, which I almost never
-do!  Non-llvm-developers are more likely to be using release builds
-than assertions-enabled builds of llvm, so this patch still very much
-has merit.
-
->
-> >> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> >
-> >Thanks for the patch!
-> >
-> >Link: https://github.com/ClangBuiltLinux/linux/issues/1467
-> >Reviewed-by: Nathan Chancellor <nathan@kernel.org>
->
-> Reviewed-by: Fangrui Song <maskray@google.com>
->
-> >> ---
-> >>  scripts/Makefile.build | 2 +-
-> >>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> >> index 27be77c0d6d8..d0e4f476dfee 100644
-> >> --- a/scripts/Makefile.build
-> >> +++ b/scripts/Makefile.build
-> >> @@ -140,7 +140,7 @@ $(obj)/%.symtypes : $(src)/%.c FORCE
-> >>  # LLVM assembly
-> >>  # Generate .ll files from .c
-> >>  quiet_cmd_cc_ll_c = CC $(quiet_modtag)  $@
-> >> -      cmd_cc_ll_c = $(CC) $(c_flags) -emit-llvm -S -o $@ $<
-> >> +      cmd_cc_ll_c = $(CC) $(c_flags) -emit-llvm -S -fno-discard-value-names -o $@ $<
-> >>
-> >>  $(obj)/%.ll: $(src)/%.c FORCE
-> >>      $(call if_changed_dep,cc_ll_c)
-> >>
-> >> base-commit: 93ed07a23fd08b8613f64cf0a15d7fbdaca010fd
-> >> --
-> >> 2.38.0.rc2.412.g84df46c1b4-goog
-> >>
-> >
-
-
-
+will build with one instance of a clang binary (and ld.lld and
+llvm-objcopy etc.) for Target AND Host.  No need for multiple
+toolchain binaries.
 -- 
 Thanks,
 ~Nick Desaulniers
