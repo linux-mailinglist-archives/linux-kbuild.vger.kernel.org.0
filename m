@@ -2,50 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D8D455FE303
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Oct 2022 21:56:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10B495FE336
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Oct 2022 22:24:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229650AbiJMT41 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 13 Oct 2022 15:56:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48068 "EHLO
+        id S229934AbiJMUYW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 13 Oct 2022 16:24:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229542AbiJMT41 (ORCPT
+        with ESMTP id S229933AbiJMUYM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 13 Oct 2022 15:56:27 -0400
+        Thu, 13 Oct 2022 16:24:12 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCA8417FD43;
-        Thu, 13 Oct 2022 12:56:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 154D918F276;
+        Thu, 13 Oct 2022 13:24:05 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A3544B81F3B;
-        Thu, 13 Oct 2022 19:56:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED922C433D6;
-        Thu, 13 Oct 2022 19:56:21 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 43085B82079;
+        Thu, 13 Oct 2022 20:24:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0E21C433D7;
+        Thu, 13 Oct 2022 20:24:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665690982;
-        bh=cxvv2dUAFxAacTUfnF9gIs2mfss86y4K+cxeNNpBBd4=;
+        s=k20201202; t=1665692643;
+        bh=I45PmGN6r3QU1UPGDQ2Icpn/q90F4aBf4xGvMScmOrg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uwC5r1QRmuvXQVN1MvYktm/SVjfwpad2BfvX2YhN+mOJgx0Ghr47cbgn48wX23Acb
-         k6LX5WG/Qpx3xGYRD4r0ekTCgUBWG+tUOW2V/hjkjnVymvDdmGCbV6qA7bV0icqsVW
-         bTRh50FQZd3UU5GW9W96sYA4UpD3DYIQdKNTU9ZBIHVo3zGgirfuVLUk+p4OJbDBzW
-         ESqpPSyQkJE1Ntb0kqRgnZNr91EywFudFZ/iC6U9bnvkGfkx3xRUihZSWCwPqvPxA4
-         N0rMnkeH8smD89k3bosvxYViP0zvgNKkXTripboXaZrAHcAiiBNlEc5p7AGubkjXSy
-         gzY7tn3HTIHjw==
-Date:   Thu, 13 Oct 2022 12:56:20 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Tom Rix <trix@redhat.com>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH] kbuild: add -fno-discard-value-names to cmd_cc_ll_c
-Message-ID: <Y0htZDJoTuQegVQR@dev-arch.thelio-3990X>
-References: <20221007203236.1750890-1-ndesaulniers@google.com>
+        b=KSGvG/xsCfNMe4yflpDDOLOQg5iE8PACLoOxjBdjgcddu5qOqFoAdj1tFGISNwVw5
+         j5hHECGVJwXupe19madVXl0ycgQNdhAj1yOFirx3EIi7v147OqtEZfOEb1G5D1C5zD
+         hzwS98rXy5IsVAVWzJadV5GGtgZxMJlsvtKsMhQkpI6KrMRdCz0whEE41Epx6wOQNb
+         ccu6hiZ1aRgn1mXDHttjfXegdgZ23wuW9jGDFV+DnqaEWb+MGl5/tM0/RoQ/p6afEZ
+         u5URhA9yDsu+qsZTsgrr/K+lTVkJTVcZIoeWWtyMyjDXi5IdLYpHoGr2mDsYTnFeUS
+         tgQnyFJnA8RPQ==
+Date:   Thu, 13 Oct 2022 21:23:58 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        linux-toolchains@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: gcc 5 & 6 & others already out of date?
+Message-ID: <Y0hz3u8ZNO2yFU2f@sirena.org.uk>
+References: <CAHmME9prBJHmo9Bw6aobuGLjtxLsjxKJ9wopOv5+BY6ZtuKaNg@mail.gmail.com>
+ <Y0gLyLbdOCetX5LN@sirena.org.uk>
+ <Y0gteD0QYVlYxSZh@zx2c4.com>
+ <Y0g8HEYHZYHGdwlf@sirena.org.uk>
+ <Y0g+wTTJmlaFVLzr@zx2c4.com>
+ <Y0hH5NelZ03yfQuU@sirena.org.uk>
+ <87o7ufwovp.fsf@oldenburg.str.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="6IonEliHNUxFdwLj"
 Content-Disposition: inline
-In-Reply-To: <20221007203236.1750890-1-ndesaulniers@google.com>
+In-Reply-To: <87o7ufwovp.fsf@oldenburg.str.redhat.com>
+X-Cookie: The Killer Ducks are coming!!!
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -55,58 +63,55 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Oct 07, 2022 at 01:32:36PM -0700, Nick Desaulniers wrote:
-> When debugging LLVM IR, it can be handy for clang to not discard value
-> names used for local variables and parameters. Compare the generated IR.
-> 
-> Implicit Default (-fdiscard-value-names):
->   define i32 @core_sys_select(i32 %0, ptr %1, ptr %2, ptr %3, ptr %4) {
->     %6 = alloca i64
->     %7 = alloca %struct.poll_wqueues
->     %8 = alloca [64 x i32]
-> 
-> Explicit -fno-discard-value-names:
->   define i32 @core_sys_select(i32 %n, ptr %inp, ptr %outp, ptr %exp,
->                               ptr %end_time) {
->     %expire.i = alloca i64
->     %table.i = alloca %struct.poll_wqueues
->     %stack_fds = alloca [64 x i32]
-> 
-> The rule for generating human readable LLVM IR (.ll) is only useful as a
-> debugging feature:
-> 
-> $ make LLVM=1 fs/select.ll
-> 
-> Clang defaults to -fdiscard-value-names to save memory when generating
-> LLVM IR. For debugging purposes, the improvement in readability at a
-> cost of more verbose IR is a cost we're happy to pay.
-> 
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 
-Thanks for the patch!
+--6IonEliHNUxFdwLj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Link: https://github.com/ClangBuiltLinux/linux/issues/1467
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+On Thu, Oct 13, 2022 at 08:38:02PM +0200, Florian Weimer wrote:
+> * Mark Brown:
+> > On Thu, Oct 13, 2022 at 10:37:21AM -0600, Jason A. Donenfeld wrote:
 
-> ---
->  scripts/Makefile.build | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 27be77c0d6d8..d0e4f476dfee 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -140,7 +140,7 @@ $(obj)/%.symtypes : $(src)/%.c FORCE
->  # LLVM assembly
->  # Generate .ll files from .c
->  quiet_cmd_cc_ll_c = CC $(quiet_modtag)  $@
-> -      cmd_cc_ll_c = $(CC) $(c_flags) -emit-llvm -S -o $@ $<
-> +      cmd_cc_ll_c = $(CC) $(c_flags) -emit-llvm -S -fno-discard-value-names -o $@ $<
->  
->  $(obj)/%.ll: $(src)/%.c FORCE
->  	$(call if_changed_dep,cc_ll_c)
-> 
-> base-commit: 93ed07a23fd08b8613f64cf0a15d7fbdaca010fd
-> -- 
-> 2.38.0.rc2.412.g84df46c1b4-goog
-> 
+> > I was looking at your suggestion there - as a Debian user that feels a
+> > touch enthusiastic (though practically probably not actually a problem)
+> > since it's not too far off the release cadence, current Debian is at GCC
+> > 10 and we're not due for another release till sometime next year which
+> > will be right on the three years.
+
+> Debian also has Clang 13, presumably for building Rust and Firefox.
+
+Ah, so it does - nice!
+
+> > There does also seem to be a contingent of people running enterprise
+> > distros managed by an IT department or whatever who may take a while
+> > to get round to pushing out new versions so for example might still
+> > for example be running Ubuntu 20.04 rather than 22.04 (never mind the
+> > people I know are sitting on 18.04 but that's another thing).
+
+> The enterprise distributions have toolchain modules or toolsets that you
+> can install, all nicely integrated.  You'd probably consider those
+> versions too new. 8-/   I expect it's mostly an education issue, raising
+> awareness of what's available from vendors.   (glibc versions are a
+> different matter, but I don't think dropping support for historic
+> versions on build hosts is on the table, so that should be relevant.)
+
+Yeah, I found the ones for SLES easily enough but not the ones for RHEL
+or Ubuntu.  Perfectly prepared to believe they're there though, it does
+seem like sometihng users might want.
+
+--6IonEliHNUxFdwLj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmNIc90ACgkQJNaLcl1U
+h9Cwkwf8Dh7ytjTum9r3EZ+ZYk83cfb/Lw/fDn71e+8wI/WyZ6zuBtw/NUsDnOY6
+eGPhSsCMq6Y2saNAyyBOxDwUW8BIBYpO6cdWHWxWJTB9Ez+9qc5h8jjDTZigc2Bk
+6wIY7L5R3bgwdnOq75FivnlxYR/wjT4lq3O2WyirKWBQ1Lwh5z52RdLVsuOcBNvN
+p1ZN6eZ9D/3oz5CLiJ4+Nt/9AdTpED5eEtUNqq9D6a3/9JECj7gT99s29Yeoei3p
+47qMth3j+g3oJDXJbwur+ETFOaKf5NEI1DlunTSlGO7uF0jdn8en62X2vudstzzc
+zF9/1EYcMtESGEcnC2MHZ5O1H/wgcw==
+=i5/S
+-----END PGP SIGNATURE-----
+
+--6IonEliHNUxFdwLj--
