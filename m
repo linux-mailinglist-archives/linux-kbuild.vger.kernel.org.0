@@ -2,69 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A8E05FE3AC
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Oct 2022 23:03:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C2D75FE3C3
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Oct 2022 23:08:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229876AbiJMVDs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 13 Oct 2022 17:03:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54330 "EHLO
+        id S229516AbiJMVIj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 13 Oct 2022 17:08:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbiJMVDr (ORCPT
+        with ESMTP id S229777AbiJMVIf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 13 Oct 2022 17:03:47 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A1941849A1
-        for <linux-kbuild@vger.kernel.org>; Thu, 13 Oct 2022 14:03:43 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id 128so2609254pga.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 13 Oct 2022 14:03:43 -0700 (PDT)
+        Thu, 13 Oct 2022 17:08:35 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EE59188ABA
+        for <linux-kbuild@vger.kernel.org>; Thu, 13 Oct 2022 14:08:34 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id b5so2600393pgb.6
+        for <linux-kbuild@vger.kernel.org>; Thu, 13 Oct 2022 14:08:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Il2rGNYxjJhMHsk4sRcQXbmRvOqimaNvSUOoFHIkwzI=;
-        b=Sucl3acqPxAh3PDJMN7H/QG54qu+L8Ldkn452tfm/zBPyu6xLwjH5VWQe65r1hjUGb
-         Ovffl2ubmHUkygNdK5y/O7oubxLittCZ1Vrnl87UB8VFWZOoo7EJ5k5xNa9hOWOuHWId
-         /d9l+ocLqICXDa5NJxBrEA7c6jfDCa8sMpRPWAXnSsXtIR3cr/V9iIiWaEPuUeyS25LS
-         gBQ4q3jD6BbPFOE2UaXWT3F4HBeMj+KEg8uPeh5kw+fJosVAweLeF3+ItLolGcSP8TPH
-         jHALUrqkTTnK7SVGDOsgmIk10MbmKjtSQq1HNZZ5mU6Lbr2MB9EVlcSB6FNU2PSqCC+m
-         ypaQ==
+        bh=tRiTLwAuwPYUgBPKA1FJZY2eXZvOzFOFrZPEJVwL26o=;
+        b=ZX0Pz3OHWIBikjl2nin8p8bzMVA7qsaOOx+VSaA0VKLo+/pf0qHeeQl3K5fxn0rdTZ
+         r9qMgMOk8s0AmblqGYuF2UbJRtlRQbBXjtkbtMfd8sdrEdYG/v8ZQ4XmM7+Mzzbbqeh2
+         ipvwHZDHRwmHrSZlicLhTGIPfoYcEv3iN8EgWNCvBotWji5BFRklZYqQvTPgqZHr+QQp
+         mN+h5iNP0y80aYsn9p6ZeHY6LgoDvXns2/3KGUmkS4ky9DUxtW8aSUfGvgmH7ZxWMl8B
+         RzuRZm5fw9FJwG48IIlTDzo8JIow8l32ibjXd0H6+zLBuS2QSjjLQVuxseheI+gn7qDk
+         Luxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Il2rGNYxjJhMHsk4sRcQXbmRvOqimaNvSUOoFHIkwzI=;
-        b=LZbbFwWLgPVYIAc0019YYhpzHjKDnqzSuj0fyhDuLaqCgBUH72VZ0358rl6nUDRV8r
-         tJ2+qdd3t2sHL4Vn1GxGSkFcGqH0xeKlSzNxSKovhP/s6a9INqyKOGb4LHL6bOes3QX9
-         nc7qgbLb9S5ZAHNASompv+44xna6947gbVI/SggNj7GkfkvKWBnJxLIVzUN9awMWdrN8
-         g83eU+0DcfDxfl63iT19/ggfXLCsNAZDPAEXjhgYFxdvMutcfm9Z6Kg0FIFYb2Isv1aa
-         MnwxchwcWAKguoZ3fqnzBH5PwvLgBPQ2X5BbOK+SznMEyo4BHaHqn19hzGYygCrlg38s
-         5OzQ==
-X-Gm-Message-State: ACrzQf0Gv+ANVtXL1lLzKWL205LAXI+RAunxEjlDMyUl4vWui6ZP2JyG
-        4g/8Jd9aWTJsj/xh115FJakk6NrqFqJmRwFCURpsLw==
-X-Google-Smtp-Source: AMsMyM42YtJqYefQMBVHhnTMp0GFTbHFPOu1pCWOZPMJcZ97coTvBuJUTPCOTwN6f6MsKjIV4SvHzXL+2nB+RIFpJLw=
-X-Received: by 2002:a63:2cd2:0:b0:41c:5901:67d8 with SMTP id
- s201-20020a632cd2000000b0041c590167d8mr1531488pgs.365.1665695022463; Thu, 13
- Oct 2022 14:03:42 -0700 (PDT)
+        bh=tRiTLwAuwPYUgBPKA1FJZY2eXZvOzFOFrZPEJVwL26o=;
+        b=bq66ITTh6xeiUPqz3UV6ygRGzNfHHJB2Ds1GtYB4uaDEBRhwSjot8ihQmMyrKnzOhO
+         6IVphZNkRgMUQkEsxEo1OCYHFati1IaUFHpXcqQFzkvebQlkPR+AfJBJnhHMDtX6dSiN
+         L/OimhAMqOswepLouaWmndcRrS9ikyKX0QMb/aLT38V5FqABxvC6zDi49LBtk7IN6O+L
+         DwG//NL5eMIc8l10sKVm+vBJEZKsWxsAZWPvryfiGBdsAKTfsM07CtFa0hd7i4JsM5aj
+         CYV6sS+H1ThRlvUFDgbCIBaxQ6Xg0j0QiMcTzB/qCsW+LBxe1tnpnr64nXjpBUXmOg6B
+         5xiw==
+X-Gm-Message-State: ACrzQf0us+xTkrXaFaJIxfJ9B+9ex2mGBU3gl0m+qMQ9t8algla6CU0L
+        sw3Rqx21OYoBnow/LCYMbWwBIW7MlFzpbnhGgd+2oA==
+X-Google-Smtp-Source: AMsMyM7snGxVrR2t3EbMMIs4TvcOoMOGRD6Tu7kzSv5Zv/o49eR/+vqSHdC2ZvT4bGguSviHW8LS/+p9WBJplynpf4U=
+X-Received: by 2002:a62:1a97:0:b0:562:5587:12d6 with SMTP id
+ a145-20020a621a97000000b00562558712d6mr1606541pfa.37.1665695313619; Thu, 13
+ Oct 2022 14:08:33 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAHmME9prBJHmo9Bw6aobuGLjtxLsjxKJ9wopOv5+BY6ZtuKaNg@mail.gmail.com>
- <Y0gLyLbdOCetX5LN@sirena.org.uk> <Y0gteD0QYVlYxSZh@zx2c4.com> <87mt9zwotq.fsf@oldenburg.str.redhat.com>
-In-Reply-To: <87mt9zwotq.fsf@oldenburg.str.redhat.com>
+In-Reply-To: <CAHmME9prBJHmo9Bw6aobuGLjtxLsjxKJ9wopOv5+BY6ZtuKaNg@mail.gmail.com>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 13 Oct 2022 14:03:30 -0700
-Message-ID: <CAKwvOdnP=FTzhm1S-_ZyQaF+LGYkF1DWUekRzvEmxAr=u=FTCQ@mail.gmail.com>
+Date:   Thu, 13 Oct 2022 14:08:22 -0700
+Message-ID: <CAKwvOd=_gfTD24zEh9YpoNuBr_D+xjsefeb8sNXnSaU_UgnVRw@mail.gmail.com>
 Subject: Re: gcc 5 & 6 & others already out of date?
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Mark Brown <broonie@kernel.org>,
-        linux-toolchains@vger.kernel.org,
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     linux-toolchains@vger.kernel.org,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,29 +69,47 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Oct 13, 2022 at 11:44 AM Florian Weimer <fweimer@redhat.com> wrote:
+On Wed, Oct 12, 2022 at 6:37 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
 >
-> * Jason A. Donenfeld:
+> Hi,
 >
-> > It's also easy, nearly trivial, to download toolchains. Arnd provides a
-> > bunch with his crosstool. "Must use a toolchain from your distro" is a
-> > requirement that affects nobody.
+> I've been working on a (still in development) patch that tries to
+> apply a few compile-time constant folding tricks to a widely used
+> library function, so I wanted to make sure my trickery worked across
+> all supported gcc versions for as many call sites as possible.
+
+I'd imagine the kernel's inconsistent use of -ffreestanding per
+architecture would be a blocker, if by library function you're
+referring to a symbol that would typically be provided by the libc?
+
+Do you have more info about what the specific issue you've observed is?
+
+> Naturally, this means allyesconfig builds on the monster box.
 >
-> But not everything will be built with the cross-compiler.  For the
-> kernel build tools and other userspace components, you'll need a native
-> toolchain that can build programs that can actually run on the build
-> host.
+> So all went well with a recent gcc and with clang. Then I tried gcc 5
+> and gcc 6, and it wasn't fine. But it wasn't not fine because of my
+> new code -- that all compiled just fine. Rather, it wasn't fine
+> because of a modicum of other odd errors and fatal warnings
+> throughout. I tried this with gcc 5 and gcc 6 and then got bored. I
+> could test more versions need be. And I guess I could submit bug
+> reports or write patches or work on fixing all those, if I actually
+> cared about it. But I don't really care about it, and apparently
+> neither does anybody else, because this isn't brand new breakage. And
+> this all got me thinking...
 
-... when using GCC. We don't have this pain when using clang.
+Are the defconfigs totally broken with gcc-5 and gcc-6 and no one has noticed?
 
-https://docs.kernel.org/kbuild/llvm.html#llvm-utilities
+I wonder what versions of GCC KernelCI and linux kernel robot are testing with?
 
-i.e.
-$ make ARCH=arm LLVM=1
+We have to maintain CI for all supported clang versions. You can see a
+2D slice of our 5D build matrix: https://clangbuiltlinux.github.io/.
+"I've never seen so much red in the galaxy!" "Hey, get back to work!"
 
-will build with one instance of a clang binary (and ld.lld and
-llvm-objcopy etc.) for Target AND Host.  No need for multiple
-toolchain binaries.
+We'd like to have the large window of supported versions that GCC
+currently has; Clang's release cycle is also different from GCC's
+though.  I wouldn't point to clang's smaller version support window as
+justification for GCC; we'd rather be more like GCC in that sense, not
+the other way round!
 -- 
 Thanks,
 ~Nick Desaulniers
