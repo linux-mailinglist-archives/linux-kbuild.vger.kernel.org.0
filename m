@@ -2,95 +2,111 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F7F25FE204
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Oct 2022 20:51:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8D455FE303
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Oct 2022 21:56:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231239AbiJMSvD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 13 Oct 2022 14:51:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52298 "EHLO
+        id S229650AbiJMT41 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 13 Oct 2022 15:56:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231767AbiJMSub (ORCPT
+        with ESMTP id S229542AbiJMT41 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 13 Oct 2022 14:50:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EC30E099E
-        for <linux-kbuild@vger.kernel.org>; Thu, 13 Oct 2022 11:48:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1665686856;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Ji+NyK6PnYbavkYjDFsnOf76oGImlagiYlW5om5fOkg=;
-        b=S8VPUNEyEuyv6Br8y1qKsT9pT9tSj0GPA2PcfHsxMTTPh/NPVTo4tp3TQA71ywlojPpUT4
-        tVGIAmPTPiyWv/B+q0YzypryFsOa5hEwhJiJ4Qx2HdSktolySroHsYLDBBIDsblo+7REHl
-        i3WvHmQz6AGnzjN5lRRaKLMrAQngIiM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-640-pgkOP4lWMnq5PGbJSSkoLg-1; Thu, 13 Oct 2022 14:39:17 -0400
-X-MC-Unique: pgkOP4lWMnq5PGbJSSkoLg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        Thu, 13 Oct 2022 15:56:27 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCA8417FD43;
+        Thu, 13 Oct 2022 12:56:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1466D185A7A8;
-        Thu, 13 Oct 2022 18:39:17 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.2.16.73])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E0AA40F16A;
-        Thu, 13 Oct 2022 18:39:15 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     Mark Brown <broonie@kernel.org>, linux-toolchains@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: gcc 5 & 6 & others already out of date?
-References: <CAHmME9prBJHmo9Bw6aobuGLjtxLsjxKJ9wopOv5+BY6ZtuKaNg@mail.gmail.com>
-        <Y0gLyLbdOCetX5LN@sirena.org.uk> <Y0gteD0QYVlYxSZh@zx2c4.com>
-Date:   Thu, 13 Oct 2022 20:39:13 +0200
-In-Reply-To: <Y0gteD0QYVlYxSZh@zx2c4.com> (Jason A. Donenfeld's message of
-        "Thu, 13 Oct 2022 09:23:36 -0600")
-Message-ID: <87mt9zwotq.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+        by ams.source.kernel.org (Postfix) with ESMTPS id A3544B81F3B;
+        Thu, 13 Oct 2022 19:56:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED922C433D6;
+        Thu, 13 Oct 2022 19:56:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1665690982;
+        bh=cxvv2dUAFxAacTUfnF9gIs2mfss86y4K+cxeNNpBBd4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=uwC5r1QRmuvXQVN1MvYktm/SVjfwpad2BfvX2YhN+mOJgx0Ghr47cbgn48wX23Acb
+         k6LX5WG/Qpx3xGYRD4r0ekTCgUBWG+tUOW2V/hjkjnVymvDdmGCbV6qA7bV0icqsVW
+         bTRh50FQZd3UU5GW9W96sYA4UpD3DYIQdKNTU9ZBIHVo3zGgirfuVLUk+p4OJbDBzW
+         ESqpPSyQkJE1Ntb0kqRgnZNr91EywFudFZ/iC6U9bnvkGfkx3xRUihZSWCwPqvPxA4
+         N0rMnkeH8smD89k3bosvxYViP0zvgNKkXTripboXaZrAHcAiiBNlEc5p7AGubkjXSy
+         gzY7tn3HTIHjw==
+Date:   Thu, 13 Oct 2022 12:56:20 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Tom Rix <trix@redhat.com>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH] kbuild: add -fno-discard-value-names to cmd_cc_ll_c
+Message-ID: <Y0htZDJoTuQegVQR@dev-arch.thelio-3990X>
+References: <20221007203236.1750890-1-ndesaulniers@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221007203236.1750890-1-ndesaulniers@google.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-* Jason A. Donenfeld:
+On Fri, Oct 07, 2022 at 01:32:36PM -0700, Nick Desaulniers wrote:
+> When debugging LLVM IR, it can be handy for clang to not discard value
+> names used for local variables and parameters. Compare the generated IR.
+> 
+> Implicit Default (-fdiscard-value-names):
+>   define i32 @core_sys_select(i32 %0, ptr %1, ptr %2, ptr %3, ptr %4) {
+>     %6 = alloca i64
+>     %7 = alloca %struct.poll_wqueues
+>     %8 = alloca [64 x i32]
+> 
+> Explicit -fno-discard-value-names:
+>   define i32 @core_sys_select(i32 %n, ptr %inp, ptr %outp, ptr %exp,
+>                               ptr %end_time) {
+>     %expire.i = alloca i64
+>     %table.i = alloca %struct.poll_wqueues
+>     %stack_fds = alloca [64 x i32]
+> 
+> The rule for generating human readable LLVM IR (.ll) is only useful as a
+> debugging feature:
+> 
+> $ make LLVM=1 fs/select.ll
+> 
+> Clang defaults to -fdiscard-value-names to save memory when generating
+> LLVM IR. For debugging purposes, the improvement in readability at a
+> cost of more verbose IR is a cost we're happy to pay.
+> 
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 
-> It's also easy, nearly trivial, to download toolchains. Arnd provides a
-> bunch with his crosstool. "Must use a toolchain from your distro" is a
-> requirement that affects nobody.
+Thanks for the patch!
 
-But not everything will be built with the cross-compiler.  For the
-kernel build tools and other userspace components, you'll need a native
-toolchain that can build programs that can actually run on the build
-host.  At the very least, this means that the right search paths have to
-be baked into the tools, and I'm not sure this will happen automatically
-for popular distributions.  (I only know that it wouldn't happen for
-glibc, but you can't really rebuild that.)  This seems unexplored
-territory to me.  The existence of working cross-tools doesn't tell us
-much how native builds and integration with installed native libraries
-will play out in practice.
+Link: https://github.com/ClangBuiltLinux/linux/issues/1467
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-There's also going to be much greater variance of compilers people
-actually use if everyone just picks an upstream release branch snapshot
-at some point in time.
-
-None of this may be sufficient reason to support old toolchains.  But if
-you require more recent versions, you really should tell people to
-upgrade to new distributions, or use newer toolchain versions
-specifically built for the distribution by their distribution vendor.
-And not to try to build their own toolchain.
-
-
-Thanks,
-Florian
-
+> ---
+>  scripts/Makefile.build | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index 27be77c0d6d8..d0e4f476dfee 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -140,7 +140,7 @@ $(obj)/%.symtypes : $(src)/%.c FORCE
+>  # LLVM assembly
+>  # Generate .ll files from .c
+>  quiet_cmd_cc_ll_c = CC $(quiet_modtag)  $@
+> -      cmd_cc_ll_c = $(CC) $(c_flags) -emit-llvm -S -o $@ $<
+> +      cmd_cc_ll_c = $(CC) $(c_flags) -emit-llvm -S -fno-discard-value-names -o $@ $<
+>  
+>  $(obj)/%.ll: $(src)/%.c FORCE
+>  	$(call if_changed_dep,cc_ll_c)
+> 
+> base-commit: 93ed07a23fd08b8613f64cf0a15d7fbdaca010fd
+> -- 
+> 2.38.0.rc2.412.g84df46c1b4-goog
+> 
