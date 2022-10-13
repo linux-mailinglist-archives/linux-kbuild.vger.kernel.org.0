@@ -2,105 +2,109 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 830A45FDEC1
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Oct 2022 19:16:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A6AB5FE187
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Oct 2022 20:41:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229682AbiJMRQa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 13 Oct 2022 13:16:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55190 "EHLO
+        id S231645AbiJMSl4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 13 Oct 2022 14:41:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229594AbiJMRQ2 (ORCPT
+        with ESMTP id S231437AbiJMSla (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 13 Oct 2022 13:16:28 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9259ECC834;
-        Thu, 13 Oct 2022 10:16:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Thu, 13 Oct 2022 14:41:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A4A517D850
+        for <linux-kbuild@vger.kernel.org>; Thu, 13 Oct 2022 11:39:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1665686287;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=NG69KUQLGA9z81hwdboaz/+6KNpRRfBl8D7k454xSQo=;
+        b=b0M9oxZ3mbXBu3m/KIkHpzkoto3t7WwFpsjnnrZfTMYbufkcPMa5/avyMIIweMxTckDTtq
+        VoUbGyni8N85eekjVt6GJD0IRxygUNZX2pdSqFg/wOhgWy/dvm2PvfkV4QWhNo1uH5e5MW
+        LhnhISCS3p8GvWnrd8wa3JlEkrlJPLk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-512-42TCTuw4NJCjZjL9e3PG6g-1; Thu, 13 Oct 2022 14:38:06 -0400
+X-MC-Unique: 42TCTuw4NJCjZjL9e3PG6g-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 4909CB81FCD;
-        Thu, 13 Oct 2022 17:16:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E974FC433C1;
-        Thu, 13 Oct 2022 17:16:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665681385;
-        bh=7AH+ah8oQBin4B8tNbYAsKta8NwJf7sQZ7geLz5uCWc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ni32Vx7+SQTcRLJZaf4WsPbdizUjs68S32ijOJ03NHSCn7wgAFEZJOyfbCtBQ9J9K
-         JJF8+i9fiS49x5ggaaMQe/HUypR6dZFakjnFdg+HpwbcLIq4Y4WIXXj61AV6jQkupg
-         tAkSZp4LJPm7z/vNV1Sk0RxWr5/hrPSpDMNAOL+Rz4bv32myX27qskqAQEh4wyxaQm
-         9uvqrG+GFBhZnmK7ujP5L9qXNeRXBaaxrUdLXatBWwJgkCKOqpH1j8JQI57py2NQb1
-         qXsmBcHYCc+D+rXX2rf9PL+UK60J4eCjqhOzYbAYUsHzr6dmv0DpOchK/hj51iwUrd
-         Fwdx0DqvgU41Q==
-Date:   Thu, 13 Oct 2022 18:16:20 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     linux-toolchains@vger.kernel.org,
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E01061C00147;
+        Thu, 13 Oct 2022 18:38:05 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.2.16.73])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id A438B477F60;
+        Thu, 13 Oct 2022 18:38:04 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        linux-toolchains@vger.kernel.org,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>
 Subject: Re: gcc 5 & 6 & others already out of date?
-Message-ID: <Y0hH5NelZ03yfQuU@sirena.org.uk>
 References: <CAHmME9prBJHmo9Bw6aobuGLjtxLsjxKJ9wopOv5+BY6ZtuKaNg@mail.gmail.com>
- <Y0gLyLbdOCetX5LN@sirena.org.uk>
- <Y0gteD0QYVlYxSZh@zx2c4.com>
- <Y0g8HEYHZYHGdwlf@sirena.org.uk>
- <Y0g+wTTJmlaFVLzr@zx2c4.com>
+        <Y0gLyLbdOCetX5LN@sirena.org.uk> <Y0gteD0QYVlYxSZh@zx2c4.com>
+        <Y0g8HEYHZYHGdwlf@sirena.org.uk> <Y0g+wTTJmlaFVLzr@zx2c4.com>
+        <Y0hH5NelZ03yfQuU@sirena.org.uk>
+Date:   Thu, 13 Oct 2022 20:38:02 +0200
+In-Reply-To: <Y0hH5NelZ03yfQuU@sirena.org.uk> (Mark Brown's message of "Thu,
+        13 Oct 2022 18:16:20 +0100")
+Message-ID: <87o7ufwovp.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="pqLuB+nOEHF//jVE"
-Content-Disposition: inline
-In-Reply-To: <Y0g+wTTJmlaFVLzr@zx2c4.com>
-X-Cookie: The Killer Ducks are coming!!!
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+* Mark Brown:
 
---pqLuB+nOEHF//jVE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Thu, Oct 13, 2022 at 10:37:21AM -0600, Jason A. Donenfeld wrote:
+>
+>> Regarding "one extreme to the other", I suspect that in spite of my
+>> arguments, which would seem to justify an extreme, the actual thing I
+>> suggested is a bit more moderate: let's support the latest 2 or 3 gccs
+>> at the time of kernel release. If we choose 3, that's roughly 3 years of
+>> gccs, right? 3 years seems like a fairly long amount of time.
+>
+> I was looking at your suggestion there - as a Debian user that feels a
+> touch enthusiastic (though practically probably not actually a problem)
+> since it's not too far off the release cadence, current Debian is at GCC
+> 10 and we're not due for another release till sometime next year which
+> will be right on the three years.
 
-On Thu, Oct 13, 2022 at 10:37:21AM -0600, Jason A. Donenfeld wrote:
+Debian also has Clang 13, presumably for building Rust and Firefox.
 
-> Regarding "one extreme to the other", I suspect that in spite of my
-> arguments, which would seem to justify an extreme, the actual thing I
-> suggested is a bit more moderate: let's support the latest 2 or 3 gccs
-> at the time of kernel release. If we choose 3, that's roughly 3 years of
-> gccs, right? 3 years seems like a fairly long amount of time.
+> There does also seem to be a contingent of people running enterprise
+> distros managed by an IT department or whatever who may take a while
+> to get round to pushing out new versions so for example might still
+> for example be running Ubuntu 20.04 rather than 22.04 (never mind the
+> people I know are sitting on 18.04 but that's another thing).
 
-I was looking at your suggestion there - as a Debian user that feels a
-touch enthusiastic (though practically probably not actually a problem)
-since it's not too far off the release cadence, current Debian is at GCC
-10 and we're not due for another release till sometime next year which
-will be right on the three years.  There does also seem to be a
-contingent of people running enterprise distros managed by an IT
-department or whatever who may take a while to get round to pushing out
-new versions so for example might still for example be running Ubuntu
-20.04 rather than 22.04 (never mind the people I know are sitting on
-18.04 but that's another thing). =20
+The enterprise distributions have toolchain modules or toolsets that you
+can install, all nicely integrated.  You'd probably consider those
+versions too new. 8-/   I expect it's mostly an education issue, raising
+awareness of what's available from vendors.   (glibc versions are a
+different matter, but I don't think dropping support for historic
+versions on build hosts is on the table, so that should be relevant.)
 
-If we went for three years extreme would probably be an overstatment but
-it's definitely an active push.
+Compiler version requirements probably impact the people most who build
+their own toolchains for whatever reason.  There must be unusual targets
+where the upstream toolchain currently cannot build a booting kernel,
+for instance.  If you require newer toolchain features in generic code,
+it could bring some temporary suffering to those people: they need to
+fix their toolchain before they can contribute again to the mainline
+kernel.
 
---pqLuB+nOEHF//jVE
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks,
+Florian
 
------BEGIN PGP SIGNATURE-----
-
-iQEyBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmNIR+AACgkQJNaLcl1U
-h9C67Af3ex+OLALFHxPiKkDvZ5VhBRDSpLHhVdbNIML/j/Q87TNYkucnxamW78gE
-YkhmUYkN7rlXWHOtilPK+C5h3T3FsAR+toDsE9aNzAutDIBD7eIIUQ0QqqOjwzUt
-vJhJ0YQtiZy+UonWfHoD1KIYB4G4C6w7hH571Cb/EvRauXjwtWPUlv0k2RMXnekT
-MOrg0f62nYzBHP8pPwplCWOKGOaD0EzIPdAAGJGeILRMxnQnL0PqOgQ51RIz0Ynq
-eDN5HjnDm0CqsrSvLNvlu/qVtyZiNr+rKX0vxJsbDzIGI5LOZB30diGpziRYiWlB
-FcL31j1g3zwCUuIszROz1nSzvTKN
-=OKll
------END PGP SIGNATURE-----
-
---pqLuB+nOEHF//jVE--
