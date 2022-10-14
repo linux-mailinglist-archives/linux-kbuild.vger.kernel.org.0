@@ -2,55 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0AFB5FEE18
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Oct 2022 14:46:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2DA75FEEA6
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Oct 2022 15:31:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229572AbiJNMqq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Oct 2022 08:46:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50088 "EHLO
+        id S229542AbiJNNb0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 14 Oct 2022 09:31:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229539AbiJNMqq (ORCPT
+        with ESMTP id S229600AbiJNNbZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Oct 2022 08:46:46 -0400
-Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4B07171CF7;
-        Fri, 14 Oct 2022 05:46:44 -0700 (PDT)
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 29ECkQ7r016211;
-        Fri, 14 Oct 2022 21:46:26 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 29ECkQ7r016211
+        Fri, 14 Oct 2022 09:31:25 -0400
+Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A7AC1C7104;
+        Fri, 14 Oct 2022 06:31:23 -0700 (PDT)
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 29EDVAbm009635;
+        Fri, 14 Oct 2022 22:31:10 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 29EDVAbm009635
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1665751587;
-        bh=zN/AXWNeagYYAtE2G3TViIkElDs6lMpDbqwareSf9lI=;
+        s=dec2015msa; t=1665754271;
+        bh=eoO4dT7/oE91n2LdemDyH/9TSUzar9QMEDiS2eiitmQ=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=lWIQTsg0qRv696NJuWKA/1cYTbs9JnJsKk8BDzXey8b4xqscjmSVtJ5d6veugSPT6
-         PdcMZUxFrYGV8PtgnL/vnXR2xLM+opA1yN5yB01cBdxtXclmlX69yIH2qgRSVddzfA
-         aKJ1iw5d2qLsAniny9/sykjY/5C7U5lIarJoJ4IpODBvEO3WYUka8xvnDQB3+qSkCk
-         BRs5PC4uUF74bellDGIQQcN3AaP6soLXm60bK8D64adkNgehD7LqOfrX+RxtKo92mo
-         5pboD8f1aZ5JZ7/dp2ITqaoBUfzJnPdpROypmUsWpa3c/JEgKBvZIG3yDu7h2yf4+0
-         raFGMXbVlRAPA==
-X-Nifty-SrcIP: [209.85.167.169]
-Received: by mail-oi1-f169.google.com with SMTP id p127so4242182oih.9;
-        Fri, 14 Oct 2022 05:46:26 -0700 (PDT)
-X-Gm-Message-State: ACrzQf3THTFvDB5GgCdltDQ8TnzaKvODtzrlfihH9xdANf8lOV1XybrR
-        51H43o67es0+BL8WM0mTSvWVz1H/ARyJGi0ML90=
-X-Google-Smtp-Source: AMsMyM5P09MKYDRIgIUb0NTw/+Rg+bQDof5ANyR2X3+uJoOAFAp9fYzuOV//XoFxGuTWnRzIgh877YFqFsRfryhUHmY=
-X-Received: by 2002:a05:6808:1b85:b0:34d:8ce1:d5b0 with SMTP id
- cj5-20020a0568081b8500b0034d8ce1d5b0mr7119723oib.194.1665751585616; Fri, 14
- Oct 2022 05:46:25 -0700 (PDT)
+        b=ATiYKVcA4e0RZgOhzHxW9xgv1sxtWf++e8DH9R3JQ9uLDt6a3cqaZoN5roh7LV38L
+         qgMxVuPIN+uLvryPk8kqgft94DHItd8JK/4cBfo4f38am5XZag4ZX3aPC6P9fLU6Wf
+         RyiUHQSE5WpfCHdmrW5Vzl8MEPpqEGxoA1emP1xX6RlColJpIZ6bpBwORCZNlZXem7
+         1x806h4Zn5I7RJXxuhG05CmDvDULTSe/8zuZPIu+zLTkKnIZgE05dLLMizSVNwmLdD
+         PktZd95AeD2TFiywRCpw/tSSlcTZJSyw0Yw8h9J894NiwgLCyCziyZPfMKrWzDgVtD
+         pBlntivHho8kw==
+X-Nifty-SrcIP: [209.85.160.45]
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-132b8f6f1b2so5814250fac.11;
+        Fri, 14 Oct 2022 06:31:10 -0700 (PDT)
+X-Gm-Message-State: ACrzQf0L7PBMCJYSAUkd5e+7h7LiaFRQ6RARmSnvQB4wYJcNA2cRPXVT
+        QeqbfMuMwDP/oZGs8gPk7Vvmgc/nC8eqSXQvPmc=
+X-Google-Smtp-Source: AMsMyM48rOk4RS1W8P1kWSTh8sIj+I5oTEn0bZai5fiS3d4C6lV+k5+G6w/5CYS/6+156Yhy0F/Kb6wcoz3pZhGxiuw=
+X-Received: by 2002:a05:6870:8a09:b0:132:554d:2f3d with SMTP id
+ p9-20020a0568708a0900b00132554d2f3dmr8390681oaq.194.1665754269746; Fri, 14
+ Oct 2022 06:31:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAK7LNASzGEiQfPTaLmhG4k7VAwB5yznd-VqWdJHEF2YjgSQTcA@mail.gmail.com>
- <20221014094930.GB13389@twin.jikos.cz> <20221014100617.GC13389@suse.cz>
-In-Reply-To: <20221014100617.GC13389@suse.cz>
+References: <20221007203236.1750890-1-ndesaulniers@google.com>
+ <Y0htZDJoTuQegVQR@dev-arch.thelio-3990X> <20221013204151.skzateatn2keencb@google.com>
+ <CAKwvOdmoXLvfgEWx740mw+Uqy3nfPM=a7ywVeOJ5XivGT=yRog@mail.gmail.com>
+In-Reply-To: <CAKwvOdmoXLvfgEWx740mw+Uqy3nfPM=a7ywVeOJ5XivGT=yRog@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 14 Oct 2022 21:45:49 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASC05gBaQFqmYgXFQQfQBTfBDdZruedq9oY=9D5sSHnKg@mail.gmail.com>
-Message-ID: <CAK7LNASC05gBaQFqmYgXFQQfQBTfBDdZruedq9oY=9D5sSHnKg@mail.gmail.com>
-Subject: Re: [GIT PULL] Kbuild updates for v6.1-rc1
-To:     dsterba@suse.cz
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Date:   Fri, 14 Oct 2022 22:30:33 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT7yY3VL=so0+h=fsefT2QXsKHn4KjCFJ5VtGGkvSRjLg@mail.gmail.com>
+Message-ID: <CAK7LNAT7yY3VL=so0+h=fsefT2QXsKHn4KjCFJ5VtGGkvSRjLg@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: add -fno-discard-value-names to cmd_cc_ll_c
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Fangrui Song <maskray@google.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Tom Rix <trix@redhat.com>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
@@ -61,68 +64,114 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Oct 14, 2022 at 7:06 PM David Sterba <dsterba@suse.cz> wrote:
+On Fri, Oct 14, 2022 at 5:54 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
 >
-> On Fri, Oct 14, 2022 at 11:49:30AM +0200, David Sterba wrote:
-> > On Thu, Oct 06, 2022 at 11:29:44PM +0900, Masahiro Yamada wrote:
-> > > Masahiro Yamada (35):
-> > >       kbuild: remove the target in signal traps when interrupted
-> > >       kbuild: add phony targets to ./Kbuild
-> > >       kbuild: hard-code KBUILD_ALLDIRS in scripts/Makefile.package
-> > >       kbuild: check sha1sum just once for each atomic header
-> > >       kbuild: do not deduplicate modules.order
-> > >       nios2: move core-y in arch/nios2/Makefile to arch/nios2/Kbuild
-> > >       kbuild: remove duplicated dependency between modules and modules_check
+> On Thu, Oct 13, 2022 at 1:41 PM Fangrui Song <maskray@google.com> wrote:
 > >
-> > This patch merged as f75a03340c2c2eea772e4d59412135021afea493 breaks
-> > build of modules when it's specified by path like 'make fs/btrfs/'. The
-> > 'make M=fs/btrfs' works but I don't see any reason why the former should
-> > stop working. Also the patch does not mention anything like that so it's
-> > most likely a bug.
+> > On 2022-10-13, Nathan Chancellor wrote:
+> > >On Fri, Oct 07, 2022 at 01:32:36PM -0700, Nick Desaulniers wrote:
+> > >> When debugging LLVM IR, it can be handy for clang to not discard value
+> > >> names used for local variables and parameters. Compare the generated IR.
+> > >>
+> > >> Implicit Default (-fdiscard-value-names):
+> > >>   define i32 @core_sys_select(i32 %0, ptr %1, ptr %2, ptr %3, ptr %4) {
+> > >>     %6 = alloca i64
+> > >>     %7 = alloca %struct.poll_wqueues
+> > >>     %8 = alloca [64 x i32]
+> > >>
+> > >> Explicit -fno-discard-value-names:
+> > >>   define i32 @core_sys_select(i32 %n, ptr %inp, ptr %outp, ptr %exp,
+> > >>                               ptr %end_time) {
+> > >>     %expire.i = alloca i64
+> > >>     %table.i = alloca %struct.poll_wqueues
+> > >>     %stack_fds = alloca [64 x i32]
+> > >>
+> > >> The rule for generating human readable LLVM IR (.ll) is only useful as a
+> > >> debugging feature:
+> > >>
+> > >> $ make LLVM=1 fs/select.ll
+> > >>
+> > >> Clang defaults to -fdiscard-value-names to save memory when generating
+> > >> LLVM IR. For debugging purposes, the improvement in readability at a
+> > >> cost of more verbose IR is a cost we're happy to pay.
+> >
+> > A LLVM_ENABLE_ASSEERTIONS=off build of Clang defaults to -fdiscard-value-names.
+> >
+> > A LLVM_ENABLE_ASSEERTIONS=on build of Clang defaults to -fno-discard-value-names.
+> >
+> > See clang/lib/Driver/ToolChains/Clang.cpp:5030
 >
-> Sorry, it must be a different commit, the build works on that one.
-> Here's the full bisect log:
+> Thanks!
 >
-> # bad: [9c9155a3509a2ebdb06d77c7a621e9685c802eac] Merge tag 'drm-next-2022-10-14' of git://anongit.freedesktop.org/drm/drm
-> # good: [4fe89d07dcc2804c8b562f6c7896a45643d34b2f] Linux 6.0
-> git bisect start 'master' 'v6.0'
-> # good: [7171a8da00035e7913c3013ca5fb5beb5b8b22f0] Merge tag 'arm-dt-6.1' of git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc
-> git bisect good 7171a8da00035e7913c3013ca5fb5beb5b8b22f0
-> # good: [bdc753c7fcb4eb009ae246a188ea7ac6dac98ce1] Merge tag 'clk-for-linus' of git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux
-> git bisect good bdc753c7fcb4eb009ae246a188ea7ac6dac98ce1
-> # bad: [27bc50fc90647bbf7b734c3fc306a5e61350da53] Merge tag 'mm-stable-2022-10-08' of git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
-> git bisect bad 27bc50fc90647bbf7b734c3fc306a5e61350da53
-> # bad: [d4013bc4d49f6da8178a340348369bb9920225c9] Merge tag 'bitmap-6.1-rc1' of https://github.com/norov/linux
-> git bisect bad d4013bc4d49f6da8178a340348369bb9920225c9
-> # good: [e572410e47a4e9647d5d7a49ca699a1497378707] Merge tag 'signal-for-v5.20' of git://git.kernel.org/pub/scm/linux/kernel/git/ebiederm/user-namespace
-> git bisect good e572410e47a4e9647d5d7a49ca699a1497378707
-> # good: [52abb27abfff8c5ddf44eef4d759f3d1e9f166c5] Merge tag 'slab-for-6.1-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab
-> git bisect good 52abb27abfff8c5ddf44eef4d759f3d1e9f166c5
-> # bad: [8afc66e8d43be8edcf442165b70d50dd33091e68] Merge tag 'kbuild-v6.1' of git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild
-> git bisect bad 8afc66e8d43be8edcf442165b70d50dd33091e68
-> # good: [b520410654103086ccc0d339c0ff645d4c4dd697] Merge tag 'printk-for-6.1' of git://git.kernel.org/pub/scm/linux/kernel/git/printk/linux
-> git bisect good b520410654103086ccc0d339c0ff645d4c4dd697
-> # bad: [26ef40de5cbb24728a34a319e8d42cdec99f186c] kbuild: move .vmlinux.objs rule to Makefile.modpost
-> git bisect bad 26ef40de5cbb24728a34a319e8d42cdec99f186c
-> # bad: [a55f283e8b473a3124705934a17d0ad61e34e6c1] kbuild: generate include/generated/compile.h in top Makefile
-> git bisect bad a55f283e8b473a3124705934a17d0ad61e34e6c1
-> # good: [e30d448754284d6c7580b8f330e257e9801bec76] nios2: move core-y in arch/nios2/Makefile to arch/nios2/Kbuild
-> git bisect good e30d448754284d6c7580b8f330e257e9801bec76
-> # bad: [7f37181393a9aaa695187701bb38f356df1f1cf8] kbuild: move 'PHONY += modules_prepare' to the common part
-> git bisect bad 7f37181393a9aaa695187701bb38f356df1f1cf8
-> # bad: [f110e5a250e3c5db417e094b3dd86f1c135291ca] kbuild: refactor single builds of *.ko
-> git bisect bad f110e5a250e3c5db417e094b3dd86f1c135291ca
+> I thought I recalled this; I was literally just rereading through
+> https://github.com/ClangBuiltLinux/linux/issues/1467#issuecomment-1046071624
+> again to understand.
 >
-> f110e5a250e3c5d "kbuild: refactor single builds of *.ko"
+> That would be useful to include in the commit message, and is more
+> precise than "Clang defaults to -fdiscard-value-names to save memory
+> when generating LLVM IR."  Masahiro, would you mind including or
+> replacing that, or shall I send a v2?
+
+
+
+
+Can you send v2, or provide the entire new commit description?
+Thank you.
+
+
+
+
+
+
+
+
 >
-> that looks plausible but reverting the commit does not make it work.
-
-
-Right. Thanks for the report.
-
-I will send a fix.
-
-
+> I was surprised to find later in the day that I was running an
+> assertions-disabled (ie. release) build of clang, which I almost never
+> do!  Non-llvm-developers are more likely to be using release builds
+> than assertions-enabled builds of llvm, so this patch still very much
+> has merit.
+>
+> >
+> > >> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> > >
+> > >Thanks for the patch!
+> > >
+> > >Link: https://github.com/ClangBuiltLinux/linux/issues/1467
+> > >Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> >
+> > Reviewed-by: Fangrui Song <maskray@google.com>
+> >
+> > >> ---
+> > >>  scripts/Makefile.build | 2 +-
+> > >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >>
+> > >> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> > >> index 27be77c0d6d8..d0e4f476dfee 100644
+> > >> --- a/scripts/Makefile.build
+> > >> +++ b/scripts/Makefile.build
+> > >> @@ -140,7 +140,7 @@ $(obj)/%.symtypes : $(src)/%.c FORCE
+> > >>  # LLVM assembly
+> > >>  # Generate .ll files from .c
+> > >>  quiet_cmd_cc_ll_c = CC $(quiet_modtag)  $@
+> > >> -      cmd_cc_ll_c = $(CC) $(c_flags) -emit-llvm -S -o $@ $<
+> > >> +      cmd_cc_ll_c = $(CC) $(c_flags) -emit-llvm -S -fno-discard-value-names -o $@ $<
+> > >>
+> > >>  $(obj)/%.ll: $(src)/%.c FORCE
+> > >>      $(call if_changed_dep,cc_ll_c)
+> > >>
+> > >> base-commit: 93ed07a23fd08b8613f64cf0a15d7fbdaca010fd
+> > >> --
+> > >> 2.38.0.rc2.412.g84df46c1b4-goog
+> > >>
+> > >
+>
+>
+>
+> --
+> Thanks,
+> ~Nick Desaulniers
 
 
 
