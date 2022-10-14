@@ -2,124 +2,93 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 10BFE5FE8F8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Oct 2022 08:38:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 27CF05FE944
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Oct 2022 09:14:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229459AbiJNGiB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Oct 2022 02:38:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56580 "EHLO
+        id S229622AbiJNHOp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 14 Oct 2022 03:14:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229629AbiJNGiA (ORCPT
+        with ESMTP id S229555AbiJNHOm (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Oct 2022 02:38:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C512617FD4F
-        for <linux-kbuild@vger.kernel.org>; Thu, 13 Oct 2022 23:37:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1665729479;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=RoJELZz+x5LeDD7tOYxw1KCc4ujCDiWMWLzIpNsWuQc=;
-        b=WAjK0q8NySWMgDpZCBH8uKiHRQP3lPfv+NfkBxN+/eQ5XcoFwDzw+krXx0ZzLW1KGYKbsW
-        Y77EWIGfXmYVac7S9cHwj9ohjvfJ6lVGK/L+1252ydxFBJuxs90kKwxNXmG5gg1WpF39+V
-        s9vryvBvBgNWavsn02vL9gIkj98pG+M=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-635-5vDBHopnMZe7Y0H0KO491A-1; Fri, 14 Oct 2022 02:37:55 -0400
-X-MC-Unique: 5vDBHopnMZe7Y0H0KO491A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        Fri, 14 Oct 2022 03:14:42 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D45A2C5;
+        Fri, 14 Oct 2022 00:14:36 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4FE8F803D4A;
-        Fri, 14 Oct 2022 06:37:55 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.2.16.7])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id BDF2784427;
-        Fri, 14 Oct 2022 06:37:53 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Mark Brown <broonie@kernel.org>,
-        linux-toolchains@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: gcc 5 & 6 & others already out of date?
-References: <CAHmME9prBJHmo9Bw6aobuGLjtxLsjxKJ9wopOv5+BY6ZtuKaNg@mail.gmail.com>
-        <Y0gLyLbdOCetX5LN@sirena.org.uk> <Y0gteD0QYVlYxSZh@zx2c4.com>
-        <87mt9zwotq.fsf@oldenburg.str.redhat.com>
-        <CAKwvOdnP=FTzhm1S-_ZyQaF+LGYkF1DWUekRzvEmxAr=u=FTCQ@mail.gmail.com>
-Date:   Fri, 14 Oct 2022 08:37:52 +0200
-In-Reply-To: <CAKwvOdnP=FTzhm1S-_ZyQaF+LGYkF1DWUekRzvEmxAr=u=FTCQ@mail.gmail.com>
-        (Nick Desaulniers's message of "Thu, 13 Oct 2022 14:03:30 -0700")
-Message-ID: <87k052q5a7.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0217561A21;
+        Fri, 14 Oct 2022 07:14:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3B46C433D6;
+        Fri, 14 Oct 2022 07:14:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1665731675;
+        bh=XIkzcs9sFTLKy2SGQR+FJTYqZbqKMl+CzpRoO0bQ9Zw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=U+A8gMjdJuFM5PwXc4qk1fUqpOqtIugtD1kt1TTLaBrcI+J5wF3m/QGdf9LQEYVCX
+         bjcedEscToBui6t/AaPjWgnD6lkzLU4SXPHe2veQIkBqcPk/2SKobB8AG5B2SK+pvm
+         tnZUGb8LuoyWfSZ9twee2iifM5xZF0ov9EoFZa0Y=
+Date:   Fri, 14 Oct 2022 09:15:20 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Nipun Gupta <nipun.gupta@amd.com>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        rafael@kernel.org, eric.auger@redhat.com,
+        alex.williamson@redhat.com, cohuck@redhat.com,
+        puneet.gupta@amd.com, song.bao.hua@hisilicon.com,
+        mchehab+huawei@kernel.org, maz@kernel.org, f.fainelli@gmail.com,
+        jeffrey.l.hugo@gmail.com, saravanak@google.com,
+        Michael.Srba@seznam.cz, mani@kernel.org, yishaih@nvidia.com,
+        jgg@ziepe.ca, jgg@nvidia.com, robin.murphy@arm.com,
+        will@kernel.org, joro@8bytes.org, masahiroy@kernel.org,
+        ndesaulniers@google.com, linux-arm-kernel@lists.infradead.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, kvm@vger.kernel.org, okaya@kernel.org,
+        harpreet.anand@amd.com, nikhil.agarwal@amd.com,
+        michal.simek@amd.com, aleksandar.radovanovic@amd.com, git@amd.com
+Subject: Re: [RFC PATCH v4 2/8] bus/cdx: add the cdx bus driver
+Message-ID: <Y0kMiMVQ7gj7scoY@kroah.com>
+References: <20220803122655.100254-1-nipun.gupta@amd.com>
+ <20221014044049.2557085-1-nipun.gupta@amd.com>
+ <20221014044049.2557085-3-nipun.gupta@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221014044049.2557085-3-nipun.gupta@amd.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-* Nick Desaulniers:
+On Fri, Oct 14, 2022 at 10:10:43AM +0530, Nipun Gupta wrote:
+> CDX bus supports the scanning and probing of FPGA based
+> devices. These devices are registered as CDX devices.
+> 
+> The bus driver sets up the basic infrastructure and triggers
+> the cdx controller to scan the cdx devices once registered.
+> 
+> CDX bus uses ops registered by the CDX controller to scan,
+> reset and write MSI message on the CDX devices.
+> 
+> Signed-off-by: Nipun Gupta <nipun.gupta@amd.com>
 
-> On Thu, Oct 13, 2022 at 11:44 AM Florian Weimer <fweimer@redhat.com> wrote:
->>
->> * Jason A. Donenfeld:
->>
->> > It's also easy, nearly trivial, to download toolchains. Arnd provides a
->> > bunch with his crosstool. "Must use a toolchain from your distro" is a
->> > requirement that affects nobody.
->>
->> But not everything will be built with the cross-compiler.  For the
->> kernel build tools and other userspace components, you'll need a native
->> toolchain that can build programs that can actually run on the build
->> host.
->
-> ... when using GCC. We don't have this pain when using clang.
->
-> https://docs.kernel.org/kbuild/llvm.html#llvm-utilities
->
-> i.e.
-> $ make ARCH=arm LLVM=1
->
-> will build with one instance of a clang binary (and ld.lld and
-> llvm-objcopy etc.) for Target AND Host.  No need for multiple
-> toolchain binaries.
+Why is this all still "RFC"?  RFC means to me, "I don't know what to do
+here, so here's a half-baked proposal".  When you are on v4 of a RFC,
+that is a huge sign that this all isn't working at all.  Also, where is
+the questions that you still have that you need help with here?
 
-I'm sure it's nice if it works.  But someone has to do the distribution
-integration work.  If that has already happened upstream, that's great.
-(There are many little details which may or may not matter for kernel
-builds, e.g., static libraries have to be PIC or PIE because Clang now
-defaults to PIE links.)
+Also, I don't review RFC changes normally as that means the submitter
+doesn't think they are good enough to be submitted, so why would I
+review them when I have hundreds of other changes that submitters do
+think are good enough?
 
-But it's also sort of irrelevant in the context of this thread.
-<https://llvm.org/docs/GettingStarted.html#software> says GCC 7 is
-required, and this:
+Can you just submit these "for real" if they work properly for you and
+you have tested them and you would be happy if they are accepted.
 
-| LLVM is very demanding of the host C++ compiler, and as such tends to
-| expose bugs in the compiler. We also attempt to follow improvements
-| and developments in the C++ language and library reasonably
-| closely. As such, we require a modern host C++ toolchain, both
-| compiler and standard library, in order to build LLVM.
+thanks,
 
-So a LLVM build from upstream sources won't be an easy escape hatch if
-the kernel bumps toolchain version requirements.
-
-Historically, GCC has been much more conservative when it comes to host
-toolchain requirements.  But there are other traps (fixincludes can have
-nasty side effects, for example).
-
-I'm not saying the kernel shouldn't change version requirements.  But I
-do think it's unreasonable to expect that people will be able to build
-their own newer toolchains from upstream sources as a workaround.
-
-Thanks,
-Florian
-
+greg k-h
