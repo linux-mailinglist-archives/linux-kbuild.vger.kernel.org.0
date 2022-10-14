@@ -2,115 +2,143 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EA025FF1FC
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Oct 2022 18:03:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40FFC5FF284
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Oct 2022 18:48:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230375AbiJNQDh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Oct 2022 12:03:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41534 "EHLO
+        id S230140AbiJNQsT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 14 Oct 2022 12:48:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230510AbiJNQDg (ORCPT
+        with ESMTP id S229818AbiJNQsL (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Oct 2022 12:03:36 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 406D7176504;
-        Fri, 14 Oct 2022 09:03:35 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 924ABCE25C4;
-        Fri, 14 Oct 2022 16:03:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF473C43470;
-        Fri, 14 Oct 2022 16:03:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665763412;
-        bh=M+V3mFqdz/kN2qQoBVf9O0cU5rIZOBRgjv6UT7ny7Os=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kqRH0TDHeQVWqsAcSkvowNocjUu7QK0vXJw7o2v4HG4Y270cXiHHSaQK2RDUn0cAz
-         YS/wYCaQu9kA+RFU5HqxUZ8Wb4ghugFgNGK6KdnVQPblbOWbVCzujqfLiYqnAecdoQ
-         CpQgBBj436cqwGPCE8tt7EiGViMdmMr0MYiYXqhj9ysTAsT1Ds9Ub8zFUkxk9FCf+z
-         4A81Ns4TD3v/Tch0wn7FWoqlYB7cWQZ4moCnzdfkzSpGyhjULHjZ+Zcxr4Fo5sPLob
-         WcRFoyrU1WOji4pa0Hgn5pRjoeXaA5Kuu2TOmyb/ch0LP4f/Ta07WkTlJ+VSqUUw08
-         LwrJKfDoUXpNA==
-Date:   Fri, 14 Oct 2022 09:03:29 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
+        Fri, 14 Oct 2022 12:48:11 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21B7E162513
+        for <linux-kbuild@vger.kernel.org>; Fri, 14 Oct 2022 09:48:03 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id o4-20020a258d84000000b006bcfc1aafbdso4744605ybl.14
+        for <linux-kbuild@vger.kernel.org>; Fri, 14 Oct 2022 09:48:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hZK2Ju4zSJK/cFpoidH2hzfPFGWx+ElmNubQLi9yMXQ=;
+        b=ODM98BgJ/cKX1b/UZJZWr5JmMNrGuznQCVCMo06L5Ss1vTUP23ycGuGpUMPjwuSDKp
+         j36q2FVyfTmyxl+/RJbca7QQ40v9VCiLGiqDQWeo0Bd4LUDepGc88Zcert4lHdJPfpDR
+         COKUqItbECqRdReNDe0V2UqnP+u+g9lUME5ch1ulxh1KicqbP01tRq5wJrc/231XyPa7
+         R9+jLT5Nnk1UHImgA8Fe1p5k6y0qOQc8REE136O/uD1KeJIdGHsylPzXJjfnSEBpavnV
+         odxcZndY4511ArXjpnT+W+mbaAjUwnQbV0dYgkPK6uLnG+L2O4SdXweCgGu41fPagJsI
+         B76Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hZK2Ju4zSJK/cFpoidH2hzfPFGWx+ElmNubQLi9yMXQ=;
+        b=R6ys4V6r3fbNlpFOC2+CDOHc/2eUSqurKFtEDJMk+mmdcu9D5wiox8yo+Uu6HukqAo
+         +4rgm0xqqBka79B/daLg5Ct30HSWa9qYkRmMGRT/7GLYujSfLRcR9TrgY436h4dpJtWt
+         ClJ7oAngjq1Ccw0WN+y4IPqMVQmcxHh+RBVBqQcKH4g/VqQ8QafoXIjGm1rne7Ci0AWX
+         2nfH94GFpbXlXVRhZMy9JqnuRCHisPo0ZzDeXuaHZzuHHrMxTYJRzpY6k/ryXC+S4xQR
+         YENn5DLuKou73+WXKgZ6m/2KLKzalDAarBBA5IRLNWtXSb/JQS9IkerCJWCzhLHZi5PI
+         gjzQ==
+X-Gm-Message-State: ACrzQf1s0gWB4iRGbHdjoN5B+wdvHpPO2XJ6K1ZLxwEcd86K/4HJXgaA
+        07nNASWBvWxe6X+jm+dxjqYKum8cIKI66EN3als=
+X-Google-Smtp-Source: AMsMyM5v9kUJtiJrQNAYWu6hHLvOpX+vIujvu+NwJcpv1H+JJe66wf45HAi7nkt9Ldh+JszCV15k0iGrMXtD83KH7fk=
+X-Received: from ndesaulniers-desktop.svl.corp.google.com ([2620:0:100e:712:ff3e:881c:4c2c:b8c9])
+ (user=ndesaulniers job=sendgmr) by 2002:a81:468b:0:b0:364:8aa:8196 with SMTP
+ id t133-20020a81468b000000b0036408aa8196mr4253949ywa.468.1665766082016; Fri,
+ 14 Oct 2022 09:48:02 -0700 (PDT)
+Date:   Fri, 14 Oct 2022 09:47:56 -0700
+In-Reply-To: <CAK7LNAT7yY3VL=so0+h=fsefT2QXsKHn4KjCFJ5VtGGkvSRjLg@mail.gmail.com>
+Mime-Version: 1.0
+References: <CAK7LNAT7yY3VL=so0+h=fsefT2QXsKHn4KjCFJ5VtGGkvSRjLg@mail.gmail.com>
+X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=UIrHvErwpgNbhCkRZAYSX0CFd/XFEwqX3D0xqtqjNug=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1665766076; l=2224;
+ i=ndesaulniers@google.com; s=20220923; h=from:subject; bh=8DTYldYpKZ2G8xj/84VezeBfD7KI9kJfAVZPcDwBDkg=;
+ b=+Ngjjr5PZ7w9Yvg5XA7ztowz8vknz4VbMPJYWfMddmK/y0ivoHQAWynJyc9xe1DztL5gowdoj2P1
+ BW8svoFJCzo84gyAnzQnjhXR+4Up0E0cV9bvMqJhVip6S+oas4Ro
+X-Mailer: git-send-email 2.38.0.413.g74048e4d9e-goog
+Message-ID: <20221014164756.843991-1-ndesaulniers@google.com>
+Subject: [PATCH v2] kbuild: add -fno-discard-value-names to cmd_cc_ll_c
+From:   Nick Desaulniers <ndesaulniers@google.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org,
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Tom Rix <trix@redhat.com>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
         Nick Desaulniers <ndesaulniers@google.com>,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH v3 1/2] kbuild: move -Werror from KBUILD_CFLAGS to
- KBUILD_CPPFLAGS
-Message-ID: <Y0mIUW7Ozx9tseeG@dev-arch.thelio-3990X>
-References: <20221012180118.331005-1-masahiroy@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221012180118.331005-1-masahiroy@kernel.org>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Fangrui Song <maskray@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Oct 13, 2022 at 03:01:17AM +0900, Masahiro Yamada wrote:
-> CONFIG_WERROR turns warnings into errors, which  happens only for *.c
-> files because -Werror is added to KBUILD_CFLAGS.
-> 
-> Adding it to KBUILD_CPPFLAGS makes more sense because preprocessors
-> understand the -Werror option.
-> 
-> For example, you can put a #warning directive in any preprocessed code.
-> 
->     warning: #warning "this is a warning message" [-Wcpp]
-> 
-> If -Werror is added, it is promoted to an error.
-> 
->     error: #warning "this is a warning message" [-Werror=cpp]
-> 
-> This commit moves -Werror to KBUILD_CPPFLAGS so it works in the same way
-> for *.c, *.S, *.lds.S or whatever needs preprocessing.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
-> 
-> (no changes since v1)
-> 
->  Makefile | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index 85a63a1d29b3..790760d26ea0 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -859,7 +859,8 @@ stackp-flags-$(CONFIG_STACKPROTECTOR_STRONG)      := -fstack-protector-strong
->  
->  KBUILD_CFLAGS += $(stackp-flags-y)
->  
-> -KBUILD_CFLAGS-$(CONFIG_WERROR) += -Werror
-> +KBUILD_CPPFLAGS-$(CONFIG_WERROR) += -Werror
-> +KBUILD_CPPFLAGS += $(KBUILD_CPPFLAGS-y)
->  KBUILD_CFLAGS-$(CONFIG_CC_NO_ARRAY_BOUNDS) += -Wno-array-bounds
->  
->  KBUILD_RUSTFLAGS-$(CONFIG_WERROR) += -Dwarnings
-> -- 
-> 2.34.1
-> 
-> 
+When debugging LLVM IR, it can be handy for clang to not discard value
+names used for local variables and parameters. Compare the generated IR.
 
-For what it's worth, this is going to break 32-bit ARM builds with clang
-plus the integrated assembler due to
-https://github.com/ClangBuiltLinux/linux/issues/1315:
+-fdiscard-value-names:
+  define i32 @core_sys_select(i32 %0, ptr %1, ptr %2, ptr %3, ptr %4) {
+    %6 = alloca i64
+    %7 = alloca %struct.poll_wqueues
+    %8 = alloca [64 x i32]
 
-clang-16: error: argument unused during compilation: '-march=armv7-a' [-Werror,-Wunused-command-line-argument]
+-fno-discard-value-names:
+  define i32 @core_sys_select(i32 %n, ptr %inp, ptr %outp, ptr %exp,
+                              ptr %end_time) {
+    %expire.i = alloca i64
+    %table.i = alloca %struct.poll_wqueues
+    %stack_fds = alloca [64 x i32]
 
-Ultimately, I want -Wunused-command-line-argument to be an error anyways
-(https://github.com/ClangBuiltLinux/linux/issues/1587) but it would be
-nice to get these cleaned up before this goes in.
+The rule for generating human readable LLVM IR (.ll) is only useful as a
+debugging feature:
 
-Cheers,
-Nathan
+$ make LLVM=1 fs/select.ll
+
+As Fangrui notes:
+  A LLVM_ENABLE_ASSERTIONS=off build of Clang defaults to
+  -fdiscard-value-names.
+
+  A LLVM_ENABLE_ASSERTIONS=on build of Clang defaults to
+  -fno-discard-value-names.
+
+Explicitly enable -fdiscard-value-names so that the IR always contains
+value names regardless of whether assertions were enabled or not.
+Assertions generally are not enabled in releases of clang packaged by
+distributions.
+
+Link: https://github.com/ClangBuiltLinux/linux/issues/1467
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Reviewed-by: Fangrui Song <maskray@google.com>
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+---
+Changes v1 -> v2:
+* Only update commit message:
+  * Pick up Nathan & Fangrui's RB tags.
+  * Add link (I forgot I filed a bug about this a while ago!).
+  * Add note from Fangrui.
+  * Add final paragraph.
+
+
+ scripts/Makefile.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 22adbf89cb31..41f3602fc8de 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -140,7 +140,7 @@ $(obj)/%.symtypes : $(src)/%.c FORCE
+ # LLVM assembly
+ # Generate .ll files from .c
+ quiet_cmd_cc_ll_c = CC $(quiet_modtag)  $@
+-      cmd_cc_ll_c = $(CC) $(c_flags) -emit-llvm -S -o $@ $<
++      cmd_cc_ll_c = $(CC) $(c_flags) -emit-llvm -S -fno-discard-value-names -o $@ $<
+ 
+ $(obj)/%.ll: $(src)/%.c FORCE
+ 	$(call if_changed_dep,cc_ll_c)
+-- 
+2.38.0.413.g74048e4d9e-goog
+
