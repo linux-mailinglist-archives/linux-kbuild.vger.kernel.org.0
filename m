@@ -2,170 +2,86 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB0805FEF7F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Oct 2022 16:00:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A1185FEFDF
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Oct 2022 16:10:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230202AbiJNOAf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Oct 2022 10:00:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36984 "EHLO
+        id S230061AbiJNOKJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 14 Oct 2022 10:10:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230216AbiJNOAI (ORCPT
+        with ESMTP id S229825AbiJNOKI (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Oct 2022 10:00:08 -0400
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3630838A38
-        for <linux-kbuild@vger.kernel.org>; Fri, 14 Oct 2022 06:59:56 -0700 (PDT)
-Received: by mail-qk1-x72a.google.com with SMTP id j21so2461615qkk.9
-        for <linux-kbuild@vger.kernel.org>; Fri, 14 Oct 2022 06:59:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qcbPZWPJBvSlgI0JaT98JkQa2BdMkjvTQHHNjJDLWR8=;
-        b=cWHaCe+7NiLWV3T+fjLF8EZtlhexGbCg+WEq/dCVkwZlV9OSmlvmQvAf8tHOWxlB15
-         R1drmhQ65EsQ2EK/mhECj9QEh2CQLLNUzqJ9oqoPSSrkne89KFSq4YWdvfq9IP7Uota4
-         7XZtiYtVxdCKWb4baqEwWC8JB6Fdyr6kl2BDZy+wPH+ZpnDQcjanaP3WyBwV3Z1PZzGD
-         CZWPDEfUXKdIW6mrakAhQPVrXN8JnsQ5WVKDAxqsL5jcUEWUMlF+wYwCnWrfob8HgcIT
-         Gi3IrihaKlsefDNPRlWX3Hqdb8YfdREQACdRk26hiLm8LTNeDPPdkOwUpLkPKgwwv3Yz
-         5VcA==
+        Fri, 14 Oct 2022 10:10:08 -0400
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2C977F09E;
+        Fri, 14 Oct 2022 07:10:07 -0700 (PDT)
+Received: by mail-oi1-f178.google.com with SMTP id x188so5150777oig.5;
+        Fri, 14 Oct 2022 07:10:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qcbPZWPJBvSlgI0JaT98JkQa2BdMkjvTQHHNjJDLWR8=;
-        b=OIEFoGwgEoE0TnyBdbo4amCJ+wGVdxduoV524hv++gxiPkyoRL8grl+waxRiYY9ghL
-         FcZ6eiJ4Hhpjbi4JTEXd9B+vmJbz5zHVv3ohzh0djOOQsjhA7OS/dEbOIGY5Z9dOHvjn
-         uL1mH+EbbZicrYOGO84WqNxQr2tyYeqmZR4YRKA6ARe/ncvqvCJtrPRKDby6LjcHbBrE
-         D4jTMLovj1meibeB7dSFxGWbgrJk0ZlWOARRmOswLMHAC9/CgePfMrsa8c4COSBjpoKn
-         3QlsVrXC44tJy9iiZBZbUKoNo2w05RSqZvQeAICTIIGJ4HBFUa13jVNs8OHzzBAQk+c2
-         eXbg==
-X-Gm-Message-State: ACrzQf3HaYohJuhNYTgRGupbPBA4yh+zg11oG3qv5bmMIPGXu+6IxlLy
-        nL9n3GI0XMc3WV13ZNhnNX19og==
-X-Google-Smtp-Source: AMsMyM6IwCN+c1z62UhOHVbSClec5ccka72g2QriRCYRsTQFGoKqENCt7u1RwIvsCpE32fxIp3ANJA==
-X-Received: by 2002:a05:620a:4107:b0:6ee:ce95:1d15 with SMTP id j7-20020a05620a410700b006eece951d15mr1769931qko.266.1665755892583;
-        Fri, 14 Oct 2022 06:58:12 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-47-55-122-23.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.122.23])
-        by smtp.gmail.com with ESMTPSA id k15-20020a05620a414f00b006ce40fbb8f6sm2605722qko.21.2022.10.14.06.58.11
+        bh=KCRXtXm+S+Vgn1M1AL9cmatt1G/L/k3UGFpcLB8yDLw=;
+        b=WvYIpFsu/g25Xp8u9dp6m2uH5tfidKFtl44gcAFVLmhu6UXsegtUjoe4woDlCOiLZL
+         CF6VNT6s0W4OuJE7WdKUrezv7D7MNFEP4HnJ/ummPKim/6kIvf7EP2nF/pJ9WYxz8+mo
+         yWZnhtRY1BmJAWPfSB8bHvMbTYi3xrZpmT0h2i5KMWnDJn0EDO03ZvPj6lXH9XwyWDjU
+         5oq62y5Rsv0VmvkAsrrggMvts0Oy85yfY9x1x2Z+0mwYfOlylzOYQgAk+FeYjdTZZC4Z
+         GdCkUEGG+r7wE+7ci8X8SaiTyh8KNKbQXn0C6j77HrIlVW4IrxyIuFLoBQLoAMXvtGAC
+         VGSg==
+X-Gm-Message-State: ACrzQf2cwO61iGjO0Azqm/YsDPCplbq4xupJJwyz9ccyJkKce4qazpbX
+        BFmY5aYRv+8lMpmjQBlSFA==
+X-Google-Smtp-Source: AMsMyM7j/oE8z7AS4zYm6NVvXj+ZM059l7CzZGm9ZwPzyh/uENyWJRMMKioNS3tpi0/g1yBaD5z7QQ==
+X-Received: by 2002:aca:4303:0:b0:354:cbc8:d269 with SMTP id q3-20020aca4303000000b00354cbc8d269mr2470024oia.115.1665756606573;
+        Fri, 14 Oct 2022 07:10:06 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id ep10-20020a056870a98a00b00136f3e4bc29sm1338643oab.9.2022.10.14.07.10.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Oct 2022 06:58:11 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1ojLCU-0033hQ-T0;
-        Fri, 14 Oct 2022 10:58:10 -0300
-Date:   Fri, 14 Oct 2022 10:58:10 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     "Radovanovic, Aleksandar" <aleksandar.radovanovic@amd.com>
-Cc:     "Gupta, Nipun" <Nipun.Gupta@amd.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "rafael@kernel.org" <rafael@kernel.org>,
-        "eric.auger@redhat.com" <eric.auger@redhat.com>,
-        "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
-        "cohuck@redhat.com" <cohuck@redhat.com>,
-        "Gupta, Puneet (DCG-ENG)" <puneet.gupta@amd.com>,
-        "song.bao.hua@hisilicon.com" <song.bao.hua@hisilicon.com>,
-        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
-        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
-        "jeffrey.l.hugo@gmail.com" <jeffrey.l.hugo@gmail.com>,
-        "saravanak@google.com" <saravanak@google.com>,
-        "Michael.Srba@seznam.cz" <Michael.Srba@seznam.cz>,
-        "mani@kernel.org" <mani@kernel.org>,
-        "yishaih@nvidia.com" <yishaih@nvidia.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "ndesaulniers@google.com" <ndesaulniers@google.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "okaya@kernel.org" <okaya@kernel.org>,
-        "Anand, Harpreet" <harpreet.anand@amd.com>,
-        "Agarwal, Nikhil" <nikhil.agarwal@amd.com>,
-        "Simek, Michal" <michal.simek@amd.com>,
-        "git (AMD-Xilinx)" <git@amd.com>
-Subject: Re: [RFC PATCH v3 4/7] bus/cdx: add cdx-MSI domain with gic-its
- domain as parent
-Message-ID: <Y0lq8vB2PT0zKUAQ@ziepe.ca>
-References: <20220906134801.4079497-5-nipun.gupta@amd.com>
- <87h71juxuk.wl-maz@kernel.org>
- <DM6PR12MB30820EE430405FF50C7F856BE8229@DM6PR12MB3082.namprd12.prod.outlook.com>
- <MN2PR12MB43586084670E14691920952889229@MN2PR12MB4358.namprd12.prod.outlook.com>
- <Y0a65a9leWXpKfTo@ziepe.ca>
- <MN2PR12MB4358A871519748CD7A6DB7A089229@MN2PR12MB4358.namprd12.prod.outlook.com>
- <Y0bRZTP9Kc6mdCiu@ziepe.ca>
- <MN2PR12MB4358277977C1B7E0BC214AC789229@MN2PR12MB4358.namprd12.prod.outlook.com>
- <Y0gH8R8tEqn6sqZ5@ziepe.ca>
- <MN2PR12MB4358CF6B6D2576B35E39328A89249@MN2PR12MB4358.namprd12.prod.outlook.com>
+        Fri, 14 Oct 2022 07:10:05 -0700 (PDT)
+Received: (nullmailer pid 1893044 invoked by uid 1000);
+        Fri, 14 Oct 2022 14:10:05 -0000
+Date:   Fri, 14 Oct 2022 09:10:05 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Nipun Gupta <nipun.gupta@amd.com>
+Cc:     krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
+        rafael@kernel.org, eric.auger@redhat.com,
+        alex.williamson@redhat.com, cohuck@redhat.com,
+        puneet.gupta@amd.com, song.bao.hua@hisilicon.com,
+        mchehab+huawei@kernel.org, maz@kernel.org, f.fainelli@gmail.com,
+        jeffrey.l.hugo@gmail.com, saravanak@google.com,
+        Michael.Srba@seznam.cz, mani@kernel.org, yishaih@nvidia.com,
+        jgg@ziepe.ca, jgg@nvidia.com, robin.murphy@arm.com,
+        will@kernel.org, joro@8bytes.org, masahiroy@kernel.org,
+        ndesaulniers@google.com, linux-arm-kernel@lists.infradead.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, kvm@vger.kernel.org, okaya@kernel.org,
+        harpreet.anand@amd.com, nikhil.agarwal@amd.com,
+        michal.simek@amd.com, aleksandar.radovanovic@amd.com, git@amd.com
+Subject: Re: [RFC PATCH v4 0/8] add support for CDX bus
+Message-ID: <20221014141005.GA1862711-robh@kernel.org>
+References: <20220803122655.100254-1-nipun.gupta@amd.com>
+ <20221014044049.2557085-1-nipun.gupta@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <MN2PR12MB4358CF6B6D2576B35E39328A89249@MN2PR12MB4358.namprd12.prod.outlook.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20221014044049.2557085-1-nipun.gupta@amd.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Oct 14, 2022 at 11:18:36AM +0000, Radovanovic, Aleksandar wrote:
+On Fri, Oct 14, 2022 at 10:10:41AM +0530, Nipun Gupta wrote:
+> This patch series introduces AMD CDX bus, which provides a
+> mechanism to discover/rescan FPGA devices on run-time. These
+> devices are memory mapped on system bus for embedded CPUs, and 
+> added as CDX devices in Linux framework.
 
-> And that still does not imply lack of ordering or sharing of MSI
-> target addresses between devices.
+Please don't send a new version of a series as a reply to older 
+versions. Just provide a lore link to older versions.
 
-Either the end point generates the MSI, and maybe the bridge mangles
-it, or it raises a lot of suspicion that this is not right. If the end
-point generates the MSI then it raises the question why do we need to
-tolerate these limits?
-
-> This is a highly programmable IP block, at the core of which is an
-> interconnect interfacing to programmable logic (PL), a number of
-> PCIe controllers (either endpoint or root-port), DMA engines,
-> offload engines, the embedded processor subsystem (PSX), etc. DMA
-> and interrupts can be routed across it in almost any (meaningful)
-> direction. The datapath 'endpoints' request DMA and interrupts, but
-> don't concern themselves with the mechanics of delivering that in
-> the target domain. It is the responsibility of the egress bridges to
-> the target domains to convert the interconnect interrupt
-> transactions to whatever the interrupt delivery mechanism for that
-> domain is. E.g. for PCIe controllers in endpoint mode, that would be
-> through PCIe MSI-X tables internal to the controller (and managed by
-> the PCIe host), for PSX that would be the PSX bridge (partially
-> managed by the PSX OS, mediated through firmware, i.e. through CDX
-> bus driver) and so on. It is the responsibility of the interconnect
-> to maintain transaction ordering (including DMA vs. interrupts). It
-> is the responsibility of the firmware to manage the bridges
-> according to the implemented use-case, so everything works as
-> expected.
-
-Again, this all just seems wrongly designed. MSI should not be part
-of an interconnect bridge. We did that already 20 years ago, it was
-called IOAPICs on x86 and I think everyone is happy to see it gone.
-
-If you want to build IOAPICs again, I guess you can, but that is a
-slightly different SW setup than the MSI you are trying to use here,
-and even that didn't have the same limitations you are proposing.
-
-> So, yes, the hardware that translates interrupt transactions to GIC
-> AXI writes is shared between endpoints, but what I said above still
-> applies. And that doesn't necessarily make it weird/wrong, it's just
-> more complex than you might think.
-
-If it doesn't fit the architecture, then I think it must be considered
-wrong. Mis-using platform architected components like MSI in HW is
-problematic.
-
-You should design the HW properly so you don't have these
-problems. Involving FW in the MSI setup is also a bad idea, POWER did
-this and it made a big mess of their arch code :(
-
-Jason
+Rob
