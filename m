@@ -2,62 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 40FFC5FF284
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Oct 2022 18:48:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CB1B5FF297
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Oct 2022 18:53:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230140AbiJNQsT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Oct 2022 12:48:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37926 "EHLO
+        id S229833AbiJNQxM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 14 Oct 2022 12:53:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229818AbiJNQsL (ORCPT
+        with ESMTP id S230506AbiJNQxK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Oct 2022 12:48:11 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21B7E162513
-        for <linux-kbuild@vger.kernel.org>; Fri, 14 Oct 2022 09:48:03 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id o4-20020a258d84000000b006bcfc1aafbdso4744605ybl.14
-        for <linux-kbuild@vger.kernel.org>; Fri, 14 Oct 2022 09:48:02 -0700 (PDT)
+        Fri, 14 Oct 2022 12:53:10 -0400
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B227B1CFC75
+        for <linux-kbuild@vger.kernel.org>; Fri, 14 Oct 2022 09:53:07 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-349423f04dbso51060117b3.13
+        for <linux-kbuild@vger.kernel.org>; Fri, 14 Oct 2022 09:53:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hZK2Ju4zSJK/cFpoidH2hzfPFGWx+ElmNubQLi9yMXQ=;
-        b=ODM98BgJ/cKX1b/UZJZWr5JmMNrGuznQCVCMo06L5Ss1vTUP23ycGuGpUMPjwuSDKp
-         j36q2FVyfTmyxl+/RJbca7QQ40v9VCiLGiqDQWeo0Bd4LUDepGc88Zcert4lHdJPfpDR
-         COKUqItbECqRdReNDe0V2UqnP+u+g9lUME5ch1ulxh1KicqbP01tRq5wJrc/231XyPa7
-         R9+jLT5Nnk1UHImgA8Fe1p5k6y0qOQc8REE136O/uD1KeJIdGHsylPzXJjfnSEBpavnV
-         odxcZndY4511ArXjpnT+W+mbaAjUwnQbV0dYgkPK6uLnG+L2O4SdXweCgGu41fPagJsI
-         B76Q==
+        bh=Xc0BD757OBRsWzCUX9oyngIwjPQp+BAyfWqnsfk61u8=;
+        b=ioc3m6C5Fm/7qjEnH220M8dI3J7PTpr2dgi5QH5knbwJSaMVZo3DOqoVftmEFc47uu
+         W/XNCfPuCaPU/lK8Ubz8O0FeUc0ZkQyUaEisH2Yj+VAgrBTfdxCDRVLbpuDRxFCap6Qr
+         3qOBQ5T3dcWgZuwvW97ingzURD8DirZTk3f/mtLpAUdN3kYgDM5m7SvkNzkicBLv7LVF
+         Ps+K0ygARA3b8OW44TOQ0TZrvNby3xXW+dp1QmQ9/ckbd4lgL25p6VBIY5KTthYdNqi5
+         yqeKNRiFt8o8zVZaa37WDrhsuD9QD1pslQfcD/7KLv71DzgKqUj0KrdUd5zafiWy3L2U
+         yHzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hZK2Ju4zSJK/cFpoidH2hzfPFGWx+ElmNubQLi9yMXQ=;
-        b=R6ys4V6r3fbNlpFOC2+CDOHc/2eUSqurKFtEDJMk+mmdcu9D5wiox8yo+Uu6HukqAo
-         +4rgm0xqqBka79B/daLg5Ct30HSWa9qYkRmMGRT/7GLYujSfLRcR9TrgY436h4dpJtWt
-         ClJ7oAngjq1Ccw0WN+y4IPqMVQmcxHh+RBVBqQcKH4g/VqQ8QafoXIjGm1rne7Ci0AWX
-         2nfH94GFpbXlXVRhZMy9JqnuRCHisPo0ZzDeXuaHZzuHHrMxTYJRzpY6k/ryXC+S4xQR
-         YENn5DLuKou73+WXKgZ6m/2KLKzalDAarBBA5IRLNWtXSb/JQS9IkerCJWCzhLHZi5PI
-         gjzQ==
-X-Gm-Message-State: ACrzQf1s0gWB4iRGbHdjoN5B+wdvHpPO2XJ6K1ZLxwEcd86K/4HJXgaA
-        07nNASWBvWxe6X+jm+dxjqYKum8cIKI66EN3als=
-X-Google-Smtp-Source: AMsMyM5v9kUJtiJrQNAYWu6hHLvOpX+vIujvu+NwJcpv1H+JJe66wf45HAi7nkt9Ldh+JszCV15k0iGrMXtD83KH7fk=
+        bh=Xc0BD757OBRsWzCUX9oyngIwjPQp+BAyfWqnsfk61u8=;
+        b=a4IKwvb72yK4eeachevQnJkaXbX3l5OfRU5e33t0usgQVvAZdpNM62We26zDeotffr
+         Oe0Qcch6yUiz7mPVep7S63pSTfOjAGGtoD5RFIuGhMW9HhuQnC8+hSuYmmDu2TuTPGEd
+         NQofTNa/s9SMl0CvqNgPns9eVDYO1zJ5KzvsnrwZYit6+PLTzNI1kOEOf3pbH46t/T9S
+         t5KmCTCEt2Ti7BEUzt6gZrfXP8NJtfg64eAwbIYcid8yG+QhCKore/y5i1XgB1U2Iiuz
+         yWdOq7TGaera+5ov63Eb+IycPQF/cfeAZEdwW42gEuV4wVzmw6UgiuZMA1ckC9fGlGlp
+         pobg==
+X-Gm-Message-State: ACrzQf0b3EhnZ2uQHJv/chlhoqZFBwdWAXrlgwyIyQ/ZboVGwrLM3/Sg
+        uN/TyTQdKBH/GgB+i2gitKWHqU8QVatiQ4eluPg=
+X-Google-Smtp-Source: AMsMyM6R/JyO3K9ikaIzjDtG/9LUjuv/rAAlcjNa1CT0oDMtyliH9swRPu7SzFz8mSGv7Rfu1AQoWBRF9MD8foW7/04=
 X-Received: from ndesaulniers-desktop.svl.corp.google.com ([2620:0:100e:712:ff3e:881c:4c2c:b8c9])
- (user=ndesaulniers job=sendgmr) by 2002:a81:468b:0:b0:364:8aa:8196 with SMTP
- id t133-20020a81468b000000b0036408aa8196mr4253949ywa.468.1665766082016; Fri,
- 14 Oct 2022 09:48:02 -0700 (PDT)
-Date:   Fri, 14 Oct 2022 09:47:56 -0700
-In-Reply-To: <CAK7LNAT7yY3VL=so0+h=fsefT2QXsKHn4KjCFJ5VtGGkvSRjLg@mail.gmail.com>
+ (user=ndesaulniers job=sendgmr) by 2002:a25:7c41:0:b0:6b4:fa81:9803 with SMTP
+ id x62-20020a257c41000000b006b4fa819803mr5331099ybc.592.1665766386031; Fri,
+ 14 Oct 2022 09:53:06 -0700 (PDT)
+Date:   Fri, 14 Oct 2022 09:53:02 -0700
+In-Reply-To: <20221014164756.843991-1-ndesaulniers@google.com>
 Mime-Version: 1.0
-References: <CAK7LNAT7yY3VL=so0+h=fsefT2QXsKHn4KjCFJ5VtGGkvSRjLg@mail.gmail.com>
+References: <20221014164756.843991-1-ndesaulniers@google.com>
 X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=UIrHvErwpgNbhCkRZAYSX0CFd/XFEwqX3D0xqtqjNug=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1665766076; l=2224;
- i=ndesaulniers@google.com; s=20220923; h=from:subject; bh=8DTYldYpKZ2G8xj/84VezeBfD7KI9kJfAVZPcDwBDkg=;
- b=+Ngjjr5PZ7w9Yvg5XA7ztowz8vknz4VbMPJYWfMddmK/y0ivoHQAWynJyc9xe1DztL5gowdoj2P1
- BW8svoFJCzo84gyAnzQnjhXR+4Up0E0cV9bvMqJhVip6S+oas4Ro
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1665766382; l=2345;
+ i=ndesaulniers@google.com; s=20220923; h=from:subject; bh=8HfLbf4qs/mk/4RV44RQCCc8Q6kO5IPcR6SJl0HTqUI=;
+ b=ItISVPZeSrDGVs3uBlS4saLOlHhj6pQ08OLur37IOFyLGVWyNIsnXGAvDmo56prRy6IxulxHD1V/
+ AH3DpJIBDLDuLrWr+6cIPVK6SM1+HlS2KyrAeWgFOjin7RDxUMJJ
 X-Mailer: git-send-email 2.38.0.413.g74048e4d9e-goog
-Message-ID: <20221014164756.843991-1-ndesaulniers@google.com>
-Subject: [PATCH v2] kbuild: add -fno-discard-value-names to cmd_cc_ll_c
+Message-ID: <20221014165302.845203-1-ndesaulniers@google.com>
+Subject: [PATCH v3] kbuild: add -fno-discard-value-names to cmd_cc_ll_c
 From:   Nick Desaulniers <ndesaulniers@google.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Michal Marek <michal.lkml@markovi.net>,
@@ -69,7 +69,7 @@ Cc:     Michal Marek <michal.lkml@markovi.net>,
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=unavailable
+        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -105,7 +105,7 @@ As Fangrui notes:
   A LLVM_ENABLE_ASSERTIONS=on build of Clang defaults to
   -fno-discard-value-names.
 
-Explicitly enable -fdiscard-value-names so that the IR always contains
+Explicitly enable -fno-discard-value-names so that the IR always contains
 value names regardless of whether assertions were enabled or not.
 Assertions generally are not enabled in releases of clang packaged by
 distributions.
@@ -115,14 +115,16 @@ Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 Reviewed-by: Fangrui Song <maskray@google.com>
 Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 ---
+Changes v2 -> v3:
+* Fix typo in commit message
+  "enable -fdiscard-value-names" -> "enable -fno-discard-value-names"
+
 Changes v1 -> v2:
 * Only update commit message:
   * Pick up Nathan & Fangrui's RB tags.
   * Add link (I forgot I filed a bug about this a while ago!).
   * Add note from Fangrui.
   * Add final paragraph.
-
-
  scripts/Makefile.build | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
