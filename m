@@ -2,117 +2,96 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A6985FEC6C
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Oct 2022 12:16:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 455445FED0B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Oct 2022 13:14:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229813AbiJNKQc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Oct 2022 06:16:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44702 "EHLO
+        id S229787AbiJNLO3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 14 Oct 2022 07:14:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229816AbiJNKQb (ORCPT
+        with ESMTP id S229651AbiJNLO1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Oct 2022 06:16:31 -0400
-X-Greylist: delayed 344 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 14 Oct 2022 03:16:29 PDT
-Received: from mail.svario.it (mail.svario.it [84.22.98.252])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A398E2BB1D
-        for <linux-kbuild@vger.kernel.org>; Fri, 14 Oct 2022 03:16:29 -0700 (PDT)
-Received: from [193.157.119.75] (ekstern-eduroam-193-157-119-75.wlan.uio.no [193.157.119.75])
-        by mail.svario.it (Postfix) with ESMTPSA id 69D9CB6560;
-        Fri, 14 Oct 2022 12:10:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svario.it; s=201710;
-        t=1665742238; bh=ICDBDXD5HlkSkPOWcOc5jfhB/QTiRAZm/15/pqRV1Jw=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=jxFQXo342EGpkWJ5UmIDfbbIQtOadwl4CnpTH8Sz4knYlhd/n/OgnFhqF6lcXdSmA
-         YTdU/AzylAJy66LSQEMPXeXeXVtKO41Ij2faiiNzFXDPrJtuBYmbTfBh2YHnzBgsGW
-         0lXCHIUNeyrJK14acQkmdcYzA9K5PknyrqY4KtS8dZmayf7m96fC8HSY41WU3ktCA7
-         SAS8yePSVOCeikKYd41+9WmUhCjkNfNwgs3kkxkBTK7L0TMi7+aWeSeiBfLuJlmDnS
-         bgKCY2YPtfWz0HIfVeEX4pbnwMldLEWmJcyCPK0MjF/vMSdg7+MZMrbGYOc4uzE5Hf
-         fAyyiO2YD25xQ==
-Message-ID: <77c1f13e-4711-3e76-3cfc-0186ffdd9423@svario.it>
-Date:   Fri, 14 Oct 2022 12:10:35 +0200
+        Fri, 14 Oct 2022 07:14:27 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDB801C77C1;
+        Fri, 14 Oct 2022 04:14:22 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 4E849B82260;
+        Fri, 14 Oct 2022 11:13:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFB04C433C1;
+        Fri, 14 Oct 2022 11:13:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1665746019;
+        bh=NbNjkJk3WWEqHVvhDnG9kCdbSC0pN4vGvLiznRoMfJ4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RymSTLyxZs/j3SUJqlXcOKahVLY7Cf6B9oMnotZmfq+CM1HU0IVVcK33hkiIIb5jQ
+         cDy/f9GSrHM4G9Aewg2C6dMgFElufEuAFzOqpnhJFEQJIfY+0IKeXly6hiNb7bkQN8
+         rjbHznBISp0QpXXHnIS5BIlKsEqvUqGR44faikCSVhYnZhNypOjdy/U8NxxzGFz82Y
+         2j0w8lHWX5g+R3zog4QaObLHHPIxbfuzaxScKensViBRdFkabmvGUzvErUDfy6D8u3
+         UD25EApLFPrqUL0rNFXiFm7apw6Y1kXt714vopwHZDIAT2y+z5n/xHKJ6IAOjUvkz4
+         PmKsP6WynGdXg==
+Date:   Fri, 14 Oct 2022 12:13:34 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        linux-toolchains@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: gcc 5 & 6 & others already out of date?
+Message-ID: <Y0lEXhjcl5MFaFIq@sirena.org.uk>
+References: <CAHmME9prBJHmo9Bw6aobuGLjtxLsjxKJ9wopOv5+BY6ZtuKaNg@mail.gmail.com>
+ <CAKwvOd=_gfTD24zEh9YpoNuBr_D+xjsefeb8sNXnSaU_UgnVRw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: base-files: /etc/os-release should contain VERSION variables for
- testing and unstable
-Content-Language: en-US
-To:     Masahiro Yamada <masahiroy@kernel.org>, sedat.dilek@gmail.com
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org
-References: <CA+icZUXQgnhcsjHMcm_KwD4O6FfUFv1vTDmdW4vGJ6oX-Y1GnA@mail.gmail.com>
- <CAK7LNAQ0ynrZjtpHH=84C5qoTbV0D8SbimSFgCdC2STLcNK5DQ@mail.gmail.com>
-From:   Gioele Barabucci <gioele@svario.it>
-In-Reply-To: <CAK7LNAQ0ynrZjtpHH=84C5qoTbV0D8SbimSFgCdC2STLcNK5DQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="beXBv3HrZ8c1Z5yV"
+Content-Disposition: inline
+In-Reply-To: <CAKwvOd=_gfTD24zEh9YpoNuBr_D+xjsefeb8sNXnSaU_UgnVRw@mail.gmail.com>
+X-Cookie: There's only one everything.
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Dear Masahiro, dear Sedat,
 
-[Debian bug #1008735 removed from CC]
+--beXBv3HrZ8c1Z5yV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 13/10/22 16:02, Masahiro Yamada wrote:
-> On Mon, Oct 3, 2022 at 6:56 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> 
-> Can you give me more context of this email?
-> 
->> I am using Debian/unstable AMD64 and doing Linux-kernel upstream
->> development and testing.
->>
->> People using bindeb-pkg (mkdebian) from Linux-kernel sources
->> (scripts/packages) to build and test their selfmade Debian kernels get
->> a now a "n/a" for distribution.
-> 
-> Right, if I try the latest sid,
-> "lsb_release -cs" returns "n/a".
-> It returned "sid" before IIRC.
-> 
-> What was changed in Debian?
-> Any change in the lsb_release program?
+On Thu, Oct 13, 2022 at 02:08:22PM -0700, Nick Desaulniers wrote:
 
+> Are the defconfigs totally broken with gcc-5 and gcc-6 and no one has not=
+iced?
+>=20
+> I wonder what versions of GCC KernelCI and linux kernel robot are testing=
+ with?
 
-A quick summary from the upstream developer (me) of the new 
-`lsb_release` implementation being rolled out in Debian.
+KernelCI is using GCC 10 at the minute - it's mainly focused on runtime
+testing coverage, we try runtime tests for everything we build so we'd
+need to do some work to curtail what runtime test gets run on things
+we're mostly doing for build coverage.  IIRC Linaro were supposed to be
+doing build coverage of compiler versions at some point but I'm not sure
+what the status is or how far back they go if it is running.
 
-Debian dropped the legacy `lsb_release` package. Now the `lsb_release` 
-command is provided by `lsb-release-minimal`.
+--beXBv3HrZ8c1Z5yV
+Content-Type: application/pgp-signature; name="signature.asc"
 
-`lsb-release-minimal` relies on `/etc/os-release` to provide LSB 
-information in a format that is byte-for-byte compatible with the 
-`lsb_release` specifications.
+-----BEGIN PGP SIGNATURE-----
 
-The issue you experienced is due to Debian's `/etc/os-release` (provided 
-by the `base-files` package) not contain all the necessary information. 
-See <https://bugs.debian.org/1008735>.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmNJRF0ACgkQJNaLcl1U
+h9DJYAf/RashXNRmXkE8eAUJOdekyw1hYk678BDbC/OQOdC+HS0pN9/LUJp5dRrV
+gqp7oQITQ9Ue5v7YmNgfWtn1mWOeysy/XzhalrQC9TbWqOdvJVoXcXU9HQQWegcg
+VhFWIbkj4hnN8kP0VEFXRAKIOblTt9t6QT5R+fcs43CFnlEY4OxauIJ03w+Y0Nrc
+UxOx0kU/poZlM34klGZOHMymbeRs+DsOelGpo8NUr7pKaG3Q+ppl4xHrDImdNrng
+sv9q1dJDc3FmTviGgcBBFiAPkesHrFsFd0c+WKZ3TtZxcUlBxh/7JRK5rwC6AUpb
+O61JJbJ6ZdHxV4RUomHHHlWZYTNyAA==
+=VRq9
+-----END PGP SIGNATURE-----
 
-The situation is now changing. The maintainer of `base-files` has added 
-VERSION_CODENAME ("bookworm" for both unstable and testing).
-
-However VERSION_ID (used for `lsb_release --release`) has not been added 
-yet. This is being tracked at <https://bugs.debian.org/1021663>.
-
-Until #1021663 is fixed, `lsb_release -rc` will return the following 
-info in both unstable and testing.
-
-     Release:   n/a
-     Codename:  bookworm
-
-A workaround to get the old behavior is:
-
-     rm /etc/os-release
-     cp /usr/lib/os-release /etc/os-release
-     echo "VERSION_ID=unstable" >> /etc/os-release
-     echo "VERSION_CODENAME=sid" >> /etc/os-release
-
-Regards,
-
---
-Gioele Barabucci
+--beXBv3HrZ8c1Z5yV--
