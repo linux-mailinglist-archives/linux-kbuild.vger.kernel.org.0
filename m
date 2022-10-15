@@ -2,179 +2,309 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 156B15FF93C
-	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Oct 2022 10:56:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7F0A5FFA8C
+	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Oct 2022 16:35:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229493AbiJOI4s (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 15 Oct 2022 04:56:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56248 "EHLO
+        id S229554AbiJOOfn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 15 Oct 2022 10:35:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229470AbiJOI4r (ORCPT
+        with ESMTP id S229510AbiJOOfm (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 15 Oct 2022 04:56:47 -0400
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com [IPv6:2001:4860:4864:20::29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72C9454CB7
-        for <linux-kbuild@vger.kernel.org>; Sat, 15 Oct 2022 01:56:46 -0700 (PDT)
-Received: by mail-oa1-x29.google.com with SMTP id 586e51a60fabf-132b8f6f1b2so8434133fac.11
-        for <linux-kbuild@vger.kernel.org>; Sat, 15 Oct 2022 01:56:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=u7l24W/x8vr8QD9CY+EHAyucUiFiTwLOsda9ZNs//Sw=;
-        b=UZFNdj5dJUEYV8KZwkfwRiPXjQOpj4S5AtLSU2f9ynLASKOqUDTN3k2t4pKLpb6ork
-         1Q5gGB1mej/dZFTvdfrGKl0c74AgR7ULEDaD6lKBylOMbXc5ZWWXa3ErrROdbXIECd2S
-         YJcEeGPMMOtWylk0RVCrrUD/CpHUYAdsiGtPaVErvwK67a6kPRevnKvymwk8hABnOJZC
-         En875TevdLiAZ4jS92Nk4KmkBbMyvDnxu2hvH4SKJgeuQwuit5zOIGLCdMqfS2LrkLwo
-         6dPXU24EBGysX1O4JOdqmP3fOigFNcP2C/n2VwsH+EXE19XGsUVHj6iq0JKT6QilpdoX
-         lg5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=u7l24W/x8vr8QD9CY+EHAyucUiFiTwLOsda9ZNs//Sw=;
-        b=n0sTNlmIggR7o+kGhpHVj3vDa0Clj82rZO11h6b3mQhG52weJI0vj2GviWoI9pnSXX
-         3CAo5ql/dP5oGFejRSIH4FZRTvJ0H9Lo+6HgKnfUWutOZVCzAcYKb6oWpsmZAtSqfmcA
-         +3aNsmzZVloz4eszAI0WjuW23qMNKN+RYja6SDzEWWkxQNnivgvQG20FmsXYf8S08REp
-         4aztcucC4pJVJuBgSrFg7U4wTTsJ+lKvEy61LHVeZ8k3VtUjX0KzV/18Gv7KBvBAntwe
-         G3M/ippganfPSCg4ZifbRDV+x4VTmFrfhOewHbaykqnfg2nwXG59rdb/RGqUlD4hDTJE
-         +hxQ==
-X-Gm-Message-State: ACrzQf06/io9rKEPD4qDItrcEWbhXVfRlAEiJIqvYxLdpXlINb77fdZ6
-        hQG9zP+K+D3OBtMzSdkUdNN3GTDG3B7uflBl3+tNYn/O6dadBQ==
-X-Google-Smtp-Source: AMsMyM6idLllshOrHDqDN2r7DPUvZ7nYB/uIJI/7hF66XZexnvgQiqKkuSHBeb5FM9mzaJWe6HtcUWoGDvYZeXn6pPk=
-X-Received: by 2002:a05:6870:1685:b0:132:d9b7:5fd6 with SMTP id
- j5-20020a056870168500b00132d9b75fd6mr931284oae.252.1665824205664; Sat, 15 Oct
- 2022 01:56:45 -0700 (PDT)
+        Sat, 15 Oct 2022 10:35:42 -0400
+X-Greylist: delayed 599 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 15 Oct 2022 07:35:39 PDT
+Received: from 7of9.schinagl.nl (7of9.connected.by.freedominter.net [185.238.129.13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAB904D244;
+        Sat, 15 Oct 2022 07:35:39 -0700 (PDT)
+Received: from [10.2.11.223] (unknown [10.2.11.223])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by 7of9.schinagl.nl (Postfix) with ESMTPSA id B73B5187C1D4;
+        Sat, 15 Oct 2022 16:16:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=schinagl.nl; s=7of9;
+        t=1665843374; bh=v5byCCbzgoUsSwv2FnayNlVux3Dzc6HK0R9SVKx3mVY=;
+        h=Date:Subject:From:To:Cc:References:In-Reply-To;
+        b=XbL9kSyPd0uc24BqTzDjcXX/NkK5nXJsW1EdZIc5QVRWstmlVbkwQ/JbeMinDyuNc
+         nBGQFPJjzpB05I5s8zjNXHD/OwzDhIYMxlkP8DpkB3IV2w5tYKfGf8eqPywqucX+DB
+         +lzd3GT+hjW5xF8KjGYKfeknkq6NySKgxlAdyzH8=
+Content-Type: multipart/mixed; boundary="------------XhKck0qOnJW5WHXa9z0SMSgn"
+Message-ID: <00604162-9157-3862-b463-de90cb17c69a@schinagl.nl>
+Date:   Sat, 15 Oct 2022 16:16:14 +0200
 MIME-Version: 1.0
-References: <CA+icZUXQgnhcsjHMcm_KwD4O6FfUFv1vTDmdW4vGJ6oX-Y1GnA@mail.gmail.com>
- <CAK7LNAQ0ynrZjtpHH=84C5qoTbV0D8SbimSFgCdC2STLcNK5DQ@mail.gmail.com> <77c1f13e-4711-3e76-3cfc-0186ffdd9423@svario.it>
-In-Reply-To: <77c1f13e-4711-3e76-3cfc-0186ffdd9423@svario.it>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Sat, 15 Oct 2022 10:56:09 +0200
-Message-ID: <CA+icZUWRVNc=gUs0Ytjp0oG9-JBnA7wsyyz8gvdScrVE17rE=A@mail.gmail.com>
-Subject: Re: base-files: /etc/os-release should contain VERSION variables for
- testing and unstable
-To:     Gioele Barabucci <gioele@svario.it>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+Content-Language: nl
+From:   Olliver Schinagl <oliver+list@schinagl.nl>
+To:     Gary Guo <gary@garyguo.net>
+Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+References: <20210414184604.23473-1-ojeda@kernel.org>
+ <fae4873e-2ff9-df35-0ab9-34bf4417b717@schinagl.nl>
+ <CANiq72mRxM-7griYF+0FWqYoSoNL8ad=L-i6a2-GsaCeb0C6qQ@mail.gmail.com>
+ <ba8cb315-9d73-2f45-8bf9-d9473d369dca@schinagl.nl>
+ <CANiq72kz+Txauo+103_-fN_J8PhhCdJUH5XepShUQmJzW6a4tA@mail.gmail.com>
+ <5c0bb1db-5589-32ca-ac22-4aafb3c15751@schinagl.nl>
+ <20220728112114.0000003a@garyguo.net>
+ <a4803f2e-2e46-1c7d-0e89-96f5cbb0ad11@schinagl.nl>
+In-Reply-To: <a4803f2e-2e46-1c7d-0e89-96f5cbb0ad11@schinagl.nl>
+X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Oct 14, 2022 at 12:10 PM Gioele Barabucci <gioele@svario.it> wrote:
->
-> Dear Masahiro, dear Sedat,
->
-> [Debian bug #1008735 removed from CC]
->
-> On 13/10/22 16:02, Masahiro Yamada wrote:
-> > On Mon, Oct 3, 2022 at 6:56 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> >
-> > Can you give me more context of this email?
-> >
-> >> I am using Debian/unstable AMD64 and doing Linux-kernel upstream
-> >> development and testing.
-> >>
-> >> People using bindeb-pkg (mkdebian) from Linux-kernel sources
-> >> (scripts/packages) to build and test their selfmade Debian kernels get
-> >> a now a "n/a" for distribution.
-> >
-> > Right, if I try the latest sid,
-> > "lsb_release -cs" returns "n/a".
-> > It returned "sid" before IIRC.
-> >
-> > What was changed in Debian?
-> > Any change in the lsb_release program?
->
->
-> A quick summary from the upstream developer (me) of the new
-> `lsb_release` implementation being rolled out in Debian.
->
-> Debian dropped the legacy `lsb_release` package. Now the `lsb_release`
-> command is provided by `lsb-release-minimal`.
->
-> `lsb-release-minimal` relies on `/etc/os-release` to provide LSB
-> information in a format that is byte-for-byte compatible with the
-> `lsb_release` specifications.
->
-> The issue you experienced is due to Debian's `/etc/os-release` (provided
-> by the `base-files` package) not contain all the necessary information.
-> See <https://bugs.debian.org/1008735>.
->
-> The situation is now changing. The maintainer of `base-files` has added
-> VERSION_CODENAME ("bookworm" for both unstable and testing).
->
-> However VERSION_ID (used for `lsb_release --release`) has not been added
-> yet. This is being tracked at <https://bugs.debian.org/1021663>.
->
-> Until #1021663 is fixed, `lsb_release -rc` will return the following
-> info in both unstable and testing.
->
->      Release:   n/a
->      Codename:  bookworm
->
-> A workaround to get the old behavior is:
->
->      rm /etc/os-release
->      cp /usr/lib/os-release /etc/os-release
->      echo "VERSION_ID=unstable" >> /etc/os-release
->      echo "VERSION_CODENAME=sid" >> /etc/os-release
->
+This is a multi-part message in MIME format.
+--------------XhKck0qOnJW5WHXa9z0SMSgn
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Thanks for your clarifications and information.
+As this thread kind of went silent and as the 'big merge' for this 
+feature is getting closer, here a final plee, inspired by this slashdot 
+post [0].
 
-Adding your workaround (with which I agree and looks sane to me):
+The post in itself speaks of a new team forming on working on the Rust 
+styleguide, which in itself is still evolving. This makes sense, rust is 
+new, it's not very commonly in use and as with all good things, they evolve.
 
-I still see some issues:
+One comment in that slashdot post [1] I want to bring forward and quote 
+a piece of:
+"i created a new repository, and thought i was being hip and modern, so
+i started to evangelize spaces for the 'consistency across environments'
 
-# lsb_release --all 2>/dev/null
-Distributor ID: Debian
-Description:    Debian GNU/Linux bookworm/sid
-Release:        unstable
-Codename:       sid
+i get approached by not one, but TWO coworkers who unfortunately are 
+highly visually impaired and each has a different visual impairment
 
-# lsb_release --codename --short 2>/dev/null
-sid
+at that moment, i instantaneously conceded — there's just no 
+counter-argument that even comes close to outweighing the accessibility 
+needs of valued coworkers"
 
-I bet we need to change PRETTY_NAME as well and...
+Visual impairness is a thing, it does not make someone smarter or 
+dumber. Helping those with visual impairments should be concidered, and 
+not shunted off by saying 'but the rust guys came up with the perfect 
+style, so we should use it'.
 
-# cat /etc/os-release
-PRETTY_NAME="Debian GNU/Linux bookworm/sid"
-NAME="Debian GNU/Linux"
-ID=debian
-VERSION_ID=unstable
-VERSION_CODENAME=sid
-HOME_URL="https://www.debian.org/"
-SUPPORT_URL="https://www.debian.org/support"
-BUG_REPORT_URL="https://bugs.debian.org/"
+Find attached, a diff to the .rustfmt.toml, that should keep things more 
+consistent with the current kernel style.
 
-( For Debian/testing "testing" and "bookworm" sounds reasonable to me
-(see Debian Bug #1021663). )
-( Guess Debian/stable then should contain "stable" and "buster"? )
+I'll leave it now to Linus and Greg to concsider this, and will keep my 
+peace (though I hope they actually read it :p).
 
-...who cares about?
 
-# cat /etc/debian_version
-bookworm/sid
+Olliver
 
-I am a long user of Debian/unstable AMD64 and I was seeing on boot,
-background of graphical login-manager and/or any info-tool like
-KDE/kinfocenter etc.
 
-Debian GNU/Linux $codename_of_current_testing/sid (current: bookworm/sid)
+[0]: 
+https://developers.slashdot.org/story/22/10/07/2351222/rust-programming-language-announces-new-team-to-evolve-official-coding-style
+[1]: https://developers.slashdot.org/comments.pl?sid=22182701&cid=62949323
 
-When you want to change all that "old behaviour" then do it for all
-releases available on Debian, please.
+On 28-07-2022 22:43, Olliver Schinagl wrote:
+> Hey Gary,
+> 
+> On 28-07-2022 12:21, Gary Guo wrote:
+>> Hi Olliver,
+>>
+>> On Wed, 27 Jul 2022 10:05:31 +0200
+>> Olliver Schinagl <oliver+list@schinagl.nl> wrote:
+>>
+>>> Consitency is absolutly important! Zero argument there. My argument
+>>> is, the consistency should be within the kernel tree, not 'but the
+>>> rest of the world is using style X/Y/Z, lets be consistent with that.
+>>> In an utopia, maybe, but the real world doesn't work that way, sadly.
+>>> So in an attempt to standardize (rustfmt) they just "invented" a new
+>>> standard. Which btw is common, we see this happening every so often,
+>>> right?
+>>
+>> Difference languages have different characteristics and I don't think
+>> it's necessarily good (and often isn't) to blindly apply coding style
+>> of one language onto another. So I don't see rustfmt as "inventing yet
+>> another standard" really, because there aren't many conflicting coding
+>> style standards in Rust world; almost everyone just settled on using
+>> rustfmt, mostly using the default, maybe with a few small
+>> project-specific configuration tweaks.
+> I was mostly arguing about a) lets look at this and b) having said
+> configuration tweaks, rather then blindly (pun not really intended)
+> going with rust's defaults :)
+> 
+>>
+>> A small example for C and Rust differences:
+>>
+>> Rust requires braces around branches of if expression, and C doesn't.
+>> So in kernel coding style you often have:
+>>
+>> 	if (condition) do_something();
+>>
+>> Or
+>>
+>> 	if (condition)
+>> 		do_something();
+>>
+>> But in Rust it will be:
+>>
+>> 	if condition {
+>> 	    do_something();
+>> 	}
+> So kernel style kind of says 'no braces around single statements'; but
+> if your rust compiler doesn't allow this; well then there's nothing to
+> do. You could even argue to update the kernel C style on this to make it
+> consistent again. BUT, this inconsistency makes it cognative 'hard'. If
+> this if a C or a rust function? for example during a review. During
+> authoring, when writing both C and rust code (due to nececity, not
+> constant context switching) you cognitivly constantly have to go
+> back/foward. While I'm sure there's people here that can do this all day
+> without problem, some of of find this harder then needs to be. Hence the
+> request to _try_ to keep consistency within the kernel tree.
+> 
+>>
+>> That's just an example of one control flow constructions. There are
+>> differences between Rust match and C switch, etc. Rust's official
+>> coding style takes properties of Rust into consideration, so in many
+>> regards it's a more suitable coding style for Rust code in kernel, then
+>> applying kernel's C coding standard directly on kernel's Rust code.
+>>
+>> Your earlier email in the thread also mentions about indentation, and I
+>> have a few things to point out as well.
+>>
+>> First, Rust code typically requires more levels of indentation than C
+>> code. For example, many functions might be methods and they are inside
+>> an impl block, which creates one extra level of indentation.
+>> Statements inside match arms' block are two levels more indented than
+>> the match statement itself, as opposed to C's switch (as kernel coding
+>> style doesn't indent the case labels). As a result, 8 spaces for 1 level
+>> can be a bit excessive for Rust code, and thus the 4 space indentation
+>> used in rustfmt default.
+>>
+>> Secondly, I don't think the argument about tabs being customisable
+>> holds; in kernel coding style tabs are strictly 8 characters. For line
+> Sure, this rule implies that for alignment, tabs should be set to 8 so
+> things align nicely. However, nobody forces people to set their editor
+> to 8 character width. Not doing so, doesn't break anything. At worst,
+> you may commit something that is poorly aligned (but we _should_ be
+> using tabs to indent, spaces to align anyway :p, tab == indent has meaning).
+> 
+> With non-tab indentation, this is no longer really possible, or at
+> least, editors haven't solved that problem yet, as it tends to still
+> break (due to the mixing of indentation and alignment using a single
+> character). Maybe once we have AI and ML in our editors though :p
+> 
+>> continuation it's not uncommon to use a series of tabs followed by a
+>> few spaces, e.g.
+>>
+>> 	int function_name(int first_argument,
+>> 	< tab  >< tab  >..int second_argument)
+>>
+>> changing tab into 4 spaces will break the layout. (and I'll not go into
+>> well-known reasons about non-4-space-tab messing up code in terminal
+>> etc).
+>>
+>>> Copy/pasting is known to cause bugs. There's actually research from
+>>> NASA on that. Code-reuse (libraries/functions) are not bad. But
+>>> (worst kind of example) copy paste from stack-overflow, or
+>>> copy/pasting stuff without actually looking at the content and
+>>> forgetting to rename something, causes bugs. Why is this relevant?
+>>> The whole 'lets be consistent with the rust codebase of the wrold'
+>>> argument. E.g. if everybody uses the same style (which is idealistic
+>>> and great) then copy/pasting becomes consistent. Where I say, try to
+>>> be careful when copy/pasting code.
+>>
+>> When we vendor in code as a whole (e.g. like we currently do for
+>> alloc crate), it is proper code reuse. With different coding style the
+>> vendored code either diverges from upstream (which makes upstreaming
+>> much more difficult) or diverge from rest of kernel's Rust code base.
+> Very fair point of course. Though really, we should fix the upstream
+> rust preferred format, but there it was already stated, that 'too bad,
+> sorry' which from a developer point of view is fine, your project, your
+> choice. From a disabilities point of view, sucks of course.
+> 
+>>
+>>> But if that is the case, why not try to follow the kernels existing
+>>> code-style as close as possible with the rust-fmt configuration? I
+>>> know code-style has been discussed a few times over the decades; but
+>>> not many changes have been done, surely, if there's some codestyle
+>>> changes that are best for the kernel, they would have been 'advised'?
+>>> '4 space indents are better then 8-size tabs, on new code, try to use
+>>> them' for example :p
+>>
+>> You do realize that you are creating a new coding style by doing this,
+>> right? It feels like creating problems rather than solving problems.
+>>
+>> My personal feeling is that it's easier for me to adapt to different
+>> coding style when switching between languages, but it's rather awkward
+>> for me when trying to use different coding styles with the same
+>> language. I find myself no problem switching between 2 spaces when
+>> coding JavaScript to 4 spaces when coding Rust to 8 spaces(tab) when
+>> coding C, but it's rather painful to switch between C projects with
+>> different coding styles. I certainly don't want to switch between Rust
+>> projects with vastly different coding styles.
+> And I'm happy for you that you can easily take in 2 and 4 spaces. For
+> me, it is extremly hard to read. So it's not a 'personal preference'
+> thing. But I suggest to read the earlier posted links, where others at
+> length explain it as well, how it is like to feel excluded becaues its
+> just hard to read.
+> 
+>>
+>>> But why? Why should we not be consistent with the kernels' code-base
+>>> (while yes, that is not rust, but C, but we can follow the same
+>>> style?)
+>>
+>> Difference languages have different characteristics, and one size
+>> doesn't fit them all :)
+> I'm not even arguing this at all :)
+> 
+> I think the biggest issues i'm speaking of really are the braces and the
+> spaces really, where the braces can be argued for/against, it's
+> cognitive harder, but can be dealth with (and we can expect
+> inconsitencies; but the sapces vs tabs thing, personal configuration vs
+> forced with is the point I was trying to raise.
+> 
+> As said before, 'every building is different, some offer wheelchair
+> ramps, others do' kind of point, not like 'this building is red, and
+> that one is blue, and not every color fits all :p
+> 
+>>
+>>> Sadly, I've seen so much vendor code (yeah, I know) which doesn't
+>>> even have consistency in their own files ...
+>>
+>> That's very true. So when all other Rust code currently follow
+>> (roughly) the same coding style and this situation doesn't currently
+>> exist, let's not make it worse...
+>>
+>> Best,
+>> Gary
+> 
 
--Sedat-
+--------------XhKck0qOnJW5WHXa9z0SMSgn
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-rustfmt-Match-style-with-kernel-codestyle.patch"
+Content-Disposition: attachment;
+ filename="0001-rustfmt-Match-style-with-kernel-codestyle.patch"
+Content-Transfer-Encoding: base64
+
+RnJvbSAwYWMxZTU2NDM1ZTI3YWRkZGVmOTgwNmRiZjExMzRmOTA5ZTk5ZGQ0IE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBPbGxpdmVyIFNjaGluYWdsIDxvbGl2ZXJAc2NoaW5h
+Z2wubmw+CkRhdGU6IFNhdCwgMTUgT2N0IDIwMjIgMTY6MDk6MDYgKzAyMDAKU3ViamVjdDog
+W1BBVENIXSBydXN0Zm10OiBNYXRjaCBzdHlsZSB3aXRoIGtlcm5lbCBjb2Rlc3R5bGUKClNp
+Z25lZC1vZmYtYnk6IE9sbGl2ZXIgU2NoaW5hZ2wgPG9saXZlckBzY2hpbmFnbC5ubD4KLS0t
+CiAucnVzdGZtdC50b21sIHwgOCArKysrKysrKwogMSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0
+aW9ucygrKQoKZGlmZiAtLWdpdCBhLy5ydXN0Zm10LnRvbWwgYi8ucnVzdGZtdC50b21sCmlu
+ZGV4IDNkZTVjYzQ5NzQ2NS4uMjkwYjg4YzAwMjY1IDEwMDY0NAotLS0gYS8ucnVzdGZtdC50
+b21sCisrKyBiLy5ydXN0Zm10LnRvbWwKQEAgLTEsNSArMSwxMyBAQAorYmlub3Bfc2VwYXJh
+dG9yID0gIkJhY2siCiticmFjZV9zdHlsZSA9ICJBbHdheXNOZXh0TGluZSIKK2NvbnRyb2xf
+YnJhY2Vfc3R5bGUgPSAiQWx3YXlzU2FtZUxpbmUiCiBlZGl0aW9uID0gIjIwMjEiCitoYXJk
+X3RhYnMgPSAidHJ1ZSIKK2luZGVudF9zdHlsZSA9ICJWaXN1YWwiCittYXRjaF9ibG9ja190
+cmFpbGluZ19jb21tYSA9ICJ0cnVlIgogbmV3bGluZV9zdHlsZSA9ICJVbml4Igorc3RydWN0
+X2xpdF9zaW5nbGVfbGluZSA9ICJmYWxzZSIKK3RhYl9zcGFjZXMgPSAiOCIKIAogIyBVbnN0
+YWJsZSBvcHRpb25zIHRoYXQgaGVscCBjYXRjaGluZyBzb21lIG1pc3Rha2VzIGluIGZvcm1h
+dHRpbmcgYW5kIHRoYXQgd2UgbWF5IHdhbnQgdG8gZW5hYmxlCiAjIHdoZW4gdGhleSBiZWNv
+bWUgc3RhYmxlLgotLSAKMi4zOC4wCgo=
+
+--------------XhKck0qOnJW5WHXa9z0SMSgn--
