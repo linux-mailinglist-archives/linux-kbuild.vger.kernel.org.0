@@ -2,74 +2,124 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97F955FFB14
-	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Oct 2022 17:45:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67B335FFCF1
+	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Oct 2022 03:44:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229722AbiJOPpU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 15 Oct 2022 11:45:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39304 "EHLO
+        id S229619AbiJPBol (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 15 Oct 2022 21:44:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229747AbiJOPpT (ORCPT
+        with ESMTP id S229570AbiJPBoj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 15 Oct 2022 11:45:19 -0400
-Received: from mail.svario.it (mail.svario.it [84.22.98.252])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5117F3A16F
-        for <linux-kbuild@vger.kernel.org>; Sat, 15 Oct 2022 08:45:17 -0700 (PDT)
-Received: from [IPV6:2001:4645:39f:0:a49d:547f:7a4d:9cae] (unknown [IPv6:2001:4645:39f:0:a49d:547f:7a4d:9cae])
-        by mail.svario.it (Postfix) with ESMTPSA id 45818B973A;
-        Sat, 15 Oct 2022 17:45:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svario.it; s=201710;
-        t=1665848713; bh=nhDUYN6uT2lcau6x55mbrv5ug2kVfvBrkGqUv5+AD3I=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=bDjZkDSOeVwAGpsWeBzPjrOchGmDuRxTtTEwbNzerX18+ds8e5F4hey4RbxEX2h/g
-         FeMGNRDa52fgj7DTO82IB5nG0p8T63z5KRF6AlsGZCAYbY8DteizImprCqqKnvUnom
-         DxeNytNZtBF1c5tjUynIZGV5q71yB20BPeF9DmNdww9PU4UwH+c1AnsAm+q0Hgzks1
-         STBRTRvn9rzi6iuqo1xWKlAhj3TtU+m7kGHEZLYsCKCmCj8Kn+PSE+DrWR9FCe1eCH
-         76EMD4PNeu4E1Bmcx8wTOYi4751ypo+sjxZ6uo7YeBuy+S3ZSGdnfvnYzgL8KtIrAH
-         8XNeXKzHcR7Ng==
-Message-ID: <2d8b0551-ff8f-86b1-e192-a11c632b36ce@svario.it>
-Date:   Sat, 15 Oct 2022 17:45:12 +0200
+        Sat, 15 Oct 2022 21:44:39 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8417910B4B;
+        Sat, 15 Oct 2022 18:44:37 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id h13so8215928pfr.7;
+        Sat, 15 Oct 2022 18:44:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xNCr0cT7SRDicJHh/1Ct4baNI13cJ8oHw3VPXGfKCnE=;
+        b=YeCSgFwRBwDtQo6TVk10KGxK8lywxBYw06xVlXjZL6F5MP5WKobTSGMfQ1L27vlh78
+         iRkF0tnEjZYiHq5RJ+h+8UOc0QYmVU9TaZFFTEQeY2S+Zdbxlfrleqn8aZI1yQTNmIkb
+         7aFiA6TxJBuHjphcBVXFjK35FgrfmTENrYr2bQhxR9zNN366semr+n5jVo0glNZeFp5i
+         5bCs+5Di1y2HUxu5RAu3AY9waQceicJc/UedpI42Mlp/8WmuTyrlHwKqSUqwgVrkOrES
+         6zvUrak3GmUP+2Q7zoIpdf7fFXkH1Bd3nnE2mPV0gVKtd9qrAS5uDAgVs/6zMrpR/6JG
+         zweg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xNCr0cT7SRDicJHh/1Ct4baNI13cJ8oHw3VPXGfKCnE=;
+        b=UCZb6SKS3Vh7rt8EPJS19kjJfk1rYk2MFbZr8Nt8dYDL0nu9cQNvg/3IWJM1hawlJz
+         2uE06iyvqv3muOUx6tjxjjvb1U5Tcc0YgzhyNMiVZfdpNZB8xLnM0Zsb1MSxyyFwWMvR
+         9UgQLCDC9QioyJ5JZKMKdfy0AjVvmZaJFDk2z+1oJ8A/w14l211TZk1TS/aQIQ9Zf4/c
+         8f1OfQ/4WgJr1UQlRmnk0Vm/AejNDosLxQeEkMLjbcM/BoOwd2ap2BQYPmi58FF644dG
+         cymFTvQXOP571tEmTZGC48sfhlMfqYrOTV7v0lec/+il81T2XpJQtoF8cXnT0HdnqmWI
+         Tvbg==
+X-Gm-Message-State: ACrzQf2ZJop1aU3cz0YUAoynG+wuunON4bZplFy+zRHpgvxZdqszEiSG
+        eE9FH2+VBss5Z7ne6uNzRgsDcdmo6C7boQ==
+X-Google-Smtp-Source: AMsMyM5ZRkCW7mRi0jMiqq0TOtOxceKA7RloDRkmptlyNLmXZRC0Are4FLQKcCDPo3EsaUL+Y0Ko2w==
+X-Received: by 2002:a05:6a00:1487:b0:563:6367:8a17 with SMTP id v7-20020a056a00148700b0056363678a17mr5382582pfu.85.1665884676955;
+        Sat, 15 Oct 2022 18:44:36 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-23.three.co.id. [180.214.232.23])
+        by smtp.gmail.com with ESMTPSA id mt11-20020a17090b230b00b001fdbb2e38acsm7194279pjb.5.2022.10.15.18.44.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 15 Oct 2022 18:44:36 -0700 (PDT)
+Message-ID: <0cd7ad6a-7b70-2b09-9f17-40ffbc17a7fa@gmail.com>
+Date:   Sun, 16 Oct 2022 08:44:31 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: base-files: /etc/os-release should contain VERSION variables for
- testing and unstable
-To:     sedat.dilek@gmail.com
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org
-References: <CA+icZUXQgnhcsjHMcm_KwD4O6FfUFv1vTDmdW4vGJ6oX-Y1GnA@mail.gmail.com>
- <CAK7LNAQ0ynrZjtpHH=84C5qoTbV0D8SbimSFgCdC2STLcNK5DQ@mail.gmail.com>
- <77c1f13e-4711-3e76-3cfc-0186ffdd9423@svario.it>
- <CA+icZUWRVNc=gUs0Ytjp0oG9-JBnA7wsyyz8gvdScrVE17rE=A@mail.gmail.com>
+ Thunderbird/102.3.3
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+To:     Olliver Schinagl <oliver+list@schinagl.nl>,
+        Gary Guo <gary@garyguo.net>
+Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+References: <20210414184604.23473-1-ojeda@kernel.org>
+ <fae4873e-2ff9-df35-0ab9-34bf4417b717@schinagl.nl>
+ <CANiq72mRxM-7griYF+0FWqYoSoNL8ad=L-i6a2-GsaCeb0C6qQ@mail.gmail.com>
+ <ba8cb315-9d73-2f45-8bf9-d9473d369dca@schinagl.nl>
+ <CANiq72kz+Txauo+103_-fN_J8PhhCdJUH5XepShUQmJzW6a4tA@mail.gmail.com>
+ <5c0bb1db-5589-32ca-ac22-4aafb3c15751@schinagl.nl>
+ <20220728112114.0000003a@garyguo.net>
+ <a4803f2e-2e46-1c7d-0e89-96f5cbb0ad11@schinagl.nl>
+ <00604162-9157-3862-b463-de90cb17c69a@schinagl.nl>
 Content-Language: en-US
-From:   Gioele Barabucci <gioele@svario.it>
-In-Reply-To: <CA+icZUWRVNc=gUs0Ytjp0oG9-JBnA7wsyyz8gvdScrVE17rE=A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <00604162-9157-3862-b463-de90cb17c69a@schinagl.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 15/10/22 10:56, Sedat Dilek wrote:
-> # lsb_release --all 2>/dev/null
-> Distributor ID: Debian
-> Description:    Debian GNU/Linux bookworm/sid
-> Release:        unstable
-> Codename:       sid
+On 10/15/22 21:16, Olliver Schinagl wrote:
+> As this thread kind of went silent and as the 'big merge' for this feature is getting closer, here a final plee, inspired by this slashdot post [0].
 > 
-> [...]
+> The post in itself speaks of a new team forming on working on the Rust styleguide, which in itself is still evolving. This makes sense, rust is new, it's not very commonly in use and as with all good things, they evolve.
 > 
-> ( Guess Debian/stable then should contain "stable" and "buster"? )
-Stable currently says "Release: 11.5" and "Codename: bullseye" (that's 
-the normal behavior for stable releases).
+> One comment in that slashdot post [1] I want to bring forward and quote a piece of:
+> "i created a new repository, and thought i was being hip and modern, so
+> i started to evangelize spaces for the 'consistency across environments'
+> 
+> i get approached by not one, but TWO coworkers who unfortunately are highly visually impaired and each has a different visual impairment
+> 
+> at that moment, i instantaneously conceded — there's just no counter-argument that even comes close to outweighing the accessibility needs of valued coworkers"
+> 
+> Visual impairness is a thing, it does not make someone smarter or dumber. Helping those with visual impairments should be concidered, and not shunted off by saying 'but the rust guys came up with the perfect style, so we should use it'.
+> 
+> Find attached, a diff to the .rustfmt.toml, that should keep things more consistent with the current kernel style.
+> 
+> I'll leave it now to Linus and Greg to concsider this, and will keep my peace (though I hope they actually read it :p).
+> 
 
---
-Gioele Barabucci
+I have to say two advices:
+
+First, don't top-post. I don't know what context you're replying to
+(in fact I have to cut the reply context below your message).
+
+Second, please post the patch inline, not attached. git format-patch +
+git send-email should suffice.
+
+Thanks.
+
+-- 
+An old man doll... just what I always wanted! - Clara
 
