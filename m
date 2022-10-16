@@ -2,65 +2,71 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 469165FFCF8
-	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Oct 2022 03:50:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BE265FFF8C
+	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Oct 2022 15:24:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229619AbiJPBuU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 15 Oct 2022 21:50:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51994 "EHLO
+        id S229643AbiJPNX3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 16 Oct 2022 09:23:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229504AbiJPBuT (ORCPT
+        with ESMTP id S229661AbiJPNXM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 15 Oct 2022 21:50:19 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EB063641A;
-        Sat, 15 Oct 2022 18:50:19 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id f193so7660338pgc.0;
-        Sat, 15 Oct 2022 18:50:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Q/1BdzxeIg7w9gIlh2BqBXfrVYmSA9tAnQeElbhlBoI=;
-        b=qMqY5heCSen56xVKaV/5wzpUM1FqNEyD3JnmsD6Yr0QpNL4zchlWhWXmEEG6qXkNqB
-         rsIRo6UzWGPM5gyZPwcuv5XMk/BhLjSHoSrJ4Vmx/iR+imJD7dQN6k1dz8WlyLrFetNp
-         1Xq8FpZ7J7ATVRgW5xB4aHvUT6cyFcY7WktQstKrftc2Uk+8QlFSHvFz6XBN8sTs6P2/
-         IBwfXob2A//EO4xdltfYynWnJYSlNpEWJZeK+137p1ufa0bbwZbiZ+6iKVVBVwWuEU/e
-         zfEVhPxBZ+VM5GaqU3tgeqRLu/r+5yjOUlNoE0ydNUDonlmISw4XH9Qp6ZhFkNY7ndub
-         2gkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q/1BdzxeIg7w9gIlh2BqBXfrVYmSA9tAnQeElbhlBoI=;
-        b=iYgtgOArt2KGrutmMnM57yQlQbLqhcfxKB58ZPuGQXlZT9OK/dGSfPnW8K8GVB2y7Q
-         oie7a29+gNNg3afo+37pmMFOdApJlby8hYj6AtF+wvMahyPDqMjPmr8Ms5QBdTPdLMGO
-         T0qElHljjw2tzjg0bQXXwGPI/7/zR8aU1Bj9QZyiIGbF2BR5WLhj4CJ5TPgyjSONOoF9
-         w0gviwlHvYqUy/Q+OiZlR3Seyu52zmciDk7Uy1XpV0kVKHxgyjHDLlQ6vE728cioSygM
-         HtlXJqAmBt+nbWuCk/gYOCfJPZVCScF3/4sPBKkKT5A2shE22jPaP9F0Ov5B4mjEQpe9
-         qCGQ==
-X-Gm-Message-State: ACrzQf2Broxeb+NEz/Hp6m+h8faUyY+7d7BKCnTcZIakNWNdGmFxXQX/
-        kRzVo+Z4gY8KCEOUIRNYdn8=
-X-Google-Smtp-Source: AMsMyM6EaDNCx6y52k83yvupZzhX/2k4t/GRJ2q6pnJs+cvSRjSeD6ngwAH4M5tfeXmXuY5twxPGKA==
-X-Received: by 2002:a63:5a08:0:b0:43c:9fcc:cc54 with SMTP id o8-20020a635a08000000b0043c9fcccc54mr4753029pgb.229.1665885018679;
-        Sat, 15 Oct 2022 18:50:18 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-23.three.co.id. [180.214.232.23])
-        by smtp.gmail.com with ESMTPSA id mv6-20020a17090b198600b001f559e00473sm7095864pjb.43.2022.10.15.18.50.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 15 Oct 2022 18:50:18 -0700 (PDT)
-Message-ID: <7c888efc-4b02-3470-8659-9922774f4fa7@gmail.com>
-Date:   Sun, 16 Oct 2022 08:50:14 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-Content-Language: en-US
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Olliver Schinagl <oliver+list@schinagl.nl>,
-        Gary Guo <gary@garyguo.net>
-Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Sun, 16 Oct 2022 09:23:12 -0400
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 619C832DBB;
+        Sun, 16 Oct 2022 06:23:11 -0700 (PDT)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.nyi.internal (Postfix) with ESMTP id 2EDBE5C0065;
+        Sun, 16 Oct 2022 09:23:08 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Sun, 16 Oct 2022 09:23:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        joshtriplett.org; h=cc:cc:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm2; t=1665926588; x=
+        1666012988; bh=luOh1+tXqD7JMWO63diGmzw1lVMjKMj3+nXqqj2Jd70=; b=V
+        JKFc1tWmuQAc4v127ngF04vXL5JVjXdfS0zg5lUuQYjC87yz/n+NHZJ3PA3P+swu
+        /sTXP3WN9oxQZXh7mGYkbsK43JMklb7UNDDBh/mmasVfTKKd++Vrp5XCu3w20LYY
+        lJhXiHgwLRBRhbPE2hp+4gtBQluEZ3DSZZcDaAGGx060Mwsg5iUQrmT7U03H2ASc
+        EPpteLYSFDjLuqDXiVos4sWgMOMg+xecoHR+PvSOO+ZcBVbN5ozApw17wxse2nt2
+        +xn7vG0OKHhQradz7iny4eVeNvlqA5voxMDzf31Qq3S3d+EWEjywf4oG46IkBiDa
+        i+Gme8oJ/zPEqXAlBOGpQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1665926588; x=1666012988; bh=luOh1+tXqD7JMWO63diGmzw1lVMj
+        KMj3+nXqqj2Jd70=; b=pWHazTuKjzH67V5VKZSaxNo5eNnpEq19tt0JhIszsFg7
+        W+OLBVTRoT7/E0dNwKPdTlI60ZM+l9JjkfhLqC45UtiliY+WwOJCqoUm8r+9Ou3x
+        RMAyDMNb0ksTbzl4iwKtomOtkq3NH39NJI7uAdUY626QqEVDqrIu0XYU//ts0mVt
+        09LzGnAKAqXpjTD1I5s7mEMiv6w+QdgfenJiSBM2GHS+pn53bWXzNcRPaYcXQUiL
+        hh+H23qvIG3eDjvF9XGocMw5nZRhJA4SobGf0vKpXvfX99ykmqDVkV+pnEFhF0r2
+        teEebRoMa8kKHFkp+/EcvCGTihVclI2VQguqCTrNmQ==
+X-ME-Sender: <xms:uwVMYx5TEhV8OBMN34G-Tu6mFP0LThe1cgep69vCunD7bvdXX-14hw>
+    <xme:uwVMY-5zGFvesB4mJippybwvToIG0TuPTXS-tMdfMSBD0yVS48KqwIIvpEK7qLDlU
+    xvZ0mfPwfNzCDPE3NU>
+X-ME-Received: <xmr:uwVMY4eIWfy-hGyF_9sLbta4RjidQ5cjP9frgd4G1wV5KslxysteAzR2dH90>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeekjedgieegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheplfhoshhh
+    ucfvrhhiphhlvghtthcuoehjohhshhesjhhoshhhthhrihhplhgvthhtrdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpeduieegheeijeeuvdetudefvedtjeefgeeufefghfekgfelfeet
+    teelvddtffetgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehjohhshhesjhhoshhhthhrihhplhgvthhtrdhorhhg
+X-ME-Proxy: <xmx:uwVMY6LXHxY8cOTSSJmJXWXP4jo72XYovaS_tr2nDXekK7f3OlHJ-w>
+    <xmx:uwVMY1Ig5og4cX74dxy3dpKrKnWKyY-YFUj9wRzkqK-j2WV2HCYekg>
+    <xmx:uwVMYzwLhHNm-Gu0ZpmaOTHIgL3QDmEOqEXhrGg1aMe18bmOD3mr4w>
+    <xmx:vAVMY8-gp3q3EUNtj94KoCGKsyeL2jm2m97mZYH-VHhxQAGUENnGwA>
+Feedback-ID: i83e94755:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 16 Oct 2022 09:23:06 -0400 (EDT)
+Date:   Sun, 16 Oct 2022 14:23:02 +0100
+From:   Josh Triplett <josh@joshtriplett.org>
+To:     Olliver Schinagl <oliver+list@schinagl.nl>
+Cc:     Gary Guo <gary@garyguo.net>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
         Miguel Ojeda <ojeda@kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -68,6 +74,8 @@ Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+Message-ID: <Y0wFtj615KqqvGob@localhost>
 References: <20210414184604.23473-1-ojeda@kernel.org>
  <fae4873e-2ff9-df35-0ab9-34bf4417b717@schinagl.nl>
  <CANiq72mRxM-7griYF+0FWqYoSoNL8ad=L-i6a2-GsaCeb0C6qQ@mail.gmail.com>
@@ -77,36 +85,23 @@ References: <20210414184604.23473-1-ojeda@kernel.org>
  <20220728112114.0000003a@garyguo.net>
  <a4803f2e-2e46-1c7d-0e89-96f5cbb0ad11@schinagl.nl>
  <00604162-9157-3862-b463-de90cb17c69a@schinagl.nl>
- <0cd7ad6a-7b70-2b09-9f17-40ffbc17a7fa@gmail.com>
-In-Reply-To: <0cd7ad6a-7b70-2b09-9f17-40ffbc17a7fa@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <00604162-9157-3862-b463-de90cb17c69a@schinagl.nl>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 10/16/22 08:44, Bagas Sanjaya wrote:
-> 
-> I have to say two advices:
-> 
-> First, don't top-post. I don't know what context you're replying to
-> (in fact I have to cut the reply context below your message).
-> 
-> Second, please post the patch inline, not attached. git format-patch +
-> git send-email should suffice.
-> 
+On Sat, Oct 15, 2022 at 04:16:14PM +0200, Olliver Schinagl wrote:
+> +indent_style = "Visual"
 
-Oh, I forget to mention this. Is it RFC? If so, you need to specify
---subject-prefix="RFC PATCH" to git format-patch.
-
-Thanks.
-
--- 
-An old man doll... just what I always wanted! - Clara
-
+Without commenting on the rest of this: visual indent style produces a
+*lot* of diff noise, and I'd strongly recommend against it. Because it
+lines things up, a change to one line can change many adjacent lines,
+and make it hard to see what actually changed.
