@@ -2,122 +2,115 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A204601822
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Oct 2022 21:56:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89C8F601B53
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Oct 2022 23:32:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229949AbiJQT4R (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 17 Oct 2022 15:56:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60804 "EHLO
+        id S230131AbiJQVcw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 17 Oct 2022 17:32:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229829AbiJQT4Q (ORCPT
+        with ESMTP id S230023AbiJQVct (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 17 Oct 2022 15:56:16 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EE016B165;
-        Mon, 17 Oct 2022 12:56:11 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D8F9C61211;
-        Mon, 17 Oct 2022 19:56:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCD87C433D7;
-        Mon, 17 Oct 2022 19:56:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666036570;
-        bh=o6DvTfMjzEjmSYQ5N/gIC5fqJTcEYtiJOSjGBgmMUY4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WU9S90BKukmbyqw/bIrfNn/cxkRGB96dZiaMRX3b67mchHiFRHHgoOhh+ZZBc3ual
-         c7TfaajarCyZxQHIaVx4NOkvJ+YGFYOvQ4yEVC91rgghbsrQhCMh4JJb4V/n0j0tQj
-         IT8pGDH+X25XGko8lSUEAYHC4oflTJZti1Qf21CQLmGHi8Aal8X8qazl93Ibl0+Mb9
-         4i1oyhcJg8JxRLOwsbflfsc9KIj+b+PZq305Tkp+/9H2zumf5Kr9B9Bfbcfe1UvTjq
-         jM0/z/vv2bdnUc88Q6qJhVQdSW0RO50vxa7RJfMIaAvFBM8u9UipBSM57yvG0HFjoQ
-         +EwgH0vPTTT4w==
-Date:   Mon, 17 Oct 2022 12:56:08 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     "Li, Xin3" <xin3.li@intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "H.Peter Anvin" <hpa@zytor.com>,
-        Peter Zijlstra <peterz@infradead.org>, llvm@lists.linux.dev,
-        linux-kbuild@vger.kernel.org
-Subject: Re: upgrade the orphan section warning to a hard link error
-Message-ID: <Y02zWFxC92VDSpdZ@dev-arch.thelio-3990X>
-References: <BN6PR1101MB216105D169D482FC8C539059A8269@BN6PR1101MB2161.namprd11.prod.outlook.com>
- <Y02eZ6A/vlj8+B/c@dev-arch.thelio-3990X>
- <202210171230.CC40461C@keescook>
+        Mon, 17 Oct 2022 17:32:49 -0400
+Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07FE07CB51;
+        Mon, 17 Oct 2022 14:32:37 -0700 (PDT)
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 29HLWJfp026370;
+        Tue, 18 Oct 2022 06:32:19 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 29HLWJfp026370
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1666042339;
+        bh=A9DSYIu9/NXOyiS7xPZNFkoZDUyi3jGg6FffSm1+/Ik=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=20WBYTHRNcs08BD6VQzUo4nIz/qgYmABFyn8DzsI30UO3dtmbWuFHc2X4Ru56w5mR
+         E84jos3l/7Af2bh6V7haADHjppjQ+EPJLK6I3ITvSE0TnWrg4X/bitEK3u/q4KM0pj
+         Xcjtz1qChkaLL8kxh1UMmy/zozyaCqSRWIcH6gScJT/A0VC875seTWFxSA6fAusRXj
+         XJmblp5+TZZRyktpqAEudZUFfnDJ7kbC9MWju9+lST7+lwa/t/xrasvqo7f9xaD0V7
+         JZliRy86cUkeQRNENQjYuQEbuPJ0djKBc3Y7ai4ISM947l0eHOC3lAFziObXRJCloC
+         r2mTObMbVTktQ==
+X-Nifty-SrcIP: [209.85.160.50]
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-1370acb6588so14760101fac.9;
+        Mon, 17 Oct 2022 14:32:19 -0700 (PDT)
+X-Gm-Message-State: ACrzQf0oKKYG9HRMtl+pJmSEH2z4e1gapCuX8kjt4hEb26wsKrn5SozR
+        qwhQ0zyV3grHx9Etm5br+x3RBtTIxEt47eWSw3g=
+X-Google-Smtp-Source: AMsMyM4ip6TZdj6uaGNj4mpwyAgawp0QupIF2/ySfBpkjMkP/PCXVQZQSRHQsSTLo5hKxyGYMfsR4VMeGX3Evt4KqvE=
+X-Received: by 2002:a05:6870:8a09:b0:132:554d:2f3d with SMTP id
+ p9-20020a0568708a0900b00132554d2f3dmr16265337oaq.194.1666042338433; Mon, 17
+ Oct 2022 14:32:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202210171230.CC40461C@keescook>
-X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221017150113.334571-1-newbie13xd@gmail.com>
+In-Reply-To: <20221017150113.334571-1-newbie13xd@gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 18 Oct 2022 06:31:42 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARsUE4j7LNYsushQaXFBEcnhhXoNg9THh2wLrYoi2jp9Q@mail.gmail.com>
+Message-ID: <CAK7LNARsUE4j7LNYsushQaXFBEcnhhXoNg9THh2wLrYoi2jp9Q@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: use POSIX-compatible grep option
+To:     Stefan Hansson <newbie13xd@gmail.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Oct 17, 2022 at 12:32:39PM -0700, Kees Cook wrote:
-> On Mon, Oct 17, 2022 at 11:26:47AM -0700, Nathan Chancellor wrote:
-> > It might be interesting to turn orphan sections into an error if
-> > CONFIG_WERROR is set. Perhaps something like the following (FYI, not
-> > even compile tested)?
-> > 
-> > diff --git a/Makefile b/Makefile
-> > index 0837445110fc..485f47fc2c07 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -1119,7 +1119,7 @@ endif
-> >  # We never want expected sections to be placed heuristically by the
-> >  # linker. All sections should be explicitly named in the linker script.
-> >  ifdef CONFIG_LD_ORPHAN_WARN
-> > -LDFLAGS_vmlinux += --orphan-handling=warn
-> > +LDFLAGS_vmlinux += --orphan-handling=$(if $(CONFIG_WERROR),error,warn)
-> >  endif
-> 
-> Yes, this is much preferred.
-> 
-> > Outright turning the warning into an error with no escape hatch might be
-> > too aggressive, as we have had these warnings triggered by new compiler
-> > generated sections, such as in commit 848378812e40 ("vmlinux.lds.h:
-> > Handle clang's module.{c,d}tor sections"). Unconditionally breaking the
-> > build in these situations is unfortunate but the warnings do need to be
-> > dealt with so I think having it error by default with the ability to
-> > opt-out is probably worth doing. I do not have a strong opinion though.
-> 
-> Correct; the mandate from Linus (disregarding his addition of
-> CONFIG_WERROR for all*config builds), is that we should avoid breaking
-> builds. It wrecks bisection, it causes problems across compiler versions,
-> etc.
-> 
-> So, yes, only on CONFIG_WERROR=y.
+On Tue, Oct 18, 2022 at 12:02 AM Stefan Hansson <newbie13xd@gmail.com> wrote:
+>
+> --file is a GNU extension to grep which is not available in all
+> implementations (such as BusyBox). Use the -f option instead which is
+> eqvuialent according to the GNU grep manpage[1] and is present in
+> POSIX[2].
+>
+>  [1] https://www.gnu.org/software/grep/manual/grep.html
+>  [2] https://pubs.opengroup.org/onlinepubs/9699919799/
 
-We would probably want to alter the text of CONFIG_WERROR in some manner
-to convey this, perhaps like so:
 
-diff --git a/init/Kconfig b/init/Kconfig
-index a19314933e54..1fc03e4b2af2 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -165,10 +165,12 @@ config WERROR
- 	help
- 	  A kernel build should not cause any compiler warnings, and this
- 	  enables the '-Werror' (for C) and '-Dwarnings' (for Rust) flags
--	  to enforce that rule by default.
-+	  to enforce that rule by default. Certain warnings from other tools
-+	  such as the linker may be upgraded to errors with this option as
-+	  well.
- 
--	  However, if you have a new (or very old) compiler with odd and
--	  unusual warnings, or you have some architecture with problems,
-+	  However, if you have a new (or very old) compiler or linker with odd
-+	  and unusual warnings, or you have some architecture with problems,
- 	  you may need to disable this config option in order to
- 	  successfully build the kernel.
- 
----
+This link does not show the spec of grep.
 
-Cheers,
-Nathan
+
+Did you mean this?
+
+https://pubs.opengroup.org/onlinepubs/9699919799/utilities/grep.html
+
+
+
+
+Thanks.
+
+
+
+
+
+>
+> Signed-off-by: Stefan Hansson <newbie13xd@gmail.com>
+> ---
+>  Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Makefile b/Makefile
+> index c690361b393f..3513a6db66a2 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1218,7 +1218,7 @@ quiet_cmd_ar_vmlinux.a = AR      $@
+>        cmd_ar_vmlinux.a = \
+>         rm -f $@; \
+>         $(AR) cDPrST $@ $(KBUILD_VMLINUX_OBJS); \
+> -       $(AR) mPiT $$($(AR) t $@ | head -n1) $@ $$($(AR) t $@ | grep -F --file=$(srctree)/scripts/head-object-list.txt)
+> +       $(AR) mPiT $$($(AR) t $@ | head -n1) $@ $$($(AR) t $@ | grep -Ff $(srctree)/scripts/head-object-list.txt)
+>
+>  targets += vmlinux.a
+>  vmlinux.a: $(KBUILD_VMLINUX_OBJS) scripts/head-object-list.txt autoksyms_recursive FORCE
+> --
+> 2.37.3
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
