@@ -2,136 +2,114 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D24536025A1
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Oct 2022 09:23:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40748602695
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Oct 2022 10:16:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229978AbiJRHXl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 18 Oct 2022 03:23:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39532 "EHLO
+        id S229894AbiJRIQ3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 18 Oct 2022 04:16:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230322AbiJRHXh (ORCPT
+        with ESMTP id S229584AbiJRIQZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 18 Oct 2022 03:23:37 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98754ABF1F;
-        Tue, 18 Oct 2022 00:23:24 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id s20so21098524lfi.11;
-        Tue, 18 Oct 2022 00:23:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=p3nyMq6EMyVRHeyxrABEnUNSYPVSUUrWhCzrtAxceXE=;
-        b=Yk+TJio+V9jwykmEv7O6EUfHHYwfvpzYFuS/VgAQQmC7I4eCJjCctniv8kHx3tZ9g2
-         woKFrOcAg6AHdQlbG3Ubyv/62eloXlajxefAHzQgd1PxMjmQ70Vfm1pxy5dgWERuaQZG
-         jF/32taSjJH5sGTSabqTuWYcLw+Sh3MjRrBVs5HisCXc6ZUI8rXWiyCHvV6MsDvdf2ws
-         z2gUR2jb/jRECe2a2q2etTWIqYMI3ZvzdEJb9Vbyjd5NHm/4Ja0dG2yul8UdsX5sC59M
-         PPNyn+Em0/ONLYcWkODlFdSMX+V1F9NxlIoFpAZOK9lhulokSEiSOOyQ+7TQ62sOOYSn
-         8Isg==
+        Tue, 18 Oct 2022 04:16:25 -0400
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0321D923D1;
+        Tue, 18 Oct 2022 01:16:24 -0700 (PDT)
+Received: by mail-ed1-f51.google.com with SMTP id t16so109751edd.2;
+        Tue, 18 Oct 2022 01:16:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=p3nyMq6EMyVRHeyxrABEnUNSYPVSUUrWhCzrtAxceXE=;
-        b=gGGEenCfujK1cer/xEfuWVPOv8zSoRXuxhdWalAND6qpBCxK8DYgMAIvTMoLUJlvmH
-         Gj6pcv19+SSM+tRjJ4LlSW5PuAe4QgPq7YCejAokY/SQiwJyZawikW9KFcTGe+IZ32wc
-         XpvlQSaKKiW6e7NS++LmnvhkmRtDFdoaNha7CazgJnufMI9Z0fSp3o11IX2JLKr5sQDI
-         YZAuKY3bcxS3UXT/7r1u2WaZCU8y1oZxgKFOreSmt6U/1Kft+zqN1zXQTHzN2c/EKI7A
-         rF1Dur9dOXG9xinqS1/2AFbdaUGw5HOFnufwVdyRo/nmow088ww/76wb/wi4U7OaE71e
-         0boA==
-X-Gm-Message-State: ACrzQf2EXBf3m8FXyql/R1IBhb2chkGVZvUYmnVHAWLWfDNKazSQRwPv
-        8xk0a3bBkeWDEZvXLb/dVyg=
-X-Google-Smtp-Source: AMsMyM4FIi6S1pT6eltiRrryv4qE0rcqltqfJTCg+I24Bqf3BRcvPv34/82bpTDDYj7hDqtN9ZygBA==
-X-Received: by 2002:a19:5052:0:b0:4a2:caa1:e2f6 with SMTP id z18-20020a195052000000b004a2caa1e2f6mr507086lfj.65.1666077802373;
-        Tue, 18 Oct 2022 00:23:22 -0700 (PDT)
-Received: from ?IPV6:2001:2002:2f8:bfc5:11e3:17a5:f449:1926? ([2001:2002:2f8:bfc5:11e3:17a5:f449:1926])
-        by smtp.gmail.com with ESMTPSA id f17-20020a056512361100b004a22ea5dc7fsm1750260lfs.8.2022.10.18.00.23.21
+        bh=CCEP93SrKha1beFcHYoSoxHTQfYCss+8LIPY1BuUnHo=;
+        b=q3vJyV6Iu6H5Nfm5mwemw1IHPhpRyCDJszYNlHPPoNDvADDEM30Jg4cgXRT41AhtKN
+         aFeGiSQNXdm8a7TmnBw6XkvTR9gF+n4mAEwhBg3YQIThBh8LXRp3CgSVU3l2xo+zIgx0
+         RXCoAywjsLpHn+sxcA3+AUxYqN7zwjNmBJB1OIOheTtc0P4n3z+UYbjMpjCMoGu8t7wE
+         8PVO+3+YOKAFIKFDyhYF/zZSEKhswG1v5REr5qNSS1fNY5hMLLqHpfbudQu3g/i8ND6I
+         k3+YU4FUtp+rCNLDhOZRfZ+spTo+bcwsK9XBWoerTVLCJXxCFtd9HqdOMj93eCjuDktD
+         eifA==
+X-Gm-Message-State: ACrzQf3iS1sMHK59xVoc+chtNAGHcqc9fqG/nUcC1uVxiNZa9EiADrh6
+        vYXwgKRB+9IQYNXZO94/p81MBVsNsYf41w==
+X-Google-Smtp-Source: AMsMyM5iFP5RWjGsIwbkTbMz/UTSCNAYrf3Yt0ooQaRGisC/dUpdEwciNE+Z1xcroG4uunAuqakRzA==
+X-Received: by 2002:a05:6402:414f:b0:456:c2c1:23ec with SMTP id x15-20020a056402414f00b00456c2c123ecmr1566020eda.420.1666080982491;
+        Tue, 18 Oct 2022 01:16:22 -0700 (PDT)
+Received: from ?IPV6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
+        by smtp.gmail.com with ESMTPSA id g16-20020a170906539000b0073d5948855asm7249938ejo.1.2022.10.18.01.16.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Oct 2022 00:23:21 -0700 (PDT)
-Message-ID: <7509e3c2-b3be-1330-bfa4-3ae16d049d70@gmail.com>
-Date:   Tue, 18 Oct 2022 09:23:21 +0200
+        Tue, 18 Oct 2022 01:16:21 -0700 (PDT)
+Message-ID: <1ec14007-affc-f826-6dda-f23ee166226a@kernel.org>
+Date:   Tue, 18 Oct 2022 10:16:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH] kbuild: use POSIX-compatible grep option
-Content-Language: en-GB
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v3 7/7] kbuild: remove head-y syntax
+Content-Language: en-US
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
         Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20221017150113.334571-1-newbie13xd@gmail.com>
- <CAK7LNARsUE4j7LNYsushQaXFBEcnhhXoNg9THh2wLrYoi2jp9Q@mail.gmail.com>
-From:   Stefan Hansson <newbie13xd@gmail.com>
-In-Reply-To: <CAK7LNARsUE4j7LNYsushQaXFBEcnhhXoNg9THh2wLrYoi2jp9Q@mail.gmail.com>
+        Nathan Chancellor <nathan@kernel.org>,
+        =?UTF-8?Q?Martin_Li=c5=a1ka?= <mliska@suse.cz>
+References: <20220924181915.3251186-1-masahiroy@kernel.org>
+ <20220924181915.3251186-8-masahiroy@kernel.org>
+From:   Jiri Slaby <jirislaby@kernel.org>
+In-Reply-To: <20220924181915.3251186-8-masahiroy@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro,
+Hi,
 
-On 2022-10-17 23:31, Masahiro Yamada wrote:
-> On Tue, Oct 18, 2022 at 12:02 AM Stefan Hansson <newbie13xd@gmail.com> wrote:
->>
->> --file is a GNU extension to grep which is not available in all
->> implementations (such as BusyBox). Use the -f option instead which is
->> eqvuialent according to the GNU grep manpage[1] and is present in
->> POSIX[2].
->>
->>   [1] https://www.gnu.org/software/grep/manual/grep.html
->>   [2] https://pubs.opengroup.org/onlinepubs/9699919799/
+On 24. 09. 22, 20:19, Masahiro Yamada wrote:
+> Kbuild puts the objects listed in head-y at the head of vmlinux.
+> Conventionally, we do this for head*.S, which contains the kernel entry
+> point.
 > 
+> A counter approach is to control the section order by the linker script.
+> Actually, the code marked as __HEAD goes into the ".head.text" section,
+> which is placed before the normal ".text" section.
 > 
-> This link does not show the spec of grep.
+> I do not know if both of them are needed. From the build system
+> perspective, head-y is not mandatory. If you can achieve the proper code
+> placement by the linker script only, it would be cleaner.
 > 
+> I collected the current head-y objects into head-object-list.txt. It is
+> a whitelist. My hope is it will be reduced in the long run.
 > 
-> Did you mean this?
-> 
-> https://pubs.opengroup.org/onlinepubs/9699919799/utilities/grep.html
-> 
-> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+...
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1149,10 +1149,10 @@ quiet_cmd_ar_vmlinux.a = AR      $@
+>         cmd_ar_vmlinux.a = \
+>   	rm -f $@; \
+>   	$(AR) cDPrST $@ $(KBUILD_VMLINUX_OBJS); \
+> -	$(AR) mPiT $$($(AR) t $@ | head -n1) $@ $(head-y)
+> +	$(AR) mPiT $$($(AR) t $@ | head -n1) $@ $$($(AR) t $@ | grep -F --file=$(srctree)/scripts/head-object-list.txt)
 
-Yes, sorry, that's a better link. I'm new to this. Do you want me to 
-send a v2 with the commit message updated?
+With AR=gcc-ar, the "| head -n1" results in:
+/usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/ar 
+terminated with signal 13 [Broken pipe]
 
-> 
-> 
-> Thanks.
-> 
-> 
-> 
-> 
-> 
->>
->> Signed-off-by: Stefan Hansson <newbie13xd@gmail.com>
->> ---
->>   Makefile | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/Makefile b/Makefile
->> index c690361b393f..3513a6db66a2 100644
->> --- a/Makefile
->> +++ b/Makefile
->> @@ -1218,7 +1218,7 @@ quiet_cmd_ar_vmlinux.a = AR      $@
->>         cmd_ar_vmlinux.a = \
->>          rm -f $@; \
->>          $(AR) cDPrST $@ $(KBUILD_VMLINUX_OBJS); \
->> -       $(AR) mPiT $$($(AR) t $@ | head -n1) $@ $$($(AR) t $@ | grep -F --file=$(srctree)/scripts/head-object-list.txt)
->> +       $(AR) mPiT $$($(AR) t $@ | head -n1) $@ $$($(AR) t $@ | grep -Ff $(srctree)/scripts/head-object-list.txt)
->>
->>   targets += vmlinux.a
->>   vmlinux.a: $(KBUILD_VMLINUX_OBJS) scripts/head-object-list.txt autoksyms_recursive FORCE
->> --
->> 2.37.3
->>
-> 
-> 
+I found out only with gcc-lto. But maybe we should make it silent in any 
+case? I'm not sure how. This looks ugly (and needs the whole output to 
+be piped):
+gcc-ar t vmlinux.a | ( head -n1; cat >/dev/null )
+
+Note the result appears to be correct, it's only that gcc-ar complains 
+after printing out the very first line.
+
+thanks,
+-- 
+js
+suse labs
+
