@@ -2,111 +2,136 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E708601EC2
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Oct 2022 02:13:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D24536025A1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Oct 2022 09:23:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231578AbiJRANF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 17 Oct 2022 20:13:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37872 "EHLO
+        id S229978AbiJRHXl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 18 Oct 2022 03:23:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231358AbiJRALK (ORCPT
+        with ESMTP id S230322AbiJRHXh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 17 Oct 2022 20:11:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84E4489817;
-        Mon, 17 Oct 2022 17:09:08 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2EE4A61324;
-        Tue, 18 Oct 2022 00:09:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDF69C43470;
-        Tue, 18 Oct 2022 00:09:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666051747;
-        bh=XQU6IxSFDDludMCvBY1NmvN3jKyoAOUTtqBbNtntPgE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=A1hohrrQWUcfcS0ePPSdKGD3wjqqMbnoL5in0x4udRvZSuIoA5MFhZVxnoKXEZ0yJ
-         JKoCkwOXWg5SNxL8Cbp5pfr4TJhEuXsI5J8ItA4pZfusMDEnXkX6nN6BW+kNCbi41p
-         RunF+qtnAMFBTYMkffsZJ3m6NC5HC2Kp3r4fvsZe3WWfsxLHObqnUUzK4XTh1kXvuv
-         rjMf9XU2tj9a5/lQt0nCOqVuHvVsOABcA0jcFWjsW+s1hAx56MgZsBkHX2pawTyZNR
-         Wra/5RGZUS+AECu1qe1HQJwe8Jd+SqQvO8SJLoYlJQS/5steEbKyozOMLHdWw1Id4b
-         t8HQBbY6VYtbg==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Rob Herring <robh@kernel.org>, Sasha Levin <sashal@kernel.org>,
-        masahiroy@kernel.org, michal.lkml@markovi.net,
-        linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 15/29] kbuild: take into account DT_SCHEMA_FILES changes while checking dtbs
-Date:   Mon, 17 Oct 2022 20:08:24 -0400
-Message-Id: <20221018000839.2730954-15-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221018000839.2730954-1-sashal@kernel.org>
-References: <20221018000839.2730954-1-sashal@kernel.org>
+        Tue, 18 Oct 2022 03:23:37 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98754ABF1F;
+        Tue, 18 Oct 2022 00:23:24 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id s20so21098524lfi.11;
+        Tue, 18 Oct 2022 00:23:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=p3nyMq6EMyVRHeyxrABEnUNSYPVSUUrWhCzrtAxceXE=;
+        b=Yk+TJio+V9jwykmEv7O6EUfHHYwfvpzYFuS/VgAQQmC7I4eCJjCctniv8kHx3tZ9g2
+         woKFrOcAg6AHdQlbG3Ubyv/62eloXlajxefAHzQgd1PxMjmQ70Vfm1pxy5dgWERuaQZG
+         jF/32taSjJH5sGTSabqTuWYcLw+Sh3MjRrBVs5HisCXc6ZUI8rXWiyCHvV6MsDvdf2ws
+         z2gUR2jb/jRECe2a2q2etTWIqYMI3ZvzdEJb9Vbyjd5NHm/4Ja0dG2yul8UdsX5sC59M
+         PPNyn+Em0/ONLYcWkODlFdSMX+V1F9NxlIoFpAZOK9lhulokSEiSOOyQ+7TQ62sOOYSn
+         8Isg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=p3nyMq6EMyVRHeyxrABEnUNSYPVSUUrWhCzrtAxceXE=;
+        b=gGGEenCfujK1cer/xEfuWVPOv8zSoRXuxhdWalAND6qpBCxK8DYgMAIvTMoLUJlvmH
+         Gj6pcv19+SSM+tRjJ4LlSW5PuAe4QgPq7YCejAokY/SQiwJyZawikW9KFcTGe+IZ32wc
+         XpvlQSaKKiW6e7NS++LmnvhkmRtDFdoaNha7CazgJnufMI9Z0fSp3o11IX2JLKr5sQDI
+         YZAuKY3bcxS3UXT/7r1u2WaZCU8y1oZxgKFOreSmt6U/1Kft+zqN1zXQTHzN2c/EKI7A
+         rF1Dur9dOXG9xinqS1/2AFbdaUGw5HOFnufwVdyRo/nmow088ww/76wb/wi4U7OaE71e
+         0boA==
+X-Gm-Message-State: ACrzQf2EXBf3m8FXyql/R1IBhb2chkGVZvUYmnVHAWLWfDNKazSQRwPv
+        8xk0a3bBkeWDEZvXLb/dVyg=
+X-Google-Smtp-Source: AMsMyM4FIi6S1pT6eltiRrryv4qE0rcqltqfJTCg+I24Bqf3BRcvPv34/82bpTDDYj7hDqtN9ZygBA==
+X-Received: by 2002:a19:5052:0:b0:4a2:caa1:e2f6 with SMTP id z18-20020a195052000000b004a2caa1e2f6mr507086lfj.65.1666077802373;
+        Tue, 18 Oct 2022 00:23:22 -0700 (PDT)
+Received: from ?IPV6:2001:2002:2f8:bfc5:11e3:17a5:f449:1926? ([2001:2002:2f8:bfc5:11e3:17a5:f449:1926])
+        by smtp.gmail.com with ESMTPSA id f17-20020a056512361100b004a22ea5dc7fsm1750260lfs.8.2022.10.18.00.23.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Oct 2022 00:23:21 -0700 (PDT)
+Message-ID: <7509e3c2-b3be-1330-bfa4-3ae16d049d70@gmail.com>
+Date:   Tue, 18 Oct 2022 09:23:21 +0200
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH] kbuild: use POSIX-compatible grep option
+Content-Language: en-GB
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20221017150113.334571-1-newbie13xd@gmail.com>
+ <CAK7LNARsUE4j7LNYsushQaXFBEcnhhXoNg9THh2wLrYoi2jp9Q@mail.gmail.com>
+From:   Stefan Hansson <newbie13xd@gmail.com>
+In-Reply-To: <CAK7LNARsUE4j7LNYsushQaXFBEcnhhXoNg9THh2wLrYoi2jp9Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Hi Masahiro,
 
-[ Upstream commit d7c6ea024c08bbdb799768f51ffd9fdd6236d190 ]
+On 2022-10-17 23:31, Masahiro Yamada wrote:
+> On Tue, Oct 18, 2022 at 12:02 AM Stefan Hansson <newbie13xd@gmail.com> wrote:
+>>
+>> --file is a GNU extension to grep which is not available in all
+>> implementations (such as BusyBox). Use the -f option instead which is
+>> eqvuialent according to the GNU grep manpage[1] and is present in
+>> POSIX[2].
+>>
+>>   [1] https://www.gnu.org/software/grep/manual/grep.html
+>>   [2] https://pubs.opengroup.org/onlinepubs/9699919799/
+> 
+> 
+> This link does not show the spec of grep.
+> 
+> 
+> Did you mean this?
+> 
+> https://pubs.opengroup.org/onlinepubs/9699919799/utilities/grep.html
+> 
+> 
 
-It is useful to be able to recheck dtbs files against a limited set of
-DT schema files. This can be accomplished by using differnt
-DT_SCHEMA_FILES argument values while rerunning make dtbs_check. However
-for some reason if_changed_rule doesn't pick up the rule_dtc changes
-(and doesn't retrigger the build).
+Yes, sorry, that's a better link. I'm new to this. Do you want me to 
+send a v2 with the commit message updated?
 
-Fix this by changing if_changed_rule to if_changed_dep and squashing DTC
-and dt-validate into a single new command. Then if_changed_dep triggers
-on DT_SCHEMA_FILES changes and reruns the build/check.
-
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Link: https://lore.kernel.org/r/20220915114422.79378-1-dmitry.baryshkov@linaro.org
-Signed-off-by: Rob Herring <robh@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- scripts/Makefile.lib | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
-
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 3fb6a99e78c4..cec0560f6ac6 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -371,17 +371,15 @@ DT_CHECKER_FLAGS ?= $(if $(DT_SCHEMA_FILES),-l $(DT_SCHEMA_FILES),-m)
- DT_BINDING_DIR := Documentation/devicetree/bindings
- DT_TMP_SCHEMA := $(objtree)/$(DT_BINDING_DIR)/processed-schema.json
- 
--quiet_cmd_dtb_check =	CHECK   $@
--      cmd_dtb_check =	$(DT_CHECKER) $(DT_CHECKER_FLAGS) -u $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $@ || true
-+quiet_cmd_dtb =	DTC_CHK $@
-+      cmd_dtb =	$(cmd_dtc) ; $(DT_CHECKER) $(DT_CHECKER_FLAGS) -u $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $@ || true
-+else
-+quiet_cmd_dtb = $(quiet_cmd_dtc)
-+      cmd_dtb = $(cmd_dtc)
- endif
- 
--define rule_dtc
--	$(call cmd_and_fixdep,dtc)
--	$(call cmd,dtb_check)
--endef
--
- $(obj)/%.dtb: $(src)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE
--	$(call if_changed_rule,dtc)
-+	$(call if_changed_dep,dtb)
- 
- $(obj)/%.dtbo: $(src)/%.dts $(DTC) FORCE
- 	$(call if_changed_dep,dtc)
--- 
-2.35.1
-
+> 
+> 
+> Thanks.
+> 
+> 
+> 
+> 
+> 
+>>
+>> Signed-off-by: Stefan Hansson <newbie13xd@gmail.com>
+>> ---
+>>   Makefile | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/Makefile b/Makefile
+>> index c690361b393f..3513a6db66a2 100644
+>> --- a/Makefile
+>> +++ b/Makefile
+>> @@ -1218,7 +1218,7 @@ quiet_cmd_ar_vmlinux.a = AR      $@
+>>         cmd_ar_vmlinux.a = \
+>>          rm -f $@; \
+>>          $(AR) cDPrST $@ $(KBUILD_VMLINUX_OBJS); \
+>> -       $(AR) mPiT $$($(AR) t $@ | head -n1) $@ $$($(AR) t $@ | grep -F --file=$(srctree)/scripts/head-object-list.txt)
+>> +       $(AR) mPiT $$($(AR) t $@ | head -n1) $@ $$($(AR) t $@ | grep -Ff $(srctree)/scripts/head-object-list.txt)
+>>
+>>   targets += vmlinux.a
+>>   vmlinux.a: $(KBUILD_VMLINUX_OBJS) scripts/head-object-list.txt autoksyms_recursive FORCE
+>> --
+>> 2.37.3
+>>
+> 
+> 
