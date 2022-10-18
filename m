@@ -2,131 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7113F60280C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Oct 2022 11:14:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1E4F6029B8
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Oct 2022 12:55:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230515AbiJRJOK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 18 Oct 2022 05:14:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60310 "EHLO
+        id S229717AbiJRKzx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 18 Oct 2022 06:55:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231259AbiJRJOC (ORCPT
+        with ESMTP id S229678AbiJRKzv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 18 Oct 2022 05:14:02 -0400
-Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94B63AA343;
-        Tue, 18 Oct 2022 02:13:49 -0700 (PDT)
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 29I9DVRL002761;
-        Tue, 18 Oct 2022 18:13:32 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 29I9DVRL002761
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1666084412;
-        bh=3pXlksKoX067wY5+EfFXWbUDydu8+P5Ey+k3BFIx0HE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=tgEE65Ys9KPzyXxFvpkGI0OQo8q7Ukz7gxq5FAbsPugJpAoDsSSMMk0+Hw/nOB9Cz
-         b7jLoK4cjDtEophr/R+ZtEaz2kFCsmu+ApapgMJEICk/V/kLtRx9RUwsmchKKT2qjk
-         j72mDy4AC3EqTcMYf5WJq3PKKw/304scTL500NojWXurQkRKHOy6UIyyPrc11wB4eC
-         oE9pupYZDNpjcwM9oN5+75eS//Ahm5sNQOm0I72mNh+zwEYwZ459IFQIbpSpQ+kRNX
-         YuXzo3rgfnc11tOU9TpQw8+N3lKI7Ftal7U6sXTXqRhpIE3Vbmlpjey6s6F2aBbZea
-         qXPxst5WxvjRA==
-X-Nifty-SrcIP: [209.85.210.46]
-Received: by mail-ot1-f46.google.com with SMTP id d18-20020a05683025d200b00661c6f1b6a4so7258659otu.1;
-        Tue, 18 Oct 2022 02:13:32 -0700 (PDT)
-X-Gm-Message-State: ACrzQf2hHhya9t6rW8cuUWOi0zOPR09iGijGl2NY+8M7CjEbx2X61RNQ
-        eyOs8ezqjJjlTlPttGQWgDbX3foP7SfffSsvWYc=
-X-Google-Smtp-Source: AMsMyM6/WHrDZayL0+X7b1RVI31TF7F6OSCDYccMj7Tx4f4I0BhhLPHkYSmQ8ipwEIpRc+61A3EnwI8yizPwQzCw0I8=
-X-Received: by 2002:a05:6830:6384:b0:661:bee5:73ce with SMTP id
- ch4-20020a056830638400b00661bee573cemr882692otb.343.1666084411064; Tue, 18
- Oct 2022 02:13:31 -0700 (PDT)
+        Tue, 18 Oct 2022 06:55:51 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5FF5B2F
+        for <linux-kbuild@vger.kernel.org>; Tue, 18 Oct 2022 03:55:49 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id i6so13425208pli.12
+        for <linux-kbuild@vger.kernel.org>; Tue, 18 Oct 2022 03:55:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:cc:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vLINuXNLtU9OTTNSNyr45b8tgX2olJkHTaYrlc4FLMY=;
+        b=AvvfJJx5gAzzk6lxK+wd26zIA6hvsiPk1ZtVSUKFG3/50sy259nGJXfpSB94Bzuamj
+         t4Nw47eoT/kZxK5eNCu9BFqsTZVuhQcbmbQGEsU6KOcyOCKSYxEahLPkToN0eio5iZnT
+         7TxXc9DPGbgM6N/Pkg3Bl/JiAgIkJmAFRQHwj0xrY4GAGPQ6dJUclzFccaeMRCNSmdp6
+         GS6TPYCffisqFhXDejrK2nLvdbEFNsADuLTvsLlr1jcAeBV5zXc7407O0vLqlqFlXnoe
+         D1JRYmkiO2oMQb8CXEcSHi4YTHGzo6md9eqGnjvVsrlu9G82dU6FUgF9H1mRJ7pByL2i
+         LBQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:cc:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vLINuXNLtU9OTTNSNyr45b8tgX2olJkHTaYrlc4FLMY=;
+        b=Fc6UEiRC4OSse+jOuVNkKCFUsrFCA1IU5Xj/H3lBl/LW12WpPzpBFOE8+/9bTfSgda
+         xslSGtUtVedA3f189IKvc2LP4uUmzoPEnIz0BSFC/ePpb07BG2IJPxQi2gTNTVuYbu3k
+         Oxrbmpuvh6t1OkJH/63ocSGO2kRcM1iTjXg8a3euY7HowQTnUymIiYEV8VlbbclUJq92
+         8XAtmDwKXKd1D+orDQP5mT6mzEl8mufvwN9HSCFEXcVdZsCY4glzijYMvLOS6iOw/H2o
+         G1DwI9Jgdfx7mGMfda+4AMb1jYzJukYLCqeBwUm8tlwsl/F+K8XXE9sCt8l2m+cd5IRl
+         detg==
+X-Gm-Message-State: ACrzQf2RB60zLwqywbAYc4+P0ZzlDjRYnXrIM2x17BPCwAeJDVCY646v
+        fIlNW+KKG4HoymFMj437Uxn+Pw6tAhEJNz7H
+X-Google-Smtp-Source: AMsMyM5VtbTfwhbV3RfqUQUJRdioqFYoASfbuOal1sg3LVaYGyCoBtPU6VKQB2TskT1XFAn0+5Fhtw==
+X-Received: by 2002:a17:902:e40a:b0:183:f90:2fb with SMTP id m10-20020a170902e40a00b001830f9002fbmr2652844ple.28.1666090549306;
+        Tue, 18 Oct 2022 03:55:49 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-86.three.co.id. [180.214.232.86])
+        by smtp.gmail.com with ESMTPSA id b8-20020a17090a7ac800b00205d70ccfeesm11063883pjl.33.2022.10.18.03.55.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Oct 2022 03:55:48 -0700 (PDT)
+Message-ID: <81aa8527-af8c-aff9-f805-5412a0531238@gmail.com>
+Date:   Tue, 18 Oct 2022 17:55:45 +0700
 MIME-Version: 1.0
-References: <20220924181915.3251186-1-masahiroy@kernel.org>
- <20220924181915.3251186-8-masahiroy@kernel.org> <1ec14007-affc-f826-6dda-f23ee166226a@kernel.org>
-In-Reply-To: <1ec14007-affc-f826-6dda-f23ee166226a@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 18 Oct 2022 18:12:54 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARahN2xefEBb4EprpiA6B5-7Hakc1cC9_o+FieXr=a_pA@mail.gmail.com>
-Message-ID: <CAK7LNARahN2xefEBb4EprpiA6B5-7Hakc1cC9_o+FieXr=a_pA@mail.gmail.com>
-Subject: Re: [PATCH v3 7/7] kbuild: remove head-y syntax
-To:     Jiri Slaby <jirislaby@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        =?UTF-8?Q?Martin_Li=C5=A1ka?= <mliska@suse.cz>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: 6.0.0-RC kernels trigger Firefox snap bug with 6.0.0-rc3 through
+ 6.0.0-rc7
+Content-Language: en-US
+To:     Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
+References: <b0c258c3-6dcf-aade-efc4-d62a8b3a1ce2@alu.unizg.hr>
+ <Y0Zw2eHEb1aZ9f4y@debian.me>
+ <29362d2e-eec6-5a23-4354-cf8868d50b2c@alu.unizg.hr>
+ <6375f31f-316a-bebc-6aec-c6241049e401@alu.unizg.hr>
+ <7e0b733d-db73-f9a7-0965-4744e63f1a33@gmail.com>
+ <fa6c69ff-a493-a519-3564-1a1ccb932553@alu.unizg.hr>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <fa6c69ff-a493-a519-3564-1a1ccb932553@alu.unizg.hr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 18, 2022 at 5:16 PM Jiri Slaby <jirislaby@kernel.org> wrote:
->
-> Hi,
->
-> On 24. 09. 22, 20:19, Masahiro Yamada wrote:
-> > Kbuild puts the objects listed in head-y at the head of vmlinux.
-> > Conventionally, we do this for head*.S, which contains the kernel entry
-> > point.
-> >
-> > A counter approach is to control the section order by the linker script.
-> > Actually, the code marked as __HEAD goes into the ".head.text" section,
-> > which is placed before the normal ".text" section.
-> >
-> > I do not know if both of them are needed. From the build system
-> > perspective, head-y is not mandatory. If you can achieve the proper code
-> > placement by the linker script only, it would be cleaner.
-> >
-> > I collected the current head-y objects into head-object-list.txt. It is
-> > a whitelist. My hope is it will be reduced in the long run.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ...
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -1149,10 +1149,10 @@ quiet_cmd_ar_vmlinux.a = AR      $@
-> >         cmd_ar_vmlinux.a = \
-> >       rm -f $@; \
-> >       $(AR) cDPrST $@ $(KBUILD_VMLINUX_OBJS); \
-> > -     $(AR) mPiT $$($(AR) t $@ | head -n1) $@ $(head-y)
-> > +     $(AR) mPiT $$($(AR) t $@ | head -n1) $@ $$($(AR) t $@ | grep -F --file=$(srctree)/scripts/head-object-list.txt)
->
-> With AR=gcc-ar, the "| head -n1" results in:
-> /usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/ar
-> terminated with signal 13 [Broken pipe]
->
-> I found out only with gcc-lto. But maybe we should make it silent in any
-> case? I'm not sure how. This looks ugly (and needs the whole output to
-> be piped):
-> gcc-ar t vmlinux.a | ( head -n1; cat >/dev/null )
->
-> Note the result appears to be correct, it's only that gcc-ar complains
-> after printing out the very first line.
+On 10/18/22 16:36, Mirsad Todorovac wrote:
+> Hi Bagas,
+> 
+> It would be a great speed improvement for my testing kernels if ccache gcc worked
+> for me, so I wonder if you could give me some advice.
+> 
+> I tried the latest binary release (compiling on our Debian 10 Buster is impossible due
+> to prerequisites required), however, it did not work though I saw that it cached
+> objs, but it also recompiled them each time.
+> 
+> Now that the building cycle of 90 minutes appears too long, it would be prudent to
+> have the ccaching system working.
+> 
+> Are you willing to give some advice?
+> 
 
-
-Indeed, I see the same message.
-
-
-sed does not show such an error, though.
-
-
-masahiro@zoe:~/ref/linux$ gcc-ar t vmlinux.a | head -n1
-arch/x86/kernel/head_64.o
-/usr/bin/ar terminated with signal 13 [Broken pipe]
-
-
-masahiro@zoe:~/ref/linux$ gcc-ar t vmlinux.a | sed -n 1p
-arch/x86/kernel/head_64.o
-
-
-
-
-
-
+CC'ing linux-kbuild list, since people there may know this issue.
 
 -- 
-Best Regards
-Masahiro Yamada
+An old man doll... just what I always wanted! - Clara
+
