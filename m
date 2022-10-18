@@ -2,48 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83F73601E50
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Oct 2022 02:09:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E708601EC2
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Oct 2022 02:13:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230183AbiJRAJO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 17 Oct 2022 20:09:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36610 "EHLO
+        id S231578AbiJRANF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 17 Oct 2022 20:13:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231320AbiJRAIo (ORCPT
+        with ESMTP id S231358AbiJRALK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 17 Oct 2022 20:08:44 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66726870BA;
-        Mon, 17 Oct 2022 17:08:08 -0700 (PDT)
+        Mon, 17 Oct 2022 20:11:10 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84E4489817;
+        Mon, 17 Oct 2022 17:09:08 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 993FAB81BD5;
-        Tue, 18 Oct 2022 00:08:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BACDC433C1;
-        Tue, 18 Oct 2022 00:08:03 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2EE4A61324;
+        Tue, 18 Oct 2022 00:09:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDF69C43470;
+        Tue, 18 Oct 2022 00:09:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666051684;
+        s=k20201202; t=1666051747;
         bh=XQU6IxSFDDludMCvBY1NmvN3jKyoAOUTtqBbNtntPgE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=k36E5miV/ot0H7SyjulWEC5KlI46sTN1mAk6pH5uq6TZY2PyMntwsnbtmPU5BV63S
-         i+JfTDQ78f9Q3vf7EpHArXJrdTqNvmJhl2i6N/jsxB914nqPCWOvUHglyOiRft0aAy
-         uTEGjEI7OQW0WqEK+EBp8K3dpjZTR5nukMtvuu4v0zfIzcH4C8siGcgA0V/2jA+iTS
-         GsbsY2rcw6yxPNow1dYEa5PHZfTVtC0D0Ko79mxTKQJGhst70c+qwWovVBMwBCKGZ1
-         9XfdH2wk6Es4bajP/h1899OtAHzUwARwe6RKBngM54eHyLC13yLw4SB5QSrJ6ER8dH
-         uTh3ZptpkfZTA==
+        b=A1hohrrQWUcfcS0ePPSdKGD3wjqqMbnoL5in0x4udRvZSuIoA5MFhZVxnoKXEZ0yJ
+         JKoCkwOXWg5SNxL8Cbp5pfr4TJhEuXsI5J8ItA4pZfusMDEnXkX6nN6BW+kNCbi41p
+         RunF+qtnAMFBTYMkffsZJ3m6NC5HC2Kp3r4fvsZe3WWfsxLHObqnUUzK4XTh1kXvuv
+         rjMf9XU2tj9a5/lQt0nCOqVuHvVsOABcA0jcFWjsW+s1hAx56MgZsBkHX2pawTyZNR
+         Wra/5RGZUS+AECu1qe1HQJwe8Jd+SqQvO8SJLoYlJQS/5steEbKyozOMLHdWw1Id4b
+         t8HQBbY6VYtbg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
         Rob Herring <robh@kernel.org>, Sasha Levin <sashal@kernel.org>,
         masahiroy@kernel.org, michal.lkml@markovi.net,
         linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.0 17/32] kbuild: take into account DT_SCHEMA_FILES changes while checking dtbs
-Date:   Mon, 17 Oct 2022 20:07:14 -0400
-Message-Id: <20221018000729.2730519-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.19 15/29] kbuild: take into account DT_SCHEMA_FILES changes while checking dtbs
+Date:   Mon, 17 Oct 2022 20:08:24 -0400
+Message-Id: <20221018000839.2730954-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221018000729.2730519-1-sashal@kernel.org>
-References: <20221018000729.2730519-1-sashal@kernel.org>
+In-Reply-To: <20221018000839.2730954-1-sashal@kernel.org>
+References: <20221018000839.2730954-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
