@@ -2,76 +2,109 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 916F86051F4
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Oct 2022 23:29:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 282FC60543F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Oct 2022 01:56:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230298AbiJSV3s (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 19 Oct 2022 17:29:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45282 "EHLO
+        id S230004AbiJSX40 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 19 Oct 2022 19:56:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229552AbiJSV3q (ORCPT
+        with ESMTP id S229909AbiJSX4Y (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 19 Oct 2022 17:29:46 -0400
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E6B1B44544;
-        Wed, 19 Oct 2022 14:29:43 -0700 (PDT)
-Received: from gate.crashing.org (localhost.localdomain [127.0.0.1])
-        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 29JLQXd0021146;
-        Wed, 19 Oct 2022 16:26:33 -0500
-Received: (from segher@localhost)
-        by gate.crashing.org (8.14.1/8.14.1/Submit) id 29JLQV9c021145;
-        Wed, 19 Oct 2022 16:26:31 -0500
-X-Authentication-Warning: gate.crashing.org: segher set sender to segher@kernel.crashing.org using -f
-Date:   Wed, 19 Oct 2022 16:26:31 -0500
-From:   Segher Boessenkool <segher@kernel.crashing.org>
-To:     David Laight <David.Laight@aculab.com>
-Cc:     "'Linus Torvalds'" <torvalds@linux-foundation.org>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-toolchains@vger.kernel.org" <linux-toolchains@vger.kernel.org>,
+        Wed, 19 Oct 2022 19:56:24 -0400
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FEDF17C149
+        for <linux-kbuild@vger.kernel.org>; Wed, 19 Oct 2022 16:56:23 -0700 (PDT)
+Received: by mail-oi1-x22c.google.com with SMTP id x188so21115133oig.5
+        for <linux-kbuild@vger.kernel.org>; Wed, 19 Oct 2022 16:56:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=VigXITkVLYj2H0N/7H5h8chIQ6OrSCW4jyaDySBHArA=;
+        b=dVipe01F0+/PKATXxNO5MrvQYydwK3wDKFHJJPYZu33TRsdQlwODeaeTcxofz+TcBy
+         i9QkXwhJMph9EfoGPMbJeRd2V3zcRj3Q1p7Ywf3RVXRl5yNd3cPt/0QbtxIPuhrUznxB
+         QKXH8CkolwUIi7/w8E0M06X2b4SfFZEteQSOA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VigXITkVLYj2H0N/7H5h8chIQ6OrSCW4jyaDySBHArA=;
+        b=sCNH5pEVqnOInZ68+0ZAHd/Kd8waS2mUSaWEnqgWW1GUqpT39JmAUi/MskF5e/xoEw
+         PbQ9ccPQE9FW1VpB7RdRiVCENZOWHjkkJAx8BS6HELgb+yrEwrgGTUrO1jQhLhIb2rKa
+         hQLrcyI9U4q4R9gl9y0283QHC2OAqsywI9mev3HvT6JorkwPG8MaNKezvFXiMSigEtdL
+         NL4RYnXHn0n0z1VwF6RIuO8LMZxJSnEgGA/N3qMMaQEDVs6NlG3uLOaY9r0A/o4XO3ac
+         po+X2r9vQXKb26CrV6/Wp1pQvbz5TwQSEnclP3t5+bRWI+JvbifwMhvboZshHmkNLEx0
+         WDqg==
+X-Gm-Message-State: ACrzQf2pZ5TtjU9/zZ41z8zH9uPdZYyuVr2/YL/wzbEVYSx3+RcfWNVq
+        9JD2JWWqxbXkA4bcFoZD8wNcuD3Fm5pzmw==
+X-Google-Smtp-Source: AMsMyM426FKMcXJr0xtbLhCqR9jycrq5u0z1l1FeZH1ltiAcL4rXsXn4nGjxmJ4R0FqY5qCodENlTQ==
+X-Received: by 2002:aca:34c5:0:b0:353:f98f:641e with SMTP id b188-20020aca34c5000000b00353f98f641emr20264183oia.94.1666223782203;
+        Wed, 19 Oct 2022 16:56:22 -0700 (PDT)
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com. [209.85.210.51])
+        by smtp.gmail.com with ESMTPSA id h5-20020a4aa9c5000000b00480e77f90f9sm1153275oon.41.2022.10.19.16.56.19
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Oct 2022 16:56:20 -0700 (PDT)
+Received: by mail-ot1-f51.google.com with SMTP id cb2-20020a056830618200b00661b6e5dcd8so10459935otb.8
+        for <linux-kbuild@vger.kernel.org>; Wed, 19 Oct 2022 16:56:19 -0700 (PDT)
+X-Received: by 2002:a9d:7745:0:b0:661:a3c9:3cff with SMTP id
+ t5-20020a9d7745000000b00661a3c93cffmr5595353otl.176.1666223779433; Wed, 19
+ Oct 2022 16:56:19 -0700 (PDT)
+MIME-Version: 1.0
+References: <Y1BcpXAjR4tmV6RQ@zx2c4.com> <20221019203034.3795710-1-Jason@zx2c4.com>
+In-Reply-To: <20221019203034.3795710-1-Jason@zx2c4.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Wed, 19 Oct 2022 16:56:03 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wit-67VU=kt-8Ojtx04m6wxfqypKLzW7CuSeEH_9MYZvw@mail.gmail.com>
+Message-ID: <CAHk-=wit-67VU=kt-8Ojtx04m6wxfqypKLzW7CuSeEH_9MYZvw@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: treat char as always unsigned
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-toolchains@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
         Kees Cook <keescook@chromium.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] kbuild: treat char as always signed
-Message-ID: <20221019212631.GR25951@gate.crashing.org>
-References: <20221019162648.3557490-1-Jason@zx2c4.com> <20221019165455.GL25951@gate.crashing.org> <CAHk-=wiMWk2t8FHn0iqVVe1mn62OTAD6ffL5rn9Eeu021H9d1Q@mail.gmail.com> <20221019174345.GM25951@gate.crashing.org> <CAHk-=wiNNKLFfa0d+Hk=Wm5caiKjLY4V9wwu9DhcSSwPuMbxrg@mail.gmail.com> <e0f6a641c7464d71abbddb4befd35e59@AcuMS.aculab.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e0f6a641c7464d71abbddb4befd35e59@AcuMS.aculab.com>
-User-Agent: Mutt/1.4.2.3i
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Oct 19, 2022 at 09:07:01PM +0000, David Laight wrote:
-> From: Linus Torvalds
-> > Sent: 19 October 2022 19:11
-> > Explicit casts are bad (unless, of course, you are explicitly trying
-> > to violate the type system, when they are both required, and a great
-> > way to say "look, I'm doing something dangerous").
+On Wed, Oct 19, 2022 at 1:30 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+>
+> So let's just eliminate this particular variety of heisensign bugs
+> entirely. Set `-funsigned-char` globally, so that gcc makes the type
+> unsigned on all architectures.
+>
+> This will break things in some places and fix things in others, so this
+> will likely cause a bit of churn while reconciling the type misuse.
 
-> Casts really ought to be rare.
+Yeah, if we were still in the merge window, I'd probably apply this,
+but as things stand, I think it should go into linux-next and cook
+there for the next merge window.
 
-Sometimes you need casts for *data*, like where you write  (u32)smth
-because you really want the low 32 bits of that something.  That only
-happens in some kinds of code -- multi-precision integer, some crypto,
-serialisation primitives.
+Anybody willing to put this in their -next trees?
 
-You often want casts for varargs, too.  The alternative is to make very
-certain some other way that the actual arguments will have the correct
-type, but that is often awkward to do, and not as clear to read.
+Any breakage it causes is likely going to be fairly subtle, and in
+some random driver that isn't used on architectures that already have
+an unsigned 'char' type.
 
-Pointer casts are almost always a mistake.  If you think you want one
-you are almost always wrong.
+I think the architectures with an unsigned 'char' are arm, powerpc and
+s390, in all their variations (ie both 32- and 64-bit).
 
+So all *core* code should be fine with this, but that still leaves a
+lot of drivers that have likely never been tested on anything but x86,
+and could just stop working.
 
-Segher
+I don't think breakage is very *likely*, but I suspect it exists.
+
+                       Linus
