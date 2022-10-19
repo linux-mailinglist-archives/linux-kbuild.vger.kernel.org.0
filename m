@@ -2,63 +2,64 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DDD0C604E4C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Oct 2022 19:14:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B56E3604E97
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Oct 2022 19:26:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229766AbiJSROq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 19 Oct 2022 13:14:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35944 "EHLO
+        id S229867AbiJSR0c (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 19 Oct 2022 13:26:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230023AbiJSROl (ORCPT
+        with ESMTP id S229714AbiJSR0b (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 19 Oct 2022 13:14:41 -0400
+        Wed, 19 Oct 2022 13:26:31 -0400
 Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC5494E85B
-        for <linux-kbuild@vger.kernel.org>; Wed, 19 Oct 2022 10:14:38 -0700 (PDT)
-Received: by mail-ot1-x329.google.com with SMTP id f4-20020a9d0384000000b0066208c73094so808241otf.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 19 Oct 2022 10:14:38 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD3151BF229
+        for <linux-kbuild@vger.kernel.org>; Wed, 19 Oct 2022 10:26:29 -0700 (PDT)
+Received: by mail-ot1-x329.google.com with SMTP id cy15-20020a056830698f00b0065c530585afso9907314otb.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 19 Oct 2022 10:26:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linux-foundation.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=KQxzROgST2+8KIjtVZdr5+s36xe/ZTzSg3ETS6Z3ulQ=;
-        b=LHMjzMXASHQR480KuNviD0xWrYZLfPGTCqeVvQUzo3gve/gy/NSntm2Y3IkOnCwj1p
-         +2IyuKYK8OWw/x9y83GLy2MuG6uqB0UvRc95PvRt9RDfj9DT+fECM5grlCAHIYJa4yIC
-         pJNjoJ+eCxvdc3VlvJicxtqeqtYoTOSjDGAh0=
+        bh=cupPL1neXJFDi/CczZUnnSksrOf8QPniSG3CPoyTvwk=;
+        b=Gac78J9i90UOUBCVrylc5ZrTgnCY15Gnsk7zaNO8hbQdMniRSpKeWxkTTG5TuRyEZB
+         UDik7FL9jFr1ZdlcLkLkZx9hlXsSPXv05eXESmVQoWZJDrDoiml8TtqDCjSsxyMM3DcH
+         ByvbBAe5KO9N+pJ+tA8JESSDV1WDzdBhegWb0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=KQxzROgST2+8KIjtVZdr5+s36xe/ZTzSg3ETS6Z3ulQ=;
-        b=C6o/B3abVIFRUEV+4jT8WqBp0f4lhY1OE7n3/0JF4fOSGwGv3zycg3XVyKsIu/+sAx
-         HM1TZ5ECyNXjP4f6QhMN9BCm5XtEFHEH65BuQYMMUMt5lFK2TFXOJPQw7w/ixQxI1nXq
-         1s5y7vw/s02vrFrcx0slKs47ZUf4V4LALCw5P07sgM0VapozwSylRFrf9AcnbmOazv9t
-         1Eq7O35Xl/X0Mpgadfy/aRQutkpA+QRQSkfsvmCaFWTyqzB8V88gtve5WRlUVJj3nvqu
-         rOd10bGjC+cgZTY6/sVO1TdIzIFWI4dmlJbCzc/vvOv30pEVgJBdUzDoMzD6OujxeA7w
-         M6kw==
-X-Gm-Message-State: ACrzQf3G8tRkYJQbV1F3rEELcfLRDdj7aSAxZmZSOm8PbRzelf95faRc
-        E+8E63jDj9WcFp6GxuCbPGm/2Od0aDYXrA==
-X-Google-Smtp-Source: AMsMyM4tUt5RYaF4sokC9vx+6XeAApmWC3E3lY9D/7L67C4oZVPYLnAoDh/a+v5M9/4rLxr/mJhwCQ==
-X-Received: by 2002:a05:6830:278a:b0:65c:5217:ca79 with SMTP id x10-20020a056830278a00b0065c5217ca79mr4467862otu.374.1666199677788;
-        Wed, 19 Oct 2022 10:14:37 -0700 (PDT)
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com. [209.85.167.170])
-        by smtp.gmail.com with ESMTPSA id l15-20020a9d550f000000b00661abf2162dsm7389746oth.48.2022.10.19.10.14.36
+        bh=cupPL1neXJFDi/CczZUnnSksrOf8QPniSG3CPoyTvwk=;
+        b=d8pOyHtp662nq1MewC7GPClxwFpkUY8iAUiP0I/ST/lUReVp4y9B+xY0hvIwBlQ5ip
+         TIhrJasUCSchLw7SmeuFsOYf7qNvw+6RYweWrhy+nutSNItwMHSChi2PIG1jge5WoXZQ
+         pD5u4tt9gbn+r8ZikYmwGxLBLusi7KUsORP6E93wYT/gmN+/LrVW3YmzfspWGOJIiLne
+         n7IrTh1JSK80jxXNhIFEU6Id+iJVwEm8jepYPk9T5Kr18goY5AINrvKQtiZ73XgeFRgb
+         x3EAF+1/LFd7jsIQOfXZd3PQr99mhyRj8rRKldvbCfSPRQUVJEqGWrsLduow+1YnEALz
+         qyhg==
+X-Gm-Message-State: ACrzQf3mb3GX9hWo7kGvIIOXZ9nKx35FIzdUJtcfLoefPjUEmpn3g1+T
+        5VbIlJSCykxDSdDL8BifC7aHXrCy+RkEMg==
+X-Google-Smtp-Source: AMsMyM6PdCpRd0xKzlBN+c9TOyMGOhEgZESL2PdTLWxYTnxoWPhHLuJT3FJTuFyX4WRqYi+kjeErgg==
+X-Received: by 2002:a05:6830:3495:b0:661:92d7:62f1 with SMTP id c21-20020a056830349500b0066192d762f1mr4556615otu.311.1666200388341;
+        Wed, 19 Oct 2022 10:26:28 -0700 (PDT)
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com. [209.85.167.174])
+        by smtp.gmail.com with ESMTPSA id s197-20020acaa9ce000000b003507c386a4asm6917641oie.40.2022.10.19.10.26.25
         for <linux-kbuild@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Oct 2022 10:14:37 -0700 (PDT)
-Received: by mail-oi1-f170.google.com with SMTP id m81so19995311oia.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 19 Oct 2022 10:14:36 -0700 (PDT)
-X-Received: by 2002:a05:6808:23c3:b0:351:4ecf:477d with SMTP id
- bq3-20020a05680823c300b003514ecf477dmr5072747oib.126.1666199676600; Wed, 19
- Oct 2022 10:14:36 -0700 (PDT)
+        Wed, 19 Oct 2022 10:26:26 -0700 (PDT)
+Received: by mail-oi1-f174.google.com with SMTP id n83so19996761oif.11
+        for <linux-kbuild@vger.kernel.org>; Wed, 19 Oct 2022 10:26:25 -0700 (PDT)
+X-Received: by 2002:a54:4899:0:b0:354:add8:52ab with SMTP id
+ r25-20020a544899000000b00354add852abmr5135777oic.229.1666200385369; Wed, 19
+ Oct 2022 10:26:25 -0700 (PDT)
 MIME-Version: 1.0
 References: <20221019162648.3557490-1-Jason@zx2c4.com> <20221019165455.GL25951@gate.crashing.org>
-In-Reply-To: <20221019165455.GL25951@gate.crashing.org>
+ <CAHk-=wiMWk2t8FHn0iqVVe1mn62OTAD6ffL5rn9Eeu021H9d1Q@mail.gmail.com>
+In-Reply-To: <CAHk-=wiMWk2t8FHn0iqVVe1mn62OTAD6ffL5rn9Eeu021H9d1Q@mail.gmail.com>
 From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 19 Oct 2022 10:14:20 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiMWk2t8FHn0iqVVe1mn62OTAD6ffL5rn9Eeu021H9d1Q@mail.gmail.com>
-Message-ID: <CAHk-=wiMWk2t8FHn0iqVVe1mn62OTAD6ffL5rn9Eeu021H9d1Q@mail.gmail.com>
+Date:   Wed, 19 Oct 2022 10:26:09 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whggBoH78ojE0wttyHKwuf48hrSS_X7s3D3Qd_516ayzQ@mail.gmail.com>
+Message-ID: <CAHk-=whggBoH78ojE0wttyHKwuf48hrSS_X7s3D3Qd_516ayzQ@mail.gmail.com>
 Subject: Re: [PATCH] kbuild: treat char as always signed
 To:     Segher Boessenkool <segher@kernel.crashing.org>
 Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
@@ -80,37 +81,45 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Oct 19, 2022 at 9:57 AM Segher Boessenkool
-<segher@kernel.crashing.org> wrote:
+On Wed, Oct 19, 2022 at 10:14 AM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> This is an ABI change.  It is also hugely detrimental to generated
-> code quality on architectures that make the saner choice (that is, have
-> most instructions zero-extend byte quantities).
+> The pointer-sign thing doesn't actually help (ie it won't find places
+> where you actually compare a char), and it causes untold damage in
+> doing completely insane things.
 
-Yeah, I agree. We should just accept the standard wording, and be
-aware that 'char' has indeterminate signedness.
+Side note: several years ago I tried to make up some sane rules to
+have 'sparse' actually be able to warn when a 'char' was used in a
+context where the sign mattered.
 
-But:
+I failed miserably.
 
-> Instead, don't actively disable the compiler warnings that catch such
-> cases?  So start with removing footguns like
->
->   # disable pointer signed / unsigned warnings in gcc 4.0
->   KBUILD_CFLAGS += -Wno-pointer-sign
+You actually can see some signs (heh) of that in the sparse sources,
+in that the type system actually has a bit for explicitly signed types
+("MOD_EXPLICITLY_SIGNED"), but it ends up being almost entirely
+unused.
 
-Nope, that won't fly.
+That bit does still have one particular use: the "bitfield is
+dubiously signed" thing where sparse will complain about bitfields
+that are implicitly (but not explicitly) signed. Because people really
+expect 'int a:1' to have values 0/1, not 0/-1.
 
-The pointer-sign thing doesn't actually help (ie it won't find places
-where you actually compare a char), and it causes untold damage in
-doing completely insane things.
+But the original intent was to find code where people used a 'char'
+that wasn't explicitly signed, and that then had architecture-defined
+behavior.
 
-For example, it suddenly starts warning if  you *are* being careful,
-and explicitly use 'unsigned char array[]' things to avoid any sign
-issues, and then want to do simple and straightforward things with
-said array (like doing a 'strcmp()' on it).
+I just could not come up with any even remotely sane warning
+heuristics that didn't have a metric buttload of false positives.
 
-Seriously, -Wpointer-sign is not just useless, it's actively _evil_.
-The fact that you suggest that clearly means that you've never used
-it.
+I still have this feeling that it *should* be possible to warn about
+the situation where you end up doing an implicit type widening (ie the
+normal C "arithmetic is always done in at least 'int'") that then does
+not get narrowed down again without the upper bits ever mattering.
 
-                      Linus
+But it needs somebody smarter than me, I'm afraid.
+
+And the fact that I don't think any other compiler has that warning
+either makes me just wonder if my feeling that it should be possible
+is just wrong.
+
+                   Linus
