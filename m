@@ -2,58 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BED26034DE
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Oct 2022 23:26:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A68E604C1E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Oct 2022 17:50:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229651AbiJRV0d (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 18 Oct 2022 17:26:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48286 "EHLO
+        id S232606AbiJSPuI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 19 Oct 2022 11:50:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229592AbiJRV0c (ORCPT
+        with ESMTP id S233071AbiJSPtr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 18 Oct 2022 17:26:32 -0400
-Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C9D07FFAC;
-        Tue, 18 Oct 2022 14:26:30 -0700 (PDT)
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 29ILPrgQ026111;
-        Wed, 19 Oct 2022 06:25:54 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 29ILPrgQ026111
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1666128354;
-        bh=jwdFvUbmk3sXW78e0UcxZUeeQXON1eb/7xWdpvyqIA0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=WkZa6H6gWirZV5mik9OhX88ta9TTfgsVUNeV88kHoARkfVdA30Kyhz2I1aR9MJmDE
-         EcI9RRcxxPqr0GyglvY2fgT0pjk4gMgHp9B7xZHvwIodkg8aOHagQe+CUgxQ3bmClU
-         gEAYVQAVuhfxDdsejvUmEgdwrusvgNRlfVTPS7b0Ai9NlxBg+C+RGNc35vkFUQBSmA
-         Sl5BaepmuURUg+yb/eEnZSaef7VOZNRFRg864eZFQBYwKn9RTLdrybNDAxqWFq0PRj
-         3WIc2p0zNQ5zY7OML35/hAo95P/c06VxFjQuJY9RLW3OQO1EcRHhmwSrsIauAJa8j4
-         y/fRhVDuuum6Q==
-X-Nifty-SrcIP: [209.85.210.47]
-Received: by mail-ot1-f47.google.com with SMTP id r13-20020a056830418d00b0065601df69c0so8393031otu.7;
-        Tue, 18 Oct 2022 14:25:54 -0700 (PDT)
-X-Gm-Message-State: ACrzQf2W/MxAt4MT980Vh1f/rgZEvY6B0JeiFsVbzZyuoHeRV7qqRdLb
-        sBdYohR0HVrfFPJEPmJPrRjBgiBH9j88zTGaJY4=
-X-Google-Smtp-Source: AMsMyM54UKAw/KvcMCpPIbPn/TMWGGQGyjE7BcP4xpHJvcQh3q+IKRKjAqO6+/osr0f4tp6m28P6c33rGHpukpWXauk=
-X-Received: by 2002:a05:6830:6384:b0:661:bee5:73ce with SMTP id
- ch4-20020a056830638400b00661bee573cemr2315210otb.343.1666128353141; Tue, 18
- Oct 2022 14:25:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20221017150113.334571-1-newbie13xd@gmail.com> <CAK7LNARsUE4j7LNYsushQaXFBEcnhhXoNg9THh2wLrYoi2jp9Q@mail.gmail.com>
- <7509e3c2-b3be-1330-bfa4-3ae16d049d70@gmail.com>
-In-Reply-To: <7509e3c2-b3be-1330-bfa4-3ae16d049d70@gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 19 Oct 2022 06:25:16 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASjJ52hmGx2=hTFN0NJpcCFyY3aLAMjBChbRaRRVmxEsQ@mail.gmail.com>
-Message-ID: <CAK7LNASjJ52hmGx2=hTFN0NJpcCFyY3aLAMjBChbRaRRVmxEsQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: use POSIX-compatible grep option
-To:     Stefan Hansson <newbie13xd@gmail.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Wed, 19 Oct 2022 11:49:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C47D191D51
+        for <linux-kbuild@vger.kernel.org>; Wed, 19 Oct 2022 08:45:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1666194264;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=MAsS6j5/KUgYwehdScWVOm+WWLh2WflTE+nFerqwEQQ=;
+        b=dSObGN85W0dbTZ0KVSnv7SyTxWYUyxpYkH/4as5e4ZHXaCtu0kFgmWTqMrtHvzp01H14+A
+        einihBgXV9Yo2Pv3rrYT9YDToKyBQANIYbU845BA9B2u6SuOmYluK9sMpXZqe7zc5MGvOA
+        NOWa9sFFOHDbgAbEacJ7d3VL68nVElM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-21-iFkQkA9NOhC-My5HscVccQ-1; Wed, 19 Oct 2022 11:41:09 -0400
+X-MC-Unique: iFkQkA9NOhC-My5HscVccQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B272A2932493;
+        Wed, 19 Oct 2022 15:41:08 +0000 (UTC)
+Received: from jtoppins.rdu.csb (unknown [10.22.34.209])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4CF1686D78;
+        Wed, 19 Oct 2022 15:41:08 +0000 (UTC)
+From:   Jonathan Toppins <jtoppins@redhat.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     dzickus@redhat.com, kheib@redhat.com, jtornosm@redhat.com,
+        ihuguet@redhat.com, Ivan Vecera <ivecera@redhat.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+        linux-kernel@vger.kernel.org
+Subject: [RFC PATCH] kbuild: add ability to make source rpm buildable using koji
+Date:   Wed, 19 Oct 2022 11:40:12 -0400
+Message-Id: <5b59fdb7db34f5292b1d138939c6b70b2b2039dd.1666194012.git.jtoppins@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -61,79 +62,73 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 18, 2022 at 4:23 PM Stefan Hansson <newbie13xd@gmail.com> wrote:
->
-> Hi Masahiro,
->
-> On 2022-10-17 23:31, Masahiro Yamada wrote:
-> > On Tue, Oct 18, 2022 at 12:02 AM Stefan Hansson <newbie13xd@gmail.com> wrote:
-> >>
-> >> --file is a GNU extension to grep which is not available in all
-> >> implementations (such as BusyBox). Use the -f option instead which is
-> >> eqvuialent according to the GNU grep manpage[1] and is present in
-> >> POSIX[2].
-> >>
-> >>   [1] https://www.gnu.org/software/grep/manual/grep.html
-> >>   [2] https://pubs.opengroup.org/onlinepubs/9699919799/
-> >
-> >
-> > This link does not show the spec of grep.
-> >
-> >
-> > Did you mean this?
-> >
-> > https://pubs.opengroup.org/onlinepubs/9699919799/utilities/grep.html
-> >
-> >
->
-> Yes, sorry, that's a better link. I'm new to this. Do you want me to
-> send a v2 with the commit message updated?
+From: Ivan Vecera <ivecera@redhat.com>
 
-No worries.
-I applied the patch with the link replaced.
+Changes:
+- added new target 'srcrpm-pkg' to generate source rpm
+- added required build tools to spec file
+- removed locally compiled host tools to force their re-compile
 
+Signed-off-by: Ivan Vecera <ivecera@redhat.com>
+Signed-off-by: Jonathan Toppins <jtoppins@redhat.com>
+---
+ scripts/Makefile.package | 10 ++++++++++
+ scripts/package/mkspec   |  7 +++++++
+ 2 files changed, 17 insertions(+)
 
-Thanks.
-
-
-
-
-
-> >
-> >
-> > Thanks.
-> >
-> >
-> >
-> >
-> >
-> >>
-> >> Signed-off-by: Stefan Hansson <newbie13xd@gmail.com>
-> >> ---
-> >>   Makefile | 2 +-
-> >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/Makefile b/Makefile
-> >> index c690361b393f..3513a6db66a2 100644
-> >> --- a/Makefile
-> >> +++ b/Makefile
-> >> @@ -1218,7 +1218,7 @@ quiet_cmd_ar_vmlinux.a = AR      $@
-> >>         cmd_ar_vmlinux.a = \
-> >>          rm -f $@; \
-> >>          $(AR) cDPrST $@ $(KBUILD_VMLINUX_OBJS); \
-> >> -       $(AR) mPiT $$($(AR) t $@ | head -n1) $@ $$($(AR) t $@ | grep -F --file=$(srctree)/scripts/head-object-list.txt)
-> >> +       $(AR) mPiT $$($(AR) t $@ | head -n1) $@ $$($(AR) t $@ | grep -Ff $(srctree)/scripts/head-object-list.txt)
-> >>
-> >>   targets += vmlinux.a
-> >>   vmlinux.a: $(KBUILD_VMLINUX_OBJS) scripts/head-object-list.txt autoksyms_recursive FORCE
-> >> --
-> >> 2.37.3
-> >>
-> >
-> >
-
-
-
+diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+index 8bbcced67c22..e0830a870394 100644
+--- a/scripts/Makefile.package
++++ b/scripts/Makefile.package
+@@ -62,6 +62,16 @@ rpm-pkg:
+ 	+rpmbuild $(RPMOPTS) --target $(UTS_MACHINE)-linux -ta $(KERNELPATH).tar.gz \
+ 	--define='_smp_mflags %{nil}'
+ 
++# srcrpm-pkg
++# ---------------------------------------------------------------------------
++PHONY += srcrpm-pkg
++srcrpm-pkg:
++	$(MAKE) clean
++	$(CONFIG_SHELL) $(MKSPEC) >$(objtree)/kernel.spec
++	$(call cmd,src_tar,$(KERNELPATH),kernel.spec)
++	+rpmbuild $(RPMOPTS) --target $(UTS_MACHINE) -ts $(KERNELPATH).tar.gz \
++	--define='_smp_mflags %{nil}' --define='_srcrpmdir $(srctree)'
++
+ # binrpm-pkg
+ # ---------------------------------------------------------------------------
+ PHONY += binrpm-pkg
+diff --git a/scripts/package/mkspec b/scripts/package/mkspec
+index 70392fd2fd29..dda00a948a01 100755
+--- a/scripts/package/mkspec
++++ b/scripts/package/mkspec
+@@ -33,6 +33,8 @@ EXCLUDES="$RCS_TAR_IGNORE --exclude=*vmlinux* --exclude=*.mod \
+ --exclude=*.o --exclude=*.ko --exclude=*.cmd --exclude=Documentation \
+ --exclude=.config.old --exclude=.missing-syscalls.d --exclude=*.s"
+ 
++test -n "$LOCALVERSION" && MAKE="$MAKE LOCALVERSION=$LOCALVERSION"
++
+ # We can label the here-doc lines for conditional output to the spec file
+ #
+ # Labels:
+@@ -49,6 +51,9 @@ sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
+ 	URL: https://www.kernel.org
+ $S	Source: kernel-$__KERNELRELEASE.tar.gz
+ 	Provides: $PROVIDES
++$S	BuildRequires: bc binutils bison dwarves elfutils-libelf-devel flex
++$S	BuildRequires: gcc make openssl openssl-devel perl python3 rsync
++
+ 	# $UTS_MACHINE as a fallback of _arch in case
+ 	# /usr/lib/rpm/platform/*/macros was not included.
+ 	%define _arch %{?_arch:$UTS_MACHINE}
+@@ -80,6 +85,8 @@ $S$M	against the $__KERNELRELEASE kernel package.
+ $S$M
+ $S	%prep
+ $S	%setup -q
++$S	rm -f scripts/basic/fixdep scripts/kconfig/conf
++$S	rm -f tools/objtool/{fixdep,objtool}
+ $S
+ $S	%build
+ $S	$MAKE %{?_smp_mflags} KBUILD_BUILD_VERSION=%{release}
 -- 
-Best Regards
-Masahiro Yamada
+2.31.1
+
