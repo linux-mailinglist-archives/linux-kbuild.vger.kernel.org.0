@@ -2,112 +2,64 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 12A766055D0
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Oct 2022 05:12:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0452605961
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Oct 2022 10:11:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230325AbiJTDMH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 19 Oct 2022 23:12:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50584 "EHLO
+        id S231211AbiJTILB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 20 Oct 2022 04:11:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229852AbiJTDMG (ORCPT
+        with ESMTP id S231184AbiJTIK6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 19 Oct 2022 23:12:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AA0113FDF0;
-        Wed, 19 Oct 2022 20:12:04 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0DBF7619D7;
-        Thu, 20 Oct 2022 03:12:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4B04C433D7;
-        Thu, 20 Oct 2022 03:12:02 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="UYPPWo07"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1666235520;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=qadNFZ7XWekAb/DyZLHG/LNLJMySf8HJL6Ybo4oyuUY=;
-        b=UYPPWo07B4JIquDZmfeMceCq/7TtxQ6+A1anGpsJuDWQP7mLbxXUNzp45Z3SSOvKGJKF0i
-        F9bsBR7UsgpNykbqeqOjU4d28CF26tefLa9feTLt/xP+Lh8M/17pyrKrphSFmzXqMpbpLG
-        aYqFfA8ad216c82Dm64hXKfYGEMBE5I=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 7c50f5bb (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Thu, 20 Oct 2022 03:12:00 +0000 (UTC)
-Received: by mail-vk1-f179.google.com with SMTP id o28so9184345vkn.11;
-        Wed, 19 Oct 2022 20:11:59 -0700 (PDT)
-X-Gm-Message-State: ACrzQf0h0/Tadi32Ztg+REpu9BJ44rRFNpy+pzIXkB+R3qTCiJFMVjaX
-        PRHyM7G2WIshF/XJ9h1OKAFdNwDrza35QTsqtBw=
-X-Google-Smtp-Source: AMsMyM6bTiFb+XKZ7aoBA18LydUNCto9/ceSwOPm+hNQxvS4xU5UEdlUYPzLFfCMDc9XYweqgfL3hCwkYcFoBa2v1aI=
-X-Received: by 2002:a1f:e0c4:0:b0:3ab:191d:e135 with SMTP id
- x187-20020a1fe0c4000000b003ab191de135mr5171014vkg.41.1666235518593; Wed, 19
- Oct 2022 20:11:58 -0700 (PDT)
+        Thu, 20 Oct 2022 04:10:58 -0400
+Received: from mail.glocester.pl (mail.glocester.pl [94.177.238.106])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82E4911D9AB
+        for <linux-kbuild@vger.kernel.org>; Thu, 20 Oct 2022 01:10:48 -0700 (PDT)
+Received: by mail.glocester.pl (Postfix, from userid 1001)
+        id 0D15689B30; Thu, 20 Oct 2022 09:10:24 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=glocester.pl; s=mail;
+        t=1666253446; bh=l+r0otuMPwVc+TcnHS3JGWF9szNY9nQr+t+UZ8LzLds=;
+        h=Date:From:To:Subject:From;
+        b=TqhkIMe6GasjcCGbeROT+FQ/IrlkwxB6ImjJ04U77SC9qohFCG9/6AmmHLyXbzgYF
+         rjjZT5tFGqu+emNGYkElvHjPPo0OKP0br46fiwABe9OEGV5Z2b8ID/rWsJtxhjkI5w
+         bJvCr7kG8d8/Y44AXQsfIJpPCoQEWFFMZCljiSHnyJhBIHd97CxFp9ff7AwBBn9s46
+         rkQ1bPcploNnwTt0dO+y1wuWy/g0R6L0IPrmupMNdtSGs2OyKgyBIH8VqJIiacAbE5
+         xre6ryyIzccjLZ9q0aXYcOXnmQx6YjzFAwVQj6QPOTW4Q6aWfMTE/T7+7GP7ag52Bt
+         7cG0c3fe1c+bw==
+Received: by mail.glocester.pl for <linux-kbuild@vger.kernel.org>; Thu, 20 Oct 2022 08:10:13 GMT
+Message-ID: <20221020074501-0.1.1z.ew0l.0.pe88eprhk8@glocester.pl>
+Date:   Thu, 20 Oct 2022 08:10:13 GMT
+From:   =?UTF-8?Q? "Artur_Ma=C5=82osi=C5=84ski" ?= 
+        <artur.malosinski@glocester.pl>
+To:     <linux-kbuild@vger.kernel.org>
+Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
+X-Mailer: mail.glocester.pl
 MIME-Version: 1.0
-References: <20221019162648.3557490-1-Jason@zx2c4.com> <20221019165455.GL25951@gate.crashing.org>
- <CAHk-=wiMWk2t8FHn0iqVVe1mn62OTAD6ffL5rn9Eeu021H9d1Q@mail.gmail.com>
- <20221019174345.GM25951@gate.crashing.org> <CAHk-=wiNNKLFfa0d+Hk=Wm5caiKjLY4V9wwu9DhcSSwPuMbxrg@mail.gmail.com>
- <CAKwvOdn4iocWHY_-sXMqE7F1XrV669QsyQDzh7vPFg6+7368Cg@mail.gmail.com>
- <CAHk-=wiD90ZphsbTzSetHsK3_kQzhgyiYYS0msboVsJ3jbNALQ@mail.gmail.com>
- <202210191209.919149F4@keescook> <CAHk-=wgz3Uba8w7kdXhsqR1qvfemYL+OFQdefJnkeqXG8qZ_pA@mail.gmail.com>
- <Y1Bfg06qV0sDiugt@zx2c4.com> <CAHk-=wjsbYJuO=3331LmQGePXWAdHEdT33HOup53shjMJFan6Q@mail.gmail.com>
-In-Reply-To: <CAHk-=wjsbYJuO=3331LmQGePXWAdHEdT33HOup53shjMJFan6Q@mail.gmail.com>
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date:   Wed, 19 Oct 2022 21:11:46 -0600
-X-Gmail-Original-Message-ID: <CAHmME9p6BKrV6r3Rh5Cwq2AvV6-=ZQEKK=k10EqV_+yDCdWq4g@mail.gmail.com>
-Message-ID: <CAHmME9p6BKrV6r3Rh5Cwq2AvV6-=ZQEKK=k10EqV_+yDCdWq4g@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: treat char as always signed
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Segher Boessenkool <segher@kernel.crashing.org>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-toolchains@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sultan Alsawaf <sultan@kerneltoast.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_VALIDITY_RPBL,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Oct 19, 2022 at 6:11 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Wed, Oct 19, 2022 at 1:35 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
-> >
-> > I wish folks would use `u8 *` when they mean "byte array".
->
-> Together with '-funsigned-char', we could typedef 'u8' to just 'char'
-> (just for __KERNEL__ code, though!), and then we really could just use
-> 'strlen()' and friends on said kind of arrays without any warnings.
->
-> But we do have a *lot* of 'unsigned char' users, so it would be a huge
-> amount of churn to do this kind of thing.
+Dzie=C5=84 dobry,
 
-I think, though, there's an argument to be made that every use of
-`unsigned char` is much better off as a `u8`. We don't have any C23
-fancy unicode strings. As far as I can tell, the only usage of
-`unsigned char` ought to be "treat this as a byte array", and that's
-what u8 is for. Yea, that'd be churn. But technically, it wouldn't
-really be difficult churn: If naive-sed mangles that, I'm sure
-Coccinelle would be up to the task. If you think that's a wise
-direction, I can play with it and see how miserable it is to do.
+zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
+=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
+o dalszych rozm=C3=B3w.=20
 
-(As a sidebar, Sultan and I were discussing today... I find the
-radical extension of this idea to its logical end somewhat attractive:
-exclusively using u64, s64, u32, s32, u16, s16, u8, s8, uword (native
-size), sword (native size), char (string/character). It'd hardly look
-like C any more, though, and the very mention of the idea is probably
-triggering for some. So I'm not actually suggesting we do that in
-earnest. But there is some appeal.)
+Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
+=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
+=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
+strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
 
-Jason
+Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
+
+
+Pozdrawiam serdecznie,
+Artur Ma=C5=82osi=C5=84ski
