@@ -2,74 +2,68 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21CC660626F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Oct 2022 16:05:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EA826065E4
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Oct 2022 18:34:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229667AbiJTOFx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 20 Oct 2022 10:05:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43540 "EHLO
+        id S229729AbiJTQe0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 20 Oct 2022 12:34:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229803AbiJTOFv (ORCPT
+        with ESMTP id S229746AbiJTQeZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 20 Oct 2022 10:05:51 -0400
-Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D99E10CFBE;
-        Thu, 20 Oct 2022 07:05:42 -0700 (PDT)
-Received: by mail-qv1-xf2e.google.com with SMTP id i12so13576591qvs.2;
-        Thu, 20 Oct 2022 07:05:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KrIqzYmU/1wKrczsH7nyUVVizlQZEJ/pBkqjwAMBKHU=;
-        b=NDu0h6AkZcStYHBMaHpfX1sR8D8VpBQsQrqKSLf9nmDYhHSIo9xI/w8VxxenN3EPW+
-         49lmlIV+T7tIcwSVj7eURlnuHnTa9nVs5QoqS0/wLQOoT1SyHIh1mChpLrVUDs8fAnmv
-         Fq9FpBIrdgdYi3wjJNT6mZvvsqzeUVWPON5B50vYcyDaC0P7MkOMgeW920UpwqUGSp4y
-         eEMOLHO85S8yf26TjUZ3bgaJuVIBaYualsGZzOoMmj4NGgl4WjmdKZgEoNZfB6GFKumy
-         0yGZGp5qQjUa9+KgRw9eHgEfAaA22ncbpxwCjifgxATV3JUxmaSceKcZilmKWPelTPRf
-         SEqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KrIqzYmU/1wKrczsH7nyUVVizlQZEJ/pBkqjwAMBKHU=;
-        b=E+IJ3ZVS4+NLyq+s9HA1/LIGp+2h6bE+CcLaSf+ztOisZtAaiBE/6UbIV7HvvO4wtE
-         AJFsfxlGP95M47sI3nV6Os1Z8Fpty0MzizfnDb5mQK28afFr3/ej+Zf+EVb24mo7N2l7
-         c0sAXRGy2FrbFuQyn/MohhjMkd4qKcIOarDBodShez7nTiFMAVWpufmdrjDbfTSFcabS
-         7OvVMGDZtf1I29DLcQoJ+2aIoQEz9qJFeznpndCrry2yIEIX1DPrvo4TfOtbxMbfEsAq
-         rfwlzkbwEsiC2OriPsnlEQgxurclyKD4w/0C4rrPeOtQ2tgmDQ+y/wNQ6rpBva/XeXwc
-         ByzQ==
-X-Gm-Message-State: ACrzQf1kfARHiISrvCgamgeUL6WT2l1CwdVT3PmzkbqMaZZ61uS0i8qU
-        N8HMHPCu1/zDHMBNObCORk8yExnU2jf5Jg==
-X-Google-Smtp-Source: AMsMyM71mZUqVynE4F2i3G61zehrtCXIrWFmiiZcaHzDsXFqlzbJCy+8nbbiWLx12IoxBgO5ykbd4g==
-X-Received: by 2002:a05:6a00:a21:b0:562:99d6:c30a with SMTP id p33-20020a056a000a2100b0056299d6c30amr13579048pfh.35.1666274730404;
-        Thu, 20 Oct 2022 07:05:30 -0700 (PDT)
-Received: from debian.me (subs28-116-206-12-50.three.co.id. [116.206.12.50])
-        by smtp.gmail.com with ESMTPSA id j5-20020a625505000000b00562019b961asm13480320pfb.188.2022.10.20.07.05.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Oct 2022 07:05:29 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id A8970103F24; Thu, 20 Oct 2022 21:05:26 +0700 (WIB)
-Date:   Thu, 20 Oct 2022 21:05:26 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Dan Li <ashimida@linux.alibaba.com>
-Cc:     masahiroy@kernel.org, michal.lkml@markovi.net,
-        ndesaulniers@google.com, corbet@lwn.net,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Nicolas Schier <n.schier@avm.de>
-Subject: Re: [RFC] Documentation: kbuild: Add description of git for
- reproducible builds
-Message-ID: <Y1FVphEyu23U0jho@debian.me>
-References: <20221020103823.31001-1-ashimida@linux.alibaba.com>
+        Thu, 20 Oct 2022 12:34:25 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0F3B17D288;
+        Thu, 20 Oct 2022 09:34:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id A24BFB826A9;
+        Thu, 20 Oct 2022 16:34:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED493C433D7;
+        Thu, 20 Oct 2022 16:34:09 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="ladaFUCN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+        t=1666283647;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=j6/3/s/F9AiqZ8ACkktuUlP8j8csHgAdMQTJ3xPu0RU=;
+        b=ladaFUCNFHYEdS+B5lBVsUu7VOyg2l1LsONGKpmaJE+SQOzJeKVPlPFPd6VRQMtvOsKnrQ
+        Fbc98kpAvzczoJ0ualK85kOyjs0aW1klyXlXUWaIfjIJqLFmYapVadnDOv0pFQ7zpifsOl
+        gHzeoVDoUomAff/UMawkFmbDk12k7KI=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 49be7ccd (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+        Thu, 20 Oct 2022 16:34:06 +0000 (UTC)
+Received: by mail-ua1-f51.google.com with SMTP id y20so9978880uao.8;
+        Thu, 20 Oct 2022 09:34:06 -0700 (PDT)
+X-Gm-Message-State: ACrzQf0FLEp+HUka5qpbpFxwBy7ZurjveFakUSMekepBsywVxhZo3KrX
+        CjqH+dqjqLSKND25CcoZWnnTISV22IbmAUWC9Rg=
+X-Google-Smtp-Source: AMsMyM4UbgKYinuY1PeLlQUJ+zAbDnXOqoO0YgQNW243VlJSovQbjZ4gksu4qa/PVM5AIgL5W9c5Duh97XLbOtbizJw=
+X-Received: by 2002:a05:6102:7c9:b0:3a7:6261:935 with SMTP id
+ y9-20020a05610207c900b003a762610935mr7838965vsg.73.1666283644745; Thu, 20 Oct
+ 2022 09:34:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="89DQWfDuiNa8StyZ"
-Content-Disposition: inline
-In-Reply-To: <20221020103823.31001-1-ashimida@linux.alibaba.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+References: <20221019162648.3557490-1-Jason@zx2c4.com> <202210201618.8XhEGsLd-lkp@intel.com>
+In-Reply-To: <202210201618.8XhEGsLd-lkp@intel.com>
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date:   Thu, 20 Oct 2022 10:33:53 -0600
+X-Gmail-Original-Message-ID: <CAHmME9pqXvoYZL4u3dzfQDNyDB3TbaMAkynn=MLqagC_Dmk6TQ@mail.gmail.com>
+Message-ID: <CAHmME9pqXvoYZL4u3dzfQDNyDB3TbaMAkynn=MLqagC_Dmk6TQ@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: treat char as always signed
+To:     kernel test robot <lkp@intel.com>
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-toolchains@vger.kernel.org,
+        kbuild-all@lists.01.org, Masahiro Yamada <masahiroy@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,52 +71,15 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Thu, Oct 20, 2022 at 2:40 AM kernel test robot <lkp@intel.com> wrote:
+> >> drivers/s390/block/dasd.c:1912:9: warning: case label value exceeds maximum value for type [-Wswitch-outside-range]
+>     1912 |         case DASD_CQR_ERROR:
 
---89DQWfDuiNa8StyZ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Just to save other readers the momentary "huh?" that I experienced,
+this warning/error is from the -fsigned-char patch. We ultimately went
+with (or are trying to go with) the -funsigned-char approach instead.
+So safely ignore this kernel test bot error, as it applies to v1
+rather than the v2 here:
+https://lore.kernel.org/lkml/20221019203034.3795710-1-Jason@zx2c4.com/
 
-On Thu, Oct 20, 2022 at 03:38:23AM -0700, Dan Li wrote:
-> diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation=
-/kbuild/reproducible-builds.rst
-> index 071f0151a7a4..13397f38c358 100644
-> --- a/Documentation/kbuild/reproducible-builds.rst
-> +++ b/Documentation/kbuild/reproducible-builds.rst
-> @@ -119,6 +119,16 @@ To avoid this, you can make the vDSO different for d=
-ifferent
->  kernel versions by including an arbitrary string of "salt" in it.
->  This is specified by the Kconfig symbol ``CONFIG_BUILD_SALT``.
-> =20
-> +Git
-> +-----------------------
-> +
-> +Uncommitted changes or different commit ids in git can also lead
-> +to different compilation results. For example, after executing
-> +``git reset HEAD^``, even if the code is the same, the
-> +``include/config/kernel.release`` generated during compilation
-> +will be different, which will eventually lead to binary differences.
-> +See ``scripts/setlocalversion`` for details.
-> +
-
-Briefly read the script, I don't see what the correlation between git
-reset with LOCALVERSION thing is. Also, does the exact state of git
-repository required for reproducible builds?
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---89DQWfDuiNa8StyZ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY1FVoAAKCRD2uYlJVVFO
-ozlaAQCo9yDyW0/QdCKZ+rcNre9GZXMODpqNx+M21L/EvoDWjgEAuj/Lej+0YXPE
-aj/+dQET+5XQQO/JuZCJ7df9U2AClgg=
-=XenK
------END PGP SIGNATURE-----
-
---89DQWfDuiNa8StyZ--
+Jason
