@@ -2,155 +2,200 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92D6B606752
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Oct 2022 19:53:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AFD060675F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Oct 2022 19:57:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229746AbiJTRxz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 20 Oct 2022 13:53:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40100 "EHLO
+        id S229565AbiJTR5L (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 20 Oct 2022 13:57:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229484AbiJTRxy (ORCPT
+        with ESMTP id S229621AbiJTR5K (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 20 Oct 2022 13:53:54 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D2B31E7446;
-        Thu, 20 Oct 2022 10:53:53 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 38BC761B4B;
-        Thu, 20 Oct 2022 17:53:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ADCCC433D6;
-        Thu, 20 Oct 2022 17:53:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666288432;
-        bh=ENyBHTU+PlCOFSNauBVolLBO7eB6Z+yD7cAHq5oAFfc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=itsqb22tDrJn/TaivCWnwHoR/9a1Q/K3QjttRaDQ6N0wPGbj3sGv4KhTbdN4/5Nxy
-         qe9lpYkzAHrw8iXhNx+gUH/eJBvgfpinLFdJht+aIV7B43iS5L474MXiI9lVQER+YZ
-         YTk7aj6vm6U8rTbfb7xKZUYPy+pGcWR7F8pJu2zwTF87vqlR9Ehr4jsb3uNftkF6wX
-         W433vYi8ytZV2h2vgJcXNFub79eBqffDd5s+X9Ii4M3CXEkxnezmYYWH1bZSoXfnhK
-         /DRZwynNDXEwrQwvO3QTUtZeYnREpKChG+YqGe2lhRXJ0yI7Xzeaa98a9j5d59l671
-         vlXEDoBoA2chA==
-Date:   Thu, 20 Oct 2022 10:53:50 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     "Li, Xin3" <xin3.li@intel.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "H.Peter Anvin" <hpa@zytor.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
-Subject: Re: upgrade the orphan section warning to a hard link error
-Message-ID: <Y1GLLnYsEC8lYTdp@dev-arch.thelio-3990X>
-References: <BN6PR1101MB216105D169D482FC8C539059A8269@BN6PR1101MB2161.namprd11.prod.outlook.com>
- <Y02eZ6A/vlj8+B/c@dev-arch.thelio-3990X>
- <202210171230.CC40461C@keescook>
- <Y02zWFxC92VDSpdZ@dev-arch.thelio-3990X>
- <BN6PR1101MB216126260E3A9AFEE3F9CFB8A82A9@BN6PR1101MB2161.namprd11.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BN6PR1101MB216126260E3A9AFEE3F9CFB8A82A9@BN6PR1101MB2161.namprd11.prod.outlook.com>
-X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Thu, 20 Oct 2022 13:57:10 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95EFE199F40
+        for <linux-kbuild@vger.kernel.org>; Thu, 20 Oct 2022 10:57:09 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id y126-20020a257d84000000b006c554365f5aso407850ybc.9
+        for <linux-kbuild@vger.kernel.org>; Thu, 20 Oct 2022 10:57:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ec6GrMr134d5K39JN9EGJ6lab7lvP07iPKgVQfMKzc4=;
+        b=mtYKVeaPkO6QSyeUgHeL74R1RQhtV2UFl2xprFsF7k0UOHVkxog3a3agIjyYv3ILMR
+         4dSVWWVlgmc8KrTlUDBuLbRcOeAcF0U8Iyk1PPYvr12nkETiJYv/bAk7HxEytiR541B1
+         mgRUbEGMGVDEFzROtM88OxMANZlTJ4aX5UpDMUN5y7aAqnTv2lPdsOMA0eh+QUygTC7e
+         rdkY2Xmy4eTjg8T73nV4fuBen9o7yHdEZehpRGcwGmB/cUNC4svSLlIAcfz2olPG8WQ2
+         RVxQF4AVw1EIE55AOV5reh/Hh3i8junL8h88BDFnoXKLqf6AbLmvsxUkPc/qx3M3FfX+
+         QYwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ec6GrMr134d5K39JN9EGJ6lab7lvP07iPKgVQfMKzc4=;
+        b=tMbsqk1ay4Cjf8+quaWhrn8rNVM5nj0l/r9Q/ZProEcM+mmTYVvp6/xDzcZYypxXcX
+         RhVL9ifVLVbc91oJ1O5G2GgmSCshe/vpKNk+3hqGi8Cm0ymWtkeW1dSJOgxZn0nhVzK3
+         sdhZR4Krfws93cIYxCh4d9yLd9UlRWOuKrXdQUtrOMAuW14yey8j8k2hR/ZGE/MPI4tm
+         Ko9CdpLZppAPZpA41Y9IhWFQYBNFTL6UO7utp3wUhbqDcNs80L303lq32zTlHjgOkr9h
+         +ZZUFiRnKrE32QUXBQR2eMrZs8kJb0w0w0pnc+37V9P2zCp1m6fv/W8v8KwPlvsKA4T2
+         4fYQ==
+X-Gm-Message-State: ACrzQf2fu03NgzCSBoNW4Gj44SUjaLgboBc8+73SwLkD6Gfs5Kn+6wCW
+        jFsdcCV8QH4qB5zmyMqW1yZHe9p+EFTtNswpkuo=
+X-Google-Smtp-Source: AMsMyM61Ms54Wunhjhdb9akAeWWVPBHJ4MsPlEjXe+lfdiz+EPY+7u8Q0NxjhR5fbjntLzuUa1dxx8OIJxC4iuYwi08=
+X-Received: from ndesaulniers-desktop.svl.corp.google.com ([2620:15c:2d1:203:a5cc:f0f5:1fc6:713])
+ (user=ndesaulniers job=sendgmr) by 2002:a5b:70f:0:b0:6ca:2f3d:1dbf with SMTP
+ id g15-20020a5b070f000000b006ca2f3d1dbfmr3869419ybq.226.1666288628924; Thu,
+ 20 Oct 2022 10:57:08 -0700 (PDT)
+Date:   Thu, 20 Oct 2022 10:56:49 -0700
+Mime-Version: 1.0
+X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=UIrHvErwpgNbhCkRZAYSX0CFd/XFEwqX3D0xqtqjNug=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1666288609; l=4033;
+ i=ndesaulniers@google.com; s=20220923; h=from:subject; bh=ovpA4QAbIEpcw/Q/ivuVUvthOkcDqOfws3j88FyMzgY=;
+ b=HkkhphwDWYZ/FhUnguFN40v5u3kGBJgdujuqhmHB95xetu3Y/CRX62Am2WTKt2C+2SJD4wlCo6t+
+ bLkcFARMDCAEDA09XXeVkecc2rUQbLKhLHXREUK8x/aGjQwgZTb0
+X-Mailer: git-send-email 2.38.0.135.g90850a2211-goog
+Message-ID: <20221020175655.1660864-1-ndesaulniers@google.com>
+Subject: [PATCH] Makefile.debug: support for -gz=zstd
+From:   Nick Desaulniers <ndesaulniers@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Fangrui Song <maskray@google.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sedat Dilek <sedat.dilek@dhl.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Terrell <terrelln@fb.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Tom Rix <trix@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        David Gow <davidgow@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Isabella Basso <isabbasso@riseup.net>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Oct 20, 2022 at 05:17:35AM +0000, Li, Xin3 wrote:
-> Hi Nathan,
-> 
-> > On Mon, Oct 17, 2022 at 12:32:39PM -0700, Kees Cook wrote:
-> > > On Mon, Oct 17, 2022 at 11:26:47AM -0700, Nathan Chancellor wrote:
-> > > > It might be interesting to turn orphan sections into an error if
-> > > > CONFIG_WERROR is set. Perhaps something like the following (FYI, not
-> > > > even compile tested)?
-> > > >
-> > > > diff --git a/Makefile b/Makefile
-> > > > index 0837445110fc..485f47fc2c07 100644
-> > > > --- a/Makefile
-> > > > +++ b/Makefile
-> > > > @@ -1119,7 +1119,7 @@ endif
-> > > >  # We never want expected sections to be placed heuristically by the
-> > > > # linker. All sections should be explicitly named in the linker script.
-> > > >  ifdef CONFIG_LD_ORPHAN_WARN
-> > > > -LDFLAGS_vmlinux += --orphan-handling=warn
-> > > > +LDFLAGS_vmlinux += --orphan-handling=$(if
-> > > > +$(CONFIG_WERROR),error,warn)
-> > > >  endif
-> > >
-> > > Yes, this is much preferred.
-> > >
-> > > > Outright turning the warning into an error with no escape hatch
-> > > > might be too aggressive, as we have had these warnings triggered by
-> > > > new compiler generated sections, such as in commit 848378812e40
-> > ("vmlinux.lds.h:
-> > > > Handle clang's module.{c,d}tor sections"). Unconditionally breaking
-> > > > the build in these situations is unfortunate but the warnings do
-> > > > need to be dealt with so I think having it error by default with the
-> > > > ability to opt-out is probably worth doing. I do not have a strong opinion
-> > though.
-> > >
-> > > Correct; the mandate from Linus (disregarding his addition of
-> > > CONFIG_WERROR for all*config builds), is that we should avoid breaking
-> > > builds. It wrecks bisection, it causes problems across compiler
-> > > versions, etc.
-> > >
-> > > So, yes, only on CONFIG_WERROR=y.
-> > 
-> > We would probably want to alter the text of CONFIG_WERROR in some manner
-> > to convey this, perhaps like so:
-> > 
-> > diff --git a/init/Kconfig b/init/Kconfig index a19314933e54..1fc03e4b2af2
-> > 100644
-> > --- a/init/Kconfig
-> > +++ b/init/Kconfig
-> > @@ -165,10 +165,12 @@ config WERROR
-> >  	help
-> >  	  A kernel build should not cause any compiler warnings, and this
-> >  	  enables the '-Werror' (for C) and '-Dwarnings' (for Rust) flags
-> > -	  to enforce that rule by default.
-> > +	  to enforce that rule by default. Certain warnings from other tools
-> > +	  such as the linker may be upgraded to errors with this option as
-> > +	  well.
-> > 
-> > -	  However, if you have a new (or very old) compiler with odd and
-> > -	  unusual warnings, or you have some architecture with problems,
-> > +	  However, if you have a new (or very old) compiler or linker with odd
-> > +	  and unusual warnings, or you have some architecture with problems,
-> >  	  you may need to disable this config option in order to
-> >  	  successfully build the kernel.
-> 
-> Thanks a lot for making this crystal clear.
-> 
-> Do you want me to continue?  Or maybe it's easier for you to complete it?
+Make DEBUG_INFO_COMPRESSED a choice; DEBUG_INFO_UNCOMPRESSED is the
+default, DEBUG_INFO_COMPRESSED uses zlib, DEBUG_INFO_COMPRESSED_ZSTD
+uses zstd.
 
-Sure, I think it is reasonable for you to continue with this as you
-brought up the idea initially! Feel free to just take those diffs
-wholesale if they work and stick a
+Some quick N=1 measurements with du, /usr/bin/time -v, and bloaty:
 
-    Suggested-by: Nathan Chancellor <nathan@kernel.org>
+clang-16, x86_64 defconfig plus
+CONFIG_DEBUG_INFO=y CONFIG_DEBUG_INFO_UNCOMPRESSED=y:
+Elapsed (wall clock) time (h:mm:ss or m:ss): 0:55.43
+488M vmlinux
+27.6%   136Mi   0.0%       0    .debug_info
+ 6.1%  30.2Mi   0.0%       0    .debug_str_offsets
+ 3.5%  17.2Mi   0.0%       0    .debug_line
+ 3.3%  16.3Mi   0.0%       0    .debug_loclists
+ 0.9%  4.62Mi   0.0%       0    .debug_str
 
-or
+clang-16, x86_64 defconfig plus
+CONFIG_DEBUG_INFO=y CONFIG_DEBUG_INFO_COMPRESSED=y (zlib):
+Elapsed (wall clock) time (h:mm:ss or m:ss): 1:00.35
+385M vmlinux
+21.8%  85.4Mi   0.0%       0    .debug_info
+ 2.1%  8.26Mi   0.0%       0    .debug_str_offsets
+ 2.1%  8.24Mi   0.0%       0    .debug_loclists
+ 1.9%  7.48Mi   0.0%       0    .debug_line
+ 0.5%  1.94Mi   0.0%       0    .debug_str
 
-    Co-developed-by: Nathan Chancellor <nathan@kernel.org>
-    Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+clang-16, x86_64 defconfig plus
+CONFIG_DEBUG_INFO=y CONFIG_DEBUG_INFO_COMPRESSED_ZSTD=y (zstd):
+Elapsed (wall clock) time (h:mm:ss or m:ss): 0:59.69
+373M vmlinux
+21.4%  81.4Mi   0.0%       0    .debug_info
+ 2.3%  8.85Mi   0.0%       0    .debug_loclists
+ 1.5%  5.71Mi   0.0%       0    .debug_line
+ 0.5%  1.95Mi   0.0%       0    .debug_str_offsets
+ 0.4%  1.62Mi   0.0%       0    .debug_str
 
-on the patch if you are so inclined or rework them in a way you see fit,
-I do not have a strong opinion.
+That's only a 3.11% overall binary size savings over zlib, but at no
+performance regression.
 
-> I will need to find resources to test the patch on other platforms besides x86.
+Link: https://maskray.me/blog/2022-09-09-zstd-compressed-debug-sections
+Link: https://maskray.me/blog/2022-01-23-compressed-debug-sections
+Suggested-by: Sedat Dilek (DHL Supply Chain) <sedat.dilek@dhl.com>
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+---
+ lib/Kconfig.debug      | 26 +++++++++++++++++++++++++-
+ scripts/Makefile.debug |  4 ++++
+ 2 files changed, 29 insertions(+), 1 deletion(-)
 
-In theory, we should have already cleaned up all these warnings when we
-enabled CONFIG_LD_ORPHAN_WARN for all these architectures, so that
-change should be a no-op. More testing is never a bad idea though :)
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 3fc7abffc7aa..4085ac77dc12 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -312,8 +312,22 @@ config DEBUG_INFO_REDUCED
+ 	  DEBUG_INFO build and compile times are reduced too.
+ 	  Only works with newer gcc versions.
+ 
++choice
++	prompt "Compressed Debug information"
++	depends on DEBUG_KERNEL
++	help
++	  Compress the resulting debug info. Results in smaller debug info sections,
++	  but requires that consumers are able to decompress the results.
++
++	  If unsure, choose DEBUG_INFO_UNCOMPRESSED.
++
++config DEBUG_INFO_UNCOMPRESSED
++	bool "Don't compress debug information"
++	help
++	  Don't compress debug info sections.
++
+ config DEBUG_INFO_COMPRESSED
+-	bool "Compressed debugging information"
++	bool "Compress debugging information with zlib"
+ 	depends on $(cc-option,-gz=zlib)
+ 	depends on $(ld-option,--compress-debug-sections=zlib)
+ 	help
+@@ -327,6 +341,16 @@ config DEBUG_INFO_COMPRESSED
+ 	  preferable to setting $KDEB_COMPRESS to "none" which would be even
+ 	  larger.
+ 
++config DEBUG_INFO_COMPRESSED_ZSTD
++	bool "Compress debugging information with zstd"
++	depends on $(cc-option,-gz=zstd)
++	depends on $(ld-option,--compress-debug-sections=zstd)
++	help
++	  Compress the debug information using zstd.  Requires GCC 13.0+ or Clang
++	  16.0+, binutils 2.40+, and zstd.
++
++endchoice # "Compressed Debug information"
++
+ config DEBUG_INFO_SPLIT
+ 	bool "Produce split debuginfo in .dwo files"
+ 	depends on $(cc-option,-gsplit-dwarf)
+diff --git a/scripts/Makefile.debug b/scripts/Makefile.debug
+index 332c486f705f..8ac3379d2255 100644
+--- a/scripts/Makefile.debug
++++ b/scripts/Makefile.debug
+@@ -31,6 +31,10 @@ ifdef CONFIG_DEBUG_INFO_COMPRESSED
+ DEBUG_CFLAGS	+= -gz=zlib
+ KBUILD_AFLAGS	+= -gz=zlib
+ KBUILD_LDFLAGS	+= --compress-debug-sections=zlib
++else ifdef CONFIG_DEBUG_INFO_COMPRESSED_ZSTD
++DEBUG_CFLAGS	+= -gz=zstd
++KBUILD_AFLAGS	+= -gz=zstd
++KBUILD_LDFLAGS	+= --compress-debug-sections=zstd
+ endif
+ 
+ KBUILD_CFLAGS	+= $(DEBUG_CFLAGS)
+-- 
+2.38.0.135.g90850a2211-goog
 
-I can throw it into my LLVM testing matrix as well.
-
-Cheers,
-Nathan
