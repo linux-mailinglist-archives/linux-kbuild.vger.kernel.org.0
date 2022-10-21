@@ -2,134 +2,96 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 320926071C6
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Oct 2022 10:10:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EF0F6072B5
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Oct 2022 10:45:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229574AbiJUIK3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 21 Oct 2022 04:10:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53084 "EHLO
+        id S229793AbiJUIpU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 21 Oct 2022 04:45:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229484AbiJUIK0 (ORCPT
+        with ESMTP id S229779AbiJUIpT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 21 Oct 2022 04:10:26 -0400
-X-Greylist: delayed 607 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 21 Oct 2022 01:10:21 PDT
-Received: from mail.avm.de (mail.avm.de [IPv6:2001:bf0:244:244::119])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 137DE143A7A;
-        Fri, 21 Oct 2022 01:10:19 -0700 (PDT)
-Received: from mail-auth.avm.de (unknown [IPv6:2001:bf0:244:244::71])
-        by mail.avm.de (Postfix) with ESMTPS;
-        Fri, 21 Oct 2022 10:00:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-        t=1666339207; bh=Abfw+d2JGvnwL2wwS4MezKuSIAL3W5ixCmweLNw8/zA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KJdcCwutEZJ1VDisr+lxjtWwBjpacrE+GkIPq8Yasox0+9oe740wHRtilQrPIKQrL
-         WRzG6si/TIhPvhMIDZudcqUJytOCCYk/qsfw0X7Fs99+2wUXFWpkA1ZbBFN/o8cVUQ
-         82VFqlsY/umLZAULx7PwUx2/QPBleB3EuXQFeNxE=
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-        by mail-auth.avm.de (Postfix) with ESMTPA id DCE86802E1;
-        Fri, 21 Oct 2022 10:00:06 +0200 (CEST)
-Received: by buildd.core.avm.de (Postfix, from userid 1000)
-        id CF890181FCA; Fri, 21 Oct 2022 10:00:06 +0200 (CEST)
-Date:   Fri, 21 Oct 2022 10:00:06 +0200
-From:   Nicolas Schier <n.schier@avm.de>
-To:     Dan Li <ashimida@linux.alibaba.com>
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>, masahiroy@kernel.org,
-        michal.lkml@markovi.net, ndesaulniers@google.com, corbet@lwn.net,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC] Documentation: kbuild: Add description of git for
- reproducible builds
-Message-ID: <Y1JRhiAQ1bV/Dh7h@buildd.core.avm.de>
-References: <20221020103823.31001-1-ashimida@linux.alibaba.com>
- <Y1FVphEyu23U0jho@debian.me>
- <8b2864bd-30b1-254f-ebd6-79967249da9b@linux.alibaba.com>
+        Fri, 21 Oct 2022 04:45:19 -0400
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4C155A168;
+        Fri, 21 Oct 2022 01:45:14 -0700 (PDT)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29L6HQFj014461;
+        Fri, 21 Oct 2022 10:44:53 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=selector1;
+ bh=nN+eZrxubuUpxtvA/HEiuz0ghp0wsel2bTnX1jUh+Mg=;
+ b=rpnShfZowOwph9MLX1pAC7sSejMuGfhtta50et9sEhcUX1Uv1XsSenHCPriiu0ngpN+5
+ r5EnoQjrK39JkeYHlBAYryo5JDXmdYDlUF+TBlSaPHgbi9edz1wgofhac4v2WMAo36op
+ MLiRfJ0H/MpVfM+h2mm5WUOdSOxO+1WEMirBz50ZrmekMHicvo+sj+u0071tqZtMEHHI
+ 5P1QOaICAqqBXbvLHgGNqSwZzFrKySbnITdL+68wfeBOaAB1Nl/ll0ymy3iiJDVk7SjC
+ G9FKSiI0wPe/9s9IcwhOsgckwbdqBZl1qe14SC0JWPWpO8sXxgGhPl3BT/t0rpILJHrG kQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3k9tfpy660-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 21 Oct 2022 10:44:53 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 34DB7100034;
+        Fri, 21 Oct 2022 10:44:48 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 1EC5F21B525;
+        Fri, 21 Oct 2022 10:44:48 +0200 (CEST)
+Received: from localhost (10.201.21.93) by SHFDAG1NODE1.st.com (10.75.129.69)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Fri, 21 Oct
+ 2022 10:44:47 +0200
+From:   Alexandre Torgue <alexandre.torgue@foss.st.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>, <robh+dt@kernel.org>
+CC:     <linux-kernel@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <alexandre.torgue@foss.st.com>
+Subject: [PATCH] scripts: dtc: only show unique unit address warning for enabled nodes
+Date:   Fri, 21 Oct 2022 10:44:47 +0200
+Message-ID: <20221021084447.5550-1-alexandre.torgue@foss.st.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <8b2864bd-30b1-254f-ebd6-79967249da9b@linux.alibaba.com>
-X-purgate-ID: 149429::1666339206-2C7E6AFC-1139E621/0/0
-X-purgate-type: clean
-X-purgate-size: 2773
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
-X-purgate: clean
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [10.201.21.93]
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-21_03,2022-10-20_01,2022-06-22_01
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Oct 20, 2022 at 06:48:20PM -0700, Dan Li wrote:
-> 
-> 
-> On 10/20/22 07:05, Bagas Sanjaya wrote:
-> > On Thu, Oct 20, 2022 at 03:38:23AM -0700, Dan Li wrote:
-> > > diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation/kbuild/reproducible-builds.rst
-> > > index 071f0151a7a4..13397f38c358 100644
-> > > --- a/Documentation/kbuild/reproducible-builds.rst
-> > > +++ b/Documentation/kbuild/reproducible-builds.rst
-> > > @@ -119,6 +119,16 @@ To avoid this, you can make the vDSO different for different
-> > >   kernel versions by including an arbitrary string of "salt" in it.
-> > >   This is specified by the Kconfig symbol ``CONFIG_BUILD_SALT``.
-> > > +Git
-> > > +-----------------------
-> > > +
-> > > +Uncommitted changes or different commit ids in git can also lead
-> > > +to different compilation results. For example, after executing
-> > > +``git reset HEAD^``, even if the code is the same, the
-> > > +``include/config/kernel.release`` generated during compilation
-> > > +will be different, which will eventually lead to binary differences.
-> > > +See ``scripts/setlocalversion`` for details.
-> > > +
-> > 
-> > Briefly read the script, I don't see what the correlation between git
-> > reset with LOCALVERSION thing is. Also, does the exact state of git
-> > repository required for reproducible builds?
-> > 
-> 
-> Hi Bagas,
-> 
-> The Makefile has the following code:
-> filechk_kernel.release = \
->         echo "$(KERNELVERSION)$$($(CONFIG_SHELL) $(srctree)/scripts/setlocalversion $(srctree))"
-> 
-> The output of setlocalversion affects kernel.release, while the output
-> of setlocalversion is related to the state of git when the git repository
-> exists (see function scm_version).
-> 
-> So changes in git state will result in changes to kernel.release, and
-> this information will be included in the final output vmlinux/modules
-> and in turn affect reproducible builds.
-> 
-> For example:
-> $ git log
-> commit 4cd155a93eec......
-> $ make ...
-> $ cat include/config/kernel.release
-> 6.0.0-rc4-00025-g4cd155a93eec
-> 
-> $ git reset HEAD^
-> $ git log
-> commit 7b4d266b0c41......
-> $ make ...
-> $ cat include/config/kernel.release
-> 6.0.0-rc4-00024-g7b4d266b0c41-dirty
-> 
-> 
-> AFAICT, in the presence of a git repository, we can compile a reproducible
-> build kernel in any git state, but we need to ensure that the git state is
-> always the same between compilations (or the same from the perspective of
-> the scm_version function).
+In some cases an hardware peripheral can be used for two exclusive usages.
+For example, on STM32MP15 we have the same peripheral for I2S and SPI. We
+have dedicated driver for each usage and so a dedicated device node in
+devicetree.
+To avoid to get useless warnings running "make W=1 dtbs", this patch adds
+the "-Wunique_unit_address_if_enabled" flag for a make with W=1. In this
+case we will detect a duplicate address only if both devices are
+enabled in the devicetree, which is a real error case.
 
-yes, that definitely true.  Absence or presence of git tags can change
-the output of setlocalversion even more drastically.
+Signed-off-by: Alexandre Torgue <alexandre.torgue@foss.st.com>
 
-I think it is sensible to add a stanza about git in
-Documentation/kbuild/reproducible-builds.rst.
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 3aa384cec76b..6f077200b967 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -344,6 +344,9 @@ DTC_FLAGS += -Wno-unit_address_vs_reg \
+ 	-Wno-graph_child_address \
+ 	-Wno-simple_bus_reg \
+ 	-Wno-unique_unit_address
++else
++DTC_FLAGS += -Wno-unique_unit_address \
++        -Wunique_unit_address_if_enabled
+ endif
+ 
+ ifneq ($(findstring 2,$(KBUILD_EXTRA_WARN)),)
+-- 
+2.17.1
 
-
-Kind regards,
-Nicolas
