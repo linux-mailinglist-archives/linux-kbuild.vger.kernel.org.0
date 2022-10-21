@@ -2,85 +2,113 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D6C04607988
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Oct 2022 16:26:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 183416079DC
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Oct 2022 16:45:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229588AbiJUO0I (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 21 Oct 2022 10:26:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38894 "EHLO
+        id S229987AbiJUOpV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 21 Oct 2022 10:45:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbiJUO0H (ORCPT
+        with ESMTP id S229961AbiJUOpB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 21 Oct 2022 10:26:07 -0400
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B926126EDB6;
-        Fri, 21 Oct 2022 07:25:59 -0700 (PDT)
-Received: by mail-oi1-f180.google.com with SMTP id y72so3387674oia.3;
-        Fri, 21 Oct 2022 07:25:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2MWmxzeBv04SeJOw6jKYpRv1e5SEanghL8yyC/XAz/0=;
-        b=gMiAgI7wgWxz8toHeh4CwxCG9mChL1j2wpiIsmPfVC4Ijld+JOrM90VAx3bw8gsmgx
-         BLHa1YTVrFXPYn/kULtAl81IqAGGj9sxmKT3K2rrXUiOVutZFOKOrIs5eOu7hhUG/zHx
-         I3Z0AbwxG5arVbY0kgfHYqDSUITSvoTKs2nLhIKaTivAJWJXY1s/cK/1NPejsGWTGRbU
-         x7xvDxrxWbNQUXanGATw2KBGXi2oGF+Bhe/QoSfXfiHHa5A0ZUtvqjq6URHj3e7KHxhJ
-         SXG/n5gjsh9hSJH+q8+gm6Q7Xh5zlNiJjgQhbs3/o+dTHHdv0QYsbp9a+kZcA97ryJad
-         3sjg==
-X-Gm-Message-State: ACrzQf0N1r2251TR8bNqV/tuItVZW5rTiG4pdjcsRXwFo1RXKgjL98Uz
-        IU8EzIP7b147l7zOGlU2vA==
-X-Google-Smtp-Source: AMsMyM5waqqF2ZrhT4UdNdl/SeZivLSgo9IEVXbX8TNVdatsQdb89iPevIW908f0tKmIF3Fv496Zew==
-X-Received: by 2002:aca:a84c:0:b0:355:4262:28ef with SMTP id r73-20020acaa84c000000b00355426228efmr11136678oie.14.1666362357884;
-        Fri, 21 Oct 2022 07:25:57 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id l10-20020aca190a000000b003549db40f38sm1118351oii.46.2022.10.21.07.25.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Oct 2022 07:25:57 -0700 (PDT)
-Received: (nullmailer pid 3658172 invoked by uid 1000);
-        Fri, 21 Oct 2022 14:25:58 -0000
-Date:   Fri, 21 Oct 2022 09:25:58 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org, robh+dt@kernel.org,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH] scripts: dtc: only show unique unit address warning for
- enabled nodes
-Message-ID: <166636173496.3593878.13529338596528679973.robh@kernel.org>
-References: <20221021084447.5550-1-alexandre.torgue@foss.st.com>
+        Fri, 21 Oct 2022 10:45:01 -0400
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 261D5816A2;
+        Fri, 21 Oct 2022 07:44:55 -0700 (PDT)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 29LEiZKD036346;
+        Fri, 21 Oct 2022 09:44:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1666363475;
+        bh=zhUQ/gRdkp8LxqXF4f6PJGmUgaZpmB9M36LtuE30bQk=;
+        h=Date:Subject:To:CC:References:From:In-Reply-To;
+        b=KGul0+0UUsKtDPgazav4OzDdU8Y93bXzMm2sIJAJ2mtV980IX8dJcORWvP4cX2Aww
+         yqCu3yjdlcJxmhsXqoOKQYSkeArBfpYh5Xcjo5kkPEfOSF9DkdlJ0NFj5sv/bLNqUp
+         6v3xE+FlguHsJgeJSln12l45hI6u0F6qf727FZKo=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 29LEiZHk013182
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 21 Oct 2022 09:44:35 -0500
+Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6; Fri, 21
+ Oct 2022 09:44:34 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6 via
+ Frontend Transport; Fri, 21 Oct 2022 09:44:35 -0500
+Received: from [10.250.33.68] (ileaxei01-snat.itg.ti.com [10.180.69.5])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 29LEiYFU015889;
+        Fri, 21 Oct 2022 09:44:34 -0500
+Message-ID: <f8b2a45e-cb6c-60ec-047e-6934dd4c4e1d@ti.com>
+Date:   Fri, 21 Oct 2022 09:44:34 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221021084447.5550-1-alexandre.torgue@foss.st.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH] kbuild: Allow DTB overlays to built from .dtso named
+ source files
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Rob Herring <robh+dt@kernel.org>
+CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        <devicetree@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>
+References: <20221014151302.27641-1-afd@ti.com>
+ <CAL_Jsq+O0_i3k_3S=W6C-n+ZE7GRKKhOQ7HR54QutmMJq54a_Q@mail.gmail.com>
+ <CAMuHMdV2euzPQL35AqBsyeQTkMbkeFz4rk48wtyX7Hd6Lz5d-g@mail.gmail.com>
+From:   Andrew Davis <afd@ti.com>
+In-Reply-To: <CAMuHMdV2euzPQL35AqBsyeQTkMbkeFz4rk48wtyX7Hd6Lz5d-g@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, 21 Oct 2022 10:44:47 +0200, Alexandre Torgue wrote:
-> In some cases an hardware peripheral can be used for two exclusive usages.
-> For example, on STM32MP15 we have the same peripheral for I2S and SPI. We
-> have dedicated driver for each usage and so a dedicated device node in
-> devicetree.
-> To avoid to get useless warnings running "make W=1 dtbs", this patch adds
-> the "-Wunique_unit_address_if_enabled" flag for a make with W=1. In this
-> case we will detect a duplicate address only if both devices are
-> enabled in the devicetree, which is a real error case.
+On 10/21/22 1:52 AM, Geert Uytterhoeven wrote:
+> Hi Rob,
 > 
-> Signed-off-by: Alexandre Torgue <alexandre.torgue@foss.st.com>
+> On Fri, Oct 21, 2022 at 12:47 AM Rob Herring <robh+dt@kernel.org> wrote:
+>> On Fri, Oct 14, 2022 at 10:13 AM Andrew Davis <afd@ti.com> wrote:
+>>> Currently DTB Overlays (.dtbo) are build from source files with the same
+>>> extension (.dts) as the base DTs (.dtb). This may become confusing and
+>>> even lead to wrong results. For example, a composite DTB (created from a
+>>> base DTB and a set of overlays) might have the same name as one of the
+>>> overlays that create it.
+>>>
+>>> Different files should be generated from differently named sources.
+>>>   .dtb  <-> .dts
+>>>   .dtbo <-> .dtso
+>>>
+>>> We do not remove the ability to compile DTBO files from .dts files here,
+>>> only add a new rule allowing the .dtso file name. The current .dts named
+>>> overlays can be renamed with time. After all have been renamed we can
+>>> remove the other rule.
+>>
+>> There was a patch from Geert converting everything. I'd rather not
+>> support both ways.
+> 
+> Actually that was a patch from Frank?
 > 
 
-Applied, thanks!
+That series looks to have stalled?
 
-I refactored the options and kept 'unique_unit_address' for W=2.
+It won't be easy to convert all the files in one go, especially with series
+in-flight with both names, not sure how we avoid having both extensions for
+at least one cycle. Plus having both allowed lets rename the existing files
+in a more granular/bisectable way.
 
-Rob
+Thanks,
+Andrew
