@@ -2,65 +2,45 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3210C606CC5
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Oct 2022 03:02:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9FFF606D2B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Oct 2022 03:48:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229971AbiJUBCC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 20 Oct 2022 21:02:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38928 "EHLO
+        id S229826AbiJUBs2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 20 Oct 2022 21:48:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229967AbiJUBB7 (ORCPT
+        with ESMTP id S229678AbiJUBs1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 20 Oct 2022 21:01:59 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB65A229E44;
-        Thu, 20 Oct 2022 18:01:58 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1437361D7E;
-        Fri, 21 Oct 2022 01:01:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73175C433D6;
-        Fri, 21 Oct 2022 01:01:56 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="eIVWBMZa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1666314114;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=6vjKU3y4XcGUvVhqTEBbIddmaW3jyno5zUCPx3v5JkA=;
-        b=eIVWBMZawG1psqVjOZiZanO/BQ2VSLq8NLoiJb0IXdy9xayPA7uYHHQ/PnnaZCszmZFECu
-        RVc/TpnhYGDL8phHLgu+fkZIOFJKGTBiZCz8syhVKy809yLcWNvMwEQ9G++I2DGm3hS+IU
-        +CSVb6nHNk+WQZTciXnA/J4QMLKSd3c=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id f4dd807b (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Fri, 21 Oct 2022 01:01:53 +0000 (UTC)
-Date:   Thu, 20 Oct 2022 21:01:32 -0400
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-toolchains@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        ndesaulniers@google.com
-Subject: Re: [PATCH v2] kbuild: treat char as always unsigned
-Message-ID: <Y1HvbO6wnhoHrszN@zx2c4.com>
-References: <Y1BcpXAjR4tmV6RQ@zx2c4.com>
- <20221019203034.3795710-1-Jason@zx2c4.com>
- <CAHk-=wit-67VU=kt-8Ojtx04m6wxfqypKLzW7CuSeEH_9MYZvw@mail.gmail.com>
- <Y1CP/uJb1SQjyS0n@zx2c4.com>
- <CAHk-=whg00wpUzNLs0obmMKA3GhUnLzat9syA1=_tfi8Ms8TLg@mail.gmail.com>
- <202210201056.DEE610F6F@keescook>
+        Thu, 20 Oct 2022 21:48:27 -0400
+Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E4813F1DF;
+        Thu, 20 Oct 2022 18:48:25 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=ashimida@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0VShB2hj_1666316900;
+Received: from 192.168.199.158(mailfrom:ashimida@linux.alibaba.com fp:SMTPD_---0VShB2hj_1666316900)
+          by smtp.aliyun-inc.com;
+          Fri, 21 Oct 2022 09:48:21 +0800
+Message-ID: <8b2864bd-30b1-254f-ebd6-79967249da9b@linux.alibaba.com>
+Date:   Thu, 20 Oct 2022 18:48:20 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <202210201056.DEE610F6F@keescook>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [RFC] Documentation: kbuild: Add description of git for
+ reproducible builds
+Content-Language: en-US
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     masahiroy@kernel.org, michal.lkml@markovi.net,
+        ndesaulniers@google.com, corbet@lwn.net,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Nicolas Schier <n.schier@avm.de>
+References: <20221020103823.31001-1-ashimida@linux.alibaba.com>
+ <Y1FVphEyu23U0jho@debian.me>
+From:   Dan Li <ashimida@linux.alibaba.com>
+In-Reply-To: <Y1FVphEyu23U0jho@debian.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
+        ENV_AND_HDR_SPF_MATCH,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,UNPARSEABLE_RELAY,USER_IN_DEF_SPF_WL autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,39 +48,69 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Oct 20, 2022 at 11:41:29AM -0700, Kees Cook wrote:
-> On Wed, Oct 19, 2022 at 05:38:55PM -0700, Linus Torvalds wrote:
-> > Having some scripting automation that just notices "this changes code
-> > generation in function X" might actually be interesting, and judging
-> > by my quick tests might not be *too* verbose.
-> 
-> On the reproducible build comparison system[1] we use for checking a lot
-> of the KSPP work for .text deltas, an allmodconfig finds a fair bit for
-> this change. Out of 33900 .o files, 1005 have changes.
-> 
-> Spot checking matches a lot of what you found already...
-> 
->         u64 flags = how->flags;
-> 	...
-> fs/open.c:1123:
->         int acc_mode = ACC_MODE(flags);
-> -    1c86:      movsbl 0x0(%rdx),%edx
-> +    1c86:      movzbl 0x0(%rdx),%edx
-> 
-> #define ACC_MODE(x) ("\004\002\006\006"[(x)&O_ACCMODE])
-> 
-> Ignoring those, it goes down to 625, and spot checking those is more
-> difficult, but looks to be mostly register selection changes dominating
-> the delta. The resulting vmlinux sizes are identical, though.
-> 
-> -Kees
-> 
-> [1] A fancier version of:
->     https://outflux.net/blog/archives/2022/06/24/finding-binary-differences/
 
-Say, don't we have some way of outputting LLVM IL? I saw some
--fno-discard-value-names floating through a few days ago. Apparently you
-can do `make LLVM=1 fs/select.ll`? This might have less noise in it.
-I'll play on the airplane tomorrow.
 
-Jason
+On 10/20/22 07:05, Bagas Sanjaya wrote:
+> On Thu, Oct 20, 2022 at 03:38:23AM -0700, Dan Li wrote:
+>> diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation/kbuild/reproducible-builds.rst
+>> index 071f0151a7a4..13397f38c358 100644
+>> --- a/Documentation/kbuild/reproducible-builds.rst
+>> +++ b/Documentation/kbuild/reproducible-builds.rst
+>> @@ -119,6 +119,16 @@ To avoid this, you can make the vDSO different for different
+>>   kernel versions by including an arbitrary string of "salt" in it.
+>>   This is specified by the Kconfig symbol ``CONFIG_BUILD_SALT``.
+>>   
+>> +Git
+>> +-----------------------
+>> +
+>> +Uncommitted changes or different commit ids in git can also lead
+>> +to different compilation results. For example, after executing
+>> +``git reset HEAD^``, even if the code is the same, the
+>> +``include/config/kernel.release`` generated during compilation
+>> +will be different, which will eventually lead to binary differences.
+>> +See ``scripts/setlocalversion`` for details.
+>> +
+> 
+> Briefly read the script, I don't see what the correlation between git
+> reset with LOCALVERSION thing is. Also, does the exact state of git
+> repository required for reproducible builds?
+> 
+
+Hi Bagas,
+
+The Makefile has the following code:
+filechk_kernel.release = \
+         echo "$(KERNELVERSION)$$($(CONFIG_SHELL) $(srctree)/scripts/setlocalversion $(srctree))"
+
+The output of setlocalversion affects kernel.release, while the output
+of setlocalversion is related to the state of git when the git repository
+exists (see function scm_version).
+
+So changes in git state will result in changes to kernel.release, and
+this information will be included in the final output vmlinux/modules
+and in turn affect reproducible builds.
+
+For example:
+$ git log
+commit 4cd155a93eec......
+$ make ...
+$ cat include/config/kernel.release
+6.0.0-rc4-00025-g4cd155a93eec
+
+$ git reset HEAD^
+$ git log
+commit 7b4d266b0c41......
+$ make ...
+$ cat include/config/kernel.release
+6.0.0-rc4-00024-g7b4d266b0c41-dirty
+
+
+AFAICT, in the presence of a git repository, we can compile a reproducible
+build kernel in any git state, but we need to ensure that the git state is
+always the same between compilations (or the same from the perspective of
+the scm_version function).
+
+Thanks, Dan.
+
+> Thanks.
+> 
