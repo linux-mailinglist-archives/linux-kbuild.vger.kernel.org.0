@@ -2,181 +2,210 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 70A406083D6
-	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Oct 2022 05:28:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4B69608C1D
+	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Oct 2022 13:01:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229864AbiJVD2g (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 21 Oct 2022 23:28:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55006 "EHLO
+        id S230447AbiJVLBy convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Sat, 22 Oct 2022 07:01:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229652AbiJVD2c (ORCPT
+        with ESMTP id S229816AbiJVLBT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 21 Oct 2022 23:28:32 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64989290E02;
-        Fri, 21 Oct 2022 20:28:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666409310; x=1697945310;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=B/K5BT3w9a41UZK1OGtrdiCMFv8oLQT5QznaU5Lxk98=;
-  b=QP+/W56WZ1q8SOY/C9Oq79ttZ0kZSASFMuiG7vvbIyswXzygtwJz6GX9
-   S4EdQUzd5LzDr0Lcceq9ZGt1IJnA6kaWCaD+90fmeV7Bss+/Q/M5Ba7QB
-   JlerJN7XXVPgHbYmjk4OW97p/BCKsHUlkP3y98vFqDkgZrIJr/GnhE2WX
-   X+mJpAq+BoYSjOMm6POmWe/XIPtNNzzfwp6IAq+umoS+SK/wqHkmAQuYz
-   LvEBC7Si9jTkmGDM+zicpeAyF1TCgBOP8at+BjsK90vGyEpiPAXPkCbPv
-   1aSft+voqmSb+hBsiCTrGzTE4kZtKt+oU5Hv4/S4o5tKdeqrj3FH80Y6D
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10507"; a="286869121"
-X-IronPort-AV: E=Sophos;i="5.95,204,1661842800"; 
-   d="scan'208";a="286869121"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2022 20:28:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10507"; a="693955257"
-X-IronPort-AV: E=Sophos;i="5.95,203,1661842800"; 
-   d="scan'208";a="693955257"
-Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga008.fm.intel.com with ESMTP; 21 Oct 2022 20:28:26 -0700
-From:   Xin Li <xin3.li@intel.com>
-To:     linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-        linux-kbuild@vger.kernel.org, x86@kernel.org
-Cc:     nathan@kernel.org, keescook@chromium.org,
-        andrew.cooper3@citrix.com, hpa@zytor.com, peterz@infradead.org
-Subject: [PATCH 1/1] kbuild: upgrade the orphan section warning to an error if CONFIG_WERROR is set
-Date:   Fri, 21 Oct 2022 20:05:19 -0700
-Message-Id: <20221022030519.9505-2-xin3.li@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221022030519.9505-1-xin3.li@intel.com>
-References: <20221022030519.9505-1-xin3.li@intel.com>
+        Sat, 22 Oct 2022 07:01:19 -0400
+X-Greylist: delayed 1783 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 22 Oct 2022 03:19:43 PDT
+Received: from mx08-006a4e02.pphosted.com (mx08-006a4e02.pphosted.com [143.55.148.243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB9AB5A834;
+        Sat, 22 Oct 2022 03:19:41 -0700 (PDT)
+Received: from pps.filterd (m0316698.ppops.net [127.0.0.1])
+        by mx08-006a4e02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29M5tZmh007584;
+        Sat, 22 Oct 2022 08:06:30 +0200
+Received: from mta-out01.sim.rediris.es (mta-out01.sim.rediris.es [130.206.24.43])
+        by mx08-006a4e02.pphosted.com (PPS) with ESMTPS id 3kbp6ce53y-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sat, 22 Oct 2022 08:06:30 +0200
+Received: from mta-out01.sim.rediris.es (localhost.localdomain [127.0.0.1])
+        by mta-out01.sim.rediris.es (Postfix) with ESMTPS id 5FE293008AAC;
+        Sat, 22 Oct 2022 08:06:29 +0200 (CEST)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mta-out01.sim.rediris.es (Postfix) with ESMTP id 4C10E3008C30;
+        Sat, 22 Oct 2022 08:06:29 +0200 (CEST)
+X-Amavis-Modified: Mail body modified (using disclaimer) -
+        mta-out01.sim.rediris.es
+Received: from mta-out01.sim.rediris.es ([127.0.0.1])
+        by localhost (mta-out01.sim.rediris.es [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 5h559gs9VuxO; Sat, 22 Oct 2022 08:06:29 +0200 (CEST)
+Received: from lt-gp.iram.es (haproxy02.sim.rediris.es [130.206.24.70])
+        by mta-out01.sim.rediris.es (Postfix) with ESMTPA id 3D3823008AAC;
+        Sat, 22 Oct 2022 08:06:27 +0200 (CEST)
+Date:   Sat, 22 Oct 2022 08:06:21 +0200
+From:   Gabriel Paubert <paubert@iram.es>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Segher Boessenkool <segher@kernel.crashing.org>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-toolchains@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] kbuild: treat char as always signed
+Message-ID: <Y1OIXdh3vWOMUlQK@lt-gp.iram.es>
+References: <20221019162648.3557490-1-Jason@zx2c4.com>
+ <20221019165455.GL25951@gate.crashing.org>
+ <CAHk-=wiMWk2t8FHn0iqVVe1mn62OTAD6ffL5rn9Eeu021H9d1Q@mail.gmail.com>
+ <20221019174345.GM25951@gate.crashing.org>
+ <CAHk-=wiNNKLFfa0d+Hk=Wm5caiKjLY4V9wwu9DhcSSwPuMbxrg@mail.gmail.com>
+ <Y1Elx+e5VLCTfyXi@lt-gp.iram.es>
+ <CAHk-=wiYtSvjyz5xz2Sbnmxgzg_=AL2OyTiRueUem3xzCzM8VA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wiYtSvjyz5xz2Sbnmxgzg_=AL2OyTiRueUem3xzCzM8VA@mail.gmail.com>
+Content-Transfer-Encoding: 8BIT
+X-Proofpoint-GUID: QhCUmQhypiY_jIEz4kLssNrn_gVxl2_Z
+X-Proofpoint-ORIG-GUID: QhCUmQhypiY_jIEz4kLssNrn_gVxl2_Z
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-21_04,2022-10-21_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbounddefault_notspam policy=outbounddefault score=0 bulkscore=0
+ impostorscore=0 malwarescore=0 suspectscore=0 priorityscore=1501
+ spamscore=0 phishscore=0 mlxscore=0 lowpriorityscore=0 clxscore=1011
+ adultscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2209130000 definitions=main-2210220038
+X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,PDS_RDNS_DYNAMIC_FP,
+        RCVD_IN_DNSWL_NONE,RDNS_DYNAMIC,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Andrew Cooper suggested upgrading the orphan section warning to a hard link
-error. However Nathan Chancellor said outright turning the warning into an
-error with no escape hatch might be too aggressive, as we have had these
-warnings triggered by new compiler generated sections, and suggested turning
-orphan sections into an error only if CONFIG_WERROR is set. Kees Cook echoed
-and emphasized that the mandate from Linus is that we should avoid breaking
-builds. It wrecks bisection, it causes problems across compiler versions, etc.
+On Fri, Oct 21, 2022 at 03:46:01PM -0700, Linus Torvalds wrote:
+> On Thu, Oct 20, 2022 at 3:41 AM Gabriel Paubert <paubert@iram.es> wrote:
+> >
+> > I must miss something, the strcmp man page says:
+> >
+> > "The comparison is done using unsigned characters."
+> 
+> You're not missing anything, I just hadn't looked at strcmp() in forever.
+> 
+> Yeah, strcmp clearly doesn't care about the signedness of 'char', and
+> arguably an unsigned char argument makes more sense considering the
+> semantics of the funmction.
+> 
+> > But it's not for this that I wrote this message. Has anybody considered
+> > using transparent unions?
+> 
+> I don't love the transparent union-as-argument syntax, but you're
+> right, that would fix the warning.
 
-Thus upgrade the orphan section warning to a hard link error only if
-CONFIG_WERROR is set.
+I'm not in love with the syntax either.
 
-Suggested-by: Andrew Cooper <andrew.cooper3@citrix.com>
-Suggested-by: Nathan Chancellor <nathan@kernel.org>
-Signed-off-by: Xin Li <xin3.li@intel.com>
----
- Makefile                          | 2 +-
- arch/arm/boot/compressed/Makefile | 2 +-
- arch/arm64/kernel/vdso/Makefile   | 2 +-
- arch/arm64/kernel/vdso32/Makefile | 2 +-
- arch/x86/boot/compressed/Makefile | 2 +-
- init/Kconfig                      | 9 ++++++---
- 6 files changed, 11 insertions(+), 8 deletions(-)
+> 
+> Except it then doesn't actually *work* very well.
+> 
+> Try this:
+> 
+>         #include <sys/types.h>
+> 
+>         #if USE_UNION
+>         typedef union {
+>                 const char *a;
+>                 const signed char *b;
+>                 const unsigned char *c;
+>         } conststring_arg __attribute__ ((__transparent_union__));
+>         size_t strlen(conststring_arg);
+>         #else
+>         size_t strlen(const char *);
+>         #endif
+> 
+>         int test(char *a, unsigned char *b)
+>         {
+>                 return strlen(a)+strlen(b);
+>         }
+> 
+>         int test2(void)
+>         {
+>                 return strlen("hello");
+>         }
+> 
+> and now compile it both ways with
+> 
+>         gcc -DUSE_UNION -Wall -O2 -S t.c
+>         gcc -Wall -O2 -S t.c
+> 
 
-diff --git a/Makefile b/Makefile
-index f41ec8c8426b..b6716a64519f 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1118,7 +1118,7 @@ endif
- # We never want expected sections to be placed heuristically by the
- # linker. All sections should be explicitly named in the linker script.
- ifdef CONFIG_LD_ORPHAN_WARN
--LDFLAGS_vmlinux += --orphan-handling=warn
-+LDFLAGS_vmlinux += --orphan-handling=$(if $(CONFIG_WERROR),error,warn)
- endif
+Ok, I´ve just tried it, except that I had something slightly different in
+mind, but perhaps should have been clearer in my first post.
+
+I have change your code to the following:
+
+
+#include <sys/types.h>
+
+#if USE_UNION
+typedef union {
+	const char *a;
+	const signed char *b;
+	const unsigned char *c;
+} conststring_arg __attribute__ ((__transparent_union__));
+static inline size_t strlen(conststring_arg p)
+{
+	return __builtin_strlen(p.a);
+}
+#else
+size_t strlen(const char *);
+#endif
+
+int test(char *a, unsigned char *b)
+{
+	return strlen(a)+strlen(b);
+}
+
+int test2(void)
+{
+	return strlen("hello");
+}
+
+> and notice how yes, the "-DUSE_UNION" one silences the warning about
+> using 'unsigned char *' for strlen. So it seems to work fine.
+> 
+> But then look at the code it generates for 'test2()" in the two cases.
+
+Now test2 looks properly optimized.
+
+This is a bit exploiting a compiler loophole, it calls an external
+function which has been defined with the same name!
+
+Depending on how you look at it, it's either disgusting or clever.
+
+I don´t have clang installed, so I don't know whether it would swallow
+this code or react with a strong allergy.
+
+	Gabriel
+> 
+> The transparent union version actually generates a function call to an
+> external 'strlen()' function.
+> 
+> The regular version uses the compiler builtin, and just compiles
+> test2() to return the constant value 5.
+> 
+> So playing games with anonymous union arguments ends up also disabling
+> all the compiler optimizations we do want, becaue apparently gcc then
+> decides "ok, I'm not going to warn about you declaring this
+> differently, but I'm also not going to use the regular one because you
+> declared it differently".
+> 
+> This, btw, is also the reason why we don't use --freestanding in the
+> kernel. We do want the basic <string.h> things to just DTRT.
+> 
+> For the sockaddr_in games, the above isn't an issue. For strlen() and
+> friends, it very much is.
+> 
+>                        Linus
+
+
  
- # Align the bit size of userspace programs with the kernel
-diff --git a/arch/arm/boot/compressed/Makefile b/arch/arm/boot/compressed/Makefile
-index 41bcbb460fac..c97db8b14c4f 100644
---- a/arch/arm/boot/compressed/Makefile
-+++ b/arch/arm/boot/compressed/Makefile
-@@ -123,7 +123,7 @@ LDFLAGS_vmlinux += --no-undefined
- LDFLAGS_vmlinux += -X
- # Report orphan sections
- ifdef CONFIG_LD_ORPHAN_WARN
--LDFLAGS_vmlinux += --orphan-handling=warn
-+LDFLAGS_vmlinux += --orphan-handling=$(if $(CONFIG_WERROR),error,warn)
- endif
- # Next argument is a linker script
- LDFLAGS_vmlinux += -T
-diff --git a/arch/arm64/kernel/vdso/Makefile b/arch/arm64/kernel/vdso/Makefile
-index 619e2dc7ee14..c8fcc06b5037 100644
---- a/arch/arm64/kernel/vdso/Makefile
-+++ b/arch/arm64/kernel/vdso/Makefile
-@@ -27,7 +27,7 @@ ldflags-y := -shared -soname=linux-vdso.so.1 --hash-style=sysv	\
- 	     -Bsymbolic --build-id=sha1 -n $(btildflags-y)
- 
- ifdef CONFIG_LD_ORPHAN_WARN
--  ldflags-y += --orphan-handling=warn
-+  ldflags-y += --orphan-handling=$(if $(CONFIG_WERROR),error,warn)
- endif
- 
- ldflags-y += -T
-diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32/Makefile
-index 36c8f66cad25..fa157366e814 100644
---- a/arch/arm64/kernel/vdso32/Makefile
-+++ b/arch/arm64/kernel/vdso32/Makefile
-@@ -104,7 +104,7 @@ VDSO_AFLAGS += -D__ASSEMBLY__
- VDSO_LDFLAGS += -Bsymbolic --no-undefined -soname=linux-vdso.so.1
- VDSO_LDFLAGS += -z max-page-size=4096 -z common-page-size=4096
- VDSO_LDFLAGS += -shared --hash-style=sysv --build-id=sha1
--VDSO_LDFLAGS += --orphan-handling=warn
-+VDSO_LDFLAGS += --orphan-handling=$(if $(CONFIG_WERROR),error,warn)
- 
- 
- # Borrow vdsomunge.c from the arm vDSO
-diff --git a/arch/x86/boot/compressed/Makefile b/arch/x86/boot/compressed/Makefile
-index 3a261abb6d15..a1a8bec61c10 100644
---- a/arch/x86/boot/compressed/Makefile
-+++ b/arch/x86/boot/compressed/Makefile
-@@ -68,7 +68,7 @@ KBUILD_LDFLAGS += $(call ld-option,--no-ld-generated-unwind-info)
- # address by the bootloader.
- LDFLAGS_vmlinux := -pie $(call ld-option, --no-dynamic-linker)
- ifdef CONFIG_LD_ORPHAN_WARN
--LDFLAGS_vmlinux += --orphan-handling=warn
-+LDFLAGS_vmlinux += --orphan-handling=$(if $(CONFIG_WERROR),error,warn)
- endif
- LDFLAGS_vmlinux += -z noexecstack
- ifeq ($(CONFIG_LD_IS_BFD),y)
-diff --git a/init/Kconfig b/init/Kconfig
-index abf65098f1b6..8f4b838ece47 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -159,10 +159,12 @@ config WERROR
- 	help
- 	  A kernel build should not cause any compiler warnings, and this
- 	  enables the '-Werror' (for C) and '-Dwarnings' (for Rust) flags
--	  to enforce that rule by default.
-+	  to enforce that rule by default. Certain warnings from other tools
-+	  such as the linker may be upgraded to errors with this option as
-+	  well.
- 
--	  However, if you have a new (or very old) compiler with odd and
--	  unusual warnings, or you have some architecture with problems,
-+	  However, if you have a new (or very old) compiler or linker with odd
-+	  and unusual warnings, or you have some architecture with problems,
- 	  you may need to disable this config option in order to
- 	  successfully build the kernel.
- 
-@@ -1454,6 +1456,7 @@ config LD_ORPHAN_WARN
- 	def_bool y
- 	depends on ARCH_WANT_LD_ORPHAN_WARN
- 	depends on $(ld-option,--orphan-handling=warn)
-+	depends on $(ld-option,--orphan-handling=error)
- 
- config SYSCTL
- 	bool
--- 
-2.34.1
 
