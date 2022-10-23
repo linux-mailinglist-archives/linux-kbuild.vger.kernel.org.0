@@ -2,72 +2,50 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B488F60957F
-	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Oct 2022 20:25:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F5496095C2
+	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Oct 2022 21:11:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230337AbiJWSZ1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 23 Oct 2022 14:25:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49224 "EHLO
+        id S230500AbiJWTLJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 23 Oct 2022 15:11:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230024AbiJWSZV (ORCPT
+        with ESMTP id S230457AbiJWTLI (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 23 Oct 2022 14:25:21 -0400
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97899481FA;
-        Sun, 23 Oct 2022 11:25:17 -0700 (PDT)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 29NIOiY1031002;
-        Sun, 23 Oct 2022 13:24:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1666549484;
-        bh=9st99SOgqqJ97K4IHxXw4rse3SOpMoT1XJwiOcRMdnA=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=WW7lvUjehxsNPQSr5FaxNfwuJokggGP/iaF2FTQvKBVFQpuPn2AywnvxVlJE56kAH
-         +kS8i9E4hZk/kBEzE2g0710fyIUvd8q9kHAm3ufBIuu1xuzakyoKoPGiuWYDVEUake
-         lAJYHLBxoSsGtQ1862Rgx/fuCPNMVB0Iu4ovz8r4=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 29NIOiDC021588
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sun, 23 Oct 2022 13:24:44 -0500
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6; Sun, 23
- Oct 2022 13:24:44 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6 via
- Frontend Transport; Sun, 23 Oct 2022 13:24:44 -0500
-Received: from ula0226330.dal.design.ti.com (ileaxei01-snat.itg.ti.com [10.180.69.5])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 29NIObVd042708;
-        Sun, 23 Oct 2022 13:24:43 -0500
-From:   Andrew Davis <afd@ti.com>
-To:     Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Frank Rowand <frowand.list@gmail.com>
-CC:     <devicetree@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, Andrew Davis <afd@ti.com>
-Subject: [PATCH 6/6] arm64: dts: xilinx: Rename DTB overlay source files from .dts to .dtso
-Date:   Sun, 23 Oct 2022 13:24:37 -0500
-Message-ID: <20221023182437.15263-7-afd@ti.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221023182437.15263-1-afd@ti.com>
-References: <20221023182437.15263-1-afd@ti.com>
+        Sun, 23 Oct 2022 15:11:08 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 302585E315;
+        Sun, 23 Oct 2022 12:11:07 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BE83260F13;
+        Sun, 23 Oct 2022 19:11:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCA70C433D6;
+        Sun, 23 Oct 2022 19:11:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1666552266;
+        bh=QXMXZXfUd2He0sZ86vmXuZdVlINZFlf8nls9igCZXrs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=oEZMesga1zur/XSb+z97i5myMe8rcjp1vTVwVy3hCkhdlN/7Fo2QTpx5xjfWs2Brn
+         PYhL/GNlhbjQU3nnhlqBV4qIlzXiNI5WZ7A5THR06H43dsIWIHZgnxBH5RcI4jp6XN
+         F81BGm+Yx640l0HtNjgXKHudewVcSvtdtzk6KifxOmGqomYp40TaFWwmxw9UDAXiUy
+         CUj0/U8tGOpQ62qvonM5v7GSE8L+2g/VYaeXbeJtypbaPLhTx5jG1ZXM1QtAlBDtcZ
+         apjMpjcjfalYhj916E/+bvvKHN6yUZ1zFH92e7A37613L7HzIA5PZBV+zSVCfw5OlL
+         TmJEHVrbVUXFg==
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Johannes Zink <j.zink@pengutronix.de>,
+        Ariel Marcovitch <arielmarcovitch@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] kconfig: fix segmentation fault in menuconfig search
+Date:   Mon, 24 Oct 2022 04:10:55 +0900
+Message-Id: <20221023191055.85098-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,28 +53,87 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-DTB Overlays (.dtbo) can now be built from source files with the
-extension (.dtso). This makes it clear the content of the file
-and differentiates them from base DTB source files.
+Since commit d05377e184fc ("kconfig: Create links to main menu items
+in search"), menuconfig shows a jump key next to "Main menu" if the
+nearest visible parent is the rootmenu. If you press that jump key,
+menuconfig crashes with a segmentation fault.
 
-Convert the DTB overlay source files in the arm64/xilinx directory.
+For example, do this:
 
-Signed-off-by: Andrew Davis <afd@ti.com>
+  $ make ARCH=arm64 allnoconfig menuconfig
+
+Press '/' to search for the string "ACPI". Press '1' to choose
+"(1) Main menu". Then, menuconfig crashed with a segmentation fault.
+
+The following code in search_conf()
+
+    conf(targets[i]->parent, targets[i]);
+
+results in NULL pointer dereference because targets[i] is the rootmenu,
+which does not have a parent.
+
+Commit d05377e184fc tried to fix the issue of top-level items not having
+a jump key, but adding the "Main menu" was not the right fix.
+
+The correct fix is to show the searched item itself. This fixes another
+weird behavior described in the comment block.
+
+Fixes: d05377e184fc ("kconfig: Create links to main menu items in search")
+Reported-by: Johannes Zink <j.zink@pengutronix.de>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
- .../{zynqmp-sck-kv-g-revA.dts => zynqmp-sck-kv-g-revA.dtso}       | 0
- .../{zynqmp-sck-kv-g-revB.dts => zynqmp-sck-kv-g-revB.dtso}       | 0
- 2 files changed, 0 insertions(+), 0 deletions(-)
- rename arch/arm64/boot/dts/xilinx/{zynqmp-sck-kv-g-revA.dts => zynqmp-sck-kv-g-revA.dtso} (100%)
- rename arch/arm64/boot/dts/xilinx/{zynqmp-sck-kv-g-revB.dts => zynqmp-sck-kv-g-revB.dtso} (100%)
 
-diff --git a/arch/arm64/boot/dts/xilinx/zynqmp-sck-kv-g-revA.dts b/arch/arm64/boot/dts/xilinx/zynqmp-sck-kv-g-revA.dtso
-similarity index 100%
-rename from arch/arm64/boot/dts/xilinx/zynqmp-sck-kv-g-revA.dts
-rename to arch/arm64/boot/dts/xilinx/zynqmp-sck-kv-g-revA.dtso
-diff --git a/arch/arm64/boot/dts/xilinx/zynqmp-sck-kv-g-revB.dts b/arch/arm64/boot/dts/xilinx/zynqmp-sck-kv-g-revB.dtso
-similarity index 100%
-rename from arch/arm64/boot/dts/xilinx/zynqmp-sck-kv-g-revB.dts
-rename to arch/arm64/boot/dts/xilinx/zynqmp-sck-kv-g-revB.dtso
+ scripts/kconfig/menu.c | 23 ++++-------------------
+ 1 file changed, 4 insertions(+), 19 deletions(-)
+
+diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
+index 62b6313f51c8..109325f31bef 100644
+--- a/scripts/kconfig/menu.c
++++ b/scripts/kconfig/menu.c
+@@ -722,8 +722,8 @@ static void get_prompt_str(struct gstr *r, struct property *prop,
+ 	if (!expr_eq(prop->menu->dep, prop->visible.expr))
+ 		get_dep_str(r, prop->visible.expr, "  Visible if: ");
+ 
+-	menu = prop->menu->parent;
+-	for (i = 0; menu && i < 8; menu = menu->parent) {
++	menu = prop->menu;
++	for (i = 0; menu != &rootmenu && i < 8; menu = menu->parent) {
+ 		bool accessible = menu_is_visible(menu);
+ 
+ 		submenu[i++] = menu;
+@@ -733,16 +733,7 @@ static void get_prompt_str(struct gstr *r, struct property *prop,
+ 	if (head && location) {
+ 		jump = xmalloc(sizeof(struct jump_key));
+ 
+-		if (menu_is_visible(prop->menu)) {
+-			/*
+-			 * There is not enough room to put the hint at the
+-			 * beginning of the "Prompt" line. Put the hint on the
+-			 * last "Location" line even when it would belong on
+-			 * the former.
+-			 */
+-			jump->target = prop->menu;
+-		} else
+-			jump->target = location;
++		jump->target = location;
+ 
+ 		if (list_empty(head))
+ 			jump->index = 0;
+@@ -758,13 +749,7 @@ static void get_prompt_str(struct gstr *r, struct property *prop,
+ 		menu = submenu[i];
+ 		if (jump && menu == location)
+ 			jump->offset = strlen(r->s);
+-
+-		if (menu == &rootmenu)
+-			/* The real rootmenu prompt is ugly */
+-			str_printf(r, "%*cMain menu", j, ' ');
+-		else
+-			str_printf(r, "%*c-> %s", j, ' ', menu_get_prompt(menu));
+-
++		str_printf(r, "%*c-> %s", j, ' ', menu_get_prompt(menu));
+ 		if (menu->sym) {
+ 			str_printf(r, " (%s [=%s])", menu->sym->name ?
+ 				menu->sym->name : "<choice>",
 -- 
-2.37.3
+2.34.1
 
