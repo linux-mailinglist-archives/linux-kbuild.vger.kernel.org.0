@@ -2,138 +2,210 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F5496095C2
-	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Oct 2022 21:11:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B55B6095CF
+	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Oct 2022 21:24:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230500AbiJWTLJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 23 Oct 2022 15:11:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39360 "EHLO
+        id S229707AbiJWTYk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 23 Oct 2022 15:24:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230457AbiJWTLI (ORCPT
+        with ESMTP id S229497AbiJWTYi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 23 Oct 2022 15:11:08 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 302585E315;
-        Sun, 23 Oct 2022 12:11:07 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BE83260F13;
-        Sun, 23 Oct 2022 19:11:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCA70C433D6;
-        Sun, 23 Oct 2022 19:11:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666552266;
-        bh=QXMXZXfUd2He0sZ86vmXuZdVlINZFlf8nls9igCZXrs=;
-        h=From:To:Cc:Subject:Date:From;
-        b=oEZMesga1zur/XSb+z97i5myMe8rcjp1vTVwVy3hCkhdlN/7Fo2QTpx5xjfWs2Brn
-         PYhL/GNlhbjQU3nnhlqBV4qIlzXiNI5WZ7A5THR06H43dsIWIHZgnxBH5RcI4jp6XN
-         F81BGm+Yx640l0HtNjgXKHudewVcSvtdtzk6KifxOmGqomYp40TaFWwmxw9UDAXiUy
-         CUj0/U8tGOpQ62qvonM5v7GSE8L+2g/VYaeXbeJtypbaPLhTx5jG1ZXM1QtAlBDtcZ
-         apjMpjcjfalYhj916E/+bvvKHN6yUZ1zFH92e7A37613L7HzIA5PZBV+zSVCfw5OlL
-         TmJEHVrbVUXFg==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Johannes Zink <j.zink@pengutronix.de>,
-        Ariel Marcovitch <arielmarcovitch@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] kconfig: fix segmentation fault in menuconfig search
-Date:   Mon, 24 Oct 2022 04:10:55 +0900
-Message-Id: <20221023191055.85098-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.34.1
+        Sun, 23 Oct 2022 15:24:38 -0400
+Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16AE71261E;
+        Sun, 23 Oct 2022 12:24:35 -0700 (PDT)
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 29NJOFdc022332;
+        Mon, 24 Oct 2022 04:24:16 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 29NJOFdc022332
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1666553056;
+        bh=yAkzJfVFHOs64i0qA/NVMw3FlQylbkz13p0kK5P+1/M=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=T/OxKpA5hrxX5KCPNv2UaYW8syXbQmfHCNVekRnkCZMtIvUK00bfxYl7hFGcF/bJn
+         pMZysOBcHs4Dg4h8+CrR6ojb3+KhdG4EFRBhLyBOnOZh3lIZw819ja7FpCRM4LgCoD
+         rJzCOthZgPzl78hvUDkoDJZEA1XaLXxhbgCZQKimq0oHwU4qIb6woSwfvcoAP2jOwu
+         g2xoh6F4QNpFCB3InH6N8A/oMPkHsrfeNebnRzF42kLCALD8uZBwZcQIpW7k+kkW/w
+         C5BlVdsYBk6sTyv+0LkQizaUeiFH++Ef6XKmKI1BI9feDiL67BFBart/527i+DqJlz
+         PkMkkh724Qvag==
+X-Nifty-SrcIP: [209.85.210.42]
+Received: by mail-ot1-f42.google.com with SMTP id br15-20020a056830390f00b0061c9d73b8bdso4855448otb.6;
+        Sun, 23 Oct 2022 12:24:16 -0700 (PDT)
+X-Gm-Message-State: ACrzQf3d4gawx82XZqDTgBiIBpOacOORtXeHXQy5FS7tlVYRa6dsU2zY
+        iktZhKzoTu3XtGn3ZgOA1N1Atj2cWDmogGPe/5Y=
+X-Google-Smtp-Source: AMsMyM7e46OF7JYHyjNWe11i4Yk4e9IZvfkHPe7CeJPj6isPSCJCGBQWL200mgRCJnoCplWSUOgiSiHLHdTTiFl3UKI=
+X-Received: by 2002:a05:6830:6384:b0:661:bee5:73ce with SMTP id
+ ch4-20020a056830638400b00661bee573cemr15103086otb.343.1666553055213; Sun, 23
+ Oct 2022 12:24:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <33059074b78110d4717efe09b887dd28ac77fe7f.camel@pengutronix.de> <ba6223f9fcae7d27de439e75f93b3a1352a30890.camel@pengutronix.de>
+In-Reply-To: <ba6223f9fcae7d27de439e75f93b3a1352a30890.camel@pengutronix.de>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 24 Oct 2022 04:23:39 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAThoCP3FWidnMt0h5y16VrNKKBum2NP3a=RgmaAAAdQGQ@mail.gmail.com>
+Message-ID: <CAK7LNAThoCP3FWidnMt0h5y16VrNKKBum2NP3a=RgmaAAAdQGQ@mail.gmail.com>
+Subject: Re: PROBLEM: Segfault in kconfig
+To:     Johannes Zink <j.zink@pengutronix.de>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@pengutronix.de
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Since commit d05377e184fc ("kconfig: Create links to main menu items
-in search"), menuconfig shows a jump key next to "Main menu" if the
-nearest visible parent is the rootmenu. If you press that jump key,
-menuconfig crashes with a segmentation fault.
+Hi Johannes,
 
-For example, do this:
 
-  $ make ARCH=arm64 allnoconfig menuconfig
+Sorry for the delay.
 
-Press '/' to search for the string "ACPI". Press '1' to choose
-"(1) Main menu". Then, menuconfig crashed with a segmentation fault.
+I took a closer look at this.
 
-The following code in search_conf()
 
-    conf(targets[i]->parent, targets[i]);
+I submitted a patch, which I think is a more correct fix.
 
-results in NULL pointer dereference because targets[i] is the rootmenu,
-which does not have a parent.
+https://patchwork.kernel.org/project/linux-kbuild/patch/20221023191055.85098-1-masahiroy@kernel.org/
 
-Commit d05377e184fc tried to fix the issue of top-level items not having
-a jump key, but adding the "Main menu" was not the right fix.
 
-The correct fix is to show the searched item itself. This fixes another
-weird behavior described in the comment block.
 
-Fixes: d05377e184fc ("kconfig: Create links to main menu items in search")
-Reported-by: Johannes Zink <j.zink@pengutronix.de>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+Thanks.
 
- scripts/kconfig/menu.c | 23 ++++-------------------
- 1 file changed, 4 insertions(+), 19 deletions(-)
 
-diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
-index 62b6313f51c8..109325f31bef 100644
---- a/scripts/kconfig/menu.c
-+++ b/scripts/kconfig/menu.c
-@@ -722,8 +722,8 @@ static void get_prompt_str(struct gstr *r, struct property *prop,
- 	if (!expr_eq(prop->menu->dep, prop->visible.expr))
- 		get_dep_str(r, prop->visible.expr, "  Visible if: ");
- 
--	menu = prop->menu->parent;
--	for (i = 0; menu && i < 8; menu = menu->parent) {
-+	menu = prop->menu;
-+	for (i = 0; menu != &rootmenu && i < 8; menu = menu->parent) {
- 		bool accessible = menu_is_visible(menu);
- 
- 		submenu[i++] = menu;
-@@ -733,16 +733,7 @@ static void get_prompt_str(struct gstr *r, struct property *prop,
- 	if (head && location) {
- 		jump = xmalloc(sizeof(struct jump_key));
- 
--		if (menu_is_visible(prop->menu)) {
--			/*
--			 * There is not enough room to put the hint at the
--			 * beginning of the "Prompt" line. Put the hint on the
--			 * last "Location" line even when it would belong on
--			 * the former.
--			 */
--			jump->target = prop->menu;
--		} else
--			jump->target = location;
-+		jump->target = location;
- 
- 		if (list_empty(head))
- 			jump->index = 0;
-@@ -758,13 +749,7 @@ static void get_prompt_str(struct gstr *r, struct property *prop,
- 		menu = submenu[i];
- 		if (jump && menu == location)
- 			jump->offset = strlen(r->s);
--
--		if (menu == &rootmenu)
--			/* The real rootmenu prompt is ugly */
--			str_printf(r, "%*cMain menu", j, ' ');
--		else
--			str_printf(r, "%*c-> %s", j, ' ', menu_get_prompt(menu));
--
-+		str_printf(r, "%*c-> %s", j, ' ', menu_get_prompt(menu));
- 		if (menu->sym) {
- 			str_printf(r, " (%s [=%s])", menu->sym->name ?
- 				menu->sym->name : "<choice>",
+On Thu, Oct 6, 2022 at 10:15 PM Johannes Zink <j.zink@pengutronix.de> wrote:
+>
+> Hi everyone,
+>
+> On Thu, 2022-09-22 at 18:01 +0200, Johannes Zink wrote:
+> > Hi everyone,
+> >
+> > [1.] One line summary of the problem:
+> >      kconfig crashes with segfault under rare circumstances
+> > [2.] Full description of the problem/report:
+> >      Under certain circumstances jump keys are displayed on the
+> > search
+> >      results even if a symbol is deactivated by one of its
+> >      dependencies. Using the jump keys then triggers a segmentation
+> >      fault due to a NULL dereference. Perform the following steps to
+> >      trigger the issue
+> >
+> >      1.: ARCH=arm64 make defconfig
+> >      2.: ARCH=arm64 make menuconfig
+> >
+> >      3.: press '/' key to search for the string "EFI". Use jump key
+> >          (1) to jump to search result. Press 'n' key to deactivate
+> > the
+> >          entry.
+> >      4.: press '/' to seach for the string "ACPI". Use the jump key
+> >          (1) to jump to the search result.
+> >
+> >      Menuconfig then crashes with a segfault.
+> >
+> > [3.] Keywords (i.e., modules, networking, kernel):
+> >      kconfig, mconf
+> > [4.] Kernel information
+> > [4.1.] Kernel version (from /proc/version):
+> >        v6.0.0-rc6
+> > [4.2.] Kernel .config file:
+> >        arm64 default defconfig
+> > [5.] Most recent kernel version which did not have the bug:
+> >      v5.15
+> > [6.] Output of Oops.. message (if applicable) with symbolic
+> > information
+> >      resolved (see Documentation/admin-guide/bug-hunting.rst):
+> >      not applicable
+> > [7.] A small shell script or example program which triggers the
+> >      problem (if possible):
+> >      not applicable, please see description in [2.]
+> > [8.] Environment
+> > [8.1.] Software (add the output of the ver_linux script here):
+> >        not applicable
+> > [8.2.] Processor information (from /proc/cpuinfo):
+> >        not applicable
+> > [8.3.] Module information (from /proc/modules):
+> >        not applicable
+> > [8.4.] Loaded driver and hardware information (/proc/ioports,
+> > /proc/iomem):
+> >        not applicable
+> > [8.5.] PCI information ('lspci -vvv' as root):
+> >        not applicable
+> > [8.6.] SCSI information (from /proc/scsi/scsi):
+> >        not applicable
+> > [8.7.] Other information that might be relevant to the problem
+> >        (please look in /proc and include all information that you
+> >        think to be relevant):
+> >        not applicable
+> > [X.] Other notes, patches, fixes, workarounds:
+> >
+> >      I found that the attached patch is a very hacky workaround to
+> >      keep menuconfig from crashing, but I am pretty sure the jump
+> >      keys should not have be activated for unaccessable entries in
+> > the
+> >      first place. I found it quite hard to find the corresponding
+> > part
+> >      in mconf, which is why I decided to send this bugreport instead
+> >      of sending a patch. Maybe someone on this list either knows
+> > mconf
+> >      really well and can just fix it, or guide me to where I can dig
+> >      around (though in that case I could really use some help on how
+> >      to debug menuconfig, since I found it challenging to get it
+> >      working with gdb)
+> >
+> > Best regards
+> > Johannes
+> >
+> > ---
+> > scripts/kconfig/mconf.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/scripts/kconfig/mconf.c b/scripts/kconfig/mconf.c
+> > index 9d3cf510562f..60a82f701bd3 100644
+> > --- a/scripts/kconfig/mconf.c
+> > +++ b/scripts/kconfig/mconf.c
+> > @@ -447,7 +447,8 @@ static void search_conf(void)
+> >                 again = false;
+> >                 for (i = 0; i < JUMP_NB && keys[i]; i++)
+> >                         if (dres == keys[i]) {
+> > -                               conf(targets[i]->parent, targets[i]);
+> > +                               if (targets[i]->parent)
+> > +                                       conf(targets[i]->parent,
+> > targets[i]);
+> >                                 again = true;
+> >                         }
+> >                 str_free(&res);
+> >
+>
+> Just a gentle ping and TL;DR on this issue:
+>
+> Menuconfig crashes with a segfault if performing the steps
+>
+> 1.: ARCH=arm64 make defconfig
+> 2.: ARCH=arm64 make menuconfig
+> 3.: press '/' key to search for the string "EFI". Use jump key
+>     (1) to jump to search result. Press 'n' key to deactivate
+>     the entry.
+> 4.: press '/' to seach for the string "ACPI". Use the jump key
+>     (1) to jump to the search result.
+>
+> For more details please see the detailed report in the original
+> message.
+>
+> Has anyone any input on this?
+>
+> Best regards
+>
+> --
+> Pengutronix e.K.                | Johannes Zink                  |
+> Steuerwalder Str. 21            | https://www.pengutronix.de/    |
+> 31137 Hildesheim, Germany       | Phone: +49-5121-206917-0       |
+> Amtsgericht Hildesheim, HRA 2686| Fax:   +49-5121-206917-5555    |
+>
+
+
 -- 
-2.34.1
-
+Best Regards
+Masahiro Yamada
