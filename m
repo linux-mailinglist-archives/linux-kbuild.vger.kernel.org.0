@@ -2,62 +2,81 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B07B6095F3
-	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Oct 2022 22:03:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E51BC609619
+	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Oct 2022 22:25:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230413AbiJWUDg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 23 Oct 2022 16:03:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59942 "EHLO
+        id S231124AbiJWUY5 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Sun, 23 Oct 2022 16:24:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230235AbiJWUDf (ORCPT
+        with ESMTP id S230385AbiJWUYz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 23 Oct 2022 16:03:35 -0400
-Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27DAF6566D;
-        Sun, 23 Oct 2022 13:03:34 -0700 (PDT)
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 29NK3J4k022655;
-        Mon, 24 Oct 2022 05:03:19 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 29NK3J4k022655
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1666555400;
-        bh=M3ZxNAiBcIlFjCWFQwnzBKBdtwWozx3fquXatda9+ts=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=0I0T256zWWV6zA2tgsOvWc6x3ZTfoc8ge+22LIO39gjCgS/km2BA1jIrEhtn+r9GO
-         4UIsFHoVZxN9MqakWGBwi4/fzQo0jv0KHjD62NVW/XEGkWVKyERtJZZgppSN3cOOo9
-         YQA7byhXHWmkTLFDgcesP6xuJWoAdf+96F4nVvHQlwvBh+TulXgOjYa+eWq8vkbapv
-         wdU2blx2tKlpUWnJDLaTyx/+pHvNGX9PkRtMkP7BvYaRJ8REDgJyHE55hy8Mo1iZYf
-         Jl4b9ElC3Qq53iVZDAXnjnjBHNDSGNVojDatXwf3QRn/8DN6KCrcQlXDjWhvz/lbr/
-         0/hqY1a95lJCg==
-X-Nifty-SrcIP: [209.85.167.182]
-Received: by mail-oi1-f182.google.com with SMTP id y67so9026768oiy.1;
-        Sun, 23 Oct 2022 13:03:19 -0700 (PDT)
-X-Gm-Message-State: ACrzQf2Nq7sFo/dXBb7tNAQ+Sh+1PMRhek/XISXMbBMztBfhUvKyY1Gs
-        prc0XRw58ukZH5C0fULUOx7G4XklFJfbskGVXfs=
-X-Google-Smtp-Source: AMsMyM4LQgSLuv2/57yI1HYPJBmkgqay9G85DXbIyd+aQEe7R0SyF7lqhnkbn17ye/olVzl4x7cdZReGeE+6xhU6J6A=
-X-Received: by 2002:aca:bbd4:0:b0:353:f167:6fd3 with SMTP id
- l203-20020acabbd4000000b00353f1676fd3mr15510922oif.287.1666555398536; Sun, 23
- Oct 2022 13:03:18 -0700 (PDT)
+        Sun, 23 Oct 2022 16:24:55 -0400
+Received: from mx07-006a4e02.pphosted.com (mx07-006a4e02.pphosted.com [143.55.146.78])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14E4813CD4;
+        Sun, 23 Oct 2022 13:24:44 -0700 (PDT)
+Received: from pps.filterd (m0316692.ppops.net [127.0.0.1])
+        by m0316692.ppops.net (8.17.1.5/8.17.1.5) with ESMTP id 29NKKQJ6017297;
+        Sun, 23 Oct 2022 22:24:06 +0200
+Received: from mta-out01.sim.rediris.es (mta-out01.sim.rediris.es [130.206.24.43])
+        by m0316692.ppops.net (PPS) with ESMTPS id 3kcu9mc2sc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sun, 23 Oct 2022 22:24:06 +0200
+Received: from mta-out01.sim.rediris.es (localhost.localdomain [127.0.0.1])
+        by mta-out01.sim.rediris.es (Postfix) with ESMTPS id 26DDA3000047;
+        Sun, 23 Oct 2022 22:24:05 +0200 (CEST)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mta-out01.sim.rediris.es (Postfix) with ESMTP id E22013197C11;
+        Sun, 23 Oct 2022 22:24:04 +0200 (CEST)
+X-Amavis-Modified: Mail body modified (using disclaimer) -
+        mta-out01.sim.rediris.es
+Received: from mta-out01.sim.rediris.es ([127.0.0.1])
+        by localhost (mta-out01.sim.rediris.es [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id AvB5T1Imovv1; Sun, 23 Oct 2022 22:24:04 +0200 (CEST)
+Received: from lt-gp.iram.es (haproxy02.sim.rediris.es [130.206.24.70])
+        by mta-out01.sim.rediris.es (Postfix) with ESMTPA id B07C23000047;
+        Sun, 23 Oct 2022 22:24:01 +0200 (CEST)
+Date:   Sun, 23 Oct 2022 22:23:56 +0200
+From:   Gabriel Paubert <paubert@iram.es>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Segher Boessenkool <segher@kernel.crashing.org>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-toolchains@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] kbuild: treat char as always signed
+Message-ID: <Y1Wi29MuYlCRTKfH@lt-gp.iram.es>
+References: <20221019162648.3557490-1-Jason@zx2c4.com>
+ <20221019165455.GL25951@gate.crashing.org>
+ <CAHk-=wiMWk2t8FHn0iqVVe1mn62OTAD6ffL5rn9Eeu021H9d1Q@mail.gmail.com>
+ <20221019174345.GM25951@gate.crashing.org>
+ <CAHk-=wiNNKLFfa0d+Hk=Wm5caiKjLY4V9wwu9DhcSSwPuMbxrg@mail.gmail.com>
+ <Y1Elx+e5VLCTfyXi@lt-gp.iram.es>
+ <CAHk-=wiYtSvjyz5xz2Sbnmxgzg_=AL2OyTiRueUem3xzCzM8VA@mail.gmail.com>
+ <Y1OIXdh3vWOMUlQK@lt-gp.iram.es>
+ <CAHk-=wgaeTa9nAeJ8DP1cBWrs8fZvJ7k1-L8-kjxEOxpLf+XNA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20221020103823.31001-1-ashimida@linux.alibaba.com>
- <Y1FVphEyu23U0jho@debian.me> <8b2864bd-30b1-254f-ebd6-79967249da9b@linux.alibaba.com>
- <Y1JRhiAQ1bV/Dh7h@buildd.core.avm.de>
-In-Reply-To: <Y1JRhiAQ1bV/Dh7h@buildd.core.avm.de>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 24 Oct 2022 05:02:42 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATo3+CTpRzKQEtdOxVSU4qvj2+-BOEQr8z8_Yj7eW9p4Q@mail.gmail.com>
-Message-ID: <CAK7LNATo3+CTpRzKQEtdOxVSU4qvj2+-BOEQr8z8_Yj7eW9p4Q@mail.gmail.com>
-Subject: Re: [RFC] Documentation: kbuild: Add description of git for
- reproducible builds
-To:     Nicolas Schier <n.schier@avm.de>
-Cc:     Dan Li <ashimida@linux.alibaba.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>, michal.lkml@markovi.net,
-        ndesaulniers@google.com, corbet@lwn.net,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wgaeTa9nAeJ8DP1cBWrs8fZvJ7k1-L8-kjxEOxpLf+XNA@mail.gmail.com>
+Content-Transfer-Encoding: 8BIT
+X-Proofpoint-ORIG-GUID: zgBEguqV2sx207ySGJtcCtxIxSPFqKi5
+X-Proofpoint-GUID: zgBEguqV2sx207ySGJtcCtxIxSPFqKi5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-21_04,2022-10-21_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbounddefault_notspam policy=outbounddefault score=0
+ lowpriorityscore=0 mlxscore=0 malwarescore=0 suspectscore=0
+ impostorscore=0 bulkscore=0 mlxlogscore=769 spamscore=0 priorityscore=1501
+ adultscore=0 clxscore=1015 phishscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2209130000
+ definitions=main-2210230130
+X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,PDS_RDNS_DYNAMIC_FP,
+        RCVD_IN_DNSWL_NONE,RDNS_DYNAMIC,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,85 +84,63 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Oct 21, 2022 at 5:00 PM Nicolas Schier <n.schier@avm.de> wrote:
->
-> On Thu, Oct 20, 2022 at 06:48:20PM -0700, Dan Li wrote:
+On Sat, Oct 22, 2022 at 11:16:33AM -0700, Linus Torvalds wrote:
+> On Fri, Oct 21, 2022 at 11:06 PM Gabriel Paubert <paubert@iram.es> wrote:
 > >
+> > Ok, I´ve just tried it, except that I had something slightly different in
+> > mind, but perhaps should have been clearer in my first post.
 > >
-> > On 10/20/22 07:05, Bagas Sanjaya wrote:
-> > > On Thu, Oct 20, 2022 at 03:38:23AM -0700, Dan Li wrote:
-> > > > diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation/kbuild/reproducible-builds.rst
-> > > > index 071f0151a7a4..13397f38c358 100644
-> > > > --- a/Documentation/kbuild/reproducible-builds.rst
-> > > > +++ b/Documentation/kbuild/reproducible-builds.rst
-> > > > @@ -119,6 +119,16 @@ To avoid this, you can make the vDSO different for different
-> > > >   kernel versions by including an arbitrary string of "salt" in it.
-> > > >   This is specified by the Kconfig symbol ``CONFIG_BUILD_SALT``.
-> > > > +Git
-> > > > +-----------------------
-> > > > +
-> > > > +Uncommitted changes or different commit ids in git can also lead
-> > > > +to different compilation results. For example, after executing
-> > > > +``git reset HEAD^``, even if the code is the same, the
-> > > > +``include/config/kernel.release`` generated during compilation
-> > > > +will be different, which will eventually lead to binary differences.
-> > > > +See ``scripts/setlocalversion`` for details.
-> > > > +
-> > >
-> > > Briefly read the script, I don't see what the correlation between git
-> > > reset with LOCALVERSION thing is. Also, does the exact state of git
-> > > repository required for reproducible builds?
-> > >
-> >
-> > Hi Bagas,
-> >
-> > The Makefile has the following code:
-> > filechk_kernel.release = \
-> >         echo "$(KERNELVERSION)$$($(CONFIG_SHELL) $(srctree)/scripts/setlocalversion $(srctree))"
-> >
-> > The output of setlocalversion affects kernel.release, while the output
-> > of setlocalversion is related to the state of git when the git repository
-> > exists (see function scm_version).
-> >
-> > So changes in git state will result in changes to kernel.release, and
-> > this information will be included in the final output vmlinux/modules
-> > and in turn affect reproducible builds.
-> >
-> > For example:
-> > $ git log
-> > commit 4cd155a93eec......
-> > $ make ...
-> > $ cat include/config/kernel.release
-> > 6.0.0-rc4-00025-g4cd155a93eec
-> >
-> > $ git reset HEAD^
-> > $ git log
-> > commit 7b4d266b0c41......
-> > $ make ...
-> > $ cat include/config/kernel.release
-> > 6.0.0-rc4-00024-g7b4d266b0c41-dirty
-> >
-> >
-> > AFAICT, in the presence of a git repository, we can compile a reproducible
-> > build kernel in any git state, but we need to ensure that the git state is
-> > always the same between compilations (or the same from the perspective of
-> > the scm_version function).
->
-> yes, that definitely true.  Absence or presence of git tags can change
-> the output of setlocalversion even more drastically.
->
-> I think it is sensible to add a stanza about git in
-> Documentation/kbuild/reproducible-builds.rst.
+> > I have change your code to the following:
+> 
+> I actually tested that, but using a slightly different version, and my
+> non-union test case ended up like
+> 
+>    size_t strlen(const char *p)
+>   {
+>         return __builtin_strlen(p);
+>   }
+> 
+> and then gcc actually complains about
+> 
+>     warning: infinite recursion detected
+> 
+> and I (incorrectly) thought this was unworkable. But your version
+> seems to work fine.
 
+Incidentally, it also gives exactly the same code with -ffreestanding.
 
+> 
+> So yeah, for the kernel I think we could do something like this. It's
+> ugly, but it gets rid of the crazy warning.
 
+Not as ugly as casts IMO, and it's localized in a few header files.
 
-Make sense.
-Applied to linux-kbuild.
-Thanks.
+However, it does not solve the problem of assigning a constant string to
+an u8 *; I've no idea on how to fix that.
 
+> 
+> Practically speaking this might be a bit painful, because we've got
+> several different variations of this all due to all the things like
+> our debugging versions (see <linux/fortify-string.h> for example), so
+> some of our code is this crazy jungle of "with this config, use this
+> wrapper".
 
+I've just had a look at that code, and I don't want to touch it with a
+10 foot pole. If someone else to get his hands dirty... 
 
--- 
-Best Regards
-Masahiro Yamada
+	Gabriel
+
+> 
+> But if somebody wants to deal with the '-Wpointer-sign' warnings,
+> there does seem to be a way out. Maybe with another set of helper
+> macros, creating those odd __transparent_union__ wrappers might even
+> end up reasonable.
+> 
+> It's not like we don't have crazy macros for function wrappers
+> elsewhere (the SYSCALL macros come to mind - shudder). The macros
+> themselves may be a nasty horror, but when done right the _use_ point
+> of said macros can be nice and clean.
+> 
+>                   Linus
+ 
+
