@@ -2,145 +2,141 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E51BC609619
-	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Oct 2022 22:25:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90B4260986D
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Oct 2022 05:04:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231124AbiJWUY5 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Sun, 23 Oct 2022 16:24:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48020 "EHLO
+        id S229910AbiJXDEv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 23 Oct 2022 23:04:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230385AbiJWUYz (ORCPT
+        with ESMTP id S229738AbiJXDEt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 23 Oct 2022 16:24:55 -0400
-Received: from mx07-006a4e02.pphosted.com (mx07-006a4e02.pphosted.com [143.55.146.78])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14E4813CD4;
-        Sun, 23 Oct 2022 13:24:44 -0700 (PDT)
-Received: from pps.filterd (m0316692.ppops.net [127.0.0.1])
-        by m0316692.ppops.net (8.17.1.5/8.17.1.5) with ESMTP id 29NKKQJ6017297;
-        Sun, 23 Oct 2022 22:24:06 +0200
-Received: from mta-out01.sim.rediris.es (mta-out01.sim.rediris.es [130.206.24.43])
-        by m0316692.ppops.net (PPS) with ESMTPS id 3kcu9mc2sc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sun, 23 Oct 2022 22:24:06 +0200
-Received: from mta-out01.sim.rediris.es (localhost.localdomain [127.0.0.1])
-        by mta-out01.sim.rediris.es (Postfix) with ESMTPS id 26DDA3000047;
-        Sun, 23 Oct 2022 22:24:05 +0200 (CEST)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mta-out01.sim.rediris.es (Postfix) with ESMTP id E22013197C11;
-        Sun, 23 Oct 2022 22:24:04 +0200 (CEST)
-X-Amavis-Modified: Mail body modified (using disclaimer) -
-        mta-out01.sim.rediris.es
-Received: from mta-out01.sim.rediris.es ([127.0.0.1])
-        by localhost (mta-out01.sim.rediris.es [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id AvB5T1Imovv1; Sun, 23 Oct 2022 22:24:04 +0200 (CEST)
-Received: from lt-gp.iram.es (haproxy02.sim.rediris.es [130.206.24.70])
-        by mta-out01.sim.rediris.es (Postfix) with ESMTPA id B07C23000047;
-        Sun, 23 Oct 2022 22:24:01 +0200 (CEST)
-Date:   Sun, 23 Oct 2022 22:23:56 +0200
-From:   Gabriel Paubert <paubert@iram.es>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Segher Boessenkool <segher@kernel.crashing.org>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-toolchains@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] kbuild: treat char as always signed
-Message-ID: <Y1Wi29MuYlCRTKfH@lt-gp.iram.es>
-References: <20221019162648.3557490-1-Jason@zx2c4.com>
- <20221019165455.GL25951@gate.crashing.org>
- <CAHk-=wiMWk2t8FHn0iqVVe1mn62OTAD6ffL5rn9Eeu021H9d1Q@mail.gmail.com>
- <20221019174345.GM25951@gate.crashing.org>
- <CAHk-=wiNNKLFfa0d+Hk=Wm5caiKjLY4V9wwu9DhcSSwPuMbxrg@mail.gmail.com>
- <Y1Elx+e5VLCTfyXi@lt-gp.iram.es>
- <CAHk-=wiYtSvjyz5xz2Sbnmxgzg_=AL2OyTiRueUem3xzCzM8VA@mail.gmail.com>
- <Y1OIXdh3vWOMUlQK@lt-gp.iram.es>
- <CAHk-=wgaeTa9nAeJ8DP1cBWrs8fZvJ7k1-L8-kjxEOxpLf+XNA@mail.gmail.com>
+        Sun, 23 Oct 2022 23:04:49 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BC8811453;
+        Sun, 23 Oct 2022 20:04:46 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id y4so7421665plb.2;
+        Sun, 23 Oct 2022 20:04:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=H8qeZMvOxiwOAkzS5A81naYZa4/kimVXnTgTuHv+nGI=;
+        b=oQd9UYHhiDqkqm5/Zc/uYEpCWSQbAmgiUE2690Eju87ixMRFMPrCP69gZigjjWH58o
+         p8mt1HH7zOLOTExa9BYSJzygKaZF58pl0FeCfHCn1K3M9PPIDDaPKqRp+vvyjXAl/IAo
+         JYf8d3Ipg6ssH7e/AF60iMbArTtg59dkcyw/8SkWzb2FnvrH9mFkVgVrXpGthT61jkcW
+         vjnGXVERAhS9uGB0vf4kvLnFPNC1ekEj6oKtS6bCbLQUQii3l5/wT4Iq/uh+sgG9nLsd
+         PBtc1O7QwN8BasQFhNy9lDSWQHOzCAmtW+NJtl55WOaMrO32tR0dpf18dk7x+ZQKFkmt
+         jP+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=H8qeZMvOxiwOAkzS5A81naYZa4/kimVXnTgTuHv+nGI=;
+        b=EKBysc2rUB0R5kb6VsVM0S0spgv+puA4y1Og0MUqakdJV45aE5ieekeNim+I2JQo6n
+         yL1Zqnug9ER9NRPKGCKd7+WsxlIRWRN02GyreTpxaTP8zWlJwQBCm0cPWnMgv1H3q45h
+         Lp/mPCbmADoe7tsM2Y5t9IK6zqalLlsaxkF/ezeXP5ShRMaunuc5ppf29SBzqwGHCBPh
+         bfT4d9XeJiWdKURSECLlequ112zkXDs2DvH0b9U8Vy1/PsmcRFG0CmeKbKV/pNcfypRi
+         Zn3WHWAxruf5movYwNiLv+99QKyWX47l9hwaWp3IfPHpv8W/jS+WAL2S86AkTEngJeDW
+         4xRA==
+X-Gm-Message-State: ACrzQf0nxRwkk/CB8L3u5+JzMF/X6Sy/p0GoS3X1US6phPF7/2JGxACp
+        lmK6QbM+jrCKlZBbEGz4IQg=
+X-Google-Smtp-Source: AMsMyM5Azcxe565HkaHJNFaYn/LrVOJoFH9xkQfoPI29SOaJyxrNhy4UI08Ke5xVM9fjLzuVZiQGzw==
+X-Received: by 2002:a17:90a:4316:b0:212:fadd:5d59 with SMTP id q22-20020a17090a431600b00212fadd5d59mr6964297pjg.45.1666580685494;
+        Sun, 23 Oct 2022 20:04:45 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-9.three.co.id. [180.214.232.9])
+        by smtp.gmail.com with ESMTPSA id e15-20020a170902784f00b0017a09ebd1e2sm18567456pln.237.2022.10.23.20.04.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Oct 2022 20:04:44 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 17F26103B1A; Mon, 24 Oct 2022 10:04:41 +0700 (WIB)
+Date:   Mon, 24 Oct 2022 10:04:41 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org,
+        Johannes Zink <j.zink@pengutronix.de>,
+        Ariel Marcovitch <arielmarcovitch@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kconfig: fix segmentation fault in menuconfig search
+Message-ID: <Y1YAyQ4s+wxfAPAU@debian.me>
+References: <20221023191055.85098-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="PFpEuUJq57bt2SZs"
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wgaeTa9nAeJ8DP1cBWrs8fZvJ7k1-L8-kjxEOxpLf+XNA@mail.gmail.com>
-Content-Transfer-Encoding: 8BIT
-X-Proofpoint-ORIG-GUID: zgBEguqV2sx207ySGJtcCtxIxSPFqKi5
-X-Proofpoint-GUID: zgBEguqV2sx207ySGJtcCtxIxSPFqKi5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-21_04,2022-10-21_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbounddefault_notspam policy=outbounddefault score=0
- lowpriorityscore=0 mlxscore=0 malwarescore=0 suspectscore=0
- impostorscore=0 bulkscore=0 mlxlogscore=769 spamscore=0 priorityscore=1501
- adultscore=0 clxscore=1015 phishscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2209130000
- definitions=main-2210230130
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,PDS_RDNS_DYNAMIC_FP,
-        RCVD_IN_DNSWL_NONE,RDNS_DYNAMIC,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20221023191055.85098-1-masahiroy@kernel.org>
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Oct 22, 2022 at 11:16:33AM -0700, Linus Torvalds wrote:
-> On Fri, Oct 21, 2022 at 11:06 PM Gabriel Paubert <paubert@iram.es> wrote:
-> >
-> > Ok, I´ve just tried it, except that I had something slightly different in
-> > mind, but perhaps should have been clearer in my first post.
-> >
-> > I have change your code to the following:
-> 
-> I actually tested that, but using a slightly different version, and my
-> non-union test case ended up like
-> 
->    size_t strlen(const char *p)
->   {
->         return __builtin_strlen(p);
->   }
-> 
-> and then gcc actually complains about
-> 
->     warning: infinite recursion detected
-> 
-> and I (incorrectly) thought this was unworkable. But your version
-> seems to work fine.
 
-Incidentally, it also gives exactly the same code with -ffreestanding.
+--PFpEuUJq57bt2SZs
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> So yeah, for the kernel I think we could do something like this. It's
-> ugly, but it gets rid of the crazy warning.
+On Mon, Oct 24, 2022 at 04:10:55AM +0900, Masahiro Yamada wrote:
+> Since commit d05377e184fc ("kconfig: Create links to main menu items
+> in search"), menuconfig shows a jump key next to "Main menu" if the
+> nearest visible parent is the rootmenu. If you press that jump key,
+> menuconfig crashes with a segmentation fault.
+>=20
+> For example, do this:
+>=20
+>   $ make ARCH=3Darm64 allnoconfig menuconfig
+>=20
+> Press '/' to search for the string "ACPI". Press '1' to choose
+> "(1) Main menu". Then, menuconfig crashed with a segmentation fault.
 
-Not as ugly as casts IMO, and it's localized in a few header files.
+You missed the prerequisites: search EFI and press 1 to jump to
+CONFIG_EFI.
 
-However, it does not solve the problem of assigning a constant string to
-an u8 *; I've no idea on how to fix that.
+>=20
+> The following code in search_conf()
+>=20
+>     conf(targets[i]->parent, targets[i]);
+>=20
+> results in NULL pointer dereference because targets[i] is the rootmenu,
+> which does not have a parent.
+>=20
+> Commit d05377e184fc tried to fix the issue of top-level items not having
+> a jump key, but adding the "Main menu" was not the right fix.
+>=20
+> The correct fix is to show the searched item itself. This fixes another
+> weird behavior described in the comment block.
+>=20
+> Fixes: d05377e184fc ("kconfig: Create links to main menu items in search")
+> Reported-by: Johannes Zink <j.zink@pengutronix.de>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Link: https://lore.kernel.org/r/20221023191055.85098-1-masahiroy@kernel.o=
+rg
 
-> 
-> Practically speaking this might be a bit painful, because we've got
-> several different variations of this all due to all the things like
-> our debugging versions (see <linux/fortify-string.h> for example), so
-> some of our code is this crazy jungle of "with this config, use this
-> wrapper".
+Missing Cc: stable? The segfault (IMO) appears after v5.15, so all
+supported stable branches are affected.
 
-I've just had a look at that code, and I don't want to touch it with a
-10 foot pole. If someone else to get his hands dirty... 
+Anyway, the segfault gone away with this patch applied. Thanks.
 
-	Gabriel
+Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-> 
-> But if somebody wants to deal with the '-Wpointer-sign' warnings,
-> there does seem to be a way out. Maybe with another set of helper
-> macros, creating those odd __transparent_union__ wrappers might even
-> end up reasonable.
-> 
-> It's not like we don't have crazy macros for function wrappers
-> elsewhere (the SYSCALL macros come to mind - shudder). The macros
-> themselves may be a nasty horror, but when done right the _use_ point
-> of said macros can be nice and clean.
-> 
->                   Linus
- 
+--=20
+An old man doll... just what I always wanted! - Clara
 
+--PFpEuUJq57bt2SZs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY1YAxAAKCRD2uYlJVVFO
+o2HWAQCc8AnxqmRk7EXDCw/tGNQvDKVAAcBJxEwn0+m5LiNlKgEA8X42VnAZRZRu
+vsjQyQZtBJWTWn+v2wPuOLCMP+wTpwc=
+=x7fI
+-----END PGP SIGNATURE-----
+
+--PFpEuUJq57bt2SZs--
