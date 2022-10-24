@@ -2,116 +2,204 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A99660B645
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Oct 2022 20:53:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F95560B635
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Oct 2022 20:50:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232894AbiJXSxE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 24 Oct 2022 14:53:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52082 "EHLO
+        id S232875AbiJXSu6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 24 Oct 2022 14:50:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232727AbiJXSwh (ORCPT
+        with ESMTP id S232678AbiJXSui (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 24 Oct 2022 14:52:37 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDC20224A90;
-        Mon, 24 Oct 2022 10:34:00 -0700 (PDT)
+        Mon, 24 Oct 2022 14:50:38 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A259C2475D2;
+        Mon, 24 Oct 2022 10:31:20 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 28E5661500;
-        Mon, 24 Oct 2022 17:17:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2964C433B5;
-        Mon, 24 Oct 2022 17:17:43 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="W4OnCup5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1666631860;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=0joR9m5MfF36iKnJOfK3TU4JQ6XnOTGKpE1xroKpqN0=;
-        b=W4OnCup5gOPU0F9sVbRAhDz1YfbDgcVtsT5zZm8fxkWFH8QlP4LKuTC6ARb/4ATDp8w/1W
-        CCDuos+lBAaTbcSwhdf/q9N8iqY1xl/kWWbeSWwm/vEu50CwFDzYa1ofruMc1cxK9QzNmf
-        t+vcDeOf7nOyQGTvT2VGAme4/SxiP2I=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id a8144f99 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Mon, 24 Oct 2022 17:17:39 +0000 (UTC)
-Received: by mail-vk1-f173.google.com with SMTP id h16so2250291vkn.4;
-        Mon, 24 Oct 2022 10:17:38 -0700 (PDT)
-X-Gm-Message-State: ACrzQf0qLIXypCUMqGeOiOukf248s+qYN28YnkOm4IFEsYD0QnGvPn0i
-        3ownY4C99S5qa4SB4MrJ07YjDagFH3QeUSOKPik=
-X-Google-Smtp-Source: AMsMyM7gGYX+0RDafH1G0b5Of2Pu4zvYtbj8eQ2m/vAdjPgpIYTB6R/Y9WoDz6ojgWA81toPxKKw5ZiS4OOZZEag660=
-X-Received: by 2002:a1f:ecc6:0:b0:3aa:a785:5e2f with SMTP id
- k189-20020a1fecc6000000b003aaa7855e2fmr18797456vkh.6.1666631857723; Mon, 24
- Oct 2022 10:17:37 -0700 (PDT)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id F0581614F8;
+        Mon, 24 Oct 2022 17:29:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2489C433C1;
+        Mon, 24 Oct 2022 17:29:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1666632597;
+        bh=7X3pyy5etiy2bIvntMxqiIcujpkGZ6SQvQR3em+OEfQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=VcCpwZdkYFgbPQhi85iPPo1eyIBNpT/qYtnO8dl6duQouAJvMDFnaV6Sg+sAWAKor
+         iwZUIVeLPcMvTVA22drsQzHuwAMQ21quscVSoiAmispWDZbxotN7F5hbajv9TWVuoB
+         f3UrspGND75jdVosfeKHsLS6KedH4juXr+t80Xv8RMLY+owXOIiyFkJbojkeDJwnx6
+         cUQTTXeJuKCUfoEKE7lfOn29DHjihFlUqVq0VWcpJmbZcnUPbsfyQ7/tJovhEgs49z
+         zw1MRAFY38576I9Ko7E/Al/qYG0Z5BfYjKr5eUIUI3aJQbww/D6Du4PR05UXlr92EM
+         U3LzfDEShaVXQ==
+Date:   Mon, 24 Oct 2022 10:29:55 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Xin Li <xin3.li@intel.com>
+Cc:     linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+        linux-kbuild@vger.kernel.org, x86@kernel.org,
+        keescook@chromium.org, andrew.cooper3@citrix.com, hpa@zytor.com,
+        peterz@infradead.org
+Subject: Re: [PATCH 1/1] kbuild: upgrade the orphan section warning to an
+ error if CONFIG_WERROR is set
+Message-ID: <Y1bLk47I4pyEmJVi@dev-arch.thelio-3990X>
+References: <20221022030519.9505-1-xin3.li@intel.com>
+ <20221022030519.9505-2-xin3.li@intel.com>
 MIME-Version: 1.0
-References: <Y1BcpXAjR4tmV6RQ@zx2c4.com> <20221019203034.3795710-1-Jason@zx2c4.com>
- <Y1ZZyP4ZRBIbv+Kg@kili> <Y1ZbI4IzAOaNwhoD@kadam> <Y1a+cHkFt54gJv54@zx2c4.com> <CAHk-=wgK3Vs+7Kor-SisRHJYzV1tXD+=D4+W1XkfHOV2KN_OGw@mail.gmail.com>
-In-Reply-To: <CAHk-=wgK3Vs+7Kor-SisRHJYzV1tXD+=D4+W1XkfHOV2KN_OGw@mail.gmail.com>
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date:   Mon, 24 Oct 2022 19:17:25 +0200
-X-Gmail-Original-Message-ID: <CAHmME9ox7JNqOOZHEHCgaS95rsn-dVr4QOnN1mfmFEn=i9_jvw@mail.gmail.com>
-Message-ID: <CAHmME9ox7JNqOOZHEHCgaS95rsn-dVr4QOnN1mfmFEn=i9_jvw@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: treat char as always unsigned
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-toolchains@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kalle Valo <kvalo@kernel.org>,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        Larry Finger <Larry.Finger@lwfinger.net>, mikem@ring3k.org,
-        wlanfae@realtek.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221022030519.9505-2-xin3.li@intel.com>
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Linus,
+On Fri, Oct 21, 2022 at 08:05:19PM -0700, Xin Li wrote:
+> Andrew Cooper suggested upgrading the orphan section warning to a hard link
+> error. However Nathan Chancellor said outright turning the warning into an
+> error with no escape hatch might be too aggressive, as we have had these
+> warnings triggered by new compiler generated sections, and suggested turning
+> orphan sections into an error only if CONFIG_WERROR is set. Kees Cook echoed
+> and emphasized that the mandate from Linus is that we should avoid breaking
+> builds. It wrecks bisection, it causes problems across compiler versions, etc.
+> 
+> Thus upgrade the orphan section warning to a hard link error only if
+> CONFIG_WERROR is set.
+> 
+> Suggested-by: Andrew Cooper <andrew.cooper3@citrix.com>
+> Suggested-by: Nathan Chancellor <nathan@kernel.org>
+> Signed-off-by: Xin Li <xin3.li@intel.com>
 
-On Mon, Oct 24, 2022 at 7:11 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
-> IOW, I don't think these are 6.1 material as some kind of obvious
-> fixes, at least not without driver author acks.
+Thanks for the patch!
 
-Right, these are posted to the authors and maintainers to look at.
-Maybe they punt them until 6.2 which would be fine too.
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Tested-by: Nathan Chancellor <nathan@kernel.org>
 
-> On Mon, Oct 24, 2022 at 9:34 AM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
-> Some of those may need more thought. For example, that first one:
->
-> > https://lore.kernel.org/all/20221024163005.536097-1-Jason@zx2c4.com
->
-> looks just *strange*. As far as I can tell, no other wireless drivers
-> do any sign checks at all.
->
-> Now, I didn't really look around a lot, but looking at a few other
-> SIOCSIWESSID users, most don't even seem to treat it as a string at
-> all, but as just a byte dump (so memcpy() instead of strncpy())
->
-> As far as I know, there are no actual rules for SSID character sets,
-> and while using utf-8 or something else might cause interoperability
-> problems, this driver seems to be just confused. If you want to check
-> for "printable characters", that check is still wrong.
->
-> So I don't think this is a "assume char is signed" issue. I think this
-> is a "driver is confused" issue.
+We could deduplicate the '$(if $(CONFIG_WERROR),error,warn)' logic if we
+hoisted it into Kconfig by having something like
 
-Yea I had a few versions of this. In one of them, I changed `char
-*extra` throughout the wireless stack into `s8 *extra` and in another
-`u8 *extra`, after realizing they're mostly just bags of bits. But
-that seemed pretty invasive when, indeed, this staging driver is just
-a little screwy.
+    config LD_ORPHAN_WARN_LEVEL
+        string
+        depends on LD_ORPHAN_WARN
+        default "error" if WERROR
+        default "warn"
 
-So perhaps the right fix is to just kill that whole snippet? Kalle - opinions?
+in init/Kconfig then using it everywhere like
 
-Jason
+    --orphan-handling=$(CONFIG_LD_ORPHAN_WARN_LEVEL)
+
+but I will let others decide if they would prefer that over the
+direction we went here.
+
+Cheers,
+Nathan
+
+> ---
+>  Makefile                          | 2 +-
+>  arch/arm/boot/compressed/Makefile | 2 +-
+>  arch/arm64/kernel/vdso/Makefile   | 2 +-
+>  arch/arm64/kernel/vdso32/Makefile | 2 +-
+>  arch/x86/boot/compressed/Makefile | 2 +-
+>  init/Kconfig                      | 9 ++++++---
+>  6 files changed, 11 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index f41ec8c8426b..b6716a64519f 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1118,7 +1118,7 @@ endif
+>  # We never want expected sections to be placed heuristically by the
+>  # linker. All sections should be explicitly named in the linker script.
+>  ifdef CONFIG_LD_ORPHAN_WARN
+> -LDFLAGS_vmlinux += --orphan-handling=warn
+> +LDFLAGS_vmlinux += --orphan-handling=$(if $(CONFIG_WERROR),error,warn)
+>  endif
+>  
+>  # Align the bit size of userspace programs with the kernel
+> diff --git a/arch/arm/boot/compressed/Makefile b/arch/arm/boot/compressed/Makefile
+> index 41bcbb460fac..c97db8b14c4f 100644
+> --- a/arch/arm/boot/compressed/Makefile
+> +++ b/arch/arm/boot/compressed/Makefile
+> @@ -123,7 +123,7 @@ LDFLAGS_vmlinux += --no-undefined
+>  LDFLAGS_vmlinux += -X
+>  # Report orphan sections
+>  ifdef CONFIG_LD_ORPHAN_WARN
+> -LDFLAGS_vmlinux += --orphan-handling=warn
+> +LDFLAGS_vmlinux += --orphan-handling=$(if $(CONFIG_WERROR),error,warn)
+>  endif
+>  # Next argument is a linker script
+>  LDFLAGS_vmlinux += -T
+> diff --git a/arch/arm64/kernel/vdso/Makefile b/arch/arm64/kernel/vdso/Makefile
+> index 619e2dc7ee14..c8fcc06b5037 100644
+> --- a/arch/arm64/kernel/vdso/Makefile
+> +++ b/arch/arm64/kernel/vdso/Makefile
+> @@ -27,7 +27,7 @@ ldflags-y := -shared -soname=linux-vdso.so.1 --hash-style=sysv	\
+>  	     -Bsymbolic --build-id=sha1 -n $(btildflags-y)
+>  
+>  ifdef CONFIG_LD_ORPHAN_WARN
+> -  ldflags-y += --orphan-handling=warn
+> +  ldflags-y += --orphan-handling=$(if $(CONFIG_WERROR),error,warn)
+>  endif
+>  
+>  ldflags-y += -T
+> diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32/Makefile
+> index 36c8f66cad25..fa157366e814 100644
+> --- a/arch/arm64/kernel/vdso32/Makefile
+> +++ b/arch/arm64/kernel/vdso32/Makefile
+> @@ -104,7 +104,7 @@ VDSO_AFLAGS += -D__ASSEMBLY__
+>  VDSO_LDFLAGS += -Bsymbolic --no-undefined -soname=linux-vdso.so.1
+>  VDSO_LDFLAGS += -z max-page-size=4096 -z common-page-size=4096
+>  VDSO_LDFLAGS += -shared --hash-style=sysv --build-id=sha1
+> -VDSO_LDFLAGS += --orphan-handling=warn
+> +VDSO_LDFLAGS += --orphan-handling=$(if $(CONFIG_WERROR),error,warn)
+>  
+>  
+>  # Borrow vdsomunge.c from the arm vDSO
+> diff --git a/arch/x86/boot/compressed/Makefile b/arch/x86/boot/compressed/Makefile
+> index 3a261abb6d15..a1a8bec61c10 100644
+> --- a/arch/x86/boot/compressed/Makefile
+> +++ b/arch/x86/boot/compressed/Makefile
+> @@ -68,7 +68,7 @@ KBUILD_LDFLAGS += $(call ld-option,--no-ld-generated-unwind-info)
+>  # address by the bootloader.
+>  LDFLAGS_vmlinux := -pie $(call ld-option, --no-dynamic-linker)
+>  ifdef CONFIG_LD_ORPHAN_WARN
+> -LDFLAGS_vmlinux += --orphan-handling=warn
+> +LDFLAGS_vmlinux += --orphan-handling=$(if $(CONFIG_WERROR),error,warn)
+>  endif
+>  LDFLAGS_vmlinux += -z noexecstack
+>  ifeq ($(CONFIG_LD_IS_BFD),y)
+> diff --git a/init/Kconfig b/init/Kconfig
+> index abf65098f1b6..8f4b838ece47 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -159,10 +159,12 @@ config WERROR
+>  	help
+>  	  A kernel build should not cause any compiler warnings, and this
+>  	  enables the '-Werror' (for C) and '-Dwarnings' (for Rust) flags
+> -	  to enforce that rule by default.
+> +	  to enforce that rule by default. Certain warnings from other tools
+> +	  such as the linker may be upgraded to errors with this option as
+> +	  well.
+>  
+> -	  However, if you have a new (or very old) compiler with odd and
+> -	  unusual warnings, or you have some architecture with problems,
+> +	  However, if you have a new (or very old) compiler or linker with odd
+> +	  and unusual warnings, or you have some architecture with problems,
+>  	  you may need to disable this config option in order to
+>  	  successfully build the kernel.
+>  
+> @@ -1454,6 +1456,7 @@ config LD_ORPHAN_WARN
+>  	def_bool y
+>  	depends on ARCH_WANT_LD_ORPHAN_WARN
+>  	depends on $(ld-option,--orphan-handling=warn)
+> +	depends on $(ld-option,--orphan-handling=error)
+>  
+>  config SYSCTL
+>  	bool
+> -- 
+> 2.34.1
+> 
+> 
