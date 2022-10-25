@@ -2,84 +2,154 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2029260C9D4
-	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Oct 2022 12:20:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 822E660CBBE
+	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Oct 2022 14:26:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232413AbiJYKUU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 25 Oct 2022 06:20:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57422 "EHLO
+        id S231571AbiJYM0j (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 25 Oct 2022 08:26:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232226AbiJYKUE (ORCPT
+        with ESMTP id S231217AbiJYM0i (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 25 Oct 2022 06:20:04 -0400
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 545AF786F3
-        for <linux-kbuild@vger.kernel.org>; Tue, 25 Oct 2022 03:16:29 -0700 (PDT)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-160-XRHPgPYkNDayEQTJ0UJOag-1; Tue, 25 Oct 2022 11:16:26 +0100
-X-MC-Unique: XRHPgPYkNDayEQTJ0UJOag-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 25 Oct
- 2022 11:16:24 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.042; Tue, 25 Oct 2022 11:16:24 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Linus Torvalds' <torvalds@linux-foundation.org>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>
-CC:     Dan Carpenter <dan.carpenter@oracle.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-toolchains@vger.kernel.org" <linux-toolchains@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: RE: [PATCH v2] kbuild: treat char as always unsigned
-Thread-Topic: [PATCH v2] kbuild: treat char as always unsigned
-Thread-Index: AQHY59f6M0xaP7/PP0yp5ZydqE10B64e5SbQ
-Date:   Tue, 25 Oct 2022 10:16:24 +0000
-Message-ID: <64e9baf317cc4211a46829546f8960ff@AcuMS.aculab.com>
-References: <Y1BcpXAjR4tmV6RQ@zx2c4.com>
- <20221019203034.3795710-1-Jason@zx2c4.com> <Y1ZZyP4ZRBIbv+Kg@kili>
- <Y1ZbI4IzAOaNwhoD@kadam> <Y1a+cHkFt54gJv54@zx2c4.com>
- <CAHk-=wgK3Vs+7Kor-SisRHJYzV1tXD+=D4+W1XkfHOV2KN_OGw@mail.gmail.com>
-In-Reply-To: <CAHk-=wgK3Vs+7Kor-SisRHJYzV1tXD+=D4+W1XkfHOV2KN_OGw@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Tue, 25 Oct 2022 08:26:38 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EE9311A95C;
+        Tue, 25 Oct 2022 05:26:37 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id E060522042;
+        Tue, 25 Oct 2022 12:26:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1666700795; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=RPt7m2ZnSnU+qoKAuwn24AcvwL7oef2WOn+bYLufeh4=;
+        b=N6LXlW9lyqmmCxP5okb4I3fCGFCnJku835czaiNTRFI5Edafm7dl3FCBGeNKKBW73gBFiK
+        rJqOulq+TDAY3QMMnFjTayIibggOoY8ix8MONCBI5fY+lWmofOISdRpqLjFVdGzf8ccHGy
+        HSLoNuUR+4UM3wCbf6YKfcrJmJeEG7M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1666700795;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=RPt7m2ZnSnU+qoKAuwn24AcvwL7oef2WOn+bYLufeh4=;
+        b=+BYq5nR74fQfcIAWf3bflqx3o7EU6Mp+se1/XJS8qRT/n3Wgw3WHgPM1zo1IE4fby9vxIK
+        FJR1HWflfS0KrsDA==
+Received: from wotan.suse.de (wotan.suse.de [10.160.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id D46042C142;
+        Tue, 25 Oct 2022 12:26:35 +0000 (UTC)
+Received: by wotan.suse.de (Postfix, from userid 10510)
+        id C6EED6405; Tue, 25 Oct 2022 12:26:35 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+        by wotan.suse.de (Postfix) with ESMTP id C581063BB;
+        Tue, 25 Oct 2022 12:26:35 +0000 (UTC)
+Date:   Tue, 25 Oct 2022 12:26:35 +0000 (UTC)
+From:   Michael Matz <matz@suse.de>
+To:     Jiri Slaby <jirislaby@kernel.org>
+cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        =?ISO-8859-15?Q?Martin_Li=A8ka?= <mliska@suse.cz>,
+        Borislav Petkov <bpetkov@suse.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ard Biesheuvel <ardb@kernel.org>
+Subject: Re: [PATCH v3 6/7] kbuild: use obj-y instead extra-y for objects
+ placed at the head
+In-Reply-To: <ea468b86-abb7-bb2b-1e0a-4c8959d23f1c@kernel.org>
+Message-ID: <alpine.LSU.2.20.2210251210140.29399@wotan.suse.de>
+References: <20220924181915.3251186-1-masahiroy@kernel.org> <20220924181915.3251186-7-masahiroy@kernel.org> <ea468b86-abb7-bb2b-1e0a-4c8959d23f1c@kernel.org>
+User-Agent: Alpine 2.20 (LSU 67 2015-01-07)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-RnJvbTogTGludXMgVG9ydmFsZHMNCj4gU2VudDogMjQgT2N0b2JlciAyMDIyIDE4OjExDQouLi4N
-Cj4gDQo+IEFzIGZhciBhcyBJIGtub3csIHRoZXJlIGFyZSBubyBhY3R1YWwgcnVsZXMgZm9yIFNT
-SUQgY2hhcmFjdGVyIHNldHMsDQo+IGFuZCB3aGlsZSB1c2luZyB1dGYtOCBvciBzb21ldGhpbmcg
-ZWxzZSBtaWdodCBjYXVzZSBpbnRlcm9wZXJhYmlsaXR5DQo+IHByb2JsZW1zLCB0aGlzIGRyaXZl
-ciBzZWVtcyB0byBiZSBqdXN0IGNvbmZ1c2VkLiBJZiB5b3Ugd2FudCB0byBjaGVjaw0KPiBmb3Ig
-InByaW50YWJsZSBjaGFyYWN0ZXJzIiwgdGhhdCBjaGVjayBpcyBzdGlsbCB3cm9uZy4NCg0KQXJl
-IFNTSUQgZXZlbiByZXF1aXJlZCB0byBiZSBwcmludGFibGUgYXQgYWxsPw0KV2hpbGUgbW9zdCBz
-eXN0ZW1zIG9ubHkgbGV0IHlvdSBjb25maWd1cmUgJ3N0cmluZ3MnIEkgZG9uJ3QNCnJlbWVtYmVy
-IHRoYXQgYWN0dWFsbHkgYmVpbmcgYSByZXF1aXJlbWVudC4NCihJJ3ZlIHN1cmUgSSByZWFkIHVw
-IG9uIHRoaXMgeWVhcnMgYWdvLikNCg0KVGhlIGZyYW1lIGZvcm1hdCB3aWxsIGJlIHVzaW5nIGFu
-IGV4cGxpY2l0IGxlbmd0aC4NClNvIGV2ZW4gZW1iZWRkZWQgemVyb3MgbWF5IGJlIHZhbGlkIQ0K
-DQoJRGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQs
-IE1vdW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86
-IDEzOTczODYgKFdhbGVzKQ0K
+Hello,
 
+On Mon, 24 Oct 2022, Jiri Slaby wrote:
+
+> > Create vmlinux.a to collect all the objects that are unconditionally
+> > linked to vmlinux. The objects listed in head-y are moved to the head
+> > of vmlinux.a by using 'ar m'.
+... 
+> > --- a/scripts/Makefile.vmlinux_o
+> > +++ b/scripts/Makefile.vmlinux_o
+> > @@ -18,7 +18,7 @@ quiet_cmd_gen_initcalls_lds = GEN     $@
+> >   	$(PERL) $(real-prereqs) > $@
+> >     .tmp_initcalls.lds: $(srctree)/scripts/generate_initcall_order.pl \
+> > -		$(KBUILD_VMLINUX_OBJS) $(KBUILD_VMLINUX_LIBS) FORCE
+> > +		vmlinux.a $(KBUILD_VMLINUX_LIBS) FORCE
+> 
+> There is a slight problem with this. The kernel built with gcc-LTO does not
+> boot. But as I understand it, it's not limited to gcc-LTO only.
+> 
+> On x86, startup_64() is supposed to be at offset >zero< of the image (see
+> .Lrelocated()). It was ensured by putting head64.o to the beginning of vmlinux
+> (by KBUILD_VMLINUX_OBJS on the LD command-line above). The patch above instead
+> packs head64.o into vmlinux.a and then moves it using "ar -m" to the beginning
+> (it's in 7/7 of the series IIRC).
+> 
+> The problem is that .o files listed on the LD command line explicitly are
+> taken as spelled. But unpacking .a inside LD gives no guarantees on the order
+> of packed objects. To quote: "that it happens to work sometimes is pure luck."
+> (Correct me guys, if I misunderstood you.)
+
+To be precise: I know of no linker (outside LTO-like modes) that processes 
+archives in a different order than first-to-last-member (under 
+whole-archive), but that's not guaranteed anywhere.  So relying on 
+member-order within archives is always brittle.
+
+It will completely break down with LTO modes: the granularity for that is 
+functions, and they are placed in some unknown (from the outside, but 
+usually related to call-graph locality) order into several partitions, 
+with non-LTO-able parts (like asm code) being placed randomly between 
+them.  The order of these blobs can not be defined in relation to the 
+input order of object files: with cross-file dependencies such order might 
+not even exist.  Those whole sequence of blobs then takes the place of the 
+input archive (which, as there was only one, has no particular order from 
+the linker command lines perspective).
+
+There are only two ways of guaranteeing an ordering: put non-LTO-.o files 
+at certain places of the link command, or, better, use a linker script to 
+specify an order.
+
+> For x86, the most ideal fix seems to be to fix it in the linker script. By
+> putting startup_64() to a different section and handle it in the ld script
+> specially -- see the attachment. It should always have been put this way, the
+> command line order is only a workaround. But this might need more fixes on
+> other archs too -- I haven't take a look.
+> 
+> Ideas, comments? I'll send the attachment as a PATCH later (if there are 
+> no better suggestions).
+
+This will work.  An alternative way would be to explicitely name the input 
+file in the section commands, without renaming the section:
+
+@@ -126,6 +126,7 @@ SECTIONS
+                _text = .;
+                _stext = .;
+                /* bootstrapping code */
++               KEEP(vmlinux.a:head64.o(.head.text))
+                HEAD_TEXT
+                TEXT_TEXT
+
+But I guess not all arch's name their must-be-first file head64.o (or even 
+have such requirement), so that's probably still arch-dependend and hence 
+not inherently better than your way.
+
+(syntax for the section selector in linkerscripts is:
+
+  {archive-glob:}filename-glob (sectionname-glob)
+
+
+Ciao,
+Michael.
