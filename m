@@ -2,44 +2,65 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BA9F60C6F4
-	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Oct 2022 10:52:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2029260C9D4
+	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Oct 2022 12:20:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231447AbiJYIwm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 25 Oct 2022 04:52:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35450 "EHLO
+        id S232413AbiJYKUU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 25 Oct 2022 06:20:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232075AbiJYIwX (ORCPT
+        with ESMTP id S232226AbiJYKUE (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 25 Oct 2022 04:52:23 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 964F5112ABB
-        for <linux-kbuild@vger.kernel.org>; Tue, 25 Oct 2022 01:52:13 -0700 (PDT)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=irc.pengutronix.de)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <j.zink@pengutronix.de>)
-        id 1onFfP-0003Br-Nl; Tue, 25 Oct 2022 10:52:11 +0200
-Message-ID: <6ce9877bdf4ac5822786f8ae1ffe3c05aa76aea6.camel@pengutronix.de>
-Subject: Re: PROBLEM: Segfault in kconfig
-From:   Johannes Zink <j.zink@pengutronix.de>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@pengutronix.de
-Date:   Tue, 25 Oct 2022 10:52:07 +0200
-In-Reply-To: <CAK7LNAThoCP3FWidnMt0h5y16VrNKKBum2NP3a=RgmaAAAdQGQ@mail.gmail.com>
-References: <33059074b78110d4717efe09b887dd28ac77fe7f.camel@pengutronix.de>
-         <ba6223f9fcae7d27de439e75f93b3a1352a30890.camel@pengutronix.de>
-         <CAK7LNAThoCP3FWidnMt0h5y16VrNKKBum2NP3a=RgmaAAAdQGQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
+        Tue, 25 Oct 2022 06:20:04 -0400
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 545AF786F3
+        for <linux-kbuild@vger.kernel.org>; Tue, 25 Oct 2022 03:16:29 -0700 (PDT)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-160-XRHPgPYkNDayEQTJ0UJOag-1; Tue, 25 Oct 2022 11:16:26 +0100
+X-MC-Unique: XRHPgPYkNDayEQTJ0UJOag-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 25 Oct
+ 2022 11:16:24 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.042; Tue, 25 Oct 2022 11:16:24 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Linus Torvalds' <torvalds@linux-foundation.org>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>
+CC:     Dan Carpenter <dan.carpenter@oracle.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-toolchains@vger.kernel.org" <linux-toolchains@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: RE: [PATCH v2] kbuild: treat char as always unsigned
+Thread-Topic: [PATCH v2] kbuild: treat char as always unsigned
+Thread-Index: AQHY59f6M0xaP7/PP0yp5ZydqE10B64e5SbQ
+Date:   Tue, 25 Oct 2022 10:16:24 +0000
+Message-ID: <64e9baf317cc4211a46829546f8960ff@AcuMS.aculab.com>
+References: <Y1BcpXAjR4tmV6RQ@zx2c4.com>
+ <20221019203034.3795710-1-Jason@zx2c4.com> <Y1ZZyP4ZRBIbv+Kg@kili>
+ <Y1ZbI4IzAOaNwhoD@kadam> <Y1a+cHkFt54gJv54@zx2c4.com>
+ <CAHk-=wgK3Vs+7Kor-SisRHJYzV1tXD+=D4+W1XkfHOV2KN_OGw@mail.gmail.com>
+In-Reply-To: <CAHk-=wgK3Vs+7Kor-SisRHJYzV1tXD+=D4+W1XkfHOV2KN_OGw@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: j.zink@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -47,178 +68,18 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro, 
-
-thank you for looking into the issue. I will check out your patch as
-soon as I return from netdevconf next week and test it.
-
-Best regards
-Johannes
-
-On Mon, 2022-10-24 at 04:23 +0900, Masahiro Yamada wrote:
-> Hi Johannes,
-> 
-> 
-> Sorry for the delay.
-> 
-> I took a closer look at this.
-> 
-> 
-> I submitted a patch, which I think is a more correct fix.
-> 
-> https://patchwork.kernel.org/project/linux-kbuild/patch/20221023191055.85098-1-masahiroy@kernel.org/
-> 
-> 
-> 
-> Thanks.
-> 
-> 
-> On Thu, Oct 6, 2022 at 10:15 PM Johannes Zink <j.zink@pengutronix.de>
-> wrote:
-> > 
-> > Hi everyone,
-> > 
-> > On Thu, 2022-09-22 at 18:01 +0200, Johannes Zink wrote:
-> > > Hi everyone,
-> > > 
-> > > [1.] One line summary of the problem:
-> > >      kconfig crashes with segfault under rare circumstances
-> > > [2.] Full description of the problem/report:
-> > >      Under certain circumstances jump keys are displayed on the
-> > > search
-> > >      results even if a symbol is deactivated by one of its
-> > >      dependencies. Using the jump keys then triggers a
-> > > segmentation
-> > >      fault due to a NULL dereference. Perform the following steps
-> > > to
-> > >      trigger the issue
-> > > 
-> > >      1.: ARCH=arm64 make defconfig
-> > >      2.: ARCH=arm64 make menuconfig
-> > > 
-> > >      3.: press '/' key to search for the string "EFI". Use jump
-> > > key
-> > >          (1) to jump to search result. Press 'n' key to
-> > > deactivate
-> > > the
-> > >          entry.
-> > >      4.: press '/' to seach for the string "ACPI". Use the jump
-> > > key
-> > >          (1) to jump to the search result.
-> > > 
-> > >      Menuconfig then crashes with a segfault.
-> > > 
-> > > [3.] Keywords (i.e., modules, networking, kernel):
-> > >      kconfig, mconf
-> > > [4.] Kernel information
-> > > [4.1.] Kernel version (from /proc/version):
-> > >        v6.0.0-rc6
-> > > [4.2.] Kernel .config file:
-> > >        arm64 default defconfig
-> > > [5.] Most recent kernel version which did not have the bug:
-> > >      v5.15
-> > > [6.] Output of Oops.. message (if applicable) with symbolic
-> > > information
-> > >      resolved (see Documentation/admin-guide/bug-hunting.rst):
-> > >      not applicable
-> > > [7.] A small shell script or example program which triggers the
-> > >      problem (if possible):
-> > >      not applicable, please see description in [2.]
-> > > [8.] Environment
-> > > [8.1.] Software (add the output of the ver_linux script here):
-> > >        not applicable
-> > > [8.2.] Processor information (from /proc/cpuinfo):
-> > >        not applicable
-> > > [8.3.] Module information (from /proc/modules):
-> > >        not applicable
-> > > [8.4.] Loaded driver and hardware information (/proc/ioports,
-> > > /proc/iomem):
-> > >        not applicable
-> > > [8.5.] PCI information ('lspci -vvv' as root):
-> > >        not applicable
-> > > [8.6.] SCSI information (from /proc/scsi/scsi):
-> > >        not applicable
-> > > [8.7.] Other information that might be relevant to the problem
-> > >        (please look in /proc and include all information that you
-> > >        think to be relevant):
-> > >        not applicable
-> > > [X.] Other notes, patches, fixes, workarounds:
-> > > 
-> > >      I found that the attached patch is a very hacky workaround
-> > > to
-> > >      keep menuconfig from crashing, but I am pretty sure the jump
-> > >      keys should not have be activated for unaccessable entries
-> > > in
-> > > the
-> > >      first place. I found it quite hard to find the corresponding
-> > > part
-> > >      in mconf, which is why I decided to send this bugreport
-> > > instead
-> > >      of sending a patch. Maybe someone on this list either knows
-> > > mconf
-> > >      really well and can just fix it, or guide me to where I can
-> > > dig
-> > >      around (though in that case I could really use some help on
-> > > how
-> > >      to debug menuconfig, since I found it challenging to get it
-> > >      working with gdb)
-> > > 
-> > > Best regards
-> > > Johannes
-> > > 
-> > > ---
-> > > scripts/kconfig/mconf.c | 3 ++-
-> > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/scripts/kconfig/mconf.c b/scripts/kconfig/mconf.c
-> > > index 9d3cf510562f..60a82f701bd3 100644
-> > > --- a/scripts/kconfig/mconf.c
-> > > +++ b/scripts/kconfig/mconf.c
-> > > @@ -447,7 +447,8 @@ static void search_conf(void)
-> > >                 again = false;
-> > >                 for (i = 0; i < JUMP_NB && keys[i]; i++)
-> > >                         if (dres == keys[i]) {
-> > > -                               conf(targets[i]->parent,
-> > > targets[i]);
-> > > +                               if (targets[i]->parent)
-> > > +                                       conf(targets[i]->parent,
-> > > targets[i]);
-> > >                                 again = true;
-> > >                         }
-> > >                 str_free(&res);
-> > > 
-> > 
-> > Just a gentle ping and TL;DR on this issue:
-> > 
-> > Menuconfig crashes with a segfault if performing the steps
-> > 
-> > 1.: ARCH=arm64 make defconfig
-> > 2.: ARCH=arm64 make menuconfig
-> > 3.: press '/' key to search for the string "EFI". Use jump key
-> >     (1) to jump to search result. Press 'n' key to deactivate
-> >     the entry.
-> > 4.: press '/' to seach for the string "ACPI". Use the jump key
-> >     (1) to jump to the search result.
-> > 
-> > For more details please see the detailed report in the original
-> > message.
-> > 
-> > Has anyone any input on this?
-> > 
-> > Best regards
-> > 
-> > --
-> > Pengutronix e.K.                | Johannes Zink                  |
-> > Steuerwalder Str. 21            | https://www.pengutronix.de/    |
-> > 31137 Hildesheim, Germany       | Phone: +49-5121-206917-0       |
-> > Amtsgericht Hildesheim, HRA 2686| Fax:   +49-5121-206917-5555    |
-> > 
-> 
-> 
-
--- 
-Pengutronix e.K.                | Johannes Zink                  |
-Steuerwalder Str. 21            | https://www.pengutronix.de/    |
-31137 Hildesheim, Germany       | Phone: +49-5121-206917-0       |
-Amtsgericht Hildesheim, HRA 2686| Fax:   +49-5121-206917-5555    |
+RnJvbTogTGludXMgVG9ydmFsZHMNCj4gU2VudDogMjQgT2N0b2JlciAyMDIyIDE4OjExDQouLi4N
+Cj4gDQo+IEFzIGZhciBhcyBJIGtub3csIHRoZXJlIGFyZSBubyBhY3R1YWwgcnVsZXMgZm9yIFNT
+SUQgY2hhcmFjdGVyIHNldHMsDQo+IGFuZCB3aGlsZSB1c2luZyB1dGYtOCBvciBzb21ldGhpbmcg
+ZWxzZSBtaWdodCBjYXVzZSBpbnRlcm9wZXJhYmlsaXR5DQo+IHByb2JsZW1zLCB0aGlzIGRyaXZl
+ciBzZWVtcyB0byBiZSBqdXN0IGNvbmZ1c2VkLiBJZiB5b3Ugd2FudCB0byBjaGVjaw0KPiBmb3Ig
+InByaW50YWJsZSBjaGFyYWN0ZXJzIiwgdGhhdCBjaGVjayBpcyBzdGlsbCB3cm9uZy4NCg0KQXJl
+IFNTSUQgZXZlbiByZXF1aXJlZCB0byBiZSBwcmludGFibGUgYXQgYWxsPw0KV2hpbGUgbW9zdCBz
+eXN0ZW1zIG9ubHkgbGV0IHlvdSBjb25maWd1cmUgJ3N0cmluZ3MnIEkgZG9uJ3QNCnJlbWVtYmVy
+IHRoYXQgYWN0dWFsbHkgYmVpbmcgYSByZXF1aXJlbWVudC4NCihJJ3ZlIHN1cmUgSSByZWFkIHVw
+IG9uIHRoaXMgeWVhcnMgYWdvLikNCg0KVGhlIGZyYW1lIGZvcm1hdCB3aWxsIGJlIHVzaW5nIGFu
+IGV4cGxpY2l0IGxlbmd0aC4NClNvIGV2ZW4gZW1iZWRkZWQgemVyb3MgbWF5IGJlIHZhbGlkIQ0K
+DQoJRGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQs
+IE1vdW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86
+IDEzOTczODYgKFdhbGVzKQ0K
 
