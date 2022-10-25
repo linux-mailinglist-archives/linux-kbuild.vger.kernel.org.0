@@ -2,120 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C8A960D4A0
-	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Oct 2022 21:23:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F05960D569
+	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Oct 2022 22:18:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231714AbiJYTWz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 25 Oct 2022 15:22:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45812 "EHLO
+        id S232516AbiJYUSH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 25 Oct 2022 16:18:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230345AbiJYTWt (ORCPT
+        with ESMTP id S232786AbiJYUSH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 25 Oct 2022 15:22:49 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FB62B1B81;
-        Tue, 25 Oct 2022 12:22:48 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2C10361AF5;
-        Tue, 25 Oct 2022 19:22:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD7FDC433C1;
-        Tue, 25 Oct 2022 19:22:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666725767;
-        bh=ftFE81qWKNF97F1+cBxFeqLoApotXUldU+KauLM18kg=;
-        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-        b=UwqgP6us0tlufLoD0tWGWtVkoYygJXXt0/XrmsC3fpjKUm5EDIq/AkzAvEWDEpmfU
-         8YaD/C/pqjsmcpVeKkc+ywUp5xVqklZnGGgwMNP89V6tb0cJMmjy4OL8Nkl57B/xsb
-         G6oVYLvuqgDV00UyUWobFEcQX4IgNlLQ4oTShMff68u3VkYGSVwd2RrMXI7pqPfOCK
-         6JBrvkrTMM/dRgG9FRzIIxOHMNE0qe6sSZIcKGPfFWpt/Mnjgqeqm59MGqn1tBB/VT
-         Gq2yM6aH6tQNyXps4PJ0CqAXES6QhqSZcpm6aufPVJmub1it3NDXFsx0e9XOb0UN+I
-         AsskWC4Sg1ScA==
-From:   Kalle Valo <kvalo@kernel.org>
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-toolchains@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        Larry Finger <Larry.Finger@lwfinger.net>, mikem@ring3k.org,
-        wlanfae@realtek.com
-Subject: Re: [PATCH v2] kbuild: treat char as always unsigned
-References: <Y1BcpXAjR4tmV6RQ@zx2c4.com>
-        <20221019203034.3795710-1-Jason@zx2c4.com> <Y1ZZyP4ZRBIbv+Kg@kili>
-        <Y1ZbI4IzAOaNwhoD@kadam> <Y1a+cHkFt54gJv54@zx2c4.com>
-        <CAHk-=wgK3Vs+7Kor-SisRHJYzV1tXD+=D4+W1XkfHOV2KN_OGw@mail.gmail.com>
-        <CAHmME9ox7JNqOOZHEHCgaS95rsn-dVr4QOnN1mfmFEn=i9_jvw@mail.gmail.com>
-Date:   Tue, 25 Oct 2022 22:22:41 +0300
-In-Reply-To: <CAHmME9ox7JNqOOZHEHCgaS95rsn-dVr4QOnN1mfmFEn=i9_jvw@mail.gmail.com>
-        (Jason A. Donenfeld's message of "Mon, 24 Oct 2022 19:17:25 +0200")
-Message-ID: <874jvrzp1a.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 25 Oct 2022 16:18:07 -0400
+Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com [IPv6:2607:f8b0:4864:20::54a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E816D4A0B
+        for <linux-kbuild@vger.kernel.org>; Tue, 25 Oct 2022 13:18:06 -0700 (PDT)
+Received: by mail-pg1-x54a.google.com with SMTP id k16-20020a635a50000000b0042986056df6so6756341pgm.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 25 Oct 2022 13:18:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=C7CkfUfWzwXgtTSIoah0XnkQ0qFYc1jCCWhpHDWDR/w=;
+        b=fJTsmos5rey7JYMoKY6ndFZ4d6icJ82KMqv/nHDL04N6WZkkkMtVyQQ1nqF0Y0KtUH
+         OfISz2ZVCDmkeGuYQVLesYBbEDIWR5JRL6NrcGUZkIZQpqDWZwDfON/75kyD/V2UU39Z
+         t30JBhaaeGTXXf92GzykGiILyMOVl+eFiBMbOZObKdlDwhl5cmrAPv3agCtXNF8Qd1w5
+         s7zVfdQ1sV8EMuKTHonj2b3YRWqJdyV87VQ7aMYGrzsb15Rrc37qg92PcxIbOcfbZOfW
+         iGodEWSW391ayu/mPqRU18EFXQyWnbHBJnOiXk0IkkcF8Sz+FDJKjzWR05UFg1cnwbLX
+         n17w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=C7CkfUfWzwXgtTSIoah0XnkQ0qFYc1jCCWhpHDWDR/w=;
+        b=1JeYRO4QX+L2OoKGfl/IeTgxG9QeGKYKsjsD0+AKMZD7+LJ5GCv4pry1TNvA1Z6TqH
+         iCMd1MaAmWvokmHlxpk9ZpGQXgy0Q2U9f9Lnjfgn+fQg72rZ0sJjn5WqLSiiitEBgQ6J
+         COOSjUmQYeFpO2h7GlmCO8xBbrskd+eELmluuFplDq5HD54Ex3NSPZ3Sk89xykEGPn2c
+         qSAAH1nTdxRqbTltoc2e7cDPqKveMot3oN3icvrJsgbEeCBfmgdhQ5D64Pi2bdjBjBrz
+         RikkSeWfpBpd/oMZB3IrWxKu+9wISK/rZmCmm5RWnrYF4yPOV9SWxYe9g70gnbITPFMS
+         n4Hg==
+X-Gm-Message-State: ACrzQf0Hm2WTzwp443ZE99pv7opAnchX2SqfemtS5Dv/7jbhvl5CQy6F
+        JdaX1ADwExoE5dIGeuvh6TijAa4zxmQsOKIMvD8=
+X-Google-Smtp-Source: AMsMyM5gXj+rNt9GYNmjhHqxrpnXLvG7Pt3sQ6ETQMq57QUvneQuGAvf1bWado5LSH5olUhXQ0TZBgxb1sQAOHrRrz0=
+X-Received: from wmcvicker.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5ebe])
+ (user=willmcvicker job=sendgmr) by 2002:a05:6a00:acb:b0:555:ac02:433e with
+ SMTP id c11-20020a056a000acb00b00555ac02433emr40750199pfl.3.1666729086159;
+ Tue, 25 Oct 2022 13:18:06 -0700 (PDT)
+Date:   Tue, 25 Oct 2022 13:17:43 -0700
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.38.0.135.g90850a2211-goog
+Message-ID: <20221025201744.1155260-1-willmcvicker@google.com>
+Subject: [PATCH v1] kbuild: Use '-f' instead of '--file=' for grep
+From:   Will McVicker <willmcvicker@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Cc:     kernel-team@android.com, Will McVicker <willmcvicker@google.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-8.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HK_RANDOM_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-"Jason A. Donenfeld" <Jason@zx2c4.com> writes:
+The posix grep utility doesn't support the longer '--file=pattern_file'
+command line option which was introduced in commit ce697ccee1a8
+("kbuild: remove head-y syntax"). Let's update Makefile to use '-f
+pattern_file' to fix the compiling error:
 
-> Hi Linus,
->
-> On Mon, Oct 24, 2022 at 7:11 PM Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
->> IOW, I don't think these are 6.1 material as some kind of obvious
->> fixes, at least not without driver author acks.
->
-> Right, these are posted to the authors and maintainers to look at.
-> Maybe they punt them until 6.2 which would be fine too.
->
->> On Mon, Oct 24, 2022 at 9:34 AM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
->> Some of those may need more thought. For example, that first one:
->>
->> > https://lore.kernel.org/all/20221024163005.536097-1-Jason@zx2c4.com
->>
->> looks just *strange*. As far as I can tell, no other wireless drivers
->> do any sign checks at all.
->>
->> Now, I didn't really look around a lot, but looking at a few other
->> SIOCSIWESSID users, most don't even seem to treat it as a string at
->> all, but as just a byte dump (so memcpy() instead of strncpy())
+  grep: Unknown option 'file=.../scripts/head-object-list.txt'
+  (see "grep --help")
 
-Yes, SSID should be handled as a byte array with a specified length.
-Back in the day some badly written code treated it as string but luckily
-it's rare now.
+Signed-off-by: Will McVicker <willmcvicker@google.com>
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->> As far as I know, there are no actual rules for SSID character sets,
->> and while using utf-8 or something else might cause interoperability
->> problems, this driver seems to be just confused. If you want to check
->> for "printable characters", that check is still wrong.
->>
->> So I don't think this is a "assume char is signed" issue. I think this
->> is a "driver is confused" issue.
->
-> Yea I had a few versions of this. In one of them, I changed `char
-> *extra` throughout the wireless stack into `s8 *extra` and in another
-> `u8 *extra`, after realizing they're mostly just bags of bits. But
-> that seemed pretty invasive when, indeed, this staging driver is just
-> a little screwy.
->
-> So perhaps the right fix is to just kill that whole snippet? Kalle - opinions?
+base-commit: 1a2dcbdde82e3a5f1db9b2f4c48aa1aeba534fb2
 
-I would also remove the whole 'extra[i] < 0', seems like a pointless
-check to me. And I see that you already submitted v2, good.
-
+diff --git a/Makefile b/Makefile
+index d148a55bfd0f..e90bb2b38607 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1218,7 +1218,7 @@ quiet_cmd_ar_vmlinux.a = AR      $@
+       cmd_ar_vmlinux.a = \
+ 	rm -f $@; \
+ 	$(AR) cDPrST $@ $(KBUILD_VMLINUX_OBJS); \
+-	$(AR) mPiT $$($(AR) t $@ | head -n1) $@ $$($(AR) t $@ | grep -F --file=$(srctree)/scripts/head-object-list.txt)
++	$(AR) mPiT $$($(AR) t $@ | head -n1) $@ $$($(AR) t $@ | grep -F -f $(srctree)/scripts/head-object-list.txt)
+ 
+ targets += vmlinux.a
+ vmlinux.a: $(KBUILD_VMLINUX_OBJS) scripts/head-object-list.txt autoksyms_recursive FORCE
 -- 
-https://patchwork.kernel.org/project/linux-wireless/list/
+2.38.0.135.g90850a2211-goog
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
