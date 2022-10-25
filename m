@@ -2,100 +2,87 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97E5E60C461
-	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Oct 2022 08:57:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB9B160C5DD
+	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Oct 2022 09:53:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231411AbiJYG5n (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 25 Oct 2022 02:57:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55736 "EHLO
+        id S232077AbiJYHx3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 25 Oct 2022 03:53:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231469AbiJYG52 (ORCPT
+        with ESMTP id S232073AbiJYHx2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 25 Oct 2022 02:57:28 -0400
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 087E162C3;
-        Mon, 24 Oct 2022 23:57:26 -0700 (PDT)
-Received: by mail-qt1-f178.google.com with SMTP id w3so6979576qtv.9;
-        Mon, 24 Oct 2022 23:57:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3QYintIKLSO/5/dPNaNKqiylY6TQ4PQK7lYP/tlZYSw=;
-        b=IELxruD5ijyoHHjG0ysg8Cru3TMpzNoRDagQq3xYVFiZ15Uzi76LYtl94KVL6QYOtn
-         fiEassSflgAMuZVnAlY6jnpEW6XHNF6Zm2QGqQONsU6o8jj/3A9pCHuDMmcjhSs/0jiy
-         /wjyNX+acELrfIrzrvlYo/Xl/cJjK8w847kq9mHQ7WyOTNvx2SOn5Kuv+Tetg5KAEn3n
-         2I5ihMfpwGDRmmwDZEOnJ4PoWHwpt9hdXJTJ63PXPCOs/nogtkjxeP2Vp6eLdlOOpH75
-         uMiw3rMwTo3p+a7P50i374thEllvRS//8FHpdHkQaPWNv4mveoSNKoCIzki0Yz9LI/hl
-         U0aA==
-X-Gm-Message-State: ACrzQf0oped5oIKvoBV/n072oFJ6u8x8Omz1AJPWPjTByVua4hcfl/YI
-        3QGokIn1P13WTrum/qLX8QLw0m52G8BKZg==
-X-Google-Smtp-Source: AMsMyM7DXI8LKKrba+CS3zADWP6A05C7Zv2sSIPE5eSjgpzaHMKcgzn7pFXO8KVcYzlZF3w2LNZw6Q==
-X-Received: by 2002:ac8:7e96:0:b0:39c:d833:e8c3 with SMTP id w22-20020ac87e96000000b0039cd833e8c3mr30699526qtj.303.1666681044738;
-        Mon, 24 Oct 2022 23:57:24 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id bi24-20020a05620a319800b006eeca296c00sm1548652qkb.104.2022.10.24.23.57.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Oct 2022 23:57:24 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id f205so13544456yba.2;
-        Mon, 24 Oct 2022 23:57:23 -0700 (PDT)
-X-Received: by 2002:a25:26c1:0:b0:6c3:bdae:c6d6 with SMTP id
- m184-20020a2526c1000000b006c3bdaec6d6mr34190989ybm.36.1666681043700; Mon, 24
- Oct 2022 23:57:23 -0700 (PDT)
+        Tue, 25 Oct 2022 03:53:28 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08A02167266;
+        Tue, 25 Oct 2022 00:53:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666684408; x=1698220408;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=r7S3mOEcqGZPkBpgreetd4wIQYH9cpt8uSJwUzBHaYc=;
+  b=WiYGutWddc+7b7g3V7NUmJ6o7l1mwJXiugLfiosb9NvlEug1vL/CPws/
+   n0aXLJqGpE6d7GkpIwBlYjaFsaTDFe3bMTnw0qwEDI0+w8poD2nocbtcG
+   uECPucdOD0i0tdvDCPwOEgF1+U/R2CCHVb4tBDnz5To9a5NKMzfKyXkoC
+   yDGR9LIX+GHHtHkvEGoM09sR8C38jrpKv48+keHvTTRV7tlK9KgsyqlQu
+   qcrIl9jjM44a4jUof3gZdPig61ysoTXadniHKb55iwoGQ4ZVoMBhq0hzn
+   jlU5nGOv/U0h1HFYXgEzkuPxIJaf3OItihlGdchvSF/47bpJilK+KMb9Y
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="290916769"
+X-IronPort-AV: E=Sophos;i="5.95,211,1661842800"; 
+   d="scan'208";a="290916769"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2022 00:53:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="736725627"
+X-IronPort-AV: E=Sophos;i="5.95,211,1661842800"; 
+   d="scan'208";a="736725627"
+Received: from unknown (HELO fred..) ([172.25.112.68])
+  by fmsmga002.fm.intel.com with ESMTP; 25 Oct 2022 00:53:26 -0700
+From:   Xin Li <xin3.li@intel.com>
+To:     linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+        linux-kbuild@vger.kernel.org, x86@kernel.org
+Cc:     nathan@kernel.org, keescook@chromium.org,
+        andrew.cooper3@citrix.com, hpa@zytor.com, peterz@infradead.org
+Subject: [PATCH v2 0/1] kbuild: upgrade the orphan section warning to an error if CONFIG_WERROR is set
+Date:   Tue, 25 Oct 2022 00:30:22 -0700
+Message-Id: <20221025073023.16137-1-xin3.li@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20221024173434.32518-1-afd@ti.com> <20221024173434.32518-8-afd@ti.com>
-In-Reply-To: <20221024173434.32518-8-afd@ti.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 25 Oct 2022 08:57:12 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWrL1U7qOM+qOCa6-YhdJEe_5bCCDnXp_Fx3_6eDgkkSA@mail.gmail.com>
-Message-ID: <CAMuHMdWrL1U7qOM+qOCa6-YhdJEe_5bCCDnXp_Fx3_6eDgkkSA@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] staging: pi433: overlay: Rename overlay source
- file from .dts to .dtso
-To:     Andrew Davis <afd@ti.com>
-Cc:     Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Oct 24, 2022 at 7:34 PM Andrew Davis <afd@ti.com> wrote:
-> DTB Overlays (.dtbo) can now be built from source files with the
-> extension (.dtso). This makes it clear what is the content of the files
-> and differentiates them from base DTB source files.
->
-> Rename the pi433-overlay.dts file to pi433-overlay.dtso and update
-> the information file pi433.txt for the same.
->
-> Signed-off-by: Andrew Davis <afd@ti.com>
+Andrew Cooper suggested upgrading the orphan section warning to a hard link
+error. However Nathan Chancellor said outright turning the warning into an
+error with no escape hatch might be too aggressive, as we have had these
+warnings triggered by new compiler generated sections, and suggested turning
+orphan sections into an error only if CONFIG_WERROR is set. Kees Cook echoed
+and emphasized that the mandate from Linus is that we should avoid breaking
+builds. It wrecks bisection, it causes problems across compiler versions, etc.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Change since v1:
+* Introduce a new Kconfig item CONFIG_LD_ORPHAN_WARN_LEVEL to replace
+  (if $(CONFIG_WERROR),error,warn) (Nathan Chancellor).
 
-Gr{oetje,eeting}s,
+Xin Li (1):
+  kbuild: upgrade the orphan section warning to an error if
+    CONFIG_WERROR is set
 
-                        Geert
+ Makefile                          |  2 +-
+ arch/arm/boot/compressed/Makefile |  2 +-
+ arch/arm64/kernel/vdso/Makefile   |  2 +-
+ arch/arm64/kernel/vdso32/Makefile |  2 +-
+ arch/x86/boot/compressed/Makefile |  2 +-
+ init/Kconfig                      | 15 ++++++++++++---
+ 6 files changed, 17 insertions(+), 8 deletions(-)
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+-- 
+2.34.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
