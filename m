@@ -2,142 +2,118 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B056160E630
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Oct 2022 19:09:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E764960E704
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Oct 2022 20:11:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234115AbiJZRJ4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 26 Oct 2022 13:09:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51486 "EHLO
+        id S234210AbiJZSLZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 26 Oct 2022 14:11:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233986AbiJZRJx (ORCPT
+        with ESMTP id S233960AbiJZSLT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 26 Oct 2022 13:09:53 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 382D81E3EF;
-        Wed, 26 Oct 2022 10:09:50 -0700 (PDT)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 57E3B1F899;
-        Wed, 26 Oct 2022 17:09:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1666804189; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=gqqP6Dxm/MenMy0jC9uBeRG4Y6goegyMzGhboeAYhMc=;
-        b=GBy+EhssxqBv5fnX3Djku2r5jD+rDQIs04u+mr9+9tnoJAi7ZX0fMxgNM7KSwgrAvYa7KR
-        nh/fVFjCtdFInhZCDGtBmsEM2FmOuUkc7DTQ72Rw39rmfjP75s/V7wkWtCEJ3y+iB5aAuV
-        5jM5chKxGhN+JtxTIqQnMWkWiS6FHKY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1666804189;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=gqqP6Dxm/MenMy0jC9uBeRG4Y6goegyMzGhboeAYhMc=;
-        b=o4qjblqFXezmnNRfDo8rXRh5pZsneQmVNrbg/XNK98AQI99zcOedlpnsKf0WopNHM5/LmM
-        fXIYzbLyEAksFwCg==
-Received: from wotan.suse.de (wotan.suse.de [10.160.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 4842A2C142;
-        Wed, 26 Oct 2022 17:09:49 +0000 (UTC)
-Received: by wotan.suse.de (Postfix, from userid 10510)
-        id 3A8A46462; Wed, 26 Oct 2022 17:09:49 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-        by wotan.suse.de (Postfix) with ESMTP id 38F4162DC;
-        Wed, 26 Oct 2022 17:09:49 +0000 (UTC)
-Date:   Wed, 26 Oct 2022 17:09:49 +0000 (UTC)
-From:   Michael Matz <matz@suse.de>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-cc:     Jiri Slaby <jirislaby@kernel.org>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        =?ISO-8859-15?Q?Martin_Li=A8ka?= <mliska@suse.cz>,
-        Borislav Petkov <bpetkov@suse.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ard Biesheuvel <ardb@kernel.org>
-Subject: Re: [PATCH v3 6/7] kbuild: use obj-y instead extra-y for objects
- placed at the head
-In-Reply-To: <CAK7LNASs_8yjxLj-DxsFkej67b5JbHbRu9NgmtzT8+zdCcuPiQ@mail.gmail.com>
-Message-ID: <alpine.LSU.2.20.2210261653340.29399@wotan.suse.de>
-References: <20220924181915.3251186-1-masahiroy@kernel.org> <20220924181915.3251186-7-masahiroy@kernel.org> <ea468b86-abb7-bb2b-1e0a-4c8959d23f1c@kernel.org> <alpine.LSU.2.20.2210251210140.29399@wotan.suse.de>
- <CAK7LNASs_8yjxLj-DxsFkej67b5JbHbRu9NgmtzT8+zdCcuPiQ@mail.gmail.com>
-User-Agent: Alpine 2.20 (LSU 67 2015-01-07)
+        Wed, 26 Oct 2022 14:11:19 -0400
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8273384E66
+        for <linux-kbuild@vger.kernel.org>; Wed, 26 Oct 2022 11:11:17 -0700 (PDT)
+Received: by mail-qv1-xf29.google.com with SMTP id i12so12264979qvs.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 26 Oct 2022 11:11:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ITulc6XgqsqjNhbd41aCpior1CUyIgJHMI2V6YZSYqc=;
+        b=euOzt4OtQ6r2FoqktgoiitkA8qilHqWaety7Buy4Wc/kLai3+4S/yKJ+b8cr/78vie
+         65EAmm5Nk2Ou8O4UkVxUCQrdIYy4Jt0zqWrXA2jzp/FrxwIK4YXMEVDcaQQgF11XbHVL
+         dUvryBX9A+1fa9gOcaAoRkiAkEUCX4yINBJmM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ITulc6XgqsqjNhbd41aCpior1CUyIgJHMI2V6YZSYqc=;
+        b=tbPTaRZjS96rq7Hci2PBicbBlXVsEsTyro7bphp1G41+Q6Nyrp/Npfm+KK1s9UPNiJ
+         hJ+fFlB5tkmt43D+8YNTxLVgUSUfY2XKzuoE7z0OMPyMrdiXtt41+RqQEXK/xz/sf57W
+         y01SS/02bEexf76zsVfztg7kgn55kmjHDttDPxHEixOnZ+H8Nib2jUUwjb85dbrYXKMn
+         J1tmxYG3WPdRt+ohbLDg2kY3vL2pv2o1fe3EZNZxuurvzs8/jnG7Y3T8ubF6QkWnWL8r
+         Jw6vQNLUVeJjXYlzwpyP/VmTHdnxx8YInHIFKznUJ2o7E6RIXsoZsoMfD9qlYWcHkszQ
+         FQQA==
+X-Gm-Message-State: ACrzQf2/10aIQsk9R6G5YR4DExL1EsFOXCX9S6jFLqwbV4Avn5Tjtulv
+        S8FfkhuPZg5l6rYX7/ToTRdOel6+1lSmKg==
+X-Google-Smtp-Source: AMsMyM4kKz/8mbH7VrSjnEOUsNfpkfXCLsOrGdOMgGeYNrgS0mGZfRRhLn8qJi4TBk7NtAuN9wbRtQ==
+X-Received: by 2002:a05:6214:250c:b0:4b8:78d7:e718 with SMTP id gf12-20020a056214250c00b004b878d7e718mr29769801qvb.97.1666807875942;
+        Wed, 26 Oct 2022 11:11:15 -0700 (PDT)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
+        by smtp.gmail.com with ESMTPSA id ay37-20020a05620a17a500b006eeb3165565sm4284544qkb.80.2022.10.26.11.11.14
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Oct 2022 11:11:14 -0700 (PDT)
+Received: by mail-yb1-f178.google.com with SMTP id m125so6810787ybb.6
+        for <linux-kbuild@vger.kernel.org>; Wed, 26 Oct 2022 11:11:14 -0700 (PDT)
+X-Received: by 2002:a5b:984:0:b0:6ca:9345:b2ee with SMTP id
+ c4-20020a5b0984000000b006ca9345b2eemr3573582ybq.362.1666807873800; Wed, 26
+ Oct 2022 11:11:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+References: <20221019162648.3557490-1-Jason@zx2c4.com> <CAHk-=whT+xyge9UjH+r6dt0FG-eUdrzu5hDMce_vC+n8uLam2A@mail.gmail.com>
+ <3a2fa7c1-2e31-0479-761f-9c189f8ed8c3@rasmusvillemoes.dk>
+In-Reply-To: <3a2fa7c1-2e31-0479-761f-9c189f8ed8c3@rasmusvillemoes.dk>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Wed, 26 Oct 2022 11:10:57 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wg9RNhvDyanUQnxa_xnir70TUiMgjhVhRWUuF5Ojj96Dw@mail.gmail.com>
+Message-ID: <CAHk-=wg9RNhvDyanUQnxa_xnir70TUiMgjhVhRWUuF5Ojj96Dw@mail.gmail.com>
+Subject: Re: make ctype ascii only? (was [PATCH] kbuild: treat char as always signed)
+To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-toolchains@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello,
+On Tue, Oct 25, 2022 at 5:10 PM Rasmus Villemoes
+<linux@rasmusvillemoes.dk> wrote:
+>
+> Only very tangentially related (because it has to do with chars...): Can
+> we switch our ctype to be ASCII only, just as it was back in the good'ol
+> mid 90s
 
-On Thu, 27 Oct 2022, Masahiro Yamada wrote:
+Those US-ASCII days weren't really very "good" old days, but I forget
+why we did this (it's attributed to me, but that's from the
+pre-BK/pre-git days before we actually tracked things all that well,
+so..)
 
-> > To be precise: I know of no linker (outside LTO-like modes) that processes
-> > archives in a different order than first-to-last-member (under
-> > whole-archive), but that's not guaranteed anywhere.  So relying on
-> > member-order within archives is always brittle.
-> 
-> The objects in an archive are linked first-to-last-member for a long time.
-> This is the assumption which we have relied on for a long time.
+Anyway, I think anybody using ctype.h on 8-bit chars gets what they
+deserve, and I think Latin1 (or something close to it) is better than
+US-ASCII, in that it's at least the same as Unicode in the low 8
+chars.
 
-Sure, that doesn't mean it's guaranteed, for this I'm just devils 
-advocate.  As I said, it's the mode of operation of all currently existing 
-linkers I know, so for the forseeable future you can continue to rely on 
-it.  But as soon as LTO enters the picture that all breaks down, as you 
-see here.
+So no, I'm disinclined to go back in time to what I think is an even
+worse situation. Latin1 isn't great, but it sure beats US-ASCII. And
+if you really want just US-ASII, then don't use the high bit, and make
+your disgusting 7-bit code be *explicitly* 7-bit.
 
-Consider how LTO works, the granularity of shuffling stuff around is the 
-functions of all inputs, not the object files.  So, even if you say
-  obj1.o obj2.o
-on the link command line, and supposed there are two functions in each of 
-obj1 and obj2, then it may just so happen that LTO partitions the program 
-such that it ends up with partitions
-  part1 : obj1:foo obj2:bar
-  part2 : obj1:bar obj2:foo
-now, suddenly there is no order between part1 and part2 anymore that 
-would faithfully represent the original order between obj1 and obj2 
-functions.  Of course the partitioning algorithm could be changed, but 
-that would limit the effectiveness of LTO.
+Now, if there are errors in that table wrt Latin1 / "first 256
+codepoints of Unicode" too, then we can fix those.
 
-> We assume the initcall order is preserved.
-> The call order within each of core_initcall, arch_initcall,
-> device_initcall, etc.
-> is the order of objects in built-in.a, in other words,
-> the order they appear in Makefiles.
+Not that anybody has apparently cared since 2.0.1 was released back in
+July of 1996 (btw, it's sad how none of the old linux git archive
+creations seem to have tried to import the dates, so you have to look
+those up separately)
 
-If you rely on relative order of these, then you will probably see 
-interesting effects in LTO mode eventually.
+And if nobody has cared since 1996, I don't really think it matters.
 
-> So, this is happening on (not-upstreamed-yet) GCC LTO only?
+But fundamentally, I think anybody calling US-ASCII "good" is either
+very very very confused, or is comparing it to EBCDIC.
 
-I don't know.  As any kind of whole-program transformations is in 
-principle cross-file on per-function basis (that's the whole purpose) I 
-would imagine that you can see these effects in all compilers, if you try 
-hard enough.
-
-> > There are only two ways of guaranteeing an ordering: put non-LTO-.o files
-> > at certain places of the link command, or, better, use a linker script to
-> > specify an order.
-> 
-> The objects directly given in the command line are linked in the same order,
-> even under LTO mode. Is this what you mean?
-
-If they don't contain LTO code then yes, they are linked 
-in exactly the given order.  If they do, they become part of the LTO blob 
-whose ordering isn't precisely influenced by cmdline order.
-
-> Any documentation about that?
-
-I think so, but I can't point my finger to anything.  Several parts of the 
-toolchain rely on that (so the kernel is not alone), but those are either 
-carefully avoiding LTO or using other ordering means like linker script to 
-achieve what they need.
-
-
-Ciao,
-Michael.
+                 Linus
