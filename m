@@ -2,60 +2,68 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2105B60FD1B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Oct 2022 18:32:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25C1E60FD3B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Oct 2022 18:37:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235124AbiJ0Qcc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 27 Oct 2022 12:32:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39636 "EHLO
+        id S236580AbiJ0QhO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 27 Oct 2022 12:37:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234812AbiJ0Qcb (ORCPT
+        with ESMTP id S235863AbiJ0QhN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 27 Oct 2022 12:32:31 -0400
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D73FC9DF89;
-        Thu, 27 Oct 2022 09:32:27 -0700 (PDT)
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 29RGW5Bt010706;
-        Fri, 28 Oct 2022 01:32:06 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 29RGW5Bt010706
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1666888326;
-        bh=52K3j4S01m6w/RfZ2ZmouebwYkbBAw9HS00T9luyzUs=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=NbAQ6FXkO9En0C8Gi1ej9gn1bbEKRjuN0OQjeGqMUuzE5jS3YnzHhYwjEOWhQq3/s
-         RmqVCqFFTjGudrH2pQ5zuXFfSv14UPIzRRUKsUc0oBEGGymUH9RPkmwkSspuCBW25I
-         Ppvtyeb23nVGhJqIke+KIMGPKX19bvDYrLvPyrJYyqJiLXx9nJCOCEjsrf4ubq+VLJ
-         x3VTyjvJ1l5a8cCd5Y7jnPHGbjZdHAXXSxn5TC65QAm5ODb3sZEofiZ/ulw9WRIXsj
-         S7QkqPg+cVVx7f+K/fOhJ5936Sz+kHAZLZ//VFcQv3+TA7eugy0eWbq1in57rzd9WU
-         D7soZ/NNpmeAQ==
-X-Nifty-SrcIP: [209.85.160.44]
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-1322d768ba7so2792724fac.5;
-        Thu, 27 Oct 2022 09:32:06 -0700 (PDT)
-X-Gm-Message-State: ACrzQf0tBy5riaiPOJ6YBDg7wijXoMUD3o7pxueJbOyqd/7aFcsmFLiR
-        GDV9Lj0TUuPYe8ccekFN8tF2hrhFc1I1tsLzOMY=
-X-Google-Smtp-Source: AMsMyM5HtJWKYTji479rNEYH9axJJybHQHD8bBb7XeWPXWObEmy8J9YLvBHRuppp2rRV0aIxNwePrqHWrwGH8t/5cqE=
-X-Received: by 2002:a05:6870:7027:b0:13b:a5b7:165a with SMTP id
- u39-20020a056870702700b0013ba5b7165amr5974579oae.194.1666888325338; Thu, 27
- Oct 2022 09:32:05 -0700 (PDT)
+        Thu, 27 Oct 2022 12:37:13 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15B9618E729
+        for <linux-kbuild@vger.kernel.org>; Thu, 27 Oct 2022 09:37:12 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id b185so2095212pfb.9
+        for <linux-kbuild@vger.kernel.org>; Thu, 27 Oct 2022 09:37:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/U6QNXQ/xCPGTTB1SAGiuHHJBka8um7FPSVO88evHYI=;
+        b=VSrXHgK1wthxTiSvcuhaQbjJeIf88juMO1vdkrfo8WfFh1W8lrjC/FEAR/tfSGGiaI
+         MwL2e/KdbjhhU5Mvx64WTzDvM28en1ruz6tMYyq71mEdM2mUXPl7YsB9GXfSG3zXUdL3
+         U0JN8NqLuwTvA7DsT/+Z2LG8SnF4BakmBHO6rvnjvJ2wyzmZ82j7VbOXOvCM4FTenpjf
+         LUXfcAQJLSbblvmH06iJVgcMmmP76BqS6KGm/FBWFP1CkRZ14QuwLiNAFLMCuAx/VC3X
+         y1k+lyPjJvUOCVaMMDcxwoNJbPK7skwJ05kKMxPx1sab1r+g80HAIayEjDwr2Z3Vaz1U
+         tTmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/U6QNXQ/xCPGTTB1SAGiuHHJBka8um7FPSVO88evHYI=;
+        b=tLx+dAMu/Bt009GTXsxJl5RSrl1bqkOqnt4ZcRMRAgS8RqkjInSIM03ArWL/EuW6dI
+         VqgUUN588qSfMDKRS0+klXDQe/NyRSEDDSvuMTiB13gVo7VyUSuDX/E/daZI0EIVZRqw
+         bXcTQhPqnwxkRvb+MDvLewFbY5GRoe8Ap6HSn0Hg4o9v0pOMKpi+m1iF9limBR4EclzE
+         wcw0HFXnrwPowbP00nubvjT2B32jvSVZ1gSQ1dJ1lF+5NfPZmLg74762Zkd8egEKIT+d
+         usegPZJu0nfiY1uB6y2OBsIE8wOxyUg/SL2lUZ8ubYHG9aOo0WTs9ynIiorYw5/qAXHC
+         JqiQ==
+X-Gm-Message-State: ACrzQf2TdyzpQt6MFsXE8/pagRi4luZOru+hNuMn5JURNsScvISOTekZ
+        sUKVP2Dyow0q9ZdBuzPVvWNDe9mCMZRZcjKDFFhESw==
+X-Google-Smtp-Source: AMsMyM74RkehYChf05WveFojOxGE9ShcFGDHudhN3+Bi2xfxS50UVNk6k4zl48d16veCpcNgt4M8U3ECMEQxzyXkjHU=
+X-Received: by 2002:aa7:83cd:0:b0:563:5f54:d78c with SMTP id
+ j13-20020aa783cd000000b005635f54d78cmr51545714pfn.66.1666888628868; Thu, 27
+ Oct 2022 09:37:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221023195257.175946-1-masahiroy@kernel.org> <CAKwvOd=pimEoN_OvyefPiTTsOdzo+Xda1gJrYg8+jAE5GA0rqA@mail.gmail.com>
-In-Reply-To: <CAKwvOd=pimEoN_OvyefPiTTsOdzo+Xda1gJrYg8+jAE5GA0rqA@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 28 Oct 2022 01:31:29 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS5nvQDYD8jqazng2_CwuuZMGE2FyLFF73iW1_Vp6DWgw@mail.gmail.com>
-Message-ID: <CAK7LNAS5nvQDYD8jqazng2_CwuuZMGE2FyLFF73iW1_Vp6DWgw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: fix 'Broken pipe' message for AR=gcc-ar
-To:     Nick Desaulniers <ndesaulniers@google.com>
+References: <20221027162839.410720-1-masahiroy@kernel.org>
+In-Reply-To: <20221027162839.410720-1-masahiroy@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Thu, 27 Oct 2022 09:36:57 -0700
+Message-ID: <CAKwvOdmDFxr_PgY4WK392zCgs2QGxrsPfWoX=5h+y3R5r1xrJA@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: fix SIGPIPE error message for AR=gcc-ar and AR=llvm-ar
+To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
-        clang-built-linux <llvm@lists.linux.dev>, eng.stk@sapo.pt
+        Michal Marek <michal.lkml@markovi.net>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,45 +71,59 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 25, 2022 at 4:15 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On Thu, Oct 27, 2022 at 9:28 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> On Sun, Oct 23, 2022 at 12:53 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > Since commit 321648455061 ("kbuild: use obj-y instead extra-y for
-> > objects placed at the head"), 'make AR=gcc-ar' shows the following
-> > message:
-> >
-> >   /usr/bin/ar terminated with signal 13 [Broken pipe]
+> Jiri Slaby reported that building the kernel with AR=gcc-ar shows:
+>   /usr/bin/ar terminated with signal 13 [Broken pipe]
 >
-> Not just AR=gcc-ar, but also AR=llvm-ar:
+> Nathan Chancellor reported the latest AR=llvm-ar shows
+>   error: write on a pipe with no reader
 >
-> error: write on a pipe with no reader
+> The latter occurs since LLVM commit 51b557adc131 ("Add an error message
+> to the default SIGPIPE handler").
 >
+> The resulting vmlinux is correct, but it is better to silence it.
+>
+> 'head -n1' exits after reading the first line, so the pipe is closed.
+>
+> Use 'sed -n 1p' to eat the stream till the end.
+>
+> Fixes: 321648455061 ("kbuild: use obj-y instead extra-y for objects placed at the head")
 > Link: https://github.com/ClangBuiltLinux/linux/issues/1651
+> Reported-by: Jiri Slaby <jirislaby@kernel.org>
 > Reported-by: Nathan Chancellor <nathan@kernel.org>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > Tested-by: Nick Desaulniers <ndesaulniers@google.com>
 
+Looks great! Thanks all.
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-
-Thank you.
-
-I updated the commit description, and sent v2.
-
-https://lore.kernel.org/linux-kbuild/20221027162839.410720-1-masahiroy@kernel.org/T/#u
-
-
-> Note that due to
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8017ce50641c303b9b5d96f3c10229ecfd770a70
-> we should send a backport to stable like:
-> https://github.com/engstk/op8/commit/6f2688e3eb4ec06b276e541640d4f06364b68442
-
-
-Maybe, we can backport 8017ce50641c30 itself,
-but I am not sure if it is cleanly applicable.
-
+> ---
+>
+> Changes in v2:
+>   - Update commit description to mention llvm-ar
+>
+>  Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Makefile b/Makefile
+> index e90bb2b38607..e9e7eff906a5 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1218,7 +1218,7 @@ quiet_cmd_ar_vmlinux.a = AR      $@
+>        cmd_ar_vmlinux.a = \
+>         rm -f $@; \
+>         $(AR) cDPrST $@ $(KBUILD_VMLINUX_OBJS); \
+> -       $(AR) mPiT $$($(AR) t $@ | head -n1) $@ $$($(AR) t $@ | grep -F -f $(srctree)/scripts/head-object-list.txt)
+> +       $(AR) mPiT $$($(AR) t $@ | sed -n 1p) $@ $$($(AR) t $@ | grep -F -f $(srctree)/scripts/head-object-list.txt)
+>
+>  targets += vmlinux.a
+>  vmlinux.a: $(KBUILD_VMLINUX_OBJS) scripts/head-object-list.txt autoksyms_recursive FORCE
+> --
+> 2.34.1
+>
 
 
 -- 
-Best Regards
-Masahiro Yamada
+Thanks,
+~Nick Desaulniers
