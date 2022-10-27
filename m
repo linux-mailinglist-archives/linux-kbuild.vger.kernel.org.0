@@ -2,68 +2,71 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 25C1E60FD3B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Oct 2022 18:37:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A486B60FD51
+	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Oct 2022 18:42:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236580AbiJ0QhO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 27 Oct 2022 12:37:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53860 "EHLO
+        id S235760AbiJ0Qme (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 27 Oct 2022 12:42:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235863AbiJ0QhN (ORCPT
+        with ESMTP id S234879AbiJ0Qmd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 27 Oct 2022 12:37:13 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15B9618E729
-        for <linux-kbuild@vger.kernel.org>; Thu, 27 Oct 2022 09:37:12 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id b185so2095212pfb.9
-        for <linux-kbuild@vger.kernel.org>; Thu, 27 Oct 2022 09:37:12 -0700 (PDT)
+        Thu, 27 Oct 2022 12:42:33 -0400
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4C8E61B15
+        for <linux-kbuild@vger.kernel.org>; Thu, 27 Oct 2022 09:42:32 -0700 (PDT)
+Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-36847dfc5ccso21386767b3.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 27 Oct 2022 09:42:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/U6QNXQ/xCPGTTB1SAGiuHHJBka8um7FPSVO88evHYI=;
-        b=VSrXHgK1wthxTiSvcuhaQbjJeIf88juMO1vdkrfo8WfFh1W8lrjC/FEAR/tfSGGiaI
-         MwL2e/KdbjhhU5Mvx64WTzDvM28en1ruz6tMYyq71mEdM2mUXPl7YsB9GXfSG3zXUdL3
-         U0JN8NqLuwTvA7DsT/+Z2LG8SnF4BakmBHO6rvnjvJ2wyzmZ82j7VbOXOvCM4FTenpjf
-         LUXfcAQJLSbblvmH06iJVgcMmmP76BqS6KGm/FBWFP1CkRZ14QuwLiNAFLMCuAx/VC3X
-         y1k+lyPjJvUOCVaMMDcxwoNJbPK7skwJ05kKMxPx1sab1r+g80HAIayEjDwr2Z3Vaz1U
-         tTmw==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FrpT7jDzvIdd9Y+I9KcU+R/FrIS418eDQ+csIqtnsLY=;
+        b=bCUbZ0x6v07vNmPZXYNcBG5Ey/ryv5OToKooQuXyplODjf24p5tWQ75jkhjBZV7gT3
+         oEsD+bBMYkbuXg+M/p6MAapBGs3r/Rv0wzvDTNq9Bn4+xNbDhY8Px2jjU0edEBq+nvST
+         x6BxxX1ldzDvoynXqS/GXEnx2xgZbkC/ItOOUZTXPwE4M0X5LFkw02oW2vsxWgjrnVoq
+         Tx4W7yBmJ5iJmJvREIW10dyHlLQBy6BZEYS3ZAm8QLKkvwtyUhONMH++0PRzFF+0ENdo
+         b0cU2ASNHKh1+zWAMkz396EQEz8QufIJTCgaOF7SOhfzH9SSkxcjCXYR+oiS5AzSJI9U
+         QBcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/U6QNXQ/xCPGTTB1SAGiuHHJBka8um7FPSVO88evHYI=;
-        b=tLx+dAMu/Bt009GTXsxJl5RSrl1bqkOqnt4ZcRMRAgS8RqkjInSIM03ArWL/EuW6dI
-         VqgUUN588qSfMDKRS0+klXDQe/NyRSEDDSvuMTiB13gVo7VyUSuDX/E/daZI0EIVZRqw
-         bXcTQhPqnwxkRvb+MDvLewFbY5GRoe8Ap6HSn0Hg4o9v0pOMKpi+m1iF9limBR4EclzE
-         wcw0HFXnrwPowbP00nubvjT2B32jvSVZ1gSQ1dJ1lF+5NfPZmLg74762Zkd8egEKIT+d
-         usegPZJu0nfiY1uB6y2OBsIE8wOxyUg/SL2lUZ8ubYHG9aOo0WTs9ynIiorYw5/qAXHC
-         JqiQ==
-X-Gm-Message-State: ACrzQf2TdyzpQt6MFsXE8/pagRi4luZOru+hNuMn5JURNsScvISOTekZ
-        sUKVP2Dyow0q9ZdBuzPVvWNDe9mCMZRZcjKDFFhESw==
-X-Google-Smtp-Source: AMsMyM74RkehYChf05WveFojOxGE9ShcFGDHudhN3+Bi2xfxS50UVNk6k4zl48d16veCpcNgt4M8U3ECMEQxzyXkjHU=
-X-Received: by 2002:aa7:83cd:0:b0:563:5f54:d78c with SMTP id
- j13-20020aa783cd000000b005635f54d78cmr51545714pfn.66.1666888628868; Thu, 27
- Oct 2022 09:37:08 -0700 (PDT)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FrpT7jDzvIdd9Y+I9KcU+R/FrIS418eDQ+csIqtnsLY=;
+        b=d42WjSQU7c2qYmj4waZ1uwKOqmZsEu37h3yUQ/jNMoljmyUvferAsMtDpCHFEpMPOr
+         K2remsarV9u7QpqMHYa8vH4pAJ2HM239V+d29YoLHmcKSSfV13Jovh5GnDqv8eyAKCto
+         ZBrlEbkwW9Bmmqt0JmPe/JtCm/ta5uCbll+T1uSUiEigWmBWuRXmpIKNWVuaNTqIQ9qx
+         E0d5+H00P0QBKtsAgxmg8wePjRnUgP8aPfZPVdTeQzBvKj5mPN3ao5buBWkU4rAMEKTx
+         VjsSksiZZ0SZHSsH5uNUHlYVcLXsDspO9wSHLLG6olczOpXHLBPynpkC5QE2n4xYUSWb
+         8pBQ==
+X-Gm-Message-State: ACrzQf0wFoIPEOzP9Tfq5R6q2Ja1i9U4I0wxY9G+QDxVIMrek8WxOwuM
+        cEvrE/lpNU+C9DRf0RVxq/StSBRKuDnaK57ATQM5ng==
+X-Google-Smtp-Source: AMsMyM4nDk2ORHx8hkcRQTC3kyPEB7IQDB/Q/0FuOAjTdfivEShbqfFkgF/S7EodPoMvamKbzlOi/TcLzOmgp2Y17zk=
+X-Received: by 2002:a0d:c901:0:b0:351:b348:542f with SMTP id
+ l1-20020a0dc901000000b00351b348542fmr45367421ywd.144.1666888951720; Thu, 27
+ Oct 2022 09:42:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221027162839.410720-1-masahiroy@kernel.org>
-In-Reply-To: <20221027162839.410720-1-masahiroy@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 27 Oct 2022 09:36:57 -0700
-Message-ID: <CAKwvOdmDFxr_PgY4WK392zCgs2QGxrsPfWoX=5h+y3R5r1xrJA@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: fix SIGPIPE error message for AR=gcc-ar and AR=llvm-ar
+References: <20221024212144.2852069-1-glider@google.com> <20221024212144.2852069-3-glider@google.com>
+ <CAK7LNARfKkiNSUfZAqDQd15O8NAhpX13dHDuGn3OPL_b_F_92g@mail.gmail.com>
+In-Reply-To: <CAK7LNARfKkiNSUfZAqDQd15O8NAhpX13dHDuGn3OPL_b_F_92g@mail.gmail.com>
+From:   Alexander Potapenko <glider@google.com>
+Date:   Thu, 27 Oct 2022 09:41:54 -0700
+Message-ID: <CAG_fn=WWiOvPRnw1ao-UPavY-U7rLFLa_a6b-k2noHKLunN+Yw@mail.gmail.com>
+Subject: Re: [PATCH 3/5] Kconfig.debug: disable CONFIG_FRAME_WARN for KMSAN by default
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,59 +74,89 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Oct 27, 2022 at 9:28 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Thu, Oct 27, 2022 at 7:33 AM Masahiro Yamada <masahiroy@kernel.org> wrot=
+e:
 >
-> Jiri Slaby reported that building the kernel with AR=gcc-ar shows:
->   /usr/bin/ar terminated with signal 13 [Broken pipe]
+> On Tue, Oct 25, 2022 at 6:22 AM Alexander Potapenko <glider@google.com> w=
+rote:
+> >
+> > KMSAN adds a lot of instrumentation to the code, which results in
+> > increased stack usage (up to 2048 bytes and more in some cases).
+> > It's hard to predict how big the stack frames can be, so we disable
+> > the warnings for KMSAN instead.
+> >
+> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > Cc: Kees Cook <keescook@chromium.org>
+> > Cc: Masahiro Yamada <masahiroy@kernel.org>
+> > Cc: Nick Desaulniers <ndesaulniers@google.com>
+> > Cc: linux-kbuild@vger.kernel.org
+> > Link: https://github.com/google/kmsan/issues/89
+> > Signed-off-by: Alexander Potapenko <glider@google.com>
+> > ---
+> >  lib/Kconfig.debug | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> > index 3fc7abffc7aa2..29280072dc0e4 100644
+> > --- a/lib/Kconfig.debug
+> > +++ b/lib/Kconfig.debug
+> > @@ -400,8 +400,9 @@ config FRAME_WARN
+> >         default 1536 if (!64BIT && XTENSA)
+> >         default 1024 if !64BIT
+> >         default 2048 if 64BIT
+> > +       default 0 if KMSAN
 >
-> Nathan Chancellor reported the latest AR=llvm-ar shows
->   error: write on a pipe with no reader
 >
-> The latter occurs since LLVM commit 51b557adc131 ("Add an error message
-> to the default SIGPIPE handler").
 >
-> The resulting vmlinux is correct, but it is better to silence it.
+> This is wrong.
 >
-> 'head -n1' exits after reading the first line, so the pipe is closed.
+> Kconfig picks up the first default entry which has
+> true 'if' condition.
 >
-> Use 'sed -n 1p' to eat the stream till the end.
 >
-> Fixes: 321648455061 ("kbuild: use obj-y instead extra-y for objects placed at the head")
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1651
-> Reported-by: Jiri Slaby <jirislaby@kernel.org>
-> Reported-by: Nathan Chancellor <nathan@kernel.org>
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> Tested-by: Nick Desaulniers <ndesaulniers@google.com>
+> Since (!64BIT || 64BIT) covers all the possible cases,
+> this patch is just adding dead code.
+>
+Thanks for clarifying!
+What we actually need is to forcefully disable CONFIG_FRAME_WARN under
+KMSAN, but adding constructs like "select FRAME_WARN 0" or "select
+FRAME_WARN=3D0" doesn't work, right?
 
-Looks great! Thanks all.
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+I'll move "default 0 if KMSAN" to the beginning of FRAME_WARN declaration t=
+hen.
 
-> ---
 >
-> Changes in v2:
->   - Update commit description to mention llvm-ar
 >
->  Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/Makefile b/Makefile
-> index e90bb2b38607..e9e7eff906a5 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1218,7 +1218,7 @@ quiet_cmd_ar_vmlinux.a = AR      $@
->        cmd_ar_vmlinux.a = \
->         rm -f $@; \
->         $(AR) cDPrST $@ $(KBUILD_VMLINUX_OBJS); \
-> -       $(AR) mPiT $$($(AR) t $@ | head -n1) $@ $$($(AR) t $@ | grep -F -f $(srctree)/scripts/head-object-list.txt)
-> +       $(AR) mPiT $$($(AR) t $@ | sed -n 1p) $@ $$($(AR) t $@ | grep -F -f $(srctree)/scripts/head-object-list.txt)
 >
->  targets += vmlinux.a
->  vmlinux.a: $(KBUILD_VMLINUX_OBJS) scripts/head-object-list.txt autoksyms_recursive FORCE
+>
+> >         help
+> > -         Tell gcc to warn at build time for stack frames larger than t=
+his.
+> > +         Tell the compiler to warn at build time for stack frames larg=
+er than this.
+> >           Setting this too low will cause a lot of warnings.
+> >           Setting it to 0 disables the warning.
+> >
+> > --
+> > 2.38.0.135.g90850a2211-goog
+> >
+>
+>
 > --
-> 2.34.1
->
+> Best Regards
+> Masahiro Yamada
 
 
--- 
-Thanks,
-~Nick Desaulniers
+
+--=20
+Alexander Potapenko
+Software Engineer
+
+Google Germany GmbH
+Erika-Mann-Stra=C3=9Fe, 33
+80636 M=C3=BCnchen
+
+Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
+Registergericht und -nummer: Hamburg, HRB 86891
+Sitz der Gesellschaft: Hamburg
