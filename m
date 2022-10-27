@@ -2,132 +2,107 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3654A610032
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Oct 2022 20:29:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17216610450
+	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Oct 2022 23:25:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235494AbiJ0S2g (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 27 Oct 2022 14:28:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47892 "EHLO
+        id S236632AbiJ0VZD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 27 Oct 2022 17:25:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236363AbiJ0S2V (ORCPT
+        with ESMTP id S236280AbiJ0VZC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 27 Oct 2022 14:28:21 -0400
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F53379A47
-        for <linux-kbuild@vger.kernel.org>; Thu, 27 Oct 2022 11:28:20 -0700 (PDT)
-Received: by mail-qk1-x72c.google.com with SMTP id i10so1528360qkl.12
-        for <linux-kbuild@vger.kernel.org>; Thu, 27 Oct 2022 11:28:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=wEdZOEYjrllCAot2dTAA4KX0CdNoEXMJ9BmzaOuDVdI=;
-        b=T/yx4PJ4RHQPFV86A2BeP473agGj/WJk6zWc5l56IseidOqLDSaXwuFZkIocHU533Q
-         Yqz3muzZsTyk8+MlpD0cvUoOsFqBfxZMuROtUtg57iTtb/5PSYiTdWosU7yAfnitmzIM
-         28RHz7CU3/A6B1cqE3d5MA8RJ7WNWOjaLOxLI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wEdZOEYjrllCAot2dTAA4KX0CdNoEXMJ9BmzaOuDVdI=;
-        b=V3UdsHdsqbDTYy05HmVsRUifweeV6iRZqY6iCFN0p6bD1Gm4Od7uGJOrlj1yFl97Su
-         LrpHJrabFdfIQoFWh4181a6dhg7Lo4gDxtNvvDlcQdow/i5RHUZ1kkBQAh5ESNyfi2M2
-         CY0rzYnPj2e/BNKHyL4tn/qznBOTrhtKo40UXD4xlCChxpsiXkxme7g1AXvEdRuOdtSB
-         0za1YEMw3uJoyhJ1tuKkGVNM65tf+Fx3nzb3bU99ElLoRdVli/kfqQRmSOnHrDq7rNs7
-         ag9Y/iuxSM++e4dfljgfL7ws6cfifbNbZgOFdZGhjNanOZTOj2WYofgUmXcCXxifeZNV
-         iP8w==
-X-Gm-Message-State: ACrzQf1ihcxQ89wb7xvQAbQAK4ihbhSMOCvhzR60saRDNuNYZmqEsmxD
-        tybWaU5ZZSdRYTeYbL0uaHsfhsUTkVJSow==
-X-Google-Smtp-Source: AMsMyM4tOlR2N8/TqeD2fYLe2g5ABqUK6CccRgniXVcj99LyBIJXvqgtce4ObOK2Ao2RMWKX07rISg==
-X-Received: by 2002:a05:620a:2456:b0:6ee:e24f:74f7 with SMTP id h22-20020a05620a245600b006eee24f74f7mr35891556qkn.9.1666895299396;
-        Thu, 27 Oct 2022 11:28:19 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id v12-20020a05620a440c00b006eed47a1a1esm1397624qkp.134.2022.10.27.11.28.18
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Oct 2022 11:28:18 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id f205so3271247yba.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 27 Oct 2022 11:28:18 -0700 (PDT)
-X-Received: by 2002:a5b:984:0:b0:6ca:9345:b2ee with SMTP id
- c4-20020a5b0984000000b006ca9345b2eemr8266384ybq.362.1666895298062; Thu, 27
- Oct 2022 11:28:18 -0700 (PDT)
+        Thu, 27 Oct 2022 17:25:02 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D735D2D1EC;
+        Thu, 27 Oct 2022 14:25:01 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2CDFDB827D9;
+        Thu, 27 Oct 2022 21:25:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EE46C433C1;
+        Thu, 27 Oct 2022 21:24:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1666905898;
+        bh=ra9Em2eePsRB3ynpBC3jpbouHuUgZ9DXcTtxdI0P5VM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=toqWQe9vUdoqzF7Uty6Iaw8Xnn8WntR1BnA6vQZnsr2dGXm9dhUkEkUSMM49OM9Ml
+         LldGdHiMEtQDdp15jC1x8VWj6oQOFVXMm5QUxEeIlNlLtdNWLkNS0zVvhwzVWSJswY
+         dFmBEwEFDF4AuGb7Mm5diLunAD6hri+Pdi2vwol/2BPjk6KbgHqURbnZefAALBKtxc
+         Zpkc3I4l6gzT71QCYo3aizMNW5kOXoTPLKlbgTCU7VceHqIDGNxZsuO7R+pD0K5alb
+         hjFSy0o/lJl8XWAsC71BlD9pXfGFcG4onZOAgsZY1bwgah133GmFrUUcXqeY3Z3pW6
+         EfM7Ce5vFh/Xg==
+Date:   Thu, 27 Oct 2022 14:24:56 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v2] kbuild: fix SIGPIPE error message for AR=gcc-ar and
+ AR=llvm-ar
+Message-ID: <Y1r3KAyhFbwJ1W1d@dev-arch.thelio-3990X>
+References: <20221027162839.410720-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-References: <20221019162648.3557490-1-Jason@zx2c4.com> <CAHk-=whT+xyge9UjH+r6dt0FG-eUdrzu5hDMce_vC+n8uLam2A@mail.gmail.com>
- <3a2fa7c1-2e31-0479-761f-9c189f8ed8c3@rasmusvillemoes.dk> <CAHk-=wg9RNhvDyanUQnxa_xnir70TUiMgjhVhRWUuF5Ojj96Dw@mail.gmail.com>
- <915a104b-0e70-dfb8-3c85-54fd1e5e63e5@rasmusvillemoes.dk>
-In-Reply-To: <915a104b-0e70-dfb8-3c85-54fd1e5e63e5@rasmusvillemoes.dk>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu, 27 Oct 2022 11:28:02 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgadqCK7xAOzCdDHa7CQWC1z3df6a-pHQaF73ZjSZ58wg@mail.gmail.com>
-Message-ID: <CAHk-=wgadqCK7xAOzCdDHa7CQWC1z3df6a-pHQaF73ZjSZ58wg@mail.gmail.com>
-Subject: Re: make ctype ascii only? (was [PATCH] kbuild: treat char as always signed)
-To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-toolchains@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221027162839.410720-1-masahiroy@kernel.org>
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Oct 27, 2022 at 12:59 AM Rasmus Villemoes
-<linux@rasmusvillemoes.dk> wrote:
->
-> AFAICT, the differences are:
->
-> - 0xaa (FEMININE ORDINAL INDICATOR), 0xb5 (MICRO SIGN), 0xba (FEMININE
-> ORDINAL INDICATOR) should be lower (hence alpha and alnum), not punct.
->
-> - depending a little on just exactly what one wants latin1 to mean, but
-> if it does mean "first 256 codepoints of Unicode", 0x80-0x9f should be cntrl
->
-> - for some reason at least glibc seems to classify 0xa0 as punctuation
-> and not space (hence also as isgraph)
->
-> - 0xdf and 0xff are correctly classified as lower, but since they don't
-> have upper-case versions (at least not any that are representable in
-> latin1), correct toupper() behaviour is to return them unchanged, but we
-> just subtract 0x20, so 0xff becomes 0xdf which isn't isupper() and 0xdf
-> becomes something that isn't even isalpha().
+On Fri, Oct 28, 2022 at 01:28:39AM +0900, Masahiro Yamada wrote:
+> Jiri Slaby reported that building the kernel with AR=gcc-ar shows:
+>   /usr/bin/ar terminated with signal 13 [Broken pipe]
+> 
+> Nathan Chancellor reported the latest AR=llvm-ar shows
+>   error: write on a pipe with no reader
+> 
+> The latter occurs since LLVM commit 51b557adc131 ("Add an error message
+> to the default SIGPIPE handler").
+> 
+> The resulting vmlinux is correct, but it is better to silence it.
+> 
+> 'head -n1' exits after reading the first line, so the pipe is closed.
+> 
+> Use 'sed -n 1p' to eat the stream till the end.
+> 
+> Fixes: 321648455061 ("kbuild: use obj-y instead extra-y for objects placed at the head")
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1651
+> Reported-by: Jiri Slaby <jirislaby@kernel.org>
+> Reported-by: Nathan Chancellor <nathan@kernel.org>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Tested-by: Nick Desaulniers <ndesaulniers@google.com>
 
-Heh.
+Tested-by: Nathan Chancellor <nathan@kernel.org>
 
-Honestly, I don't think we should care at all.
-
-For the byte range 128-255, anybody who uses ctype on them gets what
-they get. In the kernel, the most likely use of it is for 'isprint()',
-and if those care, they can (and some do) use 'isascii()' in addition.
-
-I don't know if you realize, but the kernel already says "screw libc",
-and makes all the isxyz() things just cast the argument to 'unsigned
-char', and doesn't care about EOF.
-
-And for the rest, let's just call it the "kernel locale", and just
-admit that the kernel locale is entirely historical.
-
-Boom - problem solved, and it's entirely standards conformant (apart
-possibly from the EOF case, I think that is marked as a "lower case
-character" right now ;)
-
-Looking through
-
-    https://pubs.opengroup.org/onlinepubs/9699919799/
-
-I'm not actually seeing anything that says that we don't do *exactly*
-what the standard requires.
-
-You thinking that the kernel locale is US-ASCII is just wrong.
-
-              Linus
+> ---
+> 
+> Changes in v2:
+>   - Update commit description to mention llvm-ar
+> 
+>  Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index e90bb2b38607..e9e7eff906a5 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1218,7 +1218,7 @@ quiet_cmd_ar_vmlinux.a = AR      $@
+>        cmd_ar_vmlinux.a = \
+>  	rm -f $@; \
+>  	$(AR) cDPrST $@ $(KBUILD_VMLINUX_OBJS); \
+> -	$(AR) mPiT $$($(AR) t $@ | head -n1) $@ $$($(AR) t $@ | grep -F -f $(srctree)/scripts/head-object-list.txt)
+> +	$(AR) mPiT $$($(AR) t $@ | sed -n 1p) $@ $$($(AR) t $@ | grep -F -f $(srctree)/scripts/head-object-list.txt)
+>  
+>  targets += vmlinux.a
+>  vmlinux.a: $(KBUILD_VMLINUX_OBJS) scripts/head-object-list.txt autoksyms_recursive FORCE
+> -- 
+> 2.34.1
+> 
