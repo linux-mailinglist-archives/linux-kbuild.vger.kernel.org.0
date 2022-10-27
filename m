@@ -2,56 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C7F1760FA70
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Oct 2022 16:32:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AE5660FBD0
+	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Oct 2022 17:23:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234791AbiJ0Ocx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 27 Oct 2022 10:32:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60620 "EHLO
+        id S234137AbiJ0PXu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 27 Oct 2022 11:23:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234367AbiJ0Ocw (ORCPT
+        with ESMTP id S233598AbiJ0PXt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 27 Oct 2022 10:32:52 -0400
-Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0418179988;
-        Thu, 27 Oct 2022 07:32:51 -0700 (PDT)
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 29REWQkr000621;
-        Thu, 27 Oct 2022 23:32:27 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 29REWQkr000621
+        Thu, 27 Oct 2022 11:23:49 -0400
+Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 555AEDF7;
+        Thu, 27 Oct 2022 08:23:48 -0700 (PDT)
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 29RFNSUV029228;
+        Fri, 28 Oct 2022 00:23:29 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 29RFNSUV029228
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1666881147;
-        bh=4HDEXnWr6VYARBxhtIHHxyW+0nXTxgQlhNlzoM6U/Ls=;
+        s=dec2015msa; t=1666884209;
+        bh=HjLGoO2Lx7YPNTEAxUvyEaIlq5YG6EkDHPtsprtiT7I=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=cEMOUuGRx0CiM5dMBySppPWAb4vz2zKfDBSxF4AaxelQ/VZgyeTz6mR356DZvwGBa
-         L3NaQm+ysBspNbVVKOWPlMn6/0PplDiKBUg3GhXYU9BkTbi9sxuUvk+WElbubd1YOi
-         6028JqJm4ULcqhRMu4AUwjYsrRn6JIMdWzOkXjn8DxDUQKF7HG3/ATh3bomtk47REf
-         m7hLWNKkhA6XpXQlCfgMQ7jK9Llyk/WehKgjD9RTCQR05P/9gNZ5CLsh/Zru2hgSKa
-         IQY1BoGcyNjwcLK1yJ8gNdAWs8XQaojSQ/fGnWHkP/z2b6KgRHhBQguArRzJlutDt9
-         KRp0rWdr3qVDg==
-X-Nifty-SrcIP: [209.85.167.169]
-Received: by mail-oi1-f169.google.com with SMTP id s125so1777921oib.6;
-        Thu, 27 Oct 2022 07:32:26 -0700 (PDT)
-X-Gm-Message-State: ACrzQf3RFApk6ytHKf8GM4ti80xAt1WjrVgWChO2/16kJOSKQ07DGf1X
-        yDZHGVj8Luy9fxOZCaqAR5JW3/dTgw0AK7YNZAE=
-X-Google-Smtp-Source: AMsMyM4tqsHTbHWe+6yz0cnG9uKVuvy2JEqtwziNTOAmy0shG5LX1mgNgc+M3G+YmcTGs8ePnEbYIasezCTtPb52hqI=
-X-Received: by 2002:aca:bbd4:0:b0:353:f167:6fd3 with SMTP id
- l203-20020acabbd4000000b00353f1676fd3mr5067095oif.287.1666881145769; Thu, 27
- Oct 2022 07:32:25 -0700 (PDT)
+        b=aPdjIOqpBkiHzkUOVTu14o+cPcX1PAObAUWiBaZ6Hg8hV+W69uzlJQrfc6M3GiKTc
+         5lr3mV/rHUpvPk8EpnlN+aXUVY9Z2i3KWeZIt8IuFjM+a9uN09y41Ck77p5Nkrxw1B
+         h95APxgtK5I1ZETGWpc9Zag/ToYA7pxc44Qsck7oCPWibq0DmYCYsIQ4A+3CnkufxY
+         1FHYes6YbFpspM+0A7ejbqTug56JjRStejKdY6EFsFnXpT8J9SWzxv11Db0pxwCkKE
+         eN2AygK60ItpMDPj+2ppZFA5kdCCj1WHwZTAa9VPOK2zGbopxaAtSPqWuFG+MMc0Wk
+         Kt8jtSZEG0Qeg==
+X-Nifty-SrcIP: [209.85.167.182]
+Received: by mail-oi1-f182.google.com with SMTP id g130so2464313oia.13;
+        Thu, 27 Oct 2022 08:23:29 -0700 (PDT)
+X-Gm-Message-State: ACrzQf3Y0+dtpDLBpVn9lhzZ3Wl7Jvj2urjtsrlEcghTOYDsrG6saC4F
+        Wi68jPrB7cIfWkD21OtXKyQiRo72AH0Von1qubg=
+X-Google-Smtp-Source: AMsMyM55SfsxUPxo2+u9BifUZK+zhiiFLFNtywbJ+DyCvRXcbN69GQohaAVX409azX6IWdYzzR/mFvVjEliwsnDLNEA=
+X-Received: by 2002:a05:6808:1b85:b0:34d:8ce1:d5b0 with SMTP id
+ cj5-20020a0568081b8500b0034d8ce1d5b0mr5133057oib.194.1666884207979; Thu, 27
+ Oct 2022 08:23:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221024212144.2852069-1-glider@google.com> <20221024212144.2852069-3-glider@google.com>
-In-Reply-To: <20221024212144.2852069-3-glider@google.com>
+References: <20221025201744.1155260-1-willmcvicker@google.com> <20221025201744.1155260-2-willmcvicker@google.com>
+In-Reply-To: <20221025201744.1155260-2-willmcvicker@google.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 27 Oct 2022 23:31:49 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARfKkiNSUfZAqDQd15O8NAhpX13dHDuGn3OPL_b_F_92g@mail.gmail.com>
-Message-ID: <CAK7LNARfKkiNSUfZAqDQd15O8NAhpX13dHDuGn3OPL_b_F_92g@mail.gmail.com>
-Subject: Re: [PATCH 3/5] Kconfig.debug: disable CONFIG_FRAME_WARN for KMSAN by default
-To:     Alexander Potapenko <glider@google.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
+Date:   Fri, 28 Oct 2022 00:22:51 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQUcig1aY-vFKSOAF1MKknDC7DDfsJnNDvgC918PGWR+A@mail.gmail.com>
+Message-ID: <CAK7LNAQUcig1aY-vFKSOAF1MKknDC7DDfsJnNDvgC918PGWR+A@mail.gmail.com>
+Subject: Re: [PATCH v1] kbuild: fix typo in modpost
+To:     Will McVicker <willmcvicker@google.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org
+        kernel-team@android.com, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
@@ -62,57 +61,39 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 25, 2022 at 6:22 AM Alexander Potapenko <glider@google.com> wrote:
+On Wed, Oct 26, 2022 at 5:18 AM Will McVicker <willmcvicker@google.com> wrote:
 >
-> KMSAN adds a lot of instrumentation to the code, which results in
-> increased stack usage (up to 2048 bytes and more in some cases).
-> It's hard to predict how big the stack frames can be, so we disable
-> the warnings for KMSAN instead.
+> Commit f73edc8951b2 ("kbuild: unify two modpost invocations") introduced
+> a typo (moudle.symvers-if-present) which results in the kernel's
+> Module.symvers to not be included as a prerequisite for
+> $(KBUILD_EXTMOD)/Module.symvers. Fix the typo to restore the intended
+> functionality.
 >
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: Nick Desaulniers <ndesaulniers@google.com>
-> Cc: linux-kbuild@vger.kernel.org
-> Link: https://github.com/google/kmsan/issues/89
-> Signed-off-by: Alexander Potapenko <glider@google.com>
+> Signed-off-by: Will McVicker <willmcvicker@google.com>
+
+Applied to linux-kbuild/fixes.
+Thanks!
+
+
 > ---
->  lib/Kconfig.debug | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  scripts/Makefile.modpost | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index 3fc7abffc7aa2..29280072dc0e4 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -400,8 +400,9 @@ config FRAME_WARN
->         default 1536 if (!64BIT && XTENSA)
->         default 1024 if !64BIT
->         default 2048 if 64BIT
-> +       default 0 if KMSAN
-
-
-
-This is wrong.
-
-Kconfig picks up the first default entry which has
-true 'if' condition.
-
-
-Since (!64BIT || 64BIT) covers all the possible cases,
-this patch is just adding dead code.
-
-
-
-
-
-
-
->         help
-> -         Tell gcc to warn at build time for stack frames larger than this.
-> +         Tell the compiler to warn at build time for stack frames larger than this.
->           Setting this too low will cause a lot of warnings.
->           Setting it to 0 disables the warning.
+> base-commit: 1a2dcbdde82e3a5f1db9b2f4c48aa1aeba534fb2
 >
+> diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+> index 8489a3402eb8..e41dee64d429 100644
+> --- a/scripts/Makefile.modpost
+> +++ b/scripts/Makefile.modpost
+> @@ -122,7 +122,7 @@ quiet_cmd_modpost = MODPOST $@
+>         sed 's/ko$$/o/' $(or $(modorder-if-needed), /dev/null) | $(MODPOST) $(modpost-args) -T - $(vmlinux.o-if-present)
+>
+>  targets += $(output-symdump)
+> -$(output-symdump): $(modorder-if-needed) $(vmlinux.o-if-present) $(moudle.symvers-if-present) $(MODPOST) FORCE
+> +$(output-symdump): $(modorder-if-needed) $(vmlinux.o-if-present) $(module.symvers-if-present) $(MODPOST) FORCE
+>         $(call if_changed,modpost)
+>
+>  __modpost: $(output-symdump)
 > --
 > 2.38.0.135.g90850a2211-goog
 >
