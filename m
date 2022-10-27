@@ -2,71 +2,79 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A486B60FD51
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Oct 2022 18:42:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3654A610032
+	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Oct 2022 20:29:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235760AbiJ0Qme (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 27 Oct 2022 12:42:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38876 "EHLO
+        id S235494AbiJ0S2g (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 27 Oct 2022 14:28:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234879AbiJ0Qmd (ORCPT
+        with ESMTP id S236363AbiJ0S2V (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 27 Oct 2022 12:42:33 -0400
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4C8E61B15
-        for <linux-kbuild@vger.kernel.org>; Thu, 27 Oct 2022 09:42:32 -0700 (PDT)
-Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-36847dfc5ccso21386767b3.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 27 Oct 2022 09:42:32 -0700 (PDT)
+        Thu, 27 Oct 2022 14:28:21 -0400
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F53379A47
+        for <linux-kbuild@vger.kernel.org>; Thu, 27 Oct 2022 11:28:20 -0700 (PDT)
+Received: by mail-qk1-x72c.google.com with SMTP id i10so1528360qkl.12
+        for <linux-kbuild@vger.kernel.org>; Thu, 27 Oct 2022 11:28:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FrpT7jDzvIdd9Y+I9KcU+R/FrIS418eDQ+csIqtnsLY=;
-        b=bCUbZ0x6v07vNmPZXYNcBG5Ey/ryv5OToKooQuXyplODjf24p5tWQ75jkhjBZV7gT3
-         oEsD+bBMYkbuXg+M/p6MAapBGs3r/Rv0wzvDTNq9Bn4+xNbDhY8Px2jjU0edEBq+nvST
-         x6BxxX1ldzDvoynXqS/GXEnx2xgZbkC/ItOOUZTXPwE4M0X5LFkw02oW2vsxWgjrnVoq
-         Tx4W7yBmJ5iJmJvREIW10dyHlLQBy6BZEYS3ZAm8QLKkvwtyUhONMH++0PRzFF+0ENdo
-         b0cU2ASNHKh1+zWAMkz396EQEz8QufIJTCgaOF7SOhfzH9SSkxcjCXYR+oiS5AzSJI9U
-         QBcQ==
+        d=linux-foundation.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=wEdZOEYjrllCAot2dTAA4KX0CdNoEXMJ9BmzaOuDVdI=;
+        b=T/yx4PJ4RHQPFV86A2BeP473agGj/WJk6zWc5l56IseidOqLDSaXwuFZkIocHU533Q
+         Yqz3muzZsTyk8+MlpD0cvUoOsFqBfxZMuROtUtg57iTtb/5PSYiTdWosU7yAfnitmzIM
+         28RHz7CU3/A6B1cqE3d5MA8RJ7WNWOjaLOxLI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FrpT7jDzvIdd9Y+I9KcU+R/FrIS418eDQ+csIqtnsLY=;
-        b=d42WjSQU7c2qYmj4waZ1uwKOqmZsEu37h3yUQ/jNMoljmyUvferAsMtDpCHFEpMPOr
-         K2remsarV9u7QpqMHYa8vH4pAJ2HM239V+d29YoLHmcKSSfV13Jovh5GnDqv8eyAKCto
-         ZBrlEbkwW9Bmmqt0JmPe/JtCm/ta5uCbll+T1uSUiEigWmBWuRXmpIKNWVuaNTqIQ9qx
-         E0d5+H00P0QBKtsAgxmg8wePjRnUgP8aPfZPVdTeQzBvKj5mPN3ao5buBWkU4rAMEKTx
-         VjsSksiZZ0SZHSsH5uNUHlYVcLXsDspO9wSHLLG6olczOpXHLBPynpkC5QE2n4xYUSWb
-         8pBQ==
-X-Gm-Message-State: ACrzQf0wFoIPEOzP9Tfq5R6q2Ja1i9U4I0wxY9G+QDxVIMrek8WxOwuM
-        cEvrE/lpNU+C9DRf0RVxq/StSBRKuDnaK57ATQM5ng==
-X-Google-Smtp-Source: AMsMyM4nDk2ORHx8hkcRQTC3kyPEB7IQDB/Q/0FuOAjTdfivEShbqfFkgF/S7EodPoMvamKbzlOi/TcLzOmgp2Y17zk=
-X-Received: by 2002:a0d:c901:0:b0:351:b348:542f with SMTP id
- l1-20020a0dc901000000b00351b348542fmr45367421ywd.144.1666888951720; Thu, 27
- Oct 2022 09:42:31 -0700 (PDT)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wEdZOEYjrllCAot2dTAA4KX0CdNoEXMJ9BmzaOuDVdI=;
+        b=V3UdsHdsqbDTYy05HmVsRUifweeV6iRZqY6iCFN0p6bD1Gm4Od7uGJOrlj1yFl97Su
+         LrpHJrabFdfIQoFWh4181a6dhg7Lo4gDxtNvvDlcQdow/i5RHUZ1kkBQAh5ESNyfi2M2
+         CY0rzYnPj2e/BNKHyL4tn/qznBOTrhtKo40UXD4xlCChxpsiXkxme7g1AXvEdRuOdtSB
+         0za1YEMw3uJoyhJ1tuKkGVNM65tf+Fx3nzb3bU99ElLoRdVli/kfqQRmSOnHrDq7rNs7
+         ag9Y/iuxSM++e4dfljgfL7ws6cfifbNbZgOFdZGhjNanOZTOj2WYofgUmXcCXxifeZNV
+         iP8w==
+X-Gm-Message-State: ACrzQf1ihcxQ89wb7xvQAbQAK4ihbhSMOCvhzR60saRDNuNYZmqEsmxD
+        tybWaU5ZZSdRYTeYbL0uaHsfhsUTkVJSow==
+X-Google-Smtp-Source: AMsMyM4tOlR2N8/TqeD2fYLe2g5ABqUK6CccRgniXVcj99LyBIJXvqgtce4ObOK2Ao2RMWKX07rISg==
+X-Received: by 2002:a05:620a:2456:b0:6ee:e24f:74f7 with SMTP id h22-20020a05620a245600b006eee24f74f7mr35891556qkn.9.1666895299396;
+        Thu, 27 Oct 2022 11:28:19 -0700 (PDT)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
+        by smtp.gmail.com with ESMTPSA id v12-20020a05620a440c00b006eed47a1a1esm1397624qkp.134.2022.10.27.11.28.18
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Oct 2022 11:28:18 -0700 (PDT)
+Received: by mail-yb1-f171.google.com with SMTP id f205so3271247yba.2
+        for <linux-kbuild@vger.kernel.org>; Thu, 27 Oct 2022 11:28:18 -0700 (PDT)
+X-Received: by 2002:a5b:984:0:b0:6ca:9345:b2ee with SMTP id
+ c4-20020a5b0984000000b006ca9345b2eemr8266384ybq.362.1666895298062; Thu, 27
+ Oct 2022 11:28:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221024212144.2852069-1-glider@google.com> <20221024212144.2852069-3-glider@google.com>
- <CAK7LNARfKkiNSUfZAqDQd15O8NAhpX13dHDuGn3OPL_b_F_92g@mail.gmail.com>
-In-Reply-To: <CAK7LNARfKkiNSUfZAqDQd15O8NAhpX13dHDuGn3OPL_b_F_92g@mail.gmail.com>
-From:   Alexander Potapenko <glider@google.com>
-Date:   Thu, 27 Oct 2022 09:41:54 -0700
-Message-ID: <CAG_fn=WWiOvPRnw1ao-UPavY-U7rLFLa_a6b-k2noHKLunN+Yw@mail.gmail.com>
-Subject: Re: [PATCH 3/5] Kconfig.debug: disable CONFIG_FRAME_WARN for KMSAN by default
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Andrew Morton <akpm@linux-foundation.org>,
+References: <20221019162648.3557490-1-Jason@zx2c4.com> <CAHk-=whT+xyge9UjH+r6dt0FG-eUdrzu5hDMce_vC+n8uLam2A@mail.gmail.com>
+ <3a2fa7c1-2e31-0479-761f-9c189f8ed8c3@rasmusvillemoes.dk> <CAHk-=wg9RNhvDyanUQnxa_xnir70TUiMgjhVhRWUuF5Ojj96Dw@mail.gmail.com>
+ <915a104b-0e70-dfb8-3c85-54fd1e5e63e5@rasmusvillemoes.dk>
+In-Reply-To: <915a104b-0e70-dfb8-3c85-54fd1e5e63e5@rasmusvillemoes.dk>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Thu, 27 Oct 2022 11:28:02 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgadqCK7xAOzCdDHa7CQWC1z3df6a-pHQaF73ZjSZ58wg@mail.gmail.com>
+Message-ID: <CAHk-=wgadqCK7xAOzCdDHa7CQWC1z3df6a-pHQaF73ZjSZ58wg@mail.gmail.com>
+Subject: Re: make ctype ascii only? (was [PATCH] kbuild: treat char as always signed)
+To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-toolchains@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,89 +82,52 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Oct 27, 2022 at 7:33 AM Masahiro Yamada <masahiroy@kernel.org> wrot=
-e:
+On Thu, Oct 27, 2022 at 12:59 AM Rasmus Villemoes
+<linux@rasmusvillemoes.dk> wrote:
 >
-> On Tue, Oct 25, 2022 at 6:22 AM Alexander Potapenko <glider@google.com> w=
-rote:
-> >
-> > KMSAN adds a lot of instrumentation to the code, which results in
-> > increased stack usage (up to 2048 bytes and more in some cases).
-> > It's hard to predict how big the stack frames can be, so we disable
-> > the warnings for KMSAN instead.
-> >
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: Kees Cook <keescook@chromium.org>
-> > Cc: Masahiro Yamada <masahiroy@kernel.org>
-> > Cc: Nick Desaulniers <ndesaulniers@google.com>
-> > Cc: linux-kbuild@vger.kernel.org
-> > Link: https://github.com/google/kmsan/issues/89
-> > Signed-off-by: Alexander Potapenko <glider@google.com>
-> > ---
-> >  lib/Kconfig.debug | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> > index 3fc7abffc7aa2..29280072dc0e4 100644
-> > --- a/lib/Kconfig.debug
-> > +++ b/lib/Kconfig.debug
-> > @@ -400,8 +400,9 @@ config FRAME_WARN
-> >         default 1536 if (!64BIT && XTENSA)
-> >         default 1024 if !64BIT
-> >         default 2048 if 64BIT
-> > +       default 0 if KMSAN
+> AFAICT, the differences are:
 >
+> - 0xaa (FEMININE ORDINAL INDICATOR), 0xb5 (MICRO SIGN), 0xba (FEMININE
+> ORDINAL INDICATOR) should be lower (hence alpha and alnum), not punct.
 >
+> - depending a little on just exactly what one wants latin1 to mean, but
+> if it does mean "first 256 codepoints of Unicode", 0x80-0x9f should be cntrl
 >
-> This is wrong.
+> - for some reason at least glibc seems to classify 0xa0 as punctuation
+> and not space (hence also as isgraph)
 >
-> Kconfig picks up the first default entry which has
-> true 'if' condition.
->
->
-> Since (!64BIT || 64BIT) covers all the possible cases,
-> this patch is just adding dead code.
->
-Thanks for clarifying!
-What we actually need is to forcefully disable CONFIG_FRAME_WARN under
-KMSAN, but adding constructs like "select FRAME_WARN 0" or "select
-FRAME_WARN=3D0" doesn't work, right?
+> - 0xdf and 0xff are correctly classified as lower, but since they don't
+> have upper-case versions (at least not any that are representable in
+> latin1), correct toupper() behaviour is to return them unchanged, but we
+> just subtract 0x20, so 0xff becomes 0xdf which isn't isupper() and 0xdf
+> becomes something that isn't even isalpha().
 
-I'll move "default 0 if KMSAN" to the beginning of FRAME_WARN declaration t=
-hen.
+Heh.
 
->
->
->
->
->
-> >         help
-> > -         Tell gcc to warn at build time for stack frames larger than t=
-his.
-> > +         Tell the compiler to warn at build time for stack frames larg=
-er than this.
-> >           Setting this too low will cause a lot of warnings.
-> >           Setting it to 0 disables the warning.
-> >
-> > --
-> > 2.38.0.135.g90850a2211-goog
-> >
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+Honestly, I don't think we should care at all.
 
+For the byte range 128-255, anybody who uses ctype on them gets what
+they get. In the kernel, the most likely use of it is for 'isprint()',
+and if those care, they can (and some do) use 'isascii()' in addition.
 
+I don't know if you realize, but the kernel already says "screw libc",
+and makes all the isxyz() things just cast the argument to 'unsigned
+char', and doesn't care about EOF.
 
---=20
-Alexander Potapenko
-Software Engineer
+And for the rest, let's just call it the "kernel locale", and just
+admit that the kernel locale is entirely historical.
 
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
+Boom - problem solved, and it's entirely standards conformant (apart
+possibly from the EOF case, I think that is marked as a "lower case
+character" right now ;)
 
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
+Looking through
+
+    https://pubs.opengroup.org/onlinepubs/9699919799/
+
+I'm not actually seeing anything that says that we don't do *exactly*
+what the standard requires.
+
+You thinking that the kernel locale is US-ASCII is just wrong.
+
+              Linus
