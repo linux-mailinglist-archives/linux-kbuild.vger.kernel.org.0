@@ -2,50 +2,50 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AE5660FBD0
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Oct 2022 17:23:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96B1A60FBE0
+	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Oct 2022 17:27:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234137AbiJ0PXu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 27 Oct 2022 11:23:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44576 "EHLO
+        id S235650AbiJ0P1O (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 27 Oct 2022 11:27:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233598AbiJ0PXt (ORCPT
+        with ESMTP id S235704AbiJ0P1N (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 27 Oct 2022 11:23:49 -0400
-Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 555AEDF7;
-        Thu, 27 Oct 2022 08:23:48 -0700 (PDT)
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 29RFNSUV029228;
-        Fri, 28 Oct 2022 00:23:29 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 29RFNSUV029228
+        Thu, 27 Oct 2022 11:27:13 -0400
+Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA7F0173594;
+        Thu, 27 Oct 2022 08:27:12 -0700 (PDT)
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 29RFQmfc020202;
+        Fri, 28 Oct 2022 00:26:48 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 29RFQmfc020202
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1666884209;
-        bh=HjLGoO2Lx7YPNTEAxUvyEaIlq5YG6EkDHPtsprtiT7I=;
+        s=dec2015msa; t=1666884408;
+        bh=UR3AXVR+mq01ER8xhmAHFwujS7RJWaCKBlLVtN9TQng=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=aPdjIOqpBkiHzkUOVTu14o+cPcX1PAObAUWiBaZ6Hg8hV+W69uzlJQrfc6M3GiKTc
-         5lr3mV/rHUpvPk8EpnlN+aXUVY9Z2i3KWeZIt8IuFjM+a9uN09y41Ck77p5Nkrxw1B
-         h95APxgtK5I1ZETGWpc9Zag/ToYA7pxc44Qsck7oCPWibq0DmYCYsIQ4A+3CnkufxY
-         1FHYes6YbFpspM+0A7ejbqTug56JjRStejKdY6EFsFnXpT8J9SWzxv11Db0pxwCkKE
-         eN2AygK60ItpMDPj+2ppZFA5kdCCj1WHwZTAa9VPOK2zGbopxaAtSPqWuFG+MMc0Wk
-         Kt8jtSZEG0Qeg==
-X-Nifty-SrcIP: [209.85.167.182]
-Received: by mail-oi1-f182.google.com with SMTP id g130so2464313oia.13;
-        Thu, 27 Oct 2022 08:23:29 -0700 (PDT)
-X-Gm-Message-State: ACrzQf3Y0+dtpDLBpVn9lhzZ3Wl7Jvj2urjtsrlEcghTOYDsrG6saC4F
-        Wi68jPrB7cIfWkD21OtXKyQiRo72AH0Von1qubg=
-X-Google-Smtp-Source: AMsMyM55SfsxUPxo2+u9BifUZK+zhiiFLFNtywbJ+DyCvRXcbN69GQohaAVX409azX6IWdYzzR/mFvVjEliwsnDLNEA=
-X-Received: by 2002:a05:6808:1b85:b0:34d:8ce1:d5b0 with SMTP id
- cj5-20020a0568081b8500b0034d8ce1d5b0mr5133057oib.194.1666884207979; Thu, 27
- Oct 2022 08:23:27 -0700 (PDT)
+        b=G68d+5xuWKRfN6u6K7ZDZq7TnjPFtXPL/7A4HRz9B6vIH7h9WsXg1vVos+YEJbXAP
+         osO1Lz0HWYCevfM0MpkjWfUf/1kExBB04vjwcrIVP7E2s/oYCQ17mZ9kfx23se3MJ0
+         zIvIfNluaQJS+GJkMFVriHvgScvGDkN8QWrI2Pp3yko3q2wZ3TNu2L81dctsC34/pV
+         FEGcAuCsJOPSpga92UdEDl2AT6kuzncUT9bIcGbhnkgJO8npzcEgCJcz6t9V2XpyVF
+         +r2xcjVW5R/+TbmcP9nZoT/w0rpEemj/3HWJVxvTC1iuHgFq2esdKU4J+Y2i9RMhzt
+         3FrxI5oV2sc/Q==
+X-Nifty-SrcIP: [209.85.160.49]
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-13bef14ea06so2511243fac.3;
+        Thu, 27 Oct 2022 08:26:48 -0700 (PDT)
+X-Gm-Message-State: ACrzQf3fmmtc8R1F4kis9QaF+AUMf9qCAnhCqn6o1iL5nxqBFnTqqmvf
+        k4Tb0v+ekgCAIV9gU11cuHCU+sE9EyJsjcxJ41Y=
+X-Google-Smtp-Source: AMsMyM6crZeeTQciqytI4ouMJ8XmqYjjtAtMQOylfOh67lXTtolXqPVs5FVq8CtEq+oX2hWAQa90AbZ0KDECXBxgMH4=
+X-Received: by 2002:a05:6870:7027:b0:13b:a5b7:165a with SMTP id
+ u39-20020a056870702700b0013ba5b7165amr5781124oae.194.1666884407421; Thu, 27
+ Oct 2022 08:26:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221025201744.1155260-1-willmcvicker@google.com> <20221025201744.1155260-2-willmcvicker@google.com>
-In-Reply-To: <20221025201744.1155260-2-willmcvicker@google.com>
+References: <20221025201744.1155260-1-willmcvicker@google.com>
+In-Reply-To: <20221025201744.1155260-1-willmcvicker@google.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 28 Oct 2022 00:22:51 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQUcig1aY-vFKSOAF1MKknDC7DDfsJnNDvgC918PGWR+A@mail.gmail.com>
-Message-ID: <CAK7LNAQUcig1aY-vFKSOAF1MKknDC7DDfsJnNDvgC918PGWR+A@mail.gmail.com>
-Subject: Re: [PATCH v1] kbuild: fix typo in modpost
+Date:   Fri, 28 Oct 2022 00:26:06 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARS3dc71fMtmGmt1DqG42ZGsJ_21aUuq7AyWBGNXZFkfA@mail.gmail.com>
+Message-ID: <CAK7LNARS3dc71fMtmGmt1DqG42ZGsJ_21aUuq7AyWBGNXZFkfA@mail.gmail.com>
+Subject: Re: [PATCH v1] kbuild: Use '-f' instead of '--file=' for grep
 To:     Will McVicker <willmcvicker@google.com>
 Cc:     Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
@@ -63,37 +63,43 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Wed, Oct 26, 2022 at 5:18 AM Will McVicker <willmcvicker@google.com> wrote:
 >
-> Commit f73edc8951b2 ("kbuild: unify two modpost invocations") introduced
-> a typo (moudle.symvers-if-present) which results in the kernel's
-> Module.symvers to not be included as a prerequisite for
-> $(KBUILD_EXTMOD)/Module.symvers. Fix the typo to restore the intended
-> functionality.
+> The posix grep utility doesn't support the longer '--file=pattern_file'
+> command line option which was introduced in commit ce697ccee1a8
+> ("kbuild: remove head-y syntax"). Let's update Makefile to use '-f
+> pattern_file' to fix the compiling error:
+>
+>   grep: Unknown option 'file=.../scripts/head-object-list.txt'
+>   (see "grep --help")
 >
 > Signed-off-by: Will McVicker <willmcvicker@google.com>
 
-Applied to linux-kbuild/fixes.
-Thanks!
+
+Thanks, but I had already picked up a similar patch.
+
+
+https://lore.kernel.org/linux-kbuild/20221017150113.334571-1-newbie13xd@gmail.com/
+
 
 
 > ---
->  scripts/Makefile.modpost | 2 +-
+>  Makefile | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 > base-commit: 1a2dcbdde82e3a5f1db9b2f4c48aa1aeba534fb2
 >
-> diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-> index 8489a3402eb8..e41dee64d429 100644
-> --- a/scripts/Makefile.modpost
-> +++ b/scripts/Makefile.modpost
-> @@ -122,7 +122,7 @@ quiet_cmd_modpost = MODPOST $@
->         sed 's/ko$$/o/' $(or $(modorder-if-needed), /dev/null) | $(MODPOST) $(modpost-args) -T - $(vmlinux.o-if-present)
+> diff --git a/Makefile b/Makefile
+> index d148a55bfd0f..e90bb2b38607 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1218,7 +1218,7 @@ quiet_cmd_ar_vmlinux.a = AR      $@
+>        cmd_ar_vmlinux.a = \
+>         rm -f $@; \
+>         $(AR) cDPrST $@ $(KBUILD_VMLINUX_OBJS); \
+> -       $(AR) mPiT $$($(AR) t $@ | head -n1) $@ $$($(AR) t $@ | grep -F --file=$(srctree)/scripts/head-object-list.txt)
+> +       $(AR) mPiT $$($(AR) t $@ | head -n1) $@ $$($(AR) t $@ | grep -F -f $(srctree)/scripts/head-object-list.txt)
 >
->  targets += $(output-symdump)
-> -$(output-symdump): $(modorder-if-needed) $(vmlinux.o-if-present) $(moudle.symvers-if-present) $(MODPOST) FORCE
-> +$(output-symdump): $(modorder-if-needed) $(vmlinux.o-if-present) $(module.symvers-if-present) $(MODPOST) FORCE
->         $(call if_changed,modpost)
->
->  __modpost: $(output-symdump)
+>  targets += vmlinux.a
+>  vmlinux.a: $(KBUILD_VMLINUX_OBJS) scripts/head-object-list.txt autoksyms_recursive FORCE
 > --
 > 2.38.0.135.g90850a2211-goog
 >
