@@ -2,54 +2,68 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 17216610450
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Oct 2022 23:25:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B349611C5C
+	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Oct 2022 23:23:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236632AbiJ0VZD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 27 Oct 2022 17:25:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48420 "EHLO
+        id S229661AbiJ1VXr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 28 Oct 2022 17:23:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236280AbiJ0VZC (ORCPT
+        with ESMTP id S229544AbiJ1VXq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 27 Oct 2022 17:25:02 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D735D2D1EC;
-        Thu, 27 Oct 2022 14:25:01 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2CDFDB827D9;
-        Thu, 27 Oct 2022 21:25:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EE46C433C1;
-        Thu, 27 Oct 2022 21:24:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666905898;
-        bh=ra9Em2eePsRB3ynpBC3jpbouHuUgZ9DXcTtxdI0P5VM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=toqWQe9vUdoqzF7Uty6Iaw8Xnn8WntR1BnA6vQZnsr2dGXm9dhUkEkUSMM49OM9Ml
-         LldGdHiMEtQDdp15jC1x8VWj6oQOFVXMm5QUxEeIlNlLtdNWLkNS0zVvhwzVWSJswY
-         dFmBEwEFDF4AuGb7Mm5diLunAD6hri+Pdi2vwol/2BPjk6KbgHqURbnZefAALBKtxc
-         Zpkc3I4l6gzT71QCYo3aizMNW5kOXoTPLKlbgTCU7VceHqIDGNxZsuO7R+pD0K5alb
-         hjFSy0o/lJl8XWAsC71BlD9pXfGFcG4onZOAgsZY1bwgah133GmFrUUcXqeY3Z3pW6
-         EfM7Ce5vFh/Xg==
-Date:   Thu, 27 Oct 2022 14:24:56 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v2] kbuild: fix SIGPIPE error message for AR=gcc-ar and
- AR=llvm-ar
-Message-ID: <Y1r3KAyhFbwJ1W1d@dev-arch.thelio-3990X>
-References: <20221027162839.410720-1-masahiroy@kernel.org>
+        Fri, 28 Oct 2022 17:23:46 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6984124B313
+        for <linux-kbuild@vger.kernel.org>; Fri, 28 Oct 2022 14:23:43 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id f193so5928581pgc.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 28 Oct 2022 14:23:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Cs57GpHqiEaUWAQS4x0FdYfIt3gye0GQitfWQ5q7LSI=;
+        b=kcZLpIXF7fyFZVyjeIoJRf1KW7qkt5IfCDmxI6FIpKrDmPUchUvFwLlOQ5zCb6wkf2
+         yo2eUg6r6UTVSNgetW1t80iijaQWwZ59vCQwutKCCj2wsdZ/ZfGQ5pHbP5Lfr524w9Au
+         2xBw0PYyWpCQbgAJWajlZzP+l054n1GdzsBbI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Cs57GpHqiEaUWAQS4x0FdYfIt3gye0GQitfWQ5q7LSI=;
+        b=Vkr1z2eG3YnIt5w84suGP/SfnIj00DQGWoPVQGTGJsbI4IuChzAzW/qazMctmLuPv7
+         p5tAVejc4bujqO3xjfN2UZpwh4OopwlpxGXT/AAZVMip9a1avI7k5yqO2axUJpb2Rxn5
+         Kiq1zXweFYXwL21qzszQzBd/vihK88cIVoEa8bn5yDNFz+wczdmUZa1UCzVuKZAPwNc3
+         Fn6ungGh/zrNpXR86UmR1URUTnPT3fIhs/+gleou6UquneJO6VNyJW/NJhbiXyuG48m/
+         YMdDP+Qy/zwAfgj7BFGo/Oy07SSdb9G9inIr/ioX7d09yRrqK01oED9JjCgYrgmVJGWG
+         R+yQ==
+X-Gm-Message-State: ACrzQf1N6g89PGnzSYyPcyY/yuDvlxaKQT5ng7EsKcefYW8m8TtpN5kG
+        qN7zgI1zpvOToLjQ1u1cmAJM3w==
+X-Google-Smtp-Source: AMsMyM7UcvF2uCV+FwyTaTQtIG+fYtOv+V6Yk6R7YMfAgfg20rw4FNUE8cNCGefsLDsT5MXxeCbQBg==
+X-Received: by 2002:a63:ea4c:0:b0:46b:2772:40a4 with SMTP id l12-20020a63ea4c000000b0046b277240a4mr1301049pgk.342.1666992222956;
+        Fri, 28 Oct 2022 14:23:42 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id n4-20020a170902e54400b001867fdec154sm3505586plf.224.2022.10.28.14.23.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Oct 2022 14:23:42 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-kbuild@vger.kernel.org, xin3.li@intel.com,
+        llvm@lists.linux.dev
+Cc:     Kees Cook <keescook@chromium.org>, nathan@kernel.org,
+        hpa@zytor.com, peterz@infradead.org, andrew.cooper3@citrix.com
+Subject: Re: [PATCH v2 0/1] kbuild: upgrade the orphan section warning to an error if CONFIG_WERROR is set
+Date:   Fri, 28 Oct 2022 14:23:21 -0700
+Message-Id: <166699219839.2165587.10773311882818616441.b4-ty@chromium.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221025073023.16137-1-xin3.li@intel.com>
+References: <20221025073023.16137-1-xin3.li@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221027162839.410720-1-masahiroy@kernel.org>
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -57,52 +71,22 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Oct 28, 2022 at 01:28:39AM +0900, Masahiro Yamada wrote:
-> Jiri Slaby reported that building the kernel with AR=gcc-ar shows:
->   /usr/bin/ar terminated with signal 13 [Broken pipe]
+On Tue, 25 Oct 2022 00:30:22 -0700, Xin Li wrote:
+> Andrew Cooper suggested upgrading the orphan section warning to a hard link
+> error. However Nathan Chancellor said outright turning the warning into an
+> error with no escape hatch might be too aggressive, as we have had these
+> warnings triggered by new compiler generated sections, and suggested turning
+> orphan sections into an error only if CONFIG_WERROR is set. Kees Cook echoed
+> and emphasized that the mandate from Linus is that we should avoid breaking
+> builds. It wrecks bisection, it causes problems across compiler versions, etc.
 > 
-> Nathan Chancellor reported the latest AR=llvm-ar shows
->   error: write on a pipe with no reader
-> 
-> The latter occurs since LLVM commit 51b557adc131 ("Add an error message
-> to the default SIGPIPE handler").
-> 
-> The resulting vmlinux is correct, but it is better to silence it.
-> 
-> 'head -n1' exits after reading the first line, so the pipe is closed.
-> 
-> Use 'sed -n 1p' to eat the stream till the end.
-> 
-> Fixes: 321648455061 ("kbuild: use obj-y instead extra-y for objects placed at the head")
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1651
-> Reported-by: Jiri Slaby <jirislaby@kernel.org>
-> Reported-by: Nathan Chancellor <nathan@kernel.org>
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> Tested-by: Nick Desaulniers <ndesaulniers@google.com>
+> [...]
 
-Tested-by: Nathan Chancellor <nathan@kernel.org>
+Applied to for-next/hardening, thanks!
 
-> ---
-> 
-> Changes in v2:
->   - Update commit description to mention llvm-ar
-> 
->  Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index e90bb2b38607..e9e7eff906a5 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1218,7 +1218,7 @@ quiet_cmd_ar_vmlinux.a = AR      $@
->        cmd_ar_vmlinux.a = \
->  	rm -f $@; \
->  	$(AR) cDPrST $@ $(KBUILD_VMLINUX_OBJS); \
-> -	$(AR) mPiT $$($(AR) t $@ | head -n1) $@ $$($(AR) t $@ | grep -F -f $(srctree)/scripts/head-object-list.txt)
-> +	$(AR) mPiT $$($(AR) t $@ | sed -n 1p) $@ $$($(AR) t $@ | grep -F -f $(srctree)/scripts/head-object-list.txt)
->  
->  targets += vmlinux.a
->  vmlinux.a: $(KBUILD_VMLINUX_OBJS) scripts/head-object-list.txt autoksyms_recursive FORCE
-> -- 
-> 2.34.1
-> 
+[1/1] kbuild: upgrade the orphan section warning to an error if CONFIG_WERROR is set
+      https://git.kernel.org/kees/c/450301ceb4e6
+
+-- 
+Kees Cook
+
