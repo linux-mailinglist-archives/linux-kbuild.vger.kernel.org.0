@@ -2,68 +2,103 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C12AD614A81
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Nov 2022 13:19:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 40738615499
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Nov 2022 23:03:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229452AbiKAMTH convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Tue, 1 Nov 2022 08:19:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60984 "EHLO
+        id S230463AbiKAWDL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 1 Nov 2022 18:03:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229906AbiKAMTG (ORCPT
+        with ESMTP id S230357AbiKAWDK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Nov 2022 08:19:06 -0400
-X-Greylist: delayed 1826 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 01 Nov 2022 05:19:04 PDT
-Received: from mail.asu.cas.cz (mail.asu.cas.cz [147.231.106.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5FD915829;
-        Tue,  1 Nov 2022 05:19:03 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.asu.cas.cz (Postfix) with ESMTP id EA76813617A7;
-        Tue,  1 Nov 2022 12:22:45 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.asu.cas.cz EA76813617A7
-X-Virus-Scanned: amavisd-new at asu.cas.cz
-Received: from mail.asu.cas.cz ([127.0.0.1])
-        by localhost (mail2020.asu.cas.cz [127.0.0.1]) (amavisd-new, port 10024)
-        with UTF8LMTP id igtm4UEcbhKR; Tue,  1 Nov 2022 12:22:43 +0100 (CET)
-Received: from [172.20.10.2] (unknown [41.79.219.58])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        Tue, 1 Nov 2022 18:03:10 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B0163894;
+        Tue,  1 Nov 2022 15:03:10 -0700 (PDT)
+Received: from notapiano.myfiosgateway.com (unknown [IPv6:2600:4041:5b1a:cd00:524d:e95d:1a9c:492a])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by mail.asu.cas.cz (Postfix) with ESMTPSA id C5FBC13617AB;
-        Tue,  1 Nov 2022 12:10:42 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.asu.cas.cz C5FBC13617AB
-Content-Type: text/plain; charset="iso-8859-1"
+        (Authenticated sender: nfraprado)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 33F8F660284F;
+        Tue,  1 Nov 2022 22:03:07 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1667340188;
+        bh=yMp4w9RoWXCGng4R5gRPNg63j86qA6FnSxUKrRZ65bs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=j+ei/IQG//damy7N0vcrtAagkDLsrP4ZOsk52t5QV64cHuYQQBW58N91q6uAmEQzo
+         5Zh7RRckssF/ZPC1kHvZymv8aB4O9ocAzfWN6QULCBkX3NTPJikOLE2A4giFsFLtJz
+         HPEbSPCP1UVpf4vcqCYag3kgn3oZ8HN9MZKdR0L5J1Vg/eoAk9aFnh6VZgb+ahnC7D
+         p+VO7ciIXExKioAmxgyth17Z8pOiozefhqs7gQPMpoi8SdUXSLKK/Syn4IFXLo0JNL
+         majVSvEOYMtQHT7H2k6Fzo1ng8cfLGPQETsuk85neh3FM3vVXlHt5VTg3Sq56rQuaz
+         nOQoa4+tBaUDA==
+From:   =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
+        <nfraprado@collabora.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
+        =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
+        <nfraprado@collabora.com>, Masahiro Yamada <masahiroy@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: [PATCH] kbuild: Add DTB_FILES variable for dtbs_check
+Date:   Tue,  1 Nov 2022 18:03:03 -0400
+Message-Id: <20221101220304.65715-1-nfraprado@collabora.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: RE
-To:     Recipients <Messaouda.Boudraa@chu-st-etienne.fr>
-From:   "Lerynne West & Family" <Messaouda.Boudraa@chu-st-etienne.fr>
-Date:   Tue, 01 Nov 2022 11:10:23 +0000
-Reply-To: LyWest2022@outlook.com
-Message-Id: <20221101112245.EA76813617A7@mail.asu.cas.cz>
-X-Spam-Status: Yes, score=7.4 required=5.0 tests=BAYES_60,
-        FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,LOTS_OF_MONEY,
-        MONEY_FREEMAIL_REPTO,MONEY_FROM_41,RCVD_IN_SBL,SPF_HELO_NONE,
-        SPF_SOFTFAIL autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: *  1.5 BAYES_60 BODY: Bayes spam probability is 60 to 80%
-        *      [score: 0.7502]
-        *  0.1 RCVD_IN_SBL RBL: Received via a relay in Spamhaus SBL
-        *      [41.79.219.58 listed in zen.spamhaus.org]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [lywest2022[at]outlook.com]
-        *  0.7 SPF_SOFTFAIL SPF: sender does not match SPF record (softfail)
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        *  0.8 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
-        *  2.0 MONEY_FROM_41 Lots of money from Africa
-X-Spam-Level: *******
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Your Email Just Won $1 million
+Currently running dtbs_check compiles and runs the DT checker on all
+enabled devicetrees against all dt-bindings. This can take a long time,
+and is an unnecessary burden when just validating a new devicetree or
+changes in an existing one, with the dt-bindings unchanged.
+
+Similarly to DT_SCHEMA_FILES for dt_binding_check, add a DTB_FILES
+variable that can be passed to the dtbs_check make command to restrict
+which devicetrees are validated.
+
+Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+
+---
+Usage example:
+make dtbs_check DTB_FILES='arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb'
+
+ scripts/Makefile.lib | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index ec391c6a2641..f3ac6d3632a2 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -418,9 +418,16 @@ DT_CHECKER_FLAGS ?= $(if $(DT_SCHEMA_FILES),-l $(DT_SCHEMA_FILES),-m)
+ DT_BINDING_DIR := Documentation/devicetree/bindings
+ DT_TMP_SCHEMA := $(objtree)/$(DT_BINDING_DIR)/processed-schema.json
+ 
++ifeq ($(DTB_FILES),)
+ quiet_cmd_dtb =	DTC_CHK $@
+       cmd_dtb =	$(cmd_dtc) ; $(DT_CHECKER) $(DT_CHECKER_FLAGS) -u $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $@ || true
+ else
++SHOULD_CHECK_DTB = $(filter $@,$(DTB_FILES))
++
++quiet_cmd_dtb =	$(if $(SHOULD_CHECK_DTB),DTC_CHK,DTC) $@
++      cmd_dtb =	$(if $(SHOULD_CHECK_DTB), $(cmd_dtc) ; $(DT_CHECKER) $(DT_CHECKER_FLAGS) -u $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $@ || true , $(cmd_dtc))
++endif
++else
+ quiet_cmd_dtb = $(quiet_cmd_dtc)
+       cmd_dtb = $(cmd_dtc)
+ endif
+-- 
+2.38.1
 
