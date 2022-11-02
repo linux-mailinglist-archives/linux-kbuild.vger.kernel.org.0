@@ -2,185 +2,79 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF615615DDE
-	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Nov 2022 09:36:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 65683615E74
+	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Nov 2022 09:55:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230338AbiKBIgd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 2 Nov 2022 04:36:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43702 "EHLO
+        id S230395AbiKBIzq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 2 Nov 2022 04:55:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229518AbiKBIgc (ORCPT
+        with ESMTP id S231174AbiKBIzk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 2 Nov 2022 04:36:32 -0400
-Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F181A19C;
-        Wed,  2 Nov 2022 01:36:31 -0700 (PDT)
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 2A28aEJ8031478;
-        Wed, 2 Nov 2022 17:36:15 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 2A28aEJ8031478
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1667378175;
-        bh=dDwYrbtyAzndbrpCPMQ4b/+qE79Xq0pwlBypNXvEf3A=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=hOiuqSR/T/VgZje1tOrN54QWDUjrUnwK7i0VH4Dn58fTfeskL0xqmHUU+sxeap0vg
-         hQpcvuvxoTaHcXsKSZELTb+wts+8t4i5vNZvPchML3PlPfoYtdwhJ73cWoQAjVYzbn
-         +ckPsMAc90obxKLGkhfble2BYlZ/KK56u86OQMliiyYkayy7+ZDTqJ4+N40quGfbY+
-         aNUlk6muhgm8QeAVx0TlxOy7d4a2usyjDkljMi1QpzZmvICXqcNiQIl3XpFK/UpNxt
-         ykFm/j/F/V/a5d5N3t4bc4mrrkcRu6PIrQL64LmvzVadCUrAZyNV1sE3lKaejCSM3C
-         huEWXbEPO3Oqg==
-X-Nifty-SrcIP: [209.85.167.175]
-Received: by mail-oi1-f175.google.com with SMTP id s206so18533463oie.3;
-        Wed, 02 Nov 2022 01:36:15 -0700 (PDT)
-X-Gm-Message-State: ACrzQf15/rspUDvsD5fZCd3K9/AJZrQi3ggDXluLhUlpWVLvDY1ypJRb
-        +aAZD2tWGxuML7FMDJabcEamhRzHiKuoXl+uzEs=
-X-Google-Smtp-Source: AMsMyM7MA9H+75leTUw+wTyqhbVuf/JWA9dHb0mF86T4B0fWwDRVUst3soNL69NFhihQMYFJp/3Sc3kgaa95UX0Mq0U=
-X-Received: by 2002:a05:6808:13cf:b0:35a:3617:d5da with SMTP id
- d15-20020a05680813cf00b0035a3617d5damr2199262oiw.287.1667378174040; Wed, 02
- Nov 2022 01:36:14 -0700 (PDT)
+        Wed, 2 Nov 2022 04:55:40 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 966FB27DE7;
+        Wed,  2 Nov 2022 01:55:38 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id E74D36602929;
+        Wed,  2 Nov 2022 08:55:35 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1667379336;
+        bh=96/vIlCR0pm8B4E0/1/a7fElFLkubeJEBzd4uuxKC64=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=ojzgURK3lzEbgIcNB+4xc2oHgrl8FATrqeLB3BqnJR0WjLJmk/i9C2wanD5wNgTfS
+         P03Zcuqmog9HdYZhQupYHuIsKKcwbJo4BHH1tzXhuA/p8Bj1iknx82U15P/1jbqxC+
+         G4QypHYxK6hmmp2Gdy145aa398eT35o9a9sdyXgVBPlKEefkoIdMsdqWRDVMx6nlNn
+         AV6trM/NNvAxOCEYHwl6HNw6yexR01ZA+aqY2gR0KFhZoqnmLXvtfiTWNFXKXdk0FY
+         4dnmoavItEYUkw6InryI7EmkA04bSdzkS0WZd4m1Y6PQ3qtF2ykmIsHTYrTUmLT8PW
+         VFc34eP0xLuwA==
+Message-ID: <32627314-4971-7eea-8007-1797707e7969@collabora.com>
+Date:   Wed, 2 Nov 2022 09:55:33 +0100
 MIME-Version: 1.0
-References: <20221023191055.85098-1-masahiroy@kernel.org> <8c04e9bbc8d48946c60ff56ef7f20bef74e3c401.camel@pengutronix.de>
-In-Reply-To: <8c04e9bbc8d48946c60ff56ef7f20bef74e3c401.camel@pengutronix.de>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 2 Nov 2022 17:35:37 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATzANbYu9E1w5k0BxG_R8TpuZvxUv==T32iiRcfdNrxVA@mail.gmail.com>
-Message-ID: <CAK7LNATzANbYu9E1w5k0BxG_R8TpuZvxUv==T32iiRcfdNrxVA@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: fix segmentation fault in menuconfig search
-To:     Johannes Zink <j.zink@pengutronix.de>
-Cc:     linux-kbuild@vger.kernel.org,
-        Ariel Marcovitch <arielmarcovitch@gmail.com>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH] kbuild: Add DTB_FILES variable for dtbs_check
+To:     =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
+        <nfraprado@collabora.com>, Rob Herring <robh@kernel.org>
+Cc:     kernel@collabora.com, Masahiro Yamada <masahiroy@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
+References: <20221101220304.65715-1-nfraprado@collabora.com>
+Content-Language: en-US
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20221101220304.65715-1-nfraprado@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Nov 1, 2022 at 2:31 AM Johannes Zink <j.zink@pengutronix.de> wrote:
->
-> Hi Masahiro,
->
-> On Mon, 2022-10-24 at 04:10 +0900, Masahiro Yamada wrote:
-> > Since commit d05377e184fc ("kconfig: Create links to main menu items
-> > in search"), menuconfig shows a jump key next to "Main menu" if the
-> > nearest visible parent is the rootmenu. If you press that jump key,
-> > menuconfig crashes with a segmentation fault.
-> >
-> > For example, do this:
-> >
-> >   $ make ARCH=arm64 allnoconfig menuconfig
-> >
-> > Press '/' to search for the string "ACPI". Press '1' to choose
-> > "(1) Main menu". Then, menuconfig crashed with a segmentation fault.
-> >
-> > The following code in search_conf()
-> >
-> >     conf(targets[i]->parent, targets[i]);
-> >
-> > results in NULL pointer dereference because targets[i] is the
-> > rootmenu,
-> > which does not have a parent.
-> >
-> > Commit d05377e184fc tried to fix the issue of top-level items not
-> > having
-> > a jump key, but adding the "Main menu" was not the right fix.
-> >
-> > The correct fix is to show the searched item itself. This fixes
-> > another
-> > weird behavior described in the comment block.
-> >
-> > Fixes: d05377e184fc ("kconfig: Create links to main menu items in
-> > search")
-> > Reported-by: Johannes Zink <j.zink@pengutronix.de>
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->
-> Sorry for the delay, I eventually found time to test your patch, and it
-> fixes the issue I reported. Thank you for helping out, feel free to add
-> my
->
-> Tested-by: Johannes Zink <j.zink@pengutronix.de>
+Il 01/11/22 23:03, Nícolas F. R. A. Prado ha scritto:
+> Currently running dtbs_check compiles and runs the DT checker on all
+> enabled devicetrees against all dt-bindings. This can take a long time,
+> and is an unnecessary burden when just validating a new devicetree or
+> changes in an existing one, with the dt-bindings unchanged.
+> 
+> Similarly to DT_SCHEMA_FILES for dt_binding_check, add a DTB_FILES
+> variable that can be passed to the dtbs_check make command to restrict
+> which devicetrees are validated.
+> 
+> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> 
+
+Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 
-Applied to linux-kbuild/fixes.
-
-
-
-> > ---
-> >
-> >  scripts/kconfig/menu.c | 23 ++++-------------------
-> >  1 file changed, 4 insertions(+), 19 deletions(-)
-> >
-> > diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
-> > index 62b6313f51c8..109325f31bef 100644
-> > --- a/scripts/kconfig/menu.c
-> > +++ b/scripts/kconfig/menu.c
-> > @@ -722,8 +722,8 @@ static void get_prompt_str(struct gstr *r, struct
-> > property *prop,
-> >         if (!expr_eq(prop->menu->dep, prop->visible.expr))
-> >                 get_dep_str(r, prop->visible.expr, "  Visible if: ");
-> >
-> > -       menu = prop->menu->parent;
-> > -       for (i = 0; menu && i < 8; menu = menu->parent) {
-> > +       menu = prop->menu;
-> > +       for (i = 0; menu != &rootmenu && i < 8; menu = menu->parent)
-> > {
-> >                 bool accessible = menu_is_visible(menu);
-> >
-> >                 submenu[i++] = menu;
-> > @@ -733,16 +733,7 @@ static void get_prompt_str(struct gstr *r,
-> > struct property *prop,
-> >         if (head && location) {
-> >                 jump = xmalloc(sizeof(struct jump_key));
-> >
-> > -               if (menu_is_visible(prop->menu)) {
-> > -                       /*
-> > -                        * There is not enough room to put the hint
-> > at the
-> > -                        * beginning of the "Prompt" line. Put the
-> > hint on the
-> > -                        * last "Location" line even when it would
-> > belong on
-> > -                        * the former.
-> > -                        */
-> > -                       jump->target = prop->menu;
-> > -               } else
-> > -                       jump->target = location;
-> > +               jump->target = location;
-> >
-> >                 if (list_empty(head))
-> >                         jump->index = 0;
-> > @@ -758,13 +749,7 @@ static void get_prompt_str(struct gstr *r,
-> > struct property *prop,
-> >                 menu = submenu[i];
-> >                 if (jump && menu == location)
-> >                         jump->offset = strlen(r->s);
-> > -
-> > -               if (menu == &rootmenu)
-> > -                       /* The real rootmenu prompt is ugly */
-> > -                       str_printf(r, "%*cMain menu", j, ' ');
-> > -               else
-> > -                       str_printf(r, "%*c-> %s", j, ' ',
-> > menu_get_prompt(menu));
-> > -
-> > +               str_printf(r, "%*c-> %s", j, ' ',
-> > menu_get_prompt(menu));
-> >                 if (menu->sym) {
-> >                         str_printf(r, " (%s [=%s])", menu->sym->name
-> > ?
-> >                                 menu->sym->name : "<choice>",
->
-> --
-> Pengutronix e.K.                | Johannes Zink                  |
-> Steuerwalder Str. 21            | https://www.pengutronix.de/    |
-> 31137 Hildesheim, Germany       | Phone: +49-5121-206917-0       |
-> Amtsgericht Hildesheim, HRA 2686| Fax:   +49-5121-206917-5555    |
->
-
-
--- 
-Best Regards
-Masahiro Yamada
