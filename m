@@ -2,114 +2,151 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9202E616167
-	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Nov 2022 12:06:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FEEF616281
+	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Nov 2022 13:15:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230396AbiKBLGd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 2 Nov 2022 07:06:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48406 "EHLO
+        id S229899AbiKBMPD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 2 Nov 2022 08:15:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230302AbiKBLG3 (ORCPT
+        with ESMTP id S229518AbiKBMPC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 2 Nov 2022 07:06:29 -0400
-Received: from mail-ed1-x54a.google.com (mail-ed1-x54a.google.com [IPv6:2a00:1450:4864:20::54a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F9B129368
-        for <linux-kbuild@vger.kernel.org>; Wed,  2 Nov 2022 04:06:22 -0700 (PDT)
-Received: by mail-ed1-x54a.google.com with SMTP id l18-20020a056402255200b004633509768bso6419655edb.12
-        for <linux-kbuild@vger.kernel.org>; Wed, 02 Nov 2022 04:06:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fUQfvgq1r8lF9rRRm4NumpIHqFvDpVd5cUWloyxUIys=;
-        b=ZOFvSA0cmseSVYIuYaM2BdEV+9xbe5Xbf2t7D0GgypSpP1gnX3wIZjxGtpGcZlix5E
-         FCdURGEXcoZhbn0atFQBOKA8PWu5GZmM0PepNS7WW/UOv8wS8UBvhYQA/S017ZeMaU6B
-         pduViuSKslfAwUv/JkReNhliQybOgcLy8uFrc0LLbfBUiBcHAE6KfsJe1A8kD7TZje6B
-         IGivUc1aeRKlICNXfm5j+lzmy+rGqkvLo+gUkMJchlsBDJTqDJ/HltB0c5Jh1EmtZrYy
-         udfceaJkn1m4l67dY8Nrhn/+bADs62+zBKdKM2OPoBBpBSlwpT6u6Adqi1g1JykfTIHV
-         nquA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fUQfvgq1r8lF9rRRm4NumpIHqFvDpVd5cUWloyxUIys=;
-        b=hQT5KhyVcagNYfrETgEJTt4V0gkr7flgMbg2iKUymxQK5llFR7p5+Mzp9iwJr8PIlr
-         246KdE0ZR0NwlQxLBCvh4cR4AycK9W+uu3uoxO1dB17Y+pkzYbxwoFe3pfY+A7axNtof
-         xvuTBtSGfpr1Nkz0jcGg7r2w7nljvCcnSlfKEEC3qE5J/aM7WRprAAP5xdAKdOl94QSY
-         Lx50DBa8lp3BXB47gOF8puX3jtDQtMA8kbBUpQVyMfy1OL3AnK0a2SkWIQeoDfPbQL77
-         SclZJrngpq/vZxftAIgIz+FPMMqveWbSQfFZNXTl/AnywIFVcwJ5YzUMzYmz2BufQHmQ
-         aGiA==
-X-Gm-Message-State: ACrzQf0eTcmtEPybA0KqEdyysdg7uE4CDFedgAwFMXe5V0w0WwWolrwB
-        TUHM3li1osoyGXAG0J4PB5BisZv2jrM=
-X-Google-Smtp-Source: AMsMyM6PXK1AcgbPYvS415aXFf4iDD8g9auqwdAGE8GYIznokzqnaxqJcwlrYZDt7ihqGTup8MwZef43Ezw=
-X-Received: from glider.muc.corp.google.com ([2a00:79e0:9c:201:7f41:af20:8:a96d])
- (user=glider job=sendgmr) by 2002:a05:6402:450c:b0:443:6279:774f with SMTP id
- ez12-20020a056402450c00b004436279774fmr24423763edb.11.1667387181029; Wed, 02
- Nov 2022 04:06:21 -0700 (PDT)
-Date:   Wed,  2 Nov 2022 12:06:09 +0100
-In-Reply-To: <20221102110611.1085175-1-glider@google.com>
-Mime-Version: 1.0
-References: <20221102110611.1085175-1-glider@google.com>
-X-Mailer: git-send-email 2.38.1.273.g43a17bfeac-goog
-Message-ID: <20221102110611.1085175-3-glider@google.com>
-Subject: [PATCH 3/5] Kconfig.debug: ensure early check for KMSAN in CONFIG_KMSAN_WARN
-From:   Alexander Potapenko <glider@google.com>
-To:     glider@google.com
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
+        Wed, 2 Nov 2022 08:15:02 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07DE9233B8;
+        Wed,  2 Nov 2022 05:14:58 -0700 (PDT)
+Received: from mercury (dyndsl-095-033-155-045.ewe-ip-backbone.de [95.33.155.45])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sre)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 554E76602946;
+        Wed,  2 Nov 2022 12:14:57 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1667391297;
+        bh=DQY6HUX0xjeTCiBzx/CIesZNnO7eX2+GRyxpBBMMVQs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BLBwGCwt0j5WgmxYpiUrOTl+T4l7hLbh53WtHF+eBTqALkVq7tee2WbijfNd6wKgK
+         CMkiV8kHjATe1pfM41hVJkEwBF9TUNNwytxdnpH314VX6cWA/ZdGtczsjH/UvoGIak
+         niDNwhUccIZo356WRqJBAlxMFLIBPwIrr8//ULTCyzY4ZrotNX5UJ6elqqbluOCA/B
+         jqnsIeorPZV7s9uyrxTJEfZItGHu441JpYrJ63lHaYgv0KuL0FArR1843CTfSIdSYd
+         Av4CosQ09r4QOBLctB3+F5copuLXQXa9g80m0sfKjzDC7PEjmAPYj1o6LZqaoHzd6M
+         eTwQ99oU85PoQ==
+Received: by mercury (Postfix, from userid 1000)
+        id 17BB81065D88; Wed,  2 Nov 2022 13:14:54 +0100 (CET)
+Date:   Wed, 2 Nov 2022 13:14:54 +0100
+From:   Sebastian Reichel <sebastian.reichel@collabora.com>
+To:     =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado 
+        <nfraprado@collabora.com>
+Cc:     Rob Herring <robh@kernel.org>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
         Masahiro Yamada <masahiroy@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] kbuild: Add DTB_FILES variable for dtbs_check
+Message-ID: <20221102121454.tp4d5uhkxytibsya@mercury.elektranox.org>
+References: <20221101220304.65715-1-nfraprado@collabora.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="h3gksq3u5hwje4j3"
+Content-Disposition: inline
+In-Reply-To: <20221101220304.65715-1-nfraprado@collabora.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-As pointed out by Masahiro Yamada, Kconfig picks up the first default
-entry which has true 'if' condition. Hence, the previously added check
-for KMSAN was never used, because it followed the checks for 64BIT and
-!64BIT.
 
-Put KMSAN check before others to ensure it is always applied.
+--h3gksq3u5hwje4j3
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nick Desaulniers <ndesaulniers@google.com>
-Cc: linux-kbuild@vger.kernel.org
-Link: https://github.com/google/kmsan/issues/89
-Link: https://lore.kernel.org/linux-mm/20221024212144.2852069-3-glider@google.com/
-Fixes: 921757bc9b61 ("Kconfig.debug: disable CONFIG_FRAME_WARN for KMSAN by default")
-Signed-off-by: Alexander Potapenko <glider@google.com>
----
- lib/Kconfig.debug | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi N=EDcolas,
 
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 29280072dc0e4..b4a0988a7ffd2 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -395,12 +395,12 @@ endif # DEBUG_INFO
- config FRAME_WARN
- 	int "Warn for stack frames larger than"
- 	range 0 8192
-+	default 0 if KMSAN
- 	default 2048 if GCC_PLUGIN_LATENT_ENTROPY
- 	default 2048 if PARISC
- 	default 1536 if (!64BIT && XTENSA)
- 	default 1024 if !64BIT
- 	default 2048 if 64BIT
--	default 0 if KMSAN
- 	help
- 	  Tell the compiler to warn at build time for stack frames larger than this.
- 	  Setting this too low will cause a lot of warnings.
--- 
-2.38.1.273.g43a17bfeac-goog
+On Tue, Nov 01, 2022 at 06:03:03PM -0400, N=EDcolas F. R. A. Prado wrote:
+> Currently running dtbs_check compiles and runs the DT checker on all
+> enabled devicetrees against all dt-bindings. This can take a long time,
+> and is an unnecessary burden when just validating a new devicetree or
+> changes in an existing one, with the dt-bindings unchanged.
+>=20
+> Similarly to DT_SCHEMA_FILES for dt_binding_check, add a DTB_FILES
+> variable that can be passed to the dtbs_check make command to restrict
+> which devicetrees are validated.
+>=20
+> Signed-off-by: N=EDcolas F. R. A. Prado <nfraprado@collabora.com>
+>=20
+> ---
+> Usage example:
+> make dtbs_check DTB_FILES=3D'arch/arm64/boot/dts/mediatek/mt8192-asurada-=
+spherion-r0.dtb arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb'
 
+Please add the usage example to the 'Running checks' section in
+Documentation/devicetree/bindings/writing-schema.rst
+
+-- Sebastian
+
+>  scripts/Makefile.lib | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>=20
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index ec391c6a2641..f3ac6d3632a2 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -418,9 +418,16 @@ DT_CHECKER_FLAGS ?=3D $(if $(DT_SCHEMA_FILES),-l $(D=
+T_SCHEMA_FILES),-m)
+>  DT_BINDING_DIR :=3D Documentation/devicetree/bindings
+>  DT_TMP_SCHEMA :=3D $(objtree)/$(DT_BINDING_DIR)/processed-schema.json
+> =20
+> +ifeq ($(DTB_FILES),)
+>  quiet_cmd_dtb =3D	DTC_CHK $@
+>        cmd_dtb =3D	$(cmd_dtc) ; $(DT_CHECKER) $(DT_CHECKER_FLAGS) -u $(sr=
+ctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $@ || true
+>  else
+> +SHOULD_CHECK_DTB =3D $(filter $@,$(DTB_FILES))
+> +
+> +quiet_cmd_dtb =3D	$(if $(SHOULD_CHECK_DTB),DTC_CHK,DTC) $@
+> +      cmd_dtb =3D	$(if $(SHOULD_CHECK_DTB), $(cmd_dtc) ; $(DT_CHECKER) $=
+(DT_CHECKER_FLAGS) -u $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $@ |=
+| true , $(cmd_dtc))
+> +endif
+> +else
+>  quiet_cmd_dtb =3D $(quiet_cmd_dtc)
+>        cmd_dtb =3D $(cmd_dtc)
+>  endif
+> --=20
+> 2.38.1
+>=20
+>=20
+> --=20
+> To unsubscribe, send mail to kernel-unsubscribe@lists.collabora.co.uk.
+
+--h3gksq3u5hwje4j3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIyBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmNiXzMACgkQ2O7X88g7
++povlA/1HlNx4+VVtcWgux/1wR8lONh+KWSe/IiEQNHWsJsv43ufnRHGxul4s+yB
+UMxLElgqkz/xqhrSazbIyqq+CnFqjKFBcZ5eU8dg4Z3xXPNQlsWfoHdQVPo7Mm5u
+kxWHyBZu5tqGnxWni2JLKahITdeWRSv8jV3N0dGpU1IPTUDiqjgK/f6tBzIstCrv
+V+XIbr6YrP8GJWL+sfpIqZzsSb4S8ItlcjMZD739HsVXH0dvkVojVozxCfHNunSb
+2GteZtZnwuPJeVzNpNrEH7yCkFVjjve0QAkTto2yZJG8KcRdd12rJ2ICRZeOe2eb
+ardvm6sj4uxc+BJWVt7sC7lu6buQFiL/GXwYQo6ibCNnl8zzSQe5CwD04wUVgFDl
+9RXl0P1wbmXq6MmNO2DtbZuCLHIIOCyGhdEC4k+L2/mGoMaqbcKPB8nwJkP71LoT
+Ov73w8TWQPrfu/8RiBV/3BvYfAnel5+y39j3eoqSSaEE10XwqmzLxLw8EcQHHA7R
+zACXJHzqfyeRScvqxCT34+NYAdQcQ9aiZLxdpYM2Y6C2rgXiU9QV7a+QihxfW5Sr
+98zxNcj32y51hI4vf67AwAhiKn1Bp/2Mdqce2IuZ72/xW8fVTMdv9RMBgKnRG140
+UQZI6+5SQHnzxxUt17+sIrvIp5KTCgyZqrF7nUJn7730PVLQMQ==
+=/hNc
+-----END PGP SIGNATURE-----
+
+--h3gksq3u5hwje4j3--
