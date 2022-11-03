@@ -2,94 +2,106 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B6CA361700A
-	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Nov 2022 22:47:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 90793617794
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Nov 2022 08:22:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231294AbiKBVrF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 2 Nov 2022 17:47:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45496 "EHLO
+        id S229742AbiKCHWu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 3 Nov 2022 03:22:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229624AbiKBVrE (ORCPT
+        with ESMTP id S229759AbiKCHWt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 2 Nov 2022 17:47:04 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82B86EE18;
-        Wed,  2 Nov 2022 14:47:01 -0700 (PDT)
-Received: from notapiano (unknown [IPv6:2600:4041:5b1a:cd00:524d:e95d:1a9c:492a])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nfraprado)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 8690B66017D3;
-        Wed,  2 Nov 2022 21:46:58 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1667425620;
-        bh=wr7XvMBx78CPPZbFbCo5cFsqN667CuKHD66q8hrxbsU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Chs0dNoDzTTzVfBcJOaxY9re2NI0KcgqFwFCYcBI2SiP7ViF9AwVnzmuBZJ+PTFha
-         733pUwWjrPpCGTfB33H0bLV6UmKAAedHz2UKfEkrUXUZvV35TCDhfOGT03jAoN/rKB
-         1A8TEcUoKwUSzyfbQi0Mf4w43y95HOoBTc2VwtNpyRASXdGxYy35IXY9xRoRcn2v6I
-         vBEhVhPlUg08iQexwCyokTyU7YfPgPI7zF1t/VxHgK+D2dEl9ma8aVxB6y06A6oBW4
-         TqkApFf5nIlPOXJa9ejtMrYuKcRHWeK8QQw8mxGpp936vMi8VxHiKrczXPb2rzjsSN
-         dYX9bWcsjcdPg==
-Date:   Wed, 2 Nov 2022 17:46:54 -0400
-From:   =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado 
-        <nfraprado@collabora.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] kbuild: Add DTB_FILES variable for dtbs_check
-Message-ID: <20221102214654.axyptitp5kpq3wcq@notapiano>
-References: <20221101220304.65715-1-nfraprado@collabora.com>
- <20221102171343.3ajwlkxhp7s7r36k@notapiano>
+        Thu, 3 Nov 2022 03:22:49 -0400
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69B482DE7;
+        Thu,  3 Nov 2022 00:22:48 -0700 (PDT)
+Received: by mail-wm1-f45.google.com with SMTP id ay14-20020a05600c1e0e00b003cf6ab34b61so2690343wmb.2;
+        Thu, 03 Nov 2022 00:22:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mUgKQvDo/cr0JssVgCdSKS0tCR2RGSnXUbgVX1YNA8g=;
+        b=ntrBLIiWzYe56Q3gD04WG5VsYsysZGvI0vfE+xb3Y7JBtoztqxLvcAcLWzC7hO4Q0i
+         sgdirNmfohITZv6PUzQbJmvflznaPZRgTHaotDqk0tU1EByNS9QJcSqmci9tWUVNn+o+
+         2Dr8zjp0CPDSau2gbtgUOOB8TpsqeJBdppphQMhv8ktAQeVcm3EjQpneVDvuUMLxbchg
+         ekhK6SJCGorjLzD6sA9tg1QO2/vEEkDo4JqY6cRaVHz6d0MH4q0cylHureE1/Y3fCkvS
+         uNeVy50BgNHyuKa2OwusHGBXAshObs8x0QbHrZvw7zBeYkgUOOjVTS99Vx5THOmaYJyo
+         XE9A==
+X-Gm-Message-State: ACrzQf2gJoAF54xXqC0v8hegysx3iTE+SKC+2672ZAZD7IwhKylT9ZRb
+        7vKT2Ul/tIE58NM/wU0EwJI=
+X-Google-Smtp-Source: AMsMyM5KpoixiXYk+OO4iEz6xP0PiqodhVQ/BEXsefqM+9sHYmcUZ6YyMlmBlFylFm3cR15HEYrGZQ==
+X-Received: by 2002:a05:600c:33a5:b0:3cf:6fd1:d94b with SMTP id o37-20020a05600c33a500b003cf6fd1d94bmr14454272wmp.52.1667460166921;
+        Thu, 03 Nov 2022 00:22:46 -0700 (PDT)
+Received: from [192.168.1.49] (185-219-167-24-static.vivo.cz. [185.219.167.24])
+        by smtp.gmail.com with ESMTPSA id p14-20020a5d4e0e000000b0022cc6b8df5esm73466wrt.7.2022.11.03.00.22.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Nov 2022 00:22:46 -0700 (PDT)
+Message-ID: <9fe8615c-fe31-ebf7-09bd-453fae189666@kernel.org>
+Date:   Thu, 3 Nov 2022 08:22:44 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221102171343.3ajwlkxhp7s7r36k@notapiano>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [RFC PATCH] kbuild: pass objects instead of archives to linker
+Content-Language: en-US
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, Michael Matz <matz@suse.de>,
+        Kees Cook <keescook@chromium.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Fangrui Song <maskray@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev
+References: <20221102091308.11568-1-masahiroy@kernel.org>
+ <CAMj1kXGzFEnUGkoD_JV6=mrKQ+eXLo=SYU8823mPezHZfY_FRQ@mail.gmail.com>
+ <CAK7LNASjBm=WWpkSaL1+QuLokhnepUucvhYyP3CCeZYx6nOTHA@mail.gmail.com>
+From:   Jiri Slaby <jirislaby@kernel.org>
+In-Reply-To: <CAK7LNASjBm=WWpkSaL1+QuLokhnepUucvhYyP3CCeZYx6nOTHA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Nov 02, 2022 at 01:13:48PM -0400, Nícolas F. R. A. Prado wrote:
-> On Tue, Nov 01, 2022 at 06:03:03PM -0400, Nícolas F. R. A. Prado wrote:
-> > Currently running dtbs_check compiles and runs the DT checker on all
-> > enabled devicetrees against all dt-bindings. This can take a long time,
-> > and is an unnecessary burden when just validating a new devicetree or
-> > changes in an existing one, with the dt-bindings unchanged.
-> > 
-> > Similarly to DT_SCHEMA_FILES for dt_binding_check, add a DTB_FILES
-> > variable that can be passed to the dtbs_check make command to restrict
-> > which devicetrees are validated.
-> > 
-> > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> > 
-> > ---
-> > Usage example:
-> > make dtbs_check DTB_FILES='arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb'
+On 02. 11. 22, 10:44, Masahiro Yamada wrote:
+> Jiri Slaby reported that the (not-upstreamed) GCC-LTO tree got broken
+> due to 321648455061 ("kbuild: use obj-y instead extra-y for objects
+> placed at the head")
 > 
-> Hi,
+> https://lore.kernel.org/linux-kbuild/ea468b86-abb7-bb2b-1e0a-4c8959d23f1c@kernel.org/
 > 
-> I have just learned that it is already possible to achieve the same thing by
-> passing the dtbs explicitly to make and enabling the DTBS_CHECK flag like so:
 > 
-> make CHECK_DTBS=y mediatek/mt8192-asurada-spherion-r0.dtb
+> I am not pretty sure because I did not check the downstream code.
 > 
-> This flag isn't documented anywhere outside the Makefile however. So I'll send a
-> patch documenting it shortly, and this commit can be ignored.
+> 
+> If I understood his report correctly, the reason for the breakage is
+> because I put all objects into the thin archive, expecting
+> the linker would preserve the object order in the archive.
+> 
+> By specifying the object order directly in the command line,
+> GCC-LTO should get back working again.
 
-Patch: https://lore.kernel.org/all/20221102214300.309347-1-nfraprado@collabora.com
+...
 
-Thanks,
-Nícolas
+> I think my patch is unneeded (hence RFC), but I just wanted to know
+> if linkers (gnu ld and lld) see any difference.
+
+Yes, including your patch (instead of vmlinux.S and /compressed/* 
+changes) also fixes the issue. So the linker (gcc-ld) indeed respects 
+command line, but not order of objects in .a.
+
+thanks,
+-- 
+js
+suse labs
+
