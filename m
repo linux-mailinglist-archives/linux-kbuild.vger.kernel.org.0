@@ -2,120 +2,86 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BCF9617FEE
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Nov 2022 15:48:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 59C596192F1
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Nov 2022 09:46:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229992AbiKCOsZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 3 Nov 2022 10:48:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33592 "EHLO
+        id S230474AbiKDIqd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 4 Nov 2022 04:46:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231406AbiKCOsY (ORCPT
+        with ESMTP id S229637AbiKDIqc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 3 Nov 2022 10:48:24 -0400
-Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7992E0D;
-        Thu,  3 Nov 2022 07:48:22 -0700 (PDT)
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 2A3Elfk5019027;
-        Thu, 3 Nov 2022 23:47:41 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 2A3Elfk5019027
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1667486862;
-        bh=TuNM2rHD3sRB+ox8RBaC7f6+XLb7VfNR657ErBE+mys=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=WsDBF+vxaUubH4L3pg4hCsLNJRA2ad7z+JyxDAwDCsnw4WCfmlGz/IsiJx4dCwBWU
-         O0mwmUErZC029A8CUSnlaYrCQ2Q2iQf1VRwm48D+Cr38ir0LYnt6YLlUnkI825ec+6
-         SaZj34joRpg76JodABZ/KHzlVUdZGEHMCwiWoYr1Nub3FmDWeZhUZQobHEsG4SuMnw
-         q1II9bTPghm7f7aoiU5ABjjekGT7Grpy9layb533jmWrCUzLdGLgHgKUhWDIwhxsT4
-         kWbdPixcXDHsfDm6JIxuymEmCTBpRWoXGYd0KSH8AZ9ah2wHt4nRJZzobKWXztZLeP
-         5dIMv8WEFt3ng==
-X-Nifty-SrcIP: [209.85.167.175]
-Received: by mail-oi1-f175.google.com with SMTP id p127so2155204oih.9;
-        Thu, 03 Nov 2022 07:47:41 -0700 (PDT)
-X-Gm-Message-State: ACrzQf0OFVOe2U5L+6vSeWKU1VwDR3B3ULiAPivxFgFbT6WJ2re22eff
-        3g+FNEXz/P+hg6V5B4MDQkWrETnPcORkZ2YoxNw=
-X-Google-Smtp-Source: AMsMyM7JPIjX/GXktALqdrTv58HUSxC8FEw2P+dSoycFrGz43w7u0MQy2EthH5eypKbvFbnD5sDyGCVe0p+a3820dXE=
-X-Received: by 2002:a05:6808:1893:b0:359:f7c7:1caf with SMTP id
- bi19-20020a056808189300b00359f7c71cafmr13748303oib.194.1667486860713; Thu, 03
- Nov 2022 07:47:40 -0700 (PDT)
+        Fri, 4 Nov 2022 04:46:32 -0400
+X-Greylist: delayed 313 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 04 Nov 2022 01:46:31 PDT
+Received: from mail.zoneproject.pl (mail.zoneproject.pl [151.236.28.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97088DFA3
+        for <linux-kbuild@vger.kernel.org>; Fri,  4 Nov 2022 01:46:31 -0700 (PDT)
+Received: by mail.zoneproject.pl (Postfix, from userid 1001)
+        id 2921021170; Fri,  4 Nov 2022 09:40:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zoneproject.pl;
+        s=mail; t=1667551276;
+        bh=+fG4vYlqG+yATJtf9z9OyBKAvvR3Bi1gb9tETg1imwI=;
+        h=Date:From:To:Subject:From;
+        b=H/e2nd0SX3RE/fPgUFUgyUt8PFN/rLBN5M9udykel0WhFrSX/W0qgPfgOU/KgUXWy
+         NC3nhw476/+hyzxFs32cn9tlGBbHoLmGat64ixBFSIwyCfZzeTpW7iasw2no/ZglEJ
+         7dtAuRaoQcD42BbsOKNh9wUf86WmvODWn2XbAc3RiuUmipJCj1FFHYGBwTF8XhiQxU
+         y5SMH1cpb9Y7GrrbSnVFeGh0S92tyg4XaTTkW25UxuIxVKiRvrEO15FdwyqMCr8LJg
+         oTi+Kr9e78qaqLho2zf9D2ifBnKwSqPupmI169KZ0FM05m6s/tk7P2b+QKth0jytTP
+         /0CS6s751/v3Q==
+Received: by mail.zoneproject.pl for <linux-kbuild@vger.kernel.org>; Fri,  4 Nov 2022 08:40:55 GMT
+Message-ID: <20221104084500-0.1.2m.hq1u.0.1a5lssgyu3@zoneproject.pl>
+Date:   Fri,  4 Nov 2022 08:40:55 GMT
+From:   "Wiktor Nurek" <wiktor.nurek@zoneproject.pl>
+To:     <linux-kbuild@vger.kernel.org>
+Subject: =?UTF-8?Q?Nap=C5=82yw_Klient=C3=B3w_ze_strony?=
+X-Mailer: mail.zoneproject.pl
 MIME-Version: 1.0
-References: <20221102091308.11568-1-masahiroy@kernel.org> <CAMj1kXGzFEnUGkoD_JV6=mrKQ+eXLo=SYU8823mPezHZfY_FRQ@mail.gmail.com>
- <CAK7LNASjBm=WWpkSaL1+QuLokhnepUucvhYyP3CCeZYx6nOTHA@mail.gmail.com> <9fe8615c-fe31-ebf7-09bd-453fae189666@kernel.org>
-In-Reply-To: <9fe8615c-fe31-ebf7-09bd-453fae189666@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 3 Nov 2022 23:47:04 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATBuERrR4QvLzDNOw1TVmMP+2J=sJviihBdy8gF=CfA=w@mail.gmail.com>
-Message-ID: <CAK7LNATBuERrR4QvLzDNOw1TVmMP+2J=sJviihBdy8gF=CfA=w@mail.gmail.com>
-Subject: Re: [RFC PATCH] kbuild: pass objects instead of archives to linker
-To:     Jiri Slaby <jirislaby@kernel.org>
-Cc:     Ard Biesheuvel <ardb@kernel.org>, linux-kbuild@vger.kernel.org,
-        Michael Matz <matz@suse.de>, Kees Cook <keescook@chromium.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Fangrui Song <maskray@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=7.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,
+        RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,SPF_PASS,URIBL_CSS_A,
+        URIBL_DBL_SPAM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
+        *      blocklist
+        *      [URIs: zoneproject.pl]
+        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
+        *      [151.236.28.32 listed in zen.spamhaus.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4853]
+        *  1.3 RCVD_IN_VALIDITY_RPBL RBL: Relay in Validity RPBL,
+        *      https://senderscore.org/blocklistlookup/
+        *      [151.236.28.32 listed in bl.score.senderscore.com]
+        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
+        *      blocklist
+        *      [URIs: zoneproject.pl]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Nov 3, 2022 at 4:22 PM Jiri Slaby <jirislaby@kernel.org> wrote:
->
-> On 02. 11. 22, 10:44, Masahiro Yamada wrote:
-> > Jiri Slaby reported that the (not-upstreamed) GCC-LTO tree got broken
-> > due to 321648455061 ("kbuild: use obj-y instead extra-y for objects
-> > placed at the head")
-> >
-> > https://lore.kernel.org/linux-kbuild/ea468b86-abb7-bb2b-1e0a-4c8959d23f1c@kernel.org/
-> >
-> >
-> > I am not pretty sure because I did not check the downstream code.
-> >
-> >
-> > If I understood his report correctly, the reason for the breakage is
-> > because I put all objects into the thin archive, expecting
-> > the linker would preserve the object order in the archive.
-> >
-> > By specifying the object order directly in the command line,
-> > GCC-LTO should get back working again.
->
-> ...
->
-> > I think my patch is unneeded (hence RFC), but I just wanted to know
-> > if linkers (gnu ld and lld) see any difference.
->
-> Yes, including your patch (instead of vmlinux.S and /compressed/*
-> changes) also fixes the issue. So the linker (gcc-ld) indeed respects
-> command line, but not order of objects in .a.
->
+Dzie=C5=84 dobry,
 
+chcia=C5=82bym poinformowa=C4=87 Pa=C5=84stwa o mo=C5=BCliwo=C5=9Bci pozy=
+skania nowych zlece=C5=84 ze strony www.
 
-Can I see your LTO implementation somewhere in public?
+Widzimy zainteresowanie potencjalnych Klient=C3=B3w Pa=C5=84stwa firm=C4=85=
+, dlatego ch=C4=99tnie pomo=C5=BCemy Pa=C5=84stwu dotrze=C4=87 z ofert=C4=
+=85 do wi=C4=99kszego grona odbiorc=C3=B3w poprzez efektywne metody pozyc=
+jonowania strony w Google.
 
+Czy m=C3=B3g=C5=82bym liczy=C4=87 na kontakt zwrotny?
 
-I know Andy Kleen's GCC-LTO, the latest version is 5.13-ish.
-
-https://github.com/andikleen/linux-misc.git
-
-
-
-
-
-> thanks,
-> --
-> js
-> suse labs
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+Pozdrawiam
+Wiktor Nurek
