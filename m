@@ -2,89 +2,129 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC1C061EACF
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Nov 2022 07:12:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E6DCF61F07E
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Nov 2022 11:24:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231180AbiKGGMK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 7 Nov 2022 01:12:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35852 "EHLO
+        id S231961AbiKGKYe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 7 Nov 2022 05:24:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229586AbiKGGMJ (ORCPT
+        with ESMTP id S231901AbiKGKYU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 7 Nov 2022 01:12:09 -0500
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF30ABF58;
-        Sun,  6 Nov 2022 22:12:07 -0800 (PST)
-Received: by mail-ej1-f53.google.com with SMTP id 13so27375849ejn.3;
-        Sun, 06 Nov 2022 22:12:07 -0800 (PST)
+        Mon, 7 Nov 2022 05:24:20 -0500
+Received: from mail-qv1-xf41.google.com (mail-qv1-xf41.google.com [IPv6:2607:f8b0:4864:20::f41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C0351900E
+        for <linux-kbuild@vger.kernel.org>; Mon,  7 Nov 2022 02:24:03 -0800 (PST)
+Received: by mail-qv1-xf41.google.com with SMTP id u7so7747890qvn.13
+        for <linux-kbuild@vger.kernel.org>; Mon, 07 Nov 2022 02:24:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=AOmtRIzmF5dcnWrT0j3skK83MYTC+QvduwZ6ndeN2Ks=;
+        b=Zv++OJ/ncK2pWuUWAQT+z52+cIoHK/WVJU4bVze52hunD5wDL4D5XJdl5mW2VbRjhi
+         PKA0tQ/z42/ONfUnPJoBfdYRGEG2gwiyoDRW7hecaxcg+/0t0u3g44ISFlpe+B9l1fvu
+         TmkNgtKOyak6WThRMAIvY+g5IgPZxvnz63e21BpajeaX9653GP4qpHUHyfV7BL4cSNb4
+         pCU1fNGxZBn7NlKzWZCMHMxM9LSs8sKofgpQ0FSoeb/qTDQ+CPP+tvlBe/vGQ8T8hOyn
+         vdUZr48/zTuwVxtBDF6IrOR7pT19nf73qD9i1Q8QUWEzM8dVJjwmGS+xVbVCXqFaE09J
+         SKzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DPuU0hi8uE8q7bgFrAs5k/BnugkiDikdtVxUAcn1Rec=;
-        b=H4jcBXNhYT0nJBGgJg6w6mXiOWKxT+9yQznL+a5AmlG/ZqtrsNqGLJq6g6SRO2ezQQ
-         HsORnxSSJrdboAOHh6X5wtIRWADdK2jfpdyJd9MeexJ4+qB/FWtiehLBgOfvMDTxucYM
-         bs+LufVWgwBP4B0mfH/pdswePO81z2mpjbL9GyhJUGvLX4BEgrNBDVjtIjk5EYCvi1Wh
-         FSzxqQgCalTH0M7Bbg4q3+f7jZnaJR/4m+EvaDcYrePnSILIs9sizSvSXHEK+iI5XSdu
-         7CpuY3RyfogDfKsnkpYzDS9f0NscrezimTRtek/OMLgVUDRdW5/fSFWE/b+EQkDWKvoJ
-         Pdyg==
-X-Gm-Message-State: ANoB5pm+nqgE0c7lyw0khEJ1Tl8WGDjjbawBD5tqCG4081ALJQkRFmr7
-        +go6kYSSFEKZnSi88TShYQE=
-X-Google-Smtp-Source: AA0mqf4HIkH6+Ky8ihONOy9Q4MDe/SmrvynSJdaUXpiXx/xwU7NwiWqqece33B4bhf7VlgJDk3aQVw==
-X-Received: by 2002:a17:906:4996:b0:7ae:6cb9:6c5c with SMTP id p22-20020a170906499600b007ae6cb96c5cmr1883918eju.695.1667801526085;
-        Sun, 06 Nov 2022 22:12:06 -0800 (PST)
-Received: from ?IPV6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
-        by smtp.gmail.com with ESMTPSA id 5-20020a170906310500b007add28659b0sm2941437ejx.140.2022.11.06.22.12.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 06 Nov 2022 22:12:05 -0800 (PST)
-Message-ID: <34906659-94df-9de5-dcf7-0e787b7caf17@kernel.org>
-Date:   Mon, 7 Nov 2022 07:12:04 +0100
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AOmtRIzmF5dcnWrT0j3skK83MYTC+QvduwZ6ndeN2Ks=;
+        b=sHFB3feSeOroz6ZaxP/fq1CG2qudRXGg3atToOr+pgLun2ztOs/FrzjR9dmFSumbqw
+         u4k6/XBx8bjjsMCxZwjeXWVuMFRpJnZ3UlQBPRciZ+tT487QBP0zspCZRYO6oW6sA1SD
+         KuRDhQe1FRnceIjGh22aY5tod9o+FtS3VyPIQXAEaFTDTZCWTOebVRaHCMw+u5xk2pqd
+         I/K/StsP2b4g2ZdOGw83unhp2yTO2RjAWiLjx4FgERqDdp+wfevc7hwEW+hhdGZT8z9+
+         rk6TOjcuEhq2NJ72cOgiRjkOlDgQlPM2OTkgHHsViBbf6ONQMB/LKfRmbU4xSeYDhI0n
+         rYyg==
+X-Gm-Message-State: ACrzQf2OVLW9fGrRDiaVqpFLHD5WpR5/DCLnZh7AabTA5NKIlDG/Mcqg
+        GyZUkHyKKEm4X6C2RoQ/oFusDiMM88p+43igICFUJZfg26A=
+X-Google-Smtp-Source: AMsMyM7DPjaK7bSeUBIcMTkNZUaqK+NSwCEUfp88ZZDLY5TXShnQ2+B86xH3ryBKqTyGQWW3ozA/96x60VupsK8qo34=
+X-Received: by 2002:a17:902:8a90:b0:186:b145:f5ec with SMTP id
+ p16-20020a1709028a9000b00186b145f5ecmr50774476plo.103.1667816632274; Mon, 07
+ Nov 2022 02:23:52 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [RFC PATCH] kbuild: pass objects instead of archives to linker
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Ard Biesheuvel <ardb@kernel.org>, linux-kbuild@vger.kernel.org,
-        Michael Matz <matz@suse.de>, Kees Cook <keescook@chromium.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Fangrui Song <maskray@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev
-References: <20221102091308.11568-1-masahiroy@kernel.org>
- <CAMj1kXGzFEnUGkoD_JV6=mrKQ+eXLo=SYU8823mPezHZfY_FRQ@mail.gmail.com>
- <CAK7LNASjBm=WWpkSaL1+QuLokhnepUucvhYyP3CCeZYx6nOTHA@mail.gmail.com>
- <9fe8615c-fe31-ebf7-09bd-453fae189666@kernel.org>
- <CAK7LNATBuERrR4QvLzDNOw1TVmMP+2J=sJviihBdy8gF=CfA=w@mail.gmail.com>
-Content-Language: en-US
-From:   Jiri Slaby <jirislaby@kernel.org>
-In-Reply-To: <CAK7LNATBuERrR4QvLzDNOw1TVmMP+2J=sJviihBdy8gF=CfA=w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Received: by 2002:a05:6a06:925:b0:587:19e0:c567 with HTTP; Mon, 7 Nov 2022
+ 02:23:51 -0800 (PST)
+Reply-To: contact@ammico.it
+From:   =?UTF-8?Q?Mrs=2E_Monika_Everenov=C3=A1?= <977638ib@gmail.com>
+Date:   Mon, 7 Nov 2022 11:23:51 +0100
+Message-ID: <CAHAXD+bPNCns8Ez=7iXmPLADMtJgZj3-mFTk3NMhWC-Ca1b9rw@mail.gmail.com>
+Subject: Re:
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=5.8 required=5.0 tests=ADVANCE_FEE_2_NEW_MONEY,
+        BAYES_20,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        FREEMAIL_FROM,FROM_STARTS_WITH_NUMS,LOTS_OF_MONEY,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,UNDISC_MONEY autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:f41 listed in]
+        [list.dnswl.org]
+        * -0.0 BAYES_20 BODY: Bayes spam probability is 5 to 20%
+        *      [score: 0.1358]
+        *  0.7 FROM_STARTS_WITH_NUMS From: starts with several numbers
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [977638ib[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        *  3.3 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+        *  2.0 ADVANCE_FEE_2_NEW_MONEY Advance Fee fraud and lots of money
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 03. 11. 22, 15:47, Masahiro Yamada wrote:
-> Can I see your LTO implementation somewhere in public?
-
-Sure:
-https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git/commit/?h=lto
-
-FWIW, I plan to send a v1 for comments soon as I finished the patch 
-order, CCs and commit logs finally.
-
-thanks,
--- 
-js
-suse labs
-
+Hei ja miten voit?
+Nimeni on rouva Evereen, l=C3=A4het=C3=A4n t=C3=A4m=C3=A4n viestin suurella=
+ toivolla
+v=C3=A4lit=C3=B6n vastaus, koska minun on teht=C3=A4v=C3=A4 uusi syd=C3=A4n=
+leikkaus
+t=C3=A4ll=C3=A4 hetkell=C3=A4 huonokuntoinen ja v=C3=A4h=C3=A4iset mahdolli=
+suudet selviyty=C3=A4.
+Mutta ennen kuin min=C3=A4
+Tee toinen vaarallinen operaatio, annan sen sinulle
+Minulla on 6 550 000 dollaria yhdysvaltalaisella pankkitilill=C3=A4
+sijoittamista, hallinnointia ja k=C3=A4ytt=C3=B6=C3=A4 varten
+voittoa hyv=C3=A4ntekev=C3=A4isyysprojektin toteuttamiseen. Tarkoitan saira=
+iden auttamista
+ja k=C3=B6yh=C3=A4t ovat viimeinen haluni maan p=C3=A4=C3=A4ll=C3=A4, sill=
+=C3=A4 minulla ei ole niit=C3=A4
+kenelt=C3=A4 perii rahaa.
+Vastaa minulle nopeasti
+terveisi=C3=A4
+Rouva Monika Evereen
+Florida, Amerikan Yhdysvallat
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+Hi and how are you?
+My name is Mrs. Evereen, I am sending this message with great hope for
+an immediate response, as I have to undergo heart reoperation in my
+current poor health with little chance of survival. But before I
+undertake the second dangerous operation, I will give you the
+$6,550,000 I have in my US bank account to invest well, manage and use
+the profits to run a charity project for me. I count helping the sick
+and the poor as my last wish on earth, because I have no one to
+inherit money from.
+Please give me a quick reply
+regards
+Mrs. Monika Evereen
+Florida, United States of America
