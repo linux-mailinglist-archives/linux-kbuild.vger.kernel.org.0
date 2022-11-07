@@ -2,74 +2,89 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6923361E5FC
-	for <lists+linux-kbuild@lfdr.de>; Sun,  6 Nov 2022 21:48:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC1C061EACF
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Nov 2022 07:12:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230150AbiKFUsn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 6 Nov 2022 15:48:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58030 "EHLO
+        id S231180AbiKGGMK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 7 Nov 2022 01:12:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230136AbiKFUsm (ORCPT
+        with ESMTP id S229586AbiKGGMJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 6 Nov 2022 15:48:42 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29AC4DFA1;
-        Sun,  6 Nov 2022 12:48:41 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E77DFB80D21;
-        Sun,  6 Nov 2022 20:48:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9A6B0C433C1;
-        Sun,  6 Nov 2022 20:48:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667767718;
-        bh=zDOrIz0yTGUBMYKtK8wTHi5NfEehJHKzL+wsABSgL50=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=P0WvtGoq93BFLCRuBfcVX58Ufa8UkxcWxsrrFbAwVh0z6NvN2GcO2lJqB8dT72KHT
-         ZT4qaVx7D/drinjJ3XecByYyCPbYzMi+b1tp268LYoDRBRCc3+SVC0CVH9+9kJuJtm
-         oEP+uw4OsGZsKDZW3eUoyZDOkU2ImpMHZnnI+YWrZ3VCQD5JkkYOrnqEAO8r9chA2C
-         z6tv6lLU91FWMQnVUHigSQlUuVVgRIggKGhFR44lH+x2jrJCqTEGnl2QB0eIjlRlss
-         STEqiaIuYYfit6aikZUNzYJaIljNJgWB9VrlnVc4fapnaGL0mFUZFusUG1WoTfeirl
-         /1n6ChElnk6eQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 7D5C1E270DD;
-        Sun,  6 Nov 2022 20:48:38 +0000 (UTC)
-Subject: Re: [GIT PULL] Kbuild fixes for v6.1-rc4
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <CAK7LNARS3S3vfT0eu94FnK9kkHHTSeKs8KZNLcu8-oVzFtyuvw@mail.gmail.com>
-References: <CAK7LNARS3S3vfT0eu94FnK9kkHHTSeKs8KZNLcu8-oVzFtyuvw@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAK7LNARS3S3vfT0eu94FnK9kkHHTSeKs8KZNLcu8-oVzFtyuvw@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.1-2
-X-PR-Tracked-Commit-Id: 7a263a0402561035199cd9049baadb908a92b6b4
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 35697d81a778223727c2a01a3480735cf51edd93
-Message-Id: <166776771850.27719.8399963188481628153.pr-tracker-bot@kernel.org>
-Date:   Sun, 06 Nov 2022 20:48:38 +0000
+        Mon, 7 Nov 2022 01:12:09 -0500
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF30ABF58;
+        Sun,  6 Nov 2022 22:12:07 -0800 (PST)
+Received: by mail-ej1-f53.google.com with SMTP id 13so27375849ejn.3;
+        Sun, 06 Nov 2022 22:12:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DPuU0hi8uE8q7bgFrAs5k/BnugkiDikdtVxUAcn1Rec=;
+        b=H4jcBXNhYT0nJBGgJg6w6mXiOWKxT+9yQznL+a5AmlG/ZqtrsNqGLJq6g6SRO2ezQQ
+         HsORnxSSJrdboAOHh6X5wtIRWADdK2jfpdyJd9MeexJ4+qB/FWtiehLBgOfvMDTxucYM
+         bs+LufVWgwBP4B0mfH/pdswePO81z2mpjbL9GyhJUGvLX4BEgrNBDVjtIjk5EYCvi1Wh
+         FSzxqQgCalTH0M7Bbg4q3+f7jZnaJR/4m+EvaDcYrePnSILIs9sizSvSXHEK+iI5XSdu
+         7CpuY3RyfogDfKsnkpYzDS9f0NscrezimTRtek/OMLgVUDRdW5/fSFWE/b+EQkDWKvoJ
+         Pdyg==
+X-Gm-Message-State: ANoB5pm+nqgE0c7lyw0khEJ1Tl8WGDjjbawBD5tqCG4081ALJQkRFmr7
+        +go6kYSSFEKZnSi88TShYQE=
+X-Google-Smtp-Source: AA0mqf4HIkH6+Ky8ihONOy9Q4MDe/SmrvynSJdaUXpiXx/xwU7NwiWqqece33B4bhf7VlgJDk3aQVw==
+X-Received: by 2002:a17:906:4996:b0:7ae:6cb9:6c5c with SMTP id p22-20020a170906499600b007ae6cb96c5cmr1883918eju.695.1667801526085;
+        Sun, 06 Nov 2022 22:12:06 -0800 (PST)
+Received: from ?IPV6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
+        by smtp.gmail.com with ESMTPSA id 5-20020a170906310500b007add28659b0sm2941437ejx.140.2022.11.06.22.12.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 06 Nov 2022 22:12:05 -0800 (PST)
+Message-ID: <34906659-94df-9de5-dcf7-0e787b7caf17@kernel.org>
+Date:   Mon, 7 Nov 2022 07:12:04 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [RFC PATCH] kbuild: pass objects instead of archives to linker
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Cc:     Ard Biesheuvel <ardb@kernel.org>, linux-kbuild@vger.kernel.org,
+        Michael Matz <matz@suse.de>, Kees Cook <keescook@chromium.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Fangrui Song <maskray@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev
+References: <20221102091308.11568-1-masahiroy@kernel.org>
+ <CAMj1kXGzFEnUGkoD_JV6=mrKQ+eXLo=SYU8823mPezHZfY_FRQ@mail.gmail.com>
+ <CAK7LNASjBm=WWpkSaL1+QuLokhnepUucvhYyP3CCeZYx6nOTHA@mail.gmail.com>
+ <9fe8615c-fe31-ebf7-09bd-453fae189666@kernel.org>
+ <CAK7LNATBuERrR4QvLzDNOw1TVmMP+2J=sJviihBdy8gF=CfA=w@mail.gmail.com>
+Content-Language: en-US
+From:   Jiri Slaby <jirislaby@kernel.org>
+In-Reply-To: <CAK7LNATBuERrR4QvLzDNOw1TVmMP+2J=sJviihBdy8gF=CfA=w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The pull request you sent on Sun, 6 Nov 2022 19:12:02 +0900:
+On 03. 11. 22, 15:47, Masahiro Yamada wrote:
+> Can I see your LTO implementation somewhere in public?
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.1-2
+Sure:
+https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git/commit/?h=lto
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/35697d81a778223727c2a01a3480735cf51edd93
+FWIW, I plan to send a v1 for comments soon as I finished the patch 
+order, CCs and commit logs finally.
 
-Thank you!
-
+thanks,
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+js
+suse labs
+
