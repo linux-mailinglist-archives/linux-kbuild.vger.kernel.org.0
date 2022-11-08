@@ -2,56 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D132621075
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Nov 2022 13:25:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A1B462165C
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Nov 2022 15:27:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234213AbiKHMZz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 8 Nov 2022 07:25:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45478 "EHLO
+        id S233680AbiKHO1K (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 8 Nov 2022 09:27:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233723AbiKHMZy (ORCPT
+        with ESMTP id S233694AbiKHO0Y (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 8 Nov 2022 07:25:54 -0500
-Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 831964FFA3
-        for <linux-kbuild@vger.kernel.org>; Tue,  8 Nov 2022 04:25:53 -0800 (PST)
-Received: by mail-qv1-xf35.google.com with SMTP id o8so10098510qvw.5
-        for <linux-kbuild@vger.kernel.org>; Tue, 08 Nov 2022 04:25:53 -0800 (PST)
+        Tue, 8 Nov 2022 09:26:24 -0500
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 272F7109B
+        for <linux-kbuild@vger.kernel.org>; Tue,  8 Nov 2022 06:25:13 -0800 (PST)
+Received: by mail-pl1-x632.google.com with SMTP id l2so14287610pld.13
+        for <linux-kbuild@vger.kernel.org>; Tue, 08 Nov 2022 06:25:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
         bh=SzBlYeGeT15Xra75w9IZDBjQ7Da3XKSmRdlnDJDYrko=;
-        b=jCYo8RYwbrzkYOVj5WJhufPxwk0UsnU4PISt7mt4ZNohQ9iZwPaaAhSViexeI0Z+dP
-         S2YVDLAfG6OY7EinrHw2tgpAjGr/Cwwwkmmi39vBEkd++H4pWVZylBAgV5XMo0T+mep/
-         iyXisD4zrZT7Y6nFutY95kKPXlip4yzo2fxRTVzTWCBCMD+2ZH6og7L3TeBoF8RoHQg3
-         MHdfkTAkCYdUbdD6IIuN2GZCYkKcgzZpoGkiBjrjoYA+tghpmm8mBGjfH7YeVZO/fFTV
-         shL0M562/AGZT5C8bUJ7b0pNxUX9GJGIVb8Swo+bJo6/N9JyznkDfZqNJ84203qGMdlk
-         EGAg==
+        b=qJPWO9SMfKs9CV4DzOtfpg0tG5L2kEZQtV/LBBChMrnKplvig/HcfOA36QzOFbaour
+         tgINSm9CFH0IH0weUkbi8oL7C5P0uFU99A+FANpQrOPV/x2at1b6HjUUAphEgu/Nt2rO
+         YdZzEeguInvIt6hR0YTDbuGc0g6QmBH3JOdUVEiMakuZ8pUv0rSqDGDPPz36WP9L+M70
+         Yi8Qvn61/fVJa/s6+O6bNGj9Vrx81J7VmEWQcrrTipgg1zMWjvYHOXsRX3Tp8F7t1isZ
+         URWNY0E6DDGhkUjSdRf6tRRt6Dm01iRomcQNGIBkoA7vu4q8ZFmcmXCe9DgPR3TaW/OT
+         odpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=to:subject:message-id:date:from:reply-to:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
         bh=SzBlYeGeT15Xra75w9IZDBjQ7Da3XKSmRdlnDJDYrko=;
-        b=Z7jLQnyE1qdSk81F2on+iks8DAeUojr1NC4pM7Cn5Ij1bgZq85kkZ6rVnzJjgN07c3
-         tv86ro71kcbYV22Tyv++blYbEu3TTyEmi8yTpcGrO0g6tbrjKufiJ+BxgfUWpqdg1mOH
-         YwxWF4+bQrxa0Sg+JmTFphKW//jZKjmBMD4dDBLLfSruGDttj6pmIASCEaU1znpVi83r
-         d16O8N9nJvcNA0sbkz/OU7CLzlAi4WSm5Y7KBkkoQCOx4tWBLZJdH2vWP0OpKNkK2zC7
-         VJn9lb0Ytu7MYxyTii+k64PbSMQefbn40CGeQeJLmJE9IGyO7pGjSiugKGAPRM+8SJrq
-         uygw==
-X-Gm-Message-State: ACrzQf3gOuH2h31GnNA7ovlkEfanFuisAUFMHjoPKE429+z6oFhL84nL
-        iis3bdbF7HhvF8cxB9Ir9Ui0krgP6uwh8l7bSAo=
-X-Google-Smtp-Source: AMsMyM4enNp/AjKT4tfs0jEImNeET3uerfTgVTfte8XjbOEn2WA2ZRt9BjEVgvhE/yDkDoQCRS1cgyqvGVC029Z6UTg=
-X-Received: by 2002:a05:6214:c41:b0:4bb:92b0:3873 with SMTP id
- r1-20020a0562140c4100b004bb92b03873mr50115550qvj.76.1667910352645; Tue, 08
- Nov 2022 04:25:52 -0800 (PST)
+        b=4gwIkygR6RTDXPempyn9pTah2bpa2FRaOOA5kj6olycWVPo/LG3LZwoQzfOlsGt8G9
+         yxmY+kGejtyGnWjQYYKe8N1Xf6k1A+Fmb9aW4w8eopeiVE8BR/HgJQcoIBh+BBmzZbr5
+         yUxpScsqH91h9wRlXGxGRZfe7f1LegqIynPWu96lLSsZRodKIah0PRq2/gtkCwvN6fnM
+         QlJWuoyTz0ki3nH7QZ/dlNJJEyqVenlceZ/CEeIH8wN+CNdB3mtzRrdpCVb39DWzSdfR
+         pvL35DN4CbLjtROXj8FCUtDzUMHkI6cCojiyFJSVngC3rVZOwbRCy3nupph7Y335uTXA
+         xDhQ==
+X-Gm-Message-State: ACrzQf2b5zz4HO40KmWYG9wZduCNBhSULATW8N7o7coytxx8mhuYnT+9
+        gOjVEItoQTaoJh3284dAjBKT/xw5COLyqy2HADU=
+X-Google-Smtp-Source: AMsMyM7xjnW3BCIcPmRXceI8CMPrgJsNpwknP0oXmxg9pb3hPM8UnVyASTbWsNqLc31U8nSLRepoWwOH4L/DHUye4LA=
+X-Received: by 2002:a17:90b:1d90:b0:213:c798:86f6 with SMTP id
+ pf16-20020a17090b1d9000b00213c79886f6mr52558648pjb.84.1667917512394; Tue, 08
+ Nov 2022 06:25:12 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a05:6214:2f8a:b0:4bb:6e86:8303 with HTTP; Tue, 8 Nov 2022
- 04:25:52 -0800 (PST)
+Received: by 2002:a05:7300:5388:b0:85:81c6:896c with HTTP; Tue, 8 Nov 2022
+ 06:25:11 -0800 (PST)
 Reply-To: mr.abraham022@gmail.com
-From:   Mr Abraham <mr.abraham2021@gmail.com>
-Date:   Tue, 8 Nov 2022 12:25:52 +0000
-Message-ID: <CAJ2UK+YrtzYn9_zOXMtnYaO0eGg4gorFMzUobrJ_z5o18RFL7Q@mail.gmail.com>
+From:   "Mr.Abraham" <davidkekeli11@gmail.com>
+Date:   Tue, 8 Nov 2022 14:25:11 +0000
+Message-ID: <CAPBO+FJ3Nhd2ncX9Z_fDUqYStiGQU821nC6EEFSDx5iCTdXkaQ@mail.gmail.com>
 Subject: Greeting
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
@@ -62,10 +62,10 @@ X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
         UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
         *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:f35 listed in]
+        *      [2607:f8b0:4864:20:0:0:0:632 listed in]
         [list.dnswl.org]
         *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4993]
+        *      [score: 0.4985]
         *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
         *      digit
         *      [mr.abraham022[at]gmail.com]
@@ -73,10 +73,10 @@ X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
         * -0.0 SPF_PASS SPF: sender matches SPF record
         *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
         *       in digit
-        *      [mr.abraham2021[at]gmail.com]
+        *      [davidkekeli11[at]gmail.com]
         *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
         *      provider
-        *      [mr.abraham2021[at]gmail.com]
+        *      [davidkekeli11[at]gmail.com]
         * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
         *      envelope-from domain
         *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
