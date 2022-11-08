@@ -2,140 +2,106 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 63DD2620AA5
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Nov 2022 08:46:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BF79620E7B
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Nov 2022 12:19:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233647AbiKHHqJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 8 Nov 2022 02:46:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46438 "EHLO
+        id S234011AbiKHLTD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 8 Nov 2022 06:19:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233729AbiKHHpu (ORCPT
+        with ESMTP id S234018AbiKHLTB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 8 Nov 2022 02:45:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF8A1C69
-        for <linux-kbuild@vger.kernel.org>; Mon,  7 Nov 2022 23:44:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1667893480;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=oJ8vyZER8Tlv6NjtRMYQMoNoDkSnEjwI0RgPyEi8+rM=;
-        b=SrPb3mBC1N8HYA0mz/kq3R4twwXT5HFs4VjXJ9UL5YmOhNldcCvCifJeEQ4ARewm1KM5E1
-        C0yET8znoCMOeZV3+O2at9tM5LgtRuLDQpQ127tnovLF1T2JVQvyPs18ClZPEoJ7kSw496
-        1rqWmVZkZa+lKPgYEtRPYrX2x8KI5cg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-161-QgEJ-LT0PYGA4zqIgtoJ4Q-1; Tue, 08 Nov 2022 02:44:37 -0500
-X-MC-Unique: QgEJ-LT0PYGA4zqIgtoJ4Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 58D4A85A583;
-        Tue,  8 Nov 2022 07:44:37 +0000 (UTC)
-Received: from p1.luc.cera.cz (ovpn-193-136.brq.redhat.com [10.40.193.136])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B735B4EA4A;
-        Tue,  8 Nov 2022 07:44:35 +0000 (UTC)
-Date:   Tue, 8 Nov 2022 08:44:34 +0100
-From:   Ivan Vecera <ivecera@redhat.com>
-To:     Jonathan Toppins <jtoppins@redhat.com>
-Cc:     linux-kbuild@vger.kernel.org, dzickus@redhat.com, kheib@redhat.com,
-        jtornosm@redhat.com, ihuguet@redhat.com,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH next] kbuild: add ability to make source rpm buildable
- using koji
-Message-ID: <20221108084434.2aed034e@p1.luc.cera.cz>
-In-Reply-To: <5b59fdb7db34f5292b1d138939c6b70b2b2039dd.1666703850.git.jtoppins@redhat.com>
-References: <5b59fdb7db34f5292b1d138939c6b70b2b2039dd.1666703850.git.jtoppins@redhat.com>
+        Tue, 8 Nov 2022 06:19:01 -0500
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7317C186EC
+        for <linux-kbuild@vger.kernel.org>; Tue,  8 Nov 2022 03:19:00 -0800 (PST)
+Received: by mail-io1-xd2f.google.com with SMTP id s10so9320101ioa.5
+        for <linux-kbuild@vger.kernel.org>; Tue, 08 Nov 2022 03:19:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=o1oIX0Lu3jFWZXVxNPQntM2Fj3qbMNn8z1UsbYrWkRo=;
+        b=WfZENGWI8Gki4cfu5FTM5+AmIDxP3MUS/nA6abRf4V6IQTWzEWg7SsTNapD2fFKv4Q
+         LST/wpHjwxS4+MxHKqdTh2pjyRMGfqL9Ejgju/o1uosJYkC+2R8r7niD8KOmBmpAYRl/
+         NlaZP1ELB9sIwASsi4RzZAc1Nf1JXP308nTv8lQDp4EL5T8yR/w8sKD+vEsXurc13Pyi
+         5Andzud2TPEB0IjZBH6sfLstq/ImUhewLKH4gxfSILnXKoGX9g7GxegE+WcFQf4Sz1Lw
+         9O+jmvizPq9YAMk2wSBqSRp7SxfmXA90piMVWh2y9AfhhzzVNXpoRo4iiJnubiwPT0rR
+         4PRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=o1oIX0Lu3jFWZXVxNPQntM2Fj3qbMNn8z1UsbYrWkRo=;
+        b=ASDChxIWL3SL4jQ8l+r/VzEo0jQ+rC2b8RT6FIKuvWq6S6vY7soMTIHgyLW0BUmncP
+         B+S3y8OjrgEPjeF2sxrBiHGK7kFF6DIpCwPxQHd5NHd7rJ1sFEMucIHlsfjc7eXqZ1QF
+         fcewjGMwk5pAHSSLaIOLIC9XeF3Uv3kZK/i9ayifJ9gkF3DIQ8R240N6TAgX5sfEaclS
+         9bjuZElXZ2LU3pULdkkbdbWE6bWGm062Z5/g0HUoF8+mpnZVmvPN+s7kU1kZcscBcjBj
+         gZpcNnR9Vhr8fat/pdoyOZ5Qlg1jsswSLlZrvuDb1UzV/yk2nqrgonocw5UJN7iQ6+/r
+         vvgQ==
+X-Gm-Message-State: ACrzQf2we/RW6Sef7FQcsIMz0TUDyqZsS+CKIKonOnOfktaQTayUj0H5
+        +nvkB13iMpgiumfaSZtL9Svrld9zin2KHfSOs+I=
+X-Google-Smtp-Source: AMsMyM7rydZwVc70WUuTl1zJ4SYLvA3VBiU3NqRxeOJToxDegaur+FhXeb6ymqfAFpBDQJM8Gh6lsU9A+k5iwIg0r+k=
+X-Received: by 2002:a05:6602:164b:b0:6cf:bc3f:fcd5 with SMTP id
+ y11-20020a056602164b00b006cfbc3ffcd5mr30190653iow.119.1667906339859; Tue, 08
+ Nov 2022 03:18:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+Received: by 2002:a05:6638:38a9:b0:375:4a9b:180d with HTTP; Tue, 8 Nov 2022
+ 03:18:59 -0800 (PST)
+Reply-To: mrinvest1010@gmail.com
+From:   "K. A. Mr. Kairi" <ctocik1@gmail.com>
+Date:   Tue, 8 Nov 2022 03:18:59 -0800
+Message-ID: <CAKfr4JXAt9zqv0qeZwO3it42gt22OzwY0qhgMOSkHWFvxW3drg@mail.gmail.com>
+Subject: Re: My Response..
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:d2f listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5046]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [mrinvest1010[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [ctocik1[at]gmail.com]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [ctocik1[at]gmail.com]
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, 25 Oct 2022 09:17:30 -0400
-Jonathan Toppins <jtoppins@redhat.com> wrote:
+-- 
+Dear
 
-> From: Ivan Vecera <ivecera@redhat.com>
-> 
-> Changes:
-> - added new target 'srcrpm-pkg' to generate source rpm
-> - added required build tools to spec file
-> - removed locally compiled host tools to force their re-compile
-> 
-> Signed-off-by: Ivan Vecera <ivecera@redhat.com>
-> Signed-off-by: Jonathan Toppins <jtoppins@redhat.com>
-> ---
->  scripts/Makefile.package | 10 ++++++++++
->  scripts/package/mkspec   |  7 +++++++
->  2 files changed, 17 insertions(+)
-> 
-> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-> index 8bbcced67c22..e0830a870394 100644
-> --- a/scripts/Makefile.package
-> +++ b/scripts/Makefile.package
-> @@ -62,6 +62,16 @@ rpm-pkg:
->  	+rpmbuild $(RPMOPTS) --target $(UTS_MACHINE)-linux -ta $(KERNELPATH).tar.gz \
->  	--define='_smp_mflags %{nil}'
->  
-> +# srcrpm-pkg
-> +# ---------------------------------------------------------------------------
-> +PHONY += srcrpm-pkg
-> +srcrpm-pkg:
-> +	$(MAKE) clean
-> +	$(CONFIG_SHELL) $(MKSPEC) >$(objtree)/kernel.spec
-> +	$(call cmd,src_tar,$(KERNELPATH),kernel.spec)
-> +	+rpmbuild $(RPMOPTS) --target $(UTS_MACHINE) -ts $(KERNELPATH).tar.gz \
-> +	--define='_smp_mflags %{nil}' --define='_srcrpmdir $(srctree)'
-> +
->  # binrpm-pkg
->  # ---------------------------------------------------------------------------
->  PHONY += binrpm-pkg
-> diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-> index 70392fd2fd29..dda00a948a01 100755
-> --- a/scripts/package/mkspec
-> +++ b/scripts/package/mkspec
-> @@ -33,6 +33,8 @@ EXCLUDES="$RCS_TAR_IGNORE --exclude=*vmlinux* --exclude=*.mod \
->  --exclude=*.o --exclude=*.ko --exclude=*.cmd --exclude=Documentation \
->  --exclude=.config.old --exclude=.missing-syscalls.d --exclude=*.s"
->  
-> +test -n "$LOCALVERSION" && MAKE="$MAKE LOCALVERSION=$LOCALVERSION"
-> +
->  # We can label the here-doc lines for conditional output to the spec file
->  #
->  # Labels:
-> @@ -49,6 +51,9 @@ sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
->  	URL: https://www.kernel.org
->  $S	Source: kernel-$__KERNELRELEASE.tar.gz
->  	Provides: $PROVIDES
-> +$S	BuildRequires: bc binutils bison dwarves elfutils-libelf-devel flex
-> +$S	BuildRequires: gcc make openssl openssl-devel perl python3 rsync
-> +
->  	# $UTS_MACHINE as a fallback of _arch in case
->  	# /usr/lib/rpm/platform/*/macros was not included.
->  	%define _arch %{?_arch:$UTS_MACHINE}
-> @@ -80,6 +85,8 @@ $S$M	against the $__KERNELRELEASE kernel package.
->  $S$M
->  $S	%prep
->  $S	%setup -q
-> +$S	rm -f scripts/basic/fixdep scripts/kconfig/conf
-> +$S	rm -f tools/objtool/{fixdep,objtool}
->  $S
->  $S	%build
->  $S	$MAKE %{?_smp_mflags} KBUILD_BUILD_VERSION=%{release}
+How are you with your family, I have a serious client, whom will be
+interested to invest in your country, I got your Details through the
+Investment Network and world Global Business directory.
 
-Tested-by: Ivan Vecera <ivecera@redhat.com>
+Let me know, If you are interested for more details.....
 
+Regards,
+Andrew
