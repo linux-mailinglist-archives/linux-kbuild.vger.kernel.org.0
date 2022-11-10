@@ -2,86 +2,65 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 05983624B1B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Nov 2022 21:00:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 20EFC624BD5
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Nov 2022 21:32:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231262AbiKJUAm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 10 Nov 2022 15:00:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50770 "EHLO
+        id S229946AbiKJUc3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 10 Nov 2022 15:32:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230407AbiKJUAk (ORCPT
+        with ESMTP id S229777AbiKJUc2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 10 Nov 2022 15:00:40 -0500
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7BE1A1B4
-        for <linux-kbuild@vger.kernel.org>; Thu, 10 Nov 2022 12:00:35 -0800 (PST)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-368e6c449f2so25289737b3.5
-        for <linux-kbuild@vger.kernel.org>; Thu, 10 Nov 2022 12:00:35 -0800 (PST)
+        Thu, 10 Nov 2022 15:32:28 -0500
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77B841CFFC
+        for <linux-kbuild@vger.kernel.org>; Thu, 10 Nov 2022 12:32:27 -0800 (PST)
+Received: by mail-pj1-x1032.google.com with SMTP id gw22so2682545pjb.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 10 Nov 2022 12:32:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VIHNRdmfkBzhmHybI0x1Prd4hOkiCS+S8r79WveHpBo=;
-        b=cu4FgUi89nxSfbZYxNMsDps7Ulsc39wNIRiDjhIKxXG80QX1OL9tfuJPG63usxMrfZ
-         EW0EhYGrzNcvEDeg2LJwpIMVIEsDsbkhn78rH9inwUS2fi3OUzn6YBpR5JzoNX6d5akX
-         yqZCNCDPjsURHtfN5tzUr2oSAmpKUAFfossYVIzMMav+l/GeZKi76Cb8lVJD6ulhALkn
-         4ZEL0WiaB82yxJCGdS78iyKyD/dTmcRRuVN3b2tisbYjQF4Ebuee6VzRaHXhrGmUseAM
-         WxD3VAndP/oMYJHCM61Aw0DedqJxA7H47RNOKvSX93tfo+usF2majhxcgW8/rpkNYS+a
-         gtew==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bl1aaewvXJMG4ClDQMm9Hh4JfScRGG+THXjeSMcDgYo=;
+        b=B639lOng7BjaWQ6jfQHh8TEBIfcIRqgTGdlX0tA8nRfzE+M+b6kBX4ervjXkR+43tt
+         fceDNV1Xuqjb3O3rg/Rg6bjjqg3K7zL/aMfgf+94KL7VVmRO/uuw7k5ieDcJoXbK48ID
+         YOC0gLhweb/UEChJK7OrfT0mo4E4dV6tgqm9Dxwgr8yOLhuSxrXj+rtcxyLPKVCk/twu
+         EGZ/VR6COjcehpqeFdjpwpTz/pQ6YopoYpm5aFhfbQfj0zLlUg2KIM9nWL90mVr+72ac
+         H5mOAjz/inY9oDc302wPah03++9x9JDGwSy841XOzEpeWxDMhOOsuTFUNDYBHjeoin4u
+         Tdfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VIHNRdmfkBzhmHybI0x1Prd4hOkiCS+S8r79WveHpBo=;
-        b=l1UxcEfiAr/ew2yaaDqnhf3aNlIQhR749KWtiJmayZeHoR1xdU7lcL6tpfvkBr0pIN
-         V7KqSRizNPc3Hr+jFew4Ouhut7XTAm05UNedNiepWhDK3gQUDYLP6YohdSf4Fz/+awW9
-         8a1Vy7RZHo8QA8KG1fUYpBF+6ZHTxhI86l4YBBWwGhA6QcvDCV5V+j7TT+XwyXJhigdi
-         zxCmSmQ3Hl0NiOGDqALxMseADC+1lszx1rYSQ6MDtl8qLi87L0EStahM+T05fnKEYflv
-         npeEsktfWZSUfwvJuDjQKpCxbPfOadXkoqI/461forNbEqg/74y7cy4E01toNrhWj5U6
-         7a4w==
-X-Gm-Message-State: ANoB5pm+cDlflo4vIzLyA2XzGS9yiMP+zOok0vDim9ZsOfHudyUfU3mz
-        0/sKbLcugrIX1Q1RMIB/d1a1ppOxny1x07ncFtI=
-X-Google-Smtp-Source: AA0mqf4Nns+WLB4chAB/kEa+/ldX4+HthE59/h8FIr8lboM5FzK8xxaLgMNVvf52/T7Ej8fhOWa1WRKalLbmf188S8Q=
-X-Received: from ndesaulniers-desktop.svl.corp.google.com ([2620:15c:2d1:203:a5cc:f0f5:1fc6:713])
- (user=ndesaulniers job=sendgmr) by 2002:a05:6902:154d:b0:6dc:5d5a:26a4 with
- SMTP id r13-20020a056902154d00b006dc5d5a26a4mr5480669ybu.286.1668110395128;
- Thu, 10 Nov 2022 11:59:55 -0800 (PST)
-Date:   Thu, 10 Nov 2022 11:59:05 -0800
-In-Reply-To: <CA+icZUW83H0H-oQkE5vyURWu6bD-OGYpTsNMwU1if5r=7+tpDA@mail.gmail.com>
-Mime-Version: 1.0
-References: <CA+icZUW83H0H-oQkE5vyURWu6bD-OGYpTsNMwU1if5r=7+tpDA@mail.gmail.com>
-X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=UIrHvErwpgNbhCkRZAYSX0CFd/XFEwqX3D0xqtqjNug=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1668110345; l=4874;
- i=ndesaulniers@google.com; s=20220923; h=from:subject; bh=5du/c21UJsTP9Yrc1x6+H5At2NkImsL0yE/dV2D9Aqg=;
- b=jLKlgldZtH5445CKtJeiIIGHnUJ3Z4tI5G9+yYiQLjJ+BdGcCieQnNZdfViY/CuZT+HHt3oI8367
- yREqodIHD14KXhNcsVBB4b6lhbRZUHDyA/h8pnghqSzqf4T1ULA7
-X-Mailer: git-send-email 2.38.1.431.g37b22c650d-goog
-Message-ID: <20221110195932.377841-1-ndesaulniers@google.com>
-Subject: [PATCH v3] Makefile.debug: support for -gz=zstd
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Bl1aaewvXJMG4ClDQMm9Hh4JfScRGG+THXjeSMcDgYo=;
+        b=b+2oAdxna4TkhmMGecdjw6KlKWFW2dGCYFYFPlJG2hoGam/N5gCeY3Tqi28u/hgHE3
+         jtWDEPanl+33UvKECAkJSnKmGX1bCKI5m9YcPVyre7UsUPZb33AuW7L01YkbN4Ku3LuB
+         9Gi7hzO23e2PHgAeTPMoQQpDNxgH8dGYs2dDuyIkvy6lDvLi9vPsOKSDTSScQliAXlPf
+         4qVb3//4dNYPddticUY4EstmP423n/Rrv29wZwdleSP5bgJcfeHW6seRRe9HncW0B9+0
+         +d18YnqVu225OP8rid4MRRj5mKViAAFktXzq1bM4yh5fGoKCTz6/9eXKqhPwCgzE520X
+         CvtQ==
+X-Gm-Message-State: ACrzQf3e11i4KML4wOMQvSiFwbjiu3nMeIOjY6k8HSkX7duVIDyoykMH
+        DKThPhrh0q5my9VSpZFnDE6k3sM7fL3hOKOXGy/k2sfYiTk=
+X-Google-Smtp-Source: AMsMyM7jepvl6M9mw4ie3TyvAgEEeetH81bBvmA7xSfPvhJXsZgExY5y+xRoi1DA6BWNPxuNrqrEaLwK/xSX3uxhNls=
+X-Received: by 2002:a17:902:b609:b0:186:de87:7ffd with SMTP id
+ b9-20020a170902b60900b00186de877ffdmr1877163pls.94.1668112346698; Thu, 10 Nov
+ 2022 12:32:26 -0800 (PST)
+MIME-Version: 1.0
+References: <20221110150425.164386-1-nicolas@fjasle.eu> <20221110150425.164386-2-nicolas@fjasle.eu>
+In-Reply-To: <20221110150425.164386-2-nicolas@fjasle.eu>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Fangrui Song <maskray@google.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sedat Dilek <sedat.dilek@dhl.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Terrell <terrelln@fb.com>, Tom Rix <trix@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        David Gow <davidgow@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Isabella Basso <isabbasso@riseup.net>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        llvm@lists.linux.dev
+Date:   Thu, 10 Nov 2022 12:32:15 -0800
+Message-ID: <CAKwvOd=haxS9q84mdzWVOnp4QjxJxuCM5quLuLnspGR+=2NTXg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] MAINTAINERS: Add Nicolas Schier to Kbuild reviewers
+To:     Nicolas Schier <nicolas@fjasle.eu>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=unavailable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -89,139 +68,45 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Make DEBUG_INFO_COMPRESSED a choice; DEBUG_INFO_COMPRESSED_NONE is the
-default, DEBUG_INFO_COMPRESSED_ZLIB uses zlib,
-DEBUG_INFO_COMPRESSED_ZSTD uses zstd.
+On Thu, Nov 10, 2022 at 7:05 AM Nicolas Schier <nicolas@fjasle.eu> wrote:
+>
+> As suggested by Nick, add myself to Kbuild reviewers since I have been
+> reviewing patches for some time.  Citing from Nick's commit 36f1386d34120:
+> "I still have a long way to go in terms of mastery of GNU make, but at the
+> least I can help with more code review."
 
-This renames the existing KConfig option DEBUG_INFO_COMPRESSED to
-DEBUG_INFO_COMPRESSED_ZLIB so users upgrading may need to reset the new
-Kconfigs.
+Thanks for stepping up; it will be helpful to share more review
+responsibilities. Welcome aboard.
 
-Some quick N=1 measurements with du, /usr/bin/time -v, and bloaty:
+I think Nathan should consider if he has capacity to do more reviews
+here, too, and if so consider adding himself to maintainers here as
+well.
 
-clang-16, x86_64 defconfig plus
-CONFIG_DEBUG_INFO=y CONFIG_DEBUG_INFO_COMPRESSED_NONE=y:
-Elapsed (wall clock) time (h:mm:ss or m:ss): 0:55.43
-488M vmlinux
-27.6%   136Mi   0.0%       0    .debug_info
- 6.1%  30.2Mi   0.0%       0    .debug_str_offsets
- 3.5%  17.2Mi   0.0%       0    .debug_line
- 3.3%  16.3Mi   0.0%       0    .debug_loclists
- 0.9%  4.62Mi   0.0%       0    .debug_str
+Acked-by: Nick Desaulniers <ndesaulniers@google.com>
 
-clang-16, x86_64 defconfig plus
-CONFIG_DEBUG_INFO=y CONFIG_DEBUG_INFO_COMPRESSED_ZLIB=y:
-Elapsed (wall clock) time (h:mm:ss or m:ss): 1:00.35
-385M vmlinux
-21.8%  85.4Mi   0.0%       0    .debug_info
- 2.1%  8.26Mi   0.0%       0    .debug_str_offsets
- 2.1%  8.24Mi   0.0%       0    .debug_loclists
- 1.9%  7.48Mi   0.0%       0    .debug_line
- 0.5%  1.94Mi   0.0%       0    .debug_str
-
-clang-16, x86_64 defconfig plus
-CONFIG_DEBUG_INFO=y CONFIG_DEBUG_INFO_COMPRESSED_ZSTD=y:
-Elapsed (wall clock) time (h:mm:ss or m:ss): 0:59.69
-373M vmlinux
-21.4%  81.4Mi   0.0%       0    .debug_info
- 2.3%  8.85Mi   0.0%       0    .debug_loclists
- 1.5%  5.71Mi   0.0%       0    .debug_line
- 0.5%  1.95Mi   0.0%       0    .debug_str_offsets
- 0.4%  1.62Mi   0.0%       0    .debug_str
-
-That's only a 3.11% overall binary size savings over zlib, but at no
-performance regression.
-
-Link: https://maskray.me/blog/2022-09-09-zstd-compressed-debug-sections
-Link: https://maskray.me/blog/2022-01-23-compressed-debug-sections
-Suggested-by: Sedat Dilek (DHL Supply Chain) <sedat.dilek@dhl.com>
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
----
-Changes v2 -> v3:
-* Fix scripts/Makefile.debug as per Sedat.
-* Update commit message as per Nicolas.
-
-Changes v1 -> v2:
-* Remove `depends on DEBUG_KERNEL` as per Nathan.
-* Rename Kconfigs as per Sedat and Masahiro.
-* Add note about renamed Kconfigs to commit message.
-* Add more help text to DEBUG_INFO_COMPRESSED_ZSTD.
+>
+> Signed-off-by: Nicolas Schier <nicolas@fjasle.eu>
+> ---
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index cf0f18502372..61a6848192c5 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -11085,6 +11085,7 @@ KERNEL BUILD + files below scripts/ (unless maintained elsewhere)
+>  M:     Masahiro Yamada <masahiroy@kernel.org>
+>  M:     Michal Marek <michal.lkml@markovi.net>
+>  R:     Nick Desaulniers <ndesaulniers@google.com>
+> +R:     Nicolas Schier <nicolas@fjasle.eu>
+>  L:     linux-kbuild@vger.kernel.org
+>  S:     Maintained
+>  T:     git git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+> --
+> 2.37.2
+>
 
 
- lib/Kconfig.debug      | 29 +++++++++++++++++++++++++++--
- scripts/Makefile.debug |  6 +++++-
- 2 files changed, 32 insertions(+), 3 deletions(-)
-
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 29280072dc0e..7c28a8fba02e 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -312,8 +312,21 @@ config DEBUG_INFO_REDUCED
- 	  DEBUG_INFO build and compile times are reduced too.
- 	  Only works with newer gcc versions.
- 
--config DEBUG_INFO_COMPRESSED
--	bool "Compressed debugging information"
-+choice
-+	prompt "Compressed Debug information"
-+	help
-+	  Compress the resulting debug info. Results in smaller debug info sections,
-+	  but requires that consumers are able to decompress the results.
-+
-+	  If unsure, choose DEBUG_INFO_COMPRESSED_NONE.
-+
-+config DEBUG_INFO_COMPRESSED_NONE
-+	bool "Don't compress debug information"
-+	help
-+	  Don't compress debug info sections.
-+
-+config DEBUG_INFO_COMPRESSED_ZLIB
-+	bool "Compress debugging information with zlib"
- 	depends on $(cc-option,-gz=zlib)
- 	depends on $(ld-option,--compress-debug-sections=zlib)
- 	help
-@@ -327,6 +340,18 @@ config DEBUG_INFO_COMPRESSED
- 	  preferable to setting $KDEB_COMPRESS to "none" which would be even
- 	  larger.
- 
-+config DEBUG_INFO_COMPRESSED_ZSTD
-+	bool "Compress debugging information with zstd"
-+	depends on $(cc-option,-gz=zstd)
-+	depends on $(ld-option,--compress-debug-sections=zstd)
-+	help
-+	  Compress the debug information using zstd.  This may provide better
-+	  compression than zlib, for about the same time costs, but requires newer
-+	  toolchain support.  Requires GCC 13.0+ or Clang 16.0+, binutils 2.40+, and
-+	  zstd.
-+
-+endchoice # "Compressed Debug information"
-+
- config DEBUG_INFO_SPLIT
- 	bool "Produce split debuginfo in .dwo files"
- 	depends on $(cc-option,-gsplit-dwarf)
-diff --git a/scripts/Makefile.debug b/scripts/Makefile.debug
-index 332c486f705f..059ff38fe0cb 100644
---- a/scripts/Makefile.debug
-+++ b/scripts/Makefile.debug
-@@ -27,10 +27,14 @@ else
- DEBUG_RUSTFLAGS	+= -Cdebuginfo=2
- endif
- 
--ifdef CONFIG_DEBUG_INFO_COMPRESSED
-+ifdef CONFIG_DEBUG_INFO_COMPRESSED_ZLIB
- DEBUG_CFLAGS	+= -gz=zlib
- KBUILD_AFLAGS	+= -gz=zlib
- KBUILD_LDFLAGS	+= --compress-debug-sections=zlib
-+else ifdef CONFIG_DEBUG_INFO_COMPRESSED_ZSTD
-+DEBUG_CFLAGS	+= -gz=zstd
-+KBUILD_AFLAGS	+= -gz=zstd
-+KBUILD_LDFLAGS	+= --compress-debug-sections=zstd
- endif
- 
- KBUILD_CFLAGS	+= $(DEBUG_CFLAGS)
-
-base-commit: 1767a722a708f1fa3b9af39eb091d79101f8c086
 -- 
-2.38.1.431.g37b22c650d-goog
-
+Thanks,
+~Nick Desaulniers
