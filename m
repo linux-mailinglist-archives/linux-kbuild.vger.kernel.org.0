@@ -2,203 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0378F6234D8
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Nov 2022 21:47:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CC28624170
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Nov 2022 12:30:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230386AbiKIUrv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 9 Nov 2022 15:47:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45890 "EHLO
+        id S229772AbiKJLai (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 10 Nov 2022 06:30:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230128AbiKIUru (ORCPT
+        with ESMTP id S229866AbiKJLai (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 9 Nov 2022 15:47:50 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14C042FFFF;
-        Wed,  9 Nov 2022 12:47:41 -0800 (PST)
-Received: from leknes.fjasle.eu ([46.142.48.111]) by mrelayeu.kundenserver.de
- (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1Mc06b-1pPkCb0Bgt-00dZTI; Wed, 09 Nov 2022 21:41:38 +0100
-Received: from localhost.fjasle.eu (bergen.fjasle.eu [IPv6:fdda:8718:be81:0:6f0:21ff:fe91:394])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by leknes.fjasle.eu (Postfix) with ESMTPS id 0BE303C0EF;
-        Wed,  9 Nov 2022 21:41:27 +0100 (CET)
-Authentication-Results: leknes.fjasle.eu; dkim=none; dkim-atps=neutral
-Received: by localhost.fjasle.eu (Postfix, from userid 1000)
-        id EAC546442; Wed,  9 Nov 2022 21:40:55 +0100 (CET)
-Date:   Wed, 9 Nov 2022 21:40:55 +0100
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        linux-kbuild@vger.kernel.org, linux-modules@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] modpost: Join broken long printed messages
-Message-ID: <Y2wQV6JX0nbkpGtL@bergen.fjasle.eu>
-References: <d7365c44c13b563e9576cf23bd68d64e5ea57f6f.1668000538.git.geert+renesas@glider.be>
+        Thu, 10 Nov 2022 06:30:38 -0500
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52335178A7
+        for <linux-kbuild@vger.kernel.org>; Thu, 10 Nov 2022 03:30:37 -0800 (PST)
+Received: by mail-ej1-x62c.google.com with SMTP id y14so4163858ejd.9
+        for <linux-kbuild@vger.kernel.org>; Thu, 10 Nov 2022 03:30:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cloudflare.com; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sqQcFjVolIZhRIqqT6FRkGcpN9S51uF9ZG8nqQDDN4w=;
+        b=gSE0onCCVs/efmk5i6B/oSpPSArKcVgC0mm9sfVoxuzHePi8SgA2CbssgdhiFAHylU
+         mDtigGxJ5sDuiwb7V8sjbqeDbtksbtKZQh/22cpuZ2uLpEbqFefHZv9QSn2/0u1SDV7x
+         PaCk/yt4mqmgw1ljTyDm3iP1bvEpk0GU0CFKs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sqQcFjVolIZhRIqqT6FRkGcpN9S51uF9ZG8nqQDDN4w=;
+        b=XaQ2MvnJ+6w1BsZvWCM4EIPcA4Lx7cL+jWsuDn8GYL/AKvKGAQWWlY4AnGIS/W0mkv
+         5LJdWyhsy6dEGgpyOOw/Gy6cJ4oOLut55G0LnWa/+wHX1GDXVICub6sSe54NwqwbFkHt
+         9fg8pNKdPJOBV63PPA71AzzWpgrXS20Ijct6gHOrqoX39xCtzo3M6+3QjBir40aEtJFf
+         dWmtd6/O2447iWFslwtJH8UE82ueVj8Qp62sVcg8YYupt87omTRTWK/zYvunXhUpMRZZ
+         pO7R3i02f6sj4tbVYS/4TdTILH6P+ZWDNUKU0/r0lGEoZPgJ9qhZ8to5g771j8ax5BEA
+         MZag==
+X-Gm-Message-State: ACrzQf2mKVA3gAMKX9nkhg33G63IYcdmqw3jT0dGfUrfOVpou5u56i6w
+        i8iNBSwxELTX4xg54yDy0iHu8w==
+X-Google-Smtp-Source: AMsMyM78YwoGgxA4H5q9zl8rxbtghP4Aw+UmtQ4M8mwDL2tMWkcKvSrj2C1NBL6gsNgL0na2frI2FA==
+X-Received: by 2002:a17:907:1c01:b0:79d:637c:7848 with SMTP id nc1-20020a1709071c0100b0079d637c7848mr60053174ejc.513.1668079835821;
+        Thu, 10 Nov 2022 03:30:35 -0800 (PST)
+Received: from cloudflare.com (79.184.204.15.ipv4.supernova.orange.pl. [79.184.204.15])
+        by smtp.gmail.com with ESMTPSA id ky26-20020a170907779a00b0073cd7cc2c81sm7042899ejc.181.2022.11.10.03.30.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Nov 2022 03:30:35 -0800 (PST)
+From:   Jakub Sitnicki <jakub@cloudflare.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     kernel-team@cloudflare.com, linux-kbuild@vger.kernel.org,
+        x86@kernel.org, Akinobu Mita <akinobu.mita@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH] fault-inject: Enable stacktrace filter for x86-64
+Date:   Thu, 10 Nov 2022 12:30:34 +0100
+Message-Id: <20221110113034.17563-1-jakub@cloudflare.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="C1efxTHKFb4PJVpW"
-Content-Disposition: inline
-In-Reply-To: <d7365c44c13b563e9576cf23bd68d64e5ea57f6f.1668000538.git.geert+renesas@glider.be>
-Jabber-ID: nicolas@jabber.no
-X-Operating-System: Debian GNU/Linux bookworm/sid
-X-Provags-ID: V03:K1:gvRJZdwuLpqulJ/Nco7xilXQ/oYnKssoI35mKqzOTz0DFXASemC
- UTDMT95IOKrgqr5L/yRVQg90CyEkVNCyCOgBJA11AfjS+j6LMMi30CHF47Kn6chzBHdi9EV
- UsiCBEBp55k4XXxvLz3/KlfAUoBPmH6SfsasCR6rxrfVbPKhjM2C+23r+fR9dFydt9ipacI
- h3rKwlYG+SxQZ73JPdtDQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0yl11DVIV58=:ZMwfPhMxnb8gcsqj+HAFTI
- RrMVdbMWzRWi2c114PQkW+NVNPDW6MDGNXUd6KN/6hwBC4aE62AelzHGBl4qolJapyE+c47iZ
- 1sZyfzfGQZHqxk+JdKkZhf3d7/QPzQdBMcolPeqwgP9Us0DQAXwMzO4ueOBUAWBalwzETd0nN
- ajB20vXWgC0od/BiiXBgaEftXP5XzmEubKthCm8l6Q2HjJDVx7bFSUQMYEl0Y9zQFBirodgb7
- J0LTZAd4rtiQwMlNCT1fY2+VLIiGF9SoG5G1gbfbp0L+8ywwQKevdIMHp49a3IEfdS26KqVUZ
- UWc5xqIuWxm3qbZYZuCs0ZOyUoqGSJv0dkZfBqJzrvBgECJ6IN8hFq2fGjE5pbRrs0wYXA5yT
- u8eVLGt+BAzOxEFGHKDYmjzuJN2g1syQO2HVAxUDWtVNUHL6Ug1MqLlMRJBJD1o8xFUkpk7Nh
- xXVWFWH0mure43suXgpvD78cCHqtcrFLZZJ2+JaGOuqtib1ifTKIdpXu7Gl/YCCXYBy6Yud9a
- gUHZbySI3RQvCXMYfgXuas/byn8uBImBJNdd4x8CXLmCJcmBxnG7rgtPA+vCtVimbW7C8SNo4
- 8OzmZrVoZbBa13EK68v9rzHpKs2ScRgF/0B97kZf9VVbP7kiFcf6XfklSeV190lLYiZEerzVR
- o3EIGbNw3KE45+QOLAXdZkg94A9xVvqW5/WXMdMPw3E3M0jdvM9fQY4/dhaOgc9Zmq+s8r9Rq
- FafZU15XM3fBqBMHSgmsr6GM0juumenvVBnhZuDaq7+Pbip5F6SShfjHBtYbX15LQdCxYRvHd
- WVy+wjeYG8vLatff/T+hOn3X4FwjA==
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Stacktrace filtering for fault injection has been disabled on x86-64 since
+2007 due to the lack of a DWARF unwinder. See commit 6d690dcac92a ("fault
+injection: disable stacktrace filter for x86-64").
 
---C1efxTHKFb4PJVpW
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In 2017, the ORC unwider, an alternative to DWARF unwinder has been added
+in commit ee9f8fce9964 ("x86/unwind: Add the ORC unwinder").
 
-On Wed 09 Nov 2022 14:30:55 GMT Geert Uytterhoeven wrote:
-> Breaking long printed messages in multiple lines makes it very hard to
-> look up where they originated from.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
+We can now re-enable the stacktrace filter for x86-64.
 
-thanks, I do appreciate such changes!
+Cc: linux-kbuild@vger.kernel.org
+Cc: x86@kernel.org
+Cc: Akinobu Mita <akinobu.mita@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Signed-off-by: Jakub Sitnicki <jakub@cloudflare.com>
+---
+ lib/Kconfig.debug | 1 -
+ 1 file changed, 1 deletion(-)
 
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 3fc7abffc7aa..32c5329b0dd9 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -1963,7 +1963,6 @@ config FAIL_SUNRPC
+ config FAULT_INJECTION_STACKTRACE_FILTER
+ 	bool "stacktrace filter for fault-injection capabilities"
+ 	depends on FAULT_INJECTION_DEBUG_FS && STACKTRACE_SUPPORT
+-	depends on !X86_64
+ 	select STACKTRACE
+ 	depends on FRAME_POINTER || MIPS || PPC || S390 || MICROBLAZE || ARM || ARC || X86
+ 	help
+-- 
+2.38.1
 
->  scripts/mod/file2alias.c | 18 +++++++-----------
->  scripts/mod/modpost.c    |  8 +++-----
->  2 files changed, 10 insertions(+), 16 deletions(-)
->=20
-> diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-> index 80d973144fded3b1..7df23905fdf1cb36 100644
-> --- a/scripts/mod/file2alias.c
-> +++ b/scripts/mod/file2alias.c
-> @@ -140,25 +140,22 @@ static void device_id_check(const char *modname, co=
-nst char *device_id,
->  	int i;
-> =20
->  	if (size % id_size || size < id_size) {
-> -		fatal("%s: sizeof(struct %s_device_id)=3D%lu is not a modulo "
-> -		      "of the size of "
-> -		      "section __mod_%s__<identifier>_device_table=3D%lu.\n"
-> -		      "Fix definition of struct %s_device_id "
-> -		      "in mod_devicetable.h\n",
-> +		fatal("%s: sizeof(struct %s_device_id)=3D%lu is not a modulo of the si=
-ze of section __mod_%s__<identifier>_device_table=3D%lu.\n"
-> +		      "Fix definition of struct %s_device_id in mod_devicetable.h\n",
->  		      modname, device_id, id_size, device_id, size, device_id);
->  	}
->  	/* Verify last one is a terminator */
->  	for (i =3D 0; i < id_size; i++ ) {
->  		if (*(uint8_t*)(symval+size-id_size+i)) {
-> -			fprintf(stderr,"%s: struct %s_device_id is %lu bytes.  "
-> -				"The last of %lu is:\n",
-> +			fprintf(stderr,
-> +				"%s: struct %s_device_id is %lu bytes.  The last of %lu is:\n",
->  				modname, device_id, id_size, size / id_size);
->  			for (i =3D 0; i < id_size; i++ )
->  				fprintf(stderr,"0x%02x ",
->  					*(uint8_t*)(symval+size-id_size+i) );
->  			fprintf(stderr,"\n");
-> -			fatal("%s: struct %s_device_id is not terminated "
-> -				"with a NULL entry!\n", modname, device_id);
-> +			fatal("%s: struct %s_device_id is not terminated with a NULL entry!\n=
-",
-> +			      modname, device_id);
->  		}
->  	}
->  }
-> @@ -1154,8 +1151,7 @@ static int do_amba_entry(const char *filename,
->  	DEF_FIELD(symval, amba_id, mask);
-> =20
->  	if ((id & mask) !=3D id)
-> -		fatal("%s: Masked-off bit(s) of AMBA device ID are non-zero: "
-> -		      "id=3D0x%08X, mask=3D0x%08X.  Please fix this driver.\n",
-> +		fatal("%s: Masked-off bit(s) of AMBA device ID are non-zero: id=3D0x%0=
-8X, mask=3D0x%08X.  Please fix this driver.\n",
->  		      filename, id, mask);
-> =20
->  	p +=3D sprintf(alias, "amba:d");
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 2c80da0220c326ef..56d856f2e5115150 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -519,9 +519,8 @@ static int parse_elf(struct elf_info *info, const cha=
-r *filename)
->  		int nobits =3D sechdrs[i].sh_type =3D=3D SHT_NOBITS;
-> =20
->  		if (!nobits && sechdrs[i].sh_offset > info->size) {
-> -			fatal("%s is truncated. sechdrs[i].sh_offset=3D%lu > "
-> -			      "sizeof(*hrd)=3D%zu\n", filename,
-> -			      (unsigned long)sechdrs[i].sh_offset,
-> +			fatal("%s is truncated. sechdrs[i].sh_offset=3D%lu > sizeof(*hrd)=3D%=
-zu\n",
-> +			      filename, (unsigned long)sechdrs[i].sh_offset,
->  			      sizeof(*hdr));
->  			return 0;
->  		}
-> @@ -1355,8 +1354,7 @@ static void report_extable_warnings(const char* mod=
-name, struct elf_info* elf,
->  	get_pretty_name(is_function(tosym),
->  			&to_pretty_name, &to_pretty_name_p);
-> =20
-> -	warn("%s(%s+0x%lx): Section mismatch in reference"
-> -	     " from the %s %s%s to the %s %s:%s%s\n",
-> +	warn("%s(%s+0x%lx): Section mismatch in reference from the %s %s%s to t=
-he %s %s:%s%s\n",
->  	     modname, fromsec, (long)r->r_offset, from_pretty_name,
->  	     fromsym_name, from_pretty_name_p,
->  	     to_pretty_name, tosec, tosym_name, to_pretty_name_p);
-> --=20
-> 2.25.1
-
---=20
-epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
-=E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
-     -- frykten for herren er opphav til kunnskap --
-
---C1efxTHKFb4PJVpW
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmNsEFIACgkQB1IKcBYm
-EmnqkBAAyHxGSkc1QiZy0ks7S6hWW5047gXf3CRy7XGmEEy5lE/5ljMYFnkQ9rkY
-c/FvuVwBsjq45sUEj4T5u+EbN2TJiGQaFfWPrflkJ7qq2iCTClIf0zJMWwIXlwIH
-OL9zqXYgTNcNlkkyzpNLcB2VceAsX9TDLRj7UlXik3AcXFlktIYHeOqqZ00kQ+kW
-AXuTuQjX7mf/IKVNT+Th1lv/1oRhXvBlX99ebD6MoaN1KbQt6Ce2sNUzBbOar+eY
-nofkEKYgqWECrtBxjDq01eeXk36LNmOXbeuhPvmt8kjFSbM1pf7Ji+W/Zft0bSCU
-AsxR5KSFAqTatVcPukyxDrFIXj2iixnIijT3PPvTrO3PWLid8UpT/0w/W4hpYpP3
-jy+GbnVdJ1IFlvA34aKrKMP+OtxhRnj7oMtqKKgJz7LrFLl3veESwxYDI2FADNXk
-lzaIy/oe59qW9HJp7hoH5Z9QtD6yZwB6f/GOcTGT2hB80c/dLMgLK5f++y9wGNtO
-9u5ERmNbMy7bdofLjQqpttEfwfOkEc2NSY6dC1d9hKwinLap/Ww0lPm/K3N2V6+D
-SFvUUW71+PDSXyZhPy200rp++pp7JR+wdRfmGGODG/TXn8NEhda2NQXxwpNOeDr3
-TfHJ83W6oZ8SerhZsf6h6EwUpaW4qh+N5QYhmk7/hZYJbsUDNR0=
-=9+nj
------END PGP SIGNATURE-----
-
---C1efxTHKFb4PJVpW--
