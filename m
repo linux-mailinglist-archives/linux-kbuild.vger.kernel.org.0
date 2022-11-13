@@ -2,46 +2,49 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83F7F626F19
-	for <lists+linux-kbuild@lfdr.de>; Sun, 13 Nov 2022 11:59:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 120E7626F1F
+	for <lists+linux-kbuild@lfdr.de>; Sun, 13 Nov 2022 12:08:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231694AbiKMK74 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 13 Nov 2022 05:59:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44692 "EHLO
+        id S232799AbiKMLIU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 13 Nov 2022 06:08:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235243AbiKMK7z (ORCPT
+        with ESMTP id S229753AbiKMLIT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 13 Nov 2022 05:59:55 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8029EE05;
-        Sun, 13 Nov 2022 02:59:54 -0800 (PST)
+        Sun, 13 Nov 2022 06:08:19 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B935D12AEF;
+        Sun, 13 Nov 2022 03:08:18 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6F2BA60B7E;
-        Sun, 13 Nov 2022 10:59:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27B27C433D7;
-        Sun, 13 Nov 2022 10:59:53 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 73125B80B0F;
+        Sun, 13 Nov 2022 11:08:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17BF8C433D6;
+        Sun, 13 Nov 2022 11:08:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668337193;
-        bh=A7FQti5m/wYHdPhKdMyiYjVn1oIvpGLNd4xV582l6p4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CUodnP3ESQ4gJfqqJtLjdowamhxWOjPQ4lW6AEbCVfnICp/2AW5Pqn7Yh2UjdmrNr
-         uS8x1U/V2ZZ6yWFLqUOkGg/rp3wGy6TbOCk5LZLXixIzIZ4ipoSlhLikpzobMt/BA6
-         vf6zJuD1zSuOWceDRRc+dR/HUYfmO3DRDoj3lxwcbaWhQwRXyp0bmczKqWoN62QylH
-         ZYc/k6yV8GTueLW2Swre0IIAYLDhRQP7GvX1I0H8iRJJZ7RKuJvsD1ryGAsCWwFEvH
-         LJGncv35xsPyevOXRfF/LBBzIc808Tn98X8khsZ6nXNiAZrD5NAZlm13EeY2qUrReO
-         tfxFEbcLfY3hw==
+        s=k20201202; t=1668337696;
+        bh=re3T4qFodcsJuMPwETQhskz43bkLtjh3Ym+f/Ko/oGk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=cOC9F/lfceBb0KeiKCPD7XGlxzx3sDugJtIrfFYWpRaWqP+D7HMNORxPlX4eT3qUg
+         bjU2jv7I2RBncgentGE0x4YYfrNIErG6gZCIEfCurpH5lORSYn2YvrF08zIAzFRJNI
+         YluL/ter1QMz1P9EOWd4A6tyshVCWK4QYrtNaoOcXaHxDoYAiU8frmKYTDG0OPfeur
+         qcY0xdvmgOuW9jLbey3xFF7nRD2T3IAUWImVsMh58CZFK84FjaGpksbBZojo7s3jWi
+         0zPuMG5NMjmJzECzwTA7DevbhgGccMH5U100YiD0wD0KfkMOE+PH1vgoAyKNfbC9EF
+         dStaIisntTzXg==
 From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
+To:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] kconfig: remove redundant (void *) cast in search_conf()
-Date:   Sun, 13 Nov 2022 19:59:43 +0900
-Message-Id: <20221113105943.3753945-3-masahiroy@kernel.org>
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jiangshan Yi <yijiangshan@kylinos.cn>,
+        Kees Cook <keescook@chromium.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Sami Tolvanen <samitolvanen@google.com>
+Subject: [PATCH] linux/init.h: include <linux/build_bug.h> and <linux/stringify.h>
+Date:   Sun, 13 Nov 2022 20:08:02 +0900
+Message-Id: <20221113110802.3760705-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221113105943.3753945-1-masahiroy@kernel.org>
-References: <20221113105943.3753945-1-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -53,29 +56,39 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The (void *) cast is redundant because the last argument of
-show_textbox_ext() is an opaque pointer.
+With CONFIG_HAVE_ARCH_PREL32_RELOCATIONS=y, the following code
+fails to build:
+
+  ---------------->8----------------
+  #include <linux/init.h>
+
+  int foo(void) { return 0; }
+  core_initcall(foo);
+  ---------------->8----------------
+
+Include <linux/build_bug.h> for static_assert() and <linux/stringify.h>
+for __stringify().
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/kconfig/mconf.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ include/linux/init.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/scripts/kconfig/mconf.c b/scripts/kconfig/mconf.c
-index d7f7e1bf7dd4..9c549683c627 100644
---- a/scripts/kconfig/mconf.c
-+++ b/scripts/kconfig/mconf.c
-@@ -441,8 +441,7 @@ static void search_conf(void)
- 		res = get_relations_str(sym_arr, &head);
- 		set_subtitle();
- 		dres = show_textbox_ext("Search Results", str_get(&res), 0, 0,
--					keys, &vscroll,
--					&hscroll, &update_text, (void *)
-+					keys, &vscroll, &hscroll, &update_text,
- 					&data);
- 		again = false;
- 		for (i = 0; i < JUMP_NB && keys[i]; i++)
+diff --git a/include/linux/init.h b/include/linux/init.h
+index 077d7f93b402..29f7157670a5 100644
+--- a/include/linux/init.h
++++ b/include/linux/init.h
+@@ -2,7 +2,9 @@
+ #ifndef _LINUX_INIT_H
+ #define _LINUX_INIT_H
+ 
++#include <linux/build_bug.h>
+ #include <linux/compiler.h>
++#include <linux/stringify.h>
+ #include <linux/types.h>
+ 
+ /* Built-in __init functions needn't be compiled with retpoline */
 -- 
 2.34.1
 
