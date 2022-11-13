@@ -2,114 +2,112 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 28AAA62705F
-	for <lists+linux-kbuild@lfdr.de>; Sun, 13 Nov 2022 17:02:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BD16627388
+	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Nov 2022 00:38:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231972AbiKMQCw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 13 Nov 2022 11:02:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50748 "EHLO
+        id S234152AbiKMXiZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 13 Nov 2022 18:38:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231252AbiKMQCv (ORCPT
+        with ESMTP id S231252AbiKMXiY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 13 Nov 2022 11:02:51 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4763CE0D5;
-        Sun, 13 Nov 2022 08:02:51 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D89D960B1B;
-        Sun, 13 Nov 2022 16:02:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41A07C433C1;
-        Sun, 13 Nov 2022 16:02:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668355370;
-        bh=fd55kZAvjkdETDENLLWlzIVZsgNDYBlzkiG2yK3Pih8=;
-        h=From:To:Cc:Subject:Date:From;
-        b=u49yItbgwJ5myv8DAsSJ2enIlJTQvQqItouAeaZRU3SIkvky0jPxg39lLQrocqSBz
-         r9hu/AUXJcSnH3cH9/p0Gu/wkM9H/e5lbiOQIAoGNxACbVRHhVr0jxkkjamnIgUFSI
-         Tnnd+kOIwAxFbr8p55RQzcwWLqKSIB0P7AR9v8LPTI7qKvV8DvDYz7gYLIfC1GA0Cd
-         pEmUwRswltUlEfScBGFxjDH4yc0isxg9iP5tA5sKfA9uFN8nmjUPbMOEYjsZIdDliq
-         T2geJtYbCE6c46u49c4CmbeKVEceNXSGsNmAjeARO2pbAGy7VWjYmLseTgLr84f6bE
-         yDa/mtI9bBQvA==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=valley-girl.lan)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.95)
-        (envelope-from <maz@kernel.org>)
-        id 1ouFRY-005oI3-0F;
-        Sun, 13 Nov 2022 16:02:48 +0000
-From:   Marc Zyngier <maz@kernel.org>
-To:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: [PATCH] kbuild: Restore .version auto-increment behaviour for Debian/RPM packages
-Date:   Sun, 13 Nov 2022 16:02:37 +0000
-Message-Id: <20221113160237.3152770-1-maz@kernel.org>
-X-Mailer: git-send-email 2.34.1
+        Sun, 13 Nov 2022 18:38:24 -0500
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB456DE9D;
+        Sun, 13 Nov 2022 15:38:22 -0800 (PST)
+Received: by mail-pf1-x435.google.com with SMTP id g62so9529037pfb.10;
+        Sun, 13 Nov 2022 15:38:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0Vnx3d3UtkT0/AOZKRIdRL+527l3FrSpUvOUpZvyUTU=;
+        b=blKoO8j4ehhHyUaUop6u8o1NYssyGklb1fBQii6ccnOuJB1GCx33PlNv2pQ6LgZI8x
+         yISfq6eaSXYTJlHY+oiMASEfAsGDtzNU9YoQHYLgcLJwkigMAo8d44e88qqINeTXFUf6
+         EY17RqbzjzSnBB/1zMS6KU+5cvHFS/NuAByEiTBwPcITmnKq+XZJJfhNmzxBj2upsOoB
+         mBBMqWpXDdFp5CF4Yg7sQCbBlpOG6ahyaKbKeSN3hasbb5HQo4Y7oq3+8Elag3oVhR8p
+         15lFmO9KRVte7WIyXLFJFlmbJHsvAxSwdpaIyAr46BEoPfbnqHAsXO2+oRB77vTpL4Hg
+         xN7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0Vnx3d3UtkT0/AOZKRIdRL+527l3FrSpUvOUpZvyUTU=;
+        b=2aHUltpcLhmBpofqMdltSn/iUIY8Vkd6O6htfuIcFpwIors7J7BUV+t9D83W6J0dJG
+         frulpG6WCyfSbRHvNSlMuVnNpnvUDBmvucGC0jysDCXzlCKZWxWSkr9pnn29581cupcd
+         4rMh1D9i6TcnSca75U0Ux//vJzyzr1CNSbbgdfz4fTrbgqYVN6BZCLPHxg3FgKXlvode
+         5XMTnu8PIkzqer9pTDpZNi4U7vIN/ftqf5BEKnfbZdUkAFzezFZECwBBcbNOCvTOyp6i
+         rxtyXuCI06I5D3HYh4PgVoCER5a4fy52Z+qGYxqlCBlfVguJyIdQUW1BEecfbslubs5W
+         BxNA==
+X-Gm-Message-State: ANoB5pnYVGYGRF5x07yXWsizPaVD/TSxnITcY1ymxq8NSk4MUFNKSDdP
+        lz8kW/dDhT1Z11TkO6CbXQU3RKyJw082uw==
+X-Google-Smtp-Source: AA0mqf5xzbKMvhosYmjeFdvvr2ztvRpv/6HUe8EXpW13Kz5dAstFCQ6bhMPlCpEcQuOEVXLI2Cfr7Q==
+X-Received: by 2002:a63:165f:0:b0:439:ac9b:37a6 with SMTP id 31-20020a63165f000000b00439ac9b37a6mr10000824pgw.591.1668382702061;
+        Sun, 13 Nov 2022 15:38:22 -0800 (PST)
+Received: from nicks-air.lan ([2601:647:5700:fdc:a9a7:4597:ad5b:e304])
+        by smtp.googlemail.com with ESMTPSA id ip4-20020a17090b314400b00212cf2fe8c3sm8890336pjb.1.2022.11.13.15.38.20
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 13 Nov 2022 15:38:21 -0800 (PST)
+From:   Nick Desaulniers <nick.desaulniers@gmail.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Nick Desaulniers <nick.desaulniers@gmail.com>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        WANG Xuerui <git@xen0n.name>, Guo Ren <guoren@kernel.org>,
+        linux-kernel@vger.kernel.org
+Cc:     rust-for-linux@vger.kernel.org, asahi@lists.linux.dev,
+        linux-kbuild@vger.kernel.org
+Subject: [PATCH] scripts: subarch.include: fix SUBARCH on MacOS hosts
+Date:   Sun, 13 Nov 2022 15:38:09 -0800
+Message-Id: <20221113233812.36784-1-nick.desaulniers@gmail.com>
+X-Mailer: git-send-email 2.37.0 (Apple Git-136)
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, masahiroy@kernel.org, michal.lkml@markovi.net, ndesaulniers@google.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Since 2df8220cc511 ("kbuild: build init/built-in.a just once"),
-generating Debian packages using 'make bindeb-pkg' results in
-packages that are stuck to the same .version, leading to unexpected
-behaviours (multiple packages with the same version).
+When building the Linux kernel on an aarch64 MacOS based host, if we don't
+specify a value for ARCH when invoking make, we default to arm and thus
+multi_v7_defconfig rather than the expected arm64 and arm64's defconfig.
 
-Restore the previous behaviour by calling init/build-version
-instead of reading the .version file. This is likely to result
-in too many .version bumps, but this is what was happening before
-(although the bump was affecting builds made the current one).
+This is because subarch.include invokes `uname -m` which on MacOS hosts
+evaluates to `arm64` but on Linux hosts evaluates to `aarch64`,
 
-Only tested with bindeb-pkg.
+This allows us to build ARCH=arm64 natively on MacOS (as in ARCH need
+not be specified on an aarch64-based system).
 
-Fixes: 2df8220cc511 ("kbuild: build init/built-in.a just once")
-Signed-off-by: Marc Zyngier <maz@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Michal Marek <michal.lkml@markovi.net>
-Cc: Nick Desaulniers <ndesaulniers@google.com>
+Utilize a negative lookahead regular expression to avoid matching arm64.
+
+Signed-off-by: Nick Desaulniers <nick.desaulniers@gmail.com>
 ---
- scripts/package/mkdebian | 2 +-
- scripts/package/mkspec   | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+This is only part 1 of
+https://github.com/ClangBuiltLinux/linux/commit/f06333e29addbc3d714adb340355f471c1dfe95a
+I'm still working on the rest...
 
-diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-index 60a2a63a5e90..e5c983afddab 100755
---- a/scripts/package/mkdebian
-+++ b/scripts/package/mkdebian
-@@ -90,7 +90,7 @@ if [ -n "$KDEB_PKGVERSION" ]; then
- 	packageversion=$KDEB_PKGVERSION
- 	revision=${packageversion##*-}
- else
--	revision=$(cat .version 2>/dev/null||echo 1)
-+	revision=$(init/build-version)
- 	packageversion=$version-$revision
- fi
- sourcename=$KDEB_SOURCENAME
-diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-index 70392fd2fd29..9cbd45f497ba 100755
---- a/scripts/package/mkspec
-+++ b/scripts/package/mkspec
-@@ -42,7 +42,7 @@ sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
- 	Name: kernel
- 	Summary: The Linux Kernel
- 	Version: $__KERNELRELEASE
--	Release: $(cat .version 2>/dev/null || echo 1)
-+	Release: $(init/build-version)
- 	License: GPL
- 	Group: System Environment/Kernel
- 	Vendor: The Linux Community
+ scripts/subarch.include | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/subarch.include b/scripts/subarch.include
+index 4bd327d0ae42..aa130286b627 100644
+--- a/scripts/subarch.include
++++ b/scripts/subarch.include
+@@ -6,7 +6,7 @@
+ 
+ SUBARCH := $(shell uname -m | sed -e s/i.86/x86/ -e s/x86_64/x86/ \
+ 				  -e s/sun4u/sparc64/ \
+-				  -e s/arm.*/arm/ -e s/sa110/arm/ \
++				  -e s/arm\(?:\(?!64\).*\)/arm/ -e s/sa110/arm/ \
+ 				  -e s/s390x/s390/ \
+ 				  -e s/ppc.*/powerpc/ -e s/mips.*/mips/ \
+ 				  -e s/sh[234].*/sh/ -e s/aarch64.*/arm64/ \
 -- 
-2.34.1
+2.37.0 (Apple Git-136)
 
