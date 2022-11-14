@@ -2,46 +2,43 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 062B8628765
-	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Nov 2022 18:46:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 883F46287EF
+	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Nov 2022 19:12:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237414AbiKNRqa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 14 Nov 2022 12:46:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45670 "EHLO
+        id S237502AbiKNSLd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 14 Nov 2022 13:11:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237435AbiKNRq3 (ORCPT
+        with ESMTP id S236173AbiKNSL0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 14 Nov 2022 12:46:29 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4B51B7D2;
-        Mon, 14 Nov 2022 09:46:27 -0800 (PST)
+        Mon, 14 Nov 2022 13:11:26 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16E75240A6;
+        Mon, 14 Nov 2022 10:11:26 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 77718B810DE;
-        Mon, 14 Nov 2022 17:46:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A92FC433C1;
-        Mon, 14 Nov 2022 17:46:23 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9E0CA6133B;
+        Mon, 14 Nov 2022 18:11:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3062AC433C1;
+        Mon, 14 Nov 2022 18:11:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668447985;
-        bh=ELuvAh5rXFUq6jZ+XUAJMs1kehBG2jCe/rQKj3uUkBw=;
+        s=k20201202; t=1668449485;
+        bh=1O3d3xi2O06KTDEL1vSpCTxtSRQrEwJVWfeHpaw65G4=;
         h=From:To:Cc:Subject:Date:From;
-        b=tn0SBkNysYcB/YKO8/VT1GdiRMg/CPQogLZfl3NaqMu7LYa2UDV9Y5rmgKPKXzAIF
-         nQFaceMWnurjrmQEnIkHu/NXgUdd+Xu52gkxe3f1fgsdMVqTucdiKSJtcBtwPTBWKL
-         /XX86YgK/7JFXlrgSDT6nN2oGutMP+VbiGmwC+3J1FGaNDfH0JZzB6UBed4SgHwWiA
-         5Wenq5Cor/mepfSriy7R8tWtOW5ylngTeHJFKQcgoU3dUwO11qTpZdqfPjxBhzoMwK
-         VCn+vFaX6vltbBnRfXdhNeDgZljIzIo3svzU0og/BvEgNBKLcdM5DMD/+gfvR1dZVA
-         JHB5DEijc7t3g==
+        b=tNYkD3bEge7K6tj0u/fZO9pe+rGrKt4mYoy00W49CswaA8MfYhwkmrlIEa+I9WU3e
+         njE4awseOvm3/o7ME1+KNvBXo4xwWNQqYhMk1z+BZhn0RLSOZKYVrfZkP4btxDq56B
+         xx7wL32CIEQsKGwMFehuHbTX6edV7Yemdvtj7gLG+pQxW03DzUgwZd4gekNc0NEfWP
+         m0SPhH6hJr9OlZJ+0u4qzf9bWqYO48zCqfazFNTPPYsMmj4obTxvkYSP61LEuevfjy
+         Fk2AL8+Tn+IEG1I4tre+A2vWGpNu3mfAnxyJahXDT137LNThfMq4kWo7wq80/Bv8pc
+         HoXijyjdgFnyQ==
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: revive parallel execution for .tmp_initcalls.lds rule
-Date:   Tue, 15 Nov 2022 02:46:17 +0900
-Message-Id: <20221114174617.211980-1-masahiroy@kernel.org>
+Subject: [PATCH] scripts/jobserver-exec: parse the last --jobserver-auth= option
+Date:   Tue, 15 Nov 2022 03:10:55 +0900
+Message-Id: <20221114181055.214948-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -54,37 +51,36 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Prior to commit 5d45950dfbb1 ("kbuild: move vmlinux.o link to
-scripts/Makefile.vmlinux_o"), jobserver-exec was invoked from the shell
-script, link-vmlinux.sh. It can get access to the jobserver because
-Makefile adds '+' prefix, as in:
+In the GNU Make manual, the section "Sharing Job Slots with GNU make"
+says:
 
-    +$(call if_changed_dep,link_vmlinux)
+    Be aware that the MAKEFLAGS variable may contain multiple instances
+    of the --jobserver-auth= option. Only the last instance is relevant.
 
-Since 5d45950dfbb1, jobserver-exec is invoked from Makefile, but the
-'+' prefix is missing, hence jobserver-exec has no access to the
-jobserver.
+Take the last element of the array, not the first.
 
-Fixes: 5d45950dfbb1 ("kbuild: move vmlinux.o link to scripts/Makefile.vmlinux_o")
+Link: https://www.gnu.org/software/make/manual/html_node/Job-Slots.html
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/Makefile.vmlinux_o | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/jobserver-exec | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/Makefile.vmlinux_o b/scripts/Makefile.vmlinux_o
-index 0edfdb40364b..ae52d3b3f063 100644
---- a/scripts/Makefile.vmlinux_o
-+++ b/scripts/Makefile.vmlinux_o
-@@ -19,7 +19,7 @@ quiet_cmd_gen_initcalls_lds = GEN     $@
+diff --git a/scripts/jobserver-exec b/scripts/jobserver-exec
+index 8762887a970c..4192855f5b8b 100755
+--- a/scripts/jobserver-exec
++++ b/scripts/jobserver-exec
+@@ -23,7 +23,9 @@ try:
+ 	opts = [x for x in flags.split(" ") if x.startswith("--jobserver")]
  
- .tmp_initcalls.lds: $(srctree)/scripts/generate_initcall_order.pl \
- 		vmlinux.a $(KBUILD_VMLINUX_LIBS) FORCE
--	$(call if_changed,gen_initcalls_lds)
-+	+$(call if_changed,gen_initcalls_lds)
- 
- targets := .tmp_initcalls.lds
- 
+ 	# Parse out R,W file descriptor numbers and set them nonblocking.
+-	fds = opts[0].split("=", 1)[1]
++	# If the MAKEFLAGS variable contains multiple instances of the
++	# --jobserver-auth= option, the last one is relevant.
++	fds = opts[-1].split("=", 1)[1]
+ 	reader, writer = [int(x) for x in fds.split(",", 1)]
+ 	# Open a private copy of reader to avoid setting nonblocking
+ 	# on an unexpecting process with the same reader fd.
 -- 
 2.34.1
 
