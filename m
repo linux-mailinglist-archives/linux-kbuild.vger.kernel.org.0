@@ -2,53 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 52242629762
-	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Nov 2022 12:29:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 862EA6297AD
+	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Nov 2022 12:43:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232468AbiKOL3p (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 15 Nov 2022 06:29:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35394 "EHLO
+        id S230001AbiKOLnv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 15 Nov 2022 06:43:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232547AbiKOL3a (ORCPT
+        with ESMTP id S229879AbiKOLnt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 15 Nov 2022 06:29:30 -0500
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F40361EC5B;
-        Tue, 15 Nov 2022 03:29:14 -0800 (PST)
+        Tue, 15 Nov 2022 06:43:49 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D7CD2529A;
+        Tue, 15 Nov 2022 03:43:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668511755; x=1700047755;
+  t=1668512628; x=1700048628;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=FvdD9kceN5CwXDRlw8ICmZuMX9S+bhG3igZvZo2D/Ig=;
-  b=KvU3rld99IFo2iC2TyzqlaZ+1s3CgXUPtmrs+VhKbV9giM7uj8LYquZc
-   7IWcsPMYWqA/gjxNbqsDh7CTip3S5ykhMJB790zrQpk7CAVqMxlnci4Kf
-   rDAzNbIkp/30iAX6Ztj/JuemXJvo/4dEK2SH8nFka9LZJEHVpshTaGCi1
-   9qUnMctwKlVCpYsJdUSniMFQmezu3v8oVlHpFcleNqs0CToj46N3GwBTR
-   2Dyk9lK5fJ/iJ4h9COVscT+KV3f/DQn5mh+UwRROvmY+1UFh9d+tWMW03
-   VKKVede6Y3jx7P8spcUSM7cj0j6QvpxShnJEshS6NBtlRj08PQutkzOKi
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="299753203"
+  bh=JO33YPL4NpCf+QtbSvBLune4D/6KvXp403nfS2tAN/c=;
+  b=icX/gImr8kWPZJO6apmqT/0DpRGBYkTIwC8ZYBCIuF4B88ibUMHvXP7s
+   PbAuvdNIL3CelM9JOLcidsdKI6t9NjDgI+qFZPxLUzgqFsFxuNAJplpNV
+   h8oXxuN3ZgM/CoeZ3wmlWMdeH/ag4AY+M95+dhAboxnlY2bDTtyNPxqoG
+   YQDxGtBgLZGXoei90MgswDI6l0ZC0y1LlY6U5xMdWkNhV0y967y5JB3FN
+   oMNNpZw/cc4TgZjgRrbYDHSD12NcgzEt1qGt8Qjpf7H0B852vvVKknGhO
+   a8OU/ZIwnW+T0fEoPQdQ5VhrRzZnI9hpsWAe3+SShcZrKWCI1DZ3QWdRR
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="374365168"
 X-IronPort-AV: E=Sophos;i="5.96,165,1665471600"; 
-   d="scan'208";a="299753203"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 03:29:09 -0800
+   d="scan'208";a="374365168"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 03:43:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="589759250"
+X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="633206267"
 X-IronPort-AV: E=Sophos;i="5.96,165,1665471600"; 
-   d="scan'208";a="589759250"
+   d="scan'208";a="633206267"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga003.jf.intel.com with ESMTP; 15 Nov 2022 03:29:05 -0800
+  by orsmga007.jf.intel.com with ESMTP; 15 Nov 2022 03:43:43 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@intel.com>)
-        id 1ouu7i-00Caqh-2J;
-        Tue, 15 Nov 2022 13:29:02 +0200
-Date:   Tue, 15 Nov 2022 13:29:02 +0200
-From:   Andy Shevchenko <andriy.shevchenko@intel.com>
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1ouuLt-00Cb7Y-03;
+        Tue, 15 Nov 2022 13:43:41 +0200
+Date:   Tue, 15 Nov 2022 13:43:40 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Andrew Davis <afd@ti.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-        Li Yang <leoyang.li@nxp.com>,
+Cc:     Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
         Sascha Hauer <s.hauer@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Nishanth Menon <nm@ti.com>,
         Vignesh Raghavendra <vigneshr@ti.com>,
@@ -60,139 +60,90 @@ Cc:     Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
         devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/7] Rename DTB overlay source files
-Message-ID: <Y3N3/pmmgv4nl7rZ@smile.fi.intel.com>
-References: <20221024173434.32518-1-afd@ti.com>
- <CAL_JsqJxgVwsjKnkCEkZeoSsDgaRD+DVPkHRBc2SrcSq69PBNw@mail.gmail.com>
- <Y26lDEtiG4KFzc91@smile.fi.intel.com>
- <e5ce57b2-4557-2dcb-fb3a-71e2acae4502@ti.com>
- <Y3DhIO7H9mfRpe3z@smile.fi.intel.com>
- <Y3Dk0HJAPuq64tKe@smile.fi.intel.com>
- <Y3JnfSUpBfATkD69@smile.fi.intel.com>
- <f28505a4-3384-b6df-5229-d576a089b1dd@ti.com>
+Subject: Re: [PATCH] kbuild: Cleanup DT Overlay intermediate files as
+ appropriate
+Message-ID: <Y3N7bLuSTKJYPcIC@smile.fi.intel.com>
+References: <20221114205939.27994-1-afd@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f28505a4-3384-b6df-5229-d576a089b1dd@ti.com>
+In-Reply-To: <20221114205939.27994-1-afd@ti.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Nov 14, 2022 at 02:43:51PM -0600, Andrew Davis wrote:
-> On 11/14/22 10:06 AM, Andy Shevchenko wrote:
-> > On Sun, Nov 13, 2022 at 02:36:33PM +0200, Andy Shevchenko wrote:
-> > > On Sun, Nov 13, 2022 at 02:20:48PM +0200, Andy Shevchenko wrote:
-> > > > On Fri, Nov 11, 2022 at 03:05:20PM -0600, Andrew Davis wrote:
-> > > > > On 11/11/22 1:39 PM, Andy Shevchenko wrote:
-> > > > > > On Wed, Oct 26, 2022 at 09:11:21AM -0500, Rob Herring wrote:
-> > > > > > > On Mon, Oct 24, 2022 at 12:34 PM Andrew Davis <afd@ti.com> wrote:
-> > > > > > > > 
-> > > > > > > > Hello all,
-> > > > > > > > 
-> > > > > > > > This is a series based on my patch here[0]. As suggested by Rob
-> > > > > > > > I've resurrected Frank's patch and appended it to mine as a series.
-> > > > > > > > 
-> > > > > > > > First patch here is my original patch, 3rd is Frank's patch but with
-> > > > > > > > the unittest changes pulled out into the 2nd patch. That was re-worked
-> > > > > > > > moving the source building macro into scripts/Makefile.lib.
-> > > > > > > > 
-> > > > > > > > Patches 4, 5, and 6 are an attempt at renaming all the existing DTB
-> > > > > > > > overlays. Split out by platform so they could be taken by platform
-> > > > > > > > maintainers or if easier ACK'd here and taken all together.
-> > > > > > > > 
-> > > > > > > > This should cover all the DTB overlays so we can remove the old .dts
-> > > > > > > > rule for overlays and make .dtso the only supported way, let me know
-> > > > > > > > if we want that this cycle and I can post that too.
-> > > > > > > > 
-> > > > > > > > Thanks,
-> > > > > > > > Andrew
-> > > > > > > > 
-> > > > > > > > Changes from v1[1]:
-> > > > > > > >    - Added patch to rename pi433 overlay.
-> > > > > > > >    - Cleaned wording on patch 4-6.
-> > > > > > > >    - Collected some ACKs
-> > > > > > > > 
-> > > > > > > > [0] https://www.spinics.net/lists/kernel/msg4548509.html
-> > > > > > > > [1] https://www.spinics.net/lists/arm-kernel/msg1020165.html
-> > > > > > > > 
-> > > > > > > > Andrew Davis (6):
-> > > > > > > >     kbuild: Allow DTB overlays to built from .dtso named source files
-> > > > > > > >     kbuild: Allow DTB overlays to built into .dtso.S files
-> > > > > > > >     arm64: dts: freescale: Rename DTB overlay source files from .dts to
-> > > > > > > >       .dtso
-> > > > > > > >     arm64: dts: renesas: Rename DTB overlay source files from .dts to
-> > > > > > > >       .dtso
-> > > > > > > >     arm64: dts: xilinx: Rename DTB overlay source files from .dts to .dtso
-> > > > > > > >     staging: pi433: overlay: Rename overlay source file from .dts to .dtso
-> > > > > > > > 
-> > > > > > > > Frank Rowand (1):
-> > > > > > > >     of: overlay: rename overlay source files from .dts to .dtso
-> > > > > > > 
-> > > > > > > I've applied patches 1-3 and 7. I'll send a PR for the branch to the
-> > > > > > > platform maintainers after a few days in linux-next.
-> > > > > > 
-> > > > > > The patch
-> > > > > > 
-> > > > > > commit 941214a512d8c80d47e720c17ec17e8539175e93
-> > > > > > Author: Andrew Davis <afd@ti.com>
-> > > > > > Date:   Mon Oct 24 12:34:29 2022 -0500
-> > > > > > 
-> > > > > >       kbuild: Allow DTB overlays to built into .dtbo.S files
-> > > > > > 
-> > > > > > broke the build reproducibility / no-op builds.
-> > > > > > 
-> > > > > > Before:
-> > > > > >     2+ execution of `make` on non-changed tree did nothing
-> > > > > > 
-> > > > > > Now:
-> > > > > >     Each run of `make` (even without a single bit changed) restarts vmlinux
-> > > > > >     rebuild.
-> > > > > > 
-> > > > > > Please, revert or fix.
-> > > > > > 
-> > > > > 
-> > > > > I do not see this behavior. What config are you using?
-> > > > > 
-> > > > > Not sure how this patch could be the root cause, it only adds
-> > > > > a build target/rule, but doesn't actually use it anywhere yet..
-> > > > 
-> > > > For your reference I started with this one [1].
-> > > > 
-> > > > When I bisected, I just answered with defaults on whatever `make` told me at
-> > > > the configuration stage.
-> > > > 
-> > > > The actual `make` command I used:
-> > > > 
-> > > > 	make O=/path/to/the/result W=1 C=1 CF=-D__CHECK_ENDIAN__ -j64
-> > > > 
-> > > > But there is nothing that can affect the described issue.
-> > > 
-> > > Actually, O= might affect which Makefile is used and how.
-> > > The C=, CF= are sparse flags, W= is just warning level.
-> > 
-> > As far as I can tell right now it's the OF_UNITTEST on x86_64 that makes the
-> > above mentioned patch to be a culprit. Not sure if on ARM / ARM64 you can
-> > reproduce that. And it's really strange nobody reported this for a week+.
-> > 
-> > Whatever, I'm open for the suggestions and material to test.
+On Mon, Nov 14, 2022 at 02:59:39PM -0600, Andrew Davis wrote:
+> %.dtbo.o and %.dtbo.S files are used to build-in DT Overlay. They should
+> should not be removed by Make or the kernel will be needlessly rebuilt.
 > 
-> I think I found the issue, we forgot to add the new dtbo.S/o files
-> to the list of preserved intermediate targets, so Make was
-> removing them after build.
+> These should be removed by "clean" and ignored by git like other
+> intermediate files.
+
+Fixes: 941214a512d8 ("kbuild: Allow DTB overlays to built into .dtbo.S files")
+
+Tested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+> Reported-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+> Signed-off-by: Andrew Davis <afd@ti.com>
+> ---
+>  .gitignore             | 1 +
+>  Makefile               | 4 +++-
+>  scripts/Makefile.build | 2 ++
+>  3 files changed, 6 insertions(+), 1 deletion(-)
 > 
-> Sending the fix now.
-
-I'll test it ASAP and reply there.
-Thank you.
-
-> > > > [1]: https://p.defau.lt/?ZSOdGnNxF9v9AQtrfDo_KQ
+> diff --git a/.gitignore b/.gitignore
+> index 5da004814678d..3ec73ead6757e 100644
+> --- a/.gitignore
+> +++ b/.gitignore
+> @@ -20,6 +20,7 @@
+>  *.dtb
+>  *.dtbo
+>  *.dtb.S
+> +*.dtbo.S
+>  *.dwo
+>  *.elf
+>  *.gcno
+> diff --git a/Makefile b/Makefile
+> index 3735d5996c637..0dd7e8d022289 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -2003,7 +2003,9 @@ clean: $(clean-dirs)
+>  	@find $(or $(KBUILD_EXTMOD), .) $(RCS_FIND_IGNORE) \
+>  		\( -name '*.[aios]' -o -name '*.rsi' -o -name '*.ko' -o -name '.*.cmd' \
+>  		-o -name '*.ko.*' \
+> -		-o -name '*.dtb' -o -name '*.dtbo' -o -name '*.dtb.S' -o -name '*.dt.yaml' \
+> +		-o -name '*.dtb' -o -name '*.dtbo' \
+> +		-o -name '*.dtb.S' -o -name '*.dtbo.S' \
+> +		-o -name '*.dt.yaml' \
+>  		-o -name '*.dwo' -o -name '*.lst' \
+>  		-o -name '*.su' -o -name '*.mod' -o -name '*.usyms' \
+>  		-o -name '.*.d' -o -name '.*.tmp' -o -name '*.mod.c' \
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index 41f3602fc8de7..3ceab076127b7 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -468,10 +468,12 @@ intermediate_targets = $(foreach sfx, $(2), \
+>  					$(filter %$(strip $(1)), $(targets))))
+>  # %.asn1.o <- %.asn1.[ch] <- %.asn1
+>  # %.dtb.o <- %.dtb.S <- %.dtb <- %.dts
+> +# %.dtbo.o <- %.dtbo.S <- %.dtbo <- %.dtso
+>  # %.lex.o <- %.lex.c <- %.l
+>  # %.tab.o <- %.tab.[ch] <- %.y
+>  targets += $(call intermediate_targets, .asn1.o, .asn1.c .asn1.h) \
+>  	   $(call intermediate_targets, .dtb.o, .dtb.S .dtb) \
+> +	   $(call intermediate_targets, .dtbo.o, .dtbo.S .dtbo) \
+>  	   $(call intermediate_targets, .lex.o, .lex.c) \
+>  	   $(call intermediate_targets, .tab.o, .tab.c .tab.h)
+>  
+> -- 
+> 2.38.1
+> 
 
 -- 
 With Best Regards,
