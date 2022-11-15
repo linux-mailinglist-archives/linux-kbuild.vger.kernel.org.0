@@ -2,156 +2,135 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AF33629874
-	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Nov 2022 13:17:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 368BB629A5F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Nov 2022 14:31:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232632AbiKOMRS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 15 Nov 2022 07:17:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38608 "EHLO
+        id S238340AbiKONbn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 15 Nov 2022 08:31:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238291AbiKOMRI (ORCPT
+        with ESMTP id S238130AbiKONbZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 15 Nov 2022 07:17:08 -0500
-Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A76301FF8E;
-        Tue, 15 Nov 2022 04:17:07 -0800 (PST)
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 2AFCGmEO014751;
-        Tue, 15 Nov 2022 21:16:49 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 2AFCGmEO014751
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1668514609;
-        bh=DzEq60ykSG5bYhq7I51xfa+aMo2N2iDeazHRRzbLNkk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=UJBM0I1frGShIVdDRgoEwA77I0IMhI1KAhHzd6XYrG7Fh3dXbMRTXsODnocs/yTJ3
-         vXvbyGFMm0ov26HgA0TADMwQ4BSJbe9en/xcr50YvDOqmWAfZErcdwNg0p/NhI2eiH
-         lm5rsZtCEn7sSqqX8C1y0Jtk3cfItKIz3X/9RUfWGVoxW/UHguSiq2nS9VkSXMTpnl
-         pSHVXzbVAzPvBVk+96+PdVALgQxvxMA5NQtiKhxftOrOEyH+YPtVcWe0D+JoVmmD9y
-         tXVIX1hREoPghlBijQ1TztIXNnljPSKn1yGHkm2Ndot43BIYZxZufbU5RwkvewmHuE
-         HjsLqgR4br6Ig==
-X-Nifty-SrcIP: [209.85.160.51]
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-13bd19c3b68so15996862fac.7;
-        Tue, 15 Nov 2022 04:16:49 -0800 (PST)
-X-Gm-Message-State: ANoB5pkshMViMSfIDyNbAF+Uk+XKrp1zaWH6EP9KRD9Ryowyi38SG0Br
-        fCgkHOuMaSM1CnvvS8IcLSxj6HBQV7+5wwmcl5s=
-X-Google-Smtp-Source: AA0mqf6mmAah35Of30QCc4t3crf2yofcTDeglomR5PcNgtqbYn0wAg4XKxQcg/Q7T7cBiJ/FmPWFuuanDNj1TiDKxIM=
-X-Received: by 2002:a05:6870:538d:b0:13b:a31f:45fd with SMTP id
- h13-20020a056870538d00b0013ba31f45fdmr104263oan.194.1668514608102; Tue, 15
- Nov 2022 04:16:48 -0800 (PST)
+        Tue, 15 Nov 2022 08:31:25 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46BA3DFC5;
+        Tue, 15 Nov 2022 05:31:24 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id E57021F8C7;
+        Tue, 15 Nov 2022 13:31:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1668519082; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=6S/6qWoM9bvr/F9wymPHSwbtM7nJIyGIcCGcRNv81bo=;
+        b=nRc2e39ELC7qec2QCbcBqak9znvCwWEA8u/ClgripvGSL3uCRohkLqqN4LZb/WbGYdn1yG
+        lIg5pSeJLRmmiAGEmWBcXnKTp/eEXExg6sNDynNQTc6jT94JA84Ud6wzEhRHgVhe6Arz/g
+        gszY/XtI64D+weNiedTmNo9bTFFXogE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1668519082;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=6S/6qWoM9bvr/F9wymPHSwbtM7nJIyGIcCGcRNv81bo=;
+        b=TyVcir2l7dmmsK0P0RXY3Ts8NnEqnyvECLb0kSHuhsVbIksp9rtl1mDSiwsNmIZe8gsPM2
+        qYAnPc36x++uuUAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8D62213273;
+        Tue, 15 Nov 2022 13:31:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id F8OlIKqUc2MRZQAAMHmgww
+        (envelope-from <mliska@suse.cz>); Tue, 15 Nov 2022 13:31:22 +0000
+Message-ID: <858176b3-a70e-01ce-4a56-96cb031f16c5@suse.cz>
+Date:   Tue, 15 Nov 2022 14:31:22 +0100
 MIME-Version: 1.0
-References: <20221114174617.211980-1-masahiroy@kernel.org> <Y3La2mwCgD8r/5PI@dev-arch.thelio-3990X>
-In-Reply-To: <Y3La2mwCgD8r/5PI@dev-arch.thelio-3990X>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 15 Nov 2022 21:16:09 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARCM=rUm8mA8GRQ7ufeyfneGf4OEvHmESKt=zuxs2KrHw@mail.gmail.com>
-Message-ID: <CAK7LNARCM=rUm8mA8GRQ7ufeyfneGf4OEvHmESKt=zuxs2KrHw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: revive parallel execution for .tmp_initcalls.lds rule
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 30/46] Kbuild, lto: Add Link Time Optimization support
+Content-Language: en-US
+To:     Josh Poimboeuf <jpoimboe@kernel.org>,
+        "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, Andi Kleen <ak@linux.intel.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
-        autolearn_force=no version=3.4.6
+        linux-kbuild@vger.kernel.org, Richard Biener <RGuenther@suse.com>,
+        Jan Hubicka <jh@suse.de>, "H . J . Lu" <hjl.tools@gmail.com>,
+        Don Zickus <dzickus@redhat.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Jiri Slaby <jslaby@suse.cz>
+References: <20221114114344.18650-1-jirislaby@kernel.org>
+ <20221114114344.18650-31-jirislaby@kernel.org>
+ <20221114185545.yobf3faky2njugfq@treble>
+From:   =?UTF-8?Q?Martin_Li=c5=a1ka?= <mliska@suse.cz>
+In-Reply-To: <20221114185545.yobf3faky2njugfq@treble>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_SOFTFAIL autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Nov 15, 2022 at 9:18 AM Nathan Chancellor <nathan@kernel.org> wrote=
-:
->
-> On Tue, Nov 15, 2022 at 02:46:17AM +0900, Masahiro Yamada wrote:
-> > Prior to commit 5d45950dfbb1 ("kbuild: move vmlinux.o link to
-> > scripts/Makefile.vmlinux_o"), jobserver-exec was invoked from the shell
-> > script, link-vmlinux.sh. It can get access to the jobserver because
-> > Makefile adds '+' prefix, as in:
-> >
-> >     +$(call if_changed_dep,link_vmlinux)
-> >
-> > Since 5d45950dfbb1, jobserver-exec is invoked from Makefile, but the
-> > '+' prefix is missing, hence jobserver-exec has no access to the
-> > jobserver.
-> >
-> > Fixes: 5d45950dfbb1 ("kbuild: move vmlinux.o link to scripts/Makefile.v=
-mlinux_o")
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
->
-> At least it doesn't seem like compile times were majorly affected. I
-> benchmarked arm64 allmodconfig (worst case scenario with ThinLTO):
+On 11/14/22 19:55, Josh Poimboeuf wrote:
+> On Mon, Nov 14, 2022 at 12:43:28PM +0100, Jiri Slaby (SUSE) wrote:
+>> +++ b/Documentation/kbuild/lto-build.rst
+>> @@ -0,0 +1,76 @@
+>> +=====================================================
+>> +gcc link time optimization (LTO) for the Linux kernel
+>> +=====================================================
+>> +
+>> +Link Time Optimization allows the compiler to optimize the complete program
+>> +instead of just each file.
+>> +
+>> +The compiler can inline functions between files and do various other global
+>> +optimizations, like specializing functions for common parameters,
+>> +determing when global variables are clobbered, making functions pure/const,
+>> +propagating constants globally, removing unneeded data and others.
+>> +
+>> +It will also drop unused functions which can make the kernel
+>> +image smaller in some circumstances, in particular for small kernel
+>> +configurations.
+>> +
+>> +For small monolithic kernels it can throw away unused code very effectively
+>> +(especially when modules are disabled) and usually shrinks
+>> +the code size.
+>> +
+>> +Build time and memory consumption at build time will increase, depending
+>> +on the size of the largest binary. Modular kernels are less affected.
+>> +With LTO incremental builds are less incremental, as always the whole
+>> +binary needs to be re-optimized (but not re-parsed)
+>> +
+>> +Oopses can be somewhat more difficult to read, due to the more aggressive
+>> +inlining: it helps to use scripts/faddr2line.
+>> +
+>> +It is currently incompatible with live patching.
+> 
+> ... because ?
 
+There's no fundamental reason why live patching can't coexist with -flto.
 
-Ah, sorry.
+We removed the sorry message for GCC 13.1 release:
+https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=1a308905c1baf64d0ea4d09d7d92b55e79a2a339
+when it comes to -flive-patching=inline-clone option.
 
-./scripts/generate_initcall_order.pl always runs in two threads
-(the parent and a single child) because it is given only
-one argument (vmlinux.a).
+But it seems Linux does not utilize the option (based on git grep):
+https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#index-flive-patching
 
-So, using jobserver-exec is meaningless.
-Also, the code for parallel execution control in
-./scripts/generate_initcall_order.pl is meaningless.
+That said, I would remove this limitation as LTO can make creation of live patches
+more complicated, but fundamentally there's no barrier.
 
-
-
-BTW, allmodconfig is not the worst case because most of the objects
-go into modules instead of vmlinux.
-
-allyesconfig would add more symbols to vmlinux although I did not test it.
-
-
-
-
-
-
-
->
-> Benchmark 1: 094226ad94f4 ("Linux 6.1-rc5")
->   Time (mean =C2=B1 =CF=83):     899.036 s =C2=B1  1.133 s    [User: 4931=
-4.495 s, System: 3840.796 s]
->   Range (min =E2=80=A6 max):   898.118 s =E2=80=A6 900.302 s    3 runs
->
-> Benchmark 2: 0f45cbb5399b ("kbuild: revive parallel execution for .tmp_in=
-itcalls.lds rule")
->   Time (mean =C2=B1 =CF=83):     898.482 s =C2=B1  0.152 s    [User: 4932=
-9.703 s, System: 3836.408 s]
->   Range (min =E2=80=A6 max):   898.306 s =E2=80=A6 898.584 s    3 runs
->
-> Summary
->   '0f45cbb5399b ("kbuild: revive parallel execution for .tmp_initcalls.ld=
-s rule")' ran
->     1.00 =C2=B1 0.00 times faster than '094226ad94f4 ("Linux 6.1-rc5")'
->
-> > ---
-> >
-> >  scripts/Makefile.vmlinux_o | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/scripts/Makefile.vmlinux_o b/scripts/Makefile.vmlinux_o
-> > index 0edfdb40364b..ae52d3b3f063 100644
-> > --- a/scripts/Makefile.vmlinux_o
-> > +++ b/scripts/Makefile.vmlinux_o
-> > @@ -19,7 +19,7 @@ quiet_cmd_gen_initcalls_lds =3D GEN     $@
-> >
-> >  .tmp_initcalls.lds: $(srctree)/scripts/generate_initcall_order.pl \
-> >               vmlinux.a $(KBUILD_VMLINUX_LIBS) FORCE
-> > -     $(call if_changed,gen_initcalls_lds)
-> > +     +$(call if_changed,gen_initcalls_lds)
-> >
-> >  targets :=3D .tmp_initcalls.lds
-> >
-> > --
-> > 2.34.1
-> >
-
-
-
---
-Best Regards
-
-Masahiro Yamada
+Thanks,
+Martin
