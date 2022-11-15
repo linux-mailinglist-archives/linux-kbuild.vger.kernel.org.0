@@ -2,111 +2,116 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0B30628E28
-	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Nov 2022 01:18:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CEF26628F72
+	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Nov 2022 02:43:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237459AbiKOASl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 14 Nov 2022 19:18:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33744 "EHLO
+        id S232276AbiKOBnp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 14 Nov 2022 20:43:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236635AbiKOASk (ORCPT
+        with ESMTP id S231379AbiKOBno (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 14 Nov 2022 19:18:40 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 932E263E8;
-        Mon, 14 Nov 2022 16:18:39 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 4BEF7B810A8;
-        Tue, 15 Nov 2022 00:18:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99199C433B5;
-        Tue, 15 Nov 2022 00:18:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668471516;
-        bh=UOGQoyCKo3XNkKtnl9+sB+VRkl2mOKRXguX0iYW8nF4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Phk0ny7PLtgAY/27DqHyuSCbkvRq9nxNcOzVv1jkFxv9OW74Y5xineUT+Os1KyjJS
-         DnNAmYfuVZuvBzVyMWlWIVs4ai2JQpjsQP8+5fhjsw59XYmKKIHU0pjDS09EWWK7sJ
-         2xueWCMpWlWSIFbHFumqxXzj4K25Ks7hrWKVJJOVjxmNZT4l7msYhV2Bc7evhmgvuB
-         QXJ08gfIdrWcr/PdoQRGyiW6o2FGjr1EES4W/il48Bv7GHk93SI/aEAJqso8wCNQlT
-         AFs1Xm+zNnSur8kx7mMkdLl5vEL0naWnVI/PClKZbEkUHyLGsAmZ6PUeQLxqR7Bhbc
-         gwdYlLO6QE68Q==
-Date:   Mon, 14 Nov 2022 17:18:34 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: revive parallel execution for .tmp_initcalls.lds
- rule
-Message-ID: <Y3La2mwCgD8r/5PI@dev-arch.thelio-3990X>
-References: <20221114174617.211980-1-masahiroy@kernel.org>
+        Mon, 14 Nov 2022 20:43:44 -0500
+Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AF492BEF;
+        Mon, 14 Nov 2022 17:43:43 -0800 (PST)
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 2AF1hLAT010861;
+        Tue, 15 Nov 2022 10:43:21 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 2AF1hLAT010861
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1668476601;
+        bh=b1x1Kj8P+6WbUE5nJdBuqD7XVOqNhCNqOG+2cE0ljhE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=LigbXN0aUH/n0hMQ1OYSTIMhlMtvCqMWXBaubm5bNE846Q7sTzctQzizDswHei6mL
+         oGAzk301M8F9cOxjm80RkHT4HrFrtBxLBhudXFAFv37Ki2BalGIIwsjXhjBKnTI7MO
+         4RRMa227IqRz+GZE7FuBaQwGoIKEa4uFNpFqbqFhbUQ6Ycdja+e9hzVsBJr6LCLYuu
+         1vfl3d4L8jEOev5JFG0pFRyIV81XWLhIMn/rz9vHsxqpiArbaRd5U0FLuOlGG8Tc+B
+         X7IXodrJYa3W3PusOJcy0XSuOvCjUYt8k2JtnJaq6GolW8ldeYSWKV3y162Y59aJoB
+         XwAE1LFXdXuYA==
+X-Nifty-SrcIP: [209.85.167.173]
+Received: by mail-oi1-f173.google.com with SMTP id m204so13388658oib.6;
+        Mon, 14 Nov 2022 17:43:21 -0800 (PST)
+X-Gm-Message-State: ANoB5pmzkPQHFUXtKCM+2fRylVbiY3QVga9ftiHAqEWvxggJcEbcpklV
+        oE2zd12kfg4uIk7Z1sU3a3Hy8JXkolkRMrReHtU=
+X-Google-Smtp-Source: AA0mqf5g7tUc1VTintEbygLYf09320/bprtmEsKJj5znTXkV/pO4PXDzV5S5VI3OuD1tKdbSF+aCHucPpnCwj7tzlAI=
+X-Received: by 2002:aca:3b82:0:b0:354:28ae:23b3 with SMTP id
+ i124-20020aca3b82000000b0035428ae23b3mr7074481oia.287.1668476600373; Mon, 14
+ Nov 2022 17:43:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221114174617.211980-1-masahiroy@kernel.org>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221114181055.214948-1-masahiroy@kernel.org> <Y3KutB2fPCXX2Amn@fjasle.eu>
+In-Reply-To: <Y3KutB2fPCXX2Amn@fjasle.eu>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 15 Nov 2022 10:42:43 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARxf9xq6eAc7__doa4ZniX6W8n0VN0NvyxnvdhsoELt_A@mail.gmail.com>
+Message-ID: <CAK7LNARxf9xq6eAc7__doa4ZniX6W8n0VN0NvyxnvdhsoELt_A@mail.gmail.com>
+Subject: Re: [PATCH] scripts/jobserver-exec: parse the last --jobserver-auth= option
+To:     Nicolas Schier <nicolas@fjasle.eu>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Nov 15, 2022 at 02:46:17AM +0900, Masahiro Yamada wrote:
-> Prior to commit 5d45950dfbb1 ("kbuild: move vmlinux.o link to
-> scripts/Makefile.vmlinux_o"), jobserver-exec was invoked from the shell
-> script, link-vmlinux.sh. It can get access to the jobserver because
-> Makefile adds '+' prefix, as in:
-> 
->     +$(call if_changed_dep,link_vmlinux)
-> 
-> Since 5d45950dfbb1, jobserver-exec is invoked from Makefile, but the
-> '+' prefix is missing, hence jobserver-exec has no access to the
-> jobserver.
-> 
-> Fixes: 5d45950dfbb1 ("kbuild: move vmlinux.o link to scripts/Makefile.vmlinux_o")
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+On Tue, Nov 15, 2022 at 6:11 AM Nicolas Schier <nicolas@fjasle.eu> wrote:
+>
+> On Tue, Nov 15, 2022 at 03:10:55AM +0900, Masahiro Yamada wrote:
+> > In the GNU Make manual, the section "Sharing Job Slots with GNU make"
+> > says:
+> >
+> >     Be aware that the MAKEFLAGS variable may contain multiple instances
+> >     of the --jobserver-auth= option. Only the last instance is relevant.
+> >
+> > Take the last element of the array, not the first.
+> >
+> > Link: https://www.gnu.org/software/make/manual/html_node/Job-Slots.html
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  scripts/jobserver-exec | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/scripts/jobserver-exec b/scripts/jobserver-exec
+> > index 8762887a970c..4192855f5b8b 100755
+> > --- a/scripts/jobserver-exec
+> > +++ b/scripts/jobserver-exec
+> > @@ -23,7 +23,9 @@ try:
+> >       opts = [x for x in flags.split(" ") if x.startswith("--jobserver")]
+> >
+> >       # Parse out R,W file descriptor numbers and set them nonblocking.
+> > -     fds = opts[0].split("=", 1)[1]
+> > +     # If the MAKEFLAGS variable contains multiple instances of the
+> > +     # --jobserver-auth= option, the last one is relevant.
+> > +     fds = opts[-1].split("=", 1)[1]
+> >       reader, writer = [int(x) for x in fds.split(",", 1)]
+> >       # Open a private copy of reader to avoid setting nonblocking
+> >       # on an unexpecting process with the same reader fd.
+> > --
+> > 2.34.1
+>
+> I think it feels a bit odd to check for '--jobserver' (w/o '-auth'), but
+> "fixing" it would require depending on make >= 4.2 (May 2016).  That's probably
+> not yet old enough, isn't it?
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-At least it doesn't seem like compile times were majorly affected. I
-benchmarked arm64 allmodconfig (worst case scenario with ThinLTO):
+Right. The option was --jobserver-fds= for Make <= 4.1.
+I think requiring Make 4.2 is too early at this moment.
 
-Benchmark 1: 094226ad94f4 ("Linux 6.1-rc5")
-  Time (mean ± σ):     899.036 s ±  1.133 s    [User: 49314.495 s, System: 3840.796 s]
-  Range (min … max):   898.118 s … 900.302 s    3 runs
 
-Benchmark 2: 0f45cbb5399b ("kbuild: revive parallel execution for .tmp_initcalls.lds rule")
-  Time (mean ± σ):     898.482 s ±  0.152 s    [User: 49329.703 s, System: 3836.408 s]
-  Range (min … max):   898.306 s … 898.584 s    3 runs
 
-Summary
-  '0f45cbb5399b ("kbuild: revive parallel execution for .tmp_initcalls.lds rule")' ran
-    1.00 ± 0.00 times faster than '094226ad94f4 ("Linux 6.1-rc5")'
 
-> ---
-> 
->  scripts/Makefile.vmlinux_o | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/Makefile.vmlinux_o b/scripts/Makefile.vmlinux_o
-> index 0edfdb40364b..ae52d3b3f063 100644
-> --- a/scripts/Makefile.vmlinux_o
-> +++ b/scripts/Makefile.vmlinux_o
-> @@ -19,7 +19,7 @@ quiet_cmd_gen_initcalls_lds = GEN     $@
->  
->  .tmp_initcalls.lds: $(srctree)/scripts/generate_initcall_order.pl \
->  		vmlinux.a $(KBUILD_VMLINUX_LIBS) FORCE
-> -	$(call if_changed,gen_initcalls_lds)
-> +	+$(call if_changed,gen_initcalls_lds)
->  
->  targets := .tmp_initcalls.lds
->  
-> -- 
-> 2.34.1
-> 
+
+
+> Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+>
+
+
+
+--
+Best Regards
+Masahiro Yamada
