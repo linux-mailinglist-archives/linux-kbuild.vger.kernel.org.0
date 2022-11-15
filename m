@@ -2,162 +2,200 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D5A97629122
-	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Nov 2022 05:15:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 52242629762
+	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Nov 2022 12:29:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231700AbiKOEPa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 14 Nov 2022 23:15:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48142 "EHLO
+        id S232468AbiKOL3p (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 15 Nov 2022 06:29:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231202AbiKOEP1 (ORCPT
+        with ESMTP id S232547AbiKOL3a (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 14 Nov 2022 23:15:27 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BABAC1D674;
-        Mon, 14 Nov 2022 20:15:17 -0800 (PST)
-Received: from leknes.fjasle.eu ([46.142.49.7]) by mrelayeu.kundenserver.de
- (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1M42X0-1ounKL0J2u-0006vY; Tue, 15 Nov 2022 05:13:37 +0100
-Received: from localhost.fjasle.eu (bergen.fjasle.eu [IPv6:fdda:8718:be81:0:6f0:21ff:fe91:394])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by leknes.fjasle.eu (Postfix) with ESMTPS id 258723C0C9;
-        Tue, 15 Nov 2022 05:13:10 +0100 (CET)
-Authentication-Results: leknes.fjasle.eu; dkim=none; dkim-atps=neutral
-Received: by localhost.fjasle.eu (Postfix, from userid 1000)
-        id C05B3974; Tue, 15 Nov 2022 05:12:46 +0100 (CET)
-Date:   Tue, 15 Nov 2022 05:12:46 +0100
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Nick Desaulniers <nick.desaulniers@gmail.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        WANG Xuerui <git@xen0n.name>, Guo Ren <guoren@kernel.org>,
-        linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
-        asahi@lists.linux.dev, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] scripts: subarch.include: fix SUBARCH on MacOS hosts
-Message-ID: <Y3MRvtwdjIwMHvRo@bergen.fjasle.eu>
-References: <20221113233812.36784-1-nick.desaulniers@gmail.com>
+        Tue, 15 Nov 2022 06:29:30 -0500
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F40361EC5B;
+        Tue, 15 Nov 2022 03:29:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1668511755; x=1700047755;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FvdD9kceN5CwXDRlw8ICmZuMX9S+bhG3igZvZo2D/Ig=;
+  b=KvU3rld99IFo2iC2TyzqlaZ+1s3CgXUPtmrs+VhKbV9giM7uj8LYquZc
+   7IWcsPMYWqA/gjxNbqsDh7CTip3S5ykhMJB790zrQpk7CAVqMxlnci4Kf
+   rDAzNbIkp/30iAX6Ztj/JuemXJvo/4dEK2SH8nFka9LZJEHVpshTaGCi1
+   9qUnMctwKlVCpYsJdUSniMFQmezu3v8oVlHpFcleNqs0CToj46N3GwBTR
+   2Dyk9lK5fJ/iJ4h9COVscT+KV3f/DQn5mh+UwRROvmY+1UFh9d+tWMW03
+   VKKVede6Y3jx7P8spcUSM7cj0j6QvpxShnJEshS6NBtlRj08PQutkzOKi
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="299753203"
+X-IronPort-AV: E=Sophos;i="5.96,165,1665471600"; 
+   d="scan'208";a="299753203"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 03:29:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="589759250"
+X-IronPort-AV: E=Sophos;i="5.96,165,1665471600"; 
+   d="scan'208";a="589759250"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga003.jf.intel.com with ESMTP; 15 Nov 2022 03:29:05 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@intel.com>)
+        id 1ouu7i-00Caqh-2J;
+        Tue, 15 Nov 2022 13:29:02 +0200
+Date:   Tue, 15 Nov 2022 13:29:02 +0200
+From:   Andy Shevchenko <andriy.shevchenko@intel.com>
+To:     Andrew Davis <afd@ti.com>
+Cc:     Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+        Li Yang <leoyang.li@nxp.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/7] Rename DTB overlay source files
+Message-ID: <Y3N3/pmmgv4nl7rZ@smile.fi.intel.com>
+References: <20221024173434.32518-1-afd@ti.com>
+ <CAL_JsqJxgVwsjKnkCEkZeoSsDgaRD+DVPkHRBc2SrcSq69PBNw@mail.gmail.com>
+ <Y26lDEtiG4KFzc91@smile.fi.intel.com>
+ <e5ce57b2-4557-2dcb-fb3a-71e2acae4502@ti.com>
+ <Y3DhIO7H9mfRpe3z@smile.fi.intel.com>
+ <Y3Dk0HJAPuq64tKe@smile.fi.intel.com>
+ <Y3JnfSUpBfATkD69@smile.fi.intel.com>
+ <f28505a4-3384-b6df-5229-d576a089b1dd@ti.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ba37Kt4S81U8BtDM"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221113233812.36784-1-nick.desaulniers@gmail.com>
-Jabber-ID: nicolas@jabber.no
-X-Operating-System: Debian GNU/Linux bookworm/sid
-X-Provags-ID: V03:K1:ueI0HeSkWXIB3kHt2cF8B/8YIDt+WctiVHzmtFD1Jabhfjvts/h
- 9ryJmVi4rhsDY+49g1uY6pVbh7MFfmSrMl/ZBypNSj7f2ByyPWEMQtRMgcTR/fElV2v9zS1
- QT9zBcMA+5vG1Rnje7qs6KEaNggvefid/Tll1XDXw4jcSpPrXycnbL++El9tk67Hp5RCVGf
- Ou2lYrK2+y7e6OmsbMCaA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:/R7+4g97Xmo=:pnXppWFSepT9OBr2AHyOEm
- JEOsOU1XZpx+1JzZhEnYFOqrD5HLyPLMCwGwj9s3ZoQIpmPABlHhN5PQzDkQ2dTZU1Pl3DtpA
- Kiyu4JUtWwxHTvMiQV4zVqZHcaknTm34TMgvEsM3VuW5m5Tm8KpdO1p2yogHxPHqsYoM852TZ
- o8vjfQWTzxHt9D3EkCRz2iOT0qNgxUBrHYuuLj+Q63IfZHTuvkAiXwR2g1q4u76mbMhG3RzVW
- L/47mV/tNmkh3tSHRGQQ/10AEWpwd2k38YxFNRfyLgFRWuXWGwy+DY2Eue7mVjGYDqT9CDRyN
- QqjaD5h7BR3ScEE8Rq1tccun/8Bl/Bxl0xamlBLSU9vROA0Q9ib4Exip21u6toPP/TxIRIRRd
- qAGylFd/wPB3X6u33fnaNDxeM3tYEQqCJVZhCSnNri2g9jpd2iiQ2Z4BNZitSaECp2OGiyULz
- mhedMG6cxj0/mOHJ5l5rbS3vZQ5Tu2yHVD2g8Gafw7hQf+K3gYXdWfZWp9coR4QMtDy3d+Iqo
- P9JEknWqZPwsJxbTTVSViBS0NsHeBPrhJtlG+HVJoWSpT4g29moefq6bQZrM08s125XZu5k2U
- e8fHevK43aZx8aRU60RHEYzHvYszGmOi40117zfAFRVIexgoolReuhj+BT1ai4MGsGkXAFjMA
- g6NCHMRivc5AAk35eGr2E/jNY1PlyMVMbKUrplYlpRu2og1NRrIQ/KIYcLJmJlC6K9MCDRMxK
- DcFeFKpWqBV5vi/mijeIYfeVhOxE0yo2gV+VSpaoz8/6r5uw7tacg3LCFd7n9EIFA1KW8AiEY
- VOO5lY1
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <f28505a4-3384-b6df-5229-d576a089b1dd@ti.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Mon, Nov 14, 2022 at 02:43:51PM -0600, Andrew Davis wrote:
+> On 11/14/22 10:06 AM, Andy Shevchenko wrote:
+> > On Sun, Nov 13, 2022 at 02:36:33PM +0200, Andy Shevchenko wrote:
+> > > On Sun, Nov 13, 2022 at 02:20:48PM +0200, Andy Shevchenko wrote:
+> > > > On Fri, Nov 11, 2022 at 03:05:20PM -0600, Andrew Davis wrote:
+> > > > > On 11/11/22 1:39 PM, Andy Shevchenko wrote:
+> > > > > > On Wed, Oct 26, 2022 at 09:11:21AM -0500, Rob Herring wrote:
+> > > > > > > On Mon, Oct 24, 2022 at 12:34 PM Andrew Davis <afd@ti.com> wrote:
+> > > > > > > > 
+> > > > > > > > Hello all,
+> > > > > > > > 
+> > > > > > > > This is a series based on my patch here[0]. As suggested by Rob
+> > > > > > > > I've resurrected Frank's patch and appended it to mine as a series.
+> > > > > > > > 
+> > > > > > > > First patch here is my original patch, 3rd is Frank's patch but with
+> > > > > > > > the unittest changes pulled out into the 2nd patch. That was re-worked
+> > > > > > > > moving the source building macro into scripts/Makefile.lib.
+> > > > > > > > 
+> > > > > > > > Patches 4, 5, and 6 are an attempt at renaming all the existing DTB
+> > > > > > > > overlays. Split out by platform so they could be taken by platform
+> > > > > > > > maintainers or if easier ACK'd here and taken all together.
+> > > > > > > > 
+> > > > > > > > This should cover all the DTB overlays so we can remove the old .dts
+> > > > > > > > rule for overlays and make .dtso the only supported way, let me know
+> > > > > > > > if we want that this cycle and I can post that too.
+> > > > > > > > 
+> > > > > > > > Thanks,
+> > > > > > > > Andrew
+> > > > > > > > 
+> > > > > > > > Changes from v1[1]:
+> > > > > > > >    - Added patch to rename pi433 overlay.
+> > > > > > > >    - Cleaned wording on patch 4-6.
+> > > > > > > >    - Collected some ACKs
+> > > > > > > > 
+> > > > > > > > [0] https://www.spinics.net/lists/kernel/msg4548509.html
+> > > > > > > > [1] https://www.spinics.net/lists/arm-kernel/msg1020165.html
+> > > > > > > > 
+> > > > > > > > Andrew Davis (6):
+> > > > > > > >     kbuild: Allow DTB overlays to built from .dtso named source files
+> > > > > > > >     kbuild: Allow DTB overlays to built into .dtso.S files
+> > > > > > > >     arm64: dts: freescale: Rename DTB overlay source files from .dts to
+> > > > > > > >       .dtso
+> > > > > > > >     arm64: dts: renesas: Rename DTB overlay source files from .dts to
+> > > > > > > >       .dtso
+> > > > > > > >     arm64: dts: xilinx: Rename DTB overlay source files from .dts to .dtso
+> > > > > > > >     staging: pi433: overlay: Rename overlay source file from .dts to .dtso
+> > > > > > > > 
+> > > > > > > > Frank Rowand (1):
+> > > > > > > >     of: overlay: rename overlay source files from .dts to .dtso
+> > > > > > > 
+> > > > > > > I've applied patches 1-3 and 7. I'll send a PR for the branch to the
+> > > > > > > platform maintainers after a few days in linux-next.
+> > > > > > 
+> > > > > > The patch
+> > > > > > 
+> > > > > > commit 941214a512d8c80d47e720c17ec17e8539175e93
+> > > > > > Author: Andrew Davis <afd@ti.com>
+> > > > > > Date:   Mon Oct 24 12:34:29 2022 -0500
+> > > > > > 
+> > > > > >       kbuild: Allow DTB overlays to built into .dtbo.S files
+> > > > > > 
+> > > > > > broke the build reproducibility / no-op builds.
+> > > > > > 
+> > > > > > Before:
+> > > > > >     2+ execution of `make` on non-changed tree did nothing
+> > > > > > 
+> > > > > > Now:
+> > > > > >     Each run of `make` (even without a single bit changed) restarts vmlinux
+> > > > > >     rebuild.
+> > > > > > 
+> > > > > > Please, revert or fix.
+> > > > > > 
+> > > > > 
+> > > > > I do not see this behavior. What config are you using?
+> > > > > 
+> > > > > Not sure how this patch could be the root cause, it only adds
+> > > > > a build target/rule, but doesn't actually use it anywhere yet..
+> > > > 
+> > > > For your reference I started with this one [1].
+> > > > 
+> > > > When I bisected, I just answered with defaults on whatever `make` told me at
+> > > > the configuration stage.
+> > > > 
+> > > > The actual `make` command I used:
+> > > > 
+> > > > 	make O=/path/to/the/result W=1 C=1 CF=-D__CHECK_ENDIAN__ -j64
+> > > > 
+> > > > But there is nothing that can affect the described issue.
+> > > 
+> > > Actually, O= might affect which Makefile is used and how.
+> > > The C=, CF= are sparse flags, W= is just warning level.
+> > 
+> > As far as I can tell right now it's the OF_UNITTEST on x86_64 that makes the
+> > above mentioned patch to be a culprit. Not sure if on ARM / ARM64 you can
+> > reproduce that. And it's really strange nobody reported this for a week+.
+> > 
+> > Whatever, I'm open for the suggestions and material to test.
+> 
+> I think I found the issue, we forgot to add the new dtbo.S/o files
+> to the list of preserved intermediate targets, so Make was
+> removing them after build.
+> 
+> Sending the fix now.
 
---ba37Kt4S81U8BtDM
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I'll test it ASAP and reply there.
+Thank you.
 
-On Sun, 13 Nov 2022 15:38:09 -0800 Nick Desaulniers wrote:
-> When building the Linux kernel on an aarch64 MacOS based host, if we don't
-> specify a value for ARCH when invoking make, we default to arm and thus
-> multi_v7_defconfig rather than the expected arm64 and arm64's defconfig.
->=20
-> This is because subarch.include invokes `uname -m` which on MacOS hosts
-> evaluates to `arm64` but on Linux hosts evaluates to `aarch64`,
->=20
-> This allows us to build ARCH=3Darm64 natively on MacOS (as in ARCH need
-> not be specified on an aarch64-based system).
->=20
-> Utilize a negative lookahead regular expression to avoid matching arm64.
->=20
-> Signed-off-by: Nick Desaulniers <nick.desaulniers@gmail.com>
-> ---
-> This is only part 1 of
-> https://github.com/ClangBuiltLinux/linux/commit/f06333e29addbc3d714adb340=
-355f471c1dfe95a
-> I'm still working on the rest...
->=20
->  scripts/subarch.include | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/scripts/subarch.include b/scripts/subarch.include
-> index 4bd327d0ae42..aa130286b627 100644
-> --- a/scripts/subarch.include
-> +++ b/scripts/subarch.include
-> @@ -6,7 +6,7 @@
-> =20
->  SUBARCH :=3D $(shell uname -m | sed -e s/i.86/x86/ -e s/x86_64/x86/ \
->  				  -e s/sun4u/sparc64/ \
-> -				  -e s/arm.*/arm/ -e s/sa110/arm/ \
-> +				  -e s/arm\(?:\(?!64\).*\)/arm/ -e s/sa110/arm/ \
+> > > > [1]: https://p.defau.lt/?ZSOdGnNxF9v9AQtrfDo_KQ
 
-On my Debian's sed, this does not match any more at all, e.g.:
+-- 
+With Best Regards,
+Andy Shevchenko
 
-  $ echo armv4 | sed -e 's/arm\(?:\(?!64\).*\)/arm/'
-  armv4
-=2E
 
-This one works for me, but does not look such advanced:
-
-  $ echo arm64 | sed -e '/^arm64$/!s/arm.*/arm/'
-  arm64
-  $ echo armv4 | sed -e '/^arm64$/!s/arm.*/arm/'
-  arm
-=2E
-
-Kind regards,
-Nicolas
-
->  				  -e s/s390x/s390/ \
->  				  -e s/ppc.*/powerpc/ -e s/mips.*/mips/ \
->  				  -e s/sh[234].*/sh/ -e s/aarch64.*/arm64/ \
-> --=20
-> 2.37.0 (Apple Git-136)
-
---=20
-epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
-=E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
-     -- frykten for herren er opphav til kunnskap --
-
---ba37Kt4S81U8BtDM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmNzEboACgkQB1IKcBYm
-EmlHbA//ZeYSkgSFZLkbtCRamaOOyoZ0M0hrB2whcGjrjCTmMYIsyouwkdjWpZnD
-OoM4OfBnSLpvSQvv7uPbz+ht14ER2UGIPRnUL9sz8RcH3tIv+8G/3jc6cjllFPCQ
-94rzOsK17UcZ6lPDhQTg7XLyNaWHNus0ATAlDzLryzOhAt/RjpzHfoppF50AjcV/
-YIaj196HpKMQ+Q3BkvG303JcyiiRwL4nZis+zJBxNc/dJClASLkinL2DamwidYMD
-wCO3s+ehEL6uxHsHgu/D4EB7oChPoaUd/ocV+mAQXNOMr5iAESQdwlsX5Yw5JnbL
-rST1qeY5XO/TnGx0p6dbxeY/WF1b9ygPT6K0/KZyXeQX1OHD1HyPP3ezdAQ+eHiz
-03vj0xksCXlvaN80xQbbX6jZxrhPZfQ76SAzqQhlggFH+V0fMTvr4Zf3us6pI1OW
-GOryQ51tssTqYgJAbbQ4G++53vnPagsI9D9mzXGnP7G/vI15HuyinARDW4M/UiL0
-J+fHtiE9tue6txb4BnL3rP5K8HrijD5KJCHux4js1cm2Bqjuv54Fsfuec42g/3Tb
-JGQyq/eC9e1XhCJ+AU1P6KPM/uU6mCbIy4RtfsMuHzpKba3qa8Ebp2FLFOg0XUMe
-LWfSVwwCx8ciDfHHEUtbk+6ZDiO17i6kg8kWwLYmlU9Wh4bq+i8=
-=xldg
------END PGP SIGNATURE-----
-
---ba37Kt4S81U8BtDM--
