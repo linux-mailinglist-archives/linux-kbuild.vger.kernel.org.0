@@ -2,66 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87D9D628B2D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Nov 2022 22:14:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E2C1B628DFD
+	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Nov 2022 01:10:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237135AbiKNVOa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 14 Nov 2022 16:14:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51140 "EHLO
+        id S231750AbiKOAKC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 14 Nov 2022 19:10:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236238AbiKNVO3 (ORCPT
+        with ESMTP id S229865AbiKOAKB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 14 Nov 2022 16:14:29 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92E1911C1D;
-        Mon, 14 Nov 2022 13:14:19 -0800 (PST)
-Received: from leknes.fjasle.eu ([46.142.49.81]) by mrelayeu.kundenserver.de
- (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MRSZX-1oa97c0yxR-00NQau; Mon, 14 Nov 2022 22:13:45 +0100
-Received: by leknes.fjasle.eu (Postfix, from userid 1000)
-        id 668E93C09F; Mon, 14 Nov 2022 22:13:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1668460423; bh=h8McHJ//b172V6G96l5Bvxz5c6Cfg6nz4Zj9xXVDgug=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RZYktjSsNR4kkzWdGKroQIkPeeb5YsGq8IjM4Y2/KJ7A2cgua4K4cDRAAFqSMw2dA
-         3qZDjxGH3s9ZSY4EwR3iWWVM1uNyE/SMFn3gGq1B+EUgF4OU7j7sr4LVjO/d3V/Ag/
-         9tCf8vceWGTBPfiuG77HL7UEkCqUkdlbrrRG1qMc=
-Date:   Mon, 14 Nov 2022 22:13:40 +0100
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: revive parallel execution for .tmp_initcalls.lds
- rule
-Message-ID: <Y3KvhNpfpyfDwUr2@fjasle.eu>
-References: <20221114174617.211980-1-masahiroy@kernel.org>
+        Mon, 14 Nov 2022 19:10:01 -0500
+Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2606FFCD;
+        Mon, 14 Nov 2022 16:09:59 -0800 (PST)
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 2AF09jor016476;
+        Tue, 15 Nov 2022 09:09:46 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 2AF09jor016476
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1668470986;
+        bh=kaA/W3OJWm84xj9yEegRlT2FAT0iIsZ8VWe5fgSo9GU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=QTSW/6MALar81EQSANVauPIeMoO7hFmk+lKd4MXEYq4YsW8dPi3Ckb5KysNSy/GhV
+         xTKDuws0mSS7fFT77SPv3gLqMB1oFA28rt8Huc9E4WqHf3zqgVFAPqEx99k9zuQuNe
+         vO/gwagUFfLWYfymOEa9tdPo2Q3PYe1h4ATjK+TMHyF8AHjiK8XvM0sFZBHVvtcrRS
+         KYZonXB1obBHTemrCHU8cWiLUDwjVKJF5AdJPoFMTeXxXGA9/ZcInpBOqra9+MVCl7
+         6Jns9edanLzMlqVYjnJY2DEuNIuREGXAF/lkvowbg6Eb1eYhdHNetC3rgCnlOp2WJC
+         Nkt2Xf/a11AqQ==
+X-Nifty-SrcIP: [209.85.160.41]
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-13ba86b5ac0so14441531fac.1;
+        Mon, 14 Nov 2022 16:09:46 -0800 (PST)
+X-Gm-Message-State: ANoB5pkjk4pH3hLoSAzDeJZp35e1SY6GSWYPNYKjlzFqkgYD9kzIXJpK
+        BbyjH31S8DuaGgn3iOgkon1JOo5ajt7wsO/qfW0=
+X-Google-Smtp-Source: AA0mqf6eE8HDLCKvTlnxgDoYaH5GNpequC3qeHCSogElmgHpUN769SFeVKvjngqvP3+7CVcdknEjtjnNcyioMGjnIXI=
+X-Received: by 2002:a05:6870:4b4a:b0:13b:5d72:d2c6 with SMTP id
+ ls10-20020a0568704b4a00b0013b5d72d2c6mr7940778oab.287.1668470985073; Mon, 14
+ Nov 2022 16:09:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221114174617.211980-1-masahiroy@kernel.org>
-X-Provags-ID: V03:K1:MuEObhEAJrXc2dJwO+e999Q7Kq8mBFe/DergvyjgVMhfy7qmucH
- FwqVM6wbzGRfcFJcdfJbSHtfUo6ppqA64CVLULG/iU3jjqmJQJJ72ZkznVlePJQrcSHM8+Z
- jEIxbagULBW6c3SUQ1/SVk4xQgmReBQwMNkMAWSbkt1trM1dqcwuKVwpmGFSX/91bvwERpE
- DWiyktZg2qidmQ+5Y2nRw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:jKixNAjDpAo=:mbSzh132VODC13cuy5H/rk
- K49Dnt+V6Brj6vnFzDf1gh5t+q7FYZVpDOEkkU0TYcNA0k5IZF52z4pkHKaX/ZktOUd4bp0dv
- 3ZXKNOeSros2nbcthNn+XnBpMWPg4Mh18+K5/SBkxmpHUUwMvrAB4iuqwUUZCk0cjwTAyMrhK
- 2X20ppOycJFJY5yatNsF0roD1lFkXQtQCchCKsFe3ZtFbHnzSz1uc+FQthpNrOaJnDRLZWdFm
- kQKZM/yeWEiZ2ImexZdIhUCKNYd6ISFiGwTrrVwqQBkK3ZfDUe38HmPSnMRESF2bnE983C2FA
- qW21CTtDOBTPc6SF1AbE5xh6oPkq4weZ40TNh8M+S/23a+294xtjmJypzuxp7skB0CY33Fh+U
- MTsCdNeY1+UVKDLN7yD5BK/ApX3JO7Mn8ldWdB99Jzj5jlQ2EjN/A3pF1svAfGSnqsehXy1c3
- 01gt1kvosfPISJlV78z6T9C2mQDH1tIpd+4y6ymb3uOuiN4ZVuDCfTSJ9TBbbz4JEC32TomNH
- W3BOZ2p6vYSN0SVJJq+Pgi+YOky35kwORi7nCjhJnHFLjsPlN6YApCcZlyOnZIycvl4MKpVmg
- jahAKJ3duXKlLZrDr93NbnJ3RK4uPt4QfA+WWUW1vYdV3qIcmQbknFHXb7sDGlagrbsjPWsPE
- evGpdFRTZbCkLZsDbVrCXwIlL6jbK/YNcC6FXOuvQX6ZzdyIwQe5X4Zn3/mOX5syoxlCvQyuU
- +UsQmo81M+/hsAMCqODvkWM0u8Gigbp7rM5Puj4aJEHuBlfzAQQ4e6myFazai/UVc10pzAKT0
- P1UaONq
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+References: <20221113160237.3152770-1-maz@kernel.org>
+In-Reply-To: <20221113160237.3152770-1-maz@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 15 Nov 2022 09:09:08 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASoWbJ458zLTP6NuC+5Q+YHOdzVOeCKQ3MeyXQYrkjneg@mail.gmail.com>
+Message-ID: <CAK7LNASoWbJ458zLTP6NuC+5Q+YHOdzVOeCKQ3MeyXQYrkjneg@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Restore .version auto-increment behaviour for
+ Debian/RPM packages
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,45 +61,67 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Nov 15, 2022 at 02:46:17AM +0900, Masahiro Yamada wrote:
-> Prior to commit 5d45950dfbb1 ("kbuild: move vmlinux.o link to
-> scripts/Makefile.vmlinux_o"), jobserver-exec was invoked from the shell
-> script, link-vmlinux.sh. It can get access to the jobserver because
-> Makefile adds '+' prefix, as in:
-> 
->     +$(call if_changed_dep,link_vmlinux)
-> 
-> Since 5d45950dfbb1, jobserver-exec is invoked from Makefile, but the
-> '+' prefix is missing, hence jobserver-exec has no access to the
-> jobserver.
-> 
-> Fixes: 5d45950dfbb1 ("kbuild: move vmlinux.o link to scripts/Makefile.vmlinux_o")
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
+On Mon, Nov 14, 2022 at 1:02 AM Marc Zyngier <maz@kernel.org> wrote:
+>
+> diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+> index 60a2a63a5e90..e5c983afddab 100755
+> --- a/scripts/package/mkdebian
+> +++ b/scripts/package/mkdebian
+> @@ -90,7 +90,7 @@ if [ -n "$KDEB_PKGVERSION" ]; then
+>         packageversion=$KDEB_PKGVERSION
+>         revision=${packageversion##*-}
+>  else
+> -       revision=$(cat .version 2>/dev/null||echo 1)
+> +       revision=$(init/build-version)
 
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
-> 
->  scripts/Makefile.vmlinux_o | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/Makefile.vmlinux_o b/scripts/Makefile.vmlinux_o
-> index 0edfdb40364b..ae52d3b3f063 100644
-> --- a/scripts/Makefile.vmlinux_o
-> +++ b/scripts/Makefile.vmlinux_o
-> @@ -19,7 +19,7 @@ quiet_cmd_gen_initcalls_lds = GEN     $@
->  
->  .tmp_initcalls.lds: $(srctree)/scripts/generate_initcall_order.pl \
->  		vmlinux.a $(KBUILD_VMLINUX_LIBS) FORCE
-> -	$(call if_changed,gen_initcalls_lds)
-> +	+$(call if_changed,gen_initcalls_lds)
->  
->  targets := .tmp_initcalls.lds
->  
-> -- 
+This does not work for out-of-tree builds
+because init/build-version is a check-in source file.
+
+
+
+For example, "make O=/tmp/foo bindeb-pkg" fails with:
+.../linux/scripts/package/mkdebian: 93: init/build-version: not found
+
+
+The correct code is:
+
+
+          revision=$($srctree/init/build-version)
+
+
+
+
+>         packageversion=$version-$revision
+>  fi
+>  sourcename=$KDEB_SOURCENAME
+> diff --git a/scripts/package/mkspec b/scripts/package/mkspec
+> index 70392fd2fd29..9cbd45f497ba 100755
+> --- a/scripts/package/mkspec
+> +++ b/scripts/package/mkspec
+> @@ -42,7 +42,7 @@ sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
+>         Name: kernel
+>         Summary: The Linux Kernel
+>         Version: $__KERNELRELEASE
+> -       Release: $(cat .version 2>/dev/null || echo 1)
+> +       Release: $(init/build-version)
+
+
+Ditto.
+
+          Release: $($srctree/init/build-version)
+
+
+
+
+>         License: GPL
+>         Group: System Environment/Kernel
+>         Vendor: The Linux Community
+> --
 > 2.34.1
+>
 
--- 
-epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
-↳ gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
-     -- frykten for herren er opphav til kunnskap --
+
+--
+Best Regards
+Masahiro Yamada
