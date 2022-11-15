@@ -2,135 +2,144 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 368BB629A5F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Nov 2022 14:31:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FC4362A1BE
+	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Nov 2022 20:18:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238340AbiKONbn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 15 Nov 2022 08:31:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60672 "EHLO
+        id S230038AbiKOTSC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 15 Nov 2022 14:18:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238130AbiKONbZ (ORCPT
+        with ESMTP id S230399AbiKOTR6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 15 Nov 2022 08:31:25 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46BA3DFC5;
-        Tue, 15 Nov 2022 05:31:24 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        Tue, 15 Nov 2022 14:17:58 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C1DA12613;
+        Tue, 15 Nov 2022 11:17:57 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id E57021F8C7;
-        Tue, 15 Nov 2022 13:31:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1668519082; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=6S/6qWoM9bvr/F9wymPHSwbtM7nJIyGIcCGcRNv81bo=;
-        b=nRc2e39ELC7qec2QCbcBqak9znvCwWEA8u/ClgripvGSL3uCRohkLqqN4LZb/WbGYdn1yG
-        lIg5pSeJLRmmiAGEmWBcXnKTp/eEXExg6sNDynNQTc6jT94JA84Ud6wzEhRHgVhe6Arz/g
-        gszY/XtI64D+weNiedTmNo9bTFFXogE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1668519082;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=6S/6qWoM9bvr/F9wymPHSwbtM7nJIyGIcCGcRNv81bo=;
-        b=TyVcir2l7dmmsK0P0RXY3Ts8NnEqnyvECLb0kSHuhsVbIksp9rtl1mDSiwsNmIZe8gsPM2
-        qYAnPc36x++uuUAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8D62213273;
-        Tue, 15 Nov 2022 13:31:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id F8OlIKqUc2MRZQAAMHmgww
-        (envelope-from <mliska@suse.cz>); Tue, 15 Nov 2022 13:31:22 +0000
-Message-ID: <858176b3-a70e-01ce-4a56-96cb031f16c5@suse.cz>
-Date:   Tue, 15 Nov 2022 14:31:22 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 30/46] Kbuild, lto: Add Link Time Optimization support
-Content-Language: en-US
-To:     Josh Poimboeuf <jpoimboe@kernel.org>,
-        "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Andi Kleen <ak@linux.intel.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 95E8E619D9;
+        Tue, 15 Nov 2022 19:17:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE09EC433C1;
+        Tue, 15 Nov 2022 19:17:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1668539877;
+        bh=KyRsvFEBwVPz5tDYyoud/S831SbVw7pwwS+jJZ8uaac=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=kB9RUqdXsgq9yGL2OzsVGokrxUVQzPw2/UL/9j5PdAvKYAPTeAY/Mi9t1Tu631Woh
+         qWBj2j24P7g4lWCS3J40TBc7x4FSfBfL4sQGtCccRmTU1y2vu9JBZzxxPEqZV/Ooug
+         APpaRrVTenVXXfOyqrndBlIrUOpj9SwISUmx/mdEz0Qn8boUJ2Zg8tSIeDABi6yghT
+         uMv4JCE9aUQzSrXTYg54GhVKchv/7CFUve/VLWXIK/PFMOzb2cBd7JQLG9/9ClW8e3
+         buRp0FEL506cDaSZvcrlGRpkTUVDht1MkGvQ+NwYJVan4gHW0X9h97ikbTDuA4bO4n
+         K5OVW93HKwXmA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1ov1RS-006I43-Ki;
+        Tue, 15 Nov 2022 19:17:54 +0000
+Date:   Tue, 15 Nov 2022 19:17:54 +0000
+Message-ID: <86a64sowm5.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org, Richard Biener <RGuenther@suse.com>,
-        Jan Hubicka <jh@suse.de>, "H . J . Lu" <hjl.tools@gmail.com>,
-        Don Zickus <dzickus@redhat.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Jiri Slaby <jslaby@suse.cz>
-References: <20221114114344.18650-1-jirislaby@kernel.org>
- <20221114114344.18650-31-jirislaby@kernel.org>
- <20221114185545.yobf3faky2njugfq@treble>
-From:   =?UTF-8?Q?Martin_Li=c5=a1ka?= <mliska@suse.cz>
-In-Reply-To: <20221114185545.yobf3faky2njugfq@treble>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_SOFTFAIL autolearn=ham autolearn_force=no
-        version=3.4.6
+        Nick Desaulniers <ndesaulniers@google.com>
+Subject: Re: [PATCH] kbuild: Restore .version auto-increment behaviour for Debian/RPM packages
+In-Reply-To: <CAK7LNAT3KmNZD0Lw4F4aKF1k_No4ZeomChjy2t59WD1s8vESrw@mail.gmail.com>
+References: <20221113160237.3152770-1-maz@kernel.org>
+        <CAK7LNASoWbJ458zLTP6NuC+5Q+YHOdzVOeCKQ3MeyXQYrkjneg@mail.gmail.com>
+        <CAK7LNAT3KmNZD0Lw4F4aKF1k_No4ZeomChjy2t59WD1s8vESrw@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: masahiroy@kernel.org, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, michal.lkml@markovi.net, ndesaulniers@google.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 11/14/22 19:55, Josh Poimboeuf wrote:
-> On Mon, Nov 14, 2022 at 12:43:28PM +0100, Jiri Slaby (SUSE) wrote:
->> +++ b/Documentation/kbuild/lto-build.rst
->> @@ -0,0 +1,76 @@
->> +=====================================================
->> +gcc link time optimization (LTO) for the Linux kernel
->> +=====================================================
->> +
->> +Link Time Optimization allows the compiler to optimize the complete program
->> +instead of just each file.
->> +
->> +The compiler can inline functions between files and do various other global
->> +optimizations, like specializing functions for common parameters,
->> +determing when global variables are clobbered, making functions pure/const,
->> +propagating constants globally, removing unneeded data and others.
->> +
->> +It will also drop unused functions which can make the kernel
->> +image smaller in some circumstances, in particular for small kernel
->> +configurations.
->> +
->> +For small monolithic kernels it can throw away unused code very effectively
->> +(especially when modules are disabled) and usually shrinks
->> +the code size.
->> +
->> +Build time and memory consumption at build time will increase, depending
->> +on the size of the largest binary. Modular kernels are less affected.
->> +With LTO incremental builds are less incremental, as always the whole
->> +binary needs to be re-optimized (but not re-parsed)
->> +
->> +Oopses can be somewhat more difficult to read, due to the more aggressive
->> +inlining: it helps to use scripts/faddr2line.
->> +
->> +It is currently incompatible with live patching.
+On Tue, 15 Nov 2022 03:36:05 +0000,
+Masahiro Yamada <masahiroy@kernel.org> wrote:
 > 
-> ... because ?
+> On Tue, Nov 15, 2022 at 9:09 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > On Mon, Nov 14, 2022 at 1:02 AM Marc Zyngier <maz@kernel.org> wrote:
+> > >
+> > > diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+> > > index 60a2a63a5e90..e5c983afddab 100755
+> > > --- a/scripts/package/mkdebian
+> > > +++ b/scripts/package/mkdebian
+> > > @@ -90,7 +90,7 @@ if [ -n "$KDEB_PKGVERSION" ]; then
+> > >         packageversion=$KDEB_PKGVERSION
+> > >         revision=${packageversion##*-}
+> > >  else
+> > > -       revision=$(cat .version 2>/dev/null||echo 1)
+> > > +       revision=$(init/build-version)
+> >
+> >
+> > This does not work for out-of-tree builds
+> > because init/build-version is a check-in source file.
+> >
+> >
+> >
+> > For example, "make O=/tmp/foo bindeb-pkg" fails with:
+> > .../linux/scripts/package/mkdebian: 93: init/build-version: not found
+> >
+> >
+> > The correct code is:
+> >
+> >
+> >           revision=$($srctree/init/build-version)
+> >
+> >
+> >
+> >
+> > >         packageversion=$version-$revision
+> > >  fi
+> > >  sourcename=$KDEB_SOURCENAME
+> > > diff --git a/scripts/package/mkspec b/scripts/package/mkspec
+> > > index 70392fd2fd29..9cbd45f497ba 100755
+> > > --- a/scripts/package/mkspec
+> > > +++ b/scripts/package/mkspec
+> > > @@ -42,7 +42,7 @@ sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
+> > >         Name: kernel
+> > >         Summary: The Linux Kernel
+> > >         Version: $__KERNELRELEASE
+> > > -       Release: $(cat .version 2>/dev/null || echo 1)
+> > > +       Release: $(init/build-version)
+> >
+> >
+> > Ditto.
+> >
+> >           Release: $($srctree/init/build-version)
+> 
+> 
+> 
+> No, mkspec needs no change because binrpm-pkg builds the kernel
+> _before_ generating the spec file.
+> 
+> If you increment the .version file here again, you would have
+> the revision mismatch between the package and the actual vmlinuz.
+> 
+> 
+> 
+> Please send the change for mkdebian only.
 
-There's no fundamental reason why live patching can't coexist with -flto.
-
-We removed the sorry message for GCC 13.1 release:
-https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=1a308905c1baf64d0ea4d09d7d92b55e79a2a339
-when it comes to -flive-patching=inline-clone option.
-
-But it seems Linux does not utilize the option (based on git grep):
-https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#index-flive-patching
-
-That said, I would remove this limitation as LTO can make creation of live patches
-more complicated, but fundamentally there's no barrier.
+Yup, good point on both count. Patch incoming shortly.
 
 Thanks,
-Martin
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
