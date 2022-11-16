@@ -2,64 +2,69 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 923A762BDCF
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Nov 2022 13:29:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D78C462C89A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Nov 2022 20:01:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238495AbiKPM3l (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Nov 2022 07:29:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47990 "EHLO
+        id S233163AbiKPTBC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Nov 2022 14:01:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238592AbiKPM30 (ORCPT
+        with ESMTP id S233726AbiKPTBC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Nov 2022 07:29:26 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B510B2726;
-        Wed, 16 Nov 2022 04:28:09 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 48E43B81D15;
-        Wed, 16 Nov 2022 12:28:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2DC7C433C1;
-        Wed, 16 Nov 2022 12:28:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668601687;
-        bh=fCADGpCnNSduAjZpwwhnl/VWGoiGxCTIfyNUkjbyXYA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=vBmmcyXH8Xef3CyE6rurA4/xuYUqHdzVPKFwLBgIlbH2Hrh2WEyBI1CZtUR6DJ57S
-         RiTY3qv6iehQxa4Bg6zejv52Bm0U4g+/9EQh2JMqpOI/eXE4Y2hUZ/tyBlL7Nv8hr8
-         Is5usA/z/WUIqw3VJNRNczcglLu5n5JcfOEXizmWuoEj5P9EA4vbkqv+yH+QizWChr
-         cFOF1LjCmhxwUQTxIVKhlXx4Q5qhmJUGZvk2xPlmkXOEZRgzsOv9426lxuKDm9HHoI
-         Vk4fEGT9N9TjL+Z6jq0wUeIaI4JjQO1RJ0JlVNPTR5qg7dlOK8OX4xXYb1KpGV+HSe
-         Zj1k1CTUVJ5qQ==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.95)
-        (envelope-from <maz@kernel.org>)
-        id 1ovHWO-006S50-NO;
-        Wed, 16 Nov 2022 12:28:04 +0000
-Date:   Wed, 16 Nov 2022 12:28:04 +0000
-Message-ID: <867czvozhn.wl-maz@kernel.org>
-From:   Marc Zyngier <maz@kernel.org>
+        Wed, 16 Nov 2022 14:01:02 -0500
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B656257B57
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Nov 2022 11:01:00 -0800 (PST)
+Received: by mail-pg1-x529.google.com with SMTP id q71so17533560pgq.8
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Nov 2022 11:01:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=V+m20rR3qhKhCrc29Q5gHN0J/IycK26+ExfyYRWAbxM=;
+        b=oPjKBUJip/NbE0rH0KF9GTjzHqfPLWKTiHey//bhup5ED99PU9TNEQMSrYZgx5MCBN
+         7IwZmAtSSdsfFSKdujd1ZdetFBP20bZRhPbT9qXb1ZF7vkOshGLYSWApXRY6aIPn/yog
+         O7VytRKfLSQaXk8Uol773dYXc+9VGmQoWCPTc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V+m20rR3qhKhCrc29Q5gHN0J/IycK26+ExfyYRWAbxM=;
+        b=qxRns9V6RRl6HIkCUfSFnPHaBxUy+7cFNZNlorGlZJPkn5eaBYq2SZLklZ6V1OZLhL
+         8XpVcfwbZZRBVjuH+g0llRpgGSdORosbdK+diBEqm4/ngmRqMPWdh1y4TwG3iEf23LZy
+         RhR/I1yYIFXWZC/nDyuDN9Ualwldvmw7f3HoF5weBkcchCyXtrD15qB1XMdaDw9kkOSV
+         nnvcVrPdcLCUmCMW2DO28W3bvFoHxR4pK2jQv2DyGfVrVG1JI9KfqRLVommqV+nIW04G
+         w0wqPQZcseSv0nDAMXmd6bShVyTCwjsXITm1JgByv2kBEuNKZi/DbLEsE+TRc++blDEj
+         rWBA==
+X-Gm-Message-State: ANoB5pmSXEhW+eF+g/o2TnJC1yoCF97jWRfDOW1ij2pusvYrdyjZT4r1
+        FNHPFk8vlbTF1aEgz0vG8TtpAw==
+X-Google-Smtp-Source: AA0mqf4p6evEu4ZN/N8pP4qI1fAjq39YR/zQPw1X1lUbbEqe/ZUAu/HpErifB2QIOfINRYqX5Sg4RA==
+X-Received: by 2002:a63:b5b:0:b0:46e:a4ed:467e with SMTP id a27-20020a630b5b000000b0046ea4ed467emr21973376pgl.319.1668625260178;
+        Wed, 16 Nov 2022 11:01:00 -0800 (PST)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id z19-20020a630a53000000b00476db6fe510sm2287032pgk.75.2022.11.16.11.00.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Nov 2022 11:00:59 -0800 (PST)
+Date:   Wed, 16 Nov 2022 11:00:58 -0800
+From:   Kees Cook <keescook@chromium.org>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+Cc:     linux-kbuild@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH] kbuild: Restore .version auto-increment behaviour for Debian packages
-In-Reply-To: <CAK7LNASC6f_=ngS4NW0prvwcOribumeajW1r4q57u3LGZvuEdA@mail.gmail.com>
-References: <20221115220453.3463096-1-maz@kernel.org>
-        <CAK7LNASC6f_=ngS4NW0prvwcOribumeajW1r4q57u3LGZvuEdA@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: masahiroy@kernel.org, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, michal.lkml@markovi.net, ndesaulniers@google.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v2] kbuild: fix SIGPIPE error message for AR=gcc-ar and
+ AR=llvm-ar
+Message-ID: <202211161056.1B9611A@keescook>
+References: <20221027162839.410720-1-masahiroy@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221027162839.410720-1-masahiroy@kernel.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,64 +72,84 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, 16 Nov 2022 06:09:31 +0000,
-Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Fri, Oct 28, 2022 at 01:28:39AM +0900, Masahiro Yamada wrote:
+> Jiri Slaby reported that building the kernel with AR=gcc-ar shows:
+>   /usr/bin/ar terminated with signal 13 [Broken pipe]
 > 
-> On Wed, Nov 16, 2022 at 7:05 AM Marc Zyngier <maz@kernel.org> wrote:
-> >
-> > Since 2df8220cc511 ("kbuild: build init/built-in.a just once"),
-> > generating Debian packages using 'make bindeb-pkg' results in
-> > packages that are stuck to the same .version, leading to unexpected
-> > behaviours (multiple packages with the same version).
-> >
-> > That's because the mkdebian script samples the build version
-> > before building the kernel, and forces the use of that version
-> > number for the actual build.
-> >
-> > Restore the previous behaviour by calling init/build-version
-> > instead of reading the .version file. This is likely to result
-> > in too many .version bumps, but this is what was happening before
-> > (although the bump was affecting builds made after the current one).
+> Nathan Chancellor reported the latest AR=llvm-ar shows
+>   error: write on a pipe with no reader
 > 
+> The latter occurs since LLVM commit 51b557adc131 ("Add an error message
+> to the default SIGPIPE handler").
 > 
-> What do you mean by "too many .version bumps"?
+> The resulting vmlinux is correct, but it is better to silence it.
 > 
-> Every "make bindeb-pkg" increments the version by one.
+> 'head -n1' exits after reading the first line, so the pipe is closed.
+> 
+> Use 'sed -n 1p' to eat the stream till the end.
 
-And isn't that a problem? We increase the build number pointlessly,
-even if there is *nothing* to change.
+I think this is wrong because it needlessly consumes CPU time. SIGPIPE
+is _needed_ to stop a process after we found what we needed, but it's up
+to the caller (the shell here) to determine what to do about it.
+
+Similarly, that LLVM commit is wrong -- tools should _not_ catch their
+own SIGPIPEs. They should be caught by their callers.
+
+For example, see:
+
+$ seq 10000 | head -n1
+1
+
+^^^ no warnings from the shell (caller of "seq")
+And you can see it _is_ being killed by SIGPIPE:
+
+$ strace seq 1000 | head -n1
+...
+write(1, "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14"..., 8192) = 8192
+1
+write(1, "\n1861\n1862\n1863\n1864\n1865\n1866\n1"..., 4096) = -1 EPIPE (Broken pipe)
+--- SIGPIPE {si_signo=SIGPIPE, si_code=SI_USER, si_pid=3503448, si_uid=1000} ---
++++ killed by SIGPIPE +++
+
+If we use "sed -n 1p" seq will continue to run, consuming needless time
+and CPU resources.
+
+So, I strongly think this is the wrong solution. SIGPIPE should be
+ignored for ar, and LLVM should _not_ catch its own SIGPIPE.
+
+-Kees
 
 > 
-> Is there any case where it increases more?
-
-No, but that's bad enough IMHO.
-
-> > Eventually, this script should be turned into something that
-> > is a bit less counter-intuitive (building the kernel first
-> > and only then generating the packaging artefacts).
+> Fixes: 321648455061 ("kbuild: use obj-y instead extra-y for objects placed at the head")
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1651
+> Reported-by: Jiri Slaby <jirislaby@kernel.org>
+> Reported-by: Nathan Chancellor <nathan@kernel.org>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Tested-by: Nick Desaulniers <ndesaulniers@google.com>
+> ---
 > 
+> Changes in v2:
+>   - Update commit description to mention llvm-ar
 > 
-> How to achieve this?
-
-
-By building the kernel *before* sampling the version number, just like
-RPM does.
-
+>  Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> The version is recorded in debian/chanegelog.
-> Without it, dpkg-buildpackage fails.
-
-And again, nothing forces us to do it in that order.
-
-> In my understanding, the version must be fixed before building the kernel.
-
-Can't immediately see what mandates it, but I'm sure you know better.
-
-Anyway, the current situation needs fixing. If you're unhappy with the
-patch, feel free to replace it with something that you consider more
-appropriate.
-
-	M.
+> diff --git a/Makefile b/Makefile
+> index e90bb2b38607..e9e7eff906a5 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1218,7 +1218,7 @@ quiet_cmd_ar_vmlinux.a = AR      $@
+>        cmd_ar_vmlinux.a = \
+>  	rm -f $@; \
+>  	$(AR) cDPrST $@ $(KBUILD_VMLINUX_OBJS); \
+> -	$(AR) mPiT $$($(AR) t $@ | head -n1) $@ $$($(AR) t $@ | grep -F -f $(srctree)/scripts/head-object-list.txt)
+> +	$(AR) mPiT $$($(AR) t $@ | sed -n 1p) $@ $$($(AR) t $@ | grep -F -f $(srctree)/scripts/head-object-list.txt)
+>  
+>  targets += vmlinux.a
+>  vmlinux.a: $(KBUILD_VMLINUX_OBJS) scripts/head-object-list.txt autoksyms_recursive FORCE
+> -- 
+> 2.34.1
+> 
 
 -- 
-Without deviation from the norm, progress is not possible.
+Kees Cook
