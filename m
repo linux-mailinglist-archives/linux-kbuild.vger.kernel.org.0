@@ -2,57 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B7C462CB30
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Nov 2022 21:38:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 42BE362CBC8
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Nov 2022 22:00:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232851AbiKPUid (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Nov 2022 15:38:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55886 "EHLO
+        id S233836AbiKPVAZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Nov 2022 16:00:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233641AbiKPUia (ORCPT
+        with ESMTP id S233803AbiKPVAK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Nov 2022 15:38:30 -0500
-Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06252EA3;
-        Wed, 16 Nov 2022 12:38:26 -0800 (PST)
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 2AGKc80C003458;
-        Thu, 17 Nov 2022 05:38:08 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 2AGKc80C003458
+        Wed, 16 Nov 2022 16:00:10 -0500
+Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7410F6B20B;
+        Wed, 16 Nov 2022 12:57:42 -0800 (PST)
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 2AGKvF1b003019;
+        Thu, 17 Nov 2022 05:57:16 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 2AGKvF1b003019
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1668631088;
-        bh=c7CHuhEkcILYlod524PGOT/hdlG/esbc7n/dEx43MCg=;
+        s=dec2015msa; t=1668632236;
+        bh=kGY0QSVAlr6bF4H3Uy9UfX0YWaSEIw4f7lOCzNlxzyw=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Rl7XjlFmmOZyOTwUmKDz97vVfo1RSfJB+BDQppKrZuXnHlIGgqKvNkB4y4JtL8w9t
-         lRI/YyS9+fMTNzRoTwnLW+dPpKaw2JQn87aNhY7+/widowFmUhLrL8bnHNaGH1Eq5P
-         w8QucvurLElJWmxeWRlNFBlLRzywJbsgKKlFTftLHh3tHTCY6gCxoeLeyBXz+d136P
-         KyUorvVg31SvGrn+mPdF5wlyprs2jrGMMRKDDm7MhLlpwwevS16fEWEIr2CnKLfuYk
-         dke04EqQiLN89F8EHP3bTcGevS/AjAdLmhF00CAfTWauIoQUnlPp5XdmEfazjInV+T
-         OteBsD2RxFWkw==
-X-Nifty-SrcIP: [209.85.161.42]
-Received: by mail-oo1-f42.google.com with SMTP id r10-20020a4aa2ca000000b0049dd7ad4128so2675295ool.13;
-        Wed, 16 Nov 2022 12:38:08 -0800 (PST)
-X-Gm-Message-State: ANoB5pl7xkAE0uufHBYuSZwvIUnIS+IB1zydqNpbkDJDut11+tUkK6aG
-        MaITemnwpQ8MmcRC+QZJU51h1vXUDKh5pukEecU=
-X-Google-Smtp-Source: AA0mqf7Jdd4+gJIc4WyDecmKpKyBiZDFqnp8KV+X1D/zE9vJzobdNIxOxLQ1R2YFgxPjqz2agdgQjup91QEIiBlMcvk=
-X-Received: by 2002:a4a:dc13:0:b0:49f:87d0:ef5c with SMTP id
- p19-20020a4adc13000000b0049f87d0ef5cmr4521997oov.96.1668631087318; Wed, 16
- Nov 2022 12:38:07 -0800 (PST)
+        b=tSkb9rsg/OfSCwMd/WfNsDuIUNLNPy7035aTXapdyJjS56OspyhIcfWYpqDS3nOPX
+         Wu9o8OLMrY49bQbJ4bSA/5A5yBSyU7S8k1RvsZBQfb6HSkSboj+ptFUa+lZB8MkGSx
+         zWjMU5ffRaK1lNr/KbuwNkkv7zKntNcIOTRRuiCyQF5rrVG8R9HZBgAJRjvM2dbgVb
+         k0sj18AjJ80y3S7U3Hpz21gwO7uQdn9LJSqfNiiar/LA5aj6WCoC4AK5/qXNOfYFrn
+         4EBbsAoPzDLspJ2J70kEEx5R1oH/9EPV1D5Jz/tHXa92Cvn6S26pk4fq1ZcRY5PoHn
+         ZIO/MM8fqk3vg==
+X-Nifty-SrcIP: [209.85.160.41]
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-13b103a3e5dso21600919fac.2;
+        Wed, 16 Nov 2022 12:57:16 -0800 (PST)
+X-Gm-Message-State: ANoB5pnqqrjEwHIZ4vkeIgwbdoRyhm5jorJEp/+gNm6DuzQc/p5/qSp9
+        v2jjA9HHFW2P3/Ng7Qjtc5xbTIoqpz4OgvDNgSo=
+X-Google-Smtp-Source: AA0mqf6OGwnSfTJ0Q/hSmVjKudJz0kAVmFAvwIe2mZZBOclVGg2DViPlgyQpb17WZEz/i50zIyOu+xeA+Eia2A9gyD8=
+X-Received: by 2002:a05:6870:2a41:b0:13b:5d72:d2c6 with SMTP id
+ jd1-20020a0568702a4100b0013b5d72d2c6mr2702184oab.287.1668632235014; Wed, 16
+ Nov 2022 12:57:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20221027162839.410720-1-masahiroy@kernel.org> <202211161056.1B9611A@keescook>
-In-Reply-To: <202211161056.1B9611A@keescook>
+References: <20221115220453.3463096-1-maz@kernel.org> <CAK7LNASC6f_=ngS4NW0prvwcOribumeajW1r4q57u3LGZvuEdA@mail.gmail.com>
+ <867czvozhn.wl-maz@kernel.org>
+In-Reply-To: <867czvozhn.wl-maz@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 17 Nov 2022 05:37:31 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATWbvpovH8qsGMX-5-31QiQ6pjKNnm+YEDEqr4io1hrSw@mail.gmail.com>
-Message-ID: <CAK7LNATWbvpovH8qsGMX-5-31QiQ6pjKNnm+YEDEqr4io1hrSw@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: fix SIGPIPE error message for AR=gcc-ar and AR=llvm-ar
-To:     Kees Cook <keescook@chromium.org>
-Cc:     linux-kbuild@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
+Date:   Thu, 17 Nov 2022 05:56:38 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATLaT4uwhpT-2o54Z4QjnOcuBDfGwgi-6Jvdr3+SgVo7Q@mail.gmail.com>
+Message-ID: <CAK7LNATLaT4uwhpT-2o54Z4QjnOcuBDfGwgi-6Jvdr3+SgVo7Q@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Restore .version auto-increment behaviour for
+ Debian packages
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>,
-        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+        Nick Desaulniers <ndesaulniers@google.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
@@ -63,65 +62,86 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Nov 17, 2022 at 4:01 AM Kees Cook <keescook@chromium.org> wrote:
+On Wed, Nov 16, 2022 at 9:28 PM Marc Zyngier <maz@kernel.org> wrote:
 >
-> On Fri, Oct 28, 2022 at 01:28:39AM +0900, Masahiro Yamada wrote:
-> > Jiri Slaby reported that building the kernel with AR=gcc-ar shows:
-> >   /usr/bin/ar terminated with signal 13 [Broken pipe]
+> On Wed, 16 Nov 2022 06:09:31 +0000,
+> Masahiro Yamada <masahiroy@kernel.org> wrote:
 > >
-> > Nathan Chancellor reported the latest AR=llvm-ar shows
-> >   error: write on a pipe with no reader
+> > On Wed, Nov 16, 2022 at 7:05 AM Marc Zyngier <maz@kernel.org> wrote:
+> > >
+> > > Since 2df8220cc511 ("kbuild: build init/built-in.a just once"),
+> > > generating Debian packages using 'make bindeb-pkg' results in
+> > > packages that are stuck to the same .version, leading to unexpected
+> > > behaviours (multiple packages with the same version).
+> > >
+> > > That's because the mkdebian script samples the build version
+> > > before building the kernel, and forces the use of that version
+> > > number for the actual build.
+> > >
+> > > Restore the previous behaviour by calling init/build-version
+> > > instead of reading the .version file. This is likely to result
+> > > in too many .version bumps, but this is what was happening before
+> > > (although the bump was affecting builds made after the current one).
 > >
-> > The latter occurs since LLVM commit 51b557adc131 ("Add an error message
-> > to the default SIGPIPE handler").
 > >
-> > The resulting vmlinux is correct, but it is better to silence it.
+> > What do you mean by "too many .version bumps"?
 > >
-> > 'head -n1' exits after reading the first line, so the pipe is closed.
-> >
-> > Use 'sed -n 1p' to eat the stream till the end.
+> > Every "make bindeb-pkg" increments the version by one.
 >
-> I think this is wrong because it needlessly consumes CPU time. SIGPIPE
-> is _needed_ to stop a process after we found what we needed, but it's up
-> to the caller (the shell here) to determine what to do about it.
->
-> Similarly, that LLVM commit is wrong -- tools should _not_ catch their
-> own SIGPIPEs. They should be caught by their callers.
->
-> For example, see:
->
-> $ seq 10000 | head -n1
-> 1
->
-> ^^^ no warnings from the shell (caller of "seq")
-> And you can see it _is_ being killed by SIGPIPE:
->
-> $ strace seq 1000 | head -n1
-> ...
-> write(1, "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14"..., 8192) = 8192
-> 1
-> write(1, "\n1861\n1862\n1863\n1864\n1865\n1866\n1"..., 4096) = -1 EPIPE (Broken pipe)
-> --- SIGPIPE {si_signo=SIGPIPE, si_code=SI_USER, si_pid=3503448, si_uid=1000} ---
-> +++ killed by SIGPIPE +++
->
-> If we use "sed -n 1p" seq will continue to run, consuming needless time
-> and CPU resources.
->
-> So, I strongly think this is the wrong solution. SIGPIPE should be
-> ignored for ar, and LLVM should _not_ catch its own SIGPIPE.
->
-> -Kees
+> And isn't that a problem? We increase the build number pointlessly,
+> even if there is *nothing* to change.
 
 
-I thought of this - it is just wasting CPU time,
-but I did not come up with a better idea on the kbuild side.
-
-I do not want to use 2>/dev/null because it may hide
-non-SIGPIPE (i.e. real) errors.
+I think "make *-pkg" should increment the version every time.
 
 
-I think you guys will be keen on fixing llvm.
-I hope gcc as well?
+The .version is incremented only when vmlinux is updated.
+
+When you change module code, only *.ko is relinked.
+The .version stays because it is embedded in vmlinux.
+
+
+Even if you build the kernel first, and .version has no change,
+the package contents may have some changes.
+
+
+
+
+
+> >
+> > Is there any case where it increases more?
+>
+> No, but that's bad enough IMHO.
+>
+> > > Eventually, this script should be turned into something that
+> > > is a bit less counter-intuitive (building the kernel first
+> > > and only then generating the packaging artefacts).
+> >
+> >
+> > How to achieve this?
+>
+>
+> By building the kernel *before* sampling the version number, just like
+> RPM does.
+>
+> >
+> > The version is recorded in debian/chanegelog.
+> > Without it, dpkg-buildpackage fails.
+>
+> And again, nothing forces us to do it in that order.
+>
+> > In my understanding, the version must be fixed before building the kernel.
+>
+> Can't immediately see what mandates it, but I'm sure you know better.
+>
+> Anyway, the current situation needs fixing. If you're unhappy with the
+> patch, feel free to replace it with something that you consider more
+> appropriate.
+>
+>         M.
+>
+> --
+> Without deviation from the norm, progress is not possible.
 
 
 
