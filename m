@@ -2,154 +2,129 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D78C462C89A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Nov 2022 20:01:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B7C462CB30
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Nov 2022 21:38:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233163AbiKPTBC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Nov 2022 14:01:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59076 "EHLO
+        id S232851AbiKPUid (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Nov 2022 15:38:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233726AbiKPTBC (ORCPT
+        with ESMTP id S233641AbiKPUia (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Nov 2022 14:01:02 -0500
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B656257B57
-        for <linux-kbuild@vger.kernel.org>; Wed, 16 Nov 2022 11:01:00 -0800 (PST)
-Received: by mail-pg1-x529.google.com with SMTP id q71so17533560pgq.8
-        for <linux-kbuild@vger.kernel.org>; Wed, 16 Nov 2022 11:01:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=V+m20rR3qhKhCrc29Q5gHN0J/IycK26+ExfyYRWAbxM=;
-        b=oPjKBUJip/NbE0rH0KF9GTjzHqfPLWKTiHey//bhup5ED99PU9TNEQMSrYZgx5MCBN
-         7IwZmAtSSdsfFSKdujd1ZdetFBP20bZRhPbT9qXb1ZF7vkOshGLYSWApXRY6aIPn/yog
-         O7VytRKfLSQaXk8Uol773dYXc+9VGmQoWCPTc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V+m20rR3qhKhCrc29Q5gHN0J/IycK26+ExfyYRWAbxM=;
-        b=qxRns9V6RRl6HIkCUfSFnPHaBxUy+7cFNZNlorGlZJPkn5eaBYq2SZLklZ6V1OZLhL
-         8XpVcfwbZZRBVjuH+g0llRpgGSdORosbdK+diBEqm4/ngmRqMPWdh1y4TwG3iEf23LZy
-         RhR/I1yYIFXWZC/nDyuDN9Ualwldvmw7f3HoF5weBkcchCyXtrD15qB1XMdaDw9kkOSV
-         nnvcVrPdcLCUmCMW2DO28W3bvFoHxR4pK2jQv2DyGfVrVG1JI9KfqRLVommqV+nIW04G
-         w0wqPQZcseSv0nDAMXmd6bShVyTCwjsXITm1JgByv2kBEuNKZi/DbLEsE+TRc++blDEj
-         rWBA==
-X-Gm-Message-State: ANoB5pmSXEhW+eF+g/o2TnJC1yoCF97jWRfDOW1ij2pusvYrdyjZT4r1
-        FNHPFk8vlbTF1aEgz0vG8TtpAw==
-X-Google-Smtp-Source: AA0mqf4p6evEu4ZN/N8pP4qI1fAjq39YR/zQPw1X1lUbbEqe/ZUAu/HpErifB2QIOfINRYqX5Sg4RA==
-X-Received: by 2002:a63:b5b:0:b0:46e:a4ed:467e with SMTP id a27-20020a630b5b000000b0046ea4ed467emr21973376pgl.319.1668625260178;
-        Wed, 16 Nov 2022 11:01:00 -0800 (PST)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id z19-20020a630a53000000b00476db6fe510sm2287032pgk.75.2022.11.16.11.00.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Nov 2022 11:00:59 -0800 (PST)
-Date:   Wed, 16 Nov 2022 11:00:58 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
+        Wed, 16 Nov 2022 15:38:30 -0500
+Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06252EA3;
+        Wed, 16 Nov 2022 12:38:26 -0800 (PST)
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 2AGKc80C003458;
+        Thu, 17 Nov 2022 05:38:08 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 2AGKc80C003458
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1668631088;
+        bh=c7CHuhEkcILYlod524PGOT/hdlG/esbc7n/dEx43MCg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Rl7XjlFmmOZyOTwUmKDz97vVfo1RSfJB+BDQppKrZuXnHlIGgqKvNkB4y4JtL8w9t
+         lRI/YyS9+fMTNzRoTwnLW+dPpKaw2JQn87aNhY7+/widowFmUhLrL8bnHNaGH1Eq5P
+         w8QucvurLElJWmxeWRlNFBlLRzywJbsgKKlFTftLHh3tHTCY6gCxoeLeyBXz+d136P
+         KyUorvVg31SvGrn+mPdF5wlyprs2jrGMMRKDDm7MhLlpwwevS16fEWEIr2CnKLfuYk
+         dke04EqQiLN89F8EHP3bTcGevS/AjAdLmhF00CAfTWauIoQUnlPp5XdmEfazjInV+T
+         OteBsD2RxFWkw==
+X-Nifty-SrcIP: [209.85.161.42]
+Received: by mail-oo1-f42.google.com with SMTP id r10-20020a4aa2ca000000b0049dd7ad4128so2675295ool.13;
+        Wed, 16 Nov 2022 12:38:08 -0800 (PST)
+X-Gm-Message-State: ANoB5pl7xkAE0uufHBYuSZwvIUnIS+IB1zydqNpbkDJDut11+tUkK6aG
+        MaITemnwpQ8MmcRC+QZJU51h1vXUDKh5pukEecU=
+X-Google-Smtp-Source: AA0mqf7Jdd4+gJIc4WyDecmKpKyBiZDFqnp8KV+X1D/zE9vJzobdNIxOxLQ1R2YFgxPjqz2agdgQjup91QEIiBlMcvk=
+X-Received: by 2002:a4a:dc13:0:b0:49f:87d0:ef5c with SMTP id
+ p19-20020a4adc13000000b0049f87d0ef5cmr4521997oov.96.1668631087318; Wed, 16
+ Nov 2022 12:38:07 -0800 (PST)
+MIME-Version: 1.0
+References: <20221027162839.410720-1-masahiroy@kernel.org> <202211161056.1B9611A@keescook>
+In-Reply-To: <202211161056.1B9611A@keescook>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 17 Nov 2022 05:37:31 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATWbvpovH8qsGMX-5-31QiQ6pjKNnm+YEDEqr4io1hrSw@mail.gmail.com>
+Message-ID: <CAK7LNATWbvpovH8qsGMX-5-31QiQ6pjKNnm+YEDEqr4io1hrSw@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: fix SIGPIPE error message for AR=gcc-ar and AR=llvm-ar
+To:     Kees Cook <keescook@chromium.org>
 Cc:     linux-kbuild@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Michal Marek <michal.lkml@markovi.net>,
         Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
         linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v2] kbuild: fix SIGPIPE error message for AR=gcc-ar and
- AR=llvm-ar
-Message-ID: <202211161056.1B9611A@keescook>
-References: <20221027162839.410720-1-masahiroy@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221027162839.410720-1-masahiroy@kernel.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Oct 28, 2022 at 01:28:39AM +0900, Masahiro Yamada wrote:
-> Jiri Slaby reported that building the kernel with AR=gcc-ar shows:
->   /usr/bin/ar terminated with signal 13 [Broken pipe]
-> 
-> Nathan Chancellor reported the latest AR=llvm-ar shows
->   error: write on a pipe with no reader
-> 
-> The latter occurs since LLVM commit 51b557adc131 ("Add an error message
-> to the default SIGPIPE handler").
-> 
-> The resulting vmlinux is correct, but it is better to silence it.
-> 
-> 'head -n1' exits after reading the first line, so the pipe is closed.
-> 
-> Use 'sed -n 1p' to eat the stream till the end.
+On Thu, Nov 17, 2022 at 4:01 AM Kees Cook <keescook@chromium.org> wrote:
+>
+> On Fri, Oct 28, 2022 at 01:28:39AM +0900, Masahiro Yamada wrote:
+> > Jiri Slaby reported that building the kernel with AR=gcc-ar shows:
+> >   /usr/bin/ar terminated with signal 13 [Broken pipe]
+> >
+> > Nathan Chancellor reported the latest AR=llvm-ar shows
+> >   error: write on a pipe with no reader
+> >
+> > The latter occurs since LLVM commit 51b557adc131 ("Add an error message
+> > to the default SIGPIPE handler").
+> >
+> > The resulting vmlinux is correct, but it is better to silence it.
+> >
+> > 'head -n1' exits after reading the first line, so the pipe is closed.
+> >
+> > Use 'sed -n 1p' to eat the stream till the end.
+>
+> I think this is wrong because it needlessly consumes CPU time. SIGPIPE
+> is _needed_ to stop a process after we found what we needed, but it's up
+> to the caller (the shell here) to determine what to do about it.
+>
+> Similarly, that LLVM commit is wrong -- tools should _not_ catch their
+> own SIGPIPEs. They should be caught by their callers.
+>
+> For example, see:
+>
+> $ seq 10000 | head -n1
+> 1
+>
+> ^^^ no warnings from the shell (caller of "seq")
+> And you can see it _is_ being killed by SIGPIPE:
+>
+> $ strace seq 1000 | head -n1
+> ...
+> write(1, "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14"..., 8192) = 8192
+> 1
+> write(1, "\n1861\n1862\n1863\n1864\n1865\n1866\n1"..., 4096) = -1 EPIPE (Broken pipe)
+> --- SIGPIPE {si_signo=SIGPIPE, si_code=SI_USER, si_pid=3503448, si_uid=1000} ---
+> +++ killed by SIGPIPE +++
+>
+> If we use "sed -n 1p" seq will continue to run, consuming needless time
+> and CPU resources.
+>
+> So, I strongly think this is the wrong solution. SIGPIPE should be
+> ignored for ar, and LLVM should _not_ catch its own SIGPIPE.
+>
+> -Kees
 
-I think this is wrong because it needlessly consumes CPU time. SIGPIPE
-is _needed_ to stop a process after we found what we needed, but it's up
-to the caller (the shell here) to determine what to do about it.
 
-Similarly, that LLVM commit is wrong -- tools should _not_ catch their
-own SIGPIPEs. They should be caught by their callers.
+I thought of this - it is just wasting CPU time,
+but I did not come up with a better idea on the kbuild side.
 
-For example, see:
+I do not want to use 2>/dev/null because it may hide
+non-SIGPIPE (i.e. real) errors.
 
-$ seq 10000 | head -n1
-1
 
-^^^ no warnings from the shell (caller of "seq")
-And you can see it _is_ being killed by SIGPIPE:
+I think you guys will be keen on fixing llvm.
+I hope gcc as well?
 
-$ strace seq 1000 | head -n1
-...
-write(1, "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14"..., 8192) = 8192
-1
-write(1, "\n1861\n1862\n1863\n1864\n1865\n1866\n1"..., 4096) = -1 EPIPE (Broken pipe)
---- SIGPIPE {si_signo=SIGPIPE, si_code=SI_USER, si_pid=3503448, si_uid=1000} ---
-+++ killed by SIGPIPE +++
 
-If we use "sed -n 1p" seq will continue to run, consuming needless time
-and CPU resources.
-
-So, I strongly think this is the wrong solution. SIGPIPE should be
-ignored for ar, and LLVM should _not_ catch its own SIGPIPE.
-
--Kees
-
-> 
-> Fixes: 321648455061 ("kbuild: use obj-y instead extra-y for objects placed at the head")
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1651
-> Reported-by: Jiri Slaby <jirislaby@kernel.org>
-> Reported-by: Nathan Chancellor <nathan@kernel.org>
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> Tested-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
-> 
-> Changes in v2:
->   - Update commit description to mention llvm-ar
-> 
->  Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index e90bb2b38607..e9e7eff906a5 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1218,7 +1218,7 @@ quiet_cmd_ar_vmlinux.a = AR      $@
->        cmd_ar_vmlinux.a = \
->  	rm -f $@; \
->  	$(AR) cDPrST $@ $(KBUILD_VMLINUX_OBJS); \
-> -	$(AR) mPiT $$($(AR) t $@ | head -n1) $@ $$($(AR) t $@ | grep -F -f $(srctree)/scripts/head-object-list.txt)
-> +	$(AR) mPiT $$($(AR) t $@ | sed -n 1p) $@ $$($(AR) t $@ | grep -F -f $(srctree)/scripts/head-object-list.txt)
->  
->  targets += vmlinux.a
->  vmlinux.a: $(KBUILD_VMLINUX_OBJS) scripts/head-object-list.txt autoksyms_recursive FORCE
-> -- 
-> 2.34.1
-> 
 
 -- 
-Kees Cook
+Best Regards
+Masahiro Yamada
