@@ -2,50 +2,67 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0906F62E2F0
-	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Nov 2022 18:25:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E37962E4FE
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Nov 2022 20:10:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230447AbiKQRZS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 17 Nov 2022 12:25:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50266 "EHLO
+        id S239985AbiKQTK5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 17 Nov 2022 14:10:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235029AbiKQRZR (ORCPT
+        with ESMTP id S239817AbiKQTKw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 17 Nov 2022 12:25:17 -0500
-X-Greylist: delayed 2059 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 17 Nov 2022 09:25:16 PST
-Received: from maynard.decadent.org.uk (maynard.decadent.org.uk [95.217.213.242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89C464C252
-        for <linux-kbuild@vger.kernel.org>; Thu, 17 Nov 2022 09:25:16 -0800 (PST)
-Received: from 213.219.160.184.adsl.dyn.edpnet.net ([213.219.160.184] helo=deadeye)
-        by maynard with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ben@decadent.org.uk>)
-        id 1ovi6C-0002Ml-VT; Thu, 17 Nov 2022 17:50:48 +0100
-Received: from ben by deadeye with local (Exim 4.96)
-        (envelope-from <ben@decadent.org.uk>)
-        id 1ovi68-000AcN-2M;
-        Thu, 17 Nov 2022 17:50:44 +0100
-Message-ID: <51c845f30cfb74420b176be96bdd1f8de4079393.camel@decadent.org.uk>
-Subject: Re: [PATCH] kbuild: deb-pkg: get rid of |flex:native workaround
- from Build-Depends
-From:   Ben Hutchings <ben@decadent.org.uk>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kernel@vger.kernel.org
-Date:   Thu, 17 Nov 2022 17:50:40 +0100
-In-Reply-To: <20221117013033.1105289-1-masahiroy@kernel.org>
-References: <20221117013033.1105289-1-masahiroy@kernel.org>
-Content-Type: multipart/signed; micalg="pgp-sha512";
-        protocol="application/pgp-signature"; boundary="=-erCn4oDPeuaBLJvFvaSk"
-User-Agent: Evolution 3.46.1-1 
+        Thu, 17 Nov 2022 14:10:52 -0500
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2301A7EC99;
+        Thu, 17 Nov 2022 11:10:50 -0800 (PST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1668712247;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=tjrXRruokzGgz/ctSWFL+NrKW2mSry1KiPurqWuWjbw=;
+        b=KMSmtIAleWNtBdFxTUcXaMFRMKiNeD1hOgnvtm06B3BaPAi/j4w3UXgkmcM2wv3FSHdws0
+        6U+okwIb3G1Ij9S9coJixNtA0pjd7Vj6CGCyfVkF5jiHTRs1kI1Y9cSvLr1fN8/Qnm52zQ
+        Qf5vb9xwZnOKHepuDqNfuo091n4a42pmIyJYnIMVGay6DfmBR8ryAq6c2CWk+yaxZNYr2w
+        oNqj2gXyzIwe7bwQ4i2A5KOD5g6LD9+7zRsrzL+4zIR2aHfvh3ezUq3PktfmeB9+ZT1FcY
+        cCJS4pRJHuts0p1EwJL2UlBUGoryIIvkuB8QkPKLtNEMaOKZFY9EbpbFdSe4nA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1668712247;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=tjrXRruokzGgz/ctSWFL+NrKW2mSry1KiPurqWuWjbw=;
+        b=azUiBcLzwWUHzJmpxY62eu72/tmadiSpzhidNR9/4S05J10g9dHmXwmkSq3LFZ4qhEBbtm
+        DpflEOCjQHao1tCw==
+To:     Nipun Gupta <nipun.gupta@amd.com>, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
+        rafael@kernel.org, eric.auger@redhat.com,
+        alex.williamson@redhat.com, cohuck@redhat.com,
+        puneet.gupta@amd.com, song.bao.hua@hisilicon.com,
+        mchehab+huawei@kernel.org, maz@kernel.org, f.fainelli@gmail.com,
+        jeffrey.l.hugo@gmail.com, saravanak@google.com,
+        Michael.Srba@seznam.cz, mani@kernel.org, yishaih@nvidia.com,
+        jgg@ziepe.ca, jgg@nvidia.com, robin.murphy@arm.com,
+        will@kernel.org, joro@8bytes.org, masahiroy@kernel.org,
+        ndesaulniers@google.com, linux-arm-kernel@lists.infradead.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, kvm@vger.kernel.org
+Cc:     okaya@kernel.org, harpreet.anand@amd.com, nikhil.agarwal@amd.com,
+        michal.simek@amd.com, aleksandar.radovanovic@amd.com, git@amd.com,
+        Nipun Gupta <nipun.gupta@amd.com>
+Subject: Re: [RFC PATCH v4 7/8] bus/cdx: add cdx-MSI domain with gic-its
+ domain as parent
+In-Reply-To: <20221014044049.2557085-8-nipun.gupta@amd.com>
+References: <20220803122655.100254-1-nipun.gupta@amd.com>
+ <20221014044049.2557085-1-nipun.gupta@amd.com>
+ <20221014044049.2557085-8-nipun.gupta@amd.com>
+Date:   Thu, 17 Nov 2022 20:10:46 +0100
+Message-ID: <87r0y1l7m1.ffs@tglx>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 213.219.160.184
-X-SA-Exim-Mail-From: ben@decadent.org.uk
-X-SA-Exim-Scanned: No (on maynard); SAEximRunCond expanded to false
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+Content-Type: text/plain
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,71 +70,75 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Fri, Oct 14 2022 at 10:10, Nipun Gupta wrote:
+> Since CDX devices are not linked to of node they need a
+> separate MSI domain for handling device ID to be provided to
+> the GIC ITS domain.
+>
+> This also introduces APIs to alloc and free IRQs for CDX domain.
 
---=-erCn4oDPeuaBLJvFvaSk
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This is not really much of an explanation.
 
-On Thu, 2022-11-17 at 10:30 +0900, Masahiro Yamada wrote:
-> "| flex:native" was a workaround (suggested by Ben, see Link) because
-> "MultiArch: foreign" was missing in the flex package on some old distros
-> when commit e3a22850664f ("deb-pkg: generate correct build dependencies")
-> was applied.
->=20
-> It seems fixing the flex package has been completed. Get rid of the
-> workaround.
->=20
-> Link: https://lore.kernel.org/linux-kbuild/ab49b0582ef12b14b1a68877263b81=
-813e2492a2.camel@decadent.org.uk/
-> Link: https://wiki.debian.org/CrossBuildPackagingGuidelines
-> Cc: Ben Hutchings <ben@decadent.org.uk>
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> +#include "cdx.h"
+> +
+> +#define REQ_ID_SHIFT	10
+> +
+> +/*
+> + * Convert an msi_desc to a globaly unique identifier (per-device
+> + * reqid + msi_desc position in the msi_list).
+> + */
+> +static irq_hw_number_t cdx_domain_calc_hwirq(struct cdx_device *dev,
+> +					     struct msi_desc *desc)
+> +{
+> +	return (dev->req_id << REQ_ID_SHIFT) | desc->msi_index;
+> +}
+> +
+> +static void cdx_msi_set_desc(msi_alloc_info_t *arg,
+> +			     struct msi_desc *desc)
+> +{
+> +	arg->desc = desc;
+> +	arg->hwirq = cdx_domain_calc_hwirq(to_cdx_device(desc->dev), desc);
+> +}
+> +
+> +static void cdx_msi_write_msg(struct irq_data *irq_data,
+> +			      struct msi_msg *msg)
+> +{
+> +	struct msi_desc *msi_desc = irq_data_get_msi_desc(irq_data);
+> +	struct cdx_device *cdx_dev = to_cdx_device(msi_desc->dev);
+> +	struct cdx_controller_t *cdx = cdx_dev->cdx;
+> +	uint64_t addr;
+> +	int ret;
+> +
+> +	addr = ((uint64_t)(msi_desc->msg.address_hi) << 32) |
+> +	       msi_desc->msg.address_lo;
+> +
+> +	ret = cdx->ops.write_msi(cdx, cdx_dev->bus_num, cdx_dev->dev_num,
+> +				 msi_desc->msi_index, msi_desc->msg.data,
+> +				 addr);
+> +	if (ret)
+> +		dev_err(&cdx_dev->dev, "Write MSI failed to CDX controller\n");
+> +}
 
-Reviewed-by: Ben Hutchings <ben@decadent.org.uk>
+So this is yet another variant of platform-MSI which is about to be
+kicked from the planet.
 
-> ---
->=20
->  scripts/package/mkdebian | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-> index 60a2a63a5e90..852d13e738c5 100755
-> --- a/scripts/package/mkdebian
-> +++ b/scripts/package/mkdebian
-> @@ -175,7 +175,7 @@ Section: kernel
->  Priority: optional
->  Maintainer: $maintainer
->  Rules-Requires-Root: no
-> -Build-Depends: bc, rsync, kmod, cpio, bison, flex | flex:native $extra_b=
-uild_depends
-> +Build-Depends: bc, rsync, kmod, cpio, bison, flex $extra_build_depends
->  Homepage: https://www.kernel.org/
-> =20
->  Package: $packagename-$version
+Please check:
 
---=20
-Ben Hutchings
-Larkinson's Law: All laws are basically false.
+     https://lore.kernel.org/r/20221111131813.914374272@linutronix.de
+     https://lore.kernel.org/r/20221111133158.196269823@linutronix.de
 
---=-erCn4oDPeuaBLJvFvaSk
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+and the ARM/GIC conversion in:
 
------BEGIN PGP SIGNATURE-----
+     https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git/log/?h=devmsi-arm
 
-iQIzBAABCgAdFiEErCspvTSmr92z9o8157/I7JWGEQkFAmN2ZmAACgkQ57/I7JWG
-EQmDLA//SyyQ2S2LEaIwtjn1XNZon0gqi/7H2hz6wrGPuXSxMtb6SMk10DEen08V
-/JESjQ6/pf9t6xXEtt2WlM0ZZHrwYqjzd6/rwDYe3/lfyL2/Ad6cvPPQNLzj57Bd
-8MYqm6A+cd1P0cqPf5AaX52kpgZMUlaO3WiMpcrmmUriljnyrcEp7tm0Tj+lLZ3c
-PTIRZGzT41fBeuQVgpU4Ij3MgP06j7cp/0lzwT7SOlN7phdzDCuaO8ovF46yYe7F
-caMdJ8SMiO3xNcaLbEXU7ZntNJJKJkfSWTxeGndCuoRrkIrKfYjEhjWnDIAjByqP
-ss7Nes1IZBC6s0JWbf4itF3jV0F8ijXkJON/q3U67VEaXU0+XCrW1p6k5mBdDbW/
-yL5fNK234kJ707wCTmbAfIK6+96DxAL/Iv9ZYGgQLoeAXtUSG8UoXtugDJaHqHnx
-as8IZpIJViE9n7Y8yplEZzI7OHV5jPoFWj6x7xZYPPOu/n+MExexw2UM5+Fs7XlC
-X51wnmTD+OWgSgRUAIN5TMKuoepmdJBVLubDdp+W36KyK2J+Ov6hLUy7yC1xH3bY
-TAc+viisiU36dtUCKnB7cnQA6ny1BPXmfEzZ01m13u/3WHligYLrfih1Oe3MtJMP
-gbfce4YpENXGM0gZo++a5cW6DbE9yM4IIvkeMgcRZYpPDF68JXM=
-=Ijuf
------END PGP SIGNATURE-----
+The latter is WIP, but functional.
 
---=-erCn4oDPeuaBLJvFvaSk--
+I'm sure you replace your yet another magic MSI domain which only
+provides a device specific MSI write function with the new
+infrastructure trivially.
+
+Thanks,
+
+        tglx
+
+
