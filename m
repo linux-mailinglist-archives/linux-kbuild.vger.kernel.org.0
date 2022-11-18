@@ -2,92 +2,120 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 735B062FEF6
-	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Nov 2022 21:46:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B67562FF2B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Nov 2022 22:08:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229836AbiKRUqp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 18 Nov 2022 15:46:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43164 "EHLO
+        id S229514AbiKRVIy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 18 Nov 2022 16:08:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229606AbiKRUqo (ORCPT
+        with ESMTP id S230131AbiKRVIv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 18 Nov 2022 15:46:44 -0500
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 347AE6205A;
-        Fri, 18 Nov 2022 12:46:44 -0800 (PST)
-Received: by mail-oi1-f174.google.com with SMTP id l127so6613294oia.8;
-        Fri, 18 Nov 2022 12:46:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h3na0c+zCdiHpYsiS/hKe8VnK8EaiIE0atU3Cp6vqK8=;
-        b=EZJGh3pERaS0dPM2mNqSU1Otc4q3hmAOtAGESfEhg5dy5meAnCC68obisZ8R7xeDM0
-         M8y4N6EOGfLtGFtLhD7Wt9VT22mIlLouNp0S0RphmG/fTHWPvmFlLIN1qMUde75OrNcU
-         CnQ8OpmO019NDz3C3YKrV6zPntCiJ9YNqun+MCCAK/zW8LTiia/Dv4eDdpzRs1yXt7Sv
-         GLhImW9gZX0Zga83Y+9FB9SU0l4lhbdgTCAe54d6tMhLC4bdv3qA7DNmXQ6tfHGDMDm6
-         zDfDJPSHFCB+WW3EHzhUkt5pJqFWYgU1N0qA/ZWSNHHgpKMdkV9VJXdpEOvmU/Kkd20U
-         vXJg==
-X-Gm-Message-State: ANoB5pnAzVtwdbaY2sX4DBQoHSs86w56m4DUdINAZOv1r+4kD4dIFh7x
-        J+2ErlZfwlZ7PZPp9wazpw==
-X-Google-Smtp-Source: AA0mqf77Kvv76+2dRDE7XcyDrmAFDyRj4QvQ7OTBZ2bM59km+E8GbCkPFq9ssjIV4GX905G9Eziucw==
-X-Received: by 2002:a54:4596:0:b0:359:fea2:69d0 with SMTP id z22-20020a544596000000b00359fea269d0mr4245868oib.45.1668804403417;
-        Fri, 18 Nov 2022 12:46:43 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id k9-20020a544409000000b00359b83e3df1sm1814919oiw.9.2022.11.18.12.46.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Nov 2022 12:46:42 -0800 (PST)
-Received: (nullmailer pid 1327692 invoked by uid 1000);
-        Fri, 18 Nov 2022 20:46:44 -0000
-Date:   Fri, 18 Nov 2022 14:46:44 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Andrew Davis <afd@ti.com>
-Cc:     Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: Cleanup DT Overlay intermediate files as
- appropriate
-Message-ID: <20221118204644.GA1327355-robh@kernel.org>
-References: <20221114205939.27994-1-afd@ti.com>
+        Fri, 18 Nov 2022 16:08:51 -0500
+Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71FD22D1E6;
+        Fri, 18 Nov 2022 13:08:48 -0800 (PST)
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 2AIL8Vfu010629;
+        Sat, 19 Nov 2022 06:08:32 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 2AIL8Vfu010629
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1668805712;
+        bh=MeBNvxRxh9A/m0IrLHY4qRwLUfPaCWNGrltukchBfQI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=SPY0hpve8al2WWWO8KMqHaYRc3/Zp7LwRRc/tKb2RDC11bD3rCJuYaG1mQuYcPq6M
+         kWKzudUOCtJU/kkALI9gSwoqRHqyiFlq2YcjbA/Jmlu4RPrSPhltdiGiH1UXJC4Bw3
+         JeEz8fVkTJjXmlObs6F5TZ9qgJmGkzMX1Vk2WvF6XTxACZISwgRWCkUVIJoIMb6c7z
+         JqTMRoHvliEZuZeDPKHpm9O3iI45PoT7vLqygTmtw6/Emcxpdv2SV9ZyuL/eX3HTP4
+         J0g5ep+xfRfGBTiQsxTrK02/qNhyHPextzVGS4wcefAqW7V4oGVmCE4aki5bNxpv/2
+         1Q5wG3aHFCKTA==
+X-Nifty-SrcIP: [209.85.210.51]
+Received: by mail-ot1-f51.google.com with SMTP id p10-20020a9d76ca000000b0066d6c6bce58so3814557otl.7;
+        Fri, 18 Nov 2022 13:08:32 -0800 (PST)
+X-Gm-Message-State: ANoB5pl9QFDkuAfIrsQaYQJmopZa1MCGzthb/ZNjNesu9yox7GXt4oqE
+        QHzRdEVh98Ryl/1rczEm7ABr3Fk4daNQx1+6hRE=
+X-Google-Smtp-Source: AA0mqf4AtJDvReYVXE7OCM7SPmwCMZ+JzCefyPdJmJ0JfWrkv3y3m7EATeCEJOqKn4+XfjP4Rg+qe4Oe0NXs5FRlLug=
+X-Received: by 2002:a05:6830:1b67:b0:661:8d9e:1959 with SMTP id
+ d7-20020a0568301b6700b006618d9e1959mr4774176ote.225.1668805710944; Fri, 18
+ Nov 2022 13:08:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221114205939.27994-1-afd@ti.com>
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+References: <20221118195307.86049-1-masahiroy@kernel.org> <20221118195307.86049-2-masahiroy@kernel.org>
+In-Reply-To: <20221118195307.86049-2-masahiroy@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 19 Nov 2022 06:07:54 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS4cRT7Jgdp10HUB4gCMU9OHOq3DKEHVfHhYzkbOPqsdw@mail.gmail.com>
+Message-ID: <CAK7LNAS4cRT7Jgdp10HUB4gCMU9OHOq3DKEHVfHhYzkbOPqsdw@mail.gmail.com>
+Subject: Re: [PATCH 1/6] kbuild: add test-{le,ge,lt,gt} macros
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Nov 14, 2022 at 02:59:39PM -0600, Andrew Davis wrote:
-> %.dtbo.o and %.dtbo.S files are used to build-in DT Overlay. They should
-> should not be removed by Make or the kernel will be needlessly rebuilt.
-> 
-> These should be removed by "clean" and ignored by git like other
-> intermediate files.
-> 
-> Reported-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> Signed-off-by: Andrew Davis <afd@ti.com>
-> ---
->  .gitignore             | 1 +
->  Makefile               | 4 +++-
->  scripts/Makefile.build | 2 ++
->  3 files changed, 6 insertions(+), 1 deletion(-)
+On Sat, Nov 19, 2022 at 4:53 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> Because GNU Make is only able to handle strings, it is very hard to
+> perform arighmetic in Makefiles.
 
-Applied, thanks!
+
+arighmetic -> arithmetic
+
+
+>
+> When we compare two integers, we invokes shell. One example is in the
+
+
+invokes -> invoke
+
+
+
+> top Makefile:
+>
+>   ifeq ($(shell test $(CONFIG_LLD_VERSION) -lt 130000; echo $$?),0)
+>
+> This is more expensive than using built-in functions since it forks a
+> process.
+>
+> If we know the two have the same number of digits, we can do better.
+>
+> This commit adds four macros, test-le, test-ge, test-lt, test-gt.
+>
+> $(call test-lt, A, B) is evaluated to 'y' if A is less than B, or
+> empty otherwise. This will replace $(call shell test A -lt B).
+>
+> Again, the limitation is that A and B must have the same number of
+> digits because these macros are based on $(sort ) function.
+>
+>   $(call test-lt, 1, 9)    -->  y        (Works!)
+>   $(call test-lt, 10, 9)   -->  y        (Not work...)
+>
+> To make the latter work, you need to add '0' prefix to align the number
+> of digits:
+>
+>   $(call test-lt, 10, 09)  -->  empty    (Works!)
+>
+> Actually, we can live with this limitation in many places. As for the
+> example above, we know $(CONFIG_LLD_VERSION) is 6-digits because the
+> minimal supported version of LLVM is 11.0.0.
+>
+> So, the shell invocation can be replaced with more efficient code:
+>
+>   ifeq ($(call test-lt, $(CONFIG_LLD_VERSION), 130000),y)
+>
+> Of course, this assumption will break when LLVM 100 is released, but it
+> will be far in the future.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
