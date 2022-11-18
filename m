@@ -2,120 +2,137 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B67562FF2B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Nov 2022 22:08:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CABB62FF67
+	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Nov 2022 22:36:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229514AbiKRVIy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 18 Nov 2022 16:08:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56144 "EHLO
+        id S229606AbiKRVgC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 18 Nov 2022 16:36:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230131AbiKRVIv (ORCPT
+        with ESMTP id S229561AbiKRVgB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 18 Nov 2022 16:08:51 -0500
-Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71FD22D1E6;
-        Fri, 18 Nov 2022 13:08:48 -0800 (PST)
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 2AIL8Vfu010629;
-        Sat, 19 Nov 2022 06:08:32 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 2AIL8Vfu010629
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1668805712;
-        bh=MeBNvxRxh9A/m0IrLHY4qRwLUfPaCWNGrltukchBfQI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=SPY0hpve8al2WWWO8KMqHaYRc3/Zp7LwRRc/tKb2RDC11bD3rCJuYaG1mQuYcPq6M
-         kWKzudUOCtJU/kkALI9gSwoqRHqyiFlq2YcjbA/Jmlu4RPrSPhltdiGiH1UXJC4Bw3
-         JeEz8fVkTJjXmlObs6F5TZ9qgJmGkzMX1Vk2WvF6XTxACZISwgRWCkUVIJoIMb6c7z
-         JqTMRoHvliEZuZeDPKHpm9O3iI45PoT7vLqygTmtw6/Emcxpdv2SV9ZyuL/eX3HTP4
-         J0g5ep+xfRfGBTiQsxTrK02/qNhyHPextzVGS4wcefAqW7V4oGVmCE4aki5bNxpv/2
-         1Q5wG3aHFCKTA==
-X-Nifty-SrcIP: [209.85.210.51]
-Received: by mail-ot1-f51.google.com with SMTP id p10-20020a9d76ca000000b0066d6c6bce58so3814557otl.7;
-        Fri, 18 Nov 2022 13:08:32 -0800 (PST)
-X-Gm-Message-State: ANoB5pl9QFDkuAfIrsQaYQJmopZa1MCGzthb/ZNjNesu9yox7GXt4oqE
-        QHzRdEVh98Ryl/1rczEm7ABr3Fk4daNQx1+6hRE=
-X-Google-Smtp-Source: AA0mqf4AtJDvReYVXE7OCM7SPmwCMZ+JzCefyPdJmJ0JfWrkv3y3m7EATeCEJOqKn4+XfjP4Rg+qe4Oe0NXs5FRlLug=
-X-Received: by 2002:a05:6830:1b67:b0:661:8d9e:1959 with SMTP id
- d7-20020a0568301b6700b006618d9e1959mr4774176ote.225.1668805710944; Fri, 18
- Nov 2022 13:08:30 -0800 (PST)
+        Fri, 18 Nov 2022 16:36:01 -0500
+Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch [185.70.40.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91A1EA3173
+        for <linux-kbuild@vger.kernel.org>; Fri, 18 Nov 2022 13:36:00 -0800 (PST)
+Date:   Fri, 18 Nov 2022 21:35:48 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+        s=protonmail3; t=1668807358; x=1669066558;
+        bh=pJNx7ZnlloAIzR3yB2yGQaGebDKuZEQyHZ8pRqv1kDw=;
+        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+         Message-ID:BIMI-Selector;
+        b=b2qCuWmRkoB5W1UQ7IPpk0U3I8c7VvCJ4D2+UxqyUEh54ahOLCplBQBnfwy1uuomy
+         M5SUQd+oGXYcK8HS+xnBWhVA7jmfn2jKQMKDYAVS1K1+d2OdUpupNtE4lekIi6Za90
+         QKJMgdsXN9rm9RUv53BLYEYXCPrZQR2U6Cbbg0BrMNLQZmQ7EO/gawObydr6aQRAJc
+         0Q0YQmjRW79WnuvHmdwZB4maiP87VZhLtrznC4P0pBCBapiJ7ccXtnpAzvxprZ82A7
+         Th0yfqSCAu3IZP+WlRrvnLLtB91rsTgPXcIV1t8Kp4jZOExxzHjEvVfqsE1k57oaQk
+         5P6F9J+9v52RA==
+To:     Masahiro Yamada <masahiroy@kernel.org>
+From:   Alexander Lobakin <alobakin@pm.me>
+Cc:     Alexander Lobakin <alobakin@pm.me>, linux-kbuild@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nick Terrell <terrelln@fb.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v2 2/2] kbuild: warn objects shared among multiple modules
+Message-ID: <20221118212839.148107-1-alobakin@pm.me>
+In-Reply-To: <20221118191551.66448-2-masahiroy@kernel.org>
+References: <20221118191551.66448-1-masahiroy@kernel.org> <20221118191551.66448-2-masahiroy@kernel.org>
+Feedback-ID: 22809121:user:proton
 MIME-Version: 1.0
-References: <20221118195307.86049-1-masahiroy@kernel.org> <20221118195307.86049-2-masahiroy@kernel.org>
-In-Reply-To: <20221118195307.86049-2-masahiroy@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 19 Nov 2022 06:07:54 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS4cRT7Jgdp10HUB4gCMU9OHOq3DKEHVfHhYzkbOPqsdw@mail.gmail.com>
-Message-ID: <CAK7LNAS4cRT7Jgdp10HUB4gCMU9OHOq3DKEHVfHhYzkbOPqsdw@mail.gmail.com>
-Subject: Re: [PATCH 1/6] kbuild: add test-{le,ge,lt,gt} macros
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Nov 19, 2022 at 4:53 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> Because GNU Make is only able to handle strings, it is very hard to
-> perform arighmetic in Makefiles.
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 19 Nov 2022 04:15:51 +0900
 
+> If an object is shared among multiple modules, amd some of them are
+> configured as 'm', but the others as 'y', the shared object is built
+> as modular, then linked to the modules and vmlinux. This is a potential
+> issue because the expected CFLAGS are different between modules and
+> builtins.
+>
+> Commit 637a642f5ca5 ("zstd: Fixing mixed module-builtin objects")
+> reported that this could be even more fatal in some cases such as
+> Clang LTO.
+>
+> That commit fixed lib/zlib/zstd_{compress,decompress}, but there are
+> still more instances of breakage.
+>
+> This commit adds a W=3D1 warning for shared objects, so that the kbuild
+> test robot, which provides build tests with W=3D1, will avoid a new
+> breakage slipping in.
+>
+> Quick compile tests on v6.1-rc4 detected the following:
 
-arighmetic -> arithmetic
+For the series:
 
+Reviewed-and-tested-by: Alexander Lobakin <alobakin@pm.me>
 
->
-> When we compare two integers, we invokes shell. One example is in the
+[...]
 
+> Once all the warnings are fixed, it can become an error irrespective of
+> W=3D option.
 
-invokes -> invoke
+BTW I've fixed most of these (the ones that get build on typical
+x86_64 distroconfig) during my local tests, basing off your WIP
+tree. I could send a series if you wish.
 
-
-
-> top Makefile:
->
->   ifeq ($(shell test $(CONFIG_LLD_VERSION) -lt 130000; echo $$?),0)
->
-> This is more expensive than using built-in functions since it forks a
-> process.
->
-> If we know the two have the same number of digits, we can do better.
->
-> This commit adds four macros, test-le, test-ge, test-lt, test-gt.
->
-> $(call test-lt, A, B) is evaluated to 'y' if A is less than B, or
-> empty otherwise. This will replace $(call shell test A -lt B).
->
-> Again, the limitation is that A and B must have the same number of
-> digits because these macros are based on $(sort ) function.
->
->   $(call test-lt, 1, 9)    -->  y        (Works!)
->   $(call test-lt, 10, 9)   -->  y        (Not work...)
->
-> To make the latter work, you need to add '0' prefix to align the number
-> of digits:
->
->   $(call test-lt, 10, 09)  -->  empty    (Works!)
->
-> Actually, we can live with this limitation in many places. As for the
-> example above, we know $(CONFIG_LLD_VERSION) is 6-digits because the
-> minimal supported version of LLVM is 11.0.0.
->
-> So, the shell invocation can be replaced with more efficient code:
->
->   ifeq ($(call test-lt, $(CONFIG_LLD_VERSION), 130000),y)
->
-> Of course, this assumption will break when LLVM 100 is released, but it
-> will be far in the future.
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
+>
+> Changes in v2:
+>   - Add drivers/block/rnbd/Makefile for commit log
+>
+>  scripts/Makefile.build | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index 37cf88d076e8..799df12b53f3 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -222,6 +222,10 @@ endif
+>
+>  cmd_check_local_export =3D $(srctree)/scripts/check-local-export $@
+>
+> +ifneq ($(findstring 1, $(KBUILD_EXTRA_WARN)),)
+> +cmd_warn_shared_object =3D $(if $(word 2, $(modname-multi)),$(warning $(=
+kbuild-file): $*.o is added to multiple modules: $(modname-multi)))
+> +endif
+> +
+>  define rule_cc_o_c
+>  =09$(call cmd_and_fixdep,cc_o_c)
+>  =09$(call cmd,gen_ksymdeps)
+> @@ -231,6 +235,7 @@ define rule_cc_o_c
+>  =09$(call cmd,gen_objtooldep)
+>  =09$(call cmd,gen_symversions_c)
+>  =09$(call cmd,record_mcount)
+> +=09$(call cmd,warn_shared_object)
+>  endef
+>
+>  define rule_as_o_S
+> @@ -239,6 +244,7 @@ define rule_as_o_S
+>  =09$(call cmd,check_local_export)
+>  =09$(call cmd,gen_objtooldep)
+>  =09$(call cmd,gen_symversions_S)
+> +=09$(call cmd,warn_shared_object)
+>  endef
+>
+>  # Built-in and composite module parts
+> --
+> 2.34.1
 
+Thanks,
+Olek
 
-
--- 
-Best Regards
-Masahiro Yamada
