@@ -2,161 +2,133 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E094630C5E
-	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Nov 2022 07:10:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD183630C64
+	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Nov 2022 07:20:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232036AbiKSGKm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 19 Nov 2022 01:10:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49800 "EHLO
+        id S231445AbiKSGUg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 19 Nov 2022 01:20:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231940AbiKSGKl (ORCPT
+        with ESMTP id S229836AbiKSGUe (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 19 Nov 2022 01:10:41 -0500
-Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D51F693CF7;
-        Fri, 18 Nov 2022 22:10:38 -0800 (PST)
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 2AJ6AFtX020437;
-        Sat, 19 Nov 2022 15:10:16 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 2AJ6AFtX020437
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1668838216;
-        bh=hw+7QfHms6qg0bK0VXx5PywoCJxCHZ+mTJrxNjSJVz4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=vNab5eOVQ5LmrgNQqePwKMQ0jUfu8K/ULgd0oPIRIRNYnm7JvcKY/lT4uKWd8apGR
-         anL3uC0NaYSU2eDsOLRXBdViLYI89WXkYZlV+TX6id4CwQcLEn/PTeOwM7RQ/jSwxg
-         bD9WWzh6bRYHN8gETcKvq/tQLGMxqnarvaP6+SWiKhUKreTHkrBbD/4PtMj6uZF4BA
-         t5yCh/FPZmjb5hfGlvR5sf7Qqw4B8YuEUxcME6d5D6tvfvwStFQFImEHUE8IWHBr/S
-         6H7WYv9+vzG8IK9ubYghO/Cpkhk/DAkg2b0xNLwdACu0Y5UFGhiQks8AR3xffdFQav
-         d1RmsGa/+qkeg==
-X-Nifty-SrcIP: [209.85.167.172]
-Received: by mail-oi1-f172.google.com with SMTP id q83so7593256oib.10;
-        Fri, 18 Nov 2022 22:10:16 -0800 (PST)
-X-Gm-Message-State: ANoB5plLRKr10caOt2Go4XvkciM0N+hF+gFJePIlgZp5WLYcqWxkz8qo
-        SXFDCgrM9+VGzjyoKc4zkZS32uvxwP0FqQfOjwY=
-X-Google-Smtp-Source: AA0mqf7Gxcw/Ku+ARk9QSSHzr/mwjFvUoDEN0nKTpykLNiAvoZ2wQ3JfjlemkGVxhg24LpSIw2n9iVjgMEji+B8QikA=
-X-Received: by 2002:aca:1c06:0:b0:354:28ae:23b3 with SMTP id
- c6-20020aca1c06000000b0035428ae23b3mr4994580oic.287.1668838215020; Fri, 18
- Nov 2022 22:10:15 -0800 (PST)
+        Sat, 19 Nov 2022 01:20:34 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7433B7EC8B;
+        Fri, 18 Nov 2022 22:20:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=GWI3tHIEFUoKRvzS0Oizyv0BLbzzh/6tf/RAcYC6Iro=; b=G3KxCV2rb5mZfvvznp/9CC+EBM
+        KcD+vP36I5TzIJhXtU9IVoOtRT6L8qz/QgF0XyX2kTWrJpX9rG5F2QQVvUDuWEXF2FpnhGWWMrRkf
+        +Ha8WFAf/r9qx3aOzCNInuywFLiebucR8zYtFRPANgQwVvhvwltkqP6FONTeu6PoHh82awA/J7q2t
+        WGErOJl064QxGyos8yxqX6wsDEvWsXlyjuze8KlYJDm6XDNh7l2Fhkyaco6oSG4/SYmsPrPiUE3fe
+        h9I0/q0/tazRyiclDDKIQj8evtGN9oDUHEIZjmGH+PEyS9al61jda18owK2RlX4OFTGWy7W2/Ctqw
+        /cVj6wDg==;
+Received: from [2601:1c2:d80:3110::a2e7]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1owHDL-00BaOP-Da; Sat, 19 Nov 2022 06:20:31 +0000
+Message-ID: <b8191c01-4d78-537b-9650-a783e14e5997@infradead.org>
+Date:   Fri, 18 Nov 2022 22:20:30 -0800
 MIME-Version: 1.0
-References: <20221118191551.66448-1-masahiroy@kernel.org> <20221118191551.66448-2-masahiroy@kernel.org>
- <20221118212839.148107-1-alobakin@pm.me>
-In-Reply-To: <20221118212839.148107-1-alobakin@pm.me>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 19 Nov 2022 15:09:38 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAROPTVO6B2+4pQ-hkx3=3annhtVL7ebaOjE_YX3Cf3p1w@mail.gmail.com>
-Message-ID: <CAK7LNAROPTVO6B2+4pQ-hkx3=3annhtVL7ebaOjE_YX3Cf3p1w@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] kbuild: warn objects shared among multiple modules
-To:     Alexander Lobakin <alobakin@pm.me>
-Cc:     linux-kbuild@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nick Terrell <terrelln@fb.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: build failure in linux-next: offb missing fb helpers
+Content-Language: en-US
+To:     =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>,
+        linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linuxppc-dev@lists.ozlabs.org, linux-fbdev@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+References: <20221118150351.GV28810@kitsune.suse.cz>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20221118150351.GV28810@kitsune.suse.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Nov 19, 2022 at 6:36 AM Alexander Lobakin <alobakin@pm.me> wrote:
->
-> From: Masahiro Yamada <masahiroy@kernel.org>
-> Date: Sat, 19 Nov 2022 04:15:51 +0900
->
-> > If an object is shared among multiple modules, amd some of them are
-> > configured as 'm', but the others as 'y', the shared object is built
-> > as modular, then linked to the modules and vmlinux. This is a potential
-> > issue because the expected CFLAGS are different between modules and
-> > builtins.
-> >
-> > Commit 637a642f5ca5 ("zstd: Fixing mixed module-builtin objects")
-> > reported that this could be even more fatal in some cases such as
-> > Clang LTO.
-> >
-> > That commit fixed lib/zlib/zstd_{compress,decompress}, but there are
-> > still more instances of breakage.
-> >
-> > This commit adds a W=1 warning for shared objects, so that the kbuild
-> > test robot, which provides build tests with W=1, will avoid a new
-> > breakage slipping in.
-> >
-> > Quick compile tests on v6.1-rc4 detected the following:
->
-> For the series:
->
-> Reviewed-and-tested-by: Alexander Lobakin <alobakin@pm.me>
->
-> [...]
->
-> > Once all the warnings are fixed, it can become an error irrespective of
-> > W= option.
->
-> BTW I've fixed most of these (the ones that get build on typical
-> x86_64 distroconfig) during my local tests, basing off your WIP
-> tree. I could send a series if you wish.
+Hi--
+
+[adding Masahiro-san]
 
 
-Yes, thanks for the help.
+On 11/18/22 07:03, Michal Suchánek wrote:
+> Hello,
+> 
+> I am seeing these errors:
+> 
+> [ 3825s]   AR      built-in.a
+> [ 3827s]   AR      vmlinux.a
+> [ 3835s]   LD      vmlinux.o
+> [ 3835s]   OBJCOPY modules.builtin.modinfo
+> [ 3835s]   GEN     modules.builtin
+> [ 3835s]   GEN     .vmlinux.objs
+> [ 3848s]   MODPOST Module.symvers
+> [ 3848s]   CC      .vmlinux.export.o
+> [ 3849s]   UPD     include/generated/utsversion.h
+> [ 3849s]   CC      init/version-timestamp.o
+> [ 3849s]   LD      .tmp_vmlinux.btf
+> [ 3864s] ld: drivers/video/fbdev/offb.o:(.data.rel.ro+0x58): undefined
+> reference to `cfb_fillrect'
+> [ 3864s] ld: drivers/video/fbdev/offb.o:(.data.rel.ro+0x60): undefined
+> reference to `cfb_copyarea'
+> [ 3864s] ld: drivers/video/fbdev/offb.o:(.data.rel.ro+0x68): undefined
+> reference to `cfb_imageblit'
+> 
+> cfb_fillrect is provided by drivers/video/fbdev/core/cfbfillrect.c
+> 
+> It is compiled when CONFIG_FB_CFB_FILLRECT
+> drivers/video/fbdev/core/Makefile:obj-$(CONFIG_FB_CFB_FILLRECT)  += cfbfillrect.o
+> 
+> drivers/video/fbdev/Makefile:obj-$(CONFIG_FB_OF)               += offb.o
+> is compiled when CONFIG_FB_OF
+> 
+> It selects CONFIG_FB_CFB_FILLRECT
+> config FB_OF
+>         bool "Open Firmware frame buffer device support"
+>         depends on (FB = y) && PPC && (!PPC_PSERIES || PCI)
+>         select APERTURE_HELPERS
+>         select FB_CFB_FILLRECT
+>         select FB_CFB_COPYAREA
+>         select FB_CFB_IMAGEBLIT
+>         select FB_MACMODES
+> 
+> The config has FB_OF built-in and FB_CFB_FILLRECT modular
+> config/ppc64le/vanilla:CONFIG_FB_CFB_FILLRECT=m
+> config/ppc64le/vanilla:CONFIG_FB_CFB_COPYAREA=m
+> config/ppc64le/vanilla:CONFIG_FB_CFB_IMAGEBLIT=m
+> config/ppc64le/vanilla:CONFIG_FB_OF=y
+> 
+> It only depends on FB which mut be built-in for FB_OF
+> config FB_CFB_FILLRECT
+>         tristate
+>         depends on FB
+> 
+> Is select in kconfig broken?
+> 
+> Attachnig the config in question.
 
+The symbol info from xconfig says:
 
+Symbol: FB_CFB_FILLRECT [=m]
+Type : tristate
+Defined at drivers/video/fbdev/Kconfig:69
+Depends on: HAS_IOMEM [=y] && FB [=y]
+Selected by [m]:
+[deleted]
+- FB_OF [=y] && HAS_IOMEM [=y] && FB [=y]=y && PPC [=y] && (!PPC_PSERIES [=y] || PCI [=y]) && !DRM_OFDRM [=m]
 
+I don't see why the 'select' from (bool) FB_OF would leave FB_CFB_FILLRECT (and the others)
+as =m instead of =y.
 
->
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> > Changes in v2:
-> >   - Add drivers/block/rnbd/Makefile for commit log
-> >
-> >  scripts/Makefile.build | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> >
-> > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> > index 37cf88d076e8..799df12b53f3 100644
-> > --- a/scripts/Makefile.build
-> > +++ b/scripts/Makefile.build
-> > @@ -222,6 +222,10 @@ endif
-> >
-> >  cmd_check_local_export = $(srctree)/scripts/check-local-export $@
-> >
-> > +ifneq ($(findstring 1, $(KBUILD_EXTRA_WARN)),)
-> > +cmd_warn_shared_object = $(if $(word 2, $(modname-multi)),$(warning $(kbuild-file): $*.o is added to multiple modules: $(modname-multi)))
-> > +endif
-> > +
-> >  define rule_cc_o_c
-> >       $(call cmd_and_fixdep,cc_o_c)
-> >       $(call cmd,gen_ksymdeps)
-> > @@ -231,6 +235,7 @@ define rule_cc_o_c
-> >       $(call cmd,gen_objtooldep)
-> >       $(call cmd,gen_symversions_c)
-> >       $(call cmd,record_mcount)
-> > +     $(call cmd,warn_shared_object)
-> >  endef
-> >
-> >  define rule_as_o_S
-> > @@ -239,6 +244,7 @@ define rule_as_o_S
-> >       $(call cmd,check_local_export)
-> >       $(call cmd,gen_objtooldep)
-> >       $(call cmd,gen_symversions_S)
-> > +     $(call cmd,warn_shared_object)
-> >  endef
-> >
-> >  # Built-in and composite module parts
-> > --
-> > 2.34.1
->
-> Thanks,
-> Olek
->
-
+Hopefully Masahiro can shed some light on this.
 
 -- 
-Best Regards
-Masahiro Yamada
+~Randy
