@@ -2,83 +2,207 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DFC3630C77
-	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Nov 2022 07:32:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 67898630EF8
+	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Nov 2022 14:28:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231445AbiKSGce (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 19 Nov 2022 01:32:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60512 "EHLO
+        id S230466AbiKSN2N (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 19 Nov 2022 08:28:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230484AbiKSGce (ORCPT
+        with ESMTP id S231757AbiKSN2M (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 19 Nov 2022 01:32:34 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D67C8DA78;
-        Fri, 18 Nov 2022 22:32:33 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C91EA60A38;
-        Sat, 19 Nov 2022 06:32:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5178C433D6;
-        Sat, 19 Nov 2022 06:32:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668839552;
-        bh=bx1H5oyEj5Baf7Z8Q+gCPruinh9/I2zhfK2dAQ8AiUQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Tq/QSKIoUwptHIxIP79+FsAktHsZgNl1+4JG8N/tnO9jeeZf3iOoO4xmX0yoijKwc
-         8ojx03oApjRSWbWH+zSuYkRrtoETJUfj5JokBgw9Bb2/jVXaOu8O+/mpSKb/4zhirC
-         aZ4AdmXjXONTtyUZn4f7u2Z5fgPPnW5YqR7RYp4q2g8sDQQBCYi3dUHmhIKk2xhYgB
-         z/AQpLeiRScXsoCnuP/UrGdbXzlFsbHiRUxem6e5j2O8jhGIv4aoRBolTOJEWKcrhm
-         WNMnQzx6JviLY3MoT7LP8ZMaOoczLrUuSv0MuXKPWL/bmATuHoHVB+dplvZLqRuuun
-         QsUz5b/wIyYtQ==
-Date:   Sat, 19 Nov 2022 14:32:24 +0800
-From:   Shawn Guo <shawnguo@kernel.org>
-To:     Andrew Davis <afd@ti.com>
-Cc:     Li Yang <leoyang.li@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/7] arm64: dts: freescale: Rename DTB overlay source
- files from .dts to .dtso
-Message-ID: <20221119063223.GO16229@T480>
-References: <20221024173434.32518-1-afd@ti.com>
- <20221024173434.32518-5-afd@ti.com>
+        Sat, 19 Nov 2022 08:28:12 -0500
+Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDC847AF62;
+        Sat, 19 Nov 2022 05:28:08 -0800 (PST)
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 2AJDRf1q010269;
+        Sat, 19 Nov 2022 22:27:41 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 2AJDRf1q010269
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1668864462;
+        bh=wAXMhSJey5VSvKgw6HCvXuj93I1hlQIEOyp+rwYZByg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=udta5oV2rfhZKcR2MtcR38KBFh6/uqX+F7iisjMW5+10jtF6UQI9uqWOx60nPP9Mz
+         K+vEUzCDrnwuEVKr7Lo9dEA0jgHSYT22bPfKaS7BfEO/23V5Yn7AgV008K7tdPF1Fv
+         w28yD+ssOpkClD18PJdYmNRCXduFpIiIy6yeaekZwZXd2XAXa/1M8HckNQlKknQKUV
+         nL2KwZV/cLs4W+wTsm21I2p+Fq0nsE+K/UnmKniKVCztNZRP2zYABiqEV/eAiV/f8W
+         83mM06F+ZXYzmpBxh4nydkwfE9aUCbHCxljg0trij2+92PP98tF+KEXjivj5KyCxkz
+         Z0r6ulOHZ3P6w==
+X-Nifty-SrcIP: [209.85.161.41]
+Received: by mail-oo1-f41.google.com with SMTP id o140-20020a4a2c92000000b0049effb01130so1176245ooo.9;
+        Sat, 19 Nov 2022 05:27:41 -0800 (PST)
+X-Gm-Message-State: ANoB5pn38CIk+q0S0Gx6Bt7OGF3qLfHkKaZupAzr17PrUYPVKXLT/z5i
+        cDZPRMHArdN5wyi2kJmjATsbmgJuI5w0wA90Hwo=
+X-Google-Smtp-Source: AA0mqf6XzWLHsPIdmgP8chub/cRX8/Fvp3IqeLVQ+n1Vo/B1UPAu+IZq+JU5ZzzXJJHhnxFBp6Y5zZaukuR/pAQrwFU=
+X-Received: by 2002:a4a:b145:0:b0:49f:449a:5f6c with SMTP id
+ e5-20020a4ab145000000b0049f449a5f6cmr5352439ooo.93.1668864460545; Sat, 19 Nov
+ 2022 05:27:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221024173434.32518-5-afd@ti.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221118150351.GV28810@kitsune.suse.cz> <b8191c01-4d78-537b-9650-a783e14e5997@infradead.org>
+In-Reply-To: <b8191c01-4d78-537b-9650-a783e14e5997@infradead.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 19 Nov 2022 22:27:04 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASBhTvzkjXuJDH8ePCVXnZ=GUYdNa-OU+QURbBp3oyEBQ@mail.gmail.com>
+Message-ID: <CAK7LNASBhTvzkjXuJDH8ePCVXnZ=GUYdNa-OU+QURbBp3oyEBQ@mail.gmail.com>
+Subject: Re: build failure in linux-next: offb missing fb helpers
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>,
+        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-fbdev@vger.kernel.org, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Oct 24, 2022 at 12:34:31PM -0500, Andrew Davis wrote:
-> DTB Overlays (.dtbo) can now be built from source files with the
-> extension (.dtso). This makes it clear what is the content of the files
-> and differentiates them from base DTB source files.
-> 
-> Convert the DTB overlay source files in the arm64/freescale directory.
-> 
-> Signed-off-by: Andrew Davis <afd@ti.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Sat, Nov 19, 2022 at 3:20 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> Hi--
+>
+> [adding Masahiro-san]
+>
+>
+> On 11/18/22 07:03, Michal Such=C3=A1nek wrote:
+> > Hello,
+> >
+> > I am seeing these errors:
+> >
+> > [ 3825s]   AR      built-in.a
+> > [ 3827s]   AR      vmlinux.a
+> > [ 3835s]   LD      vmlinux.o
+> > [ 3835s]   OBJCOPY modules.builtin.modinfo
+> > [ 3835s]   GEN     modules.builtin
+> > [ 3835s]   GEN     .vmlinux.objs
+> > [ 3848s]   MODPOST Module.symvers
+> > [ 3848s]   CC      .vmlinux.export.o
+> > [ 3849s]   UPD     include/generated/utsversion.h
+> > [ 3849s]   CC      init/version-timestamp.o
+> > [ 3849s]   LD      .tmp_vmlinux.btf
+> > [ 3864s] ld: drivers/video/fbdev/offb.o:(.data.rel.ro+0x58): undefined
+> > reference to `cfb_fillrect'
+> > [ 3864s] ld: drivers/video/fbdev/offb.o:(.data.rel.ro+0x60): undefined
+> > reference to `cfb_copyarea'
+> > [ 3864s] ld: drivers/video/fbdev/offb.o:(.data.rel.ro+0x68): undefined
+> > reference to `cfb_imageblit'
+> >
+> > cfb_fillrect is provided by drivers/video/fbdev/core/cfbfillrect.c
+> >
+> > It is compiled when CONFIG_FB_CFB_FILLRECT
+> > drivers/video/fbdev/core/Makefile:obj-$(CONFIG_FB_CFB_FILLRECT)  +=3D c=
+fbfillrect.o
+> >
+> > drivers/video/fbdev/Makefile:obj-$(CONFIG_FB_OF)               +=3D off=
+b.o
+> > is compiled when CONFIG_FB_OF
+> >
+> > It selects CONFIG_FB_CFB_FILLRECT
+> > config FB_OF
+> >         bool "Open Firmware frame buffer device support"
+> >         depends on (FB =3D y) && PPC && (!PPC_PSERIES || PCI)
+> >         select APERTURE_HELPERS
+> >         select FB_CFB_FILLRECT
+> >         select FB_CFB_COPYAREA
+> >         select FB_CFB_IMAGEBLIT
+> >         select FB_MACMODES
+> >
+> > The config has FB_OF built-in and FB_CFB_FILLRECT modular
+> > config/ppc64le/vanilla:CONFIG_FB_CFB_FILLRECT=3Dm
+> > config/ppc64le/vanilla:CONFIG_FB_CFB_COPYAREA=3Dm
+> > config/ppc64le/vanilla:CONFIG_FB_CFB_IMAGEBLIT=3Dm
+> > config/ppc64le/vanilla:CONFIG_FB_OF=3Dy
+> >
+> > It only depends on FB which mut be built-in for FB_OF
+> > config FB_CFB_FILLRECT
+> >         tristate
+> >         depends on FB
+> >
+> > Is select in kconfig broken?
+> >
+> > Attachnig the config in question.
+>
+> The symbol info from xconfig says:
+>
+> Symbol: FB_CFB_FILLRECT [=3Dm]
+> Type : tristate
+> Defined at drivers/video/fbdev/Kconfig:69
+> Depends on: HAS_IOMEM [=3Dy] && FB [=3Dy]
+> Selected by [m]:
+> [deleted]
+> - FB_OF [=3Dy] && HAS_IOMEM [=3Dy] && FB [=3Dy]=3Dy && PPC [=3Dy] && (!PP=
+C_PSERIES [=3Dy] || PCI [=3Dy]) && !DRM_OFDRM [=3Dm]
+>
+> I don't see why the 'select' from (bool) FB_OF would leave FB_CFB_FILLREC=
+T (and the others)
+> as =3Dm instead of =3Dy.
+>
+> Hopefully Masahiro can shed some light on this.
+>
+> --
+> ~Randy
 
-Applied with Rob's dt/dtbo-rename branch pulled as dependency, thanks!
 
-Shawn
+The reason is shown in your paste of help message:
+
+"&& !DRM_OFDRM [=3Dm]" downgrades it to "selected by m"
+
+To aid this particular case, the following will select
+FB_CFB_FILLRECT=3Dy.
+
+
+
+
+diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+index 66f36b69e8f3..2bcf8627819f 100644
+--- a/drivers/video/fbdev/Kconfig
++++ b/drivers/video/fbdev/Kconfig
+@@ -458,7 +458,7 @@ config FB_ATARI
+ config FB_OF
+        bool "Open Firmware frame buffer device support"
+        depends on (FB =3D y) && PPC && (!PPC_PSERIES || PCI)
+-       depends on !DRM_OFDRM
++       depends on DRM_OFDRM !=3D y
+        select APERTURE_HELPERS
+        select FB_CFB_FILLRECT
+        select FB_CFB_COPYAREA
+
+
+
+
+Or, perhaps "depends on DRM_OFDRM =3D n"
+I do not know the intention of this dependency.
+
+Recommendation is to use "depends on" instead of "select" though.
+
+
+
+BTW, this is similar to what you asked before.
+
+https://lore.kernel.org/linux-kbuild/e1a6228d-1341-6264-d97a-e2bd52a65c82@i=
+nfradead.org/
+
+
+I tried to fix it in the past, but the issue was not as shallow as I
+had expected.
+I did not get around to revisiting this topic.
+
+https://patchwork.kernel.org/project/linux-kbuild/patch/1543216969-2227-1-g=
+it-send-email-yamada.masahiro@socionext.com/
+
+
+
+
+
+
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
