@@ -2,104 +2,135 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC5FC632C7C
-	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Nov 2022 19:59:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D22A5632D04
+	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Nov 2022 20:31:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229919AbiKUS7a (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 21 Nov 2022 13:59:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33282 "EHLO
+        id S230150AbiKUTbg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 21 Nov 2022 14:31:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229568AbiKUS73 (ORCPT
+        with ESMTP id S229639AbiKUTbf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 21 Nov 2022 13:59:29 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BACEB61B96;
-        Mon, 21 Nov 2022 10:59:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669057168; x=1700593168;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PdQeEPQACxdtbMm4JoWuf4jaaBJQPj9l5dZd+iPVQdo=;
-  b=NzjW5/C97Dw8ZRmlwlBiP60Kwi+fMD6RsUXNSX3LO0/BjWi4+SqRjOvf
-   XToJgfsXGOsaISKBq+b9ITGxfFcHT4ZetNH4OvW+6WFXPx5aHcuZbrNM4
-   E6grQ53x8UZi3ue62UPwHv47gPq3vbgyxJJzfhfRBHCGwefKBGQxw9wgJ
-   5Kb8pcitSUHtfllw8Nk/zIFZ6h9uaShBrCw9L2nWRI94OiNF+tIkBAP8F
-   xW6gAJVZFLVda0D2CDqNbjKDXEHpoSE53Ki07tx1wte6ouIX2ui8vWUSO
-   tdsgp3gfpx3GbzFLsC5bSp7CeMri5/NNpd1wdI4tHEgioFZc8SA39aar8
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="312340354"
-X-IronPort-AV: E=Sophos;i="5.96,182,1665471600"; 
-   d="scan'208";a="312340354"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2022 10:59:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="747025469"
-X-IronPort-AV: E=Sophos;i="5.96,182,1665471600"; 
-   d="scan'208";a="747025469"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP; 21 Nov 2022 10:59:21 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1oxC0k-00FQw3-2E;
-        Mon, 21 Nov 2022 20:59:18 +0200
-Date:   Mon, 21 Nov 2022 20:59:18 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc:     Alexander Lobakin <alobakin@pm.me>,
-        Colin Foster <colin.foster@in-advantage.com>,
-        linux-kbuild@vger.kernel.org,
+        Mon, 21 Nov 2022 14:31:35 -0500
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4690B961D
+        for <linux-kbuild@vger.kernel.org>; Mon, 21 Nov 2022 11:31:34 -0800 (PST)
+Received: by mail-pl1-x62c.google.com with SMTP id y10so10312720plp.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 21 Nov 2022 11:31:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=oC01w75+BC6zrMlCSKPUDMxphH7KPs1R9UnUFSUpeYw=;
+        b=Pdw0XXErqS1PgwCmNkH9rspHwrdI1O3eFjB+pw+cMQEN4M6BZqrIk6ylnayBkObhMc
+         Bh4+OvW5IAD5/EbeDiS7ZXAjAdKGFZYrqPwtT0es6AX4Cwy20ZK8hC7OdoJYbq7EVzhF
+         LQtSVfpxif8InEPFGKS0/qDZm5gG0ynabeNAu/pbynkNW4pRgwMUd/T8JHMj99gnx9gA
+         dfr/VbNPVD++y8ol0c4S/A7fW9Kz5tifVQi1+2GKWEx4s2XTLmP/K8+6RNxcmD6dM/cv
+         Vqr3F3WaO5YOX1mnAMtsVKdO24VL46TnS+dHNccJ2VO37OlPSScI0mJpMmWv7B4GmtR8
+         o2eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oC01w75+BC6zrMlCSKPUDMxphH7KPs1R9UnUFSUpeYw=;
+        b=e+KYrF5KrmCz79bhNk8a5LdO+qI8ZMbDKvcwqmWuh7q/okHk6BD0KSF8l2VKxza03P
+         l7Fm6FvMefrzXxrps0LbVRKLNa06M7tBqqSp30IdRA7Af1+etMBSPEDMsqVyUPxZm0fn
+         B83UMQ2KDac3Z379HMuHYtHUEJrwxQifr48VPZAH3d1VcaLeOfHoOI/2BhRxwICNQsud
+         szc1f2bVyslU7MEMfT+ufaMx2Fo5typsynpObcJ8iOlYc10uHQCR4p2NlaR70ikAD7U6
+         IKtNiwEbjXidBtpbluQLiPTq4/8Ltl9q3Vl7lKYJ1yIHK8qKt+XvRMKBDIQ11qH3c49p
+         KxHA==
+X-Gm-Message-State: ANoB5pkvTntYU2gHyBJANo/fla3qyUeEZtaDvP/fK9Dq3unwG0uUe/KC
+        3hr9AvzNBqUqwsP8ONJ2iPAPTA==
+X-Google-Smtp-Source: AA0mqf5uB1x90SY6CZJ84lF4+qw7+Voi7ifO//IKb7wjxInhvdLJpg4ESjdrlcZHZUQZQ849d9LOpg==
+X-Received: by 2002:a17:902:f391:b0:186:ac81:2aa9 with SMTP id f17-20020a170902f39100b00186ac812aa9mr611868ple.95.1669059094034;
+        Mon, 21 Nov 2022 11:31:34 -0800 (PST)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id a2-20020a17090a740200b002135e8074b1sm10623507pjg.55.2022.11.21.11.31.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Nov 2022 11:31:33 -0800 (PST)
+Date:   Mon, 21 Nov 2022 19:31:30 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     alexandre.belloni@bootlin.com
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kernel@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jens Axboe <axboe@kernel.dk>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Tony Luck <tony.luck@intel.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Derek Chickles <dchickles@marvell.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Salil Mehta <salil.mehta@huawei.com>,
-        Sunil Goutham <sgoutham@marvell.com>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Brown <broonie@kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 14/18] dsa: ocelot: fix mixed module-builtin object
-Message-ID: <Y3vKhpTk9XCFYNLN@smile.fi.intel.com>
-References: <20221119225650.1044591-1-alobakin@pm.me>
- <20221119225650.1044591-15-alobakin@pm.me>
- <20221121175504.qwuoyditr4xl6oew@skbuf>
+        linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v2] init/Kconfig: fix CC_HAS_ASM_GOTO_TIED_OUTPUT test
+ with dash
+Message-ID: <Y3vSErWtH6L6GmMn@google.com>
+References: <20221115110158.2207117-1-alexandre.belloni@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221121175504.qwuoyditr4xl6oew@skbuf>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221115110158.2207117-1-alexandre.belloni@bootlin.com>
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Nov 21, 2022 at 07:55:04PM +0200, Vladimir Oltean wrote:
-> On Sat, Nov 19, 2022 at 11:09:28PM +0000, Alexander Lobakin wrote:
++Masahiro and build, as I don't think this should go through the KVM tree (which
+is also partly why no one has responded).
 
-...
+On a related topic, should init/Kconfig be added to the KCONFIG MAINTAINERS entry?
+Or is there a better owner for this?
 
-> > +EXPORT_SYMBOL_NS_GPL(felix_switch_ops, NET_DSA_MSCC_CORE);
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 046ff06ff97f..ffff36e16b88 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11040,6 +11040,7 @@ T:      git git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+ F:     Documentation/kbuild/kconfig*
+ F:     scripts/Kconfig.include
+ F:     scripts/kconfig/
++F:     init/Kconfig
+ 
+ KCOV
+ R:     Dmitry Vyukov <dvyukov@google.com>
+
+On Tue, Nov 15, 2022, alexandre.belloni@bootlin.com wrote:
+> From: Alexandre Belloni <alexandre.belloni@bootlin.com>
 > 
-> What do we gain practically with the symbol namespacing?
+> When using dash as /bin/sh, the CC_HAS_ASM_GOTO_TIED_OUTPUT test fails
+> with a syntax error which is not the one we are looking for:
+> 
+> <stdin>: In function ‘foo’:
+> <stdin>:1:29: warning: missing terminating " character
+> <stdin>:1:29: error: missing terminating " character
+> <stdin>:2:5: error: expected ‘:’ before ‘+’ token
+> <stdin>:2:7: warning: missing terminating " character
+> <stdin>:2:7: error: missing terminating " character
+> <stdin>:2:5: error: expected declaration or statement at end of input
+> 
+> Removing '\n' solves this.
+> 
+> Fixes: 1aa0e8b144b6 ("Kconfig: Add option for asm goto w/ tied outputs to workaround clang-13 bug")
+> Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> ---
+>  init/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/init/Kconfig b/init/Kconfig
+> index 694f7c160c9c..13e93bcbc807 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -87,7 +87,7 @@ config CC_HAS_ASM_GOTO_OUTPUT
+>  config CC_HAS_ASM_GOTO_TIED_OUTPUT
+>  	depends on CC_HAS_ASM_GOTO_OUTPUT
+>  	# Detect buggy gcc and clang, fixed in gcc-11 clang-14.
+> -	def_bool $(success,echo 'int foo(int *x) { asm goto (".long (%l[bar]) - .\n": "+m"(*x) ::: bar); return *x; bar: return 0; }' | $CC -x c - -c -o /dev/null)
+> +	def_bool $(success,echo 'int foo(int *x) { asm goto (".long (%l[bar]) - .": "+m"(*x) ::: bar); return *x; bar: return 0; }' | $CC -x c - -c -o /dev/null)
 
-I guess this wrap-up can possibly answer this:
-https://lwn.net/Articles/760045/
+Tested a variety of compiler versions via godbolt, and the results are the same
+for all cases, so with the caveat that I am far from a shell expert:
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Reviewed-by: Sean Christopherson <seanjc@google.com>
