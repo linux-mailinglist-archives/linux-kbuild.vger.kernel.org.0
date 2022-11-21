@@ -2,140 +2,141 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B75E63258E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Nov 2022 15:23:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 03C38632730
+	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Nov 2022 16:00:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229585AbiKUOXK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 21 Nov 2022 09:23:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34224 "EHLO
+        id S230396AbiKUPAb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 21 Nov 2022 10:00:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229951AbiKUOXH (ORCPT
+        with ESMTP id S230481AbiKUPAM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 21 Nov 2022 09:23:07 -0500
+        Mon, 21 Nov 2022 10:00:12 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9022B10563
-        for <linux-kbuild@vger.kernel.org>; Mon, 21 Nov 2022 06:22:04 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EE89D328E
+        for <linux-kbuild@vger.kernel.org>; Mon, 21 Nov 2022 06:49:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1669040523;
+        s=mimecast20190719; t=1669042140;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ykhJnNqnxOyo9r4byFX0GgaM79yTY6Gqzcv3nxSkQBo=;
-        b=aImYbfPgZDo0uSbrWFqPm/IS8sZpV6+flHyJZZVyfwqxAKwZkc6d+CMjcthhEKeRAU84xi
-        xxS+mlXn778jmRnQMaGoU+mamQa5oK7iKnq1AEVeHYBlQEZsRh3OIL5rIWfYyG8liGGChb
-        65E8rywm4SkdlhgFyrm4tOGYXKjs4gk=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-48-rmrjFAqcMZmyFupWgwyJxA-1; Mon, 21 Nov 2022 09:22:02 -0500
-X-MC-Unique: rmrjFAqcMZmyFupWgwyJxA-1
-Received: by mail-qv1-f69.google.com with SMTP id nn2-20020a056214358200b004bb7bc3dfdcso11579722qvb.23
-        for <linux-kbuild@vger.kernel.org>; Mon, 21 Nov 2022 06:22:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ykhJnNqnxOyo9r4byFX0GgaM79yTY6Gqzcv3nxSkQBo=;
-        b=yJYGcP/ZTI7bqDjaRoQEruBoidNBfPgk5ZDhHnt4JjM/asdGZm9CEfstAtSvbM/1od
-         TZHSGBYePVvsjX2XxG5rM/raxiuOlR/sxVnYir7xxQwc+4Ylp+SjKXhy7Ovd76tFMIUD
-         oS0QB1ksI1QqPEmT6AHMnZobTUuNuLtCJO8Nd+VgojHoE6sBEMQ2vi7kdtN/tnM6zxI/
-         7R89mABA1oXlZWB7UMr7rwwJrBg3y8vrn0wnbbROQm1iifCu2FUpNXCzVw5jmKFAZ66A
-         e+ml0xzTpWufDDcn6ivdPFEd+yTASfcBvSNIE9tUW2hSDNuH0vH5wl12rl+NFSKeAlot
-         PsZg==
-X-Gm-Message-State: ANoB5pmSG36kYv9u0RlfuWpNNcSc6aM3k8v96gBdmXtWUN8KtKwXxO3r
-        hzkHWYb0VCq+a8q/kMdW2SrO5gOxeGmPOnHaTMKnuTGYFIZz+aiSGJ37+mPzB0E85clbs7l0Pcd
-        7UjIj0t4xhDz5NPDX36JJz5ds
-X-Received: by 2002:ae9:e415:0:b0:6f3:e5c8:ddde with SMTP id q21-20020ae9e415000000b006f3e5c8dddemr31642qkc.80.1669040521898;
-        Mon, 21 Nov 2022 06:22:01 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6Kmo78A03hML/MnkehUvZc7anpEeRq7agSJVj/8E3w6Q4yg/FuaEwwBuxCvDZHq1Ggo7g2Kw==
-X-Received: by 2002:ae9:e415:0:b0:6f3:e5c8:ddde with SMTP id q21-20020ae9e415000000b006f3e5c8dddemr31624qkc.80.1669040521678;
-        Mon, 21 Nov 2022 06:22:01 -0800 (PST)
-Received: from [192.168.33.110] (c-73-19-232-221.hsd1.tn.comcast.net. [73.19.232.221])
-        by smtp.gmail.com with ESMTPSA id a13-20020ac84d8d000000b003a5430ee366sm6618466qtw.60.2022.11.21.06.21.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Nov 2022 06:21:59 -0800 (PST)
-Message-ID: <8cedf92b-af18-bf47-cc92-d70e228b99b0@redhat.com>
-Date:   Mon, 21 Nov 2022 09:21:58 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH next] kbuild: add ability to make source rpm buildable
- using koji
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, dzickus@redhat.com, kheib@redhat.com,
-        jtornosm@redhat.com, ihuguet@redhat.com,
-        Ivan Vecera <ivecera@redhat.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org,
-        Jonathan Toppins <jtoppins@redhat.com>
-References: <5b59fdb7db34f5292b1d138939c6b70b2b2039dd.1666703850.git.jtoppins@redhat.com>
- <CAK7LNAQNTDpKRDdi5JXV1ofC=s9ttJBk4yCivczZ1+KK7G2j5A@mail.gmail.com>
-Content-Language: en-US
+         content-transfer-encoding:content-transfer-encoding;
+        bh=8s15f6YbiNJZ1KFlIgHMjRgcF6TQvT9XGT2eZS0P2qA=;
+        b=FRzc2VNbMyovRx7EE+ENsa6BSs7fI44khl4LAxiHlF5toxrKZzhPUGWNjSZE3/PGbNW9LY
+        dIjgen+Gs/EfBwrMDjNXbGn5Lvtarb17xp+73QDs5aaR7Cd+etlY9/zGB43PfKeBbmCEDd
+        D8MphS2aqv/1hgjcoufg1XW3A1HWZlw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-70-IAA0qnkINS2XAe7m2x-rvg-1; Mon, 21 Nov 2022 09:48:59 -0500
+X-MC-Unique: IAA0qnkINS2XAe7m2x-rvg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A01F51C008A5;
+        Mon, 21 Nov 2022 14:48:58 +0000 (UTC)
+Received: from jtoppins.rdu.csb (unknown [10.22.10.102])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 84BFE2027062;
+        Mon, 21 Nov 2022 14:48:57 +0000 (UTC)
 From:   Jonathan Toppins <jtoppins@redhat.com>
-In-Reply-To: <CAK7LNAQNTDpKRDdi5JXV1ofC=s9ttJBk4yCivczZ1+KK7G2j5A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To:     linux-kbuild@vger.kernel.org
+Cc:     masahiroy@kernel.org, dzickus@redhat.com, ihuguet@redhat.com,
+        ivecera@redhat.com, jtoppins@redhat.com, jtornosm@redhat.com,
+        kheib@redhat.com, linux-kernel@vger.kernel.org,
+        michal.lkml@markovi.net, ndesaulniers@google.com,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>
+Subject: [PATCH next v2] kbuild: add ability to make source rpm buildable using koji
+Date:   Mon, 21 Nov 2022 09:48:45 -0500
+Message-Id: <d6d5ce3169da8559cd20d20889849546cc69be50.1669042125.git.jtoppins@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 11/13/22 08:33, Masahiro Yamada wrote:
-> On Tue, Oct 25, 2022 at 10:17 PM Jonathan Toppins <jtoppins@redhat.com> wrote:
->>
->> From: Ivan Vecera <ivecera@redhat.com>
->>
->> Changes:
->> - added new target 'srcrpm-pkg' to generate source rpm
->> - added required build tools to spec file
->> - removed locally compiled host tools to force their re-compile
->>
->> Signed-off-by: Ivan Vecera <ivecera@redhat.com>
->> Signed-off-by: Jonathan Toppins <jtoppins@redhat.com>
-> 
-> 
-> 
-> I am fine with this patch.
-> 
-> Just minor comments.
-> 
-> 
-> I noticed an inconsistency between
-> "--target $(UTS_MACHINE)-linux" in the rpm-pkg target and
-> "--target $(UTS_MACHINE)" in the srcrpm-pkg target.
-> 
-> 
-> I applied 6105e4f6511d6b383738be89efb99c607e158a29
-> just a few months ago.
-> Is it better to make it consistent here?
+From: Ivan Vecera <ivecera@redhat.com>
 
-Yes I can post a v2 that includes this change.
+Changes:
+- added new target 'srcrpm-pkg' to generate source rpm
+- added required build tools to spec file
+- removed locally compiled host tools to force their re-compile
 
-> 
-> Actually, I do not know koji, also not sure if it is
-> important to mention it in the commit subject.
-> I just tested this patch by using 'rpmbuild' command
-> on my local machine.
+Signed-off-by: Ivan Vecera <ivecera@redhat.com>
+Signed-off-by: Jonathan Toppins <jtoppins@redhat.com>
+Acked-by: Íñigo Huguet <ihuguet@redhat.com>
+Tested-by: Ivan Vecera <ivecera@redhat.com>
+---
 
-koji (https://koji.fedoraproject.org/koji/) is the automated builder 
-available to Fedora developers. With this patch a developer can produce 
-an upstream kernel rpm rather easily.
+Notes:
+    v2:
+     * updated UTS_MACHINE to be $(UTS_MACHINE)-linux
+       suggested by Masahiro Yamada
 
-> 
-> 
-[...]
-> 
-> 
-> --
-> Best Regards
-> Masahiro Yamada
-> 
+ scripts/Makefile.package | 10 ++++++++++
+ scripts/package/mkspec   |  7 +++++++
+ 2 files changed, 17 insertions(+)
+
+diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+index 8bbcced67c22..1290f1c631fb 100644
+--- a/scripts/Makefile.package
++++ b/scripts/Makefile.package
+@@ -62,6 +62,16 @@ rpm-pkg:
+ 	+rpmbuild $(RPMOPTS) --target $(UTS_MACHINE)-linux -ta $(KERNELPATH).tar.gz \
+ 	--define='_smp_mflags %{nil}'
+ 
++# srcrpm-pkg
++# ---------------------------------------------------------------------------
++PHONY += srcrpm-pkg
++srcrpm-pkg:
++	$(MAKE) clean
++	$(CONFIG_SHELL) $(MKSPEC) >$(objtree)/kernel.spec
++	$(call cmd,src_tar,$(KERNELPATH),kernel.spec)
++	+rpmbuild $(RPMOPTS) --target $(UTS_MACHINE)-linux -ts $(KERNELPATH).tar.gz \
++	--define='_smp_mflags %{nil}' --define='_srcrpmdir $(srctree)'
++
+ # binrpm-pkg
+ # ---------------------------------------------------------------------------
+ PHONY += binrpm-pkg
+diff --git a/scripts/package/mkspec b/scripts/package/mkspec
+index 70392fd2fd29..dda00a948a01 100755
+--- a/scripts/package/mkspec
++++ b/scripts/package/mkspec
+@@ -33,6 +33,8 @@ EXCLUDES="$RCS_TAR_IGNORE --exclude=*vmlinux* --exclude=*.mod \
+ --exclude=*.o --exclude=*.ko --exclude=*.cmd --exclude=Documentation \
+ --exclude=.config.old --exclude=.missing-syscalls.d --exclude=*.s"
+ 
++test -n "$LOCALVERSION" && MAKE="$MAKE LOCALVERSION=$LOCALVERSION"
++
+ # We can label the here-doc lines for conditional output to the spec file
+ #
+ # Labels:
+@@ -49,6 +51,9 @@ sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
+ 	URL: https://www.kernel.org
+ $S	Source: kernel-$__KERNELRELEASE.tar.gz
+ 	Provides: $PROVIDES
++$S	BuildRequires: bc binutils bison dwarves elfutils-libelf-devel flex
++$S	BuildRequires: gcc make openssl openssl-devel perl python3 rsync
++
+ 	# $UTS_MACHINE as a fallback of _arch in case
+ 	# /usr/lib/rpm/platform/*/macros was not included.
+ 	%define _arch %{?_arch:$UTS_MACHINE}
+@@ -80,6 +85,8 @@ $S$M	against the $__KERNELRELEASE kernel package.
+ $S$M
+ $S	%prep
+ $S	%setup -q
++$S	rm -f scripts/basic/fixdep scripts/kconfig/conf
++$S	rm -f tools/objtool/{fixdep,objtool}
+ $S
+ $S	%build
+ $S	$MAKE %{?_smp_mflags} KBUILD_BUILD_VERSION=%{release}
+-- 
+2.31.1
 
