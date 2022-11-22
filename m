@@ -2,68 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CEC63633D05
-	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Nov 2022 14:01:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 372D1633DFB
+	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Nov 2022 14:44:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233110AbiKVNA7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 22 Nov 2022 08:00:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33464 "EHLO
+        id S233891AbiKVNoT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 22 Nov 2022 08:44:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232723AbiKVNA4 (ORCPT
+        with ESMTP id S233890AbiKVNoC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 22 Nov 2022 08:00:56 -0500
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7E1461BB6;
-        Tue, 22 Nov 2022 05:00:54 -0800 (PST)
-Received: by mail-yb1-xb2e.google.com with SMTP id c15so17198210ybf.1;
-        Tue, 22 Nov 2022 05:00:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=bzFWaMTOU84LonhG6RqUM6eS/ww8ShETQwxQFHcZhzQ=;
-        b=hWFG/bBbLnshBsRtcZgg0ZK2MTCNImlyP7W0RP11CSS81Klbd0GiGl5SdbT2tMJBwa
-         Wi+XD+Ia7y6J0EAhtcDIN6HTKJBGRmfxZuERDMOCGbfaaMW3Xv4j1uyr51fnG9LNMX/+
-         l0Witm1A84qPPOgT5T4FrqTzILrSOSjVsa28MIO+WFtb2gfKHHtdZtroOiUpFbry6kAE
-         WkYNbjP3wn0ONrU569BWszTzlds+3zpLpdvKGvocHXFW6miZmbGTv2yri/Et4F7OfcBS
-         r7171vCkGRoWg6HKR+8dAhvNABplUNADTml6epTufg03NJ06R57EWUxn+W+bUADqsxTy
-         RcZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bzFWaMTOU84LonhG6RqUM6eS/ww8ShETQwxQFHcZhzQ=;
-        b=yrjS8fcqmotLHwp9qkUX/4fwYEl3hovhZfHtd/c8/rRcwK7VKdqr252oEwV0/jy7DN
-         a8K2bkneZ9T9eM1EJVkSslonynNovA6PBuXLXAnjX9r73FnGLEv6ploPBS821bSP+6sz
-         vGrEbSw/7A6z1uLutNwI3nR+GJrknyVydCtnImFgUwsV25LIt8YWkvgt3lpicvsyFN6s
-         pZS+yPMlFCWn/iZis775f/FhpHxslENl7B2cmkpifqMQKBYiTXFjZF836PKVarghp6cc
-         g6dK8hrMk3sb0sQYpchqP4Qxc0ZRCVsZfWfo/5tVZboQnbrtou1M0ZChIt9HTCTkNakK
-         bm1g==
-X-Gm-Message-State: ANoB5pntZ3Wm4w/F8N/pkka0bRGq7fIoA667HmFJdIuYxr26+393Holo
-        +nCLY3FmQ2hcaAGvMMks+a7cywEchWXwswDfwODR3ucuQ1LOTQ==
-X-Google-Smtp-Source: AA0mqf69nBW8D0HRJNqZOBk25rF8Gtu3woMz3lZYawkR/Dl8xdcolr0QdPhoZNJA2AGtPB3SHLnXWSWpIORSmqGwacA=
-X-Received: by 2002:a25:7655:0:b0:6d3:7617:b8ea with SMTP id
- r82-20020a257655000000b006d37617b8eamr3507384ybc.75.1669122054123; Tue, 22
- Nov 2022 05:00:54 -0800 (PST)
+        Tue, 22 Nov 2022 08:44:02 -0500
+Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52BD95ADC9;
+        Tue, 22 Nov 2022 05:43:44 -0800 (PST)
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 2AMDhMCE026379;
+        Tue, 22 Nov 2022 22:43:22 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 2AMDhMCE026379
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1669124603;
+        bh=debR7Axr9vWzmGEzm6RKm0/7bq+bZwYlzS5EA+xN66M=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=bUlu+HyimqqSDVq6nFj7EWp9wBTWXMvIpMqWhrCkfImqMJrYebPtBAsgf4tiSkw01
+         tCiiME9ocpfXhjpEBfvpasdcSAiFWpUd7lwYqvvMup7m99UWhaGCeUoAs8TWcEmHqY
+         nyNc+Zb6teUuODyeKKaoiwAsaWLS7Am0J9Ji1Eu85pobvmZTDDkNSWIU2JDgh7YV/x
+         FDyehDM/vRREOG6/cwgWKgMZmZmzojhMnvkSM+/TDQeFw0wnDTsTPXbRer8BwNERO1
+         3cpSjyZ2N12Q6Q78367PCGoJv5m04QEtd1heocU4GaIbSFtyQsTVCx821nX6po1Yo+
+         z+Cw+PoxI/Nxw==
+X-Nifty-SrcIP: [209.85.160.52]
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-142306beb9aso17220389fac.11;
+        Tue, 22 Nov 2022 05:43:22 -0800 (PST)
+X-Gm-Message-State: ANoB5pkRS85Nz0TMTtGHD6/nPn24lnKkKX0BYke5NWmiJS6CJ65UGs4+
+        mMts9+JNydsSGKCPT0TnRLmRwMydDLXI25Qv7C4=
+X-Google-Smtp-Source: AA0mqf5G7XS07KWcTncFAOXKKft/Z+UfTElbwysGn6sMGNdL6nva2laIZJrm2jUDk5VCLVoUt8XZ9LLDasP5d3Q/ERE=
+X-Received: by 2002:a05:6870:3b06:b0:13b:5d72:d2c6 with SMTP id
+ gh6-20020a0568703b0600b0013b5d72d2c6mr1940035oab.287.1669124601696; Tue, 22
+ Nov 2022 05:43:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20221121162016.GA2422@DESKTOP-NK4TH6S.localdomain>
-In-Reply-To: <20221121162016.GA2422@DESKTOP-NK4TH6S.localdomain>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 22 Nov 2022 14:00:43 +0100
-Message-ID: <CANiq72nGhJqrZOXhNio0Uu-OfUC5BOTzMLgAMO4r0WZdt1uzCw@mail.gmail.com>
-Subject: Re: [PATCH] scripts: add rust in scripts/Makefile.package
-To:     Paran Lee <p4ranlee@gmail.com>
-Cc:     ojeda@kernel.org, austindh.kim@gmail.com, pmnxis@gmail.com,
-        rust-for-linux@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
+References: <20221115110158.2207117-1-alexandre.belloni@bootlin.com> <Y3vSErWtH6L6GmMn@google.com>
+In-Reply-To: <Y3vSErWtH6L6GmMn@google.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 22 Nov 2022 22:42:45 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATZzPVQtCfQFkBbieNVWSmxgCjkAKegw=1MizZVft0b7g@mail.gmail.com>
+Message-ID: <CAK7LNATZzPVQtCfQFkBbieNVWSmxgCjkAKegw=1MizZVft0b7g@mail.gmail.com>
+Subject: Re: [PATCH v2] init/Kconfig: fix CC_HAS_ASM_GOTO_TIED_OUTPUT test
+ with dash
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     alexandre.belloni@bootlin.com, Paolo Bonzini <pbonzini@redhat.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,19 +62,101 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Paran,
-
-On Mon, Nov 21, 2022 at 5:26 PM Paran Lee <p4ranlee@gmail.com> wrote:
+On Tue, Nov 22, 2022 at 4:31 AM Sean Christopherson <seanjc@google.com> wro=
+te:
 >
-> -               security sound tools usr virt \
-> +               security sound tools usr virt rust \
+> +Masahiro and build, as I don't think this should go through the KVM tree=
+ (which
+> is also partly why no one has responded).
 
-Looks like this list is intended to be sorted, right?
 
-Thanks for the patch!
+Presumably this was sent to the author and the commiter of
+1aa0e8b144b6474c4914439d232d15bfe883636b
 
-(Also, please use `scripts/get_maintainers.pl` to find the most
-relevant maintainers and lists -- I have Cc'd them here)
+If Paolo does not pick this up, I can.
 
-Cheers,
-Miguel
+
+Now applied to linux-kbuild/fixes. Thanks.
+
+
+
+> On a related topic, should init/Kconfig be added to the KCONFIG MAINTAINE=
+RS entry?
+
+
+No, I do not think so.
+
+init/Kconfig contains a lot, which I am not responsible for.
+
+
+
+
+
+
+
+> Or is there a better owner for this?
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 046ff06ff97f..ffff36e16b88 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -11040,6 +11040,7 @@ T:      git git://git.kernel.org/pub/scm/linux/ke=
+rnel/git/masahiroy/linux-kbuild.git
+>  F:     Documentation/kbuild/kconfig*
+>  F:     scripts/Kconfig.include
+>  F:     scripts/kconfig/
+> +F:     init/Kconfig
+>
+>  KCOV
+>  R:     Dmitry Vyukov <dvyukov@google.com>
+>
+> On Tue, Nov 15, 2022, alexandre.belloni@bootlin.com wrote:
+> > From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> >
+> > When using dash as /bin/sh, the CC_HAS_ASM_GOTO_TIED_OUTPUT test fails
+> > with a syntax error which is not the one we are looking for:
+> >
+> > <stdin>: In function =E2=80=98foo=E2=80=99:
+> > <stdin>:1:29: warning: missing terminating " character
+> > <stdin>:1:29: error: missing terminating " character
+> > <stdin>:2:5: error: expected =E2=80=98:=E2=80=99 before =E2=80=98+=E2=
+=80=99 token
+> > <stdin>:2:7: warning: missing terminating " character
+> > <stdin>:2:7: error: missing terminating " character
+> > <stdin>:2:5: error: expected declaration or statement at end of input
+> >
+> > Removing '\n' solves this.
+> >
+> > Fixes: 1aa0e8b144b6 ("Kconfig: Add option for asm goto w/ tied outputs =
+to workaround clang-13 bug")
+> > Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> > ---
+> >  init/Kconfig | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/init/Kconfig b/init/Kconfig
+> > index 694f7c160c9c..13e93bcbc807 100644
+> > --- a/init/Kconfig
+> > +++ b/init/Kconfig
+> > @@ -87,7 +87,7 @@ config CC_HAS_ASM_GOTO_OUTPUT
+> >  config CC_HAS_ASM_GOTO_TIED_OUTPUT
+> >       depends on CC_HAS_ASM_GOTO_OUTPUT
+> >       # Detect buggy gcc and clang, fixed in gcc-11 clang-14.
+> > -     def_bool $(success,echo 'int foo(int *x) { asm goto (".long (%l[b=
+ar]) - .\n": "+m"(*x) ::: bar); return *x; bar: return 0; }' | $CC -x c - -=
+c -o /dev/null)
+> > +     def_bool $(success,echo 'int foo(int *x) { asm goto (".long (%l[b=
+ar]) - .": "+m"(*x) ::: bar); return *x; bar: return 0; }' | $CC -x c - -c =
+-o /dev/null)
+>
+> Tested a variety of compiler versions via godbolt, and the results are th=
+e same
+> for all cases, so with the caveat that I am far from a shell expert:
+>
+> Reviewed-by: Sean Christopherson <seanjc@google.com>
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
