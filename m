@@ -2,105 +2,117 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7345D633E2B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Nov 2022 14:54:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 31156633F17
+	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Nov 2022 15:39:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233924AbiKVNym (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 22 Nov 2022 08:54:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50836 "EHLO
+        id S232613AbiKVOjN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 22 Nov 2022 09:39:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233522AbiKVNyk (ORCPT
+        with ESMTP id S232738AbiKVOjL (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 22 Nov 2022 08:54:40 -0500
-X-Greylist: delayed 174 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 22 Nov 2022 05:54:39 PST
-Received: from condef-09.nifty.com (condef-09.nifty.com [202.248.20.74])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 072DA6584E;
-        Tue, 22 Nov 2022 05:54:38 -0800 (PST)
-Received: from conssluserg-04.nifty.com ([10.126.8.83])by condef-09.nifty.com with ESMTP id 2AMDn4PY011036;
-        Tue, 22 Nov 2022 22:49:04 +0900
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 2AMDmlN1010447;
-        Tue, 22 Nov 2022 22:48:48 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 2AMDmlN1010447
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1669124928;
-        bh=mB9MB0wmXgKDnvTvLQGXp+po5aE+iQw2dlQ5Zq7YtEY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=w0lm5hj2w8XZ9k5PgjO7zeRmAvGp1woKAD7jJ5+Qo6A0EKcPDU9trrKIZbN+ZvljH
-         yrkx62M6BkGHbYg+wG01UIYyuCjk+QhAbpOLSk4j3hcgEypeo/2U3fUntPz1DI8JGO
-         aOzx1XMC89/shhkOvzZZYD9rOqSaFZE+Kxe6pNUXjRZXeALReihL2YBOu/0xhyX73T
-         D28qwAhcExOi/QzfBiquUmq4Kr/dQ5/OTPM5idiWB2RO8Sswjbz5I/PC54hScMtx3/
-         Jp12FCIRfMB05xDv/4hLI78EmU8qvlVVFu7RR1sInKXPC4Lk4ICDbIdiJvk5KvOESZ
-         YPABeugITWp2w==
-X-Nifty-SrcIP: [209.85.210.53]
-Received: by mail-ot1-f53.google.com with SMTP id db10-20020a0568306b0a00b0066d43e80118so9335953otb.1;
-        Tue, 22 Nov 2022 05:48:48 -0800 (PST)
-X-Gm-Message-State: ANoB5pmOnAOxLOZSmMnL/WNA0SXxOHvpHOTaIg0HqIzILP49z/0v/Kso
-        uRQrRSrIqNMP3B0qSKBsy50f+S65hzZAcDfM2FU=
-X-Google-Smtp-Source: AA0mqf5pHVS629/y7ez0rQm3aPO/Mua/2z0tq2Bz9Irr2iEKShjJJ1xvJ3afZy4dqWEvHSz3nM4DwFlgaJT0X2KB/Fg=
-X-Received: by 2002:a9d:282:0:b0:66c:794e:f8c6 with SMTP id
- 2-20020a9d0282000000b0066c794ef8c6mr12425329otl.343.1669124927056; Tue, 22
- Nov 2022 05:48:47 -0800 (PST)
-MIME-Version: 1.0
-References: <20221121162016.GA2422@DESKTOP-NK4TH6S.localdomain> <CANiq72nGhJqrZOXhNio0Uu-OfUC5BOTzMLgAMO4r0WZdt1uzCw@mail.gmail.com>
-In-Reply-To: <CANiq72nGhJqrZOXhNio0Uu-OfUC5BOTzMLgAMO4r0WZdt1uzCw@mail.gmail.com>
+        Tue, 22 Nov 2022 09:39:11 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A9834387A;
+        Tue, 22 Nov 2022 06:39:10 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CC2B861731;
+        Tue, 22 Nov 2022 14:39:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBA1FC433D6;
+        Tue, 22 Nov 2022 14:39:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1669127949;
+        bh=I3jJNAP9ZLch/e8adpMqIVPvk8KRS4yFg2lWfNILhjg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=T1UzJAAqt+v+4ejnYmUHMqsOuC6IH3EjiaZO+A4MwdEKgfQcqUYoZapo8tRgI6PZQ
+         Rq4smgDoWP93yQjDB3YwT4qtSuJXbflyMXRNH0jxmh0rrLMsnJ8has26f/oYp4N/+T
+         TEl54sk9lyrE+1//7xB9CGcgIUIS8mkHLj8rfhGbwnjKV1yT+eKVoSisL7HHFXgrTI
+         SNxKNZBi+tRn0Ytk+OYTFEl0Ukgf19ZlzvIJ5XlZk0dKGMRAwihagS3N7ZK7SutgKg
+         2kslH3IhqTW9j2Lbhugw3fje8Sk22BKLrRt83Kl5SqQi2WrhiCwcmSKUFRSGc20Dmw
+         OI5HM3AJ/Jw7Q==
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 22 Nov 2022 22:48:10 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARf8gQTqz=xksoxL_DYB8qW6ii5s2gKqY_+1LuUF7H7_g@mail.gmail.com>
-Message-ID: <CAK7LNARf8gQTqz=xksoxL_DYB8qW6ii5s2gKqY_+1LuUF7H7_g@mail.gmail.com>
-Subject: Re: [PATCH] scripts: add rust in scripts/Makefile.package
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Paran Lee <p4ranlee@gmail.com>, ojeda@kernel.org,
-        austindh.kim@gmail.com, pmnxis@gmail.com,
-        rust-for-linux@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
-        autolearn_force=no version=3.4.6
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Michal Simek <monstr@monstr.eu>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: [PATCH] kbuild: fix "cat: .version: No such file or directory"
+Date:   Tue, 22 Nov 2022 23:39:02 +0900
+Message-Id: <20221122143902.272330-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Nov 22, 2022 at 10:00 PM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> Hi Paran,
->
-> On Mon, Nov 21, 2022 at 5:26 PM Paran Lee <p4ranlee@gmail.com> wrote:
-> >
-> > -               security sound tools usr virt \
-> > +               security sound tools usr virt rust \
->
-> Looks like this list is intended to be sorted, right?
+Since commit 2df8220cc511 ("kbuild: build init/built-in.a just once"),
+the .version file is not touched at all when KBUILD_BUILD_VERSION is
+given.
 
+If KBUILD_BUILD_VERSION is specified and the .version file is missing
+(for example right after 'make mrproper'), "No such file or director"
+is shown. Even if the .version exists, it is irrelevant to the version
+of the current build.
 
-Yes, it is better to keep it sorted.
+  $ make -j$(nproc) KBUILD_BUILD_VERSION=100 mrproper defconfig all
+    [ snip ]
+    BUILD   arch/x86/boot/bzImage
+  cat: .version: No such file or directory
+  Kernel: arch/x86/boot/bzImage is ready  (#)
 
+Show KBUILD_BUILD_VERSION if it is given.
 
->
-> Thanks for the patch!
->
-> (Also, please use `scripts/get_maintainers.pl` to find the most
-> relevant maintainers and lists -- I have Cc'd them here)
+Fixes: 2df8220cc511 ("kbuild: build init/built-in.a just once")
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ arch/microblaze/Makefile | 4 ++--
+ arch/x86/boot/Makefile   | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-Yeah, presumably it should go to kbuild.
-
-Please send v2 to
-linux-kbuild@vger.kernel.org
-
-Thanks.
-
-> Cheers,
-> Miguel
-
-
-
+diff --git a/arch/microblaze/Makefile b/arch/microblaze/Makefile
+index 3f8a86c4336a..02e6be9c5b0d 100644
+--- a/arch/microblaze/Makefile
++++ b/arch/microblaze/Makefile
+@@ -67,12 +67,12 @@ linux.bin.ub linux.bin.gz: linux.bin
+ linux.bin: vmlinux
+ linux.bin linux.bin.gz linux.bin.ub:
+ 	$(Q)$(MAKE) $(build)=$(boot) $(boot)/$@
+-	@echo 'Kernel: $(boot)/$@ is ready' ' (#'`cat .version`')'
++	@echo 'Kernel: $(boot)/$@ is ready' ' (#'$(or $(KBUILD_BUILD_VERSION),`cat .version`)')'
+ 
+ PHONY += simpleImage.$(DTB)
+ simpleImage.$(DTB): vmlinux
+ 	$(Q)$(MAKE) $(build)=$(boot) $(addprefix $(boot)/$@., ub unstrip strip)
+-	@echo 'Kernel: $(boot)/$@ is ready' ' (#'`cat .version`')'
++	@echo 'Kernel: $(boot)/$@ is ready' ' (#'$(or $(KBUILD_BUILD_VERSION),`cat .version`)')'
+ 
+ define archhelp
+   echo '* linux.bin    - Create raw binary'
+diff --git a/arch/x86/boot/Makefile b/arch/x86/boot/Makefile
+index 9860ca5979f8..9e38ffaadb5d 100644
+--- a/arch/x86/boot/Makefile
++++ b/arch/x86/boot/Makefile
+@@ -83,7 +83,7 @@ cmd_image = $(obj)/tools/build $(obj)/setup.bin $(obj)/vmlinux.bin \
+ 
+ $(obj)/bzImage: $(obj)/setup.bin $(obj)/vmlinux.bin $(obj)/tools/build FORCE
+ 	$(call if_changed,image)
+-	@$(kecho) 'Kernel: $@ is ready' ' (#'`cat .version`')'
++	@$(kecho) 'Kernel: $@ is ready' ' (#'$(or $(KBUILD_BUILD_VERSION),`cat .version`)')'
+ 
+ OBJCOPYFLAGS_vmlinux.bin := -O binary -R .note -R .comment -S
+ $(obj)/vmlinux.bin: $(obj)/compressed/vmlinux FORCE
 -- 
-Best Regards
-Masahiro Yamada
+2.34.1
+
