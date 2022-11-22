@@ -2,69 +2,118 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 695D9633859
-	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Nov 2022 10:26:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C2D21633B73
+	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Nov 2022 12:34:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232848AbiKVJ0I (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 22 Nov 2022 04:26:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58988 "EHLO
+        id S230111AbiKVLem (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 22 Nov 2022 06:34:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232891AbiKVJ0G (ORCPT
+        with ESMTP id S232756AbiKVLeM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 22 Nov 2022 04:26:06 -0500
-X-Greylist: delayed 918 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 22 Nov 2022 01:26:05 PST
-Received: from mail.axisfairfi.com (mail.axisfairfi.com [94.177.230.134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A59DD4C24C
-        for <linux-kbuild@vger.kernel.org>; Tue, 22 Nov 2022 01:26:05 -0800 (PST)
-Received: by mail.axisfairfi.com (Postfix, from userid 1001)
-        id CA2A8825DB; Tue, 22 Nov 2022 09:10:42 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=axisfairfi.com;
-        s=mail; t=1669108245;
-        bh=0BgaW9t8GFER5QecxVkFsHrVi3gO/4V5KAZgJaiRYBs=;
-        h=Date:From:To:Subject:From;
-        b=p3vhbJ+Wg3NRzG2+zTr1wruUp8qN595XE2K2Z331TQIi0Zqbz+f8tV/+FYQgVyb1n
-         F26uiQwTyYEDmvY+WmzgLNj/J9h0LZ0k2jSz/BSWpvYAXt+y/6TcymmEbNWI2vrl+h
-         GXnEUuynxyel6RL/NWehPOKcFKwzn//UEUbCd1SRNk0i8MUBHgvocPytSQ5iB+KKt/
-         v7e4hWfb1alAtv4NQPnaXxZxomBOgB6PDIuSiDJ++y7yf/7ePEpuvf/dQxW0V7P9Mi
-         ZRqI19+WlOlHyikcAboY8lGJ3vWLvv8d8fU4YWX2oMsZsZQvuslqDAy8JrMmNCnWT0
-         v8vxg3am25D5Q==
-Received: by mail.axisfairfi.com for <linux-kbuild@vger.kernel.org>; Tue, 22 Nov 2022 09:10:36 GMT
-Message-ID: <20221122074500-0.1.d.o1q.0.yfycsglgsr@axisfairfi.com>
-Date:   Tue, 22 Nov 2022 09:10:36 GMT
-From:   "Zbynek Spacek" <zbynek.spacek@axisfairfi.com>
-To:     <linux-kbuild@vger.kernel.org>
-Subject: Silikonmischungen
-X-Mailer: mail.axisfairfi.com
+        Tue, 22 Nov 2022 06:34:12 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EA4A57B68;
+        Tue, 22 Nov 2022 03:28:17 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BD662B8190C;
+        Tue, 22 Nov 2022 11:28:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1D87C433D6;
+        Tue, 22 Nov 2022 11:28:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1669116494;
+        bh=6NCM6m31OczIAvsK/iy/GTtUbOr+0Immp0oWffvrMeA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Vgm/WLBj9j4v3l0ckOLVXUSNGoV/3JN32+v0rS4nPs3rYoclkrcLBmGgQxJcG37x4
+         WdBQ8mOeCQtJda46M3vYLsmsjM7px3vF9aukN9oROquqkxIoqMTfrashC7qRVvJnvH
+         zdvqBfTuugU07MSQIZhcjR9Ii69VHdR4CqziCZgVMD544U7NJuQgrwMS8novta3+bX
+         +FeMRXdT60tbU3ema1UjHD1eq+stL0ALsKu4Fcmr+S5JYIEB9C5gbdXsTNJpl9Q4bU
+         GW6DfQCySFTEldRVMcywvp7aP4ubepHuYEg1IQznAajvHmcfCtt4hX8nToGNabuW27
+         eaePpR6OPQZuQ==
+Date:   Tue, 22 Nov 2022 11:28:01 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Conor Dooley <conor@kernel.org>
+Cc:     Alexander Lobakin <alobakin@pm.me>, linux-kbuild@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Jens Axboe <axboe@kernel.dk>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Tony Luck <tony.luck@intel.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Derek Chickles <dchickles@marvell.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Salil Mehta <salil.mehta@huawei.com>,
+        Sunil Goutham <sgoutham@marvell.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        NXP Linux Team <linux-imx@nxp.com>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/18] treewide: fix object files shared between several
+ modules
+Message-ID: <Y3yyQS7Q8cL+z89L@sirena.org.uk>
+References: <20221119225650.1044591-1-alobakin@pm.me>
+ <Y3oWYhw9VZOANneu@sirena.org.uk>
+ <Y3oc2B6y0TB51+/j@spud>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=1.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_FMBLA_NEWDOM14,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="GZgMp8h7GaJD8EJs"
+Content-Disposition: inline
+In-Reply-To: <Y3oc2B6y0TB51+/j@spud>
+X-Cookie: That's what she said.
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Good morning,
 
-do you need intermediates for processing, plastics (e.g. rubber) or silic=
-one mixtures?
+--GZgMp8h7GaJD8EJs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-We provide a wide range of silicone rubbers with various properties, sili=
-cone mixtures from renowned manufacturers such as Wacker, Elastosil LR an=
-d dyes, stabilizers, primers and anti-adhesive additives.
+On Sun, Nov 20, 2022 at 12:26:00PM +0000, Conor Dooley wrote:
+> On Sun, Nov 20, 2022 at 11:58:26AM +0000, Mark Brown wrote:
+> > On Sat, Nov 19, 2022 at 11:03:57PM +0000, Alexander Lobakin wrote:
 
-We also produce technical silicone compounds with increased resistance to=
- oils, resistant to high temperatures and water vapor, conductive and man=
-y more.
+> > Your mails appear to be encrypted which isn't helping with
+> > review...
 
-We provide fast order fulfillment, timely deliveries and cost optimizatio=
-n.
+> https://lore.kernel.org/all/20221119225650.1044591-1-alobakin@pm.me/
 
-Can I introduce what we can offer you?
+> Looks un-encrypted on lore. pm.me looks to be a protonmail domain - I
+> had issues with protonmail where it picked up Maz's key via Web Key
+> Directory. "Kernel.org publishes the WKD for all developers who have
+> kernel.org accounts" & unfortunately proton doesn't (or didn't) offer a
+> way to disable this. If someone's key is available it gets used & proton
+> told me, IIRC, that not having a way to disable this is a privacy
+> feature.
 
+It wasn't obviously encrypted to my key either...=20
 
-Zbynek Spacek
+--GZgMp8h7GaJD8EJs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmN8skAACgkQJNaLcl1U
+h9A3zwf8CWUf5xGrZknftvQzY1zcdbm1NfAH7drvcnlBKaeN5/5IAXzz0T92hgTh
+KVP3hFD/dw7SQz/FJGYJKAMxHeI5GhXtWsc4QoWBvVdjnR44Xz3GtAkp2pW8dV+C
+CJ5gDnRy+Q81W5Mt/c0HaFiJOFhodMEqFxJclOiIfR8Euilxob2Xa2moJku4CS5t
+Bt09ghKrW8l3cTq4TxCa4dAsNc/VBcjjwaOHgmC/AHlW+WfDeZZahvWfD1SBY2T9
+H1iFavcwXFQ8pPAtzLcg/8qqzw696nM0LbGFnLIG/nAdtdM7+vOncmwmIPElCLBc
+uyRU0xb6uTkIlLl1ThRtzVT0GmIW+A==
+=uKrw
+-----END PGP SIGNATURE-----
+
+--GZgMp8h7GaJD8EJs--
