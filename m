@@ -2,104 +2,176 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1ADD636CB1
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Nov 2022 23:01:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 626E5636CD6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Nov 2022 23:10:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232192AbiKWWAw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 23 Nov 2022 17:00:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37264 "EHLO
+        id S229922AbiKWWIc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 23 Nov 2022 17:08:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230284AbiKWWAs (ORCPT
+        with ESMTP id S229854AbiKWWIY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 23 Nov 2022 17:00:48 -0500
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F01B8D22B3;
-        Wed, 23 Nov 2022 14:00:47 -0800 (PST)
-Received: by mail-pl1-x635.google.com with SMTP id io19so17834364plb.8;
-        Wed, 23 Nov 2022 14:00:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CXbYCWAazP8Rlo+89yrukrtECb7VrmIBkt89IozX0fU=;
-        b=eN4qa0dgakMb89FiOJcmppQA9R27nJ2M8GONgsAIJeeABkpe3vtI+yMe0QfegXQfEW
-         vq3EkanMwsmovPwuB18kM9JdrsLtd33wH1AUsyFEWhqo9Fgo4rgTVtHNKsaM/4thorpJ
-         sacvOtctU2rDg7ijk8gir/bOwTow6vMSatQoK2azZpsgPE4Cjv44MAQgx2Sa5wSmof0J
-         zo7FL52Lz27TyUiS7iicQsG7NEuqR5+P/WKW05SluI+2Z/o8DT2TFHiqp4UXNLHT6iQK
-         CT9zEELznMNB76sOJB7UpQhchO0uIuxerYmc+WkaQQcKcvyx57lGcdjrPxhi5b747cUX
-         m/Sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CXbYCWAazP8Rlo+89yrukrtECb7VrmIBkt89IozX0fU=;
-        b=4zdXLCxsiQAhn+LxDQjZ7DqQanckVBnuTDopXBtaix11wC5PAnFmeHrSUYUChnZ2hL
-         TDIDERR3VdFg9m0Zbj0i6s3MDwGEhoXcEmmJCvmQuEpq3TtB9TZZSbZ1mmEjx95ZhNoJ
-         QfKd/kSIcQ3K+XtSNDVSXBpTN3aR3g8+3JtLl9orJ7Q43bBQTiSTooarjfhekHFrNjf3
-         qz7F0XEwQ/y67HVNgsQ2cKORc7hGkJEyVtlslgXHwYbHRoqoRW/G5R1hcxXAYlRi2cIF
-         Rg4Gg70tKPttnbiGoX7cPYWTR5vEg8o5qAi+dsJd6IKBfAKQbvUm4omgCxpvA9HH/z1i
-         Iumg==
-X-Gm-Message-State: ANoB5pnj0kMcpM+WMPpQUydo/YQhff3DtV/kIxOCIRE0fz/E0MvNucjt
-        B2Ebs4u+owAmZslah45hrMGvQcWHQqW46Q==
-X-Google-Smtp-Source: AA0mqf7nENTn2xQopQDGO+H2umIDOUgSROuCxMWem9r3XyQWsBAQ6SEGHZXQYjS3p00Zu7/8qgzTXQ==
-X-Received: by 2002:a17:902:bd42:b0:188:ca57:8945 with SMTP id b2-20020a170902bd4200b00188ca578945mr10792005plx.116.1669240847279;
-        Wed, 23 Nov 2022 14:00:47 -0800 (PST)
-Received: from localhost ([220.116.249.144])
-        by smtp.gmail.com with ESMTPSA id e12-20020a170902d38c00b0017f8094a52asm14696662pld.29.2022.11.23.14.00.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Nov 2022 14:00:46 -0800 (PST)
-Date:   Thu, 24 Nov 2022 07:00:44 +0900
-From:   Paran Lee <p4ranlee@gmail.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        rust-for-linux@vger.kernel.org, austindh.kim@gmail.com,
-        pmnxis@gmail.com
-Subject: [PATCH v2] scripts: add rust in scripts/Makefile.package
-Message-ID: <20221123220044.GA6513@DESKTOP-NK4TH6S.localdomain>
+        Wed, 23 Nov 2022 17:08:24 -0500
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [IPv6:2001:67c:2050:0:465::102])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 452521571D;
+        Wed, 23 Nov 2022 14:08:17 -0800 (PST)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4NHZy72lqZz9sTC;
+        Wed, 23 Nov 2022 23:08:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+        t=1669241295;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=AqECxmOSPT83qOwhM+GdKNJsI17VfZH7epaT9e6tcdI=;
+        b=rW1avn3NpXzn7sLiAsTnlSMg6PV6E/xIwdgcoC+gxGlnEOAghAxwNrU2qBwiUfl8eYxD4v
+        XoWt+3PAKmT0WkHWaogToi7Igt0omFM5i8erCkbZgX5vKIBn3G4gWRg4hW5dQ88nkyHMtY
+        FBgrOVXx77dWcMY4ZSaFeeHWeIWRd3bB3bSBWxZzguxKGADvxv4uG5gp0MC7Ix+JymFeA6
+        JzlhjlGgvwwvRJejF9zDXUcmmhV3XyXMK7DGdUUEdsZaHfnH8BN4isEz/y5iUwfcJ7dXFO
+        TLVV2UMap5AvLljh7E1ZJsy1i3CojSaA1pDT18pJYq6KtqJHEIrK+3SMKVq7dw==
+From:   Alexander Lobakin <alobakin@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+        t=1669241293;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=AqECxmOSPT83qOwhM+GdKNJsI17VfZH7epaT9e6tcdI=;
+        b=YPSIjDv9PN2kIm1grMjMSM6oVfCrHwNJYvSxrwtqNcfWlxjaH4IMw1nzvJ/vex/arwWZTk
+        7/S9jFl28DmQth8C65d4trHozT+sHbtpDc6iNIOjRwIg304wpxjd6aNQhBpp43nK1gpV2d
+        uL5tVbywOqZpaACZ2Uw/ZPG4xcdtAu5EC7GhAQ+uJcjaSp3+LQqAhZrZKlCe2FrHo637So
+        v2c5Zjyuhl5/yuDdnZe6jHaiIQQFJTLTeOhNsOlEz4VKgAjEVc7W+DbE9wr28/V8wzQgTI
+        XMO2UqJTAAcQnwNHgod3RIhetuu5UsW8I1lZVIF3qU7RkLcBXuUXJbKDy7uLow==
+To:     Salil Mehta <salil.mehta@huawei.com>
+Cc:     Alexander Lobakin <alobakin@mailbox.org>,
+        Alexander Lobakin <alobakin@pm.me>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Jens Axboe <axboe@kernel.dk>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Tony Luck <tony.luck@intel.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        "Vladimir Oltean" <vladimir.oltean@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Derek Chickles <dchickles@marvell.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Sunil Goutham <sgoutham@marvell.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Brown <broonie@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 16/18] net: hns3: fix mixed module-builtin object
+Date:   Wed, 23 Nov 2022 23:07:53 +0100
+Message-Id: <20221123220753.65752-1-alobakin@mailbox.org>
+In-Reply-To: <1d2341cc5a1843538d55fb34bd8137d8@huawei.com>
+References: <20221119225650.1044591-1-alobakin@pm.me> <20221119225650.1044591-17-alobakin@pm.me> <1d2341cc5a1843538d55fb34bd8137d8@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: ztdyaxcwfktx8pns3qxr7yfku3y5xjd7
+X-MBO-RS-ID: 6b04d22ce6bbfd2fef5
+X-Rspamd-Queue-Id: 4NHZy72lqZz9sTC
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Add rust argument at TAR_CONTENT in
-scripts/Makefile.package script with alphabetical order.
+From: Salil Mehta <salil.mehta@huawei.com>
+Date: Tue, 22 Nov 2022 12:39:04 +0000
 
-Signed-off-by: Paran Lee <p4ranlee@gmail.com>
----
- scripts/Makefile.package | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> Hi Alexander,
+> 
+> > From: Alexander Lobakin <alobakin@pm.me>
+> > Sent: Saturday, November 19, 2022 11:10 PM
+> > To: linux-kbuild@vger.kernel.org
 
-diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-index 8bbcced67c22..2a90139ecbe1 100644
---- a/scripts/Makefile.package
-+++ b/scripts/Makefile.package
-@@ -30,8 +30,8 @@ KBUILD_PKG_ROOTCMD ?="fakeroot -u"
- export KDEB_SOURCENAME
- # Include only those top-level files that are needed by make, plus the GPL copy
- TAR_CONTENT := Documentation LICENSES arch block certs crypto drivers fs \
--               include init io_uring ipc kernel lib mm net samples scripts \
--               security sound tools usr virt \
-+               include init io_uring ipc kernel lib mm net rust \
-+               samples scripts security sound tools usr virt \
-                .config .scmversion Makefile \
-                Kbuild Kconfig COPYING $(wildcard localversion*)
- MKSPEC     := $(srctree)/scripts/package/mkspec
--- 
-2.25.1
+[...]
 
+> > diff --git a/drivers/net/ethernet/hisilicon/Kconfig
+> > b/drivers/net/ethernet/hisilicon/Kconfig
+> > index 3312e1d93c3b..9d2be93d0378 100644
+> > --- a/drivers/net/ethernet/hisilicon/Kconfig
+> > +++ b/drivers/net/ethernet/hisilicon/Kconfig
+> > @@ -100,11 +100,15 @@ config HNS3
+> > 
+> >  if HNS3
+> > 
+> > +config HNS3_HCLGE_COMMON
+> > +	tristate
+> > +
+> 
+> 
+> This change does not looks right to me. We do not intend to expose these
+
+...does not looks right to me -- because? The "wrong" line?
+
+> common files via kconfig and as a separate module. I would need time to
+> address this in a different way. 
+
+I'm curious how 40 Kb of shared code can be addressed differently :D
+This Kconfig opt is hidden, it can only be selected by some other
+symbol -- in this case, by the PF and VF HCLGE options. Nothing gets
+exposed in a way it shouldn't be.
+
+Lemme guess, some cross-OS "shared code" in the OOT nobody in the
+upstream cares about (for good), how familiar :D IIRC ZSTD folks
+also weren't happy at first.
+
+> 
+> Please do not merge this change into the mainline!
+> 
+> 
+> Thanks
+> Salil
+> 
+> 
+> 
+> >  config HNS3_HCLGE
+> >  	tristate "Hisilicon HNS3 HCLGE Acceleration Engine & Compatibility
+> > Layer Support"
+> >  	default m
+> >  	depends on PCI_MSI
+> >  	depends on PTP_1588_CLOCK_OPTIONAL
+> > +	select HNS3_HCLGE_COMMON
+
+[...]
+
+> > diff --git a/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
+> > b/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
+> > index 987271da6e9b..39a7ab51be31 100644
+> > --- a/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
+> > +++ b/drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
+> > @@ -13133,6 +13133,8 @@ static void __exit hclge_exit(void)
+> >  module_init(hclge_init);
+> >  module_exit(hclge_exit);
+> > 
+> > +MODULE_IMPORT_NS(HNS3_HCLGE_COMMON);
+> 
+> 
+> No, we don't want this.
+
+I can export the common functions globally, without a namespace
+if you prefer ._.
+
+> 
+> 
+> 
+> > +
+> >  MODULE_LICENSE("GPL");
+> >  MODULE_AUTHOR("Huawei Tech. Co., Ltd.");
+> >  MODULE_DESCRIPTION("HCLGE Driver");
+
+Thanks,
+Olek
