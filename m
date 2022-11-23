@@ -2,54 +2,70 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D30B636431
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Nov 2022 16:42:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D6EA63654C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Nov 2022 17:05:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236692AbiKWPmS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 23 Nov 2022 10:42:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56772 "EHLO
+        id S237815AbiKWQF5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 23 Nov 2022 11:05:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238925AbiKWPmE (ORCPT
+        with ESMTP id S238512AbiKWQFy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 23 Nov 2022 10:42:04 -0500
-Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6334FC4C16
-        for <linux-kbuild@vger.kernel.org>; Wed, 23 Nov 2022 07:42:03 -0800 (PST)
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 2ANFfeUT021529
-        for <linux-kbuild@vger.kernel.org>; Thu, 24 Nov 2022 00:41:41 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 2ANFfeUT021529
+        Wed, 23 Nov 2022 11:05:54 -0500
+Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7B431F615;
+        Wed, 23 Nov 2022 08:05:52 -0800 (PST)
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 2ANG5TUq009845;
+        Thu, 24 Nov 2022 01:05:29 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 2ANG5TUq009845
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1669218101;
-        bh=Pe8I8yUWzr/Q7MPEhIIUhIKuEKa8ANCjuVuo9dAV7KA=;
+        s=dec2015msa; t=1669219530;
+        bh=svFtEHRXI+hcu/P5T8jGVN2TIA7Yepr3md/9hK9H4Os=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=s34WZh+aKf7z1eNupHBABDHmntw4Dch9+WJSsn0daQ3rcQBq+Siyfq+ZJ4b5EDnKm
-         WfJpkqnaiJRJWG29Ceyr15FcwR17fwdN9J7ytUeObTGLAKFBHfOr1flXBxDoQQR8jP
-         PZkuA7yZhcFAgtx2F/ZeUeLo84fwKwCuJGdgxLoxE/8S7Yc5dMO3vzXPdaaEDsWoHw
-         jSkgkjfTWpt1Xcd0dFqHLrfW0G6zt2C+MSZoFSyqQ83cGOSoEMolDsW6kaadqVX0LA
-         U2mYbIWUirTUJ2G5DWH7ou4sf020wWL09gbj4vNwI8RuqDJu4CmnbxfhWLSO7L+5CI
-         W8geyzEytHJiA==
-X-Nifty-SrcIP: [209.85.167.174]
-Received: by mail-oi1-f174.google.com with SMTP id m204so19413578oib.6
-        for <linux-kbuild@vger.kernel.org>; Wed, 23 Nov 2022 07:41:41 -0800 (PST)
-X-Gm-Message-State: ANoB5plkIZCv3WE6x0UqgIMF+FTwNbV1HfmAyUYjH5XrLjDTc37Ct+Of
-        DkNflmIg15vcS5RCX1Ii1RGKWjaV83+2vEfpDE0=
-X-Google-Smtp-Source: AA0mqf5oI5BLHjmItF562/LaQFh8pytJs2Z0zLaF79hg4Sn8WUoXxy0ezLB8UHstPE6YROkawIbwLjuqfuzcaG6jo10=
-X-Received: by 2002:aca:1c06:0:b0:354:28ae:23b3 with SMTP id
- c6-20020aca1c06000000b0035428ae23b3mr5804016oic.287.1669218099852; Wed, 23
- Nov 2022 07:41:39 -0800 (PST)
+        b=hvOdANAjjXXWAB4WMsZdDYqo0cVfVOoPZXMvA5AzP+Bqbjqrag6EYSs9UxzKC+Dnb
+         wfyjYj7MZg3+gbt+18QK4OIJ/iJphcfQzYC7RSI962tkJ8j50pVCbOxRR0GgHpBh7s
+         P1/M0IzZC5UThIBzH6uvdxJ5WUkEaydSN+LyQfgSmzn32dJJ4imQDAEOW6S0dx3LOP
+         3F8NaLCcnlmlblM9rlg9GKqjA1P2ItrZZyKD3q+L01sAFL/jQphPgnMBuP6m6amq1d
+         AN/l4BdcUMVXQd1gIVg52jgLkMwE3kUhbFXankfuFat2LJYSrUXaigGjN7+u6k8NRX
+         +XrwbfrRUik8Q==
+X-Nifty-SrcIP: [209.85.160.41]
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-14286d5ebc3so17990322fac.3;
+        Wed, 23 Nov 2022 08:05:29 -0800 (PST)
+X-Gm-Message-State: ANoB5pl3TnU217L4Ves+m82DMV2KuoNgWkxt7/ueOe6SwvZbJEOiA6lm
+        yNc2BZTvNuyE7UZS1c7x2LKzNFeSG/YZYThgQSY=
+X-Google-Smtp-Source: AA0mqf6HGleRbj7Qe5GzuirX/Foa0/Aoh13Y8Sr/DxGsPHT5WruP6vhcbHKUWNwUxifsPORSdReCGgryqYEYNpGynPk=
+X-Received: by 2002:a05:6870:3b06:b0:13b:5d72:d2c6 with SMTP id
+ gh6-20020a0568703b0600b0013b5d72d2c6mr5086727oab.287.1669219528697; Wed, 23
+ Nov 2022 08:05:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20221123153202.1814324-1-dzickus@redhat.com>
-In-Reply-To: <20221123153202.1814324-1-dzickus@redhat.com>
+References: <20221119225650.1044591-1-alobakin@pm.me> <20221119225650.1044591-10-alobakin@pm.me>
+In-Reply-To: <20221119225650.1044591-10-alobakin@pm.me>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 24 Nov 2022 00:41:03 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASW1=P8DKQD=pD8U2B5spTgjdxSOxqh559h-NCehUh5DQ@mail.gmail.com>
-Message-ID: <CAK7LNASW1=P8DKQD=pD8U2B5spTgjdxSOxqh559h-NCehUh5DQ@mail.gmail.com>
-Subject: Re: [OS-BUILD PATCH] Adding support for distro targets in Makefile
-To:     Don Zickus <dzickus@redhat.com>
-Cc:     linux-kbuild@vger.kernel.org, jforbes@fedoraproject.org,
-        prarit@redhat.com, scweaver@redhat.com, ptalbert@redhat.com,
-        herton@redhat.com, jtoppins@redhat.com
+Date:   Thu, 24 Nov 2022 01:04:52 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT4Oe1JRu5msSV6M2e5QRNTH9xuBUsOq+KrFS0H911=TQ@mail.gmail.com>
+Message-ID: <CAK7LNAT4Oe1JRu5msSV6M2e5QRNTH9xuBUsOq+KrFS0H911=TQ@mail.gmail.com>
+Subject: Re: [PATCH 09/18] net: emac, cpsw: fix mixed module-builtin object (davinci_cpdma)
+To:     Alexander Lobakin <alobakin@pm.me>
+Cc:     linux-kbuild@vger.kernel.org, Nicolas Schier <nicolas@fjasle.eu>,
+        Jens Axboe <axboe@kernel.dk>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Tony Luck <tony.luck@intel.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Derek Chickles <dchickles@marvell.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Salil Mehta <salil.mehta@huawei.com>,
+        Sunil Goutham <sgoutham@marvell.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Brown <broonie@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        NXP Linux Team <linux-imx@nxp.com>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
@@ -60,75 +76,37 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Nov 24, 2022 at 12:32 AM Don Zickus <dzickus@redhat.com> wrote:
+On Sun, Nov 20, 2022 at 8:07 AM Alexander Lobakin <alobakin@pm.me> wrote:
 >
-> Fedora adds a directory to its source git tree to provide packaging
-> information[1] specific for its distro.  We would like to propagate our
-> 'help' section to the toplevel to be seen by 'make help' as it isn't
-> obvious to users to use 'make dist-help'[2].
+> From: Masahiro Yamada <masahiroy@kernel.org>
 >
-> Instead of keeping Fedora changes local, I am proposing a generic
-> mechanism for other distros to use if they would like.  The change looks
-> for a distro directory and leverages that Makefile if it exists.
-> Otherwise it is ignored.
+> CONFIG_TI_DAVINCI_EMAC, CONFIG_TI_CPSW and CONFIG_TI_CPSW_SWITCHDEV
+> are all tristate. This means that davinci_cpdma.o can be linked to
+> a module and also to vmlinux even though the expected CFLAGS are
+> different between builtins and modules.
 >
-> [1] - https://gitlab.com/cki-project/kernel-ark/-/tree/os-build/redhat
-> [2] - https://gitlab.com/cki-project/kernel-ark/-/blob/os-build/redhat/Makefile#L809
+> This is the same situation as fixed by commit 637a642f5ca5 ("zstd:
+> Fixing mixed module-builtin objects").
 >
-> Signed-off-by: Jonathan Toppins <jtoppins@redhat.com>
-> Signed-off-by: Don Zickus <dzickus@redhat.com>
+> Introduce the new module, ti_davinci_cpdma, to provide the common
+> functions to these three modules.
 >
-> ----
-> This patch is more of a conversation starter than anything.
+> [ alobakin: add exports ]
 >
-> I think other distros might find this useful and examples of what we would
-> populate the directory with can be found in [1].
->
-> Thoughts?
-
-I do not like to merge any code that is irrelevant to the upstream.
-
-
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Reviewed-by: Alexander Lobakin <alobakin@pm.me>
+> Signed-off-by: Alexander Lobakin <alobakin@pm.me>
 > ---
->  Makefile | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
->
-> diff --git a/Makefile b/Makefile
-> index 6f846b1f2618f..45fdb18dde46f 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1635,6 +1635,16 @@ distclean: mrproper
->  %pkg: include/config/kernel.release FORCE
->         $(Q)$(MAKE) -f $(srctree)/scripts/Makefile.package $@
->
-> +# Distribution of the kernel
-> +# ---------------------------------------------------------------------------
-> +
-> +dist%: FORCE
-> +       @if ! test -f $(srctree)/distro/Makefile; then \
-> +               echo 'No distribution targets defined'; \
-> +               exit 1; \
-> +       fi
-> +       $(Q)$(MAKE) -C $(srctree)/distro $@
-> +
->  # Brief documentation of the typical targets used
->  # ---------------------------------------------------------------------------
->
-> @@ -1732,6 +1742,11 @@ help:
->         @echo  ''
->         @echo  'Kernel packaging:'
->         @$(MAKE) -f $(srctree)/scripts/Makefile.package help
-> +       @if test -f $(srctree)/distro/Makefile; then \
-> +               echo ''; \
-> +               echo 'Distro targets:'; \
-> +               $(MAKE) -C $(srctree)/distro dist-help; \
-> +       fi
->         @echo  ''
->         @echo  'Documentation targets:'
->         @$(MAKE) -f $(srctree)/Documentation/Makefile dochelp
-> --
-> 2.38.1
->
+
+Please take the authorship for this patch
+because I did not finish this patch
+(and I am not sure if this is the correct way to fix)
+
+As 18/18 will touch this part again,
+perhaps davinci_cpdma.c can go into ti_cpsw_core.ko
+
+Anyway, the maintainer may have a better insight.
+
 
 
 -- 
