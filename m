@@ -2,58 +2,74 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C6F4E636C9C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Nov 2022 22:53:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F1ADD636CB1
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Nov 2022 23:01:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232341AbiKWVxD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 23 Nov 2022 16:53:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60644 "EHLO
+        id S232192AbiKWWAw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 23 Nov 2022 17:00:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235150AbiKWVxC (ORCPT
+        with ESMTP id S230284AbiKWWAs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 23 Nov 2022 16:53:02 -0500
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD62213E85;
-        Wed, 23 Nov 2022 13:53:00 -0800 (PST)
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 2ANLqht0001692;
-        Thu, 24 Nov 2022 06:52:43 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 2ANLqht0001692
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1669240363;
-        bh=4brSLwsgf2K/MFuU7IhDLjbD5WLitSIHjPY7T12lCSs=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=eZm8QKm1b9nEh3FXt5Hmij2qZ9fQfQKrmj0fOZKJCPAEMfbFNOMquZ+IDYJa6fHST
-         mF9WVYM6kYDLkXLZoSVKKjUFiNGsNgOPURNqO395ZBotP2tEHCJAtPqvKiAwNGEEY8
-         aI0dFoBJKxE7He44kzle8M/3RX1NWXhHZoyJZ1POIjEqJdblcUOWj4Is1zE04xmzYV
-         YEJGyrX452d0yOJs6DtNcmyU7N9UgfDWiAT15pxpjzHs/QNMmbf23X2FOwPhhRqdaA
-         95ZwxZrOc+RruyYTgUFV/AuUfgtT0x4BO56cNkOXGmPM9mViS6t/4uHNX3KT9xTPDy
-         G3x9o2E+SPs2A==
-X-Nifty-SrcIP: [209.85.161.46]
-Received: by mail-oo1-f46.google.com with SMTP id o140-20020a4a2c92000000b0049effb01130so14657ooo.9;
-        Wed, 23 Nov 2022 13:52:43 -0800 (PST)
-X-Gm-Message-State: ANoB5pnwMG3RzQN5fw4SkfF8mABnKB5GTLbX+nFhFl2YQdj1dzQT7dDO
-        EJVW7Ixykxp/OOUiYZ2h+AADhThW/e7Gbef0AJw=
-X-Google-Smtp-Source: AA0mqf6i/EEWnNHGZ3i5ZmQAemkwA7O5D08FxMyftKnoinBWlrcPrejPJ9XtrRE17pl3f2WOeQ3uasT9NLLRn4I+BRA=
-X-Received: by 2002:a05:6820:16a7:b0:49f:c664:44e2 with SMTP id
- bc39-20020a05682016a700b0049fc66444e2mr5014359oob.96.1669240362315; Wed, 23
- Nov 2022 13:52:42 -0800 (PST)
-MIME-Version: 1.0
-References: <20221123151828.509565-1-masahiroy@kernel.org> <20221123151828.509565-3-masahiroy@kernel.org>
- <Y36KLFArg5etHRD8@bergen.fjasle.eu>
-In-Reply-To: <Y36KLFArg5etHRD8@bergen.fjasle.eu>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 24 Nov 2022 06:52:06 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASWd-8awDOwE3iU9nx8QPj3VnoFtnUiX3NLyT+fx3BfjQ@mail.gmail.com>
-Message-ID: <CAK7LNASWd-8awDOwE3iU9nx8QPj3VnoFtnUiX3NLyT+fx3BfjQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/5] kbuild: add read-file macro
-To:     Nicolas Schier <nicolas@fjasle.eu>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
+        Wed, 23 Nov 2022 17:00:48 -0500
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F01B8D22B3;
+        Wed, 23 Nov 2022 14:00:47 -0800 (PST)
+Received: by mail-pl1-x635.google.com with SMTP id io19so17834364plb.8;
+        Wed, 23 Nov 2022 14:00:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CXbYCWAazP8Rlo+89yrukrtECb7VrmIBkt89IozX0fU=;
+        b=eN4qa0dgakMb89FiOJcmppQA9R27nJ2M8GONgsAIJeeABkpe3vtI+yMe0QfegXQfEW
+         vq3EkanMwsmovPwuB18kM9JdrsLtd33wH1AUsyFEWhqo9Fgo4rgTVtHNKsaM/4thorpJ
+         sacvOtctU2rDg7ijk8gir/bOwTow6vMSatQoK2azZpsgPE4Cjv44MAQgx2Sa5wSmof0J
+         zo7FL52Lz27TyUiS7iicQsG7NEuqR5+P/WKW05SluI+2Z/o8DT2TFHiqp4UXNLHT6iQK
+         CT9zEELznMNB76sOJB7UpQhchO0uIuxerYmc+WkaQQcKcvyx57lGcdjrPxhi5b747cUX
+         m/Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CXbYCWAazP8Rlo+89yrukrtECb7VrmIBkt89IozX0fU=;
+        b=4zdXLCxsiQAhn+LxDQjZ7DqQanckVBnuTDopXBtaix11wC5PAnFmeHrSUYUChnZ2hL
+         TDIDERR3VdFg9m0Zbj0i6s3MDwGEhoXcEmmJCvmQuEpq3TtB9TZZSbZ1mmEjx95ZhNoJ
+         QfKd/kSIcQ3K+XtSNDVSXBpTN3aR3g8+3JtLl9orJ7Q43bBQTiSTooarjfhekHFrNjf3
+         qz7F0XEwQ/y67HVNgsQ2cKORc7hGkJEyVtlslgXHwYbHRoqoRW/G5R1hcxXAYlRi2cIF
+         Rg4Gg70tKPttnbiGoX7cPYWTR5vEg8o5qAi+dsJd6IKBfAKQbvUm4omgCxpvA9HH/z1i
+         Iumg==
+X-Gm-Message-State: ANoB5pnj0kMcpM+WMPpQUydo/YQhff3DtV/kIxOCIRE0fz/E0MvNucjt
+        B2Ebs4u+owAmZslah45hrMGvQcWHQqW46Q==
+X-Google-Smtp-Source: AA0mqf7nENTn2xQopQDGO+H2umIDOUgSROuCxMWem9r3XyQWsBAQ6SEGHZXQYjS3p00Zu7/8qgzTXQ==
+X-Received: by 2002:a17:902:bd42:b0:188:ca57:8945 with SMTP id b2-20020a170902bd4200b00188ca578945mr10792005plx.116.1669240847279;
+        Wed, 23 Nov 2022 14:00:47 -0800 (PST)
+Received: from localhost ([220.116.249.144])
+        by smtp.gmail.com with ESMTPSA id e12-20020a170902d38c00b0017f8094a52asm14696662pld.29.2022.11.23.14.00.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Nov 2022 14:00:46 -0800 (PST)
+Date:   Thu, 24 Nov 2022 07:00:44 +0900
+From:   Paran Lee <p4ranlee@gmail.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        rust-for-linux@vger.kernel.org, austindh.kim@gmail.com,
+        pmnxis@gmail.com
+Subject: [PATCH v2] scripts: add rust in scripts/Makefile.package
+Message-ID: <20221123220044.GA6513@DESKTOP-NK4TH6S.localdomain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -61,106 +77,29 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Nov 24, 2022 at 6:02 AM Nicolas Schier <nicolas@fjasle.eu> wrote:
->
-> On Thu 24 Nov 2022 00:18:26 GMT, Masahiro Yamada wrote:
-> > Since GMU Make 4.2, $(file ...) supports the read operater '<', which is
-> > useful to read a file without forking any process. No warning is shown even
-> > if the input file is missing.
-> >
-> > For older Make versions, it falls back to the cat command.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> > (no changes since v1)
-> >
-> >  Makefile                  |  2 +-
-> >  scripts/Kbuild.include    | 12 ++++++++++++
-> >  scripts/Makefile.modfinal |  2 +-
-> >  scripts/Makefile.modinst  |  2 +-
-> >  4 files changed, 15 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/Makefile b/Makefile
-> > index eb80332f7b51..60ce9dcafc72 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -369,7 +369,7 @@ else # !mixed-build
-> >  include $(srctree)/scripts/Kbuild.include
-> >
-> >  # Read KERNELRELEASE from include/config/kernel.release (if it exists)
-> > -KERNELRELEASE = $(shell cat include/config/kernel.release 2> /dev/null)
-> > +KERNELRELEASE = $(call read-file, include/config/kernel.release)
-> >  KERNELVERSION = $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL),.$(SUBLEVEL)))$(EXTRAVERSION)
-> >  export VERSION PATCHLEVEL SUBLEVEL KERNELRELEASE KERNELVERSION
-> >
-> > diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-> > index 9996f34327cb..722846c23264 100644
-> > --- a/scripts/Kbuild.include
-> > +++ b/scripts/Kbuild.include
-> > @@ -10,6 +10,10 @@ empty   :=
-> >  space   := $(empty) $(empty)
-> >  space_escape := _-_SPACE_-_
-> >  pound := \#
-> > +define newline
-> > +
-> > +
-> > +endef
-> >
-> >  ###
-> >  # Comparison macros.
-> > @@ -55,6 +59,14 @@ stringify = $(squote)$(quote)$1$(quote)$(squote)
-> >  kbuild-dir = $(if $(filter /%,$(src)),$(src),$(srctree)/$(src))
-> >  kbuild-file = $(or $(wildcard $(kbuild-dir)/Kbuild),$(kbuild-dir)/Makefile)
-> >
-> > +###
-> > +# Read a file, replacing newlines with spaces
-> > +ifeq ($(call test-ge, $(MAKE_VERSION), 4.2),y)
-> > +read-file = $(subst $(newline),$(space),$(file < $1))
-> > +else
-> > +read-file = $(shell cat $1 2>/dev/null)
-> > +endif
-> > +
->
-> I like the implementation of read-file, but I am afraid that the
-> MAKE_VERSION comparison breaks all make versions w/ a minor version
-> number: 3.99.9x, 4.2.x, 4.3.x.
+Add rust argument at TAR_CONTENT in
+scripts/Makefile.package script with alphabetical order.
 
+Signed-off-by: Paran Lee <p4ranlee@gmail.com>
+---
+ scripts/Makefile.package | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I think these should work correctly
-unless I missed something terribly.
-
-
-In the ASCII-sorting, they are sorted like this:
-
-3.99.9x  4.2   4.2.x  4.3.x
-
-
-
-
-
-
-The bad scenarios I came up with is GNU Make 4.10
-and GNU Make 10.0 because $(sort ) will sort
-
-10  4.10  4.2
-
-
-
-
-GNU Make 4.3 was released in Jan 2020
-GNU Make 4.4 was released in Oct 2022
-
-
-
-If the current release pace continues,
-we will have about 10 years until GNU Make hits 4.10
-
-Until then, we can remove this ifeq.
-
-
-
-
+diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+index 8bbcced67c22..2a90139ecbe1 100644
+--- a/scripts/Makefile.package
++++ b/scripts/Makefile.package
+@@ -30,8 +30,8 @@ KBUILD_PKG_ROOTCMD ?="fakeroot -u"
+ export KDEB_SOURCENAME
+ # Include only those top-level files that are needed by make, plus the GPL copy
+ TAR_CONTENT := Documentation LICENSES arch block certs crypto drivers fs \
+-               include init io_uring ipc kernel lib mm net samples scripts \
+-               security sound tools usr virt \
++               include init io_uring ipc kernel lib mm net rust \
++               samples scripts security sound tools usr virt \
+                .config .scmversion Makefile \
+                Kbuild Kconfig COPYING $(wildcard localversion*)
+ MKSPEC     := $(srctree)/scripts/package/mkspec
 -- 
-Best Regards
-Masahiro Yamada
+2.25.1
+
