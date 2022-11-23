@@ -2,42 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE0B4635C21
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Nov 2022 12:52:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57668635F4F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Nov 2022 14:23:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236857AbiKWLv6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 23 Nov 2022 06:51:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57794 "EHLO
+        id S237051AbiKWNXv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 23 Nov 2022 08:23:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236580AbiKWLvy (ORCPT
+        with ESMTP id S237710AbiKWNX0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 23 Nov 2022 06:51:54 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99B8265E4;
-        Wed, 23 Nov 2022 03:51:53 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 3F0BBB81F15;
-        Wed, 23 Nov 2022 11:51:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFD3DC433B5;
-        Wed, 23 Nov 2022 11:51:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669204311;
-        bh=phhd+Gdc/wkAagQCT1G+/rsG794g5og7Pbf7/CZVfeY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=A/UzU6ivTd7IAAFQyDa/xI56j3AVN0e9T9sqCMWjOQK0LOvk93P9YZcJM7mYQCe3H
-         pZVpc0QVqoFJ6BQo8jEGEG8//6cz/70/xFnYxnTf6iWQo2IPN4vp0rovKJul2ynDS7
-         cqITQ8IvmMGxZzMeF5Jc5PK5yievH389a8eqTa2ecraq09+nACKfLdggnG5lqyuU1z
-         B/dwqWpM/0npZ/9q4VdLBfrDkikv7X4TCqiMBK9zxZE+NBzPx1jWihEWE5LlQ+yWF8
-         V7vz62NbMcQdm2aK51F7C1MMFqXD05wTDR0JorXwXTIpu/Pgam7GykElLzxkXx5eqf
-         e4gwx9p9cBBjg==
-Date:   Wed, 23 Nov 2022 11:51:42 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Alexander Lobakin <alobakin@mailbox.org>
-Cc:     Alexander Lobakin <alobakin@pm.me>, linux-kbuild@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
+        Wed, 23 Nov 2022 08:23:26 -0500
+Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F29445BD7E;
+        Wed, 23 Nov 2022 05:03:58 -0800 (PST)
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 2AND3ksx018934;
+        Wed, 23 Nov 2022 22:03:46 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 2AND3ksx018934
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1669208627;
+        bh=/0YxBwaIDdbvVmxcfiVpYWCSb8Y0z9oI7DjNyiXXRmA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=QBEOJWQJVjwDdBhOArmESrXbkAyRUdgfW7qVM/ce5NptE9qld/Am6g/R4gVeQWeec
+         79z/vpXPetPHoSrw6k1es6SKSXgKTT7FyvwaSpdIRMn50Q85DkBcsUe7F69dLyoovl
+         SQzYWeQRmO6RSt753kTRl3gFfi3HL1MQ09IowL15zGPdpeNeTPLYgSDcFO5v3vLVgJ
+         xwtQ4GX4mXOgN/zRzc/TVYEyD7tfBhqT7KlGQAayM3rkRKBNylfeGYlI6zKkpRNqJT
+         fS9bpekQXwO2ffuvJeqw/ByOhW4ABWuoIG/kpLuu2HvWelgFuNJzo5cDcQCzWGUdYU
+         3F6udt6MTbqJg==
+X-Nifty-SrcIP: [209.85.161.45]
+Received: by mail-oo1-f45.google.com with SMTP id k12-20020a4ab08c000000b0049e2ab19e04so2688667oon.6;
+        Wed, 23 Nov 2022 05:03:46 -0800 (PST)
+X-Gm-Message-State: ANoB5pkY7udZ+e7yh5rpaflJmVpM53uzCsp15ua24E+yBNIgd9js8mzD
+        HmIxAcHqx3EMWDIiJSuSQyEjnQ/2kh2kQu3NQEE=
+X-Google-Smtp-Source: AA0mqf4feKRjreEN59r06gaU/5giz/qF+7kf1W0QTXfrbg0mfz6dgS6phb+g710SLyVU0CHHJ0eVbh9V2EaRWD+GGlk=
+X-Received: by 2002:a05:6820:16a7:b0:49f:c664:44e2 with SMTP id
+ bc39-20020a05682016a700b0049fc66444e2mr3980265oob.96.1669208625497; Wed, 23
+ Nov 2022 05:03:45 -0800 (PST)
+MIME-Version: 1.0
+References: <20221119225650.1044591-1-alobakin@pm.me> <20221119225650.1044591-9-alobakin@pm.me>
+In-Reply-To: <20221119225650.1044591-9-alobakin@pm.me>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 23 Nov 2022 22:03:09 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT4asXORsS8Q-NRfGEYo4fsAnMVhQai3C+EeaDhoXv57Q@mail.gmail.com>
+Message-ID: <CAK7LNAT4asXORsS8Q-NRfGEYo4fsAnMVhQai3C+EeaDhoXv57Q@mail.gmail.com>
+Subject: Re: [PATCH 08/18] net: enetc: fix mixed module-builtin object
+To:     Alexander Lobakin <alobakin@pm.me>
+Cc:     linux-kbuild@vger.kernel.org, Nicolas Schier <nicolas@fjasle.eu>,
         Jens Axboe <axboe@kernel.dk>,
         Boris Brezillon <bbrezillon@kernel.org>,
         Borislav Petkov <bp@alien8.de>,
@@ -52,65 +62,63 @@ Cc:     Alexander Lobakin <alobakin@pm.me>, linux-kbuild@vger.kernel.org,
         Grygorii Strashko <grygorii.strashko@ti.com>,
         Daniel Scally <djrscally@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
+        Mark Brown <broonie@kernel.org>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         NXP Linux Team <linux-imx@nxp.com>, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/18] treewide: fix object files shared between several
- modules
-Message-ID: <Y34JTrCARZ1Gllsi@sirena.org.uk>
-References: <20221119225650.1044591-1-alobakin@pm.me>
- <Y3oWYhw9VZOANneu@sirena.org.uk>
- <20221122213754.45474-1-alobakin@mailbox.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="yzeGM2sBEGtnAUH/"
-Content-Disposition: inline
-In-Reply-To: <20221122213754.45474-1-alobakin@mailbox.org>
-X-Cookie: I'm rated PG-34!!
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Sun, Nov 20, 2022 at 8:07 AM Alexander Lobakin <alobakin@pm.me> wrote:
+>
+> From: Masahiro Yamada <masahiroy@kernel.org>
+>
+> With CONFIG_FSL_ENETC=m and CONFIG_FSL_ENETC_VF=y (or vice versa),
+> $(common-objs) are linked to a module and also to vmlinux even though
+> the expected CFLAGS are different between builtins and modules.
+>
+> This is the same situation as fixed by commit 637a642f5ca5 ("zstd:
+> Fixing mixed module-builtin objects").
+>
+> Introduce the new module, fsl-enetc-core, to provide the common
+> functions to fsl-enetc and fsl-enetc-vf.
+>
+> [ alobakin: add exports to common functions ]
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Reviewed-by: Alexander Lobakin <alobakin@pm.me>
+> Signed-off-by: Alexander Lobakin <alobakin@pm.me>
+> ---
+>  drivers/net/ethernet/freescale/enetc/Kconfig  |  5 +++++
+>  drivers/net/ethernet/freescale/enetc/Makefile |  7 ++++---
+>  drivers/net/ethernet/freescale/enetc/enetc.c  | 21 +++++++++++++++++++
+>  .../net/ethernet/freescale/enetc/enetc_cbdr.c |  7 +++++++
+>  .../ethernet/freescale/enetc/enetc_ethtool.c  |  2 ++
+>  .../net/ethernet/freescale/enetc/enetc_pf.c   |  2 ++
+>  .../net/ethernet/freescale/enetc/enetc_vf.c   |  2 ++
+>  7 files changed, 43 insertions(+), 3 deletions(-)
 
---yzeGM2sBEGtnAUH/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Tue, Nov 22, 2022 at 10:37:54PM +0100, Alexander Lobakin wrote:
-> From: Mark Brown <broonie@kernel.org>
-> > On Sat, Nov 19, 2022 at 11:03:57PM +0000, Alexander Lobakin wrote:
 
-> > Your mails appear to be encrypted which isn't helping with
-> > review...
+I think you can grab Author since I did not finish this patch.
+(and of course, I did not test it at all)
 
-> Oh I'm sorry. I gave ProtonMail one more chance. I had the same
-> issue with them at spring, they told me then that it's a super-pro
-> builtin feature that I can't disable :clownface: They promised to
-> "think on it" tho, so I thought maybe after half a year...
-> Nope. Ok, whatever. My workaround will be the same as Conor's, just
-> to change the provider lol.
-> Should be better now?
+You can remove a blank line after MODULE_IMPORT_NS()
 
-Yes, everything's fine now - thanks for looking into it.
+Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
 
---yzeGM2sBEGtnAUH/
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmN+CU0ACgkQJNaLcl1U
-h9ARigf9GW+E64m62h0pb2LtRUO0gPTWvPUn+ORptGnHGlsvJVhzigffMuHNhxY9
-0nhYtG/KF7hqMTiL5BFqCp2qI2FUGIEAS2DqHgNDuysHP18pMah388xpWdnCrmAi
-m6snZhHVpJKaCo6te9Sn+L+ilFbmGYdyInKp7QsOAFHj7YJ9ceiK90BefO8GTR4T
-Dz7B5fHFhaWWRAjR+KWZSrJPAMGVGLb0ezkStlrTeMoo4dSnzsNDqpy1n6N5hie3
-h5Xuh0oj7jPRtJV8d0vqzeE9sjF6eI0WxDA9+Jt/WQP03fUF2XPJqsia/u8RUGQN
-b4rLpDDGVV72tJgL6eFoJU2Pdxc7qQ==
-=8oQE
------END PGP SIGNATURE-----
 
---yzeGM2sBEGtnAUH/--
+
+
+-- 
+Best Regards
+Masahiro Yamada
