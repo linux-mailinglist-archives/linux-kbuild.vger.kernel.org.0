@@ -2,133 +2,165 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CCA0D636C8F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Nov 2022 22:48:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C6F4E636C9C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Nov 2022 22:53:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232341AbiKWVsX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 23 Nov 2022 16:48:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58244 "EHLO
+        id S232341AbiKWVxD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 23 Nov 2022 16:53:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237704AbiKWVsW (ORCPT
+        with ESMTP id S235150AbiKWVxC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 23 Nov 2022 16:48:22 -0500
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8252A32B96;
-        Wed, 23 Nov 2022 13:48:20 -0800 (PST)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4NHZW46rH1z9sTm;
-        Wed, 23 Nov 2022 22:48:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-        t=1669240096;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=aw2BXawO+gI2px4foXQHN/iThcaB+rQzuEfnc8I5o8w=;
-        b=sQhIOTCIFKcEXfmQZbziXRWCTJY78/QNsQfkuZNqg1w3IDW7RRjTlhGdZWNixdCGjvmg64
-        MWvv100IFEWs+0bPLqESrYPLLNFDzDyC8dFxCrj0ukGJh+Yc3+RLLvhdnuno9QGaBxxH4i
-        v2vAG5TrRE7jVQVIKy9nwCUOa42FNNeKsQZ+pUWhJCpIsTWfayEIV14r8QEugQB3LvjB7n
-        we/bqtf2eEVBHp+icbnoxaeqIz7sxM2kaxXzm7dz72dygXMxolLzFvMzThE9C5J3Uk4AST
-        iGfwYOIxVdIE7JBM141HsB2uNJ+AaTlcS1U6gtnmCPeVWm8vWlDPnJPL9u07DA==
-From:   Alexander Lobakin <alobakin@mailbox.org>
-To:     Colin Foster <colin.foster@in-advantage.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc:     Alexander Lobakin <alobakin@pm.me>, linux-kbuild@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jens Axboe <axboe@kernel.dk>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Tony Luck <tony.luck@intel.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Derek Chickles <dchickles@marvell.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Salil Mehta <salil.mehta@huawei.com>,
-        Sunil Goutham <sgoutham@marvell.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Brown <broonie@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        NXP Linux Team <linux-imx@nxp.com>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 14/18] dsa: ocelot: fix mixed module-builtin object
-Date:   Wed, 23 Nov 2022 22:47:46 +0100
-Message-Id: <20221123214746.62207-1-alobakin@mailbox.org>
-In-Reply-To: <Y3u/qwvLED4nE/jR@colin-ia-desktop>
-References: <20221119225650.1044591-1-alobakin@pm.me> <20221119225650.1044591-15-alobakin@pm.me> <20221121175504.qwuoyditr4xl6oew@skbuf> <Y3u/qwvLED4nE/jR@colin-ia-desktop>
+        Wed, 23 Nov 2022 16:53:02 -0500
+Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD62213E85;
+        Wed, 23 Nov 2022 13:53:00 -0800 (PST)
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 2ANLqht0001692;
+        Thu, 24 Nov 2022 06:52:43 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 2ANLqht0001692
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1669240363;
+        bh=4brSLwsgf2K/MFuU7IhDLjbD5WLitSIHjPY7T12lCSs=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=eZm8QKm1b9nEh3FXt5Hmij2qZ9fQfQKrmj0fOZKJCPAEMfbFNOMquZ+IDYJa6fHST
+         mF9WVYM6kYDLkXLZoSVKKjUFiNGsNgOPURNqO395ZBotP2tEHCJAtPqvKiAwNGEEY8
+         aI0dFoBJKxE7He44kzle8M/3RX1NWXhHZoyJZ1POIjEqJdblcUOWj4Is1zE04xmzYV
+         YEJGyrX452d0yOJs6DtNcmyU7N9UgfDWiAT15pxpjzHs/QNMmbf23X2FOwPhhRqdaA
+         95ZwxZrOc+RruyYTgUFV/AuUfgtT0x4BO56cNkOXGmPM9mViS6t/4uHNX3KT9xTPDy
+         G3x9o2E+SPs2A==
+X-Nifty-SrcIP: [209.85.161.46]
+Received: by mail-oo1-f46.google.com with SMTP id o140-20020a4a2c92000000b0049effb01130so14657ooo.9;
+        Wed, 23 Nov 2022 13:52:43 -0800 (PST)
+X-Gm-Message-State: ANoB5pnwMG3RzQN5fw4SkfF8mABnKB5GTLbX+nFhFl2YQdj1dzQT7dDO
+        EJVW7Ixykxp/OOUiYZ2h+AADhThW/e7Gbef0AJw=
+X-Google-Smtp-Source: AA0mqf6i/EEWnNHGZ3i5ZmQAemkwA7O5D08FxMyftKnoinBWlrcPrejPJ9XtrRE17pl3f2WOeQ3uasT9NLLRn4I+BRA=
+X-Received: by 2002:a05:6820:16a7:b0:49f:c664:44e2 with SMTP id
+ bc39-20020a05682016a700b0049fc66444e2mr5014359oob.96.1669240362315; Wed, 23
+ Nov 2022 13:52:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: b7otjaeni3xsdy1qrdy9oxk4oj7b6453
-X-MBO-RS-ID: d4f309bc62ba0ccc568
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221123151828.509565-1-masahiroy@kernel.org> <20221123151828.509565-3-masahiroy@kernel.org>
+ <Y36KLFArg5etHRD8@bergen.fjasle.eu>
+In-Reply-To: <Y36KLFArg5etHRD8@bergen.fjasle.eu>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 24 Nov 2022 06:52:06 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASWd-8awDOwE3iU9nx8QPj3VnoFtnUiX3NLyT+fx3BfjQ@mail.gmail.com>
+Message-ID: <CAK7LNASWd-8awDOwE3iU9nx8QPj3VnoFtnUiX3NLyT+fx3BfjQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/5] kbuild: add read-file macro
+To:     Nicolas Schier <nicolas@fjasle.eu>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Colin Foster <colin.foster@in-advantage.com>,
-Date: Mon, 21 Nov 2022 10:12:59 -0800
+On Thu, Nov 24, 2022 at 6:02 AM Nicolas Schier <nicolas@fjasle.eu> wrote:
+>
+> On Thu 24 Nov 2022 00:18:26 GMT, Masahiro Yamada wrote:
+> > Since GMU Make 4.2, $(file ...) supports the read operater '<', which is
+> > useful to read a file without forking any process. No warning is shown even
+> > if the input file is missing.
+> >
+> > For older Make versions, it falls back to the cat command.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> > (no changes since v1)
+> >
+> >  Makefile                  |  2 +-
+> >  scripts/Kbuild.include    | 12 ++++++++++++
+> >  scripts/Makefile.modfinal |  2 +-
+> >  scripts/Makefile.modinst  |  2 +-
+> >  4 files changed, 15 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/Makefile b/Makefile
+> > index eb80332f7b51..60ce9dcafc72 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -369,7 +369,7 @@ else # !mixed-build
+> >  include $(srctree)/scripts/Kbuild.include
+> >
+> >  # Read KERNELRELEASE from include/config/kernel.release (if it exists)
+> > -KERNELRELEASE = $(shell cat include/config/kernel.release 2> /dev/null)
+> > +KERNELRELEASE = $(call read-file, include/config/kernel.release)
+> >  KERNELVERSION = $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL),.$(SUBLEVEL)))$(EXTRAVERSION)
+> >  export VERSION PATCHLEVEL SUBLEVEL KERNELRELEASE KERNELVERSION
+> >
+> > diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+> > index 9996f34327cb..722846c23264 100644
+> > --- a/scripts/Kbuild.include
+> > +++ b/scripts/Kbuild.include
+> > @@ -10,6 +10,10 @@ empty   :=
+> >  space   := $(empty) $(empty)
+> >  space_escape := _-_SPACE_-_
+> >  pound := \#
+> > +define newline
+> > +
+> > +
+> > +endef
+> >
+> >  ###
+> >  # Comparison macros.
+> > @@ -55,6 +59,14 @@ stringify = $(squote)$(quote)$1$(quote)$(squote)
+> >  kbuild-dir = $(if $(filter /%,$(src)),$(src),$(srctree)/$(src))
+> >  kbuild-file = $(or $(wildcard $(kbuild-dir)/Kbuild),$(kbuild-dir)/Makefile)
+> >
+> > +###
+> > +# Read a file, replacing newlines with spaces
+> > +ifeq ($(call test-ge, $(MAKE_VERSION), 4.2),y)
+> > +read-file = $(subst $(newline),$(space),$(file < $1))
+> > +else
+> > +read-file = $(shell cat $1 2>/dev/null)
+> > +endif
+> > +
+>
+> I like the implementation of read-file, but I am afraid that the
+> MAKE_VERSION comparison breaks all make versions w/ a minor version
+> number: 3.99.9x, 4.2.x, 4.3.x.
 
-> On Mon, Nov 21, 2022 at 07:55:04PM +0200, Vladimir Oltean wrote:
-> > On Sat, Nov 19, 2022 at 11:09:28PM +0000, Alexander Lobakin wrote:
-> > > With CONFIG_NET_DSA_MSCC_FELIX=m and CONFIG_NET_DSA_MSCC_SEVILLE=y
-> > > (or vice versa), felix.o are linked to a module and also to vmlinux
-> > > even though the expected CFLAGS are different between builtins and
-> > > modules.
-> > > This is the same situation as fixed by
-> > > commit 637a642f5ca5 ("zstd: Fixing mixed module-builtin objects").
-> > > There's also no need to duplicate relatively big piece of object
-> > > code into two modules.
-> > > 
-> > > Introduce the new module, mscc_core, to provide the common functions
-> > > to both mscc_felix and mscc_seville.
-> > > 
-> > > Fixes: d60bc62de4ae ("net: dsa: seville: build as separate module")
-> > > Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > Signed-off-by: Alexander Lobakin <alobakin@pm.me>
-> > > ---
-> > 
-> > I don't disagree with the patch, but I dislike the name chosen.
-> > How about NET_DSA_OCELOT_LIB and mscc_ocelot_dsa_lib.o? The "core" of
-> > the hardware support is arguably mscc_ocelot_switch_lib.o, I don't think
-> > it would be good to use that word here, since the code you're moving is
-> > no more than a thin glue layer with some DSA specific code.
 
-Sure. I usually barely work with the code touched by the series, so
-often the names can make no sense -- I'm open for better namings
-from the real developers.
-_dsa_lib sounds good, I like it.
+I think these should work correctly
+unless I missed something terribly.
 
-> > 
-> > Adding Colin for a second opinion on the naming. I'm sure things could
-> > have been done better in the first place, just not sure how.
-> 
-> Good catch on this patch. "mscc_ocelot_dsa_lib" makes sense. The only
-> other option that might be considered would be along the lines of
-> "felix_lib". While I know "Felix" is the chip, in the dsa directory it
-> seems to represent the DSA lib in general.
 
-The thing confused me is that one chip is named Felix and the other
-one is Seville, but the shared code is named felix as well. So at
-first I thought maybe Felix is a family of chips and Seville is a
-chip from that family, dunno :D
+In the ASCII-sorting, they are sorted like this:
 
-> 
-> Either one seems fine for me. And thanks for the heads up, as I'll need
-> to make the same changes for ocelot_ext when it is ready.
+3.99.9x  4.2   4.2.x  4.3.x
 
-Something interesting is coming, nice <.<
 
-(re "pls prefix with "net: dsa: ..."" -- roger that)
 
-Thanks,
-Olek
+
+
+
+The bad scenarios I came up with is GNU Make 4.10
+and GNU Make 10.0 because $(sort ) will sort
+
+10  4.10  4.2
+
+
+
+
+GNU Make 4.3 was released in Jan 2020
+GNU Make 4.4 was released in Oct 2022
+
+
+
+If the current release pace continues,
+we will have about 10 years until GNU Make hits 4.10
+
+Until then, we can remove this ifeq.
+
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
