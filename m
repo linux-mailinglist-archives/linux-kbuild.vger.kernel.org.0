@@ -2,161 +2,113 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 58A78636B4E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Nov 2022 21:39:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C579636BA2
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Nov 2022 21:55:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235864AbiKWUjI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 23 Nov 2022 15:39:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33830 "EHLO
+        id S233044AbiKWUzK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 23 Nov 2022 15:55:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240245AbiKWUiO (ORCPT
+        with ESMTP id S230195AbiKWUzJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 23 Nov 2022 15:38:14 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60A1E317E2;
-        Wed, 23 Nov 2022 12:38:05 -0800 (PST)
-Received: from leknes.fjasle.eu ([46.142.96.241]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MN5Nt-1ofaIS20t3-00J19c; Wed, 23 Nov 2022 21:37:25 +0100
-Received: from localhost.fjasle.eu (bergen.fjasle.eu [IPv6:fdda:8718:be81:0:6f0:21ff:fe91:394])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (Client did not present a certificate)
-        by leknes.fjasle.eu (Postfix) with ESMTPS id C03043C0EF;
-        Wed, 23 Nov 2022 21:37:23 +0100 (CET)
-Authentication-Results: leknes.fjasle.eu; dkim=none; dkim-atps=neutral
-Received: by localhost.fjasle.eu (Postfix, from userid 1000)
-        id 012A31C7; Wed, 23 Nov 2022 21:37:19 +0100 (CET)
-Date:   Wed, 23 Nov 2022 21:37:19 +0100
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, llvm@lists.linux.dev
-Subject: Re: [PATCH v2 2/5] kbuild: implement {gcc,clang}-min-version only
- with built-in functions
-Message-ID: <Y36Ef3ie05YO1moS@bergen.fjasle.eu>
-References: <20221123151828.509565-1-masahiroy@kernel.org>
- <20221123151828.509565-2-masahiroy@kernel.org>
+        Wed, 23 Nov 2022 15:55:09 -0500
+Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CAAF85EF1;
+        Wed, 23 Nov 2022 12:55:08 -0800 (PST)
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 2ANKsdRn004945;
+        Thu, 24 Nov 2022 05:54:39 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 2ANKsdRn004945
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1669236880;
+        bh=W0Ib2SwgvlfZvFNNkHagp9wO+nNb60/k15KCdhtTNPU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=j7CKAoX5HqZvjhkRFCz8KAuwVyjkGUDoJxK3O74OqXCIuKkZycXr/QuUW95j56HE2
+         Geh52K06MNb/FABpNrIwtgzErMzPcq++rKkvrEllM8+rjSdNsOGVMua8dQDoG78prk
+         QRzJpz4Vr4IFma2QiB/aAAKiivl4eyARsI/9GSLaO7hQj3luez3XB5Gy5PkMU+aEi9
+         UFdLJ2u4UDnPqNXdvj9ggMgH3K1dciTT+fi2G6FnRCYNPBkbji4tQ3zOBtmctzwWgu
+         zAULNJHE829MEEjKS3W65mNoure9urml9vgWZIpyXv3KCFxUHaqgwdz2e+YxyxIl3x
+         3HfYrdesR6q5Q==
+X-Nifty-SrcIP: [209.85.167.169]
+Received: by mail-oi1-f169.google.com with SMTP id t62so20290821oib.12;
+        Wed, 23 Nov 2022 12:54:39 -0800 (PST)
+X-Gm-Message-State: ANoB5pmwyyVjbMhDCqQMfXjsfA8BWW9YQP1TmJuq1A/kkpKVMLieYqg3
+        sLeRywM/gRVUGbq4IN8Q8WEtVTMG1AAAMWuS57Q=
+X-Google-Smtp-Source: AA0mqf78r/QjKF5VL2n0ZfSDGYbyxuDvPhXLHB3eOJhTrS1cycjh2C+UvutIO0XjG3CCQmml4RIm4jxZKSTA5dsrjdw=
+X-Received: by 2002:aca:1c06:0:b0:354:28ae:23b3 with SMTP id
+ c6-20020aca1c06000000b0035428ae23b3mr6475507oic.287.1669236878717; Wed, 23
+ Nov 2022 12:54:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="PpEkvchnOzhLX3fl"
-Content-Disposition: inline
-In-Reply-To: <20221123151828.509565-2-masahiroy@kernel.org>
-Jabber-ID: nicolas@fjasle.eu
-X-Operating-System: Debian GNU/Linux bookworm/sid
-X-Provags-ID: V03:K1:na8JOkgmRkyUHvQjG/nRKFVayFT0XtmW2jpmkJ4MzytkAMKrjAH
- bFyEPQjPoHJZfuROM8VIYVHGbFRcLPdiwCD/kOoJC8mQJb2Vpo4o6I8tyVyXi+00JhPzs0a
- RRnOfVhFouQuHJU3dOm3U+YGkwsP8YKVrWqad1za0MriHGs0564j4yJfEEPfou/waOmBjuz
- 1h3pnPYz2Gp8KKWi1Fkog==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:W4207Z2qFVU=:RWzvvS9FK2+3aPke4dDHhe
- ts/nLPAIKuTEO1RP61E7BNJe9YIpnhEk4IrlvN+U4LdLFOAr62x3KjaU/9Q+TpEjTY2EfIoRa
- NhG2R1DdUYEBn6lw1o7OMjfTRzncTvomPK61/nAKQAdEt9I1cksY5rQSPt4APbQvgpVh4qnQo
- H33lh44pLsC+o7rvY8oiGGbDWDNhhNPlOW5ZLBcPGl4jZkAUaQf60vh/3u0jd5KOHlb1lYiAM
- cYJzQmBv6/m6AG0wYz+i6H6xJWdDE8B/n9vz/Zj1whSqu8btbXGluI+y3uoco40V+ZRXIbWRM
- vm8kZlvvRgIH8LtTh/exD7INIzWneETN2Yg6K1VDOE4LcQUR/zjPsSJ1rBcCgYaqd82o+stSt
- 4hAfT51tDUsB+2mG8ajhdw/cVjDOZ7ABVair4kKxJ2iZvEM4HvASgcFpYJ+kT2g0nRKdBbRRG
- kG8vaEfWaoyW/09447RaSF1I2+igwknMmzsbfELS2aRPkdXrnzNi8EtSvFdwp0vJaTqOFpXIQ
- qm1VritI8/YRFQC+IuCEXHMGgLgpvKtH/5GgacyCeleTt68tMBLuipwALoE5KmoMgG8cfLwYy
- 2d65fui17a89xlzsfbGse2fTLAMPDzpbJoW8HybAoeLAZHhqBpfCE2jO3ApC7mGacpelWrti9
- jaeMQ1NTF6px2ZyzW5p2UE6f6DUnL3x/cFYVpmGpAVgyuv/26IjiNMHcuSJz5mTzYjMXgQZ5d
- t25Telvu2+8iQExsqTN0tCLX+G/HJg91W2DebSln0P8taSSLvBJOUrqcmldJU+vNBX2GRmtOj
- Zz9eVBp
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20221119225650.1044591-1-alobakin@pm.me> <20221119225650.1044591-18-alobakin@pm.me>
+In-Reply-To: <20221119225650.1044591-18-alobakin@pm.me>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 24 Nov 2022 05:54:02 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARhND_qb+m1+c+AMfT+9DawaoCjz7NT6Ox3EsDmh0F9_w@mail.gmail.com>
+Message-ID: <CAK7LNARhND_qb+m1+c+AMfT+9DawaoCjz7NT6Ox3EsDmh0F9_w@mail.gmail.com>
+Subject: Re: [PATCH 17/18] net: octeontx2: fix mixed module-builtin object
+To:     Alexander Lobakin <alobakin@pm.me>
+Cc:     linux-kbuild@vger.kernel.org, Nicolas Schier <nicolas@fjasle.eu>,
+        Jens Axboe <axboe@kernel.dk>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Tony Luck <tony.luck@intel.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Derek Chickles <dchickles@marvell.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Salil Mehta <salil.mehta@huawei.com>,
+        Sunil Goutham <sgoutham@marvell.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Brown <broonie@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        NXP Linux Team <linux-imx@nxp.com>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
---PpEkvchnOzhLX3fl
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu 24 Nov 2022 00:18:25 GMT, Masahiro Yamada wrote:
-> Converting clang-min-version is straightforward because the versions
-> are always 6-digit.
->=20
-> gcc-min-version is somewhat tricky because the minimal GCC version
-> is GCC 5.2; prepend '0' to the version that is less than 10 so that
-> test-ge is always passed with 6-digit versions.
->=20
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+On Sun, Nov 20, 2022 at 8:10 AM Alexander Lobakin <alobakin@pm.me> wrote:
+>
+> With CONFIG_OCTEONTX2_PF=y and CONFIG_OCTEONTX2_VF=m, several object
+> files  are linked to a module and also to vmlinux even though the
+> expected CFLAGS are different between builtins and modules.
+> This is the same situation as fixed by
+> commit 637a642f5ca5 ("zstd: Fixing mixed module-builtin objects").
+> There's also no need to duplicate relatively big piece of object
+> code into two modules.
+>
+> Introduce the new module, rvu_niccommon, to provide the common
+> functions to both rvu_nicpf and rvu_nicvf. Also, otx2_ptp.o was not
+> shared, but built as a standalone module (it was fixed already a year
+> ago the same way this commit does due to link issues). As it's used
+> by both PF and VF modules in the same way, just link it into that new
+> common one.
+>
+> Fixes: 2da489432747 ("octeontx2-pf: devlink params support to set mcam entry count")
+> Fixes: 8e67558177f8 ("octeontx2-pf: PFC config support with DCBx")
+> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
+> Signed-off-by: Alexander Lobakin <alobakin@pm.me>
 > ---
->=20
-> Changes in v2:
->   - Covert gcc-min-version in a different way
->=20
->  scripts/Makefile.compiler | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->=20
-> diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
-> index 20d353dcabfb..cd75f81e88ef 100644
-> --- a/scripts/Makefile.compiler
-> +++ b/scripts/Makefile.compiler
-> @@ -63,11 +63,15 @@ cc-disable-warning =3D $(call try-run,\
-> =20
->  # gcc-min-version
->  # Usage: cflags-$(call gcc-min-version, 70100) +=3D -foo
-> -gcc-min-version =3D $(shell [ $(CONFIG_GCC_VERSION)0 -ge $(1)0 ] && echo=
- y)
-> +
-> +# Preprend 0 to the version that is less than 10 so test-ge works.
-> +gcc-min-version =3D $(call test-ge, \
-> +                  $(or $(filter 1%, $(CONFIG_GCC_VERSION)), 0$(CONFIG_GC=
-C_VERSION)), \
-> +                  $(or $(filter 1%, $1), 0$(strip $1)))
 
-Hm, this silently expects a gcc version < 20, which we should expect in=20
-about seven-eight years [1].   I am thinking about the possibility of=20
-silent (but unlikely) breaks when someone in far future uses a gcc 20=20
-against a kernel with this line.  Probably we should not care about=20
-that today, yet, right?
 
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
 
-[1]: https://gcc.gnu.org/develop.html#timeline
+Minor:
+otx2_ptp.c uses EXPORT_SYMBOL_GPL().
+It is better to use either EXPORT_SYMBOL_GPL or
+EXPORT_SYMBOL_NS_GPL instead of mixing them.
 
-> =20
->  # clang-min-version
->  # Usage: cflags-$(call clang-min-version, 110000) +=3D -foo
-> -clang-min-version =3D $(shell [ $(CONFIG_CLANG_VERSION)0 -ge $(1)0 ] && =
-echo y)
-> +clang-min-version =3D $(call test-ge, $(CONFIG_CLANG_VERSION), $1)
-> =20
->  # ld-option
->  # Usage: KBUILD_LDFLAGS +=3D $(call ld-option, -X, -Y)
-> --=20
-> 2.34.1
 
---=20
-epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
-=E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
-     -- frykten for herren er opphav til kunnskap --
 
---PpEkvchnOzhLX3fl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmN+hHsACgkQB1IKcBYm
-EmkAThAA5+mKXEmPVZ/5RESfzp3+FMom6bTBouBT+hf2t8aQp6PYzzdFgjnq0hWw
-WbRBrNHqFOSkLJQkL2mo3YfZIORaaLtpOk9VSHWphc7LVQq4rmZGLznJwa4lmhDa
-R54r9pY16ywl660NjlJaL/rsMrTDsizYbs2Aj3fccjqa8js9aekVZ0uyuaIruaYG
-pvWT4VljvowG6YO97KLILsdqJklPd0+YLA/tzBJ/qGacaEzyvGN0ljGO4nLYnWuB
-5xmjW/JTKjUs5JrkNNcYZP9T3QB7u/AmRVp4IcRIOAZ8K/iV+pdWG06+XFB1kmoO
-80B/9sKTCUGtjgxPqmKAGgYd2tGV2vCHRUPs2LVExbYlbRiwKumDrySidSec5Wjs
-5YNjryPS7MyQftL7glG3CeEUB2Xw5IGEbb21rlChS3Q4IlLsBIqlmT9UjPgqz0r+
-F5jnTtnoEx/Lk6WM8a8jUKjxGIrGaiDwFeY+KWVikBPuuzx08JRlVbD/zg155du1
-9F3rpiIlO1OrwWzucaiW2PYrkpUqA8I8XMVBn5d5CtRtxVeQ3aXU081bn68xyM9y
-FzS38YJDMrWfzj6j0wMVYCZb3F1wv97mJBoy7X2+xiq/oEUJmH0B/x/zo/yhZRbi
-W1Q/+L5DygbN11q/1paxAhAIXPxBbFQNWLHvT3Yg3d1dJk21ihY=
-=gMci
------END PGP SIGNATURE-----
-
---PpEkvchnOzhLX3fl--
+--
+Best Regards
+Masahiro Yamada
