@@ -2,55 +2,40 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A3131634B82
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Nov 2022 01:09:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE0B4635C21
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Nov 2022 12:52:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232341AbiKWAIz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 22 Nov 2022 19:08:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38632 "EHLO
+        id S236857AbiKWLv6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 23 Nov 2022 06:51:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233239AbiKWAIy (ORCPT
+        with ESMTP id S236580AbiKWLvy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 22 Nov 2022 19:08:54 -0500
-X-Greylist: delayed 8654 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 22 Nov 2022 16:08:52 PST
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBE35D32A4;
-        Tue, 22 Nov 2022 16:08:52 -0800 (PST)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        Wed, 23 Nov 2022 06:51:54 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99B8265E4;
+        Wed, 23 Nov 2022 03:51:53 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4NH1gj3rZZz9sTQ;
-        Wed, 23 Nov 2022 01:08:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-        t=1669162129;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=cpqvGJ6KHdgLHFmpNmxmrXgmC1bx/Ijm3WunVFRnkw8=;
-        b=NVUYey2k2K8/IrYW3JGEDZESFL6/uhPXoiCIN8SzxBE7jhaaj8sieiF6qlGgllfmUJbbLk
-        xDaoOIRoRtJQmPLi5H3E29F7KatUV8IaZrKIbMXkjnRnH8wKVLx9YvcsQe+NDGVo4NHtUC
-        O/ArolaHMB7GmaJ0Uw686jKXBBrWwV3UeFEGBtmTovhKHxWT8p3/1sG7zInM/e5PjKxaDJ
-        T69o2tdnpewUcxioIL0lxfwyMzEwZirPdjxpJqWEcX+Z0sD3h6Gnv/DmypFZPjPAYJBQLB
-        WmxmO0c+2N48vREjxSYKeUVdKmXBqVwLbWVmeqJJ03SRemLZfZywA54GURowNA==
-From:   Alexander Lobakin <alobakin@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-        t=1669162127;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=cpqvGJ6KHdgLHFmpNmxmrXgmC1bx/Ijm3WunVFRnkw8=;
-        b=WkehU/oV9+TML/PIcxU1BvQiDNn9y2L5Xnh9BkbreCCPYxkL0Nk0U/O+0LNm5r8aDmNpbN
-        HB42nmlAyGfJLZTcxWrcOO4NlAI3UVQ7G+icweKve6RntZnLmJYGb178H+Lgg2lIEKABro
-        +v8pEtdYqQil7x8/hHheEw+rO4OwM/GAFfgGkKg1oiHACXi5kt29fAVO70KzPcbbaKW5Jx
-        OKA17Eq02YcT5ukmzXqMILvdhsQtW9QWviqT5v1ktYokNOKfX5a9PPA+DYR5zhIFBhNDd/
-        xQGK+qT7O/3pLZIQHr2xzwQI8WAnU/TeOkBUFJWrS2JScwOt95cDxCNDFEUiiQ==
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Alexander Lobakin <alobakin@mailbox.org>,
-        Alexander Lobakin <alobakin@pm.me>,
-        linux-kbuild@vger.kernel.org,
+        by ams.source.kernel.org (Postfix) with ESMTPS id 3F0BBB81F15;
+        Wed, 23 Nov 2022 11:51:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFD3DC433B5;
+        Wed, 23 Nov 2022 11:51:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1669204311;
+        bh=phhd+Gdc/wkAagQCT1G+/rsG794g5og7Pbf7/CZVfeY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=A/UzU6ivTd7IAAFQyDa/xI56j3AVN0e9T9sqCMWjOQK0LOvk93P9YZcJM7mYQCe3H
+         pZVpc0QVqoFJ6BQo8jEGEG8//6cz/70/xFnYxnTf6iWQo2IPN4vp0rovKJul2ynDS7
+         cqITQ8IvmMGxZzMeF5Jc5PK5yievH389a8eqTa2ecraq09+nACKfLdggnG5lqyuU1z
+         B/dwqWpM/0npZ/9q4VdLBfrDkikv7X4TCqiMBK9zxZE+NBzPx1jWihEWE5LlQ+yWF8
+         V7vz62NbMcQdm2aK51F7C1MMFqXD05wTDR0JorXwXTIpu/Pgam7GykElLzxkXx5eqf
+         e4gwx9p9cBBjg==
+Date:   Wed, 23 Nov 2022 11:51:42 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Alexander Lobakin <alobakin@mailbox.org>
+Cc:     Alexander Lobakin <alobakin@pm.me>, linux-kbuild@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
         Nicolas Schier <nicolas@fjasle.eu>,
         Jens Axboe <axboe@kernel.dk>,
@@ -64,83 +49,68 @@ Cc:     Alexander Lobakin <alobakin@mailbox.org>,
         Ioana Ciornei <ioana.ciornei@nxp.com>,
         Salil Mehta <salil.mehta@huawei.com>,
         Sunil Goutham <sgoutham@marvell.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
         Daniel Scally <djrscally@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
-        Mark Brown <broonie@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         NXP Linux Team <linux-imx@nxp.com>, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 11/18] platform/x86: int3472: fix object shared between several modules
-Date:   Wed, 23 Nov 2022 01:01:51 +0100
-Message-Id: <20221123000151.64567-1-alobakin@mailbox.org>
-In-Reply-To: <Y3oxyUx0UkWVjGvn@smile.fi.intel.com>
-References: <20221119225650.1044591-1-alobakin@pm.me> <20221119225650.1044591-12-alobakin@pm.me> <Y3oxyUx0UkWVjGvn@smile.fi.intel.com>
+Subject: Re: [PATCH 00/18] treewide: fix object files shared between several
+ modules
+Message-ID: <Y34JTrCARZ1Gllsi@sirena.org.uk>
+References: <20221119225650.1044591-1-alobakin@pm.me>
+ <Y3oWYhw9VZOANneu@sirena.org.uk>
+ <20221122213754.45474-1-alobakin@mailbox.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 128ac0f89d98468d511
-X-MBO-RS-META: 48m5g8ybbkypsfb8mrejc38cmasgeyh5
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="yzeGM2sBEGtnAUH/"
+Content-Disposition: inline
+In-Reply-To: <20221122213754.45474-1-alobakin@mailbox.org>
+X-Cookie: I'm rated PG-34!!
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Date: Sun, 20 Nov 2022 15:55:21 +0200
 
-> On Sat, Nov 19, 2022 at 11:08:17PM +0000, Alexander Lobakin wrote:
-> > common.o is linked to both intel_skl_int3472_{discrete,tps68470}:
-> > 
-> > > scripts/Makefile.build:252: ./drivers/platform/x86/intel/int3472/Makefile:
-> > > common.o is added to multiple modules: intel_skl_int3472_discrete
-> > > intel_skl_int3472_tps68470
-> > 
-> > Although both drivers share one Kconfig option
-> > (CONFIG_INTEL_SKL_INT3472), it's better to not link one object file
-> > into several modules (and/or vmlinux).
-> > Under certain circumstances, such can lead to the situation fixed by
-> > commit 637a642f5ca5 ("zstd: Fixing mixed module-builtin objects").
-> > 
-> > Introduce the new module, intel_skl_int3472_common, to provide the
-> > functions from common.o to both discrete and tps68470 drivers. This
-> > adds only 3 exports and doesn't provide any changes to the actual
-> > code.
-> 
-> ...
-> 
-> > +MODULE_IMPORT_NS(INTEL_SKL_INT3472);
-> > +
-> 
-> Redundant blank line. You may put it to be last MODULE_*() in the file, if you
-> think it would be more visible.
+--yzeGM2sBEGtnAUH/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-My intention was that it's not "standard" module info like license
-or description, rather something like exports or initcalls, that's
-why I did separate them.
-But I haven't been using module namespaces a lot previously, so if
-it should be in one block with the rest MODULE_*(), sure, I'll fix.
+On Tue, Nov 22, 2022 at 10:37:54PM +0100, Alexander Lobakin wrote:
+> From: Mark Brown <broonie@kernel.org>
+> > On Sat, Nov 19, 2022 at 11:03:57PM +0000, Alexander Lobakin wrote:
 
-> 
-> >  MODULE_DESCRIPTION("Intel SkyLake INT3472 ACPI Discrete Device Driver");
-> >  MODULE_AUTHOR("Daniel Scally <djrscally@gmail.com>");
-> >  MODULE_LICENSE("GPL v2");
-> 
-> ...
-> 
-> > +MODULE_IMPORT_NS(INTEL_SKL_INT3472);
-> > +
-> >  MODULE_DESCRIPTION("Intel SkyLake INT3472 ACPI TPS68470 Device Driver");
-> >  MODULE_AUTHOR("Daniel Scally <djrscally@gmail.com>");
-> >  MODULE_LICENSE("GPL v2");
-> 
-> Ditto. And the same to all your patches.
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
+> > Your mails appear to be encrypted which isn't helping with
+> > review...
 
-Thanks,
-Olek
+> Oh I'm sorry. I gave ProtonMail one more chance. I had the same
+> issue with them at spring, they told me then that it's a super-pro
+> builtin feature that I can't disable :clownface: They promised to
+> "think on it" tho, so I thought maybe after half a year...
+> Nope. Ok, whatever. My workaround will be the same as Conor's, just
+> to change the provider lol.
+> Should be better now?
+
+Yes, everything's fine now - thanks for looking into it.
+
+--yzeGM2sBEGtnAUH/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmN+CU0ACgkQJNaLcl1U
+h9ARigf9GW+E64m62h0pb2LtRUO0gPTWvPUn+ORptGnHGlsvJVhzigffMuHNhxY9
+0nhYtG/KF7hqMTiL5BFqCp2qI2FUGIEAS2DqHgNDuysHP18pMah388xpWdnCrmAi
+m6snZhHVpJKaCo6te9Sn+L+ilFbmGYdyInKp7QsOAFHj7YJ9ceiK90BefO8GTR4T
+Dz7B5fHFhaWWRAjR+KWZSrJPAMGVGLb0ezkStlrTeMoo4dSnzsNDqpy1n6N5hie3
+h5Xuh0oj7jPRtJV8d0vqzeE9sjF6eI0WxDA9+Jt/WQP03fUF2XPJqsia/u8RUGQN
+b4rLpDDGVV72tJgL6eFoJU2Pdxc7qQ==
+=8oQE
+-----END PGP SIGNATURE-----
+
+--yzeGM2sBEGtnAUH/--
