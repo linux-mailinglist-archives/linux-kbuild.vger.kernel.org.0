@@ -2,113 +2,181 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D60B63871E
-	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Nov 2022 11:12:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA071639880
+	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Nov 2022 23:56:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229888AbiKYKMf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 25 Nov 2022 05:12:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38070 "EHLO
+        id S229628AbiKZW4h (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 26 Nov 2022 17:56:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229914AbiKYKMe (ORCPT
+        with ESMTP id S229504AbiKZW4g (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 25 Nov 2022 05:12:34 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D802663D8;
-        Fri, 25 Nov 2022 02:12:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669371152; x=1700907152;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=o//XUtOlF+UX8a4XRDWL4tEuWkSd7eyjbaM1wz1SITA=;
-  b=YTPHWM4AEbaGftks/hydfoSgel3uCKeZrzOlEwyyVbBmgyWdTMx+ayRW
-   3U/YaU8kv/sVu+OIU+BqIMwzIpeXLZXxnqEJ9i/x1vbELEEvXi/Sm8zRZ
-   rJsgIfmEG6VXN7z2bAyc1Wm5SUKwV4Wbe/zUnPBlfOSG0onmRk5bDNx/k
-   rCS2lbiX+/ZKZViMcL2mZu1iOP+BlJVe0TNNrtuy19pVnUkgBPgy17sNe
-   JCXmI+IakXcRpjnY6tQsKmyniV90Q8jM19DSyYfRZ4wmcoAvBwHEXtn0S
-   xdfIIcrqWAkf0Y0d8kpegFNUOSIzlZsBIuKUg1lXx/ZMOx8+0Syy/XwRS
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10541"; a="314489050"
-X-IronPort-AV: E=Sophos;i="5.96,193,1665471600"; 
-   d="scan'208";a="314489050"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2022 02:12:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10541"; a="767329452"
-X-IronPort-AV: E=Sophos;i="5.96,193,1665471600"; 
-   d="scan'208";a="767329452"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga004.jf.intel.com with ESMTP; 25 Nov 2022 02:12:29 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 8C9DF12B; Fri, 25 Nov 2022 12:12:55 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Sat, 26 Nov 2022 17:56:36 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1733A14033;
+        Sat, 26 Nov 2022 14:56:35 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 49BE860C68;
+        Sat, 26 Nov 2022 22:56:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F234C433D6;
+        Sat, 26 Nov 2022 22:56:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1669503393;
+        bh=m3ZEUK0zXePJycyJFWyVV/OydFcxPrFRvDSAjxSAbFg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=PO2FYMebNnz4Pbfnw8L4jSaDjHMCbBhjOKGHHL0XHqdTEbi9z/rQObYtc5Y1R8A90
+         BfP+J0A5NJQO/9ZpskWhGvFqo5+N4UbA0/KELhr4nfVkR0ZcrD5JbPC1XmRdq5UvCz
+         pFFTHtOLfHL63Xa2FRll9c/1SMNrWbyeqdSa70SK2xcfK3idyIdASCNjALTZ63eR3K
+         ohcsiMfWB1/6ELvIZtYDEiD5am3qskj/aG4I3aGJiffQ6/AUoPbLkPFBggduWJ0HJm
+         nCMros1t7GTgCwsh69Z3buA7Ohtivt+nh04MO1b+ORFjDV8YmaxH8p9/yBPTU9m54E
+         8g2ZlTEp/i1OA==
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 1/1] modpost: Mark uuid_le type to be suitable only for MEI
-Date:   Fri, 25 Nov 2022 12:12:49 +0200
-Message-Id: <20221125101249.24931-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.35.1
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tom Rix <trix@redhat.com>, linux-riscv@lists.infradead.org,
+        llvm@lists.linux.dev, x86@kernel.org
+Subject: [PATCH v3 1/5] kbuild: add test-{le,ge,lt,gt} macros
+Date:   Sun, 27 Nov 2022 07:56:20 +0900
+Message-Id: <20221126225624.751661-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The uuid_le type is used only in MEI ABI, do not advertise it for others.
-While at it, comment out that UUID types are not to be used in a new code.
+Because GNU Make is handle strings, it is very hard to perform math in
+Makefiles.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+When we compare two integers, we invokes shell. One example is in the
+top Makefile:
+
+  ifeq ($(shell test $(CONFIG_LLD_VERSION) -lt 130000; echo $$?),0)
+
+This is more expensive than using built-in functions since it forks a
+process.
+
+If we know the two have the same number of digits, we can do better.
+
+This commit adds four macros, test-le, test-ge, test-lt, test-gt.
+
+$(call test-lt, A, B) is evaluated to 'y' if A is less than B, or
+empty otherwise. This will replace $(call shell test A -lt B).
+
+Again, the limitation is that A and B must have the same number of
+digits because these macros are based on $(sort ) function.
+
+  $(call test-lt, 1, 9)    -->  y        (Works!)
+  $(call test-lt, 10, 9)   -->  y        (Not work...)
+
+To make the latter work, you need to add '0' prefix to align the number
+of digits:
+
+  $(call test-lt, 10, 09)  -->  empty    (Works!)
+
+Actually, we can live with this limitation in many places. As for the
+example above, we know $(CONFIG_LLD_VERSION) is 6-digits because the
+minimal supported version of LLVM is 11.0.0 (or CONFIG_LLD_VERSION=0
+if the linker is not LLD, this case also works.)
+
+So, the shell invocation can be replaced with more efficient code:
+
+  ifeq ($(call test-lt, $(CONFIG_LLD_VERSION), 130000),y)
+
+Of course, this assumption will break when LLVM 100 is released, but it
+will be far in the future.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 ---
 
-If you confused by acrn user of the uuid_le type, the patch to fix that
-is pending for v6.2 as well 1dbb4f0235a4 ("virt: acrn: Mark the uuid
-field as unused"). Nevertheless this patch doesn't break the things and
-hence can go independently to the respective tree.
+Changes in v3:
+  - Ensure the given parameters are not empty
 
- scripts/mod/file2alias.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ Makefile               |  2 +-
+ arch/riscv/Makefile    |  2 +-
+ arch/x86/Makefile      |  2 +-
+ scripts/Kbuild.include | 10 ++++++++++
+ 4 files changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-index 7df23905fdf1..91c2e7ba5e52 100644
---- a/scripts/mod/file2alias.c
-+++ b/scripts/mod/file2alias.c
-@@ -34,19 +34,23 @@ typedef Elf64_Addr	kernel_ulong_t;
- typedef uint32_t	__u32;
- typedef uint16_t	__u16;
- typedef unsigned char	__u8;
-+
-+/* UUID types for backward compatibility, don't use in new code */
- typedef struct {
- 	__u8 b[16];
- } guid_t;
+diff --git a/Makefile b/Makefile
+index 6f846b1f2618..eb80332f7b51 100644
+--- a/Makefile
++++ b/Makefile
+@@ -986,7 +986,7 @@ KBUILD_LDFLAGS += -mllvm -import-instr-limit=5
+ # Check for frame size exceeding threshold during prolog/epilog insertion
+ # when using lld < 13.0.0.
+ ifneq ($(CONFIG_FRAME_WARN),0)
+-ifeq ($(shell test $(CONFIG_LLD_VERSION) -lt 130000; echo $$?),0)
++ifeq ($(call test-lt, $(CONFIG_LLD_VERSION), 130000),y)
+ KBUILD_LDFLAGS	+= -plugin-opt=-warn-stack-size=$(CONFIG_FRAME_WARN)
+ endif
+ endif
+diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
+index 0d13b597cb55..faf2c2177094 100644
+--- a/arch/riscv/Makefile
++++ b/arch/riscv/Makefile
+@@ -37,7 +37,7 @@ else
+ endif
  
--/* backwards compatibility, don't use in new code */
--typedef struct {
--	__u8 b[16];
--} uuid_le;
- typedef struct {
- 	__u8 b[16];
- } uuid_t;
-+
- #define	UUID_STRING_LEN		36
+ ifeq ($(CONFIG_LD_IS_LLD),y)
+-ifeq ($(shell test $(CONFIG_LLD_VERSION) -lt 150000; echo $$?),0)
++ifeq ($(call test-lt, $(CONFIG_LLD_VERSION), 150000),y)
+ 	KBUILD_CFLAGS += -mno-relax
+ 	KBUILD_AFLAGS += -mno-relax
+ ifndef CONFIG_AS_IS_LLVM
+diff --git a/arch/x86/Makefile b/arch/x86/Makefile
+index 415a5d138de4..e72c7a49cd59 100644
+--- a/arch/x86/Makefile
++++ b/arch/x86/Makefile
+@@ -211,7 +211,7 @@ endif
+ KBUILD_LDFLAGS += -m elf_$(UTS_MACHINE)
  
-+/* MEI UUID type, don't use anywhere else */
-+typedef struct {
-+	__u8 b[16];
-+} uuid_le;
+ ifdef CONFIG_LTO_CLANG
+-ifeq ($(shell test $(CONFIG_LLD_VERSION) -lt 130000; echo $$?),0)
++ifeq ($(call test-lt, $(CONFIG_LLD_VERSION), 130000),y)
+ KBUILD_LDFLAGS	+= -plugin-opt=-stack-alignment=$(if $(CONFIG_X86_32),4,8)
+ endif
+ endif
+diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+index cbe28744637b..4b8cf464b53b 100644
+--- a/scripts/Kbuild.include
++++ b/scripts/Kbuild.include
+@@ -11,6 +11,16 @@ space   := $(empty) $(empty)
+ space_escape := _-_SPACE_-_
+ pound := \#
+ 
++###
++# Comparison macros.
++# Usage: $(call test-le, A, B)
++# works like shell's "test A -le B", use with care bacause it is ASCII sort.
++# If A and B have the same number of digits, it works as expected.
++test-le = $(and $(strip $1),$(strip $2),$(filter $1, $(firstword $(sort $1 $2))),y)
++test-ge = $(call test-le, $2, $1)
++test-lt = $(and $(strip $1),$(strip $2),$(filter-out $2, $(firstword $(sort $1 $2))),y)
++test-gt = $(call test-lt, $2, $1)
 +
- /* Big exception to the "don't include kernel headers into userspace, which
-  * even potentially has different endianness and word sizes, since
-  * we handle those differences explicitly below */
+ ###
+ # Name of target with a '.' as filename prefix. foo/bar.o => foo/.bar.o
+ dot-target = $(dir $@).$(notdir $@)
 -- 
-2.35.1
+2.34.1
 
