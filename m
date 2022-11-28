@@ -2,78 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B3E6639B8E
-	for <lists+linux-kbuild@lfdr.de>; Sun, 27 Nov 2022 16:37:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F7BF63A3A8
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Nov 2022 09:55:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229601AbiK0PhL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 27 Nov 2022 10:37:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52910 "EHLO
+        id S229936AbiK1Iza (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 28 Nov 2022 03:55:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229550AbiK0PhK (ORCPT
+        with ESMTP id S229752AbiK1Iz3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 27 Nov 2022 10:37:10 -0500
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3684DEB1
-        for <linux-kbuild@vger.kernel.org>; Sun, 27 Nov 2022 07:37:09 -0800 (PST)
-Received: by mail-qv1-f48.google.com with SMTP id i12so5871647qvs.2
-        for <linux-kbuild@vger.kernel.org>; Sun, 27 Nov 2022 07:37:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dWn1H2wut0bpXF+6gWs1e4RvffBYdSkkZX/PkuR/kbk=;
-        b=0BBQb+17LGW1WsYHBjZ6zom4MspZygwKrHcQvB4X1lOQThZ/NeC0qaB7gsJf2WBwOZ
-         uFnsbLMTMohgo1+223iimcEPOLTKi9qrVzfhXrK7XnLcDaFiHgkZw0zcUBtnqpFVj5OI
-         uibw+08c1WYBpOBqsuaZdGppDEPu0NorfDZ+MI3boMXv38IMRAy3cc3FdXYNK/k4HTXM
-         oMFdEOOali72Zl7CdNVh60dF/rS/xznYTLMRQ6oEXLeIKzETilP2ly/rzy1bH4ZJpyO7
-         qFPMhGWob5oKGVyYV6YW8tHfMxpWdUxmpeJPKdz2DdQFIECkmNyhjz+WMDL1W+xbszBj
-         8CXg==
-X-Gm-Message-State: ANoB5plc8B2HBr208rKA0EcPvhSfRxJ+phSskI/zQ47cVXwTQfztsrDH
-        DqbMeD151AeeQVq8GzkDvC5S2lmyvIsXD9n1MgCxCt9Ux2w=
-X-Google-Smtp-Source: AA0mqf5JTCJfURPXEPKzTgwEWwoDbr0r658HFS6oyIvHfg4DHon/lW3FNKfmpNCVk7KB7pX77VRf7J4070SG5rqw9vc=
-X-Received: by 2002:a05:6214:3c9a:b0:4c6:141f:819c with SMTP id
- ok26-20020a0562143c9a00b004c6141f819cmr26299616qvb.76.1669563428735; Sun, 27
- Nov 2022 07:37:08 -0800 (PST)
+        Mon, 28 Nov 2022 03:55:29 -0500
+X-Greylist: delayed 526 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 28 Nov 2022 00:55:28 PST
+Received: from mail.drewingbiz.pl (mail.drewingbiz.pl [80.211.27.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97E7AEE0B
+        for <linux-kbuild@vger.kernel.org>; Mon, 28 Nov 2022 00:55:28 -0800 (PST)
+Received: by mail.drewingbiz.pl (Postfix, from userid 1001)
+        id 49416A3B4E; Mon, 28 Nov 2022 08:46:34 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=drewingbiz.pl;
+        s=mail; t=1669625203;
+        bh=UD54pjeSvmjUvpN5zztXHgmrjQnJSNUmuwCLwOP/qfE=;
+        h=Date:From:To:Subject:From;
+        b=jSDWM/XZZ1RGSQjOdeqt6h5pthDrn7so8Piu7k00Q9tCHJocboONdp/LvqWpIAMNx
+         oHAUrLGWss4KPkC4qBkYUGg7e7MstN4gWlGjVapqr40a7Gb/vWiwZHXMZFrA1CkzpB
+         dYeTmwb/ZhsaLYgOFKVvzl+2EsXldVnx6v+LHWsNfPMsliaoefoPc1iOTdEMXhsEsk
+         0VBPDmVaEVaI4fNtyJdMKxgQUCkR7yGEwea4lfflIOxzVgL5XkJPPpt7JCKWLM09mO
+         LriQ7pJsQYOgfZlWFqPXqvDrABy/NOm98jG1nbHDfC4tYpLrCff5Lz5DUelOK/XirA
+         i6gTkbdXteegg==
+Received: by mail.drewingbiz.pl for <linux-kbuild@vger.kernel.org>; Mon, 28 Nov 2022 08:46:24 GMT
+Message-ID: <20221128074500-0.1.65.mt8k.0.mbpgomkhnm@drewingbiz.pl>
+Date:   Mon, 28 Nov 2022 08:46:24 GMT
+From:   "Dominik Chrostek" <dominik.chrostek@drewingbiz.pl>
+To:     <linux-kbuild@vger.kernel.org>
+Subject: =?UTF-8?Q?Odroczenie_zap=C5=82aty?=
+X-Mailer: mail.drewingbiz.pl
 MIME-Version: 1.0
-References: <CAG+Z0CviRhBQqWfAPFDht+mWUJf4azPSZgOV0jrur_YSP23__A@mail.gmail.com>
- <CAK7LNAQP4S0ACMkB3KtaJTaeRkpT_KjRa4CrYxNJboTdthN=Zw@mail.gmail.com>
-In-Reply-To: <CAK7LNAQP4S0ACMkB3KtaJTaeRkpT_KjRa4CrYxNJboTdthN=Zw@mail.gmail.com>
-From:   Dmitry Goncharov <dgoncharov@users.sf.net>
-Date:   Sun, 27 Nov 2022 10:36:57 -0500
-Message-ID: <CAG+Z0CtZCzhvKuEev64w-8sT11fxNPd2vw=tOOGTBDJvRFjuZQ@mail.gmail.com>
-Subject: Re: Port silent mode detection to future gnu make.
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=1.1 required=5.0 tests=BAYES_20,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_VALIDITY_RPBL,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Nov 27, 2022 at 1:02 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> Please come back after your patch is applied
-> (and please have the patch include the commit hash
-> causing the behaviour change)
+Dzie=C5=84 dobry,
 
-Will do
+czy chcieliby odroczy=C4=87 p=C5=82atno=C5=9B=C4=87 za towary u dostawc=C3=
+=B3w?
 
-> BTW, the GNU Make manual suggests $(word 1) instead of $(firstword).
-> Is it for the purpose of backward compatibility for older
-> Make versions?
+Mo=C5=BCemy zap=C5=82aci=C4=87 za Pa=C5=84stwa zam=C3=B3wienia, a po zap=C5=
+=82acie wystawimy Pa=C5=84stwu faktur=C4=99 z odroczonym terminem p=C5=82=
+atno=C5=9Bci nawet do 90 dni.
 
-Paul chose $(word 1) for this example. i am not sure if there was any
-specific reason. $(firstword) would do the same.
+Byliby Pa=C5=84stwo zainteresowani tak=C4=85 mo=C5=BCliwo=C5=9Bci=C4=85?
 
 
-> The kernel build only supports Make>=3.82, and I personally prefer
-> $(firstword).
-
-3.82 had firstword. Will replace $(word 1) with $(firstword).
-
-regards, Dmitry
+Pozdrawiam
+Dominik Chrostek
