@@ -2,140 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 433C363C720
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Nov 2022 19:25:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 72B5263C7B6
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Nov 2022 20:02:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234542AbiK2SZs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 29 Nov 2022 13:25:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40836 "EHLO
+        id S236321AbiK2TCm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 29 Nov 2022 14:02:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230410AbiK2SZr (ORCPT
+        with ESMTP id S236394AbiK2TCU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 29 Nov 2022 13:25:47 -0500
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E58885F85E;
-        Tue, 29 Nov 2022 10:25:45 -0800 (PST)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 2ATIOwuG005450;
-        Tue, 29 Nov 2022 12:24:58 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1669746299;
-        bh=ofMM1FHrj8VajyNy27mGe2ShSZNNvZ2bILHbYWk3VJQ=;
-        h=Date:Subject:To:CC:References:From:In-Reply-To;
-        b=djwnf6jE3TwlGYj1RIbw9GX7+4f3x78hY1Mvzg0UKLTW5+V970/q5OXrbSd6AIhL9
-         yAI3A2MbEZsEb+L4GX4j6yomYq3CMSQmEJ2mxJKWpZkgwo//KGkfEXhWzZ6g7+/xiq
-         4nT/8oIbh4X/qE+phQyt4Fuub84oK1EHybTAJaMM=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 2ATIOwkr018566
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 29 Nov 2022 12:24:58 -0600
-Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Tue, 29
- Nov 2022 12:24:58 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Tue, 29 Nov 2022 12:24:58 -0600
-Received: from [10.250.38.44] (ileaxei01-snat.itg.ti.com [10.180.69.5])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 2ATIOvbE020258;
-        Tue, 29 Nov 2022 12:24:57 -0600
-Message-ID: <922413d0-c566-7765-f374-6f64d94f39aa@ti.com>
-Date:   Tue, 29 Nov 2022 12:24:56 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 01/18] block/rnbd: fix mixed module-builtin object
-Content-Language: en-US
+        Tue, 29 Nov 2022 14:02:20 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0444BA1BD;
+        Tue, 29 Nov 2022 11:02:07 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9371461874;
+        Tue, 29 Nov 2022 19:02:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4124BC433C1;
+        Tue, 29 Nov 2022 19:02:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1669748526;
+        bh=76rMPn3p1fYb/OlmUR+9LC3Aio6SHBw/oxeOcaAWk9w=;
+        h=From:To:Cc:Subject:Date:From;
+        b=KsKrOrONiEvlBlKvrXEX0OiVBSQotOXCPTrbKjOJbp/7GWjnAYrOgYffiJ2aEIY+i
+         Tovr9GCVJ2wAVvUR8bCLWC8UxRb+hHm6wAJsXKOuTnsmDtDVQIdaC/Az60aSgN4JWt
+         IWBseyS/WVHS6nJ9Lugdg52Iv8bQKgXnGPfO7GiqDR7u0DEDN4/ZtADZ0lxF77qTgL
+         3IJ1jie/n/iRcwcd01gIRCcjTW1BI7h/c431CXz0Kl/fmnqxzxnHCtSH5stwKVFoqH
+         hFkye6zaTnM73DBTWqD78knjzqIY93eSq+VU9Ve/dJOs6g+3HvZ2ej7MtqfRiT3FGr
+         6/C0P/ac9EXyw==
+From:   Nathan Chancellor <nathan@kernel.org>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-CC:     Alexander Lobakin <alobakin@pm.me>, <linux-kbuild@vger.kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jens Axboe <axboe@kernel.dk>,
-        "Boris Brezillon" <bbrezillon@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Tony Luck <tony.luck@intel.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        "Vladimir Oltean" <vladimir.oltean@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Derek Chickles <dchickles@marvell.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Salil Mehta <salil.mehta@huawei.com>,
-        Sunil Goutham <sgoutham@marvell.com>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        "Hans de Goede" <hdegoede@redhat.com>,
-        Mark Brown <broonie@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        NXP Linux Team <linux-imx@nxp.com>, <netdev@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20221119225650.1044591-1-alobakin@pm.me>
- <20221119225650.1044591-2-alobakin@pm.me>
- <68ceddec-7af9-983d-c8be-7e0dc109df88@ti.com>
- <CAK7LNAT_PuL0vuYaPxKZ3AfrojBC2tEXUA7Gqs2VuVuoTVoXmQ@mail.gmail.com>
-From:   Andrew Davis <afd@ti.com>
-In-Reply-To: <CAK7LNAT_PuL0vuYaPxKZ3AfrojBC2tEXUA7Gqs2VuVuoTVoXmQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, Nicolas Schier <nicolas@fjasle.eu>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Vincent Donnefort <vdonnefort@google.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev, patches@lists.linux.dev,
+        Nathan Chancellor <nathan@kernel.org>,
+        Steffen Klassert <steffen.klassert@secunet.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        linux-crypto@vger.kernel.org
+Subject: [PATCH 0/2] Fix lack of section mismatch warnings with LTO
+Date:   Tue, 29 Nov 2022 12:01:21 -0700
+Message-Id: <20221129190123.872394-1-nathan@kernel.org>
+X-Mailer: git-send-email 2.38.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 11/21/22 11:59 PM, Masahiro Yamada wrote:
-> On Tue, Nov 22, 2022 at 6:18 AM Andrew Davis <afd@ti.com> wrote:
->>
->> On 11/19/22 5:04 PM, Alexander Lobakin wrote:
->>> From: Masahiro Yamada <masahiroy@kernel.org>
->>>
->>> With CONFIG_BLK_DEV_RNBD_CLIENT=m and CONFIG_BLK_DEV_RNBD_SERVER=y
->>> (or vice versa), rnbd-common.o is linked to a module and also to
->>> vmlinux even though CFLAGS are different between builtins and modules.
->>>
->>> This is the same situation as fixed by commit 637a642f5ca5 ("zstd:
->>> Fixing mixed module-builtin objects").
->>>
->>> Turn rnbd_access_mode_str() into an inline function.
->>>
->>
->> Why inline? All you should need is "static" to keep these internal to
->> each compilation unit. Inline also bloats the object files when the
->> function is called from multiple places. Let the compiler decide when
->> to inline.
->>
->> Andrew
-> 
-> 
-> Since it is a header file.
-> 
-> 
-> In header files, "static inline" should be always used.
-> Never "static".
-> 
 
-My comment was more "why"?
+Hi all,
 
-> 
-> If a header is included from a C file and there is a function
-> that is not used from that C file,
-> "static" would emit -Wunused-function warning
-> (-Wunused-function is enabled by -Wall, which is the case
-> for the kernel build).
-> 
-> 
+Vincent recently reported an issue with lack of section mismatch
+warnings with LTO. This is due to commit 6c730bfc894f ("modpost: handle
+-ffunction-sections"), which ignores all function sections for modpost.
 
-Inline still hints to the compiler to inline, causing unneeded
-object size bloat. Using "inline" to signal something else (that
-the function may be unused) when we already have a flag for that
-(__maybe_unused) feels wrong.
+I believe this is incorrect, as these function sections may still refer
+to symbols in other sections and they will ultimately be coalesced into
+.text by vmlinux.lds anyways.
 
-Seems this was already debated way back in 2006.. So maybe not
-worth revisiting today, but still a cleanup that could be good
-to think more about later.
+The first patch fixes a warning that I see with allmodconfig + ThinLTO
+builds after applying the second patch. The second patch moves ".text.*"
+into TEXT_SECTIONS so that modpost audits them for mismatches.
 
-Andrew
+I expect this to go via the kbuild tree with an ack from the padata
+maintainers.
+
+Cc: Steffen Klassert <steffen.klassert@secunet.com>
+Cc: Daniel Jordan <daniel.m.jordan@oracle.com>
+Cc: linux-crypto@vger.kernel.org
+
+Nathan Chancellor (2):
+  padata: Do not mark padata_mt_helper() as __init
+  modpost: Include '.text.*' in TEXT_SECTIONS
+
+ kernel/padata.c       | 4 ++--
+ scripts/mod/modpost.c | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+
+base-commit: b7b275e60bcd5f89771e865a8239325f86d9927d
+-- 
+2.38.1
+
