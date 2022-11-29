@@ -2,125 +2,108 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B2D1763B9BC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Nov 2022 07:19:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 901AF63C62B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Nov 2022 18:10:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235529AbiK2GTq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 29 Nov 2022 01:19:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47338 "EHLO
+        id S235710AbiK2RKP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 29 Nov 2022 12:10:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234251AbiK2GTq (ORCPT
+        with ESMTP id S235644AbiK2RKN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 29 Nov 2022 01:19:46 -0500
-Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1810A29CB4
-        for <linux-kbuild@vger.kernel.org>; Mon, 28 Nov 2022 22:19:44 -0800 (PST)
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 2AT6JPqR032551
-        for <linux-kbuild@vger.kernel.org>; Tue, 29 Nov 2022 15:19:26 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 2AT6JPqR032551
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1669702766;
-        bh=xPdOvPG/Xx4t/vZnJSXhAeaJNa7NgrjzimmldXIAAnI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=vv9Q1S890PtRZQ3lxyUGg1A+hp7MblAhVUSnBaSfgD99zJTV6q+WBMFPQwSDKvOZ6
-         4zyMJpsCJgQuK0OzdJscYGIEU9KvUCEhlJYwwRFrWW2Zneog7qx7MMneOxaIhzFRxr
-         kmS/gp8+cSHONF/GqOZQwY8aD89UzNHMkt6bF6cWVUJGImSY7ZRL3ZG1XQQy8viEUc
-         igTg2Wd2Qj+hqRJPvPEeBCmvZZZ0RiS3lrAeEa06j8LIlgrUypOFTd9IAu+0FHHuyK
-         eYocc7dVA310Y8hBT6U/sOeshjW8jsUuTQt7iGee5d/yqxAb3dPHwclXmb95m1zf4a
-         FmwTxfJCQrZhA==
-X-Nifty-SrcIP: [209.85.160.49]
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-14263779059so15887679fac.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 28 Nov 2022 22:19:26 -0800 (PST)
-X-Gm-Message-State: ANoB5pkGyiIIYBrcEPmjjkgGKt6gDv2XU0i53UNp1eExD3ox03SEUxWj
-        kDYpjeqp/cFuueesgsPqXXxUbXPKGvOH7YzrbKs=
-X-Google-Smtp-Source: AA0mqf5zKmNEWLXv+1QiSrp2yv6pq2rFlL3okPqI6O8Qf6S5NLlkNhBHCwz3bd3jtBauoDFiS9t0ST7lZ5f1B81qCgk=
-X-Received: by 2002:a05:6870:ea8e:b0:13b:a31f:45fd with SMTP id
- s14-20020a056870ea8e00b0013ba31f45fdmr33495313oap.194.1669702765184; Mon, 28
- Nov 2022 22:19:25 -0800 (PST)
+        Tue, 29 Nov 2022 12:10:13 -0500
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55E3F5EFA9
+        for <linux-kbuild@vger.kernel.org>; Tue, 29 Nov 2022 09:10:12 -0800 (PST)
+Received: by mail-qt1-f182.google.com with SMTP id a27so9346349qtw.10
+        for <linux-kbuild@vger.kernel.org>; Tue, 29 Nov 2022 09:10:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=olH4++MpFlh781TGcmCdYXEtM6cHEv+M/z1JC9wlo7E=;
+        b=B7m7e1avKIFjjP7pt/v7tllA+L8tAFEiZymw3X5x6HrICY6H23S8cFlsUDpwLfcOt3
+         cRY2R9o7TdSTRg/ADmIhHFt8i2w8Yne4YsXBiZx6A5CsHw0Ev9K21hAcVh+SYd+mtn6s
+         6r8ySwPMPW5aHdy6NbEX/DwS/vvMBzl3PxXJA29s1YojHpz7vG7YYaGm0mgTNe3hAdCH
+         yb6o8eu0cczhvsKn6DzBrbEymfl7eMLA5s6+ppsTnMsDkY9SZ4yxhMGe04vh6MYh/7Mu
+         i2yMrM26IX8hzjZwe/6jnEpgv7Ph81nMuL8tUvHrXWJw4AgQLdYzcbn08RieHxl0lXvS
+         6ooA==
+X-Gm-Message-State: ANoB5pnY1QNzXSFQTAcBJUOwq+svCEbX1jJ2fzWozuw2rbVjM4aivQ8S
+        PznadhRiSHulrkI+YUb5ED8vfAmv6fKZ7UCsths=
+X-Google-Smtp-Source: AA0mqf6LSOKEgOiEPtXKNi+dT4cN94W1vYmCVP1l+0FWFme6cBEsSzNSLjWCcZCB/lqoIQu4XqqpngtYzVxX1WAv/pA=
+X-Received: by 2002:ac8:6792:0:b0:3a5:1c8b:8890 with SMTP id
+ b18-20020ac86792000000b003a51c8b8890mr54669703qtp.63.1669741811388; Tue, 29
+ Nov 2022 09:10:11 -0800 (PST)
 MIME-Version: 1.0
-References: <CAG+Z0CviRhBQqWfAPFDht+mWUJf4azPSZgOV0jrur_YSP23__A@mail.gmail.com>
- <CAK7LNAQP4S0ACMkB3KtaJTaeRkpT_KjRa4CrYxNJboTdthN=Zw@mail.gmail.com> <CAG+Z0CvGfuMpM+VpMaPJVY9EjrDztJxMgYKW2Tp_XR1SX0Xxxg@mail.gmail.com>
-In-Reply-To: <CAG+Z0CvGfuMpM+VpMaPJVY9EjrDztJxMgYKW2Tp_XR1SX0Xxxg@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 29 Nov 2022 15:18:48 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQn248OsEGXCRFNURt7VC6eNfu-EEtphdtw9uNJPD_16Q@mail.gmail.com>
-Message-ID: <CAK7LNAQn248OsEGXCRFNURt7VC6eNfu-EEtphdtw9uNJPD_16Q@mail.gmail.com>
-Subject: Re: Port silent mode detection to future gnu make.
-To:     Dmitry Goncharov <dgoncharov@users.sf.net>
-Cc:     linux-kbuild@vger.kernel.org
+From:   Dmitry Goncharov <dgoncharov@users.sf.net>
+Date:   Tue, 29 Nov 2022 12:10:00 -0500
+Message-ID: <CAG+Z0CvOxWdvDi5qKa=ayPasVYxrourTDjEpXsg8T=mj3J4s6Q@mail.gmail.com>
+Subject: [v2] kbuild: Port silent mode detection to future gnu make.
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Cc:     dgoncharov@users.sf.net
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Nov 29, 2022 at 12:00 PM Dmitry Goncharov
-<dgoncharov@users.sf.net> wrote:
->
-> Good morning.
->
-> On Sun, Nov 27, 2022 at 1:02 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > Please come back after your patch is applied
-> > (and please have the patch include the commit hash
-> > causing the behaviour change)
->
->
->
-> The change is available in git in sha dc2d963989b96161472b2cd38cef5d1f4851ea34.
->
-> regards, Dmitry
->
-> diff --git a/Makefile b/Makefile
-> index 6f846b1f2618..c5d5558e9806 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -94,7 +94,7 @@ endif
->  # If the user is running make -s (silent mode), suppress echoing of
->  # commands
->
-> -ifneq ($(findstring s,$(filter-out --%,$(MAKEFLAGS))),)
-> +ifneq ($(findstring s,$(firstword -$(MAKEFLAGS))),)
->    quiet=silent_
->    KBUILD_VERBOSE = 0
->  endif
+Port silent mode detection to the future (post make-4.4) versions of gnu make.
+
+Makefile contains the following piece of make code to detect if option -s is
+specified on the command line.
+
+ifneq ($(findstring s,$(filter-out --%,$(MAKEFLAGS))),)
 
 
+This code is executed by make at parse time and assumes that MAKEFLAGS
+does not contain command line variable definitions.
+Currently if the user defines a=s on the command line, then at build only
+time MAKEFLAGS contains " -- a=s".
+However, starting with commit dc2d963989b96161472b2cd38cef5d1f4851ea34
+MAKEFLAGS contains command line definitions at both parse time and
+build time.
 
-Yup, I saw that.
+This '-s' detection code then confuses a command line variable
+definition which contains letter 's' with option -s.
 
+E.g.
+$ # old make
+$ make net/wireless/ocb.o a=s
+  CALL    scripts/checksyscalls.sh
+  DESCEND objtool
+$ # this a new make which defines makeflags at parse time
+$ ~/src/gmake/make/l64/make net/wireless/ocb.o a=s
+$
 
+We can see here that the letter 's' from 'a=s' was confused with -s.
 
-Paul said with GNU Make 4.4,
-Kbuild is already having an issue in the -s detection.
+This patch checks for presence of -s using a method recommended by the
+make manual here
+https://www.gnu.org/software/make/manual/make.html#Testing-Flags.
 
+This suggested method will work with the old and new make.
 
-$ export MAKEFLAGS=-I/usr/local/mk
-
- or
-
-$ export MAKEFLAGS=-Orecurse
-
-
-
-Commit 77881d228103 ("Ensure that MAKEFLAGS is set when invoking $(shell ...)")
-is the commit that caused a change.
-
-
-Please send v2 with $(firstword) and updated commit log.
-
-
-
-Also, add this tag:
-
+Signed-off-by: Dmitry Goncharov <dgoncharov@users.sf.net>
+Reported-by: Jan Palus <jpalus+gnu@fastmail.com>
 Link: https://lists.gnu.org/archive/html/bug-make/2022-11/msg00190.html
 
+diff --git a/Makefile b/Makefile
+index 6f846b1f2618..c5d5558e9806 100644
+--- a/Makefile
++++ b/Makefile
+@@ -94,7 +94,7 @@ endif
+ # If the user is running make -s (silent mode), suppress echoing of
+ # commands
+
+-ifneq ($(findstring s,$(filter-out --%,$(MAKEFLAGS))),)
++ifneq ($(findstring s,$(firstword -$(MAKEFLAGS))),)
 
 
--- 
-Best Regards
-Masahiro Yamada
+
+regards, Dmitry
