@@ -2,101 +2,140 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8615563C664
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Nov 2022 18:27:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 433C363C720
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Nov 2022 19:25:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235644AbiK2R16 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 29 Nov 2022 12:27:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58142 "EHLO
+        id S234542AbiK2SZs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 29 Nov 2022 13:25:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236599AbiK2R1w (ORCPT
+        with ESMTP id S230410AbiK2SZr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 29 Nov 2022 12:27:52 -0500
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12DD8C77F
-        for <linux-kbuild@vger.kernel.org>; Tue, 29 Nov 2022 09:27:51 -0800 (PST)
-Received: by mail-qt1-f177.google.com with SMTP id w4so9437052qts.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 29 Nov 2022 09:27:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FmlKMpE9PogjKEO+3Qce5eOGvx3+3ImgS1j2lXdTKVA=;
-        b=wI29spjGu3tnxeRXgNk9IjEhsd9XjCPhPLo2DmC8IovGZ+nTTcXTwQrhbKJraUD0Au
-         F6jzamenjicbgpIaV8M8eSxaXu0s15QfibEBl9WHrFmioEkGs01bKCPbjc8qyd46bo/w
-         Z1x3wtmMk+H7caEh1leWI0r5XecTgVIZTaW+EerwELRICejuU2gHCDyJT0r5bkaFbMHg
-         O4zc/V8nvNmyzobKh2hRavnEQKyBEoMrD397mgRtQarg8ClN2YQytN359DeF3yhzRVQk
-         9YnBDwnwqXUAWXpgXB7Xz30c+fKtQjz2+y7C5VLuVseAnpoiJzzevI+ns6U7JKGqsZC0
-         dhow==
-X-Gm-Message-State: ANoB5pk01/z9IJJIpVHVOiwvXgY270CSILgg2JYJd+B1Qdi5fSd1VFlD
-        Jim4mp4rYWkM8KPLGOFHvRcGLPzuopR2HzTRpq0qXRIoVMc=
-X-Google-Smtp-Source: AA0mqf56SsJzZMz7I0efKirsSOuptZcDuHFM7Zd3ISRkJJX/DPhw/rLFHwVQHfrUj1blz+Sd3BGJ+QV8RJSj0Wl91pE=
-X-Received: by 2002:ac8:6697:0:b0:3a5:24ad:73d with SMTP id
- d23-20020ac86697000000b003a524ad073dmr36934330qtp.167.1669742870133; Tue, 29
- Nov 2022 09:27:50 -0800 (PST)
+        Tue, 29 Nov 2022 13:25:47 -0500
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E58885F85E;
+        Tue, 29 Nov 2022 10:25:45 -0800 (PST)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 2ATIOwuG005450;
+        Tue, 29 Nov 2022 12:24:58 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1669746299;
+        bh=ofMM1FHrj8VajyNy27mGe2ShSZNNvZ2bILHbYWk3VJQ=;
+        h=Date:Subject:To:CC:References:From:In-Reply-To;
+        b=djwnf6jE3TwlGYj1RIbw9GX7+4f3x78hY1Mvzg0UKLTW5+V970/q5OXrbSd6AIhL9
+         yAI3A2MbEZsEb+L4GX4j6yomYq3CMSQmEJ2mxJKWpZkgwo//KGkfEXhWzZ6g7+/xiq
+         4nT/8oIbh4X/qE+phQyt4Fuub84oK1EHybTAJaMM=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 2ATIOwkr018566
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 29 Nov 2022 12:24:58 -0600
+Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Tue, 29
+ Nov 2022 12:24:58 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
+ Frontend Transport; Tue, 29 Nov 2022 12:24:58 -0600
+Received: from [10.250.38.44] (ileaxei01-snat.itg.ti.com [10.180.69.5])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 2ATIOvbE020258;
+        Tue, 29 Nov 2022 12:24:57 -0600
+Message-ID: <922413d0-c566-7765-f374-6f64d94f39aa@ti.com>
+Date:   Tue, 29 Nov 2022 12:24:56 -0600
 MIME-Version: 1.0
-References: <CAG+Z0CviRhBQqWfAPFDht+mWUJf4azPSZgOV0jrur_YSP23__A@mail.gmail.com>
- <CAK7LNAQP4S0ACMkB3KtaJTaeRkpT_KjRa4CrYxNJboTdthN=Zw@mail.gmail.com>
- <CAG+Z0CvGfuMpM+VpMaPJVY9EjrDztJxMgYKW2Tp_XR1SX0Xxxg@mail.gmail.com> <CAK7LNAQn248OsEGXCRFNURt7VC6eNfu-EEtphdtw9uNJPD_16Q@mail.gmail.com>
-In-Reply-To: <CAK7LNAQn248OsEGXCRFNURt7VC6eNfu-EEtphdtw9uNJPD_16Q@mail.gmail.com>
-From:   Dmitry Goncharov <dgoncharov@users.sf.net>
-Date:   Tue, 29 Nov 2022 12:27:38 -0500
-Message-ID: <CAG+Z0CusEYVCMP9LSOQ3Cahr--DHwVOxDLQwgVed3T9hdLBw6w@mail.gmail.com>
-Subject: Re: Port silent mode detection to future gnu make.
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 01/18] block/rnbd: fix mixed module-builtin object
+Content-Language: en-US
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+CC:     Alexander Lobakin <alobakin@pm.me>, <linux-kbuild@vger.kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Jens Axboe <axboe@kernel.dk>,
+        "Boris Brezillon" <bbrezillon@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Tony Luck <tony.luck@intel.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        "Vladimir Oltean" <vladimir.oltean@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Derek Chickles <dchickles@marvell.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Salil Mehta <salil.mehta@huawei.com>,
+        Sunil Goutham <sgoutham@marvell.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        "Hans de Goede" <hdegoede@redhat.com>,
+        Mark Brown <broonie@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        NXP Linux Team <linux-imx@nxp.com>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20221119225650.1044591-1-alobakin@pm.me>
+ <20221119225650.1044591-2-alobakin@pm.me>
+ <68ceddec-7af9-983d-c8be-7e0dc109df88@ti.com>
+ <CAK7LNAT_PuL0vuYaPxKZ3AfrojBC2tEXUA7Gqs2VuVuoTVoXmQ@mail.gmail.com>
+From:   Andrew Davis <afd@ti.com>
+In-Reply-To: <CAK7LNAT_PuL0vuYaPxKZ3AfrojBC2tEXUA7Gqs2VuVuoTVoXmQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Nov 29, 2022 at 1:22 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> Kbuild is already having an issue in the -s detection.
-> $ export MAKEFLAGS=-I/usr/local/mk
->  or
-> $ export MAKEFLAGS=-Orecurse
+On 11/21/22 11:59 PM, Masahiro Yamada wrote:
+> On Tue, Nov 22, 2022 at 6:18 AM Andrew Davis <afd@ti.com> wrote:
+>>
+>> On 11/19/22 5:04 PM, Alexander Lobakin wrote:
+>>> From: Masahiro Yamada <masahiroy@kernel.org>
+>>>
+>>> With CONFIG_BLK_DEV_RNBD_CLIENT=m and CONFIG_BLK_DEV_RNBD_SERVER=y
+>>> (or vice versa), rnbd-common.o is linked to a module and also to
+>>> vmlinux even though CFLAGS are different between builtins and modules.
+>>>
+>>> This is the same situation as fixed by commit 637a642f5ca5 ("zstd:
+>>> Fixing mixed module-builtin objects").
+>>>
+>>> Turn rnbd_access_mode_str() into an inline function.
+>>>
+>>
+>> Why inline? All you should need is "static" to keep these internal to
+>> each compilation unit. Inline also bloats the object files when the
+>> function is called from multiple places. Let the compiler decide when
+>> to inline.
+>>
+>> Andrew
+> 
+> 
+> Since it is a header file.
+> 
+> 
+> In header files, "static inline" should be always used.
+> Never "static".
+> 
 
-i am not concerned about these use cases. This code in question fails
-to handle the use case of MAKEFALGS in env and apparently this does
-not bother anyone, otherwise this code would already be fixed.  My
-concern is that the change, that we introduced to make, won't cause a
-regression to those of us who specify -s, once the users migrate to
-the new make.
-However, the fix will help the MAKEFLAGS-in-env use case, as well.
+My comment was more "why"?
 
+> 
+> If a header is included from a C file and there is a function
+> that is not used from that C file,
+> "static" would emit -Wunused-function warning
+> (-Wunused-function is enabled by -Wall, which is the case
+> for the kernel build).
+> 
+> 
 
-> Commit 77881d228103 ("Ensure that MAKEFLAGS is set when invoking $(shell ...)")
-> is the commit that caused a change.
+Inline still hints to the compiler to inline, causing unneeded
+object size bloat. Using "inline" to signal something else (that
+the function may be unused) when we already have a flag for that
+(__maybe_unused) feels wrong.
 
-The whole sequence of events is the following
+Seems this was already debated way back in 2006.. So maybe not
+worth revisiting today, but still a cleanup that could be good
+to think more about later.
 
-1. commit 98da874c43035a490cdca81331724f233a3d0c9a [SV 10593] Export
-variables to $(shell ...) commands
-This allowed make variables to be exported to $(shell) at parse time.
-
-2. Then a user opened https://savannah.gnu.org/bugs/?63347 and
-(correctly) argued that the behavior is inconsistent. The
-inconsistency was caused by MAKEFLAGS lacking command line variable
-definitions until build time.
-
-3.  commit dc2d963989b96161472b2cd38cef5d1f4851ea34 [SV 63347] Always
-add command line variable assignments to MAKEFLAGS
-This adds command line variable definitions to MAKEFLAGS at parse time.
-
-
-
-
-> Please send v2 with $(firstword) and updated commit log.
-> Also, add this tag:
-> Link: https://lists.gnu.org/archive/html/bug-make/2022-11/msg00190.html
-
-Done.
-
-regards, Dmitry
+Andrew
