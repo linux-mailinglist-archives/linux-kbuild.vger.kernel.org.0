@@ -2,46 +2,50 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 901AF63C62B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Nov 2022 18:10:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8615563C664
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Nov 2022 18:27:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235710AbiK2RKP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 29 Nov 2022 12:10:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44144 "EHLO
+        id S235644AbiK2R16 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 29 Nov 2022 12:27:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235644AbiK2RKN (ORCPT
+        with ESMTP id S236599AbiK2R1w (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 29 Nov 2022 12:10:13 -0500
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55E3F5EFA9
-        for <linux-kbuild@vger.kernel.org>; Tue, 29 Nov 2022 09:10:12 -0800 (PST)
-Received: by mail-qt1-f182.google.com with SMTP id a27so9346349qtw.10
-        for <linux-kbuild@vger.kernel.org>; Tue, 29 Nov 2022 09:10:12 -0800 (PST)
+        Tue, 29 Nov 2022 12:27:52 -0500
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12DD8C77F
+        for <linux-kbuild@vger.kernel.org>; Tue, 29 Nov 2022 09:27:51 -0800 (PST)
+Received: by mail-qt1-f177.google.com with SMTP id w4so9437052qts.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 29 Nov 2022 09:27:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=olH4++MpFlh781TGcmCdYXEtM6cHEv+M/z1JC9wlo7E=;
-        b=B7m7e1avKIFjjP7pt/v7tllA+L8tAFEiZymw3X5x6HrICY6H23S8cFlsUDpwLfcOt3
-         cRY2R9o7TdSTRg/ADmIhHFt8i2w8Yne4YsXBiZx6A5CsHw0Ev9K21hAcVh+SYd+mtn6s
-         6r8ySwPMPW5aHdy6NbEX/DwS/vvMBzl3PxXJA29s1YojHpz7vG7YYaGm0mgTNe3hAdCH
-         yb6o8eu0cczhvsKn6DzBrbEymfl7eMLA5s6+ppsTnMsDkY9SZ4yxhMGe04vh6MYh/7Mu
-         i2yMrM26IX8hzjZwe/6jnEpgv7Ph81nMuL8tUvHrXWJw4AgQLdYzcbn08RieHxl0lXvS
-         6ooA==
-X-Gm-Message-State: ANoB5pnY1QNzXSFQTAcBJUOwq+svCEbX1jJ2fzWozuw2rbVjM4aivQ8S
-        PznadhRiSHulrkI+YUb5ED8vfAmv6fKZ7UCsths=
-X-Google-Smtp-Source: AA0mqf6LSOKEgOiEPtXKNi+dT4cN94W1vYmCVP1l+0FWFme6cBEsSzNSLjWCcZCB/lqoIQu4XqqpngtYzVxX1WAv/pA=
-X-Received: by 2002:ac8:6792:0:b0:3a5:1c8b:8890 with SMTP id
- b18-20020ac86792000000b003a51c8b8890mr54669703qtp.63.1669741811388; Tue, 29
- Nov 2022 09:10:11 -0800 (PST)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FmlKMpE9PogjKEO+3Qce5eOGvx3+3ImgS1j2lXdTKVA=;
+        b=wI29spjGu3tnxeRXgNk9IjEhsd9XjCPhPLo2DmC8IovGZ+nTTcXTwQrhbKJraUD0Au
+         F6jzamenjicbgpIaV8M8eSxaXu0s15QfibEBl9WHrFmioEkGs01bKCPbjc8qyd46bo/w
+         Z1x3wtmMk+H7caEh1leWI0r5XecTgVIZTaW+EerwELRICejuU2gHCDyJT0r5bkaFbMHg
+         O4zc/V8nvNmyzobKh2hRavnEQKyBEoMrD397mgRtQarg8ClN2YQytN359DeF3yhzRVQk
+         9YnBDwnwqXUAWXpgXB7Xz30c+fKtQjz2+y7C5VLuVseAnpoiJzzevI+ns6U7JKGqsZC0
+         dhow==
+X-Gm-Message-State: ANoB5pk01/z9IJJIpVHVOiwvXgY270CSILgg2JYJd+B1Qdi5fSd1VFlD
+        Jim4mp4rYWkM8KPLGOFHvRcGLPzuopR2HzTRpq0qXRIoVMc=
+X-Google-Smtp-Source: AA0mqf56SsJzZMz7I0efKirsSOuptZcDuHFM7Zd3ISRkJJX/DPhw/rLFHwVQHfrUj1blz+Sd3BGJ+QV8RJSj0Wl91pE=
+X-Received: by 2002:ac8:6697:0:b0:3a5:24ad:73d with SMTP id
+ d23-20020ac86697000000b003a524ad073dmr36934330qtp.167.1669742870133; Tue, 29
+ Nov 2022 09:27:50 -0800 (PST)
 MIME-Version: 1.0
+References: <CAG+Z0CviRhBQqWfAPFDht+mWUJf4azPSZgOV0jrur_YSP23__A@mail.gmail.com>
+ <CAK7LNAQP4S0ACMkB3KtaJTaeRkpT_KjRa4CrYxNJboTdthN=Zw@mail.gmail.com>
+ <CAG+Z0CvGfuMpM+VpMaPJVY9EjrDztJxMgYKW2Tp_XR1SX0Xxxg@mail.gmail.com> <CAK7LNAQn248OsEGXCRFNURt7VC6eNfu-EEtphdtw9uNJPD_16Q@mail.gmail.com>
+In-Reply-To: <CAK7LNAQn248OsEGXCRFNURt7VC6eNfu-EEtphdtw9uNJPD_16Q@mail.gmail.com>
 From:   Dmitry Goncharov <dgoncharov@users.sf.net>
-Date:   Tue, 29 Nov 2022 12:10:00 -0500
-Message-ID: <CAG+Z0CvOxWdvDi5qKa=ayPasVYxrourTDjEpXsg8T=mj3J4s6Q@mail.gmail.com>
-Subject: [v2] kbuild: Port silent mode detection to future gnu make.
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     dgoncharov@users.sf.net
+Date:   Tue, 29 Nov 2022 12:27:38 -0500
+Message-ID: <CAG+Z0CusEYVCMP9LSOQ3Cahr--DHwVOxDLQwgVed3T9hdLBw6w@mail.gmail.com>
+Subject: Re: Port silent mode detection to future gnu make.
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -53,57 +57,46 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Port silent mode detection to the future (post make-4.4) versions of gnu make.
+On Tue, Nov 29, 2022 at 1:22 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> Kbuild is already having an issue in the -s detection.
+> $ export MAKEFLAGS=-I/usr/local/mk
+>  or
+> $ export MAKEFLAGS=-Orecurse
 
-Makefile contains the following piece of make code to detect if option -s is
-specified on the command line.
-
-ifneq ($(findstring s,$(filter-out --%,$(MAKEFLAGS))),)
-
-
-This code is executed by make at parse time and assumes that MAKEFLAGS
-does not contain command line variable definitions.
-Currently if the user defines a=s on the command line, then at build only
-time MAKEFLAGS contains " -- a=s".
-However, starting with commit dc2d963989b96161472b2cd38cef5d1f4851ea34
-MAKEFLAGS contains command line definitions at both parse time and
-build time.
-
-This '-s' detection code then confuses a command line variable
-definition which contains letter 's' with option -s.
-
-E.g.
-$ # old make
-$ make net/wireless/ocb.o a=s
-  CALL    scripts/checksyscalls.sh
-  DESCEND objtool
-$ # this a new make which defines makeflags at parse time
-$ ~/src/gmake/make/l64/make net/wireless/ocb.o a=s
-$
-
-We can see here that the letter 's' from 'a=s' was confused with -s.
-
-This patch checks for presence of -s using a method recommended by the
-make manual here
-https://www.gnu.org/software/make/manual/make.html#Testing-Flags.
-
-This suggested method will work with the old and new make.
-
-Signed-off-by: Dmitry Goncharov <dgoncharov@users.sf.net>
-Reported-by: Jan Palus <jpalus+gnu@fastmail.com>
-Link: https://lists.gnu.org/archive/html/bug-make/2022-11/msg00190.html
-
-diff --git a/Makefile b/Makefile
-index 6f846b1f2618..c5d5558e9806 100644
---- a/Makefile
-+++ b/Makefile
-@@ -94,7 +94,7 @@ endif
- # If the user is running make -s (silent mode), suppress echoing of
- # commands
-
--ifneq ($(findstring s,$(filter-out --%,$(MAKEFLAGS))),)
-+ifneq ($(findstring s,$(firstword -$(MAKEFLAGS))),)
+i am not concerned about these use cases. This code in question fails
+to handle the use case of MAKEFALGS in env and apparently this does
+not bother anyone, otherwise this code would already be fixed.  My
+concern is that the change, that we introduced to make, won't cause a
+regression to those of us who specify -s, once the users migrate to
+the new make.
+However, the fix will help the MAKEFLAGS-in-env use case, as well.
 
 
+> Commit 77881d228103 ("Ensure that MAKEFLAGS is set when invoking $(shell ...)")
+> is the commit that caused a change.
+
+The whole sequence of events is the following
+
+1. commit 98da874c43035a490cdca81331724f233a3d0c9a [SV 10593] Export
+variables to $(shell ...) commands
+This allowed make variables to be exported to $(shell) at parse time.
+
+2. Then a user opened https://savannah.gnu.org/bugs/?63347 and
+(correctly) argued that the behavior is inconsistent. The
+inconsistency was caused by MAKEFLAGS lacking command line variable
+definitions until build time.
+
+3.  commit dc2d963989b96161472b2cd38cef5d1f4851ea34 [SV 63347] Always
+add command line variable assignments to MAKEFLAGS
+This adds command line variable definitions to MAKEFLAGS at parse time.
+
+
+
+
+> Please send v2 with $(firstword) and updated commit log.
+> Also, add this tag:
+> Link: https://lists.gnu.org/archive/html/bug-make/2022-11/msg00190.html
+
+Done.
 
 regards, Dmitry
