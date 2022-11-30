@@ -2,74 +2,112 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E2F5863D57F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Nov 2022 13:23:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C2F763DAFC
+	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Nov 2022 17:50:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234100AbiK3MXW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 30 Nov 2022 07:23:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39252 "EHLO
+        id S230330AbiK3Quu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 30 Nov 2022 11:50:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233603AbiK3MXS (ORCPT
+        with ESMTP id S229591AbiK3Qus (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 30 Nov 2022 07:23:18 -0500
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C042C2B618
-        for <linux-kbuild@vger.kernel.org>; Wed, 30 Nov 2022 04:23:16 -0800 (PST)
-Received: by mail-wr1-x436.google.com with SMTP id x17so26789833wrn.6
-        for <linux-kbuild@vger.kernel.org>; Wed, 30 Nov 2022 04:23:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YmOlYL+T1VcRv6GwjlbPVapzopZmzHsyfLnHJwg422g=;
-        b=QCk0NxAgMjKoO4MZ8ZHi9965Dj+VVNgu8hf2o4ri7t0luu+dp/7ZqfpCMg1OtndLa9
-         /n4esAFm2evvBeQ2rIcbRj3N2/ZbfyB9snQK4VMcjf6v2MWVXu/FqZ8K6KIE5vaX92i2
-         SAWV+NFe1eeM5IwhUUSserYBOPfFirV/797GOGfnuiVVbdfptXSlH9/imQGR1pcm/B9n
-         ahUhWS1wsi43AApK+CvetjVznIv7HLh1bMjbpmHwGu/MAXT8MUZiHbhePwqr5NOllh9T
-         frJVR85URP7gEJpwCbppmqhwU8sszJ7UfRhZ/yG17wvAln9AHw4AyUdwYcHaFUent4Rv
-         l78w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YmOlYL+T1VcRv6GwjlbPVapzopZmzHsyfLnHJwg422g=;
-        b=pwGhFjEHjGsfgaJzRfxY+JFmImmw2YZbaf++iQc/fAqqSY+i+dOX4443i5+wbGL9m1
-         oDRLFd7ToECqwaik+FEP7wMeU8vIrym5QjGnueePZFL4/sdkbYMz5qmQBqXZEzhuYW8s
-         aLFas3hj87J6lWYZElwlcnGdwABrNQMsmDgFR0MbuQOK7XSW1mH6PrcH27LYtG72yjEZ
-         3FL4aLOE/fuKW4/dTBNo3xnKnlpDdK3WNHrCxtuupP1JtEpGpjqLtvebUZEFcRJCLNG/
-         ybFREhXCPUcOgCaWxZ7zhbULF6fguFhOnszYumbqSazk/7/ASIZFGfmtajWYphewgr5B
-         x+jw==
-X-Gm-Message-State: ANoB5pmJgtPkiQZ/IZgDncxqvlLFHf1d3UQO4UFGyUjYEkIHmhxt932I
-        oAhJAIHVh4gmJnxghHuhu50Gwg==
-X-Google-Smtp-Source: AA0mqf50/mjoaNarDfeLyTKta3nb6bZmEZM+IvrC04UJESisouehFNwB7mVWUMM2IcSOwllHF4y3Ag==
-X-Received: by 2002:a5d:456c:0:b0:236:7135:24da with SMTP id a12-20020a5d456c000000b00236713524damr37935677wrc.264.1669810995282;
-        Wed, 30 Nov 2022 04:23:15 -0800 (PST)
-Received: from google.com (65.0.187.35.bc.googleusercontent.com. [35.187.0.65])
-        by smtp.gmail.com with ESMTPSA id o35-20020a05600c512300b003a3442f1229sm5986073wms.29.2022.11.30.04.23.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Nov 2022 04:23:14 -0800 (PST)
-Date:   Wed, 30 Nov 2022 12:23:10 +0000
-From:   Vincent Donnefort <vdonnefort@google.com>
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, Nicolas Schier <nicolas@fjasle.eu>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev, patches@lists.linux.dev
-Subject: Re: [PATCH 2/2] modpost: Include '.text.*' in TEXT_SECTIONS
-Message-ID: <Y4dLLnc4LTX9UHaN@google.com>
-References: <20221129190123.872394-1-nathan@kernel.org>
- <20221129190123.872394-3-nathan@kernel.org>
+        Wed, 30 Nov 2022 11:50:48 -0500
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2079.outbound.protection.outlook.com [40.107.212.79])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E016F31DE8;
+        Wed, 30 Nov 2022 08:50:47 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BPF+ARlNn6y1/l/21gCTLajeMHxEZcYgTUW0NfA/amScYWXagwz8JQebQedN9kznBYsWkUzvjWK/+CHljSCKA9kKYpdGulu/ZhUKNCr/BJmlHtoXeJ3e1iQKuQsNcS1lnO7MoQ7o7lk4Zg39UHjo9HPZS4JlXQqlW/YZg/3Xt75e7m/9qdvfgMVZm/R54nrGV5yN87uDEwMtRYFCFh//EIAYdZHyM6OgYM5gaKES4iDiUGgBcDYHabX4lhyeoENYrPKX4slq+Gftf7W37exWx3D6L4U/FKP4OEULexyEaFUSe6XL64Npt381zl427XbD2mmb+evdj2teD8skvbWMhg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oaR0D5Lmu182qUMH+wrzGWdkXiMs1XNcVXEUDeHzwPY=;
+ b=GI1HOCT4yKgoEvb7lUXsosTlo3UyBY20EMpWiM2QXBewY+3V8gWEViz3G4ZB2Zr4NSRUXP+Nsna7igacnSXuZYRjE9lteX/1+0oYrk7EDBLFBcVmoKk7lhId4I+gEUMu6A//k+IrNOdCO/us0GRBPphOWZHHjb/RA4cIvhWHsMByI6TOJwUn6HPzRdbYUhDc58oFrLSbTkxGdjXTNK+Pclmse/gSpOewPN7bLg+uw6RXk12fhzejqrkxB8EjJhoR/PnKhSC4ciKu1VL2zt/etSAzfJ3GkEP/JKIpXqGodSbaJDtd9Ls13/geo+4bIs6rgWSdmHETwzKg7RVdzVXU/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=ti.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oaR0D5Lmu182qUMH+wrzGWdkXiMs1XNcVXEUDeHzwPY=;
+ b=aT9Ry58c8M2p0KkKxs/TdW2P2NjMzjU4kTKIovjMZ27TNwmT8AAsu60/WtCBpLu8BghA1nyBp5XMH3Ld2eqziaeiB1WQt34B71PZr9fOKlsbSSPKh9eAEWPT7p9vhSgmmD0eRAHG+u83fgYlvxa378ei0pw0AvK03QbTnfnDQRU=
+Received: from DM6PR03CA0075.namprd03.prod.outlook.com (2603:10b6:5:333::8) by
+ DS7PR12MB8347.namprd12.prod.outlook.com (2603:10b6:8:e5::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5880.6; Wed, 30 Nov 2022 16:50:45 +0000
+Received: from DS1PEPF0000E64C.namprd02.prod.outlook.com
+ (2603:10b6:5:333:cafe::8b) by DM6PR03CA0075.outlook.office365.com
+ (2603:10b6:5:333::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23 via Frontend
+ Transport; Wed, 30 Nov 2022 16:50:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS1PEPF0000E64C.mail.protection.outlook.com (10.167.18.42) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5857.17 via Frontend Transport; Wed, 30 Nov 2022 16:50:45 +0000
+Received: from [10.254.241.50] (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 30 Nov
+ 2022 10:50:39 -0600
+Message-ID: <74ac528d-fbc7-9fbe-d44b-23f5579d54a1@amd.com>
+Date:   Wed, 30 Nov 2022 17:50:37 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221129190123.872394-3-nathan@kernel.org>
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v2 6/7] arm64: dts: xilinx: Rename DTB overlay source
+ files from .dts to .dtso
+Content-Language: en-US
+To:     Andrew Davis <afd@ti.com>, Shawn Guo <shawnguo@kernel.org>,
+        Li Yang <leoyang.li@nxp.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Frank Rowand <frowand.list@gmail.com>
+CC:     <devicetree@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20221024173434.32518-1-afd@ti.com>
+ <20221024173434.32518-7-afd@ti.com>
+From:   Michal Simek <michal.simek@amd.com>
+In-Reply-To: <20221024173434.32518-7-afd@ti.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS1PEPF0000E64C:EE_|DS7PR12MB8347:EE_
+X-MS-Office365-Filtering-Correlation-Id: 753e2e19-27c4-4c4d-7c5b-08dad2f306b6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: m5Vtz2XfTdzyzRvPd9gVSXwpY0YDSkHCFRN56NfWmBI0UJE50Yfny+8UGTK4k2xjsgwIBtEvuSbDvKtM7uSbUVhMgSNntlsRLGGQGd23MjtBKTIbzFEGyBJYOg0qZsszNeTaI8OBKMLZq8eqG6BeogH45+QtGGxo2yThc6FJfEHTfPOuR54r4lLx3BNDDVS9H5VwZWareVW2y9x8FY76Rfll2a0nXqxNwQIYQarkTIoZKrWm0hD2Ypuyy/jsnh81iRCyd8nKKfayFsGhwddQZOvi9Y3ZtsIyAbMU9eFiOr86ZGqpy25IDvSUnEnWG8B3SAfG5xfyaD2Z3jvncleIjKVAqQzsO3fblYRzoPvKBJxMxOtcVGMDzwbadXVHhxaeSYjw2l2YdstI7+Kf21SXV6sxsQ20jRT5t9dQDDF0Fz1OcNtnbOIQSh/xZuzmV50VcKwzqscn1RdHyUTBYJouWSycaLiTZTyiPgkUjSoK9Gph6gChAMvRDqnZIUfJtVY0C7b4nPMs7+p/vd5p61CbKXzUKpi8Pe7B7DQzrb40CsP9ApbDn9tSYWSoigFuCqLFujCRexKLJXzlWWxDzT3Fqc589ocXvcxtJVb1tXPYKnceNfxwe3ql0ukAQkRj7MoPYhc9FU76mNrzAJUJM5pb5S2SgxjuWCqY9DxBhU33pOxrTXOc0uRYjhisf1GFCDi6kwXsp6Vm8iHsJ73CgNeiVc0aE+RVvRpl5dn1ZDJ/bZsAk5Y3chJtr4my1SlMEmRvZ8NEVpIO9s2YU6RZb7OYXpJZpuFGCDwgS2Zab0rZsfs4iX5Lm6W2f2subdrKOQZF
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(346002)(396003)(39860400002)(376002)(136003)(451199015)(46966006)(40470700004)(36840700001)(2906002)(110136005)(44832011)(31686004)(70586007)(8936002)(16576012)(5660300002)(41300700001)(7416002)(70206006)(8676002)(316002)(54906003)(4326008)(82310400005)(36756003)(53546011)(921005)(81166007)(82740400003)(356005)(40480700001)(47076005)(336012)(426003)(16526019)(478600001)(2616005)(26005)(31696002)(186003)(36860700001)(86362001)(40460700003)(83380400001)(142923001)(43740500002)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2022 16:50:45.7073
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 753e2e19-27c4-4c4d-7c5b-08dad2f306b6
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0000E64C.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8347
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,47 +115,33 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Nov 29, 2022 at 12:01:23PM -0700, Nathan Chancellor wrote:
-> Commit 6c730bfc894f ("modpost: handle -ffunction-sections") added
-> ".text.*" to the OTHER_TEXT_SECTIONS macro to fix certain section
-> mismatch warnings. Unfortunately, this makes it impossible for modpost
-> to warn about section mismatchs with LTO, which implies
-> '-ffunction-sections', as all functions are put in their own
-> '.text.<func_name>' sections, which may still reference functions in
-> sections they are not supposed to, such as __init.
+
+
+On 10/24/22 19:34, Andrew Davis wrote:
+> DTB Overlays (.dtbo) can now be built from source files with the
+> extension (.dtso). This makes it clear what is the content of the files
+> and differentiates them from base DTB source files.
 > 
-> Fix this by moving ".text.*" into TEXT_SECTIONS, so that configurations
-> with '-ffunction-sections' will see warnings about mismatched sections.
+> Convert the DTB overlay source files in the arm64/xilinx directory.
 > 
-> Link: https://lore.kernel.org/Y39kI3MOtVI5BAnV@google.com/
-> Reported-by: Vincent Donnefort <vdonnefort@google.com>
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-
-Thanks!
-
-Tested-by: Vincent Donnefort <vdonnefort@google.com>
-
+> Signed-off-by: Andrew Davis <afd@ti.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  scripts/mod/modpost.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>   .../{zynqmp-sck-kv-g-revA.dts => zynqmp-sck-kv-g-revA.dtso}       | 0
+>   .../{zynqmp-sck-kv-g-revB.dts => zynqmp-sck-kv-g-revB.dtso}       | 0
+>   2 files changed, 0 insertions(+), 0 deletions(-)
+>   rename arch/arm64/boot/dts/xilinx/{zynqmp-sck-kv-g-revA.dts => zynqmp-sck-kv-g-revA.dtso} (100%)
+>   rename arch/arm64/boot/dts/xilinx/{zynqmp-sck-kv-g-revB.dts => zynqmp-sck-kv-g-revB.dtso} (100%)
 > 
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 2c80da0220c3..c861beabc128 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -823,10 +823,10 @@ static void check_section(const char *modname, struct elf_info *elf,
->  #define ALL_EXIT_SECTIONS EXIT_SECTIONS, ALL_XXXEXIT_SECTIONS
->  
->  #define DATA_SECTIONS ".data", ".data.rel"
-> -#define TEXT_SECTIONS ".text", ".text.unlikely", ".sched.text", \
-> +#define TEXT_SECTIONS ".text", ".text.*", ".sched.text", \
->  		".kprobes.text", ".cpuidle.text", ".noinstr.text"
->  #define OTHER_TEXT_SECTIONS ".ref.text", ".head.text", ".spinlock.text", \
-> -		".fixup", ".entry.text", ".exception.text", ".text.*", \
-> +		".fixup", ".entry.text", ".exception.text", \
->  		".coldtext", ".softirqentry.text"
->  
->  #define INIT_SECTIONS      ".init.*"
-> -- 
-> 2.38.1
-> 
+> diff --git a/arch/arm64/boot/dts/xilinx/zynqmp-sck-kv-g-revA.dts b/arch/arm64/boot/dts/xilinx/zynqmp-sck-kv-g-revA.dtso
+> similarity index 100%
+> rename from arch/arm64/boot/dts/xilinx/zynqmp-sck-kv-g-revA.dts
+> rename to arch/arm64/boot/dts/xilinx/zynqmp-sck-kv-g-revA.dtso
+> diff --git a/arch/arm64/boot/dts/xilinx/zynqmp-sck-kv-g-revB.dts b/arch/arm64/boot/dts/xilinx/zynqmp-sck-kv-g-revB.dtso
+> similarity index 100%
+> rename from arch/arm64/boot/dts/xilinx/zynqmp-sck-kv-g-revB.dts
+> rename to arch/arm64/boot/dts/xilinx/zynqmp-sck-kv-g-revB.dtso
+
+Applied.
+M
