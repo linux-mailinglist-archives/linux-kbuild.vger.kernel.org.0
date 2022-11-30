@@ -2,51 +2,50 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A612163E35E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Nov 2022 23:23:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ADCF263E386
+	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Nov 2022 23:37:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229619AbiK3WXo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 30 Nov 2022 17:23:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39206 "EHLO
+        id S229588AbiK3Wgz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 30 Nov 2022 17:36:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229636AbiK3WXm (ORCPT
+        with ESMTP id S229445AbiK3Wgy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 30 Nov 2022 17:23:42 -0500
-Received: from condef-04.nifty.com (condef-04.nifty.com [202.248.20.69])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A41425133B;
-        Wed, 30 Nov 2022 14:23:41 -0800 (PST)
-Received: from conssluserg-02.nifty.com ([10.126.8.81])by condef-04.nifty.com with ESMTP id 2AUMLqOd026581;
-        Thu, 1 Dec 2022 07:21:52 +0900
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 2AUMLOOd009632;
-        Thu, 1 Dec 2022 07:21:24 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 2AUMLOOd009632
+        Wed, 30 Nov 2022 17:36:54 -0500
+X-Greylist: delayed 900 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 30 Nov 2022 14:36:52 PST
+Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACBD65802B;
+        Wed, 30 Nov 2022 14:36:52 -0800 (PST)
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 2AUMaajR030753;
+        Thu, 1 Dec 2022 07:36:36 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 2AUMaajR030753
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1669846885;
-        bh=k5TnRkjFmB+0wMVTITyaBsYH4EkERxs/m8UlcytiUqA=;
+        s=dec2015msa; t=1669847797;
+        bh=RCOA2Nmk8RchnYckPF/4P1hJEvsAWuR5bSpQkzBr1MI=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=wezRxcPL57rNZmvQDUfqHkvrnpWW6KcJuM5zkvY4DWlVXSwmILOWeW7EnKHIcGxzC
-         Agu37VlemU6SjxxPDu2gzZkCd6+lmu4SGVFvnj/6TuP1qTJ6Ixxx1LWcc1BuEYdaDS
-         AWh6/yLOw1gJak/wKaB4+oSl7NWcw14iYftsWMV0Q2gsBJRHKZkFPu0EophkAljJux
-         mINa+xUJRAZT9gqXFGcF3C61zUb4LCrL7l53DdX6btf1Y1sslZci2kZUBNkhRxNurc
-         1dAItGSzvagxjhaNwL+7czO78HV9CtUYzRXVUIKQ4xOX7Zp1+hNUplWXoin6hsBYvQ
-         hAnxvKLakmEVA==
-X-Nifty-SrcIP: [209.85.167.181]
-Received: by mail-oi1-f181.google.com with SMTP id e205so107913oif.11;
-        Wed, 30 Nov 2022 14:21:24 -0800 (PST)
-X-Gm-Message-State: ANoB5pmfhMnS5kaptKTFtrTkWpHb3y8hVikpXz0fOpkll9gFD56Z/q0P
-        v992ooR41laL9M+wMNBfSSFfOtvtQsIKhenqEBI=
-X-Google-Smtp-Source: AA0mqf6or5JAcRyjvHHEkc7ygsMt2uCHycUgQSriEZZOcXQJpheBCozq7ScqXqGnuUQJLwC7n8y7iHcjChYlkCgNDz8=
-X-Received: by 2002:aca:1c06:0:b0:354:28ae:23b3 with SMTP id
- c6-20020aca1c06000000b0035428ae23b3mr21855293oic.287.1669846883543; Wed, 30
- Nov 2022 14:21:23 -0800 (PST)
+        b=T0NDgbQuBl8lsVdF+pJOLVK+pE948s/ldkHOx6f4DNRKzEek5HOkHSnh+Zd+7V5VI
+         4iVPKRYIWH84jTGcPFYeXdcDn4vp0/z0ltg+FIzOShm9r/+QhZeJSDMCiiq5iuLaKQ
+         YuJiSW9fT+bwQW9RJdMl2sMKbaTWCa3sz8BoJrzaHhhwMbx/NrulFYUeAZDYUF0g8U
+         uTFhuvuKJTslSvyotDwHEi8AB4ZQnwVGH76bRH/XlaF9kLYcZDlX+yT3xIih/yLzjf
+         1ECUf9MJWaPyy2OcE7WuBauXLReuu+cRw52lsitxh3jSU2oduXgE1uA+g7ffdtLe5D
+         Q9hPwVdtCfSGQ==
+X-Nifty-SrcIP: [209.85.210.48]
+Received: by mail-ot1-f48.google.com with SMTP id t19-20020a9d7753000000b0066d77a3d474so12172406otl.10;
+        Wed, 30 Nov 2022 14:36:36 -0800 (PST)
+X-Gm-Message-State: ANoB5pm8XwxoaaL3PReD3UrGUEOiwkRyHestzb2jwpwmkBIlcW6ra1AZ
+        vdrotlKt0tFtdld2H8VaY9ncLodgRENVyWT2IEY=
+X-Google-Smtp-Source: AA0mqf6bqBcmrS+eVxJO24zhJa/RBxv8Svo2IRZ/K95H2IEpB2iBNtH1xgryc3UFbM4saaKjmEq+Ef/miyv+iNxynPw=
+X-Received: by 2002:a05:6830:1b67:b0:661:8d9e:1959 with SMTP id
+ d7-20020a0568301b6700b006618d9e1959mr31870741ote.225.1669847795651; Wed, 30
+ Nov 2022 14:36:35 -0800 (PST)
 MIME-Version: 1.0
 References: <20221129190123.872394-1-nathan@kernel.org> <20221129190123.872394-2-nathan@kernel.org>
 In-Reply-To: <20221129190123.872394-2-nathan@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 1 Dec 2022 07:20:47 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATMtRu00GYwJW_VvTSTcY6eqnx=4EEj8PFC5adrnHunSw@mail.gmail.com>
-Message-ID: <CAK7LNATMtRu00GYwJW_VvTSTcY6eqnx=4EEj8PFC5adrnHunSw@mail.gmail.com>
+Date:   Thu, 1 Dec 2022 07:35:59 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASdOhcTqbnRibPumMH1o+78dxBjLuzLK+JS+AiHyTiY6A@mail.gmail.com>
+Message-ID: <CAK7LNASdOhcTqbnRibPumMH1o+78dxBjLuzLK+JS+AiHyTiY6A@mail.gmail.com>
 Subject: Re: [PATCH 1/2] padata: Do not mark padata_mt_helper() as __init
 To:     Nathan Chancellor <nathan@kernel.org>
 Cc:     Nick Desaulniers <ndesaulniers@google.com>,
@@ -73,26 +72,6 @@ On Wed, Nov 30, 2022 at 4:02 AM Nathan Chancellor <nathan@kernel.org> wrote:
 > When building arm64 allmodconfig + ThinLTO with clang and a proposed
 > modpost update to account for -ffuncton-sections, the following warning
 > appears:
-
-
-
-How to enable -ffuncton-sections for ARCH=arm64 ?
-(in other words, how to set CONFIG_LD_DEAD_CODE_DATA_ELIMINATION ?)
-
-In upstream, it is only possible for mips and powerpc.
-
-./arch/mips/Kconfig:82: select HAVE_LD_DEAD_CODE_DATA_ELIMINATION
-./arch/powerpc/Kconfig:237: select HAVE_LD_DEAD_CODE_DATA_ELIMINATION
-
-
-
-Is there another proposal to add it for arm64,
-or is this about a downstream kernel?
-
-
-
-
-
 >
 >   WARNING: modpost: vmlinux.o: section mismatch in reference: padata_work_init (section: .text.padata_work_init) -> padata_mt_helper (section: .init.text)
 >   WARNING: modpost: vmlinux.o: section mismatch in reference: padata_work_init (section: .text.padata_work_init) -> padata_mt_helper (section: .init.text)
@@ -139,6 +118,19 @@ or is this about a downstream kernel?
 > --
 > 2.38.1
 >
+
+This patch seems wrong.
+
+padata_work_init() does not reference to padata_mt_helper()
+
+
+padata_work_alloc_mt() and padata_do_multithreaded() do.
+
+
+
+
+
+
 
 
 -- 
