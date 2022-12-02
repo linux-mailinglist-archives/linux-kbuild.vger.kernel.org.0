@@ -2,143 +2,106 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD0AA63FC25
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Dec 2022 00:39:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9660F6408AC
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Dec 2022 15:46:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230163AbiLAXjU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 1 Dec 2022 18:39:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46368 "EHLO
+        id S233439AbiLBOqJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 2 Dec 2022 09:46:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229711AbiLAXjT (ORCPT
+        with ESMTP id S232953AbiLBOqI (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 1 Dec 2022 18:39:19 -0500
-Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 524B3B955F
-        for <linux-kbuild@vger.kernel.org>; Thu,  1 Dec 2022 15:39:18 -0800 (PST)
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 2B1Nd20d026396
-        for <linux-kbuild@vger.kernel.org>; Fri, 2 Dec 2022 08:39:02 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 2B1Nd20d026396
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1669937943;
-        bh=LOpfgpZ0kv29k76LKNxB3waY+xeWjokqpJxJjm7XdY0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=pN20PnRT/9c7VV/55JR/2i210b0A7KOzexFHbWirhIKOHVXlemaEWz1u8x3xq8EtS
-         zYc0r4furetEsZZ71vNFxyTJ4vDCrrNIVs+OUzxJk7vZumu+VsoFOgqejFn/qswwLf
-         ljrE6fq9ItTMlehzRU8uqAlppSXHhXj+XSZNWyUaj5NUEUHSP8N5xsot49wZ9c4E81
-         fuVW6StgD3khRI6BS8epZ49pG1hyO9W7dxOd4S5ZJr6SXjGf0dKMbTAwt1jTkGoeKU
-         mmKZeIpsgTXQ/pWaxV6F/QDnTc2Pm5igVnQZTnog7A8lmzjtqcENLe2LIKNOI05Uwg
-         QnlS/jmquEgWw==
-X-Nifty-SrcIP: [209.85.167.177]
-Received: by mail-oi1-f177.google.com with SMTP id n205so3758726oib.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 01 Dec 2022 15:39:02 -0800 (PST)
-X-Gm-Message-State: ANoB5pmgYURkUIWNL3foXeVQIqBS+IBfGrq5w5pvCKRco584IiGTKyKl
-        bld4r4TA/U+2UmEdPVtcvHXz4kpc0Y3ysoNXVPY=
-X-Google-Smtp-Source: AA0mqf5zMznLK5wbl6hrmVVPm/op1DK9bgtnq49b1qiaWKlRH5ZU2cuM9ovVLXJq9+FMoaCeY9/clz2Mf4WOqV6kIZk=
-X-Received: by 2002:a05:6808:3009:b0:354:94a6:a721 with SMTP id
- ay9-20020a056808300900b0035494a6a721mr24473223oib.194.1669937941636; Thu, 01
- Dec 2022 15:39:01 -0800 (PST)
+        Fri, 2 Dec 2022 09:46:08 -0500
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 081EBC2D3E;
+        Fri,  2 Dec 2022 06:46:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1669992366; x=1701528366;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=YeOXBTpcKW54/I4KLp5hnE2yhE4BreCqf9VS8FQha6M=;
+  b=E0nDJXfCf4nCQJvL82Z+HOWykRiF95wt3KB1EcbgNCcP5B7DfpEsRxAv
+   gnSI8pdMs0LML30b8SwMXXUBDfInq+LPm7dUt0iPQrfC9mZhvFWhsyWe8
+   9Jak6qB8bX1XQw6vrnT++5uie1wnb8p6WQjICsM2nEa1jfa0DRQwXBvgT
+   OGcMGBVM2gCtsN2nfUOclukKWHqClE85/aWTDDrEMPXkoKbjZxYbzWrws
+   2skMn9Y+OCF+ma+4US3NIABpp7gckWj0jJ3B2cKlLgPe3uu14F/3ggB9b
+   812v6R+JTgTeSeYfyXA4CSIbWtLoZSouG4Az1STMdPepm6tany/ZTa3Hu
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="303568477"
+X-IronPort-AV: E=Sophos;i="5.96,212,1665471600"; 
+   d="scan'208";a="303568477"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2022 06:46:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="675849501"
+X-IronPort-AV: E=Sophos;i="5.96,212,1665471600"; 
+   d="scan'208";a="675849501"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+  by orsmga008.jf.intel.com with ESMTP; 02 Dec 2022 06:46:02 -0800
+Received: from newjersey.igk.intel.com (newjersey.igk.intel.com [10.102.20.203])
+        by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id 2B2Ek1m3018822;
+        Fri, 2 Dec 2022 14:46:01 GMT
+From:   Alexander Lobakin <alexandr.lobakin@intel.com>
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, Nicolas Schier <nicolas@fjasle.eu>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Vincent Donnefort <vdonnefort@google.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev, patches@lists.linux.dev
+Subject: Re: [PATCH 2/2] modpost: Include '.text.*' in TEXT_SECTIONS
+Date:   Fri,  2 Dec 2022 15:44:46 +0100
+Message-Id: <20221202144446.3395140-1-alexandr.lobakin@intel.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221129190123.872394-3-nathan@kernel.org>
+References: <20221129190123.872394-1-nathan@kernel.org> <20221129190123.872394-3-nathan@kernel.org>
 MIME-Version: 1.0
-References: <CAG+Z0CvOxWdvDi5qKa=ayPasVYxrourTDjEpXsg8T=mj3J4s6Q@mail.gmail.com>
- <CAK7LNATkKgPu2Y1qEUSAta18ST7DkS2s=yEAge9b8XbpTX-qow@mail.gmail.com>
- <CAK7LNAQf+Cj4nLkK+EOnPuyVym18xC4rJ+Pon5cFqXTTebfxBQ@mail.gmail.com> <CAG+Z0CsTtXctFE2LG0+B+zWQCJTnfJkkYweV3qzFBgxZsXKLxw@mail.gmail.com>
-In-Reply-To: <CAG+Z0CsTtXctFE2LG0+B+zWQCJTnfJkkYweV3qzFBgxZsXKLxw@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 2 Dec 2022 08:38:25 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARUwXn-CVy7husUhcKF5buVo5eZdP9fvN+4yy5fwg_24A@mail.gmail.com>
-Message-ID: <CAK7LNARUwXn-CVy7husUhcKF5buVo5eZdP9fvN+4yy5fwg_24A@mail.gmail.com>
-Subject: Re: [v2] kbuild: Port silent mode detection to future gnu make.
-To:     Dmitry Goncharov <dgoncharov@users.sf.net>
-Cc:     linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Dec 2, 2022 at 7:34 AM Dmitry Goncharov <dgoncharov@users.sf.net> wrote:
->
-> On Wed, Nov 30, 2022 at 6:41 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > I think the following code will work
-> > for 3.82, 4.x, and future releases.
-> >
-> > diff --git a/Makefile b/Makefile
-> > index 78525ebea876..58dfd7475448 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -94,7 +94,7 @@ endif
-> >  # If the user is running make -s (silent mode), suppress echoing of
-> >  # commands
-> >
-> > -ifneq ($(findstring s,$(filter-out --%,$(MAKEFLAGS))),)
-> > +ifneq ($(findstring s,$(filter-out --%,$(filter -%,-$(MAKEFLAGS)))),)
-> >    quiet=silent_
-> >    KBUILD_VERBOSE = 0
-> >  endif
->
->
-> make-4.4 (and later) stores -I<path> in makeflags.
-> $ cat makefile2
-> $(info $(MAKEFLAGS))
-> all:
-> $ make-4.4 -rR   -Isrc --warn-undefined-variables   a=s -j2 -fmakefile2
-> rR -Isrc -j2 --warn-undefined-variables
-> make-4.4: warning: undefined variable 'GNUMAKEFLAGS'
-> make-4.4: Nothing to be done for 'all'.
-> $
->
-> $(findstring s,$(filter-out --%,$(filter -%,-$(MAKEFLAGS)))),)
-> confuses 's' in -Isrc with -s.
->
-> What about the following?
->
->
-> diff --git a/Makefile b/Makefile
-> index 6f846b1f2618..3a97494a9989 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -94,9 +94,15 @@ endif
->  # If the user is running make -s (silent mode), suppress echoing of
->  # commands
->
-> -ifneq ($(findstring s,$(filter-out --%,$(MAKEFLAGS))),)
-> -  quiet=silent_
-> -  KBUILD_VERBOSE = 0
-> +ifeq ($(filter 3.%,$(MAKE_VERSION)),)
-> +silence:=$(findstring s,$(firstword -$(MAKEFLAGS)))
-> +else
-> +silence:=$(findstring s,$(filter-out --%,$(filter -%,-$(MAKEFLAGS))))
-> +endif
+From: Nathan Chancellor <nathan@kernel.org>
+Date: Tue, 29 Nov 2022 12:01:23 -0700
 
+> Commit 6c730bfc894f ("modpost: handle -ffunction-sections") added
+> ".text.*" to the OTHER_TEXT_SECTIONS macro to fix certain section
+> mismatch warnings. Unfortunately, this makes it impossible for modpost
+> to warn about section mismatchs with LTO, which implies
+> '-ffunction-sections', as all functions are put in their own
+> '.text.<func_name>' sections, which may still reference functions in
+> sections they are not supposed to, such as __init.
+> 
+> Fix this by moving ".text.*" into TEXT_SECTIONS, so that configurations
+> with '-ffunction-sections' will see warnings about mismatched sections.
+> 
+> Link: https://lore.kernel.org/Y39kI3MOtVI5BAnV@google.com/
+> Reported-by: Vincent Donnefort <vdonnefort@google.com>
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
+This revealed a couple issues in the FG-KASLR kernel. None of them
+are false-positive although FG-KASLR doesn't merge text.* into one
+section in the final vmlinux. Nice!
 
-Yes.
+Reviewed-and-tested-by: Alexander Lobakin <alexandr.lobakin@intel.com>
 
-You do not need to change the logic in 'else' part,
-but this will work as well.
+> ---
+>  scripts/mod/modpost.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
+[...]
 
+> -- 
+> 2.38.1
 
-
-
-
-> +
-> +ifeq ($(silence),s)
-> +quiet=silent_
-> +KBUILD_VERBOSE = 0
->  endif
->
->  export quiet Q KBUILD_VERBOSE
->
-> Tested 3.82, 4.3, 4.4, latest master.
-> regards, Dmitry
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+Thanks,
+Olek
