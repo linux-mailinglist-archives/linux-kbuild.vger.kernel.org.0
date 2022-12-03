@@ -2,192 +2,93 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02917640CAC
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Dec 2022 18:57:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9585641400
+	for <lists+linux-kbuild@lfdr.de>; Sat,  3 Dec 2022 04:26:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233866AbiLBR5D (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 2 Dec 2022 12:57:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50440 "EHLO
+        id S230086AbiLCD0M (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 2 Dec 2022 22:26:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234370AbiLBR46 (ORCPT
+        with ESMTP id S230071AbiLCD0L (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 2 Dec 2022 12:56:58 -0500
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E1D0E1192
-        for <linux-kbuild@vger.kernel.org>; Fri,  2 Dec 2022 09:56:55 -0800 (PST)
-Received: by mail-pg1-x52f.google.com with SMTP id 6so4964335pgm.6
-        for <linux-kbuild@vger.kernel.org>; Fri, 02 Dec 2022 09:56:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fScTfgURmwWT7H6zKPrxCgIY6rjNdptOvR99AIwlkJg=;
-        b=qb6MUvwgM++qnYXsfWIMcG9mXhaGG+7+W1fGbdBit0a6xA/KVfOeb0AjU4ykvOVMiE
-         F/4LeYBBOxx7tr90Hg3fFY+tVhWWKzQfFcgnR9USKBMhG6/HeAwJYgGBzpFscpdhRoxy
-         eLI7faRS9qoVUi6eRfdJ9Ip/4/x6Gb9giuxyuyAapHWfIQAsfoAoikO/quYMHq94fzgj
-         HFY+5Il1GRVaAUWc+k+Ev8DXlXAXTOS0xSgGiq7k1yhVeYkNct8C6uOB97oG1XKnL8dQ
-         U9D3yFpqWxlmwu332bMtPAFiStjDXK/9KHKn7pC5k5PQdlXGZiYHAOAWTMX+D+VBJy4D
-         MOKA==
+        Fri, 2 Dec 2022 22:26:11 -0500
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA576BA627
+        for <linux-kbuild@vger.kernel.org>; Fri,  2 Dec 2022 19:26:08 -0800 (PST)
+Received: by mail-qt1-f171.google.com with SMTP id a27so7805633qtw.10
+        for <linux-kbuild@vger.kernel.org>; Fri, 02 Dec 2022 19:26:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fScTfgURmwWT7H6zKPrxCgIY6rjNdptOvR99AIwlkJg=;
-        b=rSl1qhtVeegA4Nv+17Edcc4eevV92JEiVjvHCBQVcyq27tfcZOPGynkmwZviOlcP6B
-         1+9+7QhaXzo9GeGnLmawvxTL90JWnRjeYmehJIqyp6t3D4G8L9fFxVzLMFTgDhxi+o/t
-         IIJ4df8gtSi3N5YajAtyW3GIyN/mPBJ1RCd5Je6k7mOGMokb0yM2DxyQnQwlCHvsR/6M
-         z7oBlcP/9n4aZM+0HnTzJ1SQKZNNm9yskfZGOhaqA0g6WbyD2L66Jcous6JyFqJBr74d
-         WDrqBBkhGe/CUp7Hw0VIAGgsQ7VUSzR6VNMo1CLBlFcENwKdM0aYxi7juYsIYM5aVGni
-         350A==
-X-Gm-Message-State: ANoB5pk3RpoTLSKvs6B5E9oc3k7YyMjQs5dl2zwFNemZBjNw1PYDE4Y9
-        7Op9VKm+snBWkLDmndoiuAFCRIgQh3cJIe4dw9A=
-X-Google-Smtp-Source: AA0mqf7BpcQXuIBwLb9SatLFLu0m0DKBXhr2dsQifXx6G9te8219mc7G41HgJyuAzCPt6gBvjrti9A==
-X-Received: by 2002:a63:d356:0:b0:477:1a2:390e with SMTP id u22-20020a63d356000000b0047701a2390emr64563485pgi.83.1670003814551;
-        Fri, 02 Dec 2022 09:56:54 -0800 (PST)
-Received: from localhost ([50.221.140.188])
-        by smtp.gmail.com with ESMTPSA id mt12-20020a17090b230c00b002135e8074b1sm6920965pjb.55.2022.12.02.09.56.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Dec 2022 09:56:54 -0800 (PST)
-Date:   Fri, 02 Dec 2022 09:56:54 -0800 (PST)
-X-Google-Original-Date: Fri, 02 Dec 2022 09:56:41 PST (-0800)
-Subject:     Re: [PATCH v2 1/5] kbuild: add test-{le,ge,lt,gt} macros
-In-Reply-To: <20221123151828.509565-1-masahiroy@kernel.org>
-CC:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        masahiroy@kernel.org, aou@eecs.berkeley.edu, bp@alien8.de,
-        dave.hansen@linux.intel.com, hpa@zytor.com, mingo@redhat.com,
-        nathan@kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu,
-        Paul Walmsley <paul.walmsley@sifive.com>, tglx@linutronix.de,
-        trix@redhat.com, linux-riscv@lists.infradead.org,
-        llvm@lists.linux.dev, x86@kernel.org
-From:   Palmer Dabbelt <palmer@dabbelt.com>
-To:     masahiroy@kernel.org
-Message-ID: <mhng-0ed46e51-0907-46b5-9dc8-90a3fd3762c6@palmer-ri-x1c9a>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dkTzDvSnZXe89xjmxxSqxSc98MhqTdNkU97v8s0nS4o=;
+        b=05o9VKTNC4vTF0mITqOSBDUeWl6pKIa6RutKYvVNf32BE2Hoi3RhsQwbVojOyKiLIE
+         fQBnNpjV9kS/Ah1VxdkSUbC5sjt4jhDdeaECs/69pGRZmPVMWKbSTmI392vLp5h0jSy4
+         f+BTserugdb08SJ0x4RDFjW0CZuGpQuHCA7tfQvTw0rssIy7kZ4h0+6lkaiL/z1p8cgD
+         lppjQ+B7bq92Cz35a/MGPHWxGhTnEdIIJzRGIOkYwU8C/Z8YoBNhLzYtoRigfWTD604p
+         V+Oi9lUZols7o6B4SzgKy7owC0FIKr8ZnK2BWkvw/o0JnbiMHDs5DoujchR+3c1+LNBx
+         Aszg==
+X-Gm-Message-State: ANoB5pkLGBvX8qYR5KyeU/AllYhY6I/18Tg8JaqOUUcHB+BVIBjthExU
+        UAxOSLra2YxgKVsvPer/DUAILDTpy+hTeS/7MFV/WKblq9A=
+X-Google-Smtp-Source: AA0mqf62JL9fPtMvQYf32E4QiDoEtvWd/ClhZLQM9j5Ld1kdLbyREeAcPZQvJ3Ov1yoz8GKSoLPbtczOY8k/xHB0lag=
+X-Received: by 2002:ac8:6792:0:b0:3a5:1c8b:8890 with SMTP id
+ b18-20020ac86792000000b003a51c8b8890mr69878100qtp.63.1670037967962; Fri, 02
+ Dec 2022 19:26:07 -0800 (PST)
+MIME-Version: 1.0
+References: <CAG+Z0CvOxWdvDi5qKa=ayPasVYxrourTDjEpXsg8T=mj3J4s6Q@mail.gmail.com>
+ <CAK7LNATkKgPu2Y1qEUSAta18ST7DkS2s=yEAge9b8XbpTX-qow@mail.gmail.com>
+ <CAK7LNAQf+Cj4nLkK+EOnPuyVym18xC4rJ+Pon5cFqXTTebfxBQ@mail.gmail.com>
+ <CAG+Z0CsTtXctFE2LG0+B+zWQCJTnfJkkYweV3qzFBgxZsXKLxw@mail.gmail.com> <CAK7LNARUwXn-CVy7husUhcKF5buVo5eZdP9fvN+4yy5fwg_24A@mail.gmail.com>
+In-Reply-To: <CAK7LNARUwXn-CVy7husUhcKF5buVo5eZdP9fvN+4yy5fwg_24A@mail.gmail.com>
+From:   Dmitry Goncharov <dgoncharov@users.sf.net>
+Date:   Fri, 2 Dec 2022 22:25:56 -0500
+Message-ID: <CAG+Z0CuM5gKa+n2ayOYF9oDqc1ZpuN64bw37SLqk0CTUi3_gGg@mail.gmail.com>
+Subject: Re: [v2] kbuild: Port silent mode detection to future gnu make.
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, 23 Nov 2022 07:18:24 PST (-0800), masahiroy@kernel.org wrote:
-> Because GNU Make is only able to handle strings, it is very hard to
-> perform arighmetic in Makefiles.
->
-> When we compare two integers, we invokes shell. One example is in the
-> top Makefile:
->
->   ifeq ($(shell test $(CONFIG_LLD_VERSION) -lt 130000; echo $$?),0)
->
-> This is more expensive than using built-in functions since it forks a
-> process.
->
-> If we know the two have the same number of digits, we can do better.
->
-> This commit adds four macros, test-le, test-ge, test-lt, test-gt.
->
-> $(call test-lt, A, B) is evaluated to 'y' if A is less than B, or
-> empty otherwise. This will replace $(call shell test A -lt B).
->
-> Again, the limitation is that A and B must have the same number of
-> digits because these macros are based on $(sort ) function.
->
->   $(call test-lt, 1, 9)    -->  y        (Works!)
->   $(call test-lt, 10, 9)   -->  y        (Not work...)
->
-> To make the latter work, you need to add '0' prefix to align the number
-> of digits:
->
->   $(call test-lt, 10, 09)  -->  empty    (Works!)
->
-> Actually, we can live with this limitation in many places. As for the
-> example above, we know $(CONFIG_LLD_VERSION) is 6-digits because the
-> minimal supported version of LLVM is 11.0.0.
->
-> So, the shell invocation can be replaced with more efficient code:
->
->   ifeq ($(call test-lt, $(CONFIG_LLD_VERSION), 130000),y)
->
-> Of course, this assumption will break when LLVM 100 is released, but it
-> will be far in the future.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
-> (no changes since v1)
->
->  Makefile               |  2 +-
->  arch/riscv/Makefile    |  2 +-
->  arch/x86/Makefile      |  2 +-
->  scripts/Kbuild.include | 10 ++++++++++
->  4 files changed, 13 insertions(+), 3 deletions(-)
->
-> diff --git a/Makefile b/Makefile
-> index 6f846b1f2618..eb80332f7b51 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -986,7 +986,7 @@ KBUILD_LDFLAGS += -mllvm -import-instr-limit=5
->  # Check for frame size exceeding threshold during prolog/epilog insertion
->  # when using lld < 13.0.0.
->  ifneq ($(CONFIG_FRAME_WARN),0)
-> -ifeq ($(shell test $(CONFIG_LLD_VERSION) -lt 130000; echo $$?),0)
-> +ifeq ($(call test-lt, $(CONFIG_LLD_VERSION), 130000),y)
->  KBUILD_LDFLAGS	+= -plugin-opt=-warn-stack-size=$(CONFIG_FRAME_WARN)
->  endif
->  endif
-> diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
-> index 0d13b597cb55..faf2c2177094 100644
-> --- a/arch/riscv/Makefile
-> +++ b/arch/riscv/Makefile
-> @@ -37,7 +37,7 @@ else
->  endif
->
->  ifeq ($(CONFIG_LD_IS_LLD),y)
-> -ifeq ($(shell test $(CONFIG_LLD_VERSION) -lt 150000; echo $$?),0)
-> +ifeq ($(call test-lt, $(CONFIG_LLD_VERSION), 150000),y)
->  	KBUILD_CFLAGS += -mno-relax
->  	KBUILD_AFLAGS += -mno-relax
->  ifndef CONFIG_AS_IS_LLVM
+On Thu, Dec 1, 2022 at 6:39 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> You do not need to change the logic in 'else' part,
+> but this will work as well.
 
-Acked-by: Palmer Dabbelt <palmer@rivosinc.com> # RISC-V
+Here is the version which keeps the 3.82 specific code intact.
+Tested with 3.82, 4.0, 4.3, 4.4, the latest master.
 
-> diff --git a/arch/x86/Makefile b/arch/x86/Makefile
-> index 415a5d138de4..e72c7a49cd59 100644
-> --- a/arch/x86/Makefile
-> +++ b/arch/x86/Makefile
-> @@ -211,7 +211,7 @@ endif
->  KBUILD_LDFLAGS += -m elf_$(UTS_MACHINE)
->
->  ifdef CONFIG_LTO_CLANG
-> -ifeq ($(shell test $(CONFIG_LLD_VERSION) -lt 130000; echo $$?),0)
-> +ifeq ($(call test-lt, $(CONFIG_LLD_VERSION), 130000),y)
->  KBUILD_LDFLAGS	+= -plugin-opt=-stack-alignment=$(if $(CONFIG_X86_32),4,8)
->  endif
->  endif
-> diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-> index cbe28744637b..9996f34327cb 100644
-> --- a/scripts/Kbuild.include
-> +++ b/scripts/Kbuild.include
-> @@ -11,6 +11,16 @@ space   := $(empty) $(empty)
->  space_escape := _-_SPACE_-_
->  pound := \#
->
-> +###
-> +# Comparison macros.
-> +# Usage: $(call test-le, A, B)
-> +# works like shell's "test A -le B", but A and B must have the same number of
-> +# digits since it is just ASCII sort.
-> +test-le = $(if $(filter $1, $(firstword $(sort $1 $2))),y)
-> +test-ge = $(call test-le, $2, $1)
-> +test-lt = $(if $(filter-out $2, $(firstword $(sort $1 $2))),y)
-> +test-gt = $(call test-lt, $2, $1)
-> +
->  ###
->  # Name of target with a '.' as filename prefix. foo/bar.o => foo/.bar.o
->  dot-target = $(dir $@).$(notdir $@)
+regards, Dmitry
+
+diff --git a/Makefile b/Makefile
+index 6f846b1f2618..fbd9ff4a61e7 100644
+--- a/Makefile
++++ b/Makefile
+@@ -93,10 +93,17 @@ endif
+
+ # If the user is running make -s (silent mode), suppress echoing of
+ # commands
++# make-4.0 (and later) keep single letter options in the 1st word of MAKEFLAGS.
+
+-ifneq ($(findstring s,$(filter-out --%,$(MAKEFLAGS))),)
+-  quiet=silent_
+-  KBUILD_VERBOSE = 0
++ifeq ($(filter 3.%,$(MAKE_VERSION)),)
++silence:=$(findstring s,$(firstword -$(MAKEFLAGS)))
++else
++silence:=$(findstring s,$(filter-out --%,$(MAKEFLAGS)))
++endif
++
++ifeq ($(silence),s)
++quiet=silent_
++KBUILD_VERBOSE = 0
+ endif
+
+ export quiet Q KBUILD_VERBOSE
