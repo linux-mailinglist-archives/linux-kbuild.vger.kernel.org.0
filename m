@@ -2,186 +2,170 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78326643CA7
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Dec 2022 06:27:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 454F5643CBA
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Dec 2022 06:38:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229724AbiLFF1B (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 6 Dec 2022 00:27:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57954 "EHLO
+        id S233006AbiLFFi2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 6 Dec 2022 00:38:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229591AbiLFF07 (ORCPT
+        with ESMTP id S232543AbiLFFi1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 6 Dec 2022 00:26:59 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DDCA95AC;
-        Mon,  5 Dec 2022 21:26:59 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9C0DE611E0;
-        Tue,  6 Dec 2022 05:26:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8992C433D6;
-        Tue,  6 Dec 2022 05:26:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670304418;
-        bh=J1AYXuRzWTFTLlyZLTqLYJyYKG7GrOlsE78RJhxCyQw=;
-        h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-        b=slX8spyWfo7MphFQ0dHRAmnAPph+D/QC+Q1j9Bd5hnurSPMYNt+u5U2IlsYzvwvFf
-         BD2ZwvM1Q+LcQAJoz3xm7aEKm96/xudOoaqRsYVPU2s5dSGpeHV0OBN76NAJojp0AT
-         OLmX91Wn2iBrR3ffBLr4CMOLOEHeM+OsaRHm0/Gf4DOlve3QsSiaJTK+prvgfW3Pwj
-         Ve6OviJqqfxSG0tuu7Xb63jB0UTpa82Ng4Hc4AFozzgJGMNZwwutDFoT1UH3bV9g2g
-         a8H2yfEYmA+mrl/XAdHS8vpaz7mLXPG3oFMOHD8pQR+p0ohxXvArPoTVZJA+Xbr26o
-         5vgMT6V8IRtGA==
-Date:   Mon, 05 Dec 2022 21:26:55 -0800
-From:   Kees Cook <kees@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Kees Cook <keescook@chromium.org>
-CC:     linux-kbuild@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2=5D_kbuild=3A_fix_SIGPIPE_err?= =?US-ASCII?Q?or_message_for_AR=3Dgcc-ar_and_AR=3Dllvm-ar?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <CAK7LNASBwfyt_2dbT1-MEcGwF8hQogJgjYnEE-e-twtL1WNYhg@mail.gmail.com>
-References: <20221027162839.410720-1-masahiroy@kernel.org> <202211161056.1B9611A@keescook> <CAK7LNATWbvpovH8qsGMX-5-31QiQ6pjKNnm+YEDEqr4io1hrSw@mail.gmail.com> <202211161406.EF075E28E9@keescook> <CAK7LNASBwfyt_2dbT1-MEcGwF8hQogJgjYnEE-e-twtL1WNYhg@mail.gmail.com>
-Message-ID: <9E7D1CE1-3956-4BCC-9FCD-AEF0684E3DC3@kernel.org>
+        Tue, 6 Dec 2022 00:38:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C396D24089
+        for <linux-kbuild@vger.kernel.org>; Mon,  5 Dec 2022 21:37:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1670305045;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=iCpQoYaQ/Ha08fQwDldZIJmIopiT9lmDYnqu+ZkZwm8=;
+        b=bseQoy3H3wdTKOkdrTTOuTkyP6/DcqvI6D1uf0VTs4bhcFJScieTKZSS3b5rgOdWsbZmUK
+        VBy24Uuw18448bYSVTfQN3KYXY8MjvPigVWljmRiKXughnk5xTbxPJIAG2/O2EAhX6GmZl
+        e5V95J5CxPu0JtBGY1+CjBRitkymscs=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-225-S7p-SYO3M86eHpJrLLUjFg-1; Tue, 06 Dec 2022 00:37:24 -0500
+X-MC-Unique: S7p-SYO3M86eHpJrLLUjFg-1
+Received: by mail-qv1-f70.google.com with SMTP id ob12-20020a0562142f8c00b004c6c72bf1d0so31328518qvb.9
+        for <linux-kbuild@vger.kernel.org>; Mon, 05 Dec 2022 21:37:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iCpQoYaQ/Ha08fQwDldZIJmIopiT9lmDYnqu+ZkZwm8=;
+        b=TJzaaQy+5M/YWFxPwXiCfnuL1dsOKJbOTreN0XQTKsgVxxcbSoSLjF7KLNmnBGq4MB
+         uJwGBfPw7H7VhJUUcWo5bEm0U/+ZBpD0q/QrcaEKynljDrAt3Z/v1Ukf5cC1Mn1ADUaz
+         VcWEgl7E5JoZRvzK+IW07rtKbllTkadZlunvO43+nKmd1gngMayNZ/W6o6Fvpyt2ivr3
+         YtC98vYyrdJ/3dxUp5U6x4/GVcpsZdZE7RidXP3ff/AM7MRO3QfQBAkVqowVW+QsjVxL
+         aMDZEqH2qHKDkzXlAB7E0XYmfTMP7Xa8Q9d4da1tt5Fn8qDmYn7gscALyBy37YT2ERIx
+         BwVA==
+X-Gm-Message-State: ANoB5pnFCTnLiNDn9pjOvaZNyejhEHuDujgnD5he3gGzK/FW01qaICXG
+        6zVUMpKqueSmkSGn+eqOi+TAjFK9Up8HpQljTgtxlYjELx/H7br7inO7COXoYRGtKUX1kZIu3/w
+        rK2FXxv6zsZwN/DNnINO32vuv1OyYiy+GkP9o2SpesuaGkhZSL5Gh4JnCf0aiQ1fGKATuRuorg4
+        u9
+X-Received: by 2002:a05:620a:2728:b0:6fa:1d3b:fa74 with SMTP id b40-20020a05620a272800b006fa1d3bfa74mr75522882qkp.123.1670305043045;
+        Mon, 05 Dec 2022 21:37:23 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5aD1MhwUe0pMh0RGdRRsCbd8zoLd0vIAkPSgLCTOFX8XeHvRDflB9csTbfjT7H0DY5n9Fsqw==
+X-Received: by 2002:a05:620a:2728:b0:6fa:1d3b:fa74 with SMTP id b40-20020a05620a272800b006fa1d3bfa74mr75522869qkp.123.1670305042768;
+        Mon, 05 Dec 2022 21:37:22 -0800 (PST)
+Received: from [192.168.98.18] ([107.12.98.143])
+        by smtp.gmail.com with ESMTPSA id o13-20020ac85a4d000000b003a68fe872a5sm2057132qta.96.2022.12.05.21.37.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Dec 2022 21:37:22 -0800 (PST)
+Message-ID: <88901065-469f-0988-f56b-c84d1fabbe8a@redhat.com>
+Date:   Tue, 6 Dec 2022 00:37:21 -0500
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH next v2] kbuild: add ability to make source rpm buildable
+ using koji
+Content-Language: en-US
+To:     linux-kbuild@vger.kernel.org
+Cc:     masahiroy@kernel.org, dzickus@redhat.com, ihuguet@redhat.com,
+        ivecera@redhat.com, jtornosm@redhat.com, kheib@redhat.com,
+        linux-kernel@vger.kernel.org, michal.lkml@markovi.net,
+        ndesaulniers@google.com, Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>
+References: <d6d5ce3169da8559cd20d20889849546cc69be50.1669042125.git.jtoppins@redhat.com>
+From:   Jonathan Toppins <jtoppins@redhat.com>
+In-Reply-To: <d6d5ce3169da8559cd20d20889849546cc69be50.1669042125.git.jtoppins@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On December 5, 2022 8:24:41 PM PST, Masahiro Yamada <masahiroy@kernel=2Eorg=
-> wrote:
->On Thu, Nov 17, 2022 at 7:07 AM Kees Cook <keescook@chromium=2Eorg> wrote=
-:
->>
->> On Thu, Nov 17, 2022 at 05:37:31AM +0900, Masahiro Yamada wrote:
->> > On Thu, Nov 17, 2022 at 4:01 AM Kees Cook <keescook@chromium=2Eorg> w=
-rote:
->> > >
->> > > On Fri, Oct 28, 2022 at 01:28:39AM +0900, Masahiro Yamada wrote:
->> > > > Jiri Slaby reported that building the kernel with AR=3Dgcc-ar sho=
-ws:
->> > > >   /usr/bin/ar terminated with signal 13 [Broken pipe]
->> > > >
->> > > > Nathan Chancellor reported the latest AR=3Dllvm-ar shows
->> > > >   error: write on a pipe with no reader
->> > > >
->> > > > The latter occurs since LLVM commit 51b557adc131 ("Add an error m=
-essage
->> > > > to the default SIGPIPE handler")=2E
->> > > >
->> > > > The resulting vmlinux is correct, but it is better to silence it=
-=2E
->> > > >
->> > > > 'head -n1' exits after reading the first line, so the pipe is clo=
-sed=2E
->> > > >
->> > > > Use 'sed -n 1p' to eat the stream till the end=2E
->> > >
->> > > I think this is wrong because it needlessly consumes CPU time=2E SI=
-GPIPE
->> > > is _needed_ to stop a process after we found what we needed, but it=
-'s up
->> > > to the caller (the shell here) to determine what to do about it=2E
->> > >
->> > > Similarly, that LLVM commit is wrong -- tools should _not_ catch th=
-eir
->> > > own SIGPIPEs=2E They should be caught by their callers=2E
->> > >
->> > > For example, see:
->> > >
->> > > $ seq 10000 | head -n1
->> > > 1
->> > >
->> > > ^^^ no warnings from the shell (caller of "seq")
->> > > And you can see it _is_ being killed by SIGPIPE:
->> > >
->> > > $ strace seq 1000 | head -n1
->> > > =2E=2E=2E
->> > > write(1, "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14"=2E=2E=2E, =
-8192) =3D 8192
->> > > 1
->> > > write(1, "\n1861\n1862\n1863\n1864\n1865\n1866\n1"=2E=2E=2E, 4096) =
-=3D -1 EPIPE (Broken pipe)
->> > > --- SIGPIPE {si_signo=3DSIGPIPE, si_code=3DSI_USER, si_pid=3D350344=
-8, si_uid=3D1000} ---
->> > > +++ killed by SIGPIPE +++
->> > >
->> > > If we use "sed -n 1p" seq will continue to run, consuming needless =
-time
->> > > and CPU resources=2E
->> > >
->> > > So, I strongly think this is the wrong solution=2E SIGPIPE should b=
-e
->> > > ignored for ar, and LLVM should _not_ catch its own SIGPIPE=2E
->> > >
->> > > -Kees
->> >
->> >
->> > I thought of this - it is just wasting CPU time,
->> > but I did not come up with a better idea on the kbuild side=2E
->> >
->> > I do not want to use 2>/dev/null because it may hide
->> > non-SIGPIPE (i=2Ee=2E real) errors=2E
->>
->> Yes, I've opened an upstream LLVM bug for this:
->> https://github=2Ecom/llvm/llvm-project/issues/59037
->>
->> --
->> Kees Cook
->
->
->
->BTW, Python does something similar by default=2E
->(noisy back-trace for SIGPIPE)
->
->
->
->
->
->masahiro@zoe:/tmp$ cat test=2Epy
->#!/usr/bin/python3
->for i in range(4000):
->    print(i)
->
->masahiro@zoe:/tmp$ =2E/test=2Epy  |  head -n1
->0
->Traceback (most recent call last):
->  File "/tmp/=2E/test=2Epy", line 3, in <module>
->    print(i)
->BrokenPipeError: [Errno 32] Broken pipe
+On 11/21/22 09:48, Jonathan Toppins wrote:
+> From: Ivan Vecera <ivecera@redhat.com>
+> 
+> Changes:
+> - added new target 'srcrpm-pkg' to generate source rpm
+> - added required build tools to spec file
+> - removed locally compiled host tools to force their re-compile
+> 
+> Signed-off-by: Ivan Vecera <ivecera@redhat.com>
+> Signed-off-by: Jonathan Toppins <jtoppins@redhat.com>
+> Acked-by: Íñigo Huguet <ihuguet@redhat.com>
+> Tested-by: Ivan Vecera <ivecera@redhat.com>
+> ---
+> 
+> Notes:
+>      v2:
+>       * updated UTS_MACHINE to be $(UTS_MACHINE)-linux
+>         suggested by Masahiro Yamada
 
-Eww=2E Well, same problem, IMO=2E For any Python scripts that are going to=
- have potentially truncated output, they need to do:
+Quick ping, wanted to make sure I didn't miss any requests. Looking at 
+patchwork there appear to be no replies to this version. Would it be 
+reasonable to assume this version will be accepted and make it into the 
+next kernel?
 
-from signal import signal, SIGPIPE, SIG_DFL
-signal(SIGPIPE,SIG_DFL)
+> 
+>   scripts/Makefile.package | 10 ++++++++++
+>   scripts/package/mkspec   |  7 +++++++
+>   2 files changed, 17 insertions(+)
+> 
+> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+> index 8bbcced67c22..1290f1c631fb 100644
+> --- a/scripts/Makefile.package
+> +++ b/scripts/Makefile.package
+> @@ -62,6 +62,16 @@ rpm-pkg:
+>   	+rpmbuild $(RPMOPTS) --target $(UTS_MACHINE)-linux -ta $(KERNELPATH).tar.gz \
+>   	--define='_smp_mflags %{nil}'
+>   
+> +# srcrpm-pkg
+> +# ---------------------------------------------------------------------------
+> +PHONY += srcrpm-pkg
+> +srcrpm-pkg:
+> +	$(MAKE) clean
+> +	$(CONFIG_SHELL) $(MKSPEC) >$(objtree)/kernel.spec
+> +	$(call cmd,src_tar,$(KERNELPATH),kernel.spec)
+> +	+rpmbuild $(RPMOPTS) --target $(UTS_MACHINE)-linux -ts $(KERNELPATH).tar.gz \
+> +	--define='_smp_mflags %{nil}' --define='_srcrpmdir $(srctree)'
+> +
+>   # binrpm-pkg
+>   # ---------------------------------------------------------------------------
+>   PHONY += binrpm-pkg
+> diff --git a/scripts/package/mkspec b/scripts/package/mkspec
+> index 70392fd2fd29..dda00a948a01 100755
+> --- a/scripts/package/mkspec
+> +++ b/scripts/package/mkspec
+> @@ -33,6 +33,8 @@ EXCLUDES="$RCS_TAR_IGNORE --exclude=*vmlinux* --exclude=*.mod \
+>   --exclude=*.o --exclude=*.ko --exclude=*.cmd --exclude=Documentation \
+>   --exclude=.config.old --exclude=.missing-syscalls.d --exclude=*.s"
+>   
+> +test -n "$LOCALVERSION" && MAKE="$MAKE LOCALVERSION=$LOCALVERSION"
+> +
+>   # We can label the here-doc lines for conditional output to the spec file
+>   #
+>   # Labels:
+> @@ -49,6 +51,9 @@ sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
+>   	URL: https://www.kernel.org
+>   $S	Source: kernel-$__KERNELRELEASE.tar.gz
+>   	Provides: $PROVIDES
+> +$S	BuildRequires: bc binutils bison dwarves elfutils-libelf-devel flex
+> +$S	BuildRequires: gcc make openssl openssl-devel perl python3 rsync
+> +
+>   	# $UTS_MACHINE as a fallback of _arch in case
+>   	# /usr/lib/rpm/platform/*/macros was not included.
+>   	%define _arch %{?_arch:$UTS_MACHINE}
+> @@ -80,6 +85,8 @@ $S$M	against the $__KERNELRELEASE kernel package.
+>   $S$M
+>   $S	%prep
+>   $S	%setup -q
+> +$S	rm -f scripts/basic/fixdep scripts/kconfig/conf
+> +$S	rm -f tools/objtool/{fixdep,objtool}
+>   $S
+>   $S	%build
+>   $S	$MAKE %{?_smp_mflags} KBUILD_BUILD_VERSION=%{release}
 
->This page
->https://www=2Egeeksforgeeks=2Eorg/broken-pipe-error-in-python/
->
->suggests some workarounds=2E
-
-(As suggested in this page=2E)
-
->What would you suggest for python scripts?
-
-They need to be fixed=2E A command line tool internally catching SIGPIPE i=
-s wrong=2E :)
-
--Kees
-
-
---=20
-Kees Cook
