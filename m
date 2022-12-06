@@ -2,149 +2,212 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A2229643CBF
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Dec 2022 06:44:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D1C24643D7A
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Dec 2022 08:14:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230151AbiLFFoX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 6 Dec 2022 00:44:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35160 "EHLO
+        id S229449AbiLFHOs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 6 Dec 2022 02:14:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbiLFFoW (ORCPT
+        with ESMTP id S229938AbiLFHOr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 6 Dec 2022 00:44:22 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C639122B08;
-        Mon,  5 Dec 2022 21:44:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=8d8E8Zxi4DqG9crOyp7Wd4237RTp+YfV9h1RI5HT8ns=; b=YbqO6NipmViunyBd6gU24DjXkn
-        QG8F3ldjr1F0ffg3hmymn24e4QBZ3QRgGGp8LT3EA9gug5C1IpZ4o7gKUBpPyHZ8fRefsOr6SJvr6
-        5kfx5WRJyUcODSVhMZ1Rtwb1eTCTYAOSAqxj0Z1+JsmqToI7LxKKaAa6qkMPHxOcGBku5Ur2uwsYK
-        gGiPrEDtLTZTI0NQgwgjYVUPI9O38yd3WFAi2DLalgEgqH7cIJVTuNQjvOU1PZ/kjD2G25d9CBEK8
-        l2vWvdXJs1F57sq8kjc3Sksr8d7TgLhz4GooK8myupvDUvOzpfxUEItd9M0YEjVvRD0qf2TGeDvLO
-        KvkqMgqA==;
-Received: from [2601:1c2:d80:3110::a2e7]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1p2QkY-001T07-0K; Tue, 06 Dec 2022 05:44:14 +0000
-Message-ID: <f8c49457-7f7a-b8bf-b212-b607a1ecf346@infradead.org>
-Date:   Mon, 5 Dec 2022 21:44:12 -0800
+        Tue, 6 Dec 2022 02:14:47 -0500
+Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A823915702;
+        Mon,  5 Dec 2022 23:14:45 -0800 (PST)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 2B67EEYZ012284;
+        Tue, 6 Dec 2022 16:14:14 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 2B67EEYZ012284
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1670310855;
+        bh=U52gCh8Z/SoLdl6qC1zDSkx5TTz1rxCuOfh1pUNoh1I=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=uir75WmhM61qWYaSAfEX4eh/3QvB6Hl5x7uUEt4t6txjzK9eHuMyEt2KoUvB8p0f/
+         3SeDf4vb5LglQhhBoQ92C1UJS4aFRwwL0K9tu8+AiCoZsONS7j+GOL4Lt7NXYFgKXP
+         8oMg887wTAjlSDOd4C69fumOvFX+a9B4/a+iql3BwwYveDlvm+MPBNdQRdDTWtcqEU
+         IMfiGGeGxfjjZ15/6zlwucOfsDnIS7BpbFua9Lm4+l9F9Ew1CjtGEVDxv3VkmG0LNn
+         4mOPQCK+zwbMgLeZa9pfWnpRYhwxDhaIim9guOQZ/WaR1BJ492RW8dn/dXHH9P4R5N
+         ThJSIhNuOSozw==
+X-Nifty-SrcIP: [209.85.208.172]
+Received: by mail-lj1-f172.google.com with SMTP id x11so16203289ljh.7;
+        Mon, 05 Dec 2022 23:14:14 -0800 (PST)
+X-Gm-Message-State: ANoB5pmy+Wp/qLrn1omvZdj3jklygDv87vd52EdheKJ/LnaQBw0DS5ao
+        DhmEmwuYvYmx+K6bQCgCqTR43fRIn88dfdZzHSQ=
+X-Google-Smtp-Source: AA0mqf5uw6qKYikZAQcH398Rzc4rNP9PNyOlQM5FtlXYbzO5X2thuJyKZ5sk3UnpRje0kRiU0nts8llwaN6AMm42LoU=
+X-Received: by 2002:a05:651c:10af:b0:277:3046:3d1c with SMTP id
+ k15-20020a05651c10af00b0027730463d1cmr25407706ljn.422.1670310853192; Mon, 05
+ Dec 2022 23:14:13 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
+References: <d6d5ce3169da8559cd20d20889849546cc69be50.1669042125.git.jtoppins@redhat.com>
+ <88901065-469f-0988-f56b-c84d1fabbe8a@redhat.com> <f8c49457-7f7a-b8bf-b212-b607a1ecf346@infradead.org>
+In-Reply-To: <f8c49457-7f7a-b8bf-b212-b607a1ecf346@infradead.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 6 Dec 2022 16:13:34 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASyvQKkOmCfshfW7uuFtfSR7hSv7g4-_Vi1QoOL6VUFWw@mail.gmail.com>
+Message-ID: <CAK7LNASyvQKkOmCfshfW7uuFtfSR7hSv7g4-_Vi1QoOL6VUFWw@mail.gmail.com>
 Subject: Re: [PATCH next v2] kbuild: add ability to make source rpm buildable
  using koji
-Content-Language: en-US
-To:     Jonathan Toppins <jtoppins@redhat.com>,
-        linux-kbuild@vger.kernel.org
-Cc:     masahiroy@kernel.org, dzickus@redhat.com, ihuguet@redhat.com,
-        ivecera@redhat.com, jtornosm@redhat.com, kheib@redhat.com,
-        linux-kernel@vger.kernel.org, michal.lkml@markovi.net,
-        ndesaulniers@google.com, Nathan Chancellor <nathan@kernel.org>,
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Jonathan Toppins <jtoppins@redhat.com>,
+        linux-kbuild@vger.kernel.org, dzickus@redhat.com,
+        ihuguet@redhat.com, ivecera@redhat.com, jtornosm@redhat.com,
+        kheib@redhat.com, linux-kernel@vger.kernel.org,
+        michal.lkml@markovi.net, ndesaulniers@google.com,
+        Nathan Chancellor <nathan@kernel.org>,
         Nicolas Schier <nicolas@fjasle.eu>
-References: <d6d5ce3169da8559cd20d20889849546cc69be50.1669042125.git.jtoppins@redhat.com>
- <88901065-469f-0988-f56b-c84d1fabbe8a@redhat.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <88901065-469f-0988-f56b-c84d1fabbe8a@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi,
+On Tue, Dec 6, 2022 at 2:44 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> Hi,
+>
+> On 12/5/22 21:37, Jonathan Toppins wrote:
+> > On 11/21/22 09:48, Jonathan Toppins wrote:
+> >> From: Ivan Vecera <ivecera@redhat.com>
+> >>
+> >> Changes:
+> >> - added new target 'srcrpm-pkg' to generate source rpm
+> >> - added required build tools to spec file
+> >> - removed locally compiled host tools to force their re-compile
+> >>
+> >> Signed-off-by: Ivan Vecera <ivecera@redhat.com>
+> >> Signed-off-by: Jonathan Toppins <jtoppins@redhat.com>
+> >> Acked-by: =C3=8D=C3=B1igo Huguet <ihuguet@redhat.com>
+> >> Tested-by: Ivan Vecera <ivecera@redhat.com>
+> >> ---
+> >>
+> >> Notes:
+> >>      v2:
+> >>       * updated UTS_MACHINE to be $(UTS_MACHINE)-linux
+> >>         suggested by Masahiro Yamada
+> >
+> > Quick ping, wanted to make sure I didn't miss any requests. Looking at =
+patchwork there appear to be no replies to this version. Would it be reason=
+able to assume this version will be accepted and make it into the next kern=
+el?
+>
+> I have a request:
+> Tell us what "koji" is. I'm surprised that that word is not in the
+> patch description at all.
+>
+> Thanks.
 
-On 12/5/22 21:37, Jonathan Toppins wrote:
-> On 11/21/22 09:48, Jonathan Toppins wrote:
->> From: Ivan Vecera <ivecera@redhat.com>
->>
->> Changes:
->> - added new target 'srcrpm-pkg' to generate source rpm
->> - added required build tools to spec file
->> - removed locally compiled host tools to force their re-compile
->>
->> Signed-off-by: Ivan Vecera <ivecera@redhat.com>
->> Signed-off-by: Jonathan Toppins <jtoppins@redhat.com>
->> Acked-by: Íñigo Huguet <ihuguet@redhat.com>
->> Tested-by: Ivan Vecera <ivecera@redhat.com>
->> ---
->>
->> Notes:
->>      v2:
->>       * updated UTS_MACHINE to be $(UTS_MACHINE)-linux
->>         suggested by Masahiro Yamada
-> 
-> Quick ping, wanted to make sure I didn't miss any requests. Looking at patchwork there appear to be no replies to this version. Would it be reasonable to assume this version will be accepted and make it into the next kernel?
 
-I have a request:
-Tell us what "koji" is. I'm surprised that that word is not in the
-patch description at all.
 
-Thanks.
 
->>
->>   scripts/Makefile.package | 10 ++++++++++
->>   scripts/package/mkspec   |  7 +++++++
->>   2 files changed, 17 insertions(+)
->>
->> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
->> index 8bbcced67c22..1290f1c631fb 100644
->> --- a/scripts/Makefile.package
->> +++ b/scripts/Makefile.package
->> @@ -62,6 +62,16 @@ rpm-pkg:
->>       +rpmbuild $(RPMOPTS) --target $(UTS_MACHINE)-linux -ta $(KERNELPATH).tar.gz \
->>       --define='_smp_mflags %{nil}'
->>   +# srcrpm-pkg
->> +# ---------------------------------------------------------------------------
->> +PHONY += srcrpm-pkg
->> +srcrpm-pkg:
->> +    $(MAKE) clean
->> +    $(CONFIG_SHELL) $(MKSPEC) >$(objtree)/kernel.spec
->> +    $(call cmd,src_tar,$(KERNELPATH),kernel.spec)
->> +    +rpmbuild $(RPMOPTS) --target $(UTS_MACHINE)-linux -ts $(KERNELPATH).tar.gz \
->> +    --define='_smp_mflags %{nil}' --define='_srcrpmdir $(srctree)'
->> +
->>   # binrpm-pkg
->>   # ---------------------------------------------------------------------------
->>   PHONY += binrpm-pkg
->> diff --git a/scripts/package/mkspec b/scripts/package/mkspec
->> index 70392fd2fd29..dda00a948a01 100755
->> --- a/scripts/package/mkspec
->> +++ b/scripts/package/mkspec
->> @@ -33,6 +33,8 @@ EXCLUDES="$RCS_TAR_IGNORE --exclude=*vmlinux* --exclude=*.mod \
->>   --exclude=*.o --exclude=*.ko --exclude=*.cmd --exclude=Documentation \
->>   --exclude=.config.old --exclude=.missing-syscalls.d --exclude=*.s"
->>   +test -n "$LOCALVERSION" && MAKE="$MAKE LOCALVERSION=$LOCALVERSION"
->> +
->>   # We can label the here-doc lines for conditional output to the spec file
->>   #
->>   # Labels:
->> @@ -49,6 +51,9 @@ sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
->>       URL: https://www.kernel.org
->>   $S    Source: kernel-$__KERNELRELEASE.tar.gz
->>       Provides: $PROVIDES
->> +$S    BuildRequires: bc binutils bison dwarves elfutils-libelf-devel flex
->> +$S    BuildRequires: gcc make openssl openssl-devel perl python3 rsync
->> +
->>       # $UTS_MACHINE as a fallback of _arch in case
->>       # /usr/lib/rpm/platform/*/macros was not included.
->>       %define _arch %{?_arch:$UTS_MACHINE}
->> @@ -80,6 +85,8 @@ $S$M    against the $__KERNELRELEASE kernel package.
->>   $S$M
->>   $S    %prep
->>   $S    %setup -q
->> +$S    rm -f scripts/basic/fixdep scripts/kconfig/conf
->> +$S    rm -f tools/objtool/{fixdep,objtool}
->>   $S
->>   $S    %build
->>   $S    $MAKE %{?_smp_mflags} KBUILD_BUILD_VERSION=%{release}
-> 
+I applied this patch, but somehow I replied to v1
+https://lore.kernel.org/linux-kbuild/CAK7LNATPZkMCabD5aGNamp-gH3aZvFPr2_Yq=
+=3DN=3DrM_ht2i3p6g@mail.gmail.com/
 
--- 
-~Randy
+
+
+I have never used it, but I guess koji is a build engine
+that generates binary packages from a source package.
+
+That's why they want to create only a source package.
+
+
+This patch is not related to koji
+(and I suggested them to drop it from the subject)
+
+I just tested it by using 'rpmbuild' on my local machine.
+
+
+
+
+
+
+
+
+
+
+
+
+> >>
+> >>   scripts/Makefile.package | 10 ++++++++++
+> >>   scripts/package/mkspec   |  7 +++++++
+> >>   2 files changed, 17 insertions(+)
+> >>
+> >> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+> >> index 8bbcced67c22..1290f1c631fb 100644
+> >> --- a/scripts/Makefile.package
+> >> +++ b/scripts/Makefile.package
+> >> @@ -62,6 +62,16 @@ rpm-pkg:
+> >>       +rpmbuild $(RPMOPTS) --target $(UTS_MACHINE)-linux -ta $(KERNELP=
+ATH).tar.gz \
+> >>       --define=3D'_smp_mflags %{nil}'
+> >>   +# srcrpm-pkg
+> >> +# -------------------------------------------------------------------=
+--------
+> >> +PHONY +=3D srcrpm-pkg
+> >> +srcrpm-pkg:
+> >> +    $(MAKE) clean
+> >> +    $(CONFIG_SHELL) $(MKSPEC) >$(objtree)/kernel.spec
+> >> +    $(call cmd,src_tar,$(KERNELPATH),kernel.spec)
+> >> +    +rpmbuild $(RPMOPTS) --target $(UTS_MACHINE)-linux -ts $(KERNELPA=
+TH).tar.gz \
+> >> +    --define=3D'_smp_mflags %{nil}' --define=3D'_srcrpmdir $(srctree)=
+'
+> >> +
+> >>   # binrpm-pkg
+> >>   # ------------------------------------------------------------------=
+---------
+> >>   PHONY +=3D binrpm-pkg
+> >> diff --git a/scripts/package/mkspec b/scripts/package/mkspec
+> >> index 70392fd2fd29..dda00a948a01 100755
+> >> --- a/scripts/package/mkspec
+> >> +++ b/scripts/package/mkspec
+> >> @@ -33,6 +33,8 @@ EXCLUDES=3D"$RCS_TAR_IGNORE --exclude=3D*vmlinux* --=
+exclude=3D*.mod \
+> >>   --exclude=3D*.o --exclude=3D*.ko --exclude=3D*.cmd --exclude=3DDocum=
+entation \
+> >>   --exclude=3D.config.old --exclude=3D.missing-syscalls.d --exclude=3D=
+*.s"
+> >>   +test -n "$LOCALVERSION" && MAKE=3D"$MAKE LOCALVERSION=3D$LOCALVERSI=
+ON"
+> >> +
+> >>   # We can label the here-doc lines for conditional output to the spec=
+ file
+> >>   #
+> >>   # Labels:
+> >> @@ -49,6 +51,9 @@ sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
+> >>       URL: https://www.kernel.org
+> >>   $S    Source: kernel-$__KERNELRELEASE.tar.gz
+> >>       Provides: $PROVIDES
+> >> +$S    BuildRequires: bc binutils bison dwarves elfutils-libelf-devel =
+flex
+> >> +$S    BuildRequires: gcc make openssl openssl-devel perl python3 rsyn=
+c
+> >> +
+> >>       # $UTS_MACHINE as a fallback of _arch in case
+> >>       # /usr/lib/rpm/platform/*/macros was not included.
+> >>       %define _arch %{?_arch:$UTS_MACHINE}
+> >> @@ -80,6 +85,8 @@ $S$M    against the $__KERNELRELEASE kernel package.
+> >>   $S$M
+> >>   $S    %prep
+> >>   $S    %setup -q
+> >> +$S    rm -f scripts/basic/fixdep scripts/kconfig/conf
+> >> +$S    rm -f tools/objtool/{fixdep,objtool}
+> >>   $S
+> >>   $S    %build
+> >>   $S    $MAKE %{?_smp_mflags} KBUILD_BUILD_VERSION=3D%{release}
+> >
+>
+> --
+> ~Randy
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
