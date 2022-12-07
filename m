@@ -2,204 +2,178 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 55CF36461EA
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Dec 2022 20:57:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A487A6461E7
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Dec 2022 20:57:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229560AbiLGT5O (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 7 Dec 2022 14:57:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58340 "EHLO
+        id S229475AbiLGT5F (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 7 Dec 2022 14:57:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229592AbiLGT5L (ORCPT
+        with ESMTP id S229437AbiLGT5E (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 7 Dec 2022 14:57:11 -0500
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36F765E3FD;
-        Wed,  7 Dec 2022 11:57:09 -0800 (PST)
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2B7GDv8G010250;
-        Wed, 7 Dec 2022 19:56:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2022-7-12;
- bh=tMaLcJnjsya6xB/fqoO37IigfwJeuy3AOFtxwKqlfco=;
- b=jhlLKV2McvFZxY9nAuyYC7kz+YHANvfcb2AcvIKCmTlhuDYacpZbeDmxQwlldJZmSF10
- g64Un8rtQFk4VdT+TMPCmBK9X3/x6L7g/XuUZRYGfp6H46whCDS7dasyornuQJfxVRkk
- ML2XX6EUqD3QtRh8eTbsUA2+9bB+RaipmCBZVh84UTiUCszaX9Hb2PErnx8gMar+U3e3
- NhnnLPQaMEHDHqjUtPqcsfk55eyeoRMNrrGDWJ71D0BmE/VIqiVzfjuCEt5eXMZY2pvt
- tQAfXE3cJ0vlOe5uyxNqSfESTGj8ZQb1hUAOoyz9izd2dYhRnckHlQygwkMh9S1TxCUj Jg== 
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3maudus7yr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 07 Dec 2022 19:56:31 +0000
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 2B7J0HJm021708;
-        Wed, 7 Dec 2022 19:56:30 GMT
-Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04lp2049.outbound.protection.outlook.com [104.47.73.49])
-        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3maa8gbp80-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 07 Dec 2022 19:56:30 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MbI1vu+49AoWgryg9EEH5fCLVQHpFROmZh0SuqPK6WZ9o9a04qT+hacCQqVIOahx4wfIXdcJiHbEUFpDneTurhakV65iPmlPmd0no4g5RQ2t41IWEUNMwlROpvH5CRD22D4UBQvLcprRyJyiQGzEPQmF/B2A+wb868ae0mK6yNHhD96dxjm8f1OZsy47BvYncjt+AHa+oqbJj3an+ypmu+9mJkOkawt1KMdLALbJx0myXV5cP/EJvRz6LKqdFmTgWwPEHA57NzObM6w7HIiEe2HM2VicZC2hs3Wshf/3PVdO9HNzNNl7vo/VXCXjM9BO7gHYiVwzJfPV6mTbngc86A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tMaLcJnjsya6xB/fqoO37IigfwJeuy3AOFtxwKqlfco=;
- b=WbsO892j4rtfIBAAFsa2r8uO547J4GtPJvkNDG1BY+oFT+68Ae64QDaFhv/gPo2Qp4J6TltG+YbNMcvCJjWhh44P860R+xzCyXuurMFhJFpwhnkPADdH86m4t7lSkDjcKe32fkih8COT+MlcBTnh3a5PbXh8tsKF2OPnGKpsOGVcI2ILc5iQDEBUMzAAaDAgjGumai52EN54qmPyEmn6c04gIo0/P60RgmpkSGtPlng4YyF39GrPkWC+u9+3OaqBilOlv87odKYMWnlycu0daU3FohtsNnb+Lt55MVBWq6xEOP+MAbtpFZHgviXSrD3D/YlwMXTzpY/zzklkfPCneQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tMaLcJnjsya6xB/fqoO37IigfwJeuy3AOFtxwKqlfco=;
- b=VZMtKs0d9mGNIr2qIvYReQLnasNBmpYAxItRdmC+Nq6fAvd1rThwIvZUR14X2n6RehbEibYGRTumcPSqj457r2Z4SmAwSIBTwnOe+Rkaxy46w7u6ZwuhAaL9WG+g+h8usWK/j9t14+7w4WLLizFdCYYWHlkvjcl72Wl+dovgOMU=
-Received: from SA1PR10MB5711.namprd10.prod.outlook.com (2603:10b6:806:23e::20)
- by PH7PR10MB6553.namprd10.prod.outlook.com (2603:10b6:510:204::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14; Wed, 7 Dec
- 2022 19:56:28 +0000
-Received: from SA1PR10MB5711.namprd10.prod.outlook.com
- ([fe80::6a6a:2552:ef79:e2ec]) by SA1PR10MB5711.namprd10.prod.outlook.com
- ([fe80::6a6a:2552:ef79:e2ec%8]) with mapi id 15.20.5880.014; Wed, 7 Dec 2022
- 19:56:28 +0000
-Date:   Wed, 7 Dec 2022 14:56:23 -0500
-From:   Daniel Jordan <daniel.m.jordan@oracle.com>
-To:     Nathan Chancellor <nathan@kernel.org>
+        Wed, 7 Dec 2022 14:57:04 -0500
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6DD95E3CD
+        for <linux-kbuild@vger.kernel.org>; Wed,  7 Dec 2022 11:56:56 -0800 (PST)
+Received: from leknes.fjasle.eu ([46.142.96.114]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1Moex5-1oaWG10y3F-00p4C8; Wed, 07 Dec 2022 20:56:40 +0100
+Received: by leknes.fjasle.eu (Postfix, from userid 1000)
+        id 6269B3C1B0; Wed,  7 Dec 2022 20:56:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
+        t=1670442993; bh=zF9yRG/58zxxS72P8ir1zBtZ/6ArJpUol8Q4guKkhfk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=e0e0/FF3vyDTVI95++FaPrQD2IOJhoUj0s+kKTokp/P/uqRo8PU6Lb/r3ewwvwD4T
+         jPNd2ESFUhPMoY3oOvdJ4dgHuXadkZ1AKxaZUGKhjeLbZ6E09HUTiXWwEltOSZ0HPB
+         IV2ezPpWaqQLLqahXEt9EXYjWsL0v1J/2A3x7HHQ=
+Date:   Wed, 7 Dec 2022 20:56:29 +0100
+From:   Nicolas Schier <nicolas@fjasle.eu>
+To:     Dmitry Goncharov <dgoncharov@users.sf.net>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, Nicolas Schier <nicolas@fjasle.eu>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Vincent Donnefort <vdonnefort@google.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev, patches@lists.linux.dev,
-        Steffen Klassert <steffen.klassert@secunet.com>,
-        linux-crypto@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] padata: Mark padata_work_init() as __ref
-Message-ID: <20221207195623.mk4jt5vkc76s77cf@parnassus.localdomain>
-References: <20221207191657.2852229-1-nathan@kernel.org>
- <20221207191657.2852229-2-nathan@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221207191657.2852229-2-nathan@kernel.org>
-X-ClientProxiedBy: BL1PR13CA0184.namprd13.prod.outlook.com
- (2603:10b6:208:2be::9) To SA1PR10MB5711.namprd10.prod.outlook.com
- (2603:10b6:806:23e::20)
+        linux-kbuild@vger.kernel.org
+Subject: Re: [v3] kbuild: Port silent mode detection to future gnu make.
+Message-ID: <Y5Dv7Q3+D0nAHFJ2@fjasle.eu>
+References: <CAG+Z0CvbeLYoY0DpPK14inUMTat=zkRLJgqZ4mW0c10Vf_d6ow@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR10MB5711:EE_|PH7PR10MB6553:EE_
-X-MS-Office365-Filtering-Correlation-Id: a17c4525-103b-4eef-62f2-08dad88d2090
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7tGa7qDiFVYufyKCZ3E1xQi324DN4yswjgCcS2pJRFOqWLgDdLJF3gxuvZomcX9YiyXGYaf58z+AdCkBKJq/zKCr4GamaNJdvtEGMYiBnJDMQ8UNE4snqAYf+IOOIISIQOpslvYOX6Ay3J39trz3xik2+EP5Bfmm5NXZioCSpezVbjRRPeMrqVRCxpdp8Nj1IL4K9SPBw6uamrPkxVnQsSwU8Oy9uSwmyZvYNnHWtD7tjFqfphfJz8+PMYA8KMf4CZlLMrhfnjq0ktLS3rcSLsF82UZ3Mce5bBchskYFXSFx4yUVUOisq5smaRrU5GqBw+iUg/2+x3eh7HhjowbMllT0+SGDoMuffx5uWOyk6lZyDKAQKD7KyuksKTn9QrOnzifAGX2KX+xBK7tCiX8Ef04HkEURy5Y80DPWSSko0ArJSZ+BBuOVxHvA1/R6kcLaSTBKqYb8nPJsV7yKWUYG4M1uPtqgZ/CKnrjQKg131NiR960jMuuZbNpdjJUQTVyMGLOjXKQ8ZvbONe1sG4fTXGyhLOj69kgqIgkVsoXm23Tk0uARI9FPRkACkofXpq/zsvzGUr2a2HpZIw1kGz9nlRNDTSQqT0g6YwqddluOeULt7ARBK8XNw25xFrCp79BalEKxWVtsu9H5gjEyRZEY0g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR10MB5711.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(136003)(366004)(376002)(396003)(346002)(39860400002)(451199015)(2906002)(83380400001)(41300700001)(1076003)(86362001)(66476007)(38100700002)(9686003)(26005)(6512007)(8676002)(8936002)(5660300002)(4326008)(7416002)(186003)(66946007)(316002)(6486002)(6506007)(6666004)(54906003)(478600001)(6916009)(66556008);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Dl7PRs98j2XTuThZspcYpqYZbdg50l1JuqZT+i5J/rnL83u5SJlE7WDjNiim?=
- =?us-ascii?Q?3YkDARRWJ6vfffx0I0qKHYF835RzyBRqsB5g0Xi+Bu6W2xRwNJlw4/LW3Il+?=
- =?us-ascii?Q?89l3TpD8005uTwBd1ylAu6p8UdBi41foaDtVo7BoHPzF2fxl68Z/cqCouQyq?=
- =?us-ascii?Q?3VRIA1nx9KXZn87es15b1BLd91ahbesUYwJxaimNYaGSTL0vAK/O1ZD5PoTQ?=
- =?us-ascii?Q?PU4KxsPvSzOK4f05YBvOFwf+lmX6zBrqNhwqj8gwsz4srNCeLnwA3e7C5jXE?=
- =?us-ascii?Q?ZhORi1/Fy5gx6RFhQNhxTU5lhnmnvD29sJSr6QMv1YUfZXAKQXapQAw3DGYq?=
- =?us-ascii?Q?+Yd4LUXd9vLyomcqKwWfDxWljyKwa7+6i7Zi6VPJpfAgI3KRjJYC1AfaM8WE?=
- =?us-ascii?Q?nEbj4rKObn0XaCiId6Swk/CPX83PitgK43pEPxljci5rMqpK8hkeoyujJxZO?=
- =?us-ascii?Q?GolLc5I33sQGCX6LwjLyVd7gZnJ3JWckpcnzkXN0tbf+b4nlm+5gBOGtXFMm?=
- =?us-ascii?Q?1z4oPXiVcNs/uInAsuAvIdOGnmqmwOyNoDyKBstBCVSHGlJGiZJrlKiXAOK7?=
- =?us-ascii?Q?xoL5V3GdvqivAjNv1FQjxeXmTi/RM0dACiYq1Y1wcp03/nK/L4Mq5lMOU/vo?=
- =?us-ascii?Q?+NOqsQL4GDEKx9AaNMEN3jg/weF8qfnzfJbWCITwNaQDJQZ3AKUxIqxLtYV9?=
- =?us-ascii?Q?0f8ic8XPbYXHLUablU94lOr47XNaQJzwG+Qt3pOuP+LsBe1djhFCqweoTNnz?=
- =?us-ascii?Q?5WL6h/8NbG9TMm8012A46NTpOGDN/w54cwzS/nj32tziCQ3DCQKFtgCvuFqm?=
- =?us-ascii?Q?gf5KiVK76ShLbP5jOXtzAp6f7V9YHYg8NjfaT1uNfy0mDqq/wUVzZ6Yc6JW2?=
- =?us-ascii?Q?T4nXrsp70zHb4HY6X9RSqUPr7Py7YxN3Oq/3SGiJu+T7+VtUhkcw7Pw/9XXk?=
- =?us-ascii?Q?VDUGHQHybqxBFRO56LoIDpesaMw7cVqT6yStTNlgxZeGje17+3dYeOFDPYK7?=
- =?us-ascii?Q?luiHazZhyhEfUA+ZkWl1USjg5mKV7VDHeS5mlMMHKLYKq9G7lInRnMn+zPA2?=
- =?us-ascii?Q?MkugwKRZDSt27rrtz4J33CrgirB86ZXLAQMtPFp61xDMAVuBKgFVylzNjVuy?=
- =?us-ascii?Q?QenlTtfq+uLPSNu4ziPKv8DU9sjKEPjrlgF+84EfgQ1jggqDCFzmL8p0G3xF?=
- =?us-ascii?Q?doMQyDSDxpcrOv2O64Uve/iViuyPCnQU2Amls0RA2ShIko+YEOBjuxdTK/rf?=
- =?us-ascii?Q?DiF8BVhHgwf+zBf9z9ckHPi73V8b8+t3D2XbKgL7ITaNUfL9X6YSHimXRW7u?=
- =?us-ascii?Q?BIONnLEfle4HU1C6dLKFR8hhdLFaxdxujXcvLAkeMIwpBST7tIkh2uZuWFVd?=
- =?us-ascii?Q?aa6ldMPAHMsqhlHRlWwMzgILWLzUTZWtbB4xpXaEc9bYnvq+jxUIosUXKgEe?=
- =?us-ascii?Q?gX1wWAEHITsGY1hFlBdoilxG/zCvAsxSX7+hnV0e0Wjy/ioUteQor1U7YL0u?=
- =?us-ascii?Q?3c1Jj8uuXmnQUen4o2b9HiNZLV1LACIxog9YzWZLQnFQn0LAqmstjsx65rvS?=
- =?us-ascii?Q?60tZbk00objWSw6zni0WmDAtFMjlRPZOsYxvmIum5SF2E24Ka+xNbijoPj/q?=
- =?us-ascii?Q?BQ=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a17c4525-103b-4eef-62f2-08dad88d2090
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR10MB5711.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2022 19:56:28.0604
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BZOQ/lSeA4ApVGwIIJvolw69q3F4s3uCVww2t1oW+uMfk1J/baPyVe3cFI+2IrY5lbi4SvEUe1P6QUFNBI6D6sWVLpvt1vvkfowmpjGJ7AU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB6553
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-07_09,2022-12-07_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 bulkscore=0
- suspectscore=0 phishscore=0 malwarescore=0 mlxscore=0 spamscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212070168
-X-Proofpoint-ORIG-GUID: np24030zaTgUIVB0KjHf4nZtyT8Y3pVp
-X-Proofpoint-GUID: np24030zaTgUIVB0KjHf4nZtyT8Y3pVp
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="ZU/Rhb3PYODrVVT6"
+Content-Disposition: inline
+In-Reply-To: <CAG+Z0CvbeLYoY0DpPK14inUMTat=zkRLJgqZ4mW0c10Vf_d6ow@mail.gmail.com>
+X-Provags-ID: V03:K1:4wiTHNDCjyznjX0KdfhRhAGIVjA5zld4jGAkbtNx/peD/xzgwIS
+ 8Okd6jyS+BKFXsGK4y/BRSr0p3DayfwJkxfiiK6EkgMOb11sfMRiKn2AwY39vf1J0KfOC/0
+ FTVNm7bzre/X2iFt6esdj6vtBe9FvflOgB7+pntKaeJCS6w3aV+q+HdI6edImgSQYvz5pcH
+ 7nQ+t0yA5capN8Zg9/XOQ==
+UI-OutboundReport: notjunk:1;M01:P0:M3TPLspy8lg=;YUIdmyoXhk5QZGG+StspqbaG5ns
+ ZWEeH+PtRk7N1VnErQICOyrxLf2MVqRAkjQfbhD5X18Ay1CM46heHaIwo1/zVMqtiSfMNarLu
+ pYeNevBGKzvoFoX8PN1H+i+zY5rZ9QXTTQOmNCNr36aXi6sV6wwXTE+QBhsxXbB/qFY5ssRsc
+ FnPYe4Y1hjH0enpEG5wOlZ9xu+vXpgShqQwqlte1ZRaLxhUhQyBlsCPQt8VZKOohk4nAOEnAG
+ 5O0p2Nd7uDt7qGCtwZC1+ZmXWaVf442PYqs0oxyHGYotUFmekGFWmNRxHtdTW5nJ3hUF62CHV
+ xSDtxIWLF7Z4xMvuaZbohxXZvABgm6xQrOfgvz1sn85gXTGji97AUpQYEkMKuc/wWtcNz5sYW
+ TOv0fHJwflxkU2aMT+s+ssi6KYNb8L46dYz3d/6XcA2Tu0ih4HjiPioXOKxUDXX9BK5Ee0Nmq
+ ZScmMxMp8tdPRpNRg1DwHYJJ+hmmfl6eFVpaQUNM1DQh1uSkfMvG5N20FlLWxGZ5q4XTmeuoK
+ DsYvQH2iSN5mVscbz8Hs1hIGNhoph5ulg9W8AnYIvnFZVuePgIzdARnOaRGhbqgvyfQUdGlSH
+ MHLPmh1jF2O1eKprCuUy0dmkFCbMFP1Yr49FptgUxNYth1PWmwCu2bmI8KLW/GM8i+Kxh+Wou
+ UL4W9plWEy9Wd+od70B/p7w92xCd8+j3hCP0xsFvcA==
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Dec 07, 2022 at 12:16:56PM -0700, Nathan Chancellor wrote:
-> When building arm64 allmodconfig + ThinLTO with clang and a proposed
-> modpost update to account for -ffuncton-sections, the following warning
-> appears:
-> 
->   WARNING: modpost: vmlinux.o: section mismatch in reference: padata_work_init (section: .text.padata_work_init) -> padata_mt_helper (section: .init.text)
->   WARNING: modpost: vmlinux.o: section mismatch in reference: padata_work_init (section: .text.padata_work_init) -> padata_mt_helper (section: .init.text)
-> 
-> LLVM has optimized padata_work_init() to include the address of
-> padata_mt_helper() directly, which causes modpost to complain since
-> padata_work_init() is not __init, whereas padata_mt_helper() is. In
-> reality, padata_work_init() is only called with padata_mt_helper() as
-> the work_fn argument in code that is __init, so this warning will not
-> result in any problems. Silence it with __ref, which makes it clear to
-> modpost that padata_work_init() can only use padata_mt_helper() in
-> __init code.
 
-Thanks!
+--ZU/Rhb3PYODrVVT6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Daniel Jordan <daniel.m.jordan@oracle.com>
+On Mon, Dec 05, 2022 at 04:48:19PM -0500 Dmitry Goncharov wrote:
+> Port silent mode detection to the future (post make-4.4) versions of gnu =
+make.
+>=20
+> Makefile contains the following piece of make code to detect if option -s=
+ is
+> specified on the command line.
+>=20
+> ifneq ($(findstring s,$(filter-out --%,$(MAKEFLAGS))),)
+>=20
+>=20
+> This code is executed by make at parse time and assumes that MAKEFLAGS
+> does not contain command line variable definitions.
+> Currently if the user defines a=3Ds on the command line, then at build on=
+ly
+> time MAKEFLAGS contains " -- a=3Ds".
+> However, starting with commit dc2d963989b96161472b2cd38cef5d1f4851ea34
+> MAKEFLAGS contains command line definitions at both parse time and
+> build time.
+>=20
+> This '-s' detection code then confuses a command line variable
+> definition which contains letter 's' with option -s.
+>=20
+> $ # old make
+> $ make net/wireless/ocb.o a=3Ds
+>   CALL    scripts/checksyscalls.sh
+>   DESCEND objtool
+> $ # this a new make which defines makeflags at parse time
+> $ ~/src/gmake/make/l64/make net/wireless/ocb.o a=3Ds
+> $
+>=20
+> We can see here that the letter 's' from 'a=3Ds' was confused with -s.
+>=20
+> This patch checks for presence of -s using a method recommended by the
+> make manual here
+> https://www.gnu.org/software/make/manual/make.html#Testing-Flags.
+>=20
+>=20
+> Signed-off-by: Dmitry Goncharov <dgoncharov@users.sf.net>
+> Reported-by: Jan Palus <jpalus+gnu@fastmail.com>
+> Link: https://lists.gnu.org/archive/html/bug-make/2022-11/msg00190.html
+>=20
+> diff --git a/Makefile b/Makefile
+> index 6f846b1f2618..fbd9ff4a61e7 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -93,10 +93,17 @@ endif
+>=20
+>  # If the user is running make -s (silent mode), suppress echoing of
+>  # commands
+> +# make-4.0 (and later) keep single letter options in the 1st word of MAK=
+EFLAGS.
+>=20
+> -ifneq ($(findstring s,$(filter-out --%,$(MAKEFLAGS))),)
+> -  quiet=3Dsilent_
+> -  KBUILD_VERBOSE =3D 0
+> +ifeq ($(filter 3.%,$(MAKE_VERSION)),)
+> +silence:=3D$(findstring s,$(firstword -$(MAKEFLAGS)))
+> +else
+> +silence:=3D$(findstring s,$(filter-out --%,$(MAKEFLAGS)))
+> +endif
+> +
+> +ifeq ($(silence),s)
+> +quiet=3Dsilent_
+> +KBUILD_VERBOSE =3D 0
 
-> Suggested-by: Daniel Jordan <daniel.m.jordan@oracle.com>
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> ---
-> Cc: Steffen Klassert <steffen.klassert@secunet.com>
-> Cc: Daniel Jordan <daniel.m.jordan@oracle.com>
-> Cc: linux-crypto@vger.kernel.org
-> ---
->  kernel/padata.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/kernel/padata.c b/kernel/padata.c
-> index e5819bb8bd1d..4c3137fe8449 100644
-> --- a/kernel/padata.c
-> +++ b/kernel/padata.c
-> @@ -83,8 +83,8 @@ static struct padata_work *padata_work_alloc(void)
->  	return pw;
->  }
->  
-> -static void padata_work_init(struct padata_work *pw, work_func_t work_fn,
-> -			     void *data, int flags)
-> +static __ref void padata_work_init(struct padata_work *pw, work_func_t work_fn,
-> +				   void *data, int flags)
->  {
->  	if (flags & PADATA_WORK_ONSTACK)
->  		INIT_WORK_ONSTACK(&pw->pw_work, work_fn);
-> 
-> base-commit: 76dcd734eca23168cb008912c0f69ff408905235
-> -- 
-> 2.38.1
-> 
+Thanks for that patch.  Following its development was quite interesting!
+
+Are there some (possibly unwritten) style recommendations for Linux
+Makefiles/Kbuilds, e.g. regarding spaces around assignment operators and af=
+ter
+commas?
+
+Personally, I would have liked to see those spaces here as I think it would=
+ be
+better for style consistency.
+
+Kind regards,
+Nicolas
+
+
+--=20
+epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
+=E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
+     -- frykten for herren er opphav til kunnskap --
+
+--ZU/Rhb3PYODrVVT6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmOQ7+UACgkQB1IKcBYm
+EmkgpRAAjd1PZXlZXQzFOrkCFvHN7H41t0qptpCEQxYojld4x4AALR4Xf3WvXVlo
+ju5ObUXxnm44K/g20I680fhdDLjkav64sIBE9pCvdC1xIAiavy6EydJWSOx0HwXV
+mgBQQd3k8wqT/CkJsJclRjmXb3RfEAaqEdckCgT7Z8CORUoWE/t3cdKU804Fly+4
+b0/lxGxiGuxGwUTFNsEAyx2hOA8F+DgdyCAAWTYY2bLfdCI+hRpyzP1/GopgxmF+
+Viz4Gw4fg+V4DnahxjDM+0rOsMI1WX6r1PeLjC58q9HHPuGW4cPpZ13AF8NRsCnk
+SaVm2We82AJV+ROwQ/9dIU4/QZvMvID+6L0GFi/7Zge2N5/0B41wGIhsqNu/hBUB
+81ZKAbaGlJyq35CNTSzGJzou/aqz/Q+Eu3EBAGs0l+wJIZGQLO9/93DMKnZ3Bpb3
+G1QA3p37S5XBx1nSPv68bjBkTf2dRsLP8yKJZbcGQf2fsvESuad3ZFqAJoO/96eN
+WKQffh+JPBtnJw478JOlzm0czaOK883f+IfRbYIiCbHaDV2WEkjjUNQv/5GhpkqV
+7X6+PxNcWdU0PqxvUNndPzzn+iYFA7IRuPgD/gUSg0OMxAYOoV7EmADyRciqj9n4
+zod/86O4TLdCOjtFZl6smWmRd7WM/IKArRexp0dvUDHRfFy39Y0=
+=YPDT
+-----END PGP SIGNATURE-----
+
+--ZU/Rhb3PYODrVVT6--
