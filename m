@@ -2,66 +2,76 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 943AE6490CB
-	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Dec 2022 22:03:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F248A649182
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Dec 2022 00:02:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229529AbiLJVDv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 10 Dec 2022 16:03:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54770 "EHLO
+        id S229914AbiLJXCm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 10 Dec 2022 18:02:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229475AbiLJVDt (ORCPT
+        with ESMTP id S229810AbiLJXC3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 10 Dec 2022 16:03:49 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D310515727;
-        Sat, 10 Dec 2022 13:03:41 -0800 (PST)
-Received: from leknes.fjasle.eu ([46.142.98.187]) by mrelayeu.kundenserver.de
- (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1M42X0-1p46zk1RVQ-0004TJ; Sat, 10 Dec 2022 22:02:52 +0100
-Received: by leknes.fjasle.eu (Postfix, from userid 1000)
-        id 94DCD3C1B0; Sat, 10 Dec 2022 22:02:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1670706168; bh=7qSFBPGHl0bfqIeEqeYNfCRTFMgAscCGdAYDrFciekQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UG8rqOQbvcecqzqAJfHX7/67UxATB7jBBpiKkInUIQkDxDQLn3DlhFpQIL5oBRuqI
-         KPQ0eqcFzmVIpiMApE6gsfoO4oeD9TlccyIWb1MGXahNIutKuG2T1IHMHfKcHE1NjD
-         Hh0XRkKYCmZ9UGbvfpIDR/HkXhHEBnpVzsvFjVhY=
-Date:   Sat, 10 Dec 2022 22:02:48 +0100
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sat, 10 Dec 2022 18:02:29 -0500
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D74291402E;
+        Sat, 10 Dec 2022 15:02:27 -0800 (PST)
+Received: by mail-pf1-x436.google.com with SMTP id 21so6157178pfw.4;
+        Sat, 10 Dec 2022 15:02:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fbQVHhDJyzijvT4x1l1d64e6Tgo3Ph+ZZvjIzYq/8P0=;
+        b=BC51zln0pmZC6OGmdhqN2MW43ldQkZqt7n/UKeTJ2K5nyKNKixaasUFdg1UtQr/7Dy
+         7dwNkuh7zWWPAZ3DR1gk7EH9nwVHvm2vP1BBAeK/f3luz0TviH5CTGJOhY8mD7UF7e1P
+         xjS/w5zerB9WfgCmdrewkqOkW30R5ptrhehbA9gwHFlWTgumHLf5h2HBCjOojKyn2Ryz
+         0qY+ywf3tuBtmsHlktfEeUuUkWOb6AF6UwksylVoOcedPUeFzOQj0bHq3poA+6rUxHkW
+         WTAfLI1sqbuEnJ4hD2vp8Zt6lJBjWJ8f/u6ig8rB9N56Jezq4pdfC4KjNhKcj0Melnj7
+         t6qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fbQVHhDJyzijvT4x1l1d64e6Tgo3Ph+ZZvjIzYq/8P0=;
+        b=KlTE8NTK7lPOnr22VVdSfkalf186aLmXOWbr/j3JtJgwSeFe/xzsg3HHm9+GDokjAS
+         8jVJttogs/CmdD/bx03M+no8nQlsj5oFO6WfKndEd6AYu11X6YJZUzPBWJXo6F28O5sU
+         vj+zcQy9ZH144w+1Rpxmnmrb78ILI82TCkavpSoK5kObwTay7zot2lcQuoAN+dDYqC0F
+         1WjleDyoUfllBR7UjZ8F5Kjsg5lMKhpnZG6jsGf9XILoppF6XRHwvSvMUf3n/3AugsZ7
+         3Q8vN6j5oCuicy+hNdC33twPDrZgw2Th+vaNUMI90dBUUvJH4l3k5s2AqfqSHr6Y5YCr
+         ZqHA==
+X-Gm-Message-State: ANoB5plLMgm7jqOrKEcDV7TKGh7Z/cPWE73LOQNyuQmTBuIlevIe4e6M
+        hhVJrPMNJv/7AIwREJSCcPE=
+X-Google-Smtp-Source: AA0mqf69H0IH7rB1HqJxeoajFYEA7oWnuviAeVEtYkeQoTZagMb+BHeXO24tP/bnf9r379qO3dgZxw==
+X-Received: by 2002:aa7:9089:0:b0:566:900d:8242 with SMTP id i9-20020aa79089000000b00566900d8242mr2345930pfa.3.1670713347279;
+        Sat, 10 Dec 2022 15:02:27 -0800 (PST)
+Received: from mail.google.com (125-237-37-88-fibre.sparkbb.co.nz. [125.237.37.88])
+        by smtp.gmail.com with ESMTPSA id x12-20020aa79acc000000b0057725613627sm3283714pfp.142.2022.12.10.15.02.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Dec 2022 15:02:26 -0800 (PST)
+Date:   Sun, 11 Dec 2022 12:02:18 +1300
+From:   Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH v3 3/5] kbuild: add read-file macro
-Message-ID: <Y5Tz+MBfYMVkqAn3@fjasle.eu>
-References: <20221126225624.751661-1-masahiroy@kernel.org>
- <20221126225624.751661-3-masahiroy@kernel.org>
- <20221207154044.2181347-1-alexandr.lobakin@intel.com>
- <20221207162208.2200189-1-alexandr.lobakin@intel.com>
- <CAK7LNAQbGaXDRzeByOcJhMX4y-ShA6Qtpcqhr4gNZ5t8vX-PPw@mail.gmail.com>
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Vipin Sharma <vipinsh@google.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        paulo.miguel.almeida.rodenas@gmail.com
+Subject: [PATCH v2] scripts/tags.sh: choose which directories to exclude from
+ being indexed
+Message-ID: <Y5UP+tnnxNgoi6A2@mail.google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK7LNAQbGaXDRzeByOcJhMX4y-ShA6Qtpcqhr4gNZ5t8vX-PPw@mail.gmail.com>
-X-Provags-ID: V03:K1:MQr0B95Rb2frj5hoYtDcHcvz46tIGN3vAvFxXptwL5n4uUmWEBc
- S55km1w89a8cYBpeAt0E2tymvkY2s1DxGCBw7dJGisDA+jyfy65ZINIEBZrlUXYDcYhfNhg
- GuSbgMxzIxNkF9Incnc64Ocl4tIEZSh8ctfqCr3bKFCZN+EbnLFiW/53WitDbQ+YRLrqXUZ
- dVCrbSRLvlvM1khT2rXFQ==
-UI-OutboundReport: notjunk:1;M01:P0:AhPU3HFi/yg=;BQgylnf9syDxKYtQpyLisUDJliE
- Vg9P3oFbpoaClJSTdY7aCKIoHWJPNRQwl0jSjwqbPRnGM4gyxrxwfM8O+tJLRGQTlNv293Ynx
- 4r/Smwn0AQ3RcCW9Sgjx0S3MOAwIv00+x1XBDDnvNPe3ElqIcE/xAEsjHckaf2W8XGNJ3HHUL
- 7dzsHMGEadqDR8lOgyHtp7rCQ8u2rrUEMir1egY1BiSYbzV0liuFSyrEJpfHdzdOLl9GmjfHk
- qw9TOH8jIFZxYP8qdbOxCPLz1HnNBEvXsHi87pctdTKPBmvVe39RtRj37ogqD5sI49/sbSs4s
- 4MIhctyGL921dxFkyR4To24N9F+0u8qbx1I78rDrQcA3Ne3Mj2af3HoLqkjLCHNyjd161WSWT
- uAFuY4Ma4aDtJgfSwv9MonNHZ4KkZqfQjIXNy6x8PHOl8t8ba1xQSwaCI2RHbbqhIH6+4yNYm
- vt2tcbZovCbfgp4RXp4EF/6j4hhSDCWVIGlJ+maVGWvzFDwz4vpFMiob2VzNXLI5mcnjJQ0rL
- 422JdlZl8FNKYkfRmhSxz0+Jv2og+VqDwFA7R79/NwlhYegEhufxVs2+nJogUnEUrXwfIQKZT
- BZwOLI9iLgIOrmM6qNtFxdPiSy9b+bRsMNM+BdSUdhLpU481ny5Jh3JfHy6uRRP7c+D3J0MOI
- uWiU0f0GePIokuJPZ1gTi9zi3Zh5QrUdN0+AZXRorg==
+In-Reply-To: <Y5T66yWNVAZNIaJ0@mail.google.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,47 +79,78 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Dec 10, 2022 at 11:10:12PM +0900 Masahiro Yamada wrote:
-> On Thu, Dec 8, 2022 at 1:25 AM Alexander Lobakin
-> <alexandr.lobakin@intel.com> wrote:
-> >
-> > From: Alexander Lobakin <alexandr.lobakin@intel.com>
-> > Date: Wed, 7 Dec 2022 16:40:44 +0100
-> >
-> > > From: Masahiro Yamada <masahiroy@kernel.org>
-> > > Date: Sun, 27 Nov 2022 07:56:22 +0900
-> > >
-> > > > Since GNU Make 4.2, $(file ...) supports the read operater '<', which
-> > > > is useful to read a file without forking any process. No warning is
-> > > > shown even if the input file is missing.
-> >
-> > [...]
-> >
-> > > Great stuff. Used it in my upcoming series to simplify things, works
-> > > as expected.
-> > >
-> > > sed-syms = $(subst $(space),\|,$(foreach file,$(sym-files-y),$(call read-file,$(file))))
-> > >
-> > > The only thing that came to my mind while I was implementing the
-> > > oneliner above: maybe add ability to read multiple files? For now,
-> > > I used a foreach, could it be somehow incorporated into read-file
-> > > already?
-> >
-> > Oh, nevermind. This one also works:
-> >
-> > sed-syms = $(subst $(space),\|,$(call read-file,$(sym-files-y)))
-> >
-> > So I believe read-file works for an arbitrary number of files.
-> 
-> 
-> 
-> Really?
-> 
-> 
-> In my understanding, $(call read-file, foo bar) reads a single file "foo bar".
-> (a space in the file name).
+It's common for drivers that share same physical components to also
+duplicate source code (or at least portions of it). A good example is
+both drivers/gpu/drm/amdgpu/* and drivers/gpu/drm/radeon/* have a header
+file called atombios.h.
 
-yes, except for make < 4.2, due to:
+While their contents aren't the same, a lot of their structs have
+the exact same names which makes navigating through the code base a bit
+messy as cscope will show up 'references' across drivers which aren't
+exactly correct.
 
-read-file = $(shell cat $1 2>/dev/null)
+This patch makes it possible for the devs to specify which folders
+they don't want to include into database as part of the
+find_other_sources func if a makefile variable IGNOREDIRS is present,
+otherwise the original behaviour is kept.
+
+Example:
+        make ARCH=x86 IGNOREDIRS=drivers/gpu/drm/radeon,tools cscope
+
+Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+---
+Changelog:
+
+- v2: change approach to include everything unless specified by the
+  IGNOREDIRS variable: (Req: Vipin Sharma)
+- v1: https://lore.kernel.org/lkml/Y5OKDvbGk4Kro6MK@mail.google.com/
+---
+ Documentation/kbuild/kbuild.rst |  7 +++++++
+ scripts/tags.sh                 | 11 +++++++++--
+ 2 files changed, 16 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+index 08f575e6236c..5f99f30e20d8 100644
+--- a/Documentation/kbuild/kbuild.rst
++++ b/Documentation/kbuild/kbuild.rst
+@@ -278,6 +278,13 @@ To get all available archs you can also specify all. E.g.::
+ 
+     $ make ALLSOURCE_ARCHS=all tags
+ 
++IGNOREDIRS
++---------------
++For tags/TAGS/cscope targets, you can choose which directories won't
++be included in the databases, separated by comma. E.g.:
++
++    $ make IGNOREDIRS=drivers/gpu/drm/radeon,tools cscope
++
+ KBUILD_BUILD_TIMESTAMP
+ ----------------------
+ Setting this to a date string overrides the timestamp used in the
+diff --git a/scripts/tags.sh b/scripts/tags.sh
+index e137cf15aae9..554721e9cad2 100755
+--- a/scripts/tags.sh
++++ b/scripts/tags.sh
+@@ -59,10 +59,17 @@ find_include_sources()
+ }
+ 
+ # find sources in rest of tree
+-# we could benefit from a list of dirs to search in here
+ find_other_sources()
+ {
+-	find ${tree}* $ignore \
++	local loc_ignore=${ignore}
++	if [ -n "${IGNOREDIRS}" ]; then
++		exp_ignored_dirs=$(sed 's/,/ /g' <<< ${IGNOREDIRS})
++		for i in ${exp_ignored_dirs}; do
++			loc_ignore="${loc_ignore} ( -path $i ) -prune -o"
++		done
++	fi
++
++	find ${tree}* ${loc_ignore} \
+ 	     \( -path ${tree}include -o -path ${tree}arch -o -name '.tmp_*' \) -prune -o \
+ 	       -name "$1" -not -type l -print;
+ }
+-- 
+2.38.1
 
