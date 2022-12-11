@@ -2,133 +2,96 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97B6564924E
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Dec 2022 05:21:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C8CC649364
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Dec 2022 10:49:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229538AbiLKEVl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 10 Dec 2022 23:21:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60036 "EHLO
+        id S230045AbiLKJt3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 11 Dec 2022 04:49:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229475AbiLKEVj (ORCPT
+        with ESMTP id S229891AbiLKJt1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 10 Dec 2022 23:21:39 -0500
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 718261146B;
-        Sat, 10 Dec 2022 20:21:38 -0800 (PST)
-Received: by mail-pf1-x42e.google.com with SMTP id d82so6371037pfd.11;
-        Sat, 10 Dec 2022 20:21:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bMVMrit7nmPd+cdKSCUflKKdRPMxLQ3NyLKJxmy3PRY=;
-        b=chJcEmrvK3Vj1qVnT1U7bLz7Ljzjv89psKK6aiIjNRqR0zC0Sq2+BT09HrI0HSIZvl
-         B8kq7qWh6t3PUF3aS/3Ko+wJortsEF2oc2p5kG0b1H8tud22NnuukrE1R3qY+C75ujgs
-         QEHVCcz/D/UDhxc3jIiCvs7crK1qvmOqnsdAbELnriU7BefOrrWEjvWMDeB+H6gHetxV
-         DoR5641amWkbYIBHCsV1CRui8pdCnYekI2z4aIvdOnVRjXjxjfPIHzSTW8gH5N7OagrF
-         fHcINIzo/tTICG/FA5abn0wdEdU4R6w2NlfqdBjjDlUipyfJ9QrIunRmJpJzxAiLwkbQ
-         N0AA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bMVMrit7nmPd+cdKSCUflKKdRPMxLQ3NyLKJxmy3PRY=;
-        b=7Vb2g74UPdq/34dD1sS+VbidjXENORVSSj0orOEwc6fNgZu8qF1HmLb0AcgsOzbhSI
-         ckzjusHCi9vhp3lKIeUY3WKMRlhYlEc0gwgBpjyTwslRBzVSntOBY3krDnoSq/K/h9p0
-         kmwih6uB01Jhk+3loxHR1IPaW6JtFBMMN3276ohShCB8v99TY53aIzZMp8pYERNDIDgw
-         wVc/4YiLtd6OAnT1R+2nLlkgltyjuTijUOqJYiGAPItlOvS9YeIzMnDEEFZr1TAID8oe
-         VKy4+hYP3DLItw/uWfPOeQfZODD+CzFeYY9BOwd1UyF7vwQKoY4rSbSKd9JMaZelcff0
-         73CA==
-X-Gm-Message-State: ANoB5pl+YvVU1zqKnuuzz/QODyVwIegkElN5FcCKek/lv8JnAI8mlQyu
-        VZIFLbK8S0uEufdpvc49jyU=
-X-Google-Smtp-Source: AA0mqf6J9xg8gJrz2gh7MjXOEU+3sEtNN0JWDzlWdwIwht5BWmpsM3a1LrWRG+EOXDE/+ruVRrk8nw==
-X-Received: by 2002:a62:4ecd:0:b0:577:22cb:1f12 with SMTP id c196-20020a624ecd000000b0057722cb1f12mr12765480pfb.12.1670732497829;
-        Sat, 10 Dec 2022 20:21:37 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-69.three.co.id. [180.214.232.69])
-        by smtp.gmail.com with ESMTPSA id f74-20020a62384d000000b005772f762e43sm3498139pfa.13.2022.12.10.20.21.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Dec 2022 20:21:37 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id E5119103F4B; Sun, 11 Dec 2022 11:21:33 +0700 (WIB)
-Date:   Sun, 11 Dec 2022 11:21:33 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>,
+        Sun, 11 Dec 2022 04:49:27 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0EC210FD9;
+        Sun, 11 Dec 2022 01:49:26 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 9C67EB80915;
+        Sun, 11 Dec 2022 09:49:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E12EEC433D2;
+        Sun, 11 Dec 2022 09:49:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670752164;
+        bh=3GMvyRizM+Rxblh7pHwRbabkGYlPbTfIEjgrgW67JR4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=tlxoHj+2xtDqNBEqNRf8IF0m7ZkxeDb7Yu/5Zs2b510WNs6EaenMSHFv8svwpUU5B
+         4Szgb6+Pn4UHMwRmr7ubmnUIBEv4uYeQ8JJYbaGefew1qSvkDh47ZNmtsSXggqdn/u
+         eCyF/uBLHxOg7dzhOU3xVqi2BueWZnmNouEVg2ZOc6fZgWrv8GBEjQ1o0ddD+KbQ01
+         64iNEJyr7vFkM1H+sx7frCHzYT8sT0yV6mfjB3GoU07Sr60r01SqwiMi0QFZlzT740
+         Q3meivDTL3+SdQjZbsYoZk16VhkXTSeDSXf0ntWWP5F7bEfQ8QUdNqX6yRwsKDEhod
+         S3wV1AOBedpzg==
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Vipin Sharma <vipinsh@google.com>
-Cc:     linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] scripts/tags.sh: choose which directories to exclude
- from being indexed
-Message-ID: <Y5VazQnY7s4+cXdM@debian.me>
-References: <Y5T66yWNVAZNIaJ0@mail.google.com>
- <Y5UP+tnnxNgoi6A2@mail.google.com>
+        Nicolas Schier <nicolas@fjasle.eu>
+Subject: [PATCH] kbuild: do not sort after reading modules.order
+Date:   Sun, 11 Dec 2022 18:49:18 +0900
+Message-Id: <20221211094919.2717594-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ifAjQU90ZpY8pISa"
-Content-Disposition: inline
-In-Reply-To: <Y5UP+tnnxNgoi6A2@mail.google.com>
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+modules.order lists modules in the deterministic order (that is why
+"modules order"), and there is no duplication in the list.
 
---ifAjQU90ZpY8pISa
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+$(sort ) is pointless.
 
-On Sun, Dec 11, 2022 at 12:02:18PM +1300, Paulo Miguel Almeida wrote:
-> This patch makes it possible for the devs to specify which folders
-> they don't want to include into database as part of the
-> find_other_sources func if a makefile variable IGNOREDIRS is present,
-> otherwise the original behaviour is kept.
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-Better say "Add IGNOREDIRS variable, which specifies which directories
-to be ignored from indexing."
+ scripts/Makefile.modfinal | 2 +-
+ scripts/Makefile.modinst  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-> @@ -278,6 +278,13 @@ To get all available archs you can also specify all.=
- E.g.::
-> =20
->      $ make ALLSOURCE_ARCHS=3Dall tags
-> =20
-> +IGNOREDIRS
-> +---------------
-> +For tags/TAGS/cscope targets, you can choose which directories won't
-> +be included in the databases, separated by comma. E.g.:
-> +
-> +    $ make IGNOREDIRS=3Ddrivers/gpu/drm/radeon,tools cscope
-> +
+diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+index 25bedd83644b..4705d32388f3 100644
+--- a/scripts/Makefile.modfinal
++++ b/scripts/Makefile.modfinal
+@@ -13,7 +13,7 @@ include $(srctree)/scripts/Kbuild.include
+ include $(srctree)/scripts/Makefile.lib
+ 
+ # find all modules listed in modules.order
+-modules := $(sort $(shell cat $(MODORDER)))
++modules := $(shell cat $(MODORDER))
+ 
+ __modfinal: $(modules)
+ 	@:
+diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
+index a4c987c23750..f4cff42069ad 100644
+--- a/scripts/Makefile.modinst
++++ b/scripts/Makefile.modinst
+@@ -9,7 +9,7 @@ __modinst:
+ include include/config/auto.conf
+ include $(srctree)/scripts/Kbuild.include
+ 
+-modules := $(sort $(shell cat $(MODORDER)))
++modules := $(shell cat $(MODORDER))
+ 
+ ifeq ($(KBUILD_EXTMOD),)
+ dst := $(MODLIB)/kernel
+-- 
+2.34.1
 
-Use two-colon syntax (::) for code block above to be consistent with
-other code blocks.
-
-Thanks.=20
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---ifAjQU90ZpY8pISa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY5VayAAKCRD2uYlJVVFO
-o+AKAP9nQhJMgCph+/u7XSX0+UsDfW4lQBG3ttu97FueusN3pQD/akMYkzTrrDG1
-iW6fWNZIfQ4SO57vdzad9F2KEy0YrQY=
-=fAQU
------END PGP SIGNATURE-----
-
---ifAjQU90ZpY8pISa--
