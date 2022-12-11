@@ -2,46 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C8CC649364
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Dec 2022 10:49:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6647464944A
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Dec 2022 14:04:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230045AbiLKJt3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 11 Dec 2022 04:49:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35468 "EHLO
+        id S230272AbiLKNE3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 11 Dec 2022 08:04:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229891AbiLKJt1 (ORCPT
+        with ESMTP id S230240AbiLKNE2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 11 Dec 2022 04:49:27 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0EC210FD9;
-        Sun, 11 Dec 2022 01:49:26 -0800 (PST)
+        Sun, 11 Dec 2022 08:04:28 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B9CCA46B;
+        Sun, 11 Dec 2022 05:04:27 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9C67EB80915;
-        Sun, 11 Dec 2022 09:49:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E12EEC433D2;
-        Sun, 11 Dec 2022 09:49:22 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 8CC04CE0B3C;
+        Sun, 11 Dec 2022 13:04:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94DE3C433EF;
+        Sun, 11 Dec 2022 13:04:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670752164;
-        bh=3GMvyRizM+Rxblh7pHwRbabkGYlPbTfIEjgrgW67JR4=;
+        s=k20201202; t=1670763863;
+        bh=Xic9HRp6xQVGQZjjCvAaASkUaXZAG9Z4CIG2ZfttFHY=;
         h=From:To:Cc:Subject:Date:From;
-        b=tlxoHj+2xtDqNBEqNRf8IF0m7ZkxeDb7Yu/5Zs2b510WNs6EaenMSHFv8svwpUU5B
-         4Szgb6+Pn4UHMwRmr7ubmnUIBEv4uYeQ8JJYbaGefew1qSvkDh47ZNmtsSXggqdn/u
-         eCyF/uBLHxOg7dzhOU3xVqi2BueWZnmNouEVg2ZOc6fZgWrv8GBEjQ1o0ddD+KbQ01
-         64iNEJyr7vFkM1H+sx7frCHzYT8sT0yV6mfjB3GoU07Sr60r01SqwiMi0QFZlzT740
-         Q3meivDTL3+SdQjZbsYoZk16VhkXTSeDSXf0ntWWP5F7bEfQ8QUdNqX6yRwsKDEhod
-         S3wV1AOBedpzg==
+        b=hXIVlWe8x7vJgwKNkFoAfdOLZpnLVZQAkgfiJgA1zgEfno1WvyijqCjZehXZvfQRA
+         fgoQRHOD8fz5nF46cOLpTaimBzeb3WV+xzGgpq1yP7uQ02mbLv4eNG5XrBMrDvyqFc
+         mz8T3HeyKuwOL7VlS4mL1x8stSN/ZwIplQ9WdCIWryyv+mzui0ORvluTFVCsyw0vV0
+         yxMoMDJKYWc5fSGQilbhO8vTWhnNzDBm4tpb8o9llm39P4CkDGv8p0rzLwCwsTL6yE
+         PpZTjVGhgX4PBoKflzZ8apiiCjecKIU/jxKpjVt+7JiHOApv6KIv+dFedXqDg0/lDR
+         HYDzsuXnkHLyg==
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH] kbuild: do not sort after reading modules.order
-Date:   Sun, 11 Dec 2022 18:49:18 +0900
-Message-Id: <20221211094919.2717594-1-masahiroy@kernel.org>
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        linux-modules@vger.kernel.org, llvm@lists.linux.dev
+Subject: [PATCH 1/2] kbuild: change module.order to list *.o instead of *.ko
+Date:   Sun, 11 Dec 2022 22:04:07 +0900
+Message-Id: <20221211130408.2800314-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -54,44 +56,182 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-modules.order lists modules in the deterministic order (that is why
-"modules order"), and there is no duplication in the list.
+scripts/Makefile.build replaces the suffix .o with .ko, then
+scripts/Makefile.modpost calls the sed command to change .ko back
+to the original .o suffix.
 
-$(sort ) is pointless.
+Instead of converting the suffixes back-and-forth, store the .o paths
+in modules.order, and replace it with .ko in 'make modules_install'.
+
+This avoids the unneeded sed command.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/Makefile.modfinal | 2 +-
- scripts/Makefile.modinst  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ Makefile                                    |  2 +-
+ scripts/Makefile.build                      |  2 +-
+ scripts/Makefile.modfinal                   |  6 +++---
+ scripts/Makefile.modinst                    |  2 +-
+ scripts/Makefile.modpost                    |  7 +++++--
+ scripts/clang-tools/gen_compile_commands.py |  8 ++++----
+ scripts/mod/modpost.c                       | 11 ++++-------
+ scripts/modules-check.sh                    |  2 +-
+ 8 files changed, 20 insertions(+), 20 deletions(-)
 
+diff --git a/Makefile b/Makefile
+index 8b5930d521fc..669e25970917 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1569,7 +1569,7 @@ __modinst_pre:
+ 		rm -f $(MODLIB)/build ; \
+ 		ln -s $(CURDIR) $(MODLIB)/build ; \
+ 	fi
+-	@sed 's:^:kernel/:' modules.order > $(MODLIB)/modules.order
++	@sed 's:^\(.*\)\.o$$:kernel/\1.ko:' modules.order > $(MODLIB)/modules.order
+ 	@cp -f modules.builtin $(MODLIB)/
+ 	@cp -f $(objtree)/modules.builtin.modinfo $(MODLIB)/
+ 
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 799df12b53f3..267eb7aac5b2 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -435,7 +435,7 @@ $(obj)/built-in.a: $(real-obj-y) FORCE
+ # modules.order unless contained modules are updated.
+ 
+ cmd_modules_order = { $(foreach m, $(real-prereqs), \
+-	$(if $(filter %/modules.order, $m), cat $m, echo $(patsubst %.o,%.ko,$m));) :; } \
++	$(if $(filter %/modules.order, $m), cat $m, echo $m);) :; } \
+ 	> $@
+ 
+ $(obj)/modules.order: $(obj-m) FORCE
 diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-index 25bedd83644b..4705d32388f3 100644
+index 83f2797e530c..a30d5b08eee9 100644
 --- a/scripts/Makefile.modfinal
 +++ b/scripts/Makefile.modfinal
-@@ -13,7 +13,7 @@ include $(srctree)/scripts/Kbuild.include
- include $(srctree)/scripts/Makefile.lib
- 
+@@ -15,7 +15,7 @@ include $(srctree)/scripts/Makefile.lib
  # find all modules listed in modules.order
--modules := $(sort $(shell cat $(MODORDER)))
-+modules := $(shell cat $(MODORDER))
+ modules := $(call read-file, $(MODORDER))
  
- __modfinal: $(modules)
+-__modfinal: $(modules)
++__modfinal: $(modules:%.o=%.ko)
  	@:
+ 
+ # modname and part-of-module are set to make c_flags define proper module flags
+@@ -57,13 +57,13 @@ if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
+ 	printf '%s\n' 'cmd_$@ := $(make-cmd)' > $(dot-target).cmd, @:)
+ 
+ # Re-generate module BTFs if either module's .ko or vmlinux changed
+-$(modules): %.ko: %.o %.mod.o scripts/module.lds $(and $(CONFIG_DEBUG_INFO_BTF_MODULES),$(KBUILD_BUILTIN),vmlinux) FORCE
++%.ko: %.o %.mod.o scripts/module.lds $(and $(CONFIG_DEBUG_INFO_BTF_MODULES),$(KBUILD_BUILTIN),vmlinux) FORCE
+ 	+$(call if_changed_except,ld_ko_o,vmlinux)
+ ifdef CONFIG_DEBUG_INFO_BTF_MODULES
+ 	+$(if $(newer-prereqs),$(call cmd,btf_ko))
+ endif
+ 
+-targets += $(modules) $(modules:.ko=.mod.o)
++targets += $(modules:%.o=%.ko) $(modules:%.o=%.mod.o)
+ 
+ # Add FORCE to the prequisites of a target to force it to be always rebuilt.
+ # ---------------------------------------------------------------------------
 diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
-index a4c987c23750..f4cff42069ad 100644
+index 65aac6be78ec..836391e5d209 100644
 --- a/scripts/Makefile.modinst
 +++ b/scripts/Makefile.modinst
-@@ -9,7 +9,7 @@ __modinst:
- include include/config/auto.conf
- include $(srctree)/scripts/Kbuild.include
+@@ -26,7 +26,7 @@ suffix-$(CONFIG_MODULE_COMPRESS_GZIP)	:= .gz
+ suffix-$(CONFIG_MODULE_COMPRESS_XZ)	:= .xz
+ suffix-$(CONFIG_MODULE_COMPRESS_ZSTD)	:= .zst
  
--modules := $(sort $(shell cat $(MODORDER)))
-+modules := $(shell cat $(MODORDER))
+-modules := $(patsubst $(extmod_prefix)%, $(dst)/%$(suffix-y), $(modules))
++modules := $(patsubst $(extmod_prefix)%.o, $(dst)/%.ko$(suffix-y), $(modules))
  
- ifeq ($(KBUILD_EXTMOD),)
- dst := $(MODLIB)/kernel
+ __modinst: $(modules)
+ 	@:
+diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+index 55a72f5eb76d..f814a6acd200 100644
+--- a/scripts/Makefile.modpost
++++ b/scripts/Makefile.modpost
+@@ -107,7 +107,10 @@ ifneq ($(KBUILD_MODPOST_WARN)$(missing-input),)
+ modpost-args += -w
+ endif
+ 
+-modorder-if-needed := $(if $(KBUILD_MODULES), $(MODORDER))
++ifdef KBUILD_MODULES
++modorder-if-needed := $(MODORDER)
++modpost-args += -T $(MODORDER)
++endif
+ 
+ MODPOST = scripts/mod/modpost
+ 
+@@ -119,7 +122,7 @@ quiet_cmd_modpost = MODPOST $@
+ 		echo >&2 "WARNING: $(missing-input) is missing."; \
+ 		echo >&2 "         Modules may not have dependencies or modversions."; \
+ 		echo >&2 "         You may get many unresolved symbol warnings.";) \
+-	sed 's/ko$$/o/' $(or $(modorder-if-needed), /dev/null) | $(MODPOST) $(modpost-args) -T - $(vmlinux.o-if-present)
++	$(MODPOST) $(modpost-args) $(vmlinux.o-if-present)
+ 
+ targets += $(output-symdump)
+ $(output-symdump): $(modorder-if-needed) $(vmlinux.o-if-present) $(module.symvers-if-present) $(MODPOST) FORCE
+diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
+index d800b2c0af97..0227522959a4 100755
+--- a/scripts/clang-tools/gen_compile_commands.py
++++ b/scripts/clang-tools/gen_compile_commands.py
+@@ -138,10 +138,10 @@ def cmdfiles_for_modorder(modorder):
+     """
+     with open(modorder) as f:
+         for line in f:
+-            ko = line.rstrip()
+-            base, ext = os.path.splitext(ko)
+-            if ext != '.ko':
+-                sys.exit('{}: module path must end with .ko'.format(ko))
++            obj = line.rstrip()
++            base, ext = os.path.splitext(obj)
++            if ext != '.o':
++                sys.exit('{}: module path must end with .o'.format(obj))
+             mod = base + '.mod'
+             # Read from *.mod, to get a list of objects that compose the module.
+             with open(mod) as m:
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 56d856f2e511..b48838a71bf6 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -1856,11 +1856,9 @@ static void read_symbols_from_files(const char *filename)
+ 	FILE *in = stdin;
+ 	char fname[PATH_MAX];
+ 
+-	if (strcmp(filename, "-") != 0) {
+-		in = fopen(filename, "r");
+-		if (!in)
+-			fatal("Can't open filenames file %s: %m", filename);
+-	}
++	in = fopen(filename, "r");
++	if (!in)
++		fatal("Can't open filenames file %s: %m", filename);
+ 
+ 	while (fgets(fname, PATH_MAX, in) != NULL) {
+ 		if (strends(fname, "\n"))
+@@ -1868,8 +1866,7 @@ static void read_symbols_from_files(const char *filename)
+ 		read_symbols(fname);
+ 	}
+ 
+-	if (in != stdin)
+-		fclose(in);
++	fclose(in);
+ }
+ 
+ #define SZ 500
+diff --git a/scripts/modules-check.sh b/scripts/modules-check.sh
+index e06327722263..4c8da90de78e 100755
+--- a/scripts/modules-check.sh
++++ b/scripts/modules-check.sh
+@@ -16,7 +16,7 @@ check_same_name_modules()
+ 	for m in $(sed 's:.*/::' "$1" | sort | uniq -d)
+ 	do
+ 		echo "error: the following would cause module name conflict:" >&2
+-		sed -n "/\/$m/s:^:  :p" "$1" >&2
++		sed -n "/\/$m/s:^\(.*\)\.o\$:  \1.ko:p" "$1" >&2
+ 		exit_code=1
+ 	done
+ }
 -- 
 2.34.1
 
