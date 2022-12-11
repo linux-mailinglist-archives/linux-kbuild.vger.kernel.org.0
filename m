@@ -2,211 +2,133 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D22C64922D
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Dec 2022 04:11:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 97B6564924E
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Dec 2022 05:21:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229658AbiLKDLR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 10 Dec 2022 22:11:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49540 "EHLO
+        id S229538AbiLKEVl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 10 Dec 2022 23:21:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229538AbiLKDLR (ORCPT
+        with ESMTP id S229475AbiLKEVj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 10 Dec 2022 22:11:17 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C50A10FD2;
-        Sat, 10 Dec 2022 19:11:15 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 56E7DB8085D;
-        Sun, 11 Dec 2022 03:11:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B50E5C433EF;
-        Sun, 11 Dec 2022 03:11:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670728272;
-        bh=y6YN1xorqFcEkOtQF4dW8ivbVjRCnyP1cx4XYgFc950=;
-        h=From:To:Cc:Subject:Date:From;
-        b=aJsAimixltAg2cIsAs7NpzfJxVKzVk/ty2U+C2NvRw1K+7W5hBdfomjF8fjYGCml5
-         Nh8YRhVF5+LFF+KRDr6/9lMhgZgALxB5lIN5mfvmaNmHcQstMdp/6RuZzflTCGlpZq
-         Pzsvdmvgsgk7zVkbe51MkKAccjU4uF+MMgE9X1de3SUI+L5zJUGCGzbWCHQSgOrf2N
-         h0z3VMPqvrCs1af+YLqSbos0wd5HvDsw/xrwVEgMgPlatQAQTire7rQYLMPTGbodvl
-         lI/GOQCVxng4p94+YnaooVHdcAj/eEWQ4uHP+qJQNiNmgJZgLsPPTOo7upNbziP8ng
-         kvDKqPa2lJ5IQ==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
+        Sat, 10 Dec 2022 23:21:39 -0500
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 718261146B;
+        Sat, 10 Dec 2022 20:21:38 -0800 (PST)
+Received: by mail-pf1-x42e.google.com with SMTP id d82so6371037pfd.11;
+        Sat, 10 Dec 2022 20:21:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bMVMrit7nmPd+cdKSCUflKKdRPMxLQ3NyLKJxmy3PRY=;
+        b=chJcEmrvK3Vj1qVnT1U7bLz7Ljzjv89psKK6aiIjNRqR0zC0Sq2+BT09HrI0HSIZvl
+         B8kq7qWh6t3PUF3aS/3Ko+wJortsEF2oc2p5kG0b1H8tud22NnuukrE1R3qY+C75ujgs
+         QEHVCcz/D/UDhxc3jIiCvs7crK1qvmOqnsdAbELnriU7BefOrrWEjvWMDeB+H6gHetxV
+         DoR5641amWkbYIBHCsV1CRui8pdCnYekI2z4aIvdOnVRjXjxjfPIHzSTW8gH5N7OagrF
+         fHcINIzo/tTICG/FA5abn0wdEdU4R6w2NlfqdBjjDlUipyfJ9QrIunRmJpJzxAiLwkbQ
+         N0AA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bMVMrit7nmPd+cdKSCUflKKdRPMxLQ3NyLKJxmy3PRY=;
+        b=7Vb2g74UPdq/34dD1sS+VbidjXENORVSSj0orOEwc6fNgZu8qF1HmLb0AcgsOzbhSI
+         ckzjusHCi9vhp3lKIeUY3WKMRlhYlEc0gwgBpjyTwslRBzVSntOBY3krDnoSq/K/h9p0
+         kmwih6uB01Jhk+3loxHR1IPaW6JtFBMMN3276ohShCB8v99TY53aIzZMp8pYERNDIDgw
+         wVc/4YiLtd6OAnT1R+2nLlkgltyjuTijUOqJYiGAPItlOvS9YeIzMnDEEFZr1TAID8oe
+         VKy4+hYP3DLItw/uWfPOeQfZODD+CzFeYY9BOwd1UyF7vwQKoY4rSbSKd9JMaZelcff0
+         73CA==
+X-Gm-Message-State: ANoB5pl+YvVU1zqKnuuzz/QODyVwIegkElN5FcCKek/lv8JnAI8mlQyu
+        VZIFLbK8S0uEufdpvc49jyU=
+X-Google-Smtp-Source: AA0mqf6J9xg8gJrz2gh7MjXOEU+3sEtNN0JWDzlWdwIwht5BWmpsM3a1LrWRG+EOXDE/+ruVRrk8nw==
+X-Received: by 2002:a62:4ecd:0:b0:577:22cb:1f12 with SMTP id c196-20020a624ecd000000b0057722cb1f12mr12765480pfb.12.1670732497829;
+        Sat, 10 Dec 2022 20:21:37 -0800 (PST)
+Received: from debian.me (subs02-180-214-232-69.three.co.id. [180.214.232.69])
+        by smtp.gmail.com with ESMTPSA id f74-20020a62384d000000b005772f762e43sm3498139pfa.13.2022.12.10.20.21.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Dec 2022 20:21:37 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id E5119103F4B; Sun, 11 Dec 2022 11:21:33 +0700 (WIB)
+Date:   Sun, 11 Dec 2022 11:21:33 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH] kbuild: use .NOTINTERMEDIATE for future GNU Make versions
-Date:   Sun, 11 Dec 2022 12:10:59 +0900
-Message-Id: <20221211031059.2623781-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.34.1
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Vipin Sharma <vipinsh@google.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] scripts/tags.sh: choose which directories to exclude
+ from being indexed
+Message-ID: <Y5VazQnY7s4+cXdM@debian.me>
+References: <Y5T66yWNVAZNIaJ0@mail.google.com>
+ <Y5UP+tnnxNgoi6A2@mail.google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="ifAjQU90ZpY8pISa"
+Content-Disposition: inline
+In-Reply-To: <Y5UP+tnnxNgoi6A2@mail.google.com>
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-In Kbuild, some files are generated by chains of pattern/implicit rules.
-For example, *.dtb.o files in drivers/of/unittest-data/Makefile are
-generated by the chain of 3 pattern rules, like this:
 
-  %.dts  ->  %.dtb  ->  %.dtb.S  ->  %.dtb.o
+--ifAjQU90ZpY8pISa
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Here, %.dts is the real source, %.dtb.o is the final target.
-%.dtb and %.dtb.S are called "intermediate files".
+On Sun, Dec 11, 2022 at 12:02:18PM +1300, Paulo Miguel Almeida wrote:
+> This patch makes it possible for the devs to specify which folders
+> they don't want to include into database as part of the
+> find_other_sources func if a makefile variable IGNOREDIRS is present,
+> otherwise the original behaviour is kept.
 
-As GNU Make manual [1] says, intermediate files are treated differently
-in two ways:
+Better say "Add IGNOREDIRS variable, which specifies which directories
+to be ignored from indexing."
 
- (a) The first difference is what happens if the intermediate file does
-   not exist. If an ordinary file 'b' does not exist, and make considers
-   a target that depends on 'b', it invariably creates 'b' and then
-   updates the target from 'b'. But if 'b' is an intermediate file, then
-   make can leave well enough alone: it won't create 'b' unless one of
-   its prerequisites is out of date. This means the target depending
-   on 'b' won't be rebuilt either, unless there is some other reason
-   to update that target: for example the target doesn't exist or a
-   different prerequisite is newer than the target.
+> @@ -278,6 +278,13 @@ To get all available archs you can also specify all.=
+ E.g.::
+> =20
+>      $ make ALLSOURCE_ARCHS=3Dall tags
+> =20
+> +IGNOREDIRS
+> +---------------
+> +For tags/TAGS/cscope targets, you can choose which directories won't
+> +be included in the databases, separated by comma. E.g.:
+> +
+> +    $ make IGNOREDIRS=3Ddrivers/gpu/drm/radeon,tools cscope
+> +
 
- (b) The second difference is that if make does create 'b' in order to
-   update something else, it deletes 'b' later on after it is no longer
-   needed. Therefore, an intermediate file which did not exist before
-   make also does not exist after make. make reports the deletion to
-   you by printing a 'rm' command showing which file it is deleting.
+Use two-colon syntax (::) for code block above to be consistent with
+other code blocks.
 
-Actually, (b) is problematic for Kbuild because most of the build rules
-depend on FORCE and the if_changed* macros really determine if the
-target should be updated. So, all missing files, whether they are
-intermediate or not, are always rebuilt.
+Thanks.=20
 
-To see why (b) is a problem, delete ".SECONDARY:" from
-scripts/Kbuild.include, and repeat this command:
+--=20
+An old man doll... just what I always wanted! - Clara
 
-  $ make allmodconfig drivers/of/unittest-data/
+--ifAjQU90ZpY8pISa
+Content-Type: application/pgp-signature; name="signature.asc"
 
-The intermediate files will be deleted, which results in rebuilding
-intermediate and final objects in the next run of make.
+-----BEGIN PGP SIGNATURE-----
 
-In the old days, people suppressed (b) in inconsistent ways.
-As commit 54a702f70589 ("kbuild: mark $(targets) as .SECONDARY and
-remove .PRECIOUS markers") noted, you should not use .PRECIOUS because
-.PRECIOUS has the following behavior (c), which is not likely what you
-want.
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY5VayAAKCRD2uYlJVVFO
+o+AKAP9nQhJMgCph+/u7XSX0+UsDfW4lQBG3ttu97FueusN3pQD/akMYkzTrrDG1
+iW6fWNZIfQ4SO57vdzad9F2KEy0YrQY=
+=fAQU
+-----END PGP SIGNATURE-----
 
- (c) If make is killed or interrupted during the execution of their
-   recipes, the target is not deleted. Also, the target is not deleted
-   on error even if .DELETE_ON_ERROR is specified.
-
-.SECONDARY is a much better way to disable (b), but a small problem
-is that .SECONDARY enables (a), which gives a side-effect to $?;
-prerequisites marked as .SECONDARY do not appear in $?. This is a
-drawback for Kbuild.
-
-I thought it was a bug and opened a bug report. As Paul, the GNU Make
-maintainer, concluded in [2], this is not a bug.
-
-A good news is that, GNU Make 4.4 added the perfect solution,
-.NOTINTERMEDIATE, which cancels both (a) and (b).
-
-For clarificaton, my understanding of .INTERMEDIATE, .SECONDARY,
-.PRECIOUS and .NOTINTERMEDIATE are as follows:
-
-                        (a)         (b)         (c)
-  .INTERMEDIATE        enable      enable      disable
-  .SECONDARY           enable      disable     disable
-  .PRECIOUS            disable     disable     enable
-  .NOTINTERMEDIATE     disable     disable     disable
-
-However, GNU Make 4.4 has a bug for the global .NOTINTERMEDIATE. [3]
-It was fixed by commit 6164608900ad ("[SV 63417] Ensure global
-.NOTINTERMEDIATE disables all intermediates"), and will be available
-in the next release of GNU Make.
-
-The following is the gain for .NOTINTERMEDIATE:
-
-  [Current Make]
-
-      $ make allnoconfig vmlinux
-          [ full build ]
-      $ rm include/linux/device.h
-      $ make vmlinux
-        CALL    scripts/checksyscalls.sh
-
-  Make does not notice the removal of <linux/device.h>.
-
-  [Future Make]
-
-      $ make-latest allnoconfig vmlinux
-          [ full build ]
-      $ rm include/linux/device.h
-      $ make-latest vmlinux
-        CC      arch/x86/kernel/asm-offsets.s
-      In file included from ./include/linux/writeback.h:13,
-                       from ./include/linux/memcontrol.h:22,
-                       from ./include/linux/swap.h:9,
-                       from ./include/linux/suspend.h:5,
-                       from arch/x86/kernel/asm-offsets.c:13:
-      ./include/linux/blk_types.h:11:10: fatal error: linux/device.h: No such file or directory
-         11 | #include <linux/device.h>
-            |          ^~~~~~~~~~~~~~~~
-      compilation terminated.
-      make-latest[1]: *** [scripts/Makefile.build:114: arch/x86/kernel/asm-offsets.s] Error 1
-      make-latest: *** [Makefile:1282: prepare0] Error 2
-
-  Make notices the removal of <linux/device.h>, and rebuilds objects
-  that depended on <linux/device.h>. There exists a source file that
-  includes <linux/device.h>, and it raises an error.
-
-To see detailed background information, refer to commit 2d3b1b8f0da7
-("kbuild: drop $(wildcard $^) check in if_changed* for faster rebuild").
-
-[1]: https://www.gnu.org/software/make/manual/make.html#Chained-Rules
-[2]: https://savannah.gnu.org/bugs/?55532
-[3]: https://savannah.gnu.org/bugs/?63417
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- scripts/Kbuild.include | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
-
-diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-index abdc269a51da..555c68788d09 100644
---- a/scripts/Kbuild.include
-+++ b/scripts/Kbuild.include
-@@ -185,9 +185,6 @@ endif
- make-cmd = $(call escsq,$(subst $(pound),$$(pound),$(subst $$,$$$$,$(cmd_$(1)))))
- 
- # Find any prerequisites that are newer than target or that do not exist.
--# (This is not true for now; $? should contain any non-existent prerequisites,
--# but it does not work as expected when .SECONDARY is present. This seems a bug
--# of GNU Make.)
- # PHONY targets skipped in both cases.
- newer-prereqs = $(filter-out $(PHONY),$?)
- 
-@@ -263,4 +260,14 @@ endif
- .DELETE_ON_ERROR:
- 
- # do not delete intermediate files automatically
-+#
-+# .NOTINTERMEDIATE is more correct, but only available on newer Make versions.
-+# Make 4.4 introduced .NOTINTERMEDIATE, and it appears in .FEATURES, but the
-+# global .NOTINTERMEDIATE does not work. We can use it on Make > 4.4.
-+# Use .SECONDARY for older Make versions, but "newer-prereq" cannot detect
-+# deleted files.
-+ifneq ($(and $(filter notintermediate, $(.FEATURES)),$(filter-out 4.4,$(MAKE_VERSION))),)
-+.NOTINTERMEDIATE:
-+else
- .SECONDARY:
-+endif
--- 
-2.34.1
-
+--ifAjQU90ZpY8pISa--
