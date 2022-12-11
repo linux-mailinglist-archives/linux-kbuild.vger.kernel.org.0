@@ -2,56 +2,47 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA138649208
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Dec 2022 03:47:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F254964921A
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Dec 2022 03:55:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229637AbiLKCrR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 10 Dec 2022 21:47:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41600 "EHLO
+        id S229683AbiLKCy7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 10 Dec 2022 21:54:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229560AbiLKCrQ (ORCPT
+        with ESMTP id S229475AbiLKCy7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 10 Dec 2022 21:47:16 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 561D013F17;
-        Sat, 10 Dec 2022 18:47:15 -0800 (PST)
+        Sat, 10 Dec 2022 21:54:59 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22751A1A1;
+        Sat, 10 Dec 2022 18:54:58 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 7D107CE010F;
-        Sun, 11 Dec 2022 02:47:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8B0CC433D2;
-        Sun, 11 Dec 2022 02:47:07 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D0EB6B808C8;
+        Sun, 11 Dec 2022 02:54:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E129FC433D2;
+        Sun, 11 Dec 2022 02:54:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670726831;
-        bh=a85+YHrkUTxTxO4/UXl+D9uSuSdZ9mM7ecjBPKZ65EE=;
+        s=k20201202; t=1670727295;
+        bh=tEabLVM+TJJXt+SeBNnybwbN+Grz6A4b2Mnbyj7yiKg=;
         h=From:To:Cc:Subject:Date:From;
-        b=FEfOlQhlGESTUpVvnRkhqPGlEuKXXeyr2VLqvxnoFZ+g8EgEsita1hF9RMyAGPUu5
-         73Ej4ZZJ2/F+iZjXDUyCczg7FW06Eh3zZkhRmaZhxECzADJL75P5tF+nhdy/LZBEX4
-         ZXdl5pGJxevAAXxwFTwvrh68owCZ5/qYR6rKQFDnG9U7OH9ufrc+1L2g5g2gJy10gy
-         J8kquE4kqm9kU6C7m9jWVTYkuwShYFfzd+Ub18OCXbdA3sBUaVvZKF2lwHsdOvVNxy
-         DHR5uW2yMW0VEnFw+kFVclSiHr5mRjdHWoaow4CNBMbIW06lJCOiRF4ujII8oHUmP/
-         OgqfCO1ytvbSA==
+        b=ZLESujB13DFfoRvI09cmaCmKiA5ABpSBeV/EHQ9ye0C7rygcsADw8Oc4zU0keDGGd
+         lhX1TOueCyorBhMRQ051AfUv/o37f8GFK2fVc4HWKCQO134Wxa2BW9Kf1sybem5JWV
+         Pbr7phn36mZvGnPoDB+THn1FgUYdOSobgdXnEKhs3Eiy9Td67jpjp3LKpqF5NmSsu7
+         7l/dcRBnOIp2klpoEGPW7iv/fC8/SIY2J5QYzquKVNFO+yoUo+dcbBuWC/z8h0iAe9
+         P8thfOOWB3Hhsq42yK2mkzZfObajxBC6mOGz+CXxVUxF2v0bBmRizqSRTzBT5qkEQf
+         t4nNhfVOII/dA==
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Palmer Dabbelt <palmer@rivosinc.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tom Rix <trix@redhat.com>, linux-riscv@lists.infradead.org,
-        llvm@lists.linux.dev, x86@kernel.org
-Subject: [PATCH] kbuild: add test-{ge,gt,le,lt} macros
-Date:   Sun, 11 Dec 2022 11:46:47 +0900
-Message-Id: <20221211024647.2614394-1-masahiroy@kernel.org>
+        Alexander Lobakin <alexandr.lobakin@intel.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Subject: [PATCH v3 1/2] kbuild: add read-file macro
+Date:   Sun, 11 Dec 2022 11:54:47 +0900
+Message-Id: <20221211025448.2620799-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -64,116 +55,98 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-GNU Make 4.4 introduced $(intcmp ...), which is useful to compare two
-integers without forking a new process.
+Since GNU Make 4.2, $(file ...) supports the read operater '<', which
+is useful to read a file without forking a new process. No warning is
+shown even if the input file is missing.
 
-Add test-{ge,gt,le,lt} macros, which work more efficiently with GNU
-Make >= 4.4. For older Make versions, they fall back to the 'test'
-shell command.
-
-The first two parameters to $(intcmp ...) must not be empty. To avoid
-the syntax error, I appended '0' to them. Fortunately, '00' is treated
-as '0'. This is needed because CONFIG options may expand to an empty
-string when the kernel configuration is not included.
+For older Make versions, it falls back to the cat command.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Acked-by: Palmer Dabbelt <palmer@rivosinc.com> # RISC-V
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+Reviewed-by: Alexander Lobakin <alexandr.lobakin@intel.com>
+Tested-by: Alexander Lobakin <alexandr.lobakin@intel.com>
 ---
 
 Changes in v3:
-  - Use $(intcmp ...) instead of playing with $(sort ...)
+  - Check the MAKE_VERSION in an ad-hoc way
 
  Makefile                  |  2 +-
- arch/riscv/Makefile       |  2 +-
- arch/x86/Makefile         |  2 +-
- scripts/Kbuild.include    | 16 ++++++++++++++++
- scripts/Makefile.compiler |  4 ++--
- 5 files changed, 21 insertions(+), 5 deletions(-)
+ scripts/Kbuild.include    | 14 ++++++++++++++
+ scripts/Makefile.modfinal |  2 +-
+ scripts/Makefile.modinst  |  2 +-
+ 4 files changed, 17 insertions(+), 3 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index fbd9ff4a61e7..8801cac4d3d5 100644
+index 8801cac4d3d5..2dda1e9a717a 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -993,7 +993,7 @@ KBUILD_LDFLAGS += -mllvm -import-instr-limit=5
- # Check for frame size exceeding threshold during prolog/epilog insertion
- # when using lld < 13.0.0.
- ifneq ($(CONFIG_FRAME_WARN),0)
--ifeq ($(shell test $(CONFIG_LLD_VERSION) -lt 130000; echo $$?),0)
-+ifeq ($(call test-lt, $(CONFIG_LLD_VERSION), 130000),y)
- KBUILD_LDFLAGS	+= -plugin-opt=-warn-stack-size=$(CONFIG_FRAME_WARN)
- endif
- endif
-diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
-index 0d13b597cb55..faf2c2177094 100644
---- a/arch/riscv/Makefile
-+++ b/arch/riscv/Makefile
-@@ -37,7 +37,7 @@ else
- endif
+@@ -376,7 +376,7 @@ else # !mixed-build
+ include $(srctree)/scripts/Kbuild.include
  
- ifeq ($(CONFIG_LD_IS_LLD),y)
--ifeq ($(shell test $(CONFIG_LLD_VERSION) -lt 150000; echo $$?),0)
-+ifeq ($(call test-lt, $(CONFIG_LLD_VERSION), 150000),y)
- 	KBUILD_CFLAGS += -mno-relax
- 	KBUILD_AFLAGS += -mno-relax
- ifndef CONFIG_AS_IS_LLVM
-diff --git a/arch/x86/Makefile b/arch/x86/Makefile
-index 415a5d138de4..e72c7a49cd59 100644
---- a/arch/x86/Makefile
-+++ b/arch/x86/Makefile
-@@ -211,7 +211,7 @@ endif
- KBUILD_LDFLAGS += -m elf_$(UTS_MACHINE)
+ # Read KERNELRELEASE from include/config/kernel.release (if it exists)
+-KERNELRELEASE = $(shell cat include/config/kernel.release 2> /dev/null)
++KERNELRELEASE = $(call read-file, include/config/kernel.release)
+ KERNELVERSION = $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL),.$(SUBLEVEL)))$(EXTRAVERSION)
+ export VERSION PATCHLEVEL SUBLEVEL KERNELRELEASE KERNELVERSION
  
- ifdef CONFIG_LTO_CLANG
--ifeq ($(shell test $(CONFIG_LLD_VERSION) -lt 130000; echo $$?),0)
-+ifeq ($(call test-lt, $(CONFIG_LLD_VERSION), 130000),y)
- KBUILD_LDFLAGS	+= -plugin-opt=-stack-alignment=$(if $(CONFIG_X86_32),4,8)
- endif
- endif
 diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-index cbe28744637b..5019bc1e38e4 100644
+index 5019bc1e38e4..abdc269a51da 100644
 --- a/scripts/Kbuild.include
 +++ b/scripts/Kbuild.include
-@@ -11,6 +11,22 @@ space   := $(empty) $(empty)
+@@ -10,6 +10,10 @@ empty   :=
+ space   := $(empty) $(empty)
  space_escape := _-_SPACE_-_
  pound := \#
++define newline
++
++
++endef
+ 
+ ###
+ # Comparison macros.
+@@ -61,6 +65,16 @@ stringify = $(squote)$(quote)$1$(quote)$(squote)
+ kbuild-dir = $(if $(filter /%,$(src)),$(src),$(srctree)/$(src))
+ kbuild-file = $(or $(wildcard $(kbuild-dir)/Kbuild),$(kbuild-dir)/Makefile)
  
 +###
-+# Comparison macros.
-+# Usage: $(call test-lt, $(CONFIG_LLD_VERSION), 150000)
++# Read a file, replacing newlines with spaces
 +#
-+# Use $(intcmp ...) if supported. (Make >= 4.4)
-+# Otherwise, fall back to the 'test' shell command.
-+ifeq ($(intcmp 1,0,,,y),y)
-+test-le = $(intcmp $(strip $1)0, $(strip $2)0,y,y,)
-+test-lt = $(intcmp $(strip $1)0, $(strip $2)0,y,,)
++# Make 4.2 or later can read a file by using its builtin function.
++ifneq ($(filter-out 3.% 4.0 4.1, $(MAKE_VERSION)),)
++read-file = $(subst $(newline),$(space),$(file < $1))
 +else
-+test-le = $(shell test $(strip $1)0 -le $(strip $2)0 && echo y)
-+test-lt = $(shell test $(strip $1)0 -lt $(strip $2)0 && echo y)
++read-file = $(shell cat $1 2>/dev/null)
 +endif
-+test-ge = $(call test-le, $2, $1)
-+test-gt = $(call test-lt, $2, $1)
 +
  ###
- # Name of target with a '.' as filename prefix. foo/bar.o => foo/.bar.o
- dot-target = $(dir $@).$(notdir $@)
-diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
-index 20d353dcabfb..3d8adfd34af1 100644
---- a/scripts/Makefile.compiler
-+++ b/scripts/Makefile.compiler
-@@ -63,11 +63,11 @@ cc-disable-warning = $(call try-run,\
+ # Easy method for doing a status message
+        kecho := :
+diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+index 25bedd83644b..7252f6cf7837 100644
+--- a/scripts/Makefile.modfinal
++++ b/scripts/Makefile.modfinal
+@@ -13,7 +13,7 @@ include $(srctree)/scripts/Kbuild.include
+ include $(srctree)/scripts/Makefile.lib
  
- # gcc-min-version
- # Usage: cflags-$(call gcc-min-version, 70100) += -foo
--gcc-min-version = $(shell [ $(CONFIG_GCC_VERSION)0 -ge $(1)0 ] && echo y)
-+gcc-min-version = $(call test-ge, $(CONFIG_GCC_VERSION), $1)
+ # find all modules listed in modules.order
+-modules := $(sort $(shell cat $(MODORDER)))
++modules := $(sort $(call read-file, $(MODORDER)))
  
- # clang-min-version
- # Usage: cflags-$(call clang-min-version, 110000) += -foo
--clang-min-version = $(shell [ $(CONFIG_CLANG_VERSION)0 -ge $(1)0 ] && echo y)
-+clang-min-version = $(call test-ge, $(CONFIG_CLANG_VERSION), $1)
+ __modfinal: $(modules)
+ 	@:
+diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
+index a4c987c23750..509d424dbbd2 100644
+--- a/scripts/Makefile.modinst
++++ b/scripts/Makefile.modinst
+@@ -9,7 +9,7 @@ __modinst:
+ include include/config/auto.conf
+ include $(srctree)/scripts/Kbuild.include
  
- # ld-option
- # Usage: KBUILD_LDFLAGS += $(call ld-option, -X, -Y)
+-modules := $(sort $(shell cat $(MODORDER)))
++modules := $(sort $(call read-file, $(MODORDER)))
+ 
+ ifeq ($(KBUILD_EXTMOD),)
+ dst := $(MODLIB)/kernel
 -- 
 2.34.1
 
