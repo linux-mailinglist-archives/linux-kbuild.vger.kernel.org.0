@@ -2,57 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9697464A580
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Dec 2022 18:05:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E8F2E64A596
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Dec 2022 18:09:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232952AbiLLRFY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 12 Dec 2022 12:05:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56946 "EHLO
+        id S232801AbiLLRJH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 12 Dec 2022 12:09:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232252AbiLLRFG (ORCPT
+        with ESMTP id S232631AbiLLRJG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 12 Dec 2022 12:05:06 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9A9510DD;
-        Mon, 12 Dec 2022 09:05:05 -0800 (PST)
+        Mon, 12 Dec 2022 12:09:06 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8D996373;
+        Mon, 12 Dec 2022 09:09:04 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 67D136115C;
-        Mon, 12 Dec 2022 17:05:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28B21C433F0;
-        Mon, 12 Dec 2022 17:05:04 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 9024DB80DD1;
+        Mon, 12 Dec 2022 17:09:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 405F3C433D2;
+        Mon, 12 Dec 2022 17:09:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670864704;
-        bh=KmG4ro7h+VdOXjEslNq+8iBWKBTQ/RA7zskQtxL+RXw=;
+        s=k20201202; t=1670864942;
+        bh=1uKfvnIvXPkzGzWXkQgGgIJ5yMv67egrw2dgfVsZ474=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Aj6vrtB3Y2skOx8SKPJd7krfhSKJ/utA+bWT4xTHarHMUD3/lISCtlvJqPHL60pzb
-         gBefVSEqHgMTU2td3vxDOudSSqtIFyGEE3fjACq1ImpoFS6AbTSU4gyoNzKLtYmaUk
-         8HFKc5bYSKCl0NPKxs5dwH01VjTI/AU8U1qEI6cnPh7ywjBflGg9Adm5tMcwnxVY3Q
-         IzeAVMFpIdKeFQBwv3sUlGm3hpuFpURSm4Di7el+3ELuoTPiN3B+mdwleD0ujL+D77
-         U47NENYSq9mwaTnfNquImIqO6NV+79DE502FuufTe2OhE4tXY8SzjLVoqYzGx34tUW
-         xOp0Is+zD4lrA==
-Date:   Mon, 12 Dec 2022 10:05:02 -0700
+        b=cmppyl/5WEObf5KqFxBOjavCQzX8Zu9SN7lAK0FSXhGAEkrD5dWHIgbd5y5/z17nN
+         gK7ghVxaw+lm07Zo1aPMOEJzBXzzr4XBeNJJeT+YjoGmSvYr5w0PcwKiejiMP3BttZ
+         7ftYlYnueTG2NrR23roHuBwql6+122FWR1/bqIVL+WYta0E71tO0pxTNGFMMtO1kYu
+         CkRRm4gzssxZUxyO+sfdsGz4awMdh56uGwh94jvj4a2TW9ZOL/zPMKBRw1gw5J9wZX
+         P1SCViCnibdb0w5Y/qlyrc5nAMNUQ2FdgNiALTq5hUsZiIpLznXkGQ/8fT/bEqDYKs
+         1fZfa413i0yIw==
+Date:   Mon, 12 Dec 2022 10:08:59 -0700
 From:   Nathan Chancellor <nathan@kernel.org>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, Nicolas Schier <nicolas@fjasle.eu>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Vincent Donnefort <vdonnefort@google.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev, patches@lists.linux.dev,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        Steffen Klassert <steffen.klassert@secunet.com>,
-        linux-crypto@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] padata: Mark padata_work_init() as __ref
-Message-ID: <Y5dfPgNF8E2EpNCM@dev-arch.thelio-3990X>
-References: <20221207191657.2852229-1-nathan@kernel.org>
- <20221207191657.2852229-2-nathan@kernel.org>
- <CAK7LNARoxqSzjpM0twcssMkf9X_PppzqtUo_opq=CX+zixma8g@mail.gmail.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Palmer Dabbelt <palmer@rivosinc.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tom Rix <trix@redhat.com>, linux-riscv@lists.infradead.org,
+        llvm@lists.linux.dev, x86@kernel.org
+Subject: Re: [PATCH] kbuild: add test-{ge,gt,le,lt} macros
+Message-ID: <Y5dgK2D4TP35PkKg@dev-arch.thelio-3990X>
+References: <20221211024647.2614394-1-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK7LNARoxqSzjpM0twcssMkf9X_PppzqtUo_opq=CX+zixma8g@mail.gmail.com>
+In-Reply-To: <20221211024647.2614394-1-masahiroy@kernel.org>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -62,121 +64,120 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Dec 12, 2022 at 10:07:24PM +0900, Masahiro Yamada wrote:
-> On Thu, Dec 8, 2022 at 4:17 AM Nathan Chancellor <nathan@kernel.org> wrote:
-> >
-> > When building arm64 allmodconfig + ThinLTO with clang and a proposed
-> > modpost update to account for -ffuncton-sections, the following warning
-> > appears:
-> >
-> >   WARNING: modpost: vmlinux.o: section mismatch in reference: padata_work_init (section: .text.padata_work_init) -> padata_mt_helper (section: .init.text)
-> >   WARNING: modpost: vmlinux.o: section mismatch in reference: padata_work_init (section: .text.padata_work_init) -> padata_mt_helper (section: .init.text)
-> >
-> > LLVM has optimized padata_work_init() to include the address of
-> > padata_mt_helper() directly, which causes modpost to complain since
-> > padata_work_init() is not __init, whereas padata_mt_helper() is. In
-> > reality, padata_work_init() is only called with padata_mt_helper() as
-> > the work_fn argument in code that is __init, so this warning will not
-> > result in any problems. Silence it with __ref, which makes it clear to
-> > modpost that padata_work_init() can only use padata_mt_helper() in
-> > __init code.
-> >
-> > Suggested-by: Daniel Jordan <daniel.m.jordan@oracle.com>
-> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> > ---
-> > Cc: Steffen Klassert <steffen.klassert@secunet.com>
-> > Cc: Daniel Jordan <daniel.m.jordan@oracle.com>
-> > Cc: linux-crypto@vger.kernel.org
-> > ---
-> >  kernel/padata.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/kernel/padata.c b/kernel/padata.c
-> > index e5819bb8bd1d..4c3137fe8449 100644
-> > --- a/kernel/padata.c
-> > +++ b/kernel/padata.c
-> > @@ -83,8 +83,8 @@ static struct padata_work *padata_work_alloc(void)
-> >         return pw;
-> >  }
-> >
-> > -static void padata_work_init(struct padata_work *pw, work_func_t work_fn,
-> > -                            void *data, int flags)
-> > +static __ref void padata_work_init(struct padata_work *pw, work_func_t work_fn,
-> > +                                  void *data, int flags)
-> >  {
-> >         if (flags & PADATA_WORK_ONSTACK)
-> >                 INIT_WORK_ONSTACK(&pw->pw_work, work_fn);
-> >
-> > base-commit: 76dcd734eca23168cb008912c0f69ff408905235
-> > --
-> > 2.38.1
-> >
+On Sun, Dec 11, 2022 at 11:46:47AM +0900, Masahiro Yamada wrote:
+> GNU Make 4.4 introduced $(intcmp ...), which is useful to compare two
+> integers without forking a new process.
 > 
-> It took me a while to understand why LTO can embed
-> padata_mt_helper's address into padata_work_init().
+> Add test-{ge,gt,le,lt} macros, which work more efficiently with GNU
+> Make >= 4.4. For older Make versions, they fall back to the 'test'
+> shell command.
+> 
+> The first two parameters to $(intcmp ...) must not be empty. To avoid
+> the syntax error, I appended '0' to them. Fortunately, '00' is treated
+> as '0'. This is needed because CONFIG options may expand to an empty
+> string when the kernel configuration is not included.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Acked-by: Palmer Dabbelt <palmer@rivosinc.com> # RISC-V
 
-Sorry about that, I can try to expand on this in both the commit message
-and in-code comment if I end up adding it.
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-> There are 3 call-sites to padata_work_init().
+> ---
 > 
-> (1)  __init padata_work_alloc_mt()
->          -->  padata_work_init(..., padata_mt_helper, ...)
+> Changes in v3:
+>   - Use $(intcmp ...) instead of playing with $(sort ...)
 > 
-> (2) padata_do_parallel()
->          -->  padata_work_init(..., padata_parallel_worker, ...)
+>  Makefile                  |  2 +-
+>  arch/riscv/Makefile       |  2 +-
+>  arch/x86/Makefile         |  2 +-
+>  scripts/Kbuild.include    | 16 ++++++++++++++++
+>  scripts/Makefile.compiler |  4 ++--
+>  5 files changed, 21 insertions(+), 5 deletions(-)
 > 
-> (3) __init padata_do_multithreaded()
->         --> padata_work_init(..., padata_mt_helper, ...)
+> diff --git a/Makefile b/Makefile
+> index fbd9ff4a61e7..8801cac4d3d5 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -993,7 +993,7 @@ KBUILD_LDFLAGS += -mllvm -import-instr-limit=5
+>  # Check for frame size exceeding threshold during prolog/epilog insertion
+>  # when using lld < 13.0.0.
+>  ifneq ($(CONFIG_FRAME_WARN),0)
+> -ifeq ($(shell test $(CONFIG_LLD_VERSION) -lt 130000; echo $$?),0)
+> +ifeq ($(call test-lt, $(CONFIG_LLD_VERSION), 130000),y)
+>  KBUILD_LDFLAGS	+= -plugin-opt=-warn-stack-size=$(CONFIG_FRAME_WARN)
+>  endif
+>  endif
+> diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
+> index 0d13b597cb55..faf2c2177094 100644
+> --- a/arch/riscv/Makefile
+> +++ b/arch/riscv/Makefile
+> @@ -37,7 +37,7 @@ else
+>  endif
+>  
+>  ifeq ($(CONFIG_LD_IS_LLD),y)
+> -ifeq ($(shell test $(CONFIG_LLD_VERSION) -lt 150000; echo $$?),0)
+> +ifeq ($(call test-lt, $(CONFIG_LLD_VERSION), 150000),y)
+>  	KBUILD_CFLAGS += -mno-relax
+>  	KBUILD_AFLAGS += -mno-relax
+>  ifndef CONFIG_AS_IS_LLVM
+> diff --git a/arch/x86/Makefile b/arch/x86/Makefile
+> index 415a5d138de4..e72c7a49cd59 100644
+> --- a/arch/x86/Makefile
+> +++ b/arch/x86/Makefile
+> @@ -211,7 +211,7 @@ endif
+>  KBUILD_LDFLAGS += -m elf_$(UTS_MACHINE)
+>  
+>  ifdef CONFIG_LTO_CLANG
+> -ifeq ($(shell test $(CONFIG_LLD_VERSION) -lt 130000; echo $$?),0)
+> +ifeq ($(call test-lt, $(CONFIG_LLD_VERSION), 130000),y)
+>  KBUILD_LDFLAGS	+= -plugin-opt=-stack-alignment=$(if $(CONFIG_X86_32),4,8)
+>  endif
+>  endif
+> diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+> index cbe28744637b..5019bc1e38e4 100644
+> --- a/scripts/Kbuild.include
+> +++ b/scripts/Kbuild.include
+> @@ -11,6 +11,22 @@ space   := $(empty) $(empty)
+>  space_escape := _-_SPACE_-_
+>  pound := \#
+>  
+> +###
+> +# Comparison macros.
+> +# Usage: $(call test-lt, $(CONFIG_LLD_VERSION), 150000)
+> +#
+> +# Use $(intcmp ...) if supported. (Make >= 4.4)
+> +# Otherwise, fall back to the 'test' shell command.
+> +ifeq ($(intcmp 1,0,,,y),y)
+> +test-le = $(intcmp $(strip $1)0, $(strip $2)0,y,y,)
+> +test-lt = $(intcmp $(strip $1)0, $(strip $2)0,y,,)
+> +else
+> +test-le = $(shell test $(strip $1)0 -le $(strip $2)0 && echo y)
+> +test-lt = $(shell test $(strip $1)0 -lt $(strip $2)0 && echo y)
+> +endif
+> +test-ge = $(call test-le, $2, $1)
+> +test-gt = $(call test-lt, $2, $1)
+> +
+>  ###
+>  # Name of target with a '.' as filename prefix. foo/bar.o => foo/.bar.o
+>  dot-target = $(dir $@).$(notdir $@)
+> diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
+> index 20d353dcabfb..3d8adfd34af1 100644
+> --- a/scripts/Makefile.compiler
+> +++ b/scripts/Makefile.compiler
+> @@ -63,11 +63,11 @@ cc-disable-warning = $(call try-run,\
+>  
+>  # gcc-min-version
+>  # Usage: cflags-$(call gcc-min-version, 70100) += -foo
+> -gcc-min-version = $(shell [ $(CONFIG_GCC_VERSION)0 -ge $(1)0 ] && echo y)
+> +gcc-min-version = $(call test-ge, $(CONFIG_GCC_VERSION), $1)
+>  
+>  # clang-min-version
+>  # Usage: cflags-$(call clang-min-version, 110000) += -foo
+> -clang-min-version = $(shell [ $(CONFIG_CLANG_VERSION)0 -ge $(1)0 ] && echo y)
+> +clang-min-version = $(call test-ge, $(CONFIG_CLANG_VERSION), $1)
+>  
+>  # ld-option
+>  # Usage: KBUILD_LDFLAGS += $(call ld-option, -X, -Y)
+> -- 
+> 2.34.1
 > 
-> 
-> The function call (2) is squashed away.
-> 
-> 
-> With only (1) and (3) remaining, the 2nd parameter to
-> padata_work_init() is always padata_mt_helper,
-> therefore LLVM embeds padata_mt_hlper's address
-> directly into padata_work_init().
-> 
-> I am not sure if the compiler should do this level of optimization
-> because kernel/padata.c does not seem to be a special case.
-> Perhaps, we might be hit with more cases that need __ref annotation,
-> which is only required by LTO.
-
-That's possible. I did only see this once instance in all my builds but
-allmodconfig + ThinLTO might not be too interesting of a case,
-since the sanitizers will be enabled, which makes optimization more
-difficult. I could try to enable ThinLTO with some distribution
-configurations to see if there are any more instances that crop up.
-
-> One note is that, we could discard padata_work_init()
-> because (1) and (3) are both annotated as __init.
-> So, another way of fixing is
->    static __always_inline void padata_work_init(...)
-> because the compiler would determine padata_work_init()
-> would be small enough if the caller and callee belonged to
-> the same section.
-> 
-> I do not have a strong opinion.
-> Honestly, I do not know what the best approach would be to fix this.
-
-Agreed to both points, it is really up to the padata maintainers.
-
-> If we go with the __ref annotation, I can pick this, but
-> at least can you add some comments?
-> 
-> 
-> include/linux/init.h says:
-> "optimally document why the __ref is needed and why it's OK"
-> 
-> 
-> I think this is the case that needs some comments
-> because LTO optimization looks too tricky to me.
-
-Sure thing, I will send a v3 either Tuesday or Wednesday with an updated
-commit message and code comment if we end up going this route.
-
-Thank you for the review!
-
-Cheers,
-Nathan
