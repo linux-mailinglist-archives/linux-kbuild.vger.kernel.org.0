@@ -2,79 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C949564963B
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Dec 2022 21:28:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE906649F6D
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Dec 2022 14:08:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230318AbiLKU2F (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 11 Dec 2022 15:28:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35350 "EHLO
+        id S232210AbiLLNIi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 12 Dec 2022 08:08:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbiLKU2E (ORCPT
+        with ESMTP id S232552AbiLLNIT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 11 Dec 2022 15:28:04 -0500
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 694B0E4A;
-        Sun, 11 Dec 2022 12:28:03 -0800 (PST)
-Received: by mail-pj1-x1033.google.com with SMTP id js9so8908582pjb.2;
-        Sun, 11 Dec 2022 12:28:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=by9IvQrNC4n3hMJPqWVgJdj265wMQ5fsMcjx5CkRMb0=;
-        b=Gvluwy8JmJ35C4rhygAyMhL+GuwkXWeHQDfujZWe2lpeshB2WQwe8zU/oDmPrdNcNz
-         CD6szyiJYLnPouNh7PdPMCRSQXLtRZQ74900pzOfX9tJiRNXq0R4SnMzTFMYe3Q9sYWs
-         nuqQKIgkZasvDWg3OnLuLZwUcCHlvrxpWUicdx1b5rYcZcCFjjCcg5l1b52gBZ/7wWjo
-         577wUQcVyQ9CruX0RRyH5m0J+F9oixQ/Ea3HWdnF9ZpV4yJScVDkQJceaepUkJlrEkcq
-         d9FfFWRoboee96aSzpYxNwux8m3l0kNJTjbf15fwYKTetvqUSS/QNa64NluQ3HHIPINl
-         AJNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=by9IvQrNC4n3hMJPqWVgJdj265wMQ5fsMcjx5CkRMb0=;
-        b=vPsk2/GUUIXG8+SazL6ejyb9vixOZ0blMEY9QqNDkKnlcWt+YPUOKv4ubBc3iKjsN3
-         yLp1hnfiqnPwdrOMcHhfll63DpxoRewHOzUl+SMjljz2vwc4SrCnOlLYMnGz2dzkEblA
-         QDlHJniLxRfTIZy8mcPg4/06OL5ZN6yQAEsuT0VmyQQDgn4DHa+OfNU2n7hc141322DU
-         wjUuvfG17ATgLBP7P8PPNnVnT5JdBXZoA483DONICFbnFmNVb8Lg44LlDvR4RyULBsP1
-         xnbIcLBbmMbLiDCoEO8mgxd6zvQHmpTnmus7HXLa8pI/R67hJyQlVi8nYu9DwgJUaeZu
-         iGzg==
-X-Gm-Message-State: ANoB5pkJz0dCcSVpKZjBm05DuW8JcLBVxTqi6RdrWQVyhcazxZI1dA2Q
-        BSqFQvNyIB6g62+Nv0R/VB0=
-X-Google-Smtp-Source: AA0mqf4GK7azKp1g/5pH5O5L6eYpB3GPoNtYfq1K6iRvncnGG1DylBHg8K05syopNMajOeARdzRoUQ==
-X-Received: by 2002:a17:902:f285:b0:189:f0ac:191d with SMTP id k5-20020a170902f28500b00189f0ac191dmr3559258plc.4.1670790482873;
-        Sun, 11 Dec 2022 12:28:02 -0800 (PST)
-Received: from mail.google.com ([103.229.249.253])
-        by smtp.gmail.com with ESMTPSA id u14-20020a17090341ce00b001754fa42065sm4749908ple.143.2022.12.11.12.27.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Dec 2022 12:28:02 -0800 (PST)
-Date:   Mon, 12 Dec 2022 09:27:55 +1300
-From:   Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Vipin Sharma <vipinsh@google.com>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] scripts/tags.sh: choose which directories to exclude
- from being indexed
-Message-ID: <Y5Y9S0qSOAL/KHp1@mail.google.com>
-References: <Y5T66yWNVAZNIaJ0@mail.google.com>
- <Y5UP+tnnxNgoi6A2@mail.google.com>
- <Y5VazQnY7s4+cXdM@debian.me>
+        Mon, 12 Dec 2022 08:08:19 -0500
+Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 573F411151;
+        Mon, 12 Dec 2022 05:08:16 -0800 (PST)
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 2BCD807b015352;
+        Mon, 12 Dec 2022 22:08:01 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 2BCD807b015352
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1670850481;
+        bh=60Bgpu0atlDkoRoUv+KHKiAoEPhzrlitVEuwVEjISH8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=S1R8EygUdT0sePVuwyu0xVcBa/332qFMxveWrw988yuTPqcdlCYpH0J01FRF9GqRq
+         6NAYUO6z6X8AWUmIj4fKF2AsETdOJnH2x89E7eB80ZHY5t1lXgDObzGiQByt6BSatZ
+         KNnqsSHvAJMiTDsx9J6TKEOCW6VDImfE83tpC8QPwfSU3zxx3ls3Azb9z7nQAI4HJu
+         1rTFJ1wbdy5xctyM2sikSwR28raiGgVdZzX9mmr1GfpspGtDprHH9OzkyWMmA/J+8+
+         ZCYMyEdTf8XWhY9XkhnpVMOWF4S7nHPg5O8U9EDN7y99Xp+jWcY2fepFinQBSYL/Ak
+         NEpGscyytV1lQ==
+X-Nifty-SrcIP: [209.85.160.43]
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-14455716674so8249231fac.7;
+        Mon, 12 Dec 2022 05:08:01 -0800 (PST)
+X-Gm-Message-State: ANoB5pnGXeV3M2meTJvl04Bxv3Kh2TJXXPyFfuO3ReGGaNz3bf/BMlrx
+        /nOIPnDc6owATRfwbo/diMK2GhuU9PMeKSUXrm8=
+X-Google-Smtp-Source: AA0mqf7M4QfjT3R/GEAqDtO/Cby83qpELei3PVXnETZgJx/Q5WFbXGO/tMYP5+mZ+gL2OQ5qEKbSaAk/zOFU3ItDe8k=
+X-Received: by 2002:a05:6870:c7b4:b0:144:d060:72e with SMTP id
+ dy52-20020a056870c7b400b00144d060072emr5970097oab.287.1670850480174; Mon, 12
+ Dec 2022 05:08:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y5VazQnY7s4+cXdM@debian.me>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+References: <20221207191657.2852229-1-nathan@kernel.org> <20221207191657.2852229-2-nathan@kernel.org>
+In-Reply-To: <20221207191657.2852229-2-nathan@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 12 Dec 2022 22:07:24 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARoxqSzjpM0twcssMkf9X_PppzqtUo_opq=CX+zixma8g@mail.gmail.com>
+Message-ID: <CAK7LNARoxqSzjpM0twcssMkf9X_PppzqtUo_opq=CX+zixma8g@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] padata: Mark padata_work_init() as __ref
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, Nicolas Schier <nicolas@fjasle.eu>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Vincent Donnefort <vdonnefort@google.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev, patches@lists.linux.dev,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Steffen Klassert <steffen.klassert@secunet.com>,
+        linux-crypto@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -82,42 +66,113 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Dec 11, 2022 at 11:21:33AM +0700, Bagas Sanjaya wrote:
-> On Sun, Dec 11, 2022 at 12:02:18PM +1300, Paulo Miguel Almeida wrote:
-> > This patch makes it possible for the devs to specify which folders
-> > they don't want to include into database as part of the
-> > find_other_sources func if a makefile variable IGNOREDIRS is present,
-> > otherwise the original behaviour is kept.
-> 
-> Better say "Add IGNOREDIRS variable, which specifies which directories
-> to be ignored from indexing."
-> 
-> > @@ -278,6 +278,13 @@ To get all available archs you can also specify all. E.g.::
-> >  
-> >      $ make ALLSOURCE_ARCHS=all tags
-> >  
-> > +IGNOREDIRS
-> > +---------------
-> > +For tags/TAGS/cscope targets, you can choose which directories won't
-> > +be included in the databases, separated by comma. E.g.:
-> > +
-> > +    $ make IGNOREDIRS=drivers/gpu/drm/radeon,tools cscope
-> > +
-> 
-> Use two-colon syntax (::) for code block above to be consistent with
-> other code blocks.
-> 
-> Thanks. 
-> 
-> -- 
-> An old man doll... just what I always wanted! - Clara
+On Thu, Dec 8, 2022 at 4:17 AM Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> When building arm64 allmodconfig + ThinLTO with clang and a proposed
+> modpost update to account for -ffuncton-sections, the following warning
+> appears:
+>
+>   WARNING: modpost: vmlinux.o: section mismatch in reference: padata_work_init (section: .text.padata_work_init) -> padata_mt_helper (section: .init.text)
+>   WARNING: modpost: vmlinux.o: section mismatch in reference: padata_work_init (section: .text.padata_work_init) -> padata_mt_helper (section: .init.text)
+>
+> LLVM has optimized padata_work_init() to include the address of
+> padata_mt_helper() directly, which causes modpost to complain since
+> padata_work_init() is not __init, whereas padata_mt_helper() is. In
+> reality, padata_work_init() is only called with padata_mt_helper() as
+> the work_fn argument in code that is __init, so this warning will not
+> result in any problems. Silence it with __ref, which makes it clear to
+> modpost that padata_work_init() can only use padata_mt_helper() in
+> __init code.
+>
+> Suggested-by: Daniel Jordan <daniel.m.jordan@oracle.com>
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+> Cc: Steffen Klassert <steffen.klassert@secunet.com>
+> Cc: Daniel Jordan <daniel.m.jordan@oracle.com>
+> Cc: linux-crypto@vger.kernel.org
+> ---
+>  kernel/padata.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/kernel/padata.c b/kernel/padata.c
+> index e5819bb8bd1d..4c3137fe8449 100644
+> --- a/kernel/padata.c
+> +++ b/kernel/padata.c
+> @@ -83,8 +83,8 @@ static struct padata_work *padata_work_alloc(void)
+>         return pw;
+>  }
+>
+> -static void padata_work_init(struct padata_work *pw, work_func_t work_fn,
+> -                            void *data, int flags)
+> +static __ref void padata_work_init(struct padata_work *pw, work_func_t work_fn,
+> +                                  void *data, int flags)
+>  {
+>         if (flags & PADATA_WORK_ONSTACK)
+>                 INIT_WORK_ONSTACK(&pw->pw_work, work_fn);
+>
+> base-commit: 76dcd734eca23168cb008912c0f69ff408905235
+> --
+> 2.38.1
+>
 
-Hi Bagas,
+It took me a while to understand why LTO can embed
+padata_mt_helper's address into padata_work_init().
 
-thanks for taking the time to review this patch. I will make the changes
-that you've pointed out.
 
-thanks!
+There are 3 call-sites to padata_work_init().
 
-- Paulo A,
+(1)  __init padata_work_alloc_mt()
+         -->  padata_work_init(..., padata_mt_helper, ...)
 
+(2) padata_do_parallel()
+         -->  padata_work_init(..., padata_parallel_worker, ...)
+
+(3) __init padata_do_multithreaded()
+        --> padata_work_init(..., padata_mt_helper, ...)
+
+
+The function call (2) is squashed away.
+
+
+With only (1) and (3) remaining, the 2nd parameter to
+padata_work_init() is always padata_mt_helper,
+therefore LLVM embeds padata_mt_hlper's address
+directly into padata_work_init().
+
+I am not sure if the compiler should do this level of optimization
+because kernel/padata.c does not seem to be a special case.
+Perhaps, we might be hit with more cases that need __ref annotation,
+which is only required by LTO.
+
+One note is that, we could discard padata_work_init()
+because (1) and (3) are both annotated as __init.
+So, another way of fixing is
+   static __always_inline void padata_work_init(...)
+because the compiler would determine padata_work_init()
+would be small enough if the caller and callee belonged to
+the same section.
+
+I do not have a strong opinion.
+Honestly, I do not know what the best approach would be to fix this.
+
+
+If we go with the __ref annotation, I can pick this, but
+at least can you add some comments?
+
+
+include/linux/init.h says:
+"optimally document why the __ref is needed and why it's OK"
+
+
+I think this is the case that needs some comments
+because LTO optimization looks too tricky to me.
+
+
+
+
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
