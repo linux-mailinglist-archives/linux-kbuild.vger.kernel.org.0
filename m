@@ -2,80 +2,65 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F411664AD6C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Dec 2022 03:04:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9036064AE89
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Dec 2022 05:04:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233522AbiLMCEC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 12 Dec 2022 21:04:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37438 "EHLO
+        id S229832AbiLMEEg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 12 Dec 2022 23:04:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234113AbiLMCEB (ORCPT
+        with ESMTP id S233965AbiLMEEd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 12 Dec 2022 21:04:01 -0500
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEC671B1F0;
-        Mon, 12 Dec 2022 18:03:53 -0800 (PST)
-Received: by mail-pg1-x52a.google.com with SMTP id s196so9497380pgs.3;
-        Mon, 12 Dec 2022 18:03:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=13l+GAcYpGztlBUQlibYZJJu+N68RuXQ0jlYBQoMmJs=;
-        b=C7e8fTgkcHmuTrZQ/8Hm+970UEm9w0GwiZQGb4P0t3TPyHs6BpkM19PxJKevgaBLH9
-         ecc6OZuZK31MBIapt3Lx9Doc/1/2Zvy3Sv4RNgX6VByVPmrOtG/+Ga1wvjrYg7Bg+aJU
-         hBgAyMCEUrE77NMwofmYJhE+QZY8Sc2s5pf4BPUzxW6e00/RwCGXDej3FJWD8AG8SnJg
-         KgKJF3uN6Ged36LgIu81WCnrak4VYiMRSiCowJctYqviIDtOoOciCV/KMx1uoZlsH3dv
-         SRltgj/hC3dEGy/mcMZI0/LZcodQBnxbZfBAOgdy29UtCfFQTiPlpzjq8xKdCA8vgA0g
-         jGYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=13l+GAcYpGztlBUQlibYZJJu+N68RuXQ0jlYBQoMmJs=;
-        b=Hw/FI9Lzhh/tcVzuBY/BOtHhmZtNozv4LX/5cjmR32BNtqKPGCnzP3/WLSkHvvH8i4
-         G9V+BV9Xpm9CFcQFayYdxsKNLPwsGMMowZWjKsFi2RkwmfbAUZfKOPcECiSIgVy47M0d
-         3y83xVchTfSgUda69NBKiJKrA5pslpKrnDyoB1v4Tmst4nxz2fc5PDbXsthbZmexidIV
-         aM4yeYjx9nJECiTvTlOx2fSLTlSmEpe/qGlhUKMuzqoft2TCG/YfJodSoFdSWflhw9Gr
-         pU4+eoAOABGMaFnJ8z2dt003kvr2r9LC95Xs2RVK9EaHkW24bAER92P/9NUOcJON+j7L
-         j+1g==
-X-Gm-Message-State: ANoB5pl4WybH6nwLaLS78TKvueFZXccSSHDQnc2+I8N/1nVNb72Yr/tC
-        MyG7obTaM7fTf0toXPZ0vLc=
-X-Google-Smtp-Source: AA0mqf6TOA5Zv73oVP0Hyc/ykYBfNk8zTqgxjnqSQOAaaS39735qjuxncWfCwWmiPm9kAsblFyF7zA==
-X-Received: by 2002:a62:fb14:0:b0:574:2b95:6f41 with SMTP id x20-20020a62fb14000000b005742b956f41mr3757325pfm.1.1670897033202;
-        Mon, 12 Dec 2022 18:03:53 -0800 (PST)
-Received: from mail.google.com ([103.229.249.253])
-        by smtp.gmail.com with ESMTPSA id x28-20020aa78f1c000000b0056bc5ad4862sm6476212pfr.28.2022.12.12.18.03.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Dec 2022 18:03:52 -0800 (PST)
-Date:   Tue, 13 Dec 2022 15:03:44 +1300
-From:   Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-To:     Vipin Sharma <vipinsh@google.com>
+        Mon, 12 Dec 2022 23:04:33 -0500
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 935B51DF22;
+        Mon, 12 Dec 2022 20:04:26 -0800 (PST)
+Received: from leknes.fjasle.eu ([46.142.49.245]) by mrelayeu.kundenserver.de
+ (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MuDoR-1onxTw0NQb-00uWbT; Tue, 13 Dec 2022 04:58:33 +0100
+Received: from localhost.fjasle.eu (bergen.fjasle.eu [IPv6:fdda:8718:be81:0:6f0:21ff:fe91:394])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (Client did not present a certificate)
+        by leknes.fjasle.eu (Postfix) with ESMTPS id 966C03C0C9;
+        Tue, 13 Dec 2022 04:58:31 +0100 (CET)
+Authentication-Results: leknes.fjasle.eu; dkim=none; dkim-atps=neutral
+Received: by localhost.fjasle.eu (Postfix, from userid 1000)
+        id 26F47381; Tue, 13 Dec 2022 04:58:30 +0100 (CET)
+Date:   Tue, 13 Dec 2022 04:58:30 +0100
+From:   Nicolas Schier <nicolas@fjasle.eu>
+To:     Nathan Chancellor <nathan@kernel.org>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] scripts/tags.sh: choose which directories to exclude
- from being indexed
-Message-ID: <Y5fdgI4uTpXZQ9yn@mail.google.com>
-References: <Y5T66yWNVAZNIaJ0@mail.google.com>
- <Y5UP+tnnxNgoi6A2@mail.google.com>
- <CAHVum0eOzd8MgP0FGObHWvqG_oPVoTmk_5gkEB0sAJK9JgCsFg@mail.gmail.com>
- <Y5ekQcJeoHd1i+Um@mail.google.com>
- <CAHVum0fqOj9peepXdrAETTO3_qNX-B2qM41AnPdHMMgPNyrnKg@mail.gmail.com>
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>
+Subject: Re: [PATCH] kbuild: ensure Make >= 3.82 is used
+Message-ID: <Y5f4ZgyK7QlqYu31@bergen.fjasle.eu>
+References: <20221211030352.2622425-1-masahiroy@kernel.org>
+ <Y5djBr9rVhSq8+iK@dev-arch.thelio-3990X>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="qiUajzA37JnJs5lE"
 Content-Disposition: inline
-In-Reply-To: <CAHVum0fqOj9peepXdrAETTO3_qNX-B2qM41AnPdHMMgPNyrnKg@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+In-Reply-To: <Y5djBr9rVhSq8+iK@dev-arch.thelio-3990X>
+Jabber-ID: nicolas@fjasle.eu
+X-Operating-System: Debian GNU/Linux bookworm/sid
+X-Provags-ID: V03:K1:ce7jmiET6SD91dPNTFBj5cbC8cWGi2R4bwN/lR4AU2vdLr78uuA
+ Iq63o2NlBELuR5VRhCoH0kFildRiPNLWOuBIpIfzvmFOrotTeFUG4v5ELaJcDYwvzYxnvbV
+ rAWVJUJYqj3rWf3vw0rSC4P+U2JKIH26SaMhF4U1lPshMwJrNOVQIfghreXzg54wbzKxwG6
+ dBB5mZalBqOjFgLWX8m+Q==
+UI-OutboundReport: notjunk:1;M01:P0:kBqmWvQ7KL8=;8Sy5dR218fiTyPQQE8QCXLaTeLD
+ xns9cDIA+DxoZ/6xUJE+EJ3X8kXLSEmU84lkD/wCAUgNtnFDFUdGJn+/lZD3fPRhybnWEepuH
+ k0koNGFv70KVhMhDojpxnAk+rkVxjEjS9KjbBS/gTCZ1UKjTBi/aem+KEX/Vn7/C/GX2ZhM3V
+ vOsyTm0e7QBK3mxUvDk9qVBmCApqcAYyVhIpBoiwuyU3JP4FV3j7/A3awyJ4hR+xuBGKoe6Ok
+ MuK4eYJX78hjwKYngpYDLmNQsyPdLgQx2C6QkPv8UPX5w02JkltlEk5urcRrrbzvkW+09tVfM
+ nkJaHGNNIxCFLuxfB7ktUdfGQr0BtqXlNWkoWSpRP8OeFE89KiRRgmzH8eszejTLR5BAix9RY
+ C1bO1GWvxRLHSJY2SXAwXIViW5V5VdDfZwzibKJP9p+bGkodR242N+wjcD/khqgwv1O57RRJc
+ eQVlrnKZTtdRDAzTdyyTrpMRD1xbYk4mu6q/wjTeKeIBRBnmQB5b3qieVk+zA0tvkT8OQx5wF
+ fuTGCkN4PA3KRM37aLT+xs13QPQ17bCZtS0ICzpnlt+MWfmrLI9duOhsQis1CmSGIn8cM23HJ
+ F35dIjMxLdbE3voHf/DsoOkD9KZ9rrCeTPFj/dum3d/NBVObQfl0fWA8Wzy6so+Tr+odGD/Op
+ xhGHF7MJah61ZsKIcJGNV1WB6zQGzRuMdv9HxZsNyg==
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -83,130 +68,76 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Dec 12, 2022 at 02:32:41PM -0800, Vipin Sharma wrote:
-> On Mon, Dec 12, 2022 at 1:59 PM Paulo Miguel Almeida
-> <paulo.miguel.almeida.rodenas@gmail.com> wrote:
-> >
-> > On Mon, Dec 12, 2022 at 01:27:37PM -0800, Vipin Sharma wrote:
-> > > On Sat, Dec 10, 2022 at 3:02 PM Paulo Miguel Almeida
-> > > <paulo.miguel.almeida.rodenas@gmail.com> wrote:
-> > > >  # find sources in rest of tree
-> > > > -# we could benefit from a list of dirs to search in here
-> > > >  find_other_sources()
-> > > >  {
-> > > > -       find ${tree}* $ignore \
-> > > > +       local loc_ignore=${ignore}
-> > > > +       if [ -n "${IGNOREDIRS}" ]; then
-> > > > +               exp_ignored_dirs=$(sed 's/,/ /g' <<< ${IGNOREDIRS})
-> > > > +               for i in ${exp_ignored_dirs}; do
-> > > > +                       loc_ignore="${loc_ignore} ( -path $i ) -prune -o"
-> > > > +               done
-> > > > +       fi
-> > > > +
-> > >
-> > > This should be global overwrite instead of just in this function.
-> > > Before find_other_sources() is executed, this script finds files in
-> > > arch directories. So, if you keep it local then those files cannot be
-> > > excluded which makes execution of the command incorrect:
-> > >
-> > > make IGNOREDIRS=arch/x86 cscope
-> > >
-> >
-> > Hi Vipin, thanks for taking the time to review this patch.
-> >
-> > I see where you are coming from. I was aware of the 'loophole' that the
-> > current approach could have but, to be honest, I thought that there
-> > would be very little use in being able to exclude arch/.*?/ files.
-> >
-> > The reason for that being that I thought the most common usage for this
-> > feature would be to ignore folders within subsystems like drivers and
-> > tools to ensure code navigation would be less 'messy'.
-> 
-> Yes, the original intent was to make driver code browsing less messy
-> but if we are introducing an option we should adapt it for generic
-> cases and correct the semantics.
 
-Agreed.
+--qiUajzA37JnJs5lE
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> >
-> > Additionally, if we go with the global IGNOREDIRS approach you just
-> > described, we could have some conflicting options too such as:
-> >
-> > make ALLSOURCE_ARCHS="x86 arm" IGNOREDIRS=arch/x86 cscope
-> >
-> 
-> I don't think this is conflicting, to me it is more complementary.
-> Above line shows get all code for x86 and arm but don't get x86 source
-> code ("arch/x86/include" is fine). This can even be fine tuned to sub
-> directories.
-> 
+On Mon 12 Dec 2022 10:21:10 GMT, Nathan Chancellor wrote:
+> On Sun, Dec 11, 2022 at 12:03:52PM +0900, Masahiro Yamada wrote:
+> > Documentation/process/changes.rst notes the minimal GNU Make version,
+> > but it is not checked anywhere.
+> >=20
+> > We could check $(MAKE_VERSION), but another simple way is to check
+> > $(.FEATURES) since the feature list always grows although this way
+> > is not always possible. For example Make 4.0 through 4.2 have the
+> > same set of $(.FEATURES).
+> >=20
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+>=20
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-That's a fair point. I had not thought about it that way. Thanks!
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
-Will implement the changes when I get home.
+> > ---
+> >=20
+> > Changes in v3:
+> >   - Check the version in a different way
+> >=20
+> >  Makefile | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> >=20
+> > diff --git a/Makefile b/Makefile
+> > index 2dda1e9a717a..66dfc5751470 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -11,6 +11,11 @@ NAME =3D Hurr durr I'ma ninja sloth
+> >  # Comments in this file are targeted only to the developer, do not
+> >  # expect to learn how to build the kernel reading this file.
+> > =20
+> > +# Ensure Make >=3D 3.82
+> > +ifeq ($(filter undefine,$(.FEATURES)),)
+> > +$(error Make $(MAKE_VERSION) is too old)
+>=20
+> Would it make sense to state what version is needed, similar to the
+> Kconfig checks for compiler and binutils?
 
-> I just now noticed after seeing your command, ALLSOURCE_ARCHS take
-> space separated values, whereas, IGNOREDIRS take comma separated
-> values. They both should be in the same format, since ALLSOURCE_ARCHS
-> was already there, it is better to change IGNOREDIRS.
-> 
-> Can you also change IGNOREDIRS to IGNORE_DIRS? It is much easier to
-> read this way. Sorry, I should have said this in the  beginning.
-> 
+Checking against 'undefine' (introduced in make-3.82~38) is quite a=20
+nice way, I think.  Otherwise we needed something like
+$(filter 3.82% 3.9% 4.% 5.% ..., $(MAKE_VERSION)).
 
-Yep, no problem! :-)
+Kind regards,
+Nicolas
 
-> > My 2 cents is that ALLSOURCE_ARCHS is already the mechanism for
-> > excluding archs so it's 'okay' to keep IGNOREDIRS as is.
-> >
-> > Let me know your thoughts.
-> >
-> > Thanks!
-> >
-> > - Paulo A.
-> >
-> > > Above command will still index all of the code in arch/x86. Something
-> > > like this will be better.
-> > >
-> > > --- a/scripts/tags.sh
-> > > +++ b/scripts/tags.sh
-> > > @@ -17,6 +17,13 @@ ignore="$(echo "$RCS_FIND_IGNORE" | sed 's|\\||g' )"
-> > >  # tags and cscope files should also ignore MODVERSION *.mod.c files
-> > >  ignore="$ignore ( -name *.mod.c ) -prune -o"
-> > >
-> > > +if [ -n "${IGNOREDIRS}" ]; then
-> > > +       exp_ignored_dirs=$(sed 's/,/ /g' <<< ${IGNOREDIRS})
-> > > +       for i in ${exp_ignored_dirs}; do
-> > > +               ignore="${ignore} ( -path $i ) -prune -o"
-> > > +       done
-> > > +fi
-> > > +
-> > >  # Use make KBUILD_ABS_SRCTREE=1 {tags|cscope}
-> > >  # to force full paths for a non-O= build
-> > >  if [ "${srctree}" = "." -o -z "${srctree}" ]; then
-> > > @@ -62,9 +69,9 @@ find_include_sources()
-> > >  # we could benefit from a list of dirs to search in here
-> > >  find_other_sources()
-> > >  {
-> > > -       find ${tree}* $ignore \
-> > > -            \( -path ${tree}include -o -path ${tree}arch -o -name
-> > > '.tmp_*' \) -prune -o \
-> > > -              -name "$1" -not -type l -print;
-> > > +       find ${tree}* ${ignore} \
-> > > +               \( -path ${tree}include -o -path ${tree}arch -o -name
-> > > '.tmp_*' \) -prune -o \
-> > > +               -name "$1" -not -type l -print;
-> > >  }
-> > >
-> > > We will still have to specify arch/x86 and arch/x86/include but this
-> > > works and keeps the definition of IGNOREDIRS relatively correct.
-> > >
-> > >
-> > > > +       find ${tree}* ${loc_ignore} \
-> > > >              \( -path ${tree}include -o -path ${tree}arch -o -name '.tmp_*' \) -prune -o \
-> > > >                -name "$1" -not -type l -print;
-> > > >  }
-> > > > --
-> > > > 2.38.1
-> > > >
+--qiUajzA37JnJs5lE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmOX+GAACgkQB1IKcBYm
+EmmqMRAA1vftfyhTMiJEISX7t3qa8wCAh+1VeF5PU9lURhfbjBQ+FnKhwP1zjwzG
+Jc0SlnaS/1kAHnl14G6l9bUJ160D5x0adWAj5t4DGhNIwhWu/S5yE6rFvteTGJSN
+FinR+NzfKTHq+N19XutmPzxgh8P/ZusMUqgtsTyma4JLWXVZe/JYC4yJgFfDRa2m
+7/0YriULcEs6F4SnoFnsr+iI1ega4hsQC8+OPvK3JFltot4RVc7Oz6lwARaaeJoI
+c0nPFlgpoM0sryZOxRqt3niccJmxf1kBB7i4AZfXet9bFVwAwRCGpG7O/lzIXqgk
+/HbYCK7dtt3AxlCJhk61efXl2vTSY0Keb60/tkQltCUMCgNn5BwcJ8StW/lKbrXD
+UHL/AM2LPubXGftn8MACblkGoWEczOCWPD82GCRlhaJkqBFTYDtWxQ8vQkZCIOLV
+8AIYdL7urwAnxoP3aGmeBPDGZFk+Pm2ZQQFqPOzs31uHpWMySCAzn4zXLaXJpbGw
+lFMX61p/v8VQLVOsyTg+Ve3wkEPyjdWrMaEf84rEQ4gTmMm3FgflX3qP1q9OePJN
+6923JwsEsZnswzetBOfnCnxDui+yCuSkEIMCdTzpzx4Z6una42E7N8og0so6q8Uq
+YX2doQgdo+UGI6Q0JuoHWOj6xTDGyqhiV/iWGbUuSmT3pw0BKAI=
+=tiub
+-----END PGP SIGNATURE-----
+
+--qiUajzA37JnJs5lE--
