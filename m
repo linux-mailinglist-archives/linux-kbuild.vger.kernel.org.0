@@ -2,72 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 84BEF64AE88
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Dec 2022 05:04:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 528C864AE9D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Dec 2022 05:18:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234053AbiLMEEf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 12 Dec 2022 23:04:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56824 "EHLO
+        id S233968AbiLMESo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 12 Dec 2022 23:18:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233994AbiLMEEd (ORCPT
+        with ESMTP id S229611AbiLMESm (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 12 Dec 2022 23:04:33 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF7C51E3F3;
-        Mon, 12 Dec 2022 20:04:27 -0800 (PST)
+        Mon, 12 Dec 2022 23:18:42 -0500
+X-Greylist: delayed 1168 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 12 Dec 2022 20:18:36 PST
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.74])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C725192BD;
+        Mon, 12 Dec 2022 20:18:35 -0800 (PST)
 Received: from leknes.fjasle.eu ([46.142.49.245]) by mrelayeu.kundenserver.de
- (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1M8hph-1p0FWq1vwf-004im1; Tue, 13 Dec 2022 05:02:25 +0100
+ (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1M5wTt-1p1tgF13Gt-007R4o; Tue, 13 Dec 2022 05:18:12 +0100
 Received: from localhost.fjasle.eu (bergen.fjasle.eu [IPv6:fdda:8718:be81:0:6f0:21ff:fe91:394])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (Client did not present a certificate)
-        by leknes.fjasle.eu (Postfix) with ESMTPS id C79803C0C9;
-        Tue, 13 Dec 2022 05:02:17 +0100 (CET)
+        by leknes.fjasle.eu (Postfix) with ESMTPS id C93C83C0EE;
+        Tue, 13 Dec 2022 05:18:10 +0100 (CET)
 Authentication-Results: leknes.fjasle.eu; dkim=none; dkim-atps=neutral
 Received: by localhost.fjasle.eu (Postfix, from userid 1000)
-        id 90111381; Tue, 13 Dec 2022 05:02:17 +0100 (CET)
-Date:   Tue, 13 Dec 2022 05:02:17 +0100
+        id 2820A381; Tue, 13 Dec 2022 05:18:04 +0100 (CET)
+Date:   Tue, 13 Dec 2022 05:18:04 +0100
 From:   Nicolas Schier <nicolas@fjasle.eu>
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Palmer Dabbelt <palmer@rivosinc.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
         Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tom Rix <trix@redhat.com>, linux-riscv@lists.infradead.org,
-        llvm@lists.linux.dev, x86@kernel.org
-Subject: Re: [PATCH] kbuild: add test-{ge,gt,le,lt} macros
-Message-ID: <Y5f5SQxQRFpH8u2s@bergen.fjasle.eu>
-References: <20221211024647.2614394-1-masahiroy@kernel.org>
+        Nick Desaulniers <ndesaulniers@google.com>
+Subject: Re: [PATCH] kbuild: do not sort after reading modules.order
+Message-ID: <Y5f8/BCOpJAqKgcd@bergen.fjasle.eu>
+References: <20221211094919.2717594-1-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="0t9NkD14nKZzrYq+"
+        protocol="application/pgp-signature"; boundary="Upav2svuIRAE6goJ"
 Content-Disposition: inline
-In-Reply-To: <20221211024647.2614394-1-masahiroy@kernel.org>
+In-Reply-To: <20221211094919.2717594-1-masahiroy@kernel.org>
 Jabber-ID: nicolas@fjasle.eu
 X-Operating-System: Debian GNU/Linux bookworm/sid
-X-Provags-ID: V03:K1:5qgXUwpYs/m4w9C/Xh/pxvEtqm4qXUOG8JKpnIXe5eiduWTcQFb
- 30ONln8NYJ54kyn7N5Swb0WdMBeILEHeTxKo552VtI/0gx4CYlzWmzwPsBUlXXQjBUZRkgX
- bidVuKdQv6jurc+NQ8+I3REVLkX0gGQqS7997ynbJTuoHmlQHubHLOUh17BhS7NmZ4vIv76
- MLkjxWSN7McjetvSnVYnQ==
-UI-OutboundReport: notjunk:1;M01:P0:Bg++/5kr/Xk=;QHknaR3hrJn5tOUaaqybmwSHhOE
- WN5sxwZWC2pEba184Uuie/TSR3y2jVDpePH8ZnEdn0KeTzp/IWPwKkWADw3oxh3aQ1lgT4fQ2
- 2vyvr+jR8Kw6GwbnUM1oPkJy2waZA82jB82zoLsWIIjiAOwR7DZ6FmVz+Ts3fRFqxfEQu2ejM
- kJ8u6ls8ocLXQP3PNoGgDtDe6nBHmtvfbmvS4sNsSYniPQfAV+bHQwKIQMoo+2SCJLQWp0idF
- qb60uDU/B25HUDkSVvCqLDYMO9F/l4Pm2ojLzwAkxDACEHqDwBlh6zjqMKFAYI0V/CiDpIGJV
- yluJnCYJhti9SJd2uv5kLTPCJKbdjqk0XuZDwc31HTZTPoeDY4zkH/OrmD1M/7nh2tWgwx9yz
- 5XNGM7391CtMzfIbA0uPpTXuxDprOpsp0CZmxGA5iIcboJ7AF+xvxXaujbPLfx+PgdfTJ3wgm
- BdwO+N3iVpYZVhVeYIPPzC4Zm1xcjQWD9bj4Y4Dp8gziFdh42lXnEq7uyYfST5t47+f8rtiQW
- EOZ1KnVIc1z31LIXRM+yZeYApmyl068siCVf+OfAxc733fj0dYXUV6h5ViCkrC/tREL1YNXWG
- puszdn0uLYGtZcWQRj45zKp3eJTxYtZ8xNLWEAc3hAcvzdgx+YF9TMQ9mqx81GBQLhgUuiBfj
- nMwvEmO26cA7JhMffLSk03SAp3kCquFNo5Tw6y2Sbw==
+X-Provags-ID: V03:K1:dusdd3ZvI66iLKPsiSw3XRx26yaF1bifpOM6avUoVkxvjA3PrmW
+ xf4OiDO2NYPqmaNcH2u+PcvmAAE+4WQL5rj5fjRUmS4B4BrzkNvAZ3IZaCNcxoqVgGjZrs8
+ IZ2m9Gz4runfFIriqQ9JjZ86bafdc6yu6pAFI2HdZpF2nifekeCrybDPIpTdKwqKFRLzYQ/
+ nLtlsZhskvZpHeUnZVWXQ==
+UI-OutboundReport: notjunk:1;M01:P0:Zt+MErAqjeQ=;V+gC71bwH++jfPY3DSYatp17Kgc
+ ezu2trfwFLvE1xZh5Q4Cc51DIDkNo3o7TupAYqAih4D9xYhS5V+iSaDVncPhhq+2YOEwqUW7Z
+ tB1FJHx1SUU5rhfoimjqs5mfqrpAeXw6AuDMtSvD+rb7xfuCX/95taIYAIz7H/bN1Inxoo/0A
+ 7lucphi4kGcCn0TkenjL2Zm2foih9TY8wWD8/42ymWCTQgxx1NKFOScTK37dz3jgSnRUFJGiX
+ 9KYu5a8ABxd8tbT4jB/HOMu4KrnzXp1771ttrOqRKri25xn2RjlSxrNjX5TLhkCT+Klc/+Rt7
+ 0KE1NgYrErx77eTr6TZsRInA9A0PWZxw0wfAqXx3Zq/NfUvTDpmDz6BCzea+22Kty0IeJ9Fme
+ W5YZQMS4Qwcx2eJxH5tGcMMHMmsJeJz3vKJWnAtNSagMoo7UC/medJAQ3bCbabbEvGT3z1xRp
+ 3IlWvDqE8oh9C5s3DqnDyeLJ85XYUyzaVJSCTyl30+UvuzXOftYrKqo8Y5rJ24K85mT/1Y3DF
+ TfXmcbs8sLppLpqbQ2VyHm+wvcwmBfKHgOzSc6ethZcnhVNMMr1/IW7cvXeQAaXjG8G/SHKgs
+ o9JDwvQ/y452wdQkuX8TRg3Wv4J29r9fxK/lvB/HRoEgrLwGL/yUsUsVovhJN/zx72F+UyipK
+ V+vc5FhMpjgQRRy+Bh7UeyNd6D3fE5UDSpKi/haNXQ==
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
         RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
@@ -78,51 +69,86 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
---0t9NkD14nKZzrYq+
-Content-Type: text/plain; charset=iso-8859-1
+--Upav2svuIRAE6goJ
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun 11 Dec 2022 11:46:47 GMT, Masahiro Yamada wrote:
-> GNU Make 4.4 introduced $(intcmp ...), which is useful to compare two
-> integers without forking a new process.
+On Sun 11 Dec 2022 18:49:18 GMT, Masahiro Yamada wrote:
+> modules.order lists modules in the deterministic order (that is why
+> "modules order"), and there is no duplication in the list.
+
+Isn't a subdirectory's modules.order just created by
+concatenation of $(obj-m) (w/ respect to mentioned subdirs)?
+Thus, "no duplication" seems to be true, as long as there is no obj-m=20
+containing duplicated entries.  Do we ensure unique entries in obj-m=20
+only?
+
+Kind regards,
+Nicolas
+
 >=20
-> Add test-{ge,gt,le,lt} macros, which work more efficiently with GNU
-> Make >=3D 4.4. For older Make versions, they fall back to the 'test'
-> shell command.
->=20
-> The first two parameters to $(intcmp ...) must not be empty. To avoid
-> the syntax error, I appended '0' to them. Fortunately, '00' is treated
-> as '0'. This is needed because CONFIG options may expand to an empty
-> string when the kernel configuration is not included.
+> $(sort ) is pointless.
 >=20
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> Acked-by: Palmer Dabbelt <palmer@rivosinc.com> # RISC-V
 > ---
 >=20
-> Changes in v3:
->   - Use $(intcmp ...) instead of playing with $(sort ...)
+>  scripts/Makefile.modfinal | 2 +-
+>  scripts/Makefile.modinst  | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+> index 25bedd83644b..4705d32388f3 100644
+> --- a/scripts/Makefile.modfinal
+> +++ b/scripts/Makefile.modfinal
+> @@ -13,7 +13,7 @@ include $(srctree)/scripts/Kbuild.include
+>  include $(srctree)/scripts/Makefile.lib
+> =20
+>  # find all modules listed in modules.order
+> -modules :=3D $(sort $(shell cat $(MODORDER)))
+> +modules :=3D $(shell cat $(MODORDER))
+> =20
+>  __modfinal: $(modules)
+>  	@:
+> diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
+> index a4c987c23750..f4cff42069ad 100644
+> --- a/scripts/Makefile.modinst
+> +++ b/scripts/Makefile.modinst
+> @@ -9,7 +9,7 @@ __modinst:
+>  include include/config/auto.conf
+>  include $(srctree)/scripts/Kbuild.include
+> =20
+> -modules :=3D $(sort $(shell cat $(MODORDER)))
+> +modules :=3D $(shell cat $(MODORDER))
+> =20
+>  ifeq ($(KBUILD_EXTMOD),)
+>  dst :=3D $(MODLIB)/kernel
+> --=20
+> 2.34.1
 
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+--=20
+epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
+=E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
+     -- frykten for herren er opphav til kunnskap --
 
---0t9NkD14nKZzrYq+
+--Upav2svuIRAE6goJ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmOX+UkACgkQB1IKcBYm
-EmkfAhAApWxZ5TLlye6r6ubq1oPH6KxdMTM7wec0/MHj+Ga99bJcULpcYoWA/016
-vz1Al+59s3cJoV5oCTxVobXu2XpBVhpxiKWVQdKZFpSHt7LIhN/nbSCsDkyu7Lz1
-RoVUZFFM4D3cChGVHZMHFsw9M1TE/5PplZ2LqfcCm6bsDuXWcEwpAS2vfuwk3ios
-UQhvm6p76lKOhPynxY4xFJXaQDMseGlr3FlpbKLW9GZoHd3dWyBGvx2geawvo3Pg
-ixoYKcvAj/EgrGYk2QP7PUGz7EB+cu5b0IPuSfp5BzNSuoZq9D8bZe1tIPD3d2sI
-38YlpmqDa8RDTetSBpRXtRKtwtaC8HOxILKNLpEef4kb3G9/yKymY7Ao6DSh/bj3
-gSF0PgeaaUaUmYw2kF5s9VuIPEoP8acIzNnGeVFRBPj5xEqTRI8inyYDZsR6WzfJ
-iKSB8+Zt85GJMhMXdqrEhWcGmpjZEFy4jkj+IwzEPHNbXTkNz0hNh1xqaVXayrav
-7YGt/E7FEwoCsix2WlEIrSk/TU2Xdm9dTvjRhrkDrDMxSYlgXwFXiR4l4kWPLcDL
-8h+BoSc5QNYOAFoy3oNIlMySHhNUuKB/mmCRiLGb2tly/DyttNkmzpr7Y24EAlVU
-sHaM9f3vw8RwTv6w2sNW+6y0/Cc+84Um1el7bLhN1TZ8S8b9V2U=
-=ESv1
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmOX/PcACgkQB1IKcBYm
+Eml6exAAsCxV0lz3EyMp9YaivYDv2cQ601+Et58gZhXxNwrvi+pOBg+3lqRPdkaM
+D5v+O/fCiAKmYf9rDMUyaS+OFiyKjOTzWAHCR62goP5TQK2jgmRNEl74CUjAXxlD
+10QKNQe/tOyK9MFgZzVzO0ineDDXLTqzTy7+jdmS8xK0Xssm1U2XkDQgMYvO4Np3
+PFS5Hd989d03bjUQSc2gL7cSOzUeMrs2rXOwVFF6su92nbm/a17XcdsDniE+YKl8
+VNT1Vuf4p22ZilJCd1+C/oJrW+fUhCXBw7heI7/jCkUCNESrQiyx16xb9QznS9gn
+kh2rzmfrCbZZisBdgtF5Mp5FaFJMNxEQ1nGIgOc179Rzc/0I2KYa2o3aYXmIuFxh
+wA7H2ytwXeALWb1mGiQ5Vc9YVvp+qFlhX8beX7yY/6XbPvTgF0lLOguaMCXYXW88
+bqZ3rFHLIuP6sYAvQltXkfHkerF29hv4YRseazminlEYk3fgjTSQr0CG4rK5JZ+g
+hwhUYpOTY07qKOLHRBNXZVQwlAA9F0foLbB3xFwRaCs4KbzbdcadGlO5MM+BA/Ws
+o/+O3Jxu9coedlBVsLTl4caYGN/jaK/pXjiaEn4u5AVGgsDrQ4zjCdNbCKGfktoJ
+xWpl9+gxeZrjPMnsYPtGBNn4d4VTyETwPYo/I9oKxPfeylrWpUE=
+=mA0S
 -----END PGP SIGNATURE-----
 
---0t9NkD14nKZzrYq+--
+--Upav2svuIRAE6goJ--
