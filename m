@@ -2,61 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 25C6264B2B8
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Dec 2022 10:50:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 923E664B2F1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Dec 2022 11:05:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235012AbiLMJuz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 13 Dec 2022 04:50:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40758 "EHLO
+        id S231939AbiLMKFq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 13 Dec 2022 05:05:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234524AbiLMJue (ORCPT
+        with ESMTP id S231888AbiLMKFo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 13 Dec 2022 04:50:34 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B73E918B1E;
-        Tue, 13 Dec 2022 01:50:27 -0800 (PST)
+        Tue, 13 Dec 2022 05:05:44 -0500
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE44E1A22A;
+        Tue, 13 Dec 2022 02:05:36 -0800 (PST)
 Received: from leknes.fjasle.eu ([46.142.49.245]) by mrelayeu.kundenserver.de
  (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1Myevl-1oiHwb0CmD-00yviF; Tue, 13 Dec 2022 10:50:00 +0100
+ 1M5jA2-1oyzTl1Y2U-007Fcu; Tue, 13 Dec 2022 11:05:07 +0100
 Received: by leknes.fjasle.eu (Postfix, from userid 1000)
-        id 297693C0EE; Tue, 13 Dec 2022 10:49:57 +0100 (CET)
+        id DD9453C0EE; Tue, 13 Dec 2022 11:05:05 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1670924998; bh=j2FuJR2hJ9kTpSOuWg/6tab4lmcts8FkJUw55kxSFJE=;
+        t=1670925906; bh=to4bs5gUDbfpV3AAxLoymUvOMM9J2nSWIXUajtMe3Ak=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mABKFXFH6uYeWbohae22XXef3Qg3l1vs8mPyiKa4UbHlImTbZAZ1hZqVR0oN5fY8S
-         UDhmO8dk/OjS4RJ7kou5fSoYJO6SfY7uIlpDdhrtEIYAo7unhTM0Twl3zLdT91ipiC
-         7EeRdR+7OmTNFhc4WDG+DZHST7NRn6fDH7MIAO+U=
-Date:   Tue, 13 Dec 2022 10:49:57 +0100
+        b=5j02RSycBJPPGPbxtCBeEwt4yyAxuZrOOqRD2oH0Iw1iTTnDIExgT4JJ/sdWy79lw
+         lWHCtfSYfj5s9oKnFQNrMhFhBmZIrqK98IVoiehPl/qbqje7CID6m1NBLyQ5IipH3e
+         sj/zpyRt3ZYo8OmbWJdqdjpyx4S7p14e1+0n9ORI=
+Date:   Tue, 13 Dec 2022 11:05:05 +0100
 From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH] kbuild: do not sort after reading modules.order
-Message-ID: <Y5hKxddAEyWU5kIq@fjasle.eu>
-References: <20221211094919.2717594-1-masahiroy@kernel.org>
- <Y5f8/BCOpJAqKgcd@bergen.fjasle.eu>
- <CAK7LNASE5rMVXPryqs_VYh2fy47CUeNiV=90dJVCP359p-LWdg@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: ensure Make >= 3.82 is used
+Message-ID: <Y5hOUYUYmwGioGiP@fjasle.eu>
+References: <20221211030352.2622425-1-masahiroy@kernel.org>
+ <Y5djBr9rVhSq8+iK@dev-arch.thelio-3990X>
+ <Y5f4ZgyK7QlqYu31@bergen.fjasle.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAK7LNASE5rMVXPryqs_VYh2fy47CUeNiV=90dJVCP359p-LWdg@mail.gmail.com>
-X-Provags-ID: V03:K1:/fBCWN3Lgd+wddg4xF6Nc3JmPmUHQjhszhDRlik3JVnU7ABD/mn
- bOVxAwXyOPrlCcen8PL1dctnC29BoZ/mFf3X+oLwiCAszVDDBjazcalNjOcqlVCHmHQT41r
- jJ5mdXM7b6gF9nc/OlC267DcD4K32ldWAFkFCI2sglVCixRmR87STx33Rnp1gnFPyFyGptl
- u/+Z/Zirbn+i3TRpvrzrw==
-UI-OutboundReport: notjunk:1;M01:P0:dsm0u6hJVvs=;HX/VA7sqkp1O4mHMxouK/LXbFMe
- I+jP6uWpAW1b3Oe6RIScauGDmbV3GFxM2o2pruoOQPMOr7HvMSyKkjbHv26hvDRLTQKaGrxA9
- 00sG7VFk23OYlzyB+3BVFchSwBNCr+61D5iZq60kmHNm9KCQApQFh89eSN/I2z/7Gasr1p939
- jy73HTWhbV0+Us+aF2s9iCCRkF4ND3lGIad/dF0FGvwwet91Gnzbn5b4/YDYleWnlfJrrM3tO
- Ct1b+CzvJNoVIn/c5HhfCpvd6OBdmorcoPzR4tpYlLdahbDTzb3FWj/Nk6LVTr2P+8HL96XaY
- x/KKDAwlYKeiRl9dI4kySfoss4TUy3SFqDul5W8AJbTlmHDWBs5+YhVS3Nqk7DVrdfKllZ2IP
- fFWb0KgNK9o3dY5uV2xSNd5hYwoWKXuwk6XoOFieCRCX0hijnr5lzaOvJ10bcKx3CH+5ZVflk
- UCM161r/pI37BHRvdT99cf2E8o4MGhDE4Oye8u0PA+Y+/8uSr85CuxsQAfsqXBlwundMqJ0IQ
- QL1ovcxyia4++qzJ83AxrYojfGU1l0qNPcedTQh4ro9wcq8btf6uT/PHgaHeX3q0wX72ibA9+
- 2/cqqlCRyON8+xGhOg5Ql5WB6TOzGT0JImYh7omHQHVa81QENqpGtUBa3lsivxaI+JTESjsfq
- lpepDH8hYuTF9wDXj/arMfBoeVwjukATejgDn+q3eA==
+In-Reply-To: <Y5f4ZgyK7QlqYu31@bergen.fjasle.eu>
+X-Provags-ID: V03:K1:TLaud2aU53BM9FaN1X4YF6U22AjkeFuENS6PaJSyONYhiZpyWSI
+ z3rS545QbRJmQu8DuRoQ4cz6Be/q1OsgLlbfB9ioN/2iO8NujVmMrAsEFsny70Byf2c3X3b
+ VzcEI84J8tiZk8AuF/ogM5ai5qo6vv8YbqJPg6JZgawxRpxvKNcSD0eJ75TDK1WsMB76c2n
+ R4925g6nO5Y69AG7GLT1Q==
+UI-OutboundReport: notjunk:1;M01:P0:VLghQZ4PUcg=;C6jf9aSg8W4EoQ2iMAIFtRybbSR
+ qzh7kRYZUipsDWLRA8JX7K6IDK33MO7xvsptCw9pt7ATTFCRE/kNDqugViJvvl28ZBE1eZ3xy
+ ZdiWddwwsJW3x3POZDtEw0FsUY6lTd7kLPeblSEjJJ0Y7NcSbmUts5KUOv9QSYimbriwwX1CV
+ wiqoJJ95vE+yR/tYZm+gfcVLP2kKP93BaGCZsksvXfGhXnr8TSPMgWLXzaHKIajM5qWvrsW7R
+ I1Ua8XAVHmMIiXNyIm3iG5kJ4SFFbBjrUy09cxPP/wfZENzKhycBl7pg25CZhMq/4Mf4UGDkP
+ NiHjg0QPNdZBNCkTLXaXonIxE8vfhmjGW+4wjG/VmJVDp/q5u6IsKkRsLh4TfJhcohz2GJl/E
+ 3LyRS1UTldvYHCOMhjroiStF8BrNHdoD/DI/RZOHc6vSLvqIj+yT3YfyTrAQTXd6e8y3aU+KN
+ C8VPJ+J7UlP45UvninxudPJzoG8p/WXCjwbfqmSloNjIku6OTlG2upFKFbRAGqnhqvVLaa2E7
+ AWO9GuQNQE421worVlokf7oIo3JsJ3VLu9FhmJRbE4mj9URski+i3BnLf45B28W5HZ+9VAFTw
+ A6Vukr5hkMmrs0ctAiZvFkShoxTQBKleBevlzyzF/LzKtiQXgxyjqySwC9aRcA7FDuOGDuyoe
+ 3TqzjP3LngZ4BoXZloKK3Ma3dXtud4c2rhDf/8YyPg==
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -67,93 +66,53 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Dec 13, 2022 at 03:41:36PM +0900 Masahiro Yamada wrote:
-> On Tue, Dec 13, 2022 at 1:18 PM Nicolas Schier <nicolas@fjasle.eu> wrote:
-> >
-> > On Sun 11 Dec 2022 18:49:18 GMT, Masahiro Yamada wrote:
-> > > modules.order lists modules in the deterministic order (that is why
-> > > "modules order"), and there is no duplication in the list.
-> >
-> > Isn't a subdirectory's modules.order just created by
-> > concatenation of $(obj-m) (w/ respect to mentioned subdirs)?
->=20
-> Not $(obj-m) directly.
->=20
-> The magic is $^, which is a deduplicated list
-> of prerequisites.
->=20
->=20
-> > Thus, "no duplication" seems to be true, as long as there is no obj-m
-> > containing duplicated entries.  Do we ensure unique entries in obj-m
-> > only?
->=20
->=20
-> The entries in modules.order must be unique.
-> Moreover, the basename of modules must be unique.
->=20
-> scripts/modules-check.sh is a stronger check.
->=20
->=20
-> You might be interested in these commits:
->=20
-> d724b578a1f746db6fc1fd5e4cbba554a855dc8d
-> 3a48a91901c516a46a3406ea576798538a8d94d2
-
-ah, thanks!
-
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
-
-> > >
-> > > $(sort ) is pointless.
-> > >
+On Tue, Dec 13, 2022 at 04:58:30AM +0100 Nicolas Schier wrote:
+> On Mon 12 Dec 2022 10:21:10 GMT, Nathan Chancellor wrote:
+> > On Sun, Dec 11, 2022 at 12:03:52PM +0900, Masahiro Yamada wrote:
+> > > Documentation/process/changes.rst notes the minimal GNU Make version,
+> > > but it is not checked anywhere.
+> > > 
+> > > We could check $(MAKE_VERSION), but another simple way is to check
+> > > $(.FEATURES) since the feature list always grows although this way
+> > > is not always possible. For example Make 4.0 through 4.2 have the
+> > > same set of $(.FEATURES).
+> > > 
 > > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > 
+> > Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> 
+> Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+> 
 > > > ---
-> > >
-> > >  scripts/Makefile.modfinal | 2 +-
-> > >  scripts/Makefile.modinst  | 2 +-
-> > >  2 files changed, 2 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-> > > index 25bedd83644b..4705d32388f3 100644
-> > > --- a/scripts/Makefile.modfinal
-> > > +++ b/scripts/Makefile.modfinal
-> > > @@ -13,7 +13,7 @@ include $(srctree)/scripts/Kbuild.include
-> > >  include $(srctree)/scripts/Makefile.lib
-> > >
-> > >  # find all modules listed in modules.order
-> > > -modules :=3D $(sort $(shell cat $(MODORDER)))
-> > > +modules :=3D $(shell cat $(MODORDER))
-> > >
-> > >  __modfinal: $(modules)
-> > >       @:
-> > > diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
-> > > index a4c987c23750..f4cff42069ad 100644
-> > > --- a/scripts/Makefile.modinst
-> > > +++ b/scripts/Makefile.modinst
-> > > @@ -9,7 +9,7 @@ __modinst:
-> > >  include include/config/auto.conf
-> > >  include $(srctree)/scripts/Kbuild.include
-> > >
-> > > -modules :=3D $(sort $(shell cat $(MODORDER)))
-> > > +modules :=3D $(shell cat $(MODORDER))
-> > >
-> > >  ifeq ($(KBUILD_EXTMOD),)
-> > >  dst :=3D $(MODLIB)/kernel
-> > > --
-> > > 2.34.1
-> >
-> > --
-> > epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
-> > =E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
-> >      -- frykten for herren er opphav til kunnskap --
->=20
->=20
->=20
-> --=20
-> Best Regards
-> Masahiro Yamada
+> > > 
+> > > Changes in v3:
+> > >   - Check the version in a different way
+> > > 
+> > >  Makefile | 5 +++++
+> > >  1 file changed, 5 insertions(+)
+> > > 
+> > > diff --git a/Makefile b/Makefile
+> > > index 2dda1e9a717a..66dfc5751470 100644
+> > > --- a/Makefile
+> > > +++ b/Makefile
+> > > @@ -11,6 +11,11 @@ NAME = Hurr durr I'ma ninja sloth
+> > >  # Comments in this file are targeted only to the developer, do not
+> > >  # expect to learn how to build the kernel reading this file.
+> > >  
+> > > +# Ensure Make >= 3.82
+> > > +ifeq ($(filter undefine,$(.FEATURES)),)
+> > > +$(error Make $(MAKE_VERSION) is too old)
+> > 
+> > Would it make sense to state what version is needed, similar to the
+> > Kconfig checks for compiler and binutils?
+> 
+> Checking against 'undefine' (introduced in make-3.82~38) is quite a 
+> nice way, I think.  Otherwise we needed something like
+> $(filter 3.82% 3.9% 4.% 5.% ..., $(MAKE_VERSION)).
+> 
 
---=20
-epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
-=E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
-     -- frykten for herren er opphav til kunnskap --
+Nathan, sorry, I somehow I read your question completely wrong.  I would also
+appreciate if the minimum make version would be shown in the error message.
+
+Kind regards,
+Nicolas
