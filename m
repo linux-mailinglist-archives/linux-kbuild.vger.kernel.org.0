@@ -2,60 +2,54 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DDB364BA2A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Dec 2022 17:48:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B44C64BC21
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Dec 2022 19:36:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236186AbiLMQsh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 13 Dec 2022 11:48:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51438 "EHLO
+        id S236548AbiLMSgK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 13 Dec 2022 13:36:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235632AbiLMQsc (ORCPT
+        with ESMTP id S236622AbiLMSft (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 13 Dec 2022 11:48:32 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 692E51055F;
-        Tue, 13 Dec 2022 08:48:31 -0800 (PST)
+        Tue, 13 Dec 2022 13:35:49 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B4802528A;
+        Tue, 13 Dec 2022 10:35:49 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id F27B161634;
-        Tue, 13 Dec 2022 16:48:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D48CC433F1;
-        Tue, 13 Dec 2022 16:48:29 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A7556616D9;
+        Tue, 13 Dec 2022 18:35:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44E8CC433EF;
+        Tue, 13 Dec 2022 18:35:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670950110;
-        bh=yRTgXuAMf26YmeJ6GO3YhLpQZxVOXCpEwtAqrvv29/Q=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TjJjkY2YGVnR6LqCjfdS2D5LCCcg32+s0afUDrOaRpM/ncCK37FdmyIV1/dTkE0ql
-         UZnWh7jCfzA5wHltyK5OOJS4rMBVGmpZAHH9hqAqhbfESZaYw4U/f74UtJMFwKAIXT
-         kwAADgB9JD2JGch4D2ztgHOYXyOIJOjF8qkvXjfzNSNba5/mDxkI0x1lDgpVcSZkmr
-         9iVRyQkDMUh0J9fxo01bnzF4L2Qt4kRROA82yLskaVbAdrHQX42k5cvPjbYRJ0hArc
-         JvuSEezW7XvZiwfhq4Lk+4gMFnxdo9nvuDU+wlLJgBn0fl6MjUfXZhrkNfwRahVRWv
-         dEEOWGkKsaP6Q==
-Date:   Tue, 13 Dec 2022 09:48:27 -0700
+        s=k20201202; t=1670956548;
+        bh=RwcV3yZ+zQ6XKY/GbgFiJKf5T1kYYz04kemOgRUA7uU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=jvuhGbNITwreRiZ6mCd8ZfwFCEd3fpRlqFTzUWuRSggeVUUy1Orke/XEnuiI7x7Bb
+         SrYk/T4ta/dKNEBDyThYCbgfAeeIfVCjOeuVaZJ1D0aRa+gpPvK0p2AnzqkghlIioT
+         2Y+cRX+tm2izZVigmexK+TytaJrRbgQ5OBjTcD/s4Ot4vpw5RRTWtPZGNZNBs8UCJb
+         dwfoR1DnFxBsPv3/FBgLWGajV9l9TKGuR07bfDPEbJ3boPmPZGjuwz7UqXfGk6BgXm
+         JjylM3Xbe9FWUwzrGczbKKsyWM7yQHQb8T5KMcw1ZBnHM0QLO6LwYEYlHWQDliUOhD
+         b7jXvkj3/YJ+A==
 From:   Nathan Chancellor <nathan@kernel.org>
-To:     Daniel Jordan <daniel.m.jordan@oracle.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         Tom Rix <trix@redhat.com>, Nicolas Schier <nicolas@fjasle.eu>,
         Sami Tolvanen <samitolvanen@google.com>,
         Vincent Donnefort <vdonnefort@google.com>,
         linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         llvm@lists.linux.dev, patches@lists.linux.dev,
+        Nathan Chancellor <nathan@kernel.org>,
         Steffen Klassert <steffen.klassert@secunet.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
         linux-crypto@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] padata: Mark padata_work_init() as __ref
-Message-ID: <Y5is20DXQxtqyJLs@dev-arch.thelio-3990X>
-References: <20221207191657.2852229-1-nathan@kernel.org>
- <20221207191657.2852229-2-nathan@kernel.org>
- <CAK7LNARoxqSzjpM0twcssMkf9X_PppzqtUo_opq=CX+zixma8g@mail.gmail.com>
- <Y5dfPgNF8E2EpNCM@dev-arch.thelio-3990X>
- <20221212192157.plxiyyinfhieyzbt@parnassus.localdomain>
- <Y5eJuBWoCJ+q++IM@dev-arch.thelio-3990X>
+Subject: [PATCH v3 0/2] Fix lack of section mismatch warnings with LTO
+Date:   Tue, 13 Dec 2022 11:35:27 -0700
+Message-Id: <20221213183529.766630-1-nathan@kernel.org>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y5eJuBWoCJ+q++IM@dev-arch.thelio-3990X>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -65,75 +59,46 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Dec 12, 2022 at 01:06:16PM -0700, Nathan Chancellor wrote:
-> On Mon, Dec 12, 2022 at 02:21:57PM -0500, Daniel Jordan wrote:
-> > On Mon, Dec 12, 2022 at 10:05:02AM -0700, Nathan Chancellor wrote:
-> > > On Mon, Dec 12, 2022 at 10:07:24PM +0900, Masahiro Yamada wrote:
-> > > > I am not sure if the compiler should do this level of optimization
-> > > > because kernel/padata.c does not seem to be a special case.
-> > > > Perhaps, we might be hit with more cases that need __ref annotation,
-> > > > which is only required by LTO.
-> > > 
-> > > That's possible. I did only see this once instance in all my builds but
-> > > allmodconfig + ThinLTO might not be too interesting of a case,
-> > > since the sanitizers will be enabled, which makes optimization more
-> > > difficult. I could try to enable ThinLTO with some distribution
-> > > configurations to see if there are any more instances that crop up.
-> > 
-> > Yes, if there were many more instances of this problem it might be worth
-> > thinking about an LTO-specific solution to fix it closer to the source.
-> 
-> Ack, I will wire up some build tests to see if this optimization occurs
-> frequently enough to warrant a wider fix.
+Hi all,
 
-Turns out this does not appear to happen often. I built several
-distribution configurations for arm64 and x86_64 with
-CONFIG_LTO_CLANG_THIN=y and saw no modpost warnings. So I think this is
-sufficiently odd to keep the fix local to this one instance. I will send
-a v3 later today.
+Vincent recently reported an issue with lack of section mismatch
+warnings with LTO. This is due to commit 6c730bfc894f ("modpost: handle
+-ffunction-sections"), which ignores all function sections for modpost.
 
-> > > > One note is that, we could discard padata_work_init()
-> > > > because (1) and (3) are both annotated as __init.
-> > > > So, another way of fixing is
-> > > >    static __always_inline void padata_work_init(...)
-> > > > because the compiler would determine padata_work_init()
-> > > > would be small enough if the caller and callee belonged to
-> > > > the same section.
-> > > > 
-> > > > I do not have a strong opinion.
-> > 
-> > I'm right there with you.  :-)
-> > 
-> > > > Honestly, I do not know what the best approach would be to fix this.
-> > 
-> > Either approach works, either can include an explanatory comment.
-> > __ref seems more targeted to the problem at hand.
-> 
-> Right, I suspect __ref is the right way to go for this particular issue.
-> I will add a comment regardless.
-> 
-> > > > If we go with the __ref annotation, I can pick this, but
-> > > > at least can you add some comments?
-> > > > 
-> > > > 
-> > > > include/linux/init.h says:
-> > > > "optimally document why the __ref is needed and why it's OK"
-> > > > 
-> > > > 
-> > > > I think this is the case that needs some comments
-> > > > because LTO optimization looks too tricky to me.
-> > > 
-> > > Sure thing, I will send a v3 either Tuesday or Wednesday with an updated
-> > > commit message and code comment if we end up going this route.
-> > 
-> > A nitpick, but as long as you're respinning, if we stay with this
-> > approach, could you put __ref just before the function name?  init.h
-> > says "The markers follow same syntax rules as __init / __initdata" and
-> > for those it says "You should add __init immediately before the function
-> > name" though there are plenty of places in the tree that don't do this.
-> 
-> Sure thing!
-> 
-> Cheers,
-> Nathan
-> 
+I believe this is incorrect, as these function sections may still refer
+to symbols in other sections and they will ultimately be coalesced into
+.text by vmlinux.lds anyways.
+
+The first patch fixes a warning that I see with allmodconfig + ThinLTO
+builds after applying the second patch. The second patch moves ".text.*"
+into TEXT_SECTIONS so that modpost audits them for mismatches.
+
+I expect this to go via the kbuild tree with an ack from the padata
+maintainers.
+
+Cc: Steffen Klassert <steffen.klassert@secunet.com>
+Cc: Daniel Jordan <daniel.m.jordan@oracle.com>
+Cc: linux-crypto@vger.kernel.org
+
+v3:
+  - Stick a comment above padata_work_init() to explain presence of
+    __ref (Masahiro, Daniel).
+  - Expand on problem in first patch's commit message (Masahiro).
+  - Adjust location of __ref within function definition (Daniel)
+  - Fix typo in commit message of second patch (Masahiro).
+v2: https://lore.kernel.org/20221207191657.2852229-1-nathan@kernel.org/
+v1: https://lore.kernel.org/20221129190123.872394-1-nathan@kernel.org/
+
+Nathan Chancellor (2):
+  padata: Mark padata_work_init() as __ref
+  modpost: Include '.text.*' in TEXT_SECTIONS
+
+ kernel/padata.c       | 12 ++++++++++--
+ scripts/mod/modpost.c |  4 ++--
+ 2 files changed, 12 insertions(+), 4 deletions(-)
+
+
+base-commit: 830b3c68c1fb1e9176028d02ef86f3cf76aa2476
+-- 
+2.39.0
+
