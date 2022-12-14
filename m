@@ -2,57 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C33C564C7AD
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Dec 2022 12:05:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DDC8864CB1A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Dec 2022 14:21:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238151AbiLNLFU convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Wed, 14 Dec 2022 06:05:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35608 "EHLO
+        id S238054AbiLNNV2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 14 Dec 2022 08:21:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238142AbiLNLFT (ORCPT
+        with ESMTP id S238130AbiLNNVY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Dec 2022 06:05:19 -0500
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51176E79
-        for <linux-kbuild@vger.kernel.org>; Wed, 14 Dec 2022 03:05:16 -0800 (PST)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-242-JdesrG8NMdGniNtm-PNc3Q-1; Wed, 14 Dec 2022 11:05:13 +0000
-X-MC-Unique: JdesrG8NMdGniNtm-PNc3Q-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 14 Dec
- 2022 11:05:10 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.044; Wed, 14 Dec 2022 11:05:10 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Nicolas Schier' <nicolas@fjasle.eu>,
-        Nathan Chancellor <nathan@kernel.org>
-CC:     Masahiro Yamada <masahiroy@kernel.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: RE: [PATCH] kbuild: ensure Make >= 3.82 is used
-Thread-Topic: [PATCH] kbuild: ensure Make >= 3.82 is used
-Thread-Index: AQHZDqgK2HakTLHXy0uTd8KCKGQlc65tOHlQ
-Date:   Wed, 14 Dec 2022 11:05:10 +0000
-Message-ID: <6c4413040a624b728081e27213fb46a1@AcuMS.aculab.com>
-References: <20221211030352.2622425-1-masahiroy@kernel.org>
- <Y5djBr9rVhSq8+iK@dev-arch.thelio-3990X> <Y5f4ZgyK7QlqYu31@bergen.fjasle.eu>
-In-Reply-To: <Y5f4ZgyK7QlqYu31@bergen.fjasle.eu>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Wed, 14 Dec 2022 08:21:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0C4821822
+        for <linux-kbuild@vger.kernel.org>; Wed, 14 Dec 2022 05:20:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1671024028;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=Bmga69YxkLBLEgiPdQiTljNZS1P5tv9l9U0MAYxynq8=;
+        b=U3nz0lkjsmOFNNeJeEgFZszKhYm+5MFQKOKmbATZpAO2mBONu1dRmiaHp3f7eH02/n0G/u
+        z/ybTxNa/6dbwAbWzFLakpPEFVrZv8BReQt+yy5Q27pSi7N27lbyM0sVgOhMUcOO+PIguV
+        aUj6GQUS3G9Yz5FcqS0yhGW5VkPsLYU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-528-AInqc5VfNrWNIG6tX6P52Q-1; Wed, 14 Dec 2022 08:20:25 -0500
+X-MC-Unique: AInqc5VfNrWNIG6tX6P52Q-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 38B55857F82;
+        Wed, 14 Dec 2022 13:20:25 +0000 (UTC)
+Received: from boop.brq.unsha.net (unknown [10.39.194.9])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 14F2F492C14;
+        Wed, 14 Dec 2022 13:20:22 +0000 (UTC)
+From:   Veronika Kabatova <vkabatov@redhat.com>
+To:     linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        ardb@kernel.org, catalin.marinas@arm.com, jeremy.linton@arm.com,
+        will@kernel.org, masahiroy@kernel.org
+Cc:     Veronika Kabatova <vkabatov@redhat.com>,
+        CKI Project <cki-project@redhat.com>
+Subject: [PATCH] buildtar: fix tarballs with EFI_ZBOOT enabled
+Date:   Wed, 14 Dec 2022 14:20:02 +0100
+Message-Id: <20221214132002.2547357-1-vkabatov@redhat.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,PDS_BAD_THREAD_QP_64,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -60,29 +59,30 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Nicolas Schier
-> Sent: 13 December 2022 03:59
-...
-> > > diff --git a/Makefile b/Makefile
-> > > index 2dda1e9a717a..66dfc5751470 100644
-> > > --- a/Makefile
-> > > +++ b/Makefile
-> > > @@ -11,6 +11,11 @@ NAME = Hurr durr I'ma ninja sloth
-> > >  # Comments in this file are targeted only to the developer, do not
-> > >  # expect to learn how to build the kernel reading this file.
-> > >
-> > > +# Ensure Make >= 3.82
+When CONFIG_EFI_ZBOOT is enabled, the binary name is not Image.gz
+anymore but vmlinuz.efi. No vmlinuz gets put into the tarball as the
+buildtar script doesn't recognize this name. Remedy this by adding the
+binary name to the list of acceptable files to package.
 
-Wouldn't it be better to say either:
-	# Ensure gmake supports 'undefine' (added in 3.82)
-or:
-	# Building with gmake versions prior to 3.82 fails due to
-	# bug 'brief description'.
-	# Check for 'undefine' support as a surrogate for the bug fix.
+Reported-by: CKI Project <cki-project@redhat.com>
+Signed-off-by: Veronika Kabatova <vkabatov@redhat.com>
+---
+ scripts/package/buildtar | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-    David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+diff --git a/scripts/package/buildtar b/scripts/package/buildtar
+index cb54c7f1aa80..4d6f0b128efd 100755
+--- a/scripts/package/buildtar
++++ b/scripts/package/buildtar
+@@ -122,7 +122,7 @@ case "${ARCH}" in
+ 		fi
+ 		;;
+ 	arm64)
+-		for i in Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo ; do
++		for i in Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo vmlinuz.efi ; do
+ 			if [ -f "${objtree}/arch/arm64/boot/${i}" ] ; then
+ 				cp -v -- "${objtree}/arch/arm64/boot/${i}" "${tmpdir}/boot/vmlinuz-${KERNELRELEASE}"
+ 				break
+-- 
+2.38.1
 
