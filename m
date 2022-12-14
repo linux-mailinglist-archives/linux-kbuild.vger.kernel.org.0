@@ -2,73 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 541F664CEEF
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Dec 2022 18:41:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8723364D328
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Dec 2022 00:17:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238214AbiLNRlb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 14 Dec 2022 12:41:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55206 "EHLO
+        id S229702AbiLNXRr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 14 Dec 2022 18:17:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236910AbiLNRl2 (ORCPT
+        with ESMTP id S229761AbiLNXRd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Dec 2022 12:41:28 -0500
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5928F19024
-        for <linux-kbuild@vger.kernel.org>; Wed, 14 Dec 2022 09:41:27 -0800 (PST)
-Received: by mail-yb1-xb2c.google.com with SMTP id 186so585975ybe.8
-        for <linux-kbuild@vger.kernel.org>; Wed, 14 Dec 2022 09:41:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=i0pzIXqtCSP5BhXl91JWX0th+uLCttVTq944NZd+G/g=;
-        b=Rr3Dv2MEorup2HoTxjUzemEffSaYNNtOiQTCDx8Udx9Ue7bImsJ/xybk4UJ2fYiP4P
-         olyWKTMrerRfQNLeveBB/PF8pi6etoJBB09AlnU13OytKhb4n7DVcJQ9rarDUgqYl2tb
-         qb22xgbngSqLsgHHJlrfl6u6n5wnhOoub+XOLBOqpW4cnxdbgpl8OxhBg0L1l++qJJFM
-         xqjf1V8otf3al1CALBKGbEUx769u13OKaEaS3T0ysLCZvLN3I0mHCr29CSh4eEFxAVJ4
-         VlgtyIy73mP5R2CbWQ/yTiNN9DrlzHDl6K0NCYwK1D+hwEBr056dLQP2ITnYi/bskEKy
-         8Qow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=i0pzIXqtCSP5BhXl91JWX0th+uLCttVTq944NZd+G/g=;
-        b=Orw/oXzIQsUf6I7wlIGxMy7X15J9x04yAzlgVvTm2EjbICzPPIWqe9BiAhbo2MKO3R
-         oLwIPrLCTWXREAyAAOY8x4RD5R6ghUMuXDaHbzodsrAZz+DhcesNXyF7/kgrt7gEmELT
-         RTSVMSXZBkVn4hz5VFJfbPsukIy+N53E0FI2YdZCFwLTsktq1R9ZaP9upwxQcRajSRWQ
-         O8oZO66ihwzuZ4OffD3Q/K4/0i3limjD2wyNrCSE/EAh0v5mWXs9fcip4zQEJsjgeJyk
-         lg/I5WSJW2UyyfeBQa0Tkb1wE1XTDkh/tJiTU4C1Ckn2GC2166xGAdPFow1xd5spUX+h
-         VlOw==
-X-Gm-Message-State: ANoB5pk81bA0/5yrFI1bqR1dLY4lyfMuxvA1K+X9Zz06t/2h3T4tnyHW
-        D5eJgxJpydYHcpj7zsMktUbD7r+K3BeH79BgS2a8pxf/PGn50Q==
-X-Google-Smtp-Source: AA0mqf69oXdmKWJAfPefpo7KpkzHuaJWGX2rYmP2D46nMlMw3xkxWCB7JT6qaFTmfgiph12mt/cL6YMSSUv3fJatgCk=
-X-Received: by 2002:a25:5091:0:b0:703:8471:c745 with SMTP id
- e139-20020a255091000000b007038471c745mr13651067ybb.358.1671039686305; Wed, 14
- Dec 2022 09:41:26 -0800 (PST)
+        Wed, 14 Dec 2022 18:17:33 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3C8A49B54;
+        Wed, 14 Dec 2022 15:17:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=y0gEuKH/snXM4reJy2iBZS+D2gCI2H3vX+4OuvIo0bc=; b=WM2hd1+A7xbC3EX2XAewetR6CY
+        4aE6Tob6Zk3nTaQkZAvSxIFgG9kWjPyBYnuAS/f1tMp+mTlpmjHuTl92WqsLk5twX90wvUfjkzwWe
+        wSaFZi/uJqeRGdLMVFpX5daTrInynpPuuWAHi9lSEIC5nKYcJrLFOKjCdIgp5odkUYUKqjjRxufCg
+        omqyg9YSduPAlksP3XnL1rJ01niy3ldlvoaqShmGTWojYMWIdg9c3GUyzEj8xs5TGKHIJiXM3aKJ1
+        bz+tsjIaZFNCrPL3r6GBJmLpUVbTtCjGhxmF+kNnbyZTxhNoVbswMMlJs0PCZZevC4McSNLU8mvlD
+        KWbCHt/Q==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1p5b03-004Cjf-MO; Wed, 14 Dec 2022 23:17:19 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     masahiroy@kernel.org, nathan@kernel.org, ndesaulniers@google.com,
+        nicolas@fjasle.eu, linux-kbuild@vger.kernel.org,
+        alison.schofield@intel.com, dan.j.williams@intel.com
+Cc:     dave@stgolabs.net, a.manzanares@samsung.com, mcgrof@kernel.org,
+        lucas.de.marchi@gmail.com, linux-cxl@vger.kernel.org,
+        linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: Modify default INSTALL_MOD_DIR from extra to updates
+Date:   Wed, 14 Dec 2022 15:17:18 -0800
+Message-Id: <20221214231718.1002194-1-mcgrof@kernel.org>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-References: <Y5fdgI4uTpXZQ9yn@mail.google.com> <Y5jf59VCL/HAt60q@mail.google.com>
-In-Reply-To: <Y5jf59VCL/HAt60q@mail.google.com>
-From:   Vipin Sharma <vipinsh@google.com>
-Date:   Wed, 14 Dec 2022 09:40:50 -0800
-Message-ID: <CAHVum0eNp5Dup_KyrS2N0zu5TfrtcCxphRnLuBFZa5PxahVg7A@mail.gmail.com>
-Subject: Re: [PATCH v3] scripts/tags.sh: choose which directories to exclude
- from being indexed
-To:     Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+Content-Transfer-Encoding: 8bit
+Sender: Luis Chamberlain <mcgrof@infradead.org>
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,81 +51,57 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Dec 13, 2022 at 12:26 PM Paulo Miguel Almeida
-<paulo.miguel.almeida.rodenas@gmail.com> wrote:
->
-> It's common for drivers that share same physical components to also
-> duplicate source code (or at least portions of it). A good example is
-> both drivers/gpu/drm/amdgpu/* and drivers/gpu/drm/radeon/* have a header
-> file called atombios.h.
->
-> While their contents aren't the same, a lot of their structs have
-> the exact same names which makes navigating through the code base a bit
-> messy as cscope will show up 'references' across drivers which aren't
-> exactly correct.
->
-> Add IGNORE_DIRS variable, which specifies which directories
-> to be ignored from indexing.
->
-> Example:
->         make ARCH=x86 IGNORE_DIRS="drivers/gpu/drm/radeon tools" cscope
->
-> Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-> ---
-> Changelog:
->
-> - v3: change commit message wording and rst syntax (Req Bagas Sanjaya)
->       change makefile variable scope to global, use blank space
->       separator and change variable name to IGNORE_DIRS.
->       (Req: Vipin Sharma)
-> - v2: change approach to include everything unless specified by the
->   IGNOREDIRS variable: (Req: Vipin Sharma)
-> - v1: https://lore.kernel.org/lkml/Y5OKDvbGk4Kro6MK@mail.google.com/
-> ---
->  Documentation/kbuild/kbuild.rst | 7 +++++++
->  scripts/tags.sh                 | 7 +++++++
->  2 files changed, 14 insertions(+)
->
-> diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-> index 08f575e6236c..5202186728b4 100644
-> --- a/Documentation/kbuild/kbuild.rst
-> +++ b/Documentation/kbuild/kbuild.rst
-> @@ -278,6 +278,13 @@ To get all available archs you can also specify all. E.g.::
->
->      $ make ALLSOURCE_ARCHS=all tags
->
-> +IGNORE_DIRS
-> +-----------
-> +For tags/TAGS/cscope targets, you can choose which directories won't
-> +be included in the databases, separated by blank space. E.g.::
-> +
-> +    $ make IGNORE_DIRS="drivers/gpu/drm/radeon tools" cscope
-> +
->  KBUILD_BUILD_TIMESTAMP
->  ----------------------
->  Setting this to a date string overrides the timestamp used in the
-> diff --git a/scripts/tags.sh b/scripts/tags.sh
-> index e137cf15aae9..1ad45f17179a 100755
-> --- a/scripts/tags.sh
-> +++ b/scripts/tags.sh
-> @@ -17,6 +17,13 @@ ignore="$(echo "$RCS_FIND_IGNORE" | sed 's|\\||g' )"
->  # tags and cscope files should also ignore MODVERSION *.mod.c files
->  ignore="$ignore ( -name *.mod.c ) -prune -o"
->
-> +# ignore arbitrary directories
-> +if [ -n "${IGNORE_DIRS}" ]; then
-> +       for i in ${IGNORE_DIRS}; do
-> +               ignore="${ignore} ( -path $i ) -prune -o"
-> +       done
-> +fi
-> +
->  # Use make KBUILD_ABS_SRCTREE=1 {tags|cscope}
->  # to force full paths for a non-O= build
->  if [ "${srctree}" = "." -o -z "${srctree}" ]; then
-> --
-> 2.38.1
->
+The default INSTALL_MOD_DIR of using the /lib/modules/$(uname -r)/extra
+directory for external modules assumes distributions will have something
+like  /etc/depmod.d/dist.conf with:
 
-Thanks for the patch.
+search updates extra built-in
 
-Reviewed-by: Vipin Sharma <vipinsh@google.com>
+However, only some Red Hat release have and use the extra stuff for
+years now. Meanwhile, the depmod.c tool in kmod has *forever* used
+the "updates" directory as part of the search path by default *if*
+your distribution does not have any depmod.d configuration.
+
+If you compile and install an external module today, even upstream
+kernel mock drivers (tools/testing/cxl) the modules_install target
+will pick up the new drivers but will not allow override of drivers
+from updates to override built-in ones.
+
+Since module-init-tools was deprecated over 11 years ago and now kmod
+has since its inception used the "updates" directory as part of its
+default search path to allow overrides, and since the "extra" stuff
+was in practice only used by Red Hat stuff, use the more distro
+agnostic override path "updates" to allow external modules to
+also override proper production kernel modules.
+
+This would allow mocking drivers tools to not have to muck with
+depmod.d config files or assume that your distro will have extra
+on a configuration file over built-in.
+
+With today's default you end up actually *crashing* Linux when
+trying to load cxl_test with the default "extra" [0] directory being
+used. This fixes that and allows other mocking drivers to do
+less work.
+
+[0] https://lkml.kernel.org/r/20221209062919.1096779-1-mcgrof@kernel.org
+Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+---
+ scripts/Makefile.modinst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
+index 509d424dbbd2..c12ae5c108d4 100644
+--- a/scripts/Makefile.modinst
++++ b/scripts/Makefile.modinst
+@@ -14,7 +14,7 @@ modules := $(sort $(call read-file, $(MODORDER)))
+ ifeq ($(KBUILD_EXTMOD),)
+ dst := $(MODLIB)/kernel
+ else
+-INSTALL_MOD_DIR ?= extra
++INSTALL_MOD_DIR ?= updates
+ dst := $(MODLIB)/$(INSTALL_MOD_DIR)
+ endif
+ 
+-- 
+2.35.1
+
