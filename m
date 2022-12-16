@@ -2,64 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 63C0064E694
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Dec 2022 05:03:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 946D064E69B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Dec 2022 05:10:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229912AbiLPEDd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 15 Dec 2022 23:03:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36180 "EHLO
+        id S229900AbiLPEKL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 15 Dec 2022 23:10:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229650AbiLPEDc (ORCPT
+        with ESMTP id S229763AbiLPEKK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 15 Dec 2022 23:03:32 -0500
+        Thu, 15 Dec 2022 23:10:10 -0500
 Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02292279;
-        Thu, 15 Dec 2022 20:03:24 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D820B511C1;
+        Thu, 15 Dec 2022 20:10:04 -0800 (PST)
 Received: from leknes.fjasle.eu ([46.142.98.53]) by mrelayeu.kundenserver.de
  (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MuUWi-1ong0L3kfq-00rURO; Fri, 16 Dec 2022 05:03:03 +0100
+ 1MUXd0-1pWKJ61E0m-00QV56; Fri, 16 Dec 2022 05:09:04 +0100
 Received: from localhost.fjasle.eu (bergen.fjasle.eu [IPv6:fdda:8718:be81:0:6f0:21ff:fe91:394])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (Client did not present a certificate)
-        by leknes.fjasle.eu (Postfix) with ESMTPS id 2A92D3C0C9;
-        Fri, 16 Dec 2022 05:03:02 +0100 (CET)
+        by leknes.fjasle.eu (Postfix) with ESMTPS id E1D3C3C1B9;
+        Fri, 16 Dec 2022 05:09:00 +0100 (CET)
 Authentication-Results: leknes.fjasle.eu; dkim=none; dkim-atps=neutral
 Received: by localhost.fjasle.eu (Postfix, from userid 1000)
-        id 8D9DE37A; Fri, 16 Dec 2022 05:03:01 +0100 (CET)
-Date:   Fri, 16 Dec 2022 05:03:01 +0100
+        id 8724637A; Fri, 16 Dec 2022 05:08:53 +0100 (CET)
+Date:   Fri, 16 Dec 2022 05:08:53 +0100
 From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH 2/2] kbuild: refactor the prerequisites of the modpost
- rule
-Message-ID: <Y5vt9VAq+4ZwM+fD@bergen.fjasle.eu>
-References: <20221211130408.2800314-1-masahiroy@kernel.org>
- <20221211130408.2800314-2-masahiroy@kernel.org>
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     masahiroy@kernel.org, nathan@kernel.org, ndesaulniers@google.com,
+        linux-kbuild@vger.kernel.org, alison.schofield@intel.com,
+        dan.j.williams@intel.com, dave@stgolabs.net,
+        a.manzanares@samsung.com, lucas.de.marchi@gmail.com,
+        linux-cxl@vger.kernel.org, linux-modules@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: Modify default INSTALL_MOD_DIR from extra to
+ updates
+Message-ID: <Y5vvVTwt+FfxTUke@bergen.fjasle.eu>
+References: <20221214231718.1002194-1-mcgrof@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="39CEQ8qs9h2jyTJl"
+        protocol="application/pgp-signature"; boundary="DbXiCwcHRBELdo3F"
 Content-Disposition: inline
-In-Reply-To: <20221211130408.2800314-2-masahiroy@kernel.org>
+In-Reply-To: <20221214231718.1002194-1-mcgrof@kernel.org>
 Jabber-ID: nicolas@fjasle.eu
 X-Operating-System: Debian GNU/Linux bookworm/sid
-X-Provags-ID: V03:K1:5o/3v4kYEaQ+ZrFMrrgwRNxwnzU7maA2ZAD1PJrtNdff4l0P06Y
- 9sOCzTZ9QbmBZtCuOh2LeNbw05eOjVFplvaCZt5SLaqYa7rOFb2G07L9JDM8tT5Ltge4agZ
- wWFUbCSBWdYIj97IpFAqdj+rQc25pTdk++RHrWx3PPGeRsz4f/B8JiJ/i5Sf30DRDCNSTWi
- HOS3ypw0Hj0Aos0y6QqMg==
-UI-OutboundReport: notjunk:1;M01:P0:DeK8m75Yuao=;TH7Icpne3O4bzUuNAxOQNtr2LsN
- uv/wzJQ85gU9uxKcKbtWLFPlQHwYI8RW/YxQinREQPPoVWVlmqW00m9cDl3u3yGwkc/fFVlg6
- aqv1H85M/NBkvGfcwrsAlwt5LkAjOIAwmigHFKLB/OWzpcbdLZvuykEjMjNlRKrYgiVwtfbKC
- AJJ93UERkefIvY4cFifutn7FeXbX15WMXtBwLRtD5fhy7uKTg4iDmg0Nmjb2/o6TxKxAuyeXL
- ZCwunWiLlHxy5FsIRt9UcaSxuS2r9zXHK71wqtVbwBU5IRZJNJg8nOl1zVreKO0TPGAN2eqLr
- 5zqn1BBR5b5u/isuGd6II8PBUeqOJYzDYD59tiQiDTHJLUEkxom9B3YAc9BEqrsvOStoWY8r+
- DDbTRyzC+DT8kI80eRIg9mid0aD2+XhtCmLTOcSKgE2m+lqQJ8vDp5EnnL27IBNbHYGJFkzbU
- DpjQ7D4W8E5yVMntpVcRypEmXjtDmprQOi8l2JcRAexp1W0W0FgWR041PkchEmGTauSuQbb5m
- +XXGuAEfgkKcwHiq4itYOijxSGj/WJK/HT7pYsrA1/tvKcAlLll2i9Rhqk1tETU+RSwWyDn39
- HxDrRQwb40ECcaGwCuZ5QMeFj77FQ/N5W+hljzi2TJ6znrFrX8+Ahgh7AWdmJecQvAUsvxlJv
- iSaOLHPt+/eH/WVL/Fk+NmmI+QxvcFT4HZ7SaLppzg==
+X-Provags-ID: V03:K1:9dqul9PcQlZBy+Bdz8/5WfZqSzxb5QxMVvaUCDKwbSzOBKgNPxo
+ BbVvGIW97LnFh09CHh9In/dxDmDZtiaujkrwws9/eD/kGir576B8qIvSmTl/H2s5Ryao6WV
+ JKcz9SqeqkLYb13uUSSWcjwLESqprhWkDH8CQ7FgWDXodI6fz9dxZvMdvcCFByvJnPhHgEQ
+ elo/a1MORPkBjU4ZHmH4g==
+UI-OutboundReport: notjunk:1;M01:P0:c0LQFw2PteU=;U5LcO1ilgEDCVC1DODcq62IwXrN
+ OfvybjSUEP2Zn6rXuzH0oUhKysoWhcLzXjI02MMZ5zi7KI6I0DNpHxVsl3yuexpVm6q8B31pB
+ mXDUEdbVTiAXs4jfkVMrT0PJXJC87rPD5REK2jhud99phN0WECzqLd4SDno+29PXyA53Mc9J8
+ 7yktHp2LRHlFBd0fXg/ICCIj+zT03N/XD/uENsNjhugKFq4onTkRpPXFk3GT8KN5OEG9aQi6A
+ C1uxEsHKFK+mI85bWkFRPlU1E89bP5aSop858rjhtJH6Kk4fpIFPlj3FkwoSbD04NpGGnHxX5
+ moBTPiSR+sVCEPsKlbzOOadpgkS3j0ryaCF1US5mlM7adlJ0uh75yxqUGIXWFemqgh89+Gumx
+ jDTGzE3OMOG08KiJ0jryiC/tYnZ/23reCa6qcndNLl87aP6aPK47xaih/TtozEwQo7V6V7Mca
+ jYReyl75h0LaDwMK2RJfAxssJUNfR5ip+x4bPc9GVlfZsZq4npyGJV2gE02IhZWUKFxQNhV/n
+ 27T9Y4lopnzd0X6J3I6VHf0r9i9CmFzig0wvLr6rrqkxAt3KVo3v1buXBbH0NY1WyHcN86Y9U
+ cXGVERp7R5A3cdDJohhExFtyZp7B6fTRGjKNEuR+T3jlWbJdXSh5/14PJLCQijQbHk6LU5TPH
+ wDJRJudccY6qYBt/y+nFb/aUwmMcb7xaK4KcONpGAQ==
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
         RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
@@ -70,152 +72,72 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
---39CEQ8qs9h2jyTJl
-Content-Type: text/plain; charset=utf-8
+--DbXiCwcHRBELdo3F
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun 11 Dec 2022 22:04:08 GMT, Masahiro Yamada wrote:
-> The prerequisites of modpost are cluttered. The variables=20
-> *-if-present
-> and *-if-needed are unreadable.
+On Wed 14 Dec 2022 15:17:18 GMT, Luis Chamberlain wrote:
+> The default INSTALL_MOD_DIR of using the /lib/modules/$(uname -r)/extra
+> directory for external modules assumes distributions will have something
+> like  /etc/depmod.d/dist.conf with:
 >=20
-> It is cleaner to append them into modpost-deps.
+> search updates extra built-in
 >=20
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> However, only some Red Hat release have and use the extra stuff for
+> years now. Meanwhile, the depmod.c tool in kmod has *forever* used
+> the "updates" directory as part of the search path by default *if*
+> your distribution does not have any depmod.d configuration.
+>=20
+> If you compile and install an external module today, even upstream
+> kernel mock drivers (tools/testing/cxl) the modules_install target
+> will pick up the new drivers but will not allow override of drivers
+> from updates to override built-in ones.
+>=20
+> Since module-init-tools was deprecated over 11 years ago and now kmod
+> has since its inception used the "updates" directory as part of its
+> default search path to allow overrides, and since the "extra" stuff
+> was in practice only used by Red Hat stuff, use the more distro
+> agnostic override path "updates" to allow external modules to
+> also override proper production kernel modules.
+>=20
+> This would allow mocking drivers tools to not have to muck with
+> depmod.d config files or assume that your distro will have extra
+> on a configuration file over built-in.
+>=20
+> With today's default you end up actually *crashing* Linux when
+> trying to load cxl_test with the default "extra" [0] directory being
+> used. This fixes that and allows other mocking drivers to do
+> less work.
+>=20
+> [0] https://lkml.kernel.org/r/20221209062919.1096779-1-mcgrof@kernel.org
+> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 > ---
+>  scripts/Makefile.modinst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
 
 Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
 
-
-
->  scripts/Makefile.modpost | 36 ++++++++++++++++++++++--------------
->  1 file changed, 22 insertions(+), 14 deletions(-)
->=20
-> diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-> index f814a6acd200..5eb5e8280379 100644
-> --- a/scripts/Makefile.modpost
-> +++ b/scripts/Makefile.modpost
-> @@ -38,6 +38,8 @@ __modpost:
->  include include/config/auto.conf
->  include $(srctree)/scripts/Kbuild.include
-> =20
-> +MODPOST =3D scripts/mod/modpost
-> +
->  modpost-args =3D										\
->  	$(if $(CONFIG_MODVERSIONS),-m)							\
->  	$(if $(CONFIG_MODULE_SRCVERSION_ALL),-a)					\
-> @@ -46,6 +48,8 @@ modpost-args =3D										\
->  	$(if $(CONFIG_MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS)$(KBUILD_NSDEPS),-=
-N)	\
->  	-o $@
-> =20
-> +modpost-deps :=3D $(MODPOST)
-> +
->  # 'make -i -k' ignores compile errors, and builds as many modules as pos=
-sible.
->  ifneq ($(findstring i,$(filter-out --%,$(MAKEFLAGS))),)
->  modpost-args +=3D -n
-> @@ -78,12 +82,13 @@ targets +=3D .vmlinux.objs
->  .vmlinux.objs: vmlinux.a $(KBUILD_VMLINUX_LIBS) FORCE
->  	$(call if_changed,vmlinux_objs)
-> =20
-> -vmlinux.o-if-present :=3D $(wildcard vmlinux.o)
-> -output-symdump :=3D vmlinux.symvers
-> -
-> -ifdef KBUILD_MODULES
-> -output-symdump :=3D $(if $(vmlinux.o-if-present), Module.symvers, module=
-s-only.symvers)
-> -missing-input :=3D $(filter-out $(vmlinux.o-if-present),vmlinux.o)
-> +ifeq ($(wildcard vmlinux.o),)
-> +missing-input :=3D vmlinux.o
-> +output-symdump :=3D modules-only.symvers
-> +else
-> +modpost-args +=3D vmlinux.o
-> +modpost-deps +=3D vmlinux.o
-> +output-symdump :=3D $(if $(KBUILD_MODULES), Module.symvers, vmlinux.symv=
-ers)
->  endif
-> =20
->  else
-> @@ -95,11 +100,16 @@ src :=3D $(obj)
->  # Include the module's Makefile to find KBUILD_EXTRA_SYMBOLS
->  include $(kbuild-file)
-> =20
-> -module.symvers-if-present :=3D $(wildcard Module.symvers)
->  output-symdump :=3D $(KBUILD_EXTMOD)/Module.symvers
-> -missing-input :=3D $(filter-out $(module.symvers-if-present), Module.sym=
-vers)
-> =20
-> -modpost-args +=3D -e $(addprefix -i ,$(module.symvers-if-present) $(KBUI=
-LD_EXTRA_SYMBOLS))
-> +ifeq ($(wildcard Module.symvers),)
-> +missing-input :=3D Module.symvers
-> +else
-> +modpost-args +=3D -i Module.symvers
-> +modpost-deps +=3D Module.symvers
-> +endif
-> +
-> +modpost-args +=3D -e $(addprefix -i , $(KBUILD_EXTRA_SYMBOLS))
-> =20
->  endif # ($(KBUILD_EXTMOD),)
-> =20
-> @@ -108,12 +118,10 @@ modpost-args +=3D -w
->  endif
-> =20
->  ifdef KBUILD_MODULES
-> -modorder-if-needed :=3D $(MODORDER)
->  modpost-args +=3D -T $(MODORDER)
-> +modpost-deps +=3D $(MODORDER)
->  endif
-> =20
-> -MODPOST =3D scripts/mod/modpost
-> -
->  # Read out modules.order to pass in modpost.
->  # Otherwise, allmodconfig would fail with "Argument list too long".
->  quiet_cmd_modpost =3D MODPOST $@
-> @@ -122,10 +130,10 @@ quiet_cmd_modpost =3D MODPOST $@
->  		echo >&2 "WARNING: $(missing-input) is missing."; \
->  		echo >&2 "         Modules may not have dependencies or modversions.";=
- \
->  		echo >&2 "         You may get many unresolved symbol warnings.";) \
-> -	$(MODPOST) $(modpost-args) $(vmlinux.o-if-present)
-> +	$(MODPOST) $(modpost-args)
-> =20
->  targets +=3D $(output-symdump)
-> -$(output-symdump): $(modorder-if-needed) $(vmlinux.o-if-present) $(modul=
-e.symvers-if-present) $(MODPOST) FORCE
-> +$(output-symdump): $(modpost-deps) FORCE
->  	$(call if_changed,modpost)
-> =20
->  __modpost: $(output-symdump)
-> --=20
-> 2.34.1
-
---=20
-epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
-=E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
-     -- frykten for herren er opphav til kunnskap --
-
---39CEQ8qs9h2jyTJl
+--DbXiCwcHRBELdo3F
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmOb7fUACgkQB1IKcBYm
-EmnRdhAApbeSmFO/BP9UYo1HAbNFVfS81AhnYDZoR8zlABYo2NWWSqlHIHZTLZ1F
-nzwabsqNogql15TavV6fwzD9ronCNZmrV2qlDRG3gz+XRlxR6MKoDh1BBekQ2o4Q
-l9jQdFy9lyul/Pn8oK7CLEoBHUUMrqW8xqDI85R1QQcg9NnaGdkbIRFEBu9cvy6H
-MP+Kwy3gO4Z48SfaUNLyEuEt8swZEwVJ+Eesp3CzZs8uTAjw7U+SIta2abY+ghD6
-iVQBfNLwMuCF2eOkpRZuG8hlZg+sJL31OmkZKs9Nom74Gjrn55u4zLkOjEPxu3VW
-G+9rf3kugP7OV7MKGJeFyfd6DimRj3y/8mnO1i8BgY5xtyIO91RT/tZJuUaNDFQl
-LnJrckJRHDtmpiiS/CURnHlgsUB23d54EsjfkJ+IdQ3YqGndrI2mMxcwdF9y/m68
-DpyLRRVg0aayvtnpS0SitlS2NcjSzYj5s02Ey2g5kxGlA9UX94GVmKQ/h1eMHbts
-qXu6jk5A/XeCiHkeeLZX/GinCekqjAkLSz8uEzDzQzc3+HCLNDqv9sYTeFK7WJs+
-e92b0AQwKoRmjHbQwgAgngl+5WzufFeTljKK5G4h9bNWolzwvSQqEWqFb9aN4+it
-/NWF9VRJBEmkB98SAAjVM5uT8H37zsHDhrJjgyDyUJiIl4RkP+w=
-=z3HE
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmOb71UACgkQB1IKcBYm
+EmkVZhAA4v9HhQv9LTdDNzjlaXSAo9nWqfb192F9cRLFOWepHrPSqdJ2R2VJ7mLu
+B7HmgozmU9qDHiQwUUaVRAWEk6eU7kCtya7i5UvuKrSnu2o2/NukewCc2x9CAJLN
+BnF+j4C3Y0hEJlF83Qwb25QUcKKDhA5Q+uu1Icyb2UZ625fBM84X9FLewq9bx4gq
+/+qk4l+xDjytv9SX2kNmaNTzgSDtYjBfuXXKpJ3+HKpOSzUwmtG0XbtguSSR7dtm
+4P4FfCEf1iQwn5C+Mt/lK/Pfs5jMu6lDW4p2eq0T2qDeRVFUVut/kItbvPda09aN
+HzQDg4J34bYkjtQ+ZBYYAeNH+NuJObxtehi7Pk6GX5ufw9LpSWh4tYCM6LOhNrLN
+1bFeJwkRp36zJH6xtUto/dGmxzPiXGNJF3fv8b3aLiHii9VCVVNMuasNxvudAh9J
+Us3n8qqwAy6vvIzrrA3j34jKW1sUoTxu6YCBNsF1424pSMh8dJpq6vcTGaHWjXmO
+5br6O0hdaiQ5rU0BNYR1TtMgmRVOLMJKcbtGGH5Bu/zXgK76vEIZd0Zj8ivPVGea
+bBAy/TKCjBUtgFXwYtT8EWVdVVUU151xQzvGaKhu1/PncEQ4YJB39cik1qNUMgnr
+7XGe/AmS89yYcbwsok+/LHaKPw3SBYBHblesiUwN5k8Kpo4l9EI=
+=bv95
 -----END PGP SIGNATURE-----
 
---39CEQ8qs9h2jyTJl--
+--DbXiCwcHRBELdo3F--
