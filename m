@@ -2,89 +2,98 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D3E2264F787
-	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Dec 2022 05:26:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1742E64F7D6
+	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Dec 2022 06:53:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229655AbiLQE0J (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 16 Dec 2022 23:26:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48828 "EHLO
+        id S229526AbiLQFxn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 17 Dec 2022 00:53:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229562AbiLQE0I (ORCPT
+        with ESMTP id S229518AbiLQFxl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 16 Dec 2022 23:26:08 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F270178B4;
-        Fri, 16 Dec 2022 20:26:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-        bh=sJfFoYUxM08YrnxAhZ562+wdSnaQJw31EihN3R7RgHo=; b=PUJJ2qjvE0MwkjKeoJ2kfMSx5t
-        CWJO0k85y7jJrAGP4ciHkc5nvZsHKu2jOmKlYn40U3lhhopVHdrUsRat1yJb8GdsaC4dGTno1Ka+u
-        n2BMCUh2/fY5QJ7A9jc16bSoeLiWqdTz7f3Ianr292xmNwcqnkz5xUuyCBa0k1L3JJsOn5IWIaeqB
-        MpZOusrtxK2rgFZuNktx2NJl7/W1Sl/N++Jq4n2HLF6QqqVZVlOaM3j6jGQeMfljq0HYjlYiKiwa4
-        5Zz6qqZIQZMQLoVvhOJkuGHYZ26ksdimkqHHBfCI1gE+hZokzIOObRdLmNZsZKAUgr9eE6AVVUaIm
-        BV4EKA0g==;
-Received: from [2601:1c2:d80:3110::a2e7]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1p6Ols-005EHm-NU; Sat, 17 Dec 2022 04:26:00 +0000
-Message-ID: <d95a2ef4-9a58-6ed7-f073-122d2248e454@infradead.org>
-Date:   Fri, 16 Dec 2022 20:26:00 -0800
+        Sat, 17 Dec 2022 00:53:41 -0500
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49EF42AE0A;
+        Fri, 16 Dec 2022 21:53:40 -0800 (PST)
+Received: by mail-qt1-x82e.google.com with SMTP id g7so4437085qts.1;
+        Fri, 16 Dec 2022 21:53:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OoyMtZ1MGVIXMyNe/QVcXhYxTfq6io5cKjfH+n3OcNU=;
+        b=freOt5GoyDBFgGQ47nRW7HkafqJAoc96TQbjA/YTOR0bYN6rGGfLM7Z1WmsvwyipeJ
+         liitXMJ795PWnmgHWUnPEYYgr+MX1rpmmXzR+quAuvR8xHiUBnJR0VXNQP8zuokmwCAQ
+         kLvQ60VeYYhk6ry0ndAELJ5zTjnhquaPod/+1Ydau0dNzeWo3jB/1yjS43iHOMG1t90j
+         NfHyuAl7T2FJ8dqOM3OSirVJuhSZbHroQqY1FM0r5zZyrDPFjvf3XSs/DiKt3ZShf6rY
+         2qf8VY9syOq6iCSFDf/efXTEgXueEbFOvNEdD5kcNKInZDrNPfm8V87tS77ipJ+r8gbe
+         LDKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OoyMtZ1MGVIXMyNe/QVcXhYxTfq6io5cKjfH+n3OcNU=;
+        b=nyEYvHM4i5+2jzmsInpN6AvK/BMCRJjhd+Dee362qDEUzEkuDZeBwkx3YSNuQ40uS0
+         F6MP5Ek//C30CBkI5qGhj+zTDs7jDczVrW31Xw3XRB/9tVrDWLvV7iZkToWfEhIIl9bD
+         JKvhgAbiYJG6wf0n+OYbZZMg5sml7hPJf0i2ETwzX4KBQegkH/2VydrXOg0r4z5vPfEM
+         caMzCyrUIdgjJXnZVueVa6ouE4F0qzI9XcWMVJ1YxqpETpbrj95RbgQsYGMdl6YXhyua
+         nKRgk0M+dTVFgOGasBf5D121ww8uDgIIoqe7pmS89/1IlscYiWvRTc1bpZzwRt94VI/S
+         4oyw==
+X-Gm-Message-State: ANoB5pkEdiaXcSnX7uqThAOsOZubuO8cEmj1B+RHBAeDnwyrZAGQr7Rz
+        ItF2WsNaB3u8k70dbQrezug=
+X-Google-Smtp-Source: AA0mqf51MMnu5Rb/Z+CbfvFeSPVpbLSk5Mw+Y+eKQIgm3jpkefzD4AA1Hyl07jbzXzkr2m9XBhmYqA==
+X-Received: by 2002:a05:622a:58b:b0:3a5:c8c6:a889 with SMTP id c11-20020a05622a058b00b003a5c8c6a889mr64397721qtb.22.1671256419299;
+        Fri, 16 Dec 2022 21:53:39 -0800 (PST)
+Received: from Slackware.localdomain ([191.96.227.93])
+        by smtp.gmail.com with ESMTPSA id w8-20020a05620a444800b006fc92cf4703sm2980496qkp.132.2022.12.16.21.53.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Dec 2022 21:53:38 -0800 (PST)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     masahiroy@kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH V3]  scripts: kconfig: Added static text for search information in help menu
+Date:   Sat, 17 Dec 2022 11:21:48 +0530
+Message-Id: <20221217055148.28914-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH V2] scripts: kconfig: Corrected the misspelled word in
- kconfig help text
-Content-Language: en-US
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, masahiroy@kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20221217035919.19855-1-unixbhaskar@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20221217035919.19855-1-unixbhaskar@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Reconstructed the sentence for the better readability.
 
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+  Changes from V2: Inducted Randy's suggestion to make it more readable.
+ scripts/kconfig/mconf.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-On 12/16/22 19:59, Bhaskar Chowdhury wrote:
-> s/sash/slash/
-> 
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-> ---
->  Changes from V1: corrected the misspelled word
+diff --git a/scripts/kconfig/mconf.c b/scripts/kconfig/mconf.c
+index 9d3cf510562f..760ebf6c20b1 100644
+--- a/scripts/kconfig/mconf.c
++++ b/scripts/kconfig/mconf.c
+@@ -161,6 +161,12 @@ static const char mconf_readme[] =
+ "(especially with a larger number of unrolled categories) than the\n"
+ "default mode.\n"
+ "\n"
++
++"Search\n"
++"-------\n"
++"Pressing the forward-slash (/) anywhere brings up a search dialog box.\n"
++"\n"
++
+ "Different color themes available\n"
+ "--------------------------------\n"
+ "It is possible to select different color themes using the variable\n"
+--
+2.38.1
 
-V2 should be a full patch, not just a correction to V1.
-IF V1 were applied, then this patch could be applicable,
-but then it would be patch 2/2, not just V2.
-
-
->  scripts/kconfig/mconf.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/kconfig/mconf.c b/scripts/kconfig/mconf.c
-> index 93dc4850ff2a..a82cac8916ab 100644
-> --- a/scripts/kconfig/mconf.c
-> +++ b/scripts/kconfig/mconf.c
-> @@ -164,7 +164,7 @@ static const char mconf_readme[] =
-> 
->  "Search\n"
->  "------\n"
-> -"Press forward sash(/) anywhere will bring up search dialog box\n"
-> +"Press forward slash(/) anywhere will bring up search dialog box\n"
->  "\n"
-> 
->  "Different color themes available\n"
-> --
-> 2.38.1
-> 
-
--- 
-~Randy
