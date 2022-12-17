@@ -2,105 +2,79 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D70064F853
-	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Dec 2022 09:45:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7367164F88B
+	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Dec 2022 10:53:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230033AbiLQIpH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 17 Dec 2022 03:45:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43468 "EHLO
+        id S229508AbiLQJxr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 17 Dec 2022 04:53:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229469AbiLQIpG (ORCPT
+        with ESMTP id S230317AbiLQJxo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 17 Dec 2022 03:45:06 -0500
-X-Greylist: delayed 2673 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 17 Dec 2022 00:45:05 PST
-Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7E5D17E1A;
-        Sat, 17 Dec 2022 00:45:05 -0800 (PST)
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 2BH8ijR4006775;
-        Sat, 17 Dec 2022 17:44:46 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 2BH8ijR4006775
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1671266686;
-        bh=LHeucGCPwMdgCGBwHWBUilHEHkQaQRZPEHaHIlGQdN8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=lE0+CsG52o3f20fEyTU9yUtd7iYk9Bn/HQQlB6B/Hh9CxI/PI0WoYU7oVKZgm+dUJ
-         SFFOrSdQIgkUaYCvK1VFXYqXvh7rXFdv2SmPWsHqPBsu/rmxDBu6eRCcg48phX8kwa
-         zMuq4Ghq2bpYWwQlmgvTzGTFnR2PHOOoWDcSNQlU3dt5K9AQdosviNl0PBEtJfcgbN
-         hnBUSR2wCnJKdyPd5DUDlo0USZSip/wIaU6/2tZ49tKlsmHm8wd6JiQfHM81Jm7EIY
-         TGI4uaqHPboOhd8l4Nw4VlT4zXC6gmUxY3cX6SSfBvczbD7YtmeLGoErB8hjLqySxP
-         a8ijgeQmRFXaw==
-X-Nifty-SrcIP: [209.85.160.54]
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-14449b7814bso6070130fac.3;
-        Sat, 17 Dec 2022 00:44:46 -0800 (PST)
-X-Gm-Message-State: AFqh2krVXPygpEy4gqObiMu7PKBGnK02/EsB73de9Q+YWpE4WPPOUmqU
-        hoYjmOp8p6rgmlPf6IANTGxFPuCvfy5TJ1GXCAU=
-X-Google-Smtp-Source: AMrXdXvP1ofd0t5v1b6rbg3fmaf6LHIaqutyPKXmOtf3qP7yg5FU0tS0EUKDRsQH2AqhAXcv3p2e8+d0UCGUMl6p5mE=
-X-Received: by 2002:a05:6871:450d:b0:144:a2de:1075 with SMTP id
- nj13-20020a056871450d00b00144a2de1075mr581546oab.194.1671266685319; Sat, 17
- Dec 2022 00:44:45 -0800 (PST)
-MIME-Version: 1.0
-References: <CAK7LNASM6KsrXHXLykaQ=rJ3YZ5OA+7im4=g=3Ob3EPt97n_HQ@mail.gmail.com>
- <tencent_6B46BD116F0C168438B3982F0F546C5F6709@qq.com>
-In-Reply-To: <tencent_6B46BD116F0C168438B3982F0F546C5F6709@qq.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 17 Dec 2022 17:44:09 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASu6i9V4b_u68azpM45zPM0udGW8kVWGd+UZzJtSq0+TA@mail.gmail.com>
-Message-ID: <CAK7LNASu6i9V4b_u68azpM45zPM0udGW8kVWGd+UZzJtSq0+TA@mail.gmail.com>
-Subject: Re: Re: [PATCH] kbuild: Fix compilation error
-To:     Rong Tao <rtoax@foxmail.com>
+        Sat, 17 Dec 2022 04:53:44 -0500
+Received: from out162-62-57-137.mail.qq.com (out162-62-57-137.mail.qq.com [162.62.57.137])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DEFA1742E;
+        Sat, 17 Dec 2022 01:53:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+        s=s201512; t=1671270818;
+        bh=JouZ6st3CYo4QzJIiGOY2B/ojRdjjgnSW9GrcLgVarA=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=hJ4Dazaa2S+EdiilUN8C5RPXkrGHH+SBV48iHSsmSMMU4ufhooL9bI3+4ipYw+V5T
+         iKPSLuzjrTp9swBnGMWYr0ltDDJrTNpPjbasy3p+03K4WOr61XlyG1nz6XYZ6SU3l/
+         XSbxxlUDhpdRUPxS55YvP4soMbrKBoVekpJJkMbo=
+Received: from rtoax.. ([111.199.188.149])
+        by newxmesmtplogicsvrsza12-0.qq.com (NewEsmtp) with SMTP
+        id D633F853; Sat, 17 Dec 2022 17:53:35 +0800
+X-QQ-mid: xmsmtpt1671270815t3h8oup6i
+Message-ID: <tencent_84C64B10159B57C45158C406032921B22C07@qq.com>
+X-QQ-XMAILINFO: OZiGlmjmGvyhT9Tovp0kXcvTdhA0VADCjQw9uDxDVu/Svl6L2ELDPjLN8GZ+sh
+         CImNOjsryElJgsCu8ETr3cUWVHe7s6g1CYLBza5cdIWSs34+PgIfEY/rCBR8OmDtj1MBJYq1Owh8
+         7OyazBzwo2fg2EvXeYWdK82qfiyja0PRcIvUJetCpbAy5d1tCsdsaTEhjQj4IPEeZYFXhj1qGeEa
+         0B5dF04dJG/FQOg8SnfAplt8IlnTddP0Fu6x4SrPfSDBn7VVTJFLRMNdyHjeHB/xD5f0SUTYQIzO
+         mXvB7LqdWZK62gfUbnYtL+u41TM5Qr1CoO3lHkP2PuBmBRPElPlfZg3gGAUuuts0nqCz7HAaYydd
+         NpFNQaQTK1EKx0isSTqDN01wpxtswC1vlmwVrAFnm+wZtTpJhhXmRZnt+3h3S1gGvbqKtZzi9Sd+
+         yqf+rdir2hDyrMLvfJS8JR7k/UZCoKmVvpSd/c6AaDmhcNph4T2fxZ0De7RC3cPtbPaGU7Vfkkr8
+         c1fKWwfZFvcPdkVjvLm63rt3hBEbocmgU3dNPUjEpBwp8rn5PGA6ChOMjbdJl/JOZcAaaU5FJhiE
+         G0yrHN6UE2HxoIMaRHv7SAnGd6botEDk284hub3mg4oXWn9o6d9UouJHii8ytRc/aX+bVfaO5zWo
+         HRLUYrjbq59ry3+gVFo5aIlnRMK+3U80K96PcOSp0rhtXEz9nbM4KIk1wH/jZ0xrPPDIJhV1NFXq
+         Kj3ay76f6vdLHa6iVQZnO51Cnz5bPK56mRBbPw9hQEtmW6ebcL9WPeG1ZkCz3UdxqZafpEju2/Lm
+         +WNX8LWM1qi/TQTUUi0f297YC/n0cmHPqUybIGtCbf6EbiUrMOR+PZb6B8ndFzgtP1txFmq0Zxfc
+         sxMiGu96a9JvNckSWtiA8E6nAnURhLCU6/Fvhqv36vI/HE1GdbuKYhVKMWoW43xVheNm4Tgq0B1f
+         /7sjb3Wld2qdiHCdkalMOmnNTbmeumWfggncyD13MziNyr3Yd/dhquRURYHeaDgZczVIMaZTs=
+From:   Rong Tao <rtoax@foxmail.com>
+To:     masahiroy@kernel.org
 Cc:     bpf@vger.kernel.org, linux-kbuild@vger.kernel.org,
         linux-kernel@vger.kernel.org, nathan@kernel.org,
-        ndesaulniers@google.com, nicolas@fjasle.eu, rongtao@cestc.cn
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
-        autolearn_force=no version=3.4.6
+        ndesaulniers@google.com, nicolas@fjasle.eu, rongtao@cestc.cn,
+        rtoax@foxmail.com
+Subject: Re: Re: [PATCH] kbuild: Fix compilation error
+Date:   Sat, 17 Dec 2022 17:53:34 +0800
+X-OQ-MSGID: <20221217095334.538189-1-rtoax@foxmail.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <CAK7LNASu6i9V4b_u68azpM45zPM0udGW8kVWGd+UZzJtSq0+TA@mail.gmail.com>
+References: <CAK7LNASu6i9V4b_u68azpM45zPM0udGW8kVWGd+UZzJtSq0+TA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        HELO_DYNAMIC_IPADDR,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,RDNS_DYNAMIC,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Dec 17, 2022 at 5:11 PM Rong Tao <rtoax@foxmail.com> wrote:
->
-> Yes, It's happen in the mainline kernel.
->
-> I pulled the latest code and habitually compiled samples/bpf,
->
-> $ git remote get-url origin
-> git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> $ make -C samples/bpf
->
-> and the compilation error occurred. I applied this patch and can
-> fix this compilation error.
+Thanks, Masahiro Yamada, I compile again from scrach. the compilation
+error not happen anymore. I think i miss 'make menuconfig' before.
 
-
-
-
-I want you to describe the steps to reproduce the issue from the pristine
-source tree instead of printing the URL of your origin.
-
-
-
-I prepared a template for you.
-Please fill the following 3 square brackets.
-
-
+Thanks again!
 
 $ git log --oneline  -1
- [ Fill the commit hash you are working on ]
+77856d911a8c
 $ git clean -dfx
-
- [ Fill steps between "git clean -dfx" and "make -C samples/bpf" ]
-
+$ make menuconfig <<== Which i miss
+$ make -j8
 $ make -C samples/bpf
- [ Fill the error message you get ]
 
 
-
-
-
--- 
-Best Regards
-Masahiro Yamada
