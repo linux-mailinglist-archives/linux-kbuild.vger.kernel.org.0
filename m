@@ -2,34 +2,34 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DBAD364F781
-	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Dec 2022 05:19:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3E2264F787
+	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Dec 2022 05:26:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229971AbiLQETM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 16 Dec 2022 23:19:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46372 "EHLO
+        id S229655AbiLQE0J (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 16 Dec 2022 23:26:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229655AbiLQETL (ORCPT
+        with ESMTP id S229562AbiLQE0I (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 16 Dec 2022 23:19:11 -0500
+        Fri, 16 Dec 2022 23:26:08 -0500
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67C2C2529C;
-        Fri, 16 Dec 2022 20:19:10 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F270178B4;
+        Fri, 16 Dec 2022 20:26:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
         Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
         Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-        bh=+yJgFL5TBnDB0fCklDyR9MMDGqTBDzeplYDVKMb9W14=; b=pNVRcFD1oh4CXpQcRMj3B7iDNP
-        3ENfSqCqHttDDfkqoqNP9WUQDpjabtb46TkxAaTkk2eeqD9lNQVImbPoOFoHMMi3iD50zkEYIF04D
-        juorrIdvadq5JENu92r2yGOAZFgnoojHqfjYOwUFJUZkrsTf4+j4dQWAHSXcGhA3x8EiId5RSspmo
-        JmsGEyWAeCZqnchcPwhv0zrvf4iRfYOkTsDYwcMe5hERMXG8BaabV3hGbd+aXYKAVglw/E90iDabr
-        ZlL6ExGxwt79Eli2fahsGJkHNmY+f1m8+/3OozXPmW7oe9OvOBR/ZPPwp5kR7WyDhdU68kFN41g+j
-        JXryC61w==;
+        bh=sJfFoYUxM08YrnxAhZ562+wdSnaQJw31EihN3R7RgHo=; b=PUJJ2qjvE0MwkjKeoJ2kfMSx5t
+        CWJO0k85y7jJrAGP4ciHkc5nvZsHKu2jOmKlYn40U3lhhopVHdrUsRat1yJb8GdsaC4dGTno1Ka+u
+        n2BMCUh2/fY5QJ7A9jc16bSoeLiWqdTz7f3Ianr292xmNwcqnkz5xUuyCBa0k1L3JJsOn5IWIaeqB
+        MpZOusrtxK2rgFZuNktx2NJl7/W1Sl/N++Jq4n2HLF6QqqVZVlOaM3j6jGQeMfljq0HYjlYiKiwa4
+        5Zz6qqZIQZMQLoVvhOJkuGHYZ26ksdimkqHHBfCI1gE+hZokzIOObRdLmNZsZKAUgr9eE6AVVUaIm
+        BV4EKA0g==;
 Received: from [2601:1c2:d80:3110::a2e7]
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1p6OfF-005AmR-6m; Sat, 17 Dec 2022 04:19:09 +0000
-Message-ID: <b58264d1-9b77-677b-04a9-59f14a195dea@infradead.org>
-Date:   Fri, 16 Dec 2022 20:19:05 -0800
+        id 1p6Ols-005EHm-NU; Sat, 17 Dec 2022 04:26:00 +0000
+Message-ID: <d95a2ef4-9a58-6ed7-f073-122d2248e454@infradead.org>
+Date:   Fri, 16 Dec 2022 20:26:00 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.1
@@ -52,17 +52,20 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi--
+
 
 On 12/16/22 19:59, Bhaskar Chowdhury wrote:
 > s/sash/slash/
 > 
-
-That correction is good...
-
 > Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 > ---
 >  Changes from V1: corrected the misspelled word
+
+V2 should be a full patch, not just a correction to V1.
+IF V1 were applied, then this patch could be applicable,
+but then it would be patch 2/2, not just V2.
+
+
 >  scripts/kconfig/mconf.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
@@ -76,14 +79,6 @@ That correction is good...
 >  "------\n"
 > -"Press forward sash(/) anywhere will bring up search dialog box\n"
 > +"Press forward slash(/) anywhere will bring up search dialog box\n"
-
-That sentence could be better. Either
-s/Press/Pressing/
-or
-s/will/to/
-but not both of those -- just one of them.
-And then s/bring up/bring up a/.
-
 >  "\n"
 > 
 >  "Different color themes available\n"
@@ -91,6 +86,5 @@ And then s/bring up/bring up a/.
 > 2.38.1
 > 
 
-Thanks.
 -- 
 ~Randy
