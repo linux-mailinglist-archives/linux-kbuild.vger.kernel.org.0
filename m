@@ -2,60 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A048164F765
-	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Dec 2022 04:45:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA3F264F77A
+	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Dec 2022 05:01:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229480AbiLQDpm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 16 Dec 2022 22:45:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38784 "EHLO
+        id S229984AbiLQEBc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 16 Dec 2022 23:01:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbiLQDpl (ORCPT
+        with ESMTP id S229979AbiLQEBP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 16 Dec 2022 22:45:41 -0500
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C969DC76;
-        Fri, 16 Dec 2022 19:45:38 -0800 (PST)
-Received: by mail-qt1-x834.google.com with SMTP id ay32so4277291qtb.11;
-        Fri, 16 Dec 2022 19:45:38 -0800 (PST)
+        Fri, 16 Dec 2022 23:01:15 -0500
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B903311C03;
+        Fri, 16 Dec 2022 20:01:13 -0800 (PST)
+Received: by mail-qt1-x831.google.com with SMTP id x11so4281132qtv.13;
+        Fri, 16 Dec 2022 20:01:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ItbcAsV7adGw2IAMCQUtrEQW5WhY2O45Ebyft+pkklk=;
-        b=YHb09iSuqUpK5wugnNjDBTO188ZMSclkCnGtyXOo7jBXxLi00THeSwzjGaakDY380a
-         DX/BCtuRICe2ldqaZFdFAJYMFDNLMY318RHo5DQMu9ZxBlgm+oWoHzrOjeBcTKgA21eb
-         chKQ3IZIvpQ++ACKYOzrwmMFgkB1jI7ehkjBQmSaBlSNGQtEuUggG6F236bDUmXV99kW
-         TUpXmti5zuGwl4X7tDSJSuo6u0/qJha7zNZQ81KO+KSc/aAIQH4MiXbIWq2M6+UTBZV+
-         zZX3Ii5IQIkN3nv1Vsh7wEdbJVKENqqDDDZ10F+D8ZMR16Ztk5kq0K7g42Ouby1plwhd
-         NAPg==
+        bh=AFfxeKa66hYXkFi3UHZXAAdyvPyXsgLD8aUDMER0Xic=;
+        b=pnS88Y6c8Y4NozTvoPHC34wzOZ0x6iCPAlKHgDHO6l+w5lJgTdu70HLqj4dBWT2ovG
+         fnQxNjWfJqAuqXmPps1+dKj/1EBkqCIE2vYObrBdQqqN6CjlyAYhwBkMUXCXJ6eTSBHy
+         ReVhrRw74i3FLMz8S3B2Bl3oEkWcLVQwxVSCvLJcgFYIIx/dIMXSWsqVc28syprG6oVf
+         3Io0r+7G4OXPt/lHrsyMquXlZ6zuD3VGHyTQNJeK/Jzrijr1HtuoIRTpfpgc4v+F4XXn
+         E/GvFFAAUeixCMRGV7WGeI9tTRsHvKKvQN36u8rF4YNz5v9/Dh3c2L9EFhxuASYuxCFR
+         75MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ItbcAsV7adGw2IAMCQUtrEQW5WhY2O45Ebyft+pkklk=;
-        b=zU0mZyysvZkRdpi+9goI/n4LfvF3E0nurRAgSE2/zERpURSdPWyUImPZOkfQIdyKO/
-         29dJLUGWSVcXshC939wzrEZlm3VgSsdRcA6+Rql/KF7kE7un0rUpCs2xApyWfCVi98if
-         YQV872HGvr9ep52szpyeQIVhQLwWlNPaNSJHe5NA/QVRExQOmS+RbGLBcA3Ng0C+p2i+
-         ZwkwA3As3SAkIJrtoXSU7CvfmsmVUpU2Wq6zA+W2A0iGjUoHFhyUspL+c/vwdX6BizOX
-         XGZL7bgKkq8RVR/AkRd39PjfKEvjS08nZjERN/RFu7Bc2wQkakfDJzcPG7MuayRHvvFM
-         nYCQ==
-X-Gm-Message-State: ANoB5pm2zqHho31MI7OeYdx+dA8Niewxan0jTzvUhtqEn1Vt7EnivHKX
-        WAjv2YtuFDfIqTW30mw9nHU=
-X-Google-Smtp-Source: AA0mqf5pL/bGIwWqOU/HE1CWWSw9kAtBRjqzTMkie3C0X0ihch1pxvEfvnruacER/71IqDIC5M88fQ==
-X-Received: by 2002:ac8:7286:0:b0:39c:da21:6b7e with SMTP id v6-20020ac87286000000b0039cda216b7emr45997164qto.3.1671248737916;
-        Fri, 16 Dec 2022 19:45:37 -0800 (PST)
+        bh=AFfxeKa66hYXkFi3UHZXAAdyvPyXsgLD8aUDMER0Xic=;
+        b=Nx9q7o+d7d7qATughXUPjLas7Hcnh+BQGfxlNBGOMJlhW/tv3QQ98ZCNUkOHBBHEnf
+         COWvhkFch/o+QrkA9omTlS/gWKdou1A0g6YwJcPDfKXn+HWsAo0LKsqnvzn00p+S7BlG
+         ezbEoKuT7MINriAYypG8qc85nybSpnk2iYmMLam9oZef2uiqpBcEBCCaRpSx+NLy6ly+
+         FXCoercCXLaMHMosuV4ymueElfWnZNWDEugdCMw9yoK6eUDX92vhdJcvrxlwBUmXhDD6
+         MaXQ3VqcJwKM61MSkMIE5QXxR2E0+pAEgNocNfNI6EhFZ9K35IeIAkWy1zhc+vQ0zz4W
+         M5Og==
+X-Gm-Message-State: AFqh2koyuF4G1Onz83i2BSFT1OajXiMpzvsQLvAu2bayhdk05L3J6Dr4
+        DZ7Y7/3ZDq9Ma6PYj3KYvkURNaou9TJi1Q==
+X-Google-Smtp-Source: AMrXdXs4pJASqKve49gAnlSKEW77m/rSdTUpfNKo9rxVq9oSgJFL917vVXm3H6rY2YxjapsG5XvQJw==
+X-Received: by 2002:ac8:528d:0:b0:3a7:e838:11da with SMTP id s13-20020ac8528d000000b003a7e83811damr2484522qtn.58.1671249672846;
+        Fri, 16 Dec 2022 20:01:12 -0800 (PST)
 Received: from Slackware.localdomain ([191.96.227.93])
-        by smtp.gmail.com with ESMTPSA id s10-20020a05620a16aa00b006ecfb2c86d3sm1523433qkj.130.2022.12.16.19.45.34
+        by smtp.gmail.com with ESMTPSA id bm24-20020a05620a199800b006fa4cac54a5sm2833718qkb.72.2022.12.16.20.01.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Dec 2022 19:45:37 -0800 (PST)
+        Fri, 16 Dec 2022 20:01:12 -0800 (PST)
 From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
 To:     masahiroy@kernel.org, linux-kbuild@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH] scripts: kconfig: Added static text for search information in help menu
-Date:   Sat, 17 Dec 2022 09:13:23 +0530
-Message-Id: <20221217034323.14880-1-unixbhaskar@gmail.com>
+Subject: [PATCH V2] scripts: kconfig: Corrected the misspelled word in kconfig help text
+Date:   Sat, 17 Dec 2022 09:29:19 +0530
+Message-Id: <20221217035919.19855-1-unixbhaskar@gmail.com>
 X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -69,32 +69,27 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Added few static text to explain how one can bring up the search dialog box by
-pressing the forward slash key ,anywhere on this interface.
-
+s/sash/slash/
 
 Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- scripts/kconfig/mconf.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ Changes from V1: corrected the misspelled word
+ scripts/kconfig/mconf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/kconfig/mconf.c b/scripts/kconfig/mconf.c
-index 9d3cf510562f..93dc4850ff2a 100644
+index 93dc4850ff2a..a82cac8916ab 100644
 --- a/scripts/kconfig/mconf.c
 +++ b/scripts/kconfig/mconf.c
-@@ -161,6 +161,12 @@ static const char mconf_readme[] =
- "(especially with a larger number of unrolled categories) than the\n"
- "default mode.\n"
+@@ -164,7 +164,7 @@ static const char mconf_readme[] =
+
+ "Search\n"
+ "------\n"
+-"Press forward sash(/) anywhere will bring up search dialog box\n"
++"Press forward slash(/) anywhere will bring up search dialog box\n"
  "\n"
-+
-+"Search\n"
-+"------\n"
-+"Press forward sash(/) anywhere will bring up search dialog box\n"
-+"\n"
-+
+
  "Different color themes available\n"
- "--------------------------------\n"
- "It is possible to select different color themes using the variable\n"
 --
 2.38.1
 
