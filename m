@@ -2,68 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D095B64E6B0
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Dec 2022 05:31:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A048164F765
+	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Dec 2022 04:45:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229554AbiLPEbQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 15 Dec 2022 23:31:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45452 "EHLO
+        id S229480AbiLQDpm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 16 Dec 2022 22:45:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229904AbiLPEax (ORCPT
+        with ESMTP id S229453AbiLQDpl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 15 Dec 2022 23:30:53 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB22ABE08;
-        Thu, 15 Dec 2022 20:30:45 -0800 (PST)
-Received: from leknes.fjasle.eu ([46.142.98.53]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MIdNt-1pBCto2rlF-00EbLU; Fri, 16 Dec 2022 05:30:17 +0100
-Received: from localhost.fjasle.eu (bergen.fjasle.eu [IPv6:fdda:8718:be81:0:6f0:21ff:fe91:394])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (Client did not present a certificate)
-        by leknes.fjasle.eu (Postfix) with ESMTPS id 3DB2A3C0C9;
-        Fri, 16 Dec 2022 05:30:14 +0100 (CET)
-Authentication-Results: leknes.fjasle.eu; dkim=none; dkim-atps=neutral
-Received: by localhost.fjasle.eu (Postfix, from userid 1000)
-        id F178737A; Fri, 16 Dec 2022 05:30:10 +0100 (CET)
-Date:   Fri, 16 Dec 2022 05:30:10 +0100
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     David Laight <David.Laight@aculab.com>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH] kbuild: ensure Make >= 3.82 is used
-Message-ID: <Y5v0UpL6WFafKYIS@bergen.fjasle.eu>
-References: <20221211030352.2622425-1-masahiroy@kernel.org>
- <Y5djBr9rVhSq8+iK@dev-arch.thelio-3990X>
- <Y5f4ZgyK7QlqYu31@bergen.fjasle.eu>
- <6c4413040a624b728081e27213fb46a1@AcuMS.aculab.com>
+        Fri, 16 Dec 2022 22:45:41 -0500
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C969DC76;
+        Fri, 16 Dec 2022 19:45:38 -0800 (PST)
+Received: by mail-qt1-x834.google.com with SMTP id ay32so4277291qtb.11;
+        Fri, 16 Dec 2022 19:45:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ItbcAsV7adGw2IAMCQUtrEQW5WhY2O45Ebyft+pkklk=;
+        b=YHb09iSuqUpK5wugnNjDBTO188ZMSclkCnGtyXOo7jBXxLi00THeSwzjGaakDY380a
+         DX/BCtuRICe2ldqaZFdFAJYMFDNLMY318RHo5DQMu9ZxBlgm+oWoHzrOjeBcTKgA21eb
+         chKQ3IZIvpQ++ACKYOzrwmMFgkB1jI7ehkjBQmSaBlSNGQtEuUggG6F236bDUmXV99kW
+         TUpXmti5zuGwl4X7tDSJSuo6u0/qJha7zNZQ81KO+KSc/aAIQH4MiXbIWq2M6+UTBZV+
+         zZX3Ii5IQIkN3nv1Vsh7wEdbJVKENqqDDDZ10F+D8ZMR16Ztk5kq0K7g42Ouby1plwhd
+         NAPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ItbcAsV7adGw2IAMCQUtrEQW5WhY2O45Ebyft+pkklk=;
+        b=zU0mZyysvZkRdpi+9goI/n4LfvF3E0nurRAgSE2/zERpURSdPWyUImPZOkfQIdyKO/
+         29dJLUGWSVcXshC939wzrEZlm3VgSsdRcA6+Rql/KF7kE7un0rUpCs2xApyWfCVi98if
+         YQV872HGvr9ep52szpyeQIVhQLwWlNPaNSJHe5NA/QVRExQOmS+RbGLBcA3Ng0C+p2i+
+         ZwkwA3As3SAkIJrtoXSU7CvfmsmVUpU2Wq6zA+W2A0iGjUoHFhyUspL+c/vwdX6BizOX
+         XGZL7bgKkq8RVR/AkRd39PjfKEvjS08nZjERN/RFu7Bc2wQkakfDJzcPG7MuayRHvvFM
+         nYCQ==
+X-Gm-Message-State: ANoB5pm2zqHho31MI7OeYdx+dA8Niewxan0jTzvUhtqEn1Vt7EnivHKX
+        WAjv2YtuFDfIqTW30mw9nHU=
+X-Google-Smtp-Source: AA0mqf5pL/bGIwWqOU/HE1CWWSw9kAtBRjqzTMkie3C0X0ihch1pxvEfvnruacER/71IqDIC5M88fQ==
+X-Received: by 2002:ac8:7286:0:b0:39c:da21:6b7e with SMTP id v6-20020ac87286000000b0039cda216b7emr45997164qto.3.1671248737916;
+        Fri, 16 Dec 2022 19:45:37 -0800 (PST)
+Received: from Slackware.localdomain ([191.96.227.93])
+        by smtp.gmail.com with ESMTPSA id s10-20020a05620a16aa00b006ecfb2c86d3sm1523433qkj.130.2022.12.16.19.45.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Dec 2022 19:45:37 -0800 (PST)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     masahiroy@kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH] scripts: kconfig: Added static text for search information in help menu
+Date:   Sat, 17 Dec 2022 09:13:23 +0530
+Message-Id: <20221217034323.14880-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="utwNP9iZHO2yxSWK"
-Content-Disposition: inline
-In-Reply-To: <6c4413040a624b728081e27213fb46a1@AcuMS.aculab.com>
-Jabber-ID: nicolas@fjasle.eu
-X-Operating-System: Debian GNU/Linux bookworm/sid
-X-Provags-ID: V03:K1:9oqv30GxUUMy72uhruRoe7PIaKukv+E3i+minznA0Pas5iBDTY7
- DDdgSC15yFIM0oSwmumEPQ3OkDCjo1xV6BkGOCWnOqZDkevHEgJP4EKdf53+io/CIx1MCvl
- OMCX7vx2viQnocKEefn5w9eKEJ5YuiP53HeSy8Pk6AC+oJrUvD9WdUnVxHYs6Ifm/OrfogP
- m52Ob12/T8Pc+QodB7k2A==
-UI-OutboundReport: notjunk:1;M01:P0:jtCCvBiKSaU=;LBXgIUEtWrHh3G0E6mkDEJPXDUs
- rnCCkP13lZ+wLvWnQfrFg3lw7+zXpyfXQKgjMywkE3z+RpRE+JwIZrrwznvUOr5Ld5thtm7b2
- 2TV7YlG5kO0RaT6Ms+SH2SUOLUAw6QmU/rZEGL9slBeZnDl7z/MmHrGIDZve+dGd+JYoag7YN
- jOEtrgq2j1YD4IdRDk9uXv7EzQbSsmdi6/bXzIlFx6tIzz87PRCYDqOd+tFroDDD71dD3xYIU
- Y698fxKFrZDMhENeHt8fzv0Saqv6kSkobtBn7nCl8NbPvsPbc/6T2yA9IgW7ej6BejNDEqOsI
- pN637bOhV+fdFvG3a6X66attSkoTO2++L76ej3lCHwpFbxLlMv+sD+57o6TL8w46m+Fq7+oTb
- c6jvWmNZhopqxjT7FLWqRVOkyEYdTM2X4f2VbloSPMzjnjIEb+b1gV3dQ8EBw3PS08E0QI4Zy
- QcS62jFlP8WCHVjRDe/C0h1HL0s/Z/x9hdnQLaIiTmAWSLkG66Y8sGalrndsGD1+idS3bSVrI
- 13kY2YnjaDu31Z/Bg0klXOXMiMO/DvT0HTxXVv+EgdaPXeZf1HooHpbC1Ur/IYf4bxHsr0O3L
- /QWYPqT3/t8kr+t6Rq/chiX9rYMaIgsMGduJH4xrzrwplpHMFHJg8wyTMbZfcmCeObY+n25WL
- uGap2shNN7svB4PuHGIEwQ2QqMxpGSS7tI4NPX87Aw==
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,65 +69,32 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Added few static text to explain how one can bring up the search dialog box by
+pressing the forward slash key ,anywhere on this interface.
 
---utwNP9iZHO2yxSWK
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed 14 Dec 2022 11:05:10 GMT, David Laight wrote:
-> From: Nicolas Schier
-> > Sent: 13 December 2022 03:59
-> ...
-> > > > diff --git a/Makefile b/Makefile
-> > > > index 2dda1e9a717a..66dfc5751470 100644
-> > > > --- a/Makefile
-> > > > +++ b/Makefile
-> > > > @@ -11,6 +11,11 @@ NAME =3D Hurr durr I'ma ninja sloth
-> > > >  # Comments in this file are targeted only to the developer, do not
-> > > >  # expect to learn how to build the kernel reading this file.
-> > > >
-> > > > +# Ensure Make >=3D 3.82
->=20
-> Wouldn't it be better to say either:
-> 	# Ensure gmake supports 'undefine' (added in 3.82)
-> or:
-> 	# Building with gmake versions prior to 3.82 fails due to
-> 	# bug 'brief description'.
-> 	# Check for 'undefine' support as a surrogate for the bug fix.
->=20
->     David
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+ scripts/kconfig/mconf.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-'undefine' is not the only feature that has been introduced in make=20
-3.82 that we use,  e.g. 'private' keyword is used in rust/Makefile but=20
-'private' is not checkable via .FEATURES.  Checking for 'undefine' in=20
-=2EFEATURES is kind of a hack to detect make 3.82, but as written=20
-earlier, it prevents doing other explicit version comparison like=20
-$(filter-out 3.80 3.81 3.82 3.99.% $(filter 1.% 2.% 3.*)).
+diff --git a/scripts/kconfig/mconf.c b/scripts/kconfig/mconf.c
+index 9d3cf510562f..93dc4850ff2a 100644
+--- a/scripts/kconfig/mconf.c
++++ b/scripts/kconfig/mconf.c
+@@ -161,6 +161,12 @@ static const char mconf_readme[] =
+ "(especially with a larger number of unrolled categories) than the\n"
+ "default mode.\n"
+ "\n"
++
++"Search\n"
++"------\n"
++"Press forward sash(/) anywhere will bring up search dialog box\n"
++"\n"
++
+ "Different color themes available\n"
+ "--------------------------------\n"
+ "It is possible to select different color themes using the variable\n"
+--
+2.38.1
 
-I think $(filter undefine,$(.FEATURES)),) is a sensible compromise.
-
-Kind regards,
-Nicolas
-
---utwNP9iZHO2yxSWK
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmOb9E0ACgkQB1IKcBYm
-Emk1wRAAquVjsbp9mSWFQtp6d3azhpmjHL3ZnbefyJvrkyq8y9YOd1FtRoZdZbwF
-48SKn8jSea+Lc8i3Rrj7aiKnwN5w1T/E/vChKjf6fpssYMiu1vfLlRkEwGB/biN9
-W8bSmh0LMQ0h+6MdSGlOUhzddrPLkgGW11PzndYijoA6syFuplYdMZZj8UA47l6u
-HuCcqS4p2GA20s//yPvvn0BBkAVkq5msh74ywXI7gD1BAqVSuDG4wttoVpmXn3xc
-s+MkSvIiIhRymuVHXTr5hFl/nWCyCwagwiToOH7RJS006oi/4m+nLRBwcbersok/
-ud9V9hcLhgItGBIWMa9XXJ665gWpIhenQ1U42jZJR7Q6VLnZQRP41AFhEbP7uBsM
-taSvkGqH22+hQhV8seKo0cenOlSVxA1+2lJJGpKHTkHPVtKLIbd8dwoYUD0o5lLb
-XNKNPpoLsaQtixnXbnsBrcyvjiNItovFTGzjpNKwT/GGV7zCk1C5gAcs7YSl8MIO
-mvQnzx+h8bSx7JEjOx8RNldA/9xL0X++4Xnz/zZvAV6WoLmoKodAvoKyePuaUoTA
-/OKUsZFhxveQDcCApSj9BJ0E4luM/4wZkV+gcVshpnirTInHGgAaPGLtET+teues
-DWR1xY5V0k7Q3wb2xlT08Z0wCDSsWg385CcI3ZW9dwkjODrek3k=
-=gyaj
------END PGP SIGNATURE-----
-
---utwNP9iZHO2yxSWK--
