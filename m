@@ -2,98 +2,108 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1742E64F7D6
-	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Dec 2022 06:53:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E2D7864F811
+	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Dec 2022 08:19:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229526AbiLQFxn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 17 Dec 2022 00:53:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42428 "EHLO
+        id S229962AbiLQHTR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 17 Dec 2022 02:19:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229518AbiLQFxl (ORCPT
+        with ESMTP id S229508AbiLQHTR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 17 Dec 2022 00:53:41 -0500
-Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49EF42AE0A;
-        Fri, 16 Dec 2022 21:53:40 -0800 (PST)
-Received: by mail-qt1-x82e.google.com with SMTP id g7so4437085qts.1;
-        Fri, 16 Dec 2022 21:53:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OoyMtZ1MGVIXMyNe/QVcXhYxTfq6io5cKjfH+n3OcNU=;
-        b=freOt5GoyDBFgGQ47nRW7HkafqJAoc96TQbjA/YTOR0bYN6rGGfLM7Z1WmsvwyipeJ
-         liitXMJ795PWnmgHWUnPEYYgr+MX1rpmmXzR+quAuvR8xHiUBnJR0VXNQP8zuokmwCAQ
-         kLvQ60VeYYhk6ry0ndAELJ5zTjnhquaPod/+1Ydau0dNzeWo3jB/1yjS43iHOMG1t90j
-         NfHyuAl7T2FJ8dqOM3OSirVJuhSZbHroQqY1FM0r5zZyrDPFjvf3XSs/DiKt3ZShf6rY
-         2qf8VY9syOq6iCSFDf/efXTEgXueEbFOvNEdD5kcNKInZDrNPfm8V87tS77ipJ+r8gbe
-         LDKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OoyMtZ1MGVIXMyNe/QVcXhYxTfq6io5cKjfH+n3OcNU=;
-        b=nyEYvHM4i5+2jzmsInpN6AvK/BMCRJjhd+Dee362qDEUzEkuDZeBwkx3YSNuQ40uS0
-         F6MP5Ek//C30CBkI5qGhj+zTDs7jDczVrW31Xw3XRB/9tVrDWLvV7iZkToWfEhIIl9bD
-         JKvhgAbiYJG6wf0n+OYbZZMg5sml7hPJf0i2ETwzX4KBQegkH/2VydrXOg0r4z5vPfEM
-         caMzCyrUIdgjJXnZVueVa6ouE4F0qzI9XcWMVJ1YxqpETpbrj95RbgQsYGMdl6YXhyua
-         nKRgk0M+dTVFgOGasBf5D121ww8uDgIIoqe7pmS89/1IlscYiWvRTc1bpZzwRt94VI/S
-         4oyw==
-X-Gm-Message-State: ANoB5pkEdiaXcSnX7uqThAOsOZubuO8cEmj1B+RHBAeDnwyrZAGQr7Rz
-        ItF2WsNaB3u8k70dbQrezug=
-X-Google-Smtp-Source: AA0mqf51MMnu5Rb/Z+CbfvFeSPVpbLSk5Mw+Y+eKQIgm3jpkefzD4AA1Hyl07jbzXzkr2m9XBhmYqA==
-X-Received: by 2002:a05:622a:58b:b0:3a5:c8c6:a889 with SMTP id c11-20020a05622a058b00b003a5c8c6a889mr64397721qtb.22.1671256419299;
-        Fri, 16 Dec 2022 21:53:39 -0800 (PST)
-Received: from Slackware.localdomain ([191.96.227.93])
-        by smtp.gmail.com with ESMTPSA id w8-20020a05620a444800b006fc92cf4703sm2980496qkp.132.2022.12.16.21.53.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Dec 2022 21:53:38 -0800 (PST)
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     masahiroy@kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH V3]  scripts: kconfig: Added static text for search information in help menu
-Date:   Sat, 17 Dec 2022 11:21:48 +0530
-Message-Id: <20221217055148.28914-1-unixbhaskar@gmail.com>
+        Sat, 17 Dec 2022 02:19:17 -0500
+X-Greylist: delayed 939 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 16 Dec 2022 23:19:14 PST
+Received: from out203-205-221-245.mail.qq.com (out203-205-221-245.mail.qq.com [203.205.221.245])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 837F046642
+        for <linux-kbuild@vger.kernel.org>; Fri, 16 Dec 2022 23:19:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+        s=s201512; t=1671261552;
+        bh=qNPme23sRfuoZh5wT71WmCg74RkrBQR8L1HFucUJqQg=;
+        h=From:To:Cc:Subject:Date;
+        b=FZu4nFYiITZExBlOhEI+h/YCakv/+s/YC03duiVPmg3HydEgFeAhF5qP+2MsY28i0
+         visSVjlEHLapjzAKRvnfPlGPUlCZlMEeL3d2Yp6tX7yl17hf0SdzrKxxbb2FoWVJoh
+         DkUj1L0+7Z07djC3/xdcnVnt4/5mbnBStY5pDBG8=
+Received: from rtoax.. ([111.199.188.149])
+        by newxmesmtplogicsvrsza12-0.qq.com (NewEsmtp) with SMTP
+        id DCB7CC9; Sat, 17 Dec 2022 15:03:28 +0800
+X-QQ-mid: xmsmtpt1671260608t8uzpjr6z
+Message-ID: <tencent_3D7B0D368482B2602EC7559A5E1546171009@qq.com>
+X-QQ-XMAILINFO: Mm/8i8/T4yne7jDl1XJl/TzZjZik7sj8e1EHqrLVkaLp4DVV33nWJ6iwpCMpUh
+         azceIv7JFW8GnKjG3GeU/09D0/P47r43xawCn9CVCqwOy3SaZ4LJtZCFTyyHPI/LijsQikeOHwWs
+         AYnMLcNl+UkrzaaDThXSh3bxQVXbwnlNrSfQsGLfKIIl4nKjI/J2Ja12/RIqn10jnjpjOpPmTiMP
+         WG/wLgLxB3el4y87Rx0yPRImgDYm3hIJuoj9UpD5ZIyh8896T1Go479yovAElJsKDE4reGigHQSV
+         M+VhAorZoYuh3am1j+wVHYLkLnmAKAo8y5kl0MgQRz26lr7eZfQ1RuiVK+Gr4Qt8/qpe6FCIdyaU
+         K7S/SRSesAEvCk9lCu7gFSBJpkjgiQSS43trnyEHDh6aK7tpHF4MtMOep+jHwXati8mlspBbl9rw
+         UQLBePJvflbZ7Wi/hafU+4gFD9fh1u2WetzoQBdXiGSVgKBharQy4OEXkDtnQHzS+AU4H6AFfb9A
+         GnBkCt6XCT0i61pdjXAyQrqu0pEOHPDw5wblLHRZ5NhmyjN3F9id8FznvVdG2/Kbr0NmbkuBQvLL
+         EgLlci8v3ONPa7Fvx/PdPAKg4cz6/EZd8T0dPFfZZTkjCy7QQCHGPi78VOo2yg4Py7qLMNuebRZ/
+         10r55qnz+SA8dAtno09cK4meNvy3sSfzSm5G0as+XtZRTR4Ybv0hVigOO7KvfB0fRRZaYBUdHv+S
+         vZzn29h8LNp/JgnXIu6JHR9yWcTQe7znhxVnnI2q3SVo5+bCofKbvYh6Or6eT3s7qqftbwbVb27i
+         hyR1QpNW9EJUZEvoI+cWeGlGtSoz+/x4FjNqnzj0chR3rY7JoV7Q7d13q/08Bpkn0E0XgmB38Xdu
+         sBVpyLBAagW/rQ3vd9Pmj/UfwkPj7x0whVdhuQstzx3bDoxbtEd2mGEfC0tfBFEVnnzeifKsSEvQ
+         Cdq0QHk1bU5kToBdBcakwEJhPEhQXNGTKUIUA+nStgCA8kPtJ00w==
+From:   Rong Tao <rtoax@foxmail.com>
+To:     masahiroy@kernel.org
+Cc:     linux-kbuild@vger.kernel.org, Rong Tao <rongtao@cestc.cn>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-kernel@vger.kernel.org (open list),
+        bpf@vger.kernel.org (open list:BPF [MISC])
+Subject: [PATCH] kbuild: Fix compilation error
+Date:   Sat, 17 Dec 2022 15:03:18 +0800
+X-OQ-MSGID: <20221217070319.18331-1-rtoax@foxmail.com>
 X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        HELO_DYNAMIC_IPADDR,RCVD_IN_DNSWL_NONE,RDNS_DYNAMIC,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Reconstructed the sentence for the better readability.
+From: Rong Tao <rongtao@cestc.cn>
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+In the absence of a CONFIG_FUNCTION_ALIGNMENT defined, -falign-functions=
+will be given a null value, which results in a compilation error, as
+follows:
+
+    $ make -C samples/bpf/
+    ...
+    CC      /home/sdb/Git/linux/samples/bpf/syscall_nrs.s
+    gcc: error: missing argument to ‘-falign-functions=’
+    make[2]: *** [scripts/Makefile.build:118: /home/sdb/Git/linux/samples
+        /bpf/syscall_nrs.s] Error 1
+    make[1]: *** [Makefile:1996: /home/sdb/Git/linux/samples/bpf] Error 2
+    make[1]: Leaving directory '/home/sdb/Git/linux'
+    make: *** [Makefile:269: all] Error 2
+
+Signed-off-by: Rong Tao <rongtao@cestc.cn>
 ---
-  Changes from V2: Inducted Randy's suggestion to make it more readable.
- scripts/kconfig/mconf.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ Makefile | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/scripts/kconfig/mconf.c b/scripts/kconfig/mconf.c
-index 9d3cf510562f..760ebf6c20b1 100644
---- a/scripts/kconfig/mconf.c
-+++ b/scripts/kconfig/mconf.c
-@@ -161,6 +161,12 @@ static const char mconf_readme[] =
- "(especially with a larger number of unrolled categories) than the\n"
- "default mode.\n"
- "\n"
-+
-+"Search\n"
-+"-------\n"
-+"Pressing the forward-slash (/) anywhere brings up a search dialog box.\n"
-+"\n"
-+
- "Different color themes available\n"
- "--------------------------------\n"
- "It is possible to select different color themes using the variable\n"
---
+diff --git a/Makefile b/Makefile
+index 6aa709df6bde..57cce4c8f8a2 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1006,9 +1006,11 @@ KBUILD_CFLAGS	+= $(CC_FLAGS_CFI)
+ export CC_FLAGS_CFI
+ endif
+ 
++ifdef CONFIG_FUNCTION_ALIGNMENT
+ ifneq ($(CONFIG_FUNCTION_ALIGNMENT),0)
+ KBUILD_CFLAGS += -falign-functions=$(CONFIG_FUNCTION_ALIGNMENT)
+ endif
++endif
+ 
+ # arch Makefile may override CC so keep this after arch Makefile is included
+ NOSTDINC_FLAGS += -nostdinc
+-- 
 2.38.1
 
