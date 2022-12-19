@@ -2,57 +2,43 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92764650CA9
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Dec 2022 14:32:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D621650E3F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Dec 2022 16:06:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232079AbiLSNcN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 19 Dec 2022 08:32:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42074 "EHLO
+        id S232835AbiLSPF7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 19 Dec 2022 10:05:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231179AbiLSNcL (ORCPT
+        with ESMTP id S232690AbiLSPFb (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 19 Dec 2022 08:32:11 -0500
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FB03B4AF;
-        Mon, 19 Dec 2022 05:32:10 -0800 (PST)
-Received: by mail-pf1-x42c.google.com with SMTP id 65so6216698pfx.9;
-        Mon, 19 Dec 2022 05:32:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dBdUZZuJPOmpy2Xr6QADuWry9xil1hvmnye/zX2ZeGs=;
-        b=fudn22QQR0cZNc/3RoQpxRlTLjwWSHPdJ3HbEt/WxpuONQEkIQnkWpBlerF9kEPodJ
-         nHhQFOykKEx6IwR5/KfRtAGdVyduWE4KKnkENOc2szemL+pJqARz2salHLoW95MwEbdA
-         4l8C9DgDXblVaaqJ7qI9X4RGT4ChxV2bMC1ENtWvdqwdBfsedCwcpXE4H+LW+wNxHezu
-         PrVxhEJl0r5aoDk7qfpvB3XMyrRfWqp0XjyDX+nwKDJBCaYRg3q9T6oErlC4ykTpLMIo
-         lmb8XMScdS8JKQTabKQpf5aytupGC3t56WCAiBDQ8xriUGgm665URRddp66Cq+IxHZ93
-         WjWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dBdUZZuJPOmpy2Xr6QADuWry9xil1hvmnye/zX2ZeGs=;
-        b=NZze9NEex9MfOc3iDBsBjPey57X6RG+vs1+b1piUzXC3ZmeHi+YKiYDGXk5tMcM1Wu
-         v2NlhLwVhZVfS8mIa1xlOEewoQWtlivWQTZlwBeKgly/FGPV3+P63jbBwlxc833WvSJw
-         8GMShVvwHUubpVvSfIa4ChKAkrreH5J9Vssxkmik2tEwcu8WIk6OJUotjlkUjx1UOWZB
-         O7MdQdr5cyA5IT91+mIoX55aa5bXnSbFSIIXzZEkJN8PgCRH9ITeQd8xeJya8apC0bGM
-         6ehcNMV4XVQvcWgQDKnYwQiRGmoIbCwoMlGDHZATXQqJGaAs58jjoKrVdzd090dOuMYo
-         N+aw==
-X-Gm-Message-State: ANoB5plLRspcAG57ULJdBOpNZf0OVn2hoTze/BxoaW26Jb0BxDL7D39W
-        cICNpP0eybCdI1h9WwzvIxA+CS+twxCXGNJ65U8=
-X-Google-Smtp-Source: AA0mqf7lo7GM8x5UdwEdtv60/3460fbiPsGJh8g4HC8TKv3RHlSb+qHW4uv3yzbalqxIGN7bytAd6Q==
-X-Received: by 2002:aa7:9f04:0:b0:577:4168:b5ef with SMTP id g4-20020aa79f04000000b005774168b5efmr42472793pfr.3.1671456729555;
-        Mon, 19 Dec 2022 05:32:09 -0800 (PST)
-Received: from localhost ([124.248.219.206])
-        by smtp.gmail.com with ESMTPSA id s7-20020a625e07000000b0057691fb0d37sm6553392pfb.193.2022.12.19.05.32.08
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 19 Dec 2022 05:32:09 -0800 (PST)
-Date:   Mon, 19 Dec 2022 05:32:04 -0800
-From:   Dan Li <ashimida.1990@gmail.com>
-To:     Peter Zijlstra <peterz@infradead.org>
+        Mon, 19 Dec 2022 10:05:31 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12B50E0CD;
+        Mon, 19 Dec 2022 07:05:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=KdZYtJLDRb9x+/tacCvutz61fqLYajL5kPnJqkf0xhM=; b=LK6fVQE7Ey5+B3j7gHOi5eOm5y
+        0TcSfYAy8s/ZBadf3MKVq6b944bzYM5noq5/+ZkDJC4oiaYWYMCZfuF/Ot8FNE8fi++CiTpfoirk4
+        vFchFv39449g/A41kDy2376QCvoFJPcSTTuUXz3yDOq2OBinOngRmgZzC+PnJAn4YJHqPcfdwoHcb
+        wlW4BxPDt4MAP6Y2pdmw/FFXGO99i0sQ7GzgyGG90IRlceF0QGWdmKSd7bDknIhvsxw3VfpIP/cUC
+        YdIvJ8CeQ9o67hON9mEQuOn9KnFQVv6XwqtzUdUOkBEBXjOiJxBpWr3MMd+2UZRwjcoSfiXjNnwRL
+        n7+tY16g==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1p7HhT-000p6L-Bf; Mon, 19 Dec 2022 15:05:07 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 39E1F300348;
+        Mon, 19 Dec 2022 16:04:55 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 1EEFC202FE50F; Mon, 19 Dec 2022 16:04:55 +0100 (CET)
+Date:   Mon, 19 Dec 2022 16:04:55 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Dan Li <ashimida.1990@gmail.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
@@ -85,49 +71,48 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, llvm@lists.linux.dev
 Subject: Re: [RFC/RFT] CFI: Add support for gcc CFI in aarch64
-Message-ID: <20221219132731.6ng4sz2nv6ujvu7i@ubuntu>
+Message-ID: <Y6B9l/aDnsek8Zyl@hirez.programming.kicks-ass.net>
 References: <20221219061758.23321-1-ashimida.1990@gmail.com>
  <Y6A/k7/KrCCDuux6@hirez.programming.kicks-ass.net>
+ <20221219132731.6ng4sz2nv6ujvu7i@ubuntu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y6A/k7/KrCCDuux6@hirez.programming.kicks-ass.net>
-User-Agent: NeoMutt/20171215
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20221219132731.6ng4sz2nv6ujvu7i@ubuntu>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Peter,
-
-On 12/19, Peter Zijlstra wrote:
-> On Sun, Dec 18, 2022 at 10:17:58PM -0800, Dan Li wrote:
+On Mon, Dec 19, 2022 at 05:32:04AM -0800, Dan Li wrote:
+> Hi Peter,
 > 
-> > 1. When a typeid mismatch is detected, the cfi_check_failed function
-> >    will be called instead of the brk instruction. This function needs
-> >    to be implemented by the compiler user.
-> >    If there are user mode programs or other systems that want to use
-> >    this feature, it may be more convenient to use a callback (so this
-> >    compilation option is set to -fsanitize=cfi instead of kcfi).
+> On 12/19, Peter Zijlstra wrote:
+> > On Sun, Dec 18, 2022 at 10:17:58PM -0800, Dan Li wrote:
+> > 
+> > > 1. When a typeid mismatch is detected, the cfi_check_failed function
+> > >    will be called instead of the brk instruction. This function needs
+> > >    to be implemented by the compiler user.
+> > >    If there are user mode programs or other systems that want to use
+> > >    this feature, it may be more convenient to use a callback (so this
+> > >    compilation option is set to -fsanitize=cfi instead of kcfi).
+> > 
+> > This is not going to be acceptible for x86_64.
 > 
-> This is not going to be acceptible for x86_64.
+> I'm not familiar enough with the x86_64 platform, could you please
+> tell me why this is not acceptable? Is there a similar situation
+> on the arm64 platform?
 
-I'm not familiar enough with the x86_64 platform, could you please
-tell me why this is not acceptable? Is there a similar situation
-on the arm64 platform?
+Mostly because the call would be a 5 byte instruction while the trap
+(UD2) is only 2 bytes.
 
-> > 5. The current implementation of gcc only supports the aarch64 platform.
-> 
-> What, if any, are the plans for x86_64 support?
+I suspect Argh64 has a similar problem if the to be called function is
+outside the immediate range (26 bits or thereabout), in which case you
+end up with a multi-instruction sequence to construct the call target or
+so. A trap is always a single instruction.
 
-I'd like to implement something similar on x86_64 later, but
-currently I'm doing this in my spare time, so it might take a
-little longer. :(
 
-Thanks,
-Dan
