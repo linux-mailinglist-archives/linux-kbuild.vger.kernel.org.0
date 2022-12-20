@@ -2,102 +2,125 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EB1F6518F2
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Dec 2022 03:45:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A818652118
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Dec 2022 14:00:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229492AbiLTCpJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 19 Dec 2022 21:45:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38114 "EHLO
+        id S232633AbiLTNAV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 20 Dec 2022 08:00:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbiLTCpI (ORCPT
+        with ESMTP id S231790AbiLTNAU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 19 Dec 2022 21:45:08 -0500
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C75212D29;
-        Mon, 19 Dec 2022 18:45:07 -0800 (PST)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id 5DB2D80CB0;
-        Tue, 20 Dec 2022 03:45:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1671504305;
-        bh=IprEi+qVnctNMnKAlyk6243hIepwAWWu6ePom6r/wMg=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=ARtCj1wmZcCyOZI5N/kIaiLe+nT7YwpX6LLMVl6zseUgGZkHnh411bc1vcS94DgaL
-         envbGCEUP423Xn/dFjhvRa8Pif0ffQHfUpDMsxM+KKOZwQEizXvV0z4bgyncaKMDxw
-         YsAS7qQecit0OiyFDpA4QnpWwzChui0dikPadfEwVF+77rsQnrripx//ryzXqe/jPd
-         7DtYqrJHg9RhKl2OzcLJgB/hN57UWTWGvso/StWtehGO3GNxvcS59TVVE6xq19xjRl
-         ZaUktmvc4szac42IqVUUeqPW6p5czJlSBnmJAy8anbUZPRIr2dgWaLJ37G6yZ4Qf3g
-         aaTF2cLyY4X2g==
-Message-ID: <a5880060-c5ef-b12d-fb41-4f7f71cfe316@denx.de>
-Date:   Tue, 20 Dec 2022 03:45:03 +0100
+        Tue, 20 Dec 2022 08:00:20 -0500
+Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A7D2BE36;
+        Tue, 20 Dec 2022 05:00:19 -0800 (PST)
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 2BKCxvxw007257;
+        Tue, 20 Dec 2022 21:59:57 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 2BKCxvxw007257
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1671541197;
+        bh=as1wqnJSUPY4IGZCP7Jr1uSZ8lvavefiRWrJjkOPjbk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=vntPLzuj71ZKh61z01mTLpE2zVyv3Fej/dWQX2xm4FTJUb1AWRmE0l6fFoHrgsn78
+         7b9wwKl6etKT0pmM19YqTZnWd1KsDfPpUrDZwNhvwVxJxtjYALFnCPU1qA52iv9KpQ
+         /PdU4fKClowaaNgEW5pDdjETmcaKXhmxpqrobxTGcL6RsuLqn7gWD1kU4I1aZxqU9s
+         Vyi5SwRSZ1UtgYevZYholnz4LbNmEHCqVLu4XPJLgoxBAVFZLLi/QJbNnmUHEIX7Ie
+         OxXzAYR6OHP+PNZtuak+D8zx6AeH/uxzhTPTyorccJyqTYxrR5DAcAGSS32FMLRFd6
+         +j/UhZYTO6+Bw==
+X-Nifty-SrcIP: [209.85.160.46]
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-1322d768ba7so15277193fac.5;
+        Tue, 20 Dec 2022 04:59:57 -0800 (PST)
+X-Gm-Message-State: AFqh2krKvoB738gwUXvLvmndIJu7bjlRWN8S8XEaOhFjE6+GGib8U2TV
+        7+/hhSLpCUOPoy7vH6wwpRkIs5qe+zMAJKGpND0=
+X-Google-Smtp-Source: AMrXdXvIZRCGb5rv78/PDTcz2Y7Kc/eQC18CumXPRSz4fKFJxbpS8kSZyozTqQpqkMPK5inAG+wcMvDKMRcRUXJ1EXw=
+X-Received: by 2002:a05:6870:a11e:b0:144:d060:72e with SMTP id
+ m30-20020a056870a11e00b00144d060072emr2088002oae.287.1671541196422; Tue, 20
+ Dec 2022 04:59:56 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] kbuild: Optionally enable schema checks for %.dtb targets
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Cc:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20221220013233.2890335-1-robh@kernel.org>
-From:   Marek Vasut <marex@denx.de>
 In-Reply-To: <20221220013233.2890335-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
-X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 20 Dec 2022 21:59:20 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARMg-Opnnkc5Y6pv64S6+qqUALhze4Ag9ZrH=MyVEAA8Q@mail.gmail.com>
+Message-ID: <CAK7LNARMg-Opnnkc5Y6pv64S6+qqUALhze4Ag9ZrH=MyVEAA8Q@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Optionally enable schema checks for %.dtb targets
+To:     Rob Herring <robh@kernel.org>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Marek Vasut <marex@denx.de>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 12/20/22 02:32, Rob Herring wrote:
+On Tue, Dec 20, 2022 at 10:32 AM Rob Herring <robh@kernel.org> wrote:
+>
 > While not documented, schema checks for single dtb targets mostly work
 > already by setting 'CHECK_DTBS=1'. However, the dependencies are not
 > handled and it only works if 'make dt_bindings_check' was run first and
 > generated processed-schema.json. In addition, changing a binding file
 > doesn't cause the schema to be rebuilt and dtb to be revalidated.
-> 
+>
 > Making this work turns out to be simple. Whenever CHECK_DTBS is set,
 > make 'dt_binding_check' a 'dtbs_prepare' dependency.
-> 
+>
 > I reimplemented here what Masahiro had originally come up with a while
 > back.
-> 
+
+
+Oh, I just recalled this patch.
+
+https://lore.kernel.org/all/CAA8EJprdCftvie3UF9QpCWr9oQ5SQbqW8OPOHg0qigf9=RXU-w@mail.gmail.com/T/#m2ce6b1de3c74333645831399c0d1775129d7661a
+
+Dritry tested it.
+
+Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
+Acked-by: Masahiro Yamada <masahiroy@kernel.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Tested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+
+
+
+>
 > Cc: Marek Vasut <marex@denx.de>
 > Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
->   Makefile | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
-> 
+>  Makefile | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>
 > diff --git a/Makefile b/Makefile
 > index 6aa709df6bde..a99d5c4de0fc 100644
 > --- a/Makefile
 > +++ b/Makefile
 > @@ -1467,7 +1467,10 @@ dtbs_prepare: include/config/kernel.release scripts_dtc
->   
->   ifneq ($(filter dtbs_check, $(MAKECMDGOALS)),)
->   export CHECK_DTBS=y
+>
+>  ifneq ($(filter dtbs_check, $(MAKECMDGOALS)),)
+>  export CHECK_DTBS=y
 > -dtbs: dt_binding_check
 > +endif
 > +
 > +ifneq ($(CHECK_DTBS),)
 > +dtbs_prepare: dt_binding_check
->   endif
->   
->   dtbs_check: dtbs
+>  endif
+>
+>  dtbs_check: dtbs
+> --
+> 2.35.1
+>
 
-Tested-by: Marek Vasut <marex@denx.de>
 
-Thank you!
+--
+Best Regards
+Masahiro Yamada
