@@ -2,84 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 298776536D1
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Dec 2022 20:08:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E32E2653748
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Dec 2022 20:56:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234650AbiLUTIZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 21 Dec 2022 14:08:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58400 "EHLO
+        id S230451AbiLUT4s (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 21 Dec 2022 14:56:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229814AbiLUTIY (ORCPT
+        with ESMTP id S230361AbiLUT4r (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 21 Dec 2022 14:08:24 -0500
-Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6A3E205C3
-        for <linux-kbuild@vger.kernel.org>; Wed, 21 Dec 2022 11:08:22 -0800 (PST)
-Received: by mail-qt1-x835.google.com with SMTP id x11so14399592qtv.13
-        for <linux-kbuild@vger.kernel.org>; Wed, 21 Dec 2022 11:08:22 -0800 (PST)
+        Wed, 21 Dec 2022 14:56:47 -0500
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23CF81839F
+        for <linux-kbuild@vger.kernel.org>; Wed, 21 Dec 2022 11:56:46 -0800 (PST)
+Received: by mail-pj1-x1033.google.com with SMTP id gt4so16835927pjb.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 21 Dec 2022 11:56:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
+        d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qn+t8qDtNQ9Zc5y1ZpPtqZOcEJkis56LzveCTgnEvi8=;
-        b=VG2RhAC4GerNWJVwD5eJK2dJtjzxa5jl2ZE1QCuq5JVGE55Nw9FULecqOtzxRwYK6X
-         6x1WsybFrqNdJhT41JDls6OTcVcDuZilELmRIQWqu4uWpTYScMFpjXEAVirA2mY2wWZC
-         BFqQ0e6nDcmL/pH5o0U4mrpND+AVZUnqI15hA=
+        bh=pLiBfRWUs9BOPgKrJICXorDk9e4J0stvsfhKEHmrvvE=;
+        b=X2wf5chFSPExKxSTcXEzdY2POilg8eONfyRHQXqrtXfNAufz7Ux6iRQK/4Yy4GnZrb
+         gku8J2Tin+5MWQadsVFsMVYf1iFMlHwe2tTDxwMnh4UotEBy4K/v4H15KogODPCIIU9q
+         FmluLv1KpTAMdt46oyQolL+IIRsPOQLfMsmZSRD6C+qNxvEVppNcdQu4a6AxChs4G1aK
+         YdJp8K7wXLgGxR4bd7gNo5gk5qXga+pGSljuOXfMVsChOzuQSbyk4Ly6v9l50zPfqA2G
+         ml7bBuOugz8PLqPUrbgfrszFZPad173HFcNNFa8AL+uHJx07nRK4sX+yZjpo1GgPcXlX
+         ktBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Qn+t8qDtNQ9Zc5y1ZpPtqZOcEJkis56LzveCTgnEvi8=;
-        b=ymodst1v45kGWn4Sw7v9npc7c8H2e3N2/8Z1zSG6sjj4DpSyuWIqytDfZ6hSPxkgfy
-         mEshCiCy4E2SHeGt0jP5WrYTRbd3rE7JV6OtavnB2NfhWqFGFZ1fuzlIS/mjmQTTME0b
-         DjaflQGcSmOCeagwdzqgOGsrpmGoJZ0bxcvt3bcqvkDnk2VnzVgkgw4BpKHYZSm8suQD
-         Utf1hbTJNOdLHzrhKNVZntK5WjwJ5oKm7QJT2i8WQyMd33U3BoKdmWjK4VreBD/SUp6h
-         YjRKt0BZ/VLTHFB610I18WC0x5NV63SgnS6ezh3adsIs39N5VJGtq/shILvONVIKNSIt
-         hI9g==
-X-Gm-Message-State: AFqh2kpXrBUy0QDfAPuT9XsociUKSeBxN8SWzIUsl7QS9sLxJhNcCUE0
-        c3oNX4LkGWHjA/1oU6IdnrpYiAjjTqN6gkgv
-X-Google-Smtp-Source: AMrXdXveFUwTc/QN7xEuU6QBmNza/CJrSL+zpepgvp7wa6gP/5AflzyU1HVZBnDaMpuXj+3Lm+0jIg==
-X-Received: by 2002:a05:622a:8c8:b0:3a5:7d:3673 with SMTP id i8-20020a05622a08c800b003a5007d3673mr3749323qte.1.1671649702063;
-        Wed, 21 Dec 2022 11:08:22 -0800 (PST)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com. [209.85.219.46])
-        by smtp.gmail.com with ESMTPSA id bq17-20020a05622a1c1100b00397e97baa96sm9575293qtb.0.2022.12.21.11.08.21
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Dec 2022 11:08:21 -0800 (PST)
-Received: by mail-qv1-f46.google.com with SMTP id pv25so10947942qvb.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 21 Dec 2022 11:08:21 -0800 (PST)
-X-Received: by 2002:a05:6214:1185:b0:4c6:608c:6b2c with SMTP id
- t5-20020a056214118500b004c6608c6b2cmr133347qvv.130.1671649701297; Wed, 21 Dec
- 2022 11:08:21 -0800 (PST)
+        bh=pLiBfRWUs9BOPgKrJICXorDk9e4J0stvsfhKEHmrvvE=;
+        b=j9HLMDN5f331oYPW5FuQO4CEuPiv/v70+YJUEGqXZ8FU5MRiUvhtquVN/v5/h2dTyd
+         5SN7bg+NiWQeMVz+8MlBuLcNmoyOrfbqXps3L1abGq9OqRiCOIhcyQhONIc0t9fNJBUf
+         sQjby4lnWlo4rg038b8xBqfJuYSVb7MEMNIlV3VsdNb3iYTjdRHexBwK53zDvyN7TnFE
+         rP/t171xnA0jPfQGXAMilawtZIKA28nTqzOq1TDRbyQzuOZ99foBkgOUXuwFVajZg4jE
+         YsTlKIuHEbsrKTjcf0oXKvr8yPGyCgzfqDsr+qe8h7lF0w6QZ5uxUUYLRVhMGRTDU8Qc
+         S+0w==
+X-Gm-Message-State: AFqh2koSn/IHR3AJ8DOcOk5CrTfUlHP1vkaN26muWpUUUjcSf7qyBWLJ
+        yAdZ2LMoyiWopmpD1UK6gpMQPvmEEku9vk5NGdrA8A==
+X-Google-Smtp-Source: AMrXdXvAOzZSkEW5/FH02Lpo5clkD2hKQdF20PFNP+YXkIBp9lpfeM/YRPq9gm5Saudbq9HnXwtE0tUmmCTvUUiHo/A=
+X-Received: by 2002:a17:90a:e2d2:b0:225:af73:8197 with SMTP id
+ fr18-20020a17090ae2d200b00225af738197mr35200pjb.107.1671652605363; Wed, 21
+ Dec 2022 11:56:45 -0800 (PST)
 MIME-Version: 1.0
-References: <Y1BcpXAjR4tmV6RQ@zx2c4.com> <20221019203034.3795710-1-Jason@zx2c4.com>
- <20221221145332.GA2399037@roeck-us.net> <CAMuHMdUAaQSXq=4rO9soCGGnH8HZrSS0PjWELqGzXoym4dOqnQ@mail.gmail.com>
- <1a27385c-cca6-888b-1125-d6383e48c0f5@prevas.dk> <20221221155641.GB2468105@roeck-us.net>
- <CAHk-=wj7FMFLr9AOW9Aa9ZMt1-Lu01_X8vLiaKosPyF2H-+ujA@mail.gmail.com>
- <20221221171922.GA2470607@roeck-us.net> <CAHk-=wjOcqWxpUUrWKLKznRg-HXxRn1AXLW9B6SPq-ioLObdjw@mail.gmail.com>
-In-Reply-To: <CAHk-=wjOcqWxpUUrWKLKznRg-HXxRn1AXLW9B6SPq-ioLObdjw@mail.gmail.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 21 Dec 2022 11:08:05 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wiL2njz3b-_jY7iSJ15eu-9Drb4TOyPdd0cJ=kk_RQEvg@mail.gmail.com>
-Message-ID: <CAHk-=wiL2njz3b-_jY7iSJ15eu-9Drb4TOyPdd0cJ=kk_RQEvg@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: treat char as always unsigned
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-toolchains@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+References: <3df32572ec7016e783d37e185f88495831671f5d.1671143628.git.tom.saeger@oracle.com>
+In-Reply-To: <3df32572ec7016e783d37e185f88495831671f5d.1671143628.git.tom.saeger@oracle.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 21 Dec 2022 11:56:33 -0800
+Message-ID: <CAKwvOdnu6KAgFrwmcn9qhjd+WDyW0ZTSyOzOnSsWhQ1rj0Y-6A@mail.gmail.com>
+Subject: Re: [PATCH 5.15 5.10 5.4 v2] kbuild: fix Build ID if CONFIG_MODVERSIONS
+To:     Tom Saeger <tom.saeger@oracle.com>
+Cc:     stable@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-m68k@lists.linux-m68k.org
+        linux-kbuild@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Clifton <nickc@redhat.com>,
+        Fangrui Song <maskray@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -87,25 +75,127 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Dec 21, 2022 at 10:46 AM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+Tom, thanks for pursuing this. Sorry I'm falling behind in reviews
+(going offline soon for the holidays).  Some additional questions:
+
+
+On Thu, Dec 15, 2022 at 3:18 PM Tom Saeger <tom.saeger@oracle.com> wrote:
 >
-> But it looked very obvious indeed, and I hate having buggy code that
-> is architecture-specific when we have generic code that isn't buggy.
+> Backport of:
+> commit 0d362be5b142 ("Makefile: link with -z noexecstack --no-warn-rwx-segments")
+> breaks arm64 Build ID when CONFIG_MODVERSIONS=y for all kernels
+> from: commit e4484a495586 ("Merge tag 'kbuild-fixes-v5.0' of git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild")
+> until: commit df202b452fe6 ("Merge tag 'kbuild-v5.19' of git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild")
 
-Side note: we have an x86-64 implementation that looks fine (but not
-really noticeably better than the generic one) that is based on the
-'return subtraction' model. But it seems to get it right.
+Just arm64? Why not other architectures?
 
-And we have a 32-bit x86 assembly thing that is based on 'rep scasb',
-that then uses the carry bit to also get things right.
+>
+> Linus's tree doesn't have this issue since 0d362be5b142 was merged
+> after df202b452fe6 which included:
+> commit 7b4537199a4a ("kbuild: link symbol CRCs at final link, removing CONFIG_MODULE_REL_CRCS")
+>
+> This kernel's KBUILD CONFIG_MODVERSIONS tooling compiles and links .S targets
+> with relocatable (-r) and now (-z noexecstack)
+> which results in ld adding a .note.GNU-stack section to .o files.
+> Final linking of vmlinux should add a .NOTES segment containing the
+> Build ID, but does NOT (on some architectures like arm64) if a
+> .note.GNU-stack section is found in .o's supplied during link
+> of vmlinux.
 
-That 32-bit asm goes back to Linux 0.01 (with some changes since to
-use "sbbl+or" instead of a conditional neg). I was playing around a
-lot with the 'rep' instructions back when, since it was all part of
-"learn the instruction set" for me.
+Is that a bug in BFD?  That the behavior differs per target
+architecture is subtle.  If it's not documented behavior that you can
+link to, can you file a bug about your findings and cc me?
+https://sourceware.org/bugzilla/enter_bug.cgi?product=binutils
 
-Both of them should probably be removed as pointless too, but they
-don't seem actively buggy.
+If it is a bug in BFD, then I'm not opposed to working around it, but
+it would be good to have as precise a report as possible in the commit
+message if we're going to do hijinks in a stable-only patch for
+existing tooling.
 
-               Linus
+If it's a feature, having some explanation _why_ we get per-arch
+behavior like this may be helpful for us to link to in the future
+should this come up again.
+
+>
+> DISCARD .note.GNU-stack sections of .S targets.  Final link of
+
+That's going to give them an executable stack again.
+https://www.redhat.com/en/blog/linkers-warnings-about-executable-stacks-and-segments
+>> missing .note.GNU-stack section implies executable stack
+The intent of 0d362be5b142 is that we don't want translation units to
+have executable stacks, though I do note that assembler sources need
+to opt in.
+
+Is it possible to force a build-id via linker flag `--build-id=sha1`?
+
+If not, can we just use `-z execstack` rather than concatenating a
+DISCARD section into a linker script?  Either command line flags feel
+cleaner than modifying a linker script at build time, if they work
+that is.
+
+> vmlinux then properly adds .NOTES segment containing Build ID that can
+> be read using tools like 'readelf -n'.
+>
+> Fixes: 0d362be5b142 ("Makefile: link with -z noexecstack --no-warn-rwx-segments")
+> Cc: <stable@vger.kernel.org> # 5.15, 5.10, 5.4
+> Cc: <linux-kbuild@vger.kernel.org>
+> Cc: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Nicholas Piggin <npiggin@gmail.com>
+> Cc: Michal Marek <michal.lkml@markovi.net>
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Signed-off-by: Tom Saeger <tom.saeger@oracle.com>
+> ---
+>
+> v2:
+>   - Changed approach to append DISCARD section to generated linker script.
+>     - ld no longer emits warning (which was intent of 0d362b35b142) this
+>       addresses Nick's v1 feedback.
+>     - this is applied to all arches, not just arm64
+>   - added commit refs and notes why this doesn't occur in Linus's tree
+>     to address Greg's v1 feedback.
+>   - added Fixes: 0d362b35b142 requested by Nick
+>   - added note to changelog for 7b4537199a4a requested by Nick
+>   - build tested on arm64 and x86
+>
+>    version           works(vmlinux contains Build ID)
+>    v4.14.302         x86, arm64
+>    v4.14.302.patched x86, arm64
+>    v4.19.269         x86, arm64
+>    v4.19.269.patched x86, arm64
+>    v5.4.227          x86
+>    v5.4.227.patched  x86, arm64
+>    v5.10.159         x86
+>    v5.10.159.patched x86, arm64
+>    v5.15.83          x86
+>    v5.15.83.patched  x86, arm64
+>
+> v1: https://lore.kernel.org/all/cover.1670358255.git.tom.saeger@oracle.com/
+>
+>
+>  scripts/Makefile.build | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index 17aa8ef2d52a..e3939676eeb5 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -379,6 +379,8 @@ cmd_modversions_S =                                                         \
+>         if $(OBJDUMP) -h $@ | grep -q __ksymtab; then                           \
+>                 $(call cmd_gensymtypes_S,$(KBUILD_SYMTYPES),$(@:.o=.symtypes))  \
+>                     > $(@D)/.tmp_$(@F:.o=.ver);                                 \
+> +               echo "SECTIONS { /DISCARD/ : { *(.note.GNU-stack) } }"          \
+> +               >> $(@D)/.tmp_$(@F:.o=.ver);                                    \
+>                                                                                 \
+>                 $(LD) $(KBUILD_LDFLAGS) -r -o $(@D)/.tmp_$(@F) $@               \
+>                         -T $(@D)/.tmp_$(@F:.o=.ver);                            \
+>
+> base-commit: fd6d66840b4269da4e90e1ea807ae3197433bc66
+> --
+> 2.38.1
+>
+
+
+-- 
+Thanks,
+~Nick Desaulniers
