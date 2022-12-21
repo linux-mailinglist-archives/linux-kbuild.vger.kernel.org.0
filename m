@@ -2,88 +2,73 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 465096537E7
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Dec 2022 22:01:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EEC265382D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Dec 2022 22:23:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230395AbiLUVB2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 21 Dec 2022 16:01:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43714 "EHLO
+        id S234905AbiLUVXz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 21 Dec 2022 16:23:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229620AbiLUVB1 (ORCPT
+        with ESMTP id S234871AbiLUVXy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 21 Dec 2022 16:01:27 -0500
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com [IPv6:2607:f8b0:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B07C559A;
-        Wed, 21 Dec 2022 13:01:26 -0800 (PST)
-Received: by mail-ot1-x331.google.com with SMTP id x25-20020a056830115900b00670932eff32so9805565otq.3;
-        Wed, 21 Dec 2022 13:01:26 -0800 (PST)
+        Wed, 21 Dec 2022 16:23:54 -0500
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26AC523395
+        for <linux-kbuild@vger.kernel.org>; Wed, 21 Dec 2022 13:23:53 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id 65so11561749pfx.9
+        for <linux-kbuild@vger.kernel.org>; Wed, 21 Dec 2022 13:23:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6QEevAywUdrUeO4DWab5onKZKSHXptskyHvOtVcPoLM=;
-        b=aujnWgEizYKCjbfJS0vkqFfjSW1AomSGTvnT0QfxNA3xAl1/UE0c6EioKatVhjL6J3
-         42OzhiUi6zyvBL7wY3XTyuEq8alVjy5Lntt1sxA64oKRg+psSJwJxWURMsR2zFRMehnS
-         p5bSzhLrtQ6JG43iBzwS98Mn7NFVW9/G7uJyU4sWEPCF1v/u9+iojd9sB3rKRquZu9dd
-         Ddb2Xpo7Z6m/b/wYn6AHug4zbPUBx6OwV6BX8I2OVPFnWmoUnCmCHY1K4ttgP9wan1nS
-         hv5WuDgd04N+rrWjHbEcxpLVcM+VhGI+H9nxfeprB2iBUujj2Qm5KR9lju9SISF0W0DU
-         +bNg==
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Iri2ojL2iCd//4TwTeYLxu8ShFvxy4c4m/jzeM1W6s8=;
+        b=ZO75Zqhj2O1DqM/YnGUpEjCsJGOb8uA2UCJCs9MKvvn/oNdnh6V+uvDsWjnGyLqdki
+         d8Sjx758v8jWYf/o9CA14d187CdiBWV7E5F7pdgYtNUWBu3sEOdSjZKtVzS1v275F3hX
+         EyQPKSsOLfkym9GTXtCV2gPuvWnTW5Mby7fF3TjefjeV3DgSb9nu7DUXAFQusriRHmQo
+         +QLF+QjSjHtDIsXLBQMxspaE0zO+VtZp4AurK47eM71YjSMe0gAZZvakGMQzfICTsOmG
+         tHI3gehz1GkMI3Qa8c2xt6x+TnpdQyR5wm/Xk5cwmMBtGFywmgmNiYTpj9sWdxAfrbHr
+         8FnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6QEevAywUdrUeO4DWab5onKZKSHXptskyHvOtVcPoLM=;
-        b=I8tPCmspeAzDZR/DXUcQbU7vykoAo1Pqitjbp/esAhm0AcGG3Qe7BEZbv2U5NnTdvO
-         lxkxgrLDTlC7lYiW+BbredvWTsNfSB1eForf5ZL66NcgoeUAf2Cp1Isr3gvIBmCjTjh2
-         wSSPIGbmXQPIaeZclzCMtsKVC4aiJCldz/ALFG8nKVjMB7aHCgu/r729k44sKJHlPAnv
-         pan+A8lfJ2wVP6VCAenS/ayHDaQiEGEGmWa9yrsX+g7LGuOIWqPpHBWWfGiKkxaufnVP
-         ZyoRuCw+5sPFa8m7CuizFEM406fAiNHGkR1FDSgJTaMLYYZcHljdrE6k74iTSRxsXZsQ
-         O5hg==
-X-Gm-Message-State: AFqh2koRVmeUMXZkvBWjl4Qr8XqujVQ2F2BEfjgf++/IJxreKpeWFIId
-        xJmbyx3j1vyyNbNkRD3eUxw=
-X-Google-Smtp-Source: AMrXdXt2CGoZmAJkjBkN7Wfr4zFgq9qbfTqFafWIOysIuYF2lmo5XwNR3nI5m/jLSsV4WocFLzdtOA==
-X-Received: by 2002:a9d:198a:0:b0:67e:f252:fc9d with SMTP id k10-20020a9d198a000000b0067ef252fc9dmr485763otk.26.1671656485619;
-        Wed, 21 Dec 2022 13:01:25 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id r44-20020a05683044ac00b0066e7e4b2f76sm7344017otv.17.2022.12.21.13.01.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Dec 2022 13:01:24 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Wed, 21 Dec 2022 13:01:23 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-toolchains@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-m68k@lists.linux-m68k.org
-Subject: Re: [PATCH v2] kbuild: treat char as always unsigned
-Message-ID: <20221221210123.GA2717809@roeck-us.net>
-References: <Y1BcpXAjR4tmV6RQ@zx2c4.com>
- <20221019203034.3795710-1-Jason@zx2c4.com>
- <20221221145332.GA2399037@roeck-us.net>
- <CAMuHMdUAaQSXq=4rO9soCGGnH8HZrSS0PjWELqGzXoym4dOqnQ@mail.gmail.com>
- <1a27385c-cca6-888b-1125-d6383e48c0f5@prevas.dk>
- <20221221155641.GB2468105@roeck-us.net>
- <CAHk-=wj7FMFLr9AOW9Aa9ZMt1-Lu01_X8vLiaKosPyF2H-+ujA@mail.gmail.com>
- <20221221171922.GA2470607@roeck-us.net>
- <CAHk-=wjOcqWxpUUrWKLKznRg-HXxRn1AXLW9B6SPq-ioLObdjw@mail.gmail.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Iri2ojL2iCd//4TwTeYLxu8ShFvxy4c4m/jzeM1W6s8=;
+        b=xvS9oryPMgZNI4gZ6DHKyyNq8eInRqBFWclK1n5DL2noETDngRZopZpO/K0Mo4XLnH
+         Xl17gZsIkej4qGaoV3RbeUZFrRDiyTqtmQAEG0G0tKM/0VhM+mGVXae5XH3iQNR9p6oP
+         pJcJ0HMJDWoI7DmEyI2s0F9VS1goXuJ9D0KR4WrBcDZtpYypTOoPYmqOMVFouABFGd/a
+         uv/4I8uWwBfbRt7Bn0+ERzhdpqt9Tmb+IRycucpk2+dkLYdelmTrn5OPjvwOoxZ7urHM
+         g7AHLAfFkf8/L2VZx205YU1FKoZrFotLHcbVxjmUeQumQY6mRbpgJjb/jqJ2vE9urLnZ
+         Ne2A==
+X-Gm-Message-State: AFqh2krgwmqStW8ZBYc8UaXBdRfnezqT8OtgS+6P7i/KdMGsbv/FH0uR
+        3ARC1QGaA2nRRBcHpLb/cF2Xg/g6qoixNvlub3eXx+Meo+bPrEN+w2Q=
+X-Google-Smtp-Source: AMrXdXt6qzsYQwXAA3XDvZvryvUtB3O06iA9zHMaZ+kpsSb/E9YuBZtbbqo/VTIqy1bkKLA6Sh4ki4WRcENtzZMCf1k=
+X-Received: by 2002:a63:c50:0:b0:494:7a78:4bb0 with SMTP id
+ 16-20020a630c50000000b004947a784bb0mr50172pgm.427.1671657832041; Wed, 21 Dec
+ 2022 13:23:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wjOcqWxpUUrWKLKznRg-HXxRn1AXLW9B6SPq-ioLObdjw@mail.gmail.com>
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+References: <3df32572ec7016e783d37e185f88495831671f5d.1671143628.git.tom.saeger@oracle.com>
+ <CAKwvOdnu6KAgFrwmcn9qhjd+WDyW0ZTSyOzOnSsWhQ1rj0Y-6A@mail.gmail.com> <20221221204240.fa3ufl3twepj7357@oracle.com>
+In-Reply-To: <20221221204240.fa3ufl3twepj7357@oracle.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 21 Dec 2022 13:23:40 -0800
+Message-ID: <CAKwvOdkdPNqPQUOqBLqW7m7i-WB0fJLSSpYTPFXnaitBNatoMw@mail.gmail.com>
+Subject: Re: [PATCH 5.15 5.10 5.4 v2] kbuild: fix Build ID if CONFIG_MODVERSIONS
+To:     Tom Saeger <tom.saeger@oracle.com>
+Cc:     stable@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kbuild@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Clifton <nickc@redhat.com>,
+        Fangrui Song <maskray@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -91,29 +76,121 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Dec 21, 2022 at 10:46:08AM -0800, Linus Torvalds wrote:
-> On Wed, Dec 21, 2022 at 9:19 AM Guenter Roeck <linux@roeck-us.net> wrote:
-> >
-> > On Wed, Dec 21, 2022 at 09:06:41AM -0800, Linus Torvalds wrote:
+On Wed, Dec 21, 2022 at 12:42 PM Tom Saeger <tom.saeger@oracle.com> wrote:
+>
+> On Wed, Dec 21, 2022 at 11:56:33AM -0800, Nick Desaulniers wrote:
+> > On Thu, Dec 15, 2022 at 3:18 PM Tom Saeger <tom.saeger@oracle.com> wrote:
 > > >
-> > > I think the real fix is to just remove that broken implementation
-> > > entirely, and rely on the generic one.
+> v1 cover has a simple example if someone has capability/time to adapt to
+> another architecture.
+>
+> - enable CONFIG_MODVERSIONS
+> - build
+> - readelf -n vmlinux
+
+Keep this info in the commit message.
+
+>
 > >
-> > Perfectly fine with me.
-> 
-> That got pushed out as commit 7c0846125358 ("m68k: remove broken
-> strcmp implementation") but it's obviously entirely untested. I don't
-> do m68k cross-compiles, much less boot tests.
-> 
-> Just FYI for everybody - I may have screwed something up for some very
-> non-obvious reason.
-> 
-No worries:
+> > >
+> > > Linus's tree doesn't have this issue since 0d362be5b142 was merged
+> > > after df202b452fe6 which included:
+> > > commit 7b4537199a4a ("kbuild: link symbol CRCs at final link, removing CONFIG_MODULE_REL_CRCS")
+> > >
+> > > This kernel's KBUILD CONFIG_MODVERSIONS tooling compiles and links .S targets
+> > > with relocatable (-r) and now (-z noexecstack)
+> > > which results in ld adding a .note.GNU-stack section to .o files.
+> > > Final linking of vmlinux should add a .NOTES segment containing the
+> > > Build ID, but does NOT (on some architectures like arm64) if a
+> > > .note.GNU-stack section is found in .o's supplied during link
+> > > of vmlinux.
+> >
+> > Is that a bug in BFD?  That the behavior differs per target
+> > architecture is subtle.  If it's not documented behavior that you can
+> > link to, can you file a bug about your findings and cc me?
+> > https://sourceware.org/bugzilla/enter_bug.cgi?product=binutils
+>
+> I've found:
+> https://sourceware.org/bugzilla/show_bug.cgi?id=16744
+> Comment 1: https://sourceware.org/bugzilla/show_bug.cgi?id=16744#c1
+>
+> "the semantics of a .note.GNU-stack presence is target-dependent."
 
-Build reference: msi-fixes-6.2-1-2644-g0a924817d2ed
+I wonder if that's an observation, or a statement of intended design.
+A comment in a bug tracker is perhaps less normative than explicit
+documentation.
 
-Building mcf5208evb:m5208:m5208evb_defconfig:initrd ... running ..... passed
-Building q800:m68040:mac_defconfig:initrd ... running ..... passed
-Building q800:m68040:mac_defconfig:rootfs ... running ..... passed
+Probably doesn't hurt to include that link in the commit message as well.
 
-Guenter
+>
+> corresponding to this commit:
+> https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=76f0cad6f4e0fdfc4cfeee135b44b6a090919c60
+
+Seems x86 specific...
+
+>
+> So - I'm not entirely sure if this is a bug or expected behavior.
+
+Nick Clifton is cc'ed and might be able to provide more details
+(holiday timing permitting; no rush).
+
+>
+> >
+> > If it is a bug in BFD, then I'm not opposed to working around it, but
+> > it would be good to have as precise a report as possible in the commit
+> > message if we're going to do hijinks in a stable-only patch for
+> > existing tooling.
+> >
+> > If it's a feature, having some explanation _why_ we get per-arch
+> > behavior like this may be helpful for us to link to in the future
+> > should this come up again.
+>
+> While I agree - *I* don't have an explanation (despite digging), only
+> work-arounds.
+
+That's fine. That's why I'd rather have a bug on file that we link to
+stating we're working around this until we have a more definitive
+review of this surprising behavior.  Please file a bug wrt. this
+behavior.
+https://sourceware.org/bugzilla/enter_bug.cgi?product=binutils
+
+>
+> >
+> > >
+> > > DISCARD .note.GNU-stack sections of .S targets.  Final link of
+> >
+> > That's going to give them an executable stack again.
+> > https://www.redhat.com/en/blog/linkers-warnings-about-executable-stacks-and-segments
+> > >> missing .note.GNU-stack section implies executable stack
+> > The intent of 0d362be5b142 is that we don't want translation units to
+> > have executable stacks, though I do note that assembler sources need
+> > to opt in.
+> >
+> > Is it possible to force a build-id via linker flag `--build-id=sha1`?
+> That's an idea - I'll see if this works.
+
+Yes, please try this first.
+
+>
+> >
+> > If not, can we just use `-z execstack` rather than concatenating a
+> > DISCARD section into a linker script?
+>
+> so... something like v1 patch, but replace `-z noexecstack` with `-z
+> execstack`?  And for arm64 only?  I'll try this.
+
+If --build-id doesn't work, then I'd try this. Doesn't have to be
+arm64 only if it's difficult to express that.
+
+>
+>
+> > Either command line flags feel
+> > cleaner than modifying a linker script at build time, if they work
+> > that is.
+>
+> well... that entire linker script is generated at build-time.
+
+Fair, but yuck!
+-- 
+Thanks,
+~Nick Desaulniers
