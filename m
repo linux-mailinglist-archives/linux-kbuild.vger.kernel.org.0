@@ -2,172 +2,148 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 31DEB6533B9
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Dec 2022 16:56:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 31B94653416
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Dec 2022 17:33:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229601AbiLUP4q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 21 Dec 2022 10:56:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48610 "EHLO
+        id S234718AbiLUQcY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 21 Dec 2022 11:32:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229491AbiLUP4p (ORCPT
+        with ESMTP id S234750AbiLUQcC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 21 Dec 2022 10:56:45 -0500
-Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com [IPv6:2607:f8b0:4864:20::c35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00C9C13CF5;
-        Wed, 21 Dec 2022 07:56:43 -0800 (PST)
-Received: by mail-oo1-xc35.google.com with SMTP id d2-20020a4ab202000000b004ae3035538bso1872886ooo.12;
-        Wed, 21 Dec 2022 07:56:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vv0eZSneDp0SLp7Btx1IWgdM0JrFkFQy9T5wmXmOXbY=;
-        b=DuW8x9Y5t1Crs5QX21m6OBOsKSxhMa4yKtSHmZcNqp8jAYNR10vCi0tmDKYG0NRauM
-         PnZOndqyQSWrWE/Lb/88mC8V2KypgmZd1qXZxm+bgA9UExBJsALd3IQ3QR8M9UMSEuur
-         tMn99CSDwAh5+lDVMnahtshm7q1baOKMMuDPR+t26vsQbDtfmvi97ZjR49mcmjyeWPwL
-         2kL03tXCSlLAOUwjTRU4DGpdFJ84aYf2dG5WsNUWfl5fPk6m4LBT9FyFoque8z58MOHD
-         lBusY4dEnqqIBjR1+GoZg7U/ARC1PtHQy8h+f9/KbGDuopQW8zm+gZo9/DLE8WdOP2Xw
-         kEGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vv0eZSneDp0SLp7Btx1IWgdM0JrFkFQy9T5wmXmOXbY=;
-        b=QxOW2+a/jWSWK4zmWb25Gz4guog8R1FfD1TpmZc6WDMP4C0tZzf7leriIiGsJYtF+y
-         o9d25b5fi2QKktJEHdSt/3pzmC70EIFs4KhxrKPsf6WwT6r2FjhrO8HGDRvBf/xFdxZN
-         JxdOWGylBhc++quzKx5RrbnsvrzdMlBavhWlDZpkBi/rppboA/48Y5xdKLrVAy8eNmAh
-         zmXXyfyzdM27KbzrXm8oNBBTeAzApBuX86JIvJzOSUugDGsXgPTy+CothzI15ox//Nfa
-         69OR6UucfbwpnzmHIyvKME2nPw0W4PHFriaKZ4tEeOb7VwIxt6KNKDUN4WllqNJTZqvt
-         dsEQ==
-X-Gm-Message-State: AFqh2kqyffnau+eR5k9H70z3mdiiJodD4fyCLDDC7VdO1SVaETbvrolM
-        FrYseHCIKo/LAtOMy0m0KzEtKXxIjfg=
-X-Google-Smtp-Source: AMrXdXuA4YG9xBb2H/3Eu2o7oLrUDR9Hm6jdi+Ur2KHrWqSKnErxfuVjuQRVztL+tv8W1C1oNj78sw==
-X-Received: by 2002:a4a:e38c:0:b0:4a4:309c:12ff with SMTP id l12-20020a4ae38c000000b004a4309c12ffmr1179450oov.4.1671638203281;
-        Wed, 21 Dec 2022 07:56:43 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id i8-20020a056820012800b004a0aac2d28fsm6226062ood.35.2022.12.21.07.56.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Dec 2022 07:56:42 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Wed, 21 Dec 2022 07:56:41 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-toolchains@vger.kernel.org,
+        Wed, 21 Dec 2022 11:32:02 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBDAB29A;
+        Wed, 21 Dec 2022 08:31:56 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 8F3D2B81983;
+        Wed, 21 Dec 2022 16:31:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1273C433D2;
+        Wed, 21 Dec 2022 16:31:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1671640314;
+        bh=HFYvcmPWabYXSMf59FdoWUiXvzlOf270/CXQcNkZpe0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=sGeVcsvm/Z8phgeOOkw7I+7MlIrnrOQ2llMbk60Ib4f9nvruhsGIVhJ7t9ngktTwA
+         +CiRhLXaiDLk8XOCCIZJNzmHc8ehxyRNLDXlcTR+ss3RHFJG2nO+Cw2l8isqJLiLJD
+         tAD5UpJYIgJPtypU2UZ+SQ5sfHO9n25M77o6nzow=
+Date:   Wed, 21 Dec 2022 17:31:51 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Tom Saeger <tom.saeger@oracle.com>
+Cc:     stable@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-m68k@lists.linux-m68k.org
-Subject: Re: [PATCH v2] kbuild: treat char as always unsigned
-Message-ID: <20221221155641.GB2468105@roeck-us.net>
-References: <Y1BcpXAjR4tmV6RQ@zx2c4.com>
- <20221019203034.3795710-1-Jason@zx2c4.com>
- <20221221145332.GA2399037@roeck-us.net>
- <CAMuHMdUAaQSXq=4rO9soCGGnH8HZrSS0PjWELqGzXoym4dOqnQ@mail.gmail.com>
- <1a27385c-cca6-888b-1125-d6383e48c0f5@prevas.dk>
+        Nicholas Piggin <npiggin@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>
+Subject: Re: [PATCH 5.15 5.10 5.4 v2] kbuild: fix Build ID if
+ CONFIG_MODVERSIONS
+Message-ID: <Y6M090tsVRIBNlNG@kroah.com>
+References: <3df32572ec7016e783d37e185f88495831671f5d.1671143628.git.tom.saeger@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1a27385c-cca6-888b-1125-d6383e48c0f5@prevas.dk>
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+In-Reply-To: <3df32572ec7016e783d37e185f88495831671f5d.1671143628.git.tom.saeger@oracle.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Dec 21, 2022 at 04:29:11PM +0100, Rasmus Villemoes wrote:
-> On 21/12/2022 16.05, Geert Uytterhoeven wrote:
-> > Hi Günter,
-> > 
-> > On Wed, Dec 21, 2022 at 3:54 PM Guenter Roeck <linux@roeck-us.net> wrote:
-> >> On Wed, Oct 19, 2022 at 02:30:34PM -0600, Jason A. Donenfeld wrote:
-> >>> Recently, some compile-time checking I added to the clamp_t family of
-> >>> functions triggered a build error when a poorly written driver was
-> >>> compiled on ARM, because the driver assumed that the naked `char` type
-> >>> is signed, but ARM treats it as unsigned, and the C standard says it's
-> >>> architecture-dependent.
-> >>>
-> >>> I doubt this particular driver is the only instance in which
-> >>> unsuspecting authors make assumptions about `char` with no `signed` or
-> >>> `unsigned` specifier. We were lucky enough this time that that driver
-> >>> used `clamp_t(char, negative_value, positive_value)`, so the new
-> >>> checking code found it, and I've sent a patch to fix it, but there are
-> >>> likely other places lurking that won't be so easily unearthed.
-> >>>
-> >>> So let's just eliminate this particular variety of heisensign bugs
-> >>> entirely. Set `-funsigned-char` globally, so that gcc makes the type
-> >>> unsigned on all architectures.
-> >>>
-> >>> This will break things in some places and fix things in others, so this
-> >>> will likely cause a bit of churn while reconciling the type misuse.
-> >>>
-> >>
-> >> There is an interesting fallout: When running the m68k:q800 qemu emulation,
-> >> there are lots of warning backtraces.
-> >>
-> >> WARNING: CPU: 0 PID: 23 at crypto/testmgr.c:5724 alg_test.part.0+0x7c/0x326
-> >> testmgr: alg_test_descs entries in wrong order: 'adiantum(xchacha12,aes)' before 'adiantum(xchacha20,aes)'
-> >> ------------[ cut here ]------------
-> >> WARNING: CPU: 0 PID: 23 at crypto/testmgr.c:5724 alg_test.part.0+0x7c/0x326
-> >> testmgr: alg_test_descs entries in wrong order: 'adiantum(xchacha20,aes)' before 'aegis128'
-> >>
-> >> and so on for pretty much every entry in the alg_test_descs[] array.
-> >>
-> >> Bisect points to this patch, and reverting it fixes the problem.
-> >>
-> >> It looks like the problem is that arch/m68k/include/asm/string.h
-> >> uses "char res" to store the result of strcmp(), and char is now
-> >> unsigned - meaning strcmp() will now never return a value < 0.
-> >> Effectively that means that strcmp() is broken on m68k if
-> >> CONFIG_COLDFIRE=n.
-> >>
-> >> The fix is probably quite simple.
-> >>
-> >> diff --git a/arch/m68k/include/asm/string.h b/arch/m68k/include/asm/string.h
-> >> index f759d944c449..b8f4ae19e8f6 100644
-> >> --- a/arch/m68k/include/asm/string.h
-> >> +++ b/arch/m68k/include/asm/string.h
-> >> @@ -42,7 +42,7 @@ static inline char *strncpy(char *dest, const char *src, size_t n)
-> >>  #define __HAVE_ARCH_STRCMP
-> >>  static inline int strcmp(const char *cs, const char *ct)
-> >>  {
-> >> -       char res;
-> >> +       signed char res;
-> >>
-> >>         asm ("\n"
-> >>                 "1:     move.b  (%0)+,%2\n"     /* get *cs */
-> >>
-> >> Does that make sense ? If so I can send a patch.
-> > 
-> > Thanks, been there, done that
-> > https://lore.kernel.org/all/bce014e60d7b1a3d1c60009fc3572e2f72591f21.1671110959.git.geert@linux-m68k.org
+On Thu, Dec 15, 2022 at 04:18:18PM -0700, Tom Saeger wrote:
+> Backport of:
+> commit 0d362be5b142 ("Makefile: link with -z noexecstack --no-warn-rwx-segments")
+> breaks arm64 Build ID when CONFIG_MODVERSIONS=y for all kernels
+> from: commit e4484a495586 ("Merge tag 'kbuild-fixes-v5.0' of git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild")
+> until: commit df202b452fe6 ("Merge tag 'kbuild-v5.19' of git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild")
 > 
-> Well, looks like that would still leave strcmp() buggy, you can't
-> represent all possible differences between two char values (signed or
-> not) in an 8-bit quantity. So any implementation based on returning the
-> first non-zero value of *a - *b must store that intermediate value in
-> something wider. Otherwise you'll get -128 from strcmp("\x40", "\xc0"),
-> but _also_ -128 when you do strcmp("\xc0", "\x40"), which is obviously
-> bogus.
+> Linus's tree doesn't have this issue since 0d362be5b142 was merged
+> after df202b452fe6 which included:
+> commit 7b4537199a4a ("kbuild: link symbol CRCs at final link, removing CONFIG_MODULE_REL_CRCS")
+
+Why can't we add this one instead of a custom change?
+
+> 
+> This kernel's KBUILD CONFIG_MODVERSIONS tooling compiles and links .S targets
+> with relocatable (-r) and now (-z noexecstack)
+> which results in ld adding a .note.GNU-stack section to .o files.
+> Final linking of vmlinux should add a .NOTES segment containing the
+> Build ID, but does NOT (on some architectures like arm64) if a
+> .note.GNU-stack section is found in .o's supplied during link
+> of vmlinux.
+> 
+> DISCARD .note.GNU-stack sections of .S targets.  Final link of
+> vmlinux then properly adds .NOTES segment containing Build ID that can
+> be read using tools like 'readelf -n'.
+> 
+> Fixes: 0d362be5b142 ("Makefile: link with -z noexecstack --no-warn-rwx-segments")
+> Cc: <stable@vger.kernel.org> # 5.15, 5.10, 5.4
+> Cc: <linux-kbuild@vger.kernel.org>
+> Cc: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Nicholas Piggin <npiggin@gmail.com>
+> Cc: Michal Marek <michal.lkml@markovi.net>
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Signed-off-by: Tom Saeger <tom.saeger@oracle.com>
+> ---
+> 
+> v2:
+>   - Changed approach to append DISCARD section to generated linker script.
+>     - ld no longer emits warning (which was intent of 0d362b35b142) this
+>       addresses Nick's v1 feedback.
+>     - this is applied to all arches, not just arm64
+>   - added commit refs and notes why this doesn't occur in Linus's tree
+>     to address Greg's v1 feedback.
+>   - added Fixes: 0d362b35b142 requested by Nick
+>   - added note to changelog for 7b4537199a4a requested by Nick
+>   - build tested on arm64 and x86
+>    
+>    version           works(vmlinux contains Build ID)
+>    v4.14.302         x86, arm64
+>    v4.14.302.patched x86, arm64
+>    v4.19.269         x86, arm64
+>    v4.19.269.patched x86, arm64
+>    v5.4.227          x86
+>    v5.4.227.patched  x86, arm64
+>    v5.10.159         x86
+>    v5.10.159.patched x86, arm64
+>    v5.15.83          x86
+>    v5.15.83.patched  x86, arm64
+> 
+> v1: https://lore.kernel.org/all/cover.1670358255.git.tom.saeger@oracle.com/
+> 
+> 
+>  scripts/Makefile.build | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index 17aa8ef2d52a..e3939676eeb5 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -379,6 +379,8 @@ cmd_modversions_S =								\
+>  	if $(OBJDUMP) -h $@ | grep -q __ksymtab; then				\
+>  		$(call cmd_gensymtypes_S,$(KBUILD_SYMTYPES),$(@:.o=.symtypes))	\
+>  		    > $(@D)/.tmp_$(@F:.o=.ver);					\
+> +		echo "SECTIONS { /DISCARD/ : { *(.note.GNU-stack) } }"		\
+> +		>> $(@D)/.tmp_$(@F:.o=.ver); 					\
+>  										\
+>  		$(LD) $(KBUILD_LDFLAGS) -r -o $(@D)/.tmp_$(@F) $@ 		\
+>  			-T $(@D)/.tmp_$(@F:.o=.ver);				\
+> 
+> base-commit: fd6d66840b4269da4e90e1ea807ae3197433bc66
+> -- 
+> 2.38.1
 > 
 
-The above assumes an unsigned char as input to strcmp(). I consider that
-a hypothetical problem because "comparing" strings with upper bits
-set doesn't really make sense in practice (How does one compare Günter
-against Gunter ? And how about Gǖnter ?). On the other side, the problem
-observed here is real and immediate.
 
-Guenter
+I need some acks from some developers/maintainers before I can take
+this... {hint}
+
+thanks,
+
+greg k-h
