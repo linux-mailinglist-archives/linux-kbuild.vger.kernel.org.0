@@ -2,60 +2,80 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A818652118
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Dec 2022 14:00:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CE1816532B8
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Dec 2022 15:53:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232633AbiLTNAV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 20 Dec 2022 08:00:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34760 "EHLO
+        id S231888AbiLUOxw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 21 Dec 2022 09:53:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231790AbiLTNAU (ORCPT
+        with ESMTP id S232710AbiLUOxn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 20 Dec 2022 08:00:20 -0500
-Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A7D2BE36;
-        Tue, 20 Dec 2022 05:00:19 -0800 (PST)
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 2BKCxvxw007257;
-        Tue, 20 Dec 2022 21:59:57 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 2BKCxvxw007257
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1671541197;
-        bh=as1wqnJSUPY4IGZCP7Jr1uSZ8lvavefiRWrJjkOPjbk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=vntPLzuj71ZKh61z01mTLpE2zVyv3Fej/dWQX2xm4FTJUb1AWRmE0l6fFoHrgsn78
-         7b9wwKl6etKT0pmM19YqTZnWd1KsDfPpUrDZwNhvwVxJxtjYALFnCPU1qA52iv9KpQ
-         /PdU4fKClowaaNgEW5pDdjETmcaKXhmxpqrobxTGcL6RsuLqn7gWD1kU4I1aZxqU9s
-         Vyi5SwRSZ1UtgYevZYholnz4LbNmEHCqVLu4XPJLgoxBAVFZLLi/QJbNnmUHEIX7Ie
-         OxXzAYR6OHP+PNZtuak+D8zx6AeH/uxzhTPTyorccJyqTYxrR5DAcAGSS32FMLRFd6
-         +j/UhZYTO6+Bw==
-X-Nifty-SrcIP: [209.85.160.46]
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-1322d768ba7so15277193fac.5;
-        Tue, 20 Dec 2022 04:59:57 -0800 (PST)
-X-Gm-Message-State: AFqh2krKvoB738gwUXvLvmndIJu7bjlRWN8S8XEaOhFjE6+GGib8U2TV
-        7+/hhSLpCUOPoy7vH6wwpRkIs5qe+zMAJKGpND0=
-X-Google-Smtp-Source: AMrXdXvIZRCGb5rv78/PDTcz2Y7Kc/eQC18CumXPRSz4fKFJxbpS8kSZyozTqQpqkMPK5inAG+wcMvDKMRcRUXJ1EXw=
-X-Received: by 2002:a05:6870:a11e:b0:144:d060:72e with SMTP id
- m30-20020a056870a11e00b00144d060072emr2088002oae.287.1671541196422; Tue, 20
- Dec 2022 04:59:56 -0800 (PST)
+        Wed, 21 Dec 2022 09:53:43 -0500
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB7C323BE2;
+        Wed, 21 Dec 2022 06:53:35 -0800 (PST)
+Received: by mail-oi1-x231.google.com with SMTP id k189so13507752oif.7;
+        Wed, 21 Dec 2022 06:53:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BZ1vWq6QP9ooDh1F7PrBShWOEwM3JaOtots6tMwnEDc=;
+        b=Hs2hcpE0GixDU25RniztxZmHLXy34nD9KFMNSV29735FvbMtBz3cpTbGWOxvtBS9zF
+         vaw4/Qg/6ezcFbIXoD1PjbhHHIrQDBC2ASh5xVR3Oe3iG/9p28Q8lOykWBO5s+GKl3CH
+         ZGBYQO7BiCM7KRhFsPqp2n/6inknqI7Wh6CifUfSONGShOCOxrpq7nQ9dZv2YyJxiUJd
+         B8c21cS60GltUWxHv6MwyPeIQKEgYXwH+sLbiaZVp2D0v7CMlXH65+WTR2Byio9KZvgz
+         JdBCMvRII6lNyS44ubIXKPuSSRiefU0YD/rB/5ziuRKMrcsPSS1TBSfLMt2t7V/UA8K4
+         CwdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BZ1vWq6QP9ooDh1F7PrBShWOEwM3JaOtots6tMwnEDc=;
+        b=bhn7MFeYypZ1Ah3p1MKeNY685whO4B/DU6pvHhX8/0YuX49LLOCFqhAC+sHF7huvDm
+         gc8aKNKvKPY6d4mw8b1mMo6f7Qt4NxAOTf2WV26Ub3KHZD1HY6/RzJ0Wp8SePs+38B0X
+         qg+nXdZB6CQJFSbGSAGQA7C+PziSwtKum/O7b4YevvOC8/x2grIfGc06LG1HfeMplQTY
+         e+yGHQ61XUqUUHTb/n1KT8lj9FSr2WEOwdsJ/rFRRqnmIkIot5fjPxq81S3QJXyNvO6p
+         eomgTDMeTb/uw2nKNnQ5ODvslJ0u9O8jldPBeI7kQ7LWo5sZgydK8sCrPUqi/I5Lw4xY
+         sq8Q==
+X-Gm-Message-State: AFqh2krYz7gH9gEMu9jwWekC/VHUPRKSlzG7zDhuOfvshFANNpmhI+ju
+        Wx4CX6EWcbrPwdfKWqtafZg=
+X-Google-Smtp-Source: AMrXdXt0S1FoFk2/7ZiH1/8hO/xt4vAhVm8o0RNHfG/IxvIRBA2rBtKlfdM/MIfm+QFP5yebYl94pg==
+X-Received: by 2002:a05:6808:bc3:b0:360:d800:d10c with SMTP id o3-20020a0568080bc300b00360d800d10cmr1091986oik.34.1671634414991;
+        Wed, 21 Dec 2022 06:53:34 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id s8-20020acaa908000000b00354d8589a15sm6768140oie.45.2022.12.21.06.53.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Dec 2022 06:53:34 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Wed, 21 Dec 2022 06:53:32 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-toolchains@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-m68k@lists.linux-m68k.org
+Subject: Re: [PATCH v2] kbuild: treat char as always unsigned
+Message-ID: <20221221145332.GA2399037@roeck-us.net>
+References: <Y1BcpXAjR4tmV6RQ@zx2c4.com>
+ <20221019203034.3795710-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-References: <20221220013233.2890335-1-robh@kernel.org>
-In-Reply-To: <20221220013233.2890335-1-robh@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 20 Dec 2022 21:59:20 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARMg-Opnnkc5Y6pv64S6+qqUALhze4Ag9ZrH=MyVEAA8Q@mail.gmail.com>
-Message-ID: <CAK7LNARMg-Opnnkc5Y6pv64S6+qqUALhze4Ag9ZrH=MyVEAA8Q@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Optionally enable schema checks for %.dtb targets
-To:     Rob Herring <robh@kernel.org>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Marek Vasut <marex@denx.de>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221019203034.3795710-1-Jason@zx2c4.com>
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,64 +83,63 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Dec 20, 2022 at 10:32 AM Rob Herring <robh@kernel.org> wrote:
->
-> While not documented, schema checks for single dtb targets mostly work
-> already by setting 'CHECK_DTBS=1'. However, the dependencies are not
-> handled and it only works if 'make dt_bindings_check' was run first and
-> generated processed-schema.json. In addition, changing a binding file
-> doesn't cause the schema to be rebuilt and dtb to be revalidated.
->
-> Making this work turns out to be simple. Whenever CHECK_DTBS is set,
-> make 'dt_binding_check' a 'dtbs_prepare' dependency.
->
-> I reimplemented here what Masahiro had originally come up with a while
-> back.
+On Wed, Oct 19, 2022 at 02:30:34PM -0600, Jason A. Donenfeld wrote:
+> Recently, some compile-time checking I added to the clamp_t family of
+> functions triggered a build error when a poorly written driver was
+> compiled on ARM, because the driver assumed that the naked `char` type
+> is signed, but ARM treats it as unsigned, and the C standard says it's
+> architecture-dependent.
+> 
+> I doubt this particular driver is the only instance in which
+> unsuspecting authors make assumptions about `char` with no `signed` or
+> `unsigned` specifier. We were lucky enough this time that that driver
+> used `clamp_t(char, negative_value, positive_value)`, so the new
+> checking code found it, and I've sent a patch to fix it, but there are
+> likely other places lurking that won't be so easily unearthed.
+> 
+> So let's just eliminate this particular variety of heisensign bugs
+> entirely. Set `-funsigned-char` globally, so that gcc makes the type
+> unsigned on all architectures.
+> 
+> This will break things in some places and fix things in others, so this
+> will likely cause a bit of churn while reconciling the type misuse.
+> 
 
+There is an interesting fallout: When running the m68k:q800 qemu emulation,
+there are lots of warning backtraces.
 
-Oh, I just recalled this patch.
+WARNING: CPU: 0 PID: 23 at crypto/testmgr.c:5724 alg_test.part.0+0x7c/0x326
+testmgr: alg_test_descs entries in wrong order: 'adiantum(xchacha12,aes)' before 'adiantum(xchacha20,aes)'
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 23 at crypto/testmgr.c:5724 alg_test.part.0+0x7c/0x326
+testmgr: alg_test_descs entries in wrong order: 'adiantum(xchacha20,aes)' before 'aegis128'
 
-https://lore.kernel.org/all/CAA8EJprdCftvie3UF9QpCWr9oQ5SQbqW8OPOHg0qigf9=RXU-w@mail.gmail.com/T/#m2ce6b1de3c74333645831399c0d1775129d7661a
+and so on for pretty much every entry in the alg_test_descs[] array.
 
-Dritry tested it.
+Bisect points to this patch, and reverting it fixes the problem.
 
-Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
-Acked-by: Masahiro Yamada <masahiroy@kernel.org>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Tested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+It looks like the problem is that arch/m68k/include/asm/string.h
+uses "char res" to store the result of strcmp(), and char is now
+unsigned - meaning strcmp() will now never return a value < 0.
+Effectively that means that strcmp() is broken on m68k if
+CONFIG_COLDFIRE=n.
 
+The fix is probably quite simple.
 
+diff --git a/arch/m68k/include/asm/string.h b/arch/m68k/include/asm/string.h
+index f759d944c449..b8f4ae19e8f6 100644
+--- a/arch/m68k/include/asm/string.h
++++ b/arch/m68k/include/asm/string.h
+@@ -42,7 +42,7 @@ static inline char *strncpy(char *dest, const char *src, size_t n)
+ #define __HAVE_ARCH_STRCMP
+ static inline int strcmp(const char *cs, const char *ct)
+ {
+-       char res;
++       signed char res;
 
+        asm ("\n"
+                "1:     move.b  (%0)+,%2\n"     /* get *cs */
 
->
-> Cc: Marek Vasut <marex@denx.de>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  Makefile | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/Makefile b/Makefile
-> index 6aa709df6bde..a99d5c4de0fc 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1467,7 +1467,10 @@ dtbs_prepare: include/config/kernel.release scripts_dtc
->
->  ifneq ($(filter dtbs_check, $(MAKECMDGOALS)),)
->  export CHECK_DTBS=y
-> -dtbs: dt_binding_check
-> +endif
-> +
-> +ifneq ($(CHECK_DTBS),)
-> +dtbs_prepare: dt_binding_check
->  endif
->
->  dtbs_check: dtbs
-> --
-> 2.35.1
->
+Does that make sense ? If so I can send a patch.
 
-
---
-Best Regards
-Masahiro Yamada
+Guenter
