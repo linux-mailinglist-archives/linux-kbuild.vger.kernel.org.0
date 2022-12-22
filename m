@@ -2,108 +2,77 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60002653E72
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Dec 2022 11:42:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BDCFE653EA2
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Dec 2022 12:02:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235288AbiLVKmE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 22 Dec 2022 05:42:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47130 "EHLO
+        id S229907AbiLVLCM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 22 Dec 2022 06:02:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235061AbiLVKl7 (ORCPT
+        with ESMTP id S235363AbiLVLCL (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 22 Dec 2022 05:41:59 -0500
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1533818B15
-        for <linux-kbuild@vger.kernel.org>; Thu, 22 Dec 2022 02:41:56 -0800 (PST)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-172-D_exMaKhNCWc8qzlCOLIiw-1; Thu, 22 Dec 2022 10:41:53 +0000
-X-MC-Unique: D_exMaKhNCWc8qzlCOLIiw-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 22 Dec
- 2022 10:41:52 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.044; Thu, 22 Dec 2022 10:41:52 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Linus Torvalds' <torvalds@linux-foundation.org>,
-        Guenter Roeck <linux@roeck-us.net>
-CC:     Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-toolchains@vger.kernel.org" <linux-toolchains@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-m68k@lists.linux-m68k.org" <linux-m68k@lists.linux-m68k.org>
-Subject: RE: [PATCH v2] kbuild: treat char as always unsigned
-Thread-Topic: [PATCH v2] kbuild: treat char as always unsigned
-Thread-Index: AQHZFV6o8tF/XYcvI0qqEtVNYsUlXa55tQ3w
-Date:   Thu, 22 Dec 2022 10:41:52 +0000
-Message-ID: <b2144334261246aa8dc5004c5f1a58c9@AcuMS.aculab.com>
-References: <Y1BcpXAjR4tmV6RQ@zx2c4.com>
- <20221019203034.3795710-1-Jason@zx2c4.com>
- <20221221145332.GA2399037@roeck-us.net>
- <CAMuHMdUAaQSXq=4rO9soCGGnH8HZrSS0PjWELqGzXoym4dOqnQ@mail.gmail.com>
- <1a27385c-cca6-888b-1125-d6383e48c0f5@prevas.dk>
- <20221221155641.GB2468105@roeck-us.net>
- <CAHk-=wj7FMFLr9AOW9Aa9ZMt1-Lu01_X8vLiaKosPyF2H-+ujA@mail.gmail.com>
-In-Reply-To: <CAHk-=wj7FMFLr9AOW9Aa9ZMt1-Lu01_X8vLiaKosPyF2H-+ujA@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Thu, 22 Dec 2022 06:02:11 -0500
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com [IPv6:2001:4860:4864:20::30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8203C1AF08
+        for <linux-kbuild@vger.kernel.org>; Thu, 22 Dec 2022 03:02:09 -0800 (PST)
+Received: by mail-oa1-x30.google.com with SMTP id 586e51a60fabf-143ffc8c2b2so2106533fac.2
+        for <linux-kbuild@vger.kernel.org>; Thu, 22 Dec 2022 03:02:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ddKdS4x8c4ZSI9PbKdla4xMHlbecpUYnHnf7KqPY/v4=;
+        b=V8EeoIflJ8BqQv82VajRABlvUkLfuqIl07Q4X6ErGYUKn3XCZJfjwVITHDUZrkFeZe
+         kMGKje+ok1sQ+bVkW+RfikLzK3YNf+wVVnW41ZN+6FEM7YlLcDYBIuCrHNAVlOn1LEY+
+         0hyt7VsukIt4V54v6IODnaFzR5SEGpA9Ob1Xb8et0lyhRok7hwNEVLiqjD9lVoMWt8Jp
+         4Dfb3Tl752dn/rFJz6xZWIpazZ7f9sRE6ACLsrM9AG/aKvD2E7STZWrw7py3qt2MUalg
+         MpZfSLA9FHsg7Y50rzRae6v2dtfrSxoY0ozcI3x5/ufM3IY2LYPdQztHB6uG8fqQQlQT
+         lFFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ddKdS4x8c4ZSI9PbKdla4xMHlbecpUYnHnf7KqPY/v4=;
+        b=i16apLQRoZq9Vk7h7qiU0atoBl/FwZf5culi7zh+XSdKy/1P2nvHzXi1SlJ1j9fVK9
+         aZuniaNinbGEH4XZ2elHkbxUMNbb8L1ZCbOkv18ZokiiNnlEDqUxT3jtejEiNCBYJOkR
+         2axLrQbMbo5+RWgNM5RmMH8yQ1TASzLngL36MpbbfKgxMAnBc9h/XWpJ+TrlzMSPqf09
+         Fu/TLp3rx6Jzzrpwj0RIIb9pMrGR6Rr2i620V1u7TGZij3gpidWQB6D8qiy3kyFfq0BW
+         mqBAtrG2VeovNwn601KwDf8wTFZxk9DqQYXGuF2waWHK9135XCqx4N+uNQFXRuefkP9x
+         x4+Q==
+X-Gm-Message-State: AFqh2kpCOwCiOnypsJbt0pyoDbkp+WnzW6IdBo8SL7VHtA6miwv6HcxS
+        txVHhBaSUJcRClKmJAnWU1gIxQLmHY4x+4hCB90=
+X-Google-Smtp-Source: AMrXdXv1yKoO9OaENHm+x41tsb187xYXgL5lP8p1t/MSlcCArR2u1fbu+4ZruYssOdO4peSyC+fryGocEIi8yz1uEH4=
+X-Received: by 2002:a05:6870:2dc7:b0:142:3bc5:a105 with SMTP id
+ op7-20020a0568702dc700b001423bc5a105mr306915oab.15.1671706928881; Thu, 22 Dec
+ 2022 03:02:08 -0800 (PST)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Received: by 2002:a05:6358:7502:b0:df:ef52:64dd with HTTP; Thu, 22 Dec 2022
+ 03:02:08 -0800 (PST)
+Reply-To: subik7633@gmail.com
+From:   Susan Bikram <redw07882@gmail.com>
+Date:   Thu, 22 Dec 2022 03:02:08 -0800
+Message-ID: <CAND8bML6s7sy=nyLg=Savdshi5vZv8XGdK+MbbVzPA3=LApiTQ@mail.gmail.com>
+Subject: Please can i have your attention
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-RnJvbTogTGludXMgVG9ydmFsZHMNCj4gU2VudDogMjEgRGVjZW1iZXIgMjAyMiAxNzowNw0KPiAN
-Cj4gT24gV2VkLCBEZWMgMjEsIDIwMjIgYXQgNzo1NiBBTSBHdWVudGVyIFJvZWNrIDxsaW51eEBy
-b2Vjay11cy5uZXQ+IHdyb3RlOg0KPiA+DQo+ID4gVGhlIGFib3ZlIGFzc3VtZXMgYW4gdW5zaWdu
-ZWQgY2hhciBhcyBpbnB1dCB0byBzdHJjbXAoKS4gSSBjb25zaWRlciB0aGF0DQo+ID4gYSBoeXBv
-dGhldGljYWwgcHJvYmxlbSBiZWNhdXNlICJjb21wYXJpbmciIHN0cmluZ3Mgd2l0aCB1cHBlciBi
-aXRzDQo+ID4gc2V0IGRvZXNuJ3QgcmVhbGx5IG1ha2Ugc2Vuc2UgaW4gcHJhY3RpY2UgKEhvdyBk
-b2VzIG9uZSBjb21wYXJlIEfDvG50ZXINCj4gPiBhZ2FpbnN0IEd1bnRlciA/IEFuZCBob3cgYWJv
-dXQgR8eWbnRlciA/KS4gT24gdGhlIG90aGVyIHNpZGUsIHRoZSBwcm9ibGVtDQo+ID4gb2JzZXJ2
-ZWQgaGVyZSBpcyByZWFsIGFuZCBpbW1lZGlhdGUuDQo+IA0KPiBQT1NJWCBkb2VzIGFjdHVhbGx5
-IHNwZWNpZnkgIkfDvG50ZXIiIHZzICJHdW50ZXIiLg0KPiANCj4gVGhlIHdheSBzdHJjbXAgaXMg
-c3VwcG9zZWQgdG8gd29yayBpcyB0byByZXR1cm4gdGhlIHNpZ24gb2YgdGhlDQo+IGRpZmZlcmVu
-Y2UgYmV0d2VlbiB0aGUgYnl0ZSB2YWx1ZXMgKCJ1bnNpZ25lZCBjaGFyIikuDQo+IA0KPiBCdXQg
-dGhhdCBzaWduIGhhcyB0byBiZSBjb21wdXRlZCBpbiAnaW50Jywgbm90IGluICdzaWduZWQgY2hh
-cicuDQo+IA0KPiBTbyB5ZXMsIHRoZSBtNjhrIGltcGxlbWVudGF0aW9uIGlzIGJyb2tlbiByZWdh
-cmRsZXNzLCBidXQgd2l0aCBhDQo+IHNpZ25lZCBjaGFyIGl0IGp1c3QgaGFwcGVuZWQgdG8gd29y
-ayBmb3IgdGhlIFVTLUFTQ0lJIGNhc2UgdGhhdCB0aGUNCj4gY3J5cHRvIGNhc2UgdGVzdGVkLg0K
-PiANCj4gSSB0aGluayB0aGUgcmVhbCBmaXggaXMgdG8ganVzdCByZW1vdmUgdGhhdCBicm9rZW4g
-aW1wbGVtZW50YXRpb24NCj4gZW50aXJlbHksIGFuZCByZWx5IG9uIHRoZSBnZW5lcmljIG9uZS4N
-Cg0KSSB3b25kZXIgaG93IG11Y2ggc2xvd2VyIGl0IGlzIC0gbTY4ayBpcyBsaWtlbHkgdG8gYmUg
-bWljcm9jb2RlZA0KYW5kIEkgZG9uJ3QgdGhpbmsgaW5zdHJ1Y3Rpb24gdGltaW5ncyBhcmUgYWN0
-dWFsbHkgYXZhaWxhYmxlLg0KVGhlIGZhc3Rlc3QgdmVyc2lvbiBwcm9iYWJseSB1c2VzIHN1Yngg
-KHdpdGggY2FycnkpIHRvIGdlbmVyYXRlDQowLy0xIGFuZCBsZWF2ZXMgK2RlbHRhIGZvciB0aGUg
-b3RoZXIgcmVzdWx0IC0gYnV0IGdldHRpbmcgdGhlDQpjb21wYXJlcyBhbmQgYnJhbmNoZXMgaW4g
-dGhlIHJpZ2h0IG9yZGVyIGlzIGhhcmQuDQoNCkkgYmVsaWV2ZSBzb21lIG9mIHRoZSBvdGhlciBt
-NjhrIGFzbSBmdW5jdGlvbnMgYXJlIGFsc28gbWlzc2luZw0KdGhlICJtZW1vcnkiICdjbG9iYmVy
-JyBhbmQgc28gY291bGQgZ2V0IG1pcy1vcHRpbWlzZWQuDQpXaGlsZSBJIGNhbiB3cml0ZSAob3Ig
-cmF0aGVyIGhhdmUgd3JpdHRlbikgbTY4ayBhc20gSSBkb24ndCBoYXZlDQphIGNvbXBpbGVyLg0K
-DQpJIGFsc28gc3VzcGVjdCB0aGF0IGFueSB4ODYgY29kZSB0aGF0IHVzZXMgJ3JlcCBzY2FzJyBp
-cyBnb2luZw0KdG8gYmUgc2xvdyBvbiBhbnl0aGluZyBtb2Rlcm4uDQoNCglEYXZpZA0KDQotDQpS
-ZWdpc3RlcmVkIEFkZHJlc3MgTGFrZXNpZGUsIEJyYW1sZXkgUm9hZCwgTW91bnQgRmFybSwgTWls
-dG9uIEtleW5lcywgTUsxIDFQVCwgVUsNClJlZ2lzdHJhdGlvbiBObzogMTM5NzM4NiAoV2FsZXMp
-DQo=
+Dear ,
 
+Please can I have your attention and possibly help me for humanity's
+sake please. I am writing this message with a heavy heart filled with
+sorrows and sadness.
+Please if you can respond, i have an issue that i will be most
+grateful if you could help me deal with it please.
+
+Susan
