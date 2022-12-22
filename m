@@ -2,77 +2,113 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BDCFE653EA2
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Dec 2022 12:02:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C010265417E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Dec 2022 14:05:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229907AbiLVLCM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 22 Dec 2022 06:02:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53568 "EHLO
+        id S235395AbiLVNFq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 22 Dec 2022 08:05:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235363AbiLVLCL (ORCPT
+        with ESMTP id S235159AbiLVNFn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 22 Dec 2022 06:02:11 -0500
-Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com [IPv6:2001:4860:4864:20::30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8203C1AF08
-        for <linux-kbuild@vger.kernel.org>; Thu, 22 Dec 2022 03:02:09 -0800 (PST)
-Received: by mail-oa1-x30.google.com with SMTP id 586e51a60fabf-143ffc8c2b2so2106533fac.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 22 Dec 2022 03:02:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ddKdS4x8c4ZSI9PbKdla4xMHlbecpUYnHnf7KqPY/v4=;
-        b=V8EeoIflJ8BqQv82VajRABlvUkLfuqIl07Q4X6ErGYUKn3XCZJfjwVITHDUZrkFeZe
-         kMGKje+ok1sQ+bVkW+RfikLzK3YNf+wVVnW41ZN+6FEM7YlLcDYBIuCrHNAVlOn1LEY+
-         0hyt7VsukIt4V54v6IODnaFzR5SEGpA9Ob1Xb8et0lyhRok7hwNEVLiqjD9lVoMWt8Jp
-         4Dfb3Tl752dn/rFJz6xZWIpazZ7f9sRE6ACLsrM9AG/aKvD2E7STZWrw7py3qt2MUalg
-         MpZfSLA9FHsg7Y50rzRae6v2dtfrSxoY0ozcI3x5/ufM3IY2LYPdQztHB6uG8fqQQlQT
-         lFFA==
+        Thu, 22 Dec 2022 08:05:43 -0500
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 479553AA;
+        Thu, 22 Dec 2022 05:05:41 -0800 (PST)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-45ef306bd74so26219397b3.2;
+        Thu, 22 Dec 2022 05:05:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ddKdS4x8c4ZSI9PbKdla4xMHlbecpUYnHnf7KqPY/v4=;
-        b=i16apLQRoZq9Vk7h7qiU0atoBl/FwZf5culi7zh+XSdKy/1P2nvHzXi1SlJ1j9fVK9
-         aZuniaNinbGEH4XZ2elHkbxUMNbb8L1ZCbOkv18ZokiiNnlEDqUxT3jtejEiNCBYJOkR
-         2axLrQbMbo5+RWgNM5RmMH8yQ1TASzLngL36MpbbfKgxMAnBc9h/XWpJ+TrlzMSPqf09
-         Fu/TLp3rx6Jzzrpwj0RIIb9pMrGR6Rr2i620V1u7TGZij3gpidWQB6D8qiy3kyFfq0BW
-         mqBAtrG2VeovNwn601KwDf8wTFZxk9DqQYXGuF2waWHK9135XCqx4N+uNQFXRuefkP9x
-         x4+Q==
-X-Gm-Message-State: AFqh2kpCOwCiOnypsJbt0pyoDbkp+WnzW6IdBo8SL7VHtA6miwv6HcxS
-        txVHhBaSUJcRClKmJAnWU1gIxQLmHY4x+4hCB90=
-X-Google-Smtp-Source: AMrXdXv1yKoO9OaENHm+x41tsb187xYXgL5lP8p1t/MSlcCArR2u1fbu+4ZruYssOdO4peSyC+fryGocEIi8yz1uEH4=
-X-Received: by 2002:a05:6870:2dc7:b0:142:3bc5:a105 with SMTP id
- op7-20020a0568702dc700b001423bc5a105mr306915oab.15.1671706928881; Thu, 22 Dec
- 2022 03:02:08 -0800 (PST)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MLCFjw9XIBAbu93dkTI6RLAmkXvVW4axCY2krlbo1Ww=;
+        b=AkgVq2KBYpb4dUz0BEny9VGKMx98sCEpomruDdErtQTfod0SDz1QtGYEm+OIDWZNIO
+         vlQLLC1fLfHsGwkEMryIAhStNEw19kGCriTIwXdKo95+rHg27uqTDoD6QrDwgrjhAgBv
+         5OeSsvpqWZOhT0hvQccLl9BV1fCCIImERWNC1N9nam8oaJUg1FQIZ6s63aMqMTkhZU9B
+         Nhmoxqt6o1fxNucfYYoBZ3BShgbfc0DN6a0xFeFUrsGyLrsrvRdSYCDDHEsCTSl3p8Ev
+         WPKEvWt8gavBdlzigJ0+ZZnAsFQc7zDLvD122e7t4/offEodIPmuNFBZ0mp9AtbYgERN
+         cO6A==
+X-Gm-Message-State: AFqh2kpLkKL29cnfwWmnCpz/b074K+GOwYpImBNnzYyFXgJZEq8laVWx
+        Md3ffQKeQVsohYzvrIFmq39t0Ljs9iEWBQ==
+X-Google-Smtp-Source: AMrXdXv+fd3oxdp37Kj0lM82VJ47EaSdU2higWi9k+R5qohKiq7HGGEAXGMRjmfGmAOqmoIqZFfDxg==
+X-Received: by 2002:a05:7500:5c05:b0:ea:6682:469c with SMTP id fd5-20020a0575005c0500b000ea6682469cmr392958gab.12.1671714340243;
+        Thu, 22 Dec 2022 05:05:40 -0800 (PST)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id w26-20020a05620a095a00b006fc6529abaesm231627qkw.101.2022.12.22.05.05.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Dec 2022 05:05:39 -0800 (PST)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-45c11d1bfc8so25845717b3.9;
+        Thu, 22 Dec 2022 05:05:39 -0800 (PST)
+X-Received: by 2002:a05:690c:d84:b0:437:febc:6583 with SMTP id
+ da4-20020a05690c0d8400b00437febc6583mr536308ywb.384.1671714339227; Thu, 22
+ Dec 2022 05:05:39 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a05:6358:7502:b0:df:ef52:64dd with HTTP; Thu, 22 Dec 2022
- 03:02:08 -0800 (PST)
-Reply-To: subik7633@gmail.com
-From:   Susan Bikram <redw07882@gmail.com>
-Date:   Thu, 22 Dec 2022 03:02:08 -0800
-Message-ID: <CAND8bML6s7sy=nyLg=Savdshi5vZv8XGdK+MbbVzPA3=LApiTQ@mail.gmail.com>
-Subject: Please can i have your attention
-To:     undisclosed-recipients:;
+References: <Y1BcpXAjR4tmV6RQ@zx2c4.com> <20221019203034.3795710-1-Jason@zx2c4.com>
+ <20221221145332.GA2399037@roeck-us.net> <CAMuHMdUAaQSXq=4rO9soCGGnH8HZrSS0PjWELqGzXoym4dOqnQ@mail.gmail.com>
+ <1a27385c-cca6-888b-1125-d6383e48c0f5@prevas.dk> <20221221155641.GB2468105@roeck-us.net>
+ <CAHk-=wj7FMFLr9AOW9Aa9ZMt1-Lu01_X8vLiaKosPyF2H-+ujA@mail.gmail.com>
+ <20221221171922.GA2470607@roeck-us.net> <CAHk-=wjOcqWxpUUrWKLKznRg-HXxRn1AXLW9B6SPq-ioLObdjw@mail.gmail.com>
+In-Reply-To: <CAHk-=wjOcqWxpUUrWKLKznRg-HXxRn1AXLW9B6SPq-ioLObdjw@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 22 Dec 2022 14:05:26 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWwNv-xzrsckMab_eAtZZ-ybDFPyxG9f9ndHBgXjLAayQ@mail.gmail.com>
+Message-ID: <CAMuHMdWwNv-xzrsckMab_eAtZZ-ybDFPyxG9f9ndHBgXjLAayQ@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: treat char as always unsigned
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-toolchains@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-m68k@lists.linux-m68k.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Dear ,
+Hi Linus,
 
-Please can I have your attention and possibly help me for humanity's
-sake please. I am writing this message with a heavy heart filled with
-sorrows and sadness.
-Please if you can respond, i have an issue that i will be most
-grateful if you could help me deal with it please.
+On Wed, Dec 21, 2022 at 7:46 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+> On Wed, Dec 21, 2022 at 9:19 AM Guenter Roeck <linux@roeck-us.net> wrote:
+> > On Wed, Dec 21, 2022 at 09:06:41AM -0800, Linus Torvalds wrote:
+> > > I think the real fix is to just remove that broken implementation
+> > > entirely, and rely on the generic one.
+> >
+> > Perfectly fine with me.
+>
+> That got pushed out as commit 7c0846125358 ("m68k: remove broken
+> strcmp implementation") but it's obviously entirely untested. I don't
+> do m68k cross-compiles, much less boot tests.
+>
+> Just FYI for everybody - I may have screwed something up for some very
+> non-obvious reason.
+>
+> But it looked very obvious indeed, and I hate having buggy code that
+> is architecture-specific when we have generic code that isn't buggy.
 
-Susan
+Thank you for being proactive!
+It works fine (and slightly reduced kernel size, too ;-)
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
