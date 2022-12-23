@@ -2,62 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 102E0654FC8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Dec 2022 12:45:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C6FF654FD2
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Dec 2022 12:51:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230166AbiLWLpH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 23 Dec 2022 06:45:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51538 "EHLO
+        id S230307AbiLWLvb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 23 Dec 2022 06:51:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229734AbiLWLpG (ORCPT
+        with ESMTP id S235995AbiLWLva (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 23 Dec 2022 06:45:06 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.74])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAF4F27B35;
-        Fri, 23 Dec 2022 03:44:49 -0800 (PST)
+        Fri, 23 Dec 2022 06:51:30 -0500
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 238BF6307;
+        Fri, 23 Dec 2022 03:51:24 -0800 (PST)
 Received: from leknes.fjasle.eu ([46.142.99.43]) by mrelayeu.kundenserver.de
- (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MUooJ-1pHJTU2Srh-00QmXg; Fri, 23 Dec 2022 12:44:25 +0100
+ (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MCsLo-1ozv8R1iQi-008vs5; Fri, 23 Dec 2022 12:51:03 +0100
 Received: from localhost.fjasle.eu (bergen.fjasle.eu [IPv6:fdda:8718:be81:0:6f0:21ff:fe91:394])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (Client did not present a certificate)
-        by leknes.fjasle.eu (Postfix) with ESMTPS id 152723C087;
-        Fri, 23 Dec 2022 12:44:23 +0100 (CET)
+        by leknes.fjasle.eu (Postfix) with ESMTPS id 516563C0EF;
+        Fri, 23 Dec 2022 12:51:02 +0100 (CET)
 Authentication-Results: leknes.fjasle.eu; dkim=none; dkim-atps=neutral
 Received: by localhost.fjasle.eu (Postfix, from userid 1000)
-        id 6938D89D; Fri, 23 Dec 2022 12:44:22 +0100 (CET)
-Date:   Fri, 23 Dec 2022 12:44:22 +0100
+        id 5F77F751; Fri, 23 Dec 2022 12:50:59 +0100 (CET)
+Date:   Fri, 23 Dec 2022 12:50:59 +0100
 From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH] kbuild: use .NOTINTERMEDIATE for future GNU Make versions
-Message-ID: <Y6WUlth8KrR6EcsI@bergen.fjasle.eu>
-References: <20221211031059.2623781-1-masahiroy@kernel.org>
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Cc:     masahiroy@kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V3]  scripts: kconfig: Added static text for search
+ information in help menu
+Message-ID: <Y6WWI87an9IRmVod@bergen.fjasle.eu>
+References: <20221217055148.28914-1-unixbhaskar@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="JLaoYCqdwGByEiso"
+        protocol="application/pgp-signature"; boundary="QQ/PX5GslodXe0Gc"
 Content-Disposition: inline
-In-Reply-To: <20221211031059.2623781-1-masahiroy@kernel.org>
+In-Reply-To: <20221217055148.28914-1-unixbhaskar@gmail.com>
 Jabber-ID: nicolas@fjasle.eu
 X-Operating-System: Debian GNU/Linux bookworm/sid
-X-Provags-ID: V03:K1:om8uS4wvMPJdYtSJjWfgzYah/5MsvjZeo/ltkft5KYyXjnvfh9L
- GJxlf/LoOZz59cZXkpJnjmIcXPEhlS5s8g1ynvWTnuraBoJ8xxn+1pF3VUwHYjCtgWREQJT
- nJoBiD8PsoU3llxvY3d6w7NFxwsRK29AsO4YIfNjdgATp/m8cwyHgCBVMe8eNTJo3kjpYlQ
- Y8OevcLUnncaqecuBStsQ==
-UI-OutboundReport: notjunk:1;M01:P0:KABv26VlsvU=;muTx+99QLx+m7Nslq/hMBMjgWNN
- 5IPooZWmCE70mTs7xTYwpRv6byIMZzIyFeDaeFhTHNcLVDHsRNKcTZUV+UfVQW9BUC5UXhIsI
- R/oGKQVIW/cYDYJHzXWNhfNcMVCf4fDzDfKUhuoTKyuR69f8N79g7y6HYRUepAqxtgLREyn6F
- AW5EUUopJ7LVBgtR8OqZ4Rc/HH1zDaN5lFZF+JQ+/kJfbEPJEur+X28CzY97ZynDV6CdAXMXW
- njkx913xjRarYk6ME20tVA/LR6hK+5SRpaofXueWx7Tx8Kk3d3VK3UijqahC/n4Y8eGAUB4pP
- mMBm+IZ05kBQDMX2Q2XguuUZWcKQeZ5tG7+mEYabk7NTSj3ILpE96NzDU1ljD8xcdBdJYhtM1
- yTiqdexZKVR+lLYHq4bVJ2gKZMBQDy+yG+J9/XpUpgCZcCMX4JsBoShFcPBAecNB+9FlphVGH
- k6+NuO+FI1yqGIu9yiytewO15pDuHLJRLOscNKkGQpr6XtuKrKCGg1YsLrVVNRddUcTnRbguG
- BxxaBkoBDRJ3cPMwDIcFZhrqjZW7/cpHE2IG7c97Iza51NelWWOau4eL44XT3skSw6Zhkw1LK
- Sp5v8P9Pt3f2FAc2ZSLvASuWB9mvWIE/jt5IVQzUTomfMh8cTgcKPhlTO93nwvGfzPkMWiaI3
- K0sr3it9D6Jzoh84dwAHp5BBLy/L6DIHSksBJCNCmw==
+X-Provags-ID: V03:K1:b2fUXJCdsgsHJt3fstwJIvD1GkZ61v5ytWvq2Tb5fjf/TschsQh
+ E0SHU2Zebqf5AzhLcHB6RF0k1a+1pDF3VCeUaEKtOOtbINO/Wdg+ucbJ6HBXSq9H0NJdQ/7
+ JDH3xObS+cUvEb6wrgMrx7WcbW99iGMKtj7Fvm4kjW/HghFgbBuLFWaJFHRt1LrjAaxkLQJ
+ QEd1zLGvDi1P476c6z/Hw==
+UI-OutboundReport: notjunk:1;M01:P0:euL6hABAGFM=;geB4rej9/aP++bm6wOcVyJmo3Hx
+ cvdiEsr+QLDs1TCGsMNLlTGrkcdIwaBvlTktuY/PxqX2Ecb37I1F0Y5qvkjsovM+A8mCZMWef
+ //CTV3cCEr7Ab4X7k41ESMGlI8iRMRnhorr8NbuqIz4EKwB+MbxB85u8RkWJmmkN7CnUKwwiu
+ 2ywajiNYu+lHPgTYk6eJCyl7A2bpnxURtHLzc9yao+9Cywg28GuH1j6OxCcbc71RPEWVtsu+4
+ QgLfJPat/18xUAZC55tSBwbc3wuXGu2wCV4oX1URXsi36EY0HRIlsZZjbgNRKKwj0EBWWnY3E
+ wsuDpULRLj1v55LaMmuIqsftGXNrogWlPGwIwqIBORMCnEfbIr+Moc1nnBmxwtMGTVxmOby5F
+ l5ctgd9vZ9VU0j+IUM32SurAgMgsafvDldTmFKLVet7djgbc1raVGm15mGxslnOvO3R/akuxv
+ 7T8tnrmdqmmhj5WK6X2OcwWlFmwRAjAhPn7sQgME5nfL+fkrmS5YlRh6oSk/SFjZCaRCPaHjA
+ xWsCPS3C0cTlSSuByjjhrlMHGJtHdGgOwblE2/yHlc2vecDTRrsjzpzVcP7zNcJjZ3K7iwFlq
+ MabS7//2mdWJ2TVClqeRIn66oWUtTc7WktXMB4ckT5yov7uxqcfdEp3FItEmyRFiWIEZYwK9G
+ zj5ObXdtxIwE5AlNgJ1Az+D22nj7/lZDAvacmMpWDw==
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
         RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
@@ -68,162 +68,44 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
---JLaoYCqdwGByEiso
+--QQ/PX5GslodXe0Gc
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun 11 Dec 2022 12:10:59 GMT, Masahiro Yamada wrote:
-> In Kbuild, some files are generated by chains of pattern/implicit=20
-> rules.
-> For example, *.dtb.o files in drivers/of/unittest-data/Makefile are
-> generated by the chain of 3 pattern rules, like this:
+On Sat 17 Dec 2022 11:21:48 GMT, Bhaskar Chowdhury wrote:
+> Reconstructed the sentence for the better readability.
 >=20
->   %.dts  ->  %.dtb  ->  %.dtb.S  ->  %.dtb.o
->=20
-> Here, %.dts is the real source, %.dtb.o is the final target.
-> %.dtb and %.dtb.S are called "intermediate files".
->=20
-> As GNU Make manual [1] says, intermediate files are treated differently
-> in two ways:
->=20
->  (a) The first difference is what happens if the intermediate file does
->    not exist. If an ordinary file 'b' does not exist, and make considers
->    a target that depends on 'b', it invariably creates 'b' and then
->    updates the target from 'b'. But if 'b' is an intermediate file, then
->    make can leave well enough alone: it won't create 'b' unless one of
->    its prerequisites is out of date. This means the target depending
->    on 'b' won't be rebuilt either, unless there is some other reason
->    to update that target: for example the target doesn't exist or a
->    different prerequisite is newer than the target.
->=20
->  (b) The second difference is that if make does create 'b' in order to
->    update something else, it deletes 'b' later on after it is no longer
->    needed. Therefore, an intermediate file which did not exist before
->    make also does not exist after make. make reports the deletion to
->    you by printing a 'rm' command showing which file it is deleting.
->=20
-> Actually, (b) is problematic for Kbuild because most of the build rules
-> depend on FORCE and the if_changed* macros really determine if the
-> target should be updated. So, all missing files, whether they are
-> intermediate or not, are always rebuilt.
->=20
-> To see why (b) is a problem, delete ".SECONDARY:" from
-> scripts/Kbuild.include, and repeat this command:
->=20
->   $ make allmodconfig drivers/of/unittest-data/
->=20
-> The intermediate files will be deleted, which results in rebuilding
-> intermediate and final objects in the next run of make.
->=20
-> In the old days, people suppressed (b) in inconsistent ways.
-> As commit 54a702f70589 ("kbuild: mark $(targets) as .SECONDARY and
-> remove .PRECIOUS markers") noted, you should not use .PRECIOUS because
-> .PRECIOUS has the following behavior (c), which is not likely what you
-> want.
->=20
->  (c) If make is killed or interrupted during the execution of their
->    recipes, the target is not deleted. Also, the target is not deleted
->    on error even if .DELETE_ON_ERROR is specified.
->=20
-> .SECONDARY is a much better way to disable (b), but a small problem
-> is that .SECONDARY enables (a), which gives a side-effect to $?;
-> prerequisites marked as .SECONDARY do not appear in $?. This is a
-> drawback for Kbuild.
->=20
-> I thought it was a bug and opened a bug report. As Paul, the GNU Make
-> maintainer, concluded in [2], this is not a bug.
->=20
-> A good news is that, GNU Make 4.4 added the perfect solution,
-> .NOTINTERMEDIATE, which cancels both (a) and (b).
->=20
-> For clarificaton, my understanding of .INTERMEDIATE, .SECONDARY,
-> .PRECIOUS and .NOTINTERMEDIATE are as follows:
->=20
->                         (a)         (b)         (c)
->   .INTERMEDIATE        enable      enable      disable
->   .SECONDARY           enable      disable     disable
->   .PRECIOUS            disable     disable     enable
->   .NOTINTERMEDIATE     disable     disable     disable
->=20
-> However, GNU Make 4.4 has a bug for the global .NOTINTERMEDIATE. [3]
-> It was fixed by commit 6164608900ad ("[SV 63417] Ensure global
-> .NOTINTERMEDIATE disables all intermediates"), and will be available
-> in the next release of GNU Make.
->=20
-> The following is the gain for .NOTINTERMEDIATE:
->=20
->   [Current Make]
->=20
->       $ make allnoconfig vmlinux
->           [ full build ]
->       $ rm include/linux/device.h
->       $ make vmlinux
->         CALL    scripts/checksyscalls.sh
->=20
->   Make does not notice the removal of <linux/device.h>.
->=20
->   [Future Make]
->=20
->       $ make-latest allnoconfig vmlinux
->           [ full build ]
->       $ rm include/linux/device.h
->       $ make-latest vmlinux
->         CC      arch/x86/kernel/asm-offsets.s
->       In file included from ./include/linux/writeback.h:13,
->                        from ./include/linux/memcontrol.h:22,
->                        from ./include/linux/swap.h:9,
->                        from ./include/linux/suspend.h:5,
->                        from arch/x86/kernel/asm-offsets.c:13:
->       ./include/linux/blk_types.h:11:10: fatal error: linux/device.h: No =
-such file or directory
->          11 | #include <linux/device.h>
->             |          ^~~~~~~~~~~~~~~~
->       compilation terminated.
->       make-latest[1]: *** [scripts/Makefile.build:114: arch/x86/kernel/as=
-m-offsets.s] Error 1
->       make-latest: *** [Makefile:1282: prepare0] Error 2
->=20
->   Make notices the removal of <linux/device.h>, and rebuilds objects
->   that depended on <linux/device.h>. There exists a source file that
->   includes <linux/device.h>, and it raises an error.
->=20
-> To see detailed background information, refer to commit 2d3b1b8f0da7
-> ("kbuild: drop $(wildcard $^) check in if_changed* for faster rebuild").
->=20
-> [1]: https://www.gnu.org/software/make/manual/make.html#Chained-Rules
-> [2]: https://savannah.gnu.org/bugs/?55532
-> [3]: https://savannah.gnu.org/bugs/?63417
->=20
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->=20
->  scripts/Kbuild.include | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
->=20
+> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 
-I really do appreciate the detailed and enlightening reasoning.
+I liked the commit message your v1 much better (minimally changed):
+> Add few static text to explain how one can bring up the search dialog box=
+ by
+> pressing the forward slash key anywhere on this interface.
 
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+Would you mind updating it once again?
 
---JLaoYCqdwGByEiso
+Kind regards,
+Nicolas
+
+--QQ/PX5GslodXe0Gc
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmOllI0ACgkQB1IKcBYm
-EmmgjhAApuRsjWZ++xyqWfoV2g1krousjKxXc7x6ihxTW4Cafa+StC7bwIkwv5e7
-m9UG0gj/J8nrwCwCLRNVZdNi/oREFwZRZqDNGKfh0gFqYIGwhGg+d69LbO131h14
-7/PHNuk4B3IzRYQamZ8Dge5TYJ+xOWvQRL4vn1h032xqu2icO8uBH9+fujBfl22W
-paoPAT/BbxXy5KZULSZzA5NYD+SA6V4OZcYWh0KS9dk+0r1i3B0SSaBDruF3ILdN
-Rx/8sGhrIwygcmUsUHV3lRu9B4DFAXXTGempOtjbkqoqsKZxMMuE2D0kLMAQY0gR
-bak/aHy/jsabN9JaqVHTzJdWd9Zr74ZTo95NzJcUpEjcrZI1gUC4QNiSiuBgVQR3
-5HM3w1A2DBQHEG3eR5gRE3H1tFcpdwdGZQk3suZA5WDsH2kU2oxM6ouu7uxiLgIi
-gJ97+qLQfiE+4vg1fFy05xsCrlvIp0x4Am4rs/QUODZobJPrRX1j5FyVyjlieWMq
-NCRsKICSFs21iPf+qa4F6hSSMGu55dotq6qqd1ZHUyllaI1D8nPgRwtC3aZ12+PI
-XWJg4YwDOpj4Xm/uAVlGG9aY/pdiMV2XUrQhqHM7o3agrMMRy+//mNjj1x9jcr96
-eC/NwWj3nytnTJUT1kYTj/BDOM1kZBxkqwHDHH7cxy8ghsCHaFI=
-=evpG
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmOlliIACgkQB1IKcBYm
+EmlQGhAA3th7SKiFM0WMOJEzLw4xIWfU26YN7xeb0TJDoPUieOW3YsVUdFiwJY9I
+tkQO+otdIxjuFHkIpMsS7iW4Ug6h1qlPjYFUx1sNk72NckIbamAJheBzCc3QRDG+
+2Xmbwtw0aOi1YrAk0xx4cJbgqnN7aN5Usl7xrciEE3prOmLVxKBpGWpCjHIEmZnY
+e4uNhvFOzo+VAJsG7tvwSxKMDok87vtNtrCQKhBvLfJ8kyS2W6nQyJFWGUxYMHNN
+0+YNsRTNXABys1FrhVi5OAca6vBxe3cBmtPoFZvL2lMi2KAqvigPqCviMT/m7WIy
+deSjghbDJQ6dDsGeksBpdvrY2BzAqCMXw/DrAIRc6PG64GjLvRisHvFO3nR3WpqJ
+lhp0Zl00l13yZM8PGLqPVmkHZai2PdWaAjfzjsx5WJXfYObJkr/wdPxyH3DAfjOH
+2rHj2YNdywi/loyRZemlwrd7brUv/Dm/mflFHP3yJpLC0uvJFdYwUxB3X1rI+3Vx
+zvCOD3QJNUlo4L2zUR6PHgbRdlqX+4KM4y2yFX6QRPeKwQXglfB0/EyLSjh/RuAl
+OXNFR9WHhIg/oYrDmHxo25dv9g2z+Thj9tFqTpCKqroD3VO44hd1knkFtpskIAEo
+N5bstp4kYU/ogM6a8ASuzSJlc7233o7H7beh6Z/0LyAJ82L374Q=
+=h9uA
 -----END PGP SIGNATURE-----
 
---JLaoYCqdwGByEiso--
+--QQ/PX5GslodXe0Gc--
