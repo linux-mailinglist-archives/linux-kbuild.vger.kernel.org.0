@@ -2,110 +2,130 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C6FF654FD2
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Dec 2022 12:51:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EC6A6559B6
+	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Dec 2022 10:48:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230307AbiLWLvb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 23 Dec 2022 06:51:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53060 "EHLO
+        id S230167AbiLXJsL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 24 Dec 2022 04:48:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235995AbiLWLva (ORCPT
+        with ESMTP id S229650AbiLXJsK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 23 Dec 2022 06:51:30 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 238BF6307;
-        Fri, 23 Dec 2022 03:51:24 -0800 (PST)
-Received: from leknes.fjasle.eu ([46.142.99.43]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MCsLo-1ozv8R1iQi-008vs5; Fri, 23 Dec 2022 12:51:03 +0100
-Received: from localhost.fjasle.eu (bergen.fjasle.eu [IPv6:fdda:8718:be81:0:6f0:21ff:fe91:394])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (Client did not present a certificate)
-        by leknes.fjasle.eu (Postfix) with ESMTPS id 516563C0EF;
-        Fri, 23 Dec 2022 12:51:02 +0100 (CET)
-Authentication-Results: leknes.fjasle.eu; dkim=none; dkim-atps=neutral
-Received: by localhost.fjasle.eu (Postfix, from userid 1000)
-        id 5F77F751; Fri, 23 Dec 2022 12:50:59 +0100 (CET)
-Date:   Fri, 23 Dec 2022 12:50:59 +0100
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Cc:     masahiroy@kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V3]  scripts: kconfig: Added static text for search
- information in help menu
-Message-ID: <Y6WWI87an9IRmVod@bergen.fjasle.eu>
-References: <20221217055148.28914-1-unixbhaskar@gmail.com>
+        Sat, 24 Dec 2022 04:48:10 -0500
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B810111A0B;
+        Sat, 24 Dec 2022 01:48:08 -0800 (PST)
+Received: by mail-qt1-f175.google.com with SMTP id bp44so2761937qtb.0;
+        Sat, 24 Dec 2022 01:48:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NHi3u0HawEEc5/OGkXGO0UddJLW+vqFAqayF1+b6YOw=;
+        b=wVVy0EU2szgYyQ2r62Ys3Je+GoYcqe8MKI5dirDC8+6b6TP4O1kkRpffsOT5ouyRJ4
+         xA5K7U0ro0yFb22uppmhBufqPiXDBl6loYNbG6c9EE0CFcqzQI0GOmm/ckTRgA2dw+V1
+         Zh0L97+NhocpfCxbpXjT6Y9im2tEBKJT9cC2q0+aJ5IJx8fzy5tofn8HD0pZBUBb0G8K
+         24wzSn1qV3T6/Mf2RNUTxQn7PxEzzKdDv133lEfht/mCjWJtkXCmZ9nxcMdMksc6VS2b
+         92Su4vFf9JMO9TPsDQ1epXweFhX0j63z2+nOjpC7r9Qomm6GQQhVCOvtmE+DrdgoJ7DH
+         VUsg==
+X-Gm-Message-State: AFqh2kqMEzusOIUX5GNryRaEMf8wS9lPtKiy8Jydt43LmRrGXXs8cxVZ
+        Q/ewwvbg4h2bIhiFGkm5/fWec95lR46UTg==
+X-Google-Smtp-Source: AMrXdXv9qfcyg8MeSI2mNE6uWzS7kXIlKn/UPdNQ+HGwjA8MFIe9p/jH1hy0WSP6bCh9dUEbuXmbwg==
+X-Received: by 2002:ac8:5403:0:b0:3a6:9b7f:9da7 with SMTP id b3-20020ac85403000000b003a69b7f9da7mr16233098qtq.59.1671875287656;
+        Sat, 24 Dec 2022 01:48:07 -0800 (PST)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
+        by smtp.gmail.com with ESMTPSA id bq38-20020a05620a46a600b00704c9015e68sm3539338qkb.116.2022.12.24.01.48.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 24 Dec 2022 01:48:06 -0800 (PST)
+Received: by mail-yb1-f173.google.com with SMTP id j206so7477893ybj.1;
+        Sat, 24 Dec 2022 01:48:06 -0800 (PST)
+X-Received: by 2002:a25:d103:0:b0:75d:3ecb:1967 with SMTP id
+ i3-20020a25d103000000b0075d3ecb1967mr1000944ybg.604.1671875286069; Sat, 24
+ Dec 2022 01:48:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="QQ/PX5GslodXe0Gc"
-Content-Disposition: inline
-In-Reply-To: <20221217055148.28914-1-unixbhaskar@gmail.com>
-Jabber-ID: nicolas@fjasle.eu
-X-Operating-System: Debian GNU/Linux bookworm/sid
-X-Provags-ID: V03:K1:b2fUXJCdsgsHJt3fstwJIvD1GkZ61v5ytWvq2Tb5fjf/TschsQh
- E0SHU2Zebqf5AzhLcHB6RF0k1a+1pDF3VCeUaEKtOOtbINO/Wdg+ucbJ6HBXSq9H0NJdQ/7
- JDH3xObS+cUvEb6wrgMrx7WcbW99iGMKtj7Fvm4kjW/HghFgbBuLFWaJFHRt1LrjAaxkLQJ
- QEd1zLGvDi1P476c6z/Hw==
-UI-OutboundReport: notjunk:1;M01:P0:euL6hABAGFM=;geB4rej9/aP++bm6wOcVyJmo3Hx
- cvdiEsr+QLDs1TCGsMNLlTGrkcdIwaBvlTktuY/PxqX2Ecb37I1F0Y5qvkjsovM+A8mCZMWef
- //CTV3cCEr7Ab4X7k41ESMGlI8iRMRnhorr8NbuqIz4EKwB+MbxB85u8RkWJmmkN7CnUKwwiu
- 2ywajiNYu+lHPgTYk6eJCyl7A2bpnxURtHLzc9yao+9Cywg28GuH1j6OxCcbc71RPEWVtsu+4
- QgLfJPat/18xUAZC55tSBwbc3wuXGu2wCV4oX1URXsi36EY0HRIlsZZjbgNRKKwj0EBWWnY3E
- wsuDpULRLj1v55LaMmuIqsftGXNrogWlPGwIwqIBORMCnEfbIr+Moc1nnBmxwtMGTVxmOby5F
- l5ctgd9vZ9VU0j+IUM32SurAgMgsafvDldTmFKLVet7djgbc1raVGm15mGxslnOvO3R/akuxv
- 7T8tnrmdqmmhj5WK6X2OcwWlFmwRAjAhPn7sQgME5nfL+fkrmS5YlRh6oSk/SFjZCaRCPaHjA
- xWsCPS3C0cTlSSuByjjhrlMHGJtHdGgOwblE2/yHlc2vecDTRrsjzpzVcP7zNcJjZ3K7iwFlq
- MabS7//2mdWJ2TVClqeRIn66oWUtTc7WktXMB4ckT5yov7uxqcfdEp3FItEmyRFiWIEZYwK9G
- zj5ObXdtxIwE5AlNgJ1Az+D22nj7/lZDAvacmMpWDw==
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <Y1BcpXAjR4tmV6RQ@zx2c4.com> <20221019203034.3795710-1-Jason@zx2c4.com>
+ <20221221145332.GA2399037@roeck-us.net> <CAMuHMdUAaQSXq=4rO9soCGGnH8HZrSS0PjWELqGzXoym4dOqnQ@mail.gmail.com>
+ <1a27385c-cca6-888b-1125-d6383e48c0f5@prevas.dk> <20221221155641.GB2468105@roeck-us.net>
+ <CAHk-=wj7FMFLr9AOW9Aa9ZMt1-Lu01_X8vLiaKosPyF2H-+ujA@mail.gmail.com>
+ <b2144334261246aa8dc5004c5f1a58c9@AcuMS.aculab.com> <f02e0ac7f2d805020a7ba66803aaff3e31b5eeff.camel@t-online.de>
+In-Reply-To: <f02e0ac7f2d805020a7ba66803aaff3e31b5eeff.camel@t-online.de>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Sat, 24 Dec 2022 10:47:53 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUzjvw3t4Q8YaGS=j+WP9Bz6NgK=di7jLXL3fHGuOZcEw@mail.gmail.com>
+Message-ID: <CAMuHMdUzjvw3t4Q8YaGS=j+WP9Bz6NgK=di7jLXL3fHGuOZcEw@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: treat char as always unsigned
+To:     Holger Lubitz <holger.lubitz@t-online.de>
+Cc:     David Laight <David.Laight@aculab.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-toolchains@vger.kernel.org" <linux-toolchains@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-m68k@lists.linux-m68k.org" <linux-m68k@lists.linux-m68k.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Hi Holger,
 
---QQ/PX5GslodXe0Gc
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sat, Dec 24, 2022 at 10:34 AM Holger Lubitz
+<holger.lubitz@t-online.de> wrote:
+> On Thu, 2022-12-22 at 10:41 +0000, David Laight wrote:
+> > I wonder how much slower it is - m68k is likely to be microcoded
+> > and I don't think instruction timings are actually available.
+>
+> Not sure if these are in any way official, but
+> http://oldwww.nvg.ntnu.no/amiga/MC680x0_Sections/mc68030timing.HTML
+>
+> (There's also
+> http://oldwww.nvg.ntnu.no/amiga/MC680x0_Sections/mc68000timing.HTML
+> but that is probably only interesting to demo coders by now)
 
-On Sat 17 Dec 2022 11:21:48 GMT, Bhaskar Chowdhury wrote:
-> Reconstructed the sentence for the better readability.
->=20
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Yes, instruction timings are available.  Unlike for e.g. x86, there
+is only a very limited number of parts to consider.
 
-I liked the commit message your v1 much better (minimally changed):
-> Add few static text to explain how one can bring up the search dialog box=
- by
-> pressing the forward slash key anywhere on this interface.
+> > I believe some of the other m68k asm functions are also missing
+> > the "memory" 'clobber' and so could get mis-optimised.
+>
+> In which case would that happen? This function doesn't clobber memory
+> and its result does get used. If gcc mistakenly thinks the parameters
+> haven't changed and uses a previously cached result, wouldn't that
+> apply to a C function too?
 
-Would you mind updating it once again?
+For a pure C inline function, the compiler knows exactly what it does.
 
-Kind regards,
-Nicolas
+For an external C function, the compiler assumes all odds are off.
 
---QQ/PX5GslodXe0Gc
-Content-Type: application/pgp-signature; name="signature.asc"
+For inline asm, the compiler doesn't know what happens with (the data
+pointed to by) the pointers, unless that's described in the constraints.
+We do have some inline asm that has "*ptr" in the constraints, but
+that applies to a single value, not to an array.  And in case of
+strings, the size of the array is not known without looking for the
+zero-terminator.
 
------BEGIN PGP SIGNATURE-----
+Gr{oetje,eeting}s,
 
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmOlliIACgkQB1IKcBYm
-EmlQGhAA3th7SKiFM0WMOJEzLw4xIWfU26YN7xeb0TJDoPUieOW3YsVUdFiwJY9I
-tkQO+otdIxjuFHkIpMsS7iW4Ug6h1qlPjYFUx1sNk72NckIbamAJheBzCc3QRDG+
-2Xmbwtw0aOi1YrAk0xx4cJbgqnN7aN5Usl7xrciEE3prOmLVxKBpGWpCjHIEmZnY
-e4uNhvFOzo+VAJsG7tvwSxKMDok87vtNtrCQKhBvLfJ8kyS2W6nQyJFWGUxYMHNN
-0+YNsRTNXABys1FrhVi5OAca6vBxe3cBmtPoFZvL2lMi2KAqvigPqCviMT/m7WIy
-deSjghbDJQ6dDsGeksBpdvrY2BzAqCMXw/DrAIRc6PG64GjLvRisHvFO3nR3WpqJ
-lhp0Zl00l13yZM8PGLqPVmkHZai2PdWaAjfzjsx5WJXfYObJkr/wdPxyH3DAfjOH
-2rHj2YNdywi/loyRZemlwrd7brUv/Dm/mflFHP3yJpLC0uvJFdYwUxB3X1rI+3Vx
-zvCOD3QJNUlo4L2zUR6PHgbRdlqX+4KM4y2yFX6QRPeKwQXglfB0/EyLSjh/RuAl
-OXNFR9WHhIg/oYrDmHxo25dv9g2z+Thj9tFqTpCKqroD3VO44hd1knkFtpskIAEo
-N5bstp4kYU/ogM6a8ASuzSJlc7233o7H7beh6Z/0LyAJ82L374Q=
-=h9uA
------END PGP SIGNATURE-----
+                        Geert
 
---QQ/PX5GslodXe0Gc--
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
