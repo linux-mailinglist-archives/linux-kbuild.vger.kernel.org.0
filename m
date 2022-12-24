@@ -2,49 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C382655AA2
-	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Dec 2022 16:51:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC749655B1A
+	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Dec 2022 20:28:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230510AbiLXPvs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 24 Dec 2022 10:51:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44626 "EHLO
+        id S230019AbiLXT2S (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 24 Dec 2022 14:28:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231205AbiLXPvr (ORCPT
+        with ESMTP id S229499AbiLXT2Q (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 24 Dec 2022 10:51:47 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 463ACB4A4;
-        Sat, 24 Dec 2022 07:51:46 -0800 (PST)
+        Sat, 24 Dec 2022 14:28:16 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CBA6114B;
+        Sat, 24 Dec 2022 11:28:15 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D2E1E60AB3;
-        Sat, 24 Dec 2022 15:51:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBA8FC433F1;
-        Sat, 24 Dec 2022 15:51:43 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 158D7B801BC;
+        Sat, 24 Dec 2022 19:28:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74A0CC433EF;
+        Sat, 24 Dec 2022 19:28:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671897105;
-        bh=yg//8hD31XxiPCoRTUQMtdjbNNcNmuW0h+F67eoF5Vk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Ow41Lbuwc2FXdptY6AZ12z+BryyyBJC8Y5LrrrRihCwZGr/MC3fwQs7gwCEzY1vo1
-         b0bHIoipBUMTXHlqf2QTQeiyEbsru/oy1VFfHm3lVNwgf3pwCh3DjhyzX+Xd9ItS7N
-         4o6/Oy+pfI9NcUvwTART4udJqHGR004SMlED8kQL4kjtVLDZdyYkJSTo+08XRTwWqb
-         qUYxTGnjpfunoG1DdhISAXdsTcWDxXlnDK4g2ai9tF+embm2bf9r+UOoI1KCn1ppo5
-         9fzbIlArpJeEPuQ8gOz0SNPdyJPcEloJNsnnTPbikCA/quMMVHI0HiDmvimHA0N1os
-         kkire3ci1fCLg==
+        s=k20201202; t=1671910092;
+        bh=UQnfmGWpjZxvdevhblki0v7ZzFcxxRalPcpyLzVn6JI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Z5QB2B9WNLl5VOrzUNo0txpZ6VIJYGVDHCH+nwR9luPwWds2mSlHGNBIJO7lozNhO
+         rdFdovyAsB8iRmKcwBjULiwQCbK3avqS0A6tQc7lu4SPb0m0ThZmLLMTjhPQylrGcA
+         BbNoZh4CnJ9T6EKJEAENiUfDk8GfMBn6rJWde6vjhr7FWCwAeOw5dQ804F4M/ZDkXR
+         65k9Y0tgUoGpzCSK+LlqI2CLA4kXFmBWcPEfmKWnT6hIZxpd77+lxGYLDzIhXW5LYG
+         nsxJWyNmGQmKvPj12ADF7gzCtbrkH2gHdznoidrqiuOo+Bc0OnHF48JPsAJa2dgbwR
+         rs5qlsrB9UaRw==
 From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
+To:     linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+        Thorsten Leemhuis <regressions@leemhuis.info>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-riscv@lists.infradead.org,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH v2 2/2] kbuild: make W=1 warn files that are tracked but ignored by git
-Date:   Sun, 25 Dec 2022 00:51:38 +0900
-Message-Id: <20221224155138.447912-2-masahiroy@kernel.org>
+        Dennis Gilmore <dennis@ausil.us>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>
+Subject: [PATCH] arch: fix broken BuildID for arm64 and riscv
+Date:   Sun, 25 Dec 2022 04:27:51 +0900
+Message-Id: <20221224192751.810363-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221224155138.447912-1-masahiroy@kernel.org>
-References: <20221224155138.447912-1-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -56,89 +63,73 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The top .gitignore comments about how to detect files breaking
-.gitignore rules, but people rarely care about it.
+Dennis Gilmore reports that the BuildID is missing in the arm64 vmlinux
+since commit 994b7ac1697b ("arm64: remove special treatment for the
+link order of head.o").
 
-Add a new W=1 warning to detect files that are tracked but ignored by
-git. If git is not installed or the source tree is not tracked by git
-at all, this script does not print anything.
+The issue is that the type of .notes section, which contains the BuildID,
+changed from NOTES to PROGBITS.
 
-Running it on the v6.1 kernel detected the following:
+Ard Biesheuvel figured out that whichever object gets linked first gets
+to decide the type of a section, and the PROGBITS type is the result of
+the compiler emitting .note.GNU-stack as PROGBITS rather than NOTE.
 
-  $ make W=1 misc-check
-  Documentation/devicetree/bindings/.yamllint: warning: ignored by one of the .gitignore files
-  drivers/clk/.kunitconfig: warning: ignored by one of the .gitignore files
-  drivers/gpu/drm/tests/.kunitconfig: warning: ignored by one of the .gitignore files
-  drivers/hid/.kunitconfig: warning: ignored by one of the .gitignore files
-  fs/ext4/.kunitconfig: warning: ignored by one of the .gitignore files
-  fs/fat/.kunitconfig: warning: ignored by one of the .gitignore files
-  kernel/kcsan/.kunitconfig: warning: ignored by one of the .gitignore files
-  lib/kunit/.kunitconfig: warning: ignored by one of the .gitignore files
-  mm/kfence/.kunitconfig: warning: ignored by one of the .gitignore files
-  tools/testing/selftests/arm64/tags/.gitignore: warning: ignored by one of the .gitignore files
-  tools/testing/selftests/arm64/tags/Makefile: warning: ignored by one of the .gitignore files
-  tools/testing/selftests/arm64/tags/run_tags_test.sh: warning: ignored by one of the .gitignore files
-  tools/testing/selftests/arm64/tags/tags_test.c: warning: ignored by one of the .gitignore files
+While Ard provided a fix for arm64, I want to fix this globally because
+the same issue is happening on riscv since commit 2348e6bf4421 ("riscv:
+remove special treatment for the link order of head.o"). This problem
+will happen in general for other architectures if they start to drop
+unneeded entries from scripts/head-object-list.txt.
 
-These are ignored by the '.*' or 'tags' in the top .gitignore, but
-there is no rule to negate it.
+Discard .note.GNU-stack in include/asm-generic/vmlinux.lds.h.
 
-You might be tempted to do 'git add -f' but I want to have the real
-issue fixed (by fixing a .gitignore, or by renaming files, etc.).
+riscv needs to change its linker script so that DISCARDS comes before
+the .notes section.
 
+Link: https://lore.kernel.org/lkml/CAABkxwuQoz1CTbyb57n0ZX65eSYiTonFCU8-LCQc=74D=xE=rA@mail.gmail.com/
+Fixes: 994b7ac1697b ("arm64: remove special treatment for the link order of head.o")
+Fixes: 2348e6bf4421 ("riscv: remove special treatment for the link order of head.o")
+Reported-by: Dennis Gilmore <dennis@ausil.us>
+Suggested-by: Ard Biesheuvel <ardb@kernel.org>
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
-Changes in v2:
-  - Add $(srctree)/ to make it work with O=
+ arch/riscv/kernel/vmlinux.lds.S   | 4 ++--
+ include/asm-generic/vmlinux.lds.h | 1 +
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
- Makefile           |  6 ++++++
- scripts/misc-check | 19 +++++++++++++++++++
- 2 files changed, 25 insertions(+)
- create mode 100755 scripts/misc-check
-
-diff --git a/Makefile b/Makefile
-index 44239352d2bf..f6ff8f77a669 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1852,6 +1852,12 @@ rust-analyzer:
- # Misc
- # ---------------------------------------------------------------------------
+diff --git a/arch/riscv/kernel/vmlinux.lds.S b/arch/riscv/kernel/vmlinux.lds.S
+index 4e6c88aa4d87..1865a258e560 100644
+--- a/arch/riscv/kernel/vmlinux.lds.S
++++ b/arch/riscv/kernel/vmlinux.lds.S
+@@ -31,6 +31,8 @@ PECOFF_FILE_ALIGNMENT = 0x200;
  
-+PHONY += misc-check
-+misc-check:
-+	$(Q)$(srctree)/scripts/misc-check
+ SECTIONS
+ {
++	DISCARDS
 +
-+all: misc-check
-+
- PHONY += scripts_gdb
- scripts_gdb: prepare0
- 	$(Q)$(MAKE) $(build)=scripts/gdb
-diff --git a/scripts/misc-check b/scripts/misc-check
-new file mode 100755
-index 000000000000..bf68712d1ac1
---- /dev/null
-+++ b/scripts/misc-check
-@@ -0,0 +1,19 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+set -e
-+
-+# Detect files that are tracked but ignored by git. This is checked only when
-+# ${KBUILD_EXTRA_WARN} contains 1, git is installed, and the source tree is
-+# tracked by git.
-+check_tracked_ignored_files () {
-+	case "${KBUILD_EXTRA_WARN}" in
-+	*1*) ;;
-+	*) return;;
-+	esac
-+
-+	git ls-files -i -c --exclude-per-directory=.gitignore 2>/dev/null |
-+		sed 's/$/: warning: ignored by one of the .gitignore files/' >&2
-+}
-+
-+check_tracked_ignored_files
+ 	/* Beginning of code and text segment */
+ 	. = LOAD_OFFSET;
+ 	_start = .;
+@@ -141,7 +143,5 @@ SECTIONS
+ 	STABS_DEBUG
+ 	DWARF_DEBUG
+ 	ELF_DETAILS
+-
+-	DISCARDS
+ }
+ #endif /* CONFIG_XIP_KERNEL */
+diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+index a94219e9916f..2993b790fe98 100644
+--- a/include/asm-generic/vmlinux.lds.h
++++ b/include/asm-generic/vmlinux.lds.h
+@@ -1007,6 +1007,7 @@
+ 	*(.modinfo)							\
+ 	/* ld.bfd warns about .gnu.version* even when not emitted */	\
+ 	*(.gnu.version*)						\
++	*(.note.GNU-stack)	/* emitted as PROGBITS */
+ 
+ #define DISCARDS							\
+ 	/DISCARD/ : {							\
 -- 
 2.34.1
 
