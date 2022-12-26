@@ -2,114 +2,117 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C3C246562E2
-	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Dec 2022 14:41:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 810846564A9
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Dec 2022 19:46:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229636AbiLZNls (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 26 Dec 2022 08:41:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60074 "EHLO
+        id S232193AbiLZSqI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 26 Dec 2022 13:46:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbiLZNlq (ORCPT
+        with ESMTP id S229591AbiLZSqH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 26 Dec 2022 08:41:46 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3D6A2726;
-        Mon, 26 Dec 2022 05:41:45 -0800 (PST)
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2BQDbdKr020011;
-        Mon, 26 Dec 2022 13:41:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : references : content-type : in-reply-to :
- mime-version; s=pp1; bh=+pg1t18HnFboBWRaHnKx1274JxUaiw2mejfdOM/OO8o=;
- b=lyZxgAI2M8z719BKcT6VsoIfHtc5cLPyKNwY2WxH6QCputLnJHjaWUwQDfRAvRKhAO8i
- MK5buk1aEOYOX8mhZPfAwzp28K9MO7qT4PmikmJW3InlZN4fFmGsdSatogSCdl1F/A5w
- WzQlN08DxEpWfOXMVRjZ/ofV6P3WK27xuG3/EbAcJ+R76CRvJSzo0Dvj4CpOjlosHYJw
- uBMvESJyF3RUhNGQ1NX7G7km7R1uJIwzV9kfcZMcobPazijws1QAmJsVjrLH+6gaHNDQ
- pwmV8SbjYpxrONTa4i4qHsP4OxMAWvJhvrjfCMj3kOVPgfNUuAqftBX50hgXUYekERYZ fQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3mqb01b4kx-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 26 Dec 2022 13:41:20 +0000
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BQDbqpN023134;
-        Mon, 26 Dec 2022 13:41:19 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
-        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3mqb01b4gv-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 26 Dec 2022 13:41:19 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
-        by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BQDc5Le022488;
-        Mon, 26 Dec 2022 13:41:17 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-        by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3mnrpfhqcm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 26 Dec 2022 13:41:17 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-        by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2BQDfEF846793156
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 26 Dec 2022 13:41:15 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id DD24B20043;
-        Mon, 26 Dec 2022 13:41:14 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 1835B20040;
-        Mon, 26 Dec 2022 13:41:14 +0000 (GMT)
-Received: from li-4a3a4a4c-28e5-11b2-a85c-a8d192c6f089.ibm.com (unknown [9.171.43.88])
-        by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-        Mon, 26 Dec 2022 13:41:14 +0000 (GMT)
-Date:   Mon, 26 Dec 2022 14:41:09 +0100
-From:   Alexander Gordeev <agordeev@linux.ibm.com>
-To:     Jonathan Toppins <jtoppins@redhat.com>
-Cc:     linux-kbuild@vger.kernel.org, masahiroy@kernel.org,
-        dzickus@redhat.com, ihuguet@redhat.com, ivecera@redhat.com,
-        jtornosm@redhat.com, kheib@redhat.com,
-        linux-kernel@vger.kernel.org, michal.lkml@markovi.net,
-        ndesaulniers@google.com, Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Subject: Re: [PATCH next v2] kbuild: add ability to make source rpm buildable
- using koji
-Message-ID: <Y6mkdYQYmjUz7bqV@li-4a3a4a4c-28e5-11b2-a85c-a8d192c6f089.ibm.com>
-References: <d6d5ce3169da8559cd20d20889849546cc69be50.1669042125.git.jtoppins@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d6d5ce3169da8559cd20d20889849546cc69be50.1669042125.git.jtoppins@redhat.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: FS0Jf90b8LcwRI5ayI1DcEOFzobAgp1a
-X-Proofpoint-GUID: dmGEJh88DkRXRMfMCEi33pggv9UbOibU
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        Mon, 26 Dec 2022 13:46:07 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A90A4BF9;
+        Mon, 26 Dec 2022 10:46:02 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 346B360EF7;
+        Mon, 26 Dec 2022 18:46:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C8DDC433EF;
+        Mon, 26 Dec 2022 18:45:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1672080361;
+        bh=11fqsHGDwlwZxXJ1I41qluVDDxZF3poiwCovlkcoHk8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=FYKcKWr0aibziaNfZxLDzsqJAbxmWqPqNL9fzxTN/GiM2Es+IyAru6i78RMDQBZLE
+         AJUFihUysrNIL0HrQ7zpLpvvkdPgE0VYc5vBp4fKBFnNNQlMhrbm00lvDfpgtSLKKg
+         eim1FHPTBoPExSY3hwYvEfmjXyOtt1Dj67HK9QqTjVJo+p9qc5cgbAewgJVrZCOzT4
+         0tHVbx22psxKKIAqN+WZbenpOIcf+3onOeOwXutik0uK8+veuaP18Ac4NPX6bRlKWt
+         SyA2x9mAeRdasCG3zdQ0tBnmM0ej0+jVoZ/9M/lHcope8kbXIpFPT6m44J+tUvdMjC
+         F/6LEe+RzHNJg==
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+        Thorsten Leemhuis <regressions@leemhuis.info>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-riscv@lists.infradead.org, Dennis Gilmore <dennis@ausil.us>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH v2] arch: fix broken BuildID for arm64 and riscv
+Date:   Tue, 27 Dec 2022 03:45:37 +0900
+Message-Id: <20221226184537.744960-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-26_10,2022-12-23_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- lowpriorityscore=0 malwarescore=0 impostorscore=0 spamscore=0 mlxscore=0
- priorityscore=1501 phishscore=0 clxscore=1011 mlxlogscore=796 bulkscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2212260117
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Nov 21, 2022 at 09:48:45AM -0500, Jonathan Toppins wrote:
+Dennis Gilmore reports that the BuildID is missing in the arm64 vmlinux
+since commit 994b7ac1697b ("arm64: remove special treatment for the
+link order of head.o").
 
-Hi Jonathan, Ivan et al,
+The issue is that the type of .notes section, which contains the BuildID,
+changed from NOTES to PROGBITS.
 
-This patch causes a regression on 6.2-rc1 when rpm-pkg target
-is specified on non-rpm system (i.e s390 running Ubuntu). The
-offending chunk is:
+Ard Biesheuvel figured out that whichever object gets linked first gets
+to decide the type of a section. The PROGBITS type is the result of the
+compiler emitting .note.GNU-stack as PROGBITS rather than NOTE.
 
-> @@ -49,6 +51,9 @@ sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
->  	URL: https://www.kernel.org
->  $S	Source: kernel-$__KERNELRELEASE.tar.gz
->  	Provides: $PROVIDES
-> +$S	BuildRequires: bc binutils bison dwarves elfutils-libelf-devel flex
-> +$S	BuildRequires: gcc make openssl openssl-devel perl python3 rsync
-> +
->  	# $UTS_MACHINE as a fallback of _arch in case
->  	# /usr/lib/rpm/platform/*/macros was not included.
->  	%define _arch %{?_arch:$UTS_MACHINE}
+While Ard provided a fix for arm64, I want to fix this globally because
+the same issue is happening on riscv since commit 2348e6bf4421 ("riscv:
+remove special treatment for the link order of head.o"). This problem
+will happen in general for other architectures if they start to drop
+unneeded entries from scripts/head-object-list.txt.
+
+Discard .note.GNU-stack in include/asm-generic/vmlinux.lds.h.
+
+Link: https://lore.kernel.org/lkml/CAABkxwuQoz1CTbyb57n0ZX65eSYiTonFCU8-LCQc=74D=xE=rA@mail.gmail.com/
+Fixes: 994b7ac1697b ("arm64: remove special treatment for the link order of head.o")
+Fixes: 2348e6bf4421 ("riscv: remove special treatment for the link order of head.o")
+Reported-by: Dennis Gilmore <dennis@ausil.us>
+Suggested-by: Ard Biesheuvel <ardb@kernel.org>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+Changes in v2:
+  - discard .note.GNU-stack before .notes because many architectures
+    call DISCARDS at the end of their linker scripts
+
+ include/asm-generic/vmlinux.lds.h | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+index a94219e9916f..659bf3b31c91 100644
+--- a/include/asm-generic/vmlinux.lds.h
++++ b/include/asm-generic/vmlinux.lds.h
+@@ -891,7 +891,12 @@
+ #define PRINTK_INDEX
+ #endif
+ 
++/*
++ * Discard .note.GNU-stack, which is emitted as PROGBITS by the compiler.
++ * Otherwise, the type of .notes section would become PROGBITS instead of NOTES.
++ */
+ #define NOTES								\
++	/DISCARD/ : { *(.note.GNU-stack) }				\
+ 	.notes : AT(ADDR(.notes) - LOAD_OFFSET) {			\
+ 		BOUNDED_SECTION_BY(.note.*, _notes)			\
+ 	} NOTES_HEADERS							\
+-- 
+2.34.1
+
