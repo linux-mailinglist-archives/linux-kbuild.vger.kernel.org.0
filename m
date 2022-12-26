@@ -2,96 +2,114 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91BA6655E02
-	for <lists+linux-kbuild@lfdr.de>; Sun, 25 Dec 2022 19:37:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C3C246562E2
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Dec 2022 14:41:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229540AbiLYShO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 25 Dec 2022 13:37:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53440 "EHLO
+        id S229636AbiLZNls (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 26 Dec 2022 08:41:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbiLYShN (ORCPT
+        with ESMTP id S229450AbiLZNlq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 25 Dec 2022 13:37:13 -0500
-Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2BD85587;
-        Sun, 25 Dec 2022 10:37:12 -0800 (PST)
-Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-3e45d25de97so129869377b3.6;
-        Sun, 25 Dec 2022 10:37:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mtbvWP5/RwTkeMACWqwXsjU2x/ELrCA9QCXhaK8aZzE=;
-        b=mknD/3aW8RCuFA/7hvepqNBSGedeUIhEvE7IqNE0fTJSgCYTgtb7TvjPXn7mecg0od
-         BnO7w8ynNJJivMRy6//InAVude1ky54h5UoSLckI0gzH4tcfGWYse4nVTfPj2zRfQ7eS
-         hnAuvk2u1sXxnMiXQ/EYIVPl6MILnXfiL160KpQQVZw6KxXC5E3/23Tr+YTje/2dORC5
-         CesEjznM1XlopN/x8L9uTlBGjYY2fQDmoBKc0xz6ChfQMIg/baijoOY7LSf8VQNOV5o9
-         n4bye+zICEREwQFYRHbCHujz/SFUYAJbYIf5PZeE+wYvGHwLGsPA1662TsYhj0t5DQ9S
-         7v0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mtbvWP5/RwTkeMACWqwXsjU2x/ELrCA9QCXhaK8aZzE=;
-        b=8Du2FEs0cYweWiOnkFwVyHcsXv9Xep2v2hx0ZS7yVVdFHFzhk4lqrwkYmg7ggmeBVm
-         WGuWjJJPUY44IVULjEa2S7xxCQUG/AJsht+Z1xy4uPinX6sYqa5cFiGNZ/jTHPA9L+/r
-         uyfUJRw0QmXTRrd+JLJzA/dY4ElfGxpToAR96faRZ8F+7d7oSFfHBwiLkJ2DWetdgK8e
-         xS57PnQBnA46o/2XeuCppksG1t4d5VQk7n9j9wmCrdk8f3NzZRtJspbr7BM0M3LxE+QA
-         BB+EB0JzrhYb/GHzWHMzT76PlchAGjgfd47VbkYk0OvTrrielOrcNUvevNs/OJ+iOSRb
-         XSFA==
-X-Gm-Message-State: AFqh2kphXAMEEiJxYeD+wZP1Z5zUCVB1ntdcPIs5K4RHJvYderW2wiyH
-        2qFpXIakluQiST213cRdKaCwAy7WiD+cDrYMziP0PKH9
-X-Google-Smtp-Source: AMrXdXtLaplwFUfT2qf/bLBHWHbfqJaQvGY9WqfDigNF9lhU/bwOD17KZPjhokLGS9jLgV3vJyUb0iApKA9gsrpw3EE=
-X-Received: by 2002:a81:4f95:0:b0:3f4:6e40:89c3 with SMTP id
- d143-20020a814f95000000b003f46e4089c3mr1956568ywb.266.1671993431771; Sun, 25
- Dec 2022 10:37:11 -0800 (PST)
+        Mon, 26 Dec 2022 08:41:46 -0500
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3D6A2726;
+        Mon, 26 Dec 2022 05:41:45 -0800 (PST)
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2BQDbdKr020011;
+        Mon, 26 Dec 2022 13:41:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=pp1; bh=+pg1t18HnFboBWRaHnKx1274JxUaiw2mejfdOM/OO8o=;
+ b=lyZxgAI2M8z719BKcT6VsoIfHtc5cLPyKNwY2WxH6QCputLnJHjaWUwQDfRAvRKhAO8i
+ MK5buk1aEOYOX8mhZPfAwzp28K9MO7qT4PmikmJW3InlZN4fFmGsdSatogSCdl1F/A5w
+ WzQlN08DxEpWfOXMVRjZ/ofV6P3WK27xuG3/EbAcJ+R76CRvJSzo0Dvj4CpOjlosHYJw
+ uBMvESJyF3RUhNGQ1NX7G7km7R1uJIwzV9kfcZMcobPazijws1QAmJsVjrLH+6gaHNDQ
+ pwmV8SbjYpxrONTa4i4qHsP4OxMAWvJhvrjfCMj3kOVPgfNUuAqftBX50hgXUYekERYZ fQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3mqb01b4kx-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 26 Dec 2022 13:41:20 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BQDbqpN023134;
+        Mon, 26 Dec 2022 13:41:19 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
+        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3mqb01b4gv-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 26 Dec 2022 13:41:19 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+        by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BQDc5Le022488;
+        Mon, 26 Dec 2022 13:41:17 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+        by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3mnrpfhqcm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 26 Dec 2022 13:41:17 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+        by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2BQDfEF846793156
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 26 Dec 2022 13:41:15 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id DD24B20043;
+        Mon, 26 Dec 2022 13:41:14 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 1835B20040;
+        Mon, 26 Dec 2022 13:41:14 +0000 (GMT)
+Received: from li-4a3a4a4c-28e5-11b2-a85c-a8d192c6f089.ibm.com (unknown [9.171.43.88])
+        by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+        Mon, 26 Dec 2022 13:41:14 +0000 (GMT)
+Date:   Mon, 26 Dec 2022 14:41:09 +0100
+From:   Alexander Gordeev <agordeev@linux.ibm.com>
+To:     Jonathan Toppins <jtoppins@redhat.com>
+Cc:     linux-kbuild@vger.kernel.org, masahiroy@kernel.org,
+        dzickus@redhat.com, ihuguet@redhat.com, ivecera@redhat.com,
+        jtornosm@redhat.com, kheib@redhat.com,
+        linux-kernel@vger.kernel.org, michal.lkml@markovi.net,
+        ndesaulniers@google.com, Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>
+Subject: Re: [PATCH next v2] kbuild: add ability to make source rpm buildable
+ using koji
+Message-ID: <Y6mkdYQYmjUz7bqV@li-4a3a4a4c-28e5-11b2-a85c-a8d192c6f089.ibm.com>
+References: <d6d5ce3169da8559cd20d20889849546cc69be50.1669042125.git.jtoppins@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d6d5ce3169da8559cd20d20889849546cc69be50.1669042125.git.jtoppins@redhat.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: FS0Jf90b8LcwRI5ayI1DcEOFzobAgp1a
+X-Proofpoint-GUID: dmGEJh88DkRXRMfMCEi33pggv9UbOibU
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <20221224155138.447912-1-masahiroy@kernel.org>
-In-Reply-To: <20221224155138.447912-1-masahiroy@kernel.org>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Sun, 25 Dec 2022 19:37:00 +0100
-Message-ID: <CANiq72=jDGX+8XobCTFs1-ut38cxQd0m7kEMg7U1Vn+NxtMTwA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] .gitinogre: update the command to check tracked
- files being ignored
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alex Gaynor <alex.gaynor@gmail.com>, Andrew Davis <afd@ti.com>,
-        Kees Cook <keescook@chromium.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Wedson Almeida Filho <wedsonaf@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-26_10,2022-12-23_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ lowpriorityscore=0 malwarescore=0 impostorscore=0 spamscore=0 mlxscore=0
+ priorityscore=1501 phishscore=0 clxscore=1011 mlxlogscore=796 bulkscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2212260117
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Dec 24, 2022 at 4:51 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> The -c was implied for older git versions, but we need to make it
-> explicit now.
+On Mon, Nov 21, 2022 at 09:48:45AM -0500, Jonathan Toppins wrote:
 
-Perhaps add a `Link:` to Git's commit b338e9f66873 ("ls-files: error
-out on -i unless -o or -c are specified")
+Hi Jonathan, Ivan et al,
 
-    https://git.kernel.org/pub/scm/git/git.git/commit/?id=b338e9f668737e08201c990450b8c3d744f63162
+This patch causes a regression on 6.2-rc1 when rpm-pkg target
+is specified on non-rpm system (i.e s390 running Ubuntu). The
+offending chunk is:
 
-> We never know what are locally added to $GIT_DIR/info/exclude or
-> $XDG_CONFIG_HOME/git/ignore.
-
-Perhaps we could say "global exclusion file" instead (since it could
-be the one from `core.excludesFile` too).
-
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-
-By the way, in the commit title: "gitinogre" -> "gitignore"
-
-Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
-
-Cheers,
-Miguel
+> @@ -49,6 +51,9 @@ sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
+>  	URL: https://www.kernel.org
+>  $S	Source: kernel-$__KERNELRELEASE.tar.gz
+>  	Provides: $PROVIDES
+> +$S	BuildRequires: bc binutils bison dwarves elfutils-libelf-devel flex
+> +$S	BuildRequires: gcc make openssl openssl-devel perl python3 rsync
+> +
+>  	# $UTS_MACHINE as a fallback of _arch in case
+>  	# /usr/lib/rpm/platform/*/macros was not included.
+>  	%define _arch %{?_arch:$UTS_MACHINE}
