@@ -2,83 +2,150 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC839656D1D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Dec 2022 17:54:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B1593657018
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Dec 2022 22:48:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231268AbiL0Qye (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 27 Dec 2022 11:54:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34622 "EHLO
+        id S229665AbiL0Vsl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 27 Dec 2022 16:48:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230342AbiL0Qyd (ORCPT
+        with ESMTP id S229545AbiL0Vs2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 27 Dec 2022 11:54:33 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C3AA63B0;
-        Tue, 27 Dec 2022 08:54:33 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 10BCE611B0;
-        Tue, 27 Dec 2022 16:54:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0ABE2C433D2;
-        Tue, 27 Dec 2022 16:54:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672160072;
-        bh=FjO0kGb5McobYOGtVa+aVVHYwK3oE3vAipnorW/kpCE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=O5Vgz6TUUNuwRztLJqZITREONGnIswy7XN91/s9NDAHCD7g4JUJKdW/LYvgRocEDR
-         l14MANQkqpfAUAKOXinUauyc4TL0vQkZIN6p3vb+hy/Y1QzWr4PoQpjvq+qw1RvKxU
-         dAaBtN/F747EyV6NKWhwspzAdWuTLgOPZmyspBBszLXZzWpw1XE670eKekeY4+mE07
-         h1Jgj6iWStOqVZcrqaP/6oLiYtn3IroEwpm1N0s62CgTEACc4oObReL/YWEmqfwh9p
-         P2m5XIji4hML0PTl7dD1hplIcIZ9xyx9/ljZ/Mv2W6ExjO51vUm92RHx5wXFHNWJ9D
-         VNt1SAMKEGggg==
-Date:   Tue, 27 Dec 2022 09:54:30 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Jun ASAKA <JunASAKA@zzy040330.moe>
-Cc:     masahiroy@kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: add a missing line for help message
-Message-ID: <Y6sjRvdmzGqer5oL@dev-arch.thelio-3990X>
-References: <20221227092157.329109-1-JunASAKA@zzy040330.moe>
+        Tue, 27 Dec 2022 16:48:28 -0500
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 951E5B23;
+        Tue, 27 Dec 2022 13:48:27 -0800 (PST)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailout.west.internal (Postfix) with ESMTP id 0046B320092C;
+        Tue, 27 Dec 2022 16:48:23 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Tue, 27 Dec 2022 16:48:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+        :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+         s=fm3; t=1672177703; x=1672264103; bh=C0mduqepIxRredmqLCGAPlCT9
+        t1Daw7dkB3PcPVQQ3E=; b=nY0dxDhsd+tCGN802X+bhYqSPy8PYau9FRg3vhaCY
+        VvlLL9Y9Pl55nCRZPB2bRhJXzyJQu0c4A3ztUNZn/MOuBlvvFO4eHFyiTWk5eAvb
+        /VNW9WPjpGL/AvyYsGUC1pWUXlFRdzxA9YZyqU5/v1mUtaOw/lTpEAJjO50YYdIz
+        ny2vEjKAPgLt61JKet83zl3CoHvN7oxYquuReIjGkZhQTBUR2eMvZDosRsMewlPL
+        R9IX0aN+T0F9Oh+f5FVcHRLfJRHc12k4JD2r2SYYtDVq2Dlnxf//67Jko527z1HJ
+        nQF3rNM/lqHHVoh5VuhFNb8A6l6tCIgrh610v4h7FjxAw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:message-id
+        :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+        1672177703; x=1672264103; bh=C0mduqepIxRredmqLCGAPlCT9t1Daw7dkB3
+        PcPVQQ3E=; b=WurPVl/tTUBytSRQe8TuOosBIVTX78y/9kLmo0nTKx++EweK9bi
+        bPf3xfzlDOl+Xxk4t0npclfNhzybYc/mN78UOfUsaBH7aeIduZ1km9PYZaA2ox5C
+        9thueB6zjOrGdX6IV1VfekgbGHwr/UuhMN/kFGR4mcz2xztZGkJiLuKhLd7U1te8
+        Ef8ZzRadLKUw1YOICJBOC2Cxsup56UJE6OdXERKe2l8jl+58F1brw8tSsbxvBMrY
+        GrteUJO23aYlDhtS/GHXgyG5N4f+0bcUqOKZSj94P9be045o9PLojCn9q6gJk7iP
+        F482qxgggzs5aOdPR0pJ9USIPkTpUFfhqtw==
+X-ME-Sender: <xms:J2irY6cCTMzqB_B61qxc5Cgg-LKdNZYvXgCgdSWu22W0R6KzXgyslg>
+    <xme:J2irY0NHqdJPlSJ7I5mjzn17BygVdHvaz_n8B58UDOWwwXvfICaDKTPV9tJ7ghTBM
+    QGuSVi-FN_FJiR7rg>
+X-ME-Received: <xmr:J2irY7jhPYty4dxYflo7b1uiZ7eQkv-jt562wv9gl3TwLWEZXylV6DLLBCKq0iicWeB00Tet1Xn_feCc7r26vI8DPr08IBQpwWo3dAr9s_62B_0wrAIlpzlZRxQQmCPPi8hrhg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedriedtgdduheefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
+    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
+    grthhtvghrnhepkeevlefhjeeuleeltedvjedvfeefteegleehueejffehgffffeekhefh
+    hfekkeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:J2irY3_Xp8w9enFDzND1cbEa50Qd8R5feYGcv6JIQFelTUgAscaOJQ>
+    <xmx:J2irY2ufavZLS8n4xel48H7vnazktM8ZRbR7WWvFnurO5TbjFflvFg>
+    <xmx:J2irY-GeKvhlF8JpfCPKwGyycrjRAS4K66EEvj_BoD3--vAoD-etFA>
+    <xmx:J2irY4XglnCQrG5Z4O3b48dJ1HvrXUELHT9fd7Jz9XEgchJO1vgDUg>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 27 Dec 2022 16:48:22 -0500 (EST)
+From:   Samuel Holland <samuel@sholland.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Cc:     Samuel Holland <samuel@sholland.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: Fix running modpost with musl libc
+Date:   Tue, 27 Dec 2022 15:48:21 -0600
+Message-Id: <20221227214821.16495-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.37.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221227092157.329109-1-JunASAKA@zzy040330.moe>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Dec 27, 2022 at 05:21:57PM +0800, Jun ASAKA wrote:
-> The help message line for building the source RPM package was missing.
-> Added it.
-> 
-> Signed-off-by: Jun ASAKA <JunASAKA@zzy040330.moe>
+commit 3d57e1b7b1d4 ("kbuild: refactor the prerequisites of the modpost
+rule") moved 'vmlinux.o' inside modpost-args, possibly before some of
+the other options. However, getopt() in musl libc follows POSIX and
+stops looking for options upon reaching the first non-option argument.
+As a result, the '-T' option is misinterpreted as a positional argument,
+and the build fails:
 
-Thank you for the patch!
+  make -f ./scripts/Makefile.modpost
+     scripts/mod/modpost   -E   -o Module.symvers vmlinux.o -T modules.order
+  -T: No such file or directory
+  make[1]: *** [scripts/Makefile.modpost:137: Module.symvers] Error 1
+  make: *** [Makefile:1960: modpost] Error 2
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+The fix is to move all options before 'vmlinux.o' in modpost-args.
 
-> ---
->  scripts/Makefile.package | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-> index 539e9f765d64..525a2820976f 100644
-> --- a/scripts/Makefile.package
-> +++ b/scripts/Makefile.package
-> @@ -158,6 +158,7 @@ $(perf-tar-pkgs):
->  PHONY += help
->  help:
->  	@echo '  rpm-pkg             - Build both source and binary RPM kernel packages'
-> +	@echo '  srcrpm-pkg          - Build only the source kernel RPM package'
->  	@echo '  binrpm-pkg          - Build only the binary kernel RPM package'
->  	@echo '  deb-pkg             - Build both source and binary deb kernel packages'
->  	@echo '  bindeb-pkg          - Build only the binary kernel deb package'
-> -- 
-> 2.31.1
-> 
+Fixes: 3d57e1b7b1d4 ("kbuild: refactor the prerequisites of the modpost rule")
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
+
+ scripts/Makefile.modpost | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
+
+diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+index 5eb5e8280379..0ee296cf520c 100644
+--- a/scripts/Makefile.modpost
++++ b/scripts/Makefile.modpost
+@@ -55,6 +55,17 @@ ifneq ($(findstring i,$(filter-out --%,$(MAKEFLAGS))),)
+ modpost-args += -n
+ endif
+ 
++ifneq ($(KBUILD_MODPOST_WARN)$(missing-input),)
++modpost-args += -w
++endif
++
++# Read out modules.order to pass in modpost.
++# Otherwise, allmodconfig would fail with "Argument list too long".
++ifdef KBUILD_MODULES
++modpost-args += -T $(MODORDER)
++modpost-deps += $(MODORDER)
++endif
++
+ ifeq ($(KBUILD_EXTMOD),)
+ 
+ # Generate the list of in-tree objects in vmlinux
+@@ -113,17 +124,6 @@ modpost-args += -e $(addprefix -i , $(KBUILD_EXTRA_SYMBOLS))
+ 
+ endif # ($(KBUILD_EXTMOD),)
+ 
+-ifneq ($(KBUILD_MODPOST_WARN)$(missing-input),)
+-modpost-args += -w
+-endif
+-
+-ifdef KBUILD_MODULES
+-modpost-args += -T $(MODORDER)
+-modpost-deps += $(MODORDER)
+-endif
+-
+-# Read out modules.order to pass in modpost.
+-# Otherwise, allmodconfig would fail with "Argument list too long".
+ quiet_cmd_modpost = MODPOST $@
+       cmd_modpost = \
+ 	$(if $(missing-input), \
+-- 
+2.37.4
+
