@@ -2,90 +2,128 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CB5665760A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Dec 2022 12:51:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DF816582AF
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Dec 2022 17:40:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232984AbiL1LvR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 28 Dec 2022 06:51:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36976 "EHLO
+        id S234303AbiL1QkP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Dec 2022 11:40:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233005AbiL1LvO (ORCPT
+        with ESMTP id S235060AbiL1Qjh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 28 Dec 2022 06:51:14 -0500
-X-Greylist: delayed 366 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 28 Dec 2022 03:51:10 PST
-Received: from out-50.mta0.migadu.com (out-50.mta0.migadu.com [IPv6:2001:41d0:1004:224b::32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 116022DFB
-        for <linux-kbuild@vger.kernel.org>; Wed, 28 Dec 2022 03:51:09 -0800 (PST)
-Message-ID: <ee227d24-9c94-bfa3-166a-4ee6b5dfea09@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1672227901;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=hQ3HRHsAyvXz9e4bfw9E+D1d8Pl2zTCcmjB1WnAKvRM=;
-        b=xGFjtPPPYkQfGB3O2Jpmhb+e0rwa/qFQZDpQL5imWFWElr1hP1DSv4jlcjWyxYm/doeoUW
-        Y/o/Q8HhtjhSptODXhl2Mu0vWC6rfZq7rxANg+kX0SPJdfvcZi5IJqKsV3oAxEzv0Mxxxz
-        NoyLbp/Iq6zQP7cEJI5ZoY84qlkf2I0=
-Date:   Wed, 28 Dec 2022 19:44:56 +0800
+        Wed, 28 Dec 2022 11:39:37 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8B1D1E3E9;
+        Wed, 28 Dec 2022 08:34:53 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 46C4CB816F4;
+        Wed, 28 Dec 2022 16:34:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0CDAC433D2;
+        Wed, 28 Dec 2022 16:34:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1672245291;
+        bh=BO5gC5UrGzz4zyaWHSE8ij4gl/d9i03g/+qNNL4Jqmg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WJnyKdaH1auJkyOMSMBKg6YYuFY3x71fQrKcspJuXqc0RYOlTCP2SOjx/N8I7CAot
+         IKOPKkv+nCTy59Y2Mj2HvDiCmrEb7mC4KvXnu4ELMxZeEhf4x6llD1NNS90QGY3od0
+         BDUmQ/H1KJpLXAI5B/AqO9mqp9U4RDCSw0Pr7klG/aJ+KCqnFto8oC2UC9JLXCd+5z
+         iAn4NzI1WGUBLPHLvCkdNxZ1lAf503B/nrDpheprGNQ6PRmg0iLCBWXnqE/dSrUJzw
+         Oj/qNFpQJDAHIh58gey6SYSu7WAC6WIdrg0R342/rjtjdWN1tPlUyIe615nBbDwApH
+         IjBkwGzgMaCvg==
+Date:   Wed, 28 Dec 2022 09:34:48 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Samuel Holland <samuel@sholland.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: Fix running modpost with musl libc
+Message-ID: <Y6xwKFwtTrZ4Uzqk@dev-arch.thelio-3990X>
+References: <20221227214821.16495-1-samuel@sholland.org>
 MIME-Version: 1.0
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Guoqing Jiang <guoqing.jiang@linux.dev>
-To:     ivecera@redhat.com
-Cc:     masahiroy@kernel.org, nathan@kernel.org, ndesaulniers@google.com,
-        nicolas@fjasle.eu, linux-kbuild@vger.kernel.org
-Subject: Can't compile v6.2-rc1 kernel rpm in openSUSE
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221227214821.16495-1-samuel@sholland.org>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi,
+On Tue, Dec 27, 2022 at 03:48:21PM -0600, Samuel Holland wrote:
+> commit 3d57e1b7b1d4 ("kbuild: refactor the prerequisites of the modpost
+> rule") moved 'vmlinux.o' inside modpost-args, possibly before some of
+> the other options. However, getopt() in musl libc follows POSIX and
+> stops looking for options upon reaching the first non-option argument.
+> As a result, the '-T' option is misinterpreted as a positional argument,
+> and the build fails:
+> 
+>   make -f ./scripts/Makefile.modpost
+>      scripts/mod/modpost   -E   -o Module.symvers vmlinux.o -T modules.order
+>   -T: No such file or directory
+>   make[1]: *** [scripts/Makefile.modpost:137: Module.symvers] Error 1
+>   make: *** [Makefile:1960: modpost] Error 2
+> 
+> The fix is to move all options before 'vmlinux.o' in modpost-args.
+> 
+> Fixes: 3d57e1b7b1d4 ("kbuild: refactor the prerequisites of the modpost rule")
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 
-With latest v6.2-rc1, I can't compile kernel rpm in openSUSE leap.
+Seems reasonable to me.
 
-linux> make rpm-pkg -j16
-  SYNC    include/config/auto.conf.cmd
-  HOSTCC  scripts/kconfig/conf.o
-  HOSTLD  scripts/kconfig/conf
-  UPD     include/config/kernel.release
-make clean
-sh ./scripts/package/mkspec >./kernel.spec
-  TAR     kernel-6.2.0_rc1_150400.24.38_default+.tar.gz
-rpmbuild  --target x86_64-linux -ta 
-kernel-6.2.0_rc1_150400.24.38_default+.tar.gz \
---define='_smp_mflags %{nil}'
-Building target platforms: x86_64-linux
-Building for target x86_64-linux
-error: Failed build dependencies:
-        elfutils-libelf-devel is needed by 
-kernel-6.2.0_rc1_150400.24.38_default+-8.x86_64
-make[1]: *** [scripts/Makefile.package:62: rpm-pkg] Error 1
-make: *** [Makefile:1652: rpm-pkg] Error 2
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-
-Seems the below change in commit 8818039f959b("kbuild: add ability
-to make source rpm buildable using koji") caused the issue.
-
-@@ -49,6 +51,9 @@sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
-        URL: https://www.kernel.org
-$S     Source: kernel-$__KERNELRELEASE.tar.gz
-        Provides: $PROVIDES
-+$S     BuildRequires: bc binutils bison dwarves elfutils-libelf-devel flex
-+$S     BuildRequires: gcc make openssl openssl-devel perl python3 rsync
-
-Because the relevant package name in openSUSE is libelf-devel as
-mentioned in ./tools/perf/Makefile.config
-
-Please install libelf-dev, libelf-devel or elfutils-libelf-devel
-
-
-Thanks,
-Guoqing
+> ---
+> 
+>  scripts/Makefile.modpost | 22 +++++++++++-----------
+>  1 file changed, 11 insertions(+), 11 deletions(-)
+> 
+> diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+> index 5eb5e8280379..0ee296cf520c 100644
+> --- a/scripts/Makefile.modpost
+> +++ b/scripts/Makefile.modpost
+> @@ -55,6 +55,17 @@ ifneq ($(findstring i,$(filter-out --%,$(MAKEFLAGS))),)
+>  modpost-args += -n
+>  endif
+>  
+> +ifneq ($(KBUILD_MODPOST_WARN)$(missing-input),)
+> +modpost-args += -w
+> +endif
+> +
+> +# Read out modules.order to pass in modpost.
+> +# Otherwise, allmodconfig would fail with "Argument list too long".
+> +ifdef KBUILD_MODULES
+> +modpost-args += -T $(MODORDER)
+> +modpost-deps += $(MODORDER)
+> +endif
+> +
+>  ifeq ($(KBUILD_EXTMOD),)
+>  
+>  # Generate the list of in-tree objects in vmlinux
+> @@ -113,17 +124,6 @@ modpost-args += -e $(addprefix -i , $(KBUILD_EXTRA_SYMBOLS))
+>  
+>  endif # ($(KBUILD_EXTMOD),)
+>  
+> -ifneq ($(KBUILD_MODPOST_WARN)$(missing-input),)
+> -modpost-args += -w
+> -endif
+> -
+> -ifdef KBUILD_MODULES
+> -modpost-args += -T $(MODORDER)
+> -modpost-deps += $(MODORDER)
+> -endif
+> -
+> -# Read out modules.order to pass in modpost.
+> -# Otherwise, allmodconfig would fail with "Argument list too long".
+>  quiet_cmd_modpost = MODPOST $@
+>        cmd_modpost = \
+>  	$(if $(missing-input), \
+> -- 
+> 2.37.4
+> 
