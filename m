@@ -2,102 +2,85 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 06785658ACC
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Dec 2022 10:15:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F0827658B80
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Dec 2022 11:16:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233111AbiL2JPP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 29 Dec 2022 04:15:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57604 "EHLO
+        id S230320AbiL2KQF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 29 Dec 2022 05:16:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230237AbiL2JPM (ORCPT
+        with ESMTP id S233213AbiL2KNn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 29 Dec 2022 04:15:12 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4907B878;
-        Thu, 29 Dec 2022 01:15:11 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3C35761736;
-        Thu, 29 Dec 2022 09:15:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 349E8C433F1;
-        Thu, 29 Dec 2022 09:15:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672305310;
-        bh=eWNkQZA1QG5UrTZIG/e9yXi6rO1HLZ2+3IAAewb9dNc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=od+ifUeGcuIM05gq4YB+UpsmTXjM2YP4OJJnk54ZAHgO/usJ1qKAD3qtgV7iXV3H4
-         NBiScj9r7wWrJO2r6v13M15DzHMVV4yLI6NZE0mJ2jxWsesitknhwFNsWS/z23lmxt
-         vMRS/TY31GaPBX/C/gr7nM4uPIG9+mnnEyLUstQOJK7Y68f2A4SU4EDPNeSROyjnHJ
-         b+aODD7Z11nTTwWwcC+6VL/j5xUI4ANJQAsdPY+g+JqKIbcYQTP94k4ekGnCpomr4b
-         AMRfdtt5wJnLxgstVw/gN63sVkpAvPRtU+54xnQjN0coJP7yGQFEmcVX7iPy9egkK3
-         qtf/vew5vN4sg==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        Thu, 29 Dec 2022 05:13:43 -0500
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DA77B7DE;
+        Thu, 29 Dec 2022 02:08:15 -0800 (PST)
+Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-417b63464c6so254824447b3.8;
+        Thu, 29 Dec 2022 02:08:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=kCPue5bVnBCl6KyFMLbRIdht8VKhagIgElJcX4EzXBE=;
+        b=LnbtTop9Vh8oiQR1mcwCJGeIGtusMpaxi8axneDslxRT/LofjDcIn57aOX5EnSaA88
+         0slS8G/gGY81Aam1jW4/2SNEmIH8dZtu8HaHa6X9kDME+emdOCHi9C3mm2X3Qrzw6M10
+         O/TCRYAdG74OSPerCIpFYS3x9V/zGFctGln8IrpZYqvluCauuxI+cPOuuyhiq1pTr8ee
+         CPWxRMOROPaYR5elaKw2c/Viu9n59OKyrO5AVthOoNA9U+eBvyex26dq4I0/q/eJdgq2
+         YXLh1qZxYp/+D6J/Rkzu7SCnub6Oj3Aql5mRh+TLk56lV/0PtcvPqKbBUvAGVgJRYUuQ
+         Qsxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kCPue5bVnBCl6KyFMLbRIdht8VKhagIgElJcX4EzXBE=;
+        b=uOD3gb4Vl0rI41yXIrr1Gv1uHIUjI+t0aX46YUldgRQKWZAFQ8pk93oNI2lzn1atmw
+         jUEcvnm9u29qiJY4A0Ye472JML9uKFFe8BzAlUBipU4mBoO6wt4GcEkKi+lS+Neqlv07
+         1gw7lg0nTNYWTUQ+82rbbS06+BC7v5cZipxhj6a0aywpRZqeWr6bv0ajtIb8ysS5EQE5
+         kqygT5oRgx5v85A+7G0jWan1ptboL6FCYuuaX5TJNqjGMnoEaHce74cmPB+nlPK97DQY
+         x1MAoUwkuhhOL3OY2cI2SUHb76m7wNuxud24AYq35AB6bIrStKfIw47LWVQfuhN5cjNt
+         kfLg==
+X-Gm-Message-State: AFqh2kq1DaqkWTDVAtZ7RKsmxYima7luJGVNEE+HmHV1ueKrquz4NWz3
+        IN8x3sKQ9/qVdPRudEcsJAXgLy6lDTN6NkE1a4A=
+X-Google-Smtp-Source: AMrXdXvdRJSJJyCj0d1bwOfSiOSmpSIdqVwL1LI+Ddec21OKinEcvfqAVEhWXgciIR22wNES0Um8cZnD1pQn+Z7bwTY=
+X-Received: by 2002:a0d:fc83:0:b0:3ed:90d2:2ab8 with SMTP id
+ m125-20020a0dfc83000000b003ed90d22ab8mr2562641ywf.67.1672308494481; Thu, 29
+ Dec 2022 02:08:14 -0800 (PST)
+MIME-Version: 1.0
+References: <20221229080813.908450-1-masahiroy@kernel.org>
+In-Reply-To: <20221229080813.908450-1-masahiroy@kernel.org>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Thu, 29 Dec 2022 11:08:03 +0100
+Message-ID: <CANiq72n1uvzwWZ2pcn6yxQDMMYjaB5BpW1aVv149=n1HHnA=SA@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: sort single-targets alphabetically again
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Miguel Ojeda <ojeda@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH 2/2] kbuild: add more comments for KBUILD_NOCMDDEP=1
-Date:   Thu, 29 Dec 2022 18:15:01 +0900
-Message-Id: <20221229091501.916296-2-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221229091501.916296-1-masahiroy@kernel.org>
-References: <20221229091501.916296-1-masahiroy@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The cmd-check for KBUILD_NOCMDDEP=1 may not be clear until you see
-commit c4d5ee13984f ("kbuild: make KBUILD_NOCMDDEP=1 handle empty
-built-in.o").
+On Thu, Dec 29, 2022 at 9:08 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> -single-targets := %.a %.i %.rsi %.ko %.lds %.ll %.lst %.mod %.o %.s %.symtypes %/
+> +single-targets := %.a %.i %.ko %.lds %.ll %.lst %.mod %.rsi %.o %.s %.symtypes %/
 
-When a phony target (i.e. FORCE) is the only prerequisite, Kbuild
-uses a tricky way to detect that the target does not exist.
+My bad, sorry. I added the `.rsi` near the `.i` due to the similarity
+in purpose.
 
-Add more comments.
+But it should go after `.o`, right? With that change:
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
 
- scripts/Kbuild.include | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-index 1a7514f49089..4648ab8f11d4 100644
---- a/scripts/Kbuild.include
-+++ b/scripts/Kbuild.include
-@@ -170,9 +170,13 @@ cmd = @$(if $(cmd_$(1)),set -e; $($(quiet)log_print) $(delete-on-interrupt) $(cm
- ifneq ($(KBUILD_NOCMDDEP),1)
- # Check if both commands are the same including their order. Result is empty
- # string if equal. User may override this check using make KBUILD_NOCMDDEP=1
-+# If the target does not exist, the *.cmd file should not be included so
-+# $(savedcmd_$@) gets empty. Then, target will be built even if $(newer-prereqs)
-+# happens to become empty.
- cmd-check = $(filter-out $(subst $(space),$(space_escape),$(strip $(savedcmd_$@))), \
-                          $(subst $(space),$(space_escape),$(strip $(cmd_$1))))
- else
-+# We still need to detect missing targets.
- cmd-check = $(if $(strip $(savedcmd_$@)),,1)
- endif
- 
-@@ -186,6 +190,8 @@ make-cmd = $(call escsq,$(subst $(pound),$$(pound),$(subst $$,$$$$,$(cmd_$(1))))
- 
- # Find any prerequisites that are newer than target or that do not exist.
- # PHONY targets skipped in both cases.
-+# If there is no prerequisite other than phony targets, $(newer-prereqs) becomes
-+# empty even if the target does not exist. cmd-check saves this corner case.
- newer-prereqs = $(filter-out $(PHONY),$?)
- 
- # It is a typical mistake to forget the FORCE prerequisite. Check it here so
--- 
-2.34.1
-
+Cheers,
+Miguel
