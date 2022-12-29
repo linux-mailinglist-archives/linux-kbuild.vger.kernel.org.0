@@ -2,52 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C99B658898
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Dec 2022 03:16:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F64D6588C7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Dec 2022 03:59:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231287AbiL2CQT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 28 Dec 2022 21:16:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45800 "EHLO
+        id S232996AbiL2C7E (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Dec 2022 21:59:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232613AbiL2CQR (ORCPT
+        with ESMTP id S232179AbiL2C65 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 28 Dec 2022 21:16:17 -0500
-Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1261DDA3;
-        Wed, 28 Dec 2022 18:16:14 -0800 (PST)
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 2BT2Fpok021636;
-        Thu, 29 Dec 2022 11:15:51 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 2BT2Fpok021636
+        Wed, 28 Dec 2022 21:58:57 -0500
+Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E88912628;
+        Wed, 28 Dec 2022 18:58:52 -0800 (PST)
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 2BT2wNek016432;
+        Thu, 29 Dec 2022 11:58:23 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 2BT2wNek016432
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1672280152;
-        bh=GWtxrRJdBUIm6yq0K8/U3p6klj9xzTVBVsV7DOzKZF0=;
+        s=dec2015msa; t=1672282704;
+        bh=t2N0dlzEW4+3qCZfvXvu3dBaEvbxlnxpDxzgWF+ARYI=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=QJYPBdD+MmGSTemmmKrM1G5gHtD+ZPDYF2atQdgSDBxpKjUsLPQ1i9DpQYFWkvIgM
-         xh0rX7Y1mzH6Jp3Er0pRf2YiL9W2GE2ZVZO9Rvnjjfya+AxWG7E0yjlO4lacdfnM18
-         2YkDl2d9fDZOB+QWCWYAyxdeC219eT+r04/szvANc+MJx2vpqJIrRwy2MNpyFAmLeB
-         gUEDRQBRgGt8b4uV3xCkdVdCtvQk9BL8mUZ751N/mCHHNE/QlRjeehIsSbIgVUPGm5
-         IqMgmZJPIlJQQVYqM9mJjx5wguazgaD8vK3boBWSfi5PyGgj3FJzMwATdvYqUcfF/Z
-         mJTgv941qoKSA==
-X-Nifty-SrcIP: [209.85.160.51]
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-14fe0e9ed11so10565284fac.2;
-        Wed, 28 Dec 2022 18:15:51 -0800 (PST)
-X-Gm-Message-State: AFqh2krp5xoq4xdETOQDSPBp+WGWvMj1nVeEZpZhqYE1nWDM7/bzdDIN
-        wBQ1DKGJW3CnRpS1ptlwRg9wgiY71tLl58fNVQ4=
-X-Google-Smtp-Source: AMrXdXveOpmglT/TDzV651Q3Ej0fr/PcpDF27CDKcabWbc6YUQF9SIJ4J+s+KN2kgoOEoRtTKEpQRMctYNeAMLBpLhM=
-X-Received: by 2002:a05:6870:cc89:b0:150:39e2:c688 with SMTP id
- ot9-20020a056870cc8900b0015039e2c688mr250722oab.287.1672280150856; Wed, 28
- Dec 2022 18:15:50 -0800 (PST)
+        b=tEhp9MX+AFM4wjZm1B6k/lKqB88Wl26UXQ/1x7VPN0MSYYlmjZNUlaMTMN/1maJQJ
+         rRIPV2ynEN7fORHmOiuAC2tlz72iNwQuGq9R2wtamh7z7OWFL80YAVVfXv5VXAz8uy
+         kpVkdYeqQtPhmN00BU0IPA7h7dp1pLccYp8gVjD2HTmxlHYA5GGZUolvfQLUHs4WzX
+         MO0Awf/X7z5eKIf+ZJqw8/5A2Y/er1+y6WUjozcOEk5q6+f39tXFBiNKi07kh+fKpD
+         VMnlMkdv/rB3B8H1avBWaVZp/rKfbbGAAkLhJY74yAjKa5sZEB2TWF+35o6L783FBy
+         vtxuPDzPvvtZg==
+X-Nifty-SrcIP: [209.85.160.47]
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-1441d7d40c6so20487447fac.8;
+        Wed, 28 Dec 2022 18:58:23 -0800 (PST)
+X-Gm-Message-State: AFqh2kqbdTyq5TLxREO5euAbo6v1LigZ+CPxfYbi2wvNR6JjLcjWgjIS
+        rH8tw81nIZ7jfncfr6T2+AFutgg//wdJIHaOeWg=
+X-Google-Smtp-Source: AMrXdXvPhYMiPBg5OUtIxN2qc2z0biR0zjYli618rgIL73FyVk9epIgaCLalkH6TUlbo06SnLpqRePQXZovIHjMZ7K8=
+X-Received: by 2002:a05:6870:4c0e:b0:144:a2de:1075 with SMTP id
+ pk14-20020a0568704c0e00b00144a2de1075mr1326507oab.194.1672282702603; Wed, 28
+ Dec 2022 18:58:22 -0800 (PST)
 MIME-Version: 1.0
-References: <20221227092157.329109-1-JunASAKA@zzy040330.moe>
-In-Reply-To: <20221227092157.329109-1-JunASAKA@zzy040330.moe>
+References: <20221217055148.28914-1-unixbhaskar@gmail.com> <Y6WWI87an9IRmVod@bergen.fjasle.eu>
+In-Reply-To: <Y6WWI87an9IRmVod@bergen.fjasle.eu>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 29 Dec 2022 11:15:14 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATCrM06cquvMdUOQ0KCyuGYRk_G4OPO-PAPpUQsMZBVLw@mail.gmail.com>
-Message-ID: <CAK7LNATCrM06cquvMdUOQ0KCyuGYRk_G4OPO-PAPpUQsMZBVLw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: add a missing line for help message
-To:     Jun ASAKA <JunASAKA@zzy040330.moe>
-Cc:     nathan@kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu,
+Date:   Thu, 29 Dec 2022 11:57:45 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATZ7CLiFOGbZJTKgqAAaNPwFse7AOTUsyqjmLZhLR2Hww@mail.gmail.com>
+Message-ID: <CAK7LNATZ7CLiFOGbZJTKgqAAaNPwFse7AOTUsyqjmLZhLR2Hww@mail.gmail.com>
+Subject: Re: [PATCH V3] scripts: kconfig: Added static text for search
+ information in help menu
+To:     Nicolas Schier <nicolas@fjasle.eu>
+Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>,
         linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -59,36 +60,28 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Dec 27, 2022 at 6:22 PM Jun ASAKA <JunASAKA@zzy040330.moe> wrote:
+On Fri, Dec 23, 2022 at 8:51 PM Nicolas Schier <nicolas@fjasle.eu> wrote:
 >
-> The help message line for building the source RPM package was missing.
-> Added it.
+> On Sat 17 Dec 2022 11:21:48 GMT, Bhaskar Chowdhury wrote:
+> > Reconstructed the sentence for the better readability.
+> >
+> > Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 >
-> Signed-off-by: Jun ASAKA <JunASAKA@zzy040330.moe>
+> I liked the commit message your v1 much better (minimally changed):
+> > Add few static text to explain how one can bring up the search dialog box by
+> > pressing the forward slash key anywhere on this interface.
+>
+> Would you mind updating it once again?
+>
+> Kind regards,
+> Nicolas
 
 
-Applied to linux-kbuild/fixes. Thanks.
 
+I replaced the commit description with v1's one,
+and applied.
+Thanks.
 
-> ---
->  scripts/Makefile.package | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-> index 539e9f765d64..525a2820976f 100644
-> --- a/scripts/Makefile.package
-> +++ b/scripts/Makefile.package
-> @@ -158,6 +158,7 @@ $(perf-tar-pkgs):
->  PHONY += help
->  help:
->         @echo '  rpm-pkg             - Build both source and binary RPM kernel packages'
-> +       @echo '  srcrpm-pkg          - Build only the source kernel RPM package'
->         @echo '  binrpm-pkg          - Build only the binary kernel RPM package'
->         @echo '  deb-pkg             - Build both source and binary deb kernel packages'
->         @echo '  bindeb-pkg          - Build only the binary kernel deb package'
-> --
-> 2.31.1
->
 
 
 -- 
