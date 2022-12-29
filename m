@@ -2,64 +2,75 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DEBD5658DE1
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Dec 2022 15:23:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 84F18658EF9
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Dec 2022 17:23:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229615AbiL2OXx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 29 Dec 2022 09:23:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46242 "EHLO
+        id S233726AbiL2QWz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 29 Dec 2022 11:22:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229658AbiL2OXw (ORCPT
+        with ESMTP id S233730AbiL2QW3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 29 Dec 2022 09:23:52 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DADDC11162;
-        Thu, 29 Dec 2022 06:23:46 -0800 (PST)
-Received: from leknes.fjasle.eu ([46.142.97.69]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1N1M4p-1oiToD4B3b-012o5W; Thu, 29 Dec 2022 15:23:19 +0100
-Received: by leknes.fjasle.eu (Postfix, from userid 1000)
-        id C85883C0EF; Thu, 29 Dec 2022 15:23:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1672323797; bh=mjwczseVNfUo1/OKAMNSB9yiaJUfPCMTsbX3+JrZzwY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=3i6otrRS4i/0Hp2N4h00eUREbxwSQ1a8j6qALIu8rHgPUuVxrQTbe0IILgYsK14Db
-         f90X1dDN6hGcZ2BcQ/F5xm/247ULXAKRLvIGJe9xu8YURx45NzhVgHE2WK6yb7+S/K
-         1EO2bu98VAdRton/wR6VKNL2y7BFeJaSvApHNRWE=
-Date:   Thu, 29 Dec 2022 15:23:17 +0100
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH v3 2/2] kbuild: make W=1 warn files that are tracked but
- ignored by git
-Message-ID: <Y62i1bwkYfhg2PSl@fjasle.eu>
-References: <20221229074310.906556-1-masahiroy@kernel.org>
- <20221229074310.906556-2-masahiroy@kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="X0NbyVINxFPwW/kn"
-Content-Disposition: inline
-In-Reply-To: <20221229074310.906556-2-masahiroy@kernel.org>
-X-Provags-ID: V03:K1:i4s6tLvk0LaalFYtwYmE4oLGGn8grnGCND1Nki1rGSqQnw/qgov
- Gj8kZWMiyPm6Mw/8k2PkOBckSEsVmDaLagMcj43cv4FYA20K6zeanYIebTfmPr9usiOWPaT
- P8lprHavyEulil6YjaIiHfUE8G3ReFHyCUIwKt3f68np4zxSW6wMaIC1EbyOMR49qXC+hiV
- NwlgnLGDB9fuMkP6rnZxQ==
-UI-OutboundReport: notjunk:1;M01:P0:A5qdHYWe55I=;SJDkzolwm5lVoedeQKHholWTP2q
- lpABVyBu4sKK3+h8kcydBpheMFgvLS0LGza/LQXdo6gpnY38ExHlUwAQst20lvcwWdAC+iB1f
- beu1nnO2Q3cztrUY5KxXY9yQwDzTcQ4OAzrGQy7pCEUhqzQY1DgGt1WcMgS03ZnKSGpvEyBNk
- uh/wE6JSU6/fL1evC5HTwWn23F7A/opwGSj9dh+0RMMZ/hqL5ERNeE8MpX96dyNOeOh56uNl0
- KJ2SlqRNtVLTyXNj3IZiZei4dddSmI6M6huKLHNsilcnGR+Z944gb8F7rQKSk95kOac96ROHI
- UdiAxOc+n2+WOaTU6sHM263x6RalA21Nr6xw3H8PvCqUXLZnsUpNas/AQXtrzIyrBVuKJrqDT
- +/7pUH5U2kcriGzTpABweFkgE3X59z414/5ChhxLfGJiuxua8MsLmALJABQfCKdIdKHBfdBIE
- blplbu2fQHwKbBSHtBO9S9QxVttqY9IYoS7b+ukxDglriVkEFCAbI0CuBoSkcPcsn7GtwHUKj
- RHEBK3lOrsG8MGC0xHqVaxNIcA9sWz8HibJy7ca+7CV6hCNIHRthyKYyJZPCjg7mq840sVFDG
- xiywy4/YHGMda9mAPc5Y+w1ZkXukMgv6B4EzMsX1An6elPJwN2VvcBm435eQbReELZNEXcSsQ
- RhcT+RK1JTTDQGTXQliQSUjEUDEHxD4Ep1ZR6/Lp0w==
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        Thu, 29 Dec 2022 11:22:29 -0500
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF2DD1400F
+        for <linux-kbuild@vger.kernel.org>; Thu, 29 Dec 2022 08:22:28 -0800 (PST)
+Received: by mail-pl1-x62e.google.com with SMTP id u7so19341888plq.11
+        for <linux-kbuild@vger.kernel.org>; Thu, 29 Dec 2022 08:22:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LJWl3hQjQi1Q2dj4b8EWt43Qd/L5DvONqc85eLA2p84=;
+        b=4zYH9voiUehp/MZKaq6EtNACAh0H6KL+NcDR1+JWFT9el9nBtDDy5s/Grp35vcGLTn
+         mC4yxUvNQT9ZHM/fnM3ClqhCBAi/pKFY7/Qcu/cmUds0jUkq+e/XBfn4BWaXWCqY8mV0
+         SJi5SWKcJyTnLbjM9Coh6TiX5jV0jGo7LzJ8aCPVGuaxSKC5AEbZE9P5wGvOIEplpmyQ
+         /B+8dZfJYMOKYTZX0K2rz9JP3kktm/MRb4BQdxtt9nWP/c6GeDq0vU4lcn/xhf45s6Kd
+         3BfqoRQirN2XyS81sZAEXUkf0HbsZruvKJkP4Nh6YrifVS51/U4OZ6ZA39eqwDvVSK9n
+         qsNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LJWl3hQjQi1Q2dj4b8EWt43Qd/L5DvONqc85eLA2p84=;
+        b=KqWdj1p0D6npQ2dbBrGE8BFvAhdPION3luGm165yp1YjmyK8fkhsC8qsR61PEaFZgN
+         rNb6wEZftxGjcgCoIEmLq68x10VdTrL3TorqDo1PPtBvg9hU53CD1a/e+7aOu2HT3D0o
+         UOCJ5tjW2SLpkFUMCeePSwTJpwZwS31hqS4YOcGVsw7N8UdgDZROY4AFAkqUpuwk/Biu
+         M/uWZ3yK1w8A05qtwFqVNy8Sb1MGsmz51dP6JpOmesvAJMGhP/KWN9ZHKgryOOJ9eBea
+         /IXa7Dmkg90J/biqPMiz466flChQIkFwu9esmXSld72D/r6RGt911/74ZhIR4H02+tAG
+         hMVA==
+X-Gm-Message-State: AFqh2krYvKS+wY3pgCs9YZibQTVj6LxpEj/bndVW1lCsZMXKK/HR7+Nn
+        9Zm743/37nuNF40WLVJFiU62WD2rANgZrCvbkhI=
+X-Google-Smtp-Source: AMrXdXusHRJt1gPOTWh0ukRoRRYv3CsTOwvtO5tJuONXzHi84yKZLmsYPBOK0toLmCX+j9QDQYJoeQ==
+X-Received: by 2002:a17:902:e2d1:b0:191:cd3:aa6c with SMTP id l17-20020a170902e2d100b001910cd3aa6cmr39371632plc.34.1672330947985;
+        Thu, 29 Dec 2022 08:22:27 -0800 (PST)
+Received: from localhost ([135.180.226.51])
+        by smtp.gmail.com with ESMTPSA id o9-20020a170903210900b001782398648dsm13165941ple.8.2022.12.29.08.22.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Dec 2022 08:22:27 -0800 (PST)
+Date:   Thu, 29 Dec 2022 08:22:27 -0800 (PST)
+X-Google-Original-Date: Thu, 29 Dec 2022 07:54:30 PST (-0800)
+Subject:     Re: [PATCH v2] arch: fix broken BuildID for arm64 and riscv
+In-Reply-To: <20221226184537.744960-1-masahiroy@kernel.org>
+CC:     linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ardb@kernel.org,
+        regressions@leemhuis.info, catalin.marinas@arm.com,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-riscv@lists.infradead.org, dennis@ausil.us,
+        aou@eecs.berkeley.edu, Arnd Bergmann <arnd@arndb.de>,
+        jszhang@kernel.org, nicolas@fjasle.eu,
+        Paul Walmsley <paul.walmsley@sifive.com>, masahiroy@kernel.org
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     masahiroy@kernel.org
+Message-ID: <mhng-7ae63e3d-9a40-42ed-94c3-72fc9217ac20@palmer-ri-x1c9>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,95 +78,59 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
---X0NbyVINxFPwW/kn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Dec 29, 2022 at 04:43:10PM +0900 Masahiro Yamada wrote:
-> The top .gitignore comments about how to detect files breaking
-> .gitignore rules, but people rarely care about it.
->=20
-> Add a new W=3D1 warning to detect files that are tracked but ignored by
-> git. If git is not installed or the source tree is not tracked by git
-> at all, this script does not print anything.
->=20
-> Running it on v6.2-rc1 detected the following:
->=20
->   $ make W=3D1 misc-check
->   Documentation/devicetree/bindings/.yamllint: warning: ignored by one of=
- the .gitignore files
->   drivers/clk/.kunitconfig: warning: ignored by one of the .gitignore fil=
-es
->   drivers/gpu/drm/tests/.kunitconfig: warning: ignored by one of the .git=
-ignore files
->   drivers/hid/.kunitconfig: warning: ignored by one of the .gitignore fil=
-es
->   fs/ext4/.kunitconfig: warning: ignored by one of the .gitignore files
->   fs/fat/.kunitconfig: warning: ignored by one of the .gitignore files
->   kernel/kcsan/.kunitconfig: warning: ignored by one of the .gitignore fi=
-les
->   lib/kunit/.kunitconfig: warning: ignored by one of the .gitignore files
->   mm/kfence/.kunitconfig: warning: ignored by one of the .gitignore files
->   tools/testing/selftests/arm64/tags/.gitignore: warning: ignored by one =
-of the .gitignore files
->   tools/testing/selftests/arm64/tags/Makefile: warning: ignored by one of=
- the .gitignore files
->   tools/testing/selftests/arm64/tags/run_tags_test.sh: warning: ignored b=
-y one of the .gitignore files
->   tools/testing/selftests/arm64/tags/tags_test.c: warning: ignored by one=
- of the .gitignore files
->=20
-> These are ignored by the '.*' or 'tags' in the top .gitignore, but
-> there is no rule to negate it.
->=20
-> You might be tempted to do 'git add -f' but I want to have the real
-> issue fixed (by fixing a .gitignore, or by renaming files, etc.).
->=20
+On Mon, 26 Dec 2022 10:45:37 PST (-0800), masahiroy@kernel.org wrote:
+> Dennis Gilmore reports that the BuildID is missing in the arm64 vmlinux
+> since commit 994b7ac1697b ("arm64: remove special treatment for the
+> link order of head.o").
+>
+> The issue is that the type of .notes section, which contains the BuildID,
+> changed from NOTES to PROGBITS.
+>
+> Ard Biesheuvel figured out that whichever object gets linked first gets
+> to decide the type of a section. The PROGBITS type is the result of the
+> compiler emitting .note.GNU-stack as PROGBITS rather than NOTE.
+>
+> While Ard provided a fix for arm64, I want to fix this globally because
+> the same issue is happening on riscv since commit 2348e6bf4421 ("riscv:
+> remove special treatment for the link order of head.o"). This problem
+> will happen in general for other architectures if they start to drop
+> unneeded entries from scripts/head-object-list.txt.
+>
+> Discard .note.GNU-stack in include/asm-generic/vmlinux.lds.h.
+>
+> Link: https://lore.kernel.org/lkml/CAABkxwuQoz1CTbyb57n0ZX65eSYiTonFCU8-LCQc=74D=xE=rA@mail.gmail.com/
+> Fixes: 994b7ac1697b ("arm64: remove special treatment for the link order of head.o")
+> Fixes: 2348e6bf4421 ("riscv: remove special treatment for the link order of head.o")
+> Reported-by: Dennis Gilmore <dennis@ausil.us>
+> Suggested-by: Ard Biesheuvel <ardb@kernel.org>
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-> Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 > ---
->=20
-> Changes in v3:
->   - change working directory to srctree (Nicolas)
->=20
+>
 > Changes in v2:
->   - Add $(srctree)/ to make it work with O=3D
->=20
->  Makefile           |  6 ++++++
->  scripts/misc-check | 19 +++++++++++++++++++
->  2 files changed, 25 insertions(+)
->  create mode 100755 scripts/misc-check
+>   - discard .note.GNU-stack before .notes because many architectures
+>     call DISCARDS at the end of their linker scripts
+>
+>  include/asm-generic/vmlinux.lds.h | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+> index a94219e9916f..659bf3b31c91 100644
+> --- a/include/asm-generic/vmlinux.lds.h
+> +++ b/include/asm-generic/vmlinux.lds.h
+> @@ -891,7 +891,12 @@
+>  #define PRINTK_INDEX
+>  #endif
+>
+> +/*
+> + * Discard .note.GNU-stack, which is emitted as PROGBITS by the compiler.
+> + * Otherwise, the type of .notes section would become PROGBITS instead of NOTES.
+> + */
+>  #define NOTES								\
+> +	/DISCARD/ : { *(.note.GNU-stack) }				\
+>  	.notes : AT(ADDR(.notes) - LOAD_OFFSET) {			\
+>  		BOUNDED_SECTION_BY(.note.*, _notes)			\
+>  	} NOTES_HEADERS							\
 
-Tested-by: Nicolas Schier <nicolas@fjasle.eu>
+Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
 
-out of curiosity: do you plan to implement more checks in the misc-checks
-target?
-
-Kind regards,
-Nicolas
-
-
---X0NbyVINxFPwW/kn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmOtotUACgkQB1IKcBYm
-EmnwuBAAoMmfuZ6JPzJHu0ceuCT067vTo+07ut0PHHsaP0c+waWmODqVIpjmW5gV
-9rf5NMaEHi+qWYrjkzhM+sAb5PRt68lw9t0bwqCw6mpkWjCREw6PSgjgOs+KhgW7
-ozlnmFSzHMviZJ6+unjIJtgQl871Uugv7RvIcUC2/xdfwaAGeao7AmGv1juyagFl
-ZIqoJeLzRiYcrdZ8TDPEcib1AjOG3C7Ck0djNlMvMC/5VFpxvAMCyD5TpiHKRV4B
-w2+jt4jdHV3FuFtw57QdnMkJVkOK7iE3YQsk8RycMM0yE20yqtAFVMkYzqAEnGmR
-DV9Brc6AAmlJovalRaT0ztlyXmumhADxVM7Sk40tcgqmU3HJF87mH0PzV9NA/n6/
-idubT98895106yt3y80Ffwe0l6lJ/rct8refiJLSd+7+QUMmKYjdxrLvBPhHUK7y
-7OpkkTt/vc8Hmlu87ZwnYy7Afg8AYVs7iwKyDzC54FnC/PUknkjI5UmbhxRe3/gh
-9VWiDAnY9XEBUqvrIsIwMb+rP6AyAqppyix4UaonZURwIYt3v/vZHhjGvHrNvWXR
-g5SlK/cm3/FsqATqzGwzPPjnbb5a7eVmgKWVdeaKDK8IBdfYNCj337PT5feYcDwB
-KXvtdxEiS7S+iGzgOroaLuubjv69vx1roUMww/lIWEYtAUDMjG4=
-=D8WC
------END PGP SIGNATURE-----
-
---X0NbyVINxFPwW/kn--
+Thanks!
