@@ -2,135 +2,88 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 84F18658EF9
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Dec 2022 17:23:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 64A85658F82
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Dec 2022 18:20:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233726AbiL2QWz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 29 Dec 2022 11:22:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54332 "EHLO
+        id S233576AbiL2RUp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 29 Dec 2022 12:20:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233730AbiL2QW3 (ORCPT
+        with ESMTP id S229615AbiL2RUo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 29 Dec 2022 11:22:29 -0500
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF2DD1400F
-        for <linux-kbuild@vger.kernel.org>; Thu, 29 Dec 2022 08:22:28 -0800 (PST)
-Received: by mail-pl1-x62e.google.com with SMTP id u7so19341888plq.11
-        for <linux-kbuild@vger.kernel.org>; Thu, 29 Dec 2022 08:22:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LJWl3hQjQi1Q2dj4b8EWt43Qd/L5DvONqc85eLA2p84=;
-        b=4zYH9voiUehp/MZKaq6EtNACAh0H6KL+NcDR1+JWFT9el9nBtDDy5s/Grp35vcGLTn
-         mC4yxUvNQT9ZHM/fnM3ClqhCBAi/pKFY7/Qcu/cmUds0jUkq+e/XBfn4BWaXWCqY8mV0
-         SJi5SWKcJyTnLbjM9Coh6TiX5jV0jGo7LzJ8aCPVGuaxSKC5AEbZE9P5wGvOIEplpmyQ
-         /B+8dZfJYMOKYTZX0K2rz9JP3kktm/MRb4BQdxtt9nWP/c6GeDq0vU4lcn/xhf45s6Kd
-         3BfqoRQirN2XyS81sZAEXUkf0HbsZruvKJkP4Nh6YrifVS51/U4OZ6ZA39eqwDvVSK9n
-         qsNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LJWl3hQjQi1Q2dj4b8EWt43Qd/L5DvONqc85eLA2p84=;
-        b=KqWdj1p0D6npQ2dbBrGE8BFvAhdPION3luGm165yp1YjmyK8fkhsC8qsR61PEaFZgN
-         rNb6wEZftxGjcgCoIEmLq68x10VdTrL3TorqDo1PPtBvg9hU53CD1a/e+7aOu2HT3D0o
-         UOCJ5tjW2SLpkFUMCeePSwTJpwZwS31hqS4YOcGVsw7N8UdgDZROY4AFAkqUpuwk/Biu
-         M/uWZ3yK1w8A05qtwFqVNy8Sb1MGsmz51dP6JpOmesvAJMGhP/KWN9ZHKgryOOJ9eBea
-         /IXa7Dmkg90J/biqPMiz466flChQIkFwu9esmXSld72D/r6RGt911/74ZhIR4H02+tAG
-         hMVA==
-X-Gm-Message-State: AFqh2krYvKS+wY3pgCs9YZibQTVj6LxpEj/bndVW1lCsZMXKK/HR7+Nn
-        9Zm743/37nuNF40WLVJFiU62WD2rANgZrCvbkhI=
-X-Google-Smtp-Source: AMrXdXusHRJt1gPOTWh0ukRoRRYv3CsTOwvtO5tJuONXzHi84yKZLmsYPBOK0toLmCX+j9QDQYJoeQ==
-X-Received: by 2002:a17:902:e2d1:b0:191:cd3:aa6c with SMTP id l17-20020a170902e2d100b001910cd3aa6cmr39371632plc.34.1672330947985;
-        Thu, 29 Dec 2022 08:22:27 -0800 (PST)
-Received: from localhost ([135.180.226.51])
-        by smtp.gmail.com with ESMTPSA id o9-20020a170903210900b001782398648dsm13165941ple.8.2022.12.29.08.22.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Dec 2022 08:22:27 -0800 (PST)
-Date:   Thu, 29 Dec 2022 08:22:27 -0800 (PST)
-X-Google-Original-Date: Thu, 29 Dec 2022 07:54:30 PST (-0800)
-Subject:     Re: [PATCH v2] arch: fix broken BuildID for arm64 and riscv
-In-Reply-To: <20221226184537.744960-1-masahiroy@kernel.org>
-CC:     linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ardb@kernel.org,
-        regressions@leemhuis.info, catalin.marinas@arm.com,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-riscv@lists.infradead.org, dennis@ausil.us,
-        aou@eecs.berkeley.edu, Arnd Bergmann <arnd@arndb.de>,
-        jszhang@kernel.org, nicolas@fjasle.eu,
-        Paul Walmsley <paul.walmsley@sifive.com>, masahiroy@kernel.org
-From:   Palmer Dabbelt <palmer@dabbelt.com>
-To:     masahiroy@kernel.org
-Message-ID: <mhng-7ae63e3d-9a40-42ed-94c3-72fc9217ac20@palmer-ri-x1c9>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Thu, 29 Dec 2022 12:20:44 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2918D218;
+        Thu, 29 Dec 2022 09:20:43 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B96046184B;
+        Thu, 29 Dec 2022 17:20:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5386C433D2;
+        Thu, 29 Dec 2022 17:20:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1672334442;
+        bh=0GvxcREki2V+wu5z+rdDeKg6yQvHhxHUduxIL3zva1I=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MAWZddv0euydsn+heUUTwah8LEwctH7oKFQ33M4mnrepc0vp7SGAPxYOVEe6bGGy6
+         yUlou1G9LDgPGZwcF41NRmXqKZFpvgmBc8vMsGRR7KbBrwd2NFiDdDcntLz1GFDhXW
+         M/ofoYUEPqbdtJj/QNP9SrD9l4NCeUpU5Iyd5vDtWR/d5VWyjn5rNcn9V9ilIvzq7h
+         Jl4lVl9U0w44xzVS0qnnnrqIBUfK3zP9UDmacK50RFyBI3T1crY60nb1j5CEC/YTjc
+         koQ4EeIBVz6c+M3yU48DzK89l9KMBYZ+Jgbx06PP5BYVlAr2wXVuG7u0Z00mq5tXee
+         F2pwR0O/ulu1Q==
+Date:   Thu, 29 Dec 2022 10:20:40 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>
+Subject: Re: [PATCH v2] kbuild: sort single-targets alphabetically again
+Message-ID: <Y63MaK+98prCZq0R@dev-arch.thelio-3990X>
+References: <20221229121642.1046890-1-masahiroy@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221229121642.1046890-1-masahiroy@kernel.org>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, 26 Dec 2022 10:45:37 PST (-0800), masahiroy@kernel.org wrote:
-> Dennis Gilmore reports that the BuildID is missing in the arm64 vmlinux
-> since commit 994b7ac1697b ("arm64: remove special treatment for the
-> link order of head.o").
->
-> The issue is that the type of .notes section, which contains the BuildID,
-> changed from NOTES to PROGBITS.
->
-> Ard Biesheuvel figured out that whichever object gets linked first gets
-> to decide the type of a section. The PROGBITS type is the result of the
-> compiler emitting .note.GNU-stack as PROGBITS rather than NOTE.
->
-> While Ard provided a fix for arm64, I want to fix this globally because
-> the same issue is happening on riscv since commit 2348e6bf4421 ("riscv:
-> remove special treatment for the link order of head.o"). This problem
-> will happen in general for other architectures if they start to drop
-> unneeded entries from scripts/head-object-list.txt.
->
-> Discard .note.GNU-stack in include/asm-generic/vmlinux.lds.h.
->
-> Link: https://lore.kernel.org/lkml/CAABkxwuQoz1CTbyb57n0ZX65eSYiTonFCU8-LCQc=74D=xE=rA@mail.gmail.com/
-> Fixes: 994b7ac1697b ("arm64: remove special treatment for the link order of head.o")
-> Fixes: 2348e6bf4421 ("riscv: remove special treatment for the link order of head.o")
-> Reported-by: Dennis Gilmore <dennis@ausil.us>
-> Suggested-by: Ard Biesheuvel <ardb@kernel.org>
+On Thu, Dec 29, 2022 at 09:16:42PM +0900, Masahiro Yamada wrote:
+> This was previously alphabetically sorted. Sort it again.
+> 
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
+
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+
 > ---
->
+> 
 > Changes in v2:
->   - discard .note.GNU-stack before .notes because many architectures
->     call DISCARDS at the end of their linker scripts
->
->  include/asm-generic/vmlinux.lds.h | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
-> index a94219e9916f..659bf3b31c91 100644
-> --- a/include/asm-generic/vmlinux.lds.h
-> +++ b/include/asm-generic/vmlinux.lds.h
-> @@ -891,7 +891,12 @@
->  #define PRINTK_INDEX
->  #endif
->
-> +/*
-> + * Discard .note.GNU-stack, which is emitted as PROGBITS by the compiler.
-> + * Otherwise, the type of .notes section would become PROGBITS instead of NOTES.
-> + */
->  #define NOTES								\
-> +	/DISCARD/ : { *(.note.GNU-stack) }				\
->  	.notes : AT(ADDR(.notes) - LOAD_OFFSET) {			\
->  		BOUNDED_SECTION_BY(.note.*, _notes)			\
->  	} NOTES_HEADERS							\
-
-Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
-
-Thanks!
+>   - Move %.rsi after %.o to make it really sorted
+> 
+>  Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index c0d7c75d8f14..8daf1be6a2e4 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -289,7 +289,7 @@ no-compiler-targets := $(no-dot-config-targets) install dtbs_install \
+>  			headers_install modules_install kernelrelease image_name
+>  no-sync-config-targets := $(no-dot-config-targets) %install kernelrelease \
+>  			  image_name
+> -single-targets := %.a %.i %.rsi %.ko %.lds %.ll %.lst %.mod %.o %.s %.symtypes %/
+> +single-targets := %.a %.i %.ko %.lds %.ll %.lst %.mod %.o %.rsi %.s %.symtypes %/
+>  
+>  config-build	:=
+>  mixed-build	:=
+> -- 
+> 2.34.1
+> 
