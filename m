@@ -2,119 +2,141 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DB68658887
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Dec 2022 03:08:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C4B74658893
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Dec 2022 03:15:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232848AbiL2CI1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 28 Dec 2022 21:08:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43072 "EHLO
+        id S231592AbiL2CPh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Dec 2022 21:15:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230083AbiL2CI1 (ORCPT
+        with ESMTP id S230106AbiL2CPg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 28 Dec 2022 21:08:27 -0500
-Received: from out-110.mta0.migadu.com (out-110.mta0.migadu.com [IPv6:2001:41d0:1004:224b::6e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27BE2BC82
-        for <linux-kbuild@vger.kernel.org>; Wed, 28 Dec 2022 18:08:24 -0800 (PST)
-Message-ID: <ce9e05f5-4752-7f70-9355-da881565b96c@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1672279702;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=XoA8wcm8vNDF3JjdWU9rkQ7IGGhq07pfPELEbL9sYWw=;
-        b=absds2v6QAAfiAjI6jEc4rGbjuwy9Yt9NI/fGrLEJAgIZBdRSms9UpEDzJLI9QZBtk6UAU
-        O+51xoTcwlc/SrcKaVcoI9rH7jZFSu93vqsXrNgD42QqSOuA7Qw/JBOD9fnfTaXm6+DMnH
-        Y1bukPIa6w/vyfvMtPgwtk8N5KPeE6E=
-Date:   Thu, 29 Dec 2022 10:08:18 +0800
+        Wed, 28 Dec 2022 21:15:36 -0500
+Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAE44B2E;
+        Wed, 28 Dec 2022 18:15:34 -0800 (PST)
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 2BT2FHcG020403;
+        Thu, 29 Dec 2022 11:15:18 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 2BT2FHcG020403
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1672280118;
+        bh=D0ejBf8WyInMfQalWKUmD1ZMmj0FCuKBe2PAsgtwA7g=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=E8T7Nj2dzfrM5NL+0Ia3taFfGuekRjNiXmc0OVKqXMfAmcKofD7ICLuTqwnBhDZvu
+         MTdCim8j2vBNTBL66sVRpnAy+Egu1LZ48zNgXnWHVQ8vAdyx2jqBnG3r44fiGNJ34t
+         dpsxeZfnVz75CzlyTTVpPJwrvbdeZVB0jQbI/1AGE9n9rKsSlC8FVhVnQ6EG7VVJJi
+         I3c77kitHkJGJNyA24RfvxfdTsdKCa6fbY0BlautuyteV5ENZ9RP5JSgqENz3v0/Kr
+         4p2M+Oj8j383ktaiO0f5+BeHLfYuBn/sFQuuviKanFD+cwl2sFdBhtEIO+ClXSoTUs
+         BDBV1Lacbi6uA==
+X-Nifty-SrcIP: [209.85.160.48]
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-1442977d77dso20433826fac.6;
+        Wed, 28 Dec 2022 18:15:18 -0800 (PST)
+X-Gm-Message-State: AFqh2krp4VTwk4mlGN6KHGw5g4QvHEFp+6MmWlp/YM7TV90nR1l6gsrY
+        pcAXW+0GCXWGgQZt/G3NYzCSiL2DymwVfxUACBo=
+X-Google-Smtp-Source: AMrXdXtJkxjfdPMzu5p/q6qGmEppMC3iIqZQ+qLAKMPWBD21yVaKFLpAy18RiZDYPZu1TVYbDBJWFqMcQQ/0jMjQBek=
+X-Received: by 2002:a05:6870:4c0e:b0:144:a2de:1075 with SMTP id
+ pk14-20020a0568704c0e00b00144a2de1075mr1323170oab.194.1672280116731; Wed, 28
+ Dec 2022 18:15:16 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [PATCH] kbuild: rpm-pkg: add libelf-devel as alternative for
- BuildRequires
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Ivan Vecera <ivecera@redhat.com>,
-        Jonathan Toppins <jtoppins@redhat.com>,
+References: <20221227214821.16495-1-samuel@sholland.org>
+In-Reply-To: <20221227214821.16495-1-samuel@sholland.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 29 Dec 2022 11:14:40 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQc-gEY_v-5f99r=Zeq0oQ3R7apdrc-3M14akhHBp_GoA@mail.gmail.com>
+Message-ID: <CAK7LNAQc-gEY_v-5f99r=Zeq0oQ3R7apdrc-3M14akhHBp_GoA@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Fix running modpost with musl libc
+To:     Samuel Holland <samuel@sholland.org>
+Cc:     linux-kbuild@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
-        =?UTF-8?B?w43DsWlnbyBIdWd1ZXQ=?= <ihuguet@redhat.com>
-References: <20221228191014.659746-1-masahiroy@kernel.org>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Guoqing Jiang <guoqing.jiang@linux.dev>
-In-Reply-To: <20221228191014.659746-1-masahiroy@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
-
-On 12/29/22 03:10, Masahiro Yamada wrote:
-> Guoqing Jiang reports that openSUSE cannot compile the kernel rpm due
-> to "BuildRequires: elfutils-libelf-devel" added by commit 8818039f959b
-> ("kbuild: add ability to make source rpm buildable using koji").
-> The relevant package name in openSUSE is libelf-devel.
+On Wed, Dec 28, 2022 at 6:48 AM Samuel Holland <samuel@sholland.org> wrote:
 >
-> Add it an alternative package.
+> commit 3d57e1b7b1d4 ("kbuild: refactor the prerequisites of the modpost
+> rule") moved 'vmlinux.o' inside modpost-args, possibly before some of
+> the other options. However, getopt() in musl libc follows POSIX and
+> stops looking for options upon reaching the first non-option argument.
+> As a result, the '-T' option is misinterpreted as a positional argument,
+> and the build fails:
 >
-> BTW, if it is impossible to solve the build requirement, the final
-> resort would be:
+>   make -f ./scripts/Makefile.modpost
+>      scripts/mod/modpost   -E   -o Module.symvers vmlinux.o -T modules.order
+>   -T: No such file or directory
+>   make[1]: *** [scripts/Makefile.modpost:137: Module.symvers] Error 1
+>   make: *** [Makefile:1960: modpost] Error 2
 >
->      $ make RPMOPTS=--nodeps rpm-pkg
+> The fix is to move all options before 'vmlinux.o' in modpost-args.
 >
-> This passes --nodeps to the rpmbuild command so it will not verify
-> build dependencies. This is useful to test rpm builds on non-rpm
-> system. On Debian/Ubuntu, for example, you can install rpmbuild by
-> 'apt-get install rpm'.
->
-> NOTE1:
->    Likewise, it is possible to bypass the build dependency check for
->    debian package builds:
->
->      $ make DPKG_FLAGS=-d deb-pkg
->
-> NOTE2:
->    The 'or' operator is supported since RPM 4.13. So, old distros such
->    as CentOS 7 will break. I suggest installing newer rpmbuild in such
->    cases.
->
-> Link: https://lore.kernel.org/linux-kbuild/ee227d24-9c94-bfa3-166a-4ee6b5dfea09@linux.dev/T/#u
-> Fixes: 8818039f959b ("kbuild: add ability to make source rpm buildable using koji")
-> Reported-by: Guoqing Jiang <guoqing.jiang@linux.dev>
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Fixes: 3d57e1b7b1d4 ("kbuild: refactor the prerequisites of the modpost rule")
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 > ---
 >
->   scripts/package/mkspec | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+
+
+
+Applied to linux-kbuild/fixes. Thanks.
+
+
+>  scripts/Makefile.modpost | 22 +++++++++++-----------
+>  1 file changed, 11 insertions(+), 11 deletions(-)
 >
-> diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-> index dda00a948a01..adab28fa7f89 100755
-> --- a/scripts/package/mkspec
-> +++ b/scripts/package/mkspec
-> @@ -51,7 +51,8 @@ sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
->   	URL: https://www.kernel.org
->   $S	Source: kernel-$__KERNELRELEASE.tar.gz
->   	Provides: $PROVIDES
-> -$S	BuildRequires: bc binutils bison dwarves elfutils-libelf-devel flex
-> +$S	BuildRequires: bc binutils bison dwarves
-> +$S	BuildRequires: (elfutils-libelf-devel or libelf-devel) flex
->   $S	BuildRequires: gcc make openssl openssl-devel perl python3 rsync
->   
->   	# $UTS_MACHINE as a fallback of _arch in case
+> diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+> index 5eb5e8280379..0ee296cf520c 100644
+> --- a/scripts/Makefile.modpost
+> +++ b/scripts/Makefile.modpost
+> @@ -55,6 +55,17 @@ ifneq ($(findstring i,$(filter-out --%,$(MAKEFLAGS))),)
+>  modpost-args += -n
+>  endif
+>
+> +ifneq ($(KBUILD_MODPOST_WARN)$(missing-input),)
+> +modpost-args += -w
+> +endif
+> +
+> +# Read out modules.order to pass in modpost.
+> +# Otherwise, allmodconfig would fail with "Argument list too long".
+> +ifdef KBUILD_MODULES
+> +modpost-args += -T $(MODORDER)
+> +modpost-deps += $(MODORDER)
+> +endif
+> +
+>  ifeq ($(KBUILD_EXTMOD),)
+>
+>  # Generate the list of in-tree objects in vmlinux
+> @@ -113,17 +124,6 @@ modpost-args += -e $(addprefix -i , $(KBUILD_EXTRA_SYMBOLS))
+>
+>  endif # ($(KBUILD_EXTMOD),)
+>
+> -ifneq ($(KBUILD_MODPOST_WARN)$(missing-input),)
+> -modpost-args += -w
+> -endif
+> -
+> -ifdef KBUILD_MODULES
+> -modpost-args += -T $(MODORDER)
+> -modpost-deps += $(MODORDER)
+> -endif
+> -
+> -# Read out modules.order to pass in modpost.
+> -# Otherwise, allmodconfig would fail with "Argument list too long".
+>  quiet_cmd_modpost = MODPOST $@
+>        cmd_modpost = \
+>         $(if $(missing-input), \
+> --
+> 2.37.4
+>
 
-Thanks for the quick fix! I verified the above works for openSUSE leap 15.4.
 
-Tested-by: Guoqing Jiang <guoqing.jiang@linux.dev>
-
-Thanks,
-Guoqing
+-- 
+Best Regards
+Masahiro Yamada
