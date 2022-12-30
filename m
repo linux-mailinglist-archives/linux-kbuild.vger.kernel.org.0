@@ -2,98 +2,141 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E84F659894
-	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Dec 2022 14:14:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 81519659A04
+	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Dec 2022 16:37:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229888AbiL3NOD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 30 Dec 2022 08:14:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33108 "EHLO
+        id S235340AbiL3Phi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 30 Dec 2022 10:37:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234895AbiL3NOB (ORCPT
+        with ESMTP id S235344AbiL3PhA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 30 Dec 2022 08:14:01 -0500
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72FCE1AD9C
-        for <linux-kbuild@vger.kernel.org>; Fri, 30 Dec 2022 05:14:00 -0800 (PST)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-123-ujNxs6XjNyOZnr5eFmPVlQ-1; Fri, 30 Dec 2022 13:13:57 +0000
-X-MC-Unique: ujNxs6XjNyOZnr5eFmPVlQ-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 30 Dec
- 2022 13:13:55 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.044; Fri, 30 Dec 2022 13:13:55 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     David Laight <David.Laight@ACULAB.COM>,
-        'Holger Lubitz' <holger.lubitz@t-online.de>,
-        'Linus Torvalds' <torvalds@linux-foundation.org>,
-        Guenter Roeck <linux@roeck-us.net>
-CC:     Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-toolchains@vger.kernel.org" <linux-toolchains@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        Fri, 30 Dec 2022 10:37:00 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D47451BEA3;
+        Fri, 30 Dec 2022 07:36:29 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 1291FCE18A9;
+        Fri, 30 Dec 2022 15:36:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF6F4C433EF;
+        Fri, 30 Dec 2022 15:36:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1672414586;
+        bh=XE8ifSxGfXq/BFysAeNhRttsfdgdwDk0kodQg7Og6jM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cjMPoHfU3+7aBFL/0XLFhmvT0RSC175bUbdlNZhNo14EO1phL9KOvNtQsUJ5RLCZN
+         OEGso1R4DwwVGCqBy+fTcceh64gSEccbzbYCzQLD7VHNCiXi6bpWu3jyXBIBsRnrfJ
+         B2owNiM3jiQwUfi6ZW65ZeWiuCOeJQyHjALrKMsLLO9/BEMgMXIIzlSApjPt1dEW3q
+         aIqvu5rhG8yJQuXHuM0Whui4kzXuJtKolZ81n6bhrQi9OHIa9rnuGhmwqPPZQr4TE1
+         HNTvGGFikKIRvS3cHBR8cWW+pjqCd6p+nu94bzMLmbrwEmBPZOABToOC1Yzubj9s6d
+         SRKrpUN7BMUjg==
+Date:   Fri, 30 Dec 2022 16:36:19 +0100
+From:   Christian Brauner <brauner@kernel.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     kernel test robot <oliver.sang@intel.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>, oe-lkp@lists.linux.dev,
+        lkp@intel.com, Masahiro Yamada <masahiroy@kernel.org>,
         Kees Cook <keescook@chromium.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-m68k@lists.linux-m68k.org" <linux-m68k@lists.linux-m68k.org>
-Subject: RE: [PATCH v2] kbuild: treat char as always unsigned
-Thread-Topic: [PATCH v2] kbuild: treat char as always unsigned
-Thread-Index: AQHZFV6o8tF/XYcvI0qqEtVNYsUlXa55tQ3wgAMV4YCACXsZ8IAAL/vQ
-Date:   Fri, 30 Dec 2022 13:13:55 +0000
-Message-ID: <a296bd41278d4bd4a4e9f0d31a540613@AcuMS.aculab.com>
-References: <Y1BcpXAjR4tmV6RQ@zx2c4.com>
-         <20221019203034.3795710-1-Jason@zx2c4.com>
-         <20221221145332.GA2399037@roeck-us.net>
-         <CAMuHMdUAaQSXq=4rO9soCGGnH8HZrSS0PjWELqGzXoym4dOqnQ@mail.gmail.com>
-         <1a27385c-cca6-888b-1125-d6383e48c0f5@prevas.dk>
-         <20221221155641.GB2468105@roeck-us.net>
-         <CAHk-=wj7FMFLr9AOW9Aa9ZMt1-Lu01_X8vLiaKosPyF2H-+ujA@mail.gmail.com>
-         <b2144334261246aa8dc5004c5f1a58c9@AcuMS.aculab.com>
- <f02e0ac7f2d805020a7ba66803aaff3e31b5eeff.camel@t-online.de>
- <357cbd67260040e4bcf17d519aaafdcb@AcuMS.aculab.com>
-In-Reply-To: <357cbd67260040e4bcf17d519aaafdcb@AcuMS.aculab.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Theodore Ts'o <tytso@mit.edu>
+Subject: Re: [linus:master] [kbuild] 3bc753c06d: xfstests.generic.454.fail
+Message-ID: <20221230153619.itewmvrtoxqkugx2@wittgenstein>
+References: <202212291509.704a11c9-oliver.sang@intel.com>
+ <CAHk-=wieOBgQ-7aoihBzywKqxiO7o7hc6gd_csn69ChcxR1FuQ@mail.gmail.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wieOBgQ-7aoihBzywKqxiO7o7hc6gd_csn69ChcxR1FuQ@mail.gmail.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Li4uLg0KPiA+IGludCBzdHJjbXAxKGNvbnN0IGNoYXIgKmNzLCBjb25zdCBjaGFyICpjdCkNCj4g
-PiB7DQo+ID4gICAgICAgICBpbnQgcmVzOw0KPiA+DQo+ID4gICAgICAgICBhc20gKCJcbiINCj4g
-PiAgICAgICAgICAgICAgICAgIjE6IG1vdmUuYiAgKCUwKSssJTJcbiIgIC8qIGdldCAqY3MgKi8N
-Cj4gPiAgICAgICAgICAgICAgICAgIiAgIGplcSAgICAgMmZcbiIgICAgICAgIC8qIGVuZCBvZiBm
-aXJzdCBzdHJpbmc/ICovDQo+ID4gICAgICAgICAgICAgICAgICIgICBjbXAuYiAgICglMSkrLCUy
-XG4iICAvKiBjb21wYXJlICpjdCAqLw0KPiA+ICAgICAgICAgICAgICAgICAiICAgamVxICAgICAx
-YlxuIiAgICAgICAgLyogaWYgZXF1YWwsIGNvbnRpbnVlICovDQo+ID4gICAgICAgICAgICAgICAg
-ICIgICBqcmEgICAgIDNmXG4iICAgICAgICAvKiBlbHNlIHNraXAgdG8gdGFpbCAqLw0KPiA+ICAg
-ICAgICAgICAgICAgICAiMjogY21wLmIgICAoJTEpKywlMlxuIiAgLyogY29tcGFyZSBvbmUgbGFz
-dCBieXRlICovDQo+ID4gICAgICAgICAgICAgICAgICIzOiBzdWJ4LmwgICUyLCAlMlxuIiAgICAv
-KiAtMSBpZiBib3Jyb3csIDAgaWYgbm90ICovDQo+ID4gICAgICAgICAgICAgICAgICIgICBqbHMg
-ICAgIDRmXG4iICAgICAgICAvKiBpZiBzZXQsIHogaXMgZnJvbSBzdWIuYiAqLw0KPiANCj4gVGhl
-IHN1Ynggd2lsbCBzZXQgWiB1bmxlc3MgQyB3YXMgc2V0Lg0KPiBTbyB0aGF0IGRvZXNuJ3Qgc2Vl
-bSByaWdodC4NCg0KQ2xlYXJseSBteSBicmFpbiB3YXMgYXNsZWVwIGVhcmxpZXIuDQpzdWJ4IHdp
-bGwgY2xlYXIgWiBub3Qgc2V0IGl0Lg0KDQoJRGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNz
-IExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAx
-UFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
+On Thu, Dec 29, 2022 at 10:55:05AM -0800, Linus Torvalds wrote:
+> On Thu, Dec 29, 2022 at 12:49 AM kernel test robot
+> <oliver.sang@intel.com> wrote:
+> >
+> > generic/454       _check_generic_filesystem: filesystem on /dev/sda4 is inconsistent
+> 
+> The commentary on that test is:
+> 
+>   Create xattrs with multiple keys that all appear the same
+>   (in unicode, anyway) but point to different values.  In theory all
+>   Linux filesystems should allow this (filenames are a sequence of
+>   arbitrary bytes) even if the user implications are horrifying.
+> 
+> and looking at the script it seems to indeed just do setfattr and
+> getfattr with some unusual data (ie high bit set).
+> 
+> Adding Ted, since this is apparently all on ext4. I guess it could be
+> the vfs layer too, but it really doesn't tend to look very much at the
+> xattr data, so.. Adding Christian Brauner anyway, since he's been
+> working in this area for other reasons.
 
+The test uses the user.* xattr namespace which should be unaffected by
+the xattr changes we did the last few cycles.
+
+> 
+> Ted, Christian - I cut down the report mercilessly. It's not really
+> all that interesting, apart from the basic information of "xfstest
+> generic/454 started failing consistently on ext4 at commit
+> 3bc753c06dd0 ('kbuild: treat char as always unsigned')".
+> 
+> If you think you need more, see
+> 
+>     https://lore.kernel.org/all/202212291509.704a11c9-oliver.sang@intel.com/
+> 
+> Also, I'm surprised this hasn't been an issue earlier - 'char' has
+> always been unsigned on arm (among other architectures), so if this
+> test started failing now on x86-64 due to -funsigned-char, it has
+> presumably been failing on arm the whole time.
+> 
+> I assume it's something that compares a 'char *name' by value, but the
+> ones I looked at (eg xattr_find_entry() used strlen()/memcmp() which
+> should be all good).
+> 
+> Oh, I think I see one potential problem in ext4:
+> 
+> ext4_xattr_hash_entry() is hot garbage. Lookie here:
+> 
+>         while (name_len--) {
+>                 hash = (hash << NAME_HASH_SHIFT) ^
+>                        (hash >> (8*sizeof(hash) - NAME_HASH_SHIFT)) ^
+>                        *name++;
+>         }
+> 
+> so that hash will now depend on the sign of that 'char *name' pointer.
+> 
+> If that hash ever has any long-term meaning (ie saved on disk or
+> exposed some other way), that would be problematic.
+
+If the xattrs aren't storable in the inode then they are stored in a
+separate block. The consist of a header and after that is an array of
+struct ext4_xattr_entry entries.
+
+Each of the entries store a hash value e_hash which is a hash of the
+xattr name and xattr value.
+
+The aforementioned header contains another h_hash field which seems to
+be a hash of all e_hash fields of all xattrs.
+
+For in-inode/ea-inode xattrs a hash for xattr name and value is stored
+on disk as well but there's no header. The i_atime field contains a
+checksum of only the value that is stored in the inode.
+
+IOW, the bug might also depend on how the xattrs are stored. For
+example, what xattrs might be stored in the inode depends on the inode
+size that is chosen when the filesystem is created. But if I'm not
+mistaken, it also depends on the block size.
+So if the block size chosen for x86 differs from arm that might have an
+impact on how the xattrs are stored and thus make the bug more or less
+likely to appear?...
