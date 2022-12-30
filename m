@@ -2,62 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1654C65913F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Dec 2022 20:47:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04FD065941D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Dec 2022 03:08:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229613AbiL2Trv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 29 Dec 2022 14:47:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41938 "EHLO
+        id S229537AbiL3CIY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 29 Dec 2022 21:08:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229535AbiL2Tru (ORCPT
+        with ESMTP id S229485AbiL3CIX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 29 Dec 2022 14:47:50 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C555D165B0;
-        Thu, 29 Dec 2022 11:47:41 -0800 (PST)
-Received: from leknes.fjasle.eu ([46.142.97.69]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1N7AAk-1olRgP2OJI-017Qzv; Thu, 29 Dec 2022 20:47:17 +0100
-Received: by leknes.fjasle.eu (Postfix, from userid 1000)
-        id 65DE03C0EF; Thu, 29 Dec 2022 20:47:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1672343235; bh=Ssiaq0UCBUNmKvQggRzr07i09RelaxqQve23Idug6co=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DXlsgr06qCbo9+gk/suhU5qopL+ga4NwZ81LwMJnPX+wYUfZcbEa5LIybtawNTbgV
-         h2/FNwCYMdpA66rtLjs0XvreX9BmZZK/k//eyGXTVe3wsIP9cTLXCUjW3NsAHvNsGs
-         ww3cjNmIel1aYIEpu3cCQerjkQfBwBg4gIC1yNr0=
-Date:   Thu, 29 Dec 2022 20:47:15 +0100
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH] kbuild: unify cmd_dt_S_dtb and cmd_dt_S_dtbo
-Message-ID: <Y63uw1HGiL5ZxJkk@fjasle.eu>
-References: <20221229184650.1107463-1-masahiroy@kernel.org>
+        Thu, 29 Dec 2022 21:08:23 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 686E015FE9;
+        Thu, 29 Dec 2022 18:08:22 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E9C51619FF;
+        Fri, 30 Dec 2022 02:08:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D220FC433EF;
+        Fri, 30 Dec 2022 02:08:19 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="At5O+D5c"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+        t=1672366097;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=XaP7sY3uwOFXUCeCgylt4xt3/IE9Khk5QaeZ73NIu7U=;
+        b=At5O+D5c28UopZfAFWpWdI9M9XpBkOruvFNzyIwXLfY4NzH/VZmyuf6WEsftDLQtGyl9IS
+        GY7iscAktxO+PtHXsfsjM6nZChfOzbkgvEblj7Ep2tuFDEn4NRwkSnIfHf7+NPbq4+fl1u
+        +hwynzAnpK3bQFe4EUI4Wi4uLzRrmdQ=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 774c63d5 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+        Fri, 30 Dec 2022 02:08:17 +0000 (UTC)
+Date:   Fri, 30 Dec 2022 03:08:14 +0100
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     kernel test robot <oliver.sang@intel.com>, oe-lkp@lists.linux.dev,
+        lkp@intel.com, Masahiro Yamada <masahiroy@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Theodore Ts'o <tytso@mit.edu>,
+        Christian Brauner <brauner@kernel.org>
+Subject: Re: [linus:master] [kbuild] 3bc753c06d: xfstests.generic.454.fail
+Message-ID: <Y65IDkjj9kYcoLiW@zx2c4.com>
+References: <202212291509.704a11c9-oliver.sang@intel.com>
+ <CAHk-=wieOBgQ-7aoihBzywKqxiO7o7hc6gd_csn69ChcxR1FuQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="guvpMswPTi1NG181"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221229184650.1107463-1-masahiroy@kernel.org>
-X-Provags-ID: V03:K1:Wa28HNUXKQWMjjrooBQKiPvM26xDjVz/antJMaKuE44Ev5z34pB
- OMc1ndLxOk8UuH0KitG4gPeLRmJDmtxLG/T0AYLPfN0I7hoFJOR9jFQNK2Q1Y6J6+TR8YOE
- XFH/Cewl2ljgVy/roT2vQvqlW3sE4L0Y4NeONoJVn5Hfcg13zGdqVuReTTao2UoYiAXvosT
- 6fC3Iak6LGLMHNEcmOX8w==
-UI-OutboundReport: notjunk:1;M01:P0:y6YlNRfDplk=;zWkJfjiPHSx0Jh+brLolqFM7she
- kK61b1bZy7auigq/7jQ/rTQWdYzLK3szJNC34koBuw1RKF7heUlgEvYgILapc4eEbFVlVjNh6
- f4JqTojEq1CTb7/USPGqOzRfVIEsyEUfydV8EQX4EZQSAg1rUP9K8afvpcD4RNOoX354xXsQm
- jEQOEa8icwMH/rv2nNtEiTSRNsOhRAxHiTJ3KrAFW8o6kMWtoP5d6KL9sLN4FtJ0g/6UkMhRF
- dAYrCRmc/lBVDyj2JerKEW0+HQXjVkdziGi1zfzYUq27uxljE15gdfv52vEAIxZ3C88BpShcw
- FdOrtJNdYOjI5b0Ug26nJ2dc/dB1ANwkpUra11d6OLWzpcm9iJftddfZG6EFo6MyEsasRWV/Z
- iySoOcYGa/oyjquBuN82CuUTWFgCueanwo85y7yedBHUNIb3UxEO44MdNFrKu45oNdWUf1Ojz
- oPGuJfOGhE0tKkPs3fCPUW5No972EWA1JWowmluYi0CXEnTAHg/fC1n4OQ3TWDTWuZocij2jR
- +RsN3ZEHmoHcQiykN1tY5CjNvrMQq36RdIfC5TZfZfbneRrid9rYrtung/GtKdcVpIE6HHmFH
- ivLhuXJVIo7Y/MwylZVg/vRm+mpBv/zAfs0ajTEfN5mL0X3i77cuzF/5lbbuhPjFz4Wzv7HFy
- E3kDH9ev/QnrILhWTUWq+2NjXJz6Dq8iVqXLS4QPYg==
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+In-Reply-To: <CAHk-=wieOBgQ-7aoihBzywKqxiO7o7hc6gd_csn69ChcxR1FuQ@mail.gmail.com>
+X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,79 +65,112 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Thu, Dec 29, 2022 at 10:55:05AM -0800, Linus Torvalds wrote:
+> Also, I'm surprised this hasn't been an issue earlier - 'char' has
+> always been unsigned on arm (among other architectures), so if this
+> test started failing now on x86-64 due to -funsigned-char, it has
+> presumably been failing on arm the whole time.
 
---guvpMswPTi1NG181
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+That's the curious part, indeed...
 
-On Fri, Dec 30, 2022 at 03:46:50AM +0900 Masahiro Yamada wrote:
-> cmd_dt_S_dtb and cmd_dt_S_dtbo are almost the same; the only differnce
-> is the prefix of the bein/end symbols. (__dtb vs __dtbo)
+> Oh, I think I see one potential problem in ext4:
+> 
+> ext4_xattr_hash_entry() is hot garbage. Lookie here:
+> 
+>         while (name_len--) {
+>                 hash = (hash << NAME_HASH_SHIFT) ^
+>                        (hash >> (8*sizeof(hash) - NAME_HASH_SHIFT)) ^
+>                        *name++;
+>         }
+> 
+> so that hash will now depend on the sign of that 'char *name' pointer.
+> 
+> If that hash ever has any long-term meaning (ie saved on disk or
+> exposed some other way), that would be problematic.
 
-Two letters got lost: differ_e_nce, be_g_in.
+Note that ext4 has lots of sign-specific code for hashing. Only some of
+it can now be removed, since compatibility with old file systems must be
+preserved. But what I mean is the code that begins in super.c:
 
->=20
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->=20
->  scripts/Makefile.lib | 45 +++++++++++++++-----------------------------
->  1 file changed, 15 insertions(+), 30 deletions(-)
->=20
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index 4a4a5f67c1a6..100a386fcd71 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -368,40 +368,25 @@ DTC_FLAGS +=3D $(DTC_FLAGS_$(basetarget))
->  DTC_FLAGS +=3D $(if $(filter $(patsubst $(obj)/%,%,$@), $(base-dtb-y)), =
--@)
-> =20
->  # Generate an assembly file to wrap the output of the device tree compil=
-er
-> -quiet_cmd_dt_S_dtb=3D DTBS    $@
-> -cmd_dt_S_dtb=3D						\
-> -{							\
-> -	echo '\#include <asm-generic/vmlinux.lds.h>'; 	\
-> -	echo '.section .dtb.init.rodata,"a"';		\
-> -	echo '.balign STRUCT_ALIGNMENT';		\
-> -	echo '.global __dtb_$(subst -,_,$(*F))_begin';	\
-> -	echo '__dtb_$(subst -,_,$(*F))_begin:';		\
-> -	echo '.incbin "$<" ';				\
-> -	echo '__dtb_$(subst -,_,$(*F))_end:';		\
-> -	echo '.global __dtb_$(subst -,_,$(*F))_end';	\
-> -	echo '.balign STRUCT_ALIGNMENT'; 		\
-> -} > $@
-> +quiet_cmd_wrap_S_dtb =3D WRAP    $@
-> +      cmd_wrap_S_dtb =3D {								\
-> +		symbase=3D__$(patsubst .%,%,$(suffix $<))_$(subst -,_,$(notdir $*));	\
+                i = le32_to_cpu(es->s_flags);
+                if (i & EXT2_FLAGS_UNSIGNED_HASH)
+                        sbi->s_hash_unsigned = 3;
+                else if ((i & EXT2_FLAGS_SIGNED_HASH) == 0) {
+#ifdef __CHAR_UNSIGNED__
+                        if (!sb_rdonly(sb))
+                                es->s_flags |=
+                                        cpu_to_le32(EXT2_FLAGS_UNSIGNED_HASH);
+                        sbi->s_hash_unsigned = 3;
+#else
+                        if (!sb_rdonly(sb))
+                                es->s_flags |=
+                                        cpu_to_le32(EXT2_FLAGS_SIGNED_HASH);
+#endif
+                }
 
-As long as I know, '$(notdir $*)' should be equivalent to '$(*F)'.  Is it j=
-ust
-personal preference or is there some other reason for choosing one or the
-other?
+The second part of that #else can now go away. And then maybe the whole
+expression can be simplified.
 
-Nevertheless, with the typos fixed, it looks good to me:
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+These actually wind up being used in namei.c:
 
+                hinfo->hash_version += EXT4_SB(dir->i_sb)->s_hash_unsigned;
 
---guvpMswPTi1NG181
-Content-Type: application/pgp-signature; name="signature.asc"
+, which then sets the hash version that's selected in hash.c:
 
------BEGIN PGP SIGNATURE-----
+        switch (hinfo->hash_version) {
+        case DX_HASH_LEGACY_UNSIGNED:
+                hash = dx_hack_hash_unsigned(name, len);
+                break;
+        case DX_HASH_LEGACY:
+                hash = dx_hack_hash_signed(name, len);
+                break;
+        case DX_HASH_HALF_MD4_UNSIGNED:
+                str2hashbuf = str2hashbuf_unsigned;
+                fallthrough;
+        case DX_HASH_HALF_MD4:
+                p = name;
+		[...]
 
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmOt7sIACgkQB1IKcBYm
-Emmvlg//ajMpzoFgEDR/6HTlwxYwKGBbhZkx2O0jz/2xXVW9eItzm1TslT6DWPR1
-SV8llpZQUpUEbSu3BcNSbvUuhYLXJbUmzf87+xlB8tzzTLjp1TGWEOd8UZeF0Ieh
-tRGeu4nqRE+3xQzf/7rH5K7fWhyMqE56o9JkDTMW1KjxFosAd2K0Qes0tSwwVMoN
-FEgcCTVzI4al8sW0n98jb9G/eOtPbHkdpTKD1apUUm2KfLd6YXYZPR86ET0rnRNR
-pTVafRInpPzTYqIy+yoBMsKJg1JZAGygmvPYsKrklhjwD4pwNK8vHSP8ckblHrHk
-frOG4WApnuejJfayn9HgyEB4tMYzs0q+r9c4KHJQuLLHS0EixTMBHmSyDidX7dlA
-jqLQCDJt9cTC4sjbuhCbGNOSgfENI7sPq/hpV0OrwkLCbj1dH3wnHqfC9G4D9aQ+
-+qZfsoknJmPpMJx0aQjmkwRLD+u0q11ElG4WQAGhRxyFzPLZCiqgS0Ugsb1HntIC
-4IjdhlVahId1+YNAjQqQvI9rHApWyFGLmwJMJsP6tT4WdwL4uh15CWXR/Fu5nIOh
-jILTpzaYyfc/AabrEfAFamGSp0gYKaTURkaFPS55cfjZa/wiTMtDYr+s0NZXSyzJ
-H3MQ6m9BRXQbuIMHmXsslj69SZh0dcqL9Rn2N9SsDwcoN94f29E=
-=OugI
------END PGP SIGNATURE-----
+And so on. dx_hack_hash_unsigned() and dx_hack_hash_signed() are the
+same functions, except one uses `unsigned char` and the other uses
+`signed char`. It's unfortunate these exist, but now it's part of the
+on-disk format, so they have to stick around (along with other warts
+like "halfmd4").
 
---guvpMswPTi1NG181--
+But at least for new file systems, things should be unified. Anyway, it
+looks like for *these* hashes, the ext4 developers did consider the
+signedness issue.
+
+Sounds like maybe it was left out of ext4_xattr_hash_entry(), which does
+indeed look like it's part of the on-disk representation:
+
+static int
+ext4_xattr_inode_verify_hashes(struct inode *ea_inode,
+                               struct ext4_xattr_entry *entry, void *buffer,
+                               size_t size)
+{
+        u32 hash;
+
+        /* Verify stored hash matches calculated hash. */
+        hash = ext4_xattr_inode_hash(EXT4_SB(ea_inode->i_sb), buffer, size);
+        if (hash != ext4_xattr_inode_get_hash(ea_inode))
+                return -EFSCORRUPTED;
+
+        if (entry) {
+                __le32 e_hash, tmp_data;
+
+                /* Verify entry hash. */
+                tmp_data = cpu_to_le32(hash);
+                e_hash = ext4_xattr_hash_entry(entry->e_name, entry->e_name_len,
+                                               &tmp_data, 1);
+                if (e_hash != entry->e_hash)
+                        return -EFSCORRUPTED;
+        }
+        return 0;
+}
+
+So if ext4_xattr_hash_entry() is indeed broken with respect to
+heisensignness, then this stuff has always been broken, and it's
+probably good that this is being unearthed...
+
+Jason
