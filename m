@@ -2,73 +2,65 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 533D265A547
-	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Dec 2022 16:08:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AB0265A583
+	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Dec 2022 16:25:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235741AbiLaPIF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 31 Dec 2022 10:08:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42044 "EHLO
+        id S230138AbiLaPZp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 31 Dec 2022 10:25:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235694AbiLaPIE (ORCPT
+        with ESMTP id S231693AbiLaPZp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 31 Dec 2022 10:08:04 -0500
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E69763B1;
-        Sat, 31 Dec 2022 07:08:02 -0800 (PST)
-Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-46198b81e5eso333475687b3.4;
-        Sat, 31 Dec 2022 07:08:02 -0800 (PST)
+        Sat, 31 Dec 2022 10:25:45 -0500
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F14771E8;
+        Sat, 31 Dec 2022 07:25:43 -0800 (PST)
+Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-3e45d25de97so333528577b3.6;
+        Sat, 31 Dec 2022 07:25:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=twLNZ5dF3uUkYx3D2ftZufmrlbnxR2cyL777pTO1PI0=;
-        b=LxePxxMkWCk+99u7qDLqrYjNmY+364ybIOtB6ESq1r73+lFr23/RTBoOLkNs/MmFWS
-         el6X61EQD++vuM7NR/QMk4Yql/losA1bRvmSnVhZ7vPcujfBztvkRPiAMXaqdtD7o2Pq
-         6yMbCbu7+qlPFLO+W+aESL2s6h3TKQ7owLAeQ+++q49CPnXic2u8zXw/U5Q5sahZTw3+
-         cZFlnIItk8UPCdYGofXYZg8UecDVDFLMi+kjS/bmWL98JQVaaRYpbWSj/zZsfMZ5o008
-         yPd63lVYvb4X/cjrMGDM58mN5GoqNAGoGSXDMY3Em3l0u4avHtHJbueUZKMsfSg7IaRN
-         J7rw==
+        bh=vTIkUhi2i57VDmwoitY7JCvY+QmJnIfSHOGksYjEkbA=;
+        b=Wxutio96iEpSuzsprYxs6IHmn0oqq5J1twDr1+aDhNeWMa8G1wNSSFKAZ+NfqhV4xD
+         49C2ygL/+2VW1SxaGbsz+qISSaSeeqK3I/h6Xmf2DpuzKNFnM+xUdJxr607Kv5Y2pGvd
+         5FXZkH1X/33EAm5k/R0b5F9MrTpYwBjUL/1QgSGuM7QOyMkKiRoqBtEWYnGackGNkhcp
+         UOUX/kgmSoVgRhl0XWE2KfsBnAyGaMEdjMy1ZfJJU+X46TPE0zH5WVEXvHN5H7Z1CzOQ
+         t2kj9AXh9kyFroKHFPzA8N6hrWswDQbf0QIRPUl/U0clUCXJkPHbSPE+8iaDX4sgXYOc
+         zn8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=twLNZ5dF3uUkYx3D2ftZufmrlbnxR2cyL777pTO1PI0=;
-        b=u8YiNEbHaPEuxAbeKelxK2ZjfAQ56eed9pfo7tF3ZDMuAInJoAq/q0y3u6lhgRsmtC
-         y9dQVGOnbtAAkNF8Y7+vBFyXA0Z9TLuZGTjGGC+0jeAquLakNiv2nXhKXsvyK/niyvKF
-         vI/5NLjdQ5xXWF68cOk5gBbR6rLrl0HWOKQ4hWrrzy2oPBrkpf+KJA3021avb06d5AKA
-         v9a2Vj38L3hoQY3YxMCH2kcl09oN2ogNyul1UvseETV2OcelhviJbSJsr/RzGsZFX52E
-         orSRpQgob+VPf/lEmgUO/3iVb3wGStU3RCLPR6wSTsMIo8ZtARiu6ngMclvYwCwizQUz
-         i9ZA==
-X-Gm-Message-State: AFqh2krQCZIseR7Ak4PE2x7BfibiRaSPjyHuqPoOWdHV9biYXkyVdDiT
-        z3vtDuNYn37U/L1eTU4unlTQyJ3FnX9igyeAj8w=
-X-Google-Smtp-Source: AMrXdXuOslSTjl7hXGpJN1LRXd+1/2vgbb+tAz606pZMIFj/QJYpTHq1mxR+XNkrxcA6eVkJgndgKrWvH2Zu6xLRJ5w=
-X-Received: by 2002:a0d:fc83:0:b0:3ed:90d2:2ab8 with SMTP id
- m125-20020a0dfc83000000b003ed90d22ab8mr3204530ywf.67.1672499281573; Sat, 31
- Dec 2022 07:08:01 -0800 (PST)
+        bh=vTIkUhi2i57VDmwoitY7JCvY+QmJnIfSHOGksYjEkbA=;
+        b=2T0zl0qd4I1NZULn02QYGuFxsIeUqJSobeot7BSWFcfoLzn//Lpk4YLmasFOm4n6fy
+         hfz0l6DoIw94HHenRlPoIPQ6OPdIp57IO++FwYr1i4leUJDpxtZ4wx7WBJZyrY+ES+pO
+         Vb1QeRexL3GhuDoRx+1KrTRc9YvqPSl95xCZ+12Jq/XTtDxKsmjloSj8DtjAwK/VaQc1
+         zgEnR/X+JMiZEvUsQoxDiLUsZg/TjqRC4EFH8L6szXoxXgHNDjl+yl4WzQF39BGdCwr5
+         9WF1CR5PYNL0ytHU9/GstwSMfgLNoIW5VHzKNOAGab0jSWjeWIe1RJzKmRlrhV2Q3nCr
+         zPNg==
+X-Gm-Message-State: AFqh2ko2deVEVcEIt6Gi2VTPH9SAQbTTUu3y9aII1kW2SVkO/5Ex5uhc
+        K1/5/5xTyGLPkVJWBwGyc6skyT+CYNAD+wtVNS46393prt43XgFjQHU=
+X-Google-Smtp-Source: AMrXdXuz6tWQhdwH3LFnVRkp0Z4hMEe45w1XsqKtayO3NmjA7lcsPsIu3ThMzTEuO3L1zUpDAC/cJ9LCOISwbELZGjw=
+X-Received: by 2002:a81:7343:0:b0:484:a94f:210 with SMTP id
+ o64-20020a817343000000b00484a94f0210mr1918307ywc.129.1672500343240; Sat, 31
+ Dec 2022 07:25:43 -0800 (PST)
 MIME-Version: 1.0
-References: <20221231083028.1635698-1-masahiroy@kernel.org>
- <CANiq72n3Hs3T5uFXBBCapnopp_EOwkc7n9QVtP3DguEytU9WKg@mail.gmail.com> <CAK7LNARkyqwEf=xte8Q2BjPkkrvO2-c5_6dmrh=MP527TocuLQ@mail.gmail.com>
-In-Reply-To: <CAK7LNARkyqwEf=xte8Q2BjPkkrvO2-c5_6dmrh=MP527TocuLQ@mail.gmail.com>
+References: <20221231064203.1623793-1-masahiroy@kernel.org> <20221231064203.1623793-3-masahiroy@kernel.org>
+In-Reply-To: <20221231064203.1623793-3-masahiroy@kernel.org>
 From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Sat, 31 Dec 2022 16:07:50 +0100
-Message-ID: <CANiq72=vgQRsBQO8Wwucj2aEout4hzbecgZcgg-W+e5s2WyaDQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: rust: move rust/target.json to scripts/
+Date:   Sat, 31 Dec 2022 16:25:32 +0100
+Message-ID: <CANiq72mbazF7b3sbH=9F=cHbTB_np=os+YzUPCzh=4HgEHsEKg@mail.gmail.com>
+Subject: Re: [PATCH 2/6] fixdep: parse Makefile more correctly to handle
+ comments etc.
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Borislav Petkov <bp@suse.de>, David Gow <davidgow@google.com>,
-        Helge Deller <deller@gmx.de>,
-        Kees Cook <keescook@chromium.org>,
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Miguel Ojeda <ojeda@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Palmer Dabbelt <palmer@rivosinc.com>,
-        Segher Boessenkool <segher@kernel.crashing.org>
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -80,16 +72,14 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Dec 31, 2022 at 3:57 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Sat, Dec 31, 2022 at 7:42 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> No.
-> scripts/target.json is a generated file.
-> It is generated in objtree, not in srctree.
+> My main motivation is to drop comments. rustc may output comments
+> (e.g. env-dep). Currentyly, rustc build rules invoke sed to remove
+> comments, but it is more efficient to do it in fixdep.
 
-I meant `$(objtree)`, i.e. I meant if we should use a $(...)` prefix
-for clarity/consistency (even if it is just `.`).
-
-Happy New Year!
+Hmm... I couldn't apply this one, it turns out `#include <stdarg.h>`
+is gone. Adding it and adjusting the patch fixes it.
 
 Cheers,
 Miguel
