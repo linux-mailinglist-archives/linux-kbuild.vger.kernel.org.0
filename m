@@ -2,58 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 01F2165A33C
-	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Dec 2022 09:30:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A593765A3D1
+	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Dec 2022 12:53:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229653AbiLaIam (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 31 Dec 2022 03:30:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48844 "EHLO
+        id S231784AbiLaLxI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 31 Dec 2022 06:53:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbiLaIal (ORCPT
+        with ESMTP id S229653AbiLaLxH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 31 Dec 2022 03:30:41 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5295911157;
-        Sat, 31 Dec 2022 00:30:40 -0800 (PST)
+        Sat, 31 Dec 2022 06:53:07 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7F57BC32;
+        Sat, 31 Dec 2022 03:53:06 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id DAB9AB80189;
-        Sat, 31 Dec 2022 08:30:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACA19C433D2;
-        Sat, 31 Dec 2022 08:30:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672475437;
-        bh=DeGY3WtnQ9/BVhgPzj8b9RvS0+MPjHrMcjMxSB4XArM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=NYl2X4ZTLykuScW1WehAqZ5NIe9wA0PEtHhvsijd2ESdrG+lPZBOuXMlavFL3d3Nu
-         rDobV1WH9TP1tcLNGHYTG3q+9BtQUM1/dvBasugleQdPhidkGtinYnhN1FwO/sL8ju
-         re0Jg2gnp3gTX7Nawx8BVzL3lnqqClUz2NWE8WCwj5pFj6P/QMBMCTmsxcqO1jNt5v
-         ZapZvXGxduN/SFYlXp65UNQLOkW8m/MTqjop8+SPTmroqpMXTEmmM3B9wWC3EnfjSE
-         L4eHMhPvZPnEqQKiCSfgjJtMf2dvCn8xAjO6BphD+FbeygVMyfgPQgLGFD1plfigw3
-         qhhbFWYPCIl/A==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
-        rust-for-linux@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7609760AE2;
+        Sat, 31 Dec 2022 11:53:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A552C433EF;
+        Sat, 31 Dec 2022 11:53:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1672487585;
+        bh=9dX6SMZkf7URduMqFkyukwyM+4YWlGy+pECqZULED+o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=OV9zfMZ/zniMdE/u7sHoAFANWLEvZWYYFJ1VOKoxSQ3NU3uw9lu4xkaOkRM3TE1Vz
+         KB+odNn9whGizoOzpNxxpz5DRNLjjf/RMrzEL0EWr2TFDSJPtOFOyJ9jDZLkTWvZyT
+         ZezIbwrTkNsFWH/OIpJ3mMIIeNWks6I7fh2pvCac=
+Date:   Sat, 31 Dec 2022 12:53:03 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Tom Saeger <tom.saeger@oracle.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>, stable@vger.kernel.org,
+        linux-kbuild@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Borislav Petkov <bp@suse.de>, David Gow <davidgow@google.com>,
-        Helge Deller <deller@gmx.de>,
-        Kees Cook <keescook@chromium.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
         Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Palmer Dabbelt <palmer@rivosinc.com>,
-        Segher Boessenkool <segher@kernel.crashing.org>
-Subject: [PATCH] kbuild: rust: move rust/target.json to scripts/
-Date:   Sat, 31 Dec 2022 17:30:28 +0900
-Message-Id: <20221231083028.1635698-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.34.1
+        Nick Clifton <nickc@redhat.com>,
+        Fangrui Song <maskray@google.com>
+Subject: Re: [PATCH 5.15 5.10 5.4 v2] kbuild: fix Build ID if
+ CONFIG_MODVERSIONS
+Message-ID: <Y7Ain9pj5cfl49tI@kroah.com>
+References: <3df32572ec7016e783d37e185f88495831671f5d.1671143628.git.tom.saeger@oracle.com>
+ <CAKwvOdnu6KAgFrwmcn9qhjd+WDyW0ZTSyOzOnSsWhQ1rj0Y-6A@mail.gmail.com>
+ <20221221204240.fa3ufl3twepj7357@oracle.com>
+ <CAKwvOdkdPNqPQUOqBLqW7m7i-WB0fJLSSpYTPFXnaitBNatoMw@mail.gmail.com>
+ <20221221235413.xaisboqmr7dkqwn6@oracle.com>
+ <20221222000330.57vazcv6blclpe6o@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221222000330.57vazcv6blclpe6o@oracle.com>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -63,132 +62,145 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-scripts/ is a better place to generate files used treewide.
+On Wed, Dec 21, 2022 at 06:03:30PM -0600, Tom Saeger wrote:
+> On Wed, Dec 21, 2022 at 05:54:24PM -0600, Tom Saeger wrote:
+> > On Wed, Dec 21, 2022 at 01:23:40PM -0800, Nick Desaulniers wrote:
+> > > On Wed, Dec 21, 2022 at 12:42 PM Tom Saeger <tom.saeger@oracle.com> wrote:
+> > > >
+> > > > On Wed, Dec 21, 2022 at 11:56:33AM -0800, Nick Desaulniers wrote:
+> > > > > On Thu, Dec 15, 2022 at 3:18 PM Tom Saeger <tom.saeger@oracle.com> wrote:
+> > > > > >
+> > > > v1 cover has a simple example if someone has capability/time to adapt to
+> > > > another architecture.
+> > > >
+> > > > - enable CONFIG_MODVERSIONS
+> > > > - build
+> > > > - readelf -n vmlinux
+> > > 
+> > > Keep this info in the commit message.
+> > 
+> > Ok.
+> > 
+> > > 
+> > > >
+> > > > >
+> > > > > >
+> > > > > > Linus's tree doesn't have this issue since 0d362be5b142 was merged
+> > > > > > after df202b452fe6 which included:
+> > > > > > commit 7b4537199a4a ("kbuild: link symbol CRCs at final link, removing CONFIG_MODULE_REL_CRCS")
+> > > > > >
+> > > > > > This kernel's KBUILD CONFIG_MODVERSIONS tooling compiles and links .S targets
+> > > > > > with relocatable (-r) and now (-z noexecstack)
+> > > > > > which results in ld adding a .note.GNU-stack section to .o files.
+> > > > > > Final linking of vmlinux should add a .NOTES segment containing the
+> > > > > > Build ID, but does NOT (on some architectures like arm64) if a
+> > > > > > .note.GNU-stack section is found in .o's supplied during link
+> > > > > > of vmlinux.
+> > > > >
+> > > > > Is that a bug in BFD?  That the behavior differs per target
+> > > > > architecture is subtle.  If it's not documented behavior that you can
+> > > > > link to, can you file a bug about your findings and cc me?
+> > > > > https://sourceware.org/bugzilla/enter_bug.cgi?product=binutils
+> > > >
+> > > > I've found:
+> > > > https://sourceware.org/bugzilla/show_bug.cgi?id=16744
+> > > > Comment 1: https://sourceware.org/bugzilla/show_bug.cgi?id=16744#c1
+> > > >
+> > > > "the semantics of a .note.GNU-stack presence is target-dependent."
+> > > 
+> > > I wonder if that's an observation, or a statement of intended design.
+> > > A comment in a bug tracker is perhaps less normative than explicit
+> > > documentation.
+> > > 
+> > > Probably doesn't hurt to include that link in the commit message as well.
+> > > 
+> > > >
+> > > > corresponding to this commit:
+> > > > https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=76f0cad6f4e0fdfc4cfeee135b44b6a090919c60
+> > > 
+> > > Seems x86 specific...
+> > > 
+> > > >
+> > > > So - I'm not entirely sure if this is a bug or expected behavior.
+> > > 
+> > > Nick Clifton is cc'ed and might be able to provide more details
+> > > (holiday timing permitting; no rush).
+> > > 
+> > > >
+> > > > >
+> > > > > If it is a bug in BFD, then I'm not opposed to working around it, but
+> > > > > it would be good to have as precise a report as possible in the commit
+> > > > > message if we're going to do hijinks in a stable-only patch for
+> > > > > existing tooling.
+> > > > >
+> > > > > If it's a feature, having some explanation _why_ we get per-arch
+> > > > > behavior like this may be helpful for us to link to in the future
+> > > > > should this come up again.
+> > > >
+> > > > While I agree - *I* don't have an explanation (despite digging), only
+> > > > work-arounds.
+> > > 
+> > > That's fine. That's why I'd rather have a bug on file that we link to
+> > > stating we're working around this until we have a more definitive
+> > > review of this surprising behavior.  Please file a bug wrt. this
+> > > behavior.
+> > > https://sourceware.org/bugzilla/enter_bug.cgi?product=binutils
+> > > 
+> > > >
+> > > > >
+> > > > > >
+> > > > > > DISCARD .note.GNU-stack sections of .S targets.  Final link of
+> > > > >
+> > > > > That's going to give them an executable stack again.
+> > > > > https://www.redhat.com/en/blog/linkers-warnings-about-executable-stacks-and-segments
+> > > > > >> missing .note.GNU-stack section implies executable stack
+> > > > > The intent of 0d362be5b142 is that we don't want translation units to
+> > > > > have executable stacks, though I do note that assembler sources need
+> > > > > to opt in.
+> > > > >
+> > > > > Is it possible to force a build-id via linker flag `--build-id=sha1`?
+> > > > That's an idea - I'll see if this works.
+> > > 
+> > > Yes, please try this first.
+> > 
+> > --build-id=sha1 is already being supplied during link of vmlinux
+> > 
+> > > 
+> > > >
+> > > > >
+> > > > > If not, can we just use `-z execstack` rather than concatenating a
+> > > > > DISCARD section into a linker script?
+> > > >
+> > > > so... something like v1 patch, but replace `-z noexecstack` with `-z
+> > > > execstack`?  And for arm64 only?  I'll try this.
+> > > 
+> > > If --build-id doesn't work, then I'd try this. Doesn't have to be
+> > > arm64 only if it's difficult to express that.
+> > 
+> > I went back to only trying this on arch/arm64/kernel/head.S
+> > 
+> > -z noexecstack doesn't work
+> > -z execstack   also doesn't work
+> > but removing both does work.
+> > 
+> > The flow is roughly:
+> > 
+> > gcc head.S -> head.o
+> > ld -z noexecstack head.o -> .tmp_head.o
+> > mv -f .tmp_head.o head.o
+> > ld -o vmlinux --whole-archive arch/arm64/kernel/head.o ...
+> > 
+> > If I supply just the compiled head.o, not .tmp_head.o everything works.
+> Sorry, this is incorrect.  ld of vmlinux actually failed.
+> 
+> relocation R_AARCH64_ABS32 against `__crc_kimage_vaddr' can not be used when making a shared object
+> arch/arm64/kernel/head.o.orig: in function `__primary_switch':
+> .../arch/arm64/kernel/head.S:897:(.idmap.text+0x458): dangerous relocation: unsupported relocation
+> .../arch/arm64/kernel/head.S:897:(.idmap.text+0x460): dangerous relocation: unsupported relocation
 
-You do not need to add target.json to no-clean-files or MRPROER_FILES.
+Ok, I'm confused and don't know what to do here.  I'll drop this from my
+mbox queue and wait for a revised fix to show up.
 
-'make clean' does not visit scripts/, but 'make mrproper' does.
+thanks,
 
-With target.json moved into scripts/, Kbuild will do the right thing.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- Makefile                   |  4 ++--
- rust/.gitignore            |  1 -
- rust/Makefile              | 10 +---------
- scripts/.gitignore         |  1 +
- scripts/Makefile           |  8 +++++++-
- scripts/remove-stale-files |  2 ++
- 6 files changed, 13 insertions(+), 13 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index 6b2a65f1aeaf..f9ec5bcacc60 100644
---- a/Makefile
-+++ b/Makefile
-@@ -569,7 +569,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Werror=strict-prototypes -Wno-trigraphs \
- 		   -std=gnu11
- KBUILD_CPPFLAGS := -D__KERNEL__
- KBUILD_RUSTFLAGS := $(rust_common_flags) \
--		    --target=$(objtree)/rust/target.json \
-+		    --target=$(objtree)/scripts/target.json \
- 		    -Cpanic=abort -Cembed-bitcode=n -Clto=n \
- 		    -Cforce-unwind-tables=n -Ccodegen-units=1 \
- 		    -Csymbol-mangling-version=v0 \
-@@ -1593,7 +1593,7 @@ MRPROPER_FILES += include/config include/generated          \
- 		  certs/x509.genkey \
- 		  vmlinux-gdb.py \
- 		  *.spec \
--		  rust/target.json rust/libmacros.so
-+		  rust/libmacros.so
- 
- # clean - Delete most, but leave enough to build external modules
- #
-diff --git a/rust/.gitignore b/rust/.gitignore
-index 9bd1af8e05a1..168cb26a31b9 100644
---- a/rust/.gitignore
-+++ b/rust/.gitignore
-@@ -1,6 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
- 
--target.json
- bindings_generated.rs
- bindings_helpers_generated.rs
- exports_*_generated.h
-diff --git a/rust/Makefile b/rust/Makefile
-index c8941fec6955..9e33fa04b594 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -1,8 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
- 
--always-$(CONFIG_RUST) += target.json
--no-clean-files += target.json
--
- obj-$(CONFIG_RUST) += core.o compiler_builtins.o
- always-$(CONFIG_RUST) += exports_core_generated.h
- 
-@@ -231,11 +228,6 @@ rusttest-kernel: $(src)/kernel/lib.rs rusttest-prepare \
- 	$(call if_changed,rustc_test)
- 	$(call if_changed,rustc_test_library)
- 
--filechk_rust_target = $(objtree)/scripts/generate_rust_target < $<
--
--$(obj)/target.json: $(objtree)/include/config/auto.conf FORCE
--	$(call filechk,rust_target)
--
- ifdef CONFIG_CC_IS_CLANG
- bindgen_c_flags = $(c_flags)
- else
-@@ -358,7 +350,7 @@ rust-analyzer:
- $(obj)/core.o: private skip_clippy = 1
- $(obj)/core.o: private skip_flags = -Dunreachable_pub
- $(obj)/core.o: private rustc_target_flags = $(core-cfgs)
--$(obj)/core.o: $(RUST_LIB_SRC)/core/src/lib.rs $(obj)/target.json FORCE
-+$(obj)/core.o: $(RUST_LIB_SRC)/core/src/lib.rs scripts/target.json FORCE
- 	$(call if_changed_dep,rustc_library)
- 
- $(obj)/compiler_builtins.o: private rustc_objcopy = -w -W '__*'
-diff --git a/scripts/.gitignore b/scripts/.gitignore
-index b7aec8eb1bd4..11bf3c075fb6 100644
---- a/scripts/.gitignore
-+++ b/scripts/.gitignore
-@@ -8,4 +8,5 @@
- /recordmcount
- /sign-file
- /sorttable
-+/target.json
- /unifdef
-diff --git a/scripts/Makefile b/scripts/Makefile
-index 1575af84d557..0e0ae3c06ed7 100644
---- a/scripts/Makefile
-+++ b/scripts/Makefile
-@@ -10,8 +10,14 @@ hostprogs-always-$(CONFIG_BUILDTIME_TABLE_SORT)		+= sorttable
- hostprogs-always-$(CONFIG_ASN1)				+= asn1_compiler
- hostprogs-always-$(CONFIG_MODULE_SIG_FORMAT)		+= sign-file
- hostprogs-always-$(CONFIG_SYSTEM_EXTRA_CERTIFICATE)	+= insert-sys-cert
--hostprogs-always-$(CONFIG_RUST)				+= generate_rust_target
-+always-$(CONFIG_RUST)					+= target.json
- 
-+filechk_rust_target = $< < include/config/auto.conf
-+
-+$(obj)/target.json: scripts/generate_rust_target include/config/auto.conf FORCE
-+	$(call filechk,rust_target)
-+
-+hostprogs += generate_rust_target
- generate_rust_target-rust := y
- 
- HOSTCFLAGS_sorttable.o = -I$(srctree)/tools/include
-diff --git a/scripts/remove-stale-files b/scripts/remove-stale-files
-index cdbdde89a271..c71bf2f68360 100755
---- a/scripts/remove-stale-files
-+++ b/scripts/remove-stale-files
-@@ -27,3 +27,5 @@ rm -f arch/x86/purgatory/kexec-purgatory.c
- rm -f scripts/extract-cert
- 
- rm -f scripts/kconfig/[gmnq]conf-cfg
-+
-+rm -f rust/target.json
--- 
-2.34.1
-
+greg k-h
