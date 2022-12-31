@@ -2,54 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7549C65A4A1
-	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Dec 2022 14:23:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 45B9165A4A8
+	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Dec 2022 14:34:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229523AbiLaNXi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 31 Dec 2022 08:23:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50414 "EHLO
+        id S229546AbiLaNeY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 31 Dec 2022 08:34:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229905AbiLaNXf (ORCPT
+        with ESMTP id S229484AbiLaNeY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 31 Dec 2022 08:23:35 -0500
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69A68B4A3;
-        Sat, 31 Dec 2022 05:23:33 -0800 (PST)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 2BVDNC0T024452;
-        Sat, 31 Dec 2022 22:23:13 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 2BVDNC0T024452
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1672492993;
-        bh=hA5JdMstmYILZuTW3S9yvFg3QCQeMln5UE4GkP/2L6g=;
-        h=From:Date:Subject:To:Cc:From;
-        b=sNdPxAJdaC1SeWjuMYNaD1mdVNytr2PsZg2rMt8KUnYJ2WqGIdPnaQszY2a929ZJt
-         CfJfT4PDKr4+AWXmtZg4DMcYQqV6rTG5lyL1XPK+mFXF2iXRiSVqPUHqZJBd7dDJn9
-         4TdOyosaSuRGZbgm6k7ovmEX9lC+PCshyI09CDYt3x6KuSGvlRt7OWFqHi2/uwXfCs
-         QdjKejpURuVF2ZDE7QzRk6loy9fnX51N5s5wg8SuCY5aoGc0MvRXGSwGOZALYohnhq
-         ZVwnA0lEELW+4yldIZgK/OUHSygEKAVoYWNzhXji0YrqC3p1ecU2pxuiToH84nHiAd
-         d1OOHeQQck2uQ==
-X-Nifty-SrcIP: [209.85.208.182]
-Received: by mail-lj1-f182.google.com with SMTP id p2so9071213ljn.7;
-        Sat, 31 Dec 2022 05:23:13 -0800 (PST)
-X-Gm-Message-State: AFqh2kopTYYrvrJkSlWoASS+AcFqRtMbIIfB+V4eF8EeFFkAUAKcauvR
-        AaZEV+y7bvUcXt7Jm1eXg+lKL9mp5zNj/220mxM=
-X-Google-Smtp-Source: AMrXdXu6q1r471sijjQKqWZ8qj1JQk/QXWP/iOhLV7Epa+V01RHD3VEjqbyWe7/YzLiKYdPhtgebkJUBL/6nLrbGCnM=
-X-Received: by 2002:a2e:bf18:0:b0:27f:bcdf:453a with SMTP id
- c24-20020a2ebf18000000b0027fbcdf453amr1682720ljr.116.1672492991686; Sat, 31
- Dec 2022 05:23:11 -0800 (PST)
+        Sat, 31 Dec 2022 08:34:24 -0500
+Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 090F38FC9;
+        Sat, 31 Dec 2022 05:34:23 -0800 (PST)
+Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-43ea87d0797so330630177b3.5;
+        Sat, 31 Dec 2022 05:34:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=OlG2ZWLwbg11x7JqxmIJ3EwjPFABMN8qelHH8mpSWZc=;
+        b=cfYlJYBuHpSDOAhy/8zE8zsVlHJeZBQvdMGgSLilSsfqdHmDmRuo5IRnNdWKhthSVZ
+         93kPS4nSL+i+ht2tAVBdY49beKm5cIqQIMcGS4pxOUO7k3H9UiQ6pRQkqp5o4LGgkQP7
+         zyg45TdoBwwGqNL/qEYI4IjYihrQQ8mvr2RoyL6hWLecnWmI93BNmnZWpoMIGznaWVBE
+         G74UF7DULynd028rHwswinaDkTl+z6YmeveQ8z81iIvIRrCOODcc/mwTmaWeUgJOKGeY
+         0KHDhyP/H4hVJx7zJsMJcRCOMOx03aC2s9Zhezlx3CpPf4bcb5jTyyoiG2eWyXCIFe9Y
+         hWMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OlG2ZWLwbg11x7JqxmIJ3EwjPFABMN8qelHH8mpSWZc=;
+        b=l9tJBRDXxItkh8IRFU4Bkhd8L7ZtA3JYa1cPxubjXiJn2hG/Q9ipEkccmF9wwyvN0b
+         APeAOOHBYh/oEHPter8T0DTrsWYc4iPEguWr1gDTOp2xgKzgLR8XGv445Np3eUHWf1hH
+         GPOKWsOmOCbUvF/UbIkgLG9oeA+jwhD6E2aOCPPAQRrxExK4mayQGNAhtfzW8QGSs2+/
+         NcqTYeZya+pWgABoENimxrgSIhBPl2Soi0ZgYK1YhY5YmvR9+naMZTvXojL53Uq28oW1
+         zrP79dpxCicnxB+Ey39FXhy0EvkEQoel6EnL/rcut/JmjycrO+0rLyta7krMNhS8C9hP
+         NpoA==
+X-Gm-Message-State: AFqh2kpEH6wKBejPQ9A6dS8F8s6LBoDV8Zbg1N9cj6m0VlB4enfXSDwC
+        RzOqrTzR7D0TGcSn2y7hqSbzj2AzLjN/1J7NpEg=
+X-Google-Smtp-Source: AMrXdXuTGtVzVPnubHM0TtSu1jEEw41VpKdyluBDPas/jnvfbBCV/QMV44rkDFhm0CXUR7AuOEsyjwLk51bvrotnYPI=
+X-Received: by 2002:a0d:ea54:0:b0:483:813:c70f with SMTP id
+ t81-20020a0dea54000000b004830813c70fmr2048084ywe.266.1672493662289; Sat, 31
+ Dec 2022 05:34:22 -0800 (PST)
 MIME-Version: 1.0
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 31 Dec 2022 22:22:33 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ66CwHVH+vvqkaRqEn8M46bOSFhyEAOdQfcKeWLxUTUA@mail.gmail.com>
-Message-ID: <CAK7LNAQ66CwHVH+vvqkaRqEn8M46bOSFhyEAOdQfcKeWLxUTUA@mail.gmail.com>
-Subject: [GIT PULL] Kbuild fixes for v6.2-rc2
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+References: <20221231064203.1623793-1-masahiroy@kernel.org>
+In-Reply-To: <20221231064203.1623793-1-masahiroy@kernel.org>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Sat, 31 Dec 2022 14:34:11 +0100
+Message-ID: <CANiq72m5E1MehfqdrkmJt43fAzUMc9kEKu7x4WaALdgDGJ30-g@mail.gmail.com>
+Subject: Re: [PATCH 0/6] kbuild: fix dep-file processing for rust
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        llvm@lists.linux.dev, rust-for-linux@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -57,68 +75,22 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello Linus,
+On Sat, Dec 31, 2022 at 7:42 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> Masahiro Yamada (6):
+>   kbuild: specify output names separately for each emission type from
+>     rustc
+>   fixdep: parse Makefile more correctly to handle comments etc.
+>   kbuild: remove sed commands after rustc rules
+>   fixdep: refactor hash table lookup
+>   fixdep: avoid parsing the same file over again
+>   fixdep: do not parse *.so, *.rmeta, *.rlib
 
-Please pull some Kbuild fixes.
+These cleanups are great, and it is a pleasure to see proper
+integration with `fixdep` -- thanks a ton! :)
 
-Thank you.
+Will you want to take them through the kbuild tree? (I guess so, given
+the bulk of it is on `fixdep`)
 
-
-
-
-
-The following changes since commit 1b929c02afd37871d5afb9d498426f83432e71c2:
-
-  Linux 6.2-rc1 (2022-12-25 13:41:39 -0800)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-tags/kbuild-fixes-v6.2
-
-for you to fetch changes up to 6a5e25fc3e0b94301734e8abb1d311a1e02d360d:
-
-  fixdep: remove unneeded <stdarg.h> inclusion (2022-12-30 17:26:19 +0900)
-
-----------------------------------------------------------------
-Kbuild fixes for v6.2
-
- - Fix broken BuildID
-
- - Add srcrpm-pkg to the help message
-
- - Fix the option order for modpost built with musl libc
-
- - Fix the build dependency of rpm-pkg for openSUSE
-
-----------------------------------------------------------------
-Bhaskar Chowdhury (1):
-      kconfig: Add static text for search information in help menu
-
-Jun ASAKA (1):
-      kbuild: add a missing line for help message
-
-Masahiro Yamada (5):
-      arch: fix broken BuildID for arm64 and riscv
-      .gitignore: ignore *.rpm
-      kbuild: rpm-pkg: add libelf-devel as alternative for BuildRequires
-      kbuild: sort single-targets alphabetically again
-      fixdep: remove unneeded <stdarg.h> inclusion
-
-Samuel Holland (1):
-      kbuild: Fix running modpost with musl libc
-
- .gitignore                        |  1 +
- Makefile                          |  2 +-
- include/asm-generic/vmlinux.lds.h |  5 +++++
- scripts/Makefile.modpost          | 22 +++++++++++-----------
- scripts/Makefile.package          |  1 +
- scripts/basic/fixdep.c            |  1 -
- scripts/kconfig/mconf.c           |  6 ++++++
- scripts/package/mkspec            |  3 ++-
- 8 files changed, 27 insertions(+), 14 deletions(-)
-
-
-
-Best Regards
-Masahiro Yamada
+Cheers,
+Miguel
