@@ -2,84 +2,129 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 05DDA65A58B
-	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Dec 2022 16:30:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F4AA65A5FC
+	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Dec 2022 18:48:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229516AbiLaPav (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 31 Dec 2022 10:30:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48220 "EHLO
+        id S229597AbiLaRsb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 31 Dec 2022 12:48:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229536AbiLaPau (ORCPT
+        with ESMTP id S229450AbiLaRsa (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 31 Dec 2022 10:30:50 -0500
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E516D5F68;
-        Sat, 31 Dec 2022 07:30:48 -0800 (PST)
-Received: by mail-yb1-xb2f.google.com with SMTP id j206so26287467ybj.1;
-        Sat, 31 Dec 2022 07:30:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=JG8JkGizHk6OOlCN3XUOXJ3kZY3cgZs7QsL4MTDQgDE=;
-        b=n8oLluZQpcfXatNmm1scwWitiRMGtbMUnTQ2IG347RR+LDQYiiouavkARCkcHF7U9+
-         Hmck4dAVIe5VR3TCXCicDeXgSkVi1lYR8/8t9gB4RmKFbKNE0a0s8xlhbnzPwRbh4XQ9
-         AN9Zkb5bYIx277isgokdBGNfz8jayyX+/+9dS7n2xn4kCBwq8rM5G19T24fPjNE2azcy
-         Co3dBDIpAcR/jKvsHguL+Q1BVJPM+SLjkhjOKTtaiJwD84BifgMXJ6VS/EpdCfIc9Bdc
-         R18yG36V6ANIO8L76cuiOSGIIBvvlCltQLvdyFe8oOaNzji+FHfNPyCfnMt5O0oMnXFI
-         XqBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JG8JkGizHk6OOlCN3XUOXJ3kZY3cgZs7QsL4MTDQgDE=;
-        b=xUgHbtxiA+rI192QAYKPzYvMmN3YdvTehrbBVfRC9PkMMGi7Y4zEUVSEZz4onHXG4H
-         jtEC0y6rZ6WtvAy2T98OJMDGNdzeioSwKAy83e0Vv+E5zNdPwJ9qdhKNfz+muz+6Bv6A
-         SolKpE7J3T7J526Qf8c+nLQc1tFJ9bGP0iemZHl2iQNp7wvVePPcuyw1+uAmk7RKXlsq
-         P1ZM7Mih/XcteWB4kaggLxCK1ndJvu9MC0snsgIXwqL3q/DaJAoXt0akYY/laGavxOD+
-         E5xxKyR3kSR9h/T5wV5xdH67Eq+ib9JDmCRjv6Dp6mej5lssYVDe6oqb6bRz1/6qApTe
-         4y7Q==
-X-Gm-Message-State: AFqh2kobZX/10FRQhXNQMD45xOGKWv0OVdauz2k0FFREn53NRzP2JA51
-        DahL/UVoxRakdt4S7q4D5X08TI3Z7VRJg46nAS4=
-X-Google-Smtp-Source: AMrXdXvVNXKjofXjG2tD1fK9j47fIGvuVoh+trQG1yqh1vM6hpHKOkh82Yz3mKC0GUdOL1Gd1da5HgfXej1RE6ZZWm8=
-X-Received: by 2002:a25:7653:0:b0:6f9:13cc:de91 with SMTP id
- r80-20020a257653000000b006f913ccde91mr4131006ybc.328.1672500648107; Sat, 31
- Dec 2022 07:30:48 -0800 (PST)
-MIME-Version: 1.0
-References: <20221231064203.1623793-1-masahiroy@kernel.org>
- <20221231064203.1623793-3-masahiroy@kernel.org> <CANiq72mbazF7b3sbH=9F=cHbTB_np=os+YzUPCzh=4HgEHsEKg@mail.gmail.com>
-In-Reply-To: <CANiq72mbazF7b3sbH=9F=cHbTB_np=os+YzUPCzh=4HgEHsEKg@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Sat, 31 Dec 2022 16:30:37 +0100
-Message-ID: <CANiq72n7hjdSJGB0qSXJtXOgR+58zZ657UrCnZRRFWyArUOOOg@mail.gmail.com>
-Subject: Re: [PATCH 2/6] fixdep: parse Makefile more correctly to handle
- comments etc.
+        Sat, 31 Dec 2022 12:48:30 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B342C644D
+        for <linux-kbuild@vger.kernel.org>; Sat, 31 Dec 2022 09:48:28 -0800 (PST)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mkl@pengutronix.de>)
+        id 1pBfxk-0003TW-EM; Sat, 31 Dec 2022 18:48:04 +0100
+Received: from pengutronix.de (unknown [IPv6:2a01:4f8:1c1c:29e9:22:41ff:fe00:1400])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        (Authenticated sender: mkl-all@blackshift.org)
+        by smtp.blackshift.org (Postfix) with ESMTPSA id 12B9A14AB65;
+        Sat, 31 Dec 2022 17:47:46 +0000 (UTC)
+Date:   Sat, 31 Dec 2022 18:47:45 +0100
+From:   Marc Kleine-Budde <mkl@pengutronix.de>
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Miguel Ojeda <ojeda@kernel.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
-        llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        linux-modules@vger.kernel.org, llvm@lists.linux.dev,
+        kernel@pengutronix.de
+Subject: Re: [PATCH 1/2] kbuild: change module.order to list *.o instead of
+ *.ko
+Message-ID: <20221231174745.jc3qlmwydujswrne@pengutronix.de>
+References: <20221211130408.2800314-1-masahiroy@kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="u65cng565x4ymoau"
+Content-Disposition: inline
+In-Reply-To: <20221211130408.2800314-1-masahiroy@kernel.org>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Dec 31, 2022 at 4:25 PM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> Hmm... I couldn't apply this one, it turns out `#include <stdarg.h>`
-> is gone. Adding it and adjusting the patch fixes it.
 
-Ah, I think you created them on top of kbuild/fixes.
+--u65cng565x4ymoau
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
-Miguel
+On 11.12.2022 22:04:07, Masahiro Yamada wrote:
+> scripts/Makefile.build replaces the suffix .o with .ko, then
+> scripts/Makefile.modpost calls the sed command to change .ko back
+> to the original .o suffix.
+>=20
+> Instead of converting the suffixes back-and-forth, store the .o paths
+> in modules.order, and replace it with .ko in 'make modules_install'.
+>=20
+> This avoids the unneeded sed command.
+
+This breaks direct compilation of kernel modules (on current Linus's
+master):
+
+| $ make drivers/net/can/dev/can-dev.ko
+| [...]
+|   CC [M]  drivers/net/can/dev/skb.o
+|   CC [M]  drivers/net/can/dev/calc_bittiming.o
+|   CC [M]  drivers/net/can/dev/bittiming.o
+|   CC [M]  drivers/net/can/dev/dev.o
+|   CC [M]  drivers/net/can/dev/length.o
+|   CC [M]  drivers/net/can/dev/netlink.o
+|   LD [M]  drivers/net/can/dev/can-dev.o
+| make[5]: 'drivers/net/can/dev/can-dev.mod' is up to date.
+|   LDS     scripts/module.lds
+|   MODPOST Module.symvers
+| drivers/net/can/dev/can-dev.ko: No such file or directory
+| make[1]: *** [.../linux/scripts/Makefile.modpost:129: Module.symvers] Err=
+or 1
+| make: *** [.../linux/Makefile:1982: single_modules] Error 2
+
+According to "make help" it should be possible:
+
+|  dir/file.ko     - Build module including final link
+
+I've bisected it to:
+
+| first bad commit: [f65a486821cfd363833079b2a7b0769250ee21c9] kbuild: chan=
+ge module.order to list *.o instead of *.ko
+
+regards,
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+
+--u65cng565x4ymoau
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEBsvAIBsPu6mG7thcrX5LkNig010FAmOwdbwACgkQrX5LkNig
+011z7gf+OghAr5P75iK5yC0Sf+UGA5HUhb3UYTln5I/nHb9bVvzQSDfwS6+xpA/g
+SpPKOPu08eMeKXU6J3jYzQUs8vp6v3vz8/D6HZY7ahruFMRB1/wERjsHOpdflXaM
+228L6rWmd5/9cTv24ex/r0BV7YR6OfQUd/sp3/A5FRjdDVBOcerjKDSFnIn0rYZw
+/w77Uav6Veq6k520xWq8d6aRi3TLLrqtnIo+zwQfWHA939P7hDtGYGtBG/zbhlIC
+r301YxE7Tt2ERUUMtZp+ziSuFbtp4/41ajvxHcn3b0VFNa8zRjEjvnQXu+/TFzYq
+fEvuZXngXlaezkX6BRvYvnaVKnbLtg==
+=gccH
+-----END PGP SIGNATURE-----
+
+--u65cng565x4ymoau--
