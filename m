@@ -2,56 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AB0265A583
-	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Dec 2022 16:25:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 05DDA65A58B
+	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Dec 2022 16:30:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230138AbiLaPZp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 31 Dec 2022 10:25:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46994 "EHLO
+        id S229516AbiLaPav (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 31 Dec 2022 10:30:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231693AbiLaPZp (ORCPT
+        with ESMTP id S229536AbiLaPau (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 31 Dec 2022 10:25:45 -0500
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F14771E8;
-        Sat, 31 Dec 2022 07:25:43 -0800 (PST)
-Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-3e45d25de97so333528577b3.6;
-        Sat, 31 Dec 2022 07:25:43 -0800 (PST)
+        Sat, 31 Dec 2022 10:30:50 -0500
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E516D5F68;
+        Sat, 31 Dec 2022 07:30:48 -0800 (PST)
+Received: by mail-yb1-xb2f.google.com with SMTP id j206so26287467ybj.1;
+        Sat, 31 Dec 2022 07:30:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vTIkUhi2i57VDmwoitY7JCvY+QmJnIfSHOGksYjEkbA=;
-        b=Wxutio96iEpSuzsprYxs6IHmn0oqq5J1twDr1+aDhNeWMa8G1wNSSFKAZ+NfqhV4xD
-         49C2ygL/+2VW1SxaGbsz+qISSaSeeqK3I/h6Xmf2DpuzKNFnM+xUdJxr607Kv5Y2pGvd
-         5FXZkH1X/33EAm5k/R0b5F9MrTpYwBjUL/1QgSGuM7QOyMkKiRoqBtEWYnGackGNkhcp
-         UOUX/kgmSoVgRhl0XWE2KfsBnAyGaMEdjMy1ZfJJU+X46TPE0zH5WVEXvHN5H7Z1CzOQ
-         t2kj9AXh9kyFroKHFPzA8N6hrWswDQbf0QIRPUl/U0clUCXJkPHbSPE+8iaDX4sgXYOc
-         zn8w==
+        bh=JG8JkGizHk6OOlCN3XUOXJ3kZY3cgZs7QsL4MTDQgDE=;
+        b=n8oLluZQpcfXatNmm1scwWitiRMGtbMUnTQ2IG347RR+LDQYiiouavkARCkcHF7U9+
+         Hmck4dAVIe5VR3TCXCicDeXgSkVi1lYR8/8t9gB4RmKFbKNE0a0s8xlhbnzPwRbh4XQ9
+         AN9Zkb5bYIx277isgokdBGNfz8jayyX+/+9dS7n2xn4kCBwq8rM5G19T24fPjNE2azcy
+         Co3dBDIpAcR/jKvsHguL+Q1BVJPM+SLjkhjOKTtaiJwD84BifgMXJ6VS/EpdCfIc9Bdc
+         R18yG36V6ANIO8L76cuiOSGIIBvvlCltQLvdyFe8oOaNzji+FHfNPyCfnMt5O0oMnXFI
+         XqBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vTIkUhi2i57VDmwoitY7JCvY+QmJnIfSHOGksYjEkbA=;
-        b=2T0zl0qd4I1NZULn02QYGuFxsIeUqJSobeot7BSWFcfoLzn//Lpk4YLmasFOm4n6fy
-         hfz0l6DoIw94HHenRlPoIPQ6OPdIp57IO++FwYr1i4leUJDpxtZ4wx7WBJZyrY+ES+pO
-         Vb1QeRexL3GhuDoRx+1KrTRc9YvqPSl95xCZ+12Jq/XTtDxKsmjloSj8DtjAwK/VaQc1
-         zgEnR/X+JMiZEvUsQoxDiLUsZg/TjqRC4EFH8L6szXoxXgHNDjl+yl4WzQF39BGdCwr5
-         9WF1CR5PYNL0ytHU9/GstwSMfgLNoIW5VHzKNOAGab0jSWjeWIe1RJzKmRlrhV2Q3nCr
-         zPNg==
-X-Gm-Message-State: AFqh2ko2deVEVcEIt6Gi2VTPH9SAQbTTUu3y9aII1kW2SVkO/5Ex5uhc
-        K1/5/5xTyGLPkVJWBwGyc6skyT+CYNAD+wtVNS46393prt43XgFjQHU=
-X-Google-Smtp-Source: AMrXdXuz6tWQhdwH3LFnVRkp0Z4hMEe45w1XsqKtayO3NmjA7lcsPsIu3ThMzTEuO3L1zUpDAC/cJ9LCOISwbELZGjw=
-X-Received: by 2002:a81:7343:0:b0:484:a94f:210 with SMTP id
- o64-20020a817343000000b00484a94f0210mr1918307ywc.129.1672500343240; Sat, 31
- Dec 2022 07:25:43 -0800 (PST)
+        bh=JG8JkGizHk6OOlCN3XUOXJ3kZY3cgZs7QsL4MTDQgDE=;
+        b=xUgHbtxiA+rI192QAYKPzYvMmN3YdvTehrbBVfRC9PkMMGi7Y4zEUVSEZz4onHXG4H
+         jtEC0y6rZ6WtvAy2T98OJMDGNdzeioSwKAy83e0Vv+E5zNdPwJ9qdhKNfz+muz+6Bv6A
+         SolKpE7J3T7J526Qf8c+nLQc1tFJ9bGP0iemZHl2iQNp7wvVePPcuyw1+uAmk7RKXlsq
+         P1ZM7Mih/XcteWB4kaggLxCK1ndJvu9MC0snsgIXwqL3q/DaJAoXt0akYY/laGavxOD+
+         E5xxKyR3kSR9h/T5wV5xdH67Eq+ib9JDmCRjv6Dp6mej5lssYVDe6oqb6bRz1/6qApTe
+         4y7Q==
+X-Gm-Message-State: AFqh2kobZX/10FRQhXNQMD45xOGKWv0OVdauz2k0FFREn53NRzP2JA51
+        DahL/UVoxRakdt4S7q4D5X08TI3Z7VRJg46nAS4=
+X-Google-Smtp-Source: AMrXdXvVNXKjofXjG2tD1fK9j47fIGvuVoh+trQG1yqh1vM6hpHKOkh82Yz3mKC0GUdOL1Gd1da5HgfXej1RE6ZZWm8=
+X-Received: by 2002:a25:7653:0:b0:6f9:13cc:de91 with SMTP id
+ r80-20020a257653000000b006f913ccde91mr4131006ybc.328.1672500648107; Sat, 31
+ Dec 2022 07:30:48 -0800 (PST)
 MIME-Version: 1.0
-References: <20221231064203.1623793-1-masahiroy@kernel.org> <20221231064203.1623793-3-masahiroy@kernel.org>
-In-Reply-To: <20221231064203.1623793-3-masahiroy@kernel.org>
+References: <20221231064203.1623793-1-masahiroy@kernel.org>
+ <20221231064203.1623793-3-masahiroy@kernel.org> <CANiq72mbazF7b3sbH=9F=cHbTB_np=os+YzUPCzh=4HgEHsEKg@mail.gmail.com>
+In-Reply-To: <CANiq72mbazF7b3sbH=9F=cHbTB_np=os+YzUPCzh=4HgEHsEKg@mail.gmail.com>
 From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Sat, 31 Dec 2022 16:25:32 +0100
-Message-ID: <CANiq72mbazF7b3sbH=9F=cHbTB_np=os+YzUPCzh=4HgEHsEKg@mail.gmail.com>
+Date:   Sat, 31 Dec 2022 16:30:37 +0100
+Message-ID: <CANiq72n7hjdSJGB0qSXJtXOgR+58zZ657UrCnZRRFWyArUOOOg@mail.gmail.com>
 Subject: Re: [PATCH 2/6] fixdep: parse Makefile more correctly to handle
  comments etc.
 To:     Masahiro Yamada <masahiroy@kernel.org>
@@ -72,14 +73,13 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Dec 31, 2022 at 7:42 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Sat, Dec 31, 2022 at 4:25 PM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
 >
-> My main motivation is to drop comments. rustc may output comments
-> (e.g. env-dep). Currentyly, rustc build rules invoke sed to remove
-> comments, but it is more efficient to do it in fixdep.
+> Hmm... I couldn't apply this one, it turns out `#include <stdarg.h>`
+> is gone. Adding it and adjusting the patch fixes it.
 
-Hmm... I couldn't apply this one, it turns out `#include <stdarg.h>`
-is gone. Adding it and adjusting the patch fixes it.
+Ah, I think you created them on top of kbuild/fixes.
 
 Cheers,
 Miguel
