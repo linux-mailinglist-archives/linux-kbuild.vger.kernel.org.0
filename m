@@ -2,55 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F4AA65A5FC
-	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Dec 2022 18:48:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A3A065A611
+	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Dec 2022 19:27:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229597AbiLaRsb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 31 Dec 2022 12:48:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41370 "EHLO
+        id S231990AbiLaS11 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 31 Dec 2022 13:27:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbiLaRsa (ORCPT
+        with ESMTP id S232025AbiLaS1Z (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 31 Dec 2022 12:48:30 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B342C644D
-        for <linux-kbuild@vger.kernel.org>; Sat, 31 Dec 2022 09:48:28 -0800 (PST)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mkl@pengutronix.de>)
-        id 1pBfxk-0003TW-EM; Sat, 31 Dec 2022 18:48:04 +0100
-Received: from pengutronix.de (unknown [IPv6:2a01:4f8:1c1c:29e9:22:41ff:fe00:1400])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        (Authenticated sender: mkl-all@blackshift.org)
-        by smtp.blackshift.org (Postfix) with ESMTPSA id 12B9A14AB65;
-        Sat, 31 Dec 2022 17:47:46 +0000 (UTC)
-Date:   Sat, 31 Dec 2022 18:47:45 +0100
-From:   Marc Kleine-Budde <mkl@pengutronix.de>
+        Sat, 31 Dec 2022 13:27:25 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA57EC3;
+        Sat, 31 Dec 2022 10:27:24 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6882DB808C6;
+        Sat, 31 Dec 2022 18:27:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 31F9BC433EF;
+        Sat, 31 Dec 2022 18:27:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1672511242;
+        bh=fFVzLp/hMVufNUYRf4SvA+hxNaHYHNGfWb3C568M5Rc=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=mYrTG/HQ6bEnWJx8wnta7tVJ9xEK92Lp9oxZ7GPm700X3IJOqCqg19CAbcDNUcTVF
+         5Oq5Vv6A2F0GB1wWR5UzdRp93N3JIG5cORNO+OZjrLEn8BABBdRJx41eGRSGfpreWk
+         GnAvm8cbXCXjPVCC+92fOqQh20xHJY8lWFmSDZFleIoZWWuv6Yata7uRHLiuuofCXY
+         /i5K+OnbuaL9VOXWwQo48Hxfk5JiWKKAmc8YpI2KGqsZS1K411F0tfKEmJXCQ+EhnQ
+         9Ju/j1i7+81O0ty9oYxm14cYJpctZsi2vRBaWfayA7lszftz7/x7HIYoM0ZG8oQGci
+         T7A+79DyuHBpA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 1AEA0C43141;
+        Sat, 31 Dec 2022 18:27:22 +0000 (UTC)
+Subject: Re: [GIT PULL] Kbuild fixes for v6.2-rc2
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <CAK7LNAQ66CwHVH+vvqkaRqEn8M46bOSFhyEAOdQfcKeWLxUTUA@mail.gmail.com>
+References: <CAK7LNAQ66CwHVH+vvqkaRqEn8M46bOSFhyEAOdQfcKeWLxUTUA@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAK7LNAQ66CwHVH+vvqkaRqEn8M46bOSFhyEAOdQfcKeWLxUTUA@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.2
+X-PR-Tracked-Commit-Id: 6a5e25fc3e0b94301734e8abb1d311a1e02d360d
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: e4cf7c25bae5c3b5089a3c23a897f450149caef2
+Message-Id: <167251124210.7119.10098922203239177606.pr-tracker-bot@kernel.org>
+Date:   Sat, 31 Dec 2022 18:27:22 +0000
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
-        linux-modules@vger.kernel.org, llvm@lists.linux.dev,
-        kernel@pengutronix.de
-Subject: Re: [PATCH 1/2] kbuild: change module.order to list *.o instead of
- *.ko
-Message-ID: <20221231174745.jc3qlmwydujswrne@pengutronix.de>
-References: <20221211130408.2800314-1-masahiroy@kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="u65cng565x4ymoau"
-Content-Disposition: inline
-In-Reply-To: <20221211130408.2800314-1-masahiroy@kernel.org>
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,73 +61,15 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+The pull request you sent on Sat, 31 Dec 2022 22:22:33 +0900:
 
---u65cng565x4ymoau
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.2
 
-On 11.12.2022 22:04:07, Masahiro Yamada wrote:
-> scripts/Makefile.build replaces the suffix .o with .ko, then
-> scripts/Makefile.modpost calls the sed command to change .ko back
-> to the original .o suffix.
->=20
-> Instead of converting the suffixes back-and-forth, store the .o paths
-> in modules.order, and replace it with .ko in 'make modules_install'.
->=20
-> This avoids the unneeded sed command.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/e4cf7c25bae5c3b5089a3c23a897f450149caef2
 
-This breaks direct compilation of kernel modules (on current Linus's
-master):
+Thank you!
 
-| $ make drivers/net/can/dev/can-dev.ko
-| [...]
-|   CC [M]  drivers/net/can/dev/skb.o
-|   CC [M]  drivers/net/can/dev/calc_bittiming.o
-|   CC [M]  drivers/net/can/dev/bittiming.o
-|   CC [M]  drivers/net/can/dev/dev.o
-|   CC [M]  drivers/net/can/dev/length.o
-|   CC [M]  drivers/net/can/dev/netlink.o
-|   LD [M]  drivers/net/can/dev/can-dev.o
-| make[5]: 'drivers/net/can/dev/can-dev.mod' is up to date.
-|   LDS     scripts/module.lds
-|   MODPOST Module.symvers
-| drivers/net/can/dev/can-dev.ko: No such file or directory
-| make[1]: *** [.../linux/scripts/Makefile.modpost:129: Module.symvers] Err=
-or 1
-| make: *** [.../linux/Makefile:1982: single_modules] Error 2
-
-According to "make help" it should be possible:
-
-|  dir/file.ko     - Build module including final link
-
-I've bisected it to:
-
-| first bad commit: [f65a486821cfd363833079b2a7b0769250ee21c9] kbuild: chan=
-ge module.order to list *.o instead of *.ko
-
-regards,
-Marc
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde           |
-Embedded Linux                   | https://www.pengutronix.de  |
-Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
-
---u65cng565x4ymoau
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEBsvAIBsPu6mG7thcrX5LkNig010FAmOwdbwACgkQrX5LkNig
-011z7gf+OghAr5P75iK5yC0Sf+UGA5HUhb3UYTln5I/nHb9bVvzQSDfwS6+xpA/g
-SpPKOPu08eMeKXU6J3jYzQUs8vp6v3vz8/D6HZY7ahruFMRB1/wERjsHOpdflXaM
-228L6rWmd5/9cTv24ex/r0BV7YR6OfQUd/sp3/A5FRjdDVBOcerjKDSFnIn0rYZw
-/w77Uav6Veq6k520xWq8d6aRi3TLLrqtnIo+zwQfWHA939P7hDtGYGtBG/zbhlIC
-r301YxE7Tt2ERUUMtZp+ziSuFbtp4/41ajvxHcn3b0VFNa8zRjEjvnQXu+/TFzYq
-fEvuZXngXlaezkX6BRvYvnaVKnbLtg==
-=gccH
------END PGP SIGNATURE-----
-
---u65cng565x4ymoau--
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
