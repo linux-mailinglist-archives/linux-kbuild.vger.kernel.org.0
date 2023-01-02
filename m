@@ -2,116 +2,105 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2324965AD91
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jan 2023 08:08:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CDB765AE1C
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jan 2023 09:30:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229460AbjABHIa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 2 Jan 2023 02:08:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60346 "EHLO
+        id S231800AbjABI3q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 2 Jan 2023 03:29:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbjABHI3 (ORCPT
+        with ESMTP id S231785AbjABI3S (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 2 Jan 2023 02:08:29 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1349E23;
-        Sun,  1 Jan 2023 23:08:26 -0800 (PST)
-Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pCEvi-0003ql-G6; Mon, 02 Jan 2023 08:08:18 +0100
-Message-ID: <bb976dd2-490c-a2a0-6c46-65ab79a413b2@leemhuis.info>
-Date:   Mon, 2 Jan 2023 08:08:17 +0100
+        Mon, 2 Jan 2023 03:29:18 -0500
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15D52111A;
+        Mon,  2 Jan 2023 00:29:17 -0800 (PST)
+Received: by mail-qt1-f179.google.com with SMTP id x11so21999960qtv.13;
+        Mon, 02 Jan 2023 00:29:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/zbtsyLDE+wPwkATs9/xlAjvp9QCBVfBrqTl0t3/H28=;
+        b=zfVJfUjJxfNZFm+fOAIIQDoF1RPJiXlZlW5r2BTlyzO27voUQ1/MPbJNKpkgQZHYO6
+         ncitw7pzRBRkH+7xZXhcuAdhUcoA1Yt//GUvpWoSth7622YCysgcJEFnP8uZIrnZ8WkB
+         bIfHd49SB8mvX/npu9WpCbqWqjS+6g5UH1HiZhcSQgdlozlYX4bI5rpOQeUXTv+ab3Vm
+         hawHhN3d4s0h9Nsoh2c1BbsiDMK+hi2Dbjz0tuK4mZOWKSX4JM5slFQqwLAs9w3G9Ls0
+         TXT+jqRAoNulOGJousjyr7NWO7Si4V5jPvSO4ZJwn0gh+Q1zNepILDCldod8iDUt4Z1R
+         zL5w==
+X-Gm-Message-State: AFqh2kowEi0V7KhonuEmjBN822pb4/zLjbhXewOD8EPMI5cH4xYw5PoF
+        tM536n18Pl7EYrhg9a9uctC54z4i5EnsnA==
+X-Google-Smtp-Source: AMrXdXt5NNg88dVwyDDq9UVgnkvvrW5e4RSfkCI0CSHATZNQdL+Ckbog6yU9V7eC2vg3rUrjCTHTcA==
+X-Received: by 2002:ac8:7389:0:b0:3a5:264c:5f38 with SMTP id t9-20020ac87389000000b003a5264c5f38mr64140324qtp.63.1672648155889;
+        Mon, 02 Jan 2023 00:29:15 -0800 (PST)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
+        by smtp.gmail.com with ESMTPSA id z18-20020ac875d2000000b003995f6513b9sm17131473qtq.95.2023.01.02.00.29.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Jan 2023 00:29:15 -0800 (PST)
+Received: by mail-yb1-f171.google.com with SMTP id 188so13214228ybi.9;
+        Mon, 02 Jan 2023 00:29:14 -0800 (PST)
+X-Received: by 2002:a25:aae1:0:b0:6fc:1c96:c9fe with SMTP id
+ t88-20020a25aae1000000b006fc1c96c9femr5228868ybi.36.1672648154519; Mon, 02
+ Jan 2023 00:29:14 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2] arch: fix broken BuildID for arm64 and riscv
-Content-Language: en-US, de-DE
-To:     Nathan Chancellor <nathan@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-riscv@lists.infradead.org, Dennis Gilmore <dennis@ausil.us>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>, llvm@lists.linux.dev
-References: <20221226184537.744960-1-masahiroy@kernel.org>
- <Y7Jal56f6UBh1abE@dev-arch.thelio-3990X>
-From:   "Linux kernel regression tracking (#info)" 
-        <regressions@leemhuis.info>
-Reply-To: Thorsten Leemhuis <regressions@leemhuis.info>
-In-Reply-To: <Y7Jal56f6UBh1abE@dev-arch.thelio-3990X>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1672643306;3df46b7c;
-X-HE-SMSGID: 1pCEvi-0003ql-G6
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <Y1BcpXAjR4tmV6RQ@zx2c4.com> <20221019203034.3795710-1-Jason@zx2c4.com>
+ <20221221145332.GA2399037@roeck-us.net> <CAMuHMdUAaQSXq=4rO9soCGGnH8HZrSS0PjWELqGzXoym4dOqnQ@mail.gmail.com>
+ <1a27385c-cca6-888b-1125-d6383e48c0f5@prevas.dk> <20221221155641.GB2468105@roeck-us.net>
+ <CAHk-=wj7FMFLr9AOW9Aa9ZMt1-Lu01_X8vLiaKosPyF2H-+ujA@mail.gmail.com>
+ <b2144334261246aa8dc5004c5f1a58c9@AcuMS.aculab.com> <f02e0ac7f2d805020a7ba66803aaff3e31b5eeff.camel@t-online.de>
+ <357cbd67260040e4bcf17d519aaafdcb@AcuMS.aculab.com>
+In-Reply-To: <357cbd67260040e4bcf17d519aaafdcb@AcuMS.aculab.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 2 Jan 2023 09:29:02 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWP2GoBU8nwwDP2m_SUxV2sD67nTPyKjQ0Skjc7q7bcNw@mail.gmail.com>
+Message-ID: <CAMuHMdWP2GoBU8nwwDP2m_SUxV2sD67nTPyKjQ0Skjc7q7bcNw@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: treat char as always unsigned
+To:     David Laight <David.Laight@aculab.com>
+Cc:     Holger Lubitz <holger.lubitz@t-online.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-toolchains@vger.kernel.org" <linux-toolchains@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-m68k@lists.linux-m68k.org" <linux-m68k@lists.linux-m68k.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-[TLDR: I'm adding this report to the list of tracked Linux kernel
-regressions; all text you find below is based on a few templates
-paragraphs you might have encountered already already in similar form.
-See link in footer if these mails annoy you.]
+Hi David,
 
-On 02.01.23 05:16, Nathan Chancellor wrote:
-> On Tue, Dec 27, 2022 at 03:45:37AM +0900, Masahiro Yamada wrote:
->> Dennis Gilmore reports that the BuildID is missing in the arm64 vmlinux
->> since commit 994b7ac1697b ("arm64: remove special treatment for the
->> link order of head.o").
-> [...]
-> I just bisected this change as the cause of a few link failures that we
-> now see in CI with Debian's binutils (2.35.2):
-> 
-> https://storage.tuxsuite.com/public/clangbuiltlinux/continuous-integration2/builds/2Jjl88DXc3YRi2RtvXAzlS8NQ4p/build.log
-> 
-> This does not appear to be related to clang/LLVM because I can easily
-> reproduce it with Debian's s390x GCC and binutils building defconfig:
-> 
-> [...]
-> 
-> I ended up bisecting binutils for the fix, as I could not reproduce it
-> with 2.36+. My bisect landed on commit 21401fc7bf6 ("Duplicate output
-> sections in scripts"):
-> 
-> https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=21401fc7bf67dbf73f4a3eda4bcfc58fa4211584
-> 
-> Unfortunately, I cannot immediately grok why this commit cause the above
-> issue nor why the binutils commit resolves it so I figured I would
-> immediately report it for public investigation's sake and quicker
-> resolution.
+On Fri, Dec 30, 2022 at 12:39 PM David Laight <David.Laight@aculab.com> wrote:
+> Thinking further the fastest strcmp() probably uses big-endian word compares
+> with a check for a zero byte.
+> Especially on 64 bit systems that support misaligned loads.
+> But I'd need to think hard about the actual details.
 
-Thanks for the report. To be sure the issue doesn't fall through the
-cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
-tracking bot:
+arch/arc/lib/strcmp-archs.S
+arch/csky/abiv2/strcmp.S
 
-#regzbot ^introduced 99cb0d917ffa1ab628bb67364ca9b162c07699b1
-#regzbot title arch: link failures in CI with Debian's binutils
-#regzbot ignore-activity
+Gr{oetje,eeting}s,
 
-This isn't a regression? This issue or a fix for it are already
-discussed somewhere else? It was fixed already? You want to clarify when
-the regression started to happen? Or point out I got the title or
-something else totally wrong? Then just reply and tell me -- ideally
-while also telling regzbot about it, as explained by the page listed in
-the footer of this mail.
+                        Geert
 
-Reminder for developers: When fixing the issue, add 'Link:' tags
-pointing to the report (see page linked in footer for details).
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Ciao, Thorsten
--- 
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-
-Annoyed by mails like this? Feel free to send them to /dev/null:
-https://linux-regtracking.leemhuis.info/about/#infomails
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
