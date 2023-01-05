@@ -2,121 +2,115 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B8D5265E387
-	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Jan 2023 04:34:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 32C4065E484
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Jan 2023 05:14:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229554AbjAEDeK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 4 Jan 2023 22:34:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38614 "EHLO
+        id S229503AbjAEEOa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 4 Jan 2023 23:14:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230059AbjAEDeJ (ORCPT
+        with ESMTP id S230389AbjAEEO1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 4 Jan 2023 22:34:09 -0500
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9D4B485B6;
-        Wed,  4 Jan 2023 19:34:08 -0800 (PST)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.west.internal (Postfix) with ESMTP id CCB9B32009B8;
-        Wed,  4 Jan 2023 22:34:04 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Wed, 04 Jan 2023 22:34:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-        cc:cc:content-transfer-encoding:content-type:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to; s=fm3; t=1672889644; x=
-        1672976044; bh=J5dtluVJN/sDCz5O/tnIQDUHTV9zIL4n+5iOhogQdAc=; b=f
-        q2f0L04VWkCVzGLPpVpe6pu2vwvu11ugBpr1YE5NsGVWfNamFZTtA6mb8RB7obcI
-        dKiKjqO/7zNxppLTWA1WRgGri6Lmz7dHUdF1Jroo1bDq7kogE4xfTvKubRGwmdwM
-        AhDHzlSTCS4aW5KGxdc7zgfNHR50lbaxDz+Ay1j/5JgkOZKC+5JqIz6GjZbqL6Nb
-        PCRFaa4IQorYDTcKT0IYchcNKTpN9IeDMfIiPWmS8/VzrgZZLeORErEcRXw0mbLS
-        8mCTnvSfjw/CiDEJn90jQittQ5FwGHk9/9RQiBIkbcHY5n3otPYXs0WhN4NjYqRS
-        vhW6b8N6B/nIsAnn9fPxQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:date:date:feedback-id:feedback-id:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1672889644; x=
-        1672976044; bh=J5dtluVJN/sDCz5O/tnIQDUHTV9zIL4n+5iOhogQdAc=; b=Q
-        O+QQMzzT6VCvmRtb8h9gVIM9Y7MBT8BBuNHuVMAZTqP3jXCUcw3wGAFCw19LOYHz
-        BrFvURAIwm43NbnQ0F0D5XsN1zm8VKC6Xlf3YweUJxVoRwOo1foK3E5mtBg/304j
-        D1ZzFR3dcGl2IlYefSabtAj8R59DaQO7VvcgyDZR38vmzackopGpHUAjeF/1mmfK
-        QyMKzicWxlH/q8IXJ1mmR2HQ4VB2NQGV/2E49+53/LC3yCa5wqYc9xWO6N26K2AW
-        cg/mXu7+/t1OWrQlHGhIEKFPWtQrH0VaHQwrnMFG5KPGx3YbYUOkAq7ZbOIOFYxy
-        /jHoz5fvBEWwlBGBMf6Hg==
-X-ME-Sender: <xms:K0W2Y3DTkQj5xtaTFYAaqTM7_efDj7gwl97GHYQrDBMHyyFwcnzk5w>
-    <xme:K0W2Y9jCQ_2jqa5blvk76vQajAx9zWL_ohspG3b_vPxzow8IMBKWaZhsewD2YhR73
-    Stx-BcCfLSpynqSQQ>
-X-ME-Received: <xmr:K0W2YyleaJ2T-D3kpRaOLNBw3A7z74GbeWrGGdNeZfuLSnPHDiN4FtbH_3oxI87iJDWMpNBf33vD5jHLbbmdL425RFIlulLnZpY4YX0P1pnz3afGJXeddfgbJQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjeejgdeiudcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkffggfgfvvehfhffujggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepheettdefgeeuudelvdffleejheejueeludduiedvkeffgeetueev
-    vdelvdetfeejnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgr
-    nhgurdhorhhg
-X-ME-Proxy: <xmx:K0W2Y5xZuGqFpBxlUXh3QbSx-fGevjcGeGfBkjJjfKw3ZrMtyTY5iA>
-    <xmx:K0W2Y8QTFDFwSKurhzAaFS5Cx11OUoaN3yWds8uh9FSsVz-Zt3_1Zw>
-    <xmx:K0W2Y8Ye5aABlp4CH9IAZv4K26nl1d8ZkjCu9fIzZ1fkUv1-hIW4jw>
-    <xmx:LEW2YxJYz-mzlMrdCqjuXT6YnzW4XjX1Ps6CA4nsfFBGUKNle_H7Nw>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 4 Jan 2023 22:34:02 -0500 (EST)
-Message-ID: <15cd1727-eedd-d476-e52c-2234cf66a5c9@sholland.org>
-Date:   Wed, 4 Jan 2023 21:34:02 -0600
+        Wed, 4 Jan 2023 23:14:27 -0500
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 510023D9D3
+        for <linux-kbuild@vger.kernel.org>; Wed,  4 Jan 2023 20:14:23 -0800 (PST)
+Received: by mail-lj1-x243.google.com with SMTP id s22so37564095ljp.5
+        for <linux-kbuild@vger.kernel.org>; Wed, 04 Jan 2023 20:14:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=u3HAQ1iwdSNYG5zv8w9IpRfitR0iS5MN5Wkm6OyHQWY=;
+        b=Um/lJQZf4DlUZDxJYv+vg9xQ432z/eRHqIK8PSuF26/mnG0LmKRhL2bkxCQCmc27vA
+         lqKw3PXsdBIb+fMOe1w/aG290RICnTh1ktSqHaE5d08iaOooxzZ4IjXKbJEzktEyYPgb
+         ituuXMrdnT6o2Ptkj312nDFNsm5shOVV8uSUZ9O3PTT7LFb+xGqzzooXJZkVJyIL2u9j
+         gHDdURb3xofBYHxj9294VxyglvExECkIjIC9/cGnGythooPNEotw39S6ImBNLLDSNBL8
+         V4CtKroe+Lz5nInGcJp3A2Ew+ihuRz6BTE82uGAiimJOczWyuF5y8ZDbWMN/HzltNG/z
+         OhjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=u3HAQ1iwdSNYG5zv8w9IpRfitR0iS5MN5Wkm6OyHQWY=;
+        b=GpiHqyt8VlPHC1F9sMWCuz2ickR4bCvcjJl2bhssFKQgyA+iuGy8guQcjuvJ5ujmUR
+         nPvRHwtruCb/HC6PbnsNyWWXl21Qgx1GcTDE9ncan2Ui/yjbSkQiWRmSjxnzukk+s8Jy
+         jRUXY2BloRHeyhVv9EoZKX/0RMHa/QvX3GSl0GmJgTAUrirzAZckAye/OKM4X1sxYbxs
+         1aoRbkdyxzJWXfehWYjgyZdZxQyRTAylTJ3cwmxC4z+Mu+oS984kMWb2jlLFh8NyL2Ui
+         Zvqx+m/dd/44+5tXeGOGdy+JbzDAR/pgETmfHvRFOnIdP1pLzgAARyVAP6NMUrxSJX3W
+         wTmw==
+X-Gm-Message-State: AFqh2kp6DRN1jLdyU9ljSbCPcut1nZ5B/U7b+E+D6VWI+wDP8t2ho2GP
+        Q0X/NfolE3kvAOjl9d+UI/FV/X1o1nSPfAAVuj1rYrmEDBrv7WckySc=
+X-Google-Smtp-Source: AMrXdXuC/QM/0mWseDYli/9IJ30CEtf3el6sUzZ2Qs5VJL1+w0+LlPNG0+VlDoHZbsU1+ifS7mdrYK8Y6Ala66BNqy4=
+X-Received: by 2002:a17:906:1b06:b0:7ae:16a9:e4d7 with SMTP id
+ o6-20020a1709061b0600b007ae16a9e4d7mr4024983ejg.574.1672892050623; Wed, 04
+ Jan 2023 20:14:10 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Content-Language: en-US
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Christopher Schramm <debian@cschramm.eu>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org
-References: <20230104140459.1147626-1-masahiroy@kernel.org>
-From:   Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH] kbuild: readd -w option when vmlinux.o or Module.symver
- is missing
-In-Reply-To: <20230104140459.1147626-1-masahiroy@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a98:9d8c:0:b0:1a0:898:2a6 with HTTP; Wed, 4 Jan 2023
+ 20:14:09 -0800 (PST)
+From:   Ainamagara Docus <kawoomadocus@gmail.com>
+Date:   Thu, 5 Jan 2023 09:14:09 +0500
+Message-ID: <CAAmdC=eUMKyOJFjt6=0hhRry+Y2brT8QcLhunOLUYtaKm_gQXw@mail.gmail.com>
+Subject: =?UTF-8?Q?Happy_New_Year_To_Your_Contract=2E_Frohes_neues_Jahr_f?=
+        =?UTF-8?Q?=C3=BCr_Ihren_Vertrag?=
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=7.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLY,
+        LOTS_OF_MONEY,MILLION_USD,MONEY_FRAUD_3,NA_DOLLARS,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,UNDISC_MONEY autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:243 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5447]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [kawoomadocus[at]gmail.com]
+        *  1.5 MILLION_USD BODY: Talks about millions of dollars
+        *  0.0 NA_DOLLARS BODY: Talks about a million North American dollars
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        *  1.0 FREEMAIL_REPLY From and body contain different freemails
+        *  1.7 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+        *  2.5 MONEY_FRAUD_3 Lots of money and several fraud phrases
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 1/4/23 08:04, Masahiro Yamada wrote:
-> Commit 63ffe00d8c93 ("kbuild: Fix running modpost with musl libc")
-> accidentally turned the unresolved symbol warnings into errors when
-> vmlinux.o (for in-tree builds) or Module.symver (for external module
-> builds) is missing.
-> 
-> In those cases, unresolved symbols are expected, but the -w option
-> is not set because 'missing-input' is referenced before set.
-> 
-> Move $(missing-input back to the original place. This should be fine
-> for musl libc because vmlinux.o and -w are not added at the same time.
-> 
-> With this change, -w may be passed twice, but it is not a big deal.
-> 
-> Link: https://lore.kernel.org/all/b56a03b8-2a2a-f833-a5d2-cdc50a7ca2bb@cschramm.eu/
-> Fixes: 63ffe00d8c93 ("kbuild: Fix running modpost with musl libc")
-> Reported-by: Christopher Schramm <debian@cschramm.eu>
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
->  scripts/Makefile.modpost | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
+Happy New Year And Congratulations To Your Contract Award.
 
-Sorry for the breakage. This works fine for me, with or without vmlinux.o.
+I am writing to inform you that the Secretary General of the United
+Nations and Board Member has made a provisional decision to award you
+a charitable work contract through the United Nations Data Online New
+Year Selection Program and your name was selected to award you charity
+work AND empowerment contract with the sum of $25. Million USD, to
+serve the communities and neighbourhoods where the United Nation can
+not be able to reach out. The United Nations can not do it alone and
+we need your assistance to make the world a better place and fight
+against poverty.  Contact Mrs. Ebert Achy, for more details and she
+will also direct you to the important areas you are going to work with
+the fund. Below are the details of your awarded contract.  Mrs. Ebert
+Achy, is ( ebertachy@protonmail.com ) contact her now.
 
-Tested-by: Samuel Holland <samuel@sholland.org>
+Description Charity Work and Empowerment
+Contract Number UN/00497HN511HRXJ
+Awarded Amount 25 Million US. Dollars
+Amount Code Secret  Number Q2563DK
 
+United Nations
+Data Online Program Department
+Midtown Manhattan, New York City, USA
