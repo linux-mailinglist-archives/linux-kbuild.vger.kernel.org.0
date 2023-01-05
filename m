@@ -2,61 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D92B65E2CC
-	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Jan 2023 03:11:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 69DBF65E348
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Jan 2023 04:13:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229861AbjAECLs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 4 Jan 2023 21:11:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42162 "EHLO
+        id S229489AbjAEDNh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 4 Jan 2023 22:13:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229464AbjAECLr (ORCPT
+        with ESMTP id S229895AbjAEDNe (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 4 Jan 2023 21:11:47 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84DD3C3C;
-        Wed,  4 Jan 2023 18:11:46 -0800 (PST)
+        Wed, 4 Jan 2023 22:13:34 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D92AA485A3;
+        Wed,  4 Jan 2023 19:13:29 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 29BD5B818C0;
-        Thu,  5 Jan 2023 02:11:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5123C433F0;
-        Thu,  5 Jan 2023 02:11:43 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6B5BF60C95;
+        Thu,  5 Jan 2023 03:13:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E86B4C433D2;
+        Thu,  5 Jan 2023 03:13:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672884703;
-        bh=WikqvB81sbI4yD5Fle5R/1qidHqXw3OMFbIXoN7Oqu8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=sdvwNqfO3gxvtO6ov+cbDxWxHtNWowodmlWLw+5zqfosMBqfvdo5dzJ+dTWaYgpEn
-         EC/mE/AG1TDQeGtr7k1t1wyy1FZtNDc59fRWvaQW3b26We9F5diue3mAgzPkVY8qhz
-         G3LdB6l0/2/+PfPPQ0leQfGPqYdxxMO55bjLPip2OYG0l5DWVAp74gWi/GdxIo5dme
-         5qm7mDtfC6nY4xyuh8IfH/34+4n28dvJ1pcM0uY483u4H2NlZEjp22am6lMUgOMiSf
-         eEiZ4RzR+CYzXtO6/RJb5synkHqcdh2QP9aWZm6eLty5prurYNB5Ilbl56fRHqyqjo
-         chVYhA+1Q2iSQ==
-Received: by mail-oo1-f43.google.com with SMTP id d9-20020a4aa589000000b004af737509f4so6835035oom.11;
-        Wed, 04 Jan 2023 18:11:43 -0800 (PST)
-X-Gm-Message-State: AFqh2kqvEkWSEZFDt7d7Sg9R2ehJm+2J+tu7vXgfGbNlEsauBsY3Q+2P
-        Rj+HRWVRK3tl6IV1sJy6Pznv5vGgY239Vm8ufXc=
-X-Google-Smtp-Source: AMrXdXtRwe4YbedyvtyWU1D/YNQp5PeJWp/CF7Lp1/K7gkRce6kg2VlIC3YWaR6Li7Wg12l00gCAiwYEhsjuC+acWV4=
-X-Received: by 2002:a4a:a34c:0:b0:4a0:31ba:82bb with SMTP id
- u12-20020a4aa34c000000b004a031ba82bbmr2323587ool.96.1672884703251; Wed, 04
- Jan 2023 18:11:43 -0800 (PST)
-MIME-Version: 1.0
-References: <20221214231718.1002194-1-mcgrof@kernel.org> <Y5vvVTwt+FfxTUke@bergen.fjasle.eu>
- <Y7XStqJcM3wYxUXf@bombadil.infradead.org>
-In-Reply-To: <Y7XStqJcM3wYxUXf@bombadil.infradead.org>
+        s=k20201202; t=1672888408;
+        bh=YnKl2FBCXiaBjrNl0REn5dNKY0Q6EySYYFkSnMPC+vY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=VHiMXA/CsIlejRRbE7SJhdHu7OWRUz939Sd7Yr2z+9QlOCPk9D1mHimOZhR6rek+G
+         zZu9xTxzHbNSLARXUJCnDL7E7+XOdL1vHd/0T0VnA/Czl1VokpLlcuUoXo2aMM2DHX
+         4tR4fGRq7XuX9j7qYHdgh4+kuDkYe7y8CNpcnmQYinbgXS/R90rAPaOHbN33wxFaiq
+         5dXOYs+hGtZScg4EWumeD/OscFzlD+CZ5JYSIGxqosqK7u7CwBN+NUwYwWKlP2pY/z
+         fYry873AJLzPjcwb1KGbtpPyaRWNx72S/rID1S/2+FCt36BBG371SA2dXBNJY9upm0
+         2uQ60LD+xJCvw==
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 5 Jan 2023 11:11:07 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS4SGV8-tYnfLd3BDvJP_ZVz9_Yx-MWCD3mXBqJ0-jzuw@mail.gmail.com>
-Message-ID: <CAK7LNAS4SGV8-tYnfLd3BDvJP_ZVz9_Yx-MWCD3mXBqJ0-jzuw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Modify default INSTALL_MOD_DIR from extra to updates
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Nicolas Schier <nicolas@fjasle.eu>, nathan@kernel.org,
-        ndesaulniers@google.com, linux-kbuild@vger.kernel.org,
-        alison.schofield@intel.com, dan.j.williams@intel.com,
-        dave@stgolabs.net, a.manzanares@samsung.com,
-        lucas.de.marchi@gmail.com, linux-cxl@vger.kernel.org,
-        linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+To:     Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+        linux-kbuild@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-riscv@lists.infradead.org
+Subject: [PATCH] s390: define RUNTIME_DISCARD_EXIT to fix link error with GNU ld < 2.36
+Date:   Thu,  5 Jan 2023 12:13:06 +0900
+Message-Id: <20230105031306.1455409-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -66,18 +62,66 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jan 5, 2023 at 4:25 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
->
-> On Fri, Dec 16, 2022 at 05:08:53AM +0100, Nicolas Schier wrote:
-> > Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
->
-> I've queued this onto modules-next.
->
->   Luis
+Nathan Chancellor reports that the s390 vmlinux fails to link with
+GNU ld < 2.36 since commit 99cb0d917ffa ("arch: fix broken BuildID
+for arm64 and riscv").
 
+It happens for defconfig, or more specifically for CONFIG_EXPOLINE=y.
 
-Acked-by: Masahiro Yamada <masahiroy@kernel.org>
+  $ s390x-linux-gnu-ld --version | head -n1
+  GNU ld (GNU Binutils for Debian) 2.35.2
+  $ make -s ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- allnoconfig
+  $ ./scripts/config -e CONFIG_EXPOLINE
+  $ make -s ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- olddefconfig
+  $ make -s ARCH=s390 CROSS_COMPILE=s390x-linux-gnu-
+  `.exit.text' referenced in section `.s390_return_reg' of drivers/base/dd.o: defined in discarded section `.exit.text' of drivers/base/dd.o
+  make[1]: *** [scripts/Makefile.vmlinux:34: vmlinux] Error 1
+  make: *** [Makefile:1252: vmlinux] Error 2
 
+arch/s390/kernel/vmlinux.lds.S wants to keep EXIT_TEXT:
+
+        .exit.text : {
+                EXIT_TEXT
+        }
+
+But, at the same time, EXIT_TEXT is thrown away by DISCARD because
+s390 does not define RUNTIME_DISCARD_EXIT.
+
+I still do not understand why the latter wins after 99cb0d917ffa,
+but defining RUNTIME_DISCARD_EXIT seems correct because the comment
+line in arch/s390/kernel/vmlinux.lds.S says:
+
+        /*
+         * .exit.text is discarded at runtime, not link time,
+         * to deal with references from __bug_table
+         */
+
+Nathan also found that binutils commit 21401fc7bf67 ("Duplicate output
+sections in scripts") cured this issue, so we cannot reproduce it with
+binutils 2.36+, but it is better to not rely on it.
+
+Fixes: 99cb0d917ffa ("arch: fix broken BuildID for arm64 and riscv")
+Link: https://lore.kernel.org/all/Y7Jal56f6UBh1abE@dev-arch.thelio-3990X/
+Reported-by: Nathan Chancellor <nathan@kernel.org>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ arch/s390/kernel/vmlinux.lds.S | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/s390/kernel/vmlinux.lds.S b/arch/s390/kernel/vmlinux.lds.S
+index 5ea3830af0cc..6e101e6f499d 100644
+--- a/arch/s390/kernel/vmlinux.lds.S
++++ b/arch/s390/kernel/vmlinux.lds.S
+@@ -17,6 +17,8 @@
+ /* Handle ro_after_init data on our own. */
+ #define RO_AFTER_INIT_DATA
+ 
++#define RUNTIME_DISCARD_EXIT
++
+ #define EMITS_PT_NOTE
+ 
+ #include <asm-generic/vmlinux.lds.h>
 -- 
-Best Regards
-Masahiro Yamada
+2.34.1
+
