@@ -2,57 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 07CDF65DD41
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Jan 2023 20:56:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D92B65E2CC
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Jan 2023 03:11:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240268AbjADTzi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 4 Jan 2023 14:55:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52570 "EHLO
+        id S229861AbjAECLs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 4 Jan 2023 21:11:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240175AbjADTzG (ORCPT
+        with ESMTP id S229464AbjAECLr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 4 Jan 2023 14:55:06 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 226103FA25
-        for <linux-kbuild@vger.kernel.org>; Wed,  4 Jan 2023 11:55:06 -0800 (PST)
+        Wed, 4 Jan 2023 21:11:47 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84DD3C3C;
+        Wed,  4 Jan 2023 18:11:46 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AD5B3617ED
-        for <linux-kbuild@vger.kernel.org>; Wed,  4 Jan 2023 19:55:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADF4CC43396;
-        Wed,  4 Jan 2023 19:55:04 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 29BD5B818C0;
+        Thu,  5 Jan 2023 02:11:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5123C433F0;
+        Thu,  5 Jan 2023 02:11:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672862105;
-        bh=tTrQfczjuETaSOGxfQJLqsLErfJo6Bv4ivE/dvWNz9s=;
-        h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-        b=BJNLJlodI+/96CSfUaWvmMuOZ0oPdmLT1hEzgscMSOCXiFOY/QHUf59fy29zzeJ2K
-         q51ZyIbB3bb/kGq66Un/MArKCxFtauq2xqmg67bwlGnc9GKER0SAZUq2ipjFHbVYmw
-         vKPabcb8kMfigC+jIWDX2LQ+X5HfuiaAieyxXhVQtGwdAH0vGU9Gi6LpJThR1KcLSV
-         AyXghJfsz77HlD3wLhOsU1hPERuvI0VUbjBbdxn6PujtwgdJWLTBZ11nqXHPz8heMo
-         phkyaeoozS3Earu9aj2D3hcoes/4Y/UnESp0UxK+GdkmTeKu50CIXw12nNm3FbCn03
-         vS6YV5NlN0oJA==
-From:   Nathan Chancellor <nathan@kernel.org>
-Date:   Wed, 04 Jan 2023 12:54:31 -0700
-Subject: [PATCH 14/14] kbuild: Stop using '-Qunused-arguments' with clang
+        s=k20201202; t=1672884703;
+        bh=WikqvB81sbI4yD5Fle5R/1qidHqXw3OMFbIXoN7Oqu8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=sdvwNqfO3gxvtO6ov+cbDxWxHtNWowodmlWLw+5zqfosMBqfvdo5dzJ+dTWaYgpEn
+         EC/mE/AG1TDQeGtr7k1t1wyy1FZtNDc59fRWvaQW3b26We9F5diue3mAgzPkVY8qhz
+         G3LdB6l0/2/+PfPPQ0leQfGPqYdxxMO55bjLPip2OYG0l5DWVAp74gWi/GdxIo5dme
+         5qm7mDtfC6nY4xyuh8IfH/34+4n28dvJ1pcM0uY483u4H2NlZEjp22am6lMUgOMiSf
+         eEiZ4RzR+CYzXtO6/RJb5synkHqcdh2QP9aWZm6eLty5prurYNB5Ilbl56fRHqyqjo
+         chVYhA+1Q2iSQ==
+Received: by mail-oo1-f43.google.com with SMTP id d9-20020a4aa589000000b004af737509f4so6835035oom.11;
+        Wed, 04 Jan 2023 18:11:43 -0800 (PST)
+X-Gm-Message-State: AFqh2kqvEkWSEZFDt7d7Sg9R2ehJm+2J+tu7vXgfGbNlEsauBsY3Q+2P
+        Rj+HRWVRK3tl6IV1sJy6Pznv5vGgY239Vm8ufXc=
+X-Google-Smtp-Source: AMrXdXtRwe4YbedyvtyWU1D/YNQp5PeJWp/CF7Lp1/K7gkRce6kg2VlIC3YWaR6Li7Wg12l00gCAiwYEhsjuC+acWV4=
+X-Received: by 2002:a4a:a34c:0:b0:4a0:31ba:82bb with SMTP id
+ u12-20020a4aa34c000000b004a031ba82bbmr2323587ool.96.1672884703251; Wed, 04
+ Jan 2023 18:11:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20221228-drop-qunused-arguments-v1-14-658cbc8fc592@kernel.org>
-References: <20221228-drop-qunused-arguments-v1-0-658cbc8fc592@kernel.org>
-In-Reply-To: <20221228-drop-qunused-arguments-v1-0-658cbc8fc592@kernel.org>
-To:     masahiroy@kernel.org, ndesaulniers@google.com
-Cc:     nicolas@fjasle.eu, trix@redhat.com, linux-kbuild@vger.kernel.org,
-        llvm@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>,
-        kernel test robot <lkp@intel.com>
-X-Mailer: b4 0.11.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=958; i=nathan@kernel.org;
- h=from:subject:message-id; bh=tTrQfczjuETaSOGxfQJLqsLErfJo6Bv4ivE/dvWNz9s=;
- b=owGbwMvMwCEmm602sfCA1DTG02pJDMlbb3Zf+xR/N3ltT1dhPZfFafeOWZcXhbeyHZjuyhV51PNb
- sc/RjlIWBjEOBlkxRZbqx6rHDQ3nnGW8cWoSzBxWJpAhDFycAjCRFV4Mv5j3Ly5fzPpzQ+xyR1uf03
- leJ3x8YlnCzJe+7gybMkf7bRHDf2fbtIVn7n8p62EK9w83iBZm+LfFtjKucD9HJbdYk89GLgA=
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+References: <20221214231718.1002194-1-mcgrof@kernel.org> <Y5vvVTwt+FfxTUke@bergen.fjasle.eu>
+ <Y7XStqJcM3wYxUXf@bombadil.infradead.org>
+In-Reply-To: <Y7XStqJcM3wYxUXf@bombadil.infradead.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 5 Jan 2023 11:11:07 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS4SGV8-tYnfLd3BDvJP_ZVz9_Yx-MWCD3mXBqJ0-jzuw@mail.gmail.com>
+Message-ID: <CAK7LNAS4SGV8-tYnfLd3BDvJP_ZVz9_Yx-MWCD3mXBqJ0-jzuw@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Modify default INSTALL_MOD_DIR from extra to updates
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Nicolas Schier <nicolas@fjasle.eu>, nathan@kernel.org,
+        ndesaulniers@google.com, linux-kbuild@vger.kernel.org,
+        alison.schofield@intel.com, dan.j.williams@intel.com,
+        dave@stgolabs.net, a.manzanares@samsung.com,
+        lucas.de.marchi@gmail.com, linux-cxl@vger.kernel.org,
+        linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -62,32 +66,18 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This option masks all unused command line argument warnings, which can
-hide potential issues, such as an architecture Makefile adding an
-unsupported flag to KBUILD_AFLAGS or KBUILD_CFLAGS, which will cause all
-as-option and cc-options to silently fail due to -Werror with no
-indication as to why in the main kernel build.
+On Thu, Jan 5, 2023 at 4:25 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
+>
+> On Fri, Dec 16, 2022 at 05:08:53AM +0100, Nicolas Schier wrote:
+> > Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+>
+> I've queued this onto modules-next.
+>
+>   Luis
 
-Remove this flag so that warnings of this nature can be caught early and
-obviously in a build.
 
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
- Makefile | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/Makefile b/Makefile
-index c05b4fb7121e..4bc79d2a42f2 100644
---- a/Makefile
-+++ b/Makefile
-@@ -878,7 +878,6 @@ KBUILD_RUSTFLAGS-$(CONFIG_WERROR) += -Dwarnings
- KBUILD_RUSTFLAGS += $(KBUILD_RUSTFLAGS-y)
- 
- ifdef CONFIG_CC_IS_CLANG
--KBUILD_CPPFLAGS += -Qunused-arguments
- # The kernel builds with '-std=gnu11' so use of GNU extensions is acceptable.
- KBUILD_CFLAGS += -Wno-gnu
- else
+Acked-by: Masahiro Yamada <masahiroy@kernel.org>
 
 -- 
-2.39.0
+Best Regards
+Masahiro Yamada
