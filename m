@@ -2,75 +2,68 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 00F9E660F92
-	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Jan 2023 15:45:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C1909660FDA
+	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Jan 2023 16:12:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231625AbjAGOpi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 7 Jan 2023 09:45:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53940 "EHLO
+        id S232018AbjAGPMh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 7 Jan 2023 10:12:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231445AbjAGOpa (ORCPT
+        with ESMTP id S230114AbjAGPMg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 7 Jan 2023 09:45:30 -0500
-Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D89A158D24;
-        Sat,  7 Jan 2023 06:45:28 -0800 (PST)
-Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-4a0d6cb12c5so58487337b3.7;
-        Sat, 07 Jan 2023 06:45:28 -0800 (PST)
+        Sat, 7 Jan 2023 10:12:36 -0500
+Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 202846C290;
+        Sat,  7 Jan 2023 07:12:35 -0800 (PST)
+Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-4b6255ce5baso58598837b3.11;
+        Sat, 07 Jan 2023 07:12:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=c42PqleJT+CrwpE/0wAr6VFhbnZEn57VzvNCINiN8M8=;
-        b=jzKHU6LcN4Sn5jJZHxedhEokm2C7gulg+3A52BKPn3TflJS5NTIfUzY6KPVLFUexU+
-         N/sHftJLbIhv7F038duKuUOPGZVztQh9Xt9JZrjiwUMYfIr/CAh7Jnypj14ZZCFOFRzJ
-         +ItqmOEZTdkYsEX9Ul6Ej6ftIPLTUGs6DeHzEPCliec7iSeyZMpptFPxp14sYSZ3lkFL
-         rF+EPT8urQIngRgSm8pA18JX84MRrYa52rigJi9nZ+0fbB9SfkQ1ksFwaMYWCLP0ENot
-         bPZi2uShl/fqKPDp47tFbTACYQwuuJF8CGDtIkw8nFjNX9Featcvrgx0H9+L8o7krox8
-         RVGQ==
+        bh=2lZ+M87fM3OC8ADWh+asZe0Znlz2AE5Sx1l9VbP98k4=;
+        b=V8lP6HTKKTqb5Sv1FQFYQmNk2m90VJmKLCYgfid7m2v8MtZIQ8bf+pNKPRapSqIeKh
+         ojeFEmY57v4gbu8amvrJ/pYYc6LJUZUVYaxXu7z5rI7q0ng7wr1ur3dpJ100FNtmUynP
+         qf5RcN5LR9ElXzsvR0P7BZCQm85ubZS0wqZe5uSn4dJ42t+9q896Hy2118L6hF/+awDk
+         i7K5vVzuyeF5/vQqj+tihq/KdcwziXDaGULicEu2UhDWykrWFKuirFAyo3eUYIA2q07S
+         t35qYQsF7fYZ7B5Ew4GLuQmTJPJfqIO/uRIvNjmQ5PTxQJTXILcb5mnZFdFv/CkLQZ+V
+         nUOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=c42PqleJT+CrwpE/0wAr6VFhbnZEn57VzvNCINiN8M8=;
-        b=S3eH6B5irYNsc5gbRH8398AHCJoG1iIDrdQzevVO4d8cxp+C0IaO0nasEA8oCJv9Dx
-         wrF9ozn71vNYwKXAwmGIR46D5RH89J0FsxOXNo5a1BH6V5K8XZw8vk4UOrhEIgVBxUgK
-         EvlRXHA4zphgAc2h0vbQZUbD+b40BYxkAuiZSVLj9fZ+4WQJUOLfdwYRjfB1NdNaKCzW
-         DlXDqk2rDaWO7WC/ymMmwhZj7zfUMD5g/dTpwF1zy/Qz2xOyfOgzVOZ3iHkcmpAbu/oZ
-         qkAnxSuW1tu8+MFvVp/gsLBD8w23YZ0uQy/d0kjwnQMtPI+7GBOVANREH80aq4zi7BfY
-         AKqg==
-X-Gm-Message-State: AFqh2kpmqG7r8saHthTXVs46gnMaD1D0N+smMEoPGMzfkzu8BRfKfwjN
-        aIn9BxCu0svo7/xCwDh1OlilsyC/X0Oh0henZnE=
-X-Google-Smtp-Source: AMrXdXt79BWq/11+rFBgsU43EqyS061ANwERlSY5Gd8B5vK8RBxRlH3O2bkP5YTISEO/NAJibaCoLDrXp3sAIhDFgwQ=
+        bh=2lZ+M87fM3OC8ADWh+asZe0Znlz2AE5Sx1l9VbP98k4=;
+        b=pgyaCGTeWD+rQ5QnKchH/FT4p3sbb41JqUcUc+LoSabW8vFca05+k0XDVAcXJiUf58
+         6VdLxcsN7ReqmTmyJAMfemDZ5ifXaDKpXzrN5aqeCf5+anPhLemiPKmNB4rDO99e0sz7
+         lTYM2Ej638PFRf8iqayYYxQlq7Yt9ccbOgvREnWWuOBO2Q+u5LrvfMdyW4odQjoWLOUE
+         Udzy1ATx5J8usNQ8iN6c8JNxIBpm/QzYuSQUs3lCmgDQpQZJrhL06TqU4+0jtislOz/Q
+         uRdCCrWZGVVUVuPuVvwGIElW2eQqeSytcfx5R3yKo7o6aIKAAp/dKVxl0IxC06v13p8z
+         SkgA==
+X-Gm-Message-State: AFqh2krqufmfo+mJD90IdxWy8x9vkj5RQHZ9+hB3JaGT/dwRrLZtd06L
+        ZYI5zo0hfbt8Wv95skH2acOdZzlMoj72JAAPUAQ=
+X-Google-Smtp-Source: AMrXdXu7TDFj4AQFL2MK3k2kqI7w7EQzHTOFeKBMoJ5n/8Ho5xlJK1pCtddeDiyk2b8bPgR6heiOSJgzghp1ooCFdB8=
 X-Received: by 2002:a0d:f601:0:b0:3d8:8c0e:6d48 with SMTP id
- g1-20020a0df601000000b003d88c0e6d48mr561810ywf.462.1673102728122; Sat, 07 Jan
- 2023 06:45:28 -0800 (PST)
+ g1-20020a0df601000000b003d88c0e6d48mr565622ywf.462.1673104354305; Sat, 07 Jan
+ 2023 07:12:34 -0800 (PST)
 MIME-Version: 1.0
-References: <20221231083028.1635698-1-masahiroy@kernel.org>
- <CANiq72n3Hs3T5uFXBBCapnopp_EOwkc7n9QVtP3DguEytU9WKg@mail.gmail.com>
- <CAK7LNARkyqwEf=xte8Q2BjPkkrvO2-c5_6dmrh=MP527TocuLQ@mail.gmail.com>
- <CANiq72=vgQRsBQO8Wwucj2aEout4hzbecgZcgg-W+e5s2WyaDQ@mail.gmail.com> <CAK7LNARKUX9S3K0TiQuRnnYB=WwQMuYjygGwyGMBYWwW5UbtQQ@mail.gmail.com>
-In-Reply-To: <CAK7LNARKUX9S3K0TiQuRnnYB=WwQMuYjygGwyGMBYWwW5UbtQQ@mail.gmail.com>
+References: <20230107091820.3382134-1-masahiroy@kernel.org>
+In-Reply-To: <20230107091820.3382134-1-masahiroy@kernel.org>
 From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Sat, 7 Jan 2023 15:45:17 +0100
-Message-ID: <CANiq72nUuqqiRmLmmzAeZgK1D6kZJb9XLKAza02SzyPT=xgzZQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: rust: move rust/target.json to scripts/
+Date:   Sat, 7 Jan 2023 16:12:23 +0100
+Message-ID: <CANiq72nY9X1cyu=3MwfRKTcxMUNHRTUGPFC7VR=OtL8V-NPQog@mail.gmail.com>
+Subject: Re: [PATCH v2 1/7] kbuild: refactor host*_flags
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Miguel Ojeda <ojeda@kernel.org>,
         Alex Gaynor <alex.gaynor@gmail.com>,
         Wedson Almeida Filho <wedsonaf@gmail.com>,
         Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
         =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Borislav Petkov <bp@suse.de>, David Gow <davidgow@google.com>,
-        Helge Deller <deller@gmx.de>,
-        Kees Cook <keescook@chromium.org>,
+        rust-for-linux@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Palmer Dabbelt <palmer@rivosinc.com>,
-        Segher Boessenkool <segher@kernel.crashing.org>
+        Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -82,35 +75,21 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jan 7, 2023 at 10:43 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Sat, Jan 7, 2023 at 10:18 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> I usually do not add $(objtree)/.
+> Remove _host*_flags.
 >
-> include/config/auto.conf is also a generated file.
->
-> It is inconsistent to add $(objtree)/
-> to scripts/generate_rust_target,
-> but not to include/config/auto.conf.
->
-> (obj)/target.json: $(objtree)/scripts/generate_rust_target
-> $(objtree)/include/config/auto.conf FORCE
->           $(call filechk,rust_target)
->
-> is annoying.
+> This will change the -Wp,-MMD,$(depfile) order in the command line
+> but no functional change is intended.
 
-Being consistent sounds good to me, and I agree there are already a
-lot of `$`s around in `Makefile`s... :)
+Looks fine to me. I gave it a quick test with just this patch on top
+of v6.2-rc2 and checked that the order indeed changed (was there a
+reason to not keep it the same?).
 
-In general, I tend to prefer explicit over implicit -- it would make
-non-prefixed paths less ambiguous on whether they are relative or
-anchored to the root. And I guess it could help reduce confusion, e.g.
-`arch/powerpc/boot/Makefile` mentions:
+Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
+Tested-by: Miguel Ojeda <ojeda@kernel.org>
 
-    # clean-files are relative to $(obj).
-
-Either way, it is fine. Thanks a lot for explaining the logic! I just
-sent a quick patch for Kbuild docs since I noticed it was outdated
-regarding `objtree` for `clean-files`.
+Thanks!
 
 Cheers,
 Miguel
