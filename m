@@ -2,70 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E6BA2660D4E
-	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Jan 2023 10:43:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E68AF660D53
+	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Jan 2023 10:46:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229525AbjAGJny (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 7 Jan 2023 04:43:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41672 "EHLO
+        id S229695AbjAGJqE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 7 Jan 2023 04:46:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229500AbjAGJny (ORCPT
+        with ESMTP id S229500AbjAGJqD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 7 Jan 2023 04:43:54 -0500
+        Sat, 7 Jan 2023 04:46:03 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6558B66989;
-        Sat,  7 Jan 2023 01:43:53 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D30B7CBCA;
+        Sat,  7 Jan 2023 01:46:02 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EA34A60A3B;
-        Sat,  7 Jan 2023 09:43:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A9E7C43392;
-        Sat,  7 Jan 2023 09:43:52 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 18BA360A22;
+        Sat,  7 Jan 2023 09:46:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E1FCC433D2;
+        Sat,  7 Jan 2023 09:45:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673084632;
-        bh=PhOJCYOc7RcUqVJNPzLzdYaEQtAZoKVd9doNS0XxjFU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=e5wkBL0D+aLU604jZHXa+QI84X1B9dGPwBSoYAG6mtaREU/e94nVQ62a/sLc3HwFP
-         tw0DePUa/hh9yxURGkuMWalcPgxqpNFZa/TaBtog9Kd6ISIgKjarScBDv2qNV8E4AR
-         xzXJ+/SnmLuGJUsz06LUHE9N/v777RIkWnh1UxZH7Z+8z2M3uRsbj3eeau5w/78Y6X
-         obWKmFLZ5nC5wCFDZVq1dKJRheL4CYKrnrYJHX/nq4V6nFWGNG9ka03GwAv6k5Eygh
-         2D5JoDBEfO39VGTW33kgD6ACaWaHXNHhcFNKx0F6OwO2/9yIh/AbC4oetfzm8VWfMe
-         eczNoG175VPZQ==
-Received: by mail-oi1-f176.google.com with SMTP id r205so3025199oib.9;
-        Sat, 07 Jan 2023 01:43:52 -0800 (PST)
-X-Gm-Message-State: AFqh2kqiugRbG7JX2qvY279b/WVOuof9J+5+3he3KML3R3GIbw9DwWKU
-        CMsjWMQT8pZBiH5tIf1kl8LPJxOfem1JEpL78UM=
-X-Google-Smtp-Source: AMrXdXvf13JhvOcKgxVFlmLtSuMDh/N3kFiICVwvyUGsaYjNLIl7Aiwly8PqFbncHD/inPs8IfGIVfiEIiKJUiQ/a8o=
-X-Received: by 2002:aca:2b17:0:b0:361:24b6:466c with SMTP id
- i23-20020aca2b17000000b0036124b6466cmr2392654oik.194.1673084631503; Sat, 07
- Jan 2023 01:43:51 -0800 (PST)
-MIME-Version: 1.0
-References: <20221231083028.1635698-1-masahiroy@kernel.org>
- <CANiq72n3Hs3T5uFXBBCapnopp_EOwkc7n9QVtP3DguEytU9WKg@mail.gmail.com>
- <CAK7LNARkyqwEf=xte8Q2BjPkkrvO2-c5_6dmrh=MP527TocuLQ@mail.gmail.com> <CANiq72=vgQRsBQO8Wwucj2aEout4hzbecgZcgg-W+e5s2WyaDQ@mail.gmail.com>
-In-Reply-To: <CANiq72=vgQRsBQO8Wwucj2aEout4hzbecgZcgg-W+e5s2WyaDQ@mail.gmail.com>
+        s=k20201202; t=1673084761;
+        bh=PlEubWEJVrhWwQCdK4AfHkJ4Pfpe0sCEm6+U9tyl0YA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=LaLQjHGzLGk5+9UJ10ck80eHHouQgK84bnB/RpzzettGSZIizWPis47otpg3cvivd
+         XPHONW08JCjTJDq8dTpNggpowmF2fdKGtDElRkknFrma8oq7AAn5IE4x3VOCYBmt0D
+         N28E8ZOMr5oJKsMa1S4Pfd7Lk5EuJmnpyZ7OzdSNzM8Up5Xqv6Aeq3bIqNYvWyJR5J
+         Lkz7ppWmdprDbWNtI3/gWiW6Z8ywPX/Qi8N/auMlSKaoKikYGnsGguv1RkytpuzwID
+         JIaXsmvwkCWVmZPKfe4T4NYAuOHH1+exK4s5IksVfZGsVtoQJ4T1Atcrt7a1MaNOHc
+         60lmajY76trHg==
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 7 Jan 2023 18:43:15 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARKUX9S3K0TiQuRnnYB=WwQMuYjygGwyGMBYWwW5UbtQQ@mail.gmail.com>
-Message-ID: <CAK7LNARKUX9S3K0TiQuRnnYB=WwQMuYjygGwyGMBYWwW5UbtQQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: rust: move rust/target.json to scripts/
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     linux-kbuild@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alex Gaynor <alex.gaynor@gmail.com>,
+To:     linux-kbuild@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+        rust-for-linux@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Alex Gaynor <alex.gaynor@gmail.com>,
         Wedson Almeida Filho <wedsonaf@gmail.com>,
         Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Borislav Petkov <bp@suse.de>, David Gow <davidgow@google.com>,
-        Helge Deller <deller@gmx.de>,
-        Kees Cook <keescook@chromium.org>,
+        =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Palmer Dabbelt <palmer@rivosinc.com>,
-        Segher Boessenkool <segher@kernel.crashing.org>
-Content-Type: text/plain; charset="UTF-8"
+        Nicolas Schier <nicolas@fjasle.eu>
+Subject: [PATCH v2] kbuild: rust: move rust/target.json to scripts/
+Date:   Sat,  7 Jan 2023 18:45:45 +0900
+Message-Id: <20230107094545.3384745-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -75,38 +58,134 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Jan 1, 2023 at 12:08 AM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> On Sat, Dec 31, 2022 at 3:57 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > No.
-> > scripts/target.json is a generated file.
-> > It is generated in objtree, not in srctree.
->
-> I meant `$(objtree)`, i.e. I meant if we should use a $(...)` prefix
-> for clarity/consistency (even if it is just `.`).
+scripts/ is a better place to generate files used treewide.
 
+With target.json moved to scripts/, you do not need to add target.json
+to no-clean-files or MRPROPER_FILES.
 
-I usually do not add $(objtree)/.
+'make clean' does not visit scripts/, but 'make mrproper' does.
 
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-include/config/auto.conf is also a generated file.
+Changes in v2:
+  - Rephrase commit description
 
-It is inconsistent to add $(objtree)/
-to scripts/generate_rust_target,
-but not to include/config/auto.conf.
+ Makefile                   |  4 ++--
+ rust/.gitignore            |  1 -
+ rust/Makefile              | 10 +---------
+ scripts/.gitignore         |  1 +
+ scripts/Makefile           |  8 +++++++-
+ scripts/remove-stale-files |  2 ++
+ 6 files changed, 13 insertions(+), 13 deletions(-)
 
-
-
-(obj)/target.json: $(objtree)/scripts/generate_rust_target
-$(objtree)/include/config/auto.conf FORCE
-          $(call filechk,rust_target)
-
-is annoying.
-
-
-
+diff --git a/Makefile b/Makefile
+index c31d1264eb0c..de552a78564b 100644
+--- a/Makefile
++++ b/Makefile
+@@ -569,7 +569,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Werror=strict-prototypes -Wno-trigraphs \
+ 		   -std=gnu11
+ KBUILD_CPPFLAGS := -D__KERNEL__
+ KBUILD_RUSTFLAGS := $(rust_common_flags) \
+-		    --target=$(objtree)/rust/target.json \
++		    --target=$(objtree)/scripts/target.json \
+ 		    -Cpanic=abort -Cembed-bitcode=n -Clto=n \
+ 		    -Cforce-unwind-tables=n -Ccodegen-units=1 \
+ 		    -Csymbol-mangling-version=v0 \
+@@ -1593,7 +1593,7 @@ MRPROPER_FILES += include/config include/generated          \
+ 		  certs/x509.genkey \
+ 		  vmlinux-gdb.py \
+ 		  *.spec \
+-		  rust/target.json rust/libmacros.so
++		  rust/libmacros.so
+ 
+ # clean - Delete most, but leave enough to build external modules
+ #
+diff --git a/rust/.gitignore b/rust/.gitignore
+index 9bd1af8e05a1..168cb26a31b9 100644
+--- a/rust/.gitignore
++++ b/rust/.gitignore
+@@ -1,6 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0
+ 
+-target.json
+ bindings_generated.rs
+ bindings_helpers_generated.rs
+ exports_*_generated.h
+diff --git a/rust/Makefile b/rust/Makefile
+index f403b79cae5a..829f4adfd85c 100644
+--- a/rust/Makefile
++++ b/rust/Makefile
+@@ -1,8 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0
+ 
+-always-$(CONFIG_RUST) += target.json
+-no-clean-files += target.json
+-
+ obj-$(CONFIG_RUST) += core.o compiler_builtins.o
+ always-$(CONFIG_RUST) += exports_core_generated.h
+ 
+@@ -231,11 +228,6 @@ rusttest-kernel: $(src)/kernel/lib.rs rusttest-prepare \
+ 	$(call if_changed,rustc_test)
+ 	$(call if_changed,rustc_test_library)
+ 
+-filechk_rust_target = $(objtree)/scripts/generate_rust_target < $<
+-
+-$(obj)/target.json: $(objtree)/include/config/auto.conf FORCE
+-	$(call filechk,rust_target)
+-
+ ifdef CONFIG_CC_IS_CLANG
+ bindgen_c_flags = $(c_flags)
+ else
+@@ -359,7 +351,7 @@ rust-analyzer:
+ $(obj)/core.o: private skip_clippy = 1
+ $(obj)/core.o: private skip_flags = -Dunreachable_pub
+ $(obj)/core.o: private rustc_target_flags = $(core-cfgs)
+-$(obj)/core.o: $(RUST_LIB_SRC)/core/src/lib.rs $(obj)/target.json FORCE
++$(obj)/core.o: $(RUST_LIB_SRC)/core/src/lib.rs scripts/target.json FORCE
+ 	$(call if_changed_dep,rustc_library)
+ 
+ $(obj)/compiler_builtins.o: private rustc_objcopy = -w -W '__*'
+diff --git a/scripts/.gitignore b/scripts/.gitignore
+index b7aec8eb1bd4..11bf3c075fb6 100644
+--- a/scripts/.gitignore
++++ b/scripts/.gitignore
+@@ -8,4 +8,5 @@
+ /recordmcount
+ /sign-file
+ /sorttable
++/target.json
+ /unifdef
+diff --git a/scripts/Makefile b/scripts/Makefile
+index 1575af84d557..0e0ae3c06ed7 100644
+--- a/scripts/Makefile
++++ b/scripts/Makefile
+@@ -10,8 +10,14 @@ hostprogs-always-$(CONFIG_BUILDTIME_TABLE_SORT)		+= sorttable
+ hostprogs-always-$(CONFIG_ASN1)				+= asn1_compiler
+ hostprogs-always-$(CONFIG_MODULE_SIG_FORMAT)		+= sign-file
+ hostprogs-always-$(CONFIG_SYSTEM_EXTRA_CERTIFICATE)	+= insert-sys-cert
+-hostprogs-always-$(CONFIG_RUST)				+= generate_rust_target
++always-$(CONFIG_RUST)					+= target.json
+ 
++filechk_rust_target = $< < include/config/auto.conf
++
++$(obj)/target.json: scripts/generate_rust_target include/config/auto.conf FORCE
++	$(call filechk,rust_target)
++
++hostprogs += generate_rust_target
+ generate_rust_target-rust := y
+ 
+ HOSTCFLAGS_sorttable.o = -I$(srctree)/tools/include
+diff --git a/scripts/remove-stale-files b/scripts/remove-stale-files
+index cdbdde89a271..c71bf2f68360 100755
+--- a/scripts/remove-stale-files
++++ b/scripts/remove-stale-files
+@@ -27,3 +27,5 @@ rm -f arch/x86/purgatory/kexec-purgatory.c
+ rm -f scripts/extract-cert
+ 
+ rm -f scripts/kconfig/[gmnq]conf-cfg
++
++rm -f rust/target.json
 -- 
-Best Regards
-Masahiro Yamada
+2.34.1
+
