@@ -2,57 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 75FA6660CBD
-	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Jan 2023 08:19:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 198FC660CCB
+	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Jan 2023 08:48:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229517AbjAGHTy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 7 Jan 2023 02:19:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43624 "EHLO
+        id S229602AbjAGHr6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 7 Jan 2023 02:47:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjAGHTy (ORCPT
+        with ESMTP id S229468AbjAGHr5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 7 Jan 2023 02:19:54 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C44132278;
-        Fri,  6 Jan 2023 23:19:52 -0800 (PST)
+        Sat, 7 Jan 2023 02:47:57 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1352848CD;
+        Fri,  6 Jan 2023 23:47:56 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id F1880B81E24;
-        Sat,  7 Jan 2023 07:19:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77FEAC433D2;
-        Sat,  7 Jan 2023 07:19:49 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3DD3B608C3;
+        Sat,  7 Jan 2023 07:47:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F5AAC433D2;
+        Sat,  7 Jan 2023 07:47:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673075989;
-        bh=7FDbppzvbiFIiiadfrwRJOnbjnq8tWEucXEm0OYgd3g=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=o+5hzIq88WaQsOqDeyAsSswDHTuInQN0GHksVjwCt+HSzMJLp0xD/E6x2dXAKQ6eu
-         IfMSZ1fhAJtbRZpUMOMAVNK1UPqH6kH/xtjMW8dyW6LUInlC4E2jF/S6PgRNbUFR5P
-         sftCG37UuomCgrk7Vt+FApYepppBTNSjOIic9khOLHHSjUHRYGLJ001m6yhJYgq+Rc
-         JlFq208GA1zaswE4TXfbK26uxVFvnG1uN62fTekrGSLbpTUjsq5h2M+Ww97JhVQjeg
-         SVKzeMUR/BT24S/5nv7JKEaylvMfgj2vnMr+gM+hekDRKlp/a1lJcYB3aEWbIkqJRV
-         FOyT+weBQyzsw==
-Received: by mail-oi1-f173.google.com with SMTP id r130so2875359oih.2;
-        Fri, 06 Jan 2023 23:19:49 -0800 (PST)
-X-Gm-Message-State: AFqh2kr+QNX8yx4AEDOhF8x2PX/8OtHaie3M8HqTd9wIP/aW11XroRMW
-        d6uQLx2j7gRDIEZA0fWCt6Hau62r9JXYjCCDwcU=
-X-Google-Smtp-Source: AMrXdXsTmZX3dFVSV8zYsIDGs77XAPqLQS1H4NW9g0iHyphPn/tdjHsDJHb6NIxapq8BtwjSdegqzvpCqr1CEYIymzc=
-X-Received: by 2002:aca:3755:0:b0:35e:7c55:b015 with SMTP id
- e82-20020aca3755000000b0035e7c55b015mr3430462oia.287.1673075988693; Fri, 06
- Jan 2023 23:19:48 -0800 (PST)
-MIME-Version: 1.0
-References: <Y7i8+EjwdnhHtlrr@dev-arch.thelio-3990X>
-In-Reply-To: <Y7i8+EjwdnhHtlrr@dev-arch.thelio-3990X>
+        s=k20201202; t=1673077675;
+        bh=ePoHU4GENwIfAdeBcPaqU+CazliNAW/mfkD74kveQSE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=EARISaexCJgsuI1qYC7HkNS6XgtOzyD2kMMUX93hH15nIeJuIURFAkLiPjsDmfJlU
+         JXVymnYlboNjuQb+asz7oHo5XxbVnkaR8KovfE7B7ctrMMxm077UQ9dgzc4JoJCaWA
+         QUYnburKZuINVt5PNTg4Ur4YYvH5WDX3X6tuh+FYUk/tlUCNQLVY4teitmnvLEUDDb
+         ILBFLtQ5zZ6QEpunjc+HNRaVlDHykUL0Q2AX53F+vjb5jmrRz388DQbC/s/dIAH4kb
+         nm9060g5Lzkd5THkKaXfY3/jOmsj5cfS+XYsvCYFht+N2uUTGO73qq1RiPe3RtGgLU
+         ryiLS1qHG60Sw==
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 7 Jan 2023 16:19:12 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASkC3j5=cy7efMC=pFjgXMucBOVNrMCTMCUkJSLj8i=Dg@mail.gmail.com>
-Message-ID: <CAK7LNASkC3j5=cy7efMC=pFjgXMucBOVNrMCTMCUkJSLj8i=Dg@mail.gmail.com>
-Subject: Re: nm vmlinux error in arch/arm reappears after upgrade to make 4.4
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kernel@vger.kernel.org,
+        Kentaro Takeda <takedakn@nttdata.co.jp>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Cc:     linux-kbuild@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        James Morris <jmorris@namei.org>,
+        Michal Marek <mmarek@suse.cz>,
+        Paul Moore <paul@paul-moore.com>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        linux-security-module@vger.kernel.org
+Subject: [PATCH 1/3] tomoyo: fix broken dependency on *.conf.default
+Date:   Sat,  7 Jan 2023 16:47:41 +0900
+Message-Id: <20230107074743.3352242-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -62,98 +58,54 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jan 7, 2023 at 9:29 AM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> Hi Masahiro,
->
-> My distribution recently updated their version of make to 4.4 from 4.3,
-> after which I notice the following error from nm when building ARCH=arm
-> kernels, which I thought that this was supposed to be resolved with
-> commit 3ec8a5b33dea ("kbuild: do not export LDFLAGS_vmlinux") but the
-> tree clearly has this and it is not visible while just running clean (I
-> have to build zImage to see it):
+If *.conf.default is updated, builtin-policy.h should be rebuilt,
+but this does not work when compiled with O= option.
 
+[Without this commit]
 
-Presumably, this is a different issue than 3ec8a5b33dea
+  $ touch security/tomoyo/policy/exception_policy.conf.default
+  $ make O=/tmp security/tomoyo/
+  make[1]: Entering directory '/tmp'
+    GEN     Makefile
+    CALL    /home/masahiro/ref/linux/scripts/checksyscalls.sh
+    DESCEND objtool
+  make[1]: Leaving directory '/tmp'
 
+[With this commit]
 
->
->   $ git show -s --format='%h ("%s")'
->   512dee0c00ad ("Merge tag 'x86-urgent-2023-01-04' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip")
->
->   $ make --version | head -1
->   GNU Make 4.4
->
->   $ make -skj"$(nproc)" ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- O=build defconfig zImage
->   arm-linux-gnueabi-nm: 'arch/arm/boot/compressed/../../../../vmlinux': No such file
->
-> vs.
->
->   $ make --version | head -1
->   GNU Make 4.3
->
->   $ make -skj"$(nproc)" ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- O=build defconfig zImage
->
-> I bisected make to see what change causes this and I landed on
-> commit 98da874c ("[SV 10593] Export variables to $(shell ...)
-> commands") [1], which certainly seems like a reasonable commit to
-> blame but I am not sure how exactly it factors in here.
->
-> If you need any more information on reproducing this, I am happy to
-> provide it (CROSS_COMPILE is just the toolchains from kernel.org).
->
-> [1]: https://git.savannah.gnu.org/cgit/make.git/commit/?id=98da874c43035a490cdca81331724f233a3d0c9a
->
-> Cheers,
-> Nathan
+  $ touch security/tomoyo/policy/exception_policy.conf.default
+  $ make O=/tmp security/tomoyo/
+  make[1]: Entering directory '/tmp'
+    GEN     Makefile
+    CALL    /home/masahiro/ref/linux/scripts/checksyscalls.sh
+    DESCEND objtool
+    POLICY  security/tomoyo/builtin-policy.h
+    CC      security/tomoyo/common.o
+    AR      security/tomoyo/built-in.a
+  make[1]: Leaving directory '/tmp'
 
+$(srctree)/ is essential because $(wildcard ) does not follow VPATH.
 
+Fixes: f02dee2d148b ("tomoyo: Do not generate empty policy files")
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-Confirmed, but I still do not understand what
-is triggering this.
+ security/tomoyo/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-These are my findings:
-
- - O= option is needed to reproduce it.
-
- - allnoconfig still produces it.
-
- - I do not see it in the incremental builds.
-   I see it again in the full build after "git clean -fdx".
-
-
-
-If I slightly cleaned the code like follows,
-this issue disappeared.
-($(obj)/../../../../vmlinux is the same as vmlinux)
-
-
-
-
-diff --git a/arch/arm/boot/compressed/Makefile
-b/arch/arm/boot/compressed/Makefile
-index 2ef651a78fa2..726ecabcef09 100644
---- a/arch/arm/boot/compressed/Makefile
-+++ b/arch/arm/boot/compressed/Makefile
-@@ -107,7 +107,7 @@ ccflags-remove-$(CONFIG_FUNCTION_TRACER) += -pg
- asflags-y := -DZIMAGE
-
- # Supply kernel BSS size to the decompressor via a linker symbol.
--KBSS_SZ = $(shell echo $$(($$($(NM) $(obj)/../../../../vmlinux | \
-+KBSS_SZ = $(shell echo $$(($$($(NM) vmlinux | \
-                sed -n -e 's/^\([^ ]*\) [ABD] __bss_start$$/-0x\1/p' \
-                       -e 's/^\([^ ]*\) [ABD] __bss_stop$$/+0x\1/p') )) )
- LDFLAGS_vmlinux = --defsym _kernel_bss_size=$(KBSS_SZ)
-
-
-
-
-
-
-
-
-
-
+diff --git a/security/tomoyo/Makefile b/security/tomoyo/Makefile
+index cca5a3012fee..221eaadffb09 100644
+--- a/security/tomoyo/Makefile
++++ b/security/tomoyo/Makefile
+@@ -10,7 +10,7 @@ endef
+ quiet_cmd_policy  = POLICY  $@
+       cmd_policy  = ($(call do_policy,profile); $(call do_policy,exception_policy); $(call do_policy,domain_policy); $(call do_policy,manager); $(call do_policy,stat)) >$@
+ 
+-$(obj)/builtin-policy.h: $(wildcard $(obj)/policy/*.conf $(src)/policy/*.conf.default) FORCE
++$(obj)/builtin-policy.h: $(wildcard $(obj)/policy/*.conf $(srctree)/$(src)/policy/*.conf.default) FORCE
+ 	$(call if_changed,policy)
+ 
+ $(obj)/common.o: $(obj)/builtin-policy.h
 -- 
-Best Regards
-Masahiro Yamada
+2.34.1
+
