@@ -2,54 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E0DC4660CD1
-	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Jan 2023 08:48:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3D1D660D20
+	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Jan 2023 10:10:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236463AbjAGHsM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 7 Jan 2023 02:48:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47538 "EHLO
+        id S229851AbjAGJK3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 7 Jan 2023 04:10:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231819AbjAGHsI (ORCPT
+        with ESMTP id S229475AbjAGJK2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 7 Jan 2023 02:48:08 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5240848D7;
-        Fri,  6 Jan 2023 23:48:06 -0800 (PST)
+        Sat, 7 Jan 2023 04:10:28 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAB19271A7;
+        Sat,  7 Jan 2023 01:10:27 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 1760FB81EBD;
-        Sat,  7 Jan 2023 07:48:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C07CC433A0;
-        Sat,  7 Jan 2023 07:47:59 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5AE34609FB;
+        Sat,  7 Jan 2023 09:10:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3D6BC433F0;
+        Sat,  7 Jan 2023 09:10:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673077683;
-        bh=RTLKdjUECYDxN3vnqCPtfGzhyPkDlqfYSeIu5deVu7c=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=juaCeWzoPppUgCgLAK5poNkr4NGkQHZChSrHnc6v0NXJUrh/bjqfPkLLJPfoKrS/S
-         Kx2/niq7Ryk1XIu6Vgc7/0AuEl3+yDECZmIlzNMlN0zeSfbGPQngtfly6fFfUy/nmT
-         hVJymkx4kloc6n/XAgK171QkYSC/K0V7H5JzTeuaf1mchFVqjlN6S2lTmr25uAQmym
-         iShi9MiZPF7mrU0/57SbX/qydgO1NYZNsY2Q5z9NAhTWPhb7OnPewDMX3OIlMwJoVf
-         D14jYp1rTpsU65bAx2rjXncUys3JFYCTVcdBINy4xyS5x6YU0gVS5xOBU8e66lT1kV
-         4fSPQ/T5rKP0A==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kernel@vger.kernel.org,
-        Kentaro Takeda <takedakn@nttdata.co.jp>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc:     linux-kbuild@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        James Morris <jmorris@namei.org>,
-        Paul Moore <paul@paul-moore.com>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        linux-security-module@vger.kernel.org
-Subject: [PATCH 3/3] tomoyo: Omit use of bin2c
-Date:   Sat,  7 Jan 2023 16:47:43 +0900
-Message-Id: <20230107074743.3352242-3-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230107074743.3352242-1-masahiroy@kernel.org>
-References: <20230107074743.3352242-1-masahiroy@kernel.org>
+        s=k20201202; t=1673082626;
+        bh=IBB4vS9uXFcRA5vbIOpEIyUnvisvZwkqPn9Sb1Psd/E=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ppMRysQWQN03Z7wpwi3vlzb66/WBwSqtJiTO7+Uoaa4xEfOJfhWqTqKevE+06AMs/
+         TyQwRzcX5X3FQ2S+h/s0U8CDyNBpVsPi1BPzA7VJbaufr+Q1gfuZKMts2blyiEE0Ug
+         WwnZ32r1b8IRcfZqPR5S83nMC6jxtD6ToBfj0netvBYB8/Pv+piXsVYHm9YKMBLBqZ
+         lJnZl9GUvleKl9TlA4thg5PrX22UnwpSkQGsZ7CP8J2oQUENp8Stxi3mx5JGTY3+Pg
+         PBPEp8+ZfwDdMRFbjW/Vh1ihT97RYQ3KRi9Y9Al2jUjsGNCpBS0L2bWbhOFYngL5Pf
+         6L4b4iaxQVHXw==
+Received: by mail-ot1-f46.google.com with SMTP id r2-20020a9d7cc2000000b006718a7f7fbaso2264088otn.2;
+        Sat, 07 Jan 2023 01:10:26 -0800 (PST)
+X-Gm-Message-State: AFqh2kozTnXskRRHi96JnMTIvFvZDG2GUwK7uXu+oF+eff/0BfGC7dtK
+        hqR7X464q6F7eTUQE9uUrIxvOTesPftUc8ZoDHA=
+X-Google-Smtp-Source: AMrXdXuWtj+rWB/s6w4ffQZ35ddawNN5ZxJS3aZYJbk/c2fIqmUiiMaTwh5RfwH7fXDlq+d4890py22AWrj/Cm7q+20=
+X-Received: by 2002:a9d:128c:0:b0:66c:794e:f8c6 with SMTP id
+ g12-20020a9d128c000000b0066c794ef8c6mr3619042otg.343.1673082625996; Sat, 07
+ Jan 2023 01:10:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221231064203.1623793-1-masahiroy@kernel.org>
+ <20221231064203.1623793-2-masahiroy@kernel.org> <CANiq72k8LSqsnWNd_aa-M1=rMNLWD7KJWrK6Pv0Waq15Exv59g@mail.gmail.com>
+In-Reply-To: <CANiq72k8LSqsnWNd_aa-M1=rMNLWD7KJWrK6Pv0Waq15Exv59g@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 7 Jan 2023 18:09:49 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT7of2JqjYpaM0=fZTB5PG9Sike9-mcKxHS12JwfEAbQA@mail.gmail.com>
+Message-ID: <CAK7LNAT7of2JqjYpaM0=fZTB5PG9Sike9-mcKxHS12JwfEAbQA@mail.gmail.com>
+Subject: Re: [PATCH 1/6] kbuild: specify output names separately for each
+ emission type from rustc
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        llvm@lists.linux.dev, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -59,71 +71,46 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-bin2c was, as its name implies, introduced to convert a binary file to
-C code.
+On Wed, Jan 4, 2023 at 5:45 AM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+>
+> On Sat, Dec 31, 2022 at 7:42 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> >   $ make -j$(nproc) samples/rust/rust_minimal.o samples/rust/rust_minimal.rsi \
+> >                     samples/rust/rust_minimal.s samples/rust/rust_minimal.ll
+>
+> Yeah, we were testing the single targets, but not multiple at once, thanks!
+>
+> > +               --emit=dep-info=$(depfile) --emit=obj=$@ --emit=metadata=$(dir $@)$(patsubst %.o,lib%.rmeta,$(notdir $@)) \
+>
+> Perhaps a newline here to avoid the lengthy line?
 
-However, I did not see any good reason ever for using this tool because
-using the .incbin directive is much faster, and often results in simpler
-code.
 
-Most of the uses of bin2c have been killed, for example:
+OK, I will wrap it in v2.
 
-  - 13610aa908dc ("kernel/configs: use .incbin directive to embed config_data.gz")
-  - 4c0f032d4963 ("s390/purgatory: Omit use of bin2c")
 
-security/tomoyo/Makefile has even less reason for using bin2c because
-the policy files are text data. So, sed is enough for converting them
-to C string literals, and what is nicer, generates human-readable
-builtin-policy.h.
+>
+> >  hostc_flags    = -Wp,-MMD,$(depfile) $(_hostc_flags)
+> >  hostcxx_flags  = -Wp,-MMD,$(depfile) $(_hostcxx_flags)
+> > -hostrust_flags = $(_hostrust_flags)
+>
+> This was originally meant to be consistent with C and C++ indeed, but
+> if you prefer less variables, I guess it is fine, in which case,
+> should we update the C/C++ side too (in another series)?
 
-This is the last user of bin2c. After this commit lands, bin2c will be
-removed.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+Yup, we could do this with less variables.
+I will send a clean up.
 
- security/tomoyo/Kconfig  |  1 -
- security/tomoyo/Makefile | 15 ++++++++-------
- 2 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/security/tomoyo/Kconfig b/security/tomoyo/Kconfig
-index b9f867100a9f..772d2ab58fd1 100644
---- a/security/tomoyo/Kconfig
-+++ b/security/tomoyo/Kconfig
-@@ -7,7 +7,6 @@ config SECURITY_TOMOYO
- 	select SECURITY_PATH
- 	select SECURITY_NETWORK
- 	select SRCU
--	select BUILD_BIN2C
- 	default n
- 	help
- 	  This selects TOMOYO Linux, pathname-based access control.
-diff --git a/security/tomoyo/Makefile b/security/tomoyo/Makefile
-index 1b18a02ccd2e..77358b7655fa 100644
---- a/security/tomoyo/Makefile
-+++ b/security/tomoyo/Makefile
-@@ -2,13 +2,14 @@
- obj-y = audit.o common.o condition.o domain.o environ.o file.o gc.o group.o load_policy.o memory.o mount.o network.o realpath.o securityfs_if.o tomoyo.o util.o
- 
- targets += builtin-policy.h
--define do_policy
--echo "static char tomoyo_builtin_$(1)[] __initdata ="; \
--$(objtree)/scripts/bin2c <$(firstword $(wildcard $(obj)/policy/$(1).conf $(srctree)/$(src)/policy/$(1).conf.default) /dev/null); \
--echo ";"
--endef
--quiet_cmd_policy  = POLICY  $@
--      cmd_policy  = ($(call do_policy,profile); $(call do_policy,exception_policy); $(call do_policy,domain_policy); $(call do_policy,manager); $(call do_policy,stat)) >$@
-+
-+quiet_cmd_policy = POLICY  $@
-+      cmd_policy = { \
-+	$(foreach x, profile exception_policy domain_policy manager stat, \
-+	printf 'static char tomoyo_builtin_$x[] __initdata =\n'; \
-+	sed 's/\(.*\)/\t"\1\\n"/' $(firstword $(filter %/$x.conf %/$x.conf.default, $^) /dev/null);  \
-+	printf '\t"";\n';) \
-+	} > $@
- 
- $(obj)/builtin-policy.h: $(wildcard $(obj)/policy/*.conf $(srctree)/$(src)/policy/*.conf.default) FORCE
- 	$(call if_changed,policy)
+> Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
+> Tested-by: Miguel Ojeda <ojeda@kernel.org>
+>
+> Cheers,
+> Miguel
+
+
+
 -- 
-2.34.1
-
+Best Regards
+Masahiro Yamada
