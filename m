@@ -2,197 +2,117 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A10B566187F
-	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Jan 2023 20:23:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EF7F661A39
+	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Jan 2023 22:56:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229503AbjAHTXa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 8 Jan 2023 14:23:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45354 "EHLO
+        id S236181AbjAHV4n (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 8 Jan 2023 16:56:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbjAHTX3 (ORCPT
+        with ESMTP id S234075AbjAHV4m (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 8 Jan 2023 14:23:29 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A39E32B;
-        Sun,  8 Jan 2023 11:23:25 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 30BC460DBC;
-        Sun,  8 Jan 2023 19:23:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DF40C433D2;
-        Sun,  8 Jan 2023 19:23:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673205804;
-        bh=S/YzwT6FzIsQ1JpAEmE6HfkP5R0JUwVaQei8ou4tv+M=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Z3QiAklDzI1EDoAzW7fLQ7NRxP8k9spAbJ8CCydGYBEMUNoU8SwLRzfrhikdSiUDV
-         NWN66hRvCe8RLoMDjzNpj16V3uCAm3dYsN7rcOD0gkoB8JTrDFc39HWsZVrmYMAfRl
-         HOV6QGHd0CJ+1D8ITeVrFHxGZqJaedS3qzgePFDqpReJ1yYr77AdrqqxkAV5anClyB
-         tTxj+XezTchSjwk1pQqL8EB8E1vknFSkOU1SwXsiDNZFTEXV4c5aljfNohER13pM8a
-         Ql5p183McoySRfbCLzA3DQ7mCwa9L/wnV0AggCXzJDJlU1RC0Qr2/OfJTBsiH51a1y
-         nzuAgjK5lPxpQ==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: [PATCH v3] kbuild: export top-level LDFLAGS_vmlinux only to scripts/Makefile.vmlinux
-Date:   Mon,  9 Jan 2023 04:23:17 +0900
-Message-Id: <20230108192317.2988108-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.34.1
+        Sun, 8 Jan 2023 16:56:42 -0500
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9D52766C;
+        Sun,  8 Jan 2023 13:56:41 -0800 (PST)
+Received: by mail-yb1-xb34.google.com with SMTP id g4so6991837ybg.7;
+        Sun, 08 Jan 2023 13:56:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=weoSnaHHRzPUIS2PJ2baxYU/e708niinbN3stK9FOPs=;
+        b=Kb+3aDB6Z3rzJfQCcq6QIY1F6jECCpWu+KDijxn7jMZbuFvEzy7OOgb8Ai0cQ48mKJ
+         CZS0tOJk7ysCn9lj6/EbmfQ2H06bwahvhI36KnKwEI6iUYChksMXGCVNaP4iXJ9rvLE7
+         g4bDjlykbdaMhBMI9GR9zuZzixThD62+3W/oREGuqRWuOS0tzvq1y38ySdWX3BbLPMDC
+         dl5o5YQC85QyPnmTcFUHlF35tFAyD5F3oZ0rx9xjEJR7Ya49zagNKkybyVDpy3Yq5SB+
+         22NKuDaJU9Quza9m3xbyPDR5c5rtQJnFRclK/O9Fd6OrilgAVQhGuv/T06o4oiixNSYT
+         aNpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=weoSnaHHRzPUIS2PJ2baxYU/e708niinbN3stK9FOPs=;
+        b=hcQh9ZH50ACB/pTh/DSSUXqHaf4TDB0aqOr+iuA6lnOLXxXWVXQ370a5z5xdmde1LW
+         lkumn6+/fCeyZfmFgxBkSckiM3tvgIDrK2mY53C5r45HDKOG3rrM9ByRcL2PSrwrVaRn
+         KGe1ASZmZo4Se15u8u3WduRAoTcT7dQGcxLz06y2bCwgbry3BnSF/lPZH+Cz2Mp2cO/F
+         O7bqNWODYm0u4fH9d5x6ZBAY27kOcmmZldeCu8QHGuOxnbPrIvQuCEqC4CnNwoCudUu2
+         Xzp9cuW10kvqR3Ovjk7ExR65ObifiGhDNiQXPTTnwpiBcyeWZgEUKv2djtdzGTrBzgkn
+         G84Q==
+X-Gm-Message-State: AFqh2kpxvKICrrayiTrTo7hLBMIH4TtiiWKKfrc8gl7GdEUzg7EybVG3
+        IwkeApxAZxV9Vtw6mWLpcUm01uIHzSIfLjdpZbhbeZYP/rgpHfJzJIo=
+X-Google-Smtp-Source: AMrXdXu3vT5SqiH7IDKisW1KgKS5L0uteSVQ09IqaZl8P7p1dT5WE0lri8gQekPgJPIu9rKWXkBWV+vte/tpx5gAEZ8=
+X-Received: by 2002:a25:7653:0:b0:6f9:13cc:de91 with SMTP id
+ r80-20020a257653000000b006f913ccde91mr7377146ybc.328.1673215001045; Sun, 08
+ Jan 2023 13:56:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221231082739.1629735-1-masahiroy@kernel.org>
+In-Reply-To: <20221231082739.1629735-1-masahiroy@kernel.org>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Sun, 8 Jan 2023 22:56:30 +0100
+Message-ID: <CANiq72nyckkPgbc9y1DS00i1+WvNGcDF7MmWaom89ZCb_ufZxw@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: rust: remove -v option of scripts/rust_is_available.sh
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Nathan Chancellor reports that $(NM) emits an error message when
-GNU Make 4.4 is used to build the ARM zImage.
+On Sat, Dec 31, 2022 at 9:27 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> The -v option is passed when this scripts is invoked from Makefile,
 
-  $ make-4.4 ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- O=build defconfig zImage
-    [snip]
-    LD      vmlinux
-    NM      System.map
-    SORTTAB vmlinux
-    OBJCOPY arch/arm/boot/Image
-    Kernel: arch/arm/boot/Image is ready
-  arm-linux-gnueabi-nm: 'arch/arm/boot/compressed/../../../../vmlinux': No such file
-  /bin/sh: 1: arithmetic expression: expecting primary: " "
-    LDS     arch/arm/boot/compressed/vmlinux.lds
-    AS      arch/arm/boot/compressed/head.o
-    GZIP    arch/arm/boot/compressed/piggy_data
-    AS      arch/arm/boot/compressed/piggy.o
-    CC      arch/arm/boot/compressed/misc.o
+scripts -> script
 
-This occurs since GNU Make commit 98da874c4303 ("[SV 10593] Export
-variables to $(shell ...) commands"), and the O= option is needed to
-reproduce it. The generated zImage is correct despite the error message.
+> but not when invoked from Kconfig.
+>
+> As you can see in scripts/Kconfig.include, the 'success' macro suppresses
+> stdout and stderr anyway, so this script does not need to be quiet.
 
-As the commit description of 98da874c4303 [1] says, exported variables
-are passed down to $(shell ) functions, which means exported recursive
-variables might be expanded earlier than before, in the parse stage.
+Yeah, let's get rid of the complexity. The script originally was
+intended to be usable independently of the `Makefile`, but in the end
+we don't really use it like that.
 
-The following test code demonstrates the change for GNU Make 4.4.
+In fact, now we should probably add a warning/error if somebody calls
+it directly (and/or set defaults for the variables). I can send a
+patch for that on top of this one.
 
-[Test Makefile]
+There is a small functional change, in that we will be making an
+unneeded call to `cc-version.sh` and another to `$CC` for the Kconfig
+case (i.e. the previously non-verbose case), but that seems like a
+fine price for the simplicity.
 
-  $(shell echo hello > foo)
-  export foo = $(shell cat bar/../foo)
-  $(shell mkdir bar)
+> --- a/scripts/rust_is_available.sh
+> +++ b/scripts/rust_is_available.sh
 
-  all:
-          @echo $(foo)
+Could you please remove the comment at the top? i.e.:
 
-[GNU Make 4.3]
+    #
+    # Pass `-v` for human output and more checks (as warnings).
 
-  $ rm -rf bar; make-4.3
-  hello
+With that:
 
-[GNU Make 4.4]
+Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
+Tested-by: Miguel Ojeda <ojeda@kernel.org>
 
-  $ rm -rf bar; make-4.4
-  cat: bar/../foo: No such file or directory
-  hello
+If you want me to take it, please let me know.
 
-The 'foo' is a resursively expanded (i.e. lazily expanded) variable.
-
-GNU Make 4.3 expands 'foo' just before running the recipe '@echo $(foo)',
-at this point, the directory 'bar' exists.
-
-GNU Make 4.4 expands 'foo' to evaluate $(shell mkdir bar) because it is
-exported. At this point, the directory 'bar' does not exit yet. The cat
-command cannot resolve the bar/../foo path, hence the error message.
-
-Let's get back to the kernel Makefile.
-
-In arch/arm/boot/compressed/Makefile, KBSS_SZ is referenced by
-LDFLAGS_vmlinux, which is recursive and also exported by the top
-Makefile.
-
-GNU Make 4.3 expands KBSS_SZ just before running the recipes, so no
-error message.
-
-GNU Make 4.4 expands KBSS_SZ in the parse stage, where the directory
-arm/arm/boot/compressed does not exit yet. When compiled with O=,
-the output directory is created by $(shell mkdir -p $(obj-dirs))
-in scripts/Makefile.build.
-
-There are two ways to fix this particular issue:
-
- - change "$(obj)/../../../../vmlinux" in KBSS_SZ to "vmlinux"
- - unexport LDFLAGS_vmlinux
-
-This commit takes the latter course because it is what I originally
-intended.
-
-Commit 3ec8a5b33dea ("kbuild: do not export LDFLAGS_vmlinux")
-unexported LDFLAGS_vmlinux.
-
-Commit 5d4aeffbf709 ("kbuild: rebuild .vmlinux.export.o when its
-prerequisite is updated") accidentally exported it again.
-
-We can clean up arch/arm/boot/compressed/Makefile later.
-
-[1]: https://git.savannah.gnu.org/cgit/make.git/commit/?id=98da874c43035a490cdca81331724f233a3d0c9a
-
-Link: https://lore.kernel.org/all/Y7i8+EjwdnhHtlrr@dev-arch.thelio-3990X/
-Fixes: 5d4aeffbf709 ("kbuild: rebuild .vmlinux.export.o when its prerequisite is updated")
-Reported-by: Nathan Chancellor <nathan@kernel.org>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
----
-
-Changes in v3:
-  - Minimize the scope of exporting.
-    LDFLAGS_vmlinux is only exported to scripts/Makefile.vmlinux
-
-Changes in v2:
-  - Postpone the change for arch/arm/boot/compressed/Makefile
-  - Update the commit description
-
- Makefile | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
-
-diff --git a/Makefile b/Makefile
-index dfba294ae790..9eed3e9b3657 100644
---- a/Makefile
-+++ b/Makefile
-@@ -549,7 +549,7 @@ LDFLAGS_MODULE  =
- CFLAGS_KERNEL	=
- RUSTFLAGS_KERNEL =
- AFLAGS_KERNEL	=
--export LDFLAGS_vmlinux =
-+LDFLAGS_vmlinux =
- 
- # Use USERINCLUDE when you must reference the UAPI directories only.
- USERINCLUDE    := \
-@@ -1248,6 +1248,18 @@ vmlinux.o modules.builtin.modinfo modules.builtin: vmlinux_o
- 	@:
- 
- PHONY += vmlinux
-+# LDFLAGS_vmlinux in the top Makefile defines linker flags for the top vmlinux,
-+# not for decompressors. LDFLAGS_vmlinux in arch/*/boot/compressed/Makefile is
-+# unrelated; the decompressors just happen to have the same base name,
-+# arch/*/boot/compressed/vmlinux.
-+# Export LDFLAGS_vmlinux only to scripts/Makefile.vmlinux.
-+#
-+# _LDFLAGS_vmlinux is an indirection to work around the bug:
-+#   https://savannah.gnu.org/bugs/?61463
-+# For Make > 4.4, the following simple code will work:
-+#  vmlinux: private export LDFLAGS_vmlinux := $(LDFLAGS_vmlinux)
-+vmlinux: private _LDFLAGS_vmlinux := $(LDFLAGS_vmlinux)
-+vmlinux: export LDFLAGS_vmlinux = $(_LDFLAGS_vmlinux)
- vmlinux: vmlinux.o $(KBUILD_LDS) modpost
- 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.vmlinux
- 
--- 
-2.34.1
-
+Cheers,
+Miguel
