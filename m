@@ -2,56 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E03D166153A
-	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Jan 2023 13:52:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BAE99661556
+	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Jan 2023 14:06:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229627AbjAHMwh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 8 Jan 2023 07:52:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34510 "EHLO
+        id S230425AbjAHNGr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 8 Jan 2023 08:06:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233196AbjAHMwJ (ORCPT
+        with ESMTP id S230363AbjAHNGq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 8 Jan 2023 07:52:09 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CA66DEE0;
-        Sun,  8 Jan 2023 04:52:08 -0800 (PST)
+        Sun, 8 Jan 2023 08:06:46 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23F85E0B3;
+        Sun,  8 Jan 2023 05:06:46 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BC9E860C63;
-        Sun,  8 Jan 2023 12:52:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DB18C433EF;
-        Sun,  8 Jan 2023 12:52:07 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B2E49B80990;
+        Sun,  8 Jan 2023 13:06:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66F24C433F1;
+        Sun,  8 Jan 2023 13:06:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673182327;
-        bh=VnGhcg4zxSgX4xZuHSdJDrQ5iUTrHtILPmmSMksv9w4=;
+        s=k20201202; t=1673183203;
+        bh=25sUiVh4DX8OMquO6qi9c91N6UurO7I+2sKVuFyi8Ss=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=YN9YXrawrN7Sr+6pEtFesgn7DnMKXFAafpFaVD8IQ0u8xkhDMFzSDvZa870mFptgZ
-         0gaVXH32i+vZSDaHlwnhg4Eb6D3l6adXFu0o3uFya3nXuVeu0Z7Bh1FzVjxofjxpeu
-         PeyhOzxY32WVpAl6hKG8ioiS3aedaL15Ckd7xa2bxFxZQy0jjOfS/S6JKfycvgCyGv
-         4xu+ofN7i80kqvQFMolXP5XMhCJOSWXey5/XCsDOnlBB3dov6A1MCfq0XOnYzNMPIk
-         jt75SlUQJmlGeCdcuv3jT89Vp7aCcmf0mCf88j4AUxB50Dd8P/uv4csTMLJHfYK5K5
-         JzMdrFkZdwdaw==
-Received: by mail-oi1-f174.google.com with SMTP id c133so4989393oif.1;
-        Sun, 08 Jan 2023 04:52:07 -0800 (PST)
-X-Gm-Message-State: AFqh2kpvGOXDN4W2ng06czwxjGaTiEjB8ewr+amATGEAha+Vz7OhAIYS
-        xL8L3KB59yYfO8ajGgOXl3guglSzOTcWK3axtwM=
-X-Google-Smtp-Source: AMrXdXu5aNI5c7PDY2/YYpeRfYOcd4kjo2KqcZg51Q1nIVZmiL1vxxXX13wDKne+iSFJbbCp4lwz/gvTYsoUERygPrA=
+        b=j9x0q7EQaif6gdcoQr04EGOVR3cnk+lnN8ynnP5di2yjuHfS4p2ae7GLr6XGqDLI0
+         6tByzYQoDXcCIUYVfggZcmNWVBExRFitz9q14B4qP/ZrDrBpHt+P77oAM3C6B4Ffws
+         bMxMAIb+p/WJtuuvqLIKQ0g2sbhv8EVmhJodzOrwd5hVIPWAUgysylcDdypiFuIBer
+         R/LqeYjyPlESexkxYN8jmOU/+uHQvc7eFJ+M9Vu1nGdXGroRuON9M9tY8uBzLXSDc9
+         yM/cdeEtWBuMAGWg1THV8XZqj2YN0LifIvhD2t9HdjAbnm4GmLc+dKf1rx2dtsYXRz
+         6Orp+NEiZFjhw==
+Received: by mail-oi1-f174.google.com with SMTP id v70so4998830oie.3;
+        Sun, 08 Jan 2023 05:06:43 -0800 (PST)
+X-Gm-Message-State: AFqh2kpSpXIY6k5nhuQo3fCRuoHhpPILtLUOgjUpzlBQ3g0IlvImBUjJ
+        d14Pf08djHuL55aHnRabYUXDMbmwqAafRNsstdg=
+X-Google-Smtp-Source: AMrXdXttsIb+osoRYUtlo6mHs9sMSFOyY8orlp8b1KRq+emvjg97MdfSUhB2KcNMVIpkQs+3U+ueqWYXTTizTj0H7Is=
 X-Received: by 2002:aca:3755:0:b0:35e:7c55:b015 with SMTP id
- e82-20020aca3755000000b0035e7c55b015mr3677001oia.287.1673182326467; Sun, 08
- Jan 2023 04:52:06 -0800 (PST)
+ e82-20020aca3755000000b0035e7c55b015mr3679754oia.287.1673183202567; Sun, 08
+ Jan 2023 05:06:42 -0800 (PST)
 MIME-Version: 1.0
-References: <20230107143747.64802-1-ojeda@kernel.org>
-In-Reply-To: <20230107143747.64802-1-ojeda@kernel.org>
+References: <20230107091820.3382134-1-masahiroy@kernel.org> <CANiq72nY9X1cyu=3MwfRKTcxMUNHRTUGPFC7VR=OtL8V-NPQog@mail.gmail.com>
+In-Reply-To: <CANiq72nY9X1cyu=3MwfRKTcxMUNHRTUGPFC7VR=OtL8V-NPQog@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 8 Jan 2023 21:51:30 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARWCeYew_sWmYYnrm87vYDBLs0LQOdc0XkCUy+b45zmBQ@mail.gmail.com>
-Message-ID: <CAK7LNARWCeYew_sWmYYnrm87vYDBLs0LQOdc0XkCUy+b45zmBQ@mail.gmail.com>
-Subject: Re: [PATCH] docs: kbuild: remove mention to dropped $(objtree) feature
-To:     ojeda@kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>,
+Date:   Sun, 8 Jan 2023 22:06:06 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR_VTo1A7rfQq8zMzLYfRRCUzruPQL=akALTg-GYKaQzw@mail.gmail.com>
+Message-ID: <CAK7LNAR_VTo1A7rfQq8zMzLYfRRCUzruPQL=akALTg-GYKaQzw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/7] kbuild: refactor host*_flags
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        rust-for-linux@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
@@ -64,44 +69,38 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jan 7, 2023 at 11:38 PM <ojeda@kernel.org> wrote:
+On Sun, Jan 8, 2023 at 12:12 AM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
 >
-> From: Miguel Ojeda <ojeda@kernel.org>
+> On Sat, Jan 7, 2023 at 10:18 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > Remove _host*_flags.
+> >
+> > This will change the -Wp,-MMD,$(depfile) order in the command line
+> > but no functional change is intended.
 >
-> Commit 8d613a1d048c ("kbuild: drop $(objtree)/ prefix support
-> for clean-files") dropped support for prefixing with $(objtree).
->
-> Thus update the documentation to match that change.
->
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+> Looks fine to me. I gave it a quick test with just this patch on top
+> of v6.2-rc2 and checked that the order indeed changed (was there a
+> reason to not keep it the same?).
 
 
-Applied to linux-kbuild/fixes.
-Thanks.
+No, there is no reason. Just my whimsy.
 
+I will do something like the following just in case.
 
-> ---
->  Documentation/kbuild/makefiles.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+hostc_flags  =  -Wp,-MMD,$(depfile)  \
+                $(KBUILD_HOSTCFLAGS) $(HOST_EXTRACFLAGS) \
+                $(HOSTCFLAGS_$(target-stem).o)
+
 >
-> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-> index 6b7368d1f516..38bc74eaa547 100644
-> --- a/Documentation/kbuild/makefiles.rst
-> +++ b/Documentation/kbuild/makefiles.rst
-> @@ -1042,7 +1042,7 @@ $(clean-files).
+> Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
+> Tested-by: Miguel Ojeda <ojeda@kernel.org>
 >
->  When executing "make clean", the file "crc32table.h" will be deleted.
->  Kbuild will assume files to be in the same relative directory as the
-> -Makefile, except if prefixed with $(objtree).
-> +Makefile.
+> Thanks!
 >
->  To exclude certain files or directories from make clean, use the
->  $(no-clean-files) variable.
->
-> base-commit: 88603b6dc419445847923fcb7fe5080067a30f98
-> --
-> 2.39.0
->
+> Cheers,
+> Miguel
+
 
 
 -- 
