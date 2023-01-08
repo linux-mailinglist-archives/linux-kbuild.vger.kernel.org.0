@@ -2,108 +2,77 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BBD786614BE
-	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Jan 2023 12:29:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0B6566151A
+	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Jan 2023 13:36:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233278AbjAHL3p (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 8 Jan 2023 06:29:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47082 "EHLO
+        id S229483AbjAHMgG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 8 Jan 2023 07:36:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233218AbjAHL3m (ORCPT
+        with ESMTP id S229482AbjAHMgF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 8 Jan 2023 06:29:42 -0500
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30D5BD2D1
-        for <linux-kbuild@vger.kernel.org>; Sun,  8 Jan 2023 03:29:41 -0800 (PST)
-Received: by mail-ej1-x641.google.com with SMTP id vm8so13531811ejc.2
-        for <linux-kbuild@vger.kernel.org>; Sun, 08 Jan 2023 03:29:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HcpM41K3Tg/Gq2Sy2fOw39ukTQf5X/VzmfsS+yU67xU=;
-        b=qKooUu0cR0Q6Kb35Lml+i1nctcRKDXBFIEuTWecR2oAg5gpt8iWCWrVTzR/d0ltIz+
-         N3v4mI+Id5n22IQcOsRNrs3LfLqdT/HvxkxuThnBBMHey7FRBoM71zAIiDMTHnSgpN5Z
-         x3kiNifkBHa67aksnuVhN0ViIH4omkoEA1V/MRsaIxBjjHuMlU8Etutr9d/g3k0VBqS+
-         Gvcs1w6Oyb+6hjEoSfAoX0iu6yv8bOv93HJHe2b0EXqway2L9PMP8z4v5codhy5CVb8Z
-         gUWDwMgHqJCe7GMUzyDwpcS2znrsiSd/kh+kobYvXrnptX2TmVNEgI44vAZpnc1lh6J9
-         XwZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HcpM41K3Tg/Gq2Sy2fOw39ukTQf5X/VzmfsS+yU67xU=;
-        b=fyvdMJ2M8QoYLkATiZY62D+kXBm+Ks5NINjng1HEX96TmTj3QmxbRjzygMa19z3rAL
-         gwso8G+0RZwdwXAgeMpw7+/du1wMAGR9hdmCLYd6ltn369VNrShtarW76qG70TUJMRfz
-         anD3Pd+cfj8Xwxdqd+K15duK4IjBY9hrwUxMDn8bdihbeUxo/UoQ+I6Zx9nfyGGWmD54
-         xCX8ODed0c80OhnlMpZwTnUftLqDN1Qzd5lNr7pvIJixd1rI0rffN0O67WieZESroIxu
-         8BaEUCRm0M99eHyOzS5cdARppT3zsGM9ZNYPcHeYZRzka7E3XMzkVCa4ibBpNVJjrL9u
-         1rEQ==
-X-Gm-Message-State: AFqh2kqCHd9LiOg2wcrnW5d8hYADwQnnYhh3JSle14ZcF0R8mRT/K6Rj
-        a7aUGGezWLsEF9lzIDcb+tfN7Ljj74a0keaSZac=
-X-Google-Smtp-Source: AMrXdXv8qNP079N8Ljgdg1YxgYDV453aDSNxK9LIR74YsJCiaWn938eOuW+3voCWEBes5so6o/csZ9cDSEO/Bl+oL2k=
-X-Received: by 2002:a17:906:8381:b0:7c1:57e7:e45a with SMTP id
- p1-20020a170906838100b007c157e7e45amr3219427ejx.548.1673177379128; Sun, 08
- Jan 2023 03:29:39 -0800 (PST)
+        Sun, 8 Jan 2023 07:36:05 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16DFAC768;
+        Sun,  8 Jan 2023 04:36:04 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A59B760C69;
+        Sun,  8 Jan 2023 12:36:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F38F0C433D2;
+        Sun,  8 Jan 2023 12:36:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673181363;
+        bh=CEml4/PckH5kpQIqMHRbuqau+u4QDk90dU1KpmYVSsY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=XcegUJZfiikPZJSePOiuz4Ggx3YOwFZuTD1KH45K4fGcFfGZLwuUlNlpBt4AfgfuN
+         Sw3QaJIMa+TG2roLw0NyupQuqwSoFLMOkmx+1OoyJDh95qOohQlCVVUU+VrZdSCN+v
+         Nq8/Jkdsx//WaRJ79OmeVNWVfoBlG3uxKAOsA2fUjzjAc5z9H2RzQvFvpjiVaqD/VW
+         y+lnDJIACF0Z97XofL4E0YpwcUI40fU1pUO5XcWREsJuBlEB2i33JLCcvrhv/9eo3Z
+         c9e+DlkZ31uZES403Ah5UyORDiK9xf8U4J7xslR9TL8UTGwkPZ6WyE5tL5K18YGWB4
+         /b3CqOmSZfNHg==
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        kernel test robot <lkp@intel.com>
+Subject: [PATCH] init/version-timestamp.c: remove unneeded #include <linux/version.h>
+Date:   Sun,  8 Jan 2023 21:35:57 +0900
+Message-Id: <20230108123557.2838094-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Received: by 2002:a17:906:eca7:b0:7c0:dfb2:c37b with HTTP; Sun, 8 Jan 2023
- 03:29:38 -0800 (PST)
-Reply-To: muhammadabdulrahma999@gmail.com
-From:   muhammad <nnannacollins2019@gmail.com>
-Date:   Sun, 8 Jan 2023 03:29:38 -0800
-Message-ID: <CAPQqOC03wuphQb6NMCpfv7tZrur=MdFAiO_zctdzRwH0PfHa1Q@mail.gmail.com>
-Subject: Re:Re:Inquiry about your products.!!
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=6.8 required=5.0 tests=BAYES_50,DEAR_SOMETHING,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:641 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5093]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [nnannacollins2019[at]gmail.com]
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [nnannacollins2019[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [muhammadabdulrahma999[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  2.0 DEAR_SOMETHING BODY: Contains 'Dear (something)'
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  2.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: ******
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Dear Sir/Madam,
+The kbuild test robot detected by 'make versioncheck'.
 
-An open Tender for the supply of your company products to (Doha,
-Qatar). Urgently furnish us in full details about the standard of your
-product. We will appreciate it more if you give us with Details:
-Specification and Catalogs or Price list via Email.To avoid making a
-wrong choice of products before placing an order for it.
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-Terms of payment:An upfront payment of 80% (T/T) will be made to your
-account for production,While 20% will be paid before shipment.
+ init/version-timestamp.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Thanks and Regards
+diff --git a/init/version-timestamp.c b/init/version-timestamp.c
+index 179e93bae539..043cbf80a766 100644
+--- a/init/version-timestamp.c
++++ b/init/version-timestamp.c
+@@ -2,7 +2,6 @@
+ 
+ #include <generated/compile.h>
+ #include <generated/utsrelease.h>
+-#include <linux/version.h>
+ #include <linux/proc_ns.h>
+ #include <linux/refcount.h>
+ #include <linux/uts.h>
+-- 
+2.34.1
+
