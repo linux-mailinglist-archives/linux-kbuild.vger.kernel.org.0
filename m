@@ -2,65 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E262B6615AA
-	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Jan 2023 15:00:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8364D6615B4
+	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Jan 2023 15:05:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233178AbjAHOAR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 8 Jan 2023 09:00:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51780 "EHLO
+        id S229483AbjAHOFp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 8 Jan 2023 09:05:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236058AbjAHOAG (ORCPT
+        with ESMTP id S232624AbjAHOFl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 8 Jan 2023 09:00:06 -0500
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A241101D0;
-        Sun,  8 Jan 2023 05:59:55 -0800 (PST)
-Received: by mail-yb1-xb34.google.com with SMTP id l139so6322229ybl.12;
-        Sun, 08 Jan 2023 05:59:55 -0800 (PST)
+        Sun, 8 Jan 2023 09:05:41 -0500
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4C87CEE;
+        Sun,  8 Jan 2023 06:05:40 -0800 (PST)
+Received: by mail-yb1-xb36.google.com with SMTP id l139so6332064ybl.12;
+        Sun, 08 Jan 2023 06:05:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=j/huaWcf/wNot1L+tQ1khzuDXGBVMKYzsCxPwSk2Wd0=;
-        b=kv+yArOYblsaDJGpwaN2kdNSGeGZrb4V9MOO/Z2cTE2lQG3aKpSf0pjAB0fZTkIjOH
-         fitmC/Phz5XwI5sPOkEMdDzhIwhYDNylZGk7/C2uCwosyfacaoAR4zfdey5edUG8mDTo
-         1FqEa/HrrJTSaojUx2rrJzQGO1yqhD6sWEWbdWRUsHb3u6g1HiN5BEM3y+nLF90e6tCY
-         3VX20bUGqgA1nNop7mcNLVcztJZpW5z/B5J9/RZGsVSL/S2yZqGqQjQWXmHVHcu9LOby
-         2C2HXWBhZt1m5FfKjkFAYTwFIFKDzR8EiWyY2puQBDOGh6xL3bgUDlLuSl1EUJY3ydo6
-         4WCA==
+        bh=mLyGyJv5EKdrM6YbNUV9Yd2+NBwyRo3dIWNfBJujseM=;
+        b=ozIbY+Hmfd/o7aVcWJ7aawXa8GZUuvRThitQx4sDYlRDKAKcS7BEJuYTRaym6rW2Fh
+         q/P9r+ioLW2KdE9zV+aDQF/UIDnQ8Ywy9uv2Ecqa7U1I6+LRKW5bxBeS+J4sQYs/vX5r
+         CVnx1WHvGfMu9imK6mkrINqKPPyZOAK5b5knFWRoFtYRSPnTK4WT4bzgZspcNOSuK4pJ
+         4HpBpQT5bmcOpBtxLuoZqehMGcDF91EDvggFxSNHTWQsrePlbrFVcWr82A6dAR6dX33Z
+         PhXrjz4/Zt97zWNr8CbWc/NXlEt/zFiIzqrLPF86hPcri2EWfbgwyCuGiV51M7QOfsR8
+         vIsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=j/huaWcf/wNot1L+tQ1khzuDXGBVMKYzsCxPwSk2Wd0=;
-        b=5/fBjahkEvas82ueP7KHvpVDsQI+bKKcOROwPvLiJjC1BRN7GYk3eVeYl7yhRoxRju
-         vCGgqmcd25bQF8/pTKLO3i+lwJukg9cv3wRODPiyxZWD8buDccYis/JBO9BvICkzmYho
-         PcPaV3CirjTzGMpt+Z423fwNJ7XhpOGTtI0hMmbi08LIiNy33tCQ7QQB7K/5HsZvt+mj
-         vs82LSEBu29cB+1CMr7Uy9ZAy3sta2PQgmogMm5Tu+n2jj3KqceV5IT2nysf4IFZi352
-         1umXULOkrepp+g3Uw3pdVZdF5PoWP8yRhskm41wJXcHtBJGTc09BIM79UXbqv3kgE5ob
-         0MCw==
-X-Gm-Message-State: AFqh2krJt2zRCa6IINry8SqhiQvMXiUNVdqPqloMfnbMWhm7ydtb2t5r
-        NN6eDty6Qv2S9GE5/a1I7PqLiSTAbV3soifODt8fMoGObPmCNdyHKvstYA==
-X-Google-Smtp-Source: AMrXdXuwdsGKbhywEnrM+ME7ZJe9y09eQz+XfNyLKOQ4XmrnS1AS40weI9iuZ56AKMmqnyLKIfkYjFxSDgk19ks1yyQ=
+        bh=mLyGyJv5EKdrM6YbNUV9Yd2+NBwyRo3dIWNfBJujseM=;
+        b=1MvTBoh4HfxIK9GkX3cUTLPgGLllqXZ1Rq3yeVRwV23dbZVi54qaiGn3t7D0JwiRcQ
+         n44o4lakg7nZjcFXbPgMeroWtCSgTWzLoST2jZj2GpI/TcgFuPf2S9MmKQ9LXtJo4zJZ
+         CRIBbj4b+MvLC51+WJSx3d8xzTMbNQloADyEdXvD327dd0DuTu/FxQ7DpXL6ygxhwN4d
+         XJHGgwP6ouatUfFGjt06MYnp3kDiRBGIORaKQ9VR7GNuCN666BF2+vFSuGGn1EYXvzLx
+         +aMT9jR0EGu9iOxZ8xLS29ZbOsozr6yOjVuQX3D1vbV43kqw6tEfvaD/mio2ivEgGN6d
+         AAjg==
+X-Gm-Message-State: AFqh2koXoUKlL+yAjo0jqbRtqU/pKNX3UyxzdfxX1bAgmgoRnuMasEsO
+        2SLJ9xV6/KW4p57jdD3WVvINHouE6LQ1l4yaYm4=
+X-Google-Smtp-Source: AMrXdXt74t7Fv3+NoS1rvMFq+6Mt8PVP5s4X2WJZuU/cPs55Yoqqw+hZRtBar4VLBZGeM7SsZHufE0ai9VyXtJ1GOBc=
 X-Received: by 2002:a25:bc43:0:b0:7b2:343d:6b11 with SMTP id
- d3-20020a25bc43000000b007b2343d6b11mr1997224ybk.75.1673186394385; Sun, 08 Jan
- 2023 05:59:54 -0800 (PST)
+ d3-20020a25bc43000000b007b2343d6b11mr1999696ybk.75.1673186740151; Sun, 08 Jan
+ 2023 06:05:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20230107094545.3384745-1-masahiroy@kernel.org>
- <CANiq72=q9pk2ZB2K9Zjn-COY1KD3MFAGthx7VJ_2YmtH61tdng@mail.gmail.com> <CAK7LNAQHqMHyX75MAwG6vh0V6Op_EGRXzprnBiNPeDmUuhHD_g@mail.gmail.com>
-In-Reply-To: <CAK7LNAQHqMHyX75MAwG6vh0V6Op_EGRXzprnBiNPeDmUuhHD_g@mail.gmail.com>
+References: <20230107091820.3382134-1-masahiroy@kernel.org>
+ <CANiq72nY9X1cyu=3MwfRKTcxMUNHRTUGPFC7VR=OtL8V-NPQog@mail.gmail.com> <CAK7LNAR_VTo1A7rfQq8zMzLYfRRCUzruPQL=akALTg-GYKaQzw@mail.gmail.com>
+In-Reply-To: <CAK7LNAR_VTo1A7rfQq8zMzLYfRRCUzruPQL=akALTg-GYKaQzw@mail.gmail.com>
 From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Sun, 8 Jan 2023 14:59:43 +0100
-Message-ID: <CANiq72=zFqopMpwO1k=ZueGX=85=P4nRU+67bRCq-aS8bMuNyg@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: rust: move rust/target.json to scripts/
+Date:   Sun, 8 Jan 2023 15:05:29 +0100
+Message-ID: <CANiq72mTUd5ogH_GNXLdNXYwQQpx=-qk3cPpTMDw_-mmbBLJrw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/7] kbuild: refactor host*_flags
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Miguel Ojeda <ojeda@kernel.org>,
         Alex Gaynor <alex.gaynor@gmail.com>,
         Wedson Almeida Filho <wedsonaf@gmail.com>,
         Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
         =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        rust-for-linux@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>
@@ -75,14 +76,18 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Jan 8, 2023 at 2:49 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Sun, Jan 8, 2023 at 2:06 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Please let me pick this up to my kbuild tree.
+> No, there is no reason. Just my whimsy.
 >
-> If I have more spare time in this development cycle,
-> perhaps, I may refactor the code a little more.
+> I will do something like the following just in case.
+>
+> hostc_flags  =  -Wp,-MMD,$(depfile)  \
+>                 $(KBUILD_HOSTCFLAGS) $(HOST_EXTRACFLAGS) \
+>                 $(HOSTCFLAGS_$(target-stem).o)
 
-Of course. And thanks for all the cleanups again!
+Yeah, it sounds simpler to keep it the same, we could always do the
+order change in an independent patch if needed.
 
 Cheers,
 Miguel
