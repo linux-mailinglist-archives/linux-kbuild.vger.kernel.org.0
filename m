@@ -2,130 +2,267 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 93C696629DD
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Jan 2023 16:28:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 42125662C5A
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Jan 2023 18:12:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233913AbjAIP2D (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 9 Jan 2023 10:28:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42834 "EHLO
+        id S236974AbjAIRM1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 9 Jan 2023 12:12:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234546AbjAIP2B (ORCPT
+        with ESMTP id S237138AbjAIRMH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 9 Jan 2023 10:28:01 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC8003AA;
-        Mon,  9 Jan 2023 07:27:54 -0800 (PST)
-Received: from leknes.fjasle.eu ([46.142.97.169]) by mrelayeu.kundenserver.de
- (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1N17cq-1on28P2f5W-012aag; Mon, 09 Jan 2023 16:27:31 +0100
-Received: by leknes.fjasle.eu (Postfix, from userid 1000)
-        id 931743C1B9; Mon,  9 Jan 2023 16:27:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1673278049; bh=s4fwN7O0YOUIvKRdDW8HwVKR/TWCB1S1O0HUPcdIC34=;
+        Mon, 9 Jan 2023 12:12:07 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C17E26D3;
+        Mon,  9 Jan 2023 09:10:56 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D70F761226;
+        Mon,  9 Jan 2023 17:10:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DE6DC433F1;
+        Mon,  9 Jan 2023 17:10:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673284255;
+        bh=oTRkQyMF2DjGCawOHegpUvhRGt2ypHnFvhlRYLqVs0E=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Aqwh38l5TMV5qhD3wstQlMwgbTvb1EqYTI2tlIYS9jiuxGaCqmTJb5in3/PbfC6kS
-         6c//83OPdRQoAKQiGjswT+ayElNQLbjZHq0xHxyjC9WhOwC8TGxm8rvL/q09TSYk44
-         38yt++IerEC95GHCFQB9x4lk629tGwlXI7/oSkOQ=
-Date:   Mon, 9 Jan 2023 16:27:29 +0100
-From:   Nicolas Schier <nicolas@fjasle.eu>
+        b=VtNz0MLzegDV1DqfOGWuVF2pDOw09yDd7OKJHG6QPsoLSeAwWokuWWIqo2KDraxDr
+         dgl+9bcjqqT5aifqPVOSKY6dDhlGqnigRmne7OThzQbydANXELK/cOdp9bJHe8RE4k
+         J8z03Hn1/tRPH8iqXmKyFwGgpv/HoaGlZ/ySf+JSdfbDmx+lMlr7VLoe+SROLNVrLj
+         1UkXdepbasIAP74XviavJ9EPoH5ikIybGqlQO/w8NutRptVEkNq2uiGUq5q9ynymLZ
+         lasiB0cZwsBxaaB8LoTYcUUUi58DjTDa09tjvdduuvyKcNJQm8xfj/5amD2YhWLc7V
+         S2WBDTwafnp7w==
+Date:   Mon, 9 Jan 2023 10:10:52 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH] kbuild: replace $(dot-target).tmp in filechk with
- $(tmp-target)
-Message-ID: <Y7wyYe52A6U5qOAQ@fjasle.eu>
-References: <20230109134040.3191458-1-masahiroy@kernel.org>
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        llvm@lists.linux.dev, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v2] kbuild: rust: remove -v option of
+ scripts/rust_is_available.sh
+Message-ID: <Y7xKnFsDd5Vlqt4I@dev-arch.thelio-3990X>
+References: <20230109061436.3146442-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="J+023HwIdzFgwpYN"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230109134040.3191458-1-masahiroy@kernel.org>
-X-Provags-ID: V03:K1:kH6MaxCkdNqlhcIhC8UCAOpCLC/H3AViG+TujyrhZzqgrKI5139
- D+8tcLB6b7Wy2/opT1AE49P0aTT+5JpYMMKvcUJYBeyloEdLWj01hpq3JHy1CQvnT4LR2QM
- +8APzS9CWqOha+IR0Hv5ciPw8c1Ziruri4s4iNTHfpwdaf2RvrgWlaox9wk8GyjhcT1wwpt
- xwePL7I9mpg7BfTW5u2sw==
-UI-OutboundReport: notjunk:1;M01:P0:m4ixR/S2FJI=;I4/1E/Xn+21fFwl8nB2VR8FH4Oi
- mINfUYo55WpkxngFjNsHPjvitiS6BaARGToBpMEDMPCSijk61mnbkkxkq7utPDjtw6/kOWZ3d
- jFJ/sJd4/CW7GdUyvqpcLIGoR9zJ5G7v69saG2FUpaedjN5y5KULOQOvTvVX0mWTWDz823JnR
- cFkamR0QPbrHk53yIAAi0FTINleVll7WzaCLM567OED+OpgKTDiZR3hu4mAtBcBsGJytcic2T
- mhoq05a51Hb6S+vX6bLOhcebabR7KaYtMeEGCx4B2Sb8dt5n464JlIunYfMB5wn2cBdyi9bQO
- rSHiBmCYt/WYD7GaBXGxqZhSk5yYwxegvyUI7U+MT5SNjPQ6y8gsNw6QVWKTKGYHR1qidnUpR
- A49C7vxiAJGE1TaIlNcwyglEBaq2JCsYA5K2V7fAatFTk6FDxYSoF5QyZxK9YhvpRw3KsgKez
- vAxZzXtSuswn9w3LzZVkR4EAmJBI5YHq4EnjsUJ2dX3NBzM1OkTOrUhJUJvvcTdB00dJLKQb+
- YzjyW4ZFr7M0BrnuFn9txXmcVHKZsEW6O9JGvDHd+DNMAK9VFqVbqnqhPL2Tbtl2DH9XFgImH
- O63v8wgBgtXV9mg//3PYv1xQ6Wu1gy27kcLjjDOzEYWYX0SNKA5rrf2IWCtMfvMKa8mxXDTxi
- k6RRKU1HDdwc6k4Lgjeri77Uc7y4T+jJIpQVFgAwbg==
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20230109061436.3146442-1-masahiroy@kernel.org>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
---J+023HwIdzFgwpYN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Jan 09, 2023 at 10:40:40PM +0900 Masahiro Yamada wrote:
-> $(tmp-target) is a better fit for local use like this.
->=20
+On Mon, Jan 09, 2023 at 03:14:36PM +0900, Masahiro Yamada wrote:
+> The -v option is passed when this script is invoked from Makefile,
+> but not when invoked from Kconfig.
+> 
+> As you can see in scripts/Kconfig.include, the 'success' macro suppresses
+> stdout and stderr anyway, so this script does not need to be quiet.
+> 
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
+> Tested-by: Miguel Ojeda <ojeda@kernel.org>
+
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+
 > ---
->=20
->  scripts/Kbuild.include | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-> index 4648ab8f11d4..7778cc97a4e0 100644
-> --- a/scripts/Kbuild.include
-> +++ b/scripts/Kbuild.include
-> @@ -99,11 +99,11 @@ define filechk
->  	$(check-FORCE)
->  	$(Q)set -e;						\
->  	mkdir -p $(dir $@);					\
-> -	trap "rm -f $(dot-target).tmp" EXIT;			\
-> -	{ $(filechk_$(1)); } > $(dot-target).tmp;		\
-> -	if [ ! -r $@ ] || ! cmp -s $@ $(dot-target).tmp; then	\
-> +	trap "rm -f $(tmp-target)" EXIT;			\
-> +	{ $(filechk_$(1)); } > $(tmp-target);			\
-> +	if [ ! -r $@ ] || ! cmp -s $@ $(tmp-target); then	\
->  		$(kecho) '  UPD     $@';			\
-> -		mv -f $(dot-target).tmp $@;			\
-> +		mv -f $(tmp-target) $@;				\
+> 
+> Changes in v2:
+>   - Fix description (scripts -> script)
+>   - Remove stale comment
+> 
+>  Makefile                     |  4 +-
+>  scripts/rust_is_available.sh | 96 +++++++++++++++---------------------
+>  2 files changed, 42 insertions(+), 58 deletions(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index c1f59f54ae90..59d827b85888 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1288,7 +1288,7 @@ prepare0: archprepare
+>  # All the preparing..
+>  prepare: prepare0
+>  ifdef CONFIG_RUST
+> -	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/rust_is_available.sh -v
+> +	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/rust_is_available.sh
+>  	$(Q)$(MAKE) $(build)=rust
+>  endif
+>  
+> @@ -1813,7 +1813,7 @@ $(DOC_TARGETS):
+>  # "Is Rust available?" target
+>  PHONY += rustavailable
+>  rustavailable:
+> -	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/rust_is_available.sh -v && echo "Rust is available!"
+> +	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/rust_is_available.sh && echo "Rust is available!"
+>  
+>  # Documentation target
+>  #
+> diff --git a/scripts/rust_is_available.sh b/scripts/rust_is_available.sh
+> index aebbf1913970..f43a010eaf30 100755
+> --- a/scripts/rust_is_available.sh
+> +++ b/scripts/rust_is_available.sh
+> @@ -2,8 +2,6 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  #
+>  # Tests whether a suitable Rust toolchain is available.
+> -#
+> -# Pass `-v` for human output and more checks (as warnings).
+>  
+>  set -e
+>  
+> @@ -23,21 +21,17 @@ get_canonical_version()
+>  
+>  # Check that the Rust compiler exists.
+>  if ! command -v "$RUSTC" >/dev/null; then
+> -	if [ "$1" = -v ]; then
+> -		echo >&2 "***"
+> -		echo >&2 "*** Rust compiler '$RUSTC' could not be found."
+> -		echo >&2 "***"
+> -	fi
+> +	echo >&2 "***"
+> +	echo >&2 "*** Rust compiler '$RUSTC' could not be found."
+> +	echo >&2 "***"
+>  	exit 1
+>  fi
+>  
+>  # Check that the Rust bindings generator exists.
+>  if ! command -v "$BINDGEN" >/dev/null; then
+> -	if [ "$1" = -v ]; then
+> -		echo >&2 "***"
+> -		echo >&2 "*** Rust bindings generator '$BINDGEN' could not be found."
+> -		echo >&2 "***"
+> -	fi
+> +	echo >&2 "***"
+> +	echo >&2 "*** Rust bindings generator '$BINDGEN' could not be found."
+> +	echo >&2 "***"
+>  	exit 1
+>  fi
+>  
+> @@ -53,16 +47,14 @@ rust_compiler_min_version=$($min_tool_version rustc)
+>  rust_compiler_cversion=$(get_canonical_version $rust_compiler_version)
+>  rust_compiler_min_cversion=$(get_canonical_version $rust_compiler_min_version)
+>  if [ "$rust_compiler_cversion" -lt "$rust_compiler_min_cversion" ]; then
+> -	if [ "$1" = -v ]; then
+> -		echo >&2 "***"
+> -		echo >&2 "*** Rust compiler '$RUSTC' is too old."
+> -		echo >&2 "***   Your version:    $rust_compiler_version"
+> -		echo >&2 "***   Minimum version: $rust_compiler_min_version"
+> -		echo >&2 "***"
+> -	fi
+> +	echo >&2 "***"
+> +	echo >&2 "*** Rust compiler '$RUSTC' is too old."
+> +	echo >&2 "***   Your version:    $rust_compiler_version"
+> +	echo >&2 "***   Minimum version: $rust_compiler_min_version"
+> +	echo >&2 "***"
+>  	exit 1
+>  fi
+> -if [ "$1" = -v ] && [ "$rust_compiler_cversion" -gt "$rust_compiler_min_cversion" ]; then
+> +if [ "$rust_compiler_cversion" -gt "$rust_compiler_min_cversion" ]; then
+>  	echo >&2 "***"
+>  	echo >&2 "*** Rust compiler '$RUSTC' is too new. This may or may not work."
+>  	echo >&2 "***   Your version:     $rust_compiler_version"
+> @@ -82,16 +74,14 @@ rust_bindings_generator_min_version=$($min_tool_version bindgen)
+>  rust_bindings_generator_cversion=$(get_canonical_version $rust_bindings_generator_version)
+>  rust_bindings_generator_min_cversion=$(get_canonical_version $rust_bindings_generator_min_version)
+>  if [ "$rust_bindings_generator_cversion" -lt "$rust_bindings_generator_min_cversion" ]; then
+> -	if [ "$1" = -v ]; then
+> -		echo >&2 "***"
+> -		echo >&2 "*** Rust bindings generator '$BINDGEN' is too old."
+> -		echo >&2 "***   Your version:    $rust_bindings_generator_version"
+> -		echo >&2 "***   Minimum version: $rust_bindings_generator_min_version"
+> -		echo >&2 "***"
+> -	fi
+> +	echo >&2 "***"
+> +	echo >&2 "*** Rust bindings generator '$BINDGEN' is too old."
+> +	echo >&2 "***   Your version:    $rust_bindings_generator_version"
+> +	echo >&2 "***   Minimum version: $rust_bindings_generator_min_version"
+> +	echo >&2 "***"
+>  	exit 1
+>  fi
+> -if [ "$1" = -v ] && [ "$rust_bindings_generator_cversion" -gt "$rust_bindings_generator_min_cversion" ]; then
+> +if [ "$rust_bindings_generator_cversion" -gt "$rust_bindings_generator_min_cversion" ]; then
+>  	echo >&2 "***"
+>  	echo >&2 "*** Rust bindings generator '$BINDGEN' is too new. This may or may not work."
+>  	echo >&2 "***   Your version:     $rust_bindings_generator_version"
+> @@ -110,13 +100,11 @@ bindgen_libclang_min_version=$($min_tool_version llvm)
+>  bindgen_libclang_cversion=$(get_canonical_version $bindgen_libclang_version)
+>  bindgen_libclang_min_cversion=$(get_canonical_version $bindgen_libclang_min_version)
+>  if [ "$bindgen_libclang_cversion" -lt "$bindgen_libclang_min_cversion" ]; then
+> -	if [ "$1" = -v ]; then
+> -		echo >&2 "***"
+> -		echo >&2 "*** libclang (used by the Rust bindings generator '$BINDGEN') is too old."
+> -		echo >&2 "***   Your version:    $bindgen_libclang_version"
+> -		echo >&2 "***   Minimum version: $bindgen_libclang_min_version"
+> -		echo >&2 "***"
+> -	fi
+> +	echo >&2 "***"
+> +	echo >&2 "*** libclang (used by the Rust bindings generator '$BINDGEN') is too old."
+> +	echo >&2 "***   Your version:    $bindgen_libclang_version"
+> +	echo >&2 "***   Minimum version: $bindgen_libclang_min_version"
+> +	echo >&2 "***"
+>  	exit 1
+>  fi
+>  
+> @@ -125,21 +113,19 @@ fi
+>  #
+>  # In the future, we might be able to perform a full version check, see
+>  # https://github.com/rust-lang/rust-bindgen/issues/2138.
+> -if [ "$1" = -v ]; then
+> -	cc_name=$($(dirname $0)/cc-version.sh "$CC" | cut -f1 -d' ')
+> -	if [ "$cc_name" = Clang ]; then
+> -		clang_version=$( \
+> -			LC_ALL=C "$CC" --version 2>/dev/null \
+> -				| sed -nE '1s:.*version ([0-9]+\.[0-9]+\.[0-9]+).*:\1:p'
+> -		)
+> -		if [ "$clang_version" != "$bindgen_libclang_version" ]; then
+> -			echo >&2 "***"
+> -			echo >&2 "*** libclang (used by the Rust bindings generator '$BINDGEN')"
+> -			echo >&2 "*** version does not match Clang's. This may be a problem."
+> -			echo >&2 "***   libclang version: $bindgen_libclang_version"
+> -			echo >&2 "***   Clang version:    $clang_version"
+> -			echo >&2 "***"
+> -		fi
+> +cc_name=$($(dirname $0)/cc-version.sh "$CC" | cut -f1 -d' ')
+> +if [ "$cc_name" = Clang ]; then
+> +	clang_version=$( \
+> +		LC_ALL=C "$CC" --version 2>/dev/null \
+> +			| sed -nE '1s:.*version ([0-9]+\.[0-9]+\.[0-9]+).*:\1:p'
+> +	)
+> +	if [ "$clang_version" != "$bindgen_libclang_version" ]; then
+> +		echo >&2 "***"
+> +		echo >&2 "*** libclang (used by the Rust bindings generator '$BINDGEN')"
+> +		echo >&2 "*** version does not match Clang's. This may be a problem."
+> +		echo >&2 "***   libclang version: $bindgen_libclang_version"
+> +		echo >&2 "***   Clang version:    $clang_version"
+> +		echo >&2 "***"
 >  	fi
->  endef
-> =20
-> --=20
+>  fi
+>  
+> @@ -150,11 +136,9 @@ rustc_sysroot=$("$RUSTC" $KRUSTFLAGS --print sysroot)
+>  rustc_src=${RUST_LIB_SRC:-"$rustc_sysroot/lib/rustlib/src/rust/library"}
+>  rustc_src_core="$rustc_src/core/src/lib.rs"
+>  if [ ! -e "$rustc_src_core" ]; then
+> -	if [ "$1" = -v ]; then
+> -		echo >&2 "***"
+> -		echo >&2 "*** Source code for the 'core' standard library could not be found"
+> -		echo >&2 "*** at '$rustc_src_core'."
+> -		echo >&2 "***"
+> -	fi
+> +	echo >&2 "***"
+> +	echo >&2 "*** Source code for the 'core' standard library could not be found"
+> +	echo >&2 "*** at '$rustc_src_core'."
+> +	echo >&2 "***"
+>  	exit 1
+>  fi
+> -- 
 > 2.34.1
-
-I do fully agree.
-
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
-
---J+023HwIdzFgwpYN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmO8MmAACgkQB1IKcBYm
-Emnt9xAA4DA0k9/FPc8eRMgBFJYzTSo5f8eUs/0kifdQzUADg1wKTWqP1XItSnyP
-SGPsMM6JhODbVPJYdqQfnqSDVH/YtSImMtpld+pQmh/j6IR7SkgSx0g8GX8ixl8V
-DCUjDpeq82nyGELNNOppesmYpIq/UyEXdhur0KZjoMIHfTHroQ5an4EDUOCAz2aB
-PK1ayUPHQRgdSFI2jT83JsaEn/m+NAAEX5zydhmQB3Ad/S0ip1beB/ueszR5pVoL
-AWfk8aoeU1ADD6jN1uB9nVT5t3w8DNZFilkOA2JKkJds2L+bd0eyD0JvOgVuNLgn
-j1sS6kNao82Ci5HrDG0nSMRSlwaT6b/+Vr3pwAc+xqMmY5H9nUP4E60PEYTlMmap
-NeSYfUjzUJj16oktrDqyfbmHe8Pu6Lg7UBsFWbi8+J4FBlH710TXa86x2M//7GRD
-xj0iO37oagNo4abuCsJXIChlJDB2CtK9ctcjk6yca4ppzv+6i/ZAiB9N4d17D7lX
-mFgAyfNx5QX9+2zNLS4C4mllCwelWTDVwojmI47s9+t3xRprdx5yE/3IirT7fqoZ
-1zxtm0meunGZO2x3vrPCmfigmvRtYu6LEQOXriJDWhybuFixuH8pG0kIyeb46qr/
-UPLAKaFXG3Szswd+w/NfPWTanGP4Z3KNHIDjAIYRjWavs0UZnVs=
-=HSC8
------END PGP SIGNATURE-----
-
---J+023HwIdzFgwpYN--
+> 
