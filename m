@@ -2,62 +2,128 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8952D66204D
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Jan 2023 09:42:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D382F66231D
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Jan 2023 11:23:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236675AbjAIImC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 9 Jan 2023 03:42:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50138 "EHLO
+        id S233730AbjAIKXz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 9 Jan 2023 05:23:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236558AbjAIIlb (ORCPT
+        with ESMTP id S237168AbjAIKXf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 9 Jan 2023 03:41:31 -0500
-Received: from mail.lokoho.com (mail.lokoho.com [217.61.105.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AF7112D08
-        for <linux-kbuild@vger.kernel.org>; Mon,  9 Jan 2023 00:41:31 -0800 (PST)
-Received: by mail.lokoho.com (Postfix, from userid 1001)
-        id 0044183EBC; Mon,  9 Jan 2023 08:41:06 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
-        t=1673253689; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
-        h=Date:From:To:Subject:From;
-        b=jdOP+09HSxSPrPfFe2ZlUyJ5IyRox9uhutyhZVfOC+fhmMoZpCEGndb3R/fGV8tP3
-         yTkU5sRe6ydt+h4pgzdQ0W6aL2SsLoB4TsSrBK9dAejg8poqGGnVmjAUeK+NaovIk/
-         ShFggnZSXyz7heUhszzj8UoVnrLNZe9lWlBoR9KrZyZr5x/90r+fOIh862zt0BA9B1
-         lyLNznn75adGZILY+WzU/+qR3uDM2sZwgpKQlv4g23uS/62U0rINa1qKppIXwDmjp0
-         1JRpcPBxZi8Ye7k7ON4+HRZ8ntSUwLyyUfhHxNCy7HdvtjbLxHPhcBWMIoe0YRFfLC
-         RP7cESSAwKpJw==
-Received: by mail.lokoho.com for <linux-kbuild@vger.kernel.org>; Mon,  9 Jan 2023 08:40:48 GMT
-Message-ID: <20230109074502-0.1.3a.kocd.0.p09ep0u0f1@lokoho.com>
-Date:   Mon,  9 Jan 2023 08:40:48 GMT
-From:   "Adam Charachuta" <adam.charachuta@lokoho.com>
-To:     <linux-kbuild@vger.kernel.org>
-Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
-X-Mailer: mail.lokoho.com
+        Mon, 9 Jan 2023 05:23:35 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0795519292;
+        Mon,  9 Jan 2023 02:22:22 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9832E60FDB;
+        Mon,  9 Jan 2023 10:22:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01926C433F0;
+        Mon,  9 Jan 2023 10:22:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673259741;
+        bh=n5e+FPuvdwGXP9UMyOLez3XH3zqGrOElpmX997pbMFc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=lUYxRnm153RxssY8PzrkvBnXGnCf4/QJucLVhL4DP4SgiU6fnz3PMRS4u8LcMAeZz
+         KyXWTZgv+mEhQeKfAU0Y9cDNwTwCvHpDnz7QyuOm8Yn2jHetxgfyVbPBfJmWmiAKms
+         9MR26xoNZ7ZvRCNBYtjEO0EdJ2dNNEkBnCpF6ml+YsG1natalXZ1csbKj8wnQm9J7C
+         dYtSZ94vwE/+8YYbB01L+keIbRn+Zzt6YzUxPeN1rgPDww8a3QNv8td9qU1qdOxtr7
+         q/IRZcPz1bR6qi1Tyxk6sjl/+gpG5XbUSLwLTLU8lnLWAB4tuMB8U2mnuLlhRsZN1J
+         w95hn+8ruVTaQ==
+Received: by mail-ot1-f43.google.com with SMTP id m7-20020a9d73c7000000b00683e2f36c18so4963783otk.0;
+        Mon, 09 Jan 2023 02:22:20 -0800 (PST)
+X-Gm-Message-State: AFqh2kqrUCBdFe+0du8UXsHad9zRxoXSVPhnuCWpcMtcsuIy/Q/+G4Jo
+        ib1j/NRCIRFT7hWdiYurC/BijFraTARjGWM5a44=
+X-Google-Smtp-Source: AMrXdXuXgBjCFJpilFXuqYoJabAYebgmziJtjMVYgK/PC4Zs/8tfRVdbDhTEhY1ntucdZb/hqm59wFqeGS/kS8j+hL8=
+X-Received: by 2002:a9d:128c:0:b0:66c:794e:f8c6 with SMTP id
+ g12-20020a9d128c000000b0066c794ef8c6mr4139067otg.343.1673259740192; Mon, 09
+ Jan 2023 02:22:20 -0800 (PST)
 MIME-Version: 1.0
+References: <20230109082514.50747-1-arend.vanspriel@broadcom.com>
+In-Reply-To: <20230109082514.50747-1-arend.vanspriel@broadcom.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 9 Jan 2023 19:21:44 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQg6fvHmxRh_GCsV798gC_PY4JGVChLwKzS6V9sRCH0gA@mail.gmail.com>
+Message-ID: <CAK7LNAQg6fvHmxRh_GCsV798gC_PY4JGVChLwKzS6V9sRCH0gA@mail.gmail.com>
+Subject: Re: [PATCH] scripts: rpm: make clear that mkspec script contains 4.13 feature
+To:     Arend van Spriel <arend.vanspriel@broadcom.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-wireless@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Dzie=C5=84 dobry,
-
-zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
-=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
-o dalszych rozm=C3=B3w.=20
-
-Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
-=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
-=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
-strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
-
-Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
+Hi.
+Thanks for catching this.
 
 
-Pozdrawiam
-Adam Charachuta
+On Mon, Jan 9, 2023 at 5:25 PM Arend van Spriel
+<arend.vanspriel@broadcom.com> wrote:
+>
+> A fix was made in the mkspec script [1] that uses a feature, ie. the
+> OR expression, which requires RPM 4.13. However, the script indicates
+> another minimum version. Lower versions may have success by using
+> the --no-deps option as suggested,
+
+
+As far as I tested, CentOS 7 did not work with --no-deps solution.
+It just ended up with a syntax error.
+
+
+
+
+
+> but feels like bumping the version
+> to 4.13 is reasonable as it put me on the wrong track at first with
+> RPM 4.11 on my Centos7 machine.
+>
+> [1] https://lore.kernel.org/linux-kbuild/20221228191014.659746-1-masahiroy@kernel.org/
+
+
+This is already merged.
+
+Please use
+
+Commit 02a893bc9975 ("kbuild: rpm-pkg: add libelf-devel as alternative
+for BuildRequires")
+
+instead of the URL.
+
+
+
+
+
+>
+> Signed-off-by: Arend van Spriel <arend.vanspriel@broadcom.com>
+> ---
+>  scripts/package/mkspec | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/package/mkspec b/scripts/package/mkspec
+> index adab28fa7f89..094e52c979a8 100755
+> --- a/scripts/package/mkspec
+> +++ b/scripts/package/mkspec
+> @@ -1,7 +1,7 @@
+>  #!/bin/sh
+>  #
+>  #      Output a simple RPM spec file.
+> -#      This version assumes a minimum of RPM 4.0.3.
+> +#      This version assumes a minimum of RPM 4.13
+>  #
+>  #      The only gothic bit here is redefining install_post to avoid
+>  #      stripping the symbols from files in the kernel which we want
+> --
+> 2.32.0
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
