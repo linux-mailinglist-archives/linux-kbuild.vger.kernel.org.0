@@ -2,65 +2,73 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 20404663223
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Jan 2023 22:02:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B6613663263
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Jan 2023 22:11:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237849AbjAIVB7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 9 Jan 2023 16:01:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44076 "EHLO
+        id S237818AbjAIVLw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 9 Jan 2023 16:11:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237750AbjAIVBO (ORCPT
+        with ESMTP id S237819AbjAIVLg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 9 Jan 2023 16:01:14 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74BD412D06
-        for <linux-kbuild@vger.kernel.org>; Mon,  9 Jan 2023 12:56:09 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id c8-20020a17090a4d0800b00225c3614161so14109090pjg.5
-        for <linux-kbuild@vger.kernel.org>; Mon, 09 Jan 2023 12:56:09 -0800 (PST)
+        Mon, 9 Jan 2023 16:11:36 -0500
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60CD741A76;
+        Mon,  9 Jan 2023 13:05:47 -0800 (PST)
+Received: by mail-yb1-xb2e.google.com with SMTP id l139so9767852ybl.12;
+        Mon, 09 Jan 2023 13:05:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=k77roXZTKEa1bW9MMBlu0nb8dRHFWkQI4epay3x27MU=;
-        b=CGg0P2AbUZkyGt7JVy15IUwgYNiwHKNpuHK4sbKDRxzpEnSHIUIVUG1crw2skaHRzO
-         8fKoa2lJUBsqWgBn3n1wQbkoT6CjRtdskVjHzY9lgpzwxtTNWRMQjDs5Ivw8aY3yTWAW
-         tVjsB5cF9ZpGG/15u1rgsnch2EJhSHA4QG3HqIK5jKkHg1WPnwP6Xx/q9oEqkgke/2cJ
-         cmyTO1GhMTg859Nd4qBZYUTx5Tvd88rZhjGuaZR3o//tANk8tuSDY9ven5Vp48m9ns59
-         Uq0Tk6wvGMFlZqzfwpqQObJkN5Aq++f3NTAXiukQ4HjTHYQbZJWNY31z8JN46GAJyo40
-         E3sw==
+        bh=myEKGg+oMEzcSTRA/yCcbDAjuI7KfOMxWzLnkBmkC7Y=;
+        b=KKh3FuuvOpr51yI0LDH/oIme2+Hs5Gwn0hqqM1Ytor7PzuInJ0En8ggSSspfJ30SaI
+         kWVKD0FVS+Grls7waVZhg5695Mvi96LjJjrbcZai4x49BmdWU4H9kUraiAuvBCe/B6lC
+         fQhAL2CxHFyXCrbxQVdG8bfiJR//TYsTQTIth+GWMygLeUigzr1CoUa+n1pN0r/j9rEi
+         0W8czT3zajB6mmnbkM065wnrFZRbKZ1niJVlj9l3omMbz+FMbPftQR5xOcTssawRuVrn
+         n7E+2d0zrcx3Gh4MS5tv62NBiv9hHdxxys1C+qekXlRWgOgdaC7n9CdU6eqLFigLJX8q
+         VRRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=k77roXZTKEa1bW9MMBlu0nb8dRHFWkQI4epay3x27MU=;
-        b=jYV8kr10kZwAdqgygAkgyTyws5ZWcmAHYsOx7BqGNjBiW1CMwBVit/rJ0XmRz0Z6k6
-         Ghu5ImitVqip26CZRHvcmn9bcc5mUMlPITioDStpDpWyTWwDSKsamy78wzDyrX2fvp3/
-         pPHFEloof4e8pjoiY/lsD2VlgFHfZk+MXm8+fAp2zfIkGq9V92xMjjn4tE4JRgGlDNAf
-         YriYVw7komn4vA/iapiWYi75GxxxJPs9LdKYxwUkHmaupMrcCTkPLQLqF3XPymeosjSN
-         o//7vPMnkW4DUQFOSOP+6Ji4/tiVedNNeFfZWaGC/+B+kuyd+d6qJfu5qzdn4sn2Ai0h
-         scxQ==
-X-Gm-Message-State: AFqh2krR2tqgGeT8vyjFb4LNAs+aN/XK/Nlraixtq+NkJdYWm2JS5TKL
-        hJCTUFp795tbN78QlTPkTtr5/cgLJy1Xkp2i0yGoOg==
-X-Google-Smtp-Source: AMrXdXvDm6dBr45GZwR8ZZacfwEY/hvFmIphJjWyEmyM7/WIajTWRzT+myD3k0Dip/lFV7Z3NNuiG+lA09+rqzxqYSY=
-X-Received: by 2002:a17:902:a407:b0:189:f899:bc23 with SMTP id
- p7-20020a170902a40700b00189f899bc23mr3757452plq.33.1673297768779; Mon, 09 Jan
- 2023 12:56:08 -0800 (PST)
+        bh=myEKGg+oMEzcSTRA/yCcbDAjuI7KfOMxWzLnkBmkC7Y=;
+        b=l8cDMzaLyN32ruhHOysoulpFW60FeXqJ2M5s6rqoKYT6ogOazOGFILT+YBbXpSlfy+
+         qUw7SuSRGNcmefXtEJ03/H0yy5x21rX++AKgeE0slS2uWHJ/tXApgPFSYdzHGKbsawzJ
+         gPfkdmyisNrR6xsBjptmPsZRQ6MSrNrJL4Ot+ozRT4d9tygPM8ythmsD9fSlkzQGi4Dp
+         Gznca2FiHaPGEGcFTYDz3V+cQcehaSHEwKd/Dt9JbNY6Jd7p5yFCurkfvQyHxB0uNZxr
+         dpoUT35HeePQUyAfaF+uUhmEAMfD0SxJ8InUSmFhWazskjnIgaTZa/I7xwXs6wBkxF7m
+         dLrw==
+X-Gm-Message-State: AFqh2kpDh3LNU6jxPwn8eyoUMJsNOWvsPNLPsr06QKozqB43BfzQm3rw
+        HYzil+GmMS7gOeLHNhmA9/EuFxtl6UZOUgj5TvU=
+X-Google-Smtp-Source: AMrXdXtxeAq1fcrp0b42A4VMYRMUWp0hLyrkry0m7xghpdIY2iK2OeCAvX/A8wipnJx6npW9eQA3IsQmGU8rhapiN+I=
+X-Received: by 2002:a25:1004:0:b0:712:faac:e6b2 with SMTP id
+ 4-20020a251004000000b00712faace6b2mr6955908ybq.632.1673298346610; Mon, 09 Jan
+ 2023 13:05:46 -0800 (PST)
 MIME-Version: 1.0
-References: <20230109201837.23873-1-eliasfleckenstein@web.de>
-In-Reply-To: <20230109201837.23873-1-eliasfleckenstein@web.de>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 9 Jan 2023 12:55:57 -0800
-Message-ID: <CAKwvOdnYkmadAhiwFAFuZwhABT4vE_urtDafA2pqP7=yt8795Q@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: fix typo (usafe -> unsafe)
-To:     Lizzy Fleckenstein <eliasfleckenstein@web.de>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        akpm@linux-foundation.org, masahiroy@kernel.org
+References: <20230109204520.539080-1-ojeda@kernel.org> <CAKwvOdkr6mAdNOkZqGdkosAN6JABHRU3bHg=K8ujjbw2GxEsKQ@mail.gmail.com>
+In-Reply-To: <CAKwvOdkr6mAdNOkZqGdkosAN6JABHRU3bHg=K8ujjbw2GxEsKQ@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Mon, 9 Jan 2023 22:05:35 +0100
+Message-ID: <CANiq72=RJ9NffqJOJLuN6B-DCQgjx1Yp7-sP58q2HchBNpYE=w@mail.gmail.com>
+Subject: Re: [PATCH 1/6] docs: rust: add paragraph about finding a suitable `libclang`
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@lists.linux.dev, Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,38 +76,17 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jan 9, 2023 at 12:19 PM Lizzy Fleckenstein
-<eliasfleckenstein@web.de> wrote:
+On Mon, Jan 9, 2023 at 9:54 PM Nick Desaulniers <ndesaulniers@google.com> wrote:
 >
-> Fix the help text for the PRINTK_SAFE_LOG_BUF_SHIFT setting.
->
-> Signed-off-by: Lizzy Fleckenstein <eliasfleckenstein@web.de>
+> This is super helpful for me, since I build clang from source and
+> would like to use my libclang.so! Thanks for this documentation
+> Miguel!
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-Thanks for the patch!
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Thanks for the quick review Nick!
 
-> ---
->  init/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/init/Kconfig b/init/Kconfig
-> index 7e5c3ddc341d..57c8d224ea4c 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -776,7 +776,7 @@ config PRINTK_SAFE_LOG_BUF_SHIFT
->         depends on PRINTK
->         help
->           Select the size of an alternate printk per-CPU buffer where messages
-> -         printed from usafe contexts are temporary stored. One example would
-> +         printed from unsafe contexts are temporary stored. One example would
->           be NMI messages, another one - printk recursion. The messages are
->           copied to the main log buffer in a safe context to avoid a deadlock.
->           The value defines the size as a power of 2.
-> --
-> 2.39.0
->
+By the way, I didn't add your Reported-by here because apparently it
+is only intended for bug fixes and not features.
 
-
--- 
-Thanks,
-~Nick Desaulniers
+Cheers,
+Miguel
