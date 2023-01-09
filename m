@@ -2,93 +2,103 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CBEA663167
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Jan 2023 21:24:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 63CCD6631BF
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Jan 2023 21:45:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230032AbjAIUY3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 9 Jan 2023 15:24:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43964 "EHLO
+        id S237069AbjAIUpy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 9 Jan 2023 15:45:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231220AbjAIUY2 (ORCPT
+        with ESMTP id S231290AbjAIUpx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 9 Jan 2023 15:24:28 -0500
-X-Greylist: delayed 306 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 09 Jan 2023 12:24:24 PST
-Received: from mout.web.de (mout.web.de [212.227.15.14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92AE6E3A;
-        Mon,  9 Jan 2023 12:24:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-        t=1673295862; bh=OQa6MVATnom40EiZAoiknanw3c0hK9XWFEEbAcwYCZ4=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=c6a3JbeL5mFoQSEMGZmxQii7p+K/dfXytNZJg0uSuvfOrjSBu+Oaj1SaVUNYot+5+
-         A89ZCYdBlADM7WzF2TBziP+7NAFFjbLVeWXelZD8L4eAfXkboMvM06J+TZU0VoGyRA
-         oxCpLrKraBnZFFLHAL0V2aG/R/djcTOT5Yua9ZjX6UeLLem1diadA3inUC3mywujOE
-         7Pnza0mNHvMy4OGz2mvkr0tySmvIqnwVFc8VAPaqGR+E95k6aAB2fwwt6Dyvc9ASSa
-         J3Id2udIvWYbPX4Z80/QAWTzmJmRw4y4/8IYQCeQ4vHvvtWffX9AD0NOLbtPPTwANL
-         kv76yGbrssr9Q==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from artix.fritz.box ([88.72.104.165]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1M3V6E-1pFWZh16Wo-000qjM; Mon, 09
- Jan 2023 21:19:11 +0100
-From:   Lizzy Fleckenstein <eliasfleckenstein@web.de>
-To:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        akpm@linux-foundation.org, ndesaulniers@google.com,
-        masahiroy@kernel.org
-Cc:     Lizzy Fleckenstein <eliasfleckenstein@web.de>
-Subject: [PATCH] kconfig: fix typo (usafe -> unsafe)
-Date:   Mon,  9 Jan 2023 21:18:37 +0100
-Message-Id: <20230109201837.23873-1-eliasfleckenstein@web.de>
-X-Mailer: git-send-email 2.39.0
+        Mon, 9 Jan 2023 15:45:53 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D988240;
+        Mon,  9 Jan 2023 12:45:50 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E633E613EA;
+        Mon,  9 Jan 2023 20:45:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9624C433EF;
+        Mon,  9 Jan 2023 20:45:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673297149;
+        bh=7uir+fpWvzx/j9KVXbIqIv40RM5gM3COk4tThC15780=;
+        h=From:To:Cc:Subject:Date:From;
+        b=g6N3/ydSgf1ekjlEVVfHIsbM86g99kyRUChoRdZg9dF1V/YnyOisYY37+GmhiitC0
+         Jdi2fKYCxTR6yF2oF3U/V0kkuRBNpAVyrGOiqqVN4JpG6eGFBVbNFBPsOHQSc17+Vh
+         lNaZxi1Dt9tvPKNvDjwQJ/6lv0fPjQGtuA3lfiiPTgOB3RZLYuYpvrrMsjEILsl8qI
+         QuDZ0h1vJ7mq97UjXtbliAoUDQc6j8sjYcuAkg/KbYgpKCbjPb1lBS2UTe6sN8SZZ+
+         83WGp3wKWYw6yURHS1NMI9AG1KA78Jh38A6ktiB7Obi8hyEL74pZ22Jywp1NEdzJtS
+         zQWuLBcrUi58A==
+From:   Miguel Ojeda <ojeda@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@lists.linux.dev, Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH 1/6] docs: rust: add paragraph about finding a suitable `libclang`
+Date:   Mon,  9 Jan 2023 21:45:15 +0100
+Message-Id: <20230109204520.539080-1-ojeda@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:aF+26sjVlVUZ8XhiCRy+CXUFd65Itd5PmHE7l1v0s6WIAghh2vl
- H4vppew4ZPG1Bz3Pt3ZUGgCsfgcxvHcBR/kJEIO5J5Z1kjRsw9+CawSdG7qGTOdRGOhMOzr
- xKhQ0F0KahjQLotDGuyd9x1MmrrCdzAzuWqaNPQn53rRnVYhDi61OcFN1NXD7QANZkXiZsC
- uj9SsBW6Y4tppatc8kKmw==
-UI-OutboundReport: notjunk:1;M01:P0:RPCqNCnWrrU=;y58UeZdA7KxozXY1hSgDt4Lcu9w
- wAeZ7pZC2kUPsAGb6qljCgJlWrdPCW/Gn/Ic6djBwe8rOcL4o6zaHiDJrILmFQ8fYNogFGdFo
- V8F4lShdlobbkfY83hBkOvPrl4Ykg17oL4FVXh+teqE1jbi+serHW3MkBA+K5xCfuOtejzjRn
- qlj5BNRtnm+tLnVuULKc2oNOlz7WVA1fU5E0Q95HHnAh1U9KmTW0Z0K6waffQnlo7iOv/iJDU
- AStWb5Hc38R3Z3D9wrWIGJcmDVy0ZRAyZ77XkLWr67hu0EbH5HI0gYCr0AYixxrYPfxq7qh3t
- 4yBcabrXTvX+4FnrvzvSTHirZ/BPS0/xOGFNz4zFc4KJCyz2murFLS2liIhwz193uVyMqtRFt
- HwNkVCzrcubRACQFe+FMzUVskvdtgOYGXTKD7u5gq2WK6aCyXoV9seba+wHqy6RyXqCgF5lyt
- ZQnybW3nbmWbfGD2DWBGtReDVyIwDeF+2s/U/P/GwoKqBtKve4RSi2y8pY8Oxel6IC1ovJtr4
- uzwOXipcq9G6sbW8GhW5O3UrRVVCwkfDk87vuV9RVzTI2xP29HA2qPaM5jrnIe79pw0vgwuVj
- p46TIqSKV0nzAyBE5u7RJzASTA5eNulO66UNICBahoJ5kqgdv/jTJoRtK261LQdy2GwoL8aB3
- IzgQpG7qCb9OZQn+XTZ53C705uW4nW18fTeiZMb8yX2MAwhaHbbGNMJz6qF46XJXJ7fr7gW2v
- 2w+JNVZlpjmZLJxBYRYA+S3Qq0UxWTQe7xMB5wetCVCDdWgUjxGEse+zMIWPBwQGo0+g2kj08
- lBi7h409Gi3N+DYCV5Np+Cv3x6VX4amw+14TmNwE+i93yWk2JkdZtW0aqnRr7a3rmXCdzWVTa
- JYD7OLFJJ3J9hlsdWk1+ttQwf1VfuX7UBWc0vO3APyBbnnXuuEkqxgsbBRHkCU4Pfc+1EXzx+
- xwYhbgEHhqae5G+Uv8twMKv43NE=
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Fix the help text for the PRINTK_SAFE_LOG_BUF_SHIFT setting.
+Sometimes users need to tweak the finding process of `libclang`
+for `bindgen` via the `clang-sys`-provided environment variables.
 
-Signed-off-by: Lizzy Fleckenstein <eliasfleckenstein@web.de>
-=2D--
- init/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thus add a paragraph to the setting up guide, including a reference
+to `clang-sys`'s relevant documentation.
 
-diff --git a/init/Kconfig b/init/Kconfig
-index 7e5c3ddc341d..57c8d224ea4c 100644
-=2D-- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -776,7 +776,7 @@ config PRINTK_SAFE_LOG_BUF_SHIFT
- 	depends on PRINTK
- 	help
- 	  Select the size of an alternate printk per-CPU buffer where messages
--	  printed from usafe contexts are temporary stored. One example would
-+	  printed from unsafe contexts are temporary stored. One example would
- 	  be NMI messages, another one - printk recursion. The messages are
- 	  copied to the main log buffer in a safe context to avoid a deadlock.
- 	  The value defines the size as a power of 2.
-=2D-
+Link: https://lore.kernel.org/rust-for-linux/CAKwvOdm5JT4wbdQQYuW+RT07rCi6whGBM2iUAyg8A1CmLXG6Nw@mail.gmail.com/
+Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+---
+ Documentation/rust/quick-start.rst | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quick-start.rst
+index 13b7744b1e27..cae21ea7de41 100644
+--- a/Documentation/rust/quick-start.rst
++++ b/Documentation/rust/quick-start.rst
+@@ -100,6 +100,23 @@ Install it via (note that this will download and build the tool from source)::
+ 
+ 	cargo install --locked --version $(scripts/min-tool-version.sh bindgen) bindgen
+ 
++``bindgen`` needs to find a suitable ``libclang`` in order to work. If it is
++not found (or a different ``libclang`` than the one found should be used),
++the process can be tweaked using the environment variables understood by
++``clang-sys`` (the Rust bindings crate that ``bindgen`` uses to access
++``libclang``):
++
++* ``LLVM_CONFIG_PATH`` can be pointed to an ``llvm-config`` executable.
++
++* Or ``LIBCLANG_PATH`` can be pointed to a ``libclang`` shared library
++  or to the directoy containing it.
++
++* Or ``CLANG_PATH`` can be pointed to a ``clang`` executable.
++
++For details, please see ``clang-sys``'s documentation at:
++
++	https://github.com/KyleMayes/clang-sys#environment-variables
++
+ 
+ Requirements: Developing
+ ------------------------
+-- 
 2.39.0
 
