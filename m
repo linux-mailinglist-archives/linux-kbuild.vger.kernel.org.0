@@ -2,118 +2,89 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 44C2B6631C7
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Jan 2023 21:46:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F59C6631BD
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Jan 2023 21:45:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235367AbjAIUqT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 9 Jan 2023 15:46:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55458 "EHLO
+        id S234779AbjAIUpr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 9 Jan 2023 15:45:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230179AbjAIUqM (ORCPT
+        with ESMTP id S234229AbjAIUpq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 9 Jan 2023 15:46:12 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7FC6755D7;
-        Mon,  9 Jan 2023 12:46:08 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 88F6BB80FE9;
-        Mon,  9 Jan 2023 20:46:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B2F0C433EF;
-        Mon,  9 Jan 2023 20:46:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673297166;
-        bh=UwE38YioG9dTqnBwoYpucHihCJ8r0LAOxRgPcDdHqlg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=md6E83gIPs0q+cIi9mPU6xAs1exMIZwpNLcjfKZj9ntwkm+sTaENDo6dkGPwVXN6U
-         Xw/8oJ+EYwdci1GfgUC31xhejRtHJo4niR8nZRaLcU63lYtYHW2aPcchBBA+MiinxJ
-         A4vteyRB/s7a8KGj0QknTLQlXG4ZzIfwj9M5Q2ojzSIy6b3QpJqSYhq/n4PdIKTRgy
-         zx7ymJQbnBZb2e3VbPws2+xMh6/gQWxSkubLZcWkTk5GfZ80hQd9dIJeQpxzvS/q6q
-         Xpg9ugardquGSdJlGp1qZTjLyy8kLpKTLvdHHON4ppoE29OE8szZZVBOPLcOeszj5N
-         aV3yOENwkKJkQ==
-From:   Miguel Ojeda <ojeda@kernel.org>
+        Mon, 9 Jan 2023 15:45:46 -0500
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A32AA4ECB8
+        for <linux-kbuild@vger.kernel.org>; Mon,  9 Jan 2023 12:45:45 -0800 (PST)
+Received: by mail-pl1-x62f.google.com with SMTP id v23so5971344plo.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 09 Jan 2023 12:45:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UI3QmEyTzt2vGoW+rXIva7nnQIqT6mp5caaaDYa3q3s=;
+        b=RvqetUe8b71Si4JZbdpPsA6WybRwDAXCqS+u+STGEcqMTN2WxPw7SMKyu1yLfUpsto
+         j+R7Bo7Gv/PcJdVUX2CzA9U8uiKPo01ZFIxJmm5JQAcpUFqMgH8fmOk3ykh7+Ev9Yk6A
+         snGP9wbgpslEI516ykfReqyRU9GoM5jxLs4s6uZpWekQpT6lv1MVEICFfp0UU6opXBPh
+         hvBGPrIUyKd2nPJ973Wea6B7/6L05jjb28fzx0SZscqzyfBUWXUp87bs8czSr81v26QD
+         Nqse8zdAtpNzEhQBDSPoGHq1Sd2h2g8xLDKzg4fIgXJQF7qS0coDtaUzIKYxnKUw9+ET
+         Q/8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UI3QmEyTzt2vGoW+rXIva7nnQIqT6mp5caaaDYa3q3s=;
+        b=a+PT71C4oRpOz9WT6Cqvue06oZPQEEmuH9AaEdr2Iif3pxOYhjNGbJct+s5Qm9PkV+
+         uwj6oJa/MnLB4PcyW7gBqOzvExmjvHX29f8eGj137H1cVJyy20KIrCJiiLGT+wEPJlrO
+         h10zkpkR85OcYoaHfot+dW/WjmlDvSFzf+PLIW3C11pnFb86MjVHKBHKqdqMvMSoY9lO
+         h/6FmPmruwVyWYWLa1AQpio6/G4DxUatZWyI3NlS8nEfjiToaP4+0m4JmEZ5BiN/Mp8H
+         2/uN3s4viMo1HCCZ6G4SXvN6utZxvk88WE5etaCIsnQBBeFMRm6Z8ezNGjEdHmoNd4AL
+         fhXg==
+X-Gm-Message-State: AFqh2kqo9BCkDDqznFcXLdzoWe+6fQhrHAGHAW+XzvBax/aQ+GnRuzGg
+        YjkcDuHeKT2RSHp8gFlCtEDdRA==
+X-Google-Smtp-Source: AMrXdXusDW0vlZsH5jekwe1G7AR/6oHp5h2LYAZo26+MoZNoSEB2oH5REu2CSXVGXdhzYaYbWSoLcg==
+X-Received: by 2002:a17:902:f292:b0:191:1543:6b2f with SMTP id k18-20020a170902f29200b0019115436b2fmr650806plc.3.1673297144970;
+        Mon, 09 Jan 2023 12:45:44 -0800 (PST)
+Received: from google.com (13.65.82.34.bc.googleusercontent.com. [34.82.65.13])
+        by smtp.gmail.com with ESMTPSA id c1-20020a170903234100b0017f48a9e2d6sm6444589plh.292.2023.01.09.12.45.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Jan 2023 12:45:44 -0800 (PST)
+Date:   Mon, 9 Jan 2023 12:45:40 -0800
+From:   William McVicker <willmcvicker@google.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@lists.linux.dev, Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>
-Subject: [PATCH 6/6] kbuild: rust_is_available: normalize version matching
-Date:   Mon,  9 Jan 2023 21:45:20 +0100
-Message-Id: <20230109204520.539080-6-ojeda@kernel.org>
-In-Reply-To: <20230109204520.539080-1-ojeda@kernel.org>
-References: <20230109204520.539080-1-ojeda@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, kernel-team@android.com
+Subject: modpost warning by default on missing Module.symvers
+Message-ID: <Y7x89C9nAVX98T4g@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-16.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,HK_RANDOM_ENVFROM,HK_RANDOM_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL,
+        USER_IN_DEF_SPF_WL autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-In order to match the version string, `sed` is used in a couple
-cases, and `grep` and `head` in a couple others.
+Hi Masahiro,
 
-Make the script more consistent and easier to understand by
-using the same method, `sed`, for all of them.
+I recently noticed that in commit 4475dff55c54 ("kbuild: fix false-positive
+modpost warning when all symbols are trimmed") [1] you modified the modpost
+behavior to always warn (by passing `-w`) when there are missing Module.symver
+files in order to allow module builds to continue building with warnings
+instead of errors. I'm curious why you decided to not continue to rely on
+KBUILD_MODPOST_WARN to enable/disable that functionality?
 
-This makes the version matching also a bit more strict for
-the changed cases, since the strings `rustc ` and `bindgen `
-will now be required, which should be fine since `rustc`
-complains if one attempts to call it with another program
-name, and `bindgen` uses a hardcoded string.
+I personally find it useful to keep these types of warnings as errors in order
+to catch missing dependencies at build time (ideally by the CI build) instead
+of at runtime when a module fails to load due to a missing symbol dependency.
 
-In addition, clarify why one of the existing `sed` commands
-does not provide an address like the others.
+Let me know your thoughts on this and I'll try to come up with a solution to
+factor in any concerns you have.
 
-Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
----
- scripts/rust_is_available.sh | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+Thanks,
+Will
 
-diff --git a/scripts/rust_is_available.sh b/scripts/rust_is_available.sh
-index a86659410e48..99811842b61f 100755
---- a/scripts/rust_is_available.sh
-+++ b/scripts/rust_is_available.sh
-@@ -66,8 +66,7 @@ fi
- # Non-stable and distributions' versions may have a version suffix, e.g. `-dev`.
- rust_compiler_version=$( \
- 	LC_ALL=C "$RUSTC" --version 2>/dev/null \
--		| head -n 1 \
--		| grep -oE '[0-9]+\.[0-9]+\.[0-9]+' \
-+		| sed -nE '1s:.*rustc ([0-9]+\.[0-9]+\.[0-9]+).*:\1:p'
- )
- rust_compiler_min_version=$($min_tool_version rustc)
- rust_compiler_cversion=$(get_canonical_version $rust_compiler_version)
-@@ -94,8 +93,7 @@ fi
- # Non-stable and distributions' versions may have a version suffix, e.g. `-dev`.
- rust_bindings_generator_version=$( \
- 	LC_ALL=C "$BINDGEN" --version 2>/dev/null \
--		| head -n 1 \
--		| grep -oE '[0-9]+\.[0-9]+\.[0-9]+' \
-+		| sed -nE '1s:.*bindgen ([0-9]+\.[0-9]+\.[0-9]+).*:\1:p'
- )
- rust_bindings_generator_min_version=$($min_tool_version bindgen)
- rust_bindings_generator_cversion=$(get_canonical_version $rust_bindings_generator_version)
-@@ -139,6 +137,9 @@ fi
- 
- # `bindgen` returned successfully, thus use the output to check that the version
- # of the `libclang` found by the Rust bindings generator is suitable.
-+#
-+# Unlike other version checks, note that this one does not necessarily appear
-+# in the first line of the output, thus no `sed` address is provided.
- bindgen_libclang_version=$( \
- 	echo "$bindgen_libclang_output" \
- 		| sed -nE 's:.*clang version ([0-9]+\.[0-9]+\.[0-9]+).*:\1:p'
--- 
-2.39.0
-
+[1] https://lore.kernel.org/all/20210325185412.2352951-3-masahiroy@kernel.org/
