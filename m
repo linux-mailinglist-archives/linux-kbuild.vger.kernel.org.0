@@ -2,57 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F15C56633B1
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Jan 2023 23:08:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F3686633BB
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Jan 2023 23:13:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235387AbjAIWIz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 9 Jan 2023 17:08:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41406 "EHLO
+        id S237358AbjAIWNn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 9 Jan 2023 17:13:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237321AbjAIWIy (ORCPT
+        with ESMTP id S237705AbjAIWNI (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 9 Jan 2023 17:08:54 -0500
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 967611C40E
-        for <linux-kbuild@vger.kernel.org>; Mon,  9 Jan 2023 14:08:53 -0800 (PST)
-Received: by mail-pf1-x434.google.com with SMTP id k19so7272858pfg.11
-        for <linux-kbuild@vger.kernel.org>; Mon, 09 Jan 2023 14:08:53 -0800 (PST)
+        Mon, 9 Jan 2023 17:13:08 -0500
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0215A11A2A
+        for <linux-kbuild@vger.kernel.org>; Mon,  9 Jan 2023 14:13:07 -0800 (PST)
+Received: by mail-pg1-x534.google.com with SMTP id 7so6904243pga.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 09 Jan 2023 14:13:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=M3/bjcjwqs32VfeutL9QJPZEaF21MdlHhnjWNUyFuEk=;
-        b=L4i61R65lF+VOm1+zwk+wWlBh/BIGTiXkXWreB02q9PPbDx0yp0CW7GthGgHj9YTrX
-         vWxkorg4qIgTjhp1+3KfardcFLd0WDovQvL+6ZTK594tzf3Up6nirE9kFUyUU+f7g1ge
-         DGhXuWL/exJH4nMFuVPmYlwCz2wRNYpyh3O6x1g35a5UI9jbbG3upgQxz7ZVdXGC2Dnt
-         jqvNsM2yBxe5m6LbMsAptcWXFvx4UALQKoYeCsogmoJDdhbnyKP67BBX1Go0Qe6wFpzu
-         gTeUF2AYgR2yJfrqiMsPBKNlU3/gGI0RzX6vCVCWDvd2Zl61+6oN9euz5fCNbwITsdtO
-         0heA==
+        bh=Xe6A//qmJ4NnWbVuXzR/SPLnXLfnt5V0+ditkKxdD0c=;
+        b=avwgqVIoXCpLRgL2rsbCwZk0+FJkhMDJvlfNCKRUfVdJskLNjDTEzit1skN/ZlDe3T
+         R4r88LCIkzuGmRlRfgYxMpZlD7ZQ8qIJT0x6uZxwzNzAIwkcBLcBXmLsLe6xmo4jbR+8
+         BddQ+9IEl/FL+GcFcDjRQnvhsj3/k2N6WpOnOJIXa+jd8/Qt4rM5go649f1Ve2iEqVxA
+         Wwvyrgxb/ZPP8v5V9xzX5o1EFc+KUs7qPXPBnIuI3HUnZ2l7+lBWtwJtQnlK14+xFYLR
+         sNCpJroLJ2+SnjtIbGfkqlwz+ePnTt2aNE1eKtJ+tBXfhOulflt9EqgIVYQEezgG5/3h
+         0lLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=M3/bjcjwqs32VfeutL9QJPZEaF21MdlHhnjWNUyFuEk=;
-        b=6stG9vcl8DOyUwj7zkTjnENBsJG/0MIexnhav5EbZGckPh8r7M3s1ja0nsiv9HQryP
-         9bEtOf1mQrK3YmVpOyPMYHl12xpaBDopMX9fZiJfJcaYHuOft6DFCrvQr4uKapduYqgp
-         Ip/S6IlQ/apiMhdXmIca/aNm0hk8mSNfpvfaKCHg4TelPjxYPzy73kmslpMTKiRjHJXh
-         f9HnfhNFjjYRA0N8CgmnvUhWAdIR2kWgWYu26AOpQBQhNybnokA4NhYHvcvGEj+N/iKJ
-         aaozQgnajCSmLN2W+5Ax5BZ13xSIquI/KQprbzd/nUWpFGth145Imaud885SeIne5pJi
-         XzMQ==
-X-Gm-Message-State: AFqh2kqACSJEj0hwKZMmOVGxtXq7Lf9rEuYVoLMSRsZvx4DeHeU4QmUh
-        eQhg5nZ9Zc6laGuaD0/7MRL188EhK126f/7KvCotkrPRvNzC/g==
-X-Google-Smtp-Source: AMrXdXt/8E/+SyPMUdape52/fOutTDwYLaY2GTy6DvMV9KeXUD40pN8sLSBZ8IdJNLQaURK+LVnkxljtzRqecW3wauQ=
-X-Received: by 2002:aa7:914e:0:b0:578:202d:a33a with SMTP id
- 14-20020aa7914e000000b00578202da33amr3359404pfi.23.1673302132638; Mon, 09 Jan
- 2023 14:08:52 -0800 (PST)
+        bh=Xe6A//qmJ4NnWbVuXzR/SPLnXLfnt5V0+ditkKxdD0c=;
+        b=6aG2nazr6O98z9CZ3e/5reHiRSH9UG+TCG88y/y+iqWu0uuo7I+xYbcpi/7geRFrEG
+         UOS0PzvdkEzO15XAxLqf0ezeJW/V58UUgkMjUadKtefc6GbEm8EeFTEUaBzvDss2NkKu
+         WZt4lJYLuzvfOfbGVuxJSeg40NjM6ZifHeBLGT4nEkq1NmLN4EdWfxazs1xeNDMjrhvg
+         ol+Ky/aXGnh0ndoi5VDOOOOm+JD2V/ptz3M/+kYnGz2XiVWqf9oFpNH5dVVQTvAaK4+X
+         6B1S7+/O1sCa+xp6MGlUzEVUq/P43l429nfDaSEKfBBaBcuD1D5gqjZJL48BdAvvPTAx
+         /57g==
+X-Gm-Message-State: AFqh2kpqcbbL1CJE0H/Hz54edmy3m3ypu98GUXmkOIYQWDNKzMiCjYZa
+        120p8tz8M1k4KDjl4dehfbK2WjHUDY63YuCppGuRTA==
+X-Google-Smtp-Source: AMrXdXtMcFa+l6kAazK251eqZGx6C7sgD9DBhmYRg4WNsq57PkL6XzXoZvYpynLFe25uQvunKx2n9ndiQ0ZxzuLH2tc=
+X-Received: by 2002:a63:c50:0:b0:494:7a78:4bb0 with SMTP id
+ 16-20020a630c50000000b004947a784bb0mr3997953pgm.427.1673302386285; Mon, 09
+ Jan 2023 14:13:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20221228-drop-qunused-arguments-v1-0-658cbc8fc592@kernel.org> <20221228-drop-qunused-arguments-v1-7-658cbc8fc592@kernel.org>
-In-Reply-To: <20221228-drop-qunused-arguments-v1-7-658cbc8fc592@kernel.org>
+References: <20221228-drop-qunused-arguments-v1-0-658cbc8fc592@kernel.org> <20221228-drop-qunused-arguments-v1-8-658cbc8fc592@kernel.org>
+In-Reply-To: <20221228-drop-qunused-arguments-v1-8-658cbc8fc592@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 9 Jan 2023 14:08:41 -0800
-Message-ID: <CAKwvOdk6wzoPWoAoShtaeCDZXEZ2b7OAE05pHZy-ry=Eu8UnAg@mail.gmail.com>
-Subject: Re: [PATCH 07/14] powerpc/vdso: Improve linker flags
+Date:   Mon, 9 Jan 2023 14:12:55 -0800
+Message-ID: <CAKwvOd=oKBcFrsw5W1kJuVb5WXx+54BTJCtRkS1YwbeJZ6vX-w@mail.gmail.com>
+Subject: Re: [PATCH 08/14] powerpc/vdso: Remove an unsupported flag from
+ vgettimeofday-32.o with clang
 To:     Nathan Chancellor <nathan@kernel.org>
 Cc:     masahiroy@kernel.org, nicolas@fjasle.eu, trix@redhat.com,
         linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
@@ -73,82 +74,47 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Wed, Jan 4, 2023 at 11:55 AM Nathan Chancellor <nathan@kernel.org> wrote:
 >
-> When clang's -Qunused-arguments is dropped from KBUILD_CPPFLAGS, there
-> are several warnings in the PowerPC vDSO:
+> When clang's -Qunused-arguments is dropped from KBUILD_CPPFLAGS, it
+> warns:
 >
->   clang-16: error: -Wl,-soname=linux-vdso32.so.1: 'linker' input unused [-Werror,-Wunused-command-line-argument]
->   clang-16: error: -Wl,--hash-style=both: 'linker' input unused [-Werror,-Wunused-command-line-argument]
->   clang-16: error: argument unused during compilation: '-shared' [-Werror,-Wunused-command-line-argument]
+>   clang-16: error: argument unused during compilation: '-fno-stack-clash-protection' [-Werror,-Wunused-command-line-argument]
 >
->   clang-16: error: argument unused during compilation: '-nostdinc' [-Werror,-Wunused-command-line-argument]
->   clang-16: error: argument unused during compilation: '-Wa,-maltivec' [-Werror,-Wunused-command-line-argument]
->
-> The first group of warnings point out that linker flags were being added
-> to all invocations of $(CC), even though they will only be used during
-> the final vDSO link. Move those flags to ldflags-y.
->
-> The second group of warnings are compiler or assembler flags that will
-> be unused during linking. Filter them out from KBUILD_CFLAGS so that
-> they are not used during linking.
+> This flag is supported for 64-bit powerpc but not 32-bit, hence the warning.
+> Just remove the flag from vgettimeofday-32.o's CFLAGS when using clang, as has
+> been done for other flags previously.
 >
 > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+
+Hmm...so this was added by the top level Makefile doing a cc-option
+test.  How did the test pass if this was unsupported? That worries me
+that perhaps other cc-option tests are passing erroneously for certain
+ppc -m32/-m64 configs?
+
 > ---
 > Cc: mpe@ellerman.id.au
 > Cc: npiggin@gmail.com
 > Cc: christophe.leroy@csgroup.eu
 > Cc: linuxppc-dev@lists.ozlabs.org
 > ---
->  arch/powerpc/kernel/vdso/Makefile | 18 +++++++++++-------
->  1 file changed, 11 insertions(+), 7 deletions(-)
+>  arch/powerpc/kernel/vdso/Makefile | 5 +++++
+>  1 file changed, 5 insertions(+)
 >
 > diff --git a/arch/powerpc/kernel/vdso/Makefile b/arch/powerpc/kernel/vdso/Makefile
-> index 45c0cc5d34b6..769b62832b38 100644
+> index 769b62832b38..4ee7d36ce752 100644
 > --- a/arch/powerpc/kernel/vdso/Makefile
 > +++ b/arch/powerpc/kernel/vdso/Makefile
-> @@ -47,13 +47,17 @@ KCOV_INSTRUMENT := n
->  UBSAN_SANITIZE := n
->  KASAN_SANITIZE := n
->
-> -ccflags-y := -shared -fno-common -fno-builtin -nostdlib -Wl,--hash-style=both
-> -ccflags-$(CONFIG_LD_IS_LLD) += $(call cc-option,--ld-path=$(LD),-fuse-ld=lld)
-> -
-> -CC32FLAGS := -Wl,-soname=linux-vdso32.so.1 -m32
-> +ccflags-y := -fno-common -fno-builtin
-> +ldflags-y := -Wl,--hash-style=both -nostdlib -shared
-> +ldflags-$(CONFIG_LD_IS_LLD) += $(call cc-option,--ld-path=$(LD),-fuse-ld=lld)
-> +# Filter flags that clang will warn are unused for linking
-> +ldflags-y += $(filter-out $(CC_FLAGS_FTRACE) -Wa$(comma)%, $(KBUILD_CFLAGS))
-> +
-> +CC32FLAGS := -m32
-> +LD32FLAGS := -Wl,-soname=linux-vdso32.so.1
->  AS32FLAGS := -D__VDSO32__
->
-> -CC64FLAGS := -Wl,-soname=linux-vdso64.so.1
-> +LD64FLAGS := -Wl,-soname=linux-vdso64.so.1
->  AS64FLAGS := -D__VDSO64__
->
->  targets += vdso32.lds
-> @@ -92,14 +96,14 @@ include/generated/vdso64-offsets.h: $(obj)/vdso64.so.dbg FORCE
->
->  # actual build commands
->  quiet_cmd_vdso32ld_and_check = VDSO32L $@
-> -      cmd_vdso32ld_and_check = $(VDSOCC) $(c_flags) $(CC32FLAGS) -o $@ -Wl,-T$(filter %.lds,$^) $(filter %.o,$^) -z noexecstack ; $(cmd_vdso_check)
-> +      cmd_vdso32ld_and_check = $(VDSOCC) $(ldflags-y) $(CC32FLAGS) $(LD32FLAGS) -o $@ -Wl,-T$(filter %.lds,$^) $(filter %.o,$^) -z noexecstack ; $(cmd_vdso_check)
->  quiet_cmd_vdso32as = VDSO32A $@
->        cmd_vdso32as = $(VDSOCC) $(a_flags) $(CC32FLAGS) $(AS32FLAGS) -c -o $@ $<
->  quiet_cmd_vdso32cc = VDSO32C $@
->        cmd_vdso32cc = $(VDSOCC) $(c_flags) $(CC32FLAGS) -c -o $@ $<
->
->  quiet_cmd_vdso64ld_and_check = VDSO64L $@
-> -      cmd_vdso64ld_and_check = $(VDSOCC) $(c_flags) $(CC64FLAGS) -o $@ -Wl,-T$(filter %.lds,$^) $(filter %.o,$^) -z noexecstack ; $(cmd_vdso_check)
-> +      cmd_vdso64ld_and_check = $(VDSOCC) $(ldflags-y) $(CC64FLAGS) $(LD64FLAGS) -o $@ -Wl,-T$(filter %.lds,$^) $(filter %.o,$^) -z noexecstack ; $(cmd_vdso_check)
-
-Let's move `-z noexecstack` up into ldflags-y? (you may add my RB with
-that modification)
-
->  quiet_cmd_vdso64as = VDSO64A $@
->        cmd_vdso64as = $(VDSOCC) $(a_flags) $(CC64FLAGS) $(AS64FLAGS) -c -o $@ $<
->
+> @@ -16,6 +16,11 @@ ifneq ($(c-gettimeofday-y),)
+>    CFLAGS_vgettimeofday-32.o += -ffreestanding -fasynchronous-unwind-tables
+>    CFLAGS_REMOVE_vgettimeofday-32.o = $(CC_FLAGS_FTRACE)
+>    CFLAGS_REMOVE_vgettimeofday-32.o += -mcmodel=medium -mabi=elfv1 -mabi=elfv2 -mcall-aixdesc
+> +  # This flag is supported by clang for 64-bit but not 32-bit so it will cause
+> +  # an unused command line flag warning for this file.
+> +  ifdef CONFIG_CC_IS_CLANG
+> +  CFLAGS_REMOVE_vgettimeofday-32.o += -fno-stack-clash-protection
+> +  endif
+>    CFLAGS_vgettimeofday-64.o += -include $(c-gettimeofday-y)
+>    CFLAGS_vgettimeofday-64.o += $(DISABLE_LATENT_ENTROPY_PLUGIN)
+>    CFLAGS_vgettimeofday-64.o += $(call cc-option, -fno-stack-protector)
 >
 > --
 > 2.39.0
