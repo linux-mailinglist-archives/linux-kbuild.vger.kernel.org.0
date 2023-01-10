@@ -2,62 +2,43 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C04D663DD6
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Jan 2023 11:17:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F36A663F8D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Jan 2023 12:54:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238101AbjAJKRY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 10 Jan 2023 05:17:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43490 "EHLO
+        id S233291AbjAJLyJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 10 Jan 2023 06:54:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232084AbjAJKQy (ORCPT
+        with ESMTP id S238025AbjAJLyF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 10 Jan 2023 05:16:54 -0500
-X-Greylist: delayed 171 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 10 Jan 2023 02:16:39 PST
-Received: from mout-b-110.mailbox.org (mout-b-110.mailbox.org [195.10.208.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC9E141D76;
-        Tue, 10 Jan 2023 02:16:39 -0800 (PST)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mout-b-110.mailbox.org (Postfix) with ESMTPS id 4Nrmtq4LVhz9t7Z;
-        Tue, 10 Jan 2023 11:16:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nyantec.com; s=default;
-        t=1673345795;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=6IUg8Et5IkHA9DdwmBM0zPxl4bj+zRYsG0exsYo0MV0=;
-        b=poeGSm+lgAhdQHYBpqCTYPAZ8w3Pb1lDmlitQO9C27MYchgg2SQJ3E9SDkQ40CbNWEs/X0
-        6W3/S+e0MyKAb90i1y9+sWmuQQ74/RjmHjFv41hneE7Zmg9GgQUznfyt9lopyESrZxJhxl
-        3R2RPETiIW87xD05Qn8+PWMvMT2CZ3kdP3f321XrHPEkD74PKH3t7v8zW7YUwuK9szOqtb
-        VoBXflXAqp1h8eunk9/zUEYOnj3I3V3OuushZ4cI/d7HjUHeWPFaOtqZQ/2ol3P/kv5d5p
-        24CHzCuW4jBdcHnWpK1xo1cOHq9Khe8m49T+tAMijQnYAsqct393gaItk/jDVA==
-From:   Finn Behrens <fin@nyantec.com>
-To:     Miguel Ojeda <ojeda@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@lists.linux.dev, Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>
-Subject: Re: [PATCH 2/6] kbuild: rust_is_available: print docs reference
-Date:   Tue, 10 Jan 2023 11:16:33 +0100
-Message-ID: <1E542F5E-220F-4061-BC71-F37C76616F34@nyantec.com>
-In-Reply-To: <20230109204520.539080-2-ojeda@kernel.org>
-References: <20230109204520.539080-1-ojeda@kernel.org>
- <20230109204520.539080-2-ojeda@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 4Nrmtq4LVhz9t7Z
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        Tue, 10 Jan 2023 06:54:05 -0500
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C78775689D
+        for <linux-kbuild@vger.kernel.org>; Tue, 10 Jan 2023 03:53:58 -0800 (PST)
+Received: from gate.crashing.org (localhost.localdomain [127.0.0.1])
+        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 30ABjQic021510;
+        Tue, 10 Jan 2023 05:45:26 -0600
+Received: (from segher@localhost)
+        by gate.crashing.org (8.14.1/8.14.1/Submit) id 30ABjNkV021509;
+        Tue, 10 Jan 2023 05:45:23 -0600
+X-Authentication-Warning: gate.crashing.org: segher set sender to segher@kernel.crashing.org using -f
+Date:   Tue, 10 Jan 2023 05:45:23 -0600
+From:   Segher Boessenkool <segher@kernel.crashing.org>
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        kernel test robot <lkp@intel.com>,
+        linux-kbuild@vger.kernel.org, trix@redhat.com,
+        masahiroy@kernel.org, llvm@lists.linux.dev, npiggin@gmail.com,
+        linuxppc-dev@lists.ozlabs.org, nicolas@fjasle.eu
+Subject: Re: [PATCH 06/14] powerpc/vdso: Remove unused '-s' flag from ASFLAGS
+Message-ID: <20230110114523.GP25951@gate.crashing.org>
+References: <20221228-drop-qunused-arguments-v1-0-658cbc8fc592@kernel.org> <20221228-drop-qunused-arguments-v1-6-658cbc8fc592@kernel.org> <CAKwvOdknEE7DyUG0s43GNGf27QeMgW2fUTXcCzKLbjH1g318vQ@mail.gmail.com> <20230109222337.GM25951@gate.crashing.org> <CAKwvOdn3En6kdGBmDF4nFYpMgR0Dx0cgaTH1pPZdEcAJTZWaPg@mail.gmail.com> <Y7y2izKLUYr7giKj@dev-arch.thelio-3990X>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y7y2izKLUYr7giKj@dev-arch.thelio-3990X>
+User-Agent: Mutt/1.4.2.3i
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,104 +46,34 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Mon, Jan 09, 2023 at 05:51:23PM -0700, Nathan Chancellor wrote:
+> So for this patch, I have
+> 
+>   When clang's -Qunused-arguments is dropped from KBUILD_CPPFLAGS, it
+>   warns:
+> 
+>     clang-16: error: argument unused during compilation: '-s' [-Werror,-Wunused-command-line-argument]
+> 
+>   The compiler's '-s' flag is a linking option (it is passed along to the
+>   linker directly), which means it does nothing when the linker is not
+>   invoked by the compiler. The kernel builds all .o files with either '-c'
+>   or '-S', which do not run the linker, so '-s' can be safely dropped from
+>   ASFLAGS.
+> 
+> as a new commit message. Is that sufficient for everyone? If so, I'll
+> adjust the s390 commit to match, as it is the same exact problem.
+
+Almost?  -S doesn't write .o files, it writes a .s file.  To go from an
+assembler file (.s, or .S if you want to run the C preprocessor on non-C
+code for some strange reason, the assembler macro facilities are vastly
+superior) to an object file is just -c as well.
+
+> Alternatively, if '-s' should actually remain around, we could move it
+> to ldflags-y, which is added in patch 7. However, I assume that nobody
+> has noticed that it has not been doing its job for a while, so it should
+> be safe to remove.
+
++1
 
 
-On 9 Jan 2023, at 21:45, Miguel Ojeda wrote:
-
-> People trying out the Rust support in the kernel may get
-> warnings and errors from `scripts/rust_is_available.sh`
-> from the `rustavailable` target or the build step.
->
-> Some of those users may be following the Quick Start guide,
-> but others may not (likely those getting warnings from
-> the build step instead of the target).
->
-> While the messages are fairly clear on what the problem is,
-> it may not be clear how to solve the particular issue,
-> especially for those not aware of the documentation.
->
-> We could add all sorts of details on the script for each one,
-> but it is better to point users to the documentation instead,
-> where it is easily readable in different formats. It also
-> avoids duplication.
->
-> Thus add a reference to the documentation whenever the script
-> fails or there is at least a warning.
-As I always use my systems rustc/bindgen, I always get the warning, which=
- already clutters the build output a bit. But I see why it is helpful, so=
- not a fan, but this patch is reasonable.
->
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
-Reviewed-by: Finn Behrens <fin@nyantec.com>
-
-Regards,
-Finn
-> ---
-> Note that is based on top of patch "kbuild: rust: remove -v
-> option of scripts/rust_is_available.sh" applied on v6.2-rc3:
-> https://lore.kernel.org/rust-for-linux/20230109061436.3146442-1-masahir=
-oy@kernel.org/
->
->  scripts/rust_is_available.sh | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
->
-> diff --git a/scripts/rust_is_available.sh b/scripts/rust_is_available.s=
-h
-> index eaeafebf8572..c907cf881c2c 100755
-> --- a/scripts/rust_is_available.sh
-> +++ b/scripts/rust_is_available.sh
-> @@ -21,6 +21,20 @@ get_canonical_version()
->  	echo $((100000 * $1 + 100 * $2 + $3))
->  }
->
-> +# Print a reference to the setup guide in the documentation.
-> +print_docs_reference()
-> +{
-> +	echo >&2 "***"
-> +	echo >&2 "*** Please see Documentation/rust/quick-start.rst for detai=
-ls"
-> +	echo >&2 "*** on how to setup Rust support."
-> +	echo >&2 "***"
-> +}
-> +
-> +# If the script fails for any reason, or if there was any warning, the=
-n
-> +# print a reference to the documentation on exit.
-> +warning=3D0
-> +trap 'if [ $? -ne 0 ] || [ $warning -ne 0 ]; then print_docs_reference=
-; fi' EXIT
-> +
->  # Check that the Rust compiler exists.
->  if ! command -v "$RUSTC" >/dev/null; then
->  	echo >&2 "***"
-> @@ -62,6 +76,7 @@ if [ "$rust_compiler_cversion" -gt "$rust_compiler_mi=
-n_cversion" ]; then
->  	echo >&2 "***   Your version:     $rust_compiler_version"
->  	echo >&2 "***   Expected version: $rust_compiler_min_version"
->  	echo >&2 "***"
-> +	warning=3D1
->  fi
->
->  # Check that the Rust bindings generator is suitable.
-> @@ -89,6 +104,7 @@ if [ "$rust_bindings_generator_cversion" -gt "$rust_=
-bindings_generator_min_cvers
->  	echo >&2 "***   Your version:     $rust_bindings_generator_version"
->  	echo >&2 "***   Expected version: $rust_bindings_generator_min_versio=
-n"
->  	echo >&2 "***"
-> +	warning=3D1
->  fi
->
->  # Check that the `libclang` used by the Rust bindings generator is sui=
-table.
-> @@ -128,6 +144,7 @@ if [ "$cc_name" =3D Clang ]; then
->  		echo >&2 "***   libclang version: $bindgen_libclang_version"
->  		echo >&2 "***   Clang version:    $clang_version"
->  		echo >&2 "***"
-> +		warning=3D1
->  	fi
->  fi
->
-> -- =
-
-> 2.39.0
+Segher
