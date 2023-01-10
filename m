@@ -2,75 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A99B663531
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Jan 2023 00:27:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3744D66362E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Jan 2023 01:22:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237627AbjAIX1O (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 9 Jan 2023 18:27:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54972 "EHLO
+        id S236528AbjAJAWv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 9 Jan 2023 19:22:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235189AbjAIX1N (ORCPT
+        with ESMTP id S235172AbjAJAWu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 9 Jan 2023 18:27:13 -0500
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED65CB49B;
-        Mon,  9 Jan 2023 15:27:11 -0800 (PST)
-Received: by mail-yb1-xb35.google.com with SMTP id 16so10178962ybc.0;
-        Mon, 09 Jan 2023 15:27:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=UY+1Fpt0FK7lLfeSUW68NLIUA8SVjtGE9huFocWEeKs=;
-        b=RsPeIV8aR7aKfgIzo27xLUiVGHbaKd/HgO/xGdeCY4Z0KxryxI15LpnavV/6d0HkhV
-         1cKBycFNaX2/yd8D6T4WqDnRfD8maa7cOcBxaCQcuuADA9aHi2YzyJELnsqub6TGp2wf
-         TLdcpBx0OUvtWE1eg4dBoCmAq8geiYAFNLdlFnMZtTMP507iy8hRLh/oc1b1DZYFY7zG
-         3PMnSMKODrz2VQ7e08Hddf+pM4njPz0TzM62IeX22sczwbtilNPm9m5402co2okNV6pO
-         ncrcgvDkMhibTOzPPDsCz34FFZr1bUXGhPG99LWJ98CDztQ+QSI3cir8Erx0QRl60ZRi
-         qWsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UY+1Fpt0FK7lLfeSUW68NLIUA8SVjtGE9huFocWEeKs=;
-        b=xWF7Q4mHNrcmsnNu1Gk/8sf2ROuHHjvI2KqgIZoITo7xNLKJcCyVJt4fM46VpjbaUu
-         GcfotEP26TFIZlmlkaRVQFqRXVf0oMUnqwFV/ZJvVwkgJ4ZIKznhfls78/zhoXUoqwqA
-         JReJ/vA5Wqysf7O+RRccZhYwBtR1yL/wgMqAp2jFHUSj0RQ1NweE3HmrFrlGN0yCvGC9
-         itbryDTHQVGh39IpSy/p10evGjmBLJgWw6E4uoAV/8lKAsk/DeZ08qreHOyjm4312dkL
-         z2yelZlDCvmR7LD+8nL/dBqQ0ZVqVf7Ii/G5kfKGIdHw6rYALiGgWJZNZ4yFF5sk6GEk
-         Xzyw==
-X-Gm-Message-State: AFqh2kr19cp8Go69JdILSNrjGBcTFmNQlolAYupU6YC0UP5w+PVDMbaV
-        ifKvKNhsT8XJgKCgQp2kHdPg8ArGjQoOYyQ+V2dyShXUVMRsXlkxITV6cw==
-X-Google-Smtp-Source: AMrXdXvrlbd5h1RWMBpkgFbj03OSP8b8iebn8qrpIDcVK3qInC9NLlZPapSxLJBCkgA0jhZXCtuRUWOP8uBZd2h4Q1M=
-X-Received: by 2002:a25:7702:0:b0:7b4:bdd7:e631 with SMTP id
- s2-20020a257702000000b007b4bdd7e631mr2014500ybc.507.1673306831157; Mon, 09
- Jan 2023 15:27:11 -0800 (PST)
-MIME-Version: 1.0
-References: <20230109204520.539080-1-ojeda@kernel.org> <20230109204520.539080-3-ojeda@kernel.org>
- <Y7yZTBIF58+1Fj5m@boqun-archlinux>
-In-Reply-To: <Y7yZTBIF58+1Fj5m@boqun-archlinux>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 10 Jan 2023 00:27:00 +0100
-Message-ID: <CANiq72=bqp_tPL9qq6OYBv1uyByL65_e4Bp4r8pfdBFf-2gBwA@mail.gmail.com>
-Subject: Re: [PATCH 3/6] kbuild: rust_is_available: add check for `bindgen` invocation
-To:     Boqun Feng <boqun.feng@gmail.com>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org,
+        Mon, 9 Jan 2023 19:22:50 -0500
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66728392D8
+        for <linux-kbuild@vger.kernel.org>; Mon,  9 Jan 2023 16:22:47 -0800 (PST)
+Received: from frontend03.mail.m-online.net (unknown [192.168.6.182])
+        by mail-out.m-online.net (Postfix) with ESMTP id 4NrWjY4SgXz1qybm;
+        Tue, 10 Jan 2023 01:22:40 +0100 (CET)
+Received: from localhost (dynscan3.mnet-online.de [192.168.6.84])
+        by mail.m-online.net (Postfix) with ESMTP id 4NrWjX0vSpz1qqlR;
+        Tue, 10 Jan 2023 01:22:40 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+        by localhost (dynscan3.mail.m-online.net [192.168.6.84]) (amavisd-new, port 10024)
+        with ESMTP id DiUuhnXlaHJ9; Tue, 10 Jan 2023 01:22:38 +0100 (CET)
+X-Auth-Info: L9w5ayo6JQGgDusGnhVePL9x9OVfSDH16AZsAok4PJK/NjVMEjPpDaJpsfV403G4
+Received: from igel.home (aftr-62-216-205-85.dynamic.mnet-online.de [62.216.205.85])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.mnet-online.de (Postfix) with ESMTPSA;
+        Tue, 10 Jan 2023 01:22:38 +0100 (CET)
+Received: by igel.home (Postfix, from userid 1000)
+        id 71E832C132D; Tue, 10 Jan 2023 01:22:38 +0100 (CET)
+From:   Andreas Schwab <schwab@linux-m68k.org>
+To:     Segher Boessenkool <segher@kernel.crashing.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        kernel test robot <lkp@intel.com>,
+        linux-kbuild@vger.kernel.org, trix@redhat.com,
+        masahiroy@kernel.org, llvm@lists.linux.dev, npiggin@gmail.com,
         Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@lists.linux.dev, Alexandru Radovici <msg4alex@gmail.com>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        linuxppc-dev@lists.ozlabs.org, nicolas@fjasle.eu
+Subject: Re: [PATCH 06/14] powerpc/vdso: Remove unused '-s' flag from ASFLAGS
+References: <20221228-drop-qunused-arguments-v1-0-658cbc8fc592@kernel.org>
+        <20221228-drop-qunused-arguments-v1-6-658cbc8fc592@kernel.org>
+        <CAKwvOdknEE7DyUG0s43GNGf27QeMgW2fUTXcCzKLbjH1g318vQ@mail.gmail.com>
+        <20230109222337.GM25951__25255.3859770828$1673303520$gmane$org@gate.crashing.org>
+X-Yow:  Is this going to involve RAW human ecstasy?
+Date:   Tue, 10 Jan 2023 01:22:38 +0100
+In-Reply-To: <20230109222337.GM25951__25255.3859770828$1673303520$gmane$org@gate.crashing.org>
+        (Segher Boessenkool's message of "Mon, 9 Jan 2023 16:23:37 -0600")
+Message-ID: <87cz7n2q7l.fsf@igel.home>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,39 +65,20 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jan 9, 2023 at 11:47 PM Boqun Feng <boqun.feng@gmail.com> wrote:
+On Jan 09 2023, Segher Boessenkool wrote:
+
+> It is required by POSIX (for the c99 command, anyway).  It *also* is
+> required to be supported when producing object files (so when no linking
+> is done).
 >
-> Per Documentation/process/maintainer-tip.rst, the "Reported-by" tag does
-> require "Name <mailaddress>" format. Given we already have the GitHub
-> issue link, I wonder whether it's better we ask for the reporter's
-> email address (and real name) for the "Reported-by" field, and if they
-> prefer to not providing one, we just don't use the "Reported-by" tag
-> since we still have the GitHub issue link for their contribution.
->
-> Thoughts?
+> It is a GCC flag, and documented just fine:
+> https://gcc.gnu.org/onlinedocs/gcc/Link-Options.html#index-s
 
-As far as I understand, that is for the tip tree (though
-`checkpatch.pl` complained too), and I am not sure in that guide they
-intend it to mean it is the only form accepted.
+Most assembler flags are unrelated to the flags passed to the compiler
+driver, and -s is no exception.  POSIX has nothing to say about the
+sub-commands of the compiler anyway.
 
-In this case, I ended up deciding to add it since it was not a
-Signed-off-by/Reviewed-by/Acked-by (so not as critical, i.e. no
-DCO/RSO/...) and there are quite a few other instances, including
-different CIs and tools, raw emails, security teams, etc.
-
-So it doesn't look like it is required to be a "real name" like some
-of the other tags, and sometimes we may need to do otherwise anyway
-(for those cases), and I guess we don't want to discourage reports too
-much. Perhaps we can, at least, ask for an email address -- that is
-way more common in the log, and gives us a potential way to contact
-people and send the patches to.
-
-In any case, I agree we should prefer the "real name" way as much as
-possible. I had sent a message to each GitHub issue/PR linking back to
-the patches, but I will send another to offer them to use their real
-name if they prefer.
-
-Thanks for taking a look! :)
-
-Cheers,
-Miguel
+-- 
+Andreas Schwab, schwab@linux-m68k.org
+GPG Key fingerprint = 7578 EB47 D4E5 4D69 2510  2552 DF73 E780 A9DA AEC1
+"And now for something completely different."
