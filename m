@@ -2,40 +2,29 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3744D66362E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Jan 2023 01:22:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EBB7663674
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Jan 2023 01:52:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236528AbjAJAWv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 9 Jan 2023 19:22:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57640 "EHLO
+        id S234571AbjAJAwl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 9 Jan 2023 19:52:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235172AbjAJAWu (ORCPT
+        with ESMTP id S230312AbjAJAwk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 9 Jan 2023 19:22:50 -0500
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66728392D8
-        for <linux-kbuild@vger.kernel.org>; Mon,  9 Jan 2023 16:22:47 -0800 (PST)
-Received: from frontend03.mail.m-online.net (unknown [192.168.6.182])
-        by mail-out.m-online.net (Postfix) with ESMTP id 4NrWjY4SgXz1qybm;
-        Tue, 10 Jan 2023 01:22:40 +0100 (CET)
-Received: from localhost (dynscan3.mnet-online.de [192.168.6.84])
-        by mail.m-online.net (Postfix) with ESMTP id 4NrWjX0vSpz1qqlR;
-        Tue, 10 Jan 2023 01:22:40 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-        by localhost (dynscan3.mail.m-online.net [192.168.6.84]) (amavisd-new, port 10024)
-        with ESMTP id DiUuhnXlaHJ9; Tue, 10 Jan 2023 01:22:38 +0100 (CET)
-X-Auth-Info: L9w5ayo6JQGgDusGnhVePL9x9OVfSDH16AZsAok4PJK/NjVMEjPpDaJpsfV403G4
-Received: from igel.home (aftr-62-216-205-85.dynamic.mnet-online.de [62.216.205.85])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.mnet-online.de (Postfix) with ESMTPSA;
-        Tue, 10 Jan 2023 01:22:38 +0100 (CET)
-Received: by igel.home (Postfix, from userid 1000)
-        id 71E832C132D; Tue, 10 Jan 2023 01:22:38 +0100 (CET)
-From:   Andreas Schwab <schwab@linux-m68k.org>
-To:     Segher Boessenkool <segher@kernel.crashing.org>
+        Mon, 9 Jan 2023 19:52:40 -0500
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 475B813F57
+        for <linux-kbuild@vger.kernel.org>; Mon,  9 Jan 2023 16:52:39 -0800 (PST)
+Received: from gate.crashing.org (localhost.localdomain [127.0.0.1])
+        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 30A0i2SS030174;
+        Mon, 9 Jan 2023 18:44:02 -0600
+Received: (from segher@localhost)
+        by gate.crashing.org (8.14.1/8.14.1/Submit) id 30A0hxZX030173;
+        Mon, 9 Jan 2023 18:43:59 -0600
+X-Authentication-Warning: gate.crashing.org: segher set sender to segher@kernel.crashing.org using -f
+Date:   Mon, 9 Jan 2023 18:43:59 -0600
+From:   Segher Boessenkool <segher@kernel.crashing.org>
+To:     Andreas Schwab <schwab@linux-m68k.org>
 Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         kernel test robot <lkp@intel.com>,
         linux-kbuild@vger.kernel.org, trix@redhat.com,
@@ -43,42 +32,52 @@ Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         Nathan Chancellor <nathan@kernel.org>,
         linuxppc-dev@lists.ozlabs.org, nicolas@fjasle.eu
 Subject: Re: [PATCH 06/14] powerpc/vdso: Remove unused '-s' flag from ASFLAGS
-References: <20221228-drop-qunused-arguments-v1-0-658cbc8fc592@kernel.org>
-        <20221228-drop-qunused-arguments-v1-6-658cbc8fc592@kernel.org>
-        <CAKwvOdknEE7DyUG0s43GNGf27QeMgW2fUTXcCzKLbjH1g318vQ@mail.gmail.com>
-        <20230109222337.GM25951__25255.3859770828$1673303520$gmane$org@gate.crashing.org>
-X-Yow:  Is this going to involve RAW human ecstasy?
-Date:   Tue, 10 Jan 2023 01:22:38 +0100
-In-Reply-To: <20230109222337.GM25951__25255.3859770828$1673303520$gmane$org@gate.crashing.org>
-        (Segher Boessenkool's message of "Mon, 9 Jan 2023 16:23:37 -0600")
-Message-ID: <87cz7n2q7l.fsf@igel.home>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Message-ID: <20230110004359.GO25951@gate.crashing.org>
+References: <20221228-drop-qunused-arguments-v1-0-658cbc8fc592@kernel.org> <20221228-drop-qunused-arguments-v1-6-658cbc8fc592@kernel.org> <CAKwvOdknEE7DyUG0s43GNGf27QeMgW2fUTXcCzKLbjH1g318vQ@mail.gmail.com> <20230109222337.GM25951__25255.3859770828$1673303520$gmane$org@gate.crashing.org> <87cz7n2q7l.fsf@igel.home>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87cz7n2q7l.fsf@igel.home>
+User-Agent: Mutt/1.4.2.3i
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Jan 09 2023, Segher Boessenkool wrote:
+On Tue, Jan 10, 2023 at 01:22:38AM +0100, Andreas Schwab wrote:
+> On Jan 09 2023, Segher Boessenkool wrote:
+> 
+> > It is required by POSIX (for the c99 command, anyway).  It *also* is
+> > required to be supported when producing object files (so when no linking
+> > is done).
+> >
+> > It is a GCC flag, and documented just fine:
+> > https://gcc.gnu.org/onlinedocs/gcc/Link-Options.html#index-s
+> 
+> Most assembler flags are unrelated to the flags passed to the compiler
+> driver, and -s is no exception.  POSIX has nothing to say about the
+> sub-commands of the compiler anyway.
 
-> It is required by POSIX (for the c99 command, anyway).  It *also* is
-> required to be supported when producing object files (so when no linking
-> is done).
->
-> It is a GCC flag, and documented just fine:
-> https://gcc.gnu.org/onlinedocs/gcc/Link-Options.html#index-s
+But this is not an assembler flag!
 
-Most assembler flags are unrelated to the flags passed to the compiler
-driver, and -s is no exception.  POSIX has nothing to say about the
-sub-commands of the compiler anyway.
+quiet_cmd_vdso32as = VDSO32A $@
+      cmd_vdso32as = $(VDSOCC) $(a_flags) $(CC32FLAGS) $(AS32FLAGS) -c -o $@ $<
 
--- 
-Andreas Schwab, schwab@linux-m68k.org
-GPG Key fingerprint = 7578 EB47 D4E5 4D69 2510  2552 DF73 E780 A9DA AEC1
-"And now for something completely different."
+where
+
+ifdef CROSS32_COMPILE
+    VDSOCC := $(CROSS32_COMPILE)gcc
+else
+    VDSOCC := $(CC)
+endif
+
+
+The name of the make variable AS32FLAGS is a bit misleading.  This
+variable does not hold arguments to as, it holds arguments to the
+compiler driver, "gcc".
+
+
+Segher
