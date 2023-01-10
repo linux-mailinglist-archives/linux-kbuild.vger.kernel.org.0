@@ -2,74 +2,43 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD114664076
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Jan 2023 13:29:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 168B1664630
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Jan 2023 17:35:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237869AbjAJM2r (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 10 Jan 2023 07:28:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43242 "EHLO
+        id S234542AbjAJQe6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 10 Jan 2023 11:34:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238402AbjAJM2i (ORCPT
+        with ESMTP id S239115AbjAJQeK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 10 Jan 2023 07:28:38 -0500
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B1C45F98;
-        Tue, 10 Jan 2023 04:28:37 -0800 (PST)
-Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-4bf16baa865so151042657b3.13;
-        Tue, 10 Jan 2023 04:28:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2vRpvlz/nTbkuUWpiT0ilG/Sg8qqMAAl8bfBXBzFCxg=;
-        b=iZLPUyiqSibhLkBnGrBg3hGw/AMODHqYyvgvfr2R0O/W7SxuuDn6gFWytT2k++2EAy
-         HczFFtSB/qhgr2f28uXRl0+zWfU/7MyOBwKXvKOfQ2+5YLVIGPKOYHchXMbzGL8eGxYO
-         99ff0hquQQ0oC98c+Dt/gHwxYsviqX5NbsfKsNa0QySsneUCNurnCeEqGczdy0lnkKRY
-         hIuExqvBgRRtwS6luRBMKaVVm3E7ta64yQY+oxG/EzVm0RmPurL+LXtxBx/Cx9URVulo
-         i6EaKBELkj+AHHg1ejZyDFOvdWAK9HsIT6fLlgt8ytGSty0HtfM25Wq5SQb+7svTpzLQ
-         MaEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2vRpvlz/nTbkuUWpiT0ilG/Sg8qqMAAl8bfBXBzFCxg=;
-        b=u0tgp45ziOg0XdgjquieWhinUKdb+0Eyw/uE6k0xzzMQcOoCoMbN6jlRWp6AUkqUQl
-         cwZ8kpqQsnWTL6pt1j1Dq+bWIgNUEnsh/+eOmr6O9BpzDp2dmQJ1MOmyHAXQmCuoyvc5
-         6eyCniwjbEz+lzYTZZJCy6Bn19WCxla59jYEpWNIpCblhpa4/rIV9hOp3/jDffWvnwsl
-         +emiCxsYTh3QaiTl1kGCwA6tCiBcX1/EZii5lnrulEbfYufJnlFyW/SFueVkubo3GPII
-         xbbGTnkKc1r5/MI/xyaJmj/j59MamkvpDnSajluIBaQRdDD7Ys5dlVqqSkNes4tz56c8
-         3pow==
-X-Gm-Message-State: AFqh2kpWI1nUjA0mis8OZpezSXS0GnU2J2awnvw6lBVQZzheZfZmW9QH
-        Z74zDL/v1b5keSceEpLXa4YuG5HjqiclqgybLIU=
-X-Google-Smtp-Source: AMrXdXvBz8/Dl4bwHgsKcFKZ43+bE2HeLAUWlYQrqbBvPXwRkdFlRzK/6PXnpStRCc6iPNFNVUp06TSwBjekEL1JMWE=
-X-Received: by 2002:a81:b60b:0:b0:45c:d900:f30c with SMTP id
- u11-20020a81b60b000000b0045cd900f30cmr1581382ywh.256.1673353716487; Tue, 10
- Jan 2023 04:28:36 -0800 (PST)
+        Tue, 10 Jan 2023 11:34:10 -0500
+Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 02C8A8BF1F;
+        Tue, 10 Jan 2023 08:33:43 -0800 (PST)
+Received: from uucp (helo=alpha)
+        by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
+        id 1pFHZE-0000fQ-00; Tue, 10 Jan 2023 17:33:40 +0100
+Received: by alpha.franken.de (Postfix, from userid 1000)
+        id 771C3C25E7; Tue, 10 Jan 2023 09:30:21 +0100 (CET)
+Date:   Tue, 10 Jan 2023 09:30:21 +0100
+From:   Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     masahiroy@kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu,
+        trix@redhat.com, linux-kbuild@vger.kernel.org,
+        llvm@lists.linux.dev, kernel test robot <lkp@intel.com>,
+        linux-mips@vger.kernel.org
+Subject: Re: [PATCH 02/14] MIPS: Always use -Wa,-msoft-float and eliminate
+ GAS_HAS_SET_HARDFLOAT
+Message-ID: <20230110083021.GA5608@alpha.franken.de>
+References: <20221228-drop-qunused-arguments-v1-0-658cbc8fc592@kernel.org>
+ <20221228-drop-qunused-arguments-v1-2-658cbc8fc592@kernel.org>
 MIME-Version: 1.0
-References: <20230109204520.539080-1-ojeda@kernel.org> <20230109204520.539080-2-ojeda@kernel.org>
- <1E542F5E-220F-4061-BC71-F37C76616F34@nyantec.com>
-In-Reply-To: <1E542F5E-220F-4061-BC71-F37C76616F34@nyantec.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 10 Jan 2023 13:28:25 +0100
-Message-ID: <CANiq72mYHzHVk9s6Tf+vbG5ToChzCTBh0vX67s87P5sxbD-PVQ@mail.gmail.com>
-Subject: Re: [PATCH 2/6] kbuild: rust_is_available: print docs reference
-To:     Finn Behrens <fin@nyantec.com>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@lists.linux.dev, Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221228-drop-qunused-arguments-v1-2-658cbc8fc592@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DATE_IN_PAST_06_12,
+        RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,26 +46,42 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jan 10, 2023 at 11:16 AM Finn Behrens <fin@nyantec.com> wrote:
->
-> As I always use my systems rustc/bindgen, I always get the warning, which already clutters the build output a bit. But I see why it is helpful, so not a fan, but this patch is reasonable.
+On Wed, Jan 04, 2023 at 12:54:19PM -0700, Nathan Chancellor wrote:
+> -Wa,-msoft-float is tested with as-option, which will be a problem for
+> clang with an upcoming change to move as-option to use KBUILD_AFLAGS
+> instead of KBUILD_CFLAGS due to a lack of '-mno-abicalls' in
+> KBUILD_AFLAGS at the point that this check occurs; $(cflags-y) is added
+> to KBUILD_AFLAGS towards the end of this file.
+> 
+>   clang: error: ignoring '-fno-PIE' option as it cannot be used with implicit usage of -mabicalls and the N64 ABI [-Werror,-Woption-ignored]
+> 
+> This could be resolved by switching to a cc-option check but
+> '$(cflags-y)' would need to be added so that '-mno-abicalls' is present
+> for the test. However, this check is no longer necessary, as
+> -msoft-float is supported by all supported assembler versions (GNU as
+> 2.25+ and LLVM 11+). Eliminate GAS_HAS_SET_HARDFLOAT and all of its
+> uses, inlining SET_HARDFLOAT where necessary.
+> 
+> Link: https://lore.kernel.org/202209101939.bvk64Fok-lkp@intel.com/
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+> Cc: tsbogend@alpha.franken.de
+> Cc: linux-mips@vger.kernel.org
+> ---
+>  arch/mips/Makefile                  | 11 +---------
+>  arch/mips/include/asm/asmmacro-32.h |  4 ++--
+>  arch/mips/include/asm/asmmacro.h    | 42 ++++++++++++++++++-------------------
+>  arch/mips/include/asm/fpregdef.h    | 14 -------------
+>  arch/mips/include/asm/mipsregs.h    | 20 ++++--------------
+>  arch/mips/kernel/genex.S            |  2 +-
+>  arch/mips/kernel/r2300_fpu.S        |  4 ++--
+>  arch/mips/kernel/r4k_fpu.S          | 12 +++++------
+>  arch/mips/kvm/fpu.S                 |  6 +++---
+>  9 files changed, 40 insertions(+), 75 deletions(-)
 
-Indeed, if one uses a different version, it may end up becoming too
-annoying when running it during build -- it is something I worried
-about when adding it back then in commit 11c0cf1e8c06 ("rust: run
-rust-is-available on build") in our repository.
+Acked-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
 
-I think, for a while, until more people is accustomed to dealing with
-Rust, it may be worth the pain for some of us in order to help to
-catch bad setups, since otherwise users may not attempt to check with
-the `rustavailable` target themselves.
-
-In any case, of course, the "too new" warnings will go away when we
-reach a stable version situation since they will not be needed anymore
-(but we can also do it sooner than that, for the build step
-especially).
-
-Thanks for the review!
-
-Cheers,
-Miguel
+-- 
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
