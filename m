@@ -2,78 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F36A663F8D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Jan 2023 12:54:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD114664076
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Jan 2023 13:29:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233291AbjAJLyJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 10 Jan 2023 06:54:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45522 "EHLO
+        id S237869AbjAJM2r (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 10 Jan 2023 07:28:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238025AbjAJLyF (ORCPT
+        with ESMTP id S238402AbjAJM2i (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 10 Jan 2023 06:54:05 -0500
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C78775689D
-        for <linux-kbuild@vger.kernel.org>; Tue, 10 Jan 2023 03:53:58 -0800 (PST)
-Received: from gate.crashing.org (localhost.localdomain [127.0.0.1])
-        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 30ABjQic021510;
-        Tue, 10 Jan 2023 05:45:26 -0600
-Received: (from segher@localhost)
-        by gate.crashing.org (8.14.1/8.14.1/Submit) id 30ABjNkV021509;
-        Tue, 10 Jan 2023 05:45:23 -0600
-X-Authentication-Warning: gate.crashing.org: segher set sender to segher@kernel.crashing.org using -f
-Date:   Tue, 10 Jan 2023 05:45:23 -0600
-From:   Segher Boessenkool <segher@kernel.crashing.org>
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        kernel test robot <lkp@intel.com>,
-        linux-kbuild@vger.kernel.org, trix@redhat.com,
-        masahiroy@kernel.org, llvm@lists.linux.dev, npiggin@gmail.com,
-        linuxppc-dev@lists.ozlabs.org, nicolas@fjasle.eu
-Subject: Re: [PATCH 06/14] powerpc/vdso: Remove unused '-s' flag from ASFLAGS
-Message-ID: <20230110114523.GP25951@gate.crashing.org>
-References: <20221228-drop-qunused-arguments-v1-0-658cbc8fc592@kernel.org> <20221228-drop-qunused-arguments-v1-6-658cbc8fc592@kernel.org> <CAKwvOdknEE7DyUG0s43GNGf27QeMgW2fUTXcCzKLbjH1g318vQ@mail.gmail.com> <20230109222337.GM25951@gate.crashing.org> <CAKwvOdn3En6kdGBmDF4nFYpMgR0Dx0cgaTH1pPZdEcAJTZWaPg@mail.gmail.com> <Y7y2izKLUYr7giKj@dev-arch.thelio-3990X>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y7y2izKLUYr7giKj@dev-arch.thelio-3990X>
-User-Agent: Mutt/1.4.2.3i
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 10 Jan 2023 07:28:38 -0500
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B1C45F98;
+        Tue, 10 Jan 2023 04:28:37 -0800 (PST)
+Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-4bf16baa865so151042657b3.13;
+        Tue, 10 Jan 2023 04:28:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=2vRpvlz/nTbkuUWpiT0ilG/Sg8qqMAAl8bfBXBzFCxg=;
+        b=iZLPUyiqSibhLkBnGrBg3hGw/AMODHqYyvgvfr2R0O/W7SxuuDn6gFWytT2k++2EAy
+         HczFFtSB/qhgr2f28uXRl0+zWfU/7MyOBwKXvKOfQ2+5YLVIGPKOYHchXMbzGL8eGxYO
+         99ff0hquQQ0oC98c+Dt/gHwxYsviqX5NbsfKsNa0QySsneUCNurnCeEqGczdy0lnkKRY
+         hIuExqvBgRRtwS6luRBMKaVVm3E7ta64yQY+oxG/EzVm0RmPurL+LXtxBx/Cx9URVulo
+         i6EaKBELkj+AHHg1ejZyDFOvdWAK9HsIT6fLlgt8ytGSty0HtfM25Wq5SQb+7svTpzLQ
+         MaEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2vRpvlz/nTbkuUWpiT0ilG/Sg8qqMAAl8bfBXBzFCxg=;
+        b=u0tgp45ziOg0XdgjquieWhinUKdb+0Eyw/uE6k0xzzMQcOoCoMbN6jlRWp6AUkqUQl
+         cwZ8kpqQsnWTL6pt1j1Dq+bWIgNUEnsh/+eOmr6O9BpzDp2dmQJ1MOmyHAXQmCuoyvc5
+         6eyCniwjbEz+lzYTZZJCy6Bn19WCxla59jYEpWNIpCblhpa4/rIV9hOp3/jDffWvnwsl
+         +emiCxsYTh3QaiTl1kGCwA6tCiBcX1/EZii5lnrulEbfYufJnlFyW/SFueVkubo3GPII
+         xbbGTnkKc1r5/MI/xyaJmj/j59MamkvpDnSajluIBaQRdDD7Ys5dlVqqSkNes4tz56c8
+         3pow==
+X-Gm-Message-State: AFqh2kpWI1nUjA0mis8OZpezSXS0GnU2J2awnvw6lBVQZzheZfZmW9QH
+        Z74zDL/v1b5keSceEpLXa4YuG5HjqiclqgybLIU=
+X-Google-Smtp-Source: AMrXdXvBz8/Dl4bwHgsKcFKZ43+bE2HeLAUWlYQrqbBvPXwRkdFlRzK/6PXnpStRCc6iPNFNVUp06TSwBjekEL1JMWE=
+X-Received: by 2002:a81:b60b:0:b0:45c:d900:f30c with SMTP id
+ u11-20020a81b60b000000b0045cd900f30cmr1581382ywh.256.1673353716487; Tue, 10
+ Jan 2023 04:28:36 -0800 (PST)
+MIME-Version: 1.0
+References: <20230109204520.539080-1-ojeda@kernel.org> <20230109204520.539080-2-ojeda@kernel.org>
+ <1E542F5E-220F-4061-BC71-F37C76616F34@nyantec.com>
+In-Reply-To: <1E542F5E-220F-4061-BC71-F37C76616F34@nyantec.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Tue, 10 Jan 2023 13:28:25 +0100
+Message-ID: <CANiq72mYHzHVk9s6Tf+vbG5ToChzCTBh0vX67s87P5sxbD-PVQ@mail.gmail.com>
+Subject: Re: [PATCH 2/6] kbuild: rust_is_available: print docs reference
+To:     Finn Behrens <fin@nyantec.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@lists.linux.dev, Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jan 09, 2023 at 05:51:23PM -0700, Nathan Chancellor wrote:
-> So for this patch, I have
-> 
->   When clang's -Qunused-arguments is dropped from KBUILD_CPPFLAGS, it
->   warns:
-> 
->     clang-16: error: argument unused during compilation: '-s' [-Werror,-Wunused-command-line-argument]
-> 
->   The compiler's '-s' flag is a linking option (it is passed along to the
->   linker directly), which means it does nothing when the linker is not
->   invoked by the compiler. The kernel builds all .o files with either '-c'
->   or '-S', which do not run the linker, so '-s' can be safely dropped from
->   ASFLAGS.
-> 
-> as a new commit message. Is that sufficient for everyone? If so, I'll
-> adjust the s390 commit to match, as it is the same exact problem.
+On Tue, Jan 10, 2023 at 11:16 AM Finn Behrens <fin@nyantec.com> wrote:
+>
+> As I always use my systems rustc/bindgen, I always get the warning, which already clutters the build output a bit. But I see why it is helpful, so not a fan, but this patch is reasonable.
 
-Almost?  -S doesn't write .o files, it writes a .s file.  To go from an
-assembler file (.s, or .S if you want to run the C preprocessor on non-C
-code for some strange reason, the assembler macro facilities are vastly
-superior) to an object file is just -c as well.
+Indeed, if one uses a different version, it may end up becoming too
+annoying when running it during build -- it is something I worried
+about when adding it back then in commit 11c0cf1e8c06 ("rust: run
+rust-is-available on build") in our repository.
 
-> Alternatively, if '-s' should actually remain around, we could move it
-> to ldflags-y, which is added in patch 7. However, I assume that nobody
-> has noticed that it has not been doing its job for a while, so it should
-> be safe to remove.
+I think, for a while, until more people is accustomed to dealing with
+Rust, it may be worth the pain for some of us in order to help to
+catch bad setups, since otherwise users may not attempt to check with
+the `rustavailable` target themselves.
 
-+1
+In any case, of course, the "too new" warnings will go away when we
+reach a stable version situation since they will not be needed anymore
+(but we can also do it sooner than that, for the build step
+especially).
 
+Thanks for the review!
 
-Segher
+Cheers,
+Miguel
