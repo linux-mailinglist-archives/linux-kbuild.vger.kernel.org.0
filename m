@@ -2,115 +2,129 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA09A665AD4
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Jan 2023 12:57:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D185665E1B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Jan 2023 15:36:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238760AbjAKL5i (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 11 Jan 2023 06:57:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52724 "EHLO
+        id S238625AbjAKOgC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 11 Jan 2023 09:36:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239112AbjAKL5H (ORCPT
+        with ESMTP id S238426AbjAKOel (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 11 Jan 2023 06:57:07 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5DD1392D2;
-        Wed, 11 Jan 2023 03:50:06 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 3C536B81B8E;
-        Wed, 11 Jan 2023 11:50:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC784C433EF;
-        Wed, 11 Jan 2023 11:50:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673437803;
-        bh=edHyw0CMr5nTfSwCWBZWUMB1jeFW3iiervEuXxZpw9A=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=KkPbCf2bGi1QeoUejAl+dtSgqcAwfDZBnN6SGdfSSiT+rgRR5LwNyfOYtbwNmloyb
-         BT1okBxaNyBoq5/bUupjWAE4gVXv8CorudYNOreVjhCDBOjgR20xtaXf6TOnPHBcw4
-         3opOOoKu9iJQvYIRvMud3a6GKhJcS2wMhFR93EekcbLGAQYsomdz1q+DW6rnzrh7Ke
-         tgvtDu/c/sSuaWN6JZRWqbMuyXvq6iPUSqxjM8Z4QobuZTk+7MT+M0qUEeo8D2o8UK
-         zT8cV6JPj0c5i7WwHmbVIwHTzyuHs+Kfe2hI2HqHtRqUMbhaBsH9W0dOpKhz8L2cHp
-         82wdXP+uRzm+g==
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-15085b8a2f7so15262295fac.2;
-        Wed, 11 Jan 2023 03:50:03 -0800 (PST)
-X-Gm-Message-State: AFqh2kr/ofIzwqzwvQHr1P7ToKWmFuYUrONdsVPBePUSyTBXdJZRZAXU
-        aiX6STiRHNSGNTtVZI09O6yS8Hjj3nxS9xA28Zw=
-X-Google-Smtp-Source: AMrXdXsFUlD81QbuFGV78qMtfY8YAM2vD0R1WfWM9vPd5Ki85wXX29/2YCWq8xlWSevNzuirFzdPYdCxm9TNLy0vrFM=
-X-Received: by 2002:a05:6870:50a:b0:15b:9941:ac30 with SMTP id
- j10-20020a056870050a00b0015b9941ac30mr836548oao.287.1673437803108; Wed, 11
- Jan 2023 03:50:03 -0800 (PST)
+        Wed, 11 Jan 2023 09:34:41 -0500
+Received: from gnuweeb.org (gnuweeb.org [51.81.211.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D6FD1CFF1;
+        Wed, 11 Jan 2023 06:32:15 -0800 (PST)
+Received: from [10.7.7.5] (unknown [182.253.183.184])
+        by gnuweeb.org (Postfix) with ESMTPSA id 058067E55D;
+        Wed, 11 Jan 2023 14:32:13 +0000 (UTC)
+X-GW-Data: lPqxHiMPbJw1wb7CM9QUryAGzr0yq5atzVDdxTR0iA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnuweeb.org;
+        s=default; t=1673447535;
+        bh=Y0aZSVEi7INxVva5qzpxsP+e3kt8XvIXcbfqPJSNvqc=;
+        h=Date:To:From:Subject:From;
+        b=e4ojP6dpexljMpkylq3NAXpi2DDn3zADipsxVlcavvGaJVJB8HvhRsq8Ie2d1uddA
+         Wbc2sbqrUUkAJgIOGeJMp3vI72w/L1r1nxsPifZO5gh+zrITYhbTZmxz64u0n0u/fS
+         e8ZAhfu/GYxOlz9cERgsMsZc2XPE/FLKnPM312UKfcpZDuD/GRsyu/84f+zLuo+MK3
+         MeaBV5FyfqwdOTUaTlyiEI0KrVOmZl8HHsPe8bfLG9AXyeQ6OpIIquEwcKScmQcLzq
+         RCCivyx+t4K5XCebDwrHJWC0rQwXQNtnULRaX9wyK9vEEB38m/fZNDrRO28MH1ikxu
+         fWRRnzUE8c45g==
+Message-ID: <160cffee-5be8-4e8f-22ee-2958695f0cd3@gnuweeb.org>
+Date:   Wed, 11 Jan 2023 21:32:10 +0700
 MIME-Version: 1.0
-References: <20230109201837.23873-1-eliasfleckenstein@web.de>
-In-Reply-To: <20230109201837.23873-1-eliasfleckenstein@web.de>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 11 Jan 2023 20:49:27 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQEMTTJ5+JipmEFHf7tdP9k0xMiPD=OzePV=Giu6pCL7g@mail.gmail.com>
-Message-ID: <CAK7LNAQEMTTJ5+JipmEFHf7tdP9k0xMiPD=OzePV=Giu6pCL7g@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: fix typo (usafe -> unsafe)
-To:     Lizzy Fleckenstein <eliasfleckenstein@web.de>,
-        akpm@linux-foundation.org
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ndesaulniers@google.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Content-Language: en-US
+To:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux KBuild Mailing List <linux-kbuild@vger.kernel.org>
+From:   Ammar Faizi <ammarfaizi2@gnuweeb.org>
+Subject: scripts/decode_stacktrace.sh doesn't show the file name and line num?
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Andrew,
 
+What is the kernel build config to enable debugging line by line?
 
-Please revise the patch subject to init/Kconfig:
+With CONFIG_DEBUG_KERNEL=y, scripts/decode_stacktrace.sh doesn't show
+the file name when used to decode a call trace. It shows "(??:?)" and
+sometimes it shows the file name, but no line like (fair.c:?).
 
-I want to see "kconfig:" only for changes in scripts/kconfig/.
+Running this in the Linux kernel compilation directory:
 
-
-See this:
-https://lore.kernel.org/all/CAK7LNARmyKYC4e3fOyACPVJJ03gTh4TwNqXAx_SLP_Zkei0XXA@mail.gmail.com/T/#t
-
-This is a good choice for the subject.
-
-
-
-
-
-
-
-
-
-On Tue, Jan 10, 2023 at 5:19 AM Lizzy Fleckenstein
-<eliasfleckenstein@web.de> wrote:
->
-> Fix the help text for the PRINTK_SAFE_LOG_BUF_SHIFT setting.
->
-> Signed-off-by: Lizzy Fleckenstein <eliasfleckenstein@web.de>
-> ---
->  init/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/init/Kconfig b/init/Kconfig
-> index 7e5c3ddc341d..57c8d224ea4c 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -776,7 +776,7 @@ config PRINTK_SAFE_LOG_BUF_SHIFT
->         depends on PRINTK
->         help
->           Select the size of an alternate printk per-CPU buffer where messages
-> -         printed from usafe contexts are temporary stored. One example would
-> +         printed from unsafe contexts are temporary stored. One example would
->           be NMI messages, another one - printk recursion. The messages are
->           copied to the main log buffer in a safe context to avoid a deadlock.
->           The value defines the size as a power of 2.
-> --
-> 2.39.0
->
-
+$ scripts/decode_stacktrace.sh vmlinux < kernel_log_from_dmesg.txt;
+[...]
+[ 1020.299126] RSP: 0018:ffff888106a97318 EFLAGS: 00000202
+[ 1020.299131] RAX: ffff888106a973b3 RBX: ffff888106a973b0 RCX: ffffffff810acb79
+[ 1020.299136] RDX: 0000000000000003 RSI: dffffc0000000000 RDI: ffff888106a973b0
+[ 1020.299140] RBP: ffff888106a97440 R08: dffffc0000000000 R09: fffffbfff0abd8cd
+[ 1020.299145] R10: 0000000000000000 R11: dffffc0000000001 R12: ffff888106a973f8
+[ 1020.299149] R13: ffff888106a97408 R14: ffffffff8142c967 R15: ffff888106a976d0
+[ 1020.299154] FS:  00007f190332e740(0000) GS:ffff889796180000(0000) knlGS:0000000000000000
+[ 1020.299160] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 1020.299164] CR2: 0000000020002240 CR3: 000000015d478002 CR4: 00000000007706e0
+[ 1020.299169] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[ 1020.299171] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[ 1020.299174] PKRU: 55555554
+[ 1020.299175] Call Trace:
+[ 1020.299176]  <TASK>
+[ 1020.299178] unwind_next_frame (??:?)
+[ 1020.299183] ? kasan_set_track (??:?)
+[ 1020.299186] ? stack_trace_consume_entry (stacktrace.c:?)
+[ 1020.299192] ? kasan_save_free_info (??:?)
+[ 1020.299196] ? stack_trace_save (stacktrace.c:?)
+[ 1020.299200] arch_stack_walk (??:?)
+[ 1020.299205] ? kasan_save_free_info (??:?)
+[ 1020.299209] ? tcp_rcv_established (??:?)
+[ 1020.299213] stack_trace_save (??:?)
+[ 1020.299218] kasan_set_track (??:?)
+[ 1020.299222] ? kasan_set_track (??:?)
+[ 1020.299225] ? kasan_save_free_info (??:?)
+[ 1020.299229] ? io_wq_submit_work (??:?)
+[ 1020.299232] ? io_worker_handle_work (io-wq.c:?)
+[ 1020.299236] ? io_wqe_worker (io-wq.c:?)
+[ 1020.299239] ? ret_from_fork (??:?)
+[ 1020.299244] ? __mod_timer (timer.c:?)
+[ 1020.299247] ? tcp_ack_update_rtt (tcp_input.c:?)
+[ 1020.299251] ? cubictcp_cong_avoid (tcp_cubic.c:?)
+[ 1020.299259] ? tcp_rate_gen (??:?)
+[ 1020.299263] ? tcp_ack (tcp_input.c:?)
+[ 1020.299268] ? kasan_save_free_info (??:?)
+[ 1020.299273] ? __kmem_cache_free (??:?)
+[ 1020.299278] kasan_save_free_info (??:?)
+[ 1020.299285] ____kasan_slab_free (common.c:?)
+[ 1020.299290] kmem_cache_free (??:?)
+[ 1020.299294] ? tcp_rcv_established (??:?)
+[ 1020.299300] tcp_rcv_established (??:?)
+[ 1020.299305] tcp_v4_do_rcv (??:?)
+[ 1020.299310] __release_sock (??:?)
+[ 1020.299315] __sk_flush_backlog (??:?)
+[ 1020.299318] tcp_sendmsg_locked (??:?)
+[ 1020.299327] tcp_sendmsg (??:?)
+[ 1020.299331] ? inet_send_prepare (??:?)
+[ 1020.299335] ____sys_sendmsg (socket.c:?)
+[ 1020.299341] __sys_sendmsg_sock (??:?)
+[ 1020.299345] io_sendmsg_zc (??:?)
+[ 1020.299350] ? update_load_avg (fair.c:?)
+[ 1020.299354] ? reweight_entity (fair.c:?)
+[ 1020.299359] ? psi_group_change (build_utility.c:?)
+[ 1020.299365] ? io_assign_file (io_uring.c:?)
+[ 1020.299369] io_issue_sqe (io_uring.c:?)
+[ 1020.299372] io_wq_submit_work (??:?)
+[ 1020.299376] io_worker_handle_work (io-wq.c:?)
+[ 1020.299382] io_wqe_worker (io-wq.c:?)
+[ 1020.299387] ? finish_task_switch (core.c:?)
+[ 1020.299393] ? recalc_sigpending (??:?)
+[ 1020.299398] ? create_worker_cont (io-wq.c:?)
+[ 1020.299401] ret_from_fork (??:?)
+[ 1020.299407]  </TASK>
 
 -- 
-Best Regards
-Masahiro Yamada
+Ammar Faizi
