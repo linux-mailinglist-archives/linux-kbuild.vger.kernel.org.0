@@ -2,53 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62E22666AD8
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jan 2023 06:29:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B5610666ADF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jan 2023 06:32:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229751AbjALF3S (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 12 Jan 2023 00:29:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52648 "EHLO
+        id S236145AbjALFcp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 12 Jan 2023 00:32:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231268AbjALF3R (ORCPT
+        with ESMTP id S230008AbjALFco (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 12 Jan 2023 00:29:17 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 419E11B9F9;
-        Wed, 11 Jan 2023 21:29:16 -0800 (PST)
+        Thu, 12 Jan 2023 00:32:44 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25F3B1B9F9;
+        Wed, 11 Jan 2023 21:32:43 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id EAA48B81DCF;
-        Thu, 12 Jan 2023 05:29:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9904DC433F1;
-        Thu, 12 Jan 2023 05:29:13 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A972261F69;
+        Thu, 12 Jan 2023 05:32:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C9F9C43392;
+        Thu, 12 Jan 2023 05:32:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673501353;
-        bh=NIDeF0qr5dTfp6q3dFL1NSocIKxhkjUOWkIF2RxNI90=;
+        s=k20201202; t=1673501562;
+        bh=qCsLq3Gwfs2hFBNeQ4DQLdXWHTbkhZv7LAbRhhLeMbo=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=tjfdD0GGQqh3mHroEoMk0jBfLGyj+vGhPLBwXwDJAlSgG+WtOMJtNd8X3Di012NpT
-         ywCQ0wUqyU6zBYOYkAOHHaxAfJt6SDWWPJN7UQnfY5nNDofJkbPTzx3+0RKSSH4XX4
-         me0NScf4zyV0+gwM4DpHNAmbsm2LeXV5awASpwQBHq1kSeGjiXmtqCcdlmfFfnu5r5
-         5bfJOPQukomdQEW09Ocb1VB+r44MZn0BBHOuU25c5RujHL0L9V+/TuF4jTY6zPwqw+
-         4aMvOIdAfn2pil+zbhzeSOl77lJ+97mpiYTo1o+JJbOwAKfm2GI6cGVtn7cN+qLQOe
-         LZ//3R+TzK3aQ==
-Received: by mail-ot1-f53.google.com with SMTP id r2-20020a9d7cc2000000b006718a7f7fbaso10041177otn.2;
-        Wed, 11 Jan 2023 21:29:13 -0800 (PST)
-X-Gm-Message-State: AFqh2krAoR2emqALr+2xstj1xgh5o+Jewp+FZ6wN8ZSmQmkqTepMp67m
-        kUoDV0njXP2HnsPvPx+N+lpKoMf+NtbUX2eHLyY=
-X-Google-Smtp-Source: AMrXdXsSeAn3HBMEAO9E44OB06sCAHFENTcpFHnvluvknjPtirsq0UJHX5LWEAK1YxtFebGeDPkwoJzd5O8XrB4oENw=
-X-Received: by 2002:a05:6830:31a8:b0:684:c0c2:59c6 with SMTP id
- q8-20020a05683031a800b00684c0c259c6mr124477ots.343.1673501352782; Wed, 11 Jan
- 2023 21:29:12 -0800 (PST)
+        b=nX+zL4aM18oi3+MFVqnmFJLrPk5GuX57Fz+7L+/q2rotOT0Jt2+0K8V9DEdKljjAH
+         /ZqVrLaJANiko11hSmwWSdEbPH8nTe9uCPdDvwb8+nr3yC9fMq+t7CeXefzuO3ZDlw
+         loE8cdycXnhOSXBcve5BTuwKRRo94qNGOGSCxKkgS915zBssWNy8K5RPL8kUtMp7ZI
+         fAKImse67IcjMnhhVRnNcEUrHqNUm4x/LHVE++F5ZwGKumuTcHlJl+EvnLGrfJcnlp
+         7kiVOVkhX/Ed8zMfnh1uWnERaCdx/BXe4RTzAR9she1piVKHES4ADw6RIpRevy7YhQ
+         3QeZ4FgthPTgQ==
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-142b72a728fso17820963fac.9;
+        Wed, 11 Jan 2023 21:32:42 -0800 (PST)
+X-Gm-Message-State: AFqh2kpGm2H6GqKcRN28hc0EQJ8ICxqZeohpLruPzMNgVj887gtLPLGm
+        kSlYKkhoJOwBuH3G0ksBdLlLog8AcM3Zfcz7vzE=
+X-Google-Smtp-Source: AMrXdXvMYsQlRfQmsM5yLj5gL55H1a42aLVk7psPfzHi9/X9tv8YeMLsx1ZTVcH0glclCT5vN0v1xms57X24VqdBGzM=
+X-Received: by 2002:a05:6870:514c:b0:150:7e4a:2f00 with SMTP id
+ z12-20020a056870514c00b001507e4a2f00mr2614641oak.194.1673501561332; Wed, 11
+ Jan 2023 21:32:41 -0800 (PST)
 MIME-Version: 1.0
-References: <20230109204520.539080-1-ojeda@kernel.org> <20230109204520.539080-4-ojeda@kernel.org>
-In-Reply-To: <20230109204520.539080-4-ojeda@kernel.org>
+References: <20230109204520.539080-1-ojeda@kernel.org> <20230109204520.539080-5-ojeda@kernel.org>
+In-Reply-To: <20230109204520.539080-5-ojeda@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 12 Jan 2023 14:28:36 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARuGz=oFukWH4g=7zg1EbWP9rxpVXPgPrJBKHzLQW4N1Q@mail.gmail.com>
-Message-ID: <CAK7LNARuGz=oFukWH4g=7zg1EbWP9rxpVXPgPrJBKHzLQW4N1Q@mail.gmail.com>
-Subject: Re: [PATCH 4/6] kbuild: rust_is_available: check if the script was
- invoked from Kbuild
+Date:   Thu, 12 Jan 2023 14:32:05 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQj_WykFWcrj=L3wJYxDhOCGs+JHPB4E2vzWcx8y_at0w@mail.gmail.com>
+Message-ID: <CAK7LNAQj_WykFWcrj=L3wJYxDhOCGs+JHPB4E2vzWcx8y_at0w@mail.gmail.com>
+Subject: Re: [PATCH 5/6] kbuild: rust_is_available: fix confusion when a
+ version appears in the path
 To:     Miguel Ojeda <ojeda@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
@@ -71,89 +71,77 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Tue, Jan 10, 2023 at 5:46 AM Miguel Ojeda <ojeda@kernel.org> wrote:
 >
-> Sometimes [1] users may attempt to setup the Rust support by
-> checking what Kbuild does and they end up finding out about
-> `scripts/rust_is_available.sh`. Inevitably, they run the script
-> directly, but unless they setup the required variables,
-> the result of the script is not meaningful.
+> `bindgen`'s output for `libclang`'s version check contains paths, which
+> in turn may contain strings that look like version numbers [1]:
 >
-> We could add some defaults to the variables, but that could be
-> confusing for those that may override the defaults (compared
-> to their kernel builds), and `$CC` would not be a simple default
-> in any case.
+>     .../6.1.0-dev/.../rust_is_available_bindgen_libclang.h:2:9: warning: clang version 11.1.0  [-W#pragma-messages], err: false
 >
-> Therefore, instead, print a warning when the script detects
-> the user may be invoking it, by testing `$MAKEFLAGS`.
+> which the script will pick up as the version instead of the latter.
 >
-> Link: https://lore.kernel.org/oe-kbuild-all/Y6r4mXz5NS0+HVXo@zn.tnic/ [1]
+> It is also the case that versions may appear after the actual version
+> (e.g. distribution's version text), which was the reason behind `head` [2]:
+>
+>     .../rust-is-available-bindgen-libclang.h:2:9: warning: clang version 13.0.0 (Fedora 13.0.0-3.fc35) [-W#pragma-messages], err: false
+>
+> Thus instead ask for a match after the `clang version` string.
+>
+> Reported-by: Jordan (@jordanisaacs)
+> Link: https://github.com/Rust-for-Linux/linux/issues/942 [1]
+> Link: https://github.com/Rust-for-Linux/linux/pull/789 [2]
 > Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 > ---
->  scripts/rust_is_available.sh | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>  scripts/rust_is_available.sh | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 >
 > diff --git a/scripts/rust_is_available.sh b/scripts/rust_is_available.sh
-> index cd87729ca3bf..0c082a248f15 100755
+> index 0c082a248f15..a86659410e48 100755
 > --- a/scripts/rust_is_available.sh
 > +++ b/scripts/rust_is_available.sh
-> @@ -35,6 +35,16 @@ print_docs_reference()
->  warning=0
->  trap 'if [ $? -ne 0 ] || [ $warning -ne 0 ]; then print_docs_reference; fi' EXIT
+> @@ -141,9 +141,7 @@ fi
+>  # of the `libclang` found by the Rust bindings generator is suitable.
+>  bindgen_libclang_version=$( \
+>         echo "$bindgen_libclang_output" \
+> -               | grep -F 'clang version ' \
+> -               | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' \
+> -               | head -n 1 \
+> +               | sed -nE 's:.*clang version ([0-9]+\.[0-9]+\.[0-9]+).*:\1:p'
+>  )
+>  bindgen_libclang_min_version=$($min_tool_version llvm)
+>  bindgen_libclang_cversion=$(get_canonical_version $bindgen_libclang_version)
+> --
+> 2.39.0
 >
-> +# Check whether the script was invoked from Kbuild.
-> +if [ -z "${MAKEFLAGS+x}" ]; then
-> +       echo >&2 "***"
-> +       echo >&2 "*** This script is intended to be called from Kbuild."
-> +       echo >&2 "*** Please use the 'rustavailable' target to call it instead."
-> +       echo >&2 "*** Otherwise, the results may not be meaningful."
-> +       echo >&2 "***"
-> +       warning=1
-> +fi
 
 
-I do not like this.
-We do not need to cater to every oddity.
 
-Checking MAKEFLAGS is too much.
-
-You can check RUSTC/BINDGEN/CC if you persist in this.
+You do not need to fork sed.
 
 
 
 
 diff --git a/scripts/rust_is_available.sh b/scripts/rust_is_available.sh
-index a6f84dd2f71c..524aee03384a 100755
+index 1f478d7e0f77..ebe427e27379 100755
 --- a/scripts/rust_is_available.sh
 +++ b/scripts/rust_is_available.sh
-@@ -34,7 +34,7 @@ warning=0
- trap 'if [ $? -ne 0 ] || [ $warning -ne 0 ]; then
-print_docs_reference; fi' EXIT
+@@ -137,14 +137,9 @@ fi
 
- # Check that the Rust compiler exists.
--if ! command -v "$RUSTC" >/dev/null; then
-+if ! command -v "${RUSTC:?RUSTC is not set}" >/dev/null; then
+ # `bindgen` returned successfully, thus use the output to check that
+the version
+ # of the `libclang` found by the Rust bindings generator is suitable.
+-bindgen_libclang_version=$( \
+-       echo "$bindgen_libclang_output" \
+-               | grep -F 'clang version ' \
+-               | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' \
+-               | head -n 1 \
+-)
++set -- ${bindgen_libclang_output#**clang version}
++bindgen_libclang_cversion=$(get_canonical_version $1)
+ bindgen_libclang_min_version=$($min_tool_version llvm)
+-bindgen_libclang_cversion=$(get_canonical_version $bindgen_libclang_version)
+ bindgen_libclang_min_cversion=$(get_canonical_version
+$bindgen_libclang_min_version)
+ if [ "$bindgen_libclang_cversion" -lt "$bindgen_libclang_min_cversion" ]; then
         echo >&2 "***"
-        echo >&2 "*** Rust compiler '$RUSTC' could not be found."
-        echo >&2 "***"
-@@ -42,7 +42,7 @@ if ! command -v "$RUSTC" >/dev/null; then
- fi
-
- # Check that the Rust bindings generator exists.
--if ! command -v "$BINDGEN" >/dev/null; then
-+if ! command -v "${BINDGEN:?BINDGEN is not set}" >/dev/null; then
-        echo >&2 "***"
-        echo >&2 "*** Rust bindings generator '$BINDGEN' could not be found."
-        echo >&2 "***"
-@@ -150,7 +150,7 @@ fi
- #
- # In the future, we might be able to perform a full version check, see
- # https://github.com/rust-lang/rust-bindgen/issues/2138.
--cc_name=$($(dirname $0)/cc-version.sh "$CC" | cut -f1 -d' ')
-+cc_name=$($(dirname $0)/cc-version.sh ${CC:?CC is not set} | cut -f1 -d' ')
- if [ "$cc_name" = Clang ]; then
-        clang_version=$( \
-                LC_ALL=C "$CC" --version 2>/dev/null \
-
-
 
 
 
