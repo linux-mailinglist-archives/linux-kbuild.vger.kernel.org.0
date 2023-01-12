@@ -2,44 +2,43 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B78F5666940
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jan 2023 04:05:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E3CC666942
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jan 2023 04:05:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235939AbjALDFo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 11 Jan 2023 22:05:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55816 "EHLO
+        id S235789AbjALDFp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 11 Jan 2023 22:05:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235706AbjALDFm (ORCPT
+        with ESMTP id S235894AbjALDFn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 11 Jan 2023 22:05:42 -0500
+        Wed, 11 Jan 2023 22:05:43 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74CA54882A;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB2E348817;
         Wed, 11 Jan 2023 19:05:42 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0FFDE61F24;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 696AB61F3B;
         Thu, 12 Jan 2023 03:05:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8E07C433EF;
-        Thu, 12 Jan 2023 03:05:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4360C433A7;
+        Thu, 12 Jan 2023 03:05:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673492741;
-        bh=Q6J0MPxHgB97C1dlcB1nqGDmiSZvc4LEaiCPSbsj0DE=;
+        s=k20201202; t=1673492742;
+        bh=110YiaA7E6BQNria0n3mQxxC9p3c/B3/YRXtsHDJjbg=;
         h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-        b=ZlFcLYS0+ijYK9R8go6A0m8VLWC1AF4RKCZ4Efd/fPyMsIMWGGYW63marO1wUTLq/
-         y15XwYoeTNC878nuNHIBiEVPWvwnVOlSM+HE1JssMM4V2AmHQZkm3yzfkxTudXbrFL
-         0/N/gmUakImYb0hiWnmwrfnVX/k9MQFYPafMy90jV2L5Ufl7mXuhHr5BzqnrrAZ7kX
-         HXzrWP01sikH+51KjBO5eAB7Jyn14BU4re3Htv3cG55yx+LdOvIE1/6/63jyNAfcr2
-         iwnremta4JEbQKvSMZ2zm7JgxbHlUNpfrdduP7feH1h0IIUlgM0Myhfe4P1D5HYNzn
-         e+ehAZLBVa/Xw==
+        b=Bh/96oZEBZSxz6+OdCqLSVwNd+oJF62jkYmaVfIgIGhuq14YZq7oxwp5/jUMnrVKG
+         A2eyxE+H6TwaKhmKGFlxB6MWqbZS7kHiKUFajXqlMcWuZfrmXx+sxx7cN4oZTR3HTW
+         /XgwVCTLnc3WnkmreeeCHWbupMpOo3dF1LtTsHXJxLrVSE/emr8F4Y5INneFWKSjWq
+         XXqR378df843xtGMld30B59wdEaozicgbHHGsOV6/gvYL2UOv0aTCNMClXfODUWaEx
+         Tj1LKGrO2HwphZvsGcXefubTT6Y9OaSFka0cDffkd9ea8UL/pi4eKxDJrmLEJyhNq2
+         2zx5txMNfbYWQ==
 From:   Nathan Chancellor <nathan@kernel.org>
-Date:   Wed, 11 Jan 2023 20:05:06 -0700
-Subject: [PATCH v2 09/14] s390/vdso: Drop unused '-s' flag from
- KBUILD_AFLAGS_64
+Date:   Wed, 11 Jan 2023 20:05:07 -0700
+Subject: [PATCH v2 10/14] s390/vdso: Drop '-shared' from KBUILD_CFLAGS_64
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20221228-drop-qunused-arguments-v2-9-9adbddd20d86@kernel.org>
+Message-Id: <20221228-drop-qunused-arguments-v2-10-9adbddd20d86@kernel.org>
 References: <20221228-drop-qunused-arguments-v2-0-9adbddd20d86@kernel.org>
 In-Reply-To: <20221228-drop-qunused-arguments-v2-0-9adbddd20d86@kernel.org>
 To:     masahiroy@kernel.org
@@ -49,11 +48,11 @@ Cc:     ndesaulniers@google.com, nicolas@fjasle.eu, trix@redhat.com,
         Heiko Carstens <hca@linux.ibm.com>,
         Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org
 X-Mailer: b4 0.12-dev-78c63
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1359; i=nathan@kernel.org;
- h=from:subject:message-id; bh=Q6J0MPxHgB97C1dlcB1nqGDmiSZvc4LEaiCPSbsj0DE=;
- b=owGbwMvMwCEmm602sfCA1DTG02pJDMn7K34HaJktqq3dp2i5tFOxNaf+8xv7CSLMxXv8DtzR18+p
- CrLpKGVhEONgkBVTZKl+rHrc0HDOWcYbpybBzGFlAhnCwMUpABPJ3cjw30XtuFj8ooe5/9U4t61bxD
- r3lxa70e2f1sFhpdtPRF57IsLIcLPBxd107WlZ7ZKtyxuOym2PELeVZKvvfF7pM982TOEiMwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1325; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=110YiaA7E6BQNria0n3mQxxC9p3c/B3/YRXtsHDJjbg=;
+ b=owGbwMvMwCEmm602sfCA1DTG02pJDMn7K347yU29/XzFqa1901XTOX88OZs5+f3fjc43RWv0Tlec
+ XXzcvaOUhUGMg0FWTJGl+rHqcUPDOWcZb5yaBDOHlQlkCAMXpwBMJH8vwz/L2aZtDYyHZggvfbmdYc
+ eOXesXx2VL/rxiXZywPXm+zdo/jAxfvtyM1z4ZlbZD5s/S/wIL4vVcX+76+1rfSFOj9+N6kz2cAA==
 X-Developer-Key: i=nathan@kernel.org; a=openpgp;
  fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -66,16 +65,14 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 When clang's -Qunused-arguments is dropped from KBUILD_CPPFLAGS, it
-warns:
+points out that there is a linking phase flag added to CFLAGS, which
+will only be used for compiling
 
-  clang-16: error: argument unused during compilation: '-s' [-Werror,-Wunused-command-line-argument]
+  clang-16: error: argument unused during compilation: '-shared' [-Werror,-Wunused-command-line-argument]
 
-The compiler's '-s' flag is a linking option (it is passed along to the
-linker directly), which means it does nothing when the linker is not
-invoked by the compiler. The kernel builds all .o files with '-c', which
-stops the compilation pipeline before linking, so '-s' can be safely
-dropped from KBUILD_AFLAGS_64.
+'-shared' is already present in ldflags-y so it can just be dropped.
 
+Fixes: 2b2a25845d53 ("s390/vdso: Use $(LD) instead of $(CC) to link vDSO")
 Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 Acked-by: Heiko Carstens <hca@linux.ibm.com>
 Reviewed-by: Sven Schnelle <svens@linux.ibm.com>
@@ -86,18 +83,18 @@ Cc: linux-s390@vger.kernel.org
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/s390/kernel/vdso64/Makefile b/arch/s390/kernel/vdso64/Makefile
-index 9e2b95a222a9..a2fe9383d452 100644
+index a2fe9383d452..34f9542636e9 100644
 --- a/arch/s390/kernel/vdso64/Makefile
 +++ b/arch/s390/kernel/vdso64/Makefile
-@@ -22,7 +22,7 @@ KBUILD_AFLAGS += -DBUILD_VDSO
- KBUILD_CFLAGS += -DBUILD_VDSO -DDISABLE_BRANCH_PROFILING
- 
- KBUILD_AFLAGS_64 := $(filter-out -m64,$(KBUILD_AFLAGS))
--KBUILD_AFLAGS_64 += -m64 -s
-+KBUILD_AFLAGS_64 += -m64
+@@ -25,7 +25,7 @@ KBUILD_AFLAGS_64 := $(filter-out -m64,$(KBUILD_AFLAGS))
+ KBUILD_AFLAGS_64 += -m64
  
  KBUILD_CFLAGS_64 := $(filter-out -m64,$(KBUILD_CFLAGS))
- KBUILD_CFLAGS_64 += -m64 -fPIC -shared -fno-common -fno-builtin
+-KBUILD_CFLAGS_64 += -m64 -fPIC -shared -fno-common -fno-builtin
++KBUILD_CFLAGS_64 += -m64 -fPIC -fno-common -fno-builtin
+ ldflags-y := -fPIC -shared -soname=linux-vdso64.so.1 \
+ 	     --hash-style=both --build-id=sha1 -T
+ 
 
 -- 
 2.39.0
