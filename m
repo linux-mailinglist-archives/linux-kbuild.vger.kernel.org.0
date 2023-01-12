@@ -2,313 +2,388 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E4ADC66857E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jan 2023 22:34:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D70AF6685D9
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jan 2023 22:48:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239173AbjALVeh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 12 Jan 2023 16:34:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59308 "EHLO
+        id S231218AbjALVs4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 12 Jan 2023 16:48:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238228AbjALVd6 (ORCPT
+        with ESMTP id S240516AbjALVri (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 12 Jan 2023 16:33:58 -0500
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 216591DF30;
-        Thu, 12 Jan 2023 13:20:27 -0800 (PST)
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30CJXp1X031544;
-        Thu, 12 Jan 2023 21:20:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2022-7-12;
- bh=042dmnNfxxbrzdX8kfj0CWi+4i1aysRcNcNjCIIHcH0=;
- b=o6fBv9ZyCIK4H5PtFRtuWZof28E5GmKpBMEWxSZLWsF0fFBon5NjNQ/Or7JWZIS4+x2u
- d0iMkU5BqC8HUJSg53BFGPEB5UiXZoTjqgD6TMBerCVzXetFAfP5dGAql5m44z8+5lFp
- TuASaVVRMVnm7sYExr9afGE5qX5PIi0jvI4leOr0Zw2ANMX7ZQM7p6AUJxH+6ZD4FNsp
- 62jiqr5r+0yzl+JKGKveQnWdZ7TPEfazmX/LOZKab3IJ19q0slUNjm0hdTd+BJF+l7M+
- UyP/iBdsMdqX1AtUhUxfqzn+sVvmRuWoiMJz2+9HSS9fKJSYLAQec8XZzhmIEUjk7l3G 3A== 
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3my0sckd82-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 12 Jan 2023 21:20:15 +0000
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 30CKE28J005251;
-        Thu, 12 Jan 2023 21:20:14 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2171.outbound.protection.outlook.com [104.47.57.171])
-        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3n1k4bt0c9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 12 Jan 2023 21:20:14 +0000
+        Thu, 12 Jan 2023 16:47:38 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0490512AC2;
+        Thu, 12 Jan 2023 13:41:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1673559671; x=1705095671;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=j5t8yu+GQdrROqft3QkOtSKlI9+ocI4SIqQXnTOCo9E=;
+  b=KoRnbULc57ZX/6V6hSsx/8O+JIilg+7Ixc+j7WlHhMin7BaAUyEBtHJ7
+   EPQuY6f7WU4I4aHtgq/FSAXb747kwvBCtSEtYCt3YdDNKcJ4S9BRXOz19
+   L81XKUk/5aF7d0HQ6GxcV4ugbm/639z5PhQQSe5b6bl+FahMoDBKF2/4f
+   6EvDq4568bjtRJHfmuaax8EPneOoLRQs2gmikTheM+jMCueqS2VkhJPC+
+   8GN2hzW9ueKCe02Mk+iO0FbNCC7x3eTLbZjNFqUzbEaHkh4JdNxDIxl6B
+   +QXqPk5yOyNZzqgix0e8xCLC/EUMQ7g29F/nrjR+qPMF8ouJCK1SY8vHk
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="386181563"
+X-IronPort-AV: E=Sophos;i="5.97,212,1669104000"; 
+   d="scan'208";a="386181563"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2023 13:41:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="607951671"
+X-IronPort-AV: E=Sophos;i="5.97,212,1669104000"; 
+   d="scan'208";a="607951671"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orsmga003.jf.intel.com with ESMTP; 12 Jan 2023 13:41:09 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Thu, 12 Jan 2023 13:41:08 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Thu, 12 Jan 2023 13:41:08 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.45) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Thu, 12 Jan 2023 13:41:08 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mXehRWBUcYgPziPL89CGc2jn85FHQe7HSA6nqS8VxOppX6A0d1KjOXATprIYPJMnwAih550jJCR5RMTNij6u2lOKFx+DB9ew+S2If5vs9btfYEXe4eguiLlIxeA9fWmYioX1+cAyq9Jbl7YCh8pi+tWJFriq5Vg/0Ss00aekJYVBLOzfAA2NIjnVaILgW1BsDr7fg60HPCnU34kQSgj4EiuVNuwRmvnsuQMkN2fBXQErUQMk5flMQ4f/NmD6IjVb2qecyoKq8pvbF8P0qANewYiNT7UNaqgT5OXK5xjDhLur+pi1bTi7INihVtu6Pjn5uuGBuRqdtzL/lCTNt8VojQ==
+ b=iQhjJPxfmYOB2kMRWE9r8LUmpGRuCv4EUieQYNCveDd9zp3JqxYXs6SkQ442FpzhkRWfoeaZKO1rwymqEMsQ/gkMGGRRcV3I9gytxxeHFaBOvqhJiG6o6eVre1kQeYfv18OVfJoVMmt6dnsMl4kzYPAtvl9hG5yo0JvK7L8uaZMoBE4NdRfYpCVkaxTz5/Q2AsGGqttj4GA0jPhTfjjQNrUeoGAwGUINXnrqdO7FhqREaWhhFK1yPWGBE6SgGU+Ibej5vqVAB4uUIGLMKkYnS5HKIpWNVKAbACZXGrvgGxYMWCyGBi5r+hFPpsQWR6WHhKVg3h6i+kJMTdm9W1uEww==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=042dmnNfxxbrzdX8kfj0CWi+4i1aysRcNcNjCIIHcH0=;
- b=FMCEwZ5B8uW+04zVbnCbF2j3wnHjtOyIAGjgMYKSR18bxcUk/2Pg5wnVH8Qy4LBWARaWUwF0ME/iBK+wPc+WFnc2vae3omiSk/cQofi0n25N+5oAs9vmDlYZbsNV/MlAMjjI6QvbimR4BUo+jfxo+chRBW+aG2Mm34/aF0KsIXeN1Yd8NUbJ0breZ1+Y/MyI/GV54WtG76+DteZFQqOjxfZr4NO5wYuoEO3nHIh6uD2efdPNoywaGpCIGUdxSP9SoFZadt1auPW5C0JZ7/4xgjg1OBSd0vQiGlhdwik2mndtgHQ/Lga4awzmjGZdPwqRaM6Heg1UowrYKTX5ve9bzQ==
+ bh=MtAJ8ESXzr+LymDXZJSN4w/4i8jj0Un0Uod5J36/R6c=;
+ b=gId0tT3/O39oiN1ZgyymJLv3cl93tJSZl/OvlqmXXmCyhlxVX3Hg5i+P7KGcaY2vBDUpUAdTJHa8BSP4YbGeQEmDA6J8HY5aDbQd/JEX6LOYvYzjdkUuxzhHz8kS0JCa9U2jpD1ge5DdY/O1cNcLFi+vZ1XgRwbyXYQnvVtykU9tAJi/EJhMf5WGwhd2VLpwvP3n3TGok6hCgGY8FxnBNGTcVUeFWQr5GOPu+4FUL3pXvgyJQU9aLACdAweP7zbQx5sakVh2XqibVk5ZfQo4bYDHic0O6onxW2ulLlQrAfVnUon5yJFhlWYr05Ob5oxiStjXvwTSZwCV+MPXYTcdWQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=042dmnNfxxbrzdX8kfj0CWi+4i1aysRcNcNjCIIHcH0=;
- b=PUeaCInvfMkJpFf4FqL0OEUVPYjQiRc23tuG2+NNc+4/qJzg58UP7DbZFeVnAW93RIb/fT1F/3FYR8WaGyE98xCZqOnKXzK5TxRsPyF7Bc9DjSHmQURNfNXHFelvCHrUZvsxZlwXCof2LSPCB/tY1IYydoVO64yju63f9cwwg7Y=
-Received: from BY5PR10MB3794.namprd10.prod.outlook.com (2603:10b6:a03:1b2::30)
- by CY5PR10MB6192.namprd10.prod.outlook.com (2603:10b6:930:30::6) with
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by SA0PR11MB4669.namprd11.prod.outlook.com (2603:10b6:806:99::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.10; Thu, 12 Jan
- 2023 21:20:12 +0000
-Received: from BY5PR10MB3794.namprd10.prod.outlook.com
- ([fe80::cf51:e63a:8137:aae0]) by BY5PR10MB3794.namprd10.prod.outlook.com
- ([fe80::cf51:e63a:8137:aae0%6]) with mapi id 15.20.6002.011; Thu, 12 Jan 2023
- 21:20:12 +0000
-Date:   Thu, 12 Jan 2023 15:20:06 -0600
-From:   Tom Saeger <tom.saeger@oracle.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     stable@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.13; Thu, 12 Jan
+ 2023 21:41:06 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::593:877e:dd33:5b7a]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::593:877e:dd33:5b7a%5]) with mapi id 15.20.5986.018; Thu, 12 Jan 2023
+ 21:41:05 +0000
+Date:   Thu, 12 Jan 2023 14:40:59 -0700
+From:   Lucas De Marchi <lucas.demarchi@intel.com>
+To:     Gary Guo <gary@garyguo.net>
+CC:     Michael Ellerman <mpe@ellerman.id.au>,
         Nicholas Piggin <npiggin@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [PATCH 5.15 5.10 5.4 v2] kbuild: fix Build ID if
- CONFIG_MODVERSIONS
-Message-ID: <20230112212006.rnrbaby2imjlej4q@oracle.com>
-References: <3df32572ec7016e783d37e185f88495831671f5d.1671143628.git.tom.saeger@oracle.com>
- <Y6M090tsVRIBNlNG@kroah.com>
- <20221221205210.6oolnwkzqo2d6q5h@oracle.com>
- <Y6Pyp+7Udn6x/UVg@kroah.com>
- <20230109183615.zxe7o7fowdpeqlj3@oracle.com>
- <Y7/2ef+JWO6BXGfC@kroah.com>
-Content-Type: text/plain; charset=us-ascii
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        "Luis Chamberlain" <mcgrof@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Joel Stanley" <joel@jms.id.au>,
+        Julia Lawall <Julia.Lawall@inria.fr>,
+        Guo Zhengkui <guozhengkui@vivo.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        <linuxppc-dev@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+        <linux-modules@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
+        <rust-for-linux@vger.kernel.org>
+Subject: Re: [PATCH] modpost: support arbitrary symbol length in modversion
+Message-ID: <20230112214059.o4vq474c47edjup6@ldmartin-desk2>
+References: <20230111161155.1349375-1-gary@garyguo.net>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
 Content-Disposition: inline
-In-Reply-To: <Y7/2ef+JWO6BXGfC@kroah.com>
-X-ClientProxiedBy: SA9P223CA0017.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:806:26::22) To BY5PR10MB3794.namprd10.prod.outlook.com
- (2603:10b6:a03:1b2::30)
+In-Reply-To: <20230111161155.1349375-1-gary@garyguo.net>
+X-ClientProxiedBy: BY3PR05CA0054.namprd05.prod.outlook.com
+ (2603:10b6:a03:39b::29) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR10MB3794:EE_|CY5PR10MB6192:EE_
-X-MS-Office365-Filtering-Correlation-Id: cf40cf11-03fe-4e4e-e189-08daf4e2ca08
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SA0PR11MB4669:EE_
+X-MS-Office365-Filtering-Correlation-Id: 65577017-c9a4-4f4b-5212-08daf4e5b557
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sTy9i1zQZyzs3l5taUcLEHGGf+ldlM7kzB4uBSrcpwJ/yCZQ1QGR+asiE2EJ5ahPbZb3kmbBM8egJkwVj3TdUq5kpXcEcwV6dmuuViMou4gI9XC1HGcoo7orG2AJP9Wf97EsM43UuWbIKV7eFmFYKu0HCWZGVMAgrfoaDlBudhTqrP0cp5XehxJ9zk1G5O0/FvvqQmY1by1IcnGemyWJhyrI+hGJtL9e5n2zcZx2WniQT22PDbqkGh2SeVoBj6KRrzBIxXshzituKJM6BhkBnNAfRO44NJXYaHYYu2n0Jq+B2hetLE2BzSOOoGhIWN+rvjXCxHAPIm7Y+hlkKZ9ULdxUtAgdqYODBHZACq5LYH5nxpnMHnzPMVrFD1LSsVb4Ny++Qad/Shb7//2q0Qeuyt1avR9HaVnWhZg8wpHxaFPx+aUvzmnMMyk4sfP1fzHJoeqMtBbPcugm9ORLL2fYd80aMKruMHIsDdxBj+JSXSKYqlzotQg0wLQKQNtxyupb/gm9Ll1Lot4xRejVsj6ZOaGupglcpwLTfm1bvHBgSOf4Cqt0udvBuUKcwttHZVe91KVjSw1sYrpHKNQYtmjj2ajfX1heRefmmi3Nx0YVagnN+veBEgraB48K16d9VeIy/rQw8J047Tj0OOM2UviBKU/CEVFFhZMyRgdc87VEaEE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR10MB3794.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(346002)(366004)(39860400002)(136003)(376002)(396003)(451199015)(6486002)(478600001)(966005)(36756003)(6666004)(2906002)(38100700002)(86362001)(6512007)(1076003)(2616005)(83380400001)(6506007)(186003)(26005)(6916009)(66476007)(5660300002)(8676002)(66946007)(4326008)(41300700001)(66556008)(316002)(8936002)(54906003)(44832011);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: rBiNWgv8dWs8m8e1HMTKcIwtK/XeWDAnOSNDm+ZqTav+ZFKUeBytL2/NkXgwpmHT8KXndIE7UnEMG6e7vEeB5HoZF+7ZfS77BYyynG/s+JKXyV7IUAphBklVopmofpmPiVQpEh127hIQ+eEFACS84io476CyoblsIgJVlZEx3delJ+9VnrHVNduM8VIWXchiBswelIvzeHG0c5STeQ1Iyllja6MPLirPbAxHFg/3YAkOADOkpXLqbFrNC3mm9pu6BYUGJyB4IVGzyyyMOYj0hzTD4Dk/NFYjVX8hR+QT4zwbjLiPvGomEcL4wuzy3TYKSmdJC6p52GWNBviPmkFyA13ifM0mArswTZ1jD2eNVerPApjn+8C/+3NR1V6511l2UOzx+0hvUKxtJTrBBwkbwlcBwc8l9Ue4GqAR7OxqP/5mXeYBTQETHtGTWFBzx3+0YRJ0Fz2jtgxJvXwWsUI0xH+Id5zq95O3PTqfI4tOrbDsxY/7h/mf7wPrNAKJCyr/e2a/imOvHCAC9juWX6pnmMF1AjhY2pXwS8E26zF0mDwit0niAxzjpOmFihaqmSgBYAU5CbW0YEtTZLb987z0BzWPFmuwupR1igYRPUCG/RS14KfrkzysATohWatDY12afVXz0XNDZPVojW2weXTaEPBybVlcRiqFvx3XrqskIj4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6139.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(376002)(396003)(346002)(136003)(39860400002)(366004)(451199015)(33716001)(82960400001)(83380400001)(38100700002)(86362001)(66556008)(6916009)(66946007)(41300700001)(4326008)(8676002)(316002)(66476007)(54906003)(8936002)(2906002)(7416002)(186003)(6512007)(1076003)(9686003)(66899015)(6486002)(26005)(966005)(5660300002)(478600001)(6506007)(6666004);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3ARgZPvEw7mgfOOoeFn3J879RfJCVq2L3apGxvN2WuylO0zPhENnrGGlbuWW?=
- =?us-ascii?Q?PjStPxs9YvawafheUUia+BUfEGDXuol81q9pg/dy08M7t1k7HsR17wGF/QWc?=
- =?us-ascii?Q?K+mvUh7sMzfzjpDLAJOl3SaFzTOBo0uraW93DxMzeVip6KZeCtHEzcut4TP4?=
- =?us-ascii?Q?WNVbtZdye52jvJO4KEkctAvoGY8t502QhhZr0/VcI2DaCyqY521XIgSqee4O?=
- =?us-ascii?Q?/V6zl9hnUmhiGvliS/Qexuw5yM6Air4FHOtejQPFEcKw1O5GQxRml96iWn8d?=
- =?us-ascii?Q?Tt8nTQoXoej+bXTuyYKnL+BQeSa49IPfIYCgmV5n5i5zm8bUrxnZMdgZndtI?=
- =?us-ascii?Q?eHXN+oclASon/df22f38NqPJdAhta/9TgXkQY1toCc5xVe80tiRHkArhTv87?=
- =?us-ascii?Q?2mtyhASgwlXA7zuqtcVe0M8H9NqeaQOvbjLmuzVk8DxR/GhDth736qb5z6Nk?=
- =?us-ascii?Q?yPMl58c04WXoQKv9sPwwIsfnCwOQUcyzoPQaUbI2ZNLVOzFz/iJ7Bi8iD7by?=
- =?us-ascii?Q?gE81fQ+R4GjrWUnMluThbfHPxk7+1B6CcUWRQhqADJDkC7ZuU3vgHS6R6X5B?=
- =?us-ascii?Q?tuof1bFcO2aSQDx8UHO/3o+uz3g9mKUfJ2VM2tsaIhX3vywailJtq8NpPrms?=
- =?us-ascii?Q?eky2c0vk0WBqQWMF8b9KQNkfMJkghmcHOHhk5yDpEIjffbzmDF2A2JH4Mlzr?=
- =?us-ascii?Q?ztpSVu/1o9UQJXD9j7M8Yke0KJCt5u8IWej19WhvE8/OcOFgTlZ4XQJlwVr9?=
- =?us-ascii?Q?4BxfM0KNbWeqxyprV1kXJyoERes1QjkcWjxRIreNN/Yo5fx2Ch3sZxrve9fD?=
- =?us-ascii?Q?epAx9SHeX0lvYL2YP3c9QOxnPNZnR+JQkQsET5Xl6Jb9s0p7Hy8Q8ipqcs5a?=
- =?us-ascii?Q?vvQmBG6LOM21Ybx+x+rywYe8jh6s/U0VOdbwyrkyR5NeA95YpS2T0OsrHe/P?=
- =?us-ascii?Q?NDqMsYq1ZuhAGkvGknwZAyrOlAir6bZrWoEhyCOLqH0bAIMIkQufExugTDdj?=
- =?us-ascii?Q?7eJw5lSRC5jmBIJ7K/J3fFIwEWkksu0Ol1+wygzGsTaU0dySPMxfi9oGsJpP?=
- =?us-ascii?Q?VmEnqbdIu+dMjtpFd52sJNXHbOOVlWQNObI3LoPOi9Z3zFu382oxP5TiNT2p?=
- =?us-ascii?Q?WZg1mLMCf8Vw+PYiWgr+nqbqXgsg3coD7dws7zTgP9HITDZH9GZMHqvO3hl9?=
- =?us-ascii?Q?oP/i7B8R5r3YnorRpr89SkNsOpntqnu8PHIG46vWDe721nY71UuGBGbJJcPE?=
- =?us-ascii?Q?prVLkrTnBMKr+mcsDHMrMwhGOxrwJx+DG+8ShB/JnB6pY2c1QvWK2RQNLn4W?=
- =?us-ascii?Q?tDEGtCub2yUb+RTOOeCQnTzJcaftikQgNWN7pOQ/vk0AtZiBkLgG3GSdXa9h?=
- =?us-ascii?Q?hAa5EcBw21Zw0xgUbXBswtvUJV/1wazZVoecidpLtlfKELD+reDJQyPDQSyZ?=
- =?us-ascii?Q?sgzHo0WgTLGK8dvLW3OlGSYW2WGNxprb1mKCyyNNBFVNleIOgFy7aOA/588U?=
- =?us-ascii?Q?sRk6EIVgAqXEgfzv2pTY9JNIKHbkSGTW6JWtuWO8gNdpIchEbQNA5Lrfg8lJ?=
- =?us-ascii?Q?OeZSLenTDJCueW6piC5DMkUZpPq0pj1PGIE14e3n?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?us-ascii?Q?U88p9ObpRttSMjYFIFm0KH9SdQB7pRb3NYOu7T9z6t8xbPuqx2sDJEibedam?=
- =?us-ascii?Q?zpW7NSDp0eQ+7CIwkJF3BWdB5tQRo4uteZ4CxSXYSVAd77ZXf9cbdf5kJlPh?=
- =?us-ascii?Q?i8hnip3p7n989oeGE0TTJR9d93hwt/GIQEH+vWftcaUZzg4l149IVygpla70?=
- =?us-ascii?Q?A1f5EiF2rl0560iCRlg3q7R71NHsCR2hJLtQ149CEnJM29sYgQYWa52XckyZ?=
- =?us-ascii?Q?WL94XSiFEp+doNDp19YIkHuMdnIs9nqZSmx9GCJGt7Ja2Khn1Gb7kZtmKVXd?=
- =?us-ascii?Q?ANIxuIslsimyPDlqlNeoC/gzHoskLXfCK+ZiTbJiwgRpslYr5gbowT2+N0YV?=
- =?us-ascii?Q?T6jHRWCbpMiHCcppL0Ba4J3MenCP0iIbSZfs69IQ5xMJz3shCPxbhdE/DUSo?=
- =?us-ascii?Q?pvxkloKeRiRYhLBR2hfsUUp49q23b/pe6HFYV7wRuSmJYNKo0l2cL3AwIiq1?=
- =?us-ascii?Q?8Ta3Ith8ByTXl8uVTthgOdHlgKShYIbKU0iVNa8MO9LM4yk5YUSxLm0Z8ryg?=
- =?us-ascii?Q?Xk2hNSVcWt2BmQXlrL0KLuUWJwxuBpFJpC2g4lElZaTsQEygFkvkk2GjG05y?=
- =?us-ascii?Q?Zpc9ceCItczdVUG4o7gFdFp3wI5zCbRlzj2uGFmjiYHV9EswUoo7RyN39juB?=
- =?us-ascii?Q?cbEvPB5zwdo+GU6Whe/of42turn14ggcHISWX9HIbkTGUadv0lNslYTz+j6z?=
- =?us-ascii?Q?t7TS8Io4U/2NmRzi3ei7MJXk/LVXJxL5IQIqcM+0yWD+r3r/9YItcz0mJ5EE?=
- =?us-ascii?Q?9J3d3BMWOSIloYG1xAZbD8XhrFfd03vqIV12ErxagolJceevUBgYbI+9u1vk?=
- =?us-ascii?Q?vMCNe85iz+p3JJxIrIpQEOoQFPQiJk4R/WtvOI/B/L0XR1tSMZrEDrCdCTFo?=
- =?us-ascii?Q?yEkiArckgpqjlJ992M9OYWVtVttXzV48fXrJa8HQt0SW3nQ6gzD5Yrrxurp+?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf40cf11-03fe-4e4e-e189-08daf4e2ca08
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR10MB3794.namprd10.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+suf549FQDMWRiszp3fBlyHS3OxOqR/Hcxt4j2Uhz6wYbSUYKlvWTtvF0fr2?=
+ =?us-ascii?Q?sTVhLKfehnIxXYfZRgsub4Km9Fv+pt7fqxPHlKfIw9TQAHNlV/4ixUxB8Rnr?=
+ =?us-ascii?Q?Y0fjU1ZohXPzBRz/65r/l2V8z2WR+icUV+shI+y7/zBNo3N/I8n4lIVlZG+q?=
+ =?us-ascii?Q?sJ4Zj4K7IV1MqnSW+t6DGJTZ3QL6cLLZn/e1uACwF7iTQjhAPorU1jH89WMD?=
+ =?us-ascii?Q?3dBQrh9HRj/H2fKNK9ZryMHgEwGSHIJaL1bxGvckGh+Fss8zK4NgFmwMvNe5?=
+ =?us-ascii?Q?8MwCqgjcyHUd1Qae8IQZ6114c6Q7FfyyVo1QZzpV6LY6BpbqbVJ3pAjowpxq?=
+ =?us-ascii?Q?apAZ3LXBcoWWmb9r/cFMT8FDLJCOTZBGOc+eNSHzon7Wnv3wTmcyO8D18UtJ?=
+ =?us-ascii?Q?M9JkiUdIpu1TIY2MXpyWLkyQb0NtDZjODFuOC92Ptz3LQAPu8QSx+n40DzPf?=
+ =?us-ascii?Q?FymOFlA85ZrHKnK6PziPzoepQNoFnHZnZt7z956ar+mhK5BPOI2ltpR0L5L9?=
+ =?us-ascii?Q?ASDBWdz//vbByCxBhGun2K77U7HMFj1y1pSSosKflHGhQDl8LRgNQwZnSNlI?=
+ =?us-ascii?Q?lBvHcX+wN32ki/ZgjwRwCKVRZggTdsYMnFFGU8R2eIw+DcbHfAAD288pN6h4?=
+ =?us-ascii?Q?Ws7um7d42SH3N+wq3N5JDwKOzFn3lPiXSuGDW6nUlyrkoR3cXS1Z4vLSoZJd?=
+ =?us-ascii?Q?5738LOrPZNWX38OpL9MJ9qkVxiec/Nvzvn8KSeyzRk6DNvl/fX7IQ51D8eI4?=
+ =?us-ascii?Q?0I2P7HPIBqUFuKS6N09hk89YORzDXUtLei3vnJDHqYlb+JRncA+dG85stfbk?=
+ =?us-ascii?Q?xpaHBXWLvvr8Raxq2oD/L3br9af/4c7PXtwUaIBuJBPj3DWDP7zeCalZOpk9?=
+ =?us-ascii?Q?IdNA8M49oWkfX2oyS5MVf9cMk/oUDhI9RR+5h3EhjIRYllYbBocCXLyO87ko?=
+ =?us-ascii?Q?R19UmE98zbDo00yz9d+nhkQ03YStwmOwLTQkm1kZ9LDEpOCQ9HbeKj6ismrQ?=
+ =?us-ascii?Q?p7Vy+ZLaQBvMu6pJ6Ji4y8+n+K0o1lK+TlvL5/RhCxv7fjPllbQad+dA+ujA?=
+ =?us-ascii?Q?9DKdw3v6vc0pc2VHGO5fie3eF2vps3myqTwaJtmIx1aT3hg5W6p4JOO+rIwP?=
+ =?us-ascii?Q?TZUHjs+KVZiGMEafEbeXaWD2s7gaT+zTM8vrMVsP9AvTGCGF5D4cf3+7JdMd?=
+ =?us-ascii?Q?r1+GwD8zc4MDkKEECXImEpMBVUS/nYTnJCOi44E0nuD0KsZ4TYZ5PVew0FND?=
+ =?us-ascii?Q?F/pTiOnANLaC9DnUVqCl/AettOMYArnSpaGOf3EHKK8R0r6zgh5ymc8ACU6i?=
+ =?us-ascii?Q?Z2MeJ8BkZBHaVai1Xcer+mgSLFo7r1Xt7rYSAHN3R+gv+E5JsaXsQiCOq5T+?=
+ =?us-ascii?Q?9oa536+3mZbZuSLEuliK9STpQYFa+Cy4oOFEfBS50t1pt+cPvQMJsA71qcUJ?=
+ =?us-ascii?Q?cLgZYpwuqNf8LA4jA3Bqi+n1m8wvQNdON4msTmPWyo1piUtP1q9SGPvvQ0+4?=
+ =?us-ascii?Q?d5Ow5Y2cav/7cYzkVpt0Dyzcmowk1PSCgPbrvLGcyi5arbDpVfFxYe4659/L?=
+ =?us-ascii?Q?2Jx4I/D5usgzz358bmC4pwo6vEci+4T6dD++0qe9e40UASTD5uTEjT1PrNne?=
+ =?us-ascii?Q?zQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 65577017-c9a4-4f4b-5212-08daf4e5b557
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2023 21:20:11.9618
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2023 21:41:05.7495
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0JEZAFt1Y/1cVYhwLn8XzJ57DV146gkv5Ljcrnt7HpeseV2u+k1QrNrK7N6bArC3Xinl7lsQ0EUTYsigk7J6sg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR10MB6192
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-12_12,2023-01-12_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 suspectscore=0
- adultscore=0 spamscore=0 mlxscore=0 bulkscore=0 malwarescore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301120152
-X-Proofpoint-GUID: pFRvB8jb1Qt50BNpLARizyTGuTeBpA8b
-X-Proofpoint-ORIG-GUID: pFRvB8jb1Qt50BNpLARizyTGuTeBpA8b
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-UserPrincipalName: kvAXQhT9cqhRVCfIb9tJV9SRUS5FjPEfpFF9y9dBNcBATd+GTtLHw02EY25DRUYr8XGIU5+Bv4jcxLQ+yC+9uDCWcp7Kk63stRD3RBizLsw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4669
+X-OriginatorOrg: intel.com
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jan 12, 2023 at 01:00:57PM +0100, Greg Kroah-Hartman wrote:
-> On Mon, Jan 09, 2023 at 12:36:15PM -0600, Tom Saeger wrote:
-> > On Thu, Dec 22, 2022 at 07:01:11AM +0100, Greg Kroah-Hartman wrote:
-> > > On Wed, Dec 21, 2022 at 02:52:10PM -0600, Tom Saeger wrote:
-> > > > On Wed, Dec 21, 2022 at 05:31:51PM +0100, Greg Kroah-Hartman wrote:
-> > > > > On Thu, Dec 15, 2022 at 04:18:18PM -0700, Tom Saeger wrote:
-> > > > > > Backport of:
-> > > > > > commit 0d362be5b142 ("Makefile: link with -z noexecstack --no-warn-rwx-segments")
-> > > > > > breaks arm64 Build ID when CONFIG_MODVERSIONS=y for all kernels
-> > > > > > from: commit e4484a495586 ("Merge tag 'kbuild-fixes-v5.0' of git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild")
-> > > > > > until: commit df202b452fe6 ("Merge tag 'kbuild-v5.19' of git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild")
-> > > > > > 
-> > > > > > Linus's tree doesn't have this issue since 0d362be5b142 was merged
-> > > > > > after df202b452fe6 which included:
-> > > > > > commit 7b4537199a4a ("kbuild: link symbol CRCs at final link, removing CONFIG_MODULE_REL_CRCS")
-> > > > > 
-> > > > > Why can't we add this one instead of a custom change?
-> > > > 
-> > > > I quickly abandoned that route - there are too many dependencies.
-> > > 
-> > > How many?  Why?  Whenever we add a "this is not upstream" patch, 90% of
-> > > the time it is incorrect and causes problems (merge issues included.)
-> > > So please please please let's try to keep in sync with what is in
-> > > Linus's tree.
-> > > 
-> > > thanks,
-> > > 
-> > > greg k-h
-> > 
-> > Ok - I spent some time on this.
-> > 
-> > The haystack I searched:
-> > 
-> >   git rev-list --grep="masahiroy/linux-kbuild" v5.15..v5.19-rc1 | while read -r CID ; do git rev-list "${CID}^-" ; done | wc -l
-> >   182
-> > 
-> > I have 54 of those 182 applied to 5.15.85, and this works in my
-> > limited build testing (x86_64 gcc, arm64 gcc, arm64 clang).
-> > 
-> > Specifically:
-> > 
-> > 
-> > cbfc9bf3223f genksyms: adjust the output format to modpost
-> > e7c9c2630e59 kbuild: stop merging *.symversions
-> > 1d788aa800c7 kbuild: link symbol CRCs at final link, removing CONFIG_MODULE_REL_CRCS
-> > 8a01c770955b modpost: extract symbol versions from *.cmd files
-> > a8ade6b33772 modpost: add sym_find_with_module() helper
-> > a9639fe6b516 modpost: change the license of EXPORT_SYMBOL to bool type
-> > 04804878f631 modpost: remove left-over cross_compile declaration
-> > 3388b8af9698 kbuild: record symbol versions in *.cmd files
-> > 4ff3946463a0 kbuild: generate a list of objects in vmlinux
-> > 074617e2ad6a modpost: move *.mod.c generation to write_mod_c_files()
-> > 81b78cb6e821 modpost: merge add_{intree_flag,retpoline,staging_flag} to add_header
-> > 9df4f00b53b4 modpost: split new_symbol() to symbol allocation and hash table addition
-> > 85728bcbc500 modpost: make sym_add_exported() always allocate a new symbol
-> > 82aa2b4d30af modpost: make multiple export error
-> > 6cc962f0a175 modpost: dump Module.symvers in the same order of modules.order
-> > 39db82cea373 modpost: traverse the namespace_list in order
-> > 45dc7b236dcb modpost: use doubly linked list for dump_lists
-> > 2a322506403a modpost: traverse unresolved symbols in order
-> > a85718443348 modpost: add sym_add_unresolved() helper
-> > 5c44b0f89c82 modpost: traverse modules in order
-> > a0b68f6655f2 modpost: import include/linux/list.h
-> > ce9f4d32be4e modpost: change mod->gpl_compatible to bool type
-> > f9fe36a515ca modpost: use bool type where appropriate
-> > 46f6334d7055 modpost: move struct namespace_list to modpost.c
-> > afa24c45af49 modpost: retrieve the module dependency and CRCs in check_exports()
-> > a8f687dc3ac2 modpost: add a separate error for exported symbols without definition
-> > f97f0e32b230 modpost: remove stale comment about sym_add_exported()
-> > 0af2ad9d11c3 modpost: do not write out any file when error occurred
-> > 09eac5681c02 modpost: use snprintf() instead of sprintf() for safety
-> > ee07380110f2 kbuild: read *.mod to get objects passed to $(LD) or $(AR)
-> > 97976e5c6d55 kbuild: make *.mod not depend on *.o
-> > 0d4368c8da07 kbuild: get rid of duplication in *.mod files
-> > 55f602f00903 kbuild: split the second line of *.mod into *.usyms
-> > ea9730eb0788 kbuild: reuse real-search to simplify cmd_mod
-> > 1eacf71f885a kbuild: make multi_depend work with targets in subdirectory
-> > 19c2b5b6f769 kbuild: reuse suffix-search to refactor multi_depend
-> > 75df07a9133d kbuild: refactor cmd_modversions_S
-> > 53257fbea174 kbuild: refactor cmd_modversions_c
-> > b6e50682c261 modpost: remove annoying namespace_from_kstrtabns()
-> > 1002d8f060b0 modpost: remove redundant initializes for static variables
-> > 921fbb7ab714 modpost: move export_from_secname() call to more relevant place
-> > f49c0989e01b modpost: remove useless export_from_sec()
-> > 7a98501a77db kbuild: do not remove empty *.symtypes explicitly
-> > 500f1b31c16f kbuild: factor out genksyms command from cmd_gensymtypes_{c,S}
-> > e04fcad29aa3 kallsyms: ignore all local labels prefixed by '.L'
-> > 9e01f7ef15d2 kbuild: drop $(size_append) from cmd_zstd
-> > 054133567480 kbuild: do not include include/config/auto.conf from shell scripts
-> > 34d14831eecb kbuild: stop using config_filename in scripts/Makefile.modsign
-> > 75155bda5498 kbuild: use more subdir- for visiting subdirectories while cleaning
-> > 1a3f00cd3be8 kbuild: reuse $(cmd_objtool) for cmd_cc_lto_link_modules
-> > 47704d10e997 kbuild: detect objtool update without using .SECONDEXPANSION
-> > 7a89d034ccc6 kbuild: factor out OBJECT_FILES_NON_STANDARD check into a macro
-> > 3cbbf4b9d188 kbuild: store the objtool command in *.cmd files
-> > 467f0d0aa6b4 kbuild: rename __objtool_obj and reuse it for cmd_cc_lto_link_modules
-> > 
-> > There may be a few more patches post v5.19-rc1 for Fixes.
-> > I haven't tried minimizing the 54.
-> > 
-> > Greg - is 54 too many?
-> 
-> Yes.
-> 
-> How about we just revert the original problem commit here to solve this
-> mess?  Wouldn't that be easier overall?
-> 
-> thanks,
-> 
-> greg k-h
+On Wed, Jan 11, 2023 at 04:11:51PM +0000, Gary Guo wrote:
+>Currently modversion uses a fixed size array of size (64 - sizeof(long))
+>to store symbol names, thus placing a hard limit on length of symbols.
+>Rust symbols (which encodes crate and module names) can be quite a bit
+>longer. The length limit in kallsyms is increased to 512 for this reason.
+>
+>It's a waste of space to simply expand the fixed array size to 512 in
+>modversion info entries. I therefore make it variably sized, with offset
+>to the next entry indicated by the initial "next" field.
+>
+>In addition to supporting longer-than-56/60 byte symbols, this patch also
+>reduce the size for short symbols by getting rid of excessive 0 paddings.
+>There are still some zero paddings to ensure "next" and "crc" fields are
+>properly aligned.
+>
+>This patch does have a tiny drawback that it makes ".mod.c" files generated
+>a bit less easy to read, as code like
+>
+>	"\x08\x00\x00\x00\x78\x56\x34\x12"
+>	"symbol\0\0"
+>
+>is generated as opposed to
+>
+>	{ 0x12345678, "symbol" },
+>
+>because the structure is now variable-length. But hopefully nobody reads
+>the generated file :)
+>
+>Link: b8a94bfb3395 ("kallsyms: increase maximum kernel symbol length to 512")
+>Link: https://github.com/Rust-for-Linux/linux/pull/379
+>
+>Signed-off-by: Gary Guo <gary@garyguo.net>
+>---
+> arch/powerpc/kernel/module_64.c |  3 ++-
+> include/linux/module.h          |  6 ++++--
+> kernel/module/version.c         | 21 +++++++++------------
+> scripts/export_report.pl        |  9 +++++----
+> scripts/mod/modpost.c           | 33 +++++++++++++++++++++++----------
+> 5 files changed, 43 insertions(+), 29 deletions(-)
+>
+>diff --git a/arch/powerpc/kernel/module_64.c b/arch/powerpc/kernel/module_64.c
+>index ff045644f13f..eac23c11d579 100644
+>--- a/arch/powerpc/kernel/module_64.c
+>+++ b/arch/powerpc/kernel/module_64.c
+>@@ -236,10 +236,11 @@ static void dedotify_versions(struct modversion_info *vers,
+> {
+> 	struct modversion_info *end;
+>
+>-	for (end = (void *)vers + size; vers < end; vers++)
+>+	for (end = (void *)vers + size; vers < end; vers = (void *)vers + vers->next) {
+> 		if (vers->name[0] == '.') {
+> 			memmove(vers->name, vers->name+1, strlen(vers->name));
+> 		}
+>+	}
+> }
+>
+> /*
+>diff --git a/include/linux/module.h b/include/linux/module.h
+>index 8c5909c0076c..37cb25af9099 100644
+>--- a/include/linux/module.h
+>+++ b/include/linux/module.h
+>@@ -34,8 +34,10 @@
+> #define MODULE_NAME_LEN MAX_PARAM_PREFIX_LEN
+>
+> struct modversion_info {
+>-	unsigned long crc;
+>-	char name[MODULE_NAME_LEN];
+>+	/* Offset of the next modversion entry in relation to this one. */
+>+	u32 next;
+>+	u32 crc;
+>+	char name[0];
 
-What about a partial revert like:
+although not really exported as uapi, this will break userspace as this is
+used in the  elf file generated for the modules. I think
+this change must be made in a backward compatible way and kmod updated
+to deal with the variable name length:
 
-diff --git a/Makefile b/Makefile
-index 9f5d2e87150e..aa0f7578653d 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1083,7 +1083,9 @@ KBUILD_CFLAGS   += $(KCFLAGS)
- KBUILD_LDFLAGS_MODULE += --build-id=sha1
- LDFLAGS_vmlinux += --build-id=sha1
+kmod $ git grep "\[64"
+libkmod/libkmod-elf.c:  char name[64 - sizeof(uint32_t)];
+libkmod/libkmod-elf.c:  char name[64 - sizeof(uint64_t)];
 
-+ifneq ($(ARCH),$(filter $(ARCH),arm64))
- KBUILD_LDFLAGS += -z noexecstack
-+endif
- ifeq ($(CONFIG_LD_IS_BFD),y)
- KBUILD_LDFLAGS += $(call ld-option,--no-warn-rwx-segments)
- endif
+in kmod we have both 32 and 64 because a 64-bit kmod can read both 32
+and 64 bit module, and vice versa.
 
+Lucas De Marchi
 
-Only arm64 gcc/ld builds would need to change (with the option of adding
-other architectures if anyone reports same issue).
-
-With a full revert we lose --no-warn-rwx-segments and warnings show-up
-with later versions of ld.
-
-
-I did open a bug against 'ld' as Nick requested:
-https://sourceware.org/bugzilla/show_bug.cgi?id=29994
-
-If this is this is a better way to go - I can form up a v3 patch.
-
---Tom
+> };
+>
+> struct module;
+>diff --git a/kernel/module/version.c b/kernel/module/version.c
+>index 53f43ac5a73e..af7478dcc158 100644
+>--- a/kernel/module/version.c
+>+++ b/kernel/module/version.c
+>@@ -17,32 +17,29 @@ int check_version(const struct load_info *info,
+> {
+> 	Elf_Shdr *sechdrs = info->sechdrs;
+> 	unsigned int versindex = info->index.vers;
+>-	unsigned int i, num_versions;
+>-	struct modversion_info *versions;
+>+	struct modversion_info *versions, *end;
+>+	u32 crcval;
+>
+> 	/* Exporting module didn't supply crcs?  OK, we're already tainted. */
+> 	if (!crc)
+> 		return 1;
+>+	crcval = *crc;
+>
+> 	/* No versions at all?  modprobe --force does this. */
+> 	if (versindex == 0)
+> 		return try_to_force_load(mod, symname) == 0;
+>
+> 	versions = (void *)sechdrs[versindex].sh_addr;
+>-	num_versions = sechdrs[versindex].sh_size
+>-		/ sizeof(struct modversion_info);
+>+	end = (void *)versions + sechdrs[versindex].sh_size;
+>
+>-	for (i = 0; i < num_versions; i++) {
+>-		u32 crcval;
+>-
+>-		if (strcmp(versions[i].name, symname) != 0)
+>+	for (; versions < end; versions = (void *)versions + versions->next) {
+>+		if (strcmp(versions->name, symname) != 0)
+> 			continue;
+>
+>-		crcval = *crc;
+>-		if (versions[i].crc == crcval)
+>+		if (versions->crc == crcval)
+> 			return 1;
+>-		pr_debug("Found checksum %X vs module %lX\n",
+>-			 crcval, versions[i].crc);
+>+		pr_debug("Found checksum %X vs module %X\n",
+>+			 crcval, versions->crc);
+> 		goto bad_version;
+> 	}
+>
+>diff --git a/scripts/export_report.pl b/scripts/export_report.pl
+>index feb3d5542a62..1117646f3141 100755
+>--- a/scripts/export_report.pl
+>+++ b/scripts/export_report.pl
+>@@ -116,18 +116,19 @@ foreach my $thismod (@allcfiles) {
+> 	while ( <$module> ) {
+> 		chomp;
+> 		if ($state == 0) {
+>-			$state = 1 if ($_ =~ /static const struct modversion_info/);
+>+			$state = 1 if ($_ =~ /static const char ____versions/);
+> 			next;
+> 		}
+> 		if ($state == 1) {
+>-			$state = 2 if ($_ =~ /__attribute__\(\(section\("__versions"\)\)\)/);
+>+			$state = 2 if ($_ =~ /__used __section\("__versions"\)/);
+> 			next;
+> 		}
+> 		if ($state == 2) {
+>-			if ( $_ !~ /0x[0-9a-f]+,/ ) {
+>+			if ( $_ !~ /\\0"/ ) {
+>+				last if ($_ =~ /;/);
+> 				next;
+> 			}
+>-			my $sym = (split /([,"])/,)[4];
+>+			my $sym = (split /(["\\])/,)[2];
+> 			my ($module, $value, $symbol, $gpl) = @{$SYMBOL{$sym}};
+> 			$SYMBOL{ $sym } =  [ $module, $value+1, $symbol, $gpl];
+> 			push(@{$MODULE{$thismod}} , $sym);
+>diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+>index efff8078e395..334d170de31f 100644
+>--- a/scripts/mod/modpost.c
+>+++ b/scripts/mod/modpost.c
+>@@ -2046,13 +2046,17 @@ static void add_exported_symbols(struct buffer *buf, struct module *mod)
+> static void add_versions(struct buffer *b, struct module *mod)
+> {
+> 	struct symbol *s;
+>+	unsigned int name_len;
+>+	unsigned int name_len_padded;
+>+	unsigned int tmp;
+>+	unsigned char *tmp_view = (unsigned char *)&tmp;
+>
+> 	if (!modversions)
+> 		return;
+>
+> 	buf_printf(b, "\n");
+>-	buf_printf(b, "static const struct modversion_info ____versions[]\n");
+>-	buf_printf(b, "__used __section(\"__versions\") = {\n");
+>+	buf_printf(b, "static const char ____versions[]\n");
+>+	buf_printf(b, "__used __section(\"__versions\") =\n");
+>
+> 	list_for_each_entry(s, &mod->unresolved_symbols, list) {
+> 		if (!s->module)
+>@@ -2062,16 +2066,25 @@ static void add_versions(struct buffer *b, struct module *mod)
+> 				s->name, mod->name);
+> 			continue;
+> 		}
+>-		if (strlen(s->name) >= MODULE_NAME_LEN) {
+>-			error("too long symbol \"%s\" [%s.ko]\n",
+>-			      s->name, mod->name);
+>-			break;
+>-		}
+>-		buf_printf(b, "\t{ %#8x, \"%s\" },\n",
+>-			   s->crc, s->name);
+>+		name_len = strlen(s->name);
+>+		name_len_padded = (name_len + 1 + 3) & ~3;
+>+
+>+		/* Offset to next entry */
+>+		tmp = TO_NATIVE(8 + name_len_padded);
+>+		buf_printf(b, "\t\"\\x%02x\\x%02x\\x%02x\\x%02x",
+>+			   tmp_view[0], tmp_view[1], tmp_view[2], tmp_view[3]);
+>+
+>+		tmp = TO_NATIVE(s->crc);
+>+		buf_printf(b, "\\x%02x\\x%02x\\x%02x\\x%02x\"\n",
+>+			   tmp_view[0], tmp_view[1], tmp_view[2], tmp_view[3]);
+>+
+>+		buf_printf(b, "\t\"%s", s->name);
+>+		for (; name_len < name_len_padded; name_len++)
+>+			buf_printf(b, "\\0");
+>+		buf_printf(b, "\"\n");
+> 	}
+>
+>-	buf_printf(b, "};\n");
+>+	buf_printf(b, ";\n");
+> }
+>
+> static void add_depends(struct buffer *b, struct module *mod)
+>-- 
+>2.34.1
+>
