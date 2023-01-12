@@ -2,69 +2,69 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BC60667EAF
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jan 2023 20:07:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3262F667EC3
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jan 2023 20:10:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238170AbjALTHc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 12 Jan 2023 14:07:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35878 "EHLO
+        id S233125AbjALTKb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 12 Jan 2023 14:10:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239964AbjALTGb (ORCPT
+        with ESMTP id S240087AbjALTKA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 12 Jan 2023 14:06:31 -0500
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25075767A
-        for <linux-kbuild@vger.kernel.org>; Thu, 12 Jan 2023 10:48:11 -0800 (PST)
-Received: by mail-lf1-x130.google.com with SMTP id d30so24836187lfv.8
-        for <linux-kbuild@vger.kernel.org>; Thu, 12 Jan 2023 10:48:11 -0800 (PST)
+        Thu, 12 Jan 2023 14:10:00 -0500
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAD5618C
+        for <linux-kbuild@vger.kernel.org>; Thu, 12 Jan 2023 10:55:52 -0800 (PST)
+Received: by mail-pg1-x52d.google.com with SMTP id d10so13384018pgm.13
+        for <linux-kbuild@vger.kernel.org>; Thu, 12 Jan 2023 10:55:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2LHJhaYz4OJaY3qxSfplobYir10QkCvABhK4MHujXhE=;
-        b=Mj1nuXNvwOYlRF1dKE2t1j63P0DmN8cSVBEglgoKkJyzxPTVd7GG+IR7u+/JZkBfZm
-         IYH0ooDA4XvRSc+FAmL7evdeV6yHglIyqtgd+yafyjoy221eO1bEfN5zOp8fwzLzvxRx
-         fLMeMGGNJ3JZJGTGbidVCsP/fRjDEvsZznC1CceBBHvixBXainarIrYQkFn3JlGoJrll
-         o4+YnHlrAXtDCwrkPrx9ul6KrIzg2x91O9mOoLMGM2C3g9LwvfAUqwJB3pDeqa6wPiof
-         p6aYc8q/MwrJAonjiUC/+vgcjhQgz27WLvCEf2NJQBcZpAHTcmiGDHLqDzHZRfwiiJak
-         MVHg==
+        d=google.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=j+NRbTNiLmeYUADil1PoK0LGG/uPHqXhDMm4lsmIdtM=;
+        b=nDzN9TwaVepTI4JV1CwYJSALuJFKTnskXh0c3eKxM76cQADzIF8k4QJNXr5mQ/x1bo
+         0DpTZUTmHFuBjscdaIQZPyGFza3TIXAllmjPsLWwXZRN1ETM839IwF4cNTCTUh4XSmzc
+         5YE1s//l4fqyuzFY8c5UdSm2xw3wU++yYZc678/Eo77PvzmmUGSUQTMcwNHjqtH9gkv+
+         ZDHKKaG1KEEAYK03xSXWDJ2OeBynn2slTSp/LFyL24HqUraN5+CNfTldF4qvRmCz7NyE
+         49+tAQ+KUBmgYOGSbXDP4ORjeehSewbWgwhfc2Kh299pzbcMtT8V4NItvTPngjNqe3Tn
+         Bc2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2LHJhaYz4OJaY3qxSfplobYir10QkCvABhK4MHujXhE=;
-        b=TfcfXYytC9ov296AWZwsm+9gsdSaABhZiQoEImqXACD80a1bgrDRAY3JPh1N0Utzjd
-         2+F4eCQ9c/PsefE4M9EM9IgFVHsjJKpzYgHRfA1F3Eze641IeWksjSw4DN8YmcMkRz87
-         9n3jBBhirHl2/Iig86D88xkJ9o3XywiaUJfPieQCVA1O0jt5XcD7ycRu9jxzpPmWB89V
-         ugE4+Hj313/dLB4aHCfvZOb3+wvDnCJ50ByZv2HRLBBPnAMHVfEvCwC+PLgOdc1kk/5z
-         ITIYDM5C4aXnfXgqkeNVXdC3lfrzW/xNqPbQOrbCB+2u72iizXX2AjUGk5G4kxjSSdIL
-         ROAg==
-X-Gm-Message-State: AFqh2kptJPnjASiW78FXGoVZe9yCfd0Dr+95vTLkRDJoRMFIu/QnAu3g
-        Mt71FUz6YbIUh+/yP1K6/W4K+OQtkISpZYA+Pnk=
-X-Google-Smtp-Source: AMrXdXtBulizHQGHp+HKYjCPRVs+bctKl77S50/lf3BRAxO6DdRnFw6UXz+0+x4yagp7e3UnLq5IOn2ek3UncLBdjcc=
-X-Received: by 2002:a05:6512:3e12:b0:4ca:6c11:d3e5 with SMTP id
- i18-20020a0565123e1200b004ca6c11d3e5mr3715964lfv.224.1673549289451; Thu, 12
- Jan 2023 10:48:09 -0800 (PST)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=j+NRbTNiLmeYUADil1PoK0LGG/uPHqXhDMm4lsmIdtM=;
+        b=yLBn/QOnfcLT4/BWxlLThkxU1U6Isws/UpE5fVdAgv8qAbk/52YPiy9fX5r6qygIPw
+         Pb3q6DE6yqcRVYqBzj/dvCj4iN++8hh3cPp2CPpwCGuEt0oNJYK6AnR+XbpcaIuSFNX9
+         XfKvs7TK38vorRCPES0Z45gjv27pprd+wIGat52I3PKWF3VFBEkVlyfv6TmDA03Vg14K
+         Np9mpNsFOBI33nAImRY/CnD0eIh8WKoX/mVglxITlMu5knDM59nSG4qeaQiRvYOcAA6F
+         +9hA/h65VS1jh89J4k5augzdKc71nE0ArnUK+vANRNuvU7UYHI8uy1dMWUkOtx7Ior49
+         RjaA==
+X-Gm-Message-State: AFqh2kqjR0aC4Cb5q1lWTP1UcQaMZ7MD+FWcNQJVti10yWZxxYsBG9B3
+        q+iyEXTyu92Xj+9+DNcRm7xr0uO/cSitnS+qmNufgg==
+X-Google-Smtp-Source: AMrXdXuRsx/dID9s7vPNCdE3ysm0ZN/YTdpjQD8e+0PMDJN5HzzxmR5n62jAhFsDyc16t+/iWo5qN1TaqH8e66p8ZWs=
+X-Received: by 2002:a63:c50:0:b0:494:7a78:4bb0 with SMTP id
+ 16-20020a630c50000000b004947a784bb0mr4810678pgm.427.1673549751960; Thu, 12
+ Jan 2023 10:55:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20221228-drop-qunused-arguments-v2-0-9adbddd20d86@kernel.org>
- <20221228-drop-qunused-arguments-v2-7-9adbddd20d86@kernel.org>
- <CA+icZUUgq-dnSTRbdynPA8bEWg6SsCE9GYBMF6iViVmo9DfaFA@mail.gmail.com> <Y8BPp905fJciHNa2@dev-arch.thelio-3990X>
-In-Reply-To: <Y8BPp905fJciHNa2@dev-arch.thelio-3990X>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Thu, 12 Jan 2023 19:47:32 +0100
-Message-ID: <CA+icZUUyyJX8XTDqgacT6aacD_5-g5S=YY+aOjCjyMBk=CWxsg@mail.gmail.com>
-Subject: Re: [PATCH v2 07/14] powerpc/vdso: Improve linker flags
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     masahiroy@kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu,
-        trix@redhat.com, linux-kbuild@vger.kernel.org,
-        llvm@lists.linux.dev, mpe@ellerman.id.au, npiggin@gmail.com,
-        christophe.leroy@csgroup.eu, linuxppc-dev@lists.ozlabs.org
+References: <20230112023006.1873859-1-masahiroy@kernel.org>
+In-Reply-To: <20230112023006.1873859-1-masahiroy@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Thu, 12 Jan 2023 10:55:45 -0800
+Message-ID: <CAKwvOd=k=veNG=Q-bZxX4iX4q14e2ozO_sHZhdCz1+BwBxq=cQ@mail.gmail.com>
+Subject: Re: [PATCH] scripts: handle BrokenPipeError for python scripts
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kees Cook <keescook@chromium.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Tom Rix <trix@redhat.com>, llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,124 +72,212 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jan 12, 2023 at 7:21 PM Nathan Chancellor <nathan@kernel.org> wrote:
+On Wed, Jan 11, 2023 at 6:30 PM Masahiro Yamada <masahiroy@kernel.org> wrot=
+e:
 >
-> Hi Sedat,
+> In the follow-up of commit fb3041d61f68 ("kbuild: fix SIGPIPE error
+> message for AR=3Dgcc-ar and AR=3Dllvm-ar"), Kees Cook pointed out that
+> tools should _not_ catch their own SIGPIPEs [1] [2].
 >
-> On Thu, Jan 12, 2023 at 07:02:30PM +0100, Sedat Dilek wrote:
-> > On Thu, Jan 12, 2023 at 4:06 AM Nathan Chancellor <nathan@kernel.org> wrote:
-> > >
-> > > When clang's -Qunused-arguments is dropped from KBUILD_CPPFLAGS, there
-> > > are several warnings in the PowerPC vDSO:
-> > >
-> > >   clang-16: error: -Wl,-soname=linux-vdso32.so.1: 'linker' input unused [-Werror,-Wunused-command-line-argument]
-> > >   clang-16: error: -Wl,--hash-style=both: 'linker' input unused [-Werror,-Wunused-command-line-argument]
-> > >   clang-16: error: argument unused during compilation: '-shared' [-Werror,-Wunused-command-line-argument]
-> > >
-> > >   clang-16: error: argument unused during compilation: '-nostdinc' [-Werror,-Wunused-command-line-argument]
-> > >   clang-16: error: argument unused during compilation: '-Wa,-maltivec' [-Werror,-Wunused-command-line-argument]
-> > >
-> > > The first group of warnings point out that linker flags were being added
-> > > to all invocations of $(CC), even though they will only be used during
-> > > the final vDSO link. Move those flags to ldflags-y.
-> > >
-> > > The second group of warnings are compiler or assembler flags that will
-> > > be unused during linking. Filter them out from KBUILD_CFLAGS so that
-> > > they are not used during linking.
-> > >
-> > > Additionally, '-z noexecstack' was added directly to the ld_and_check
-> > > rule in commit 1d53c0192b15 ("powerpc/vdso: link with -z noexecstack")
-> > > but now that there is a common ldflags variable, it can be moved there.
-> > >
-> > > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> > > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-> > > ---
-> > > Cc: mpe@ellerman.id.au
-> > > Cc: npiggin@gmail.com
-> > > Cc: christophe.leroy@csgroup.eu
-> > > Cc: linuxppc-dev@lists.ozlabs.org
-> > > ---
-> > >  arch/powerpc/kernel/vdso/Makefile | 18 +++++++++++-------
-> > >  1 file changed, 11 insertions(+), 7 deletions(-)
-> > >
-> > > diff --git a/arch/powerpc/kernel/vdso/Makefile b/arch/powerpc/kernel/vdso/Makefile
-> > > index 45c0cc5d34b6..4337b3aa9171 100644
-> > > --- a/arch/powerpc/kernel/vdso/Makefile
-> > > +++ b/arch/powerpc/kernel/vdso/Makefile
-> > > @@ -47,13 +47,17 @@ KCOV_INSTRUMENT := n
-> > >  UBSAN_SANITIZE := n
-> > >  KASAN_SANITIZE := n
-> > >
-> > > -ccflags-y := -shared -fno-common -fno-builtin -nostdlib -Wl,--hash-style=both
-> > > -ccflags-$(CONFIG_LD_IS_LLD) += $(call cc-option,--ld-path=$(LD),-fuse-ld=lld)
-> > > -
-> > > -CC32FLAGS := -Wl,-soname=linux-vdso32.so.1 -m32
-> > > +ccflags-y := -fno-common -fno-builtin
-> > > +ldflags-y := -Wl,--hash-style=both -nostdlib -shared -z noexecstack
-> > > +ldflags-$(CONFIG_LD_IS_LLD) += $(call cc-option,--ld-path=$(LD),-fuse-ld=lld)
-> > > +# Filter flags that clang will warn are unused for linking
-> > > +ldflags-y += $(filter-out $(CC_FLAGS_FTRACE) -Wa$(comma)%, $(KBUILD_CFLAGS))
-> > > +
-> > > +CC32FLAGS := -m32
-> > > +LD32FLAGS := -Wl,-soname=linux-vdso32.so.1
-> > >  AS32FLAGS := -D__VDSO32__
-> > >
-> > > -CC64FLAGS := -Wl,-soname=linux-vdso64.so.1
-> >
-> > Set CC64FLAGS := -m64 ?
+> Based on his feedback, LLVM was fixed [3].
 >
-> I do not think it is necessary. ldflags-y is filtered from
-> KBUILD_CFLAGS, which should already include '-m64' (search for
-> 'HAS_BIARCH' in arch/powerpc/Makefile). We would have seen a problem
-> with this already if a 32-bit target (powerpc-linux-gnu-) CROSS_COMPILE
-> value since $(c_flags) uses the main kernel's CROSS_COMPILE value.
+> However, Python's default behavior is to show noisy bracktrace when
+> SIGPIPE is sent. So, scripts written in Python are basically in the
+> same situation as the buggy llvm tools.
+>
+> Example:
+>
+>   $ make -s allnoconfig
+>   $ make -s allmodconfig
+>   $ scripts/diffconfig .config.old .config | head -n1
+>   -ALIX n
+>   Traceback (most recent call last):
+>     File "/home/masahiro/linux/scripts/diffconfig", line 132, in <module>
+>       main()
+>     File "/home/masahiro/linux/scripts/diffconfig", line 130, in main
+>       print_config("+", config, None, b[config])
+>     File "/home/masahiro/linux/scripts/diffconfig", line 64, in print_con=
+fig
+>       print("+%s %s" % (config, new_value))
+>   BrokenPipeError: [Errno 32] Broken pipe
+>
+> Python documentatin [4] notes how to make scripts die immediately and
+
+typo: s/documentatin/documentation/
+
+> silently:
+>
+>   """
+>   Piping output of your program to tools like head(1) will cause a
+>   SIGPIPE signal to be sent to your process when the receiver of its
+>   standard output closes early. This results in an exception like
+>   BrokenPipeError: [Errno 32] Broken pipe. To handle this case,
+>   wrap your entry point to catch this exception as follows:
+>
+>     import os
+>     import sys
+>
+>     def main():
+>         try:
+>             # simulate large output (your code replaces this loop)
+>             for x in range(10000):
+>                 print("y")
+>             # flush output here to force SIGPIPE to be triggered
+>             # while inside this try block.
+>             sys.stdout.flush()
+>         except BrokenPipeError:
+>             # Python flushes standard streams on exit; redirect remaining=
+ output
+>             # to devnull to avoid another BrokenPipeError at shutdown
+>             devnull =3D os.open(os.devnull, os.O_WRONLY)
+>             os.dup2(devnull, sys.stdout.fileno())
+>             sys.exit(1)  # Python exits with error code 1 on EPIPE
+>
+>     if __name__ =3D=3D '__main__':
+>         main()
+>
+>   Do not set SIGPIPE=E2=80=99s disposition to SIG_DFL in order to avoid
+>   BrokenPipeError. Doing that would cause your program to exit
+>   unexpectedly whenever any socket connection is interrupted while
+>   your program is still writing to it.
+>   """
+>
+> Currently, tools/perf/scripts/python/intel-pt-events.py seems the
+> only script that fixes the issue that way.
+>
+> tools/perf/scripts/python/compaction-times.py uses another approach
+> signal.signal(signal.SIGPIPE, signal.SIG_DFL) but the Python
+> documentation clearly says "Don't do it".
+>
+> I cannot fix all Python scripts since there are so many.
+> I fixed some in the scripts/ directory.
+
+That's ok; "Rome wasn't built in a day." This is a good start!
+Thank you for the patch!
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
+>
+> [1]: https://lore.kernel.org/all/202211161056.1B9611A@keescook/
+> [2]: https://github.com/llvm/llvm-project/issues/59037
+> [3]: https://github.com/llvm/llvm-project/commit/4787efa38066adb51e2c0494=
+99d25b3610c0877b
+> [4]: https://docs.python.org/3/library/signal.html#note-on-sigpipe
+>
+> Cc: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+>  scripts/checkkconfigsymbols.py         | 13 ++++++++++++-
+>  scripts/clang-tools/run-clang-tools.py | 21 ++++++++++++++-------
+>  scripts/diffconfig                     | 16 ++++++++++++++--
+>  3 files changed, 40 insertions(+), 10 deletions(-)
+>
+> diff --git a/scripts/checkkconfigsymbols.py b/scripts/checkkconfigsymbols=
+.py
+> index 217d21abc86e..36c920e71313 100755
+> --- a/scripts/checkkconfigsymbols.py
+> +++ b/scripts/checkkconfigsymbols.py
+> @@ -115,7 +115,7 @@ def parse_options():
+>      return args
+>
+>
+> -def main():
+> +def print_undefined_symbols():
+>      """Main function of this module."""
+>      args =3D parse_options()
+>
+> @@ -467,5 +467,16 @@ def parse_kconfig_file(kfile):
+>      return defined, references
+>
+>
+> +def main():
+> +    try:
+> +        print_undefined_symbols()
+> +    except BrokenPipeError:
+> +        # Python flushes standard streams on exit; redirect remaining ou=
+tput
+> +        # to devnull to avoid another BrokenPipeError at shutdown
+> +        devnull =3D os.open(os.devnull, os.O_WRONLY)
+> +        os.dup2(devnull, sys.stdout.fileno())
+> +        sys.exit(1)  # Python exits with error code 1 on EPIPE
+> +
+> +
+>  if __name__ =3D=3D "__main__":
+>      main()
+> diff --git a/scripts/clang-tools/run-clang-tools.py b/scripts/clang-tools=
+/run-clang-tools.py
+> index 56f2ec8f0f40..3266708a8658 100755
+> --- a/scripts/clang-tools/run-clang-tools.py
+> +++ b/scripts/clang-tools/run-clang-tools.py
+> @@ -61,14 +61,21 @@ def run_analysis(entry):
+>
+>
+>  def main():
+> -    args =3D parse_arguments()
+> +    try:
+> +        args =3D parse_arguments()
+>
+> -    lock =3D multiprocessing.Lock()
+> -    pool =3D multiprocessing.Pool(initializer=3Dinit, initargs=3D(lock, =
+args))
+> -    # Read JSON data into the datastore variable
+> -    with open(args.path, "r") as f:
+> -        datastore =3D json.load(f)
+> -        pool.map(run_analysis, datastore)
+> +        lock =3D multiprocessing.Lock()
+> +        pool =3D multiprocessing.Pool(initializer=3Dinit, initargs=3D(lo=
+ck, args))
+> +        # Read JSON data into the datastore variable
+> +        with open(args.path, "r") as f:
+> +            datastore =3D json.load(f)
+> +            pool.map(run_analysis, datastore)
+> +    except BrokenPipeError:
+> +        # Python flushes standard streams on exit; redirect remaining ou=
+tput
+> +        # to devnull to avoid another BrokenPipeError at shutdown
+> +        devnull =3D os.open(os.devnull, os.O_WRONLY)
+> +        os.dup2(devnull, sys.stdout.fileno())
+> +        sys.exit(1)  # Python exits with error code 1 on EPIPE
+>
+>
+>  if __name__ =3D=3D "__main__":
+> diff --git a/scripts/diffconfig b/scripts/diffconfig
+> index d5da5fa05d1d..43f0f3d273ae 100755
+> --- a/scripts/diffconfig
+> +++ b/scripts/diffconfig
+> @@ -65,7 +65,7 @@ def print_config(op, config, value, new_value):
+>          else:
+>              print(" %s %s -> %s" % (config, value, new_value))
+>
+> -def main():
+> +def show_diff():
+>      global merge_style
+>
+>      # parse command line args
+> @@ -129,4 +129,16 @@ def main():
+>      for config in new:
+>          print_config("+", config, None, b[config])
+>
+> -main()
+> +def main():
+> +    try:
+> +        show_diff()
+> +    except BrokenPipeError:
+> +        # Python flushes standard streams on exit; redirect remaining ou=
+tput
+> +        # to devnull to avoid another BrokenPipeError at shutdown
+> +        devnull =3D os.open(os.devnull, os.O_WRONLY)
+> +        os.dup2(devnull, sys.stdout.fileno())
+> +        sys.exit(1)  # Python exits with error code 1 on EPIPE
+> +
+> +
+> +if __name__ =3D=3D '__main__':
+> +    main()
+> --
+> 2.34.1
 >
 
-Happy new 2023 Nathan,
 
-that vdso Makefiles are hard to read.
-
-Looks like x86/vdso explicitly sets -m32 and filter-out -m64 for the
-32-bit case.
-
-Best regards,
--Sedat-
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/x86/entry/vdso/Makefile
-
-> > > +LD64FLAGS := -Wl,-soname=linux-vdso64.so.1
-> > >  AS64FLAGS := -D__VDSO64__
-> > >
-> > >  targets += vdso32.lds
-> > > @@ -92,14 +96,14 @@ include/generated/vdso64-offsets.h: $(obj)/vdso64.so.dbg FORCE
-> > >
-> > >  # actual build commands
-> > >  quiet_cmd_vdso32ld_and_check = VDSO32L $@
-> > > -      cmd_vdso32ld_and_check = $(VDSOCC) $(c_flags) $(CC32FLAGS) -o $@ -Wl,-T$(filter %.lds,$^) $(filter %.o,$^) -z noexecstack ; $(cmd_vdso_check)
-> > > +      cmd_vdso32ld_and_check = $(VDSOCC) $(ldflags-y) $(CC32FLAGS) $(LD32FLAGS) -o $@ -Wl,-T$(filter %.lds,$^) $(filter %.o,$^); $(cmd_vdso_check)
-> > >  quiet_cmd_vdso32as = VDSO32A $@
-> > >        cmd_vdso32as = $(VDSOCC) $(a_flags) $(CC32FLAGS) $(AS32FLAGS) -c -o $@ $<
-> > >  quiet_cmd_vdso32cc = VDSO32C $@
-> > >        cmd_vdso32cc = $(VDSOCC) $(c_flags) $(CC32FLAGS) -c -o $@ $<
-> > >
-> > >  quiet_cmd_vdso64ld_and_check = VDSO64L $@
-> > > -      cmd_vdso64ld_and_check = $(VDSOCC) $(c_flags) $(CC64FLAGS) -o $@ -Wl,-T$(filter %.lds,$^) $(filter %.o,$^) -z noexecstack ; $(cmd_vdso_check)
-> > > +      cmd_vdso64ld_and_check = $(VDSOCC) $(ldflags-y) $(CC64FLAGS) $(LD64FLAGS) -o $@ -Wl,-T$(filter %.lds,$^) $(filter %.o,$^); $(cmd_vdso_check)
-> >
-> > If no CC64FLAGS := xxx is set, this can go?
->
-> Good catch! CC64FLAGS can be removed. Masahiro, I am happy to send a v3
-> when I am back online next week but if you are able to fix it up during
-> application, please feel free to do so (once the PowerPC folks give
-> their Acks of course).
->
-> > >  quiet_cmd_vdso64as = VDSO64A $@
-> > >        cmd_vdso64as = $(VDSOCC) $(a_flags) $(CC64FLAGS) $(AS64FLAGS) -c -o $@ $<
-> > >
-> > >
-> > > --
-> > > 2.39.0
-> > >
->
-> Thanks for the review, cheers!
-> Nathan
+--=20
+Thanks,
+~Nick Desaulniers
