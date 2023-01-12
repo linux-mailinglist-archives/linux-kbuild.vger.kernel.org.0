@@ -2,169 +2,162 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0573D6671A5
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jan 2023 13:06:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3783E667E24
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jan 2023 19:29:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231337AbjALMGy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 12 Jan 2023 07:06:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41002 "EHLO
+        id S230009AbjALS3S (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 12 Jan 2023 13:29:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232346AbjALMGR (ORCPT
+        with ESMTP id S240785AbjALS2o (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 12 Jan 2023 07:06:17 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48F9F3AA9E;
-        Thu, 12 Jan 2023 04:01:01 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D12DB6201F;
-        Thu, 12 Jan 2023 12:01:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 856C5C433EF;
-        Thu, 12 Jan 2023 12:00:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1673524860;
-        bh=t/9k2Ihu/gDyXRAWkyMgtoaazFrxY2WxtbZ4chX3GMc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hIIfvtVS0mPLu1p6Wg2SqtuWS+8qck2l3AW4eMrHwpDSofgrNWgtyAnYvZQa083tP
-         ea4V0RgLs5l3XXGNcAnJtNj7x/M35pXUoE5Sy51K27JWAxC0OwfwfX2VPlzxPn9xjy
-         D0tMb0Vn4431BTZuJ1c+4oaFepN/kKBqOmLrrfG0=
-Date:   Thu, 12 Jan 2023 13:00:57 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Tom Saeger <tom.saeger@oracle.com>
-Cc:     stable@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [PATCH 5.15 5.10 5.4 v2] kbuild: fix Build ID if
- CONFIG_MODVERSIONS
-Message-ID: <Y7/2ef+JWO6BXGfC@kroah.com>
-References: <3df32572ec7016e783d37e185f88495831671f5d.1671143628.git.tom.saeger@oracle.com>
- <Y6M090tsVRIBNlNG@kroah.com>
- <20221221205210.6oolnwkzqo2d6q5h@oracle.com>
- <Y6Pyp+7Udn6x/UVg@kroah.com>
- <20230109183615.zxe7o7fowdpeqlj3@oracle.com>
+        Thu, 12 Jan 2023 13:28:44 -0500
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBF4476EC2
+        for <linux-kbuild@vger.kernel.org>; Thu, 12 Jan 2023 10:03:08 -0800 (PST)
+Received: by mail-lj1-x236.google.com with SMTP id bn6so20166252ljb.13
+        for <linux-kbuild@vger.kernel.org>; Thu, 12 Jan 2023 10:03:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ndh3l6uBoXa06zj+WBg5LiMdLFR8aWNRgARJ4DfSidI=;
+        b=LmNrxNiZmnVFVPOM8BmikHO+4MdtaTs310NFHCrQYh4OmFV5ncP+XH0c5dQn01fuwx
+         n5W72KOXp97Bj7YGCaO+z3yCVVIFae1JbKOuUx15pk1F3J3j36/X+daLs+rGgB6Nu/6X
+         2YYgycZXiW3ADy31jqqUzgaR6RqVP6Z3joMShb/qD9lPd5woGyZKRdvyULhnqPp+KGTx
+         Ohq1acwDyvdHJ9p3h+pcfbKHd2I8DbNWwZazTj7QDILzRh2vWEl0UUdCyyY5e6w0G85o
+         hnqIlntQ6RfWEpqrc8MRRd3+k369cYBzvHCRGDUBXCY2cWVyRnAYwvfWQHJ92Xp9QFxr
+         9X7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ndh3l6uBoXa06zj+WBg5LiMdLFR8aWNRgARJ4DfSidI=;
+        b=plft18GX9GUyZ2E1SVGrvQmbJ7Onz7xN5yaS6Zh51mHVaTUFOjTHaoVL5IN/LDNTu5
+         bbxNk+kXiydlKqGoelcilPHsbH8IXZNYGEoX77MM+Kn+9Y2zmSqE37hO3m2aKFMAHJH+
+         5tjXzl49FwJjFXKcIqWJ39ADaOMMlWPtPUDmld0IO1zd6n5q26cIM7Q9LJLPQ4INb1Ws
+         cvGFYGv4YgSZl1ujQ0GwgTnIekHVHCmblc163e2JqtKr3wFLqMQJGSWM8zl69sraW0Z/
+         0lhhpGkfNJi0clV0+wk2nxw6pe/Wid4PDjkFr7nQOsduftNoxIEjD6buMi/vRiGDwXa7
+         0mrA==
+X-Gm-Message-State: AFqh2krjZV9SCHd47dwBXhlj1y9stOm+w1CNHggVylh2mNX+KoA4LSOX
+        sacAuAc8nQbAMaA34X1eYJrONTSyXmHKsK0LXfY=
+X-Google-Smtp-Source: AMrXdXuetufdJJeJC/X+XoCQxfcd8EltY+2hSGpOCciWaJv9pAZNP5cadqHRPbtuWDUUhvtwkyKs6ebexWS/akbSPeI=
+X-Received: by 2002:a05:651c:124f:b0:27f:c535:5ec2 with SMTP id
+ h15-20020a05651c124f00b0027fc5355ec2mr2707171ljh.204.1673546587258; Thu, 12
+ Jan 2023 10:03:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230109183615.zxe7o7fowdpeqlj3@oracle.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221228-drop-qunused-arguments-v2-0-9adbddd20d86@kernel.org> <20221228-drop-qunused-arguments-v2-7-9adbddd20d86@kernel.org>
+In-Reply-To: <20221228-drop-qunused-arguments-v2-7-9adbddd20d86@kernel.org>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Thu, 12 Jan 2023 19:02:30 +0100
+Message-ID: <CA+icZUUgq-dnSTRbdynPA8bEWg6SsCE9GYBMF6iViVmo9DfaFA@mail.gmail.com>
+Subject: Re: [PATCH v2 07/14] powerpc/vdso: Improve linker flags
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     masahiroy@kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu,
+        trix@redhat.com, linux-kbuild@vger.kernel.org,
+        llvm@lists.linux.dev, mpe@ellerman.id.au, npiggin@gmail.com,
+        christophe.leroy@csgroup.eu, linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jan 09, 2023 at 12:36:15PM -0600, Tom Saeger wrote:
-> On Thu, Dec 22, 2022 at 07:01:11AM +0100, Greg Kroah-Hartman wrote:
-> > On Wed, Dec 21, 2022 at 02:52:10PM -0600, Tom Saeger wrote:
-> > > On Wed, Dec 21, 2022 at 05:31:51PM +0100, Greg Kroah-Hartman wrote:
-> > > > On Thu, Dec 15, 2022 at 04:18:18PM -0700, Tom Saeger wrote:
-> > > > > Backport of:
-> > > > > commit 0d362be5b142 ("Makefile: link with -z noexecstack --no-warn-rwx-segments")
-> > > > > breaks arm64 Build ID when CONFIG_MODVERSIONS=y for all kernels
-> > > > > from: commit e4484a495586 ("Merge tag 'kbuild-fixes-v5.0' of git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild")
-> > > > > until: commit df202b452fe6 ("Merge tag 'kbuild-v5.19' of git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild")
-> > > > > 
-> > > > > Linus's tree doesn't have this issue since 0d362be5b142 was merged
-> > > > > after df202b452fe6 which included:
-> > > > > commit 7b4537199a4a ("kbuild: link symbol CRCs at final link, removing CONFIG_MODULE_REL_CRCS")
-> > > > 
-> > > > Why can't we add this one instead of a custom change?
-> > > 
-> > > I quickly abandoned that route - there are too many dependencies.
-> > 
-> > How many?  Why?  Whenever we add a "this is not upstream" patch, 90% of
-> > the time it is incorrect and causes problems (merge issues included.)
-> > So please please please let's try to keep in sync with what is in
-> > Linus's tree.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> Ok - I spent some time on this.
-> 
-> The haystack I searched:
-> 
->   git rev-list --grep="masahiroy/linux-kbuild" v5.15..v5.19-rc1 | while read -r CID ; do git rev-list "${CID}^-" ; done | wc -l
->   182
-> 
-> I have 54 of those 182 applied to 5.15.85, and this works in my
-> limited build testing (x86_64 gcc, arm64 gcc, arm64 clang).
-> 
-> Specifically:
-> 
-> 
-> cbfc9bf3223f genksyms: adjust the output format to modpost
-> e7c9c2630e59 kbuild: stop merging *.symversions
-> 1d788aa800c7 kbuild: link symbol CRCs at final link, removing CONFIG_MODULE_REL_CRCS
-> 8a01c770955b modpost: extract symbol versions from *.cmd files
-> a8ade6b33772 modpost: add sym_find_with_module() helper
-> a9639fe6b516 modpost: change the license of EXPORT_SYMBOL to bool type
-> 04804878f631 modpost: remove left-over cross_compile declaration
-> 3388b8af9698 kbuild: record symbol versions in *.cmd files
-> 4ff3946463a0 kbuild: generate a list of objects in vmlinux
-> 074617e2ad6a modpost: move *.mod.c generation to write_mod_c_files()
-> 81b78cb6e821 modpost: merge add_{intree_flag,retpoline,staging_flag} to add_header
-> 9df4f00b53b4 modpost: split new_symbol() to symbol allocation and hash table addition
-> 85728bcbc500 modpost: make sym_add_exported() always allocate a new symbol
-> 82aa2b4d30af modpost: make multiple export error
-> 6cc962f0a175 modpost: dump Module.symvers in the same order of modules.order
-> 39db82cea373 modpost: traverse the namespace_list in order
-> 45dc7b236dcb modpost: use doubly linked list for dump_lists
-> 2a322506403a modpost: traverse unresolved symbols in order
-> a85718443348 modpost: add sym_add_unresolved() helper
-> 5c44b0f89c82 modpost: traverse modules in order
-> a0b68f6655f2 modpost: import include/linux/list.h
-> ce9f4d32be4e modpost: change mod->gpl_compatible to bool type
-> f9fe36a515ca modpost: use bool type where appropriate
-> 46f6334d7055 modpost: move struct namespace_list to modpost.c
-> afa24c45af49 modpost: retrieve the module dependency and CRCs in check_exports()
-> a8f687dc3ac2 modpost: add a separate error for exported symbols without definition
-> f97f0e32b230 modpost: remove stale comment about sym_add_exported()
-> 0af2ad9d11c3 modpost: do not write out any file when error occurred
-> 09eac5681c02 modpost: use snprintf() instead of sprintf() for safety
-> ee07380110f2 kbuild: read *.mod to get objects passed to $(LD) or $(AR)
-> 97976e5c6d55 kbuild: make *.mod not depend on *.o
-> 0d4368c8da07 kbuild: get rid of duplication in *.mod files
-> 55f602f00903 kbuild: split the second line of *.mod into *.usyms
-> ea9730eb0788 kbuild: reuse real-search to simplify cmd_mod
-> 1eacf71f885a kbuild: make multi_depend work with targets in subdirectory
-> 19c2b5b6f769 kbuild: reuse suffix-search to refactor multi_depend
-> 75df07a9133d kbuild: refactor cmd_modversions_S
-> 53257fbea174 kbuild: refactor cmd_modversions_c
-> b6e50682c261 modpost: remove annoying namespace_from_kstrtabns()
-> 1002d8f060b0 modpost: remove redundant initializes for static variables
-> 921fbb7ab714 modpost: move export_from_secname() call to more relevant place
-> f49c0989e01b modpost: remove useless export_from_sec()
-> 7a98501a77db kbuild: do not remove empty *.symtypes explicitly
-> 500f1b31c16f kbuild: factor out genksyms command from cmd_gensymtypes_{c,S}
-> e04fcad29aa3 kallsyms: ignore all local labels prefixed by '.L'
-> 9e01f7ef15d2 kbuild: drop $(size_append) from cmd_zstd
-> 054133567480 kbuild: do not include include/config/auto.conf from shell scripts
-> 34d14831eecb kbuild: stop using config_filename in scripts/Makefile.modsign
-> 75155bda5498 kbuild: use more subdir- for visiting subdirectories while cleaning
-> 1a3f00cd3be8 kbuild: reuse $(cmd_objtool) for cmd_cc_lto_link_modules
-> 47704d10e997 kbuild: detect objtool update without using .SECONDEXPANSION
-> 7a89d034ccc6 kbuild: factor out OBJECT_FILES_NON_STANDARD check into a macro
-> 3cbbf4b9d188 kbuild: store the objtool command in *.cmd files
-> 467f0d0aa6b4 kbuild: rename __objtool_obj and reuse it for cmd_cc_lto_link_modules
-> 
-> There may be a few more patches post v5.19-rc1 for Fixes.
-> I haven't tried minimizing the 54.
-> 
-> Greg - is 54 too many?
+On Thu, Jan 12, 2023 at 4:06 AM Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> When clang's -Qunused-arguments is dropped from KBUILD_CPPFLAGS, there
+> are several warnings in the PowerPC vDSO:
+>
+>   clang-16: error: -Wl,-soname=linux-vdso32.so.1: 'linker' input unused [-Werror,-Wunused-command-line-argument]
+>   clang-16: error: -Wl,--hash-style=both: 'linker' input unused [-Werror,-Wunused-command-line-argument]
+>   clang-16: error: argument unused during compilation: '-shared' [-Werror,-Wunused-command-line-argument]
+>
+>   clang-16: error: argument unused during compilation: '-nostdinc' [-Werror,-Wunused-command-line-argument]
+>   clang-16: error: argument unused during compilation: '-Wa,-maltivec' [-Werror,-Wunused-command-line-argument]
+>
+> The first group of warnings point out that linker flags were being added
+> to all invocations of $(CC), even though they will only be used during
+> the final vDSO link. Move those flags to ldflags-y.
+>
+> The second group of warnings are compiler or assembler flags that will
+> be unused during linking. Filter them out from KBUILD_CFLAGS so that
+> they are not used during linking.
+>
+> Additionally, '-z noexecstack' was added directly to the ld_and_check
+> rule in commit 1d53c0192b15 ("powerpc/vdso: link with -z noexecstack")
+> but now that there is a common ldflags variable, it can be moved there.
+>
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> ---
+> Cc: mpe@ellerman.id.au
+> Cc: npiggin@gmail.com
+> Cc: christophe.leroy@csgroup.eu
+> Cc: linuxppc-dev@lists.ozlabs.org
+> ---
+>  arch/powerpc/kernel/vdso/Makefile | 18 +++++++++++-------
+>  1 file changed, 11 insertions(+), 7 deletions(-)
+>
+> diff --git a/arch/powerpc/kernel/vdso/Makefile b/arch/powerpc/kernel/vdso/Makefile
+> index 45c0cc5d34b6..4337b3aa9171 100644
+> --- a/arch/powerpc/kernel/vdso/Makefile
+> +++ b/arch/powerpc/kernel/vdso/Makefile
+> @@ -47,13 +47,17 @@ KCOV_INSTRUMENT := n
+>  UBSAN_SANITIZE := n
+>  KASAN_SANITIZE := n
+>
+> -ccflags-y := -shared -fno-common -fno-builtin -nostdlib -Wl,--hash-style=both
+> -ccflags-$(CONFIG_LD_IS_LLD) += $(call cc-option,--ld-path=$(LD),-fuse-ld=lld)
+> -
+> -CC32FLAGS := -Wl,-soname=linux-vdso32.so.1 -m32
+> +ccflags-y := -fno-common -fno-builtin
+> +ldflags-y := -Wl,--hash-style=both -nostdlib -shared -z noexecstack
+> +ldflags-$(CONFIG_LD_IS_LLD) += $(call cc-option,--ld-path=$(LD),-fuse-ld=lld)
+> +# Filter flags that clang will warn are unused for linking
+> +ldflags-y += $(filter-out $(CC_FLAGS_FTRACE) -Wa$(comma)%, $(KBUILD_CFLAGS))
+> +
+> +CC32FLAGS := -m32
+> +LD32FLAGS := -Wl,-soname=linux-vdso32.so.1
+>  AS32FLAGS := -D__VDSO32__
+>
+> -CC64FLAGS := -Wl,-soname=linux-vdso64.so.1
 
-Yes.
+Set CC64FLAGS := -m64 ?
 
-How about we just revert the original problem commit here to solve this
-mess?  Wouldn't that be easier overall?
+> +LD64FLAGS := -Wl,-soname=linux-vdso64.so.1
+>  AS64FLAGS := -D__VDSO64__
+>
+>  targets += vdso32.lds
+> @@ -92,14 +96,14 @@ include/generated/vdso64-offsets.h: $(obj)/vdso64.so.dbg FORCE
+>
+>  # actual build commands
+>  quiet_cmd_vdso32ld_and_check = VDSO32L $@
+> -      cmd_vdso32ld_and_check = $(VDSOCC) $(c_flags) $(CC32FLAGS) -o $@ -Wl,-T$(filter %.lds,$^) $(filter %.o,$^) -z noexecstack ; $(cmd_vdso_check)
+> +      cmd_vdso32ld_and_check = $(VDSOCC) $(ldflags-y) $(CC32FLAGS) $(LD32FLAGS) -o $@ -Wl,-T$(filter %.lds,$^) $(filter %.o,$^); $(cmd_vdso_check)
+>  quiet_cmd_vdso32as = VDSO32A $@
+>        cmd_vdso32as = $(VDSOCC) $(a_flags) $(CC32FLAGS) $(AS32FLAGS) -c -o $@ $<
+>  quiet_cmd_vdso32cc = VDSO32C $@
+>        cmd_vdso32cc = $(VDSOCC) $(c_flags) $(CC32FLAGS) -c -o $@ $<
+>
+>  quiet_cmd_vdso64ld_and_check = VDSO64L $@
+> -      cmd_vdso64ld_and_check = $(VDSOCC) $(c_flags) $(CC64FLAGS) -o $@ -Wl,-T$(filter %.lds,$^) $(filter %.o,$^) -z noexecstack ; $(cmd_vdso_check)
+> +      cmd_vdso64ld_and_check = $(VDSOCC) $(ldflags-y) $(CC64FLAGS) $(LD64FLAGS) -o $@ -Wl,-T$(filter %.lds,$^) $(filter %.o,$^); $(cmd_vdso_check)
 
-thanks,
+If no CC64FLAGS := xxx is set, this can go?
 
-greg k-h
+-Sedat-
+
+>  quiet_cmd_vdso64as = VDSO64A $@
+>        cmd_vdso64as = $(VDSOCC) $(a_flags) $(CC64FLAGS) $(AS64FLAGS) -c -o $@ $<
+>
+>
+> --
+> 2.39.0
+>
