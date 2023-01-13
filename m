@@ -2,128 +2,90 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E073668F46
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Jan 2023 08:33:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 20B2C669309
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Jan 2023 10:34:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229887AbjAMHdp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 13 Jan 2023 02:33:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58872 "EHLO
+        id S240868AbjAMJeW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 13 Jan 2023 04:34:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239955AbjAMHc7 (ORCPT
+        with ESMTP id S241279AbjAMJcF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 13 Jan 2023 02:32:59 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F09E66ADB4;
-        Thu, 12 Jan 2023 23:29:28 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8C71B62284;
-        Fri, 13 Jan 2023 07:29:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4BF9C433D2;
-        Fri, 13 Jan 2023 07:29:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673594967;
-        bh=HdORwliAlKDZ7stnWASrQZfLjLba57MqkREEv8VnFOE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=IvFiucuSA8G58gtqGIuOWHE1qA0kFBMPY4senDM9SN8MFgYa6frko4U8Q438g4y6P
-         4e6dGJ0y+tvRGTZWiIHfycrPhH3m78o/XwQ35nRpJISUXDmAjFWiWQ6824bEJNfKFM
-         hpzKrKxmZRAZv47PSzUl64oU01Ac10vYkuXAtqQ9/17L7X/7LDSwxhOHnzJ9T7rJRh
-         hTxA969ZocRidZTpFvBIRFQ9yyNHwI/ttvRIPB7ozN7TN1gyJxA0/4mHfItjUVhLKC
-         bdtIqNulreXoqfs8CYGtCSTCOHxwdCHZ5Gctc1DkVAklBq6eZrUe+LlhaWK6Hlr0Lt
-         phKEV7Sap5Qnw==
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-15ee27bb0a8so1074335fac.7;
-        Thu, 12 Jan 2023 23:29:27 -0800 (PST)
-X-Gm-Message-State: AFqh2kos1/nsrgantSKt7JCYAlR24IriE3CjCGdOlRJWfVKy9Xr40Zgo
-        DsPOh2AHH2QCPo3fmcFhxeUOSkeQNLPhrfhdzhg=
-X-Google-Smtp-Source: AMrXdXtO1vzWs5t7LoWwnKsfx6fseeW3edgtD6OcSrFb38X8vczRhtOinccHS7mabN4Ncknm4BitWaYFDCoim7QFND8=
-X-Received: by 2002:a05:6870:50a:b0:15b:9941:ac30 with SMTP id
- j10-20020a056870050a00b0015b9941ac30mr1497533oao.287.1673594967147; Thu, 12
- Jan 2023 23:29:27 -0800 (PST)
+        Fri, 13 Jan 2023 04:32:05 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18D17F0C;
+        Fri, 13 Jan 2023 01:27:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=OJRRczjdnZrMUyBr4WxyQN5pLb8AWpdjYYHf5LsEHfc=; b=ptNivekeyqVdwUJ+qf34fN61lQ
+        KFdIvGx7iIPl2rNxqBZSqMyVFbVTdtjuwwlALl3ZxMVjaQeuQ3pVst3safTQ+t2UzdC4dVFnND/Ow
+        udWRTiBl4/EwdK8CMWTj09c1JZkK3kOND4SY9VEwEDVc8OgEWFfYeunlBvAcxSzzSxtfLLwV8NSxe
+        84ZoVn+tw/Q1GsdjTbGTfziKq4HQk+dOtgOtVNDLamRbHI8QhACs2laWjHSpit42cCQAw7gWazvnv
+        O02OxcOxZFwrnlB4eCyeoATiRTXc+4cXfncuPT11dTs7xg28OeUiX7E16afFLJ2+eHOk0QWxLx2ze
+        XOo9w2Yg==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pGGLi-005xom-HO; Fri, 13 Jan 2023 09:27:46 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id D3B99300642;
+        Fri, 13 Jan 2023 10:27:32 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id B94052013A2A1; Fri, 13 Jan 2023 10:27:32 +0100 (CET)
+Date:   Fri, 13 Jan 2023 10:27:32 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Sami Tolvanen <samitolvanen@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] kbuild: Fix CFI hash randomization with KASAN
+Message-ID: <Y8EkBKUCWKs2M7hk@hirez.programming.kicks-ass.net>
+References: <20230112224948.1479453-1-samitolvanen@google.com>
+ <20230112224948.1479453-2-samitolvanen@google.com>
 MIME-Version: 1.0
-References: <20230111-kconfig-v2-1-b000fb6bc902@pefoley.com>
-In-Reply-To: <20230111-kconfig-v2-1-b000fb6bc902@pefoley.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 13 Jan 2023 16:28:50 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASjw1QR-6=Zmf5v=4yv8S81wzeBCOgpsuG7e1Q4GSapeA@mail.gmail.com>
-Message-ID: <CAK7LNASjw1QR-6=Zmf5v=4yv8S81wzeBCOgpsuG7e1Q4GSapeA@mail.gmail.com>
-Subject: Re: [PATCH v2] kconfig: Update all declared targets
-To:     Peter Foley <pefoley2@pefoley.com>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230112224948.1479453-2-samitolvanen@google.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jan 13, 2023 at 1:24 PM Peter Foley <pefoley2@pefoley.com> wrote:
->
-> Currently qconf-cfg.sh is the only script that touches the "-bin"
-> target, even though all of the conf_cfg rules declare that they do.
-> Make the recipe unconditionally touch all declared targets to avoid
-> incompatibilities with upcoming versions of GNU make:
-> https://lists.gnu.org/archive/html/info-gnu/2022-10/msg00008.html
->
-> e.g.
-> scripts/kconfig/Makefile:215: warning: pattern recipe did not update peer target 'scripts/kconfig/nconf-bin'.
-> scripts/kconfig/Makefile:215: warning: pattern recipe did not update peer target 'scripts/kconfig/mconf-bin'.
-> scripts/kconfig/Makefile:215: warning: pattern recipe did not update peer target 'scripts/kconfig/gconf-bin'.
->
-> Signed-off-by: Peter Foley <pefoley2@pefoley.com>
+On Thu, Jan 12, 2023 at 10:49:48PM +0000, Sami Tolvanen wrote:
+> Clang emits a asan.module_ctor constructor to each object file
+> when KASAN is enabled, and these functions are indirectly called
+> in do_ctors. With CONFIG_CFI_CLANG, the compiler also emits a CFI
+> type hash before each address-taken global function so they can
+> pass indirect call checks.
+> 
+> However, in commit 0c3e806ec0f9 ("x86/cfi: Add boot time hash
+> randomization"), x86 implemented boot time hash randomization,
+> which relies on the .cfi_sites section generated by objtool. As
+> objtool is run against vmlinux.o instead of individual object
+> files with X86_KERNEL_IBT (enabled by default), CFI types in
+> object files that are not part of vmlinux.o end up not being
+> included in .cfi_sites, and thus won't get randomized and trip
+> CFI when called.
+> 
+> Only .vmlinux.export.o and init/version-timestamp.o are linked
+> into vmlinux separately from vmlinux.o. As these files don't
+> contain any functions, disable KASAN for both of them to avoid
+> breaking hash randomization.
+> 
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1742
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 
-Applied to linux-kbuild/fixes.
-Thanks!
+Must've been 'fun' to figure out, Thanks!
 
-
-> ---
-> Changes in v2:
-> - Update pattern rule to touch -bin instead of each script.
-> - Add missing gitignore entries.
-> - Link to v1: https://lore.kernel.org/r/20230111-kconfig-v1-1-a921f03670f0@pefoley.com
-> ---
->  scripts/kconfig/.gitignore | 2 +-
->  scripts/kconfig/Makefile   | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/kconfig/.gitignore b/scripts/kconfig/.gitignore
-> index c8a3f9cd52f0..f8bdf0cf4662 100644
-> --- a/scripts/kconfig/.gitignore
-> +++ b/scripts/kconfig/.gitignore
-> @@ -3,5 +3,5 @@
->  /[gmnq]conf
->  /[gmnq]conf-cflags
->  /[gmnq]conf-libs
-> -/qconf-bin
-> +/[gmnq]conf-bin
->  /qconf-moc.cc
-> diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-> index 0b1d15efaeb0..af1c96198f49 100644
-> --- a/scripts/kconfig/Makefile
-> +++ b/scripts/kconfig/Makefile
-> @@ -209,7 +209,7 @@ $(obj)/gconf: | $(obj)/gconf-libs
->  $(obj)/gconf.o: | $(obj)/gconf-cflags
->
->  # check if necessary packages are available, and configure build flags
-> -cmd_conf_cfg = $< $(addprefix $(obj)/$*conf-, cflags libs bin)
-> +cmd_conf_cfg = $< $(addprefix $(obj)/$*conf-, cflags libs bin); touch $(obj)/$*conf-bin
->
->  $(obj)/%conf-cflags $(obj)/%conf-libs $(obj)/%conf-bin: $(src)/%conf-cfg.sh
->         $(call cmd,conf_cfg)
->
-> ---
-> base-commit: e8f60cd7db24f94f2dbed6bec30dd16a68fc0828
-> change-id: 20230111-kconfig-e59c6154f506
->
-> Best regards,
-> --
-> Peter Foley <pefoley2@pefoley.com>
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
