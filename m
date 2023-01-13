@@ -2,78 +2,128 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 96CD2668BDB
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Jan 2023 06:53:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E073668F46
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Jan 2023 08:33:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240478AbjAMFxN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 13 Jan 2023 00:53:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45896 "EHLO
+        id S229887AbjAMHdp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 13 Jan 2023 02:33:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233405AbjAMFv7 (ORCPT
+        with ESMTP id S239955AbjAMHc7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 13 Jan 2023 00:51:59 -0500
-X-Greylist: delayed 345 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 12 Jan 2023 21:51:46 PST
-Received: from mp-relay-02.fibernetics.ca (mp-relay-02.fibernetics.ca [208.85.217.137])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24221216;
-        Thu, 12 Jan 2023 21:51:46 -0800 (PST)
-Received: from mailpool-fe-01.fibernetics.ca (mailpool-fe-01.fibernetics.ca [208.85.217.144])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        Fri, 13 Jan 2023 02:32:59 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F09E66ADB4;
+        Thu, 12 Jan 2023 23:29:28 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mp-relay-02.fibernetics.ca (Postfix) with ESMTPS id 1738270E5B;
-        Fri, 13 Jan 2023 05:46:00 +0000 (UTC)
-Received: from localhost (mailpool-mx-01.fibernetics.ca [208.85.217.140])
-        by mailpool-fe-01.fibernetics.ca (Postfix) with ESMTP id CFE0826892;
-        Fri, 13 Jan 2023 05:45:59 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at 
-X-Spam-Score: 3.651
-X-Spam-Level: ******
-X-Spam-Status: Yes, score=6.3 required=5.0 tests=BAYES_99,
-        FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,SPF_HELO_NONE,
-        SPF_PASS,SUBJ_ALL_CAPS autolearn=no autolearn_force=no version=3.4.6
-Received: from mailpool-fe-01.fibernetics.ca ([208.85.217.144])
-        by localhost (mail-mx-01.fibernetics.ca [208.85.217.140]) (amavisd-new, port 10024)
-        with ESMTP id 5nKEStyxmCAA; Fri, 13 Jan 2023 05:45:59 +0000 (UTC)
-Received: from localhost (unknown [208.85.220.72])
-        by mail.ca.inter.net (Postfix) with ESMTP id 2C31E2688E;
-        Fri, 13 Jan 2023 05:45:58 +0000 (UTC)
-Received: from reverse.rain.network (reverse.rain.network [197.184.176.8])
- by webmail.ca.inter.net (Horde Framework) with HTTP; Fri, 13 Jan 2023
- 00:45:57 -0500
-Message-ID: <20230113004557.1776655zih3sj09h@webmail.ca.inter.net>
-Date:   Fri, 13 Jan 2023 00:45:57 -0500
-From:   INFO <boothg@istar.ca>
-Reply-to: s.g0392440821@gmail.com
-To:     undisclosed-recipients:;
-Subject: IST DIESE E-MAIL AKTIV?
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8C71B62284;
+        Fri, 13 Jan 2023 07:29:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4BF9C433D2;
+        Fri, 13 Jan 2023 07:29:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673594967;
+        bh=HdORwliAlKDZ7stnWASrQZfLjLba57MqkREEv8VnFOE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=IvFiucuSA8G58gtqGIuOWHE1qA0kFBMPY4senDM9SN8MFgYa6frko4U8Q438g4y6P
+         4e6dGJ0y+tvRGTZWiIHfycrPhH3m78o/XwQ35nRpJISUXDmAjFWiWQ6824bEJNfKFM
+         hpzKrKxmZRAZv47PSzUl64oU01Ac10vYkuXAtqQ9/17L7X/7LDSwxhOHnzJ9T7rJRh
+         hTxA969ZocRidZTpFvBIRFQ9yyNHwI/ttvRIPB7ozN7TN1gyJxA0/4mHfItjUVhLKC
+         bdtIqNulreXoqfs8CYGtCSTCOHxwdCHZ5Gctc1DkVAklBq6eZrUe+LlhaWK6Hlr0Lt
+         phKEV7Sap5Qnw==
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-15ee27bb0a8so1074335fac.7;
+        Thu, 12 Jan 2023 23:29:27 -0800 (PST)
+X-Gm-Message-State: AFqh2kos1/nsrgantSKt7JCYAlR24IriE3CjCGdOlRJWfVKy9Xr40Zgo
+        DsPOh2AHH2QCPo3fmcFhxeUOSkeQNLPhrfhdzhg=
+X-Google-Smtp-Source: AMrXdXtO1vzWs5t7LoWwnKsfx6fseeW3edgtD6OcSrFb38X8vczRhtOinccHS7mabN4Ncknm4BitWaYFDCoim7QFND8=
+X-Received: by 2002:a05:6870:50a:b0:15b:9941:ac30 with SMTP id
+ j10-20020a056870050a00b0015b9941ac30mr1497533oao.287.1673594967147; Thu, 12
+ Jan 2023 23:29:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=ISO-8859-1;
- DelSp="Yes";
- format="flowed"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-User-Agent: Internet Messaging Program (IMP) H3 (4.3.7)
-X-Originating-User-Info: boothg@istar.ca 208.85.219.96
-X-Spam-Report: *  3.5 BAYES_99 BODY: Bayes spam probability is 99 to 100%
-        *      [score: 0.9984]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [s.g0392440821[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
-        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+References: <20230111-kconfig-v2-1-b000fb6bc902@pefoley.com>
+In-Reply-To: <20230111-kconfig-v2-1-b000fb6bc902@pefoley.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 13 Jan 2023 16:28:50 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASjw1QR-6=Zmf5v=4yv8S81wzeBCOgpsuG7e1Q4GSapeA@mail.gmail.com>
+Message-ID: <CAK7LNASjw1QR-6=Zmf5v=4yv8S81wzeBCOgpsuG7e1Q4GSapeA@mail.gmail.com>
+Subject: Re: [PATCH v2] kconfig: Update all declared targets
+To:     Peter Foley <pefoley2@pefoley.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Fri, Jan 13, 2023 at 1:24 PM Peter Foley <pefoley2@pefoley.com> wrote:
+>
+> Currently qconf-cfg.sh is the only script that touches the "-bin"
+> target, even though all of the conf_cfg rules declare that they do.
+> Make the recipe unconditionally touch all declared targets to avoid
+> incompatibilities with upcoming versions of GNU make:
+> https://lists.gnu.org/archive/html/info-gnu/2022-10/msg00008.html
+>
+> e.g.
+> scripts/kconfig/Makefile:215: warning: pattern recipe did not update peer target 'scripts/kconfig/nconf-bin'.
+> scripts/kconfig/Makefile:215: warning: pattern recipe did not update peer target 'scripts/kconfig/mconf-bin'.
+> scripts/kconfig/Makefile:215: warning: pattern recipe did not update peer target 'scripts/kconfig/gconf-bin'.
+>
+> Signed-off-by: Peter Foley <pefoley2@pefoley.com>
+
+Applied to linux-kbuild/fixes.
+Thanks!
 
 
-Sehr geehrter E-Mail-Begünstigter, Sie wurden für eine Spende in Höhe  
-von 3.500.000,00 ? ausgewählt. Wenden Sie sich an diese  
-E-Mail-Adresse: s.g0392440821@gmail.com, um weitere Informationen zum  
-Erhalt Ihrer Spende zu erhalten. Vielen Dank
+> ---
+> Changes in v2:
+> - Update pattern rule to touch -bin instead of each script.
+> - Add missing gitignore entries.
+> - Link to v1: https://lore.kernel.org/r/20230111-kconfig-v1-1-a921f03670f0@pefoley.com
+> ---
+>  scripts/kconfig/.gitignore | 2 +-
+>  scripts/kconfig/Makefile   | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/scripts/kconfig/.gitignore b/scripts/kconfig/.gitignore
+> index c8a3f9cd52f0..f8bdf0cf4662 100644
+> --- a/scripts/kconfig/.gitignore
+> +++ b/scripts/kconfig/.gitignore
+> @@ -3,5 +3,5 @@
+>  /[gmnq]conf
+>  /[gmnq]conf-cflags
+>  /[gmnq]conf-libs
+> -/qconf-bin
+> +/[gmnq]conf-bin
+>  /qconf-moc.cc
+> diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
+> index 0b1d15efaeb0..af1c96198f49 100644
+> --- a/scripts/kconfig/Makefile
+> +++ b/scripts/kconfig/Makefile
+> @@ -209,7 +209,7 @@ $(obj)/gconf: | $(obj)/gconf-libs
+>  $(obj)/gconf.o: | $(obj)/gconf-cflags
+>
+>  # check if necessary packages are available, and configure build flags
+> -cmd_conf_cfg = $< $(addprefix $(obj)/$*conf-, cflags libs bin)
+> +cmd_conf_cfg = $< $(addprefix $(obj)/$*conf-, cflags libs bin); touch $(obj)/$*conf-bin
+>
+>  $(obj)/%conf-cflags $(obj)/%conf-libs $(obj)/%conf-bin: $(src)/%conf-cfg.sh
+>         $(call cmd,conf_cfg)
+>
+> ---
+> base-commit: e8f60cd7db24f94f2dbed6bec30dd16a68fc0828
+> change-id: 20230111-kconfig-e59c6154f506
+>
+> Best regards,
+> --
+> Peter Foley <pefoley2@pefoley.com>
 
+
+
+-- 
+Best Regards
+Masahiro Yamada
