@@ -2,131 +2,73 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CC8D66A1F2
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Jan 2023 19:25:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 34F6366A6B2
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Jan 2023 00:10:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229844AbjAMSZl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 13 Jan 2023 13:25:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35586 "EHLO
+        id S231368AbjAMXKX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 13 Jan 2023 18:10:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229824AbjAMSZJ (ORCPT
+        with ESMTP id S231221AbjAMXKW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 13 Jan 2023 13:25:09 -0500
-Received: from GBR01-CWL-obe.outbound.protection.outlook.com (mail-cwlgbr01on2107.outbound.protection.outlook.com [40.107.11.107])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B75541A6A;
-        Fri, 13 Jan 2023 10:19:17 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X4tiwesCtz+Njfm7VO4MqGaZ0Fm8GoTqF1Rte4VXUJiP4qE5gufW8csVPZjFyF6Cwo8KsA9wzTpUgduZtYftFBBtEf8+/YW/RyxDAvSAgvMLsqb9xpL0N8jcr0Yeldy3BxVBpGxftmETDlfeQALiuhVwkfxGswovD4AFEnCFGy+YsX4R/KH9OzPeDkr6LnhhkuMeEMopCGUKDofdEqrfOhkVWDvbffMfQJuV9zCZuGaApA0WZHS33X7oWflxu25ga9bI3WYVxyCOzWkiX5sZT0pSqx/nTDxy3sK40AkaNPMD2qlnvGlQCRwYi+Imjgh6tyccUSyMHPrayRyRWV9nTQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4M03HqJ6DWROxB/SwZaIPlgw9/1z21JDfb5VsRm59yc=;
- b=badOGi5HiXzE/Auiz7vibp0BRT+2/Ez3NlH19ZsHE6el9IgNYWU/AY86lYhIaDaGB88sSlyDhUmV0pToYZWK6Hn1AVy2qCxAYP8BPfdmgn9GBU3WATSIF2c03/ljOLTY2xKymvgBlc+yqb27w0B1kErsPUzERQLT08ScPRh4ohF5vkJhAoFROxfOKk1LbgKhuIJyS9Ls3U9ZTrgZJBRJ+b7UbysTXII+Gy5pj93ecuhVF0tJTTmA/T6KKNl3O0/b6Fgcz9Bg3eQUTFPfdzv2Cs3asNmhwwSHgcMokWfK+lHHrRemCUY/wKOKzz3fLDrUZV8xIJhCg9jajkIuJupK8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4M03HqJ6DWROxB/SwZaIPlgw9/1z21JDfb5VsRm59yc=;
- b=0HXLH4mT5o8yi8ijVzJBNCOqdglEGo3hjMjG2Uzff9cLznGIaOiLdZ7L//A2nwaKqEwuOEj6JnrxXHsYQqDffybBvX8r84K7GPfvrntZh527h04kmnwVnj+P+7qLLEKfBi1AWBp9ed8C7o7HQ6bhRKMC5AfDFuZmr2A7rCBbRCo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from CWLP265MB5186.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:15f::14)
- by LO4P265MB6462.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2e0::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.12; Fri, 13 Jan
- 2023 18:19:15 +0000
-Received: from CWLP265MB5186.GBRP265.PROD.OUTLOOK.COM
- ([fe80::d617:a3c0:4110:bfe]) by CWLP265MB5186.GBRP265.PROD.OUTLOOK.COM
- ([fe80::d617:a3c0:4110:bfe%4]) with mapi id 15.20.6002.013; Fri, 13 Jan 2023
- 18:19:15 +0000
-Date:   Fri, 13 Jan 2023 18:18:41 +0000
-From:   Gary Guo <gary@garyguo.net>
-To:     Lucas De Marchi <lucas.demarchi@intel.com>
-Cc:     Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        "Luis Chamberlain" <mcgrof@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        Fri, 13 Jan 2023 18:10:22 -0500
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 107772AE5;
+        Fri, 13 Jan 2023 15:10:22 -0800 (PST)
+Received: by mail-yb1-xb2c.google.com with SMTP id v19so18279216ybv.1;
+        Fri, 13 Jan 2023 15:10:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=12LpQywJJjBUt3FCMjBNpWZt4HLsrmq3D+lfWqk6LQM=;
+        b=fRrF6T6XabAL4uomg1EBZjf0pG8RRsV9KFwYLgx0AgGZ5PzhyNocQe6FI8oroqiu5q
+         eOfUU4c2+Ed1v+y9Z1doeIlckw+oOgbTct1ziWgWR6MX3BaWmALJcE/pMOtF1OK+BACi
+         bULY/xzsuDVDHcvRw8Gw+Ml4y46953meYP8XqKxShlh2WaVgRkgYF5lo5q6m8G8K00kK
+         cB1zYo2puvKiPeyUjvCOjNSWXVr/D+lb9iFTh07ISTck420D6q7SF4Bg5Nu4Q+NvxfmK
+         4E1BucCijZaAtoAZJurv49EQz5dCPv5iIIydwMdAwgy0DjT1rvib24QS/PWyDbWZcqSa
+         RTAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=12LpQywJJjBUt3FCMjBNpWZt4HLsrmq3D+lfWqk6LQM=;
+        b=GkAIIyWWUjVDf7IHOz22ycUPzLghqzjih2MDaONJGe2mNOwtGrJ2FEI20PR/ZqFBDz
+         iPTrYmkJeBkRP6GHbYe5BkCNcGVNT/7tdCKvDstz9NZexZpSlZEEIwGFrRBA2Tri2ezn
+         yC6hpnTG2s0TQXgJbkXuRypIzYNFYuQUoZNJXXN9Ec6aJG6Qu1Ytc3zRfZ6hEZehV7cK
+         /GTTWkXErmtrKy97s6tvcSJxVHb/Wp81MkVBni5ebZFsZU+KYpzEb5qUTkrPoBQ+7SG6
+         NfYmRfr/mT7Qg44m0tBa6rrZ90IjNpNMwS9jpCk15vwdR9g6M/lN/eozOAdM1kUm5Whi
+         UTIw==
+X-Gm-Message-State: AFqh2kpYy1AsHaCmQ3pAUripsZ/4s5Z+jEJTRkcanwhj6hdwiB3BED7d
+        om1Kv44y4C+F1ufoHtUY4061J8dfpeqol0aNotc=
+X-Google-Smtp-Source: AMrXdXs0dEMNst1mDvKhLbzcUm5c3putoAqwcOSEik/6eKrko8ZBfOxL/z4F7QwYPbUY7iJt64JnMnFORkPuNWfECts=
+X-Received: by 2002:a25:bc43:0:b0:7b2:343d:6b11 with SMTP id
+ d3-20020a25bc43000000b007b2343d6b11mr4500515ybk.75.1673651421281; Fri, 13 Jan
+ 2023 15:10:21 -0800 (PST)
+MIME-Version: 1.0
+References: <20230109204520.539080-1-ojeda@kernel.org> <20230109204520.539080-3-ojeda@kernel.org>
+ <CAK7LNATVJ5e=DnbJ++03iEMk0bN3-UvODBLkEKcYdSnJZa_tmA@mail.gmail.com> <CAK7LNASDu+i4G88TYYa6feg-bha-_cLv1si_ujuSMbWuyUve0Q@mail.gmail.com>
+In-Reply-To: <CAK7LNASDu+i4G88TYYa6feg-bha-_cLv1si_ujuSMbWuyUve0Q@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Sat, 14 Jan 2023 00:10:10 +0100
+Message-ID: <CANiq72k6jCf_LP5vmBHKEpZ5njmH+u1HpJUjs_GyFi1a4B94ew@mail.gmail.com>
+Subject: Re: [PATCH 3/6] kbuild: rust_is_available: add check for `bindgen` invocation
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
-        Miguel Ojeda <ojeda@kernel.org>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@lists.linux.dev, Alexandru Radovici <msg4alex@gmail.com>,
         Alex Gaynor <alex.gaynor@gmail.com>,
         Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        " =?UTF-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>,
-        Kees Cook <keescook@chromium.org>,
-        "Joel Stanley" <joel@jms.id.au>,
-        Julia Lawall <Julia.Lawall@inria.fr>,
-        Guo Zhengkui <guozhengkui@vivo.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        <linuxppc-dev@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
-        <linux-modules@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
-        <rust-for-linux@vger.kernel.org>
-Subject: Re: [PATCH] modpost: support arbitrary symbol length in modversion
-Message-ID: <20230113181841.4d378a24.gary@garyguo.net>
-In-Reply-To: <20230112214059.o4vq474c47edjup6@ldmartin-desk2>
-References: <20230111161155.1349375-1-gary@garyguo.net>
-        <20230112214059.o4vq474c47edjup6@ldmartin-desk2>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P265CA0035.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2ae::11) To CWLP265MB5186.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:400:15f::14)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP265MB5186:EE_|LO4P265MB6462:EE_
-X-MS-Office365-Filtering-Correlation-Id: 21713808-c816-4500-e97c-08daf592ad56
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wd+BW2sDytCSAmVs8dJ/vYtHn13Fhfzl1/26G0OJKtfhQ2tDFGnBg6EfsmTXhLg/zm8I6O0CtwGCVovFXNgKTVg3tEFuXvT+hQ83osct6lfA3wsdP5cp/wM8rSz5RJ2yGQGxJY4NFi7Pc0DaNHrOmE3LbzTOvjwwEZBHu6ZPN9zdPPAKoQhqAs8/V/P2M8cMqZnRSjxVxeQZXIWmUzrMGDvLTPhvP37TK5YO4FdIfwFX+KkV9EnwJ7CO04kTyD2abWtvcxV9mzCk6LBiDDgnvEvJ1Png1aQqCo98cxlvU89lhf7Ue7PLBM1ddzhekAetvMEgH/W39sCjJqnlHJQZ7HG7tGVlt31RfJXkx3LhLcYQLFDIcfAx/9eBe9s/jprzQMDEG9pS+YrItP23pi9GZCyUfsooNk1bSDDrXf4erbA8nTnTIWGYfDoylDcA0y93s7U9SRas1iGiYGkkfDXh7Sgncc4UVpqnNvTIgol5LqZe1HOx/PLfyLjFf9vybHHQVi+dvaQdiY1h+aI5wEJpjRD/Sapkk3K5/FPB2oZ1BNkxMSPVVBhtvmIrLb+SUuUFlwt/JByiw6D26UQs6KglqlmwPOdJcox/MlP8tQFKCiemN7gHUlSJQr7D9Cf6rANr
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB5186.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(396003)(39830400003)(346002)(366004)(136003)(376002)(451199015)(6666004)(6486002)(2616005)(1076003)(36756003)(478600001)(7416002)(86362001)(8936002)(5660300002)(38100700002)(2906002)(83380400001)(54906003)(316002)(66946007)(41300700001)(8676002)(6916009)(4326008)(66556008)(66476007)(6506007)(6512007)(66899015)(186003)(26005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?URfMC053dfIAX/Sni3sMvF966UvWtHLbbdvoCH0d5F5uq/3ZvmH4HZ0ryaAH?=
- =?us-ascii?Q?H8B2LBqIHr4CitEppEmPcVMJk8858iQN6YjH5nZSHZVFnKGthowl5/C30GdN?=
- =?us-ascii?Q?iAQ5wAEN1T+jCUvjgaE8wfL3YP3SgpQZSAx5HjQBL5iBoXr8oyeqerYMuZk7?=
- =?us-ascii?Q?uHfIxta6zv2zf+UoqMJKtwz8P0M/rFD1Yg4nalUar/Un0wcafssHrpMCU5We?=
- =?us-ascii?Q?eM5qBZKCR292WAhkrESn8rYdgQZySTsH62h2qVEwcY6GglqNIC/78RdsgOvV?=
- =?us-ascii?Q?VNQaG+9NIK6XF5wv9a4NX4emFfdD09BPxspVipUfDBBeA8hcmh7rzyyoHrVU?=
- =?us-ascii?Q?mgHL+JbdLjlAWoD3/Ts+cAVwRTn4Q/8uZKIJCczfcMjCfn9aOvUAXS/tu/Se?=
- =?us-ascii?Q?VNUgDv0frXEpGx27ebSq7xDcQY85Xnr6of1nVxXOKSXH2sHGHO3Qufd/nn61?=
- =?us-ascii?Q?PX2b9v/Uxn6Q8bNZqyszquyQysVEC+/GUFBI2BG1Rz/pAH5ENSE9tmTLCfGm?=
- =?us-ascii?Q?H7OwyqV466jsj7Wc/N3fbG0wRgBp1yL17Rvvnnm6WrjM5yqFWw6BYlA58guV?=
- =?us-ascii?Q?3djzDyPlk7BTs4AqZ/WaTxEYeRhm+zATPQz+KqUZMV1JW7IqFM8Y1s8BvRiU?=
- =?us-ascii?Q?xZ5OYMpxvEfmOaNvbBcAq4D1OS1hbvWHZvpla1dwuFqfIYrtt99SjiC7eHY/?=
- =?us-ascii?Q?jfLgVbX6XW4LHdr7k1xwBgX32ljyQDNzVn06NBTNv0a5gfxRUKNOUFovt0jJ?=
- =?us-ascii?Q?acuiPEN4fHxCkEd3tsySTqN1vAPOT+/Y4YHIKPmMI+yYcjucBAaxYnNBi2Uq?=
- =?us-ascii?Q?3XfC1F0WQPFUqhcOz+qVsqjPSzaTr9cKD719Z4T0rH5G+hr24Bh44hkHp+JQ?=
- =?us-ascii?Q?AqxmRZql7cYOKJz49KpvvZoT2QzT+oIH7SRIsMsYPDok//AEJF7db+2EYtQD?=
- =?us-ascii?Q?zRIsb3iBA9CwFAJgi5k5mc7HYiQwCP96hDupfQ6Nfn/69C01QZsBECyqeRU1?=
- =?us-ascii?Q?sEkVA36HLAA0T36kLTdotlnKwfM1fwvOI7ytMgq5nXpGcYFFOSEC0TFtwZos?=
- =?us-ascii?Q?LswUJiCxuFU3pRF6pyXSxNe04DWD8f6DVDRGcnC2giHE/Eyee0L0V34rMKqa?=
- =?us-ascii?Q?98hJFeb1FOZjG7UX2vdaWU/m4OM9D6XM2Wauh8R2A0/vfu3amrD+yR8QXvsK?=
- =?us-ascii?Q?UZFIux01/C4XThFvFeVlYf67+L1X1G8jz7hricBiKwtVbP8bGYOcjd06gBxA?=
- =?us-ascii?Q?ZekXFNcZ9PYGMVbOSn+YILkELmq3SVoscgXMkBYoTChRthlclLDKPlRVO1AJ?=
- =?us-ascii?Q?NLm1dMv0/gLoCyO+8au0A/PM2Vspiz0p5FtADveCbdr/iuqz67ot4AUK2t1D?=
- =?us-ascii?Q?gXPP2BFDLdb7Fy7ocPs+FpYbHKIlAVJLs/BIK065vaNJEA/QSPwK0MDWZ3R+?=
- =?us-ascii?Q?LvGG8GWaDJaFkkdIO7dtliPci0jwt2IuTflcb5tbiSSy1K1av/tqE6M66jMv?=
- =?us-ascii?Q?9hdM/ZLTmlqO0llXIIb8ONXep9Gx73UNQTRTDOwlxFeOaKkztxbjxXFcyeRv?=
- =?us-ascii?Q?rUPwdYKq4kVoWsGBj7jAfSMYOTq6E9qNRpSI+2+Q?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 21713808-c816-4500-e97c-08daf592ad56
-X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB5186.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2023 18:19:14.9780
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: INsR39Nd1RNWA/FHpYYE1zIMaUmpbjoLKSchGm8X8WbxwD0OmSol0oT7MsQcngKjF2aLM69q5o9Wwa+QoJydxw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO4P265MB6462
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -134,53 +76,18 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, 12 Jan 2023 14:40:59 -0700
-Lucas De Marchi <lucas.demarchi@intel.com> wrote:
+On Thu, Jan 12, 2023 at 5:35 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> I meant this:
+>
+> if ! bindgen_libclang_output=$(LC_ALL=C "$BINDGEN" $(dirname
+> $0)/rust_is_available_bindgen_libclang.h 2>&1 >/dev/null); then
+>        [snip]
+> fi
+>
+> (">/dev/null" was lost in the previous email)
 
-> On Wed, Jan 11, 2023 at 04:11:51PM +0000, Gary Guo wrote:
-> >
-> > struct modversion_info {
-> >-	unsigned long crc;
-> >-	char name[MODULE_NAME_LEN];
-> >+	/* Offset of the next modversion entry in relation to this one. */
-> >+	u32 next;
-> >+	u32 crc;
-> >+	char name[0];  
-> 
-> although not really exported as uapi, this will break userspace as this is
-> used in the  elf file generated for the modules. I think
-> this change must be made in a backward compatible way and kmod updated
-> to deal with the variable name length:
-> 
-> kmod $ git grep "\[64"
-> libkmod/libkmod-elf.c:  char name[64 - sizeof(uint32_t)];
-> libkmod/libkmod-elf.c:  char name[64 - sizeof(uint64_t)];
-> 
-> in kmod we have both 32 and 64 because a 64-bit kmod can read both 32
-> and 64 bit module, and vice versa.
-> 
+I used the error code in the message below. I am happy either way.
 
-Hi Lucas,
-
-Thanks for the information.
-
-The change can't be "truly" backward compatible, in a sense that
-regardless of the new format we choose, kmod would not be able to decode
-symbols longer than "64 - sizeof(long)" bytes. So the list it retrieves
-is going to be incomplete, isn't it?
-
-What kind of backward compatibility should be expected? It could be:
-* short symbols can still be found by old versions of kmod, but not
-  long symbols;
-* or, no symbols are found by old versions of kmod, but it does not
-  fail;
-* or, old versions of kmod would fail gracefully for not able to
-  recognise the format of __versions section, but it didn't do anything
-  crazy (e.g. decode it as old format).
-
-Also, do you think the current modversion format should stick forever
-or would we be able to migrate away from it eventually and fail old
-versions of modprobe given enough time?
-
-Best,
-Gary
+Cheers,
+Miguel
