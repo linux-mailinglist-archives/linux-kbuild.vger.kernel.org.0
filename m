@@ -2,59 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2ED3F66A6C1
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Jan 2023 00:13:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 671D466A6C5
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Jan 2023 00:13:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229611AbjAMXN2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 13 Jan 2023 18:13:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57674 "EHLO
+        id S231365AbjAMXNk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 13 Jan 2023 18:13:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231258AbjAMXNH (ORCPT
+        with ESMTP id S231439AbjAMXN3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 13 Jan 2023 18:13:07 -0500
+        Fri, 13 Jan 2023 18:13:29 -0500
 Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1267552C6A;
-        Fri, 13 Jan 2023 15:13:06 -0800 (PST)
-Received: by mail-yb1-xb29.google.com with SMTP id 188so24140437ybi.9;
-        Fri, 13 Jan 2023 15:13:06 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D97065347;
+        Fri, 13 Jan 2023 15:13:16 -0800 (PST)
+Received: by mail-yb1-xb29.google.com with SMTP id 188so24140727ybi.9;
+        Fri, 13 Jan 2023 15:13:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jcttPvIOqjLZM9F4gnEg1fZ9duaMxSmsJ9dAT4eVMto=;
-        b=fsQRQYaY5XCcHXaWXRuTKkkyaOlhbgd5f9J9NehHJt1yDL6jWOLYtP00oTRQM8X+EV
-         PzZ6b4gUaeBWZxDXhZMhuoJ3vCgOeOE6bDFdzqZR3KtOec9HxcSj0PNS0HwqXuitKp8c
-         4kKB4jD6svKgKQTIfr6q0I8SLgfQUWYjy0kovaXnuIulrJ2r5AQNed402wSVDtZjqCCY
-         sxtDD+P5whbyeTs7N5+4xrykU1o9ZVG8tNmjvtebpKted2crhPWLNXxKC4nzt8epMRDP
-         bGraUhX3drBGhmKqjmhnUtLH53UboTzKhyjma5AAYJjiOBwEO/bgrzl24YM0vy+Ck0vT
-         hppg==
+        bh=q6fjwFARDZpPxSIIIp1tFOycB9wl1pphbajvby7rx9s=;
+        b=n5a3CaKEcj5VYNkID/sozPmUYqTpPAJeD+VL/ZpwAP/hLzaTNm47kX6XjMwYYa5rI+
+         Zxl/2B/jyvSg/xiP+T9dw+MMkK/av9LiXPvq0U2FTvI27LLAuM4zog/Asf7rmdJD3RJp
+         9xMGAzig24loJnaqcw+yBuQYqrwFkiERy/HYjsEkcd0UFh1mawt2AnMTxUq6AdTIU/5c
+         r7q30QM1WD3jhFTidzev453cuwMpZcKrKdE/jKgZNwQ6SOR1hNfQ68gz8fh7+PugjUMo
+         Wipl7XEeyS5Y7c3gFxs5RfZ++Pd0Gab575mEr/jg2LdKPUsqNKYsqvc09giFQYRgbVNm
+         OC6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jcttPvIOqjLZM9F4gnEg1fZ9duaMxSmsJ9dAT4eVMto=;
-        b=YXT9mCNHHXHRJFlRNYv+9vt9T6f51w0zdNqryl8VMOj8B4xxnCVXhLZT+BBBCEwdAO
-         usypbdPwhub7c2vvmJH1MUBG2lNJkO1UkYfIGoyQ1P1rbF4Iw4SswsW+rHvF+qiZF45f
-         CUFUz9hxTD5R8X3FLqbEXaT3l7XRrHpcyArcPe2o8pKqlQ/eCbY18NZV0MiofPD3rGzt
-         EZRrZ/E959E0+prxn7JZYHN7T6yTcWr8JeDjWmEk1kDI474hmherMKdjtB1xOgkiKF6I
-         lyLeS7Z75MXNhUi/Hrj39GB1E9QzUdDLGBiE/fvbH9GurBYXo6MRMvpZmizB0/x7N+PS
-         Up4g==
-X-Gm-Message-State: AFqh2kqm4kwDj1/j1pODKM7Kq9H2oJkwAaCQb82zRAcjR7bCvRfbRhM4
-        lrWyO/bwKsMub0o0cPJRw59h+CjUxgBhSfC8v9I=
-X-Google-Smtp-Source: AMrXdXvcg7dpfZwB3s0fAR3OY5o+zrWc7k7fTH4cyRXkF3jJzahtcGpoV1NtYkEOEmH6NAnM5wRTgZkTcEqdootpCXw=
-X-Received: by 2002:a25:e6c7:0:b0:7cb:dfbe:3996 with SMTP id
- d190-20020a25e6c7000000b007cbdfbe3996mr615970ybh.489.1673651585333; Fri, 13
- Jan 2023 15:13:05 -0800 (PST)
+        bh=q6fjwFARDZpPxSIIIp1tFOycB9wl1pphbajvby7rx9s=;
+        b=ZPuZH6HXiLt8cvpqoXgVQXJdpej9yX0kaicTmTvdSoMgOo7pETNJNmVmCZ0k/mZ7zk
+         mu/rA9bvaoo1rAVWkiKnP1MUSCsifh29wpR//0ojaMGIzY3jJEgl0DxJkHIxk8GCLPPY
+         GDqRhitLwQrtq/p6V8VS1G9cd2K/DO7dtaHf6ywUiTcJ2hGxZOvFo7tWotrwjOxKmQzm
+         EwO/+vgA7WsJbLVeW3u9HF51bjkHwECj14kxwhLp0RGEztbllHC9vSjNNpvs6Mf2HXdx
+         YZj+lCiHj3huQsWVYs4RInmfMiT8RLHFooxMwqpHlHs9h9hYGBFoXeSg99d6gPeTKYtb
+         Drlw==
+X-Gm-Message-State: AFqh2kqoL8FWK+ydjdAflVzu0r7FtVKtIYWxCCRN6JhoqtQIqM9y+ica
+        BhGj1BoWH6v1ydf0f7tmpadNh1HpNkatHHJI/bE=
+X-Google-Smtp-Source: AMrXdXvoTnn8SvkX6vZq37n4LxAUyWFzoyi5yBE3W0VJpCla3kdj2cETTQMc/PmuTAwpfi51GTfwJM3siTKFcxcg1sI=
+X-Received: by 2002:a25:1004:0:b0:712:faac:e6b2 with SMTP id
+ 4-20020a251004000000b00712faace6b2mr8662761ybq.632.1673651595940; Fri, 13 Jan
+ 2023 15:13:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20230109204520.539080-1-ojeda@kernel.org> <20230109204520.539080-5-ojeda@kernel.org>
- <CAK7LNAQj_WykFWcrj=L3wJYxDhOCGs+JHPB4E2vzWcx8y_at0w@mail.gmail.com>
-In-Reply-To: <CAK7LNAQj_WykFWcrj=L3wJYxDhOCGs+JHPB4E2vzWcx8y_at0w@mail.gmail.com>
+References: <20230109204520.539080-1-ojeda@kernel.org> <CANiq72m_+xJYUxrwFc7vNLkuOb6zC-W-wDzXjbPb8Ursqzwiaw@mail.gmail.com>
+ <CAK7LNATmRkSU2n6AaeJenE-18gbUd4ZShFNfKysEjyCo4Q-eAA@mail.gmail.com>
+In-Reply-To: <CAK7LNATmRkSU2n6AaeJenE-18gbUd4ZShFNfKysEjyCo4Q-eAA@mail.gmail.com>
 From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Sat, 14 Jan 2023 00:12:54 +0100
-Message-ID: <CANiq72=MsV8EXV9cib+GJd0AXbpF8YSGdDd723m7=ON4jhjXxQ@mail.gmail.com>
-Subject: Re: [PATCH 5/6] kbuild: rust_is_available: fix confusion when a
- version appears in the path
+Date:   Sat, 14 Jan 2023 00:13:04 +0100
+Message-ID: <CANiq72=G0P-XZ6Kn2XYFwbSdqG7Yh4f5zgAr-fn+85QJCMRZUA@mail.gmail.com>
+Subject: Re: [PATCH 1/6] docs: rust: add paragraph about finding a suitable `libclang`
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
@@ -64,7 +63,8 @@ Cc:     Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org,
         patches@lists.linux.dev, Alex Gaynor <alex.gaynor@gmail.com>,
         Wedson Almeida Filho <wedsonaf@gmail.com>,
         Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -76,20 +76,19 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jan 12, 2023 at 6:32 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Thu, Jan 12, 2023 at 7:05 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> +set -- ${bindgen_libclang_output#**clang version}
-> +bindgen_libclang_cversion=$(get_canonical_version $1)
->  bindgen_libclang_min_version=$($min_tool_version llvm)
-> -bindgen_libclang_cversion=$(get_canonical_version $bindgen_libclang_version)
+> Yes, I can take this, but the doc change
+> is independent of the rest, and will not conflict with
+> any Kbuild changes.
+>
+> So, you can apply this one to your tree.
 
-Nice trick :) To be honest, I am not really fond of `set`, and in this
-case it means the command is not symmetric (we remove the prefix using
-parameter expansion, and the suffix via positional argument
-selection), but if you prefer it that way, I think it would be fine.
+The doc change is not fully independent: this patch is first because
+the next commit uses the fact that the documentation is written (to
+point the user to it), and the commit message mentions this.
 
-However, why the double asterisk? One already matches any string,
-including spaces, no?
+Not a big deal, but it would look better if all are in at once.
 
 Cheers,
 Miguel
