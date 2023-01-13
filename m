@@ -2,93 +2,90 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 671D466A6C5
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Jan 2023 00:13:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4C7366A6D4
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Jan 2023 00:16:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231365AbjAMXNk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 13 Jan 2023 18:13:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57918 "EHLO
+        id S229570AbjAMXP7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 13 Jan 2023 18:15:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231439AbjAMXN3 (ORCPT
+        with ESMTP id S229830AbjAMXP3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 13 Jan 2023 18:13:29 -0500
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D97065347;
-        Fri, 13 Jan 2023 15:13:16 -0800 (PST)
-Received: by mail-yb1-xb29.google.com with SMTP id 188so24140727ybi.9;
-        Fri, 13 Jan 2023 15:13:16 -0800 (PST)
+        Fri, 13 Jan 2023 18:15:29 -0500
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34E11777F2
+        for <linux-kbuild@vger.kernel.org>; Fri, 13 Jan 2023 15:15:23 -0800 (PST)
+Received: by mail-pj1-x102b.google.com with SMTP id v13-20020a17090a6b0d00b00219c3be9830so25857857pjj.4
+        for <linux-kbuild@vger.kernel.org>; Fri, 13 Jan 2023 15:15:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=q6fjwFARDZpPxSIIIp1tFOycB9wl1pphbajvby7rx9s=;
-        b=n5a3CaKEcj5VYNkID/sozPmUYqTpPAJeD+VL/ZpwAP/hLzaTNm47kX6XjMwYYa5rI+
-         Zxl/2B/jyvSg/xiP+T9dw+MMkK/av9LiXPvq0U2FTvI27LLAuM4zog/Asf7rmdJD3RJp
-         9xMGAzig24loJnaqcw+yBuQYqrwFkiERy/HYjsEkcd0UFh1mawt2AnMTxUq6AdTIU/5c
-         r7q30QM1WD3jhFTidzev453cuwMpZcKrKdE/jKgZNwQ6SOR1hNfQ68gz8fh7+PugjUMo
-         Wipl7XEeyS5Y7c3gFxs5RfZ++Pd0Gab575mEr/jg2LdKPUsqNKYsqvc09giFQYRgbVNm
-         OC6Q==
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NMiMCJTb5LFuwR4bml+l69hnYQL1G+akTSIgXjV1vXs=;
+        b=X4KHjEhczDirMTjK/fziTxAevbXGGw7rq9kx81W2fTPIvGLoGCfwSt2nBrHlVe2W8G
+         Q76Va6blny+IfEe2b39IPgaNPxMmK+0Vr4hzPMoiCnrLxsyIWeVp8LDSNcUPDE4xrgVR
+         u4JyKKHzeF1QdYduZFXFEBBzXpOAzhL+bnVzU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=q6fjwFARDZpPxSIIIp1tFOycB9wl1pphbajvby7rx9s=;
-        b=ZPuZH6HXiLt8cvpqoXgVQXJdpej9yX0kaicTmTvdSoMgOo7pETNJNmVmCZ0k/mZ7zk
-         mu/rA9bvaoo1rAVWkiKnP1MUSCsifh29wpR//0ojaMGIzY3jJEgl0DxJkHIxk8GCLPPY
-         GDqRhitLwQrtq/p6V8VS1G9cd2K/DO7dtaHf6ywUiTcJ2hGxZOvFo7tWotrwjOxKmQzm
-         EwO/+vgA7WsJbLVeW3u9HF51bjkHwECj14kxwhLp0RGEztbllHC9vSjNNpvs6Mf2HXdx
-         YZj+lCiHj3huQsWVYs4RInmfMiT8RLHFooxMwqpHlHs9h9hYGBFoXeSg99d6gPeTKYtb
-         Drlw==
-X-Gm-Message-State: AFqh2kqoL8FWK+ydjdAflVzu0r7FtVKtIYWxCCRN6JhoqtQIqM9y+ica
-        BhGj1BoWH6v1ydf0f7tmpadNh1HpNkatHHJI/bE=
-X-Google-Smtp-Source: AMrXdXvoTnn8SvkX6vZq37n4LxAUyWFzoyi5yBE3W0VJpCla3kdj2cETTQMc/PmuTAwpfi51GTfwJM3siTKFcxcg1sI=
-X-Received: by 2002:a25:1004:0:b0:712:faac:e6b2 with SMTP id
- 4-20020a251004000000b00712faace6b2mr8662761ybq.632.1673651595940; Fri, 13 Jan
- 2023 15:13:15 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NMiMCJTb5LFuwR4bml+l69hnYQL1G+akTSIgXjV1vXs=;
+        b=U62gaY5zEhvMLN86Cmne9Abn9bUeAwRZSunnC7HHd+1jtn4irGSM66BRdImawPh4HU
+         1nUAzvcs8zsPDnig+ivyWPFuBG2W7crWIob6oLTfIMpIrD6qZGFO+X4ibqWWJfa6yIty
+         O4ei9Jy4maP9WgZMw4Q/Us1MhUdJthjkBsZp7cED7sw3C96Yp2xqoD14OcnzqkcsWSKR
+         Hqns8As+7pb6BLTw2tuWVPqIYdbpDeywrGt+Kwy3cnDfZF3f00je7m79539jswloleUU
+         3yLTby4BhDPp59Zm7oFapFGhMGXonjOd+GOv8lC+KGbppMj6mWq9stqu2GDla4wk3YQO
+         lAjQ==
+X-Gm-Message-State: AFqh2kqauvaqWXrnQ0HLjzsBVWKrupquxuN4ZKL901T7xOtcVrPBjI21
+        GT0k733UIpR9pOB7sSsGd8Q8zg==
+X-Google-Smtp-Source: AMrXdXsWranqUsDdC6q52vgB5+sRwTueXpbwliTJq7AwCJ5IYX1byQz9BWxPmZN5AsX25qyHE/XO8g==
+X-Received: by 2002:a17:90b:3d8e:b0:228:f3fd:a0e2 with SMTP id pq14-20020a17090b3d8e00b00228f3fda0e2mr9863452pjb.13.1673651722785;
+        Fri, 13 Jan 2023 15:15:22 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id h7-20020a17090a9c0700b00219cf5c3829sm12902587pjp.57.2023.01.13.15.15.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Jan 2023 15:15:22 -0800 (PST)
+From:   Kees Cook <keescook@chromium.org>
+To:     masahiroy@kernel.org, peterz@infradead.org, samitolvanen@google.com
+Cc:     Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev, linux-kbuild@vger.kernel.org,
+        nathan@kernel.org, ndesaulniers@google.com
+Subject: Re: [PATCH 0/1] Fix CFI hash randomization with KASAN
+Date:   Fri, 13 Jan 2023 15:15:18 -0800
+Message-Id: <167365171646.590452.12835527795605016769.b4-ty@chromium.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230112224948.1479453-1-samitolvanen@google.com>
+References: <20230112224948.1479453-1-samitolvanen@google.com>
 MIME-Version: 1.0
-References: <20230109204520.539080-1-ojeda@kernel.org> <CANiq72m_+xJYUxrwFc7vNLkuOb6zC-W-wDzXjbPb8Ursqzwiaw@mail.gmail.com>
- <CAK7LNATmRkSU2n6AaeJenE-18gbUd4ZShFNfKysEjyCo4Q-eAA@mail.gmail.com>
-In-Reply-To: <CAK7LNATmRkSU2n6AaeJenE-18gbUd4ZShFNfKysEjyCo4Q-eAA@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Sat, 14 Jan 2023 00:13:04 +0100
-Message-ID: <CANiq72=G0P-XZ6Kn2XYFwbSdqG7Yh4f5zgAr-fn+85QJCMRZUA@mail.gmail.com>
-Subject: Re: [PATCH 1/6] docs: rust: add paragraph about finding a suitable `libclang`
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@lists.linux.dev, Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jan 12, 2023 at 7:05 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> Yes, I can take this, but the doc change
-> is independent of the rest, and will not conflict with
-> any Kbuild changes.
->
-> So, you can apply this one to your tree.
+On Thu, 12 Jan 2023 22:49:47 +0000, Sami Tolvanen wrote:
+> Peter, Masahiro,
+> 
+> I noticed that KASAN+CFI fails to boot on x86_64 without
+> cfi=norand. The randomization code is missing a couple of KASAN
+> constructors in object files that are not part of vmlinux.o. This
+> happens because we don't run objtool for the files, which means
+> the type hashes are not included in the .cfi_sites section.
+> 
+> [...]
 
-The doc change is not fully independent: this patch is first because
-the next commit uses the fact that the documentation is written (to
-point the user to it), and the commit message mentions this.
+Applied to for-linus/hardening, thanks!
 
-Not a big deal, but it would look better if all are in at once.
+[1/1] kbuild: Fix CFI hash randomization with KASAN
+      https://git.kernel.org/kees/c/a6c5a3491b3f
 
-Cheers,
-Miguel
+-- 
+Kees Cook
+
