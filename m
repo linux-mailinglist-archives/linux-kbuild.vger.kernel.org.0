@@ -2,87 +2,132 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F81566A717
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Jan 2023 00:31:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C6FA66AAA1
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Jan 2023 10:45:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230182AbjAMXbO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 13 Jan 2023 18:31:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40690 "EHLO
+        id S229748AbjANJpc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 14 Jan 2023 04:45:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230401AbjAMXbH (ORCPT
+        with ESMTP id S230150AbjANJpD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 13 Jan 2023 18:31:07 -0500
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0542560867;
-        Fri, 13 Jan 2023 15:31:06 -0800 (PST)
-Received: by mail-yb1-xb29.google.com with SMTP id t15so24212208ybq.4;
-        Fri, 13 Jan 2023 15:31:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=8x+fgQ2I+pqMaMW/X5cHc/YMKvj8qdTDIS+NdFNCDfs=;
-        b=UfJhXVJb1zWU33EOx/tQXgiCDEU01jCZSsPVbZIiPgBaKFDfZNX0lZLjS108G07PUG
-         FMWkrMhxWibRRQo3QQHDsFAt1R1S8aYvXIoUu6KyT8bA5q3INPo9T/TYrZGvXlwr0b2i
-         ysNr3Usj3/vBXtcxXgklg5QZgGqZyn5AYSbmBldrOYpatdZjtOp35qAtlFkclQrATi6T
-         9MpCMO/Ze0RJ10tc8gTW8tnJrGrrSKyklsR9S8sNTSqF5wsFn/5flPsTiB8FmSesbYup
-         u26YHzPZjXNw+A4AoMD1fJaW6xATtQrfHItSeX+iOFMKgp4I0wM9tMCrkptVeelW+xkJ
-         F6jA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8x+fgQ2I+pqMaMW/X5cHc/YMKvj8qdTDIS+NdFNCDfs=;
-        b=O9zw+iI5MZQQTutPSf6n9kPC7JJ0Kt8QLzoScmm0M+C4EwE2x0myMvZhzJQr2xiN7A
-         QQ0vrjV+HZptOrNnaB8SLX238eVS4H2D8qx+3XEIIiYsT4xeSa2Z51+l/q0GXMnI+Von
-         fpBYw7xRZ402EosQ+rkw5VSSajKc+SUQhfAWHspDoN7zd0TV5oawRG2x8XikcgOVZ8lY
-         GlaVh1iZk+FAC93YX6/MKQ0Qmx2SVWAgymlxcDNsyfrxBegqLWmuQd6SlUeewE8IeVaM
-         nXnBSuNrktZqoDa2nsbqv3cw7adLkuPr7sfhH0CLchLPkZ8a5f9qqPRlts/KbunlQGQP
-         zuyg==
-X-Gm-Message-State: AFqh2kqyqoJzrgLA1hfqT7GtTDXk6SSUVNACkNHE1zXk9h6x29hKAw6d
-        muU/3FNZ77kwQvZzHtWTP9aN/bfTMay34mSqCy8=
-X-Google-Smtp-Source: AMrXdXva20Xrfbl+zo3SLpX+v/KZPjReiMCBsty5G9qfiJpanHD4htIziE8YIoEbPoyqjtYrmzhByrDdsZ7Bq44udRs=
-X-Received: by 2002:a25:e6c7:0:b0:7cb:dfbe:3996 with SMTP id
- d190-20020a25e6c7000000b007cbdfbe3996mr620654ybh.489.1673652665276; Fri, 13
- Jan 2023 15:31:05 -0800 (PST)
+        Sat, 14 Jan 2023 04:45:03 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50FB976BB;
+        Sat, 14 Jan 2023 01:45:00 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 07A36B8085C;
+        Sat, 14 Jan 2023 09:44:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 842F0C433D2;
+        Sat, 14 Jan 2023 09:44:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673689497;
+        bh=knaQCVQIx4MAoNmZaFQqow8ZxXL28A+vauPiTP3jWnA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=OQP3bwfmSkFF4ODMiewcy49cIutoKPypMTTN2t8SrySg9l2E0cfA3nEwGoUaRO6Fe
+         YFkVg/1++UuDcLE3qY1gk9ZXGYgwQusCmpNdM7uH7rVfIxL06Cq7yhGvWxNyJp5rrr
+         z7UFImQtXQ7/SiJVZkf0+jXO9eFXDxOiZaMK8EGmM7Wx7bgw16dPQoWnFHfQqcxNZd
+         G6SOWIOAsXmNM7cBpFmgzmV5gKn+URUCRZWVD/w2ozhaMegGWw7in2CZA7NHIMo5DT
+         HVXbz+QZANZKi1dmrl5UzbxlW+F1ThHMdP6LQWmd88rif+HdpIgWnRxJR7Wl0/84Oo
+         BBnBa1JHrJjKA==
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-15027746720so24732298fac.13;
+        Sat, 14 Jan 2023 01:44:57 -0800 (PST)
+X-Gm-Message-State: AFqh2kqmJRsBnS02hNUPTxVYDx7hSw2XPSQoWH5EQDL/GjWVKOAXKB8Z
+        rDPSbRI3M40AB386xaNy5Hlu+camdZMF4LwJc60=
+X-Google-Smtp-Source: AMrXdXsVBAG6cRyjaVXq5OApNwcRn/+arTkdQYuTrAw+J2x024Ebyl2b21DGaJA/rBwC1SNCsp0Gi3IuW26QtwceSSo=
+X-Received: by 2002:a05:6870:514c:b0:150:7e4a:2f00 with SMTP id
+ z12-20020a056870514c00b001507e4a2f00mr3166709oak.194.1673689496760; Sat, 14
+ Jan 2023 01:44:56 -0800 (PST)
 MIME-Version: 1.0
-References: <20230109204520.539080-1-ojeda@kernel.org> <20230109204520.539080-5-ojeda@kernel.org>
-In-Reply-To: <20230109204520.539080-5-ojeda@kernel.org>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Sat, 14 Jan 2023 00:30:54 +0100
-Message-ID: <CANiq72=FZB1_muUYq=ZGPvY5jfTgg8FqcKnG=E1BMQML5rVG=w@mail.gmail.com>
-Subject: Re: [PATCH 5/6] kbuild: rust_is_available: fix confusion when a
- version appears in the path
-To:     Miguel Ojeda <ojeda@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org,
+References: <20230109204520.539080-1-ojeda@kernel.org> <20230109204520.539080-3-ojeda@kernel.org>
+ <CAK7LNATVJ5e=DnbJ++03iEMk0bN3-UvODBLkEKcYdSnJZa_tmA@mail.gmail.com>
+ <CAK7LNASDu+i4G88TYYa6feg-bha-_cLv1si_ujuSMbWuyUve0Q@mail.gmail.com> <CANiq72k6jCf_LP5vmBHKEpZ5njmH+u1HpJUjs_GyFi1a4B94ew@mail.gmail.com>
+In-Reply-To: <CANiq72k6jCf_LP5vmBHKEpZ5njmH+u1HpJUjs_GyFi1a4B94ew@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 14 Jan 2023 18:44:20 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS-5UaBX4CYrt_VFZrfHxLy=M=CpT8Hb-LpH4EAntRRSw@mail.gmail.com>
+Message-ID: <CAK7LNAS-5UaBX4CYrt_VFZrfHxLy=M=CpT8Hb-LpH4EAntRRSw@mail.gmail.com>
+Subject: Re: [PATCH 3/6] kbuild: rust_is_available: add check for `bindgen` invocation
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
         rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@lists.linux.dev, Alex Gaynor <alex.gaynor@gmail.com>,
+        patches@lists.linux.dev, Alexandru Radovici <msg4alex@gmail.com>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
         Wedson Almeida Filho <wedsonaf@gmail.com>,
         Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Jordan Isaacs <mail@jdisaacs.com>
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jan 9, 2023 at 9:46 PM Miguel Ojeda <ojeda@kernel.org> wrote:
+On Sat, Jan 14, 2023 at 8:10 AM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
 >
-> Reported-by: Jordan (@jordanisaacs)
+> On Thu, Jan 12, 2023 at 5:35 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > I meant this:
+> >
+> > if ! bindgen_libclang_output=$(LC_ALL=C "$BINDGEN" $(dirname
+> > $0)/rust_is_available_bindgen_libclang.h 2>&1 >/dev/null); then
+> >        [snip]
+> > fi
+> >
+> > (">/dev/null" was lost in the previous email)
+>
+> I used the error code in the message below. I am happy either way.
+>
+> Cheers,
+> Miguel
 
-Cc'ing Jordan who gave us the email address in GitHub and wants to
-send a `Tested-by` tag.
 
-Cheers,
-Miguel
+Ah, I see.
+
+
+
+How about this?
+
+
+
+
+bindgen_libclang_output=$(LC_ALL=C "$BINDGEN" $(dirname
+$0)/rust_is_available_bindgen_libclang.h 2>&1 >/dev/null) \
+         || bindgen_libclang_code=$?
+
+if [ -n "$bindgen_libclang_code" ]; then
+       echo >&2 "***"
+       echo >&2 "*** Running '$BINDGEN' to check the libclang version
+(used by the Rust"
+       echo >&2 "*** bindings generator) failed with code
+$bindgen_libclang_code. This may be caused by"
+       echo >&2 "*** a failure to locate libclang. See output and docs
+below for details:"
+       echo >&2 "***"
+       echo >&2 "$bindgen_libclang_output"
+       echo >&2 "***"
+       exit 1
+fi
+
+
+
+
+
+You can get the error code of bindgen without toggling -e.
+
+
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
