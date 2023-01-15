@@ -2,124 +2,107 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1E0766B06E
-	for <lists+linux-kbuild@lfdr.de>; Sun, 15 Jan 2023 11:49:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D35766B44E
+	for <lists+linux-kbuild@lfdr.de>; Sun, 15 Jan 2023 23:13:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230088AbjAOKtl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 15 Jan 2023 05:49:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55382 "EHLO
+        id S231535AbjAOWNc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 15 Jan 2023 17:13:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230003AbjAOKtk (ORCPT
+        with ESMTP id S231488AbjAOWNa (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 15 Jan 2023 05:49:40 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CBE5CDEC;
-        Sun, 15 Jan 2023 02:49:38 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 1769DB80B06;
-        Sun, 15 Jan 2023 10:49:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4D63C433EF;
-        Sun, 15 Jan 2023 10:49:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673779775;
-        bh=OgDN7XhvhGQQg/Z/xx44nHHo48uhQDWG853IVpEr0qg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=jRu03WoQyLf3Q1MTtBJGdW33TWSMSPOrmQhLdT+xnDfJ7YIdIDNScdarn7+g6qq6q
-         2s7sM4PNPiTXtFeOvgspA5z0XK2i4S8hhvHqvvFmLNZr/0vsSNhba9P+6NlObUvwzU
-         NzbFpwasTLYnHKK/8rPRVmatK3EaNtVIP8hSTV3dX57bNHclJvCFjmY6L5Q93sKmYl
-         586BiHqcSpna9tagaXItYJVJ5rnwfr9DqXy5ldCRKiSs2sYTlrHpke7uuv8H/A1w2Q
-         MnbE6WrXP9GF8is2nuOPD0eH53xqebBa5kd2xQ2upym1nEpftCsZ1ipyOu7TYW24jP
-         DptK4Q+7G2lhA==
-Received: by mail-oi1-f169.google.com with SMTP id d127so21057645oif.12;
-        Sun, 15 Jan 2023 02:49:35 -0800 (PST)
-X-Gm-Message-State: AFqh2kpnWHo0wsF1jqkr0MW7tLgG2cB5A7twk0JcMdMVkJA5CxyoLUGw
-        zivvQwzr8R28N5wETFZ+oqEO/HIAEpVAoUPmJfo=
-X-Google-Smtp-Source: AMrXdXsiOdEBrkARrRYgYGuTHYvZmu28Gequ+ROkp35laCJSEQSVS9ZQ8Wg1wGKkiSSWBJGblYa+uOBVMR71pEJznq0=
-X-Received: by 2002:aca:3755:0:b0:35e:7c55:b015 with SMTP id
- e82-20020aca3755000000b0035e7c55b015mr5483293oia.287.1673779774935; Sun, 15
- Jan 2023 02:49:34 -0800 (PST)
+        Sun, 15 Jan 2023 17:13:30 -0500
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 332501B54F
+        for <linux-kbuild@vger.kernel.org>; Sun, 15 Jan 2023 14:13:29 -0800 (PST)
+Received: by mail-lj1-x236.google.com with SMTP id s22so28240607ljp.5
+        for <linux-kbuild@vger.kernel.org>; Sun, 15 Jan 2023 14:13:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=JrkGBGLupmmxwj4mMNV2Ck4MkVXvEVZUnNhswUiErKA=;
+        b=K0VikIGXfgOfLVMJbTJbxo+0erIrcMqd52v/h4t4Tq4cAlwja+9HVOWwf2gFRu9D0E
+         2rqkbns3+xUYlxsjK5DTXCMaz3h4R15Ew1UA9Hr3cLLpxJ59bqmrRPIJYPKSr207UfXc
+         9i8byWnzv7b7P2mffBi0rcZ+6aKi/N5rvb9HxfyNVhEuMx+WWz01Bz/igh8oF8xotyPt
+         FQuNNRIfbiaL+8uJKyOmX+0wAa3H6hc4I+9S58MNXlAzL4MLNxVzwY8Okg9KXO3U+mAY
+         OyJKjEGLZivigsOwPn5FfVHcgfxffVOw/8p+IHUumjvp24I9dzkhc8XODFd1YZu4wSBQ
+         R3+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JrkGBGLupmmxwj4mMNV2Ck4MkVXvEVZUnNhswUiErKA=;
+        b=eqQYjQk0L3EJGBr4L52Ivsqf57UaYD9m2uVE0yx4x5NI6qlarFZd8Je14XzqMrvzvs
+         kVaqMdBtvGmYd/BVBmkSVOVBY4h8G8VLXidvodgYIT140W/xQGj072LFvVVTzLXeGyIJ
+         HowlpyVi0jDCnY3e/xDMIq/pDjy5sQw8sYn6v1zFTM4txFQVp4d45tuE+W9c6LrLUKZu
+         KzyiKkwi1G4Q8w54h2g338Bbdd9YiASUMZy0gJI9gwVt2qZBIl+lC7E/TzAJeBpdIc90
+         bATtq1LXZ0vJYEj5vp0nsVIyFgrqL6+Gtw7ss4kHlklQkeWFMs2kD+kGB2Lm8+z/OZnx
+         klQg==
+X-Gm-Message-State: AFqh2kpBgJzWxwRUuXdQsVKbt4Qa/HHuGlIlz8PPmYbv6ZNMy+aDuEuy
+        2YzaqssRWNBCTKaTp6VGFtGKqpTgC7FXQTERnlk=
+X-Google-Smtp-Source: AMrXdXsVUSMvXEqvn2ldSAooIFJ6h/kSpXKppkOrfgk1ta0BorfKnkTC1M/dIK3kgyCiVHRLUGkWKVtRpVsUlyLfhoE=
+X-Received: by 2002:a2e:bf19:0:b0:27f:ae14:6ac9 with SMTP id
+ c25-20020a2ebf19000000b0027fae146ac9mr3689361ljr.300.1673820807157; Sun, 15
+ Jan 2023 14:13:27 -0800 (PST)
 MIME-Version: 1.0
-References: <20230109204520.539080-1-ojeda@kernel.org> <20230109204520.539080-6-ojeda@kernel.org>
- <CAK7LNAQYk6s11MASRHW6oxtkqF00EJVqhHOP=5rynWt-QDUsXw@mail.gmail.com>
- <CANiq72kyUr9PGYqHTsNzYn0_cyuYA0vAxHLC08ivxKo5XvOESg@mail.gmail.com> <CAK7LNASawny3wSTvjB8-CZJ2Mw8UnB0C4k5-X8yC8TyrmsM8RQ@mail.gmail.com>
-In-Reply-To: <CAK7LNASawny3wSTvjB8-CZJ2Mw8UnB0C4k5-X8yC8TyrmsM8RQ@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 15 Jan 2023 19:48:58 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT0p0N=DtNpUsCuw=rhLNRY5VeozYr-XL4WxJ+0bfszyg@mail.gmail.com>
-Message-ID: <CAK7LNAT0p0N=DtNpUsCuw=rhLNRY5VeozYr-XL4WxJ+0bfszyg@mail.gmail.com>
-Subject: Re: [PATCH 6/6] kbuild: rust_is_available: normalize version matching
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org,
+References: <CA+icZUXjro1-JxeMor=PX-f5K_dxyRj-ue3SUDT1MTERHb1g+g@mail.gmail.com>
+In-Reply-To: <CA+icZUXjro1-JxeMor=PX-f5K_dxyRj-ue3SUDT1MTERHb1g+g@mail.gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Sun, 15 Jan 2023 23:12:50 +0100
+Message-ID: <CA+icZUX+3V+7XPi_JkV-z5JXhZ+KAVpXsE8ykbctvYyStU_P7A@mail.gmail.com>
+Subject: Re: [builddeb] dpkg: error processing package linux-image-6.2.0-rc4-1-amd64-clang15-kcfi
+ (--configure)
+To:     Ben Hutchings <ben@decadent.org.uk>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     debian-kernel@lists.debian.org, linux-kbuild@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@lists.linux.dev, Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>
+        Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Jan 15, 2023 at 11:48 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Sat, Jan 14, 2023 at 8:15 AM Miguel Ojeda
-> <miguel.ojeda.sandonis@gmail.com> wrote:
-> >
-> > On Thu, Jan 12, 2023 at 7:23 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > >
-> > > Maybe, your purpose is to use sed consistently, but
-> > > perhaps you can avoid forking sed if you know the
-> > > format of the first line.
-> >
-> > The most unknown format would be the one of the libclang check, where
-> > there may be other lines before the one we are interested in. However,
-> > the pattern expansion would still match newlines, right?
-> >
-> > > BTW, what is missing here is, you do not check if
-> > > ${RUSTC} is really rustc.
-> > >
-> > > I can fool this script to print
-> > > "arithmetic expression: expecting primary: "100000 *  + 100 *  + "
-> >
-> > We can test if nothing was printed by `sed` for that (or do it with
-> > shell builtins).
-> >
-> > Having said that, I would say fooling the script on purpose is an more
-> > of an oddity compared to the case `MAKEFLAGS` attempts to cover
-> > (please see my reply on the other patch). So if we cover this, then I
-> > would say we should really cover the other one.
->
->
->
-> get_canonical_version() in scripts/as-version.sh has
-> a little more trick to avoid
-> "arithmetic expression: expecting primary: "100000 *  + 100 *  + "
-> but it is up to you.
+This solved the issue:
 
+# mv /etc/kernel/postinst.d/dkms /etc/kernel/postinst.d/dkms.orig
 
+# LC_ALL=C dpkg -i
+/home/dileks/src/linux/linux-image-6.2.0-rc4-1-amd64-clang15-kcfi_6.2.0~rc4-1~unstable+dileks1_amd64.deb
+(Reading database ... 426963 files and directories currently installed.)
+Preparing to unpack
+.../linux-image-6.2.0-rc4-1-amd64-clang15-kcfi_6.2.0~rc4-1~unstable+dileks1_amd64.deb
+...
+Unpacking linux-image-6.2.0-rc4-1-amd64-clang15-kcfi
+(6.2.0~rc4-1~unstable+dileks1) over (6.2.0~rc4-1~unstable+dileks1) ...
+Setting up linux-image-6.2.0-rc4-1-amd64-clang15-kcfi
+(6.2.0~rc4-1~unstable+dileks1) ...
+update-initramfs: Generating /boot/initrd.img-6.2.0-rc4-1-amd64-clang15-kcfi
+Generating grub configuration file ...
+Found background image: /usr/share/images/desktop-base/desktop-grub.png
+Found linux image: /boot/vmlinuz-6.2.0-rc4-1-amd64-clang15-kcfi
+Found initrd image: /boot/initrd.img-6.2.0-rc4-1-amd64-clang15-kcfi
+Found linux image: /boot/vmlinuz-6.1.0-1-amd64
+Found initrd image: /boot/initrd.img-6.1.0-1-amd64
+Warning: os-prober will be executed to detect other bootable partitions.
+Its output will be used to detect bootable binaries on them and create
+new boot entries.
+Found Windows Recovery Environment on /dev/sdb3
+done
 
-My code accepts anything that is separated by dots
-(and non-numerical strings are silently turned into zero).
+# dpkg -l | grep linux-image | awk '/^(ii)/ {print $1 " " $2 " " $3}'
+| column -t
+ii  linux-image-6.1.0-1-amd64                   6.1.4-1
+ii  linux-image-6.2.0-rc4-1-amd64-clang15-kcfi  6.2.0~rc4-1~unstable+dileks1
+ii  linux-image-amd64
 
-Your code takes exactly the "([0-9]+\.[0-9]+\.[0-9]+)" pattern,
-so it works very safely.
-
-I think using sed is fine.
-
-
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+-Sedat-
