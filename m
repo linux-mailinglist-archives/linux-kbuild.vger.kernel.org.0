@@ -2,65 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D35766B44E
-	for <lists+linux-kbuild@lfdr.de>; Sun, 15 Jan 2023 23:13:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A983166B572
+	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Jan 2023 03:02:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231535AbjAOWNc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 15 Jan 2023 17:13:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50478 "EHLO
+        id S231421AbjAPCCB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 15 Jan 2023 21:02:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231488AbjAOWNa (ORCPT
+        with ESMTP id S231626AbjAPCCA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 15 Jan 2023 17:13:30 -0500
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 332501B54F
-        for <linux-kbuild@vger.kernel.org>; Sun, 15 Jan 2023 14:13:29 -0800 (PST)
-Received: by mail-lj1-x236.google.com with SMTP id s22so28240607ljp.5
-        for <linux-kbuild@vger.kernel.org>; Sun, 15 Jan 2023 14:13:29 -0800 (PST)
+        Sun, 15 Jan 2023 21:02:00 -0500
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DCC84C21
+        for <linux-kbuild@vger.kernel.org>; Sun, 15 Jan 2023 18:01:59 -0800 (PST)
+Received: by mail-lj1-x22d.google.com with SMTP id n5so28078797ljc.9
+        for <linux-kbuild@vger.kernel.org>; Sun, 15 Jan 2023 18:01:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=JrkGBGLupmmxwj4mMNV2Ck4MkVXvEVZUnNhswUiErKA=;
-        b=K0VikIGXfgOfLVMJbTJbxo+0erIrcMqd52v/h4t4Tq4cAlwja+9HVOWwf2gFRu9D0E
-         2rqkbns3+xUYlxsjK5DTXCMaz3h4R15Ew1UA9Hr3cLLpxJ59bqmrRPIJYPKSr207UfXc
-         9i8byWnzv7b7P2mffBi0rcZ+6aKi/N5rvb9HxfyNVhEuMx+WWz01Bz/igh8oF8xotyPt
-         FQuNNRIfbiaL+8uJKyOmX+0wAa3H6hc4I+9S58MNXlAzL4MLNxVzwY8Okg9KXO3U+mAY
-         OyJKjEGLZivigsOwPn5FfVHcgfxffVOw/8p+IHUumjvp24I9dzkhc8XODFd1YZu4wSBQ
-         R3+A==
+        h=cc:to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+XTvhIQQk40fK8svIeiVlLX9voGZYJ/3JEv+qqSKWMg=;
+        b=CkUd28DVeh36PRCWQTX6nwQK8ShkKKNUJ0DcKMe9pFibrXy4w/B6HOh/lnu/H1kfUo
+         YwqZL08b0p/ualbaIsdSaUe2/xbzqgQkciKRtIFSjURcQoGB6zMbO5J35iHwSfPXWvsP
+         feYjEKyNEDMQivMl5xA1RsU+JeWhtyLKFb7xMSFnGQFrqMbq5ayJM/e3DA3ARVK9M4V4
+         I8cylZNpF03dbmjKiT1PIMEnzAGyW+iA05gqcdxuCSsZdv3cf413d5fhsNcEdqtXZc9H
+         xOxT55Wv9SJ6TNQtrnPO+TIVEX5mzm6d39Gct0WDezcKMlGkMjsAy6GPVf9SO4sh7bH+
+         nQdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JrkGBGLupmmxwj4mMNV2Ck4MkVXvEVZUnNhswUiErKA=;
-        b=eqQYjQk0L3EJGBr4L52Ivsqf57UaYD9m2uVE0yx4x5NI6qlarFZd8Je14XzqMrvzvs
-         kVaqMdBtvGmYd/BVBmkSVOVBY4h8G8VLXidvodgYIT140W/xQGj072LFvVVTzLXeGyIJ
-         HowlpyVi0jDCnY3e/xDMIq/pDjy5sQw8sYn6v1zFTM4txFQVp4d45tuE+W9c6LrLUKZu
-         KzyiKkwi1G4Q8w54h2g338Bbdd9YiASUMZy0gJI9gwVt2qZBIl+lC7E/TzAJeBpdIc90
-         bATtq1LXZ0vJYEj5vp0nsVIyFgrqL6+Gtw7ss4kHlklQkeWFMs2kD+kGB2Lm8+z/OZnx
-         klQg==
-X-Gm-Message-State: AFqh2kpBgJzWxwRUuXdQsVKbt4Qa/HHuGlIlz8PPmYbv6ZNMy+aDuEuy
-        2YzaqssRWNBCTKaTp6VGFtGKqpTgC7FXQTERnlk=
-X-Google-Smtp-Source: AMrXdXsVUSMvXEqvn2ldSAooIFJ6h/kSpXKppkOrfgk1ta0BorfKnkTC1M/dIK3kgyCiVHRLUGkWKVtRpVsUlyLfhoE=
-X-Received: by 2002:a2e:bf19:0:b0:27f:ae14:6ac9 with SMTP id
- c25-20020a2ebf19000000b0027fae146ac9mr3689361ljr.300.1673820807157; Sun, 15
- Jan 2023 14:13:27 -0800 (PST)
+        h=cc:to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+XTvhIQQk40fK8svIeiVlLX9voGZYJ/3JEv+qqSKWMg=;
+        b=EiyTAxu6+13dIybCOZwG5nc/quYKU6qlaYIm3wsIviIf8XLcOzZ6tvsuyLCdDnGvDb
+         nX90xqeLYccuk/F2g5zmjRPzdV2Vm6u7USTf6VluXSLvSiQn1CVCCB64F2UpnLXdQUth
+         lWoM5S9WUcSiFV0eUivVO6vS3p+i5f2iIqYmfQXXw9ETpXU195EqW2Be+P5ybOPxI24V
+         Ny6kjyvOPMBkkll4QvXHjAiEpKXdQdc1qZPcrYFo7azS//KC1In56NXVXyTb7oTMLX6Q
+         z84Fqd1+iwM1NsMhuENWUG/bK1Y2ij5b5HIaM8mEx+bVmU8FGccstnvfpg+NbrgYc7Wj
+         ZOSw==
+X-Gm-Message-State: AFqh2krtCVJHXhJVQxzO7uZeiwYRZXj4WdxFLdZzeoYXOS84SdiMk/uM
+        Mr/4BXgLIaRhIhZy/E7kjy4UddTqyWKCI0OGfLU4c6HFR6pS1A==
+X-Google-Smtp-Source: AMrXdXv12+4/Y95egbNK4Oeehr80LOmcfFQj05K1ZBG4V8zSS29Gh1O53X4sIKzAH4e/BGXDxbHaMsKGqzpaxf0B/B8=
+X-Received: by 2002:a2e:9188:0:b0:289:81a4:3a7b with SMTP id
+ f8-20020a2e9188000000b0028981a43a7bmr968655ljg.487.1673834517639; Sun, 15 Jan
+ 2023 18:01:57 -0800 (PST)
 MIME-Version: 1.0
-References: <CA+icZUXjro1-JxeMor=PX-f5K_dxyRj-ue3SUDT1MTERHb1g+g@mail.gmail.com>
-In-Reply-To: <CA+icZUXjro1-JxeMor=PX-f5K_dxyRj-ue3SUDT1MTERHb1g+g@mail.gmail.com>
 Reply-To: sedat.dilek@gmail.com
 From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Sun, 15 Jan 2023 23:12:50 +0100
-Message-ID: <CA+icZUX+3V+7XPi_JkV-z5JXhZ+KAVpXsE8ykbctvYyStU_P7A@mail.gmail.com>
-Subject: Re: [builddeb] dpkg: error processing package linux-image-6.2.0-rc4-1-amd64-clang15-kcfi
- (--configure)
-To:     Ben Hutchings <ben@decadent.org.uk>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     debian-kernel@lists.debian.org, linux-kbuild@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
+Date:   Mon, 16 Jan 2023 03:01:20 +0100
+Message-ID: <CA+icZUV+4QovjQnkAgvon6POgZWstVd-AhZ7OkPU9onuktif1w@mail.gmail.com>
+Subject: [6.2-rc4] warning: cannot check the header due to sha1sum missing
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -72,37 +64,38 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This solved the issue:
+Hi Masahiro,
 
-# mv /etc/kernel/postinst.d/dkms /etc/kernel/postinst.d/dkms.orig
+I saw these warnings in my build-log:
 
-# LC_ALL=C dpkg -i
-/home/dileks/src/linux/linux-image-6.2.0-rc4-1-amd64-clang15-kcfi_6.2.0~rc4-1~unstable+dileks1_amd64.deb
-(Reading database ... 426963 files and directories currently installed.)
-Preparing to unpack
-.../linux-image-6.2.0-rc4-1-amd64-clang15-kcfi_6.2.0~rc4-1~unstable+dileks1_amd64.deb
-...
-Unpacking linux-image-6.2.0-rc4-1-amd64-clang15-kcfi
-(6.2.0~rc4-1~unstable+dileks1) over (6.2.0~rc4-1~unstable+dileks1) ...
-Setting up linux-image-6.2.0-rc4-1-amd64-clang15-kcfi
-(6.2.0~rc4-1~unstable+dileks1) ...
-update-initramfs: Generating /boot/initrd.img-6.2.0-rc4-1-amd64-clang15-kcfi
-Generating grub configuration file ...
-Found background image: /usr/share/images/desktop-base/desktop-grub.png
-Found linux image: /boot/vmlinuz-6.2.0-rc4-1-amd64-clang15-kcfi
-Found initrd image: /boot/initrd.img-6.2.0-rc4-1-amd64-clang15-kcfi
-Found linux image: /boot/vmlinuz-6.1.0-1-amd64
-Found initrd image: /boot/initrd.img-6.1.0-1-amd64
-Warning: os-prober will be executed to detect other bootable partitions.
-Its output will be used to detect bootable binaries on them and create
-new boot entries.
-Found Windows Recovery Environment on /dev/sdb3
-done
+  if ! command -v sha1sum >/dev/null; then echo "warning: cannot check
+the header due to sha1sum missing"; exit 0; fi; if [ "$(sed -n '$s://
+::p' include/linux/atomic/
+atomic-arch-fallback.h)" != "$(sed '$d'
+include/linux/atomic/atomic-arch-fallback.h | sha1sum | sed 's/
+.*//')" ]; then echo "error: include/linux/atomic/atomic-arch-f
+allback.h has been modified." >&2; exit 1; fi; touch
+.checked-atomic-arch-fallback.h
+ if ! command -v sha1sum >/dev/null; then echo "warning: cannot check
+the header due to sha1sum missing"; exit 0; fi; if [ "$(sed -n '$s://
+::p' include/linux/atomic/
+atomic-instrumented.h)" != "$(sed '$d'
+include/linux/atomic/atomic-instrumented.h | sha1sum | sed 's/ .*//')"
+]; then echo "error: include/linux/atomic/atomic-instrume
+nted.h has been modified." >&2; exit 1; fi; touch .checked-atomic-instrumented.h
+ if ! command -v sha1sum >/dev/null; then echo "warning: cannot check
+the header due to sha1sum missing"; exit 0; fi; if [ "$(sed -n '$s://
+::p' include/linux/atomic/
+atomic-long.h)" != "$(sed '$d' include/linux/atomic/atomic-long.h |
+sha1sum | sed 's/ .*//')" ]; then echo "error:
+include/linux/atomic/atomic-long.h has been modified
+." >&2; exit 1; fi; touch .checked-atomic-long.h
 
-# dpkg -l | grep linux-image | awk '/^(ii)/ {print $1 " " $2 " " $3}'
-| column -t
-ii  linux-image-6.1.0-1-amd64                   6.1.4-1
-ii  linux-image-6.2.0-rc4-1-amd64-clang15-kcfi  6.2.0~rc4-1~unstable+dileks1
-ii  linux-image-amd64
+NOTE: I did a `make distclean` before I started my build.
 
+Can you please comment on this?
+
+Thanks.
+
+Best regards,
 -Sedat-
