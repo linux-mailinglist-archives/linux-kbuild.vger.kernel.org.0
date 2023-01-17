@@ -2,51 +2,49 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B6FFE66D860
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jan 2023 09:40:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C40B66D889
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jan 2023 09:46:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235840AbjAQIk0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Jan 2023 03:40:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47964 "EHLO
+        id S236183AbjAQIqz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Jan 2023 03:46:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235642AbjAQIkZ (ORCPT
+        with ESMTP id S236242AbjAQIqd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Jan 2023 03:40:25 -0500
-X-Greylist: delayed 376 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 17 Jan 2023 00:40:20 PST
-Received: from mail.avm.de (mail.avm.de [IPv6:2001:bf0:244:244::119])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C228A901C;
-        Tue, 17 Jan 2023 00:40:20 -0800 (PST)
+        Tue, 17 Jan 2023 03:46:33 -0500
+Received: from mail.avm.de (mail.avm.de [IPv6:2001:bf0:244:244::120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F10232CFFC
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 Jan 2023 00:46:18 -0800 (PST)
 Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
         by mail.avm.de (Postfix) with ESMTPS;
-        Tue, 17 Jan 2023 09:34:02 +0100 (CET)
+        Tue, 17 Jan 2023 09:46:15 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-        t=1673944442; bh=kMwk25Pa4sf73B3ViO7ZeW5zKO+tJBR7mWWrhfli0aY=;
+        t=1673945175; bh=fAt88WbIbC+v4MMTzOt+wZMESEhARWAzX+407Atwoec=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Exi2r7Cb7dAUxj2dbia0L2NZ0e2N47abL4qOxy1DLs3jJG5ZRkrDb3T8mbiacFM0q
-         6r+0FMV1tA6LyDOY5EPgXXvqUaTaeWaGYdWSsHUrMgC7Kmz8Aqb7bqQEYPAGY185dd
-         KH5z7QLVstlrhzYFD7oJ/YlhV+zhwbFCQD2zUUcM=
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-        by mail-auth.avm.de (Postfix) with ESMTPA id 4193580AA6;
-        Tue, 17 Jan 2023 09:34:02 +0100 (CET)
-Received: by buildd.core.avm.de (Postfix, from userid 1000)
-        id 3784B1816D2; Tue, 17 Jan 2023 09:34:02 +0100 (CET)
-Date:   Tue, 17 Jan 2023 09:34:01 +0100
+        b=xiOjah/6I5tvpLyQUgXd9MuIAqqDoH/PReqQAvyiNtCFery4StbjfjEj+0w3c3+uR
+         AENJ04lX7MzXmXHbHj40h8zxqA0vc9buDvXgdAi9+g5F084RWpUesiHUmAr7ZKyPHm
+         Qa26zJWyk+/1+N/vgpZzxe5nwLk32pxSbgtVZM50=
+Date:   Tue, 17 Jan 2023 09:46:02 +0100
 From:   Nicolas Schier <n.schier@avm.de>
 To:     Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] kernel/.gitignore: ignore temporary kheaders_data
- directory
-Message-ID: <Y8ZdGIDj+0nSqjkF@buildd.core.avm.de>
-References: <20230117-kernel-kheaders-gitignore-v1-1-2a3a070efd0d@weissschuh.net>
+        linux-kbuild@vger.kernel.org,
+        Amy Parker <apark0006@student.cerritos.edu>
+Subject: Re: [PATCH] kheaders: explicitly validate existence of cpio command
+Message-ID: <Y8ZgTgtA9oH8W17Y@buildd.core.avm.de>
+Mail-Followup-To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org,
+        Amy Parker <apark0006@student.cerritos.edu>
+References: <20230117-kernel-kheaders-cpio-v1-1-058d3e1c8621@weissschuh.net>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Ty33j4u5WgmG6v6/"
+        protocol="application/pgp-signature"; boundary="dpXCB7SDqqrl+bBO"
 Content-Disposition: inline
-In-Reply-To: <20230117-kernel-kheaders-gitignore-v1-1-2a3a070efd0d@weissschuh.net>
-X-purgate-ID: 149429::1673944442-A756973F-F5F3902E/0/0
+In-Reply-To: <20230117-kernel-kheaders-cpio-v1-1-058d3e1c8621@weissschuh.net>
+X-purgate-ID: 149429::1673945175-E5FE9DA2-A9E12ADD/0/0
 X-purgate-type: clean
-X-purgate-size: 2731
+X-purgate-size: 2646
 X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
 X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
 X-purgate: clean
@@ -60,82 +58,70 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
---Ty33j4u5WgmG6v6/
+--dpXCB7SDqqrl+bBO
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Jan 2023 09:34:01 +0100
+Date: Tue, 17 Jan 2023 09:46:02 +0100
 From: Nicolas Schier <n.schier@avm.de>
 To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] kernel/.gitignore: ignore temporary kheaders_data
- directory
+Cc: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org,
+	Amy Parker <apark0006@student.cerritos.edu>
+Subject: Re: [PATCH] kheaders: explicitly validate existence of cpio command
 
-On Tue, Jan 17, 2023 at 05:15:25AM +0000, Thomas Wei=C3=9Fschuh wrote:
-> If the kheaders archive generation is interrupted then this directory
-> may be left. Ignore it, it will be deleted by the next run of
-> kernel/gen_kheaders.sh.
+On Tue, Jan 17, 2023 at 05:30:43AM +0000, Thomas Wei=C3=9Fschuh wrote:
+> If the cpio command is not available the error emitted by
+> gen_kheaders.so is not clear as all output of the call to cpio is
+> discarded:
 >=20
-> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
-> ---
->  kernel/.gitignore | 1 +
->  1 file changed, 1 insertion(+)
+> GNU make 4.4:
 >=20
-> diff --git a/kernel/.gitignore b/kernel/.gitignore
-> index c6b299a6b786..57ab1d703763 100644
-> --- a/kernel/.gitignore
-> +++ b/kernel/.gitignore
-> @@ -1,3 +1,4 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  /config_data
->  /kheaders.md5
-> +/kheaders_data.tar.xz.tmp/
+>   GEN     kernel/kheaders_data.tar.xz
+> find: 'standard output': Broken pipe
+> find: write error
+> make[2]: *** [kernel/Makefile:157: kernel/kheaders_data.tar.xz] Error 127
+> make[1]: *** [scripts/Makefile.build:504: kernel] Error 2
+>=20
+> GNU make < 4.4:
+>=20
+>   GEN     kernel/kheaders_data.tar.xz
+> make[2]: *** [kernel/Makefile:157: kernel/kheaders_data.tar.xz] Error 127
+> make[2]: *** Waiting for unfinished jobs....
+> make[1]: *** [scripts/Makefile.build:504: kernel] Error 2
+>=20
+> Add an explicit check that will trigger a clear message about the issue:
+>=20
+>   CHK     kernel/kheaders_data.tar.xz
+> ./kernel/gen_kheaders.sh: line 17: type: cpio: not found
 
-What about removing the temporary directory on failure instead?  E.g.:
+Thanks for the patch!  What would you think about an even more verbose
+message?  Perhaps something like:
 
-diff --git a/kernel/gen_kheaders.sh b/kernel/gen_kheaders.sh
-index 473036b43c83..c656b72a3cdc 100755
---- a/kernel/gen_kheaders.sh
-+++ b/kernel/gen_kheaders.sh
-@@ -61,6 +61,8 @@ echo "  GEN     $tarfile"
- rm -rf $cpio_dir
- mkdir $cpio_dir
-=20
-+trap "rm -rf ${cpio_dir}" EXIT
-+
- if [ "$building_out_of_srctree" ]; then
-        (
-                cd $srctree
+    echo >&2 ' *** "cpio" is required for "CONFIG_IKHEADERS". >&2
 
-
-Otherwise, I'd suggest to extent this .gitignore patch by also adding
-
-   clean-files +=3D kheaders_data.tar.xz.tmp/
-
-to kernel/Makefile.
+Reviewed-by: Nicolas Schier <n.schier@avm.de>
 
 Kind regards,
 Nicolas
 
---Ty33j4u5WgmG6v6/
+--dpXCB7SDqqrl+bBO
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEDv+Fiet06YHnC6RpiMa8nIiabbgFAmPGXXkACgkQiMa8nIia
-bbj14g//aT1UvWM7Aac9PChXlBal4d2NpCrojDoGrwUxmGX4tH0vwpaxBHeRe3lB
-Txdmktd+PmlJnZ0YHpaTgyKIKottb26yOhCO9CcKwgw1UY27K34n4b7GrV8rpu4I
-sWUDJb5hvfyraIh0n2YqQcRvIJIPRg3t24kc4ZrTS27GdYUMCq8hP3ykA7ol3K9g
-sFDGrPrZF2CPrYEChq1xmbML39occib8ytoSpOxc/cQrent7LyYI3oopBYFV1FDI
-KNMCbkvXgX96ZGJrjXdhMjODZ3apSBARMs67e9iS3BsTGjwPNHstWvkm3VTzmI+U
-5kH2zwyPAdovU6I9iS92hgXZ+hHAem4jpNwBJJbAeB5EtRc3WcxPpcBDp6OxPxFd
-kgQmc6MEB0BOURsipXmNAurxBwZWTYXQLZ6hM22e7G3mv5ZMjgrM4jZ8ZWuHzPRj
-2QKZgXEwGd/w0gwi7ZeTzYEofi+NiRPimzk71a0nWIVo6vmX7QkBJQHrHbela/Ay
-ghogsnAHxNAlYcsp3nXaOpfEUEDAn/oaCUFcQZEvGEjsWXz7vxbTTtAP7Xv9RE+t
-2CuuyIEeRGj4WBF6yYstwY5hnw08X+9v3Vhb0OO1elQkycqyCwOKrtKA3ouPwot3
-9vkqZxyeV8ihXJMHlkFT/j2AphRrlSNv2N8Q14tpg/UBfpHb15A=
-=qPSK
+iQIzBAABCgAdFiEEDv+Fiet06YHnC6RpiMa8nIiabbgFAmPGYEoACgkQiMa8nIia
+bbjCSQ//TdrltRwCTswcDKx7qoUGhSTDgVvZYiQJ0Sn+W1cL5j70Kl9qrXvD8pke
+M2RmLLHSRIewkZmc+qEJBlrFK1WD48LMnwleq+zSXUgAMjGMvc9DdCLN0K9Y0C1a
+L4agawARh0313wZMgWi9wj29yDQD8Z0fIk0OirCkEFVkz3PwPKL0b/gGKT1+9Jtn
+pvnrBUDJ6wUeF28Seg/LR8n9vvNx1m+MH08wQr8xQL4uSW1e4feIbH13KaXOZkWK
+mqjFCg85UelD/LUw2dxIOrK3uc0+/EqZvh23wMfA60DRASqUsuEB+Tp2N3EYP3BA
+1vII5MNsOIJEKJ0S7v2vl2lo/ZcgvYCwABdibqJCbyIKegn4aCc1zs/w/9BTxbFU
+6W9jz30lGzzAmXFQP8iR7nehh/MBAcsaJYGYxopRv2rXIx59LjX6Lu2GtZaAobwm
+7xgArkbReUK6TTa5DiUal7Cm40oVyvnwvI5TDVMCjvk+BbMCiF2gEcg459ymWhyp
+FY1N9KzYwcXbeyZOnKpxXnghYRKyPRLbiGXjqVIWMYLFxSai197AEeu8KjKBwXp2
+ZmshLRKxd88x2dGHxFyJpuxA+4suXfc2vr74J63rWrrE80q/FPv48+HpZTaI6V+C
+vDEFmnVoMRIIF/wd6/MIKFARwosL/voO3K1xCG6/yhy5xfEykfY=
+=OpfU
 -----END PGP SIGNATURE-----
 
---Ty33j4u5WgmG6v6/--
+--dpXCB7SDqqrl+bBO--
