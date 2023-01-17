@@ -2,190 +2,235 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4824866E5B6
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jan 2023 19:14:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FFB366E7DF
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jan 2023 21:41:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230352AbjAQSOf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Jan 2023 13:14:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45818 "EHLO
+        id S231294AbjAQUky (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Jan 2023 15:40:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232713AbjAQSMf (ORCPT
+        with ESMTP id S235042AbjAQUhj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Jan 2023 13:12:35 -0500
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63FEE3FF0B
-        for <linux-kbuild@vger.kernel.org>; Tue, 17 Jan 2023 09:54:28 -0800 (PST)
-Received: by mail-wr1-x436.google.com with SMTP id n7so5380276wrx.5
-        for <linux-kbuild@vger.kernel.org>; Tue, 17 Jan 2023 09:54:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PDzwAFI7NBesRBvPpfeIPtEzZSb+xUUpXwXOHSl1luo=;
-        b=Hr42PPN/ETUhkQGNTUqP2occd6d3n44+ZN007SdYA9cv6gNhuuwLqKhtjrAPecDX7K
-         KdC2P5AHmQsCPAmrwB8+OqVAo07XHmwec01YcbupJqGHJVam3RQ1I8jl2XnMvPrZljCK
-         ZMOQLB70YjCOnNXKZI/38urIgrZaF6buAtGI6z+ltzklGbxq/UmC2e3Gk1ujgnhFz5lg
-         1EROEohGLtn3b7YtN+kSvooBR7shAwv2EHtIpz0OE5dCdRyqKzWwMVnL37h4mEHNeztP
-         KYMgu2KavRql6RmqsEf4G5E4Dm6i6BGGDLh00BGK9DmOHZNeSdV3ryp2bBuXpmJfWQly
-         cgcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PDzwAFI7NBesRBvPpfeIPtEzZSb+xUUpXwXOHSl1luo=;
-        b=6TEXDLX3kSCNUsmrbos0e1edeRJL5LHUVKsAYDc58lfYHQyYFj3HKxpRAD1MQkg0zA
-         LsQwbWbYXdmzG+IisSAgZBKx84TAfQ9xp9VWrhJFEmAnwtuQmEKM0Z0tpX2eAGT7qI/9
-         6myLW/96szju9+QRA7zEEpwPTpYEpKaxjbHQJs6MOCBQoZ9feD1UVuuwYSg8NBJVf7eL
-         QUCy2YElLjgWoKb4IwrODwze/iuElhjKXsG+DVrFNa5N7EEN0+dhNwc16uaIUjPJMB2D
-         gp2+Mc+gFl6RRAK7yI4SAX4I3LwU5vL+GTsoEaEBiog1AJDlrCEHyXGWUm6/oweEwqA/
-         y0AA==
-X-Gm-Message-State: AFqh2kruU9uX7agDrh/Yp5AKMeQ1yGPWMoPpoLFjcXP8gWRKkBl8/g6V
-        ZFwDlzTr0E66gtG8Pz+mA+DycA==
-X-Google-Smtp-Source: AMrXdXu2SY+DU3MzEjMVnIbsWRFlLT57464MW3lnYliLEfIm4ztW1Ty8bc4WuTfr7sZG3hwwh4KuQQ==
-X-Received: by 2002:a5d:45cd:0:b0:2bd:d94f:432c with SMTP id b13-20020a5d45cd000000b002bdd94f432cmr3716401wrs.26.1673978066786;
-        Tue, 17 Jan 2023 09:54:26 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id v14-20020adff68e000000b002365730eae8sm29487213wrp.55.2023.01.17.09.54.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Jan 2023 09:54:26 -0800 (PST)
-Message-ID: <5ebee797-aa87-8db4-228c-dfe236ad32f8@linaro.org>
-Date:   Tue, 17 Jan 2023 18:54:22 +0100
+        Tue, 17 Jan 2023 15:37:39 -0500
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 742384C0F0;
+        Tue, 17 Jan 2023 11:22:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1673983376; x=1705519376;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=0HvEB9orqKGoR3KtSrMxXTUWy0NCbDQ8IoSVOg+jJGE=;
+  b=lAzXzDoqVkSWC02i8HTWC8G4Ol9Pg1o0U/qAvGRDFKL/sJl79O/7D0v3
+   C/L9aF03VpOA6K6ZVfJZf1ekcJBVX3kACjUxNekeJu+aC/aZ10uH9Q2dp
+   6qU4ZDDKGvD3omlWUU8NcFNkAsCEcQz+on6uE2og+BDLgpPIq7a2hsb2c
+   13HXY/z+HhWODQ0J9YsZ0Ebfx/5V2o31meIgp0ibyXtPL6MKejyQx+rCs
+   GBIUZqQeo+Xqm4DeB/K7H5SJLJM7Bpoil+NqMAjwa8KRT2awfg1NDulB4
+   z7ir2DtKBlYYy5lLFa0Qo6vUzfdxfdQ3UnLkNQdzFx3HPSfdzDXvUMZB/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="389293702"
+X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
+   d="scan'208";a="389293702"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2023 11:22:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="636970127"
+X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
+   d="scan'208";a="636970127"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orsmga006.jf.intel.com with ESMTP; 17 Jan 2023 11:22:54 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Tue, 17 Jan 2023 11:22:54 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Tue, 17 Jan 2023 11:22:54 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.106)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Tue, 17 Jan 2023 11:22:53 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kAeBip+vmwde/cimaITDSVGbrBE3R9MQgGWHzPrhbYszRQ1BI62A9mAqsLUcQ/MFCtwLmdYrgxM+UPGkpv5rs8xCtQKQHmO/0zbUTlTU2esdYLZ1gbKwnWiaMlTrMUNIjrzUpcOgsJG0CcCoV20KMCQyNWTQKFNRCDp36DkdT87W0bhJmTz1MFotK1VMg9T2bc+gtYhaGkBt6sBp7B4lIlkMXP4ArBaqFjDUDwCy9zMv4/QhqznE+0sFLAbl+UuKftzsC3JO53UkUVZEx4An1mMloKRqttNOq6hSDjF4X3CUnITyhGK6Oldks5N6sVZBWcj7JAaU2r572ZgGv6B88Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sOEJVWcjUjdsx6H2gngs8nAs0+5r1sknW6SFkkK9EfA=;
+ b=Vs3xsnp5cLs49O/pWkC7sVfVTiB1s6BrLqqTBADre0lGI6+f+4OzmXSRLRugCjikCaUKnL5KPGjTMBYlM+hNOmUor9Cg2ZBRaWQ+jJOk0vUfnxUZWYiFAvyiCtxcKdw9mGtEhpR3cABmReUKtamkR/AC2JDOaoWrkCbtwfx7SVa5da6F42wyK4/3JoRl/Yox43lyaBn5Lo+yNsm8cdQRVBlXCLDsA9Cv06li0sOUK3UPAye8GuMZmCSgSfwk73UvWBoiu3k8p3jDeb8091wv596h/57HSmUrR/u+gobID53pxL9evUKF/z95Lbh7u5iWmdxlLWtKT5JjsCFCKnrtiA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by IA1PR11MB7175.namprd11.prod.outlook.com (2603:10b6:208:419::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.23; Tue, 17 Jan
+ 2023 19:22:49 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::593:877e:dd33:5b7a]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::593:877e:dd33:5b7a%5]) with mapi id 15.20.5986.022; Tue, 17 Jan 2023
+ 19:22:49 +0000
+Date:   Tue, 17 Jan 2023 11:22:45 -0800
+From:   Lucas De Marchi <lucas.demarchi@intel.com>
+To:     Michal =?utf-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>
+CC:     Gary Guo <gary@garyguo.net>, Kees Cook <keescook@chromium.org>,
+        "Masahiro Yamada" <masahiroy@kernel.org>,
+        <linux-kbuild@vger.kernel.org>,
+        "Wedson Almeida Filho" <wedsonaf@google.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        "Wedson Almeida Filho" <wedsonaf@gmail.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        <rust-for-linux@vger.kernel.org>,
+        Guo Zhengkui <guozhengkui@vivo.com>,
+        "Boqun Feng" <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        <linux-kernel@vger.kernel.org>,
+        Julia Lawall <Julia.Lawall@inria.fr>,
+        "Luis Chamberlain" <mcgrof@kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <linux-modules@vger.kernel.org>
+Subject: Re: [PATCH] modpost: support arbitrary symbol length in modversion
+Message-ID: <20230117192059.z5v5lfc2bzxk4ad2@ldmartin-desk2.lan>
+References: <20230111161155.1349375-1-gary@garyguo.net>
+ <20230112214059.o4vq474c47edjup6@ldmartin-desk2>
+ <20230113181841.4d378a24.gary@garyguo.net>
+ <20230117175144.GI16547@kitsune.suse.cz>
+Content-Type: text/plain; charset="iso-8859-1"; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230117175144.GI16547@kitsune.suse.cz>
+X-ClientProxiedBy: SJ0PR05CA0013.namprd05.prod.outlook.com
+ (2603:10b6:a03:33b::18) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 03/19] dt-bindings: bus: add CDX bus controller device
- tree bindings
-Content-Language: en-US
-To:     Nipun Gupta <nipun.gupta@amd.com>, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
-        rafael@kernel.org, eric.auger@redhat.com,
-        alex.williamson@redhat.com, cohuck@redhat.com,
-        song.bao.hua@hisilicon.com, mchehab+huawei@kernel.org,
-        maz@kernel.org, f.fainelli@gmail.com, jeffrey.l.hugo@gmail.com,
-        saravanak@google.com, Michael.Srba@seznam.cz, mani@kernel.org,
-        yishaih@nvidia.com, jgg@ziepe.ca, jgg@nvidia.com,
-        robin.murphy@arm.com, will@kernel.org, joro@8bytes.org,
-        masahiroy@kernel.org, ndesaulniers@google.com,
-        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     okaya@kernel.org, harpreet.anand@amd.com, nikhil.agarwal@amd.com,
-        michal.simek@amd.com, git@amd.com
-References: <20230117134139.1298-1-nipun.gupta@amd.com>
- <20230117134139.1298-4-nipun.gupta@amd.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230117134139.1298-4-nipun.gupta@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|IA1PR11MB7175:EE_
+X-MS-Office365-Filtering-Correlation-Id: 891202b9-6d8c-497f-eb14-08daf8c038a0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YloEVtkv8bY3nB4GKMgGeL+aVmswFAQuHup+VdxdwOgPJNl+ZG3vCiNAgbENLKiSqPCFAl1/SExGLOrxt0rdHWbCnlu/jACA32JVSoqAj6IUxX//Vp8ch3ZZ0pVSdqU+/IX7UV9i81HQhTST3w7A0edey/5EOo+LRzszbid5wPhwJfcKl7iHATQx1VF22qWcbvMZEOwjxz6dkj0BciqFegvSaXdx3xIwKm12HZ2RGAwn3WZSjL5BS8gVltF/jsaa/4ljrHnhR1qic0VrM7UPzmvHGYlsCTOjPzzIUg8dTFBYYZ8z3zpDtDeJVXGu8ewyMxTj4LDsMvMSEFwLlLC/uCluqcdU25oxMtNhWWdNgndqtSuVauzrm8iGbQjE1JN3dm8smM0K4fcEAfkDTA7Op+9HCKn1YbhI9eh5CRo+edSKlc9vTxikN6nxO1PqL9rWD+rKVvnrcTE1Q5ttPQXjr7Aec4X880PAZx/p8Bm0ANelO+GOgfV2OqG08UblDlDEdamBSPNbwdwHHNzDXKmEmd2okVNj0Dnsb8hTGZhBTSCxJTbxX71cd8u6fa7ME4FBO7f0nzh+hl/6XOL+t5p48/z/CHQIBQjs4tvD7rFtckh03zqSyk1ZUqJG1wM4ab2y
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6139.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(396003)(136003)(39860400002)(376002)(366004)(346002)(451199015)(82960400001)(83380400001)(38100700002)(8676002)(86362001)(6916009)(5660300002)(8936002)(7416002)(66556008)(66476007)(2906002)(66946007)(4326008)(41300700001)(26005)(9686003)(6506007)(186003)(1076003)(66574015)(6512007)(54906003)(6486002)(316002)(478600001)(6666004)(66899015)(36756003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?C4mc/3n+/EWZA1a5vnBOkiWlw/QufIjZux3p8RNUExWGVRr0wKQPCCCZBC?=
+ =?iso-8859-1?Q?771sLeA7yUY/D6XMf6x4j6/aRFMV2+LWYe92fJwXJHzTYusLsw4PwayC+j?=
+ =?iso-8859-1?Q?UzAu4mUmfv7T1n3metTx+YVRgrPyCBnGwioiwr1r4XO2DlBtmC31DMobOp?=
+ =?iso-8859-1?Q?XXuVAKNlLZDwsKlHFjjgWc+/tQWbBy9nKC+++GHDAinM2FNSKKCrEmFUiE?=
+ =?iso-8859-1?Q?monjGi6mfJmrglAIASP7Pcd/TErt7Ph4/uDh0rXiwGRNk1OPfMXyHCpGJ3?=
+ =?iso-8859-1?Q?SZCBaeuJuIFm1w4si3mjMIzRxpkriJLm4lnNBAEfbfeeu0cZ/+IRqTf0np?=
+ =?iso-8859-1?Q?JNByKA9UYxHZ9g4VOzlyfPwJ7ptB4wvxj7cYBjyfbzyL7bNW/3JvKAE2uc?=
+ =?iso-8859-1?Q?mLJgUvvQS8AGvTtXX0MNIuBLAZxovIQQRKqxH1cSQNr1yDm/TRhiNeM9i5?=
+ =?iso-8859-1?Q?uHgiaKayLHvzBfukuB8zSBg2srDAGjtDhBhkDl7cpYKgyVaWnbYDj738cV?=
+ =?iso-8859-1?Q?Uejx5TqIylD4Z2im9QuPaTLx1svEJhHVXPYv2GwVkxwm/SjUNCLyUPYBUz?=
+ =?iso-8859-1?Q?P+sIlJCmPMTDJfda72hO/VMMLctQC5qYRVnik9s4Sslu+Hse/QQEP754Fm?=
+ =?iso-8859-1?Q?QcYZK0pVNZyWgwExFWlkul6+8tMWDp1RGw11QnvzqrsMqW3O0cKMsW8hBN?=
+ =?iso-8859-1?Q?8iT5gvlSY9MCveCB3ws3prvUHvo6S+pM5WZ3h38cUbBr18XEzGyaWvLTB7?=
+ =?iso-8859-1?Q?7IJWWTWmNc+QZYVqVv7ulrGDN1JU7ctULaFebBYw53/xA0dLlLYX6nMSb7?=
+ =?iso-8859-1?Q?gbcFque0VbVVviNDGiLYqhhxzufoRmoqJnII0SS7hvtaiCjHcrvCg8e1zI?=
+ =?iso-8859-1?Q?BgxHdKthBKD7aKSyPG/CgGreSqAOHVJ55K3IGFIbZpEHDjZp/hVlx4R4DL?=
+ =?iso-8859-1?Q?9ibV/9PlNlG0hMPl561FVXbFYHe3fvMHndd8RuHK5WbY7SA1wdAlgeTpBK?=
+ =?iso-8859-1?Q?2KOujaypjnJzbAnMmptSaf4eClk5XSwAMKkedQKsv1/XUKnFoaHj975S3t?=
+ =?iso-8859-1?Q?eEn57qKKszum2jneg/7Sl8WgYLjxuAZrPvB6TQwof9p8hOuvdSj/8Ok3aP?=
+ =?iso-8859-1?Q?Pjagq+L4Fb23vFHGiVOuEWBFt+o8+lrsaI0u28OE6lioU5EWZr8kYTaH96?=
+ =?iso-8859-1?Q?GhoxZ+L0/7cxBYURp7UOEA8tx1MgHiDGGmF0zJEzey0ESIla30VVyw2vSU?=
+ =?iso-8859-1?Q?Nq02DTl7sMLqBVbIlBNKwztbqkqt2KTtaJzkhu+kHdIONLpuOaTFERK0QV?=
+ =?iso-8859-1?Q?77HcR+OqpEv31ZIjtnWgZy+s+UuSaHEnb8/pLzoNe2VR0+a1RPzr4ZRVFV?=
+ =?iso-8859-1?Q?QT4k3wpvy/ZHbzauES91VxyKZ8c3rvNSF1ATKDcHjftk1Zgs6G2AtVwxir?=
+ =?iso-8859-1?Q?O2+/pQ6t4e1u8chbhXxWr3H8VFFzQvhopRFYNaoqxNeywf3Rl//wmt00tc?=
+ =?iso-8859-1?Q?tsk/Cv88j2blA6MfZV4HGK/Xp+5h6ha8OzlNUulWpR7o6fFv1WynVNafhP?=
+ =?iso-8859-1?Q?s2ja6T/nE6KOuqjx0BrRYqzjzt5/LjQUsjJmj4BK0eLe8iTI619Qd5Utlo?=
+ =?iso-8859-1?Q?v+qK+3tMIud6bhXLdQPLPgKdbA2oHBqc738qxAHS6+XMM+K/03+GHuJQ?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 891202b9-6d8c-497f-eb14-08daf8c038a0
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2023 19:22:49.6793
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sAleAX57DEdLE4d2AE62yvQkO1AsIabRjAXHh01PLcVEmLsuIFQeYVuugho5LU/J8FacapRNCzHMoJZA74arejmGrc0lnor7cisUVbtvCxQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7175
+X-OriginatorOrg: intel.com
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 17/01/2023 14:41, Nipun Gupta wrote:
-> Add device tree bindings for CDX bus controller.
+On Tue, Jan 17, 2023 at 06:51:44PM +0100, Michal Suchánek wrote:
+>Hello,
+>
+>On Fri, Jan 13, 2023 at 06:18:41PM +0000, Gary Guo wrote:
+>> On Thu, 12 Jan 2023 14:40:59 -0700
+>> Lucas De Marchi <lucas.demarchi@intel.com> wrote:
+>>
+>> > On Wed, Jan 11, 2023 at 04:11:51PM +0000, Gary Guo wrote:
+>> > >
+>> > > struct modversion_info {
+>> > >-	unsigned long crc;
+>> > >-	char name[MODULE_NAME_LEN];
+>> > >+	/* Offset of the next modversion entry in relation to this one. */
+>> > >+	u32 next;
+>> > >+	u32 crc;
+>> > >+	char name[0];
+>> >
+>> > although not really exported as uapi, this will break userspace as this is
+>> > used in the  elf file generated for the modules. I think
+>> > this change must be made in a backward compatible way and kmod updated
+>> > to deal with the variable name length:
+>> >
+>> > kmod $ git grep "\[64"
+>> > libkmod/libkmod-elf.c:  char name[64 - sizeof(uint32_t)];
+>> > libkmod/libkmod-elf.c:  char name[64 - sizeof(uint64_t)];
+>> >
+>> > in kmod we have both 32 and 64 because a 64-bit kmod can read both 32
+>> > and 64 bit module, and vice versa.
+>> >
+>>
+>> Hi Lucas,
+>>
+>> Thanks for the information.
+>>
+>> The change can't be "truly" backward compatible, in a sense that
+>> regardless of the new format we choose, kmod would not be able to decode
+>> symbols longer than "64 - sizeof(long)" bytes. So the list it retrieves
+>> is going to be incomplete, isn't it?
+>>
+>> What kind of backward compatibility should be expected? It could be:
+>> * short symbols can still be found by old versions of kmod, but not
+>>   long symbols;
+>
+>That sounds good. Not everyone is using rust, and with this option
+>people who do will need to upgrade tooling, and people who don't care
+>don't need to do anything.
 
-Subject: drop second/last, redundant "device tree bindings". The
-"dt-bindings" prefix is already stating that these are bindings.
+that could be it indeed. My main worry here is:
 
-> 
-> Signed-off-by: Nipun Gupta <nipun.gupta@amd.com>
-> ---
->  .../bindings/bus/xlnx,cdxbus-controller.yaml  | 68 +++++++++++++++++++
->  MAINTAINERS                                   |  1 +
->  2 files changed, 69 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/bus/xlnx,cdxbus-controller.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/bus/xlnx,cdxbus-controller.yaml b/Documentation/devicetree/bindings/bus/xlnx,cdxbus-controller.yaml
-> new file mode 100644
-> index 000000000000..b2f186864021
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/bus/xlnx,cdxbus-controller.yaml
-> @@ -0,0 +1,68 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/bus/xlnx,cdxbus-controller.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: AMD CDX bus controller
-> +
-> +description: |
-> +  CDX bus controller for AMD devices is implemented to dynamically
-> +  detect CDX bus and devices on these bus using the firmware.
-> +  The CDX bus manages multiple FPGA based hardware devices, which
-> +  can support network, crypto or any other specialized type of
-> +  devices. These FPGA based devices can be added/modified dynamically
-> +  on run-time.
-> +
-> +  All devices on the CDX bus will have a unique streamid (for IOMMU)
-> +  and a unique device ID (for MSI) corresponding to a requestor ID
-> +  (one to one associated with the device). The streamid and deviceid
-> +  are used to configure SMMU and GIC-ITS respectively.
-> +
-> +  iommu-map property is used to define the set of stream ids
-> +  corresponding to each device and the associated IOMMU.
-> +
-> +  The MSI writes are accompanied by sideband data (Device ID).
-> +  The msi-map property is used to associate the devices with the
-> +  device ID as well as the associated ITS controller.
-> +
-> +  rproc property (xlnx,rproc) is used to identify the remote processor
-> +  with which APU (Application Processor Unit) interacts to find out
-> +  the bus and device configuration.
-> +
-> +maintainers:
-> +  - Nipun Gupta <nipun.gupta@amd.com>
-> +  - Nikhil Agarwal <nikhil.agarwal@amd.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: xlnx,cdxbus-controller
+"After the support is added in kmod, kmod needs to be able to output the
+correct information regardless if the module is from before/after the
+change in the kernel and also without relying on kernel version."
+Just changing the struct modversion_info doesn't make that possible.
 
-This misses SoC specific compatible. Drop "bus" - redundant. I would
-also say - drop controller - do you see any other devices with such
-compatible naming? Use naming consistent with other devices in the
-kernel. Just open some controllers - SPI, I2C etc. and look there.
+Maybe adding the long symbols in another section? Or ble
+just increase to 512 and add the size to a
+"__versions_hdr" section. If we then output a max size per module,
+this would offset a little bit the additional size gained for the
+modules using rust. And the additional 0's should compress well
+so I'm not sure the additional size is that much relevant here.
 
-> +
-> +  iommu-map: true
+Lucas De Marchi
 
-No mask?
-
-> +
-> +  msi-map: true
-> +
-> +  xlnx,rproc:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      phandle to the remoteproc_r5 rproc node using which APU interacts
-> +      with remote processor.
-> +
-> +required:
-> +  - compatible
-> +  - iommu-map
-> +  - msi-map
-> +  - xlnx,rproc
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    cdxbus-controller {
-
-Node names should be generic, so just cdx.
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-
-> +        compatible = "xlnx,cdxbus-controller";
-> +        /* define map for RIDs 250-259 */
-> +        iommu-map = <250 &smmu 250 10>;
-
-Best regards,
-Krzysztof
-
+>
+>Thanks
+>
+>Michal
