@@ -2,48 +2,40 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6560C66D59E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jan 2023 06:31:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7477F66D5A8
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jan 2023 06:37:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235375AbjAQFbJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Jan 2023 00:31:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42636 "EHLO
+        id S235238AbjAQFg7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Jan 2023 00:36:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234327AbjAQFbI (ORCPT
+        with ESMTP id S234327AbjAQFgm (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Jan 2023 00:31:08 -0500
+        Tue, 17 Jan 2023 00:36:42 -0500
 Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5904923D96
-        for <linux-kbuild@vger.kernel.org>; Mon, 16 Jan 2023 21:31:05 -0800 (PST)
-From:   Thomas =?utf-8?q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
-        s=mail; t=1673933463;
-        bh=cFgA4k9RHMj5jryFtcqgjqMSWi3g9S3EzACx/77zB4E=;
-        h=From:Date:Subject:To:Cc:From;
-        b=U+K3OSXUKc9gZ9ZAGPrfSRf242HyxCiYnfjvGuBhN9pBEltGT8YJ+Natlkab3qscE
-         g1y4UX9EyzBU7p1QwhP0JsPgC2q2/kYC8dofIFtSLAuYd7C3rOEc0v2pdP2hnntlhT
-         oH1H1Xse6OdqgJcmjFUwSNeDd8toSHAvHvGGLS8I=
-Date:   Tue, 17 Jan 2023 05:30:43 +0000
-Subject: [PATCH] kheaders: explicitly validate existence of cpio command
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E07932799D;
+        Mon, 16 Jan 2023 21:36:41 -0800 (PST)
+Date:   Tue, 17 Jan 2023 05:36:37 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=t-8ch.de; s=mail;
+        t=1673933799; bh=oba6/bCy0Rb5hWMxSdHbU7NQMwYatUQpsIdj9M8X3zc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=E3Wnk/Wfq/l5MRwxABzc+86xfblfON9WX6AaC2rYXCqwpx7wgWcSE6azdIYV8MIdl
+         a3ksRHl7UiC34bN2VDyXjtE6N8ZAMGYGclEFjHlHcCNXfk8jnQmWgExddV50Dq07Ix
+         LkZ0WEzWXohB+cAfikGe/NotsV7PyQU2aQLbh+7g=
+From:   Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>
+To:     Amy Parker <apark0006@student.cerritos.edu>
+Cc:     Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: Kernel builds now failing
+Message-ID: <20230117053637.viuu75chipgx42oi@t-8ch.de>
+References: <CAPOgqxFva=tOuh1UitCSN38+28q3BNXKq19rEsVNPRzRqKqZ+g@mail.gmail.com>
+ <20230116195357.2jq7q262tongxw52@t-8ch.de>
+ <CAPOgqxFtH4Ezb1xVm3kOLBnOnQfpbs4==Kpefhaxz4JhOObqOA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Message-Id: <20230117-kernel-kheaders-cpio-v1-1-058d3e1c8621@weissschuh.net>
-X-B4-Tracking: v=1; b=H4sIAIMyxmMC/x2NQQqDMBAAvyJ77kKSHoL9SukhWVezGKLs0iKIf
- 2/wOAPDnGCswgav4QTln5hsrYN/DEAltYVRps4QXHg67yOurI0rroXTxGpIu2wY5kjRZRrJj9DT
- nIwxa2pUety+tXa5K89y3K/357r+FnDRknsAAAA=
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org,
-        Amy Parker <apark0006@student.cerritos.edu>,
-        Thomas =?utf-8?q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.11.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1673933461; l=1764;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=cFgA4k9RHMj5jryFtcqgjqMSWi3g9S3EzACx/77zB4E=;
- b=CmqjtULPc++BBL8KMte2/p7Db04hthB/Lxbnfvr26oljSPiJaJEhUPeINNDMbQ0t2aptkkIc1nP1
- gp+TE8fPAMMMo1/s/wPDwGXw0crj6KLStuLnuxw5gUHWXwRj5WWt
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+In-Reply-To: <CAPOgqxFtH4Ezb1xVm3kOLBnOnQfpbs4==Kpefhaxz4JhOObqOA@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -53,58 +45,40 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-If the cpio command is not available the error emitted by
-gen_kheaders.so is not clear as all output of the call to cpio is
-discarded:
+On Mon, Jan 16, 2023 at 03:10:25PM -0800, Amy Parker wrote:
+> On Mon, Jan 16, 2023 at 11:54 AM Thomas Wei�schuh <linux@weissschuh.net> wrote:
+> > I expect this to be due to a change in make 4.4 that ignores SIGPIPEs [0].
+> > So programs called from make will not receive a SIGPIPE when writing to
+> > a closed pipe but instead an EPIPE write error.
+> > `find` does not seem to handle this.
+> 
+> Thank you so much for the clarification! I've also seen reports of
+> other tools not handling it (such as `yes').
 
-GNU make 4.4:
+I think this analysis was wrong. For me I got this error because on a
+new ArchLinux installation the command "cpio" is not present, leading to
+this cryptic error.
+I sent a patch to make the error more obvious:
+https://lore.kernel.org/all/20230117-kernel-kheaders-cpio-v1-1-058d3e1c8621@weissschuh.net/
 
-  GEN     kernel/kheaders_data.tar.xz
-find: 'standard output': Broken pipe
-find: write error
-make[2]: *** [kernel/Makefile:157: kernel/kheaders_data.tar.xz] Error 127
-make[1]: *** [scripts/Makefile.build:504: kernel] Error 2
+Does it work for you after installing the package "cpio"?
 
-GNU make < 4.4:
+It does not explain why it only stopped working for you recently,
+though.
 
-  GEN     kernel/kheaders_data.tar.xz
-make[2]: *** [kernel/Makefile:157: kernel/kheaders_data.tar.xz] Error 127
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [scripts/Makefile.build:504: kernel] Error 2
-
-Add an explicit check that will trigger a clear message about the issue:
-
-  CHK     kernel/kheaders_data.tar.xz
-./kernel/gen_kheaders.sh: line 17: type: cpio: not found
-
-The other commands executed by gen_kheaders.sh are part of a standard
-installation, so they are not checked.
-
-Reported-by: Amy Parker <apark0006@student.cerritos.edu>
-Link: https://lore.kernel.org/lkml/CAPOgqxFva=tOuh1UitCSN38+28q3BNXKq19rEsVNPRzRqKqZ+g@mail.gmail.com/
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- kernel/gen_kheaders.sh | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/kernel/gen_kheaders.sh b/kernel/gen_kheaders.sh
-index 473036b43c83..81b97f0f6556 100755
---- a/kernel/gen_kheaders.sh
-+++ b/kernel/gen_kheaders.sh
-@@ -14,6 +14,8 @@ include/
- arch/$SRCARCH/include/
- "
- 
-+type cpio > /dev/null
-+
- # Support incremental builds by skipping archive generation
- # if timestamps of files being archived are not changed.
- 
-
----
-base-commit: d532dd102151cc69fcd00b13e5a9689b23c0c8d9
-change-id: 20230117-kernel-kheaders-cpio-2f7c70bc9c19
-
-Best regards,
--- 
-Thomas Weißschuh <linux@weissschuh.net>
+> > This behavior in make is new and I can't find a reasoning for it.
+> > It also breaks other softwares builds.
+> 
+> Are you aware of active discussion regarding this on Savannah, or
+> should I go and report the effects there?
+> 
+> > For now you can disable CONFIG_IKHEADERS and the build should work
+> > again.
+> 
+> Alright, thanks. Did that, and re-ran my kernel build (allmodconfig).
+> All works now.
+> 
+> > [0] make 4.4 was packaged for ArchLinux on 5th of January, so it would
+> > fit the timeline.
+> 
+> Yep, running Make 4.4.
