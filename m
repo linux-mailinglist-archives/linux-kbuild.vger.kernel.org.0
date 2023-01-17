@@ -2,234 +2,178 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C13E670C0C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jan 2023 23:48:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CF1F670D15
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Jan 2023 00:18:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229939AbjAQWsW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Jan 2023 17:48:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46330 "EHLO
+        id S229578AbjAQXSL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Jan 2023 18:18:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230046AbjAQWrA (ORCPT
+        with ESMTP id S229572AbjAQXRx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Jan 2023 17:47:00 -0500
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5F1A2F7A1
-        for <linux-kbuild@vger.kernel.org>; Tue, 17 Jan 2023 13:51:32 -0800 (PST)
-Received: by mail-pj1-x102b.google.com with SMTP id dw9so32372394pjb.5
-        for <linux-kbuild@vger.kernel.org>; Tue, 17 Jan 2023 13:51:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2stNMlcd03sTMLdhKHCy310b+efi08LDuME6CHy47Gs=;
-        b=fVkUmtTFZGAJSoRDV4KCMHLse3U+YQCs+whBM3uQpEOJUtXjLLTQ+waV41iAXZecIb
-         Kc8bsAn4nTyPF5xzMsXgUroVNnRR9Xf1B+2kWpPVQP3Tu+0AmxD3v3ues4Xgkn8IyU7z
-         MhVQVLf7P1Y0k6xyG91d1UxCbLL39pdEFg9cuD7JJsP4K+njY7AJinqn944hnZk99GBs
-         68vHpYfzQJixHBUAY9AioJH2k4ycffffxDSGLdijlt+hZnGqAfPv6ljYZ2BgIOZGxVHL
-         BmpfMHpdAyMD3DIqq1CDWxhSo2uiSVaMYx7JO1a9cJ+pyhUOxwgseXMCqPn459HeIgxA
-         hqow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2stNMlcd03sTMLdhKHCy310b+efi08LDuME6CHy47Gs=;
-        b=YIk5T1osoLwFxn7hILTSnu2dWSEuRTuQFVXQhEtWoi9ZVhKH0ty0L5Z8ZYdhhkJHoj
-         CkhQHfgrptBxjUkAvc9mMwvLwu2D6SlGOJw99vTbRlh2rPshaaULPZ3pP/5TY1ZPQO7b
-         CG6F4eisfvXLkVJjKfcJv+XtwbpMuWZA+CAuD1SbPGCsl0tdoero9P2Qw+AK/iCqh4av
-         W/gFID2AuDw+msMkZX1elkAL0m9U5JbkjODqLUtQPBBWecWApd/ueBmSfiDg4Siek8AC
-         KPmZxyK7+SsHwCO+wmelvJJ/zHL4jZqEFtKPnvdOvxGW9RQFZFAqzcS8l0HCG68RdqO/
-         l3jw==
-X-Gm-Message-State: AFqh2kqKUAnfstgl+UZXYQeZ7KVI/Zj76NXjJTSstpVHFZ2kiTBOh3b3
-        Qa4A5t4XFR6zOBJmU+E5dre99A==
-X-Google-Smtp-Source: AMrXdXvi521WMXONarE2w58tGYzOEndhU1uZaaE6il4HHDcSjlB2ldGjuFIcc+CCtgdf1ABr9Jf08Q==
-X-Received: by 2002:a17:90a:fd12:b0:226:5758:a57f with SMTP id cv18-20020a17090afd1200b002265758a57fmr2824644pjb.2.1673992291845;
-        Tue, 17 Jan 2023 13:51:31 -0800 (PST)
-Received: from google.com (13.65.82.34.bc.googleusercontent.com. [34.82.65.13])
-        by smtp.gmail.com with ESMTPSA id g11-20020a17090a300b00b0020bfd6586c6sm29685pjb.7.2023.01.17.13.51.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jan 2023 13:51:31 -0800 (PST)
-Date:   Tue, 17 Jan 2023 13:51:27 -0800
-From:   William McVicker <willmcvicker@google.com>
+        Tue, 17 Jan 2023 18:17:53 -0500
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 027324A1EA;
+        Tue, 17 Jan 2023 13:04:31 -0800 (PST)
+Received: from leknes.fjasle.eu ([46.142.49.134]) by mrelayeu.kundenserver.de
+ (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1N6bsM-1of5Wn2RZe-0184To; Tue, 17 Jan 2023 22:04:03 +0100
+Received: by leknes.fjasle.eu (Postfix, from userid 1000)
+        id F04C23C1B9; Tue, 17 Jan 2023 22:03:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
+        t=1673989440; bh=fWkVLmnSaT9GUYQ87FRAKJFTIoqGhHq4regmTTqLF+M=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SLzEDFcZgRf51sfi0FtCXAQXcsoI9RhfqroKuym71mDPyYGwyElN2+Jx64gFtlASv
+         BItGVXgVLGtfGxgkdXmsXSQ1Y1xLfbPFwbgjhcv2XYcNXGoQxXwLfNvGOFZbWLKpm3
+         Zcb18LDWysXyiX53UbIGHYtmyQINcqbqSrj/vNrk=
+Date:   Tue, 17 Jan 2023 22:03:59 +0100
+From:   Nicolas Schier <nicolas@fjasle.eu>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, kernel-team@android.com
-Subject: Re: modpost warning by default on missing Module.symvers
-Message-ID: <Y8cYX4cjV3adqUmX@google.com>
-References: <Y7x89C9nAVX98T4g@google.com>
- <CAK7LNASAaqOcLhHLi+fd-b0p=ZTEjCjWAfgZ2=_ShR_0crEQhw@mail.gmail.com>
- <Y72x1rZNo57XnIiv@google.com>
- <CAK7LNAS40TFhrPr+ezproH3ZsBDAK_FcYSEJE4N-uQ93AOwCWw@mail.gmail.com>
+Cc:     Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Nicolas Schier <n.schier@avm.de>
+Subject: Re: [PATCH v2] kheaders: ignore and clean temporary kheaders_data
+ directory
+Message-ID: <Y8cNP6GgoB9HH8Y2@fjasle.eu>
+References: <20230117-kernel-kheaders-gitignore-v2-1-1c29b3adf04a@weissschuh.net>
+ <CAK7LNARi8Gm7n0nRidyf++YmW9zZ1qv7huN8nP3MCNzWGK42Cg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="nRidOz5qv/+nO5MN"
 Content-Disposition: inline
-In-Reply-To: <CAK7LNAS40TFhrPr+ezproH3ZsBDAK_FcYSEJE4N-uQ93AOwCWw@mail.gmail.com>
-X-Spam-Status: No, score=-16.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,HK_RANDOM_ENVFROM,HK_RANDOM_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL,
-        USER_IN_DEF_SPF_WL autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <CAK7LNARi8Gm7n0nRidyf++YmW9zZ1qv7huN8nP3MCNzWGK42Cg@mail.gmail.com>
+X-Provags-ID: V03:K1:epy0qM5jWP1hLOLD/eYXKFPEK1SoKErjusesVxPUjAc+E4ATFNG
+ bivhI4oQjjk+gkkpXdFznVIvVDN/QJDqG0aivTx4d8iy/5wCXtfxvzrXYuIOgMBxAmFX9k0
+ 9t3rTQpzaVDNy2RNNtSu3vHDtUAbtZQDt83BBBh3AVCb4eR7n9iSnGJUB9Rx8WVfDN8v1fl
+ 7kZhiM29md/+Lv0v9Fmyw==
+UI-OutboundReport: notjunk:1;M01:P0:2U2oNyets0g=;dTMomRJvvl4g54cVcY1JlRC5P4h
+ 4uRRD5IVvNjowSIF9JLgL+DYriCsDL9LgasCeQvPZPcehXBTQDq3E+LAagMmvmnn2NPj0pE31
+ ytOl9VIBiq+vGaUxtFc0Ph3jLYgAiM1zkg+8lzsqnTVF8CAuDghgtb5loUIFjKOsPYfbCGkxS
+ 8cuEeYo5Jai4XDoRssR0Z2J4+IfQjvlbAUDkdP4YZKTrax/BQIh+I2dCvXkq6/z0odahb8m4L
+ nwxyz/FsMSCYqZCT8DydGBAyQ2S2d+4PLpCN91AW8xrE63qYbHkNwwYsomcsZ6q0ng0NkJCfX
+ K8SbHyTzvC/eunr4vN2IEt6K9rbAvdZfUAfZKufedhf79oTmqUb4tpCcpF6GHftDASpdcAaRd
+ 7kmJ6iwzK88bEQxRrdH3r/LKFnHT8b9leMCBdI7MH4MgycYPgL0f42ggYwPiZmpwmPA+q88XY
+ iWE12Csw+tcWs2I5HXhl78duR/PFfIUlHkiNhvKdmHrn8S8pQ8Ddsu1xgtPAwNdv14kMmRUjF
+ 4R2qProgq1lXGo0BOWV58elEre343Jfn5Xsx6bal4TzKq5qOsofTedLhVakwz7PQ3Bnj6JvcA
+ BI6c+XksFEQtNvm0oBmloyFDwk3nNQw0DDVNa3Q1bwBZZdeqNfkYR6efvoMv2mTp6UI4D1v/5
+ weXHRKtNIuYXueQdKHwElPd823bLgz0wYKCU+CX14w==
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 01/11/2023, Masahiro Yamada wrote:
-> On Wed, Jan 11, 2023 at 3:43 AM William McVicker
-> <willmcvicker@google.com> wrote:
+
+--nRidOz5qv/+nO5MN
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jan 17, 2023 at 11:24:47PM +0900 Masahiro Yamada wrote:
+> On Tue, Jan 17, 2023 at 10:50 PM Thomas Wei=C3=9Fschuh <linux@weissschuh.=
+net> wrote:
 > >
-> > On 01/10/2023, Masahiro Yamada wrote:
-> > > On Tue, Jan 10, 2023 at 5:45 AM William McVicker
-> > > <willmcvicker@google.com> wrote:
-> > > >
-> > > > Hi Masahiro,
-> > > >
-> > > > I recently noticed that in commit 4475dff55c54 ("kbuild: fix false-positive
-> > > > modpost warning when all symbols are trimmed") [1] you modified the modpost
-> > > > behavior to always warn (by passing `-w`) when there are missing Module.symver
-> > > > files in order to allow module builds to continue building with warnings
-> > > > instead of errors. I'm curious why you decided to not continue to rely on
-> > > > KBUILD_MODPOST_WARN to enable/disable that functionality?
-> > > >
-> > > > I personally find it useful to keep these types of warnings as errors in order
-> > > > to catch missing dependencies at build time (ideally by the CI build) instead
-> > > > of at runtime when a module fails to load due to a missing symbol dependency.
-> > > >
-> > > > Let me know your thoughts on this and I'll try to come up with a solution to
-> > > > factor in any concerns you have.
-> > > >
-> > > > Thanks,
-> > > > Will
-> > > >
-> > > > [1] https://lore.kernel.org/all/20210325185412.2352951-3-masahiroy@kernel.org/
-> > >
-> > >
-> > >
-> > > Good point.
-> > >
-> > > I think we can always require KBUILD_MODPOST_WARN=1 explicitly.
-> > >
-> > > Skipping unresolved symbols is not a good idea.
-> > > Users can proceed if they want,
-> > > but they should be aware of what they are doing, at least.
-> > >
-> > >
-> > > How about something like this?
-> > >
-> > >
-> > >
-> > >
-> > > diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-> > > index 43343e13c542..34baef239816 100644
-> > > --- a/scripts/Makefile.modpost
-> > > +++ b/scripts/Makefile.modpost
-> > > @@ -121,16 +121,14 @@ modpost-args += -e $(addprefix -i ,
-> > > $(KBUILD_EXTRA_SYMBOLS))
-> > >
-> > >  endif # ($(KBUILD_EXTMOD),)
-> > >
-> > > -ifneq ($(missing-input),)
-> > > -modpost-args += -w
-> > > -endif
-> > > -
-> > >  quiet_cmd_modpost = MODPOST $@
-> > >        cmd_modpost = \
-> > >         $(if $(missing-input), \
-> > >                 echo >&2 "WARNING: $(missing-input) is missing."; \
-> > >                 echo >&2 "         Modules may not have dependencies
-> > > or modversions."; \
-> > > -               echo >&2 "         You may get many unresolved symbol
-> > > warnings.";) \
-> > > +               echo >&2 "         You may get many unresolved symbol
-> > > errors.";) \
-> > > +               echo >&2 "         You can set KBUILD_MODPOST_WARN=1
-> > > to turn errors into warning"; \
-> > > +               echo >&2 "         if you know what you are doing."; \
-> > >         $(MODPOST) $(modpost-args)
-> > >
-> > >  targets += $(output-symdump)
-> > >
-> > >
-> > >
-> > >
-> > >
-> > >
-> > >
-> > >
-> > >
-> > > --
-> > > Best Regards
-> > >
-> > > Masahiro Yamada
+> > If the kheaders archive generation is interrupted then this directory
+> > may be left.
+> > Ignore it, it will be deleted by the next run of kernel/gen_kheaders.sh.
+> > Also add it to clean-files so it can be cleaned up by make.
 > >
-> > That looks good to me! You do mention in [1] that there's a case where
-> > unresolved symbols are expected. Can you clarify that? Why would you want to
-> > build a kernel or module with unresolved symbols?
+> > Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+>=20
+>=20
+> Or, just rename the temporary directory.
+> For example,
+>=20
+>   cpio_dir=3D$outdir/$(dirname $tarfile)/.tmp_cpio_dir
+>=20
+>=20
+>=20
+> Dot files are ignored.
+> 'make clean' removes the .tmp_* pattern.
+
+yes, almost unbeatable.  Can we use '${tarfile%/*}' instead of '$(dirname
+$tarfile)'?
+
+Kind regards,
+Nicolas
+
+
+
+> > ---
+> > Changes in v2:
+> > - Also add the directory to clean-files
+> > - Link to v1: https://lore.kernel.org/r/20230117-kernel-kheaders-gitign=
+ore-v1-1-2a3a070efd0d@weissschuh.net
+> > ---
+> >  kernel/.gitignore | 1 +
+> >  kernel/Makefile   | 2 +-
+> >  2 files changed, 2 insertions(+), 1 deletion(-)
 > >
-> > [1] https://lore.kernel.org/all/20230104140459.1147626-1-masahiroy@kernel.org/
+> > diff --git a/kernel/.gitignore b/kernel/.gitignore
+> > index c6b299a6b786..57ab1d703763 100644
+> > --- a/kernel/.gitignore
+> > +++ b/kernel/.gitignore
+> > @@ -1,3 +1,4 @@
+> >  # SPDX-License-Identifier: GPL-2.0-only
+> >  /config_data
+> >  /kheaders.md5
+> > +/kheaders_data.tar.xz.tmp/
+> > diff --git a/kernel/Makefile b/kernel/Makefile
+> > index 10ef068f598d..f3535944f635 100644
+> > --- a/kernel/Makefile
+> > +++ b/kernel/Makefile
+> > @@ -156,4 +156,4 @@ quiet_cmd_genikh =3D CHK     $(obj)/kheaders_data.t=
+ar.xz
+> >  $(obj)/kheaders_data.tar.xz: FORCE
+> >         $(call cmd,genikh)
 > >
-> > Thanks,
-> > Will
-> 
-> 
-> 
-> What I have in mind is the following cases.
-> We cannot check unresolved symbols due to missing vmlinux.
-> 
-> 
-> 
-> [1] Build in-tree modules without building vmlinux
-> 
->     $ make defconfig
->     $ make modules
-> 
-> 
->    Perhaps, this is useful for people who are only interested
->    in particular modules, but not the entire kernel?
-> 
-> 
-> [2] Build external modules with minimal setups
-> 
->     $ make defconfig
->     $ make modules_prepare
->     $ make M=<path/to/eternal/module>
-> 
->    This is useful if people want to compile their modules quicily?
-> 
-> 
-> [3] Build single *.ko
-> 
->    $ make defconfig
->    $ make <path/to/a/module>.ko
-> 
->    Perhaps, this is useful for people who are only interested
->    in modules they maintain.
-> 
-> 
-> 
-> 
-> I am not a big fan of any of them, but those have been available
-> since before I became the maintainer.
-> 
-> 
-> 
-> 
-> -- 
+> > -clean-files :=3D kheaders_data.tar.xz kheaders.md5
+> > +clean-files :=3D kheaders_data.tar.xz kheaders.md5 kheaders_data.tar.x=
+z.tmp
+> >
+> > ---
+> > base-commit: d532dd102151cc69fcd00b13e5a9689b23c0c8d9
+> > change-id: 20230117-kernel-kheaders-gitignore-f0d73456cb6b
+> >
+> > Best regards,
+> > --
+> > Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+> >
+>=20
+>=20
+> --
 > Best Regards
+>=20
+>=20
 > Masahiro Yamada
-> 
-> -- 
-> To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
-> 
 
-Sorry for the delay in getting back to you.
+--=20
+epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
+=E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
+     -- frykten for herren er opphav til kunnskap --
 
-This sounds good to me. I personally always build my modules with the
-vmlinux so that I can detect at build time if there are any issues, e.g.
-unresolved symbols. For these 3 cases, would your change require devs to
-set KBUILD_MODPOST_WARN=1 if they want to ignore the unresolved symbols
-error?
+--nRidOz5qv/+nO5MN
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks,
-Will
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmPHDT4ACgkQB1IKcBYm
+EmlZkA//dpaMeRKa+oIrty+NgvL5aqMZeZxMLTA2Yw2xrb3y3tHVO6eV06OeOf5I
+gVKtut6PqB8dF7OAc0awHMPi0Ymdy2KRYFLfTJg4YatIWxZHyOoP9jQgQdSfy9qZ
+V9NYCPBRQqxAHUuzR0p5xYF4ZWabrZypq6WYP6SLZmApKkbpUQv1svDy2BT1bl//
+yeFxPdTHWs6GiIUuhewt3uhVeU0vaxqjdRWYiEo9Zp9tadM2W9D+ZmjOmto7mRig
+VKCoDAK0MuOUmzV4BfCjKbSdQmnotsaNgIo1gL/hbYDNldXcCagkvghLhkQg+/dB
+TO1gK+QlPgmwgyGPC/TFwhBtBn3pvLDhoPsyTmYB8/yMLtJgetjhWGkmJkzk92CU
+DkNYUH6cstoVO/hEVsOsPEwYJo4aRFQV84PXSuEwcGyf1q1DA+fckn9sJ/wI3fbG
+lNxj2IYZ0w8NAUZTh47Sf89jh5SMasFK4lz0q7tu6AmDJ2JW+zXjRsm7633XOeeB
+7oHDRYOUr15LbFQ6lbr0uOsAE2+UtnH6jqL6M0rNKs2DePl2a4h07SBf557vOPDi
+hKHH1mXzhduCN3KIUSC9Ds6rdPFvPNXm8nkIlZPauagXFGRYrN3cYadWs9lS7kZV
+DkooWHSswiy3QLoaRHImbj23zLKnnVHbAIWbb6m0puVQc5TBLLE=
+=BtkS
+-----END PGP SIGNATURE-----
+
+--nRidOz5qv/+nO5MN--
