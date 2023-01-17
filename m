@@ -2,127 +2,89 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A49E466DE6D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jan 2023 14:13:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 81EF866DEA2
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jan 2023 14:19:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236630AbjAQNNV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Jan 2023 08:13:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51140 "EHLO
+        id S236431AbjAQNTZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Jan 2023 08:19:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236792AbjAQNNU (ORCPT
+        with ESMTP id S235653AbjAQNTZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Jan 2023 08:13:20 -0500
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1DCB360B7;
-        Tue, 17 Jan 2023 05:13:17 -0800 (PST)
-Received: by mail-lj1-x233.google.com with SMTP id o7so32728363ljj.8;
-        Tue, 17 Jan 2023 05:13:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=TFP4zLTXX9LIBlf0bfwbfMp4tVuhd6yMJG3cjXrKiFc=;
-        b=ZCdN7I4n6+4vTAgM93Y2Yd3FaQgVriaZ4iz0DalmtQgt+eCTMtYtB2Qel9WWnTZACy
-         guSRCmeGR/9+F91C3KuIgMhLEjo+DUNELt9S/AFLwKP5M8KAuZW1DaP9nPjrNhbKDNxa
-         e8lO6djh+qP2vF/z0nKfkaSRLqtGSxCEe9bTayIwr04I00+iFO2mIk+LfYcgykhHVIw7
-         QM4oif8re69EfEikhJX9Ja7Rnlkoslcow99XOP54Pp4QnAKZUv9nnEpDf4frDxCPhpOh
-         DJ0VWe/9oRWEG4tz8HlQEle7BCH0WWDneD2BNOGbZ5NWL7h6Hx+eeXjpIKOl/bhFKwHy
-         S/yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TFP4zLTXX9LIBlf0bfwbfMp4tVuhd6yMJG3cjXrKiFc=;
-        b=QE3Qt9nmt44J1oz9vICS3H0uVzb8Kqme8XNANwCZtUS6Ee3blkBJOqv1t9NxK6cnFJ
-         dmt3qkoo6wAxZpod/aIt3OSfDpwjN8p0DAtu3zjBr3iavi1gmUi3naJ4nB8yqS1NzqbK
-         CvCOhWCVlF5p8PXxjTrT+85iyP0xlTxMu+BR1I/wXNkxhlWuGWmeA1opHkZp1dc/zVjD
-         b5jpkxaJgi6Imlp6sKZtp5UwmjXAfXBFAZxzH66VLzIHrask+xwuGH78fmkmMo/6ecI8
-         3QKeaxhjglMydLzX+ey8JxU8XW0gRLBd2oH/xsCVbq7Af5KbieNZKWsmIczRerFzevn5
-         Q/TQ==
-X-Gm-Message-State: AFqh2kqLoYB/3AyX5fBjFLM0gELI2rAu34Qm7GlpmV+tH0sOggwaS1fw
-        9Y/CP0Z9nbciuj954PhnbWZYZp8ZleqhLQb1mHQ=
-X-Google-Smtp-Source: AMrXdXtBvxpOBT9mZ7eaHXtsp88Ie06TmXl/HRJlTTTsAkv6/ysOFF96JHh5JjkIhsk0GEoNnVc0lMIj1D0KF5P3KR0=
-X-Received: by 2002:a2e:9255:0:b0:289:81a4:3a7b with SMTP id
- v21-20020a2e9255000000b0028981a43a7bmr219286ljg.487.1673961195900; Tue, 17
- Jan 2023 05:13:15 -0800 (PST)
-MIME-Version: 1.0
-References: <20230117095946.2042832-1-jani.nikula@intel.com> <20230117095946.2042832-2-jani.nikula@intel.com>
-In-Reply-To: <20230117095946.2042832-2-jani.nikula@intel.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Tue, 17 Jan 2023 14:12:38 +0100
-Message-ID: <CA+icZUWgec3iwo2OXygo57w76AOJ+0+1VOYYKAcHTLebcDka+Q@mail.gmail.com>
-Subject: Re: [PATCH 1/6] MAINTAINERS: fix kbuild repo branch
-To:     Jani Nikula <jani.nikula@intel.com>
-Cc:     linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        Tue, 17 Jan 2023 08:19:25 -0500
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B98838EAD;
+        Tue, 17 Jan 2023 05:19:24 -0800 (PST)
+Date:   Tue, 17 Jan 2023 13:19:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=t-8ch.de; s=mail;
+        t=1673961562; bh=pZa+dtTdSMjanJ9Lbe1aX8Frcq6MgE+SaT/yIDljxS0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=b6JM5KZKuej1lrKNVnqFhfw7VDRd32K69KLc8fG49arUzQ/O4nPfmcTYqjgs/iYGD
+         RrVnSPlJNlc8axsI1XrDoE0S4/l5AMuD/lyQDDuAhpIVIBl5TomQYmrQs8nBGb/lG5
+         1/Z8EHz5ib5ZzMfyTS4P3RMO3D0YRz7BoNcnoHRw=
+From:   Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>
+To:     Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kbuild@vger.kernel.org,
+        Amy Parker <apark0006@student.cerritos.edu>
+Cc:     linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kheaders: explicitly validate existence of cpio command
+Message-ID: <20230117131919.3ywkaptian2y242d@t-8ch.de>
+References: <20230117-kernel-kheaders-cpio-v1-1-058d3e1c8621@weissschuh.net>
+ <Y8ZgTgtA9oH8W17Y@buildd.core.avm.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y8ZgTgtA9oH8W17Y@buildd.core.avm.de>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jan 17, 2023 at 11:15 AM Jani Nikula <jani.nikula@intel.com> wrote:
->
-> The MAINTAINERS repository entry specifies "kconfig" as the branch, but
-> the repository itself has "kbuild".
->
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index a36df9ed283d..98da2af0a653 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -11171,7 +11171,7 @@ M:      Masahiro Yamada <masahiroy@kernel.org>
->  L:     linux-kbuild@vger.kernel.org
->  S:     Maintained
->  Q:     https://patchwork.kernel.org/project/linux-kbuild/list/
-> -T:     git git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kconfig
-> +T:     git git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
+On Tue, Jan 17, 2023 at 09:46:02AM +0100, Nicolas Schier wrote:
+> On Tue, Jan 17, 2023 at 05:30:43AM +0000, Thomas Weißschuh wrote:
+> > If the cpio command is not available the error emitted by
+> > gen_kheaders.so is not clear as all output of the call to cpio is
+> > discarded:
+> > 
+> > GNU make 4.4:
+> > 
+> >   GEN     kernel/kheaders_data.tar.xz
+> > find: 'standard output': Broken pipe
+> > find: write error
+> > make[2]: *** [kernel/Makefile:157: kernel/kheaders_data.tar.xz] Error 127
+> > make[1]: *** [scripts/Makefile.build:504: kernel] Error 2
+> > 
+> > GNU make < 4.4:
+> > 
+> >   GEN     kernel/kheaders_data.tar.xz
+> > make[2]: *** [kernel/Makefile:157: kernel/kheaders_data.tar.xz] Error 127
+> > make[2]: *** Waiting for unfinished jobs....
+> > make[1]: *** [scripts/Makefile.build:504: kernel] Error 2
+> > 
+> > Add an explicit check that will trigger a clear message about the issue:
+> > 
+> >   CHK     kernel/kheaders_data.tar.xz
+> > ./kernel/gen_kheaders.sh: line 17: type: cpio: not found
+> 
+> Thanks for the patch!  What would you think about an even more verbose
+> message?  Perhaps something like:
+> 
+>     echo >&2 ' *** "cpio" is required for "CONFIG_IKHEADERS". >&2
 
-We have two entries - one for "KCONFIG" and the other "KERNEL BUILD +
-files below scripts/ (unless maintained elsewhere)".
+Wouldn't hurt obviously.
+The other scripts used by the kernel don't seem to try to provide this
+kind of explicit message either, though.
+Having a line number, some sort of "not found" and the name of the
+command are enough, in my opinion.
 
-Cannot say if kbuild is the place where KCONFIG changes are done.
+> Reviewed-by: Nicolas Schier <n.schier@avm.de>
 
-But you are right there is no kconfig Git branch, anymore.
+Thanks!
 
-Some maintainers switch over to use https over git URL these days.
-
-What do you prefer?
-
-$ grep 'git git' MAINTAINERS | grep 'T:' | wc -l
-668
-
-$ grep 'git https' MAINTAINERS | grep 'T:' | wc -l
-49
-
-In my ~/.gitconfig I have:
-...
-[url "https://git.kernel.org/"]
-       insteadOf = git://git.kernel.org/
-[url "https://github.com/"]
-       insteadOf = git://github.com/
-...
-
-BR,
--Sedat-
-
-
->  F:     Documentation/kbuild/kconfig*
->  F:     scripts/Kconfig.include
->  F:     scripts/kconfig/
-> --
-> 2.34.1
->
+Thomas
