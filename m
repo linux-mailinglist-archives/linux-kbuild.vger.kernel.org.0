@@ -2,131 +2,190 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF79866E5B5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jan 2023 19:14:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4824866E5B6
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jan 2023 19:14:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229613AbjAQSOe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Jan 2023 13:14:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46084 "EHLO
+        id S230352AbjAQSOf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Jan 2023 13:14:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231373AbjAQSKD (ORCPT
+        with ESMTP id S232713AbjAQSMf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Jan 2023 13:10:03 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B41F92F79C;
-        Tue, 17 Jan 2023 09:51:48 -0800 (PST)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 4B4041FDFA;
-        Tue, 17 Jan 2023 17:51:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1673977907; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+ui+DpA4uYzbJrZtpkX4ynzy8LeaDmV2iXupOmboLrA=;
-        b=vmoY6QJ9eEJqQyMmOf6QfAgloGfXzzJ/zwfK9lwtdzGuCRh5YpXsohAeclcaU3Eyxcxjew
-        TdydqJxTei+gzIoGP6DAIkAwkySplX/BluY/tfNekcg7k5Mu/GjSnX8i5sljTX0u9JC4Yx
-        L7Wel8eQMiG9xfucQS61iHADszTqMQk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1673977907;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+ui+DpA4uYzbJrZtpkX4ynzy8LeaDmV2iXupOmboLrA=;
-        b=oWZjCNrIKeYjG/fPpuDiypVh9VLb3/HXaWVq5m7En7pReUgVBCoeqN6FlnL22/eLfxrTeY
-        nDjvu1Vz2/XrZbAQ==
-Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id CF0B62C141;
-        Tue, 17 Jan 2023 17:51:45 +0000 (UTC)
-Date:   Tue, 17 Jan 2023 18:51:44 +0100
-From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To:     Gary Guo <gary@garyguo.net>
-Cc:     Lucas De Marchi <lucas.demarchi@intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        rust-for-linux@vger.kernel.org,
-        Guo Zhengkui <guozhengkui@vivo.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org, Julia Lawall <Julia.Lawall@inria.fr>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        linuxppc-dev@lists.ozlabs.org, linux-modules@vger.kernel.org
-Subject: Re: [PATCH] modpost: support arbitrary symbol length in modversion
-Message-ID: <20230117175144.GI16547@kitsune.suse.cz>
-References: <20230111161155.1349375-1-gary@garyguo.net>
- <20230112214059.o4vq474c47edjup6@ldmartin-desk2>
- <20230113181841.4d378a24.gary@garyguo.net>
+        Tue, 17 Jan 2023 13:12:35 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63FEE3FF0B
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 Jan 2023 09:54:28 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id n7so5380276wrx.5
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 Jan 2023 09:54:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PDzwAFI7NBesRBvPpfeIPtEzZSb+xUUpXwXOHSl1luo=;
+        b=Hr42PPN/ETUhkQGNTUqP2occd6d3n44+ZN007SdYA9cv6gNhuuwLqKhtjrAPecDX7K
+         KdC2P5AHmQsCPAmrwB8+OqVAo07XHmwec01YcbupJqGHJVam3RQ1I8jl2XnMvPrZljCK
+         ZMOQLB70YjCOnNXKZI/38urIgrZaF6buAtGI6z+ltzklGbxq/UmC2e3Gk1ujgnhFz5lg
+         1EROEohGLtn3b7YtN+kSvooBR7shAwv2EHtIpz0OE5dCdRyqKzWwMVnL37h4mEHNeztP
+         KYMgu2KavRql6RmqsEf4G5E4Dm6i6BGGDLh00BGK9DmOHZNeSdV3ryp2bBuXpmJfWQly
+         cgcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PDzwAFI7NBesRBvPpfeIPtEzZSb+xUUpXwXOHSl1luo=;
+        b=6TEXDLX3kSCNUsmrbos0e1edeRJL5LHUVKsAYDc58lfYHQyYFj3HKxpRAD1MQkg0zA
+         LsQwbWbYXdmzG+IisSAgZBKx84TAfQ9xp9VWrhJFEmAnwtuQmEKM0Z0tpX2eAGT7qI/9
+         6myLW/96szju9+QRA7zEEpwPTpYEpKaxjbHQJs6MOCBQoZ9feD1UVuuwYSg8NBJVf7eL
+         QUCy2YElLjgWoKb4IwrODwze/iuElhjKXsG+DVrFNa5N7EEN0+dhNwc16uaIUjPJMB2D
+         gp2+Mc+gFl6RRAK7yI4SAX4I3LwU5vL+GTsoEaEBiog1AJDlrCEHyXGWUm6/oweEwqA/
+         y0AA==
+X-Gm-Message-State: AFqh2kruU9uX7agDrh/Yp5AKMeQ1yGPWMoPpoLFjcXP8gWRKkBl8/g6V
+        ZFwDlzTr0E66gtG8Pz+mA+DycA==
+X-Google-Smtp-Source: AMrXdXu2SY+DU3MzEjMVnIbsWRFlLT57464MW3lnYliLEfIm4ztW1Ty8bc4WuTfr7sZG3hwwh4KuQQ==
+X-Received: by 2002:a5d:45cd:0:b0:2bd:d94f:432c with SMTP id b13-20020a5d45cd000000b002bdd94f432cmr3716401wrs.26.1673978066786;
+        Tue, 17 Jan 2023 09:54:26 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id v14-20020adff68e000000b002365730eae8sm29487213wrp.55.2023.01.17.09.54.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Jan 2023 09:54:26 -0800 (PST)
+Message-ID: <5ebee797-aa87-8db4-228c-dfe236ad32f8@linaro.org>
+Date:   Tue, 17 Jan 2023 18:54:22 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230113181841.4d378a24.gary@garyguo.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 03/19] dt-bindings: bus: add CDX bus controller device
+ tree bindings
+Content-Language: en-US
+To:     Nipun Gupta <nipun.gupta@amd.com>, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
+        rafael@kernel.org, eric.auger@redhat.com,
+        alex.williamson@redhat.com, cohuck@redhat.com,
+        song.bao.hua@hisilicon.com, mchehab+huawei@kernel.org,
+        maz@kernel.org, f.fainelli@gmail.com, jeffrey.l.hugo@gmail.com,
+        saravanak@google.com, Michael.Srba@seznam.cz, mani@kernel.org,
+        yishaih@nvidia.com, jgg@ziepe.ca, jgg@nvidia.com,
+        robin.murphy@arm.com, will@kernel.org, joro@8bytes.org,
+        masahiroy@kernel.org, ndesaulniers@google.com,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     okaya@kernel.org, harpreet.anand@amd.com, nikhil.agarwal@amd.com,
+        michal.simek@amd.com, git@amd.com
+References: <20230117134139.1298-1-nipun.gupta@amd.com>
+ <20230117134139.1298-4-nipun.gupta@amd.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230117134139.1298-4-nipun.gupta@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello,
+On 17/01/2023 14:41, Nipun Gupta wrote:
+> Add device tree bindings for CDX bus controller.
 
-On Fri, Jan 13, 2023 at 06:18:41PM +0000, Gary Guo wrote:
-> On Thu, 12 Jan 2023 14:40:59 -0700
-> Lucas De Marchi <lucas.demarchi@intel.com> wrote:
-> 
-> > On Wed, Jan 11, 2023 at 04:11:51PM +0000, Gary Guo wrote:
-> > >
-> > > struct modversion_info {
-> > >-	unsigned long crc;
-> > >-	char name[MODULE_NAME_LEN];
-> > >+	/* Offset of the next modversion entry in relation to this one. */
-> > >+	u32 next;
-> > >+	u32 crc;
-> > >+	char name[0];  
-> > 
-> > although not really exported as uapi, this will break userspace as this is
-> > used in the  elf file generated for the modules. I think
-> > this change must be made in a backward compatible way and kmod updated
-> > to deal with the variable name length:
-> > 
-> > kmod $ git grep "\[64"
-> > libkmod/libkmod-elf.c:  char name[64 - sizeof(uint32_t)];
-> > libkmod/libkmod-elf.c:  char name[64 - sizeof(uint64_t)];
-> > 
-> > in kmod we have both 32 and 64 because a 64-bit kmod can read both 32
-> > and 64 bit module, and vice versa.
-> > 
-> 
-> Hi Lucas,
-> 
-> Thanks for the information.
-> 
-> The change can't be "truly" backward compatible, in a sense that
-> regardless of the new format we choose, kmod would not be able to decode
-> symbols longer than "64 - sizeof(long)" bytes. So the list it retrieves
-> is going to be incomplete, isn't it?
-> 
-> What kind of backward compatibility should be expected? It could be:
-> * short symbols can still be found by old versions of kmod, but not
->   long symbols;
+Subject: drop second/last, redundant "device tree bindings". The
+"dt-bindings" prefix is already stating that these are bindings.
 
-That sounds good. Not everyone is using rust, and with this option
-people who do will need to upgrade tooling, and people who don't care
-don't need to do anything.
+> 
+> Signed-off-by: Nipun Gupta <nipun.gupta@amd.com>
+> ---
+>  .../bindings/bus/xlnx,cdxbus-controller.yaml  | 68 +++++++++++++++++++
+>  MAINTAINERS                                   |  1 +
+>  2 files changed, 69 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/bus/xlnx,cdxbus-controller.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/bus/xlnx,cdxbus-controller.yaml b/Documentation/devicetree/bindings/bus/xlnx,cdxbus-controller.yaml
+> new file mode 100644
+> index 000000000000..b2f186864021
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/bus/xlnx,cdxbus-controller.yaml
+> @@ -0,0 +1,68 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/bus/xlnx,cdxbus-controller.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: AMD CDX bus controller
+> +
+> +description: |
+> +  CDX bus controller for AMD devices is implemented to dynamically
+> +  detect CDX bus and devices on these bus using the firmware.
+> +  The CDX bus manages multiple FPGA based hardware devices, which
+> +  can support network, crypto or any other specialized type of
+> +  devices. These FPGA based devices can be added/modified dynamically
+> +  on run-time.
+> +
+> +  All devices on the CDX bus will have a unique streamid (for IOMMU)
+> +  and a unique device ID (for MSI) corresponding to a requestor ID
+> +  (one to one associated with the device). The streamid and deviceid
+> +  are used to configure SMMU and GIC-ITS respectively.
+> +
+> +  iommu-map property is used to define the set of stream ids
+> +  corresponding to each device and the associated IOMMU.
+> +
+> +  The MSI writes are accompanied by sideband data (Device ID).
+> +  The msi-map property is used to associate the devices with the
+> +  device ID as well as the associated ITS controller.
+> +
+> +  rproc property (xlnx,rproc) is used to identify the remote processor
+> +  with which APU (Application Processor Unit) interacts to find out
+> +  the bus and device configuration.
+> +
+> +maintainers:
+> +  - Nipun Gupta <nipun.gupta@amd.com>
+> +  - Nikhil Agarwal <nikhil.agarwal@amd.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: xlnx,cdxbus-controller
 
-Thanks
+This misses SoC specific compatible. Drop "bus" - redundant. I would
+also say - drop controller - do you see any other devices with such
+compatible naming? Use naming consistent with other devices in the
+kernel. Just open some controllers - SPI, I2C etc. and look there.
 
-Michal
+> +
+> +  iommu-map: true
+
+No mask?
+
+> +
+> +  msi-map: true
+> +
+> +  xlnx,rproc:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      phandle to the remoteproc_r5 rproc node using which APU interacts
+> +      with remote processor.
+> +
+> +required:
+> +  - compatible
+> +  - iommu-map
+> +  - msi-map
+> +  - xlnx,rproc
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    cdxbus-controller {
+
+Node names should be generic, so just cdx.
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+> +        compatible = "xlnx,cdxbus-controller";
+> +        /* define map for RIDs 250-259 */
+> +        iommu-map = <250 &smmu 250 10>;
+
+Best regards,
+Krzysztof
+
