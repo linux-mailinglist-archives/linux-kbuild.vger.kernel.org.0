@@ -2,45 +2,46 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD13266D586
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jan 2023 06:15:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6560C66D59E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jan 2023 06:31:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235060AbjAQFPk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Jan 2023 00:15:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39060 "EHLO
+        id S235375AbjAQFbJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Jan 2023 00:31:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234078AbjAQFPi (ORCPT
+        with ESMTP id S234327AbjAQFbI (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Jan 2023 00:15:38 -0500
+        Tue, 17 Jan 2023 00:31:08 -0500
 Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9175A233EF;
-        Mon, 16 Jan 2023 21:15:36 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5904923D96
+        for <linux-kbuild@vger.kernel.org>; Mon, 16 Jan 2023 21:31:05 -0800 (PST)
 From:   Thomas =?utf-8?q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
-        s=mail; t=1673932533;
-        bh=AQvIfe3qx9w8jhuaSJEUblMK8k+oTyUQUYnmrHAawCQ=;
+        s=mail; t=1673933463;
+        bh=cFgA4k9RHMj5jryFtcqgjqMSWi3g9S3EzACx/77zB4E=;
         h=From:Date:Subject:To:Cc:From;
-        b=Z/sL4YMi+swo+fGn5xvQnFqeOSZve4GWk72qMkzD/6L32g4qJ1jjlE0MOwi5aLEPX
-         buP4XnIq+RiwPbv05hTGVjxnPpH2Z0SLjvSvAF+FOK4fuzAKIVpNzrmSKKwqYmwJfO
-         e1zCTErpOGkkTW9OOCFAVSUml1J9MB09BgEzIQKI=
-Date:   Tue, 17 Jan 2023 05:15:25 +0000
-Subject: [PATCH] kernel/.gitignore: ignore temporary kheaders_data directory
+        b=U+K3OSXUKc9gZ9ZAGPrfSRf242HyxCiYnfjvGuBhN9pBEltGT8YJ+Natlkab3qscE
+         g1y4UX9EyzBU7p1QwhP0JsPgC2q2/kYC8dofIFtSLAuYd7C3rOEc0v2pdP2hnntlhT
+         oH1H1Xse6OdqgJcmjFUwSNeDd8toSHAvHvGGLS8I=
+Date:   Tue, 17 Jan 2023 05:30:43 +0000
+Subject: [PATCH] kheaders: explicitly validate existence of cpio command
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Message-Id: <20230117-kernel-kheaders-gitignore-v1-1-2a3a070efd0d@weissschuh.net>
-X-B4-Tracking: v=1; b=H4sIAO0uxmMC/x2NywqDMBBFf0Vm3YFEq4K/UrrIY0wGw1gmthTEf
- 2/o8lw495xQSZkqLN0JSh+uvEsDe+sgZCeJkGNj6E0/GGtn3EiFCm6ZXCStmPjgJLsSribOw32c
- gp88NN+7SujVScjtQd6ltPGltPL3H3w8r+sHqBM0/YAAAAA=
+Message-Id: <20230117-kernel-kheaders-cpio-v1-1-058d3e1c8621@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIAIMyxmMC/x2NQQqDMBAAvyJ77kKSHoL9SukhWVezGKLs0iKIf
+ 2/wOAPDnGCswgav4QTln5hsrYN/DEAltYVRps4QXHg67yOurI0rroXTxGpIu2wY5kjRZRrJj9DT
+ nIwxa2pUety+tXa5K89y3K/357r+FnDRknsAAAA=
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+Cc:     linux-kbuild@vger.kernel.org,
+        Amy Parker <apark0006@student.cerritos.edu>,
         Thomas =?utf-8?q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.11.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1673932531; l=732;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1673933461; l=1764;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=AQvIfe3qx9w8jhuaSJEUblMK8k+oTyUQUYnmrHAawCQ=;
- b=HHjLXj+5ptdigrisekpl4xX0XfrGEw1+VTrv+3nb5z8j7E/w4NIkHzubj9mxDkEz1lZ7+AuPaqx7
- A5gP/E16Bx0NroQ8VHJRRvAM2K/rC51F7YB9WuFbMAY/UyyAxmm6
+ bh=cFgA4k9RHMj5jryFtcqgjqMSWi3g9S3EzACx/77zB4E=;
+ b=CmqjtULPc++BBL8KMte2/p7Db04hthB/Lxbnfvr26oljSPiJaJEhUPeINNDMbQ0t2aptkkIc1nP1
+ gp+TE8fPAMMMo1/s/wPDwGXw0crj6KLStuLnuxw5gUHWXwRj5WWt
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -52,28 +53,57 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-If the kheaders archive generation is interrupted then this directory
-may be left. Ignore it, it will be deleted by the next run of
-kernel/gen_kheaders.sh.
+If the cpio command is not available the error emitted by
+gen_kheaders.so is not clear as all output of the call to cpio is
+discarded:
 
+GNU make 4.4:
+
+  GEN     kernel/kheaders_data.tar.xz
+find: 'standard output': Broken pipe
+find: write error
+make[2]: *** [kernel/Makefile:157: kernel/kheaders_data.tar.xz] Error 127
+make[1]: *** [scripts/Makefile.build:504: kernel] Error 2
+
+GNU make < 4.4:
+
+  GEN     kernel/kheaders_data.tar.xz
+make[2]: *** [kernel/Makefile:157: kernel/kheaders_data.tar.xz] Error 127
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [scripts/Makefile.build:504: kernel] Error 2
+
+Add an explicit check that will trigger a clear message about the issue:
+
+  CHK     kernel/kheaders_data.tar.xz
+./kernel/gen_kheaders.sh: line 17: type: cpio: not found
+
+The other commands executed by gen_kheaders.sh are part of a standard
+installation, so they are not checked.
+
+Reported-by: Amy Parker <apark0006@student.cerritos.edu>
+Link: https://lore.kernel.org/lkml/CAPOgqxFva=tOuh1UitCSN38+28q3BNXKq19rEsVNPRzRqKqZ+g@mail.gmail.com/
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- kernel/.gitignore | 1 +
- 1 file changed, 1 insertion(+)
+ kernel/gen_kheaders.sh | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/kernel/.gitignore b/kernel/.gitignore
-index c6b299a6b786..57ab1d703763 100644
---- a/kernel/.gitignore
-+++ b/kernel/.gitignore
-@@ -1,3 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
- /config_data
- /kheaders.md5
-+/kheaders_data.tar.xz.tmp/
+diff --git a/kernel/gen_kheaders.sh b/kernel/gen_kheaders.sh
+index 473036b43c83..81b97f0f6556 100755
+--- a/kernel/gen_kheaders.sh
++++ b/kernel/gen_kheaders.sh
+@@ -14,6 +14,8 @@ include/
+ arch/$SRCARCH/include/
+ "
+ 
++type cpio > /dev/null
++
+ # Support incremental builds by skipping archive generation
+ # if timestamps of files being archived are not changed.
+ 
 
 ---
 base-commit: d532dd102151cc69fcd00b13e5a9689b23c0c8d9
-change-id: 20230117-kernel-kheaders-gitignore-f0d73456cb6b
+change-id: 20230117-kernel-kheaders-cpio-2f7c70bc9c19
 
 Best regards,
 -- 
