@@ -2,34 +2,34 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B906966DFFA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jan 2023 15:09:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A9E466E005
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jan 2023 15:10:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231347AbjAQOJE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Jan 2023 09:09:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34312 "EHLO
+        id S229803AbjAQOKZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Jan 2023 09:10:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231651AbjAQOIo (ORCPT
+        with ESMTP id S231468AbjAQOKY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Jan 2023 09:08:44 -0500
+        Tue, 17 Jan 2023 09:10:24 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B2BE3BDB0;
-        Tue, 17 Jan 2023 06:08:33 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFF7A2A163;
+        Tue, 17 Jan 2023 06:10:23 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 05A89B811D3;
-        Tue, 17 Jan 2023 14:08:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CADBC433EF;
-        Tue, 17 Jan 2023 14:08:30 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 99F6BB81645;
+        Tue, 17 Jan 2023 14:10:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB1F9C433D2;
+        Tue, 17 Jan 2023 14:10:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1673964510;
-        bh=eIuhZ2t7GHaGt8J8+DI3eJDdy374lZCmIPg23o8pegg=;
+        s=korg; t=1673964621;
+        bh=1LQNFj0nyxhQ3JRrf8nhxOpkNbiHaRBCqv2yNnBl7JI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mmX3dk4vbIGXNEMkmKHwB4JGb/MG1VJnzUwJvGDThR21xxOPGsq+DnGl8KH4MN1Lo
-         WtfbvDyyDMvEYdHtHnzYDSLWD3XPmpedZZTFU94EK0Vj7rht5DJ5qIJ8VniXD/Sdlp
-         eWoPj+EouXPjTS0GyEVdOPz+abi43IfVXyg/y22Q=
-Date:   Tue, 17 Jan 2023 15:08:23 +0100
+        b=h74ssUzgixd7/MX7aln510ZzUSGlvxrMC2fWe1KPCNxqb1Uofh5aIOyn6gf8yI9Mx
+         7ytiUBK7gdiVe/1CCl80lRBPCLYW+xIHRt/VH4DhLVN8G4nQ1YwT38xZ7gGr9tFZIo
+         EzcZPmIfUCqzXZJpQnfjrUca1r7Z7c5ioCtFayaM=
+Date:   Tue, 17 Jan 2023 15:10:18 +0100
 From:   Greg KH <gregkh@linuxfoundation.org>
 To:     Nipun Gupta <nipun.gupta@amd.com>
 Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
@@ -45,51 +45,39 @@ Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
         linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
         okaya@kernel.org, harpreet.anand@amd.com, nikhil.agarwal@amd.com,
         michal.simek@amd.com, git@amd.com
-Subject: Re: [PATCH 04/19] bus/cdx: add MCDI protocol interface for firmware
- interaction
-Message-ID: <Y8ar1+QfRR++YfKJ@kroah.com>
+Subject: Re: [PATCH 05/19] bus/cdx: add cdx controller
+Message-ID: <Y8asSo2daSm5AWfR@kroah.com>
 References: <20230117134139.1298-1-nipun.gupta@amd.com>
- <20230117134139.1298-5-nipun.gupta@amd.com>
+ <20230117134139.1298-6-nipun.gupta@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230117134139.1298-5-nipun.gupta@amd.com>
+In-Reply-To: <20230117134139.1298-6-nipun.gupta@amd.com>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,UPPERCASE_50_75 autolearn=ham
-        autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jan 17, 2023 at 07:11:36PM +0530, Nipun Gupta wrote:
-> +/** Request/Response structure */
-> +#define MCDI_HEADER_OFST 0
-> +#define MCDI_HEADER_CODE_LBN 0
-> +#define MCDI_HEADER_CODE_WIDTH 7
-> +#define MCDI_HEADER_RESYNC_LBN 7
-> +#define MCDI_HEADER_RESYNC_WIDTH 1
-> +#define MCDI_HEADER_DATALEN_LBN 8
-> +#define MCDI_HEADER_DATALEN_WIDTH 8
-> +#define MCDI_HEADER_SEQ_LBN 16
-> +#define MCDI_HEADER_SEQ_WIDTH 4
-> +#define MCDI_HEADER_RSVD_LBN 20
-> +#define MCDI_HEADER_RSVD_WIDTH 1
-> +#define MCDI_HEADER_NOT_EPOCH_LBN 21
-> +#define MCDI_HEADER_NOT_EPOCH_WIDTH 1
-> +#define MCDI_HEADER_ERROR_LBN 22
-> +#define MCDI_HEADER_ERROR_WIDTH 1
-> +#define MCDI_HEADER_RESPONSE_LBN 23
-> +#define MCDI_HEADER_RESPONSE_WIDTH 1
-> +#define MCDI_HEADER_XFLAGS_LBN 24
-> +#define MCDI_HEADER_XFLAGS_WIDTH 8
+On Tue, Jan 17, 2023 at 07:11:37PM +0530, Nipun Gupta wrote:
+> --- /dev/null
+> +++ b/drivers/bus/cdx/controller/cdx_controller.c
+> @@ -0,0 +1,243 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Platform driver for CDX bus controller.
 
-<snip>
+Why is this a platform driver?  Shouldn't it also be on some type of bus
+so that you can find it?
 
-This whole file could use some tabs to align all of the values for the
-defines to make it readable.  Any chance of doing that?
+> +MODULE_VERSION("1.0");
+
+There's never need for any module versions once the code is in the
+kernel tree as then they make no sense at all.  Please drop them from
+this series.
 
 thanks,
 
