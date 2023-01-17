@@ -2,34 +2,34 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B1D4566DFEC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jan 2023 15:07:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B906966DFFA
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jan 2023 15:09:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231174AbjAQOHP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Jan 2023 09:07:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33408 "EHLO
+        id S231347AbjAQOJE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Jan 2023 09:09:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229717AbjAQOHO (ORCPT
+        with ESMTP id S231651AbjAQOIo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Jan 2023 09:07:14 -0500
+        Tue, 17 Jan 2023 09:08:44 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF83F22DE9;
-        Tue, 17 Jan 2023 06:07:12 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B2BE3BDB0;
+        Tue, 17 Jan 2023 06:08:33 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B0F9FB8163C;
-        Tue, 17 Jan 2023 14:07:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D08E5C433D2;
-        Tue, 17 Jan 2023 14:07:09 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 05A89B811D3;
+        Tue, 17 Jan 2023 14:08:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CADBC433EF;
+        Tue, 17 Jan 2023 14:08:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1673964430;
-        bh=EFq8Od2NM75wtjBEcUE7fa3icuvaGh55hFO8nHbgdHc=;
+        s=korg; t=1673964510;
+        bh=eIuhZ2t7GHaGt8J8+DI3eJDdy374lZCmIPg23o8pegg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FQD7+cWOMoYWQ6+xDnL8JUdVxTFI/skk8sgs2c66neOJBcc/GhgrLdhoW81e81Cuf
-         NfqmDJ8Z6WvFSEitxfFuTchBq2eAWUbGmYfcMPrdyA86vzx0vWRhHSXXyXo+0HlIGw
-         aLEnHwLjUZp+nHBOxMnspjS/cQeFVk+bQc+3T0bc=
-Date:   Tue, 17 Jan 2023 15:07:02 +0100
+        b=mmX3dk4vbIGXNEMkmKHwB4JGb/MG1VJnzUwJvGDThR21xxOPGsq+DnGl8KH4MN1Lo
+         WtfbvDyyDMvEYdHtHnzYDSLWD3XPmpedZZTFU94EK0Vj7rht5DJ5qIJ8VniXD/Sdlp
+         eWoPj+EouXPjTS0GyEVdOPz+abi43IfVXyg/y22Q=
+Date:   Tue, 17 Jan 2023 15:08:23 +0100
 From:   Greg KH <gregkh@linuxfoundation.org>
 To:     Nipun Gupta <nipun.gupta@amd.com>
 Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
@@ -45,87 +45,51 @@ Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
         linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
         okaya@kernel.org, harpreet.anand@amd.com, nikhil.agarwal@amd.com,
         michal.simek@amd.com, git@amd.com
-Subject: Re: [PATCH 01/19] bus/cdx: add the cdx bus driver
-Message-ID: <Y8arhmVo7LPLuxqr@kroah.com>
+Subject: Re: [PATCH 04/19] bus/cdx: add MCDI protocol interface for firmware
+ interaction
+Message-ID: <Y8ar1+QfRR++YfKJ@kroah.com>
 References: <20230117134139.1298-1-nipun.gupta@amd.com>
- <20230117134139.1298-2-nipun.gupta@amd.com>
+ <20230117134139.1298-5-nipun.gupta@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230117134139.1298-2-nipun.gupta@amd.com>
+In-Reply-To: <20230117134139.1298-5-nipun.gupta@amd.com>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,UPPERCASE_50_75 autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jan 17, 2023 at 07:11:33PM +0530, Nipun Gupta wrote:
-> Introduce AMD CDX bus, which provides a mechanism for scanning
-> and probing CDX devices. These devices are memory mapped on
-> system bus for Application Processors(APUs).
-> 
-> CDX devices can be changed dynamically in the Fabric and CDX
-> bus interacts with CDX controller to rescan the bus and
-> rediscover the devices.
-> 
-> Signed-off-by: Nipun Gupta <nipun.gupta@amd.com>
-> Signed-off-by: Tarak Reddy <tarak.reddy@amd.com>
+On Tue, Jan 17, 2023 at 07:11:36PM +0530, Nipun Gupta wrote:
+> +/** Request/Response structure */
+> +#define MCDI_HEADER_OFST 0
+> +#define MCDI_HEADER_CODE_LBN 0
+> +#define MCDI_HEADER_CODE_WIDTH 7
+> +#define MCDI_HEADER_RESYNC_LBN 7
+> +#define MCDI_HEADER_RESYNC_WIDTH 1
+> +#define MCDI_HEADER_DATALEN_LBN 8
+> +#define MCDI_HEADER_DATALEN_WIDTH 8
+> +#define MCDI_HEADER_SEQ_LBN 16
+> +#define MCDI_HEADER_SEQ_WIDTH 4
+> +#define MCDI_HEADER_RSVD_LBN 20
+> +#define MCDI_HEADER_RSVD_WIDTH 1
+> +#define MCDI_HEADER_NOT_EPOCH_LBN 21
+> +#define MCDI_HEADER_NOT_EPOCH_WIDTH 1
+> +#define MCDI_HEADER_ERROR_LBN 22
+> +#define MCDI_HEADER_ERROR_WIDTH 1
+> +#define MCDI_HEADER_RESPONSE_LBN 23
+> +#define MCDI_HEADER_RESPONSE_WIDTH 1
+> +#define MCDI_HEADER_XFLAGS_LBN 24
+> +#define MCDI_HEADER_XFLAGS_WIDTH 8
 
-First off, very nice job, I didn't find any obvious issues with this
-integration into the driver core.
+<snip>
 
-That being said, why do you want this in drivers/bus/?  Why not
-drivers/cdx/ ?
-
-One minor comment to make the code smaller:
-
-> +static int get_free_index(void)
-> +{
-> +	unsigned long id_map;
-> +	unsigned long mask;
-> +	int index = 0;
-> +
-> +	mask  = (1UL << MAX_CDX_CONTROLLERS) - 1;
-> +retry:
-> +	id_map = cdx_controller_id_map[0];
-> +	if ((id_map & mask) == mask)
-> +		return -ENOSPC;
-> +
-> +	index = ffz(id_map);
-> +	if (index >= MAX_CDX_CONTROLLERS)
-> +		return -ENOSPC;
-> +
-> +	if (test_and_set_bit(index, &cdx_controller_id_map[0]))
-> +		goto retry;
-> +
-> +	return index;
-> +}
-
-Why not just use the idr/ida structure instead?  That will handle all of
-that logic for you and get rid of your bit twiddling.
-
-> +/**
-> + * struct cdx_dev_params - CDX device parameters
-> + * @cdx: CDX controller associated with the device
-> + * @parent: Associated CDX controller
-> + * @vendor: Vendor ID for CDX device
-> + * @device: Device ID for CDX device
-> + * @bus_num: Bus number for this CDX device
-> + * @dev_num: Device number for this device
-> + * @res: array of MMIO region entries
-> + * @res_count: number of valid MMIO regions
-> + * @req_id: Requestor ID associated with CDX device
-> + */
-> +struct cdx_dev_params {
-> +	struct cdx_controller *cdx;
-> +	u16 vendor;
-> +	u16 device;
-
-Are these in little endian format in memory?  Or native?  Or something
-else?
+This whole file could use some tabs to align all of the values for the
+defines to make it readable.  Any chance of doing that?
 
 thanks,
 
