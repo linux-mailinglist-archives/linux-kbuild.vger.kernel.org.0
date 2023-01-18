@@ -2,64 +2,65 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D2CF267165C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Jan 2023 09:35:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2505267165E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Jan 2023 09:35:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229823AbjARIfu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Jan 2023 03:35:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49440 "EHLO
+        id S229717AbjARIfx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Jan 2023 03:35:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229627AbjARIfK (ORCPT
+        with ESMTP id S230017AbjARIfQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Jan 2023 03:35:10 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C84AB7E681;
-        Tue, 17 Jan 2023 23:55:15 -0800 (PST)
+        Wed, 18 Jan 2023 03:35:16 -0500
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38AA25C0F8;
+        Tue, 17 Jan 2023 23:55:41 -0800 (PST)
 Received: from leknes.fjasle.eu ([46.142.49.8]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1M7sYM-1pLvAY1Uhu-004zI3; Wed, 18 Jan 2023 08:54:48 +0100
+ (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MZCOl-1pDQZ60UCH-00V6J2; Wed, 18 Jan 2023 08:55:13 +0100
 Received: from localhost.fjasle.eu (bergen.fjasle.eu [IPv6:fdda:8718:be81:0:219:b8ff:fe08:dd7c])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (Client did not present a certificate)
-        by leknes.fjasle.eu (Postfix) with ESMTPS id A45723C0EE;
-        Wed, 18 Jan 2023 08:54:46 +0100 (CET)
+        by leknes.fjasle.eu (Postfix) with ESMTPS id 04C833C087;
+        Wed, 18 Jan 2023 08:55:12 +0100 (CET)
 Authentication-Results: leknes.fjasle.eu; dkim=none; dkim-atps=neutral
 Received: by localhost.fjasle.eu (Postfix, from userid 1000)
-        id AFB65176; Wed, 18 Jan 2023 08:54:44 +0100 (CET)
-Date:   Wed, 18 Jan 2023 08:54:44 +0100
+        id 5B3371C7C; Wed, 18 Jan 2023 08:55:11 +0100 (CET)
+Date:   Wed, 18 Jan 2023 08:55:11 +0100
 From:   Nicolas Schier <nicolas@fjasle.eu>
 To:     Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] kbuild: also delete temporary directories
-Message-ID: <Y8elxMUAlFzUv91j@bergen.fjasle.eu>
+Subject: Re: [PATCH v3 2/2] kheaders: use standard naming for the temporary
+ directory
+Message-ID: <Y8el34qPsCq49bKd@bergen.fjasle.eu>
 References: <20230117-kernel-kheaders-gitignore-v3-0-e686b93b0732@weissschuh.net>
- <20230117-kernel-kheaders-gitignore-v3-1-e686b93b0732@weissschuh.net>
+ <20230117-kernel-kheaders-gitignore-v3-2-e686b93b0732@weissschuh.net>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="erULJRCZC1qO21ze"
+        protocol="application/pgp-signature"; boundary="67NBECsffgd7Rpuu"
 Content-Disposition: inline
-In-Reply-To: <20230117-kernel-kheaders-gitignore-v3-1-e686b93b0732@weissschuh.net>
+In-Reply-To: <20230117-kernel-kheaders-gitignore-v3-2-e686b93b0732@weissschuh.net>
 Jabber-ID: nicolas@fjasle.eu
 X-Operating-System: Debian GNU/Linux bookworm/sid
-X-Provags-ID: V03:K1:DUxzvGDOJd3f4cmWAvEC+6SsDn/37sKvzHxpoIVy3TYtoWAHPpH
- 3/lShVa/TR/LEw9ukehAvApfas06IOA5PUlmbVOARKnLh1m23iS0UzCxDoFpFLwAYetD0z8
- 0RsyfV6rCiJPkx1+lFiKQMJK59loii6JMZmWprkYG/MbPcGyhT1BSETmUgWJ1f3y990661k
- 1LG8b2OAA2DFcZh5fMFGQ==
-UI-OutboundReport: notjunk:1;M01:P0:ZxXE5b1zzoU=;cx/n+xEA8oxx03kp0z8eqCy1AfV
- MeYyV6BG29mRI9II+yx3AVIbNKKPgxsjZE55LGFPkOMJkBu5BrTQ3nZ6/xG7je3mRK4LRbMdq
- 64awuGLwboKHYMevLosC4AaBIEUy4ZkX44Tk7scy/qBRUFwGUXfI3iHaxC/JmjYphWG1zKkHC
- CVZWlvR1hHPw1zjVM3PgcZvRlfYrCCylmW6DQUpUebGS/0BH2Vr1zjiciNecS2/uAHdBUHxv6
- bJnck/1nYQm/PqPRrO0tHiRnqDwlPkSnCUk2fLRSrcQwfpsz2ONWRPaH827jPl63LfvT+c7V0
- 9JfBbtaNqp2EjqiB8/VqtmEBKTo5Bi1kidy2oUVsLPuxUYFBXLEGVmVQm4FqvSgLEqCPVQGzh
- mXSOo5/MPcry7szBLtCqGP+Bqh06LXbadf4s3tMZNUfTUCTHTLBNKUmL+AxZ/IQSBAjvDdCoY
- LRh9aYozvJqVGlSSo2hrStRZXl3+pQre3LyyQxn56za6Gh8TAS5/oLf635To9MhkpeH68KU69
- nheDqUN/WGBgJgP2gZBivpfaVGavjtLKSP2JV8Os4lLCLB1MrTmy1wZ3elFOwD9OWXNcn7urI
- IW0fZZHL6ikA9j/kcweoP30CDzRsVO1WLkZXYcNijUnBvcfcT0jbLNz7y3TrEQt4yeRU9J3Kw
- yAVRKzii6quGU0RbcwlHlH6LQgm9rrVlten/zGrmiw==
+X-Provags-ID: V03:K1:aMxYp1DxzfTUZdEWrLrhpKKxEN5TlPiy2IK7TGfoY3rG6U+/aru
+ sHurwZ7TnTdVViiHxd0SdfkO431HgyCRxd6kbBuApnIAeVOsHFr3+QRf7i0tDktx29vyBMa
+ 7rGAj+rRTLLp28v05PFBgwIZ4Yxw3J+MtW0minHR7KJv3c7/M/rzkZ7AY8U+QO6LOdxfEUq
+ TdvgsB4zYHHKLj9bciZiw==
+UI-OutboundReport: notjunk:1;M01:P0:HfV3AwTnIt8=;DfPvW6GbR+flBSgt7JwNH+a0Fmo
+ etZMKQAKKD02ePfDB4ZcS+o4hr7ojoPsRB+zospZuX5eiMM3zBnqM5uo+CJVQ4UGkG3eq2ugP
+ fHmqK93EgtWoMUyNFr9DmWFtjTD/uR0vMDA4FgwdPDr5Xmmg1kzfc8S6HL7FJS6LhekRhy10f
+ YYhjkr2LcSW3C3g3+hSocHPjiimGysLf4FwQbV2I3CCXdOi+nXnUqFj/y1uBz+qrrQTk2ae8O
+ jA+UYeKq4qxYQOAIHm9crWEMefjpxFC6A71ZC8cJInmtCCuohHt4d1R0N6t+hU/e3Z+vTw24D
+ wQ+ewTzhPCtif95VbP5/nnu6LvbpoBHjWrCOYkLCf240sCNRwDA4ikc19QXTxuSgpOdMTLrZB
+ JwVTYzFx+EiAvbwvA0DPWVEd5L7p2w74t2Y/y79Xul0IhAkqK/nH6Qm7yv8f3sgK1h6EwzOiA
+ eJbPB36n2GIIFcNgfaZm53FDS1aqHRtHJCTCldO4Hd9IPp/C8BrkrYK5ToSRLsJ/Vl8GQPAIu
+ W6//afLMiI9JlEHrJ8sXJRunaG5UZZuwOBsqW9NjJPCzUDSve9GlEIJtb0iGZVDvE/bB2vN8F
+ 8+FRcKfYW5kZ3t7DG7xmFNt9wfh32Asyky02ti4hLCIjHL6VSUTK0fkJCHjWTvXdo8sg6Ama2
+ SjhPOdwEM4Q+BvchRIYRX5IX0CbKwREpUlHWUJkEjw==
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
         RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
@@ -70,43 +71,37 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
---erULJRCZC1qO21ze
+--67NBECsffgd7Rpuu
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed 18 Jan 2023 05:05:34 GMT, Thomas Wei=DFschuh wrote:
-> Reuse the standard naming schema for temporary files also for=20
-> temporary
-> directories.
+On Wed 18 Jan 2023 05:05:35 GMT, Thomas Wei=DFschuh wrote:
+> If the kheaders archive generation is interrupted then this directory
+> may be left on disk and not ignored by git.
+> By using the standard naming schema for temporary files and directories
+> the default .gitignore and "make clean" rules will apply.
 >=20
-> Such a directory will be used by the kheaders generation.
->=20
+> Suggested-by: Nicolas Schier <nicolas@fjasle.eu>
+> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
 > Signed-off-by: Thomas Wei=DFschuh <linux@weissschuh.net>
 > ---
->  Makefile | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  kernel/gen_kheaders.sh | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/Makefile b/Makefile
-> index e09fe100efb2..863b3fdd4374 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -2026,11 +2026,12 @@ clean: $(clean-dirs)
->  		-o -name '*.lex.c' -o -name '*.tab.[ch]' \
->  		-o -name '*.asn1.[ch]' \
->  		-o -name '*.symtypes' -o -name 'modules.order' \
-> -		-o -name '.tmp_*' \
->  		-o -name '*.c.[012]*.*' \
->  		-o -name '*.ll' \
->  		-o -name '*.gcno' \
-> -		-o -name '*.*.symversions' \) -type f -print | xargs rm -f
-> +		-o -name '*.*.symversions' \) -type f -print \
-> +		-o -name '.tmp_*' -print \
-> +		| xargs rm -rf
+> diff --git a/kernel/gen_kheaders.sh b/kernel/gen_kheaders.sh
+> index 473036b43c83..b477b763f262 100755
+> --- a/kernel/gen_kheaders.sh
+> +++ b/kernel/gen_kheaders.sh
+> @@ -7,7 +7,7 @@ set -e
+>  sfile=3D"$(readlink -f "$0")"
+>  outdir=3D"$(pwd)"
+>  tarfile=3D$1
+> -cpio_dir=3D$outdir/$tarfile.tmp
+> +cpio_dir=3D$outdir/${tarfile%/*}/.tmp_cpio_dir
 > =20
->  # Generate tags for editors
->  # ----------------------------------------------------------------------=
------
+>  dir_list=3D"
+>  include/
 >=20
 > --=20
 > 2.39.1
@@ -116,24 +111,24 @@ Thanks!
 Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 Tested-by: Nicolas Schier <nicolas@fjasle.eu>
 
---erULJRCZC1qO21ze
+--67NBECsffgd7Rpuu
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmPHpb4ACgkQB1IKcBYm
-EmmUcQ//RT3ArPXJvjC31Exedyd0ZE3b5tuzmn4d8NrJ80WULQuPou+ezqxlza/6
-WuVFrsssLiL2SzS9qYV64wMf9NDBYVsEA2/ovD0yTTFLPbCjXWQO8a16EKtqWph1
-GnvXVGP/UU1G6oji5u6GiT33KQErrSdGH205tHslAi1512whPDYiqz8H3TTj/4b4
-dsTv9hGR3d+eOQQzXQgVmDGfQDDG5tliR77sH9BP9YpHpt49CnDIJ1KXBPL1y46l
-exHtXpBbXLreTSHwp9aKgHst5yP0ximuufd153ur9qmStlhC0EIh9sMx3XObovjq
-VeUX/AXPiax8E5x5LAqorzrmBD6lSwmv2XlPmvgxpiCi4hEe94NjLFShlUV9p3rt
-IuORl5xJHeMv4hdjL9n+mYieNnymgRuR17iXPPigELSWIvU9OUaZsQHpl5EXIPdq
-PgKF97D81z9pm3MIIwQ3qNR7f5k9GUxTeygtYo0yCkIsvZQVZJdyUv/QdG7LWq5d
-o9XLNof7Dd2kMGsw05izxijaaep71K+HuoLUZ7Z+SAwjTB0RmDcOpjxtfbbP1mjS
-lprbLWnkXVEJGJ8177MWAjlcDyE39uNeWmXwsRlmiu5/6raN+XOST3RFIV3wgLkO
-IlL0Ghv3olqkmjXWBQ52wW12zJv/pGh9HMiF+j5A7wGDuoNu7XM=
-=43p1
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmPHpd4ACgkQB1IKcBYm
+Emma3xAAjFSXPAeJG5tdbFmUVd1WnUhzMDacYopa9a8QSKDiVw4FFG0dYegX6YEl
+PBotDzyEBwapXpkJ6kyI68bMrZoG8fB3xRjnyXQZ/jLq45/Wsz0I8YKVKKJlD+LI
+EJxeCVCfAp4m97SsRz+zwfJWFucEuNTz3hz86Sj/CHRQpAByeH1o+pRcQ/Yv3bzd
+7rnx+Rb61P7B06oP67OWocPYc92iehHtNNWiPagsP4yzzw+03r7Jue4RCicRSK6p
+rknBWotBsCruFiHiO3kDhLOPZhHSZM/5uWiMDRMM+VK+x+lXzA8Y+0apGsRSJ+8t
+enR0PpixzTy4hE4/zSDwz99k6ticXfsLIy6kw4dcA4xZ46i7FZfKMVeiIICDc1li
+pYxhmYrXot+X3Ja4yqrA+YkexWTgQHQtHTt4i6xASscCUJB7pb0TF7M/XsJRtpje
+usKgEqnIpf/5+Cwm5d9sgheWbgA8Mco30sC4sPQGGvpTMheegnTaX5im/77VphXO
+gtQr1FYYhC1q67VIkvzj+/86J9jnn4An/MXmnOZ6YVuKieaVkaDC9aubVBYDgz80
+M5h9nR4xQ83BU/ii8hj981BxQSEYnrpo4aqB99q69yIG2Kfzo2sebf6FkqwT2gFo
+OMNW1pSZX0qmqEgDVwfzYxn3husB5trAvv4QFE2Qam4FFjOK7K0=
+=uoCd
 -----END PGP SIGNATURE-----
 
---erULJRCZC1qO21ze--
+--67NBECsffgd7Rpuu--
