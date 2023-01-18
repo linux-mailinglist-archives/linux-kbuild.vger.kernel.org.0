@@ -2,111 +2,86 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C333E67130C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Jan 2023 06:16:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EAF6067140C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Jan 2023 07:28:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229561AbjARFQI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Jan 2023 00:16:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37008 "EHLO
+        id S229462AbjARG1u (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Jan 2023 01:27:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229475AbjARFQH (ORCPT
+        with ESMTP id S229788AbjARGZV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Jan 2023 00:16:07 -0500
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 973B94FCC4;
-        Tue, 17 Jan 2023 21:16:05 -0800 (PST)
-Date:   Wed, 18 Jan 2023 05:15:55 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
-        s=mail; t=1674018963;
-        bh=+iveqw/qm0yQjEUnNI9i+RiUzh20sBeTW2alB5X1ZB4=;
+        Wed, 18 Jan 2023 01:25:21 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 101C9521DF;
+        Tue, 17 Jan 2023 22:14:11 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A196A61648;
+        Wed, 18 Jan 2023 06:14:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70BD8C433EF;
+        Wed, 18 Jan 2023 06:14:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1674022450;
+        bh=NpPVHi+rA6d/CMkeffuXNpgc4msokkYnNi1AFVaCwSg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=S9IcC1X0aouk3ixY2js450i4XROwis/FmJH/wbHHsiKQb6y1Od1adQA2i3sMv3caV
-         glOTjW0N7p7Pe2ktwDX2s2bxBJYQLSBRBkfe/FomBC38VhqetDqSNG6CY1OAozfZED
-         4xwnnKTWHuID98FkFIOHFzbzrKzqAUGTAghyHfxk=
-From:   Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To:     Yonghong Song <yhs@meta.com>
-Cc:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Stanislav Fomichev <sdf@google.com>,
-        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-        Mykola Lysenko <mykolal@fb.com>, Shuah Khan <shuah@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 1/3] selftests/bpf: align kbuild messages to standard
-Message-ID: <20230118051555.2ud7mrt4tk6q6322@t-8ch.de>
-References: <20230118-kbuild-alignment-v1-0-eb5e9fd55c92@weissschuh.net>
- <20230118-kbuild-alignment-v1-1-eb5e9fd55c92@weissschuh.net>
- <bc5beea9-0613-640b-b0dd-e54221c2fc06@meta.com>
+        b=gv5FNTDjnuN/U9YRwsANt3dd+MwxzWBpwr/+sQQVALpZ7TKcnWW4ld/2HHzQAF8L4
+         jnL8gGbiaW7QwYTV5NYzwTbjwqPhyrf7Yixc9H3444r4+jgPHnY046hhpASh/y/9Rh
+         Jp4qKt4ZgjEs6NOlBvuY6nMQ3NVHQBwmOOrvc810=
+Date:   Wed, 18 Jan 2023 07:14:06 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Tom Saeger <tom.saeger@oracle.com>
+Cc:     stable@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>
+Subject: Re: [PATCH 5.15 5.10 5.4 v2] kbuild: fix Build ID if
+ CONFIG_MODVERSIONS
+Message-ID: <Y8eOLt7fw+Hmicmy@kroah.com>
+References: <3df32572ec7016e783d37e185f88495831671f5d.1671143628.git.tom.saeger@oracle.com>
+ <Y6M090tsVRIBNlNG@kroah.com>
+ <20221221205210.6oolnwkzqo2d6q5h@oracle.com>
+ <Y6Pyp+7Udn6x/UVg@kroah.com>
+ <20230109183615.zxe7o7fowdpeqlj3@oracle.com>
+ <Y7/2ef+JWO6BXGfC@kroah.com>
+ <20230112212006.rnrbaby2imjlej4q@oracle.com>
+ <20230113150654.w4cbvtasoep5rscw@oracle.com>
+ <Y8Kz8JwM/4GyN1um@kroah.com>
+ <20230117235006.oishw5tlc3xnwwmd@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <bc5beea9-0613-640b-b0dd-e54221c2fc06@meta.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230117235006.oishw5tlc3xnwwmd@oracle.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jan 17, 2023 at 09:02:20PM -0800, Yonghong Song wrote:
+On Tue, Jan 17, 2023 at 05:50:06PM -0600, Tom Saeger wrote:
+> On Sat, Jan 14, 2023 at 02:53:52PM +0100, Greg Kroah-Hartman wrote:
+>   Masahiroy's commit is already in Linus's tree.
 > 
+> ‚ùØ git log -n1 --format=oneline 99cb0d917ffa
+> 99cb0d917ffa1ab628bb67364ca9b162c07699b1 arch: fix broken BuildID for arm64 and riscv
 > 
-> On 1/17/23 7:52 PM, Thomas Weiﬂschuh wrote:
-> > The common layout for kbuild messages is as follows:
-> > 
-> > - 2 spaces
-> > - 7 or more characters for the action
-> > - 1 space
-> > - name of the file being built/generated
-> > 
-> > The custom message formatting included an additional space in the action
-> > part, which leads to misalignments with the rest of kbuild.
-> 
-> Could you give an example to show the output before/after the patch, and
-> how it leads to mis-alignment and why it is a problem?
+> ‚ùØ git tag --contains=99cb0d917ffa
+> v6.2-rc2
+> v6.2-rc3
+> v6.2-rc4
 
-Before:
+Using 'git tag' doesn't always show the best info, better is the
+following:
+	$ git describe --contains 99cb0d917ffa1ab628bb67364ca9b162c07699b1
+	v6.2-rc2~5^2~6
 
-  LD      .../linux/tools/bpf/resolve_btfids/resolve_btfids-in.o
-  LINK     resolve_btfids
-  CHK     kernel/kheaders_data.tar.xz
+Anyway, I'll look at this after the next round gets released, thanks!
 
-After:
-
-  LD      .../linux/tools/bpf/resolve_btfids/resolve_btfids-in.o
-  LINK    resolve_btfids
-  CHK     kernel/kheaders_data.tar.xz
-
-The line starting with "LINK" has the filename "resolve_btfids" one
-space character more to the right than the other lines.
-
-It's slightly confusing when scanning the build logs.
-
-> > Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
-> > ---
-> >   tools/testing/selftests/bpf/Makefile | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/tools/testing/selftests/bpf/Makefile b/tools/testing/selftests/bpf/Makefile
-> > index c22c43bbee19..5190c19295d4 100644
-> > --- a/tools/testing/selftests/bpf/Makefile
-> > +++ b/tools/testing/selftests/bpf/Makefile
-> > @@ -98,7 +98,7 @@ Q =
-> >   msg =
-> >   else
-> >   Q = @
-> > -msg = @printf '  %-8s%s %s%s\n' "$(1)" "$(if $(2), [$(2)])" "$(notdir $(3))" "$(if $(4), $(4))";
-> > +msg = @printf '  %-7s%s %s%s\n' "$(1)" "$(if $(2), [$(2)])" "$(notdir $(3))" "$(if $(4), $(4))";
-> >   MAKEFLAGS += --no-print-directory
-> >   submake_extras := feature_display=0
-> >   endif
-> > 
+greg k-h
