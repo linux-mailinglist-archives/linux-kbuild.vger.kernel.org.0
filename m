@@ -2,100 +2,222 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E3E1967167E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Jan 2023 09:48:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5549E671899
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Jan 2023 11:10:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229686AbjARIsL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Jan 2023 03:48:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53220 "EHLO
+        id S230131AbjARKKp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Jan 2023 05:10:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229877AbjARIri (ORCPT
+        with ESMTP id S229734AbjARKK2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Jan 2023 03:47:38 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5326D93722;
-        Wed, 18 Jan 2023 00:01:17 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id DF79EB81B89;
-        Wed, 18 Jan 2023 08:00:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92CACC433EF;
-        Wed, 18 Jan 2023 08:00:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674028831;
-        bh=ufQqDQretGXtNxqadTF2D5r1H7mo3exV2T85ESGLwEk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=J/uoNlyocuw/7Am960Rt18PsSiThqGyxsvpIw35gk/z3NjuVrmLokNkSKdDuJCv/+
-         K7JiVZx9lnMLLd3S8cr/d75brBMsA/qEPKZmoKfvOdo4+jozjocsF/U53YX/4XJ37h
-         M+hFR9vANvEf4DdAJrulSqtMu2YoIkpL+xr3JHYMTxL8JImGvuKOlqVssFp02qPLWS
-         RCc5NjZzYq69ebRA17mrmPZh65Ukc91A7Bqy8PM9zjnjEtxVNJym/s7lRjQU3ZAw8H
-         MII2dz6iNG5N9ssQBycTPccukTaAM/u8jtE94aiCaR3FS33U1tvZJ0EYntNd/FZSyk
-         7AZulhotmypNw==
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-15bb8ec196aso22900176fac.3;
-        Wed, 18 Jan 2023 00:00:31 -0800 (PST)
-X-Gm-Message-State: AFqh2krGZ8FNCPO7Jq8oOjH3mNenJcA7TsvM7SmPWB9hbGBC4unT4W2B
-        vAzXLToDkyeH5Ws09kxdP3nZg2WqRs5AzQsAEUU=
-X-Google-Smtp-Source: AMrXdXtkmLEk075uBgGVC5FyELhD/qqb9Tq9gvEiLrmKoUeE8PoVprvmqZ5vDQbvaxfSnr4AmOLKfoDjBvEBZGkDjo8=
-X-Received: by 2002:a05:6870:c20b:b0:15f:1e44:71fd with SMTP id
- z11-20020a056870c20b00b0015f1e4471fdmr401447oae.194.1674028830827; Wed, 18
- Jan 2023 00:00:30 -0800 (PST)
+        Wed, 18 Jan 2023 05:10:28 -0500
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB0DF6FFB3
+        for <linux-kbuild@vger.kernel.org>; Wed, 18 Jan 2023 01:17:44 -0800 (PST)
+Received: by mail-lj1-x22d.google.com with SMTP id bn6so35898604ljb.13
+        for <linux-kbuild@vger.kernel.org>; Wed, 18 Jan 2023 01:17:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=StTuZ2Bua1HjSF/m6fwYuJtXSGg9vB7chLQqJSxTQig=;
+        b=JW9lrVwWB7Ddf4bITQ6OHLlImlWvHFhs7M3Zj5AkWEsGmwoBuKP2TBVuWOcqoTVOA2
+         +3mmG5RfPE2L2x2we1z0AEsxlLzsZAYdNExURg747x2a+i/1NqQtJqFFh+SuQtKeoXR7
+         3NTUAc0RpOP/fIA+fVJIzGOWKffvbiHSGCiOymEH6wySRqrq2Sdk3SxrMWZLWv8VI8C8
+         z5Kf/C1XfSHuD+bBzIIdzCUxsKwdN8RzN6IqqsmBSoPDQwHic12BC2QsSC/U12hTFY8G
+         hm+oYD3jiph+md4KiEHg9QeXbl6zTK6UpQp8r3oy/kOm/pYudAqwflgZKikOfiI1Z/LW
+         39OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=StTuZ2Bua1HjSF/m6fwYuJtXSGg9vB7chLQqJSxTQig=;
+        b=e+FjSn515VU1Ao3TQdLYJe29nP0fjl88/5vBIcptOAGpeQLf63M9yHOvkK53/0KQjy
+         Utvbv4ryT0ruJYhOODdkUNn4vBbjCSLbiRD8CF33wMV1dNLFMC2BMU4i3+n8/HjBfhpj
+         MyIFdZ8z6FqWTvfcbkEoHnrJ584LIlBKmlHC7uqj1nkxyQmiJdnHW3MtEQART2jAfaJt
+         y0t0Ddw5gLynhH7/yFB4bRryddFIAUmqxDDFuYEAplLDCLNieT5WcibneFU2D7DdwUe+
+         p7eYhDSrrqnANJ5ziVXnPr4z39ClHNi0PxOfsU3szi6Hsn3iZjMWnTELEFGrmgfam2Ic
+         C4cg==
+X-Gm-Message-State: AFqh2kq1WdkBUZ40YmJRObSESAXr5ZavfnCeip7qlq5FXTRZfPaspgY7
+        Bl/gGLdMFHJ+y8r/sSuQXdgRCpQ0A6uggl8BjA/uq5uh/NqqmA==
+X-Google-Smtp-Source: AMrXdXscAH5YlBKImGsd8mtnTy/wERqo6svue1vFpW65bewSiwH0kg4+Sdyo9WT/OWk09yJExa4USHGAL0jQbsq+tvQ=
+X-Received: by 2002:a2e:95d5:0:b0:282:bc5a:b025 with SMTP id
+ y21-20020a2e95d5000000b00282bc5ab025mr475957ljh.459.1674033462785; Wed, 18
+ Jan 2023 01:17:42 -0800 (PST)
 MIME-Version: 1.0
-References: <20230117095946.2042832-1-jani.nikula@intel.com>
-In-Reply-To: <20230117095946.2042832-1-jani.nikula@intel.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 18 Jan 2023 16:59:54 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQoLuyO6GJBhSTQcLPRFFj4fdVmR8POqzi_cUXQkr3bzA@mail.gmail.com>
-Message-ID: <CAK7LNAQoLuyO6GJBhSTQcLPRFFj4fdVmR8POqzi_cUXQkr3bzA@mail.gmail.com>
-Subject: Re: [PATCH 0/6] docs: kbuild makefile documentation cleanups
-To:     Jani Nikula <jani.nikula@intel.com>
-Cc:     linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
+References: <CA+icZUV+4QovjQnkAgvon6POgZWstVd-AhZ7OkPU9onuktif1w@mail.gmail.com>
+ <CAK7LNATNpKPM2cmrv=NNHDvtMZyxe=u1gfdDyz+uKBRzyjmwxA@mail.gmail.com>
+ <CA+icZUXJgR1MFtgpChvwr5iFa_FVr4bEGe3GAM62_3xNSmDeXQ@mail.gmail.com> <CAK7LNARzDnVk7JV6WLRYm54HkY4CVmpcv17YWkr9Q8GT2Epdig@mail.gmail.com>
+In-Reply-To: <CAK7LNARzDnVk7JV6WLRYm54HkY4CVmpcv17YWkr9Q8GT2Epdig@mail.gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Wed, 18 Jan 2023 10:17:05 +0100
+Message-ID: <CA+icZUVpDwrB2VbcyZmxE6asfPVh4ANYCvEsTd+rhVtZCHitLA@mail.gmail.com>
+Subject: Re: [6.2-rc4] warning: cannot check the header due to sha1sum missing
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jan 17, 2023 at 7:00 PM Jani Nikula <jani.nikula@intel.com> wrote:
+On Wed, Jan 18, 2023 at 8:51 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> I usually shy away from making rst updates, but the makefiles.rst file
-> always bugs me when I look at it, so here goes. Even I usually look at
-> the rst file in the editor instead of html in the browser, but the
-> editor knows about rst...
+> On Wed, Jan 18, 2023 at 4:45 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+> >
+> > On Mon, Jan 16, 2023 at 4:21 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > >
+> > > On Mon, Jan 16, 2023 at 11:02 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+> > > >
+> > > > Hi Masahiro,
+> > > >
+> > > > I saw these warnings in my build-log:
+> > > >
+> > > >   if ! command -v sha1sum >/dev/null; then echo "warning: cannot check
+> > > > the header due to sha1sum missing"; exit 0; fi; if [ "$(sed -n '$s://
+> > > > ::p' include/linux/atomic/
+> > > > atomic-arch-fallback.h)" != "$(sed '$d'
+> > > > include/linux/atomic/atomic-arch-fallback.h | sha1sum | sed 's/
+> > > > .*//')" ]; then echo "error: include/linux/atomic/atomic-arch-f
+> > > > allback.h has been modified." >&2; exit 1; fi; touch
+> > > > .checked-atomic-arch-fallback.h
+> > > >  if ! command -v sha1sum >/dev/null; then echo "warning: cannot check
+> > > > the header due to sha1sum missing"; exit 0; fi; if [ "$(sed -n '$s://
+> > > > ::p' include/linux/atomic/
+> > > > atomic-instrumented.h)" != "$(sed '$d'
+> > > > include/linux/atomic/atomic-instrumented.h | sha1sum | sed 's/ .*//')"
+> > > > ]; then echo "error: include/linux/atomic/atomic-instrume
+> > > > nted.h has been modified." >&2; exit 1; fi; touch .checked-atomic-instrumented.h
+> > > >  if ! command -v sha1sum >/dev/null; then echo "warning: cannot check
+> > > > the header due to sha1sum missing"; exit 0; fi; if [ "$(sed -n '$s://
+> > > > ::p' include/linux/atomic/
+> > > > atomic-long.h)" != "$(sed '$d' include/linux/atomic/atomic-long.h |
+> > > > sha1sum | sed 's/ .*//')" ]; then echo "error:
+> > > > include/linux/atomic/atomic-long.h has been modified
+> > > > ." >&2; exit 1; fi; touch .checked-atomic-long.h
+> > > >
+> > > > NOTE: I did a `make distclean` before I started my build.
+> > > >
+> > > > Can you please comment on this?
+> > >
+> > >
+> > >
+> > >
+> > > Please clarify your problem.
+> > >
+> > > My best guess is, you just added V=1 option to
+> > > print the full log, didn't you?
+> > >
+> > >
+> > >
+> > > I can see the same build log by running the following command.
+> > >
+> >
+> > Hi Masahiro,
+> >
+> > you had a chance to look into this?
 >
-> This is based on the kbuild branch of linux-kbuild.git, and there's a
-> MAINTAINERS update too to fix the branch name. ;)
 >
-> BR,
-> Jani.
+> I already replied.
+> This is the output of V=1.
+> There is no issue.
+>
 
+Hi Masahiro,
 
-All applied to linux-kbuild. Thanks.
+No, I disagree.
 
+You demonstrated by:
+
+$ make V=1 mrproper defconfig  prepare | grep sha1sum
+
+That you see these warnings, too.
+
+There is no statement that these warnings are OK.
+If so, why?
+
+Are those headers generated in build-time thus getting no/wrong sha1sums?
+
+Please, clarify.
+
+If you have time:
+kbuild-next with a rework/refactoring of make V=xx does show these warnings?
+
+Sorry for being pedantic - I started with Linux v6.2-rc4, again doing
+some kernel-testing.
+My goal is to have a warning-free build with LLVM-15 (ThinLTO + KCFI).
+
+Right now, I will do some more testing.
+
+Thanks.
+
+BR,
+-Sedat-
 
 >
-> Jani Nikula (6):
->   MAINTAINERS: fix kbuild repo branch
->   docs/kbuild/makefiles: fix header underline
->   docs/kbuild/makefiles: throw out the local table of contents
->   docs/kbuild/makefiles: drop section numbering, use references
->   docs/kbuild/makefiles: clean up indentation and whitespace
->   docs/kbuild/makefiles: unify quoting
+> >
+> > Thanks.
+> >
+> > Regards,
+> > -Sedat-
+> >
+> > >
+> > > $ make V=1 mrproper defconfig  prepare | grep sha1sum
+> > > + [ clean = clean ]
+> > > + cleanup
+> > > + rm -f .btf.*
+> > > + rm -f System.map
+> > > + rm -f vmlinux
+> > > + rm -f vmlinux.map
+> > > + exit 0
+> > >   if ! command -v sha1sum >/dev/null; then echo "warning: cannot check
+> > > the header due to sha1sum missing"; exit 0; fi; if [ "$(sed -n '$s://
+> > > ::p' include/linux/atomic/atomic-arch-fallback.h)" != "$(sed '$d'
+> > > include/linux/atomic/atomic-arch-fallback.h | sha1sum | sed 's/
+> > > .*//')" ]; then echo "error:
+> > > include/linux/atomic/atomic-arch-fallback.h has been modified." >&2;
+> > > exit 1; fi; touch .checked-atomic-arch-fallback.h
+> > >   if ! command -v sha1sum >/dev/null; then echo "warning: cannot check
+> > > the header due to sha1sum missing"; exit 0; fi; if [ "$(sed -n '$s://
+> > > ::p' include/linux/atomic/atomic-instrumented.h)" != "$(sed '$d'
+> > > include/linux/atomic/atomic-instrumented.h | sha1sum | sed 's/ .*//')"
+> > > ]; then echo "error: include/linux/atomic/atomic-instrumented.h has
+> > > been modified." >&2; exit 1; fi; touch .checked-atomic-instrumented.h
+> > >   if ! command -v sha1sum >/dev/null; then echo "warning: cannot check
+> > > the header due to sha1sum missing"; exit 0; fi; if [ "$(sed -n '$s://
+> > > ::p' include/linux/atomic/atomic-long.h)" != "$(sed '$d'
+> > > include/linux/atomic/atomic-long.h | sha1sum | sed 's/ .*//')" ]; then
+> > > echo "error: include/linux/atomic/atomic-long.h has been modified."
+> > > >&2; exit 1; fi; touch .checked-atomic-long.h
+> > >
+> > >
+> > >
+> > >
+> > >
+> > >
+> > > >
+> > > > Thanks.
+> > > >
+> > > > Best regards,
+> > > > -Sedat-
+> > >
+> > >
+> > >
+> > >
+> > > --
+> > > Best Regards
+> > > Masahiro Yamada
 >
->  Documentation/kbuild/makefiles.rst | 2148 ++++++++++++++--------------
->  MAINTAINERS                        |    2 +-
->  2 files changed, 1060 insertions(+), 1090 deletions(-)
+>
 >
 > --
-> 2.34.1
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+> Best Regards
+> Masahiro Yamada
