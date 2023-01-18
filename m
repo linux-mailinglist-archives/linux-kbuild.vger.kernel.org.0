@@ -2,133 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2505267165E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Jan 2023 09:35:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E3E1967167E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Jan 2023 09:48:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229717AbjARIfx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Jan 2023 03:35:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49684 "EHLO
+        id S229686AbjARIsL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Jan 2023 03:48:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230017AbjARIfQ (ORCPT
+        with ESMTP id S229877AbjARIri (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Jan 2023 03:35:16 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38AA25C0F8;
-        Tue, 17 Jan 2023 23:55:41 -0800 (PST)
-Received: from leknes.fjasle.eu ([46.142.49.8]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MZCOl-1pDQZ60UCH-00V6J2; Wed, 18 Jan 2023 08:55:13 +0100
-Received: from localhost.fjasle.eu (bergen.fjasle.eu [IPv6:fdda:8718:be81:0:219:b8ff:fe08:dd7c])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (Client did not present a certificate)
-        by leknes.fjasle.eu (Postfix) with ESMTPS id 04C833C087;
-        Wed, 18 Jan 2023 08:55:12 +0100 (CET)
-Authentication-Results: leknes.fjasle.eu; dkim=none; dkim-atps=neutral
-Received: by localhost.fjasle.eu (Postfix, from userid 1000)
-        id 5B3371C7C; Wed, 18 Jan 2023 08:55:11 +0100 (CET)
-Date:   Wed, 18 Jan 2023 08:55:11 +0100
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] kheaders: use standard naming for the temporary
- directory
-Message-ID: <Y8el34qPsCq49bKd@bergen.fjasle.eu>
-References: <20230117-kernel-kheaders-gitignore-v3-0-e686b93b0732@weissschuh.net>
- <20230117-kernel-kheaders-gitignore-v3-2-e686b93b0732@weissschuh.net>
+        Wed, 18 Jan 2023 03:47:38 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5326D93722;
+        Wed, 18 Jan 2023 00:01:17 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id DF79EB81B89;
+        Wed, 18 Jan 2023 08:00:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92CACC433EF;
+        Wed, 18 Jan 2023 08:00:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674028831;
+        bh=ufQqDQretGXtNxqadTF2D5r1H7mo3exV2T85ESGLwEk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=J/uoNlyocuw/7Am960Rt18PsSiThqGyxsvpIw35gk/z3NjuVrmLokNkSKdDuJCv/+
+         K7JiVZx9lnMLLd3S8cr/d75brBMsA/qEPKZmoKfvOdo4+jozjocsF/U53YX/4XJ37h
+         M+hFR9vANvEf4DdAJrulSqtMu2YoIkpL+xr3JHYMTxL8JImGvuKOlqVssFp02qPLWS
+         RCc5NjZzYq69ebRA17mrmPZh65Ukc91A7Bqy8PM9zjnjEtxVNJym/s7lRjQU3ZAw8H
+         MII2dz6iNG5N9ssQBycTPccukTaAM/u8jtE94aiCaR3FS33U1tvZJ0EYntNd/FZSyk
+         7AZulhotmypNw==
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-15bb8ec196aso22900176fac.3;
+        Wed, 18 Jan 2023 00:00:31 -0800 (PST)
+X-Gm-Message-State: AFqh2krGZ8FNCPO7Jq8oOjH3mNenJcA7TsvM7SmPWB9hbGBC4unT4W2B
+        vAzXLToDkyeH5Ws09kxdP3nZg2WqRs5AzQsAEUU=
+X-Google-Smtp-Source: AMrXdXtkmLEk075uBgGVC5FyELhD/qqb9Tq9gvEiLrmKoUeE8PoVprvmqZ5vDQbvaxfSnr4AmOLKfoDjBvEBZGkDjo8=
+X-Received: by 2002:a05:6870:c20b:b0:15f:1e44:71fd with SMTP id
+ z11-20020a056870c20b00b0015f1e4471fdmr401447oae.194.1674028830827; Wed, 18
+ Jan 2023 00:00:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="67NBECsffgd7Rpuu"
-Content-Disposition: inline
-In-Reply-To: <20230117-kernel-kheaders-gitignore-v3-2-e686b93b0732@weissschuh.net>
-Jabber-ID: nicolas@fjasle.eu
-X-Operating-System: Debian GNU/Linux bookworm/sid
-X-Provags-ID: V03:K1:aMxYp1DxzfTUZdEWrLrhpKKxEN5TlPiy2IK7TGfoY3rG6U+/aru
- sHurwZ7TnTdVViiHxd0SdfkO431HgyCRxd6kbBuApnIAeVOsHFr3+QRf7i0tDktx29vyBMa
- 7rGAj+rRTLLp28v05PFBgwIZ4Yxw3J+MtW0minHR7KJv3c7/M/rzkZ7AY8U+QO6LOdxfEUq
- TdvgsB4zYHHKLj9bciZiw==
-UI-OutboundReport: notjunk:1;M01:P0:HfV3AwTnIt8=;DfPvW6GbR+flBSgt7JwNH+a0Fmo
- etZMKQAKKD02ePfDB4ZcS+o4hr7ojoPsRB+zospZuX5eiMM3zBnqM5uo+CJVQ4UGkG3eq2ugP
- fHmqK93EgtWoMUyNFr9DmWFtjTD/uR0vMDA4FgwdPDr5Xmmg1kzfc8S6HL7FJS6LhekRhy10f
- YYhjkr2LcSW3C3g3+hSocHPjiimGysLf4FwQbV2I3CCXdOi+nXnUqFj/y1uBz+qrrQTk2ae8O
- jA+UYeKq4qxYQOAIHm9crWEMefjpxFC6A71ZC8cJInmtCCuohHt4d1R0N6t+hU/e3Z+vTw24D
- wQ+ewTzhPCtif95VbP5/nnu6LvbpoBHjWrCOYkLCf240sCNRwDA4ikc19QXTxuSgpOdMTLrZB
- JwVTYzFx+EiAvbwvA0DPWVEd5L7p2w74t2Y/y79Xul0IhAkqK/nH6Qm7yv8f3sgK1h6EwzOiA
- eJbPB36n2GIIFcNgfaZm53FDS1aqHRtHJCTCldO4Hd9IPp/C8BrkrYK5ToSRLsJ/Vl8GQPAIu
- W6//afLMiI9JlEHrJ8sXJRunaG5UZZuwOBsqW9NjJPCzUDSve9GlEIJtb0iGZVDvE/bB2vN8F
- 8+FRcKfYW5kZ3t7DG7xmFNt9wfh32Asyky02ti4hLCIjHL6VSUTK0fkJCHjWTvXdo8sg6Ama2
- SjhPOdwEM4Q+BvchRIYRX5IX0CbKwREpUlHWUJkEjw==
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230117095946.2042832-1-jani.nikula@intel.com>
+In-Reply-To: <20230117095946.2042832-1-jani.nikula@intel.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 18 Jan 2023 16:59:54 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQoLuyO6GJBhSTQcLPRFFj4fdVmR8POqzi_cUXQkr3bzA@mail.gmail.com>
+Message-ID: <CAK7LNAQoLuyO6GJBhSTQcLPRFFj4fdVmR8POqzi_cUXQkr3bzA@mail.gmail.com>
+Subject: Re: [PATCH 0/6] docs: kbuild makefile documentation cleanups
+To:     Jani Nikula <jani.nikula@intel.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Tue, Jan 17, 2023 at 7:00 PM Jani Nikula <jani.nikula@intel.com> wrote:
+>
+> I usually shy away from making rst updates, but the makefiles.rst file
+> always bugs me when I look at it, so here goes. Even I usually look at
+> the rst file in the editor instead of html in the browser, but the
+> editor knows about rst...
+>
+> This is based on the kbuild branch of linux-kbuild.git, and there's a
+> MAINTAINERS update too to fix the branch name. ;)
+>
+> BR,
+> Jani.
 
---67NBECsffgd7Rpuu
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed 18 Jan 2023 05:05:35 GMT, Thomas Wei=DFschuh wrote:
-> If the kheaders archive generation is interrupted then this directory
-> may be left on disk and not ignored by git.
-> By using the standard naming schema for temporary files and directories
-> the default .gitignore and "make clean" rules will apply.
->=20
-> Suggested-by: Nicolas Schier <nicolas@fjasle.eu>
-> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
-> Signed-off-by: Thomas Wei=DFschuh <linux@weissschuh.net>
-> ---
->  kernel/gen_kheaders.sh | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/kernel/gen_kheaders.sh b/kernel/gen_kheaders.sh
-> index 473036b43c83..b477b763f262 100755
-> --- a/kernel/gen_kheaders.sh
-> +++ b/kernel/gen_kheaders.sh
-> @@ -7,7 +7,7 @@ set -e
->  sfile=3D"$(readlink -f "$0")"
->  outdir=3D"$(pwd)"
->  tarfile=3D$1
-> -cpio_dir=3D$outdir/$tarfile.tmp
-> +cpio_dir=3D$outdir/${tarfile%/*}/.tmp_cpio_dir
-> =20
->  dir_list=3D"
->  include/
->=20
-> --=20
-> 2.39.1
+All applied to linux-kbuild. Thanks.
 
-Thanks!
 
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
-Tested-by: Nicolas Schier <nicolas@fjasle.eu>
+>
+> Jani Nikula (6):
+>   MAINTAINERS: fix kbuild repo branch
+>   docs/kbuild/makefiles: fix header underline
+>   docs/kbuild/makefiles: throw out the local table of contents
+>   docs/kbuild/makefiles: drop section numbering, use references
+>   docs/kbuild/makefiles: clean up indentation and whitespace
+>   docs/kbuild/makefiles: unify quoting
+>
+>  Documentation/kbuild/makefiles.rst | 2148 ++++++++++++++--------------
+>  MAINTAINERS                        |    2 +-
+>  2 files changed, 1060 insertions(+), 1090 deletions(-)
+>
+> --
+> 2.34.1
+>
 
---67NBECsffgd7Rpuu
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmPHpd4ACgkQB1IKcBYm
-Emma3xAAjFSXPAeJG5tdbFmUVd1WnUhzMDacYopa9a8QSKDiVw4FFG0dYegX6YEl
-PBotDzyEBwapXpkJ6kyI68bMrZoG8fB3xRjnyXQZ/jLq45/Wsz0I8YKVKKJlD+LI
-EJxeCVCfAp4m97SsRz+zwfJWFucEuNTz3hz86Sj/CHRQpAByeH1o+pRcQ/Yv3bzd
-7rnx+Rb61P7B06oP67OWocPYc92iehHtNNWiPagsP4yzzw+03r7Jue4RCicRSK6p
-rknBWotBsCruFiHiO3kDhLOPZhHSZM/5uWiMDRMM+VK+x+lXzA8Y+0apGsRSJ+8t
-enR0PpixzTy4hE4/zSDwz99k6ticXfsLIy6kw4dcA4xZ46i7FZfKMVeiIICDc1li
-pYxhmYrXot+X3Ja4yqrA+YkexWTgQHQtHTt4i6xASscCUJB7pb0TF7M/XsJRtpje
-usKgEqnIpf/5+Cwm5d9sgheWbgA8Mco30sC4sPQGGvpTMheegnTaX5im/77VphXO
-gtQr1FYYhC1q67VIkvzj+/86J9jnn4An/MXmnOZ6YVuKieaVkaDC9aubVBYDgz80
-M5h9nR4xQ83BU/ii8hj981BxQSEYnrpo4aqB99q69yIG2Kfzo2sebf6FkqwT2gFo
-OMNW1pSZX0qmqEgDVwfzYxn3husB5trAvv4QFE2Qam4FFjOK7K0=
-=uoCd
------END PGP SIGNATURE-----
-
---67NBECsffgd7Rpuu--
+-- 
+Best Regards
+Masahiro Yamada
