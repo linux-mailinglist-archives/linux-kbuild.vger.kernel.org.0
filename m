@@ -2,91 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A726C673312
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jan 2023 08:57:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0ACE36733F5
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jan 2023 09:44:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229750AbjASH5b (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 19 Jan 2023 02:57:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60538 "EHLO
+        id S229987AbjASIok (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 19 Jan 2023 03:44:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229683AbjASH5T (ORCPT
+        with ESMTP id S229910AbjASIob (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 19 Jan 2023 02:57:19 -0500
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05D8C46BF;
-        Wed, 18 Jan 2023 23:57:18 -0800 (PST)
-Received: by mail-lf1-x12a.google.com with SMTP id br9so2055603lfb.4;
-        Wed, 18 Jan 2023 23:57:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=8TgKWEjbZbhQRuOfWl79+7R0LGUimYBR1yeNE3XKpH0=;
-        b=O5OOcGHT8mbVgqz+xU8R3u/0Dej6PlOqg70mCK2wGAreZDuLODizWG9JUSVbLzLBdD
-         bOe5UluncIcrAXMjUaninWEDL9nTVCF9DC/WFFSZ9SIY9h0A6Y9AXDxdWnYGmFuPZYUa
-         MMeI5ecP+nmOp1ndKjxSuO+tTLkLqs7GKR696ORhKSN4cvssXHlsh1VuuVvXjJusjQDd
-         FqvNonW4uNW9K71T6rN6hQf8rSY3w9ybFmAu0dQeA0Pp7ulyLGEsOJ4KRoMnpjf2V091
-         /IZ2ZeVxELMI276y7LE/C7abpkjAEHTVhAjD1mgd6uxhl9hoxoXbCGx5iMLrUAu2sEeU
-         C0wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8TgKWEjbZbhQRuOfWl79+7R0LGUimYBR1yeNE3XKpH0=;
-        b=Bp2xVYF7ylzGpdxaKvg7QYjCJwgophUgqolNwzPmaWEyhBcOnRjbF+HdMzSAzH43We
-         8wpp574RhgXDkr9VGYj8GivSlM+CMo0IVpEcWSo+fsg5AyKzhHCFVD1Q5aheMnxpyOj0
-         6iqX5rSzO5kX0GBOopZLGlTxNL7omThyM23SPVLfy5YuEuxMwuGe0G8l7pfiY6BBLEu0
-         +UHuR4AJrRH1mJaEfPSB7TKFu/W9QrXoOf7KgI1/ZCfieXQfwIE1eKRCE/eRfh0gwh6T
-         JzB6e13q1vTEOnY0weaBc5tmR3Xjc4g6IgeiIuDo4NCpjVwFK8ndTuspeLNQ9ZdlxqjQ
-         AACw==
-X-Gm-Message-State: AFqh2krVne09Q4IvunA1bMid/nvtP3mT9kxaFNrJAJKkTDxWYE2z2aNu
-        /3/Il5WISRhHkrQyFDQzgXV/lxk2MuLF5BF2ZwdrRM8HHilpJw==
-X-Google-Smtp-Source: AMrXdXvfyxm+Khz7t9NWJHmc8O3DRyVENAto+8LT2ZweE4+J3Euiwtliwzv+23vzh82ABNkLwm9BgiIcFUumNfvGZMQ=
-X-Received: by 2002:a05:6512:159:b0:4b5:2958:bd06 with SMTP id
- m25-20020a056512015900b004b52958bd06mr577515lfo.26.1674115036290; Wed, 18 Jan
- 2023 23:57:16 -0800 (PST)
+        Thu, 19 Jan 2023 03:44:31 -0500
+X-Greylist: delayed 501 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 19 Jan 2023 00:44:28 PST
+Received: from mail.sahamaitso.com (mail.sahamaitso.com [5.249.155.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E23766FB8
+        for <linux-kbuild@vger.kernel.org>; Thu, 19 Jan 2023 00:44:28 -0800 (PST)
+Received: by mail.sahamaitso.com (Postfix, from userid 1001)
+        id AA4E592B0D; Thu, 19 Jan 2023 08:35:50 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sahamaitso.com;
+        s=mail; t=1674117363;
+        bh=B1DbXTt+XKsx2IQJLft7+TWWQqMUCzYIzGKlb7KyBXA=;
+        h=Date:From:To:Subject:From;
+        b=dNrPMSkRuwAeHX1Nukv6NGpmg8hxNu/j2sTFeSEGGsCig+NPNpJaFJnb0cEqoxsmD
+         HqaxzZZuyaMs4qaKmm9tv7xcfTqgFDb1V0DYqER/WEkzSk2HMgYm+oPiGXD6UEhZ5k
+         UbWzqtOczlud64SgBIpupHRmapvuVlFROC9ApLqBSXqATKS7b1oZM45TCet8N83yyR
+         EUT11Rmdoqo8CUn63NrEgHDcgAJ5g1NzdzR2od2NCau6j4Ts16QAEkjtorAb/5Ddta
+         hGaCHWEeljP8BLld9CFdIZkdBK54Hn9TDxev8fvZMguhebkj+eX/O04Pqbmhe788mb
+         Oei0pgORIWXsg==
+Received: by mail.sahamaitso.com for <linux-kbuild@vger.kernel.org>; Thu, 19 Jan 2023 08:35:27 GMT
+Message-ID: <20230119074500-0.1.36.1a62l.0.t28h22bqda@sahamaitso.com>
+Date:   Thu, 19 Jan 2023 08:35:27 GMT
+From:   "Andrzej Krupa" <andrzej.krupa@sahamaitso.com>
+To:     <linux-kbuild@vger.kernel.org>
+Subject: Zapytanie ofertowe 
+X-Mailer: mail.sahamaitso.com
 MIME-Version: 1.0
-References: <20230119071215.23042-1-masahiroy@kernel.org>
-In-Reply-To: <20230119071215.23042-1-masahiroy@kernel.org>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Thu, 19 Jan 2023 08:56:38 +0100
-Message-ID: <CA+icZUUKHi5h_QsoSfXLLW7cygsCub7EvtPdoWoG6WXAmoKLeQ@mail.gmail.com>
-Subject: Re: [PATCH] scripts: remove bin2c
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jan 19, 2023 at 8:16 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> Commit 80f8be7af03f ("tomoyo: Omit use of bin2c") removed the last
-> use of bin2c.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Dzie=C5=84 dobry,
 
-With yesterday's build including latest tomoyo changes in Linus Git I see:
+Pozwoli=C5=82em sobie na kontakt, poniewa=C5=BC jestem zainteresowany wer=
+yfikacj=C4=85 mo=C5=BCliwo=C5=9Bci nawi=C4=85zania wsp=C3=B3=C5=82pracy.
 
-$ scripts/diffconfig /boot/config-6.2.0-rc4-1-amd64-clang15-kcfi
-/boot/config-6.2.0-rc4-2-amd64-clang15-kcfi
--BUILD_BIN2C y
-BUILD_SALT "6.2.0-rc4-1-amd64-clang15-kcfi" -> "6.2.0-rc4-2-amd64-clang15-kcfi"
+Wspieramy firmy w pozyskiwaniu nowych klient=C3=B3w biznesowych.
 
-So, yes bin2c can go.
+Czy mo=C5=BCemy porozmawia=C4=87 w celu przedstawienia szczeg=C3=B3=C5=82=
+owych informacji?
 
-Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
 
--Sedat-
+Pozdrawiam
+Andrzej Krupa
