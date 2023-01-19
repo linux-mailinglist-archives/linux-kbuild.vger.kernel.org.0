@@ -2,213 +2,176 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E78E672273
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Jan 2023 17:06:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56F6667322F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jan 2023 08:13:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229861AbjARQGC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Jan 2023 11:06:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35380 "EHLO
+        id S229379AbjASHNg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 19 Jan 2023 02:13:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230223AbjARQFq (ORCPT
+        with ESMTP id S229481AbjASHNc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Jan 2023 11:05:46 -0500
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3003059245;
-        Wed, 18 Jan 2023 08:02:34 -0800 (PST)
-Received: by mail-pl1-x632.google.com with SMTP id 20so10011157plo.3;
-        Wed, 18 Jan 2023 08:02:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OR1pa/GbW4DJUJPKFZgeVx5ahTeFijGOvToDk9lr28w=;
-        b=q1epYfurhNhtEgAMdJf55yrQkz0Nl15t6IJLWLIBlqJTCrB1GTOk4FtmttyLYtNt0t
-         621pbRTmTqMqsHd12ggnaCqBuylb1gRAU+0IpmInFoT8Z7FGmP4xcbptMlB2becpVeec
-         gpURz+9wG+b7wFCXZe2SuNHWVbVyg99PDjJ1Qwbiw7LgU+Lw2zTBk9IaHaY65o4xv+HL
-         emnXqVg92EayZ/sYTLW1lPu+V+eKerxgCta8TVkREJxqqNOAJMPgiRB0/eNRwnFRxcIx
-         fC3/tsdFOVV0Ox4v6ZwMdJZGrc+CA19bUeBXVlgmgt0uuV9J6tLhnIjiYRpgWOSCoOmI
-         OehA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OR1pa/GbW4DJUJPKFZgeVx5ahTeFijGOvToDk9lr28w=;
-        b=4x8m4doH57+mJVJfAqzbgRBzDF27wXAv26ZfLgkIl7Dt7fa/Nd3T195Rn2i+dX4Irn
-         t9XyI5aCglE+8lAKyfC9rD2+9ahIz7keO4hNbQrUaYLkg2TqBu1QaiA/ie2IN5RakvuN
-         Q732uxW+13W1nkMiffCpDpYZreptDSRnLqwZzktBcOsLcSz7qcqF+rhXw6DB+5QTynpf
-         w6Z+rC6O2F442qnZL42QunM4lpEoUf2PSjb9YwqPq/HXNrqefQWI68UgtlnIUZ15IDqi
-         sU2HKTM92JwVOcT3dIQIfgAD2B2pCIcjQT1NlJR7sIEvLrzWHCuHOOqx4/OgAjAzajQ+
-         BDtg==
-X-Gm-Message-State: AFqh2krY8cQGfrc2Ry5PVmICaYNHAxSZCDmx+a5261Wpu5ZLU0BmqSNf
-        5KW1SzttIZoTIHq0yVgPdbg=
-X-Google-Smtp-Source: AMrXdXvVwV+ETpe8nxu6ihGd2qLsTWHaPQ9M8HtL5NtCtLaePq8ARzYyy0dTFLUOS0Ku/PQfh2G1NQ==
-X-Received: by 2002:a17:902:da90:b0:189:469c:dc0 with SMTP id j16-20020a170902da9000b00189469c0dc0mr10872841plx.7.1674057750698;
-        Wed, 18 Jan 2023 08:02:30 -0800 (PST)
-Received: from localhost.localdomain ([218.186.180.226])
-        by smtp.gmail.com with ESMTPSA id m7-20020a170902db0700b00192b0a07891sm23364327plx.101.2023.01.18.08.02.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jan 2023 08:02:30 -0800 (PST)
-From:   Vinay Varma <varmavinaym@gmail.com>
-Cc:     Vinay Varma <varmavinaym@gmail.com>,
+        Thu, 19 Jan 2023 02:13:32 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 395A553E75;
+        Wed, 18 Jan 2023 23:13:11 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D05126194E;
+        Thu, 19 Jan 2023 07:13:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FDC5C433D2;
+        Thu, 19 Jan 2023 07:13:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674112390;
+        bh=FF1TMn05drZsltGtJDjRzZ3VOTqO4eB9S3f2YG18LKY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=M1lfl9S3dzEiHsrL10KJY3UL9Xsbhtzt9gpYrTyvm9W8NB1ERPTyBEbc5FKX8w/UA
+         JhRaujlVf5yAurmW2kPLLBBiG1ERW83C+alO4VFP9z6EoOG2yQd02A70nTDmGW1QZq
+         yqDGyIZo2cRvFPPFsht3D+eW3B6IOcjipKmq9Eusj55aM84/tCuX0EmUg+BnzoT5/U
+         2H3FUnGxPWrZsZC9XcSv3wxnPXH0P9JOrUY4VUSQjw0qrguvPNMLS6/aGJNmzBZjWk
+         rLZ2A5qPz5GIJmwSW0WPgSslqZDQTTPtdJeX1uru51xlwoNMaQuIde00BDEQ3RCVaQ
+         Jj0+azRenar5A==
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        rust-for-linux@vger.kernel.org
-Subject: [PATCH] scripts: `make rust-analyzer` for out-of-tree modules
-Date:   Thu, 19 Jan 2023 00:02:20 +0800
-Message-Id: <20230118160220.776302-1-varmavinaym@gmail.com>
-X-Mailer: git-send-email 2.39.0
+        Nicolas Schier <nicolas@fjasle.eu>, linux-doc@vger.kernel.org
+Subject: [PATCH] scripts: remove bin2c
+Date:   Thu, 19 Jan 2023 16:12:15 +0900
+Message-Id: <20230119071215.23042-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Adds support for out-of-tree rust modules to use the `rust-analyzer`
-make target to generate the rust-project.json file.
+Commit 80f8be7af03f ("tomoyo: Omit use of bin2c") removed the last
+use of bin2c.
 
-The change involves adding an optional parameter `external_src` to the
-`generate_rust_analyzer.py` which expects the path to the out-of-tree
-module's source directory. When this parameter is passed, I have chosen
-not to add the non-core modules (samples and drivers) into the result
-since these are not expected to be used in third party modules. Related
-changes are also made to the Makefile and rust/Makefile allowing the
-`rust-analyzer` target to be used for out-of-tree modules as well.
-
-Signed-off-by: Vinay Varma <varmavinaym@gmail.com>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
- Makefile                          | 12 +++++++-----
- rust/Makefile                     |  6 ++++--
- scripts/generate_rust_analyzer.py | 14 +++++++++-----
- 3 files changed, 20 insertions(+), 12 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index f41ec8c8426b..a055a316d2a4 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1831,11 +1831,6 @@ rustfmt:
- rustfmtcheck: rustfmt_flags = --check
- rustfmtcheck: rustfmt
+ Documentation/dontdiff     |  1 -
+ init/Kconfig               |  4 ----
+ scripts/.gitignore         |  1 -
+ scripts/Makefile           |  1 -
+ scripts/bin2c.c            | 36 ------------------------------------
+ scripts/remove-stale-files |  2 ++
+ 6 files changed, 2 insertions(+), 43 deletions(-)
+ delete mode 100644 scripts/bin2c.c
+
+diff --git a/Documentation/dontdiff b/Documentation/dontdiff
+index 352ff53a2306..3c399f132e2d 100644
+--- a/Documentation/dontdiff
++++ b/Documentation/dontdiff
+@@ -91,7 +91,6 @@ asm_offsets.h
+ autoconf.h*
+ av_permissions.h
+ bbootsect
+-bin2c
+ binkernel.spec
+ bootsect
+ bounds.h
+diff --git a/init/Kconfig b/init/Kconfig
+index 7ceabd320425..f66ba19f9482 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -682,10 +682,6 @@ config CPU_ISOLATION
  
--# IDE support targets
--PHONY += rust-analyzer
--rust-analyzer:
--	$(Q)$(MAKE) $(build)=rust $@
+ source "kernel/rcu/Kconfig"
+ 
+-config BUILD_BIN2C
+-	bool
+-	default n
 -
- # Misc
- # ---------------------------------------------------------------------------
+ config IKCONFIG
+ 	tristate "Kernel .config support"
+ 	help
+diff --git a/scripts/.gitignore b/scripts/.gitignore
+index 11bf3c075fb6..6e9ce6720a05 100644
+--- a/scripts/.gitignore
++++ b/scripts/.gitignore
+@@ -1,6 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ /asn1_compiler
+-/bin2c
+ /generate_rust_target
+ /insert-sys-cert
+ /kallsyms
+diff --git a/scripts/Makefile b/scripts/Makefile
+index 0e0ae3c06ed7..32b6ba722728 100644
+--- a/scripts/Makefile
++++ b/scripts/Makefile
+@@ -3,7 +3,6 @@
+ # scripts contains sources for various helper programs used throughout
+ # the kernel for the build process.
  
-@@ -1888,6 +1883,7 @@ help:
- 	@echo  '  modules         - default target, build the module(s)'
- 	@echo  '  modules_install - install the module'
- 	@echo  '  clean           - remove generated files in module directory only'
-+	@echo  '  rust-analyzer	  - generate rust-project.json rust-analyzer support file'
- 	@echo  ''
+-hostprogs-always-$(CONFIG_BUILD_BIN2C)			+= bin2c
+ hostprogs-always-$(CONFIG_KALLSYMS)			+= kallsyms
+ hostprogs-always-$(BUILD_C_RECORDMCOUNT)		+= recordmcount
+ hostprogs-always-$(CONFIG_BUILDTIME_TABLE_SORT)		+= sorttable
+diff --git a/scripts/bin2c.c b/scripts/bin2c.c
+deleted file mode 100644
+index c3d7eef3ad06..000000000000
+--- a/scripts/bin2c.c
++++ /dev/null
+@@ -1,36 +0,0 @@
+-/*
+- * Unloved program to convert a binary on stdin to a C include on stdout
+- *
+- * Jan 1999 Matt Mackall <mpm@selenic.com>
+- *
+- * This software may be used and distributed according to the terms
+- * of the GNU General Public License, incorporated herein by reference.
+- */
+-
+-#include <stdio.h>
+-
+-int main(int argc, char *argv[])
+-{
+-	int ch, total = 0;
+-
+-	if (argc > 1)
+-		printf("const char %s[] %s=\n",
+-			argv[1], argc > 2 ? argv[2] : "");
+-
+-	do {
+-		printf("\t\"");
+-		while ((ch = getchar()) != EOF) {
+-			total++;
+-			printf("\\x%02x", ch);
+-			if (total % 16 == 0)
+-				break;
+-		}
+-		printf("\"\n");
+-	} while (ch != EOF);
+-
+-	if (argc > 1)
+-		printf("\t;\n\n#include <linux/types.h>\n\nconst size_t %s_size = %d;\n",
+-		       argv[1], total);
+-
+-	return 0;
+-}
+diff --git a/scripts/remove-stale-files b/scripts/remove-stale-files
+index c71bf2f68360..04fcdf739638 100755
+--- a/scripts/remove-stale-files
++++ b/scripts/remove-stale-files
+@@ -29,3 +29,5 @@ rm -f scripts/extract-cert
+ rm -f scripts/kconfig/[gmnq]conf-cfg
  
- endif # KBUILD_EXTMOD
-@@ -2022,6 +2018,12 @@ quiet_cmd_tags = GEN     $@
- tags TAGS cscope gtags: FORCE
- 	$(call cmd,tags)
- 
-+# IDE support targets
-+PHONY += rust-analyzer
-+rust-analyzer:
-+	$(Q)$(MAKE) $(build)=rust $@
+ rm -f rust/target.json
 +
-+
- # Script to generate missing namespace dependencies
- # ---------------------------------------------------------------------------
- 
-diff --git a/rust/Makefile b/rust/Makefile
-index 8f598a904f38..41c1435cd8d4 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -389,8 +389,10 @@ quiet_cmd_rustc_library = $(if $(skip_clippy),RUSTC,$(RUSTC_OR_CLIPPY_QUIET)) L
- 	$(if $(rustc_objcopy),;$(OBJCOPY) $(rustc_objcopy) $@)
- 
- rust-analyzer:
--	$(Q)$(srctree)/scripts/generate_rust_analyzer.py $(srctree) $(objtree) \
--		$(RUST_LIB_SRC) > $(objtree)/rust-project.json
-+	$(Q)$(srctree)/scripts/generate_rust_analyzer.py \
-+		$(abs_srctree) $(abs_objtree) \
-+		$(RUST_LIB_SRC) $(KBUILD_EXTMOD) > \
-+		$(if $(KBUILD_EXTMOD),$(extmod_prefix),$(objtree))/rust-project.json
- 
- $(obj)/core.o: private skip_clippy = 1
- $(obj)/core.o: private skip_flags = -Dunreachable_pub
-diff --git a/scripts/generate_rust_analyzer.py b/scripts/generate_rust_analyzer.py
-index ecc7ea9a4dcf..1546b80db554 100755
---- a/scripts/generate_rust_analyzer.py
-+++ b/scripts/generate_rust_analyzer.py
-@@ -8,8 +8,9 @@ import json
- import logging
- import pathlib
- import sys
-+import os
- 
--def generate_crates(srctree, objtree, sysroot_src):
-+def generate_crates(srctree, objtree, sysroot_src, external_src):
-     # Generate the configuration list.
-     cfg = []
-     with open(objtree / "include" / "generated" / "rustc_cfg") as fd:
-@@ -65,7 +66,7 @@ def generate_crates(srctree, objtree, sysroot_src):
-         [],
-         is_proc_macro=True,
-     )
--    crates[-1]["proc_macro_dylib_path"] = "rust/libmacros.so"
-+    crates[-1]["proc_macro_dylib_path"] = f"{objtree}/rust/libmacros.so"
- 
-     append_crate(
-         "build_error",
-@@ -98,13 +99,15 @@ def generate_crates(srctree, objtree, sysroot_src):
-     # Then, the rest outside of `rust/`.
-     #
-     # We explicitly mention the top-level folders we want to cover.
--    for folder in ("samples", "drivers"):
-+    extra_src_dirs = ["samples", "drivers"] if external_src is None else [external_src]
-+
-+    for folder in extra_src_dirs:
-         for path in (srctree / folder).rglob("*.rs"):
-             logging.info("Checking %s", path)
-             name = path.name.replace(".rs", "")
- 
-             # Skip those that are not crate roots.
--            if f"{name}.o" not in open(path.parent / "Makefile").read():
-+            if os.path.exists(path.parent / "Makefile") and f"{name}.o" not in open(path.parent / "Makefile").read():
-                 continue
- 
-             logging.info("Adding %s", name)
-@@ -123,6 +126,7 @@ def main():
-     parser.add_argument("srctree", type=pathlib.Path)
-     parser.add_argument("objtree", type=pathlib.Path)
-     parser.add_argument("sysroot_src", type=pathlib.Path)
-+    parser.add_argument("exttree", type=pathlib.Path, nargs='?')
-     args = parser.parse_args()
- 
-     logging.basicConfig(
-@@ -131,7 +135,7 @@ def main():
-     )
- 
-     rust_project = {
--        "crates": generate_crates(args.srctree, args.objtree, args.sysroot_src),
-+        "crates": generate_crates(args.srctree, args.objtree, args.sysroot_src, args.exttree),
-         "sysroot_src": str(args.sysroot_src),
-     }
- 
++rm -f scripts/bin2c
 -- 
-2.39.0
+2.34.1
 
