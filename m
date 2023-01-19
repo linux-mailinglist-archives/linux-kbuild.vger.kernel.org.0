@@ -2,68 +2,80 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A0858674281
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jan 2023 20:15:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 708C36742AD
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jan 2023 20:21:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230260AbjASTPR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 19 Jan 2023 14:15:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53616 "EHLO
+        id S231445AbjASTVZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 19 Jan 2023 14:21:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231210AbjASTO3 (ORCPT
+        with ESMTP id S229771AbjASTU6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 19 Jan 2023 14:14:29 -0500
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 057BF485B6;
-        Thu, 19 Jan 2023 11:13:09 -0800 (PST)
-Received: by mail-yb1-xb34.google.com with SMTP id a9so3864049ybb.3;
-        Thu, 19 Jan 2023 11:13:08 -0800 (PST)
+        Thu, 19 Jan 2023 14:20:58 -0500
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5388F9CBB5;
+        Thu, 19 Jan 2023 11:20:08 -0800 (PST)
+Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-4fda31c3351so12357377b3.11;
+        Thu, 19 Jan 2023 11:20:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=f66M40S9HUafYr8hVajn8DVAsyr9TRcLXW/GMSQFYTg=;
-        b=TfdQOo0L5L7tRei4gTZQorDhEqkwLnIcUwjUkQ5nAUhG3adcGnD6aApx5mVazXjz8G
-         BKhASFxhlmU79yGq2yYeB7ddF5FQzvqefzN90g3fCYjYV/9sFaZ0LDQ3hJo2xA6cu2GN
-         lld1fXQg5qPS2DBEMwaxNTCpjmFZcbBeKU49OPbifSyy2uMi1ixSRTiydAInHXYJKKzE
-         wvBavFk9xhLq2N00xTLR41SV4jXSPGVygDS47MqvDluRTjxkeRN0CfD1LQeH9FKLjLpZ
-         dkLR7EexO2NPd68tPR7TjSKVS1btSYjLdr1QXKL8PGFhIoS9WrTU13eWGZ+1Yu/ekS5D
-         t3sA==
+        bh=2y96hSgZOdNiQi3iVUDGW1zmbq/2ZeqfDpIjbWl/+AM=;
+        b=ReQBSuZnjQ/Hzn9MjrayyI00pkEWhj7Djpqlg/g38iGqjIo4Sq7re3LPR5NKsWo9Nm
+         rmijSW7CCq1C2Qdp7/ky7GCkKbPD6xEDKXk305vsRjjmvhP21tX3QKgIjkm4F3ckbHnU
+         3rsLopUK6HQfuzAeTV8Gfeem6hCoLYXkKH10aIMTpV67Itec0/0QpXWGecCbZyWvBxWi
+         HMb29GK2QtB8DekCsdq6oAVcEzk4KtxgxCvfmYU+Dt+rTUuSwLkYqHnEr/te+cjWSrxM
+         NZ3B4MJ4fDhLb0uqTI/T9CcOhWI9zQWWGgQxqW0IustVc/+u90vkW/tlIPMHHewHNDmv
+         Ynbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=f66M40S9HUafYr8hVajn8DVAsyr9TRcLXW/GMSQFYTg=;
-        b=3vWHd0KoPm0MXsBIRCgfb3mkYgcUEOr625g5xgNlXEQPUUpolnvyzZQB5F6LhU9Hcy
-         iBs4Zh0G0jbw5FwTXUD/Nbm/gLwVXREV1kqP+PtSqr/ZARGc5nO9MPsvtOT0RDVAzcga
-         p1katRQkK31f86P8N+YNe340dA1TDnMM5nopJzYwI8P8YPizA+Y7EpXoNSB6XmNjJ8md
-         aEG1Ad0e0GytlAlX4VK8ewSg3bEBxkpofE6x6Ra0adLzzFUFpGk2YPta72qKCBqmCgcg
-         B9468zNb3SXo0VhB32IvoDSN8XHHZiPP/0duluKqbkUJ5iyL3iwAQ9fiYL+bNhty96CV
-         E1Og==
-X-Gm-Message-State: AFqh2krxkatH1mlK3u/CfOWLzKa7pTa8SitdRCPV1qtDcLMo0nPo0EtV
-        SBUOm1ECmQZxwaukG7PnBTEm5iLBK57auHzB9GWcm0bvlc3w/SjGZ4M=
-X-Google-Smtp-Source: AMrXdXumWEsfO8yQUnD942SmOi0Y3bznUxHvZmVpHNlFlXQoQITYE3p8CLDqSTQjynmP8x3QEbD3SlTm3TDvC5kC0xs=
-X-Received: by 2002:a5b:688:0:b0:7e1:ed59:4e43 with SMTP id
- j8-20020a5b0688000000b007e1ed594e43mr1580106ybq.323.1674155587313; Thu, 19
- Jan 2023 11:13:07 -0800 (PST)
+        bh=2y96hSgZOdNiQi3iVUDGW1zmbq/2ZeqfDpIjbWl/+AM=;
+        b=s47YwG/hj2TSxc9ceJNIXtcSGSptBOHvndYZieGB6XQmaQtL3z/iBAbCTWu1cWNkum
+         dzmceLzNiNz7kJc40IwB8wp/olu7YWJq0RvM5dPbLrsa8V82ZlKln+i6PvA5k122KlMm
+         3LR62dN8D52KwrKalMlVe66mibNGcV6PyFalaPTLT26DvPW+iLxaGK3gpG8HB4cn7qnL
+         sKDaOULv4x36GF4IYvmKHpXgpNx91IdVBowJ9uYuahtyhrYqCw+fnhGDlWfbGUSdz1NB
+         Umw51BHSkdm7RhCb1X2waM0uS3dbnU63eHq0WaC5D6zlLk5IdD34c6QFVX8Qof+y6T3U
+         KzlQ==
+X-Gm-Message-State: AFqh2kpnDO9Js3SdTficsXztiMDjDC+y7PGzoWHV4O8uHpI9K5PIciwP
+        7G/ZV0Jednc9CQukPTFuKMo9q1rMS09n0SViP1w=
+X-Google-Smtp-Source: AMrXdXuhMbeLfhMzO3dNO8FM0BS93W/XkG/FHlqBpBtG6GK7C62jMILFqgYHbTQjwIRvsrMCEslAihTwcRRHs+ouDnU=
+X-Received: by 2002:a81:5402:0:b0:3d8:8c0e:6d48 with SMTP id
+ i2-20020a815402000000b003d88c0e6d48mr1018356ywb.462.1674156007567; Thu, 19
+ Jan 2023 11:20:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20230118160220.776302-1-varmavinaym@gmail.com>
-In-Reply-To: <20230118160220.776302-1-varmavinaym@gmail.com>
+References: <20230111161155.1349375-1-gary@garyguo.net> <20230112214059.o4vq474c47edjup6@ldmartin-desk2>
+ <20230113181841.4d378a24.gary@garyguo.net> <20230117175144.GI16547@kitsune.suse.cz>
+ <20230117192059.z5v5lfc2bzxk4ad2@ldmartin-desk2.lan> <CAK7LNATsuszFR7JB5ZkqVS1W=hWr9=E7bTf+MvgJ+NXT3aZNwg@mail.gmail.com>
+In-Reply-To: <CAK7LNATsuszFR7JB5ZkqVS1W=hWr9=E7bTf+MvgJ+NXT3aZNwg@mail.gmail.com>
 From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Thu, 19 Jan 2023 20:12:56 +0100
-Message-ID: <CANiq72m66PbmDmGUoQecOzJRSFg+G+3KKGkkqS3ySNAPxCe1Ag@mail.gmail.com>
-Subject: Re: [PATCH] scripts: `make rust-analyzer` for out-of-tree modules
-To:     Vinay Varma <varmavinaym@gmail.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
+Date:   Thu, 19 Jan 2023 20:19:56 +0100
+Message-ID: <CANiq72n4MbR+AE7eHfVQZOu26FeSttQnEEMT3Jpft+CcGwk9jw@mail.gmail.com>
+Subject: Re: [PATCH] modpost: support arbitrary symbol length in modversion
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Lucas De Marchi <lucas.demarchi@intel.com>,
+        =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>,
+        Gary Guo <gary@garyguo.net>, Kees Cook <keescook@chromium.org>,
+        linux-kbuild@vger.kernel.org,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Joel Stanley <joel@jms.id.au>,
         Alex Gaynor <alex.gaynor@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
         Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        rust-for-linux@vger.kernel.org,
+        Guo Zhengkui <guozhengkui@vivo.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
         =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        rust-for-linux@vger.kernel.org
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kernel@vger.kernel.org, Julia Lawall <Julia.Lawall@inria.fr>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        linuxppc-dev@lists.ozlabs.org, linux-modules@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -75,51 +87,16 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jan 18, 2023 at 5:02 PM Vinay Varma <varmavinaym@gmail.com> wrote:
+On Wed, Jan 18, 2023 at 8:02 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Adds support for out-of-tree rust modules to use the `rust-analyzer`
-> make target to generate the rust-project.json file.
+>     - *.mod.c is kept human readable.
 
-Thanks for sending this! A few nits below...
+On the topic of `.mod.c` readability: for approaches that may be less
+readable, we could improve that by adding some extra comments or
+rearrange things in a different way (it is a generated file, after
+all!).
 
-> When this parameter is passed, I have chosen
-> not to add the non-core modules (samples and drivers) into the result
-> since these are not expected to be used in third party modules.
-
-Sounds good to me.
-
-> changes are also made to the Makefile and rust/Makefile allowing the
-> `rust-analyzer` target to be used for out-of-tree modules as well.
->
-> Signed-off-by: Vinay Varma <varmavinaym@gmail.com>
-
-A `Link: ` to the GitHub PR would be nice here:
-https://github.com/Rust-for-Linux/linux/pull/914.
-
-Possibly another one to the out-of-tree approach at
-https://github.com/Rust-for-Linux/rust-out-of-tree-module/pull/2.
-
->  import logging
->  import pathlib
->  import sys
-> +import os
-
-Please keep the `import`s sorted.
-
-> -    for folder in ("samples", "drivers"):
-> +    extra_src_dirs = ["samples", "drivers"] if external_src is None else [external_src]
-
-If you send a v2 for the above, this could be a tuple like in the
-original line, to minimize the diff.
-
-> +            if os.path.exists(path.parent / "Makefile") and f"{name}.o" not in open(path.parent / "Makefile").read():
-
-In Python one would typically go with the EAFP style instead
-(https://docs.python.org/3/glossary.html#term-EAFP), which would also
-reduce the duplication of the path computation. But it would take more
-lines... Not a big deal in any case.
-
-Thanks!
+For instance, for the original approach: https://godbolt.org/z/6oh45axnc
 
 Cheers,
 Miguel
