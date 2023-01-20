@@ -2,72 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14F65675ADD
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Jan 2023 18:14:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C447A675B0D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Jan 2023 18:19:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229686AbjATROJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 20 Jan 2023 12:14:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55604 "EHLO
+        id S230014AbjATRTW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 20 Jan 2023 12:19:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229542AbjATROI (ORCPT
+        with ESMTP id S229861AbjATRTV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 20 Jan 2023 12:14:08 -0500
+        Fri, 20 Jan 2023 12:19:21 -0500
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF8CD28D1C;
-        Fri, 20 Jan 2023 09:14:07 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81142BB9D;
+        Fri, 20 Jan 2023 09:19:19 -0800 (PST)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.west.internal (Postfix) with ESMTP id BE4733200A56;
-        Fri, 20 Jan 2023 12:14:05 -0500 (EST)
+        by mailout.west.internal (Postfix) with ESMTP id 7190C3200A5C;
+        Fri, 20 Jan 2023 12:19:17 -0500 (EST)
 Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Fri, 20 Jan 2023 12:14:07 -0500
+  by compute6.internal (MEProxy); Fri, 20 Jan 2023 12:19:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
         :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
         :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1674234845; x=1674321245; bh=uvttBhFM8u
-        1G9tqdLBJZ4jCPXN4Y8Kiz6reEs0adZb4=; b=gRblk5RxB8qqlwnNy2XXQjMxwo
-        673enU/+pEl0fTPjCoXn9jn5zMcS4MLQn00+X229J9lezO/lUyZgteBjm0SfcFnV
-        idOHfxQIQX9MC7e15h6YAVVzLqV93OnwwRJ9E8Eb4JfQwteCCDgGI7lf1MJ/9eZT
-        pc691PeLWKqlolOaDPW00Tw/Lm/yMDMczLkDtqexPONVmVwf3IY0hekpMaS9Dtqz
-        wIjSSf3frSTRjAVbrSPihZGeqKhvi7IRIKT5NkG3WOdo8MKiIX/2tjh1Iognpiqg
-        yn3PEtW8EC7xrAHl+4EiH13DByUZ8QaSZ9GfjYa1UsOywdS6eEw+BUJxyioA==
+        :subject:to:to; s=fm2; t=1674235157; x=1674321557; bh=AN63Zk9FUH
+        XtB/1LDWKyjPugYkaPfboH8yCsuuO7QPs=; b=ta4oy1s1AdxLORjET+xauHRdR5
+        NcbGi5cLHSey+FpTmv5ZC193wrgm2ovoDrIuYhzJXXZ+i5vJeQ4SoRHyB5D5KecC
+        iXNUbnN4wzRnjQD6svlrGR+wUvYwpEGj1XRFU+HFOQ12Hb6tTPfdSYMU/skLOmo8
+        w9Xr5VvQq3L5bgx2LNbZvWNgaNyJGfAtFx4+RyOlcvgLX7fLr1tDHcwtXMGOqXed
+        3/TATPBktImtX56gMo7xDgc4nU3KmumzhQd/Elz7DPmbgOYOWhAGJ9joeV4gFi/i
+        aD5MlNtMOIjQvp0yk+7265KbkmfReznpXigOGwvTGcmENPdEli46eemx7fhw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
         :feedback-id:from:from:in-reply-to:in-reply-to:message-id
         :mime-version:references:reply-to:sender:subject:subject:to:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1674234845; x=1674321245; bh=uvttBhFM8u1G9tqdLBJZ4jCPXN4Y
-        8Kiz6reEs0adZb4=; b=doPsdZWmTrGmmD+jxmidfxsAkAUSgovN3gKx1JLDM30I
-        VuilmhKbLaaVObnD3mBB2YssC+1l57SsXL4v3mxR3JakbFI7xZCXiKGeZLMPe4fk
-        rRINCqut1a4HBXokq2f/tpvktkKdKwpnCwo/xXC5JAGT5bhsYRlAGvvjtPEZYlg+
-        BOT0QDnYJdR76JDfBF2a5d/b5rKXQLfXcFXWb1GXSM5qKN1QkvkyWkOj95f4F7cu
-        HqfS4Cdi1aHM0eml7vmQC7ZETWzr60m+5O8dutD0u+lxrfqAHXYfYOe88rOLnW0f
-        V7hfc+j1pmMsLZ5QOSLietAu504Vqu9cQPyC0zPCnA==
-X-ME-Sender: <xms:28vKY94yJhen1eq7ZETQOrvpBKIp5uIGlxWqRHCm3r6LDSzF0r6RZQ>
-    <xme:28vKY644ld3dOkLbm1izB8ijNGD9K8Y3x0mZDsJ-WJSJTe3xs3Zr_ZqqN8l-q-gYI
-    jJ_yr6DEU4jpdBiwVw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudduvddguddtudcutefuodetggdotefrod
+        fm3; t=1674235157; x=1674321557; bh=AN63Zk9FUHXtB/1LDWKyjPugYkaP
+        fboH8yCsuuO7QPs=; b=l/OkIMIlYk2aLfnTY+EPhfjYf3kNra1kPmw+smJwoPT2
+        K7Uxj4cdQhaKrOlaRHvPok1/HLjAzDXAJHG46jslpUERDQ51cFxlaWPRnXSekrMO
+        g1T5kI0e6HDJ3iMgHZxQB8X/SzkjhE8Y1J3u5H3qJwgKNnDMmrim2ahfSXkDfTD4
+        BRr3gLLTRZ8GZLPqIDy/SA9UzIDv0WVuhOnWN533RUAbI/juEZzoxij8Og0thReG
+        IZp8bm5GrqAvCBVDZZYbvUtXUwo9dnI8hWotJ/u4gZ4i6ORoGrBUHexzWx7pN55+
+        xvPfmkak4Tl03QIZjujVXwPUYWHrVtntkSYy9SxNlw==
+X-ME-Sender: <xms:FM3KY4_buGub8-rqfTs4N8Yg42GbfDG0sCX2z11pHq1cgiJ7b7zrkg>
+    <xme:FM3KYwsSwqT37FU8sAzoL23BpyyI_2eVteajl26e0cyAa_AO0n0O15V59m6v2pHB-
+    2r-dNOC3XsrnJadUpQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudduvddguddtvdcutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
     necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
     enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
     rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeevhfffledtgeehfeffhfdtgedvheejtdfgkeeuvefgudffteettdekkeeu
-    feehudenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:28vKY0fOPYVpAqE2kT6wfytxOQeuhOpqz8DleBU_Co0K4i4dANCjEw>
-    <xmx:28vKY2IK_EL8xIPpn7GNJdywVPHs87pVfrdZj5jRh6L2x0BCGFAqCA>
-    <xmx:28vKYxI8QMF_vjB9xAFGjjnfg97jPdxaFCoe1wQQ9Epll2TrIbkwIg>
-    <xmx:3cvKY5-yxqvZdOWAkzUqsWg639mLgnRQBBd_n_pang38XKtkf19D7g>
+    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
+    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:FM3KY-DoW6b0kGI3nWdnykYIonxorpLHx6qV3SeAZ4G-BGAzLWBYNg>
+    <xmx:FM3KY4fTvpsB_OCYr7UVTStx_ocSeh-5--vi3xmD6KbWRLangTN-TA>
+    <xmx:FM3KY9MeAxGkge2iPLDUQrl6MCt-q0PNhETlDF5gBN7m4h4TTF97jw>
+    <xmx:Fc3KY6wq1Jled5Q_fzzY9NELrs3G2rh8APyCtOgZQEWRLqQ96wZqQA>
 Feedback-ID: i56a14606:Fastmail
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 6E70EB60086; Fri, 20 Jan 2023 12:14:03 -0500 (EST)
+        id 0A0C0B60086; Fri, 20 Jan 2023 12:19:15 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.9.0-alpha0-85-gd6d859e0cf-fm-20230116.001-gd6d859e0
 Mime-Version: 1.0
-Message-Id: <647fd07b-6b87-4d6d-9dfe-7cc7b95253b6@app.fastmail.com>
-In-Reply-To: <20230120133455.3962413-10-alexander.stein@ew.tq-group.com>
+Message-Id: <67c572e1-20ca-4ed2-9e15-047341bb338b@app.fastmail.com>
+In-Reply-To: <20230120133455.3962413-11-alexander.stein@ew.tq-group.com>
 References: <20230120133455.3962413-1-alexander.stein@ew.tq-group.com>
- <20230120133455.3962413-10-alexander.stein@ew.tq-group.com>
-Date:   Fri, 20 Jan 2023 18:13:42 +0100
+ <20230120133455.3962413-11-alexander.stein@ew.tq-group.com>
+Date:   Fri, 20 Jan 2023 18:18:54 +0100
 From:   "Arnd Bergmann" <arnd@arndb.de>
 To:     "Alexander Stein" <alexander.stein@ew.tq-group.com>,
         "Rob Herring" <robh+dt@kernel.org>,
@@ -87,7 +87,7 @@ To:     "Alexander Stein" <alexander.stein@ew.tq-group.com>,
 Cc:     "Nicolas Saenz Julienne" <nsaenzjulienne@suse.de>, soc@kernel.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linuxppc-dev@lists.ozlabs.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v2 09/10] kbuild: Add config fragment merge functionality
+Subject: Re: [PATCH v2 10/10] ARM: add multi_v7_lpae_defconfig
 Content-Type: text/plain
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
@@ -101,20 +101,47 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 On Fri, Jan 20, 2023, at 14:34, Alexander Stein wrote:
 > From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 >
-> So far this function was only used locally in powerpc, some other
-> architectures might benefit from it. Move it into
-> scripts/Makefile.defconf.
+> The only missing configuration option preventing us from using
+> multi_v7_defconfig with the Raspberry Pi 4 is ARM_LPAE. It's needed as
+> the PCIe controller found on the SoC depends on 64bit addressing, yet
+> can't be included as not all v7 boards support LPAE.
+>
+> Introduce multi_v7_lpae_defconfig, built off multi_v7_defconfig, which will
+> avoid us having to duplicate and maintain multiple similar configurations.
+>
+> Needless to say the Raspberry Pi 4 is not the only platform that can
+> benefit from this new configuration.
 >
 > Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> ---
-> Directly applied from 
-> https://lore.kernel.org/linux-arm-kernel/20200203184820.4433-2-nsaenzjulienne@suse.de/T/#m96968dd45c0aaa88e0a7387024b5ac13b002363d
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+This is ok in principle, two minor points though:
 
-I can probably best take this through the soc tree directly
-along with patch 10, while the first eight patches should
-got through the nxp maintainer tree.
+> +include $(srctree)/scripts/Makefile.defconf
+> +PHONY += multi_v7_lpae_defconfig
+> +multi_v7_lpae_defconfig:
+> +	$(call merge_into_defconfig,multi_v7_defconfig,lpae)
+> 
+>  define archhelp
+>    echo  '* zImage        - Compressed kernel image (arch/$(ARCH)/boot/zImage)'
 
-    Arnd
+The new target does not get listed in 'make help' as far as I can
+tell, can you add it there in the process?
+
+> diff --git a/arch/arm/configs/lpae.config b/arch/arm/configs/lpae.config
+> new file mode 100644
+> index 0000000000000..19bab134e014b
+> --- /dev/null
+> +++ b/arch/arm/configs/lpae.config
+> @@ -0,0 +1 @@
+> +CONFIG_ARM_LPAE=y
+
+My feeling is that we probably want CONFIG_VMSPLIT_2G=y here
+as well, given that a lot of the systems that want LPAE
+will have a lot of memory, and are limited by the amount
+of lowmem even when CONFIG_HIGHMEM is enabled.
+
+Can you make sure that this works on your machine, and
+include this option?
+
+     Arnd
