@@ -2,204 +2,125 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0EA5675899
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Jan 2023 16:32:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 28260675A1F
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Jan 2023 17:37:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230226AbjATPcd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 20 Jan 2023 10:32:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34110 "EHLO
+        id S229739AbjATQhz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 20 Jan 2023 11:37:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229997AbjATPcc (ORCPT
+        with ESMTP id S230184AbjATQhw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 20 Jan 2023 10:32:32 -0500
-Received: from mail.alicef.me (mail.alicef.me [219.94.233.166])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D7DF4C64A
-        for <linux-kbuild@vger.kernel.org>; Fri, 20 Jan 2023 07:32:29 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 80D2E20AB2;
-        Sat, 21 Jan 2023 00:21:49 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alicef.me; s=dkim;
-        t=1674228117; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-         in-reply-to:references; bh=SBKdiE9KzQY7Zgu/1krTkGqIJujFYeJk7E5BbagF4Lg=;
-        b=bfHAmH48aDIy4Z27cbKaQCinBf8xieHA1SfcTlcovKQkwjqCNw6G6cXxSRx0AhsbGHHnOL
-        O5/UStjifiu2qCLFpYSdadY2lvUMdqqP3q3DjBBDDkLysYBzdrgTK/qUZrPCfo5ePWofwF
-        OPLurR1lFxITIasTXuIOrHghzDcenjkTaOkslELCTeGVPyWS99uomjSOd9WcTeyVppQC34
-        crFG/zPueciRdrapuDVNPi3CalLXR/ktYIuQNh1cV2zGXumnnLk8Rep3soCCR4wqJLbk4U
-        YxXPbGe98B6S5DRMmjNu9j72Qx9bZTOppYwENeiJZuF6YF4cRQP9+W+0Vxk4jw==
-Date:   Sat, 21 Jan 2023 00:21:42 +0900
-From:   Alice Ferrazzi <alicef@alicef.me>
-To:     Vinay Varma <varmavinaym@gmail.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH] scripts: `make rust-analyzer` for out-of-tree modules
-Message-ID: <20230120152142.fywetc6a46sykkbs@alicef-pc>
-References: <20230118160220.776302-1-varmavinaym@gmail.com>
+        Fri, 20 Jan 2023 11:37:52 -0500
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFBEFA5013
+        for <linux-kbuild@vger.kernel.org>; Fri, 20 Jan 2023 08:37:20 -0800 (PST)
+Received: by mail-lf1-x129.google.com with SMTP id a11so9013137lfg.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 20 Jan 2023 08:37:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/fWtacqrJMeePmjQZHP39whGP5vkqWAGAcCPad6+vwU=;
+        b=PbiSbHcoJy0BSsIYNI5VHXoUWPDg7n/WvdPbuTPSpBjsxrN6HqPo9CwjW9kdMB1cDw
+         qt1JQfaDbPvkDKeZLfJ/bcCTQ//ZJRuEn9I9Z9JXV6xsMUEgftSYpxxjJSRCzipum08i
+         jIiZdnTDOEjTCXSUxnKcmuSc1fyNXED21MuhfQf9CkITdEizigxKw3PNkaeQZ5i70lgg
+         A+E1vqXOeVQpYw9qO+kjF31+vDHmoObKfC2VUW5QV5Yo8uQEcCNmn2p5XtnxccIElJih
+         TbF7fl9v9nZgfBF3ucVYGo5C3Vh0il7yxD6jp4gXmNrlllZpXi9+DbPkx8vkjyIKmgyK
+         X/2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/fWtacqrJMeePmjQZHP39whGP5vkqWAGAcCPad6+vwU=;
+        b=QMLnhX5W06KYlES1X05cqKpDiysMsxinc6Cn6oOU4XoJzJjnr6YGwctVHhkv99u14Z
+         SylhWH5ZbC50Sj5A5fRFFuOh2d1wphsDDVqnsMEDxyMp9AVBXa55KOvT4/nN9fYlbQDt
+         Vdl8q+tDkO0qFphe0NO5rXNHmgpg5uSpZ+LhlZYsGJUsZxH/vTH/tzfh592Vhtchb6LK
+         /+/85QvF+NdZI5vZtrAqYnFqctsLS/3dj4uRbU0lVa5Vc7S19QSIq15StjYYc8I/BEVf
+         0mK7QWWUykIjbcwLDxQXKnF2YVgm7GtCJymFK727YWuXY4gK/MC6BpdA/GSQoSDV1fxV
+         ar4g==
+X-Gm-Message-State: AFqh2kpR9BRPFcx+S5MQQnyu7ZmvcfkCFqo2IWyVf7Do9nvdhtFRngD3
+        mvyUzbozAU0XzlseYXQ8QUXE7OIzsXcT0lY2PGydeQYIN1RHlQ==
+X-Google-Smtp-Source: AMrXdXtPxoysaFeOlUw1RshF5JkB0/PcfudZ4kDHPXBpHRrFmJVCGSoJl1/eDBUvzXcQdD5mYTBpYFVNPyVxfUyZIR0=
+X-Received: by 2002:a05:6512:96a:b0:4c4:dd2a:284f with SMTP id
+ v10-20020a056512096a00b004c4dd2a284fmr957391lft.440.1674232636538; Fri, 20
+ Jan 2023 08:37:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230118160220.776302-1-varmavinaym@gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+References: <CA+icZUV+4QovjQnkAgvon6POgZWstVd-AhZ7OkPU9onuktif1w@mail.gmail.com>
+ <CAK7LNATNpKPM2cmrv=NNHDvtMZyxe=u1gfdDyz+uKBRzyjmwxA@mail.gmail.com>
+ <CA+icZUXJgR1MFtgpChvwr5iFa_FVr4bEGe3GAM62_3xNSmDeXQ@mail.gmail.com> <CAK7LNARzDnVk7JV6WLRYm54HkY4CVmpcv17YWkr9Q8GT2Epdig@mail.gmail.com>
+In-Reply-To: <CAK7LNARzDnVk7JV6WLRYm54HkY4CVmpcv17YWkr9Q8GT2Epdig@mail.gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Fri, 20 Jan 2023 17:36:39 +0100
+Message-ID: <CA+icZUX0OFa7dD7xsy7V=3_FdvcKD12y0L=F08R5OXPTr3C91A@mail.gmail.com>
+Subject: Re: [6.2-rc4] warning: cannot check the header due to sha1sum missing
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jan 19, 2023 at 12:02:20AM +0800, Vinay Varma wrote:
-> Adds support for out-of-tree rust modules to use the `rust-analyzer`
-> make target to generate the rust-project.json file.
-> 
-> The change involves adding an optional parameter `external_src` to the
-> `generate_rust_analyzer.py` which expects the path to the out-of-tree
-> module's source directory. When this parameter is passed, I have chosen
-> not to add the non-core modules (samples and drivers) into the result
-> since these are not expected to be used in third party modules. Related
-> changes are also made to the Makefile and rust/Makefile allowing the
-> `rust-analyzer` target to be used for out-of-tree modules as well.
-> 
-> Signed-off-by: Vinay Varma <varmavinaym@gmail.com>
-> ---
->  Makefile                          | 12 +++++++-----
->  rust/Makefile                     |  6 ++++--
->  scripts/generate_rust_analyzer.py | 14 +++++++++-----
->  3 files changed, 20 insertions(+), 12 deletions(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index f41ec8c8426b..a055a316d2a4 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1831,11 +1831,6 @@ rustfmt:
->  rustfmtcheck: rustfmt_flags = --check
->  rustfmtcheck: rustfmt
->  
-> -# IDE support targets
-> -PHONY += rust-analyzer
-> -rust-analyzer:
-> -	$(Q)$(MAKE) $(build)=rust $@
-> -
->  # Misc
->  # ---------------------------------------------------------------------------
->  
-> @@ -1888,6 +1883,7 @@ help:
->  	@echo  '  modules         - default target, build the module(s)'
->  	@echo  '  modules_install - install the module'
->  	@echo  '  clean           - remove generated files in module directory only'
-> +	@echo  '  rust-analyzer	  - generate rust-project.json rust-analyzer support file'
->  	@echo  ''
->  
->  endif # KBUILD_EXTMOD
-> @@ -2022,6 +2018,12 @@ quiet_cmd_tags = GEN     $@
->  tags TAGS cscope gtags: FORCE
->  	$(call cmd,tags)
->  
-> +# IDE support targets
-> +PHONY += rust-analyzer
-> +rust-analyzer:
-> +	$(Q)$(MAKE) $(build)=rust $@
-> +
-> +
->  # Script to generate missing namespace dependencies
->  # ---------------------------------------------------------------------------
->  
-> diff --git a/rust/Makefile b/rust/Makefile
-> index 8f598a904f38..41c1435cd8d4 100644
-> --- a/rust/Makefile
-> +++ b/rust/Makefile
-> @@ -389,8 +389,10 @@ quiet_cmd_rustc_library = $(if $(skip_clippy),RUSTC,$(RUSTC_OR_CLIPPY_QUIET)) L
->  	$(if $(rustc_objcopy),;$(OBJCOPY) $(rustc_objcopy) $@)
->  
->  rust-analyzer:
-> -	$(Q)$(srctree)/scripts/generate_rust_analyzer.py $(srctree) $(objtree) \
-> -		$(RUST_LIB_SRC) > $(objtree)/rust-project.json
-> +	$(Q)$(srctree)/scripts/generate_rust_analyzer.py \
-> +		$(abs_srctree) $(abs_objtree) \
-> +		$(RUST_LIB_SRC) $(KBUILD_EXTMOD) > \
-> +		$(if $(KBUILD_EXTMOD),$(extmod_prefix),$(objtree))/rust-project.json
->  
->  $(obj)/core.o: private skip_clippy = 1
->  $(obj)/core.o: private skip_flags = -Dunreachable_pub
-> diff --git a/scripts/generate_rust_analyzer.py b/scripts/generate_rust_analyzer.py
-> index ecc7ea9a4dcf..1546b80db554 100755
-> --- a/scripts/generate_rust_analyzer.py
-> +++ b/scripts/generate_rust_analyzer.py
-> @@ -8,8 +8,9 @@ import json
->  import logging
->  import pathlib
->  import sys
-> +import os
->  
-> -def generate_crates(srctree, objtree, sysroot_src):
-> +def generate_crates(srctree, objtree, sysroot_src, external_src):
->      # Generate the configuration list.
->      cfg = []
->      with open(objtree / "include" / "generated" / "rustc_cfg") as fd:
-> @@ -65,7 +66,7 @@ def generate_crates(srctree, objtree, sysroot_src):
->          [],
->          is_proc_macro=True,
->      )
-> -    crates[-1]["proc_macro_dylib_path"] = "rust/libmacros.so"
-> +    crates[-1]["proc_macro_dylib_path"] = f"{objtree}/rust/libmacros.so"
->  
->      append_crate(
->          "build_error",
-> @@ -98,13 +99,15 @@ def generate_crates(srctree, objtree, sysroot_src):
->      # Then, the rest outside of `rust/`.
->      #
->      # We explicitly mention the top-level folders we want to cover.
-> -    for folder in ("samples", "drivers"):
-> +    extra_src_dirs = ["samples", "drivers"] if external_src is None else [external_src]
-> +
-> +    for folder in extra_src_dirs:
->          for path in (srctree / folder).rglob("*.rs"):
->              logging.info("Checking %s", path)
->              name = path.name.replace(".rs", "")
->  
->              # Skip those that are not crate roots.
-> -            if f"{name}.o" not in open(path.parent / "Makefile").read():
-> +            if os.path.exists(path.parent / "Makefile") and f"{name}.o" not in open(path.parent / "Makefile").read():
->                  continue
->  
->              logging.info("Adding %s", name)
-> @@ -123,6 +126,7 @@ def main():
->      parser.add_argument("srctree", type=pathlib.Path)
->      parser.add_argument("objtree", type=pathlib.Path)
->      parser.add_argument("sysroot_src", type=pathlib.Path)
-> +    parser.add_argument("exttree", type=pathlib.Path, nargs='?')
+Test-Case:
 
-I would prefer to don't mix '' and "" unless necessary
+cd /path/to/linux.git
 
->      args = parser.parse_args()
->  
->      logging.basicConfig(
-> @@ -131,7 +135,7 @@ def main():
->      )
->  
->      rust_project = {
-> -        "crates": generate_crates(args.srctree, args.objtree, args.sysroot_src),
-> +        "crates": generate_crates(args.srctree, args.objtree, args.sysroot_src, args.exttree),
->          "sysroot_src": str(args.sysroot_src),
->      }
->  
-> -- 
-> 2.39.0
+make clean
 
-I could test it on my enviroment with rust-out-of-tree-module and rustc
-1.66
-it correctly generated a json file rust-project.json with correct path
+make distclean
 
-As following from github conversation:
-Reviewed-by: Alice Ferrazzi <alice.ferrazzi@miraclelinux.com>
-Tested-by: Alice Ferrazzi <alice.ferrazzi@miraclelinux.com>
+sha1sum include/linux/atomic/atomic-* > ../SHA1SUM.before
 
-Thanks,
-Alicef
+make V=1 mrproper defconfig prepare 2>&1 | tee ../test-masahiro-sha1sum-v2.log
+
+sha1sum include/linux/atomic/atomic-* > ../SHA1SUM.after
+
+ll .checked-atomic-* ..checked-atomic-*
+-rw-r--r-- 1 dileks dileks   0 20. Jan 17:22 .checked-atomic-arch-fallback.h
+-rw-r--r-- 1 dileks dileks 460 20. Jan 17:22
+..checked-atomic-arch-fallback.h.cmd
+-rw-r--r-- 1 dileks dileks   0 20. Jan 17:22 .checked-atomic-instrumented.h
+-rw-r--r-- 1 dileks dileks 455 20. Jan 17:22 ..checked-atomic-instrumented.h.cmd
+-rw-r--r-- 1 dileks dileks   0 20. Jan 17:22 .checked-atomic-long.h
+-rw-r--r-- 1 dileks dileks 415 20. Jan 17:22 ..checked-atomic-long.h.cmd
+
+grep warning: ../test-masahiro-sha1sum-v2.log
+2096:  if ! command -v sha1sum >/dev/null; then echo "warning: cannot
+check the header due to sha1sum missing"; exit 0; fi; if [ "$(sed -n
+'$s:// ::p' include/linux/atomic/atomic-arch-fallback.h)" != "$(sed
+'$d' include/linux/atomic/atomic-arch-fallback.h | sha1sum | sed 's/
+.*//')" ]; then echo "error:
+include/linux/atomic/atomic-arch-fallback.h has been modified." >&2;
+exit 1; fi; touch .checked-atomic-arch-fallback.h
+2097:  if ! command -v sha1sum >/dev/null; then echo "warning: cannot
+check the header due to sha1sum missing"; exit 0; fi; if [ "$(sed -n
+'$s:// ::p' include/linux/atomic/atomic-instrumented.h)" != "$(sed
+'$d' include/linux/atomic/atomic-instrumented.h | sha1sum | sed 's/
+.*//')" ]; then echo "error:
+include/linux/atomic/atomic-instrumented.h has been modified." >&2;
+exit 1; fi; touch .checked-atomic-instrumented.h
+2098:  if ! command -v sha1sum >/dev/null; then echo "warning: cannot
+check the header due to sha1sum missing"; exit 0; fi; if [ "$(sed -n
+'$s:// ::p' include/linux/atomic/atomic-long.h)" != "$(sed '$d'
+include/linux/atomic/atomic-long.h | sha1sum | sed 's/ .*//')" ]; then
+echo "error: include/linux/atomic/atomic-long.h has been modified."
+>&2; exit 1; fi; touch .checked-atomic-long.h
+
+cd ..
+
+git diff SHA1SUM.before SHA1SUM.after
+[ empty ]
+
+OK, so no atomic header files were changed - looks to me like a "I
+have checked them... found no diff... leave some checked files to
+confirm this".
+
+-Sedat-
