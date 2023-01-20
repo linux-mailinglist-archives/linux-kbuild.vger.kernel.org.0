@@ -2,92 +2,74 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 786FE6755EC
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Jan 2023 14:35:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD8666755EF
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Jan 2023 14:35:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229923AbjATNfQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 20 Jan 2023 08:35:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47224 "EHLO
+        id S229880AbjATNfn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 20 Jan 2023 08:35:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229981AbjATNfN (ORCPT
+        with ESMTP id S229635AbjATNfn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 20 Jan 2023 08:35:13 -0500
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40C9FC4584;
-        Fri, 20 Jan 2023 05:35:12 -0800 (PST)
+        Fri, 20 Jan 2023 08:35:43 -0500
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0503E7AF26;
+        Fri, 20 Jan 2023 05:35:42 -0800 (PST)
+Received: by mail-yb1-xb31.google.com with SMTP id p188so6679068yba.5;
+        Fri, 20 Jan 2023 05:35:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1674221712; x=1705757712;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=UK9in/6pk+cr3TnMOT93DY7cqB9Lku8ZTtDleVDrgtc=;
-  b=JJlZ6N8z7BqXoAIsjPdVYsPfb/RgD9W8vEKm5kSd2oTgpdZJuEyB1Tp5
-   jJT8tPZ4c8gciZWCfe5ONQotWEoLMwiWyRWxaqLwxZwpL+zaHiMMAEtBy
-   uiSQr2LrVye8GwmwJqInikwyEcIk3RkrOtIPZNzTp23vuIRwF6porzNCr
-   caepBQ+95RWv3+mhpRinPgCDJyZxy9Ed8MHxpfCQ8C23s0ltJOUJXw2d7
-   P3KnVgYobbIBLwJprdCrvLGkgPv4yprocozkZw8UZnt4q1UDLJMk6JkXn
-   DrL/GR2hpXv9qhnpOe2/am1KuSSYpohFCufNDeO/p/D8twZyv9UGytATs
-   w==;
-X-IronPort-AV: E=Sophos;i="5.97,232,1669071600"; 
-   d="scan'208";a="28561593"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 20 Jan 2023 14:35:06 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Fri, 20 Jan 2023 14:35:06 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Fri, 20 Jan 2023 14:35:06 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1674221706; x=1705757706;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=UK9in/6pk+cr3TnMOT93DY7cqB9Lku8ZTtDleVDrgtc=;
-  b=BTcLKl2xHZAJI46pdlQpnyUoeXJGB5vvghfy6DvSWczPmnhpvTq3KHhf
-   FS+VA0cCgRPyMOKe22E4juIsD9DEcNnplumKpyZfzoEOAGLeF0qhROIWz
-   FEPSaTzqsoOgPn2Nd8j474AhEQQlbmMiMTNUFFYTrWq23WNAhqKKfHv0d
-   vb2GcNmFrRphU3wxvR8Om5G/paWw6dqAkxdPWQG2WHokE1VgrSSqSax4o
-   kodh/XAZ3vM4XdWAz9ng195o1k50K9OdhiKBCLVcBSqwB4siuy8ivGg0O
-   uehXPJbRCKcMeiCg+4JqN/c/bgQ9x2nIQXw4o11CXD6RIinkZrxJFEkWn
-   A==;
-X-IronPort-AV: E=Sophos;i="5.97,232,1669071600"; 
-   d="scan'208";a="28561592"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 20 Jan 2023 14:35:06 +0100
-Received: from steina-w.tq-net.de (unknown [10.123.53.21])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 425DC28007F;
-        Fri, 20 Jan 2023 14:35:06 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Marek Vasut <marex@denx.de>,
-        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Cc:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>, soc@kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-kbuild@vger.kernel.org,
-        Alexander Stein <alexander.stein@ew.tq-group.com>
-Subject: [PATCH v2 10/10] ARM: add multi_v7_lpae_defconfig
-Date:   Fri, 20 Jan 2023 14:34:55 +0100
-Message-Id: <20230120133455.3962413-11-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230120133455.3962413-1-alexander.stein@ew.tq-group.com>
-References: <20230120133455.3962413-1-alexander.stein@ew.tq-group.com>
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RJSkw8NYAyR60FvSkjNU+U9CafbrPx1XHmHc0Xx2Dfk=;
+        b=IZFe8TqXyaq8kS/iPsTocv5NR4O4CyrT1UKLy6KhJcPzEyQLP/Ca2LtBF/k7AbJGlZ
+         IC0Aahbncon827NINbjEwyB6ebgAd7x3FlddPn7iORfhK+1vReyo78lHP3N6DQiSpJ5J
+         3hikyBmhk/xul4ezw4HyDi7vGQ5XewwrO7+ed05kbpSzTWMmLB9apv5fdYD8wEDpL3BB
+         vehiMlg8RJY3YkRh+dFPQYQCJ3L5FGNnK0eBeBagr9Yx0ay6mHdUNY0nYOV1aqRqx7Ou
+         swfpm/E6ZtCYwDKsqKH+XY+A6nRCqAoR0pz1G17zaCHBbOyEpnZfWhOBJtIWLBvIXHql
+         JzEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RJSkw8NYAyR60FvSkjNU+U9CafbrPx1XHmHc0Xx2Dfk=;
+        b=3jlj+52lUCvTBo5kDHty+3t8EuzWWPioM90cqD3dGWFH64+OHeM9E5/zRONWS2ORoY
+         nz/Zac+RVPwpOmGpAnmTP5z76/8fx+nkPQtKgPEgUsZf8erwibbY4bPWZoueAg/ss+yL
+         T7cJZMs84TDSJ+/n3Ac1mpEuQ83riIcJArKCttaURl74QHlVWnMR1dvhDOIT0bvI1SPb
+         zJlgO+TTGgLZQ/wLzppuvrCium8YEL4p6+DHX2uQv/2WsrLHSLhyKg9Rn+NbQZeB1uan
+         rmtJyoaYg+n6ZSnx/zgF0S2i0fCWms6qUGZBnSxFHVtcxkH+iGHi2jThnaDGTHzgMcD8
+         wg9Q==
+X-Gm-Message-State: AFqh2kpwW24NlSBRCfgPwcenDfg/6+z1Z95EHnH0XtGPB5OXMdgg7ZO9
+        ZIRTbmxfssMs0dAOwmDw7z6QKatOEVp167pL/Kg=
+X-Google-Smtp-Source: AMrXdXsrXMqKTv94jCj9wJe+SlIDf907GJDK+8bjgEZCJPH22N9zq3zA0wAwfYmKnk+2X3csG8pmY4eI3+q8mU8x4ow=
+X-Received: by 2002:a25:71c3:0:b0:7b2:343d:6b11 with SMTP id
+ m186-20020a2571c3000000b007b2343d6b11mr1987766ybc.75.1674221741028; Fri, 20
+ Jan 2023 05:35:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
+References: <20230118160220.776302-1-varmavinaym@gmail.com> <MzQKRFS7tVFtse-EaI1QkIlyz1NMk56vSPdOmY0M3sgG4RHsFUMubaEffsPxSDyFG9dKfhJcBxN4pYYf3R95IuAVd1Ne0P2pMqXHC0dOTLw=@protonmail.com>
+In-Reply-To: <MzQKRFS7tVFtse-EaI1QkIlyz1NMk56vSPdOmY0M3sgG4RHsFUMubaEffsPxSDyFG9dKfhJcBxN4pYYf3R95IuAVd1Ne0P2pMqXHC0dOTLw=@protonmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Fri, 20 Jan 2023 14:35:30 +0100
+Message-ID: <CANiq72k4cOEOykgUhgqaXPC7xhX2EoC8c4sr1oFEhKMfEdi=wA@mail.gmail.com>
+Subject: Re: [PATCH] scripts: `make rust-analyzer` for out-of-tree modules
+To:     =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>
+Cc:     Vinay Varma <varmavinaym@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -95,52 +77,28 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+On Fri, Jan 20, 2023 at 2:17 PM Bj=C3=B6rn Roy Baron
+<bjorn3_gh@protonmail.com> wrote:
+>
+> I tested this with https://github.com/Rust-for-Linux/rust-out-of-tree-mod=
+ule using "make -C ../rust-for-linux M=3D$(pwd) rust-analyzer". It produces=
+ a rust-project.json file, however it misses the actual rust_out_of_tree cr=
+ate. This is due to the fact that generate_rust_analyzer.py only checks Mak=
+efile to find the crate roots, but rust-out-of-tree-module defines it in Kb=
+uild instead.
 
-The only missing configuration option preventing us from using
-multi_v7_defconfig with the Raspberry Pi 4 is ARM_LPAE. It's needed as
-the PCIe controller found on the SoC depends on 64bit addressing, yet
-can't be included as not all v7 boards support LPAE.
+Thanks for testing it! Indeed, we should support out-of-tree modules
+using the `Kbuild` + `Makefile` approach.
 
-Introduce multi_v7_lpae_defconfig, built off multi_v7_defconfig, which will
-avoid us having to duplicate and maintain multiple similar configurations.
+Having said that, I wonder if we should even attempt to perform the
+search for out-of-tree modules. The search loop is a simple hack which
+works fine for in-tree code because we know the structure of the code
+around us, but we cannot for out-of-tree modules. For instance, they
+may be using a different build system, or not mentioning the object
+file, etc.
 
-Needless to say the Raspberry Pi 4 is not the only platform that can
-benefit from this new configuration.
+Perhaps we should simply ask them to give us the roots directly as a
+list of arguments to the script or similar.
 
-Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
-Directly applied from https://lore.kernel.org/linux-arm-kernel/20200203184820.4433-2-nsaenzjulienne@suse.de/T/#m96968dd45c0aaa88e0a7387024b5ac13b002363d
-Although I had to apply manually
-
- arch/arm/Makefile            | 4 ++++
- arch/arm/configs/lpae.config | 1 +
- 2 files changed, 5 insertions(+)
- create mode 100644 arch/arm/configs/lpae.config
-
-diff --git a/arch/arm/Makefile b/arch/arm/Makefile
-index 506dbc72323bc..80d9eaf3dc06a 100644
---- a/arch/arm/Makefile
-+++ b/arch/arm/Makefile
-@@ -314,6 +314,10 @@ endif
- # My testing targets (bypasses dependencies)
- bp:;	$(Q)$(MAKE) $(build)=$(boot) $(boot)/bootpImage
- 
-+include $(srctree)/scripts/Makefile.defconf
-+PHONY += multi_v7_lpae_defconfig
-+multi_v7_lpae_defconfig:
-+	$(call merge_into_defconfig,multi_v7_defconfig,lpae)
- 
- define archhelp
-   echo  '* zImage        - Compressed kernel image (arch/$(ARCH)/boot/zImage)'
-diff --git a/arch/arm/configs/lpae.config b/arch/arm/configs/lpae.config
-new file mode 100644
-index 0000000000000..19bab134e014b
---- /dev/null
-+++ b/arch/arm/configs/lpae.config
-@@ -0,0 +1 @@
-+CONFIG_ARM_LPAE=y
--- 
-2.34.1
-
+Cheers,
+Miguel
