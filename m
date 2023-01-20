@@ -2,146 +2,111 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C447A675B0D
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Jan 2023 18:19:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D8763675BA3
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Jan 2023 18:36:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230014AbjATRTW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 20 Jan 2023 12:19:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32962 "EHLO
+        id S230341AbjATRf7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 20 Jan 2023 12:35:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229861AbjATRTV (ORCPT
+        with ESMTP id S229895AbjATRf5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 20 Jan 2023 12:19:21 -0500
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81142BB9D;
-        Fri, 20 Jan 2023 09:19:19 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.west.internal (Postfix) with ESMTP id 7190C3200A5C;
-        Fri, 20 Jan 2023 12:19:17 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Fri, 20 Jan 2023 12:19:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1674235157; x=1674321557; bh=AN63Zk9FUH
-        XtB/1LDWKyjPugYkaPfboH8yCsuuO7QPs=; b=ta4oy1s1AdxLORjET+xauHRdR5
-        NcbGi5cLHSey+FpTmv5ZC193wrgm2ovoDrIuYhzJXXZ+i5vJeQ4SoRHyB5D5KecC
-        iXNUbnN4wzRnjQD6svlrGR+wUvYwpEGj1XRFU+HFOQ12Hb6tTPfdSYMU/skLOmo8
-        w9Xr5VvQq3L5bgx2LNbZvWNgaNyJGfAtFx4+RyOlcvgLX7fLr1tDHcwtXMGOqXed
-        3/TATPBktImtX56gMo7xDgc4nU3KmumzhQd/Elz7DPmbgOYOWhAGJ9joeV4gFi/i
-        aD5MlNtMOIjQvp0yk+7265KbkmfReznpXigOGwvTGcmENPdEli46eemx7fhw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1674235157; x=1674321557; bh=AN63Zk9FUHXtB/1LDWKyjPugYkaP
-        fboH8yCsuuO7QPs=; b=l/OkIMIlYk2aLfnTY+EPhfjYf3kNra1kPmw+smJwoPT2
-        K7Uxj4cdQhaKrOlaRHvPok1/HLjAzDXAJHG46jslpUERDQ51cFxlaWPRnXSekrMO
-        g1T5kI0e6HDJ3iMgHZxQB8X/SzkjhE8Y1J3u5H3qJwgKNnDMmrim2ahfSXkDfTD4
-        BRr3gLLTRZ8GZLPqIDy/SA9UzIDv0WVuhOnWN533RUAbI/juEZzoxij8Og0thReG
-        IZp8bm5GrqAvCBVDZZYbvUtXUwo9dnI8hWotJ/u4gZ4i6ORoGrBUHexzWx7pN55+
-        xvPfmkak4Tl03QIZjujVXwPUYWHrVtntkSYy9SxNlw==
-X-ME-Sender: <xms:FM3KY4_buGub8-rqfTs4N8Yg42GbfDG0sCX2z11pHq1cgiJ7b7zrkg>
-    <xme:FM3KYwsSwqT37FU8sAzoL23BpyyI_2eVteajl26e0cyAa_AO0n0O15V59m6v2pHB-
-    2r-dNOC3XsrnJadUpQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudduvddguddtvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
-    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:FM3KY-DoW6b0kGI3nWdnykYIonxorpLHx6qV3SeAZ4G-BGAzLWBYNg>
-    <xmx:FM3KY4fTvpsB_OCYr7UVTStx_ocSeh-5--vi3xmD6KbWRLangTN-TA>
-    <xmx:FM3KY9MeAxGkge2iPLDUQrl6MCt-q0PNhETlDF5gBN7m4h4TTF97jw>
-    <xmx:Fc3KY6wq1Jled5Q_fzzY9NELrs3G2rh8APyCtOgZQEWRLqQ96wZqQA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 0A0C0B60086; Fri, 20 Jan 2023 12:19:15 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-85-gd6d859e0cf-fm-20230116.001-gd6d859e0
-Mime-Version: 1.0
-Message-Id: <67c572e1-20ca-4ed2-9e15-047341bb338b@app.fastmail.com>
-In-Reply-To: <20230120133455.3962413-11-alexander.stein@ew.tq-group.com>
-References: <20230120133455.3962413-1-alexander.stein@ew.tq-group.com>
- <20230120133455.3962413-11-alexander.stein@ew.tq-group.com>
-Date:   Fri, 20 Jan 2023 18:18:54 +0100
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Alexander Stein" <alexander.stein@ew.tq-group.com>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        "Olof Johansson" <olof@lixom.net>,
-        "Shawn Guo" <shawnguo@kernel.org>, "Li Yang" <leoyang.li@nxp.com>,
-        "Russell King" <linux@armlinux.org.uk>,
-        "Marek Vasut" <marex@denx.de>,
-        "Marcel Ziswiler" <marcel.ziswiler@toradex.com>,
-        "Michael Ellerman" <mpe@ellerman.id.au>,
-        "Nicholas Piggin" <npiggin@gmail.com>,
-        "Christophe Leroy" <christophe.leroy@csgroup.eu>,
-        "Masahiro Yamada" <masahiroy@kernel.org>,
-        "Nathan Chancellor" <nathan@kernel.org>,
-        "Nick Desaulniers" <ndesaulniers@google.com>,
-        "Nicolas Schier" <nicolas@fjasle.eu>
-Cc:     "Nicolas Saenz Julienne" <nsaenzjulienne@suse.de>, soc@kernel.org,
+        Fri, 20 Jan 2023 12:35:57 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9D81DBC2
+        for <linux-kbuild@vger.kernel.org>; Fri, 20 Jan 2023 09:35:52 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id n7so5495106wrx.5
+        for <linux-kbuild@vger.kernel.org>; Fri, 20 Jan 2023 09:35:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RtibDBYP4iMtkWCSC6UIrfEqP+79E1l1LSnhYmoZi84=;
+        b=a0EizrBVJ51x9XMo0SmIYGujI1VE9IuQMAZSmgDPW3HPHFB6mYwi9BGrBxpjbkObek
+         itKHvG8slnp/701yTvitXMlHAStQ4lI9mGrzl3SjhF9u0iQrTZxG95kMPUuh8uXghW6r
+         pRu6wigR3XGbq2vfZcGagjR/wpGM9BxewkzOfmmuGjFMBkhB1yQihKjwKg6vXsj5e+Jj
+         irk/A6di6OnFkhm9W+AXN6OnzD4sMdxfpGGGdcxM2C5VTa0JLQ8R/PHNY3GXxGQSrkNo
+         Q8UdRjXv4/n1eEw53K8AUfaTgN69IBSSFcGgAEcicYplX/Rw0A8jpTfAeldp4L9u00Z4
+         eCFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RtibDBYP4iMtkWCSC6UIrfEqP+79E1l1LSnhYmoZi84=;
+        b=N0oufSX8Byj1fLfXUAY01Zz0vBNW4sAKm5o3IPQ1PIC3S/hJCURhdv2LVmNbs2b8ZW
+         xoqSWk/uklTRmdDSGJ+64ERDOXDa7wnuXYGGLFIxZMDlIrcZwLlzQS6hzb+X/PMpcp34
+         AkZCP9cLGaPrQkoOCWzIjPh/2V3sJuBESL66V/4VWuPsWcdevR0pvT1CHPdGJR+FSOvD
+         d8stBKXR47ErKL05h33k+Is8e2kys0xqSE2Lt21B349YZM2B+k1FU2LjFvcpF6LL61SI
+         NL4vJvGtazkXgKJROQTf1StVMrxP5vdjX5sz2MKsNp8jr+Dgprc7zrRjzR1SezrWSMcs
+         vwCg==
+X-Gm-Message-State: AFqh2kqa1Fl3IlICHDMlRSMmPGfOw5FFmPKYq85myb/lAn0rbOVUJxyl
+        TLq3Z2dgsEiFixW6jpVu2Cu1lA==
+X-Google-Smtp-Source: AMrXdXt54pJEA64hU9pqLpjAzfF4EB4BwV1gaYq2BN8kjUL2tMAG73rGdCUL7ncRTIzQmMkHPYLxTw==
+X-Received: by 2002:a5d:4cc8:0:b0:2bd:d779:c1b5 with SMTP id c8-20020a5d4cc8000000b002bdd779c1b5mr22020011wrt.27.1674236151289;
+        Fri, 20 Jan 2023 09:35:51 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id i6-20020adfe486000000b002423dc3b1a9sm35871262wrm.52.2023.01.20.09.35.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Jan 2023 09:35:50 -0800 (PST)
+Message-ID: <780f2669-7ef0-1a17-9e04-50eeba4c2cf7@linaro.org>
+Date:   Fri, 20 Jan 2023 18:35:44 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH v2 01/10] dt-bindings: arm: fsl: add TQ-Systems LS1021A
+ board
+Content-Language: en-US
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+        Shawn Guo <shawnguo@kernel.org>, Li Yang <leoyang.li@nxp.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Marek Vasut <marex@denx.de>,
+        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>
+Cc:     Matthias Schiffer <matthias.schiffer@tq-group.com>, soc@kernel.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linuxppc-dev@lists.ozlabs.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v2 10/10] ARM: add multi_v7_lpae_defconfig
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230120133455.3962413-1-alexander.stein@ew.tq-group.com>
+ <20230120133455.3962413-2-alexander.stein@ew.tq-group.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230120133455.3962413-2-alexander.stein@ew.tq-group.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jan 20, 2023, at 14:34, Alexander Stein wrote:
-> From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
->
-> The only missing configuration option preventing us from using
-> multi_v7_defconfig with the Raspberry Pi 4 is ARM_LPAE. It's needed as
-> the PCIe controller found on the SoC depends on 64bit addressing, yet
-> can't be included as not all v7 boards support LPAE.
->
-> Introduce multi_v7_lpae_defconfig, built off multi_v7_defconfig, which will
-> avoid us having to duplicate and maintain multiple similar configurations.
->
-> Needless to say the Raspberry Pi 4 is not the only platform that can
-> benefit from this new configuration.
->
-> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-
-This is ok in principle, two minor points though:
-
-> +include $(srctree)/scripts/Makefile.defconf
-> +PHONY += multi_v7_lpae_defconfig
-> +multi_v7_lpae_defconfig:
-> +	$(call merge_into_defconfig,multi_v7_defconfig,lpae)
+On 20/01/2023 14:34, Alexander Stein wrote:
+> From: Matthias Schiffer <matthias.schiffer@tq-group.com>
 > 
->  define archhelp
->    echo  '* zImage        - Compressed kernel image (arch/$(ARCH)/boot/zImage)'
+> TQMLS102xA is a SOM family using NXP LS1021A CPU family.
+> MBLS102xA is an evaluation mainboard for this SOM.
+> 
+> Signed-off-by: Matthias Schiffer <matthias.schiffer@tq-group.com>
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> ---
+> Changes in v2:
+> * Improved the description mentioning this is a socketable module
+> 
 
-The new target does not get listed in 'make help' as far as I can
-tell, can you add it there in the process?
 
-> diff --git a/arch/arm/configs/lpae.config b/arch/arm/configs/lpae.config
-> new file mode 100644
-> index 0000000000000..19bab134e014b
-> --- /dev/null
-> +++ b/arch/arm/configs/lpae.config
-> @@ -0,0 +1 @@
-> +CONFIG_ARM_LPAE=y
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-My feeling is that we probably want CONFIG_VMSPLIT_2G=y here
-as well, given that a lot of the systems that want LPAE
-will have a lot of memory, and are limited by the amount
-of lowmem even when CONFIG_HIGHMEM is enabled.
+Best regards,
+Krzysztof
 
-Can you make sure that this works on your machine, and
-include this option?
-
-     Arnd
