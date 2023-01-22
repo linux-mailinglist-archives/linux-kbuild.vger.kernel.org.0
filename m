@@ -2,58 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ABC80677137
-	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Jan 2023 18:48:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B9AE677144
+	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Jan 2023 18:59:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230231AbjAVRs6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 22 Jan 2023 12:48:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46438 "EHLO
+        id S230034AbjAVR7o (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 22 Jan 2023 12:59:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230160AbjAVRs6 (ORCPT
+        with ESMTP id S229880AbjAVR7o (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 22 Jan 2023 12:48:58 -0500
+        Sun, 22 Jan 2023 12:59:44 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74E8313D74;
-        Sun, 22 Jan 2023 09:48:57 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B81E16AC3;
+        Sun, 22 Jan 2023 09:59:43 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E704560BCC;
-        Sun, 22 Jan 2023 17:48:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DB89C4339C;
-        Sun, 22 Jan 2023 17:48:56 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EECAF60B59;
+        Sun, 22 Jan 2023 17:59:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C950C433D2;
+        Sun, 22 Jan 2023 17:59:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674409736;
-        bh=xD7a+ICcNUORoNgPmgIA6dKQcRIVrlR1bQKsoNQhcwI=;
+        s=k20201202; t=1674410382;
+        bh=D2pedExuLZNrqCvaz8leJ1LLl8TDRo55BvOVbQvnsHw=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=R9QudQK7MKhnDue+Cfrl4hn1oEdev0zihg4kd0mBUVU2Xbvxt2cHdk6qHJr4ww2qK
-         oUmzcCZvpagwnpaP1olTWMATKnbDvy17Bfnzl0XqAh8iTSif6R8FMAvCxOMcnZgFFT
-         zvLPtLA+T0k9/bLB4ckKgYYylJQN8jUf9i3yPhaj1PfHUW17Mri7VV3RxqsJJzmNDa
-         ogPUH1sl1ErSXGy2rR19naIwE3JLkofCTSMG3JOX0BR+a3ACYaWHHh/uu6BAQB61sg
-         qDKGUuscpGaRZfPsp4fMUtMZg32dxhECoY2GE2GA/Wh9YVPUaaPIUwmMyC1LKR98f2
-         NgFLDvpIPpMeg==
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-15ff0a1f735so3520015fac.5;
-        Sun, 22 Jan 2023 09:48:56 -0800 (PST)
-X-Gm-Message-State: AFqh2koBOn07xTvcaVushhr4b7Ax3DkgqDk8i6DUpIAX8r3Lc7fm+MSu
-        Jc609QPWf/xfjSY9v6e7UBkcEaOzb3hlSATJKc0=
-X-Google-Smtp-Source: AMrXdXtvoxT2ZIDrNIS61KIdiJ14rtFDGARHY3PdXvco95149zfmQ8nlkFbug7LWA0hKOerHMNznWEHnHTskCU0CCck=
-X-Received: by 2002:a05:6870:b0c:b0:15b:9941:ac30 with SMTP id
- lh12-20020a0568700b0c00b0015b9941ac30mr1694881oab.287.1674409735503; Sun, 22
- Jan 2023 09:48:55 -0800 (PST)
+        b=pYksia5zWbwxyVwR5OHSi2jDVTKl3QUsTXixSdyMlMTtBDZesvn5bZM+dxR/6pX1M
+         eD3gIeEcpaO4iOPkeALGtoK1m1rPhWjrJk7yUbpCE7c0zdLicPjFqZPOllycOL+zjT
+         HpLpKE5VE+m5+ULT7gZErBxp3/sv0j9+R08waZvs5H+dQkONvziuzS39znoqRZwoXH
+         pVO0SOAR3fr9vqqnki18haiC/DrdaNcXHImL2JY7NMiFjTutaE/E0PllSA1avepqv/
+         KNtv4hUuatbcIREmt6d9RFsFjs+k1rS+X3vz3dNsOLMgQv3LGI6LJqaG5dbt9oets1
+         KJq11C+QseqCQ==
+Received: by mail-ot1-f54.google.com with SMTP id g2-20020a9d6b02000000b006864bf5e658so6107905otp.1;
+        Sun, 22 Jan 2023 09:59:42 -0800 (PST)
+X-Gm-Message-State: AFqh2kpRg52ymA1bA/77EUn152RfDIP5ftZQGsIdRH5AgbPmmQ6qNCXU
+        +mS2mN0P2p9bhmpYd+br01zcebHDgeVzrLE2KiI=
+X-Google-Smtp-Source: AMrXdXv+qtyo8rkIgtdEIum0rnVQ7nA9lGu+dYgdpObD9i+RSncPEFAN4enCYSMJPIkQXTz+zrtc/hI56H8Zxw7puU4=
+X-Received: by 2002:a9d:6a4c:0:b0:684:a3ad:87e8 with SMTP id
+ h12-20020a9d6a4c000000b00684a3ad87e8mr1295263otn.225.1674410381648; Sun, 22
+ Jan 2023 09:59:41 -0800 (PST)
 MIME-Version: 1.0
-References: <20230119071215.23042-1-masahiroy@kernel.org>
-In-Reply-To: <20230119071215.23042-1-masahiroy@kernel.org>
+References: <20230112023006.1873859-1-masahiroy@kernel.org>
+ <202301121403.599806C597@keescook> <CAK7LNARaXH9gJVCJKR5GLuyEiJarxhcXoUyxXDo=MZYKLxFmyA@mail.gmail.com>
+In-Reply-To: <CAK7LNARaXH9gJVCJKR5GLuyEiJarxhcXoUyxXDo=MZYKLxFmyA@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 23 Jan 2023 02:48:19 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASUwTnOHDF9ym3u2R6bxrELEBsrKeaCCeHdz_mrA-yFYg@mail.gmail.com>
-Message-ID: <CAK7LNASUwTnOHDF9ym3u2R6bxrELEBsrKeaCCeHdz_mrA-yFYg@mail.gmail.com>
-Subject: Re: [PATCH] scripts: remove bin2c
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+Date:   Mon, 23 Jan 2023 02:59:05 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATOzfM_5ntS9TiT1=04u28tBvmPJsUWyTptZkS630B-oQ@mail.gmail.com>
+Message-ID: <CAK7LNATOzfM_5ntS9TiT1=04u28tBvmPJsUWyTptZkS630B-oQ@mail.gmail.com>
+Subject: Re: [PATCH] scripts: handle BrokenPipeError for python scripts
+To:     Kees Cook <keescook@chromium.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, linux-doc@vger.kernel.org
+        Tom Rix <trix@redhat.com>, llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -63,138 +65,79 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jan 19, 2023 at 4:13 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Sun, Jan 15, 2023 at 12:04 PM Masahiro Yamada <masahiroy@kernel.org> wro=
+te:
 >
-> Commit 80f8be7af03f ("tomoyo: Omit use of bin2c") removed the last
-> use of bin2c.
+> On Fri, Jan 13, 2023 at 7:06 AM Kees Cook <keescook@chromium.org> wrote:
+> >
+> > On Thu, Jan 12, 2023 at 11:30:06AM +0900, Masahiro Yamada wrote:
+> > >     def main():
+> > >         try:
+> > >             # simulate large output (your code replaces this loop)
+> > >             for x in range(10000):
+> > >                 print("y")
+> > >             # flush output here to force SIGPIPE to be triggered
+> > >             # while inside this try block.
+> > >             sys.stdout.flush()
+> > >         except BrokenPipeError:
+> > >             # Python flushes standard streams on exit; redirect remai=
+ning output
+> > >             # to devnull to avoid another BrokenPipeError at shutdown
+> > >             devnull =3D os.open(os.devnull, os.O_WRONLY)
+> > >             os.dup2(devnull, sys.stdout.fileno())
+> > >             sys.exit(1)  # Python exits with error code 1 on EPIPE
+> >
+> > I still think this is wrong -- they should not continue piping, and
+> > should just die with SIGPIPE. It should simply be:
+> >
+> > signal(SIGPIPE, SIG_DFL);
+> >
+> > Nothing else needed. No wasted CPU cycles, shell handling continues as
+> > per normal.
 >
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
 >
->  Documentation/dontdiff     |  1 -
->  init/Kconfig               |  4 ----
->  scripts/.gitignore         |  1 -
->  scripts/Makefile           |  1 -
->  scripts/bin2c.c            | 36 ------------------------------------
->  scripts/remove-stale-files |  2 ++
->  6 files changed, 2 insertions(+), 43 deletions(-)
->  delete mode 100644 scripts/bin2c.c
-
-
-
-
-Applied to linux-kbuild.
-
-
-
+> I prefer try-and-except because it is Python's coding style,
+> and we can do something before the exit.
+> (for example, clean up temporary files)
 >
-> diff --git a/Documentation/dontdiff b/Documentation/dontdiff
-> index 352ff53a2306..3c399f132e2d 100644
-> --- a/Documentation/dontdiff
-> +++ b/Documentation/dontdiff
-> @@ -91,7 +91,6 @@ asm_offsets.h
->  autoconf.h*
->  av_permissions.h
->  bbootsect
-> -bin2c
->  binkernel.spec
->  bootsect
->  bounds.h
-> diff --git a/init/Kconfig b/init/Kconfig
-> index 7ceabd320425..f66ba19f9482 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -682,10 +682,6 @@ config CPU_ISOLATION
 >
->  source "kernel/rcu/Kconfig"
+> >
+> > >     if __name__ =3D=3D '__main__':
+> > >         main()
+> > >
+> > >   Do not set SIGPIPE=E2=80=99s disposition to SIG_DFL in order to avo=
+id
+> > >   BrokenPipeError. Doing that would cause your program to exit
+> > >   unexpectedly whenever any socket connection is interrupted while
+> > >   your program is still writing to it.
+> >
+> > This advise is for socket programs, not command-line tools.
 >
-> -config BUILD_BIN2C
-> -       bool
-> -       default n
-> -
->  config IKCONFIG
->         tristate "Kernel .config support"
->         help
-> diff --git a/scripts/.gitignore b/scripts/.gitignore
-> index 11bf3c075fb6..6e9ce6720a05 100644
-> --- a/scripts/.gitignore
-> +++ b/scripts/.gitignore
-> @@ -1,6 +1,5 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  /asn1_compiler
-> -/bin2c
->  /generate_rust_target
->  /insert-sys-cert
->  /kallsyms
-> diff --git a/scripts/Makefile b/scripts/Makefile
-> index 0e0ae3c06ed7..32b6ba722728 100644
-> --- a/scripts/Makefile
-> +++ b/scripts/Makefile
-> @@ -3,7 +3,6 @@
->  # scripts contains sources for various helper programs used throughout
->  # the kernel for the build process.
 >
-> -hostprogs-always-$(CONFIG_BUILD_BIN2C)                 += bin2c
->  hostprogs-always-$(CONFIG_KALLSYMS)                    += kallsyms
->  hostprogs-always-$(BUILD_C_RECORDMCOUNT)               += recordmcount
->  hostprogs-always-$(CONFIG_BUILDTIME_TABLE_SORT)                += sorttable
-> diff --git a/scripts/bin2c.c b/scripts/bin2c.c
-> deleted file mode 100644
-> index c3d7eef3ad06..000000000000
-> --- a/scripts/bin2c.c
-> +++ /dev/null
-> @@ -1,36 +0,0 @@
-> -/*
-> - * Unloved program to convert a binary on stdin to a C include on stdout
-> - *
-> - * Jan 1999 Matt Mackall <mpm@selenic.com>
-> - *
-> - * This software may be used and distributed according to the terms
-> - * of the GNU General Public License, incorporated herein by reference.
-> - */
-> -
-> -#include <stdio.h>
-> -
-> -int main(int argc, char *argv[])
-> -{
-> -       int ch, total = 0;
-> -
-> -       if (argc > 1)
-> -               printf("const char %s[] %s=\n",
-> -                       argv[1], argc > 2 ? argv[2] : "");
-> -
-> -       do {
-> -               printf("\t\"");
-> -               while ((ch = getchar()) != EOF) {
-> -                       total++;
-> -                       printf("\\x%02x", ch);
-> -                       if (total % 16 == 0)
-> -                               break;
-> -               }
-> -               printf("\"\n");
-> -       } while (ch != EOF);
-> -
-> -       if (argc > 1)
-> -               printf("\t;\n\n#include <linux/types.h>\n\nconst size_t %s_size = %d;\n",
-> -                      argv[1], total);
-> -
-> -       return 0;
-> -}
-> diff --git a/scripts/remove-stale-files b/scripts/remove-stale-files
-> index c71bf2f68360..04fcdf739638 100755
-> --- a/scripts/remove-stale-files
-> +++ b/scripts/remove-stale-files
-> @@ -29,3 +29,5 @@ rm -f scripts/extract-cert
->  rm -f scripts/kconfig/[gmnq]conf-cfg
+> I still do not understand what is bad
+> about using this for command-line tools.
 >
->  rm -f rust/target.json
-> +
-> +rm -f scripts/bin2c
+>
+> >
+> > -Kees
+> >
+> > --
+> > Kees Cook
+>
+>
+>
 > --
-> 2.34.1
->
+> Best Regards
+> Masahiro Yamada
 
 
--- 
+
+
+Applied with the typos fixes.
+
+
+
+
+--=20
 Best Regards
 Masahiro Yamada
