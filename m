@@ -2,201 +2,199 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 10D70677119
-	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Jan 2023 18:29:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ABC80677137
+	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Jan 2023 18:48:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230150AbjAVR3M (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 22 Jan 2023 12:29:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39710 "EHLO
+        id S230231AbjAVRs6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 22 Jan 2023 12:48:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229880AbjAVR3L (ORCPT
+        with ESMTP id S230160AbjAVRs6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 22 Jan 2023 12:29:11 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 862EA1DB82;
-        Sun, 22 Jan 2023 09:29:10 -0800 (PST)
+        Sun, 22 Jan 2023 12:48:58 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74E8313D74;
+        Sun, 22 Jan 2023 09:48:57 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0FA6C60B39;
-        Sun, 22 Jan 2023 17:29:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76580C433AE;
-        Sun, 22 Jan 2023 17:29:09 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E704560BCC;
+        Sun, 22 Jan 2023 17:48:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DB89C4339C;
+        Sun, 22 Jan 2023 17:48:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674408549;
-        bh=I5pV/HoNpTTtkCpHa3T7LwdnAQwwVwXQ/luDQGSOteE=;
+        s=k20201202; t=1674409736;
+        bh=xD7a+ICcNUORoNgPmgIA6dKQcRIVrlR1bQKsoNQhcwI=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=L3R3VeuI8b7SphmS83VI3MhZIjgDm6ANfUG/6GLDdAssBf8R7BhAf78erSlDbdCOA
-         SHR+IgQ6/XkSHZgpJfPyQerUVWvlHhmeN4a9pX9i1iiMGQR1NCtYmJ1cXwTwfhZX7o
-         nSUmSWPnPqViFik1ksvVU9V1IDz/9d4RBT2fojd5aUL4rHTIN4194hnchaX8aC+BTF
-         BVqo/UYoMw7a7dCGuw7CuV/Pc986UJI4q+9eT9V3NhMq3b5TVJgU4xKxtdcd/uUXK3
-         PYu79weFDNfEExeZDTIf8YARqxjWnMGBiR5AM+Sg0Tc3PNXSMv1Gk/Hn9eD63agM4/
-         o6TOm8IVHvoHg==
-Received: by mail-oi1-f179.google.com with SMTP id r9so8523019oig.12;
-        Sun, 22 Jan 2023 09:29:09 -0800 (PST)
-X-Gm-Message-State: AFqh2kpwFP9zBxu/eOTY+pL7eQyFODBDtZw4arSHn9F0wTdEOGfjy/HN
-        9AT5UHFhWtH+h52GBVpRD9p9Y9oD+ItKrAwb7MA=
-X-Google-Smtp-Source: AMrXdXv8T6XTJrOgPfMqPTdeIlKFiVnKdMrLMQCnsb/JOpLPDdW3j/ypXqu3QgM9nVl1xzM73W2o7XvcmK9sHyhknFM=
-X-Received: by 2002:a05:6808:1786:b0:35e:7c55:b015 with SMTP id
- bg6-20020a056808178600b0035e7c55b015mr1279449oib.287.1674408548537; Sun, 22
- Jan 2023 09:29:08 -0800 (PST)
+        b=R9QudQK7MKhnDue+Cfrl4hn1oEdev0zihg4kd0mBUVU2Xbvxt2cHdk6qHJr4ww2qK
+         oUmzcCZvpagwnpaP1olTWMATKnbDvy17Bfnzl0XqAh8iTSif6R8FMAvCxOMcnZgFFT
+         zvLPtLA+T0k9/bLB4ckKgYYylJQN8jUf9i3yPhaj1PfHUW17Mri7VV3RxqsJJzmNDa
+         ogPUH1sl1ErSXGy2rR19naIwE3JLkofCTSMG3JOX0BR+a3ACYaWHHh/uu6BAQB61sg
+         qDKGUuscpGaRZfPsp4fMUtMZg32dxhECoY2GE2GA/Wh9YVPUaaPIUwmMyC1LKR98f2
+         NgFLDvpIPpMeg==
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-15ff0a1f735so3520015fac.5;
+        Sun, 22 Jan 2023 09:48:56 -0800 (PST)
+X-Gm-Message-State: AFqh2koBOn07xTvcaVushhr4b7Ax3DkgqDk8i6DUpIAX8r3Lc7fm+MSu
+        Jc609QPWf/xfjSY9v6e7UBkcEaOzb3hlSATJKc0=
+X-Google-Smtp-Source: AMrXdXtvoxT2ZIDrNIS61KIdiJ14rtFDGARHY3PdXvco95149zfmQ8nlkFbug7LWA0hKOerHMNznWEHnHTskCU0CCck=
+X-Received: by 2002:a05:6870:b0c:b0:15b:9941:ac30 with SMTP id
+ lh12-20020a0568700b0c00b0015b9941ac30mr1694881oab.287.1674409735503; Sun, 22
+ Jan 2023 09:48:55 -0800 (PST)
 MIME-Version: 1.0
-References: <20221228-drop-qunused-arguments-v2-0-9adbddd20d86@kernel.org>
-In-Reply-To: <20221228-drop-qunused-arguments-v2-0-9adbddd20d86@kernel.org>
+References: <20230119071215.23042-1-masahiroy@kernel.org>
+In-Reply-To: <20230119071215.23042-1-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 23 Jan 2023 02:28:32 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ-HmyKYAWbF2MHEU1FzBzKOvE2DU7Js6tntszLrtUkDg@mail.gmail.com>
-Message-ID: <CAK7LNAQ-HmyKYAWbF2MHEU1FzBzKOvE2DU7Js6tntszLrtUkDg@mail.gmail.com>
-Subject: Re: [PATCH v2 00/14] Remove clang's -Qunused-arguments from KBUILD_CPPFLAGS
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     ndesaulniers@google.com, nicolas@fjasle.eu, trix@redhat.com,
-        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org,
-        kernel test robot <lkp@intel.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>,
-        linux-mips@vger.kernel.org, mpe@ellerman.id.au, npiggin@gmail.com,
-        christophe.leroy@csgroup.eu, linuxppc-dev@lists.ozlabs.org,
-        Segher Boessenkool <segher@kernel.crashing.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        linux-s390@vger.kernel.org,
-        Alex Deucher <alexander.deucher@amd.com>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Date:   Mon, 23 Jan 2023 02:48:19 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASUwTnOHDF9ym3u2R6bxrELEBsrKeaCCeHdz_mrA-yFYg@mail.gmail.com>
+Message-ID: <CAK7LNASUwTnOHDF9ym3u2R6bxrELEBsrKeaCCeHdz_mrA-yFYg@mail.gmail.com>
+Subject: Re: [PATCH] scripts: remove bin2c
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jan 12, 2023 at 12:05 PM Nathan Chancellor <nathan@kernel.org> wrote:
+On Thu, Jan 19, 2023 at 4:13 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Hi all,
+> Commit 80f8be7af03f ("tomoyo: Omit use of bin2c") removed the last
+> use of bin2c.
 >
-> Clang can emit a few different warnings when it encounters a flag that it
-> recognizes but does not support internally. These warnings are elevated to
-> errors within {as,cc}-option via -Werror to catch unsupported flags that should
-> not be added to KBUILD_{A,C}FLAGS; see commit c3f0d0bc5b01 ("kbuild, LLVMLinux:
-> Add -Werror to cc-option to support clang").
->
-> If an unsupported flag is unconditionally to KBUILD_{A,C}FLAGS, all subsequent
-> {as,cc}-option will always fail, preventing supported and even potentially
-> necessary flags from getting adding to the tool flags.
->
-> One would expect these warnings to be visible in the kernel build logs since
-> they are added to KBUILD_{A,C}FLAGS but unfortunately, these warnings are
-> hidden with clang's -Qunused-arguments flag, which is added to KBUILD_CPPFLAGS
-> and used for both compiling and assembling files.
->
-> Patches 1-4 address the internal inconsistencies of invoking the assembler
-> within kbuild by using KBUILD_AFLAGS consistently and using '-x
-> assembler-with-cpp' over '-x assembler'. This matches how assembly files are
-> built across the kernel and helps avoid problems in situations where macro
-> definitions or warning flags are present in KBUILD_AFLAGS, which cause
-> instances of -Wunused-command-line-argument when the preprocessor is not called
-> to consume them. There were a couple of places in architecture code where this
-> change would break things so those are fixed first.
->
-> Patches 5-12 clean up warnings that will show up when -Qunused-argument is
-> dropped. I hope none of these are controversial.
->
-> Patch 13 turns two warnings into errors so that the presence of unused flags
-> cannot be easily ignored.
->
-> Patch 14 drops -Qunused-argument. This is done last so that it can be easily
-> reverted if need be.
->
-> This series has seen my personal test framework, which tests several different
-> configurations and architectures, with LLVM tip of tree (16.0.0). I have done
-> defconfig, allmodconfig, and allnoconfig builds for arm, arm64, i386, mips,
-> powerpc, riscv, s390, and x86_64 with GCC 12.2.0 as well but I am hoping the
-> rest of the test infrastructure will catch any lurking problems.
->
-> I would like this series to stay together so that there is no opportunity for
-> breakage so please consider giving acks so that this can be carried via the
-> kbuild tree (and many thanks to the people who have already provided such
-> tags).
-
-
-All applied to linux-kbuild. Thanks.
-
-I left small comments in 07/14.
-
-
-
-
-
-
-
-
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
-> Changes in v2:
-> - Pick up tags where provided (thank you everyone!)
-> - Patch 6 and 9: Clarify that '-s' is a compiler flag that is only relevant to
->   the linking phase and remove all mention of the assembler's '-s' flag, as the
->   assembler is never directly invoked (Nick, Segher)
-> - Patch 7: Move '-z noexecstack' into new ldflags-y variable (Nick)
-> - Patch 8: Reword commit message to explain the problem in a clearer manner
->   (Nick)
-> - Link to v1: https://lore.kernel.org/r/20221228-drop-qunused-arguments-v1-0-658cbc8fc592@kernel.org
 >
-> ---
-> Nathan Chancellor (12):
->       MIPS: Always use -Wa,-msoft-float and eliminate GAS_HAS_SET_HARDFLOAT
->       MIPS: Prefer cc-option for additions to cflags
->       powerpc: Remove linker flag from KBUILD_AFLAGS
->       powerpc/vdso: Remove unused '-s' flag from ASFLAGS
->       powerpc/vdso: Improve linker flags
->       powerpc/vdso: Remove an unsupported flag from vgettimeofday-32.o with clang
->       s390/vdso: Drop unused '-s' flag from KBUILD_AFLAGS_64
->       s390/vdso: Drop '-shared' from KBUILD_CFLAGS_64
->       s390/purgatory: Remove unused '-MD' and unnecessary '-c' flags
->       drm/amd/display: Do not add '-mhard-float' to dml_ccflags for clang
->       kbuild: Turn a couple more of clang's unused option warnings into errors
->       kbuild: Stop using '-Qunused-arguments' with clang
+>  Documentation/dontdiff     |  1 -
+>  init/Kconfig               |  4 ----
+>  scripts/.gitignore         |  1 -
+>  scripts/Makefile           |  1 -
+>  scripts/bin2c.c            | 36 ------------------------------------
+>  scripts/remove-stale-files |  2 ++
+>  6 files changed, 2 insertions(+), 43 deletions(-)
+>  delete mode 100644 scripts/bin2c.c
+
+
+
+
+Applied to linux-kbuild.
+
+
+
 >
-> Nick Desaulniers (2):
->       x86/boot/compressed: prefer cc-option for CFLAGS additions
->       kbuild: Update assembler calls to use proper flags and language target
+> diff --git a/Documentation/dontdiff b/Documentation/dontdiff
+> index 352ff53a2306..3c399f132e2d 100644
+> --- a/Documentation/dontdiff
+> +++ b/Documentation/dontdiff
+> @@ -91,7 +91,6 @@ asm_offsets.h
+>  autoconf.h*
+>  av_permissions.h
+>  bbootsect
+> -bin2c
+>  binkernel.spec
+>  bootsect
+>  bounds.h
+> diff --git a/init/Kconfig b/init/Kconfig
+> index 7ceabd320425..f66ba19f9482 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -682,10 +682,6 @@ config CPU_ISOLATION
 >
->  Makefile                                    |  1 -
->  arch/mips/Makefile                          | 13 ++-------
->  arch/mips/include/asm/asmmacro-32.h         |  4 +--
->  arch/mips/include/asm/asmmacro.h            | 42 ++++++++++++++---------------
->  arch/mips/include/asm/fpregdef.h            | 14 ----------
->  arch/mips/include/asm/mipsregs.h            | 20 +++-----------
->  arch/mips/kernel/genex.S                    |  2 +-
->  arch/mips/kernel/r2300_fpu.S                |  4 +--
->  arch/mips/kernel/r4k_fpu.S                  | 12 ++++-----
->  arch/mips/kvm/fpu.S                         |  6 ++---
->  arch/mips/loongson2ef/Platform              |  2 +-
->  arch/powerpc/Makefile                       |  2 +-
->  arch/powerpc/kernel/vdso/Makefile           | 25 +++++++++++------
->  arch/s390/kernel/vdso64/Makefile            |  4 +--
->  arch/s390/purgatory/Makefile                |  2 +-
->  arch/x86/boot/compressed/Makefile           |  2 +-
->  drivers/gpu/drm/amd/display/dc/dml/Makefile |  3 ++-
->  scripts/Kconfig.include                     |  2 +-
->  scripts/Makefile.clang                      |  2 ++
->  scripts/Makefile.compiler                   |  8 +++---
->  scripts/as-version.sh                       |  2 +-
->  21 files changed, 74 insertions(+), 98 deletions(-)
-> ---
-> base-commit: 88603b6dc419445847923fcb7fe5080067a30f98
-> change-id: 20221228-drop-qunused-arguments-0c5c7dae54fb
+>  source "kernel/rcu/Kconfig"
 >
-> Best regards,
+> -config BUILD_BIN2C
+> -       bool
+> -       default n
+> -
+>  config IKCONFIG
+>         tristate "Kernel .config support"
+>         help
+> diff --git a/scripts/.gitignore b/scripts/.gitignore
+> index 11bf3c075fb6..6e9ce6720a05 100644
+> --- a/scripts/.gitignore
+> +++ b/scripts/.gitignore
+> @@ -1,6 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  /asn1_compiler
+> -/bin2c
+>  /generate_rust_target
+>  /insert-sys-cert
+>  /kallsyms
+> diff --git a/scripts/Makefile b/scripts/Makefile
+> index 0e0ae3c06ed7..32b6ba722728 100644
+> --- a/scripts/Makefile
+> +++ b/scripts/Makefile
+> @@ -3,7 +3,6 @@
+>  # scripts contains sources for various helper programs used throughout
+>  # the kernel for the build process.
+>
+> -hostprogs-always-$(CONFIG_BUILD_BIN2C)                 += bin2c
+>  hostprogs-always-$(CONFIG_KALLSYMS)                    += kallsyms
+>  hostprogs-always-$(BUILD_C_RECORDMCOUNT)               += recordmcount
+>  hostprogs-always-$(CONFIG_BUILDTIME_TABLE_SORT)                += sorttable
+> diff --git a/scripts/bin2c.c b/scripts/bin2c.c
+> deleted file mode 100644
+> index c3d7eef3ad06..000000000000
+> --- a/scripts/bin2c.c
+> +++ /dev/null
+> @@ -1,36 +0,0 @@
+> -/*
+> - * Unloved program to convert a binary on stdin to a C include on stdout
+> - *
+> - * Jan 1999 Matt Mackall <mpm@selenic.com>
+> - *
+> - * This software may be used and distributed according to the terms
+> - * of the GNU General Public License, incorporated herein by reference.
+> - */
+> -
+> -#include <stdio.h>
+> -
+> -int main(int argc, char *argv[])
+> -{
+> -       int ch, total = 0;
+> -
+> -       if (argc > 1)
+> -               printf("const char %s[] %s=\n",
+> -                       argv[1], argc > 2 ? argv[2] : "");
+> -
+> -       do {
+> -               printf("\t\"");
+> -               while ((ch = getchar()) != EOF) {
+> -                       total++;
+> -                       printf("\\x%02x", ch);
+> -                       if (total % 16 == 0)
+> -                               break;
+> -               }
+> -               printf("\"\n");
+> -       } while (ch != EOF);
+> -
+> -       if (argc > 1)
+> -               printf("\t;\n\n#include <linux/types.h>\n\nconst size_t %s_size = %d;\n",
+> -                      argv[1], total);
+> -
+> -       return 0;
+> -}
+> diff --git a/scripts/remove-stale-files b/scripts/remove-stale-files
+> index c71bf2f68360..04fcdf739638 100755
+> --- a/scripts/remove-stale-files
+> +++ b/scripts/remove-stale-files
+> @@ -29,3 +29,5 @@ rm -f scripts/extract-cert
+>  rm -f scripts/kconfig/[gmnq]conf-cfg
+>
+>  rm -f rust/target.json
+> +
+> +rm -f scripts/bin2c
 > --
-> Nathan Chancellor <nathan@kernel.org>
+> 2.34.1
 >
 
 
---
+-- 
 Best Regards
 Masahiro Yamada
