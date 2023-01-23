@@ -2,62 +2,79 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 03CBF677592
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Jan 2023 08:26:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9ECB3677D3A
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Jan 2023 14:58:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231287AbjAWH0m (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 23 Jan 2023 02:26:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57402 "EHLO
+        id S231872AbjAWN60 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 23 Jan 2023 08:58:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230234AbjAWH0l (ORCPT
+        with ESMTP id S231858AbjAWN6Z (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 23 Jan 2023 02:26:41 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19CD1AA;
-        Sun, 22 Jan 2023 23:26:40 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BC8BBB80BFB;
-        Mon, 23 Jan 2023 07:26:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB517C433D2;
-        Mon, 23 Jan 2023 07:26:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1674458797;
-        bh=CyTr0OLDIFGMiCQeVL81SFkjBQuWETTwpW352yKQpRg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HDoVZhxB4+0u3dMsahXLEFYeyibDi/+3ltIR6vOFUD68sc4CZ/uI3By8CvO9vsBmG
-         pzlJVNLvNU4k9bJ7X1qXSTDatUgRIhnotcDTt4BHS69NBXpIE3thi/HHp6LSmsGFQd
-         +8r/YzCErFRP8WZ7/EkgzNdkZOgQXA2oKwZHbuBE=
-Date:   Mon, 23 Jan 2023 08:26:34 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Tom Saeger <tom.saeger@oracle.com>
-Cc:     stable@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [PATCH 5.15 5.10 5.4 v2] kbuild: fix Build ID if
- CONFIG_MODVERSIONS
-Message-ID: <Y842qsBn37yi9OuR@kroah.com>
-References: <20221221205210.6oolnwkzqo2d6q5h@oracle.com>
- <Y6Pyp+7Udn6x/UVg@kroah.com>
- <20230109183615.zxe7o7fowdpeqlj3@oracle.com>
- <Y7/2ef+JWO6BXGfC@kroah.com>
- <20230112212006.rnrbaby2imjlej4q@oracle.com>
- <20230113150654.w4cbvtasoep5rscw@oracle.com>
- <Y8Kz8JwM/4GyN1um@kroah.com>
- <20230117235006.oishw5tlc3xnwwmd@oracle.com>
- <Y81Gdwg3GZ3W5bNz@kroah.com>
- <Y81KwtuMEDlWfWez@kroah.com>
+        Mon, 23 Jan 2023 08:58:25 -0500
+Received: from mail-vs1-xe2c.google.com (mail-vs1-xe2c.google.com [IPv6:2607:f8b0:4864:20::e2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1063624124
+        for <linux-kbuild@vger.kernel.org>; Mon, 23 Jan 2023 05:58:22 -0800 (PST)
+Received: by mail-vs1-xe2c.google.com with SMTP id i185so12921877vsc.6
+        for <linux-kbuild@vger.kernel.org>; Mon, 23 Jan 2023 05:58:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AXeVUOI3tJuZ9T2gK/O+SpNhk9weOWc0rxA2abMay4I=;
+        b=f+oPJtggRr/AYVdmrJrdS5cvNI2FHQdGZvYkdPk4YSPwKdkthwTzW0LGvrv+2Iev18
+         LTtk76HyV0eGltMB3lS7aV0gQHsu9A1aU8DBeAponH7TvZkQzuskeukPsYCeynQufcNx
+         fcxG8G7laVPAYJTAJev/5kHxuvP9AnL/z8S8antD4PXc+eAkzF7StSQ9Ky39fB1TN97Y
+         nVN9P85z2XjZIqX09CDbuOASyb1TZw/uKqwphI+nSKTLlutEnW87WeXVKH6HSG9UBGGN
+         sWMlv/GrLlc0Lm0WpHYvhLjd613mF9cwKcT35EILIGcTtDy3u7eB1q9hGBJzz2ddczCD
+         HR7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=AXeVUOI3tJuZ9T2gK/O+SpNhk9weOWc0rxA2abMay4I=;
+        b=Kb1MfJExGFzqgzVkKoh1X0Aygp7idhHLQr+uBRkasXgsbsDhNFULUHTLIRCRFSK3xR
+         e26B6Lzzib+Cjse+FLdf9/Nz9xlm/i9LmUF1So99fgEb1eYdo4nDZegGzullJrtLQkDR
+         WmVGPRGjnlqD3Ya4tusPfN3B2R7fi+jtOZQm58QfpXcmfNvcg6t5NfrWssqEKwsT561A
+         BLy8hcYn4nSqEWHto7GNLcHel3df5LDKxemGWjHj97BYJTbmkXWsDVUmB5t4iqUodhsO
+         XUQB5pTR0EbIOZWV7SXJY70/pCb/evXhfgVVvl11LLQZhS+j3+lF4nycu96CZufpG1Ml
+         CR9g==
+X-Gm-Message-State: AFqh2krU+YBN0Mq1a6X5Lb3TyQg50MuT83bmX/4DCkzXFCCWb4xnQ753
+        /qvo3CiYQSr8SHu1mDGxshagu5Axg57jgS0VY3AVYg==
+X-Google-Smtp-Source: AMrXdXv3SdbW1OMymcwSw+UKgdSwlNT3pqbo79BE5ANCHiPz/DLfWupVOzWQju3/tf20XCLIQDK8JmT9SUQGBmNn37g=
+X-Received: by 2002:a67:f9d8:0:b0:3d0:8947:f6f6 with SMTP id
+ c24-20020a67f9d8000000b003d08947f6f6mr3340629vsq.3.1674482300949; Mon, 23 Jan
+ 2023 05:58:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y81KwtuMEDlWfWez@kroah.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+References: <20221228-drop-qunused-arguments-v2-0-9adbddd20d86@kernel.org>
+In-Reply-To: <20221228-drop-qunused-arguments-v2-0-9adbddd20d86@kernel.org>
+From:   Naresh Kamboju <naresh.kamboju@linaro.org>
+Date:   Mon, 23 Jan 2023 19:28:10 +0530
+Message-ID: <CA+G9fYs58vWj705MdaBKomVfHxNJ5ekSTmf53S4=4oVmc43CZg@mail.gmail.com>
+Subject: Re: [PATCH v2 00/14] Remove clang's -Qunused-arguments from KBUILD_CPPFLAGS
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     masahiroy@kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu,
+        trix@redhat.com, linux-kbuild@vger.kernel.org,
+        llvm@lists.linux.dev, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+        kernel test robot <lkp@intel.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>,
+        linux-mips@vger.kernel.org, mpe@ellerman.id.au, npiggin@gmail.com,
+        christophe.leroy@csgroup.eu, linuxppc-dev@lists.ozlabs.org,
+        Segher Boessenkool <segher@kernel.crashing.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        linux-s390@vger.kernel.org,
+        Alex Deucher <alexander.deucher@amd.com>,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        lkft-triage@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,206 +82,248 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Jan 22, 2023 at 03:40:02PM +0100, Greg Kroah-Hartman wrote:
-> On Sun, Jan 22, 2023 at 03:21:43PM +0100, Greg Kroah-Hartman wrote:
-> > On Tue, Jan 17, 2023 at 05:50:06PM -0600, Tom Saeger wrote:
-> > > On Sat, Jan 14, 2023 at 02:53:52PM +0100, Greg Kroah-Hartman wrote:
-> > > > On Fri, Jan 13, 2023 at 09:06:54AM -0600, Tom Saeger wrote:
-> > > > > On Thu, Jan 12, 2023 at 03:20:11PM -0600, Tom Saeger wrote:
-> > > > > > On Thu, Jan 12, 2023 at 01:00:57PM +0100, Greg Kroah-Hartman wrote:
-> > > > > > > On Mon, Jan 09, 2023 at 12:36:15PM -0600, Tom Saeger wrote:
-> > > > > > > > On Thu, Dec 22, 2022 at 07:01:11AM +0100, Greg Kroah-Hartman wrote:
-> > > > > > > > > On Wed, Dec 21, 2022 at 02:52:10PM -0600, Tom Saeger wrote:
-> > > > > > > > > > On Wed, Dec 21, 2022 at 05:31:51PM +0100, Greg Kroah-Hartman wrote:
-> > > > > > > > > > > On Thu, Dec 15, 2022 at 04:18:18PM -0700, Tom Saeger wrote:
-> > > > > > > > > > > > Backport of:
-> > > > > > > > > > > > commit 0d362be5b142 ("Makefile: link with -z noexecstack --no-warn-rwx-segments")
-> > > > > > > > > > > > breaks arm64 Build ID when CONFIG_MODVERSIONS=y for all kernels
-> > > > > > > > > > > > from: commit e4484a495586 ("Merge tag 'kbuild-fixes-v5.0' of git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild")
-> > > > > > > > > > > > until: commit df202b452fe6 ("Merge tag 'kbuild-v5.19' of git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild")
-> > > > > > > > > > > > 
-> > > > > > > > > > > > Linus's tree doesn't have this issue since 0d362be5b142 was merged
-> > > > > > > > > > > > after df202b452fe6 which included:
-> > > > > > > > > > > > commit 7b4537199a4a ("kbuild: link symbol CRCs at final link, removing CONFIG_MODULE_REL_CRCS")
-> > > > > > > > > > > 
-> > > > > > > > > > > Why can't we add this one instead of a custom change?
-> > > > > > > > > > 
-> > > > > > > > > > I quickly abandoned that route - there are too many dependencies.
-> > > > > > > > > 
-> > > > > > > > > How many?  Why?  Whenever we add a "this is not upstream" patch, 90% of
-> > > > > > > > > the time it is incorrect and causes problems (merge issues included.)
-> > > > > > > > > So please please please let's try to keep in sync with what is in
-> > > > > > > > > Linus's tree.
-> > > > > > > > > 
-> > > > > > > > > thanks,
-> > > > > > > > > 
-> > > > > > > > > greg k-h
-> > > > > > > > 
-> > > > > > > > Ok - I spent some time on this.
-> > > > > > > > 
-> > > > > > > > The haystack I searched:
-> > > > > > > > 
-> > > > > > > >   git rev-list --grep="masahiroy/linux-kbuild" v5.15..v5.19-rc1 | while read -r CID ; do git rev-list "${CID}^-" ; done | wc -l
-> > > > > > > >   182
-> > > > > > > > 
-> > > > > > > > I have 54 of those 182 applied to 5.15.85, and this works in my
-> > > > > > > > limited build testing (x86_64 gcc, arm64 gcc, arm64 clang).
-> > > > > > > > 
-> > > > > > > > Specifically:
-> > > > > > > > 
-> > > > > > > > 
-> > > > > > > > cbfc9bf3223f genksyms: adjust the output format to modpost
-> > > > > > > > e7c9c2630e59 kbuild: stop merging *.symversions
-> > > > > > > > 1d788aa800c7 kbuild: link symbol CRCs at final link, removing CONFIG_MODULE_REL_CRCS
-> > > > > > > > 8a01c770955b modpost: extract symbol versions from *.cmd files
-> > > > > > > > a8ade6b33772 modpost: add sym_find_with_module() helper
-> > > > > > > > a9639fe6b516 modpost: change the license of EXPORT_SYMBOL to bool type
-> > > > > > > > 04804878f631 modpost: remove left-over cross_compile declaration
-> > > > > > > > 3388b8af9698 kbuild: record symbol versions in *.cmd files
-> > > > > > > > 4ff3946463a0 kbuild: generate a list of objects in vmlinux
-> > > > > > > > 074617e2ad6a modpost: move *.mod.c generation to write_mod_c_files()
-> > > > > > > > 81b78cb6e821 modpost: merge add_{intree_flag,retpoline,staging_flag} to add_header
-> > > > > > > > 9df4f00b53b4 modpost: split new_symbol() to symbol allocation and hash table addition
-> > > > > > > > 85728bcbc500 modpost: make sym_add_exported() always allocate a new symbol
-> > > > > > > > 82aa2b4d30af modpost: make multiple export error
-> > > > > > > > 6cc962f0a175 modpost: dump Module.symvers in the same order of modules.order
-> > > > > > > > 39db82cea373 modpost: traverse the namespace_list in order
-> > > > > > > > 45dc7b236dcb modpost: use doubly linked list for dump_lists
-> > > > > > > > 2a322506403a modpost: traverse unresolved symbols in order
-> > > > > > > > a85718443348 modpost: add sym_add_unresolved() helper
-> > > > > > > > 5c44b0f89c82 modpost: traverse modules in order
-> > > > > > > > a0b68f6655f2 modpost: import include/linux/list.h
-> > > > > > > > ce9f4d32be4e modpost: change mod->gpl_compatible to bool type
-> > > > > > > > f9fe36a515ca modpost: use bool type where appropriate
-> > > > > > > > 46f6334d7055 modpost: move struct namespace_list to modpost.c
-> > > > > > > > afa24c45af49 modpost: retrieve the module dependency and CRCs in check_exports()
-> > > > > > > > a8f687dc3ac2 modpost: add a separate error for exported symbols without definition
-> > > > > > > > f97f0e32b230 modpost: remove stale comment about sym_add_exported()
-> > > > > > > > 0af2ad9d11c3 modpost: do not write out any file when error occurred
-> > > > > > > > 09eac5681c02 modpost: use snprintf() instead of sprintf() for safety
-> > > > > > > > ee07380110f2 kbuild: read *.mod to get objects passed to $(LD) or $(AR)
-> > > > > > > > 97976e5c6d55 kbuild: make *.mod not depend on *.o
-> > > > > > > > 0d4368c8da07 kbuild: get rid of duplication in *.mod files
-> > > > > > > > 55f602f00903 kbuild: split the second line of *.mod into *.usyms
-> > > > > > > > ea9730eb0788 kbuild: reuse real-search to simplify cmd_mod
-> > > > > > > > 1eacf71f885a kbuild: make multi_depend work with targets in subdirectory
-> > > > > > > > 19c2b5b6f769 kbuild: reuse suffix-search to refactor multi_depend
-> > > > > > > > 75df07a9133d kbuild: refactor cmd_modversions_S
-> > > > > > > > 53257fbea174 kbuild: refactor cmd_modversions_c
-> > > > > > > > b6e50682c261 modpost: remove annoying namespace_from_kstrtabns()
-> > > > > > > > 1002d8f060b0 modpost: remove redundant initializes for static variables
-> > > > > > > > 921fbb7ab714 modpost: move export_from_secname() call to more relevant place
-> > > > > > > > f49c0989e01b modpost: remove useless export_from_sec()
-> > > > > > > > 7a98501a77db kbuild: do not remove empty *.symtypes explicitly
-> > > > > > > > 500f1b31c16f kbuild: factor out genksyms command from cmd_gensymtypes_{c,S}
-> > > > > > > > e04fcad29aa3 kallsyms: ignore all local labels prefixed by '.L'
-> > > > > > > > 9e01f7ef15d2 kbuild: drop $(size_append) from cmd_zstd
-> > > > > > > > 054133567480 kbuild: do not include include/config/auto.conf from shell scripts
-> > > > > > > > 34d14831eecb kbuild: stop using config_filename in scripts/Makefile.modsign
-> > > > > > > > 75155bda5498 kbuild: use more subdir- for visiting subdirectories while cleaning
-> > > > > > > > 1a3f00cd3be8 kbuild: reuse $(cmd_objtool) for cmd_cc_lto_link_modules
-> > > > > > > > 47704d10e997 kbuild: detect objtool update without using .SECONDEXPANSION
-> > > > > > > > 7a89d034ccc6 kbuild: factor out OBJECT_FILES_NON_STANDARD check into a macro
-> > > > > > > > 3cbbf4b9d188 kbuild: store the objtool command in *.cmd files
-> > > > > > > > 467f0d0aa6b4 kbuild: rename __objtool_obj and reuse it for cmd_cc_lto_link_modules
-> > > > > > > > 
-> > > > > > > > There may be a few more patches post v5.19-rc1 for Fixes.
-> > > > > > > > I haven't tried minimizing the 54.
-> > > > > > > > 
-> > > > > > > > Greg - is 54 too many?
-> > > > > > > 
-> > > > > > > Yes.
-> > > > > > > 
-> > > > > > > How about we just revert the original problem commit here to solve this
-> > > > > > > mess?  Wouldn't that be easier overall?
-> > > > > > > 
-> > > > > > > thanks,
-> > > > > > > 
-> > > > > > > greg k-h
-> > > > > > 
-> > > > > > What about a partial revert like:
-> > > > > > 
-> > > > > > diff --git a/Makefile b/Makefile
-> > > > > > index 9f5d2e87150e..aa0f7578653d 100644
-> > > > > > --- a/Makefile
-> > > > > > +++ b/Makefile
-> > > > > > @@ -1083,7 +1083,9 @@ KBUILD_CFLAGS   += $(KCFLAGS)
-> > > > > >  KBUILD_LDFLAGS_MODULE += --build-id=sha1
-> > > > > >  LDFLAGS_vmlinux += --build-id=sha1
-> > > > > > 
-> > > > > > +ifneq ($(ARCH),$(filter $(ARCH),arm64))
-> > > > > >  KBUILD_LDFLAGS += -z noexecstack
-> > > > > > +endif
-> > > > > >  ifeq ($(CONFIG_LD_IS_BFD),y)
-> > > > > >  KBUILD_LDFLAGS += $(call ld-option,--no-warn-rwx-segments)
-> > > > > >  endif
-> > > > > > 
-> > > > > > 
-> > > > > > Only arm64 gcc/ld builds would need to change (with the option of adding
-> > > > > > other architectures if anyone reports same issue).
-> > > > > > 
-> > > > > > With a full revert we lose --no-warn-rwx-segments and warnings show-up
-> > > > > > with later versions of ld.
-> > > > > > 
-> > > > > > 
-> > > > > > I did open a bug against 'ld' as Nick requested:
-> > > > > > https://sourceware.org/bugzilla/show_bug.cgi?id=29994
-> > > > > > 
-> > > > > > If this is this is a better way to go - I can form up a v3 patch.
-> > > > > > 
-> > > > > > --Tom
-> > > > > 
-> > > > > nevermind
-> > > > > 
-> > > > > The patch discussed here fixes arm64 Build ID for 5.15, 5.10, and 5.4:
-> > > > > 
-> > > > > https://lore.kernel.org/all/CAMj1kXHqQoqoys83nEp=Q6oT68+-GpCuMjfnYK9pMy-X_+jjKw@mail.gmail.com/
-> > > > 
-> > > > Great, please let me know when this hits Linus's tree and I will be glad
-> > > > to queue it up.
-> > > > 
-> > > > thanks,
-> > > > 
-> > > > greg k-h
-> > > 
-> > > Hi Greg,
-> > > 
-> > >   Masahiroy's commit is already in Linus's tree.
-> > > 
-> > > ❯ git log -n1 --format=oneline 99cb0d917ffa
-> > > 99cb0d917ffa1ab628bb67364ca9b162c07699b1 arch: fix broken BuildID for arm64 and riscv
-> > > 
-> > > ❯ git tag --contains=99cb0d917ffa
-> > > v6.2-rc2
-> > > v6.2-rc3
-> > > v6.2-rc4
-> > > 
-> > > Needed to fix Build ID in 5.15, 5.10, and 5.4 
-> > > 
-> > > Build results on arm64:
-> > > PASS v4.19.269 c652c812211c ("Linux 4.19.269") Build ID: 3b638c635fb3f3241b3e7ad6a147cf69d931b5b7
-> > > PASS v4.19.269 00527d2a4998 ("arch: fix broken BuildID for arm64 and riscv")     Build ID: 919b5ca1964776926bc6c8addc5b8af4fb15367b
-> > > FAIL v5.4.228  851c2b5fb793 ("Linux 5.4.228")
-> > > PASS v5.4.228  39bb8287bc08 ("arch: fix broken BuildID for arm64 and riscv")     Build ID: 483ac60fe71545045e625e681f3d4ebae5d15cd1
-> > > FAIL v5.10.163 19ff2d645f7a ("Linux 5.10.163")
-> > > PASS v5.10.163 6136c3a732cf ("arch: fix broken BuildID for arm64 and riscv")     Build ID: 4c0926311f96a031c0581d8136d09ca4f7ca77b6
-> > > FAIL v5.15.88  90bb4f8f399f ("Linux 5.15.88")
-> > > PASS v5.15.88  6cb364966c77 ("arch: fix broken BuildID for arm64 and riscv")     Build ID: 623dab2f6bd78271e315493c232abf042af88036
-> > > PASS v6.1.6    38f3ee12661f ("Linux 6.1.6")    Build ID: 8b9e3e330b093ab6037a5dcffcaefca84a878d44
-> > > PASS v6.1.6    db1031af82be ("arch: fix broken BuildID for arm64 and riscv")     Build ID: 2d848c31fcc31414513fa33ff2990fe6c9afa88c
-> > 
-> > Now queued up everywhere, thanks!
-> 
-> Ick, there was lots of fix-up patches for this commit, please always be
-> aware of that when recommending a patch be backported...
+Hi Nathan,
 
-And it broke the builds on all backports :(
+On Thu, 12 Jan 2023 at 08:35, Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> Hi all,
+>
+> Clang can emit a few different warnings when it encounters a flag that it
+> recognizes but does not support internally. These warnings are elevated t=
+o
+> errors within {as,cc}-option via -Werror to catch unsupported flags that =
+should
+> not be added to KBUILD_{A,C}FLAGS; see commit c3f0d0bc5b01 ("kbuild, LLVM=
+Linux:
+> Add -Werror to cc-option to support clang").
+>
+> If an unsupported flag is unconditionally to KBUILD_{A,C}FLAGS, all subse=
+quent
+> {as,cc}-option will always fail, preventing supported and even potentiall=
+y
+> necessary flags from getting adding to the tool flags.
+>
+> One would expect these warnings to be visible in the kernel build logs si=
+nce
+> they are added to KBUILD_{A,C}FLAGS but unfortunately, these warnings are
+> hidden with clang's -Qunused-arguments flag, which is added to KBUILD_CPP=
+FLAGS
+> and used for both compiling and assembling files.
+>
+> Patches 1-4 address the internal inconsistencies of invoking the assemble=
+r
+> within kbuild by using KBUILD_AFLAGS consistently and using '-x
+> assembler-with-cpp' over '-x assembler'. This matches how assembly files =
+are
+> built across the kernel and helps avoid problems in situations where macr=
+o
+> definitions or warning flags are present in KBUILD_AFLAGS, which cause
+> instances of -Wunused-command-line-argument when the preprocessor is not =
+called
+> to consume them. There were a couple of places in architecture code where=
+ this
+> change would break things so those are fixed first.
+>
+> Patches 5-12 clean up warnings that will show up when -Qunused-argument i=
+s
+> dropped. I hope none of these are controversial.
+>
+> Patch 13 turns two warnings into errors so that the presence of unused fl=
+ags
+> cannot be easily ignored.
+>
+> Patch 14 drops -Qunused-argument. This is done last so that it can be eas=
+ily
+> reverted if need be.
+>
+> This series has seen my personal test framework, which tests several diff=
+erent
+> configurations and architectures, with LLVM tip of tree (16.0.0). I have =
+done
+> defconfig, allmodconfig, and allnoconfig builds for arm, arm64, i386, mip=
+s,
+> powerpc, riscv, s390, and x86_64 with GCC 12.2.0 as well but I am hoping =
+the
+> rest of the test infrastructure will catch any lurking problems.
+>
+> I would like this series to stay together so that there is no opportunity=
+ for
+> breakage so please consider giving acks so that this can be carried via t=
+he
+> kbuild tree (and many thanks to the people who have already provided such
+> tags).
+>
+> ---
+> Changes in v2:
+> - Pick up tags where provided (thank you everyone!)
+> - Patch 6 and 9: Clarify that '-s' is a compiler flag that is only releva=
+nt to
+>   the linking phase and remove all mention of the assembler's '-s' flag, =
+as the
+>   assembler is never directly invoked (Nick, Segher)
+> - Patch 7: Move '-z noexecstack' into new ldflags-y variable (Nick)
+> - Patch 8: Reword commit message to explain the problem in a clearer mann=
+er
+>   (Nick)
+> - Link to v1: https://lore.kernel.org/r/20221228-drop-qunused-arguments-v=
+1-0-658cbc8fc592@kernel.org
+>
+> ---
+> Nathan Chancellor (12):
+>       MIPS: Always use -Wa,-msoft-float and eliminate GAS_HAS_SET_HARDFLO=
+AT
+>       MIPS: Prefer cc-option for additions to cflags
+>       powerpc: Remove linker flag from KBUILD_AFLAGS
+>       powerpc/vdso: Remove unused '-s' flag from ASFLAGS
+>       powerpc/vdso: Improve linker flags
+>       powerpc/vdso: Remove an unsupported flag from vgettimeofday-32.o wi=
+th clang
+>       s390/vdso: Drop unused '-s' flag from KBUILD_AFLAGS_64
+>       s390/vdso: Drop '-shared' from KBUILD_CFLAGS_64
+>       s390/purgatory: Remove unused '-MD' and unnecessary '-c' flags
+>       drm/amd/display: Do not add '-mhard-float' to dml_ccflags for clang
+>       kbuild: Turn a couple more of clang's unused option warnings into e=
+rrors
+>       kbuild: Stop using '-Qunused-arguments' with clang
+>
+> Nick Desaulniers (2):
+>       x86/boot/compressed: prefer cc-option for CFLAGS additions
+>       kbuild: Update assembler calls to use proper flags and language tar=
+get
+>
+>  Makefile                                    |  1 -
+>  arch/mips/Makefile                          | 13 ++-------
+>  arch/mips/include/asm/asmmacro-32.h         |  4 +--
+>  arch/mips/include/asm/asmmacro.h            | 42 ++++++++++++++---------=
+------
+>  arch/mips/include/asm/fpregdef.h            | 14 ----------
+>  arch/mips/include/asm/mipsregs.h            | 20 +++-----------
+>  arch/mips/kernel/genex.S                    |  2 +-
+>  arch/mips/kernel/r2300_fpu.S                |  4 +--
+>  arch/mips/kernel/r4k_fpu.S                  | 12 ++++-----
+>  arch/mips/kvm/fpu.S                         |  6 ++---
+>  arch/mips/loongson2ef/Platform              |  2 +-
+>  arch/powerpc/Makefile                       |  2 +-
+>  arch/powerpc/kernel/vdso/Makefile           | 25 +++++++++++------
+>  arch/s390/kernel/vdso64/Makefile            |  4 +--
+>  arch/s390/purgatory/Makefile                |  2 +-
+>  arch/x86/boot/compressed/Makefile           |  2 +-
+>  drivers/gpu/drm/amd/display/dc/dml/Makefile |  3 ++-
+>  scripts/Kconfig.include                     |  2 +-
+>  scripts/Makefile.clang                      |  2 ++
+>  scripts/Makefile.compiler                   |  8 +++---
+>  scripts/as-version.sh                       |  2 +-
+>  21 files changed, 74 insertions(+), 98 deletions(-)
 
-I'm going to drop this now, and the fixup patches, from all branches.
-Please resubmit a set of _working_ commits for all branches that you
-care about, and I will be glad to reconsider them then, as obviously
-this was not tested very well.
 
-thanks,
+FYI,
+[ please provide comments, feedback and improvements on build/ ltp smoke te=
+sts ]
 
-greg k-h
+LKFT test farm have fetched your patch series [1]
+[PATCH v2 00/14] Remove clang's -Qunused-arguments from KBUILD_CPPFLAGS
+ [1] https://lore.kernel.org/llvm/20221228-drop-qunused-arguments-v2-0-9adb=
+ddd20d86@kernel.org/
+
+Following build warnings and errors reported.
+
+sh:
+gcc-11-defconfig =E2=80=94 FAIL
+gcc-11-shx3_defconfig =E2=80=94 FAIL
+https://qa-reports.linaro.org/~anders.roxell/linux-mainline-patches/build/h=
+ttps___lore_kernel_org_llvm_20221228-drop-qunused-arguments-v2-1-9adbddd20d=
+86_kernel_org/testrun/14221835/suite/build/tests/
+
+mainline getting passed.
+https://qa-reports.linaro.org/lkft/linux-mainline-master/build/v6.2-rc5/tes=
+trun/14298156/suite/build/test/gcc-11-defconfig/history/
+https://qa-reports.linaro.org/lkft/linux-mainline-master/build/v6.2-rc5/tes=
+trun/14298156/suite/build/test/gcc-11-shx3_defconfig/history/
+
+Build error:
+In function 'follow_pmd_mask',
+    inlined from 'follow_pud_mask' at /builds/linux/mm/gup.c:735:9,
+    inlined from 'follow_p4d_mask' at /builds/linux/mm/gup.c:752:9,
+    inlined from 'follow_page_mask' at /builds/linux/mm/gup.c:809:9:
+/builds/linux/include/linux/compiler_types.h:358:45: error: call to
+'__compiletime_assert_263' declared with attribute error: Unsupported
+access size for {READ,WRITE}_ONCE().
+  358 |         _compiletime_assert(condition, msg,
+__compiletime_assert_, __COUNTER__)
+
+
+s390:
+clang-15-defconfig =E2=80=94 FAIL
+https://qa-reports.linaro.org/~anders.roxell/linux-mainline-patches/build/h=
+ttps___lore_kernel_org_llvm_20221228-drop-qunused-arguments-v2-1-9adbddd20d=
+86_kernel_org/testrun/14221913/suite/build/tests/
+
+mainline getting passed.
+https://qa-reports.linaro.org/lkft/linux-mainline-master/build/v6.2-rc5/tes=
+trun/14300495/suite/build/test/clang-15-defconfig/history/
+
+Build error:
+make --silent --keep-going --jobs=3D8
+O=3D/home/tuxbuild/.cache/tuxmake/builds/1/build LLVM_IAS=3D0 ARCH=3Ds390
+CROSS_COMPILE=3Ds390x-linux-gnu- 'HOSTCC=3Dsccache clang' 'CC=3Dsccache
+clang'
+`.exit.text' referenced in section `__jump_table' of fs/fuse/inode.o:
+defined in discarded section `.exit.text' of fs/fuse/inode.o
+`.exit.text' referenced in section `__jump_table' of fs/fuse/inode.o:
+defined in discarded section `.exit.text' of fs/fuse/inode.o
+`.exit.text' referenced in section `__bug_table' of crypto/algboss.o:
+defined in discarded section `.exit.text' of crypto/algboss.o
+`.exit.text' referenced in section `__bug_table' of drivers/scsi/sd.o:
+defined in discarded section `.exit.text' of drivers/scsi/sd.o
+`.exit.text' referenced in section `__jump_table' of drivers/md/md.o:
+defined in discarded section `.exit.text' of drivers/md/md.o
+`.exit.text' referenced in section `__jump_table' of drivers/md/md.o:
+defined in discarded section `.exit.text' of drivers/md/md.o
+`.exit.text' referenced in section `.altinstructions' of
+drivers/md/md.o: defined in discarded section `.exit.text' of
+drivers/md/md.o
+`.exit.text' referenced in section `.altinstructions' of
+drivers/md/md.o: defined in discarded section `.exit.text' of
+drivers/md/md.o
+`.exit.text' referenced in section `.altinstructions' of
+net/iucv/iucv.o: defined in discarded section `.exit.text' of
+net/iucv/iucv.o
+`.exit.text' referenced in section `__bug_table' of
+drivers/s390/cio/qdio_thinint.o: defined in discarded section
+`.exit.text' of drivers/s390/cio/qdio_thinint.o
+`.exit.text' referenced in section `__bug_table' of
+drivers/s390/net/qeth_l3_main.o: defined in discarded section
+`.exit.text' of drivers/s390/net/qeth_l3_main.o
+`.exit.text' referenced in section `__bug_table' of
+drivers/s390/net/qeth_l3_main.o: defined in discarded section
+`.exit.text' of drivers/s390/net/qeth_l3_main.o
+s390x-linux-gnu-ld: BFD (GNU Binutils for Debian) 2.35.2 assertion
+fail ../../bfd/elf64-s390.c:3349
+make[2]: *** [/builds/linux/scripts/Makefile.vmlinux:34: vmlinux] Error 1
+
+But,
+Build and boot pass on arm64, arm, x86_64 and i386.
+Build test performed for mips, parisc, riscv, s390, sh, sparc and
+powerpc (known build errors for maple_defconfig and cell_defconfig),
+
+Please refer following link for detailed build, boot, LTP smoketest.
+https://qa-reports.linaro.org/~anders.roxell/linux-mainline-patches/build/h=
+ttps___lore_kernel_org_llvm_20221228-drop-qunused-arguments-v2-1-9adbddd20d=
+86_kernel_org/?failures_only=3Dfalse&results_layout=3Dtable#!#test-results
+
+Best regards
+Naresh Kamboju
+
+--
+Linaro LKFT
+https://lkft.linaro.org
+
+> ---
+> base-commit: 88603b6dc419445847923fcb7fe5080067a30f98
+> change-id: 20221228-drop-qunused-arguments-0c5c7dae54fb
+>
+> Best regards,
+> --
+> Nathan Chancellor <nathan@kernel.org>
+>
+>
