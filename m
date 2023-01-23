@@ -2,191 +2,105 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C52C67714B
-	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Jan 2023 19:01:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A65BB6774E1
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Jan 2023 06:27:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230099AbjAVSBf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 22 Jan 2023 13:01:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49756 "EHLO
+        id S230031AbjAWF1J (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 23 Jan 2023 00:27:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230011AbjAVSBa (ORCPT
+        with ESMTP id S230023AbjAWF1I (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 22 Jan 2023 13:01:30 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D24E816AC6
-        for <linux-kbuild@vger.kernel.org>; Sun, 22 Jan 2023 10:01:28 -0800 (PST)
+        Mon, 23 Jan 2023 00:27:08 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0C854C22;
+        Sun, 22 Jan 2023 21:27:07 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 7F94EB80B48
-        for <linux-kbuild@vger.kernel.org>; Sun, 22 Jan 2023 18:01:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 815A6C433EF;
-        Sun, 22 Jan 2023 18:01:25 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 22145CE09E5;
+        Mon, 23 Jan 2023 05:27:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C27AC433D2;
+        Mon, 23 Jan 2023 05:27:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674410486;
-        bh=ZGiCjszJqpHiIFSAq3hgbJBEIhIKVjiFIcdUwUi83q0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VY65pI9zOzf5Af1dwN1TzzmPaGvB30Z4TTP8WtMbLii3inEeuMp6dAjuzgzwlB2Li
-         9fMnwmdNr30j6nmSq7p2aMpqEj9QgzTSG9DB0ozm0W1AbwVRh74tZKfEMf44GZTLxy
-         haome2sNLyo9B/ReHtRrhmtrA7MkR3cbysu5xLHnPu2q8kFqzpt31hs80Tt1NcyEZl
-         dqXcaffRhDKKasuXhwiTiAHOOiMPBcj3R1rx9QNFzu6Vv2QEySehex+kOlTHac5VX4
-         Y/kXjKLBsfTNM25bDohNMupqpAeJ1zuI60nPLEYon0zv8q6G7J5Xlxh0/QUDqHhbGB
-         pUhxx38MOJE1Q==
-Date:   Sun, 22 Jan 2023 11:01:23 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Sedat Dilek <sedat.dilek@gmail.com>, ndesaulniers@google.com,
-        nicolas@fjasle.eu, trix@redhat.com, linux-kbuild@vger.kernel.org,
-        llvm@lists.linux.dev, mpe@ellerman.id.au, npiggin@gmail.com,
-        christophe.leroy@csgroup.eu, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v2 07/14] powerpc/vdso: Improve linker flags
-Message-ID: <Y81588GQh3fNY3fO@dev-arch.thelio-3990X>
-References: <20221228-drop-qunused-arguments-v2-0-9adbddd20d86@kernel.org>
- <20221228-drop-qunused-arguments-v2-7-9adbddd20d86@kernel.org>
- <CA+icZUUgq-dnSTRbdynPA8bEWg6SsCE9GYBMF6iViVmo9DfaFA@mail.gmail.com>
- <Y8BPp905fJciHNa2@dev-arch.thelio-3990X>
- <CAK7LNATRetne7hK4xNeEpn7a1=Eaxr42X6nRWohJzWGYiyiPww@mail.gmail.com>
+        s=k20201202; t=1674451624;
+        bh=yynphTf6Y0jKiK1WTidS6B6p4zKQd9mPx6Rft7mEXeQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=E5TbpuaXhEvg/Z7Z3NqXMjvrIAk3Va3jdsNFySiaLAJzHjSR3wMLVs5tz1lVe/fqe
+         lTt0/u/5J5q7k5xgP6wLt1lEA87iT7RXGnE/RF9l3qqfqvhacd9ZXzGleW+PHdzq6I
+         pctEqflGeJ6vGdH+GakYhIz+gMiJENHG02gJ7/K7azFREgPaXyL1Z6ugWflda+TzVz
+         Ylj63T6j2bov5Nugk7fD+m8uMCotDCtBu9B3ggf3rqb+pLRTd+8pFISFhjPpkEm7DT
+         TTcyeR1sAElDH5ULuQxXgMOcu9r1jTqN/x1PQmylD1hgFOyDDyvZazvCtFiyoxj9Fn
+         67zctJ4u0RM9g==
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        William McVicker <willmcvicker@google.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>
+Subject: [PATCH] kbuild: do not automatically add -w option to modpost
+Date:   Mon, 23 Jan 2023 14:26:53 +0900
+Message-Id: <20230123052653.711899-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNATRetne7hK4xNeEpn7a1=Eaxr42X6nRWohJzWGYiyiPww@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jan 23, 2023 at 02:27:51AM +0900, Masahiro Yamada wrote:
-> On Fri, Jan 13, 2023 at 3:21 AM Nathan Chancellor <nathan@kernel.org> wrote:
-> >
-> > Hi Sedat,
-> >
-> > On Thu, Jan 12, 2023 at 07:02:30PM +0100, Sedat Dilek wrote:
-> > > On Thu, Jan 12, 2023 at 4:06 AM Nathan Chancellor <nathan@kernel.org> wrote:
-> > > >
-> > > > When clang's -Qunused-arguments is dropped from KBUILD_CPPFLAGS, there
-> > > > are several warnings in the PowerPC vDSO:
-> > > >
-> > > >   clang-16: error: -Wl,-soname=linux-vdso32.so.1: 'linker' input unused [-Werror,-Wunused-command-line-argument]
-> > > >   clang-16: error: -Wl,--hash-style=both: 'linker' input unused [-Werror,-Wunused-command-line-argument]
-> > > >   clang-16: error: argument unused during compilation: '-shared' [-Werror,-Wunused-command-line-argument]
-> > > >
-> > > >   clang-16: error: argument unused during compilation: '-nostdinc' [-Werror,-Wunused-command-line-argument]
-> > > >   clang-16: error: argument unused during compilation: '-Wa,-maltivec' [-Werror,-Wunused-command-line-argument]
-> > > >
-> > > > The first group of warnings point out that linker flags were being added
-> > > > to all invocations of $(CC), even though they will only be used during
-> > > > the final vDSO link. Move those flags to ldflags-y.
-> > > >
-> > > > The second group of warnings are compiler or assembler flags that will
-> > > > be unused during linking. Filter them out from KBUILD_CFLAGS so that
-> > > > they are not used during linking.
-> > > >
-> > > > Additionally, '-z noexecstack' was added directly to the ld_and_check
-> > > > rule in commit 1d53c0192b15 ("powerpc/vdso: link with -z noexecstack")
-> > > > but now that there is a common ldflags variable, it can be moved there.
-> > > >
-> > > > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> > > > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-> > > > ---
-> > > > Cc: mpe@ellerman.id.au
-> > > > Cc: npiggin@gmail.com
-> > > > Cc: christophe.leroy@csgroup.eu
-> > > > Cc: linuxppc-dev@lists.ozlabs.org
-> > > > ---
-> > > >  arch/powerpc/kernel/vdso/Makefile | 18 +++++++++++-------
-> > > >  1 file changed, 11 insertions(+), 7 deletions(-)
-> > > >
-> > > > diff --git a/arch/powerpc/kernel/vdso/Makefile b/arch/powerpc/kernel/vdso/Makefile
-> > > > index 45c0cc5d34b6..4337b3aa9171 100644
-> > > > --- a/arch/powerpc/kernel/vdso/Makefile
-> > > > +++ b/arch/powerpc/kernel/vdso/Makefile
-> > > > @@ -47,13 +47,17 @@ KCOV_INSTRUMENT := n
-> > > >  UBSAN_SANITIZE := n
-> > > >  KASAN_SANITIZE := n
-> > > >
-> > > > -ccflags-y := -shared -fno-common -fno-builtin -nostdlib -Wl,--hash-style=both
-> > > > -ccflags-$(CONFIG_LD_IS_LLD) += $(call cc-option,--ld-path=$(LD),-fuse-ld=lld)
-> > > > -
-> > > > -CC32FLAGS := -Wl,-soname=linux-vdso32.so.1 -m32
-> > > > +ccflags-y := -fno-common -fno-builtin
-> > > > +ldflags-y := -Wl,--hash-style=both -nostdlib -shared -z noexecstack
-> > > > +ldflags-$(CONFIG_LD_IS_LLD) += $(call cc-option,--ld-path=$(LD),-fuse-ld=lld)
-> > > > +# Filter flags that clang will warn are unused for linking
-> > > > +ldflags-y += $(filter-out $(CC_FLAGS_FTRACE) -Wa$(comma)%, $(KBUILD_CFLAGS))
-> > > > +
-> > > > +CC32FLAGS := -m32
-> > > > +LD32FLAGS := -Wl,-soname=linux-vdso32.so.1
-> > > >  AS32FLAGS := -D__VDSO32__
-> > > >
-> > > > -CC64FLAGS := -Wl,-soname=linux-vdso64.so.1
-> > >
-> > > Set CC64FLAGS := -m64 ?
-> >
-> > I do not think it is necessary. ldflags-y is filtered from
-> > KBUILD_CFLAGS, which should already include '-m64' (search for
-> > 'HAS_BIARCH' in arch/powerpc/Makefile). We would have seen a problem
-> > with this already if a 32-bit target (powerpc-linux-gnu-) CROSS_COMPILE
-> > value since $(c_flags) uses the main kernel's CROSS_COMPILE value.
-> >
-> > > > +LD64FLAGS := -Wl,-soname=linux-vdso64.so.1
-> > > >  AS64FLAGS := -D__VDSO64__
-> > > >
-> > > >  targets += vdso32.lds
-> > > > @@ -92,14 +96,14 @@ include/generated/vdso64-offsets.h: $(obj)/vdso64.so.dbg FORCE
-> > > >
-> > > >  # actual build commands
-> > > >  quiet_cmd_vdso32ld_and_check = VDSO32L $@
-> > > > -      cmd_vdso32ld_and_check = $(VDSOCC) $(c_flags) $(CC32FLAGS) -o $@ -Wl,-T$(filter %.lds,$^) $(filter %.o,$^) -z noexecstack ; $(cmd_vdso_check)
-> > > > +      cmd_vdso32ld_and_check = $(VDSOCC) $(ldflags-y) $(CC32FLAGS) $(LD32FLAGS) -o $@ -Wl,-T$(filter %.lds,$^) $(filter %.o,$^); $(cmd_vdso_check)
-> > > >  quiet_cmd_vdso32as = VDSO32A $@
-> > > >        cmd_vdso32as = $(VDSOCC) $(a_flags) $(CC32FLAGS) $(AS32FLAGS) -c -o $@ $<
-> > > >  quiet_cmd_vdso32cc = VDSO32C $@
-> > > >        cmd_vdso32cc = $(VDSOCC) $(c_flags) $(CC32FLAGS) -c -o $@ $<
-> > > >
-> > > >  quiet_cmd_vdso64ld_and_check = VDSO64L $@
-> > > > -      cmd_vdso64ld_and_check = $(VDSOCC) $(c_flags) $(CC64FLAGS) -o $@ -Wl,-T$(filter %.lds,$^) $(filter %.o,$^) -z noexecstack ; $(cmd_vdso_check)
-> > > > +      cmd_vdso64ld_and_check = $(VDSOCC) $(ldflags-y) $(CC64FLAGS) $(LD64FLAGS) -o $@ -Wl,-T$(filter %.lds,$^) $(filter %.o,$^); $(cmd_vdso_check)
-> > >
-> > > If no CC64FLAGS := xxx is set, this can go?
-> >
-> > Good catch! CC64FLAGS can be removed. Masahiro, I am happy to send a v3
-> > when I am back online next week but if you are able to fix it up during
-> > application, please feel free to do so (once the PowerPC folks give
-> > their Acks of course).
-> 
-> I removed CC64FLAGS locally.
+When there is a missing input file (vmlinux.o or Module.symvers), you
+are likely to get a ton of unresolved symbols.
 
-Thank you!
+Currently, Kbuild automatically adds the -w option to allow module builds
+to continue with warnings instead of errors.
 
-> Just two comments.
-> 
-> - Is 7f3d349065d0c643f7f7013fbf9bc9f2c90b675f
->   applicable to powerpc too?
-> 
->   Maybe, as a follow-up cleanup, use $(LD)
->   and remove -Wl, prefixes.
+This may not be what the user expects because it is generally more useful
+to catch all possible issues at build time instead of at run time.
 
-Yes, that should be possible to do here as well. Nick attempted it some
-time ago but there was some complications with older tools, so we
-decided to use ld.lld via the compiler in commit 4406b12214f6
-("powerpc/vdso: Link with ld.lld when requested").
+Let's not do what the user did not ask.
 
-> - ldflags-y still pulls $(KBUILD_CFLAGS).
->   Potentially, a new flag addition to KBUILD_CFLAGS
->   may trigger a new -Wunused-command-line-argument warning.
+If you still want to build modules anyway, you can proceed by explicitly
+setting KBUILD_MODPOST_WARN=1. Since you may miss a real issue, you need
+to be aware of what you are doing.
 
-Right, this is certainly possible. Hopefully it will not happen
-frequently enough to be problematic.
+Suggested-by: William McVicker <willmcvicker@google.com>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
->   I hope somebody takes a closer look at which flags
->   are really needed for the linker.
+ scripts/Makefile.modpost | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-This is definitely not a bad idea.
+diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+index 43343e13c542..9254ed811ddd 100644
+--- a/scripts/Makefile.modpost
++++ b/scripts/Makefile.modpost
+@@ -121,16 +121,14 @@ modpost-args += -e $(addprefix -i , $(KBUILD_EXTRA_SYMBOLS))
+ 
+ endif # ($(KBUILD_EXTMOD),)
+ 
+-ifneq ($(missing-input),)
+-modpost-args += -w
+-endif
+-
+ quiet_cmd_modpost = MODPOST $@
+       cmd_modpost = \
+ 	$(if $(missing-input), \
+ 		echo >&2 "WARNING: $(missing-input) is missing."; \
+ 		echo >&2 "         Modules may not have dependencies or modversions."; \
+-		echo >&2 "         You may get many unresolved symbol warnings.";) \
++		echo >&2 "         You may get many unresolved symbol errors.";) \
++		echo >&2 "         You can set KBUILD_MODPOST_WARN=1 to turn errors into warning"; \
++		echo >&2 "         if you want to proceed at your own risk."; \
+ 	$(MODPOST) $(modpost-args)
+ 
+ targets += $(output-symdump)
+-- 
+2.34.1
 
-Cheers,
-Nathan
