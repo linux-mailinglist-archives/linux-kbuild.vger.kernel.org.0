@@ -2,62 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C78B67960B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Jan 2023 12:03:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FD2B679601
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Jan 2023 12:03:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233555AbjAXLC5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 24 Jan 2023 06:02:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33108 "EHLO
+        id S233725AbjAXLCv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 24 Jan 2023 06:02:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233810AbjAXLCZ (ORCPT
+        with ESMTP id S233821AbjAXLC0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 24 Jan 2023 06:02:25 -0500
+        Tue, 24 Jan 2023 06:02:26 -0500
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB86B17153;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EE3C2DE6F;
         Tue, 24 Jan 2023 03:02:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
   t=1674558142; x=1706094142;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=3O/hcxsf8awVeb5swPJncgu6itPwN+2RWGdGMMGB5rY=;
-  b=Kk75FdMQfx4vwmMdbe7mF4R5OxUofB2gEWxn/oFSvznJ75lZZONJUmee
-   GYQJIcCmtt8CCxSk43sbaGQwOJZ/TPTzMoNaXryJq+JLlpwxBDc1MMP25
-   87liSaC3qGu7nVB1Zb5auY3kE/wM4PIQztI2PoWD5XCcdXPK5SolykhCV
-   CH/sn8nb27vr2XyZ4pn5q/kSA5FAfiQE6fynmMOiHMMY4NkrCCySOQqXL
-   NmrD9Ln1N0oXv592rj6jDkB0mIO7FTN4chJdP/ud+wIiYoE4KdsCsojXV
-   1ajb+jjVsKBttMeXyfEL2qY7MhML7ulmp9Cfdu+f4EBgsWUohp5qPyBuP
-   Q==;
+  bh=oGiyXaJNmANxjg8Vq0a8jTPt9MvSMy2CNwFRW9y3uL0=;
+  b=gweuw/rCco6/5p40E43qymCL0Tk9Sp+Trj3+oufaN7MHm0vS94wh2khG
+   YeLrpzkzu0OygiQzISMQTSfT8R+Jbp/e4wX03knQTZXqbm1hJMO8Lt92h
+   r3M2XXk4pJKV2jK/2kdHKY3zUm27L+zf+vbdearDf74dregU78S4t6BTN
+   mvk+B7hrCRzksMgFM+uHzpd1DSdgIgsnMpWVkUIJPqn6Luf3NV5LAuV1P
+   e1zkN5XiMbdkyL93JSGHrKlDDLEILfaTQrSE5Cp1wC+Y7z6aAjkYVoXBw
+   rSZPku28z8MwfCorBvM8UWrFO9QzQWqU96+DWHy8Nd8Arn1KsazQaSK66
+   A==;
 X-IronPort-AV: E=Sophos;i="5.97,242,1669071600"; 
-   d="scan'208";a="28616614"
+   d="scan'208";a="28616618"
 Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 24 Jan 2023 12:02:17 +0100
+  by mx1-pgp.tq-group.com with ESMTP; 24 Jan 2023 12:02:18 +0100
 Received: from mx1.tq-group.com ([192.168.6.7])
   by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Tue, 24 Jan 2023 12:02:17 +0100
+  Tue, 24 Jan 2023 12:02:18 +0100
 X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Tue, 24 Jan 2023 12:02:17 +0100
+        by tq-pgp-pr1.tq-net.de on Tue, 24 Jan 2023 12:02:18 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1674558137; x=1706094137;
+  t=1674558138; x=1706094138;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=3O/hcxsf8awVeb5swPJncgu6itPwN+2RWGdGMMGB5rY=;
-  b=ZjP66V4mx5r2NY7vShHKtjjSSmVYcKH3yIIPjJf9/SN9odY2npYXyBCY
-   Jf62ru45YJsuu+kxWrPiIneYpD4TNr/Ey3Z+mKs22N6qdpEzig83FNsZ/
-   dMeSwCKNdlnTJa/M06NlWb2NMn/ZwDNbIWzJ+ssvOY+FeHsNYWRfLqO/N
-   OjSrhZ/l7SVFdQq5FXHtuj1OKPq5IdcXFPCjBB1nP+ZzdRx9Qr1YwPYPT
-   B0miyl3rlwFtTdVsWFAQis9Xd2BAuNtGe72rRM1b9yCWtQ7d58USVLz5I
-   FPiM/0U5c7yj3oxXtwGZdzXZLpVn/DG1DzJGy+lXyi/aVTZ3O0DqcKgJa
-   w==;
+  bh=oGiyXaJNmANxjg8Vq0a8jTPt9MvSMy2CNwFRW9y3uL0=;
+  b=e6Helcs0DnyPeB9+z9ui/6kuNvZBfXPv0S4dj94k7wMxN9+EvI7riSwZ
+   O3WuLRoJb531XKL/bMbPi//MWlfVWqKRaQPD6GFBMMmOGiVedgmguAEm7
+   +PxiktEoUKkdd+t6bDkyPuRPRJXyUbCuwzbr/ERA/xEsiJCaxSHa+z/vO
+   BkaeTIvA+bfe6lBJM+9XeB3SeSv1huYYgRTz7Ozu7tNFB5W3KkTwI74b5
+   FyXZfHJk7yarO7FWn+MSjYi/98N7ep3Wb4T48ViWuhx4/DiMnElhgO9KC
+   exFZ65V/7invCg6dkep6S3jTc9S7+mV4ZH37lvb6THjxAoNG5jaFaM8WR
+   Q==;
 X-IronPort-AV: E=Sophos;i="5.97,242,1669071600"; 
-   d="scan'208";a="28616613"
+   d="scan'208";a="28616616"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
   by mx1.tq-group.com with ESMTP; 24 Jan 2023 12:02:17 +0100
 Received: from steina-w.tq-net.de (unknown [10.123.53.21])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 2E3C4280073;
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 79AE9280056;
         Tue, 24 Jan 2023 12:02:17 +0100 (CET)
 From:   Alexander Stein <alexander.stein@ew.tq-group.com>
 To:     Rob Herring <robh+dt@kernel.org>,
@@ -77,9 +77,9 @@ To:     Rob Herring <robh+dt@kernel.org>,
 Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>, soc@kernel.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linuxppc-dev@lists.ozlabs.org, linux-kbuild@vger.kernel.org
-Subject: [PATCH v3 03/10] ARM: dts: ls1021a: add TQMLS1021A flash partition layout
-Date:   Tue, 24 Jan 2023 12:02:06 +0100
-Message-Id: <20230124110213.3221264-4-alexander.stein@ew.tq-group.com>
+Subject: [PATCH v3 04/10] ARM: dts: ls1021a: add TQMLS1021A/MBLS102xA LVDS TM070JVHG33 overlay
+Date:   Tue, 24 Jan 2023 12:02:07 +0100
+Message-Id: <20230124110213.3221264-5-alexander.stein@ew.tq-group.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230124110213.3221264-1-alexander.stein@ew.tq-group.com>
 References: <20230124110213.3221264-1-alexander.stein@ew.tq-group.com>
@@ -94,8 +94,7 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The bootloader does not add the partitions into DT, so add them manually
-here.
+Add device tree overlay for LVDS display usage.
 
 Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 ---
@@ -105,50 +104,89 @@ Changes in v3:
 Changes in v2:
 * None
 
- arch/arm/boot/dts/ls1021a-tqmls1021a.dtsi | 31 +++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ arch/arm/boot/dts/Makefile                    |  5 ++
+ ...tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtso | 56 +++++++++++++++++++
+ 2 files changed, 61 insertions(+)
+ create mode 100644 arch/arm/boot/dts/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtso
 
-diff --git a/arch/arm/boot/dts/ls1021a-tqmls1021a.dtsi b/arch/arm/boot/dts/ls1021a-tqmls1021a.dtsi
-index 24ad4a76fe597..ea6734253ba88 100644
---- a/arch/arm/boot/dts/ls1021a-tqmls1021a.dtsi
-+++ b/arch/arm/boot/dts/ls1021a-tqmls1021a.dtsi
-@@ -77,5 +77,36 @@ qflash0: flash@0 {
- 		spi-rx-bus-width = <4>;
- 		spi-tx-bus-width = <4>;
- 		reg = <0>;
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index 758b6f2f14e7d..626f7172c74e9 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -805,6 +805,11 @@ dtb-$(CONFIG_SOC_LS1021A) += \
+ 	ls1021a-tqmls1021a-mbls1021a.dtb \
+ 	ls1021a-tsn.dtb \
+ 	ls1021a-twr.dtb
 +
-+		partitions {
-+			compatible = "fixed-partitions";
-+			#address-cells = <1>;
-+			#size-cells = <1>;
++ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33-dtbs := ls1021a-tqmls1021a-mbls1021a.dtb ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtbo
 +
-+			uboot@0 {
-+				label = "U-Boot-PBL";
-+				reg = <0x0 0xe0000>;
-+			};
++dtb-$(CONFIG_SOC_LS1021A) += ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtb
 +
-+			env@e0000 {
-+				label = "U-Boot Environment";
-+				reg = <0xe0000 0x10000>;
-+			};
+ dtb-$(CONFIG_SOC_VF610) += \
+ 	vf500-colibri-eval-v3.dtb \
+ 	vf610-bk4.dtb \
+diff --git a/arch/arm/boot/dts/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtso b/arch/arm/boot/dts/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtso
+new file mode 100644
+index 0000000000000..252ef982dd862
+--- /dev/null
++++ b/arch/arm/boot/dts/ls1021a-tqmls1021a-mbls1021a-lvds-tm070jvhg33.dtso
+@@ -0,0 +1,56 @@
++// SPDX-License-Identifier: (GPL-2.0-or-later OR X11)
++/*
++ * Copyright 2018-2023 TQ-Systems GmbH <linux@ew.tq-group.com>,
++ * D-82229 Seefeld, Germany.
++ * Author: Alexander Stein
 +
-+			dtb@f0000 {
-+				label = "DTB";
-+				reg = <0xf0000 0x10000>;
-+			};
++ */
 +
-+			linux@100000 {
-+				label = "Linux";
-+				reg = <0x100000 0x700000>;
-+			};
++/dts-v1/;
++/plugin/;
 +
-+			rootfs@800000 {
-+				label = "RootFS";
-+				reg = <0x800000 0x3800000>;
++#include <dt-bindings/gpio/gpio.h>
++
++&backlight_dcu {
++	status = "okay";
++};
++
++&dcu {
++	status = "okay";
++
++	port {
++
++		dcu_out: endpoint {
++			remote-endpoint = <&lvds_encoder_in>;
++		};
++	};
++};
++
++&display {
++	compatible = "tianma,tm070jvhg33";
++	status = "okay";
++
++	port {
++		panel_in: endpoint {
++			remote-endpoint = <&lvds_encoder_out>;
++		};
++	};
++};
++
++&lvds_encoder {
++	status = "okay";
++
++	ports {
++		port@0 {
++			lvds_encoder_in: endpoint {
++				remote-endpoint = <&dcu_out>;
 +			};
 +		};
- 	};
- };
++
++		port@1 {
++			lvds_encoder_out: endpoint {
++				remote-endpoint = <&panel_in>;
++			};
++		};
++	};
++};
 -- 
 2.34.1
 
