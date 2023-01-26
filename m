@@ -2,511 +2,660 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1946E67C8FC
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Jan 2023 11:48:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BB0D67CCAE
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Jan 2023 14:51:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236860AbjAZKsZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 26 Jan 2023 05:48:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40182 "EHLO
+        id S231572AbjAZNvR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 26 Jan 2023 08:51:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236956AbjAZKsO (ORCPT
+        with ESMTP id S231563AbjAZNvJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 26 Jan 2023 05:48:14 -0500
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2043.outbound.protection.outlook.com [40.107.92.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79D816C139;
-        Thu, 26 Jan 2023 02:47:43 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Vb9JSj5HqxyxBAxX6UadePjHslmbvKTijAsWBNqy3vPykaSg6lwkT27fQ02ALLOb3mz4bI1VYn+EQCM286HfOClz9NO7BmhmwGxNR97CcCPPGkXVvEnf7jSDRTziwDkpMcedsqXMPVgb62/rEn5xbrMnwIcxksnqLlcVAoVGyST8pOMSV4vMCYjyPeUlJ2bkbv4fa726PtMGp+vxQILeDa85+l4VcYL4VTG7JsqJ+YXR6MiOLY4G+rd0fbOA54tjMN/M1UHm/Sn7H6ykDUPWAe1T+W0F4KgZeI7eIuL/N/HkEubRzUuF5wqGRbc1906Ebho4fhYqpzL2/lRu1xWWuA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=awaY0i2xxnYRBe0dCvZQm/2G9NW3MMklyzp/DkLNoDE=;
- b=WekT4vUcRqOwS6O147rZ3q+udLa7rE4fpW7KR02Ehvj0lCYSCfL89JZXjo8hYPeZ/Ib8zsUB9DJezUqPgsVv+UMFWCqLnEyuUVeF658WvuctJivtJoIv+2YMNBrqyOWaQdPcfZKWdAfloNvJqkiopJkuYAqWxGa4Kn8NJpUNcyPiEM/HNiCSvFeRc74wtL8jjGNt3fFXpwvxActLHahK+TI6yqsW+nX14JkyQu/JXTI6BccaT+zpZxWP1PZbR9XssyIjTL5xH4Zfg+F458UfXn9797NKeDfC3pG+Zpu6T47Zznyx5Ry5Yg1aYinHV2AxQHNZMWB2O4CI++sqau6rig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=awaY0i2xxnYRBe0dCvZQm/2G9NW3MMklyzp/DkLNoDE=;
- b=WBbt7NovVuNIz2ilY2eBgTdBbMRv6A0PwQKMpOBE9SDpNdo10gshDfurSlvghx5cirwdkZ05DYSl7bZwmbJAYeZfQuYEh7nWhTreFRNGn9wROiumlFEs93NS4oAUOZWXAQLmJaLObvIe9o8Ds7fxySIAPWPZ/2yy5dlWPpa/sF4=
-Received: from DM6PR03CA0056.namprd03.prod.outlook.com (2603:10b6:5:100::33)
- by IA1PR12MB6601.namprd12.prod.outlook.com (2603:10b6:208:3a3::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Thu, 26 Jan
- 2023 10:47:40 +0000
-Received: from DM6NAM11FT022.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:100:cafe::ef) by DM6PR03CA0056.outlook.office365.com
- (2603:10b6:5:100::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.22 via Frontend
- Transport; Thu, 26 Jan 2023 10:47:39 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- DM6NAM11FT022.mail.protection.outlook.com (10.13.172.210) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6043.22 via Frontend Transport; Thu, 26 Jan 2023 10:47:37 +0000
-Received: from SATLEXMB08.amd.com (10.181.40.132) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 26 Jan
- 2023 04:47:37 -0600
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB08.amd.com
- (10.181.40.132) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 26 Jan
- 2023 02:47:36 -0800
-Received: from xhdipdslab41.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Thu, 26 Jan 2023 04:47:29 -0600
-From:   Nipun Gupta <nipun.gupta@amd.com>
-To:     <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
-        <eric.auger@redhat.com>, <alex.williamson@redhat.com>,
-        <cohuck@redhat.com>, <song.bao.hua@hisilicon.com>,
-        <mchehab+huawei@kernel.org>, <maz@kernel.org>,
-        <f.fainelli@gmail.com>, <jeffrey.l.hugo@gmail.com>,
-        <saravanak@google.com>, <Michael.Srba@seznam.cz>,
-        <mani@kernel.org>, <yishaih@nvidia.com>, <jgg@ziepe.ca>,
-        <jgg@nvidia.com>, <robin.murphy@arm.com>, <will@kernel.org>,
-        <joro@8bytes.org>, <masahiroy@kernel.org>,
-        <ndesaulniers@google.com>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>
-CC:     <okaya@kernel.org>, <harpreet.anand@amd.com>,
-        <nikhil.agarwal@amd.com>, <michal.simek@amd.com>, <git@amd.com>,
-        Nipun Gupta <nipun.gupta@amd.com>
-Subject: [PATCH v6 7/7] cdx: add device attributes
-Date:   Thu, 26 Jan 2023 16:16:30 +0530
-Message-ID: <20230126104630.15493-8-nipun.gupta@amd.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230126104630.15493-1-nipun.gupta@amd.com>
-References: <20230126104630.15493-1-nipun.gupta@amd.com>
+        Thu, 26 Jan 2023 08:51:09 -0500
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 775FB3F287;
+        Thu, 26 Jan 2023 05:50:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1674741049; x=1706277049;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=/WaEuOOwn9f2KXLN+yQAlcZsHILS7QzJCc2XurQTTm4=;
+  b=N5emcaAkAF6wYqsUCtNg9x3K3XG7+UhM0B35N/jMvdhmMdoRquJDHtHW
+   sucdw1l2GuGh9+NLs9Qm6wYdFQb/4XGWpZ50KYDh2mX8fuDO6pCNfTGmY
+   YRGaaWnfGf2n0wxY718zzyY8Y1Zm9QPdUwEUYNddHE0xDVAaSjNP6PCK+
+   FVbaVOVapu4RUS6PGPGCRFNJMD8Pvlhfh2ZC4V7c0Df0UUII3JTrgXLCg
+   2G+KK33I/AQnAYO9a6gMxpdkmPxbQZmE9jvG+yaiOdBxZTLKhjxRP0nK+
+   G3U5kKs2yNhMVIQfOxzWrL43GhbwkSBi3bHgj91UCRj5OkokqAmSvvPou
+   g==;
+X-IronPort-AV: E=Sophos;i="5.97,248,1669071600"; 
+   d="scan'208";a="28677226"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 26 Jan 2023 14:50:44 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Thu, 26 Jan 2023 14:50:44 +0100
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Thu, 26 Jan 2023 14:50:44 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1674741044; x=1706277044;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=/WaEuOOwn9f2KXLN+yQAlcZsHILS7QzJCc2XurQTTm4=;
+  b=KgvY301ImFG+WGeH34Nw3q5S1pHjymR7TyNtgkdgG0IBFonBqh2Y/tI1
+   +3eqnXwE7DL8P0VI2m2lwchqkxCrc2A9sMHKHdzxTjr4GoJOjV7E6p9Jh
+   A/+bMuoDEdcHM7QABuLBYK8Uxw0BPD+I9bh7hoQxRpDo848hCwBUBCJdM
+   amA5ByVViIA+QtvnJlk2KRNLxRHLLxy3wRAPmFgKfJ0tYUM4ArqjOZuot
+   0JFxf0B6xfTfJWEch8EZruO7Z8ZQsyOmSyMljaYVODtS8Pa7SioxalOuZ
+   +5dks8844PUQCeSTPPP+viL+6yWHap7r3WLYvU8FqteB3eJ7BESgAw2YI
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.97,248,1669071600"; 
+   d="scan'208";a="28677223"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 26 Jan 2023 14:50:43 +0100
+Received: from steina-w.localnet (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 2EC0D280056;
+        Thu, 26 Jan 2023 14:50:43 +0100 (CET)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Shawn Guo <shawnguo@kernel.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+        Li Yang <leoyang.li@nxp.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Marek Vasut <marex@denx.de>,
+        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, soc@kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v2 02/10] ARM: dts: ls1021a: add TQ-Systems MBLS102xA device tree
+Date:   Thu, 26 Jan 2023 14:50:44 +0100
+Message-ID: <1846750.CQOukoFCf9@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20230126094415.GE20713@T480>
+References: <20230120133455.3962413-1-alexander.stein@ew.tq-group.com> <20230120133455.3962413-3-alexander.stein@ew.tq-group.com> <20230126094415.GE20713@T480>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT022:EE_|IA1PR12MB6601:EE_
-X-MS-Office365-Filtering-Correlation-Id: f06974d7-77dd-42f2-bcc4-08daff8abdbe
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tEuQDpQocGwDxVWKZp6Gc+O2w+GEhVxJagc+texUzDUUdHUWhFzCH5D6y+bbaONI+NcsTsehHL1Mr9Lm5zPZxfgJ2dbxHB6eHodqeDkEd9h8e0YZ+nOCHcxJ83D35xahFcbQE6zXOJQIVAPvskH2DF8dIwg2UGWhiCgmXRysuyLOTAeTRGZLlmEDL4nuYoXwzbxRlWytW1CQL5Z6WpYN4xvGx5HiMY8P8miX+ebpWf+VX6/ffN72GggeD5se8aAg4SahCsFtXJvBFRlntC4cXnxUsrDPR7a0VVPl4gu1/bZU3+1T8lPWHEr0+N0p8BmMBvxfE8pqUlbSyNGAs2ognt4U4ttSLo1nDiCZ2EMj/nYj0+aLY+/EPpqzRXRn/hzmIyF3UjNlUZX8JgTfMUiIauPHS2IMekr1h8IGCB3pk/wk0mdrHhD5z/YXLRECSurjy8Ryt3sEJAOHRijBkJ+hWgCuFD4f1nP5x+1E7Iq3eBYw3cTjuHLkC85CmGmHKQRmjI+Ts4+jftV7o+3XbXXHi8/IBpRz5F1srlKBOs+CPONInJK9cIeqLavkWcrequooROxXFTOP1IFutxgYa39nIO8t9+1yIiBCuLz3rNmGG/3LMomzwOE2Zaw8pOuth2KpuH4lD0cyY1/db96yKg94jYRvIVJXpScIkd9XYG+S1WcSes+tL95gf7VO+Xn7hHyDqOhKVXIoDxB3MaawmEAnB6nZqfsJSie3LW23x5OMTOb/V99w6rkS/UQHCJfIXrpL7VUqQDXgY9aogDuLsVzutInhgz4NLobgZhMlYggwwOM=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(396003)(136003)(39860400002)(376002)(346002)(451199018)(46966006)(40470700004)(36840700001)(40460700003)(70206006)(8936002)(8676002)(4326008)(36756003)(426003)(70586007)(47076005)(2616005)(26005)(83380400001)(1076003)(478600001)(6666004)(336012)(54906003)(186003)(86362001)(44832011)(5660300002)(82310400005)(40480700001)(110136005)(30864003)(7416002)(316002)(2906002)(921005)(41300700001)(356005)(82740400003)(36860700001)(81166007)(83996005)(2101003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2023 10:47:37.9685
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f06974d7-77dd-42f2-bcc4-08daff8abdbe
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT022.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6601
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Create sysfs entry for CDX devices.
+Hi Shawn,
 
-Sysfs entries provided in each of the CDX device detected by
-the CDX controller
- - vendor id
- - device id
- - remove
- - reset of the device.
- - driver override
+thanks for your feedback.
 
-Signed-off-by: Puneet Gupta <puneet.gupta@amd.com>
-Signed-off-by: Nipun Gupta <nipun.gupta@amd.com>
-Signed-off-by: Tarak Reddy <tarak.reddy@amd.com>
----
- Documentation/ABI/testing/sysfs-bus-cdx |  44 +++++++
- drivers/cdx/cdx.c                       | 145 ++++++++++++++++++++++++
- drivers/cdx/controller/cdx_controller.c |  19 ++++
- drivers/cdx/controller/mcdi_functions.c |  14 +++
- drivers/cdx/controller/mcdi_functions.h |  11 ++
- include/linux/cdx/cdx_bus.h             |  27 +++++
- 6 files changed, 260 insertions(+)
+Am Donnerstag, 26. Januar 2023, 10:44:21 CET schrieb Shawn Guo:
+> On Fri, Jan 20, 2023 at 02:34:47PM +0100, Alexander Stein wrote:
+> > Add device tree for the MBLS102xA mainboard with TQMLS1021A SoM.
+> > 
+> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > ---
+> > Changes in v2:
+> > * Remove unnecessary status = "okay"
+> > * Remove underscore from node names
+> > * Move reg direct below compatiblefor i2c devices
+> > * Remove i2c device nodes without software support
+> > 
+> >   Add a comment about existance for the device though
+> >  
+> >  arch/arm/boot/dts/Makefile                    |   1 +
+> >  .../boot/dts/ls1021a-tqmls1021a-mbls1021a.dts | 406 ++++++++++++++++++
+> >  arch/arm/boot/dts/ls1021a-tqmls1021a.dtsi     |  81 ++++
+> >  3 files changed, 488 insertions(+)
+> >  create mode 100644 arch/arm/boot/dts/ls1021a-tqmls1021a-mbls1021a.dts
+> >  create mode 100644 arch/arm/boot/dts/ls1021a-tqmls1021a.dtsi
+> > 
+> > diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+> > index d0c07867aeabe..44b5ed44b13d6 100644
+> > --- a/arch/arm/boot/dts/Makefile
+> > +++ b/arch/arm/boot/dts/Makefile
+> > @@ -802,6 +802,7 @@ dtb-$(CONFIG_SOC_LS1021A) += \
+> > 
+> >  	ls1021a-iot.dtb \
+> >  	ls1021a-moxa-uc-8410a.dtb \
+> >  	ls1021a-qds.dtb \
+> > 
+> > +	ls1021a-tqmls1021a-mbls1021a.dtb \
+> > 
+> >  	ls1021a-tsn.dtb \
+> >  	ls1021a-twr.dtb
+> >  
+> >  dtb-$(CONFIG_SOC_VF610) += \
+> > 
+> > diff --git a/arch/arm/boot/dts/ls1021a-tqmls1021a-mbls1021a.dts
+> > b/arch/arm/boot/dts/ls1021a-tqmls1021a-mbls1021a.dts new file mode 100644
+> > index 0000000000000..aa8b605344655
+> > --- /dev/null
+> > +++ b/arch/arm/boot/dts/ls1021a-tqmls1021a-mbls1021a.dts
+> > @@ -0,0 +1,406 @@
+> > +// SPDX-License-Identifier: (GPL-2.0-or-later OR X11)
+> > +/*
+> > + * Copyright 2013-2014 Freescale Semiconductor, Inc.
+> > + * Copyright 2018-2023 TQ-Systems GmbH <linux@ew.tq-group.com>,
+> > + * D-82229 Seefeld, Germany.
+> > + * Author: Alexander Stein
+> > + */
+> > +
+> > +/dts-v1/;
+> > +
+> > +#include <dt-bindings/gpio/gpio.h>
+> > +#include <dt-bindings/input/linux-event-codes.h>
+> > +#include <dt-bindings/leds/common.h>
+> > +#include <dt-bindings/leds/leds-pca9532.h>
+> > +#include <dt-bindings/net/ti-dp83867.h>
+> > +#include "ls1021a-tqmls1021a.dtsi"
+> > +
+> > +/ {
+> > +	model = "TQMLS102xA SOM on MBLS102xA";
+> > +	compatible = "tq,ls1021a-tqmls1021a-mbls102xa", "tq,ls1021a-
+tqmls1021a",
+> > "fsl,ls1021a"; +
+> > +	audio_mclk: audio-clock {
+> > +		compatible = "fixed-clock";
+> > +		#clock-cells = <0>;
+> > +		clock-frequency = <25000000>;
+> > +	};
+> > +
+> > +	backlight_dcu: backlight {
+> > +		compatible = "gpio-backlight";
+> > +		gpios = <&pca9530 0 GPIO_ACTIVE_LOW>;
+> > +		status = "disabled";
+> > +	};
+> > +
+> > +	gpio-keys {
+> > +		compatible = "gpio-keys";
+> > +		autorepeat;
+> > +
+> > +		switch-1 {
+> > +			label = "S6";
+> > +			linux,code = <BTN_0>;
+> > +			gpios = <&pca9554_0 0 GPIO_ACTIVE_LOW>;
+> > +		};
+> > +
+> > +		btn2: switch-2 {
+> > +			label = "S7";
+> > +			linux,code = <BTN_1>;
+> > +			gpios = <&pca9554_0 1 GPIO_ACTIVE_LOW>;
+> > +		};
+> > +
+> > +		switch-3 {
+> > +			label = "S8";
+> > +			linux,code = <BTN_2>;
+> > +			gpios = <&pca9554_0 2 GPIO_ACTIVE_LOW>;
+> > +		};
+> > +	};
+> > +
+> > +	gpio_leds: gpio-leds {
+> > +		compatible = "gpio-leds";
+> > +
+> > +		led-0 {
+> > +			color = <LED_COLOR_ID_GREEN>;
+> > +			function = LED_FUNCTION_STATUS;
+> > +			function-enumerator = <0>;
+> > +			gpios = <&pca9554_2 4 GPIO_ACTIVE_LOW>;
+> > +			linux,default-trigger = "default-on";
+> > +		};
+> > +
+> > +		led-1 {
+> > +			color = <LED_COLOR_ID_GREEN>;
+> > +			function = LED_FUNCTION_STATUS;
+> > +			function-enumerator = <1>;
+> > +			gpios = <&pca9554_2 5 GPIO_ACTIVE_LOW>;
+> > +			linux,default-trigger = "default-on";
+> > +		};
+> > +
+> > +		led-2 {
+> > +			color = <LED_COLOR_ID_GREEN>;
+> > +			function = LED_FUNCTION_STATUS;
+> > +			function-enumerator = <2>;
+> > +			gpios = <&pca9554_2 6 GPIO_ACTIVE_LOW>;
+> > +			linux,default-trigger = "default-on";
+> > +		};
+> > +
+> > +		led-3 {
+> > +			color = <LED_COLOR_ID_GREEN>;
+> > +			function = LED_FUNCTION_HEARTBEAT;
+> > +			function-enumerator = <0>;
+> > +			gpios = <&pca9554_2 7 GPIO_ACTIVE_LOW>;
+> > +			linux,default-trigger = "heartbeat";
+> > +		};
+> > +	};
+> > +
+> > +	lvds_encoder: lvds-encoder {
+> > +		compatible = "ti,sn75lvds83", "lvds-encoder";
+> > +		power-supply = <&reg_3p3v>;
+> > +		status = "disabled";
+> > +
+> > +		ports {
+> > +			#address-cells = <1>;
+> > +			#size-cells = <0>;
+> > +
+> > +			port@0 {
+> > +				reg = <0>;
+> > +
+> > +				lvds_encoder_in: endpoint {};
+> > +			};
+> > +
+> > +			port@1 {
+> > +				reg = <1>;
+> > +
+> > +				lvds_encoder_out: endpoint {};
+> > +			};
+> > +		};
+> > +	};
+> > +
+> > +	reg_1p2v: regulator-1p2v {
+> > +		compatible = "regulator-fixed";
+> > +		regulator-name = "1P2V";
+> > +		regulator-min-microvolt = <1200000>;
+> > +		regulator-max-microvolt = <1200000>;
+> > +		regulator-always-on;
+> > +		vin-supply = <&reg_3p3v>;
+> > +	};
+> > +
+> > +	reg_3p3v: regulator-3p3v {
+> > +		compatible = "regulator-fixed";
+> > +		regulator-name = "3P3V";
+> > +		regulator-min-microvolt = <3300000>;
+> > +		regulator-max-microvolt = <3300000>;
+> > +		regulator-always-on;
+> > +	};
+> > +
+> > +	hdmi_out: hdmi {
+> > +		compatible = "hdmi-connector";
+> > +		type = "a";
+> > +		ddc-i2c-bus = <&i2c0>;
+> > +		status = "disabled";
+> > +
+> > +		port {
+> > +			hdmi_in: endpoint {
+> > +				remote-endpoint = <&sii9022a_out>;
+> > +			};
+> > +		};
+> > +	};
+> > +
+> > +	display: panel {
+> > +		backlight = <&backlight_dcu>;
+> > +		enable-gpios = <&pca9554_1 3 GPIO_ACTIVE_HIGH>;
+> > +		status = "disabled";
+> > +
+> > +		port {
+> > +			panel_in: endpoint {};
+> > +		};
+> > +	};
+> > +
+> > +	sound {
+> > +		compatible = "fsl,imx-audio-tlv320aic32x4";
+> > +		model = "ls1021a-mbls1021a-tlv320aic32";
+> > +		ssi-controller = <&sai1>;
+> > +		audio-codec = <&tlv320aic32x4>;
+> > +	};
+> > +
+> > +};
+> > +
+> > +&can0 {
+> > +	status = "okay";
+> > +	xceiver-supply = <&reg_3p3v>;
+> 
+> We generally end property list with 'status'.
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-cdx b/Documentation/ABI/testing/sysfs-bus-cdx
-index 8c2425fdb6d9..69bdbc891743 100644
---- a/Documentation/ABI/testing/sysfs-bus-cdx
-+++ b/Documentation/ABI/testing/sysfs-bus-cdx
-@@ -10,3 +10,47 @@ Description:
-                 For example::
- 
- 		  # echo 1 > /sys/bus/cdx/rescan
-+
-+What:		/sys/bus/cdx/devices/.../vendor
-+Date:		January 2023
-+Contact:	nipun.gupta@amd.com
-+Description:
-+		Vendor ID for this CDX device. Vendor ID is 16 bit
-+		identifier which is specific to the device manufacturer.
-+		Combination of Vendor ID and Device ID identifies a device.
-+
-+What:		/sys/bus/cdx/devices/.../device
-+Date:		January 2023
-+Contact:	nipun.gupta@amd.com
-+Description:
-+		Device ID for this CDX device. Device ID is a 16 bit
-+		identifier to identify a device type within the range
-+		of a device manufacturer.
-+		Combination of Vendor ID and Device ID identifies a device.
-+
-+What:		/sys/bus/cdx/devices/.../reset
-+Date:		January 2023
-+Contact:	nipun.gupta@amd.com
-+Description:
-+		Writing a non-zero value to this file would reset the CDX
-+		device. On resetting the device, the corresponding driver
-+		would be notified twice, once before the device is being
-+		reset, and again after the reset has been complete.
-+
-+                For example::
-+
-+		  # echo 1 > /sys/bus/cdx/.../reset
-+
-+What:		/sys/bus/cdx/devices/.../remove
-+Date:		January 2023
-+Contact:	tarak.reddy@amd.com
-+Description:
-+		Writing a non-zero value to this file would remove the
-+		corrosponding device from the CDX bus. If the device is
-+		to be reconfigured in the Hardware, the device can be
-+		removed, so that the device driver does not access the
-+		device while it is being reconfigured.
-+
-+		For example::
-+
-+		  # echo 1 > /sys/bus/cdx/devices/.../remove
-diff --git a/drivers/cdx/cdx.c b/drivers/cdx/cdx.c
-index 795770522b01..88f71227f4ee 100644
---- a/drivers/cdx/cdx.c
-+++ b/drivers/cdx/cdx.c
-@@ -72,6 +72,39 @@
- /* CDX controllers registered with the CDX bus */
- static DEFINE_XARRAY_ALLOC(cdx_controllers);
- 
-+/**
-+ * cdx_dev_reset - Reset a CDX device
-+ * @dev: CDX device
-+ *
-+ * Return: -errno on failure, 0 on success.
-+ */
-+int cdx_dev_reset(struct device *dev)
-+{
-+	struct cdx_device *cdx_dev = to_cdx_device(dev);
-+	struct cdx_controller *cdx = cdx_dev->cdx;
-+	struct cdx_device_config dev_config;
-+	struct cdx_driver *cdx_drv;
-+	int ret;
-+
-+	cdx_drv = to_cdx_driver(dev->driver);
-+	/* Notify driver that device is being reset */
-+	if (cdx_drv->reset_prepare)
-+		cdx_drv->reset_prepare(cdx_dev);
-+
-+	dev_config.type = CDX_DEV_RESET_CONF;
-+	ret = cdx->ops->dev_configure(cdx, cdx_dev->bus_num,
-+				      cdx_dev->dev_num, &dev_config);
-+	if (ret)
-+		dev_err(dev, "cdx device reset failed\n");
-+
-+	/* Notify driver that device reset is complete */
-+	if (cdx_drv->reset_done)
-+		cdx_drv->reset_done(cdx_dev);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(cdx_dev_reset);
-+
- /**
-  * cdx_unregister_device - Unregister a CDX device
-  * @dev: CDX device
-@@ -238,6 +271,117 @@ static int cdx_dma_configure(struct device *dev)
- 	return 0;
- }
- 
-+/* show configuration fields */
-+#define cdx_config_attr(field, format_string)	\
-+static ssize_t	\
-+field##_show(struct device *dev, struct device_attribute *attr, char *buf)	\
-+{	\
-+	struct cdx_device *cdx_dev = to_cdx_device(dev);	\
-+	return sysfs_emit(buf, format_string, cdx_dev->field);	\
-+}	\
-+static DEVICE_ATTR_RO(field)
-+
-+cdx_config_attr(vendor, "0x%04x\n");
-+cdx_config_attr(device, "0x%04x\n");
-+
-+static ssize_t remove_store(struct device *dev,
-+			    struct device_attribute *attr,
-+			    const char *buf, size_t count)
-+{
-+	unsigned long val = 0;
-+
-+	if (kstrtoul(buf, 0, &val) < 0)
-+		return -EINVAL;
-+
-+	if (!val)
-+		return -EINVAL;
-+
-+	if (device_remove_file_self(dev, attr)) {
-+		int ret;
-+
-+		ret = cdx_unregister_device(dev, NULL);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return count;
-+}
-+static DEVICE_ATTR_WO(remove);
-+
-+static ssize_t reset_store(struct device *dev, struct device_attribute *attr,
-+			   const char *buf, size_t count)
-+{
-+	unsigned long val = 0;
-+	int ret = 0;
-+
-+	if (kstrtoul(buf, 0, &val) < 0)
-+		return -EINVAL;
-+
-+	if (!val)
-+		return -EINVAL;
-+
-+	ret = cdx_dev_reset(dev);
-+	if (ret)
-+		return ret;
-+
-+	return count;
-+}
-+static DEVICE_ATTR_WO(reset);
-+
-+static ssize_t driver_override_store(struct device *dev,
-+				     struct device_attribute *attr,
-+				     const char *buf, size_t count)
-+{
-+	struct cdx_device *cdx_dev = to_cdx_device(dev);
-+	const char *old = cdx_dev->driver_override;
-+	char *driver_override;
-+	char *cp;
-+
-+	if (WARN_ON(dev->bus != &cdx_bus_type))
-+		return -EINVAL;
-+
-+	if (count >= (PAGE_SIZE - 1))
-+		return -EINVAL;
-+
-+	driver_override = kstrndup(buf, count, GFP_KERNEL);
-+	if (!driver_override)
-+		return -ENOMEM;
-+
-+	cp = strchr(driver_override, '\n');
-+	if (cp)
-+		*cp = '\0';
-+
-+	if (strlen(driver_override)) {
-+		cdx_dev->driver_override = driver_override;
-+	} else {
-+		kfree(driver_override);
-+		cdx_dev->driver_override = NULL;
-+	}
-+
-+	kfree(old);
-+
-+	return count;
-+}
-+
-+static ssize_t driver_override_show(struct device *dev,
-+				    struct device_attribute *attr, char *buf)
-+{
-+	struct cdx_device *cdx_dev = to_cdx_device(dev);
-+
-+	return sysfs_emit(buf, "%s\n", cdx_dev->driver_override);
-+}
-+static DEVICE_ATTR_RW(driver_override);
-+
-+static struct attribute *cdx_dev_attrs[] = {
-+	&dev_attr_remove.attr,
-+	&dev_attr_reset.attr,
-+	&dev_attr_vendor.attr,
-+	&dev_attr_device.attr,
-+	&dev_attr_driver_override.attr,
-+	NULL,
-+};
-+ATTRIBUTE_GROUPS(cdx_dev);
-+
- static ssize_t rescan_store(struct bus_type *bus,
- 			    const char *buf, size_t count)
- {
-@@ -280,6 +424,7 @@ struct bus_type cdx_bus_type = {
- 	.shutdown	= cdx_shutdown,
- 	.dma_configure	= cdx_dma_configure,
- 	.bus_groups	= cdx_bus_groups,
-+	.dev_groups	= cdx_dev_groups,
- };
- EXPORT_SYMBOL_GPL(cdx_bus_type);
- 
-diff --git a/drivers/cdx/controller/cdx_controller.c b/drivers/cdx/controller/cdx_controller.c
-index eeba4a74aadd..bb986bf8e29a 100644
---- a/drivers/cdx/controller/cdx_controller.c
-+++ b/drivers/cdx/controller/cdx_controller.c
-@@ -43,6 +43,24 @@ void cdx_rpmsg_pre_remove(struct cdx_controller *cdx)
- 	cdx_mcdi_wait_for_quiescence(cdx->priv, MCDI_RPC_TIMEOUT);
- }
- 
-+static int cdx_configure_device(struct cdx_controller *cdx,
-+				u8 bus_num, u8 dev_num,
-+				struct cdx_device_config *dev_config)
-+{
-+	int ret = 0;
-+
-+	switch (dev_config->type) {
-+	case CDX_DEV_RESET_CONF:
-+		ret = cdx_mcdi_reset_device(cdx->priv, bus_num, dev_num);
-+		break;
-+	default:
-+		dev_err(cdx->dev, "Invalid device configuration flag\n");
-+		ret = -EINVAL;
-+	}
-+
-+	return ret;
-+}
-+
- static int cdx_scan_devices(struct cdx_controller *cdx)
- {
- 	struct cdx_mcdi *cdx_mcdi = cdx->priv;
-@@ -102,6 +120,7 @@ static int cdx_scan_devices(struct cdx_controller *cdx)
- 
- static struct cdx_ops cdx_ops = {
- 	.scan		= cdx_scan_devices,
-+	.dev_configure	= cdx_configure_device,
- };
- 
- static int xlnx_cdx_probe(struct platform_device *pdev)
-diff --git a/drivers/cdx/controller/mcdi_functions.c b/drivers/cdx/controller/mcdi_functions.c
-index 3940a2c7919c..673b3896411e 100644
---- a/drivers/cdx/controller/mcdi_functions.c
-+++ b/drivers/cdx/controller/mcdi_functions.c
-@@ -123,3 +123,17 @@ int cdx_mcdi_get_dev_config(struct cdx_mcdi *cdx,
- 
- 	return 0;
- }
-+
-+int cdx_mcdi_reset_device(struct cdx_mcdi *cdx, u8 bus_num, u8 dev_num)
-+{
-+	MCDI_DECLARE_BUF(inbuf, MC_CMD_CDX_DEVICE_RESET_IN_LEN);
-+	int rc;
-+
-+	MCDI_SET_DWORD(inbuf, CDX_DEVICE_RESET_IN_BUS, bus_num);
-+	MCDI_SET_DWORD(inbuf, CDX_DEVICE_RESET_IN_DEVICE, dev_num);
-+
-+	rc = cdx_mcdi_rpc(cdx, MC_CMD_CDX_DEVICE_RESET, inbuf, sizeof(inbuf),
-+			  NULL, 0, NULL);
-+
-+	return rc;
-+}
-diff --git a/drivers/cdx/controller/mcdi_functions.h b/drivers/cdx/controller/mcdi_functions.h
-index 6bf5a4a0778f..7440ace5539a 100644
---- a/drivers/cdx/controller/mcdi_functions.h
-+++ b/drivers/cdx/controller/mcdi_functions.h
-@@ -47,4 +47,15 @@ int cdx_mcdi_get_dev_config(struct cdx_mcdi *cdx,
- 			    u8 bus_num, u8 dev_num,
- 			    struct cdx_dev_params *dev_params);
- 
-+/**
-+ * cdx_mcdi_reset_device - Reset cdx device represented by bus_num:dev_num
-+ * @cdx: pointer to MCDI interface.
-+ * @bus_num: Bus number.
-+ * @dev_num: Device number.
-+ *
-+ * Return: 0 on success, <0 on failure
-+ */
-+int cdx_mcdi_reset_device(struct cdx_mcdi *cdx,
-+			  u8 bus_num, u8 dev_num);
-+
- #endif /* CDX_MCDI_FUNCTIONS_H */
-diff --git a/include/linux/cdx/cdx_bus.h b/include/linux/cdx/cdx_bus.h
-index d134e0104724..35ef41d8a61a 100644
---- a/include/linux/cdx/cdx_bus.h
-+++ b/include/linux/cdx/cdx_bus.h
-@@ -21,8 +21,20 @@
- /* Forward declaration for CDX controller */
- struct cdx_controller;
- 
-+enum {
-+	CDX_DEV_RESET_CONF,
-+};
-+
-+struct cdx_device_config {
-+	u8 type;
-+};
-+
- typedef int (*cdx_scan_cb)(struct cdx_controller *cdx);
- 
-+typedef int (*cdx_dev_configure_cb)(struct cdx_controller *cdx,
-+				    u8 bus_num, u8 dev_num,
-+				    struct cdx_device_config *dev_config);
-+
- /**
-  * CDX_DEVICE_DRIVER_OVERRIDE - macro used to describe a CDX device with
-  *                              override_only flags.
-@@ -39,9 +51,12 @@ typedef int (*cdx_scan_cb)(struct cdx_controller *cdx);
- /**
-  * struct cdx_ops - Callbacks supported by CDX controller.
-  * @scan: scan the devices on the controller
-+ * @dev_configure: configuration like reset, master_enable,
-+ *		   msi_config etc for a CDX device
-  */
- struct cdx_ops {
- 	cdx_scan_cb scan;
-+	cdx_dev_configure_cb dev_configure;
- };
- 
- /**
-@@ -101,6 +116,8 @@ struct cdx_device {
-  * @probe: Function called when a device is added
-  * @remove: Function called when a device is removed
-  * @shutdown: Function called at shutdown time to quiesce the device
-+ * @reset_prepare: Function called before is reset to notify driver
-+ * @reset_done: Function called after reset is complete to notify driver
-  * @driver_managed_dma: Device driver doesn't use kernel DMA API for DMA.
-  *		For most device drivers, no need to care about this flag
-  *		as long as all DMAs are handled through the kernel DMA API.
-@@ -115,6 +132,8 @@ struct cdx_driver {
- 	int (*probe)(struct cdx_device *dev);
- 	int (*remove)(struct cdx_device *dev);
- 	void (*shutdown)(struct cdx_device *dev);
-+	void (*reset_prepare)(struct cdx_device *dev);
-+	void (*reset_done)(struct cdx_device *dev);
- 	bool driver_managed_dma;
- };
- 
-@@ -144,4 +163,12 @@ void cdx_driver_unregister(struct cdx_driver *cdx_driver);
- 
- extern struct bus_type cdx_bus_type;
- 
-+/**
-+ * cdx_dev_reset - Reset CDX device
-+ * @dev: device pointer
-+ *
-+ * Return: 0 for success, -errno on failure
-+ */
-+int cdx_dev_reset(struct device *dev);
-+
- #endif /* _CDX_BUS_H_ */
--- 
-2.17.1
+Thanks, will change it.
+
+> > +};
+> > +
+> > +&can1 {
+> > +	status = "okay";
+> > +	xceiver-supply = <&reg_3p3v>;
+> > +};
+> > +
+> > +&dspi0 {
+> > +	bus-num = <0>;
+> > +	status = "okay";
+> > +};
+> > +
+> > +&enet0 {
+> > +	phy-handle = <&rgmii_phy0c>;
+> > +	phy-mode = "rgmii-id";
+> > +	mac-address = [ 00 00 00 00 00 00 ];
+> > +	status = "okay";
+> > +};
+> > +
+> > +&enet1 {
+> > +	tbi-handle = <&tbi1>;
+> > +	phy-handle = <&sgmii_phy03>;
+> > +	phy-mode = "sgmii";
+> > +	mac-address = [ 00 00 00 00 00 00 ];
+> > +	status = "okay";
+> > +};
+> > +
+> > +&enet2 {
+> > +	phy-handle = <&rgmii_phy04>;
+> > +	phy-mode = "rgmii-id";
+> > +	mac-address = [ 00 00 00 00 00 00 ];
+> > +	status = "okay";
+> > +};
+> > +
+> > +&i2c0 {
+> > +	status = "okay";
+> > +
+> > +	tlv320aic32x4: audio-codec@18 {
+> > +		compatible = "ti,tlv320aic32x4";
+> > +		reg = <0x18>;
+> > +		clocks = <&audio_mclk>;
+> > +		clock-names = "mclk";
+> > +		ldoin-supply = <&reg_3p3v>;
+> > +		iov-supply = <&reg_3p3v>;
+> > +	};
+> > +
+> > +	pca9554_0: gpio-expander@20 {
+> > +		compatible = "nxp,pca9554";
+> > +		reg = <0x20>;
+> > +		gpio-controller;
+> > +		#gpio-cells = <2>;
+> > +		interrupt-parent = <&gpio0>;
+> > +		interrupts = <24 IRQ_TYPE_EDGE_FALLING>;
+> > +		interrupt-controller;
+> > +		#interrupt-cells = <2>;
+> > +		vcc-supply = <&reg_3p3v>;
+> > +		gpio-line-names = "BUTTON0", "BUTTON1",
+> > +				  "BUTTON2", "EMMC_SEL",
+> > +				  "DIP2", "DIP3",
+> > +				  "EXT_TOUCH_INT", "GPIO_1";
+> > +	};
+> > +
+> > +	pca9554_1: gpio-expander@21 {
+> > +		compatible = "nxp,pca9554";
+> > +		reg = <0x21>;
+> > +		gpio-controller;
+> > +		#gpio-cells = <2>;
+> > +		interrupt-parent = <&gpio0>;
+> > +		interrupts = <25 IRQ_TYPE_EDGE_FALLING>;
+> > +		interrupt-controller;
+> > +		#interrupt-cells = <2>;
+> > +		vcc-supply = <&reg_3p3v>;
+> > +		gpio-line-names = "PCIE_PWR_EN", "MPCIE_DISABLE#",
+> > +				  "MPCIE_WAKE#", "LCD_BLT_EN",
+> > +				  "LCD_PWR_EN", "EC1_PHY_PWDN",
+> > +				  "EC3_PHY_PWDN", "SGMII_PHY_PWDN";
+> > +	};
+> > +
+> > +	pca9554_2: gpio-expander@22 {
+> > +		compatible = "nxp,pca9554";
+> > +		reg = <0x22>;
+> > +		gpio-controller;
+> > +		#gpio-cells = <2>;
+> > +		interrupt-parent = <&extirq>;
+> > +		interrupts = <2 IRQ_TYPE_EDGE_FALLING>;
+> > +		interrupt-controller;
+> > +		#interrupt-cells = <2>;
+> > +		vcc-supply = <&reg_3p3v>;
+> > +		gpio-line-names = "MUX_SEL0", "MUX_SEL1",
+> > +				  "MUX_SEL2", "MUX_SEL3",
+> > +				  "V95", "V96", "V97", "V98";
+> > +	};
+> > +
+> > +	sii9022a: hdmi-transmitter@3b {
+> > +		compatible = "sil,sii9022";
+> > +		reg = <0x3b>;
+> > +		iovcc-supply = <&reg_3p3v>;
+> > +		cvcc12-supply = <&reg_1p2v>;
+> > +		interrupts = <GIC_SPI 167 IRQ_TYPE_EDGE_RISING>;
+> > +		#sound-dai-cells = <0>;
+> > +		sil,i2s-data-lanes = <0>;
+> > +		status = "disabled";
+> > +
+> > +		ports {
+> > +			#address-cells = <1>;
+> > +			#size-cells = <0>;
+> > +
+> > +			port@0 {
+> > +				reg = <0>;
+> > +
+> > +				sii9022a_in: endpoint {};
+> > +			};
+> > +
+> > +			port@1 {
+> > +				reg = <1>;
+> > +
+> > +				sii9022a_out: endpoint {
+> > +					remote-endpoint = 
+<&hdmi_in>;
+> > +				};
+> > +			};
+> > +		};
+> > +	};
+> > +
+> > +	stmpe811: touchscreen@41 {
+> > +		compatible = "st,stmpe811";
+> > +		reg = <0x41>;
+> > +		#address-cells = <1>;
+> > +		#size-cells = <0>;
+> > +		interrupt-parent = <&gpio0>;
+> > +		interrupts = <23 IRQ_TYPE_EDGE_FALLING>;
+> > +		vcc-supply = <&reg_3p3v>;
+> > +		vio-supply = <&reg_3p3v>;
+> > +
+> > +		gpio {
+> > +			compatible = "st,stmpe-gpio";
+> > +			gpio-controller;
+> > +			#gpio-cells = <2>;
+> > +			/* GPIO 5-7 used for touch */
+> > +			st,norequest-mask = <0xf0>;
+> > +			gpio-line-names = "GPIO_ADC_I2C1_1",
+> > +					  "GPIO_ADC_I2C1_2",
+> > +					  "GPIO_ADC_I2C1_3",
+> > +					  "GPIO_ADC_I2C1_4";
+> > +		};
+> > +
+> > +		touchscreen {
+> > +			compatible = "st,stmpe-ts";
+> > +			status = "disabled";
+> > +		};
+> > +	};
+> > +
+> > +	pca9530: leds@60 {
+> > +		compatible = "nxp,pca9530";
+> > +		reg = <0x60>;
+> > +		gpio-controller;
+> > +		#gpio-cells = <2>;
+> > +		gpio-line-names = "PWM_0", "PWM_1";
+> > +
+> > +		led-0 {
+> > +			type = <PCA9532_TYPE_GPIO>;
+> > +		};
+> > +
+> > +		led-1 {
+> > +			type = <PCA9532_TYPE_GPIO>;
+> > +		};
+> > +	};
+> > +
+> > +};
+> > +
+> > +&i2c1 {
+> > +	status = "okay";
+> > +};
+> > +
+> > +&lpuart0 {
+> > +	status = "okay";
+> > +	linux,rs485-enabled-at-boot-time;
+> > +};
+> > +
+> > +&mdio0 {
+> > +	sgmii_phy03: ethernet-phy@3 {
+> > +		compatible = "ethernet-phy-ieee802.3-c22";
+> > +		reg = <0x03>;
+> > +		ti,fifo-depth = <DP83867_PHYCR_FIFO_DEPTH_4_B_NIB>;
+> > +		ti,clk-output-sel = <DP83867_CLK_O_SEL_OFF>;
+> > +		ti,dp83867-rxctrl-strap-quirk;
+> > +	};
+> > +
+> > +	rgmii_phy04: ethernet-phy@4 {
+> > +		compatible = "ethernet-phy-ieee802.3-c22";
+> > +		reg = <0x04>;
+> > +		ti,rx-internal-delay = <DP83867_RGMIIDCTL_2_50_NS>;
+> > +		ti,tx-internal-delay = <DP83867_RGMIIDCTL_2_00_NS>;
+> > +		ti,fifo-depth = <DP83867_PHYCR_FIFO_DEPTH_4_B_NIB>;
+> > +		ti,clk-output-sel = <DP83867_CLK_O_SEL_OFF>;
+> > +	};
+> > +
+> > +	rgmii_phy0c: ethernet-phy@c {
+> > +		compatible = "ethernet-phy-ieee802.3-c22";
+> > +		reg = <0x0c>;
+> > +		ti,rx-internal-delay = <DP83867_RGMIIDCTL_2_50_NS>;
+> > +		ti,tx-internal-delay = <DP83867_RGMIIDCTL_2_00_NS>;
+> > +		ti,fifo-depth = <DP83867_PHYCR_FIFO_DEPTH_4_B_NIB>;
+> > +		ti,clk-output-sel = <DP83867_CLK_O_SEL_OFF>;
+> > +	};
+> > +};
+> > +
+> > +&pwm6 {
+> > +	status = "okay";
+> > +};
+> > +
+> > +&pwm7 {
+> > +	status = "okay";
+> > +};
+> > +
+> > +&sai1 {
+> > +	status = "okay";
+> > +};
+> > +
+> > +&sata {
+> > +	/delete-property/ dma-coherent;
+> > +	status = "okay";
+> > +};
+> > +
+> > +&uart0 {
+> > +	status = "okay";
+> > +};
+> > +
+> > +&uart1 {
+> > +	status = "okay";
+> > +};
+> > +
+> > +&usb3 {
+> > +	/*
+> > +	 * Although DR connector, VBUS is always driven, so
+> > +	 * restrict to host mode.
+> > +	 */
+> > +	dr_mode = "host";
+> > +	status = "okay";
+> > +};
+> > diff --git a/arch/arm/boot/dts/ls1021a-tqmls1021a.dtsi
+> > b/arch/arm/boot/dts/ls1021a-tqmls1021a.dtsi new file mode 100644
+> > index 0000000000000..24ad4a76fe597
+> > --- /dev/null
+> > +++ b/arch/arm/boot/dts/ls1021a-tqmls1021a.dtsi
+> > @@ -0,0 +1,81 @@
+> > +// SPDX-License-Identifier: (GPL-2.0-or-later OR X11)
+> > +/*
+> > + * Copyright 2013-2014 Freescale Semiconductor, Inc.
+> > + * Copyright 2018-2023 TQ-Systems GmbH <linux@ew.tq-group.com>,
+> > + * D-82229 Seefeld, Germany.
+> > + * Author: Alexander Stein
+> > + */
+> > +
+> > +#include "ls1021a.dtsi"
+> > +
+> > +/ {
+> > +	model = "TQMLS102xA SOM";
+> > +	compatible = "tq,ls1021a-tqmls1021a", "fsl,ls1021a";
+> > +
+> > +	reg_3p3v_som: regulator-3p3v-som {
+> > +		compatible = "regulator-fixed";
+> > +		regulator-name = "3P3V_SOM";
+> > +		regulator-min-microvolt = <3300000>;
+> > +		regulator-max-microvolt = <3300000>;
+> > +		regulator-always-on;
+> > +	};
+> > +};
+> > +
+> > +&esdhc {
+> > +	compatible = "fsl,esdhc", "fsl,ls1021a-esdhc";
+> 
+> We usually order compatibles from the specific to the generic.
+
+Thanks, will change it.
+I'll will respin this series once the defconfig patches taken by Arnd hit 
+linux-next.
+
+Best regards
+Alexander
+
+> Shawn
+> 
+> > +	/* e-MMC over 8 data lines */
+> > +	bus-width = <8>;
+> > +	status = "okay";
+> > +};
+> > +
+> > +&i2c0 {
+> > +	status = "okay";
+> > +
+> > +	/* MC34VR500 DC/DC regulator at 0x8 */
+> > +	/* On-board PMC at 0x11 */
+> > +
+> > +	sa56004: temperature-sensor@4c {
+> > +		compatible = "nxp,sa56004";
+> > +		reg = <0x4c>;
+> > +		vcc-supply = <&reg_3p3v_som>;
+> > +	};
+> > +
+> > +	rtc0: rtc@51 {
+> > +		compatible = "nxp,pcf85063a";
+> > +		reg = <0x51>;
+> > +		quartz-load-femtofarads = <12500>;
+> > +	};
+> > +
+> > +	m24c64_54: eeprom@54 {
+> > +		compatible = "atmel,24c64";
+> > +		reg = <0x54>;
+> > +		pagesize = <32>;
+> > +		read-only;
+> > +		vcc-supply = <&reg_3p3v_som>;
+> > +	};
+> > +};
+> > +
+> > +&mdio0 {
+> > +	tbi1: tbi-phy@8 {
+> > +		reg = <0x8>;
+> > +		device_type = "tbi-phy";
+> > +	};
+> > +};
+> > +
+> > +&scfg {
+> > +	reg = <0x0 0x1570000 0x0 0x0e00>;
+> > +};
+> > +
+> > +&qspi {
+> > +	status = "okay";
+> > +
+> > +	qflash0: flash@0 {
+> > +		compatible = "jedec,spi-nor";
+> > +		#address-cells = <1>;
+> > +		#size-cells = <1>;
+> > +		spi-max-frequency = <20000000>;
+> > +		spi-rx-bus-width = <4>;
+> > +		spi-tx-bus-width = <4>;
+> > +		reg = <0>;
+> > +	};
+> > +};
+
+
+
 
