@@ -2,46 +2,43 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C44867EAAC
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Jan 2023 17:20:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8316767EB0B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Jan 2023 17:40:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233885AbjA0QT7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 27 Jan 2023 11:19:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47730 "EHLO
+        id S234040AbjA0Qk4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 27 Jan 2023 11:40:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234174AbjA0QT7 (ORCPT
+        with ESMTP id S234054AbjA0Qkz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 27 Jan 2023 11:19:59 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94209AD17;
-        Fri, 27 Jan 2023 08:19:58 -0800 (PST)
+        Fri, 27 Jan 2023 11:40:55 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 528317CC98;
+        Fri, 27 Jan 2023 08:40:51 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2F30261CC3;
-        Fri, 27 Jan 2023 16:19:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D360C433EF;
-        Fri, 27 Jan 2023 16:19:55 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1A96CB82013;
+        Fri, 27 Jan 2023 16:40:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15C12C433EF;
+        Fri, 27 Jan 2023 16:40:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674836397;
-        bh=dWkUXrk0g8ak0BjqJ52KwIBrpaKr1aFEKuCxJYYFurI=;
+        s=k20201202; t=1674837648;
+        bh=gL29Zrz0/D+2aRM80IoOkzpVQZltIiXkr3UTM6jkxQI=;
         h=From:To:Cc:Subject:Date:From;
-        b=t7xEkFKOfRPsnN5oKe3OF1cn9OhAJNwfDcM7cj1tjE1WBrPQ775VJ33ZDoJNKcyAA
-         2V3sAhAq5z61UBLNFKR91E8oYX47DUOb8lukaG2yV+UmJtrLSOF7XQ3ajeiIZopY2n
-         DeuUmfr1Hcl2DD/zTAXwtoG/pzk6Rd4kyqp/cTa5BIWa8BJa3r9EFPkQqNQ0Mdeh3p
-         ueBP6QLSk4PZp8AO4ImuDE6DIJhGKYLd7ZWsXF/ynUeEY0IctBAQE6KlHWK/4xdcgH
-         if/0alOp1fDItKnLt5FsNPM4bmGDOodR0R59PJWkjuymV3ciGne4Z0NDKkQuYlYf6Z
-         BOrDUWCm74JQQ==
+        b=FEAY7lRPlS71P4vd1mnOb99+zfCXZaNiJYGX4C2auV8u6+E/Fr/+xnTia4it9Lg/A
+         TKsdC0BkfD8EveWUIgnGydssTz39HY/6ecVefBUWWopPuSN1IYZ9Zt/GNhb+RCInDF
+         J1nViTa+lFvrk29dS6qrYa9O6m+V9Bmtgrk7u34UfAWvNMizFXZkZyXOCHrkzlMou2
+         +7QkQ9lUnQkg4aQKEAEpzlOUHOPjexk/clFb6WhiwIFtfQ5dX+on8ey9bg4rjE/G6w
+         bq5Qrj4hsjAPdMn4lsiac0f94e1c62dTuL0XUjSLFW1Yw7ptqEtyKwpDu46SFACjvf
+         ig2SpHcdkRvMg==
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH] kbuild: save overridden KERNELRELEASE in include/config/kernel.release
-Date:   Sat, 28 Jan 2023 01:19:42 +0900
-Message-Id: <20230127161942.543483-1-masahiroy@kernel.org>
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH] setlocalversion: remove unneeded check and set -e
+Date:   Sat, 28 Jan 2023 01:40:41 +0900
+Message-Id: <20230127164041.548225-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -54,38 +51,43 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-${KERNELRELEASE} is used as a part of the installation path.
-(INSTALL_DTBS_PATH, MODLIB, etc.)
+Kbuild creates include/config/auto.conf before running this script,
+so include/config/auto.conf always exists unless the user directly
+runs this script.
 
-When KERNELRELEASE is overridden from the command line, it should be
-saved in include/config/kernel.release, so that it will be consistently
-used for the installation steps.
+Remove the redundant check. Instead, set -e.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
-This patch will replace the buggy
- https://lore.kernel.org/linux-kbuild/20230122141428.115372-6-masahiroy@kernel.org/T/#u
+ scripts/setlocalversion | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
- Makefile | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/Makefile b/Makefile
-index 203b86e95197..aeea900eff71 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1258,7 +1258,11 @@ vmlinux: vmlinux.o $(KBUILD_LDS) modpost
- # make sure no implicit rule kicks in
- $(sort $(KBUILD_LDS) $(KBUILD_VMLINUX_OBJS) $(KBUILD_VMLINUX_LIBS)): . ;
+diff --git a/scripts/setlocalversion b/scripts/setlocalversion
+index 7c7cbefa5aa4..3df25b045e81 100755
+--- a/scripts/setlocalversion
++++ b/scripts/setlocalversion
+@@ -10,6 +10,8 @@
+ #
+ #
  
-+ifeq ($(origin KERNELRELEASE),file)
- filechk_kernel.release = $(srctree)/scripts/setlocalversion $(srctree)
-+else
-+filechk_kernel.release = echo $(KERNELRELEASE)
-+endif
++set -e
++
+ usage() {
+ 	echo "Usage: $0 [srctree]" >&2
+ 	exit 1
+@@ -103,11 +105,6 @@ collect_files()
+ 	echo "$res"
+ }
  
- # Store (new) KERNELRELEASE string in include/config/kernel.release
- include/config/kernel.release: FORCE
+-if ! test -e include/config/auto.conf; then
+-	echo "Error: kernelrelease not valid - run 'make prepare' to update it" >&2
+-	exit 1
+-fi
+-
+ if [ -z "${KERNELVERSION}" ]; then
+ 	echo "KERNELVERSION is not set" >&2
+ 	exit 1
 -- 
 2.34.1
 
