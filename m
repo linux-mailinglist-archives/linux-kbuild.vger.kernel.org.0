@@ -2,88 +2,93 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0409A67E690
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Jan 2023 14:25:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB37E67E84C
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Jan 2023 15:31:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233302AbjA0NZb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 27 Jan 2023 08:25:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42948 "EHLO
+        id S232305AbjA0Obs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 27 Jan 2023 09:31:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234598AbjA0NZa (ORCPT
+        with ESMTP id S233092AbjA0Obq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 27 Jan 2023 08:25:30 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E53F168AD5;
-        Fri, 27 Jan 2023 05:25:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674825929; x=1706361929;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/5m6JtPV1vwzSq5kX/NBT8Ie+9nJpPQikfx5o+w8qx8=;
-  b=DMRDQSELvrFpHuKsPzm6cbf+IxB0lRfChDwux9/a+/Lkel0zgZTCq8ss
-   4Uik7djtjW3ge4tqDglN1MpmDSxKpItit+zMg3xT1IcCnGhVuzNQh0EPs
-   KXcvD4qMiadjF6NyH1RFPb1P88nEnOjUOcM5Is6YfO4Atf5UvVngKPNhj
-   UIVKsB4vWv0acjzvH5SbdOsNFEIMacyJ8WkbYeZiEMJXEoQPb/AGGgrKu
-   ZOQjaOHQ5off91tIe0U+pYoLmHZMTeVc4MEzGdoO9gXAQXWBfdfTH00Zl
-   QJO5PKpg2j1cvcXegu/SacrgJwMKfW2Apy6yaWY+NHgjUHamDpJvz2PZU
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="310705434"
-X-IronPort-AV: E=Sophos;i="5.97,251,1669104000"; 
-   d="scan'208";a="310705434"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 05:25:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="640690830"
-X-IronPort-AV: E=Sophos;i="5.97,251,1669104000"; 
-   d="scan'208";a="640690830"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga006.jf.intel.com with ESMTP; 27 Jan 2023 05:25:26 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@intel.com>)
-        id 1pLOjM-00Fyw4-2y;
-        Fri, 27 Jan 2023 15:25:24 +0200
-Date:   Fri, 27 Jan 2023 15:25:24 +0200
-From:   Andy Shevchenko <andriy.shevchenko@intel.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
+        Fri, 27 Jan 2023 09:31:46 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3EB7FF0E;
+        Fri, 27 Jan 2023 06:31:45 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 486CC61C1D;
+        Fri, 27 Jan 2023 14:31:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB7F1C433EF;
+        Fri, 27 Jan 2023 14:31:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674829904;
+        bh=+LRus+iJtP9b1Gg0DrsmsnfQzYQTRnZkqWmF3BfFAXQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=MFK1mvjC5yPz3eWStoEjKSNIdRl9NLTnpjP+4rt5p/i39k5ccB+Zzbjs8lGWC9Pz2
+         GGXRr/K19MvC7Po85hdEmSDH3sVfn5t0UAxcAraCRFRRuViNy8l60E4VE3piF+Q3fY
+         yungBmAGhKIoGcWxY6IzfqQfo1+FKPxIe5HAAgh61IrD+U2DKdBNzJEom3+Gm6PVDI
+         q3pD+MRHAHWW1pSEUA0XnbJWjTR84SxdaJNpB9dFvvp0Jx6MeU6U2IUZ61hEkTiTsN
+         UJU0EKL1JVNIFZSH4QcOq/3yhQ/R4S5bH2fnHbBM2eBmOVw5J8cvCm3zfsOiurtVHK
+         SBD7AVJUY0bcg==
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-1442977d77dso6633995fac.6;
+        Fri, 27 Jan 2023 06:31:44 -0800 (PST)
+X-Gm-Message-State: AFqh2kpdvzZIACdc8evmj+508MybTv2OvVh+bBfLUL9OFBG5YMEZzf0w
+        KUGAQNFq+ztCq+lu3pRVbRNE1m0fHQMxhuLNO1Q=
+X-Google-Smtp-Source: AK7set8amIa6z7tRWTk83cYkNweETJWmJHZG3C/kcz+y/nQcQwLnkdNJhWuo0dk3GoudjYP/ZwZeol8XNBhMIuw8sCw=
+X-Received: by 2002:a05:6870:110f:b0:160:3296:a9b9 with SMTP id
+ 15-20020a056870110f00b001603296a9b9mr1392365oaf.287.1674829903989; Fri, 27
+ Jan 2023 06:31:43 -0800 (PST)
+MIME-Version: 1.0
+References: <20221229074310.906556-1-masahiroy@kernel.org> <20221229074310.906556-2-masahiroy@kernel.org>
+ <Y9PQxCTJGTRU1cuE@smile.fi.intel.com>
+In-Reply-To: <Y9PQxCTJGTRU1cuE@smile.fi.intel.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 27 Jan 2023 23:31:07 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASJ6j7XEZ-poS+Qq+8nZ5iztLTuTSgkr+fMka7HYH8ekQ@mail.gmail.com>
+Message-ID: <CAK7LNASJ6j7XEZ-poS+Qq+8nZ5iztLTuTSgkr+fMka7HYH8ekQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] kbuild: make W=1 warn files that are tracked but
+ ignored by git
+To:     Andy Shevchenko <andriy.shevchenko@intel.com>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
         Nicolas Schier <nicolas@fjasle.eu>,
         Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH v3 2/2] kbuild: make W=1 warn files that are tracked but
- ignored by git
-Message-ID: <Y9PQxCTJGTRU1cuE@smile.fi.intel.com>
-References: <20221229074310.906556-1-masahiroy@kernel.org>
- <20221229074310.906556-2-masahiroy@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221229074310.906556-2-masahiroy@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Dec 29, 2022 at 04:43:10PM +0900, Masahiro Yamada wrote:
-> The top .gitignore comments about how to detect files breaking
-> .gitignore rules, but people rarely care about it.
-> 
-> Add a new W=1 warning to detect files that are tracked but ignored by
-> git. If git is not installed or the source tree is not tracked by git
-> at all, this script does not print anything.
-> 
-> Running it on v6.2-rc1 detected the following:
+On Fri, Jan 27, 2023 at 10:25 PM Andy Shevchenko
+<andriy.shevchenko@intel.com> wrote:
+>
+> On Thu, Dec 29, 2022 at 04:43:10PM +0900, Masahiro Yamada wrote:
+> > The top .gitignore comments about how to detect files breaking
+> > .gitignore rules, but people rarely care about it.
+> >
+> > Add a new W=1 warning to detect files that are tracked but ignored by
+> > git. If git is not installed or the source tree is not tracked by git
+> > at all, this script does not print anything.
+> >
+> > Running it on v6.2-rc1 detected the following:
+>
+> Since patch was published there is no sign it was ever meet Linux Next.
+> What's the plan?
 
-Since patch was published there is no sign it was ever meet Linux Next.
-What's the plan?
+
+Oh?
+I can see this patch in linux-next.
+
+
+$ git log next-20230127 -- scripts/misc-check
+
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Best Regards
+Masahiro Yamada
