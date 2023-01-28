@@ -2,277 +2,210 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0BE267FA34
-	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Jan 2023 19:27:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5970267FBD4
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Jan 2023 00:31:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234699AbjA1S07 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 28 Jan 2023 13:26:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54040 "EHLO
+        id S231226AbjA1XbW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 28 Jan 2023 18:31:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231797AbjA1S05 (ORCPT
+        with ESMTP id S229769AbjA1XbW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 28 Jan 2023 13:26:57 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5CC52413A;
-        Sat, 28 Jan 2023 10:26:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674930413; x=1706466413;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=H34/gJbDq4+JIR5uFeM8higdX76HQfP4/UQEFCIjdP4=;
-  b=N3QAIGlNc76i/nuP0Gh09hxnIXYur85dPMeD8ZvkPpObGUR11HemxYwZ
-   Ob1U+n7CWI3+2mUwuOFXXFxeQUh3f6sF3Kt+jCresmPOv2jeBPuglvJFS
-   As4wKlpccRsUzWot2NBZhlAvVK7p/V51cJBYr9TpGaqCcsDbkvqe11A87
-   1sAQk8uFVESmTPQt0VCM7nP8hj5vLeyWtwqiCvj0gWm/X7KFeQ0V4gMyd
-   Yib0j1WkG6cMBZ5j7mdGMhiDeAGGNFWvwP+ZIeIB1k+ffEMB56QsSBTyM
-   zLcmhxTJYFxO/skGVHptoYtdIc7sKxBC6v+BzEtnTjq2ZbI+iHrOaxK0U
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="306969667"
-X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="306969667"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 10:26:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="992421344"
-X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="992421344"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 28 Jan 2023 10:26:46 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pLpuX-0000z9-2G;
-        Sat, 28 Jan 2023 18:26:45 +0000
-Date:   Sun, 29 Jan 2023 02:26:22 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Nipun Gupta <nipun.gupta@amd.com>, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
-        rafael@kernel.org, eric.auger@redhat.com,
-        alex.williamson@redhat.com, cohuck@redhat.com,
-        song.bao.hua@hisilicon.com, mchehab+huawei@kernel.org,
-        maz@kernel.org, f.fainelli@gmail.com, jeffrey.l.hugo@gmail.com,
-        saravanak@google.com, Michael.Srba@seznam.cz, mani@kernel.org,
-        yishaih@nvidia.com, jgg@ziepe.ca, jgg@nvidia.com,
-        robin.murphy@arm.com, will@kernel.org, joro@8bytes.org,
-        masahiroy@kernel.org, ndesaulniers@google.com,
-        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        okaya@kernel.org, harpreet.anand@amd.com, nikhil.agarwal@amd.com
-Subject: Re: [PATCH v6 5/7] cdx: add cdx controller
-Message-ID: <202301290233.80xUAwYL-lkp@intel.com>
-References: <20230126104630.15493-6-nipun.gupta@amd.com>
+        Sat, 28 Jan 2023 18:31:22 -0500
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9238D1C5BD;
+        Sat, 28 Jan 2023 15:31:19 -0800 (PST)
+Received: by mail-lf1-x136.google.com with SMTP id o20so13894944lfk.5;
+        Sat, 28 Jan 2023 15:31:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=I0S3B5PU0WSUcNuHyr1ZtmRb3x1+XFor4xpSEEFcyEE=;
+        b=o1jprqTqTnaJ47gNeIwm9EbYvAI/0rr6zGeOvntePSEWWxCmabKNsHdi6IkHAruUiI
+         jF44IJDhWCDM4BNfKHJVLocX84JZW2AKazEUlRdM1zP+72iEd6m1lIV9fJiIR3RqjSkI
+         bvlbSU7c4jpo7JMqhUaLcqLE78p4tE3zvS9kNcDn0bCDa/sfCQkxNakj15FLrjvwqQgN
+         /+1IJdCXasE6KvQnzzMHZJq5sgkKrmAvGFYzAqIc8LkLjAS8SilZo6aFuFI3c2n0qYNi
+         bhf+0WduvyXGsm/weGiGuJj1mMu0JObc9UKpqfwLI1a5faj7TezU4fgqUX75q7cw3m5n
+         IadA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=I0S3B5PU0WSUcNuHyr1ZtmRb3x1+XFor4xpSEEFcyEE=;
+        b=QHHsaCNgpoCaZ5K4qCr2iJPbRQiBnjKBsBrwExrfsSqX6JngsmKLZbCOyRpd74Fgkj
+         67swL6PPFRxJY+E7UTRoANksriHxckotH2CRbZMpXFB2ip8NlWW/lIeWMu7HdI6HWXfC
+         pt0kb0IHJWn3hSMQHFXizcZedO8UExtQmh+oyJoHgiHhn1IU78NH+5sh/tltatgBFzI1
+         ClAv0ZvCLeU0pnixPxNA9uFYyWC3180ohUmG0XrZS8J6aATzpn8f4EkNNlZUaRslR1R5
+         PUfPmZrbMGcVbue2Zp3RgCYCqAcaS6gzdMmZ7I1KvmCSrjsG1U8FdQHYBicty5YqQPpf
+         4e3A==
+X-Gm-Message-State: AO0yUKWi1kzjspqqKPUT4InHhNgaq/4OhKHkE3uyZO+2t2hgHghXxuth
+        IDPDp0xG95O6CRs2kL91aOnimkIyxTSv0NNghFc=
+X-Google-Smtp-Source: AK7set/fVQq6PZZoBWoE3stX7Y00RBCgPwhDtkEBaVRmWzHDHLpg96Vnov8LOYXQoXWxhIexEmfkJ7DaihD6KesnMAs=
+X-Received: by 2002:ac2:538a:0:b0:4d8:580b:2f23 with SMTP id
+ g10-20020ac2538a000000b004d8580b2f23mr623686lfh.132.1674948677422; Sat, 28
+ Jan 2023 15:31:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230126104630.15493-6-nipun.gupta@amd.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20230128173843.765212-1-masahiroy@kernel.org> <20230128173843.765212-2-masahiroy@kernel.org>
+In-Reply-To: <20230128173843.765212-2-masahiroy@kernel.org>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Sun, 29 Jan 2023 00:30:40 +0100
+Message-ID: <CA+icZUWTdAihUVSjEgV2BVOVCktUYccd--9y3bv18PrJDX5nhw@mail.gmail.com>
+Subject: Re: [PATCH 2/4] kbuild: deb-pkg: create source package without cleaning
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Nipun,
+On Sat, Jan 28, 2023 at 6:40 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> If you run 'make deb-pkg', all objects are lost due to 'make clean',
+> which makes the incremental builds impossible.
+>
+> Instead of cleaning, pass the exclude list to tar's --exclude-from
+> option.
+>
+> Previously, *.diff.gz contained some check-in files such as
+> .clang-format, .cocciconfig.
+>
+> With this commit, *.diff.gz will only contain the .config and debian/.
+> The other source files will go into the tarball.
+>
 
-I love your patch! Yet something to improve:
+Thanks for the patch.
 
-[auto build test ERROR on next-20230127]
-[cannot apply to masahiroy-kbuild/for-next masahiroy-kbuild/fixes robh/for-next joro-iommu/next linus/master v6.2-rc5 v6.2-rc4 v6.2-rc3 v6.2-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+While at this...
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nipun-Gupta/cdx-add-the-cdx-bus-driver/20230128-161622
-patch link:    https://lore.kernel.org/r/20230126104630.15493-6-nipun.gupta%40amd.com
-patch subject: [PATCH v6 5/7] cdx: add cdx controller
-config: powerpc-buildonly-randconfig-r004-20230129 (https://download.01.org/0day-ci/archive/20230129/202301290233.80xUAwYL-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install powerpc cross compiling tool for clang build
-        # apt-get install binutils-powerpc-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/f412d73800370b8e51d1be454e651d3c4ff796a8
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Nipun-Gupta/cdx-add-the-cdx-bus-driver/20230128-161622
-        git checkout f412d73800370b8e51d1be454e651d3c4ff796a8
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/cdx/controller/
+...why not switch over to Debian's packaging default XZ compressor:
+*.orig.xz and *.diff.xz (or *.debian.tar.xz)?
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+EXAMPLE binutils:
 
-All errors (new ones prefixed by >>):
+DSC: http://deb.debian.org/debian/pool/main/b/binutils/binutils_2.40-2.dsc
+TAR: http://deb.debian.org/debian/pool/main/b/binutils/binutils_2.40.orig.tar.xz
+DIFF: http://deb.debian.org/debian/pool/main/b/binutils/binutils_2.40-2.debian.tar.xz
 
->> drivers/cdx/controller/cdx_controller.c:102:13: error: call to undeclared function 'kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           cdx_mcdi = kzalloc(sizeof(*cdx_mcdi), GFP_KERNEL);
-                      ^
->> drivers/cdx/controller/cdx_controller.c:102:11: error: incompatible integer to pointer conversion assigning to 'struct cdx_mcdi *' from 'int' [-Wint-conversion]
-           cdx_mcdi = kzalloc(sizeof(*cdx_mcdi), GFP_KERNEL);
-                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/cdx/controller/cdx_controller.c:115:6: error: incompatible integer to pointer conversion assigning to 'struct cdx_controller *' from 'int' [-Wint-conversion]
-           cdx = kzalloc(sizeof(*cdx), GFP_KERNEL);
-               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/cdx/controller/cdx_controller.c:131:2: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           kfree(cdx_mcdi);
-           ^
-   drivers/cdx/controller/cdx_controller.c:141:2: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           kfree(cdx);
-           ^
-   5 errors generated.
---
->> drivers/cdx/controller/mcdi.c:272:2: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           CDX_POPULATE_DWORD_7(hdr[0],
-           ^
-   drivers/cdx/controller/bitfield.h:72:30: note: expanded from macro 'CDX_POPULATE_DWORD_7'
-   #define CDX_POPULATE_DWORD_7 CDX_POPULATE_DWORD
-                                ^
-   drivers/cdx/controller/bitfield.h:69:32: note: expanded from macro 'CDX_POPULATE_DWORD'
-           (dword).cdx_u32 = cpu_to_le32(CDX_INSERT_FIELDS(__VA_ARGS__))
-                                         ^
-   drivers/cdx/controller/bitfield.h:60:3: note: expanded from macro 'CDX_INSERT_FIELDS'
-           (CDX_INSERT_FIELD(field1, (value1)) |           \
-            ^
-   drivers/cdx/controller/bitfield.h:46:3: note: expanded from macro 'CDX_INSERT_FIELD'
-           (FIELD_PREP(GENMASK(CDX_HIGH_BIT(field),                \
-            ^
->> drivers/cdx/controller/mcdi.c:635:12: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           respseq = CDX_DWORD_FIELD(outbuf[0], MCDI_HEADER_SEQ);
-                     ^
-   drivers/cdx/controller/bitfield.h:38:3: note: expanded from macro 'CDX_DWORD_FIELD'
-           (FIELD_GET(GENMASK(CDX_HIGH_BIT(field), CDX_LOW_BIT(field)),    \
-            ^
-   drivers/cdx/controller/mcdi.c:692:12: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           respcmd = CDX_DWORD_FIELD(outbuf[0], MCDI_HEADER_CODE);
-                     ^
-   drivers/cdx/controller/bitfield.h:38:3: note: expanded from macro 'CDX_DWORD_FIELD'
-           (FIELD_GET(GENMASK(CDX_HIGH_BIT(field), CDX_LOW_BIT(field)),    \
-            ^
-   3 errors generated.
---
->> drivers/cdx/controller/mcdi_functions.c:25:9: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           return MCDI_DWORD(outbuf, CDX_BUS_ENUM_BUSES_OUT_BUS_COUNT);
-                  ^
-   drivers/cdx/controller/mcdi.h:223:2: note: expanded from macro 'MCDI_DWORD'
-           CDX_DWORD_FIELD(*_MCDI_DWORD(_buf, _field), CDX_DWORD)
-           ^
-   drivers/cdx/controller/bitfield.h:38:3: note: expanded from macro 'CDX_DWORD_FIELD'
-           (FIELD_GET(GENMASK(CDX_HIGH_BIT(field), CDX_LOW_BIT(field)),    \
-            ^
->> drivers/cdx/controller/mcdi_functions.c:35:2: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           MCDI_SET_DWORD(inbuf, CDX_BUS_ENUM_DEVICES_IN_BUS, bus_num);
-           ^
-   drivers/cdx/controller/mcdi.h:221:2: note: expanded from macro 'MCDI_SET_DWORD'
-           CDX_POPULATE_DWORD_1(*_MCDI_DWORD(_buf, _field), CDX_DWORD, _value)
-           ^
-   drivers/cdx/controller/bitfield.h:84:2: note: expanded from macro 'CDX_POPULATE_DWORD_1'
-           CDX_POPULATE_DWORD_2(dword, CDX_DWORD, 0, __VA_ARGS__)
-           ^
-   drivers/cdx/controller/bitfield.h:82:2: note: expanded from macro 'CDX_POPULATE_DWORD_2'
-           CDX_POPULATE_DWORD_3(dword, CDX_DWORD, 0, __VA_ARGS__)
-           ^
-   note: (skipping 5 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   drivers/cdx/controller/bitfield.h:69:32: note: expanded from macro 'CDX_POPULATE_DWORD'
-           (dword).cdx_u32 = cpu_to_le32(CDX_INSERT_FIELDS(__VA_ARGS__))
-                                         ^
-   drivers/cdx/controller/bitfield.h:60:3: note: expanded from macro 'CDX_INSERT_FIELDS'
-           (CDX_INSERT_FIELD(field1, (value1)) |           \
-            ^
-   drivers/cdx/controller/bitfield.h:46:3: note: expanded from macro 'CDX_INSERT_FIELD'
-           (FIELD_PREP(GENMASK(CDX_HIGH_BIT(field),                \
-            ^
-   drivers/cdx/controller/mcdi_functions.c:45:9: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           return MCDI_DWORD(outbuf, CDX_BUS_ENUM_DEVICES_OUT_DEVICE_COUNT);
-                  ^
-   drivers/cdx/controller/mcdi.h:223:2: note: expanded from macro 'MCDI_DWORD'
-           CDX_DWORD_FIELD(*_MCDI_DWORD(_buf, _field), CDX_DWORD)
-           ^
-   drivers/cdx/controller/bitfield.h:38:3: note: expanded from macro 'CDX_DWORD_FIELD'
-           (FIELD_GET(GENMASK(CDX_HIGH_BIT(field), CDX_LOW_BIT(field)),    \
-            ^
-   drivers/cdx/controller/mcdi_functions.c:59:2: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           MCDI_SET_DWORD(inbuf, CDX_BUS_GET_DEVICE_CONFIG_IN_BUS, bus_num);
-           ^
-   drivers/cdx/controller/mcdi.h:221:2: note: expanded from macro 'MCDI_SET_DWORD'
-           CDX_POPULATE_DWORD_1(*_MCDI_DWORD(_buf, _field), CDX_DWORD, _value)
-           ^
-   drivers/cdx/controller/bitfield.h:84:2: note: expanded from macro 'CDX_POPULATE_DWORD_1'
-           CDX_POPULATE_DWORD_2(dword, CDX_DWORD, 0, __VA_ARGS__)
-           ^
-   drivers/cdx/controller/bitfield.h:82:2: note: expanded from macro 'CDX_POPULATE_DWORD_2'
-           CDX_POPULATE_DWORD_3(dword, CDX_DWORD, 0, __VA_ARGS__)
-           ^
-   note: (skipping 5 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   drivers/cdx/controller/bitfield.h:69:32: note: expanded from macro 'CDX_POPULATE_DWORD'
-           (dword).cdx_u32 = cpu_to_le32(CDX_INSERT_FIELDS(__VA_ARGS__))
-                                         ^
-   drivers/cdx/controller/bitfield.h:60:3: note: expanded from macro 'CDX_INSERT_FIELDS'
-           (CDX_INSERT_FIELD(field1, (value1)) |           \
-            ^
-   drivers/cdx/controller/bitfield.h:46:3: note: expanded from macro 'CDX_INSERT_FIELD'
-           (FIELD_PREP(GENMASK(CDX_HIGH_BIT(field),                \
-            ^
-   drivers/cdx/controller/mcdi_functions.c:73:11: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           req_id = MCDI_DWORD(outbuf, CDX_BUS_GET_DEVICE_CONFIG_OUT_REQUESTER_ID);
-                    ^
-   drivers/cdx/controller/mcdi.h:223:2: note: expanded from macro 'MCDI_DWORD'
-           CDX_DWORD_FIELD(*_MCDI_DWORD(_buf, _field), CDX_DWORD)
-           ^
-   drivers/cdx/controller/bitfield.h:38:3: note: expanded from macro 'CDX_DWORD_FIELD'
-           (FIELD_GET(GENMASK(CDX_HIGH_BIT(field), CDX_LOW_BIT(field)),    \
-            ^
-   5 errors generated.
+-Sedat-
 
+[1] https://packages.debian.org/sid/binutils
 
-vim +/kzalloc +102 drivers/cdx/controller/cdx_controller.c
-
-    95	
-    96	static int xlnx_cdx_probe(struct platform_device *pdev)
-    97	{
-    98		struct cdx_controller *cdx;
-    99		struct cdx_mcdi *cdx_mcdi;
-   100		int ret;
-   101	
- > 102		cdx_mcdi = kzalloc(sizeof(*cdx_mcdi), GFP_KERNEL);
-   103		if (!cdx_mcdi)
-   104			return -ENOMEM;
-   105	
-   106		/* Store the MCDI ops */
-   107		cdx_mcdi->mcdi_ops = &mcdi_ops;
-   108		/* MCDI FW: Initialize the FW path */
-   109		ret = cdx_mcdi_init(cdx_mcdi);
-   110		if (ret) {
-   111			dev_err_probe(&pdev->dev, ret, "MCDI Initialization failed\n");
-   112			goto mcdi_init_fail;
-   113		}
-   114	
- > 115		cdx = kzalloc(sizeof(*cdx), GFP_KERNEL);
-   116		if (!cdx) {
-   117			ret = -ENOMEM;
-   118			goto cdx_alloc_fail;
-   119		}
-   120		platform_set_drvdata(pdev, cdx);
-   121	
-   122		cdx->dev = &pdev->dev;
-   123		cdx->priv = cdx_mcdi;
-   124		cdx->ops = &cdx_ops;
-   125	
-   126		return 0;
-   127	
-   128	cdx_alloc_fail:
-   129		cdx_mcdi_finish(cdx_mcdi);
-   130	mcdi_init_fail:
- > 131		kfree(cdx_mcdi);
-   132	
-   133		return ret;
-   134	}
-   135	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+>  scripts/Makefile.package | 27 ++++++++++++++++++++++-----
+>  scripts/package/mkdebian | 27 +++++++++++++++++++++++++++
+>  2 files changed, 49 insertions(+), 5 deletions(-)
+>
+> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+> index dfbf40454a99..cb135c99a273 100644
+> --- a/scripts/Makefile.package
+> +++ b/scripts/Makefile.package
+> @@ -50,6 +50,21 @@ fi ; \
+>  tar -I $(KGZIP) -c $(RCS_TAR_IGNORE) -f $(2).tar.gz \
+>         --transform 's:^:$(2)/:S' $(TAR_CONTENT) $(3)
+>
+> +# Source Tarball
+> +# ---------------------------------------------------------------------------
+> +
+> +quiet_cmd_exclude_list = GEN     $@
+> +      cmd_exclude_list = $(srctree)/scripts/gen-exclude.py --prefix=./ --rootdir=$(srctree) > $@; echo "./$@" >> $@
+> +
+> +.exclude-list: FORCE
+> +       $(call cmd,exclude_list)
+> +
+> +quiet_cmd_tar = TAR     $@
+> +      cmd_tar = tar -I $(KGZIP) -c -f $@ -C $(srctree) --exclude-from=$< --exclude=./$@ --transform 's:^\.:linux:S' .
+> +
+> +%.tar.gz: .exclude-list
+> +       $(call cmd,tar)
+> +
+>  # rpm-pkg
+>  # ---------------------------------------------------------------------------
+>  PHONY += rpm-pkg
+> @@ -81,12 +96,11 @@ binrpm-pkg:
+>
+>  PHONY += deb-pkg
+>  deb-pkg:
+> -       $(MAKE) clean
+>         $(CONFIG_SHELL) $(srctree)/scripts/package/mkdebian
+> -       $(call cmd,src_tar,$(KDEB_SOURCENAME))
+> -       origversion=$$(dpkg-parsechangelog -SVersion |sed 's/-[^-]*$$//');\
+> -               mv $(KDEB_SOURCENAME).tar.gz ../$(KDEB_SOURCENAME)_$${origversion}.orig.tar.gz
+> -       +dpkg-buildpackage -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch) $(DPKG_FLAGS) --source-option=-sP -i.git -us -uc
+> +       $(Q)origversion=$$(dpkg-parsechangelog -SVersion |sed 's/-[^-]*$$//');\
+> +               $(MAKE) -f $(srctree)/scripts/Makefile.package ../$(KDEB_SOURCENAME)_$${origversion}.orig.tar.gz
+> +       +dpkg-buildpackage -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch) $(DPKG_FLAGS) \
+> +               --build=source,binary --source-option=-sP -nc -us -uc
+>
+>  PHONY += bindeb-pkg
+>  bindeb-pkg:
+> @@ -174,4 +188,7 @@ help:
+>         @echo '  perf-tarxz-src-pkg  - Build $(perf-tar).tar.xz source tarball'
+>         @echo '  perf-tarzst-src-pkg - Build $(perf-tar).tar.zst source tarball'
+>
+> +PHONY += FORCE
+> +FORCE:
+> +
+>  .PHONY: $(PHONY)
+> diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+> index c3bbef7a6754..12c057ffbe6e 100755
+> --- a/scripts/package/mkdebian
+> +++ b/scripts/package/mkdebian
+> @@ -84,6 +84,8 @@ set_debarch() {
+>         fi
+>  }
+>
+> +rm -rf debian
+> +
+>  # Some variables and settings used throughout the script
+>  version=$KERNELRELEASE
+>  if [ -n "$KDEB_PKGVERSION" ]; then
+> @@ -135,6 +137,31 @@ fi
+>  mkdir -p debian/source/
+>  echo "1.0" > debian/source/format
+>
+> +cat<<'EOF' > debian/source/local-options
+> +#
+> +# Ugly: ignore anything except .config or debian/
+> +# (is there a cleaner way to do this?)
+> +#
+> +diff-ignore
+> +
+> +extend-diff-ignore = ^[^.d]
+> +
+> +extend-diff-ignore = ^\.[^c]
+> +extend-diff-ignore = ^\.c($|[^o])
+> +extend-diff-ignore = ^\.co($|[^n])
+> +extend-diff-ignore = ^\.con($|[^f])
+> +extend-diff-ignore = ^\.conf($|[^i])
+> +extend-diff-ignore = ^\.confi($|[^g])
+> +extend-diff-ignore = ^\.config.
+> +
+> +extend-diff-ignore = ^d($|[^e])
+> +extend-diff-ignore = ^de($|[^b])
+> +extend-diff-ignore = ^deb($|[^i])
+> +extend-diff-ignore = ^debi($|[^a])
+> +extend-diff-ignore = ^debia($|[^n])
+> +extend-diff-ignore = ^debian[^/]
+> +EOF
+> +
+>  echo $debarch > debian/arch
+>  extra_build_depends=", $(if_enabled_echo CONFIG_UNWINDER_ORC libelf-dev:native)"
+>  extra_build_depends="$extra_build_depends, $(if_enabled_echo CONFIG_SYSTEM_TRUSTED_KEYRING libssl-dev:native)"
+> --
+> 2.34.1
+>
