@@ -2,60 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B2E367F38E
-	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Jan 2023 02:12:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8570667F6AE
+	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Jan 2023 10:24:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231648AbjA1BMW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 27 Jan 2023 20:12:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42388 "EHLO
+        id S233443AbjA1JYe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 28 Jan 2023 04:24:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229792AbjA1BMV (ORCPT
+        with ESMTP id S232296AbjA1JYe (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 27 Jan 2023 20:12:21 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F76822010;
-        Fri, 27 Jan 2023 17:12:20 -0800 (PST)
+        Sat, 28 Jan 2023 04:24:34 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60ADB79232;
+        Sat, 28 Jan 2023 01:24:32 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 12DD961DD1;
-        Sat, 28 Jan 2023 01:12:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 788E7C4339E;
-        Sat, 28 Jan 2023 01:12:19 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1189EB80113;
+        Sat, 28 Jan 2023 09:24:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D80A4C433EF;
+        Sat, 28 Jan 2023 09:24:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674868339;
-        bh=gFiphkVyj6jvnwWFX5FLtIeoAKaPjkkFVEco0Q0jtj4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=MPBH32Bb4a4xdnS/T0D4XIMUk1Ld4ZFREVy7bCTSF8vz7Ms7mdBJKJCYi+/DOTaIR
-         5EEWXiO8KuV1Rm2I4/eU7K3n8BTwUU48Q/OkhmDOmB7W7WniJulTH2IjfayUcJz+5m
-         boEPx2/ys+Ii4+dIFv6SfP4TV8VKSjB0G9rNRhaB3Jo3SYuevX022K5O4MuF8k3Nz7
-         z3Zs3/WzVcflJgmvsS+5wic/TbG0gAx079VFT+M7L3BWhbpWKrICaTfpuMbEA96TKd
-         6lEMjbK6FrkEFEsxYfCpVLa2LG9OpwU39DJZzzXfO11fyqQpr52BF3EW9Hd4qflel0
-         1r1Ct9xWXca/Q==
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-1442977d77dso8725328fac.6;
-        Fri, 27 Jan 2023 17:12:19 -0800 (PST)
-X-Gm-Message-State: AFqh2kroxRVnVuSjzl6nIOhTyRhbaJG1sYirifXkhGSPeoiH6GnKHKcV
-        Em45hy6bT44jqcvuuh9qHleUpbeISTJKfAGtu44=
-X-Google-Smtp-Source: AMrXdXtc5Bq303HStJTogoVbcPc7x4U37XKc3ru/CZrBLBTMmtfUg+wLbeag2YHlAxgVPAW2Ny/Nwt7mrcWsJyD92LY=
-X-Received: by 2002:a05:6870:c20b:b0:15f:1e44:71fd with SMTP id
- z11-20020a056870c20b00b0015f1e4471fdmr2438626oae.194.1674868338588; Fri, 27
- Jan 2023 17:12:18 -0800 (PST)
-MIME-Version: 1.0
-References: <20230122141428.115372-1-masahiroy@kernel.org> <Y9QmChqp0WEZSk+H@dev-arch.thelio-3990X>
-In-Reply-To: <Y9QmChqp0WEZSk+H@dev-arch.thelio-3990X>
+        s=k20201202; t=1674897869;
+        bh=nGI8NjRBk355G52xy2altpSRn4gf5lig76qHJoACUMo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=uFJJ0GOGmbnaeVLDdP7GZyqOfdPGbYTsic4MyxiT8+DgAqUHAvNnlloZ+Ja+PgDtd
+         pVz6aMRg0cd2p/nubQAL29bEE4uft6aAzxL6/YclJ+cXZV/M/wuu8uo563x+uJcpIC
+         4Xdm8giSwLmOh7hZExr+O19G+C6Tvx16f5Kw3TF03XXgk8n2LtGqgNih5kL8wXLM3I
+         83ldRhW9+XECQBMZJTdhgaizBGzy6cx6sr8+cV9rxBeyYRgzcba0GquxMcxGaz2GZH
+         cB1Kup36zeFyxH+3wiGlLbkTX/bEL/5zb1qv+sbpgerbsx1TywG3+Dc9aNww9SQRYD
+         ny9foJbAEt7ZQ==
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 28 Jan 2023 10:11:40 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS82EVD_COw8-aC-U=AFyRCE_c0YS7azr-k6cK4pyhtpw@mail.gmail.com>
-Message-ID: <CAK7LNAS82EVD_COw8-aC-U=AFyRCE_c0YS7azr-k6cK4pyhtpw@mail.gmail.com>
-Subject: Re: [PATCH 1/7] kbuild: do not put .scmversion into the source tarball
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH] kbuild: remove --include-dir MAKEFLAG from top Makefile
+Date:   Sat, 28 Jan 2023 18:24:23 +0900
+Message-Id: <20230128092424.45105-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,224 +51,287 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jan 28, 2023 at 4:29 AM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> Hi Masahiro,
->
-> On Sun, Jan 22, 2023 at 11:14:21PM +0900, Masahiro Yamada wrote:
-> > .scmversion is used by (src)rpm-pkg and deb-pkg to carry KERNELRELEASE.
-> >
-> > In fact, deb-pkg does not rely on it any more because the generated
-> > debian/rules specifies KERNELRELEASE from the command line.
-> >
-> > Do likwise for (src)rpm-pkg, and remove this feature.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  scripts/Makefile.package |  6 ++----
-> >  scripts/package/mkspec   |  6 +++---
-> >  scripts/setlocalversion  | 19 +------------------
-> >  3 files changed, 6 insertions(+), 25 deletions(-)
-> >
-> > diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-> > index 525a2820976f..e84c4e8ceb8e 100644
-> > --- a/scripts/Makefile.package
-> > +++ b/scripts/Makefile.package
-> > @@ -32,7 +32,7 @@ export KDEB_SOURCENAME
-> >  TAR_CONTENT := Documentation LICENSES arch block certs crypto drivers fs \
-> >                 include init io_uring ipc kernel lib mm net rust \
-> >                 samples scripts security sound tools usr virt \
-> > -               .config .scmversion Makefile \
-> > +               .config Makefile \
-> >                 Kbuild Kconfig COPYING $(wildcard localversion*)
-> >  MKSPEC     := $(srctree)/scripts/package/mkspec
-> >
-> > @@ -47,10 +47,8 @@ if test "$(objtree)" != "$(srctree)"; then \
-> >       echo >&2; \
-> >       false; \
-> >  fi ; \
-> > -$(srctree)/scripts/setlocalversion --save-scmversion; \
-> >  tar -I $(KGZIP) -c $(RCS_TAR_IGNORE) -f $(2).tar.gz \
-> > -     --transform 's:^:$(2)/:S' $(TAR_CONTENT) $(3); \
-> > -rm -f $(objtree)/.scmversion
-> > +     --transform 's:^:$(2)/:S' $(TAR_CONTENT) $(3)
-> >
-> >  # rpm-pkg
-> >  # ---------------------------------------------------------------------------
-> > diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-> > index adab28fa7f89..d3c6701b7769 100755
-> > --- a/scripts/package/mkspec
-> > +++ b/scripts/package/mkspec
-> > @@ -90,7 +90,7 @@ $S  rm -f scripts/basic/fixdep scripts/kconfig/conf
-> >  $S   rm -f tools/objtool/{fixdep,objtool}
-> >  $S
-> >  $S   %build
-> > -$S   $MAKE %{?_smp_mflags} KBUILD_BUILD_VERSION=%{release}
-> > +$S   $MAKE %{?_smp_mflags} KERNELRELEASE=%{version} KBUILD_BUILD_VERSION=%{release}
-> >  $S
-> >       %install
-> >       mkdir -p %{buildroot}/boot
-> > @@ -101,8 +101,8 @@ $S
-> >       %else
-> >       cp \$($MAKE -s image_name) %{buildroot}/boot/vmlinuz-$KERNELRELEASE
-> >       %endif
-> > -$M   $MAKE %{?_smp_mflags} INSTALL_MOD_PATH=%{buildroot} modules_install
-> > -     $MAKE %{?_smp_mflags} INSTALL_HDR_PATH=%{buildroot}/usr headers_install
-> > +$M   $MAKE %{?_smp_mflags} KERNELRELEASE=%{version} INSTALL_MOD_PATH=%{buildroot} modules_install
-> > +     $MAKE %{?_smp_mflags} KERNELRELEASE=%{version} INSTALL_HDR_PATH=%{buildroot}/usr headers_install
-> >       cp System.map %{buildroot}/boot/System.map-$KERNELRELEASE
-> >       cp .config %{buildroot}/boot/config-$KERNELRELEASE
-> >  $S$M rm -f %{buildroot}/lib/modules/$KERNELRELEASE/build
-> > diff --git a/scripts/setlocalversion b/scripts/setlocalversion
-> > index af4754a35e66..3b31702b4a4a 100755
-> > --- a/scripts/setlocalversion
-> > +++ b/scripts/setlocalversion
-> > @@ -11,16 +11,11 @@
-> >  #
-> >
-> >  usage() {
-> > -     echo "Usage: $0 [--save-scmversion] [srctree]" >&2
-> > +     echo "Usage: $0 [srctree]" >&2
-> >       exit 1
-> >  }
-> >
-> > -scm_only=false
-> >  srctree=.
-> > -if test "$1" = "--save-scmversion"; then
-> > -     scm_only=true
-> > -     shift
-> > -fi
-> >  if test $# -gt 0; then
-> >       srctree=$1
-> >       shift
-> > @@ -35,10 +30,6 @@ scm_version()
-> >       short=false
-> >
-> >       cd "$srctree"
-> > -     if test -e .scmversion; then
-> > -             cat .scmversion
-> > -             return
-> > -     fi
-> >       if test "$1" = "--short"; then
-> >               short=true
-> >       fi
-> > @@ -103,14 +94,6 @@ collect_files()
-> >       echo "$res"
-> >  }
-> >
-> > -if $scm_only; then
-> > -     if test ! -e .scmversion; then
-> > -             res=$(scm_version)
-> > -             echo "$res" >.scmversion
-> > -     fi
-> > -     exit
-> > -fi
-> > -
-> >  if ! test -e include/config/auto.conf; then
-> >       echo "Error: kernelrelease not valid - run 'make prepare' to update it" >&2
-> >       exit 1
-> > --
-> > 2.34.1
-> >
->
-> I believe this patch causes issues with binrpm-pkg (I have not done a
-> full bisect, as I am not fully online today; the source path has been
-> replaced with $PWD):
+I added $(srctree)/ to some included Makefiles in the following commits:
 
+ - 3204a7fb98a3 ("kbuild: prefix $(srctree)/ to some included Makefiles")
+ - d82856395505 ("kbuild: do not require sub-make for separate output tree builds")
 
+Those were a preparation for removing --include-dir flag.
 
-Thanks for the report.
+I have never thought --include-dir useful, rather, it is harmful.
 
+For example, run the following commands:
 
-%{version} contains underscores instead of hyphens.
-So, it does not match to ${KERNELRELEASE} used during the build.
+  $ make -s ARCH=x86 mrproper defconfig
+  $ make ARCH=arm O=foo dtbs
+  make[1]: Entering directory '/tmp/linux/foo'
+    HOSTCC  scripts/basic/fixdep
+  Error: kernelrelease not valid - run 'make prepare' to update it
+    UPD     include/config/kernel.release
+  make[1]: Leaving directory '/tmp/linux/foo'
 
+The first command configures the source tree for x86. The next command
+tries to build ARM device trees in the separate foo/ directory - this
+must stop because the directory foo/ has not been configured yet.
 
-I will squash the following:
+However, due to --include-dir=$(abs_srctree), the top Makefile includes
+the wrong include/config/auto.conf from the source tree and continues
+building. Kbuild traverses the directory tree, but of course does not
+work correctly. The Error message is also pointless - 'make prepare'
+does not help at all for fixing the issue.
 
+This commit fixes more arch Makefile, and finally removes --include-dir
+from the top Makefile.
 
+There are more breakages under drivers/, but I do not volunteer to fix
+them all. I just moved --include-dir to drivers/Makefile.
 
+With this commit, the second command will stop with a sensible message.
 
-diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-index a73d25c76efe..cd4026208100 100755
---- a/scripts/package/mkspec
-+++ b/scripts/package/mkspec
-@@ -90,7 +90,7 @@ $S    rm -f scripts/basic/fixdep scripts/kconfig/conf
- $S     rm -f tools/objtool/{fixdep,objtool}
- $S
- $S     %build
--$S     $MAKE %{?_smp_mflags} KERNELRELEASE=%{version}
-KBUILD_BUILD_VERSION=%{release}
-+$S     $MAKE %{?_smp_mflags} KERNELRELEASE=$KERNELRELEASE
-KBUILD_BUILD_VERSION=%{release}
- $S
-        %install
-        mkdir -p %{buildroot}/boot
-@@ -101,8 +101,8 @@ $S
-        %else
-        cp \$($MAKE -s image_name) %{buildroot}/boot/vmlinuz-$KERNELRELEASE
-        %endif
--$M     $MAKE %{?_smp_mflags} KERNELRELEASE=%{version}
-INSTALL_MOD_PATH=%{buildroot} modules_install
--       $MAKE %{?_smp_mflags} KERNELRELEASE=%{version}
-INSTALL_HDR_PATH=%{buildroot}/usr headers_install
-+$M     $MAKE %{?_smp_mflags} KERNELRELEASE=$KERNELRELEASE
-INSTALL_MOD_PATH=%{buildroot} modules_install
-+       $MAKE %{?_smp_mflags} KERNELRELEASE=$KERNELRELEASE
-INSTALL_HDR_PATH=%{buildroot}/usr headers_install
-        cp System.map %{buildroot}/boot/System.map-$KERNELRELEASE
-        cp .config %{buildroot}/boot/config-$KERNELRELEASE
- $S$M   rm -f %{buildroot}/lib/modules/$KERNELRELEASE/build
+  $ make -s ARCH=x86 mrproper defconfig
+  $ make ARCH=arm O=foo dtbs
+  make[1]: Entering directory '/tmp/linux/foo'
+    SYNC    include/config/auto.conf.cmd
+  ***
+  *** The source tree is not clean, please run 'make ARCH=arm mrproper'
+  *** in /tmp/linux
+  ***
+  make[2]: *** [../Makefile:646: outputmakefile] Error 1
+  /tmp/linux/Makefile:770: include/config/auto.conf.cmd: No such file or directory
+  make[1]: *** [/tmp/linux/Makefile:793: include/config/auto.conf.cmd] Error 2
+  make[1]: Leaving directory '/tmp/linux/foo'
+  make: *** [Makefile:226: __sub-make] Error 2
 
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ Makefile                          | 8 --------
+ arch/arm/mach-s3c/Makefile        | 4 ++--
+ arch/ia64/kernel/Makefile         | 2 +-
+ arch/mips/Kbuild                  | 2 +-
+ arch/mips/Makefile.postlink       | 2 +-
+ arch/powerpc/Makefile.postlink    | 2 +-
+ arch/um/drivers/Makefile          | 2 +-
+ arch/um/kernel/Makefile           | 2 +-
+ arch/um/kernel/skas/Makefile      | 2 +-
+ arch/um/os-Linux/Makefile         | 2 +-
+ arch/um/os-Linux/drivers/Makefile | 2 +-
+ arch/um/os-Linux/skas/Makefile    | 2 +-
+ arch/x86/Makefile.um              | 2 +-
+ arch/x86/um/Makefile              | 2 +-
+ arch/x86/um/os-Linux/Makefile     | 2 +-
+ drivers/Makefile                  | 5 +++++
+ fs/hostfs/Makefile                | 2 +-
+ 17 files changed, 21 insertions(+), 24 deletions(-)
 
-
-
-
->
-> $ make -skj"$(nproc)" ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- RPMOPTS="--define '_topdir $PWD/rpmbuild'" olddefconfig binrpm-pkg
-> ...
-> Building target platforms: aarch64-linux
-> Building for target aarch64-linux
-> warning: line 23: It's not recommended to have unversioned Obsoletes: Obsoletes: kernel-headers
-> error: cannot open Packages database in /var/lib/rpm
-> Executing(%install): /bin/sh -e /var/tmp/rpm-tmp.targJq
-> + umask 022
-> + cd .
-> + /usr/bin/rm -rf $PWD/rpmbuild/BUILDROOT/kernel-6.2.0_rc5_next_20230127+-1.aarch64
-> + /usr/bin/mkdir -p $PWD/rpmbuild/BUILDROOT
-> + /usr/bin/mkdir $PWD/rpmbuild/BUILDROOT/kernel-6.2.0_rc5_next_20230127+-1.aarch64
-> + mkdir -p $PWD/rpmbuild/BUILDROOT/kernel-6.2.0_rc5_next_20230127+-1.aarch64/boot
-> ++ make -f ./Makefile -s image_name
-> + cp arch/arm64/boot/Image.gz $PWD/rpmbuild/BUILDROOT/kernel-6.2.0_rc5_next_20230127+-1.aarch64/boot/vmlinuz-6.2.0-rc5-next-20230127+
-> + make -f ./Makefile -j128 KERNELRELEASE=6.2.0_rc5_next_20230127+ INSTALL_MOD_PATH=$PWD/rpmbuild/BUILDROOT/kernel-6.2.0_rc5_next_20230127+-1.aarch64 modules_install
-> make[3]: warning: -j128 forced in submake: resetting jobserver mode.
-> + make -f ./Makefile -j128 KERNELRELEASE=6.2.0_rc5_next_20230127+ INSTALL_HDR_PATH=$PWD/rpmbuild/BUILDROOT/kernel-6.2.0_rc5_next_20230127+-1.aarch64/usr headers_install
-> make[3]: warning: -j128 forced in submake: resetting jobserver mode.
-> + cp System.map $PWD/rpmbuild/BUILDROOT/kernel-6.2.0_rc5_next_20230127+-1.aarch64/boot/System.map-6.2.0-rc5-next-20230127+
-> + cp .config $PWD/rpmbuild/BUILDROOT/kernel-6.2.0_rc5_next_20230127+-1.aarch64/boot/config-6.2.0-rc5-next-20230127+
-> + /usr/lib/rpm/brp-compress
-> Processing files: kernel-6.2.0_rc5_next_20230127+-1.aarch64
-> error: File not found: $PWD/rpmbuild/BUILDROOT/kernel-6.2.0_rc5_next_20230127+-1.aarch64/lib/modules/6.2.0-rc5-next-20230127+
-> warning: File not found: $PWD/rpmbuild/BUILDROOT/kernel-6.2.0_rc5_next_20230127+-1.aarch64/lib/modules/6.2.0-rc5-next-20230127+/build
-> warning: File not found: $PWD/rpmbuild/BUILDROOT/kernel-6.2.0_rc5_next_20230127+-1.aarch64/lib/modules/6.2.0-rc5-next-20230127+/source
->
-> RPM build warnings:
->     line 23: It's not recommended to have unversioned Obsoletes: Obsoletes: kernel-headers
->     File not found: $PWD/rpmbuild/BUILDROOT/kernel-6.2.0_rc5_next_20230127+-1.aarch64/lib/modules/6.2.0-rc5-next-20230127+/build
->     File not found: $PWD/rpmbuild/BUILDROOT/kernel-6.2.0_rc5_next_20230127+-1.aarch64/lib/modules/6.2.0-rc5-next-20230127+/source
->
-> RPM build errors:
->     cannot open Packages database in /var/lib/rpm
->     File not found: $PWD/rpmbuild/BUILDROOT/kernel-6.2.0_rc5_next_20230127+-1.aarch64/lib/modules/6.2.0-rc5-next-20230127+
-> ...
->
-> Cheers,
-> Nathan
-
-
-
+diff --git a/Makefile b/Makefile
+index cb1e188b1a91..339121558928 100644
+--- a/Makefile
++++ b/Makefile
+@@ -203,14 +203,6 @@ ifneq ($(words $(subst :, ,$(abs_srctree))), 1)
+ $(error source directory cannot contain spaces or colons)
+ endif
+ 
+-ifneq ($(abs_srctree),$(abs_objtree))
+-# Look for make include files relative to root of kernel src
+-#
+-# --included-dir is added for backward compatibility, but you should not rely on
+-# it. Please add $(srctree)/ prefix to include Makefiles in the source tree.
+-MAKEFLAGS += --include-dir=$(abs_srctree)
+-endif
+-
+ ifneq ($(filter 3.%,$(MAKE_VERSION)),)
+ # 'MAKEFLAGS += -rR' does not immediately become effective for GNU Make 3.x
+ # We need to invoke sub-make to avoid implicit rules in the top Makefile.
+diff --git a/arch/arm/mach-s3c/Makefile b/arch/arm/mach-s3c/Makefile
+index 7c7d3318fd61..deb44326b828 100644
+--- a/arch/arm/mach-s3c/Makefile
++++ b/arch/arm/mach-s3c/Makefile
+@@ -3,11 +3,11 @@
+ # Copyright 2009 Simtec Electronics
+ 
+ ifdef CONFIG_ARCH_S3C24XX
+-include $(src)/Makefile.s3c24xx
++include $(srctree)/$(src)/Makefile.s3c24xx
+ endif
+ 
+ ifdef CONFIG_ARCH_S3C64XX
+-include $(src)/Makefile.s3c64xx
++include $(srctree)/$(src)/Makefile.s3c64xx
+ endif
+ 
+ # Objects we always build independent of SoC choice
+diff --git a/arch/ia64/kernel/Makefile b/arch/ia64/kernel/Makefile
+index ae9ff07de4ab..d7e1cabee2ec 100644
+--- a/arch/ia64/kernel/Makefile
++++ b/arch/ia64/kernel/Makefile
+@@ -43,4 +43,4 @@ obj-$(CONFIG_ELF_CORE)		+= elfcore.o
+ CFLAGS_traps.o  += -mfixed-range=f2-f5,f16-f31
+ 
+ # The gate DSO image is built using a special linker script.
+-include $(src)/Makefile.gate
++include $(srctree)/$(src)/Makefile.gate
+diff --git a/arch/mips/Kbuild b/arch/mips/Kbuild
+index 9e8071f0e58f..af2967bffb73 100644
+--- a/arch/mips/Kbuild
++++ b/arch/mips/Kbuild
+@@ -7,7 +7,7 @@ subdir-ccflags-y := -Werror
+ endif
+ 
+ # platform specific definitions
+-include arch/mips/Kbuild.platforms
++include $(srctree)/arch/mips/Kbuild.platforms
+ obj-y := $(platform-y)
+ 
+ # make clean traverses $(obj-) without having included .config, so
+diff --git a/arch/mips/Makefile.postlink b/arch/mips/Makefile.postlink
+index 4b1d3ba3a8a2..34e3bd71f3b0 100644
+--- a/arch/mips/Makefile.postlink
++++ b/arch/mips/Makefile.postlink
+@@ -10,7 +10,7 @@ PHONY := __archpost
+ __archpost:
+ 
+ -include include/config/auto.conf
+-include scripts/Kbuild.include
++include $(srctree)/scripts/Kbuild.include
+ 
+ CMD_LS3_LLSC = arch/mips/tools/loongson3-llsc-check
+ quiet_cmd_ls3_llsc = LLSCCHK $@
+diff --git a/arch/powerpc/Makefile.postlink b/arch/powerpc/Makefile.postlink
+index a6c77f4d32b2..1f860b3c9bec 100644
+--- a/arch/powerpc/Makefile.postlink
++++ b/arch/powerpc/Makefile.postlink
+@@ -9,7 +9,7 @@ PHONY := __archpost
+ __archpost:
+ 
+ -include include/config/auto.conf
+-include scripts/Kbuild.include
++include $(srctree)/scripts/Kbuild.include
+ 
+ quiet_cmd_head_check = CHKHEAD $@
+       cmd_head_check = $(CONFIG_SHELL) $(srctree)/arch/powerpc/tools/head_check.sh "$(NM)" "$@"
+diff --git a/arch/um/drivers/Makefile b/arch/um/drivers/Makefile
+index e1dc4292bd22..dee6f66353b3 100644
+--- a/arch/um/drivers/Makefile
++++ b/arch/um/drivers/Makefile
+@@ -72,4 +72,4 @@ CFLAGS_null.o = -DDEV_NULL=$(DEV_NULL_PATH)
+ 
+ CFLAGS_xterm.o += '-DCONFIG_XTERM_CHAN_DEFAULT_EMULATOR="$(CONFIG_XTERM_CHAN_DEFAULT_EMULATOR)"'
+ 
+-include arch/um/scripts/Makefile.rules
++include $(srctree)/arch/um/scripts/Makefile.rules
+diff --git a/arch/um/kernel/Makefile b/arch/um/kernel/Makefile
+index 1c2d4b29a3d4..811188be954c 100644
+--- a/arch/um/kernel/Makefile
++++ b/arch/um/kernel/Makefile
+@@ -29,7 +29,7 @@ obj-$(CONFIG_GENERIC_PCI_IOMAP) += ioport.o
+ 
+ USER_OBJS := config.o
+ 
+-include arch/um/scripts/Makefile.rules
++include $(srctree)/arch/um/scripts/Makefile.rules
+ 
+ targets := config.c config.tmp capflags.c
+ 
+diff --git a/arch/um/kernel/skas/Makefile b/arch/um/kernel/skas/Makefile
+index f3d494a4fd9b..f93972a25765 100644
+--- a/arch/um/kernel/skas/Makefile
++++ b/arch/um/kernel/skas/Makefile
+@@ -14,4 +14,4 @@ UNPROFILE_OBJS := clone.o
+ 
+ KCOV_INSTRUMENT := n
+ 
+-include arch/um/scripts/Makefile.rules
++include $(srctree)/arch/um/scripts/Makefile.rules
+diff --git a/arch/um/os-Linux/Makefile b/arch/um/os-Linux/Makefile
+index 77ac50baa3f8..544e0b344c75 100644
+--- a/arch/um/os-Linux/Makefile
++++ b/arch/um/os-Linux/Makefile
+@@ -18,4 +18,4 @@ USER_OBJS := $(user-objs-y) elf_aux.o execvp.o file.o helper.o irq.o \
+ 	main.o mem.o process.o registers.o sigio.o signal.o start_up.o time.o \
+ 	tty.o umid.o util.o
+ 
+-include arch/um/scripts/Makefile.rules
++include $(srctree)/arch/um/scripts/Makefile.rules
+diff --git a/arch/um/os-Linux/drivers/Makefile b/arch/um/os-Linux/drivers/Makefile
+index d79e75f1b69a..cf2d75bb1884 100644
+--- a/arch/um/os-Linux/drivers/Makefile
++++ b/arch/um/os-Linux/drivers/Makefile
+@@ -10,4 +10,4 @@ obj-y =
+ obj-$(CONFIG_UML_NET_ETHERTAP) += ethertap.o
+ obj-$(CONFIG_UML_NET_TUNTAP) += tuntap.o
+ 
+-include arch/um/scripts/Makefile.rules
++include $(srctree)/arch/um/scripts/Makefile.rules
+diff --git a/arch/um/os-Linux/skas/Makefile b/arch/um/os-Linux/skas/Makefile
+index c4566e788815..75f11989d2e9 100644
+--- a/arch/um/os-Linux/skas/Makefile
++++ b/arch/um/os-Linux/skas/Makefile
+@@ -7,4 +7,4 @@ obj-y := mem.o process.o
+ 
+ USER_OBJS := $(obj-y)
+ 
+-include arch/um/scripts/Makefile.rules
++include $(srctree)/arch/um/scripts/Makefile.rules
+diff --git a/arch/x86/Makefile.um b/arch/x86/Makefile.um
+index b3c1ae084180..b89e2e0024c5 100644
+--- a/arch/x86/Makefile.um
++++ b/arch/x86/Makefile.um
+@@ -17,7 +17,7 @@ LDS_EXTRA		:= -Ui386
+ export LDS_EXTRA
+ 
+ # First of all, tune CFLAGS for the specific CPU. This actually sets cflags-y.
+-include arch/x86/Makefile_32.cpu
++include $(srctree)/arch/x86/Makefile_32.cpu
+ 
+ # prevent gcc from keeping the stack 16 byte aligned. Taken from i386.
+ cflags-y += $(call cc-option,-mpreferred-stack-boundary=2)
+diff --git a/arch/x86/um/Makefile b/arch/x86/um/Makefile
+index 3d5cd2e57820..ee89f6bb9242 100644
+--- a/arch/x86/um/Makefile
++++ b/arch/x86/um/Makefile
+@@ -48,4 +48,4 @@ include/generated/user_constants.h: $(obj)/user-offsets.s FORCE
+ UNPROFILE_OBJS := stub_segv.o
+ CFLAGS_stub_segv.o := $(CFLAGS_NO_HARDENING)
+ 
+-include arch/um/scripts/Makefile.rules
++include $(srctree)/arch/um/scripts/Makefile.rules
+diff --git a/arch/x86/um/os-Linux/Makefile b/arch/x86/um/os-Linux/Makefile
+index 253bfb8cb702..ae169125d03f 100644
+--- a/arch/x86/um/os-Linux/Makefile
++++ b/arch/x86/um/os-Linux/Makefile
+@@ -10,4 +10,4 @@ obj-$(CONFIG_64BIT) += prctl.o
+ 
+ USER_OBJS := $(obj-y)
+ 
+-include arch/um/scripts/Makefile.rules
++include $(srctree)/arch/um/scripts/Makefile.rules
+diff --git a/drivers/Makefile b/drivers/Makefile
+index bdf1c66141c9..62a9cb403a1a 100644
+--- a/drivers/Makefile
++++ b/drivers/Makefile
+@@ -6,6 +6,11 @@
+ # Rewritten to use lists instead of if-statements.
+ #
+ 
++# Some driver Makefiles miss $(srctree)/ for include directive.
++ifdef building_out_of_srctree
++MAKEFLAGS += --include-dir=$(srctree)
++endif
++
+ obj-y				+= irqchip/
+ obj-y				+= bus/
+ 
+diff --git a/fs/hostfs/Makefile b/fs/hostfs/Makefile
+index d5beaffad43b..587bcd6e50a3 100644
+--- a/fs/hostfs/Makefile
++++ b/fs/hostfs/Makefile
+@@ -8,4 +8,4 @@ hostfs-objs := hostfs_kern.o hostfs_user.o
+ obj-y :=
+ obj-$(CONFIG_HOSTFS) += hostfs.o
+ 
+-include arch/um/scripts/Makefile.rules
++include $(srctree)/arch/um/scripts/Makefile.rules
 -- 
-Best Regards
-Masahiro Yamada
+2.34.1
+
