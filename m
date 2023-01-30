@@ -2,163 +2,109 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 096DB681780
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Jan 2023 18:22:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC37A681790
+	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Jan 2023 18:27:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237838AbjA3RWT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 30 Jan 2023 12:22:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42920 "EHLO
+        id S229887AbjA3R1y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 30 Jan 2023 12:27:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237836AbjA3RWT (ORCPT
+        with ESMTP id S236106AbjA3R1x (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 30 Jan 2023 12:22:19 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B11D434C15;
-        Mon, 30 Jan 2023 09:22:17 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6AF14B815CC;
-        Mon, 30 Jan 2023 17:22:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F310CC4339C;
-        Mon, 30 Jan 2023 17:22:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675099335;
-        bh=03hSL6acGWc0Byt9YYZSo2iTHRm7bOfdYaaKNojuozo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=bJdjq/Iqt8KuT+RD0iDH/Oyahjfy5w8RxkYBX4s17uO0tmB2m+90k2TkG3nTj81gq
-         iVvvpVB9V9swAyoF0PhJq9JUJlWl7Yrg93aNwGkEXwCT7BfkTUwY06SRwDtzbUXZsf
-         bdWnlr3uWz0UeEiRWAEmUMqR2L6/c7XFZ4GcQE7kkWDdkU24gMz6CDyV2yAUTyG+VP
-         Ryf9pYRb+HOebrO6it7WrMdJtdVcgSzA9aL9nsABJA/H10OX9HJgT8vTBjWzUZGKfD
-         XxPKHNgd/TRYEL+prrGJvJ1c8YU4M+VvLIW3ZlW0zUU6Y6UcOBW01uiQoeznwBu631
-         MNpep+xdHnTKw==
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-15fe106c7c7so15912374fac.8;
-        Mon, 30 Jan 2023 09:22:14 -0800 (PST)
-X-Gm-Message-State: AO0yUKVc3m1qKJI8lAPVvz7NZHjkp3/+2co2uhCB0euGz4GjTHI/Lp8j
-        vTuiY//vsMwHwL5NChQDUP3qW5RJ79psEV+ypHg=
-X-Google-Smtp-Source: AK7set/fOymBqDlqF808yExuXiQ1MXOc/8RuMw5/irGSyjWkwyxyZu30ome2C0UCd2NPabNyQ6vshdtvUa+Kvz7S6FA=
-X-Received: by 2002:a05:6870:330b:b0:163:a45a:9e41 with SMTP id
- x11-20020a056870330b00b00163a45a9e41mr393587oae.194.1675099334181; Mon, 30
- Jan 2023 09:22:14 -0800 (PST)
+        Mon, 30 Jan 2023 12:27:53 -0500
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CEEC40C1
+        for <linux-kbuild@vger.kernel.org>; Mon, 30 Jan 2023 09:27:51 -0800 (PST)
+Received: by mail-pj1-x102b.google.com with SMTP id n20-20020a17090aab9400b00229ca6a4636so16236171pjq.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 30 Jan 2023 09:27:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=YdbDWXlrKea8gRK3DBQ271yzRiLxpBwjs6Sh63rgTgk=;
+        b=OmzTS6+kT3phODuRjnYkk9z9ylcvcBVLq7ymoMiznRH4Up+SU0UFyAEZHyJgzfqNOv
+         Ofuio0hv8BSI+FAetegq/OxEaI+JWKk/5lSSzL8Y2ADrtR7RIQUpg1S0eCJmgLWZfGlV
+         imExZiQfygkBS0PFJQ9r6qIyyXZaLmSh6Cx7u+cbv9T7RxGNVWoaUv3Vwr7hCMm7jbD9
+         rPBpYkNsdESD49WDAPP76SbNfHzlpxjDfs1o4vI+Xm5DtgwfRzRBK5kGIBIilPaWzlw0
+         uBI+hc4W+MlC90LCWsfs7e1001LJ9UfUTfSWxNPiJKIiiJtZgLnSd0FV9+OmbhcNYe6x
+         4CtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YdbDWXlrKea8gRK3DBQ271yzRiLxpBwjs6Sh63rgTgk=;
+        b=DOMuKbhGkstdFTZPn+hHMszKKLE/esGTJzn4FPwoDToogqLXu2V80zI44HegovcwSF
+         +TYyCjrJtpEw9uSB0fu4aImIndFns2DOVSpIHnsp7udqjlCb7uqkI5GNUeU+AmwgjhQn
+         +hvkPedRR9PqtDExjq1Mq20Do4OnV7OlIoHw22Aw2oH/mddZmHSca1IbA+su/6D70VNJ
+         rvZ4+NDRKfXQ5ofedwH/DiZQ+vAGBbNQgPNkHJw6+JOXSm7ni61Yog2J+fTk6me7DT9c
+         w5tecwOrT7dvIfTqIdlb7sZ53n2kTdpX54eWvSFclW6bLC/wIsshv8fLOC0q/yUEezl+
+         Qwjg==
+X-Gm-Message-State: AO0yUKWsUt4Jjr4MemCWugdi5WCdIEAD/eFYCw91k3O04STfGD5/Fpgo
+        nmxr2JofD1eRn6o7azpqIYUV0bUVofcBLTWRs/Mi5Q==
+X-Google-Smtp-Source: AK7set/Vqqmd8iwFki78mxKNOfTDk1LMHHbCP1JASkx4Z9kgaPwRc7nbtYiQxztmkLDdWXcHD0o+Y5SDsrURM8Ehj7c=
+X-Received: by 2002:a17:90a:9c1:b0:22c:816f:3203 with SMTP id
+ 59-20020a17090a09c100b0022c816f3203mr1077650pjo.28.1675099670433; Mon, 30 Jan
+ 2023 09:27:50 -0800 (PST)
 MIME-Version: 1.0
-References: <20230130141553.3825449-1-jlu@pengutronix.de> <20230130141553.3825449-2-jlu@pengutronix.de>
- <CAK7LNAReD_97qWRT8f47VKx9cScTWUJcHNkUyhXQoMAYPwAPUQ@mail.gmail.com> <faf0b767d910f11c0e9b458614e002534880e12a.camel@pengutronix.de>
-In-Reply-To: <faf0b767d910f11c0e9b458614e002534880e12a.camel@pengutronix.de>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 31 Jan 2023 02:21:37 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATa8jxRzbf7Wec3WYtBW7-DF2c+uMi+wjJddHziWquQ3g@mail.gmail.com>
-Message-ID: <CAK7LNATa8jxRzbf7Wec3WYtBW7-DF2c+uMi+wjJddHziWquQ3g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] certs: Fix build error when PKCS#11 URI contains semicolon
-To:     =?UTF-8?Q?Jan_L=C3=BCbbe?= <jlu@pengutronix.de>
-Cc:     David Howells <dhowells@redhat.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        keyrings@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel@pengutronix.de
+References: <20230130021902.4088173-1-masahiroy@kernel.org>
+In-Reply-To: <20230130021902.4088173-1-masahiroy@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Mon, 30 Jan 2023 09:27:38 -0800
+Message-ID: <CAKwvOd=amcV=wbdq5enu+6=dh5BhXkejHgcnhNt5UfKTO7rTDA@mail.gmail.com>
+Subject: Re: [PATCH] .gitignore: ignore *.mbx
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Mark Brown <broonie@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Miguel Ojeda <ojeda@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jan 31, 2023 at 1:43 AM Jan L=C3=BCbbe <jlu@pengutronix.de> wrote:
+On Sun, Jan 29, 2023 at 6:19 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> On Tue, 2023-01-31 at 00:18 +0900, Masahiro Yamada wrote:
-> > On Mon, Jan 30, 2023 at 11:16 PM Jan Luebbe <jlu@pengutronix.de> wrote:
-> > >
-> > > When CONFIG_MODULE_SIG_KEY is PKCS#11 URI (pkcs11:*) and contains a
-> > > semicolon, signing_key.x509 fails to build:
-> > >
-> > >   certs/extract-cert pkcs11:token=3Dfoo;object=3Dbar;pin-value=3D1111=
- certs/signing_key.x509
-> > >   Usage: extract-cert <source> <dest>
-> > >
-> > > Add quotes to the PKCS11_URI variable to avoid splitting by the shell=
-.
-> > >
-> > > Fixes: 129ab0d2d9f3 ("kbuild: do not quote string values in include/c=
-onfig/auto.conf")
-> > > Signed-off-by: Jan Luebbe <jlu@pengutronix.de>
-> > > ---
-> > >  certs/Makefile | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/certs/Makefile b/certs/Makefile
-> > > index 9486ed924731..cda21811ed88 100644
-> > > --- a/certs/Makefile
-> > > +++ b/certs/Makefile
-> > > @@ -67,7 +67,7 @@ $(obj)/system_certificates.o: $(obj)/signing_key.x5=
-09
-> > >
-> > >  PKCS11_URI :=3D $(filter pkcs11:%, $(CONFIG_MODULE_SIG_KEY))
-> > >  ifdef PKCS11_URI
-> > > -$(obj)/signing_key.x509: extract-cert-in :=3D $(PKCS11_URI)
-> > > +$(obj)/signing_key.x509: extract-cert-in :=3D "$(PKCS11_URI)"
-> > >  endif
-> > >
-> > >  $(obj)/signing_key.x509: $(filter-out $(PKCS11_URI),$(CONFIG_MODULE_=
-SIG_KEY)) $(obj)/extract-cert FORCE
-> > > --
-> > > 2.30.2
-> > >
-> >
-> > Instead, how about this?
-> >
-> >
-> >
-> >
-> > diff --git a/certs/Makefile b/certs/Makefile
-> > index 9486ed924731..799ad7b9e68a 100644
-> > --- a/certs/Makefile
-> > +++ b/certs/Makefile
-> > @@ -23,8 +23,8 @@ $(obj)/blacklist_hash_list:
-> > $(CONFIG_SYSTEM_BLACKLIST_HASH_LIST) FORCE
-> >  targets +=3D blacklist_hash_list
-> >
-> >  quiet_cmd_extract_certs  =3D CERT    $@
-> > -      cmd_extract_certs  =3D $(obj)/extract-cert $(extract-cert-in) $@
-> > -extract-cert-in =3D $(or $(filter-out $(obj)/extract-cert, $(real-prer=
-eqs)),"")
-> > +      cmd_extract_certs  =3D $(obj)/extract-cert "$(extract-cert-in)" =
-$@
-> > +extract-cert-in =3D $(filter-out $(obj)/extract-cert, $(real-prereqs))
-> >
-> >  $(obj)/system_certificates.o: $(obj)/x509_certificate_list
+> The 'b4' command creates a *.mbx file. Ignore it.
 >
-> Thanks, this works im my tests, too.
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
+Thanks for the patch! (I commonly pipe mbox files directly into `git`
+to avoid this, but I do use b4 a lot!)
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-
-Can you send v2, please?
-
-I do not come up with a cleaner way for 2/2,
-so I am fine with it.
-
-
-
-
-
-
-
+> ---
 >
-> Regards,
-> Jan
+>  .gitignore | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/.gitignore b/.gitignore
+> index 22984d22d29e..4dc02ef62202 100644
+> --- a/.gitignore
+> +++ b/.gitignore
+> @@ -33,6 +33,7 @@
+>  *.lz4
+>  *.lzma
+>  *.lzo
+> +*.mbx
+>  *.mod
+>  *.mod.c
+>  *.o
 > --
-> Pengutronix e.K.                           |                             =
-|
-> Steuerwalder Str. 21                       | http://www.pengutronix.de/  =
-|
-> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    =
-|
-> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 =
-|
+> 2.34.1
+>
 
 
-
---=20
-Best Regards
-Masahiro Yamada
+-- 
+Thanks,
+~Nick Desaulniers
