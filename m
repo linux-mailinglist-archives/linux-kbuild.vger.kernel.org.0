@@ -2,64 +2,54 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02412680764
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Jan 2023 09:28:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EE4B680766
+	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Jan 2023 09:29:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229741AbjA3I2t (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 30 Jan 2023 03:28:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50934 "EHLO
+        id S235777AbjA3I3H (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 30 Jan 2023 03:29:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236005AbjA3I2s (ORCPT
+        with ESMTP id S236011AbjA3I3G (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 30 Jan 2023 03:28:48 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E55E217168;
-        Mon, 30 Jan 2023 00:28:47 -0800 (PST)
+        Mon, 30 Jan 2023 03:29:06 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51356298EA;
+        Mon, 30 Jan 2023 00:29:01 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A90E8B80E96;
-        Mon, 30 Jan 2023 08:28:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F6E5C433D2;
-        Mon, 30 Jan 2023 08:28:45 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D596360EEB;
+        Mon, 30 Jan 2023 08:29:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EE83C433EF;
+        Mon, 30 Jan 2023 08:28:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675067325;
-        bh=+Qc5ERoxkViTOJP1PhBR9/YiJBKaMpOHNM3Pyw2S5iI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=N2wJL628kFRu4tpUBgbZ/5IRgUynsdv92p3MlIvY5f12WCwVgCRV08lS1SQIsIwxg
-         smfQ3envQ8RnF7KGZfsLglQQiGzEGkMs8PDk45MvYGb8beLHOPkDpWn7g1lEI8DC1W
-         qpO716get8JbmTMvoYBDxXzqN25cvk+aQ+wt85FSK+x72EZDki1eJVAvZP1rl3zJ+S
-         c1ppqA37CfJ8nrtMY4t9F713MTc3lgALdq/IIKbnUc0RYLKK206gH84Ghsy9OLYasm
-         Z4n+EAptHgYC/nC4sbsSjNjdHvkorhQR1u7M9x/rwAuJE/7dwWZ+pOzXOTpdqkApVX
-         tSTP0vXBt3H0Q==
-Received: by mail-oi1-f181.google.com with SMTP id p133so9409013oig.8;
-        Mon, 30 Jan 2023 00:28:45 -0800 (PST)
-X-Gm-Message-State: AFqh2kqOJ2ST7DFHlr4NjRwClwSO2g2mlCAQJ2tyr77wATDOBn56Ar1C
-        4hmyx7LnEPMblUukVyP0TaED1JUTOfrK7YSEKz8=
-X-Google-Smtp-Source: AMrXdXs0xdVRH/AoG9wL2sm5YeiG71Mvotav2YLon4ToK2kgBH+KmafsjB19Xr1XOqfVX4zlOjGy8zHgDK9H9ZD1xag=
-X-Received: by 2002:a05:6808:1786:b0:35e:7c55:b015 with SMTP id
- bg6-20020a056808178600b0035e7c55b015mr2970147oib.287.1675067324498; Mon, 30
- Jan 2023 00:28:44 -0800 (PST)
-MIME-Version: 1.0
-References: <20230130021902.4088173-1-masahiroy@kernel.org> <Y9dMYSCCTo/S6DYz@bergen.fjasle.eu>
-In-Reply-To: <Y9dMYSCCTo/S6DYz@bergen.fjasle.eu>
+        s=k20201202; t=1675067340;
+        bh=VyDYTZSiegSjXwVzMVTkiXbtZEt3qyMN0l/K/V+Ukzc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=VZuRc7+oOJRgoP9t7MwkubH/uhgoCk85zOkUlRBa+lOljAKXkjmthn/QktswKpMZ1
+         So1szTyqt6+Ho96xJVTjBvomj8bfqMYJBroY5HNuze8hq9VmXJGdj0iRV2EGhTiRVA
+         39WPZw9ilce3xLnJkIpcDrqVitJUndCAkUYdArN1zGKriKZAxwh5CGZu3MbVPSES/3
+         XeWt6r9suGdF0VeyThg2JZsbEwTxu3HxI1nMjTJbkyYLDezM9Db4mxkicGuqrQrPJy
+         crJoKFTOhFk4zOegiahOKpPFNByIhFw15p8Hl+iTpVUnreBqL8Yus/q5QoF2wmf/7U
+         /nbol7bSviaEA==
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 30 Jan 2023 17:28:08 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQQZy3N3W2iYBKOv9GQxfzxerPmhat9-RboUTx6p2ho-w@mail.gmail.com>
-Message-ID: <CAK7LNAQQZy3N3W2iYBKOv9GQxfzxerPmhat9-RboUTx6p2ho-w@mail.gmail.com>
-Subject: Re: [PATCH] .gitignore: ignore *.mbx
-To:     Nicolas Schier <nicolas@fjasle.eu>
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
+To:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Cc:     Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         Mark Brown <broonie@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Miguel Ojeda <ojeda@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH v2] .gitignore: ignore *.cover and *.mbx
+Date:   Mon, 30 Jan 2023 17:28:49 +0900
+Message-Id: <20230130082849.65737-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,53 +57,39 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jan 30, 2023 at 1:50 PM Nicolas Schier <nicolas@fjasle.eu> wrote:
->
-> On Mon 30 Jan 2023 11:19:02 GMT, Masahiro Yamada wrote:
-> > The 'b4' command creates a *.mbx file. Ignore it.
->
-> b4 also creates *.cover file.  Can you add that, too?
+The 'b4' command creates a *.mbx file, and also a *.cover file if the
+patch set has a cover-letter. Ignore them.
 
-Sure, will do.
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+---
 
-Thanks.
+Changes in v2:
+  - ignore *.cover (Nocolas)
 
+ .gitignore | 2 ++
+ 1 file changed, 2 insertions(+)
 
->
-> Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
->
-> Thanks,
-> Nicolas
->
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  .gitignore | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/.gitignore b/.gitignore
-> > index 22984d22d29e..4dc02ef62202 100644
-> > --- a/.gitignore
-> > +++ b/.gitignore
-> > @@ -33,6 +33,7 @@
-> >  *.lz4
-> >  *.lzma
-> >  *.lzo
-> > +*.mbx
-> >  *.mod
-> >  *.mod.c
-> >  *.o
-> > --
-> > 2.34.1
->
-> --
-> epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
-> =E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
->      -- frykten for herren er opphav til kunnskap --
+diff --git a/.gitignore b/.gitignore
+index 22984d22d29e..8fe465f251c0 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -16,6 +16,7 @@
+ *.bin
+ *.bz2
+ *.c.[012]*.*
++*.cover
+ *.dt.yaml
+ *.dtb
+ *.dtbo
+@@ -33,6 +34,7 @@
+ *.lz4
+ *.lzma
+ *.lzo
++*.mbx
+ *.mod
+ *.mod.c
+ *.o
+-- 
+2.34.1
 
-
-
---=20
-Best Regards
-Masahiro Yamada
