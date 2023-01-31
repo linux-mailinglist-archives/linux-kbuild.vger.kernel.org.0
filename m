@@ -2,65 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 22A3A6832AB
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Jan 2023 17:30:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A21686833B9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Jan 2023 18:21:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232038AbjAaQaH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 31 Jan 2023 11:30:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39816 "EHLO
+        id S231737AbjAaRVn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 31 Jan 2023 12:21:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231830AbjAaQ37 (ORCPT
+        with ESMTP id S231515AbjAaRVm (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 31 Jan 2023 11:29:59 -0500
+        Tue, 31 Jan 2023 12:21:42 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76E9F65BD;
-        Tue, 31 Jan 2023 08:29:58 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2C9B4A22D;
+        Tue, 31 Jan 2023 09:21:18 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0F0C0615A6;
-        Tue, 31 Jan 2023 16:29:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71D34C433D2;
-        Tue, 31 Jan 2023 16:29:57 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5206861536;
+        Tue, 31 Jan 2023 17:20:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B305FC433D2;
+        Tue, 31 Jan 2023 17:20:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675182597;
-        bh=80ARtY9sgkVPESn81Oqqo5DIsJpKbmYVYBaV3VBCuwQ=;
+        s=k20201202; t=1675185647;
+        bh=r5HSOmCvVYNNxPiGkzGPz8lmHaZtwKd1nkYw2uasuh0=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=eWOvPpBqFK7vAeA46vJdFhABLEptcTRkIJIMhzJzD3qCGh0ORrk+NNAvBBoxgd4B9
-         HF4apI7dGTOzdlPbp+pQZ4QKPWag4YFxSk+rAqmkwRTfFSPw17o1Js39Hjd8rNZDNt
-         aSCX+45vylgVAsygQqyHfDlJEnjJqwnHUJKOD8xWx+VM0NeAxLCAGEEvzHJ3S623aE
-         1QXahjRd/RcyZzRQRVi2UHPKX2fgBEhJTNWpiiTUtWmgGEF1zyT7RmHeReUdcNiQeC
-         K+XQMgFLQXdXKrPMm5WCB9rx9CVyjnoruY+F02+fRfA3P+w0FHNhT3qxdbxQ3Fjjfi
-         o/86JlppRhlXw==
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-1631b928691so19985324fac.11;
-        Tue, 31 Jan 2023 08:29:57 -0800 (PST)
-X-Gm-Message-State: AFqh2kolhKUfO971MaKZXEzRIfAShLCaJys5G439IrGHo0GYfK4DkZkY
-        cXnwzD5faIUvpfpblXTA21rIhu8Wf/MYI8vEP/s=
-X-Google-Smtp-Source: AK7set8OuDanNI4MWpW21EocGtrdNwWJiAfbBBJxGVJOPOIKqWivQVkp/cG1s+/i10hMquAZLlASXlcwveDmpN3GZOM=
-X-Received: by 2002:a05:6870:110f:b0:160:3296:a9b9 with SMTP id
- 15-20020a056870110f00b001603296a9b9mr2746630oaf.287.1675182596534; Tue, 31
- Jan 2023 08:29:56 -0800 (PST)
+        b=nOrlEm327HlfV2/4+MvHP3sz0ArjTFWwW2tds+VmhoBANKxH+IsoZDzLneh1Ns5kL
+         ONI0Ft0Zyha98TvkD+3wy0x/e8Dk3RzRq9u9fFsWg1XX0pVFgnxYtmhXU9VTP7imTy
+         fXkkcIZSN+tHn/qRU0JuhLypwDt7J7pavhGSwNS5HQ9LGwSyOzk4kDKBt2CY2Ob9kg
+         j11vUj8OCgdTxH/XSUYboWhtpujwLxRHdkbX5ssEEC2lkA/4qhToCtejxx8yvn0Q1J
+         32pKinhpCmWXD4537rZIkiGBTJ4EG0K0DHk45xldWDOQXQvB8ENs1kBUaOlO8V9HtB
+         hz00wqggo3HJg==
+Received: by mail-oi1-f182.google.com with SMTP id r205so13413605oib.9;
+        Tue, 31 Jan 2023 09:20:47 -0800 (PST)
+X-Gm-Message-State: AO0yUKVuAYYtVCxG7eO0SAeICMQeM9B180uBJOir7VKaagQdGqcURGTJ
+        7EgxwovmWBtWE4J3mcUDOOvMa7j6D7ISeQB2qg0=
+X-Google-Smtp-Source: AK7set8s9Uc1E7rsTcTWzoO09LNHd2f7xHhFitp3tKUL6CPCc+/tJKgtZuujrSqdcLJiyZfDNBPrhERaMbGwG+t/fYQ=
+X-Received: by 2002:aca:b604:0:b0:377:f944:a8b7 with SMTP id
+ g4-20020acab604000000b00377f944a8b7mr615623oif.194.1675185646883; Tue, 31 Jan
+ 2023 09:20:46 -0800 (PST)
 MIME-Version: 1.0
-References: <20230129184602.3974058-1-masahiroy@kernel.org>
- <20230129184602.3974058-4-masahiroy@kernel.org> <CANiq72=BRW9TunjKQmeMthm7Esc_YKM++NmWh-Dqc9Av13SNow@mail.gmail.com>
- <CAK7LNAQttb=qc5vsZNudYwTxmn=y3HZzVqZwAzMvLfUJXa4OFQ@mail.gmail.com> <CANiq72miWD_MtTrC0Ua7o4Tk5oDbQSFefwmYCsGx3Y=85ziJfQ@mail.gmail.com>
-In-Reply-To: <CANiq72miWD_MtTrC0Ua7o4Tk5oDbQSFefwmYCsGx3Y=85ziJfQ@mail.gmail.com>
+References: <20230131133253.1460560-1-masahiroy@kernel.org>
+In-Reply-To: <20230131133253.1460560-1-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 1 Feb 2023 01:29:20 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR3Z+G+pvDEsy0M1YOxV74XSEodU=QrKN-NGqd1KgFagg@mail.gmail.com>
-Message-ID: <CAK7LNAR3Z+G+pvDEsy0M1YOxV74XSEodU=QrKN-NGqd1KgFagg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] kbuild: srcrpm-pkg: create source package without cleaning
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        rust-for-linux@vger.kernel.org
+Date:   Wed, 1 Feb 2023 02:20:10 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATz5LiyGcV-dRtod8NobNRDqb2aAB_n=h=1zkfVDnWQuA@mail.gmail.com>
+Message-ID: <CAK7LNATz5LiyGcV-dRtod8NobNRDqb2aAB_n=h=1zkfVDnWQuA@mail.gmail.com>
+Subject: Re: [PATCH] setlocalversion: do not append git commit hash if
+ localversion* exists
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
@@ -71,64 +61,81 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jan 30, 2023 at 9:00 PM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
+On Tue, Jan 31, 2023 at 10:33 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> On Mon, Jan 30, 2023 at 2:29 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > I guess you are talking about kernel-devel-*.rpm
-> > (and linux-headers-.deb).
-> >
-> > They are not useful for building external modules
-> > written in Rust since they do not contain *.rmeta etc.
-> > I am not caring about that because Rust support is not
-> > mature enough yet.
+> Since commit dcfbcb1033bb ("setlocalversion: use only the correct
+> release tag for git-describe"), KERNELRELEASE of linux-next is
+> annoyingly long:
 >
-> Yeah, that is what I meant, i.e. since the Rust ML was Cc'd, I checked
-> and wanted to say removing `rust` from there was OK (an `Acked-by`
-> seemed too much for just that line :).
+>   $ make kernelrelease
+>   6.2.0-rc6-next-20230131-09515-g80bd9028feca
 >
-> > I stopped hard-coding the top-level directories.
-> > The resulting source package still contains all check-in files
-> > under rust/, so it is good from the source package perspective.
->
-> Sounds good to me.
->
-> > 5/5 changed the behavior because rpm-pkg re-uses the
-> > *.src.rpm generated by srcrpm-pkg.
->
-> (3/5?)
+> The string '-09515-g80bd9028feca' is appended because git-describe now
+> uses the v6.2.0 tag instead of the next-20230113 tag.
 
+ v6.2.0  -> v6.2-rc6
 
-Yes.
 
 
 >
-> > Having *.src.rpm in the kernel tree seems Redhat's preference.
-> > Commit 8818039f959b2efc0d6f2cb101f8061332f0c77e
-> > added --define='_srcrpmdir $(srctree)'.
+> In linux-next, the 'localversion-next' file well specifies the local
+> version, so the extra info from git is unneeded.
 >
-> Thanks for the details! I just noticed it, so I thought I would let
-> you know just in case.
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
 >
-> (Perhaps it could be useful to mention this change in the output in
-> the commit message.)
-
-
-Fair enough.
-
-I updated the commit description in v3.
-
-
+>  scripts/setlocalversion | 21 +++++++++++----------
+>  1 file changed, 11 insertions(+), 10 deletions(-)
 >
-> > In contrast, binary rpm files are generated under rpmbuild/RPMS/.
-> > I want to fix this inconsistency, though.
+> diff --git a/scripts/setlocalversion b/scripts/setlocalversion
+> index e2b2d492ac13..4219a0ca1e62 100755
+> --- a/scripts/setlocalversion
+> +++ b/scripts/setlocalversion
+> @@ -113,22 +113,23 @@ if [ -z "${KERNELVERSION}" ]; then
+>         exit 1
+>  fi
 >
-> That would be nice.
+> -res="${KERNELVERSION}"
+> -
+>  # localversion* files in the build and source directory
+> -res="${res}$(collect_files localversion*)"
+> +file_localversion="$(collect_files localversion*)"
+>  if test ! "$srctree" -ef .; then
+> -       res="$res$(collect_files "$srctree"/localversion*)"
+> +       file_localversion="${file_localversion}$(collect_files "$srctree"/localversion*)"
+>  fi
 >
-> Cheers,
-> Miguel
-
+> -# CONFIG_LOCALVERSION and LOCALVERSION (if set)
+> +# CONFIG_LOCALVERSION
+>  config_localversion=$(sed -n 's/^CONFIG_LOCALVERSION=\(.*\)$/\1/p' include/config/auto.conf)
+> -res="${res}${config_localversion}${LOCALVERSION}"
+>
+>  # scm version string if not at the kernel version tag
+> -if grep -q "^CONFIG_LOCALVERSION_AUTO=y$" include/config/auto.conf; then
+> +if [ -n "${file_localversion}" ]; then
+> +       # If localversion* files exist (like in linux-next), the version is
+> +       # well specified. Do not append scm_version.
+> +       scm_version=
+> +elif grep -q "^CONFIG_LOCALVERSION_AUTO=y$" include/config/auto.conf; then
+>         # full scm version string
+> -       res="$res$(scm_version)"
+> +       scm_version="$(scm_version)"
+>  elif [ "${LOCALVERSION+set}" != "set" ]; then
+>         # If the variable LOCALVERSION is not set, append a plus
+>         # sign if the repository is not in a clean annotated or
+> @@ -137,7 +138,7 @@ elif [ "${LOCALVERSION+set}" != "set" ]; then
+>         #
+>         # If the variable LOCALVERSION is set (including being set
+>         # to an empty string), we don't want to append a plus sign.
+> -       res="$res$(scm_version --short)"
+> +       scm_version="$(scm_version --short)"
+>  fi
+>
+> -echo "$res"
+> +echo "${KERNELVERSION}${file_localversion}${config_localversion}${LOCALVERSION}${scm_version}"
+> --
+> 2.34.1
+>
 
 
 -- 
