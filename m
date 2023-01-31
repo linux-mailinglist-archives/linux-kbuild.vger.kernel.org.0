@@ -2,62 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EC8B682B71
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Jan 2023 12:30:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11F0C682E04
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Jan 2023 14:33:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231529AbjAaLaX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 31 Jan 2023 06:30:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59302 "EHLO
+        id S232281AbjAaNdv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 31 Jan 2023 08:33:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231546AbjAaLaV (ORCPT
+        with ESMTP id S231578AbjAaNdq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 31 Jan 2023 06:30:21 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 681EE4B8B6;
-        Tue, 31 Jan 2023 03:30:17 -0800 (PST)
+        Tue, 31 Jan 2023 08:33:46 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBF2F23C76;
+        Tue, 31 Jan 2023 05:33:42 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 18171B81B07;
-        Tue, 31 Jan 2023 11:30:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A558AC433D2;
-        Tue, 31 Jan 2023 11:30:14 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 8B03EB81C95;
+        Tue, 31 Jan 2023 13:33:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7705DC433EF;
+        Tue, 31 Jan 2023 13:33:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675164614;
-        bh=kEv6gsLwYz/eyxWV8VzxJrnkYjV85inauxe/wslN3KQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=YXyHDqCtJP2FkR5RLxpFqtxrM8IFTL+6ysyZhoByJ+rL/sTz41swia38BtJUbfYu0
-         fv6dtiEOwJUNQL9SUyY02wN5RKRlFlKCUIUeRe4Jr4LeMhACHP+TcaN4iqI2kY0om+
-         9RVZC3uZ5jGr34tEunQZdgW1HsKRB5D3lHlDSdAjlDP4c6aTc05u/hVOkNdceEV/96
-         Id8ELZMnvPMpZRzZd2rHBKu7yQGGR0cSAmHWUiol9bN1L5lkFRNauA9+lX9VYZcLPI
-         b9SNSd2BhlLXjaTDQefUb1YMCLl/bwbuiAC2WR3HKOKcVmuyMtcmufmfdgTIjVwZFx
-         ED9miloB4mfSA==
-Received: by mail-oi1-f171.google.com with SMTP id s66so12523426oib.7;
-        Tue, 31 Jan 2023 03:30:14 -0800 (PST)
-X-Gm-Message-State: AFqh2kriUowkOkNnGJU4grueUa4VLaytmdIQ1LX5sFw96wXIDi18MM4l
-        kqOM/RNY8F5fflZQLw/CUD7KIsHoWnMwwPYX5UM=
-X-Google-Smtp-Source: AMrXdXuqX/e4EgC3kySmwIIOtFSvYpZYMp/vZO1Ulg2vFuyzr99ScpxtKjrtOKxf+Ws6r371jqmPqxnylcV+YHGads4=
-X-Received: by 2002:a05:6808:1786:b0:35e:7c55:b015 with SMTP id
- bg6-20020a056808178600b0035e7c55b015mr3269459oib.287.1675164613832; Tue, 31
- Jan 2023 03:30:13 -0800 (PST)
-MIME-Version: 1.0
-References: <35c0fc4ba93b11c4b8a55c2907f736a840cd12a3.1675161286.git.geert+renesas@glider.be>
- <9d2450ce-6ba2-49eb-9f00-bcb1b8590eeb@app.fastmail.com> <fd1ca57c-1ab7-fa4f-12ba-4e8fd5fef6f9@prevas.dk>
-In-Reply-To: <fd1ca57c-1ab7-fa4f-12ba-4e8fd5fef6f9@prevas.dk>
+        s=k20201202; t=1675172020;
+        bh=6Hx/Yl639gs12tAxrrRchm4lXuBjrnkbiP792+3ios0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=gxAxcYeaUqyMFe6e/jBcqfq0uWYwq0vATyD9O3wKa13ubJc9WGsyrnKZdRiXI4VXI
+         hgt9wqAogfJScOIsdtAksRFD4RA6jwT3aLkvF0mATVvUqfCfCK6PRjQB//ipGv8Tnr
+         Wjt6HNH8V/XMAiA+tmiHUlP78dkRSgIbA5zgNO0U7PwARe8dmvMwh1Qm4U5BIgmomd
+         KNpIUuUizU9hv2j+UnOU5Um3HJmSt2OyvOexEOAdIpdqIHpHRLyAKX9F+2ChTKABIf
+         qojUpQblX5pD0vvGkDkCzmqRZiFsq9WdpjmlH5t1J0hfKF+u/JKl8nRg5fhNdZMtiZ
+         8tR4sC/FknT0g==
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 31 Jan 2023 20:29:37 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARa8bxTv9i=yokAEFByPKZgho-k9MZVu9JLRBAftUM9NA@mail.gmail.com>
-Message-ID: <CAK7LNARa8bxTv9i=yokAEFByPKZgho-k9MZVu9JLRBAftUM9NA@mail.gmail.com>
-Subject: Re: [PATCH resend] compiler-intel: Remove duplicate RELOC_HIDE()
-To:     Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH] setlocalversion: do not append git commit hash if localversion* exists
+Date:   Tue, 31 Jan 2023 22:32:53 +0900
+Message-Id: <20230131133253.1460560-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,40 +51,71 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jan 31, 2023 at 7:59 PM Rasmus Villemoes
-<rasmus.villemoes@prevas.dk> wrote:
->
-> On 31/01/2023 11.41, Arnd Bergmann wrote:
-> > On Tue, Jan 31, 2023, at 11:37, Geert Uytterhoeven wrote:
-> >> The RELOC_HIDE() implementation for the Intel compiler is identical to
-> >> the generic version in <linux/compiler.h>, so the former can just be
-> >> removed.
-> >>
-> >> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >> ---
-> >> Not even compile-tested.
-> >> ---
-> >>  include/linux/compiler-intel.h | 5 -----
-> >>  1 file changed, 5 deletions(-)
-> >
-> > I thought the entire file was gone already. I don't see anyone
-> > objecting to the earlier patch
-> >
-> > https://lore.kernel.org/all/20221016182349.49308-1-masahiroy@kernel.org/
-> >
-> > but it never made it in. Maybe we can revive that instead?
->
-> Yes, please!
->
+Since commit dcfbcb1033bb ("setlocalversion: use only the correct
+release tag for git-describe"), KERNELRELEASE of linux-next is
+annoyingly long:
 
+  $ make kernelrelease
+  6.2.0-rc6-next-20230131-09515-g80bd9028feca
 
-I hoped it would be picked up by Linus directly,
-or by an x86 maintainer.
+The string '-09515-g80bd9028feca' is appended because git-describe now
+uses the v6.2.0 tag instead of the next-20230113 tag.
 
+In linux-next, the 'localversion-next' file well specifies the local
+version, so the extra info from git is unneeded.
 
-We can re-push it in the next merge window.
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ scripts/setlocalversion | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
 
+diff --git a/scripts/setlocalversion b/scripts/setlocalversion
+index e2b2d492ac13..4219a0ca1e62 100755
+--- a/scripts/setlocalversion
++++ b/scripts/setlocalversion
+@@ -113,22 +113,23 @@ if [ -z "${KERNELVERSION}" ]; then
+ 	exit 1
+ fi
+ 
+-res="${KERNELVERSION}"
+-
+ # localversion* files in the build and source directory
+-res="${res}$(collect_files localversion*)"
++file_localversion="$(collect_files localversion*)"
+ if test ! "$srctree" -ef .; then
+-	res="$res$(collect_files "$srctree"/localversion*)"
++	file_localversion="${file_localversion}$(collect_files "$srctree"/localversion*)"
+ fi
+ 
+-# CONFIG_LOCALVERSION and LOCALVERSION (if set)
++# CONFIG_LOCALVERSION
+ config_localversion=$(sed -n 's/^CONFIG_LOCALVERSION=\(.*\)$/\1/p' include/config/auto.conf)
+-res="${res}${config_localversion}${LOCALVERSION}"
+ 
+ # scm version string if not at the kernel version tag
+-if grep -q "^CONFIG_LOCALVERSION_AUTO=y$" include/config/auto.conf; then
++if [ -n "${file_localversion}" ]; then
++	# If localversion* files exist (like in linux-next), the version is
++	# well specified. Do not append scm_version.
++	scm_version=
++elif grep -q "^CONFIG_LOCALVERSION_AUTO=y$" include/config/auto.conf; then
+ 	# full scm version string
+-	res="$res$(scm_version)"
++	scm_version="$(scm_version)"
+ elif [ "${LOCALVERSION+set}" != "set" ]; then
+ 	# If the variable LOCALVERSION is not set, append a plus
+ 	# sign if the repository is not in a clean annotated or
+@@ -137,7 +138,7 @@ elif [ "${LOCALVERSION+set}" != "set" ]; then
+ 	#
+ 	# If the variable LOCALVERSION is set (including being set
+ 	# to an empty string), we don't want to append a plus sign.
+-	res="$res$(scm_version --short)"
++	scm_version="$(scm_version --short)"
+ fi
+ 
+-echo "$res"
++echo "${KERNELVERSION}${file_localversion}${config_localversion}${LOCALVERSION}${scm_version}"
 -- 
-Best Regards
-Masahiro Yamada
+2.34.1
+
