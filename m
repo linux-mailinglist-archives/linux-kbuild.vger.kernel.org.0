@@ -2,146 +2,93 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7758B6871ED
-	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Feb 2023 00:28:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FF456873F2
+	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Feb 2023 04:38:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230246AbjBAX2v (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 1 Feb 2023 18:28:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54076 "EHLO
+        id S232019AbjBBDil (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 1 Feb 2023 22:38:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230195AbjBAX2v (ORCPT
+        with ESMTP id S232022AbjBBDie (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 1 Feb 2023 18:28:51 -0500
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DD991205D;
-        Wed,  1 Feb 2023 15:28:49 -0800 (PST)
-Received: by mail-lj1-x22c.google.com with SMTP id d8so162615ljq.9;
-        Wed, 01 Feb 2023 15:28:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1TJGIvRrjUyr/9IaggmaLPZelXPwdqIaj19FFw1HR84=;
-        b=cfmC9qCNz6NafgTKqfctc3/FV1eJol6vi1JPQgIAXKAdYE/TO61FpTE7RaIFztDcBw
-         X7dAEh/5GBCZ7Z/CMNG59rPZ1AlwQkQD4v56erQiNDlchRnP5LKmPQkWCp1sXRdb1Gcn
-         Zf1tuQHwYsAmruGPXjofX98Cs3szAfaclKirr4GQ+SqA8g3cXK0YWwoXZUbpCQHXbw0B
-         RmFCZclxe0RqH8SJnISlXfV7tpv5z3+eMHBBOUKq1dYK+TZAKjHnSpYNHXbMi3UYS1LU
-         CWrb3jQnk5bYf/4WMqJ3UPIvY63YOPSG4I/CsbEdfXXeX91rCWE5oNdFxEu/vGUyx14r
-         vK4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1TJGIvRrjUyr/9IaggmaLPZelXPwdqIaj19FFw1HR84=;
-        b=SUC3i6G63EGWqgGH+h2i3Ega4nWF9Q7SJlyUOT3SfUw2ubZmVM2iCZ/H+lRbwKs79x
-         dmPk8oNruLTBFAAx8k6QkhChKrLUH+3s0Md8Em+zQ4LyAtO2mRGwGSLLXV8p762u7GkS
-         RhPbSDem4fgoX9h4nSaH9hlIWyDiNDE7Q74lBcxYZmUHv/oMzExBR/QWuunWQnKM0GAb
-         X+v2+dXaNNS9q0K+K2NUPzmwiigvnzgor4Hm3Tm53cdAFoO6lsKDzNtUnAWIsYRvdP5d
-         MFy9/r4iXhj1AkGHcYLpDTp5OmrWNnrBanibHck8VsNbae9twkSSGspWb1rZf8E6SER+
-         v/OA==
-X-Gm-Message-State: AO0yUKUJ/FWPsTYdZgvcxAK4kahn0YSO7RjrfMwxLkve8OO0X6MBtYzt
-        UoEefQMha1kSQ8WBPwKQ7FkWFogwG1LIfBjLOkc=
-X-Google-Smtp-Source: AK7set9igR3QIgrtrWCvjA166/G4Bk0ijI+kCf7WjSnT+JQn8Ah14oogcJFxL9Gpoujs/RLjO/RtYvYjgH2FrdE8N+g=
-X-Received: by 2002:a2e:5717:0:b0:290:4fce:f881 with SMTP id
- l23-20020a2e5717000000b002904fcef881mr606608ljb.126.1675294127194; Wed, 01
- Feb 2023 15:28:47 -0800 (PST)
-MIME-Version: 1.0
-References: <20230201192509.4124319-1-ndesaulniers@google.com>
-In-Reply-To: <20230201192509.4124319-1-ndesaulniers@google.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Thu, 2 Feb 2023 00:28:10 +0100
-Message-ID: <CA+icZUVFjpZBL-kNJFkU+-L_23DuErcFKMhsquNmMSwFS+eEWA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/llvm: add Chimera Linux, Google and Meta datacenters
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Wed, 1 Feb 2023 22:38:34 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75EA47B79D;
+        Wed,  1 Feb 2023 19:38:27 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 284AAB823F6;
+        Thu,  2 Feb 2023 03:38:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BC14C4339C;
+        Thu,  2 Feb 2023 03:38:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675309104;
+        bh=8GlZd68+4GdEpugeLuTwpZAYZlhX8nffQvGke0BiXsY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=dTL8edCYQ7BvU6RjB4z+2mTJGO3Ko15of/lXcJODalcE6Mex4LEJUssTrRzCj1zRy
+         LtrEXoj20thMLOZaGqldZ3MCoxNPQv/zs6K56YLqNeknGZW29BfbPLn87A83YAocY3
+         AKfB4/w1pxpORWT47j2vnksn+5SQgbGPP68uN/tC/PYSKufeXU1vALDIVTP2fUtXrA
+         T+jFFitOXUdle4+t5/1MDUfpOUcqtGnIpGt57hmLQbRi2qmxz55k0ibmupxDRjdOx/
+         k3ZKjJbm7cIXkSmrEHeuNXQkcJ+b0e4Urec+/mHe152rzjPAiS4mUyynCZjsCb0V4i
+         yeM7L1kOyeIJQ==
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
-        Tom Rix <trix@redhat.com>, Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>, llvm@lists.linux.dev,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Bill Wendling <morbo@google.com>,
-        Yonghong Song <yhs@fb.com>,
-        Daniel Kolesa <q66@chimera-linux.org>,
-        Chris Mason <clm@meta.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLACK autolearn=no
-        autolearn_force=no version=3.4.6
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Ben Hutchings <ben@decadent.org.uk>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Tom Rix <trix@redhat.com>, llvm@lists.linux.dev
+Subject: [PATCH v4 0/6] kbuild: improve source package builds
+Date:   Thu,  2 Feb 2023 12:37:10 +0900
+Message-Id: <20230202033716.341858-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Feb 1, 2023 at 8:47 PM Nick Desaulniers <ndesaulniers@google.com> wrote:
->
-> Chimera Linux is a Linux distribution from 2021 that builds its kernels
-> with Clang.
->
-> Google transitioned its data center fleet to run Clang built kernels in
-> 2021, and Meta did so as well in 2022.  Meta talked about this at LPC
-> 2022 at a talk titled Kernel Live Patching at Scale.
->
-> These were important milestones for building the kernel with Clang.
-> Making note of them helps improve confidence in the project.
->
-> Signed-off-by: Yonghong Song <yhs@fb.com>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
-> Cc: Daniel Kolesa <q66@chimera-linux.org>
-> Cc: Chris Mason <clm@meta.com>
-> ---
->  Documentation/kbuild/llvm.rst | 15 +++++++++------
->  1 file changed, 9 insertions(+), 6 deletions(-)
->
-> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> index 6b2bac8e9ce0..6a37ab903e45 100644
-> --- a/Documentation/kbuild/llvm.rst
-> +++ b/Documentation/kbuild/llvm.rst
-> @@ -15,12 +15,15 @@ such as GCC and binutils. Ongoing work has allowed for `Clang
->  <https://clang.llvm.org/>`_ and `LLVM <https://llvm.org/>`_ utilities to be
->  used as viable substitutes. Distributions such as `Android
->  <https://www.android.com/>`_, `ChromeOS
-> -<https://www.chromium.org/chromium-os>`_, and `OpenMandriva
-> -<https://www.openmandriva.org/>`_ use Clang built kernels.  `LLVM is a
-> -collection of toolchain components implemented in terms of C++ objects
-> -<https://www.aosabook.org/en/llvm.html>`_. Clang is a front-end to LLVM that
-> -supports C and the GNU C extensions required by the kernel, and is pronounced
-> -"klang," not "see-lang."
-> +https://www.chromium.org/chromium-os>`_, `OpenMandriva
-> +<https://www.openmandriva.org/>`_, and `Chimera Linux
-> +<https://chimera-linux.org/>`_ use Clang built kernels. Google's and Meta's
-> +datacenter fleets also run kernels built with Clang.
-> +
-> +`LLVM is a collection of toolchain components implemented in terms of C++
-> +objects <https://www.aosabook.org/en/llvm.html>`_. Clang is a front-end to LLVM
-> +that supports C and the GNU C extensions required by the kernel, and is
-> +pronounced "klang," not "see-lang."
->
 
-Nick thanks for the patch!
+This series improve deb-pkg and (src)rpm-pkg so they can build
+without cleaning the kernel tree.
+The debian source package will switch to 3.0 (quilt).
 
-My ex-colleague Bernd Helmle corrected me - it's not "See-Lang" it's
-"Klang" and encouraged me to work on ClangBuiltLinux.
+My next plans are:
 
-"Klang" means German tone, sound, etc. like vocal tone.
+ - add 'srcdeb-pkg' target
 
-That "sounds" nice (shrillness):
-clangor (AE) / clangour (BE) - schriller Klang (DE)
+ - add more compression mode
 
-For Bernd:
+ - rewrite snap-pkg and delete the old tar macro
 
-Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
 
-BR,
--Sedat-
 
-[1] https://dict.leo.org/englisch-deutsch/Klang
+Masahiro Yamada (6):
+  kbuild: add a tool to generate a list of files ignored by git
+  kbuild: deb-pkg: create source package without cleaning
+  kbuild: rpm-pkg: build binary packages from source rpm
+  kbuild: srcrpm-pkg: create source package without cleaning
+  kbuild: deb-pkg: hide KDEB_SOURCENAME from Makefile
+  kbuild: deb-pkg: switch over to format 3.0 (quilt)
 
->  Clang
->  -----
-> --
-> 2.39.1.456.gfc5497dd1b-goog
->
+ Makefile                 |   4 +
+ scripts/.gitignore       |   1 +
+ scripts/Makefile         |   2 +-
+ scripts/Makefile.package |  94 +++---
+ scripts/gen-exclude.c    | 623 +++++++++++++++++++++++++++++++++++++++
+ scripts/package/mkdebian |  23 +-
+ scripts/package/mkspec   |   8 +-
+ 7 files changed, 706 insertions(+), 49 deletions(-)
+ create mode 100644 scripts/gen-exclude.c
+
+-- 
+2.34.1
+
