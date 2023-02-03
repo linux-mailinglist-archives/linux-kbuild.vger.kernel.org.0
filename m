@@ -2,126 +2,162 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7968B688F97
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Feb 2023 07:18:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A31416898CD
+	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Feb 2023 13:32:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230180AbjBCGS1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 3 Feb 2023 01:18:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58470 "EHLO
+        id S232991AbjBCMcd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 3 Feb 2023 07:32:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230020AbjBCGS1 (ORCPT
+        with ESMTP id S233073AbjBCMc2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 3 Feb 2023 01:18:27 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCC5418A98;
-        Thu,  2 Feb 2023 22:18:20 -0800 (PST)
-Received: from leknes.fjasle.eu ([46.142.97.20]) by mrelayeu.kundenserver.de
- (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MV5nC-1pEVUJ1IwQ-00S3M0; Fri, 03 Feb 2023 07:17:57 +0100
-Received: from localhost.fjasle.eu (bergen.fjasle.eu [IPv6:fdda:8718:be81:0:219:b8ff:fe08:dd7c])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by leknes.fjasle.eu (Postfix) with ESMTPS id 7ECCE3C0EF;
-        Fri,  3 Feb 2023 07:17:55 +0100 (CET)
-Authentication-Results: leknes.fjasle.eu; dkim=none; dkim-atps=neutral
-Received: by localhost.fjasle.eu (Postfix, from userid 1000)
-        id E887B180; Sun, 29 Jan 2023 22:30:53 +0100 (CET)
-Date:   Sun, 29 Jan 2023 22:30:53 +0100
-From:   Nicolas Schier <nicolas@fjasle.eu>
+        Fri, 3 Feb 2023 07:32:28 -0500
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F7508B7E4
+        for <linux-kbuild@vger.kernel.org>; Fri,  3 Feb 2023 04:32:23 -0800 (PST)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20230203123221euoutp0203a4c33b9474f3c59ee476764e32c935~AUHjqNTDQ1893618936euoutp02y
+        for <linux-kbuild@vger.kernel.org>; Fri,  3 Feb 2023 12:32:21 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20230203123221euoutp0203a4c33b9474f3c59ee476764e32c935~AUHjqNTDQ1893618936euoutp02y
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1675427541;
+        bh=jrd78e2TSBcwd4YObsmVJSB5ylRxUh73JYv+kU3KIVg=;
+        h=From:To:Cc:Subject:Date:References:From;
+        b=AJP59wkhJ0y9ma4BKw1SYIlRI9PS673ij7y31RloO6akktsWOa4K/3hC8d3pwND2e
+         83jt0i+AAlccmSsKLj+VlDe/IZA1sytWV2qUemDzkZFrmP0OoU7n9T9huKjvI9keje
+         r/ZIHSCuSYKFcEl5BExGz7WxjXwFlGKpcYlHYxxE=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20230203123221eucas1p233ed4ab39a0acf63bb6a471e38de7a70~AUHjbvlJ51305413054eucas1p2W;
+        Fri,  3 Feb 2023 12:32:21 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id 97.40.01471.5DEFCD36; Fri,  3
+        Feb 2023 12:32:21 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20230203123220eucas1p2f9686f08bcb22cf1e21aefd25070282a~AUHi_nHlI2615426154eucas1p2S;
+        Fri,  3 Feb 2023 12:32:20 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20230203123220eusmtrp23b7a9130a65b6690117982824b71c813~AUHi_BKC10250002500eusmtrp2O;
+        Fri,  3 Feb 2023 12:32:20 +0000 (GMT)
+X-AuditID: cbfec7f2-2b1ff700000105bf-57-63dcfed515f9
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id E9.33.02722.4DEFCD36; Fri,  3
+        Feb 2023 12:32:20 +0000 (GMT)
+Received: from localhost (unknown [106.120.51.111]) by eusmtip1.samsung.com
+        (KnoxPortal) with ESMTPA id
+        20230203123220eusmtip10d1c9be36668380ec1be20775266c3e2~AUHizcWRb1911019110eusmtip1T;
+        Fri,  3 Feb 2023 12:32:20 +0000 (GMT)
+From:   =?UTF-8?q?=C5=81ukasz=20Stelmach?= <l.stelmach@samsung.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Subject: Re: [PATCH 2/7] setlocalversion: simplify the construction of the
- short version
-Message-ID: <Y9bljbtdOr0yuzQ1@bergen.fjasle.eu>
-References: <20230122141428.115372-1-masahiroy@kernel.org>
- <20230122141428.115372-2-masahiroy@kernel.org>
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        =?UTF-8?q?=C5=81ukasz=20Stelmach?= <l.stelmach@samsung.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] merge_config.sh: do not report some differencess between
+ input and output
+Date:   Fri,  3 Feb 2023 13:31:40 +0100
+Message-Id: <20230203123140.2227880-1-l.stelmach@samsung.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="SVoFdigBhs0Ycd+b"
-Content-Disposition: inline
-In-Reply-To: <20230122141428.115372-2-masahiroy@kernel.org>
-Jabber-ID: nicolas@fjasle.eu
-X-Operating-System: Debian GNU/Linux bookworm/sid
-X-Provags-ID: V03:K1:4Ld5aMPA+HR7LNiMxwhhDn764rMqiI1rzp6eVSZoTMMpcyntsy3
- jKg9Cf3TcpEw6Zg8bd6JQpfreBRLsZ/yoWgZEFLUykpRMWZ6cGEFedzvM2cPM8FAivxrlru
- rDooRK4B7tPk/kG9pZCRrZ9hzbTuYnEK2vY/4zyOaw2H2PxsRwzKGFdqDuwM2nNuf/dBgvt
- FXgVP2TpLmd4X10uOOL4A==
-UI-OutboundReport: notjunk:1;M01:P0:PN876G0nEyU=;49cCQSWsQhvLXEpaAN1wC+Fqm3N
- VbzThgJe3lD1/pEU1lSfNyQ74lhibady9NDqFFhUnjkpldd8nABtsPVoqNHUNcoheuZ0ayW3R
- YtGmQUVeThvm46YTg2cU/jjHlWMF++6I6ojEp1R+tGhUTn6DUWM2ymycUpaIU4vfj03+xj4ZB
- AIpaNN3W36XDHJFQLVMZ6ODY2W2wEXKJ8WMBxv62EoAst9cNHZnkIBCiaI0b/+ANy710nAOg5
- csGMeSHRLqTfskXkD3YVr4AUw2OopZoJWO5w68//KcovapodvKrvboAd/yYHv1E6Bqhkb7wi2
- D6hzi/fm4DL/Q1nO5M0mH86LnhIJWosOPCNUbzCCssXMp3uT5lPvhs7NRnUU6yzlo8JYCIw+o
- jvz+Kbfv1o8lxjmXVwEPGWPxD90GVUC4C66mz/ekrHnhiC8uCR3+rPlhQ574z23++3UOsPVfc
- UhaglFFhhuquf6dX9+JP0vkRG4LQ/VlmTdw1hLazur6t5VaQ0rc46hW4XWVAIPomhQJ0LAs8n
- HKcw45Jj8ks2yUv34wXunuJIQfyR2LLbIIjmwnuPb+NesC8iGN0MHny4MxVzWXt5SEVN0DmuG
- 1ZMdjuBtAoWbF6QEBnPdozabufyQ9wl90Ymf8Qi1y4hklwFD3XufIX8mApddzZLGFPao6BnxF
- fMkKzDVNggcN1eVGwBXnj/0+v7C0TLleSaHzG7o5uw==
-X-Spam-Status: No, score=1.5 required=5.0 tests=BAYES_00,DATE_IN_PAST_96_XX,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Organization: Samsung R&D Institute Poland
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1466;
+        i=l.stelmach@samsung.com; h=from:subject;
+        bh=wonFUdzmaAET0/ORzWMrO5UfaSRF0d8PF1Z0JaBmN3w=;
+        b=owEBbQGS/pANAwAIAbCuHpyYpYAQAcsmYgBj3P6cnRq6mmDach9RedYQYRNcHmge7XlDGtUTY
+        kDQBuUgiqiJATMEAAEIAB0WIQRem7KqOr2QYRWv1RCwrh6cmKWAEAUCY9z+nAAKCRCwrh6cmKWA
+        ED0VB/9vBRDNjeXEwg7siBxqqhDl7a5TQfwMYNdCyekDLxaUf9aaZtu5xXlNy9STHV6rNn1odU2
+        MT98tdlsqXHjsqgrJSjCglbIjRc2ks3jgX05XaEgYWi/lSffYT4GkFidpOIWx+84zz/GdYq3uVN
+        DtzwbqUyMxf6DLrbuX5sTkvwOTmA+LekAggOUMydyodyDfnMOYaNWD1ahu6Vv7cQ04kHV5h1mWs
+        IJM7KEImPHZSSiuTvmhh34W8YA6wtfXcqO/YAxorESDQ9dI0EbcRQ1oeihTs+3BO24nGigjNOnZ
+        9eQpZ6+/FEQiRNfYiQ+D62UMDdBQEoybKIWH3kxYClxj3oRz
+X-Developer-Key: i=l.stelmach@samsung.com; a=openpgp;
+        fpr=A2B9843766B15A4D32BCBF0DEC1B3A02E80CD5C8
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpkleLIzCtJLcpLzFFi42LZduznOd2r/+4kG9yaI2px89AKRos/u3Yw
+        WVzeNYfNYu2Ru+wWDx/cYHVg9di0qpPNo2/LKkaPz5vkApijuGxSUnMyy1KL9O0SuDJ+rv7P
+        WLCHu2LvzRvsDYxLObsYOTkkBEwkFvZ9ZOpi5OIQEljBKPHn7Qko5wujxNvDT1khnM+MEje2
+        bGSHaVlx5A4bRGI5o8T2VSuhWl4wSsyZMpcZpIpNwFGif+kJVhBbREBL4s7SDrBRzAJrGCUu
+        919nAkkIC8RIrPlwgRHEZhFQlTh88j+YzStgK7Fv/Q9miHXyEm3Xp0PFBSVOznzCAmLzAw1d
+        03SdBWSohMBsVon+m5egGlIkHl5uBWtgBmpu3jqbGaLoCIdEy6TjUE+4SDRePAJlC0u8Or4F
+        ypaR+L9zPhNEQzujRNOVhawQzgRGic8dTUwQVdYSd879AgYBB9AKTYn1u/Qhwo4SNw4uZAQJ
+        SwjwSdx4KwhxBJ/EpG3TmSHCvBIdbUIQ1SoS6/r3sExgVJ6F5LdZSM6ehTB/ASPzKkbx1NLi
+        3PTUYsO81HK94sTc4tK8dL3k/NxNjMBUcvrf8U87GOe++qh3iJGJg/EQowQHs5II7/LTd5KF
+        eFMSK6tSi/Lji0pzUosPMUpzsCiJ82rbnkwWEkhPLEnNTk0tSC2CyTJxcEo1MOlEH1ZlTVW6
+        Unn5XgHr0s8frAN+nt2269//bW9OFq5QqV6w51bg8QqPvJ3a3q9+z7WN+xxZWrDm9z7e9q7K
+        niqvM5Ii4aJ6kXKXLL3TpaSDo84b/TmnuNRlz7yIT/5ff3FN7+OZfzCUgTHg6hS+g3dZeXgl
+        i5a9Ej+zV219yGzdhIy5S/gNHm9ann5YoUHqNP93wQedfMkT/FRefvvWJK8ddLbmoNvJYwUv
+        72+5zRhQyzn3WMTJJ8bv/nPx9MR6v1i55bi0z4NeW42lDguS/wmnz7xVUHm5e/21qXxu89zl
+        b7vVTxVXScqedNIjqFxtx++HsdFp/O//H8i6Uf33wOKLHQ/1OZ/PMU2eYPh8T60SS3FGoqEW
+        c1FxIgCunI27lAMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupnkeLIzCtJLcpLzFFi42I5/e/4Xd0r/+4kG5y4Y2Rx89AKRos/u3Yw
+        WVzeNYfNYu2Ru+wWDx/cYHVg9di0qpPNo2/LKkaPz5vkApij9GyK8ktLUhUy8otLbJWiDS2M
+        9AwtLfSMTCz1DI3NY62MTJX07WxSUnMyy1KL9O0S9DJ+rv7PWLCHu2LvzRvsDYxLObsYOTkk
+        BEwkVhy5w9bFyMUhJLCUUeLhhKVADgdQQkpi5dx0iBphiT/XuqBqnjFKrHrcyQySYBNwlOhf
+        eoIVxBYR0JK4s7SDFaSIWWAdo8TcqT/ZQRLCAlES5z70MoHYLAKqEodP/mcEsXkFbCX2rf/B
+        DLFBXqLt+nSouKDEyZlPWECOYBZQl1g/TwgkzA80f03TdRaQ+RICnawS644fh+pNkjiwfh1Y
+        LzPQnOats5knMArNQjJqFsKoWUiqFjAyr2IUSS0tzk3PLTbUK07MLS7NS9dLzs/dxAiMmW3H
+        fm7ewTjv1Ue9Q4xMHIyHGCU4mJVEeJefvpMsxJuSWFmVWpQfX1Sak1p8iNEU6LWJzFKiyfnA
+        qM0riTc0MzA1NDGzNDC1NDNWEuf1LOhIFBJITyxJzU5NLUgtgulj4uCUamA6GKGkWdV0dEn8
+        I0nOvQFvP006l/EqXiPu7EajH/3Tvz6KP7D6mvuBPQVCpr55Bz5N+ij1fOGMra+n/Ctpj//q
+        veYGT8LBPa63Jplslw+3n7JRVvmL0bf+pUenOv5e8GG5gMK0cA6nzy+5GX/838uR89fqqL/X
+        tqZLO3fwaz+eM/PmxAifZR5RjU/3B8Usnp/ydJXk8dKuz7/fPXeo3b1uGeePWw2bZ3C08Ouc
+        rTu4dP7DlsXWS5cI7vO6MP/91poH243cmNINJ9j/uy9UcFx+8vJc/es7jf3LTTbOv1Z7Ssl8
+        zlqtoywRnNkXtBtEuidEMHBm1n2d3nDDJWqdF2dI/o3YeWKfeSc5zT37pe066zQlluKMREMt
+        5qLiRAAuZH3aIgMAAA==
+X-CMS-MailID: 20230203123220eucas1p2f9686f08bcb22cf1e21aefd25070282a
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20230203123220eucas1p2f9686f08bcb22cf1e21aefd25070282a
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20230203123220eucas1p2f9686f08bcb22cf1e21aefd25070282a
+References: <CGME20230203123220eucas1p2f9686f08bcb22cf1e21aefd25070282a@eucas1p2.samsung.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+If an input config file contains CONFIG_FOO=n the output one
+will contain a line '# CONFIG_FOO is not set'. merge_config.sh
+should not report it as difference because the end result of
+CONFIG_FOO being disabled is achieved.
 
---SVoFdigBhs0Ycd+b
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Inexistence of CONFIG_FOO (because of unment dependencies) in case
+CONFIG_FOO=n is requested, should also be ignored.
 
-On Sun 22 Jan 2023 23:14:22 GMT, Masahiro Yamada wrote:
-> With the --short option given, scm_version() prints "+".
-> Just append it.
->=20
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->=20
->  scripts/setlocalversion | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->=20
-> diff --git a/scripts/setlocalversion b/scripts/setlocalversion
-> index 3b31702b4a4a..5cdf409204aa 100755
-> --- a/scripts/setlocalversion
-> +++ b/scripts/setlocalversion
-> @@ -121,8 +121,7 @@ elif [ "${LOCALVERSION+set}" !=3D "set" ]; then
->  	#
->  	# If the variable LOCALVERSION is set (including being set
->  	# to an empty string), we don't want to append a plus sign.
-> -	scm=3D$(scm_version --short)
-> -	res=3D"$res${scm:++}"
-> +	res=3D"$res$(scm_version --short)"
->  fi
-> =20
->  echo "$res"
-> --=20
-> 2.34.1
+Signed-off-by: Łukasz Stelmach <l.stelmach@samsung.com>
+---
+ scripts/kconfig/merge_config.sh | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_config.sh
+index e5b46980c22a..c6fd6722f1a4 100755
+--- a/scripts/kconfig/merge_config.sh
++++ b/scripts/kconfig/merge_config.sh
+@@ -196,9 +196,13 @@ for CFG in $(sed -n -e "$SED_CONFIG_EXP1" -e "$SED_CONFIG_EXP2" $TMP_FILE); do
+ 	REQUESTED_VAL=$(grep -w -e "$CFG" $TMP_FILE)
+ 	ACTUAL_VAL=$(grep -w -e "$CFG" "$KCONFIG_CONFIG" || true)
+ 	if [ "x$REQUESTED_VAL" != "x$ACTUAL_VAL" ] ; then
+-		echo "Value requested for $CFG not in final .config"
+-		echo "Requested value:  $REQUESTED_VAL"
+-		echo "Actual value:     $ACTUAL_VAL"
+-		echo ""
++		if [ "x$REQUESTED_VAL" != "x$CFG=n" -o \
++		     \( "x$ACTUAL_VAL" != "x"  -a \
++			"x$ACTUAL_VAL" != "x# $CFG is not set" \) ]; then
++			echo "Value requested for $CFG not in final .config"
++			echo "Requested value:  $REQUESTED_VAL"
++			echo "Actual value:     $ACTUAL_VAL"
++			echo ""
++		fi
+ 	fi
+ done
+-- 
+2.30.2
 
---SVoFdigBhs0Ycd+b
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmPW5Y0ACgkQB1IKcBYm
-Emnm3Q/+JmfPKGLmZ9KaapxJo/XbWvHSwM5lpIgzOJ6DtPcT1aRcWEGU5ED3zJMX
-eGyJVUIAIb/gcSz5SXw1jsgo0qPzCi7y7JGGu2RnrLQ6Bj8sf6vzwzEG7VID2SIQ
-JQIjzk6M0Wuvenfj2AA8A50U2GnLy+Ycak1E5XxPfBDBgb4jZDpPdVZMX1mO8IB7
-QTIY7tAcFqJEOLA9+fCHoy43PnMyen/Y4zjSbmk2PA5iwwmZkoOLCLnDxp0jyW7c
-txGnWYg8nc6MChyvYqO/DkmRK4OtlmCvWJDl7hGORlYCrvLksU0IOYOKYiN1UHyu
-tKDZfWFtbQh7K7j4pHbFQshSVs4AUR9sCuYAa61iMqudgZwYHTjXvB/XgJfjD8tn
-XyflWu4Zjkvtq+SEpnYQduZ1DWxmmm9tvAFq9lmKxtoqwFRipSFL2lCmetpPSCCw
-9uFNUyWwy4VRLP8zn71j2gEq7oKnkY82BsyAMm0eeYsFYyj6Oyi0y37sNimVyNdK
-NccsgWpQflTp5qlI2Zk8oYdeB9BfenmUAWLQb0iibKAeMMxIJ3f/+bx7gao4lfhb
-mQCoo3RJQRKhCoV5mDcIqVO3HWASdCgynftRaCssdeRw5ZoBBBpm4pyUBxC+VFDD
-fbqaHIm1yolEOUfCdHxOtCDVohGXTkrXNMIUzRbvQ+uevZ6Cb3U=
-=yRsB
------END PGP SIGNATURE-----
-
---SVoFdigBhs0Ycd+b--
