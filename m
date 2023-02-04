@@ -2,61 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D4CC368ABF9
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Feb 2023 19:50:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD5CA68AC28
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Feb 2023 20:55:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233356AbjBDSuR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 4 Feb 2023 13:50:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57764 "EHLO
+        id S233309AbjBDTzN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 4 Feb 2023 14:55:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233223AbjBDSuR (ORCPT
+        with ESMTP id S229825AbjBDTzM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 4 Feb 2023 13:50:17 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E79AC76BD;
-        Sat,  4 Feb 2023 10:50:15 -0800 (PST)
+        Sat, 4 Feb 2023 14:55:12 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4957326879;
+        Sat,  4 Feb 2023 11:55:11 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 771E260A24;
-        Sat,  4 Feb 2023 18:50:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D04B3C4339C;
-        Sat,  4 Feb 2023 18:50:14 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 02641B80B68;
+        Sat,  4 Feb 2023 19:55:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AA1FBC4339C;
+        Sat,  4 Feb 2023 19:55:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675536614;
-        bh=wciRKNLfd2O3N94Bf4qAswd399veVPfGCY7eLVyHn5U=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=t7WjJuQdvlPfktg0oHqSw7YA4rDDsp1Py0qXLyzkJ2gUHCiEXUon0SLY3mg7FtDSd
-         lL1Xjg2ydlp7p0/ZwyxDXcEYSrpY5tWWVX8NArPrdkR7ejHIt+2DqWMqv1FdGaqdOQ
-         vTFma0peHtNqhmtsa4wMdXZbPNAY8VkzbRQDyF61Dbhyree+q/+rOMgBMfCTY+98P2
-         K9s+NU9fPYq2CF585fb8Db45ciFl0XCmYbQrurrnAJ0nA/BdNLYFvcwpEFoLJ/RT4o
-         gybwCflAObutDzqMF+5lP+oFVeyj+M0wlf2sHM3aQAS99TQkLpvfxOEo4IjgwzCUav
-         9W+PqHghcDoHQ==
-Received: by mail-oi1-f176.google.com with SMTP id s66so6819352oib.7;
-        Sat, 04 Feb 2023 10:50:14 -0800 (PST)
-X-Gm-Message-State: AO0yUKXF0bWMAucN0Wq0nmemkkHFb0MjQxmG5FiaxE6xhc7hidFfs/gs
-        VlSPAbRCf5KbqhKdaVN+p4RTo2B0+cMw/NZgHnQ=
-X-Google-Smtp-Source: AK7set8kSC4lybtRg29gu0nEtjFDYQAKH8gXlwwyuldC2NQqfdIZHdBJNJL3KDnDA/WuDZhHN/AtcU5qM78q9Mpm/aY=
-X-Received: by 2002:a05:6808:16a3:b0:377:f944:a8b7 with SMTP id
- bb35-20020a05680816a300b00377f944a8b7mr486307oib.194.1675536614087; Sat, 04
- Feb 2023 10:50:14 -0800 (PST)
-MIME-Version: 1.0
-References: <CGME20230203123220eucas1p2f9686f08bcb22cf1e21aefd25070282a@eucas1p2.samsung.com>
- <20230203123140.2227880-1-l.stelmach@samsung.com>
-In-Reply-To: <20230203123140.2227880-1-l.stelmach@samsung.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 5 Feb 2023 03:49:37 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASSJ8X8_TpxK=SBNWrAikHg4DRQ4yYi=NQDGXqefKyGog@mail.gmail.com>
-Message-ID: <CAK7LNASSJ8X8_TpxK=SBNWrAikHg4DRQ4yYi=NQDGXqefKyGog@mail.gmail.com>
-Subject: Re: [PATCH] merge_config.sh: do not report some differencess between
- input and output
-To:     =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        s=k20201202; t=1675540508;
+        bh=FldBJKWZjJc2MehtJFsXjVUS+exJ/jedFp1XsCiT4z0=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=Gscst3u09J1QJsWx30tZWYiye6Z7ppsjirOb/B6KbGnfQeC/pHkJ74dZPRzZqoNNF
+         zqXzJk/VQXhokSDKZFkErh9XlthLCqOOJLpTuH8qJJ4NrAdA5/2sZE11U4JA/S1jHc
+         70Iw5rXyZKM7obZyPnhP/uEuMJlK7EQd/wPbNcscvnAoP7r6EsoL0gITKqeEWzi5We
+         /uYYr4tsY6s2K3/l4iwXrKBzGe5DMC9aoDg8g7/e8lA0M7+7AsIuBCRl5JSaO8Q2Hk
+         FMk8qvOZ3pQk/+jDQqOPDxWFdsxZ/2TKsAFhaEmkTqoHrJS6qiLt6S74jPygbyZxGA
+         b2CMpfi9gYM8w==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 9145EE270C5;
+        Sat,  4 Feb 2023 19:55:08 +0000 (UTC)
+Subject: Re: [GIT PULL] Kbuild fixes for v6.2-rc7
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <CAK7LNARNwyei5pGmwR+iSLH733jAsaHet9h1dfWHF2x+Uhb=ag@mail.gmail.com>
+References: <CAK7LNARNwyei5pGmwR+iSLH733jAsaHet9h1dfWHF2x+Uhb=ag@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAK7LNARNwyei5pGmwR+iSLH733jAsaHet9h1dfWHF2x+Uhb=ag@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.2-4
+X-PR-Tracked-Commit-Id: 22e46f6480e83bcf49b6d5e6b66c81872c97a902
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: db27c22251e7c8f3a9d5bfb55c9c8c701a70bbb3
+Message-Id: <167554050859.7014.272107243873428684.pr-tracker-bot@kernel.org>
+Date:   Sat, 04 Feb 2023 19:55:08 +0000
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,83 +61,15 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Feb 3, 2023 at 9:32 PM =C5=81ukasz Stelmach <l.stelmach@samsung.com=
-> wrote:
->
-> If an input config file contains CONFIG_FOO=3Dn the output one
-> will contain a line '# CONFIG_FOO is not set'. merge_config.sh
-> should not report it as difference because the end result of
-> CONFIG_FOO being disabled is achieved.
->
-> Inexistence of CONFIG_FOO (because of unment dependencies) in case
-> CONFIG_FOO=3Dn is requested, should also be ignored.
->
-> Signed-off-by: =C5=81ukasz Stelmach <l.stelmach@samsung.com>
-> ---
->  scripts/kconfig/merge_config.sh | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
->
-> diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_conf=
-ig.sh
-> index e5b46980c22a..c6fd6722f1a4 100755
-> --- a/scripts/kconfig/merge_config.sh
-> +++ b/scripts/kconfig/merge_config.sh
-> @@ -196,9 +196,13 @@ for CFG in $(sed -n -e "$SED_CONFIG_EXP1" -e "$SED_C=
-ONFIG_EXP2" $TMP_FILE); do
->         REQUESTED_VAL=3D$(grep -w -e "$CFG" $TMP_FILE)
->         ACTUAL_VAL=3D$(grep -w -e "$CFG" "$KCONFIG_CONFIG" || true)
->         if [ "x$REQUESTED_VAL" !=3D "x$ACTUAL_VAL" ] ; then
-> -               echo "Value requested for $CFG not in final .config"
-> -               echo "Requested value:  $REQUESTED_VAL"
-> -               echo "Actual value:     $ACTUAL_VAL"
-> -               echo ""
-> +               if [ "x$REQUESTED_VAL" !=3D "x$CFG=3Dn" -o \
-> +                    \( "x$ACTUAL_VAL" !=3D "x"  -a \
-> +                       "x$ACTUAL_VAL" !=3D "x# $CFG is not set" \) ]; th=
-en
-> +                       echo "Value requested for $CFG not in final .conf=
-ig"
-> +                       echo "Requested value:  $REQUESTED_VAL"
-> +                       echo "Actual value:     $ACTUAL_VAL"
-> +                       echo ""
-> +               fi
->         fi
->  done
-> --
-> 2.30.2
->
+The pull request you sent on Sun, 5 Feb 2023 02:55:09 +0900:
 
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.2-4
 
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/db27c22251e7c8f3a9d5bfb55c9c8c701a70bbb3
 
-[Problem 1]
+Thank you!
 
-The behaviour is inconsistent
-between =3Dn and "is not set".
-
-
-
- Requested: CONFIG_FOO=3Dn
- Actual   : missing due to unmet dep
-
-     -> suppress the report
-
-
- Requested: CONFIG_FOO is not set
- Actual   : missing due to unmet dep
-
-     -> show the report
-
-
-
-[Problem 2]
-
-This patch introduces another consistency
-because line 148 may report something similar.
-
-
-
-
-
---
-Best Regards
-Masahiro Yamada
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
