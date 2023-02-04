@@ -2,112 +2,145 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 45B0B68ABEC
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Feb 2023 19:41:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4CC368ABF9
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Feb 2023 19:50:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232331AbjBDSlK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 4 Feb 2023 13:41:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53542 "EHLO
+        id S233356AbjBDSuR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 4 Feb 2023 13:50:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229877AbjBDSlJ (ORCPT
+        with ESMTP id S233223AbjBDSuR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 4 Feb 2023 13:41:09 -0500
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB03A2D49;
-        Sat,  4 Feb 2023 10:41:07 -0800 (PST)
-Received: by mail-ej1-x62f.google.com with SMTP id m2so23741629ejb.8;
-        Sat, 04 Feb 2023 10:41:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OAU0IM1UCRF7ncrAZxO0aSTqEShO/M6wUIz9M+sV+ZI=;
-        b=hEbzq5A7Ov34rRmWdwzaMRN9Lhjurf1rINuKQIl1+9dgPXPxjSTjP2gdfS92sZeqql
-         xm7w6BVt5l+ovjlBcv0YzdDumEYrgYpX76CQlKK2+1SkmOseUszsgM2UH5T+/jNZm0Vs
-         WPiHFadfnk1HoMwOIPOh+B12362pQM/ZltX2x1qQ5IA6xROPqDekcLJVioXLHqRETnQv
-         3QfS2SJAMoEiY5xuBwH2FFr0kgl9E9gH8/WlXTx7JJLOKxYt4/UngdydBdaZcRaN39gV
-         aLKYFGUNQszKuVio2MTClIFQtji00YioUOcS4CDBPNiLnbatoVdN1dewzs16OzRih/OA
-         MK8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=OAU0IM1UCRF7ncrAZxO0aSTqEShO/M6wUIz9M+sV+ZI=;
-        b=Z/8fgSIK4ykob2Hpg0JUDEy7qYF944GKRoe1zKgxW8m7mrrJZdAqwKWK1EP/VElK1T
-         22rvg3EPKPAOHfedqNPl8dKUeu4CqF0HeIi805/czsW0SYUOYCT+mqTxZQjo6O/1SXwY
-         RjJcyKNe/dNeG1z6sb/xewlDlM7muXByjh3VnMHBomcFOuFfZPDOEZNNGalx+dOyFnZx
-         AM4wdqH//jhTO87ES70VzgUFX3F0v9Z3q8vc3/O6TCCGMWDe8Z75Vvf+ypMO5mWJ3clt
-         QNUU4MNjD8mEEHY+oWI/2LV6ktg2n5ZAQAk+Fo4tjX9OcPhWhTiYD5BR6IF+LOqxKOJy
-         oRww==
-X-Gm-Message-State: AO0yUKXDQhqaTsZRkUVJExYDVOjIe8fkADhGTfrZPiK5SCe6ByenYb0e
-        J1BoHNbcxEZD+1GyVlalLyQdamE37ds32k5U+iU=
-X-Google-Smtp-Source: AK7set/8PozigBAVW2eFUSbcURNASJMTBoGIidv/4O3sKX2J7fSaYxxY6Bukz5ZHJsIkjvwsjf4OEg==
-X-Received: by 2002:a17:906:6d42:b0:88a:a09d:e673 with SMTP id a2-20020a1709066d4200b0088aa09de673mr15087839ejt.31.1675536066340;
-        Sat, 04 Feb 2023 10:41:06 -0800 (PST)
-Received: from localhost ([2001:b07:5d37:537d:8c1:b772:7521:b7bd])
-        by smtp.gmail.com with ESMTPSA id q19-20020a17090622d300b0088a2397cb2csm3146789eja.143.2023.02.04.10.41.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 04 Feb 2023 10:41:05 -0800 (PST)
-Mime-Version: 1.0
+        Sat, 4 Feb 2023 13:50:17 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E79AC76BD;
+        Sat,  4 Feb 2023 10:50:15 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 771E260A24;
+        Sat,  4 Feb 2023 18:50:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D04B3C4339C;
+        Sat,  4 Feb 2023 18:50:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675536614;
+        bh=wciRKNLfd2O3N94Bf4qAswd399veVPfGCY7eLVyHn5U=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=t7WjJuQdvlPfktg0oHqSw7YA4rDDsp1Py0qXLyzkJ2gUHCiEXUon0SLY3mg7FtDSd
+         lL1Xjg2ydlp7p0/ZwyxDXcEYSrpY5tWWVX8NArPrdkR7ejHIt+2DqWMqv1FdGaqdOQ
+         vTFma0peHtNqhmtsa4wMdXZbPNAY8VkzbRQDyF61Dbhyree+q/+rOMgBMfCTY+98P2
+         K9s+NU9fPYq2CF585fb8Db45ciFl0XCmYbQrurrnAJ0nA/BdNLYFvcwpEFoLJ/RT4o
+         gybwCflAObutDzqMF+5lP+oFVeyj+M0wlf2sHM3aQAS99TQkLpvfxOEo4IjgwzCUav
+         9W+PqHghcDoHQ==
+Received: by mail-oi1-f176.google.com with SMTP id s66so6819352oib.7;
+        Sat, 04 Feb 2023 10:50:14 -0800 (PST)
+X-Gm-Message-State: AO0yUKXF0bWMAucN0Wq0nmemkkHFb0MjQxmG5FiaxE6xhc7hidFfs/gs
+        VlSPAbRCf5KbqhKdaVN+p4RTo2B0+cMw/NZgHnQ=
+X-Google-Smtp-Source: AK7set8kSC4lybtRg29gu0nEtjFDYQAKH8gXlwwyuldC2NQqfdIZHdBJNJL3KDnDA/WuDZhHN/AtcU5qM78q9Mpm/aY=
+X-Received: by 2002:a05:6808:16a3:b0:377:f944:a8b7 with SMTP id
+ bb35-20020a05680816a300b00377f944a8b7mr486307oib.194.1675536614087; Sat, 04
+ Feb 2023 10:50:14 -0800 (PST)
+MIME-Version: 1.0
+References: <CGME20230203123220eucas1p2f9686f08bcb22cf1e21aefd25070282a@eucas1p2.samsung.com>
+ <20230203123140.2227880-1-l.stelmach@samsung.com>
+In-Reply-To: <20230203123140.2227880-1-l.stelmach@samsung.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 5 Feb 2023 03:49:37 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASSJ8X8_TpxK=SBNWrAikHg4DRQ4yYi=NQDGXqefKyGog@mail.gmail.com>
+Message-ID: <CAK7LNASSJ8X8_TpxK=SBNWrAikHg4DRQ4yYi=NQDGXqefKyGog@mail.gmail.com>
+Subject: Re: [PATCH] merge_config.sh: do not report some differencess between
+ input and output
+To:     =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date:   Sat, 04 Feb 2023 19:41:04 +0100
-Message-Id: <CQ9ZYPS9NLN3.2TNK77PA5JUAQ@vincent>
-Subject: Re: [PATCH] rust: delete rust-project.json when running make clean
-From:   "Vincenzo Palazzo" <vincenzopalazzodev@gmail.com>
-To:     =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
-        "Masahiro Yamada" <masahiroy@kernel.org>,
-        "Michal Marek" <michal.lkml@markovi.net>,
-        "Nick Desaulniers" <ndesaulniers@google.com>,
-        "Miguel Ojeda" <ojeda@kernel.org>,
-        "Alex Gaynor" <alex.gaynor@gmail.com>,
-        "Wedson Almeida Filho" <wedsonaf@gmail.com>,
-        "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
-        =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>
-Cc:     "Melissa Wen" <mwen@igalia.com>, <linux-kbuild@vger.kernel.org>,
-        <rust-for-linux@vger.kernel.org>
-X-Mailer: aerc 0.14.0-38-gb2afc8117fb7
-References: <20230203173704.108942-1-mcanal@igalia.com>
-In-Reply-To: <20230203173704.108942-1-mcanal@igalia.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri Feb 3, 2023 at 6:37 PM CET, Ma=C3=ADra Canal wrote:
-> rust-project.json is the configuration file used by rust-analyzer.
-> As it is a configuration file and it is not needed to build external
-> modules, it should be delete by make clean. So, delete rust-project.json
-> when running make clean.
+On Fri, Feb 3, 2023 at 9:32 PM =C5=81ukasz Stelmach <l.stelmach@samsung.com=
+> wrote:
 >
-> Link: https://github.com/Rust-for-Linux/linux/issues/939
-> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> If an input config file contains CONFIG_FOO=3Dn the output one
+> will contain a line '# CONFIG_FOO is not set'. merge_config.sh
+> should not report it as difference because the end result of
+> CONFIG_FOO being disabled is achieved.
+>
+> Inexistence of CONFIG_FOO (because of unment dependencies) in case
+> CONFIG_FOO=3Dn is requested, should also be ignored.
+>
+> Signed-off-by: =C5=81ukasz Stelmach <l.stelmach@samsung.com>
 > ---
-Reviewd-by: Vincenzo Palazzo <vincenzopalazzodev@gmail.com>
-
->  Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  scripts/kconfig/merge_config.sh | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
 >
-> diff --git a/Makefile b/Makefile
-> index f41ec8c8426b..6223d5f82f66 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1573,7 +1573,7 @@ endif # CONFIG_MODULES
->  CLEAN_FILES +=3D include/ksym vmlinux.symvers modules-only.symvers \
->  	       modules.builtin modules.builtin.modinfo modules.nsdeps \
->  	       compile_commands.json .thinlto-cache rust/test rust/doc \
-> -	       .vmlinux.objs .vmlinux.export.c
-> +	       rust-project.json .vmlinux.objs .vmlinux.export.c
-> =20
->  # Directories & files removed with 'make mrproper'
->  MRPROPER_FILES +=3D include/config include/generated          \
-> --=20
-> 2.39.1
+> diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_conf=
+ig.sh
+> index e5b46980c22a..c6fd6722f1a4 100755
+> --- a/scripts/kconfig/merge_config.sh
+> +++ b/scripts/kconfig/merge_config.sh
+> @@ -196,9 +196,13 @@ for CFG in $(sed -n -e "$SED_CONFIG_EXP1" -e "$SED_C=
+ONFIG_EXP2" $TMP_FILE); do
+>         REQUESTED_VAL=3D$(grep -w -e "$CFG" $TMP_FILE)
+>         ACTUAL_VAL=3D$(grep -w -e "$CFG" "$KCONFIG_CONFIG" || true)
+>         if [ "x$REQUESTED_VAL" !=3D "x$ACTUAL_VAL" ] ; then
+> -               echo "Value requested for $CFG not in final .config"
+> -               echo "Requested value:  $REQUESTED_VAL"
+> -               echo "Actual value:     $ACTUAL_VAL"
+> -               echo ""
+> +               if [ "x$REQUESTED_VAL" !=3D "x$CFG=3Dn" -o \
+> +                    \( "x$ACTUAL_VAL" !=3D "x"  -a \
+> +                       "x$ACTUAL_VAL" !=3D "x# $CFG is not set" \) ]; th=
+en
+> +                       echo "Value requested for $CFG not in final .conf=
+ig"
+> +                       echo "Requested value:  $REQUESTED_VAL"
+> +                       echo "Actual value:     $ACTUAL_VAL"
+> +                       echo ""
+> +               fi
+>         fi
+>  done
+> --
+> 2.30.2
+>
 
+
+
+[Problem 1]
+
+The behaviour is inconsistent
+between =3Dn and "is not set".
+
+
+
+ Requested: CONFIG_FOO=3Dn
+ Actual   : missing due to unmet dep
+
+     -> suppress the report
+
+
+ Requested: CONFIG_FOO is not set
+ Actual   : missing due to unmet dep
+
+     -> show the report
+
+
+
+[Problem 2]
+
+This patch introduces another consistency
+because line 148 may report something similar.
+
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
