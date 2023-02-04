@@ -2,96 +2,73 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD9B468A961
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Feb 2023 11:12:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8506968ABA5
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Feb 2023 18:30:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231654AbjBDKMf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 4 Feb 2023 05:12:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47096 "EHLO
+        id S229796AbjBDRac (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 4 Feb 2023 12:30:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230331AbjBDKMe (ORCPT
+        with ESMTP id S229825AbjBDRab (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 4 Feb 2023 05:12:34 -0500
-Received: from mout-b-110.mailbox.org (mout-b-110.mailbox.org [IPv6:2001:67c:2050:102:465::110])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C56551D913;
-        Sat,  4 Feb 2023 02:12:32 -0800 (PST)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mout-b-110.mailbox.org (Postfix) with ESMTPS id 4P87cX33swz9slS;
-        Sat,  4 Feb 2023 11:12:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nyantec.com; s=default;
-        t=1675505548;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=wBenN//MSS2FnzUOSFVhxKB8bpeGF5Xem1x3AEUv3BY=;
-        b=kYbQRc2hdX3GGIHgmxnC6grhmeksmw779RoTzvoHAI7y/jIbGV4z+snLf8rls6LxgZX5HT
-        LhNN2E3d9yGADoBCbwESFikpy2/KTKO6lO3fN7QtctsWyeuTop1G/4iYVWheGLtVGDjlp1
-        ekfT0o7sLhp4ybDuMxIlyvDlQhzsTj/lBXeQV5gAeEBLu0BqxCcEzMsRPAH7jL5fc77G+N
-        XAIfVHPWM6Jtf55zf3QQ089bSDXfh7nmjq0H+FtT4lEKTeUNXPr4Nw8DzzlVc2R0CDaDr/
-        5Ap6d/IyA2unfvpYw7gNV+sf89CH15WXZsXQpi1hUJRczrk5TO2bXQL3EvB7Xg==
-From:   Finn Behrens <fin@nyantec.com>
-To:     =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Melissa Wen <mwen@igalia.com>, linux-kbuild@vger.kernel.org,
-        rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH] rust: delete rust-project.json when running make clean
-Date:   Sat, 04 Feb 2023 11:12:23 +0100
-Message-ID: <BDCE8CA1-9BC1-4E36-9A7A-CA60A387E200@nyantec.com>
-In-Reply-To: <20230203173704.108942-1-mcanal@igalia.com>
-References: <20230203173704.108942-1-mcanal@igalia.com>
+        Sat, 4 Feb 2023 12:30:31 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F15623317
+        for <linux-kbuild@vger.kernel.org>; Sat,  4 Feb 2023 09:30:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:Subject:From:To:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=FmaB9wGVzKgv4NzbcyWLZghEkZJWFbWTGJ/aQuSwubg=; b=EP8/5r6WhreemW5wKjlg11SOGG
+        twLmJZVw9U4pyd1XXvZ4OQCO6gS64umcu2mXWdQcrROs9Pbn5XYAckSkFYrJu3Eq4CID/i/KXO2lb
+        ao+lvXCRLhDNTCD2vp+gbVYXJCpI9w0WGTcbhEqYsawNnqhMTUiSvF9PqMH5ZnZtgmI8SqYH0ttK+
+        4Sul2QJK3Nkd/6Z+I7wgdta0sWKUsbsRg0NMoR3iGg/VNlzP77042PvTuQuvtrG9g6U9IqEGyAppV
+        bb4SbV65DpeMmO9u6VGvF/PJKUlE6g3nJqGTcZvBgIPkUGmoTSKVG/dcov/MwGQMLQBd3KHGCmCLh
+        3iAsqcag==;
+Received: from [2601:1c2:d00:6a60::9526]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pOMMv-005RSp-Ce; Sat, 04 Feb 2023 17:30:29 +0000
+Message-ID: <80c85984-7609-cab5-2341-48baeb67841e@infradead.org>
+Date:   Sat, 4 Feb 2023 09:30:29 -0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Content-Language: en-US
+To:     linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: PPC64 TOC. warnings
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Hi,
+
+I'm seeing thousands of these warnings:
+(gcc 12.2.0)
 
 
-On 3 Feb 2023, at 18:37, Ma=C3=ADra Canal wrote:
+./include/generated/autoksyms.h:7:9: warning: ISO C99 requires whitespace after the macro name
+    7 | #define __KSYM_TOC. 1
+      |         ^~~~~~~~~~
 
-> rust-project.json is the configuration file used by rust-analyzer.
-> As it is a configuration file and it is not needed to build external
-> modules, it should be delete by make clean. So, delete rust-project.jso=
-n
-> when running make clean.
->
-> Link: https://github.com/Rust-for-Linux/linux/issues/939
-> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-Reviewed-by: Finn Behrens <fin@nyantec.com>
-> ---
->  Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Makefile b/Makefile
-> index f41ec8c8426b..6223d5f82f66 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1573,7 +1573,7 @@ endif # CONFIG_MODULES
->  CLEAN_FILES +=3D include/ksym vmlinux.symvers modules-only.symvers \
->  	       modules.builtin modules.builtin.modinfo modules.nsdeps \
->  	       compile_commands.json .thinlto-cache rust/test rust/doc \
-> -	       .vmlinux.objs .vmlinux.export.c
-> +	       rust-project.json .vmlinux.objs .vmlinux.export.c
->
->  # Directories & files removed with 'make mrproper'
->  MRPROPER_FILES +=3D include/config include/generated          \
-> -- =
+In file included from ../include/asm-generic/export.h:57,
+                 from ./arch/powerpc/include/generated/asm/export.h:1,
+                 from ../arch/powerpc/kernel/misc.S:17:
+./include/generated/autoksyms.h:7:9: warning: missing whitespace after the macro name
+    7 | #define __KSYM_TOC. 1
+      |         ^~~~~~~~~~
 
-> 2.39.1
+
+Can anything be done about them?
+
+Thanks.
+-- 
+~Randy
