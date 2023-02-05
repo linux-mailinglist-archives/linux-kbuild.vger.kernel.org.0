@@ -2,89 +2,79 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF53468AD8E
-	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Feb 2023 01:18:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 63E5A68ADBD
+	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Feb 2023 02:04:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230023AbjBEASb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 4 Feb 2023 19:18:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46408 "EHLO
+        id S229547AbjBEBE3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 4 Feb 2023 20:04:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229713AbjBEASa (ORCPT
+        with ESMTP id S229453AbjBEBE2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 4 Feb 2023 19:18:30 -0500
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F6581E2BB;
-        Sat,  4 Feb 2023 16:18:29 -0800 (PST)
-Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-526f0b3d8d9so49771577b3.3;
-        Sat, 04 Feb 2023 16:18:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6ydIEfotXDWwFfNGKcCo/siDYBQ4m/BsbRKkwoVldgw=;
-        b=iihm0pPbr1UAhdWY4SkYk0FqK+H7dpLtZiTQipTtSYn0ASJlWlEI406dVHAGI+2XKU
-         FuKVASIiRh49l6Mwuy0iMuExFKXfdeXbmB7J5jqYTQgajT3e7Ff2u9D6CCwGLjh6Dxv+
-         8NnAlmdqirgPAhPyuds5EsqvaMh2sxieP9iNQszlyEIjpEzZ8N0XE1MgIFxXRy5FMsrG
-         n6OgxKV3s12vAh2a+eu98Wym0kwQ6nx48WXjCW6Dfuzj8j6oDJKe93KlwIJjV991clDe
-         Y0RKqWoj7uv5yRkxzhCWBHZ0pjrDObeQvCLxUSdcrZADpn/5ouuwV2lrrk/UY8bbpK75
-         LT1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6ydIEfotXDWwFfNGKcCo/siDYBQ4m/BsbRKkwoVldgw=;
-        b=XbxiKt4URaLNun0MKgDl+YFUTZE+2QoPuH9b447IjkwjVZnxF/sZK3c9+n3mI6tsOp
-         X4xOP1LH6pGlWPPt+Ozl5MBFigohimh/7ZhKXOBy3YadNg2g+G/xnJmYy3CDzuFERQtK
-         Xn8tmSCJYNrJEBeo3SYBnY77JpZc8Hi99HhjhFncN/EPHvx+PQyMB+S7Dt1n8NcWQJBz
-         /HlxeOrKZRcsQP5+fZRxiHCFS20vfOGlmv2bI8HCU/sLL+f5u3aKUPtIbHALh3kPBhkw
-         GS69aUPz5BToMIWiHErLVxnnxid5KEGMMOpu4QPYvRpRNgofOO/wuHU8h7m5N9EYVLxB
-         iiUg==
-X-Gm-Message-State: AO0yUKV7YtQsddC+7szGhkt54mC8c4vkpI+LsXdueXNQsgDVaGeEzfFx
-        gdhTJ22gA161sCGMzEcu6Cl21a0VCQ8px9UaXuY=
-X-Google-Smtp-Source: AK7set/KuOPzw7BWG3UKxJVo60sysR6/kcgBObntvbLyPayzsMWI769QsdfcHWaza3lJFiPBTPHwBu3+gKO7wF5GGk8=
-X-Received: by 2002:a81:5e41:0:b0:501:2887:8c8e with SMTP id
- s62-20020a815e41000000b0050128878c8emr2100790ywb.256.1675556308450; Sat, 04
- Feb 2023 16:18:28 -0800 (PST)
+        Sat, 4 Feb 2023 20:04:28 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D89F623C6F;
+        Sat,  4 Feb 2023 17:04:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=p/X12mhEonmgqFvC/p6xV+/a6TCrqGOjh0it/f2ls9w=; b=mDnvP88AwbXfl5h0DDgqhjWERO
+        ButqRF5o3LUP0rEmf8o9bbms6DHqxjIU/yl18Ef8BtCQIAmxUWlrgLP5PmZ3vAytKC3FBIq4iyutf
+        QVeIRG2dXqPWlDRPDncOLULTB5hDXl7TZ50xnQkO8kESQ7cl3T3aSo7J7HwEAFPI5rGLThIgaQ8QP
+        M1bbMgZpsz9p7Se7Ayf5/OjbCIwF9GstvQIgiaDdrUKnMudrZSGJ9LBEmSeNCVHLQWngWi40aYIDx
+        q34iaeH1zU3EaSDLKYLJrofEA30/DVecfgyGJMBPyWpzW1iZ7+d/XB9jD0nRGRZa2DOUPu8XOetxz
+        q7jbq4+A==;
+Received: from [2601:1c2:d00:6a60::9526] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pOTSE-005njc-C5; Sun, 05 Feb 2023 01:04:26 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH] parisc: update kbuild doc. aliases for parisc64
+Date:   Sat,  4 Feb 2023 17:04:25 -0800
+Message-Id: <20230205010425.11932-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-References: <20230203173704.108942-1-mcanal@igalia.com>
-In-Reply-To: <20230203173704.108942-1-mcanal@igalia.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Sun, 5 Feb 2023 01:18:17 +0100
-Message-ID: <CANiq72ke4GAK40F_vMKhZrpBSpX2xT1ADUxSm8=_+0QciYxVmw@mail.gmail.com>
-Subject: Re: [PATCH] rust: delete rust-project.json when running make clean
-To:     =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Melissa Wen <mwen@igalia.com>, linux-kbuild@vger.kernel.org,
-        rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Feb 3, 2023 at 6:37 PM Ma=C3=ADra Canal <mcanal@igalia.com> wrote:
->
-> rust-project.json is the configuration file used by rust-analyzer.
-> As it is a configuration file and it is not needed to build external
-> modules, it should be delete by make clean. So, delete rust-project.json
-> when running make clean.
+ARCH=parisc64 is now supported for 64-bit parisc builds, so add
+this alias to the kbuild.rst documentation.
 
-Applied to `rust-next`, thanks!
+Fixes: 3dcfb729b5f4 ("parisc: Make CONFIG_64BIT available for ARCH=parisc64 only")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+Cc: Helge Deller <deller@gmx.de>
+Cc: linux-parisc@vger.kernel.org
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/kbuild/kbuild.rst |    1 +
+ 1 file changed, 1 insertion(+)
 
-Cheers,
-Miguel
+diff -- a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+--- a/Documentation/kbuild/kbuild.rst
++++ b/Documentation/kbuild/kbuild.rst
+@@ -160,6 +160,7 @@ directory name found in the arch/ direct
+ But some architectures such as x86 and sparc have aliases.
+ 
+ - x86: i386 for 32 bit, x86_64 for 64 bit
++- parisc: parisc for 32 bit, parisc64 for 64 bit
+ - sh: sh for 32 bit, sh64 for 64 bit
+ - sparc: sparc32 for 32 bit, sparc64 for 64 bit
+ 
