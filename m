@@ -2,50 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1114768AFA7
-	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Feb 2023 13:10:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B421B68AFEF
+	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Feb 2023 14:20:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229437AbjBEMKH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 5 Feb 2023 07:10:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48700 "EHLO
+        id S229544AbjBENUb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 5 Feb 2023 08:20:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229539AbjBEMKH (ORCPT
+        with ESMTP id S229457AbjBENUa (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 5 Feb 2023 07:10:07 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03940DBE8;
-        Sun,  5 Feb 2023 04:10:06 -0800 (PST)
+        Sun, 5 Feb 2023 08:20:30 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46417206BF;
+        Sun,  5 Feb 2023 05:20:29 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id AE1AAB80B6B;
-        Sun,  5 Feb 2023 12:10:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 789CEC4339C;
-        Sun,  5 Feb 2023 12:10:02 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BFD0960BB9;
+        Sun,  5 Feb 2023 13:20:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ABE0C4339C;
+        Sun,  5 Feb 2023 13:20:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675599003;
-        bh=9Lq+dA/X8Mk8nbh6bmpHI5Xt3zG/oryRxAEDv7XBe+A=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MnBTB6c1gjPUaj7mhIPHDrYzmTeDCXPIMmex4OYyV+7H2V8TBBs9laXSYXESCKKDS
-         auZRjdMhAwLSVtZQbHHgL2qCb7pqfUIWXQO4Je/EvrViIAL/Gu6rZ1jHT/8K3MRJQe
-         d4iWfNKmLgKIlc5uOqLMa0fnmvxSGZ62nWe/DedTwPjXQ6cLgUj+SaoZijmo0s9V9n
-         3ONNi17qgWIK5axwmVKdBsxtZOTUE0+BiITAjrWEevh7Pa1Vbracctir5QaL6Bdqm5
-         B8g4pnISAmIQIvrtKcFOeH4xTzorY4pqn18k3k0R98GpQBRIn9t/A4SLSXnAGP/dj8
-         SoH+4k0ojhGDA==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 2/2] setlocalversion: use only the correct release tag for git-describe
-Date:   Sun,  5 Feb 2023 21:09:57 +0900
-Message-Id: <20230205120957.2461529-2-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230205120957.2461529-1-masahiroy@kernel.org>
-References: <20230205120957.2461529-1-masahiroy@kernel.org>
+        s=k20201202; t=1675603228;
+        bh=7mGBs/jrz5JwGpuB1eeglNge0UoUZ/Gcw//0fLt1KrM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=FaaNAH1TYNDFgzrEdsCziIGXQv8yQAHNvzHEjif1jZmR+WLev/O8mNHofzW5kAxCI
+         GtR0YQHd8WiyfRg7q7NJPC68RFmL45vSGbKXKgrqbmnfZQyDJ9fGaclM/ey0V7t/+x
+         xFlK1NBlchyJS9GrJnSlxg707bV6eCMv0kvI1PO3tACENB1feKSaN+RlPVTmpyVHa0
+         C9lU31D6AJnNztMkLqJwxTLE7V+es970tu2O6DiLlCeRPwbTlslQ6X4jMt2QScZhl3
+         YtQR77W+FH9aM13B9coaKRuk5eHqISbfjZkFNg8QZKqPDJ8r2dORK/xsU97jzXqUOO
+         lm0vhblnMcUuQ==
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-142b72a728fso12213899fac.9;
+        Sun, 05 Feb 2023 05:20:28 -0800 (PST)
+X-Gm-Message-State: AO0yUKUcBlM0tgc/YnTxxeA3+MKywECEHs3pVABvoBDFT9V3jvhVTb8X
+        RRjct4ubsnAtoURb35x6OGLXkktARN4MuVOV2Cc=
+X-Google-Smtp-Source: AK7set/8HKtdSwGS+vytjIC+DRUGXDOIz0/AlE5nM1ImDHLLzbR8vytijxUxwvv/4CjqPJXPH506OWBnDxH7ge7+Z70=
+X-Received: by 2002:a05:6871:151:b0:163:a45a:9e41 with SMTP id
+ z17-20020a056871015100b00163a45a9e41mr969412oab.194.1675603227451; Sun, 05
+ Feb 2023 05:20:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+References: <20230205010425.11932-1-rdunlap@infradead.org>
+In-Reply-To: <20230205010425.11932-1-rdunlap@infradead.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 5 Feb 2023 22:19:51 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ0-i_CciUELv+G9imYL-JA1LLiqRYYbj_N0jJZ2Ro-Mw@mail.gmail.com>
+Message-ID: <CAK7LNAQ0-i_CciUELv+G9imYL-JA1LLiqRYYbj_N0jJZ2Ro-Mw@mail.gmail.com>
+Subject: Re: [PATCH] parisc: update kbuild doc. aliases for parisc64
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,99 +64,47 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Currently, setlocalversion uses any annotated tag for git-describe.
-If we are at a tagged commit, it will not append the commit hash.
+On Sun, Feb 5, 2023 at 10:04 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> ARCH=parisc64 is now supported for 64-bit parisc builds, so add
+> this alias to the kbuild.rst documentation.
+>
+> Fixes: 3dcfb729b5f4 ("parisc: Make CONFIG_64BIT available for ARCH=parisc64 only")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: linux-parisc@vger.kernel.org
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: linux-kbuild@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  Documentation/kbuild/kbuild.rst |    1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff -- a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+> --- a/Documentation/kbuild/kbuild.rst
+> +++ b/Documentation/kbuild/kbuild.rst
+> @@ -160,6 +160,7 @@ directory name found in the arch/ direct
+>  But some architectures such as x86 and sparc have aliases.
+>
+>  - x86: i386 for 32 bit, x86_64 for 64 bit
+> +- parisc: parisc for 32 bit, parisc64 for 64 bit
 
-  $ git checkout v6.2-rc1^
-  $ make -s defconfig kernelrelease
-  6.1.0-14595-g292a089d78d3
-  $ git tag -a foo -m foo
-  $ make -s kernelrelease
-  6.1.0
 
-If a local tag 'foo' exists, it pretends to be a released version
-'6.1.0', while there are many commits on top of it.
 
-The output should be consistent irrespective of such a local tag.
-Pass the correct release tag to --match option of git-describe.
 
-In the mainline kernel, the SUBLEVEL is always '0', which is omitted
-from the tag.
+'parisc' is not an alias since it matches the arch/parisc/
+directory, is it?
 
-  KERNELVERSION      annotated tag
-  6.1.0          ->  v6.1            (mainline)
-  6.2.0-rc5      ->  v6.2-rc5        (mainline, release candidate)
-  6.1.7          ->  v6.1.7          (stable)
 
-To preserve the behavior in linux-next, use the tag derived from
-localversion* files if exists. In linux-next, the local version is
-specified by the localversion-next file.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
- scripts/setlocalversion | 27 ++++++++++++++++++++-------
- 1 file changed, 20 insertions(+), 7 deletions(-)
+>  - sh: sh for 32 bit, sh64 for 64 bit
+>  - sparc: sparc32 for 32 bit, sparc64 for 64 bit
+>
 
-diff --git a/scripts/setlocalversion b/scripts/setlocalversion
-index 7e2c83f5c50d..f26f082c7d6a 100755
---- a/scripts/setlocalversion
-+++ b/scripts/setlocalversion
-@@ -27,6 +27,7 @@ fi
- scm_version()
- {
- 	local short
-+	local tag
- 	short=false
- 
- 	cd "$srctree"
-@@ -42,9 +43,21 @@ scm_version()
- 		return
- 	fi
- 
--	# If we are at a tagged commit (like "v2.6.30-rc6"), we ignore it
--	# because this version is defined in the top level Makefile.
--	if [ -z "$(git describe --exact-match 2>/dev/null)" ]; then
-+	# If a localversion*' file and the corresponding annotated tag exist,
-+	# use it. This is the case for linux-next.
-+	tag=${file_localversion#-}
-+	tag=$(git describe --exact-match --match=$tag $tag 2>/dev/null)
-+
-+	# If not, default to the annotated tag derived from KERNELVERSION.
-+	#   mainline kernel:  6.2.0-rc5  ->  v6.2-rc5
-+	#   stable kernel:    6.1.7      ->  v6.1.7
-+	if [ -z "${tag}" ]; then
-+		tag=v$(echo "${KERNELVERSION}" | sed -E 's/^([0-9]+\.[0-9]+)\.0(.*)$/\1\2/')
-+	fi
-+
-+	# If we are at a tagged commit and the tag matches the version defined
-+	# in the top level Makefile, we ignore it.
-+	if [ -z "$(git describe --exact-match --match=$tag 2>/dev/null)" ]; then
- 
- 		# If only the short version is requested, don't bother
- 		# running further git commands
-@@ -52,9 +65,9 @@ scm_version()
- 			echo "+"
- 			return
- 		fi
--		# If we are past a tagged commit (like
--		# "v2.6.30-rc5-302-g72357d5"), we pretty print it.
--		if atag="$(git describe 2>/dev/null)"; then
-+		# If we are past the tagged commit, we pretty print it.
-+		# (like 6.1.0-14595-g292a089d78d3)
-+		if atag="$(git describe --match=$tag 2>/dev/null)"; then
- 			echo "$atag" | awk -F- '{printf("-%05d", $(NF-1))}'
- 		fi
- 
-@@ -116,7 +129,7 @@ fi
- # version string from CONFIG_LOCALVERSION
- config_localversion=$(sed -n 's/^CONFIG_LOCALVERSION=\(.*\)$/\1/p' include/config/auto.conf)
- 
--# scm version string if not at a tagged commit
-+# scm version string if not at the kernel version tag or at the file_localversion
- if grep -q "^CONFIG_LOCALVERSION_AUTO=y$" include/config/auto.conf; then
- 	# full scm version string
- 	scm_version="$(scm_version)"
+
 -- 
-2.34.1
-
+Best Regards
+Masahiro Yamada
