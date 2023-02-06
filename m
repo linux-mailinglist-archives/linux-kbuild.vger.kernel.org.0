@@ -2,224 +2,117 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C791468C584
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Feb 2023 19:16:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E4B168C7A2
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Feb 2023 21:28:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229890AbjBFSQa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Feb 2023 13:16:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37730 "EHLO
+        id S229961AbjBFU2t (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 Feb 2023 15:28:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbjBFSQ3 (ORCPT
+        with ESMTP id S229519AbjBFU2s (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 Feb 2023 13:16:29 -0500
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97DF11DB84;
-        Mon,  6 Feb 2023 10:16:28 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 4B10D3F72A;
-        Mon,  6 Feb 2023 18:16:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1675707387; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=VpTAmVky343CE93RylTKOg9+iknURPZdpqszYz0gVWk=;
-        b=q3q/IEMraxL+uGTMTRQDzBXNZvh7YJtWYoOjABdD/ulnOAAj1eU41iF3dzZrxlEH7E9XMX
-        uuF+ndFgI1CAQsoBT6DhMEE3WYNqMHdcuBrLzfX82P0xuh138VVWd+GBB6hBihAaXu4KA1
-        GPHNH9dnxl+xRbPmUcC9z7zOXebhO1s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1675707387;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=VpTAmVky343CE93RylTKOg9+iknURPZdpqszYz0gVWk=;
-        b=r5zU8552Q3no+nMApYTLyA79fsqoRBJjCL/55gwpo6z+UBt4msuho8PvIsGzd0mpaMb+3A
-        BWDfEgTPykDiHuDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E339E138E7;
-        Mon,  6 Feb 2023 18:16:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id +k27KflD4WMJRAAAMHmgww
-        (envelope-from <mpdesouza@suse.de>); Mon, 06 Feb 2023 18:16:25 +0000
-Date:   Mon, 6 Feb 2023 15:16:22 -0300
-From:   Marcos Paulo de Souza <mpdesouza@suse.de>
-To:     Joe Lawrence <joe.lawrence@redhat.com>
-Cc:     live-patching@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
-Subject: Re: [RFC PATCH v6 03/12] livepatch: Add klp-convert tool
-Message-ID: <Y+FD9pCLJUuNKHo2@daedalus.suse.de>
-References: <20220216163940.228309-1-joe.lawrence@redhat.com>
- <20220216163940.228309-4-joe.lawrence@redhat.com>
+        Mon, 6 Feb 2023 15:28:48 -0500
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AA2329E38;
+        Mon,  6 Feb 2023 12:28:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+        t=1675715294; bh=UKZ91KlMlyPDiSEe667DpO0/2hE2Bw/He9ABW0qj/PQ=;
+        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=r6tgimBD7+gevlMnjaVPcN0xxlFx/JRazQS7xSIpEWf9JcW2Yv0mwUxBZuq/K5C7x
+         CXEUKNj4xmQLhbvsEPIctTBr7bZRcyoLIks43Fnexd0BhtsatxeO9I8q4NMzZ6zGNd
+         9riOKNPxysaee0eiV6bcu0UjKX1hIm9tIJCbJjGLBiAIeE5L5w/4astqd4CHMMr/IS
+         0BO3JYl7vqLVrrLiWUC3/uR7Ei2KZN0NQUkIzOI42CZNWZkR33VqvZeb6osCXa4LHY
+         slcu/DkgDipyM1xs9iFk824vofDGsjUyYZaLNQ1tS5tz/c47igc7VzX87V2hCBOJK4
+         pEo7uie5gcBKQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([92.116.187.227]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Msq6M-1oabqA0u3k-00tBQk; Mon, 06
+ Feb 2023 21:28:14 +0100
+Message-ID: <9ef640ec-e5da-eed0-3707-cd138504e1c1@gmx.de>
+Date:   Mon, 6 Feb 2023 21:28:06 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220216163940.228309-4-joe.lawrence@redhat.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v2] parisc: update kbuild doc. aliases for parisc64
+Content-Language: en-US
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        linux-parisc@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+References: <20230205163752.2535-1-rdunlap@infradead.org>
+From:   Helge Deller <deller@gmx.de>
+In-Reply-To: <20230205163752.2535-1-rdunlap@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:dQ6w6Sso0DynHymSx1sSf884m02Cyx9zEt3tsu+PEwSKWK42qsx
+ td9FbwJILXt6g4/giaaR1Kfrh6xsQjCZYalzxAlqUHuGR/AaYN0uiBTkiqyMYOHEUFxO/mo
+ 2GOo+c5I68ap6NAYKA8JbMKYgEjwKufeb0XFYejmrtgKoY+txzKmE7Y0wtInktqpwJmDh8+
+ 1Rdb3yY4SzcbSpuQiAmsw==
+UI-OutboundReport: notjunk:1;M01:P0:odzB/JznoNo=;V6tBvW1VkD6tcAb7xj9ggL6C2af
+ F2j4Os9fvNB0BI2HvMJKk13hCM/yD8DFlKJr4UGp+wOMSr7vsHEp0dB9HcF8YAiQXqNgzMPkX
+ Sju94fRaOOKSYHB7KGjVk5t1U1hRSff4fwNfyN4ndGsipggBFC0ayJ36gECMKRuSGBOOoCmjX
+ aHNijTsqcOw4KytMtUDoW3qBWRLkAkGcPA2wQxBXYIdSvdGc3EACYIXPAut18sc3yvoy1bC7r
+ WW73vStGJDUi0mky6O7aIYkPSknusNppw02qC5RW2bevzuDQsDmr26Y4Y4aUrRXx8U6BiJ6aK
+ b/r5fudoAtPFniWiOF2Aiz/0IRAu6Rp4+GT4OosIf7H4FIAWd22MC4JFc0GkIVO862kbcc+hG
+ rcyd6phXitHpnQUSJKY87tmLraSKAmYE7poB5rnJvc6aGY2zCSLBzP4+UF1I79fYw5nQUtpmp
+ Bb/GPuTCPVaNbqylx1BQsW+OWZ5XX8/OjfrzO7zCdzRSTK0Jde9pi7a+2WH3g5hvZfs5cwzXm
+ G35JU1mrlbvmo/5lt5u6W7qZKh/2sMScXWmfSMQp+qk5RWSWXTATfQnBdnAKiDRql6wp75A4X
+ Lm6vJdPYmpHKwE7AzXcCSHVsVt0zypX7NnqwBBMzAVlbQfK8/BIVYKXuvWFgRt7ofrVxQ9M74
+ j1agDp0tFz0mQAUhsmsqz8v4vR7ubyLFz9l+FUl8tCRgMdENaiXKhLW1UppN/hSLE5p5RcDpl
+ HBKnfxO1mPuwoLVG+KUhbYDvVgTm0n0KA8DETE+MCpPLiolT55ilfFscqqOPIn+hr0yy0z9w7
+ WU4Lea1+al9hUMyziZ9aWc7uu9+hcN9lYiMSgsfXJEnBTjVPQV5KQinQkVEQYLyYTJDCjSOjw
+ NsL9yxEuiIOmX6KLRfAi9/c3C9b/DXlq81+g3blNDi3YkMA4bXY0CEOJs4x54pAwQ1jr+EvOh
+ nh5rDG0agzVkpyoKlxHJyM9hpS4=
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Feb 16, 2022 at 11:39:31AM -0500, Joe Lawrence wrote:
-> From: Josh Poimboeuf <jpoimboe@redhat.com>
+On 2/5/23 17:37, Randy Dunlap wrote:
+> ARCH=3Dparisc64 is now supported for 64-bit parisc builds, so add
+> this alias to the kbuild.rst documentation.
+>
+> Fixes: 3dcfb729b5f4 ("parisc: Make CONFIG_64BIT available for ARCH=3Dpar=
+isc64 only")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: linux-parisc@vger.kernel.org
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: linux-kbuild@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
+> v2: drop "parisc for 32 bit" part since "parisc" is not an alias
 
-All the comments bellow are suggestions. Besides them being addressed or not:
+Acked-by: Helge Deller <deller@gmx.de>
 
-Reviewed-by: Marcos Paulo de Souza <mpdesouza@suse.com>
+Thank you, Randy!
+I'll aplly it to the parisc tree.
 
-> +
-> +/*
-> + * User provided sympos annotation checks:
-> + * - do two or more elements in usr_symbols have the same object and
-> + *   name, but different symbol position
-> + * - are there any usr_symbols without a rela?
-> + */
-> +static bool sympos_sanity_check(struct elf *klp_elf)
-> +{
-> +	bool sane = true;
-> +	struct sympos *sp, *aux;
-> +	struct section *sec;
-> +	struct rela *rela;
-> +
-> +	list_for_each_entry(sp, &usr_symbols, list) {
-> +		bool found_rela = false;
-> +
-> +		aux = list_next_entry(sp, list);
-> +		list_for_each_entry_from(aux, &usr_symbols, list) {
-> +			if (sp->pos != aux->pos &&
-> +			    strcmp(sp->object_name, aux->object_name) == 0 &&
-> +			    strcmp(sp->symbol_name, aux->symbol_name) == 0) {
-> +				WARN("Conflicting KLP_SYMPOS definition: %s.%s,%d vs. %s.%s,%d.",
-> +				sp->object_name, sp->symbol_name, sp->pos,
-> +				aux->object_name, aux->symbol_name, aux->pos);
+Helge
 
-The WARN message could be simplified by mentioning the different position,
-something like:
+>
+>   Documentation/kbuild/kbuild.rst |    1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff -- a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.=
+rst
+> --- a/Documentation/kbuild/kbuild.rst
+> +++ b/Documentation/kbuild/kbuild.rst
+> @@ -160,6 +160,7 @@ directory name found in the arch/ direct
+>   But some architectures such as x86 and sparc have aliases.
+>
+>   - x86: i386 for 32 bit, x86_64 for 64 bit
+> +- parisc: parisc64 for 64 bit
+>   - sh: sh for 32 bit, sh64 for 64 bit
+>   - sparc: sparc32 for 32 bit, sparc64 for 64 bit
+>
 
-	WARN("Conflicting KLP_SYMPOS definition: %s.%s %d vs. %d.",
-	sp->object_name, sp->symbol_name, sp->pos aux->pos);
-
-
-> +				sane = false;
-> +			}
-> +		}
-> +
-> +		list_for_each_entry(sec, &klp_elf->sections, list) {
-> +			list_for_each_entry(rela, &sec->relas, list) {
-> +				if (!strcmp(sp->symbol_name, rela->sym->name)) {
-> +					found_rela = true;
-> +					break;
-> +				}
-> +			}
-> +		}
-> +		if (!found_rela) {
-> +			//sane = false;
-
-At this point I believe that sane should be assigned to false to help the user
-to know that the specified symbol isn't being used in the livepatch.
-
-> +			WARN("Couldn't find rela for annotated symbol: %s",
-> +				sp->symbol_name);
-> +		}
-> +
-> +
-> +	}
-> +	return sane;
-> +}
-
-<snip>
-
-
-> +/*
-> + * Searches for symbol in symbols list and returns its sympos if it is unique,
-> + * otherwise prints a list with all considered valid sympos
-> + */
-> +static struct symbol_entry *find_sym_entry_by_name(char *name)
-> +{
-> +	struct symbol_entry *found = NULL;
-> +	struct symbol_entry *e;
-> +
-> +	list_for_each_entry(e, &symbols, list) {
-> +		if (strcmp(e->symbol_name, name) == 0) {
-> +
-> +			/*
-> +			 * If there exist multiple symbols with the same
-> +			 * name then user-provided sympos is required
-> +			 */
-> +			if (found) {
-> +				WARN("Define KLP_SYMPOS for the symbol: %s",
-> +						e->symbol_name);
-> +
-> +				print_valid_module_relocs(name);
-> +				return NULL;
-> +			}
-> +			found = e;
-> +		}
-> +	}
-> +	if (found)
-> +		return found;
-> +
-> +	return NULL;
-
-Since found is either NULL or points to a symbol, the if condition can be
-removed and return found directly.
-
-> +}
-> +
-> +/* Checks if sympos is valid, otherwise prints valid sympos list */
-> +static bool valid_sympos(struct sympos *sp)
-
-<snip>
-> +
-> +/* Returns the right sympos respective to a symbol to be relocated */
-> +static bool find_sympos(struct symbol *s, struct sympos *sp)
-> +{
-> +	struct symbol_entry *entry;
-> +	struct converted_sym *cs;
-> +
-> +	/* did we already convert this symbol? */
-> +	list_for_each_entry(cs, &converted_symbols, list) {
-> +		if (cs->symbol == s) {
-> +			*sp = cs->sympos;
-> +			return true;
-> +		}
-> +	}
-> +
-> +	/* did the user specified via annotation? */
-> +	if (get_usr_sympos(s, sp)) {
-> +		if (valid_sympos(sp)) {
-> +			remember_sympos(s, sp);
-> +			return true;
-> +		}
-> +		return false;
-> +	}
-> +
-> +	/* search symbol in symbols list */
-> +	entry = find_sym_entry_by_name(s->name);
-> +	if (entry) {
-> +		sp->symbol_name = entry->symbol_name;
-> +		sp->object_name = entry->object_name;
-
-At this point I believe that it would be good to have a comment about sympos
-being 0 means that the symbol wasn't specified by the user, so sympos 0 means
-that the symbol is unique.
-
-> +		sp->pos = 0;
-> +		remember_sympos(s, sp);
-> +		return true;
-> +	}
-> +	return false;
-> +}
-
-<snip>
-
- 
