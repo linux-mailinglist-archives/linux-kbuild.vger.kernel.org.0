@@ -2,68 +2,73 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29E2F68F827
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Feb 2023 20:35:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 62CEA68FCB7
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Feb 2023 02:48:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231806AbjBHTfk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 8 Feb 2023 14:35:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45900 "EHLO
+        id S229849AbjBIBsZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 8 Feb 2023 20:48:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229679AbjBHTfj (ORCPT
+        with ESMTP id S229687AbjBIBsY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 8 Feb 2023 14:35:39 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B470F46095
-        for <linux-kbuild@vger.kernel.org>; Wed,  8 Feb 2023 11:35:38 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id ki19-20020a17090ae91300b00232cba666bbso81677pjb.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 08 Feb 2023 11:35:38 -0800 (PST)
+        Wed, 8 Feb 2023 20:48:24 -0500
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C19222028;
+        Wed,  8 Feb 2023 17:48:22 -0800 (PST)
+Received: by mail-yb1-xb29.google.com with SMTP id x4so720711ybp.1;
+        Wed, 08 Feb 2023 17:48:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=fAJlaNEf9h29bd8ZkCwxz0tgZ1g6+/vtKmnhDMYhw14=;
-        b=Z+ropjWaZw/qeE6gBW6+idTTpgNFbXec1UuKtNv+KwRvRqvYww0Qyw82gl8VdUjD1B
-         ACJF5dPWNYsUa7aR3pW85ooqgpccPNH1Dp+kQZnlxlvvSNCHRIPzJc8csModV1rzyDMD
-         0ekiiqa5qwsESerHQbxFrAQkqMUH4COBTL4XE=
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=e2eEmhxMNjlImDmkNZfpy/YG5w92teD17wTvTpUhJoc=;
+        b=XVSf2KxO2RZMtpqZ+Fbgl5+UHBCknVjkMtVbqo5RShM937ET4i8uLOiaDVZFGmjJ83
+         Pj32CIQTsp5lNhIe8HBTqjxTBbgyAB0NHZA4/TELSdLIwaBdDqXJCuG4D+ZSDC7XmLV4
+         9qF5QnRG8R1ZtOEybUT7csn2K2wRof4byWwku3LPc+65dukSjQQjPxRpv6IeqcfNzRHH
+         n2NdH3O3Z+yo9CB+/avBdSu/NeFnmyA1O1IW2fsav+ULtYU8uwUlKoMfb0ZjbLhBEiS6
+         KGYMPAC9Rk/DDCOaj3eTKrkSBveQWn4uvIsHQBt5OL0Yu7kvHNrZDd6bHbaTiRBsEKo7
+         791Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fAJlaNEf9h29bd8ZkCwxz0tgZ1g6+/vtKmnhDMYhw14=;
-        b=hG5IJivma2isW1nI8e4uWxwxHl8wP5Ht7+t8GOaR7iigqzrVCg2q5pZ2Y5yooni07l
-         tykw8rwOWqIAFJyRLnf5FCaCpixwysgYjVi84nfQRBA4Ak7dwCt8HdKewff0qOMzu6ZH
-         +ygIvPOP6HI50+1dG6ociFRsCLopYgL7v9LPHJ2nwpI+pWD1qaYteHcdtWI8qxAydLut
-         x0ix67y307eoj47U+WPoeDUd+iYVKOP8328fVQD+hBOs6PDYT1/UBI3aRNQzNn9JHl7u
-         6crj8FjKQHlGkrzkab4K2A/f71cdarhIrsFSt4ZfU9HYaikLNeuxW03mWGzRRG+ASBCR
-         nCrA==
-X-Gm-Message-State: AO0yUKVqXebdMt1OHmGj+5PjfDbXWqRk2DAoC2NrAy2QzeKTdxzBrFSP
-        OEHHJ+SxCXdq4aMjK34VUQudAg==
-X-Google-Smtp-Source: AK7set8GfKiDufztTpkuEDYL1b8u28pgvoPHLFhPAmA2kCMFZHHpGOh1C22kzQkvkpANzp/CQdvA0w==
-X-Received: by 2002:a17:902:ced2:b0:199:fc6:9a9b with SMTP id d18-20020a170902ced200b001990fc69a9bmr10210092plg.17.1675884938273;
-        Wed, 08 Feb 2023 11:35:38 -0800 (PST)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id iz17-20020a170902ef9100b001990e1aeae4sm7268564plb.47.2023.02.08.11.35.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Feb 2023 11:35:37 -0800 (PST)
-Message-ID: <63e3f989.170a0220.60c91.c5ce@mx.google.com>
-X-Google-Original-Message-ID: <202302081133.@keescook>
-Date:   Wed, 8 Feb 2023 11:35:37 -0800
-From:   Kees Cook <keescook@chromium.org>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=e2eEmhxMNjlImDmkNZfpy/YG5w92teD17wTvTpUhJoc=;
+        b=V8oLll9hFsfAgMBoD6u+k1jOpKfwrdHSAf3A5AIGjpBbU87U0HrhsVf5nsPj5aIPxc
+         tX4NcBKogSAXc08DEaIFyCWZf49uAuMo1eA76kE/X4Yopnf3CkoNDS3vS6gh0J2X5CNk
+         O6kCjzx0qW/t0C/NaxzuingfRU+wERAUriwAcnvBLS8bxgjkmnWqUT+ZDWfstbHfx99H
+         q9HjHSYKGuTewlKxjteXiz9ppIfYcVot7jfyhevghT47eMVqkyYjvuDA2/2H+10eKQcZ
+         k4nEEKpOhBQaSXzIB3S/Or5GGXPuT3SYcNxD0gWksUFO04QXfNED8XmPpk8NID86vpdL
+         2b5A==
+X-Gm-Message-State: AO0yUKXIPVJRS93O8tyrIbzgvyTYvA6gXZqGpdrnfQgZMIBdAQNruNew
+        fTWy/Y45zQa/LMno12SCwoQ956452CMudwuBEVA=
+X-Google-Smtp-Source: AK7set813S9mEMX5T44S/my3EAhl4gzA5Te5YzzmyG4mXLBmGz5PMf0sutArgv1QJ/PHfjLbtl9vpDKxtZx4VXxsLsc=
+X-Received: by 2002:a25:9347:0:b0:855:d2c4:2119 with SMTP id
+ g7-20020a259347000000b00855d2c42119mr1204689ybo.107.1675907301738; Wed, 08
+ Feb 2023 17:48:21 -0800 (PST)
+MIME-Version: 1.0
+References: <20221219055431.22596-1-ashimida.1990@gmail.com>
+In-Reply-To: <20221219055431.22596-1-ashimida.1990@gmail.com>
+From:   Hongtao Liu <crazylht@gmail.com>
+Date:   Thu, 9 Feb 2023 09:48:10 +0800
+Message-ID: <CAMZc-bzmACcpSePKxuuA=ug2+yik+Zo3-mfqr2OyZ-n_nT=OnQ@mail.gmail.com>
+Subject: Re: [RFC/RFT 0/3] Add compiler support for Control Flow Integrity
 To:     Dan Li <ashimida.1990@gmail.com>
-Cc:     concord@gentoo.org, linux-hardening@vger.kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
+Cc:     gcc-patches@gcc.gnu.org,
+        Richard Sandiford <richard.sandiford@arm.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will@kernel.org>,
         Sami Tolvanen <samitolvanen@google.com>,
+        Kees Cook <keescook@chromium.org>,
         Nathan Chancellor <nathan@kernel.org>,
-        Tom Rix <trix@redhat.com>, Mark Rutland <mark.rutland@arm.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Qing Zhao <qing.zhao@oracle.com>,
+        Tom Rix <trix@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
         "Paul E. McKenney" <paulmck@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
         Frederic Weisbecker <frederic@kernel.org>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
         Marco Elver <elver@google.com>,
@@ -82,71 +87,91 @@ Cc:     concord@gentoo.org, linux-hardening@vger.kernel.org,
         Yuntao Wang <ytcoode@gmail.com>,
         Changbin Du <changbin.du@intel.com>,
         linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, llvm@lists.linux.dev
-Subject: Re: [RFC/RFT] CFI: Add support for gcc CFI in aarch64
-References: <20221219061758.23321-1-ashimida.1990@gmail.com>
- <Y6A/k7/KrCCDuux6@hirez.programming.kicks-ass.net>
- <20221219132731.6ng4sz2nv6ujvu7i@ubuntu>
- <202301061929.6881F6CD40@keescook>
- <20230107154213.ocyghxd2k66gbvv6@ubuntu>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230107154213.ocyghxd2k66gbvv6@ubuntu>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        linux-arm-kernel@lists.infradead.org, llvm@lists.linux.dev,
+        linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jan 07, 2023 at 07:42:13AM -0800, Dan Li wrote:
-> Hi Kees,
-> 
-> On 01/06, Kees Cook wrote:
-> > On Mon, Dec 19, 2022 at 05:32:04AM -0800, Dan Li wrote:
-> > > Hi Peter,
-> > Hi!
-> > 
-> > First of all, thank you thank you for working on this in GCC. This will
-> > make a big difference for folks that don't have the option to build with
-> > Clang to gain CFI coverage.
-> > 
-> > As for the implementation details, the core issue is really that this
-> > type of CFI is specifically designed for the Linux kernel, and it took a
-> > rather long time to figure out all the specifics needed (down to the
-> > byte counts and instruction layouts). GCC's version will ultimately need
-> > to exactly match the Clang output, or Linux is unlikely to support it.
-> > 
-> > We're already on our second CFI -- the original Clang CFI was just too
-> > clunky for long-term use in Linux, so unless we're going to improve on
-> > the latest Clang KCFI implementation in some way, it's better to stick
-> > to exactly byte-for-byte identical results. The KCFI support in Linux
-> > depends on the arm64 and x86_64 runtimes for catching the traps, and the
-> > post-processing done (on x86_64) with objtool that prepares the kernel
-> > for IBT use, and converts to the optional FineIBT CFI mechanism. With
-> > all those moving parts, there needs to be a very compelling reason to
-> > have GCC KCFI implementation differ from Clang's.
-> > 
-> > Hopefully that context helps a little. I'm excited to try out future
-> > versions!
-> 
-> Thanks for the context, it makes sense and helped me a lot. :)
-> 
-> In the next version I'll make the gcc implementation consistent with clang.
+On Mon, Dec 19, 2022 at 3:59 PM Dan Li via Gcc-patches
+<gcc-patches@gcc.gnu.org> wrote:
+>
+> This series of patches is mainly used to support the control flow
+> integrity protection of the linux kernel [1], which is similar to
+> -fsanitize=kcfi in clang 16.0 [2,3].
+>
+> I hope that this feature will also support user-mode CFI in the
+> future (at least for developers who can recompile the runtime),
+> so I use -fsanitize=cfi as a compilation option here.
+>
+> Any suggestion please let me know :).
+Do you have this series as a branch somewhere that we could also try for x86?
 
-Hi!
+>
+> Thanks, Dan.
+>
+> [1] https://lore.kernel.org/all/20220908215504.3686827-1-samitolvanen@google.com/
+> [2] https://clang.llvm.org/docs/ControlFlowIntegrity.html
+> [3] https://reviews.llvm.org/D119296
+>
+> Dan Li (3):
+>   [PR102768] flag-types.h (enum sanitize_code): Extend sanitize_code to
+>     64 bits to support more features
+>   [PR102768] Support CFI: Add new pass for Control Flow Integrity
+>   [PR102768] aarch64: Add support for Control Flow Integrity
+>
+> Signed-off-by: Dan Li <ashimida.1990@gmail.com>
+>
+> ---
+>  gcc/Makefile.in                               |   1 +
+>  gcc/asan.h                                    |   4 +-
+>  gcc/c-family/c-attribs.cc                     |  10 +-
+>  gcc/c-family/c-common.h                       |   2 +-
+>  gcc/c/c-parser.cc                             |   4 +-
+>  gcc/cgraphunit.cc                             |  34 +++
+>  gcc/common.opt                                |   4 +-
+>  gcc/config/aarch64/aarch64.cc                 | 106 ++++++++
+>  gcc/cp/typeck.cc                              |   2 +-
+>  gcc/doc/invoke.texi                           |  35 +++
+>  gcc/doc/passes.texi                           |  10 +
+>  gcc/doc/tm.texi                               |  27 +++
+>  gcc/doc/tm.texi.in                            |   8 +
+>  gcc/dwarf2asm.cc                              |   2 +-
+>  gcc/flag-types.h                              |  67 ++---
+>  gcc/opt-suggestions.cc                        |   2 +-
+>  gcc/opts.cc                                   |  26 +-
+>  gcc/opts.h                                    |   8 +-
+>  gcc/output.h                                  |   3 +
+>  gcc/passes.def                                |   1 +
+>  gcc/target.def                                |  39 +++
+>  .../aarch64/control_flow_integrity_1.c        |  14 ++
+>  .../aarch64/control_flow_integrity_2.c        |  25 ++
+>  .../aarch64/control_flow_integrity_3.c        |  23 ++
+>  gcc/toplev.cc                                 |   4 +
+>  gcc/tree-cfg.cc                               |   2 +-
+>  gcc/tree-cfi.cc                               | 229 ++++++++++++++++++
+>  gcc/tree-pass.h                               |   1 +
+>  gcc/tree.cc                                   | 144 +++++++++++
+>  gcc/tree.h                                    |   1 +
+>  gcc/varasm.cc                                 |  29 +++
+>  31 files changed, 803 insertions(+), 64 deletions(-)
+>  create mode 100644 gcc/testsuite/gcc.target/aarch64/control_flow_integrity_1.c
+>  create mode 100644 gcc/testsuite/gcc.target/aarch64/control_flow_integrity_2.c
+>  create mode 100644 gcc/testsuite/gcc.target/aarch64/control_flow_integrity_3.c
+>  create mode 100644 gcc/tree-cfi.cc
+>
+> --
+> 2.17.1
+>
 
-Just checking in on this, since there are a lot of interested folks. :)
-What's the status on the next version (and has anyone been found to
-tackle the x86 backend part)? Is there anything we can help with?
 
-Thanks!
-
--Kees
-
--- 
-Kees Cook
+--
+BR,
+Hongtao
