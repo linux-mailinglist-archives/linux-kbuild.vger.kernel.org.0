@@ -2,116 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B9B368FFE5
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Feb 2023 06:32:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 14CA369027D
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Feb 2023 09:51:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229733AbjBIFcU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 9 Feb 2023 00:32:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37274 "EHLO
+        id S229512AbjBIIvC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 9 Feb 2023 03:51:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbjBIFcT (ORCPT
+        with ESMTP id S229461AbjBIIvB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 9 Feb 2023 00:32:19 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E1C230282
-        for <linux-kbuild@vger.kernel.org>; Wed,  8 Feb 2023 21:32:18 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id m14so588558wrg.13
-        for <linux-kbuild@vger.kernel.org>; Wed, 08 Feb 2023 21:32:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=w6z3lxwnln7Ypie34pRxdCgfXQDUlJU7iUw2s4xeNCQ=;
-        b=hbv+iUmy8sb7UTevXZXSzxz4aaIUDG/plNczLQrgAbId4wPVrQ+MkUcq3aY+CY5S+3
-         rjawt/atll9AOMzPTfCwmorE8mJ0IW4ExC+pOffnmttwon2NgCXsQXAHNH70+CqH4Yet
-         b6oLh+gnKxDrXWJ+sVkEhlEAuMsgo82g7kQbD0bRtom8ONxlwBf6CsHrI8kEQQPSr8cE
-         02FslNpxxsQJnKXlRV77g9pOv1nepBqVy0+lQY1q5jHCyV3MZ1/poYrNBSof/aw2ifvB
-         XBsmv3sQsOevFgU/eI4a8Lch+EluHrUqqffry2uORieqI42qXv+KNAZGRuXumHYaK8Mh
-         FeiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=w6z3lxwnln7Ypie34pRxdCgfXQDUlJU7iUw2s4xeNCQ=;
-        b=4COrjf1+pClveZ1CyyrqYI2mJY3ve9Z2/zJ48ro/pviHpkLjZOcK9X+6NEvXD/frtV
-         2HSao8d5PT/IFV2CYGTokkYFTq4fQRCSIlGLlkBsIOGaLgB+1QBIeQGFh/XrNH0TUaJt
-         pmbmFn8woLm97sz1gDLE3vkHCY+jRGn2Q6Vhr9RNnTMrj7nLQ7NjNL8UAIbn/IUxbjQ1
-         +6RLH8oiD9bj5Pi8IQp9efJutpFH0FsIIxPxYQPCI8tACYd3H5ncTOttRkgGfTpCg/3f
-         Fjuz/3vAc/e1JcwUj1GwPU8eZVYOMMiSQHfZuUFjW9yHv7ftTDybEg0ULEOZjXnTpe9s
-         D0bA==
-X-Gm-Message-State: AO0yUKWcOfKzIn35ApGv8CbOvWn4THNFCW0QMTyNfJe5lOaOHIUnVdJK
-        /KRAumIvznFt4xNRTvjeN/SZK+pO/YDzOi1j1umJ8g==
-X-Google-Smtp-Source: AK7set9YGa7NCNq2wHzwRqe7rRW1StB4rmp4kgxLGJELsL8k4ez/VaGVQujKbNDfKlqQkG5awGCGVr1ELO1GQ8rpFMA=
-X-Received: by 2002:a5d:4247:0:b0:2bf:b264:6bf7 with SMTP id
- s7-20020a5d4247000000b002bfb2646bf7mr251486wrr.427.1675920736829; Wed, 08 Feb
- 2023 21:32:16 -0800 (PST)
+        Thu, 9 Feb 2023 03:51:01 -0500
+Received: from mail.corrib.pl (mail.corrib.pl [185.58.226.145])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFE8A47436
+        for <linux-kbuild@vger.kernel.org>; Thu,  9 Feb 2023 00:51:00 -0800 (PST)
+Received: by mail.corrib.pl (Postfix, from userid 1001)
+        id 99635A3680; Thu,  9 Feb 2023 08:50:47 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corrib.pl; s=mail;
+        t=1675932664; bh=X6IEpSISwJiYlJ3uA866lskXve3r+4o2hf4z7VM6m5o=;
+        h=Date:From:To:Subject:From;
+        b=nMqrJXyfnZyOG34Qejc3oeLsZETtrbjKQwS9abMQKx5rtUQYDmyIZGFDl9QbDN5PW
+         oANnwnccBDfctBgSXQGy0i4tDSjPnZ03l+uTh7k7lSmYDKsjv9cHj18H/zjMLT15mV
+         XKEaKMvUSWhMyyBgF/L2N0LW4M22P8/ZEDqwfmR1UCUtVT7XDwqwq0yrBZbTmH4EzC
+         n8Adj/pZkpLdjkX6/2v2zkAg6437BIrG82ydmE5sjpebSIon2MGjXRnN3iOjhRyFVm
+         tt7tjv95rSy5t30v1IxlUYKkJPIPWaArW26Y7hg8TXsi3881h5egT9ytLoBT2Lhxiq
+         u+MTUP8ThF6Mg==
+Received: by mail.corrib.pl for <linux-kbuild@vger.kernel.org>; Thu,  9 Feb 2023 08:50:20 GMT
+Message-ID: <20230209074500-0.1.5e.ggvi.0.waa4bl9905@corrib.pl>
+Date:   Thu,  9 Feb 2023 08:50:20 GMT
+From:   =?UTF-8?Q? "Szczepan_Kie=C5=82basa" ?= 
+        <szczepan.kielbasa@corrib.pl>
+To:     <linux-kbuild@vger.kernel.org>
+Subject: Faktoring
+X-Mailer: mail.corrib.pl
 MIME-Version: 1.0
-References: <20221219055431.22596-1-ashimida.1990@gmail.com>
-In-Reply-To: <20221219055431.22596-1-ashimida.1990@gmail.com>
-From:   Peter Collingbourne <pcc@google.com>
-Date:   Wed, 8 Feb 2023 21:32:03 -0800
-Message-ID: <CAMn1gO6hwaSDCqigwoH981ffVbU8OvgJhrGh997kGseCSbpAJA@mail.gmail.com>
-Subject: Re: [RFC/RFT 0/3] Add compiler support for Control Flow Integrity
-To:     Dan Li <ashimida.1990@gmail.com>
-Cc:     gcc-patches@gcc.gnu.org,
-        Richard Sandiford <richard.sandiford@arm.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Tom Rix <trix@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Marco Elver <elver@google.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Song Liu <song@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Uros Bizjak <ubizjak@gmail.com>,
-        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-        Juergen Gross <jgross@suse.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Aaron Tomlin <atomlin@redhat.com>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        Yuntao Wang <ytcoode@gmail.com>,
-        Changbin Du <changbin.du@intel.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, llvm@lists.linux.dev,
-        linux-hardening@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_VALIDITY_RPBL,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Dec 18, 2022 at 10:06 PM Dan Li <ashimida.1990@gmail.com> wrote:
->
-> This series of patches is mainly used to support the control flow
-> integrity protection of the linux kernel [1], which is similar to
-> -fsanitize=kcfi in clang 16.0 [2,3].
->
-> I hope that this feature will also support user-mode CFI in the
-> future (at least for developers who can recompile the runtime),
-> so I use -fsanitize=cfi as a compilation option here.
+Dzie=C5=84 dobry,
 
-Please don't. The various CFI-related build flags are confusing enough
-without also having this inconsistency between Clang and GCC.
+rozwa=C5=BCali Pa=C5=84stwo wyb=C3=B3r finansowania, kt=C3=B3re spe=C5=82=
+ni potrzeby firmy, zapewniaj=C4=85c natychmiastowy dost=C4=99p do got=C3=B3=
+wki, bez zb=C4=99dnych przestoj=C3=B3w?=20
 
-Peter
+Przygotowali=C5=9Bmy rozwi=C4=85zania faktoringowe dopasowane do Pa=C5=84=
+stwa bran=C5=BCy i wielko=C5=9Bci firmy, dzi=C4=99ki kt=C3=B3rym, nie mus=
+z=C4=85 Pa=C5=84stwo martwi=C4=87 si=C4=99 o niewyp=C5=82acalno=C5=9B=C4=87=
+ kontrahent=C3=B3w, poniewa=C5=BC transakcje s=C4=85 zabezpieczone i posi=
+adaj=C4=85 gwarancj=C4=99 sp=C5=82aty.=20
+Chc=C4=85 Pa=C5=84stwo przeanalizowa=C4=87 dost=C4=99pne opcje?
+
+
+Pozdrawiam
+Szczepan Kie=C5=82basa
