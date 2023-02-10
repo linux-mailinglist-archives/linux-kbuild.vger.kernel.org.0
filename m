@@ -2,134 +2,124 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B151A69232A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Feb 2023 17:20:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 80B0E692475
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Feb 2023 18:32:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232185AbjBJQUt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 10 Feb 2023 11:20:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41506 "EHLO
+        id S232543AbjBJRcP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 10 Feb 2023 12:32:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231882AbjBJQUs (ORCPT
+        with ESMTP id S232400AbjBJRcO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 10 Feb 2023 11:20:48 -0500
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F4C97284;
-        Fri, 10 Feb 2023 08:20:47 -0800 (PST)
-Received: by mail-pf1-x433.google.com with SMTP id t17so3818220pfj.0;
-        Fri, 10 Feb 2023 08:20:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T+s3+R4BwN91gBepBEWrEY8Vvh5YNXMDaNjOtbjtONA=;
-        b=PUD2yf2TNOz8iOQztqPJfdJ9ELRnWxBC9OXLVvc0IMpv2hMRfQrlK0ITtiAdKBU+hf
-         vxUuKzjUsfHAY0amGyhDBmbYFLp9jyu+2l1wbj0hM2w1m4vZaEtz/nkmxs6lVQLolEi9
-         H6TpF62UjRYsKAjxBWJFu0xALWrrCFLrdjELIMPIHZuuyQmv8eOw9r/khi+IPv5UC5Tw
-         rVWB2YIsKZGJHrLiEZqJdsvwqFWegdKM7enGODXCgR/bQqsBw5TEeoEoLBtYDz44hYd1
-         4Ee9OBaXLQXdoS4ianvnXhjRuGc6E6k7hOS4SKR1ulB57R9R4a8XTclSEFIQ007wNoUP
-         nPBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=T+s3+R4BwN91gBepBEWrEY8Vvh5YNXMDaNjOtbjtONA=;
-        b=0fV1m7pFdxa2LSjYNLxwt1e0JGBA5aDMAnV4DZ/zefwYf9M+krkQWt3IcxdPTQahJ7
-         SuTBhRWObY+MnVvIo4QRlpwOdiwODqa0eKMuVB5577KWKtbfiT23B/1+bf+7fVM+RH7B
-         1kfjRJT0u9ahohgCck+cr1kCPapKQp6G0IV0acCbY9cv7Jea7j4x4eRP471iHV0fBSg+
-         myybA21Ra5Lq2QPA1fWYuqGmq4GUZLWRFPDDVVDPoTg5zk4iWNdkpjbRqMdpcVmjoMjP
-         N2swQd2kUGldJRLLnX4TIXoBKnNj8ADa626soWwZIy+8ajYUcnEU+8q2NCgcEtte7xme
-         DcaQ==
-X-Gm-Message-State: AO0yUKWbzZInZBzUYb3sycLc3bc/WCGLNGECDoJT+aoQpKk6yZm7AZVA
-        /YoRMCvm8dEr3aSg2XrQbvs=
-X-Google-Smtp-Source: AK7set99SI3pKlRjrZCRkEnyIZEEUot5w8CzY221yQ6oODsw8IKivq7tbJBLTxpHBLVzJB9Y5m+i2g==
-X-Received: by 2002:a62:1d91:0:b0:5a8:718c:5ee9 with SMTP id d139-20020a621d91000000b005a8718c5ee9mr1786799pfd.25.1676046046923;
-        Fri, 10 Feb 2023 08:20:46 -0800 (PST)
-Received: from localhost ([124.248.219.206])
-        by smtp.gmail.com with ESMTPSA id i1-20020aa78d81000000b0058ba2ebee1bsm3433711pfr.213.2023.02.10.08.20.46
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 10 Feb 2023 08:20:46 -0800 (PST)
-Date:   Fri, 10 Feb 2023 08:20:33 -0800
-From:   Dan Li <ashimida.1990@gmail.com>
-To:     Peter Collingbourne <pcc@google.com>
-Cc:     gcc-patches@gcc.gnu.org,
-        Richard Sandiford <richard.sandiford@arm.com>,
+        Fri, 10 Feb 2023 12:32:14 -0500
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [IPv6:2001:67c:2050:0:465::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC846749A4;
+        Fri, 10 Feb 2023 09:32:11 -0800 (PST)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4PD1532jVGz9sPx;
+        Fri, 10 Feb 2023 18:32:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+        t=1676050327;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=e1q9Bn/tVizaq5T7XksKPZ7pP+RRQCiC2aELxFyz/os=;
+        b=aFqWh5jc9N8JQaOeAgyOMr+kWxxekmVF6I7sVAQo+eGFV0TSAyA+DtPcGC2n8gZG7JfGEm
+        Dh3atXIkF7IQHIAi1zAc8I9Q4Mst5vELA4++at2mb5j9EBV3lrvhMGe3dXKXbursKqraTV
+        Z7IATjXLVUxGte9UsKx0WmsBWCA7CXhaqHDdS9hgiWHU3HwGxiB1HtZo3Aac+AZBuM/h4q
+        uubBn8vOLlznrMZv+C8Q4UCfc9iTtj6AFRpTyN5pIjbt0fg4YXF0fz08dhMExxftjCbsRf
+        ijB5iNz8JJfJmFV73rTl4BW3uGsMMMKbgox1V+RGcjrWDYQ8gRviteS6mXz9rg==
+From:   Alexander Lobakin <alobakin@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+        t=1676050325;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=e1q9Bn/tVizaq5T7XksKPZ7pP+RRQCiC2aELxFyz/os=;
+        b=FqcMaLHTwgzgr9LWI0L7hp0jlaCC9xYnzyrGFDsm2SGGed8ywbza02rfjnMgo3fNNCm+GA
+        WbVK44sTlfpVzSk5IqNXfYnhFV8WWWlv8iOpeMzUWtC0zo55DFMHeoB04X62YRSY+JVrAy
+        /SPuHudUhQGgTKpK0/2bLHUhzKgGIlaFAhFbYkVZxik5ajrAKm+Xgd6XDG//XQaZS2qTRY
+        4xKuRzeFHmGVg2Jb5BXBDTq160g0esYRcuKCvxSLhGLqExpcCTCkLpl2Gl9B2MRMGZHP+7
+        w/48stpD2DDXAHwlO8jA1cbnf8XpnEqRsHQaLXwSdEi+5bRDUWRETNzwGyDx8Q==
+To:     linux-kbuild@vger.kernel.org
+Cc:     Alexander Lobakin <alobakin@mailbox.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Tom Rix <trix@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Marco Elver <elver@google.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Song Liu <song@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Uros Bizjak <ubizjak@gmail.com>,
-        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-        Juergen Gross <jgross@suse.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Aaron Tomlin <atomlin@redhat.com>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        Yuntao Wang <ytcoode@gmail.com>,
-        Changbin Du <changbin.du@intel.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, llvm@lists.linux.dev,
-        linux-hardening@vger.kernel.org
-Subject: Re: [RFC/RFT 0/3] Add compiler support for Control Flow Integrity
-Message-ID: <20230210162033.tb5b6cd3j3vxr6vv@ubuntu>
-References: <20221219055431.22596-1-ashimida.1990@gmail.com>
- <CAMn1gO6hwaSDCqigwoH981ffVbU8OvgJhrGh997kGseCSbpAJA@mail.gmail.com>
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Jens Axboe <axboe@kernel.dk>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Tony Luck <tony.luck@intel.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Derek Chickles <dchickles@marvell.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Salil Mehta <salil.mehta@huawei.com>,
+        Sunil Goutham <sgoutham@marvell.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Brown <broonie@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        NXP Linux Team <linux-imx@nxp.com>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/18] treewide: fix object files shared between several modules
+Date:   Fri, 10 Feb 2023 18:31:30 +0100
+Message-Id: <20230210173130.74784-1-alobakin@mailbox.org>
+In-Reply-To: <20221119225650.1044591-1-alobakin@pm.me>
+References: <20221119225650.1044591-1-alobakin@pm.me>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMn1gO6hwaSDCqigwoH981ffVbU8OvgJhrGh997kGseCSbpAJA@mail.gmail.com>
-User-Agent: NeoMutt/20171215
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 02b5228def68ed81dbf
+X-MBO-RS-META: x3et75jnzudh7uzzz7nrsioidnkeh96i
+X-Rspamd-Queue-Id: 4PD1532jVGz9sPx
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 02/08, Peter Collingbourne wrote:
-> On Sun, Dec 18, 2022 at 10:06 PM Dan Li <ashimida.1990@gmail.com> wrote:
-> >
-> > This series of patches is mainly used to support the control flow
-> > integrity protection of the linux kernel [1], which is similar to
-> > -fsanitize=kcfi in clang 16.0 [2,3].
-> >
-> > I hope that this feature will also support user-mode CFI in the
-> > future (at least for developers who can recompile the runtime),
-> > so I use -fsanitize=cfi as a compilation option here.
-> 
-> Please don't. The various CFI-related build flags are confusing enough
-> without also having this inconsistency between Clang and GCC.
+From: Alexander Lobakin <alobakin@pm.me>
+Date: Sat, 19 Nov 2022 23:03:57 +0000
 
-Hi Peter,
+> This is a follow-up to the series[0] that adds Kbuild warning if an
+> object is linked into several modules (including vmlinux) in order
+> to prevent hidden side effects from appearing.
+> The original series, as well as this one, was inspired by the recent
+> issue[1] with the ZSTD modules on a platform which has such sets of
+> vmlinux cflags and module cflags so that objects built with those
+> two even refuse to link with each other.
+> The final goal is to forbid linking one object several times
+> entirely.
 
-Got it, as discussed before[1], in the next version I will use the same
-compile option.
+Oh well,
 
-[1]. https://patchwork.kernel.org/project/linux-arm-kernel/patch/20221219061758.23321-1-ashimida.1990@gmail.com/
+Sorry for quite abandoning the series. A bit busy RN to work on the kernel
+outside work. If someone wants to pick patches related to his driver and
+send them separately, just how the Ocelot folks did, feel free to.
+I'll get back to this one in approx 2-4 weeks.
+
+>
+> Patches 1-7 and 10-11 was runtime-tested by me. Pathes 8-9 and 12-18
+> are compile-time tested only (compile, link, modpost), so I
+> encourage the maintainers to review them carefully. At least the
+> last one, for cpsw, most likely has issues :D
+> Masahiro's patches are taken from his WIP tree[2], with the two last
+> finished by me.
+
+[...]
+
+> --
+> 2.38.1
 
 Thanks,
-Dan.
-
-> 
-> Peter
+Olek
