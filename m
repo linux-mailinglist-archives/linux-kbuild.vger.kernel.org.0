@@ -2,59 +2,51 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F2A2869257F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Feb 2023 19:41:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5805169263F
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Feb 2023 20:26:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232575AbjBJSlY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 10 Feb 2023 13:41:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33718 "EHLO
+        id S232665AbjBJT0E (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 10 Feb 2023 14:26:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232930AbjBJSlX (ORCPT
+        with ESMTP id S233300AbjBJT0D (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 10 Feb 2023 13:41:23 -0500
-Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4BC02D16E
-        for <linux-kbuild@vger.kernel.org>; Fri, 10 Feb 2023 10:41:21 -0800 (PST)
-Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-51ba4b1b9feso79362487b3.11
-        for <linux-kbuild@vger.kernel.org>; Fri, 10 Feb 2023 10:41:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HoyBTwj66Ay0J3w/gr1HIoKq5C1qctdqphazc4onVf8=;
-        b=iRmtp991KmxEx0dOBrpH1g6b6EdUK4j8Wp9fZ66mBCVPfNmsYORt0SSta+4mrRDGwR
-         tyB1WFfPyIw6QQeUc0r96dotmtbpBGf7ipwUfhTmn7LHt88IvVJ0hXO7mF2OFso63GDd
-         3zV2AJUxXqTafq6Ds0LCAGNAoSvLrmVDOW+o7iE6hWarrNNV6fvjH8E/YrAca/Ko9gL5
-         VXB6BQ+oRY++j+4pIN1G4dRIZVDxMM/3SOeYfc09VSkTqBg8nzPOPkNm+FPzUZnKa8RJ
-         zCds5uIodyz/JBOXF0CTYV6GpGYhAupwNJXt0H3KaZNhClmVxCqM9JsMdv1MgDmN29EG
-         HVIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HoyBTwj66Ay0J3w/gr1HIoKq5C1qctdqphazc4onVf8=;
-        b=1YbdzzmjZJWGgT2zeh+qPehjmx5ADWQrsS77rFT/RDkok7hgSOgC0HYEdhBpf5TuTz
-         6gJdVDznjhlG5Y08jC+E7DxkHF5w3a2HFVPkm9jVTaUi5jg8Lp1QujG/crD+DOC+fuph
-         rF+xWMMCET3PV+O7gTZ7yZ+KnnWN8kiIEs8HVTdN78iqcoNlAiYHTUqqzwaHTtyaMjFP
-         BuZsBHFAsq07NiegLmX5I/DB5YFknYjTSNvECagzaPcupoTBk8VxPiQf8E9X7QQ0rJ9o
-         cvM5cFPklXWBxLlw/lg7T8A9LfXk2wBC41XlZMA9D5PLXUUliQuy7RHXbwZerWlXSqTI
-         E1Ag==
-X-Gm-Message-State: AO0yUKUXVPTA9UcGUYymBCtlUSRb6FFJEEhKUnwBg2nv+GcPBXiismjz
-        hjB/xZkdOOSC5kwZ+vWOfkv8iAbfpSMss1EEKSQu6w==
-X-Google-Smtp-Source: AK7set+XALIOg+YZHD0C3umzElPccXtvGEpiGklhX9RSc5MDbads2a2nFgpHbx+mkz4Yp5WFFV1zzFXykk/lm9/IKYI=
-X-Received: by 2002:a81:7406:0:b0:52e:e6ed:30ae with SMTP id
- p6-20020a817406000000b0052ee6ed30aemr17351ywc.558.1676054480876; Fri, 10 Feb
- 2023 10:41:20 -0800 (PST)
-MIME-Version: 1.0
-References: <20230208184203.2260394-1-elver@google.com> <CA+fCnZeU=pRcyiBpj3nyri0ow+ZYp=ewU3dtSVm_6mh73y1NTA@mail.gmail.com>
- <CANpmjNP_Ka6RTqHNRD7xx93ebZhY+iz69GHBusT=A8X1KvViVA@mail.gmail.com> <CA+fCnZcNF5kNxNuphwj41P45tQEhQ9wX00ZA4g=KTX4sbUirQg@mail.gmail.com>
-In-Reply-To: <CA+fCnZcNF5kNxNuphwj41P45tQEhQ9wX00ZA4g=KTX4sbUirQg@mail.gmail.com>
-From:   Marco Elver <elver@google.com>
-Date:   Fri, 10 Feb 2023 19:40:44 +0100
-Message-ID: <CANpmjNNH-O+38U6zRWJUCU-eJTfMhUosy==GWEOn1vcu=J2dcw@mail.gmail.com>
-Subject: Re: [PATCH -tip] kasan: Emit different calls for instrumentable memintrinsics
-To:     Andrey Konovalov <andreyknvl@gmail.com>
+        Fri, 10 Feb 2023 14:26:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00C707CCBF
+        for <linux-kbuild@vger.kernel.org>; Fri, 10 Feb 2023 11:25:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1676057116;
+        h=from:from:reply-to:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:in-reply-to:in-reply-to:  references:references;
+        bh=xmO9YKHMKKTJQMjPUu1RtooVQTRNP/W/wxyjD2+hujQ=;
+        b=Ap0VZ7qJhZ7FWFKeDauB97R80TbQmfrHXNu2tV5rcS39SyvFsLLOxHuBRNpBP11WIwVPuU
+        +D7XD1rAbu/rTBYJnSWPKi/ZN32CDIgPQ98kT7+6C0vBbodCVi+31aYwUGtWshb1SBoHQl
+        Tfp8Fk6yfGjysXJ+o4RurEsysBadh60=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-564-R_x943JFOkGWZaQUcdRCzA-1; Fri, 10 Feb 2023 14:25:10 -0500
+X-MC-Unique: R_x943JFOkGWZaQUcdRCzA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BDA48971084;
+        Fri, 10 Feb 2023 19:25:09 +0000 (UTC)
+Received: from tucnak.zalov.cz (unknown [10.39.192.223])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 34406492C3F;
+        Fri, 10 Feb 2023 19:25:08 +0000 (UTC)
+Received: from tucnak.zalov.cz (localhost [127.0.0.1])
+        by tucnak.zalov.cz (8.17.1/8.17.1) with ESMTPS id 31AJP41Q1777405
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+        Fri, 10 Feb 2023 20:25:04 +0100
+Received: (from jakub@localhost)
+        by tucnak.zalov.cz (8.17.1/8.17.1/Submit) id 31AJP1BB1777404;
+        Fri, 10 Feb 2023 20:25:01 +0100
+Date:   Fri, 10 Feb 2023 20:25:00 +0100
+From:   Jakub Jelinek <jakub@redhat.com>
+To:     Marco Elver <elver@google.com>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
@@ -62,19 +54,27 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Nicolas Schier <nicolas@fjasle.eu>,
         Andrey Ryabinin <ryabinin.a.a@gmail.com>,
         Alexander Potapenko <glider@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
         Dmitry Vyukov <dvyukov@google.com>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
         linux-kbuild@vger.kernel.org, kasan-dev@googlegroups.com,
         linux-kernel@vger.kernel.org, Ingo Molnar <mingo@kernel.org>,
         Tony Lindgren <tony@atomide.com>,
         Ulf Hansson <ulf.hansson@linaro.org>,
-        linux-toolchains@vger.kernel.org,
-        Mark Rutland <mark.rutland@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        linux-toolchains@vger.kernel.org
+Subject: Re: [PATCH -tip] kasan: Emit different calls for instrumentable
+ memintrinsics
+Message-ID: <Y+aaDP32wrsd8GZq@tucnak>
+Reply-To: Jakub Jelinek <jakub@redhat.com>
+References: <20230208184203.2260394-1-elver@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230208184203.2260394-1-elver@google.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -82,38 +82,59 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, 10 Feb 2023 at 17:13, Andrey Konovalov <andreyknvl@gmail.com> wrote:
-[...]
-> > Probably the same should be done for SW_TAGS, because arm64 will be
-> > GENERIC_ENTRY at one point or another as well.
->
-> Yes, makes sense. I'll file a bug for this once I fully understand the
-> consequences of these changes.
->
-> > KASAN + GCC on x86 will have no mem*() instrumentation after
-> > 69d4c0d32186, which is sad, so somebody ought to teach it the same
-> > param as above.
->
-> Hm, with that patch we would have no KASAN checking within normal mem*
-> functions (not the ones embedded by the compiler) on GENERIC_ENTRY
-> arches even with Clang, right?
+On Wed, Feb 08, 2023 at 07:42:03PM +0100, Marco Elver wrote:
+> Clang 15 will provide an option to prefix calls to memcpy/memset/memmove
+> with __asan_ in instrumented functions: https://reviews.llvm.org/D122724
+> 
+> GCC does not yet have similar support.
 
-Yes, that's the point - normal mem*() functions cannot be instrumented
-with GENERIC_ENTRY within noinstr functions, because the compiler
-sometimes decides to transform normal assignments into
-memcpy()/memset(). And if mem*() were instrumented (as it was before
-69d4c0d32186), that'd break things for these architectures.
+GCC has support to rename memcpy/memset etc. for years, say on
+following compiled with
+-fsanitize=kernel-address -O2 -mstringop-strategy=libcall
+(the last option just to make sure the compiler doesn't prefer to emit
+rep mov*/stos* or loop or something similar, of course kernel can keep
+whatever it uses) you'll get just __asan_memcpy/__asan_memset calls,
+no memcpy/memset, while without -fsanitize=kernel-address you get
+normally memcpy/memset.
+Or do you need the __asan_* functions only in asan instrumented functions
+and normal ones in non-instrumented functions in the same TU?
 
-But since most code is normally instrumented, with the right compiler
-support (which the patch here enables), we just turn mem*() in
-instrumented functions into __asan_mem*(), and get the instrumentation
-as before. 69d4c0d32186 already added those __asan functions. The fact
-that KASAN used to override mem*() is just the wrong choice in a world
-where compilers decide to inline or outline these. From an
-instrumentation point of view at the compiler level, we need to treat
-them like any other instrumentable instruction (loads, stores,
-atomics, etc.): transform each instrumentable instruction into
-something that does the right checks. Only then can we be sure that we
-don't accidentally instrument something that shouldn't be (noinstr
-functions), because instead of relying on the compiler, we forced
-instrumentation on every mem*().
+#ifdef __SANITIZE_ADDRESS__
+extern __typeof (__builtin_memcpy) memcpy __asm ("__asan_memcpy");
+extern __typeof (__builtin_memset) memset __asm ("__asan_memset");
+#endif
+struct S { char a[2048]; } a, b;
+
+void
+foo (void)
+{
+  a = b;
+  b = (struct S) {};
+}
+
+void
+bar (void *p, void *q, int s)
+{
+  memcpy (p, q, s);
+}
+
+void
+baz (void *p, int c, int s)
+{
+  memset (p, c, s);
+}
+
+void
+qux (void *p, void *q, int s)
+{
+  __builtin_memcpy (p, q, s);
+}
+
+void
+quux (void *p, int c, int s)
+{
+  __builtin_memset (p, c, s);
+}
+
+	Jakub
+
