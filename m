@@ -2,162 +2,118 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B48D3692539
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Feb 2023 19:19:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2A2869257F
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Feb 2023 19:41:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233042AbjBJSTL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 10 Feb 2023 13:19:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43236 "EHLO
+        id S232575AbjBJSlY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 10 Feb 2023 13:41:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232974AbjBJSS5 (ORCPT
+        with ESMTP id S232930AbjBJSlX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 10 Feb 2023 13:18:57 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CC646F22C;
-        Fri, 10 Feb 2023 10:18:51 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 778AEB80C8B;
-        Fri, 10 Feb 2023 18:18:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECC0DC4339E;
-        Fri, 10 Feb 2023 18:18:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1676053128;
-        bh=fhbDbBrH4mf4Re3SJLCSFDHbs63IuiydRRp3WHTmHEw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ou+H9jRTWeKPlIqO+aRnnrKWsqXNrzAEbaFgslSmdUmkuPhfkKUc3/oktTS3yLMnQ
-         vxtfo9MUzckjZFxThqwLTZUrnW0kPafvX6AJ6ihqvu0NGT10ZHzDd+xto+ulqnFYOC
-         LLX00JcPf3WlFUFg6rYth2cBR7ABCPGBXuff9izRjsAb7arE+i+K1n6+GThvZmxjaS
-         cP6OLmUglcnaSjPQLZ0VQQvmggth55bxWmKtkZ7GuBl1DZEXq9Qwz5Mum6cKGANHQ/
-         vLDhkzGN9EkwOaHRNC/cetIc/uL6ueBJ2bdTjOSRGlnkMY+0fElMhemK6Yj4R+jA/e
-         EotUqLWd1kSDA==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
+        Fri, 10 Feb 2023 13:41:23 -0500
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4BC02D16E
+        for <linux-kbuild@vger.kernel.org>; Fri, 10 Feb 2023 10:41:21 -0800 (PST)
+Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-51ba4b1b9feso79362487b3.11
+        for <linux-kbuild@vger.kernel.org>; Fri, 10 Feb 2023 10:41:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=HoyBTwj66Ay0J3w/gr1HIoKq5C1qctdqphazc4onVf8=;
+        b=iRmtp991KmxEx0dOBrpH1g6b6EdUK4j8Wp9fZ66mBCVPfNmsYORt0SSta+4mrRDGwR
+         tyB1WFfPyIw6QQeUc0r96dotmtbpBGf7ipwUfhTmn7LHt88IvVJ0hXO7mF2OFso63GDd
+         3zV2AJUxXqTafq6Ds0LCAGNAoSvLrmVDOW+o7iE6hWarrNNV6fvjH8E/YrAca/Ko9gL5
+         VXB6BQ+oRY++j+4pIN1G4dRIZVDxMM/3SOeYfc09VSkTqBg8nzPOPkNm+FPzUZnKa8RJ
+         zCds5uIodyz/JBOXF0CTYV6GpGYhAupwNJXt0H3KaZNhClmVxCqM9JsMdv1MgDmN29EG
+         HVIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HoyBTwj66Ay0J3w/gr1HIoKq5C1qctdqphazc4onVf8=;
+        b=1YbdzzmjZJWGgT2zeh+qPehjmx5ADWQrsS77rFT/RDkok7hgSOgC0HYEdhBpf5TuTz
+         6gJdVDznjhlG5Y08jC+E7DxkHF5w3a2HFVPkm9jVTaUi5jg8Lp1QujG/crD+DOC+fuph
+         rF+xWMMCET3PV+O7gTZ7yZ+KnnWN8kiIEs8HVTdN78iqcoNlAiYHTUqqzwaHTtyaMjFP
+         BuZsBHFAsq07NiegLmX5I/DB5YFknYjTSNvECagzaPcupoTBk8VxPiQf8E9X7QQ0rJ9o
+         cvM5cFPklXWBxLlw/lg7T8A9LfXk2wBC41XlZMA9D5PLXUUliQuy7RHXbwZerWlXSqTI
+         E1Ag==
+X-Gm-Message-State: AO0yUKUXVPTA9UcGUYymBCtlUSRb6FFJEEhKUnwBg2nv+GcPBXiismjz
+        hjB/xZkdOOSC5kwZ+vWOfkv8iAbfpSMss1EEKSQu6w==
+X-Google-Smtp-Source: AK7set+XALIOg+YZHD0C3umzElPccXtvGEpiGklhX9RSc5MDbads2a2nFgpHbx+mkz4Yp5WFFV1zzFXykk/lm9/IKYI=
+X-Received: by 2002:a81:7406:0:b0:52e:e6ed:30ae with SMTP id
+ p6-20020a817406000000b0052ee6ed30aemr17351ywc.558.1676054480876; Fri, 10 Feb
+ 2023 10:41:20 -0800 (PST)
+MIME-Version: 1.0
+References: <20230208184203.2260394-1-elver@google.com> <CA+fCnZeU=pRcyiBpj3nyri0ow+ZYp=ewU3dtSVm_6mh73y1NTA@mail.gmail.com>
+ <CANpmjNP_Ka6RTqHNRD7xx93ebZhY+iz69GHBusT=A8X1KvViVA@mail.gmail.com> <CA+fCnZcNF5kNxNuphwj41P45tQEhQ9wX00ZA4g=KTX4sbUirQg@mail.gmail.com>
+In-Reply-To: <CA+fCnZcNF5kNxNuphwj41P45tQEhQ9wX00ZA4g=KTX4sbUirQg@mail.gmail.com>
+From:   Marco Elver <elver@google.com>
+Date:   Fri, 10 Feb 2023 19:40:44 +0100
+Message-ID: <CANpmjNNH-O+38U6zRWJUCU-eJTfMhUosy==GWEOn1vcu=J2dcw@mail.gmail.com>
+Subject: Re: [PATCH -tip] kasan: Emit different calls for instrumentable memintrinsics
+To:     Andrey Konovalov <andreyknvl@gmail.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
-        Ben Hutchings <ben@decadent.org.uk>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH v5 7/7] kbuild: make perf-tar*-src-pkg work without relying on git
-Date:   Sat, 11 Feb 2023 03:18:28 +0900
-Message-Id: <20230210181828.124765-7-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230210181828.124765-1-masahiroy@kernel.org>
-References: <20230210181828.124765-1-masahiroy@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        linux-kbuild@vger.kernel.org, kasan-dev@googlegroups.com,
+        linux-kernel@vger.kernel.org, Ingo Molnar <mingo@kernel.org>,
+        Tony Lindgren <tony@atomide.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-toolchains@vger.kernel.org,
+        Mark Rutland <mark.rutland@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Currently, perf-tar*-src-pkg only uses 'git archive', but it is better
-to make it work without relying on git.
+On Fri, 10 Feb 2023 at 17:13, Andrey Konovalov <andreyknvl@gmail.com> wrote:
+[...]
+> > Probably the same should be done for SW_TAGS, because arm64 will be
+> > GENERIC_ENTRY at one point or another as well.
+>
+> Yes, makes sense. I'll file a bug for this once I fully understand the
+> consequences of these changes.
+>
+> > KASAN + GCC on x86 will have no mem*() instrumentation after
+> > 69d4c0d32186, which is sad, so somebody ought to teach it the same
+> > param as above.
+>
+> Hm, with that patch we would have no KASAN checking within normal mem*
+> functions (not the ones embedded by the compiler) on GENERIC_ENTRY
+> arches even with Clang, right?
 
-The file, HEAD, which saves the commit hash, will be included in the
-tarball only when the source tree is managed by git. The git tree is
-more precisely checked; it has been copied from scripts/setlocalversion.
+Yes, that's the point - normal mem*() functions cannot be instrumented
+with GENERIC_ENTRY within noinstr functions, because the compiler
+sometimes decides to transform normal assignments into
+memcpy()/memset(). And if mem*() were instrumented (as it was before
+69d4c0d32186), that'd break things for these architectures.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
-Changes in v5:
-  - New patch
-
- scripts/Makefile.package | 67 ++++++++++++++++++++++++----------------
- 1 file changed, 40 insertions(+), 27 deletions(-)
-
-diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-index 55be31d0e040..e676d14fef23 100644
---- a/scripts/Makefile.package
-+++ b/scripts/Makefile.package
-@@ -122,40 +122,53 @@ quiet_cmd_tar = TAR     $@
- 
- tar-rootdir := $(srctree)
- 
-+%.tar: compress-opt :=
-+%.tar: .tmp_filelist
-+	$(call cmd,tar)
-+
- %.tar.gz: compress-opt := -I $(KGZIP)
- %.tar.gz: .tmp_filelist
- 	$(call cmd,tar)
- 
-+%.tar.bz2: compress-opt := -I $(KBZIP2)
-+%.tar.bz2: .tmp_filelist
-+	$(call cmd,tar)
-+
-+%.tar.xz: compress-opt := -I $(XZ)
-+%.tar.xz: .tmp_filelist
-+	$(call cmd,tar)
-+
-+%.tar.zst: compress-opt := -I $(ZSTD)
-+%.tar.zst: .tmp_filelist
-+	$(call cmd,tar)
-+
- # perf-pkg - generate a source tarball with perf source
- # ---------------------------------------------------------------------------
- 
--perf-tar=perf-$(KERNELVERSION)
--
--quiet_cmd_perf_tar = TAR
--      cmd_perf_tar = \
--git --git-dir=$(srctree)/.git archive --prefix=$(perf-tar)/         \
--	HEAD^{tree} $$(cd $(srctree);                               \
--		       echo $$(cat tools/perf/MANIFEST)) \
--	-o $(perf-tar).tar;                                         \
--mkdir -p $(perf-tar);                                               \
--git --git-dir=$(srctree)/.git rev-parse HEAD > $(perf-tar)/HEAD;    \
--(cd $(srctree)/tools/perf;                                          \
--util/PERF-VERSION-GEN $(CURDIR)/$(perf-tar)/);              \
--tar rf $(perf-tar).tar $(perf-tar)/HEAD $(perf-tar)/PERF-VERSION-FILE; \
--rm -r $(perf-tar);                                                  \
--$(if $(findstring tar-src,$@),,                                     \
--$(if $(findstring bz2,$@),$(KBZIP2),                                 \
--$(if $(findstring gz,$@),$(KGZIP),                                  \
--$(if $(findstring xz,$@),$(XZ),                                     \
--$(if $(findstring zst,$@),$(ZSTD),                                  \
--$(error unknown target $@)))))                                      \
--	-f -9 $(perf-tar).tar)
--
--perf-tar-pkgs := perf-tar-src-pkg perf-targz-src-pkg perf-tarbz2-src-pkg \
--		 perf-tarxz-src-pkg perf-tarzst-src-pkg
--PHONY += $(perf-tar-pkgs)
--$(perf-tar-pkgs):
--	$(call cmd,perf_tar)
-+perf-tar = perf-$(KERNELVERSION)
-+
-+perf-tar-phony = perf-$(subst .,,$(1))-src-pkg
-+
-+.tmp_perf: FORCE
-+	$(Q)rm -rf $@
-+	$(Q)mkdir $@
-+	$(Q)tar -c -f - -C $(srctree) --files-from=$(srctree)/tools/perf/MANIFEST | tar -x -f - -C $@
-+	$(Q)if test -z "$(git -C $(srctree) rev-parse --show-cdup 2>/dev/null)" && \
-+	       head=$$(git -C $(srctree) rev-parse --verify HEAD 2>/dev/null); then \
-+		echo $$head > $@/HEAD; \
-+	fi
-+	$(Q)cd $(srctree)/tools/perf; util/PERF-VERSION-GEN $(abspath $@)/
-+
-+define perf-pkg-rule
-+PHONY += $(perf-tar-phony)
-+$(perf-tar-phony): $(perf-tar).$(1)
-+	@:
-+
-+$(perf-tar).$(1): private tar-rootdir := .tmp_perf
-+$(perf-tar).$(1): | .tmp_perf
-+endef
-+
-+$(foreach x, tar tar.gz tar.bz2 tar.xz tar.zst, $(eval $(call perf-pkg-rule,$(x))))
- 
- # Help text displayed when executing 'make help'
- # ---------------------------------------------------------------------------
--- 
-2.34.1
-
+But since most code is normally instrumented, with the right compiler
+support (which the patch here enables), we just turn mem*() in
+instrumented functions into __asan_mem*(), and get the instrumentation
+as before. 69d4c0d32186 already added those __asan functions. The fact
+that KASAN used to override mem*() is just the wrong choice in a world
+where compilers decide to inline or outline these. From an
+instrumentation point of view at the compiler level, we need to treat
+them like any other instrumentable instruction (loads, stores,
+atomics, etc.): transform each instrumentable instruction into
+something that does the right checks. Only then can we be sure that we
+don't accidentally instrument something that shouldn't be (noinstr
+functions), because instead of relying on the compiler, we forced
+instrumentation on every mem*().
