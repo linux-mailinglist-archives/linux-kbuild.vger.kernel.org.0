@@ -2,61 +2,51 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 671DA693E95
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Feb 2023 08:01:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F0A686943BB
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Feb 2023 12:03:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229672AbjBMHBA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 13 Feb 2023 02:01:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48190 "EHLO
+        id S229664AbjBMLDG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 13 Feb 2023 06:03:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229647AbjBMHA7 (ORCPT
+        with ESMTP id S229643AbjBMLDF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 13 Feb 2023 02:00:59 -0500
-Received: from mail-vk1-xa2c.google.com (mail-vk1-xa2c.google.com [IPv6:2607:f8b0:4864:20::a2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D575D10279
-        for <linux-kbuild@vger.kernel.org>; Sun, 12 Feb 2023 23:00:55 -0800 (PST)
-Received: by mail-vk1-xa2c.google.com with SMTP id n22so1857649vkm.11
-        for <linux-kbuild@vger.kernel.org>; Sun, 12 Feb 2023 23:00:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Cw3Q2nDkJ9Bv8PVsAGDCbfG6m5PVGNiCmox+HLaI3GE=;
-        b=qXgprL150OL9B4VJjN93H9lN+jbXJ1nIsMcEhvYQ3EODoACnRLkm5uDPATHWOMJixo
-         DrRPLihx6Z3HvpC98A1g/N2LxGYXW59knPSPq+aUYDPri4LHjW7RnrqWCu8GXhXjX2p+
-         CgGkySH/C660taFg71aICkmWVwtbkCKlEWwsYw1eFuo+ePQ44uWQW36nR+p3oE7ngyw5
-         ZaSK5lnGO//sOwP9x6yyIotta8ZeGcPDpeAx4L3qbBjik2gPqBhy+srZLHvxzSX/4hk8
-         D3gQt4Gy6hiy7oRVXNVlUvnmRmmbI+yaD420JPrS3qDG79b6abqpPvEqRwp2+5DzW1ro
-         5aXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Cw3Q2nDkJ9Bv8PVsAGDCbfG6m5PVGNiCmox+HLaI3GE=;
-        b=6h2s62OhS4HcpJ6OI4TF81i+ZCxdRI/ak9OdVH6CtoZPbRqvsA5pwEyhaRwYaGN8rD
-         nZD0dlsHc5Oy+ds01EP3sXPAgWvZDlxL70L9jCuruCm95IJqH+sDjJ2BcuqdeqGHmz7N
-         b3Ghi0E7s1/AaNWHRgPqEC7imx/+3HXu1zPtXTIC6/YHEy+wp2W7X2XhaYdpymlkPwEw
-         txzViwyrloKEfvFreCEuIEg57g6wS5UKTNzC4lq/kdrADbQSaLJ2ARBwqHio70nMQHlC
-         vNbQML9zR/7YmCZBXF5E2HciE37omjYb2WmqNyxjE2h+qBtwKLZgF08qPgumJTX4Bsoo
-         3tJQ==
-X-Gm-Message-State: AO0yUKU6DYpxqzRcB0WNMAyC3bi6xnIxIvwFC0vtqrNcNnJbZk/yhl+k
-        Y9DzaK73TwJ2aXDqW9tzzrksvrO0WT9hvDOyxjl36w==
-X-Google-Smtp-Source: AK7set8PIsvFjgrQwufJLFQT67MNYzMOGV1d7JQLJAehTa092Ya4uJIbrwg+wDH31UncdizZSMR2WGwIMLPKliDCmY4=
-X-Received: by 2002:a1f:284e:0:b0:401:42f3:5659 with SMTP id
- o75-20020a1f284e000000b0040142f35659mr1000487vko.44.1676271654615; Sun, 12
- Feb 2023 23:00:54 -0800 (PST)
-MIME-Version: 1.0
-References: <20230208184203.2260394-1-elver@google.com> <CA+fCnZeU=pRcyiBpj3nyri0ow+ZYp=ewU3dtSVm_6mh73y1NTA@mail.gmail.com>
- <CANpmjNP_Ka6RTqHNRD7xx93ebZhY+iz69GHBusT=A8X1KvViVA@mail.gmail.com>
- <CA+fCnZcNF5kNxNuphwj41P45tQEhQ9wX00ZA4g=KTX4sbUirQg@mail.gmail.com>
- <CANpmjNNH-O+38U6zRWJUCU-eJTfMhUosy==GWEOn1vcu=J2dcw@mail.gmail.com> <CA+fCnZcaNpX6f9fWU2ZU-vMRn1fQ9mkr4w1JyOn3RmmoBK4PmQ@mail.gmail.com>
-In-Reply-To: <CA+fCnZcaNpX6f9fWU2ZU-vMRn1fQ9mkr4w1JyOn3RmmoBK4PmQ@mail.gmail.com>
-From:   Marco Elver <elver@google.com>
-Date:   Mon, 13 Feb 2023 08:00:00 +0100
-Message-ID: <CANpmjNMdX9gzYEtUpESnFLT-0tPmZhU_GcK-6apW1yA0R2or0A@mail.gmail.com>
-Subject: Re: [PATCH -tip] kasan: Emit different calls for instrumentable memintrinsics
-To:     Andrey Konovalov <andreyknvl@gmail.com>
+        Mon, 13 Feb 2023 06:03:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED0D7166D7
+        for <linux-kbuild@vger.kernel.org>; Mon, 13 Feb 2023 03:02:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1676286137;
+        h=from:from:reply-to:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:in-reply-to:in-reply-to:  references:references;
+        bh=DPipqMIHUCjrlTLT8I3BRMh5RmQq64goImG0GQ1TK6U=;
+        b=Gy7F5PqPXLN4fmYOJZIIwsEgP3iYPkLORDbPJJSHdW2OTveEKY4dQC96PXw3QT6S0zW2A1
+        b6CwJ8OOI9BmQNftwk1cWVWt6I94Wu671JvK4EbHXEsDZg3vR3mUwcLBHFyLFnGXCLQHsw
+        YyyGFJZm/6Tm5sCy8yHV3PhkXH+ihlk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-468-Iv_R5x0yN7SFfD4IufwsUQ-1; Mon, 13 Feb 2023 06:02:14 -0500
+X-MC-Unique: Iv_R5x0yN7SFfD4IufwsUQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 167C1811E9C;
+        Mon, 13 Feb 2023 11:02:13 +0000 (UTC)
+Received: from tucnak.zalov.cz (unknown [10.39.192.24])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AE071121318;
+        Mon, 13 Feb 2023 11:02:03 +0000 (UTC)
+Received: from tucnak.zalov.cz (localhost [127.0.0.1])
+        by tucnak.zalov.cz (8.17.1/8.17.1) with ESMTPS id 31DB1nJ33945034
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+        Mon, 13 Feb 2023 12:01:49 +0100
+Received: (from jakub@localhost)
+        by tucnak.zalov.cz (8.17.1/8.17.1/Submit) id 31DB1ee53945033;
+        Mon, 13 Feb 2023 12:01:40 +0100
+Date:   Mon, 13 Feb 2023 12:01:40 +0100
+From:   Jakub Jelinek <jakub@redhat.com>
+To:     Marco Elver <elver@google.com>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
@@ -64,19 +54,29 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Nicolas Schier <nicolas@fjasle.eu>,
         Andrey Ryabinin <ryabinin.a.a@gmail.com>,
         Alexander Potapenko <glider@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
         Dmitry Vyukov <dvyukov@google.com>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
         linux-kbuild@vger.kernel.org, kasan-dev@googlegroups.com,
         linux-kernel@vger.kernel.org, Ingo Molnar <mingo@kernel.org>,
         Tony Lindgren <tony@atomide.com>,
         Ulf Hansson <ulf.hansson@linaro.org>,
-        linux-toolchains@vger.kernel.org,
-        Mark Rutland <mark.rutland@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        linux-toolchains@vger.kernel.org
+Subject: Re: [PATCH -tip] kasan: Emit different calls for instrumentable
+ memintrinsics
+Message-ID: <Y+oYlD0IH8zwEgqp@tucnak>
+Reply-To: Jakub Jelinek <jakub@redhat.com>
+References: <20230208184203.2260394-1-elver@google.com>
+ <Y+aaDP32wrsd8GZq@tucnak>
+ <CANpmjNO3w9h=QLQ9NRf0QZoR86S7aqJrnAEQ3i2L0L3axALzmw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANpmjNO3w9h=QLQ9NRf0QZoR86S7aqJrnAEQ3i2L0L3axALzmw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -84,76 +84,71 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, 10 Feb 2023 at 22:37, Andrey Konovalov <andreyknvl@gmail.com> wrote:
->
-> On Fri, Feb 10, 2023 at 7:41 PM Marco Elver <elver@google.com> wrote:
+On Fri, Feb 10, 2023 at 09:07:14PM +0100, Marco Elver wrote:
+> On Fri, 10 Feb 2023 at 20:25, Jakub Jelinek <jakub@redhat.com> wrote:
 > >
-> > On Fri, 10 Feb 2023 at 17:13, Andrey Konovalov <andreyknvl@gmail.com> wrote:
-> > [...]
-> > > > Probably the same should be done for SW_TAGS, because arm64 will be
-> > > > GENERIC_ENTRY at one point or another as well.
+> > On Wed, Feb 08, 2023 at 07:42:03PM +0100, Marco Elver wrote:
+> > > Clang 15 will provide an option to prefix calls to memcpy/memset/memmove
+> > > with __asan_ in instrumented functions: https://reviews.llvm.org/D122724
 > > >
-> > > Yes, makes sense. I'll file a bug for this once I fully understand the
-> > > consequences of these changes.
-> > >
-> > > > KASAN + GCC on x86 will have no mem*() instrumentation after
-> > > > 69d4c0d32186, which is sad, so somebody ought to teach it the same
-> > > > param as above.
-> > >
-> > > Hm, with that patch we would have no KASAN checking within normal mem*
-> > > functions (not the ones embedded by the compiler) on GENERIC_ENTRY
-> > > arches even with Clang, right?
+> > > GCC does not yet have similar support.
 > >
-> > Yes, that's the point - normal mem*() functions cannot be instrumented
-> > with GENERIC_ENTRY within noinstr functions, because the compiler
-> > sometimes decides to transform normal assignments into
-> > memcpy()/memset(). And if mem*() were instrumented (as it was before
-> > 69d4c0d32186), that'd break things for these architectures.
-> >
-> > But since most code is normally instrumented, with the right compiler
-> > support (which the patch here enables), we just turn mem*() in
-> > instrumented functions into __asan_mem*(), and get the instrumentation
-> > as before. 69d4c0d32186 already added those __asan functions. The fact
-> > that KASAN used to override mem*() is just the wrong choice in a world
-> > where compilers decide to inline or outline these. From an
-> > instrumentation point of view at the compiler level, we need to treat
-> > them like any other instrumentable instruction (loads, stores,
-> > atomics, etc.): transform each instrumentable instruction into
-> > something that does the right checks. Only then can we be sure that we
-> > don't accidentally instrument something that shouldn't be (noinstr
-> > functions), because instead of relying on the compiler, we forced
-> > instrumentation on every mem*().
->
-> I meant to ask whether the normal mem* calls from instrumented
-> functions will also be transformed to __asan_mem*() by the compiler.
-> But following the godbolt link you shared, I see that this is true.
->
-> Thank you for the explanation!
->
-> So the overall negative impact of these changes is that we don't get
-> KASAN checking in both normal mem* calls and the ones formed by
-> transforming assignments for GENERIC_ENTRY architectures with GCC and
-> with older Clang. This is not great. I wonder if we then need to print
-> some kind of warning when the kernel is built with these compilers.
+> > GCC has support to rename memcpy/memset etc. for years, say on
+> > following compiled with
+> > -fsanitize=kernel-address -O2 -mstringop-strategy=libcall
+> > (the last option just to make sure the compiler doesn't prefer to emit
+> > rep mov*/stos* or loop or something similar, of course kernel can keep
+> > whatever it uses) you'll get just __asan_memcpy/__asan_memset calls,
+> > no memcpy/memset, while without -fsanitize=kernel-address you get
+> > normally memcpy/memset.
+> 
+> > Or do you need the __asan_* functions only in asan instrumented functions
+> > and normal ones in non-instrumented functions in the same TU?
+> 
+> Yes, exactly that: __asan_ in instrumented, and normal ones in
+> no_sanitize functions; they can be mixed in the same TU. We can't
+> rename normal mem*() functions everywhere. In no_sanitize functions
+> (in particular noinstr), normal mem*() should be used. But in
+> instrumented code, it should be __asan_mem*(). Another longer
+> explanation I also just replied here:
+> https://lore.kernel.org/all/CANpmjNNH-O+38U6zRWJUCU-eJTfMhUosy==GWEOn1vcu=J2dcw@mail.gmail.com/
+> 
+> At least clang has had this behaviour for user space ASan forever:
+> https://godbolt.org/z/h5sWExzef - so it was easy to just add the flag
+> to make it behave like in user space for mem*() in the kernel. It
+> might also be worthwhile for GCC to emit __asan_ for user space, given
+> that the runtimes are shared and the user space runtime definitely has
+> __asan_. The kernel needs the param (asan-kernel-mem-intrinsic-prefix)
+> though, to not break older kernels.
 
-Since these changes are already in -tip, and by judging from [1],
-there really is no other way. As-is, KASAN on x86 is already broken
-per [1] (though we got lucky thus far).
+So, what exactly you want for gcc to do with
+--param asan-kernel-mem-intrinsic-prefix=1 (note, in GCC case it can't be
+without the =1 at the end)?
 
-Printing a warning wouldn't hurt, but I think nobody would notice the
-warning, and if somebody notices, they wouldn't care. Sooner or later,
-we just need to make sure that test robots (syzbot, etc.) have new
-compilers.
+The current gcc behavior is that operations like aggregate copies, or
+clearing which might or might not need memcpy/memset/memmove under the hood
+later are asan instrumented before the operation (in order not to limit the
+choices on how it will be expanded), uses of builtins (__builtin_ prefixed
+or not) are also instrumented before the calls unless they are one of the
+calls that is recognized as always instrumented.  None for hwasan,
+for asan:
+index, memchr, memcmp, memcpy, memmove, memset, strcasecmp, strcat, strchr,
+strcmp, strcpy, strdup, strlen, strncasecmp, strncat, strncmp, strcspn,
+strpbrk, strspn, strstr, strncpy
+and for those builtins gcc disables inline expansion and enforces a library
+call (but until the expansion they are treated in optimizations like normal
+builtins and so could be say DCEd, or their aliasing behavior is considered
+etc.).  kasan behaves the same I think.
 
-> If these changes move forward, AFAIU, we can also drop these custom
-> mem* definitions for non-instrumented files for x86:
->
-> https://elixir.bootlin.com/linux/latest/source/arch/x86/include/asm/string_64.h#L88
+Now, I think libasan only has __asan_ prefixed
+__asan_memmove, __asan_memset and __asan_memcpy, nothing else, so most of
+the calls from the above list even can't be prefixed.
 
-Yes, I think so.
+So, do you want for --param asan-kernel-mem-intrinsic-prefix=1 to __asan_
+prefix just memcpy/memmove/memset and nothing else?  Is it ok to emit
+memcpy/memset/memmove from aggregate operations which are instrumented
+already at the caller (and similarly is it ok to handle those operations
+inline)?
 
-[1] https://lore.kernel.org/all/20230112194314.845371875@infradead.org/
+	Jakub
 
-Last but not least are you ok with this patch? This patch ought to be
-applied to the same tree as 69d4c0d32186 anyway, so this patch lives
-or dies by that change.
