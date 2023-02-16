@@ -2,173 +2,172 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B905B699425
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Feb 2023 13:18:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB8C369A298
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Feb 2023 00:45:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229492AbjBPMSL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 16 Feb 2023 07:18:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60384 "EHLO
+        id S230022AbjBPXph (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 16 Feb 2023 18:45:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229897AbjBPMSK (ORCPT
+        with ESMTP id S229482AbjBPXpg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 16 Feb 2023 07:18:10 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EAED474CD;
-        Thu, 16 Feb 2023 04:18:04 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C7DB1B824B3;
-        Thu, 16 Feb 2023 12:18:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AB81C433D2;
-        Thu, 16 Feb 2023 12:18:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1676549881;
-        bh=DPESuOOr7V0LeGavGf6dXtvT3qVHvt0gYIZ5AS49RxA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=YLWbyTWM0ow9c7+XpUpV8vqI6GPN87f3U+j2q5tkOuWw10cQBUZbeWnJ/kotw1Dr8
-         1AgKLzGM+o8dWBYGVeQXGsGInCve9tuoIDhd7eD5rNPiXvwB7l50LuQWPhu53hrGve
-         FxdTkkmRXlRpg/1bd/Y01rOKh0qdkTGAdib+CxxXiHCoqvlRKaaqG7nw7tsChOe96k
-         qns4NY6j2RJS0CLXw4sEXGzCpCgPKzk6RqVC52dEU6PlgDaKSlU6vYSZTEFigV8Yza
-         w3HiapqakEXP+SvdNcVnLw5dS+bihIa/gWygmmGfbXneZNRiu3Elyyq4chSXuKmGbV
-         +b/FuiUDOaZaQ==
-Received: by mail-oi1-f181.google.com with SMTP id bi19so1471893oib.2;
-        Thu, 16 Feb 2023 04:18:01 -0800 (PST)
-X-Gm-Message-State: AO0yUKV0I87ROO5nc/D9cx61EfbNPlGttgIp1ydy8ycQapU5qVys/WOe
-        cg83KlOaJiW1X96M/rU2R2iSkwqU2WZHQIRWs14=
-X-Google-Smtp-Source: AK7set9RyPqNmZf9Zjs0/eojM/pEzcwyuIJE3CPwhxFpdlUO52eA+VuJrlP2bi03Jhf70K5bxPA7um/8dtShdpBdDgc=
-X-Received: by 2002:a05:6808:1888:b0:37b:8b8e:5e71 with SMTP id
- bi8-20020a056808188800b0037b8b8e5e71mr104048oib.194.1676549880809; Thu, 16
- Feb 2023 04:18:00 -0800 (PST)
-MIME-Version: 1.0
-References: <CGME20230208130800eucas1p2fbcba741dbd7483bb0a9b2d4b6c6dbfd@eucas1p2.samsung.com>
- <20230208130732.63172-1-l.stelmach@samsung.com>
-In-Reply-To: <20230208130732.63172-1-l.stelmach@samsung.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 16 Feb 2023 21:17:24 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASjsRYyRCAy_EujsX1o2ybR3KUQRA2HuPxeN=ppUpBa_A@mail.gmail.com>
-Message-ID: <CAK7LNASjsRYyRCAy_EujsX1o2ybR3KUQRA2HuPxeN=ppUpBa_A@mail.gmail.com>
-Subject: Re: [PATCH v2] merge_config.sh: do not report some differencess
- between input and output
-To:     =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+        Thu, 16 Feb 2023 18:45:36 -0500
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A69A505D8
+        for <linux-kbuild@vger.kernel.org>; Thu, 16 Feb 2023 15:45:35 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id k15-20020a5b0a0f000000b007eba3f8e3baso3636924ybq.4
+        for <linux-kbuild@vger.kernel.org>; Thu, 16 Feb 2023 15:45:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=f9fSJ8LX1LV0NJhDIu0hFxwhZk7Rq4zVsb0PZTFK4Co=;
+        b=T1m8J9zu54fxOtNw1pfhMlQVMKTBI98xdI/WbelYkJUrDITtxfYmR5FLfm9XU00+xB
+         RrI0OR1yS6IMQO/YgtX1dk+cglRU1BcwoVEv268fpi4FOw1p+H/khXU3KeXcBcUs0P/a
+         N5oBiP/Mprdk9yX27S1VfpUsCYZGE1kSAaJiBZkAmchx904ORP6dD2n+6vCCCc9Bmp35
+         pTCFcu6YRrrm8sSn44TcuV4lSaYwyvsQmmSp//MdVpCxCNi05VziSOIZz6BIYIBOanmh
+         wBxNwYgItWLMyNXHDJbtrh/NSCyNkbK+FGvTJlhndfBhKp5KQOkoEawctV9VNckVmuVk
+         mA/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=f9fSJ8LX1LV0NJhDIu0hFxwhZk7Rq4zVsb0PZTFK4Co=;
+        b=WXt9O1SY0qbtY33CVwrvk0E2TvdV6sACDcdGd148UUjWudNiWa5DCBQpr46lgwYm7O
+         mWNY3XY1mUerJqlrk50WdDQYz39p3ElXxuTF92uI8hLOEwWnDEpOFPQSg73r5oBJHxzj
+         bSde+qJCa3hyRtTUcjt+MZ0UWU2WVteUk3ZH8V/fi3a5mGvpY6RNUYgdSTH8AZYH58cq
+         cZkHgm1cKaGgM0GdDdy7EepkLvVhl19AV3Xf4mgoBxHbrQaAKjpRWIIT0jPjWEfJH6A4
+         OXXg6eEFCHT1TNcuWbi74dY/TJFcgflBBQ8SvcO81KucjEUGkBrPCKVeWnXrx97Pv54C
+         /kHA==
+X-Gm-Message-State: AO0yUKXAvWcOLLGsWj4Mvt6UCH+hVRnbbZSugfUR0esEUasz7xPRo/hk
+        L3Q3//rYPOMnJyXV5h3kMUODJHT5pw==
+X-Google-Smtp-Source: AK7set/IFbohazrUlym85MQHWcUsKV5YXF2glA/nmcXrwKnVDZvE8l4eL3cW+ZnSjjVoiViI/jThdbWCyQ==
+X-Received: from elver.muc.corp.google.com ([2a00:79e0:9c:201:34a3:b9c:4ef:ef85])
+ (user=elver job=sendgmr) by 2002:a5b:6c7:0:b0:8dd:4f2c:ede4 with SMTP id
+ r7-20020a5b06c7000000b008dd4f2cede4mr5888ybq.2.1676591134138; Thu, 16 Feb
+ 2023 15:45:34 -0800 (PST)
+Date:   Fri, 17 Feb 2023 00:45:20 +0100
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.39.2.637.g21b0678d19-goog
+Message-ID: <20230216234522.3757369-1-elver@google.com>
+Subject: [PATCH -tip v4 1/3] kasan: Emit different calls for instrumentable memintrinsics
+From:   Marco Elver <elver@google.com>
+To:     elver@google.com, Peter Zijlstra <peterz@infradead.org>
+Cc:     Ingo Molnar <mingo@kernel.org>, Jakub Jelinek <jakub@redhat.com>,
+        linux-toolchains@vger.kernel.org,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Feb 8, 2023 at 10:08 PM =C5=81ukasz Stelmach <l.stelmach@samsung.co=
-m> wrote:
->
-> If an input config file contains CONFIG_FOO=3Dn the output one
-> will contain a line '# CONFIG_FOO is not set'. merge_config.sh
-> should not report it as difference because the end result of
-> CONFIG_FOO being disabled is achieved.
->
-> Inexistence of CONFIG_FOO (because of unment dependencies) in case
-> CONFIG_FOO=3Dn is requested, should also be ignored.
->
-> Change-Id: I129f3a0b4205a76d8c42020f8adb72b1889d75fb
-> Signed-off-by: =C5=81ukasz Stelmach <l.stelmach@samsung.com>
-> ---
-> Changes in v2:
-> - suppress reports reports if an option was "not set" in input files
->   but is missing from the filnal .config due to unmet dependecies.
-> - apply the same logic to suppress some reports during the merging
->   phase
->
-> BTW. Do you think adding "| sort -u" after "grep -w" to avoid reports
-> about repeated entries may make sense or do you want such reports to
-> be printed.
->
->  scripts/kconfig/merge_config.sh | 30 ++++++++++++++++++++----------
->  1 file changed, 20 insertions(+), 10 deletions(-)
->
-> diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_conf=
-ig.sh
-> index e5b46980c22a..1086bdc7abf2 100755
-> --- a/scripts/kconfig/merge_config.sh
-> +++ b/scripts/kconfig/merge_config.sh
-> @@ -144,12 +144,17 @@ for ORIG_MERGE_FILE in $MERGE_LIST ; do
->                         echo
->                         BUILTIN_FLAG=3Dtrue
->                 elif [ "x$PREV_VAL" !=3D "x$NEW_VAL" ] ; then
-> -                       echo Value of $CFG is redefined by fragment $ORIG=
-_MERGE_FILE:
-> -                       echo Previous  value: $PREV_VAL
-> -                       echo New value:       $NEW_VAL
-> -                       echo
-> -                       if [ "$STRICT" =3D "true" ]; then
-> -                               STRICT_MODE_VIOLATED=3Dtrue
-> +                       if [ \( "x$PREV_VAL" !=3D "x$CFG=3Dn" -a \
-> +                               "x$PREV_VAL" !=3D "x# $CFG is not set" \)=
- -o \
-> +                            \( "x$NEW_VAL" !=3D "x"  -a \
+Clang 15 provides an option to prefix memcpy/memset/memmove calls with
+__asan_/__hwasan_ in instrumented functions: https://reviews.llvm.org/D122724
 
+GCC will add support in future:
+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=108777
 
+Use it to regain KASAN instrumentation of memcpy/memset/memmove on
+architectures that require noinstr to be really free from instrumented
+mem*() functions (all GENERIC_ENTRY architectures).
 
-In which case does $NEW_VAL become empty?
+Fixes: 69d4c0d32186 ("entry, kasan, x86: Disallow overriding mem*() functions")
+Signed-off-by: Marco Elver <elver@google.com>
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+---
+v4:
+* Also enable it for KASAN_SW_TAGS (__hwasan_mem*).
 
-I think it is opposite.
-$PREV_VAL might be empty, $NEW_VAL may specified as =3Dn.
+v3:
+* No change.
 
+v2:
+* Use asan-kernel-mem-intrinsic-prefix=1, so that once GCC supports the
+  param, it also works there (it needs the =1).
 
+The Fixes tag is just there to show the dependency, and that people
+shouldn't apply this patch without 69d4c0d32186.
+---
+ mm/kasan/kasan.h       |  4 ++++
+ mm/kasan/shadow.c      | 11 +++++++++++
+ scripts/Makefile.kasan |  8 ++++++++
+ 3 files changed, 23 insertions(+)
 
+diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+index 71c15438afcf..172713b87556 100644
+--- a/mm/kasan/kasan.h
++++ b/mm/kasan/kasan.h
+@@ -637,4 +637,8 @@ void __hwasan_storeN_noabort(unsigned long addr, size_t size);
+ 
+ void __hwasan_tag_memory(unsigned long addr, u8 tag, unsigned long size);
+ 
++void *__hwasan_memset(void *addr, int c, size_t len);
++void *__hwasan_memmove(void *dest, const void *src, size_t len);
++void *__hwasan_memcpy(void *dest, const void *src, size_t len);
++
+ #endif /* __MM_KASAN_KASAN_H */
+diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
+index 98269936a5e4..f8a47cb299cb 100644
+--- a/mm/kasan/shadow.c
++++ b/mm/kasan/shadow.c
+@@ -107,6 +107,17 @@ void *__asan_memcpy(void *dest, const void *src, size_t len)
+ }
+ EXPORT_SYMBOL(__asan_memcpy);
+ 
++#ifdef CONFIG_KASAN_SW_TAGS
++void *__hwasan_memset(void *addr, int c, size_t len) __alias(__asan_memset);
++EXPORT_SYMBOL(__hwasan_memset);
++#ifdef __HAVE_ARCH_MEMMOVE
++void *__hwasan_memmove(void *dest, const void *src, size_t len) __alias(__asan_memmove);
++EXPORT_SYMBOL(__hwasan_memmove);
++#endif
++void *__hwasan_memcpy(void *dest, const void *src, size_t len) __alias(__asan_memcpy);
++EXPORT_SYMBOL(__hwasan_memcpy);
++#endif
++
+ void kasan_poison(const void *addr, size_t size, u8 value, bool init)
+ {
+ 	void *shadow_start, *shadow_end;
+diff --git a/scripts/Makefile.kasan b/scripts/Makefile.kasan
+index b9e94c5e7097..fa9f836f8039 100644
+--- a/scripts/Makefile.kasan
++++ b/scripts/Makefile.kasan
+@@ -38,6 +38,11 @@ endif
+ 
+ CFLAGS_KASAN += $(call cc-param,asan-stack=$(stack_enable))
+ 
++# Instrument memcpy/memset/memmove calls by using instrumented __asan_mem*()
++# instead. With compilers that don't support this option, compiler-inserted
++# memintrinsics won't be checked by KASAN on GENERIC_ENTRY architectures.
++CFLAGS_KASAN += $(call cc-param,asan-kernel-mem-intrinsic-prefix=1)
++
+ endif # CONFIG_KASAN_GENERIC
+ 
+ ifdef CONFIG_KASAN_SW_TAGS
+@@ -54,6 +59,9 @@ CFLAGS_KASAN := -fsanitize=kernel-hwaddress \
+ 		$(call cc-param,hwasan-inline-all-checks=0) \
+ 		$(instrumentation_flags)
+ 
++# Instrument memcpy/memset/memmove calls by using instrumented __hwasan_mem*().
++CFLAGS_KASAN += $(call cc-param,hwasan-kernel-mem-intrinsic-prefix=1)
++
+ endif # CONFIG_KASAN_SW_TAGS
+ 
+ export CFLAGS_KASAN CFLAGS_KASAN_NOSANITIZE
+-- 
+2.39.2.637.g21b0678d19-goog
 
-
-
-
-
-
-> +                               "x$NEW_VAL" !=3D "x# $CFG is not set" \) =
-]; then
-> +                               echo Value of $CFG is redefined by fragme=
-nt $ORIG_MERGE_FILE:
-> +                               echo Previous  value: $PREV_VAL
-> +                               echo New value:       $NEW_VAL
-> +                               echo
-> +                               if [ "$STRICT" =3D "true" ]; then
-> +                                       STRICT_MODE_VIOLATED=3Dtrue
-> +                               fi
->                         fi
->                 elif [ "$WARNREDUN" =3D "true" ]; then
->                         echo Value of $CFG is redundant by fragment $ORIG=
-_MERGE_FILE:
-> @@ -196,9 +201,14 @@ for CFG in $(sed -n -e "$SED_CONFIG_EXP1" -e "$SED_C=
-ONFIG_EXP2" $TMP_FILE); do
->         REQUESTED_VAL=3D$(grep -w -e "$CFG" $TMP_FILE)
->         ACTUAL_VAL=3D$(grep -w -e "$CFG" "$KCONFIG_CONFIG" || true)
->         if [ "x$REQUESTED_VAL" !=3D "x$ACTUAL_VAL" ] ; then
-> -               echo "Value requested for $CFG not in final .config"
-> -               echo "Requested value:  $REQUESTED_VAL"
-> -               echo "Actual value:     $ACTUAL_VAL"
-> -               echo ""
-> +               if [ \( "x$REQUESTED_VAL" !=3D "x$CFG=3Dn" -a \
-> +                       "x$REQUESTED_VAL" !=3D "x# $CFG is not set" \) -o=
- \
-> +                    \( "x$ACTUAL_VAL" !=3D "x"  -a \
-> +                       "x$ACTUAL_VAL" !=3D "x# $CFG is not set" \) ]; th=
-en
-> +                       echo "Value requested for $CFG not in final .conf=
-ig"
-> +                       echo "Requested value:  $REQUESTED_VAL"
-> +                       echo "Actual value:     $ACTUAL_VAL"
-> +                       echo ""
-> +               fi
->         fi
->  done
-> --
-> 2.30.2
->
-
-
---=20
-Best Regards
-Masahiro Yamada
