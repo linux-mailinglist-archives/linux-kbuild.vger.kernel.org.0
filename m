@@ -2,111 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AFF0E69A5BE
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Feb 2023 07:52:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C29869A7E2
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Feb 2023 10:11:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229576AbjBQGwt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 17 Feb 2023 01:52:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50856 "EHLO
+        id S229893AbjBQJLj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 17 Feb 2023 04:11:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbjBQGws (ORCPT
+        with ESMTP id S229776AbjBQJLi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 17 Feb 2023 01:52:48 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E0564E5C0;
-        Thu, 16 Feb 2023 22:52:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=3MXiOLMWRtJD23oH9F/40s9M46/u8K6XofKqR2bDpsA=; b=00Mnt2kysIg+bzgyhA80LOqscE
-        6rjvBbtLzNqEOsmcKtrXf/XDzGnp/Rm96ruVGllpt/hBM2Ih3G7wYUL3NjQgk5TxSIG5oZIwdR+ox
-        +uN3sDr1LYymMOvagabaNC85OX3lEchyxChlnFTq+yenXkcjHCHt9YfElQB6F4NTWDRdHVPis65HC
-        z68F0y+CvqkFiIPsyooeoTBnJU5McNpEs/ZrBE8K4fAivg/rWYFBPAuLsXM5k27eKgrmE7zsxWu9/
-        a9cQ+9WRuXZ7K9CHNMQJzXQGaif23eokcY4tujdAw7Bs62DnOMXq58cxvLTFi9TISk0MfysiUrek7
-        qQYLY1RA==;
-Received: from [2601:1c2:980:9ec0::df2f] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pSubv-00Cz1N-1e; Fri, 17 Feb 2023 06:52:47 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Subject: [PATCH] kconfig: save the KCONFIG_SEED value in the config file
-Date:   Thu, 16 Feb 2023 22:52:46 -0800
-Message-Id: <20230217065246.31641-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.39.1
+        Fri, 17 Feb 2023 04:11:38 -0500
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E12578690
+        for <linux-kbuild@vger.kernel.org>; Fri, 17 Feb 2023 01:11:37 -0800 (PST)
+Received: by mail-io1-xd30.google.com with SMTP id 79so314000iou.12
+        for <linux-kbuild@vger.kernel.org>; Fri, 17 Feb 2023 01:11:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+Wm0umPVZ0DPbMR0SC6Fc8s0kVXs3TVj3JMgvwdynUc=;
+        b=E1ro5b2E81eIiwPEwmuiOWcZqlJcgz8FSDemCwstdjwIk6VMZf5JSv6567JqEdm3lo
+         QcuhlruFSoTqHO1SCXWO56tFqPdOQOOg7K6Lopcy+SuUNudcn6dk2hcnRsezcASEze/b
+         ivxB7MWiDw4qHjP5MzwTVwjAJEsiPSxQ52p+GfHokqI2kxv+9EuiCqBlB96QcdJb12hJ
+         hOMLTYZP043WftuiWHLOfkiVk83Y0uf6XA56DwLIiTLoYTVRd5qt3dauLuR9doklXMcD
+         w9CDxk4jBll8wGXRcToLS/dPRWYJ7z8nQLGRKhWQaNGoey/Cuw/z2AUHN5kW/CVjmjyR
+         5fhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+Wm0umPVZ0DPbMR0SC6Fc8s0kVXs3TVj3JMgvwdynUc=;
+        b=Tw8Up1+Zzdz2fAET1+TLo+NtxkmCNWw9QxDQElAHtxe+r+ByDGDip1NJ5dk6L3NlmA
+         9bPZqoPSN/jUa01pevseORwn/oSPRGeQunKDG7mvM+jLH7ndrw0lc091DhWGCekjDUDT
+         VOQJSmFKPjICP5qPYZo4oeCf0s/DjAJtZ44SjIbSizIrLKaHdIra2WbfgEB4BAL+n6Lm
+         FJ/UXUm3Z2d1hL/W+NAtcbWELAR+nrFUOkEtsLNaX4JUi6xtMGA+CMwGl009nEi5TAwj
+         mqFlWExUuoyD706gP7w1Pr17kT1Osbl7WpNBOVlBfTDsF5e4HFhmRf/pMCUfGUsEUNNr
+         oP3A==
+X-Gm-Message-State: AO0yUKXNNWMpYIyyTGZx15ZVdsNnNWizff6sg/coBWuZnsR2U5JaWnbo
+        zqGSbCtgo6+ZmHTASe7t5UhfcaI6rKeL1GWQ8Bfr9A==
+X-Google-Smtp-Source: AK7set+JODGnHt30HQ5GaftVO6/VXO8N/bXVXgwVLyXxj6TP1Kq6r1WjJdUyMn9cHCZfIqRkqi7luHeXWavUN0/WnKQ=
+X-Received: by 2002:a5d:9859:0:b0:6de:383e:4146 with SMTP id
+ p25-20020a5d9859000000b006de383e4146mr2600092ios.48.1676625097139; Fri, 17
+ Feb 2023 01:11:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20230216234522.3757369-1-elver@google.com> <20230216234522.3757369-3-elver@google.com>
+In-Reply-To: <20230216234522.3757369-3-elver@google.com>
+From:   Alexander Potapenko <glider@google.com>
+Date:   Fri, 17 Feb 2023 10:11:00 +0100
+Message-ID: <CAG_fn=XPn-gp+FVZi3nERgMq5HzZ6K4Z21sqZ0+BwrAbfCpa2Q@mail.gmail.com>
+Subject: Re: [PATCH -tip v4 3/3] kasan: test: Fix test for new meminstrinsic instrumentation
+To:     Marco Elver <elver@google.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Jakub Jelinek <jakub@redhat.com>,
+        linux-toolchains@vger.kernel.org,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-kbuild@vger.kernel.org,
+        Linux Kernel Functional Testing <lkft@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Save (print) the randconfig seed value in the kernel .config file.
-This enables someone to see easily that the .config file is a
-randconfig file.
+On Fri, Feb 17, 2023 at 12:45=E2=80=AFAM Marco Elver <elver@google.com> wro=
+te:
+>
+> The tests for memset/memmove have been failing since they haven't been
+> instrumented in 69d4c0d32186.
+>
+> Fix the test to recognize when memintrinsics aren't instrumented, and
+> skip test cases accordingly. We also need to conditionally pass
+> -fno-builtin to the test, otherwise the instrumentation pass won't
+> recognize memintrinsics and end up not instrumenting them either.
+>
+> Fixes: 69d4c0d32186 ("entry, kasan, x86: Disallow overriding mem*() funct=
+ions")
+> Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+> Signed-off-by: Marco Elver <elver@google.com>
+Tested-by: Alexander Potapenko <glider@google.com>
 
-It also allows the randconfig file to be recreated by using the
-KCONFIG_SEED environment variable, as long as KCONFIG_PROBABILITY
-was not specified (the default probability values were used) and
-as long as the file was not edited.
-
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org
----
- scripts/kconfig/conf.c     |    3 +++
- scripts/kconfig/confdata.c |    2 ++
- scripts/kconfig/lkc.h      |    2 ++
- 3 files changed, 7 insertions(+)
-
-diff -- a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
---- a/scripts/kconfig/conf.c
-+++ b/scripts/kconfig/conf.c
-@@ -83,6 +83,8 @@ static void xfgets(char *str, int size,
- 		printf("%s", str);
- }
- 
-+unsigned int rand_seed;
-+
- static void set_randconfig_seed(void)
- {
- 	unsigned int seed;
-@@ -109,6 +111,7 @@ static void set_randconfig_seed(void)
- 		seed = (now.tv_sec + 1) * (now.tv_usec + 1);
- 	}
- 
-+	rand_seed = seed;
- 	printf("KCONFIG_SEED=0x%X\n", seed);
- 	srand(seed);
- }
-diff -- a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -621,6 +621,8 @@ static void conf_write_heading(FILE *fp,
- 		cs->decoration);
- 
- 	fprintf(fp, "%s %s\n", cs->decoration, rootmenu.prompt->text);
-+	if (rand_seed)
-+		fprintf(fp, "%s KCONFIG_SEED=0x%X\n", cs->decoration, rand_seed);
- 
- 	fprintf(fp, "%s\n", cs->postfix);
- }
-diff -- a/scripts/kconfig/lkc.h b/scripts/kconfig/lkc.h
---- a/scripts/kconfig/lkc.h
-+++ b/scripts/kconfig/lkc.h
-@@ -43,6 +43,8 @@ const char *zconf_curname(void);
- const char *conf_get_configname(void);
- void set_all_choice_values(struct symbol *csym);
- 
-+extern unsigned int rand_seed;
-+
- /* confdata.c and expr.c */
- static inline void xfwrite(const void *str, size_t len, size_t count, FILE *out)
- {
+Now the tests pass with Clang-17 and are correctly skipped with GCC-12.
