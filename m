@@ -2,34 +2,34 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF1BC69B8AC
-	for <lists+linux-kbuild@lfdr.de>; Sat, 18 Feb 2023 09:17:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E17B69B8BB
+	for <lists+linux-kbuild@lfdr.de>; Sat, 18 Feb 2023 09:31:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229636AbjBRIRT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 18 Feb 2023 03:17:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54536 "EHLO
+        id S229717AbjBRIby (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 18 Feb 2023 03:31:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229460AbjBRIRS (ORCPT
+        with ESMTP id S229460AbjBRIbx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 18 Feb 2023 03:17:18 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16DB62C649;
-        Sat, 18 Feb 2023 00:17:17 -0800 (PST)
+        Sat, 18 Feb 2023 03:31:53 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A41A23B218;
+        Sat, 18 Feb 2023 00:31:52 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BD00CB82EB1;
-        Sat, 18 Feb 2023 08:17:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 036B4C433EF;
-        Sat, 18 Feb 2023 08:17:13 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3E370603E0;
+        Sat, 18 Feb 2023 08:31:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D540C433D2;
+        Sat, 18 Feb 2023 08:31:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1676708234;
-        bh=BNbl3BOcb+TlBY9OXcmytUp8bjBVyH+3E4aP7IoRNH0=;
+        s=korg; t=1676709111;
+        bh=3AgEsRwqOhnYNVK4GZK8NiR959oQKGSIb55BgkzTMRI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SWJYFb5xLWZn4MAB7/ao/J1LRMuU1xsaMmdRB79QEBVq4atB/HfbpRH6JVr3J0sjw
-         krdibM1Q7MV4zfR2QmsCk/RPIPeSGhNkSunqTYhWSxTvmahfgTwPK9NUgMfuFPIcXf
-         QYeOLp65+hSqgEP2QbMbHQfcRUHhOn3YpBtQSJc8=
-Date:   Sat, 18 Feb 2023 09:17:11 +0100
+        b=gF8IClealACvbZrZ0F8E2Tp7ykiPDSeey6LbPr3fEqRZ6yt5F+KBBZYGbGO+Zt17V
+         EvQp+wf6UojmyMX+Gly14WmtzXTcwaknjI6HZVK2QprnbhwiDtdM5ZhA7F+T8WDX7q
+         UZS4Eo0gzlyGs0x9uWzlceKylorM/0rfhOVe+2TM=
+Date:   Sat, 18 Feb 2023 09:31:48 +0100
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     John Moon <quic_johmoo@quicinc.com>,
         Randy Dunlap <rdunlap@infradead.org>
@@ -46,15 +46,16 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Giuliano Procida <gprocida@google.com>,
         kernel-team@android.com, Jordan Crouse <jorcrous@amazon.com>
 Subject: Re: [PATCH RESEND 1/1] check-uapi: Introduce check-uapi.sh
-Message-ID: <Y/CJhzSJ5YKvD7my@kroah.com>
+Message-ID: <Y/CM9JtK0914YUE0@kroah.com>
 References: <20230217202234.32260-1-quic_johmoo@quicinc.com>
  <20230217202234.32260-2-quic_johmoo@quicinc.com>
+ <Y/CJhzSJ5YKvD7my@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230217202234.32260-2-quic_johmoo@quicinc.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+In-Reply-To: <Y/CJhzSJ5YKvD7my@kroah.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,67 +63,73 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Feb 17, 2023 at 12:22:34PM -0800, John Moon wrote:
-> While the kernel community has been good at maintaining backwards
-> compatibility with kernel UAPIs, it would be helpful to have a tool
-> to check if a patch introduces changes that break backwards
-> compatibility.
+On Sat, Feb 18, 2023 at 09:17:12AM +0100, Greg Kroah-Hartman wrote:
+> On Fri, Feb 17, 2023 at 12:22:34PM -0800, John Moon wrote:
+> > While the kernel community has been good at maintaining backwards
+> > compatibility with kernel UAPIs, it would be helpful to have a tool
+> > to check if a patch introduces changes that break backwards
+> > compatibility.
+> > 
+> > To that end, introduce check-uapi.sh: a simple shell script that
+> > checks for changes to UAPI headers using libabigail.
+> > 
+> > libabigail is "a framework which aims at helping developers and
+> > software distributors to spot some ABI-related issues like interface
+> > incompatibility in ELF shared libraries by performing a static
+> > analysis of the ELF binaries at hand."
+> > 
+> > The script uses one of libabigail's tools, "abidiff", to compile the
+> > changed header before and after the patch to detect any changes.
+> > 
+> > abidiff "compares the ABI of two shared libraries in ELF format. It
+> > emits a meaningful report describing the differences between the two
+> > ABIs."
+> > 
+> > Signed-off-by: John Moon <quic_johmoo@quicinc.com>
+> > ---
+> >  scripts/check-uapi.sh | 245 ++++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 245 insertions(+)
+> >  create mode 100755 scripts/check-uapi.sh
 > 
-> To that end, introduce check-uapi.sh: a simple shell script that
-> checks for changes to UAPI headers using libabigail.
+> Ok, this is very cool, thank you so much for doing this.
 > 
-> libabigail is "a framework which aims at helping developers and
-> software distributors to spot some ABI-related issues like interface
-> incompatibility in ELF shared libraries by performing a static
-> analysis of the ELF binaries at hand."
+> I know Randy Dunlap was also looking into this previously, so I've cc:ed
+> him and bounced him the original.
 > 
-> The script uses one of libabigail's tools, "abidiff", to compile the
-> changed header before and after the patch to detect any changes.
+> I tried this out, and at first glance, this felt like it was just "too
+> fast" in that nothing actually was being tested.  So I manually added a
+> field to a structure I know would break the abi, and:
 > 
-> abidiff "compares the ABI of two shared libraries in ELF format. It
-> emits a meaningful report describing the differences between the two
-> ABIs."
+> 	$ ./scripts/check-uapi.sh
+> 	!!! ABI differences detected in include/uapi/linux/usb/ch9.h (compared to file at HEAD^1) !!!
 > 
-> Signed-off-by: John Moon <quic_johmoo@quicinc.com>
-> ---
->  scripts/check-uapi.sh | 245 ++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 245 insertions(+)
->  create mode 100755 scripts/check-uapi.sh
+> 	    [C] 'struct usb_ctrlrequest' changed:
+> 	      type size changed from 64 to 72 (in bits)
+> 	      1 data member insertion:
+> 		'__u8 abi_break', at offset 16 (in bits) at ch9.h:216:1
+> 	      3 data member changes:
+> 		'__le16 wValue' offset changed from 16 to 24 (in bits) (by +8 bits)
+> 		'__le16 wIndex' offset changed from 32 to 40 (in bits) (by +8 bits)
+> 		'__le16 wLength' offset changed from 48 to 56 (in bits) (by +8 bits)
+> 
+> 	0/1 UAPI header file changes are backwards compatible
+> 	UAPI header ABI check failed
+> 
+> So it worked!
 
-Ok, this is very cool, thank you so much for doing this.
+Ok, I take it back, it doesn't seem to work :(
 
-I know Randy Dunlap was also looking into this previously, so I've cc:ed
-him and bounced him the original.
+It only "catches" a change from the last commit, but if you have an
+intermediate commit (i.e change something in HEAD^ but not HEAD), it
+does not detect it at all.
 
-I tried this out, and at first glance, this felt like it was just "too
-fast" in that nothing actually was being tested.  So I manually added a
-field to a structure I know would break the abi, and:
+And if you give it an old version, it doesn't check that either (hint,
+try passing in a very old kernel version, that returns instantly and
+doesn't actually build anything).
 
-	$ ./scripts/check-uapi.sh
-	!!! ABI differences detected in include/uapi/linux/usb/ch9.h (compared to file at HEAD^1) !!!
-
-	    [C] 'struct usb_ctrlrequest' changed:
-	      type size changed from 64 to 72 (in bits)
-	      1 data member insertion:
-		'__u8 abi_break', at offset 16 (in bits) at ch9.h:216:1
-	      3 data member changes:
-		'__le16 wValue' offset changed from 16 to 24 (in bits) (by +8 bits)
-		'__le16 wIndex' offset changed from 32 to 40 (in bits) (by +8 bits)
-		'__le16 wLength' offset changed from 48 to 56 (in bits) (by +8 bits)
-
-	0/1 UAPI header file changes are backwards compatible
-	UAPI header ABI check failed
-
-So it worked!
-
-There is a mismatch of different bash coding styles in the document, which
-isn't a big deal, and one warning produced by the `shellcheck` tool, but that
-can all be fixed up later.  I'll go queue this up now, as a starting point for
-people to play with, thanks!
-
-Also, it would be nice to be able to check if the current tree with changes in
-it (not checked in, just modified) breaks the abi, without having to go and
-check the change in.  But again, future fixups for people to do!
+So it's a good first cut as an example, but as it doesn't really work
+correctly yet, we can't take it.  Care to fix it up to work so that it
+can be usable?
 
 thanks,
 
