@@ -2,52 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 56A8A69BFC2
-	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Feb 2023 10:39:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04E5169BFE8
+	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Feb 2023 10:58:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230061AbjBSJjR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 19 Feb 2023 04:39:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34172 "EHLO
+        id S229848AbjBSJ6n (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 19 Feb 2023 04:58:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230074AbjBSJjQ (ORCPT
+        with ESMTP id S229506AbjBSJ6l (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 19 Feb 2023 04:39:16 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E8969EC2;
-        Sun, 19 Feb 2023 01:38:21 -0800 (PST)
+        Sun, 19 Feb 2023 04:58:41 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E7AEDBE2;
+        Sun, 19 Feb 2023 01:58:38 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3E1F760C1A;
-        Sun, 19 Feb 2023 09:36:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DC48C433A4;
-        Sun, 19 Feb 2023 09:36:46 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 778DEB8095A;
+        Sun, 19 Feb 2023 09:48:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2216AC433D2;
+        Sun, 19 Feb 2023 09:48:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1676799406;
-        bh=8lz3JglubGr57hJ1JxrTxIga8MNv2n+qzS/V+NGNj0Y=;
+        s=k20201202; t=1676800101;
+        bh=z9cSiSOXGaPdxie5ep3YBFQbolXD2v1I5QU9+yqyPCo=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=X0qhkLgUgrGXvXfazmcVxTkGfYYnsCy1ofKKY7J3zIv2a3F2ORuYYb5IxEnDgNbvD
-         jnffVIYL26R7vZOJlLDLmC/+0ry4+PbURPWM+6Q71I/M/oIgSNcEKauS6iCz/thW2H
-         PVyt71R/pVW6hyzJKNcycjeIo3mbONAHlm1n6j8gecEwnucU3CZ/6Y87PjP8ktI8Na
-         2rC5YuyBCBbR1TTv+Gr+iEJleUs/vrsl0ShbMDaO8k42rhPIPX9bg9FEK1RxNXL/IV
-         GbI27lcxzg8b7UA6jpqK82V+WczrddwOxycKGGrTeRaDw8ChBAEZpqvB0TECQkmKPe
-         81E3INwaFeO6w==
-Received: by mail-ot1-f41.google.com with SMTP id w7-20020a056830280700b0068dbf908574so58311otu.8;
-        Sun, 19 Feb 2023 01:36:46 -0800 (PST)
-X-Gm-Message-State: AO0yUKXtvZuF+xLignOKcmozaSkiOhmV8joD9TSpXJny5l2pKdwldE03
-        zVYBZsvEiZTzkb0xru6U216ZWo+T9VsDVnm5hgc=
-X-Google-Smtp-Source: AK7set99I5tGOiFDZI4ENZQNTLBGBrNJ3TBQuXn2usZzLYFQWia0V4XaepreU6ZMflfokXkCsGrW/ew6dU8wgUTloc4=
-X-Received: by 2002:a05:6830:2476:b0:68d:48be:fa9c with SMTP id
- x54-20020a056830247600b0068d48befa9cmr382712otr.1.1676799405714; Sun, 19 Feb
- 2023 01:36:45 -0800 (PST)
+        b=OEQL6VBDRnVguQ4suP6veS2kHVfG0QW/tJuAg6OGCkuJ2dGTts+0phoazysI7u/fI
+         zy+rP2zOzLW6wvRgmfAzt4vl5wsCDSZ1jpT/bRj20PNU8aQo+OgsFwWM6cplXxpUm7
+         Ew0fEvrCkKTX7tjEvmboAGe17Toth7Iu/S3TcOJxU35qiJonTIbiM9QUxHvxXJtzYo
+         jN7uT1UBGhY+MUZtLKyKwRx/XiJtwfN+y/mvJiO1bL5xx34Ed0Q4GaJRiIPJxIx1Yi
+         lQq5/sD9ovAaHEIrNmr+4zgQUPOeULveufqdvyqN8NL0Fv3OKGRzV1o4SCyOXux9tp
+         DlP/0tEYl5haw==
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-171dc352442so209919fac.7;
+        Sun, 19 Feb 2023 01:48:21 -0800 (PST)
+X-Gm-Message-State: AO0yUKUCSbxrKIM+tNr96hz1hI38K3CjtZVglowsdfSjTkFHmyBWYqap
+        zohb69iMCcxKhPJeiqWCiawPPbilyaP7PnVMV/8=
+X-Google-Smtp-Source: AK7set/ROx1Z0/HbxofW3EgBKaW957avBtR8LJ5rn3tOFlQN4n7jmg/XN2s8awVrOcI+haII5/iltq648CW/63vCeS0=
+X-Received: by 2002:a05:6870:c1ce:b0:16e:9431:5c2e with SMTP id
+ i14-20020a056870c1ce00b0016e94315c2emr441406oad.56.1676800100244; Sun, 19 Feb
+ 2023 01:48:20 -0800 (PST)
 MIME-Version: 1.0
-References: <20230217202234.32260-1-quic_johmoo@quicinc.com> <20230217202234.32260-2-quic_johmoo@quicinc.com>
-In-Reply-To: <20230217202234.32260-2-quic_johmoo@quicinc.com>
+References: <20230217202234.32260-1-quic_johmoo@quicinc.com>
+In-Reply-To: <20230217202234.32260-1-quic_johmoo@quicinc.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 19 Feb 2023 18:36:09 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQMgsNiizzKuZD+3VvJ=hPygcJ8PwNE+Q6pnxzBmQezCA@mail.gmail.com>
-Message-ID: <CAK7LNAQMgsNiizzKuZD+3VvJ=hPygcJ8PwNE+Q6pnxzBmQezCA@mail.gmail.com>
-Subject: Re: [PATCH RESEND 1/1] check-uapi: Introduce check-uapi.sh
+Date:   Sun, 19 Feb 2023 18:47:44 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASwzvsGPLWJ_QJFw+KjHQM9ZpaWqZFQNS60K9Kb9TU8Rw@mail.gmail.com>
+Message-ID: <CAK7LNASwzvsGPLWJ_QJFw+KjHQM9ZpaWqZFQNS60K9Kb9TU8Rw@mail.gmail.com>
+Subject: Re: [PATCH RESEND 0/1] Validating UAPI backwards compatibility
 To:     John Moon <quic_johmoo@quicinc.com>
 Cc:     Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
@@ -62,10 +62,9 @@ Cc:     Nathan Chancellor <nathan@kernel.org>,
         Giuliano Procida <gprocida@google.com>,
         kernel-team@android.com, Jordan Crouse <jorcrous@amazon.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,TRACKER_ID autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -74,511 +73,107 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Sat, Feb 18, 2023 at 5:23 AM John Moon <quic_johmoo@quicinc.com> wrote:
 >
-> While the kernel community has been good at maintaining backwards
-> compatibility with kernel UAPIs, it would be helpful to have a tool
-> to check if a patch introduces changes that break backwards
-> compatibility.
+> + linux-arm-kernel and Greg KH
 >
-> To that end, introduce check-uapi.sh: a simple shell script that
-> checks for changes to UAPI headers using libabigail.
+> Hi all,
 >
-> libabigail is "a framework which aims at helping developers and
-> software distributors to spot some ABI-related issues like interface
-> incompatibility in ELF shared libraries by performing a static
-> analysis of the ELF binaries at hand."
+> The kernel community has rigorously enforced a policy of backwards
+> compatibility in its UAPI headers for a long time. This has allowed user
+> applications to enjoy stability across kernel upgrades without
+> recompiling.
 >
-> The script uses one of libabigail's tools, "abidiff", to compile the
-> changed header before and after the patch to detect any changes.
+> In the vendor driver community (out-of-tree modules), there's been a
+> lack of discipline when it comes to maintaining UAPI backwards
+> compatibility. This has been a maintenance burden and limits our options
+> for long-term support of older devices.
 >
-> abidiff "compares the ABI of two shared libraries in ELF format. It
-> emits a meaningful report describing the differences between the two
-> ABIs."
+> Our goal is to add tooling for vendor driver developers because the
+> upstream model of expert maintainer code review can be difficult to
+> replicate in-house. Tools may help developers catch simple UAPI
+> incompatibilities that could be easily overlooked by in-house review.
 >
-> Signed-off-by: John Moon <quic_johmoo@quicinc.com>
-> ---
+> We see in the kernel documentation:
+> "Kernel headers are backwards compatible, but not forwards compatible.
+> This means that a program built against a C library using older kernel
+> headers should run on a newer kernel (although it may not have access
+> to new features), but a program built against newer kernel headers may
+> not work on an older kernel."[1]
+>
+> How does the kernel enforce this guarantee? We would be interested to
+> learn about any tools or methods used by kernel developers to make sure
+> the above statement remains true.
+>
+> Could the documentation on UAPI maintenance (from a developer's point of
+> view) be expanded? Internally, we have a set of guidelines for our kernel
+> developers regarding UAPI compatibility techniques. If there's interest
+> in supplying a document on this topic with the kernel, we'd be happy to
+> submit a draft detailing what we have so far as a jumping off point.
+>
+> Additionally, I've attached a shell script we've been using internally
+> to validate changes to our UAPI headers are backwards compatible. The
+> script uses libabigail's[2] tool abidiff[3] to compare a modified
+> header's ABI before and after a patch is applied. If an existing UAPI is
+> modified, the script exits non-zero. We use this script in our CI system
+> to block changes that fail the check.
+>
+> Currently, the script works with gcc. It generates output like this when
+> a backwards-incompatible change is made to a UAPI header:
+>
+>  !!! ABI differences detected in include/uapi/linux/acct.h (compared to
+>  file at HEAD^1) !!!
+>
+>      [C] 'struct acct' changed:
+>        type size changed from 512 to 544 (in bits)
+>        1 data member insertion:
+>          '__u32 new_val', at offset 512 (in bits) at acct.h:71:1
+>
+>  0/1 UAPI header file changes are backwards compatible
+>  UAPI header ABI check failed
+>
+> However, we have not had success with clang. It seems clang is more
+> aggressive in optimizing dead code away (no matter which options we
+> pass). Therefore, no ABI differences are found.
+>
+> We wanted to share with the community to receive feedback and any advice
+> when it comes to tooling/policy surrounding this issue. Our hope is that
+> the script will help all kernel UAPI authors (even those that haven't
+> upstreamed yet) maintain good discipline and avoid breaking userspace.
+>
+> [1] Documentation/kbuild/headers_install.rst
+> [2] https://sourceware.org/libabigail/manual/libabigail-overview.html
+> [3] https://sourceware.org/libabigail/manual/abidiff.html
+>
+> P.S. While at Qualcomm, Jordan Crouse <jorcrous@amazon.com> authored the
+> original version of the UAPI checker script. Thanks Jordan!
+
+
+If you want to express the authorship of the original,
+it is possible to add the "Co-developed-by" tag,
+which is mentioned in
+Documentation/translations/sp_SP/process/submitting-patches.rst
+
+
+It depends on how much code you rewrote, though.
+
+
+
+
+
+>
+> John Moon (1):
+>   check-uapi: Introduce check-uapi.sh
+>
 >  scripts/check-uapi.sh | 245 ++++++++++++++++++++++++++++++++++++++++++
 >  1 file changed, 245 insertions(+)
 >  create mode 100755 scripts/check-uapi.sh
 >
-> diff --git a/scripts/check-uapi.sh b/scripts/check-uapi.sh
-> new file mode 100755
-> index 000000000..b9cd3a2d7
-> --- /dev/null
-> +++ b/scripts/check-uapi.sh
-> @@ -0,0 +1,245 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +# Script to check a patch for UAPI stability
-> +set -o errexit
-> +set -o pipefail
-> +
-> +print_usage() {
-> +       name=$(basename "$0")
-> +       cat << EOF
-> +$name - check for UAPI header stability across Git commits
-> +
-> +By default, the script will check to make sure the latest commit did
-> +not introduce ABI changes (HEAD^1). You can check against additional
-> +commits/tags with the -r option.
-> +
-> +Usage: $name [-r GIT_REF]
-> +
-> +Options:
-> +    -r GIT_REF     Compare current version of file to GIT_REF (e.g. -r v6.1)
-> +
-> +Environmental Args:
-> +    ABIDIFF        Custom path to abidiff binary
-> +    ARCH           Architecture to build with (e.g. ARCH=arm)
-
-
-ARCH is not used anywhere in this script.
-
-
-
-
-
-> +    CC             C compiler (default is "gcc")
-> +    CROSS_COMPILE  Cross-compiling toochain prefix
-
-CROSS_COMPILE is unneeded since the toolchain prefix
-is a part of CC
-
-
-
-> +EOF
-> +}
-> +
-> +# Get the file and sanitize it using the headers_install script
-> +get_header() {
-> +       local -r ref="$1"
-> +       local -r file="$2"
-> +       local -r out="$3"
-> +
-> +       if [ ! -x "${KERNEL_SRC}/scripts/unifdef" ]; then
-> +               if ! make -C "${KERNEL_SRC}/scripts" unifdef; then
-
-
-
-I think
-
-  if ! make -f /dev/null "${KERNEL_SRC}/scripts/unifdef"; then
-
-... clarifies what you are doing here
-because you are using make's built-in rule,
-and nothing in scripts/Makefile.
-
-I do not understand the reason for using make
-if you do not use Makefile at all.
-
-You are just compiling scripts/unifdef.c directly.
-
-
-
-
-
-
-
-> +                       errlog 'error - failed to build required dependency "scripts/unifdef"'
-> +                       exit 1
-> +               fi
-> +       fi
-> +
-> +       mkdir -p "$(dirname "$out")"
-> +       (
-> +               cd "$KERNEL_SRC"
-> +               git show "${ref}:${file}" > "${out}.in"
-> +               scripts/headers_install.sh "${out}.in" "$out"
-> +       )
-
-
-Unneeded sub-shell fork.
-
-     git -C "$KERNEL_SRC" show "${ref}:${file}" > "${out}.in"
-     scripts/headers_install.sh "${out}.in" "$out"
-
-
-
-
-
-
-
-
-
-
-
-> +}
-> +
-> +# Compile the simple test app
-> +do_compile() {
-> +       local -r compiler="$1"
-> +       local -r inc_dir="$2"
-> +       local -r header="$3"
-> +       local -r out="$4"
-> +       echo "int main(int argc, char **argv) { return 0; }" | \
-
-bikeshed:   'int main(void) { return 0; }' is enough.
-
-
-> +               "$compiler" -c \
-
-
-You can expand ${CC} here
-
-                   "${CC:-gcc}" -c \
-
-
-I do not see anywhere else to use ${CC}.
-Remove the 'compiler' argument.
-
-
-
-
-> +                 -o "$out" \
-> +                 -x c \
-> +                 -O0 \
-> +                 -std=c90 \
-> +                 -fno-eliminate-unused-debug-types \
-> +                 -g \
-> +                 "-I$inc_dir" \
-
-
-"-I$inc_dir" is meaningless for most cases, unless
-two UAPI headers are changed in HEAD.
-
-
-In some cases, you cannot even compile the header.
-
-Think about this case:
-  include/uapi/linux/foo.h includes <linux/bar.h>
-
-linux/bar.h does not exist in this tmp directory.
-
-You assume <linux/bar.h> comes from the user's build environment,
-presumably located under /usr/include/.
-
-It does not necessarily new enough to compile
-include/uapi/linux/foo.h
-
-So, this does not work.
-I believe you need to re-consider the approach.
-
-
-
-
-
-> +                 -include "$header" \
-> +                 -
-> +}
-> +
-> +# Print to stderr
-> +errlog() {
-> +       echo "$@" >&2
-> +}
-> +
-> +# Grab the list of incompatible headers from the usr/include Makefile
-> +get_no_header_list() {
-> +       {
-> +               cat "${KERNEL_SRC}/usr/include/Makefile"
-> +               # shellcheck disable=SC2016
-> +               printf '\nall:\n\t@echo $(no-header-test)\n'
-> +       } | make -C "${KERNEL_SRC}/usr/include" -f - --just-print \
-> +         | grep '^echo' \
-> +         | cut -d ' ' -f 2-
-> +}
-
-
-Redundant.
-
-
-
-get_no_header_list() {
-        {
-             echo 'all: ; @echo $(no-header-test)'
-             cat "${KERNEL_SRC}/usr/include/Makefile"
-        } | make -f -
-}
-
-
-should be equivalent, but you still cannot exclude
-include/uapi/asm-generic/*.h, though.
-
-
-
-
-
-> +
-> +# Check any changed files in this commit for UAPI compatibility
-> +check_changed_files() {
-> +       refs_to_check=("$@")
-> +
-> +       local passed=0;
-> +       local failed=0;
-> +
-> +       while read -r status file; do
-> +               local -r base=${file/uapi\//}
-
-
-The -r option is wrong since 'base' is updated
-in the second iteration.
-
-
-If this while loop gets two or more input lines,
-I see the following in the second iteration.
-
-
-./scripts/check-uapi.sh: line 94: local: base: readonly variable
-
-
-
-
-
-
-> +
-> +               # Get the current version of the file and put it in the install dir
-> +               get_header "HEAD" "$file" "${tmp_dir}/usr/${base}"
-
-
-
-Is '/usr' needed?
-
-
-
-> +
-> +               for ref in "${refs_to_check[@]}"; do
-> +                       if ! git rev-parse --verify "$ref" > /dev/null 2>&1; then
-> +                               echo "error - invalid ref \"$ref\""
-> +                               exit 1
-> +                       fi
-> +
-> +                       if check_uapi_for_file "$status" "$file" "$ref" "$base"; then
-> +                               passed=$((passed + 1))
-> +                       else
-> +                               failed=$((failed + 1))
-> +                       fi
-> +               done
-> +       done < <(cd "$KERNEL_SRC" && git show HEAD --name-status --format="" --diff-filter=a -- include/uapi/)
-
-Redundant.
-
-done < <(git -C "$KERNEL_SRC" show HEAD --name-status --format=""
---diff-filter=a -- include/uapi/)
-
-
-
-
-Why are you checking only include/uapi/ ?
-UAPI headers exist in arch/*/include/uapi/
-
-
-
-
-
-
-
-
-
-> +
-> +       total=$((passed + failed))
-> +       if [ "$total" -eq 0 ]; then
-> +               errlog "No changes to UAPI headers detected in most recent commit"
-> +       else
-> +               errlog "${passed}/${total} UAPI header file changes are backwards compatible"
-> +       fi
-> +
-> +       return "$failed"
-> +}
-> +
-> +# Check UAPI compatibility for a given file
-> +check_uapi_for_file() {
-> +       local -r status="$1"
-> +       local -r file="$2"
-> +       local -r ref="$3"
-> +       local -r base="$4"
-> +
-> +       # shellcheck disable=SC2076
-> +       if [[ " $(get_no_header_list) " =~ " ${base/include\//} " ]]; then
-> +               errlog "$file cannot be tested by this script (see usr/include/Makefile)."
-> +               return 1
-> +       fi
-> +
-> +       if [ "$status" = "D" ]; then
-> +               errlog "UAPI header $file was incorrectly removed"
-> +               return 1
-> +       fi
-
-If you look at git history, we sometimes do this.
-
-e.g.
-
-1e6b57d6421f0343dd11619612e5ff8930cddf38
-
-
-
-
-
-
-
-> +
-> +       if [ "$status" = "R" ]; then
-> +               errlog "UAPI header $file was incorrectly renamed"
-> +               return 1
-> +       fi
-
-
-
-I think this is unneeded if you add --no-renames to 'git show'.
-
-I do not see any sense to distinguish removal and rename
-since it is what git detects from the similarity.
-
-
-
-
-
-
-
-
-
-
-> +
-> +       # Get the "previous" verison of the API header and put it in the install dir
-> +       get_header "$ref" "$file" "${tmp_dir}/usr/${base}.pre"
-
-Is '/usr' needed?
-
-
-> +
-> +       compare_abi "${CROSS_COMPILE}${CC:-gcc}" "$file" "$base" "$ref"
-
-CROSS_COMPILE is unneeded since it is included in ${CC}.
-
-
-
-
-
-
-
-
-> +}
-> +
-> +# Perform the A/B compilation and compare output ABI
-> +compare_abi() {
-> +       local -r compiler="$1"
-> +       local -r file="$2"
-> +       local -r base="$3"
-> +       local -r ref="$4"
-> +
-> +       pre_bin="${tmp_dir}/pre.bin"
-> +       post_bin="${tmp_dir}/post.bin"
-> +       log="${tmp_dir}/log"
-> +
-> +       if ! do_compile "$compiler" "${tmp_dir}/usr/include" "${tmp_dir}/usr/${base}.pre" "$pre_bin" 2> "$log"; then
-> +               errlog "Couldn't compile current version of UAPI header $file..."
-> +               cat "$log" >&2
-> +               return 1
-> +       fi
-> +
-> +       if ! do_compile "$compiler" "${tmp_dir}/usr/include" "${tmp_dir}/usr/${base}" "$post_bin" 2> "$log"; then
-> +               errlog "Couldn't compile new version of UAPI header $file..."
-> +               cat "$log" >&2
-> +               return 1
-> +       fi
-> +
-> +       if "$ABIDIFF" --non-reachable-types "$pre_bin" "$post_bin" > "$log"; then
-> +               echo "No ABI differences detected in $file (compared to file at $ref)"
-> +       else
-> +               errlog "!!! ABI differences detected in $file (compared to file at $ref) !!!"
-> +               echo >&2
-> +               sed  -e '/summary:/d' -e '/changed type/d' -e '/^$/d' -e 's/^/  /g' "$log" >&2
-> +               echo >&2
-> +               return 1
-> +       fi
-> +}
-> +
-> +# Make sure we have the tools we need
-> +check_deps() {
-> +       export ABIDIFF="${ABIDIFF:-abidiff}"
-> +
-> +       if ! command -v "$ABIDIFF" > /dev/null 2>&1; then
-> +               errlog "error - abidiff not found!"
-> +               errlog "Please install abigail-tools (version 1.7 or greater)"
-> +               errlog "See: https://sourceware.org/libabigail/manual/libabigail-overview.html"
-> +               exit 1
-> +       fi
-> +
-> +       read -r abidiff_maj abidiff_min _ < <("$ABIDIFF" --version | cut -d ' ' -f 2 | tr '.' ' ')
-> +       if [ "$abidiff_maj" -lt 1 ] || ([ "$abidiff_maj" -eq 1 ] && [ "$abidiff_min" -lt 7 ]); then
-> +               errlog "error - abidiff version too old: $("$ABIDIFF" --version)"
-> +               errlog "Please install abigail-tools (version 1.7 or greater)"
-> +               errlog "See: https://sourceware.org/libabigail/manual/libabigail-overview.html"
-> +               exit 1
-> +       fi
-> +}
-> +
-> +main() {
-> +       refs_to_check=( "HEAD^1" )
-> +       while getopts "hr:" opt; do
-> +               case $opt in
-> +               h)
-> +                       print_usage
-> +                       exit 0
-> +                       ;;
-> +               r)
-> +                       refs_to_check+=( "$OPTARG" )
-> +                       ;;
-> +               esac
-> +       done
-> +
-> +       check_deps
-> +
-> +       tmp_dir=$(mktemp -d)
-> +       trap 'rm -rf $tmp_dir' EXIT
-> +
-> +       if [ -z "$KERNEL_SRC" ]; then
-> +               KERNEL_SRC="$(realpath "$(dirname "$0")"/..)"
-> +       fi
-> +       export KERNEL_SRC
-
-
-Who will use KERNEL_SRC except this script?
-
-
-
-
-
-
-> +
-> +       if ! (cd "$KERNEL_SRC" && git rev-parse --is-inside-work-tree > /dev/null 2>&1); then
-> +               errlog "error - this script requires the kernel tree to be initialized with Git"
-> +               exit 1
-> +       fi
-> +
-> +       export ARCH
-> +       export CC
-> +       export CROSS_COMPILE
-
-print_usage() says these three are taken from
-environment variables.
-
-So, they are already exported, aren't they?
-
-
-
-
-
-
-> +
-> +       if ! check_changed_files "${refs_to_check[@]}"; then
-> +               errlog "UAPI header ABI check failed"
-> +               exit 1
-> +       fi
-> +}
-> +
-> +main "$@"
+>
+> base-commit: 033c40a89f55525139fd5b6342281b09b97d05bf
 > --
 > 2.17.1
 >
+
+
 --
 Best Regards
 Masahiro Yamada
