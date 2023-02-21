@@ -2,94 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE84169D852
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Feb 2023 03:10:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 50BE869DBF9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Feb 2023 09:32:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231708AbjBUCKL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 20 Feb 2023 21:10:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50906 "EHLO
+        id S233723AbjBUIcw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 21 Feb 2023 03:32:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230215AbjBUCKK (ORCPT
+        with ESMTP id S233724AbjBUIcv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 20 Feb 2023 21:10:10 -0500
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09712BDFB;
-        Mon, 20 Feb 2023 18:10:10 -0800 (PST)
-Received: by mail-ot1-f41.google.com with SMTP id w7-20020a056830280700b0068dbf908574so610604otu.8;
-        Mon, 20 Feb 2023 18:10:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p3Gcf8LkDG3VS7vwVyjaiQMkBrfXaJ1jO/Cq3quHl28=;
-        b=kyEtouE0emEcQPMRp4ROZvhqO+RnkwDUPY9AAiHfoIUlefyTbxX4M/LPhJgfwCBtSZ
-         qnJq0bjD+sPVKO1mk39LrgHJv5QEpkCGgVIjFi+t9kTjsqoEpYd8z14hV7dPRBXaBFqa
-         SiZL2FkQzGko6InO1Ts7PSabnHB8eXX4K0wczL5mbM4uyI1tEuNkuMOJyUepUN9e6Gld
-         7w5JMrbkC436wS3xStcz0Cvm8/k3LjpbtWnog7IWdGaEZwSkWxlPNMBCshRkvQfRNBvF
-         WdN3DvkSFWZg35bqEFVB8PpDNoPN0uJI3n6x8u12hDjCG5kFrRzopLAYbY37PR+dJXCY
-         zDQw==
-X-Gm-Message-State: AO0yUKXxKePOBcbWJbZVUvrY3kPks8jy4mcc9a4hbzUqs/QlyO3dgbjd
-        UKiMrGLZT7fBT5c6N6kp6g==
-X-Google-Smtp-Source: AK7set9bAWW4zsaz4XGis1qaApLFdentDhXXsZbhblN1tIOfXeMTi65ShE+zEW8WCdXFiL5kqEIzRg==
-X-Received: by 2002:a9d:6c7:0:b0:68b:e2bb:8027 with SMTP id 65-20020a9d06c7000000b0068be2bb8027mr990166otx.14.1676945409236;
-        Mon, 20 Feb 2023 18:10:09 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id v11-20020a9d5a0b000000b00684bede5359sm5679163oth.42.2023.02.20.18.10.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Feb 2023 18:10:08 -0800 (PST)
-Received: (nullmailer pid 823652 invoked by uid 1000);
-        Tue, 21 Feb 2023 02:10:07 -0000
-Date:   Mon, 20 Feb 2023 20:10:07 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Nipun Gupta <nipun.gupta@amd.com>
-Cc:     linux-arm-kernel@lists.infradead.org, alex.williamson@redhat.com,
-        cohuck@redhat.com, rafael@kernel.org, will@kernel.org,
-        jgg@ziepe.ca, jeffrey.l.hugo@gmail.com, michal.simek@amd.com,
-        eric.auger@redhat.com, git@amd.com, linux-kbuild@vger.kernel.org,
-        joro@8bytes.org, robin.murphy@arm.com, ndesaulniers@google.com,
-        masahiroy@kernel.org, harpreet.anand@amd.com,
-        linux-kernel@vger.kernel.org, mchehab+huawei@kernel.org,
-        gregkh@linuxfoundation.org, yishaih@nvidia.com,
-        devicetree@vger.kernel.org, f.fainelli@gmail.com, jgg@nvidia.com,
-        krzysztof.kozlowski+dt@linaro.org, okaya@kernel.org,
-        Michael.Srba@seznam.cz, mani@kernel.org,
-        song.bao.hua@hisilicon.com, saravanak@google.com,
-        rdunlap@infradead.org, nikhil.agarwal@amd.com, robh+dt@kernel.org,
-        maz@kernel.org
-Subject: Re: [PATCH v8 3/7] dt-bindings: bus: add CDX bus controller for
- versal net
-Message-ID: <167694540701.823591.3473910684799952854.robh@kernel.org>
-References: <20230217132830.3140439-1-nipun.gupta@amd.com>
- <20230217132830.3140439-4-nipun.gupta@amd.com>
+        Tue, 21 Feb 2023 03:32:51 -0500
+Received: from mail.lokoho.com (mail.lokoho.com [217.61.105.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 056B42366E
+        for <linux-kbuild@vger.kernel.org>; Tue, 21 Feb 2023 00:32:47 -0800 (PST)
+Received: by mail.lokoho.com (Postfix, from userid 1001)
+        id BE27282A87; Tue, 21 Feb 2023 08:31:56 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
+        t=1676968365; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
+        h=Date:From:To:Subject:From;
+        b=hknSX//IPMbwxi6SAATy/zUTZCNAQfJNGHU69uSspseq4vJYroIaNzRNfj9kdpzE+
+         Bqxat9pZGR+Jb92SphXHk/VzuMFFizxg4h7iAZvupWUecVZvvPt7Iphy6lSPZjPYH+
+         lwy28CpxM5ouM+tgQolz6TI6xSDigZhvw56wRS5W9Hk2I/A1K1r06MfuEssoc9zIO2
+         2gLOMmNwl1y00ODXQmB1cTEt0dhtDOWUYImWxoWOcgmSAJ3hcoCf83JulPuCHZ9PO1
+         7O1mlG7GV9f8tS25G4j4upuuFSdagkByOGtz1kSMfrRpWa99iabLd6JpCyN29ORND3
+         OPL1p7aD1MWmQ==
+Received: by mail.lokoho.com for <linux-kbuild@vger.kernel.org>; Tue, 21 Feb 2023 08:30:33 GMT
+Message-ID: <20230221074501-0.1.45.15t0a.0.r1ya4absrx@lokoho.com>
+Date:   Tue, 21 Feb 2023 08:30:33 GMT
+From:   "Adam Charachuta" <adam.charachuta@lokoho.com>
+To:     <linux-kbuild@vger.kernel.org>
+Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
+X-Mailer: mail.lokoho.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230217132830.3140439-4-nipun.gupta@amd.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Dzie=C5=84 dobry,
 
-On Fri, 17 Feb 2023 18:58:26 +0530, Nipun Gupta wrote:
-> Add CDX bus controller device tree bindings for versal-net
-> devices.
-> 
-> Signed-off-by: Nipun Gupta <nipun.gupta@amd.com>
-> Tested-by: Nikhil Agarwal <nikhil.agarwal@amd.com>
-> ---
->  .../bindings/bus/xlnx,versal-net-cdx.yaml     | 82 +++++++++++++++++++
->  MAINTAINERS                                   |  1 +
->  2 files changed, 83 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/bus/xlnx,versal-net-cdx.yaml
-> 
+zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
+=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
+o dalszych rozm=C3=B3w.=20
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
+=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
+=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
+strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
 
+Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
+
+
+Pozdrawiam
+Adam Charachuta
