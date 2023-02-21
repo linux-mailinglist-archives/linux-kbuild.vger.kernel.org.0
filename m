@@ -2,53 +2,75 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF66B69C194
-	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Feb 2023 18:05:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE84169D852
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Feb 2023 03:10:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230518AbjBSRFc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 19 Feb 2023 12:05:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42294 "EHLO
+        id S231708AbjBUCKL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 20 Feb 2023 21:10:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231124AbjBSRF3 (ORCPT
+        with ESMTP id S230215AbjBUCKK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 19 Feb 2023 12:05:29 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93D9A1350D;
-        Sun, 19 Feb 2023 09:05:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=F6JJADHOsWHKA0bshEGXmw0TuflTOHo4/Y/0axH58tc=; b=0bQrdmQXLvQS/CWWCW2JzSwHMQ
-        ckfCDify3CmNxAS5OAQShbkf8L5VCNS+tR+r8xSNbifqYZL2GgrvNqPGfxJsAEGCPVwVUuqqBNuZd
-        Thnx6KqAdgDfntS2JuY9LfI8zQWTIrIj2UXm4h8aObd8w7b9wylm0TutDqu8EfnnUiHK1V9/6T1Pa
-        Opca1+EzlfNrx8i3/TOXKVrgYyMgAnAtluQWC3v+RedrXqA+JnQrzz9yPJAUPbxq7/s/M6QWQc9dK
-        R46GBq5JYzKANbkgZwsqk6uAdnpiwQmSzNsmjg37jIqcUfov2oQyhZX8d0bBZQVNEd0AR5c3W8+BL
-        XZVxjhFw==;
-Received: from [2601:1c2:980:9ec0::df2f]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pTn7s-001zOP-S2; Sun, 19 Feb 2023 17:05:24 +0000
-Message-ID: <86cc6fec-2d6e-17eb-b9ca-66c1850fca78@infradead.org>
-Date:   Sun, 19 Feb 2023 09:05:24 -0800
+        Mon, 20 Feb 2023 21:10:10 -0500
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09712BDFB;
+        Mon, 20 Feb 2023 18:10:10 -0800 (PST)
+Received: by mail-ot1-f41.google.com with SMTP id w7-20020a056830280700b0068dbf908574so610604otu.8;
+        Mon, 20 Feb 2023 18:10:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p3Gcf8LkDG3VS7vwVyjaiQMkBrfXaJ1jO/Cq3quHl28=;
+        b=kyEtouE0emEcQPMRp4ROZvhqO+RnkwDUPY9AAiHfoIUlefyTbxX4M/LPhJgfwCBtSZ
+         qnJq0bjD+sPVKO1mk39LrgHJv5QEpkCGgVIjFi+t9kTjsqoEpYd8z14hV7dPRBXaBFqa
+         SiZL2FkQzGko6InO1Ts7PSabnHB8eXX4K0wczL5mbM4uyI1tEuNkuMOJyUepUN9e6Gld
+         7w5JMrbkC436wS3xStcz0Cvm8/k3LjpbtWnog7IWdGaEZwSkWxlPNMBCshRkvQfRNBvF
+         WdN3DvkSFWZg35bqEFVB8PpDNoPN0uJI3n6x8u12hDjCG5kFrRzopLAYbY37PR+dJXCY
+         zDQw==
+X-Gm-Message-State: AO0yUKXxKePOBcbWJbZVUvrY3kPks8jy4mcc9a4hbzUqs/QlyO3dgbjd
+        UKiMrGLZT7fBT5c6N6kp6g==
+X-Google-Smtp-Source: AK7set9bAWW4zsaz4XGis1qaApLFdentDhXXsZbhblN1tIOfXeMTi65ShE+zEW8WCdXFiL5kqEIzRg==
+X-Received: by 2002:a9d:6c7:0:b0:68b:e2bb:8027 with SMTP id 65-20020a9d06c7000000b0068be2bb8027mr990166otx.14.1676945409236;
+        Mon, 20 Feb 2023 18:10:09 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id v11-20020a9d5a0b000000b00684bede5359sm5679163oth.42.2023.02.20.18.10.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Feb 2023 18:10:08 -0800 (PST)
+Received: (nullmailer pid 823652 invoked by uid 1000);
+        Tue, 21 Feb 2023 02:10:07 -0000
+Date:   Mon, 20 Feb 2023 20:10:07 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Nipun Gupta <nipun.gupta@amd.com>
+Cc:     linux-arm-kernel@lists.infradead.org, alex.williamson@redhat.com,
+        cohuck@redhat.com, rafael@kernel.org, will@kernel.org,
+        jgg@ziepe.ca, jeffrey.l.hugo@gmail.com, michal.simek@amd.com,
+        eric.auger@redhat.com, git@amd.com, linux-kbuild@vger.kernel.org,
+        joro@8bytes.org, robin.murphy@arm.com, ndesaulniers@google.com,
+        masahiroy@kernel.org, harpreet.anand@amd.com,
+        linux-kernel@vger.kernel.org, mchehab+huawei@kernel.org,
+        gregkh@linuxfoundation.org, yishaih@nvidia.com,
+        devicetree@vger.kernel.org, f.fainelli@gmail.com, jgg@nvidia.com,
+        krzysztof.kozlowski+dt@linaro.org, okaya@kernel.org,
+        Michael.Srba@seznam.cz, mani@kernel.org,
+        song.bao.hua@hisilicon.com, saravanak@google.com,
+        rdunlap@infradead.org, nikhil.agarwal@amd.com, robh+dt@kernel.org,
+        maz@kernel.org
+Subject: Re: [PATCH v8 3/7] dt-bindings: bus: add CDX bus controller for
+ versal net
+Message-ID: <167694540701.823591.3473910684799952854.robh@kernel.org>
+References: <20230217132830.3140439-1-nipun.gupta@amd.com>
+ <20230217132830.3140439-4-nipun.gupta@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 4/4] sh: remove compiler flag duplication
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Rich Felker <dalias@libc.org>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        linux-sh@vger.kernel.org
-References: <20230219141555.2308306-1-masahiroy@kernel.org>
- <20230219141555.2308306-4-masahiroy@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20230219141555.2308306-4-masahiroy@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230217132830.3140439-4-nipun.gupta@amd.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -56,48 +78,18 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
-
-On 2/19/23 06:15, Masahiro Yamada wrote:
-> Every compiler flag added by arch/sh/Makefile is passed to the
-> compiler twice.
+On Fri, 17 Feb 2023 18:58:26 +0530, Nipun Gupta wrote:
+> Add CDX bus controller device tree bindings for versal-net
+> devices.
 > 
-> $(KBUILD_CPPFLAGS) + $(KBUILD_CFLAGS) is used for compiling *.c
-> $(KBUILD_CPPFLAGS) + $(KBUILD_AFLAGS) is used for compiling *.S
-> 
-> Given the above, adding $(cflags-y) to all of KBUILD_{CPP/C/A}FLAGS
-> ends up with duplication.
-> 
-> Add -I options to $(KBUILD_CPPFLAGS), and the rest of $(cflags-y)
-> to KBUILD_{C,A}FLAGS.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
+> Signed-off-by: Nipun Gupta <nipun.gupta@amd.com>
+> Tested-by: Nikhil Agarwal <nikhil.agarwal@amd.com>
 > ---
+>  .../bindings/bus/xlnx,versal-net-cdx.yaml     | 82 +++++++++++++++++++
+>  MAINTAINERS                                   |  1 +
+>  2 files changed, 83 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/bus/xlnx,versal-net-cdx.yaml
 > 
->  arch/sh/Makefile | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/arch/sh/Makefile b/arch/sh/Makefile
-> index f1c6aace8acb..cab2f9c011a8 100644
-> --- a/arch/sh/Makefile
-> +++ b/arch/sh/Makefile
-> @@ -145,10 +145,8 @@ cpuincdir-y			+= cpu-common	# Must be last
->  
->  drivers-y			+= arch/sh/drivers/
->  
-> -cflags-y	+= $(addprefix -I $(srctree)/arch/sh/include/, $(cpuincdir-y) $(machdir-y))
-> -
-> +KBUILD_CPPFLAGS		+= $(addprefix -I $(srctree)/arch/sh/include/, $(cpuincdir-y) $(machdir-y))
->  KBUILD_CFLAGS		+= -pipe $(cflags-y)
-> -KBUILD_CPPFLAGS		+= $(cflags-y)
->  KBUILD_AFLAGS		+= $(cflags-y)
->  
->  ifeq ($(CONFIG_MCOUNT),y)
 
--- 
-~Randy
+Reviewed-by: Rob Herring <robh@kernel.org>
+
