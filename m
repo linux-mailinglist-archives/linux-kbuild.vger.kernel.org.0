@@ -2,55 +2,85 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5340C69DF8B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Feb 2023 12:58:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11FA869E90F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Feb 2023 21:40:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233422AbjBUL6G (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 21 Feb 2023 06:58:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34576 "EHLO
+        id S230217AbjBUUkW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 21 Feb 2023 15:40:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234581AbjBUL5p (ORCPT
+        with ESMTP id S230262AbjBUUkV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 21 Feb 2023 06:57:45 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B92F02915D;
-        Tue, 21 Feb 2023 03:57:18 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 54A3BFEC;
-        Tue, 21 Feb 2023 03:57:24 -0800 (PST)
-Received: from [10.57.13.181] (unknown [10.57.13.181])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 833D73F703;
-        Tue, 21 Feb 2023 03:56:36 -0800 (PST)
-Message-ID: <4cc935e2-8b24-8060-5070-fd6eb85f07b6@arm.com>
-Date:   Tue, 21 Feb 2023 11:56:30 +0000
+        Tue, 21 Feb 2023 15:40:21 -0500
+Received: from mail-il1-x134.google.com (mail-il1-x134.google.com [IPv6:2607:f8b0:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72153301A1
+        for <linux-kbuild@vger.kernel.org>; Tue, 21 Feb 2023 12:40:11 -0800 (PST)
+Received: by mail-il1-x134.google.com with SMTP id y3so2460905ilb.6
+        for <linux-kbuild@vger.kernel.org>; Tue, 21 Feb 2023 12:40:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=landley-net.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yhJ03HWaHgcQf5OOYhlL9i+S+dAZS2VRK1yIdsqmC7s=;
+        b=b6ktkeNj8WV1cTpi4ZZdby245M/K7jo3YcUSE0syTwjhuTI7mywNeTt//HMF69Mx9E
+         2YSGktOCxrRiJjbofyxPuH85woOah/dfpZTvUoTgEwvXC5MIwdUg/T/jocbAG9A5qUFa
+         JAgl32076dnrIx7tdF1gADyv3jbo6S9CvGd8YvsSPdem3Tt+ZZOWBq21rgNcSwdAMKnE
+         sSIyFrMeg1KHXavwRjQbFSRGt/Od4D0VkMU8kcknlTUkoP36pboBg6I1KAGAyCXI8yLm
+         yKmwsgyIyS3rvJCBYJ24/a7OC8H+SWakfZRON6Kkliz5dTEE0tGTSjctsLRBCFmhqIY1
+         akQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=yhJ03HWaHgcQf5OOYhlL9i+S+dAZS2VRK1yIdsqmC7s=;
+        b=UiQ2nhezB73X5BBzpmdfYaOvVl6+kWjwudJUt54SlQQhRupRSLhw2XCfb/ktz6mdwH
+         6QwOu8wvjMxpTWmp5FsHqngg/1dV6bAnd6Tanx86IMpzEmUVBCfab/RbMDmePMvWHQmd
+         Ag5KMgtNnceIWCI9WsvYl6w/yOwmpExHdURQEBjjNWAxMpVjYEQKgUXVZjPJdlq8uu3M
+         hBf9ROkSlsSCWYVWyEyuK3+ELheBBiys7eHwRHW7vA/1kZ+THaQacLmumyh3H3M6YI0P
+         49TofCnX586vegyiJlKzdcZMtsELi72gTAqaKP6VVa9kd1UYvgvg66CLnu/YZlSfWvHT
+         XCcQ==
+X-Gm-Message-State: AO0yUKWuFQcONdUO+a42PsM2QBCWwpqICqPCqpNTm9fEnNZTMrxHiodw
+        k09KbU3IuQIYMLUbLn1ESdnwUQ==
+X-Google-Smtp-Source: AK7set88KnKoKx+kHGOs5DNe/wu/M+9pYE9ROIHJ7WN0WfN4v9J5xt/zSSCAbRWyJVWCa46eLmwPng==
+X-Received: by 2002:a92:cd8e:0:b0:315:459a:8bd with SMTP id r14-20020a92cd8e000000b00315459a08bdmr6555310ilb.25.1677012010889;
+        Tue, 21 Feb 2023 12:40:10 -0800 (PST)
+Received: from [172.16.32.78] ([198.232.126.202])
+        by smtp.gmail.com with ESMTPSA id r2-20020a922a02000000b00313ca4be5e1sm756486ile.12.2023.02.21.12.40.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Feb 2023 12:40:10 -0800 (PST)
+Message-ID: <b455394f-9faa-1f1a-f171-0b9d5e9ada35@landley.net>
+Date:   Tue, 21 Feb 2023 14:53:30 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH v8 2/7] iommu/arm-smmu-v3: support ops registration for
- CDX bus
-Content-Language: en-GB
-To:     Nipun Gupta <nipun.gupta@amd.com>, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
-        rafael@kernel.org, eric.auger@redhat.com,
-        alex.williamson@redhat.com, cohuck@redhat.com,
-        song.bao.hua@hisilicon.com, mchehab+huawei@kernel.org,
-        maz@kernel.org, f.fainelli@gmail.com, jeffrey.l.hugo@gmail.com,
-        saravanak@google.com, Michael.Srba@seznam.cz, mani@kernel.org,
-        yishaih@nvidia.com, jgg@ziepe.ca, jgg@nvidia.com, will@kernel.org,
-        joro@8bytes.org, masahiroy@kernel.org, ndesaulniers@google.com,
-        rdunlap@infradead.org, linux-arm-kernel@lists.infradead.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Cc:     okaya@kernel.org, harpreet.anand@amd.com, nikhil.agarwal@amd.com,
-        michal.simek@amd.com, git@amd.com
-References: <20230217132830.3140439-1-nipun.gupta@amd.com>
- <20230217132830.3140439-3-nipun.gupta@amd.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20230217132830.3140439-3-nipun.gupta@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Content-Language: en-US
+To:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc:     Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Halaney <ahalaney@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        linux-kbuild@vger.kernel.org, Li Zhe <lizhe.67@bytedance.com>,
+        llvm@lists.linux.dev, Mark-PK Tsai <mark-pk.tsai@mediatek.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Peter Zijlstra <peterz@infradead.org>
+From:   Rob Landley <rob@landley.net>
+Subject: [PATCH 0/5] Patches used to build mkroot.
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,43 +88,29 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 2023-02-17 13:28, Nipun Gupta wrote:
+The ~300 line bash script in toybox that builds bootable Linux systems
+for a dozen-ish targets can use a vanilla kernel, but the binaries I
+ship are built from a kernel with these patches:
 
-Nit: subject should be "iommu: Support ops registration for CDX bus", 
-since this is no longer a driver-specific thing.
+https://github.com/landley/toybox/blob/master/scripts/mkroot.sh
+https://landley.net/toybox/downloads/binaries/mkroot/0.8.9/
 
-Thanks,
-Robin.
+I've posted each patch to the list already, but here they are together
+and updated for 6.2:
 
-> With new CDX bus supported for AMD FPGA devices on ARM
-> platform, the bus requires registration for the SMMU v3
-> driver.
-> 
-> Signed-off-by: Nipun Gupta <nipun.gupta@amd.com>
-> Tested-by: Nikhil Agarwal <nikhil.agarwal@amd.com>
-> ---
->   drivers/iommu/iommu.c | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> index 1fbe53354532..c2ff7754a4b3 100644
-> --- a/drivers/iommu/iommu.c
-> +++ b/drivers/iommu/iommu.c
-> @@ -28,6 +28,7 @@
->   #include <linux/fsl/mc.h>
->   #include <linux/module.h>
->   #include <linux/cc_platform.h>
-> +#include <linux/cdx/cdx_bus.h>
->   #include <trace/events/iommu.h>
->   #include <linux/sched/mm.h>
->   #include <linux/msi.h>
-> @@ -129,6 +130,9 @@ static struct bus_type * const iommu_buses[] = {
->   #ifdef CONFIG_TEGRA_HOST1X_CONTEXT_BUS
->   	&host1x_context_device_bus_type,
->   #endif
-> +#ifdef CONFIG_CDX_BUS
-> +	&cdx_bus_type,
-> +#endif
->   };
->   
->   /*
+1) let LLVM build normally without telling Linux on the command line
+This way I can mix CROSS_COMPILE=$ARCH-unknown-linux-cross- without
+having to care that some are llvm and some are gcc.
+
+2) don't require an extra dependency to build x86-64 no other target needs.
+
+3) Make CONFIG_DEVTMPFS_MOUNT work in initramfs. That way having
+the kernel build archive up a directory into a cpio.gz as a normal
+user doesn't leave me without a /dev/console and thus init running
+with stdin/stderr/stdout closed.
+
+4) Replace the only user of bc with c. (Another package dependency
+with only one user.)
+
+5) Fix rootfstype=tmpfs in initramfs. (A thinko I made in 2013 which
+nobody else has bothered to fix for a decade now.)
