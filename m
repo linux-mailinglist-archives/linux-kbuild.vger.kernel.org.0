@@ -2,62 +2,99 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 50BE869DBF9
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Feb 2023 09:32:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5340C69DF8B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Feb 2023 12:58:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233723AbjBUIcw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 21 Feb 2023 03:32:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48280 "EHLO
+        id S233422AbjBUL6G (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 21 Feb 2023 06:58:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233724AbjBUIcv (ORCPT
+        with ESMTP id S234581AbjBUL5p (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 21 Feb 2023 03:32:51 -0500
-Received: from mail.lokoho.com (mail.lokoho.com [217.61.105.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 056B42366E
-        for <linux-kbuild@vger.kernel.org>; Tue, 21 Feb 2023 00:32:47 -0800 (PST)
-Received: by mail.lokoho.com (Postfix, from userid 1001)
-        id BE27282A87; Tue, 21 Feb 2023 08:31:56 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
-        t=1676968365; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
-        h=Date:From:To:Subject:From;
-        b=hknSX//IPMbwxi6SAATy/zUTZCNAQfJNGHU69uSspseq4vJYroIaNzRNfj9kdpzE+
-         Bqxat9pZGR+Jb92SphXHk/VzuMFFizxg4h7iAZvupWUecVZvvPt7Iphy6lSPZjPYH+
-         lwy28CpxM5ouM+tgQolz6TI6xSDigZhvw56wRS5W9Hk2I/A1K1r06MfuEssoc9zIO2
-         2gLOMmNwl1y00ODXQmB1cTEt0dhtDOWUYImWxoWOcgmSAJ3hcoCf83JulPuCHZ9PO1
-         7O1mlG7GV9f8tS25G4j4upuuFSdagkByOGtz1kSMfrRpWa99iabLd6JpCyN29ORND3
-         OPL1p7aD1MWmQ==
-Received: by mail.lokoho.com for <linux-kbuild@vger.kernel.org>; Tue, 21 Feb 2023 08:30:33 GMT
-Message-ID: <20230221074501-0.1.45.15t0a.0.r1ya4absrx@lokoho.com>
-Date:   Tue, 21 Feb 2023 08:30:33 GMT
-From:   "Adam Charachuta" <adam.charachuta@lokoho.com>
-To:     <linux-kbuild@vger.kernel.org>
-Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
-X-Mailer: mail.lokoho.com
+        Tue, 21 Feb 2023 06:57:45 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B92F02915D;
+        Tue, 21 Feb 2023 03:57:18 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 54A3BFEC;
+        Tue, 21 Feb 2023 03:57:24 -0800 (PST)
+Received: from [10.57.13.181] (unknown [10.57.13.181])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 833D73F703;
+        Tue, 21 Feb 2023 03:56:36 -0800 (PST)
+Message-ID: <4cc935e2-8b24-8060-5070-fd6eb85f07b6@arm.com>
+Date:   Tue, 21 Feb 2023 11:56:30 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [PATCH v8 2/7] iommu/arm-smmu-v3: support ops registration for
+ CDX bus
+Content-Language: en-GB
+To:     Nipun Gupta <nipun.gupta@amd.com>, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
+        rafael@kernel.org, eric.auger@redhat.com,
+        alex.williamson@redhat.com, cohuck@redhat.com,
+        song.bao.hua@hisilicon.com, mchehab+huawei@kernel.org,
+        maz@kernel.org, f.fainelli@gmail.com, jeffrey.l.hugo@gmail.com,
+        saravanak@google.com, Michael.Srba@seznam.cz, mani@kernel.org,
+        yishaih@nvidia.com, jgg@ziepe.ca, jgg@nvidia.com, will@kernel.org,
+        joro@8bytes.org, masahiroy@kernel.org, ndesaulniers@google.com,
+        rdunlap@infradead.org, linux-arm-kernel@lists.infradead.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org
+Cc:     okaya@kernel.org, harpreet.anand@amd.com, nikhil.agarwal@amd.com,
+        michal.simek@amd.com, git@amd.com
+References: <20230217132830.3140439-1-nipun.gupta@amd.com>
+ <20230217132830.3140439-3-nipun.gupta@amd.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20230217132830.3140439-3-nipun.gupta@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Dzie=C5=84 dobry,
+On 2023-02-17 13:28, Nipun Gupta wrote:
 
-zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
-=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
-o dalszych rozm=C3=B3w.=20
+Nit: subject should be "iommu: Support ops registration for CDX bus", 
+since this is no longer a driver-specific thing.
 
-Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
-=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
-=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
-strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
+Thanks,
+Robin.
 
-Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
-
-
-Pozdrawiam
-Adam Charachuta
+> With new CDX bus supported for AMD FPGA devices on ARM
+> platform, the bus requires registration for the SMMU v3
+> driver.
+> 
+> Signed-off-by: Nipun Gupta <nipun.gupta@amd.com>
+> Tested-by: Nikhil Agarwal <nikhil.agarwal@amd.com>
+> ---
+>   drivers/iommu/iommu.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> index 1fbe53354532..c2ff7754a4b3 100644
+> --- a/drivers/iommu/iommu.c
+> +++ b/drivers/iommu/iommu.c
+> @@ -28,6 +28,7 @@
+>   #include <linux/fsl/mc.h>
+>   #include <linux/module.h>
+>   #include <linux/cc_platform.h>
+> +#include <linux/cdx/cdx_bus.h>
+>   #include <trace/events/iommu.h>
+>   #include <linux/sched/mm.h>
+>   #include <linux/msi.h>
+> @@ -129,6 +130,9 @@ static struct bus_type * const iommu_buses[] = {
+>   #ifdef CONFIG_TEGRA_HOST1X_CONTEXT_BUS
+>   	&host1x_context_device_bus_type,
+>   #endif
+> +#ifdef CONFIG_CDX_BUS
+> +	&cdx_bus_type,
+> +#endif
+>   };
+>   
+>   /*
