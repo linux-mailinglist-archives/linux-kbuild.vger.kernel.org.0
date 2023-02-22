@@ -2,51 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C92BA69F714
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Feb 2023 15:50:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A8EED69F8E2
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Feb 2023 17:21:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231837AbjBVOuJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 22 Feb 2023 09:50:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60102 "EHLO
+        id S230454AbjBVQVJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 22 Feb 2023 11:21:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232371AbjBVOtz (ORCPT
+        with ESMTP id S229980AbjBVQVI (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 22 Feb 2023 09:49:55 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 079014C12;
-        Wed, 22 Feb 2023 06:49:27 -0800 (PST)
+        Wed, 22 Feb 2023 11:21:08 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 891D023874;
+        Wed, 22 Feb 2023 08:21:07 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 61B62CE1DDB;
-        Wed, 22 Feb 2023 14:48:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57FB1C433D2;
-        Wed, 22 Feb 2023 14:48:27 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 444C0B815DF;
+        Wed, 22 Feb 2023 16:21:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64CF8C433D2;
+        Wed, 22 Feb 2023 16:21:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677077308;
-        bh=yfGB7wkl3+UVIAj3h3HfdZVfdpzFWH0CMmxedu0oZTM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=unolfEpo3XY6bLDU5npar61VWM3jC4W/1XssF6IiK2h9L/rN/26yENZYAbZ2E3Fg6
-         UiW+PdeG8XgLBijUuoQ8p4rFCWXCvclPhEA5feBkZd0Oe0KeUPZhMrWx+oH011ruh1
-         5rcTRLGaAyEI2qJCzqVsi11OK3gzWweTqrflg6BjX+a4+cfl62PRKhlFbPhZTIfqlo
-         8SjpuxBIM30ulYyxU9srDeikm1Y9sqq/agEgfzX2P11F/8BA1CYrBE3RmikzJA9IIR
-         pBdIjgyZgNi+7Y0DXu2AQ/01iz+QwDbWNuBhFoJK6XpzG8pbYXOuOZQBNb+7mK0zwL
-         KYQngtYH9LvKw==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH] kbuild: rpm-pkg: remove unneeded KERNELRELEASE from modules/headers_install
-Date:   Wed, 22 Feb 2023 23:47:29 +0900
-Message-Id: <20230222144730.3813421-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.34.1
+        s=k20201202; t=1677082865;
+        bh=ALNETdEU51PEu4CJMI2w79XWUtJson+3tIz0ylLmfd4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=J+/hddGy5uSeo2pwuvQqp4AfW6D/B5i/huBD1/LXKTnhJMGMxcnT/pPUK99l+FukY
+         n4SoeynAHNk/FN5V1C/zotYdzK137etP/ovcW/YV4iL5CLIEvdn/UsJYPCCXFain5U
+         gQcE93wCiM+Efer+r9C02QjOZVRC1JlrtCMrrKzg29SM3rWNaYDzB3Nt/3HkUmTG1D
+         faJEqqLYWFfWD/Jcm+30/24/+JGybc9ik6VTNEzqa6yt97lQsEvyQMaY4izwSSflsy
+         HsXqnxMvKDlqvGuJHc+XSLW6ve/BZ0EhqD4G8yrndcvOLClrNfV9LA+U+xEuGTMzvw
+         k+nx/JQcM+ZOg==
+Date:   Wed, 22 Feb 2023 09:21:02 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Sangmoon Kim <sangmoon.kim@samsung.com>
+Cc:     bagasdotme@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        masahiroy@kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu
+Subject: Re: [PATCH v2] docs: kbuild: remove description of KBUILD_LDS_MODULE
+Message-ID: <Y/ZA7kqeWtWAcVZu@dev-arch.thelio-3990X>
+References: <1666a6a9-4757-0e1d-f807-618c95e0b6ae@gmail.com>
+ <CGME20230222104856epcas1p3a6ff45f90292df33ef5fd8216b812f64@epcas1p3.samsung.com>
+ <20230222104719.16374-1-sangmoon.kim@samsung.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230222104719.16374-1-sangmoon.kim@samsung.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -54,32 +56,41 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-There is no need to pass KERNELRELEASE to installation targets.
+On Wed, Feb 22, 2023 at 07:47:19PM +0900, Sangmoon Kim wrote:
+> Commit 596b0474d3d9 ("kbuild: preprocess module linker script")
+> removes KBUILD_LDS_MODULE, yet the variable is still mentioned in
+> kbuild documentation. Remove the reference to the now-nonexistent
+> variable.
+> 
+> Signed-off-by: Sangmoon Kim <sangmoon.kim@samsung.com>
 
-KERNELRELEASE used for building the kernel is saved in
-include/config/kernel.release.
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- scripts/package/mkspec | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-index 83a64d9d7372..3c550960dd39 100755
---- a/scripts/package/mkspec
-+++ b/scripts/package/mkspec
-@@ -99,8 +99,8 @@ $S
- 	%else
- 	cp \$($MAKE -s image_name) %{buildroot}/boot/vmlinuz-$KERNELRELEASE
- 	%endif
--$M	$MAKE %{?_smp_mflags} KERNELRELEASE=$KERNELRELEASE INSTALL_MOD_PATH=%{buildroot} modules_install
--	$MAKE %{?_smp_mflags} KERNELRELEASE=$KERNELRELEASE INSTALL_HDR_PATH=%{buildroot}/usr headers_install
-+$M	$MAKE %{?_smp_mflags} INSTALL_MOD_PATH=%{buildroot} modules_install
-+	$MAKE %{?_smp_mflags} INSTALL_HDR_PATH=%{buildroot}/usr headers_install
- 	cp System.map %{buildroot}/boot/System.map-$KERNELRELEASE
- 	cp .config %{buildroot}/boot/config-$KERNELRELEASE
- $S$M	rm -f %{buildroot}/lib/modules/$KERNELRELEASE/build
--- 
-2.34.1
-
+> ---
+> Thank you for your review.
+> 
+> Changes in v2:
+>  - Update the commit message.
+> 
+>  Documentation/kbuild/makefiles.rst | 5 -----
+>  1 file changed, 5 deletions(-)
+> 
+> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+> index 38bc74eaa547..468e7830c1c3 100644
+> --- a/Documentation/kbuild/makefiles.rst
+> +++ b/Documentation/kbuild/makefiles.rst
+> @@ -1250,11 +1250,6 @@ When kbuild executes, the following steps are followed (roughly):
+>  
+>  	The linker script with full path. Assigned by the top-level Makefile.
+>  
+> -    KBUILD_LDS_MODULE
+> -
+> -	The module linker script with full path. Assigned by the top-level
+> -	Makefile and additionally by the arch Makefile.
+> -
+>      KBUILD_VMLINUX_OBJS
+>  
+>  	All object files for vmlinux. They are linked to vmlinux in the same
+> -- 
+> 2.17.1
+> 
