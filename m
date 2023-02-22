@@ -2,150 +2,359 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F69C69F2F0
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Feb 2023 11:49:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD8F769F48A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Feb 2023 13:29:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231388AbjBVKtG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 22 Feb 2023 05:49:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48130 "EHLO
+        id S229627AbjBVM32 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 22 Feb 2023 07:29:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231292AbjBVKtE (ORCPT
+        with ESMTP id S231630AbjBVM31 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 22 Feb 2023 05:49:04 -0500
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7C4A2A172
-        for <linux-kbuild@vger.kernel.org>; Wed, 22 Feb 2023 02:49:02 -0800 (PST)
-Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
-        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20230222104858epoutp03c5fb70eac8300871b5e469d05c6824a3~GH9uDS4T81976719767epoutp03-
-        for <linux-kbuild@vger.kernel.org>; Wed, 22 Feb 2023 10:48:58 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20230222104858epoutp03c5fb70eac8300871b5e469d05c6824a3~GH9uDS4T81976719767epoutp03-
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1677062938;
-        bh=pRgejRgp2h9MwzsdDiQ+JxCVBcLZteTvsHs1NmTE+Cc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QMWmlLkrgkUny/SzV3uMzU+FFmFWvMtqePcf/WqunhYVakOrVNg0nzEGdUdnYIQFd
-         c+CdbIs3sHMu/zNn2nqmBSHwol4Q8bV/P5hyxiB5Gliz8ivvQDiSsbtQ/ypUziZkDC
-         q51jN6xqyY4/NcL2+0TkqF5J1VHVYKwnjEF8DmCA=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-        epcas1p3.samsung.com (KnoxPortal) with ESMTP id
-        20230222104857epcas1p389039952ee873d0970fb677ecb28e0a8~GH9s2TgG22477424774epcas1p3C;
-        Wed, 22 Feb 2023 10:48:57 +0000 (GMT)
-Received: from epsmges1p5.samsung.com (unknown [182.195.36.223]) by
-        epsnrtp2.localdomain (Postfix) with ESMTP id 4PMCZK1nmmz4x9Py; Wed, 22 Feb
-        2023 10:48:57 +0000 (GMT)
-Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
-        epsmges1p5.samsung.com (Symantec Messaging Gateway) with SMTP id
-        64.21.54823.913F5F36; Wed, 22 Feb 2023 19:48:57 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-        epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
-        20230222104856epcas1p3a6ff45f90292df33ef5fd8216b812f64~GH9r8IRc62477424774epcas1p3B;
-        Wed, 22 Feb 2023 10:48:56 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20230222104856epsmtrp2370ad8213ebc46dbd470f5bfbba89fe0~GH9r7Xd8l1340413404epsmtrp2j;
-        Wed, 22 Feb 2023 10:48:56 +0000 (GMT)
-X-AuditID: b6c32a39-a97ff7000000d627-9f-63f5f3190e72
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-        epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-        5B.1A.17995.813F5F36; Wed, 22 Feb 2023 19:48:56 +0900 (KST)
-Received: from localhost.localdomain (unknown [10.253.105.183]) by
-        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20230222104856epsmtip16341801507df126bb1eb25fca0cfcbde~GH9rtThTr2855228552epsmtip1P;
-        Wed, 22 Feb 2023 10:48:56 +0000 (GMT)
-From:   Sangmoon Kim <sangmoon.kim@samsung.com>
-To:     bagasdotme@gmail.com
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        masahiroy@kernel.org, nathan@kernel.org, ndesaulniers@google.com,
-        nicolas@fjasle.eu, Sangmoon Kim <sangmoon.kim@samsung.com>
-Subject: [PATCH v2] docs: kbuild: remove description of KBUILD_LDS_MODULE
-Date:   Wed, 22 Feb 2023 19:47:19 +0900
-Message-Id: <20230222104719.16374-1-sangmoon.kim@samsung.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <1666a6a9-4757-0e1d-f807-618c95e0b6ae@gmail.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrMKsWRmVeSWpSXmKPExsWy7bCmrq7k56/JBgfmsVtMbWS0eHKgndFi
-        YdsSFos/u3YwWVzeNYfN4uGDG6wW7Sufsll8mPCfyeLZ3hOsFrceNLI4cHnsOrSZzWPnrLvs
-        Hgs2lXpsWtXJ5rG4bzKrR9+WVYwenzfJBbBHZdtkpCampBYppOYl56dk5qXbKnkHxzvHm5oZ
-        GOoaWlqYKynkJeam2iq5+AToumXmAF2npFCWmFMKFApILC5W0rezKcovLUlVyMgvLrFVSi1I
-        ySkwK9ArTswtLs1L18tLLbEyNDAwMgUqTMjOmHSkl7lgJ0fFiQOVDYx/2boYOTkkBEwkFv85
-        zdzFyMUhJLCDUWLytDlQzidGiVXvXkE5nxklfu/9zQrTsv3aShaIxC5GiTfzVzOBJIQEvjBK
-        7L6RAGKzCehKfJl3mRHEFhGQkNi47yPYJGaBt4wSH75eZQFJCAt4Sty7chbMZhFQlXi29Ch7
-        FyMHB6+ArcTkVn6IZfISqzccYAaxOYHCp3Y3s4HMkRB4yy5xpq+DCaLIRWJ9/xxGCFtY4tXx
-        LewQtpTE53d7oRr6GSVOdXexQCSmMErMvaYJYRtL9PZcYAZZzCygKbF+lz5EWFFi5++5YDOZ
-        Bfgk3n3tYQUpkRDglehoE4IoUZN4/Oou1FoZif4786Gme0hc+z+bHRJAE4DBeGkz0wRGuVkI
-        GxYwMq5iFEstKM5NTy02LDCFx1hyfu4mRnDq07LcwTj97Qe9Q4xMHIyHGCU4mJVEeP/zfk4W
-        4k1JrKxKLcqPLyrNSS0+xGgKDLyJzFKiyfnA5JtXEm9oYmlgYmZkYmFsaWymJM4rbnsyWUgg
-        PbEkNTs1tSC1CKaPiYNTqoFJhWOx7u0/q07+0m5NEhYrMjnPdFwpPNejNtY42e662cUdN1JF
-        tXfuevVC5ccq5wub3y2QFJR4vDbVQPoVv/eBqk+xiXNvbcs6dVKy4dqmxH2TL05cuWfy6SV9
-        lyX8jL5YF7EuLk3yjZlcdFNf/eeT6OR0xV2m72OOLBcUnhWrP+dG49+CVuZFlQ4uDkeWVAUe
-        /2v3bVJaIs9T88uiIUfiSs5HsFd2F3TenC20XGPz29+nPyT1fnLL65H9ds6tL/Ani8TOU+qG
-        JrG3xZWYcg9xc4glmvr8ObbK4WLlF1+NIP/fIUnHuFq3tHzdXnKpQYPnhsldBtfdyetf/vB2
-        PuYq3fTzj2B8dudrq9MZ3JpKLMUZiYZazEXFiQAvfyM5BgQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrFLMWRmVeSWpSXmKPExsWy7bCSnK7E56/JBlM7FC2mNjJaPDnQzmix
-        sG0Ji8WfXTuYLC7vmsNm8fDBDVaL9pVP2Sw+TPjPZPFs7wlWi1sPGlkcuDx2HdrM5rFz1l12
-        jwWbSj02repk81jcN5nVo2/LKkaPz5vkAtijuGxSUnMyy1KL9O0SuDImHellLtjJUXHiQGUD
-        41+2LkZODgkBE4nt11aydDFycAgJ7GCU2BkHEZaR2HlxMxNIWEJAWOLw4eIuRi6gik+MEu/n
-        PmMEqWET0JX4Mu8ymC0iICGxcd9HZpAiZoHvjBItU66AzRcW8JS4d+UsC4jNIqAq8WzpUXaQ
-        obwCthKTW/khdslLrN5wgBnE5gQKn9rdDNYqJGAj0TP9B9sERr4FjAyrGCVTC4pz03OLDQuM
-        8lLL9YoTc4tL89L1kvNzNzGCg1NLawfjnlUf9A4xMnEwHmKU4GBWEuH9z/s5WYg3JbGyKrUo
-        P76oNCe1+BCjNAeLkjjvha6T8UIC6YklqdmpqQWpRTBZJg5OqQYm113LNn9PVHYIVGJetuOS
-        wbZjkUEbDvXOOHd+TlKT99Nc0e1TvNnbdmUeDvtnzrxISObdigSzo8XNIZbT+Y+fYfGWdnv9
-        4bLp6QvF11VkLi59Pe+yn8nzWyGnb3YnnkrsNyn5Jzxh7VrObUfX7/P9uNTy6c5Fj4x8OR6G
-        bdpXV+Q9Y+JEw08hv2PURF3NJhtOZ6ne6OzSrJSgz3dxEavHHl0/e57pCckvBHQOu2x7FZA0
-        +5P1TiOfdfyfTbj/qdyrMbN1CpQ3Xv/hXlXWnO7XgvXpdw636VzdfEUuSdww63vb1Wu9PunO
-        q852zq+csP/iWQvBNQv8HbYwbnp7Kaby/47q3ENnA+Jml3Bd3j2RW4mlOCPRUIu5qDgRAEDc
-        thS9AgAA
-X-CMS-MailID: 20230222104856epcas1p3a6ff45f90292df33ef5fd8216b812f64
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230222104856epcas1p3a6ff45f90292df33ef5fd8216b812f64
-References: <1666a6a9-4757-0e1d-f807-618c95e0b6ae@gmail.com>
-        <CGME20230222104856epcas1p3a6ff45f90292df33ef5fd8216b812f64@epcas1p3.samsung.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SORTED_RECIPS,SPF_HELO_PASS,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+        Wed, 22 Feb 2023 07:29:27 -0500
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BCBACC1D;
+        Wed, 22 Feb 2023 04:29:18 -0800 (PST)
+Received: (Authenticated sender: alex@ghiti.fr)
+        by mail.gandi.net (Postfix) with ESMTPSA id 5DDC6FF803;
+        Wed, 22 Feb 2023 12:29:12 +0000 (UTC)
+Message-ID: <4a6fc7a3-9697-a49b-0941-97f32194b0d7@ghiti.fr>
+Date:   Wed, 22 Feb 2023 13:29:11 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v8 1/3] riscv: Introduce CONFIG_RELOCATABLE
+Content-Language: en-US
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, nathan@kernel.org,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
+        ndesaulniers@google.com,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+References: <20230215143626.453491-1-alexghiti@rivosinc.com>
+ <20230215143626.453491-2-alexghiti@rivosinc.com>
+From:   Alexandre Ghiti <alex@ghiti.fr>
+In-Reply-To: <20230215143626.453491-2-alexghiti@rivosinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Commit 596b0474d3d9 ("kbuild: preprocess module linker script")
-removes KBUILD_LDS_MODULE, yet the variable is still mentioned in
-kbuild documentation. Remove the reference to the now-nonexistent
-variable.
++cc linux-kbuild, llvm, Nathan, Nick
 
-Signed-off-by: Sangmoon Kim <sangmoon.kim@samsung.com>
----
-Thank you for your review.
+On 2/15/23 15:36, Alexandre Ghiti wrote:
+> From: Alexandre Ghiti <alex@ghiti.fr>
+>
+> This config allows to compile 64b kernel as PIE and to relocate it at
+> any virtual address at runtime: this paves the way to KASLR.
+> Runtime relocation is possible since relocation metadata are embedded into
+> the kernel.
+>
+> Note that relocating at runtime introduces an overhead even if the
+> kernel is loaded at the same address it was linked at and that the compiler
+> options are those used in arm64 which uses the same RELA relocation
+> format.
+>
+> Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
+> ---
+>   arch/riscv/Kconfig              | 14 +++++++++
+>   arch/riscv/Makefile             |  7 +++--
+>   arch/riscv/kernel/efi-header.S  |  6 ++--
+>   arch/riscv/kernel/vmlinux.lds.S | 10 ++++--
+>   arch/riscv/mm/Makefile          |  4 +++
+>   arch/riscv/mm/init.c            | 54 ++++++++++++++++++++++++++++++++-
+>   6 files changed, 87 insertions(+), 8 deletions(-)
+>
+> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> index e2b656043abf..e0ee7ce4b2e3 100644
+> --- a/arch/riscv/Kconfig
+> +++ b/arch/riscv/Kconfig
+> @@ -544,6 +544,20 @@ config COMPAT
+>   
+>   	  If you want to execute 32-bit userspace applications, say Y.
+>   
+> +config RELOCATABLE
+> +	bool "Build a relocatable kernel"
+> +	depends on MMU && 64BIT && !XIP_KERNEL
+> +	help
+> +          This builds a kernel as a Position Independent Executable (PIE),
+> +          which retains all relocation metadata required to relocate the
+> +          kernel binary at runtime to a different virtual address than the
+> +          address it was linked at.
+> +          Since RISCV uses the RELA relocation format, this requires a
+> +          relocation pass at runtime even if the kernel is loaded at the
+> +          same address it was linked at.
+> +
+> +          If unsure, say N.
+> +
+>   endmenu # "Kernel features"
+>   
+>   menu "Boot options"
+> diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
+> index 82153960ac00..97c34136b027 100644
+> --- a/arch/riscv/Makefile
+> +++ b/arch/riscv/Makefile
+> @@ -7,9 +7,12 @@
+>   #
+>   
+>   OBJCOPYFLAGS    := -O binary
+> -LDFLAGS_vmlinux :=
+> +ifeq ($(CONFIG_RELOCATABLE),y)
+> +	LDFLAGS_vmlinux += -shared -Bsymbolic -z notext -z norelro
+> +	KBUILD_CFLAGS += -fPIE
+> +endif
+>   ifeq ($(CONFIG_DYNAMIC_FTRACE),y)
+> -	LDFLAGS_vmlinux := --no-relax
+> +	LDFLAGS_vmlinux += --no-relax
+>   	KBUILD_CPPFLAGS += -DCC_USING_PATCHABLE_FUNCTION_ENTRY
+>   	CC_FLAGS_FTRACE := -fpatchable-function-entry=8
+>   endif
+> diff --git a/arch/riscv/kernel/efi-header.S b/arch/riscv/kernel/efi-header.S
+> index 8e733aa48ba6..f7ee09c4f12d 100644
+> --- a/arch/riscv/kernel/efi-header.S
+> +++ b/arch/riscv/kernel/efi-header.S
+> @@ -33,7 +33,7 @@ optional_header:
+>   	.byte	0x02					// MajorLinkerVersion
+>   	.byte	0x14					// MinorLinkerVersion
+>   	.long	__pecoff_text_end - efi_header_end	// SizeOfCode
+> -	.long	__pecoff_data_virt_size			// SizeOfInitializedData
+> +	.long	__pecoff_data_virt_end - __pecoff_text_end	// SizeOfInitializedData
+>   	.long	0					// SizeOfUninitializedData
+>   	.long	__efistub_efi_pe_entry - _start		// AddressOfEntryPoint
+>   	.long	efi_header_end - _start			// BaseOfCode
+> @@ -91,9 +91,9 @@ section_table:
+>   		IMAGE_SCN_MEM_EXECUTE			// Characteristics
+>   
+>   	.ascii	".data\0\0\0"
+> -	.long	__pecoff_data_virt_size			// VirtualSize
+> +	.long	__pecoff_data_virt_end - __pecoff_text_end	// VirtualSize
+>   	.long	__pecoff_text_end - _start		// VirtualAddress
+> -	.long	__pecoff_data_raw_size			// SizeOfRawData
+> +	.long	__pecoff_data_raw_end - __pecoff_text_end	// SizeOfRawData
+>   	.long	__pecoff_text_end - _start		// PointerToRawData
+>   
+>   	.long	0					// PointerToRelocations
+> diff --git a/arch/riscv/kernel/vmlinux.lds.S b/arch/riscv/kernel/vmlinux.lds.S
+> index 4e6c88aa4d87..8be2de3be08c 100644
+> --- a/arch/riscv/kernel/vmlinux.lds.S
+> +++ b/arch/riscv/kernel/vmlinux.lds.S
+> @@ -122,9 +122,15 @@ SECTIONS
+>   		*(.sdata*)
+>   	}
+>   
+> +	.rela.dyn : ALIGN(8) {
+> +		__rela_dyn_start = .;
+> +		*(.rela .rela*)
+> +		__rela_dyn_end = .;
+> +	}
+> +
 
-Changes in v2:
- - Update the commit message.
 
- Documentation/kbuild/makefiles.rst | 5 -----
- 1 file changed, 5 deletions(-)
+So I realized those relocations would be better in the init section so 
+we can get rid of them at some point. So I tried the following:
 
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index 38bc74eaa547..468e7830c1c3 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -1250,11 +1250,6 @@ When kbuild executes, the following steps are followed (roughly):
- 
- 	The linker script with full path. Assigned by the top-level Makefile.
- 
--    KBUILD_LDS_MODULE
+diff --git a/arch/riscv/kernel/vmlinux.lds.S 
+b/arch/riscv/kernel/vmlinux.lds.S
+index 7ac215467fd5..6111023a89ef 100644
+--- a/arch/riscv/kernel/vmlinux.lds.S
++++ b/arch/riscv/kernel/vmlinux.lds.S
+@@ -93,6 +93,12 @@ SECTIONS
+                 *(.rel.dyn*)
+         }
+
++       .rela.dyn : ALIGN(8) {
++               __rela_dyn_start = .;
++               *(.rela .rela*)
++               __rela_dyn_end = .;
++       }
++
+         __init_data_end = .;
+
+         . = ALIGN(8);
+@@ -119,12 +125,6 @@ SECTIONS
+                 *(.sdata*)
+         }
+
+-       .rela.dyn : ALIGN(8) {
+-               __rela_dyn_start = .;
+-               *(.rela .rela*)
+-               __rela_dyn_end = .;
+-       }
 -
--	The module linker script with full path. Assigned by the top-level
--	Makefile and additionally by the arch Makefile.
--
-     KBUILD_VMLINUX_OBJS
- 
- 	All object files for vmlinux. They are linked to vmlinux in the same
--- 
-2.17.1
+  #ifdef CONFIG_EFI
+         .pecoff_edata_padding : { BYTE(0); . = 
+ALIGN(PECOFF_FILE_ALIGNMENT); }
+         __pecoff_data_raw_end = ABSOLUTE(.);
 
+
+But then all the relocations in vmlinux end up being null:
+
+vmlinux:     file format elf64-littleriscv
+
+$ riscv64-linux-gnu-objdump -R vmlinux
+
+DYNAMIC RELOCATION RECORDS
+OFFSET           TYPE              VALUE
+0000000000000000 R_RISCV_NONE      *ABS*
+0000000000000000 R_RISCV_NONE      *ABS*
+....
+
+  I also noticed that re-linking vmlinux with the same command right 
+after works (ie, the relocations are now valid):
+
+$ riscv64-linux-gnu-objdump -R vmlinux
+
+vmlinux:     file format elf64-littleriscv
+
+DYNAMIC RELOCATION RECORDS
+OFFSET           TYPE              VALUE
+ffffffff82600718 R_RISCV_RELATIVE  *ABS*-0x000000007d9ff8e8
+ffffffff82600720 R_RISCV_RELATIVE  *ABS*-0x000000007d9ff8e8
+...
+
+Below is the command used to generate this working vmlinux:
+
+riscv64-unknown-linux-gnu-ld -melf64lriscv -z noexecstack 
+--no-warn-rwx-segments -shared -Bsymbolic -z notext -z norelro 
+--no-relax --build-id=sha1 --script=./arch/riscv/kernel/vmlinux.lds 
+-Map=vmlinux.map -o vmlinux --whole-archive vmlinux.a .vmlinux.export.o 
+init/version-timestamp.o --no-whole-archive --start-group 
+./drivers/firmware/efi/libstub/lib.a --end-group .tmp_vmlinux.kallsyms3.o
+
+I tried a lot of things, but I struggle to understand, does anyone have 
+any idea? FYI, the same problem happens with LLVM.
+
+Thanks,
+
+Alex
+
+
+>   #ifdef CONFIG_EFI
+>   	.pecoff_edata_padding : { BYTE(0); . = ALIGN(PECOFF_FILE_ALIGNMENT); }
+> -	__pecoff_data_raw_size = ABSOLUTE(. - __pecoff_text_end);
+> +	__pecoff_data_raw_end = ABSOLUTE(.);
+>   #endif
+>   
+>   	/* End of data section */
+> @@ -134,7 +140,7 @@ SECTIONS
+>   
+>   #ifdef CONFIG_EFI
+>   	. = ALIGN(PECOFF_SECTION_ALIGNMENT);
+> -	__pecoff_data_virt_size = ABSOLUTE(. - __pecoff_text_end);
+> +	__pecoff_data_virt_end = ABSOLUTE(.);
+>   #endif
+>   	_end = .;
+>   
+> diff --git a/arch/riscv/mm/Makefile b/arch/riscv/mm/Makefile
+> index 2ac177c05352..b85e9e82f082 100644
+> --- a/arch/riscv/mm/Makefile
+> +++ b/arch/riscv/mm/Makefile
+> @@ -1,6 +1,10 @@
+>   # SPDX-License-Identifier: GPL-2.0-only
+>   
+>   CFLAGS_init.o := -mcmodel=medany
+> +ifdef CONFIG_RELOCATABLE
+> +CFLAGS_init.o += -fno-pie
+> +endif
+> +
+>   ifdef CONFIG_FTRACE
+>   CFLAGS_REMOVE_init.o = $(CC_FLAGS_FTRACE)
+>   CFLAGS_REMOVE_cacheflush.o = $(CC_FLAGS_FTRACE)
+> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+> index 7f01c2e56efe..3862696c2ac9 100644
+> --- a/arch/riscv/mm/init.c
+> +++ b/arch/riscv/mm/init.c
+> @@ -20,6 +20,9 @@
+>   #include <linux/dma-map-ops.h>
+>   #include <linux/crash_dump.h>
+>   #include <linux/hugetlb.h>
+> +#ifdef CONFIG_RELOCATABLE
+> +#include <linux/elf.h>
+> +#endif
+>   
+>   #include <asm/fixmap.h>
+>   #include <asm/tlbflush.h>
+> @@ -146,7 +149,7 @@ static void __init print_vm_layout(void)
+>   		print_ml("kasan", KASAN_SHADOW_START, KASAN_SHADOW_END);
+>   #endif
+>   
+> -		print_ml("kernel", (unsigned long)KERNEL_LINK_ADDR,
+> +		print_ml("kernel", (unsigned long)kernel_map.virt_addr,
+>   			 (unsigned long)ADDRESS_SPACE_END);
+>   	}
+>   }
+> @@ -854,6 +857,44 @@ static __init void set_satp_mode(uintptr_t dtb_pa)
+>   #error "setup_vm() is called from head.S before relocate so it should not use absolute addressing."
+>   #endif
+>   
+> +#ifdef CONFIG_RELOCATABLE
+> +extern unsigned long __rela_dyn_start, __rela_dyn_end;
+> +
+> +static void __init relocate_kernel(void)
+> +{
+> +	Elf64_Rela *rela = (Elf64_Rela *)&__rela_dyn_start;
+> +	/*
+> +	 * This holds the offset between the linked virtual address and the
+> +	 * relocated virtual address.
+> +	 */
+> +	uintptr_t reloc_offset = kernel_map.virt_addr - KERNEL_LINK_ADDR;
+> +	/*
+> +	 * This holds the offset between kernel linked virtual address and
+> +	 * physical address.
+> +	 */
+> +	uintptr_t va_kernel_link_pa_offset = KERNEL_LINK_ADDR - kernel_map.phys_addr;
+> +
+> +	for ( ; rela < (Elf64_Rela *)&__rela_dyn_end; rela++) {
+> +		Elf64_Addr addr = (rela->r_offset - va_kernel_link_pa_offset);
+> +		Elf64_Addr relocated_addr = rela->r_addend;
+> +
+> +		if (rela->r_info != R_RISCV_RELATIVE)
+> +			continue;
+> +
+> +		/*
+> +		 * Make sure to not relocate vdso symbols like rt_sigreturn
+> +		 * which are linked from the address 0 in vmlinux since
+> +		 * vdso symbol addresses are actually used as an offset from
+> +		 * mm->context.vdso in VDSO_OFFSET macro.
+> +		 */
+> +		if (relocated_addr >= KERNEL_LINK_ADDR)
+> +			relocated_addr += reloc_offset;
+> +
+> +		*(Elf64_Addr *)addr = relocated_addr;
+> +	}
+> +}
+> +#endif /* CONFIG_RELOCATABLE */
+> +
+>   #ifdef CONFIG_XIP_KERNEL
+>   static void __init create_kernel_page_table(pgd_t *pgdir,
+>   					    __always_unused bool early)
+> @@ -1039,6 +1080,17 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+>   	BUG_ON((kernel_map.virt_addr + kernel_map.size) > ADDRESS_SPACE_END - SZ_4K);
+>   #endif
+>   
+> +#ifdef CONFIG_RELOCATABLE
+> +	/*
+> +	 * Early page table uses only one PUD, which makes it possible
+> +	 * to map PUD_SIZE aligned on PUD_SIZE: if the relocation offset
+> +	 * makes the kernel cross over a PUD_SIZE boundary, raise a bug
+> +	 * since a part of the kernel would not get mapped.
+> +	 */
+> +	BUG_ON(PUD_SIZE - (kernel_map.virt_addr & (PUD_SIZE - 1)) < kernel_map.size);
+> +	relocate_kernel();
+> +#endif
+> +
+>   	apply_early_boot_alternatives();
+>   	pt_ops_set_early();
+>   
