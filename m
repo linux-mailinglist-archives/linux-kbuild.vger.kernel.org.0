@@ -2,53 +2,64 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 51AD96A1116
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Feb 2023 21:16:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 084496A114A
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Feb 2023 21:35:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229454AbjBWUQJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 23 Feb 2023 15:16:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39776 "EHLO
+        id S229549AbjBWUft (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 23 Feb 2023 15:35:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbjBWUQI (ORCPT
+        with ESMTP id S229643AbjBWUfs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 23 Feb 2023 15:16:08 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D0CE301A6;
-        Thu, 23 Feb 2023 12:16:08 -0800 (PST)
+        Thu, 23 Feb 2023 15:35:48 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A598221A3D;
+        Thu, 23 Feb 2023 12:35:36 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D75E46178A;
-        Thu, 23 Feb 2023 20:16:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B04B2C433D2;
-        Thu, 23 Feb 2023 20:16:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677183367;
-        bh=VKgrxDWTun0mawFhuVSbHo2yhrnEv4U6behYpbjsLYU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fK6W76VXpltD0be6KDImQ4h91t+qiIKMVm34rFH/SRjn8apAV3hBiWb9pFPbnScdp
-         srV4UyvnT1DTFsZtj5HsjnY53u48Bzp3IbxSRJ8KVjrCe+g/8GEWNHHZWejRCZeGOb
-         5ePS2YCbMwHEYepdAVPkJhmY6rDqZHAVkLzxoP1L12sCs6jpuNHo3AaRx8BZgN0sti
-         ZG7Tss3kAcGYTeL9EM9fGF6hf8xzgK9KhcdHZ3k+7dzn//1Az5A/48+ltVOZchDJsS
-         91Juaer0dTUfDMbaCaHRIqyDDvxXsPmDy9FSLy0rGV4H59lLuZKr/PlkjF15CeMoBO
-         vgIhebUDyj8jQ==
-Date:   Thu, 23 Feb 2023 13:16:04 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>, kernel-dev@igalia.com,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 641A46179C;
+        Thu, 23 Feb 2023 20:35:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB164C433EF;
+        Thu, 23 Feb 2023 20:35:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1677184535;
+        bh=JHEqfRl0X/jFNF8vQposUxtRh/7zormMksualB8s0UI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=RFS+rViljTl38Rt2RUZQ82Nk9gp/zq7B6CWbAeN37ENhecuy8gA7KAghKfkARQulf
+         9lhTPOrqah9mHRnPQZKElgAqxkgOTePGTyf9gsEyLhEomCFKv3CsLAxUokbwJkJKCo
+         tBfQDYhEknGCIHrEYZCakrm8I/8JlnVM4tGDnwbM=
+Date:   Thu, 23 Feb 2023 12:35:34 -0800
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Rob Landley <rob@landley.net>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrew Halaney <ahalaney@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        linux-kbuild@vger.kernel.org, Li Zhe <lizhe.67@bytedance.com>,
+        llvm@lists.linux.dev, Mark-PK Tsai <mark-pk.tsai@mediatek.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Subject: Re: [PATCH] kbuild: modinst: Enable multithread xz compression
-Message-ID: <Y/fJhOME2OAPWILK@dev-arch.thelio-3990X>
-References: <20230223001607.95523-1-andrealmeid@igalia.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230223001607.95523-1-andrealmeid@igalia.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH 0/5] Patches used to build mkroot.
+Message-Id: <20230223123534.a193783f82489eb3d1b65373@linux-foundation.org>
+In-Reply-To: <b455394f-9faa-1f1a-f171-0b9d5e9ada35@landley.net>
+References: <b455394f-9faa-1f1a-f171-0b9d5e9ada35@landley.net>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -56,47 +67,20 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Feb 22, 2023 at 09:16:07PM -0300, André Almeida wrote:
-> As it's done for zstd compression, enable multithread compression for
-> xz to speed up module installation.
-> 
-> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+On Tue, 21 Feb 2023 14:53:30 -0600 Rob Landley <rob@landley.net> wrote:
 
-This seems reasonable to me.
+> The ~300 line bash script in toybox that builds bootable Linux systems
+> for a dozen-ish targets can use a vanilla kernel, but the binaries I
+> ship are built from a kernel with these patches:
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+It's nice to see a diffstat of the whole series to at least get an idea
+of who might merge the series.
 
-If for some reason Masahiro does not want to take this, you could set
-XZ_OPT=-T0 in your build environment, which should accomplish the same
-thing.
+Who were you thinking might merge the series?  I was only cc'ed on two
+of them, I think.
 
-> ---
-> 
-> On my setup xz is a bottleneck during module installation. Here are the
-> numbers to install it in a local directory, before and after this patch:
-> 
-> $ time make INSTALL_MOD_PATH=/home/tonyk/codes/.kernel_deploy/ modules_install -j16
-> Executed in  100.08 secs
-> 
-> $ time make INSTALL_MOD_PATH=/home/tonyk/codes/.kernel_deploy/ modules_install -j16
-> Executed in   28.60 secs
-> ---
->  scripts/Makefile.modinst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
-> index 4815a8e32227..28dcc523d2ee 100644
-> --- a/scripts/Makefile.modinst
-> +++ b/scripts/Makefile.modinst
-> @@ -99,7 +99,7 @@ endif
->  quiet_cmd_gzip = GZIP    $@
->        cmd_gzip = $(KGZIP) -n -f $<
->  quiet_cmd_xz = XZ      $@
-> -      cmd_xz = $(XZ) --lzma2=dict=2MiB -f $<
-> +      cmd_xz = $(XZ) --lzma2=dict=2MiB -f -T0 $<
->  quiet_cmd_zstd = ZSTD    $@
->        cmd_zstd = $(ZSTD) -T0 --rm -f -q $<
->  
-> -- 
-> 2.39.2
-> 
+There is no "Previously:" changelog tag.  Please use plain old "Link:".
+
+Also, "See https://..." after the "^---$" will get chopped off.  It
+might be helpful to includes this also as a Link: tag.
+
