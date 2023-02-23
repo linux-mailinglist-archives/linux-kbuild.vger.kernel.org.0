@@ -2,87 +2,89 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8149969FD86
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Feb 2023 22:10:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E5BD869FFEE
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Feb 2023 01:17:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232338AbjBVVKW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 22 Feb 2023 16:10:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46416 "EHLO
+        id S231713AbjBWARB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 22 Feb 2023 19:17:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231737AbjBVVKV (ORCPT
+        with ESMTP id S229446AbjBWARA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 22 Feb 2023 16:10:21 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42FFA1EFF2;
-        Wed, 22 Feb 2023 13:10:20 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E6F85B81896;
-        Wed, 22 Feb 2023 21:10:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A1FADC4339E;
-        Wed, 22 Feb 2023 21:10:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677100217;
-        bh=wCQQEMkM7Jx3pn9FFGosm1zRw8TdEwhVF5bmgBxG7Zw=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=YiGkRhzzZ6Y4QBYUP1zV2oy64eR6ubK7rULwLt0ayty2l01r2/S40q2dbINMjz+dp
-         l5PJ/QkEWHWA9o54cMTdNAp68A4fk9PUJm9/NIv2DLqEk8v40w0n6w8sJkraXRP8O2
-         YtfJP3C7Jw5LIgx4d/ucY1OTtBKVoBXPCkpLgT4R5eZb6yizRyrPjU8iYQdB/PGuiy
-         N3ylqMUK21hpc0hi8yIg4VkLdigDDMLWQHVQIXafMGykroJrUyBQPjaS2s3FGbkfxd
-         Hs3iqdoyvCMxvJNZ3Wwq1IuW/i+TqZF9cICWjer+BeWEJAlpAIBBDGLRZhDNcARQz3
-         X2OiXYCWa3bzw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8460EC395DF;
-        Wed, 22 Feb 2023 21:10:17 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Wed, 22 Feb 2023 19:17:00 -0500
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC24738660;
+        Wed, 22 Feb 2023 16:16:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
+        Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=Rxuqb3bdScNwrTUfRo927M0lNZEoKULP5VXPvdExi3k=; b=PYjYWtHBaxJZ81QvooVB++SUsT
+        FYb/Vbe/zomCeKbrAG7O/bA0K6mM0FtPW53JgkG/4w6p+pK3B4RploFDqoJ/KxJ4lcv5Qt9IsfSte
+        f7koC2nnvJ7ysHMrxFrM2JL+e0TmwusKDexbBEaxZ5R0fyGz/BgBFNB4m6STI28/2ZJKh/ljl3n+9
+        mAtHRrvKHfSLpce18GD7F4ld4ViPbwKm/ohF7Gj0K8D3hpEyeUYEJVCvgYbE3TH9B+cZnc5W/CwRg
+        yLFut1GXViw4tvlh11VoIS5G4M8WhmARqRcpObqXIypIW38MBTBJpDl1cFiUS6bAx7DzfGNN7UJ87
+        lNvkrGpw==;
+Received: from 189-68-200-53.dsl.telesp.net.br ([189.68.200.53] helo=steammachine.lan)
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+        id 1pUzHw-00BSBz-8n; Thu, 23 Feb 2023 01:16:44 +0100
+From:   =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+To:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     kernel-dev@igalia.com, Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+Subject: [PATCH] kbuild: modinst: Enable multithread xz compression
+Date:   Wed, 22 Feb 2023 21:16:07 -0300
+Message-Id: <20230223001607.95523-1-andrealmeid@igalia.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH bpf-next] selftests/bpf: Fix cross compilation with
- CLANG_CROSS_FLAGS
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <167710021753.10496.8520957116500555540.git-patchwork-notify@kernel.org>
-Date:   Wed, 22 Feb 2023 21:10:17 +0000
-References: <20230217151832.27784-1-revest@chromium.org>
-In-Reply-To: <20230217151832.27784-1-revest@chromium.org>
-To:     Florent Revest <revest@chromium.org>
-Cc:     bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-        linux-kbuild@vger.kernel.org, andrii@kernel.org, mykolal@fb.com,
-        ast@kernel.org, daniel@iogearbox.net, kpsingh@kernel.org,
-        masahiroy@kernel.org, nathan@kernel.org, ndesaulniers@google.com
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello:
+As it's done for zstd compression, enable multithread compression for
+xz to speed up module installation.
 
-This patch was applied to bpf/bpf-next.git (master)
-by Alexei Starovoitov <ast@kernel.org>:
+Signed-off-by: André Almeida <andrealmeid@igalia.com>
+---
 
-On Fri, 17 Feb 2023 16:18:32 +0100 you wrote:
-> I cross-compile my BPF selftests with the following command:
-> 
-> CLANG_CROSS_FLAGS="--target=aarch64-linux-gnu --sysroot=/sysroot/" \
->   make LLVM=1 CC=clang CROSS_COMPILE=aarch64-linux-gnu- SRCARCH=arm64
-> 
-> (Note the use of CLANG_CROSS_FLAGS to specify a custom sysroot instead
-> of letting clang use gcc's default sysroot)
-> 
-> [...]
+On my setup xz is a bottleneck during module installation. Here are the
+numbers to install it in a local directory, before and after this patch:
 
-Here is the summary with links:
-  - [bpf-next] selftests/bpf: Fix cross compilation with CLANG_CROSS_FLAGS
-    https://git.kernel.org/bpf/bpf-next/c/b539a287baaa
+$ time make INSTALL_MOD_PATH=/home/tonyk/codes/.kernel_deploy/ modules_install -j16
+Executed in  100.08 secs
 
-You are awesome, thank you!
+$ time make INSTALL_MOD_PATH=/home/tonyk/codes/.kernel_deploy/ modules_install -j16
+Executed in   28.60 secs
+---
+ scripts/Makefile.modinst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
+index 4815a8e32227..28dcc523d2ee 100644
+--- a/scripts/Makefile.modinst
++++ b/scripts/Makefile.modinst
+@@ -99,7 +99,7 @@ endif
+ quiet_cmd_gzip = GZIP    $@
+       cmd_gzip = $(KGZIP) -n -f $<
+ quiet_cmd_xz = XZ      $@
+-      cmd_xz = $(XZ) --lzma2=dict=2MiB -f $<
++      cmd_xz = $(XZ) --lzma2=dict=2MiB -f -T0 $<
+ quiet_cmd_zstd = ZSTD    $@
+       cmd_zstd = $(ZSTD) -T0 --rm -f -q $<
+ 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.39.2
 
