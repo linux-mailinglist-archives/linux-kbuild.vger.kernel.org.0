@@ -2,66 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09D7D6A244F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Feb 2023 23:34:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 69F596A246A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Feb 2023 23:43:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229620AbjBXWek (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 24 Feb 2023 17:34:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41868 "EHLO
+        id S229536AbjBXWnB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 24 Feb 2023 17:43:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229486AbjBXWek (ORCPT
+        with ESMTP id S229535AbjBXWnA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 24 Feb 2023 17:34:40 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 072AF1B2D3;
-        Fri, 24 Feb 2023 14:34:28 -0800 (PST)
+        Fri, 24 Feb 2023 17:43:00 -0500
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54F988696;
+        Fri, 24 Feb 2023 14:42:54 -0800 (PST)
 Received: from leknes.fjasle.eu ([46.142.98.255]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MqsGv-1oj6HP0rzN-00msTJ; Fri, 24 Feb 2023 23:33:58 +0100
+ (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1M3lLh-1pVxw40mTz-000wTV; Fri, 24 Feb 2023 23:37:11 +0100
 Received: by leknes.fjasle.eu (Postfix, from userid 1000)
-        id CB2903C1C6; Fri, 24 Feb 2023 23:33:56 +0100 (CET)
+        id B245B3C1C6; Fri, 24 Feb 2023 23:37:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1677278037; bh=IzpPdAljP6D+kkXtSu5TE2u6Adkx6xfgEMGoP5a+qDc=;
+        t=1677278227; bh=NVte4m3e/9C0o4T5mfInbxtnfjIrFf5rYpccNuHdXQM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hlvTdwtA2Wra2Bx+weh8Zx5spiFZVTf3ePpksTXCDoEMuVSjgUzs4B2GjyQ71Tt5L
-         kWREvrZ3F5zIiBKbqarb0Pb4ubK8eIC6yC8p5rsmglOcOGIhUqi1R90HBX1cjTIVkx
-         pXv/udz9/eUdU3ZZ5j50gA+xExaSf5R6SRkfie/0=
-Date:   Fri, 24 Feb 2023 23:33:56 +0100
+        b=HYWWYz9/ejeGIpYRRJ56T7uLPlxwG5Qh5ZEaPg2XiJejNHki9W5EfJJGaEmHHZ7Vk
+         pvuFTtQBrcjYYBPRfxZr7xJWbZTG7gq9eu9JToJx1KRPkhMuaCx73Q+JOSaHyHSo0V
+         t3phKZopWFDeXmWAMlT9FRaedxl+PUYQL85b2jNU=
+Date:   Fri, 24 Feb 2023 23:37:07 +0100
 From:   Nicolas Schier <nicolas@fjasle.eu>
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Ben Hutchings <ben@decadent.org.uk>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH v6 05/12] kbuild: deb-pkg: hide KDEB_SOURCENAME from
- Makefile
-Message-ID: <Y/k7VA2z6MdgfS/v@fjasle.eu>
+Subject: Re: [PATCH v6 06/12] kbuild: deb-pkg: make .orig tarball a hard link
+ if possible
+Message-ID: <Y/k8E8N5W8L91EpB@fjasle.eu>
 References: <20230215012034.403356-1-masahiroy@kernel.org>
- <20230215012034.403356-5-masahiroy@kernel.org>
+ <20230215012034.403356-6-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="d+5jJHEioP29KR0F"
+        protocol="application/pgp-signature"; boundary="qxYSgjOh4Jmozfz8"
 Content-Disposition: inline
-In-Reply-To: <20230215012034.403356-5-masahiroy@kernel.org>
-X-Provags-ID: V03:K1:J+JqGm7lCNUl9/Bv30fi6PMPSlcxNx0rUEdcOSOPCh2nSCdJZN5
- OfpNW4U+ZnWp4HCXF1FRlUs9hjckaSYXz8Ect21wFC6qbB1SUUE9dK6eyLZvR/nUuG4XLni
- D/5SbKMBSX9T11n+D60fADjEIStjknrTMPb7mHBnYBWTwFtLdouUveLsUPbp35Q77rhAvcc
- +K3MTUDwE8+CqUYfs6GhQ==
-UI-OutboundReport: notjunk:1;M01:P0:qeAniLkTwCk=;tScqdyJzK3sCMMKHIF2/25cR4Gq
- 8hb6Akt65x1pdRy79x9v+zURu/SZrwhoZ5BUSX4XEpVYjvUoGFkyBMvjkZ9c3F+fPYWYM79ww
- s+CU4bPU2GVmp4XS+kLd/aMZpMJuzK/0JBAODILDuZbkaFG320MlfAD8U3qIs0zQSHZB0dUtE
- Pl1TAGiVW6GbbNjdspfYLioA/P0bIlLj5Ob5EMxTRTEUbiWJ/9EpbSCHNBzulxn36wNBn3LxK
- /cbWrB0Tn+bWuKhxRLEm2WAQd1UHfRT3FiRGUUW7E7B7m/l45ouTRx+cLKG0zwD1zd8NTQpUd
- 8bkLjHemzLyBeOLEd3JYGlpHqiuzwdhnCj4OXAc6/BNKX0rnHuHLnH9U2CdSXZVYkFKnQ1cjd
- kuYI2yHhTWTzqYLw0tmd+3G25j//zJNw/Sn59/9oMr8Dk2vSBwQibK/j1r8GfUY1aP3ODlYSH
- 8wZg7NT+M8QAFxnRIwAXsa7Hgdz4sQpmJnhSh7nHfO69+VFY9so5VM2QzcoOpLl8V+hT2VZO/
- gEfNapbktWD2rVwLGAXMUMESmiyuVaH1AVbPH3SMBY/AChVKwifnYUO1khL6EcnTVVaXBUU8C
- xfbq3iDvmc+VKpxkVoMrMryn/oQbJx+Z6QIDswdnBxSDr6Ithw3xyTA4teETNuYkWm0Cdn/mo
- ogJUzuNLT2uVQUdots8WI335dE0O+a1GEnFUu197DQ==
+In-Reply-To: <20230215012034.403356-6-masahiroy@kernel.org>
+X-Provags-ID: V03:K1:8a0zJCfyzBwCzlfBiDCwhvMXDdDSPXNNzVawKks10QebQhaJqCq
+ QC2vIVukdjRLoD+0BM25V0HArqrDd6PltvBTBj4YANn75vfkwl5lihtCyi1YmQpLrGOLw/m
+ 5K85Pg11qPhudbapCfHeiLduufXKKbLvzWydcG7bAzC5MPCVRaklKqJHkToZYHOAnC4pyet
+ zuZ1HkA5A+z0vdfgq+Svg==
+UI-OutboundReport: notjunk:1;M01:P0:ZIWKOIp/cPE=;6x1lYNRUJ1sJffHUDCFVK3f62oi
+ /BtSsLmb7fL/YOrsca0KiR/jX303cgnHfWIQsyEKwtbFmr5jldAketftWvfcH8bOsWIDZJA7A
+ LuFLRdaZKwJYzMAcEnZ7+6oVMnpffqt9mXYn+ybfrcaH6Rtd4fhD2CbDWR68+af17PARvhr9h
+ dtTKc+zFQ1WNwsR1CyiJ5fdS4zJhYAO2xuNNVxpeIYi9l/HgkjI3z7PfhbnHfBlyTi47jCeai
+ eNufxAE4V3J6+D3UVScCWtA2udPoWskn1VCdQ15sqIdYVYyM5e59rHSKRJQHWLfDOQrpTZz+Y
+ Wz+GHGvQdTUjflh1xoj4ED6Qq3D8zbTt0VquGvmB4SVKMz/fh4X17D7jYWpdLDZTVN4bP0gxd
+ OUfyAP1EMvCFjJMfIzX/lYc5sHjlLVY8eL8omwWcv9dUP5ueMuiyaINy8HmUkhQCY75NoKAgU
+ u0YsXh7GAmYiHNEweppdCFOhmtfLnIUaBUhAgMCRQSyhaK/P+hQWw+MkbNBh8fYAIpBNrt0y5
+ 4MGCMQy04XPTR+CE6yESljKv74Q43CrKJ0PPKpf3EW0LWL3OmcG0+bo7E/OSxRoiWXl9GQM2U
+ rl54kjo2q3NlR+NsCvkK65PzsEfSKKwv0AoKGGDcB+/uGBE/KpbFpPuQMK5geUUfGIcMBtw5a
+ umERpQgZ4rCXcmGgMJCbrNt22XSvCXi30uCtCyMwEA==
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE autolearn=ham autolearn_force=no
-        version=3.4.6
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -69,125 +69,70 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
---d+5jJHEioP29KR0F
+--qxYSgjOh4Jmozfz8
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 15, 2023 at 10:20:27AM +0900 Masahiro Yamada wrote:
-> scripts/Makefile.package does not need to know the value of
-> KDEB_SOURCENAME because the source name can be taken from
-> debian/changelog by using dpkg-parsechangelog.
+On Wed, Feb 15, 2023 at 10:20:28AM +0900 Masahiro Yamada wrote:
+> If '..' belongs to the same filesystem, create a hard link instead of
+> a copy. In most cases, you can save disk space.
 >=20
-> Move the default of KDEB_SOURCENAME (i.e. linux-upstream) to
-> scripts/package/mkdebian.
+> I do not want to use 'mv' because keeping linux.tar.gz is useful to
+> avoid unneeded rebuilding of the tarball.
 >=20
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
 >=20
-> (no changes since v5)
->=20
-> Changes in v5:
->   - Copy linux.tar.gz to .orig tarball
->=20
-> Changes in v3:
->   - Move cmd_debianize
->=20
-> Changes in v2:
+> Changes in v6:
 >   - New patch
 >=20
->  scripts/Makefile.package | 23 +++++++++++++++--------
->  scripts/package/mkdebian |  2 +-
->  2 files changed, 16 insertions(+), 9 deletions(-)
+>  scripts/Makefile.package | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 >=20
 > diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-> index 7266a11855f4..c207f4ec47ac 100644
+> index c207f4ec47ac..80a96eb61426 100644
 > --- a/scripts/Makefile.package
 > +++ b/scripts/Makefile.package
-> @@ -4,9 +4,7 @@
->  include $(srctree)/scripts/Kbuild.include
-> =20
->  KERNELPATH :=3D kernel-$(subst -,_,$(KERNELRELEASE))
-> -KDEB_SOURCENAME ?=3D linux-upstream
->  KBUILD_PKG_ROOTCMD ?=3D"fakeroot -u"
-> -export KDEB_SOURCENAME
->  # Include only those top-level files that are needed by make, plus the G=
-PL copy
->  TAR_CONTENT :=3D Documentation LICENSES arch block certs crypto drivers =
-fs \
->                 include init io_uring ipc kernel lib mm net rust \
-> @@ -87,17 +85,26 @@ binrpm-pkg:
->  	+rpmbuild $(RPMOPTS) --define "_builddir $(objtree)" --target \
->  		$(UTS_MACHINE)-linux -bb $(objtree)/binkernel.spec
-> =20
-> +quiet_cmd_debianize =3D GEN     $@
-> +      cmd_debianize =3D $(srctree)/scripts/package/mkdebian
-> +
-> +debian: FORCE
-> +	$(call cmd,debianize)
-> +
-> +PHONY +=3D debian-orig
-> +debian-orig: private source =3D $(shell dpkg-parsechangelog -S Source)
-> +debian-orig: private version =3D $(shell dpkg-parsechangelog -S Version =
+> @@ -96,7 +96,11 @@ debian-orig: private source =3D $(shell dpkg-parsechan=
+gelog -S Source)
+>  debian-orig: private version =3D $(shell dpkg-parsechangelog -S Version =
 | sed 's/-[^-]*$$//')
-> +debian-orig: private orig-name =3D $(source)_$(version).orig.tar.gz
-> +debian-orig: linux.tar.gz debian
-> +	$(Q)cp $< ../$(orig-name)
-> +
+>  debian-orig: private orig-name =3D $(source)_$(version).orig.tar.gz
+>  debian-orig: linux.tar.gz debian
+> -	$(Q)cp $< ../$(orig-name)
+> +	$(Q)if [ "$(df  --output=3Dtarget .. 2>/dev/null)" =3D "$(df --output=
+=3Dtarget $< 2>/dev/null)" ]; then \
+> +		ln -f $< ../$(orig-name); \
+> +	else \
+> +		cp $< ../$(orig-name); \
+> +	fi
+> =20
 >  PHONY +=3D deb-pkg
-> -deb-pkg: linux.tar.gz
-> -	$(CONFIG_SHELL) $(srctree)/scripts/package/mkdebian
-> -	origversion=3D$$(dpkg-parsechangelog -SVersion |sed 's/-[^-]*$$//');\
-> -		cp linux.tar.gz ../$(KDEB_SOURCENAME)_$${origversion}.orig.tar.gz
-> +deb-pkg: debian-orig
->  	+dpkg-buildpackage -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch) $(DPKG=
-_FLAGS) \
->  		--build=3Dsource,binary --source-option=3D-sP -nc -us -uc
-> =20
->  PHONY +=3D bindeb-pkg
-> -bindeb-pkg:
-> -	$(CONFIG_SHELL) $(srctree)/scripts/package/mkdebian
-> +bindeb-pkg: debian
->  	+dpkg-buildpackage -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch) $(DPKG=
-_FLAGS) -b -nc -uc
-> =20
->  PHONY +=3D intdeb-pkg
-> diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-> index 68b13ef590ba..534e9713761a 100755
-> --- a/scripts/package/mkdebian
-> +++ b/scripts/package/mkdebian
-> @@ -95,7 +95,7 @@ else
->  	revision=3D$($srctree/init/build-version)
->  	packageversion=3D$version-$revision
->  fi
-> -sourcename=3D$KDEB_SOURCENAME
-> +sourcename=3D${KDEB_SOURCENAME:-linux-upstream}
-> =20
->  if [ "$ARCH" =3D "um" ] ; then
->  	packagename=3Duser-mode-linux
+>  deb-pkg: debian-orig
 > --=20
 > 2.34.1
 
 Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
---d+5jJHEioP29KR0F
+--qxYSgjOh4Jmozfz8
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmP5O1QACgkQB1IKcBYm
-EmlCQw//dDksmYmZQDZ8w9XJqimgk/xTmsDcKSpcl30JcRLpU8XhpdiNiVDP/z/b
-wiTbaYKesEowZWqKKrGOxYpLM5/wTvSbhdGyGqvbswHnZLXKCa6xxIKPIMKYyVTP
-wis7pJz/TtgxXEotv6ysAG7qbgUWrg0FrItMwrF5UIQNaRLFTD67ZlR9npbw0CN0
-d5RU6Xd9P71uSrmKtro9mx01iNQ3LoouJJe2d0QODsmp2hTMC7vwF1m9IeZWTtzn
-i2DKGm1mkz55fMtdtJNYQE0ZMeCFcEn9VseYj1XqHmRWdPgoDiQmTHE2wo5mR+bK
-dVIKLrVFOSrwTktFKDXkfxsnMG4F1w5/WE0MBaRmKr+Ot2yITokfzYmQ0xkeqEd+
-W/rGhTLO0yKmENeMUhQQwqCzasfMm22ZpROM27hx7Q6O/HYEoIJNoMyP4GE16zYQ
-nCfetRTe4YYX2cdA9A63W/KustpAjRQW3RoeX+7xshTbKFG0Vy6eWBMMaR3Z3/tY
-aO25/opa937bYyWLUCERebe4+GMu7z3zLmAPItXvIfk9n0py7BNOOzP5hsNwvpJ3
-Hc1RN8SNmUnuRSv7KY7WbB52X7ziCPsbTZbi2TZPFSB8OitMSIHgd9HL3AdUc4Y9
-dzhz5bzYEKhmYQY6NrNOdgJdSHUBzkjUNWOhSKRVrkDBuLMnPvw=
-=bG8k
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmP5PBMACgkQB1IKcBYm
+EmmeQBAAv13H1JZw7oaHPtLFIWBB84ySrshJfkep+41mj8MCBxMNookp1I/hmUuD
+634ioubZhgXjp+xR7TKjj25rIivwHjwtDumMZ5ewvlV6ohSbO8MyRe8O0RKGjJVr
+gNPJncxz1bGhXDtcXNGvHsJ65mTJdl5l7KUbMSJCi4ggL4//+VFsfnv7Jxb+0RSZ
+gjKhTyHB4LWRYMxAc3moAMiggC9/67KUq2TH6OctuA+kz3tD/dS4yari7eRERq0q
+SdU/N6+h5U5rrY7qQk5iSMMGeNf+/gYkAPUt+v+Iu5fwVP6bXqe7ymq4QIvq7Cqf
+vjCulHXP0AlcYpb4m+oW2jl52M+BMzS4mXaszueabEZRLEIl2s9A98aYhg5seDg3
+DhZ0ScnkrwBbw9sbIUoTynhwX+Y9rJCvC3RylfzcSWanGrsSWPtspMiUV+y0+Emq
+iF6AdxQ6NnEoO9KZ2EuVnbyWAmLAusgiEN0Bt06WpFXbLNg4N0M9Ciz5ZNLEy3U1
+MNvtDYCDOmC8hL/Cus5GQDqDlZL7rV/UI1oT2rssEZIDbko5Ant/P0iyUmu6Lyuc
+XQYPHs2Pzh42QlMGGpqREujgyZFDiXLjShJO9dZZsgB2yTyY9kjbhnSFm/L6ySBH
+Qjzw5GxdPB8EAGPeU3NArgM+JJbgLMfk/mcqNz454hQIn/y9aDY=
+=S61U
 -----END PGP SIGNATURE-----
 
---d+5jJHEioP29KR0F--
+--qxYSgjOh4Jmozfz8--
