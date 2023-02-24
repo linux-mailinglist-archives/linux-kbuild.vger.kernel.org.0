@@ -2,118 +2,191 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B894F6A142C
-	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Feb 2023 01:11:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DFF586A144D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Feb 2023 01:27:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229502AbjBXALa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 23 Feb 2023 19:11:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50566 "EHLO
+        id S229461AbjBXA1y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 23 Feb 2023 19:27:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229744AbjBXALQ (ORCPT
+        with ESMTP id S229379AbjBXA1w (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 23 Feb 2023 19:11:16 -0500
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B56B5EEDD;
-        Thu, 23 Feb 2023 16:10:39 -0800 (PST)
-Received: by mail-pg1-x533.google.com with SMTP id 130so4143453pgg.3;
-        Thu, 23 Feb 2023 16:10:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677197436;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MoT6gaRYPtnh8k1ngr4M8vOub0Wg4UYVI0g6XpMS9dA=;
-        b=WYapsYYcy8reSKaTmTX7Sf2qze8b1lJ6e5lrN93dRyoFA73MiDv8fYlmKuYx48RZDR
-         ms+lX1GivT57dw17JHGeEXRMpw1y+nhAs1JuWnqxKnPLj0bWtZ7HdzNiXPLMAvm0Y0q/
-         ZJdlhfqZmnhLa7uOJ6QfQYGYA0Hryajqh9hrOklpWOdiGjehMyvtcJbMiVP7R21gAJdm
-         gmgBJyftQ0H10qBSL7Ggy1AtD0zNQ6ugYAqvSxrJ0B4Zb4rqO+SGsHxTPzGadMmMpbsO
-         yjeODjrqmnz0nxcmOVKEWg47CWDKcqsGJssWFuH16LIAgADXU215JR5ohQL4cUiR/p/b
-         +9/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677197436;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MoT6gaRYPtnh8k1ngr4M8vOub0Wg4UYVI0g6XpMS9dA=;
-        b=l4JDFmrLp6Hhlq+QMtNYbW71qVD1TOMcWtwpKBRCTmHBGF8lUC35b1VUPksAcu09aT
-         W9JRfYf0zlDz8cjDOQ60ejh/yfvsppkQ61sHwaqd1+7HfMgGhg5NBhkM4o+Zj6PP5wSE
-         +GwQez2oi+u4zixa28Jzy/cEWbSo8dOnyfWL+NF9AfH2JdzpCDLDAjmKGobaC3agTexa
-         28HdGRyWhwY49/g0SQsO1fu/hsLWQ3Zg4BQPNm3OVeyAJ7FN2FyN7hlY6PS6qXeTy8yS
-         Pro8HlEZsRnKuUBtE7h7/QHZgNwPJdfEXxo7Q0xtPUIxNCDeyJsZ1bA9xjiCsg7GjyGS
-         Nw9Q==
-X-Gm-Message-State: AO0yUKW1Nm/h1q+bFPMZ5onS8p6PmLPMx7msTXMPLj/ZFKlgcYet2clb
-        rK5erPbZjLC1Pw5vujWB1LSrLLnQIur8xk2hL7GkKNBysPc=
-X-Google-Smtp-Source: AK7set+H1KfqQ0rDAp24SajDp5b3exSzqpNDhSxbT82t3yc1G36eDZ2qfdY/DQOlb2xwvhIBNK8tcVuzp9GJ6wgKVyQ=
-X-Received: by 2002:a63:715e:0:b0:4fc:27c2:840d with SMTP id
- b30-20020a63715e000000b004fc27c2840dmr2296661pgn.12.1677197436490; Thu, 23
- Feb 2023 16:10:36 -0800 (PST)
+        Thu, 23 Feb 2023 19:27:52 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01CE52705;
+        Thu, 23 Feb 2023 16:27:51 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id ABD5DB81B9E;
+        Fri, 24 Feb 2023 00:27:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 551F2C433A0;
+        Fri, 24 Feb 2023 00:27:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677198468;
+        bh=04HzNiXeZWVQUk21JLryWqtmb0X9RFU/gPUr0yis9Gs=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=XbIPccfNIEdDHpKlCl5b4JTDQ5O4ni+Wyct/voolXYdrqAe9dZbMCjlmNVIh/Bfqf
+         L6YU7iUgZSqCr+Zy9wc8d2zGdjwshN26FYvCkDWQhYfATXmP+coQI+y/KLzVFQvpVY
+         tF31txnNjHnNPuaHx5xWYpnJMYAyVIqiIL41Npj7fZ/E/VWkNrB5pS3ZLdkIbAzbb6
+         8THdVszjk7ZputT6Yj0OYlTWjbRv+Sj7mfWbCy90aZqUuemaEZpS5HomZTtwAjgVYP
+         gLIriAC0uB7qQ6HsOLRwQiDlD/q4Dqt21tbj9E0Xn4pFkcNQMvkMPLUn031gQjGtII
+         QWg0ODZCFAUew==
+Received: by mail-oi1-f173.google.com with SMTP id q15so6464601oiw.11;
+        Thu, 23 Feb 2023 16:27:48 -0800 (PST)
+X-Gm-Message-State: AO0yUKX4rW8CZ6k/IhF1soXN5SYWfN+/hgMTKEMuFWTk1Gu2c8b+wL8A
+        u7eUe4lT0iZxDPLrGJLIQAPkxAARn9oVI0AKeGQ=
+X-Google-Smtp-Source: AK7set8U0qz7dTajr8wKMh2TbmDSLqhSeRhHSczTQAqxiE1PVudX5LoBI0kqCXZkQ1R+EqHAfrZnwvjxfDgH0iMiCcw=
+X-Received: by 2002:aca:1b04:0:b0:383:d3ae:2ef4 with SMTP id
+ b4-20020aca1b04000000b00383d3ae2ef4mr507233oib.8.1677198467541; Thu, 23 Feb
+ 2023 16:27:47 -0800 (PST)
 MIME-Version: 1.0
-References: <CAMr-kF1LxzoOShd7nkE1Pc0ZZgTusB42rDep5ROPirLK9xK55g@mail.gmail.com>
- <1c1c0a3b-10d0-ef9c-e96c-a415bbe0bf33@infradead.org> <CAMr-kF0rCQZ6OQkb5g5pAzWddFKDv4CGYLFzDQs=hYLjJMsuQw@mail.gmail.com>
- <6dc4d3ce-005c-13be-971b-1c026e3272c1@infradead.org>
-In-Reply-To: <6dc4d3ce-005c-13be-971b-1c026e3272c1@infradead.org>
-From:   Hanasaki Jiji <hanasaki@gmail.com>
-Date:   Thu, 23 Feb 2023 19:09:59 -0500
-Message-ID: <CAMr-kF29=r_W3VD7vx4SdDW7CXs9XD0KipRyThOzqfAUPzEtVg@mail.gmail.com>
-Subject: Re: .config and "make" / turning off all debug
-To:     LIST - Linux Kernel <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+References: <b455394f-9faa-1f1a-f171-0b9d5e9ada35@landley.net>
+ <63c2936e-6bc7-67e3-eaf3-0123333381f8@landley.net> <CAK7LNASA+Dpe9nv4afnueFeRj4BZDUccOFGJRPr7_rZQ7ZZKaA@mail.gmail.com>
+ <380c88ef-eb19-e73e-0ec9-805b8b90e957@landley.net>
+In-Reply-To: <380c88ef-eb19-e73e-0ec9-805b8b90e957@landley.net>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 24 Feb 2023 09:27:11 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATzPWoPpKNuZ8LOUw4j=LVsHn2ji-++8i3Cn_4fJGoQSg@mail.gmail.com>
+Message-ID: <CAK7LNATzPWoPpKNuZ8LOUw4j=LVsHn2ji-++8i3Cn_4fJGoQSg@mail.gmail.com>
+Subject: Re: [PATCH 1/5] try generic compiler name "cc" before falling back to "gcc".
+To:     Rob Landley <rob@landley.net>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,URI_DOTEDU autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-CONFIG_DEBUG_FS appears to be a relevant to kernel development.  So,
-turning that off should be fine for me.
-
-The below are from grep SELECT.  Looking each up, none seem to enable
-DEBUG/TRACE elsewhere. However I am still somewhat a newbie.
-CONFIG_PROCESSOR_SELECT=
-CONFIG_B44_PCI_AUTOSELECT=
-CONFIG_B44_PCICORE_AUTOSELECT=
-CONFIG_B43_PCI_AUTOSELECT=
-CONFIG_B43_PCICORE_AUTOSELECT=
-CONFIG_B43LEGACY_PCI_AUTOSELECT=
-CONFIG_B43LEGACY_PCICORE_AUTOSELECT=
-CONFIG_MEDIA_SUBDRV_AUTOSELECT=
-CONFIG_INTEL_SPEED_SELECT_INTERFACE=
-
-If interest are the keys for grep LEGACY or _LEGACY
-which, semantically, I would hope to be able to turnoff/disable on
-hardware more current than perhaps 3-5 years ago or a KVM or
-VirtualBox VM.  Your thoughts and input are appreciated.
-
-Thank you,
-
-On Wed, Feb 22, 2023 at 7:29 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+On Thu, Feb 23, 2023 at 10:36 PM Rob Landley <rob@landley.net> wrote:
 >
-> Hi,
->
-> On 2/22/23 16:21, Hanasaki Jiji wrote:
-> > Hello,
+> On 2/22/23 23:31, Masahiro Yamada wrote:
+> > On Wed, Feb 22, 2023 at 5:41 AM Rob Landley <rob@landley.net> wrote:
+> >>
+> >> Distros like debian install the generic "cc" name for both gcc and clang,
+> >> and the plumbing already does CC_VERSION_TEXT to include Makefile.clang.
+> >>
+> >> Previously: https://lkml.iu.edu/hypermail/linux/kernel/2202.0/01505.html
+> >> Signed-off-by: Rob Landley <rob@landley.net>
+> >> ---
+> >>  Makefile | 5 +++--
+> >>  1 file changed, 3 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/Makefile b/Makefile
+> >> index 3f6628780eb2..0ac57ae3b45f 100644
+> >> --- a/Makefile
+> >> +++ b/Makefile
+> >> @@ -456,7 +456,7 @@ endif
+> >>  HOSTCC = $(LLVM_PREFIX)clang$(LLVM_SUFFIX)
+> >>  HOSTCXX        = $(LLVM_PREFIX)clang++$(LLVM_SUFFIX)
+> >>  else
+> >> -HOSTCC = gcc
+> >> +HOSTCC := $(shell cc --version >/dev/null 2>&1 && echo cc || echo gcc)
 > >
-> > Thank you so much for helping out.
+> > 'cc' only makes sense for the host compiler,
+>
+> It was the generic posix name for "C compiler" until posix decided to put an
+> expiration date in the command name, which seems as widely honored as the
+> tar->pax switch or the removal of cpio.
+>
+> The name "gcc" was like "gmake" and "gawk". (On macos homebrew there's "gsed".)
+>
+> > which is configured by 'update-alternative'.
+>
+> Hexagon only has llvm support, not gcc, so I had to add an llvm cross compiler
+> to my cross compiler set, prefixed hexagon-unknown-linux-musl-*, but the linux
+> kernel wants to call it as hexagon-unknown-linux-musl-gcc.
+>
+> The kernel builds find with a "gcc" symlink to clang, but there _is_ a generic
+> name, which is widely installed.
+
+
+
+In the discussion in the past [1], we decided to
+go with LLVM=1 switch rather than 'cc'.
+We do not need both.
+
+[1]: https://lkml.org/lkml/2020/3/28/494
+
+
+
+
+
+
+
+
+>
+> > I tried it before, but LLVM folks preferred
+> > using $(LLVM) to choose clang/gcc.
+>
+> So if we want generic behavior without having to specify, we should create a
+> "gcc" symlink to clang?
+
+
+If you mean "without LLVM=1 or HOSTCC=clang specified",
+I think the answer is yes.
+
+
+
+
+
+
+>
+> >>  HOSTCXX        = g++
+> >>  endif
+> >>  HOSTRUSTC = rustc
+> >> @@ -503,7 +503,8 @@ OBJDUMP             = $(LLVM_PREFIX)llvm-objdump$(LLVM_SUFFIX)
+> >>  READELF                = $(LLVM_PREFIX)llvm-readelf$(LLVM_SUFFIX)
+> >>  STRIP          = $(LLVM_PREFIX)llvm-strip$(LLVM_SUFFIX)
+> >>  else
+> >> -CC             = $(CROSS_COMPILE)gcc
+> >> +CC             := $(CROSS_COMPILE)$(shell $(CROSS_COMPILE)cc --version \
+> >> +                       >/dev/null 2>&1 && echo cc || echo gcc)
 > >
-> > Might the below accomplish the task?
-> >
-> > cat f | grep -v DEBUG| grep -v TRACE | grep -v TRACING > newConfigFileWithout
+> > This hunk sets up GCC/binutils.
 >
-> It will disable CONFIG_DEBUG_FS.  That's OK if that's what you want to do.
+> This is the codepath that's taken when you don't explicitly specify "LLVM=1".
+> The test there is falling back to (appropriately prefixed) gcc when it can't
+> find a working (appropriately prefixed) cc.
+
+
+Unless LLVM=1 is specified, the toolchain defaults to GCC/binutils,
+there is no need for such additional complexity.
+
+
+
+
 >
-> But this will just give you something to begin with. It will need more work.
-> There are lots of config options that use "select" to force another config
-> option to be set/enabled. Even if you disable an option and you have one of
-> these other options set/enabled, they will just enable the DEBUG/TRACE options
-> again for you.
+> > So, cc does not make sense.  NACK.
 >
-> When you find one of these, they pretty much have to be checked and tuned
-> one-by-one. It can take a lot of time to do that.
+> Do you explicitly specify the "gold" linker vs the previous gnu one vs
+> lld.llvm.org on the kernel build command line?
+
+
+gold is unsupported.
+See 75959d44f9dc8e44410667009724e4e238515502
+
+
+Yes, to override only LD, LD=ld.lld should be given in the command line.
+
+
+
+
+
 >
->
-> --
-> ~Randy
-> https://people.kernel.org/tglx/notes-about-netiquette
+> Rob
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
