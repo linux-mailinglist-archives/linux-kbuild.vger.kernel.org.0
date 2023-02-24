@@ -2,62 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 69F596A246A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Feb 2023 23:43:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 015CA6A2473
+	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Feb 2023 23:48:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229536AbjBXWnB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 24 Feb 2023 17:43:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51528 "EHLO
+        id S229580AbjBXWsS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 24 Feb 2023 17:48:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229535AbjBXWnA (ORCPT
+        with ESMTP id S229503AbjBXWsR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 24 Feb 2023 17:43:00 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54F988696;
-        Fri, 24 Feb 2023 14:42:54 -0800 (PST)
+        Fri, 24 Feb 2023 17:48:17 -0500
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66CDE4E5FB;
+        Fri, 24 Feb 2023 14:48:08 -0800 (PST)
 Received: from leknes.fjasle.eu ([46.142.98.255]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1M3lLh-1pVxw40mTz-000wTV; Fri, 24 Feb 2023 23:37:11 +0100
+ (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1M5wY1-1pPL6y32D5-007WKq; Fri, 24 Feb 2023 23:42:31 +0100
 Received: by leknes.fjasle.eu (Postfix, from userid 1000)
-        id B245B3C1C6; Fri, 24 Feb 2023 23:37:07 +0100 (CET)
+        id 826D33C1C6; Fri, 24 Feb 2023 23:42:30 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1677278227; bh=NVte4m3e/9C0o4T5mfInbxtnfjIrFf5rYpccNuHdXQM=;
+        t=1677278550; bh=3Q1ZIqpG+fkEm+5lSz4xt93M7STQCsuQ3AehnRYSWT4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HYWWYz9/ejeGIpYRRJ56T7uLPlxwG5Qh5ZEaPg2XiJejNHki9W5EfJJGaEmHHZ7Vk
-         pvuFTtQBrcjYYBPRfxZr7xJWbZTG7gq9eu9JToJx1KRPkhMuaCx73Q+JOSaHyHSo0V
-         t3phKZopWFDeXmWAMlT9FRaedxl+PUYQL85b2jNU=
-Date:   Fri, 24 Feb 2023 23:37:07 +0100
+        b=YhfSEuA8di20WiQrOaQGJk1Y/jEXcRu6v3W7dGlig6IfiNt4BzsTN//iXlE8Qsc3R
+         GOTcNuJ5GYERmCcuR2X+MkJ5xPrkIeu9LoeQSF4M88hFgZAadZ+VyuLv6z64usy2rr
+         J7YgfJB98ghY5fBM9MUYcELXI2IOEx50O5G8NhBY=
+Date:   Fri, 24 Feb 2023 23:42:30 +0100
 From:   Nicolas Schier <nicolas@fjasle.eu>
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Ben Hutchings <ben@decadent.org.uk>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH v6 06/12] kbuild: deb-pkg: make .orig tarball a hard link
- if possible
-Message-ID: <Y/k8E8N5W8L91EpB@fjasle.eu>
+Subject: Re: [PATCH v6 07/12] kbuild: deb-pkg: switch over to source format
+ 3.0 (quilt)
+Message-ID: <Y/k9VkL+Amj8JaSe@fjasle.eu>
 References: <20230215012034.403356-1-masahiroy@kernel.org>
- <20230215012034.403356-6-masahiroy@kernel.org>
+ <20230215012034.403356-7-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="qxYSgjOh4Jmozfz8"
+        protocol="application/pgp-signature"; boundary="Ug59cDCp0STC2gvi"
 Content-Disposition: inline
-In-Reply-To: <20230215012034.403356-6-masahiroy@kernel.org>
-X-Provags-ID: V03:K1:8a0zJCfyzBwCzlfBiDCwhvMXDdDSPXNNzVawKks10QebQhaJqCq
- QC2vIVukdjRLoD+0BM25V0HArqrDd6PltvBTBj4YANn75vfkwl5lihtCyi1YmQpLrGOLw/m
- 5K85Pg11qPhudbapCfHeiLduufXKKbLvzWydcG7bAzC5MPCVRaklKqJHkToZYHOAnC4pyet
- zuZ1HkA5A+z0vdfgq+Svg==
-UI-OutboundReport: notjunk:1;M01:P0:ZIWKOIp/cPE=;6x1lYNRUJ1sJffHUDCFVK3f62oi
- /BtSsLmb7fL/YOrsca0KiR/jX303cgnHfWIQsyEKwtbFmr5jldAketftWvfcH8bOsWIDZJA7A
- LuFLRdaZKwJYzMAcEnZ7+6oVMnpffqt9mXYn+ybfrcaH6Rtd4fhD2CbDWR68+af17PARvhr9h
- dtTKc+zFQ1WNwsR1CyiJ5fdS4zJhYAO2xuNNVxpeIYi9l/HgkjI3z7PfhbnHfBlyTi47jCeai
- eNufxAE4V3J6+D3UVScCWtA2udPoWskn1VCdQ15sqIdYVYyM5e59rHSKRJQHWLfDOQrpTZz+Y
- Wz+GHGvQdTUjflh1xoj4ED6Qq3D8zbTt0VquGvmB4SVKMz/fh4X17D7jYWpdLDZTVN4bP0gxd
- OUfyAP1EMvCFjJMfIzX/lYc5sHjlLVY8eL8omwWcv9dUP5ueMuiyaINy8HmUkhQCY75NoKAgU
- u0YsXh7GAmYiHNEweppdCFOhmtfLnIUaBUhAgMCRQSyhaK/P+hQWw+MkbNBh8fYAIpBNrt0y5
- 4MGCMQy04XPTR+CE6yESljKv74Q43CrKJ0PPKpf3EW0LWL3OmcG0+bo7E/OSxRoiWXl9GQM2U
- rl54kjo2q3NlR+NsCvkK65PzsEfSKKwv0AoKGGDcB+/uGBE/KpbFpPuQMK5geUUfGIcMBtw5a
- umERpQgZ4rCXcmGgMJCbrNt22XSvCXi30uCtCyMwEA==
+In-Reply-To: <20230215012034.403356-7-masahiroy@kernel.org>
+X-Provags-ID: V03:K1:hT/um+7HUktSResSMTXZ6GSgJX158k27KJSYkZBzl6VDYxtvBJ4
+ YPvuZePuwsXEP/WSG2AxTzB4P8pyzhLLSQ4ePlTOWCvdaAeDhINbPssn/1NXqZ6iFgnLWXn
+ EBGKHAzMPEDHz1i+SqjYm1IZVzpsTdtggvW7LQJtRjfBZUG/ghLGgXW9DZxsvFujUtTqX/U
+ B2HiOzBRsMEfZDFh+N27g==
+UI-OutboundReport: notjunk:1;M01:P0:Hk+YLX1btlY=;F4sCEcowpy/1XxLS3yAV+grjT9j
+ t1zxlEbt1P5e6mIDrBW2ZZi3Mck8Kw4Ll7Ay8yTXyB9UvRri8VhzhiW1U7vsfSWT8yo+eA65f
+ 2SZ7TtUqC/0PlN71FiYloZT5cVos164B3nVvjFDCHh7/Tm+DsMka2iV+gqVaZBR0reUM00gyq
+ 0Fw3R2jEeJnEVtuGJcmofKDFxqUYqyIJOR4KfASkay/zTt6YjTAME55ZYdS2ID4+ZcVxxp4Og
+ gJ0U/SfQuUB8WTAAwl1CVdvhlCCcXN/vl7QGHCLYI/yPWa5yilWsVyuPekPeAWNaw9/hNgZcp
+ S8+IBSaBM8/SInP4/U7+Rqg1DCMigU8XmuHalG/jCjd60KkYIS3KDkCzu0ipYWLJ4Bvie5HlD
+ +fYjEsskyyI1c4FMruw2ErtpauISjvPy2CtdkbXZz+MrdsNqbQhqisOiyu5PSBluW1JBptlJR
+ yEPMdAHHImjQ8k2E9w0XsDQHa8MRxMyg0Yl0cKhG2Ata0C79RPIu2oBjuI/HHkQXG8ciL0CUb
+ SZwP779f4f8h6U5WakGuIJXMEULcplqA1bXZXy74erzNoziPo0gvQZi88S0orAwWn706+ZiKu
+ Wm6ge4Ktsa57PlcecnFxFMxsqPU8CNCLPKsn5uk78QEnK1nM1hdQg4h02R3wKNQp4vrsaDY2l
+ Au9Bs4/By+fb0yCwdIPSsdn18H1mMkDFL8cQRtEQyQ==
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -69,70 +69,144 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
---qxYSgjOh4Jmozfz8
+--Ug59cDCp0STC2gvi
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 15, 2023 at 10:20:28AM +0900 Masahiro Yamada wrote:
-> If '..' belongs to the same filesystem, create a hard link instead of
-> a copy. In most cases, you can save disk space.
+On Wed, Feb 15, 2023 at 10:20:29AM +0900 Masahiro Yamada wrote:
+> Change the source format from "1.0" to "3.0 (quilt)" because it works
+> more cleanly.
 >=20
-> I do not want to use 'mv' because keeping linux.tar.gz is useful to
-> avoid unneeded rebuilding of the tarball.
+> All files except .config and debian/ go into the orig tarball.
+> Add a single patch, debian/patches/config, and delete the ugly
+> extend-diff-ignore patterns.
+>=20
+> The debian tarball will be compressed into *.debian.tar.xz by default.
+> If you like to use a different compression mode, you can pass the
+> command line option, DPKG_FLAGS=3D-Zgzip, for example.
+>=20
+> The orig tarball only supports gzip for now. The combination of
+> gzip and xz is somewhat clumsy, but it is not a practical problem.
 >=20
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
+
+Thanks, that switch to 3.0/quilt sounds really good to me.
+
 >=20
 > Changes in v6:
+>   - Fix error when KCONFIG_CONFIG is set
+>=20
+> Changes in v4:
 >   - New patch
 >=20
->  scripts/Makefile.package | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+>  scripts/Makefile.package |  2 +-
+>  scripts/package/mkdebian | 41 ++++++++++++++++++----------------------
+>  2 files changed, 19 insertions(+), 24 deletions(-)
 >=20
 > diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-> index c207f4ec47ac..80a96eb61426 100644
+> index 80a96eb61426..5538deacb136 100644
 > --- a/scripts/Makefile.package
 > +++ b/scripts/Makefile.package
-> @@ -96,7 +96,11 @@ debian-orig: private source =3D $(shell dpkg-parsechan=
-gelog -S Source)
->  debian-orig: private version =3D $(shell dpkg-parsechangelog -S Version =
-| sed 's/-[^-]*$$//')
->  debian-orig: private orig-name =3D $(source)_$(version).orig.tar.gz
->  debian-orig: linux.tar.gz debian
-> -	$(Q)cp $< ../$(orig-name)
-> +	$(Q)if [ "$(df  --output=3Dtarget .. 2>/dev/null)" =3D "$(df --output=
-=3Dtarget $< 2>/dev/null)" ]; then \
-> +		ln -f $< ../$(orig-name); \
-> +	else \
-> +		cp $< ../$(orig-name); \
-> +	fi
-> =20
+> @@ -105,7 +105,7 @@ debian-orig: linux.tar.gz debian
 >  PHONY +=3D deb-pkg
 >  deb-pkg: debian-orig
+>  	+dpkg-buildpackage -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch) $(DPKG=
+_FLAGS) \
+> -		--build=3Dsource,binary --source-option=3D-sP -nc -us -uc
+> +		--build=3Dsource,binary -nc -us -uc
+> =20
+>  PHONY +=3D bindeb-pkg
+>  bindeb-pkg: debian
+> diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+> index 534e9713761a..22fc73a5e4f2 100755
+> --- a/scripts/package/mkdebian
+> +++ b/scripts/package/mkdebian
+> @@ -135,29 +135,24 @@ else
+>  fi
+> =20
+>  mkdir -p debian/source/
+> -echo "1.0" > debian/source/format
+> -
+> -# Ugly: ignore anything except .config or debian/
+> -cat<<'EOF' > debian/source/local-options
+> -diff-ignore
+> -
+> -extend-diff-ignore =3D ^[^.d]
+> -
+> -extend-diff-ignore =3D ^\.[^c]
+> -extend-diff-ignore =3D ^\.c($|[^o])
+> -extend-diff-ignore =3D ^\.co($|[^n])
+> -extend-diff-ignore =3D ^\.con($|[^f])
+> -extend-diff-ignore =3D ^\.conf($|[^i])
+> -extend-diff-ignore =3D ^\.confi($|[^g])
+> -extend-diff-ignore =3D ^\.config.
+> -
+> -extend-diff-ignore =3D ^d($|[^e])
+> -extend-diff-ignore =3D ^de($|[^b])
+> -extend-diff-ignore =3D ^deb($|[^i])
+> -extend-diff-ignore =3D ^debi($|[^a])
+> -extend-diff-ignore =3D ^debia($|[^n])
+> -extend-diff-ignore =3D ^debian[^/]
+> -EOF
+> +echo "3.0 (quilt)" > debian/source/format
+> +
+> +{
+> +	echo "diff-ignore"
+> +	echo "extend-diff-ignore =3D .*"
+> +} > debian/source/local-options
+> +
+> +# Add .config as a patch
+> +mkdir -p debian/patches
+> +{
+> +	echo "Subject: Add .config"
+> +	echo "Author: ${maintainer}"
+> +	echo
+> +	echo "--- /dev/null"
+> +	echo "+++ linux/.config"
+
+bike-shedding:
+
+	cat <<-eof
+	Subject: Add .config
+	Author: ${maintainer}
+
+	--- /dev/null
+	+++ linux/.config
+	eof
+
+
+> +	diff -u /dev/null "${KCONFIG_CONFIG}" | tail -n +3
+> +} > debian/patches/config
+> +echo config > debian/patches/series
+> =20
+>  echo $debarch > debian/arch
+>  extra_build_depends=3D", $(if_enabled_echo CONFIG_UNWINDER_ORC libelf-de=
+v:native)"
 > --=20
 > 2.34.1
 
 Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
---qxYSgjOh4Jmozfz8
+--Ug59cDCp0STC2gvi
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmP5PBMACgkQB1IKcBYm
-EmmeQBAAv13H1JZw7oaHPtLFIWBB84ySrshJfkep+41mj8MCBxMNookp1I/hmUuD
-634ioubZhgXjp+xR7TKjj25rIivwHjwtDumMZ5ewvlV6ohSbO8MyRe8O0RKGjJVr
-gNPJncxz1bGhXDtcXNGvHsJ65mTJdl5l7KUbMSJCi4ggL4//+VFsfnv7Jxb+0RSZ
-gjKhTyHB4LWRYMxAc3moAMiggC9/67KUq2TH6OctuA+kz3tD/dS4yari7eRERq0q
-SdU/N6+h5U5rrY7qQk5iSMMGeNf+/gYkAPUt+v+Iu5fwVP6bXqe7ymq4QIvq7Cqf
-vjCulHXP0AlcYpb4m+oW2jl52M+BMzS4mXaszueabEZRLEIl2s9A98aYhg5seDg3
-DhZ0ScnkrwBbw9sbIUoTynhwX+Y9rJCvC3RylfzcSWanGrsSWPtspMiUV+y0+Emq
-iF6AdxQ6NnEoO9KZ2EuVnbyWAmLAusgiEN0Bt06WpFXbLNg4N0M9Ciz5ZNLEy3U1
-MNvtDYCDOmC8hL/Cus5GQDqDlZL7rV/UI1oT2rssEZIDbko5Ant/P0iyUmu6Lyuc
-XQYPHs2Pzh42QlMGGpqREujgyZFDiXLjShJO9dZZsgB2yTyY9kjbhnSFm/L6ySBH
-Qjzw5GxdPB8EAGPeU3NArgM+JJbgLMfk/mcqNz454hQIn/y9aDY=
-=S61U
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmP5PVUACgkQB1IKcBYm
+Emk+uhAA2TE8BdL0TPrv42P4qNx16ODICbnWZnOyC7kDk9rqd0mYR0mMa/w/i7BV
+q+QlnwyfB/U1QGzO3ygtvicFvExPAuNeH4Cc/vSpp+aMmLWEYIPdMU+WEvjqzkiz
+8ockigUferhu2+3+fViCIejRhN6hrGsSLmxcx8mrOEtF95qjDekHRQMsfDl82QQS
+25F5Y7JZDxydUAJoExIBE3e7VhAfEDpuuxRADeiJsW+b75a6M0ikvPenEoPK2Pko
+bY63NCHNC7us5Rz1mgbtn1IVAIbYp/9r1bQsS4IbNc2XXhNfoc560KSInehhcorb
+IIG/zQ1eModa0Q4CsgjbzO5bD6BQhZtHmK0x8Qe0AQOEqVpgSvBMDY78zS1/5FbI
+Gft6Fq0VDOv/ZJBHdduUXiaX/Tefi/DxAvx35+/ed/fkehtmiskgbb4RkjpkodYx
+V8SDFRg/RxSx15dmMBq+LjZFIZnnvPCUCIVTaWtV70Pdt+nBQqEDUopzQXpDMJY8
+2C6Xr1U6ODrcHn0ql9tR1XtgEqEsfZnEVwcf7RxAkzskfh6D30Uc5/SYTbKzBcSZ
+FMax+hH7CIOMe5TsO4m/D8JyUc/GU7pi6oiOMwZ0FZ2sRlVyFAjiTzskl9AjYFtq
+I0Mr0zu2pHil6Cfs/3hV38dRTWN50vgb4tql62L/vYkIvG4tPlw=
+=48FK
 -----END PGP SIGNATURE-----
 
---qxYSgjOh4Jmozfz8--
+--Ug59cDCp0STC2gvi--
