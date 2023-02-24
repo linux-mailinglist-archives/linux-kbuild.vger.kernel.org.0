@@ -2,91 +2,282 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0122A6A1D2E
-	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Feb 2023 15:01:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EA776A1F1A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Feb 2023 16:59:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229716AbjBXOBX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 24 Feb 2023 09:01:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51508 "EHLO
+        id S229829AbjBXP7D (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 24 Feb 2023 10:59:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229582AbjBXOBW (ORCPT
+        with ESMTP id S229462AbjBXP7A (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 24 Feb 2023 09:01:22 -0500
-Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com [IPv6:2607:f8b0:4864:20::c2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1F7963A03;
-        Fri, 24 Feb 2023 06:01:21 -0800 (PST)
-Received: by mail-oo1-xc2e.google.com with SMTP id n27-20020a4ad63b000000b005252709efdbso539250oon.4;
-        Fri, 24 Feb 2023 06:01:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cD2V3GFxUMbiUHqwfuQz30DRd9uey95Pb5f4mqZNz5Q=;
-        b=nSQHhui9wzPmOzXMr5aqMMdc/emCD2VEKeowVCo0NrHkcplyLtFZoJHoJSFkK4z40b
-         1Y5bsQqiIwdR5gofZEF35EK9avASKH36E5ex9cJE5wk26qczgQcR+g0acFXnTiiKDgxR
-         PvZla0biMrFKQWZUiXoGS6VgkiqBzncTWilDH6zjbE0U2SVw1hG4kbL7ENtszZEjBb05
-         qptC3JWIkQCUlwk/JXL6N42MpRNrK4D9ejBf0Lzca0apISJPaVzxW40XxUIt1LW/qq0f
-         4QDj1rzPaIjMHxDN33OwyQKN9iTS0IxjFl1iPOh6pz4OLI/4YSXCYDPmBLAYfvu1N4S0
-         XtLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cD2V3GFxUMbiUHqwfuQz30DRd9uey95Pb5f4mqZNz5Q=;
-        b=LCdynrcJKOI/qgwW3xIIVbinJgVRSNcF4a6tj9X0ZpQqzYPblaxl9nyTG25KlpEhX7
-         z2s+dEJclcrZPa+9AXBAXeR8CIzRDRT6twQ4pVwgzUBZiW43zvltKtxZ1W00rDkA46z3
-         pZVClP5gVVPGWFeqxa3dPhXv3pkzDlXWRh6ZH6XpCzTPwevuAgF9SsxPGo8gr87/NBYT
-         ZywL8bt4gj9r3f0Uk9EBSBgvqQlW8mNkWjCM7Fj/ZL7MDWi/o+IWBmhAFoGOGUpe3JjG
-         hTzfpxXlN++qRiY1MA/fO5fSJS4cOPRN3E0FrBSqVtajRU6KvKcA8mUbKu4K6MCa0+Rh
-         4/ZQ==
-X-Gm-Message-State: AO0yUKV2/pvL0tyZBOAAbNPoVb0wqLHiDY20CvgVdZb+G4FCNIiS3U3k
-        0zNKC64YFs4+KTk0Pt3NfPs=
-X-Google-Smtp-Source: AK7set98zYboFrn/b4D2MBfz+3WRgRRGr0dXxRlba6lrQpOjcTAlP8smsxqbzioF9NIua3JNmHd9sg==
-X-Received: by 2002:a05:6820:61f:b0:51f:e2ab:5535 with SMTP id e31-20020a056820061f00b0051fe2ab5535mr8142396oow.0.1677247280363;
-        Fri, 24 Feb 2023 06:01:20 -0800 (PST)
-Received: from tx3000mach.io (static.220.238.itcsa.net. [190.15.220.238])
-        by smtp.gmail.com with ESMTPSA id v14-20020a9d604e000000b0068bbf5f2e49sm4505958otj.37.2023.02.24.06.01.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Feb 2023 06:01:19 -0800 (PST)
-From:   Martin Rodriguez Reboredo <yakoyoku@gmail.com>
-To:     lina@asahilina.net
-Cc:     alex.gaynor@gmail.com, asahi@lists.linux.dev,
-        bjorn3_gh@protonmail.com, boqun.feng@gmail.com, gary@garyguo.net,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        masahiroy@kernel.org, nathan@kernel.org, ndesaulniers@google.com,
-        nicolas@fjasle.eu, ojeda@kernel.org,
-        rust-for-linux@vger.kernel.org, wedsonaf@gmail.com
-Subject: Re: [PATCH] rust: Enable the new_uninit feature for kernel and driver crates
-Date:   Fri, 24 Feb 2023 11:01:13 -0300
-Message-Id: <20230224140113.745953-1-yakoyoku@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230224-rust-new_uninit-v1-1-c951443d9e26@asahilina.net>
-References: <20230224-rust-new_uninit-v1-1-c951443d9e26@asahilina.net>
+        Fri, 24 Feb 2023 10:59:00 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72EF53D0AA;
+        Fri, 24 Feb 2023 07:58:58 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E44F1B81C6F;
+        Fri, 24 Feb 2023 15:58:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 118FDC433D2;
+        Fri, 24 Feb 2023 15:58:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677254335;
+        bh=rRfXjsGBMvvnDz60uwLB5dc9ju4oNbQeuN0GLhjFFZk=;
+        h=From:To:Subject:In-Reply-To:References:Date:From;
+        b=IV+x2SOKujlDxRkpOOclYLhRMxavxs2ZgAVNSvw7w90V9xvyuyFfsJCv80gYcOG2p
+         A4TsrQ/qWG2iKNVl3avpevUIt5GA93ovI/qxOn7KRfjQxoOnikKjPiXeR7hhdclS6q
+         dqmICBshEsrCnUZnXi2fTr77wbblb1vHL/rZvDQG8+JRWHjmvTQn465vrIBEOHJ7Iz
+         OcdwuhdpCS1R/LJKz0LToyAjRK19HbZPcprjDc1e+B3ESMEvkoWdKClgQQu+6mliia
+         B68A719Xz9UxYpvtgkDRGcfVlkhGZKsdVyehclJsK+pzSytz6pbulYjyBSnzYllZVj
+         F5Yvnz7APGcSQ==
+From:   =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+To:     Alexandre Ghiti <alex@ghiti.fr>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, nathan@kernel.org,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
+        ndesaulniers@google.com
+Subject: Re: [PATCH v8 1/3] riscv: Introduce CONFIG_RELOCATABLE
+In-Reply-To: <4a6fc7a3-9697-a49b-0941-97f32194b0d7@ghiti.fr>
+References: <20230215143626.453491-1-alexghiti@rivosinc.com>
+ <20230215143626.453491-2-alexghiti@rivosinc.com>
+ <4a6fc7a3-9697-a49b-0941-97f32194b0d7@ghiti.fr>
+Date:   Fri, 24 Feb 2023 16:58:52 +0100
+Message-ID: <877cw7dphf.fsf@all.your.base.are.belong.to.us>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Feb 24, 2023 at 05:09:47PM +0900, Asahi Lina wrote:=0D
-> The unstable new_uninit feature enables various library APIs to create=0D
-> uninitialized containers, such as `Box::assume_init()`. This is=0D
-> necessary to build abstractions that directly initialize memory at the=0D
-> target location, instead of doing copies through the stack.=0D
-> =0D
-> Will be used by the DRM scheduler abstraction in the kernel crate, and=0D
-> by field-wise initialization (e.g. using `place!()` or a future=0D
-> replacement macro which may itself live in `kernel`) in driver crates.=0D
-=0D
-Very useful to me as some constructors in the USB bindings that I'm=0D
-writting might make use of unitialized memory.=0D
-=0D
-Reviewed-by: Martin Rodriguez Reboredo <yakoyoku@gmail.com>=0D
+Alexandre Ghiti <alex@ghiti.fr> writes:
+
+> +cc linux-kbuild, llvm, Nathan, Nick
+>
+> On 2/15/23 15:36, Alexandre Ghiti wrote:
+>> From: Alexandre Ghiti <alex@ghiti.fr>
+>>
+>> This config allows to compile 64b kernel as PIE and to relocate it at
+>> any virtual address at runtime: this paves the way to KASLR.
+>> Runtime relocation is possible since relocation metadata are embedded in=
+to
+>> the kernel.
+>>
+>> Note that relocating at runtime introduces an overhead even if the
+>> kernel is loaded at the same address it was linked at and that the compi=
+ler
+>> options are those used in arm64 which uses the same RELA relocation
+>> format.
+>>
+>> Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
+>> ---
+>>   arch/riscv/Kconfig              | 14 +++++++++
+>>   arch/riscv/Makefile             |  7 +++--
+>>   arch/riscv/kernel/efi-header.S  |  6 ++--
+>>   arch/riscv/kernel/vmlinux.lds.S | 10 ++++--
+>>   arch/riscv/mm/Makefile          |  4 +++
+>>   arch/riscv/mm/init.c            | 54 ++++++++++++++++++++++++++++++++-
+>>   6 files changed, 87 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+>> index e2b656043abf..e0ee7ce4b2e3 100644
+>> --- a/arch/riscv/Kconfig
+>> +++ b/arch/riscv/Kconfig
+>> @@ -544,6 +544,20 @@ config COMPAT
+>>=20=20=20
+>>   	  If you want to execute 32-bit userspace applications, say Y.
+>>=20=20=20
+>> +config RELOCATABLE
+>> +	bool "Build a relocatable kernel"
+>> +	depends on MMU && 64BIT && !XIP_KERNEL
+>> +	help
+>> +          This builds a kernel as a Position Independent Executable (PI=
+E),
+>> +          which retains all relocation metadata required to relocate the
+>> +          kernel binary at runtime to a different virtual address than =
+the
+>> +          address it was linked at.
+>> +          Since RISCV uses the RELA relocation format, this requires a
+>> +          relocation pass at runtime even if the kernel is loaded at the
+>> +          same address it was linked at.
+>> +
+>> +          If unsure, say N.
+>> +
+>>   endmenu # "Kernel features"
+>>=20=20=20
+>>   menu "Boot options"
+>> diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
+>> index 82153960ac00..97c34136b027 100644
+>> --- a/arch/riscv/Makefile
+>> +++ b/arch/riscv/Makefile
+>> @@ -7,9 +7,12 @@
+>>   #
+>>=20=20=20
+>>   OBJCOPYFLAGS    :=3D -O binary
+>> -LDFLAGS_vmlinux :=3D
+>> +ifeq ($(CONFIG_RELOCATABLE),y)
+>> +	LDFLAGS_vmlinux +=3D -shared -Bsymbolic -z notext -z norelro
+>> +	KBUILD_CFLAGS +=3D -fPIE
+>> +endif
+>>   ifeq ($(CONFIG_DYNAMIC_FTRACE),y)
+>> -	LDFLAGS_vmlinux :=3D --no-relax
+>> +	LDFLAGS_vmlinux +=3D --no-relax
+>>   	KBUILD_CPPFLAGS +=3D -DCC_USING_PATCHABLE_FUNCTION_ENTRY
+>>   	CC_FLAGS_FTRACE :=3D -fpatchable-function-entry=3D8
+>>   endif
+>> diff --git a/arch/riscv/kernel/efi-header.S b/arch/riscv/kernel/efi-head=
+er.S
+>> index 8e733aa48ba6..f7ee09c4f12d 100644
+>> --- a/arch/riscv/kernel/efi-header.S
+>> +++ b/arch/riscv/kernel/efi-header.S
+>> @@ -33,7 +33,7 @@ optional_header:
+>>   	.byte	0x02					// MajorLinkerVersion
+>>   	.byte	0x14					// MinorLinkerVersion
+>>   	.long	__pecoff_text_end - efi_header_end	// SizeOfCode
+>> -	.long	__pecoff_data_virt_size			// SizeOfInitializedData
+>> +	.long	__pecoff_data_virt_end - __pecoff_text_end	// SizeOfInitializedD=
+ata
+>>   	.long	0					// SizeOfUninitializedData
+>>   	.long	__efistub_efi_pe_entry - _start		// AddressOfEntryPoint
+>>   	.long	efi_header_end - _start			// BaseOfCode
+>> @@ -91,9 +91,9 @@ section_table:
+>>   		IMAGE_SCN_MEM_EXECUTE			// Characteristics
+>>=20=20=20
+>>   	.ascii	".data\0\0\0"
+>> -	.long	__pecoff_data_virt_size			// VirtualSize
+>> +	.long	__pecoff_data_virt_end - __pecoff_text_end	// VirtualSize
+>>   	.long	__pecoff_text_end - _start		// VirtualAddress
+>> -	.long	__pecoff_data_raw_size			// SizeOfRawData
+>> +	.long	__pecoff_data_raw_end - __pecoff_text_end	// SizeOfRawData
+>>   	.long	__pecoff_text_end - _start		// PointerToRawData
+>>=20=20=20
+>>   	.long	0					// PointerToRelocations
+>> diff --git a/arch/riscv/kernel/vmlinux.lds.S b/arch/riscv/kernel/vmlinux=
+.lds.S
+>> index 4e6c88aa4d87..8be2de3be08c 100644
+>> --- a/arch/riscv/kernel/vmlinux.lds.S
+>> +++ b/arch/riscv/kernel/vmlinux.lds.S
+>> @@ -122,9 +122,15 @@ SECTIONS
+>>   		*(.sdata*)
+>>   	}
+>>=20=20=20
+>> +	.rela.dyn : ALIGN(8) {
+>> +		__rela_dyn_start =3D .;
+>> +		*(.rela .rela*)
+>> +		__rela_dyn_end =3D .;
+>> +	}
+>> +
+>
+>
+> So I realized those relocations would be better in the init section so=20
+> we can get rid of them at some point. So I tried the following:
+>
+> diff --git a/arch/riscv/kernel/vmlinux.lds.S=20
+> b/arch/riscv/kernel/vmlinux.lds.S
+> index 7ac215467fd5..6111023a89ef 100644
+> --- a/arch/riscv/kernel/vmlinux.lds.S
+> +++ b/arch/riscv/kernel/vmlinux.lds.S
+> @@ -93,6 +93,12 @@ SECTIONS
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 *(.rel.dyn*)
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .rela.dyn : ALIGN(8) {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 __rela_dyn_start =3D .;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 *(.rela .rela*)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 __rela_dyn_end =3D .;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> +
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __init_data_end =3D .;
+>
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 . =3D ALIGN(8);
+> @@ -119,12 +125,6 @@ SECTIONS
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 *(.sdata*)
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .rela.dyn : ALIGN(8) {
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 __rela_dyn_start =3D .;
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 *(.rela .rela*)
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 __rela_dyn_end =3D .;
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> -
+>  =C2=A0#ifdef CONFIG_EFI
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .pecoff_edata_padding : { BYT=
+E(0); . =3D=20
+> ALIGN(PECOFF_FILE_ALIGNMENT); }
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __pecoff_data_raw_end =3D ABS=
+OLUTE(.);
+>
+>
+> But then all the relocations in vmlinux end up being null:
+>
+> vmlinux:=C2=A0=C2=A0=C2=A0=C2=A0 file format elf64-littleriscv
+>
+> $ riscv64-linux-gnu-objdump -R vmlinux
+>
+> DYNAMIC RELOCATION RECORDS
+> OFFSET=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 TYPE=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 VALUE
+> 0000000000000000 R_RISCV_NONE=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *ABS*
+> 0000000000000000 R_RISCV_NONE=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *ABS*
+> ....
+>
+>  =C2=A0I also noticed that re-linking vmlinux with the same command right=
+=20
+> after works (ie, the relocations are now valid):
+>
+> $ riscv64-linux-gnu-objdump -R vmlinux
+>
+> vmlinux:=C2=A0=C2=A0=C2=A0=C2=A0 file format elf64-littleriscv
+>
+> DYNAMIC RELOCATION RECORDS
+> OFFSET=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 TYPE=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 VALUE
+> ffffffff82600718 R_RISCV_RELATIVE=C2=A0 *ABS*-0x000000007d9ff8e8
+> ffffffff82600720 R_RISCV_RELATIVE=C2=A0 *ABS*-0x000000007d9ff8e8
+> ...
+>
+> Below is the command used to generate this working vmlinux:
+>
+> riscv64-unknown-linux-gnu-ld -melf64lriscv -z noexecstack=20
+> --no-warn-rwx-segments -shared -Bsymbolic -z notext -z norelro=20
+> --no-relax --build-id=3Dsha1 --script=3D./arch/riscv/kernel/vmlinux.lds=20
+> -Map=3Dvmlinux.map -o vmlinux --whole-archive vmlinux.a .vmlinux.export.o=
+=20
+> init/version-timestamp.o --no-whole-archive --start-group=20
+> ./drivers/firmware/efi/libstub/lib.a --end-group .tmp_vmlinux.kallsyms3.o
+>
+> I tried a lot of things, but I struggle to understand, does anyone have=20
+> any idea? FYI, the same problem happens with LLVM.
+
+Don't ask me *why*, but adding --emit-relocs to your linker flags solves
+"the NULL .rela.dyn" both for GCC and LLVM.
+
+The downside is that you end up with a bunch of .rela cruft in your
+vmlinux.
+
+
+Bj=C3=B6rn
