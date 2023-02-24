@@ -2,178 +2,91 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 18C2F6A1BF7
-	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Feb 2023 13:13:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0122A6A1D2E
+	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Feb 2023 15:01:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229793AbjBXMNB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 24 Feb 2023 07:13:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43338 "EHLO
+        id S229716AbjBXOBX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 24 Feb 2023 09:01:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229724AbjBXMM7 (ORCPT
+        with ESMTP id S229582AbjBXOBW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 24 Feb 2023 07:12:59 -0500
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FBEF19686;
-        Fri, 24 Feb 2023 04:12:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=lMkQbXYIvElBugu5cxf5zhoj0h7ckwIM5nbeXE9onRM=; b=EficBCbipgvSiu1PZL4IAP/bIN
-        2kym6zJFt+S3sQs9fb+2xvvwyTyhcQpd7KNY+xxmqUth4L6B0Q3wpYuQ9Nvrhn4mpXm6fxCmxZ4x+
-        qarjUhvLQq0cuBhHtQVYzuZ5u3JK5Q61x7mX62Aqvlmw74ROzOi3gdZPBX2CLiuLpBpTlXz65Y8HO
-        Rws0WmHsg+slJHGILwXf/Ay9OJqy+9CaKeHzF/7qrtzFGQEYx4T2dL6rGQ1b+3+tPmvhJlXfAUiaw
-        tWuqERTOO9QSGCQUGhM3EdkPcI7t7akaPgj9l6bNUwWq12end0/SkF4chgljzS6MgKCxh4Yx6KsFq
-        vSMBjFcg==;
-Received: from 189-68-200-53.dsl.telesp.net.br ([189.68.200.53] helo=[192.168.1.111])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1pVWwS-00DXbT-1m; Fri, 24 Feb 2023 13:12:48 +0100
-Message-ID: <cadf9320-366c-da33-5fb4-30575533b04e@igalia.com>
-Date:   Fri, 24 Feb 2023 09:12:12 -0300
+        Fri, 24 Feb 2023 09:01:22 -0500
+Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com [IPv6:2607:f8b0:4864:20::c2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1F7963A03;
+        Fri, 24 Feb 2023 06:01:21 -0800 (PST)
+Received: by mail-oo1-xc2e.google.com with SMTP id n27-20020a4ad63b000000b005252709efdbso539250oon.4;
+        Fri, 24 Feb 2023 06:01:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cD2V3GFxUMbiUHqwfuQz30DRd9uey95Pb5f4mqZNz5Q=;
+        b=nSQHhui9wzPmOzXMr5aqMMdc/emCD2VEKeowVCo0NrHkcplyLtFZoJHoJSFkK4z40b
+         1Y5bsQqiIwdR5gofZEF35EK9avASKH36E5ex9cJE5wk26qczgQcR+g0acFXnTiiKDgxR
+         PvZla0biMrFKQWZUiXoGS6VgkiqBzncTWilDH6zjbE0U2SVw1hG4kbL7ENtszZEjBb05
+         qptC3JWIkQCUlwk/JXL6N42MpRNrK4D9ejBf0Lzca0apISJPaVzxW40XxUIt1LW/qq0f
+         4QDj1rzPaIjMHxDN33OwyQKN9iTS0IxjFl1iPOh6pz4OLI/4YSXCYDPmBLAYfvu1N4S0
+         XtLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cD2V3GFxUMbiUHqwfuQz30DRd9uey95Pb5f4mqZNz5Q=;
+        b=LCdynrcJKOI/qgwW3xIIVbinJgVRSNcF4a6tj9X0ZpQqzYPblaxl9nyTG25KlpEhX7
+         z2s+dEJclcrZPa+9AXBAXeR8CIzRDRT6twQ4pVwgzUBZiW43zvltKtxZ1W00rDkA46z3
+         pZVClP5gVVPGWFeqxa3dPhXv3pkzDlXWRh6ZH6XpCzTPwevuAgF9SsxPGo8gr87/NBYT
+         ZywL8bt4gj9r3f0Uk9EBSBgvqQlW8mNkWjCM7Fj/ZL7MDWi/o+IWBmhAFoGOGUpe3JjG
+         hTzfpxXlN++qRiY1MA/fO5fSJS4cOPRN3E0FrBSqVtajRU6KvKcA8mUbKu4K6MCa0+Rh
+         4/ZQ==
+X-Gm-Message-State: AO0yUKV2/pvL0tyZBOAAbNPoVb0wqLHiDY20CvgVdZb+G4FCNIiS3U3k
+        0zNKC64YFs4+KTk0Pt3NfPs=
+X-Google-Smtp-Source: AK7set98zYboFrn/b4D2MBfz+3WRgRRGr0dXxRlba6lrQpOjcTAlP8smsxqbzioF9NIua3JNmHd9sg==
+X-Received: by 2002:a05:6820:61f:b0:51f:e2ab:5535 with SMTP id e31-20020a056820061f00b0051fe2ab5535mr8142396oow.0.1677247280363;
+        Fri, 24 Feb 2023 06:01:20 -0800 (PST)
+Received: from tx3000mach.io (static.220.238.itcsa.net. [190.15.220.238])
+        by smtp.gmail.com with ESMTPSA id v14-20020a9d604e000000b0068bbf5f2e49sm4505958otj.37.2023.02.24.06.01.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Feb 2023 06:01:19 -0800 (PST)
+From:   Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+To:     lina@asahilina.net
+Cc:     alex.gaynor@gmail.com, asahi@lists.linux.dev,
+        bjorn3_gh@protonmail.com, boqun.feng@gmail.com, gary@garyguo.net,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        masahiroy@kernel.org, nathan@kernel.org, ndesaulniers@google.com,
+        nicolas@fjasle.eu, ojeda@kernel.org,
+        rust-for-linux@vger.kernel.org, wedsonaf@gmail.com
+Subject: Re: [PATCH] rust: Enable the new_uninit feature for kernel and driver crates
+Date:   Fri, 24 Feb 2023 11:01:13 -0300
+Message-Id: <20230224140113.745953-1-yakoyoku@gmail.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230224-rust-new_uninit-v1-1-c951443d9e26@asahilina.net>
+References: <20230224-rust-new_uninit-v1-1-c951443d9e26@asahilina.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] kbuild: modinst: Enable multithread xz compression
-Content-Language: en-US
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        kernel-dev@igalia.com, Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-References: <20230223001607.95523-1-andrealmeid@igalia.com>
- <CAK7LNAQbzWQs3WzsdyLsCyFD_2Kgz8sqjqk+nFXkEXQFrYobRA@mail.gmail.com>
-From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <CAK7LNAQbzWQs3WzsdyLsCyFD_2Kgz8sqjqk+nFXkEXQFrYobRA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro,
-
-Em 24/02/2023 02:38, Masahiro Yamada escreveu:
-> On Thu, Feb 23, 2023 at 9:17 AM André Almeida <andrealmeid@igalia.com> wrote:
->>
->> As it's done for zstd compression, enable multithread compression for
->> xz to speed up module installation.
->>
->> Signed-off-by: André Almeida <andrealmeid@igalia.com>
->> ---
->>
->> On my setup xz is a bottleneck during module installation. Here are the
->> numbers to install it in a local directory, before and after this patch:
->>
->> $ time make INSTALL_MOD_PATH=/home/tonyk/codes/.kernel_deploy/ modules_install -j16
->> Executed in  100.08 secs
->>
->> $ time make INSTALL_MOD_PATH=/home/tonyk/codes/.kernel_deploy/ modules_install -j16
->> Executed in   28.60 secs
-> 
-> 
-> Heh, this is an interesting benchmark.
-> 
-> Without this patch, you ran 16 processes of 'xz' in parallel
-> since you gave -j16.
-> 
-> You created multi-threads in each xz process, then you got 3x faster.
-> What made it happen?
-> 
-> 
-
-During the modules installation in my setup, the build system would 
-spend most of it's time compressing big modules (such as the 350M 
-amdgpu.ko) in a single thread, with 15 idles threads. Enabling 
-multithread allowed amdgpu to be compressed really fast.
-
-The real performance improvement during modules compression is not 
-compressing as many small modules as possible in parallel, but 
-compressing the big ones in multithread, that proved to be the 
-bottleneck in my setup.
-
- > How many threads can your system run?
-
-$ nproc
-16
-
-> 
-> I did not get such an improvement in my testing.
-> In my machine $(nproc) is 24.
-> 
-> 
-> [Without this patch]
-> 
-> $ time make INSTALL_MOD_PATH=/tmp/inst1  modules_install -j$(nproc)
-> 
-> real 0m33.965s
-> user 10m6.118s
-> sys 0m37.231s
-> 
-> [With this patch]
-> 
-> $ time make INSTALL_MOD_PATH=/tmp/inst1  modules_install -j$(nproc)
-> 
-> real 0m32.568s
-> user 10m4.472s
-> sys 0m39.132s
-> 
-> 
-
-I can see that my patch did not introduce performance regressions to 
-your setup, at least.
-
-> 
-> Given that GNU Make provides the parallel execution environment,
-> you can control the number of processes of 'xz'.
-> 
-> There is no point in forcing multi-threading, which the user
-> did not ask or ever want.
-> 
-> 
-
-Should we drop -T0 from zstd then? Is currently forcing multi-threading.
-
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
->> ---
->>   scripts/Makefile.modinst | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
->> index 4815a8e32227..28dcc523d2ee 100644
->> --- a/scripts/Makefile.modinst
->> +++ b/scripts/Makefile.modinst
->> @@ -99,7 +99,7 @@ endif
->>   quiet_cmd_gzip = GZIP    $@
->>         cmd_gzip = $(KGZIP) -n -f $<
->>   quiet_cmd_xz = XZ      $@
->> -      cmd_xz = $(XZ) --lzma2=dict=2MiB -f $<
->> +      cmd_xz = $(XZ) --lzma2=dict=2MiB -f -T0 $<
->>   quiet_cmd_zstd = ZSTD    $@
->>         cmd_zstd = $(ZSTD) -T0 --rm -f -q $<
->>
->> --
->> 2.39.2
->>
-> 
-> 
-
-Thanks,
-André Almeida
+On Fri, Feb 24, 2023 at 05:09:47PM +0900, Asahi Lina wrote:=0D
+> The unstable new_uninit feature enables various library APIs to create=0D
+> uninitialized containers, such as `Box::assume_init()`. This is=0D
+> necessary to build abstractions that directly initialize memory at the=0D
+> target location, instead of doing copies through the stack.=0D
+> =0D
+> Will be used by the DRM scheduler abstraction in the kernel crate, and=0D
+> by field-wise initialization (e.g. using `place!()` or a future=0D
+> replacement macro which may itself live in `kernel`) in driver crates.=0D
+=0D
+Very useful to me as some constructors in the USB bindings that I'm=0D
+writting might make use of unitialized memory.=0D
+=0D
+Reviewed-by: Martin Rodriguez Reboredo <yakoyoku@gmail.com>=0D
