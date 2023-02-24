@@ -2,134 +2,178 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F9966A1868
-	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Feb 2023 10:00:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18C2F6A1BF7
+	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Feb 2023 13:13:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229880AbjBXJAP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 24 Feb 2023 04:00:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43560 "EHLO
+        id S229793AbjBXMNB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 24 Feb 2023 07:13:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229881AbjBXJAK (ORCPT
+        with ESMTP id S229724AbjBXMM7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 24 Feb 2023 04:00:10 -0500
-Received: from mail-ed1-x54a.google.com (mail-ed1-x54a.google.com [IPv6:2a00:1450:4864:20::54a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74DD44FA94
-        for <linux-kbuild@vger.kernel.org>; Fri, 24 Feb 2023 01:00:08 -0800 (PST)
-Received: by mail-ed1-x54a.google.com with SMTP id co14-20020a0564020c0e00b004aab4319cedso17976918edb.2
-        for <linux-kbuild@vger.kernel.org>; Fri, 24 Feb 2023 01:00:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AjV3k78q3XXhT1GHWCKfTuGEDWgoZOrO6Fv+xEYetZM=;
-        b=EAGIOwQG78YZ4s5FvVIyWmJSdj/9+oRp2Z+JOiSUHX7UEHTavbHpWoSCToIN25ZVBh
-         adJIFeTdGpgUgUlgPbR4Ed7A8vOy6wisOboBbYRYTdNzBqbwUwCAPRSSvoPl6Bh2MdOs
-         DxBjn4j0OaOB/g65HjuRXZVQ1recSusgjrsuNkNrBC2P4Rnt9uhiw7JBjRqIzDCLljyl
-         RPUozPvaTPHrb+3qYhJ4gLVhfC9eX0jRr0iYQ685BfQTxNz35kPbfNpdQBbihXcZZQ/x
-         MfmXpF+Z0ozIFxGcdCWnKbZF7Ky7Dr+DKmP+UpWWa7yzYqJWwtqt9X0IGq+6o/8Df7+R
-         thCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AjV3k78q3XXhT1GHWCKfTuGEDWgoZOrO6Fv+xEYetZM=;
-        b=Tty2SMBEfBm7B0JGfv4hyyh6gxi7zqf4srbxyrUVXCXZ44YALNhveIxbCjGJLE0iWz
-         XUXQaeb9Fk0JAxfjmkEKr3tbaqGbDyGyzJbUM7WeXRhXrlCgNn70lOMJ2BiIOzqQo3N0
-         TCnclrqIQC3NDti3csKSnxdusu6P568CrKbmaJL18rqDQi5TDPBfNeLhjJmZ1anp1RWy
-         zxXgcobD+iKL3JasPbsz9X1TL6u1ws++Mnfd6TNHvO1RheA76fmUHIS4m/2vSYdYh9Ji
-         V2HJvQEFoD8jIXSIJO56GGRv39E8TSW0G77GcV2dqKgWkCkH5pK5/zOXEUSxbpgGcqOs
-         PfTg==
-X-Gm-Message-State: AO0yUKXJ+O0SchASBS7zAybohGHwlLQkonyqTUEkZd4nkT6WZauJnjj9
-        kNqqI9ktvkqDBvBO7sn5DpiTuJl/WQ==
-X-Google-Smtp-Source: AK7set+F0E0+hHGoUz0EDxGYty9hHOhM9cQA2n6bHMhFaQ+TBLOYuMWa+x6cFVA/P5UZsJl9kORIJ4SYdA==
-X-Received: from elver.muc.corp.google.com ([2a00:79e0:9c:201:53eb:6453:f5f5:3bb9])
- (user=elver job=sendgmr) by 2002:a05:6402:3216:b0:4ad:7bb2:eefb with SMTP id
- g22-20020a056402321600b004ad7bb2eefbmr9255387eda.3.1677229206892; Fri, 24 Feb
- 2023 01:00:06 -0800 (PST)
-Date:   Fri, 24 Feb 2023 09:59:42 +0100
-In-Reply-To: <20230224085942.1791837-1-elver@google.com>
-Mime-Version: 1.0
-References: <20230224085942.1791837-1-elver@google.com>
-X-Mailer: git-send-email 2.39.2.637.g21b0678d19-goog
-Message-ID: <20230224085942.1791837-4-elver@google.com>
-Subject: [PATCH v5 4/4] kasan, x86: Don't rename memintrinsics in
- uninstrumented files
-From:   Marco Elver <elver@google.com>
-To:     elver@google.com, Andrew Morton <akpm@linux-foundation.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Jakub Jelinek <jakub@redhat.com>,
-        linux-toolchains@vger.kernel.org,
-        Alexander Potapenko <glider@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Nathan Chancellor <nathan@kernel.org>,
+        Fri, 24 Feb 2023 07:12:59 -0500
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FBEF19686;
+        Fri, 24 Feb 2023 04:12:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=lMkQbXYIvElBugu5cxf5zhoj0h7ckwIM5nbeXE9onRM=; b=EficBCbipgvSiu1PZL4IAP/bIN
+        2kym6zJFt+S3sQs9fb+2xvvwyTyhcQpd7KNY+xxmqUth4L6B0Q3wpYuQ9Nvrhn4mpXm6fxCmxZ4x+
+        qarjUhvLQq0cuBhHtQVYzuZ5u3JK5Q61x7mX62Aqvlmw74ROzOi3gdZPBX2CLiuLpBpTlXz65Y8HO
+        Rws0WmHsg+slJHGILwXf/Ay9OJqy+9CaKeHzF/7qrtzFGQEYx4T2dL6rGQ1b+3+tPmvhJlXfAUiaw
+        tWuqERTOO9QSGCQUGhM3EdkPcI7t7akaPgj9l6bNUwWq12end0/SkF4chgljzS6MgKCxh4Yx6KsFq
+        vSMBjFcg==;
+Received: from 189-68-200-53.dsl.telesp.net.br ([189.68.200.53] helo=[192.168.1.111])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1pVWwS-00DXbT-1m; Fri, 24 Feb 2023 13:12:48 +0100
+Message-ID: <cadf9320-366c-da33-5fb4-30575533b04e@igalia.com>
+Date:   Fri, 24 Feb 2023 09:12:12 -0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] kbuild: modinst: Enable multithread xz compression
+Content-Language: en-US
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        kernel-dev@igalia.com, Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Kees Cook <keescook@chromium.org>,
-        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-        linux-mm@kvack.org, linux-kbuild@vger.kernel.org,
-        linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        Nicolas Schier <nicolas@fjasle.eu>
+References: <20230223001607.95523-1-andrealmeid@igalia.com>
+ <CAK7LNAQbzWQs3WzsdyLsCyFD_2Kgz8sqjqk+nFXkEXQFrYobRA@mail.gmail.com>
+From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <CAK7LNAQbzWQs3WzsdyLsCyFD_2Kgz8sqjqk+nFXkEXQFrYobRA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Now that memcpy/memset/memmove are no longer overridden by KASAN, we can
-just use the normal symbol names in uninstrumented files.
+Hi Masahiro,
 
-Drop the preprocessor redefinitions.
+Em 24/02/2023 02:38, Masahiro Yamada escreveu:
+> On Thu, Feb 23, 2023 at 9:17 AM André Almeida <andrealmeid@igalia.com> wrote:
+>>
+>> As it's done for zstd compression, enable multithread compression for
+>> xz to speed up module installation.
+>>
+>> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+>> ---
+>>
+>> On my setup xz is a bottleneck during module installation. Here are the
+>> numbers to install it in a local directory, before and after this patch:
+>>
+>> $ time make INSTALL_MOD_PATH=/home/tonyk/codes/.kernel_deploy/ modules_install -j16
+>> Executed in  100.08 secs
+>>
+>> $ time make INSTALL_MOD_PATH=/home/tonyk/codes/.kernel_deploy/ modules_install -j16
+>> Executed in   28.60 secs
+> 
+> 
+> Heh, this is an interesting benchmark.
+> 
+> Without this patch, you ran 16 processes of 'xz' in parallel
+> since you gave -j16.
+> 
+> You created multi-threads in each xz process, then you got 3x faster.
+> What made it happen?
+> 
+> 
 
-Fixes: 69d4c0d32186 ("entry, kasan, x86: Disallow overriding mem*() functions")
-Signed-off-by: Marco Elver <elver@google.com>
-Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
----
-v5:
-* New patch.
----
- arch/x86/include/asm/string_64.h | 19 -------------------
- 1 file changed, 19 deletions(-)
+During the modules installation in my setup, the build system would 
+spend most of it's time compressing big modules (such as the 350M 
+amdgpu.ko) in a single thread, with 15 idles threads. Enabling 
+multithread allowed amdgpu to be compressed really fast.
 
-diff --git a/arch/x86/include/asm/string_64.h b/arch/x86/include/asm/string_64.h
-index 888731ccf1f6..c1e14cee0722 100644
---- a/arch/x86/include/asm/string_64.h
-+++ b/arch/x86/include/asm/string_64.h
-@@ -85,25 +85,6 @@ char *strcpy(char *dest, const char *src);
- char *strcat(char *dest, const char *src);
- int strcmp(const char *cs, const char *ct);
- 
--#if (defined(CONFIG_KASAN) && !defined(__SANITIZE_ADDRESS__))
--/*
-- * For files that not instrumented (e.g. mm/slub.c) we
-- * should use not instrumented version of mem* functions.
-- */
--
--#undef memcpy
--#define memcpy(dst, src, len) __memcpy(dst, src, len)
--#undef memmove
--#define memmove(dst, src, len) __memmove(dst, src, len)
--#undef memset
--#define memset(s, c, n) __memset(s, c, n)
--
--#ifndef __NO_FORTIFY
--#define __NO_FORTIFY /* FORTIFY_SOURCE uses __builtin_memcpy, etc. */
--#endif
--
--#endif
--
- #ifdef CONFIG_ARCH_HAS_UACCESS_FLUSHCACHE
- #define __HAVE_ARCH_MEMCPY_FLUSHCACHE 1
- void __memcpy_flushcache(void *dst, const void *src, size_t cnt);
--- 
-2.39.2.637.g21b0678d19-goog
+The real performance improvement during modules compression is not 
+compressing as many small modules as possible in parallel, but 
+compressing the big ones in multithread, that proved to be the 
+bottleneck in my setup.
 
+ > How many threads can your system run?
+
+$ nproc
+16
+
+> 
+> I did not get such an improvement in my testing.
+> In my machine $(nproc) is 24.
+> 
+> 
+> [Without this patch]
+> 
+> $ time make INSTALL_MOD_PATH=/tmp/inst1  modules_install -j$(nproc)
+> 
+> real 0m33.965s
+> user 10m6.118s
+> sys 0m37.231s
+> 
+> [With this patch]
+> 
+> $ time make INSTALL_MOD_PATH=/tmp/inst1  modules_install -j$(nproc)
+> 
+> real 0m32.568s
+> user 10m4.472s
+> sys 0m39.132s
+> 
+> 
+
+I can see that my patch did not introduce performance regressions to 
+your setup, at least.
+
+> 
+> Given that GNU Make provides the parallel execution environment,
+> you can control the number of processes of 'xz'.
+> 
+> There is no point in forcing multi-threading, which the user
+> did not ask or ever want.
+> 
+> 
+
+Should we drop -T0 from zstd then? Is currently forcing multi-threading.
+
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+>> ---
+>>   scripts/Makefile.modinst | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
+>> index 4815a8e32227..28dcc523d2ee 100644
+>> --- a/scripts/Makefile.modinst
+>> +++ b/scripts/Makefile.modinst
+>> @@ -99,7 +99,7 @@ endif
+>>   quiet_cmd_gzip = GZIP    $@
+>>         cmd_gzip = $(KGZIP) -n -f $<
+>>   quiet_cmd_xz = XZ      $@
+>> -      cmd_xz = $(XZ) --lzma2=dict=2MiB -f $<
+>> +      cmd_xz = $(XZ) --lzma2=dict=2MiB -f -T0 $<
+>>   quiet_cmd_zstd = ZSTD    $@
+>>         cmd_zstd = $(ZSTD) -T0 --rm -f -q $<
+>>
+>> --
+>> 2.39.2
+>>
+> 
+> 
+
+Thanks,
+André Almeida
