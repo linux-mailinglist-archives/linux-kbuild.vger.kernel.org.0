@@ -2,58 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC2FB6A28D8
-	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Feb 2023 11:15:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EBAE66A28FA
+	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Feb 2023 11:22:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229496AbjBYKPL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 25 Feb 2023 05:15:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38800 "EHLO
+        id S229477AbjBYKWb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 25 Feb 2023 05:22:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229491AbjBYKPL (ORCPT
+        with ESMTP id S229476AbjBYKWa (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 25 Feb 2023 05:15:11 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2812C11642;
-        Sat, 25 Feb 2023 02:15:10 -0800 (PST)
+        Sat, 25 Feb 2023 05:22:30 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D842012051;
+        Sat, 25 Feb 2023 02:22:29 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id AEE85B80885;
-        Sat, 25 Feb 2023 10:15:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3613AC4339C;
-        Sat, 25 Feb 2023 10:15:07 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6B19160ABF;
+        Sat, 25 Feb 2023 10:22:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C29B8C4339B;
+        Sat, 25 Feb 2023 10:22:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677320107;
-        bh=OtpZY6V2KS1nAe4VQkWcHx7CNr9e1WTp8HUUsJO4PDE=;
+        s=k20201202; t=1677320548;
+        bh=fir4MyA39fIdu3mUdWlmNHF/xsctMupr8qWqbsYQ4bg=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=g+4tBKCERMc001BiWCtvGdKj778CitOyKeqoOTjcAnmK0UAIAVqfkm/6VpgzR43Wj
-         Bj4ASa0cu64BpKN4h8lQgwMJJUCTQsGEZIYuZiRB6xH7Wy3lpAADudfsma8+HZugJT
-         YJSYCoLl966/PWC1JFG6xX9PB/CiSoFJq8ILUPJG6HxIVvVsZv8+hXDxi3zgcJ/4ng
-         2YKlRV1EL8qY7hE5obDz4gAqM2HUTWFOO0DhMcP61arQ/tnzTF8uH84m4NN3kwLyE1
-         NNKsWjJD32XsgLDLnVqBueKHsdQiNIRqOokthBUzNIzEQtQCwjrH4xIhEMpCpWQue5
-         HX4Rl8bNKJ8hw==
-Received: by mail-ot1-f46.google.com with SMTP id h6-20020a9d7986000000b0068bd8c1e836so1006335otm.3;
-        Sat, 25 Feb 2023 02:15:07 -0800 (PST)
-X-Gm-Message-State: AO0yUKWXP/6uN7oMuNCUtdupQkaTP5oi6OZCBvpgqCi1Cq3otUtPyaTN
-        0f31Fd+U9Ok6x0sZ/gKlQ3wYhnrviJ+wxpjU01w=
-X-Google-Smtp-Source: AK7set8ybHrN1viDryZfCyQ4/Sw63dUWqIzppSiPB58LM6A5yoIQeOej1tlFZkqU2jzC2ewPJ2uObRQ/QFV5+jABl84=
-X-Received: by 2002:a05:6830:26e5:b0:68d:7798:e0d2 with SMTP id
- m37-20020a05683026e500b0068d7798e0d2mr2542774otu.1.1677320106404; Sat, 25 Feb
- 2023 02:15:06 -0800 (PST)
+        b=cJ7YJVFKfeDFvrxrzMnmgkOF/9roKOnHlRUgdIlfhCbxBCpCcQBSnK+IIylhGo+J+
+         cOusKjk8jOXPtt2XNl2ZGUY2WCGknSP4doJJkMw5C0lD7Hhu2urLVHjddQKZy+w1ta
+         kBfBOPFaA2e+/po2RHcyoXSZJHY2Iy9n5wh6KyQBuZSzgBBxygD6LpxSBIRt6aS3NJ
+         1QUEbyqgObw28m6EuowGXK2ehSj5ap35wgqq6KLTZAnRvL4Sb87Bdq1YNiCB9x7fH/
+         L+mB/KOwjFfY8A3FVLdnh8wNzDQ+3O9gKD/m06JChxIZCiWfMUGT1VNBykuf/66BbK
+         GlCAfpNHBglSA==
+Received: by mail-ot1-f54.google.com with SMTP id cc12-20020a05683061cc00b00693daa9016fso1016736otb.2;
+        Sat, 25 Feb 2023 02:22:28 -0800 (PST)
+X-Gm-Message-State: AO0yUKUjEFnLoaf3KoPENTclM0HT2lHT+sjN0MJwGeCr2+0yIfkoz5FT
+        vJ8VQsx05UVwWgXqfqHkwHaff//H+v2r3WMUl1M=
+X-Google-Smtp-Source: AK7set/QChlc19+yIC07qjidvdK3A5gePT+alO3/lbgde0H9A/XhOLiD/1cFxzyX0I8LYXDUFilz6lJ0bf01r4Rf5pI=
+X-Received: by 2002:a05:6830:26c2:b0:68b:df73:951e with SMTP id
+ m2-20020a05683026c200b0068bdf73951emr2689413otu.1.1677320548005; Sat, 25 Feb
+ 2023 02:22:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20230215012034.403356-1-masahiroy@kernel.org> <20230215012034.403356-12-masahiroy@kernel.org>
- <Y/k+v/Yj8VQ6q32H@fjasle.eu>
-In-Reply-To: <Y/k+v/Yj8VQ6q32H@fjasle.eu>
+References: <20230223001607.95523-1-andrealmeid@igalia.com>
+ <CAK7LNAQbzWQs3WzsdyLsCyFD_2Kgz8sqjqk+nFXkEXQFrYobRA@mail.gmail.com> <cadf9320-366c-da33-5fb4-30575533b04e@igalia.com>
+In-Reply-To: <cadf9320-366c-da33-5fb4-30575533b04e@igalia.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 25 Feb 2023 19:14:30 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQXQDy1ijtbWTj97oejT=WAh8n3=PrHHBhDeAOjM66TfA@mail.gmail.com>
-Message-ID: <CAK7LNAQXQDy1ijtbWTj97oejT=WAh8n3=PrHHBhDeAOjM66TfA@mail.gmail.com>
-Subject: Re: [PATCH v6 12/12] kbuild: add srcdeb-pkg target
-To:     Nicolas Schier <nicolas@fjasle.eu>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ben Hutchings <ben@decadent.org.uk>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
+Date:   Sat, 25 Feb 2023 19:21:51 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATkBnkD3-=Y3V5QRqX0tKwVCO_DAq_NUH0qwis63dVwEQ@mail.gmail.com>
+Message-ID: <CAK7LNATkBnkD3-=Y3V5QRqX0tKwVCO_DAq_NUH0qwis63dVwEQ@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: modinst: Enable multithread xz compression
+To:     =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        kernel-dev@igalia.com, Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -65,153 +65,124 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Feb 25, 2023 at 7:48=E2=80=AFAM Nicolas Schier <nicolas@fjasle.eu> =
-wrote:
+On Fri, Feb 24, 2023 at 9:13 PM Andr=C3=A9 Almeida <andrealmeid@igalia.com>=
+ wrote:
 >
-> On Wed, Feb 15, 2023 at 10:20:34AM +0900 Masahiro Yamada wrote:
-> > This new target builds only the debian source package.
-> >
-> > Factor similar code out to the 'build-deb-pkg' variable.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> > Changes in v6:
-> >   - New patch
-> >
-> >  scripts/Makefile.package | 23 ++++++++++++++++++++---
-> >  1 file changed, 20 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-> > index b941e6341b36..8650d9432c26 100644
-> > --- a/scripts/Makefile.package
-> > +++ b/scripts/Makefile.package
-> > @@ -100,6 +100,9 @@ binrpm-pkg:
-> >       +rpmbuild $(RPMOPTS) --define "_builddir $(objtree)" --target \
-> >               $(UTS_MACHINE)-linux -bb $(objtree)/binkernel.spec
-> >
-> > +# deb-pkg srcdeb-pkg bindeb-pkg
-> > +# --------------------------------------------------------------------=
--------
-> > +
-> >  quiet_cmd_debianize =3D GEN     $@
-> >        cmd_debianize =3D $(srctree)/scripts/package/mkdebian
-> >
-> > @@ -117,14 +120,27 @@ debian-orig: linux.tar.gz debian
-> >               cp $< ../$(orig-name); \
-> >       fi
-> >
-> > +build-deb-pkg =3D \
-> > +        dpkg-buildpackage \
-> > +        --build=3D$(build-type) --no-pre-clean --unsigned-changes \
-> > +        $(if $(findstring source, $(build-type)), --unsigned-source) \
-> > +        $(if $(findstring binary, $(build-type)), -r$(KBUILD_PKG_ROOTC=
-MD) -a$$(cat debian/arch)) \
-> > +        $(DPKG_FLAGS)
-> > +
-> >  PHONY +=3D deb-pkg
-> > +deb-pkg: private build-type :=3D source,binary
-> >  deb-pkg: debian-orig
-> > -     +dpkg-buildpackage -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch) =
-$(DPKG_FLAGS) \
-> > -             --build=3Dsource,binary -nc -us -uc
-> > +     +$(build-deb-pkg)
-> > +
-> > +PHONY +=3D srcdeb-pkg
-> > +srcdeb-pkg: private build-type :=3D source
-> > +srcdeb-pkg: debian-orig
-> > +     +$(build-deb-pkg)
-> >
-> >  PHONY +=3D bindeb-pkg
-> > +bindeb-pkg: private build-type :=3D binary
-> >  bindeb-pkg: debian
-> > -     +dpkg-buildpackage -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch) =
-$(DPKG_FLAGS) -b -nc -uc
-> > +     +$(build-deb-pkg)
-> >
-> >  PHONY +=3D intdeb-pkg
-> >  intdeb-pkg:
-> > @@ -225,6 +241,7 @@ help:
-> >       @echo '  srcrpm-pkg          - Build only the source kernel RPM p=
-ackage'
-> >       @echo '  binrpm-pkg          - Build only the binary kernel RPM p=
-ackage'
-> >       @echo '  deb-pkg             - Build both source and binary deb k=
-ernel packages'
-> > +     @echo '  binsrc-pkg          - Build only the source kernel deb p=
-ackage'
+> Hi Masahiro,
 >
-> typo: srcdeb-dpkg
-
-I will fix. Thanks.
-
-
->
-> With this typo fixed:
-> Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
->
-> >       @echo '  bindeb-pkg          - Build only the binary kernel deb p=
-ackage'
-> >       @echo '  snap-pkg            - Build only the binary kernel snap =
-package'
-> >       @echo '                        (will connect to external hosts)'
-> > --
-> > 2.34.1
->
-> Thanks for the patch (and the whole patch set), I appreciate it!
->
-> While testing, I stumbled over one thing, not really related to this patc=
+> Em 24/02/2023 02:38, Masahiro Yamada escreveu:
+> > On Thu, Feb 23, 2023 at 9:17 AM Andr=C3=A9 Almeida <andrealmeid@igalia.=
+com> wrote:
+> >>
+> >> As it's done for zstd compression, enable multithread compression for
+> >> xz to speed up module installation.
+> >>
+> >> Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
+> >> ---
+> >>
+> >> On my setup xz is a bottleneck during module installation. Here are th=
+e
+> >> numbers to install it in a local directory, before and after this patc=
 h:
+> >>
+> >> $ time make INSTALL_MOD_PATH=3D/home/tonyk/codes/.kernel_deploy/ modul=
+es_install -j16
+> >> Executed in  100.08 secs
+> >>
+> >> $ time make INSTALL_MOD_PATH=3D/home/tonyk/codes/.kernel_deploy/ modul=
+es_install -j16
+> >> Executed in   28.60 secs
+> >
+> >
+> > Heh, this is an interesting benchmark.
+> >
+> > Without this patch, you ran 16 processes of 'xz' in parallel
+> > since you gave -j16.
+> >
+> > You created multi-threads in each xz process, then you got 3x faster.
+> > What made it happen?
+> >
+> >
 >
-> As tar complains about any kind of tree changes while it creates an archi=
-ve,
-> 'olddefconfig' and 'srcdeb-pkg' must not be build at the same time.  Is i=
-t
-> sensible to add another 'mixed-build' check in top-level Makefile against=
- all
-> target depending on linux.tar.gz?
->
->     $ make olddefconfig srcdeb-pkg -j8
+> During the modules installation in my setup, the build system would
+> spend most of it's time compressing big modules (such as the 350M
+> amdgpu.ko) in a single thread, with 15 idles threads. Enabling
+> multithread allowed amdgpu to be compressed really fast.
 
-This is already done.
-
-The mixture of config targets and non-config targets
-are treated as mixed-build. [1]
-So, Kbuild internally divides it into 'make olddefconfig -j8'
-followed by 'make srcdeb-pkg -j8'.
+It is a corner case, isn't it?
+amdgpu.ko appears early in modules.order.
+In most use-cases, other *.ko will fill the idle threads.
 
 
-[1] https://github.com/torvalds/linux/blob/v6.2/Makefile#L335
+xz(1) says
+  Setting threads to a special value 0 makes xz use up to as many threads
+  as the processor(s) on the system support.
 
 
+So, 'make -j$(nproc) modules_install'
+will have (nproc * nproc) threads at maximum.
 
-
-
->     #
->     # No change to .config
->     #
->       GEN     debian
->       UPD     .tmp_filelist
->       TAR     linux.tar.gz
->     tar: .: file changed as we read it
->     make[2]: *** [scripts/Makefile.package:58: linux.tar.gz] Error 1
->     make[2]: *** Deleting file 'linux.tar.gz'
->     make[1]: *** [Makefile:1654: srcdeb-pkg] Error 2
->     make: *** [Makefile:358: __build_one_by_one] Error 2
-
-
-I ran the same command, but I could not reproduce this.
-
+Of course, this is a theoretical calculation.
+The actual number of spawned threads will be much less,
+but spawning too many threads may not be nice.
+For your case, Nathan's suggestion will do.
 
 
 
 
 >
-> Kind regards,
-> Nicolas
+> The real performance improvement during modules compression is not
+> compressing as many small modules as possible in parallel, but
+> compressing the big ones in multithread, that proved to be the
+> bottleneck in my setup.
+>
+>  > How many threads can your system run?
+>
+> $ nproc
+> 16
+>
+> >
+> > I did not get such an improvement in my testing.
+> > In my machine $(nproc) is 24.
+> >
+> >
+> > [Without this patch]
+> >
+> > $ time make INSTALL_MOD_PATH=3D/tmp/inst1  modules_install -j$(nproc)
+> >
+> > real 0m33.965s
+> > user 10m6.118s
+> > sys 0m37.231s
+> >
+> > [With this patch]
+> >
+> > $ time make INSTALL_MOD_PATH=3D/tmp/inst1  modules_install -j$(nproc)
+> >
+> > real 0m32.568s
+> > user 10m4.472s
+> > sys 0m39.132s
+> >
+> >
+>
+> I can see that my patch did not introduce performance regressions to
+> your setup, at least.
+>
+> >
+> > Given that GNU Make provides the parallel execution environment,
+> > you can control the number of processes of 'xz'.
+> >
+> > There is no point in forcing multi-threading, which the user
+> > did not ask or ever want.
+> >
+> >
+>
+> Should we drop -T0 from zstd then? Is currently forcing multi-threading.
+
+
+I think yes.
 
 
 
---=20
+--
 Best Regards
 Masahiro Yamada
