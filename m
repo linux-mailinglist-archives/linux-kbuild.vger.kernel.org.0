@@ -2,119 +2,133 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 16C4C6A3F34
-	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Feb 2023 11:10:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 780D06A4261
+	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Feb 2023 14:15:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229663AbjB0KKX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 27 Feb 2023 05:10:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51990 "EHLO
+        id S229971AbjB0NPd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 27 Feb 2023 08:15:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229589AbjB0KKW (ORCPT
+        with ESMTP id S229968AbjB0NPc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 27 Feb 2023 05:10:22 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D15221EFDE;
-        Mon, 27 Feb 2023 02:10:21 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6BC0C60D14;
-        Mon, 27 Feb 2023 10:10:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C42BBC433EF;
-        Mon, 27 Feb 2023 10:10:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677492620;
-        bh=9GwMQmvjKRgxrugSzouoPvn3i22XmcoGz7HfCf+GqYY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=lYRXQL5rmLVJPwlYPCq/BMuyQuMuYgRwq+6wXL6SZUPfZRUXJo5n3L3pJmuFcjnjv
-         stqUMil3zj408Egr2g/II+h0zfWrgnSKwhdSyjttQx7NarbuPKdOqJ59Kai+Kz8FaI
-         gNeInOYEYCG8a4+HKIn4DMvxzTs2maoTBawn6+OfOoSvSQspLl5lT65cPr7QIBaoEa
-         icWi+mhT0Mnh4AMUj0D9vcqyUfMsBZIkBdHJfF6NHHfQNuGkrP0hqO8iLXxoZUTHrl
-         M2wPM0demfBlZC/TKb+QHGSKh2MIFPayS81yKeQCREgPDQb+cH1GeEJL/YINeCSP75
-         Hd9OxswVDoTug==
-Received: by mail-ot1-f42.google.com with SMTP id h6-20020a9d7986000000b0068bd8c1e836so3247436otm.3;
-        Mon, 27 Feb 2023 02:10:20 -0800 (PST)
-X-Gm-Message-State: AO0yUKXeM3JItqfFx3h+mWicaM2nb1CEq2TwwGdphqj/FfxlguwCJjqx
-        ht83VWqyNIbRs7s/aVqF/Vy9pT9b4XaCXaQQlTM=
-X-Google-Smtp-Source: AK7set+CRuaAJMGtvAcSAjlCh246wJ4skNpX4nXFWqpRSbqFPoj/diJsZ8SHUpQ+wFVUHHKG7OSMVDggQFeTwiktKZI=
-X-Received: by 2002:a05:6830:26c2:b0:68b:df73:951e with SMTP id
- m2-20020a05683026c200b0068bdf73951emr4499896otu.1.1677492620030; Mon, 27 Feb
- 2023 02:10:20 -0800 (PST)
+        Mon, 27 Feb 2023 08:15:32 -0500
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EA9DFF22
+        for <linux-kbuild@vger.kernel.org>; Mon, 27 Feb 2023 05:15:22 -0800 (PST)
+Received: by mail-ed1-x530.google.com with SMTP id o15so23111252edr.13
+        for <linux-kbuild@vger.kernel.org>; Mon, 27 Feb 2023 05:15:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=metaspace-dk.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
+        bh=NLfg3slGYetUnZNwFE0KVvrcLp3byIgQkx8HPtOniwk=;
+        b=iMQNw+JEZaNx0S4Fy1ik2UI9b/AUDcHI5d0btzcJo7CnjWUsuvBc75cc6zYpTUpdjC
+         kEvCOOgLckJVWNCpRgBaJFkUuZ9JIbAGJ0byjOHXwKdjBynLzwbDssi5vXYU2coP5Z3+
+         J/TpdJ3lVGMUWpe3fjS5U6JbCdOxOXuhYP5Ey7g6nu/I/SPSKjBgKtTyaIGlPmrgctP9
+         xTFKfvtDr1z+wTmS7d+vprlvx/u1Kg9BJZFho7XsAFuTGOIyQEG3/GDRYwnlZzGOsce2
+         dGaVMT4eYv0f0N4ersyJ11a32NitpofrzkerZxeQtD4iU1LHPjbK+nz9D+L2pyPQh2LW
+         TCaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NLfg3slGYetUnZNwFE0KVvrcLp3byIgQkx8HPtOniwk=;
+        b=n7J/vcl7IgTLq5t7R3iSOfpA/2G5yzyh2fkcZl2bHwRdspkYMwx+/xZdGYZf8eHyRZ
+         k5pKnNRbC323mPKIMnamVGpulmg+XkWhndYsgz4dOSju4NyD1Jf1u+2Rh+Hgn6v2tGpK
+         nEuHsaCKK2MIfxMguBB9NdCzPVFYEC3ZH1eEf7rC7eZHM81z/Ly+/ScQ+0uTeAeBjgVx
+         D/f6+YfFSZ671hVb7hRs1+4ohDO//x2En7uAU9et3AJKfwSv2zc4w+W2sHkVzAnVdsMr
+         F6zTvZ48cc2qjHf/nTUrtGKQigaajPEztG8H9qBRdb29EulgNeQg4joR24xeaWiqTmrv
+         SU5w==
+X-Gm-Message-State: AO0yUKUHr1JXMQXwEY7i07k9IepV+iPgViarYJt3ue6rEOSUsvyfsPF/
+        qpN0BAZQ2J3rOLmiy58uAn1FGg==
+X-Google-Smtp-Source: AK7set+C5GBZkxh9cQ81KCkP9JYoxHpIYbP0Hhu7L+GDszmWgF9kUxmPh/hzISjMRllVNmtL7L9FRw==
+X-Received: by 2002:a17:907:94c1:b0:8f4:86a9:748d with SMTP id dn1-20020a17090794c100b008f486a9748dmr9706231ejc.12.1677503720810;
+        Mon, 27 Feb 2023 05:15:20 -0800 (PST)
+Received: from localhost ([194.62.217.2])
+        by smtp.gmail.com with ESMTPSA id lt20-20020a170906fa9400b008e97fdd6c7csm3183244ejb.129.2023.02.27.05.15.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Feb 2023 05:15:20 -0800 (PST)
+References: <20230224-rust-new_uninit-v1-1-c951443d9e26@asahilina.net>
+User-agent: mu4e 1.9.18; emacs 28.2.50
+From:   Andreas Hindborg <nmi@metaspace.dk>
+To:     Asahi Lina <lina@asahilina.net>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?utf-8?Q?Bj=C3=B6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH] rust: Enable the new_uninit feature for kernel and
+ driver crates
+Date:   Mon, 27 Feb 2023 14:09:37 +0100
+In-reply-to: <20230224-rust-new_uninit-v1-1-c951443d9e26@asahilina.net>
+Message-ID: <87pm9v9rmg.fsf@metaspace.dk>
 MIME-Version: 1.0
-References: <CAK7LNATJ-3JQ0QQGQ5R+R8aBJEq-tmBL8iBZrbM_4t0zeoYTaw@mail.gmail.com>
- <CAHk-=wi49sMaC7vY1yMagk7eqLK=1jHeHQ=yZ_k45P=xBccnmA@mail.gmail.com>
-In-Reply-To: <CAHk-=wi49sMaC7vY1yMagk7eqLK=1jHeHQ=yZ_k45P=xBccnmA@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 27 Feb 2023 19:09:43 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR40OOCJhz2oNF4FXWeyF=MOQPwfojHCU=XZ0jHcuSP5g@mail.gmail.com>
-Message-ID: <CAK7LNAR40OOCJhz2oNF4FXWeyF=MOQPwfojHCU=XZ0jHcuSP5g@mail.gmail.com>
-Subject: Re: [GIT PULL] Kbuild updates for v6.3-rc1
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Linus,
 
+Asahi Lina <lina@asahilina.net> writes:
 
-On Mon, Feb 27, 2023 at 3:58=E2=80=AFAM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+> The unstable new_uninit feature enables various library APIs to create
+> uninitialized containers, such as `Box::assume_init()`. This is
+> necessary to build abstractions that directly initialize memory at the
+> target location, instead of doing copies through the stack.
 >
-> On Sun, Feb 26, 2023 at 8:34=E2=80=AFAM Masahiro Yamada <masahiroy@kernel=
-.org> wrote:
-> >
-> > Masahiro Yamada (46):
-> >       kbuild: add a tool to list files ignored by git
-> >       kbuild: make perf-tar*-src-pkg work without relying on git
+> Will be used by the DRM scheduler abstraction in the kernel crate, and
+> by field-wise initialization (e.g. using `place!()` or a future
+> replacement macro which may itself live in `kernel`) in driver crates.
 >
-> I've pulled this, but I really object to these kinds of silly games.
+> See [1] [2] [3] for background information.
 >
-> That whole list-gitignored thing should go away, and silly
-> work-arounds for "I don't use git" should likewise just be killed.
+> [1] https://github.com/Rust-for-Linux/linux/issues/879
+> [2] https://github.com/Rust-for-Linux/linux/issues/2
+> [3] https://github.com/rust-lang/rust/issues/63291
 >
-> There's absolutely _zero_ exzcuse for making our build tools more
-> complicated for bad reasons. The "I don't have git" may have been a
-> reason a decade ago. It's *not* a valid reason today.
-
-
-We can say "You must install git on your machine", but IMHO
-"the kernel must be managed by git" is a too strong assumption
-because snapshots are delivers as a tarball (e.g. https://www.kernel.org/)
-I could be wrong, but that is my intent (as in the commit description).
-
-
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
+> ---
+>  rust/kernel/lib.rs     | 1 +
+>  scripts/Makefile.build | 2 +-
+>  2 files changed, 2 insertions(+), 1 deletion(-)
 >
-> People who insist on using quilt etc should just realize that then
-> they don't get the featrues that git offers.
->
-> You can't have your cake and eat it too.
->
-> I do *not* want to see git functionality basically duplicated in some
-> kernel C helper script just because somebody can't be bothered to just
-> use git.
->
->               Linus
+> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+> index 223564f9f0cc..1118cd3e0b5f 100644
+> --- a/rust/kernel/lib.rs
+> +++ b/rust/kernel/lib.rs
+> @@ -17,6 +17,7 @@
+>  #![feature(core_ffi_c)]
+>  #![feature(dispatch_from_dyn)]
+>  #![feature(generic_associated_types)]
+> +#![feature(new_uninit)]
+>  #![feature(receiver_trait)]
+>  #![feature(unsize)]
+>  
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index a0d5c6cca76d..0f637e1ca8dc 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -277,7 +277,7 @@ $(obj)/%.lst: $(src)/%.c FORCE
+>  # Compile Rust sources (.rs)
+>  # ---------------------------------------------------------------------------
+>  
+> -rust_allowed_features := core_ffi_c
+> +rust_allowed_features := core_ffi_c,new_uninit
 
+What is the purpose of adding the feature here? The kernel crate seems
+to compile fine without this.
 
-If tar's --exclude-vcs-ignores option had worked correctly,
-I would not have written such a gitignore parser by myself.
-When tar implements --exclude-vcs-ignores correctly,
-I am happy to remove this silly tool.
-(In turn, tar will end up with a similar gitignore parser as git, though.)
+BR Andreas
 
-
-
-
-
---
-Best Regards
-Masahiro Yamada
