@@ -2,75 +2,81 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F20D6A433B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Feb 2023 14:49:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B7C76A44A9
+	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Feb 2023 15:38:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229745AbjB0NtE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 27 Feb 2023 08:49:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37620 "EHLO
+        id S229944AbjB0Oh4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 27 Feb 2023 09:37:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230160AbjB0NtD (ORCPT
+        with ESMTP id S229953AbjB0Ohz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 27 Feb 2023 08:49:03 -0500
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE5CF30D7;
-        Mon, 27 Feb 2023 05:49:01 -0800 (PST)
-Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-536c02c9dfbso176058687b3.11;
-        Mon, 27 Feb 2023 05:49:01 -0800 (PST)
+        Mon, 27 Feb 2023 09:37:55 -0500
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8115240EB
+        for <linux-kbuild@vger.kernel.org>; Mon, 27 Feb 2023 06:37:53 -0800 (PST)
+Received: by mail-ed1-x52a.google.com with SMTP id i34so26699202eda.7
+        for <linux-kbuild@vger.kernel.org>; Mon, 27 Feb 2023 06:37:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=metaspace-dk.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+         :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wsIz50zjyJWoV4yTGujEpF6auIkGsJx425uJLy5GoWg=;
-        b=mziWa4DuN7lEcg+EmTxmyEVoPTTO4f3VzO52ePtD+mVYj9IG8XSb7PqOP5TYipj0LO
-         ZHJICBSNhvI2lS50six5WhTisF/0wkZoRAdJxRI+e3WorN/lQeOwZKAXgzCti1mDzkHc
-         /0iLGth1vrQFUW9e+awc+9LpN3QMOlDSsr7yHvQvq6b8zEcBpmISJcB4iZHhms5tc3mj
-         wpWo2hMsKFdMdeILOuZ1WEfHN8ZxpusxEYo5BLdkKn9jwOZcSCAjwgzL7L2F5hZFC/2L
-         qN2+AthmKkcTemKKw+7pm48M8v9I3Orc7RPmWF2e9zA89PLy4yL0zjirix55oVF7k/6E
-         iSsQ==
+        bh=jardeordj/XaekgQabJqF1lz2rr5vkdnESlvHbFfelw=;
+        b=hganA3faGvuJFN5axMQ5JxQkgWZCh7Su32XCgEwy8s446/VNR4zAmXwj3l8/RfEnQ2
+         T7HSpR309392mmAq+NSWjy2f2JRZUdYdXGx3Dc/B8G7KXAXzP1m1++viAtdWpseS8Inh
+         gJ47k59fCi9TZBjO094HMYh4ah/fq3j+1vLP+bOkPQog/+bgS3no+CvGxpf0ULGy2uvY
+         ygLAR2AAkauWvXKEhL0EX7B6NOVpQ4dRgFort8YAxO0zOMVFSoGmEM/3RagYU4XBhIFo
+         z6fD3QFuibh+hzjwxgfJY+OrWDqLnEIS0Ru9wbpT8+O1U9bTLRxetNRMXZpllx6Sb0fZ
+         IBrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wsIz50zjyJWoV4yTGujEpF6auIkGsJx425uJLy5GoWg=;
-        b=MetsKhWEUAj8b0JS+TFqfbtdynkz3k9dlInX9/ps+SHPl195yl2mk/R/srKEPvjxy+
-         xw8FEIjR2HdaOMWXj8XaU7Bpquhg9/DIMaYd9zUW4xSn7lXAsR/5Ih20P0iwruFHMRdr
-         G29u8xlOXM4c70zENcIBTqFN+CYjENjB2+ToSJJXrsk9URF1Hj90wGq6zlBmnagOMf7j
-         E023JUniBIyS87ghaoqETI7WiFS3DOZ7B4Pwm1UeoI1CDaEv26vwCQF0knMLLqjFHR3B
-         BKN0LgPl3mGe7ZPTI5XsMWEd9sydBjcHUlHve4ozJ+nHMxb13QUwpL01VMDL6V0iuix/
-         Fbvg==
-X-Gm-Message-State: AO0yUKWeGg7MfOSFLfsIQtIeAfKm4yZQdxw49418S+aaJeUJaSeAiAzj
-        +EabZFOeT76in7xW3fiOPJqF0eblf2woqSiOzec=
-X-Google-Smtp-Source: AK7set/Gy9HX3Hc99cqeB48DmPz48RcGzSSWrCthvZvgP3KcDblaI61+VePiCAujvESdltCKxw7O/OBDCOX8Apm0TNs=
-X-Received: by 2002:a5b:50b:0:b0:a36:3875:564a with SMTP id
- o11-20020a5b050b000000b00a363875564amr7639099ybp.2.1677505740979; Mon, 27 Feb
- 2023 05:49:00 -0800 (PST)
-MIME-Version: 1.0
-References: <20230224-rust-new_uninit-v1-1-c951443d9e26@asahilina.net> <87pm9v9rmg.fsf@metaspace.dk>
-In-Reply-To: <87pm9v9rmg.fsf@metaspace.dk>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 27 Feb 2023 14:48:50 +0100
-Message-ID: <CANiq72=Q2kUihi2Yve5b9LGZYreEovrgqfjWb8WhPRtNWfq+wA@mail.gmail.com>
-Subject: Re: [PATCH] rust: Enable the new_uninit feature for kernel and driver crates
-To:     Andreas Hindborg <nmi@metaspace.dk>
-Cc:     Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>,
+        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+         :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=jardeordj/XaekgQabJqF1lz2rr5vkdnESlvHbFfelw=;
+        b=o66050WLxtYsPY7iFzRqjCaBMalqkcjEm/elaG1xW/gPMTHDezQryajF2g7DqYkKRq
+         xu7F9gppa+FBc/jB81QgzLkk64lgBjbQLI1y8vW/vWUkwcGlD2+RygbVf9FkprsI8ROq
+         JkJZto+iYbQCE5CriI/gtZl61tCB+AbZIMK/SVer8P4WSJRzImko22fqCPQej9ZSi5mn
+         XsYsWzaGwHPSm2iY1GQsUK4ARepux3sABw28RDLRQbcDEWCBo8IsQc/xIqC02+/Oin+q
+         N8XRPFj7h1Kep6tq1C+9ZiNdKTP2iaAx66q2BG7czaHqL+RsexyOcl6Qo/E/C7iDjRY+
+         ly3w==
+X-Gm-Message-State: AO0yUKXOkl8cXbm5+cNExx/IpNlyJeV9BZukA7B9R0vcaQSZnXoYsVNX
+        NpKaHHlVfGnKe9MShjcGzBuE2g==
+X-Google-Smtp-Source: AK7set+x74nbvd+X2m0N2CUH9bptLVF4b0EcDroO1edwiwkWo4zu/CmTcGWNBrewdzwbDuvrN4DMDQ==
+X-Received: by 2002:a17:906:8608:b0:872:82d3:4162 with SMTP id o8-20020a170906860800b0087282d34162mr28971157ejx.44.1677508672009;
+        Mon, 27 Feb 2023 06:37:52 -0800 (PST)
+Received: from localhost ([194.62.217.2])
+        by smtp.gmail.com with ESMTPSA id kb16-20020a1709070f9000b008cae50b0115sm3263618ejc.87.2023.02.27.06.37.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Feb 2023 06:37:51 -0800 (PST)
+References: <20230224-rust-new_uninit-v1-1-c951443d9e26@asahilina.net>
+ <87pm9v9rmg.fsf@metaspace.dk>
+ <96cb824e-8251-a329-11e5-3618a4e59bc8@asahilina.net>
+User-agent: mu4e 1.9.18; emacs 28.2.50
+From:   Andreas Hindborg <nmi@metaspace.dk>
+To:     Asahi Lina <lina@asahilina.net>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
         Alex Gaynor <alex.gaynor@gmail.com>,
         Wedson Almeida Filho <wedsonaf@gmail.com>,
         Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        =?utf-8?Q?Bj=C3=B6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
         rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-kbuild@vger.kernel.org, asahi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH] rust: Enable the new_uninit feature for kernel and
+ driver crates
+Date:   Mon, 27 Feb 2023 15:34:38 +0100
+In-reply-to: <96cb824e-8251-a329-11e5-3618a4e59bc8@asahilina.net>
+Message-ID: <875ybn9nsx.fsf@metaspace.dk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,17 +84,67 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Feb 27, 2023 at 2:15=E2=80=AFPM Andreas Hindborg <nmi@metaspace.dk>=
- wrote:
+
+Asahi Lina <lina@asahilina.net> writes:
+
+> On 27/02/2023 22.09, Andreas Hindborg wrote:
+>>=20
+>> Asahi Lina <lina@asahilina.net> writes:
+>>=20
+>>> The unstable new_uninit feature enables various library APIs to create
+>>> uninitialized containers, such as `Box::assume_init()`. This is
+>>> necessary to build abstractions that directly initialize memory at the
+>>> target location, instead of doing copies through the stack.
+>>>
+>>> Will be used by the DRM scheduler abstraction in the kernel crate, and
+>>> by field-wise initialization (e.g. using `place!()` or a future
+>>> replacement macro which may itself live in `kernel`) in driver crates.
+>>>
+>>> See [1] [2] [3] for background information.
+>>>
+>>> [1] https://github.com/Rust-for-Linux/linux/issues/879
+>>> [2] https://github.com/Rust-for-Linux/linux/issues/2
+>>> [3] https://github.com/rust-lang/rust/issues/63291
+>>>
+>>> Signed-off-by: Asahi Lina <lina@asahilina.net>
+>>> ---
+>>>  rust/kernel/lib.rs     | 1 +
+>>>  scripts/Makefile.build | 2 +-
+>>>  2 files changed, 2 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+>>> index 223564f9f0cc..1118cd3e0b5f 100644
+>>> --- a/rust/kernel/lib.rs
+>>> +++ b/rust/kernel/lib.rs
+>>> @@ -17,6 +17,7 @@
+>>>  #![feature(core_ffi_c)]
+>>>  #![feature(dispatch_from_dyn)]
+>>>  #![feature(generic_associated_types)]
+>>> +#![feature(new_uninit)]
+>>>  #![feature(receiver_trait)]
+>>>  #![feature(unsize)]
+>>>=20=20
+>>> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+>>> index a0d5c6cca76d..0f637e1ca8dc 100644
+>>> --- a/scripts/Makefile.build
+>>> +++ b/scripts/Makefile.build
+>>> @@ -277,7 +277,7 @@ $(obj)/%.lst: $(src)/%.c FORCE
+>>>  # Compile Rust sources (.rs)
+>>>  # --------------------------------------------------------------------=
+-------
+>>>=20=20
+>>> -rust_allowed_features :=3D core_ffi_c
+>>> +rust_allowed_features :=3D core_ffi_c,new_uninit
+>>=20
+>> What is the purpose of adding the feature here? The kernel crate seems
+>> to compile fine without this.
 >
-> What is the purpose of adding the feature here? The kernel crate seems
-> to compile fine without this.
+> It's for the upcoming DRM abstractions, as I mentioned in the commit
+> message. There's so many dependencies that I'm trying to get as much as
+> I can early to avoid having to review very big patchsets down the line ^^
 
-`rust_allowed_features` is the list of features that crates outside
-`rust/` can use (e.g. drivers).
+I got confused on the different makefile rules used to build kernel
+crate vs module crates. Looks good =F0=9F=91=8D
 
-The goal is to control which unstable features are used outside the
-`kernel` crate and to avoid mistakenly relying on them.
+Reviewed-by: Andreas Hindborg <a.hindborg@samsung.com>
 
-Cheers,
-Miguel
