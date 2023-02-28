@@ -2,62 +2,68 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 798196A5CFC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Feb 2023 17:21:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 48E366A5D13
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Feb 2023 17:26:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229523AbjB1QVp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 28 Feb 2023 11:21:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43884 "EHLO
+        id S229705AbjB1Q0h (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 28 Feb 2023 11:26:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbjB1QVp (ORCPT
+        with ESMTP id S229700AbjB1Q0e (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 28 Feb 2023 11:21:45 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83DCB4697;
-        Tue, 28 Feb 2023 08:21:44 -0800 (PST)
+        Tue, 28 Feb 2023 11:26:34 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA8212ED41;
+        Tue, 28 Feb 2023 08:26:33 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id E2FD0CE1B1F;
-        Tue, 28 Feb 2023 16:21:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35D35C433D2;
-        Tue, 28 Feb 2023 16:21:41 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 25C1CB80E77;
+        Tue, 28 Feb 2023 16:26:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E60C4C4339B;
+        Tue, 28 Feb 2023 16:26:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677601301;
-        bh=3MXLfPbl7l4GIon8GwWZ9ZNyQPmPp10GCzDl4XlmdU0=;
+        s=k20201202; t=1677601590;
+        bh=AkB87OLJPxh9UIAOkr0bc/Qc5bsWpH72J1kKlUqwG6w=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=mFFxcElxeaM3xgqeWRN/17EtKKqmQP2BX2ftetS2DQkYc+TB0B/8nGW5YUOw3pXEp
-         JbtVI0oTRMW/sqWAoZ/5ag3QmgxB56mjSY9Ae1AtlS7gZx9YSTePhVfM5NKxmkyIiW
-         /MLdgVpRMYv8qUq+gEsunwGTXiUicDIyBUGu3IGIqcZrAxQXVewjD1iqThvOJ3SOAj
-         NjXGLYvgxt6+sucX3ehgiq5X0uoouKS1MdUHlAfjQKBRs5N+3gz09YDFmky0j7rXkG
-         ZnlBLGvbeOobnH0Wy4jv4SNYu37s2Hrr3MZ09T+51/JchKDw14eki3e9sR2I8lGLln
-         zxIAgkMSOPQaA==
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-17264e9b575so11407666fac.9;
-        Tue, 28 Feb 2023 08:21:41 -0800 (PST)
-X-Gm-Message-State: AO0yUKUP/VxSGzmMG2W6UXs/3u3uCCrUomdbJRZ2dbI0MDtO5Z91eALS
-        XmBeBD6uH0iW1CUTSj7mxWOtUD7ov6Sfxuvr/YQ=
-X-Google-Smtp-Source: AK7set8aNF7M8qXuN+WFN1iJS7hXDYTKShkvdcyngYgxmS2Co5pwFT0R6SFV53VslS78g21HiGykS6hMXUnBTJ6Yhro=
+        b=PJ+K1r4DTU8UnWWt6rDeyIEw3brQj8Y50enjFxlDsxXyBFdtsobwRo2OuLPr07Z4c
+         892oOad38RE0oMJXiWBb6yHcG1jEa/obwkIsuBuhYtP6m70kJoA+DbK/8guds5kura
+         k5EjcKYr9HsL1pdCxaIQPyiRHTjEWnFRBIq4jOPsZpHRbrh5C7gI+N2RJ5Wp0lwb2V
+         B4nnDuYm2CpX5j2F5tqFhfYhE2M3x7NYcdTG7VGGGpd9m/a4k3LiiBk6MS8Z2fnrNH
+         ji9Mxrq4WgFIodwP7bQyI6MuZAcdoX0waw/Lp7Sm2PPjvXpy7KiA9O+0H0IHtGml+d
+         /Yo7zMnF0OCHQ==
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-17235c8dab9so11427491fac.7;
+        Tue, 28 Feb 2023 08:26:30 -0800 (PST)
+X-Gm-Message-State: AO0yUKVljMemMAeQbWz6Wiw/saH/4azJDorvafpPpY3pFMI5AsSRqlK7
+        DWtMN2dGk0/GakimrpVx963AzCRaEu/C/i65nSU=
+X-Google-Smtp-Source: AK7set+XkU42uYSE+s2398F/OQ9vjDr2sktTB9q7cO79kHz1YeeqQL2V9oj7FKqA0sumKSYwGJtv+OjxBCxoe2i9CVU=
 X-Received: by 2002:a05:6870:c7a6:b0:171:8f59:3437 with SMTP id
- dy38-20020a056870c7a600b001718f593437mr888700oab.8.1677601300439; Tue, 28 Feb
- 2023 08:21:40 -0800 (PST)
+ dy38-20020a056870c7a600b001718f593437mr893819oab.8.1677601590226; Tue, 28 Feb
+ 2023 08:26:30 -0800 (PST)
 MIME-Version: 1.0
-References: <CAK7LNATJ-3JQ0QQGQ5R+R8aBJEq-tmBL8iBZrbM_4t0zeoYTaw@mail.gmail.com>
- <CAHk-=wi49sMaC7vY1yMagk7eqLK=1jHeHQ=yZ_k45P=xBccnmA@mail.gmail.com>
- <CAK7LNAR40OOCJhz2oNF4FXWeyF=MOQPwfojHCU=XZ0jHcuSP5g@mail.gmail.com>
- <CAHk-=wh5AixGsLeT0qH2oZHKq0FLUTbyTw4qY921L=PwYgoGVw@mail.gmail.com> <CAHk-=wgM-W6Fu==EoAVCabxyX8eYBz9kNC88-tm9ExRQwA79UQ@mail.gmail.com>
-In-Reply-To: <CAHk-=wgM-W6Fu==EoAVCabxyX8eYBz9kNC88-tm9ExRQwA79UQ@mail.gmail.com>
+References: <20230228031317.3415484-1-davidgow@google.com> <CAK7LNASBznyHmAwSRApOHw_6dyAXFuskmtKav65xFwKZdvNWJw@mail.gmail.com>
+ <e8addca3-e539-110c-ea2b-9a4921a45d71@intel.com>
+In-Reply-To: <e8addca3-e539-110c-ea2b-9a4921a45d71@intel.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 1 Mar 2023 01:21:04 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQqtcFVP-8bJhhPiW86v8DqaXvxMNgK8wnuGbC+0bUXww@mail.gmail.com>
-Message-ID: <CAK7LNAQqtcFVP-8bJhhPiW86v8DqaXvxMNgK8wnuGbC+0bUXww@mail.gmail.com>
-Subject: Re: [GIT PULL] Kbuild updates for v6.3-rc1
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Date:   Wed, 1 Mar 2023 01:25:53 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASZwwHsbsEEHhqsLKg44ZUoGDWMqhteazuOrSx23uf1XQ@mail.gmail.com>
+Message-ID: <CAK7LNASZwwHsbsEEHhqsLKg44ZUoGDWMqhteazuOrSx23uf1XQ@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: kbuild: Add note about using (subst m,y)
+To:     Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc:     David Gow <davidgow@google.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sadiya Kazi <sadiyakazi@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,40 +71,40 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Feb 28, 2023 at 2:26=E2=80=AFAM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Wed, Mar 1, 2023 at 12:16=E2=80=AFAM Alexander Lobakin
+<aleksander.lobakin@intel.com> wrote:
 >
-> On Mon, Feb 27, 2023 at 9:08=E2=80=AFAM Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
+> From: Masahiro Yamada <masahiroy@kernel.org>
+> Date: Tue, 28 Feb 2023 17:30:09 +0900
+>
+> > On Tue, Feb 28, 2023 at 12:13=E2=80=AFPM David Gow <davidgow@google.com=
+> wrote:
+>
+> [...]
+>
+> >> +Example::
+> >> +
+> >> +  #drivers/Makefile
+> >> +  obj-$(subst m,y,$(CONFIG_HYPERV)) +=3D hv/
+> >> +
 > >
-> > So here's the simple rule: if the packaging people can't be bothered
-> > to use "gti archive" to make their packages, then they had better just
-> > do a "make clean" first (or, better yet, do "git clean -dqfx" to
-> > really clean up, because "make clean" isn't 100% reliable either).
 > >
-> > We don't add more broken infrastructure to deal with broken workflows.
-> > Just do the right thing.
+> > I think many subsystems simply do
+> >
+> > obj-y  +=3D hv/
 >
-> Note: I'm perfectly happy to just revert this, but if I have to do it,
-> then pretty much _all_ the packaging changes get reverted, because I'm
-> not going to be able to figure out which parts don't rely on the new
-> broken script.
->
-> So I'd rather take a more directed revert from you. Or, better yet,
-> just a rewrite to do the right thing (ie "git archive").
->
-> Because really - any distro packager had better have the git tree.
+> This creates a ton of empty built-in.a, each of them is listed in the
+> Kbuild output. Someone may think that if a directory contains
+> built-in.a, then something was built there. Sure it's their problems,
+> but I'd prefer to not pollute the log and built-in.a contents when
+> possible (empty files are still listed there IIRC).
 
-OK, let's go this way.
 
-Please give me a few days.
+You can choose whichever you like.
+Up to each subsystem maintainer.
 
 
 
-
-
->
->                    Linus
 
 
 
