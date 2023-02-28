@@ -2,114 +2,164 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC2396A51B3
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Feb 2023 04:13:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B1E8D6A5460
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Feb 2023 09:30:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230033AbjB1DNr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 27 Feb 2023 22:13:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54044 "EHLO
+        id S229686AbjB1Iav (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 28 Feb 2023 03:30:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230047AbjB1DNq (ORCPT
+        with ESMTP id S229525AbjB1Iau (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 27 Feb 2023 22:13:46 -0500
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E386B5BA3
-        for <linux-kbuild@vger.kernel.org>; Mon, 27 Feb 2023 19:13:44 -0800 (PST)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-536be78056eso180275587b3.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 27 Feb 2023 19:13:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1677554024;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=s6UOSWO+feCYZ3WxJ17vXN444yl542PP/Ra8QhWlg1E=;
-        b=BVXvaAIO+k0MW9rbMLSLEL10JfJv/dqSvdauXeBmyVpNYdjfdOGp19/tANrYafzYyE
-         LbhRzdL2lvTTAncxwGhgasgNaGccO4CT6trzGMtN4OyDVqq1yNRvKr8k6m0SyGzhQLf6
-         62xJm5ZeHJZe2QcGqIHidAamjGA3cdLHPl2Vd4WJ/W/YHO1XRESmHk17nnsE851VuOIi
-         Kn7qMoYRJwkl4eeph2+NygNkEAKludimbYssyp6p84lsBq54aUAGi1Mfjy/aPlwcmX4l
-         vTBdnYLWidYqBDUjq4fijBm3IaF2hMCneHOe76SeRAoXID4FJGMHP7dV6xWbKKzHOYLg
-         lUoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677554024;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=s6UOSWO+feCYZ3WxJ17vXN444yl542PP/Ra8QhWlg1E=;
-        b=i1RL+9/eXGq2FP6sFygMJFu3kzgLFNvBzPbKke2IJ/HanAjctHsK+WdSf+0r2255JN
-         VBVdhamZsJeENW3vnom0dddO7ZF4ym8auRAfFZKQQJYU66KuCnWOf7lUVJhsXpGZ6b8A
-         WDXW5bBQHT4Ry+kHW4UyAt2qmD65RHIGXQWlWkHkQZOxPhruaIM8fGIXvb0rzO/HOKOg
-         YtwydGnxGsvrNW2DEAjSAWTA26UmAWIokJl/SGU6CiHez3PL72csZ5mCKrnCVHC2Z69p
-         86ProLSzJmZ5siumzw7JzEfdiigSrwcERqJ86r5ACAL6C35SyPtBB2eMy3lb0WWvFrT6
-         Rt5g==
-X-Gm-Message-State: AO0yUKUQeVfUArxOJ9rJckyyVDfspDwsuvM9zrN4lPLJ7Q+iuhVUuPEe
-        jQ/lph1dWG84tSE8MrKrom/zcUgcjYNBgw==
-X-Google-Smtp-Source: AK7set9/7oGN1cxLTSyivW/Lnm2hI66pvRCEncRFscnVFliFQ59tiscx9LiAIz1ONm2E9DLKuEu4Xv3lFA6dBw==
-X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
- (user=davidgow job=sendgmr) by 2002:a81:431c:0:b0:52e:b22b:f99 with SMTP id
- q28-20020a81431c000000b0052eb22b0f99mr623341ywa.4.1677554024082; Mon, 27 Feb
- 2023 19:13:44 -0800 (PST)
-Date:   Tue, 28 Feb 2023 11:13:18 +0800
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.39.2.722.g9855ee24e9-goog
-Message-ID: <20230228031317.3415484-1-davidgow@google.com>
-Subject: [PATCH] Documentation: kbuild: Add note about using (subst m,y)
-From:   David Gow <davidgow@google.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
+        Tue, 28 Feb 2023 03:30:50 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FB4F233E9;
+        Tue, 28 Feb 2023 00:30:49 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 15FCDB80DDF;
+        Tue, 28 Feb 2023 08:30:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB5A4C4339B;
+        Tue, 28 Feb 2023 08:30:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677573046;
+        bh=zfyCcSgjMdF8W+Qi+Rx8oUXMr1yNgfu4iPHvVxSYOB8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=LMGsAnQbNrbjVKb8+G+fvfZ4Nx3S39oY87kWEOWgoASqKxZklJySw+eW9+drz71/m
+         nHyzIelfs3tpSqZuWrwsRJubwssfX0qjGKJnmNgas7ieS+7VFP6k9mlmd9xi1eeRfX
+         P2kCE8SBvTWSghstqqWyM9Gowrll5KV+9R3sc0jtFk8AoWaAQY2HBwgysKtT/uA501
+         OCNWtLD2YZndXSAnFQ/imEx8SFRy/BL+nt8Q1nalkbbR9nUt9oTwVnRj3h8iwp6jd/
+         ehKNXeHUFBz96U4bAzI/6CPWqiLWqA8R4t9cgqVOS3OQKSP+0aEBLKqvEwS82pJClX
+         RoCzQf6G8meQw==
+Received: by mail-ot1-f43.google.com with SMTP id q11-20020a056830440b00b00693c1a62101so5131346otv.0;
+        Tue, 28 Feb 2023 00:30:46 -0800 (PST)
+X-Gm-Message-State: AO0yUKUAermkDJRMBCGsXlcPQV1hW1Lg3+C1vuUD90mz2CGdDeG1LDoG
+        jbFP4fG0QThym3SbvC1ELSZZHile3d5KKQcearc=
+X-Google-Smtp-Source: AK7set9aGRiK5kBCfmomrGb0lL9fE6jbhl/PxUd9Omi+KWh6wTqYREe8s8vqpNLa4v0A7ZtRnJsCvFM9klVL3SNqFFE=
+X-Received: by 2002:a9d:705c:0:b0:688:cfcc:ddad with SMTP id
+ x28-20020a9d705c000000b00688cfccddadmr711660otj.1.1677573045838; Tue, 28 Feb
+ 2023 00:30:45 -0800 (PST)
+MIME-Version: 1.0
+References: <20230228031317.3415484-1-davidgow@google.com>
+In-Reply-To: <20230228031317.3415484-1-davidgow@google.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 28 Feb 2023 17:30:09 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASBznyHmAwSRApOHw_6dyAXFuskmtKav65xFwKZdvNWJw@mail.gmail.com>
+Message-ID: <CAK7LNASBznyHmAwSRApOHw_6dyAXFuskmtKav65xFwKZdvNWJw@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: kbuild: Add note about using (subst m,y)
+To:     David Gow <davidgow@google.com>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Sadiya Kazi <sadiyakazi@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sadiya Kazi <sadiyakazi@google.com>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Brendan Higgins <brendanhiggins@google.com>,
         linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, David Gow <davidgow@google.com>
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-THe kbuild documentation already notes that, where there's an obj-y
-target in a subdirectory, it will be orphaned if the subdirectory uses
-obj-m. Suggest a way of forcing the directory to obj-y when it's based
-on a config option which could be 'm'.
+On Tue, Feb 28, 2023 at 12:13=E2=80=AFPM David Gow <davidgow@google.com> wr=
+ote:
+>
+> THe kbuild documentation already notes that, where there's an obj-y
+> target in a subdirectory, it will be orphaned if the subdirectory uses
+> obj-m. Suggest a way of forcing the directory to obj-y when it's based
+> on a config option which could be 'm'.
+>
+> Linus made several suggestions as to how this is usually done here:
+> https://lore.kernel.org/linux-kselftest/CAHk-=3DwgK07PQ_DBBbAbSJ41t__6de1=
+xZ6q7RRu-JS=3D2SU0wqLQ@mail.gmail.com/
+>
+> This only documents the first one, which seems most common.
+>
+> Signed-off-by: David Gow <davidgow@google.com>
+> ---
+>  Documentation/kbuild/makefiles.rst | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>
+> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/ma=
+kefiles.rst
+> index e67eb261c9b0..d9eb24799f52 100644
+> --- a/Documentation/kbuild/makefiles.rst
+> +++ b/Documentation/kbuild/makefiles.rst
+> @@ -254,6 +254,17 @@ from that directory will be linked into vmlinux. If =
+the Makefile in
+>  that directory specifies obj-y, those objects will be left orphan.
+>  It is very likely a bug of the Makefile or of dependencies in Kconfig.
+>
+> +This means that, if a directory contains both obj-y and obj-m targets,
+> +it should be added with obj-y. If this directory nevertheless should
+> +only be built when a config option is enabled (typically to support
+> +a module which requires one or two files to nevertheless be built-in),
+> +'subst m,y' can be used to ensure obj-y is used.
+> +
+> +Example::
+> +
+> +  #drivers/Makefile
+> +  obj-$(subst m,y,$(CONFIG_HYPERV)) +=3D hv/
+> +
 
-Linus made several suggestions as to how this is usually done here:
-https://lore.kernel.org/linux-kselftest/CAHk-=wgK07PQ_DBBbAbSJ41t__6de1xZ6q7RRu-JS=2SU0wqLQ@mail.gmail.com/
 
-This only documents the first one, which seems most common.
+I think many subsystems simply do
 
-Signed-off-by: David Gow <davidgow@google.com>
----
- Documentation/kbuild/makefiles.rst | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+obj-y  +=3D hv/
 
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index e67eb261c9b0..d9eb24799f52 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -254,6 +254,17 @@ from that directory will be linked into vmlinux. If the Makefile in
- that directory specifies obj-y, those objects will be left orphan.
- It is very likely a bug of the Makefile or of dependencies in Kconfig.
- 
-+This means that, if a directory contains both obj-y and obj-m targets,
-+it should be added with obj-y. If this directory nevertheless should
-+only be built when a config option is enabled (typically to support
-+a module which requires one or two files to nevertheless be built-in),
-+'subst m,y' can be used to ensure obj-y is used.
-+
-+Example::
-+
-+  #drivers/Makefile
-+  obj-$(subst m,y,$(CONFIG_HYPERV)) += hv/
-+
- Kbuild also supports dedicated syntax, subdir-y and subdir-m, for
- descending into subdirectories. It is a good fit when you know they
- do not contain kernel-space objects at all. A typical usage is to let
--- 
-2.39.2.722.g9855ee24e9-goog
 
+I do not think we need to advertise hyperv's way
+since it does not look very pretty.
+
+
+
+
+
+
+
+Mostly, it looks like this:
+
+
+obj-y  +=3D kunit/
+
+and
+
+obj-$(CONFIG_KUNIT_HOOK)   +=3D hook.o
+
+
+
+
+
+
+
+Bikeshed:
+
+I think Linus' suggestion is OK, but
+the BSD style seems less ugly,
+of course, that is just a matter of style.
+
+
+obj-$(CONFIG_HYPERV:m=3Dy)   +=3D kunit/
+
+
+
+
+>  Kbuild also supports dedicated syntax, subdir-y and subdir-m, for
+>  descending into subdirectories. It is a good fit when you know they
+>  do not contain kernel-space objects at all. A typical usage is to let
+> --
+> 2.39.2.722.g9855ee24e9-goog
+>
+
+
+--
+Best Regards
+Masahiro Yamada
