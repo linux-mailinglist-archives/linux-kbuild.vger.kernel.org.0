@@ -2,248 +2,176 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D994F6A5B7B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Feb 2023 16:16:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 63BA46A5CF8
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Feb 2023 17:20:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229789AbjB1PQc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 28 Feb 2023 10:16:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60186 "EHLO
+        id S229501AbjB1QUg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 28 Feb 2023 11:20:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229697AbjB1PQb (ORCPT
+        with ESMTP id S229445AbjB1QUf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 28 Feb 2023 10:16:31 -0500
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C2E32ED79;
-        Tue, 28 Feb 2023 07:16:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677597388; x=1709133388;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=0rVDGcs988B6ruuLRlvEEoQMQulrN8WTVi33mWt/aV8=;
-  b=XsYOym0VY4YxYmBVIIUmvPoMZx1abKab8ugk5cytltsgUEsLTcGHMYPz
-   csB7KRDzPxgdCK2l83X8SlMi+cKZSZDTbVrqAUIYoigE1Frhg//d+rO5W
-   aGC4Y9Gdz7a9StJ1PljusyaoANQiSL6hbIMtjcxA98b9BUqsEXSuVK1LV
-   bDPPMZZZ3FceicJad3NAGRZ0wDCwcrI5W15fV2U/+Qzffa6GAkvXsqtaH
-   +PJWoxxVZ1Wdbi5wn3hmqwgO4ATUcjAGoVg3Ob2muyoAZnJTl8dcLCpJ2
-   sSK7jpAVAG6kzYsmpmdo1UVbJmDS1MqBnMSZgWlBYWZSb0i7MbzhOW1Kr
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="396725446"
-X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; 
-   d="scan'208";a="396725446"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 07:16:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="624057880"
-X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; 
-   d="scan'208";a="624057880"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orsmga003.jf.intel.com with ESMTP; 28 Feb 2023 07:16:28 -0800
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Tue, 28 Feb 2023 07:16:28 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Tue, 28 Feb 2023 07:16:28 -0800
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.46) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Tue, 28 Feb 2023 07:16:27 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=G27rqsP3PkyXQt7IJ4juAwGURRY5szMIGKEXJeWh3VN43zcaaYKczuAwS8ZIW3r81Lk3hjdV5dLNuU/s0ea3UUit2RCFHFX5pITY8Wd+duldmq4MnWC1QJsDuMTB76AdItgaBJ5hK8kA0NnB9Hct9fJq7y/wUPjIfr70jc3Yei9pmVgOygvf7SzU69ITdJs4nodMrnB8zR4KYGqsMlW3PAtxpUATIhlG/CC6caUGeblXrJWoYUpMMAfpd/gJFBzGRH0kM7tXOcSTW9NSqP2Whl0KcVL7rKYXkNUmNhtiWyZDS2IERwG8amX3tZiF1rCWNewfYuV/i46oZxJI9xprBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VpoYmVunkpJJZ1vhlMl0b80BoOMh4fZiETyl/AhKdd4=;
- b=SZ+Ry69vZ1iD8NMryCi45F+4+UZzBeDftLTirUxmWbKJxvSZooUkZFOn7UdEsAOG4Zu/IZc9pFytFjiN7YFrUeB22mIUk0o1VLgWWuIn20BN6blS8J3eICqP/6S5lytOvEw6WTKUir35tCJmox00IgOQOSEfpaTTPDNObuOrvZT/GTSjnfNYMPCB0pTgLVQhwgjPxlDk8BM9iDV660fSiTAqUh860sXMuy4kS2n+tOC9kui6hGKtKFMqR+9eY7wOFX8bjVFm9VEo4gfehIqb833dpjHVTLw4Eq94JQNCKRSh4aXcmsMFYHtmTCHWpwbG8AEC0zIlVOAn11C3lAFa4w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM6PR11MB3625.namprd11.prod.outlook.com (2603:10b6:5:13a::21)
- by IA1PR11MB6074.namprd11.prod.outlook.com (2603:10b6:208:3d6::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.30; Tue, 28 Feb
- 2023 15:16:24 +0000
-Received: from DM6PR11MB3625.namprd11.prod.outlook.com
- ([fe80::3ff6:ca60:f9fe:6934]) by DM6PR11MB3625.namprd11.prod.outlook.com
- ([fe80::3ff6:ca60:f9fe:6934%4]) with mapi id 15.20.6134.030; Tue, 28 Feb 2023
- 15:16:24 +0000
-Message-ID: <e8addca3-e539-110c-ea2b-9a4921a45d71@intel.com>
-Date:   Tue, 28 Feb 2023 16:15:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] Documentation: kbuild: Add note about using (subst m,y)
-Content-Language: en-US
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        David Gow <davidgow@google.com>
-CC:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Sadiya Kazi <sadiyakazi@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        <linux-kbuild@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20230228031317.3415484-1-davidgow@google.com>
- <CAK7LNASBznyHmAwSRApOHw_6dyAXFuskmtKav65xFwKZdvNWJw@mail.gmail.com>
-From:   Alexander Lobakin <aleksander.lobakin@intel.com>
-In-Reply-To: <CAK7LNASBznyHmAwSRApOHw_6dyAXFuskmtKav65xFwKZdvNWJw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0055.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4b::18) To DM6PR11MB3625.namprd11.prod.outlook.com
- (2603:10b6:5:13a::21)
+        Tue, 28 Feb 2023 11:20:35 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 610C81E283;
+        Tue, 28 Feb 2023 08:20:34 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 0F7B9B80E19;
+        Tue, 28 Feb 2023 16:20:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F8DEC433D2;
+        Tue, 28 Feb 2023 16:20:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677601231;
+        bh=ui+2BVSMErurQQKP1GO0zuy/s8AMVS9122TTr3yDGWQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=XRGbW32WNCFW9WYStqKcKfb9YXX3BbJuaRoq/0rB/VN0JWHfUUKH7Nix1nk2cVQi3
+         ZW6V7MlxZZVe8eGapt9oSbMfBJ7xmKwilY0TepJNg9TvS4rRJ2NTW0G4DcxT6mx0US
+         qAs092Zjt+nRI0WUn331amrpJlBhMpRduNDlKv8hi0rAzek6Ud0UbIg/UP42aw7g/D
+         fdtifypog98yDcYr1tsSkUjuFs5MHKOiHxWjOnpXIJS7NLxcTMdj9xNPp+7TFawQnV
+         a8QSTdkoCseddwcD/Goz/nTgqvSYWFGIIhj9BWXpEbXydOvrCInUdl0f7A4lp+W/3A
+         scJ74LbxeHYJA==
+Received: by mail-ot1-f47.google.com with SMTP id r23-20020a05683001d700b00690eb18529fso5904510ota.1;
+        Tue, 28 Feb 2023 08:20:31 -0800 (PST)
+X-Gm-Message-State: AO0yUKW+ygsJ6ghbieA7VqkaXtrf6+F9ut1lscuQkWBKhNf/9tPtgp2w
+        GQyVXVsaNf6oJcvHxEpq8QTh1kdrGn+tr46M78I=
+X-Google-Smtp-Source: AK7set8YS1Vv0suz5K+Dx+3soGLtMePJFoubCuwPDhovyLAbxjeDWPRZM+w5+GIIDxLfP+Hwf2M0GE6YsRPfdMDJYgI=
+X-Received: by 2002:a9d:1c7:0:b0:688:d1a8:389e with SMTP id
+ e65-20020a9d01c7000000b00688d1a8389emr1179515ote.1.1677601230840; Tue, 28 Feb
+ 2023 08:20:30 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR11MB3625:EE_|IA1PR11MB6074:EE_
-X-MS-Office365-Filtering-Correlation-Id: c1b0582f-2ef0-416b-297b-08db199ec162
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VDz8sUTT5TI3IIksuO6cci1YhuDyvMVzwi9l/8iAwdhEFPDDQcR4wTrp0aBV4GptoG0MKmfm1SiBJDgW6VW9z/5cTaDZsLdX22p305wnFaJmeGILEiXtPgiKtYAd+MQeabPbGlz3oDotXsrl/uFOkNPc5kjWvuTJo/CuzffZKv4ebA86HPRMv453zg+mqRhFOl+aM52TFuaGsQRvMe/uIBkDyNZw8yXMoXLcCj9sSyclGoC9YjVzYCXpdp15gcqyDOmgRte7vIbeQdDlz9vMJe9dFlJMtElGf0PTwH4QGigKTmxtgyhAyjVeWFbO7yRpThKMaibW8lbEqM5U5qiZXnsmfj3ZIVKBF3QG+WRFZroarmbgp0kQGA0gsaIzJMrtqJLmS/AjzIKc9yqsuit3XX5zcE/AbxVNX2lIR3LZBpp79sDRE2Z4lmwCQsrxxOMuha3OTIa2NzC65y/9NE9oIFDUjE8KfLOQSKrfn0yjXCZSQiy78t/f2RCVIl9PU258MtDEBE9ts1SuVkX5Dy2SO2fvZWRlm0G6WwTxHEn3upICdc9ETY7m3ZCXrFCqAsdRe9f7356B1h27X/Wh/uPU83UEND95ENBMkGb4fm3IwaYAkjiiqkWJpY/LQX+w7h/Rp/kiFTcQ1b4IXwLnN0MaEmd1BUInTMy5uNd1FC2IkrYIDieUPiEZk9Tb84z0xgI8obtGQT+6W6mbfMrUFTmg2wov3o9Xpbq9JqTgI9KxPRs=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3625.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(39860400002)(366004)(346002)(376002)(136003)(396003)(451199018)(31686004)(31696002)(36756003)(86362001)(41300700001)(66946007)(66556008)(66476007)(7416002)(5660300002)(8936002)(4326008)(2906002)(82960400001)(38100700002)(8676002)(6666004)(6486002)(478600001)(54906003)(316002)(110136005)(2616005)(186003)(53546011)(6506007)(6512007)(26005)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TEhoTUhnSkZha05uMlBoQlY3ZWJqaDRPbFZxWmF1T2EzUlA3eVpOTTFXVTda?=
- =?utf-8?B?dndMY21ZMndBcysrQmFzMk0vZWZTUDVMRnpQUXZaRms4bDIreEpEV1VWSE1P?=
- =?utf-8?B?Vngyb2VTeWVhd0Q4a1VESzRXYTlzM1lraVdNeHVtRWNaU0JEcUJzeFpwaFh0?=
- =?utf-8?B?dnJwK3JoNS9GTCtzVnZUd01MNjc0SDYybk9NNGE1dGVSb29ZNnYxN3pLUExj?=
- =?utf-8?B?bktsaktjM0d1SlRDNU4zb2x1dzJSRzJPOTFJem1PdFlYTVpsTEJYTnlKVjI0?=
- =?utf-8?B?ZHl2YXZvQStsbnlzMkFiSzdURllQbGJwNHg2Mm1kUTV6Q2U5M1BXSUM0MW4w?=
- =?utf-8?B?N2c0YjhIK0podDhac0NPNW45bFFqNHZOZWdXcXNoSk9xMUt2RFBveWNUcjBh?=
- =?utf-8?B?bk5lUlIxeHpoa1hhSk16b3l2Wm1oVklZNmdvSllMMUVsMlRENlU5c0ZCMC9k?=
- =?utf-8?B?clZFMEkrZC8vM0ZpU1QyeE16Tk5aVm1LRGhGRlhDdnZWalFXYmtITDB6OVN2?=
- =?utf-8?B?NjFZa1FUZ0ErdldTRmxpY1Y0cUx4TW5lUkRpa0ZyUDhWazdheTE3dUFlVWtR?=
- =?utf-8?B?eU52akFWbXh3MFowL243MDFuRGFvN2diaGhuSzE2SHZBd3YrT3VGWnR3blF4?=
- =?utf-8?B?YTBFK3YraGlPRVM4ZWN1RHY4d1h0RmRvTGtobkRWNnZad2c4bVVmUWJLaThG?=
- =?utf-8?B?dSs5M3o5bXk4dE9vMnQvOWhsS2NVSHVLUk5NNG5QcFhSSXRVWmQ3QWpGR1dJ?=
- =?utf-8?B?MGxCa1hyNGJyMFR0QmhobVlDTHdLMFVWRTRjbTFuOVlSMDFKMFFDeEtUd25B?=
- =?utf-8?B?UExQbk15Sk1JR05KTlZkblBVVEJkTFNlWUtVd1JWamJ6TEtEcW56VWJFL0pn?=
- =?utf-8?B?Zkh2akRRNG9ZNyt2bTZYTmYyVmdOdWhjaGZkLzRGTWU0bGlQcDdYWWdRRklr?=
- =?utf-8?B?K2VUU2NibWhxNWxmSGZpZ3ZrSUhNK01Sblo0eTRmMWZEQTc4WnlZV1AvaU44?=
- =?utf-8?B?cVdCdDc2c2MwKzlRbUY3RVVEbGJQMGRDZHZTRHVmQk8ySVFIaXZBVUcvTVY4?=
- =?utf-8?B?cjQ0dDMwRzd3aHhPU1dsbnF3dlh2VHZZQm9JNTY4cGY4NkNvQ1o0OTZKTlJz?=
- =?utf-8?B?ZEZKQ0phRVk0TWpPcnZQam96d2lwSW1rZW5FYjQrMVgyaTVHejkwM1NjMkxT?=
- =?utf-8?B?dWVZN3V1TW1ma3VPdG9yRjk2aFgzUXB4R1RYMC80a3hXYkI5UHlUenhQc3dR?=
- =?utf-8?B?MWEyZ3FUVzBvS3UzOWN6OWMyM2NYdzhFdFZKWXU3SlZiWVVMbWNOODIwNkRU?=
- =?utf-8?B?Wm5RVVpNVmFyMEFJeXBlRlltNVRSQWlYdDFaemJ1V05RTC9waWhiUGF4MzNP?=
- =?utf-8?B?aHBUcFFvRFJ4RlptL0Z1N2lCVHA3SFk2MXdVZjJhZ1dId29ZV3kxcWtSRUhH?=
- =?utf-8?B?UDdxNkNSSDR5bWhwOEJpNlEwMXh6Z25leG1pUTFLVDdOb0Zuc1UvMktGa0h5?=
- =?utf-8?B?UDc0Wk5Xc2kzbTdqOE5RNFoyNTJJT2MyTTB3VHVLRnVxVTZEb2pyUGFTRnVl?=
- =?utf-8?B?dGhXTVhwUStBSkV0WFhlczNtSHpNL0Z3d3M1bEhOYkd2cU9LV052OFZSMEpK?=
- =?utf-8?B?c093UXhzQWU5ZVFOQ2pJQnYzTzlmUHBIMVA4V3h3VFcxQ0huRnQ5Y2tGMmI0?=
- =?utf-8?B?Nnl4SzU3VjJlVnJ2eUlPeG4xT0FrMndud01vWWRVRW83eldUcnhnK0xWc0c2?=
- =?utf-8?B?bHdjT0t4UW01clQrRmlWRzN3aDRBL3FxT1U2ZXNDMkU2ckRQMzloQUFsTkVF?=
- =?utf-8?B?Y2JpQUd3TFFPcXdjM0RTR09DeTZLSDVWeVdHZ3FzUFVxSnZRYWk0ckpjUm5E?=
- =?utf-8?B?dUYzNE45ZHFlc3N6dW1JR0JxWGJLQW9OZ3JrbWZHQyttV2wzZ05RUnZvdHRv?=
- =?utf-8?B?MGZlS1FkajMxYTVQVXBLbTVrc1Y3NDRmeEMzcGU1Y0F1UUE0RXc0bGxPSUhq?=
- =?utf-8?B?T1k3RDFTcmNmWmh3MVJFenV4SUlxMHdyRFpqZkxJTlEzcnJybHV0S2czSEM0?=
- =?utf-8?B?OW40ZTFjemh4QkxnN0JMb3pIdDFzOGRjTHZOTGFCRWRWbW1iclZGd2diL0sv?=
- =?utf-8?B?NWNNV3Y0TmRkK1J1TXNjRVYzNnlobHVUY2tQaXY4L2p2RG4zckFhYVp5THVq?=
- =?utf-8?Q?+r8aOM6D56zpiMslYDfbCMU=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1b0582f-2ef0-416b-297b-08db199ec162
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3625.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2023 15:16:24.5832
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: R885FH6xXsCaiiN7Djm4ImcaDy7ECBUng1G7UA6JpFJVZehrLkvJU+exOzKESQEpXZk5g1g/zy/xDKGZONzYNdCv8cC5PzMjGO6uutuAPrE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6074
-X-OriginatorOrg: intel.com
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <CAK7LNATJ-3JQ0QQGQ5R+R8aBJEq-tmBL8iBZrbM_4t0zeoYTaw@mail.gmail.com>
+ <CAHk-=wi49sMaC7vY1yMagk7eqLK=1jHeHQ=yZ_k45P=xBccnmA@mail.gmail.com>
+ <CAK7LNAR40OOCJhz2oNF4FXWeyF=MOQPwfojHCU=XZ0jHcuSP5g@mail.gmail.com> <CAHk-=wh5AixGsLeT0qH2oZHKq0FLUTbyTw4qY921L=PwYgoGVw@mail.gmail.com>
+In-Reply-To: <CAHk-=wh5AixGsLeT0qH2oZHKq0FLUTbyTw4qY921L=PwYgoGVw@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 1 Mar 2023 01:19:54 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQj9=yzb3C0OdTq=6MPr4SZE=PBXaZY7xPMbti1Fe7n6g@mail.gmail.com>
+Message-ID: <CAK7LNAQj9=yzb3C0OdTq=6MPr4SZE=PBXaZY7xPMbti1Fe7n6g@mail.gmail.com>
+Subject: Re: [GIT PULL] Kbuild updates for v6.3-rc1
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 28 Feb 2023 17:30:09 +0900
+On Tue, Feb 28, 2023 at 2:08=E2=80=AFAM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> On Mon, Feb 27, 2023 at 2:10=E2=80=AFAM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
+> >
+> > If tar's --exclude-vcs-ignores option had worked correctly,
+> > I would not have written such a gitignore parser by myself.
+>
+> But that thing is *WRONG*.
+>
+> Seriously. It's fundamentally wrong.
+>
+> The thing is, you don't even seem to understand how gitignores work.
+>
+> A gitignore pattern doesn't actually mean "this path does not exist in th=
+e VCS".
+>
+> It means "git will ignore this path for unknown files".
+>
+> And that's a *big* difference.
 
-> On Tue, Feb 28, 2023 at 12:13 PM David Gow <davidgow@google.com> wrote:
 
-[...]
+Of course, I know this difference.
 
->> +Example::
->> +
->> +  #drivers/Makefile
->> +  obj-$(subst m,y,$(CONFIG_HYPERV)) += hv/
->> +
-> 
-> 
-> I think many subsystems simply do
-> 
-> obj-y  += hv/
+I wrote it in the commit description of
+5c3d1d0abb12a6915d0f43233837053945621a89
 
-This creates a ton of empty built-in.a, each of them is listed in the
-Kbuild output. Someone may think that if a directory contains
-built-in.a, then something was built there. Sure it's their problems,
-but I'd prefer to not pollute the log and built-in.a contents when
-possible (empty files are still listed there IIRC).
+Please read it closely.
 
-> 
-> 
-> I do not think we need to advertise hyperv's way
-> since it does not look very pretty.
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> Mostly, it looks like this:
-> 
-> 
-> obj-y  += kunit/
-> 
-> and
-> 
-> obj-$(CONFIG_KUNIT_HOOK)   += hook.o
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> Bikeshed:
-> 
-> I think Linus' suggestion is OK, but
-> the BSD style seems less ugly,
-> of course, that is just a matter of style.
-> 
-> 
-> obj-$(CONFIG_HYPERV:m=y)   += kunit/
 
-I'd vote for this one, it's compact and readable.
 
-> 
-> 
-> 
-> 
->>  Kbuild also supports dedicated syntax, subdir-y and subdir-m, for
->>  descending into subdirectories. It is a good fit when you know they
->>  do not contain kernel-space objects at all. A typical usage is to let
->> --
->> 2.39.2.722.g9855ee24e9-goog
->>
-> 
-> 
-> --
-> Best Regards
-> Masahiro Yamada
-> 
 
-Thanks,
-Olek
+
+We are talking past each other due to the disagreement
+about=E3=80=80what the source code means.
+
+You think "what is committed in the VCS is the source code"
+in other words, files in "HEAD" are sources.
+
+
+
+I think "what exists in the source tree is the source code"
+that is, files in the "working tree" are sources.
+
+Of course, the working tree contains a lot of build artifacts, hence
+the list-gitignored tool excludes them.
+
+
+
+
+>
+> That "for unknown files" means that *known* files can still match the pat=
+tern.
+
+Yes,
+
+'git ls-files -i -c --exclude-per-directory=3D.gitignore'
+
+lists those files. None of them is needed for building the kernel,
+and if we want, it is easy to fix .gitignore files.
+
+
+>
+> And that is actually a perfectly valid pattern, and is very much by
+> design. You can say "ignore unknown *.o files", but still actually add
+> one explicitly to a git repository, if there is some special case.
+> There's nothing wrong with it.
+>
+> But the way you have done things, it now is actively wrong.
+>
+> We are *not* adding complexity for no good reason, particularly when
+> said complexity is fundamentally *broken*.
+>
+> Yes, we export the kernel as a tar-file. But that's for people who
+> just don't want to deal with the full deal, and even that is partly
+> for legacy reasons that aren't necessarily all that true any more.
+>
+> I suspect that by now, there are probably _more_ people used to git
+> than there are people who are still used to the "tar-files and
+> patches" workflow.
+
+I do not know.
+We are discussing from upstream developers' point of view,
+not from packagers' point of view.
+
+
+
+>
+> So here's the simple rule: if the packaging people can't be bothered
+> to use "gti archive" to make their packages, then they had better just
+> do a "make clean" first (or, better yet, do "git clean -dqfx" to
+> really clean up, because "make clean" isn't 100% reliable either).
+>
+> We don't add more broken infrastructure to deal with broken workflows.
+> Just do the right thing.
+>
+> Or if package managers want to do their own thing, then they can damn
+> well do it in their own broken systems, not adding a completely broken
+> script to the kernel.
+
+Fair enough.
+
+
+>
+>                 Linus
+
+
+--
+Best Regards
+Masahiro Yamada
