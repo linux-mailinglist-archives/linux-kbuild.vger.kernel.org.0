@@ -2,144 +2,165 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 858CC6A7430
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Mar 2023 20:24:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E56CD6A7590
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Mar 2023 21:47:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229496AbjCATYo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 1 Mar 2023 14:24:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59632 "EHLO
+        id S229453AbjCAUr1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 1 Mar 2023 15:47:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbjCATYo (ORCPT
+        with ESMTP id S229437AbjCAUr0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 1 Mar 2023 14:24:44 -0500
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBD4223309;
-        Wed,  1 Mar 2023 11:24:42 -0800 (PST)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 321I17SW027768;
-        Wed, 1 Mar 2023 19:24:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=4hmOo7FaxBhqe/Ieuk7y0ebkwJe77i4ZNugorKt2Xhg=;
- b=WaNJFqzC2cxdlZb75wtixAFM+TZW7sdI5Lal8fCe1SS32EkqD6MFH+OKNBVBqsjGFtEA
- nVfpX5fsEJz7CBmyBEpLvOylW+AAjAvi6KuRqG6MOPL27H5iMm6QpCqFW2pyfDWSRVOF
- qbQfqxIVbn1TyPUAz3ovrr9m9kjb6gKjlpgLBhRz+LZtdiXwWdaK7zTUGbpptM/d6KTz
- 4UOZVUM5uZKd6KSVK3FeitfB3XksUaJckVGlwh8zC3/WALd8u7mhwSgBENDq15wSczMR
- 2BEWZsPLWcGGu/Zj853RXbK5C3BWP/AG6RHvzmGQpyOYVrhS4xoCaKDG2uG0xa3YgI4U mw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p1vgejx8k-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 01 Mar 2023 19:24:20 +0000
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 321JOICF004277
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 1 Mar 2023 19:24:18 GMT
-Received: from [10.110.81.49] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Wed, 1 Mar 2023
- 11:24:16 -0800
-Message-ID: <0c92e7b8-e415-8ad5-14e7-d94f18c3fa25@quicinc.com>
-Date:   Wed, 1 Mar 2023 11:24:15 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2 0/2] Validating UAPI backwards compatibility
-Content-Language: en-US
-From:   John Moon <quic_johmoo@quicinc.com>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-CC:     Masahiro Yamada <masahiroy@kernel.org>,
+        Wed, 1 Mar 2023 15:47:26 -0500
+X-Greylist: delayed 316 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 01 Mar 2023 12:47:17 PST
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F14F3E636;
+        Wed,  1 Mar 2023 12:47:16 -0800 (PST)
+Received: from leknes.fjasle.eu ([46.142.99.48]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1N2Dks-1oTv5w3m18-013cG9; Wed, 01 Mar 2023 21:41:38 +0100
+Received: from localhost.fjasle.eu (unknown [IPv6:fdda:8718:be81:0:eadf:70ff:fe12:9041])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by leknes.fjasle.eu (Postfix) with ESMTPS id E21AB3C015;
+        Wed,  1 Mar 2023 21:41:34 +0100 (CET)
+Authentication-Results: leknes.fjasle.eu; dkim=none; dkim-atps=neutral
+Received: by localhost.fjasle.eu (Postfix, from userid 1000)
+        id 2633B6C9F; Wed,  1 Mar 2023 21:41:34 +0100 (CET)
+Date:   Wed, 1 Mar 2023 21:41:34 +0100
+From:   Nicolas Schier <nicolas@fjasle.eu>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ben Hutchings <ben@decadent.org.uk>,
         Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Todd Kjos <tkjos@google.com>,
-        Matthias Maennich <maennich@google.com>,
-        Giuliano Procida <gprocida@google.com>,
-        <kernel-team@android.com>, <libabigail@sourceware.org>,
-        Jordan Crouse <jorcrous@amazon.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        "Satya Durga Srinivasu Prabhala" <quic_satyap@quicinc.com>,
-        Elliot Berman <quic_eberman@quicinc.com>
-References: <20230301075402.4578-1-quic_johmoo@quicinc.com>
- <CAKwvOdmqShYae=DrwP1JZBYXAYZyDB0SaOkVCvCzQC60MaJcpw@mail.gmail.com>
- <41d287fa-3a0a-cac6-4595-ad47ef873d79@quicinc.com>
-In-Reply-To: <41d287fa-3a0a-cac6-4595-ad47ef873d79@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: E0zizhCDS3g96j56kAD31RGiXuL1t5pO
-X-Proofpoint-ORIG-GUID: E0zizhCDS3g96j56kAD31RGiXuL1t5pO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-01_14,2023-03-01_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- malwarescore=0 phishscore=0 priorityscore=1501 suspectscore=0 adultscore=0
- bulkscore=0 impostorscore=0 mlxlogscore=999 spamscore=0 clxscore=1015
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303010155
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Nick Desaulniers <ndesaulniers@google.com>
+Subject: Re: [PATCH v6 12/12] kbuild: add srcdeb-pkg target
+Message-ID: <Y/+4fg3XX90CsTak@bergen.fjasle.eu>
+References: <20230215012034.403356-1-masahiroy@kernel.org>
+ <20230215012034.403356-12-masahiroy@kernel.org>
+ <Y/k+v/Yj8VQ6q32H@fjasle.eu>
+ <CAK7LNAQXQDy1ijtbWTj97oejT=WAh8n3=PrHHBhDeAOjM66TfA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="hQ7+L4TpDzkeMgn9"
+Content-Disposition: inline
+In-Reply-To: <CAK7LNAQXQDy1ijtbWTj97oejT=WAh8n3=PrHHBhDeAOjM66TfA@mail.gmail.com>
+X-Operating-System: Debian GNU/Linux bookworm/sid
+Jabber-ID: nicolas@jabber.no
+X-Provags-ID: V03:K1:9zO9Zc2X72jMuqlEoVXeFnJ4dbzeSGoXoz/9LOZMeYOnSPSbN+y
+ MClV+uzhlBxL4TX4CDfZSkqwCXVjG19OKzRQ1oZAIi3C0D65deRQTSVRgXqqwql2z5Km9Wt
+ rBl/D5nBk1Kzpud2DM8PHHcSmPzzjcUdJUTkiIFlaUJWOMJIYTkNyM7j1FCY6mOHLLt0XjM
+ 3x84fuoTkIKgP0PF5iltQ==
+UI-OutboundReport: notjunk:1;M01:P0:/7DwX/mjjuk=;vkgUb9SvuP9I8rVREwPUZUznLgk
+ xMiZE/Wk/PCcTFvcYj3LqoRcMW7lawBD+Dtpsc/N8uaEEq1BOivZwBoXhOOhTygizq1zm0xT4
+ SpfkL0rFWru9j6SlwBGeWw7SnmzXZ8SgGYUwToWFzh+E4Lnc/Cy1xMnM92+TU/ImT0wevNt8+
+ OsW3DBoGnXs4oru5n/ia//QoZqF43iejBLvXrFWoyoi+SQ9Ps57iPpcSJpl9Ca8lKm3jMrKof
+ pgN+gCyGtsoj7l+0E4xR2aML8UKO/hDTrwlfEOWJHn99ikPKmzbeplEemFsXGh1zsQ6tQNGnJ
+ QjuPk6ZvlEXutbhzfpu/952BCk1G033qxGDU9eZPsw4Fq9Ldhg9m/m6tALUx4VH/tehOo/ldW
+ KcdjKjQjCJICEZrA5QovLnNZP2cu4EJjRfoCwd05LdaMMjwdn9dak9CqDNgoLyZC8NRW6L3cK
+ A1ceJDfviXyyvu9fI8GO/PXKtZcxZduYAygma2DRKp9wmdLTBkwHkPxOiZil5VLe6f+7bgoZ9
+ 8TMuovCMx760FrihptbcTxlQMgdJxnd82NcGNZ97skmJ6sT2oNgMzPNzmgWTdBeK60Jd6zSZb
+ WRoPyz3Pz46LKlA8oc/CDEG8OoQqYVHuK+rFzOl/RsJN0jHoobsKF0trDB3YF4fqexz3y4aaU
+ gIyhQh6EGXlHjBQvRlsyITdhpavjXTwq+RmfH+l/QA==
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 3/1/2023 10:03 AM, John Moon wrote:
-> On 3/1/2023 9:50 AM, Nick Desaulniers wrote:
->> On Tue, Feb 28, 2023 at 11:54 PM John Moon <quic_johmoo@quicinc.com> 
->> wrote:
->>>
->>> Currently, the script works with gcc. It generates output like this when
->>> a backwards-incompatible change is made to a UAPI header:
->>>
->>>   !!! ABI differences detected in include/uapi/linux/acct.h (compared to
->>>   file at HEAD^1) !!!
->>>
->>>       [C] 'struct acct' changed:
->>>         type size changed from 512 to 544 (in bits)
->>>         1 data member insertion:
->>>           '__u32 new_val', at offset 512 (in bits) at acct.h:71:1
->>>
->>>   0/1 UAPI header file changes are backwards compatible
->>>   UAPI header ABI check failed
->>>
->>> However, we have not had success with clang. It seems clang is more
->>> aggressive in optimizing dead code away (no matter which options we
->>> pass). Therefore, no ABI differences are found.
->>
->> Hi John,
->> Do you have the list of bugs you've filed upstream against clang wrt.
->> information missing when using `-fno-eliminate-unused-debug-types`?
->>
->> https://github.com/llvm/llvm-project/issues is the issue tracker.
->>
->> Seeing a strong participant in both the Android and LLVM ecosystems
->> supply scripts that lack clang support...raises eyebrows.
-> 
-> We have not filed a bug with upstream clang since we're not sure it's 
-> *not* and issue on our end. Giuliano Procida (CC'd) has tested the 
-> script with clang 13 and 14 and GCC 10, 11 and 12 and got the expected 
-> diff. If it's convenient for anyone testing this script to give it a 
-> whirl with clang and report back, it could help us determine if there's 
-> a real issue with clang support. :)
 
-With some additional internal testing, we've found that clang does not 
-work with this script on Ubuntu 18.04, but does work on Ubuntu 20.04. 
-This is controlling for the clang version and different installation 
-sources. The same clang-15 binary run on an 18.04 host fails while 
-working on 20.04.
+--hQ7+L4TpDzkeMgn9
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-We'll investigate some more internally and potentially file a bug with 
-upstream clang.
+On Sat 25 Feb 2023 19:14:30 GMT, Masahiro Yamada wrote:
+>=20
+> On Sat, Feb 25, 2023 at 7:48=E2=80=AFAM Nicolas Schier <nicolas@fjasle.eu=
+> wrote:
+> >
+> > On Wed, Feb 15, 2023 at 10:20:34AM +0900 Masahiro Yamada wrote:
+> > > This new target builds only the debian source package.
+> > >
+> > > Factor similar code out to the 'build-deb-pkg' variable.
+> > >
+> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > > ---
+[...]
+> >
+> > While testing, I stumbled over one thing, not really related to this pa=
+tch:
+> >
+> > As tar complains about any kind of tree changes while it creates an arc=
+hive,
+> > 'olddefconfig' and 'srcdeb-pkg' must not be build at the same time.  Is=
+ it
+> > sensible to add another 'mixed-build' check in top-level Makefile again=
+st all
+> > target depending on linux.tar.gz?
+> >
+> >     $ make olddefconfig srcdeb-pkg -j8
+>=20
+> This is already done.
+>=20
+> The mixture of config targets and non-config targets
+> are treated as mixed-build. [1]
+> So, Kbuild internally divides it into 'make olddefconfig -j8'
+> followed by 'make srcdeb-pkg -j8'.
+
+oh yes, and already for quite some time.  I didn't check carefully=20
+enough.
+
+>=20
+> [1] https://github.com/torvalds/linux/blob/v6.2/Makefile#L335
+>=20
+>=20
+>=20
+>=20
+>=20
+> >     #
+> >     # No change to .config
+> >     #
+> >       GEN     debian
+> >       UPD     .tmp_filelist
+> >       TAR     linux.tar.gz
+> >     tar: .: file changed as we read it
+> >     make[2]: *** [scripts/Makefile.package:58: linux.tar.gz] Error 1
+> >     make[2]: *** Deleting file 'linux.tar.gz'
+> >     make[1]: *** [Makefile:1654: srcdeb-pkg] Error 2
+> >     make: *** [Makefile:358: __build_one_by_one] Error 2
+>=20
+>=20
+> I ran the same command, but I could not reproduce this.
+
+I cannot reproduce it any more; I don't know what might had been the=20
+problem on my site.
+
+Kind regards,
+Nicolas
+
+--hQ7+L4TpDzkeMgn9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmP/uH0ACgkQB1IKcBYm
+EmkvsRAAsf8Yja7cS/DwEWB6AJlkdZGIVCFqWoD8pnU9xV5VybktxqWsnCe8tXPc
+Ctb2WCFTfmmS6BgemhygV9utTTBmIqdOak2d84VpSxmowdiOLlCYaW6hDVOPoSBj
+ZH630V0BwXC8D8O3o1xnofEUPOxuRGVpV6vqISbnpDQNdVnXNdWvm+8DsLPidPVC
+S9eodeAbX4sa1ZV0avu/Iir8svN1ptO/JFHC5XsJrZ6gEgwQWt8jUK1660sJUROn
+00IXUoxOY1FAcv1onqXNXrGAPbLdCF3oJTV/joxINgLU+HWixy3wEZYh0gOJnd1L
++l48uzxRKUnxFgF5fcTEa+J2dXf2YWjy5srrmluippRFYvCSCF9OKyGXYjUsH00b
+PaZRNejhnhd6eaFhxAgALFX4G/ZIpleg9bA/32awh0X5bN1LmnKanE/dtwr49eVb
+41L+4484H/2u32BzMLDCu01qk0jjBGpdOpsDB6wHQDc9/xQx0X0m8z99RdiTP0kS
+XMIE7OG2BIyE6dxzeadmEegyEwX0WcdGAkiY/5fSykCzoTqJ7vqzyINdyCj80AMD
+o6f1lsDGOdNzRQdBk7Z1bNIviVEi0gn4DoJe3ovucGuhZEzQYKahhH79Awu905Ln
+9RQky37EEXt4rSOHnACEm4FABd063PQQtsLnIlPHd7QJScUFzXw=
+=O+xX
+-----END PGP SIGNATURE-----
+
+--hQ7+L4TpDzkeMgn9--
