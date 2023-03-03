@@ -2,107 +2,163 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 939826AA09B
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Mar 2023 21:29:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA06D6AA0D3
+	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Mar 2023 22:09:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231659AbjCCU3d (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 3 Mar 2023 15:29:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51172 "EHLO
+        id S231771AbjCCVJX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 3 Mar 2023 16:09:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231598AbjCCU31 (ORCPT
+        with ESMTP id S231270AbjCCVJW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 3 Mar 2023 15:29:27 -0500
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 397B210A8F
-        for <linux-kbuild@vger.kernel.org>; Fri,  3 Mar 2023 12:29:25 -0800 (PST)
-Received: by mail-pj1-x102f.google.com with SMTP id y2so3776651pjg.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 03 Mar 2023 12:29:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1677875364;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=ug2Z8EfRGa5wXZv9R1S7FFDl+MMXhp2ajp3G/Mo9nU4=;
-        b=NtmQWi9toAZw3wKPMJ7L+bVX7AsKeXEUVZzNc61Sv1eAtGplSPyGYSdSz/thuFy3Ro
-         l0ljb+r0Ij9ZZciynPhNjmrA+EYfaAbbaA1b8Cv7CMo4felDMzLv/e23Dpja0c+f6x9r
-         vxtGhYy7Vif1k7Be1sRbTvqcEiOxW4Z/ZMvX4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677875364;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ug2Z8EfRGa5wXZv9R1S7FFDl+MMXhp2ajp3G/Mo9nU4=;
-        b=LxrIsg/hKB5ZcYXayxVZvKbydPsvDq8/U6krwSmW6AbkuIXqgj/R5uBwMrhgdIKgPu
-         iyA9UJHdBEYXuBM3dBGogozEwmx9eb7VQsBDk5hr/fNaERmNn6vLRBNOIj8H7CBx5NA3
-         y5o36/LCd6Q0ZXenO0lTve0axAhGZg1sp48UN/Wbkqh8V6ocbvSzrizHhnYiVdgOrk5D
-         bMZu0pxLaGcpu4TPaxxSuo3D9hKun6cYsKt0E5XK7K0AqGDesPQzzfvJTdYo8mYRCDS1
-         60s8qo/J3141INS4IYnJduCsqEFj6ps4Gms5Pi9nGCVVNYowqaxlhBKkovbhuGRVEA89
-         ll0Q==
-X-Gm-Message-State: AO0yUKVEMTTUw0P1ZV1s3GRKPPAQVcXdGCsW6G6BVUGbw79QPb5Y0KOr
-        rHzpP47/eicUd5rOZMqG/uLIFA==
-X-Google-Smtp-Source: AK7set8Hbguq1EyX4kofN/jOOCOGo1tFROI/fI6a3VBD2O6AZtNvSLeX3ZNdPVBgKunGYTMNZUCjTA==
-X-Received: by 2002:a17:90b:4b41:b0:234:a9df:db83 with SMTP id mi1-20020a17090b4b4100b00234a9dfdb83mr2996268pjb.10.1677875364637;
-        Fri, 03 Mar 2023 12:29:24 -0800 (PST)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id r3-20020a17090aa08300b00230befd3b2csm3907348pjp.6.2023.03.03.12.29.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Mar 2023 12:29:24 -0800 (PST)
-Message-ID: <640258a4.170a0220.a298f.8ed5@mx.google.com>
-X-Google-Original-Message-ID: <202303031226.@keescook>
-Date:   Fri, 3 Mar 2023 12:29:23 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Marco Elver <elver@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        Fri, 3 Mar 2023 16:09:22 -0500
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1759860D70;
+        Fri,  3 Mar 2023 13:09:19 -0800 (PST)
+Received: (Authenticated sender: dodji@seketeli.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 592651BF206;
+        Fri,  3 Mar 2023 21:09:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seketeli.org;
+        s=gm1; t=1677877758;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=cv66zFFxlrbcWbvrnbTnad6WW7AbCdUiUsmIER3GGNo=;
+        b=VJ3mH6zdWteY8M4XC4ovydcmbhNtEm1vA24Iv/QkNqJXO8RZpPW1T7U0bgq0raGYksTqtt
+        RLPkBW5UVyKF3rL2oSwz0sy91JQzNeAugxrnzxtmaBo6wElmPyvJhp6IgSNe284tAEYuID
+        p6r4YlwLtc8wfKWWJrGt46K9Od8MJJCQNL5K7eFmbaA4gdt/gJcSCHU7mLqk8NDhpiQFI1
+        viL6RZSpzLJi2mhYHneDXdI/M439SUELnvFcSwddbX6WinC0J4gnxPltN98lnelSo71nV3
+        1A8IAeBQ2AyVH2MPJ5zsJhbpkM2JTsR+rUOwWyV8q8uoTsxvj06aAn5K977Pvg==
+Received: by localhost (Postfix, from userid 1000)
+        id 4FFA9B4E34; Fri,  3 Mar 2023 22:09:11 +0100 (CET)
+From:   Dodji Seketeli <dodji@seketeli.org>
+To:     John Moon via Libabigail <libabigail@sourceware.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Miroslav Benes <mbenes@suse.cz>, linux-kbuild@vger.kernel.org,
-        llvm@lists.linux.dev,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] ubsan: Tighten UBSAN_BOUNDS on GCC
-References: <20230302225444.never.053-kees@kernel.org>
- <20230303154433.GA3775@dev-arch.thelio-3990X>
+        "Nicolas Schier" <nicolas@fjasle.eu>,
+        John Moon <quic_johmoo@quicinc.com>,
+        <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-arm-msm@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Arnd Bergmann" <arnd@arndb.de>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Todd Kjos <tkjos@google.com>,
+        Matthias Maennich <maennich@google.com>,
+        Giuliano Procida <gprocida@google.com>,
+        <kernel-team@android.com>, Jordan Crouse <jorcrous@amazon.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Satya Durga Srinivasu Prabhala <quic_satyap@quicinc.com>,
+        Elliot Berman <quic_eberman@quicinc.com>
+Subject: Re: [PATCH v2 1/2] check-uapi: Introduce check-uapi.sh
+Organization: Me, myself and I
+References: <20230301075402.4578-1-quic_johmoo@quicinc.com>
+        <20230301075402.4578-2-quic_johmoo@quicinc.com>
+X-Operating-System: CentOS Stream release 9
+X-URL:  http://www.seketeli.net/~dodji
+Date:   Fri, 03 Mar 2023 22:09:11 +0100
+In-Reply-To: <20230301075402.4578-2-quic_johmoo@quicinc.com> (John Moon via
+        Libabigail's message of "Tue, 28 Feb 2023 23:54:01 -0800")
+Message-ID: <87zg8t5yq0.fsf@seketeli.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230303154433.GA3775@dev-arch.thelio-3990X>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Mar 03, 2023 at 08:44:33AM -0700, Nathan Chancellor wrote:
-> On Thu, Mar 02, 2023 at 02:54:45PM -0800, Kees Cook wrote:
-> > [...]
-> >  config CC_HAS_UBSAN_ARRAY_BOUNDS
-> >  	def_bool $(cc-option,-fsanitize=array-bounds)
-> > +	help
-> > +	  The -fsanitize=array-bounds option is only available on Clang,
-> > +	  and is actually composed of two more specific options,
-> > +	  -fsanitize=array-bounds and -fsanitize=local-bounds. However,
-> > +	  -fsanitize=local-bounds can only be used when trap mode is
-> > +	  enabled. (See also the help for CONFIG_LOCAL_BOUNDS.)
-> 
-> The first sentence does not read right to me, you have array-bounds
-> twice. I think the first one wants to be just bounds?
+Hello John,
 
-Oops, yes. I rewrote that a few times and seem to have gotten lost. I
-think it is better written as:
+John Moon via Libabigail <libabigail@sourceware.org> a =C3=A9crit:
 
-	  Under Clang, the -fsanitize=bounds option is actually composed
-	  of two more specific options, -fsanitize=array-bounds and
-	  -fsanitize=local-bounds. However, -fsanitize=local-bounds can
-	  only be used when trap mode is enabled. (See also the help for
-	  CONFIG_LOCAL_BOUNDS.) Explicitly check for -fsanitize=array-bounds
-	  so that we can build up the options needed for UBSAN_BOUNDS
-	  with or without UBSAN_TRAP.
+> While the kernel community has been good at maintaining backwards
+> compatibility with kernel UAPIs, it would be helpful to have a tool
+> to check if a commit introduces changes that break backwards
+> compatibility.
+>
+> To that end, introduce check-uapi.sh: a simple shell script that
+> checks for changes to UAPI headers using libabigail.
+>
+> libabigail is "a framework which aims at helping developers and
+> software distributors to spot some ABI-related issues like interface
+> incompatibility in ELF shared libraries by performing a static
+> analysis of the ELF binaries at hand."
+>
+> The script uses one of libabigail's tools, "abidiff", to compile the
+> changed header before and after the commit to detect any changes.
+>
+> abidiff "compares the ABI of two shared libraries in ELF format. It
+> emits a meaningful report describing the differences between the two
+> ABIs."
+>
+> The script also includes the ability to check the compatibilty of
+> all UAPI headers across commits. This allows developers to inspect
+> the stability of the UAPIs over time.
 
+Thank you for working on this.
 
--- 
-Kees Cook
+The libabigail bits look good to me, for what it's worth.  I just have
+some general considerations to discuss.
+
+[...]
+
+> +# Perform the A/B compilation and compare output ABI
+> +compare_abi() {
+
+[...]
+
+> +	if "$ABIDIFF" --non-reachable-types "${ref_header}.bin" "${base_header}=
+.bin" > "$log"; then
+> +		printf "No ABI differences detected in %s from %s -> %s\n" "$file" "$r=
+ef" "${base_ref:-dirty tree}"
+> +	else
+> +		# If the only changes were additions (not modifications to existing AP=
+Is), then
+> +		# there's no problem. Ignore these diffs.
+> +		if grep "Unreachable types summary" "$log" | grep -q "0 removed" &&
+> +		   grep "Unreachable types summary" "$log" | grep -q "0 changed"; then
+> +			return 0
+
+There is no problem in parsing the output of the tool like this.
+However, the return code of the tool has been designed as a bit field that
+could be analysed to know more about the kind of changes that were
+reported: https://sourceware.org/libabigail/manual/abidiff.html#return-valu=
+es.
+
+Right now, there is no bit assigned to detect new types (or interface)
+addition, but do you think that it would be a helpful new feature to add
+to abidiff for this use case?  We can discuss this in a separate thread
+if you prefer, so that we don't pollute others with this minutiae.
+
+> +		fi
+> +		{
+> +			printf "!!! ABI differences detected in %s from %s -> %s !!!\n\n" "$f=
+ile" "$ref" "${base_ref:-dirty tree}"
+> +			sed  -e '/summary:/d' -e '/changed type/d' -e '/^$/d' -e 's/^/  /g' "=
+$log"
+
+Here again, if you'd like to have a particular output format emitted by
+the tool, we'd be glad to discuss how to improve the plasticity of the
+tool enough to emit the right output for you.  For instance, we could
+add a new --no-summary that would let the tool display the change
+directly without the summary header that you are strimming out with this
+sed script.
+
+[...]
+
+Thanks again for this tool that I think might be very useful.
+
+Cheers,
+
+--=20
+		Dodji
