@@ -2,119 +2,111 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A30826A8D7D
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Mar 2023 00:54:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D7966A8ECC
+	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Mar 2023 02:38:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229808AbjCBXy1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 2 Mar 2023 18:54:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40526 "EHLO
+        id S229909AbjCCBiA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 2 Mar 2023 20:38:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229486AbjCBXyR (ORCPT
+        with ESMTP id S229511AbjCCBh7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 2 Mar 2023 18:54:17 -0500
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F3AB16896
-        for <linux-kbuild@vger.kernel.org>; Thu,  2 Mar 2023 15:54:11 -0800 (PST)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        Thu, 2 Mar 2023 20:37:59 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51A36A5F0;
+        Thu,  2 Mar 2023 17:37:57 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4PSScd6djDz4x80;
-        Fri,  3 Mar 2023 10:54:09 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-        s=201909; t=1677801250;
-        bh=nqFX4Y4vkX54mC0WYyvMlxv/TCFdzS+dMyZeNTfKKeI=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=MZDf4yRlxCoC0fP6tuwl0GnEAK4yjGFJb/QCBYFdieZCvJKHbBqhoCGLoNXUyFP24
-         0joIM2hqfb7QvZf+xmWERv8+Nduf18+QH+DonzGNlByudGo1u5xJsHHuXdreojE26N
-         rfkPe7pOwrNowzoTsWTws03CvQUPVlKd7WUMxufswPycsyODarwSfFkj9ADFL5HZMc
-         06DCv2wV0tHNRd0HQPIblszKkr8Mb9TM41BH+HjPtcq5SqSuMquiJk48okyjO6XOYa
-         CpU28H7JX2FKKKoUSfJgCzYqfggXOmX33SX5WAZjCfm36jSB3SMEiDTzWijgCwPXvL
-         pVsMiLyw1a9GA==
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     linuxppc-dev@lists.ozlabs.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 1/2] powerpc/64: Move CPU -mtune options into Kconfig
-In-Reply-To: <20230302163055.GA3010526@dev-arch.thelio-3990X>
-References: <20230302131656.50626-1-mpe@ellerman.id.au>
- <20230302163055.GA3010526@dev-arch.thelio-3990X>
-Date:   Fri, 03 Mar 2023 10:54:09 +1100
-Message-ID: <875ybilnfi.fsf@mpe.ellerman.id.au>
+        by ams.source.kernel.org (Postfix) with ESMTPS id E03A1B8161C;
+        Fri,  3 Mar 2023 01:37:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A8AEC433EF;
+        Fri,  3 Mar 2023 01:37:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677807474;
+        bh=20VXKyNfJN9zSFhzr0rYOP4ot/127qDIv810fbKi6ko=;
+        h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+        b=fDamD9pnsAdrgaMFHDZ3NISCI+thvyvYKOjUanl9RYYazBT1nfAita+/5iTn09glh
+         WZH6HUy/g0F0+SBYuoKFs/thaXR/L0Gvi4uaT7DtgVQqhTTS4irRvSIg436gxjCLXD
+         867paPtEvE31Iy32v704vfuN6rJoZFs3hrZC0rmLmj1DFRGOH5Kmbo7o53jGrp4QYx
+         DZExRsgIyi0b3b6m7ZmM6WUKNSiTdlfTQC7b1uTdtXM2eM9CbNR9yWfAUvf+afETDk
+         iIjgSBkdtESUqfTCKV8FySngG29XfjAjzhSn/LCf+vJn4d13TMyO9CYfP8c5iau6Hc
+         zSG/XXrYOcaTA==
+Date:   Thu, 02 Mar 2023 17:37:51 -0800
+From:   Kees Cook <kees@kernel.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>,
+        Kees Cook <keescook@chromium.org>
+CC:     Jakub Kicinski <kuba@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Marco Elver <elver@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Cezary Rojewski <cezary.rojewski@intel.com>,
+        Mark Brown <broonie@kernel.org>, Puyou Lu <puyou.lu@gmail.com>,
+        linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        llvm@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] fortify: Improve buffer overflow reporting
+User-Agent: K-9 Mail for Android
+In-Reply-To: <CAKwvOdkfCQJcpx3zh0pwHfnBP2v2ieqxqTUzOUyW14s3Xsaf-w@mail.gmail.com>
+References: <20230302225808.never.375-kees@kernel.org> <CAKwvOdkfCQJcpx3zh0pwHfnBP2v2ieqxqTUzOUyW14s3Xsaf-w@mail.gmail.com>
+Message-ID: <35F16A63-E946-4467-AD4D-D5E1331EA4D5@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Nathan Chancellor <nathan@kernel.org> writes:
-> On Fri, Mar 03, 2023 at 12:16:55AM +1100, Michael Ellerman wrote:
->> Currently the -mtune options are set in the Makefile, depending on what
->> is the compiler supports.
->> 
->> One downside of doing it that way is that the chosen -mtune option is
->> not recorded in the .config.
->> 
->> Another downside is that doing more complicated logic to calculate the
->> correct option gets messy in the Makefile.
->> 
->> So move the determination of which -mtune option to use into Kconfig
->> logic.
->> 
->> Signed-off-by: Michael Ellerman <mpe@ellerman.id.au>
+On March 2, 2023 3:21:11 PM PST, Nick Desaulniers <ndesaulniers@google=2Eco=
+m> wrote:
+>On Thu, Mar 2, 2023 at 2:58=E2=80=AFPM Kees Cook <keescook@chromium=2Eorg=
+> wrote:
+>>
+>> diff --git a/include/linux/fortify-string=2Eh b/include/linux/fortify-s=
+tring=2Eh
+>> index c9de1f59ee80=2E=2E981e2838f99a 100644
+>> --- a/include/linux/fortify-string=2Eh
+>> +++ b/include/linux/fortify-string=2Eh
+>> @@ -170,11 +170,13 @@ __FORTIFY_INLINE __diagnose_as(__builtin_strcat, =
+1, 2)
+>>  char *strcat(char * const POS p, const char *q)
+>>  {
+>>         size_t p_size =3D __member_size(p);
+>> +       size_t size;
+>>
+>>         if (p_size =3D=3D SIZE_MAX)
+>>                 return __underlying_strcat(p, q);
+>> -       if (strlcat(p, q, p_size) >=3D p_size)
+>> -               fortify_panic(__func__);
+>> +       size =3D strlcat(p, q, p_size);
+>> +       if (p_size < size)
 >
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+>What happens when they're equal? I think this patch changes
+>behavior=2E=2E=2E? Intentional?
 >
->> ---
->>  arch/powerpc/Makefile                  | 4 +---
->>  arch/powerpc/platforms/Kconfig.cputype | 6 ++++++
->>  2 files changed, 7 insertions(+), 3 deletions(-)
->> 
->> diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
->> index 87d6ac27eebd..779956007f0c 100644
->> --- a/arch/powerpc/Makefile
->> +++ b/arch/powerpc/Makefile
->> @@ -156,9 +156,7 @@ endif
->>  CFLAGS-$(CONFIG_TARGET_CPU_BOOL) += -mcpu=$(CONFIG_TARGET_CPU)
->>  AFLAGS-$(CONFIG_TARGET_CPU_BOOL) += -mcpu=$(CONFIG_TARGET_CPU)
->>  
->> -CFLAGS-$(CONFIG_POWERPC64_CPU) += $(call cc-option,-mtune=power10,	\
->> -				  $(call cc-option,-mtune=power9,	\
->> -				  $(call cc-option,-mtune=power8)))
->> +CFLAGS-y += $(CONFIG_TUNE_CPU)
->>  
->>  asinstr := $(call as-instr,lis 9$(comma)foo@high,-DHAVE_AS_ATHIGH=1)
->>  
->> diff --git a/arch/powerpc/platforms/Kconfig.cputype b/arch/powerpc/platforms/Kconfig.cputype
->> index 046b571496b1..7d7477b73951 100644
->> --- a/arch/powerpc/platforms/Kconfig.cputype
->> +++ b/arch/powerpc/platforms/Kconfig.cputype
->> @@ -273,6 +273,12 @@ config TARGET_CPU
->>  	default "e500mc" if E500MC_CPU
->>  	default "powerpc" if POWERPC_CPU
->>  
->> +config TUNE_CPU
->> +	string
->> +	default "-mtune=power10" if POWERPC64_CPU && CC_IS_GCC   && $(cc-option,-mtune=power10)
->> +	default "-mtune=power9"  if POWERPC64_CPU && CC_IS_GCC   && $(cc-option,-mtune=power9)
->> +	default "-mtune=power8"  if POWERPC64_CPU && CC_IS_GCC   && $(cc-option,-mtune=power8)
+>Did flipping this conditional drop what should be `<=3D`?
 >
-> Would it be cleaner to hoist the POWERPC64_CPU dependency?
+>Was there an off by one, or is this version of this patch potentially
+>introducing one? Or am I misremembering my boolean algebra?
 
-I was experimenting with some follow-on patches that add more cases for
-other CPUs, but that got messy and it'll need a bit more work.
+Whoops! Thanks for catching that=2E I was going too fast=2E And I'm bother=
+ed that my regression tests missed it=2E :|
 
-So for now yes I should just hoist that dependency.
+I will send a v2=2E=2E=2E
 
-cheers
+-Kees
 
-> config TUNE_CPU
-> 	string
-> 	default "-mtune=power10" if CC_IS_GCC   && $(cc-option,-mtune=power10)
-> 	default "-mtune=power9"  if CC_IS_GCC   && $(cc-option,-mtune=power9)
-> 	default "-mtune=power8"  if CC_IS_GCC   && $(cc-option,-mtune=power8)
-> 	depends on POWERPC64_CPU
+
+--=20
+Kees Cook
