@@ -2,74 +2,65 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA06D6AA0D3
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Mar 2023 22:09:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EB276AAB45
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Mar 2023 17:55:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231771AbjCCVJX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 3 Mar 2023 16:09:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50094 "EHLO
+        id S229471AbjCDQzc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 4 Mar 2023 11:55:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231270AbjCCVJW (ORCPT
+        with ESMTP id S229455AbjCDQzb (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 3 Mar 2023 16:09:22 -0500
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1759860D70;
-        Fri,  3 Mar 2023 13:09:19 -0800 (PST)
-Received: (Authenticated sender: dodji@seketeli.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 592651BF206;
-        Fri,  3 Mar 2023 21:09:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seketeli.org;
-        s=gm1; t=1677877758;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=cv66zFFxlrbcWbvrnbTnad6WW7AbCdUiUsmIER3GGNo=;
-        b=VJ3mH6zdWteY8M4XC4ovydcmbhNtEm1vA24Iv/QkNqJXO8RZpPW1T7U0bgq0raGYksTqtt
-        RLPkBW5UVyKF3rL2oSwz0sy91JQzNeAugxrnzxtmaBo6wElmPyvJhp6IgSNe284tAEYuID
-        p6r4YlwLtc8wfKWWJrGt46K9Od8MJJCQNL5K7eFmbaA4gdt/gJcSCHU7mLqk8NDhpiQFI1
-        viL6RZSpzLJi2mhYHneDXdI/M439SUELnvFcSwddbX6WinC0J4gnxPltN98lnelSo71nV3
-        1A8IAeBQ2AyVH2MPJ5zsJhbpkM2JTsR+rUOwWyV8q8uoTsxvj06aAn5K977Pvg==
-Received: by localhost (Postfix, from userid 1000)
-        id 4FFA9B4E34; Fri,  3 Mar 2023 22:09:11 +0100 (CET)
-From:   Dodji Seketeli <dodji@seketeli.org>
-To:     John Moon via Libabigail <libabigail@sourceware.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        "Nicolas Schier" <nicolas@fjasle.eu>,
-        John Moon <quic_johmoo@quicinc.com>,
-        <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Arnd Bergmann" <arnd@arndb.de>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Todd Kjos <tkjos@google.com>,
-        Matthias Maennich <maennich@google.com>,
-        Giuliano Procida <gprocida@google.com>,
-        <kernel-team@android.com>, Jordan Crouse <jorcrous@amazon.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Satya Durga Srinivasu Prabhala <quic_satyap@quicinc.com>,
-        Elliot Berman <quic_eberman@quicinc.com>
-Subject: Re: [PATCH v2 1/2] check-uapi: Introduce check-uapi.sh
-Organization: Me, myself and I
-References: <20230301075402.4578-1-quic_johmoo@quicinc.com>
-        <20230301075402.4578-2-quic_johmoo@quicinc.com>
-X-Operating-System: CentOS Stream release 9
-X-URL:  http://www.seketeli.net/~dodji
-Date:   Fri, 03 Mar 2023 22:09:11 +0100
-In-Reply-To: <20230301075402.4578-2-quic_johmoo@quicinc.com> (John Moon via
-        Libabigail's message of "Tue, 28 Feb 2023 23:54:01 -0800")
-Message-ID: <87zg8t5yq0.fsf@seketeli.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+        Sat, 4 Mar 2023 11:55:31 -0500
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E4E11167A;
+        Sat,  4 Mar 2023 08:55:30 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id j19-20020a05600c191300b003eb3e1eb0caso5712662wmq.1;
+        Sat, 04 Mar 2023 08:55:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1677948928;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9KOfWjloE4YaCN5sz26paM0Qiekh/0t9UUnTSBIVRGA=;
+        b=qEEJV//FrWGFPvMkjqXVm8a+6JQO+uVUggaBpZcEO3u6NU5NCk6cWs2aO2oyHEKKZ2
+         jdjlQqeGP+WvnqUPim1mINXNTqdnMG9C+qqs7avxBtoYtJ6KglRlc5t9t4nAZA5+54JH
+         KZoAMk/R8mgU4buEPf2Pt02roTLoLjt8/lyjDz2aSfg32D6Wt7xkS7lJxYD59glAuMbe
+         EnCauEzTgQFfeRYbw3XjLfA63XWn6irzKXKoTBlOENMiYLKBeCdwgEEKXv9BL9L03fEA
+         COEm3SbycqPL1Asy/cAk1pIPScR6gaSZr3R36t5CJSEw76JLKdzMNssPwlWM+PbHG+Jm
+         DYmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677948928;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9KOfWjloE4YaCN5sz26paM0Qiekh/0t9UUnTSBIVRGA=;
+        b=nRUC8EEcCWs2Z8myxRkZ3MWgrN1iWKNw/Nl8vMiiW3Ns69/V/lPE3ubMwFe0ljxy1r
+         wDbRlFj53KuSiLSX15XXJw7PldSgHvkemN0ztSZCCQy/pdNuzIqiaeDvoiqexf7WFyCK
+         IeK+TEM2jSuRg62l0m7Ynpbo4iypkQhWn0Mc0moIWjPuvHdpBUpD8/3HCnQ4L4CQv1X+
+         SicbbJ+vvhwHbV2H5wnvwrtB4RIObrNXt+BHRDUiqgYxSZYkvJLap7tstBVj2qVlADuL
+         c1uIjWKOXQNg9RMkoKTej4pJ+8T7hRy271aUUy1YzdtXiwo62JEaQuDg9tVBDdJseeMa
+         DZ7w==
+X-Gm-Message-State: AO0yUKUbGG/+BKyghOvj7KpdVZRxto79LzwIC5yNHljf16JK0fTu6dO+
+        YFPwpgxWYbFfG1f5whBRYQ==
+X-Google-Smtp-Source: AK7set8MasGT0Y3ri9vLfjH81FaQyxs/mmxEAgbb7b4rjqJOLhkrtZuF33Hnen5nc3faH2Q/GS1Ejw==
+X-Received: by 2002:a05:600c:5247:b0:3e9:b2f2:27a9 with SMTP id fc7-20020a05600c524700b003e9b2f227a9mr5160268wmb.14.1677948928372;
+        Sat, 04 Mar 2023 08:55:28 -0800 (PST)
+Received: from p183 ([46.53.251.240])
+        by smtp.gmail.com with ESMTPSA id j21-20020a05600c075500b003e0238d9101sm5518878wmn.31.2023.03.04.08.55.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Mar 2023 08:55:27 -0800 (PST)
+Date:   Sat, 4 Mar 2023 19:55:25 +0300
+From:   Alexey Dobriyan <adobriyan@gmail.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        adobriyan@gmail.com
+Subject: [PATCH 1/2] menuconfig: delete shadows, reclaim vertical space
+Message-ID: <94a94ef4-9d55-4293-8363-3c0243eceae1@p183>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,88 +68,132 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello John,
+Menuconfig has lots of vertical space wasted: on my system there are
+17 lines of useful information about config options and 14 lines of
+useless fluff: legend, horizontal separators and shadows.
 
-John Moon via Libabigail <libabigail@sourceware.org> a =C3=A9crit:
+Sitation is even worse on smaller terminals because fixed vertical lines
+do not go away, but config option lines do decreasing informational
+density even more.
 
-> While the kernel community has been good at maintaining backwards
-> compatibility with kernel UAPIs, it would be helpful to have a tool
-> to check if a commit introduces changes that break backwards
-> compatibility.
->
-> To that end, introduce check-uapi.sh: a simple shell script that
-> checks for changes to UAPI headers using libabigail.
->
-> libabigail is "a framework which aims at helping developers and
-> software distributors to spot some ABI-related issues like interface
-> incompatibility in ELF shared libraries by performing a static
-> analysis of the ELF binaries at hand."
->
-> The script uses one of libabigail's tools, "abidiff", to compile the
-> changed header before and after the commit to detect any changes.
->
-> abidiff "compares the ABI of two shared libraries in ELF format. It
-> emits a meaningful report describing the differences between the two
-> ABIs."
->
-> The script also includes the ability to check the compatibilty of
-> all UAPI headers across commits. This allows developers to inspect
-> the stability of the UAPIs over time.
+Delete shadows and increase menu size to reclaim vertical space.
 
-Thank you for working on this.
+Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+---
 
-The libabigail bits look good to me, for what it's worth.  I just have
-some general considerations to discuss.
+ scripts/kconfig/lxdialog/checklist.c |    2 --
+ scripts/kconfig/lxdialog/dialog.h    |    1 -
+ scripts/kconfig/lxdialog/inputbox.c  |    2 --
+ scripts/kconfig/lxdialog/menubox.c   |    6 ++----
+ scripts/kconfig/lxdialog/textbox.c   |    2 --
+ scripts/kconfig/lxdialog/util.c      |   22 ----------------------
+ scripts/kconfig/lxdialog/yesno.c     |    2 --
+ 7 files changed, 2 insertions(+), 35 deletions(-)
 
-[...]
-
-> +# Perform the A/B compilation and compare output ABI
-> +compare_abi() {
-
-[...]
-
-> +	if "$ABIDIFF" --non-reachable-types "${ref_header}.bin" "${base_header}=
-.bin" > "$log"; then
-> +		printf "No ABI differences detected in %s from %s -> %s\n" "$file" "$r=
-ef" "${base_ref:-dirty tree}"
-> +	else
-> +		# If the only changes were additions (not modifications to existing AP=
-Is), then
-> +		# there's no problem. Ignore these diffs.
-> +		if grep "Unreachable types summary" "$log" | grep -q "0 removed" &&
-> +		   grep "Unreachable types summary" "$log" | grep -q "0 changed"; then
-> +			return 0
-
-There is no problem in parsing the output of the tool like this.
-However, the return code of the tool has been designed as a bit field that
-could be analysed to know more about the kind of changes that were
-reported: https://sourceware.org/libabigail/manual/abidiff.html#return-valu=
-es.
-
-Right now, there is no bit assigned to detect new types (or interface)
-addition, but do you think that it would be a helpful new feature to add
-to abidiff for this use case?  We can discuss this in a separate thread
-if you prefer, so that we don't pollute others with this minutiae.
-
-> +		fi
-> +		{
-> +			printf "!!! ABI differences detected in %s from %s -> %s !!!\n\n" "$f=
-ile" "$ref" "${base_ref:-dirty tree}"
-> +			sed  -e '/summary:/d' -e '/changed type/d' -e '/^$/d' -e 's/^/  /g' "=
-$log"
-
-Here again, if you'd like to have a particular output format emitted by
-the tool, we'd be glad to discuss how to improve the plasticity of the
-tool enough to emit the right output for you.  For instance, we could
-add a new --no-summary that would let the tool display the change
-directly without the summary header that you are strimming out with this
-sed script.
-
-[...]
-
-Thanks again for this tool that I think might be very useful.
-
-Cheers,
-
---=20
-		Dodji
+--- a/scripts/kconfig/lxdialog/checklist.c
++++ b/scripts/kconfig/lxdialog/checklist.c
+@@ -130,8 +130,6 @@ int dialog_checklist(const char *title, const char *prompt, int height,
+ 	x = (getmaxx(stdscr) - width) / 2;
+ 	y = (getmaxy(stdscr) - height) / 2;
+ 
+-	draw_shadow(stdscr, y, x, height, width);
+-
+ 	dialog = newwin(height, width, y, x);
+ 	keypad(dialog, TRUE);
+ 
+--- a/scripts/kconfig/lxdialog/dialog.h
++++ b/scripts/kconfig/lxdialog/dialog.h
+@@ -206,7 +206,6 @@ void print_button(WINDOW * win, const char *label, int y, int x, int selected);
+ void print_title(WINDOW *dialog, const char *title, int width);
+ void draw_box(WINDOW * win, int y, int x, int height, int width, chtype box,
+ 	      chtype border);
+-void draw_shadow(WINDOW * win, int y, int x, int height, int width);
+ 
+ int first_alpha(const char *string, const char *exempt);
+ int dialog_yesno(const char *title, const char *prompt, int height, int width);
+--- a/scripts/kconfig/lxdialog/inputbox.c
++++ b/scripts/kconfig/lxdialog/inputbox.c
+@@ -52,8 +52,6 @@ int dialog_inputbox(const char *title, const char *prompt, int height, int width
+ 	x = (getmaxx(stdscr) - width) / 2;
+ 	y = (getmaxy(stdscr) - height) / 2;
+ 
+-	draw_shadow(stdscr, y, x, height, width);
+-
+ 	dialog = newwin(height, width, y, x);
+ 	keypad(dialog, TRUE);
+ 
+--- a/scripts/kconfig/lxdialog/menubox.c
++++ b/scripts/kconfig/lxdialog/menubox.c
+@@ -183,7 +183,7 @@ int dialog_menu(const char *title, const char *prompt,
+ 	if (height < MENUBOX_HEIGTH_MIN || width < MENUBOX_WIDTH_MIN)
+ 		return -ERRDISPLAYTOOSMALL;
+ 
+-	height -= 4;
++	height -= 2;
+ 	width  -= 5;
+ 	menu_height = height - 10;
+ 
+@@ -191,9 +191,7 @@ int dialog_menu(const char *title, const char *prompt,
+ 
+ 	/* center dialog box on screen */
+ 	x = (getmaxx(stdscr) - width) / 2;
+-	y = (getmaxy(stdscr) - height) / 2;
+-
+-	draw_shadow(stdscr, y, x, height, width);
++	y = 2;
+ 
+ 	dialog = newwin(height, width, y, x);
+ 	keypad(dialog, TRUE);
+--- a/scripts/kconfig/lxdialog/textbox.c
++++ b/scripts/kconfig/lxdialog/textbox.c
+@@ -88,8 +88,6 @@ int dialog_textbox(const char *title, char *tbuf, int initial_height,
+ 	x = (getmaxx(stdscr) - width) / 2;
+ 	y = (getmaxy(stdscr) - height) / 2;
+ 
+-	draw_shadow(stdscr, y, x, height, width);
+-
+ 	dialog = newwin(height, width, y, x);
+ 	keypad(dialog, TRUE);
+ 
+--- a/scripts/kconfig/lxdialog/util.c
++++ b/scripts/kconfig/lxdialog/util.c
+@@ -491,28 +491,6 @@ draw_box(WINDOW * win, int y, int x, int height, int width,
+ 	}
+ }
+ 
+-/*
+- * Draw shadows along the right and bottom edge to give a more 3D look
+- * to the boxes
+- */
+-void draw_shadow(WINDOW * win, int y, int x, int height, int width)
+-{
+-	int i;
+-
+-	if (has_colors()) {	/* Whether terminal supports color? */
+-		wattrset(win, dlg.shadow.atr);
+-		wmove(win, y + height, x + 2);
+-		for (i = 0; i < width; i++)
+-			waddch(win, winch(win) & A_CHARTEXT);
+-		for (i = y + 1; i < y + height + 1; i++) {
+-			wmove(win, i, x + width);
+-			waddch(win, winch(win) & A_CHARTEXT);
+-			waddch(win, winch(win) & A_CHARTEXT);
+-		}
+-		wnoutrefresh(win);
+-	}
+-}
+-
+ /*
+  *  Return the position of the first alphabetic character in a string.
+  */
+--- a/scripts/kconfig/lxdialog/yesno.c
++++ b/scripts/kconfig/lxdialog/yesno.c
+@@ -41,8 +41,6 @@ int dialog_yesno(const char *title, const char *prompt, int height, int width)
+ 	x = (getmaxx(stdscr) - width) / 2;
+ 	y = (getmaxy(stdscr) - height) / 2;
+ 
+-	draw_shadow(stdscr, y, x, height, width);
+-
+ 	dialog = newwin(height, width, y, x);
+ 	keypad(dialog, TRUE);
+ 
