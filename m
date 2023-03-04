@@ -2,87 +2,114 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 870836AABB9
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Mar 2023 18:56:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D9246AABF0
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Mar 2023 19:53:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229597AbjCDR4M (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 4 Mar 2023 12:56:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57780 "EHLO
+        id S229447AbjCDSxU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 4 Mar 2023 13:53:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229560AbjCDR4L (ORCPT
+        with ESMTP id S229437AbjCDSxT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 4 Mar 2023 12:56:11 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F4541A966;
-        Sat,  4 Mar 2023 09:56:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=Gp9yDw+lde96rjkpbWNq/KcnPUE+kpJLVXLZBhzPFbo=; b=PRAczwbgSHj8+hKZPen1p7He/k
-        yavcgIjgqgLzc6drgXFp+6BvElyoQVly7lP8/hTeEC+BS5AIJ7pe4LCSEjRc4QAALvgdsVmP2vdVG
-        gZprB7mOAITFGJA00FQcqTVlsiwFpoGADfkzGi6AEg+T4zEZt2WVk5JqCkDtk2QxFmT6/zCqkKEXk
-        xVdtFZPEbfLpys+qXbNO//kyLkvX3lDe0NlO4E4ACRikI5R3Xu/l2zzFOHd/TMb6mikyTMqkh7/Rc
-        ebzN1Oo+6A4ZGx3OcBSCB1YommajCnD90d8kxY7qtLa8mBFs0LF0X/ER+Y5VmwS4DAuyrk05MN0vH
-        IuDZO89g==;
-Received: from [2601:1c2:980:9ec0::df2f]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pYW76-009Nsq-Vv; Sat, 04 Mar 2023 17:56:09 +0000
-Message-ID: <d01112c2-b5a4-4aa3-4ee7-711abc9da079@infradead.org>
-Date:   Sat, 4 Mar 2023 09:56:08 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 1/2] menuconfig: delete shadows, reclaim vertical space
-Content-Language: en-US
-To:     Alexey Dobriyan <adobriyan@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+        Sat, 4 Mar 2023 13:53:19 -0500
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A040EB70;
+        Sat,  4 Mar 2023 10:53:18 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id p26so3414185wmc.4;
+        Sat, 04 Mar 2023 10:53:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1677955997;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VdySrHoCMqsO79VSMWCrq3niAvBezbtFI2hsdytVZQ8=;
+        b=jtRNEH1smyAaBSJjayP7T8JGy9BVBsphnhYlwcEND6/I3hx6z9Lm67tYPZJSgdE2aU
+         PKp9ETVWSz/DmJAcL4l2E1nqCcFDsheeRne+HF9LpYsLm6XU5wTK0lzKcf+Xkv0PVCNO
+         dE4JELuF8f9X6N9qAr+XyaHC6c/4OqsfNpax1nDqzGy8HeHDl8Y7jfEFwCu55fROiMdH
+         F4bBHs3uUw9YVYFpvLe4XbN3Un3LnlBVmydCHdM2UowxUNKbJ+V6PDVMjXO6pysQwzuf
+         XyTbbqY5KdOdOJ+yFAx6M8NblF+5z2jpe4w+1Yf/pYohmZzuj9GtPOGHUkOKKgVvDdDM
+         lqbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677955997;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VdySrHoCMqsO79VSMWCrq3niAvBezbtFI2hsdytVZQ8=;
+        b=Osuqu/3W2q8BfecwZEc1zIBsD7YMzJRLuGWALqhhxhxXotGI3j9w7ijMPYy8EwJ9Lc
+         UQH2CBPQ6Qh5nP75+xlt5BvF+dtSNDJvh5yNJMAfaMM/T1DBp0k7YLjXPL/8Yrl7zlZj
+         kHFb/H7kit4ccUPwnaTARE1QdN3kHjh+l3zEep93b3jPw7HEdijFvRooq37BZytzzNcT
+         1BUvAMlk7tj8Piky0ewaGcgX92ox5pnmPMyOCGX0dUoa8JX+HUH6zH8rN6ssoJFXYiRN
+         LkRhy0yYUESxjgyJZka/VRmNTKx7ripT3qZ+kyMI/U0689dSVn6GloIOT51EkwSz2z6k
+         bwiQ==
+X-Gm-Message-State: AO0yUKV/AyPuuiHH/kMWMfDxCEACzNXM6ri6TgtjhiKuR/GTI6KgSeGM
+        pwgOGovkoW7JoqX+6cD8fBWkS3BN4g==
+X-Google-Smtp-Source: AK7set8Le8ez+PHZfcvzxwBPuAPD/74oYhqFDGRaIQmfQDd5SEiYHTR4b1ditY9GNrtr/ijbaInfVQ==
+X-Received: by 2002:a7b:cb01:0:b0:3ea:d611:f8 with SMTP id u1-20020a7bcb01000000b003ead61100f8mr5427627wmj.38.1677955996754;
+        Sat, 04 Mar 2023 10:53:16 -0800 (PST)
+Received: from p183 ([46.53.251.240])
+        by smtp.gmail.com with ESMTPSA id m19-20020a05600c161300b003eb5a0873e0sm5882232wmn.39.2023.03.04.10.53.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Mar 2023 10:53:16 -0800 (PST)
+Date:   Sat, 4 Mar 2023 21:53:14 +0300
+From:   Alexey Dobriyan <adobriyan@gmail.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] menuconfig: reclaim 1 more vertical line
+Message-ID: <a5a4bfb5-90ec-447f-82a2-28804e3353b0@p183>
 References: <94a94ef4-9d55-4293-8363-3c0243eceae1@p183>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <94a94ef4-9d55-4293-8363-3c0243eceae1@p183>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+ <8a8c8ed8-f322-4024-9433-3a9cb524484e@p183>
+ <ae258f1e-5c44-d349-4704-fbf5c7c28b85@infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ae258f1e-5c44-d349-4704-fbf5c7c28b85@infradead.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi,
+On Sat, Mar 04, 2023 at 09:52:55AM -0800, Randy Dunlap wrote:
+> Hi,
+> 
+> On 3/4/23 08:56, Alexey Dobriyan wrote:
+> > Empty line after legend is waste, use it for config options.
+> > 
+> 
+> I don't see an empty line after the legend. For me this patch
+> truncates the menu_instructions[] text from 4 lines to 3 lines,
+> dropping good/useful help text.
 
-On 3/4/23 08:55, Alexey Dobriyan wrote:
-> Menuconfig has lots of vertical space wasted: on my system there are
-> 17 lines of useful information about config options and 14 lines of
-> useless fluff: legend, horizontal separators and shadows.
-> 
-> Sitation is even worse on smaller terminals because fixed vertical lines
-> do not go away, but config option lines do decreasing informational
-> density even more.
-> 
-> Delete shadows and increase menu size to reclaim vertical space.
-> 
-> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
-> ---
-> 
->  scripts/kconfig/lxdialog/checklist.c |    2 --
->  scripts/kconfig/lxdialog/dialog.h    |    1 -
->  scripts/kconfig/lxdialog/inputbox.c  |    2 --
->  scripts/kconfig/lxdialog/menubox.c   |    6 ++----
->  scripts/kconfig/lxdialog/textbox.c   |    2 --
->  scripts/kconfig/lxdialog/util.c      |   22 ----------------------
->  scripts/kconfig/lxdialog/yesno.c     |    2 --
->  7 files changed, 2 insertions(+), 35 deletions(-)
-> 
+OK, I do need to test this one on more screen sizes.
 
-This patch works for me, but since the right side shadow is
-also being removed, the one column (width) that it had
-occupied might as well be used (reclaimed) instead of just
-going to waste.
+> menu_instructions[] was already truncated before this patch
+> (in an 80x30 size terminal window).
+> 
+> What size terminal are you using?
 
-Thanks.
--- 
-~Randy
+135 x 31
+
+> > Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+> > ---
+> > 
+> >  scripts/kconfig/lxdialog/menubox.c |    2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > --- a/scripts/kconfig/lxdialog/menubox.c
+> > +++ b/scripts/kconfig/lxdialog/menubox.c
+> > @@ -185,7 +185,7 @@ int dialog_menu(const char *title, const char *prompt,
+> >  
+> >  	height -= 2;
+> >  	width  -= 5;
+> > -	menu_height = height - 10;
+> > +	menu_height = height - 9;
+> >  
+> >  	max_choice = MIN(menu_height, item_count());
+> >  
+> 
+> -- 
+> ~Randy
