@@ -2,121 +2,91 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A0B086ADE0F
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Mar 2023 12:55:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CDDF96ADEA5
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Mar 2023 13:25:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229477AbjCGLzy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 7 Mar 2023 06:55:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38030 "EHLO
+        id S231303AbjCGMY7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 7 Mar 2023 07:24:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229709AbjCGLzx (ORCPT
+        with ESMTP id S231480AbjCGMY6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 7 Mar 2023 06:55:53 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6429FD;
-        Tue,  7 Mar 2023 03:55:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678190152; x=1709726152;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6UkVjX3/T8hyZZFcCk/g4dlUAr3SPD/TUsFqHhWwqU0=;
-  b=mf87W7k6i7b7iZApp7qVlgtNANnJpexUNIi6pHeb3YSuGbySDd7ljdgA
-   /J6vo9gSmayQoxcTCxhnkbX/W0nUGPOf8xmsAQhqRT4P/45MkjoUODLdT
-   sN2dxDNveWQV8J2CEQgBA+5SE5fJxXztKHYUjF9ln8xaLQeivufGXxFmZ
-   U6RUImKxkItTbKISQ9sU/ZDzF79YIxTKe5C5dpLLNt1j1bZWmOI5mssSk
-   7XeZm0UIyFmcq028FVK2mAW0sFqjiZJWGylGTCKzOvjcsTYPAfkygC50t
-   lSFFLKHXqMwwSZBUCnJmTJadugNkQ+OOCKI3ExZplfL67G8kKRtVNE0Mw
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="315485895"
-X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; 
-   d="scan'208";a="315485895"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 03:55:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="745436289"
-X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; 
-   d="scan'208";a="745436289"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga004.fm.intel.com with ESMTP; 07 Mar 2023 03:55:43 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@intel.com>)
-        id 1pZVuv-00Gu2v-0q;
-        Tue, 07 Mar 2023 13:55:41 +0200
-Date:   Tue, 7 Mar 2023 13:55:40 +0200
-From:   Andy Shevchenko <andriy.shevchenko@intel.com>
-To:     Andrew Davis <afd@ti.com>
-Cc:     Sascha Hauer <s.hauer@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, devicetree@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: Disallow DTB overlays to built from .dts named
- source files
-Message-ID: <ZAcmPAbvH2FtyX3E@smile.fi.intel.com>
-References: <20230306224752.8417-1-afd@ti.com>
+        Tue, 7 Mar 2023 07:24:58 -0500
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBF9C4DE35;
+        Tue,  7 Mar 2023 04:24:57 -0800 (PST)
+Received: by mail-yb1-xb2e.google.com with SMTP id i6so11151904ybu.8;
+        Tue, 07 Mar 2023 04:24:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678191897;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GpEQa5LQr4Ebi2yIjm00KTBCaif7x7L4argp6haEfHE=;
+        b=edxGVUK3xgTtGS7H1wjRbHfs/6JdaPY04qE9IaKVLN2X2qd55X0FT8rz4ra+E0fsvb
+         mGsHC/B7KtP1xb2Ll+wd/z/Gq2ioy0BoW2PAs9fdWhaRq7y8b9BlIhRT8YBOO2TjT75n
+         579IJXtMCrQ2PyxjD4Lr+PrmCpvgYfqkMGzLIr8h5fsUzK2VrPQMcoWg0ozu2idD06L1
+         nynrMEAG3iI77i8ude8nLxiOxXuB1s2OuYbdB0e+d7FSMhL14DbWB24QVk3ZbBDwRfZN
+         fgMAbbp09dOsUC3l62ZCPph1KfI3vCELarZFx58nllDlDWib2+FejK4bLpNFHC0l9/1a
+         HdFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678191897;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GpEQa5LQr4Ebi2yIjm00KTBCaif7x7L4argp6haEfHE=;
+        b=OY/cm50AHaMke64qm9AGR9GanQK9jkm58Z310OtzuJ9+F79dAMge7S/zmcyN5YJVN2
+         zONEvx6DJxGrKcpJegP/4zGb71GBupIN5s5M31W1Q/HaKSLLh62aiLYdO63iyZWnpGUn
+         nKIOVf0xg73RzsnQ/h2A0NTIJMD6xwWJCcT9vu0Pgkm1u/iAU1bh0LRAfq9oJ9fyGzY8
+         +oHqlVTyzZmsEuNs6BbKIa7MV9TcooC3Q8l3VkCpnCM6LelzB9zNdESm2yxZGweG2c6r
+         PSqCJQwkLMqqt+hzYfEf8E+MzQdc29HCmWXDH4dDgwbG9lADU54hi5lyrOPNbFyx4Nx1
+         vBmA==
+X-Gm-Message-State: AO0yUKUx1zqZfpW/mBX0vntj9OPBacpCarMh5tt7LMlPi0Cp0+NZJVZk
+        b74tEdPur0yvsZTo0ZTwHwUDB2ib0xxLEYINSWA=
+X-Google-Smtp-Source: AK7set/igNCY1H5Ocdykbu7tR0GiJl5qYzFnvvGsuXFWOnDrbDeu9dD+Db3vZ+5orz8ysFFWitw6gSrbYgYA75KvBcg=
+X-Received: by 2002:a5b:b03:0:b0:ad7:b81e:69bd with SMTP id
+ z3-20020a5b0b03000000b00ad7b81e69bdmr6455019ybp.2.1678191897100; Tue, 07 Mar
+ 2023 04:24:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230306224752.8417-1-afd@ti.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <CANiq72k4cOEOykgUhgqaXPC7xhX2EoC8c4sr1oFEhKMfEdi=wA@mail.gmail.com>
+ <20230121052507.885734-1-varmavinaym@gmail.com>
+In-Reply-To: <20230121052507.885734-1-varmavinaym@gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Tue, 7 Mar 2023 13:24:46 +0100
+Message-ID: <CANiq72k-KhU398KzV0+8DP0AUYkaf_G+5PwXgzYwbbK6AgcCUg@mail.gmail.com>
+Subject: Re: [PATCH v2] scripts: `make rust-analyzer` for out-of-tree modules
+To:     Vinay Varma <varmavinaym@gmail.com>
+Cc:     alicef@alicef.me, Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Mar 06, 2023 at 04:47:52PM -0600, Andrew Davis wrote:
-> As a follow up to the series allowing DTB overlays to built from .dtso
-> files. Now that all overlays have been renamed, remove the ability to
-> build from overlays from .dts files to prevent any files with the old
-> name from accidental being added.
+Hi Vinay,
 
-Since in the past I had a problem with unnecessary rebuilding, this removes
-the rule, so should not bring a similar regression.
+On Sat, Jan 21, 2023 at 6:25 AM Vinay Varma <varmavinaym@gmail.com> wrote:
+>
+> Adds support for out-of-tree rust modules to use the `rust-analyzer`
+> make target to generate the rust-project.json file.
 
-Acked-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Could you please address (some of) Masahiro's and Alice's feedback in
+a new version?
 
-Thank you.
+Thanks!
 
-> Signed-off-by: Andrew Davis <afd@ti.com>
-> ---
->  scripts/Makefile.lib | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index 100a386fcd71..68d0134bdbf9 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -418,9 +418,6 @@ endif
->  $(obj)/%.dtb: $(src)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE
->  	$(call if_changed_dep,dtb)
->  
-> -$(obj)/%.dtbo: $(src)/%.dts $(DTC) FORCE
-> -	$(call if_changed_dep,dtc)
-> -
->  $(obj)/%.dtbo: $(src)/%.dtso $(DTC) FORCE
->  	$(call if_changed_dep,dtc)
->  
-> -- 
-> 2.39.2
-> 
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Cheers,
+Miguel
