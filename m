@@ -2,64 +2,54 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D81B6AD455
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Mar 2023 02:58:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 591FE6AD4B9
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Mar 2023 03:35:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229809AbjCGB6e (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Mar 2023 20:58:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57900 "EHLO
+        id S229981AbjCGCfj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 Mar 2023 21:35:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229933AbjCGB6d (ORCPT
+        with ESMTP id S229953AbjCGCfi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 Mar 2023 20:58:33 -0500
+        Mon, 6 Mar 2023 21:35:38 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A41332511;
-        Mon,  6 Mar 2023 17:58:30 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 381A0311E2
+        for <linux-kbuild@vger.kernel.org>; Mon,  6 Mar 2023 18:35:29 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BA496B81289;
-        Tue,  7 Mar 2023 01:58:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65B80C433A4;
-        Tue,  7 Mar 2023 01:58:24 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 63116B81334
+        for <linux-kbuild@vger.kernel.org>; Tue,  7 Mar 2023 02:35:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24CA3C433EF
+        for <linux-kbuild@vger.kernel.org>; Tue,  7 Mar 2023 02:35:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678154304;
-        bh=N3kCIZXvpJcz2QZXiYH4iMRNR11TLpTrveVjRHahOdA=;
+        s=k20201202; t=1678156526;
+        bh=q2fZ/UlmXQ8To5hVEPNvC7ejALFIX/medHVUv3bnrwU=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=pZh9nkChLMk7fCj090g6RML1nINIOyeCeFVbFRi39ZyOJyurOHNr+nMoA6NPkQ+u9
-         xcViPquuQsAwIgwhgqicEO+ZFUP7SADrSuPyov19IWIelVhhHpLIfsq/f31VQIuIsc
-         IUuv7myeh8S3b7eJuO1q7AIsEuiPl3B+iyMOXSPW2BSRDYH4x7e4SNtoZHdKKGrkrm
-         EO74Q3nE8GO17amHrvev6xML5AsCpjlUDPY51cTR29CloAwAMgV2oSKy9vcrpJiiC2
-         9VLyxRPlX5mD4GmolAeSqSLDHht+3zb0QOtNB03L5vQJnyBBeV19JzkgFJSg2ZhvNQ
-         liTB2vHwvpTyQ==
-Received: by mail-oi1-f175.google.com with SMTP id e21so8614378oie.1;
-        Mon, 06 Mar 2023 17:58:24 -0800 (PST)
-X-Gm-Message-State: AO0yUKUKg/tCpqdJc0WEsDN5WThtOAi9bYdLerXq4hVvBUObBdXYCyoy
-        dBsqS8Lc417V4m+MMEIY2B9ZnK9NdbNpoY1Uwo0=
-X-Google-Smtp-Source: AK7set9AqGnHWX4MzrCtiCcINd/s2K9vqNNfSac4GgnBF80ofq1oVksKZExfx2gs0oZ9WLEauJoLa0icmOJyST5i84U=
-X-Received: by 2002:aca:f17:0:b0:37f:83ba:ee74 with SMTP id
- 23-20020aca0f17000000b0037f83baee74mr7637997oip.1.1678154303623; Mon, 06 Mar
- 2023 17:58:23 -0800 (PST)
+        b=fdLgGo2c4BTk5+Kn5h1oZMDvH5Ewh1VHj9h2wKlCJK8PyqLrI34Ccq1pLqWvxBbfF
+         jE4MvVqUqYdIt+J7IfKmbUeirPLgou1GLA82ci8MmdFaeB048HRpgM25x3g14M16Lg
+         +VdOfADPxhp4UeAu9MCJ2kmBilGLWwF2zTdct9Dlr6r3++iyiN5uCwnzhS5VQX/LaD
+         nsSKiXGvccya0xQmvzgXd++PZQPi7kuYMOE2gfzvOlTO5s3evl+2zex/h0hbjnl2e7
+         dZw60r6RGPeuXpNoVkuBm96Zv+s5oRX6yN85WmM+ABv1YRcm5obvuPkrx2SsUOkpUz
+         pIE553uwLEF2A==
+Received: by mail-ot1-f48.google.com with SMTP id o4-20020a9d6d04000000b00694127788f4so6466343otp.6
+        for <linux-kbuild@vger.kernel.org>; Mon, 06 Mar 2023 18:35:26 -0800 (PST)
+X-Gm-Message-State: AO0yUKXv+e3xoA1437WlwocijozwrWCjKWmUmAYIJ1XU0/3m0ux8KnJW
+        yK9H0WdlHV56R4ZlOnoZgh/k7mQju1yZ4Oo00D0=
+X-Google-Smtp-Source: AK7set9/zH0KJ5IQB4oZqsEvMR8oOsOzuHz3hkJNXAseAzNLhB/kJV8xmt87gjBSqpRqk8DswP4+zpsGx6hrc8Lm+Pw=
+X-Received: by 2002:a9d:6090:0:b0:694:634:8fd8 with SMTP id
+ m16-20020a9d6090000000b0069406348fd8mr4387629otj.1.1678156525378; Mon, 06 Mar
+ 2023 18:35:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20230306101451.375844-1-arnd@kernel.org> <20230306101451.375844-2-arnd@kernel.org>
-In-Reply-To: <20230306101451.375844-2-arnd@kernel.org>
+References: <20230306174159.145224-1-vincenzopalazzodev@gmail.com>
+In-Reply-To: <20230306174159.145224-1-vincenzopalazzodev@gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 7 Mar 2023 10:57:47 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT=_wXhrbnW38bHZKpOqLwO-7hhrCWtTxQSi0WJL=CSBA@mail.gmail.com>
-Message-ID: <CAK7LNAT=_wXhrbnW38bHZKpOqLwO-7hhrCWtTxQSi0WJL=CSBA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] kallsyms: expand symbol name into comment for debugging
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>
+Date:   Tue, 7 Mar 2023 11:34:49 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS598SxdLDoVLFdBtEynzhFZHD0Z1cHeuDHLaJJvL6b0w@mail.gmail.com>
+Message-ID: <CAK7LNAS598SxdLDoVLFdBtEynzhFZHD0Z1cHeuDHLaJJvL6b0w@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] script: modpost: emit warning when description is missing
+To:     Vincenzo Palazzo <vincenzopalazzodev@gmail.com>
+Cc:     linux-kbuild@vger.kernel.org, Roland Kletzing <devzero@web.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -71,66 +61,51 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Mar 6, 2023 at 7:15=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wrot=
-e:
+On Tue, Mar 7, 2023 at 2:42=E2=80=AFAM Vincenzo Palazzo
+<vincenzopalazzodev@gmail.com> wrote:
 >
-> From: Arnd Bergmann <arnd@arndb.de>
+> Emit a warning when the mod description is missed.
 >
-> The assembler output of kallsyms.c is not meant for people to understand,
-> and is generally not helpful when debugging "Inconsistent kallsyms data"
-> warnings. I have previously struggled with these, but found it helpful
-> to list which symbols changed between the first and second pass in the
-> .tmp_vmlinux.kallsyms*.S files.
->
-> As this file is preprocessed, it's possible to add a C-style multiline
-> comment with the full type/name tuple.
->
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Reported-by: Roland Kletzing <devzero@web.de>
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D10770
+> Signed-off-by: Vincenzo Palazzo <vincenzopalazzodev@gmail.com>
 > ---
-> No idea if there is already a better way to debug this kind of problem,
-> or if this causes a notable slowdown.
-> ---
->  scripts/kallsyms.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  scripts/mod/modpost.c | 3 +++
+>  1 file changed, 3 insertions(+)
 >
-> diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
-> index a239a87e7bec..ea1e3d3aaa6b 100644
-> --- a/scripts/kallsyms.c
-> +++ b/scripts/kallsyms.c
-> @@ -525,7 +525,8 @@ static void write_src(void)
->                                         table[i]->addr);
->                                 exit(EXIT_FAILURE);
->                         }
-> -                       printf("\t.long\t%#x\n", (int)offset);
-> +                       expand_symbol(table[i]->sym, table[i]->len, buf);
-> +                       printf("\t.long\t%#x    /* %s */\n", (int)offset,=
- buf);
-
-
-
-
-This is printed only for base_relative,
-but ia64 will go away sooner or later,
-so this seems good to me.
-
-Applied to linux-kbuild. Thanks.
-
-
-
-
-
-
-
-
-
-
-
->                 } else if (!symbol_absolute(table[i])) {
->                         output_address(table[i]->addr);
->                 } else {
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index efff8078e395..c63156ba4e5e 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -1824,6 +1824,9 @@ static void read_symbols(const char *modname)
+>                 }
+>         }
+>
+> +       if (!get_modinfo(&info, "description"))
+> +               warn("missing MODULE_DESCRIPTION() in %s\n", modname);
+> +
+>         for (sym =3D info.symtab_start; sym < info.symtab_stop; sym++) {
+>                 symname =3D remove_dot(info.strtab + sym->st_name);
+>
 > --
 > 2.39.2
 >
+
+
+Linus requires a clean build log these days.
+This patch would sprinkle warning messages,
+and I am sure it will result in a rejection.
+
+
+The best we can do would print the warnings
+only when W=3D1.
+
+
+
+
+
+
+
 
 
 --=20
