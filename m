@@ -2,99 +2,122 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E6DCB6AFC88
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Mar 2023 02:54:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 125406B01E8
+	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Mar 2023 09:47:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229480AbjCHByS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 7 Mar 2023 20:54:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45430 "EHLO
+        id S229881AbjCHIrE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 8 Mar 2023 03:47:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229477AbjCHByR (ORCPT
+        with ESMTP id S229943AbjCHIrC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 7 Mar 2023 20:54:17 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2AD75F531;
-        Tue,  7 Mar 2023 17:54:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678240456; x=1709776456;
-  h=message-id:date:mime-version:cc:subject:to:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=6/zv7m3IA6CkY+ozpRASdY5fBVx8Ky1TfJQ7tvgNfng=;
-  b=ieYTNiYa4jqePsO3JoXTACiErSX7pKPNZUMnIqlYlWBuoT+NWyyaFjVc
-   1myg5JdOaIWvVAdHB5QgvW8qZ3IeYyisAkqdVWH4++gu4iLPj3w64BBgN
-   a7i7PUaKzy7otQTgBGhd+ABOIFjlTXp48O3sD0xY2936oMK/xRkm6s4e+
-   g6t2WdOXXSCxh++C2RlbyJbuv6MTXOkEoHrxwfIWX2Ce91rgnb52EB+wG
-   LNvMZj4gXLlhOuzB3xLzu28Q7lDun+OCjlwsIEE9iwTl+nK0aQSjw/uYh
-   WABzGP2f5O+J+d8Qn0QTmiXkuHcyBI2sJ2XGU8Kz7bkPhcwxykQf27hb/
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="333501355"
-X-IronPort-AV: E=Sophos;i="5.98,242,1673942400"; 
-   d="scan'208";a="333501355"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 17:54:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="676794837"
-X-IronPort-AV: E=Sophos;i="5.98,242,1673942400"; 
-   d="scan'208";a="676794837"
-Received: from allen-box.sh.intel.com (HELO [10.239.159.48]) ([10.239.159.48])
-  by orsmga002.jf.intel.com with ESMTP; 07 Mar 2023 17:54:07 -0800
-Message-ID: <63a49364-21c4-e82d-6449-18f163efff61@linux.intel.com>
-Date:   Wed, 8 Mar 2023 09:53:10 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Cc:     baolu.lu@linux.intel.com, okaya@kernel.org, harpreet.anand@amd.com,
-        nikhil.agarwal@amd.com, michal.simek@amd.com,
-        pieter.jansen-van-vuuren@amd.com, pablo.cascon@amd.com, git@amd.com
-Subject: Re: [PATCH v9 2/7] iommu: Support ops registration for CDX bus
-Content-Language: en-US
-To:     Nipun Gupta <nipun.gupta@amd.com>, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
-        rafael@kernel.org, eric.auger@redhat.com,
-        alex.williamson@redhat.com, cohuck@redhat.com,
-        song.bao.hua@hisilicon.com, mchehab+huawei@kernel.org,
-        maz@kernel.org, f.fainelli@gmail.com, jeffrey.l.hugo@gmail.com,
-        saravanak@google.com, Michael.Srba@seznam.cz, mani@kernel.org,
-        yishaih@nvidia.com, jgg@ziepe.ca, jgg@nvidia.com,
-        robin.murphy@arm.com, will@kernel.org, joro@8bytes.org,
-        masahiroy@kernel.org, ndesaulniers@google.com,
-        rdunlap@infradead.org, linux-arm-kernel@lists.infradead.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-References: <20230307131917.30605-1-nipun.gupta@amd.com>
- <20230307131917.30605-3-nipun.gupta@amd.com>
-From:   Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <20230307131917.30605-3-nipun.gupta@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        Wed, 8 Mar 2023 03:47:02 -0500
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36100A5936
+        for <linux-kbuild@vger.kernel.org>; Wed,  8 Mar 2023 00:47:01 -0800 (PST)
+Received: by mail-ed1-x534.google.com with SMTP id k10so38724292edk.13
+        for <linux-kbuild@vger.kernel.org>; Wed, 08 Mar 2023 00:47:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678265219;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ngHgxKcceAmQwpfGI4Ps72SedHpBnkbxwUxssjia52A=;
+        b=W8grt1ertfInRpM8APbfl7Gqh/pfKkx/WAT3kXHEzcxQKMLBtkiq8oaTMBFuHlkMpv
+         oMAn6PUnbtDYOXhPRtarHlWvIso3gjOYVwjJYdKX1/YSXj0XgaKx2fXf5ykuqeJia6Yy
+         f6zId3QawLrdOwHwVjApJkZun4hzXVOorwbsXnn1e7gySr67At837k/T1Z4XkwvOa45m
+         E1SGQRE/A054BhllW9GtJynYgIhmhmVLTe+xdtu5w/HGZu4e2mg3tlRJ9YZObRgShmkK
+         UaJlIlwhfX2r46eKkCXoTU459N7eB82v8dhFkTa63SbLSn2Ty1oMCA3gSDdOZktBZGRC
+         4OVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678265219;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ngHgxKcceAmQwpfGI4Ps72SedHpBnkbxwUxssjia52A=;
+        b=ITxa7Gthot2J9TdA66zDLu25b25dD3YL5E3XKC1FJoJnUiaG8voeRnNT7Wcu4JiUTI
+         VmeW4IJqZgLVbRW2sdsDpih32QA5W+ZuEWr5jb3Lkw8GrCUKhqep0wsIjwYdy/hYHuOc
+         nI8g4zPhpqCQlGl10D9mG4vBJz4kznXGFhwqz/3W7CWtUQLfPJamspNvwCxglODVZ1Pg
+         /zwPhP19qMo7nEEGBiWpJnCuZE23gvLpawI5O9ta1tiad2MTU7vMUFkWXhCRslfmb/H4
+         VusPlb7ZekdsRmtyydC7ctUs5+eH0heZ8TSN3LC0KEHpA8LT5sdaMplpysC7LwsSID0o
+         IkEw==
+X-Gm-Message-State: AO0yUKXhJcWKe+vryTawZ6FPCsEqckxElWYe1z4OKy3GXY5vgxaEgy1N
+        2Im+J0a47zVI//7yH0r+iu4=
+X-Google-Smtp-Source: AK7set+Cp0nsTqfGmOSX+HKdmJQJxPQ2gGz/hWtO7aGRIVZOaHGW4bAcSBhIPUur1oa4153DGkN4iA==
+X-Received: by 2002:a17:906:2303:b0:87f:89f2:c012 with SMTP id l3-20020a170906230300b0087f89f2c012mr16359024eja.24.1678265219588;
+        Wed, 08 Mar 2023 00:46:59 -0800 (PST)
+Received: from localhost ([2001:b07:5d37:537d:5e25:9ef5:7977:d60c])
+        by smtp.gmail.com with ESMTPSA id qn23-20020a170907211700b008d173604d72sm7287173ejb.174.2023.03.08.00.46.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Mar 2023 00:46:58 -0800 (PST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date:   Wed, 08 Mar 2023 09:46:57 +0100
+Message-Id: <CR0VD9KDRYVJ.2N3C1FVZA1DFR@vincent-arch>
+Cc:     <linux-kbuild@vger.kernel.org>, "Roland Kletzing" <devzero@web.de>
+Subject: Re: [PATCH v1 1/1] script: modpost: emit warning when description
+ is missing
+From:   "Vincenzo Palazzo" <vincenzopalazzodev@gmail.com>
+To:     "Masahiro Yamada" <masahiroy@kernel.org>
+X-Mailer: aerc 0.14.0
+References: <20230306174159.145224-1-vincenzopalazzodev@gmail.com>
+ <CAK7LNAS598SxdLDoVLFdBtEynzhFZHD0Z1cHeuDHLaJJvL6b0w@mail.gmail.com>
+In-Reply-To: <CAK7LNAS598SxdLDoVLFdBtEynzhFZHD0Z1cHeuDHLaJJvL6b0w@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 3/7/23 9:19 PM, Nipun Gupta wrote:
-> With new CDX bus supported for AMD FPGA devices on ARM
-> platform, the bus requires registration for the SMMU v3
-> driver.
-> 
-> Signed-off-by: Nipun Gupta<nipun.gupta@amd.com>
-> Reviewed-by: Pieter Jansen van Vuuren<pieter.jansen-van-vuuren@amd.com>
-> Tested-by: Nikhil Agarwal<nikhil.agarwal@amd.com>
+On Tue Mar 7, 2023 at 3:34 AM CET, Masahiro Yamada wrote:
+> On Tue, Mar 7, 2023 at 2:42=E2=80=AFAM Vincenzo Palazzo
+> <vincenzopalazzodev@gmail.com> wrote:
+> >
+> > Emit a warning when the mod description is missed.
+> >
+> > Reported-by: Roland Kletzing <devzero@web.de>
+> > Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D10770
+> > Signed-off-by: Vincenzo Palazzo <vincenzopalazzodev@gmail.com>
+> > ---
+> >  scripts/mod/modpost.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> > index efff8078e395..c63156ba4e5e 100644
+> > --- a/scripts/mod/modpost.c
+> > +++ b/scripts/mod/modpost.c
+> > @@ -1824,6 +1824,9 @@ static void read_symbols(const char *modname)
+> >                 }
+> >         }
+> >
+> > +       if (!get_modinfo(&info, "description"))
+> > +               warn("missing MODULE_DESCRIPTION() in %s\n", modname);
+> > +
+> >         for (sym =3D info.symtab_start; sym < info.symtab_stop; sym++) =
+{
+> >                 symname =3D remove_dot(info.strtab + sym->st_name);
+> >
+> > --
+> > 2.39.2
+> >
+>
+>
+> Linus requires a clean build log these days.
+> This patch would sprinkle warning messages,
+> and I am sure it will result in a rejection.
 
-Nit:
+I see, thanks to let me know!
 
-The bus iommu ops is about to retire. So probably the commit title could
-be "iommu: Add iommu probe for CDX bus"?
+> The best we can do would print the warnings
+> only when W=3D1.
 
-Anyway,
+I will do it in a v2 later today, thanks!
 
-Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+Cheers!
 
-Best regards,
-baolu
+Vincent.
