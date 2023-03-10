@@ -2,61 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E50CC6B4B43
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Mar 2023 16:38:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E8FC6B4B94
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Mar 2023 16:47:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229776AbjCJPiS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 10 Mar 2023 10:38:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55088 "EHLO
+        id S230242AbjCJPrf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 10 Mar 2023 10:47:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234334AbjCJPh4 (ORCPT
+        with ESMTP id S230326AbjCJPrD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 10 Mar 2023 10:37:56 -0500
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 720D01314D5;
-        Fri, 10 Mar 2023 07:25:21 -0800 (PST)
-Message-ID: <206b6c43-6e0f-777c-6da5-b8cf28c166a4@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1678461920;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=IoEgW9giowy9Kiegj/QJ8Nw0SUD3m5rC8dDybsv1e50=;
-        b=aIKOV4jqYHv8GXRGTd0FqrwGC/ofkKfo7bRcWzk1z4kNIkS97/V2fVrGeXVBk5WdFmIILu
-        zYpBJJjpMDS1bOE+Pcglj13BN422dyJkw1zlj281Td76FEklU2OAo+PWc9yVshE7LUwZGz
-        4VExuf9fKQ0FA4EWCqCa0friQcKERzC+xDxSD7Bk3xopr5tuQNgoXarXWiP+LI1EbD3OC8
-        qipsDftxAWFiFbzkrAk1ukh2BBNyCPBACB/OH3ng292QEQ3YaHYb8kaX2V93j+VgRyyHEE
-        eL61BR5LZzy+tI0ZQ3AwdphxusmXwqqRWMYZHczIZHhul/EP2WaeWdbJu2wtNw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1678461920;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=IoEgW9giowy9Kiegj/QJ8Nw0SUD3m5rC8dDybsv1e50=;
-        b=uLQ9Itieo//mnrJlfwINxXs85lMopO1SYrErKsTKktgzaZAk4SKCaFCSVgkc+lChTTJXm+
-        Yq/jD4WzmyLPgEBA==
-Date:   Fri, 10 Mar 2023 16:25:19 +0100
+        Fri, 10 Mar 2023 10:47:03 -0500
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4268618BC;
+        Fri, 10 Mar 2023 07:37:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=322B1m2G3BcD2sssoION+5o34zLT/+xp7riwNA/mVhQ=; b=jdxP56uRGPDoSItYG1+uqvDtmZ
+        Y7niNUGMnLSrNMsZhK8E5w+eipM0QWp3NSGZqKM3SNThd0f4wcwC891994DZcSr+iw06DV72DAThX
+        LSixnthuXFaS1Pt7k7MKPntS3VC8kyRtNe4GDoSUWlGaUFWY3fb6XW6kQn0Z0+0xVFwuMZAE5JAr3
+        EU2A/F73QzaZKyMtmX76GuHgoAuTiybYMdQ27fLB4lB0Ov6b5udIWFy5ZdK2azk83Wvx6PBHbFOk9
+        J5SZI8ZD7MpDfLe2mo/URemXFiCsvcGEaY7mm4Md14OnpobGu2VISmDHheqLO/TpwKaAoOej2e1F3
+        Qi4Wag1g==;
+Received: from 201-68-164-191.dsl.telesp.net.br ([201.68.164.191] helo=[192.168.1.60])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1paenx-002uoM-1B; Fri, 10 Mar 2023 16:37:13 +0100
+Message-ID: <68be269c-1b51-e0e2-0c2b-34235983889a@igalia.com>
+Date:   Fri, 10 Mar 2023 12:37:09 -0300
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 1/1] kbuild: deb-pkg: default dpkg-buildpackage --build
-Content-Language: de-DE-frami
-From:   Bastian Germann <bage@linutronix.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: About the .scmversion removal (commit f6e09b07cc12)
+Content-Language: en-US
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <CAK7LNASjiAB93mu0igQsiwgu=zrgu3gArMJZ+6CXHuJ+kG_ELg@mail.gmail.com>
- <20230307112028.14190-1-bage@linutronix.de>
- <20230307112028.14190-2-bage@linutronix.de>
- <CAK7LNASJeECGBiaWNjdhDbnBP3-8TKUOCXXbmbu8C9+Qa4FDxg@mail.gmail.com>
- <e89667d6-e65a-e9d8-5433-1cf918f6ff14@linutronix.de>
-In-Reply-To: <e89667d6-e65a-e9d8-5433-1cf918f6ff14@linutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+Cc:     linux-kbuild@vger.kernel.org, nathan@kernel.org,
+        rasmus.villemoes@prevas.dk,
+        Nick Desaulniers <ndesaulniers@google.com>, nicolas@fjasle.eu,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "Guilherme G. Piccoli" <kernel@gpiccoli.net>
+References: <a10e1319-b631-6d3b-5e1d-b07223350502@igalia.com>
+ <CAK7LNAQmXwpEpY84-fdLiwALSFLUEkfsOHejbqy33c6ceM=4Tw@mail.gmail.com>
+From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <CAK7LNAQmXwpEpY84-fdLiwALSFLUEkfsOHejbqy33c6ceM=4Tw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
         SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,28 +59,28 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Am 10.03.23 um 15:49 schrieb Bastian Germann:
-> Am 10.03.23 um 15:37 schrieb Masahiro Yamada:
->> If this patch is applied, 'make deb-pkg'
->> would not produce the source package at all.
+On 09/03/2023 21:51, Masahiro Yamada wrote:
+> [...]
+> Not a silly question, but .scmversion was intended for source
+> package creation (deb, rpm) in my understanding.
 > 
-> How so? Are you saying `make deb-pkg` never built a source package with <= 6.2?
-> Because those never specified a --build.
+> If you want to use a fixed string for the UTS version,
+> please pass KERNELRELEASE=<some-string> to the build command line.
 > 
->> Now I recalled the reason why I added this.
->>
->>
->>
->> dpkg-buildpackage(1):
->>
->>   full
->>       Builds everything.  This is an alias for source,any,all, and the
->>       same as the default case when no build option is specified.
->>                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> 
-> full is the default for --build. I guess the wording here is so tedious
-> because you can have -S, -b, -B and so on which all imply some --build.
-> 
->> NACK
 
-I see. The option -nc implies -b. So yes, you are right.
+Thanks! It seems..it didn't work for me, probably I'm doing something wrong.
+
+KERNELRELEASE="6.3.0-rc1-gpiccoli" make all -j128
+Does it make sense for you? It gets me:
+
+
+$ file arch/x86/boot/bzImage
+
+arch/x86/boot/bzImage: Linux kernel x86 boot executable bzImage, version
+6.3.0-rc1-gpiccoli-00003-gb6224c91dbaa (gpiccoli@buildbox2) [...]
+
+
+Thanks in advance,
+
+
+Guilherme
