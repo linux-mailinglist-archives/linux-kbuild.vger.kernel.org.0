@@ -2,74 +2,93 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E2C86B6850
-	for <lists+linux-kbuild@lfdr.de>; Sun, 12 Mar 2023 17:38:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 62DD76B6ADB
+	for <lists+linux-kbuild@lfdr.de>; Sun, 12 Mar 2023 21:07:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230481AbjCLQic (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 12 Mar 2023 12:38:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48598 "EHLO
+        id S230327AbjCLUHi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 12 Mar 2023 16:07:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229822AbjCLQia (ORCPT
+        with ESMTP id S229552AbjCLUHh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 12 Mar 2023 12:38:30 -0400
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A252211C2;
-        Sun, 12 Mar 2023 09:38:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=DHqoww1vv8j4XTfx9Ao30Lqqi1EinOaI0Onfdai/x/E=; b=pV6xtOEsP0m+6S+c87wpBas8Jw
-        uffNRVAoUu+VAUs4eTvjI3HqBP/RAyA4PixCZy/tXiBr8TbHLNLhoTU905UKff8G+4OOWDEO/ffI2
-        tq1JT+fIrFAcb5SDpo2buJ5T/Yp22E4bf7rPjc13ocgFIc5Gvnq2dyjRPmuLzNtHlK9DY2oqZC/yU
-        WP2A9IDlBEhcSHGxoEsTRvYWOiVSwmB83oMV8JwjjZ2e8Kl/9MCTyuVYgsSUHU+qzKzyjmO4RdxES
-        GSYWPfIoKH0AkvtRdOKxfaFPR7jk03fSnPEp4htnJ8uW18j4NyBC4wvDdzlR4avePyPwWjTtsJEF8
-        +pRz/UfQ==;
-Received: from [152.254.169.34] (helo=[192.168.1.60])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1pbOiB-0065qO-Sx; Sun, 12 Mar 2023 17:38:20 +0100
-Message-ID: <ff81d5c2-0dc6-0374-f8f4-a8f480634705@igalia.com>
-Date:   Sun, 12 Mar 2023 13:38:12 -0300
+        Sun, 12 Mar 2023 16:07:37 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23D302B2AE;
+        Sun, 12 Mar 2023 13:07:37 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8B11D60F24;
+        Sun, 12 Mar 2023 20:07:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22128C433D2;
+        Sun, 12 Mar 2023 20:07:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678651655;
+        bh=2Fm44MKxxUElyQkYSM0Gxd7QugXbe3Dels56fjEj7bI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=aCLdaSgZNwWLM9UShXKP1yLhMvaKjrBz676cMxuynB8mKrmrV7Z0IOq4rvwKK7Y/e
+         Y9rAb+NEWZBshJRc9WmIRXeBPiLQOXkL18lLMeXwCxRJxzFWshOCzslxXDf3iQ3VyQ
+         YDeKBgtpDiK9fXa9NTF0RBZEYzN40Bw97Y/SfMqvJhNL3w/RXGqrp7zZ4hsWGlxqqH
+         NEg5q0oL4ErkUYZGDxUBCzL9kzBGhQCIAzqc7D0HXdwAPd8odhe8320o5+WnB2UZx/
+         Z063eN+Ks5UWGAwZs87EJrccoweVIb/SZq/9VkU0V2eM2rLsJEk55v7HBdaNHe7olN
+         KOu7XEnCKyhxQ==
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nick Terrell <terrelln@fb.com>,
+        Nicolas Schier <nicolas@fjasle.eu>
+Subject: [PATCH 0/6] kbuild: fix some packaging issues, and use git-archive for source package
+Date:   Mon, 13 Mar 2023 05:07:25 +0900
+Message-Id: <20230312200731.599706-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: About the .scmversion removal (commit f6e09b07cc12)
-Content-Language: en-US
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, nathan@kernel.org,
-        rasmus.villemoes@prevas.dk,
-        Nick Desaulniers <ndesaulniers@google.com>, nicolas@fjasle.eu,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "Guilherme G. Piccoli" <kernel@gpiccoli.net>
-References: <a10e1319-b631-6d3b-5e1d-b07223350502@igalia.com>
- <CAK7LNAQmXwpEpY84-fdLiwALSFLUEkfsOHejbqy33c6ceM=4Tw@mail.gmail.com>
- <68be269c-1b51-e0e2-0c2b-34235983889a@igalia.com>
- <CAK7LNAQ-SuyUC8d+zZbo65mp=wGAC3VawP2Acwp5y6X1P4gsiw@mail.gmail.com>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <CAK7LNAQ-SuyUC8d+zZbo65mp=wGAC3VawP2Acwp5y6X1P4gsiw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 12/03/2023 05:15, Masahiro Yamada wrote:
-> [...]
-> Try this:
-> 
-> make all -j128 KERNELRELEASE="6.3.0-rc1-gpiccoli"
-> 
-
-Worked like a charm! Thanks a lot for the help =)
-Cheers,
+This series fixes some bugs, then switch to 'git archive'
+for source package creation as suggested by Linus.
 
 
-Guilherme
+
+Masahiro Yamada (6):
+  kbuild: deb-pkg: make debian source package working again
+  kbuild: deb-pkg: do not take KERNELRELEASE from the source version
+  kbuild: deb-pkg: set CROSS_COMPILE only when undefined
+  kbuild: deb-pkg: split image and debug objects staging out into
+    functions
+  kbuild: deb-pkg: use dh_listpackages to know enabled packages
+  kbuild: use git-archive for source package creation
+
+ .gitignore                       |    1 +
+ Makefile                         |    9 +-
+ scripts/.gitignore               |    1 -
+ scripts/Makefile                 |    2 +-
+ scripts/Makefile.package         |  113 ++--
+ scripts/check-git                |   14 +
+ scripts/list-gitignored.c        | 1057 ------------------------------
+ scripts/package/builddeb         |  269 ++++----
+ scripts/package/deb-build-option |   14 +-
+ scripts/package/gen-diff-patch   |   44 ++
+ scripts/package/mkdebian         |   24 +-
+ scripts/package/mkspec           |   17 +-
+ scripts/setlocalversion          |   45 +-
+ 13 files changed, 335 insertions(+), 1275 deletions(-)
+ create mode 100755 scripts/check-git
+ delete mode 100644 scripts/list-gitignored.c
+ create mode 100755 scripts/package/gen-diff-patch
+
+-- 
+2.34.1
+
