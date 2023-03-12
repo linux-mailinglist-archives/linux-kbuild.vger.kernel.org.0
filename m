@@ -2,54 +2,42 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B279B6B5E29
-	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Mar 2023 17:55:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FA666B631C
+	for <lists+linux-kbuild@lfdr.de>; Sun, 12 Mar 2023 05:14:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229628AbjCKQzN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 11 Mar 2023 11:55:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53896 "EHLO
+        id S229655AbjCLEOh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 11 Mar 2023 23:14:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229613AbjCKQzM (ORCPT
+        with ESMTP id S229437AbjCLEOf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 11 Mar 2023 11:55:12 -0500
-Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 937E04B804
-        for <linux-kbuild@vger.kernel.org>; Sat, 11 Mar 2023 08:55:10 -0800 (PST)
-Received: by mail-qv1-xf2b.google.com with SMTP id bo10so5627049qvb.12
-        for <linux-kbuild@vger.kernel.org>; Sat, 11 Mar 2023 08:55:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1678553709;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EIomLG7UnQJj876RAoaqIkfKcALzjeNdqoIdaS6cOuA=;
-        b=IKHmjVOAfqKWlUeGJMI5dRwxBG4FGobmdNwrOOi1L7o6tWYb0OVzglFy7+hcQ6+4im
-         jsacJ3xMs8PtPQ7lXyI4ZqO35YauGKQ7cv+i2XxdK7gV5eVrPVbKDyscrbjIAP9jUaWW
-         NVuBeO0sdUGldxoRdALANZ9ATWRebkAUZxQNQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678553709;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EIomLG7UnQJj876RAoaqIkfKcALzjeNdqoIdaS6cOuA=;
-        b=nBfLM0Mx1DWciKcojU2RZUoovXmpj7XDSoobpyLiDaGQYe72vV5Ir14Mmoj5ssqRuR
-         d6fBr8VEocetnPD4wTW/xpxMBEyJWvzh8+2rIjWUV9NF1nVH+8KXNgAQL6dRmCtNMPNa
-         4M5Eubo4Kl0yjDo9EeJ4QX6PBQOYrkEIz4+Jy1CpB11wTcaGhbUt8JQDwjhKK/ya4pVr
-         ew2BMwtL/HWoTGe3+TBLq5iy4jTv+V54b4eUoBBZb57tobdouZVX91u58FgIR13wm/PG
-         LkSm+83q+2HV/3dpouYpAsocNupZvpNum9eyX5abM9ktV3n5Q1tozpylvE5M9WoOEhHh
-         pI/A==
-X-Gm-Message-State: AO0yUKVzWebyJnwv/9Crqb1mEu11Sjk/pG4bCIyxegIJzdkfoAvMZL9I
-        qCaH4UvROx0SAa6liVXWdgoLCA==
-X-Google-Smtp-Source: AK7set+jc34nG16Iv3yaR0QZYNu/Re47mZ/FVzqaCs0fWfCvaN09bMctjtbX7adZwq53L84o9rBuPw==
-X-Received: by 2002:a05:6214:258f:b0:5a3:fffa:f600 with SMTP id fq15-20020a056214258f00b005a3fffaf600mr377474qvb.26.1678553709699;
-        Sat, 11 Mar 2023 08:55:09 -0800 (PST)
-Received: from bill-the-cat (2603-6081-7b00-6400-0000-0000-0000-036b.res6.spectrum.com. [2603:6081:7b00:6400::36b])
-        by smtp.gmail.com with ESMTPSA id i4-20020a05620a248400b0074357fa9e15sm2110419qkn.42.2023.03.11.08.55.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Mar 2023 08:55:09 -0800 (PST)
-Date:   Sat, 11 Mar 2023 11:55:07 -0500
-From:   Tom Rini <trini@konsulko.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Simon Glass <sjg@chromium.org>,
+        Sat, 11 Mar 2023 23:14:35 -0500
+X-Greylist: delayed 376 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 11 Mar 2023 20:14:33 PST
+Received: from codesynthesis.com (codesynthesis.com [188.40.148.39])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C36A142BDF;
+        Sat, 11 Mar 2023 20:14:33 -0800 (PST)
+Received: from brak.codesynthesis.com (unknown [105.186.89.45])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by codesynthesis.com (Postfix) with ESMTPSA id BDF8F60A50;
+        Sun, 12 Mar 2023 04:08:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codesynthesis.com;
+        s=mail1; t=1678594095;
+        bh=HUX6NiMs9PrhTbVq5VNF8nLaHuCM5SJJF1HzkUDIUTk=;
+        h=Date:From:To:Subject:Message-ID:MIME-Version:From;
+        b=gYn1bjKmaqhylYoZJ6XpkqbJYShUe8SO6Qgs3IvkRqN/SO+I5P0F1Y34zqePwFFFV
+         7ZVNz7Vpl4+bh+nwDJXIEFs3XXGG1o8pNCAjhW+cU669LTV2H7eFwtXAjoomKpF5d7
+         P3dS5pOVAZctGq46G3Yz0kUKc+F0zc/fs93SRk69X/zPez6QYDhVflPCxY1G/EwB8M
+         FvvhEKfQHGeMhCz+fY7CybtuE7nwfWMa5xaUTLXpDPuuXHLGHpdjGrCd2qmvyXePb0
+         AMc47S3mlcVbClTg6XD/mWRqxGpy3EDac2PO8E6sg73wspZs/RNtn98sC9wp2gcRxt
+         w4NsCSQNcbJtA==
+Received: by brak.codesynthesis.com (Postfix, from userid 1000)
+        id DF294142BD9; Sun, 12 Mar 2023 06:08:09 +0200 (SAST)
+Date:   Sun, 12 Mar 2023 06:08:09 +0200
+From:   Boris Kolpackov <boris@codesynthesis.com>
+To:     Tom Rini <trini@konsulko.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Simon Glass <sjg@chromium.org>,
         LKML <linux-kernel@vger.kernel.org>,
         U-Boot Custodians <u-boot-custodians@lists.denx.de>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
@@ -63,100 +51,76 @@ Cc:     Simon Glass <sjg@chromium.org>,
         linux-kbuild@vger.kernel.org
 Subject: Re: [RESEND PATCH] kconfig: Proposed language extension for multiple
  builds
-Message-ID: <20230311165507.GN3041508@bill-the-cat>
+Message-ID: <boris.20230312054230@codesynthesis.com>
 References: <20230310183717.RESEND.1.Idaaf79c3e768b85750d5a7eb732052576c5e07e5@changeid>
  <bae2702e-3570-f461-b86f-e56ce82a636e@infradead.org>
+ <20230311165507.GN3041508@bill-the-cat>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="nKkts6aBvDQ9fwd+"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bae2702e-3570-f461-b86f-e56ce82a636e@infradead.org>
-X-Clacks-Overhead: GNU Terry Pratchett
+In-Reply-To: <20230311165507.GN3041508@bill-the-cat>
+Organization: Code Synthesis
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Tom Rini <trini@konsulko.com> writes:
 
---nKkts6aBvDQ9fwd+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Fri, Mar 10, 2023 at 09:39:15PM -0800, Randy Dunlap wrote:
+> > Hi--
+> > 
+> > On 3/10/23 18:37, Simon Glass wrote:
+> > > (I am sending this again to get more feedback)
+> > > 
+> > > In the case of Linux, only one build is produced so there is only a
+> > > single configuration. For other projects, such as U-Boot and Zephyr, the
+> > > same code is used to produce multiple builds, each with related (but
+> > > different) options enabled.
+> > > 
+> > > This can be handled with the existing kconfig language, but it is quite
+> > > verbose, somewhat tedious and very error-prone, since there is a lot of
+> > > duplication. The result is hard to maintain.
+> > > 
+> > > Describe an extension to the Kconfig language to support easier handling
+> > > of this use case.
+> > > 
+> > > Signed-off-by: Simon Glass <sjg@chromium.org>
+> > 
+> > IMO Masahiro has already answered this multiple times and I agree with his answers.
+> > 
+> > For others, the full previous thread is at
+> >   https://lore.kernel.org/all/20230219145453.1.Idaaf79c3e768b85750d5a7eb732052576c5e07e5@changeid/
+> 
+> So what level of interest is there in this?
 
-On Fri, Mar 10, 2023 at 09:39:15PM -0800, Randy Dunlap wrote:
-> Hi--
->=20
-> On 3/10/23 18:37, Simon Glass wrote:
-> > (I am sending this again to get more feedback)
-> >=20
-> > In the case of Linux, only one build is produced so there is only a
-> > single configuration. For other projects, such as U-Boot and Zephyr, the
-> > same code is used to produce multiple builds, each with related (but
-> > different) options enabled.
-> >=20
-> > This can be handled with the existing kconfig language, but it is quite
-> > verbose, somewhat tedious and very error-prone, since there is a lot of
-> > duplication. The result is hard to maintain.
-> >=20
-> > Describe an extension to the Kconfig language to support easier handling
-> > of this use case.
-> >=20
-> > Signed-off-by: Simon Glass <sjg@chromium.org>
->=20
-> IMO Masahiro has already answered this multiple times and I agree with hi=
-s answers.
->=20
-> For others, the full previous thread is at
->   https://lore.kernel.org/all/20230219145453.1.Idaaf79c3e768b85750d5a7eb7=
-32052576c5e07e5@changeid/
+Unlike Masahiro & co I am interested in generalizing Kconfig to be usable
+outside of the Linux kernel (for example, I've integrated it into the
+build2 build system[1]). However, in this case, I tend to agree with Randy
+and Masahiro: this feels like a very niche use-case (which I am still not
+100% clear on, after reading the description 3 times) that would add
+quite a bit of complexity.
 
-Well, I think what was unclear, or maybe we just wanted to confirm the
-answer was "none at all", was this. As good community neighbors, we see
-a generic issue in the Kconfig language, a tool used frequently outside
-of just the Linux kernel, and would like to contribute back. Ideally
-without having first gone off, designed and implemented something, and
-then been told it's all wrong and to rewrite it first. So what level of
-interest is there in this?
+One thing that did cross my mind during those 3 reads is that maybe the
+essence of the feature you are looking for here is to be able to use a
+value from the previous phase as "initial" (i.e., stronger than Kconfig
+default but weaker than user-specified) when configuring the next phase.
+It probably won't allow you to solve your problem in an auto-magical way
+like your proposal, but perhaps you could get close enough while not
+complicating the Kconfig language significantly.
 
-As I pointed out in that thread, I believe barebox has examples where
-some keyword like we're proposing here would help them (and yes, there's
-only a dozen or so symbols so it's also manageable without anything
-special), and Simon believes Zephyr will be in a similar situation soon
-enough (which doesn't use the kernel's implementation of the language).
-Frankly, I keep going back to "tristate" is just the original example of
-what we're talking about here (CONFIG_FOO=3Dn, CONFIG_FOO_MODULE=3Dy), not
-that I'm suggesting we would remove the tristate word.
-So we would really like to make sure as many people and projects are
-aware, as possible.
 
-And as Simon asked in the thread, what about code refactoring that makes
-further maintenance easier? Clearly, such patches would need to be
-against the current appropriate tree.
+> And as Simon asked in the thread, what about code refactoring that makes
+> further maintenance easier?
 
---=20
-Tom
+From my experience, there is little interest in patches that make Kconfig
+more general or improve the compatibility of the implementation. As a
+result, I am maintaining my patch set[2] out of tree.
 
---nKkts6aBvDQ9fwd+
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmQMsmcACgkQFHw5/5Y0
-tyx+wwv/dmFZaZi7VhdtJ2VaNC4i1XByc8cyBYW3rT8yVRK75dzQ9I/p0FGL8LCx
-73GpQdSlx+n8S+qPu3d71WUpv5dZBBdqSjD6s4olHY3p+xuriV9Qd1UM9qiEyYXf
-sQH+bVlvK+82C3xADqUiKdgTzKqMKxW2zhUj88qTIHxKpdbzF/7Y7TnuMLH3sAhP
-Ho8dpmM+PKxL0J4i9aMX664hpwU7I4yDBnc0oXa2ROgRdogu0yKt+6TGecs9qsL2
-IUnl9Cp8x6EtFVQd2otm/UUAQrbyGBW+WZDVWcuS99Bs0bGi1Bl7B+IBsP8JOmD0
-jlMcn/IJlo1b7cAKri8mlPGBEXtIcthBJ/TYPmx/MwmG9Oj0WjQPLsfYVuppb/bu
-7i2nHzVRl3+UBWMppuyrsUROhBBdlBEqPJRZJhCHEfHa6kKGucClIoqM7RqmOxtC
-dOSQrs/XyC9gCJ4TUDep5eSiNizYzpl14QcJpxv+iQu86W96tWE5fc4Q4zZSEl5m
-YzXxsFiQ
-=OI2Z
------END PGP SIGNATURE-----
-
---nKkts6aBvDQ9fwd+--
+[1] https://build2.org/libbuild2-kconfig/doc/build2-kconfig-manual.xhtml
+[2] https://github.com/build2-packaging/kconfig/tree/upstream-5.15-rc7
