@@ -2,57 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C2646B635E
-	for <lists+linux-kbuild@lfdr.de>; Sun, 12 Mar 2023 06:41:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B702E6B63D5
+	for <lists+linux-kbuild@lfdr.de>; Sun, 12 Mar 2023 09:16:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229509AbjCLFlg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 12 Mar 2023 00:41:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37828 "EHLO
+        id S229618AbjCLIQL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 12 Mar 2023 04:16:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229469AbjCLFlf (ORCPT
+        with ESMTP id S229562AbjCLIQK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 12 Mar 2023 00:41:35 -0500
+        Sun, 12 Mar 2023 04:16:10 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 146125BCA7;
-        Sat, 11 Mar 2023 21:41:34 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AED9F3B3F3;
+        Sun, 12 Mar 2023 00:16:09 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9D18360EA5;
-        Sun, 12 Mar 2023 05:41:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02FE5C433D2;
-        Sun, 12 Mar 2023 05:41:32 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4598560AC1;
+        Sun, 12 Mar 2023 08:16:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A80DC433D2;
+        Sun, 12 Mar 2023 08:16:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678599693;
-        bh=QaFFgd2cnWDQnuLdGTtcv3x5c/kAzwH/MKx0hlXNgZw=;
+        s=k20201202; t=1678608968;
+        bh=0CxKlfzb7DAkGaGk9kW8bEAcN3ooT/PpdVdgfIW2bbw=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Mlr0Dn55uGHe5nDjvfnHXXUxyYML1BKODykRxiKq8QhAz+4N9GuBirbVRuaJ0jPyi
-         ONcZ+XAp2r22FZZ8iu7EbywYRn+puKZ4oCJPdfVtpcMtIZFWdcKyiyxZBPmlN2ABDd
-         R8wVKOZdVoqFoo7BfyZuKozaAoMtWlRHQniGc4l+NzzWWCZj9vMXiPC95cBTh+hG3+
-         ilPjy+PvdiYaSMw+Y1T2YkxRIrIDstuM/r8CW4WZH2FgiBa7gVt7tntpvRBVL2cLCl
-         NnwSp7+tcUAOSjfH4Vr1cRWy9RH6yhuMOQa/NtmjKpD15HdRQau4/0t074HplmOLiL
-         tdzJBodg1h0BQ==
-Received: by mail-oi1-f172.google.com with SMTP id c11so7339359oiw.2;
-        Sat, 11 Mar 2023 21:41:32 -0800 (PST)
-X-Gm-Message-State: AO0yUKVOAS+g8SjMK2KhWwgfjdUpc3VJh6uOU90J3MiC88vy84qkinHf
-        jVyAHXCoidSU6+Wp3fofPpR+LTDsxk0KqSjIQEo=
-X-Google-Smtp-Source: AK7set/zcE73h0tlnIkJ11cYC/oC8mxS0fxTa2HZr8i4hr3bWbSsrxYj/MH7ble7ct6yZ7xfNwwmjGdKc0Q0HlCbGTY=
-X-Received: by 2002:aca:240d:0:b0:384:22aa:f4cf with SMTP id
- n13-20020aca240d000000b0038422aaf4cfmr8805119oic.8.1678599692283; Sat, 11 Mar
- 2023 21:41:32 -0800 (PST)
+        b=P3T8bpXghGspIsuAUPoU+cHag/m1caQbEQiwm3xT3eBy/1U1BzWjbN4CRQc781qZc
+         YlLq28I+FGG8Mdm8KXSoshJknp4uYeScIk+yeAIWTaEaS3IyxL8GgZFWVDFbJdkuna
+         XWQoICIDiHq62gPrnsC5JKSZT+Xvq9n6SOPe54RwBcL1EwlR0+UDV1QMtmVY4722mi
+         VFnuRa5itjPln5w77gDKwE4N2z93c4FInoYw3oeSKFn3ZhlnobpJuUjYYiRO1SSNDZ
+         Tj0HasKM/TJduMplMCGnc4wq34QzfGwTtWGMwx+PTFBgJIHSRAketd5wbM5wYqZcQd
+         IxFLww+wH7o6g==
+Received: by mail-ot1-f52.google.com with SMTP id m25-20020a05683026d900b006941a2838caso5219056otu.7;
+        Sun, 12 Mar 2023 00:16:08 -0800 (PST)
+X-Gm-Message-State: AO0yUKXiMcnWQOlXXg2pYNuLUJ8ns8p4NgnXeXUrHSewLBSqjPAPeI7o
+        ycYUXip7jz9lHrclAKEXYMz8QAwRNorqNYPjwTY=
+X-Google-Smtp-Source: AK7set9QGqLr8JpOH2BPOnJRMxGL7RjjNarAnkuCvODrrNBgOnUVp+ppxFqRGDCYe6L+VCP+VXy0Oi9W7MB1GvGUNnU=
+X-Received: by 2002:a9d:5f97:0:b0:688:d1a8:389e with SMTP id
+ g23-20020a9d5f97000000b00688d1a8389emr10651605oti.1.1678608967933; Sun, 12
+ Mar 2023 00:16:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20230306223208.6277-1-bage@linutronix.de> <20230306223208.6277-2-bage@linutronix.de>
-In-Reply-To: <20230306223208.6277-2-bage@linutronix.de>
+References: <a10e1319-b631-6d3b-5e1d-b07223350502@igalia.com>
+ <CAK7LNAQmXwpEpY84-fdLiwALSFLUEkfsOHejbqy33c6ceM=4Tw@mail.gmail.com> <68be269c-1b51-e0e2-0c2b-34235983889a@igalia.com>
+In-Reply-To: <68be269c-1b51-e0e2-0c2b-34235983889a@igalia.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 12 Mar 2023 14:40:56 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASJ2FqtRGhwYkUoi1cbqsK16jaGGLiBHWb0G_Mq3kcQdA@mail.gmail.com>
-Message-ID: <CAK7LNASJ2FqtRGhwYkUoi1cbqsK16jaGGLiBHWb0G_Mq3kcQdA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] builddeb: introduce profile excluding the dbg pkg
-To:     Bastian Germann <bage@linutronix.de>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Sun, 12 Mar 2023 17:15:31 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ-SuyUC8d+zZbo65mp=wGAC3VawP2Acwp5y6X1P4gsiw@mail.gmail.com>
+Message-ID: <CAK7LNAQ-SuyUC8d+zZbo65mp=wGAC3VawP2Acwp5y6X1P4gsiw@mail.gmail.com>
+Subject: Re: About the .scmversion removal (commit f6e09b07cc12)
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     linux-kbuild@vger.kernel.org, nathan@kernel.org,
+        rasmus.villemoes@prevas.dk,
+        Nick Desaulniers <ndesaulniers@google.com>, nicolas@fjasle.eu,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "Guilherme G. Piccoli" <kernel@gpiccoli.net>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -64,67 +66,32 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Mar 7, 2023 at 7:32=E2=80=AFAM Bastian Germann <bage@linutronix.de>=
- wrote:
+On Sat, Mar 11, 2023 at 12:37=E2=80=AFAM Guilherme G. Piccoli
+<gpiccoli@igalia.com> wrote:
 >
-> Enabling CONFIG_DEBUG_INFO implies building the binary linux-image-*-dbg.
-> As this increases package build time significantly, one might want to
-> exclude it from being built.
-
-
-Did you confirm if this patch saved the build time in any way?
-If so, please provide me with the steps to test it.
-
-
+> On 09/03/2023 21:51, Masahiro Yamada wrote:
+> > [...]
+> > Not a silly question, but .scmversion was intended for source
+> > package creation (deb, rpm) in my understanding.
+> >
+> > If you want to use a fixed string for the UTS version,
+> > please pass KERNELRELEASE=3D<some-string> to the build command line.
+> >
 >
-> Add build profile pkg.$sourcename.nokerneldbg for that package
-> so it can be excluded via e.g.
-> `make DPKG_FLAGS=3D"-P=3Dpkg.linux-upstream.nokerneldbg" deb-pkg`
-
-The correct command is:
-
- `make DPKG_FLAGS=3D"-Ppkg.linux-upstream.nokerneldbg" deb-pkg`
-
-
--P<profile>                         (without '=3D' for the short option)
-       or
---build-profiles=3D<profile>    (with '=3D' for the long option)
-
-
-
-I will postpone this because just adding Build-Profiles does nothing.
-
-
-
-
+> Thanks! It seems..it didn't work for me, probably I'm doing something wro=
+ng.
 >
-> The name is the same that is used in Debian's linux package since version
-> 5.17~rc4-1~exp1.
->
-> Link: https://wiki.debian.org/BuildProfileSpec
-> Link: https://salsa.debian.org/kernel-team/linux/-/commit/140798ec2789
-> Signed-off-by: Bastian Germann <bage@linutronix.de>
-> ---
->  scripts/package/mkdebian | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-> index f74380036bb5..8a7969926e53 100755
-> --- a/scripts/package/mkdebian
-> +++ b/scripts/package/mkdebian
-> @@ -227,6 +227,7 @@ if is_enabled CONFIG_DEBUG_INFO; then
->  cat <<EOF >> debian/control
->
->  Package: linux-image-$version-dbg
-> +Build-Profiles: <!pkg.$sourcename.nokerneldbg>
->  Section: debug
->  Architecture: $debarch
->  Description: Linux kernel debugging symbols for $version
-> --
-> 2.39.2
->
+> KERNELRELEASE=3D"6.3.0-rc1-gpiccoli" make all -j128
+
+Try this:
+
+make all -j128 KERNELRELEASE=3D"6.3.0-rc1-gpiccoli"
 
 
---
+
+
+
+
+--=20
 Best Regards
 Masahiro Yamada
