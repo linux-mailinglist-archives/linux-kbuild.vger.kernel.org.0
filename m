@@ -2,93 +2,77 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B0F56B6C83
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Mar 2023 00:26:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6744B6B6CCE
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Mar 2023 01:29:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229668AbjCLX0i (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 12 Mar 2023 19:26:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49832 "EHLO
+        id S229504AbjCMA3X (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 12 Mar 2023 20:29:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbjCLX0h (ORCPT
+        with ESMTP id S229473AbjCMA3X (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 12 Mar 2023 19:26:37 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E6BF298CC
-        for <linux-kbuild@vger.kernel.org>; Sun, 12 Mar 2023 16:26:36 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id o12so41901641edb.9
-        for <linux-kbuild@vger.kernel.org>; Sun, 12 Mar 2023 16:26:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1678663594;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=E7amGatuf567fWRNk3AylR5pwT0OyOTnaMCjO7lph9w=;
-        b=I+hm1Wj25LW1lzjukQhpLqGWXB4x4lnS4GtOm8JZjWKcwuXPGsA0vpAI1zmfUPLYXM
-         unOcRfx28HaiKX47cuJNWq3+Z2s10apUCqi4Lw6PO/4Rsm6jSiZZOI8Q3E3iMYIJR5w/
-         4IX2iggxJFl8rNGeIIAe2cnRe1JujZmuIT8EQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678663594;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=E7amGatuf567fWRNk3AylR5pwT0OyOTnaMCjO7lph9w=;
-        b=f471xz5wOXGRxGxGRBplhBi/t+N0Rzd0R0e/LlACBFX5hEIfXU/ooP0Os9K+Cid4yU
-         PEfT7l/RbXMnG/D+BpmpzyLMRbFduk29UxhEWzt6I6mub2fQegAJkV6kvdyO0LbISUzX
-         FY4lHmialt+CQkRmwnLhPIsbvmAtjEqwfjt9T06fqWPAudqoqb+ydWBJhYxuT22W9f37
-         Od9ILV0wd2Jf2t4voAc4Yif4HMNnZ5Qhq3IjZzT8LPrJmlYRFmYkbHxoQ1ntKmMoZ1Ky
-         u5wTHclLSO0MoozhUcaH4Iz3rehgUYI37C8oKqNsDRniGs4LFsprxDTmmH84xVt6Jiag
-         FsRw==
-X-Gm-Message-State: AO0yUKXlQeFWToAvQoNnpU9AjoKixdIlLCWuS1WhiA+nGF+AloOhJ+Bw
-        csYzkglSSG/Fm/79MEmqruzgbX4YQ88pU8pTuijBhQ==
-X-Google-Smtp-Source: AK7set/4llmf9T1h0UzgMPXbzydI2XBFtmlapAmKDdLT7DX6jcp69qS6dy9Fprw2Nl9CTh8Jh+gJQg==
-X-Received: by 2002:a17:907:d308:b0:8b1:3a1c:3174 with SMTP id vg8-20020a170907d30800b008b13a1c3174mr33867834ejc.77.1678663594551;
-        Sun, 12 Mar 2023 16:26:34 -0700 (PDT)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com. [209.85.208.48])
-        by smtp.gmail.com with ESMTPSA id u21-20020a17090657d500b008b69aa62efcsm2726650ejr.62.2023.03.12.16.26.33
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 12 Mar 2023 16:26:33 -0700 (PDT)
-Received: by mail-ed1-f48.google.com with SMTP id s11so41897113edy.8
-        for <linux-kbuild@vger.kernel.org>; Sun, 12 Mar 2023 16:26:33 -0700 (PDT)
-X-Received: by 2002:a50:9992:0:b0:4fb:4a9f:eb18 with SMTP id
- m18-20020a509992000000b004fb4a9feb18mr1699488edb.5.1678663593229; Sun, 12 Mar
- 2023 16:26:33 -0700 (PDT)
+        Sun, 12 Mar 2023 20:29:23 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B50124C8F;
+        Sun, 12 Mar 2023 17:29:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=IiyP+1ogjP8pjRd3C5h4K8zA9UviJnuhm3wb4YC3aAc=; b=ZHAj4io+pPJaTkqQt7LKPurcF9
+        id9HhkQ1Z2U3xjtAHU8u6allQbYh/D9u2sNtUx7QHqtfnrw0L0vilDBMQ9sDrQPJcN2uO8u20mqc3
+        WW3IfYyBn03MfwUZVuQ6SblMS61haA9JJENJmLBJOhu4GKDYSB+CFyqVg8IDKEsdcSxZkEmAbdmbX
+        8jg/MteOz04VvHpW9t+rCotOFie9E66q7Lic3NkDjSP+q8zm6I4SG3CpTeuQq3NCuQKatecKai8R5
+        ANuxROdTWmSecReYWysnb2NFn0Q3UpaYqrS3aElN6V13cdw+B8iXO5P5GKG90so+e7oAyqzKeNgcX
+        OnqoVS4A==;
+Received: from [2601:1c2:980:9ec0::df2f]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pbW40-003t1M-Fb; Mon, 13 Mar 2023 00:29:20 +0000
+Message-ID: <82f47617-2f0d-c4f7-02f2-6b251534664e@infradead.org>
+Date:   Sun, 12 Mar 2023 17:29:19 -0700
 MIME-Version: 1.0
-References: <20230312200731.599706-1-masahiroy@kernel.org>
-In-Reply-To: <20230312200731.599706-1-masahiroy@kernel.org>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sun, 12 Mar 2023 16:26:16 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgL-GspdmghwQ2kXJO1QCKFY+HieU0arYSFDHBLO0dZuA@mail.gmail.com>
-Message-ID: <CAHk-=wgL-GspdmghwQ2kXJO1QCKFY+HieU0arYSFDHBLO0dZuA@mail.gmail.com>
-Subject: Re: [PATCH 0/6] kbuild: fix some packaging issues, and use
- git-archive for source package
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nick Terrell <terrelln@fb.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 1/3] menuconfig: delete shadows, prepare for vertical
+ space reclaim
+To:     Alexey Dobriyan <adobriyan@gmail.com>, masahiroy@kernel.org
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230311114248.36587-1-adobriyan@gmail.com>
+Content-Language: en-US
+In-Reply-To: <20230311114248.36587-1-adobriyan@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Mar 12, 2023 at 1:07=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> This series fixes some bugs, then switch to 'git archive'
-> for source package creation as suggested by Linus.
 
-Thanks, looks good.
 
-Shouldn't we also revert e0ca16749ac3 ("kbuild: make perf-tar*-src-pkg
-work without relying on git")?
+On 3/11/23 03:42, Alexey Dobriyan wrote:
+> Shadows consumes precious vertical lines, simply delete them.
+> 
+> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+> ---
+>  scripts/kconfig/lxdialog/checklist.c |  2 --
+>  scripts/kconfig/lxdialog/dialog.h    |  1 -
+>  scripts/kconfig/lxdialog/inputbox.c  |  2 --
+>  scripts/kconfig/lxdialog/menubox.c   |  2 --
+>  scripts/kconfig/lxdialog/textbox.c   |  2 --
+>  scripts/kconfig/lxdialog/util.c      | 22 ----------------------
+>  scripts/kconfig/lxdialog/yesno.c     |  2 --
+>  7 files changed, 33 deletions(-)
+> 
 
-           Linus
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+-- 
+~Randy
