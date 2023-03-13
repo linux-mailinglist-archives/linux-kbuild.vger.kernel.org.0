@@ -2,104 +2,105 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E84476B6CE6
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Mar 2023 01:53:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A794C6B6DDE
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Mar 2023 04:15:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229831AbjCMAxb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 12 Mar 2023 20:53:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49898 "EHLO
+        id S229619AbjCMDPr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 12 Mar 2023 23:15:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229842AbjCMAxa (ORCPT
+        with ESMTP id S229437AbjCMDPr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 12 Mar 2023 20:53:30 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90250359F;
-        Sun, 12 Mar 2023 17:53:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id CA220B80DD5;
-        Mon, 13 Mar 2023 00:53:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8946AC4339E;
-        Mon, 13 Mar 2023 00:53:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678668805;
-        bh=aA35MRvDWFOQZEAPUMfAgIrT1iLMQXDUWPCevZ4me1U=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Z0rwPqzFa4Im/DKeAxORiHNI/WJ2wRaSs2aVAxlxAN1oVwQO8Q7rAts6s2+DE1jKB
-         1bGuSP+2NFf3NRlWTeLTg+OdFYnIOiH8OYLQB4yDdkHxKYIooOJipu00eDReYAgwsa
-         EZCozAftaXG4kD69iQiFmus/PM+fxJJ2ufe+OwdOy7GaD2fsJPJBeaORFjElIMfsSx
-         LiWaJ1b8JRUVrfYj9l56ke0k0tcZqu+6w40sU2nePDDNhT/Dr+dbXSJG91QgHLln3x
-         NL9RGr9XA99LNFV81NeUkwmX+WYlXHaCmhFsn2dh0uUSx0nCB5BA635eXMB/YyDacu
-         OyhKTRXcSKI7A==
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-1763e201bb4so12235851fac.1;
-        Sun, 12 Mar 2023 17:53:25 -0700 (PDT)
-X-Gm-Message-State: AO0yUKX+uUbgU9huH92V37KCdxsFkKOGRHdwBdgzrBxKXo3M9++i1oLT
-        FmAM83jr4eyTRxzq/3CJDflK57nHP6i5IMvqbDI=
-X-Google-Smtp-Source: AK7set+SmlLmW0ymGVTRP/QgWtdqyuQrqXYoQEokQAEA0Da2YKQ6UA2WOUJEfYsore0EdNSCePuLJwuUR8G2F5OwTXA=
-X-Received: by 2002:a05:6870:954c:b0:16a:17d9:b66d with SMTP id
- v12-20020a056870954c00b0016a17d9b66dmr11159290oal.8.1678668804701; Sun, 12
- Mar 2023 17:53:24 -0700 (PDT)
+        Sun, 12 Mar 2023 23:15:47 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 066E42A17A;
+        Sun, 12 Mar 2023 20:15:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=ji7+a6ofks+Li2M+ae8+nfJ2DML3rf+ANMTi4oZMLuk=; b=XSTwqNt4ZTEY5L2M5iHubZhRM3
+        lUcu/5RXBfl6Zp8g09q1RU3NEV4yPIBQ44dRBPSBa9Bdl/UvCvgrIqEWDUf+oz7PoQ3/QaV/H0Gs/
+        aub10sfui8yA+n3RB/rIDxL9MCIQHvR4xwyhOtwV59RfDU5Eaa2RdZTDHnEqbxEqkfThPTQ871xyx
+        J+1FDGSLjdUo4raPO2hD2UTP0B68TWUlH3qDSbmWinGIJcWgUpaCBGEUB3bUBoP+WAi/d3pvIcfi3
+        iFkSbjqpsSCDp2/VLq2/0V58OwqN/gCEX2eBmAUN5q+xB4cMu3zaofdJUAykR9PlrhxDEVkN+naDy
+        nDnx02AQ==;
+Received: from [2601:1c2:980:9ec0::df2f]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1pbYez-0047iq-C2; Mon, 13 Mar 2023 03:15:41 +0000
+Message-ID: <1c308360-a820-26ed-847c-56726afe0ec3@infradead.org>
+Date:   Sun, 12 Mar 2023 20:15:40 -0700
 MIME-Version: 1.0
-References: <20230312200731.599706-1-masahiroy@kernel.org> <CAHk-=wgL-GspdmghwQ2kXJO1QCKFY+HieU0arYSFDHBLO0dZuA@mail.gmail.com>
-In-Reply-To: <CAHk-=wgL-GspdmghwQ2kXJO1QCKFY+HieU0arYSFDHBLO0dZuA@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 13 Mar 2023 09:52:48 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATXqPy6F+gB8-1Zqh8hooXh3U_5+3xeMFZDZwYsUi=aeg@mail.gmail.com>
-Message-ID: <CAK7LNATXqPy6F+gB8-1Zqh8hooXh3U_5+3xeMFZDZwYsUi=aeg@mail.gmail.com>
-Subject: Re: [PATCH 0/6] kbuild: fix some packaging issues, and use
- git-archive for source package
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nick Terrell <terrelln@fb.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] kconfig: Update config changed flag before calling
+ callback
+Content-Language: en-US
+To:     Jurica Vukadin <jura@vukad.in>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230307194039.8825-1-jura@vukad.in>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230307194039.8825-1-jura@vukad.in>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Mar 13, 2023 at 8:26=E2=80=AFAM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Sun, Mar 12, 2023 at 1:07=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
-.org> wrote:
-> >
-> > This series fixes some bugs, then switch to 'git archive'
-> > for source package creation as suggested by Linus.
->
-> Thanks, looks good.
->
-> Shouldn't we also revert e0ca16749ac3 ("kbuild: make perf-tar*-src-pkg
-> work without relying on git")?
->
->            Linus
+Hi--
+
+On 3/7/23 11:40, Jurica Vukadin wrote:
+> Prior to commit 5ee546594025 ("kconfig: change sym_change_count to a
+> boolean flag"), the conf_updated flag was set to the new value *before*
+> calling the callback. xconfig's save action depends on this behaviour,
+> because xconfig calls conf_get_changed() directly from the callback and
+> now sees the old value, thus never enabling the save button or the
+> shortcut.
+> 
+> Restore the previous behaviour.
+> 
+> Fixes: 5ee546594025 ("kconfig: change sym_change_count to a boolean flag")
+> Signed-off-by: Jurica Vukadin <jura@vukad.in>
+
+Thanks! I was wondering what had happened to that, but I never
+got around to bisecting it.
+
+Now the Disk icon is live instead of being greyed out after
+a change is made.
 
 
-Right.
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-6/6 did that.
+> ---
+>  scripts/kconfig/confdata.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+> index b7c9f1dd5e42..992575f1e976 100644
+> --- a/scripts/kconfig/confdata.c
+> +++ b/scripts/kconfig/confdata.c
+> @@ -1226,10 +1226,12 @@ static void (*conf_changed_callback)(void);
+>  
+>  void conf_set_changed(bool val)
+>  {
+> -	if (conf_changed_callback && conf_changed != val)
+> -		conf_changed_callback();
+> +	bool changed = conf_changed != val;
+>  
+>  	conf_changed = val;
+> +
+> +	if (conf_changed_callback && changed)
+> +		conf_changed_callback();
+>  }
+>  
+>  bool conf_get_changed(void)
 
-It may not be clear enough from the commit description,
-but I added the following tag to 6/6.
-
-Fixes: e0ca16749ac3 ("kbuild: make perf-tar*-src-pkg work without
-relying on git")
-
-
-
-Instead of a verbatim revert, I made some refactoring
-to share code among deb-pkg, rpm-pkg, perf-tar*-src-pkg.
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+-- 
+~Randy
