@@ -2,78 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 20F286BAB05
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Mar 2023 09:45:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A7896BB3E4
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Mar 2023 14:06:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230457AbjCOIpo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 15 Mar 2023 04:45:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49300 "EHLO
+        id S229602AbjCONGn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 15 Mar 2023 09:06:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229847AbjCOIpo (ORCPT
+        with ESMTP id S230078AbjCONGm (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 15 Mar 2023 04:45:44 -0400
-Received: from mail.amblevebiz.com (mail.amblevebiz.com [80.211.239.97])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 678B07EEE
-        for <linux-kbuild@vger.kernel.org>; Wed, 15 Mar 2023 01:45:43 -0700 (PDT)
-Received: by mail.amblevebiz.com (Postfix, from userid 1002)
-        id 24C2E82AE3; Wed, 15 Mar 2023 09:45:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=amblevebiz.com;
-        s=mail; t=1678869942;
-        bh=mG5KF9rXIT2hCcIXZaMY449X9Ndwb1czFhgZLlqDg7A=;
-        h=Date:From:To:Subject:From;
-        b=OLi7TnCWwp06EPTI/UXFG8fxM4WXBfGpwr7LoDp5szE5GOvS31pbWhKbTwOmn2c/D
-         eqrfWwr9XVfUE+f3MZpBFdCCS6hx+BHS3QNcog/h7RTzGW4NSeSIbdn8nniYXxRfCz
-         tgxK0sKw0Ex50EHTlPVGhyW99t1Fsx45O6reh7f1IKEzV8Tby5B3rlYXZA3x+Tv21e
-         RmSueABOv0O3drB7J4qJQFqbHOK1meYwWccI/YuYHXR5UwVbF0qfaA6Uc9BQCyDfjE
-         sP/XouKipfPqhOIS45gCzCwrLH72lhVnz36pZBsv+lBvOgSqNDtjD8hbImeyZvToWT
-         z8W2dS9Po3IRQ==
-Received: by mail.amblevebiz.com for <linux-kbuild@vger.kernel.org>; Wed, 15 Mar 2023 08:45:25 GMT
-Message-ID: <20230315084500-0.1.p.1h74.0.5r618ce517@amblevebiz.com>
-Date:   Wed, 15 Mar 2023 08:45:25 GMT
-From:   =?UTF-8?Q? "Luk=C3=A1=C5=A1_Horv=C3=A1th" ?= 
-        <lukas.horvath@amblevebiz.com>
-To:     <linux-kbuild@vger.kernel.org>
-Subject: =?UTF-8?Q?Technick=C3=BD_audit_podlah?=
-X-Mailer: mail.amblevebiz.com
+        Wed, 15 Mar 2023 09:06:42 -0400
+Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D5116513B;
+        Wed, 15 Mar 2023 06:06:42 -0700 (PDT)
+Received: by mail-qv1-xf2c.google.com with SMTP id x8so1370024qvr.9;
+        Wed, 15 Mar 2023 06:06:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678885601;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UM1qnMowE0uNdW3tg+Y+I3PTVUNGL++ijHeg4n+VFiM=;
+        b=pPfSn2mBEDva7M69BUhVtLmBDeST+/O4Q29knu/PNW+sJe5RCs1yvfkGspJK6dE86U
+         vRvxQQvIgvUy4yvsxq9zZ/ntaExi88omHHSahpzH0fjPt6n8i0VGhTKnwRrRsxJuhgSE
+         xwvq1O2mbv/LsyspxxVPvcBkzNeor/vWNm8YP0EX4i/uoQAXKkOdUtbkUSOUs38y9PSR
+         NjeoYA3UQLKCx4PDXqFOTVcrV7mzhVTpJk8HUKzvsYyXPLoOJMBb2HoZtwK5QgmXw0zA
+         3kyzLLYhZgugThJbuJptGvNd3DukNrPKG66QcpCTOfn70NuolqjsEGJdP8/6+c1UIFJ1
+         f8gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678885601;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UM1qnMowE0uNdW3tg+Y+I3PTVUNGL++ijHeg4n+VFiM=;
+        b=XeJ1gaEAe5xwFRRCd2R4mIMEUb9GR78R8lKZ71vfGbkkXf+3bsC/5WTXyRr9oDX4lI
+         RjMVHVFIzCyKW7S/ClpG4EOsdN7EFifCO0XT9+5+ZYtY6HoT/1eYV2Uq0m7sbY3U88F+
+         Buu/1GHR/8Sm4lUuDweX1nKz79UGnSFpQVdQLTztdYAUsJlQCcmz7rdHCMGOsUMENuVR
+         2xs5vpkibdCWWl79X1x5jRxIpJt2ulu8DBC2PMikG0/lP/MePU+2WXCRN7t91bq7UCnl
+         YrRqU0YIjcuWyt+fl0gTgDY/XZXURZrffWe+9wgTPLuNmCC94zmEgM51ERKSiZfw///X
+         9PhQ==
+X-Gm-Message-State: AO0yUKWoscVXTvhAGNTwJUMItV8/Mq5u7PTjdmvPpxyHXRIEnH9u8wbZ
+        +hPd8yqlg9QB7Px1Rho/6T4=
+X-Google-Smtp-Source: AK7set8rpLIoSCTSclVq/8eckZS9Wl0geE+ggIaj2629elqH/e2ZSsU5kbrkV+oI5z0akeMgfzUJTA==
+X-Received: by 2002:a05:622a:387:b0:3bf:c29b:678b with SMTP id j7-20020a05622a038700b003bfc29b678bmr33702278qtx.50.1678885601229;
+        Wed, 15 Mar 2023 06:06:41 -0700 (PDT)
+Received: from Slackware.localdomain ([191.96.227.151])
+        by smtp.gmail.com with ESMTPSA id q2-20020ac84102000000b003b691385327sm3758652qtl.6.2023.03.15.06.06.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Mar 2023 06:06:40 -0700 (PDT)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     masahiroy@kernel.org, nicolas@fjasle.eu
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH] Kbuild: Elevate sha1sum to sha256sum for atomic headers check
+Date:   Wed, 15 Mar 2023 18:35:18 +0530
+Message-Id: <20230315130518.4496-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=4.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_FMBLA_NEWDOM28,
-        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,URIBL_CSS_A,
-        URIBL_DBL_SPAM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Dobr=C3=A9 r=C3=A1no,
+Thought it would be a good idea to use a elevated mechanism i.e sha256sum
 
-uva=C5=BEujete o bezesp=C3=A1rov=C3=A9 podlaze pro v=C3=BDrobn=C3=AD prov=
-oz?
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+ Kbuild | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Jako sv=C4=9Btov=C3=BD l=C3=ADdr ve v=C3=BDrob=C4=9B a pokl=C3=A1dce podl=
-ah =C5=99e=C5=A1=C3=ADme probl=C3=A9my vypl=C3=BDvaj=C3=ADc=C3=AD z vlivu=
- chemick=C3=BDch slou=C4=8Denin, ot=C4=9Bru, n=C3=A1raz=C5=AF, vlhkosti n=
-ebo n=C3=A1hl=C3=BDch zm=C4=9Bn teplot - na=C5=A1e podlahov=C3=A9 syst=C3=
-=A9my jsou p=C5=99izp=C5=AFsobeny nejt=C4=9B=C5=BE=C5=A1=C3=ADm podm=C3=AD=
-nk=C3=A1m prost=C5=99ed=C3=AD.
+diff --git a/Kbuild b/Kbuild
+index 464b34a08f51..b74040346d76 100644
+--- a/Kbuild
++++ b/Kbuild
+@@ -45,14 +45,14 @@ missing-syscalls: scripts/checksyscalls.sh $(offsets-file)
 
-Garantujeme v=C3=A1m =C5=99e=C5=A1en=C3=AD, kter=C3=A1 jsou =C5=A1etrn=C3=
-=A1 k =C5=BEivotn=C3=ADmu prost=C5=99ed=C3=AD, odoln=C3=A1 a snadno se =C4=
-=8Dist=C3=AD, hygienick=C3=A1, protiskluzov=C3=A1 a bezpe=C4=8Dn=C3=A1 pr=
-o zam=C4=9Bstnance.
+ # Check the manual modification of atomic headers
 
-Poskytujeme kr=C3=A1tkou dobu instalace a nep=C5=99etr=C5=BEit=C3=BD prov=
-oz i o v=C3=ADkendech a sv=C3=A1tc=C3=ADch, =C4=8D=C3=ADm=C5=BE eliminuje=
-me riziko prostoj=C5=AF.
+-quiet_cmd_check_sha1 = CHKSHA1 $<
+-      cmd_check_sha1 = \
+-	if ! command -v sha1sum >/dev/null; then \
+-		echo "warning: cannot check the header due to sha1sum missing"; \
++quiet_cmd_check_sha256 = CHKSHA256 $<
++      cmd_check_sha256 = \
++	if ! command -v sha256sum >/dev/null; then \
++		echo "warning: cannot check the header due to sha256sum missing"; \
+ 		exit 0; \
+ 	fi; \
+ 	if [ "$$(sed -n '$$s:// ::p' $<)" != \
+-	     "$$(sed '$$d' $< | sha1sum | sed 's/ .*//')" ]; then \
++	     "$$(sed '$$d' $< | sha256sum | sed 's/ .*//')" ]; then \
+ 		echo "error: $< has been modified." >&2; \
+ 		exit 1; \
+ 	fi; \
+--
+2.39.2
 
-Mohu V=C3=A1m zdarma nab=C3=ADdnout technick=C3=BD audit podlah s komplex=
-n=C3=ADm rozborem podkladu.
-
-M=C5=AF=C5=BEeme pro v=C3=A1s mluvit o =C5=99e=C5=A1en=C3=ADch?
-
-
-Luk=C3=A1=C5=A1 Horv=C3=A1th
