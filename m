@@ -2,142 +2,75 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CC336BBA3D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Mar 2023 17:53:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 92BB56BBAFC
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Mar 2023 18:35:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231775AbjCOQxJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 15 Mar 2023 12:53:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40304 "EHLO
+        id S232285AbjCORfj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 15 Mar 2023 13:35:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232324AbjCOQxH (ORCPT
+        with ESMTP id S231743AbjCORfi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 15 Mar 2023 12:53:07 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A719193CF;
-        Wed, 15 Mar 2023 09:52:56 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id f18so25138695lfa.3;
-        Wed, 15 Mar 2023 09:52:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678899175;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=A9HHWcHJilZYaElLvCLlKtriSwWxAD0z2lhiz3S5JS4=;
-        b=Z5KS8MJBYwG8OuxVc1j0A3pSPn2Ic6qEaRx9EK6W+HKjxNWZzjEl6ZpKpdABtpndBi
-         hEbDcMaoZlSdHCTZmFyIdww7LCwEcg5eqEaaBWS2gll/I6HaHiF3FQYc0TovnSwXvh7e
-         SJIyup9731+gVTkipnEkgspqUAELuSV0AzhyRxOzxOuS7nBTJ5W2MlN5u08lhfjeep8J
-         AVG957NoVmb05/nEDhENGQ6Z0O5Q1/5rWO0KVeKq7dv/l3+zWrq4AcI7wgPRHpk89Dyp
-         2d9PhAekAkDpP4rHLy4FzqL7RM7o3LVyhFJhA5kZMMhMeFy9RldOxOz4hfLGXU7NOGrH
-         ncJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678899175;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=A9HHWcHJilZYaElLvCLlKtriSwWxAD0z2lhiz3S5JS4=;
-        b=Zqh5OcqAeLuugAJCwIG/Nk0fo6FpEHbTCZV5rqTmBNogwzh1s4uHhMqmmhXc7XGnXb
-         30Uznt62M2uWv1acTuuGad2iWku6rJvA7PTeTYDFYxP8TRCaeWVWsHY0Rqyq0+twolf4
-         HjiC05uJbAa4pmNk6A+Z1Ii1KRokb62UjYsi1Pdg3B+CKLsPYA29nf3w+pLPlDUVDSUj
-         vfiPSdT36bJdMISubQiZMPe0mkLOAjtLdcYy8bRlJRnMIP275xHI1EKXuEvIihz8ICtW
-         5zOVVrsU9ptvqYyE9CqcNLD9ZSujW1W+UVlomk0N6cdD0UXWs3hg3IR1K8mpOCx0AS5X
-         Vgpg==
-X-Gm-Message-State: AO0yUKVyBlSO5aIq3rOhO0uFl4976zjfF8Flhht3YTeDjEtco5YUuY3A
-        zBqSVmDIAJuKkdIIOFVqdwHvlPlOh6E6X5a+6UqEvN6AXcb1nQ==
-X-Google-Smtp-Source: AK7set+zxQ8UFJ5v2od/PjOFf7Z3vLpjaGldFCybbfn+d6dFcfyCr2pXaVp+BCkJjy8VVD454ZuP7RDtwkG/hbXZiMI=
-X-Received: by 2002:ac2:4c3c:0:b0:4dd:fd4e:5a21 with SMTP id
- u28-20020ac24c3c000000b004ddfd4e5a21mr2198532lfq.11.1678899174955; Wed, 15
- Mar 2023 09:52:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230315162944.39542-1-bage@linutronix.de> <20230315162944.39542-2-bage@linutronix.de>
-In-Reply-To: <20230315162944.39542-2-bage@linutronix.de>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Wed, 15 Mar 2023 17:52:18 +0100
-Message-ID: <CA+icZUULJVVtsdaHkPGdy=8ezU=7BiOCrfosGeRiY9dOEaf-nA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] kbuild: deb-pkg: Build parallely with current dpkg-buildpackage
-To:     Bastian Germann <bage@linutronix.de>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Wed, 15 Mar 2023 13:35:38 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9F90231C5;
+        Wed, 15 Mar 2023 10:35:35 -0700 (PDT)
+From:   Bastian Germann <bage@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1678901733;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=kBXlFLmMWrr2xckgQ+JZNuthzUvbmm8IYa3geFG9NN4=;
+        b=KT3TA9N89PsGq+rcL8eZwrSeWekI6fdcV+zDHjiFRishPnQAspGuoGu3HSSofFF3itW2N1
+        CHTUP/w+oYscjBH7py2x6wYDdG2ZfO3CsYaweL6y/xJSG0U8RCqLVM+Hyckb8GOVypypcL
+        qq5ohMqXKt/aAD38Jh3P5sTw9DAkBlXx+k0Nepy458HlLU+gC7OHzI6EUmr2ocG29gqugp
+        vLGSQXEtjT8Moa6adZiDC9fAvap2qykY8phzESXd+kvKEMRnTlBN265gxy6LI6Jz31sc7H
+        pBQ5+hy97N/J0/kWUGKJ/rPCf30nA0VNAFLUJkCuH3yYI2VGxdIt7gBPo7rV2g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1678901733;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=kBXlFLmMWrr2xckgQ+JZNuthzUvbmm8IYa3geFG9NN4=;
+        b=daqBTicc8W3Xqem43zH80qH7Ch8CnKqr2dy+ZW71Ldo34C5MgFCTtVIkdmJYozeQ3Yk2rs
+        dx7Sc5R66ESzUiDw==
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Bastian Germann <bage@linutronix.de>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Subject: [PATCH v3 0/1] kbuild: deb-pkg: Build parallely with current dpkg-buildpackage
+Date:   Wed, 15 Mar 2023 18:35:23 +0100
+Message-Id: <20230315173524.63179-1-bage@linutronix.de>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Mar 15, 2023 at 5:38=E2=80=AFPM Bastian Germann <bage@linutronix.de=
-> wrote:
->
-> With dpkg-buildpackage v1.21.10 or later, the only way to build the
-> deb-pkg generated package parallely is adding -j<N> to the MAKEFLAGS
-> environment variable or using the --jobs-force option. The package ignore=
-s
-> the usual parallel build option that is described in Debian Policy =C2=A7=
-4.9.1.
->
-> Derive make's -j parameter from the DEB_BUILD_OPTIONS environment variabl=
-e
-> that ends up being set by dpkg-buildpackage -j<N>.
->
-> Link: https://www.debian.org/doc/debian-policy/ch-source.html
+Make use of DEB_BUILD_OPTIONS' parallel option because that is the only
+parallel build option that is set by default in current dpkg-buildpackage
+versions.
 
-Thanks for the patch v2 and clarifications.
+v2:
+ * Clarify that this is for current dpkg-buildpackage versions
+ * Evaluate DEB_BUILD_OPTIONS in debian/rules.
+v3:
+ * Use the Policy snippet which sets MAKEFLAGS and uses patsubst over subst
+ * Mention the dpkg commit that changed the -j behaviour.
 
-Substitute above link? Or add as a 2nd link?
+Bastian Germann (1):
+  kbuild: deb-pkg: Build parallely with current dpkg-buildpackage
 
-Link: https://www.debian.org/doc/debian-policy/ch-source.html#s-debianrules=
--options
+ scripts/package/mkdebian | 5 +++++
+ 1 file changed, 5 insertions(+)
 
--Sedat-
+-- 
+2.39.2
 
-> Signed-off-by: Bastian Germann <bage@linutronix.de>
-> ---
->  scripts/package/mkdebian | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
->
-> diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-> index f74380036bb5..0217790e7a26 100755
-> --- a/scripts/package/mkdebian
-> +++ b/scripts/package/mkdebian
-> @@ -238,11 +238,15 @@ fi
->  cat <<EOF > debian/rules
->  #!$(command -v $MAKE) -f
->
-> +ifneq (,\$(filter parallel=3D%,\$(DEB_BUILD_OPTIONS)))
-> +       JOBS =3D -j\$(subst parallel=3D,,\$(filter parallel=3D%,\$(DEB_BU=
-ILD_OPTIONS)))
-> +endif
-> +
->  srctree ?=3D .
->
->  build-indep:
->  build-arch:
-> -       \$(MAKE) -f \$(srctree)/Makefile ARCH=3D${ARCH} \
-> +       \$(MAKE) -f \$(srctree)/Makefile ARCH=3D${ARCH} \$(JOBS) \
->         \$(shell \$(srctree)/scripts/package/deb-build-option) \
->         olddefconfig all
->
-> @@ -250,10 +254,10 @@ build: build-arch
->
->  binary-indep:
->  binary-arch: build-arch
-> -       \$(MAKE) -f \$(srctree)/Makefile ARCH=3D${ARCH} intdeb-pkg
-> +       \$(MAKE) -f \$(srctree)/Makefile ARCH=3D${ARCH} \$(JOBS) intdeb-p=
-kg
->  clean:
->         rm -rf debian/files debian/linux-*
-> -       \$(MAKE) -f \$(srctree)/Makefile ARCH=3D${ARCH} clean
-> +       \$(MAKE) -f \$(srctree)/Makefile ARCH=3D${ARCH} \$(JOBS) clean
->
->  binary: binary-arch
->  EOF
-> --
-> 2.39.2
->
