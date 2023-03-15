@@ -2,69 +2,96 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C43056BA0A2
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Mar 2023 21:24:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 65A2C6BA3F2
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Mar 2023 01:15:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231217AbjCNUYF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 14 Mar 2023 16:24:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43370 "EHLO
+        id S230111AbjCOAPJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 14 Mar 2023 20:15:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231176AbjCNUYE (ORCPT
+        with ESMTP id S229545AbjCOAPI (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 14 Mar 2023 16:24:04 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B7372A6F8;
-        Tue, 14 Mar 2023 13:24:01 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 0A52B21CC8;
-        Tue, 14 Mar 2023 20:24:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1678825440; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=vcexmiQDIGjEczWxOqfizqF7kSZwJ4krojfVt+WhvVU=;
-        b=O623N601B3RRv/A7XI7b7CJ0bD7MjAkAzkaVWtLC/vZSYpXxVhwulhwl3s0tSdvjQT9ovO
-        w5pO0s5MYxTqu6k5oEzZQWVecBo1ZG+eJP///yXp7pRCZgFAS+I56aQEcnZdoZRZ6/mvyV
-        TlHP6dGaVJXciRDeI1diXK6E9R9873Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1678825440;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=vcexmiQDIGjEczWxOqfizqF7kSZwJ4krojfVt+WhvVU=;
-        b=VO4nj/9ttu8IbT70Di8v+zl8X2Rw+6w9p/gSyyCcL/G8/lwAAvptYcAYC4grbPAihBiW30
-        +mlM0bH9OT0N7OCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 65AC913A26;
-        Tue, 14 Mar 2023 20:23:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id Fs2ECt/XEGS1XgAAMHmgww
-        (envelope-from <mpdesouza@suse.com>); Tue, 14 Mar 2023 20:23:59 +0000
-Date:   Tue, 14 Mar 2023 17:23:56 -0300
-From:   Marcos Paulo de Souza <mpdesouza@suse.de>
-To:     Joe Lawrence <joe.lawrence@redhat.com>
-Cc:     live-patching@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, Josh Poimboeuf <jpoimboe@kernel.org>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Petr Mladek <pmladek@suse.com>,
-        Marcos Paulo de Souza <mpdesouza@suse.com>
-Subject: Re: [PATCH v7 00/10] livepatch: klp-convert tool
-Message-ID: <20230314202356.kal22jracaw5442y@daedalus>
-References: <20230306140824.3858543-1-joe.lawrence@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230306140824.3858543-1-joe.lawrence@redhat.com>
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+        Tue, 14 Mar 2023 20:15:08 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FF51279A7;
+        Tue, 14 Mar 2023 17:15:07 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id fm20-20020a05600c0c1400b003ead37e6588so76469wmb.5;
+        Tue, 14 Mar 2023 17:15:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678839305;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3awC0gMPAiPXnlm6wKZJyVsjNQ276k/08Eimwgsa2PY=;
+        b=qvmwb0/PxDkWj/0STg/wCTEyGg8MPkbhQVsg70PSBLJukww9j8oQCmHhUNMk6OXtjj
+         mksE1fmju6ez2ur6MvSDX+1u4Qg8DLq9xRsNEf8pe4UjfOsVumNrY3kAGzz4ZTqAhRm+
+         IQLAuvp4R2VgBIagDb6WaTjFiHpQTl+9R5aO46IxdzzomgiOooAoKIShp5o54e5cjqpv
+         szMrLSZgQ4EdAagUmNvqNn2bD7ODX6+TEyEbxRRojuxWSzYLSvg+GxXgIdfYm2kxwgVT
+         m6K+j6JxckWHZlonHB95o3vpCgFMoBaxVQTSmeEHMSSjljqLjejB+Fnc7sDDVxBMxQcR
+         P/gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678839305;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=3awC0gMPAiPXnlm6wKZJyVsjNQ276k/08Eimwgsa2PY=;
+        b=WVSIY0YVNEeDJ/G3ebZ1TAKnDaR6bU0AtrB5T7bMi3a5v3YaQUobrUUJGHooy2p6/6
+         MQgBW8NAJMeMSHI35hDP4V6pMfHtuobXEgf1DcGTXKOZdJzoj+ybrzIg9qO07jzRoc1i
+         uq9/7aaBb1ltlc/CG4cQrWg6l6w77k730SOXm84Kpoty0vX8DluU4qaVLeCvUun0uE1n
+         qNHq6F3zP0lapMDPWRB37kHtp3VV82OnCN57GWXrFFfImXG8jnQedkBSqCFzQsjH1Lyj
+         GRvXV7xg+WQJkaPR8N4FibBUJp2HF5jSJ21uKj/LUZxWtTHmlpbc5Z2NpNGPcfdYuGXH
+         Hk7g==
+X-Gm-Message-State: AO0yUKV5BiyZ8z7rDRGFotsRw7IqsEt1n6LiRKat7E51QkAaYjNGYLjv
+        kWdv+yrZcbTLXS0zO4mO0w4=
+X-Google-Smtp-Source: AK7set9z+WtrIevyfgj0uiVN2/U69pNjGkpvV5AmeeklAczYUZcRXbCkH10sq6c4Hml5XTZPzgMDVg==
+X-Received: by 2002:a05:600c:3b9d:b0:3ed:29db:cb80 with SMTP id n29-20020a05600c3b9d00b003ed29dbcb80mr6153512wms.18.1678839305389;
+        Tue, 14 Mar 2023 17:15:05 -0700 (PDT)
+Received: from localhost (93-55-83-125.ip262.fastwebnet.it. [93.55.83.125])
+        by smtp.gmail.com with ESMTPSA id y6-20020a7bcd86000000b003e20cf0408esm72131wmj.40.2023.03.14.17.15.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Mar 2023 17:15:04 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date:   Wed, 15 Mar 2023 01:15:03 +0100
+Message-Id: <CR6IV4NTEN8Z.1V1RNR667SWJ7@vincent-arch>
+Subject: Re: [PATCH] modpost: support arbitrary symbol length in modversion
+From:   "Vincenzo Palazzo" <vincenzopalazzodev@gmail.com>
+To:     "Andrea Righi" <andrea.righi@canonical.com>,
+        =?utf-8?q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>
+Cc:     "Gary Guo" <gary@garyguo.net>, "Kees Cook" <keescook@chromium.org>,
+        "Masahiro Yamada" <masahiroy@kernel.org>,
+        <linux-kbuild@vger.kernel.org>,
+        "Wedson Almeida Filho" <wedsonaf@google.com>,
+        "Joel Stanley" <joel@jms.id.au>,
+        "Alex Gaynor" <alex.gaynor@gmail.com>,
+        "Miguel Ojeda" <ojeda@kernel.org>,
+        "Wedson Almeida Filho" <wedsonaf@gmail.com>,
+        "Nicolas Schier" <nicolas@fjasle.eu>,
+        <rust-for-linux@vger.kernel.org>,
+        "Guo Zhengkui" <guozhengkui@vivo.com>,
+        "Boqun Feng" <boqun.feng@gmail.com>,
+        "Nicholas Piggin" <npiggin@gmail.com>,
+        =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        "Nathan Chancellor" <nathan@kernel.org>,
+        "Nick Desaulniers" <ndesaulniers@google.com>,
+        <linux-kernel@vger.kernel.org>,
+        "Julia Lawall" <Julia.Lawall@inria.fr>,
+        "Luis Chamberlain" <mcgrof@kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <linux-modules@vger.kernel.org>
+X-Mailer: aerc 0.14.0
+References: <20230111161155.1349375-1-gary@garyguo.net>
+ <ZA+IUIOAgrWH2oZ0@righiandr-XPS-13-7390>
+ <20230313214853.GY19419@kitsune.suse.cz>
+ <ZA+bXi0o27XPx3nz@righiandr-XPS-13-7390>
+ <20230313220234.GZ19419@kitsune.suse.cz>
+ <ZA+fGpAdnvB5VwKW@righiandr-XPS-13-7390>
+ <ZBCG3ykG1q4GEcIf@righiandr-XPS-13-7390>
+ <ZBCL1G+8z8c6zLI0@righiandr-XPS-13-7390>
+In-Reply-To: <ZBCL1G+8z8c6zLI0@righiandr-XPS-13-7390>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,178 +99,191 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Mar 06, 2023 at 09:08:14AM -0500, Joe Lawrence wrote:
-> Summary
-> -------
-> 
-> Livepatches may use symbols which are not contained in its own scope,
-> and, because of that, may end up compiled with relocations that will
-> only be resolved during module load. Yet, when the referenced symbols
-> are not exported, solving this relocation requires information on the
-> object that holds the symbol (either vmlinux or modules) and its
-> position inside the object, as an object may contain multiple symbols
-> with the same name.  Providing such information must be done accordingly
-> to what is specified in Documentation/livepatch/module-elf-format.txt.
-> 
-> Currently, there is no trivial way to embed the required information as
-> requested in the final livepatch elf object. klp-convert solves this
-> problem in two different forms: (i) by relying on a symbol map, which is
-> built during kernel compilation, to automatically infer the relocation
-> targeted symbol, and, when such inference is not possible (ii) by using
-> annotations in the elf object to convert the relocation accordingly to
-> the specification, enabling it to be handled by the livepatch loader.
-> 
-> Given the above, add support for symbol mapping in the form of a
-> symbols.klp file; add klp-convert tool; integrate klp-convert tool into
-> kbuild; make livepatch modules discernible during kernel compilation
-> pipeline; add data-structure and macros to enable users to annotate
-> livepatch source code; make modpost stage compatible with livepatches;
-> update livepatch-sample and update documentation.
-> 
-> The patch was tested under three use-cases:
-> 
-> use-case 1: There is a relocation in the lp that can be automatically
-> resolved by klp-convert.  For example. see the saved_command_line
-> variable in lib/livepatch/test_klp_convert2.c.
-> 
-> use-case 2: There is a relocation in the lp that cannot be automatically
-> resolved, as the name of the respective symbol appears in multiple
-> objects. The livepatch contains an annotation to enable a correct
-> relocation.  See the KLP_MODULE_RELOC / KLP_SYMPOS annotation sections
-> in lib/livepatch/test_klp_convert{1,2}.c.
-> 
-> use-case 3: There is a relocation in the lp that cannot be automatically
-> resolved similarly as 2, but no annotation was provided in the
-> livepatch, triggering an error during compilation.  Reproducible by
-> removing the KLP_MODULE_RELOC / KLP_SYMPOS annotation sections in
-> lib/livepatch/test_klp_convert{1,2}.c.
-> 
-> Selftests have been added to exercise these klp-convert use-cases
-> through several tests.
-> 
-> 
-> Testing
-> -------
-> 
-> The patchset selftests build and execute on x86_64, s390x, and ppc64le
-> for both default config (with added livepatch dependencies) and a larger
-> RHEL-9-ish config.
-> 
-> Using the Intel's Linux Kernel Performance tests's make.cross,
-> klp-convert builds and processes livepatch .ko's for x86_64 ppc64le
-> ppc32 s390 arm64 arches.
-> 
-> 
-> Summary of changes in v7
-> ------------------------
-> 
-> - rebase for v6.2
-> - combine ("livepatch: Add klp-convert tool") with ("livepatch: Add
->   klp-convert annotation helpers")
-> - combine ("kbuild: Support for symbols.klp creation") with ("modpost:
->   Integrate klp-convert") to simplify Kbuild magic [Petr, Nicolas]
-> - klp-convert: add safe_snprintf() (-Wsign-compare)
-> - klp-convert: fix -Wsign-compare warnings
-> - klp-convert: use calloc() where appropriate
-> - klp-convert: copy ELF e_flags
-> - selftests: fix various build warnings
-> - klp-convert: WARN msg simplification, failed sanity checks, and sympos
->   comment [Marcos]
-> - klp-convert: fix elf_write_file() error paths [Petr]
+> In practice, this is what I'm testing at the moment:
+>
+> ---
+> diff --git a/arch/powerpc/kernel/module_64.c b/arch/powerpc/kernel/module=
+_64.c
+> index ff045644f13f..ea6c830ed1e7 100644
+> --- a/arch/powerpc/kernel/module_64.c
+> +++ b/arch/powerpc/kernel/module_64.c
+> @@ -234,12 +234,13 @@ static unsigned long get_stubs_size(const Elf64_Ehd=
+r *hdr,
+>  static void dedotify_versions(struct modversion_info *vers,
+>  			      unsigned long size)
+>  {
+> -	struct modversion_info *end;
+> +	struct modversion_info *end =3D (void *)vers + size;
+> =20
+> -	for (end =3D (void *)vers + size; vers < end; vers++)
+> +	for (; vers < end && vers->next; vers =3D (void *)vers + vers->next) {
+>  		if (vers->name[0] =3D=3D '.') {
+>  			memmove(vers->name, vers->name+1, strlen(vers->name));
+>  		}
+> +	}
+>  }
+> =20
+>  /*
+> diff --git a/include/linux/module.h b/include/linux/module.h
+> index 8c5909c0076c..4744901bdf63 100644
+> --- a/include/linux/module.h
+> +++ b/include/linux/module.h
+> @@ -34,9 +34,11 @@
+>  #define MODULE_NAME_LEN MAX_PARAM_PREFIX_LEN
+> =20
+>  struct modversion_info {
+> -	unsigned long crc;
+> -	char name[MODULE_NAME_LEN];
+> -};
+> +	/* Offset of the next modversion entry in relation to this one. */
+> +	u32 next;
+> +	u32 crc;
+> +	char name[0];
+> +} __packed;
+> =20
+>  struct module;
+>  struct exception_table_entry;
+> diff --git a/kernel/module/version.c b/kernel/module/version.c
+> index 53f43ac5a73e..5528f98c42dc 100644
+> --- a/kernel/module/version.c
+> +++ b/kernel/module/version.c
+> @@ -17,32 +17,30 @@ int check_version(const struct load_info *info,
+>  {
+>  	Elf_Shdr *sechdrs =3D info->sechdrs;
+>  	unsigned int versindex =3D info->index.vers;
+> -	unsigned int i, num_versions;
+> -	struct modversion_info *versions;
+> +	struct modversion_info *versions, *end;
+> +	u32 crcval;
+> =20
+>  	/* Exporting module didn't supply crcs?  OK, we're already tainted. */
+>  	if (!crc)
+>  		return 1;
+> +	crcval =3D *crc;
+> =20
+>  	/* No versions at all?  modprobe --force does this. */
+>  	if (versindex =3D=3D 0)
+>  		return try_to_force_load(mod, symname) =3D=3D 0;
+> =20
+>  	versions =3D (void *)sechdrs[versindex].sh_addr;
+> -	num_versions =3D sechdrs[versindex].sh_size
+> -		/ sizeof(struct modversion_info);
+> +	end =3D (void *)versions + sechdrs[versindex].sh_size;
+> =20
+> -	for (i =3D 0; i < num_versions; i++) {
+> -		u32 crcval;
+> -
+> -		if (strcmp(versions[i].name, symname) !=3D 0)
+> +	for (; versions < end && versions->next;
+> +	       versions =3D (void *)versions + versions->next) {
+> +		if (strcmp(versions->name, symname) !=3D 0)
+>  			continue;
+> =20
+> -		crcval =3D *crc;
+> -		if (versions[i].crc =3D=3D crcval)
+> +		if (versions->crc =3D=3D crcval)
+>  			return 1;
+> -		pr_debug("Found checksum %X vs module %lX\n",
+> -			 crcval, versions[i].crc);
+> +		pr_debug("Found checksum %X vs module %X\n",
+> +			 crcval, versions->crc);
+>  		goto bad_version;
+>  	}
+> =20
+> diff --git a/scripts/export_report.pl b/scripts/export_report.pl
+> index feb3d5542a62..1117646f3141 100755
+> --- a/scripts/export_report.pl
+> +++ b/scripts/export_report.pl
+> @@ -116,18 +116,19 @@ foreach my $thismod (@allcfiles) {
+>  	while ( <$module> ) {
+>  		chomp;
+>  		if ($state =3D=3D 0) {
+> -			$state =3D 1 if ($_ =3D~ /static const struct modversion_info/);
+> +			$state =3D 1 if ($_ =3D~ /static const char ____versions/);
+>  			next;
+>  		}
+>  		if ($state =3D=3D 1) {
+> -			$state =3D 2 if ($_ =3D~ /__attribute__\(\(section\("__versions"\)\)\=
+)/);
+> +			$state =3D 2 if ($_ =3D~ /__used __section\("__versions"\)/);
+>  			next;
+>  		}
+>  		if ($state =3D=3D 2) {
+> -			if ( $_ !~ /0x[0-9a-f]+,/ ) {
+> +			if ( $_ !~ /\\0"/ ) {
+> +				last if ($_ =3D~ /;/);
+>  				next;
+>  			}
+> -			my $sym =3D (split /([,"])/,)[4];
+> +			my $sym =3D (split /(["\\])/,)[2];
+>  			my ($module, $value, $symbol, $gpl) =3D @{$SYMBOL{$sym}};
+>  			$SYMBOL{ $sym } =3D  [ $module, $value+1, $symbol, $gpl];
+>  			push(@{$MODULE{$thismod}} , $sym);
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index efff8078e395..55335ae98f4f 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -2046,13 +2046,17 @@ static void add_exported_symbols(struct buffer *b=
+uf, struct module *mod)
+>  static void add_versions(struct buffer *b, struct module *mod)
+>  {
+>  	struct symbol *s;
+> +	unsigned int name_len;
+> +	unsigned int name_len_padded;
+> +	unsigned int tmp;
+> +	unsigned char *tmp_view =3D (unsigned char *)&tmp;
+> =20
+>  	if (!modversions)
+>  		return;
+> =20
+>  	buf_printf(b, "\n");
+> -	buf_printf(b, "static const struct modversion_info ____versions[]\n");
+> -	buf_printf(b, "__used __section(\"__versions\") =3D {\n");
+> +	buf_printf(b, "static const char ____versions[]\n");
+> +	buf_printf(b, "__used __section(\"__versions\") =3D\n");
+> =20
+>  	list_for_each_entry(s, &mod->unresolved_symbols, list) {
+>  		if (!s->module)
+> @@ -2062,16 +2066,27 @@ static void add_versions(struct buffer *b, struct=
+ module *mod)
+>  				s->name, mod->name);
+>  			continue;
+>  		}
+> -		if (strlen(s->name) >=3D MODULE_NAME_LEN) {
+> -			error("too long symbol \"%s\" [%s.ko]\n",
+> -			      s->name, mod->name);
+> -			break;
+> -		}
+> -		buf_printf(b, "\t{ %#8x, \"%s\" },\n",
+> -			   s->crc, s->name);
+> +		name_len =3D strlen(s->name);
+> +		name_len_padded =3D (name_len + 1 + 3) & ~3;
+> +
+> +		/* Offset to next entry */
+> +		tmp =3D 8 + name_len_padded;
+> +		tmp =3D TO_NATIVE(tmp);
+> +		buf_printf(b, "\t\"\\x%02x\\x%02x\\x%02x\\x%02x",
+> +			   tmp_view[0], tmp_view[1], tmp_view[2], tmp_view[3]);
+> +
+> +		tmp =3D TO_NATIVE(s->crc);
+> +		buf_printf(b, "\\x%02x\\x%02x\\x%02x\\x%02x\"\n",
+> +			   tmp_view[0], tmp_view[1], tmp_view[2], tmp_view[3]);
+> +
+> +		buf_printf(b, "\t\"%s", s->name);
+> +		for (; name_len < name_len_padded; name_len++)
+> +			buf_printf(b, "\\0");
+> +		buf_printf(b, "\"\n");
+>  	}
+> =20
+> -	buf_printf(b, "};\n");
+> +	/* Always end with a dummy NULL entry */
+> +	buf_printf(b, "\t\"\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\";\n");
+>  }
+> =20
+>  static void add_depends(struct buffer *b, struct module *mod)
+This looks promissing, do you had a small reproducer to this just to
+make the code a little bit clearn to the reader?
 
-Thanks for the new version Joe. I've run the ksefltests on my x86 laptop, and it
-succeed as expected, so
+Ciao,=20
 
-Tested-by: Marcos Paulo de Souza <mpdesouza@suse.com>
-
-> 
-> 
-> Previous versions
-> -----------------
-> 
-> RFC:
->   https://lore.kernel.org/lkml/cover.1477578530.git.jpoimboe@redhat.com/
-> v2:
->   https://lore.kernel.org/lkml/f52d29f7-7d1b-ad3d-050b-a9fa8878faf2@redhat.com/
-> v3:
->   https://lore.kernel.org/lkml/20190410155058.9437-1-joe.lawrence@redhat.com/
-> v4:
->   https://lore.kernel.org/lkml/20190509143859.9050-1-joe.lawrence@redhat.com/
-> v5:
->   (not posted)
->   https://github.com/joe-lawrence/klp-convert-tree/tree/klp-convert-v5-devel
-> v6:
->   https://lore.kernel.org/live-patching/20220216163940.228309-1-joe.lawrence@redhat.com/
-> 
-> 
-> Joe Lawrence (10):
->   livepatch: Create and include UAPI headers
->   livepatch: Add klp-convert tool
->   kbuild/modpost: create symbols.klp and integrate klp-convert
->   livepatch: Add sample livepatch module
->   documentation: Update on livepatch elf format
->   livepatch/selftests: add klp-convert
->   livepatch/selftests: test multiple sections
->   livepatch/selftests: add __asm__ symbol renaming examples
->   livepatch/selftests: add data relocations test
->   livepatch/selftests: add static keys test
-> 
->  .gitignore                                    |   2 +
->  Documentation/dontdiff                        |   1 +
->  Documentation/livepatch/livepatch.rst         |   3 +
->  Documentation/livepatch/module-elf-format.rst |  42 +-
->  MAINTAINERS                                   |   2 +
->  Makefile                                      |  16 +-
->  include/linux/livepatch.h                     |  13 +
->  include/uapi/linux/livepatch.h                |  25 +
->  kernel/livepatch/core.c                       |   4 +-
->  lib/livepatch/Makefile                        |  12 +
->  lib/livepatch/test_klp_convert.h              |  45 +
->  lib/livepatch/test_klp_convert1.c             | 121 +++
->  lib/livepatch/test_klp_convert2.c             | 110 +++
->  lib/livepatch/test_klp_convert_data.c         | 190 ++++
->  lib/livepatch/test_klp_convert_keys.c         |  91 ++
->  lib/livepatch/test_klp_convert_keys_mod.c     |  52 +
->  lib/livepatch/test_klp_convert_mod_a.c        |  31 +
->  lib/livepatch/test_klp_convert_mod_b.c        |  19 +
->  lib/livepatch/test_klp_convert_mod_c.c        |  36 +
->  lib/livepatch/test_klp_convert_sections.c     | 120 +++
->  samples/livepatch/Makefile                    |   1 +
->  .../livepatch/livepatch-annotated-sample.c    |  93 ++
->  scripts/Makefile                              |   1 +
->  scripts/Makefile.modfinal                     |  33 +
->  scripts/Makefile.modpost                      |   5 +
->  scripts/livepatch/.gitignore                  |   1 +
->  scripts/livepatch/Makefile                    |   5 +
->  scripts/livepatch/elf.c                       | 817 ++++++++++++++++
->  scripts/livepatch/elf.h                       |  74 ++
->  scripts/livepatch/klp-convert.c               | 893 ++++++++++++++++++
->  scripts/livepatch/klp-convert.h               |  47 +
->  scripts/livepatch/list.h                      | 391 ++++++++
->  scripts/mod/modpost.c                         |  28 +-
->  scripts/mod/modpost.h                         |   1 +
->  .../selftests/livepatch/test-livepatch.sh     | 403 ++++++++
->  35 files changed, 3716 insertions(+), 12 deletions(-)
->  create mode 100644 include/uapi/linux/livepatch.h
->  create mode 100644 lib/livepatch/test_klp_convert.h
->  create mode 100644 lib/livepatch/test_klp_convert1.c
->  create mode 100644 lib/livepatch/test_klp_convert2.c
->  create mode 100644 lib/livepatch/test_klp_convert_data.c
->  create mode 100644 lib/livepatch/test_klp_convert_keys.c
->  create mode 100644 lib/livepatch/test_klp_convert_keys_mod.c
->  create mode 100644 lib/livepatch/test_klp_convert_mod_a.c
->  create mode 100644 lib/livepatch/test_klp_convert_mod_b.c
->  create mode 100644 lib/livepatch/test_klp_convert_mod_c.c
->  create mode 100644 lib/livepatch/test_klp_convert_sections.c
->  create mode 100644 samples/livepatch/livepatch-annotated-sample.c
->  create mode 100644 scripts/livepatch/.gitignore
->  create mode 100644 scripts/livepatch/Makefile
->  create mode 100644 scripts/livepatch/elf.c
->  create mode 100644 scripts/livepatch/elf.h
->  create mode 100644 scripts/livepatch/klp-convert.c
->  create mode 100644 scripts/livepatch/klp-convert.h
->  create mode 100644 scripts/livepatch/list.h
-> 
-> -- 
-> 2.39.2
-> 
+Vincent.
