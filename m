@@ -2,104 +2,171 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A7896BB3E4
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Mar 2023 14:06:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 90C8B6BB5CD
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Mar 2023 15:19:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229602AbjCONGn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 15 Mar 2023 09:06:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49506 "EHLO
+        id S231896AbjCOOT2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 15 Mar 2023 10:19:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230078AbjCONGm (ORCPT
+        with ESMTP id S231465AbjCOOTP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 15 Mar 2023 09:06:42 -0400
-Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D5116513B;
-        Wed, 15 Mar 2023 06:06:42 -0700 (PDT)
-Received: by mail-qv1-xf2c.google.com with SMTP id x8so1370024qvr.9;
-        Wed, 15 Mar 2023 06:06:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678885601;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UM1qnMowE0uNdW3tg+Y+I3PTVUNGL++ijHeg4n+VFiM=;
-        b=pPfSn2mBEDva7M69BUhVtLmBDeST+/O4Q29knu/PNW+sJe5RCs1yvfkGspJK6dE86U
-         vRvxQQvIgvUy4yvsxq9zZ/ntaExi88omHHSahpzH0fjPt6n8i0VGhTKnwRrRsxJuhgSE
-         xwvq1O2mbv/LsyspxxVPvcBkzNeor/vWNm8YP0EX4i/uoQAXKkOdUtbkUSOUs38y9PSR
-         NjeoYA3UQLKCx4PDXqFOTVcrV7mzhVTpJk8HUKzvsYyXPLoOJMBb2HoZtwK5QgmXw0zA
-         3kyzLLYhZgugThJbuJptGvNd3DukNrPKG66QcpCTOfn70NuolqjsEGJdP8/6+c1UIFJ1
-         f8gA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678885601;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UM1qnMowE0uNdW3tg+Y+I3PTVUNGL++ijHeg4n+VFiM=;
-        b=XeJ1gaEAe5xwFRRCd2R4mIMEUb9GR78R8lKZ71vfGbkkXf+3bsC/5WTXyRr9oDX4lI
-         RjMVHVFIzCyKW7S/ClpG4EOsdN7EFifCO0XT9+5+ZYtY6HoT/1eYV2Uq0m7sbY3U88F+
-         Buu/1GHR/8Sm4lUuDweX1nKz79UGnSFpQVdQLTztdYAUsJlQCcmz7rdHCMGOsUMENuVR
-         2xs5vpkibdCWWl79X1x5jRxIpJt2ulu8DBC2PMikG0/lP/MePU+2WXCRN7t91bq7UCnl
-         YrRqU0YIjcuWyt+fl0gTgDY/XZXURZrffWe+9wgTPLuNmCC94zmEgM51ERKSiZfw///X
-         9PhQ==
-X-Gm-Message-State: AO0yUKWoscVXTvhAGNTwJUMItV8/Mq5u7PTjdmvPpxyHXRIEnH9u8wbZ
-        +hPd8yqlg9QB7Px1Rho/6T4=
-X-Google-Smtp-Source: AK7set8rpLIoSCTSclVq/8eckZS9Wl0geE+ggIaj2629elqH/e2ZSsU5kbrkV+oI5z0akeMgfzUJTA==
-X-Received: by 2002:a05:622a:387:b0:3bf:c29b:678b with SMTP id j7-20020a05622a038700b003bfc29b678bmr33702278qtx.50.1678885601229;
-        Wed, 15 Mar 2023 06:06:41 -0700 (PDT)
-Received: from Slackware.localdomain ([191.96.227.151])
-        by smtp.gmail.com with ESMTPSA id q2-20020ac84102000000b003b691385327sm3758652qtl.6.2023.03.15.06.06.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Mar 2023 06:06:40 -0700 (PDT)
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     masahiroy@kernel.org, nicolas@fjasle.eu
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH] Kbuild: Elevate sha1sum to sha256sum for atomic headers check
-Date:   Wed, 15 Mar 2023 18:35:18 +0530
-Message-Id: <20230315130518.4496-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        Wed, 15 Mar 2023 10:19:15 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A34E410A94;
+        Wed, 15 Mar 2023 07:19:08 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1C619B81DF4;
+        Wed, 15 Mar 2023 14:19:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE19EC4339C;
+        Wed, 15 Mar 2023 14:19:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678889945;
+        bh=t0gHZGOhE6CFqv71AW1e+wxwTySxUPAEmU7Dj66hV70=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=StZWe7/bxuewvn00Ekqo266QfV7lCneyK3i5R5uoJBBgG2XrFCswpGZlEqwTUFXjw
+         oCgzD/uXlRVw/TWgo+ufpZz43KV6owoyBCgO756txp3O2aADAufrWRvKm5SWO24VeQ
+         e5BT7iAQV2rkQD3hqiZjgprjoH5LV6XWEC9DCOUAIkscC3YM87+9MdKelKyK87Jdzu
+         65xjBgcTELPO8kAhf2kT8SLQIDqouK4h+5LAxhpBL+d0wD7pODUX211AnhgFHOEV/9
+         ocILYKz25dQu6OTPcicYqjs+F4zrvjOVPYY+zI6qaqhGklOXB8nrGR7kkweqO2sAh3
+         IWHML2O80lbAg==
+Received: by mail-oi1-f173.google.com with SMTP id c11so14275151oiw.2;
+        Wed, 15 Mar 2023 07:19:05 -0700 (PDT)
+X-Gm-Message-State: AO0yUKUeNSxAuKypHQLAcxAr5dfUVpy2VE4bswugClA0h6MavtX6zmdM
+        vDC5IyZ7JC+IvZKfgJAbUrJ2wA0BgT/ZjwN0bEo=
+X-Google-Smtp-Source: AK7set/nftaP7cjfp8+VPH3yvlqxTr9bAaUoyYivPgIWIeahPjwV5INWxOoGwzyO7Ai25tLB76/qvSIgO8r6jFUatYQ=
+X-Received: by 2002:aca:2309:0:b0:384:2fd0:e1c8 with SMTP id
+ e9-20020aca2309000000b003842fd0e1c8mr857069oie.11.1678889945104; Wed, 15 Mar
+ 2023 07:19:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230313171036.268407-1-bage@linutronix.de> <20230313171036.268407-2-bage@linutronix.de>
+ <CAK7LNARd8rQdwauAvgSo-+wxv=rU-4tTCtrzRJ2uhgWRrt6Xxw@mail.gmail.com> <63232be8-59f6-8b93-96be-730f5126f60c@linutronix.de>
+In-Reply-To: <63232be8-59f6-8b93-96be-730f5126f60c@linutronix.de>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 15 Mar 2023 23:18:28 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ_EhN+6PhcStp8xEOuyLT77t4OJ=E33xTvqVZM-7+Z7A@mail.gmail.com>
+Message-ID: <CAK7LNAQ_EhN+6PhcStp8xEOuyLT77t4OJ=E33xTvqVZM-7+Z7A@mail.gmail.com>
+Subject: Re: [PATCH 1/1] kbuild: deb-pkg: Allow parallel build
+To:     Bastian Germann <bage@linutronix.de>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Thought it would be a good idea to use a elevated mechanism i.e sha256sum
+On Tue, Mar 14, 2023 at 3:56=E2=80=AFAM Bastian Germann <bage@linutronix.de=
+> wrote:
+>
+> Am 13.03.23 um 18:59 schrieb Masahiro Yamada:
+> > On Tue, Mar 14, 2023 at 2:10=E2=80=AFAM Bastian Germann <bage@linutroni=
+x.de> wrote:
+> >>
+> >> Currently, the only way to build the deb-pkg generated package paralle=
+ly
+> >> is adding -jN to the MAKEFLAGS environment variable. The package ignor=
+es
+> >> the usual parallel build option that is described in Debian Policy =C2=
+=A74.9.1.
+> >
+> >
+> >
+> > "dpkg-buildpackage -b -j16" worked for me.
+>
+> This ends up in DEB_BUILD_OPTIONS=3Dparallel=3D16 being set and the call:
+> /usr/bin/make -f ./Makefile ARCH=3Dx86    KERNELRELEASE=3D6.3.0-rc2 KBUIL=
+D_BUILD_VERSION=3D1  olddefconfig all
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- Kbuild | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/Kbuild b/Kbuild
-index 464b34a08f51..b74040346d76 100644
---- a/Kbuild
-+++ b/Kbuild
-@@ -45,14 +45,14 @@ missing-syscalls: scripts/checksyscalls.sh $(offsets-file)
+"dpkb-buildpackage -j<N>" sets not only DEB_BUILD_OPTIONS
+but also MAKEFLAGS.
 
- # Check the manual modification of atomic headers
 
--quiet_cmd_check_sha1 = CHKSHA1 $<
--      cmd_check_sha1 = \
--	if ! command -v sha1sum >/dev/null; then \
--		echo "warning: cannot check the header due to sha1sum missing"; \
-+quiet_cmd_check_sha256 = CHKSHA256 $<
-+      cmd_check_sha256 = \
-+	if ! command -v sha256sum >/dev/null; then \
-+		echo "warning: cannot check the header due to sha256sum missing"; \
- 		exit 0; \
- 	fi; \
- 	if [ "$$(sed -n '$$s:// ::p' $<)" != \
--	     "$$(sed '$$d' $< | sha1sum | sed 's/ .*//')" ]; then \
-+	     "$$(sed '$$d' $< | sha256sum | sed 's/ .*//')" ]; then \
- 		echo "error: $< has been modified." >&2; \
- 		exit 1; \
- 	fi; \
+This is clearly explained in "man dpkb-buildpackage".
+
+
+ -j, --jobs[=3Djobs|auto]
+   ...
+  Will add itself to the MAKEFLAGS environment variable, which should
+  cause all subsequent make invocations to inherit the option, thus
+  forcing the parallel setting on the packaging ...
+
+
+
+
+Your statement sounds like
+
+ 'MAKEFLAGS=3D-j<N> dpkg-buildpackage'
+
+is the only way to build packages in parallel.
+
+Apparently, dpkg-buildpackage provides a much shorter way
+and invokes internal Make in parallel.
+
+
+
+
+>
+> So it is not used to run the actual build, just the top level `make -f de=
+bian/rules` invocation.
+> You can set --jobs-force=3D16, which ends up in MAKEFLAGS but the point o=
+f the patch is that one can use
+> the usual way of parallelizing.
+
+
+What is the "usual" way in this context?
+
+
+Do you mean
+'DEB_BUILD_OPTIONS=3Dparallel=3D16 dpkg-buildpackage -b'
+is the usual way for parallel building?
+
+If so, I agree. This patch caters to this case.
+
+
+But, I think your code should go to debian/rules
+instead of scripts/package/deb-build-option.
+Kbuild's "make clean" works much faster with the parallel option.
+
+
+Also, the commit description should explain the
+benefit of this patch.
+
+
+>
+> Side note: Without the patch, the build is run with -j1 regardless of bei=
+ng called from the Linux Makefile
+> or dpkg-buildpackage.
+
+
+Try:
+
+ $ make deb-pkg -j16
+
+and
+
+ $ dpkg-buildpackage -b -j16
+
+
+Both run the package building in parallel.
+
+You see a big difference in build speed w/wo the -j option.
+(and the build logs are interleaved, since they
+are emitted by multiple threads)
+
+
+
+
+
 --
-2.39.2
-
+Best Regards
+Masahiro Yamada
