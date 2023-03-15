@@ -2,95 +2,97 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F2F6A6BBAFB
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Mar 2023 18:35:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3ACC6BBCFA
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Mar 2023 20:10:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232248AbjCORfj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 15 Mar 2023 13:35:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42806 "EHLO
+        id S232398AbjCOTKD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 15 Mar 2023 15:10:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232019AbjCORfi (ORCPT
+        with ESMTP id S231743AbjCOTKC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 15 Mar 2023 13:35:38 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA151231E7;
-        Wed, 15 Mar 2023 10:35:35 -0700 (PDT)
-From:   Bastian Germann <bage@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1678901733;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=nZku9m6kfdujj4yMSFGSvRZ2JtD5CDHhGlIEaw7ici4=;
-        b=1RDu+4JQNGvY7f0c7ybbV0KMc8lGdoSAaheCLOkJM7mdBeSPgCOZmM3kWVaRhHJJnGveTa
-        uBbm9iR95WzDy5rDE6526YKnP7WvtM5P17gGt2F/S9lx8x6HDVYHYIr1t5JJcBGvpa7J/8
-        OWJITatSTzY2V3mgTUvtxG0k0EPTCbrOCpy0GsC7SHnbrQVMVBt7xstX17JeOQ1/5MuY8h
-        qO+gM3937xKuqpbyZPskUprrlCysnl1jzZGdHRGRYASU0bP7C7TmHHD5SNAP1PETqYCiH5
-        GPV27mTmIdHlhFH5SA+BCx6qPgDKmADfQjlpOjcEgii9g7lQlNlpRJo5KgJ+5w==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1678901733;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=nZku9m6kfdujj4yMSFGSvRZ2JtD5CDHhGlIEaw7ici4=;
-        b=/lkp2PeuVO+2FTtKJ0dQP24G6MDU+Vx5aof2hTWdnRNtUm/8mUx0X4X2EhHhryPZJlabTl
-        ki8VOGnjLOCYiiBg==
+        Wed, 15 Mar 2023 15:10:02 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 262C158B4B;
+        Wed, 15 Mar 2023 12:09:55 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B99B361E5A;
+        Wed, 15 Mar 2023 19:09:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DA5BC433D2;
+        Wed, 15 Mar 2023 19:09:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678907394;
+        bh=9BJPwTVMMlp2aU3GiprummHDcOkkaAFm3bnxPHRdWN4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Ciim0dx8hiMREWkki909Fi445o3pjTl1da6WJFj7m0YY3HE4aTMhuEsobWz6wagYj
+         oPVoQ8KG5/W34jb8V+vAVh2xy4nGz103U6tjyjqcSNT9tpaIYvz/RdlALeidCReE/4
+         GOz3mtDAJv8fT7jE7ofA35hXHnfQwpQK+kcC1anZAFktk2BL/icQpPrZeCKTKDoAe7
+         T5pG4MN4B9RfJZG5COfQef0cJDBTW9v8UUtHj5GOxtB9prGQYwH9rN/Z+pSKAEUIqY
+         l1DlkTytirUBsYm3MhM5Seh1/yAf4okbGkxQXxg6buR7KXh10mPj1Mqr90y+l76vKX
+         8Nzz4XQ7KuGlQ==
+From:   Leon Romanovsky <leon@kernel.org>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Bastian Germann <bage@linutronix.de>,
+Cc:     Leon Romanovsky <leonro@nvidia.com>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/1] kbuild: deb-pkg: Build parallely with current dpkg-buildpackage
-Date:   Wed, 15 Mar 2023 18:35:24 +0100
-Message-Id: <20230315173524.63179-2-bage@linutronix.de>
-In-Reply-To: <20230315173524.63179-1-bage@linutronix.de>
-References: <20230315173524.63179-1-bage@linutronix.de>
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Riad Abo Raed <riada@nvidia.com>
+Subject: [PATCH -rc] kbuild: properly exclude linux.tar.gz from tar archive
+Date:   Wed, 15 Mar 2023 21:09:33 +0200
+Message-Id: <e0b06d9aa9f37156c4317f9915a7a0e247edb70f.1678907179.git.leon@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-With dpkg-buildpackage v1.21.10 or later, the only way to build the
-deb-pkg generated package parallely is adding -j<N> to the MAKEFLAGS
-environment variable or using the --jobs-force option, see dpkg commit
-1d0ea9b2ba3f ("dpkg-buildpackage: Change -j, --jobs semantics to
-non-force mode"). The package ignores the usual parallel build option
-that is described in Debian Policy.
+From: Leon Romanovsky <leonro@nvidia.com>
 
-Derive make's -j parameter from the DEB_BUILD_OPTIONS environment variable
-that ends up being set by dpkg-buildpackage -j<N>. The snippet is copied
-from Debian Policy.
+Attempt to build rpm-pkg randomly fails in tar stage, with same error
+as was reported by Nicolas [1]
 
-Link: https://www.debian.org/doc/debian-policy/ch-source.html#debian-rules-and-deb-build-options
-Signed-off-by: Bastian Germann <bage@linutronix.de>
+tar -c -f linux.tar.gz -I pigz --exclude=./linux.tar.gz --exclude-from=.tmp_filelist_exclude --owner=0 --group=0 --sort=name --transform 's:^\.:linux:S' -C . .
+tar: .: file changed as we read it
+make[1]: *** [scripts/Makefile.package:58: linux.tar.gz] Error 1
+make[1]: *** Deleting file 'linux.tar.gz'
+make: *** [Makefile:1657: rpm-pkg] Error 2
+
+The reason to it that tar is dependent on order of command line
+arguments and needs to have excluded file before creating it. So as a
+solution, touch that file to create it and move --exclude list before
+any tar arguments.
+
+[1] https://lore.kernel.org/all/Y%2Fk+v%2FYj8VQ6q32H@fjasle.eu/
+Cc: Nicolas Schier <nicolas@fjasle.eu>
+Fixes: 7bf4582d7aad ("kbuild: deb-pkg: create source package without cleaning")
+Signed-off-by: Riad Abo Raed <riada@nvidia.com>
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- scripts/package/mkdebian | 5 +++++
- 1 file changed, 5 insertions(+)
+ scripts/Makefile.package | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-index f74380036bb5..ed5c2b65798b 100755
---- a/scripts/package/mkdebian
-+++ b/scripts/package/mkdebian
-@@ -238,6 +238,11 @@ fi
- cat <<EOF > debian/rules
- #!$(command -v $MAKE) -f
+diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+index b941e6341b36..be4623481ca2 100644
+--- a/scripts/Makefile.package
++++ b/scripts/Makefile.package
+@@ -44,7 +44,7 @@ filechk_filelist = \
+ # ---------------------------------------------------------------------------
  
-+ifneq (,\$(filter parallel=%,\$(DEB_BUILD_OPTIONS)))
-+	NUMJOBS = \$(patsubst parallel=%,%,\$(filter parallel=%,\$(DEB_BUILD_OPTIONS)))
-+	MAKEFLAGS += -j\$(NUMJOBS)
-+endif
-+
- srctree ?= .
+ quiet_cmd_tar = TAR     $@
+-      cmd_tar = tar -c -f $@ $(tar-compress-opt) $(tar-exclude-opt) \
++      cmd_tar = touch ./$@ && tar $(tar-exclude-opt) -c -f $@ $(tar-compress-opt) \
+                 --owner=0 --group=0 --sort=name \
+                 --transform 's:^\.:$*:S' -C $(tar-rootdir) .
  
- build-indep:
 -- 
 2.39.2
 
