@@ -2,112 +2,131 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 23EED6BBF3F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Mar 2023 22:41:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08BF16BC6A7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Mar 2023 08:12:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232670AbjCOVlG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 15 Mar 2023 17:41:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44048 "EHLO
+        id S230020AbjCPHMq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 16 Mar 2023 03:12:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232709AbjCOVlF (ORCPT
+        with ESMTP id S230029AbjCPHMn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 15 Mar 2023 17:41:05 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B7E9559E
-        for <linux-kbuild@vger.kernel.org>; Wed, 15 Mar 2023 14:41:04 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id 204-20020a2514d5000000b00a3637aea9e1so21982381ybu.17
-        for <linux-kbuild@vger.kernel.org>; Wed, 15 Mar 2023 14:41:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1678916463;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=1hKyjwDWdKCL/Wlt0NC0zQ5DwmLIV6PvEhmjPxkamzQ=;
-        b=BH5D3WNh7FOlMGAbu+ySIPi6YQWbT8oBK8zLsmSP+rmu2DvuG62Tt/ke6kp7CvNL3h
-         g3WnnTr+B3hZ2NINTxArsVA7JSxhgaT/vpZMUXuj75omDHfbFWFyrji+5V7PCQPXcpuC
-         0qfiPDxk5jlXZZ/iO9yKfO0NJDF64FMJizMOjxtbLUALrhAn8uXYgz5tcTrbi4TPRqSv
-         uU91XO7NvW6haisG0X8N4w/9gEBa3B6f1/33R8wJjBiXIqZmmks+MvAmImX5+BZdXER6
-         65AtnwzpS2itPU+8XjxH8JSrV+O13vmff0c/rCWlIGVxTKo497WokjudpL23BYEe/6Rl
-         mFNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678916463;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1hKyjwDWdKCL/Wlt0NC0zQ5DwmLIV6PvEhmjPxkamzQ=;
-        b=nwy2UPxKZctctnDYV3BtwntDR2AVqH49ATHQ0IktLoN1WcupPRyqUwfh9Hvp3R8x/X
-         wRyR55kqYKRJkGr/h8eyokgj4WXBDQ1z5jH1kzO/BLDsoC5GtaCa4Fjn6AXrUlTiNe7i
-         sl3Guqv4oD8azJxFH92ob3osjZkmFosErrq9bAZDeiSilZZS3/BHVuuCeQ/xHO2RsAeg
-         nEf1yi6kE6XKzksj+d0bPhNs0pLvPi7GzL0L9eSdPWrmZMOqnuzEaA484/ZzbQdvHO04
-         wukpDsPqX9HEij30ATuyJawJxC0ZzEmdeqJJ6sN8OIpWVrJ12MKOYrzQ0mlixp6R7Tht
-         yhBA==
-X-Gm-Message-State: AO0yUKVkqdYBjZ4ane8CYpHGhRg8MdDq1xYper1EwaLfjp5x6RN1pJNc
-        h0b8du1BCdL2SEz6QgERo0rW4jTGPKhncVz08v8=
-X-Google-Smtp-Source: AK7set8PN3SZYYp+m1YrU/xTSFknmYctxBmpJQQ0LLgLQnvrFLo3VQHMCStJM9TDPSuv2GR8CbJUBRZa2ybaT3QivbU=
-X-Received: from ndesaulniers-desktop.svl.corp.google.com ([2620:15c:2d1:203:a5cc:f0f5:1fc6:713])
- (user=ndesaulniers job=sendgmr) by 2002:a05:6902:d2:b0:a8f:a6cc:9657 with
- SMTP id i18-20020a05690200d200b00a8fa6cc9657mr21963805ybs.7.1678916463697;
- Wed, 15 Mar 2023 14:41:03 -0700 (PDT)
-Date:   Wed, 15 Mar 2023 14:40:59 -0700
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
-Message-ID: <20230315214059.395939-1-ndesaulniers@google.com>
-Subject: [PATCH] Makefile: use -gdwarf-{4|5} for assembler for DEBUG_INFO_DWARF{4|5}
-From:   Nick Desaulniers <ndesaulniers@google.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>, sashal@kernel.org,
-        stable@vger.kernel.org
+        Thu, 16 Mar 2023 03:12:43 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A9D5AE118;
+        Thu, 16 Mar 2023 00:12:09 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 8FC2DB81F97;
+        Thu, 16 Mar 2023 07:10:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C05DCC433EF;
+        Thu, 16 Mar 2023 07:10:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678950652;
+        bh=pDFZd/3lMU4AigRONP+Aw8yH34433TzuxG5TNmkmRSs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=a0qA/OpIpWpj3LiLXqqh3b0MNidwt9PVW7EIoa5Q+HBk0bo/Y/CfZ8x/yc/Z0413q
+         Opo7a0+fPSsOi88Bsp2nKZ6WpzOrDKXSDYis3RKPMaMJio1M7/nNuhjc3A/A25x6IN
+         H8FF7TvutH/L5NA/pKWpKG1bg0zaTivCbmdy27VEhtQE0KUU3/P67dngEn+PMhSPco
+         8ZsbknMxg+rEFYo7rbRzVtAmbUOxU4FeTzbXurB31qtJKcWX4lpLEvXLAJiXvQVvLD
+         dnV3QpY1HWP+HqUovlrzflnEhU+2GkPrRR0NPRHPoBlwM2uaIP1I3kaGzbOeV1VP0Y
+         XpxYgy6QIgKNw==
+Date:   Thu, 16 Mar 2023 09:10:47 +0200
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Nicolas Schier <nicolas@fjasle.eu>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
-        Lecopzer Chen <lecopzer.chen@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        Riad Abo Raed <riada@nvidia.com>
+Subject: Re: [PATCH -rc] kbuild: properly exclude linux.tar.gz from tar
+ archive
+Message-ID: <20230316071047.GU36557@unreal>
+References: <e0b06d9aa9f37156c4317f9915a7a0e247edb70f.1678907179.git.leon@kernel.org>
+ <ZBIoACq0+FGN4752@bergen.fjasle.eu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZBIoACq0+FGN4752@bergen.fjasle.eu>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This is _not_ an upstream commit and just for 5.15.y only. It is based
-on upstream
-commit 32ef9e5054ec ("Makefile.debug: re-enable debug info for .S files").
+On Wed, Mar 15, 2023 at 09:18:08PM +0100, Nicolas Schier wrote:
+> On Wed 15 Mar 2023 21:09:33 GMT, Leon Romanovsky wrote:
+> > From: Leon Romanovsky <leonro@nvidia.com>
+> > 
+> > Attempt to build rpm-pkg randomly fails in tar stage, with same error
+> > as was reported by Nicolas [1]
+> > 
+> > tar -c -f linux.tar.gz -I pigz --exclude=./linux.tar.gz --exclude-from=.tmp_filelist_exclude --owner=0 --group=0 --sort=name --transform 's:^\.:linux:S' -C . .
+> > tar: .: file changed as we read it
+> > make[1]: *** [scripts/Makefile.package:58: linux.tar.gz] Error 1
+> > make[1]: *** Deleting file 'linux.tar.gz'
+> > make: *** [Makefile:1657: rpm-pkg] Error 2
+> > 
+> > The reason to it that tar is dependent on order of command line
+> > arguments and needs to have excluded file before creating it. So as a
+> > solution, touch that file to create it and move --exclude list before
+> > any tar arguments.
+> 
+> thanks for digging into and proposing a solution!  I'm afraid it will 
+> not be taken because of [2] will make the whole cmd_tar definition 
+> redundant due to the use of 'git archive'.
 
-When the user has chosen not to use their compiler's implicit default
-DWARF version (which changes over time) via selecting
-- CONFIG_DEBUG_INFO_DWARF4 or
-- CONFIG_DEBUG_INFO_DWARF5
-we need to tell the compiler this for Asm sources as well as C sources.
-(We use the compiler to drive assembler jobs in kbuild, since most asm
-needs to be preprocessed first).  Otherwise, we will get object files
-built from Asm sources with the compiler's implicit default DWARF
-version.
+OK, good to know.
 
-For example, selecting CONFIG_DEBUG_INFO_DWARF4 would produce a DWARFv5
-vmlinux, since it was a mix of DWARFv4 object files from C sources and
-DWARFv5 object files from Asm sources when using Clang as the assembler
-(ex. `make LLVM=1`).
+> 
+> Nevertheless, this works for me.
+> 
+> Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
-Fixes: 0ee2f0567a56 ("Makefile.debug: re-enable debug info for .S files")
-Reported-by: Lecopzer Chen <lecopzer.chen@mediatek.com>
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
----
- Makefile | 1 +
- 1 file changed, 1 insertion(+)
+Thanks
 
-diff --git a/Makefile b/Makefile
-index a7b664680ea3..88b2b13bf35b 100644
---- a/Makefile
-+++ b/Makefile
-@@ -888,6 +888,7 @@ ifndef CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
- dwarf-version-$(CONFIG_DEBUG_INFO_DWARF4) := 4
- dwarf-version-$(CONFIG_DEBUG_INFO_DWARF5) := 5
- DEBUG_CFLAGS	+= -gdwarf-$(dwarf-version-y)
-+KBUILD_AFLAGS	+= -gdwarf-$(dwarf-version-y)
- endif
- 
- ifdef CONFIG_DEBUG_INFO_REDUCED
--- 
-2.40.0.rc1.284.g88254d51c5-goog
+> 
+> Kind regards,
+> Nicolas
+> 
+> 
+> [2]: https://lore.kernel.org/linux-kbuild/20230312200731.599706-7-masahiroy@kernel.org/
+> 
+> > [1] https://lore.kernel.org/all/Y%2Fk+v%2FYj8VQ6q32H@fjasle.eu/
+> > Cc: Nicolas Schier <nicolas@fjasle.eu>
+> > Fixes: 7bf4582d7aad ("kbuild: deb-pkg: create source package without cleaning")
+> > Signed-off-by: Riad Abo Raed <riada@nvidia.com>
+> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > ---
+> >  scripts/Makefile.package | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+> > index b941e6341b36..be4623481ca2 100644
+> > --- a/scripts/Makefile.package
+> > +++ b/scripts/Makefile.package
+> > @@ -44,7 +44,7 @@ filechk_filelist = \
+> >  # ---------------------------------------------------------------------------
+> >  
+> >  quiet_cmd_tar = TAR     $@
+> > -      cmd_tar = tar -c -f $@ $(tar-compress-opt) $(tar-exclude-opt) \
+> > +      cmd_tar = touch ./$@ && tar $(tar-exclude-opt) -c -f $@ $(tar-compress-opt) \
+> >                  --owner=0 --group=0 --sort=name \
+> >                  --transform 's:^\.:$*:S' -C $(tar-rootdir) .
+> >  
+> > -- 
+> > 2.39.2
+> 
+> -- 
+> Nicolas Schier
+>  
+> epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
+> ↳ gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
+>      -- frykten for herren er opphav til kunnskap --
+
 
