@@ -2,120 +2,119 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FF6E6BCCA7
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Mar 2023 11:24:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 699576BCDBC
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Mar 2023 12:15:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231279AbjCPKYX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 16 Mar 2023 06:24:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49146 "EHLO
+        id S230184AbjCPLPA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 16 Mar 2023 07:15:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230434AbjCPKYE (ORCPT
+        with ESMTP id S230272AbjCPLO4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 16 Mar 2023 06:24:04 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDD43C0839;
-        Thu, 16 Mar 2023 03:23:13 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id BAFD9CE1C19;
-        Thu, 16 Mar 2023 10:22:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27A7AC433EF;
-        Thu, 16 Mar 2023 10:22:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678962139;
-        bh=XycJsbQwQZu2+13LdXuNxAbfzBQS0vn5LqFbRiamWNA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=C85VM08oPm1N4YoszKWsBP9Go1Fbbbls7frCMrYy3jZQJ+m0+fFVj2IFC0lGkPMTB
-         RXP8IlDv9H4KeuQgOQAjwf2Ro3nHC5bwKIcqXZJ2wy3jE27HR/oqtan/9WqOM1wIB9
-         oACQonyljOduyNiNKn5+fjUe8QPo20EdGz8FlheuI1Cyk8tDTcSvWcJXWmeFzCotuY
-         1UkmVxeS8hCLHw75HCrFIw+VWCd0nUD/7GrO4IzktdHYcZZO1pVUwIXNPGols7/sfe
-         cj5xuhXSukwOn8X/Zbv+b4NK5+tqIkxRCQJ33G9szxlCf1HEub23gi2bi43ob2k8Ew
-         saBv5tnj6KbFA==
-Date:   Thu, 16 Mar 2023 12:22:15 +0200
-From:   Leon Romanovsky <leon@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nick Terrell <terrelln@fb.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Subject: Re: [PATCH 0/6] kbuild: fix some packaging issues, and use
- git-archive for source package
-Message-ID: <20230316102215.GA473089@unreal>
-References: <20230312200731.599706-1-masahiroy@kernel.org>
+        Thu, 16 Mar 2023 07:14:56 -0400
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 320FEEB;
+        Thu, 16 Mar 2023 04:14:32 -0700 (PDT)
+Received: by mail-wm1-f49.google.com with SMTP id bh21-20020a05600c3d1500b003ed1ff06fb0so823167wmb.3;
+        Thu, 16 Mar 2023 04:14:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678965270;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2ZDBT0cMZ0W19lPDUhO8A3SC8gJRP8pNHC7vkw5YBWs=;
+        b=m7h4cvpVhloSYFgu3RtK71cLUIHCV2B2Xc3/kzbe7SoK4p1wJ/5uwSXXmTQcXJBYJ1
+         N3fRhoSQK/hjvI11RjN/ga8mAMftWPM7XO/zk0T2voVXktH8ugBtSB4oWxs6KjAyGMlJ
+         lggGGONnPsXTEG5POp1uLgJxemPKROQN82UwtJuM0w2I0DWo9bLVtTkSI3PysRbP0WOR
+         TLhIPxmGD3zBSUXl2jw2ebtn/Yr88ZfXU6KE2W4GeTKckD8todb/sdI+NirGuKRfIHBm
+         5jiqR8c1Bl5CydZMajejcDYYc2HUmHA5tQIJsPHt5MyEurIYvPDMSJr/ha70oqIGRgd9
+         /E2w==
+X-Gm-Message-State: AO0yUKUdp/0CFqAdxsEKISaw6vbR196RFWYKCnVcBZZsi4P53GlCr+fU
+        iGMpfuAEqTnvJhM6cNPo0obxay2Kto8=
+X-Google-Smtp-Source: AK7set+u7sPC1b8dhu6zYooEMDkVjysjW+tBZ0xjaRmULDxxhCOU9R0dfR3BrzDHYj9d5TdjWFQXRg==
+X-Received: by 2002:a05:600c:4448:b0:3dc:1687:9ba2 with SMTP id v8-20020a05600c444800b003dc16879ba2mr20542511wmn.35.1678965270508;
+        Thu, 16 Mar 2023 04:14:30 -0700 (PDT)
+Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:49? ([2a0b:e7c0:0:107::aaaa:49])
+        by smtp.gmail.com with ESMTPSA id k6-20020a05600c1c8600b003e209b45f6bsm5082683wms.29.2023.03.16.04.14.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Mar 2023 04:14:29 -0700 (PDT)
+Message-ID: <705ce64c-5f73-2ec8-e4bc-dd48c85f0498@kernel.org>
+Date:   Thu, 16 Mar 2023 12:14:27 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230312200731.599706-1-masahiroy@kernel.org>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 2/2] s390/nospec: remove unneeded header includes
+Content-Language: en-US
+To:     Vasily Gorbik <gor@linux.ibm.com>,
+        Joe Lawrence <joe.lawrence@redhat.com>
+Cc:     Michael Ellerman <mpe@ellerman.id.au>,
+        Sumanth Korikkar <sumanthk@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        linux-kbuild@vger.kernel.org
+References: <8569429d-57f8-a0cf-8b17-1291f6973d32@redhat.com>
+ <cover.thread-d13b6c.your-ad-here.call-01656331067-ext-4899@work.hours>
+ <patch-2.thread-d13b6c.git-d13b6c96fb5f.your-ad-here.call-01656331067-ext-4899@work.hours>
+From:   Jiri Slaby <jirislaby@kernel.org>
+In-Reply-To: <patch-2.thread-d13b6c.git-d13b6c96fb5f.your-ad-here.call-01656331067-ext-4899@work.hours>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Mar 13, 2023 at 05:07:25AM +0900, Masahiro Yamada wrote:
-> This series fixes some bugs, then switch to 'git archive'
-> for source package creation as suggested by Linus.
->=20
->=20
->=20
-> Masahiro Yamada (6):
->   kbuild: deb-pkg: make debian source package working again
->   kbuild: deb-pkg: do not take KERNELRELEASE from the source version
->   kbuild: deb-pkg: set CROSS_COMPILE only when undefined
->   kbuild: deb-pkg: split image and debug objects staging out into
->     functions
->   kbuild: deb-pkg: use dh_listpackages to know enabled packages
->   kbuild: use git-archive for source package creation
+On 27. 06. 22, 14:50, Vasily Gorbik wrote:
+> Commit 4efd417f298b ("s390: raise minimum supported machine generation
+> to z10") removed the usage of alternatives and lowcore in expolines
+> macros. Remove unneeded header includes as well.
+> 
+> With that, expoline.S doesn't require asm-offsets.h and
+> expoline_prepare target dependency could be removed.
+> 
+> Signed-off-by: Vasily Gorbik <gor@linux.ibm.com>
+> ---
+>   arch/s390/Makefile                  | 2 +-
+>   arch/s390/include/asm/nospec-insn.h | 2 --
+>   2 files changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/arch/s390/Makefile b/arch/s390/Makefile
+> index fc72a35a1f07..4cb5d17e7ead 100644
+> --- a/arch/s390/Makefile
+> +++ b/arch/s390/Makefile
+> @@ -166,7 +166,7 @@ vdso_prepare: prepare0
+>   
+>   ifdef CONFIG_EXPOLINE_EXTERN
+>   modules_prepare: expoline_prepare
+> -expoline_prepare: prepare0
+> +expoline_prepare:
 
+Hi,
 
-I tried this series and got the following error:
-11:05:53  Install lsb-release or set $KDEB_CHANGELOG_DIST explicitly
-11:05:53  dpkg-buildpackage: info: source package linux-upstream
-11:05:53  dpkg-buildpackage: info: source version 6.3.0-rc2-gdc71b1b23e6d-1
-11:05:53  dpkg-buildpackage: info: source distribution unstable
-11:05:53  dpkg-buildpackage: info: source changed by root <root@5621c2cf448=
-d>
-11:05:53  dpkg-buildpackage: info: host architecture arm64
-11:05:53   dpkg-source --before-build .
-11:05:53  dpkg-source: info: using options from linux/debian/source/local-o=
-ptions: --diff-ignore --extend-diff-ignore=3D.*
-11:05:53  dpkg-checkbuilddeps: error: Unmet build dependencies: debhelper
-11:05:53  dpkg-buildpackage: warning: build dependencies/conflicts unsatisf=
-ied; aborting
-11:05:53  dpkg-buildpackage: warning: (Use -d flag to override.)
-11:05:53  make[1]: *** [scripts/Makefile.package:117: deb-pkg] Error 3
-11:05:53  make: *** [Makefile:1656: deb-pkg] Error 2
+this likely broke s390 build as expolines still depend on 
+scripts/basic/fixdep. And build of expolines can now race with fixdep build:
+      make[1]: *** Deleting file 'arch/s390/lib/expoline/expoline.o'
+      /bin/sh: line 1: scripts/basic/fixdep: Permission denied
+      make[1]: *** [../scripts/Makefile.build:385: 
+arch/s390/lib/expoline/expoline.o] Error 126
+      make: *** [../arch/s390/Makefile:166: expoline_prepare] Error 2
 
-Thanks
+I returned there:
+   expoline_prepare: prepare0
+and it looks good so far. Maybe even:
+   expoline_prepare: scripts
+would be enough.
 
+Opinions?
 
->=20
->  .gitignore                       |    1 +
->  Makefile                         |    9 +-
->  scripts/.gitignore               |    1 -
->  scripts/Makefile                 |    2 +-
->  scripts/Makefile.package         |  113 ++--
->  scripts/check-git                |   14 +
->  scripts/list-gitignored.c        | 1057 ------------------------------
->  scripts/package/builddeb         |  269 ++++----
->  scripts/package/deb-build-option |   14 +-
->  scripts/package/gen-diff-patch   |   44 ++
->  scripts/package/mkdebian         |   24 +-
->  scripts/package/mkspec           |   17 +-
->  scripts/setlocalversion          |   45 +-
->  13 files changed, 335 insertions(+), 1275 deletions(-)
->  create mode 100755 scripts/check-git
->  delete mode 100644 scripts/list-gitignored.c
->  create mode 100755 scripts/package/gen-diff-patch
->=20
-> --=20
-> 2.34.1
->=20
+thanks,
+-- 
+js
+suse labs
+
