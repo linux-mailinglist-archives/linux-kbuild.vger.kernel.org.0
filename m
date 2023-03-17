@@ -2,160 +2,258 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8095D6BE813
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Mar 2023 12:32:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 495E26BF152
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Mar 2023 20:01:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229541AbjCQLcM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 17 Mar 2023 07:32:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48114 "EHLO
+        id S230035AbjCQTBL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 17 Mar 2023 15:01:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbjCQLcM (ORCPT
+        with ESMTP id S230047AbjCQTBG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 17 Mar 2023 07:32:12 -0400
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEADD39CE9;
-        Fri, 17 Mar 2023 04:32:09 -0700 (PDT)
-Received: by mail-wr1-f45.google.com with SMTP id i9so4120530wrp.3;
-        Fri, 17 Mar 2023 04:32:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679052728;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pokBorB33YnYWBtMSchGyHYZy6+UIAXs0bkjjq7SoP4=;
-        b=ELSYU5aqHgXiH/Ra8htlX5AOwU61cVa6+JdwlL3Ux3XqGZTZGE0n9RUstIjnf6G8By
-         zzi37KJZ+GvhcZksV9NsDSgahzdLsF8QKURGTqgCj9kBWbnIy0ou7bbghxcgUdlmD4JB
-         jFgUkEbvzKWZJSCHXN3kbZRIYtKNpSXoTGD91rNic0NDrxBCpR52RdoB/sAH8ub521hQ
-         SD+QNVAuu2fyJyxXfDf4mr87EqFlIS2+LDgQmNl3fLRGrumXnMqsk6exK5JCwzeSrTlz
-         qa+6U7ZZDGRxUFf9ND/khspL8qRDki8WQVGiieaEkhBQ/6TR7/CIR9cyTz6wMhuXgpgK
-         yIlQ==
-X-Gm-Message-State: AO0yUKUHh9/qxkj40vfyTcTbOY1ViXtnp0rs+iVF74GYD7CQiOEQRZX9
-        XTlqPR7m5lpTYs4Pd14k1fUJvVvRCQyPAA==
-X-Google-Smtp-Source: AK7set+38hNek1SWZ5K27z7yb9JStMWOwMUmWROBuMGTf1E7CbKhvZ3VboMhKOT7Vv24lgNgaAFkuw==
-X-Received: by 2002:adf:fd89:0:b0:2c5:c4c9:515a with SMTP id d9-20020adffd89000000b002c5c4c9515amr6121589wrr.51.1679052728164;
-        Fri, 17 Mar 2023 04:32:08 -0700 (PDT)
-Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:49? ([2a0b:e7c0:0:107::aaaa:49])
-        by smtp.gmail.com with ESMTPSA id q7-20020adff947000000b002d419f661d6sm213887wrr.82.2023.03.17.04.32.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Mar 2023 04:32:07 -0700 (PDT)
-Message-ID: <cbacf815-eed9-8822-8b54-b7a7cf2169bf@kernel.org>
-Date:   Fri, 17 Mar 2023 12:32:05 +0100
+        Fri, 17 Mar 2023 15:01:06 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EA4D196AD;
+        Fri, 17 Mar 2023 12:00:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=9l1jlBa2TW433jl7IJq8lUkTy9f/IvnEj0Y2pjJtp2w=; b=aOJ5OxoAmKYzoZThHS05n6pJI2
+        zjx5Y3zFzl17uudPa9G+NIXQDbjn6epkPMDvI3TW1mybTKg03+PBrTVAeaOKgHenSld8K+TdDFzWZ
+        iXGOJnM4UYh4aPpKvlAyovuyC4xbGtgbYzEaAoRSG0WPDpPVzk0Q6ZcIwKwi2n19PEBkDQfUegka3
+        XwWroYsFKlYRBhrLz0AKhsJdvfAI06tN872iG5cvwqyUjfwlbpTJAAP8167dvU+2A+GwmehQ/UGGb
+        l49xInMLWzmpjfBi1T+cZi5WWD86jGhqBvdFFFX0Gzfl/GlWrcgm8HCApU4Dk60JwTs7OU/Is7cxP
+        BgRnrR5Q==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+        id 1pdFJg-0036Xe-0y;
+        Fri, 17 Mar 2023 19:00:40 +0000
+Date:   Fri, 17 Mar 2023 12:00:40 -0700
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Josh Poimboeuf <jpoimboe@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Petr Mladek <pmladek@suse.com>, Song Liu <song@kernel.org>,
+        patches@lists.linux.dev, linux-modules@vger.kernel.org,
+        live-patching@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: mod->klp set on copy ok ?
+Message-ID: <ZBS42Lid+CX0h0fk@bombadil.infradead.org>
+References: <CAB=NE6Vo4AXVrn1GPEoZWVF3NkXRoPwWOuUEJqJ35S9VMGTM2Q@mail.gmail.com>
+ <ZA8NBuXbVP+PRPp0@alley>
+ <ZBOPP4YWWhJRk2yn@bombadil.infradead.org>
+ <20230317161639.3de7yeek6ia4y7ul@treble>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US
-To:     Vasily Gorbik <gor@linux.ibm.com>
-Cc:     Joe Lawrence <joe.lawrence@redhat.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Sumanth Korikkar <sumanthk@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linux-kbuild@vger.kernel.org
-References: <8569429d-57f8-a0cf-8b17-1291f6973d32@redhat.com>
- <cover.thread-d13b6c.your-ad-here.call-01656331067-ext-4899@work.hours>
- <patch-2.thread-d13b6c.git-d13b6c96fb5f.your-ad-here.call-01656331067-ext-4899@work.hours>
- <705ce64c-5f73-2ec8-e4bc-dd48c85f0498@kernel.org>
- <your-ad-here.call-01679051845-ext-2019@work.hours>
-From:   Jiri Slaby <jirislaby@kernel.org>
-Subject: Re: [PATCH 2/2] s390/nospec: remove unneeded header includes
-In-Reply-To: <your-ad-here.call-01679051845-ext-2019@work.hours>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230317161639.3de7yeek6ia4y7ul@treble>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 17. 03. 23, 12:17, Vasily Gorbik wrote:
-> On Thu, Mar 16, 2023 at 12:14:27PM +0100, Jiri Slaby wrote:
->> On 27. 06. 22, 14:50, Vasily Gorbik wrote:
->>> With that, expoline.S doesn't require asm-offsets.h and
->>> expoline_prepare target dependency could be removed.
->>>
->>> +++ b/arch/s390/Makefile
->>> @@ -166,7 +166,7 @@ vdso_prepare: prepare0
->>>    ifdef CONFIG_EXPOLINE_EXTERN
->>>    modules_prepare: expoline_prepare
->>> -expoline_prepare: prepare0
->>> +expoline_prepare:
->>
->> this likely broke s390 build as expolines still depend on
->> scripts/basic/fixdep. And build of expolines can now race with fixdep build:
->>       make[1]: *** Deleting file 'arch/s390/lib/expoline/expoline.o'
->>       /bin/sh: line 1: scripts/basic/fixdep: Permission denied
->>       make[1]: *** [../scripts/Makefile.build:385:
->> arch/s390/lib/expoline/expoline.o] Error 126
->>       make: *** [../arch/s390/Makefile:166: expoline_prepare] Error 2
->>
->> I returned there:
->>    expoline_prepare: prepare0
->> and it looks good so far. Maybe even:
->>    expoline_prepare: scripts
->> would be enough.
++ linux-kbuild
+
+On Fri, Mar 17, 2023 at 09:16:39AM -0700, Josh Poimboeuf wrote:
+> On Thu, Mar 16, 2023 at 02:50:55PM -0700, Luis Chamberlain wrote:
+> > The comment for "Update sh_addr to point to copy in image." seems pretty
+> > misleading to me, what we are doing there is actually ensuring that we update
+> > the copy's ELF section address to point to our newly allocated memory.
+> > Do folks agree?
+> > 
+> > And how about the size on the memcpy()? That's a shd->sh_size. No matter
+> > how much I increase my struct module in include/linux/module.h I see
+> > thes same sh_size. Do folks see same?
+> > 
+> > nm --print-size --size-sort fs/xfs/xfs.ko | grep __this_module
+> > 0000000000000000 0000000000000500 D __this_module
+> > 
+> > This is what is supposed to make the final part of layout_and_allocate() work:
+> > 
+> > 	mod = (void *)info->sechdrs[info->index.mod].sh_addr;
+> > 
+> > This works off of the copy of the module. Let's recall that
+> > setup_load_info() sets the copy mod to:
+> > 
+> > 	info->mod = (void *)info->hdr + info->sechdrs[info->index.mod].sh_offset;
+> > 
+> > The memcpy() in move_module() is what *should* be copying over the entire
+> > mod stuff properly over, that includes the mod->klp for live patching
+> > but also any new data we muck with in-kernel as the new mod->mem stuff
+> > in layout_sections(). In short, anything in struct module should be
+> > shoved into an ELF section. But I'm not quite sure this is all right.
 > 
-> Hi Jiri, thanks for looking into this!
+> I dug into that code years ago, and the above sounds right.
 > 
-> Probably even scripts_basic would be enough to add explicit dependency
-> to fixdep. But I just couldn't reproduce missing scripts/basic/fixdep
-> neither with modules_prepare nor expoline_prepare targets.
-
-Hi,
-
-yes, I could not reproduce locally too. It likely needs a "slow" and 
-sort of specific machine to happen. This happened randomly only on SUSE 
-build systems. And only on the internal ones. There are no failures on 
-public ones:
-https://build.opensuse.org/packages/kernel-default/job_history/Kernel:stable/S390/s390x
-
-The kernel is built as:
-make prepare # builds scripts/basic and other stuff we use
-make clean # remove all but scripts and config
-make all # scripts/basic/fixdep is rebuilt
-
-fixdep is rebuilt due to clean-ed .fixdep.o.cmd -- that one is 
-regenerated and fixdep built anew.
-
-The whole process (make log) is dumped at:
-https://build.opensuse.org/package/live_build_log/Kernel:stable/kernel-default/S390/s390x
-
-> With which specific build command were you able to get those error
-> messages? I wonder where
->          make[1]: *** Deleting file 'arch/s390/lib/expoline/expoline.o'
-> is coming from. Could it be smth like?
-
-It's from make after the build (fixdep invocation) failure. So that 
-stale files do not exist.
-
-Note that fixdep likely exist, but it is a stub -- linking phase still runs.
-
-> make ARCH=s390 CROSS_COMPILE=s390x-12.2.0- -j64 arch/s390/lib/expoline/expoline.o
+> The .ko file has a .gnu.linkonce.this_module section whose data is just
+> the original "struct module __this_module" which is created by the
+> module build (from foo.mod.c).
 > 
-> Playing around with this build target I found it is broken:
+> At the beginning of the finit_module() syscall, the .ko file's ELF
+> sections get copied (and optionally decompressed) into kernel memory.
+> Then 'mod' just points to the copied __this_module struct.
 > 
->    AS      arch/s390/lib/expoline/expoline.o
->    AS      arch/s390/lib/expoline/expoline.o
-> fixdep: error opening file: arch/s390/lib/expoline/.expoline.o.d: No such file or directory
-> make[3]: *** [scripts/Makefile.build:374: arch/s390/lib/expoline/expoline.o] Error 2
-> make[3]: *** Deleting file 'arch/s390/lib/expoline/expoline.o'
-> make[2]: *** [scripts/Makefile.build:494: arch/s390/lib/expoline] Error 2
-> make[1]: *** [scripts/Makefile.build:494: arch/s390/lib] Error 2
-> make[1]: *** Waiting for unfinished jobs....
-> make: *** [Makefile:2028: .] Error 2
+> Then mod->klp (and possibly mod->taint) get set.
 > 
-> Notice dup AS call, which is probably causing this:
-> make[3]: *** Deleting file 'arch/s390/lib/expoline/expoline.o'
+> Then in layout_and_allocate(), that 'mod' gets memcpy'd into the second
+> (and final) in-kernel copy of 'struct module':
 > 
-> But that would be a different issue from the one you are trying to fix.
+>  		if (shdr->sh_type != SHT_NOBITS)
+>  			memcpy(dest, (void *)shdr->sh_addr, shdr->sh_size);
+>  		/* Update sh_addr to point to copy in image. */
+>  		shdr->sh_addr = (unsigned long)dest;
+> 
+> I suspect you don't see the size changing when you add to 'struct
+> module' because it's ____cacheline_aligned.
+> 
+> It's all rather obtuse, but working as designed as far as I can tell.
 
-Likely.
+Ah, well it is beyond a ____cacheline_aligned issue! It would seem our build
+system does not incur a full re-build of $foo.mod.c if the size of struct module
+changes. Doing a full rebuild does get the right drift size change in
+struct module:
 
-thanks,
+nm --print-size --radix=dec --size-sort fs/xfs/xfs.ko | grep __this_module
+0000000000000000 0000000000001280 D __this_module
+
+I validated that sizeof(struct module) does match 1280. And so, to remove all
+these cob webs for good, and to extend our ELF validity checker, what about
+the following patch (boot tested):
+
+From cdd78ff0cb6d521930305026089a72776a982845 Mon Sep 17 00:00:00 2001
+From: Luis Chamberlain <mcgrof@kernel.org>
+Date: Fri, 17 Mar 2023 11:41:02 -0700
+Subject: [PATCH] module: add sanity check for ELF module section
+
+The ELF ".gnu.linkonce.this_module" section is special, it is what we
+use to construct the struct module __this_module, which THIS_MODULE
+points to. When userspace loads a module we always deal first with a
+copy of the userspace buffer, and twiddle with the userspace copy's
+version of the struct module. Eventually we allocate memory to do a
+memcpy() of that struct module, under the assumption that the module
+size is right. But we have no validity checks against the size or
+the requirements for the section.
+
+Add some validity checks for the special module section early and while
+at it, cache the module section index early, so we don't have to do that
+later.
+
+While at it, just move over the assigment of the info->mod to make the
+code clearer. The validity checker also adds an explicit size check to
+ensure the module section size matches the kernel's run time size for
+sizeof(struct module). This should prevent sloppy loads of modules
+which are built today *without* actually increasing the size of
+the struct module. A developer today can for example expand the size
+of struct module, rebuild a directoroy 'make fs/xfs/' for example and
+then try to insmode the driver there. That module would in effect have
+an incorrect size. This new size check would put a stop gap against such
+mistakes.
+
+This also makes the entire goal of ".gnu.linkonce.this_module" pretty
+clear. Before this patch verification of the goal / intent required some
+Indian Jones whips, torches and cleaning up big old spider webs.
+
+Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+---
+ kernel/module/main.c | 60 +++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 51 insertions(+), 9 deletions(-)
+
+diff --git a/kernel/module/main.c b/kernel/module/main.c
+index 57cc10a20b45..d1aee35ab928 100644
+--- a/kernel/module/main.c
++++ b/kernel/module/main.c
+@@ -1656,6 +1656,7 @@ static int elf_validity_check(struct load_info *info)
+ 	unsigned int i;
+ 	Elf_Shdr *shdr, *strhdr;
+ 	int err;
++	unsigned int num_mod_secs = 0, mod_idx;
+ 
+ 	if (info->len < sizeof(*(info->hdr))) {
+ 		pr_err("Invalid ELF header len %lu\n", info->len);
+@@ -1767,6 +1768,11 @@ static int elf_validity_check(struct load_info *info)
+ 					i, shdr->sh_type);
+ 				return err;
+ 			}
++			if (strcmp(info->secstrings + shdr->sh_name,
++				   ".gnu.linkonce.this_module") == 0) {
++				num_mod_secs++;
++				mod_idx = i;
++			}
+ 
+ 			if (shdr->sh_flags & SHF_ALLOC) {
+ 				if (shdr->sh_name >= strhdr->sh_size) {
+@@ -1779,6 +1785,51 @@ static int elf_validity_check(struct load_info *info)
+ 		}
+ 	}
+ 
++	/* The ".gnu.linkonce.this_module" ELF section is special. It is
++	 * what modpost uses to refer to __this_module and let's use rely
++	 * on THIS_MODULE to point to &__this_module properly. The kernel's
++	 * modpost declares it on each modules's *.mod.c file. If the struct
++	 * module of the kernel changes a full kernel rebuild is required.
++	 *
++	 * We have a few expectaions for this special section, the following
++	 * code validates all this for us:
++	 *
++	 *   o Only one section must exist
++	 *   o We expect the kernel to always have to allocate it: SHF_ALLOC
++	 *   o The section size must match the kernel's run time's struct module
++	 *     size
++	 */
++	if (num_mod_secs != 1) {
++		pr_err("Only one .gnu.linkonce.this_module section must exist.\n");
++		goto no_exec;
++	}
++
++	shdr = &info->sechdrs[mod_idx];
++
++	/*
++	 * This is already implied on the switch above, however let's be
++	 * pedantic about it.
++	 */
++	if (shdr->sh_type == SHT_NOBITS) {
++		pr_err(".gnu.linkonce.this_module section must have a size set\n");
++		goto no_exec;
++	}
++
++	if (!(shdr->sh_flags & SHF_ALLOC)) {
++		pr_err(".gnu.linkonce.this_module must occupy memory during process execution\n");
++		goto no_exec;
++	}
++
++	if (shdr->sh_size != sizeof(struct module)) {
++		pr_err(".gnu.linkonce.this_module section size must match the kernel's built struct module size at run time\n");
++		goto no_exec;
++	}
++
++	info->index.mod = mod_idx;
++
++	/* This is temporary: point mod into copy of data. */
++	info->mod = (void *)info->hdr + shdr->sh_offset;
++
+ 	return 0;
+ 
+ no_exec:
+@@ -1925,15 +1976,6 @@ static int setup_load_info(struct load_info *info, int flags)
+ 		return -ENOEXEC;
+ 	}
+ 
+-	info->index.mod = find_sec(info, ".gnu.linkonce.this_module");
+-	if (!info->index.mod) {
+-		pr_warn("%s: No module found in object\n",
+-			info->name ?: "(missing .modinfo section or name field)");
+-		return -ENOEXEC;
+-	}
+-	/* This is temporary: point mod into copy of data. */
+-	info->mod = (void *)info->hdr + info->sechdrs[info->index.mod].sh_offset;
+-
+ 	/*
+ 	 * If we didn't load the .modinfo 'name' field earlier, fall back to
+ 	 * on-disk struct mod 'name' field.
 -- 
-js
+2.39.2
 
