@@ -2,113 +2,133 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF5746BE4A8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Mar 2023 10:00:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C05B6BE76F
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Mar 2023 11:59:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231244AbjCQJAZ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Fri, 17 Mar 2023 05:00:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40820 "EHLO
+        id S229925AbjCQK7e (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 17 Mar 2023 06:59:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231827AbjCQI7v (ORCPT
+        with ESMTP id S229885AbjCQK7c (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 17 Mar 2023 04:59:51 -0400
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C02D23DAB
-        for <linux-kbuild@vger.kernel.org>; Fri, 17 Mar 2023 01:58:49 -0700 (PDT)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-281-uqQwu3-2Ni6M2bibkxFdew-1; Fri, 17 Mar 2023 08:58:11 +0000
-X-MC-Unique: uqQwu3-2Ni6M2bibkxFdew-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.47; Fri, 17 Mar
- 2023 08:58:09 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.047; Fri, 17 Mar 2023 08:58:09 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Bhaskar Chowdhury' <unixbhaskar@gmail.com>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "nicolas@fjasle.eu" <nicolas@fjasle.eu>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
-Subject: RE: [PATCH] Kbuild: Elevate sha1sum to sha256sum for atomic headers
- check
-Thread-Topic: [PATCH] Kbuild: Elevate sha1sum to sha256sum for atomic headers
- check
-Thread-Index: AQHZVz7+3Ra3OwIixEm7c88WA//5ha7+rdKg
-Date:   Fri, 17 Mar 2023 08:58:09 +0000
-Message-ID: <0bbdd88ca0cb465a85d7b90ebacb5e83@AcuMS.aculab.com>
-References: <20230315130518.4496-1-unixbhaskar@gmail.com>
-In-Reply-To: <20230315130518.4496-1-unixbhaskar@gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Fri, 17 Mar 2023 06:59:32 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D6E47ED0;
+        Fri, 17 Mar 2023 03:59:30 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D3FA2B824C8;
+        Fri, 17 Mar 2023 10:59:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96FB7C4339E;
+        Fri, 17 Mar 2023 10:59:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679050767;
+        bh=hvl5wAQ8fjtCV5r8Eb4nA33ZzI1gUz6AM8Y2rzqbrEc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=QChWfRxLL2T3GZSOO7muxlUvKyUHW/vFccWhx8jum00KZefZCqCLrnfUStUL/zWJj
+         QVW4lNfHlk2SrYR250XHGwAzu+9FMisYsb+pL6k8nVmmpCZwaURmfJH4io2Hqkgm/s
+         ewd4wa/tSX/1aSiFO2OYFsthShLFvdSWyUBupKlF+dBUXWUh4At8YlFHnsgJny4gmO
+         mdZEKDSqwvYsH2cZPTORchETvwyZFtjTZTwfJVDNtmsoUFWKcZXHRK4jY/kZxPDF9+
+         zHTXtazccpUOSPTEzybsdtPXZYAh70Is3Uy3BLp47XE2fksaZ39iTCMho3mdwYGVp1
+         Or+NVD97ery/Q==
+Received: by mail-ot1-f54.google.com with SMTP id v2-20020a056830090200b0069c6952f4d3so2605374ott.7;
+        Fri, 17 Mar 2023 03:59:27 -0700 (PDT)
+X-Gm-Message-State: AO0yUKXbFqXKJ+A2sGzv9vrhtpDhXBckYTdw+ke+nKXS5MChX5vH60WE
+        1CMeP/c3Hxj2clVc+ZoJQKETIAnor2Sz9EOM7ek=
+X-Google-Smtp-Source: AK7set/FKKlfJ+Rwp8G2L6kEgMMTvQAm47BATNJVddgUHqRXcqdTbMOkViohy7v6djiBCK7o/kE8eCoHeUKaE06pA6I=
+X-Received: by 2002:a9d:64a:0:b0:69a:7f40:3fb9 with SMTP id
+ 68-20020a9d064a000000b0069a7f403fb9mr1079453otn.3.1679050766795; Fri, 17 Mar
+ 2023 03:59:26 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,PDS_BAD_THREAD_QP_64,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+References: <8569429d-57f8-a0cf-8b17-1291f6973d32@redhat.com>
+ <cover.thread-d13b6c.your-ad-here.call-01656331067-ext-4899@work.hours>
+ <patch-2.thread-d13b6c.git-d13b6c96fb5f.your-ad-here.call-01656331067-ext-4899@work.hours>
+ <705ce64c-5f73-2ec8-e4bc-dd48c85f0498@kernel.org>
+In-Reply-To: <705ce64c-5f73-2ec8-e4bc-dd48c85f0498@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 17 Mar 2023 19:58:50 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATEn98O+53MvbgfEy3fk2bBxn8bu_L0hbrrtAh0LXpCKw@mail.gmail.com>
+Message-ID: <CAK7LNATEn98O+53MvbgfEy3fk2bBxn8bu_L0hbrrtAh0LXpCKw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] s390/nospec: remove unneeded header includes
+To:     Jiri Slaby <jirislaby@kernel.org>
+Cc:     Vasily Gorbik <gor@linux.ibm.com>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Sumanth Korikkar <sumanthk@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Bhaskar Chowdhury
-> Sent: 15 March 2023 13:05
-> 
-> Thought it would be a good idea to use a elevated mechanism i.e sha256sum
+On Thu, Mar 16, 2023 at 8:14=E2=80=AFPM Jiri Slaby <jirislaby@kernel.org> w=
+rote:
+>
+> On 27. 06. 22, 14:50, Vasily Gorbik wrote:
+> > Commit 4efd417f298b ("s390: raise minimum supported machine generation
+> > to z10") removed the usage of alternatives and lowcore in expolines
+> > macros. Remove unneeded header includes as well.
+> >
+> > With that, expoline.S doesn't require asm-offsets.h and
+> > expoline_prepare target dependency could be removed.
+> >
+> > Signed-off-by: Vasily Gorbik <gor@linux.ibm.com>
+> > ---
+> >   arch/s390/Makefile                  | 2 +-
+> >   arch/s390/include/asm/nospec-insn.h | 2 --
+> >   2 files changed, 1 insertion(+), 3 deletions(-)
+> >
+> > diff --git a/arch/s390/Makefile b/arch/s390/Makefile
+> > index fc72a35a1f07..4cb5d17e7ead 100644
+> > --- a/arch/s390/Makefile
+> > +++ b/arch/s390/Makefile
+> > @@ -166,7 +166,7 @@ vdso_prepare: prepare0
+> >
+> >   ifdef CONFIG_EXPOLINE_EXTERN
+> >   modules_prepare: expoline_prepare
+> > -expoline_prepare: prepare0
+> > +expoline_prepare:
+>
+> Hi,
+>
+> this likely broke s390 build as expolines still depend on
+> scripts/basic/fixdep. And build of expolines can now race with fixdep bui=
+ld:
+>       make[1]: *** Deleting file 'arch/s390/lib/expoline/expoline.o'
+>       /bin/sh: line 1: scripts/basic/fixdep: Permission denied
+>       make[1]: *** [../scripts/Makefile.build:385:
+> arch/s390/lib/expoline/expoline.o] Error 126
+>       make: *** [../arch/s390/Makefile:166: expoline_prepare] Error 2
 
-How can this change possibly work.
-It is just a list of definitions read by another makefile.
-You've changed the name of a definition without changing where it is used.
-Also if the code is looking for a change, you'd need to change
-what it is compared against.
-In any case no one is worried about malicious attempts to change
-things without being noticed, even sha1 is OTT.
 
-	David
+Indeed. This is a race.
 
-> 
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-> ---
->  Kbuild | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Kbuild b/Kbuild
-> index 464b34a08f51..b74040346d76 100644
-> --- a/Kbuild
-> +++ b/Kbuild
-> @@ -45,14 +45,14 @@ missing-syscalls: scripts/checksyscalls.sh $(offsets-file)
-> 
->  # Check the manual modification of atomic headers
-> 
-> -quiet_cmd_check_sha1 = CHKSHA1 $<
-> -      cmd_check_sha1 = \
-> -	if ! command -v sha1sum >/dev/null; then \
-> -		echo "warning: cannot check the header due to sha1sum missing"; \
-> +quiet_cmd_check_sha256 = CHKSHA256 $<
-> +      cmd_check_sha256 = \
-> +	if ! command -v sha256sum >/dev/null; then \
-> +		echo "warning: cannot check the header due to sha256sum missing"; \
->  		exit 0; \
->  	fi; \
->  	if [ "$$(sed -n '$$s:// ::p' $<)" != \
-> -	     "$$(sed '$$d' $< | sha1sum | sed 's/ .*//')" ]; then \
-> +	     "$$(sed '$$d' $< | sha256sum | sed 's/ .*//')" ]; then \
->  		echo "error: $< has been modified." >&2; \
->  		exit 1; \
->  	fi; \
-> --
-> 2.39.2
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+> I returned there:
+>    expoline_prepare: prepare0
+> and it looks good so far. Maybe even:
+>    expoline_prepare: scripts
+> would be enough.
+>
+> Opinions?
+>
 
+Technically, 'scripts' might be enough, but
+it is difficult to predict whether
+arch/s390/lib/expoline/expoline.S
+includes generated headers or not.
+
+The chain of header inclusion changes all the time.
+
+--=20
+Best Regards
+Masahiro Yamada
