@@ -2,258 +2,278 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 495E26BF152
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Mar 2023 20:01:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C2BD6BF221
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Mar 2023 21:07:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230035AbjCQTBL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 17 Mar 2023 15:01:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53974 "EHLO
+        id S229838AbjCQUHd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 17 Mar 2023 16:07:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230047AbjCQTBG (ORCPT
+        with ESMTP id S229590AbjCQUHb (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 17 Mar 2023 15:01:06 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EA4D196AD;
-        Fri, 17 Mar 2023 12:00:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=9l1jlBa2TW433jl7IJq8lUkTy9f/IvnEj0Y2pjJtp2w=; b=aOJ5OxoAmKYzoZThHS05n6pJI2
-        zjx5Y3zFzl17uudPa9G+NIXQDbjn6epkPMDvI3TW1mybTKg03+PBrTVAeaOKgHenSld8K+TdDFzWZ
-        iXGOJnM4UYh4aPpKvlAyovuyC4xbGtgbYzEaAoRSG0WPDpPVzk0Q6ZcIwKwi2n19PEBkDQfUegka3
-        XwWroYsFKlYRBhrLz0AKhsJdvfAI06tN872iG5cvwqyUjfwlbpTJAAP8167dvU+2A+GwmehQ/UGGb
-        l49xInMLWzmpjfBi1T+cZi5WWD86jGhqBvdFFFX0Gzfl/GlWrcgm8HCApU4Dk60JwTs7OU/Is7cxP
-        BgRnrR5Q==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
-        id 1pdFJg-0036Xe-0y;
-        Fri, 17 Mar 2023 19:00:40 +0000
-Date:   Fri, 17 Mar 2023 12:00:40 -0700
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Josh Poimboeuf <jpoimboe@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Petr Mladek <pmladek@suse.com>, Song Liu <song@kernel.org>,
-        patches@lists.linux.dev, linux-modules@vger.kernel.org,
-        live-patching@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: mod->klp set on copy ok ?
-Message-ID: <ZBS42Lid+CX0h0fk@bombadil.infradead.org>
-References: <CAB=NE6Vo4AXVrn1GPEoZWVF3NkXRoPwWOuUEJqJ35S9VMGTM2Q@mail.gmail.com>
- <ZA8NBuXbVP+PRPp0@alley>
- <ZBOPP4YWWhJRk2yn@bombadil.infradead.org>
- <20230317161639.3de7yeek6ia4y7ul@treble>
+        Fri, 17 Mar 2023 16:07:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEB43E20E7
+        for <linux-kbuild@vger.kernel.org>; Fri, 17 Mar 2023 13:06:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1679083578;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=v+nprD01z1N5CeGZUpLv/tqCApb2AEnd4EOLkbIS8P0=;
+        b=NlArBgBtnbqMqlS9FuDHt0WrORYW43pxL7bjU30TVhrQc37iiAhUoh3CoriF2lhyDZz+b6
+        PCO+xBo79LqAFfN9hcydJY44/7BQSUIkyCM22Bx5gIrXm+zfXDnRqO7bwpthyUgdra1tnQ
+        Vu8S2UT8CFzeCi3gMVPaqjlq+BHKfQo=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-33-E-PYICw0NNuOBkH9P7lJbw-1; Fri, 17 Mar 2023 16:06:17 -0400
+X-MC-Unique: E-PYICw0NNuOBkH9P7lJbw-1
+Received: by mail-qt1-f198.google.com with SMTP id l17-20020ac84cd1000000b003bfbae42753so3056646qtv.12
+        for <linux-kbuild@vger.kernel.org>; Fri, 17 Mar 2023 13:06:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679083577;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=v+nprD01z1N5CeGZUpLv/tqCApb2AEnd4EOLkbIS8P0=;
+        b=oDxBA8Gxuuho5ZtfLg++J6Jp1Hh+4zq1uEIYfmTkgspUu/ID8paZfXKlz285br+ycC
+         uwnQvjQTyVdbvMeP8HeFyeec6vwG0ZkwTzUwV2WuyEuwVUvqq53lRlswAMKrHnaqVdqf
+         1rhJ+0Ljqba0I18eyRj4zD/Xs4efioQ8/AfYZ5nksa2ddZ2z2UwadhLmCTDwCRFF6d7P
+         28gH7YziJUD7HOsbxFuaWHibSnY+9H5kXdQUl55wiXAD9Kdcn1iCl4FzAXGwNVf60UiG
+         pvPdN37NP8AvEixK4q3+lJeAw3gs8VHcbO4BPphqPXSExyvkWUGSUnftOSg7Vk2yTg9i
+         kcqw==
+X-Gm-Message-State: AO0yUKUm37RpIQAuH8BeuybBz9upRKPp92Z3zOrpomMKPpy3RBEo+8sc
+        EgsOvvkz4aBrIZx5jySw7b4uxCuRI52qQy1ukC7Xa1tEPsWo1huzF1xFFg8eTRJSHmPmoX2fgsG
+        GnxqAhF+01+WU0aVCOvi+eGME
+X-Received: by 2002:ac8:5a8d:0:b0:3bf:e375:cfb6 with SMTP id c13-20020ac85a8d000000b003bfe375cfb6mr14940295qtc.1.1679083576911;
+        Fri, 17 Mar 2023 13:06:16 -0700 (PDT)
+X-Google-Smtp-Source: AK7set81QuAnUOCEVj6K0ec+K2JX5nE9mxIjIs/3hgX5szW+C5Ut7K9o3Y8jNCAeuW4G3RNfLWryoA==
+X-Received: by 2002:ac8:5a8d:0:b0:3bf:e375:cfb6 with SMTP id c13-20020ac85a8d000000b003bfe375cfb6mr14940236qtc.1.1679083576451;
+        Fri, 17 Mar 2023 13:06:16 -0700 (PDT)
+Received: from [192.168.1.9] (pool-68-160-135-240.bstnma.fios.verizon.net. [68.160.135.240])
+        by smtp.gmail.com with ESMTPSA id j13-20020a37ef0d000000b00729b7d71ac7sm2282132qkk.33.2023.03.17.13.06.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Mar 2023 13:06:16 -0700 (PDT)
+Message-ID: <b2a6784f-d928-19a8-365f-35fc1e6c617d@redhat.com>
+Date:   Fri, 17 Mar 2023 16:06:15 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230317161639.3de7yeek6ia4y7ul@treble>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Content-Language: en-US
+To:     Marcos Paulo de Souza <mpdesouza@suse.de>
+Cc:     live-patching@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, Josh Poimboeuf <jpoimboe@kernel.org>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Petr Mladek <pmladek@suse.com>,
+        Marcos Paulo de Souza <mpdesouza@suse.com>
+References: <20230306140824.3858543-1-joe.lawrence@redhat.com>
+ <20230306140824.3858543-3-joe.lawrence@redhat.com>
+ <20230314182621.tsh55pjeo6onb6ix@daedalus>
+From:   Joe Lawrence <joe.lawrence@redhat.com>
+Subject: Re: [PATCH v7 02/10] livepatch: Add klp-convert tool
+In-Reply-To: <20230314182621.tsh55pjeo6onb6ix@daedalus>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-+ linux-kbuild
-
-On Fri, Mar 17, 2023 at 09:16:39AM -0700, Josh Poimboeuf wrote:
-> On Thu, Mar 16, 2023 at 02:50:55PM -0700, Luis Chamberlain wrote:
-> > The comment for "Update sh_addr to point to copy in image." seems pretty
-> > misleading to me, what we are doing there is actually ensuring that we update
-> > the copy's ELF section address to point to our newly allocated memory.
-> > Do folks agree?
-> > 
-> > And how about the size on the memcpy()? That's a shd->sh_size. No matter
-> > how much I increase my struct module in include/linux/module.h I see
-> > thes same sh_size. Do folks see same?
-> > 
-> > nm --print-size --size-sort fs/xfs/xfs.ko | grep __this_module
-> > 0000000000000000 0000000000000500 D __this_module
-> > 
-> > This is what is supposed to make the final part of layout_and_allocate() work:
-> > 
-> > 	mod = (void *)info->sechdrs[info->index.mod].sh_addr;
-> > 
-> > This works off of the copy of the module. Let's recall that
-> > setup_load_info() sets the copy mod to:
-> > 
-> > 	info->mod = (void *)info->hdr + info->sechdrs[info->index.mod].sh_offset;
-> > 
-> > The memcpy() in move_module() is what *should* be copying over the entire
-> > mod stuff properly over, that includes the mod->klp for live patching
-> > but also any new data we muck with in-kernel as the new mod->mem stuff
-> > in layout_sections(). In short, anything in struct module should be
-> > shoved into an ELF section. But I'm not quite sure this is all right.
+On 3/14/23 14:26, Marcos Paulo de Souza wrote:
+> On Mon, Mar 06, 2023 at 09:08:16AM -0500, Joe Lawrence wrote:
+>> Livepatches may use symbols which are not contained in its own scope,
+>> and, because of that, may end up compiled with relocations that will
+>> only be resolved during module load. Yet, when the referenced symbols
+>> are not exported, solving this relocation requires information on the
+>> object that holds the symbol (either vmlinux or modules) and its
+>> position inside the object, as an object may contain multiple symbols
+>> with the same name. Providing such information must be done accordingly
+>> to what is specified in Documentation/livepatch/module-elf-format.txt.
+>>
+>> Currently, there is no trivial way to embed the required information as
+>> requested in the final livepatch elf object. klp-convert solves this
+>> problem in two different forms: (i) by relying on symbols.klp, which is
+>> built during kernel compilation, to automatically infer the relocation
+>> targeted symbol, and, when such inference is not possible (ii) by using
+>> annotations in the elf object to convert the relocation accordingly to
+>> the specification, enabling it to be handled by the livepatch loader.
+>>
+>> Given the above, create scripts/livepatch to hold tools developed for
+>> livepatches and add source files for klp-convert there.
+>>
+>> The core file of klp-convert is scripts/livepatch/klp-convert.c, which
+>> implements the heuristics used to solve the relocations and the
+>> conversion of unresolved symbols into the expected format, as defined in
+>> [1].
+>>
+>> klp-convert receives as arguments the symbols.klp file, an input
+>> livepatch module to be converted and the output name for the converted
+>> livepatch. When it starts running, klp-convert parses symbols.klp and
+>> builds two internal lists of symbols, one containing the exported and
+>> another containing the non-exported symbols. Then, by parsing the rela
+>> sections in the elf object, klp-convert identifies which symbols must be
+>> converted, which are those unresolved and that do not have a
+>> corresponding exported symbol, and attempts to convert them accordingly
+>> to the specification.
+>>
+>> By using symbols.klp, klp-convert identifies which symbols have names
+>> that only appear in a single kernel object, thus being capable of
+>> resolving these cases without the intervention of the developer. When
+>> various homonymous symbols exist through kernel objects, it is not
+>> possible to infer the right one, thus klp-convert falls back into using
+>> developer annotations. If these were not provided, then the tool will
+>> print a list with all acceptable targets for the symbol being processed.
+>>
+>> Annotations in the context of klp-convert are accessible as struct
+>> klp_module_reloc entries in sections named .klp.module_relocs.<objname>.
+>> These entries are pairs of symbol references and positions which are to
+>> be resolved against definitions in <objname>.
+>>
+>> Define the structure klp_module_reloc in include/linux/uapi/livepatch.h
+>> allowing developers to annotate the livepatch source code with it.
+>>
+>> klp-convert relies on libelf and on a list implementation. Add files
+>> scripts/livepatch/elf.c and scripts/livepatch/elf.h, which are a libelf
+>> interfacing layer and scripts/livepatch/list.h, which is a list
+>> implementation.
+>>
+>> Update Makefiles to correctly support the compilation of the new tool,
+>> update MAINTAINERS file and add a .gitignore file.
+>>
+>> [1] - Documentation/livepatch/module-elf-format.txt
 > 
-> I dug into that code years ago, and the above sounds right.
+> LGTM:
 > 
-> The .ko file has a .gnu.linkonce.this_module section whose data is just
-> the original "struct module __this_module" which is created by the
-> module build (from foo.mod.c).
+> Reviewed-by: Marcos Paulo de Souza <mpdesouza@suse.com>
 > 
-> At the beginning of the finit_module() syscall, the .ko file's ELF
-> sections get copied (and optionally decompressed) into kernel memory.
-> Then 'mod' just points to the copied __this_module struct.
+> I only have two remarks:
 > 
-> Then mod->klp (and possibly mod->taint) get set.
+>>
+>> Signed-off-by: Josh Poimboeuf <jpoimboe@redhat.com>
+>> Signed-off-by: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+>> Signed-off-by: Joao Moreira <jmoreira@suse.de>
+>> Signed-off-by: Joe Lawrence <joe.lawrence@redhat.com>
 > 
-> Then in layout_and_allocate(), that 'mod' gets memcpy'd into the second
-> (and final) in-kernel copy of 'struct module':
+> ...
 > 
->  		if (shdr->sh_type != SHT_NOBITS)
->  			memcpy(dest, (void *)shdr->sh_addr, shdr->sh_size);
->  		/* Update sh_addr to point to copy in image. */
->  		shdr->sh_addr = (unsigned long)dest;
 > 
-> I suspect you don't see the size changing when you add to 'struct
-> module' because it's ____cacheline_aligned.
+>> +#if 0
+>> +	/*
+>> +	 * klp-relocations forbidden in sections that otherwise would
+>> +	 * match in allowed_prefixes[]
+>> +	 */
+>> +	static const char * const not_allowed[] = {
+>> +		".rela.data.rel.ro",
+>> +		".rela.data.rel.ro.local",
+>> +		".rela.data..ro_after_init",
+>> +		NULL
+>> +	};
+>> +#endif
+>> +
+>> +	/* klp-relocations allowed in sections only for vmlinux */
+>> +	static const char * const allowed_vmlinux[] = {
+>> +		".rela__jump_table",
+>> +		NULL
+>> +	};
+>> +
+>> +	/* klp-relocations allowed in sections with prefixes */
+>> +	static const char * const allowed_prefixes[] = {
+>> +		".rela.data",
+>> +		".rela.rodata",	// supported ???
+>> +		".rela.sdata",
+>> +		".rela.text",
+>> +		".rela.toc",
+>> +		NULL
+>> +	};
+>> +
+>> +	const char * const *name;
+>> +
+>> +#if 0
+>> +	for (name = not_allowed; *name; name++)
+>> +		if (strcmp(sec->name, *name) == 0)
+>> +			return false;
+>> +#endif
+>> +
 > 
-> It's all rather obtuse, but working as designed as far as I can tell.
+> Have you needed to enable the not_allowed checks when creating your livepatches?
+> Otherwise I believe that this can be removed and added again in the future is
+> needed.
+> 
 
-Ah, well it is beyond a ____cacheline_aligned issue! It would seem our build
-system does not incur a full re-build of $foo.mod.c if the size of struct module
-changes. Doing a full rebuild does get the right drift size change in
-struct module:
+Good question.
 
-nm --print-size --radix=dec --size-sort fs/xfs/xfs.ko | grep __this_module
-0000000000000000 0000000000001280 D __this_module
+I left the disabled blocks in the code as a bookmark for an outstanding
+question: should klp-convert avoid converting relocations in any
+read-only-ish section?
 
-I validated that sizeof(struct module) does match 1280. And so, to remove all
-these cob webs for good, and to extend our ELF validity checker, what about
-the following patch (boot tested):
+This becomes interesting in the late module loading case -- some arches
+(ppc64le IIRC) do not like the module loader tweaking these relocations
+post module load. [1]
 
-From cdd78ff0cb6d521930305026089a72776a982845 Mon Sep 17 00:00:00 2001
-From: Luis Chamberlain <mcgrof@kernel.org>
-Date: Fri, 17 Mar 2023 11:41:02 -0700
-Subject: [PATCH] module: add sanity check for ELF module section
+In "[PATCH v7 09/10] livepatch/selftests: add data relocations test"
+test_klp_convert_data.c, you'll see a few "// .rela.data.rel.ro,
+.rela.rodata supported ??" comments.  Those would generate relocations
+in such sections.
 
-The ELF ".gnu.linkonce.this_module" section is special, it is what we
-use to construct the struct module __this_module, which THIS_MODULE
-points to. When userspace loads a module we always deal first with a
-copy of the userspace buffer, and twiddle with the userspace copy's
-version of the struct module. Eventually we allocate memory to do a
-memcpy() of that struct module, under the assumption that the module
-size is right. But we have no validity checks against the size or
-the requirements for the section.
+Do they *need* to be supported?  AFAIK kpatch-build hasn't needed to
+create any of those.  That said, it's not too difficult for this
+patchset's self-tests to generate these.  klp-convert could easily
+detect this scenario.  The livepatch author could be advised to remove
+const or  __ro_after_init annotation to move the relocation out of the
+read-only-ish section.
 
-Add some validity checks for the special module section early and while
-at it, cache the module section index early, so we don't have to do that
-later.
+[1] https://github.com/joe-lawrence/klp-convert-tree/issues/5
 
-While at it, just move over the assigment of the info->mod to make the
-code clearer. The validity checker also adds an explicit size check to
-ensure the module section size matches the kernel's run time size for
-sizeof(struct module). This should prevent sloppy loads of modules
-which are built today *without* actually increasing the size of
-the struct module. A developer today can for example expand the size
-of struct module, rebuild a directoroy 'make fs/xfs/' for example and
-then try to insmode the driver there. That module would in effect have
-an incorrect size. This new size check would put a stop gap against such
-mistakes.
+>> +int main(int argc, const char **argv)
+>> +{
+>> +	const char *klp_in_module, *klp_out_module, *symbols_list;
+> 
+> ...
+> 
+>> +
+>> +/* Functions kept commented since they might be useful for future debugging */
+>> +
+>> +/* Dumps sympos list (useful for debugging purposes)
+>> + * static void dump_sympos(void)
+>> + * {
+>> + *	struct sympos *sp;
+>> + *
+>> + *	fprintf(stderr, "BEGIN OF SYMPOS DUMP\n");
+>> + *	list_for_each_entry(sp, &usr_symbols, list) {
+>> + *		fprintf(stderr, "%s %s %d\n", sp->symbol_name, sp->object_name,
+>> + *				sp->pos);
+>> + *	}
+>> + *	fprintf(stderr, "END OF SYMPOS DUMP\n");
+>> + * }
+>> + *
+>> + *
+>> + * / Dump symbols list for debugging purposes /
+>> + * static void dump_symbols(void)
+>> + * {
+>> + *	struct symbol_entry *entry;
+>> + *
+>> + *	fprintf(stderr, "BEGIN OF SYMBOLS DUMP\n");
+>> + *	list_for_each_entry(entry, &symbols, list)
+>> + *		printf("%s %s\n", entry->object_name, entry->symbol_name);
+>> + *	fprintf(stderr, "END OF SYMBOLS DUMP\n");
+>> + * }
+> 
+> Same here. Have you used these functions recently when debugging klp-convert?
+> Othewise it can be removed as well.
+> 
 
-This also makes the entire goal of ".gnu.linkonce.this_module" pretty
-clear. Before this patch verification of the goal / intent required some
-Indian Jones whips, torches and cleaning up big old spider webs.
+I was tinkering with an alternate sympos annotation (I'll describe it in
+a separate reply) and think that these debug routines could be activated
+with --debug cmdline flag(s).  They can be handy for debug/development,
+so better to make them always active rather than #if 0'd out.
 
-Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
----
- kernel/module/main.c | 60 +++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 51 insertions(+), 9 deletions(-)
-
-diff --git a/kernel/module/main.c b/kernel/module/main.c
-index 57cc10a20b45..d1aee35ab928 100644
---- a/kernel/module/main.c
-+++ b/kernel/module/main.c
-@@ -1656,6 +1656,7 @@ static int elf_validity_check(struct load_info *info)
- 	unsigned int i;
- 	Elf_Shdr *shdr, *strhdr;
- 	int err;
-+	unsigned int num_mod_secs = 0, mod_idx;
- 
- 	if (info->len < sizeof(*(info->hdr))) {
- 		pr_err("Invalid ELF header len %lu\n", info->len);
-@@ -1767,6 +1768,11 @@ static int elf_validity_check(struct load_info *info)
- 					i, shdr->sh_type);
- 				return err;
- 			}
-+			if (strcmp(info->secstrings + shdr->sh_name,
-+				   ".gnu.linkonce.this_module") == 0) {
-+				num_mod_secs++;
-+				mod_idx = i;
-+			}
- 
- 			if (shdr->sh_flags & SHF_ALLOC) {
- 				if (shdr->sh_name >= strhdr->sh_size) {
-@@ -1779,6 +1785,51 @@ static int elf_validity_check(struct load_info *info)
- 		}
- 	}
- 
-+	/* The ".gnu.linkonce.this_module" ELF section is special. It is
-+	 * what modpost uses to refer to __this_module and let's use rely
-+	 * on THIS_MODULE to point to &__this_module properly. The kernel's
-+	 * modpost declares it on each modules's *.mod.c file. If the struct
-+	 * module of the kernel changes a full kernel rebuild is required.
-+	 *
-+	 * We have a few expectaions for this special section, the following
-+	 * code validates all this for us:
-+	 *
-+	 *   o Only one section must exist
-+	 *   o We expect the kernel to always have to allocate it: SHF_ALLOC
-+	 *   o The section size must match the kernel's run time's struct module
-+	 *     size
-+	 */
-+	if (num_mod_secs != 1) {
-+		pr_err("Only one .gnu.linkonce.this_module section must exist.\n");
-+		goto no_exec;
-+	}
-+
-+	shdr = &info->sechdrs[mod_idx];
-+
-+	/*
-+	 * This is already implied on the switch above, however let's be
-+	 * pedantic about it.
-+	 */
-+	if (shdr->sh_type == SHT_NOBITS) {
-+		pr_err(".gnu.linkonce.this_module section must have a size set\n");
-+		goto no_exec;
-+	}
-+
-+	if (!(shdr->sh_flags & SHF_ALLOC)) {
-+		pr_err(".gnu.linkonce.this_module must occupy memory during process execution\n");
-+		goto no_exec;
-+	}
-+
-+	if (shdr->sh_size != sizeof(struct module)) {
-+		pr_err(".gnu.linkonce.this_module section size must match the kernel's built struct module size at run time\n");
-+		goto no_exec;
-+	}
-+
-+	info->index.mod = mod_idx;
-+
-+	/* This is temporary: point mod into copy of data. */
-+	info->mod = (void *)info->hdr + shdr->sh_offset;
-+
- 	return 0;
- 
- no_exec:
-@@ -1925,15 +1976,6 @@ static int setup_load_info(struct load_info *info, int flags)
- 		return -ENOEXEC;
- 	}
- 
--	info->index.mod = find_sec(info, ".gnu.linkonce.this_module");
--	if (!info->index.mod) {
--		pr_warn("%s: No module found in object\n",
--			info->name ?: "(missing .modinfo section or name field)");
--		return -ENOEXEC;
--	}
--	/* This is temporary: point mod into copy of data. */
--	info->mod = (void *)info->hdr + info->sechdrs[info->index.mod].sh_offset;
--
- 	/*
- 	 * If we didn't load the .modinfo 'name' field earlier, fall back to
- 	 * on-disk struct mod 'name' field.
 -- 
-2.39.2
+Joe
 
