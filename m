@@ -2,64 +2,49 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 44DF06BE7D2
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Mar 2023 12:17:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8095D6BE813
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Mar 2023 12:32:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229588AbjCQLRn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 17 Mar 2023 07:17:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51488 "EHLO
+        id S229541AbjCQLcM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 17 Mar 2023 07:32:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229480AbjCQLRm (ORCPT
+        with ESMTP id S229478AbjCQLcM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 17 Mar 2023 07:17:42 -0400
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86CCD5CEFB;
-        Fri, 17 Mar 2023 04:17:41 -0700 (PDT)
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32HAoWB2005659;
-        Fri, 17 Mar 2023 11:17:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=ATFiH+1MM9RiisZf+ez7me+4b+J9EiQMPUBbKAXaiiI=;
- b=m4ZnAn9GIoYmbksDk2Ykcf0hPjz2v7YrD7kMlc0wyHQwC4tLhQ5kxfa3Qr9ytP4MZlpU
- 51M5QQdRu8AWWVtkDTvmNfA0xz2P3b1gyIMhIkJxyGHMk5Ldh8Rbmw85lDdLcK9KgN6T
- Ku29ftFSPZUt0KyaOf6r49vySU/E7wXaeckAqyw0lJLVnHHL65ctfLsVS4zipfP1sexB
- ROhZT9CtOGEBJWTRkKU08veNzAVLV6raCNgk1OkmSqw70CQybfslUO/FCVC4IKbxYJ5Z
- JJIgC8nznL66RrVPiGOwwwJjRoBuIIRHs+79aQ1lPlJ3cPpVNPMVDXRlJwBx7iGz15st ug== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pcptdgkf5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 17 Mar 2023 11:17:33 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32HAq16F008421;
-        Fri, 17 Mar 2023 11:17:33 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pcptdgkek-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 17 Mar 2023 11:17:32 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
-        by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32H6UsuL015015;
-        Fri, 17 Mar 2023 11:17:31 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-        by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3pbsf3j37e-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 17 Mar 2023 11:17:30 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-        by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 32HBHRxb13501138
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 17 Mar 2023 11:17:27 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 61CE820043;
-        Fri, 17 Mar 2023 11:17:27 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B42DE20040;
-        Fri, 17 Mar 2023 11:17:26 +0000 (GMT)
-Received: from localhost (unknown [9.171.35.234])
-        by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-        Fri, 17 Mar 2023 11:17:26 +0000 (GMT)
-Date:   Fri, 17 Mar 2023 12:17:25 +0100
-From:   Vasily Gorbik <gor@linux.ibm.com>
-To:     Jiri Slaby <jirislaby@kernel.org>
+        Fri, 17 Mar 2023 07:32:12 -0400
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEADD39CE9;
+        Fri, 17 Mar 2023 04:32:09 -0700 (PDT)
+Received: by mail-wr1-f45.google.com with SMTP id i9so4120530wrp.3;
+        Fri, 17 Mar 2023 04:32:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679052728;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pokBorB33YnYWBtMSchGyHYZy6+UIAXs0bkjjq7SoP4=;
+        b=ELSYU5aqHgXiH/Ra8htlX5AOwU61cVa6+JdwlL3Ux3XqGZTZGE0n9RUstIjnf6G8By
+         zzi37KJZ+GvhcZksV9NsDSgahzdLsF8QKURGTqgCj9kBWbnIy0ou7bbghxcgUdlmD4JB
+         jFgUkEbvzKWZJSCHXN3kbZRIYtKNpSXoTGD91rNic0NDrxBCpR52RdoB/sAH8ub521hQ
+         SD+QNVAuu2fyJyxXfDf4mr87EqFlIS2+LDgQmNl3fLRGrumXnMqsk6exK5JCwzeSrTlz
+         qa+6U7ZZDGRxUFf9ND/khspL8qRDki8WQVGiieaEkhBQ/6TR7/CIR9cyTz6wMhuXgpgK
+         yIlQ==
+X-Gm-Message-State: AO0yUKUHh9/qxkj40vfyTcTbOY1ViXtnp0rs+iVF74GYD7CQiOEQRZX9
+        XTlqPR7m5lpTYs4Pd14k1fUJvVvRCQyPAA==
+X-Google-Smtp-Source: AK7set+38hNek1SWZ5K27z7yb9JStMWOwMUmWROBuMGTf1E7CbKhvZ3VboMhKOT7Vv24lgNgaAFkuw==
+X-Received: by 2002:adf:fd89:0:b0:2c5:c4c9:515a with SMTP id d9-20020adffd89000000b002c5c4c9515amr6121589wrr.51.1679052728164;
+        Fri, 17 Mar 2023 04:32:08 -0700 (PDT)
+Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:49? ([2a0b:e7c0:0:107::aaaa:49])
+        by smtp.gmail.com with ESMTPSA id q7-20020adff947000000b002d419f661d6sm213887wrr.82.2023.03.17.04.32.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Mar 2023 04:32:07 -0700 (PDT)
+Message-ID: <cbacf815-eed9-8822-8b54-b7a7cf2169bf@kernel.org>
+Date:   Fri, 17 Mar 2023 12:32:05 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Content-Language: en-US
+To:     Vasily Gorbik <gor@linux.ibm.com>
 Cc:     Joe Lawrence <joe.lawrence@redhat.com>,
         Michael Ellerman <mpe@ellerman.id.au>,
         Sumanth Korikkar <sumanthk@linux.ibm.com>,
@@ -67,88 +52,110 @@ Cc:     Joe Lawrence <joe.lawrence@redhat.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         linux-s390 <linux-s390@vger.kernel.org>,
         linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 2/2] s390/nospec: remove unneeded header includes
-Message-ID: <your-ad-here.call-01679051845-ext-2019@work.hours>
 References: <8569429d-57f8-a0cf-8b17-1291f6973d32@redhat.com>
  <cover.thread-d13b6c.your-ad-here.call-01656331067-ext-4899@work.hours>
  <patch-2.thread-d13b6c.git-d13b6c96fb5f.your-ad-here.call-01656331067-ext-4899@work.hours>
  <705ce64c-5f73-2ec8-e4bc-dd48c85f0498@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <705ce64c-5f73-2ec8-e4bc-dd48c85f0498@kernel.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: xAl2o_CiUCMSj35vEpV5ZaiO92YBfXqA
-X-Proofpoint-ORIG-GUID: wLjZMAwu3OhZLwsbeXpcvEu-Yf5M1g5W
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-17_06,2023-03-16_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 adultscore=0
- clxscore=1011 priorityscore=1501 lowpriorityscore=0 mlxscore=0
- suspectscore=0 malwarescore=0 phishscore=0 spamscore=0 impostorscore=0
- mlxlogscore=856 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303170075
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+ <your-ad-here.call-01679051845-ext-2019@work.hours>
+From:   Jiri Slaby <jirislaby@kernel.org>
+Subject: Re: [PATCH 2/2] s390/nospec: remove unneeded header includes
+In-Reply-To: <your-ad-here.call-01679051845-ext-2019@work.hours>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Mar 16, 2023 at 12:14:27PM +0100, Jiri Slaby wrote:
-> On 27. 06. 22, 14:50, Vasily Gorbik wrote:
-> > With that, expoline.S doesn't require asm-offsets.h and
-> > expoline_prepare target dependency could be removed.
-> > 
-> > +++ b/arch/s390/Makefile
-> > @@ -166,7 +166,7 @@ vdso_prepare: prepare0
-> >   ifdef CONFIG_EXPOLINE_EXTERN
-> >   modules_prepare: expoline_prepare
-> > -expoline_prepare: prepare0
-> > +expoline_prepare:
+On 17. 03. 23, 12:17, Vasily Gorbik wrote:
+> On Thu, Mar 16, 2023 at 12:14:27PM +0100, Jiri Slaby wrote:
+>> On 27. 06. 22, 14:50, Vasily Gorbik wrote:
+>>> With that, expoline.S doesn't require asm-offsets.h and
+>>> expoline_prepare target dependency could be removed.
+>>>
+>>> +++ b/arch/s390/Makefile
+>>> @@ -166,7 +166,7 @@ vdso_prepare: prepare0
+>>>    ifdef CONFIG_EXPOLINE_EXTERN
+>>>    modules_prepare: expoline_prepare
+>>> -expoline_prepare: prepare0
+>>> +expoline_prepare:
+>>
+>> this likely broke s390 build as expolines still depend on
+>> scripts/basic/fixdep. And build of expolines can now race with fixdep build:
+>>       make[1]: *** Deleting file 'arch/s390/lib/expoline/expoline.o'
+>>       /bin/sh: line 1: scripts/basic/fixdep: Permission denied
+>>       make[1]: *** [../scripts/Makefile.build:385:
+>> arch/s390/lib/expoline/expoline.o] Error 126
+>>       make: *** [../arch/s390/Makefile:166: expoline_prepare] Error 2
+>>
+>> I returned there:
+>>    expoline_prepare: prepare0
+>> and it looks good so far. Maybe even:
+>>    expoline_prepare: scripts
+>> would be enough.
 > 
-> this likely broke s390 build as expolines still depend on
-> scripts/basic/fixdep. And build of expolines can now race with fixdep build:
->      make[1]: *** Deleting file 'arch/s390/lib/expoline/expoline.o'
->      /bin/sh: line 1: scripts/basic/fixdep: Permission denied
->      make[1]: *** [../scripts/Makefile.build:385:
-> arch/s390/lib/expoline/expoline.o] Error 126
->      make: *** [../arch/s390/Makefile:166: expoline_prepare] Error 2
+> Hi Jiri, thanks for looking into this!
 > 
-> I returned there:
->   expoline_prepare: prepare0
-> and it looks good so far. Maybe even:
->   expoline_prepare: scripts
-> would be enough.
+> Probably even scripts_basic would be enough to add explicit dependency
+> to fixdep. But I just couldn't reproduce missing scripts/basic/fixdep
+> neither with modules_prepare nor expoline_prepare targets.
 
-Hi Jiri, thanks for looking into this!
+Hi,
 
-Probably even scripts_basic would be enough to add explicit dependency
-to fixdep. But I just couldn't reproduce missing scripts/basic/fixdep
-neither with modules_prepare nor expoline_prepare targets.
+yes, I could not reproduce locally too. It likely needs a "slow" and 
+sort of specific machine to happen. This happened randomly only on SUSE 
+build systems. And only on the internal ones. There are no failures on 
+public ones:
+https://build.opensuse.org/packages/kernel-default/job_history/Kernel:stable/S390/s390x
 
-With which specific build command were you able to get those error
-messages? I wonder where
-        make[1]: *** Deleting file 'arch/s390/lib/expoline/expoline.o'
-is coming from. Could it be smth like?
+The kernel is built as:
+make prepare # builds scripts/basic and other stuff we use
+make clean # remove all but scripts and config
+make all # scripts/basic/fixdep is rebuilt
 
-make ARCH=s390 CROSS_COMPILE=s390x-12.2.0- -j64 arch/s390/lib/expoline/expoline.o
+fixdep is rebuilt due to clean-ed .fixdep.o.cmd -- that one is 
+regenerated and fixdep built anew.
 
-Playing around with this build target I found it is broken:
+The whole process (make log) is dumped at:
+https://build.opensuse.org/package/live_build_log/Kernel:stable/kernel-default/S390/s390x
 
-  AS      arch/s390/lib/expoline/expoline.o
-  AS      arch/s390/lib/expoline/expoline.o
-fixdep: error opening file: arch/s390/lib/expoline/.expoline.o.d: No such file or directory
-make[3]: *** [scripts/Makefile.build:374: arch/s390/lib/expoline/expoline.o] Error 2
-make[3]: *** Deleting file 'arch/s390/lib/expoline/expoline.o'
-make[2]: *** [scripts/Makefile.build:494: arch/s390/lib/expoline] Error 2
-make[1]: *** [scripts/Makefile.build:494: arch/s390/lib] Error 2
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:2028: .] Error 2
+> With which specific build command were you able to get those error
+> messages? I wonder where
+>          make[1]: *** Deleting file 'arch/s390/lib/expoline/expoline.o'
+> is coming from. Could it be smth like?
 
-Notice dup AS call, which is probably causing this:
-make[3]: *** Deleting file 'arch/s390/lib/expoline/expoline.o'
+It's from make after the build (fixdep invocation) failure. So that 
+stale files do not exist.
 
-But that would be a different issue from the one you are trying to fix.
+Note that fixdep likely exist, but it is a stub -- linking phase still runs.
+
+> make ARCH=s390 CROSS_COMPILE=s390x-12.2.0- -j64 arch/s390/lib/expoline/expoline.o
+> 
+> Playing around with this build target I found it is broken:
+> 
+>    AS      arch/s390/lib/expoline/expoline.o
+>    AS      arch/s390/lib/expoline/expoline.o
+> fixdep: error opening file: arch/s390/lib/expoline/.expoline.o.d: No such file or directory
+> make[3]: *** [scripts/Makefile.build:374: arch/s390/lib/expoline/expoline.o] Error 2
+> make[3]: *** Deleting file 'arch/s390/lib/expoline/expoline.o'
+> make[2]: *** [scripts/Makefile.build:494: arch/s390/lib/expoline] Error 2
+> make[1]: *** [scripts/Makefile.build:494: arch/s390/lib] Error 2
+> make[1]: *** Waiting for unfinished jobs....
+> make: *** [Makefile:2028: .] Error 2
+> 
+> Notice dup AS call, which is probably causing this:
+> make[3]: *** Deleting file 'arch/s390/lib/expoline/expoline.o'
+> 
+> But that would be a different issue from the one you are trying to fix.
+
+Likely.
+
+thanks,
+-- 
+js
+
