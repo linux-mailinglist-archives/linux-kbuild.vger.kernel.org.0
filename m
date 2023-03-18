@@ -2,154 +2,167 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB2D96BF694
-	for <lists+linux-kbuild@lfdr.de>; Sat, 18 Mar 2023 00:38:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 280FB6BF788
+	for <lists+linux-kbuild@lfdr.de>; Sat, 18 Mar 2023 04:27:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229878AbjCQXiV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 17 Mar 2023 19:38:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51458 "EHLO
+        id S229599AbjCRD1Q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 17 Mar 2023 23:27:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231168AbjCQXhs (ORCPT
+        with ESMTP id S229604AbjCRD1P (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 17 Mar 2023 19:37:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 336725BD9E;
-        Fri, 17 Mar 2023 16:37:09 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AE9E260CEB;
-        Fri, 17 Mar 2023 23:37:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22904C433A0;
-        Fri, 17 Mar 2023 23:37:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679096228;
-        bh=vMq03a3JbeVFSSlVgYs85X6OE1Krd5hPLg0X5SggYVw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=TS/S1beWQVpPue6v0T+FG5/NO4eKDtGGgy6/LenXB89OTh+P6rU5Kn8kA4lHBhXA7
-         fQ6DP9WSxZqhTnLKXrwAyLbqibJdbVNbttdxGeR0t+K8x4crB/DvePh7tZhjfSl0q8
-         VcNtq913ABt9f63eHUhVav2aHxZR+roAyWeW48Q7GQZKkGW0YOFpKzh+dIYLr+U+ty
-         zQ0WnEnwZrJjJbVo6JufjTzaQ2FhNcp6edMlgUb98w94bgPCUQ0t9mTp/k0kV0PT6p
-         n9qOis6theNHGfEtuE4+4Dxrr8V5u6gd0YE1C+oTvz0SNDFduxT8wD5C6InzGgYUOi
-         /xChlwv+ssIGg==
-Received: by mail-lf1-f47.google.com with SMTP id s8so8085159lfr.8;
-        Fri, 17 Mar 2023 16:37:08 -0700 (PDT)
-X-Gm-Message-State: AO0yUKXYNGKbHPcFh1Dr8edJJJswjE38J6pN9bxDtsriTp4z/4iF7SLg
-        /jqiK0PbzlToGxGNohpgGdtIgUR7WNtDtEm8ezI=
-X-Google-Smtp-Source: AK7set/iP6jeOWU3i9Pg+nk1i4HEeVR6d6Xe9mlEOeoayOuMdm9FaVunDNA3vB0v9seZVlOokwwS8n2UwQTyaJmdHAE=
-X-Received: by 2002:ac2:4ac1:0:b0:4dc:807a:d14a with SMTP id
- m1-20020ac24ac1000000b004dc807ad14amr4874647lfp.9.1679096226311; Fri, 17 Mar
- 2023 16:37:06 -0700 (PDT)
+        Fri, 17 Mar 2023 23:27:15 -0400
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FC203E635;
+        Fri, 17 Mar 2023 20:27:11 -0700 (PDT)
+Received: by mail-qt1-x836.google.com with SMTP id t9so7716859qtx.8;
+        Fri, 17 Mar 2023 20:27:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679110030;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CNIRkRl5zC8m2QTrPNecHQHCMYnZxZA1VwIYi9JlFGI=;
+        b=XGoNLpXRHc+GLJ851Rd5Loeqs1kXb33lR4NSprklyL3tgVauAtx6Wv69fuhDAwdiwZ
+         2xxThor2GrUH88kV+N/DnY8ey/wuUO//j+qUz2yKdf3q2wj1hJu5hQGf2aNTgqzrQG4s
+         ho5TdBycUwPZ5Ff+UbN3j0NO/zqa9Dgyc2/bsg/ek8QHN1KP9gwEFugI6XAeE9E2unpt
+         hHPwcIx6SGUKMgUuJqnpxgckp2ILG4SyhAF1Kfj2Oi16T96eHguq4rin5LhOFHrIykOO
+         614WP++BocVJ7yM5ApPXq62A3b0Vzp2s4whc7LRV/kSv9/DIqjuYKrZaRs0ZKvQelC2k
+         W0QA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679110030;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CNIRkRl5zC8m2QTrPNecHQHCMYnZxZA1VwIYi9JlFGI=;
+        b=hmCjXExSvl6FCFd3MnmYNq0wEdz5ojDPHBC3Jo6HsS0WyjRshR8r1yf5oLTWlNGaCp
+         jeFhLGPCAHBsLDrNvxfMPo2Zvv41EZZ1usXPLRKHWSSaoKL8fFNshg5TyW3I1MU0w8mz
+         WCmELnLTDnv/64CtbMwqHXmfYRJs7lzhmt4sl6Xx+Vy42EZmZV4CxkEfyk/am1uxPrHW
+         McvkyEVjaruDspSxBb8vmG7VVMkOAeNHhdPQwmWj8sNTzvDbti6wnLxChQRtXzYpjC4a
+         Swuhu2ItDYMZkROK/yb37HcMnk2YR6GJFGNefmf2iVICC/3Ecjuk/5z6NitVUcrppfBf
+         eJTg==
+X-Gm-Message-State: AO0yUKW3QnrPdo3tt6EYe1/Jqw1zJkKK6Es3hBLkqMlzuhCSPWtLjIOJ
+        JnHVSVKlwi/KgqPs+wEoN/TE3ECL/YI=
+X-Google-Smtp-Source: AK7set+dNbdG709Jg4tWdvfgTxOCvAjjhrHkkOkiMVH0nRkPV7iwgdevC3nWV3zgsRp5wTcSISbGNQ==
+X-Received: by 2002:ac8:7d05:0:b0:3bf:d8ec:a9fc with SMTP id g5-20020ac87d05000000b003bfd8eca9fcmr15758705qtb.52.1679110030313;
+        Fri, 17 Mar 2023 20:27:10 -0700 (PDT)
+Received: from Gentoo ([154.16.192.34])
+        by smtp.gmail.com with ESMTPSA id c15-20020a37e10f000000b0071f0d0aaef7sm2869169qkm.80.2023.03.17.20.27.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Mar 2023 20:27:09 -0700 (PDT)
+Date:   Sat, 18 Mar 2023 08:56:45 +0530
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     David Laight <David.Laight@ACULAB.COM>
+Cc:     "masahiroy@kernel.org" <masahiroy@kernel.org>,
+        "nicolas@fjasle.eu" <nicolas@fjasle.eu>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH] Kbuild: Elevate sha1sum to sha256sum for atomic headers
+ check
+Message-ID: <ZBUvddx7PkTZHj4Y@Gentoo>
+Mail-Followup-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        David Laight <David.Laight@ACULAB.COM>,
+        "masahiroy@kernel.org" <masahiroy@kernel.org>,
+        "nicolas@fjasle.eu" <nicolas@fjasle.eu>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
+References: <20230315130518.4496-1-unixbhaskar@gmail.com>
+ <0bbdd88ca0cb465a85d7b90ebacb5e83@AcuMS.aculab.com>
 MIME-Version: 1.0
-References: <8569429d-57f8-a0cf-8b17-1291f6973d32@redhat.com>
- <cover.thread-d13b6c.your-ad-here.call-01656331067-ext-4899@work.hours>
- <patch-2.thread-d13b6c.git-d13b6c96fb5f.your-ad-here.call-01656331067-ext-4899@work.hours>
- <705ce64c-5f73-2ec8-e4bc-dd48c85f0498@kernel.org> <your-ad-here.call-01679051845-ext-2019@work.hours>
-In-Reply-To: <your-ad-here.call-01679051845-ext-2019@work.hours>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 18 Mar 2023 08:36:27 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATWTfsbhjp0z6JgXWPT8vogsOF=o09gQJzBsHWf9b7HcA@mail.gmail.com>
-Message-ID: <CAK7LNATWTfsbhjp0z6JgXWPT8vogsOF=o09gQJzBsHWf9b7HcA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] s390/nospec: remove unneeded header includes
-To:     Vasily Gorbik <gor@linux.ibm.com>
-Cc:     Jiri Slaby <jirislaby@kernel.org>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Sumanth Korikkar <sumanthk@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="n9V0ZVZceJnPTOYA"
+Content-Disposition: inline
+In-Reply-To: <0bbdd88ca0cb465a85d7b90ebacb5e83@AcuMS.aculab.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Mar 17, 2023 at 8:17=E2=80=AFPM Vasily Gorbik <gor@linux.ibm.com> w=
-rote:
->
-> On Thu, Mar 16, 2023 at 12:14:27PM +0100, Jiri Slaby wrote:
-> > On 27. 06. 22, 14:50, Vasily Gorbik wrote:
-> > > With that, expoline.S doesn't require asm-offsets.h and
-> > > expoline_prepare target dependency could be removed.
-> > >
-> > > +++ b/arch/s390/Makefile
-> > > @@ -166,7 +166,7 @@ vdso_prepare: prepare0
-> > >   ifdef CONFIG_EXPOLINE_EXTERN
-> > >   modules_prepare: expoline_prepare
-> > > -expoline_prepare: prepare0
-> > > +expoline_prepare:
-> >
-> > this likely broke s390 build as expolines still depend on
-> > scripts/basic/fixdep. And build of expolines can now race with fixdep b=
-uild:
-> >      make[1]: *** Deleting file 'arch/s390/lib/expoline/expoline.o'
-> >      /bin/sh: line 1: scripts/basic/fixdep: Permission denied
-> >      make[1]: *** [../scripts/Makefile.build:385:
-> > arch/s390/lib/expoline/expoline.o] Error 126
-> >      make: *** [../arch/s390/Makefile:166: expoline_prepare] Error 2
-> >
-> > I returned there:
-> >   expoline_prepare: prepare0
-> > and it looks good so far. Maybe even:
-> >   expoline_prepare: scripts
-> > would be enough.
->
-> Hi Jiri, thanks for looking into this!
->
-> Probably even scripts_basic would be enough to add explicit dependency
-> to fixdep. But I just couldn't reproduce missing scripts/basic/fixdep
-> neither with modules_prepare nor expoline_prepare targets.
->
-> With which specific build command were you able to get those error
-> messages? I wonder where
->         make[1]: *** Deleting file 'arch/s390/lib/expoline/expoline.o'
-> is coming from. Could it be smth like?
->
-> make ARCH=3Ds390 CROSS_COMPILE=3Ds390x-12.2.0- -j64 arch/s390/lib/expolin=
-e/expoline.o
->
-> Playing around with this build target I found it is broken:
->
->   AS      arch/s390/lib/expoline/expoline.o
->   AS      arch/s390/lib/expoline/expoline.o
-> fixdep: error opening file: arch/s390/lib/expoline/.expoline.o.d: No such=
- file or directory
-> make[3]: *** [scripts/Makefile.build:374: arch/s390/lib/expoline/expoline=
-.o] Error 2
-> make[3]: *** Deleting file 'arch/s390/lib/expoline/expoline.o'
-> make[2]: *** [scripts/Makefile.build:494: arch/s390/lib/expoline] Error 2
-> make[1]: *** [scripts/Makefile.build:494: arch/s390/lib] Error 2
-> make[1]: *** Waiting for unfinished jobs....
-> make: *** [Makefile:2028: .] Error 2
->
-> Notice dup AS call, which is probably causing this:
-> make[3]: *** Deleting file 'arch/s390/lib/expoline/expoline.o'
->
-> But that would be a different issue from the one you are trying to fix.
 
+--n9V0ZVZceJnPTOYA
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
 
-Kbuild is able to build a single object that is built
-in a normal descending.
+On 08:58 Fri 17 Mar 2023, David Laight wrote:
+>From: Bhaskar Chowdhury
+>> Sent: 15 March 2023 13:05
+>>
+>> Thought it would be a good idea to use a elevated mechanism i.e sha256sum
+>
+>How can this change possibly work.
+>It is just a list of definitions read by another makefile.
+>You've changed the name of a definition without changing where it is used.
+>Also if the code is looking for a change, you'd need to change
+>what it is compared against.
 
+Gotcha. Thanks for the heads-up , David. I missed it.
 
-Since you built arch/s390/lib/expoline/expoline.o
-from the special target 'expoline_prepare',
-two different threads simultaneously built
-arch/s390/lib/expoline/expoline.o
-(one from the normal descending, the other
-from 'expoline_prepare')
-
-That's why.
-
-
-
-
+>In any case no one is worried about malicious attempts to change
+>things without being noticed, even sha1 is OTT.
+>
+>        David
+>
+>>
+>> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+>> ---
+>>  Kbuild | 10 +++++-----
+>>  1 file changed, 5 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/Kbuild b/Kbuild
+>> index 464b34a08f51..b74040346d76 100644
+>> --- a/Kbuild
+>> +++ b/Kbuild
+>> @@ -45,14 +45,14 @@ missing-syscalls: scripts/checksyscalls.sh $(offsets-file)
+>>
+>>  # Check the manual modification of atomic headers
+>>
+>> -quiet_cmd_check_sha1 = CHKSHA1 $<
+>> -      cmd_check_sha1 = \
+>> -     if ! command -v sha1sum >/dev/null; then \
+>> -             echo "warning: cannot check the header due to sha1sum missing"; \
+>> +quiet_cmd_check_sha256 = CHKSHA256 $<
+>> +      cmd_check_sha256 = \
+>> +     if ! command -v sha256sum >/dev/null; then \
+>> +             echo "warning: cannot check the header due to sha256sum missing"; \
+>>               exit 0; \
+>>       fi; \
+>>       if [ "$$(sed -n '$$s:// ::p' $<)" != \
+>> -          "$$(sed '$$d' $< | sha1sum | sed 's/ .*//')" ]; then \
+>> +          "$$(sed '$$d' $< | sha256sum | sed 's/ .*//')" ]; then \
+>>               echo "error: $< has been modified." >&2; \
+>>               exit 1; \
+>>       fi; \
+>> --
+>> 2.39.2
+>
+>-
+>Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+>Registration No: 1397386 (Wales)
 --
-Best Regards
-Masahiro Yamada
+Thanks,
+Bhaskar
+
+"Here's looking at you kid"-- Casablanca
+https://about.me/unixbhaskar
+
+--n9V0ZVZceJnPTOYA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAmQVL3UACgkQsjqdtxFL
+KRUCngf+PRAc7rGZQ7BkqHCHphzw5U9Tk+UrlbX+sv2yFbLG4tdYHazBbIcZNJSz
+PIxZN68OVY4K2WExYlZuUi+8GSy4xlF9nLoxMOLv9oCMHOaiGueGnzgQBjPmixet
+PKY4DKkw9qc2BDd7KsVaZQtsjfvjugnrvSYPqvyDPWFJnxRvF+/vY55xunVDPcQX
+NZ0xVMI/9vWhM9+ttKgO9SGjauNdhOQrNNgr5CLbXiMKkReT4ddsMy4d89HlJYbd
+pB0AOa1vclSW+4iWUgcyjj8qpzTHK84pRR03CqqdrmQgmzxiGH5O2BLXxxXpjPOT
+OONDb8Z1Ks65i5g+UXfMYwzhjxfzmw==
+=95ci
+-----END PGP SIGNATURE-----
+
+--n9V0ZVZceJnPTOYA--
