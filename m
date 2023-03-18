@@ -2,167 +2,149 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 280FB6BF788
-	for <lists+linux-kbuild@lfdr.de>; Sat, 18 Mar 2023 04:27:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4AC16BFB51
+	for <lists+linux-kbuild@lfdr.de>; Sat, 18 Mar 2023 16:46:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229599AbjCRD1Q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 17 Mar 2023 23:27:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33398 "EHLO
+        id S229733AbjCRPqi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 18 Mar 2023 11:46:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229604AbjCRD1P (ORCPT
+        with ESMTP id S229708AbjCRPqi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 17 Mar 2023 23:27:15 -0400
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FC203E635;
-        Fri, 17 Mar 2023 20:27:11 -0700 (PDT)
-Received: by mail-qt1-x836.google.com with SMTP id t9so7716859qtx.8;
-        Fri, 17 Mar 2023 20:27:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679110030;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CNIRkRl5zC8m2QTrPNecHQHCMYnZxZA1VwIYi9JlFGI=;
-        b=XGoNLpXRHc+GLJ851Rd5Loeqs1kXb33lR4NSprklyL3tgVauAtx6Wv69fuhDAwdiwZ
-         2xxThor2GrUH88kV+N/DnY8ey/wuUO//j+qUz2yKdf3q2wj1hJu5hQGf2aNTgqzrQG4s
-         ho5TdBycUwPZ5Ff+UbN3j0NO/zqa9Dgyc2/bsg/ek8QHN1KP9gwEFugI6XAeE9E2unpt
-         hHPwcIx6SGUKMgUuJqnpxgckp2ILG4SyhAF1Kfj2Oi16T96eHguq4rin5LhOFHrIykOO
-         614WP++BocVJ7yM5ApPXq62A3b0Vzp2s4whc7LRV/kSv9/DIqjuYKrZaRs0ZKvQelC2k
-         W0QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679110030;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CNIRkRl5zC8m2QTrPNecHQHCMYnZxZA1VwIYi9JlFGI=;
-        b=hmCjXExSvl6FCFd3MnmYNq0wEdz5ojDPHBC3Jo6HsS0WyjRshR8r1yf5oLTWlNGaCp
-         jeFhLGPCAHBsLDrNvxfMPo2Zvv41EZZ1usXPLRKHWSSaoKL8fFNshg5TyW3I1MU0w8mz
-         WCmELnLTDnv/64CtbMwqHXmfYRJs7lzhmt4sl6Xx+Vy42EZmZV4CxkEfyk/am1uxPrHW
-         McvkyEVjaruDspSxBb8vmG7VVMkOAeNHhdPQwmWj8sNTzvDbti6wnLxChQRtXzYpjC4a
-         Swuhu2ItDYMZkROK/yb37HcMnk2YR6GJFGNefmf2iVICC/3Ecjuk/5z6NitVUcrppfBf
-         eJTg==
-X-Gm-Message-State: AO0yUKW3QnrPdo3tt6EYe1/Jqw1zJkKK6Es3hBLkqMlzuhCSPWtLjIOJ
-        JnHVSVKlwi/KgqPs+wEoN/TE3ECL/YI=
-X-Google-Smtp-Source: AK7set+dNbdG709Jg4tWdvfgTxOCvAjjhrHkkOkiMVH0nRkPV7iwgdevC3nWV3zgsRp5wTcSISbGNQ==
-X-Received: by 2002:ac8:7d05:0:b0:3bf:d8ec:a9fc with SMTP id g5-20020ac87d05000000b003bfd8eca9fcmr15758705qtb.52.1679110030313;
-        Fri, 17 Mar 2023 20:27:10 -0700 (PDT)
-Received: from Gentoo ([154.16.192.34])
-        by smtp.gmail.com with ESMTPSA id c15-20020a37e10f000000b0071f0d0aaef7sm2869169qkm.80.2023.03.17.20.27.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Mar 2023 20:27:09 -0700 (PDT)
-Date:   Sat, 18 Mar 2023 08:56:45 +0530
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     David Laight <David.Laight@ACULAB.COM>
-Cc:     "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "nicolas@fjasle.eu" <nicolas@fjasle.eu>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH] Kbuild: Elevate sha1sum to sha256sum for atomic headers
- check
-Message-ID: <ZBUvddx7PkTZHj4Y@Gentoo>
-Mail-Followup-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
-        David Laight <David.Laight@ACULAB.COM>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "nicolas@fjasle.eu" <nicolas@fjasle.eu>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
-References: <20230315130518.4496-1-unixbhaskar@gmail.com>
- <0bbdd88ca0cb465a85d7b90ebacb5e83@AcuMS.aculab.com>
+        Sat, 18 Mar 2023 11:46:38 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 295B11C7FD;
+        Sat, 18 Mar 2023 08:46:37 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B093460B07;
+        Sat, 18 Mar 2023 15:46:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1707EC433D2;
+        Sat, 18 Mar 2023 15:46:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679154396;
+        bh=N868iv6xISOzuxsbItW3+We8eXCDviOi3KqIKAOmz9Q=;
+        h=From:Date:Subject:To:Cc:From;
+        b=t9Pmpkhe8uJaWxeYWlGhb/DWim2OZINnxljX4qNf8/j0B366nUda0PLMrh/I/prRy
+         R0bX7ObAIqgt41iNpg0H6NjcdlSaNnVD0msS0xzloR8ut+Qzs+4nTvlxKQRzz/Poip
+         Ru3zlvbjz/M2oxX4s7K/lBDdFBh8UFVDX9IgMpKnFIofOuNZZtRmGVpuSsJZVPHlRh
+         IcoRlxhtUhKCreqzUnBaJgOBfCMK3wzpedjoJ0hzMnTawzW12kJKRFoTIs949UmWtk
+         o3015eyQHBMo7aNo4cn11FSCZSfIFDj/Muh/Bgh7/pIGu8pu33brhLrr1B+MBc9S7/
+         s2LuHPcT4QxaA==
+Received: by mail-oi1-f175.google.com with SMTP id s41so5917111oiw.13;
+        Sat, 18 Mar 2023 08:46:36 -0700 (PDT)
+X-Gm-Message-State: AO0yUKW3mXki2B3wQGTef/pQJJF2bV5qN8MqYyfJLksvgcLud6cqwi4H
+        92C80nBQFYQHYa289Ap2JMw/VDSLbV/J+0SBvOM=
+X-Google-Smtp-Source: AK7set+NPliHrE5UPYBefQhTtmKgaSjoo8SJYT5GTDue0EBCl5T+VoJ0khVP/Sau7V5Qvmrz+KphZ745w7Jwn4Ids4A=
+X-Received: by 2002:aca:2309:0:b0:383:c3d5:6c9f with SMTP id
+ e9-20020aca2309000000b00383c3d56c9fmr4411812oie.11.1679154395363; Sat, 18 Mar
+ 2023 08:46:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="n9V0ZVZceJnPTOYA"
-Content-Disposition: inline
-In-Reply-To: <0bbdd88ca0cb465a85d7b90ebacb5e83@AcuMS.aculab.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 19 Mar 2023 00:45:59 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARH1PPARMD31mECPFs86j8o1MSDTrwahdavDm-C3Dg_sA@mail.gmail.com>
+Message-ID: <CAK7LNARH1PPARMD31mECPFs86j8o1MSDTrwahdavDm-C3Dg_sA@mail.gmail.com>
+Subject: [GIT PULL] Kbuild fixes for v6.3-rc3
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Hello Linus,
 
---n9V0ZVZceJnPTOYA
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
+Please pull Kbuild fixes.
+This removes scripts/list-gitignored.
+I hope you will be happy with it.
 
-On 08:58 Fri 17 Mar 2023, David Laight wrote:
->From: Bhaskar Chowdhury
->> Sent: 15 March 2023 13:05
->>
->> Thought it would be a good idea to use a elevated mechanism i.e sha256sum
->
->How can this change possibly work.
->It is just a list of definitions read by another makefile.
->You've changed the name of a definition without changing where it is used.
->Also if the code is looking for a change, you'd need to change
->what it is compared against.
+Thank you.
 
-Gotcha. Thanks for the heads-up , David. I missed it.
 
->In any case no one is worried about malicious attempts to change
->things without being noticed, even sha1 is OTT.
->
->        David
->
->>
->> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
->> ---
->>  Kbuild | 10 +++++-----
->>  1 file changed, 5 insertions(+), 5 deletions(-)
->>
->> diff --git a/Kbuild b/Kbuild
->> index 464b34a08f51..b74040346d76 100644
->> --- a/Kbuild
->> +++ b/Kbuild
->> @@ -45,14 +45,14 @@ missing-syscalls: scripts/checksyscalls.sh $(offsets-file)
->>
->>  # Check the manual modification of atomic headers
->>
->> -quiet_cmd_check_sha1 = CHKSHA1 $<
->> -      cmd_check_sha1 = \
->> -     if ! command -v sha1sum >/dev/null; then \
->> -             echo "warning: cannot check the header due to sha1sum missing"; \
->> +quiet_cmd_check_sha256 = CHKSHA256 $<
->> +      cmd_check_sha256 = \
->> +     if ! command -v sha256sum >/dev/null; then \
->> +             echo "warning: cannot check the header due to sha256sum missing"; \
->>               exit 0; \
->>       fi; \
->>       if [ "$$(sed -n '$$s:// ::p' $<)" != \
->> -          "$$(sed '$$d' $< | sha1sum | sed 's/ .*//')" ]; then \
->> +          "$$(sed '$$d' $< | sha256sum | sed 's/ .*//')" ]; then \
->>               echo "error: $< has been modified." >&2; \
->>               exit 1; \
->>       fi; \
->> --
->> 2.39.2
->
->-
->Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
->Registration No: 1397386 (Wales)
---
-Thanks,
-Bhaskar
 
-"Here's looking at you kid"-- Casablanca
-https://about.me/unixbhaskar
 
---n9V0ZVZceJnPTOYA
-Content-Type: application/pgp-signature; name="signature.asc"
+The following changes since commit fe15c26ee26efa11741a7b632e9f23b01aca4cc6:
 
------BEGIN PGP SIGNATURE-----
+  Linux 6.3-rc1 (2023-03-05 14:52:03 -0800)
 
-iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAmQVL3UACgkQsjqdtxFL
-KRUCngf+PRAc7rGZQ7BkqHCHphzw5U9Tk+UrlbX+sv2yFbLG4tdYHazBbIcZNJSz
-PIxZN68OVY4K2WExYlZuUi+8GSy4xlF9nLoxMOLv9oCMHOaiGueGnzgQBjPmixet
-PKY4DKkw9qc2BDd7KsVaZQtsjfvjugnrvSYPqvyDPWFJnxRvF+/vY55xunVDPcQX
-NZ0xVMI/9vWhM9+ttKgO9SGjauNdhOQrNNgr5CLbXiMKkReT4ddsMy4d89HlJYbd
-pB0AOa1vclSW+4iWUgcyjj8qpzTHK84pRR03CqqdrmQgmzxiGH5O2BLXxxXpjPOT
-OONDb8Z1Ks65i5g+UXfMYwzhjxfzmw==
-=95ci
------END PGP SIGNATURE-----
+are available in the Git repository at:
 
---n9V0ZVZceJnPTOYA--
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-fixes-v6.3
+
+for you to fetch changes up to 05e96e96a315fa49faca4da2aedd1761a218b616:
+
+  kbuild: use git-archive for source package creation (2023-03-16
+22:46:12 +0900)
+
+----------------------------------------------------------------
+Kbuild fixes for v6.3
+
+ - Exclude kallsyms_seqs_of_names from kallsyms to fix build error
+
+ - Fix 'make kernelrelease' for external module builds
+
+ - Get the Debian source package compilable again
+
+ - Fix the wrong uname when Debian packages are built with the
+   KDEB_PKGVERSION option
+
+ - Fix superfluous CROSS_COMPILE when building Debian packages
+
+ - Fix RPM package build error when KCONFIG_CONFIG is set
+
+ - Use 'git archive' for creating source tarballs
+
+ - Remove the scripts/list-gitignored tool
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      kallsyms: add kallsyms_seqs_of_names to list of special symbols
+
+Jurica Vukadin (1):
+      kconfig: Update config changed flag before calling callback
+
+Masahiro Yamada (7):
+      kbuild: deb-pkg: make debian source package working again
+      kbuild: deb-pkg: do not take KERNELRELEASE from the source version
+      kbuild: deb-pkg: set CROSS_COMPILE only when undefined
+      kbuild: deb-pkg: split image and debug objects staging out into functions
+      kbuild: deb-pkg: use dh_listpackages to know enabled packages
+      kbuild: rpm-pkg: move source components to rpmbuild/SOURCES
+      kbuild: use git-archive for source package creation
+
+Tzafrir Cohen (1):
+      Makefile: Make kernelrelease target work with M=
+
+ .gitignore                       |    1 +
+ Makefile                         |   11 +-
+ scripts/.gitignore               |    1 -
+ scripts/Makefile                 |    2 +-
+ scripts/Makefile.package         |  148 ++++++-----
+ scripts/check-git                |   14 ++
+ scripts/kallsyms.c               |    1 +
+ scripts/kconfig/confdata.c       |    6 +-
+ scripts/list-gitignored.c        | 1057
+------------------------------------------------------------------------------
+ scripts/package/builddeb         |  269 ++++++++++----------
+ scripts/package/deb-build-option |   14 +-
+ scripts/package/gen-diff-patch   |   44 ++++
+ scripts/package/mkdebian         |   23 +-
+ scripts/package/mkspec           |   22 +-
+ scripts/setlocalversion          |   45 +++-
+ 15 files changed, 358 insertions(+), 1300 deletions(-)
+ create mode 100755 scripts/check-git
+ delete mode 100644 scripts/list-gitignored.c
+ create mode 100755 scripts/package/gen-diff-patch
+
+
+-- 
+Best Regards
+Masahiro Yamada
