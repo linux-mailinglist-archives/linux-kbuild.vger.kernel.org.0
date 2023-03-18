@@ -2,88 +2,74 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BDD9E6BFC33
-	for <lists+linux-kbuild@lfdr.de>; Sat, 18 Mar 2023 19:57:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 496F96BFC37
+	for <lists+linux-kbuild@lfdr.de>; Sat, 18 Mar 2023 20:01:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229738AbjCRS5n (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 18 Mar 2023 14:57:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39444 "EHLO
+        id S229568AbjCRTBi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 18 Mar 2023 15:01:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229568AbjCRS5m (ORCPT
+        with ESMTP id S229850AbjCRTBf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 18 Mar 2023 14:57:42 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1D752364C
-        for <linux-kbuild@vger.kernel.org>; Sat, 18 Mar 2023 11:57:36 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id eh3so32345274edb.11
-        for <linux-kbuild@vger.kernel.org>; Sat, 18 Mar 2023 11:57:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1679165855;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aM/qm8tuy+CwBAqdkEhnw/YF3C8EgxLtBG2rYLxmTn8=;
-        b=C2HKbOxszTOLB8zwDKq4Xwkd/0BDSEw4SlkXlsMVJC3C660t8LX1mcpFAurCNZWw5X
-         6IGYZSk0iHYU+hsQ8mw1KMSbFq6f8bEunsNJoVnjmu5fnVD9O0A2F0K/cky0WPpgz7/5
-         pJterdgDAjO8JCz0P3cVg95mtqK5lnkC86qS4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679165855;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aM/qm8tuy+CwBAqdkEhnw/YF3C8EgxLtBG2rYLxmTn8=;
-        b=ciclTjdfGMqmpiNPhlhqU9kUx1ECyp3CzoNS+PKtdGdR7iXgJ6HBKBnuZZFdAcXjtS
-         zG86K/IWAwlbT5GOMdo9lusUZ+bpoAXBbHU4AKNXOPQDG4echz30ETh5x6sbdF6RBNEH
-         BofRDt8OJ06HnRLQiYGg/mHe/KtFmZQBDQpCJd2gYjWRvzXhdBBUDiKr/Msk+MLM/rnT
-         /xnwpvLRlB5FVZPJT13VBdPgE0rgynrbISGt+rjktk/yXXfx9af14oNtkTg2MPB2cwFB
-         MQ2hLWRb0TNTezPfUOBuryhMLYXDJItSiByj/YeGolgpqcEi3WW2XRgO7Acj4hrkLqxt
-         KKUw==
-X-Gm-Message-State: AO0yUKV/G7PrbRCswLkHcSiKRuOAoyc+TToF7xHvr0VLOd1RPfGEZfi0
-        wNoHZvYVmrLkoK/Va5XSOJ2xtjdlQjZV/JPJivJsZg==
-X-Google-Smtp-Source: AK7set/V1J9PosSGD6D8hRwqwSAJP9OPT9K6vNMuLK/t8TK9WbGICbw1aP8Fwmz5b3DpnHEMm2cUvg==
-X-Received: by 2002:aa7:c0d1:0:b0:4fb:98e2:3df8 with SMTP id j17-20020aa7c0d1000000b004fb98e23df8mr7450561edp.27.1679165854910;
-        Sat, 18 Mar 2023 11:57:34 -0700 (PDT)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com. [209.85.208.45])
-        by smtp.gmail.com with ESMTPSA id b44-20020a509f2f000000b004c09527d62dsm2689077edf.30.2023.03.18.11.57.34
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 18 Mar 2023 11:57:34 -0700 (PDT)
-Received: by mail-ed1-f45.google.com with SMTP id cy23so32317052edb.12
-        for <linux-kbuild@vger.kernel.org>; Sat, 18 Mar 2023 11:57:34 -0700 (PDT)
-X-Received: by 2002:a17:906:cc9a:b0:931:6e39:3d0b with SMTP id
- oq26-20020a170906cc9a00b009316e393d0bmr1622308ejb.15.1679165853857; Sat, 18
- Mar 2023 11:57:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAK7LNARH1PPARMD31mECPFs86j8o1MSDTrwahdavDm-C3Dg_sA@mail.gmail.com>
-In-Reply-To: <CAK7LNARH1PPARMD31mECPFs86j8o1MSDTrwahdavDm-C3Dg_sA@mail.gmail.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sat, 18 Mar 2023 11:57:16 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiJeNev2qR+ZjX_UKc-XTrsnae0cUV+RqaE_rMprKL_Ng@mail.gmail.com>
-Message-ID: <CAHk-=wiJeNev2qR+ZjX_UKc-XTrsnae0cUV+RqaE_rMprKL_Ng@mail.gmail.com>
+        Sat, 18 Mar 2023 15:01:35 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C2FD2C658;
+        Sat, 18 Mar 2023 12:01:33 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DB12960ED4;
+        Sat, 18 Mar 2023 19:01:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4FB9BC4339B;
+        Sat, 18 Mar 2023 19:01:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679166092;
+        bh=rpUXHIoYzcFRRcktup4byFqch5cBBzVjw00yJa/cQLs=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=GHYWfP1OAsCFh6MDzRWf7C5nPQc2MZEVC/qgWrqLWh7FmhlsPFZkRVlhqv88gLhTC
+         eJ/29pAQerjjwTS3iUFpAll+s0Q/4z5tgcrXedPIYkCUL6AeJw08RmQeift0JwgfUW
+         3Sna6xEUxd0ErbXix71L4nRtGWE+55WenxQJnRb59l7H29U6xYWYvw7u0QhcYB7MTo
+         lGdXcYh5RiIIzOe7F3nCpNzHbmRNsnzpSMYKvFJu/OAL6AEDKqfuCUe06WCR5E3RHV
+         LlhjtXgBVYI+nBzDYAQV/4RfUeJmLZmfMYTDoYQzpYvKTXbl+Pb9uAtGAOz/+v2gmu
+         zSfBBHymnyt6A==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 33AECC41671;
+        Sat, 18 Mar 2023 19:01:32 +0000 (UTC)
 Subject: Re: [GIT PULL] Kbuild fixes for v6.3-rc3
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <CAK7LNARH1PPARMD31mECPFs86j8o1MSDTrwahdavDm-C3Dg_sA@mail.gmail.com>
+References: <CAK7LNARH1PPARMD31mECPFs86j8o1MSDTrwahdavDm-C3Dg_sA@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kbuild.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAK7LNARH1PPARMD31mECPFs86j8o1MSDTrwahdavDm-C3Dg_sA@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.3
+X-PR-Tracked-Commit-Id: 05e96e96a315fa49faca4da2aedd1761a218b616
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 534293368afa1a953c283310b82e4dc58309d51e
+Message-Id: <167916609220.11643.13417910317795723487.pr-tracker-bot@kernel.org>
+Date:   Sat, 18 Mar 2023 19:01:32 +0000
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Mar 18, 2023 at 8:46=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> Please pull Kbuild fixes.
-> This removes scripts/list-gitignored.
-> I hope you will be happy with it.
+The pull request you sent on Sun, 19 Mar 2023 00:45:59 +0900:
 
-Woohoo. Looking good.
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.3
 
-Thanks,
-          Linus
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/534293368afa1a953c283310b82e4dc58309d51e
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
