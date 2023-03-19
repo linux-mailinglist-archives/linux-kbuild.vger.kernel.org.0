@@ -2,70 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B0906BFFE9
-	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Mar 2023 08:58:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BD766BFFF6
+	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Mar 2023 09:10:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229468AbjCSH57 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 19 Mar 2023 03:57:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59618 "EHLO
+        id S230057AbjCSIKT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 19 Mar 2023 04:10:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229562AbjCSH56 (ORCPT
+        with ESMTP id S229694AbjCSIKS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 19 Mar 2023 03:57:58 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAB5D20680
-        for <linux-kbuild@vger.kernel.org>; Sun, 19 Mar 2023 00:57:49 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id z21so35669749edb.4
-        for <linux-kbuild@vger.kernel.org>; Sun, 19 Mar 2023 00:57:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kali.org; s=google; t=1679212668;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZZCPz8CRvnK87BzmSaf42c3MAOCXZ8j4GoGGR4DIqXs=;
-        b=ZQ2pKNkaAXNEzx1OHhNU+xuOqSepQEoAEgVLKxagddfArXtB8tkU+YQq//m6nnsR8a
-         Iv6kNEs3uehv4+E877rarqdq3kutF/qqobRKZtP5NE1Do1nA6fXxyp+ubIGM6anOb3Hw
-         N0P1xh82E4LypFuEVGeoNajFvkRvFjhSR68+laXzhuUa5FxqI+xEBA+yOnWO/44mAUZA
-         CZwf40uKz27amhdme9Cku82wOUmrEi9yS2uH7VSaUKXf9iovDgbtd+CjyFlP2AgvY8KB
-         njuxwzVSyV4XrWIIC3GHtr7pHSqI6rv/gpFORcdqqZdIdN0qHfFcJ9p6451NkRCc+Rqa
-         kwCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679212668;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZZCPz8CRvnK87BzmSaf42c3MAOCXZ8j4GoGGR4DIqXs=;
-        b=qMYC0edEIa8IoKQMLulj1jm2o4ms0YXZ5VwD+d7ib6UYWSV4wBPPGa6aSWpm0ViTkm
-         VECDk3fin46RHdOaXSghHj1M/OyPi7Rk/07ymXgXgnCwvVtaBwMDLtqW+Z4anSzeV6jZ
-         eUiK7g9+MAI4hFONrFbqUic6zpi2WuU2iDPkyBUh79lTOY4SydDnCZvdbpNgyJ01mN/k
-         EfsuGlNzDtXY3W7OWSGo9fCoJP2alescvwUqmUsQ1gzmypwkmCYTn6LaHzdOLHWE0lKY
-         ugelYp4+xFoT9CO7LjYt3LdVyhIi97+utosGXdP3FoNKV0ObKi71vAVA87E7O1f28W2P
-         JeQg==
-X-Gm-Message-State: AO0yUKWspxP6vxt74MBsITxUx65RIB75azmAhDJElQP1fqLLO4K52z01
-        eXgq/QmJ3IqJ717ws+qCJTv5jHhB7KySCY4Glez/Ng==
-X-Google-Smtp-Source: AK7set/iG/PXfZlZuPaDRugMV84KD1F+LKSh+aRP++O1sU8sK32l6YAA+prNONu+wwMVwnmEQM+6Hnpw7I6n7eAUYJ8=
-X-Received: by 2002:a17:906:4549:b0:877:747d:4a90 with SMTP id
- s9-20020a170906454900b00877747d4a90mr2351731ejq.14.1679212668373; Sun, 19 Mar
- 2023 00:57:48 -0700 (PDT)
+        Sun, 19 Mar 2023 04:10:18 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8856017CFB;
+        Sun, 19 Mar 2023 01:10:16 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2B8FCB80ABA;
+        Sun, 19 Mar 2023 08:10:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9AABC433D2;
+        Sun, 19 Mar 2023 08:10:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679213413;
+        bh=a5va3tEE4tXt4RbnY9wq9cGeJVVqrZTJXQVaAqJNs7I=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=t7Iw70ya9uQVCK20e6iFJax7/rZjaTW+nRxkgQeVhV7DVrNROAGSKMSZGybf9JXGG
+         7z0VvNYUz5Xc6s96Usezq439boIWBXvInF1+XCUfzv3chvyA0nqbHB/DNF8/wErE6s
+         L5FSY+qYRQqjkXou2o6DiUv7knILXdlxRCZD7tyclnXwpbN7rqr9hTikjVaqjmrMl/
+         cl/YjMnDNGrZGHNyh3sCMKVd872VIoZpB6/7HvEqt88TQk4phDu4M0Q6ROXywQftr6
+         HLqMfMNN6nSmyfI4NsWQZ7S54O56duC2+ztzXHMd0i4BNK/cM3BOuYZWl8rFeWPXkg
+         WfI5Q9MBKVBcg==
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-17997ccf711so10210678fac.0;
+        Sun, 19 Mar 2023 01:10:13 -0700 (PDT)
+X-Gm-Message-State: AO0yUKXjIdj6JODZrhWXWHx07tBdJvyYjDRLTHl8E7R3Po4nCdOYeeb6
+        vzzPkyePJbK3u2MSrtTxmfYjrK/U4LfYHx/dXM8=
+X-Google-Smtp-Source: AK7set9E2ZsG/UD8QjqMoQ5NEHggJTNBfQWoUR0XzMx0OFjaipPPxI8WOQASYdT2zBZ4z08XLIWoinwIvyWaOajnHOw=
+X-Received: by 2002:a05:6871:e85:b0:179:c3d1:42d0 with SMTP id
+ vl5-20020a0568710e8500b00179c3d142d0mr1239161oab.11.1679213413097; Sun, 19
+ Mar 2023 01:10:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAK7LNATXqPy6F+gB8-1Zqh8hooXh3U_5+3xeMFZDZwYsUi=aeg@mail.gmail.com>
- <20230312200731.599706-1-masahiroy@kernel.org> <20230319011217.147183-1-steev@kali.org>
- <CAK7LNATrzAWiu36=-JXXjSt48O12OAQG4ZAtLABd_PyiE2f_VQ@mail.gmail.com>
- <CAKXuJqjWORL0GmyOg9_NFUCjUH3Jd7yrNbTYpnQiTk7AptMZMw@mail.gmail.com> <CAK7LNAQKV9HD-ZJrqiHq5aGOmZZ=spgqM-Aw+X4hYuGF1Ntriw@mail.gmail.com>
-In-Reply-To: <CAK7LNAQKV9HD-ZJrqiHq5aGOmZZ=spgqM-Aw+X4hYuGF1Ntriw@mail.gmail.com>
-From:   Steev Klimaszewski <steev@kali.org>
-Date:   Sun, 19 Mar 2023 02:57:36 -0500
-Message-ID: <CAKXuJqhSPckPmy3PTtUfFtUOe_2r6gvPf2TLU1LxbzZcLR6beg@mail.gmail.com>
-Subject: Re: [PATCH 0/6] kbuild: fix some packaging issues, and use
- git-archive for source package
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        nathan@kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu,
-        terrelln@fb.com
+References: <20230314004022.403937-1-bage@linutronix.de> <20230314004022.403937-2-bage@linutronix.de>
+In-Reply-To: <20230314004022.403937-2-bage@linutronix.de>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 19 Mar 2023 17:09:37 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQJtiRkuQNpG7fhmwzOszi09W3PuDqojkCizNP5rxepig@mail.gmail.com>
+Message-ID: <CAK7LNAQJtiRkuQNpG7fhmwzOszi09W3PuDqojkCizNP5rxepig@mail.gmail.com>
+Subject: Re: [PATCH 1/1] builddeb: Eliminate debian/arch use
+To:     Bastian Germann <bage@linutronix.de>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,52 +63,47 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro,
+On Tue, Mar 14, 2023 at 9:43=E2=80=AFAM Bastian Germann <bage@linutronix.de=
+> wrote:
+>
+> In the builddeb context, the DEB_HOST_ARCH environment variable is set to
+> the same value as debian/arch's content, so use the variable with
+> dpkg-architecture.
+>
+> This is the last use of the debian/arch file during dpkg-buildpackage tim=
+e.
+>
+> Signed-off-by: Bastian Germann <bage@linutronix.de>
+> ---
 
-Once again, sincerest apologies, but i do appreciate your time and knowledg=
-e!
 
-On Sun, Mar 19, 2023 at 2:07=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> On Sun, Mar 19, 2023 at 12:21=E2=80=AFPM Steev Klimaszewski <steev@kali.o=
-rg> wrote:
-<snip>
-> It did not go away.
-> LOCALVERSION_AUTO is meant to set kernelrelease,
-> which will result in 'uname -r' in the installed system.
->
-> LOCALVERSION_AUTO should not affect the Debian package version,
-> which is a different thing.
->
->
->
->
-> >  I'm not sure why the
-> > package version overrides what I'm trying to set in the first place in
-> > the kernel config?
-> >
-> > Your workaround is mostly fine, but that "-100" on the end means I
-> > have to now personally track how many builds I've done?
->
-> "-100" is the build revision, which will go into the .version file
-> while building the kernel.
-> It is not so important, you can set whatever number.
->
-This is actually what was throwing me for a loop!
->
-> If you leave the revision auto-incremented,
-> this is equivalent to what Kbuild is doing internally.
->
-> make KDEB_PKGVERSION=3D$(make kernelversion)-$(init/build-version) bindeb=
--pkg
+Applied to linux-kbuild.
+Thanks.
 
-Aha!  So the issue seems to be that I do out of tree builds, and
-init/build-version does not take that into account, so I was always
-getting whatever is in the kernel source's .version and not what is in
-my actual build directory.  I'm still not entirely sure how to get
-that one, but I'm a lot closer, thank you again so much, for your time
-in putting together the patchset to fix the building of the packages,
-as well as answering my questions.
+>  scripts/package/builddeb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+> index ff5e7d8e380b..ef43e8937f25 100755
+> --- a/scripts/package/builddeb
+> +++ b/scripts/package/builddeb
+> @@ -99,7 +99,7 @@ deploy_libc_headers () {
+>
+>         # move asm headers to /usr/include/<libc-machine>/asm to match th=
+e structure
+>         # used by Debian-based distros (to support multi-arch)
+> -       host_arch=3D$(dpkg-architecture -a$(cat debian/arch) -qDEB_HOST_M=
+ULTIARCH)
+> +       host_arch=3D$(dpkg-architecture -a$DEB_HOST_ARCH -qDEB_HOST_MULTI=
+ARCH)
+>         mkdir $pdir/usr/include/$host_arch
+>         mv $pdir/usr/include/asm $pdir/usr/include/$host_arch/
+>  }
+> --
+> 2.39.2
+>
 
--- steev
+
+--=20
+Best Regards
+Masahiro Yamada
