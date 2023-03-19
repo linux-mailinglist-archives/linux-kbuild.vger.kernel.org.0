@@ -2,74 +2,94 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 496F96BFC37
-	for <lists+linux-kbuild@lfdr.de>; Sat, 18 Mar 2023 20:01:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 81ED06BFECA
+	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Mar 2023 02:12:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229568AbjCRTBi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 18 Mar 2023 15:01:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43288 "EHLO
+        id S230053AbjCSBMV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 18 Mar 2023 21:12:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229850AbjCRTBf (ORCPT
+        with ESMTP id S230047AbjCSBMV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 18 Mar 2023 15:01:35 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C2FD2C658;
-        Sat, 18 Mar 2023 12:01:33 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DB12960ED4;
-        Sat, 18 Mar 2023 19:01:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4FB9BC4339B;
-        Sat, 18 Mar 2023 19:01:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679166092;
-        bh=rpUXHIoYzcFRRcktup4byFqch5cBBzVjw00yJa/cQLs=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=GHYWfP1OAsCFh6MDzRWf7C5nPQc2MZEVC/qgWrqLWh7FmhlsPFZkRVlhqv88gLhTC
-         eJ/29pAQerjjwTS3iUFpAll+s0Q/4z5tgcrXedPIYkCUL6AeJw08RmQeift0JwgfUW
-         3Sna6xEUxd0ErbXix71L4nRtGWE+55WenxQJnRb59l7H29U6xYWYvw7u0QhcYB7MTo
-         lGdXcYh5RiIIzOe7F3nCpNzHbmRNsnzpSMYKvFJu/OAL6AEDKqfuCUe06WCR5E3RHV
-         LlhjtXgBVYI+nBzDYAQV/4RfUeJmLZmfMYTDoYQzpYvKTXbl+Pb9uAtGAOz/+v2gmu
-         zSfBBHymnyt6A==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 33AECC41671;
-        Sat, 18 Mar 2023 19:01:32 +0000 (UTC)
-Subject: Re: [GIT PULL] Kbuild fixes for v6.3-rc3
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <CAK7LNARH1PPARMD31mECPFs86j8o1MSDTrwahdavDm-C3Dg_sA@mail.gmail.com>
-References: <CAK7LNARH1PPARMD31mECPFs86j8o1MSDTrwahdavDm-C3Dg_sA@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kbuild.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAK7LNARH1PPARMD31mECPFs86j8o1MSDTrwahdavDm-C3Dg_sA@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.3
-X-PR-Tracked-Commit-Id: 05e96e96a315fa49faca4da2aedd1761a218b616
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 534293368afa1a953c283310b82e4dc58309d51e
-Message-Id: <167916609220.11643.13417910317795723487.pr-tracker-bot@kernel.org>
-Date:   Sat, 18 Mar 2023 19:01:32 +0000
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Sat, 18 Mar 2023 21:12:21 -0400
+Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com [IPv6:2607:f8b0:4864:20::c2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC02823116
+        for <linux-kbuild@vger.kernel.org>; Sat, 18 Mar 2023 18:12:19 -0700 (PDT)
+Received: by mail-oo1-xc2c.google.com with SMTP id x24-20020a4aca98000000b0053a9bbbe449so313475ooq.9
+        for <linux-kbuild@vger.kernel.org>; Sat, 18 Mar 2023 18:12:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kali.org; s=google; t=1679188339;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ycST+XsFwDpZ7Jv6ndBMBSVMHZrpwHBOf36cyfuIYLk=;
+        b=i7HHnol4KMV8G6t765GbNZgAVehCFWlO/YEc82h0Jd7tY0v3WGxF8aJlkp9m52mNv2
+         nTknpUWYSJtLrlJSPIi4Q/EMRPDFsA+qdymSXHO8xlPUAT2VzfIT3IeifYn7Sv+eQ13I
+         VS4BUSGz+3HFZRNHgAIqQ5lcyVYt2FWG1FkE7Gxj2QaDfwQV8MuxH/r1AV8uziggOFL1
+         Q42zJW/JSpADxcelTogMwDashO0LIQxrsVbG5HEZO8sbOiKN9OeNEmvBqnSTKpsEi7Q2
+         mHhEX8E7X7ElF0HLlKPvlP+JnrbjCSKTvnFeD6dUobcOKywaM4qk/tCt+Vr9lRDByOXh
+         iLUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679188339;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ycST+XsFwDpZ7Jv6ndBMBSVMHZrpwHBOf36cyfuIYLk=;
+        b=fn6JQcalH3NzQm/peXAF5UUr8Xesd1UFeW36sfEEdghbS+qNCb1E8COAYon9R0o1/z
+         IJuGYrzpKAVlL3G8zitQCMkz01nO1ygtSjNVLx7k/Z1QBb4FuIs6OSfM5uqijIX+prgm
+         ImYv96S+pzrmfyyreL3R8lZ7b9ERyeU+FDB0To2Yh1V49wA3RaT6yvO7bDjurkXo6BHZ
+         9kS7Hd9Z9CD3xoDuShRetbd0FZSDeFxCFe6addDKwVkW5r0jxTUDxcjVDirRcSbXKI4r
+         eV9UePncHXs57yWBKLSapfYlg+ZAAvJOnshHgFeNeWDHeWGb4kQ+pS/gH/l76PIaCeOh
+         U+yg==
+X-Gm-Message-State: AO0yUKXo8pjq160n6t9wtsSCm/L0EqDTwKmBM1EDQr69t+DOLSJINn8i
+        U9my2KM8oLJCCc1D02hq+k5t9g==
+X-Google-Smtp-Source: AK7set/lF05CEy3MR4BKqaOi7AmvF768320vov4t8iJt/LfFZWj6WExMvkaXdRFPWwtc7ylu9dKbFA==
+X-Received: by 2002:a4a:1e04:0:b0:520:f76:11e2 with SMTP id 4-20020a4a1e04000000b005200f7611e2mr2245907ooq.9.1679188339176;
+        Sat, 18 Mar 2023 18:12:19 -0700 (PDT)
+Received: from localhost (23-118-233-243.lightspeed.snantx.sbcglobal.net. [23.118.233.243])
+        by smtp.gmail.com with ESMTPSA id b2-20020a4ae802000000b00525ccc4caadsm2511768oob.4.2023.03.18.18.12.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Mar 2023 18:12:18 -0700 (PDT)
+From:   Steev Klimaszewski <steev@kali.org>
+To:     masahiroy@kernel.org
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        nathan@kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu,
+        terrelln@fb.com
+Subject: Re: [PATCH 0/6] kbuild: fix some packaging issues, and use git-archive for source package
+Date:   Sat, 18 Mar 2023 20:12:17 -0500
+Message-Id: <20230319011217.147183-1-steev@kali.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230312200731.599706-1-masahiroy@kernel.org>
+References: <CAK7LNATXqPy6F+gB8-1Zqh8hooXh3U_5+3xeMFZDZwYsUi=aeg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The pull request you sent on Sun, 19 Mar 2023 00:45:59 +0900:
+Hi Masahiro,
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.3
+On Sun, Mar 12, 2023 at 1:07 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> This series fixes some bugs, then switch to 'git archive'
+> for source package creation as suggested by Linus.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/534293368afa1a953c283310b82e4dc58309d51e
+I apologize if this is a stupid question, but it's not immediately apparent to
+me...
 
-Thank you!
+Previously, I was overriding the deb file output name by the setting of
+LOCALVERSION_AUTO; but with this series applied, that seems to be ignored?
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Now if I pass LOCALVERSION="" I end up with e.g. linux-image-6.3.0-rc2_6.3.0-rc2-00575-g46c71cad996d-100_arm64.deb
+whereas previously, I would end up with linux-image-6.3.0-rc2_6.3.0-rc2-100_arm64.deb
+
+How would I restore the old naming behaviour?
+
+-- steev
