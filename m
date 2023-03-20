@@ -2,84 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 267496C0992
-	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Mar 2023 05:09:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D2876C09DC
+	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Mar 2023 06:06:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230005AbjCTEJG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 20 Mar 2023 00:09:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39752 "EHLO
+        id S229529AbjCTFGY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 20 Mar 2023 01:06:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230000AbjCTEJD (ORCPT
+        with ESMTP id S229458AbjCTFGW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 20 Mar 2023 00:09:03 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B2F4F77C;
-        Sun, 19 Mar 2023 21:09:02 -0700 (PDT)
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32K26hNV016868;
-        Mon, 20 Mar 2023 04:09:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=s29gtJQTaAQNRvDYuRNvJzZ7BnhQ4Zgr013/VoKrO9c=;
- b=WYr4tF0xT13DLWABqJJXAXm4FvhIA9kZKik9b+eq6nXvYhvHFtwBCkVT8MUANBdOlTn4
- lVe8MyKdfauuUhF1Z8ie+aua3So6SxBnYleATtiwxFLayyJdgeV5nffNTrIuupAr7+Fp
- 2oNN9s/SYgEOwGhWyIHpIlQCv0PD2YagQ1xXYWdHAdLJ1bThHHncCVIjwoH+D2tAyiWq
- aXpyLUZluxYRsoFNCvb6yldC55G74vWPw7tbLqWid0+BsqZecxhqz3tCiNpZD4SDEPy3
- aMw0IPuRlhNvjKjNIq52llskSJ4N14nKGWuFI1RaPebd0z6fd+MHEmzx6ALG5lDHLKFk VQ== 
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pdq3td5b4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 20 Mar 2023 04:09:01 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
-        by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32JAgiZp015057;
-        Mon, 20 Mar 2023 04:08:59 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-        by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3pd4jfanak-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 20 Mar 2023 04:08:59 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-        by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 32K48tfx58655028
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 20 Mar 2023 04:08:57 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id CDC442004B;
-        Mon, 20 Mar 2023 04:08:55 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id CD32E20043;
-        Mon, 20 Mar 2023 04:08:54 +0000 (GMT)
-Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
-        by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Mon, 20 Mar 2023 04:08:54 +0000 (GMT)
-Received: from bgray-lenovo-p15.ozlabs.ibm.com (haven.au.ibm.com [9.192.254.114])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id E43F260463;
-        Mon, 20 Mar 2023 15:08:49 +1100 (AEDT)
-From:   Benjamin Gray <bgray@linux.ibm.com>
-To:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Cc:     Benjamin Gray <bgray@linux.ibm.com>
-Subject: [PATCH 2/2] initramfs: Encode dependency on KBUILD_BUILD_TIMESTAMP
-Date:   Mon, 20 Mar 2023 15:08:39 +1100
-Message-Id: <20230320040839.660475-2-bgray@linux.ibm.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230320040839.660475-1-bgray@linux.ibm.com>
-References: <20230320040839.660475-1-bgray@linux.ibm.com>
+        Mon, 20 Mar 2023 01:06:22 -0400
+Received: from mail-ua1-x932.google.com (mail-ua1-x932.google.com [IPv6:2607:f8b0:4864:20::932])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BAC61E9EA;
+        Sun, 19 Mar 2023 22:06:20 -0700 (PDT)
+Received: by mail-ua1-x932.google.com with SMTP id n17so7041815uaj.10;
+        Sun, 19 Mar 2023 22:06:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679288779;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=6Gib55IPNKPDHGsO/r/1AFOaqBwqBE1C5ui0pHqkTWU=;
+        b=A9+EFIHSfvLTQUD8yPRYxpH5w1+3fXQyS1sPhRmNfufxNEVjShl9soIBeHrtYn2OuQ
+         dywOCnoJMrCJaJ9WxWK9X0+hijatdYIpIUeCB8ERzlM/C2i4xgapDG5b3GR6/1wlCm9o
+         c10nA9Q685xpU3vFPTYeHcwaMcLdIPCGOQv/SLwMA8SqPvRVraWz4PbwweVGsCm5URqX
+         dVffFebYO35Pfu0vQSTMIZomWLr0pVNsrEbptIoKARj5Mum6o5oIQiyblm2P8y7cMtTy
+         zoK3rpjIVarn2N+Narmw/NGhJJA5SXYNP1iW0LxU5mY/J7xrWgRGsZxOkdapPP50yQXn
+         rj5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679288779;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6Gib55IPNKPDHGsO/r/1AFOaqBwqBE1C5ui0pHqkTWU=;
+        b=VR7hZwpYO+LjofRaHmvcXOewvd3K/r5lp+yi0hXjEGWK8cA67Ti5JDZqDaMnTev/Z3
+         s8JVmTBWsPDB7AHukkyNMyyp24t0w57oHTDKehHgOvKlZNPL05O+gMdHUc+TpzP31kSM
+         pG7DNCdGMbRB22TCfHVDzvWMHGQMShjZoOFPB31gdtp6jbyzbTMPJSDnIlnQLRRJyiHT
+         Bh51tBxb5n0Y2ErCou1A7zzXuYoiE1n7JZTJu6nw2OJheDp6AJA/VUVWlgakls67KNlh
+         QClf3neDNWOijUaGjfwAe+nU0bWcpsdRrObw21/lm03ULm3Zy/pR43cMHzLWA77c6SnG
+         /eYA==
+X-Gm-Message-State: AO0yUKXIE8Hcfsuo7Qw19ESHQDRB+U1A161fzdZXM+eOih6Y72TgJ/k/
+        qyEky7SeDYZhIGKglfsPiIflKVVKhfP/+qk9uO3gwsh2OnA=
+X-Google-Smtp-Source: AK7set/LauD6kxENWDuW87+2f6ufLPaM+vYj3cnq/yHfLtx8zE5U70z5GgzowSr+YcHZNHxPsClh8Ev6r9X40hLmTDk=
+X-Received: by 2002:a1f:264e:0:b0:401:4daf:d581 with SMTP id
+ m75-20020a1f264e000000b004014dafd581mr3197662vkm.0.1679288778914; Sun, 19 Mar
+ 2023 22:06:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: vCU-69eZaEcK3fy6V2LK7fPGhV3gncPE
-X-Proofpoint-GUID: vCU-69eZaEcK3fy6V2LK7fPGhV3gncPE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-20_02,2023-03-16_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
- lowpriorityscore=0 mlxscore=0 malwarescore=0 spamscore=0
- priorityscore=1501 bulkscore=0 impostorscore=0 phishscore=0 suspectscore=0
- mlxlogscore=999 clxscore=1015 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2303150002 definitions=main-2303200034
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
+From:   jim.cromie@gmail.com
+Date:   Sun, 19 Mar 2023 23:05:52 -0600
+Message-ID: <CAJfuBxyeKz3bsc=WfjJZDKgAHScC80_irQvmsecxPukjM-J8gw@mail.gmail.com>
+Subject: RFC - KBUILD_MODNAME is misleading in builtins, as seen in /proc/dynamic_debug/control
+To:     LKML <linux-kernel@vger.kernel.org>, linux-kbuild@vger.kernel.org
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Jason Baron <jbaron@akamai.com>,
+        Luis Chamberlain <mcgrof@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJ_AS_SEEN autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -87,97 +65,65 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-gen_initramfs.sh has an internal dependency on KBUILD_BUILD_TIMESTAMP
-for generating file mtimes that is not exposed to make, so changing
-KBUILD_BUILD_TIMESTAMP will not trigger a rebuild of the archive.
+dynamic-debug METADATA uses KBUILD_MODNAME as:
 
-Declare the mtime date as a new parameter to gen_initramfs.sh to encode
-KBUILD_BUILD_TIMESTAMP in the shell command, thereby making make aware
-of the dependency.
+#define DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, cls, fmt)       \
+        static struct _ddebug  __aligned(8)                     \
+        __section("__dyndbg") name = {                          \
+                .modname = KBUILD_MODNAME,                      \
 
-It will rebuild if KBUILD_BUILD_TIMESTAMP changes or is newly set/unset.
-It will _not_ rebuild if KBUILD_BUILD_TIMESTAMP is unset before and
-after. This should be fine for anyone who doesn't care about setting
-specific build times in the first place.
+This is going amiss for some builtins, ie those enabled here, by:
 
-Signed-off-by: Benjamin Gray <bgray@linux.ibm.com>
+    echo module main +pmf > /proc/dynamic_debug_control
+    grep =pmf /proc/dynamic_debug/control
 
----
+init/main.c:1187 [main]initcall_blacklist =pmf "blacklisting initcall %s\n"
+init/main.c:1226 [main]initcall_blacklisted =pmf "initcall %s blacklisted\n"
+init/main.c:1432 [main]run_init_process =pmf "  with arguments:\n"
+init/main.c:1434 [main]run_init_process =pmf "    %s\n"
+init/main.c:1435 [main]run_init_process =pmf "  with environment:\n"
+init/main.c:1437 [main]run_init_process =pmf "    %s\n"
+kernel/module/main.c:336 [main]find_symbol =pmf "Failed to find symbol %s\n"
+kernel/module/main.c:567 [main]already_uses =pmf "%s uses %s!\n"
+kernel/module/main.c:571 [main]already_uses =pmf "%s does not use %s!\n"
+kernel/module/main.c:586 [main]add_module_usage =pmf "Allocating new
+usage for %s.\n"
+kernel/module/main.c:627 [main]module_unload_free =pmf "%s unusing %s\n"
+kernel/module/main.c:733 [main]__do_sys_delete_module =pmf "%s already dying\n"
+kernel/module/main.c:1345 [main]simplify_symbols =pmf "Common symbol: %s\n"
+kernel/module/main.c:1353 [main]simplify_symbols =pmf "Absolute
+symbol: 0x%08lx\n"
+kernel/module/main.c:1508 [main]__layout_sections =pmf "\t%s\n"
+kernel/module/main.c:1526 [main]layout_sections =pmf "Core section
+allocation order:\n"
+kernel/module/main.c:1529 [main]layout_sections =pmf "Init section
+allocation order:\n"
+kernel/module/main.c:2168 [main]move_module =pmf "final section addresses:\n"
+kernel/module/main.c:2183 [main]move_module =pmf "\t0x%lx %s\n"
+kernel/module/main.c:2921 [main]__do_sys_init_module =pmf
+"init_module: umod=%p, len=%lu, uargs=%p\n"
+kernel/module/main.c:2942 [main]__do_sys_finit_module =pmf
+"finit_module: fd=%d, uargs=%p, flags=%i\n"
+drivers/base/power/main.c:135 [main]device_pm_add =pmf "Adding info for %s:%s\n"
+drivers/base/power/main.c:156 [main]device_pm_remove =pmf "Removing
+info for %s:%s\n"
+drivers/base/power/main.c:175 [main]device_pm_move_before =pmf "Moving
+%s:%s before %s:%s\n"
+drivers/base/power/main.c:189 [main]device_pm_move_after =pmf "Moving
+%s:%s after %s:%s\n"
+drivers/base/power/main.c:202 [main]device_pm_move_last =pmf "Moving
+%s:%s to end of list\n"
+drivers/base/power/main.c:441 [main]pm_dev_dbg =pmf "PM: %s%s%s driver
+flags: %x\n"
+drivers/base/power/main.c:467 [main]dpm_show_time =pmf "%s%s%s of
+devices %s after %ld.%03ld msecs\n"
+bash-5.2#
 
-Ran into this while debugging the issue in the first patch. Made for a
-very perplexing debug session before we worked out the state wasn't
-being rebuilt.
----
- usr/Makefile         |  2 ++
- usr/gen_initramfs.sh | 16 +++++++++-------
- 2 files changed, 11 insertions(+), 7 deletions(-)
+Basically, KBUILD_MODNAME appears to get basename,
+not something specific, set in some config (such as pm, or module)
+or cleverly picked out of the path (power is possible)
 
-diff --git a/usr/Makefile b/usr/Makefile
-index 59d9e8b07a01..2aa386cf48d6 100644
---- a/usr/Makefile
-+++ b/usr/Makefile
-@@ -64,6 +64,7 @@ quiet_cmd_initfs = GEN     $@
- 	$(CONFIG_SHELL) $< -o $@ -l $(obj)/.initramfs_data.cpio.d \
- 	$(if $(CONFIG_INITRAMFS_ROOT_UID), -u $(CONFIG_INITRAMFS_ROOT_UID)) \
- 	$(if $(CONFIG_INITRAMFS_ROOT_GID), -g $(CONFIG_INITRAMFS_ROOT_GID)) \
-+	$(if $(KBUILD_BUILD_TIMESTAMP), -d $(KBUILD_BUILD_TIMESTAMP)) \
- 	$(ramfs-input)
- 
- # We rebuild initramfs_data.cpio if:
-@@ -71,6 +72,7 @@ quiet_cmd_initfs = GEN     $@
- # 2) There are changes in which files are included (added or deleted)
- # 3) If gen_init_cpio are newer than initramfs_data.cpio
- # 4) Arguments to gen_initramfs.sh changes
-+# 5) KBUILD_BUILD_TIMESTAMP is changed
- $(obj)/initramfs_data.cpio: $(src)/gen_initramfs.sh $(obj)/gen_init_cpio $(deps_initramfs) FORCE
- 	$(call if_changed,initfs)
- 
-diff --git a/usr/gen_initramfs.sh b/usr/gen_initramfs.sh
-index 63476bb70b41..14b5782f961a 100755
---- a/usr/gen_initramfs.sh
-+++ b/usr/gen_initramfs.sh
-@@ -23,6 +23,7 @@ $0 [-o <file>] [-l <dep_list>] [-u <uid>] [-g <gid>] {-d | <cpio_source>} ...
- 	-g <gid>       Group ID to map to group ID 0 (root).
- 		       <gid> is only meaningful if <cpio_source> is a
- 		       directory.  "squash" forces all files to gid 0.
-+	-d <date>      Use date for all file mtime values
- 	<cpio_source>  File list or directory for cpio archive.
- 		       If <cpio_source> is a .cpio file it will be used
- 		       as direct input to initramfs.
-@@ -190,6 +191,7 @@ prog=$0
- root_uid=0
- root_gid=0
- dep_list=
-+timestamp=
- cpio_list=$(mktemp ${TMPDIR:-/tmp}/cpiolist.XXXXXX)
- output="/dev/stdout"
- 
-@@ -218,6 +220,13 @@ while [ $# -gt 0 ]; do
- 			[ "$root_gid" = "-1" ] && root_gid=$(id -g || echo 0)
- 			shift
- 			;;
-+		"-d")	# date for file mtimes
-+			timestamp="$(date -d"$1" +%s || :)"
-+			if test -n "$timestamp"; then
-+				timestamp="-t $timestamp"
-+			fi
-+			shift
-+			;;
- 		"-h")
- 			usage
- 			exit 0
-@@ -237,11 +246,4 @@ done
- 
- # If output_file is set we will generate cpio archive
- # we are careful to delete tmp files
--timestamp=
--if test -n "$KBUILD_BUILD_TIMESTAMP"; then
--	timestamp="$(date -d"$KBUILD_BUILD_TIMESTAMP" +%s || :)"
--	if test -n "$timestamp"; then
--		timestamp="-t $timestamp"
--	fi
--fi
- usr/gen_init_cpio $timestamp $cpio_list > $output
--- 
-2.39.2
+this compromises the clarity of  dyndbg's module keyword
 
+is some heuristic possible to improve this,
+with a manual setting to fix when heuristic fails ?
