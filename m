@@ -2,140 +2,140 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D80816C2359
-	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Mar 2023 22:04:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CDAD06C2568
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Mar 2023 00:06:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229571AbjCTVE5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 20 Mar 2023 17:04:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53440 "EHLO
+        id S229991AbjCTXGR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 20 Mar 2023 19:06:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230063AbjCTVE4 (ORCPT
+        with ESMTP id S229980AbjCTXGP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 20 Mar 2023 17:04:56 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F301C14EAE;
-        Mon, 20 Mar 2023 14:04:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:
-        Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description;
-        bh=D3BVyr7z3/LsIQimIZFRzV1o+ANkI7efYBNPjgbxhxE=; b=Qwks+KfSLjSC93jiDkvXvM5s1g
-        FELkk7XGy7ASSd8+E5MZ1ZcvQL32BvP9NDspwFchEPteUGLldNsF6p0NIRX+cM/eJovlJCy3WAYs3
-        3eHk0fkuOeUin3W6P++64JJlztACRqDj7BmuXFhbV5B26VbDU6/w6SBfeV2SEM6KVZOHvsXW9fFSJ
-        7rjqA79+baoD96P3QkF0G05R52ljjuv/VuS7GY+8JzdyknmO9zwspY/U3vaYb8tbI9dBIMF1d1Pmt
-        /EZmS5oUwDwEQ+RN5j/INenbGTCR/xd2TK3VCuY2GitAiGkMTzyvPrRhS1GCsQjKpiozgMO5MwWTH
-        4Gt4QMTA==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
-        id 1peMgR-00AUlB-2r;
-        Mon, 20 Mar 2023 21:04:47 +0000
-Date:   Mon, 20 Mar 2023 14:04:47 -0700
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     jim.cromie@gmail.com, linux-modules@vger.kernel.org,
-        Nick Alcock <nick.alcock@oracle.com>,
-        Aaron Tomlin <atomlin@redhat.com>
-Cc:     Jason Baron <jbaron@akamai.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-kbuild@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: RFC - KBUILD_MODNAME is misleading in builtins, as seen in
- /proc/dynamic_debug/control
-Message-ID: <ZBjKb8fXHOxnHuHD@bombadil.infradead.org>
-References: <CAJfuBxyeKz3bsc=WfjJZDKgAHScC80_irQvmsecxPukjM-J8gw@mail.gmail.com>
- <6af9da81-7a7b-9f47-acb1-d0350bae7f3f@akamai.com>
- <CAJfuBxyoeuurDoUe2tLs=JbX=BbxGdYpf2yBEP6bkhtFh2XTtQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+        Mon, 20 Mar 2023 19:06:15 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FFEE34F6C;
+        Mon, 20 Mar 2023 16:06:02 -0700 (PDT)
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32KLhc3O012069;
+        Mon, 20 Mar 2023 23:06:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=/axE91rUg/cJj4LJMDVEwCwWQ5EZAkcEoYjeNyf1wIk=;
+ b=JDeNfhBFRy0/5ZPXqmZxo6nnWgQw8LiXU0Tt/qNX1LFqj3/znE+DVgP97ZEdJxVK5gzP
+ PL4U6PWrCC3b4hjFYk74mgmBKTuVKhE8Mq+WqdzwCtm+gpn+ulo1WKKu5hds9MBUalv2
+ Z0KCdktfN1q0hUiSVC5CCl6YHrdVMPUwTm3DkfIpuX73JVl7U0FoTz/ikvxQlVEq0DyZ
+ 7urhil97gfHBqgsszWw8YUi/3Xh3NUOx/29A6Wzapa4z+8Kp7GaPfCpTL4rGNaIUheJb
+ Jzt7g8JU3piBjmUtrLsrQZlqYcsqGVQhWKTYRcfGZVLFTshFetxTklHfoS6JGLiRfJvp Kw== 
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
+        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pest044rr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 20 Mar 2023 23:06:01 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+        by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32KLVcNo017002;
+        Mon, 20 Mar 2023 23:06:00 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+        by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3pd4jfb881-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 20 Mar 2023 23:06:00 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
+        by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 32KN5vW320578838
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 20 Mar 2023 23:05:57 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 794B220043;
+        Mon, 20 Mar 2023 23:05:57 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id EE2462004E;
+        Mon, 20 Mar 2023 23:05:56 +0000 (GMT)
+Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
+        by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
+        Mon, 20 Mar 2023 23:05:56 +0000 (GMT)
+Received: from bgray-lenovo-p15.ibm.com (unknown [9.177.79.185])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id 42948600F5;
+        Tue, 21 Mar 2023 10:05:51 +1100 (AEDT)
+From:   Benjamin Gray <bgray@linux.ibm.com>
+To:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Cc:     Benjamin Gray <bgray@linux.ibm.com>
+Subject: [PATCH] init/initramfs: Fix argument forwarding to panic() in panic_show_mem()
+Date:   Tue, 21 Mar 2023 10:05:34 +1100
+Message-Id: <20230320230534.50174-1-bgray@linux.ibm.com>
+X-Mailer: git-send-email 2.39.2
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Ww-6Jq3H909M665UBrFCdaSd7ClcJV7y
+X-Proofpoint-ORIG-GUID: Ww-6Jq3H909M665UBrFCdaSd7ClcJV7y
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJfuBxyoeuurDoUe2tLs=JbX=BbxGdYpf2yBEP6bkhtFh2XTtQ@mail.gmail.com>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,SUBJ_AS_SEEN autolearn=no
-        autolearn_force=no version=3.4.6
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-20_16,2023-03-20_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
+ spamscore=0 mlxlogscore=999 impostorscore=0 bulkscore=0 clxscore=1015
+ priorityscore=1501 mlxscore=0 adultscore=0 lowpriorityscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303200196
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Mar 20, 2023 at 01:59:28PM -0600, jim.cromie@gmail.com wrote:
-> On Mon, Mar 20, 2023 at 12:35 PM Jason Baron <jbaron@akamai.com> wrote:
-> >
-> >
-> >
-> > On 3/20/23 1:05 AM, jim.cromie@gmail.com wrote:
-> > > dynamic-debug METADATA uses KBUILD_MODNAME as:
-> > >
-> > > #define DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, cls, fmt)       \
-> > >          static struct _ddebug  __aligned(8)                     \
-> > >          __section("__dyndbg") name = {                          \
-> > >                  .modname = KBUILD_MODNAME,                      \
-> > >
-> > > This is going amiss for some builtins, ie those enabled here, by:
-> > >
-> > >      echo module main +pmf > /proc/dynamic_debug_control
-> > >      grep =pmf /proc/dynamic_debug/control
-> > >
-> > > init/main.c:1187 [main]initcall_blacklist =pmf "blacklisting initcall %s\n"
-> > > init/main.c:1226 [main]initcall_blacklisted =pmf "initcall %s blacklisted\n"
-> > > init/main.c:1432 [main]run_init_process =pmf "  with arguments:\n"
-> > > init/main.c:1434 [main]run_init_process =pmf "    %s\n"
-> > > init/main.c:1435 [main]run_init_process =pmf "  with environment:\n"
-> > > init/main.c:1437 [main]run_init_process =pmf "    %s\n"
-> >
-> >
-> > Hi Jim,
-> >
-> > So if I'm following correctly, this is not a new issue, the 'module'
-> > name for dynamic debug has always been this way for builtin.
-> 
-> It is not a new issue - both PM and init-main have been in [main] for some time.
-> 
-> I believe that with
-> cfc1d277891e module: Move all into module/
-> 
-> module's module-name joined them, changing from [module] to [main]
+Forwarding variadic argument lists can't be done by passing a va_list
+to a function with signature foo(...) (as panic() has). It ends up
+interpreting the va_list itself as a single argument instead of
+iterating it. printf() happily accepts it of course, leading to corrupt
+output.
 
-If there was a regression due to this, we'd be very interested in
-hearing about it. Aaron he did the work to move the code to its own directory. 
+Convert panic_show_mem() to a macro to allow forwarding the arguments.
+The function is trivial enough that it's easier than trying to introduce
+a vpanic() variant.
 
-> We could do
-> > something simple and just normalize it when we initially create the
-> > table, but setting the 'module name' to 'core' or 'builtin' or something
-> > for all these?
-> 
-> core and builtin would both lump all those separate modules together,
-> making it less meaningful.
-> 
-> having stable names independent of M vs Y config choices is imperative, ISTM.
-> 
-> Also, I dont think "only builtins are affected" captures the whole problem.
-> I dont recall amdgpu or other modules changing when built with =y
-> 
-> Theres some subtlety in how KBUILD_MODNAME is set,
-> and probably many current users who like its current behavior.
-> A new var ?
-> 
-> 1st, I think that anything tristate gets a sensible value,
-> but at least some of the builtin-only "modules" get basenames, by default.
+Signed-off-by: Benjamin Gray <bgray@linux.ibm.com>
 
-In general we could all benefit from an enhancement for a shortname for
-things which could be modules being built-in. We're now seeing requests
-for dynamic debug, but it could also be usefulf for Nick's future work
-to help userspace tools / tracing map kallsysms to specific modules when
-built-in.
+---
 
-To that end I had suggested the current state of affairs & current difficulty
-in trying to get us a name for this here:
+After sending these patches [1] I wondered why the kernel accepted a
+corrupt archive. The streaming parser makes it difficult to see
+where to add a completeness check (possibly can assert the state is
+Start or Reset at the end?), but adding an error() to cover my issue
+revealed that the error message was never printed.
 
-https://lore.kernel.org/all/Y/kXDqW+7d71C4wz@bombadil.infradead.org/
+[1]: https://lore.kernel.org/all/20230320040839.660475-1-bgray@linux.ibm.com/
+---
+ init/initramfs.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
-I ended up suggesting perhaps we need a -DPOSSIBLE_MODULE then if we
-could *somehow* pull that off perhaps then we could instead use
--DPOSSIBLE_KBUILD_MODNAME which would ensure a consistent symbol when
-a module is built-in as well.
+diff --git a/init/initramfs.c b/init/initramfs.c
+index f6c112e30bd4..e7a01c2ccd1b 100644
+--- a/init/initramfs.c
++++ b/init/initramfs.c
+@@ -60,15 +60,8 @@ static void __init error(char *x)
+ 		message = x;
+ }
+ 
+-static void panic_show_mem(const char *fmt, ...)
+-{
+-	va_list args;
+-
+-	show_mem(0, NULL);
+-	va_start(args, fmt);
+-	panic(fmt, args);
+-	va_end(args);
+-}
++#define panic_show_mem(fmt, ...) \
++	({ show_mem(0, NULL); panic(fmt, ##__VA_ARGS__); })
+ 
+ /* link hash */
+ 
 
-That still leaves the difficulty in trying to gather possible-obj-m as
-a future challenge.
+base-commit: 065ffaee73892e8a3629b4cfbe635697807a3c6f
+prerequisite-patch-id: 6e3cfc6bf9c5686ad29c7feed8e283d30b1957fd
+prerequisite-patch-id: 933a7bd2f29223dba7f2cac7e9aa72aae730292d
+-- 
+2.39.2
 
-  Luis
