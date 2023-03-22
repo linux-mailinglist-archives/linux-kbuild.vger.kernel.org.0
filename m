@@ -2,42 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E48686C5355
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Mar 2023 19:11:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 763226C536E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Mar 2023 19:15:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230028AbjCVSLu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 22 Mar 2023 14:11:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56610 "EHLO
+        id S229497AbjCVSPr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 22 Mar 2023 14:15:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbjCVSLt (ORCPT
+        with ESMTP id S229519AbjCVSPq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 22 Mar 2023 14:11:49 -0400
-Received: from maynard.decadent.org.uk (maynard.decadent.org.uk [95.217.213.242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E550A64A81;
-        Wed, 22 Mar 2023 11:11:47 -0700 (PDT)
-Received: from [213.219.167.32] (helo=deadeye)
-        by maynard with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ben@decadent.org.uk>)
-        id 1pf2w5-0004fX-QF; Wed, 22 Mar 2023 19:11:45 +0100
-Received: from ben by deadeye with local (Exim 4.96)
-        (envelope-from <ben@decadent.org.uk>)
-        id 1pf2w5-006OWH-12;
-        Wed, 22 Mar 2023 19:11:45 +0100
-Date:   Wed, 22 Mar 2023 19:11:45 +0100
-From:   Ben Hutchings <ben@decadent.org.uk>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, stable@vger.kernel.org
-Subject: [PATCH] modpost: Fix processing of CRCs on 32-bit build machines
-Message-ID: <ZBtE4XlqCXjFELHR@decadent.org.uk>
+        Wed, 22 Mar 2023 14:15:46 -0400
+Received: from domac.alu.hr (domac.alu.unizg.hr [IPv6:2001:b68:2:2800::3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE2BB6505A;
+        Wed, 22 Mar 2023 11:15:33 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by domac.alu.hr (Postfix) with ESMTP id 2459C604F0;
+        Wed, 22 Mar 2023 19:15:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
+        t=1679508931; bh=uwjYpsJXPD7FhPZaDDmtv+fmfdYShZVfMh/QdHtxRZc=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=WwCN4ZdXYs5BOsQiqRQ8Rw3M2sbnYdUWzcCEf37qnBBbp5V2Civ9wjsJdENmzIXF0
+         dDEYr+ufV/tJuE+TeqbUwoyjKwn8ljdg9BPOHqiuPR9CpS83nxs0KbNOQNm0nYmkbw
+         BRAGEM5TyWqgxvRnd/JajguDccsGFkEJX6BPgRmTZ+PQfGSuZLoOy5YV8+BjGR35+h
+         s9xS13JzXSEDvp0bUQwR/P28/HiAQIBAGZNyGd3UYDW8KGYOhQtUGOKBtrGiKFR0qT
+         ezo+Asu8iqrZNIiCpvEA2SEsle3+lfzluY8FV8cwEgGI+Z8v0cO171Sngkoz0WhtH5
+         9Aq000GOmrJZw==
+X-Virus-Scanned: Debian amavisd-new at domac.alu.hr
+Received: from domac.alu.hr ([127.0.0.1])
+        by localhost (domac.alu.hr [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id U-JVEDwxHgAI; Wed, 22 Mar 2023 19:15:28 +0100 (CET)
+Received: from [192.168.1.4] (unknown [109.227.34.15])
+        by domac.alu.hr (Postfix) with ESMTPSA id 49748604EF;
+        Wed, 22 Mar 2023 19:14:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
+        t=1679508928; bh=uwjYpsJXPD7FhPZaDDmtv+fmfdYShZVfMh/QdHtxRZc=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=OU4UpEc2NVjeO4vFYbos9thOiUFCJXpXMzgmZLYIE5R+1L/KCPqSezEgdzQywYLN0
+         hASlG7wX3E/2+mvvcCZhucIBb4A7zR11iWvU3rf4Wyw7/knQy9xjjknuLbx/AcWGEN
+         AeepQ+bexmfJeI97Z+QlYLvmqH0bUeDTJxxVwkOK94tPz/nh9NeVvQSccWxODx1Fxp
+         a8km5arkhfrRBaby4/PP+LB98k28g5kWtvTyzxe1uqDU1DrtZcVHmpqPgdfwDQSHPb
+         L+Snp0rt8PzdaogujWF5kRdoG1EDo0ecSlhZy5+wvPf0R4YRdg3C5jV9CFxpnNbwkY
+         haxbkgDZQ08hA==
+Message-ID: <cb386732-7509-497d-8641-473ad853c9ed@alu.unizg.hr>
+Date:   Wed, 22 Mar 2023 19:14:58 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="+8Al0RIa47xRJ8Lx"
-Content-Disposition: inline
-X-SA-Exim-Connect-IP: 213.219.167.32
-X-SA-Exim-Mail-From: ben@decadent.org.uk
-X-SA-Exim-Scanned: No (on maynard); SAEximRunCond expanded to false
-X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_NONE,SPF_PASS
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v1 1/1] scripts: merge_config: Fix typo in variable name.
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Mark Brown <broonie@kernel.org>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>
+References: <20230322085106.16629-1-mirsad.todorovac@alu.unizg.hr>
+ <c93723aa-f01c-9f1e-c9c7-aa79f38390c1@infradead.org>
+Content-Language: en-US, hr
+From:   Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>
+In-Reply-To: <c93723aa-f01c-9f1e-c9c7-aa79f38390c1@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -45,61 +69,60 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On 22. 03. 2023. 16:20, Randy Dunlap wrote:
+> 
+> 
+> On 3/22/23 01:51, Mirsad Goran Todorovac wrote:
+>> ${WARNOVERRIDE} was misspelled as ${WARNOVVERIDE}, which caused a shell
+>> syntax error in certain paths of the script execution.
+>>
+> 
+> Fixes: 46dff8d7e381e ("scripts: merge_config: Add option to suppress warning on overrides")
+> 
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> 
+> Thanks.
 
---+8Al0RIa47xRJ8Lx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi, Randy,
 
-modpost now reads CRCs from .*.cmd files, parsing them using strtol().
-This is inconsistent with its parsing of Module.symvers and with their
-definition as *unsigned* 32-bit values.
+I think this time thanks go to the Heavens, for preserving my physical integrity.
 
-strtol() clamps values to [LONG_MIN, LONG_MAX], and when building on a
-32-bit system this changes all CRCs >=3D 0x80000000 to be 0x7fffffff.
+Though I don't know of a bike with ABS.
 
-Change extract_crcs_for_object() to use strtoul() instead.
+>> Cc: Mark Brown <broonie@kernel.org>
+>> Cc: Masahiro Yamada <masahiroy@kernel.org>
+>> Cc: linux-kbuild@vger.kernel.org
+>> Cc: linux-kernel@vger.kernel.org
+>> Signed-of-by: Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>
+>> ---
+>>  scripts/kconfig/merge_config.sh | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_config.sh
+>> index 32620de473ad..902eb429b9db 100755
+>> --- a/scripts/kconfig/merge_config.sh
+>> +++ b/scripts/kconfig/merge_config.sh
+>> @@ -145,7 +145,7 @@ for ORIG_MERGE_FILE in $MERGE_LIST ; do
+>>  		NEW_VAL=$(grep -w $CFG $MERGE_FILE)
+>>  		BUILTIN_FLAG=false
+>>  		if [ "$BUILTIN" = "true" ] && [ "${NEW_VAL#CONFIG_*=}" = "m" ] && [ "${PREV_VAL#CONFIG_*=}" = "y" ]; then
+>> -			${WARNOVVERIDE} Previous  value: $PREV_VAL
+>> +			${WARNOVERRIDE} Previous  value: $PREV_VAL
+>>  			${WARNOVERRIDE} New value:       $NEW_VAL
+>>  			${WARNOVERRIDE} -y passed, will not demote y to m
+>>  			${WARNOVERRIDE}
 
-Cc: stable@vger.kernel.org
-Fixes: f292d875d0dc ("modpost: extract symbol versions from *.cmd files")
-Signed-off-by: Ben Hutchings <ben@decadent.org.uk>
----
- scripts/mod/modpost.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Best regards,
+Mirsad
 
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index efff8078e395..9466b6a2abae 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -1733,7 +1733,7 @@ static void extract_crcs_for_object(const char *objec=
-t, struct module *mod)
- 		if (!isdigit(*p))
- 			continue;	/* skip this line */
-=20
--		crc =3D strtol(p, &p, 0);
-+		crc =3D strtoul(p, &p, 0);
- 		if (*p !=3D '\n')
- 			continue;	/* skip this line */
-=20
+-- 
+Mirsad Goran Todorovac
+Sistem inženjer
+Grafički fakultet | Akademija likovnih umjetnosti
+Sveučilište u Zagrebu
+ 
+System engineer
+Faculty of Graphic Arts | Academy of Fine Arts
+University of Zagreb, Republic of Croatia
+The European Union
 
---+8Al0RIa47xRJ8Lx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEErCspvTSmr92z9o8157/I7JWGEQkFAmQbRNwACgkQ57/I7JWG
-EQksyRAAj5xtJaqdL5zvcu65njrnJ1asDS3QKkvteeavErdiLljDEt88WPIUeEe0
-jKMj9TfUjZtuKMvIHSB7jO6egDkPEHR+bmI/Z5aC+yUmfB6GVvfq44PnG2ydGZ0n
-CPJn6LZtceD+ypnT1TNv9MuGHSopa9HOQdWNA8OaiGkfYJTRIxk1RADwVb4d9ezF
-1pl0jEk4/twEGjYlE4bvKnNdpcXDEnOr4XEAIxIp6tQfE0U13baDb7uegsIcIYuf
-oucu7t86GehJmR995xX0Cmpu3Fo2CWh1beCLrHsM5IlGVtzqSDXtRpKzIiIJ3JzN
-FVYvCPJSfEUyAmiacSNoDHRViVxFGa2B+gCdttdAa4kSxfL+ewoQZPmQmlr4mVFO
-Gd0Xzd4Kt2834HF+jKYes0rnPBreCYElr0vHabQZtyOKKgWApXIOydk+y0yC3M/C
-E/b71r4+kbun611HkmeCpPtF0qhmBHGjn685E7DAmT1K4vLVoP6GghqLU1BtB/QI
-XrhlSPx1ZG438HdvfLK6ApwsOKvUsFYZA5CtdDEwZE/MMyH8QD6FAxBPVR2J04S9
-XB4Ju24qXIFtrgMPtBlXyhUCwTXt9tbIeQ3/h8L8pQIfT+LlLuCYdm/JQIpZoZ9w
-RWZ3FlWW8wtEp2Rd/fwwuqM+NBxTU4OARKIFwu34gtBsCFVNU+A=
-=94ea
------END PGP SIGNATURE-----
-
---+8Al0RIa47xRJ8Lx--
