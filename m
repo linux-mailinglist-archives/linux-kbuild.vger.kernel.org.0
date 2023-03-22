@@ -2,191 +2,91 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A50DD6C4309
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Mar 2023 07:22:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87D316C4568
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Mar 2023 09:54:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229968AbjCVGWf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 22 Mar 2023 02:22:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53816 "EHLO
+        id S230130AbjCVIyV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 22 Mar 2023 04:54:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229980AbjCVGWc (ORCPT
+        with ESMTP id S229897AbjCVIyV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 22 Mar 2023 02:22:32 -0400
-Received: from stravinsky.debian.org (stravinsky.debian.org [IPv6:2001:41b8:202:deb::311:108])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6607759E4B;
-        Tue, 21 Mar 2023 23:22:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-        s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=+GOYCrC/OPRC4w5qRvD7ykYI55KkiEH9qkzVpgPhTz4=; b=jLUkDzq9ukfIUN8XaQn0G7Kzw5
-        KhL9EusDTAO6ovWmukM6ipl/wg+rivKiPco5hkKGPbeLjuCxZRn58DyJTUHWJ6U8l5cPseBNTFLl3
-        U7NWdFpi+KgakmnMn+JKPVPmjBVoVbxFJBeWf6cEXrfFesfpy3xsmXI4VyeFPzGEHGkGCC5/R57lE
-        dHtANALwFXm67fHMtj4N7uaR+IfAseul7hXn/k/b6M+v4ZDw1Nliyix7p5sMWuqfisbOltH9oLELX
-        4vEarGwOJ9NZnBWP7idcE3l9Im/QYJvMztMMEMtubv+og1//PZsD5H5b54qIJl9L+fZmc2IwQL+fe
-        bgCp9kBA==;
-Received: from authenticated user
-        by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-        (Exim 4.94.2)
-        (envelope-from <carnil@debian.org>)
-        id 1perrF-00FubZ-RT; Wed, 22 Mar 2023 06:22:02 +0000
-Received: by eldamar.lan (Postfix, from userid 1000)
-        id 108CEBE2DE0; Wed, 22 Mar 2023 07:21:59 +0100 (CET)
-Date:   Wed, 22 Mar 2023 07:21:59 +0100
-From:   Salvatore Bonaccorso <carnil@debian.org>
-To:     Aurelien Jarno <aurel32@debian.org>, 1033301@bugs.debian.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Will Deacon <will@kernel.org>,
-        Tom Saeger <tom.saeger@oracle.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>, kibi@debian.org,
-        vagrant@debian.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: Bug#1033301: linux: arm64 kernel size increased from 31 to 39
- MB, causing u-boot-rpi to fail
-Message-ID: <ZBqeh6aN4lFsFPb3@eldamar.lan>
-References: <167943667390.3323902.2304413357807812348.reportbug@ohm.local>
+        Wed, 22 Mar 2023 04:54:21 -0400
+Received: from domac.alu.hr (domac.alu.unizg.hr [161.53.235.3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C2A61E1E0;
+        Wed, 22 Mar 2023 01:54:16 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by domac.alu.hr (Postfix) with ESMTP id 5B831604EF;
+        Wed, 22 Mar 2023 09:54:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
+        t=1679475254; bh=VfhdcFBWULfAZ/qwiEOseRLcXnbwsFd18Pjz+M3TCc8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=wkMOGi/00s79rq50fdK+Z6Qih1FbK2y0Vxe502O3thuSZtl1DbULKIgrBLKJPFUUv
+         noFnI6xTAEw6YjgiLAE22/E+6uiXBs6Q0+PF4B9wXdkJPViDVwgsILDGaa4E0x3MjJ
+         D7jggWx4LYrid8jUWnG+LZS5opEm2W2+91aYtUC1TNWPb3pPZCunLGh476wJ6VCBZm
+         VGhpv5WEuQPBipK9Bkfc/ORCycwJB05WFdRpukajhsCDIKMMducqrVThgdx6b6m/uF
+         xU2LyPCVaaiw+TAggoTHqeIZLejl58bwA+kqiPEAnt6dsY1xmIohv8v2qct0dkrxAG
+         Vq7PjHMIZ5U1Q==
+X-Virus-Scanned: Debian amavisd-new at domac.alu.hr
+Received: from domac.alu.hr ([127.0.0.1])
+        by localhost (domac.alu.hr [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id K7iL_P7vZHDk; Wed, 22 Mar 2023 09:54:12 +0100 (CET)
+Received: by domac.alu.hr (Postfix, from userid 1014)
+        id 57243604F0; Wed, 22 Mar 2023 09:54:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
+        t=1679475252; bh=VfhdcFBWULfAZ/qwiEOseRLcXnbwsFd18Pjz+M3TCc8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=tKOS93bNP5HI87T8Wl/lzJgcI2FKmdYw+dtcakVNUscnLkmtt6Lfe1Sy5itZNFoWE
+         xHnUoXY3fK2rvCYi8Yn5zrraEpuIvLpdMnKmbPhcVYmH8ormjoYsYb7OrqxEe0QrXG
+         JAi5WbVdeSqKTDB/e+GOUusyXqMynpo/y9VZaFA+kUqeIZKY68h1DUk5MXQl0CueGu
+         0PSoafhdzSiu792QjIrVi0AKGnyHEH71Xads3xCXDAdCYibDmxAUs+r+xUvjwStjHj
+         y0ZL3+YVFbtRN+Eld4OvYUxCNlC7HJDJ41yDS23dvb8minAqSQSX/rzP1wq0eHwLoB
+         +P5ERdSJZI/yg==
+From:   Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>
+To:     Mark Brown <broonie@kernel.org>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>
+Subject: [PATCH v1 1/1] scripts: merge_config: Fix typo in variable name.
+Date:   Wed, 22 Mar 2023 09:51:07 +0100
+Message-Id: <20230322085106.16629-1-mirsad.todorovac@alu.unizg.hr>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <167943667390.3323902.2304413357807812348.reportbug@ohm.local>
-X-Debian-User: carnil
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Aurelien,
+${WARNOVERRIDE} was misspelled as ${WARNOVVERIDE}, which caused a shell
+syntax error in certain paths of the script execution.
 
-Thanks for tracking this down. I would like to loop in Masahiro and
-upstream to see if something can/should be done on upstream side.
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-of-by: Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>
+---
+ scripts/kconfig/merge_config.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Masahiro, in short, upstream change 994b7ac1697b ("arm64: remove
-special treatment for the link order of head.o") (which got backported
-as well to 6.1.14) caused the vmlinuz size to icrease significantly,
-causing boot failures on Raspberry Pi 3 Model B Plus with u-boot
-parameters previously working. Full quoting the Debian report below
+diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_config.sh
+index 32620de473ad..902eb429b9db 100755
+--- a/scripts/kconfig/merge_config.sh
++++ b/scripts/kconfig/merge_config.sh
+@@ -145,7 +145,7 @@ for ORIG_MERGE_FILE in $MERGE_LIST ; do
+ 		NEW_VAL=$(grep -w $CFG $MERGE_FILE)
+ 		BUILTIN_FLAG=false
+ 		if [ "$BUILTIN" = "true" ] && [ "${NEW_VAL#CONFIG_*=}" = "m" ] && [ "${PREV_VAL#CONFIG_*=}" = "y" ]; then
+-			${WARNOVVERIDE} Previous  value: $PREV_VAL
++			${WARNOVERRIDE} Previous  value: $PREV_VAL
+ 			${WARNOVERRIDE} New value:       $NEW_VAL
+ 			${WARNOVERRIDE} -y passed, will not demote y to m
+ 			${WARNOVERRIDE}
+-- 
+2.30.2
 
-On Tue, Mar 21, 2023 at 11:11:13PM +0100, Aurelien Jarno wrote:
-> Source: linux
-> Version: 6.1.15-1
-> Severity: important
-> Tags: upstream
-> X-Debbugs-Cc: vagrant@debian.org
-> Control: affects -1 + u-boot-rpi
-> 
-> Hi,
-> 
-> Following the upgrade of the kernel from 6.1.12-1 to 6.1.15-1 on a
-> Raspberry Pi 3 Model B Plus, u-boot (from the u-boot-rpi package) failed
-> to boot with:
-> 
-> | 40175552 bytes read in 1695 ms (23 MiB/s)
-> | 43794863 bytes read in 1817 ms (23 MiB/s)
-> | Moving Image from 0x80000 to 0x200000, end=2990000
-> | ERROR: RD image overlaps OS image (OS=0x200000..0x2990000)
-> 
-> I tracked the issue to a significant increase of the kernel size between
-> version 6.1.12-1 and 6.15-1:
-> 
-> | 31492   /boot/vmlinuz-6.1.0-5-arm64
-> | 39236   /boot/vmlinuz-6.1.0-6-arm64
-> 
-> This is more than the 36MB that is allowed by u-boot with the default
-> load addresses. A workaround is to shift the load addresses at the
-> u-boot level as in the attached patch.
-> 
-> I have tracked issue on the upstream kernel side to the following commit
-> on the stable tree:
-> 
-> | commit 3e3e4d234d46e48480a7c7c35399fa811182e8ef
-> | Author: Masahiro Yamada <masahiroy@kernel.org>
-> | Date:   Thu Oct 13 08:35:00 2022 +0900
-> | 
-> |     arm64: remove special treatment for the link order of head.o
-> |     
-> |     commit 994b7ac1697b4581b7726d2ac64321e3c840229b upstream.
-> |     
-> |     In the previous discussion (see the Link tag), Ard pointed out that
-> |     arm/arm64/kernel/head.o does not need any special treatment - the only
-> |     piece that must appear right at the start of the binary image is the
-> |     image header which is emitted into .head.text.
-> |     
-> |     The linker script does the right thing to do. The build system does
-> |     not need to manipulate the link order of head.o.
-> |     
-> |     Link: https://lore.kernel.org/lkml/CAMj1kXH77Ja8bSsq2Qj8Ck9iSZKw=1F8Uy-uAWGVDm4-CG=EuA@mail.gmail.com/
-> |     Suggested-by: Ard Biesheuvel <ardb@kernel.org>
-> |     Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> |     Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
-> |     Link: https://lore.kernel.org/r/20221012233500.156764-1-masahiroy@kernel.org
-> |     Signed-off-by: Will Deacon <will@kernel.org>
-> |     Signed-off-by: Tom Saeger <tom.saeger@oracle.com>
-> |     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> 
-> The problem is still reproducible on Linus' master.
-> 
-> I am reporting the bug to the linux package as I believed there is no
-> real reason for such an increase in the kernel size. In case I missed
-> something and this is actually wanted, the bug can be reassigned to the
-> u-boot package.
-> 
-> Regards
-> Aurelien
-
-> --- u-boot-2023.01+dfsg.orig/include/configs/rpi.h
-> +++ u-boot-2023.01+dfsg/include/configs/rpi.h
-> @@ -95,32 +95,32 @@
->   *   text_offset bytes (specified in the header of the Image) into a 2MB
->   *   boundary. The 'booti' command relocates the image if necessary. Linux uses
->   *   a default text_offset of 0x80000.  In summary, loading at 0x80000
-> - *   satisfies all these constraints and reserving memory up to 0x02400000
-> - *   permits fairly large (roughly 36M) kernels.
-> + *   satisfies all these constraints and reserving memory up to 0x02a00000
-> + *   permits fairly large (roughly 42M) kernels.
->   *
->   * scriptaddr and pxefile_addr_r can be pretty much anywhere that doesn't
->   * conflict with something else. Reserving 1M for each of them at
-> - * 0x02400000-0x02500000 and 0x02500000-0x02600000 should be plenty.
-> + * 0x02a00000-0x02b00000 and 0x02c00000-0x02d00000 should be plenty.
->   *
->   * On ARM, both the DTB and any possible initrd must be loaded such that they
->   * fit inside the lowmem mapping in Linux. In practice, this usually means not
->   * more than ~700M away from the start of the kernel image but this number can
->   * be larger OR smaller depending on e.g. the 'vmalloc=xxxM' command line
->   * parameter given to the kernel. So reserving memory from low to high
-> - * satisfies this constraint again. Reserving 1M at 0x02600000-0x02700000 for
-> - * the DTB leaves rest of the free RAM to the initrd starting at 0x02700000.
-> + * satisfies this constraint again. Reserving 1M at 0x02c00000-0x02d00000 for
-> + * the DTB leaves rest of the free RAM to the initrd starting at 0x02d00000.
->   * Even with the smallest possible CPU-GPU memory split of the CPU getting
-> - * only 64M, the remaining 25M starting at 0x02700000 should allow quite
-> + * only 64M, the remaining 19M starting at 0x02d00000 should allow quite
->   * large initrds before they start colliding with U-Boot.
->   */
->  #define ENV_MEM_LAYOUT_SETTINGS \
->  	"fdt_high=" FDT_HIGH "\0" \
->  	"initrd_high=" INITRD_HIGH "\0" \
->  	"kernel_addr_r=0x00080000\0" \
-> -	"scriptaddr=0x02400000\0" \
-> -	"pxefile_addr_r=0x02500000\0" \
-> -	"fdt_addr_r=0x02600000\0" \
-> -	"ramdisk_addr_r=0x02700000\0"
-> +	"scriptaddr=0x02a00000\0" \
-> +	"pxefile_addr_r=0x02b00000\0" \
-> +	"fdt_addr_r=0x02c00000\0" \
-> +	"ramdisk_addr_r=0x02d00000\0"
->  
->  #if CONFIG_IS_ENABLED(CMD_MMC)
->  	#define BOOT_TARGET_MMC(func) \
-
-Any ideas?
-
-Regards,
-Salvatore
