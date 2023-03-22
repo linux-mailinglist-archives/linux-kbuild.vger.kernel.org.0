@@ -2,136 +2,117 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3014B6C4130
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Mar 2023 04:41:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 483476C4193
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Mar 2023 05:29:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230248AbjCVDlS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 21 Mar 2023 23:41:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54232 "EHLO
+        id S229482AbjCVE33 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 22 Mar 2023 00:29:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230296AbjCVDk6 (ORCPT
+        with ESMTP id S229511AbjCVE32 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 21 Mar 2023 23:40:58 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 203405ADE9;
-        Tue, 21 Mar 2023 20:40:44 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        Wed, 22 Mar 2023 00:29:28 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AA2741B68;
+        Tue, 21 Mar 2023 21:29:28 -0700 (PDT)
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32M3EOga008417;
+        Wed, 22 Mar 2023 04:29:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=yaMYr9CZzNPJoDI/TubYoFVDj8RCVIIes+4I7SHib1Y=;
+ b=C8KmzyEDD7etRWQA06p4Kn/2Vy9C8KTTqSt1FspKjlJ0rA5RCc+YdneK0XSYGKjGGZPF
+ +NTHuIyS4nfVgNS9eFCvri3FEFLElC4g+YqrdYx0lPGu4kPPUDLZ0kW2vP7VBJLwnwM6
+ FiMkd7Q62i1DuADCwdli6G1wzdktl36vrrZqw3l4auD4EY31QRTr+pUbllUo1f9yLohX
+ q5tLxkm778FeMVw/GV9UuH+GMnQ6cQBAKmVbOkovHzTJMYiGaxOad+u4QBqU3XMvwbZl
+ cXiZVryRIaNo2Q+B1+1zMhQZcSnDLIgqwNG2ysRizxY+wUVgHp3vwOJov9VZhR5GHEcy 5Q== 
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com [149.81.74.108])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pfskk141e-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 22 Mar 2023 04:29:27 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+        by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32LEHNGm000634;
+        Wed, 22 Mar 2023 04:29:25 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+        by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3pd4x6ch9a-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 22 Mar 2023 04:29:25 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+        by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 32M4TMZ728115582
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 22 Mar 2023 04:29:22 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id AE88120043;
+        Wed, 22 Mar 2023 04:29:22 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 2EC8520040;
+        Wed, 22 Mar 2023 04:29:22 +0000 (GMT)
+Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
+        by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+        Wed, 22 Mar 2023 04:29:22 +0000 (GMT)
+Received: from [10.61.2.128] (haven.au.ibm.com [9.192.254.114])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D4F5CB81AF8;
-        Wed, 22 Mar 2023 03:40:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EF54C433D2;
-        Wed, 22 Mar 2023 03:40:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679456441;
-        bh=UwtGB3rw8LcXqubG8rIlvKuhQG9IX5FWTqplcKL6hK0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=U7jCJpuKkrasEsm1skJSHc6swKBYv4/pNOlnQvmohxWo08F1XCzPqEgu4gwrajeUK
-         t5QKkI31bcg5vZXfOHPysPRZAWgStgDHnkuMcz1hsGFnwOCXeDvlj8F/MQIjvwgz61
-         ZvPBUJX2sHwM4jjjomcfRGoVvhNrSmwT/TLPDFHD96UMvGDhPfW9SSqJP1Fil8LvmQ
-         +SM6kUNQ03hEr+AQSkWtU/hdEilGb+isfc98ubB2BYDTSnO4mjhMkohY/rSbdP5zzX
-         /eqR4e8jw2tNvQM3aTp+bf/5+INygqldmexgZrHMtUQQbhLJf6A/7ZOxZKH6NWbT5q
-         TxBkIGcsLge9w==
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-177ca271cb8so18319550fac.2;
-        Tue, 21 Mar 2023 20:40:41 -0700 (PDT)
-X-Gm-Message-State: AAQBX9dCN6s/sd4vphjAgwK/D3RL9toqM/W5xIdhGTtYUu9NBMmCPv83
-        32LImRhp9zqGvLKhzq3BxcoNkpAMF2dsZAm5RjU=
-X-Google-Smtp-Source: AKy350ZdFjUh7xYHJcDwY34s1k2AaCtlnVnxko/Zv/Om7WBQQv5KFArj63B6aim3QjfklaTTG0DbfsyBlMhvRU2di7k=
-X-Received: by 2002:a05:6871:f8c:b0:17b:1895:a637 with SMTP id
- vn12-20020a0568710f8c00b0017b1895a637mr28224oab.11.1679456440624; Tue, 21 Mar
- 2023 20:40:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <17ab5a21-5512-5388-f9fa-c462b2ebd351@alu.unizg.hr> <7349a16f-6e7e-51d4-4686-ec7e688d891b@alu.unizg.hr>
-In-Reply-To: <7349a16f-6e7e-51d4-4686-ec7e688d891b@alu.unizg.hr>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 22 Mar 2023 12:40:03 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARxu0hjOp6N7jnLWvqWb0h3LPPSAgF7+7+c-eB7Fmc9dA@mail.gmail.com>
-Message-ID: <CAK7LNARxu0hjOp6N7jnLWvqWb0h3LPPSAgF7+7+c-eB7Fmc9dA@mail.gmail.com>
-Subject: Re: BUG: scripts/kconfig/merge_config.sh: typo in variable name
-To:     Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>
-Cc:     linux-kbuild@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-        linux-kernel@vger.kernel.org
+        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id 1DE0E600F5;
+        Wed, 22 Mar 2023 15:29:17 +1100 (AEDT)
+Message-ID: <5d909e0b1a9155112feb72b1f99c9fc4fc2d4263.camel@linux.ibm.com>
+Subject: Re: [PATCH 1/2] initramfs: Check negative timestamp to prevent
+ broken cpio archive
+From:   Andrew Donnellan <ajd@linux.ibm.com>
+To:     Benjamin Gray <bgray@linux.ibm.com>, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Date:   Wed, 22 Mar 2023 15:29:07 +1100
+In-Reply-To: <20230320040839.660475-1-bgray@linux.ibm.com>
+References: <20230320040839.660475-1-bgray@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: QQWuBq8uQZawbEpKAInzyBSiWpzeUQIR
+X-Proofpoint-ORIG-GUID: QQWuBq8uQZawbEpKAInzyBSiWpzeUQIR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-21_11,2023-03-21_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ bulkscore=0 suspectscore=0 clxscore=1011 priorityscore=1501 phishscore=0
+ adultscore=0 mlxlogscore=999 impostorscore=0 mlxscore=0 malwarescore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303220028
+X-Spam-Status: No, score=-0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Mar 22, 2023 at 5:14=E2=80=AFAM Mirsad Goran Todorovac
-<mirsad.todorovac@alu.unizg.hr> wrote:
->
-> On 3/21/2023 2:04 PM, Mirsad Goran Todorovac wrote:
-> > Hi all,
-> >
-> > There is a typo in variable name in scripts/kconfig/merge_config.sh, wi=
-th the
-> > script returning:
-> >
-> > $ ./scripts/kconfig/merge_config.sh -y -m ../.config tools/testing/self=
-tests/net/config
-> > ./scripts/kconfig/merge_config.sh: 148: ./scripts/kconfig/merge_config.=
-sh: Previous: not found
-> >
-> > Problem is probably best explained by this diff:
-> >
-> > ---
-> > diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_co=
-nfig.sh
-> > index 32620de473ad..902eb429b9db 100755
-> > --- a/scripts/kconfig/merge_config.sh
-> > +++ b/scripts/kconfig/merge_config.sh
-> > @@ -145,7 +145,7 @@ for ORIG_MERGE_FILE in $MERGE_LIST ; do
-> >                  NEW_VAL=3D$(grep -w $CFG $MERGE_FILE)
-> >                  BUILTIN_FLAG=3Dfalse
-> >                  if [ "$BUILTIN" =3D "true" ] && [ "${NEW_VAL#CONFIG_*=
-=3D}" =3D "m" ] && [ "${PREV_VAL#CONFIG_*=3D}" =3D "y" ]; then
-> > -                       ${WARNOVVERIDE} Previous  value: $PREV_VAL
-> > +                       ${WARNOVERRIDE} Previous  value: $PREV_VAL
-> >                          ${WARNOVERRIDE} New value:       $NEW_VAL
-> >                          ${WARNOVERRIDE} -y passed, will not demote y t=
-o m
-> >                          ${WARNOVERRIDE}
-> >
-> > Hope this helps.
->
-> P.S.
->
-> Later I thought of searching the committer of the patch that introduced t=
-he change,
-> so I Cc:ed Mark.
->
-> Best regards,
-> Mirsad
+On Mon, 2023-03-20 at 15:08 +1100, Benjamin Gray wrote:
+> Similar to commit 4c9d410f32b3 ("initramfs: Check timestamp to
+> prevent
+> broken cpio archive"), except asserts that the timestamp is
+> non-negative. This can happen when the KBUILD_BUILD_TIMESTAMP is a
+> value
+> before UNIX epoch, which may be set when making reproducible builds
+> that
+> don't want to look like they use a valid date.
+>=20
+> While support for dates before 1970 might not be supported, this is
+> more
+> about preventing undetected CPIO corruption. The printf's use a
+> minimum
+> length format specifier, and will happily make the field longer than
+> 8
+> characters if they need to.
+>=20
+> Signed-off-by: Benjamin Gray <bgray@linux.ibm.com>
 
-Good catch.
-
-Will you please send a patch with your signed-off?
-
-
-
-
-
-
-
-> --
-> Mirsad Todorovac
-> Sistem in=C5=BEenjer
-> Grafi=C4=8Dki fakultet | Akademija likovnih umjetnosti
-> Sveu=C4=8Dili=C5=A1te u Zagrebu
->
-> System engineer
-> Faculty of Graphic Arts | Academy of Fine Arts
-> University of Zagreb, Republic of Croatia
-> tel. +385 (0)1 3711 451
-> mob. +385 91 57 88 355
-
+Reviewed-by: Andrew Donnellan <ajd@linux.ibm.com>
+Tested-by: Andrew Donnellan <ajd@linux.ibm.com>
 
 
 --=20
-Best Regards
-Masahiro Yamada
+Andrew Donnellan    OzLabs, ADL Canberra
+ajd@linux.ibm.com   IBM Australia Limited
