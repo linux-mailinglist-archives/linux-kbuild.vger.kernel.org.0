@@ -2,115 +2,110 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C7C06C4229
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Mar 2023 06:26:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 404FE6C422E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Mar 2023 06:29:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229945AbjCVF0E (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 22 Mar 2023 01:26:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39150 "EHLO
+        id S230016AbjCVF30 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 22 Mar 2023 01:29:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229797AbjCVF0C (ORCPT
+        with ESMTP id S230046AbjCVF3Z (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 22 Mar 2023 01:26:02 -0400
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 587493B21D;
-        Tue, 21 Mar 2023 22:26:01 -0700 (PDT)
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32M4F8qN015662;
-        Wed, 22 Mar 2023 05:26:00 GMT
+        Wed, 22 Mar 2023 01:29:25 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80C0755505;
+        Tue, 21 Mar 2023 22:29:21 -0700 (PDT)
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32M3ERmu008519;
+        Wed, 22 Mar 2023 05:29:20 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
  from : to : date : in-reply-to : references : content-type :
  content-transfer-encoding : mime-version; s=pp1;
- bh=zEiGvYwezZ56dDQgM3ygh4rnNMQ9Lsi++K/345wA9ks=;
- b=d6RwzeWJ/b4KypxjUk6/xBas19Nv7wwGgKBPU3hZBQzbQYlRoJkvMqEuequ7XPmUk7Pv
- k7XdNnATd2Y94083Arh3xjFiGETFUGaB5lWHiP3vxHxCYWhrF8IczxLZVkGz5ITMAtyJ
- RsaHbsBQTtMqk1Y4Cn4rRCngDrYVYQqxue9Q+9pokpwD8EJPup1Vz2lh7gIvmSnJN6ci
- 9YfNcOfo03j97xcQIGzMXcJmhNInHXWEP9ip2zpQ7yVN0Apn4W4S8d4VEeGHWcwbm2X6
- Ez9BEsgdM2IxfPZppfvo6uFQPc2aiNQ4I9IREK9uLXIuAOmVFJE/7ztCMiXqhlfumkGi bw== 
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pftg113un-1
+ bh=oLRmgruzrs3e57le87DNnVBdMXRtRa3gF7Yf0IKZ+1k=;
+ b=OfATGuV1bQlmzTfC9N/NlzriGtZx4erQ/Mm/mwFR61qbWg7+u7EyBjHmYEzGW5ySSbvl
+ Z5DGI+/zGbD9ztrTOH+mInELrim5v9S8SpB8/4Rt/b1rvmZKJap5f4vvxKo0SoxPyy3t
+ 0nlmRrHy/uKxtmp4W5Aoz3nloqdrai9cLXGX+SB7Ox5lu776YAcDdtUCovIXglY6vfOM
+ /eibxpKavFi726kd0Fn3zEa3KiI7XSDo3d+j/WX++lO1dvOgVXBojmIIDQgxrFe2csI4
+ UYmmENjn5pHFUcHKDJf0ywDBv/NGP86rEA4Kdlwg7PUoWNaOcdSsivT0EmXYjUN8M6Se oQ== 
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pfskk22sj-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 22 Mar 2023 05:26:00 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
-        by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32M0vPug022532;
-        Wed, 22 Mar 2023 05:25:58 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-        by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3pd4x6dfba-1
+        Wed, 22 Mar 2023 05:29:20 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+        by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32M2OCcx018610;
+        Wed, 22 Mar 2023 05:29:18 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+        by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3pd4x6defb-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 22 Mar 2023 05:25:58 +0000
+        Wed, 22 Mar 2023 05:29:18 +0000
 Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-        by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 32M5Ptg435127590
+        by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 32M5TFUb29295322
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 22 Mar 2023 05:25:55 GMT
+        Wed, 22 Mar 2023 05:29:15 GMT
 Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8F67C20043;
-        Wed, 22 Mar 2023 05:25:55 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id A900C2004B;
+        Wed, 22 Mar 2023 05:29:15 +0000 (GMT)
 Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0FBFD20040;
-        Wed, 22 Mar 2023 05:25:55 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id 299CA20040;
+        Wed, 22 Mar 2023 05:29:15 +0000 (GMT)
 Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
         by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Wed, 22 Mar 2023 05:25:55 +0000 (GMT)
+        Wed, 22 Mar 2023 05:29:15 +0000 (GMT)
 Received: from [10.61.2.128] (haven.au.ibm.com [9.192.254.114])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id 6F5EB6010A;
-        Wed, 22 Mar 2023 16:25:52 +1100 (AEDT)
-Message-ID: <d173f8777668de8649f894af64dbf8798e48cf20.camel@linux.ibm.com>
-Subject: Re: [PATCH 2/2] initramfs: Encode dependency on
- KBUILD_BUILD_TIMESTAMP
+        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id 6D4286010A;
+        Wed, 22 Mar 2023 16:29:13 +1100 (AEDT)
+Message-ID: <7582f7bcd123f88d267a26bcd15a94aeeb238474.camel@linux.ibm.com>
+Subject: Re: [PATCH] init/initramfs: Fix argument forwarding to panic() in
+ panic_show_mem()
 From:   Andrew Donnellan <ajd@linux.ibm.com>
 To:     Benjamin Gray <bgray@linux.ibm.com>, linux-kernel@vger.kernel.org,
         linux-kbuild@vger.kernel.org
-Date:   Wed, 22 Mar 2023 16:25:52 +1100
-In-Reply-To: <20230320040839.660475-2-bgray@linux.ibm.com>
-References: <20230320040839.660475-1-bgray@linux.ibm.com>
-         <20230320040839.660475-2-bgray@linux.ibm.com>
+Date:   Wed, 22 Mar 2023 16:29:13 +1100
+In-Reply-To: <20230320230534.50174-1-bgray@linux.ibm.com>
+References: <20230320230534.50174-1-bgray@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 3fmrpsOiI6Xo7GLIM3tvH2fdAf9AZb5Z
-X-Proofpoint-GUID: 3fmrpsOiI6Xo7GLIM3tvH2fdAf9AZb5Z
+X-Proofpoint-GUID: 0wDMZCZVER0AUUpLCJ1mgSDBUGWFeTrz
+X-Proofpoint-ORIG-GUID: 0wDMZCZVER0AUUpLCJ1mgSDBUGWFeTrz
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-21_11,2023-03-21_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 spamscore=0
- clxscore=1015 mlxlogscore=999 phishscore=0 priorityscore=1501
- suspectscore=0 mlxscore=0 adultscore=0 malwarescore=0 impostorscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ bulkscore=0 suspectscore=0 clxscore=1015 priorityscore=1501 phishscore=0
+ adultscore=0 mlxlogscore=999 impostorscore=0 mlxscore=0 malwarescore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2303150002 definitions=main-2303220036
 X-Spam-Status: No, score=-0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, 2023-03-20 at 15:08 +1100, Benjamin Gray wrote:
-> gen_initramfs.sh has an internal dependency on KBUILD_BUILD_TIMESTAMP
-> for generating file mtimes that is not exposed to make, so changing
-> KBUILD_BUILD_TIMESTAMP will not trigger a rebuild of the archive.
+On Tue, 2023-03-21 at 10:05 +1100, Benjamin Gray wrote:
+> Forwarding variadic argument lists can't be done by passing a va_list
+> to a function with signature foo(...) (as panic() has). It ends up
+> interpreting the va_list itself as a single argument instead of
+> iterating it. printf() happily accepts it of course, leading to
+> corrupt
+> output.
 >=20
-> Declare the mtime date as a new parameter to gen_initramfs.sh to
-> encode
-> KBUILD_BUILD_TIMESTAMP in the shell command, thereby making make
-> aware
-> of the dependency.
->=20
-> It will rebuild if KBUILD_BUILD_TIMESTAMP changes or is newly
-> set/unset.
-> It will _not_ rebuild if KBUILD_BUILD_TIMESTAMP is unset before and
-> after. This should be fine for anyone who doesn't care about setting
-> specific build times in the first place.
+> Convert panic_show_mem() to a macro to allow forwarding the
+> arguments.
+> The function is trivial enough that it's easier than trying to
+> introduce
+> a vpanic() variant.
 >=20
 > Signed-off-by: Benjamin Gray <bgray@linux.ibm.com>
 
 Reviewed-by: Andrew Donnellan <ajd@linux.ibm.com>
-Tested-by: Andrew Donnellan <ajd@linux.ibm.com>
 
 --=20
 Andrew Donnellan    OzLabs, ADL Canberra
