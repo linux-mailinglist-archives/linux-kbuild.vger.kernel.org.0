@@ -2,71 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 785D76C5386
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Mar 2023 19:18:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CF2CF6C53B4
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Mar 2023 19:26:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230137AbjCVSSS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 22 Mar 2023 14:18:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40304 "EHLO
+        id S230464AbjCVS0G (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 22 Mar 2023 14:26:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230000AbjCVSSM (ORCPT
+        with ESMTP id S230028AbjCVS0F (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 22 Mar 2023 14:18:12 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D62EC67833
-        for <linux-kbuild@vger.kernel.org>; Wed, 22 Mar 2023 11:17:52 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id y2so7218904pfw.9
-        for <linux-kbuild@vger.kernel.org>; Wed, 22 Mar 2023 11:17:52 -0700 (PDT)
+        Wed, 22 Mar 2023 14:26:05 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8850314E83
+        for <linux-kbuild@vger.kernel.org>; Wed, 22 Mar 2023 11:25:57 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id x15so8956138pjk.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 22 Mar 2023 11:25:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1679509066;
+        d=google.com; s=20210112; t=1679509557;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bKB37a91eiyjPZCGoC8cw5qGoIyXW5WK1FJBstPT2zY=;
-        b=WleNqr3DN+FkMbhcZxhEoIwB5sGt2CVE3PI2u4pSTo6GPQdoVfk/4tR4Suf1zeoJzR
-         a/zNPLfFT+FrC3XcJALt3QrkFR4O/xlSffmEjK41M+RF5AypPAF8geKV9+ak+fx8kfpd
-         7sop9EeXQ2X7BKFTM4B7sGKYyC0OgceFgYn+P4nBUla71nPm0uPenu7WqbI9kBnBy6MO
-         aU1UEu9HyB0y4ctqAexK+r0td/WYh/tLGwaZpgenKXmbxEOU1BMPaZbbTL5Lh/Qo4cpV
-         Z8D0wPOq4hPvOGihBDeROie0LWJcPEdXcsnE4V6jHbdwVOsmYIBHvjzINBu0LWlYvk86
-         FkqQ==
+        bh=Xai25ViACOhtMbP/9A/HIC69Te+6jb14im4nmgBreX0=;
+        b=Nc7bqPWvvVP0Fh9GRUREatEuPhbNWcj8ydyJq6p7WhnKTmZsmINp40U8jm2U/D3eOh
+         GiADNrvpDW1src3wBD86k8hybLw++0LHdLBlze0Q290ZO1ycLMYXpjqhF0bC849Amhtk
+         Uy0gNTTczAqnmq7Ne1eUnCmgjRAczfqeQ58RKE9Z1Dbo8WYhXCE+35mHwpNTZjinRv7Z
+         SvFY91A1LyC+CNVJab3PMehak5rGBLhjGTsCzg52VkGZ8uMK06Y5GA1JlP2dh0NN6NWH
+         L5Jzlk3GH1BS4NTePFlNBmFvEFZSn5SfhLcK85z0+yzixjDvudD4Wt6pqVVnBBIsUYXI
+         dcEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679509066;
+        d=1e100.net; s=20210112; t=1679509557;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bKB37a91eiyjPZCGoC8cw5qGoIyXW5WK1FJBstPT2zY=;
-        b=SX432P6SD7mXcMcnL1e6sHOwTsyEcfEHZ+kIaXTaskdy84LM0FqDnTQn4C9SItDmxC
-         PPGkHnKmWCl5C3YDTMxAmry16/kiu0+16WZyUf/pt3U8wGJH30jkGJlsj8k+hkt8hxm4
-         2xPUQ3Z36T00JAKBCJsLjDzdWdzDz8X8eR5AyuN5ZNspTAGchhAbXS8esKwJSt1/v76B
-         6Q68Sh/51dD2/dQk7C43mxTOsp3wmgHMfA61sE0cqu2Xli6GzydD5ByBaB1HQOoiU3Tg
-         hdjh82LIZnei2fLl3aQfpepfMf51NHJuTl4N/f9UBoXDjcVgTneCUL0c4ss2za4C6Nza
-         9BtA==
-X-Gm-Message-State: AO0yUKX1JHIDOkqg2m1cIgUn8pwjPNifnWkR6F92Sa71suDDoMzCXYxo
-        3WHYMLg/ueP2uaSm2W9eJjN8HC21jlmn+AnlgBK69VVxcXJa2ZIkFRIvSg==
-X-Google-Smtp-Source: AK7set/y6sBv+fJORMtZJ9jPQsOI9ad8xXZTj20sziRULRJ5N+3atiS5WZJhXtZqH7Hzyux4u+Z6/cMQiB5unzBvJKc=
-X-Received: by 2002:a65:4781:0:b0:503:7be3:e81d with SMTP id
- e1-20020a654781000000b005037be3e81dmr1119318pgs.1.1679509066284; Wed, 22 Mar
- 2023 11:17:46 -0700 (PDT)
+        bh=Xai25ViACOhtMbP/9A/HIC69Te+6jb14im4nmgBreX0=;
+        b=yudIHD0Xf0bHSFcRo2ZR9zYVIJRV7Hz2ClGmCC7aamwf5DFxph5KC6KArtlZoi7FFO
+         n8IjvAxQzgz1iNJDITZXMnftDACFikYjcSvrlE1GRT7sUWriFe7C8A0sclyc1C2/yizl
+         UhQ1xdPET6UKaSOOX/js3PELL3oVJ+nwZSfsKIZaDkdrjqKS5quD0cD9ErwIFpY6812X
+         HuZKcN57hUBNS4B7tJ03xSnDbKz1QDD5tPeemSkEi15DC7AZITjCoqlaLmflTXVdY+q9
+         4LU/34ZEexP6n+QOV1MUZp1dr5AvsX/y0hwTpjgcKY9GfhB4F5tgTcbYZWO1/TdsjIUY
+         w5oA==
+X-Gm-Message-State: AO0yUKWRlMk1jVB8yNUkqJFEGe79QZblx3g54XSbJX1mW2Ai1RCRTdCg
+        Fecww91bX1gW2eRk++h54QpDP1BQwOKrIkwMux0fhQ==
+X-Google-Smtp-Source: AK7set/ZMXJixIFC4D/KWjt5E7Yb69EPs9KtjzG+BYb//151Eeugg7QbDH72EBo41HILsUMiYkKai/KWyETz2jWK8JA=
+X-Received: by 2002:a17:902:7b8b:b0:19a:82a2:fcf9 with SMTP id
+ w11-20020a1709027b8b00b0019a82a2fcf9mr1399015pll.2.1679509556719; Wed, 22 Mar
+ 2023 11:25:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAHk-=wiPd8R8-zSqTOtJ9KYeZLBByHug7ny3rgP-ZqzpP_KELg@mail.gmail.com>
- <20230320180501.GA598084@dev-arch.thelio-3990X> <CAHk-=wgSqpdkeJBb92M37JNTdRQJRnRUApraHKE8uGHTqQuu2Q@mail.gmail.com>
- <20230320185337.GA615556@dev-arch.thelio-3990X> <87pm91uf9c.fsf@kernel.org>
- <CA+icZUUYyqhV2HFzVtpi_KjBoYxjk7OB0UBVd2mX6abjmYhDjg@mail.gmail.com> <CAHk-=whdrvCkSWh=BRrwZwNo3=yLBXXM88NGx8VEpP1VTgmkyQ@mail.gmail.com>
-In-Reply-To: <CAHk-=whdrvCkSWh=BRrwZwNo3=yLBXXM88NGx8VEpP1VTgmkyQ@mail.gmail.com>
+References: <20230215143626.453491-1-alexghiti@rivosinc.com>
+ <20230215143626.453491-2-alexghiti@rivosinc.com> <4a6fc7a3-9697-a49b-0941-97f32194b0d7@ghiti.fr>
+ <877cw7dphf.fsf@all.your.base.are.belong.to.us>
+In-Reply-To: <877cw7dphf.fsf@all.your.base.are.belong.to.us>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 22 Mar 2023 11:17:35 -0700
-Message-ID: <CAKwvOdm1VpSSxN9zPVdEuDcyq2z2quQ1-qAQ5H+Q4y2xp1Focg@mail.gmail.com>
-Subject: Re: Linux 6.3-rc3
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     sedat.dilek@gmail.com, Kalle Valo <kvalo@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, linux-toolchains@vger.kernel.org,
-        llvm@lists.linux.dev,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Date:   Wed, 22 Mar 2023 11:25:45 -0700
+Message-ID: <CAKwvOdk0Lr-9gt0xAKvkcwA53+Wy8oeYQo1RJ7XH-LKCCURQCQ@mail.gmail.com>
+Subject: Re: [PATCH v8 1/3] riscv: Introduce CONFIG_RELOCATABLE
+To:     =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+Cc:     Alexandre Ghiti <alex@ghiti.fr>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, nathan@kernel.org,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-15.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
@@ -80,67 +81,34 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-+ Masahiro and linux-kbuild for the proposal
-
-On Wed, Mar 22, 2023 at 9:56=E2=80=AFAM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Fri, Feb 24, 2023 at 7:58=E2=80=AFAM Bj=C3=B6rn T=C3=B6pel <bjorn@kernel=
+.org> wrote:
 >
-> On Wed, Mar 22, 2023 at 9:40=E2=80=AFAM Sedat Dilek <sedat.dilek@gmail.co=
-m> wrote:
+> Alexandre Ghiti <alex@ghiti.fr> writes:
+>
+> > +cc linux-kbuild, llvm, Nathan, Nick
 > >
-> > You have to pass `make LLVM=3D1` in any case... to `oldconfig` or when
-> > adding any MAKEFLAGS like -j${number-of-available-cpus}.
->
-> I actually think we should look (again) at just making the compiler
-> choice (and the prefix) be a Kconfig option.
->
-> That would simplify *so* many use cases.
->
-> It used to be that gcc was "THE compiler" and anything else was just
-> an odd toy special case, but that's clearly not true any more.
+> > On 2/15/23 15:36, Alexandre Ghiti wrote:
+> >> From: Alexandre Ghiti <alex@ghiti.fr>
+> >>
+> > I tried a lot of things, but I struggle to understand, does anyone have
+> > any idea? FYI, the same problem happens with LLVM.
 
-<3
+Off the top of my head, no idea.
+
+(Maybe as a follow up to this series, I wonder if pursuing
+ARCH_HAS_RELR for ARCH=3Driscv is worthwhile?)
 
 >
-> So it would be lovely to make the kernel choice a Kconfig choice - so
-> you'd set it only at config time, and then after that a kernel build
-> wouldn't need special flags any more, and you'd never need to play
-> games with GNUmakefile or anything like that.
+> Don't ask me *why*, but adding --emit-relocs to your linker flags solves
+> "the NULL .rela.dyn" both for GCC and LLVM.
 >
-> Yes, you'd still use environment variables (or make arguments) for
-> that initial Kconfig, but that's no different from the other
-> environment variables we already have, like KCONFIG_SEED that kconfig
-> uses internally, but also things like "$(ARCH)" that we already use
-> *inside* the Kconfig files themselves.
->
-> I really dislike how you have to set ARCH and CROSS_COMPILE etc
-> externally, and can't just have them *in* the config file.
+> The downside is that you end up with a bunch of .rela cruft in your
+> vmlinux.
 
-Not needing CROSS_COMPILE for LLVM=3D1 has been great. ;)
-
-(Still need it for ARCH=3Ds390 until LLD gets s390 support though)
-
->
-> So when you do cross-compiles, right now you have to do something like
->
->     make ARCH=3Di386 allmodconfig
->
-> to build the .config file, but then you have to *repeat* that
-> ARCH=3Di386 when you actually build things:
->
->     make ARCH=3Di386
->
-> because the ARCH choice ends up being in the .config file, but the
-> makefiles themselves always take it from the environment.
->
-> There are good historical reasons for our behavior (and probably a
-> number of extant practical reasons too), but it's a bit annoying, and
-> it would be lovely if we could start moving away from this model.
->
->             Linus
->
-
-
+There was a patch just this week to use $(OBJCOPY) to strip these from
+vmlinux (for x86). Looks like x86 uses --emit-relocs for KASLR:
+https://lore.kernel.org/lkml/20230320121006.4863-1-petr.pavlu@suse.com/
 --=20
 Thanks,
 ~Nick Desaulniers
