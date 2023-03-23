@@ -2,145 +2,242 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14B8B6C607D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Mar 2023 08:18:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E64D6C64AC
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Mar 2023 11:18:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230234AbjCWHSO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 23 Mar 2023 03:18:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36170 "EHLO
+        id S230375AbjCWKSj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 23 Mar 2023 06:18:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230111AbjCWHSN (ORCPT
+        with ESMTP id S231166AbjCWKSU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 23 Mar 2023 03:18:13 -0400
-Received: from domac.alu.hr (domac.alu.unizg.hr [IPv6:2001:b68:2:2800::3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06B1F26AE;
-        Thu, 23 Mar 2023 00:18:05 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by domac.alu.hr (Postfix) with ESMTP id 128B1604EF;
-        Thu, 23 Mar 2023 08:18:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
-        t=1679555883; bh=QVE808cwkNfbooK81o8zbpVIwpt+glEgis/QPj/A8XM=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=Hp4dpuavGMKTP0bhvWSsfV4ZT37ZlHkeMIzf8cCxKLflU82D+qsTgXqH+QenhbuYg
-         g/B6q30w+PQiLzEJiGYl73zYHg/azxxAZvCKQvYMUlFzNqyc/O9jQlNKHcBLb/8ZWH
-         rsNc58agmfwC9K5/yxzocWUKem6vjIfreqA7NDnouplfJsVgAEC2hdDRjhFi6x1Z+j
-         CEx2nfeuxiR6V2VrevqLybrD2vFm3o6BnoxvLRY9AHpExJEsJlWz5AMGAPkim45Rqy
-         ipjr2XYKI8k4elkneNM+JdVfPtov/jDau+pAHBgvJ+igKwlVM4EysdMhUiBrwm+TWf
-         xcB86U6r84t3A==
-X-Virus-Scanned: Debian amavisd-new at domac.alu.hr
-Received: from domac.alu.hr ([127.0.0.1])
-        by localhost (domac.alu.hr [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id cvHsWzQgVEVO; Thu, 23 Mar 2023 08:18:00 +0100 (CET)
-Received: from [10.0.1.103] (grf-nat.grf.hr [161.53.83.23])
-        by domac.alu.hr (Postfix) with ESMTPSA id B935E604ED;
-        Thu, 23 Mar 2023 08:18:00 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
-        t=1679555880; bh=QVE808cwkNfbooK81o8zbpVIwpt+glEgis/QPj/A8XM=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=kVDbvisEuY5FGklMcYWRZiyyApxhK1agAKLK63rVFDwiD0/Sha9O1lIEjvcUOnatO
-         f71b5803Kzk79BbhpDOOhDU99qqolLtxTQyBX+hcPMJeu0WDSVY1WMrsSVOmshEsAh
-         x/EHTkyxlnIvssibk76zmASNGfVJYSuQ1Pl5X+vwznswEdvIC2RRR4/5GmIlLJvzAQ
-         Ldd7Mt1EloiVzor7nWud+I1uc7tSpSnEF1KxIOJboxR9dZin+5nsqcDcCUvh54Oh+q
-         +t8Djk5MTLfY9gBJaL8Wzlp4lhnHCT+vIJt27ahfc2VYDZ+zmKxs26Z80DUWYTS1oO
-         Cygl3TEhPmnOQ==
-Message-ID: <e9967b4f-ec36-f1b0-859b-7f3c7350f7ac@alu.unizg.hr>
-Date:   Thu, 23 Mar 2023 08:17:54 +0100
+        Thu, 23 Mar 2023 06:18:20 -0400
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D7111CADF
+        for <linux-kbuild@vger.kernel.org>; Thu, 23 Mar 2023 03:18:15 -0700 (PDT)
+Received: from ramsan.of.borg ([84.195.187.55])
+        by xavier.telenet-ops.be with bizsmtp
+        id bmJC2900G1C8whw01mJCyA; Thu, 23 Mar 2023 11:18:13 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pfI0g-00EKqY-0O;
+        Thu, 23 Mar 2023 11:18:12 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pfI1M-00CE4D-7v;
+        Thu, 23 Mar 2023 11:18:12 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc:     Palmer Dabbelt <palmer@rivosinc.com>, linux-sh@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v3] sh: Use generic GCC library routines
+Date:   Thu, 23 Mar 2023 11:18:07 +0100
+Message-Id: <74dbe68dc8e2ffb6180092f73723fe21ab692c7a.1679566500.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v1 1/1] scripts: merge_config: Fix typo in variable name.
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Mark Brown <broonie@kernel.org>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230322085106.16629-1-mirsad.todorovac@alu.unizg.hr>
- <c93723aa-f01c-9f1e-c9c7-aa79f38390c1@infradead.org>
- <cb386732-7509-497d-8641-473ad853c9ed@alu.unizg.hr>
- <CAK7LNARAS7DEtpS2HMK=a7egwRdj-uD9JhxsOcKpfpstiiFLhQ@mail.gmail.com>
-Content-Language: en-US
-From:   Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>
-In-Reply-To: <CAK7LNARAS7DEtpS2HMK=a7egwRdj-uD9JhxsOcKpfpstiiFLhQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-0.4 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 23.3.2023. 7:24, Masahiro Yamada wrote:
-> On Thu, Mar 23, 2023 at 3:15 AM Mirsad Goran Todorovac
-> <mirsad.todorovac@alu.unizg.hr> wrote:
->>
->> On 22. 03. 2023. 16:20, Randy Dunlap wrote:
->>>
->>> On 3/22/23 01:51, Mirsad Goran Todorovac wrote:
->>>> ${WARNOVERRIDE} was misspelled as ${WARNOVVERIDE}, which caused a shell
->>>> syntax error in certain paths of the script execution.
->>>>
->>>
->>> Fixes: 46dff8d7e381e ("scripts: merge_config: Add option to suppress warning on overrides")
->>>
->>> Acked-by: Randy Dunlap <rdunlap@infradead.org>
->>>
->>> Thanks.
->>
->> Hi, Randy,
->>
->> I think this time thanks go to the Heavens, for preserving my physical integrity.
->>
->> Though I don't know of a bike with ABS.
+The C implementations of __ashldi3(), __ashrdi3__(), and __lshrdi3() in
+arch/sh/lib/ are identical to the generic C implementations in lib/.
+Reduce duplication by switching SH to the generic versions.
 
-> Applied to linux-kbuild/fixes,
-> fixing another typo "Signed-of-by".
-> 
-> You do not need to spell it out by yourself.
-> 
-> "git commit -s" will insert the Signed-off-by tag.
+Update the include path in arch/sh/boot/compressed accordingly.
 
-Sorry to have wasted your time and effort. A typo fixing typo.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
+---
+v3:
+  - Add Acked-by,
 
-It is visually hard to detect once it's done. :(
+v2:
+  - Fix silly typo in subject.
 
-I'm grateful for your quality control.
+Tested on landisk and qemu/rts7751r2d.
 
-Best regards,
-Mirsad
+Note that it also works without the change to arch/sh/boot/compressed/,
+as lib/ashldi3.c can be reached via both include/uapi/../../lib/ashldi3.c
+and arch/sh/boot/compressed/../../../../lib/ashldi3.c.
 
->>>> Cc: Mark Brown <broonie@kernel.org>
->>>> Cc: Masahiro Yamada <masahiroy@kernel.org>
->>>> Cc: linux-kbuild@vger.kernel.org
->>>> Cc: linux-kernel@vger.kernel.org
->>>> Signed-of-by: Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>
->>>> ---
->>>>   scripts/kconfig/merge_config.sh | 2 +-
->>>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_config.sh
->>>> index 32620de473ad..902eb429b9db 100755
->>>> --- a/scripts/kconfig/merge_config.sh
->>>> +++ b/scripts/kconfig/merge_config.sh
->>>> @@ -145,7 +145,7 @@ for ORIG_MERGE_FILE in $MERGE_LIST ; do
->>>>               NEW_VAL=$(grep -w $CFG $MERGE_FILE)
->>>>               BUILTIN_FLAG=false
->>>>               if [ "$BUILTIN" = "true" ] && [ "${NEW_VAL#CONFIG_*=}" = "m" ] && [ "${PREV_VAL#CONFIG_*=}" = "y" ]; then
->>>> -                    ${WARNOVVERIDE} Previous  value: $PREV_VAL
->>>> +                    ${WARNOVERRIDE} Previous  value: $PREV_VAL
->>>>                       ${WARNOVERRIDE} New value:       $NEW_VAL
->>>>                       ${WARNOVERRIDE} -y passed, will not demote y to m
->>>>                       ${WARNOVERRIDE}
+Palmer tried a similar thing before:
+https://lore.kernel.org/linux-arch/20170523220546.16758-1-palmer@dabbelt.com/
+but initially it broke the SH build due to a missing change to
+arch/sh/boot/compressed/, and the later update never got picked up.
+In the mean time, arch/sh/boot/compressed/ was changed, so his patch no
+longer applies.
 
+Similar for the other architectures, I guess?
+---
+ arch/sh/Kconfig                   |  3 +++
+ arch/sh/boot/compressed/ashldi3.c |  4 ++--
+ arch/sh/lib/Makefile              |  4 +---
+ arch/sh/lib/ashldi3.c             | 30 -----------------------------
+ arch/sh/lib/ashrdi3.c             | 32 -------------------------------
+ arch/sh/lib/lshrdi3.c             | 30 -----------------------------
+ 6 files changed, 6 insertions(+), 97 deletions(-)
+ delete mode 100644 arch/sh/lib/ashldi3.c
+ delete mode 100644 arch/sh/lib/ashrdi3.c
+ delete mode 100644 arch/sh/lib/lshrdi3.c
+
+diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
+index ccb866750a884643..892903dc74990c36 100644
+--- a/arch/sh/Kconfig
++++ b/arch/sh/Kconfig
+@@ -20,6 +20,9 @@ config SUPERH
+ 	select GENERIC_CMOS_UPDATE if SH_SH03 || SH_DREAMCAST
+ 	select GENERIC_IDLE_POLL_SETUP
+ 	select GENERIC_IRQ_SHOW
++	select GENERIC_LIB_ASHLDI3
++	select GENERIC_LIB_ASHRDI3
++	select GENERIC_LIB_LSHRDI3
+ 	select GENERIC_PCI_IOMAP if PCI
+ 	select GENERIC_SCHED_CLOCK
+ 	select GENERIC_SMP_IDLE_THREAD
+diff --git a/arch/sh/boot/compressed/ashldi3.c b/arch/sh/boot/compressed/ashldi3.c
+index 7cebd646df839b48..7c12121702309e8c 100644
+--- a/arch/sh/boot/compressed/ashldi3.c
++++ b/arch/sh/boot/compressed/ashldi3.c
+@@ -1,2 +1,2 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-#include "../../lib/ashldi3.c"
++// SPDX-License-Identifier: GPL-2.0-or-later
++#include "../../../../lib/ashldi3.c"
+diff --git a/arch/sh/lib/Makefile b/arch/sh/lib/Makefile
+index eb473d373ca43a4b..d20a0768b31fa2b6 100644
+--- a/arch/sh/lib/Makefile
++++ b/arch/sh/lib/Makefile
+@@ -7,9 +7,7 @@ lib-y  = delay.o memmove.o memchr.o \
+ 	 checksum.o strlen.o div64.o div64-generic.o
+ 
+ # Extracted from libgcc
+-obj-y += movmem.o ashldi3.o ashrdi3.o lshrdi3.o \
+-	 ashlsi3.o ashrsi3.o ashiftrt.o lshrsi3.o \
+-	 udiv_qrnnd.o
++obj-y += movmem.o ashlsi3.o ashrsi3.o ashiftrt.o lshrsi3.o udiv_qrnnd.o
+ 
+ udivsi3-y			:= udivsi3_i4i-Os.o
+ 
+diff --git a/arch/sh/lib/ashldi3.c b/arch/sh/lib/ashldi3.c
+deleted file mode 100644
+index e5afe0935847427f..0000000000000000
+--- a/arch/sh/lib/ashldi3.c
++++ /dev/null
+@@ -1,30 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-#include <linux/module.h>
+-
+-#include "libgcc.h"
+-
+-long long __ashldi3(long long u, word_type b)
+-{
+-	DWunion uu, w;
+-	word_type bm;
+-
+-	if (b == 0)
+-		return u;
+-
+-	uu.ll = u;
+-	bm = 32 - b;
+-
+-	if (bm <= 0) {
+-		w.s.low = 0;
+-		w.s.high = (unsigned int) uu.s.low << -bm;
+-	} else {
+-		const unsigned int carries = (unsigned int) uu.s.low >> bm;
+-
+-		w.s.low = (unsigned int) uu.s.low << b;
+-		w.s.high = ((unsigned int) uu.s.high << b) | carries;
+-	}
+-
+-	return w.ll;
+-}
+-
+-EXPORT_SYMBOL(__ashldi3);
+diff --git a/arch/sh/lib/ashrdi3.c b/arch/sh/lib/ashrdi3.c
+deleted file mode 100644
+index ae263fbf25383b70..0000000000000000
+--- a/arch/sh/lib/ashrdi3.c
++++ /dev/null
+@@ -1,32 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-#include <linux/module.h>
+-
+-#include "libgcc.h"
+-
+-long long __ashrdi3(long long u, word_type b)
+-{
+-	DWunion uu, w;
+-	word_type bm;
+-
+-	if (b == 0)
+-		return u;
+-
+-	uu.ll = u;
+-	bm = 32 - b;
+-
+-	if (bm <= 0) {
+-		/* w.s.high = 1..1 or 0..0 */
+-		w.s.high =
+-		    uu.s.high >> 31;
+-		w.s.low = uu.s.high >> -bm;
+-	} else {
+-		const unsigned int carries = (unsigned int) uu.s.high << bm;
+-
+-		w.s.high = uu.s.high >> b;
+-		w.s.low = ((unsigned int) uu.s.low >> b) | carries;
+-	}
+-
+-	return w.ll;
+-}
+-
+-EXPORT_SYMBOL(__ashrdi3);
+diff --git a/arch/sh/lib/lshrdi3.c b/arch/sh/lib/lshrdi3.c
+deleted file mode 100644
+index 33eaa1edbc3c0656..0000000000000000
+--- a/arch/sh/lib/lshrdi3.c
++++ /dev/null
+@@ -1,30 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-#include <linux/module.h>
+-
+-#include "libgcc.h"
+-
+-long long __lshrdi3(long long u, word_type b)
+-{
+-	DWunion uu, w;
+-	word_type bm;
+-
+-	if (b == 0)
+-		return u;
+-
+-	uu.ll = u;
+-	bm = 32 - b;
+-
+-	if (bm <= 0) {
+-		w.s.high = 0;
+-		w.s.low = (unsigned int) uu.s.high >> -bm;
+-	} else {
+-		const unsigned int carries = (unsigned int) uu.s.high << bm;
+-
+-		w.s.high = (unsigned int) uu.s.high >> b;
+-		w.s.low = ((unsigned int) uu.s.low >> b) | carries;
+-	}
+-
+-	return w.ll;
+-}
+-
+-EXPORT_SYMBOL(__lshrdi3);
 -- 
-Mirsad Todorovac
-System engineer
-Faculty of Graphic Arts | Academy of Fine Arts
-University of Zagreb
-Republic of Croatia, the European Union
-
-Sistem inženjer
-Grafički fakultet | Akademija likovnih umjetnosti
-Sveučilište u Zagrebu
+2.34.1
 
