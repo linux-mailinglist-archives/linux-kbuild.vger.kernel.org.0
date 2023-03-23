@@ -2,54 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0CA06C5F91
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Mar 2023 07:21:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CA0C6C5F94
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Mar 2023 07:25:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230072AbjCWGV1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 23 Mar 2023 02:21:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51540 "EHLO
+        id S229522AbjCWGZB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 23 Mar 2023 02:25:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229518AbjCWGVX (ORCPT
+        with ESMTP id S229518AbjCWGZA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 23 Mar 2023 02:21:23 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F1281E29D;
-        Wed, 22 Mar 2023 23:21:22 -0700 (PDT)
+        Thu, 23 Mar 2023 02:25:00 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93E381ADFA;
+        Wed, 22 Mar 2023 23:24:59 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 42E73B81F67;
-        Thu, 23 Mar 2023 06:21:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 067F7C4339B;
-        Thu, 23 Mar 2023 06:21:20 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2C4EB62474;
+        Thu, 23 Mar 2023 06:24:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83BD2C4339B;
+        Thu, 23 Mar 2023 06:24:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679552480;
-        bh=sD//P0ws33D7apLZ0glcbRKDxg6o55an2E7eoJyFSoo=;
+        s=k20201202; t=1679552698;
+        bh=w9Ao7cH0pGPsEfJbtTzl3sq2ipsj2D5zZKW+SIl5uYE=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=GGwIlAsfgKMc67X6Fj/6uM4P1WAKyUm7RPbE/MmdFB8mXJH2t6AMb4p8/Z65CRez1
-         gxIZBkFZBBSQR5mnhx7eNQgSFkBn26Op3K8NruLiHpsNb5r7+11ihEbQerj1OT3QiP
-         gtqNBIe4zXOpOcd7FguKjCVDEmFARFVYr0griQleFVs7cuIudf+5GsLJsX96kygr3I
-         A052sWdAlvQEjKzfGReWOEFv82y9+gQuThi1cjofzwA21Zeg3lIsiE2UseGxNEwgo0
-         gOPWPDY7tRmMuCs8JHZrr6B6clviD3RxO/MxW4aqESXzTi9tvF1QA8g4VxS5GKhA8h
-         x8k1Uk8qHdo0Q==
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-17aaa51a911so21729060fac.5;
-        Wed, 22 Mar 2023 23:21:19 -0700 (PDT)
-X-Gm-Message-State: AO0yUKUHR4gqqDgfMnQXspftfFsNOSiYzLp9jyn8po6hbZn8sVMReFgG
-        5IyGBMVeITwWsd/KPRhnki+rbUXTrlSct6gO1l4=
-X-Google-Smtp-Source: AKy350aC/pHtQ1PJNQ2cj7Ju2QOfJqWWy/iLEQiSsNdLYt4Ac0Xw4rJt4QE6kBagah8v+Xo7GtJp9IBnVdQqJ06oHXg=
+        b=SVAigotbftAI3PjqBv+vwwwbemPq/dqLgueuXaypEFFzqVxyTl0U+GhMdQI1Iu8t8
+         ALc6SLEFkFEulBp15Qv1nvSikWvsZI+SQIS9SuAb0GGGuNAML9fTbXWAVhKZj306bM
+         YrHstZpx6qWsYCDVnXn5OGOd37KCX1OIsedB5H8VqlnNwIkGooQIjbK8r4uEmhdhkS
+         iU6HIqVrARsdwJR8R5oFfpkhqh7y45/l7cj9kcHcn/i71CbCYN/xnNwSAwCFEIb7UO
+         j8fcPY+OUbKYsL7kNaXB7M/5E+vrrRJb8VdfJo74cLHSWLe3m2N9a7TRT1gJM2iX3i
+         c2PmBQf1RfX4A==
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-17aa62d0a4aso21742077fac.4;
+        Wed, 22 Mar 2023 23:24:58 -0700 (PDT)
+X-Gm-Message-State: AO0yUKXOWEgBIJLuT1RF4vQ14pV+WEkUvHRWYTnCu6c2DvU2P89f5Rz7
+        lgE337nWDzCr80hlk0GqFKa5ro3jzK16xd8+6G8=
+X-Google-Smtp-Source: AKy350bUdkj7ZUbSk/lzBDCm+OuMdsZGjDqrN7Jo4LFIes+c0qHpmCIpgQYfswkEDwHj0mg68CXJ+bDPmAggHg3Ojno=
 X-Received: by 2002:a05:6870:ea86:b0:17e:2e88:40dc with SMTP id
- s6-20020a056870ea8600b0017e2e8840dcmr627852oap.11.1679552479283; Wed, 22 Mar
- 2023 23:21:19 -0700 (PDT)
+ s6-20020a056870ea8600b0017e2e8840dcmr629978oap.11.1679552697824; Wed, 22 Mar
+ 2023 23:24:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <ZBtE4XlqCXjFELHR@decadent.org.uk>
-In-Reply-To: <ZBtE4XlqCXjFELHR@decadent.org.uk>
+References: <20230322085106.16629-1-mirsad.todorovac@alu.unizg.hr>
+ <c93723aa-f01c-9f1e-c9c7-aa79f38390c1@infradead.org> <cb386732-7509-497d-8641-473ad853c9ed@alu.unizg.hr>
+In-Reply-To: <cb386732-7509-497d-8641-473ad853c9ed@alu.unizg.hr>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 23 Mar 2023 15:20:43 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASpaWkTn-WWN+5W-EA13ZfVDfSN+JFvBvckRe+i=2XQXA@mail.gmail.com>
-Message-ID: <CAK7LNASpaWkTn-WWN+5W-EA13ZfVDfSN+JFvBvckRe+i=2XQXA@mail.gmail.com>
-Subject: Re: [PATCH] modpost: Fix processing of CRCs on 32-bit build machines
-To:     Ben Hutchings <ben@decadent.org.uk>
-Cc:     linux-kbuild@vger.kernel.org, stable@vger.kernel.org
+Date:   Thu, 23 Mar 2023 15:24:21 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARAS7DEtpS2HMK=a7egwRdj-uD9JhxsOcKpfpstiiFLhQ@mail.gmail.com>
+Message-ID: <CAK7LNARAS7DEtpS2HMK=a7egwRdj-uD9JhxsOcKpfpstiiFLhQ@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] scripts: merge_config: Fix typo in variable name.
+To:     Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Mark Brown <broonie@kernel.org>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
@@ -61,44 +64,87 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Mar 23, 2023 at 3:11=E2=80=AFAM Ben Hutchings <ben@decadent.org.uk>=
- wrote:
+On Thu, Mar 23, 2023 at 3:15=E2=80=AFAM Mirsad Goran Todorovac
+<mirsad.todorovac@alu.unizg.hr> wrote:
 >
-> modpost now reads CRCs from .*.cmd files, parsing them using strtol().
-> This is inconsistent with its parsing of Module.symvers and with their
-> definition as *unsigned* 32-bit values.
+> On 22. 03. 2023. 16:20, Randy Dunlap wrote:
+> >
+> >
+> > On 3/22/23 01:51, Mirsad Goran Todorovac wrote:
+> >> ${WARNOVERRIDE} was misspelled as ${WARNOVVERIDE}, which caused a shel=
+l
+> >> syntax error in certain paths of the script execution.
+> >>
+> >
+> > Fixes: 46dff8d7e381e ("scripts: merge_config: Add option to suppress wa=
+rning on overrides")
+> >
+> > Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> >
+> > Thanks.
 >
-> strtol() clamps values to [LONG_MIN, LONG_MAX], and when building on a
-> 32-bit system this changes all CRCs >=3D 0x80000000 to be 0x7fffffff.
+> Hi, Randy,
 >
-> Change extract_crcs_for_object() to use strtoul() instead.
+> I think this time thanks go to the Heavens, for preserving my physical in=
+tegrity.
 >
-> Cc: stable@vger.kernel.org
-> Fixes: f292d875d0dc ("modpost: extract symbol versions from *.cmd files")
-> Signed-off-by: Ben Hutchings <ben@decadent.org.uk>
-> ---
+> Though I don't know of a bike with ABS.
 
 
-Applied to linux-kbuild/fixes.
-Thanks.
 
 
->  scripts/mod/modpost.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Applied to linux-kbuild/fixes,
+fixing another typo "Signed-of-by".
+
+
+You do not need to spell it out by yourself.
+
+"git commit -s" will insert the Signed-off-by tag.
+
+
+
+
+
+
+
+> >> Cc: Mark Brown <broonie@kernel.org>
+> >> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> >> Cc: linux-kbuild@vger.kernel.org
+> >> Cc: linux-kernel@vger.kernel.org
+> >> Signed-of-by: Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>
+> >> ---
+> >>  scripts/kconfig/merge_config.sh | 2 +-
+> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_c=
+onfig.sh
+> >> index 32620de473ad..902eb429b9db 100755
+> >> --- a/scripts/kconfig/merge_config.sh
+> >> +++ b/scripts/kconfig/merge_config.sh
+> >> @@ -145,7 +145,7 @@ for ORIG_MERGE_FILE in $MERGE_LIST ; do
+> >>              NEW_VAL=3D$(grep -w $CFG $MERGE_FILE)
+> >>              BUILTIN_FLAG=3Dfalse
+> >>              if [ "$BUILTIN" =3D "true" ] && [ "${NEW_VAL#CONFIG_*=3D}=
+" =3D "m" ] && [ "${PREV_VAL#CONFIG_*=3D}" =3D "y" ]; then
+> >> -                    ${WARNOVVERIDE} Previous  value: $PREV_VAL
+> >> +                    ${WARNOVERRIDE} Previous  value: $PREV_VAL
+> >>                      ${WARNOVERRIDE} New value:       $NEW_VAL
+> >>                      ${WARNOVERRIDE} -y passed, will not demote y to m
+> >>                      ${WARNOVERRIDE}
 >
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index efff8078e395..9466b6a2abae 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -1733,7 +1733,7 @@ static void extract_crcs_for_object(const char *obj=
-ect, struct module *mod)
->                 if (!isdigit(*p))
->                         continue;       /* skip this line */
+> Best regards,
+> Mirsad
 >
-> -               crc =3D strtol(p, &p, 0);
-> +               crc =3D strtoul(p, &p, 0);
->                 if (*p !=3D '\n')
->                         continue;       /* skip this line */
+> --
+> Mirsad Goran Todorovac
+> Sistem in=C5=BEenjer
+> Grafi=C4=8Dki fakultet | Akademija likovnih umjetnosti
+> Sveu=C4=8Dili=C5=A1te u Zagrebu
+>
+> System engineer
+> Faculty of Graphic Arts | Academy of Fine Arts
+> University of Zagreb, Republic of Croatia
+> The European Union
 >
 
 
