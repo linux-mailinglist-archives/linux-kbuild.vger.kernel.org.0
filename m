@@ -2,113 +2,106 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF2CF6C53B4
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Mar 2023 19:26:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B0CA06C5F91
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Mar 2023 07:21:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230464AbjCVS0G (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 22 Mar 2023 14:26:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54526 "EHLO
+        id S230072AbjCWGV1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 23 Mar 2023 02:21:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230028AbjCVS0F (ORCPT
+        with ESMTP id S229518AbjCWGVX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 22 Mar 2023 14:26:05 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8850314E83
-        for <linux-kbuild@vger.kernel.org>; Wed, 22 Mar 2023 11:25:57 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id x15so8956138pjk.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 22 Mar 2023 11:25:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1679509557;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Xai25ViACOhtMbP/9A/HIC69Te+6jb14im4nmgBreX0=;
-        b=Nc7bqPWvvVP0Fh9GRUREatEuPhbNWcj8ydyJq6p7WhnKTmZsmINp40U8jm2U/D3eOh
-         GiADNrvpDW1src3wBD86k8hybLw++0LHdLBlze0Q290ZO1ycLMYXpjqhF0bC849Amhtk
-         Uy0gNTTczAqnmq7Ne1eUnCmgjRAczfqeQ58RKE9Z1Dbo8WYhXCE+35mHwpNTZjinRv7Z
-         SvFY91A1LyC+CNVJab3PMehak5rGBLhjGTsCzg52VkGZ8uMK06Y5GA1JlP2dh0NN6NWH
-         L5Jzlk3GH1BS4NTePFlNBmFvEFZSn5SfhLcK85z0+yzixjDvudD4Wt6pqVVnBBIsUYXI
-         dcEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679509557;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Xai25ViACOhtMbP/9A/HIC69Te+6jb14im4nmgBreX0=;
-        b=yudIHD0Xf0bHSFcRo2ZR9zYVIJRV7Hz2ClGmCC7aamwf5DFxph5KC6KArtlZoi7FFO
-         n8IjvAxQzgz1iNJDITZXMnftDACFikYjcSvrlE1GRT7sUWriFe7C8A0sclyc1C2/yizl
-         UhQ1xdPET6UKaSOOX/js3PELL3oVJ+nwZSfsKIZaDkdrjqKS5quD0cD9ErwIFpY6812X
-         HuZKcN57hUBNS4B7tJ03xSnDbKz1QDD5tPeemSkEi15DC7AZITjCoqlaLmflTXVdY+q9
-         4LU/34ZEexP6n+QOV1MUZp1dr5AvsX/y0hwTpjgcKY9GfhB4F5tgTcbYZWO1/TdsjIUY
-         w5oA==
-X-Gm-Message-State: AO0yUKWRlMk1jVB8yNUkqJFEGe79QZblx3g54XSbJX1mW2Ai1RCRTdCg
-        Fecww91bX1gW2eRk++h54QpDP1BQwOKrIkwMux0fhQ==
-X-Google-Smtp-Source: AK7set/ZMXJixIFC4D/KWjt5E7Yb69EPs9KtjzG+BYb//151Eeugg7QbDH72EBo41HILsUMiYkKai/KWyETz2jWK8JA=
-X-Received: by 2002:a17:902:7b8b:b0:19a:82a2:fcf9 with SMTP id
- w11-20020a1709027b8b00b0019a82a2fcf9mr1399015pll.2.1679509556719; Wed, 22 Mar
- 2023 11:25:56 -0700 (PDT)
+        Thu, 23 Mar 2023 02:21:23 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F1281E29D;
+        Wed, 22 Mar 2023 23:21:22 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 42E73B81F67;
+        Thu, 23 Mar 2023 06:21:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 067F7C4339B;
+        Thu, 23 Mar 2023 06:21:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679552480;
+        bh=sD//P0ws33D7apLZ0glcbRKDxg6o55an2E7eoJyFSoo=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=GGwIlAsfgKMc67X6Fj/6uM4P1WAKyUm7RPbE/MmdFB8mXJH2t6AMb4p8/Z65CRez1
+         gxIZBkFZBBSQR5mnhx7eNQgSFkBn26Op3K8NruLiHpsNb5r7+11ihEbQerj1OT3QiP
+         gtqNBIe4zXOpOcd7FguKjCVDEmFARFVYr0griQleFVs7cuIudf+5GsLJsX96kygr3I
+         A052sWdAlvQEjKzfGReWOEFv82y9+gQuThi1cjofzwA21Zeg3lIsiE2UseGxNEwgo0
+         gOPWPDY7tRmMuCs8JHZrr6B6clviD3RxO/MxW4aqESXzTi9tvF1QA8g4VxS5GKhA8h
+         x8k1Uk8qHdo0Q==
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-17aaa51a911so21729060fac.5;
+        Wed, 22 Mar 2023 23:21:19 -0700 (PDT)
+X-Gm-Message-State: AO0yUKUHR4gqqDgfMnQXspftfFsNOSiYzLp9jyn8po6hbZn8sVMReFgG
+        5IyGBMVeITwWsd/KPRhnki+rbUXTrlSct6gO1l4=
+X-Google-Smtp-Source: AKy350aC/pHtQ1PJNQ2cj7Ju2QOfJqWWy/iLEQiSsNdLYt4Ac0Xw4rJt4QE6kBagah8v+Xo7GtJp9IBnVdQqJ06oHXg=
+X-Received: by 2002:a05:6870:ea86:b0:17e:2e88:40dc with SMTP id
+ s6-20020a056870ea8600b0017e2e8840dcmr627852oap.11.1679552479283; Wed, 22 Mar
+ 2023 23:21:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230215143626.453491-1-alexghiti@rivosinc.com>
- <20230215143626.453491-2-alexghiti@rivosinc.com> <4a6fc7a3-9697-a49b-0941-97f32194b0d7@ghiti.fr>
- <877cw7dphf.fsf@all.your.base.are.belong.to.us>
-In-Reply-To: <877cw7dphf.fsf@all.your.base.are.belong.to.us>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 22 Mar 2023 11:25:45 -0700
-Message-ID: <CAKwvOdk0Lr-9gt0xAKvkcwA53+Wy8oeYQo1RJ7XH-LKCCURQCQ@mail.gmail.com>
-Subject: Re: [PATCH v8 1/3] riscv: Introduce CONFIG_RELOCATABLE
-To:     =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
-Cc:     Alexandre Ghiti <alex@ghiti.fr>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org, nathan@kernel.org,
-        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+References: <ZBtE4XlqCXjFELHR@decadent.org.uk>
+In-Reply-To: <ZBtE4XlqCXjFELHR@decadent.org.uk>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 23 Mar 2023 15:20:43 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASpaWkTn-WWN+5W-EA13ZfVDfSN+JFvBvckRe+i=2XQXA@mail.gmail.com>
+Message-ID: <CAK7LNASpaWkTn-WWN+5W-EA13ZfVDfSN+JFvBvckRe+i=2XQXA@mail.gmail.com>
+Subject: Re: [PATCH] modpost: Fix processing of CRCs on 32-bit build machines
+To:     Ben Hutchings <ben@decadent.org.uk>
+Cc:     linux-kbuild@vger.kernel.org, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-15.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,ENV_AND_HDR_SPF_MATCH,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL,
-        USER_IN_DEF_SPF_WL autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Feb 24, 2023 at 7:58=E2=80=AFAM Bj=C3=B6rn T=C3=B6pel <bjorn@kernel=
-.org> wrote:
+On Thu, Mar 23, 2023 at 3:11=E2=80=AFAM Ben Hutchings <ben@decadent.org.uk>=
+ wrote:
 >
-> Alexandre Ghiti <alex@ghiti.fr> writes:
+> modpost now reads CRCs from .*.cmd files, parsing them using strtol().
+> This is inconsistent with its parsing of Module.symvers and with their
+> definition as *unsigned* 32-bit values.
 >
-> > +cc linux-kbuild, llvm, Nathan, Nick
-> >
-> > On 2/15/23 15:36, Alexandre Ghiti wrote:
-> >> From: Alexandre Ghiti <alex@ghiti.fr>
-> >>
-> > I tried a lot of things, but I struggle to understand, does anyone have
-> > any idea? FYI, the same problem happens with LLVM.
-
-Off the top of my head, no idea.
-
-(Maybe as a follow up to this series, I wonder if pursuing
-ARCH_HAS_RELR for ARCH=3Driscv is worthwhile?)
-
+> strtol() clamps values to [LONG_MIN, LONG_MAX], and when building on a
+> 32-bit system this changes all CRCs >=3D 0x80000000 to be 0x7fffffff.
 >
-> Don't ask me *why*, but adding --emit-relocs to your linker flags solves
-> "the NULL .rela.dyn" both for GCC and LLVM.
+> Change extract_crcs_for_object() to use strtoul() instead.
 >
-> The downside is that you end up with a bunch of .rela cruft in your
-> vmlinux.
+> Cc: stable@vger.kernel.org
+> Fixes: f292d875d0dc ("modpost: extract symbol versions from *.cmd files")
+> Signed-off-by: Ben Hutchings <ben@decadent.org.uk>
+> ---
 
-There was a patch just this week to use $(OBJCOPY) to strip these from
-vmlinux (for x86). Looks like x86 uses --emit-relocs for KASLR:
-https://lore.kernel.org/lkml/20230320121006.4863-1-petr.pavlu@suse.com/
+
+Applied to linux-kbuild/fixes.
+Thanks.
+
+
+>  scripts/mod/modpost.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index efff8078e395..9466b6a2abae 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -1733,7 +1733,7 @@ static void extract_crcs_for_object(const char *obj=
+ect, struct module *mod)
+>                 if (!isdigit(*p))
+>                         continue;       /* skip this line */
+>
+> -               crc =3D strtol(p, &p, 0);
+> +               crc =3D strtoul(p, &p, 0);
+>                 if (*p !=3D '\n')
+>                         continue;       /* skip this line */
+>
+
+
 --=20
-Thanks,
-~Nick Desaulniers
+Best Regards
+Masahiro Yamada
