@@ -2,135 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E4FB6C7A5B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Mar 2023 09:53:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B90B96C7CB3
+	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Mar 2023 11:34:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231831AbjCXIx1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 24 Mar 2023 04:53:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51308 "EHLO
+        id S230482AbjCXKei (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 24 Mar 2023 06:34:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231769AbjCXIx0 (ORCPT
+        with ESMTP id S229734AbjCXKeh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 24 Mar 2023 04:53:26 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03016FF25;
-        Fri, 24 Mar 2023 01:53:18 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id p3-20020a17090a74c300b0023f69bc7a68so943622pjl.4;
-        Fri, 24 Mar 2023 01:53:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679647998;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=v2wCeYFtBtVFFjbrQKd5bVQe/xPH9s5fs+XzpW6BquM=;
-        b=NPhxC+IoIXGfPbBahfpsmb4vDVMSpacSCyo+mKt0P8qdbs4rRv1URZGQ7FIHSPLFLr
-         Fm3cJ68m6H1QPNMpMfKwNVW78kXCHMaUvgv0vvL8KsCvhoA6h5BplwLZNpfWIljDsrCt
-         lnza+yfn2K95yYWafw9e35X9hD1tisZnW11Mi9fFGdOCfZaCEc9ehTC0KyDLW47S9KKL
-         e5wNaRMWycK18rYYxZsV2IK9WZqSh+xLmq1XMgpPCI0jwgkOiN1RX4F4VtjMMYisVsux
-         MIDVmhQAPjjrkUWJ5AKprC7nz7GowyKueXpdtmZWCI5301ubPLM/2vIpc+ykIKowSqN0
-         NVLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679647998;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=v2wCeYFtBtVFFjbrQKd5bVQe/xPH9s5fs+XzpW6BquM=;
-        b=fqA4bWenHWRJcGaFq7Ep8TgurvFT7MQsBkbfCQgTw37T6Rv7S7hygZSc00W6VYb9M7
-         KhTUKHPFHvQoykxVizhdHdCvBeeGnxjcfYgDFs1wZ7ZtfY/j8SjUh4nW4GfeaEbvryPj
-         laHXDB6xOOWOc74Njkp+v6KLgSdZ4Z54NNFMU2JlWKw9odzlGq9dq/A6S1HUp3K0zpIA
-         1i1YrWasmPNl2A5wRVu674BIFy2WMRLPqrA3k34Ar3ctXp3k/SF3gWL4x5SJWA/gs6VS
-         qTzrXQjLmIkMuEhN3xOVgkJ8grtM7HvRh0+GC7hMN1MAIcfRrW5kTaWoYCcdFDNi4xGf
-         ANjw==
-X-Gm-Message-State: AAQBX9fDZ8PAuNedLjCWJsuI8Jf0os7Jw2d62v2aP4cqLGl1vcUoE6En
-        CgaAKaSXI0ctm9dxVjWL/EQ=
-X-Google-Smtp-Source: AKy350Yjvm7N7usqb6wO7/+lzMdj9ds9txp8j8b3xIKau1VP1pE3sFLQXGQ50fBXOzvFp5HaMbkpng==
-X-Received: by 2002:a17:902:da82:b0:1a1:a996:feb3 with SMTP id j2-20020a170902da8200b001a1a996feb3mr2482378plx.26.1679647998376;
-        Fri, 24 Mar 2023 01:53:18 -0700 (PDT)
-Received: from debian.me (subs32-116-206-28-7.three.co.id. [116.206.28.7])
-        by smtp.gmail.com with ESMTPSA id l6-20020a170902d34600b00198d7b52eefsm13578857plk.257.2023.03.24.01.53.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Mar 2023 01:53:18 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 32CED106663; Fri, 24 Mar 2023 15:53:15 +0700 (WIB)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Build System <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Kees Cook <keescook@chromium.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Liam Beguin <liambeguin@gmail.com>,
-        Wu XiangCheng <bobwxc@email.cn>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Binbin Zhou <zhoubinbin@loongson.cn>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] Documentation: core-api: update kernel-doc reference to kmod.c
-Date:   Fri, 24 Mar 2023 15:53:10 +0700
-Message-Id: <20230324085310.20571-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.40.0
+        Fri, 24 Mar 2023 06:34:37 -0400
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9350A1AD;
+        Fri, 24 Mar 2023 03:34:36 -0700 (PDT)
+Received: (Authenticated sender: alex@ghiti.fr)
+        by mail.gandi.net (Postfix) with ESMTPSA id 55EDD100004;
+        Fri, 24 Mar 2023 10:34:27 +0000 (UTC)
+Message-ID: <877d03e1-b00b-7863-6104-21b42bc63711@ghiti.fr>
+Date:   Fri, 24 Mar 2023 11:34:26 +0100
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1833; i=bagasdotme@gmail.com; h=from:subject; bh=Me3JNlJF/gyC1zirkQfo80NfkhNEx6l6MSCo068BIJ0=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDCmyKR9bd28Lj9B5ab91pYlslqbN3Nuffp6JeSjU8v+yw qzWVdx2HaUsDGJcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZhIsycjQ//Foh/tzfKn43y7 TUJKTLV/L96g/lFC/fknv4xzvz7v+8nIsEP9S8yb+Nh7/Zs5WXoOFy443Dl761rTX4FmltkVT11 D+QE=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v8 1/3] riscv: Introduce CONFIG_RELOCATABLE
+Content-Language: en-US
+To:     Nick Desaulniers <ndesaulniers@google.com>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBl?= =?UTF-8?Q?l?= <bjorn@kernel.org>
+Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, nathan@kernel.org,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+References: <20230215143626.453491-1-alexghiti@rivosinc.com>
+ <20230215143626.453491-2-alexghiti@rivosinc.com>
+ <4a6fc7a3-9697-a49b-0941-97f32194b0d7@ghiti.fr>
+ <877cw7dphf.fsf@all.your.base.are.belong.to.us>
+ <CAKwvOdk0Lr-9gt0xAKvkcwA53+Wy8oeYQo1RJ7XH-LKCCURQCQ@mail.gmail.com>
+From:   Alexandre Ghiti <alex@ghiti.fr>
+In-Reply-To: <CAKwvOdk0Lr-9gt0xAKvkcwA53+Wy8oeYQo1RJ7XH-LKCCURQCQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.3 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: *
+X-Spam-Status: No, score=-0.7 required=5.0 tests=NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Commit d6f819908f8aac ("module: fold usermode helper kmod into modules
-directory") moves kmod helper implementation (kmod.c) to kernel/module/
-directory but forgets to update its reference on kernel api doc, hence:
+Hi Nick,
 
-WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 2.4.4 -export ./kernel/kmod.c' failed with return code 2
+On 3/22/23 19:25, Nick Desaulniers wrote:
+> On Fri, Feb 24, 2023 at 7:58 AM Björn Töpel <bjorn@kernel.org> wrote:
+>> Alexandre Ghiti <alex@ghiti.fr> writes:
+>>
+>>> +cc linux-kbuild, llvm, Nathan, Nick
+>>>
+>>> On 2/15/23 15:36, Alexandre Ghiti wrote:
+>>>> From: Alexandre Ghiti <alex@ghiti.fr>
+>>>>
+>>> I tried a lot of things, but I struggle to understand, does anyone have
+>>> any idea? FYI, the same problem happens with LLVM.
+> Off the top of my head, no idea.
+>
+> (Maybe as a follow up to this series, I wonder if pursuing
+> ARCH_HAS_RELR for ARCH=riscv is worthwhile?)
 
-Update the reference.
 
-Fixes: d6f819908f8aac ("module: fold usermode helper kmod into modules directory")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Link: https://lore.kernel.org/linux-next/20230324154413.19cc78be@canb.auug.org.au/
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/core-api/kernel-api.rst                    | 2 +-
- Documentation/translations/zh_CN/core-api/kernel-api.rst | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+IIUC, the goal for using RELR is to reduce the size of a kernel image: 
+right now, this is not my priority, but I'll add that to my todo list 
+because that may be useful to distros.
 
-diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
-index 62f961610773d6..e2772859600801 100644
---- a/Documentation/core-api/kernel-api.rst
-+++ b/Documentation/core-api/kernel-api.rst
-@@ -223,7 +223,7 @@ Module Support
- Module Loading
- --------------
- 
--.. kernel-doc:: kernel/kmod.c
-+.. kernel-doc:: kernel/module/kmod.c
-    :export:
- 
- Inter Module support
-diff --git a/Documentation/translations/zh_CN/core-api/kernel-api.rst b/Documentation/translations/zh_CN/core-api/kernel-api.rst
-index a4b373c48c0c9b..a1ea7081077cee 100644
---- a/Documentation/translations/zh_CN/core-api/kernel-api.rst
-+++ b/Documentation/translations/zh_CN/core-api/kernel-api.rst
-@@ -226,7 +226,7 @@ kernel/relay.c
- 
- 该API在以下内核代码中:
- 
--kernel/kmod.c
-+kernel/module/kmod.c
- 
- 模块接口支持
- ------------
 
-base-commit: 6e82310365bade624ff38dd11a8467739adab6cc
--- 
-An old man doll... just what I always wanted! - Clara
+>
+>> Don't ask me *why*, but adding --emit-relocs to your linker flags solves
+>> "the NULL .rela.dyn" both for GCC and LLVM.
+>>
+>> The downside is that you end up with a bunch of .rela cruft in your
+>> vmlinux.
+> There was a patch just this week to use $(OBJCOPY) to strip these from
+> vmlinux (for x86). Looks like x86 uses --emit-relocs for KASLR:
+> https://lore.kernel.org/lkml/20230320121006.4863-1-petr.pavlu@suse.com/
+
+
+That's nice, that would be an interesting intermediate step until we 
+find the issue here as I believe it is important to have the relocations 
+in the init section to save memory.
+
+Thanks for your answer Nick, really appreciated,
+
+Alex
+
 
