@@ -2,134 +2,108 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 906956C8769
-	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Mar 2023 22:22:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 71FAE6C8BB5
+	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Mar 2023 07:26:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231513AbjCXVWQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 24 Mar 2023 17:22:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59028 "EHLO
+        id S231508AbjCYG0c (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 25 Mar 2023 02:26:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231289AbjCXVWQ (ORCPT
+        with ESMTP id S231308AbjCYG0a (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 24 Mar 2023 17:22:16 -0400
-Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 079D217CD0
-        for <linux-kbuild@vger.kernel.org>; Fri, 24 Mar 2023 14:22:15 -0700 (PDT)
-Received: by mail-pg1-x549.google.com with SMTP id q30-20020a631f5e000000b0050760997f4dso1083124pgm.6
-        for <linux-kbuild@vger.kernel.org>; Fri, 24 Mar 2023 14:22:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1679692934;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=vmW56UJtv5GWWz8DLX1nqTrYB2t1IC9+OwPh+5MLOmQ=;
-        b=gC7f0sm8D563vcLJO7aCR3uMKZ1am83NXi6YLU93KA1gYvU5X7df3p1ruXHgYeNfOO
-         8sm1VrG0v15sBIymZw0pR1xBz6Q4deoiT0aInwnCAvFCu0n9iYfQnP/UpuQBOTr/jO+y
-         69ScWoFpsgILRmjwQBM7qBFJJXmk6PgQRtZD65+iKmjLpMVHqWvVO0uuW5IQ5/QYKzKV
-         ESCASqfeIObx8/soPDEB//kWW+Lt5+XNmdctV9/y9ZwETCrh2qBSCXQLII6SKCnRFO8m
-         zEcIXx0WAPx0eNlYEP+MxJBYntk/B22Bg1Ck+WF35ao9zboP36VfAwMDFw3vQJ511zOg
-         fuoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679692934;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vmW56UJtv5GWWz8DLX1nqTrYB2t1IC9+OwPh+5MLOmQ=;
-        b=r3G0XHslZ8Sb12xN6hKeOrYlnqQP2+sWhM9v9jdUxGd7ErjcYNS/9y3pGDhH5taVY+
-         t9HOb1ow9Hn1hY2kBkg5s2qphTaF9XddNunWj2xPFGepI0bCIeSBcN3UWXDoYo1iEI/0
-         rlJjlFWXwRfOkTxFabFNWg3vxMYPo6k4U5/zTzFY7m8Rt5nVvcg8CeyVQ34YOV40zolE
-         OWUdHQDyRaYM6egAZNJV5UmR7RB1ShAgTwZcIINkLrdPQffF9nlAXdKxY8x1aIY6c1yx
-         zh2UPK4Xx5CAf9mVqssj7eBZLbIDyFCiwnXUyYTqe3ouVFZpd+q81kueBCg18gT3uR4N
-         Cw+g==
-X-Gm-Message-State: AAQBX9cUkZ1u3JrTcCYnFZ0DSoku+gUqhtY+Lld6uP5wxXfN2ECbwtSX
-        Nam2KcmW7SKLqTEsxDwcls4Fy0gZA2f2
-X-Google-Smtp-Source: AK7set9ZfsxtON/msXs5821pU/T3nIBzaUkbe27oiMn0hJ3v/DwhxadgeqzR0fqI0B5zM4ozKPZ0317cd6oE
-X-Received: from meowing-l.c.googlers.com ([fda3:e722:ac3:cc00:24:72f4:c0a8:3eba])
- (user=maskray job=sendgmr) by 2002:a17:90a:4a85:b0:240:2ae6:5eb8 with SMTP id
- f5-20020a17090a4a8500b002402ae65eb8mr1255141pjh.9.1679692934538; Fri, 24 Mar
- 2023 14:22:14 -0700 (PDT)
-Date:   Fri, 24 Mar 2023 21:22:10 +0000
-Mime-Version: 1.0
-Message-ID: <20230324212210.1001990-1-maskray@google.com>
-Subject: [PATCH v2] Makefile: use -z pack-relative-relocs
-From:   Fangrui Song <maskray@google.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Peter Collingbourne <pcc@google.com>,
-        Will Deacon <will@kernel.org>,
-        Fangrui Song <maskray@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        Sat, 25 Mar 2023 02:26:30 -0400
+X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 24 Mar 2023 23:26:23 PDT
+Received: from outboundhk.mxmail.xiaomi.com (outboundhk.mxmail.xiaomi.com [207.226.244.122])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DFC8415882
+        for <linux-kbuild@vger.kernel.org>; Fri, 24 Mar 2023 23:26:23 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.97,212,1669046400"; 
+   d="scan'208,223";a="72235275"
+Received: from hk-mbx02.mioffice.cn (HELO xiaomi.com) ([10.56.8.122])
+  by outboundhk.mxmail.xiaomi.com with ESMTP; 25 Mar 2023 14:25:20 +0800
+Received: from BJ-MBX16.mioffice.cn (10.237.8.136) by HK-MBX02.mioffice.cn
+ (10.56.8.122) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Sat, 25 Mar
+ 2023 14:25:20 +0800
+Received: from BJ-MBX14.mioffice.cn (10.237.8.134) by BJ-MBX16.mioffice.cn
+ (10.237.8.136) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Sat, 25 Mar
+ 2023 14:25:19 +0800
+Received: from BJ-MBX14.mioffice.cn ([fe80::6818:35a6:e09:60fa]) by
+ BJ-MBX14.mioffice.cn ([fe80::6818:35a6:e09:60fa%9]) with mapi id
+ 15.02.0986.041; Sat, 25 Mar 2023 14:25:19 +0800
+From:   =?gb2312?B?1Ky9qMX0?= <yuanjianpeng@xiaomi.com>
+To:     masahiroy <masahiroy@kernel.org>, nathan <nathan@kernel.org>,
+        ndesaulniers <ndesaulniers@google.com>,
+        nicolas <nicolas@fjasle.eu>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>
+CC:     linux-kernel <linux-kernel@vger.kernel.org>
+Subject: [PATCH] kbuild: support external module out-of-tree build
+Thread-Topic: [PATCH] kbuild: support external module out-of-tree build
+Thread-Index: AQHZXuHovkJw/vrxJEqawHIlFohm/A==
+Date:   Sat, 25 Mar 2023 06:25:19 +0000
+Message-ID: <e58cba84c90c40108ac678500f33655e@xiaomi.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [10.237.8.11]
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-Spam-Status: No, score=-0.0 required=5.0 tests=SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Commit 27f2a4db76e8 ("Makefile: fix GDB warning with CONFIG_RELR")
-added --use-android-relr-tags to fix a GDB warning
-
-BFD: /android0/linux-next/vmlinux: unknown type [0x13] section `.relr.dyn'
-
-The GDB warning has been fixed in version 11.2.
-
-The DT_ANDROID_RELR tag was deprecated since DT_RELR was standardized.
-Thus, --use-android-relr-tags should be removed. While making the
-change, try -z pack-relative-relocs, which is supported since LLD 15.
-Keep supporting --pack-dyn-relocs=relr as well for older LLD versions.
-
-As of today, GNU ld supports the latter option for x86 and powerpc64
-ports and has no intention to support --pack-dyn-relocs=relr. In the
-absence of the glibc symbol version GLIBC_ABI_DT_RELR,
---pack-dyn-relocs=relr and -z pack-relative-relocs are identical in
-ld.lld.
-
-Link: https://github.com/ClangBuiltLinux/linux/issues/1057
-Link: https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=a619b58721f0a03fd91c27670d3e4c2fb0d88f1e
-Signed-off-by: Fangrui Song <maskray@google.com>
----
- Makefile                      | 3 ++-
- scripts/tools-support-relr.sh | 8 ++++++--
- 2 files changed, 8 insertions(+), 3 deletions(-)
----
-Changes from v1:
-* Keep supporting --pack-dyn-relocs=relr for older ld.lld versions
-
-diff --git a/Makefile b/Makefile
-index a2c310df2145..e23a85476d5d 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1113,7 +1113,8 @@ LDFLAGS_vmlinux	+= -X
- endif
- 
- ifeq ($(CONFIG_RELR),y)
--LDFLAGS_vmlinux	+= --pack-dyn-relocs=relr --use-android-relr-tags
-+# ld.lld before 15 did not support -z pack-relative-relocs.
-+LDFLAGS_vmlinux	+= $(call ld-option,--pack-dyn-relocs=relr,-z pack-relative-relocs)
- endif
- 
- # We never want expected sections to be placed heuristically by the
-diff --git a/scripts/tools-support-relr.sh b/scripts/tools-support-relr.sh
-index cb55878bd5b8..4c121946e517 100755
---- a/scripts/tools-support-relr.sh
-+++ b/scripts/tools-support-relr.sh
-@@ -7,8 +7,12 @@ trap "rm -f $tmp_file.o $tmp_file $tmp_file.bin" EXIT
- cat << "END" | $CC -c -x c - -o $tmp_file.o >/dev/null 2>&1
- void *p = &p;
- END
--$LD $tmp_file.o -shared -Bsymbolic --pack-dyn-relocs=relr \
--  --use-android-relr-tags -o $tmp_file
-+
-+# ld.lld before 15 did not support -z pack-relative-relocs.
-+if ! $LD $tmp_file.o -shared -Bsymbolic --pack-dyn-relocs=relr -o $tmp_file 2>/dev/null; then
-+	$LD $tmp_file.o -shared -Bsymbolic -z pack-relative-relocs -o $tmp_file 2>&1 |
-+		grep -q pack-relative-relocs && exit 1
-+fi
- 
- # Despite printing an error message, GNU nm still exits with exit code 0 if it
- # sees a relr section. So we need to check that nothing is printed to stderr.
--- 
-2.40.0.348.gf938b09366-goog
-
+RnJvbSAyMDVhZjQ1NTgyYWQwY2IxMjkzODM5YTk1ZWUwMWQzODNmMWNmYmYxIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQ0KRnJvbTogWXVhbiBKaWFucGVuZyA8eXVhbmppYW5wZW5nQHhpYW9taS5j
+b20+DQpEYXRlOiBTYXQsIDI1IE1hciAyMDIzIDEwOjI0OjM4ICswODAwDQpTdWJqZWN0OiBbUEFU
+Q0hdIGtidWlsZDogc3VwcG9ydCBleHRlcm5hbCBtb2R1bGUgb3V0LW9mLXRyZWUgYnVpbGQNCg0K
+QSBuZXcgbW9kdWxlIGJ1aWxkIHZhcmlhYmxlIEtCVUlMRF9FWFRNT0RfU1JDIGlzIGFkZGVkIHdo
+aWNoDQpzcGVjaWZ5aW5nIHRoZSBleHRlcm5hbCBtb2R1bGUgc291cmNlIHBhdGguDQoNCkJ1aWxk
+IGxpa2UgdGhpczoNCm1ha2UgLUMgJEtESVIgTT08b3V0cHV0IGRpcj4gS0JVSUxEX0VYVE1PRF9T
+UkM9PG1vZHVsZSBzb3VyY2UgZGlyPg0KDQpTaWduZWQtb2ZmLWJ5OiBZdWFuIEppYW5wZW5nIDx5
+dWFuamlhbnBlbmdAeGlhb21pLmNvbT4NCi0tLQ0KIHNjcmlwdHMvTWFrZWZpbGUuYnVpbGQgICB8
+IDIgKy0NCiBzY3JpcHRzL01ha2VmaWxlLmNsZWFuICAgfCAyICstDQogc2NyaXB0cy9NYWtlZmls
+ZS5tb2Rwb3N0IHwgMiArLQ0KIDMgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAzIGRl
+bGV0aW9ucygtKQ0KDQpkaWZmIC0tZ2l0IGEvc2NyaXB0cy9NYWtlZmlsZS5idWlsZCBiL3Njcmlw
+dHMvTWFrZWZpbGUuYnVpbGQNCmluZGV4IDc2MzIzMjAxMjMyYS4uOTcxYTIxNjFkNTAyIDEwMDY0
+NA0KLS0tIGEvc2NyaXB0cy9NYWtlZmlsZS5idWlsZA0KKysrIGIvc2NyaXB0cy9NYWtlZmlsZS5i
+dWlsZA0KQEAgLTMsNyArMyw3IEBADQogIyBCdWlsZGluZw0KICMgPT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0N
+Cg0KLXNyYyA6PSAkKG9iaikNCitzcmMgOj0gJChpZiAkKEtCVUlMRF9FWFRNT0RfU1JDKSwkKEtC
+VUlMRF9FWFRNT0RfU1JDKSQocGF0c3Vic3QgJChLQlVJTERfRVhUTU9EKSUsJSwkKG9iaikpLCQo
+b2JqKSkNCg0KIFBIT05ZIDo9ICQob2JqKS8NCiAkKG9iaikvOg0KZGlmZiAtLWdpdCBhL3Njcmlw
+dHMvTWFrZWZpbGUuY2xlYW4gYi9zY3JpcHRzL01ha2VmaWxlLmNsZWFuDQppbmRleCAzNjQ5OTAw
+Njk2ZGQuLjUyMzJhMGI2ZTEzOSAxMDA2NDQNCi0tLSBhL3NjcmlwdHMvTWFrZWZpbGUuY2xlYW4N
+CisrKyBiL3NjcmlwdHMvTWFrZWZpbGUuY2xlYW4NCkBAIC0zLDcgKzMsNyBAQA0KICMgQ2xlYW5p
+bmcgdXANCiAjID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09DQoNCi1zcmMgOj0gJChvYmopDQorc3JjIDo9ICQo
+aWYgJChLQlVJTERfRVhUTU9EX1NSQyksJChLQlVJTERfRVhUTU9EX1NSQykkKHBhdHN1YnN0ICQo
+S0JVSUxEX0VYVE1PRCklLCUsJChvYmopKSwkKG9iaikpDQoNCiBQSE9OWSA6PSBfX2NsZWFuDQog
+X19jbGVhbjoNCmRpZmYgLS1naXQgYS9zY3JpcHRzL01ha2VmaWxlLm1vZHBvc3QgYi9zY3JpcHRz
+L01ha2VmaWxlLm1vZHBvc3QNCmluZGV4IDA5ODBjNThkOGFmYy4uM2YwYjIzMTU3YzY4IDEwMDY0
+NA0KLS0tIGEvc2NyaXB0cy9NYWtlZmlsZS5tb2Rwb3N0DQorKysgYi9zY3JpcHRzL01ha2VmaWxl
+Lm1vZHBvc3QNCkBAIC0xMDMsNyArMTAzLDcgQEAgZWxzZQ0KDQogIyBzZXQgc3JjICsgb2JqIC0g
+dGhleSBtYXkgYmUgdXNlZCBpbiB0aGUgbW9kdWxlcydzIE1ha2VmaWxlDQogb2JqIDo9ICQoS0JV
+SUxEX0VYVE1PRCkNCi1zcmMgOj0gJChvYmopDQorc3JjIDo9ICQoaWYgJChLQlVJTERfRVhUTU9E
+X1NSQyksJChLQlVJTERfRVhUTU9EX1NSQykkKHBhdHN1YnN0ICQoS0JVSUxEX0VYVE1PRCklLCUs
+JChvYmopKSwkKG9iaikpDQoNCiAjIEluY2x1ZGUgdGhlIG1vZHVsZSdzIE1ha2VmaWxlIHRvIGZp
+bmQgS0JVSUxEX0VYVFJBX1NZTUJPTFMNCiBpbmNsdWRlICQoa2J1aWxkLWZpbGUpDQotLQ0KMi4z
+OC4xDQoNCiMvKioqKioqsb7Tyrz+vLDG5Li9vP66rNPQ0KHD17mry761xLGjw9zQxc+io6y99s/e
+09q3osvNuPjJz8PmtdjWt9bQwdCz9rXEuPbIy7vyyLrX6aGjvfvWucjOus7G5Mv7yMvS1MjOus7Q
+zsq9yrnTw6OosPzAqLWrsrvP3tPayKuyv7vysr+31rXY0LnCtqGiuLTWxqGiu/LJoreio6mxvtPK
+vP7W0LXE0MXPoqGjyOe5+8T6tO3K1cHLsb7Tyrz+o6zH68T6waK8tLXnu7C78tPKvP7NqNaqt6K8
+/sjLsqLJvrP9sb7Tyrz+o6EgVGhpcyBlLW1haWwgYW5kIGl0cyBhdHRhY2htZW50cyBjb250YWlu
+IGNvbmZpZGVudGlhbCBpbmZvcm1hdGlvbiBmcm9tIFhJQU9NSSwgd2hpY2ggaXMgaW50ZW5kZWQg
+b25seSBmb3IgdGhlIHBlcnNvbiBvciBlbnRpdHkgd2hvc2UgYWRkcmVzcyBpcyBsaXN0ZWQgYWJv
+dmUuIEFueSB1c2Ugb2YgdGhlIGluZm9ybWF0aW9uIGNvbnRhaW5lZCBoZXJlaW4gaW4gYW55IHdh
+eSAoaW5jbHVkaW5nLCBidXQgbm90IGxpbWl0ZWQgdG8sIHRvdGFsIG9yIHBhcnRpYWwgZGlzY2xv
+c3VyZSwgcmVwcm9kdWN0aW9uLCBvciBkaXNzZW1pbmF0aW9uKSBieSBwZXJzb25zIG90aGVyIHRo
+YW4gdGhlIGludGVuZGVkIHJlY2lwaWVudChzKSBpcyBwcm9oaWJpdGVkLiBJZiB5b3UgcmVjZWl2
+ZSB0aGlzIGUtbWFpbCBpbiBlcnJvciwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVyIGJ5IHBob25l
+IG9yIGVtYWlsIGltbWVkaWF0ZWx5IGFuZCBkZWxldGUgaXQhKioqKioqLyMNCg==
