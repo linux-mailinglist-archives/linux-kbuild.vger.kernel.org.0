@@ -2,46 +2,43 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 160A36C8EC8
-	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Mar 2023 15:19:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AEFC76C8EF7
+	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Mar 2023 16:18:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230049AbjCYOTU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 25 Mar 2023 10:19:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38378 "EHLO
+        id S230079AbjCYPS3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 25 Mar 2023 11:18:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229862AbjCYOTT (ORCPT
+        with ESMTP id S229446AbjCYPS2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 25 Mar 2023 10:19:19 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BA061114B;
-        Sat, 25 Mar 2023 07:19:17 -0700 (PDT)
+        Sat, 25 Mar 2023 11:18:28 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8D21EC53;
+        Sat, 25 Mar 2023 08:18:26 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 883AB60C6C;
-        Sat, 25 Mar 2023 14:19:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A3D6C433D2;
-        Sat, 25 Mar 2023 14:19:15 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2B75BB80522;
+        Sat, 25 Mar 2023 15:18:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9732C433D2;
+        Sat, 25 Mar 2023 15:18:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679753956;
-        bh=5QjzAdbwAc0VpltsXBqbvPGXjoKOMT/y6u/uaixI0GM=;
+        s=k20201202; t=1679757503;
+        bh=oo6E+Xz8WFT652hkrNiEygyhzHj1OHj9IRZztciFppk=;
         h=From:To:Cc:Subject:Date:From;
-        b=d6k+DhKOvruw0egjMdatWqCIm8t9wwp/hbNrSwBDGJ4zak4fS1/vrm+THCRoq0yXa
-         JzShFpPIn2NLWRrsvNzSGAqgHiB3QrmoELVFGAVb28ImE/BECymAU8+6h8OK0pQDx/
-         KIVuEqy0Pfq7rYbahhnvQSMuhywzmqgOh5eVIxT52rUaderVuj0oN25UdofXVNzSOz
-         JBh8OAzQ1LLxRzN9FXMFmrQ8LEDCypDaJaqTOY0rq5mlHKNZVOUapCE+9COHqT4of5
-         Qn27DKbzgn2WM7Hf08A4ixZkxZ3UnTvra4m+cLSkjGOgKvGfRXnLsx0y0THh6Fyi+g
-         bEdDA5fIEHytg==
+        b=onmPrt8ec/AGWTGDj9ryBF+U6FpJsvIcOREfG46slzOQOFZtIMETjQcG/SDa2q+dC
+         MIyU1RhJ6yBtFUAe3dq4TvKIOj8lNuYq3BnG31smGU9IcmqwhzTApgwZ0sEsIaMq/s
+         vQUcBRI3Cek6rzhdUsXNJZApWz5dg1T2gAC9RhrA9aNvmp7wex7aVD+/6VwS9KzCT1
+         WydeXFSqa8VwlonS3CCPyzkgi/knIXYq5HN812MkIj1JgypxXGokc+/YpjeVu3dWXV
+         Wb4LdkuHo/PpWLTPfYQmQ3E4rFCJ7vaf/XccIS61GmGl6Ov+VZC2vSIMIqaI4t1q1B
+         OzSC1FgonV0qg==
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH] kbuild: fix package build error due to broken symlinks
-Date:   Sat, 25 Mar 2023 23:19:09 +0900
-Message-Id: <20230325141909.2512452-1-masahiroy@kernel.org>
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH 1/3] kconfig: menuconfig: remove OLD_NCURSES macro
+Date:   Sun, 26 Mar 2023 00:18:15 +0900
+Message-Id: <20230325151817.2651544-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -54,65 +51,85 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-'make deb-pkg' and 'make rpm-pkg' fail if a broken symlink exists in
-a dirty source tree. Handle symlinks properly, and also, keep the
-executable permission.
+This code has been here for more than 20 years. The bug in the old days
+no longer matters.
 
-Fixes: 05e96e96a315 ("kbuild: use git-archive for source package creation")
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/package/gen-diff-patch | 36 +++++++++++++++++++++++++---------
- 1 file changed, 27 insertions(+), 9 deletions(-)
+ scripts/kconfig/lxdialog/dialog.h  | 16 ----------------
+ scripts/kconfig/lxdialog/menubox.c |  8 --------
+ scripts/kconfig/lxdialog/textbox.c |  9 ---------
+ 3 files changed, 33 deletions(-)
 
-diff --git a/scripts/package/gen-diff-patch b/scripts/package/gen-diff-patch
-index f842ab50a780..23551de92e1b 100755
---- a/scripts/package/gen-diff-patch
-+++ b/scripts/package/gen-diff-patch
-@@ -23,16 +23,34 @@ fi
- git -C ${srctree} status --porcelain --untracked-files=all |
- while read stat path
- do
--	if [ "${stat}" = '??' ]; then
--
--		if ! diff -u /dev/null "${srctree}/${path}" > .tmp_diff &&
--			! head -n1 .tmp_diff | grep -q "Binary files"; then
--			{
--				echo "--- /dev/null"
--				echo "+++ linux/$path"
--				cat .tmp_diff | tail -n +3
--			} >> ${untracked_patch}
-+	if [ "${stat}" != '??' ]; then
-+		continue
-+	fi
-+
-+	if [ -L "${path}" ]; then
-+		{
-+			echo "diff --git a/${path} b/${path}"
-+			echo "new file mode 120000"
-+			echo "--- /dev/null"
-+			echo "+++ b/$path"
-+			echo "@@ -0,0 +1 @@"
-+			printf "+"; readlink ${path}
-+			echo '\ No newline at end of file'
-+		} >> ${untracked_patch}
-+	elif ! diff -u /dev/null "${srctree}/${path}" > .tmp_diff &&
-+	     ! head -n1 .tmp_diff | grep -q "Binary files"; then
-+		if [ -x ${path} ]; then
-+			mode=100755
-+		else
-+			mode=100644
- 		fi
-+		{
-+			echo "diff --git a/${path} b/${path}"
-+			echo "new file mode ${mode}"
-+			echo "--- /dev/null"
-+			echo "+++ b/$path"
-+			cat .tmp_diff | tail -n +3
-+		} >> ${untracked_patch}
- 	fi
- done
+diff --git a/scripts/kconfig/lxdialog/dialog.h b/scripts/kconfig/lxdialog/dialog.h
+index 68b565e3c495..bd2da3a928a7 100644
+--- a/scripts/kconfig/lxdialog/dialog.h
++++ b/scripts/kconfig/lxdialog/dialog.h
+@@ -18,22 +18,6 @@
+ #endif
+ #include <ncurses.h>
  
+-/*
+- * Colors in ncurses 1.9.9e do not work properly since foreground and
+- * background colors are OR'd rather than separately masked.  This version
+- * of dialog was hacked to work with ncurses 1.9.9e, making it incompatible
+- * with standard curses.  The simplest fix (to make this work with standard
+- * curses) uses the wbkgdset() function, not used in the original hack.
+- * Turn it off if we're building with 1.9.9e, since it just confuses things.
+- */
+-#if defined(NCURSES_VERSION) && defined(_NEED_WRAP) && !defined(GCC_PRINTFLIKE)
+-#define OLD_NCURSES 1
+-#undef  wbkgdset
+-#define wbkgdset(w,p)		/*nothing */
+-#else
+-#define OLD_NCURSES 0
+-#endif
+-
+ #define TR(params) _tracef params
+ 
+ #define KEY_ESC 27
+diff --git a/scripts/kconfig/lxdialog/menubox.c b/scripts/kconfig/lxdialog/menubox.c
+index 58c2f8afe59b..0e333284e947 100644
+--- a/scripts/kconfig/lxdialog/menubox.c
++++ b/scripts/kconfig/lxdialog/menubox.c
+@@ -63,15 +63,7 @@ static void do_print_item(WINDOW * win, const char *item, int line_y,
+ 	/* Clear 'residue' of last item */
+ 	wattrset(win, dlg.menubox.atr);
+ 	wmove(win, line_y, 0);
+-#if OLD_NCURSES
+-	{
+-		int i;
+-		for (i = 0; i < menu_width; i++)
+-			waddch(win, ' ');
+-	}
+-#else
+ 	wclrtoeol(win);
+-#endif
+ 	wattrset(win, selected ? dlg.item_selected.atr : dlg.item.atr);
+ 	mvwaddstr(win, line_y, item_x, menu_item);
+ 	if (hotkey) {
+diff --git a/scripts/kconfig/lxdialog/textbox.c b/scripts/kconfig/lxdialog/textbox.c
+index 4e339b12664e..4a6ff9de45b9 100644
+--- a/scripts/kconfig/lxdialog/textbox.c
++++ b/scripts/kconfig/lxdialog/textbox.c
+@@ -336,16 +336,7 @@ static void print_line(WINDOW * win, int row, int width)
+ 	waddnstr(win, line, MIN(strlen(line), width - 2));
+ 
+ 	/* Clear 'residue' of previous line */
+-#if OLD_NCURSES
+-	{
+-		int x = getcurx(win);
+-		int i;
+-		for (i = 0; i < width - x; i++)
+-			waddch(win, ' ');
+-	}
+-#else
+ 	wclrtoeol(win);
+-#endif
+ }
+ 
+ /*
 -- 
 2.34.1
 
