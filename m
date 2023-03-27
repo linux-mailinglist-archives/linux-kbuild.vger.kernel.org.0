@@ -2,119 +2,110 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D06506CA791
-	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Mar 2023 16:28:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DF446CA89D
+	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Mar 2023 17:08:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232635AbjC0O2R (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 27 Mar 2023 10:28:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49350 "EHLO
+        id S232287AbjC0PIS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 27 Mar 2023 11:08:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233145AbjC0O15 (ORCPT
+        with ESMTP id S232405AbjC0PIR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 27 Mar 2023 10:27:57 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BBB344AC;
-        Mon, 27 Mar 2023 07:27:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679927237; x=1711463237;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1MXFA7b+qpjUvdowUV3HUCrOHcVQ/STW7k81imYGgDE=;
-  b=cMnxglVcmfH2PxbwDjzE7Z3E0Ia0/7GpCw+9raCMBxQrvNvXNclnx/rz
-   brFOKPZLaRk974xo2qUW+TJc32qRWlbg/8FP7DFTYvNiquG/cc3RJhmpz
-   P9/bUFLltAatrn1vTbSAWqGc4ZQfYncw93X+QmeAB+q+QhWU/vI0cX70d
-   PZPIGXjO5nU5JJQze/6qsK/t8WtRUODfFhzahwRY4EsVtmF5/G0R5f9nQ
-   5GZZnU6PI9DNx8QHFdMF7w2MPXsJeu79clf/JztTnNJqToIIGFVY97J1c
-   hUudWlXZmXPq+eVxirvsfKPImqnHFsidzvKZwTnPGctujivK8BirvHtfX
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="341851359"
-X-IronPort-AV: E=Sophos;i="5.98,294,1673942400"; 
-   d="scan'208";a="341851359"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 07:27:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="633616358"
-X-IronPort-AV: E=Sophos;i="5.98,294,1673942400"; 
-   d="scan'208";a="633616358"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 27 Mar 2023 07:27:14 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pgnoX-000HlX-2W;
-        Mon, 27 Mar 2023 14:27:13 +0000
-Date:   Mon, 27 Mar 2023 22:26:24 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Palmer Dabbelt <palmer@rivosinc.com>, linux-sh@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH v3] sh: Use generic GCC library routines
-Message-ID: <202303272214.RxzpA6bP-lkp@intel.com>
-References: <74dbe68dc8e2ffb6180092f73723fe21ab692c7a.1679566500.git.geert+renesas@glider.be>
+        Mon, 27 Mar 2023 11:08:17 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA74E270F
+        for <linux-kbuild@vger.kernel.org>; Mon, 27 Mar 2023 08:08:15 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6D031B8159F
+        for <linux-kbuild@vger.kernel.org>; Mon, 27 Mar 2023 15:08:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1616EC433EF
+        for <linux-kbuild@vger.kernel.org>; Mon, 27 Mar 2023 15:08:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679929693;
+        bh=qECKIIlTadlXffEwRFmMvreuozOw+cKsB0lw6M/qlMw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=kisYKKd5UjYMDepAnFqu4ivQ8K04wVs4kT4K9EsgfolNZ1ga4EuYJdaFKNH92y8AR
+         /QQSCW5gFICx1rUrEuZbvy/WmE/ACmkpInEJWoolo9ip69jlajanGlHXWH/PN/yorZ
+         DMEmslnRN3C7d37P/XhgIlLYb0p34y//6cgZ+keRq2lm13cTwDC3huYWk6tuU1XFql
+         jFDj9junCfhhXgLce82dx4yeek8TfAfZ+oxHZ9RxBnMslyBeB6ZzCQjf9P71VVJMpN
+         A4YyYqYXNAA0dmPOZxUSC7/RIfTRsV2VK7tBR489Ga0OOx6JsBuuPD6rk81oY7xCgQ
+         mgwddSyD0bGcw==
+Received: by mail-oi1-f170.google.com with SMTP id r14so900490oiw.12
+        for <linux-kbuild@vger.kernel.org>; Mon, 27 Mar 2023 08:08:13 -0700 (PDT)
+X-Gm-Message-State: AO0yUKWy80UOBP59qr2akTOv6RRJJJWoFBqKEUnq/c86SfRK8DLhnfK7
+        kTHhXIxKTU0w/GUEZTjSaA0rXKV30bn6/Zg+udI=
+X-Google-Smtp-Source: AK7set+KUWH9z0VKEAZ05WfUY5O2VgBkZMkVwE5hZ2pFRfzyyYVDG3d162k+Hbo85myXBpua8WKVHvBGdIsuT4toToM=
+X-Received: by 2002:a05:6808:284:b0:384:33df:4dfc with SMTP id
+ z4-20020a056808028400b0038433df4dfcmr3296890oic.11.1679929692291; Mon, 27 Mar
+ 2023 08:08:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <74dbe68dc8e2ffb6180092f73723fe21ab692c7a.1679566500.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+References: <f5434ce4-3b10-4052-85b8-5aaf8e58b09a@skade.local>
+In-Reply-To: <f5434ce4-3b10-4052-85b8-5aaf8e58b09a@skade.local>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 28 Mar 2023 00:07:35 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT_24C-EJeEHu9=RAzB8nBEsS6JRpQdqB-GLoj0koGuzg@mail.gmail.com>
+Message-ID: <CAK7LNAT_24C-EJeEHu9=RAzB8nBEsS6JRpQdqB-GLoj0koGuzg@mail.gmail.com>
+Subject: Re: recent kbuild change (36862e14e31611f9786622db366327209a7aede7)
+ broke Debian headers pkg
+To:     Tobias Klausmann <klausman@schwarzvogel.de>
+Cc:     linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Geert,
+On Mon, Mar 27, 2023 at 8:11=E2=80=AFPM Tobias Klausmann
+<klausman@schwarzvogel.de> wrote:
+>
+> Hey,
+>
+> I recently noticed that my generated .deb files for linux-headers had
+> broken paths:
+>
+> $ dpkg -c '../linux-headers-6.3.0-rc3_6.3.0-rc3-35_amd64.deb'
+> [...]
+> drwxr-xr-x root/root         0 2023-03-27 11:10 ./usr/src/linux-headers-/=
+tools/
+> drwxr-xr-x root/root         0 2023-03-27 11:10 ./usr/src/linux-headers-/=
+tools/objtool/
+> -rwxr-xr-x root/root    843880 2023-03-27 11:10 ./usr/src/linux-headers-/=
+tools/objtool/objtool
+> [...]
+>
+> I bisected it, and it seems the commit in the subject is the culprit. I
+> tried figuring out what exactly broke, but my Makefile skills are all
+> atrophied :)
+>
+> I can provide more info as needed. Also, if you prefer, I can report
+> this on the kernel Bugzilla.
 
-I love your patch! Perhaps something to improve:
+This was fixed by the following patch.
+Now it is in linux-next.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.3-rc4 next-20230327]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Geert-Uytterhoeven/sh-Use-generic-GCC-library-routines/20230323-181932
-patch link:    https://lore.kernel.org/r/74dbe68dc8e2ffb6180092f73723fe21ab692c7a.1679566500.git.geert%2Brenesas%40glider.be
-patch subject: [PATCH v3] sh: Use generic GCC library routines
-config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20230327/202303272214.RxzpA6bP-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/f81d82f320398d37e233429781ed14069e3eaf53
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Geert-Uytterhoeven/sh-Use-generic-GCC-library-routines/20230323-181932
-        git checkout f81d82f320398d37e233429781ed14069e3eaf53
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303272214.RxzpA6bP-lkp@intel.com/
-
-Note: functions only called from assembly code should be annotated with the asmlinkage attribute
-All warnings (new ones prefixed by >>):
-
-   In file included from arch/sh/boot/compressed/ashldi3.c:2:
->> arch/sh/boot/compressed/../../../../lib/ashldi3.c:9:19: warning: no previous prototype for '__ashldi3' [-Wmissing-prototypes]
-       9 | long long notrace __ashldi3(long long u, word_type b)
-         |                   ^~~~~~~~~
+https://patchwork.kernel.org/project/linux-kbuild/patch/3351f907cfd0b5d8372=
+e858a8ec9065cc2bd91df.1679434718.git.kevin@kevinlocke.name/
 
 
-vim +/__ashldi3 +9 arch/sh/boot/compressed/../../../../lib/ashldi3.c
 
-b35cd9884fa5d8 Palmer Dabbelt 2017-05-23  8  
-b35cd9884fa5d8 Palmer Dabbelt 2017-05-23 @9  long long notrace __ashldi3(long long u, word_type b)
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+
+> Best,
+> Tobias
+>
+> --
+> Sent from aboard the Culture ship
+>         GCU (Ridge Class) Jaundiced Outlook
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
