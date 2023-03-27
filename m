@@ -2,85 +2,161 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EAB96CAC0B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Mar 2023 19:44:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92BFF6CB176
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Mar 2023 00:12:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230139AbjC0RoU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 27 Mar 2023 13:44:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47702 "EHLO
+        id S230014AbjC0WMi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 27 Mar 2023 18:12:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230407AbjC0RoT (ORCPT
+        with ESMTP id S229501AbjC0WMh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 27 Mar 2023 13:44:19 -0400
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [IPv6:2001:67c:2050:0:465::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABE9B1998;
-        Mon, 27 Mar 2023 10:44:17 -0700 (PDT)
-Received: from smtp2.mailbox.org (unknown [10.196.197.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4PlgDG04W2z9sbl;
-        Mon, 27 Mar 2023 19:44:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-        t=1679939054;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=KjDX25+NKaaKoD5YHcl9oKe8i5e92yTlVSF3eB2pmAA=;
-        b=ZsFEgOxGPbZl0s8MAKoWU+degbW2c4xvF8EOESTFviixw7X8DR8QXTTgWmFisYsVVLwC64
-        ur/Uey+Cwgc1fGvUva6WYfWKWdXidhKqDqGaQ5BdYUalzvIae7ZMtCvQISAmqg3OFwaCbh
-        Jp5NGLdwhSwRyDPawbO4AN6aJqYz3ngGi99VHMmpLX/DM9orcRR3JbWC4++yffb1uMJRwC
-        S9Kkqs195WrUG6Gea276f3oU6Bh1KwZ17Aqeoi0+KtXX06fb15ul6VxSRWj7D07eL/zhhK
-        gVlSgG1PL+D7/XBnR74IcP3Z8uI3IshAoQJp48uDgvInOhwib9SD6VWedmsdnw==
-Message-ID: <1de9eccd-8570-3b69-4be2-347e862bcc33@mailbox.org>
-Date:   Mon, 27 Mar 2023 17:44:07 +0000
+        Mon, 27 Mar 2023 18:12:37 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 042A7FB
+        for <linux-kbuild@vger.kernel.org>; Mon, 27 Mar 2023 15:12:36 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id u20so6694943pfk.12
+        for <linux-kbuild@vger.kernel.org>; Mon, 27 Mar 2023 15:12:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1679955155;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V7ZNQ5vjpwd7R42XQrkWv8310d6dUWZkU3XZU5SoAJo=;
+        b=Q1yKGQLoJfM+HWC7tP5mFSqWLk4J0mVSYBJ2lQf2l3yZQEnGF0+dXkdNTH+MrhfUNM
+         OXLWPIC2xI+XdrAznpFxXQoi6DhZ+FxiafpprzeZIi4YfHHNVOe53bcy1DsOWzEPMfeF
+         PGr/eYKlzUohPyMY31QdHgsBHR6d3QFWSXqKGyClR9cuBLBPtEuogiWZP+B/z5Teo2Dr
+         DYdpl3QQW0z9GZYN+MSUMmlGV7bg+IH1MB2mN+bBiSIYK/6lEGL9OnDB29vLBJNLamH6
+         nWljN0GZfjFF5K5WhenQxTIpJutOrhy+blWEAkArggo0viTvvj177ckimP0gO/eafVwi
+         yvxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679955155;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=V7ZNQ5vjpwd7R42XQrkWv8310d6dUWZkU3XZU5SoAJo=;
+        b=2vYBHnLn9Vncj5kYhhTe3njFH8Wn3shVh5nwlbOFWKaNs5sqYCFbpvIgdReHizscGQ
+         gDBBOfynbLT8MzWN8zesv15HooTkyZUYKyzSLymJzLUNZNNBrzPIkqkoe/Bc2vt25gPn
+         VaZHJbsypmpAsscD9z5Jn6dqIQgCQyCyMLnxakr6dLk08ZRr1XCQgW9oJAIzBbuq8YzC
+         po4fA4hyr9ED/waMX3NmWwO5gIUfcwXgHt7EsHC9Sjo9bIqI0dGVhyu/KSFAmRS70iwc
+         VxytLNaviPTTrMdw7zXp+lZX0GYpQuJ04+dKtQGeedVRwD3LHmUh8D+xqhquN/oPTfnf
+         XZUQ==
+X-Gm-Message-State: AAQBX9dXJb16XiWhY9CDTYCM8PNuVgSEz9g2aHU9PaZPOaQ5mv6gRPRi
+        4Cxaz02Q8HVHN25nb9FCSH3guSq3Pgs2o9hVKmO2oQ==
+X-Google-Smtp-Source: AKy350bYwQem0GhjZOScZ9GwtnL6TWyI1IM4jybdrpoYRsAE3bh54QWxNFYp2c1iazl+9mV7SBW0PIgm8yA8LdllWa0=
+X-Received: by 2002:a63:446:0:b0:503:7be3:e81d with SMTP id
+ 67-20020a630446000000b005037be3e81dmr3549449pge.1.1679955155235; Mon, 27 Mar
+ 2023 15:12:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Language: en-US
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-From:   Tor Vic <torvic9@mailbox.org>
-Subject: [Question] Restore previous "local tag" behaviour
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: c6ada957306ea23e075
-X-MBO-RS-META: 1atenzh7tnubjtdnugqjqbrmbwkbf6xu
-X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+References: <20230326182120.194541-1-hi@alyssa.is>
+In-Reply-To: <20230326182120.194541-1-hi@alyssa.is>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Mon, 27 Mar 2023 15:12:23 -0700
+Message-ID: <CAKwvOdmTLCqLV8bfXY4X0xgg9eYaVNDEUwzbvNrK-SUTVhuxRQ@mail.gmail.com>
+Subject: Re: [PATCH v2] purgatory: fix disabling debug info
+To:     Alyssa Ross <hi@alyssa.is>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nick Cao <nickcao@nichi.co>, linux-kbuild@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+        linux-riscv@lists.infradead.org, Tom Rix <trix@redhat.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-15.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,ENV_AND_HDR_SPF_MATCH,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL,
+        USER_IN_DEF_SPF_WL autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi,
+On Sun, Mar 26, 2023 at 11:23=E2=80=AFAM Alyssa Ross <hi@alyssa.is> wrote:
+>
+> Since 32ef9e5054ec, -Wa,-gdwarf-2 is no longer used in KBUILD_AFLAGS.
+> Instead, it includes -g, the appropriate -gdwarf-* flag, and also the
+> -Wa versions of both of those if building with Clang and GNU as.  As a
+> result, debug info was being generated for the purgatory objects, even
+> though the intention was that it not be.
 
-When I'm building my kernels, I used to tag my personal releases with a 
-similar annotated tag commit as with vanilla kernel, just appending 
-"-tv" or similar to it, i.e. "v6.3-rc4" becomes "v6.3-rc4-tv".
+Ah, good catch!
 
-This has worked just fine so far, but...
+>
+> Fixes: 32ef9e5054ec ("Makefile.debug: re-enable debug info for .S files")
+> Signed-off-by: Alyssa Ross <hi@alyssa.is>
+> Cc: stable@vger.kernel.org
+> ---
+>
+> Difference from v2: replace each AFLAGS_REMOVE_* assignment with a
+> single aflags-remove-y line, and use foreach to add the -Wa versions,
+> as suggested by Masahiro Yamada.
+>
+>  arch/riscv/purgatory/Makefile | 7 +------
+>  arch/x86/purgatory/Makefile   | 3 +--
+>  2 files changed, 2 insertions(+), 8 deletions(-)
+>
+> diff --git a/arch/riscv/purgatory/Makefile b/arch/riscv/purgatory/Makefil=
+e
+> index d16bf715a586..5730797a6b40 100644
+> --- a/arch/riscv/purgatory/Makefile
+> +++ b/arch/riscv/purgatory/Makefile
+> @@ -84,12 +84,7 @@ CFLAGS_string.o                      +=3D $(PURGATORY_=
+CFLAGS)
+>  CFLAGS_REMOVE_ctype.o          +=3D $(PURGATORY_CFLAGS_REMOVE)
+>  CFLAGS_ctype.o                 +=3D $(PURGATORY_CFLAGS)
+>
+> -AFLAGS_REMOVE_entry.o          +=3D -Wa,-gdwarf-2
+> -AFLAGS_REMOVE_memcpy.o         +=3D -Wa,-gdwarf-2
+> -AFLAGS_REMOVE_memset.o         +=3D -Wa,-gdwarf-2
+> -AFLAGS_REMOVE_strcmp.o         +=3D -Wa,-gdwarf-2
+> -AFLAGS_REMOVE_strlen.o         +=3D -Wa,-gdwarf-2
+> -AFLAGS_REMOVE_strncmp.o                +=3D -Wa,-gdwarf-2
 
-Since commit 6ab7e1f95e96f0c688ae132b0e9a16c0f206689d ("setlocalversion: 
-use only the correct release tag for git-describe"), this is not taken 
-into account anymore, it uses the "git describe" tag instead of using 
-the actually tagged commit as "kernelrelease".
+Removing the explicit `-Wa,-gdwarf-2` makes sense; nothing ever sets it.
 
-Is there a way to restore the previous behaviour without having to 
-revert this (and preceding) commits?
+> +asflags-remove-y               +=3D $(foreach x, -g -gdwarf-4 -gdwarf-5,=
+ $(x) -Wa,$(x))
 
-I know that we can disable CONFIG_LOCALVERSION_AUTO=y and append 
-directly to CONFIG_LOCALVERSION, but maybe someone knows how to use the 
-"old" way of using tags...?
+Is it simpler to just append `-g0` to the running list of asflags;
+that should also disable the emission of debug info? Or does that not
+remove debug info from the assembler?
 
-In other words, when I have a local tag, I want "kernelrelease" to use 
-just that tag, and when I don't tag anything, it should just use the 
-standard "git describe" tag.
+Either way:
+Acked-by: Nick Desaulniers <ndesaulniers@google.com>
+and thanks for the patch!
 
-For the moment I have just reverted the related commits as they don't 
-serve any purpose for my needs.
+>
+>  $(obj)/purgatory.ro: $(PURGATORY_OBJS) FORCE
+>                 $(call if_changed,ld)
+> diff --git a/arch/x86/purgatory/Makefile b/arch/x86/purgatory/Makefile
+> index 17f09dc26381..82fec66d46d2 100644
+> --- a/arch/x86/purgatory/Makefile
+> +++ b/arch/x86/purgatory/Makefile
+> @@ -69,8 +69,7 @@ CFLAGS_sha256.o                       +=3D $(PURGATORY_=
+CFLAGS)
+>  CFLAGS_REMOVE_string.o         +=3D $(PURGATORY_CFLAGS_REMOVE)
+>  CFLAGS_string.o                        +=3D $(PURGATORY_CFLAGS)
+>
+> -AFLAGS_REMOVE_setup-x86_$(BITS).o      +=3D -Wa,-gdwarf-2
+> -AFLAGS_REMOVE_entry64.o                        +=3D -Wa,-gdwarf-2
+> +asflags-remove-y               +=3D $(foreach x, -g -gdwarf-4 -gdwarf-5,=
+ $(x) -Wa,$(x))
+>
+>  $(obj)/purgatory.ro: $(PURGATORY_OBJS) FORCE
+>                 $(call if_changed,ld)
+>
+> base-commit: da8e7da11e4ba758caf4c149cc8d8cd555aefe5f
+> --
+> 2.37.1
+>
 
-Cheers,
 
-Tor Vic
+--=20
+Thanks,
+~Nick Desaulniers
