@@ -2,120 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 95C4E6CB185
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Mar 2023 00:18:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAA486CB1E1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Mar 2023 00:41:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231174AbjC0WSY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 27 Mar 2023 18:18:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51876 "EHLO
+        id S230339AbjC0Wlm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 27 Mar 2023 18:41:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229611AbjC0WSX (ORCPT
+        with ESMTP id S229547AbjC0Wll (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 27 Mar 2023 18:18:23 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DC091BE2
-        for <linux-kbuild@vger.kernel.org>; Mon, 27 Mar 2023 15:18:21 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id t10so42094924edd.12
-        for <linux-kbuild@vger.kernel.org>; Mon, 27 Mar 2023 15:18:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1679955500;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8qpaub3I/CyGwEFR/k/WmlBCDNumW/+SJIaNcuoNk9k=;
-        b=sLjlJgjeoT0WV0qFn9qz1kIcxyac6pMVMv4H0/t9YS7zXIrH7YfP7jRP4vvtxYuMhv
-         ZkjmSM2TjJ2zegpBf5QGdb0Mg2dEBQNtRk9nXqhWfdzK8Cn2PNTlxJjlOr4L+7Qk675Y
-         nXesSbqZ55WgkfqcvQkclW2y9t9tEOxFKzyyUPFbBZcRrU7ShBkSWppcY0urgbLMqJbf
-         tLMwthWt0GlBeegianqR6puXwKX0gRuaDR6yup4MiyrXZu76w9isj8TE+VUN+DdOSY4A
-         IQCaYyBU7XaWxUoZ4cGVm4P8s5+myV0YBVlJc6RiTvo7dF/Tw2pzx5QhD46MOXhuxEcU
-         F3DQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679955500;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8qpaub3I/CyGwEFR/k/WmlBCDNumW/+SJIaNcuoNk9k=;
-        b=jVKOT5oVLJwc7d11M9waGkyZCQ6HsCVCuYj4w17PU5j5OY3qUM2AcBbSGpUR4bp1Za
-         38WEk+14/s8WH/LSyj7Z8Kx76pdyEYdlBKsmXemcmzSwmQt+MOShJS3QttEyRkeQ//YF
-         bxqN9djJWBGHfHRhzkyN/VPx3vaLRW++/L3zYfnqwvpuO9a/Zyap2c8oks76VMhBDVWP
-         IgAd+1ePb42CRhL6KYD2CKozTVmWJFkt95HZbOqodTI7shiB8stEMTsHDA8nxdpmJcaw
-         Pi5YHGY70aCt9b+Y5z1SSBfg1OJDSr6hFHoiUP1M54/PoBGH6p2vAikfi9zP6Sw0Xd9e
-         ZHyQ==
-X-Gm-Message-State: AAQBX9dvs+x4PKzkHIUHBcwRL+VVkH35N0VeS5/+oP2e60TJymIWa8IW
-        uAkIUsWQZNRot/Eniqn1ChnpiugxdJa1PcZlyvKvDQ==
-X-Google-Smtp-Source: AKy350ZxmCEdEpv7zB21M0WMADbalXlh1cyjmKEj/2FvVMMOcTkxQAp+v5N9qKKGwJDSfSrEt6L5EOsdS/vzof9S9Yw=
-X-Received: by 2002:a17:907:cb86:b0:930:42bd:ef1d with SMTP id
- un6-20020a170907cb8600b0093042bdef1dmr6723296ejc.11.1679955499628; Mon, 27
- Mar 2023 15:18:19 -0700 (PDT)
+        Mon, 27 Mar 2023 18:41:41 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FDF11997;
+        Mon, 27 Mar 2023 15:41:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:Cc:References:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=a+NNIptAWHtq0o22h3h8YYC7VcufgPSmYOfMKiLUR+I=; b=OqOtUMdy3UQOY9O+ksejOWJt7t
+        Zi4oFgejgDUuQ8pErY4lxlS6Ug0uYmEP5RgzXWqcSHZkUFvCsuVEws1QH/BuPP4THh+vmlxMOXuiz
+        tWVbGE9sT6G0B9HtZGzSPK/MyLqRQImn5iRp5nXlsGPtO/VtfShs4EoJtJHwQLN3lpY+KjTQ+3rpQ
+        4fGp26V0dmZhTtcf39R6VZ0aUX68rD+EnZbEx7SmxM74n295n+ODQ2ja6CBj6PBvjw+WTqCDEMplT
+        5xmuFErCUWNPrnwPTzyP0mk+ZqppkhYaDL6hXNleQBjMa8uQU06U/J1MrIcdelGKEXfIlEGLUx1B+
+        7yzPYFkQ==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1pgvX1-00Cane-0u;
+        Mon, 27 Mar 2023 22:41:39 +0000
+Message-ID: <642d6944-4488-4dc6-99e9-209849b9771c@infradead.org>
+Date:   Mon, 27 Mar 2023 15:41:37 -0700
 MIME-Version: 1.0
-References: <20221219061758.23321-1-ashimida.1990@gmail.com>
- <20230325085416.95191-1-ashimida.1990@gmail.com> <20230327093016.GB4253@hirez.programming.kicks-ass.net>
-In-Reply-To: <20230327093016.GB4253@hirez.programming.kicks-ass.net>
-From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Mon, 27 Mar 2023 15:17:43 -0700
-Message-ID: <CABCJKueH6ohH27xCPz9a_ndRR26Na_mo=MGF3eqjwV2=gJy+wQ@mail.gmail.com>
-Subject: Re: [RFC/RFT,V2] CFI: Add support for gcc CFI in aarch64
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Dan Li <ashimida.1990@gmail.com>,
-        Aaron Tomlin <atomlin@redhat.com>,
-        Alexander Potapenko <glider@google.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Alexandru Elisei <alexandru.elisei@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Borislav Petkov <bp@suse.de>,
-        Brian Gerst <brgerst@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Changbin Du <changbin.du@intel.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        gcc-patches@gcc.gnu.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Juergen Gross <jgross@suse.com>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Marco Elver <elver@google.com>,
-        Mark Brown <broonie@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Michael Roth <michael.roth@amd.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Richard Sandiford <richard.sandiford@arm.com>,
-        Song Liu <song@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tom Rix <trix@redhat.com>, Uros Bizjak <ubizjak@gmail.com>,
-        Will Deacon <will@kernel.org>, x86@kernel.org,
-        Yuntao Wang <ytcoode@gmail.com>, Yu Zhao <yuzhao@google.com>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, llvm@lists.linux.dev,
-        linux-hardening@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-modules@vger.kernel.org, linux-perf-users@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-15.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,ENV_AND_HDR_SPF_MATCH,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL,
-        USER_IN_DEF_SPF_WL autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: Bug in recent changes to builddeb
+Content-Language: en-US
+To:     Ron Economos <re@w6rz.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <54a519ec-bfe5-60f3-fc43-707a11d38d2a@w6rz.net>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <54a519ec-bfe5-60f3-fc43-707a11d38d2a@w6rz.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -123,24 +55,24 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Mar 27, 2023 at 2:30=E2=80=AFAM Peter Zijlstra <peterz@infradead.or=
-g> wrote:
->
-> On Sat, Mar 25, 2023 at 01:54:16AM -0700, Dan Li wrote:
->
-> > In the compiler part[4], most of the content is the same as Sami's
-> > implementation[3], except for some minor differences, mainly including:
-> >
-> > 1. The function typeid is calculated differently and it is difficult
-> > to be consistent.
->
-> This means there is an effective ABI break between the compilers, which
-> is sad :-( Is there really nothing to be done about this?
+at least Cc linux-kbuild.
 
-I agree, this would be unfortunate, and would also be a compatibility
-issue with rustc where there's ongoing work to support
-clang-compatible CFI type hashes:
+On 3/27/23 13:55, Ron Economos wrote:
+> Looks like there's a bug in /scripts/package/builddeb. On lines 188, 197 and 198, the variable $version is used. However, it's not defined (removed with recent changes).
+> 
+> This causes the headers to be put into /usr/src/linux-headers-. When the next version is attempted to be installed, the following error occurs.
+> 
+> $ sudo dpkg -i linux-headers-6.3.0-rc4_6.3.0-rc4-2_riscv64.deb
+> Selecting previously unselected package linux-headers-6.3.0-rc4.
+> (Reading database ... 376925 files and directories currently installed.)
+> Preparing to unpack linux-headers-6.3.0-rc4_6.3.0-rc4-2_riscv64.deb ...
+> Unpacking linux-headers-6.3.0-rc4 (6.3.0-rc4-2) ...
+> dpkg: error processing archive linux-headers-6.3.0-rc4_6.3.0-rc4-2_riscv64.deb (--install):
+>  trying to overwrite '/usr/src/linux-headers-/.config', which is also in package linux-headers-6.3.0-rc3 6.3.0-rc3-4
+> dpkg-deb: error: paste subprocess was killed by signal (Broken pipe)
+> Errors were encountered while processing:
+>  linux-headers-6.3.0-rc4_6.3.0-rc4-2_riscv64.deb
+> 
 
-https://github.com/rust-lang/rust/pull/105452
-
-Sami
+-- 
+~Randy
