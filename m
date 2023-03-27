@@ -2,68 +2,114 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92BFF6CB176
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Mar 2023 00:12:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95C4E6CB185
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Mar 2023 00:18:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230014AbjC0WMi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 27 Mar 2023 18:12:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46884 "EHLO
+        id S231174AbjC0WSY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 27 Mar 2023 18:18:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbjC0WMh (ORCPT
+        with ESMTP id S229611AbjC0WSX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 27 Mar 2023 18:12:37 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 042A7FB
-        for <linux-kbuild@vger.kernel.org>; Mon, 27 Mar 2023 15:12:36 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id u20so6694943pfk.12
-        for <linux-kbuild@vger.kernel.org>; Mon, 27 Mar 2023 15:12:35 -0700 (PDT)
+        Mon, 27 Mar 2023 18:18:23 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DC091BE2
+        for <linux-kbuild@vger.kernel.org>; Mon, 27 Mar 2023 15:18:21 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id t10so42094924edd.12
+        for <linux-kbuild@vger.kernel.org>; Mon, 27 Mar 2023 15:18:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1679955155;
+        d=google.com; s=20210112; t=1679955500;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=V7ZNQ5vjpwd7R42XQrkWv8310d6dUWZkU3XZU5SoAJo=;
-        b=Q1yKGQLoJfM+HWC7tP5mFSqWLk4J0mVSYBJ2lQf2l3yZQEnGF0+dXkdNTH+MrhfUNM
-         OXLWPIC2xI+XdrAznpFxXQoi6DhZ+FxiafpprzeZIi4YfHHNVOe53bcy1DsOWzEPMfeF
-         PGr/eYKlzUohPyMY31QdHgsBHR6d3QFWSXqKGyClR9cuBLBPtEuogiWZP+B/z5Teo2Dr
-         DYdpl3QQW0z9GZYN+MSUMmlGV7bg+IH1MB2mN+bBiSIYK/6lEGL9OnDB29vLBJNLamH6
-         nWljN0GZfjFF5K5WhenQxTIpJutOrhy+blWEAkArggo0viTvvj177ckimP0gO/eafVwi
-         yvxg==
+        bh=8qpaub3I/CyGwEFR/k/WmlBCDNumW/+SJIaNcuoNk9k=;
+        b=sLjlJgjeoT0WV0qFn9qz1kIcxyac6pMVMv4H0/t9YS7zXIrH7YfP7jRP4vvtxYuMhv
+         ZkjmSM2TjJ2zegpBf5QGdb0Mg2dEBQNtRk9nXqhWfdzK8Cn2PNTlxJjlOr4L+7Qk675Y
+         nXesSbqZ55WgkfqcvQkclW2y9t9tEOxFKzyyUPFbBZcRrU7ShBkSWppcY0urgbLMqJbf
+         tLMwthWt0GlBeegianqR6puXwKX0gRuaDR6yup4MiyrXZu76w9isj8TE+VUN+DdOSY4A
+         IQCaYyBU7XaWxUoZ4cGVm4P8s5+myV0YBVlJc6RiTvo7dF/Tw2pzx5QhD46MOXhuxEcU
+         F3DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679955155;
+        d=1e100.net; s=20210112; t=1679955500;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=V7ZNQ5vjpwd7R42XQrkWv8310d6dUWZkU3XZU5SoAJo=;
-        b=2vYBHnLn9Vncj5kYhhTe3njFH8Wn3shVh5nwlbOFWKaNs5sqYCFbpvIgdReHizscGQ
-         gDBBOfynbLT8MzWN8zesv15HooTkyZUYKyzSLymJzLUNZNNBrzPIkqkoe/Bc2vt25gPn
-         VaZHJbsypmpAsscD9z5Jn6dqIQgCQyCyMLnxakr6dLk08ZRr1XCQgW9oJAIzBbuq8YzC
-         po4fA4hyr9ED/waMX3NmWwO5gIUfcwXgHt7EsHC9Sjo9bIqI0dGVhyu/KSFAmRS70iwc
-         VxytLNaviPTTrMdw7zXp+lZX0GYpQuJ04+dKtQGeedVRwD3LHmUh8D+xqhquN/oPTfnf
-         XZUQ==
-X-Gm-Message-State: AAQBX9dXJb16XiWhY9CDTYCM8PNuVgSEz9g2aHU9PaZPOaQ5mv6gRPRi
-        4Cxaz02Q8HVHN25nb9FCSH3guSq3Pgs2o9hVKmO2oQ==
-X-Google-Smtp-Source: AKy350bYwQem0GhjZOScZ9GwtnL6TWyI1IM4jybdrpoYRsAE3bh54QWxNFYp2c1iazl+9mV7SBW0PIgm8yA8LdllWa0=
-X-Received: by 2002:a63:446:0:b0:503:7be3:e81d with SMTP id
- 67-20020a630446000000b005037be3e81dmr3549449pge.1.1679955155235; Mon, 27 Mar
- 2023 15:12:35 -0700 (PDT)
+        bh=8qpaub3I/CyGwEFR/k/WmlBCDNumW/+SJIaNcuoNk9k=;
+        b=jVKOT5oVLJwc7d11M9waGkyZCQ6HsCVCuYj4w17PU5j5OY3qUM2AcBbSGpUR4bp1Za
+         38WEk+14/s8WH/LSyj7Z8Kx76pdyEYdlBKsmXemcmzSwmQt+MOShJS3QttEyRkeQ//YF
+         bxqN9djJWBGHfHRhzkyN/VPx3vaLRW++/L3zYfnqwvpuO9a/Zyap2c8oks76VMhBDVWP
+         IgAd+1ePb42CRhL6KYD2CKozTVmWJFkt95HZbOqodTI7shiB8stEMTsHDA8nxdpmJcaw
+         Pi5YHGY70aCt9b+Y5z1SSBfg1OJDSr6hFHoiUP1M54/PoBGH6p2vAikfi9zP6Sw0Xd9e
+         ZHyQ==
+X-Gm-Message-State: AAQBX9dvs+x4PKzkHIUHBcwRL+VVkH35N0VeS5/+oP2e60TJymIWa8IW
+        uAkIUsWQZNRot/Eniqn1ChnpiugxdJa1PcZlyvKvDQ==
+X-Google-Smtp-Source: AKy350ZxmCEdEpv7zB21M0WMADbalXlh1cyjmKEj/2FvVMMOcTkxQAp+v5N9qKKGwJDSfSrEt6L5EOsdS/vzof9S9Yw=
+X-Received: by 2002:a17:907:cb86:b0:930:42bd:ef1d with SMTP id
+ un6-20020a170907cb8600b0093042bdef1dmr6723296ejc.11.1679955499628; Mon, 27
+ Mar 2023 15:18:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230326182120.194541-1-hi@alyssa.is>
-In-Reply-To: <20230326182120.194541-1-hi@alyssa.is>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 27 Mar 2023 15:12:23 -0700
-Message-ID: <CAKwvOdmTLCqLV8bfXY4X0xgg9eYaVNDEUwzbvNrK-SUTVhuxRQ@mail.gmail.com>
-Subject: Re: [PATCH v2] purgatory: fix disabling debug info
-To:     Alyssa Ross <hi@alyssa.is>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nick Cao <nickcao@nichi.co>, linux-kbuild@vger.kernel.org,
+References: <20221219061758.23321-1-ashimida.1990@gmail.com>
+ <20230325085416.95191-1-ashimida.1990@gmail.com> <20230327093016.GB4253@hirez.programming.kicks-ass.net>
+In-Reply-To: <20230327093016.GB4253@hirez.programming.kicks-ass.net>
+From:   Sami Tolvanen <samitolvanen@google.com>
+Date:   Mon, 27 Mar 2023 15:17:43 -0700
+Message-ID: <CABCJKueH6ohH27xCPz9a_ndRR26Na_mo=MGF3eqjwV2=gJy+wQ@mail.gmail.com>
+Subject: Re: [RFC/RFT,V2] CFI: Add support for gcc CFI in aarch64
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Dan Li <ashimida.1990@gmail.com>,
+        Aaron Tomlin <atomlin@redhat.com>,
+        Alexander Potapenko <glider@google.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Alexandru Elisei <alexandru.elisei@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Borislav Petkov <bp@suse.de>,
+        Brian Gerst <brgerst@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Changbin Du <changbin.du@intel.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        gcc-patches@gcc.gnu.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Juergen Gross <jgross@suse.com>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Marco Elver <elver@google.com>,
+        Mark Brown <broonie@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Michael Roth <michael.roth@amd.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-        linux-riscv@lists.infradead.org, Tom Rix <trix@redhat.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        stable@vger.kernel.org
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Richard Sandiford <richard.sandiford@arm.com>,
+        Song Liu <song@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tom Rix <trix@redhat.com>, Uros Bizjak <ubizjak@gmail.com>,
+        Will Deacon <will@kernel.org>, x86@kernel.org,
+        Yuntao Wang <ytcoode@gmail.com>, Yu Zhao <yuzhao@google.com>,
+        Zhen Lei <thunder.leizhen@huawei.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, llvm@lists.linux.dev,
+        linux-hardening@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-modules@vger.kernel.org, linux-perf-users@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-15.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
@@ -77,86 +123,24 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Mar 26, 2023 at 11:23=E2=80=AFAM Alyssa Ross <hi@alyssa.is> wrote:
+On Mon, Mar 27, 2023 at 2:30=E2=80=AFAM Peter Zijlstra <peterz@infradead.or=
+g> wrote:
 >
-> Since 32ef9e5054ec, -Wa,-gdwarf-2 is no longer used in KBUILD_AFLAGS.
-> Instead, it includes -g, the appropriate -gdwarf-* flag, and also the
-> -Wa versions of both of those if building with Clang and GNU as.  As a
-> result, debug info was being generated for the purgatory objects, even
-> though the intention was that it not be.
+> On Sat, Mar 25, 2023 at 01:54:16AM -0700, Dan Li wrote:
+>
+> > In the compiler part[4], most of the content is the same as Sami's
+> > implementation[3], except for some minor differences, mainly including:
+> >
+> > 1. The function typeid is calculated differently and it is difficult
+> > to be consistent.
+>
+> This means there is an effective ABI break between the compilers, which
+> is sad :-( Is there really nothing to be done about this?
 
-Ah, good catch!
+I agree, this would be unfortunate, and would also be a compatibility
+issue with rustc where there's ongoing work to support
+clang-compatible CFI type hashes:
 
->
-> Fixes: 32ef9e5054ec ("Makefile.debug: re-enable debug info for .S files")
-> Signed-off-by: Alyssa Ross <hi@alyssa.is>
-> Cc: stable@vger.kernel.org
-> ---
->
-> Difference from v2: replace each AFLAGS_REMOVE_* assignment with a
-> single aflags-remove-y line, and use foreach to add the -Wa versions,
-> as suggested by Masahiro Yamada.
->
->  arch/riscv/purgatory/Makefile | 7 +------
->  arch/x86/purgatory/Makefile   | 3 +--
->  2 files changed, 2 insertions(+), 8 deletions(-)
->
-> diff --git a/arch/riscv/purgatory/Makefile b/arch/riscv/purgatory/Makefil=
-e
-> index d16bf715a586..5730797a6b40 100644
-> --- a/arch/riscv/purgatory/Makefile
-> +++ b/arch/riscv/purgatory/Makefile
-> @@ -84,12 +84,7 @@ CFLAGS_string.o                      +=3D $(PURGATORY_=
-CFLAGS)
->  CFLAGS_REMOVE_ctype.o          +=3D $(PURGATORY_CFLAGS_REMOVE)
->  CFLAGS_ctype.o                 +=3D $(PURGATORY_CFLAGS)
->
-> -AFLAGS_REMOVE_entry.o          +=3D -Wa,-gdwarf-2
-> -AFLAGS_REMOVE_memcpy.o         +=3D -Wa,-gdwarf-2
-> -AFLAGS_REMOVE_memset.o         +=3D -Wa,-gdwarf-2
-> -AFLAGS_REMOVE_strcmp.o         +=3D -Wa,-gdwarf-2
-> -AFLAGS_REMOVE_strlen.o         +=3D -Wa,-gdwarf-2
-> -AFLAGS_REMOVE_strncmp.o                +=3D -Wa,-gdwarf-2
+https://github.com/rust-lang/rust/pull/105452
 
-Removing the explicit `-Wa,-gdwarf-2` makes sense; nothing ever sets it.
-
-> +asflags-remove-y               +=3D $(foreach x, -g -gdwarf-4 -gdwarf-5,=
- $(x) -Wa,$(x))
-
-Is it simpler to just append `-g0` to the running list of asflags;
-that should also disable the emission of debug info? Or does that not
-remove debug info from the assembler?
-
-Either way:
-Acked-by: Nick Desaulniers <ndesaulniers@google.com>
-and thanks for the patch!
-
->
->  $(obj)/purgatory.ro: $(PURGATORY_OBJS) FORCE
->                 $(call if_changed,ld)
-> diff --git a/arch/x86/purgatory/Makefile b/arch/x86/purgatory/Makefile
-> index 17f09dc26381..82fec66d46d2 100644
-> --- a/arch/x86/purgatory/Makefile
-> +++ b/arch/x86/purgatory/Makefile
-> @@ -69,8 +69,7 @@ CFLAGS_sha256.o                       +=3D $(PURGATORY_=
-CFLAGS)
->  CFLAGS_REMOVE_string.o         +=3D $(PURGATORY_CFLAGS_REMOVE)
->  CFLAGS_string.o                        +=3D $(PURGATORY_CFLAGS)
->
-> -AFLAGS_REMOVE_setup-x86_$(BITS).o      +=3D -Wa,-gdwarf-2
-> -AFLAGS_REMOVE_entry64.o                        +=3D -Wa,-gdwarf-2
-> +asflags-remove-y               +=3D $(foreach x, -g -gdwarf-4 -gdwarf-5,=
- $(x) -Wa,$(x))
->
->  $(obj)/purgatory.ro: $(PURGATORY_OBJS) FORCE
->                 $(call if_changed,ld)
->
-> base-commit: da8e7da11e4ba758caf4c149cc8d8cd555aefe5f
-> --
-> 2.37.1
->
-
-
---=20
-Thanks,
-~Nick Desaulniers
+Sami
