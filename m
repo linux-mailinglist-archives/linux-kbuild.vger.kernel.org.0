@@ -2,99 +2,175 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 77B636CC9E7
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Mar 2023 20:10:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34CCF6CD143
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Mar 2023 06:53:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229765AbjC1SKa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 28 Mar 2023 14:10:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54254 "EHLO
+        id S229704AbjC2Exh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 29 Mar 2023 00:53:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229744AbjC1SK1 (ORCPT
+        with ESMTP id S229668AbjC2Exg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 28 Mar 2023 14:10:27 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CA6F10DA
-        for <linux-kbuild@vger.kernel.org>; Tue, 28 Mar 2023 11:10:26 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id l9-20020a17090a3f0900b0023d32684e7fso1975409pjc.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 28 Mar 2023 11:10:26 -0700 (PDT)
+        Wed, 29 Mar 2023 00:53:36 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84A742707
+        for <linux-kbuild@vger.kernel.org>; Tue, 28 Mar 2023 21:53:34 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id q7-20020a05600c46c700b003ef6e809574so5472482wmo.4
+        for <linux-kbuild@vger.kernel.org>; Tue, 28 Mar 2023 21:53:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1680027026;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=km7fy08G4kEB/TIVNrsWE7yzaGFZ6oh8e34L/aCO/yQ=;
-        b=R83hYeleOtndx4NUvnAHYwb3ZBN035iVXvYYlILl2mu16Uc7ElVT6LBee5DQA5DzEx
-         YVO6um2mTbSnTFJUVIUlXHYTJqnkPOJqb6IgtxyGHuaOf0r5rpbtgCw4IVctTpkZ+tcU
-         yFCj5COW7LLM17VjAOvLX+6xex6Ap5XvrpIaXkUTg3LS4S4UjdhcOdJdOw9zxSmzCQQ7
-         A5TqmadJ3HICmmrDHQZn74h6sgyr9qAytATojC+WBLU26XRO7rh+dTVP2U7ZSb3Ced5s
-         +3XCP6fL6jnWIU2JmcYq6U3SV++UPwMw+nR2JXXc5p1EAo6BU2XKGXMB3CqtVaWRVF24
-         qMOg==
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1680065613;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mo0pBz6wf3kyiWYQ9fjYRy+Wu64GhON7Bmz6ajIouOI=;
+        b=dT3vR+5BCE0d2cD8qefotDYbxWqPr15i/uHQCi1YF886RpaVStPW6F27dSe9spSiBr
+         nSo/S/VtEpndi0j2dD/H1lMx8HaUY3qjH1EQ0q68rn++tg5lbeV9YItR3H0UmqtidEr4
+         GKRKJRhc5o+iNCRWeEZHO5kblPX5hYBdEfCMio2bAlbhW/sSelRb5v3N5WHsZkyfM5Gj
+         becrsvXvlUJx1Mi33oacQC/hIR35TWFoCcR6S6AhtBxCZ8C9wt3Pf9FlTe+EOUXVxDTu
+         KpQUXUSJ49y/XaC9UKkb06EVDpFkbGgNuj1x5g1oHnS0J3RO9jlYM2uhXRKwop3WEa/o
+         XeAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680027026;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=km7fy08G4kEB/TIVNrsWE7yzaGFZ6oh8e34L/aCO/yQ=;
-        b=YGKb2YGl58PE6So/2Fxh3PVb+Bup0xw442PON1xXKTHmG/s5K5W4noOhnG63dTbt7s
-         tSWl1veJo6NwDT2KerjUkWsRQEIft9T+FkENV99hd5Z2eItZ99x3hTPl1YZGELYPSkT5
-         pLydRZaXBWOA7zFM7lcoIMUA6gwgwwHRvLUOdWVFhfEUhhbnWboEHxJFhiYJyzVy4zUw
-         Xq5lKazg7dZZCQTDKkUDnUaJ1IgvT9PdT1vxiFCzLeLjGD9F8Y0a7WoNRzrII/P/tggU
-         VwqsdOJlnt7/pbt9nPSKM1EPZ5IUbVjKXSkaQG3DknKw6pAUxz+pqFuxAeooFAT3VHN1
-         QzzQ==
-X-Gm-Message-State: AAQBX9fEfqsLmEbx5boBZwxzwgdb0XsRoZ47k+J7iidmlKAuYmF05SCM
-        VP4jY7L6KElf1i8x6fIl1ZY+Q2v64Zj8ocCdU49InQ==
-X-Google-Smtp-Source: AKy350bFkxgwz+FUb0iSzHiaE8CVnyj+jl389Z/yYPw87cUFAUN68oO045VBikwAwq2dps1mbxyw1iJcbK9FYSAJMhs=
-X-Received: by 2002:a17:90b:350c:b0:23b:349d:a159 with SMTP id
- ls12-20020a17090b350c00b0023b349da159mr8880302pjb.3.1680027025879; Tue, 28
- Mar 2023 11:10:25 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680065613;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Mo0pBz6wf3kyiWYQ9fjYRy+Wu64GhON7Bmz6ajIouOI=;
+        b=EJn9tGEep08pzA4zDybnK/M4315zDAWqQe87K36uNPSCiGPQK6R0G5mHNbyNapproL
+         3LyIP5nEG4lQ7z6hngnfEjE6APdaN+KYYqnTyk78tlvHXnX/Uv68bOofIG8H5vF8ne94
+         iI+SR4WMCBivpVqYMv5Pzcy3p7f7PyAwewJCPWYVZbpOZB27YaUlwy2/iePlTiQCQGNR
+         TH8oPHexZU8fcO4CIgYPvfY41fBAcCKRvxw8D5ZcTWUTZEa2mDA3F/yPjRNVLZ8Je9Ol
+         GDfZ8T3Qn/b3oEig5/oy1fMKxd9VidcG3EPJmfpFEZyVKmL5tpQuthB1WgWCi/dTFii0
+         /Zng==
+X-Gm-Message-State: AO0yUKVLPhnKdqGvlsPXI3djbPwPhD9GgA+r0ce8cGvkrQR4lau5UHrQ
+        0sqMPOgfttjyykjjHsgHQfTF3A==
+X-Google-Smtp-Source: AK7set9J+TBd/c5WkVGXfbeJnMQvLgoUo8YsvVH4bgNXSXp/VtTgvyfk23V2+90Kw1vfaq4rCqyaVA==
+X-Received: by 2002:a7b:c850:0:b0:3ed:29db:cb80 with SMTP id c16-20020a7bc850000000b003ed29dbcb80mr13580773wml.18.1680065613023;
+        Tue, 28 Mar 2023 21:53:33 -0700 (PDT)
+Received: from alex-rivos.home (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
+        by smtp.gmail.com with ESMTPSA id o6-20020a1c7506000000b003ee63fe5203sm757591wmc.36.2023.03.28.21.53.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Mar 2023 21:53:32 -0700 (PDT)
+From:   Alexandre Ghiti <alexghiti@rivosinc.com>
+To:     Nick Desaulniers <ndesaulniers@google.com>,
+        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kbuild@vger.kernel.org
+Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: [PATCH v9 0/6] Introduce 64b relocatable kernel
+Date:   Wed, 29 Mar 2023 06:53:23 +0200
+Message-Id: <20230329045329.64565-1-alexghiti@rivosinc.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-References: <20230327174140.8169-1-quic_johmoo@quicinc.com> <20230327174140.8169-3-quic_johmoo@quicinc.com>
-In-Reply-To: <20230327174140.8169-3-quic_johmoo@quicinc.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 28 Mar 2023 11:10:14 -0700
-Message-ID: <CAKwvOd=Za4=yOAXO-Aq+Jjw5TbQrc25xyVQne1sw4FE_h+3ybw@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] docs: dev-tools: Add UAPI checker documentation
-To:     John Moon <quic_johmoo@quicinc.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Todd Kjos <tkjos@google.com>,
-        Matthias Maennich <maennich@google.com>,
-        Giuliano Procida <gprocida@google.com>,
-        kernel-team@android.com, libabigail@sourceware.org,
-        Jordan Crouse <jorcrous@amazon.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Satya Durga Srinivasu Prabhala <quic_satyap@quicinc.com>,
-        Elliot Berman <quic_eberman@quicinc.com>,
-        Guru Das Srinagesh <quic_gurus@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-15.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,ENV_AND_HDR_SPF_MATCH,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL,
-        USER_IN_DEF_SPF_WL autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Mar 27, 2023 at 10:42=E2=80=AFAM John Moon <quic_johmoo@quicinc.com=
-> wrote:
->
-> Add detailed documentation for scripts/check-uapi.sh.
->
-> Signed-off-by: John Moon <quic_johmoo@quicinc.com>
+After multiple attempts, this patchset is now based on the fact that the
+64b kernel mapping was moved outside the linear mapping.
 
-Acked-by: Nick Desaulniers <ndesaulniers@google.com>
---=20
-Thanks,
-~Nick Desaulniers
+The first patch allows to build relocatable kernels but is not selected
+by default. That patch is a requirement for KASLR.
+The second and third patches take advantage of an already existing powerpc
+script that checks relocations at compile-time, and uses it for riscv.
+
+This patchset is rebased on top of:
+
+riscv: Use PUD/P4D/PGD pages for the linear mapping
+(https://patchwork.kernel.org/project/linux-riscv/list/?series=733603)
+base-commit-tag: v6.3-rc1
+
+Changes in v9:
+  * Fix gcc/llvm compilation errors by adding patch 1, thanks to Bjorn
+  * Move a patch to move rela.dyn outside of init (patch 2): it is a
+    separate patch to clearly explain why
+  * To effectively move rela.dyn to init, we need to add patch 6: separate patch since we may be
+    able at some point to revert (along with patch 2).
+  * Add a lot of orphan sections to the linker script
+
+Changes in v8:
+  * Fix UEFI boot by moving rela.dyn section into the data so that PE/COFF
+    loader actually copies the relocations too
+  * Fix check that used PGDIR instead of PUD which was not correct
+    for sv48 and sv57
+  * Fix PE/COFF header data size definition as it led to size of 0
+
+Changes in v7:
+  * Rebase on top of v5.15
+  * Fix LDFLAGS_vmlinux which was overriden when CONFIG_DYNAMIC_FTRACE was
+    set
+  * Make relocate_kernel static
+  * Add Ack from Michael
+
+Changes in v6:
+  * Remove the kernel move to vmalloc zone
+  * Rebased on top of for-next
+  * Remove relocatable property from 32b kernel as the kernel is mapped in
+    the linear mapping and would then need to be copied physically too
+  * CONFIG_RELOCATABLE depends on !XIP_KERNEL
+  * Remove Reviewed-by from first patch as it changed a bit
+
+Changes in v5:
+  * Add "static __init" to create_kernel_page_table function as reported by
+    Kbuild test robot
+  * Add reviewed-by from Zong
+  * Rebase onto v5.7
+
+Changes in v4:
+  * Fix BPF region that overlapped with kernel's as suggested by Zong
+  * Fix end of module region that could be larger than 2GB as suggested by Zong
+  * Fix the size of the vm area reserved for the kernel as we could lose
+    PMD_SIZE if the size was already aligned on PMD_SIZE
+  * Split compile time relocations check patch into 2 patches as suggested by Anup
+  * Applied Reviewed-by from Zong and Anup
+
+Changes in v3:
+  * Move kernel mapping to vmalloc
+
+Changes in v2:
+  * Make RELOCATABLE depend on MMU as suggested by Anup
+  * Rename kernel_load_addr into kernel_virt_addr as suggested by Anup
+  * Use __pa_symbol instead of __pa, as suggested by Zong
+  * Rebased on top of v5.6-rc3
+  * Tested with sv48 patchset
+  * Add Reviewed/Tested-by from Zong and Anup
+
+Alexandre Ghiti (6):
+  riscv: Prepare EFI header for relocatable kernels
+  riscv: Move .rela.dyn outside of init to avoid empty relocations
+  riscv: Introduce CONFIG_RELOCATABLE
+  powerpc: Move script to check relocations at compile time in scripts/
+  riscv: Check relocations at compile time
+  riscv: Use --emit-relocs in order to move .rela.dyn in init
+
+ arch/powerpc/tools/relocs_check.sh  | 18 ++--------
+ arch/riscv/Kconfig                  | 14 ++++++++
+ arch/riscv/Makefile                 |  7 ++--
+ arch/riscv/Makefile.postlink        | 49 ++++++++++++++++++++++++++
+ arch/riscv/boot/Makefile            |  7 ++++
+ arch/riscv/include/asm/set_memory.h |  3 ++
+ arch/riscv/kernel/efi-header.S      | 19 ++++++++--
+ arch/riscv/kernel/vmlinux.lds.S     | 26 ++++++++++----
+ arch/riscv/mm/Makefile              |  4 +++
+ arch/riscv/mm/init.c                | 54 ++++++++++++++++++++++++++++-
+ arch/riscv/tools/relocs_check.sh    | 26 ++++++++++++++
+ scripts/relocs_check.sh             | 20 +++++++++++
+ 12 files changed, 218 insertions(+), 29 deletions(-)
+ create mode 100644 arch/riscv/Makefile.postlink
+ create mode 100755 arch/riscv/tools/relocs_check.sh
+ create mode 100755 scripts/relocs_check.sh
+
+-- 
+2.37.2
+
