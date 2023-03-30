@@ -2,53 +2,54 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A2DD56D0462
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Mar 2023 14:10:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 916746D0C2A
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Mar 2023 19:04:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231321AbjC3MKJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 30 Mar 2023 08:10:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42560 "EHLO
+        id S232084AbjC3REe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 30 Mar 2023 13:04:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230185AbjC3MKI (ORCPT
+        with ESMTP id S232116AbjC3REa (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 30 Mar 2023 08:10:08 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D2744202;
-        Thu, 30 Mar 2023 05:10:07 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id t10so75404019edd.12;
-        Thu, 30 Mar 2023 05:10:07 -0700 (PDT)
+        Thu, 30 Mar 2023 13:04:30 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 930F25B8E;
+        Thu, 30 Mar 2023 10:04:28 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id b20so79181301edd.1;
+        Thu, 30 Mar 2023 10:04:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680178206;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GiRnxJYGLZl9gkE3Btj0DPwx3kYOXRqdQVjP40JuFAY=;
-        b=F1ak3hFr6X15BX5WccChl/IPbvU4a7NsfyYFRjtDQM6zmbxrqsLndm7btSBas8MJug
-         5tYIT50GpNMwK+mHzCvXXbZVNnOXh5Kqlpiz7/pvAOPxajXyiqpMrZM/SUUkzgNZPvEf
-         cW1+Epw8vv8URa2lBH4luvQP9dCvDn+Nr/nENjnZdhJ136wYh7uJMEZvOUbZSDaCKf46
-         48uA6AavC3uxBWsja340ItGoXOtQjd5Is0gBDpjjpq39kHdTlu0bf1N4rgv/CrhMSoOT
-         WRdXGG89dDMtxDhnM4gY5A1A+ScbIebdypev6ZMAag0pkpColvlhIu3fXpXsfusDWI1O
-         mZ7A==
+        d=gmail.com; s=20210112; t=1680195867;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mpi+z+1m9c/5uRG/3aPiuMWiZMpS1q80gTEBOdR4q6Q=;
+        b=c4bCgw/UXvmKQisPMFDGVyNibLfbmS8Rm10f/D59iAwdXyB15AW0jvMLMqKgbxhEwe
+         Ok+jZtrcuftqFVLu3mv8RwD2j1MAcZfDydLrwd9SdX5yha/fKZReTDcoKZx9uKK+EBd2
+         k/ikHUqrHhlqet5+4twIpUVCBVKzMcLL+0Ef/z1NsjzV0jay7d/jOqJmfirnkmy0c7Bs
+         cJWqjRMc6CiNmFYtOaTma68JtQPjQSENu+ByRWeDSvbt54v0sKeN4SoIMBn9kMekm2Z6
+         iRsF9/4BjT0f3yXETUScGBScMQc4sZlGP07JjWFujWIfNUJ2hsWCBCQRAsW8No5MfilE
+         Afew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680178206;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GiRnxJYGLZl9gkE3Btj0DPwx3kYOXRqdQVjP40JuFAY=;
-        b=i8bCWKCf/kbGxxKQZ/hXz5Cra1hkj+7Ziq7bCehs0ZZyfkFbAEckWNcwpRxOCuWy97
-         th99z5Tmz8GICYfbWaHG3q5WEunBWXaKl2Zzvq1gCQXLP4N0QOT3424BHSObgnzFpp9H
-         DilCzRu5sYv4OGsk6QVF7bwoDwqdYlJcaM1e51w9zv7fIMks8ZPuXK7/bgRlvelZk+YI
-         kTc9t5AP44dFEcdcSBDl5N6CACm8xCeyG8wojOBHEqX2RZvXonuAa1FA+DwF+goDMAkt
-         +kn4+wScbmhDCdgouVOTpUZbzGT8Fp3XskqUNnoTZQBNojJ1C2wizxq9xfqvTHztOrnW
-         wVTQ==
-X-Gm-Message-State: AAQBX9de+xzZe30nhlOnWL9j7B8f0n66kWkGRqvdBKKPkIxj/5K8xFxZ
-        6jXG4QQcl/ZN6oaLBzpOjQ==
-X-Google-Smtp-Source: AKy350Zt+zKYRtASMyO2Hfp4ote3ijZixO0WLMsgGlHbfFsFILT/LFdYa7SPhV+hemG7ymdoyq/vEg==
-X-Received: by 2002:a17:907:9725:b0:93f:9594:d97d with SMTP id jg37-20020a170907972500b0093f9594d97dmr20670831ejc.14.1680178205762;
-        Thu, 30 Mar 2023 05:10:05 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680195867;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Mpi+z+1m9c/5uRG/3aPiuMWiZMpS1q80gTEBOdR4q6Q=;
+        b=JpzdhPook4a1v6QViL6DcOfmuDQ+WbrTz383/0llmEBUxvcUd9+qulboBZ4Y9Pq3jO
+         OJW0GIdG6E9pTLsc4EZqaINqdLFZGPBdxA1KHm8kvrZQT4m4P2uglWnfw7s144GUHtRs
+         /aA0CdVu5tzzdzGW0xQjkyMNeaW8SI3qyUOSbguNzIvBFKHhpK1YjiV2rImVslHqPF0z
+         0/BAefUKUm5i14/YmiQQcnplTXdTvLw5SySyiHPkwX9KrWAq5PlvLL8MTStoNhZOYbuI
+         GiaMVhZwfDeWCT+Peg//0/SnX4GASx767zjxK2AuYzA1Ytb0uLwruf99Jp28I+viciTC
+         aGzw==
+X-Gm-Message-State: AAQBX9eCKOvnGBxRdkeFm123Uri3UQI4if7o0HgfwoPvEzs5qhkfh1yR
+        DcvdOsBQngzzUvm6ew75hQ==
+X-Google-Smtp-Source: AKy350akG/cT7TWge0CvXUlRJpUrm1KLABeK22t+bLyqtpqkDQqmyaiVshjVor5jfLx5q+oxPQppaQ==
+X-Received: by 2002:aa7:db92:0:b0:4fd:2346:7225 with SMTP id u18-20020aa7db92000000b004fd23467225mr24541640edt.34.1680195866853;
+        Thu, 30 Mar 2023 10:04:26 -0700 (PDT)
 Received: from p183 ([46.53.250.0])
-        by smtp.gmail.com with ESMTPSA id i11-20020a170906264b00b009255b14e91dsm17519658ejc.46.2023.03.30.05.10.04
+        by smtp.gmail.com with ESMTPSA id z23-20020a50cd17000000b005021c7f08absm146947edi.29.2023.03.30.10.04.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Mar 2023 05:10:05 -0700 (PDT)
-Date:   Thu, 30 Mar 2023 15:10:03 +0300
+        Thu, 30 Mar 2023 10:04:26 -0700 (PDT)
+Date:   Thu, 30 Mar 2023 20:04:24 +0300
 From:   Alexey Dobriyan <adobriyan@gmail.com>
 To:     Joe Lawrence <joe.lawrence@redhat.com>
 Cc:     live-patching@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -57,10 +58,12 @@ Cc:     live-patching@vger.kernel.org, linux-kernel@vger.kernel.org,
         Petr Mladek <pmladek@suse.com>,
         Marcos Paulo de Souza <mpdesouza@suse.com>
 Subject: Re: [PATCH v7 00/10] livepatch: klp-convert tool
-Message-ID: <4ce29654-4e1e-4680-9c25-715823ff5e02@p183>
+Message-ID: <683593a8-79db-4f3b-bc78-7917284683e4@p183>
+References: <4ce29654-4e1e-4680-9c25-715823ff5e02@p183>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <4ce29654-4e1e-4680-9c25-715823ff5e02@p183>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
@@ -71,40 +74,55 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Joe Lawrence wrote:
-> +static int update_strtab(struct elf *elf)
-> +{
->
-> +	buf = malloc(new_size);
-> +	if (!buf) {
-> +		WARN("malloc failed");
-> +		return -1;
-> +	}
-> +	memcpy(buf, (void *)strtab->data, orig_size);
+This patchset somehow breaks the build of the simplest livepatch module:
 
-This code is called realloc(). :-)
+	make -f linux/linux-1/scripts/Makefile.modfinal
+	make[1]: *** No rule to make target 'linux/module-klp/main.tmp.ko', needed by 'linux/module-klp/main.ko'.  Stop.
 
-> +static int write_file(struct elf *elf, const char *file)
-> +{
->
-> +	fd = creat(file, 0664);
-> +	e = elf_begin(fd, ELF_C_WRITE, NULL);
+$ cat Kbuild
+obj-m := main.o
 
-elf_end() doesn't close descriptor, so there is potentially corrupted
-data. There is no unlink() call if writes fail as well.
+$ cat main.c
+#include <linux/module.h>
+#include <linux/kernel.h>
+#include <linux/livepatch.h>
+#include <linux/seq_file.h>
 
-> +void elf_close(struct elf *elf)
-> +{
-> +
-> +	if (elf->fd > 0)
-> +		close(elf->fd);
+static int livepatch_cmdline_proc_show(struct seq_file *m, void *data)
+{
+	seq_puts(m, "REDACTED 001\n");
+	return 0;
+}
 
-Techically, it is "fd >= 0".
+static struct klp_func funcs[] = {
+	{
+		.old_name = "cmdline_proc_show",
+		.new_func = livepatch_cmdline_proc_show,
+	},
+	{}
+};
 
-> +filechk_klp_map = \
-> +	echo "klp-convert-symbol-data.0.1";		\
-> +	echo "*vmlinux";				\
-> +	$(NM) -f posix vmlinux | cut -d\  -f1;		\
-> +	sort $(MODORDER) $(MODULES_LIVEPATCH) |		\
+static struct klp_object objs[] = {
+	{
+		.funcs = funcs,
+	},
+	{}
+};
 
-This probably should be "LC_ALL=C sort" for speed and reproducibility (?).
+static struct klp_patch g_patch = {
+	.mod = THIS_MODULE,
+	.objs = objs,
+};
+
+static int livepatch_init(void)
+{
+	return klp_enable_patch(&g_patch);
+}
+
+static void livepatch_exit(void)
+{
+}
+module_init(livepatch_init);
+module_exit(livepatch_exit);
+MODULE_LICENSE("GPL");
+MODULE_INFO(livepatch, "Y");
