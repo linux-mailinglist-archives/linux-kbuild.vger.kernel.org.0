@@ -2,208 +2,97 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4309F6D2E8B
-	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Apr 2023 08:23:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32B7E6D2F90
+	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Apr 2023 11:59:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232984AbjDAGW6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 1 Apr 2023 02:22:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42914 "EHLO
+        id S229379AbjDAJ7a (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 1 Apr 2023 05:59:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231926AbjDAGW5 (ORCPT
+        with ESMTP id S229437AbjDAJ73 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 1 Apr 2023 02:22:57 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FDC310D3;
-        Fri, 31 Mar 2023 23:22:56 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2938C603F7;
-        Sat,  1 Apr 2023 06:22:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75DF9C433D2;
-        Sat,  1 Apr 2023 06:22:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680330175;
-        bh=C4wrTt4zKss+4MIQ4zd/7UCc8iEP633HVcG1T+mQhiY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=sci3SLV5e2aXT5PUIjsGGDa2+eckoillSpkBvvRdjZlRDGuGJ+Zpp9OXnRfbmQ3fY
-         9VVezGsnMsZiznZa+bfAdurrfmAosQ9Gsdp0/r7BvPbJux5JcqwdBmyphmsP+RlEJi
-         c4Up6nQnLjcarI/Jrw0v5JEsGuIW4rPk/q2rBaGFmu7nh/slpaFKS8FiLAbiKwSAid
-         9VlTVg1BZYX1yeJNxGBCnwzhFZBA8P7zMfNH55KCtTV89pQjQuN5u1HHmYSehicHbd
-         wKwC6IzCrXtNwWH3Tx/xyhiKDW6m17KIZbHpk+QKVK64qEzRYQkaJncSUiR2BchEdW
-         OX9U3KgUztNzA==
-Received: by mail-oi1-f180.google.com with SMTP id l18so18272411oic.13;
-        Fri, 31 Mar 2023 23:22:55 -0700 (PDT)
-X-Gm-Message-State: AO0yUKXq23bSMMHQW5caKcsjSkHGs39HVRxavlJjmvJoogzOVCMxFjMd
-        9N5/cC70FmBYRdnVU7Yt+qBlZ1Q1LLrQstIdtI0=
-X-Google-Smtp-Source: AK7set9kbagaDQWo3VqsPvdsr+y+o5EyTN7o/8YsD4bA8ctmP71eEtUcCFuhO327T4HZXkPMjVoIAr+gx3H0deluQCg=
-X-Received: by 2002:a05:6808:14d5:b0:384:a13:952a with SMTP id
- f21-20020a05680814d500b003840a13952amr9469531oiw.11.1680330174630; Fri, 31
- Mar 2023 23:22:54 -0700 (PDT)
+        Sat, 1 Apr 2023 05:59:29 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C35EE18F;
+        Sat,  1 Apr 2023 02:59:28 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id b20so99181546edd.1;
+        Sat, 01 Apr 2023 02:59:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680343167;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8OwNskOq/WB2ogrPeVhoUbqDTcGZFk0KDKVEoD0eJvA=;
+        b=djYDNY7ILOyCIaQ3ynhdb6NTzFDRn4w512o8Dask1IPGpZOiVnFIAdGcyx0lZPUM1U
+         IRAEtiictVQDX7eFMUk/atoUBaZiei5Iq/EofIxpQjQfEKOZnVw3QfNSjqTjHSQdWHqm
+         wAufeUN0yVWRGCGxetpjp3kc6Nzal71vgK8Nd5yMItO8iYicCSOHu3ne20U0o6YSmssQ
+         IsVnsE/k6EXYg98Q7EBzZYlICzeJB/0UYFWXXHknMbDJAX6neirI6ChQiRcgqxrmHwK0
+         QR4HxTKyT6MforZCioaKdX77CN1eqQMKv1A16PAoKTUDcK8QHVw8mAjn/Pwvmn9DMi7C
+         jtmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680343167;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8OwNskOq/WB2ogrPeVhoUbqDTcGZFk0KDKVEoD0eJvA=;
+        b=reP6SHsZVJQGGTu5ChTN3jgNsquOVEoqhoEkegXEXX7J83HpGw1NCN/ntiUEMHsn9r
+         uDFleeAy3dBZTKNUd5fIr5MDFIxuBrY8NrUieIydE3pxiTA7etFgoMdb3/VLakAeLsFf
+         4I3IKQNIFjj6cWOBivFoBzqEuk7V09FGeX58apnLJldGl845kjkhU3Zfoxsh1c0TqDDH
+         VPPJ/9T9XmXcqTZ+VBAPO0WaP7clCQqbDX6IIejT4z/vG/oOTK3eeA+qxLDeYO56lv7v
+         l0E0fl6vcIPNVOb0bGnabpJLiAg1bOk63K9K1vyNvkmPF2IfGMvTORSPhDua3LbrPjow
+         +aHA==
+X-Gm-Message-State: AAQBX9e90NwVp1aGpotTJjLRkiwOH7bP61sGrENG/a8LkSQwZcAMZ5se
+        +VkFeQsVa8UsewrivKPxZg==
+X-Google-Smtp-Source: AKy350bVO6kZfY8iIuqS/9CJdE3MTB4p2zmqEXb7GJrIrsIYW/qVqqViAsRJuq7xwOfxiA4X1cytyQ==
+X-Received: by 2002:a17:907:a586:b0:946:c60b:470b with SMTP id vs6-20020a170907a58600b00946c60b470bmr17147587ejc.63.1680343166687;
+        Sat, 01 Apr 2023 02:59:26 -0700 (PDT)
+Received: from p183 ([46.53.251.40])
+        by smtp.gmail.com with ESMTPSA id gl25-20020a170906e0d900b00929fc8d264dsm1957803ejb.17.2023.04.01.02.59.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Apr 2023 02:59:26 -0700 (PDT)
+Date:   Sat, 1 Apr 2023 12:59:24 +0300
+From:   Alexey Dobriyan <adobriyan@gmail.com>
+To:     Joe Lawrence <joe.lawrence@redhat.com>
+Cc:     live-patching@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, Josh Poimboeuf <jpoimboe@kernel.org>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Petr Mladek <pmladek@suse.com>,
+        Marcos Paulo de Souza <mpdesouza@suse.com>
+Subject: Re: [PATCH v7 00/10] livepatch: klp-convert tool
+Message-ID: <0d28af49-ff04-417c-9047-fc2c796a5040@p183>
+References: <4ce29654-4e1e-4680-9c25-715823ff5e02@p183>
+ <683593a8-79db-4f3b-bc78-7917284683e4@p183>
+ <f1351c5f-16aa-8407-753c-90049956123d@redhat.com>
 MIME-Version: 1.0
-References: <1de9eccd-8570-3b69-4be2-347e862bcc33@mailbox.org>
-In-Reply-To: <1de9eccd-8570-3b69-4be2-347e862bcc33@mailbox.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 1 Apr 2023 15:22:18 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATY8PvkDesOBQxLw11t1-OT9EsrNHekjAeOjLDhwPcP8w@mail.gmail.com>
-Message-ID: <CAK7LNATY8PvkDesOBQxLw11t1-OT9EsrNHekjAeOjLDhwPcP8w@mail.gmail.com>
-Subject: Re: [Question] Restore previous "local tag" behaviour
-To:     Tor Vic <torvic9@mailbox.org>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <f1351c5f-16aa-8407-753c-90049956123d@redhat.com>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Mar 28, 2023 at 2:44=E2=80=AFAM Tor Vic <torvic9@mailbox.org> wrote=
-:
->
-> Hi,
->
-> When I'm building my kernels, I used to tag my personal releases with a
-> similar annotated tag commit as with vanilla kernel, just appending
-> "-tv" or similar to it, i.e. "v6.3-rc4" becomes "v6.3-rc4-tv".
+On Fri, Mar 31, 2023 at 12:03:52PM -0400, Joe Lawrence wrote:
+> On 3/30/23 13:04, Alexey Dobriyan wrote:
+> > This patchset somehow breaks the build of the simplest livepatch module:
+> > 
+> > 	make -f linux/linux-1/scripts/Makefile.modfinal
+> > 	make[1]: *** No rule to make target 'linux/module-klp/main.tmp.ko', needed by 'linux/module-klp/main.ko'.  Stop.
+> > 
+> 
+> Thanks for testing.
+> 
+> Presumably this is an out-of-tree livepatch module?  If so, that is
+> still on the TODO list.  If not, that is weird as the patchset itself
+> includes updates to samples/ and lib/ livepatches that build and load fine.
 
-I do not understand what you want to achieve.
+Yes, this is external module.
 
+make doesn't see this implicit rule despite it is hiding in the open:
 
-
-Let's say you wanted to release "v6.0-rc4-tv",
-which consists of v6.0-rc4 with 331 extra commits.
-
-
-$ git checkout  v6.0-rc5^
-HEAD is now at 4ed9c1e971b1 Merge tag 'kbuild-fixes-v6.0-2' of
-git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild
-$ git describe
-v6.0-rc4-331-g4ed9c1e971b1
-$ make kernelrelease
-6.0.0-rc4-00331-g4ed9c1e971b1
-
-
-Then, you released it as "v6.0-rc4-tv".
-
-$ git tag -a v6.0-rc4-tv -m "Linux v6.0-rc4-tv"
-$ make kernelrelease
-6.0.0-rc4
-
-
-Then, kernelrelease becomes clean '6.0.0-rc4'.
-Is this what you want?
-
-It is apparently wrong since there are
-331 commits between v6.0-rc4 and v6.0-rc4-tv.
-
-That is what 6ab7e1f95e96 _fixed_.
-
-
-The behavior is now clearer and correct.
-
-$ git describe
-v6.3-rc4-174-g2bac7dc169af
-$ git tag  -a v6.3-rc4-tv  -m "Linux v6.3-rc4-tv"
-$ make kernelrelease
-6.3.0-rc4-00174-g2bac7dc169af
-
-
-If you wanted to make a "-tv" release,
-you would want to change the version field in Makefile
-before tagging.
-
-
- diff --git a/Makefile b/Makefile
- index da2586d4c728..8639036f5095 100644
- --- a/Makefile
- +++ b/Makefile
- @@ -2,7 +2,7 @@
-  VERSION =3D 6
-  PATCHLEVEL =3D 3
-  SUBLEVEL =3D 0
- -EXTRAVERSION =3D -rc4
- +EXTRAVERSION =3D -rc4-tv
-  NAME =3D Hurr durr I'ma ninja sloth
-
-  # *DOCUMENTATION*
-
-
-
-Then, kernelrelease shows it is a "-tv" release.
-
-$ make kernelrelease
-6.3.0-rc4-tv
-
-
-
-
-
-
-
-> This has worked just fine so far, but...
->
-> Since commit 6ab7e1f95e96f0c688ae132b0e9a16c0f206689d ("setlocalversion:
-> use only the correct release tag for git-describe"), this is not taken
-> into account anymore, it uses the "git describe" tag instead of using
-> the actually tagged commit as "kernelrelease".
->
-> Is there a way to restore the previous behaviour without having to
-> revert this (and preceding) commits?
->
-> I know that we can disable CONFIG_LOCALVERSION_AUTO=3Dy and append
-> directly to CONFIG_LOCALVERSION, but maybe someone knows how to use the
-> "old" way of using tags...?
->
-> In other words, when I have a local tag, I want "kernelrelease" to use
-> just that tag, and when I don't tag anything, it should just use the
-> standard "git describe" tag.
-
-
-Again, I do not understand.
-
-git tag is not stable information.
-
-If you call it "a release",
-you would want to work in the same way with/without git
-even if most kernel developers are working in a git tree.
-
-
-The mainline kernel, stable-kernel, linux-next are
-released in https://kernel.org/
-(and GitHub allows users to download a tarball of
-a tagged commit.)
-
-
-A released tarball (of course, there is no tag there),
-produces the same kernelrelease as the git tree does.
-
-You are requiring the kernelrelease be different
-with/without the *-tv tag.
-That is not what the release would look like.
-
-The mainline kernel and stable kernel increment
-the version field in Makefile.
-linux-next has "localversion-next" at the top of the tree.
-
-
-
-
-
-
-> For the moment I have just reverted the related commits as they don't
-> serve any purpose for my needs.
->
-> Cheers,
->
-> Tor Vic
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+	+%.tmp.ko: %.o %.mod.o symbols.klp FORCE
+	+	+$(call if_changed,ld_ko_o)
