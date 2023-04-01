@@ -2,70 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E130D6D2C57
-	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Apr 2023 03:09:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4309F6D2E8B
+	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Apr 2023 08:23:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232373AbjDABJS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 31 Mar 2023 21:09:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37548 "EHLO
+        id S232984AbjDAGW6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 1 Apr 2023 02:22:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232190AbjDABJR (ORCPT
+        with ESMTP id S231926AbjDAGW5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 31 Mar 2023 21:09:17 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D61351BF48;
-        Fri, 31 Mar 2023 18:09:16 -0700 (PDT)
+        Sat, 1 Apr 2023 02:22:57 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FDC310D3;
+        Fri, 31 Mar 2023 23:22:56 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6CDBE62CD9;
-        Sat,  1 Apr 2023 01:09:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0373C433A1;
-        Sat,  1 Apr 2023 01:09:15 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2938C603F7;
+        Sat,  1 Apr 2023 06:22:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75DF9C433D2;
+        Sat,  1 Apr 2023 06:22:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680311355;
-        bh=/LTUz3eEbeLJ0Mp6IRD/RWbRrFGs0YZv3TWcnSN0CV0=;
+        s=k20201202; t=1680330175;
+        bh=C4wrTt4zKss+4MIQ4zd/7UCc8iEP633HVcG1T+mQhiY=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=lqX2jOkISgAicmlN3IB0/2Xe7FK88Yr8f6O2Vcn1f7VBk92gJ34hJ03ZUjg2X1O2w
-         MXyMILjQhdjZUGAN8EqK9PbxIXdOarz/nOStjk3jyujc64UrBY3NxliGICbkiWOLeD
-         tESbK0fSdiitrGY8qn70TV3day/iRt7TQWxxLH6aeKyGIbEXQPDPfeLcOCKHBbRCGd
-         kPtXKukgdaHmAbR62dbTXUDRHHWYFDqubsY023yacltLnh7xSTTFwGeWv8IRmcEofA
-         ZgLx++fmhFB5xBUtIZ86Pca07pCzaG9Tn59xmMf1X57+SIGxgWeJtnDV7+SA5X+ro7
-         sL9fm4QxIzRkA==
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-17aeb49429eso24988399fac.6;
-        Fri, 31 Mar 2023 18:09:15 -0700 (PDT)
-X-Gm-Message-State: AAQBX9f3rMnV2r5jhcH/0zo+y+GYsA4fbQkGF17yNcZ29B0/yqx9vAq0
-        4vH2qzPAUTKhw8J80r+yTb+MVgUJFDs2jK9d2c8=
-X-Google-Smtp-Source: AKy350ZGV1y0Nf0JZUb3XIQPYwf+PbORdDoVmjq9Gbwo2taA1C6i3WK4Xuu0kG0Hz6DIl7RRQWz6KWjQN65WQgfG23k=
-X-Received: by 2002:a05:6870:d20f:b0:16e:8993:9d7c with SMTP id
- g15-20020a056870d20f00b0016e89939d7cmr5363652oac.1.1680311354924; Fri, 31 Mar
- 2023 18:09:14 -0700 (PDT)
+        b=sci3SLV5e2aXT5PUIjsGGDa2+eckoillSpkBvvRdjZlRDGuGJ+Zpp9OXnRfbmQ3fY
+         9VVezGsnMsZiznZa+bfAdurrfmAosQ9Gsdp0/r7BvPbJux5JcqwdBmyphmsP+RlEJi
+         c4Up6nQnLjcarI/Jrw0v5JEsGuIW4rPk/q2rBaGFmu7nh/slpaFKS8FiLAbiKwSAid
+         9VlTVg1BZYX1yeJNxGBCnwzhFZBA8P7zMfNH55KCtTV89pQjQuN5u1HHmYSehicHbd
+         wKwC6IzCrXtNwWH3Tx/xyhiKDW6m17KIZbHpk+QKVK64qEzRYQkaJncSUiR2BchEdW
+         OX9U3KgUztNzA==
+Received: by mail-oi1-f180.google.com with SMTP id l18so18272411oic.13;
+        Fri, 31 Mar 2023 23:22:55 -0700 (PDT)
+X-Gm-Message-State: AO0yUKXq23bSMMHQW5caKcsjSkHGs39HVRxavlJjmvJoogzOVCMxFjMd
+        9N5/cC70FmBYRdnVU7Yt+qBlZ1Q1LLrQstIdtI0=
+X-Google-Smtp-Source: AK7set9kbagaDQWo3VqsPvdsr+y+o5EyTN7o/8YsD4bA8ctmP71eEtUcCFuhO327T4HZXkPMjVoIAr+gx3H0deluQCg=
+X-Received: by 2002:a05:6808:14d5:b0:384:a13:952a with SMTP id
+ f21-20020a05680814d500b003840a13952amr9469531oiw.11.1680330174630; Fri, 31
+ Mar 2023 23:22:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230330182223.181775-1-hi@alyssa.is> <20230330222928.GA644044@dev-arch.thelio-3990X>
- <CAK7LNARU444UrZXVodNftud-scy5KKUjdtTM0GOrxHB9pyKmkg@mail.gmail.com> <20230331202716.mvny65ybaat3wsmm@x220>
-In-Reply-To: <20230331202716.mvny65ybaat3wsmm@x220>
+References: <1de9eccd-8570-3b69-4be2-347e862bcc33@mailbox.org>
+In-Reply-To: <1de9eccd-8570-3b69-4be2-347e862bcc33@mailbox.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 1 Apr 2023 10:08:37 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATN7hQFXx+Y5PguD9mvcP0-jadXxU_5WP4YQuHgKeyD1w@mail.gmail.com>
-Message-ID: <CAK7LNATN7hQFXx+Y5PguD9mvcP0-jadXxU_5WP4YQuHgKeyD1w@mail.gmail.com>
-Subject: Re: [PATCH v3] purgatory: fix disabling debug info
-To:     Alyssa Ross <hi@alyssa.is>
-Cc:     Nathan Chancellor <nathan@kernel.org>, Nick Cao <nickcao@nichi.co>,
-        linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-        linux-riscv@lists.infradead.org, Tom Rix <trix@redhat.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        stable@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>
+Date:   Sat, 1 Apr 2023 15:22:18 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATY8PvkDesOBQxLw11t1-OT9EsrNHekjAeOjLDhwPcP8w@mail.gmail.com>
+Message-ID: <CAK7LNATY8PvkDesOBQxLw11t1-OT9EsrNHekjAeOjLDhwPcP8w@mail.gmail.com>
+Subject: Re: [Question] Restore previous "local tag" behaviour
+To:     Tor Vic <torvic9@mailbox.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
         SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,137 +62,145 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Apr 1, 2023 at 5:27=E2=80=AFAM Alyssa Ross <hi@alyssa.is> wrote:
+On Tue, Mar 28, 2023 at 2:44=E2=80=AFAM Tor Vic <torvic9@mailbox.org> wrote=
+:
 >
-> On Sat, Apr 01, 2023 at 12:42:13AM +0900, Masahiro Yamada wrote:
-> > On Fri, Mar 31, 2023 at 7:29=E2=80=AFAM Nathan Chancellor <nathan@kerne=
-l.org> wrote:
-> > >
-> > > On Thu, Mar 30, 2023 at 06:22:24PM +0000, Alyssa Ross wrote:
-> > > > Since 32ef9e5054ec, -Wa,-gdwarf-2 is no longer used in KBUILD_AFLAG=
-S.
-> > > > Instead, it includes -g, the appropriate -gdwarf-* flag, and also t=
-he
-> > > > -Wa versions of both of those if building with Clang and GNU as.  A=
-s a
-> > > > result, debug info was being generated for the purgatory objects, e=
-ven
-> > > > though the intention was that it not be.
-> > > >
-> > > > Fixes: 32ef9e5054ec ("Makefile.debug: re-enable debug info for .S f=
-iles")
-> > > > Signed-off-by: Alyssa Ross <hi@alyssa.is>
-> > > > Cc: stable@vger.kernel.org
-> > > > Acked-by: Nick Desaulniers <ndesaulniers@google.com>
-> > >
-> > > This is definitely more future proof.
-> > >
-> > > Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-> > > Tested-by: Nathan Chancellor <nathan@kernel.org>
-> >
-> >
-> >
-> > I prefer v3 since it is cleaner, but unfortunately
-> > it does not work for Clang+GAS.
-> >
-> >
-> > With v3 applied, I still see the debug info.
-> >
-> >
-> >
-> > $ make LLVM=3D1 LLVM_IAS=3D0  arch/x86/purgatory/setup-x86_64.o
-> >   UPD     include/config/kernel.release
-> >   UPD     include/generated/utsrelease.h
-> >   CALL    scripts/checksyscalls.sh
-> >   DESCEND objtool
-> >   INSTALL libsubcmd_headers
-> >   AS      arch/x86/purgatory/setup-x86_64.o
-> > $ readelf -S arch/x86/purgatory/setup-x86_64.o
-> > There are 18 section headers, starting at offset 0x14d8:
-> >
-> > Section Headers:
-> >   [Nr] Name              Type             Address           Offset
-> >        Size              EntSize          Flags  Link  Info  Align
-> >   [ 0]                   NULL             0000000000000000  00000000
-> >        0000000000000000  0000000000000000           0     0     0
-> >   [ 1] .text             PROGBITS         0000000000000000  00000040
-> >        0000000000000027  0000000000000000  AX       0     0     16
-> >   [ 2] .rela.text        RELA             0000000000000000  000012f8
-> >        0000000000000060  0000000000000018   I      15     1     8
-> >   [ 3] .data             PROGBITS         0000000000000000  00000067
-> >        0000000000000000  0000000000000000  WA       0     0     1
-> >   [ 4] .bss              NOBITS           0000000000000000  00001000
-> >        0000000000001000  0000000000000000  WA       0     0     4096
-> >   [ 5] .rodata           PROGBITS         0000000000000000  00001000
-> >        0000000000000020  0000000000000000   A       0     0     16
-> >   [ 6] .rela.rodata      RELA             0000000000000000  00001358
-> >        0000000000000018  0000000000000018   I      15     5     8
-> >   [ 7] .debug_line       PROGBITS         0000000000000000  00001020
-> >        000000000000005f  0000000000000000           0     0     1
-> >   [ 8] .rela.debug_line  RELA             0000000000000000  00001370
-> >        0000000000000018  0000000000000018   I      15     7     8
-> >   [ 9] .debug_info       PROGBITS         0000000000000000  0000107f
-> >        0000000000000027  0000000000000000           0     0     1
-> >   [10] .rela.debug_info  RELA             0000000000000000  00001388
-> >        0000000000000090  0000000000000018   I      15     9     8
-> >   [11] .debug_abbrev     PROGBITS         0000000000000000  000010a6
-> >        0000000000000014  0000000000000000           0     0     1
-> >   [12] .debug_aranges    PROGBITS         0000000000000000  000010c0
-> >        0000000000000030  0000000000000000           0     0     16
-> >   [13] .rela.debug_[...] RELA             0000000000000000  00001418
-> >        0000000000000030  0000000000000018   I      15    12     8
-> >   [14] .debug_str        PROGBITS         0000000000000000  000010f0
-> >        0000000000000054  0000000000000001  MS       0     0     1
-> >   [15] .symtab           SYMTAB           0000000000000000  00001148
-> >        0000000000000168  0000000000000018          16    12     8
-> >   [16] .strtab           STRTAB           0000000000000000  000012b0
-> >        0000000000000041  0000000000000000           0     0     1
-> >   [17] .shstrtab         STRTAB           0000000000000000  00001448
-> >        000000000000008d  0000000000000000           0     0     1
-> > Key to Flags:
-> >   W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
-> >   L (link order), O (extra OS processing required), G (group), T (TLS),
-> >   C (compressed), x (unknown), o (OS specific), E (exclude),
-> >   D (mbind), l (large), p (processor specific)
-> >
-> >
-> >
-> >
-> >
-> >
-> > With -g0 given, GCC stops passing -g -gdwarf-4 down to GAS.
-> >
-> >
-> > Clang does not do anything about -g0 for the external assembler.
+> Hi,
 >
-> You're right.  Thank you for your thoughtful testing =E2=80=94 I forgot t=
-o check
-> LLVM for v3.  I thought maybe adding -Wa,-g0 would be enough, but it
-> turns out that GAS doesn't support that.  If -g has been specified,
-> there doesn't seem to be any way to disable debug info again later in
-> the command line.
+> When I'm building my kernels, I used to tag my personal releases with a
+> similar annotated tag commit as with vanilla kernel, just appending
+> "-tv" or similar to it, i.e. "v6.3-rc4" becomes "v6.3-rc4-tv".
+
+I do not understand what you want to achieve.
+
+
+
+Let's say you wanted to release "v6.0-rc4-tv",
+which consists of v6.0-rc4 with 331 extra commits.
+
+
+$ git checkout  v6.0-rc5^
+HEAD is now at 4ed9c1e971b1 Merge tag 'kbuild-fixes-v6.0-2' of
+git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild
+$ git describe
+v6.0-rc4-331-g4ed9c1e971b1
+$ make kernelrelease
+6.0.0-rc4-00331-g4ed9c1e971b1
+
+
+Then, you released it as "v6.0-rc4-tv".
+
+$ git tag -a v6.0-rc4-tv -m "Linux v6.0-rc4-tv"
+$ make kernelrelease
+6.0.0-rc4
+
+
+Then, kernelrelease becomes clean '6.0.0-rc4'.
+Is this what you want?
+
+It is apparently wrong since there are
+331 commits between v6.0-rc4 and v6.0-rc4-tv.
+
+That is what 6ab7e1f95e96 _fixed_.
+
+
+The behavior is now clearer and correct.
+
+$ git describe
+v6.3-rc4-174-g2bac7dc169af
+$ git tag  -a v6.3-rc4-tv  -m "Linux v6.3-rc4-tv"
+$ make kernelrelease
+6.3.0-rc4-00174-g2bac7dc169af
+
+
+If you wanted to make a "-tv" release,
+you would want to change the version field in Makefile
+before tagging.
+
+
+ diff --git a/Makefile b/Makefile
+ index da2586d4c728..8639036f5095 100644
+ --- a/Makefile
+ +++ b/Makefile
+ @@ -2,7 +2,7 @@
+  VERSION =3D 6
+  PATCHLEVEL =3D 3
+  SUBLEVEL =3D 0
+ -EXTRAVERSION =3D -rc4
+ +EXTRAVERSION =3D -rc4-tv
+  NAME =3D Hurr durr I'ma ninja sloth
+
+  # *DOCUMENTATION*
+
+
+
+Then, kernelrelease shows it is a "-tv" release.
+
+$ make kernelrelease
+6.3.0-rc4-tv
+
+
+
+
+
+
+
+> This has worked just fine so far, but...
 >
-> So we probably can't do better than v2 while LLVM_IAS=3D0 is supported.
-> The only other option I see is (untested):
+> Since commit 6ab7e1f95e96f0c688ae132b0e9a16c0f206689d ("setlocalversion:
+> use only the correct release tag for git-describe"), this is not taken
+> into account anymore, it uses the "git describe" tag instead of using
+> the actually tagged commit as "kernelrelease".
 >
-> asflags-y                       +=3D -g0
-> asflags-remove-y                +=3D -Wa,-g -Wa,-gdwarf-4 -Wa,-gdwarf-5
+> Is there a way to restore the previous behaviour without having to
+> revert this (and preceding) commits?
 >
-> But I don't like that option, because it means there are two completely
-> different ways of doing it depending on the compiler setup, and it makes
-> it even less likely anybody would remember to update asflags-remove-y
-> when DWARF 6 comes around or whatever.
+> I know that we can disable CONFIG_LOCALVERSION_AUTO=3Dy and append
+> directly to CONFIG_LOCALVERSION, but maybe someone knows how to use the
+> "old" way of using tags...?
+>
+> In other words, when I have a local tag, I want "kernelrelease" to use
+> just that tag, and when I don't tag anything, it should just use the
+> standard "git describe" tag.
 
 
-Agree.
-This is uglier than v2.
+Again, I do not understand.
+
+git tag is not stable information.
+
+If you call it "a release",
+you would want to work in the same way with/without git
+even if most kernel developers are working in a git tree.
+
+
+The mainline kernel, stable-kernel, linux-next are
+released in https://kernel.org/
+(and GitHub allows users to download a tarball of
+a tagged commit.)
+
+
+A released tarball (of course, there is no tag there),
+produces the same kernelrelease as the git tree does.
+
+You are requiring the kernelrelease be different
+with/without the *-tv tag.
+That is not what the release would look like.
+
+The mainline kernel and stable kernel increment
+the version field in Makefile.
+linux-next has "localversion-next" at the top of the tree.
 
 
 
-If nobody comes up with a better idea,
-I will pick up v2.
 
 
+
+> For the moment I have just reverted the related commits as they don't
+> serve any purpose for my needs.
+>
+> Cheers,
+>
+> Tor Vic
 
 
 
