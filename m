@@ -2,121 +2,109 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BB936D305A
-	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Apr 2023 13:55:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 175106D3167
+	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Apr 2023 16:43:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229853AbjDALzK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 1 Apr 2023 07:55:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51770 "EHLO
+        id S229488AbjDAOnM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 1 Apr 2023 10:43:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229854AbjDALzG (ORCPT
+        with ESMTP id S229458AbjDAOnM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 1 Apr 2023 07:55:06 -0400
-Received: from domac.alu.hr (domac.alu.unizg.hr [161.53.235.3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2B012545B;
-        Sat,  1 Apr 2023 04:54:59 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by domac.alu.hr (Postfix) with ESMTP id 295CF604F3;
-        Sat,  1 Apr 2023 13:54:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
-        t=1680350098; bh=wktZsIqZgEoZxlbnPKAfy7jySjlcBvOPoUk/oBiI7Sc=;
-        h=Date:To:Cc:From:Subject:From;
-        b=c/HCzqrg1OKXCwkzp9edXWYbdA0sM6zie9t1KnelDoEv+MDAZfYLbUHEyVv8Wuct0
-         QRQdxCSYhUWRLPNKqcLzHrBcwYoz87NGjiGQt2KDSBotq3nZ2OgkVMxZVH/kd539cs
-         XjX47Uall9UarVYFnDoQNwKjnLOYtZrfDiWFGGcHrqDqMwqzsjcjj7WflekfesdUMR
-         zemoHx7DQATVMxx0VDzpBOBlK5wu6TQWz2pSFlmgfJekLHk9tmB9RO49iBQQOoRn1V
-         zS1U+gYjci++e81a0R1BoBLLHJHeeORa3K+K5RE5fEAV7gdvrsWKxVARdygctssl3i
-         RWpu5OsDcuxIg==
-X-Virus-Scanned: Debian amavisd-new at domac.alu.hr
-Received: from domac.alu.hr ([127.0.0.1])
-        by localhost (domac.alu.hr [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id emDkzAQ-alcD; Sat,  1 Apr 2023 13:54:55 +0200 (CEST)
-Received: from [192.168.1.3] (unknown [77.237.101.225])
-        by domac.alu.hr (Postfix) with ESMTPSA id C7D36604F0;
-        Sat,  1 Apr 2023 13:54:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
-        t=1680350095; bh=wktZsIqZgEoZxlbnPKAfy7jySjlcBvOPoUk/oBiI7Sc=;
-        h=Date:To:Cc:From:Subject:From;
-        b=JJmsuRYtC5enHtcGkA813CrFL0wQXXyjNBYvwRtPBxMDkAS9We48nz+SPZLKZQLlB
-         id7ndE4jQ1IVS1WQwjWfUNC9iNBjvmB3CZwfGqkrnpmge8/cEBy7A1+EeYyQ+dQlvT
-         Vf3ol7wpmG9HoNBm6WF/t3Nugh8edjMhDA9M3x9LjVUmDTfXFg7DsQFGzXVBKqsMUD
-         17N7IWBLo5tmA625n55c8NT6K7pLZk5whY2P67G0rCqRwqcOjC5kRauMDC7r4xVmbY
-         AOB+vohne1LU+uIKRwxdc2T2sSoTiTl58qeiIpY18MQHTfRRKQAMetNhs8QkXe36JZ
-         IozQ4SV6Fd3AQ==
-Message-ID: <c4c14e20-941d-444e-7390-8624024d3027@alu.unizg.hr>
-Date:   Sat, 1 Apr 2023 13:54:55 +0200
+        Sat, 1 Apr 2023 10:43:12 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68C62EC6B;
+        Sat,  1 Apr 2023 07:43:11 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0289D60DE4;
+        Sat,  1 Apr 2023 14:43:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BFDCC433EF;
+        Sat,  1 Apr 2023 14:43:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1680360190;
+        bh=jJKWkGuu8Pn0PDFmmLGYmuxPtM3djk+j7/04iXmbiRU=;
+        h=From:Date:Subject:To:Cc:From;
+        b=Nbhk/zO5KVdZ3+dhDMlJF5EFuVt/au75mBEqWLVn5xTbV+tMcgmgIMuydGk5h9vM/
+         wcBeJ3UbDt9VER/bShofy5JU/3wGIlLpnXUnGo9jDEv7a138ucRo5Vm6cgl/D3hr8P
+         m9/jZP255Y+NTz4h3Xl3MqJXsIjYgOrpPrgLMvn6DuZOC1cCP8LeSmw+BjtDsGQAff
+         6r0HiNuPSWLl2SQWi94PA7twQnwyQM41zvmAFvdH3AwbPS8wwSz2+h/pZmJ5NcaQSj
+         5/OiaSo6h611y3DUpibg6+dviV4pR+/D/mfKzJorjpZU2ACPxWcipfgy8aNZcjXxnK
+         j0OJAes+Gqhkg==
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-17fcc07d6c4so12145093fac.8;
+        Sat, 01 Apr 2023 07:43:10 -0700 (PDT)
+X-Gm-Message-State: AO0yUKW8UuMDI7yF9R+pUSBaafRNHBa5qGuy60RiqwPANjuQMPAPRGSY
+        DrpzLH7m5N+JJwDB1GJOKDnObWEPceYY6VqAglQ=
+X-Google-Smtp-Source: AK7set9Wi1kI/70goKat3FOzYyTvIbpeWlsh2lob/ZfhbqmLL9bkHuWCsRNZwkbHq77CWevmMc2kqCF6NeTWF6IvwVE=
+X-Received: by 2002:a05:6870:df8d:b0:17a:a5a2:62a6 with SMTP id
+ us13-20020a056870df8d00b0017aa5a262a6mr10165781oab.11.1680360189627; Sat, 01
+ Apr 2023 07:43:09 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Content-Language: en-US, hr
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Armin Wolf <W_Armin@gmx.de>
-From:   Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>
-Subject: [BUG] Problem with automatic kernel numbering
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 1 Apr 2023 23:42:33 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQEKgqrJNeknymSTsiRBbjoJJjWQ8VJ7ViC2-9Z0Mgpyw@mail.gmail.com>
+Message-ID: <CAK7LNAQEKgqrJNeknymSTsiRBbjoJJjWQ8VJ7ViC2-9Z0Mgpyw@mail.gmail.com>
+Subject: [GIT PULL] Kbuild fixes for v6.3-rc5
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi, Mr. Bagas, Sir!
+Hello Linus,
 
-I am talking about a problem with the CONFIG_LOCALVERSION_AUTO=y feature.
+Please pull some more Kbuild fixes.
+Thank you.
 
-I thought of a way to make an exact account of which patches were applied in a build
-i.e. adding patch checksum to 6.3.0-rc4-00034-gfcd476ea6a88-dirty, for currently the
-command
 
-# rpm -ivh --oldpackage <kernelname>-<build-no>.rpm
 
-install the kernels
+The following changes since commit e8d018dd0257f744ca50a729e3d042cf2ec9da65:
 
-kernel-6.3.0_rc4mt+20230330_00051_g8bb95a1662f8_dirty-24.x86_64.rpm
-kernel-6.3.0_rc4mt+20230330_00051_g8bb95a1662f8_dirty-25.x86_64.rpm
-kernel-6.3.0_rc4mt+20230330_00051_g8bb95a1662f8_dirty-26.x86_64.rpm
+  Linux 6.3-rc3 (2023-03-19 13:27:55 -0700)
 
-all overlapping (apparently everything after '-' [minus] sign is discarded,
-so one has to reboot to another kernel, i.e. 6.1.15, remove the offending kernel,
-and then install the new one in the sequence of testing.
-The CONFIG_LOCALVERSION_AUTO=y rpm build script might add something that rpm
-command sees in the install process so the files do not overlap (as kernel names
-are being truncated at '-' sign).
+are available in the Git repository at:
 
-A smaller hash of the applied patches would suffice, considering the limit
-of 64 chars. Or using an underscore '_' instead of minus '-', so the rpm
-installer doesn't treat them as the same version of kernel.
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-fixes-v6.3-2
 
-Is this a violation of the build process?
+for you to fetch changes up to fb27e70f6e408dee5d22b083e7a38a59e6118253:
 
-It would be time and energy efficient, for changing the .config and
-CONFIG_LOCALVERSION causes much greater recompilation and touches more dependencies.
+  modpost: Fix processing of CRCs on 32-bit build machines (2023-03-23
+15:28:41 +0900)
 
-Optionally, a /proc/<applied-patches-to-build> or something like that could be
-added to the running kernel, much like i.e. TuxCare has kcarectl --patch-info
-for live patches?
+----------------------------------------------------------------
+Kbuild fixes for v6.3 (2nd)
 
-Thank you very much for considering this problem report.
+ - Fix linux-headers debian package
 
-Kind regards,
-Mirsad
+ - Fix a merge_config.sh error due to a misspelled variable
+
+ - Fix modversion for 32-bit build machines
+
+----------------------------------------------------------------
+Ben Hutchings (1):
+      modpost: Fix processing of CRCs on 32-bit build machines
+
+Kevin Locke (1):
+      kbuild: deb-pkg: set version for linux-headers paths
+
+Mirsad Goran Todorovac (1):
+      scripts: merge_config: Fix typo in variable name.
+
+ scripts/kconfig/merge_config.sh | 2 +-
+ scripts/mod/modpost.c           | 2 +-
+ scripts/package/builddeb        | 3 ++-
+ 3 files changed, 4 insertions(+), 3 deletions(-)
 
 
 -- 
-Mirsad Goran Todorovac
-Sistem inženjer
-Grafički fakultet | Akademija likovnih umjetnosti
-Sveučilište u Zagrebu
- 
-System engineer
-Faculty of Graphic Arts | Academy of Fine Arts
-University of Zagreb, Republic of Croatia
-The European Union
-
-"I see something approaching fast ... Will it be friends with me?"
+Best Regards
+Masahiro Yamada
