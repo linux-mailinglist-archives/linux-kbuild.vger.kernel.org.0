@@ -2,240 +2,123 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 75C0A6D3537
-	for <lists+linux-kbuild@lfdr.de>; Sun,  2 Apr 2023 04:14:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3DFE6D3814
+	for <lists+linux-kbuild@lfdr.de>; Sun,  2 Apr 2023 15:23:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230173AbjDBCOX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 1 Apr 2023 22:14:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48018 "EHLO
+        id S230344AbjDBNXy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 2 Apr 2023 09:23:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229681AbjDBCOX (ORCPT
+        with ESMTP id S229448AbjDBNXx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 1 Apr 2023 22:14:23 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEE5C1C1C9;
-        Sat,  1 Apr 2023 19:14:21 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 37619B80DD1;
-        Sun,  2 Apr 2023 02:14:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5470C433EF;
-        Sun,  2 Apr 2023 02:14:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680401658;
-        bh=7qOh6FrZEi1CltCGNz4psM3uRmFlrePMFwKwuHPQHEQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=PyTgGMxaNx+m8I5dUe06gzYW2Gwvwo/OFMeuZF1J4FB/fxWCJFLKCChqdJu8YF4VB
-         qNJ56KYli0omQhzXyv9N0HRxOIt/csbj7iiLlwMcsTOg0ivGRhEx565qy9nMHuQwuo
-         AxjUd+d5FO/YRWrXbiq8i21C1QMyVSp98/J+/xK7UChabLMNFF8/nWbOXMmW6eS663
-         ZZgopeJA95xpRosfPpWpkloGFR88mftulXy5119HU8VPAbTTDyLIRtTrIzXJd0M0RG
-         88bgLAiuL6C2+q9v/ywgGH+oaq8deSLbd3Rg/97HDXI5GULI7hOr+czQi0T+ke3aM4
-         FV9mv/aFQ1DgA==
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-17aeb49429eso27252372fac.6;
-        Sat, 01 Apr 2023 19:14:18 -0700 (PDT)
-X-Gm-Message-State: AO0yUKXHidxZsUuatMmAXQWCJgm6gW4unTrUiZnC6sWcCKWS6oFZoo3c
-        Z+wKw6w+FFyxz8Z7Uu2oFiEzLRZMvw6Yz7AUs/E=
-X-Google-Smtp-Source: AKy350bbKksUsNPFvKrvrRs8k157noGQyUlneadyI1G8NxKLHPSv0nchvZBtXeSGTYM5fCVI192Yyt6ZfrSWF13hHus=
-X-Received: by 2002:a05:6870:a2a:b0:177:aff1:a393 with SMTP id
- bf42-20020a0568700a2a00b00177aff1a393mr7925345oac.11.1680401657977; Sat, 01
- Apr 2023 19:14:17 -0700 (PDT)
+        Sun, 2 Apr 2023 09:23:53 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E06145FFA;
+        Sun,  2 Apr 2023 06:23:51 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id fy10-20020a17090b020a00b0023b4bcf0727so27973252pjb.0;
+        Sun, 02 Apr 2023 06:23:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680441831;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5a3n3mNG/Ln9NaWSMOa1I6Ch2ikdTdoVWYiwsPNZ1ww=;
+        b=FAw2FQN7iUFhmfNoh4T9usPtLIsE0wM7LFjVaSO3I7mmAijM1gOu8kpzDiaVZ7ohl9
+         T8iXDWJ2wApTAwkIyx8M1kgIzkPMhAe2oL5oeufJV7iDQXVinCYjQjCCD2j9qCqu8FPc
+         OvHcj6EEe6Xdvkxm8mlnrf66VGlGp4QMDCko0Cg0WLTdQ+sfNEsPZ+EDgz0b9C3GmL7p
+         VTAimn3yEgGWGDjx+rUA/KcQVc8L3g3AGnU6p0fINwI9dR9iIMlHnvmQQjNNxPhD0lCo
+         feVbu8xYXmo5hmCMEnVQqtYHmcjibshfOfN0KOgT8iaH80ZKW3sJ77yv+GOFRINuzfGy
+         LVUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680441831;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5a3n3mNG/Ln9NaWSMOa1I6Ch2ikdTdoVWYiwsPNZ1ww=;
+        b=C3yvgdmLaILKe436fUscspqvfmmEwRC6MqmQ7C23cdNfUoGzOD7Az8p+d3KxmlkrV6
+         9i0Z6kYruvdEK/xrp2FHlBJ7v3maFC/BiIyBW3U0IXoJDivytROx5UkgNqm6cF1KU+eK
+         39++dCab1MwnnbnK22/hxkH+nIO7BmcIIVY9SIXRlwioOmtI9C8Xjw9AYS3Q6IpgqQPc
+         9A7QqynbxU/1qNEKZ6j551WQtrdvwdEW7OqBZgBtujRDc04k6WM7hpuEMjoukoai+9DZ
+         olBd8lUjyCYtAZB5lwi3MDKspzUKx5DjyNO0WLsLc45CzqmrmYuJ+6wRRDbp/kFHJUrl
+         2k5A==
+X-Gm-Message-State: AO0yUKXqF/HgsoMEfYgZ25E2n3Dngk9R0JeshDw3ODMzhGOxZseWgIeN
+        +zcOfNU5qDmFC/ghEslr1pE=
+X-Google-Smtp-Source: AKy350bz6Agr2tPQ3zn0s5AmrBBBZwePlBUyfKm7l36eWU9K3zdlr+rwj0cmfpdD28AI1Oignu33BA==
+X-Received: by 2002:a17:90b:4a8b:b0:23f:1165:b49f with SMTP id lp11-20020a17090b4a8b00b0023f1165b49fmr34305342pjb.38.1680441831318;
+        Sun, 02 Apr 2023 06:23:51 -0700 (PDT)
+Received: from [192.168.43.80] (subs28-116-206-12-38.three.co.id. [116.206.12.38])
+        by smtp.gmail.com with ESMTPSA id z14-20020a17090a540e00b00240dee12285sm4335491pjh.34.2023.04.02.06.23.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 02 Apr 2023 06:23:50 -0700 (PDT)
+Message-ID: <e33e3a14-fede-6a63-7cfe-776e02e2eecc@gmail.com>
+Date:   Sun, 2 Apr 2023 20:23:47 +0700
 MIME-Version: 1.0
-References: <20230325141909.2512452-1-masahiroy@kernel.org>
- <ZCSZTLjhLshLBKWM@bergen.fjasle.eu> <CAK7LNAQkKE8X3n6Tyw1oX2g-TsLqpY54yi=ObCHfARdm02Gvyw@mail.gmail.com>
- <ZChvkdnWpYkzKKQ5@fjasle.eu>
-In-Reply-To: <ZChvkdnWpYkzKKQ5@fjasle.eu>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 2 Apr 2023 11:13:41 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAShbZ56gSh9PrbLnBDYKnjtTkHMoCXeGrhcxMvqXGq9=g@mail.gmail.com>
-Message-ID: <CAK7LNAShbZ56gSh9PrbLnBDYKnjtTkHMoCXeGrhcxMvqXGq9=g@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: fix package build error due to broken symlinks
-To:     Nicolas Schier <nicolas@fjasle.eu>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Content-Type: multipart/mixed; boundary="000000000000e7b1ba05f850fff2"
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [BUG] Problem with automatic kernel numbering
+To:     Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Armin Wolf <W_Armin@gmx.de>,
+        Masahiro Yamada <masahiroy@kernel.org>
+References: <c4c14e20-941d-444e-7390-8624024d3027@alu.unizg.hr>
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <c4c14e20-941d-444e-7390-8624024d3027@alu.unizg.hr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
---000000000000e7b1ba05f850fff2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 4/1/23 18:54, Mirsad Goran Todorovac wrote:
+> I am talking about a problem with the CONFIG_LOCALVERSION_AUTO=y feature.
+> 
+> I thought of a way to make an exact account of which patches were applied in a build
+> i.e. adding patch checksum to 6.3.0-rc4-00034-gfcd476ea6a88-dirty, for currently the
+> command
+> 
+> # rpm -ivh --oldpackage <kernelname>-<build-no>.rpm
+> 
+> install the kernels
+> 
+> kernel-6.3.0_rc4mt+20230330_00051_g8bb95a1662f8_dirty-24.x86_64.rpm
+> kernel-6.3.0_rc4mt+20230330_00051_g8bb95a1662f8_dirty-25.x86_64.rpm
+> kernel-6.3.0_rc4mt+20230330_00051_g8bb95a1662f8_dirty-26.x86_64.rpm
+> 
+First, Cc'ing Masahiro.
 
-On Sun, Apr 2, 2023 at 2:53=E2=80=AFAM Nicolas Schier <nicolas@fjasle.eu> w=
-rote:
->
-> On Sat, Apr 01, 2023 at 11:55:44PM +0900 Masahiro Yamada wrote:
-> > On Thu, Mar 30, 2023 at 5:02=E2=80=AFAM Nicolas Schier <nicolas@fjasle.=
-eu> wrote:
-> > >
-> > > On Sat 25 Mar 2023 23:19:09 GMT, Masahiro Yamada wrote:
-> > > > 'make deb-pkg' and 'make rpm-pkg' fail if a broken symlink exists i=
-n
-> > > > a dirty source tree. Handle symlinks properly, and also, keep the
-> > > > executable permission.
-> > > >
-> > > > Fixes: 05e96e96a315 ("kbuild: use git-archive for source package cr=
-eation")
-> > > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > > ---
-> > > >
-> > > >  scripts/package/gen-diff-patch | 36 +++++++++++++++++++++++++-----=
-----
-> > > >  1 file changed, 27 insertions(+), 9 deletions(-)
-> > > >
-> > > > diff --git a/scripts/package/gen-diff-patch b/scripts/package/gen-d=
-iff-patch
-> > > > index f842ab50a780..23551de92e1b 100755
-> > > > --- a/scripts/package/gen-diff-patch
-> > > > +++ b/scripts/package/gen-diff-patch
-> > > > @@ -23,16 +23,34 @@ fi
-> > > >  git -C ${srctree} status --porcelain --untracked-files=3Dall |
-> > > >  while read stat path
-> > > >  do
-> > > > -     if [ "${stat}" =3D '??' ]; then
-> > > > -
-> > > > -             if ! diff -u /dev/null "${srctree}/${path}" > .tmp_di=
-ff &&
-> > > > -                     ! head -n1 .tmp_diff | grep -q "Binary files"=
-; then
-> > > > -                     {
-> > > > -                             echo "--- /dev/null"
-> > > > -                             echo "+++ linux/$path"
-> > > > -                             cat .tmp_diff | tail -n +3
-> > > > -                     } >> ${untracked_patch}
-> > > > +     if [ "${stat}" !=3D '??' ]; then
-> > > > +             continue
-> > > > +     fi
-> > > > +
-> > > > +     if [ -L "${path}" ]; then
-> > > > +             {
-> > > > +                     echo "diff --git a/${path} b/${path}"
-> > > > +                     echo "new file mode 120000"
-> > > > +                     echo "--- /dev/null"
-> > > > +                     echo "+++ b/$path"
-> > > > +                     echo "@@ -0,0 +1 @@"
-> > > > +                     printf "+"; readlink ${path}
-> > >
-> > > Better quote "${path}"?
-> >
-> >
-> > Thanks for the suggestion.
-> >
-> > Quoting variables are correct in most cases.
-> > But, that is not enough to generate a valid
-> > patch when a file path contains spaces.
-> >
-> >
-> >
-> > 'git format-patch' produces a patch that
-> > is accepted by GNU patch and also by dpkg-source.
-> >
-> > I learned a trick from GIT source code.
-> >
-> >
-> > If you are interested, what GIT does [1].
-> >
-> >
-> > [1] https://github.com/git/git/commit/1a9eb3b9d50367bee8fe85022684d8128=
-16fe531
->
-> thanks for the pointer, that is really interesting!
->
-> Kind regards,
-> Nicolas
->
->
-> > I will send v2 later, where I made some more efforts
-> > to fix several corner cases even if that is not perfect.
+I think applying patches with `git am` should change the `git describe`
+part of kernel version name. However, in this case, you have uncommitted
+changes in your tree when building.
 
+> all overlapping (apparently everything after '-' [minus] sign is discarded,
+> so one has to reboot to another kernel, i.e. 6.1.15, remove the offending kernel,
+> and then install the new one in the sequence of testing.
+> The CONFIG_LOCALVERSION_AUTO=y rpm build script might add something that rpm
+> command sees in the install process so the files do not overlap (as kernel names
+> are being truncated at '-' sign).
+> 
 
-I wrote a patch (attached to this email) but I am
-still thinking if this is worth the complicated scripting...
+Patch number truncated?
 
-Another approach would be to stop caring untracked files.
+> A smaller hash of the applied patches would suffice, considering the limit
+> of 64 chars. Or using an underscore '_' instead of minus '-', so the rpm
+> installer doesn't treat them as the same version of kernel.
+> 
 
+12 chars is minimum abbreviated hash length for Linux kernel, so it is
+already sufficient. Personally, I bump to 14 chars to give more headroom in
+case 12 chars give 50% collision in the (hopefully distant) future.
 
---=20
-Best Regards
-Masahiro Yamada
+Thanks.
 
---000000000000e7b1ba05f850fff2
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0001-kbuild-make-package-builds-more-robust.patch"
-Content-Disposition: attachment; 
-	filename="0001-kbuild-make-package-builds-more-robust.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_lfyrparj0>
-X-Attachment-Id: f_lfyrparj0
+-- 
+An old man doll... just what I always wanted! - Clara
 
-RnJvbSA0YjkxYWUzZjQ4Mjk1MDIwOWMzNTZhOThiNzk2MDQzOTRmMTY3NjVjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBNYXNhaGlybyBZYW1hZGEgPG1hc2FoaXJveUBrZXJuZWwub3Jn
-PgpEYXRlOiBTYXQsIDEgQXByIDIwMjMgMDM6NTc6MzEgKzA5MDAKU3ViamVjdDogW1BBVENIXSBr
-YnVpbGQ6IG1ha2UgcGFja2FnZSBidWlsZHMgbW9yZSByb2J1c3QKClJ1bm5pbmcgJ21ha2UgZGVi
-LXBrZycgaW4gYSBkaXJ0eSByZXBvc2l0b3J5ICh0aGF0IGlzLCAnZ2l0IGRpZmYnCm91dHB1dHMg
-c29tZXRoaW5nKSBoYXMgc29tZSBwcm9ibGVtcy4KClsxXSBJZiBhIGZpbGUgcGF0aCBjb250YWlu
-cyB3aGl0ZXNwYWNlcywgJ21ha2UgZGViLXBrZycgZmFpbHMgd2l0aAphbiBlcnJvciBtZXNzYWdl
-IGxpa2UgZm9sbG93czoKCiAgZGlmZjogLi9zY3JpcHRzL3BhY2thZ2UvLi4vLi4vImEgYiI6IE5v
-IHN1Y2ggZmlsZSBvciBkaXJlY3RvcnkKICAgIFtzbmlwXQogIGRwa2ctc291cmNlOiBlcnJvcjog
-ZXhwZWN0ZWQgXkBAIGF0IGxpbmUgMiBvZiBkaWZmIC4uLgoKJ2dpdCBzdGF0dXMgLS1wb3JjZWxh
-aW4nIGRvdWJsZS1xdW90ZXMgYSBmaWxlIHBhdGggdGhhdCBjb250YWlucwp3aGl0ZXNwYWNlcy4g
-UmVtb3ZlIHRoZSBzdXJyb3VuZGluZyBkb3VibGUtcXVvdGVzLCBhbmQgYWRkIFRBQiB0byB0aGUK
-JysrKycgbGluZSB0byBtYWtlIGl0IGEgdmFsaWQgcGF0Y2guIFRoaXMgaXMgdGhlIHNhbWUgYXMg
-d2hhdCBHSVQgZG9lcy4KClNlZSBHSVQgY29tbWl0IDFhOWViM2I5ZDUwMyAoImdpdC1kaWZmL2dp
-dC1hcHBseTogbWFrZSBkaWZmIG91dHB1dCBhCmJpdCBmcmllbmRsaWVyIHRvIEdOVSBwYXRjaCAo
-cGFydCAyKSIpIGZvciByZWZlcmVuY2UuCgpJIGdhdmUgdXAgb3RoZXIgc3BlY2lhbCBjaGFyYWN0
-ZXJzIHN1Y2ggYXMgVEFCLCBuZXcgbGluZS4gSXQgd291bGQgYmUKcG9zc2libGUgdG8gY3JlYXRl
-IGEgcGF0Y2ggdGhhdCBHTlUgcGF0Y2ggYWNjZXB0cyBieSBxdW90aW5nIHRoZSBmaWxlCnBhdGhz
-IChhbmQgJ2dpdCBkaWZmJyBkb2VzIHRoaXMpLCBidXQgZHBrZy1zb3VyY2UgZmFpbHMgYW55d2F5
-LgoKWzJdIFRoZSBleGVjdXRhYmxlIGJpdCBpcyBsb3N0LgoKWzNdIFN5bWJvbGljIGxpbmtzIGFy
-ZSBub3QgaGFuZGxlZC4KClJld3JpdGUgdGhlIGNvZGUgdG8gbWFrZSBpdCB3b3JrIG1vcmUgY29y
-cmVjdGx5LgoKU2lnbmVkLW9mZi1ieTogTWFzYWhpcm8gWWFtYWRhIDxtYXNhaGlyb3lAa2VybmVs
-Lm9yZz4KLS0tCiBzY3JpcHRzL3BhY2thZ2UvZ2VuLWRpZmYtcGF0Y2ggfCA3OSArKysrKysrKysr
-KysrKysrKysrKysrKysrKysrLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgNjYgaW5zZXJ0aW9ucygr
-KSwgMTMgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvc2NyaXB0cy9wYWNrYWdlL2dlbi1kaWZm
-LXBhdGNoIGIvc2NyaXB0cy9wYWNrYWdlL2dlbi1kaWZmLXBhdGNoCmluZGV4IGY4NDJhYjUwYTc4
-MC4uNDA1YjdkMTkyNWE1IDEwMDc1NQotLS0gYS9zY3JpcHRzL3BhY2thZ2UvZ2VuLWRpZmYtcGF0
-Y2gKKysrIGIvc2NyaXB0cy9wYWNrYWdlL2dlbi1kaWZmLXBhdGNoCkBAIC0yMSwyNCArMjEsNzcg
-QEAgaWYgWyAhIC1zICIke2RpZmZfcGF0Y2h9IiBdOyB0aGVuCiBmaQogCiBnaXQgLUMgJHtzcmN0
-cmVlfSBzdGF0dXMgLS1wb3JjZWxhaW4gLS11bnRyYWNrZWQtZmlsZXM9YWxsIHwKLXdoaWxlIHJl
-YWQgc3RhdCBwYXRoCit3aGlsZSByZWFkIC1yIHN0YXQgcGF0aAogZG8KLQlpZiBbICIke3N0YXR9
-IiA9ICc/PycgXTsgdGhlbgotCi0JCWlmICEgZGlmZiAtdSAvZGV2L251bGwgIiR7c3JjdHJlZX0v
-JHtwYXRofSIgPiAudG1wX2RpZmYgJiYKLQkJCSEgaGVhZCAtbjEgLnRtcF9kaWZmIHwgZ3JlcCAt
-cSAiQmluYXJ5IGZpbGVzIjsgdGhlbgotCQkJewotCQkJCWVjaG8gIi0tLSAvZGV2L251bGwiCi0J
-CQkJZWNobyAiKysrIGxpbnV4LyRwYXRoIgotCQkJCWNhdCAudG1wX2RpZmYgfCB0YWlsIC1uICsz
-Ci0JCQl9ID4+ICR7dW50cmFja2VkX3BhdGNofQotCQlmaQorCWlmIFsgIiR7c3RhdH0iICE9ICc/
-PycgXTsgdGhlbgorCQljb250aW51ZQogCWZpCi1kb25lCisKKwkjIHBhdGggbWF5IGJlIHF1b3Rl
-ZCBpZiBpdCBjb250YWlucyB3aGl0ZXNwYWNlcy4gVW5xdW90ZSBpdAorCXBhdGg9IiR7cGF0aCNc
-In0iCisJcGF0aD0iJHtwYXRoJVwifSIKKworCWNhc2UgIiR7cGF0aH0iIGluCisJKlxcKikKKwkJ
-IyBHaXZlIHVwIGVzY2FwZSBzZXF1ZW5jZXMgc3VjaCBhcyBcbiwgXHQuCisJCSMgSXQgaXMgcG9z
-c2libGUgdG8gY3JlYXRlIGEgcGF0Y2ggYnkgcXVvdGluZyBmaWxlIHBhdGhzCisJCSMgKGFuZCBp
-dCBpcyB3aGF0IEdJVCBkb2VzKSBidXQgZHBrZy1zb3VyY2UgZmFpbHMgd2l0aAorCQkjICIuLi4g
-cGF0Y2hlcyBmaWxlIHdpdGggQy1zdHlsZSBlbmNvZGVkIGZpbGVuYW1lIiBlcnJvci4KKwkJY29u
-dGludWUKKwkJOzsKKwkqXCAqKQorCQkjIEdOVSBwYXRjaCBleHBlY3RzIFRBQiBvbiAtLS0vKysr
-IGxpbmVzIGZvciBwYXRocyB3aXRoIHNwYWNlcy4KKwkJdGFiPSIkKHByaW50ZiAnXHQnKSIKKwkJ
-OzsKKwkqKQorCQl0YWI9CisJCTs7CisJZXNhYworCisJaWYgWyAhIC1mICIke3BhdGh9IiBdOyB0
-aGVuCisJCWNvbnRpbnVlCisJZmkKKworCWlmIFsgLUwgIiR7cGF0aH0iIF07IHRoZW4KKwkJZWNo
-byAiZGlmZiAtLWdpdCBhLyR7cGF0aH0gYi8ke3BhdGh9IgorCQllY2hvICJuZXcgZmlsZSBtb2Rl
-IDEyMDAwMCIKKwkJZWNobyAiLS0tIC9kZXYvbnVsbCIKKwkJZWNobyAiKysrIGIvJHtwYXRofSR7
-dGFifSIKKwkJZWNobyAiQEAgLTAsMCArMSBAQCIKKwkJcHJpbnRmICIrIjsgcmVhZGxpbmsgIiR7
-cGF0aH0iCisJCWVjaG8gJ1wgTm8gbmV3bGluZSBhdCBlbmQgb2YgZmlsZScKKwkJY29udGludWUK
-KwlmaQorCisJaWYgWyAteCAiJHtwYXRofSIgXTsgdGhlbgorCQltb2RlPTEwMDc1NQorCWVsc2UK
-KwkJbW9kZT0xMDA2NDQKKwlmaQorCisJaWYgWyAhIC1zICIke3BhdGh9IiBdOyB0aGVuCisJCWVj
-aG8gImRpZmYgLS1naXQgYS8ke3BhdGh9IGIvJHtwYXRofSIKKwkJZWNobyAibmV3IGZpbGUgbW9k
-ZSAke21vZGV9IgorCQljb250aW51ZQorCWZpCisKKwlpZiBkaWZmIC11IC9kZXYvbnVsbCAiJHtz
-cmN0cmVlfS8ke3BhdGh9IiA+IC50bXBfZGlmZiB8fCBbICIkPyIgIT0gMSBdOyB0aGVuCisJCWNv
-bnRpbnVlCisJZmkKKworCWlmIFsgIiQoaGVhZCAtbjYgLnRtcF9kaWZmKSIgPSBCaW5hcnkgXSA7
-IHRoZW4KKwkJY29udGludWUKKwlmaQorCisJZWNobyAiZGlmZiAtLWdpdCBhLyR7cGF0aH0gYi8k
-e3BhdGh9IgorCWVjaG8gIm5ldyBmaWxlIG1vZGUgJHttb2RlfSIKKwllY2hvICItLS0gL2Rldi9u
-dWxsIgorCWVjaG8gIisrKyBiLyR7cGF0aH0ke3RhYn0iCisJY2F0IC50bXBfZGlmZiB8IHRhaWwg
-LW4gKzMKK2RvbmUgPiAiJHt1bnRyYWNrZWRfcGF0Y2h9IgogCiBybSAtZiAudG1wX2RpZmYKIAog
-aWYgWyAhIC1zICIke2RpZmZfcGF0Y2h9IiBdOyB0aGVuCiAJcm0gLWYgIiR7ZGlmZl9wYXRjaH0i
-Ci0JZXhpdAogZmkKLS0gCjIuMzcuMgoK
---000000000000e7b1ba05f850fff2--
