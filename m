@@ -2,117 +2,210 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D16C16D3816
-	for <lists+linux-kbuild@lfdr.de>; Sun,  2 Apr 2023 15:27:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 606D46D3E20
+	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Apr 2023 09:33:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230174AbjDBN1H (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 2 Apr 2023 09:27:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42450 "EHLO
+        id S229797AbjDCHdZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 3 Apr 2023 03:33:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbjDBN1G (ORCPT
+        with ESMTP id S229785AbjDCHdZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 2 Apr 2023 09:27:06 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 088EE5FFA;
-        Sun,  2 Apr 2023 06:27:05 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id q102so24820350pjq.3;
-        Sun, 02 Apr 2023 06:27:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680442024;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CbdL7KkvQ82fAe5djvivuibJu2664croIJIdJMGh+kQ=;
-        b=TsPesgJvSErJnJtAg3/aTWlCULgIyZ4QgR/5Mf9tAHabQKbwqicezd2NimjN2E4y25
-         +ZlAaakrfofmrdOsj5jelxuz0ISo1u8eCSD4V2AyzA3cSXVt2Ew4gmPeU+vmBiE4+FiD
-         /08q6BOKZtoP+a/s6uJdi01SEk0r7rhVS+cL52+AO4OawFr5FVQO/9siewIQtYz3Et3u
-         Qzuy+MIJ4HyPrTvXZo8iomR7xtF4E5UPP+9Y7D+ugkFMQrnWri8lY25hEiD/kSCE4uTV
-         LTCzplrbJf3O/Vl1VNGoi9vvHEWOHjC5oSjJbjoBNGz9hvE+PfCepOgHL7Bp1UaGSC7O
-         xe/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680442024;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CbdL7KkvQ82fAe5djvivuibJu2664croIJIdJMGh+kQ=;
-        b=QeFAEUbllAKvXxIKP3gzkWXBXQP3k6oEmFPFG8lrn7gOUfkGvMkL1Gc7ocVkb089/e
-         AXhU5fQs5bfJNU9YBUDFssEyQULU8CE3JdWgrzpxM4x4agMR6wajj852yOymVE0njYIu
-         F/vCPTEFDsN20WTgsaNpRtV8yq9G/aDJ98KqP9mlpRI7q0Wu89njJzNhzsfMKy2BjVnK
-         Uapc80xspfRuC2gUsIdSPFhBjIP78hzDnBQKxvKgukXfqUBNJfHw6oElkYoFTmJnjEX3
-         C2YBVINBS9sAHCSDBqGf5ih2qC+iblL2doKvIN0uFCefoP1zqyp/5S0irbkHEt+LqQ5e
-         rtZg==
-X-Gm-Message-State: AO0yUKVuL/MvGeU+2ljK9sdpD6odNazNWqo2Nr3TAgQPEHbSmXseBg3J
-        lhcqeZPCvKPP0yPnKW7DX8E=
-X-Google-Smtp-Source: AK7set/paSWQhha7wLAUxN+IU7yHKYH1hHFbgAAWpVgJ0psQ98mgrhpwVFbPLyCg9/isep0L3IBM+w==
-X-Received: by 2002:a05:6a20:4f88:b0:d3:78ab:77c3 with SMTP id gh8-20020a056a204f8800b000d378ab77c3mr29939874pzb.48.1680442024514;
-        Sun, 02 Apr 2023 06:27:04 -0700 (PDT)
-Received: from debian.me (subs28-116-206-12-38.three.co.id. [116.206.12.38])
-        by smtp.gmail.com with ESMTPSA id d25-20020aa78699000000b00580e3917af7sm4622850pfo.117.2023.04.02.06.27.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Apr 2023 06:27:04 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id CCA351066AF; Sun,  2 Apr 2023 20:27:00 +0700 (WIB)
-Date:   Sun, 2 Apr 2023 20:27:00 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Sedat Dilek <sedat.dilek@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Cc:     Ron Economos <re@w6rz.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: Bug in recent changes to builddeb
-Message-ID: <ZCmCpCL7mfuf+71q@debian.me>
-References: <54a519ec-bfe5-60f3-fc43-707a11d38d2a@w6rz.net>
- <642d6944-4488-4dc6-99e9-209849b9771c@infradead.org>
- <5946f189-c564-e196-a375-cb03edcacaa0@infradead.org>
- <CA+icZUXt2Q6k6b6tHVA_F6rjeUTPmMb9uCCz+rbDJ9UW2kq3=A@mail.gmail.com>
+        Mon, 3 Apr 2023 03:33:25 -0400
+Received: from domac.alu.hr (domac.alu.unizg.hr [161.53.235.3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55F5E902A;
+        Mon,  3 Apr 2023 00:33:23 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by domac.alu.hr (Postfix) with ESMTP id 70A1A604F2;
+        Mon,  3 Apr 2023 09:33:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
+        t=1680507201; bh=OomdGXBJG+0KCTW3JqIeMmiq2WhKhkrYe6oOfcXQtqE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=1FI7hIoMd6/7BkrWfr0Suz4+rj5qy/kEtzQGHx31PUvAVI0G+qFPlbT/029IFDyhQ
+         GrawhgTrna5iPdox/ZBvxSVkg7Zz2ZAMZlMPIy/CVavYZsPZcpvQiRSueMDsJR1B2U
+         x9YBz9iMyXgdlyGByM03gW6x9tEZdU1pPPqe54VQtRAyoRuXUMJmQmsXk0BGPQDl0l
+         rFO4sognQ8u1D05KP6pXUXLRDaji3rUzd7LEhLNcJahhn2szAjo5o4HsLnk1sVrjy6
+         dY/VxHIxEYee+UuMsLOxSNr7PilIQ8F4YR9PJEcR4lA179Xal/Xru4EQarOqx7SER6
+         nDFordyEs485w==
+X-Virus-Scanned: Debian amavisd-new at domac.alu.hr
+Received: from domac.alu.hr ([127.0.0.1])
+        by localhost (domac.alu.hr [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id SnKZMUtd8w0M; Mon,  3 Apr 2023 09:33:18 +0200 (CEST)
+Received: from [10.0.1.57] (grf-nat.grf.hr [161.53.83.23])
+        by domac.alu.hr (Postfix) with ESMTPSA id 5A0B2604F0;
+        Mon,  3 Apr 2023 09:33:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
+        t=1680507198; bh=OomdGXBJG+0KCTW3JqIeMmiq2WhKhkrYe6oOfcXQtqE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=RnZ//ZGw7muFEbjr29RB9tqlR8+EKXXva1OvIl6W2fFjfpHw22dq6xAX9HvP6qjgF
+         CtBwqCe5NXmFhur9fMD32xrHIqHM3sCjyUjxK6l7HnS1yHNddGi6iCk4gn1Q7nptrX
+         YJGhQm7fxp5Oo/rQaPbA19mCxcQGGY7RyhvRubAdfUo/emSt3SQQ/GgKl6n/MgdNGd
+         hxBVmiiqg1n5nLSVg3sBC6eJGwtyxX8n1QIpFv5TNs2CJGCkuZJOOLu9BwJ/4CWWrV
+         QEx/H3cieA34rouBspmxFRM4qZgyJWbLi3sGiN69Oiffsp1dtCoP9ufIf4tbm3kpnV
+         jTeCttIid3ZFw==
+Message-ID: <2bd88480-24b4-b848-5092-47b6e31cf902@alu.unizg.hr>
+Date:   Mon, 3 Apr 2023 09:33:17 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="9nm8mXwebsdpjF4p"
-Content-Disposition: inline
-In-Reply-To: <CA+icZUXt2Q6k6b6tHVA_F6rjeUTPmMb9uCCz+rbDJ9UW2kq3=A@mail.gmail.com>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [BUG] [RFC] Problem with automatic kernel numbering
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Armin Wolf <W_Armin@gmx.de>,
+        Masahiro Yamada <masahiroy@kernel.org>
+References: <c4c14e20-941d-444e-7390-8624024d3027@alu.unizg.hr>
+ <e33e3a14-fede-6a63-7cfe-776e02e2eecc@gmail.com>
+Content-Language: en-US, hr
+From:   Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>
+In-Reply-To: <e33e3a14-fede-6a63-7cfe-776e02e2eecc@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On 2.4.2023. 15:23, Bagas Sanjaya wrote:
+> On 4/1/23 18:54, Mirsad Goran Todorovac wrote:
+>> I am talking about a problem with the CONFIG_LOCALVERSION_AUTO=y feature.
+>>
+>> I thought of a way to make an exact account of which patches were applied in a build
+>> i.e. adding patch checksum to 6.3.0-rc4-00034-gfcd476ea6a88-dirty, for currently the
+>> command
+>>
+>> # rpm -ivh --oldpackage <kernelname>-<build-no>.rpm
+>>
+>> install the kernels
+>>
+>> kernel-6.3.0_rc4mt+20230330_00051_g8bb95a1662f8_dirty-24.x86_64.rpm
+>> kernel-6.3.0_rc4mt+20230330_00051_g8bb95a1662f8_dirty-25.x86_64.rpm
+>> kernel-6.3.0_rc4mt+20230330_00051_g8bb95a1662f8_dirty-26.x86_64.rpm
+>>
+> First, Cc'ing Masahiro.
 
---9nm8mXwebsdpjF4p
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you, Sir.
 
-On Tue, Mar 28, 2023 at 06:49:00AM +0200, Sedat Dilek wrote:
->=20
-> Hi Masahiro,
->=20
-> when do you plan the next git-pull request to Linus?
->=20
-> For people using Debian and builddeb this is really annoying.
+> I think applying patches with `git am` should change the `git describe`
+> part of kernel version name. However, in this case, you have uncommitted
+> changes in your tree when building.
 
-He has sent the PR [1] and got merged.
+Yes, this does create a unique commit hash. This apparently solves the problem.
+Thanks for the hint.
 
-Thanks.
+>> all overlapping (apparently everything after '-' [minus] sign is discarded,
+>> so one has to reboot to another kernel, i.e. 6.1.15, remove the offending kernel,
+>> and then install the new one in the sequence of testing.
+>> The CONFIG_LOCALVERSION_AUTO=y rpm build script might add something that rpm
+>> command sees in the install process so the files do not overlap (as kernel names
+>> are being truncated at '-' sign).
 
-[1]: https://lore.kernel.org/lkml/CAK7LNAQEKgqrJNeknymSTsiRBbjoJJjWQ8VJ7ViC=
-2-9Z0Mgpyw@mail.gmail.com/
+> Patch number truncated?
 
---=20
-An old man doll... just what I always wanted! - Clara
+Indeed.
 
---9nm8mXwebsdpjF4p
-Content-Type: application/pgp-signature; name="signature.asc"
+All of the
 
------BEGIN PGP SIGNATURE-----
+ >> kernel-6.3.0_rc4mt+20230330_00051_g8bb95a1662f8_dirty-24.x86_64.rpm
+ >> kernel-6.3.0_rc4mt+20230330_00051_g8bb95a1662f8_dirty-25.x86_64.rpm
+ >> kernel-6.3.0_rc4mt+20230330_00051_g8bb95a1662f8_dirty-26.x86_64.rpm
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZCmCoQAKCRD2uYlJVVFO
-o5uCAQDXn5FKcuShOWk41xg09WbLLsHfnfbzMfKxrnAed2xW6AEA5Z702KdxOo7N
-xifApWkFmTkWWRIoXj02PU66hjZxqgw=
-=jycJ
------END PGP SIGNATURE-----
+were treated like "kernel-6.3.0_rc4mt+20230330_00051_g8bb95a1662f8_dirty" by
+the `rpm -ivh --oldpackage <package>.rpm` command.
 
---9nm8mXwebsdpjF4p--
+This cause install collisions in filenames (thankfully, it did not break the
+system, only prevented install until reboot in the third kernel, uninstall old
+and install new - however, this is error prone and clumsy).
+
+>> A smaller hash of the applied patches would suffice, considering the limit
+>> of 64 chars. Or using an underscore '_' instead of minus '-', so the rpm
+>> installer doesn't treat them as the same version of kernel.
+> 
+> 12 chars is minimum abbreviated hash length for Linux kernel, so it is
+> already sufficient. Personally, I bump to 14 chars to give more headroom in
+> case 12 chars give 50% collision in the (hopefully distant) future.
+
+This is not a problem with the 12-chars truncated SHA-1 hash, I suppose, but
+truncating "-24", "-25" and "-26" from the build id.
+
+> Thanks.
+
+Not at all, Sir.
+
+It would be very useful if the kernel gave i.e. in /proc/applied-patches/*
+the list of patches applied and against which build tree. If that is possible.
+Do I make any sense?
+
+Possibly, git may not be that smart to distinguish patches i.e. from the torvalds
+from those manually applied with `git am`?
+
+This might look like this:
+
+# cat /proc/applied-patches/list
+10de4cefccf7 (HEAD -> master) memstick: fix memory leak if card device is never registered
+feeedf59897c platform/x86: think-lmi: Clean up display of current_value on Thinkstation
+86cebdbfb8d2 platform/x86: think-lmi: Fix memory leaks when parsing ThinkStation WMI strings
+ff9de97baa02 The command allocated to set exit latency LPM values need to be freed in case the command is never queued. This would 
+be the case if there is no change in exit latency values, or device is missing.
+2ac6d07f1a81 platform/x86: think-lmi: Fix memory leak when showing current settings
+# cat /proc/applied-patches/2ac6d07f1a81
+commit 2ac6d07f1a813facd03a0c011a48b317ed9f4654
+Author: Armin Wolf <W_Armin@gmx.de>
+Date:   Fri Mar 31 23:33:19 2023 +0200
+
+     platform/x86: think-lmi: Fix memory leak when showing current settings
+
+     When retriving a item string with tlmi_setting(), the result has to be
+     freed using kfree(). In current_value_show() however, malformed
+     item strings are not freed, causing a memory leak.
+     Fix this by eliminating the early return responsible for this.
+
+     Reported-by: Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>
+     Link: https://lore.kernel.org/platform-driver-x86/01e920bc-5882-ba0c-dd15-868bf0eca0b8@alu.unizg.hr/T/#t
+     Tested-by: Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>
+     Fixes: 0fdf10e5fc96 ("platform/x86: think-lmi: Split current_value to reflect only the value")
+     Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+
+However, I can't seem to find a git diff command to give me difference from the main branch?
+
+Actually, I can, with some Googling:
+
+mtodorov@domac:~/linux/kernel/linux_torvalds$ git log --oneline origin/master..master
+10de4cefccf7 (HEAD -> master) memstick: fix memory leak if card device is never registered
+feeedf59897c platform/x86: think-lmi: Clean up display of current_value on Thinkstation
+86cebdbfb8d2 platform/x86: think-lmi: Fix memory leaks when parsing ThinkStation WMI strings
+ff9de97baa02 The command allocated to set exit latency LPM values need to be freed in case the command is never queued. This would 
+be the case if there is no change in exit latency values, or device is missing.
+2ac6d07f1a81 platform/x86: think-lmi: Fix memory leak when showing current settings
+mtodorov@domac:~/linux/kernel/linux_torvalds$
+
+So, git knows the list of applied patches against the vanilla tree.
+
+What would be handy for forensics would be to that that listed in /proc/applied-patches/list
+or something, just like /boot/config-$(uname -r) is helpful.
+
+However, this might not be so useful. Using "git am" solves the majority of the problem.
+
+There is a warning in the kernel docs that the newbie developers have ideas that are
+sometimes rejected.
+
+I should do a lot of homework before making such suggestions :-/
+
+Best regards,
+Mirsad
+
+-- 
+Mirsad Todorovac
+System engineer
+Faculty of Graphic Arts | Academy of Fine Arts
+University of Zagreb
+Republic of Croatia, the European Union
+
+Sistem inženjer
+Grafički fakultet | Akademija likovnih umjetnosti
+Sveučilište u Zagrebu
+
