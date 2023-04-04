@@ -2,146 +2,302 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DF256D51A3
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Apr 2023 21:54:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D4616D56A2
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Apr 2023 04:18:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232647AbjDCTyo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 3 Apr 2023 15:54:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36956 "EHLO
+        id S231468AbjDDCSU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 3 Apr 2023 22:18:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232648AbjDCTym (ORCPT
+        with ESMTP id S230108AbjDDCST (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 3 Apr 2023 15:54:42 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA7732D7D;
-        Mon,  3 Apr 2023 12:54:41 -0700 (PDT)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 333IwZW3028930;
-        Mon, 3 Apr 2023 19:54:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=sI/KI1M9WQUoAVI3hQPJq/s8QurLUTf4o+gm5JkNNQA=;
- b=N2ewvnT3s8M9V2Lwdkm7rNVGamgSVPdSxvG5A1epj0zqanQawo8xCnkvphzMR9tz7d1P
- Nm0SZP2gHoxl6U34HAoVB8aPyZHMacqW8t43mTmeWf1nNfdTyLCv2NT5FjH4sB/cH32Q
- u22hmPrfhwyawnhq7CWu9eYtur8JDaHEO6HlJfvhB2yg2R0D2yob1CNylD4f2Qcq+x8+
- cQkfnHW5NC7b6rHMPDJ+jfGXPh7WWFfwmtCjGytjICHaBR5LecZ8+6WbTQkrM+1VKFuo
- HHQ3GjI2VJfOdFplEgnGVkdWaUSa+4zwVZk1rD3aikbz8Rt5MJzPqKWfTWowTJ0Xgj+L 3Q== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pqwdrsabq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 03 Apr 2023 19:54:13 +0000
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 333Jrvnn032472
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 3 Apr 2023 19:53:57 GMT
-Received: from [10.110.44.117] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 3 Apr 2023
- 12:53:55 -0700
-Message-ID: <6d55e7af-4d68-2872-f407-268c3a4e95c8@quicinc.com>
-Date:   Mon, 3 Apr 2023 12:53:54 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v4 1/2] check-uapi: Introduce check-uapi.sh
-Content-Language: en-US
-To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Mon, 3 Apr 2023 22:18:19 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9314E1BEA;
+        Mon,  3 Apr 2023 19:18:18 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 15908623D8;
+        Tue,  4 Apr 2023 02:18:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F66AC433EF;
+        Tue,  4 Apr 2023 02:18:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1680574697;
+        bh=p/p3V4BgkOr/Neip3+vXCyP5CG771gQvUeVYNYDisGs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=iHoc5bYAH6bT+wc1TXqFY8mlISVmazb9CSc3NRLefppa1QHdxb6b61cAsfKQuloPL
+         0pO9i7PhodYwG+MrVssdCQ+z2Z9wBGgedLBh8jl6EFEZlgJ4a0UNDUFi4STRnMPkH8
+         doNpuz7Y+h1gD9LcbJlUZ8vH4Np1scOTGHWgBmrOemGaobKVpXmYNOx/RpiBKwzthn
+         If9awwwLOWfwRkMFLPpc0m6bSf2VOjMqK99LJoSvmi6+77300pBp7oi+0of9XsFUEG
+         o+qMNdH3YwV/k++kFA1SroOeY04PAX88j19H57SmRLWBbKrs5Z4uwYB/qTA55Q42VO
+         yrEPFqoBLQQQA==
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        "Nicolas Schier" <nicolas@fjasle.eu>
-CC:     <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Todd Kjos <tkjos@google.com>,
-        Matthias Maennich <maennich@google.com>,
-        Giuliano Procida <gprocida@google.com>,
-        <kernel-team@android.com>, <libabigail@sourceware.org>,
-        Jordan Crouse <jorcrous@amazon.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        "Satya Durga Srinivasu Prabhala" <quic_satyap@quicinc.com>,
-        Elliot Berman <quic_eberman@quicinc.com>,
-        Guru Das Srinagesh <quic_gurus@quicinc.com>
-References: <20230327174140.8169-1-quic_johmoo@quicinc.com>
- <20230327174140.8169-2-quic_johmoo@quicinc.com>
-From:   John Moon <quic_johmoo@quicinc.com>
-In-Reply-To: <20230327174140.8169-2-quic_johmoo@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Dc6jDXDEQnbtZ_OZatM18cZwm3cJBrCH
-X-Proofpoint-ORIG-GUID: Dc6jDXDEQnbtZ_OZatM18cZwm3cJBrCH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-03_15,2023-04-03_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- impostorscore=0 phishscore=0 spamscore=0 adultscore=0 mlxscore=0
- priorityscore=1501 mlxlogscore=694 suspectscore=0 clxscore=1011
- bulkscore=0 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2303200000 definitions=main-2304030154
-X-Spam-Status: No, score=-2.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        Nicolas Schier <nicolas@fjasle.eu>
+Subject: [PATCH] kbuild: give up untracked files for source package builds
+Date:   Tue,  4 Apr 2023 11:17:58 +0900
+Message-Id: <20230404021758.1194687-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.37.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 3/27/2023 10:41 AM, John Moon wrote:
-> While the kernel community has been good at maintaining backwards
-> compatibility with kernel UAPIs, it would be helpful to have a tool
-> to check if a commit introduces changes that break backwards
-> compatibility.
-> 
-> To that end, introduce check-uapi.sh: a simple shell script that
-> checks for changes to UAPI headers using libabigail.
-> 
-> libabigail is "a framework which aims at helping developers and
-> software distributors to spot some ABI-related issues like interface
-> incompatibility in ELF shared libraries by performing a static
-> analysis of the ELF binaries at hand."
-> 
-> The script uses one of libabigail's tools, "abidiff", to compile the
-> changed header before and after the commit to detect any changes.
-> 
-> abidiff "compares the ABI of two shared libraries in ELF format. It
-> emits a meaningful report describing the differences between the two
-> ABIs."
-> 
-> The script also includes the ability to check the compatibility of
-> all UAPI headers across commits. This allows developers to inspect
-> the stability of the UAPIs over time.
-> 
-> Signed-off-by: John Moon <quic_johmoo@quicinc.com>
-> ---
->      - Refactored to exclusively check headers installed by make
->        headers_install. This simplified the code dramatically and removed
->        the need to perform complex git diffs.
->      - Removed the "-m" flag. Since we're checking all installed headers
->        every time, a flag to check only modified files didn't make sense.
->      - Added info message when usr/include/Makefile is not present that
->        it's likely because that file was only introduced in v5.3.
->      - Changed default behavior of log file. Now, the script will not
->        create a log file unless you pass "-l <file>".
->      - Simplified exit handler.
->      - Added -j $MAX_THREADS to make headers_install to improve speed.
->      - Cleaned up variable references.
+When the source tree is dirty and contains untracked files, package
+builds may fail. For example, when a broken symlink exists, a file
+path contains whitespaces, etc.
 
+Since commit 05e96e96a315 ("kbuild: use git-archive for source package
+creation"), the source tarball only contains committed files because
+it is created by 'git archive'. scripts/package/gen-diff-patch tries
+to address the diff from HEAD, but including untracked files by the
+hand-crafted script introduces more complexity. I wrote a patch [1] to
+make it work in most cases, but still wonder if this is what we should
+aim for.
 
-Hi Masahiro, just a friendly reminder about this patch. I believe we've 
-addressed all of your comments from previous reviews and we're looking 
-forward to your feedback on this version.
+This patch just gives up untracked files. Going forward, it is your
+responsibility to do 'git add' for what you want in the source package.
+The script shows a warning just in case you forgot to do so. It should
+be checked only when building source packages.
 
-Thanks so much!
+[1]: https://lore.kernel.org/all/CAK7LNAShbZ56gSh9PrbLnBDYKnjtTkHMoCXeGrhcxMvqXGq9=g@mail.gmail.com/2-0001-kbuild-make-package-builds-more-robust.patch
 
-- John
+Fixes: 05e96e96a315 ("kbuild: use git-archive for source package creation")
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ scripts/Makefile.package       |  3 +-
+ scripts/package/gen-diff-patch | 57 +++++++++++++----------------
+ scripts/package/mkdebian       | 66 +++++++++++++++++++---------------
+ scripts/package/mkspec         | 11 ++----
+ 4 files changed, 67 insertions(+), 70 deletions(-)
+
+diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+index 61f72eb8d9be..49aff12cb6ab 100644
+--- a/scripts/Makefile.package
++++ b/scripts/Makefile.package
+@@ -94,7 +94,7 @@ binrpm-pkg:
+ 		$(UTS_MACHINE)-linux -bb $(objtree)/binkernel.spec
+ 
+ quiet_cmd_debianize = GEN     $@
+-      cmd_debianize = $(srctree)/scripts/package/mkdebian
++      cmd_debianize = $(srctree)/scripts/package/mkdebian $(mkdebian-opts)
+ 
+ debian: FORCE
+ 	$(call cmd,debianize)
+@@ -103,6 +103,7 @@ PHONY += debian-orig
+ debian-orig: private source = $(shell dpkg-parsechangelog -S Source)
+ debian-orig: private version = $(shell dpkg-parsechangelog -S Version | sed 's/-[^-]*$$//')
+ debian-orig: private orig-name = $(source)_$(version).orig.tar.gz
++debian-orig: mkdebian-opts = --need-source
+ debian-orig: linux.tar.gz debian
+ 	$(Q)if [ "$(df  --output=target .. 2>/dev/null)" = "$(df --output=target $< 2>/dev/null)" ]; then \
+ 		ln -f $< ../$(orig-name); \
+diff --git a/scripts/package/gen-diff-patch b/scripts/package/gen-diff-patch
+index f842ab50a780..a180ff94f655 100755
+--- a/scripts/package/gen-diff-patch
++++ b/scripts/package/gen-diff-patch
+@@ -2,43 +2,36 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ 
+ diff_patch="${1}"
+-untracked_patch="${2}"
+ srctree=$(dirname $0)/../..
+ 
+-rm -f ${diff_patch} ${untracked_patch}
+-
+-if ! ${srctree}/scripts/check-git; then
+-	exit
+-fi
+-
+-mkdir -p "$(dirname ${diff_patch})" "$(dirname ${untracked_patch})"
++mkdir -p "$(dirname ${diff_patch})"
+ 
+ git -C "${srctree}" diff HEAD > "${diff_patch}"
+ 
+-if [ ! -s "${diff_patch}" ]; then
+-	rm -f "${diff_patch}"
++if [ ! -s "${diff_patch}" ] ||
++   [ -z "$(git -C "${srctree}" ls-files --other --exclude-standard | head -n1)" ]; then
+ 	exit
+ fi
+ 
+-git -C ${srctree} status --porcelain --untracked-files=all |
+-while read stat path
+-do
+-	if [ "${stat}" = '??' ]; then
+-
+-		if ! diff -u /dev/null "${srctree}/${path}" > .tmp_diff &&
+-			! head -n1 .tmp_diff | grep -q "Binary files"; then
+-			{
+-				echo "--- /dev/null"
+-				echo "+++ linux/$path"
+-				cat .tmp_diff | tail -n +3
+-			} >> ${untracked_patch}
+-		fi
+-	fi
+-done
+-
+-rm -f .tmp_diff
+-
+-if [ ! -s "${diff_patch}" ]; then
+-	rm -f "${diff_patch}"
+-	exit
+-fi
++# The source tarball, which is generated by 'git archive', contains everything
++# you committed in the repository. If you have local diff ('git diff HEAD'),
++# it will go into ${diff_patch}. If untracked files are remaining, the resulting
++# source package may not be correct.
++#
++# Examples:
++#  - You modified a source file to add #include <linux/new-header.h>
++#    but forgot to add include/linux/new-header.h
++#  - You modified a Makefile to add 'obj-$(CONFIG_FOO) += new-dirver.o'
++#    but you forgot to add new-driver.c
++#
++# You need to commit them, or at least stage them by 'git add'.
++#
++# This script does not take care of untracked files because doing so would
++# introduce additional complexity. Instead, print a warning message here if
++# untracked files are found.
++# If all untracked files are just garbage, you can ignore this warning.
++echo >&2 "============================ WARNING ============================"
++echo >&2 "Your working tree has diff from HEAD, and also untracked file(s)."
++echo >&2 "Please make sure you did 'git add' for all new files you need in"
++echo >&2 "the source package."
++echo >&2 "================================================================="
+diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+index e20a2b5be9eb..220b5e35fc13 100755
+--- a/scripts/package/mkdebian
++++ b/scripts/package/mkdebian
+@@ -84,7 +84,45 @@ set_debarch() {
+ 	fi
+ }
+ 
++# Create debian/source/ if it is a source package build
++gen_source ()
++{
++	mkdir -p debian/source
++
++	echo "3.0 (quilt)" > debian/source/format
++
++	{
++		echo "diff-ignore"
++		echo "extend-diff-ignore = .*"
++	} > debian/source/local-options
++
++	# Add .config as a patch
++	mkdir -p debian/patches
++	{
++		echo "Subject: Add .config"
++		echo "Author: ${maintainer}"
++		echo
++		echo "--- /dev/null"
++		echo "+++ linux/.config"
++		diff -u /dev/null "${KCONFIG_CONFIG}" | tail -n +3
++	} > debian/patches/config
++	echo config > debian/patches/series
++
++	$(dirname $0)/gen-diff-patch debian/patches/diff.patch
++	if [ -s debian/patches/diff.patch ]; then
++		echo diff.patch >> debian/patches/series
++	else
++		rm -f debian/patches/diff.patch
++	fi
++}
++
+ rm -rf debian
++mkdir debian
++
++if [ "$1" = --need-source ]; then
++	gen_source
++	shift
++fi
+ 
+ # Some variables and settings used throughout the script
+ version=$KERNELRELEASE
+@@ -132,34 +170,6 @@ else
+         echo >&2 "Install lsb-release or set \$KDEB_CHANGELOG_DIST explicitly"
+ fi
+ 
+-mkdir -p debian/source/
+-echo "3.0 (quilt)" > debian/source/format
+-
+-{
+-	echo "diff-ignore"
+-	echo "extend-diff-ignore = .*"
+-} > debian/source/local-options
+-
+-# Add .config as a patch
+-mkdir -p debian/patches
+-{
+-	echo "Subject: Add .config"
+-	echo "Author: ${maintainer}"
+-	echo
+-	echo "--- /dev/null"
+-	echo "+++ linux/.config"
+-	diff -u /dev/null "${KCONFIG_CONFIG}" | tail -n +3
+-} > debian/patches/config
+-echo config > debian/patches/series
+-
+-$(dirname $0)/gen-diff-patch debian/patches/diff.patch debian/patches/untracked.patch
+-if [ -f debian/patches/diff.patch ]; then
+-	echo diff.patch >> debian/patches/series
+-fi
+-if [ -f debian/patches/untracked.patch ]; then
+-	echo untracked.patch >> debian/patches/series
+-fi
+-
+ echo $debarch > debian/arch
+ extra_build_depends=", $(if_enabled_echo CONFIG_UNWINDER_ORC libelf-dev:native)"
+ extra_build_depends="$extra_build_depends, $(if_enabled_echo CONFIG_SYSTEM_TRUSTED_KEYRING libssl-dev:native)"
+diff --git a/scripts/package/mkspec b/scripts/package/mkspec
+index b7d1dc28a5d6..b45020d64218 100755
+--- a/scripts/package/mkspec
++++ b/scripts/package/mkspec
+@@ -19,8 +19,7 @@ else
+ 	mkdir -p rpmbuild/SOURCES
+ 	cp linux.tar.gz rpmbuild/SOURCES
+ 	cp "${KCONFIG_CONFIG}" rpmbuild/SOURCES/config
+-	$(dirname $0)/gen-diff-patch rpmbuild/SOURCES/diff.patch rpmbuild/SOURCES/untracked.patch
+-	touch rpmbuild/SOURCES/diff.patch rpmbuild/SOURCES/untracked.patch
++	$(dirname $0)/gen-diff-patch rpmbuild/SOURCES/diff.patch
+ fi
+ 
+ if grep -q CONFIG_MODULES=y include/config/auto.conf; then
+@@ -56,7 +55,6 @@ sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
+ $S	Source0: linux.tar.gz
+ $S	Source1: config
+ $S	Source2: diff.patch
+-$S	Source3: untracked.patch
+ 	Provides: $PROVIDES
+ $S	BuildRequires: bc binutils bison dwarves
+ $S	BuildRequires: (elfutils-libelf-devel or libelf-devel) flex
+@@ -94,12 +92,7 @@ $S$M
+ $S	%prep
+ $S	%setup -q -n linux
+ $S	cp %{SOURCE1} .config
+-$S	if [ -s %{SOURCE2} ]; then
+-$S		patch -p1 < %{SOURCE2}
+-$S	fi
+-$S	if [ -s %{SOURCE3} ]; then
+-$S		patch -p1 < %{SOURCE3}
+-$S	fi
++$S	patch -p1 < %{SOURCE2}
+ $S
+ $S	%build
+ $S	$MAKE %{?_smp_mflags} KERNELRELEASE=$KERNELRELEASE KBUILD_BUILD_VERSION=%{release}
+-- 
+2.37.2
+
