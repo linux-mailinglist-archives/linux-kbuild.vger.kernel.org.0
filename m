@@ -2,160 +2,257 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ABDCB6D7BEC
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Apr 2023 13:49:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E986D6D7DAE
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Apr 2023 15:25:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237630AbjDELtj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 5 Apr 2023 07:49:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37460 "EHLO
+        id S237308AbjDENZy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 5 Apr 2023 09:25:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237936AbjDELti (ORCPT
+        with ESMTP id S237221AbjDENZx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 5 Apr 2023 07:49:38 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A997C40DA;
-        Wed,  5 Apr 2023 04:49:27 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id kq3so34131824plb.13;
-        Wed, 05 Apr 2023 04:49:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680695367;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=w1BOAPHjvwBZc8su+MgbgVVdFrkx9EshhGySuq8Rik0=;
-        b=Bt3SQPjIlscA+YIQGeFDeWCjFaY/IR7cWnrRvQAR6vJkLhPdBaa1HtFhU5RDFhLPFS
-         FgPhiqGgarOmcstcwvnrj1unU+Oq0zSOgn/hF9ZmgnSuicgEVf7yUrvwF2Nq+uPydIXo
-         Z8ar3S5OvmK/sytW1z6tji3TXij9oF89N6PEFZSldNA9UB6Bi35y85z74Ao5P1ZbjIFL
-         eQxx4+xBUmbD8ii8AbLRXjF51uAXluK/BR6Ntz8wilstrllzXtlmFTgB9vsFqdg3w6w0
-         I5bdIMV+HtJ64KrfmNnKPZfNjlb1mQhWlImR42Pv0HEKYXXOOla/rObROI06I5Abhv+8
-         Ii9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680695367;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=w1BOAPHjvwBZc8su+MgbgVVdFrkx9EshhGySuq8Rik0=;
-        b=E4eTsd4+WeA6t3lbd8ndnE8ahemrcirlqookLyJswMdD5r6LSphnLG4gvcav7WIvo8
-         /89fHYh3T4ovoKtqM4l+C4sSoWFfjG5cmeLME02S5oDmSOe18vDYORzhNhxxVpklTN7Z
-         Lo5CSw4dikmi2yOIjm+QdUH7OgqbhqcIfTmqj4V34BVkKlQdFnfaAgvNlWYgEUEwtjFk
-         CZIwpmAiq+dqG7qaSgNEl8R5acBFNI0QpLIt3M/XgyT8rJdDBSbA1tsjdI2Df/k/u+Eq
-         vkS/m66kZsP6fZq0Yehv9xTGxnFWgp3B2QnlLPV1p/GAWevZby/K4pNzI7ggKnPp0qng
-         xQMA==
-X-Gm-Message-State: AAQBX9e3Kea3G06bCyKgbjUzbBCMSS/x1ysa9+Uoio0WcCj4tJC/dZNj
-        jI+byGJQROAJblXJ0ARBR3U=
-X-Google-Smtp-Source: AKy350bSLOSqLBm8ShGZT00MxdAH6lu+lyUWEYbCEe4/MMf46RL/sqlXgZqYxCwRurEr1EetQSWcYQ==
-X-Received: by 2002:a17:902:e494:b0:19c:a866:6a76 with SMTP id i20-20020a170902e49400b0019ca8666a76mr5179345ple.42.1680695367063;
-        Wed, 05 Apr 2023 04:49:27 -0700 (PDT)
-Received: from localhost ([103.152.220.91])
-        by smtp.gmail.com with ESMTPSA id g8-20020a170902868800b0019cbabf127dsm9938617plo.182.2023.04.05.04.49.26
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 05 Apr 2023 04:49:26 -0700 (PDT)
-Date:   Wed, 5 Apr 2023 04:49:24 -0700
-From:   Dan Li <ashimida.1990@gmail.com>
-To:     Sami Tolvanen <samitolvanen@google.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Aaron Tomlin <atomlin@redhat.com>,
-        Alexander Potapenko <glider@google.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Alexandru Elisei <alexandru.elisei@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Borislav Petkov <bp@suse.de>,
-        Brian Gerst <brgerst@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Changbin Du <changbin.du@intel.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        gcc-patches@gcc.gnu.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Juergen Gross <jgross@suse.com>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Marco Elver <elver@google.com>,
-        Mark Brown <broonie@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Michael Roth <michael.roth@amd.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Richard Sandiford <richard.sandiford@arm.com>,
-        Song Liu <song@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tom Rix <trix@redhat.com>, Uros Bizjak <ubizjak@gmail.com>,
-        Will Deacon <will@kernel.org>, x86@kernel.org,
-        Yuntao Wang <ytcoode@gmail.com>, Yu Zhao <yuzhao@google.com>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, llvm@lists.linux.dev,
-        linux-hardening@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-modules@vger.kernel.org, linux-perf-users@vger.kernel.org
-Subject: Re: [RFC/RFT,V2] CFI: Add support for gcc CFI in aarch64
-Message-ID: <20230405114924.v7p76tzwmecquz2q@ubuntu>
-References: <20221219061758.23321-1-ashimida.1990@gmail.com>
- <20230325085416.95191-1-ashimida.1990@gmail.com>
- <20230327093016.GB4253@hirez.programming.kicks-ass.net>
- <CABCJKueH6ohH27xCPz9a_ndRR26Na_mo=MGF3eqjwV2=gJy+wQ@mail.gmail.com>
+        Wed, 5 Apr 2023 09:25:53 -0400
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A6A62705;
+        Wed,  5 Apr 2023 06:25:51 -0700 (PDT)
+Received: from smtp2.mailbox.org (unknown [10.196.197.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Ps53s5p4Qz9sWQ;
+        Wed,  5 Apr 2023 15:25:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+        t=1680701145;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=cR/OvOvJs59rNk5jcsPneU6R356jMy/c2dhPUAXGqKY=;
+        b=ogPQ4n+1gRbjfZy6cbYnpQ+BGz/42pT5ysLSLQM+NC6ZYo132jyngD+TyocbpkksrCdE2j
+        tdCmWesa7gSFCopqaFWhtqxLdvC4yeK7du7k+v7yzoAZbM8fWiexoxnq4yj6Fwm25EpMBP
+        qKLD4L5GR29jxU2luVHNsi2F2hG8y2CzBFFOxyOBcltB4LB0ZrR+j4KVLbCUTj99ydqqDX
+        tADOwpsiIWidCWWzOAf8qSm8u3JXDvdektpHINElofF4r6lIgF4kaiYsm22Kkpz6ystyeH
+        TTb4PNEus22XNJeJ5+cP2UmqEs2pHM5s64hNI7qHMEQXvhm2xn8CKLKkt3rd5A==
+Date:   Wed, 5 Apr 2023 15:25:45 +0200 (CEST)
+From:   torvic9@mailbox.org
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Message-ID: <914630853.739773.1680701145159@office.mailbox.org>
+In-Reply-To: <CAK7LNATY8PvkDesOBQxLw11t1-OT9EsrNHekjAeOjLDhwPcP8w@mail.gmail.com>
+References: <1de9eccd-8570-3b69-4be2-347e862bcc33@mailbox.org>
+ <CAK7LNATY8PvkDesOBQxLw11t1-OT9EsrNHekjAeOjLDhwPcP8w@mail.gmail.com>
+Subject: Re: [Question] Restore previous "local tag" behaviour
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CABCJKueH6ohH27xCPz9a_ndRR26Na_mo=MGF3eqjwV2=gJy+wQ@mail.gmail.com>
-User-Agent: NeoMutt/20171215
-X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Priority: 3
+Importance: Normal
+X-MBO-RS-ID: 30cc34286f76dc40001
+X-MBO-RS-META: ry6t3ay4s5yi9w31hdekona1q9xyqxum
+X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 03/27, Sami Tolvanen wrote:
-> On Mon, Mar 27, 2023 at 2:30 AM Peter Zijlstra <peterz@infradead.org> wrote:
-> >
-> > On Sat, Mar 25, 2023 at 01:54:16AM -0700, Dan Li wrote:
-> >
-> > > In the compiler part[4], most of the content is the same as Sami's
-> > > implementation[3], except for some minor differences, mainly including:
-> > >
-> > > 1. The function typeid is calculated differently and it is difficult
-> > > to be consistent.
-> >
-> > This means there is an effective ABI break between the compilers, which
-> > is sad :-( Is there really nothing to be done about this?
-> 
-> I agree, this would be unfortunate, and would also be a compatibility
-> issue with rustc where there's ongoing work to support
-> clang-compatible CFI type hashes:
-> 
-> https://github.com/rust-lang/rust/pull/105452
-> 
-> Sami
 
-Hi Sami,
+> Masahiro Yamada <masahiroy@kernel.org> hat am 01.04.2023 06:22 GMT geschr=
+ieben:
+>=20
+> =20
+> On Tue, Mar 28, 2023 at 2:44=E2=80=AFAM Tor Vic <torvic9@mailbox.org> wro=
+te:
+> >
+> > Hi,
+> >
+> > When I'm building my kernels, I used to tag my personal releases with a
+> > similar annotated tag commit as with vanilla kernel, just appending
+> > "-tv" or similar to it, i.e. "v6.3-rc4" becomes "v6.3-rc4-tv".
+>=20
+> I do not understand what you want to achieve.
+>=20
+>=20
+>=20
+> Let's say you wanted to release "v6.0-rc4-tv",
+> which consists of v6.0-rc4 with 331 extra commits.
+>=20
+>=20
+> $ git checkout  v6.0-rc5^
+> HEAD is now at 4ed9c1e971b1 Merge tag 'kbuild-fixes-v6.0-2' of
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild
+> $ git describe
+> v6.0-rc4-331-g4ed9c1e971b1
+> $ make kernelrelease
+> 6.0.0-rc4-00331-g4ed9c1e971b1
+>=20
+>=20
+> Then, you released it as "v6.0-rc4-tv".
+>=20
+> $ git tag -a v6.0-rc4-tv -m "Linux v6.0-rc4-tv"
+> $ make kernelrelease
+> 6.0.0-rc4
+>=20
+>=20
+> Then, kernelrelease becomes clean '6.0.0-rc4'.
+> Is this what you want?
+>=20
+> It is apparently wrong since there are
+> 331 commits between v6.0-rc4 and v6.0-rc4-tv.
+>=20
+> That is what 6ab7e1f95e96 _fixed_.
+>=20
+>=20
+> The behavior is now clearer and correct.
+>=20
+> $ git describe
+> v6.3-rc4-174-g2bac7dc169af
+> $ git tag  -a v6.3-rc4-tv  -m "Linux v6.3-rc4-tv"
+> $ make kernelrelease
+> 6.3.0-rc4-00174-g2bac7dc169af
+>=20
+>=20
+> If you wanted to make a "-tv" release,
+> you would want to change the version field in Makefile
+> before tagging.
+>=20
+>=20
+>  diff --git a/Makefile b/Makefile
+>  index da2586d4c728..8639036f5095 100644
+>  --- a/Makefile
+>  +++ b/Makefile
+>  @@ -2,7 +2,7 @@
+>   VERSION =3D 6
+>   PATCHLEVEL =3D 3
+>   SUBLEVEL =3D 0
+>  -EXTRAVERSION =3D -rc4
+>  +EXTRAVERSION =3D -rc4-tv
+>   NAME =3D Hurr durr I'ma ninja sloth
+>=20
+>   # *DOCUMENTATION*
+>=20
+>=20
+>=20
+> Then, kernelrelease shows it is a "-tv" release.
+>=20
+> $ make kernelrelease
+> 6.3.0-rc4-tv
+>=20
 
-Thanks for the info, I need to learn about it :)
-Is there anything else that needs to be improved?
+Hi,
 
-Thanks,
-Dan
+sorry for the late reply, and my explanation was not very clear indeed.
+The above suggestion is what I'm looking for, but without modifying the sou=
+rce.
+
+Let me try to give an example:
+
+1. In sourcedir; source is at a tagged release:
+    $ git describe HEAD
+    v6.3-rc5-tv
+
+2. Copy the kernel config which has LOCALVERSION_AUTO=3Dy and LOCALVERSION=
+=3D"":
+    $ cp /path/to/config ./config
+
+3. Run oldconfig:
+    $ make oldconfig
+
+4. Run kernelrelease:
+    $ make -s kernelrelease
+    6.3.0-rc5-0071-g0f69b90f
+
+Expected: 6.3-rc5-tv (or maybe 6.3.0-rc5-tv?).
+
+I tried adding the exact tag to the 'localversion' file, but then I get thi=
+s
+concatenated string:
+    6.3.0-rc5v6.3-rc5-tv
+And only adding "-tv" I at least get something better:
+    6.3.0-rc5-tv-0071-g0f69b90f
+
+I do agree that the new behaviour is more correct, I'm just trying to find =
+a clean way
+to have my tag as kernel version for "releases".
+If there is no other way, then I'm going to use your suggestion of changing=
+ Makefile,
+which I assume can be done with a simple sed command.
+
+Sorry I'm confused in a very "noob" way....
+
+Cheers,
+Tor Vic
+
+
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
+> > This has worked just fine so far, but...
+> >
+> > Since commit 6ab7e1f95e96f0c688ae132b0e9a16c0f206689d ("setlocalversion=
+:
+> > use only the correct release tag for git-describe"), this is not taken
+> > into account anymore, it uses the "git describe" tag instead of using
+> > the actually tagged commit as "kernelrelease".
+> >
+> > Is there a way to restore the previous behaviour without having to
+> > revert this (and preceding) commits?
+> >
+> > I know that we can disable CONFIG_LOCALVERSION_AUTO=3Dy and append
+> > directly to CONFIG_LOCALVERSION, but maybe someone knows how to use the
+> > "old" way of using tags...?
+> >
+> > In other words, when I have a local tag, I want "kernelrelease" to use
+> > just that tag, and when I don't tag anything, it should just use the
+> > standard "git describe" tag.
+>=20
+>=20
+> Again, I do not understand.
+>=20
+> git tag is not stable information.
+>=20
+> If you call it "a release",
+> you would want to work in the same way with/without git
+> even if most kernel developers are working in a git tree.
+>=20
+>=20
+> The mainline kernel, stable-kernel, linux-next are
+> released in https://kernel.org/
+> (and GitHub allows users to download a tarball of
+> a tagged commit.)
+>=20
+>=20
+> A released tarball (of course, there is no tag there),
+> produces the same kernelrelease as the git tree does.
+>=20
+> You are requiring the kernelrelease be different
+> with/without the *-tv tag.
+> That is not what the release would look like.
+>=20
+> The mainline kernel and stable kernel increment
+> the version field in Makefile.
+> linux-next has "localversion-next" at the top of the tree.
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
+> > For the moment I have just reverted the related commits as they don't
+> > serve any purpose for my needs.
+> >
+> > Cheers,
+> >
+> > Tor Vic
+>=20
+>=20
+>=20
+> --=20
+> Best Regards
+> Masahiro Yamada
