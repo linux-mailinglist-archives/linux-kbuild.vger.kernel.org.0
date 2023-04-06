@@ -2,115 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF34D6D8915
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Apr 2023 22:51:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2391D6D9C34
+	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Apr 2023 17:25:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231429AbjDEUvc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 5 Apr 2023 16:51:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46404 "EHLO
+        id S239105AbjDFPZz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 6 Apr 2023 11:25:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbjDEUvb (ORCPT
+        with ESMTP id S238723AbjDFPZy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 5 Apr 2023 16:51:31 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B987185;
-        Wed,  5 Apr 2023 13:51:30 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9BC1062B84;
-        Wed,  5 Apr 2023 20:51:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54C90C433EF;
-        Wed,  5 Apr 2023 20:51:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680727889;
-        bh=GIhWuSTvi5dNlCJnEe2QuPHkW1zE/y3p5xizO193qDs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lcuimBJR8T//I6SFduCNiWwmM9eKXgog875khOYd5/Svp36Sp9c6y3Kmc9HRohKGP
-         hJiYuFJjchgqjadCtly19N88RnFZk42S4xNwSlybAe1cOi8nDo6JbXV1NNPlKgEYz9
-         Q6pgj6HUZc0PJR9XWbYPdQxDKk9N/X3+IqEfvqQo0H35polk9YbUz0D3bpnga+tEDO
-         Z+LUC3w2cq6uK/PzH0Jb/3xUhUrKez8i/ujmvBcAlKvKXPb52doMCtsY81GzmFrR13
-         wl9fvmVI4tnq3RUpBtbm9ckjBItAuMqdOxprcE1PjQ379hjCchOfHrF89vXvGW29SE
-         OQCYph6Hitxug==
-Date:   Wed, 5 Apr 2023 13:51:26 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Bill Wendling <morbo@google.com>
-Cc:     ndesaulniers@google.com, masahiroy@kernel.org, corbet@lwn.net,
-        arnd@arndb.de, keescook@chromium.org, trix@redhat.com,
-        nicolas@fjasle.eu, llvm@lists.linux.dev, patches@lists.linux.dev,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation/llvm: Add a note about prebuilt kernel.org
- toolchains
-Message-ID: <20230405205126.GA3280774@dev-arch.thelio-3990X>
-References: <20230405-korg-llvm-tc-docs-v1-1-420849b2e025@kernel.org>
- <CAGG=3QX65iJEtvMiSD2Ju18f0KfHsi2zPXAQDSh0ScqbCLv=Cg@mail.gmail.com>
+        Thu, 6 Apr 2023 11:25:54 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23D5B83D0;
+        Thu,  6 Apr 2023 08:25:53 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id l9-20020a17090a3f0900b0023d32684e7fso6263410pjc.1;
+        Thu, 06 Apr 2023 08:25:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680794752;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PUQ8oESSljl7LcAtOU7U3oSuoUb+Qt3q7y1CKScYoAA=;
+        b=WD88FKkRX4rFSwhZfEY4r6JbYSxxhFuJdgQYG8191taXjOuzdbaAv15TvgXFuWjLKo
+         r2HJrjK8lk0yB5e+GqzbJR/Vp8nlVS9oy3kgZQJltn7ouOWl1tj8U/D5IzK9i1tmzaqj
+         YaTCf01GrRyAP50iuGliPIRrAQPCS0003gQkegNSSAJClOTkDMFM8BuosEcrqwuVplCC
+         7a25ZMRfcVaZDvzPeT/OesCkJQRJ5GbnP3fVwU1URUfh8UKg1nv5lmxYHFNwfbpC6z2l
+         nNX+Bo9BaaLbpSUvEbgjLeSMI4QYmR95hLJQ5ptduaGhMUyNPdFFrDe3JWuihlP7pj1c
+         FCBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680794752;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PUQ8oESSljl7LcAtOU7U3oSuoUb+Qt3q7y1CKScYoAA=;
+        b=HLhNdPoQNyqAXMjnUw8Km/sb+hE20HMiTYloN7vA2YXCYW39YaSs3GV8NegqaC4fCI
+         iInyP4lpuyUgDjIVhGuX19Wx7c53buhID1e/lrIgur6T9NAPGLCoeqwJPp1BuEbs6jmH
+         rUaFmp27gTvZOIlo1qfzqGKkbUc8DZc2PaJHOL+Nu1/PGymPMNOYxP4BwHCR8PDCPnwg
+         6AKeDyQKiQdO5Zugy99YtPNCuESXMcJUfphva+EGjbHxC43jCZXQUTmj04fWnt4SxewL
+         CspOaUW3nYhYavE91xfMg1bQcAPNA0zBg+JKagEFGRNiIDpSTII9JeHzz/UwsUGzdOSb
+         jMiw==
+X-Gm-Message-State: AAQBX9elWzPQRrPd3IRPWmHo/o6ds8fnM2VnQ4Oy7JMvFUQUGS1scwhf
+        EGEXLUhRNdjtuOp28O6ICVI=
+X-Google-Smtp-Source: AKy350ak7+EF/GjUCKlsSzzMi0I8JNUOHruZCNeonk/ecOux13eEh9AhsOKdO9UQd6pHMtJRFHlKYQ==
+X-Received: by 2002:a17:90a:47:b0:23d:3931:7b49 with SMTP id 7-20020a17090a004700b0023d39317b49mr11258888pjb.35.1680794752358;
+        Thu, 06 Apr 2023 08:25:52 -0700 (PDT)
+Received: from localhost.localdomain ([4.193.120.76])
+        by smtp.gmail.com with ESMTPSA id k60-20020a17090a4cc200b0023f5c867f82sm3227904pjh.41.2023.04.06.08.25.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Apr 2023 08:25:51 -0700 (PDT)
+From:   youling257 <youling257@gmail.com>
+To:     masahiroy@kernel.org
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        nathan@kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu,
+        terrelln@fb.com, torvalds@linux-foundation.org
+Subject: [PATCH 6/6] kbuild: use git-archive for source package creation
+Date:   Thu,  6 Apr 2023 23:25:40 +0800
+Message-Id: <20230406152540.8207-1-youling257@gmail.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230312200731.599706-7-masahiroy@kernel.org>
+References: <20230312200731.599706-7-masahiroy@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGG=3QX65iJEtvMiSD2Ju18f0KfHsi2zPXAQDSh0ScqbCLv=Cg@mail.gmail.com>
-X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 05, 2023 at 01:47:44PM -0700, Bill Wendling wrote:
-> On Wed, Apr 5, 2023 at 1:44 PM Nathan Chancellor <nathan@kernel.org> wrote:
-> >
-> > I recently started uploading prebuilt stable versions of LLVM to
-> > kernel.org, which should make building the kernel with LLVM more
-> > accessible to maintainers and developers. Link them in the LLVM
-> > documentation to make this more visible.
-> >
-> > Link: https://lore.kernel.org/20230319235619.GA18547@dev-arch.thelio-3990X/
-> > Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
-> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> > ---
-> >  Documentation/kbuild/llvm.rst | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> > index bfb51685073c..3e1f67b05ca6 100644
-> > --- a/Documentation/kbuild/llvm.rst
-> > +++ b/Documentation/kbuild/llvm.rst
-> > @@ -171,6 +171,10 @@ Getting Help
-> >  Getting LLVM
-> >  -------------
-> >
-> > +We provide prebuilt stable versions of LLVM on `kernel.org <https://kernel.org/pub/tools/llvm/>`_.
-> > +Below are links that may be useful for building LLVM from source or procurring
-> 
-> s/procurring/procuring/
+This patch cause build time a bit longer.
+I use "time make targz-pkg -i -j8" build kernel, this patch will first create *.tar file, then create *.tar.gz file, build time a bit longer.
+'./System.map' -> 'tar-install/boot/System.map-6.3.0-rc5-android-x86_64+'
+'.config' -> 'tar-install/boot/config-6.3.0-rc5-android-x86_64+'
+'./vmlinux' -> 'tar-install/boot/vmlinux-6.3.0-rc5-android-x86_64+'
+'./arch/x86/boot/bzImage' -> 'tar-install/boot/vmlinuz-6.3.0-rc5-android-x86_64+'
+  TAR     linux-6.3.0-rc5-android-x86_64+-x86.tar
+  GZIP    linux-6.3.0-rc5-android-x86_64+-x86.tar.gz
 
-Leave it to me to forget to use ':set spell' :( sometimes I think that
-people would have a hard time guessing I am a native English speaker :^)
+real    0m37.991s
+user    0m47.529s
+sys     0m8.235s
 
-> Otherwise:
-> 
-> Reviewed-by: Bill Wendling <morbo@google.com>
+Revert "kbuild: use git-archive for source package creation"
+'./System.map' -> 'tar-install/boot/System.map-6.3.0-rc5-android-x86_64+'
+'.config' -> 'tar-install/boot/config-6.3.0-rc5-android-x86_64+'
+'./vmlinux' -> 'tar-install/boot/vmlinux-6.3.0-rc5-android-x86_64+'
+'./arch/x86/boot/bzImage' -> 'tar-install/boot/vmlinuz-6.3.0-rc5-android-x86_64+'
+  TAR     linux-6.3.0-rc5-android-x86_64+-x86.tar.gz
 
-Thanks for the quick review! I will send a v2 once others have had a
-chance to chime in (unless the person applying this does not mind fixing
-it up at that time).
+real    0m11.006s
+user    0m21.079s
+sys     0m7.830s
 
-> -bw
-> 
-> > +it through a distribution's package manager.
-> > +
-> >  - https://releases.llvm.org/download.html
-> >  - https://github.com/llvm/llvm-project
-> >  - https://llvm.org/docs/GettingStarted.html
-> >
-> > ---
-> > base-commit: 7e364e56293bb98cae1b55fd835f5991c4e96e7d
-> > change-id: 20230405-korg-llvm-tc-docs-84304e881bc5
-> >
-> > Best regards,
-> > --
-> > Nathan Chancellor <nathan@kernel.org>
-> >
-> >
+I don't like *.tar file, i will delete *.tar file when every time build kernel, i need *.tar.gz file, if one file is i needn't, i will delete it.
+linux-6.3.0-rc5-android-x86_64+-x86.tar.gz file is i need, linux-6.3.0-rc5-android-x86_64+-x86.tar is i needn't.
