@@ -2,58 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DC726DB4F1
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Apr 2023 22:12:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 661206DB513
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Apr 2023 22:17:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229724AbjDGUMz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Apr 2023 16:12:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36402 "EHLO
+        id S229982AbjDGURR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 Apr 2023 16:17:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229643AbjDGUMy (ORCPT
+        with ESMTP id S229600AbjDGURP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Apr 2023 16:12:54 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D727FBBB8
-        for <linux-kbuild@vger.kernel.org>; Fri,  7 Apr 2023 13:12:53 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id 98e67ed59e1d1-23f8be2d34eso237280a91.2
-        for <linux-kbuild@vger.kernel.org>; Fri, 07 Apr 2023 13:12:53 -0700 (PDT)
+        Fri, 7 Apr 2023 16:17:15 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADED3C66A
+        for <linux-kbuild@vger.kernel.org>; Fri,  7 Apr 2023 13:16:59 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id q15-20020a17090a2dcf00b0023efab0e3bfso2279528pjm.3
+        for <linux-kbuild@vger.kernel.org>; Fri, 07 Apr 2023 13:16:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1680898373; x=1683490373;
+        d=google.com; s=20210112; t=1680898619; x=1683490619;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=c5mYams1Om5vGKqMiylWUp4/KwLeRIpwwY8Rdx8IDJM=;
-        b=FrKxlg6OAQXebFijrGcZUtm+iDlBYVl95CUmNYQuXGR8OrVOWgJ7gaZCA4m0bDzfeV
-         ylq7a7nIgBKdbRw6eB+gjLN/jqoNgL6CUDD+9hPYtbSEmS3ZXvEGJWtlS43bejz17gnP
-         nBrsq6EVy30ZVNbnpuYJIEseQAtOBU5TgoNYcX333ndOgADEYFHKhshlpwD/VnNH2nyI
-         uoQtJlcbLGd5UoYfbo5cZ/yVHHNBNb22HxR3cBkTo8c4lTCKAP7y3TFCo7hosaPp0uM4
-         NBz7bbQAhBwfvGA4wGzjOogXBqTl4PrspwHHxXnBodJ0SV1+blI/H4ykGNUdpKBKRlDV
-         ymYQ==
+        bh=GENUw9PqHBdUQEL7FlbS+wdO3dyU6tn18qubnwix7jU=;
+        b=EaZapur5N7xnNq/YZo/eVlN61WzPv9HAnkbWBMyfaGhZ/0gJWIlsiyBVHWxzhdaw1t
+         R72R8SmNCfn7gOE3iA3IHUCRcbAhGdJeVPIls4cJLB0T7xnifBLTjxGwcaOsvhJNJjI+
+         l7hNO+bW2f7jkalZpw4AgJ3knwDIHaHVEouKYGvexkGYcX+HfBZ4SCS4piD0U6/Vq4WK
+         Mrr/ENhyEAyAZ3NGN1F+7exOIEN/OdgXkkifBZ+3wTF9MEgxikWSqb18Why1CqmTTPtH
+         eMA2SSTXI6uONKq0K2JOwTHAUu8YZZgEKzwE/KtMm2vjPpmSEy4nuAC8cchlsU9vl8VE
+         HaXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680898373; x=1683490373;
+        d=1e100.net; s=20210112; t=1680898619; x=1683490619;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=c5mYams1Om5vGKqMiylWUp4/KwLeRIpwwY8Rdx8IDJM=;
-        b=RPgWARIjjWgSXlTb2Hhm1ePLSyA6SuXNyUKQ9xCTgZdqw4toP9IfhL9j8C1+b0UtiQ
-         Qm0ime8F7WTEWbyVczFA1ZahzxNH/ZEJbXeb/YlrMEJx8JWFe8PcrNSXNTNVd4UrWbmD
-         NPXzKoE0YjHoqBClDKz7ad3LRLcl29hgJ5sR/Wb8W8iEyu6lyBGYvmjDUE8XIdeV367X
-         BtttDtjZt8SNaSA35REnEjnSgrMttYSmlT+o+qytNBzShHjG1UNAOTlythaVgAdP50Ok
-         TKUVbQ5cKZMuZkITiErHIejLFkpK0vQwBgQwSEMUMQsYfkhGXVP5FhrvFU+JguDH/FJ7
-         kixw==
-X-Gm-Message-State: AAQBX9db1DiC1cH0oJJFbHr8hD16mKqZpP/Zub5Het3jfqk9kuJKq9ge
-        eKHeelayJk9co8tv2++hwpKzLvKoRN3CZXGFqoznZw==
-X-Google-Smtp-Source: AKy350aN6BrRdc4IJwbEKfxvNrr4JkL+vHVSKoHcPfr1050DMbmBnb2k6qGK0zUzmftpgVE8rmNCVMndQ52SJ+pC9kU=
-X-Received: by 2002:a05:6a00:2e23:b0:62a:d87a:a375 with SMTP id
- fc35-20020a056a002e2300b0062ad87aa375mr1767877pfb.4.1680898373036; Fri, 07
- Apr 2023 13:12:53 -0700 (PDT)
+        bh=GENUw9PqHBdUQEL7FlbS+wdO3dyU6tn18qubnwix7jU=;
+        b=4Bd5tQGTrBv3IebvBL/lEiy75jil3SHyJhQuIB5PrVXizyH6jOfN5NC4XASzqb/9y8
+         bUXHQP8cgg+rUfNvzUTF425/RBDr8+n3r5NDL2VLUHc6c2vE23XOBpkEz4SSCxSKVAQ7
+         lLE8cQz3qKgjwvfdzPyRCiLgVthIg4SyY5Uc+0bD+S3Iz0MiR+vOG02Tt7iUHaMsq9Kc
+         PjAICtFDJ6gip06oNib4kP6BagWcRX/wlcmOHW/HoXIzxbrcjAM3xWP2NlH2pPXIuR1l
+         pEJfG3F9Y6RfqXKL8lBkYOVeQV0GODB0inW5kl51Z+pju0Lfc2wvGuT9z2ZGIwEGESdk
+         UZWg==
+X-Gm-Message-State: AAQBX9deGCCvZjTKGX7yLZBuFoc2i39m+AzOP2w9oxBnuTkt4ysiTrJR
+        +aASO4LgAyxs/27vK0FyKb75GYn41Cqbu1poW8+Npg==
+X-Google-Smtp-Source: AKy350ZCS9oS/E6rHTOEUBGi//7qEXg87vIrCUZNJ2ntFTukuiOYoRT5fpPKSGoUDyQro9/0w5iXN2I+1adj/vXTVZs=
+X-Received: by 2002:a17:902:7c10:b0:1a2:8871:b42a with SMTP id
+ x16-20020a1709027c1000b001a28871b42amr1293738pll.2.1680898618741; Fri, 07 Apr
+ 2023 13:16:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230308115243.82592-1-masahiroy@kernel.org> <20230308115243.82592-4-masahiroy@kernel.org>
-In-Reply-To: <20230308115243.82592-4-masahiroy@kernel.org>
+References: <20230308115243.82592-1-masahiroy@kernel.org> <20230308115243.82592-5-masahiroy@kernel.org>
+In-Reply-To: <20230308115243.82592-5-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 7 Apr 2023 13:12:41 -0700
-Message-ID: <CAKwvOd=MLHjGPSyVtmtW=1P=n2OLCXEFG+L=wLPVr4Orwuu2Xg@mail.gmail.com>
-Subject: Re: [PATCH 4/8] scripts/kallsyms: exclude symbols generated by itself dynamically
+Date:   Fri, 7 Apr 2023 13:16:47 -0700
+Message-ID: <CAKwvOdnu8Z2wTDG+R515t+ZkaVC=b7dV8g0agwvhw3BiBBePNg@mail.gmail.com>
+Subject: Re: [PATCH 5/8] scripts/kallsyms: move compiler-generated symbol
+ patterns to mksysmap
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Zhen Lei <thunder.leizhen@huawei.com>,
@@ -76,125 +77,173 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 On Wed, Mar 8, 2023 at 3:53=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.or=
 g> wrote:
 >
-> Drop the symbols generated by scripts/kallsyms itself automatically
-> instead of maintaining the symbol list manually.
+> scripts/kallsyms.c maintains compiler-generated symbols, but we end up
+> with something similar in scripts/mksysmap to avoid the "Inconsistent
+> kallsyms data" error. For example, commit c17a2538704f ("mksysmap: Fix
+> the mismatch of 'L0' symbols in System.map").
 >
-> Pass the kallsyms object from the previous kallsyms step (if it exists)
-> as the third parameter of scripts/mksysmap, which will weed out the
-> generated symbols from the input to the next kallsyms step.
+> They were separately maintained prior to commit 94ff2f63d6a3 ("kbuild:
+> reuse mksysmap output for kallsyms").
+>
+> Now that scripts/kallsyms.c parses the output of scripts/mksysmap,
+> it makes more sense to collect all the ignored patterns to mksysmap.
+
+Cool, thanks for the patch!
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
 >
->  scripts/kallsyms.c      | 17 -----------------
->  scripts/link-vmlinux.sh |  6 +++---
->  scripts/mksysmap        | 11 ++++++++++-
->  3 files changed, 13 insertions(+), 21 deletions(-)
+>  scripts/kallsyms.c | 59 ----------------------------------------------
+>  scripts/mksysmap   | 43 +++++++++++++++++++++++++++++++++
+>  2 files changed, 43 insertions(+), 59 deletions(-)
 >
 > diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
-> index 8148e880f78e..e572fda6fe42 100644
+> index e572fda6fe42..97d514c0fc8f 100644
 > --- a/scripts/kallsyms.c
 > +++ b/scripts/kallsyms.c
-> @@ -104,23 +104,6 @@ static bool is_ignored_symbol(const char *name, char=
- type)
+> @@ -102,65 +102,6 @@ static char *sym_name(const struct sym_entry *s)
+>
+>  static bool is_ignored_symbol(const char *name, char type)
 >  {
->         /* Symbol names that exactly match to the following are ignored.*=
+> -       /* Symbol names that exactly match to the following are ignored.*=
 /
->         static const char * const ignored_symbols[] =3D {
-> -               /*
-> -                * Symbols which vary between passes. Passes 1 and 2 must=
- have
-> -                * identical symbol lists. The kallsyms_* symbols below a=
-re
-> -                * only added after pass 1, they would be included in pas=
-s 2
-> -                * when --all-symbols is specified so exclude them to get=
- a
-> -                * stable symbol list.
-> -                */
-> -               "kallsyms_addresses",
-> -               "kallsyms_offsets",
-> -               "kallsyms_relative_base",
-> -               "kallsyms_num_syms",
-> -               "kallsyms_names",
-> -               "kallsyms_markers",
-> -               "kallsyms_token_table",
-> -               "kallsyms_token_index",
-> -               "kallsyms_seqs_of_names",
-> -               /* Exclude linker generated symbols which vary between pa=
-sses */
-
-^ Do we want to retain this comment for the below two symbols?
-
->                 "_SDA_BASE_",           /* ppc */
->                 "_SDA2_BASE_",          /* ppc */
->                 NULL
-> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> index 32e573943cf0..679eb4653b16 100755
-> --- a/scripts/link-vmlinux.sh
-> +++ b/scripts/link-vmlinux.sh
-> @@ -174,7 +174,7 @@ kallsyms_step()
->         kallsyms_S=3D${kallsyms_vmlinux}.S
+> -       static const char * const ignored_symbols[] =3D {
+> -               "_SDA_BASE_",           /* ppc */
+> -               "_SDA2_BASE_",          /* ppc */
+> -               NULL
+> -       };
+> -
+> -       /* Symbol names that begin with the following are ignored.*/
+> -       static const char * const ignored_prefixes[] =3D {
+> -               "__efistub_",           /* arm64 EFI stub namespace */
+> -               "__kvm_nvhe_$",         /* arm64 local symbols in non-VHE=
+ KVM namespace */
+> -               "__kvm_nvhe_.L",        /* arm64 local symbols in non-VHE=
+ KVM namespace */
+> -               "__AArch64ADRPThunk_",  /* arm64 lld */
+> -               "__ARMV5PILongThunk_",  /* arm lld */
+> -               "__ARMV7PILongThunk_",
+> -               "__ThumbV7PILongThunk_",
+> -               "__LA25Thunk_",         /* mips lld */
+> -               "__microLA25Thunk_",
+> -               "__kcfi_typeid_",       /* CFI type identifiers */
+> -               NULL
+> -       };
+> -
+> -       /* Symbol names that end with the following are ignored.*/
+> -       static const char * const ignored_suffixes[] =3D {
+> -               "_from_arm",            /* arm */
+> -               "_from_thumb",          /* arm */
+> -               "_veneer",              /* arm */
+> -               NULL
+> -       };
+> -
+> -       /* Symbol names that contain the following are ignored.*/
+> -       static const char * const ignored_matches[] =3D {
+> -               ".long_branch.",        /* ppc stub */
+> -               ".plt_branch.",         /* ppc stub */
+> -               NULL
+> -       };
+> -
+> -       const char * const *p;
+> -
+> -       for (p =3D ignored_symbols; *p; p++)
+> -               if (!strcmp(name, *p))
+> -                       return true;
+> -
+> -       for (p =3D ignored_prefixes; *p; p++)
+> -               if (!strncmp(name, *p, strlen(*p)))
+> -                       return true;
+> -
+> -       for (p =3D ignored_suffixes; *p; p++) {
+> -               int l =3D strlen(name) - strlen(*p);
+> -
+> -               if (l >=3D 0 && !strcmp(name + l, *p))
+> -                       return true;
+> -       }
+> -
+> -       for (p =3D ignored_matches; *p; p++) {
+> -               if (strstr(name, *p))
+> -                       return true;
+> -       }
+> -
+>         if (type =3D=3D 'u' || type =3D=3D 'n')
+>                 return true;
 >
->         vmlinux_link ${kallsyms_vmlinux} "${kallsymso_prev}" ${btf_vmlinu=
-x_bin_o}
-> -       mksysmap ${kallsyms_vmlinux} ${kallsyms_vmlinux}.syms
-> +       mksysmap ${kallsyms_vmlinux} ${kallsyms_vmlinux}.syms ${kallsymso=
-_prev}
->         kallsyms ${kallsyms_vmlinux}.syms ${kallsyms_S}
->
->         info AS ${kallsyms_S}
-> @@ -188,7 +188,7 @@ kallsyms_step()
->  mksysmap()
->  {
->         info NM ${2}
-> -       ${CONFIG_SHELL} "${srctree}/scripts/mksysmap" ${1} ${2}
-> +       ${CONFIG_SHELL} "${srctree}/scripts/mksysmap" ${1} ${2} ${3}
->  }
->
->  sorttable()
-> @@ -277,7 +277,7 @@ if is_enabled CONFIG_DEBUG_INFO_BTF && is_enabled CON=
-FIG_BPF; then
->         ${RESOLVE_BTFIDS} vmlinux
->  fi
->
-> -mksysmap vmlinux System.map
-> +mksysmap vmlinux System.map ${kallsymso}
->
->  if is_enabled CONFIG_BUILDTIME_TABLE_SORT; then
->         info SORTTAB vmlinux
 > diff --git a/scripts/mksysmap b/scripts/mksysmap
-> index 8ea1955e03c6..1efd61ee0bac 100755
+> index 1efd61ee0bac..d8ad6ff69320 100755
 > --- a/scripts/mksysmap
 > +++ b/scripts/mksysmap
-> @@ -4,7 +4,7 @@
->  # tools to retrieve the actual addresses of symbols in the kernel.
->  #
->  # Usage
-> -# mksysmap vmlinux System.map
-> +# mksysmap vmlinux System.map [exclude]
+> @@ -36,6 +36,28 @@ ${NM} -n ${1} | sed >${2} -e "
+>  # local labels, .LBB, .Ltmpxxx, .L__unnamed_xx, .LASANPC, etc.
+>  / \.L/d
 >
+> +# arm64 EFI stub namespace
+> +/ __efistub_/d
+> +
+> +# arm64 local symbols in non-VHE KVM namespace
+> +/ __kvm_nvhe_\$/d
+> +/ __kvm_nvhe_\.L/d
+> +
+> +# arm64 lld
+> +/ __AArch64ADRPThunk_/d
+> +
+> +# arm lld
+> +/ __ARMV5PILongThunk_/d
+> +/ __ARMV7PILongThunk_/d
+> +/ __ThumbV7PILongThunk_/d
+> +
+> +# mips lld
+> +/ __LA25Thunk_/d
+> +/ __microLA25Thunk_/d
+> +
+> +# CFI type identifiers
+> +/ __kcfi_typeid_/d
+> +
+>  # CRC from modversions
+>  / __crc_/d
 >
->  #####
-> @@ -51,4 +51,13 @@ ${NM} -n ${1} | sed >${2} -e "
+> @@ -45,6 +67,15 @@ ${NM} -n ${1} | sed >${2} -e "
+>  # EXPORT_SYMBOL (namespace)
+>  / __kstrtabns_/d
 >
+> +# ----------------------------------------------------------------------=
+-----
+> +# Ignored suffixes
+> +#  (do not forget '$' after each pattern)
+> +
+> +# arm
+> +/_from_arm$/d
+> +/_from_thumb$/d
+> +/_veneer$/d
+> +
+>  # ----------------------------------------------------------------------=
+-----
+>  # Ignored symbols (exact match)
+>  #  (do not forget a space before and '$' after each pattern)
+> @@ -52,6 +83,18 @@ ${NM} -n ${1} | sed >${2} -e "
 >  # for LoongArch?
 >  / L0$/d
+>
+> +# ppc
+> +/ _SDA_BASE_$/d
+> +/ _SDA2_BASE_$/d
 > +
 > +# ----------------------------------------------------------------------=
 -----
-> +# Ignored kallsyms symbols
-> +#
-> +# If the 3rd parameter exists, symbols from it will be omitted from the =
-output.
-> +# This makes kallsyms have the identical symbol lists in the step 1 and =
-2.
-> +# Without this, the step2 would get new symbols generated by scripts/kal=
-lsyms.c
-> +# when CONFIG_KALLSYMS_ALL is enabled. That might require one more pass.
-> +$(if [ $# -ge 3 ]; then ${NM} ${3} | sed -n '/ U /!s:.* \([^ ]*\)$:/ \1$=
-/d:p'; fi)
->  "
+> +# Ignored patterns
+> +#  (symbols that contain the pattern are ignored)
+> +
+> +# ppc stub
+> +/\.long_branch\./d
+> +/\.plt_branch\./d
+> +
+>  # ----------------------------------------------------------------------=
+-----
+>  # Ignored kallsyms symbols
+>  #
 > --
 > 2.34.1
 >
