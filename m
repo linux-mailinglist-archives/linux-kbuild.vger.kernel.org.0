@@ -2,51 +2,51 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 95A696DB411
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Apr 2023 21:20:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A73B86DB43E
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Apr 2023 21:33:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230467AbjDGTUb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Apr 2023 15:20:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47800 "EHLO
+        id S229800AbjDGTdk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 Apr 2023 15:33:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230357AbjDGTUa (ORCPT
+        with ESMTP id S229459AbjDGTdj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Apr 2023 15:20:30 -0400
+        Fri, 7 Apr 2023 15:33:39 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7765193E3;
-        Fri,  7 Apr 2023 12:20:26 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EE465FCB;
+        Fri,  7 Apr 2023 12:33:36 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id F0D79651C1;
-        Fri,  7 Apr 2023 19:20:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59F0CC433D2;
-        Fri,  7 Apr 2023 19:20:25 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 022E9611DB;
+        Fri,  7 Apr 2023 19:28:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A41DC433A7;
+        Fri,  7 Apr 2023 19:28:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680895225;
-        bh=q5dnVJ5d9oLUI4mT3mEbI6LwM/18Yhn07DiCVUC50cI=;
+        s=k20201202; t=1680895714;
+        bh=tLuYmZCaB6pcx1B5nefyV2H/zPduYUn1OkjtxTZ6xUI=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=CFYzkBIwEkL4zfap7yhKFg0gvJQ3ZEeZy9tJFgoeWvS4XGSb3kO+8rm9wwEkKuLzw
-         6SsBNf0uHYaS943qRPRk75OTYUqQ48EWp8uaIHuTuuIlxeZLxVFnZK2xdJcu4zs2+H
-         3b+iMYPsmeUkzE2bQ0ZagZo3+SHoahVhcp3pxe6DXESq+HxBaGHzlf09lKgdKm394a
-         iwKx0qqyOKr0ice9W/jB2xro86BtK5ilkgJT/Ycmnb2gYTihJ2W8h3zy2mEVO/uZo5
-         8GL9/O2nV6unyoZREFMuze4XMP2DXVjtY+gIEdBG7gsBkidAOtwRZzqUWVcGv8xKQQ
-         ukEyrFFTWV2og==
-Received: by mail-oi1-f169.google.com with SMTP id f14so18131162oiw.10;
-        Fri, 07 Apr 2023 12:20:25 -0700 (PDT)
-X-Gm-Message-State: AAQBX9fPzE0SE+jEY1t7A7tOi4+zAiKZswD/WJhp/Y2VbyOw69Bt1xjZ
-        Qcqz8j0D+9s1Jm8GhW0WdOKIHF+VuSgUAOXw9iI=
-X-Google-Smtp-Source: AKy350ZEO3pO4bGRoMifAXL2M8FXZOyAJAw9LICd53AHUuexmelkA2BtjIM6uvvYTmgSRY8mKWqRasUr2wddeWDeO1A=
-X-Received: by 2002:a05:6808:cd:b0:389:72d5:f173 with SMTP id
- t13-20020a05680800cd00b0038972d5f173mr843515oic.11.1680895224546; Fri, 07 Apr
- 2023 12:20:24 -0700 (PDT)
+        b=Xx6R3K6g48YPJPS3SQuaU7w4dWVg0aIVFEyFB5sypxj+ZMxEhcs2hnYMbqHK3mA4M
+         Uf/GjjL/+FQoVet4YOm6DPhfxK47opiuocGz1ebCW/1h3k945Zx0E/GrdGYRSlRYEf
+         5h3zWJTGZstvw0xkZED4reXmtWKAfibCLXUxIJlydrq2Bc8O2lGs39CzUEe9hPaQ9F
+         CbXziaCjCoEPYkb+9Z7e9TfmEg5C1Vc/wX4JjGKNepREFEKuo5c9BG1tHLJLCHu4IH
+         r7iI654GL8eUBRlpUwO2aH1tnz6p3uJUVnQdK2/UWH13vhTqo4ISFNirkjAR/Qal7b
+         vG0GmxdlyU80A==
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-18412684c50so2493696fac.5;
+        Fri, 07 Apr 2023 12:28:34 -0700 (PDT)
+X-Gm-Message-State: AAQBX9dwjNYr2PkQkuc2+VEUwtSNbls1e5L5336BXr00k3xIFQ3vWwVE
+        /HeEw0fC3nGM2zJyXQmOcGEIcAQymhe2p718fU4=
+X-Google-Smtp-Source: AKy350azdAeTKIOh6AAieg0U1LA6pQ4fhwORC4vZ1IKU8T02ZJdhn7IVZZ64dWW+v3eEGP8bDqzmA58YEn0kZuxzgO4=
+X-Received: by 2002:a05:6870:1258:b0:17f:84f8:1f44 with SMTP id
+ 24-20020a056870125800b0017f84f81f44mr1570897oao.11.1680895713574; Fri, 07 Apr
+ 2023 12:28:33 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230327174140.8169-1-quic_johmoo@quicinc.com> <20230327174140.8169-2-quic_johmoo@quicinc.com>
 In-Reply-To: <20230327174140.8169-2-quic_johmoo@quicinc.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 8 Apr 2023 04:19:48 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ26HVA-oMwOqAg-diZ7dRa_41hjmRb88Vcv-GcQsFfqg@mail.gmail.com>
-Message-ID: <CAK7LNAQ26HVA-oMwOqAg-diZ7dRa_41hjmRb88Vcv-GcQsFfqg@mail.gmail.com>
+Date:   Sat, 8 Apr 2023 04:27:57 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATFzdb37ZpOkYOP0rGBBjMhad6p76CXJg7kZsNkhpoBXg@mail.gmail.com>
+Message-ID: <CAK7LNATFzdb37ZpOkYOP0rGBBjMhad6p76CXJg7kZsNkhpoBXg@mail.gmail.com>
 Subject: Re: [PATCH v4 1/2] check-uapi: Introduce check-uapi.sh
 To:     John Moon <quic_johmoo@quicinc.com>
 Cc:     Nathan Chancellor <nathan@kernel.org>,
@@ -127,86 +127,35 @@ On Tue, Mar 28, 2023 at 2:42=E2=80=AFAM John Moon <quic_johmoo@quicinc.com>=
 >
 
 > +
-> +# Save the current git tree state, stashing if needed
-> +save_tree_state() {
-> +       printf "Saving current tree state... "
-> +       current_ref=3D"$(git rev-parse HEAD)"
-> +       readonly current_ref
-> +       if tree_is_dirty; then
-> +               unstash=3D"true"
-> +               git stash push --quiet
-> +       fi
-> +       printf "OK\n"
-> +}
+> +# Install headers for both git refs
+> +install_headers() {
+> +       local -r base_ref=3D"$1"
+> +       local -r past_ref=3D"$2"
 > +
-> +# Restore the git tree state, unstashing if needed
-> +restore_tree_state() {
-> +       if [ -z "$current_ref" ]; then
-> +               return 0
-> +       fi
+> +       DEVIATED_FROM_CURRENT_TREE=3D"false"
+> +       for ref in "$base_ref" "$past_ref"; do
+> +               if [ -n "$ref" ]; then
+> +                       if [ "$DEVIATED_FROM_CURRENT_TREE" =3D "false" ];=
+ then
+> +                               save_tree_state
+> +                               DEVIATED_FROM_CURRENT_TREE=3D"true"
+> +                       fi
+> +                       # This script ($0) is already loaded into memory =
+at this point,
+> +                       # so this operation is safe
+> +                       git checkout --quiet "$(git rev-parse "$ref")"
+> +               fi
 > +
-> +       printf "Restoring current tree state... "
-> +       git checkout --quiet "$current_ref"
+> +               printf "Installing sanitized UAPI headers from %s... " "$=
+{ref:-dirty tree}"
+> +               make -j "$MAX_THREADS" ARCH=3D"$ARCH" INSTALL_HDR_PATH=3D=
+"${TMP_DIR}/${ref}/usr" headers_install > /dev/null 2>&1
 
 
-This does not restore the original state.
+You suppressed stderr.
 
-I was on a branch before running this script.
-After everything is finished, I am on a detached commit
-because $current_ref is not a branch.
-
-
-
-
-
-
-> +       if ! do_compile "$(get_header_tree "$past_ref")/include" "$past_h=
-eader" "${past_header}.bin" 2> "$log"; then
-> +               eprintf "error - couldn't compile version of UAPI header =
-%s at %s\n" "$file" "$past_ref"
-> +               cat "$log" >&2
-> +               exit "$FAIL_COMPILE"
-> +       fi
-> +
-> +       "$ABIDIFF" --non-reachable-types "${past_header}.bin" "${base_hea=
-der}.bin" > "$log" && ret=3D"$?" || ret=3D"$?"
-
-
-[bikeshed] I might want to write like this:
-
-   ret=3D0
-   "$ABIDIFF" --non-reachable-types "${past_header}.bin"
-"${base_header}.bin" > "$log" || ret=3D"$?"
-
-
-
-
-
-
-
-> +
-> +
-> +       if [ "$quiet" =3D "true" ]; then
-> +               run "$base_ref" "$past_ref" "$abi_error_log" "$@" > /dev/=
-null
-> +       else
-> +               run "$base_ref" "$past_ref" "$abi_error_log" "$@"
-> +       fi
-
-
-
-    if [ "$quiet" =3D "true" ]; then
-            exec > /dev/null
-    fi
-
-    run "$base_ref" "$past_ref" "$abi_error_log" "$@"
-
-
-
-is more elegant because this is the last line of main()
-and exit_handler() does not print anything.
-
-
+If 'make headers_install' fails, users see a sudden death
+with no clue.
 
 
 
