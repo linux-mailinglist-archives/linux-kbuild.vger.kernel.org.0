@@ -2,164 +2,159 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A73B86DB43E
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Apr 2023 21:33:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 685A26DB493
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Apr 2023 21:55:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229800AbjDGTdk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Apr 2023 15:33:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33986 "EHLO
+        id S231453AbjDGTza (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 Apr 2023 15:55:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbjDGTdj (ORCPT
+        with ESMTP id S231600AbjDGTzX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Apr 2023 15:33:39 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EE465FCB;
-        Fri,  7 Apr 2023 12:33:36 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 022E9611DB;
-        Fri,  7 Apr 2023 19:28:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A41DC433A7;
-        Fri,  7 Apr 2023 19:28:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680895714;
-        bh=tLuYmZCaB6pcx1B5nefyV2H/zPduYUn1OkjtxTZ6xUI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Xx6R3K6g48YPJPS3SQuaU7w4dWVg0aIVFEyFB5sypxj+ZMxEhcs2hnYMbqHK3mA4M
-         Uf/GjjL/+FQoVet4YOm6DPhfxK47opiuocGz1ebCW/1h3k945Zx0E/GrdGYRSlRYEf
-         5h3zWJTGZstvw0xkZED4reXmtWKAfibCLXUxIJlydrq2Bc8O2lGs39CzUEe9hPaQ9F
-         CbXziaCjCoEPYkb+9Z7e9TfmEg5C1Vc/wX4JjGKNepREFEKuo5c9BG1tHLJLCHu4IH
-         r7iI654GL8eUBRlpUwO2aH1tnz6p3uJUVnQdK2/UWH13vhTqo4ISFNirkjAR/Qal7b
-         vG0GmxdlyU80A==
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-18412684c50so2493696fac.5;
-        Fri, 07 Apr 2023 12:28:34 -0700 (PDT)
-X-Gm-Message-State: AAQBX9dwjNYr2PkQkuc2+VEUwtSNbls1e5L5336BXr00k3xIFQ3vWwVE
-        /HeEw0fC3nGM2zJyXQmOcGEIcAQymhe2p718fU4=
-X-Google-Smtp-Source: AKy350azdAeTKIOh6AAieg0U1LA6pQ4fhwORC4vZ1IKU8T02ZJdhn7IVZZ64dWW+v3eEGP8bDqzmA58YEn0kZuxzgO4=
-X-Received: by 2002:a05:6870:1258:b0:17f:84f8:1f44 with SMTP id
- 24-20020a056870125800b0017f84f81f44mr1570897oao.11.1680895713574; Fri, 07 Apr
- 2023 12:28:33 -0700 (PDT)
+        Fri, 7 Apr 2023 15:55:23 -0400
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D903A5E1
+        for <linux-kbuild@vger.kernel.org>; Fri,  7 Apr 2023 12:55:11 -0700 (PDT)
+Received: by mail-pg1-x52f.google.com with SMTP id z18so24921335pgj.13
+        for <linux-kbuild@vger.kernel.org>; Fri, 07 Apr 2023 12:55:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1680897310; x=1683489310;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yRLvMBwRYgN9rZY0Zb0vSfDSDaMTw9OUufeYYmz/skw=;
+        b=f6eYkrEter++NUKtxdaDLcQojieZL0r8jOl193HqrIPectcDZHEEPA9f34LkHDW4dP
+         P53I9XvbApz+JAM6RyIEZmBddB+MR4UL6Y+75sl3sjuV+Mh0p8sSp8FRJVoy4bnn2QA9
+         jPEYwxlaF9ooPwy+8HJoYrjt0LocOcCedEiJq/KY46LD17Q4GoG7cnevh+D8wxdzbVfY
+         PLASeXnpdF6KyXWVwt+pMpLbMYosAlhCx24xg7zs8lPP9a5qQPE/uUll9ajaFEJOM6Ae
+         yRHxhmMbIBvMqx2e04olr1L5CCWAQsjyzCyXRGaRC4G30bBEAXw3y46p3M3q6+GY1Rnx
+         VquA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680897310; x=1683489310;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yRLvMBwRYgN9rZY0Zb0vSfDSDaMTw9OUufeYYmz/skw=;
+        b=PR2EvFJX6G0rYQJMykjlHOyGsKnXFuvKTHB+XayyDvAh/lPf6EcDICwu/tYSibTIF0
+         Cm90qYMoR9lKFLO+UprfNx2U8JZ2x/vlV35Z5Qq4a5Of6HvnmTN2KtZXxTrf8CiyEPH6
+         TpMUQ7NSJgVZhFgC20Q7OOhNehFYimn6Cihg5NSxYHAEMyIfUSgL5zffjfySauNZ9Kt/
+         rOPP4WXt1LPzEmeouhOB+MdSrg7EK25IGpTxdxMWMhx/31ZL92IsogkHGdZAedsn/8m1
+         /XihuTtlb9NtfhnIhgDQLrG7U9ANqDbwt87Fdyp7brSis0d5puwnchm2D5r6fI5HYBcW
+         fEtw==
+X-Gm-Message-State: AAQBX9d0T5zfda0PAwM7NEUTTs5zU6oJKi0IG3ap5mSwHrV6jU7ikLBH
+        IK9KPmA0x0AKL7XMDxy3zNvxv+n4Zrc/3oIxABookA==
+X-Google-Smtp-Source: AKy350Zdn9kJpAE9Iql9IWBE7I7HcL96ooTIkSJ6p3oPGATAQjzlKAHto1RtQSOBZZ2ouYHs2x095vPSxO+sue+Ce+I=
+X-Received: by 2002:a65:6201:0:b0:4fc:2058:fa29 with SMTP id
+ d1-20020a656201000000b004fc2058fa29mr685882pgv.1.1680897309863; Fri, 07 Apr
+ 2023 12:55:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230327174140.8169-1-quic_johmoo@quicinc.com> <20230327174140.8169-2-quic_johmoo@quicinc.com>
-In-Reply-To: <20230327174140.8169-2-quic_johmoo@quicinc.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 8 Apr 2023 04:27:57 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATFzdb37ZpOkYOP0rGBBjMhad6p76CXJg7kZsNkhpoBXg@mail.gmail.com>
-Message-ID: <CAK7LNATFzdb37ZpOkYOP0rGBBjMhad6p76CXJg7kZsNkhpoBXg@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] check-uapi: Introduce check-uapi.sh
-To:     John Moon <quic_johmoo@quicinc.com>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Todd Kjos <tkjos@google.com>,
-        Matthias Maennich <maennich@google.com>,
-        Giuliano Procida <gprocida@google.com>,
-        kernel-team@android.com, libabigail@sourceware.org,
-        Jordan Crouse <jorcrous@amazon.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Satya Durga Srinivasu Prabhala <quic_satyap@quicinc.com>,
-        Elliot Berman <quic_eberman@quicinc.com>,
-        Guru Das Srinagesh <quic_gurus@quicinc.com>
+References: <20230401170117.1580840-1-masahiroy@kernel.org> <20230403144758.GA3460665@dev-arch.thelio-3990X>
+In-Reply-To: <20230403144758.GA3460665@dev-arch.thelio-3990X>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Fri, 7 Apr 2023 12:54:58 -0700
+Message-ID: <CAKwvOd=3LoK7_qSijzk6Ww265LMDOk2-gQ-k9r0RwvENLi9JBA@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: clang: do not use CROSS_COMPILE for target triple
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org, Tom Rix <trix@redhat.com>,
+        llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Fangrui Song <maskray@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-15.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,ENV_AND_HDR_SPF_MATCH,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL,
+        USER_IN_DEF_SPF_WL autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Mar 28, 2023 at 2:42=E2=80=AFAM John Moon <quic_johmoo@quicinc.com>=
- wrote:
+On Mon, Apr 3, 2023 at 7:48=E2=80=AFAM Nathan Chancellor <nathan@kernel.org=
+> wrote:
 >
-> While the kernel community has been good at maintaining backwards
-> compatibility with kernel UAPIs, it would be helpful to have a tool
-> to check if a commit introduces changes that break backwards
-> compatibility.
+> On Sun, Apr 02, 2023 at 02:01:17AM +0900, Masahiro Yamada wrote:
+> > The target triple is overridden by the user-supplied CROSS_COMPILE,
+> > but I do not see a good reason to support it. Users can use a new
+> > architecture without adding CLANG_TARGET_FLAGS_*, but that would be
+> > a rare case.
+> >
+> > Use the hard-coded and deterministic target triple all the time.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 >
-> To that end, introduce check-uapi.sh: a simple shell script that
-> checks for changes to UAPI headers using libabigail.
+> I know of one bug where the value of '--target' matters:
 >
-> libabigail is "a framework which aims at helping developers and
-> software distributors to spot some ABI-related issues like interface
-> incompatibility in ELF shared libraries by performing a static
-> analysis of the ELF binaries at hand."
+> https://github.com/ClangBuiltLinux/linux/issues/1244
 >
-> The script uses one of libabigail's tools, "abidiff", to compile the
-> changed header before and after the commit to detect any changes.
+> This was fixed in LLVM 12.0.0. We are not testing this in our CI though,
+> so we would not get bit by this (we could bump the minimum supported
+> version of LLVM to 12.0.0 for this, we have talked recently about doing
+> it for other reasons).
 >
-> abidiff "compares the ABI of two shared libraries in ELF format. It
-> emits a meaningful report describing the differences between the two
-> ABIs."
+> I guess I cannot really think of a good reason not to do this aside from
+> that; the target triple should only affect code generation, rather than
+> tool selection (i.e., this does not take away the ability to use a
+> custom set of binutils with clang).
 >
-> The script also includes the ability to check the compatibility of
-> all UAPI headers across commits. This allows developers to inspect
-> the stability of the UAPIs over time.
->
-> Signed-off-by: John Moon <quic_johmoo@quicinc.com>
-> ---
->     - Refactored to exclusively check headers installed by make
->       headers_install. This simplified the code dramatically and removed
->       the need to perform complex git diffs.
->     - Removed the "-m" flag. Since we're checking all installed headers
->       every time, a flag to check only modified files didn't make sense.
->     - Added info message when usr/include/Makefile is not present that
->       it's likely because that file was only introduced in v5.3.
->     - Changed default behavior of log file. Now, the script will not
->       create a log file unless you pass "-l <file>".
->     - Simplified exit handler.
->     - Added -j $MAX_THREADS to make headers_install to improve speed.
->     - Cleaned up variable references.
->
->  scripts/check-uapi.sh | 488 ++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 488 insertions(+)
->  create mode 100755 scripts/check-uapi.sh
->
+> However, Nick is currently OOO and I would like his opinion voiced
+> before we commit to this. Consider this a tentative:
 
-> +
-> +# Install headers for both git refs
-> +install_headers() {
-> +       local -r base_ref=3D"$1"
-> +       local -r past_ref=3D"$2"
-> +
-> +       DEVIATED_FROM_CURRENT_TREE=3D"false"
-> +       for ref in "$base_ref" "$past_ref"; do
-> +               if [ -n "$ref" ]; then
-> +                       if [ "$DEVIATED_FROM_CURRENT_TREE" =3D "false" ];=
- then
-> +                               save_tree_state
-> +                               DEVIATED_FROM_CURRENT_TREE=3D"true"
-> +                       fi
-> +                       # This script ($0) is already loaded into memory =
-at this point,
-> +                       # so this operation is safe
-> +                       git checkout --quiet "$(git rev-parse "$ref")"
-> +               fi
-> +
-> +               printf "Installing sanitized UAPI headers from %s... " "$=
-{ref:-dirty tree}"
-> +               make -j "$MAX_THREADS" ARCH=3D"$ARCH" INSTALL_HDR_PATH=3D=
-"${TMP_DIR}/${ref}/usr" headers_install > /dev/null 2>&1
+Yeah, nothing I could think of; at this point CROSS_COMPILE is only
+necessary for LLVM_IAS=3D0 builds and s390 (since LLD lacks s390
+support) IIUC.
 
+A user is more likely to adjust the --target for the host, which they
+can do via USERCFLAGS or USERLDFLAGS, but not for the target.  I don't
+think the gnu vs musl for the target triple makes a difference; we
+might even be able to omit that part of the triple but I haven't
+grepped through LLVM sources to see if that would result in
+differences for codegen.
 
-You suppressed stderr.
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-If 'make headers_install' fails, users see a sudden death
-with no clue.
-
+>
+> Acked-by: Nathan Chancellor <nathan@kernel.org>
+>
+> > ---
+> >
+> >  scripts/Makefile.clang | 8 ++------
+> >  1 file changed, 2 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
+> > index 70b354fa1cb4..9076cc939e87 100644
+> > --- a/scripts/Makefile.clang
+> > +++ b/scripts/Makefile.clang
+> > @@ -13,15 +13,11 @@ CLANG_TARGET_FLAGS_x86            :=3D x86_64-linux=
+-gnu
+> >  CLANG_TARGET_FLAGS_um                :=3D $(CLANG_TARGET_FLAGS_$(SUBAR=
+CH))
+> >  CLANG_TARGET_FLAGS           :=3D $(CLANG_TARGET_FLAGS_$(SRCARCH))
+> >
+> > -ifeq ($(CROSS_COMPILE),)
+> >  ifeq ($(CLANG_TARGET_FLAGS),)
+> > -$(error Specify CROSS_COMPILE or add '--target=3D' option to scripts/M=
+akefile.clang)
+> > +$(error add '--target=3D' option to scripts/Makefile.clang)
+> >  else
+> >  CLANG_FLAGS  +=3D --target=3D$(CLANG_TARGET_FLAGS)
+> > -endif # CLANG_TARGET_FLAGS
+> > -else
+> > -CLANG_FLAGS  +=3D --target=3D$(notdir $(CROSS_COMPILE:%-=3D%))
+> > -endif # CROSS_COMPILE
+> > +endif
+> >
+> >  ifeq ($(LLVM_IAS),0)
+> >  CLANG_FLAGS  +=3D -fno-integrated-as
+> > --
+> > 2.37.2
+> >
 
 
 
 --=20
-Best Regards
-Masahiro Yamada
+Thanks,
+~Nick Desaulniers
