@@ -2,111 +2,107 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 664A36DB5DA
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Apr 2023 23:43:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFF026DB5F4
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Apr 2023 23:54:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229610AbjDGVnT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Apr 2023 17:43:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42988 "EHLO
+        id S229741AbjDGVyU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 Apr 2023 17:54:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229539AbjDGVnS (ORCPT
+        with ESMTP id S231238AbjDGVyR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Apr 2023 17:43:18 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 461D19741;
-        Fri,  7 Apr 2023 14:43:17 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CCCB8654DB;
-        Fri,  7 Apr 2023 21:43:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76BCAC433EF;
-        Fri,  7 Apr 2023 21:43:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680903796;
-        bh=6njH95OlaX2vmS6xziCvXrBXY5+XsyA/skz5Cmhigj4=;
-        h=From:Date:Subject:To:Cc:From;
-        b=j+P0P1MC7lb0nTQkjhyRq44+OxwPMCOGfqR9Lbuu7gL0wUtvxAyFuUOFQ8NmKNuMS
-         g1IhTOPE4gjGrGrXz7Y5WfkprSvc802qK/cQZ4amdEzT5uSfXOXQfG2uY7cqVCJckO
-         0OtYDJ9WELHjLIyz9WwnMg4ffBzoXaQ1j7NE9NF5M3nWDhaor2sCcP8x1piHdxu8N1
-         jsGN/R7hiYyrOryrnkEePfMnrmoUPKDbWwfnRqj/QAMulBl//B+ZNZ7OViFtHqi+uB
-         jPoSq0WFw4BzUd3EaMwiGuV9SQFOVqqCUOmBTr3ZXWl/9U7UE9cq87LNH8tWvp4w4t
-         Z18wtpPnOL6/A==
-From:   Nathan Chancellor <nathan@kernel.org>
-Date:   Fri, 07 Apr 2023 14:42:48 -0700
-Subject: [PATCH v2] Documentation/llvm: Add a note about prebuilt
- kernel.org toolchains
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230405-korg-llvm-tc-docs-v2-1-98d2e4a96c41@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAFeOMGQC/32NTQ7CIBBGr2JYOwaQJujKe5gugI4taQtmpiGap
- neX9gAu3/eTtwpGisjifloFYYkcc6qgzycRBpd6hNhVFlrqqzSygTFTD9NUZlgCdDkwWFMbtFb
- 50Ij6844RPLkUhv05O16Q9uJN+IqfQ/ZsKw+Rl0zfw13Unv7TFAUKjJbW3LxGqZvHiJRwutSla
- Ldt+wF3VNrAzAAAAA==
-To:     masahiroy@kernel.org, corbet@lwn.net
-Cc:     arnd@arndb.de, keescook@chromium.org, ndesaulniers@google.com,
-        trix@redhat.com, nicolas@fjasle.eu, llvm@lists.linux.dev,
-        patches@lists.linux.dev, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, Bill Wendling <morbo@google.com>,
-        Nathan Chancellor <nathan@kernel.org>
-X-Mailer: b4 0.13-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1580; i=nathan@kernel.org;
- h=from:subject:message-id; bh=6njH95OlaX2vmS6xziCvXrBXY5+XsyA/skz5Cmhigj4=;
- b=owGbwMvMwCEmm602sfCA1DTG02pJDCkGfcUeszz/ZJgKNBxq2Wr7L3ji/YUJi/7bvqp25Cx68
- XUXz9wVHaUsDGIcDLJiiizVj1WPGxrOOct449QkmDmsTCBDGLg4BWAiy/QZGbZc2z2N5fmEqzdX
- yqgYfDyVpRbfWiCxzbxd68KEVZt7gs8z/Pc8qvfD7q9G4S/p4rxZRosi5z/K+ZnQltbem5npGsY
- ayw4A
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+        Fri, 7 Apr 2023 17:54:17 -0400
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1368E5FCB
+        for <linux-kbuild@vger.kernel.org>; Fri,  7 Apr 2023 14:54:14 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-5458201ab8cso438809137b3.23
+        for <linux-kbuild@vger.kernel.org>; Fri, 07 Apr 2023 14:54:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1680904453; x=1683496453;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=60/gaWjqwxGxXAf1RFA4/q2SLdJZklouAa0oPsZCWds=;
+        b=Qhw2EW+4aO8HOMqvj77ihzfS9g7ZnLOebOfTVGs6Bp9HHfKeM/qrmTLAdJ4l6ISnyn
+         RxMjmlopmXxB72k1bOqeirBew5mWplug6Ewd97bK1c3CHX6xS57pmGQ+IXE9usrR4rqu
+         CxicbSo6xuyGKKBUUpSlvjtrI4dqhONtSgvPMZBVKouvL/OLtM04DwPcvFAbakyMoCnH
+         4nuyN5Mdb437ug/HXqRLDNACmbsJZBnLF42y8Ynk40Q36E/WunmTExf0Zt4zDPxozIlI
+         1LO7SJm6yWEA+Nl785MDoP6Nu4ULYAKyV1tUp2ac/sm6ZgSxwOi0KJQ8kCFw6DAVvFDJ
+         13rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680904453; x=1683496453;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=60/gaWjqwxGxXAf1RFA4/q2SLdJZklouAa0oPsZCWds=;
+        b=sLeAcMP5FtpAJd8+3+0C6ZmycpQclrbNEWHnLOvNAh79BTqyQAhYLjYg94oyMbW2HO
+         ieLsXw7xXP4ItEM685t0Ofc5pO5vJhOsI69PFqkCl7rcXKpwCk/dgGYZE1SayIHF5kj+
+         pmYMHZoljKVrKS7yxhnfgXLPheCNQH+FTvpbDTw1hyjmsrDcHHp9CyZPqJbIoMet65qQ
+         /iLSKuCKyAUK3v5a1qtRlo0uU8/vi9LObS9EyedCFBKzwahD9MchW9hN9hNyuy0bcuys
+         V9B1pRz9+EqY91CO8ZomLXjTmPS9m/U9/ypm9lT5YGWU3xwpMRF6jAdjK6Cfvwe9Mv0L
+         aM2g==
+X-Gm-Message-State: AAQBX9diLo3pCxIlU22uacfWyRa8LbbfWNBXEXeFa6nvHbQOdGn0Q7Co
+        sUAfF/gF3hOWQbUEtLmeZNO7VNsUqcAP9VNMOJw=
+X-Google-Smtp-Source: AKy350YZGLQttBsJBiSzvsH4GXxX/gr2XTEnt3Gm4td0CS9uL/uv9ncEDsszE1P48ehWX4928Not5n2uGYBZW+FTRjY=
+X-Received: from ndesaulniers-desktop.svl.corp.google.com ([2620:15c:2d1:203:5eb4:e720:fec7:a2d3])
+ (user=ndesaulniers job=sendgmr) by 2002:a25:be11:0:b0:b7d:4c96:de0 with SMTP
+ id h17-20020a25be11000000b00b7d4c960de0mr228715ybk.5.1680904453185; Fri, 07
+ Apr 2023 14:54:13 -0700 (PDT)
+Date:   Fri,  7 Apr 2023 14:54:06 -0700
+Mime-Version: 1.0
+X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=UIrHvErwpgNbhCkRZAYSX0CFd/XFEwqX3D0xqtqjNug=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1680904446; l=996;
+ i=ndesaulniers@google.com; s=20220923; h=from:subject; bh=C5/yj3qDa9KhR4UNMrn1PEBO+c6lL+GF6BnPy8SNCPE=;
+ b=pIUDMTLAc1jlTZb6Z0m7DMdK+Ax1Hgzz92XKoj37sCgoRZKH8ki7vbYVV0XRchPisfI/FnNeR2bn
+ plcEouwqAu8IQbI4r2ZX1l3w0OCcB2wrdspMuUqOfJy5KMBscdN+
+X-Mailer: git-send-email 2.40.0.577.gac1e443424-goog
+Message-ID: <20230407215406.768464-1-ndesaulniers@google.com>
+Subject: [PATCH] ubsan: remove cc-option test for UBSAN_TRAP
+From:   Nick Desaulniers <ndesaulniers@google.com>
+To:     Kees Cook <keescook@chromium.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-hardening@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Tom Rix <trix@redhat.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Miroslav Benes <mbenes@suse.cz>, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev, linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-7.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-I recently started uploading prebuilt stable versions of LLVM to
-kernel.org, which should make building the kernel with LLVM more
-accessible to maintainers and developers. Link them in the LLVM
-documentation to make this more visible.
+-fsanitize-undefined-trap-on-error has been supported since GCC 5.1 and
+Clang 3.2.  The minimum supported version of these according to
+Documentation/process/changes.rst is 5.1 and 11.0.0 respectively. Drop
+this cc-option check.
 
-Link: https://lore.kernel.org/20230319235619.GA18547@dev-arch.thelio-3990X/
-Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
-Reviewed-by: Bill Wendling <morbo@google.com>
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 ---
-Changes in v2:
-- Fix typo ('procurring' -> 'procuring') [Bill]
-- Link to v1: https://lore.kernel.org/r/20230405-korg-llvm-tc-docs-v1-1-420849b2e025@kernel.org
----
- Documentation/kbuild/llvm.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+Masahiro, Kees: get_maintainer.pl leaves much to be desired for this
+file. Can one of you please pick this up?
 
-diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-index bfb51685073c..c3851fe1900d 100644
---- a/Documentation/kbuild/llvm.rst
-+++ b/Documentation/kbuild/llvm.rst
-@@ -171,6 +171,10 @@ Getting Help
- Getting LLVM
- -------------
- 
-+We provide prebuilt stable versions of LLVM on `kernel.org <https://kernel.org/pub/tools/llvm/>`_.
-+Below are links that may be useful for building LLVM from source or procuring
-+it through a distribution's package manager.
-+
- - https://releases.llvm.org/download.html
- - https://github.com/llvm/llvm-project
- - https://llvm.org/docs/GettingStarted.html
+ lib/Kconfig.ubsan | 1 -
+ 1 file changed, 1 deletion(-)
 
----
-base-commit: 7e364e56293bb98cae1b55fd835f5991c4e96e7d
-change-id: 20230405-korg-llvm-tc-docs-84304e881bc5
-
-Best regards,
+diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
+index fd15230a703b..0e7ad0782399 100644
+--- a/lib/Kconfig.ubsan
++++ b/lib/Kconfig.ubsan
+@@ -15,7 +15,6 @@ if UBSAN
+ config UBSAN_TRAP
+ 	bool "On Sanitizer warnings, abort the running kernel code"
+ 	depends on !COMPILE_TEST
+-	depends on $(cc-option, -fsanitize-undefined-trap-on-error)
+ 	help
+ 	  Building kernels with Sanitizer features enabled tends to grow
+ 	  the kernel size by around 5%, due to adding all the debugging
 -- 
-Nathan Chancellor <nathan@kernel.org>
+2.40.0.577.gac1e443424-goog
 
