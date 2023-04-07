@@ -2,125 +2,167 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 46AE96DB52F
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Apr 2023 22:26:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E0736DB55F
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Apr 2023 22:36:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229938AbjDGU0K (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Apr 2023 16:26:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52364 "EHLO
+        id S230150AbjDGUgX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 Apr 2023 16:36:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229524AbjDGU0J (ORCPT
+        with ESMTP id S231311AbjDGUgC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Apr 2023 16:26:09 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A55A361BA
-        for <linux-kbuild@vger.kernel.org>; Fri,  7 Apr 2023 13:26:05 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id q2so4758867pll.7
-        for <linux-kbuild@vger.kernel.org>; Fri, 07 Apr 2023 13:26:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1680899165; x=1683491165;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0Qml57ez/12DBtRR0XUBgkJY5NbIgppt8GcAw2X+wm0=;
-        b=jlgKUkeNPYv1Sx63l6pSLH05wzmw2SWFRyWDkpSerSMRZzUnhFrk8FOzW6ty1OTs6L
-         aXSBgLux/7ZwSrneXsDFZbbiYQiPP7OI6g6m/MGb2unwyuEkTzzkg2QAUr6ogIjeJ7Lp
-         Cjl59RvTqPlFUCfxWUu4a2KyiSqwC7yD8tkQlaGOgCeHily1ZCjmq5zx2dFUtkAQkyt2
-         ofNSaKqyJH9oQKNCgW2JfziuzJmVEo0BaqKZSLKnhzVMBPgVXX6aNSNhnj+tnBF9Zl4x
-         L4vMjrmtrsI5lWBuKo+P48RflUkXdUbdnIEVuPhiUHdfNt4HZo/63R5Kglb1f75B6G8T
-         wG/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680899165; x=1683491165;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0Qml57ez/12DBtRR0XUBgkJY5NbIgppt8GcAw2X+wm0=;
-        b=X7bMYh6o2IimLxY4irpHG4YK1o4B9ZfGXVe6kFVonxI6S5Oa10pbrXr3Bj1vFyC5iW
-         99GH4CeVcg7uy1VCDDir2zqWvKmV9jGEaK984wNgjNYnoUDY07wchR22rJ16Qw/KYMJq
-         eaqWVuhimeZKDMGVGwX+hMXfbYAewbHUwLOlKT1phZ3YHRcEePfwgOYjFRAmbh+ZtA7n
-         H6bW1tDAnvRYE4EpP3reWJUPNCFijDjl6Itzlg5EV+dYP8wljtNyGHlqRHDTTy6FpepE
-         SULT5yGjeX0O/tMWCqarHv0Ic/e8FmaXoTYcHitK4blQ8sRFFF90BgKRfmsxnBYhFxcW
-         X7/A==
-X-Gm-Message-State: AAQBX9c9BWQjjqkFiFCO1vLp7ZMDddhsdoJW+Wl2Z3psYRY5qaVkLqhM
-        HKwA0tpt68+fTSovN4f8+Cbnu9G4Hb3NBTP0obIjpA==
-X-Google-Smtp-Source: AKy350aM6xwPlVLA5rPYKoB5RhjF3PEYNPlYrCd4ZkeeIS0YPdjjoUxwDWIT0Z1yKwTOSaz5gJVMKt7qI9B2Hn4F8Ks=
-X-Received: by 2002:a17:902:a50b:b0:1a2:6e31:73cb with SMTP id
- s11-20020a170902a50b00b001a26e3173cbmr1247076plq.2.1680899164994; Fri, 07 Apr
- 2023 13:26:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230308115243.82592-1-masahiroy@kernel.org> <20230308115243.82592-8-masahiroy@kernel.org>
-In-Reply-To: <20230308115243.82592-8-masahiroy@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 7 Apr 2023 13:25:53 -0700
-Message-ID: <CAKwvOdmdKo-ZtUZH=4R1G9DgxoRaWa_peyx_uHHKYqFXbuKeBw@mail.gmail.com>
-Subject: Re: [PATCH 8/8] scripts/kallsyms: update the usage in the comment block
+        Fri, 7 Apr 2023 16:36:02 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A6FCCA08;
+        Fri,  7 Apr 2023 13:35:46 -0700 (PDT)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 337KZJv0010775;
+        Fri, 7 Apr 2023 20:35:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=RnM21H93KsCfKYDZySXqH9aFxlviESAjiVNz4+3cpTA=;
+ b=RPrJDtjxRC/di5+kQ5XwCod2NcCWN/veJ0gIV9Pa6mXN0KrTazVM5xvnFLrSPmLHiQ8h
+ mh0FhyVvzlRrFU0tJ9yA3TB3Uop2LS5d2p4zKkJ+fW/msiXwLsSRpIfnuxAZ872Nll0s
+ CQ54gIHPRZ5phA2+Oh6mnqILEcuZDRahWrK+xZrvWmLRTbgkHnc6oaD2887OUzSlWOeR
+ lFTC6qbNTaylR9ov8j2QlV8opRwF8Iibw9uCtd/XzeI57j4QnQync0T7rQmjlImwL0W6
+ zld3uYEUnDfUjfZXCVRMV4y/8a4x5/msZOnMFQYLh93TYK4rQ35Wrqrj1ACl5N/M7qbu ow== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3psv4dm47x-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 07 Apr 2023 20:35:19 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 337KZI46014700
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 7 Apr 2023 20:35:18 GMT
+Received: from hu-johmoo-lv.qualcomm.com (10.49.16.6) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Fri, 7 Apr 2023 13:35:17 -0700
+From:   John Moon <quic_johmoo@quicinc.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        Luis Chamberlain <mcgrof@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
         Nathan Chancellor <nathan@kernel.org>,
-        Tom Rix <trix@redhat.com>, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-15.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,ENV_AND_HDR_SPF_MATCH,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL,
-        USER_IN_DEF_SPF_WL autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        Nick Desaulniers <ndesaulniers@google.com>,
+        "Nicolas Schier" <nicolas@fjasle.eu>
+CC:     John Moon <quic_johmoo@quicinc.com>,
+        <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-arm-msm@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Arnd Bergmann" <arnd@arndb.de>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Todd Kjos <tkjos@google.com>,
+        Matthias Maennich <maennich@google.com>,
+        Giuliano Procida <gprocida@google.com>,
+        <kernel-team@android.com>, <libabigail@sourceware.org>,
+        Jordan Crouse <jorcrous@amazon.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Satya Durga Srinivasu Prabhala <quic_satyap@quicinc.com>,
+        Elliot Berman <quic_eberman@quicinc.com>,
+        "Guru Das Srinagesh" <quic_gurus@quicinc.com>
+Subject: [PATCH v5 0/2] Validating UAPI backwards compatibility
+Date:   Fri, 7 Apr 2023 13:34:54 -0700
+Message-ID: <20230407203456.27141-1-quic_johmoo@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: nmIcOJr4FzDw2GJLhfO-FOoFk4ib5q4w
+X-Proofpoint-ORIG-GUID: nmIcOJr4FzDw2GJLhfO-FOoFk4ib5q4w
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-07_13,2023-04-06_03,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 impostorscore=0
+ mlxscore=0 lowpriorityscore=0 suspectscore=0 priorityscore=1501
+ malwarescore=0 spamscore=0 mlxlogscore=954 phishscore=0 bulkscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304070184
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Mar 8, 2023 at 3:53=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.or=
-g> wrote:
->
-> Commit 010a0aad39fc ("kallsyms: Correctly sequence symbols when
-> CONFIG_LTO_CLANG=3Dy") added --lto-clang, and updated the usage()
-> function, but not the comment. Update it in the same way.
+The kernel community has rigorously enforced a policy of backwards
+compatibility in its UAPI headers for a long time. This has allowed user
+applications to enjoy stability across kernel upgrades without
+recompiling. Our goal is to add tooling and documentation to help kernel
+developers maintain this stability.
 
-I'm surprised to not recall that commit.  Was our mailing list cc'ed?
-Looking at https://lore.kernel.org/lkml/20221102084921.1615-4-thunder.leizh=
-en@huawei.com/,
-it looks like "no."
+We see in the kernel documentation:
+"Kernel headers are backwards compatible, but not forwards compatible.
+This means that a program built against a C library using older kernel
+headers should run on a newer kernel (although it may not have access
+to new features), but a program built against newer kernel headers may
+not work on an older kernel."[1]
 
-Zhen, Luis, please make sure to use scripts/get_maintainer.pl when
-sending patches.  You can put Cc: below the fold of the commit message
-in the patch file even when sending a series and git send-email will
-use those just for that commit.
+How does the kernel community enforce this guarantee? As we understand it,
+it's enforced with thorough code review and testing. Is there any tooling
+outside of this being used to help the process?
 
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Also, could documentation on UAPI maintenance (from a developer's point
+of view) be expanded? Internally, we have a set of guidelines for our
+kernel developers regarding UAPI compatibility techniques. If there's
+interest in supplying a document on this topic with the kernel, we'd be
+happy to submit a draft detailing what we have so far as a jumping off
+point.
 
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->  scripts/kallsyms.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
-> index 937900823fa8..0d2db41177b2 100644
-> --- a/scripts/kallsyms.c
-> +++ b/scripts/kallsyms.c
-> @@ -6,7 +6,7 @@
->   * of the GNU General Public License, incorporated herein by reference.
->   *
->   * Usage: kallsyms [--all-symbols] [--absolute-percpu]
-> - *                         [--base-relative] in.map > out.S
-> + *                         [--base-relative] [--lto-clang] in.map > out.=
-S
->   *
->   *      Table compression uses all the unused char codes on the symbols =
-and
->   *  maps these to the most used substrings (tokens). For instance, it mi=
-ght
-> --
-> 2.34.1
->
+In terms of tooling, I've attached a shell script we've been using
+internally to validate backwards compatibility of our UAPI headers. The
+script uses libabigail's[2] tool abidiff[3] to compare a modified
+header's ABI before and after a patch is applied. If an existing UAPI is
+modified, the script exits non-zero. We use this script in our
+continuous integration system to block changes that fail the check.
+
+It generates output like this when a backwards-incompatible change is made
+to a UAPI header:
+
+!!! ABI differences detected in include/uapi/linux/bpf.h from HEAD~1 -> HEAD !!!
+
+    [C] 'struct bpf_insn' changed:
+      type size hasn't changed
+      1 data member change:
+        type of '__s32 imm' changed:
+          typedef name changed from __s32 to __u32 at int-ll64.h:27:1
+          underlying type 'int' changed:
+            type name changed from 'int' to 'unsigned int'
+            type size hasn't changed
+
+We wanted to share this script with the community and hopefully also
+receive general feedback when it comes to tooling/policy surrounding this
+issue. Our hope is that the script will help kernel UAPI authors maintain
+good discipline and avoid breaking userspace.
+
+In v5, we've made a few code quality improvements based on review
+feedback. Thanks!
+
+[1] Documentation/kbuild/headers_install.rst
+[2] https://sourceware.org/libabigail/manual/libabigail-overview.html
+[3] https://sourceware.org/libabigail/manual/abidiff.html
+
+P.S. While at Qualcomm, Jordan Crouse <jorcrous@amazon.com> authored the
+original version of the UAPI checker script. Thanks Jordan!<Paste>
+
+John Moon (2):
+  check-uapi: Introduce check-uapi.sh
+  docs: dev-tools: Add UAPI checker documentation
+
+ Documentation/dev-tools/checkuapi.rst | 480 +++++++++++++++++++++++++
+ Documentation/dev-tools/index.rst     |   1 +
+ scripts/check-uapi.sh                 | 489 ++++++++++++++++++++++++++
+ 3 files changed, 970 insertions(+)
+ create mode 100644 Documentation/dev-tools/checkuapi.rst
+ create mode 100755 scripts/check-uapi.sh
 
 
---=20
-Thanks,
-~Nick Desaulniers
+base-commit: f2afccfefe7be1f7346564fe619277110d341f9b
+--
+2.17.1
+
