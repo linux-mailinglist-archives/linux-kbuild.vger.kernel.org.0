@@ -2,68 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 224586DB645
-	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Apr 2023 00:00:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E23216DB65F
+	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Apr 2023 00:20:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231572AbjDGWAu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Apr 2023 18:00:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55722 "EHLO
+        id S229983AbjDGWUa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 Apr 2023 18:20:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231523AbjDGWAt (ORCPT
+        with ESMTP id S230425AbjDGWUZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Apr 2023 18:00:49 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0764E7ED0
-        for <linux-kbuild@vger.kernel.org>; Fri,  7 Apr 2023 15:00:48 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id go23so2735744pjb.4
-        for <linux-kbuild@vger.kernel.org>; Fri, 07 Apr 2023 15:00:48 -0700 (PDT)
+        Fri, 7 Apr 2023 18:20:25 -0400
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5A38D317
+        for <linux-kbuild@vger.kernel.org>; Fri,  7 Apr 2023 15:20:08 -0700 (PDT)
+Received: by mail-pg1-x533.google.com with SMTP id r17so44559pgr.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 07 Apr 2023 15:20:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1680904847; x=1683496847;
+        d=google.com; s=20210112; t=1680906008; x=1683498008;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uv3+/FcAlGbbBCIx4A9TsIAc0Dqtqlhpt96UpJ0Kojk=;
-        b=CxoTg1pCdseNoKoVXH22p6uGJwz/TXY7TXMqG/bVWcA4Lc9LdHfP0CmXYfJEKGal1o
-         5VD1UVmcV3YlmZCZyZ2nHY242rOOAkzrJjpmS7lB5/RQRgBf4u+xbm6HHILq+pKb0YSX
-         UU66Tlc+m/WI1OeJXqm6+OM/GKTiwGhPFyTaa6o9JJftptHlYDW4c2n3BH1yWXtEDzxK
-         JIccT7mIjvk2CJ1yIpHf3dKEKGbfh1om16rSCT3IhOoLN/x62/OCZdlTktfRgUyq0nrN
-         UFmOMRabZemFTIh+irFo0pOZNjn5lx9X8W4/sBYNWd+LwWvtfVGQjv8kS23ZWPLJQBgx
-         kHWQ==
+        bh=FntRN8G19jvJTu5fz2RxEb6kJhcptjgOCe6eBDwugbk=;
+        b=A2cL9i5rXkf5Y/PTBvOkxyINDIGkhrKoDUMpacKIHfsmTRm/dnlPXu0tfG/eBFu9UG
+         oSSVpCf62blzBWpTUa670qzNFEZXzju2SrO0Wj/XMS59SbV0JSxbl4OihJ2jXj56oKUs
+         9XPKuIzwhoU42faCGZn1QCuC/VyzsVLve5g1EXK7h3BJcZoxsa7Rg+mOmwcEurYMb3cX
+         AEaqdB1P9R3PhgRcCx5gqODJGVEe9LgN6FoPkGzdKrE0//HoTlUtpeaJK3e+4vwu5q0e
+         5X8ieNHQbv7u01QqXt/z65gjYT0kA+KzPkJANs7LL+/pJU1My/BMFz476R4093PjVotZ
+         jP1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680904847; x=1683496847;
+        d=1e100.net; s=20210112; t=1680906008; x=1683498008;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uv3+/FcAlGbbBCIx4A9TsIAc0Dqtqlhpt96UpJ0Kojk=;
-        b=dId5nPjVv0lVt81IXaa5MsM/kc760yEItO7yS48uS1gE0mdL4wgcTwGw1lNqg4Lumw
-         MwMCGz7Ua2w/V+f11m6XuAqkPIk9znGJLDL71xAdxNhhPyzOLdwrkeObwxxRkLSaarH/
-         vtffhAVvYPA932L8W7/cF7smc0ZkIRAijxX5cEIxkRhnqYhjELB3aSoCjmytmN6qMHHR
-         N3DoDh6wl8ToqIfTEqOCKUkySy4MCbvybyk85nAgwP/mO1RA9/Fp54hwjoIafhc4J3/L
-         EKSBwqd2A60NA4XUvnqJp+uuO9pGc9RyZUa9r8uCKh/pWsPavlthHBe5zOovwCi1+k0J
-         3EuA==
-X-Gm-Message-State: AAQBX9dKLepnOcRVvbOSeNWydTRX2lLdDMYEVmAWXnL5/0wj/YlG/rf7
-        IU8rshEngt/B1x3zuxbIWPo6U7BESZ5YYgeiFPi/3A==
-X-Google-Smtp-Source: AKy350bHoqfSfuy42Ml7tM84z4MtgDwskIQCcyEcgsj17HCmjzQqaKZzjCii+dXKYUUzhy87mi9tkdu+Vtq/WICJdtI=
-X-Received: by 2002:a17:90a:cc01:b0:244:9909:6e60 with SMTP id
- b1-20020a17090acc0100b0024499096e60mr915183pju.3.1680904847203; Fri, 07 Apr
- 2023 15:00:47 -0700 (PDT)
+        bh=FntRN8G19jvJTu5fz2RxEb6kJhcptjgOCe6eBDwugbk=;
+        b=pcRypAm0DgbpgAuEtFNF/9LCNw6xX38SMxzCa9hUYqR9zyDhN/qSHTokxsnW3ASPmU
+         MRmExkNwOINTHLpXFrhA4mcUTjNBC8wKfLAHbxCNHs9OjMsqE2p7xgJTC+pNoIFkUwgi
+         U4xamhDID740X17+1O4xtJbZUfLv99eGtv7yFzfKZ/BqfXsPjEsPMSWv86yuzmDDiOfI
+         fBKpAaTSB2TK7Ru34XqZRXwCTsTR5xP8qDr8dlyVhvL942fafIcnuxCdhig7q6G51fE9
+         jiL7A+IW2Mgit5zjeBfR5lO5sI+X8y9CE1ipqPkA9OyOtDFVfMP7f6auif1Dw1Teuvuq
+         UqBQ==
+X-Gm-Message-State: AAQBX9eYim2p29i4KmlhpXtcAX5+8vD5218GomuTH/FdqEFXP2o0kuQS
+        dL12j9sIg/BkT99+noda867Cuv1JLzmcQ2PGNiJJoQ==
+X-Google-Smtp-Source: AKy350aeaLQrDjCv+unzTBczDkn1iOS1TNPVAG61Ef5av3yVAjNCRq1On1xCeP8ZZ22XO4U7X6ocY7F22mLM3YTx3v8=
+X-Received: by 2002:a63:1608:0:b0:513:a488:f05f with SMTP id
+ w8-20020a631608000000b00513a488f05fmr76356pgl.1.1680906007885; Fri, 07 Apr
+ 2023 15:20:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230405022356.gonna.338-kees@kernel.org>
-In-Reply-To: <20230405022356.gonna.338-kees@kernel.org>
+References: <20230407102721.14814-1-jiaxun.yang@flygoat.com> <20230407102721.14814-5-jiaxun.yang@flygoat.com>
+In-Reply-To: <20230407102721.14814-5-jiaxun.yang@flygoat.com>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 7 Apr 2023 15:00:35 -0700
-Message-ID: <CAKwvOdkeQa7xOJUZnUYu4v1wmM54z=y0yPzGKfVofr2Fh27A3A@mail.gmail.com>
-Subject: Re: [PATCH v2] ubsan: Tighten UBSAN_BOUNDS on GCC
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Marco Elver <elver@google.com>,
+Date:   Fri, 7 Apr 2023 15:19:56 -0700
+Message-ID: <CAKwvOd=2ChEH1goXpi=nYTcouwLgKP1fnkN31AuqROKj0uc2kg@mail.gmail.com>
+Subject: Re: [PATCH 4/5] MIPS: Detect toolchain support of o32 ABI with 64 bit CPU
+To:     Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc:     linux-mips@vger.kernel.org, llvm@lists.linux.dev,
+        tsbogend@alpha.franken.de, nathan@kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Miroslav Benes <mbenes@suse.cz>, linux-kbuild@vger.kernel.org,
-        llvm@lists.linux.dev, Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-15.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
@@ -77,161 +72,70 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Apr 4, 2023 at 7:24=E2=80=AFPM Kees Cook <keescook@chromium.org> wr=
-ote:
+On Fri, Apr 7, 2023 at 3:27=E2=80=AFAM Jiaxun Yang <jiaxun.yang@flygoat.com=
+> wrote:
 >
-> The use of -fsanitize=3Dbounds on GCC will ignore some trailing arrays,
-> leaving a gap in coverage. Switch to using -fsanitize=3Dbounds-strict to
-> match Clang's stricter behavior.
+> LLVM is not happy with using o32 ABI on 64 bit CPU, thus build 32 bit
+> kernel is unsupported.
 >
-> Cc: Marco Elver <elver@google.com>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: Nathan Chancellor <nathan@kernel.org>
-> Cc: Nick Desaulniers <ndesaulniers@google.com>
-> Cc: Nicolas Schier <nicolas@fjasle.eu>
-> Cc: Tom Rix <trix@redhat.com>
-> Cc: Josh Poimboeuf <jpoimboe@kernel.org>
-> Cc: Miroslav Benes <mbenes@suse.cz>
-> Cc: linux-kbuild@vger.kernel.org
-> Cc: llvm@lists.linux.dev
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+> Detect this in Kconfig to prevent user select 32 bit kernel with
+> unsupported toolchain.
+>
+> Reported-by: Nathan Chancellor <nathan@kernel.org>
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+
+I suspect this may fix:
+Link: https://github.com/ClangBuiltLinux/linux/issues/884
+
 > ---
-> v2: improve help text (nathan)
-> v1: https://lore.kernel.org/lkml/20230302225444.never.053-kees@kernel.org=
-/
-> ---
->  lib/Kconfig.ubsan      | 56 +++++++++++++++++++++++-------------------
->  scripts/Makefile.ubsan |  2 +-
->  2 files changed, 32 insertions(+), 26 deletions(-)
+>  arch/mips/Kconfig | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 >
-> diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
-> index fd15230a703b..65d8bbcba438 100644
-> --- a/lib/Kconfig.ubsan
-> +++ b/lib/Kconfig.ubsan
-> @@ -27,16 +27,29 @@ config UBSAN_TRAP
->           the system. For some system builders this is an acceptable
->           trade-off.
->
-> -config CC_HAS_UBSAN_BOUNDS
-> -       def_bool $(cc-option,-fsanitize=3Dbounds)
-> +config CC_HAS_UBSAN_BOUNDS_STRICT
-> +       def_bool $(cc-option,-fsanitize=3Dbounds-strict)
-> +       help
-> +         The -fsanitize=3Dbounds-strict option is only available on GCC,
-> +         but uses the more strict handling of arrays that includes knowl=
-edge
-> +         of flexible arrays, which is comparable to Clang's regular
-> +         -fsanitize=3Dbounds.
->
->  config CC_HAS_UBSAN_ARRAY_BOUNDS
->         def_bool $(cc-option,-fsanitize=3Darray-bounds)
-> +       help
-> +         Under Clang, the -fsanitize=3Dbounds option is actually compose=
-d
-> +         of two more specific options, -fsanitize=3Darray-bounds and
+> diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
+> index d896af492da6..5e399a5ac3b3 100644
+> --- a/arch/mips/Kconfig
+> +++ b/arch/mips/Kconfig
+> @@ -2016,6 +2016,7 @@ choice
+>  config 32BIT
+>         bool "32-bit kernel"
+>         depends on CPU_SUPPORTS_32BIT_KERNEL && SYS_SUPPORTS_32BIT_KERNEL
+> +       depends on CC_HAS_O32_ABI
 
-Heh, that was literally the latest blog post I was working on...2
-weeks ago? WIP.
+Does this disable 32b mips builds with clang?
 
-Would it make sense to use CC_IS_CLANG (as in lib/Kconfig.k{a|c}san)
-and CC_IS_GCC in addition to the cc-option tests, since the help texts
-make it clear there's compiler specific differences here?
-
-I've also sent
-https://lore.kernel.org/llvm/20230407215406.768464-1-ndesaulniers@google.co=
-m/
-while looking at this patch.  Maybe more cc-option tests are no longer
-necessary at this point, but I haven't checked the rest.
-
-> +         -fsanitize=3Dlocal-bounds. However, -fsanitize=3Dlocal-bounds c=
-an
-> +         only be used when trap mode is enabled. (See also the help for
-> +         CONFIG_LOCAL_BOUNDS.) Explicitly check for -fsanitize=3Darray-b=
-ounds
-> +         so that we can build up the options needed for UBSAN_BOUNDS
-> +         with or without UBSAN_TRAP.
->
->  config UBSAN_BOUNDS
->         bool "Perform array index bounds checking"
->         default UBSAN
-> -       depends on CC_HAS_UBSAN_ARRAY_BOUNDS || CC_HAS_UBSAN_BOUNDS
-> +       depends on CC_HAS_UBSAN_ARRAY_BOUNDS || CC_HAS_UBSAN_BOUNDS_STRIC=
-T
+>         select TRAD_SIGNALS
 >         help
->           This option enables detection of directly indexed out of bounds
->           array accesses, where the array size is known at compile time.
-> @@ -44,33 +57,26 @@ config UBSAN_BOUNDS
->           to the {str,mem}*cpy() family of functions (that is addressed
->           by CONFIG_FORTIFY_SOURCE).
+>           Select this option if you want to build a 32-bit kernel.
+> @@ -3136,7 +3137,7 @@ config COMPAT
 >
-> -config UBSAN_ONLY_BOUNDS
-> -       def_bool CC_HAS_UBSAN_BOUNDS && !CC_HAS_UBSAN_ARRAY_BOUNDS
-> -       depends on UBSAN_BOUNDS
-> +config UBSAN_BOUNDS_STRICT
-> +       def_bool UBSAN_BOUNDS && CC_HAS_UBSAN_BOUNDS_STRICT
->         help
-> -         This is a weird case: Clang's -fsanitize=3Dbounds includes
-> -         -fsanitize=3Dlocal-bounds, but it's trapping-only, so for
-> -         Clang, we must use -fsanitize=3Darray-bounds when we want
-> -         traditional array bounds checking enabled. For GCC, we
-> -         want -fsanitize=3Dbounds.
-> +         GCC's bounds sanitizer. This option is used to select the
-> +         correct options in Makefile.ubsan.
+>  config MIPS32_O32
+>         bool "Kernel support for o32 binaries"
+> -       depends on 64BIT
+> +       depends on 64BIT && CC_HAS_O32_ABI
+>         select ARCH_WANT_OLD_COMPAT_IPC
+>         select COMPAT
+>         select MIPS32_COMPAT
+> @@ -3184,6 +3185,10 @@ config CC_HAS_DADDI_WORKAROUNDS
+>  config CC_HAS_BROKEN_INLINE_COMPAT_BRANCH
+>         def_bool y if CC_IS_CLANG
 >
->  config UBSAN_ARRAY_BOUNDS
-> -       def_bool CC_HAS_UBSAN_ARRAY_BOUNDS
-> -       depends on UBSAN_BOUNDS
-> +       def_bool UBSAN_BOUNDS && CC_HAS_UBSAN_ARRAY_BOUNDS
-> +       help
-> +         Clang's array bounds sanitizer. This option is used to select
-> +         the correct options in Makefile.ubsan.
+> +config CC_HAS_O32_ABI
+> +       def_bool y
+> +       depends on !CPU_SUPPORTS_64BIT_KERNEL || $(cc-option,-march=3Dmip=
+s3 -mabi=3D32)
+
+Should this be
+def_bool $(cc-option,-march=3Dmips3 -mabi=3D32)
+depends on !CPU_SUPPORTS_64BIT_KERNEL
+
+?
+
+> +
+>  config AS_HAS_MSA
+>         def_bool $(cc-option,-Wa$(comma)-mmsa)
 >
->  config UBSAN_LOCAL_BOUNDS
-> -       bool "Perform array local bounds checking"
-> -       depends on UBSAN_TRAP
-> -       depends on $(cc-option,-fsanitize=3Dlocal-bounds)
-> -       help
-> -         This option enables -fsanitize=3Dlocal-bounds which traps when =
-an
-> -         exception/error is detected. Therefore, it may only be enabled
-> -         with CONFIG_UBSAN_TRAP.
-> -
-> -         Enabling this option detects errors due to accesses through a
-> -         pointer that is derived from an object of a statically-known si=
-ze,
-> -         where an added offset (which may not be known statically) is
-> -         out-of-bounds.
-> +       def_bool UBSAN_ARRAY_BOUNDS && UBSAN_TRAP
-> +       help
-> +         This option enables Clang's -fsanitize=3Dlocal-bounds which tra=
-ps
-> +         when an access through a pointer that is derived from an object
-> +         of a statically-known size, where an added offset (which may no=
-t
-> +         be known statically) is out-of-bounds. Since this option is
-> +         trap-only, it depends on CONFIG_UBSAN_TRAP.
->
->  config UBSAN_SHIFT
->         bool "Perform checking for bit-shift overflows"
-> diff --git a/scripts/Makefile.ubsan b/scripts/Makefile.ubsan
-> index 7099c603ff0a..4749865c1b2c 100644
-> --- a/scripts/Makefile.ubsan
-> +++ b/scripts/Makefile.ubsan
-> @@ -2,7 +2,7 @@
->
->  # Enable available and selected UBSAN features.
->  ubsan-cflags-$(CONFIG_UBSAN_ALIGNMENT)         +=3D -fsanitize=3Dalignme=
-nt
-> -ubsan-cflags-$(CONFIG_UBSAN_ONLY_BOUNDS)       +=3D -fsanitize=3Dbounds
-> +ubsan-cflags-$(CONFIG_UBSAN_BOUNDS_STRICT)     +=3D -fsanitize=3Dbounds-=
-strict
->  ubsan-cflags-$(CONFIG_UBSAN_ARRAY_BOUNDS)      +=3D -fsanitize=3Darray-b=
-ounds
->  ubsan-cflags-$(CONFIG_UBSAN_LOCAL_BOUNDS)      +=3D -fsanitize=3Dlocal-b=
-ounds
->  ubsan-cflags-$(CONFIG_UBSAN_SHIFT)             +=3D -fsanitize=3Dshift
 > --
-> 2.34.1
+> 2.39.2 (Apple Git-143)
 >
 
 
