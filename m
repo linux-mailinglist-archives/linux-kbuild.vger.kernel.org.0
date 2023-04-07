@@ -2,63 +2,64 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA5DD6DB2E8
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Apr 2023 20:35:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B2736DB328
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Apr 2023 20:47:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229751AbjDGSfl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Apr 2023 14:35:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50138 "EHLO
+        id S232362AbjDGSrn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 Apr 2023 14:47:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229469AbjDGSfk (ORCPT
+        with ESMTP id S232202AbjDGSrW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Apr 2023 14:35:40 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 964A8BBA3
-        for <linux-kbuild@vger.kernel.org>; Fri,  7 Apr 2023 11:35:36 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id qe8-20020a17090b4f8800b0023f07253a2cso43944798pjb.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 07 Apr 2023 11:35:36 -0700 (PDT)
+        Fri, 7 Apr 2023 14:47:22 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5335CA19
+        for <linux-kbuild@vger.kernel.org>; Fri,  7 Apr 2023 11:46:58 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id 98e67ed59e1d1-23f8be2d34eso222546a91.2
+        for <linux-kbuild@vger.kernel.org>; Fri, 07 Apr 2023 11:46:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1680892536; x=1683484536;
+        d=google.com; s=20210112; t=1680893216; x=1683485216;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lkvnHvhSWeo4VxY3cBnY8xmf+ae8qd887dNHfnNtpJc=;
-        b=mPLcikNXDVSJkaTJnrYtE/PrmU4K58uQCaJJj2SEuX7BYjnHdOVPP0uWm7Ys8pkSNN
-         3UQMtDXGdNOq3BbYpGCt3MexDznn6DMUCJKT9u7IkE0p2J6dnIGBsvH1ujAUiYNLbst8
-         tU1admMpaie+k9EVyksjCS2abg71lmso213cBfaG1BJtZHm5zmKwjztqV/PXm5zjzylc
-         M1HnI6njMewLKlZREZos9pPHHhYRnY/X7NUAfs4DubfgANrp4R+ThZI3UlHkrGh2/eZF
-         M1C19kxcJQiD1E1i+oH+dLKCWctUrqBlIFi4eTubWT3bG0FVs8u8wzr6D31eRQRxnhuB
-         L/gw==
+        bh=SLTo2/pbqaGdaUlRr1PWbdRNZcxUWCLaiksPX42/Bv4=;
+        b=OB+ByxAw4BkURK4R+G8bm8Rs6drt6DfimRLhJzLOJYEnl87KmHZQnbq/QqEVhTs2e+
+         RAX0flUogBejdNbx1QrzTHFePAbd6fGLBT9ZpAQjIOtc65per7KsF3c3JY6CLOokJQnI
+         rEl3ZllHlvQIu3vsnDGw0pxDFl11NJuw8E25F8XuVgHoLZpeK72KXQpbFntowhLYOf4H
+         KVD44/LoempTYGAHa3PEFDO9qDQhdS2CCxe4k/In4afRHbWWotoYXj5yaIxHZsL/hdkC
+         iNqrcPYDAgo3JOwZ77yh/C5fOZVlFGTX09kzPc66et4S5IHNlMTxHZmNfGgg2ww1iOgc
+         iQaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680892536; x=1683484536;
+        d=1e100.net; s=20210112; t=1680893216; x=1683485216;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lkvnHvhSWeo4VxY3cBnY8xmf+ae8qd887dNHfnNtpJc=;
-        b=Lu7vPuNT0t0fI8Z0y5JRRQrCppjq/dLl3KlSwanr4QvIgqursRDY4x2oDSeUbNBsTD
-         l0aCH6J5cBwW+v4AsvD8UUXM0XSYb/gZIh7TT2pKo3Ih7zXLI4xeda97BVagE0uqNeYP
-         Yyi6LPtldRiclDm96Naa6CstZ9PvKcLgVEOnBlTM06e+SkZXZs0/bQF+hGGJSHI/ylU4
-         lsWh9oi/xg+E/Lt6jNTSlqmxAqnOd+LB4kyT5lrK7JTyGh91y4wZZdzhunL6/n4H36Ez
-         lyryi+sgR886ChP7b3dfjBq3unrHralFr0DbfoeF3UYPpyAd2u8XjYoHz+Nf4cBv4qH/
-         5q5Q==
-X-Gm-Message-State: AAQBX9dLrI8tEVx6gYkp3sFO20YUAaNT2cE6EAPnc5dM6LNNj8DGvIYr
-        rDiSYe3qvuMa7S5oqMiWEhItaH+JexIwJMQH3AqWkQ==
-X-Google-Smtp-Source: AKy350aPJLLxT7peXfZnEftBBV8F7gsFTwtE+ixtpx4oUkwKGFydDK+es9dO4+rJzqrDYQ34QWKn2vt6euzihLIOJ4I=
-X-Received: by 2002:a17:90a:f10:b0:23d:535f:59c7 with SMTP id
- 16-20020a17090a0f1000b0023d535f59c7mr802293pjy.7.1680892535727; Fri, 07 Apr
- 2023 11:35:35 -0700 (PDT)
+        bh=SLTo2/pbqaGdaUlRr1PWbdRNZcxUWCLaiksPX42/Bv4=;
+        b=smoCfTyeduJC7KG1nrc42jNU+3Nu9hpULa2PM26tBp4PglVFRghEiH79yzkPxPTrFm
+         JjatCZztIdMQvrEA+PUikK1UHZZJ8U8NbhIypxiAxAYhZ9/rY9wBNjKpWRnUNB3GfLGN
+         LzaAldDXbEBOT514EbyEAl/jYxpvzRv6QwVDyx4w8Rzf2kp9pazbBSaflFAtpPMnCTgE
+         SXe2z7u27gBInFfSxtkd3ZkNzuvL5qwE5JCJR70oZwE16Ma1wYm2jsK8k9Js22Mh4NM/
+         Tpcrp05l1ZlK67VOuWG2OxaRKbDwXi6Qh7a4KLTATQGV8g/aS5qjyewX/dUX6ryzqnY5
+         B9iw==
+X-Gm-Message-State: AAQBX9enj1bhE9H8kiuYS2KajF4Yknqf1Vq55tcyuorGxY++iDlXFJLC
+        nbI1nyZQdB28f5oNyEOcKmYIcrhrT/ldDSljDYV0TaF4RiSuJNpQcus=
+X-Google-Smtp-Source: AKy350as1CQpweA9VqnR4D8sSPwD3L9mpCdajcNXDnqTT3PiapjkTkWgQH+wLiakf2X4XKTFibbgixAcMIBA+nxofrs=
+X-Received: by 2002:a05:6a00:2e23:b0:62a:d87a:a375 with SMTP id
+ fc35-20020a056a002e2300b0062ad87aa375mr1682910pfb.4.1680893215506; Fri, 07
+ Apr 2023 11:46:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230324212210.1001990-1-maskray@google.com>
-In-Reply-To: <20230324212210.1001990-1-maskray@google.com>
+References: <20230308115243.82592-1-masahiroy@kernel.org> <20230308115243.82592-2-masahiroy@kernel.org>
+In-Reply-To: <20230308115243.82592-2-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 7 Apr 2023 11:35:24 -0700
-Message-ID: <CAKwvOd=QXGbrxct20cBia92=QonWtfWdC21WK4w2bRBprPXh=w@mail.gmail.com>
-Subject: Re: [PATCH v2] Makefile: use -z pack-relative-relocs
-To:     Fangrui Song <maskray@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Peter Collingbourne <pcc@google.com>,
-        Will Deacon <will@kernel.org>
+Date:   Fri, 7 Apr 2023 11:46:44 -0700
+Message-ID: <CAKwvOdk+7ODHh=fC+=1bky+XEZH=idAsCkymn8Ex0TN8sC7SVQ@mail.gmail.com>
+Subject: Re: [PATCH 2/8] scripts/mksysmap: remove comments described in nm(1)
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Zhen Lei <thunder.leizhen@huawei.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-15.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
@@ -72,88 +73,59 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Mar 24, 2023 at 2:22=E2=80=AFPM Fangrui Song <maskray@google.com> w=
-rote:
+On Wed, Mar 8, 2023 at 3:52=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.or=
+g> wrote:
 >
-> Commit 27f2a4db76e8 ("Makefile: fix GDB warning with CONFIG_RELR")
-> added --use-android-relr-tags to fix a GDB warning
->
-> BFD: /android0/linux-next/vmlinux: unknown type [0x13] section `.relr.dyn=
-'
->
-> The GDB warning has been fixed in version 11.2.
->
-> The DT_ANDROID_RELR tag was deprecated since DT_RELR was standardized.
-> Thus, --use-android-relr-tags should be removed. While making the
-> change, try -z pack-relative-relocs, which is supported since LLD 15.
-> Keep supporting --pack-dyn-relocs=3Drelr as well for older LLD versions.
->
-> As of today, GNU ld supports the latter option for x86 and powerpc64
-> ports and has no intention to support --pack-dyn-relocs=3Drelr. In the
-> absence of the glibc symbol version GLIBC_ABI_DT_RELR,
-> --pack-dyn-relocs=3Drelr and -z pack-relative-relocs are identical in
-> ld.lld.
->
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1057
-> Link: https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dcommit;h=3Da61=
-9b58721f0a03fd91c27670d3e4c2fb0d88f1e
-> Signed-off-by: Fangrui Song <maskray@google.com>
+> I do not think we need to repeat what is written in 'man nm'.
 
-Thanks v2 looks better. IIUC, this will first try to test+use
-`--pack-dyn-relocs=3Drelr` in preference to `-z pack-relative-relocs`.
-Do we want to reorder the preference, for both the test and actual
-flag used?
+I agree, but the paragraphs following the one you removed refer to a,
+U, N, w, T, t, and W now with no context that those are the nm
+formats.
 
+I'm ok with this patch, but please consider adding a sentence along
+the lines of:
+
+The following refers to the symbol type as per nm(1).
+
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
->  Makefile                      | 3 ++-
->  scripts/tools-support-relr.sh | 8 ++++++--
->  2 files changed, 8 insertions(+), 3 deletions(-)
-> ---
-> Changes from v1:
-> * Keep supporting --pack-dyn-relocs=3Drelr for older ld.lld versions
 >
-> diff --git a/Makefile b/Makefile
-> index a2c310df2145..e23a85476d5d 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1113,7 +1113,8 @@ LDFLAGS_vmlinux   +=3D -X
->  endif
+>  scripts/mksysmap | 19 -------------------
+>  1 file changed, 19 deletions(-)
 >
->  ifeq ($(CONFIG_RELR),y)
-> -LDFLAGS_vmlinux        +=3D --pack-dyn-relocs=3Drelr --use-android-relr-=
-tags
-> +# ld.lld before 15 did not support -z pack-relative-relocs.
-> +LDFLAGS_vmlinux        +=3D $(call ld-option,--pack-dyn-relocs=3Drelr,-z=
- pack-relative-relocs)
->  endif
+> diff --git a/scripts/mksysmap b/scripts/mksysmap
+> index 16a08b8ef2f8..697fc6653953 100755
+> --- a/scripts/mksysmap
+> +++ b/scripts/mksysmap
+> @@ -10,25 +10,6 @@
+>  #####
+>  # Generate System.map (actual filename passed as second argument)
 >
->  # We never want expected sections to be placed heuristically by the
-> diff --git a/scripts/tools-support-relr.sh b/scripts/tools-support-relr.s=
-h
-> index cb55878bd5b8..4c121946e517 100755
-> --- a/scripts/tools-support-relr.sh
-> +++ b/scripts/tools-support-relr.sh
-> @@ -7,8 +7,12 @@ trap "rm -f $tmp_file.o $tmp_file $tmp_file.bin" EXIT
->  cat << "END" | $CC -c -x c - -o $tmp_file.o >/dev/null 2>&1
->  void *p =3D &p;
->  END
-> -$LD $tmp_file.o -shared -Bsymbolic --pack-dyn-relocs=3Drelr \
-> -  --use-android-relr-tags -o $tmp_file
-> +
-> +# ld.lld before 15 did not support -z pack-relative-relocs.
-> +if ! $LD $tmp_file.o -shared -Bsymbolic --pack-dyn-relocs=3Drelr -o $tmp=
-_file 2>/dev/null; then
-> +       $LD $tmp_file.o -shared -Bsymbolic -z pack-relative-relocs -o $tm=
-p_file 2>&1 |
-> +               grep -q pack-relative-relocs && exit 1
-> +fi
->
->  # Despite printing an error message, GNU nm still exits with exit code 0=
- if it
->  # sees a relr section. So we need to check that nothing is printed to st=
-derr.
+> -# $NM produces the following output:
+> -# f0081e80 T alloc_vfsmnt
+> -
+> -#   The second row specify the type of the symbol:
+> -#   A =3D Absolute
+> -#   B =3D Uninitialised data (.bss)
+> -#   C =3D Common symbol
+> -#   D =3D Initialised data
+> -#   G =3D Initialised data for small objects
+> -#   I =3D Indirect reference to another symbol
+> -#   N =3D Debugging symbol
+> -#   R =3D Read only
+> -#   S =3D Uninitialised data for small objects
+> -#   T =3D Text code symbol
+> -#   U =3D Undefined symbol
+> -#   V =3D Weak symbol
+> -#   W =3D Weak symbol
+> -#   Corresponding small letters are local symbols
+> -
+>  # For System.map filter away:
+>  #   a - local absolute symbols
+>  #   U - undefined global symbols
 > --
-> 2.40.0.348.gf938b09366-goog
+> 2.34.1
 >
 
 
