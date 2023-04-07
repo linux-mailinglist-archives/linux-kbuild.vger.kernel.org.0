@@ -2,95 +2,239 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97B5F6DB5FA
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Apr 2023 23:58:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 224586DB645
+	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Apr 2023 00:00:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230011AbjDGV63 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Apr 2023 17:58:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54058 "EHLO
+        id S231572AbjDGWAu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 Apr 2023 18:00:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229666AbjDGV62 (ORCPT
+        with ESMTP id S231523AbjDGWAt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Apr 2023 17:58:28 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F365D5FF0;
-        Fri,  7 Apr 2023 14:58:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8BE1F64EED;
-        Fri,  7 Apr 2023 21:58:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44E93C433D2;
-        Fri,  7 Apr 2023 21:58:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680904706;
-        bh=Kky6fJPSS3fQg9xwbpyADTyHvnHtrXZw1E7q8+0lSHY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jMq+eRhYUo8b7ZIuDm9IlmLcmcMOFybDxyvm0r68LsgBtuUS1Uw0JOWscxHCTYUPt
-         y7KH6nij12EhQSWjV6Y12N+3/FUQ9Ji/5whn0hfT2mNwFeFWjWQ8EiNFxkwpkhVhiI
-         l8/q1XvONiu9/20W+mger9Q6C/pwwaXuMdrYJphGW5jDqKnXqnR+F4YL4sDzF5cCPW
-         XymX7VnyH8+hl/f0oejtYx3Q5IMJyxPNZ8GZUKSeGLvNGEQ9EpZY1IhC9e5fOSptzQ
-         SKuN+Fk29G7uLn+e6TWEbYTSRwNRxzIgiJK5z2xfkQ2+u/udwrjegWVkEnF9JABYKE
-         4pNflFR1QkWgA==
-Date:   Fri, 7 Apr 2023 14:58:24 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-hardening@vger.kernel.org, Tom Rix <trix@redhat.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Miroslav Benes <mbenes@suse.cz>, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] ubsan: remove cc-option test for UBSAN_TRAP
-Message-ID: <20230407215824.GA1524475@dev-arch.thelio-3990X>
-References: <20230407215406.768464-1-ndesaulniers@google.com>
+        Fri, 7 Apr 2023 18:00:49 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0764E7ED0
+        for <linux-kbuild@vger.kernel.org>; Fri,  7 Apr 2023 15:00:48 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id go23so2735744pjb.4
+        for <linux-kbuild@vger.kernel.org>; Fri, 07 Apr 2023 15:00:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1680904847; x=1683496847;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uv3+/FcAlGbbBCIx4A9TsIAc0Dqtqlhpt96UpJ0Kojk=;
+        b=CxoTg1pCdseNoKoVXH22p6uGJwz/TXY7TXMqG/bVWcA4Lc9LdHfP0CmXYfJEKGal1o
+         5VD1UVmcV3YlmZCZyZ2nHY242rOOAkzrJjpmS7lB5/RQRgBf4u+xbm6HHILq+pKb0YSX
+         UU66Tlc+m/WI1OeJXqm6+OM/GKTiwGhPFyTaa6o9JJftptHlYDW4c2n3BH1yWXtEDzxK
+         JIccT7mIjvk2CJ1yIpHf3dKEKGbfh1om16rSCT3IhOoLN/x62/OCZdlTktfRgUyq0nrN
+         UFmOMRabZemFTIh+irFo0pOZNjn5lx9X8W4/sBYNWd+LwWvtfVGQjv8kS23ZWPLJQBgx
+         kHWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680904847; x=1683496847;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uv3+/FcAlGbbBCIx4A9TsIAc0Dqtqlhpt96UpJ0Kojk=;
+        b=dId5nPjVv0lVt81IXaa5MsM/kc760yEItO7yS48uS1gE0mdL4wgcTwGw1lNqg4Lumw
+         MwMCGz7Ua2w/V+f11m6XuAqkPIk9znGJLDL71xAdxNhhPyzOLdwrkeObwxxRkLSaarH/
+         vtffhAVvYPA932L8W7/cF7smc0ZkIRAijxX5cEIxkRhnqYhjELB3aSoCjmytmN6qMHHR
+         N3DoDh6wl8ToqIfTEqOCKUkySy4MCbvybyk85nAgwP/mO1RA9/Fp54hwjoIafhc4J3/L
+         EKSBwqd2A60NA4XUvnqJp+uuO9pGc9RyZUa9r8uCKh/pWsPavlthHBe5zOovwCi1+k0J
+         3EuA==
+X-Gm-Message-State: AAQBX9dKLepnOcRVvbOSeNWydTRX2lLdDMYEVmAWXnL5/0wj/YlG/rf7
+        IU8rshEngt/B1x3zuxbIWPo6U7BESZ5YYgeiFPi/3A==
+X-Google-Smtp-Source: AKy350bHoqfSfuy42Ml7tM84z4MtgDwskIQCcyEcgsj17HCmjzQqaKZzjCii+dXKYUUzhy87mi9tkdu+Vtq/WICJdtI=
+X-Received: by 2002:a17:90a:cc01:b0:244:9909:6e60 with SMTP id
+ b1-20020a17090acc0100b0024499096e60mr915183pju.3.1680904847203; Fri, 07 Apr
+ 2023 15:00:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230407215406.768464-1-ndesaulniers@google.com>
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+References: <20230405022356.gonna.338-kees@kernel.org>
+In-Reply-To: <20230405022356.gonna.338-kees@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Fri, 7 Apr 2023 15:00:35 -0700
+Message-ID: <CAKwvOdkeQa7xOJUZnUYu4v1wmM54z=y0yPzGKfVofr2Fh27A3A@mail.gmail.com>
+Subject: Re: [PATCH v2] ubsan: Tighten UBSAN_BOUNDS on GCC
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Marco Elver <elver@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Miroslav Benes <mbenes@suse.cz>, linux-kbuild@vger.kernel.org,
+        llvm@lists.linux.dev, Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-15.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,ENV_AND_HDR_SPF_MATCH,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL,
+        USER_IN_DEF_SPF_WL autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 07, 2023 at 02:54:06PM -0700, Nick Desaulniers wrote:
-> -fsanitize-undefined-trap-on-error has been supported since GCC 5.1 and
-> Clang 3.2.  The minimum supported version of these according to
-> Documentation/process/changes.rst is 5.1 and 11.0.0 respectively. Drop
-> this cc-option check.
-> 
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-
-As an aside, we should really consider having some standard format of
-comment around cc-option checks so that we can easily remove them when
-they become stale...
-
+On Tue, Apr 4, 2023 at 7:24=E2=80=AFPM Kees Cook <keescook@chromium.org> wr=
+ote:
+>
+> The use of -fsanitize=3Dbounds on GCC will ignore some trailing arrays,
+> leaving a gap in coverage. Switch to using -fsanitize=3Dbounds-strict to
+> match Clang's stricter behavior.
+>
+> Cc: Marco Elver <elver@google.com>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Cc: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: Nicolas Schier <nicolas@fjasle.eu>
+> Cc: Tom Rix <trix@redhat.com>
+> Cc: Josh Poimboeuf <jpoimboe@kernel.org>
+> Cc: Miroslav Benes <mbenes@suse.cz>
+> Cc: linux-kbuild@vger.kernel.org
+> Cc: llvm@lists.linux.dev
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 > ---
-> Masahiro, Kees: get_maintainer.pl leaves much to be desired for this
-> file. Can one of you please pick this up?
-> 
->  lib/Kconfig.ubsan | 1 -
->  1 file changed, 1 deletion(-)
-> 
+> v2: improve help text (nathan)
+> v1: https://lore.kernel.org/lkml/20230302225444.never.053-kees@kernel.org=
+/
+> ---
+>  lib/Kconfig.ubsan      | 56 +++++++++++++++++++++++-------------------
+>  scripts/Makefile.ubsan |  2 +-
+>  2 files changed, 32 insertions(+), 26 deletions(-)
+>
 > diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
-> index fd15230a703b..0e7ad0782399 100644
+> index fd15230a703b..65d8bbcba438 100644
 > --- a/lib/Kconfig.ubsan
 > +++ b/lib/Kconfig.ubsan
-> @@ -15,7 +15,6 @@ if UBSAN
->  config UBSAN_TRAP
->  	bool "On Sanitizer warnings, abort the running kernel code"
->  	depends on !COMPILE_TEST
-> -	depends on $(cc-option, -fsanitize-undefined-trap-on-error)
->  	help
->  	  Building kernels with Sanitizer features enabled tends to grow
->  	  the kernel size by around 5%, due to adding all the debugging
-> -- 
-> 2.40.0.577.gac1e443424-goog
-> 
+> @@ -27,16 +27,29 @@ config UBSAN_TRAP
+>           the system. For some system builders this is an acceptable
+>           trade-off.
+>
+> -config CC_HAS_UBSAN_BOUNDS
+> -       def_bool $(cc-option,-fsanitize=3Dbounds)
+> +config CC_HAS_UBSAN_BOUNDS_STRICT
+> +       def_bool $(cc-option,-fsanitize=3Dbounds-strict)
+> +       help
+> +         The -fsanitize=3Dbounds-strict option is only available on GCC,
+> +         but uses the more strict handling of arrays that includes knowl=
+edge
+> +         of flexible arrays, which is comparable to Clang's regular
+> +         -fsanitize=3Dbounds.
+>
+>  config CC_HAS_UBSAN_ARRAY_BOUNDS
+>         def_bool $(cc-option,-fsanitize=3Darray-bounds)
+> +       help
+> +         Under Clang, the -fsanitize=3Dbounds option is actually compose=
+d
+> +         of two more specific options, -fsanitize=3Darray-bounds and
+
+Heh, that was literally the latest blog post I was working on...2
+weeks ago? WIP.
+
+Would it make sense to use CC_IS_CLANG (as in lib/Kconfig.k{a|c}san)
+and CC_IS_GCC in addition to the cc-option tests, since the help texts
+make it clear there's compiler specific differences here?
+
+I've also sent
+https://lore.kernel.org/llvm/20230407215406.768464-1-ndesaulniers@google.co=
+m/
+while looking at this patch.  Maybe more cc-option tests are no longer
+necessary at this point, but I haven't checked the rest.
+
+> +         -fsanitize=3Dlocal-bounds. However, -fsanitize=3Dlocal-bounds c=
+an
+> +         only be used when trap mode is enabled. (See also the help for
+> +         CONFIG_LOCAL_BOUNDS.) Explicitly check for -fsanitize=3Darray-b=
+ounds
+> +         so that we can build up the options needed for UBSAN_BOUNDS
+> +         with or without UBSAN_TRAP.
+>
+>  config UBSAN_BOUNDS
+>         bool "Perform array index bounds checking"
+>         default UBSAN
+> -       depends on CC_HAS_UBSAN_ARRAY_BOUNDS || CC_HAS_UBSAN_BOUNDS
+> +       depends on CC_HAS_UBSAN_ARRAY_BOUNDS || CC_HAS_UBSAN_BOUNDS_STRIC=
+T
+>         help
+>           This option enables detection of directly indexed out of bounds
+>           array accesses, where the array size is known at compile time.
+> @@ -44,33 +57,26 @@ config UBSAN_BOUNDS
+>           to the {str,mem}*cpy() family of functions (that is addressed
+>           by CONFIG_FORTIFY_SOURCE).
+>
+> -config UBSAN_ONLY_BOUNDS
+> -       def_bool CC_HAS_UBSAN_BOUNDS && !CC_HAS_UBSAN_ARRAY_BOUNDS
+> -       depends on UBSAN_BOUNDS
+> +config UBSAN_BOUNDS_STRICT
+> +       def_bool UBSAN_BOUNDS && CC_HAS_UBSAN_BOUNDS_STRICT
+>         help
+> -         This is a weird case: Clang's -fsanitize=3Dbounds includes
+> -         -fsanitize=3Dlocal-bounds, but it's trapping-only, so for
+> -         Clang, we must use -fsanitize=3Darray-bounds when we want
+> -         traditional array bounds checking enabled. For GCC, we
+> -         want -fsanitize=3Dbounds.
+> +         GCC's bounds sanitizer. This option is used to select the
+> +         correct options in Makefile.ubsan.
+>
+>  config UBSAN_ARRAY_BOUNDS
+> -       def_bool CC_HAS_UBSAN_ARRAY_BOUNDS
+> -       depends on UBSAN_BOUNDS
+> +       def_bool UBSAN_BOUNDS && CC_HAS_UBSAN_ARRAY_BOUNDS
+> +       help
+> +         Clang's array bounds sanitizer. This option is used to select
+> +         the correct options in Makefile.ubsan.
+>
+>  config UBSAN_LOCAL_BOUNDS
+> -       bool "Perform array local bounds checking"
+> -       depends on UBSAN_TRAP
+> -       depends on $(cc-option,-fsanitize=3Dlocal-bounds)
+> -       help
+> -         This option enables -fsanitize=3Dlocal-bounds which traps when =
+an
+> -         exception/error is detected. Therefore, it may only be enabled
+> -         with CONFIG_UBSAN_TRAP.
+> -
+> -         Enabling this option detects errors due to accesses through a
+> -         pointer that is derived from an object of a statically-known si=
+ze,
+> -         where an added offset (which may not be known statically) is
+> -         out-of-bounds.
+> +       def_bool UBSAN_ARRAY_BOUNDS && UBSAN_TRAP
+> +       help
+> +         This option enables Clang's -fsanitize=3Dlocal-bounds which tra=
+ps
+> +         when an access through a pointer that is derived from an object
+> +         of a statically-known size, where an added offset (which may no=
+t
+> +         be known statically) is out-of-bounds. Since this option is
+> +         trap-only, it depends on CONFIG_UBSAN_TRAP.
+>
+>  config UBSAN_SHIFT
+>         bool "Perform checking for bit-shift overflows"
+> diff --git a/scripts/Makefile.ubsan b/scripts/Makefile.ubsan
+> index 7099c603ff0a..4749865c1b2c 100644
+> --- a/scripts/Makefile.ubsan
+> +++ b/scripts/Makefile.ubsan
+> @@ -2,7 +2,7 @@
+>
+>  # Enable available and selected UBSAN features.
+>  ubsan-cflags-$(CONFIG_UBSAN_ALIGNMENT)         +=3D -fsanitize=3Dalignme=
+nt
+> -ubsan-cflags-$(CONFIG_UBSAN_ONLY_BOUNDS)       +=3D -fsanitize=3Dbounds
+> +ubsan-cflags-$(CONFIG_UBSAN_BOUNDS_STRICT)     +=3D -fsanitize=3Dbounds-=
+strict
+>  ubsan-cflags-$(CONFIG_UBSAN_ARRAY_BOUNDS)      +=3D -fsanitize=3Darray-b=
+ounds
+>  ubsan-cflags-$(CONFIG_UBSAN_LOCAL_BOUNDS)      +=3D -fsanitize=3Dlocal-b=
+ounds
+>  ubsan-cflags-$(CONFIG_UBSAN_SHIFT)             +=3D -fsanitize=3Dshift
+> --
+> 2.34.1
+>
+
+
+--=20
+Thanks,
+~Nick Desaulniers
