@@ -2,64 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 685A26DB493
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Apr 2023 21:55:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9D046DB4A1
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Apr 2023 22:00:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231453AbjDGTza (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Apr 2023 15:55:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50760 "EHLO
+        id S229516AbjDGUAC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 Apr 2023 16:00:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231600AbjDGTzX (ORCPT
+        with ESMTP id S229437AbjDGUAB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Apr 2023 15:55:23 -0400
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D903A5E1
-        for <linux-kbuild@vger.kernel.org>; Fri,  7 Apr 2023 12:55:11 -0700 (PDT)
-Received: by mail-pg1-x52f.google.com with SMTP id z18so24921335pgj.13
-        for <linux-kbuild@vger.kernel.org>; Fri, 07 Apr 2023 12:55:11 -0700 (PDT)
+        Fri, 7 Apr 2023 16:00:01 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F164BA5F8
+        for <linux-kbuild@vger.kernel.org>; Fri,  7 Apr 2023 13:00:00 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id bm13so12898250pfb.5
+        for <linux-kbuild@vger.kernel.org>; Fri, 07 Apr 2023 13:00:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1680897310; x=1683489310;
+        d=google.com; s=20210112; t=1680897600; x=1683489600;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yRLvMBwRYgN9rZY0Zb0vSfDSDaMTw9OUufeYYmz/skw=;
-        b=f6eYkrEter++NUKtxdaDLcQojieZL0r8jOl193HqrIPectcDZHEEPA9f34LkHDW4dP
-         P53I9XvbApz+JAM6RyIEZmBddB+MR4UL6Y+75sl3sjuV+Mh0p8sSp8FRJVoy4bnn2QA9
-         jPEYwxlaF9ooPwy+8HJoYrjt0LocOcCedEiJq/KY46LD17Q4GoG7cnevh+D8wxdzbVfY
-         PLASeXnpdF6KyXWVwt+pMpLbMYosAlhCx24xg7zs8lPP9a5qQPE/uUll9ajaFEJOM6Ae
-         yRHxhmMbIBvMqx2e04olr1L5CCWAQsjyzCyXRGaRC4G30bBEAXw3y46p3M3q6+GY1Rnx
-         VquA==
+        bh=JjAQpZ3P5/kgKKUseQN+C8hGKXm2+H7ZkT4BzbfR8Fo=;
+        b=Lb0Ga8zwodeySz593bYtheEuGKpvcY9YIXjoyyX4mT7x1LcGMW8lQ73BAyRoMkJnuA
+         U5T1u9GmsxTQAZOozZHmonZOwP0+bMUoml8iOUwm67MOPu+l4fkHa9D9R07CCR5xOaXI
+         7SG492wt3w3Lb0ogFOK6ZvRt6eJB+tC/EQY5whtZCgIXHeykH6Dy43GD3CMz0Z8QA0s0
+         3Ppi6/BvkgLMSqg1XzB+Dk8D7Zllt9a++P7+nVEvfIzIXMe+Pur8W5M2FpFGGGxE3hkN
+         GnJtv8J/KuMck0GPF9JDcQc1WBETo82PqLSek7HpSu6mYUEj8hjKp6wyzBWLOzo1+vPi
+         0mYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680897310; x=1683489310;
+        d=1e100.net; s=20210112; t=1680897600; x=1683489600;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yRLvMBwRYgN9rZY0Zb0vSfDSDaMTw9OUufeYYmz/skw=;
-        b=PR2EvFJX6G0rYQJMykjlHOyGsKnXFuvKTHB+XayyDvAh/lPf6EcDICwu/tYSibTIF0
-         Cm90qYMoR9lKFLO+UprfNx2U8JZ2x/vlV35Z5Qq4a5Of6HvnmTN2KtZXxTrf8CiyEPH6
-         TpMUQ7NSJgVZhFgC20Q7OOhNehFYimn6Cihg5NSxYHAEMyIfUSgL5zffjfySauNZ9Kt/
-         rOPP4WXt1LPzEmeouhOB+MdSrg7EK25IGpTxdxMWMhx/31ZL92IsogkHGdZAedsn/8m1
-         /XihuTtlb9NtfhnIhgDQLrG7U9ANqDbwt87Fdyp7brSis0d5puwnchm2D5r6fI5HYBcW
-         fEtw==
-X-Gm-Message-State: AAQBX9d0T5zfda0PAwM7NEUTTs5zU6oJKi0IG3ap5mSwHrV6jU7ikLBH
-        IK9KPmA0x0AKL7XMDxy3zNvxv+n4Zrc/3oIxABookA==
-X-Google-Smtp-Source: AKy350Zdn9kJpAE9Iql9IWBE7I7HcL96ooTIkSJ6p3oPGATAQjzlKAHto1RtQSOBZZ2ouYHs2x095vPSxO+sue+Ce+I=
-X-Received: by 2002:a65:6201:0:b0:4fc:2058:fa29 with SMTP id
- d1-20020a656201000000b004fc2058fa29mr685882pgv.1.1680897309863; Fri, 07 Apr
- 2023 12:55:09 -0700 (PDT)
+        bh=JjAQpZ3P5/kgKKUseQN+C8hGKXm2+H7ZkT4BzbfR8Fo=;
+        b=ocH0KKumnCVWUW4sc8JRD8XaRtpsbbpKhRED9ZU9bW6moLdi3V/9UNQT+N2SVZqhAv
+         KY2aLnAM2rBsiBc532QrMq9XGr7Zatthz1L3FG+9+PWZ3/5XOt6CAQlRoSqAqOF06+5f
+         eDcF4SRxTvqFtTek/pnst9qI+SzJfWLYi+Cp8G7KEQSFL6o0kXWj0LGO3a9WGVVys2sU
+         VTXdQ5dq0tCfo2+3FLWJ4dSQguHUXbrIqwFgJjgTLZ2a1mS1FPzfqw5ZEvVqzbLR65ci
+         wcA+7SyLlVttWD8+lzT1GVoqYwQPOOjdp87567uFT86Kdr+eMRInRwYW/Z1y30N7/TY6
+         Ak6A==
+X-Gm-Message-State: AAQBX9diWxl6bA+65LfmdgML2iq+iROhzXBCRozkZGDGmVI4wk2eglu/
+        iIdAOn/yZcCsuB3KSyz3BInK+ycnOQ6TVH8X0xQs+Q==
+X-Google-Smtp-Source: AKy350aZ10fpP1uNZLdHCoSPvLrIsXMMPJkw6vRI9cpv6rVDNj4+tZzceQBSaTDtuokxPAy1Qa1W0xEmYmRR0JzNqGw=
+X-Received: by 2002:a63:db47:0:b0:4fc:d6df:85a0 with SMTP id
+ x7-20020a63db47000000b004fcd6df85a0mr732260pgi.1.1680897600271; Fri, 07 Apr
+ 2023 13:00:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230401170117.1580840-1-masahiroy@kernel.org> <20230403144758.GA3460665@dev-arch.thelio-3990X>
-In-Reply-To: <20230403144758.GA3460665@dev-arch.thelio-3990X>
+References: <CAK_uB7iP=6Rjo6hGbDC9tq8+NE1ip=Zu-LwUDG=94sD4A-zKZA@mail.gmail.com>
+ <CAKwvOdm9m8UtUVF1xYoheSnk_mHzZKDa68QJP2biF+ax_1mP6w@mail.gmail.com> <CAK_uB7iqftfEgX+GWMtcFwJhfMDCHZwdO26R-dXCL-ChR2SgtQ@mail.gmail.com>
+In-Reply-To: <CAK_uB7iqftfEgX+GWMtcFwJhfMDCHZwdO26R-dXCL-ChR2SgtQ@mail.gmail.com>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 7 Apr 2023 12:54:58 -0700
-Message-ID: <CAKwvOd=3LoK7_qSijzk6Ww265LMDOk2-gQ-k9r0RwvENLi9JBA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: clang: do not use CROSS_COMPILE for target triple
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org, Tom Rix <trix@redhat.com>,
-        llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Fangrui Song <maskray@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
+Date:   Fri, 7 Apr 2023 12:59:49 -0700
+Message-ID: <CAKwvOdne=8KXzkn_jDfjqFTcu1SYyTrCTPe1BtCVj+8F3sk7UA@mail.gmail.com>
+Subject: Re: How to compile Linux kernel to llvm bitcodes?
+To:     tr4v3ler <0xtr4v3ler@gmail.com>
+Cc:     clang-built-linux <llvm@lists.linux.dev>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-15.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
@@ -73,85 +71,46 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Apr 3, 2023 at 7:48=E2=80=AFAM Nathan Chancellor <nathan@kernel.org=
-> wrote:
+On Mon, Mar 20, 2023 at 7:14=E2=80=AFPM tr4v3ler <0xtr4v3ler@gmail.com> wro=
+te:
 >
-> On Sun, Apr 02, 2023 at 02:01:17AM +0900, Masahiro Yamada wrote:
-> > The target triple is overridden by the user-supplied CROSS_COMPILE,
-> > but I do not see a good reason to support it. Users can use a new
-> > architecture without adding CLANG_TARGET_FLAGS_*, but that would be
-> > a rare case.
-> >
-> > Use the hard-coded and deterministic target triple all the time.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->
-> I know of one bug where the value of '--target' matters:
->
-> https://github.com/ClangBuiltLinux/linux/issues/1244
->
-> This was fixed in LLVM 12.0.0. We are not testing this in our CI though,
-> so we would not get bit by this (we could bump the minimum supported
-> version of LLVM to 12.0.0 for this, we have talked recently about doing
-> it for other reasons).
->
-> I guess I cannot really think of a good reason not to do this aside from
-> that; the target triple should only affect code generation, rather than
-> tool selection (i.e., this does not take away the ability to use a
-> custom set of binutils with clang).
->
-> However, Nick is currently OOO and I would like his opinion voiced
-> before we commit to this. Consider this a tentative:
+> I would like to compile all C files into. ll or. bc to facilitate analyzi=
+ng the entire kernel.
 
-Yeah, nothing I could think of; at this point CROSS_COMPILE is only
-necessary for LLVM_IAS=3D0 builds and s390 (since LLD lacks s390
-support) IIUC.
+So there's a make target compile_commands.json. That will give you a
+json list of triples that contain the exact command used to compile
+the kernel. It's probably 10 lines of python to parse that, then rerun
+the exact command used the build each translation unit with -emit-llvm
+and -S (or not depending on if you want .ll or .bc).  That will give
+you a .ll/.bc for everything that's built as part of your config for
+that configuration.
 
-A user is more likely to adjust the --target for the host, which they
-can do via USERCFLAGS or USERLDFLAGS, but not for the target.  I don't
-think the gnu vs musl for the target triple makes a difference; we
-might even be able to omit that part of the triple but I haven't
-grepped through LLVM sources to see if that would result in
-differences for codegen.
+Otherwise, kbuild has rules to do:
 
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+$ make LLVM=3D1 lib/string.ll
+
+There's no support for .bc (would be trivial to add) because you
+typically end up running llvm-dis on .bc files to get .ll files
+anyways.  I almost never use .bc files.
 
 >
-> Acked-by: Nathan Chancellor <nathan@kernel.org>
->
-> > ---
-> >
-> >  scripts/Makefile.clang | 8 ++------
-> >  1 file changed, 2 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
-> > index 70b354fa1cb4..9076cc939e87 100644
-> > --- a/scripts/Makefile.clang
-> > +++ b/scripts/Makefile.clang
-> > @@ -13,15 +13,11 @@ CLANG_TARGET_FLAGS_x86            :=3D x86_64-linux=
--gnu
-> >  CLANG_TARGET_FLAGS_um                :=3D $(CLANG_TARGET_FLAGS_$(SUBAR=
-CH))
-> >  CLANG_TARGET_FLAGS           :=3D $(CLANG_TARGET_FLAGS_$(SRCARCH))
-> >
-> > -ifeq ($(CROSS_COMPILE),)
-> >  ifeq ($(CLANG_TARGET_FLAGS),)
-> > -$(error Specify CROSS_COMPILE or add '--target=3D' option to scripts/M=
-akefile.clang)
-> > +$(error add '--target=3D' option to scripts/Makefile.clang)
-> >  else
-> >  CLANG_FLAGS  +=3D --target=3D$(CLANG_TARGET_FLAGS)
-> > -endif # CLANG_TARGET_FLAGS
-> > -else
-> > -CLANG_FLAGS  +=3D --target=3D$(notdir $(CROSS_COMPILE:%-=3D%))
-> > -endif # CROSS_COMPILE
-> > +endif
-> >
-> >  ifeq ($(LLVM_IAS),0)
-> >  CLANG_FLAGS  +=3D -fno-integrated-as
-> > --
-> > 2.37.2
-> >
+> Nick Desaulniers <ndesaulniers@google.com> =E4=BA=8E 2023=E5=B9=B43=E6=9C=
+=8821=E6=97=A5=E5=91=A8=E4=BA=8C 01:12=E5=86=99=E9=81=93=EF=BC=9A
+>>
+>> On Mon, Mar 20, 2023 at 2:53=E2=80=AFAM tr4v3ler <0xtr4v3ler@gmail.com> =
+wrote:
+>> >
+>> > Hi=EF=BC=8CI found the following compilation targets in the makefile(h=
+ttps://github.com/torvalds/linux/blob/master/scripts/Makefile.build#L136) o=
+f the Linux kernel. However, I don't know how to make this goal effective, =
+compile the Linux kernel, and generate llvm bitcodes. Do I need to specify =
+specific parameters for the make command? Or through environment variables?
+>>
+>> What precisely are you looking for? A single .ll file? A single .bc
+>> file? .ll or .bc files for every translation unit?
+>> --
+>> Thanks,
+>> ~Nick Desaulniers
 
 
 
