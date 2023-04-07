@@ -2,135 +2,161 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 098C86DB28F
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Apr 2023 20:12:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA5DD6DB2E8
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Apr 2023 20:35:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229567AbjDGSM3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Apr 2023 14:12:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57364 "EHLO
+        id S229751AbjDGSfl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 Apr 2023 14:35:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229658AbjDGSM1 (ORCPT
+        with ESMTP id S229469AbjDGSfk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Apr 2023 14:12:27 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2B06AD38;
-        Fri,  7 Apr 2023 11:12:26 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8D1CD6537B;
-        Fri,  7 Apr 2023 18:12:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99B12C433EF;
-        Fri,  7 Apr 2023 18:12:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680891146;
-        bh=8TqxDvlOab8Vyg/3GCA+wbxFSTJBIH20PGcbx7cGego=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oOx8IsLH/tejlqd/prM/5eyW8dt9iE01YDizIoyu7T0J4Dfa3MI6IQ5V/+wvR/Krw
-         dj7ACDI6/KEZ/jhZy9MyyV6N3y98AWCnzZ2bNxSibVNRuDPboQzRJsJyLV633995Jk
-         8wwpKCfVr/KN0YEBXP9ed+LFR5cO24SO05EBubCaIPd3reLB4ncB2TDqIW5GMzgMFp
-         Tolhb+NivywPi4emIEQQQX9EO/hb8960RHmmwkviUCuKoxZRnJoFTFhMrtlK72KXJi
-         bWYTN3X+Zk4tlDMHi7NzxlU4zR2zmeVvEraKvULHJkW1RLPZKr/sIyb2u6k1gWDjtb
-         2/2Dk1g5037NQ==
-Date:   Fri, 7 Apr 2023 11:12:23 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nick Terrell <terrelln@fb.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Subject: Re: [PATCH 3/3] kbuild: do not create intermediate *.tar for tar
- packages
-Message-ID: <20230407181223.GD1018455@dev-arch.thelio-3990X>
-References: <20230407101629.1298051-1-masahiroy@kernel.org>
- <20230407101629.1298051-3-masahiroy@kernel.org>
+        Fri, 7 Apr 2023 14:35:40 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 964A8BBA3
+        for <linux-kbuild@vger.kernel.org>; Fri,  7 Apr 2023 11:35:36 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id qe8-20020a17090b4f8800b0023f07253a2cso43944798pjb.3
+        for <linux-kbuild@vger.kernel.org>; Fri, 07 Apr 2023 11:35:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1680892536; x=1683484536;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lkvnHvhSWeo4VxY3cBnY8xmf+ae8qd887dNHfnNtpJc=;
+        b=mPLcikNXDVSJkaTJnrYtE/PrmU4K58uQCaJJj2SEuX7BYjnHdOVPP0uWm7Ys8pkSNN
+         3UQMtDXGdNOq3BbYpGCt3MexDznn6DMUCJKT9u7IkE0p2J6dnIGBsvH1ujAUiYNLbst8
+         tU1admMpaie+k9EVyksjCS2abg71lmso213cBfaG1BJtZHm5zmKwjztqV/PXm5zjzylc
+         M1HnI6njMewLKlZREZos9pPHHhYRnY/X7NUAfs4DubfgANrp4R+ThZI3UlHkrGh2/eZF
+         M1C19kxcJQiD1E1i+oH+dLKCWctUrqBlIFi4eTubWT3bG0FVs8u8wzr6D31eRQRxnhuB
+         L/gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680892536; x=1683484536;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lkvnHvhSWeo4VxY3cBnY8xmf+ae8qd887dNHfnNtpJc=;
+        b=Lu7vPuNT0t0fI8Z0y5JRRQrCppjq/dLl3KlSwanr4QvIgqursRDY4x2oDSeUbNBsTD
+         l0aCH6J5cBwW+v4AsvD8UUXM0XSYb/gZIh7TT2pKo3Ih7zXLI4xeda97BVagE0uqNeYP
+         Yyi6LPtldRiclDm96Naa6CstZ9PvKcLgVEOnBlTM06e+SkZXZs0/bQF+hGGJSHI/ylU4
+         lsWh9oi/xg+E/Lt6jNTSlqmxAqnOd+LB4kyT5lrK7JTyGh91y4wZZdzhunL6/n4H36Ez
+         lyryi+sgR886ChP7b3dfjBq3unrHralFr0DbfoeF3UYPpyAd2u8XjYoHz+Nf4cBv4qH/
+         5q5Q==
+X-Gm-Message-State: AAQBX9dLrI8tEVx6gYkp3sFO20YUAaNT2cE6EAPnc5dM6LNNj8DGvIYr
+        rDiSYe3qvuMa7S5oqMiWEhItaH+JexIwJMQH3AqWkQ==
+X-Google-Smtp-Source: AKy350aPJLLxT7peXfZnEftBBV8F7gsFTwtE+ixtpx4oUkwKGFydDK+es9dO4+rJzqrDYQ34QWKn2vt6euzihLIOJ4I=
+X-Received: by 2002:a17:90a:f10:b0:23d:535f:59c7 with SMTP id
+ 16-20020a17090a0f1000b0023d535f59c7mr802293pjy.7.1680892535727; Fri, 07 Apr
+ 2023 11:35:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230407101629.1298051-3-masahiroy@kernel.org>
-X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+References: <20230324212210.1001990-1-maskray@google.com>
+In-Reply-To: <20230324212210.1001990-1-maskray@google.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Fri, 7 Apr 2023 11:35:24 -0700
+Message-ID: <CAKwvOd=QXGbrxct20cBia92=QonWtfWdC21WK4w2bRBprPXh=w@mail.gmail.com>
+Subject: Re: [PATCH v2] Makefile: use -z pack-relative-relocs
+To:     Fangrui Song <maskray@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Peter Collingbourne <pcc@google.com>,
+        Will Deacon <will@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-15.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,ENV_AND_HDR_SPF_MATCH,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL,
+        USER_IN_DEF_SPF_WL autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 07, 2023 at 07:16:29PM +0900, Masahiro Yamada wrote:
-> Commit 05e96e96a315 ("kbuild: use git-archive for source package
-> creation") split the compression as a separate step to factor out
-> the common build rules.
-> 
-> With the previous commit, we got back to the situation where
-> compressed source tarballs are created by a single rule.
-> There is no reason to keep the separate compression rules.
-> 
-> Generate the comressed tar packages directly.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+On Fri, Mar 24, 2023 at 2:22=E2=80=AFPM Fangrui Song <maskray@google.com> w=
+rote:
+>
+> Commit 27f2a4db76e8 ("Makefile: fix GDB warning with CONFIG_RELR")
+> added --use-android-relr-tags to fix a GDB warning
+>
+> BFD: /android0/linux-next/vmlinux: unknown type [0x13] section `.relr.dyn=
+'
+>
+> The GDB warning has been fixed in version 11.2.
+>
+> The DT_ANDROID_RELR tag was deprecated since DT_RELR was standardized.
+> Thus, --use-android-relr-tags should be removed. While making the
+> change, try -z pack-relative-relocs, which is supported since LLD 15.
+> Keep supporting --pack-dyn-relocs=3Drelr as well for older LLD versions.
+>
+> As of today, GNU ld supports the latter option for x86 and powerpc64
+> ports and has no intention to support --pack-dyn-relocs=3Drelr. In the
+> absence of the glibc symbol version GLIBC_ABI_DT_RELR,
+> --pack-dyn-relocs=3Drelr and -z pack-relative-relocs are identical in
+> ld.lld.
+>
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1057
+> Link: https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dcommit;h=3Da61=
+9b58721f0a03fd91c27670d3e4c2fb0d88f1e
+> Signed-off-by: Fangrui Song <maskray@google.com>
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Thanks v2 looks better. IIUC, this will first try to test+use
+`--pack-dyn-relocs=3Drelr` in preference to `-z pack-relative-relocs`.
+Do we want to reorder the preference, for both the test and actual
+flag used?
 
 > ---
-> 
->  scripts/Makefile.package | 27 +++++++++------------------
->  1 file changed, 9 insertions(+), 18 deletions(-)
-> 
-> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-> index 7707975f729b..e0e18d7dfbd5 100644
-> --- a/scripts/Makefile.package
-> +++ b/scripts/Makefile.package
-> @@ -2,7 +2,6 @@
->  # Makefile for the different targets used to generate full packages of a kernel
->  
->  include $(srctree)/scripts/Kbuild.include
-> -include $(srctree)/scripts/Makefile.lib
->  
->  KERNELPATH := kernel-$(subst -,_,$(KERNELRELEASE))
->  KBUILD_PKG_ROOTCMD ?="fakeroot -u"
-> @@ -27,21 +26,6 @@ fi ; \
->  tar -I $(KGZIP) -c $(RCS_TAR_IGNORE) -f $(2).tar.gz \
->  	--transform 's:^:$(2)/:S' $(TAR_CONTENT) $(3)
->  
-> -# tarball compression
-> -# ---------------------------------------------------------------------------
-> -
-> -%.tar.gz: %.tar
-> -	$(call cmd,gzip)
-> -
-> -%.tar.bz2: %.tar
-> -	$(call cmd,bzip2)
-> -
-> -%.tar.xz: %.tar
-> -	$(call cmd,xzmisc)
-> -
-> -%.tar.zst: %.tar
-> -	$(call cmd,zstd)
-> -
->  # Git
->  # ---------------------------------------------------------------------------
->  
-> @@ -153,10 +137,17 @@ tar-install: FORCE
->  	$(Q)$(MAKE) -f $(srctree)/Makefile
->  	+$(Q)$(srctree)/scripts/package/buildtar $@
->  
-> +compress-tar.gz  = -I "$(KGZIP)"
-> +compress-tar.bz2 = -I "$(KBZIP2)"
-> +compress-tar.xz  = -I "$(XZ)"
-> +compress-tar.zst = -I "$(ZSTD)"
+>  Makefile                      | 3 ++-
+>  scripts/tools-support-relr.sh | 8 ++++++--
+>  2 files changed, 8 insertions(+), 3 deletions(-)
+> ---
+> Changes from v1:
+> * Keep supporting --pack-dyn-relocs=3Drelr for older ld.lld versions
+>
+> diff --git a/Makefile b/Makefile
+> index a2c310df2145..e23a85476d5d 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1113,7 +1113,8 @@ LDFLAGS_vmlinux   +=3D -X
+>  endif
+>
+>  ifeq ($(CONFIG_RELR),y)
+> -LDFLAGS_vmlinux        +=3D --pack-dyn-relocs=3Drelr --use-android-relr-=
+tags
+> +# ld.lld before 15 did not support -z pack-relative-relocs.
+> +LDFLAGS_vmlinux        +=3D $(call ld-option,--pack-dyn-relocs=3Drelr,-z=
+ pack-relative-relocs)
+>  endif
+>
+>  # We never want expected sections to be placed heuristically by the
+> diff --git a/scripts/tools-support-relr.sh b/scripts/tools-support-relr.s=
+h
+> index cb55878bd5b8..4c121946e517 100755
+> --- a/scripts/tools-support-relr.sh
+> +++ b/scripts/tools-support-relr.sh
+> @@ -7,8 +7,12 @@ trap "rm -f $tmp_file.o $tmp_file $tmp_file.bin" EXIT
+>  cat << "END" | $CC -c -x c - -o $tmp_file.o >/dev/null 2>&1
+>  void *p =3D &p;
+>  END
+> -$LD $tmp_file.o -shared -Bsymbolic --pack-dyn-relocs=3Drelr \
+> -  --use-android-relr-tags -o $tmp_file
 > +
->  quiet_cmd_tar = TAR     $@
-> -      cmd_tar = cd $<; tar cf ../$@ --owner=root --group=root --sort=name *
-> +      cmd_tar = cd $<; tar cf ../$@ $(compress-tar$(suffix $@)) --owner=root --group=root --sort=name *
-> +
-> +dir-tarballs := $(addprefix linux-$(KERNELRELEASE)-$(ARCH), .tar .tar.gz .tar.bz2 .tar.xz .tar.zst)
->  
-> -linux-$(KERNELRELEASE)-$(ARCH).tar: tar-install
-> +$(dir-tarballs): tar-install
->  	$(call cmd,tar)
->  
->  PHONY += dir-pkg
-> -- 
-> 2.37.2
-> 
+> +# ld.lld before 15 did not support -z pack-relative-relocs.
+> +if ! $LD $tmp_file.o -shared -Bsymbolic --pack-dyn-relocs=3Drelr -o $tmp=
+_file 2>/dev/null; then
+> +       $LD $tmp_file.o -shared -Bsymbolic -z pack-relative-relocs -o $tm=
+p_file 2>&1 |
+> +               grep -q pack-relative-relocs && exit 1
+> +fi
+>
+>  # Despite printing an error message, GNU nm still exits with exit code 0=
+ if it
+>  # sees a relr section. So we need to check that nothing is printed to st=
+derr.
+> --
+> 2.40.0.348.gf938b09366-goog
+>
+
+
+--=20
+Thanks,
+~Nick Desaulniers
