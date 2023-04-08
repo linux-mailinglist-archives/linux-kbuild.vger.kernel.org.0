@@ -2,72 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A40396DBB35
-	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Apr 2023 15:42:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36AEC6DBB4C
+	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Apr 2023 15:49:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229659AbjDHNmG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 8 Apr 2023 09:42:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51814 "EHLO
+        id S229523AbjDHNtt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 8 Apr 2023 09:49:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229696AbjDHNmG (ORCPT
+        with ESMTP id S229451AbjDHNts (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 8 Apr 2023 09:42:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C832CD53C;
-        Sat,  8 Apr 2023 06:42:04 -0700 (PDT)
+        Sat, 8 Apr 2023 09:49:48 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B97FD1BC6;
+        Sat,  8 Apr 2023 06:49:47 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5F67D60959;
-        Sat,  8 Apr 2023 13:42:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5255C4339E;
-        Sat,  8 Apr 2023 13:42:03 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2C4076142E;
+        Sat,  8 Apr 2023 13:49:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95475C433A0;
+        Sat,  8 Apr 2023 13:49:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680961323;
-        bh=+rvCJwQnhgHtRPTA4FpOWMqeq2UPBg8NLPxv4nEuxX0=;
+        s=k20201202; t=1680961786;
+        bh=rpFTrTpcNVbSF0vqVoyh7L6giVIN41C6RAvl7FyFd6M=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=j8wXnh8jcxeZy5hlnL9j7yhf1PfZDoBKolcpy8BAI3zytnC6o3YeEcQ21+RGU398S
-         lwlY1lX1+rGmxa3RW1a4ssgZVrMNHXDCC6WIPr8GtoapHSeRq8QJ4+1MkRoPe/q1co
-         pBZRK9TS0XYB4rlCrpX5ng+gaXL15uri2QVjR6Fo1l66G9KP7d7+87JoNRfKRWutR0
-         HW8KaNz2q7SbsqNYO02xV8LQKQ8X11uv0ovd00bz1EsLtjqCS292zKcsS54/wMPkBY
-         +uoYQ0p8nmdgW2/VffK8mE2GMfG1FpQRopt7rW1Yx0C1UStZhRxsOGAwfAxnow3PDU
-         QQ1B9czlK0ofA==
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-183f4efa98aso7338404fac.2;
-        Sat, 08 Apr 2023 06:42:03 -0700 (PDT)
-X-Gm-Message-State: AAQBX9dA5dw3P+QzJm+QO4Nf7oxi0zIrxD8wfTvooJpOm7DS9gZ084xA
-        Nfodljys+vmFyg7Xrr+jn2PFxFWa1zyZs9s8Z9E=
-X-Google-Smtp-Source: AKy350YM5FAGa/kRWBMoLt816ScO0UDcA4Pm4t4Ada1UZVKLZfKRP4ulOWZgDvkSe3Ul/chuG7STZWY4sSR50yAJtLg=
-X-Received: by 2002:a05:6870:1119:b0:17e:d9e2:a55c with SMTP id
- 25-20020a056870111900b0017ed9e2a55cmr2268082oaf.11.1680961323046; Sat, 08 Apr
- 2023 06:42:03 -0700 (PDT)
+        b=uYTTzr+VaSdylukWPgMXvbabqMmFJFBelvAVKNtGkkIMZ1pFQpTdcJneODqdlGLIC
+         NMm7/KkuKUJWf9AVIqyZCJ2fIaa0JgZ/qXBwsUoT3Gj+H6WkbGwYTbAkhnSr9MWkn5
+         RNh7d3QhL0cDEaelZ72nYpNXOCt9XG318tFjcgIWryvfP1lII8xCWiSDjzsmXUxVjw
+         79qFqh7GdiF3LkqIAnY5nPV7i1tT09Gwn3OUlvyKP0/b4vbRrYfx2D8dYcdi0rjtgV
+         9eWLZa/L9fT/XjtG5jSzK+FIxrV0bOiWfAW1PoHI4q6Kvjy/KSaEJP5IyIkg1ebQ2h
+         sfoKlbVKZJgHQ==
+Received: by mail-ot1-f49.google.com with SMTP id c2-20020a056830348200b006a3ab0ba8a2so4912747otu.1;
+        Sat, 08 Apr 2023 06:49:46 -0700 (PDT)
+X-Gm-Message-State: AAQBX9cc8dHgZ0LgdHIcZ7i+PDyfBJrg4lzU0Se4N7UegP0QmdXpEgsH
+        dT+2zWaq/7+6X9KYlr8GCKQrR5SRKIzefE8hh7w=
+X-Google-Smtp-Source: AKy350Yym8k/APtYBId7w0JsijjhyT7A4owCM9aPZto2PhafU7XfDKW9u3WGQU/uDgTbGtERYGu0UOkevabdF/37QBs=
+X-Received: by 2002:a05:6830:130a:b0:69f:8da4:48d with SMTP id
+ p10-20020a056830130a00b0069f8da4048dmr1361134otq.1.1680961785939; Sat, 08 Apr
+ 2023 06:49:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230407070517.204676-1-andrea.righi@canonical.com>
-In-Reply-To: <20230407070517.204676-1-andrea.righi@canonical.com>
+References: <20230405-korg-llvm-tc-docs-v2-1-98d2e4a96c41@kernel.org>
+In-Reply-To: <20230405-korg-llvm-tc-docs-v2-1-98d2e4a96c41@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 8 Apr 2023 22:41:26 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATG0rmbV79Uo8a8mX5uFNn878UbP0BEJ3c=cYSsO_a3ww@mail.gmail.com>
-Message-ID: <CAK7LNATG0rmbV79Uo8a8mX5uFNn878UbP0BEJ3c=cYSsO_a3ww@mail.gmail.com>
-Subject: Re: [PATCH] scripts: rust: drop is_rust_module.sh
-To:     Andrea Righi <andrea.righi@canonical.com>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
-        Eric Curtin <ecurtin@redhat.com>,
-        Martin Rodriguez Reboredo <yakoyoku@gmail.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Neal Gompa <neal@gompa.dev>,
-        Arnaldo Carvalho de Melo <acme@redhat.com>,
-        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        llvm@lists.linux.dev, linux-kernel@vger.kernel.org
+Date:   Sat, 8 Apr 2023 22:49:09 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR9NjtgJip-ZuSrvFX6+zkF7XA7XewS7w+_hogB2F1x6A@mail.gmail.com>
+Message-ID: <CAK7LNAR9NjtgJip-ZuSrvFX6+zkF7XA7XewS7w+_hogB2F1x6A@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation/llvm: Add a note about prebuilt
+ kernel.org toolchains
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     corbet@lwn.net, arnd@arndb.de, keescook@chromium.org,
+        ndesaulniers@google.com, trix@redhat.com, nicolas@fjasle.eu,
+        llvm@lists.linux.dev, patches@lists.linux.dev,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        Bill Wendling <morbo@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,27 +66,28 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 7, 2023 at 4:05=E2=80=AFPM Andrea Righi <andrea.righi@canonical=
-.com> wrote:
+On Sat, Apr 8, 2023 at 6:43=E2=80=AFAM Nathan Chancellor <nathan@kernel.org=
+> wrote:
 >
-> Commit c1177979af9c ("btf, scripts: Exclude Rust CUs with pahole")
-> introduced the constraint "!DEBUG_INFO_BTF || PAHOLE_HAS_LANG_EXCLUDE"
-> to enable RUST.
+> I recently started uploading prebuilt stable versions of LLVM to
+> kernel.org, which should make building the kernel with LLVM more
+> accessible to maintainers and developers. Link them in the LLVM
+> documentation to make this more visible.
 >
-> With this constraint we don't need is_rust_module.sh anymore, because
-> 'pahole --lang_exclude=3Drust' already has the capability to exclude Rust
-> CUs. If pahole isn't recent enough (< 1.24) to support --lang_exclude,
-> then DEBUG_INFO_BTF can't be enabled with RUST and is_rust_module.sh
-> isn't used as well.
->
-> In any case is_rust_module.sh is obsolete and we can just drop it.
->
-> Link: https://lore.kernel.org/lkml/Y+p2xKIN6TJnQinK@righiandr-XPS-13-7390=
-/
-> Signed-off-by: Andrea Righi
+> Link: https://lore.kernel.org/20230319235619.GA18547@dev-arch.thelio-3990=
+X/
+> Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
+> Reviewed-by: Bill Wendling <morbo@google.com>
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
 
-Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
+Applied to linux-kbuild/fixes.
+Thanks.
+
+
+
+
 
 
 --=20
