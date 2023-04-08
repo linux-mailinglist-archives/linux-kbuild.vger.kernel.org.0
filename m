@@ -2,52 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 413FB6DBB93
-	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Apr 2023 16:30:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90CE06DBBB3
+	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Apr 2023 17:02:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229559AbjDHOaW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 8 Apr 2023 10:30:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51444 "EHLO
+        id S229588AbjDHPCJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 8 Apr 2023 11:02:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229756AbjDHOaW (ORCPT
+        with ESMTP id S229572AbjDHPCJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 8 Apr 2023 10:30:22 -0400
+        Sat, 8 Apr 2023 11:02:09 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED1FCD331;
-        Sat,  8 Apr 2023 07:30:12 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48C8259DA;
+        Sat,  8 Apr 2023 08:02:08 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 87BC160F11;
-        Sat,  8 Apr 2023 14:30:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E75D1C433D2;
-        Sat,  8 Apr 2023 14:30:11 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DA79160A73;
+        Sat,  8 Apr 2023 15:02:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4684FC4339B;
+        Sat,  8 Apr 2023 15:02:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680964211;
-        bh=dWco55L+uZvkyNv3mbeG7fRYJrJTAfpWmDPlkv7JF4A=;
+        s=k20201202; t=1680966127;
+        bh=KCF/0Tibfx4I4RExzaZxaJFHJNBnZehCKc6tyP06KRw=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=kMXzmvuREPFtwCfQQIiHV2JCleJgH717G4Oskj5YVtgGFhLAx6ApwcwBEUEc466xK
-         gc862YNfOcDY9UI9ZdzFc6lbMTmOh2NhQeoT+LaUBLfcElldA4b7YT9PG/oR2VxXO6
-         D+mK4PMWGxYcnz/Awv+168HGrYhv1MttxkMw3ZrlkvsLFi/V6F4g2fH6QqsEk5Wf7Q
-         UaZPabrViSOr+uNPb35rHkBPOPc5oRnrzAfM4P+btwhR75tI55e4BFzo4IXdXBxPKg
-         XoxazSzh9B5klWGRIVcMr+0gzS/pu50tutbI2oGCNlIHy0F4s7Grt9nqjUlkXDkTCt
-         /R3Dak+MaO8eg==
-Received: by mail-ot1-f53.google.com with SMTP id cp25-20020a056830661900b00693ce5a2f3eso576075otb.8;
-        Sat, 08 Apr 2023 07:30:11 -0700 (PDT)
-X-Gm-Message-State: AAQBX9dcvudhYXbLk4hrVfQKrYzykSqIJ3F6+OZpcl6XkC2ns9vrLs4K
-        AiEIxmS87J46Fxsz0l4BHwsaZbkI7eTgYcsicVg=
-X-Google-Smtp-Source: AKy350Zk5Dy4/NNeR3Nk3LnYN87WPq1SZJ63SxnCe9maa96G0oOC11qkkyIXdppEkTKARrPfWTVy5Z/hlx06H5XgoIo=
-X-Received: by 2002:a05:6830:1641:b0:69a:2eb2:e11b with SMTP id
- h1-20020a056830164100b0069a2eb2e11bmr490529otr.1.1680964211202; Sat, 08 Apr
- 2023 07:30:11 -0700 (PDT)
+        b=M6THKPfqVZDC9QpvRC8LqgxR8nzLRHRO4WttJRKgM/0HUvFX2vJyHP5i25iuLcnNh
+         NPrYZ44btLmOCf0pZDE3WGNjUo8iuX8PfvWu1QMg3ygAVx/J8ZeGj5BDr8plUo3uoT
+         XLPhHre2Q3boRklRsQ7zRgtNeeJNPyKT8kg4q3EWHRxM+0zYci4RxRB9BPeAMOEcGL
+         lWgGKAuO0w6++/8oIJAqSLDuPludUB7cN4iH2hm16tEJS2gOnqDcxqEqMOSolFHuf/
+         ePW7PaIGQzBKZ+cB8+xzqgliLsyRT2h/foAOF3Cc4F6Ikk65sQpkVwbe6NUIbDhcnm
+         W7VKAoKEdPgPw==
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-1842df7cb53so1433157fac.10;
+        Sat, 08 Apr 2023 08:02:07 -0700 (PDT)
+X-Gm-Message-State: AAQBX9cygfb5L0yk6ezyETlMjsAnXUH/hzoiEPSDcUcdiI3+qNqoTFuQ
+        xUebFaZQz6hOU81F+G25vHOhkrpo8IDzXXTDR4Y=
+X-Google-Smtp-Source: AKy350ZAHzHq5Rd7ipsVmZUlTezDkSzOxsC2jCPqr4vxSd7oKwjEHB2UQk6O7FuJQ0ugd/jCEJD1g9DlVIYd3jcqQzM=
+X-Received: by 2002:a05:6870:1119:b0:17e:9b69:3ee5 with SMTP id
+ 25-20020a056870111900b0017e9b693ee5mr2445651oaf.11.1680966126561; Sat, 08 Apr
+ 2023 08:02:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230308115243.82592-1-masahiroy@kernel.org> <20230308115243.82592-3-masahiroy@kernel.org>
- <CAKwvOdnmiL_wDgzepYb+ZGgWt2xnsp48-awn0Cd0c4RDR43t_Q@mail.gmail.com>
-In-Reply-To: <CAKwvOdnmiL_wDgzepYb+ZGgWt2xnsp48-awn0Cd0c4RDR43t_Q@mail.gmail.com>
+ <CAKwvOdnmiL_wDgzepYb+ZGgWt2xnsp48-awn0Cd0c4RDR43t_Q@mail.gmail.com> <CAKwvOdn1Sjj=t1XJ3K-etFnemMs7UkbyGmbHC4c2H4O=77sjHg@mail.gmail.com>
+In-Reply-To: <CAKwvOdn1Sjj=t1XJ3K-etFnemMs7UkbyGmbHC4c2H4O=77sjHg@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 8 Apr 2023 23:29:35 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQr+y2y5vCKSpA0THyakRUcRcS9X+X9i3mbhTYvnh1wHg@mail.gmail.com>
-Message-ID: <CAK7LNAQr+y2y5vCKSpA0THyakRUcRcS9X+X9i3mbhTYvnh1wHg@mail.gmail.com>
+Date:   Sun, 9 Apr 2023 00:01:30 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARar5i7FxEHPH9M3OaU6wKxpXhc0Tj0iT32VPw0TNLR2g@mail.gmail.com>
+Message-ID: <CAK7LNARar5i7FxEHPH9M3OaU6wKxpXhc0Tj0iT32VPw0TNLR2g@mail.gmail.com>
 Subject: Re: [PATCH 3/8] scripts/mksysmap: use sed with in-line comments
 To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -66,61 +66,32 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Apr 8, 2023 at 4:00=E2=80=AFAM Nick Desaulniers <ndesaulniers@googl=
+On Sat, Apr 8, 2023 at 4:01=E2=80=AFAM Nick Desaulniers <ndesaulniers@googl=
 e.com> wrote:
 >
-> On Wed, Mar 8, 2023 at 3:53=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.=
-org> wrote:
+> On Fri, Apr 7, 2023 at 11:59=E2=80=AFAM Nick Desaulniers
+> <ndesaulniers@google.com> wrote:
 > >
-> > Move comments close to the code.
+> > On Wed, Mar 8, 2023 at 3:53=E2=80=AFAM Masahiro Yamada <masahiroy@kerne=
+l.org> wrote:
+> > >
+> > > Move comments close to the code.
+> >
+> > Consider adding to the commit message why you switch from grep to sed;
+> > that's currently unclear.
+> > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 >
-> Consider adding to the commit message why you switch from grep to sed;
-> that's currently unclear.
+> Also, perhaps scripts/mksysmap could just be replaced with a sed
+> input-file? Then
+> scripts/link-vmlinux.sh would invoke nm and pipe it into that sed script?
 
 
 
-I just thought "Move comments close to the code"
-explained my motivation.,
+I still need shell.
 
 
-I want to insert in-line comments.
-Something like the following.
-Apparently, it does not work.
-
-
-$NM -n $1 | grep -v             \
-         # comment1
-        -e ' [aNUw] '           \
-         # comment2
-        -e ' \$'                \
-         # comment3
-        -e ' \.L'               \
-         # comment4
-        -e ' __crc_'            \
-         # comment5
-        -e ' __kstrtab_'        \
-         # comment6
-        -e ' __kstrtabns_'      \
-         # comment7
-        -e ' L0$'               \
-> $2
-
-
-
-
-
-
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
->
-> Orthogonal to this patch, don't .L prefixed local symbols not have
-> entries in the symbol table? If they're not printed with nm, why
-> filter them out (since they're impossible).
-
-
-Sorry, I could not understand your question, but
-you may get something from d4c858643263cfde13f7d937eaff95c2ed87cdf1
-(you reviewed it)
-
+The last line of the next commit 4/8 uses
+shell code.
 
 
 
