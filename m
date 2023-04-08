@@ -2,62 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 61B9C6DBA10
-	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Apr 2023 12:26:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B8126DBA14
+	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Apr 2023 12:31:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229798AbjDHK0x (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 8 Apr 2023 06:26:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53140 "EHLO
+        id S229451AbjDHKbc convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Sat, 8 Apr 2023 06:31:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229614AbjDHK0x (ORCPT
+        with ESMTP id S229614AbjDHKbb (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 8 Apr 2023 06:26:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 102B6E04A
-        for <linux-kbuild@vger.kernel.org>; Sat,  8 Apr 2023 03:25:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1680949499;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=b+B9to8j2Lzj7TcvjD6Ev0dSy316NI/IHJxCACF6SvY=;
-        b=fu/Ej+v+WRhPR9Yc92tRKm96J5z19InT4pqW0pIVds5Vxh00Gm4zT+VISpa2ra7ybO2XY+
-        Erz4LzapiwbM1t6ZL5Cuoqncre7Qik7453keWbe+QaA2ptfGXBhn1Nh+RsLQGLD8Qe74aS
-        5rQMSBo4nZlrhD/1STWZSEZHGP0UOSg=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-216-hJEGpH-vM9iwE2h0kTrmng-1; Sat, 08 Apr 2023 06:24:57 -0400
-X-MC-Unique: hJEGpH-vM9iwE2h0kTrmng-1
-Received: by mail-ua1-f72.google.com with SMTP id w27-20020ab055db000000b007710af6196dso371852uaa.9
-        for <linux-kbuild@vger.kernel.org>; Sat, 08 Apr 2023 03:24:57 -0700 (PDT)
+        Sat, 8 Apr 2023 06:31:31 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 537D8E42;
+        Sat,  8 Apr 2023 03:30:52 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id g17so2347901ejt.1;
+        Sat, 08 Apr 2023 03:30:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680949497;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=b+B9to8j2Lzj7TcvjD6Ev0dSy316NI/IHJxCACF6SvY=;
-        b=Ry9UeiBreQrchhczfJ9lLl1j4Aqg8XXhD6nfZ4oKnRKe9hu3TmWRZxJYr0rkRnYwHu
-         TVR2I58/eJ8S0shBqAI0balls53BN5hS2PuC1DTvKRLXn7QZM8rDlOs5IpceixPxyi+3
-         i0roxhEc21Plcawywn2x3eZzV8zVmQmHMhVnw2Pk0l6hBn7plL0IpicL8lbb6C0tM43h
-         gGPZy1I2uqhkVb/gCCHF5JMIZucDLk6xQBCeWoUcfX+mhZeijw+sZ66xQ0fCqrVlN/Sw
-         iMnE1OUuhP3S3LYlhrI0Cg0obhnR1CdZdGtUwTfEKRgfzUAJTWQLwjgQkbXOQG9X5JSq
-         WhxQ==
-X-Gm-Message-State: AAQBX9f1eJ0C2Zco92br4UM1sAHhyNFud5UlyBZjwmav6g/2pLvpL/xK
-        P+e7TLmxVvsNOIaZbm4J887XYPYriIODg+XqQMmEku6eADxzk211no+rx+zu5HvSP7mycTxBApL
-        Fm/6lIFbNFcjgreSEs7UpIM4FhvoxIBThMlRGstuY
-X-Received: by 2002:a1f:2a4b:0:b0:43c:2acb:9a60 with SMTP id q72-20020a1f2a4b000000b0043c2acb9a60mr2566281vkq.3.1680949497398;
-        Sat, 08 Apr 2023 03:24:57 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bcRbIrqbYLXQvhgU1yB25jrUYi60umTA4Aj4dtEtmHkg2stdHgIeAeLt4yqtCa6AkG6OTgIuIzrtdJ+KnT83g=
-X-Received: by 2002:a1f:2a4b:0:b0:43c:2acb:9a60 with SMTP id
- q72-20020a1f2a4b000000b0043c2acb9a60mr2566263vkq.3.1680949497089; Sat, 08 Apr
- 2023 03:24:57 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680949729; x=1683541729;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5prd9jiPY6aPPA4NHCME6A4G1D5JLdJePd4hvf7GCtE=;
+        b=AjZlqcHGxyPDHiJOvjnNcJjTxQke1F4mllun5eHihqwumioIQPPE9RBgQFx3I0HOP1
+         5pVMCvFywv8j8fl0fAW3C+xEiDRZ/XFWoFQqXKPlzWg9HdHlIX4lQJ656XJ/FuBOuGK2
+         GDrj1uGquLZSbIPXKHyY+LhlhQ9H7idwcsOdF3WNdrXwQbZcfbKj031aOYvLjjNORbvs
+         ZIXvBazkpfXyT37GbltfJ+I9e183xW46lzbJefrOtQUPcdcM5kbVGE+04JC4hUDFLmfW
+         LaTR37HGu1TVqOtnObcWZqc0V5MRMKcX9cgIQ2Lsgk8SCIbajiIYPX2U0ktTB2kYHu+8
+         AMrg==
+X-Gm-Message-State: AAQBX9cDxpcp9g8mS9rH60D+gblbNVsJxbBgLyWZoAtl39PDf2vibeSX
+        smGWa6oQba3k9SdMogxOx8ZfHrAZcUptpCEb
+X-Google-Smtp-Source: AKy350YHTXVFSmt/CeCoIJAShRJWWuhKn47T0Y8awo2NZYWPHGZyOHqe3R9QVWrVl7PSOxAfjLUDfA==
+X-Received: by 2002:a17:906:bce7:b0:94a:5361:d448 with SMTP id op7-20020a170906bce700b0094a5361d448mr31930ejb.31.1680949729010;
+        Sat, 08 Apr 2023 03:28:49 -0700 (PDT)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com. [209.85.218.42])
+        by smtp.gmail.com with ESMTPSA id gt19-20020a170906f21300b00905a1abecbfsm3006359ejb.47.2023.04.08.03.28.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 08 Apr 2023 03:28:48 -0700 (PDT)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-94a34d3812cso21542366b.2;
+        Sat, 08 Apr 2023 03:28:48 -0700 (PDT)
+X-Received: by 2002:a50:d0d9:0:b0:4fb:f19:87f with SMTP id g25-20020a50d0d9000000b004fb0f19087fmr2476755edf.3.1680949727831;
+ Sat, 08 Apr 2023 03:28:47 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230407070517.204676-1-andrea.righi@canonical.com>
 In-Reply-To: <20230407070517.204676-1-andrea.righi@canonical.com>
-From:   Eric Curtin <ecurtin@redhat.com>
-Date:   Sat, 8 Apr 2023 11:24:41 +0100
-Message-ID: <CAOgh=FxE_Y3Chr3wCG5QkoPZW5-BjrVCM9moEZGy=xMkv2fKOA@mail.gmail.com>
+From:   Neal Gompa <neal@gompa.dev>
+Date:   Sat, 8 Apr 2023 06:28:11 -0400
+X-Gmail-Original-Message-ID: <CAEg-Je8X4mCq7wCD5ASOafQR_Wap2uQsgTwAVGH221CGXfiT9w@mail.gmail.com>
+Message-ID: <CAEg-Je8X4mCq7wCD5ASOafQR_Wap2uQsgTwAVGH221CGXfiT9w@mail.gmail.com>
 Subject: Re: [PATCH] scripts: rust: drop is_rust_module.sh
 To:     Andrea Righi <andrea.righi@canonical.com>
 Cc:     Miguel Ojeda <ojeda@kernel.org>,
@@ -69,16 +60,17 @@ Cc:     Miguel Ojeda <ojeda@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        Eric Curtin <ecurtin@redhat.com>,
         Martin Rodriguez Reboredo <yakoyoku@gmail.com>,
         Daniel Borkmann <daniel@iogearbox.net>,
-        Neal Gompa <neal@gompa.dev>,
         Arnaldo Carvalho de Melo <acme@redhat.com>,
         rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
         llvm@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=0.8 required=5.0 tests=FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -86,7 +78,7 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, 7 Apr 2023 at 08:05, Andrea Righi <andrea.righi@canonical.com> wrote:
+On Fri, Apr 7, 2023 at 3:05 AM Andrea Righi <andrea.righi@canonical.com> wrote:
 >
 > Commit c1177979af9c ("btf, scripts: Exclude Rust CUs with pahole")
 > introduced the constraint "!DEBUG_INFO_BTF || PAHOLE_HAS_LANG_EXCLUDE"
@@ -102,16 +94,6 @@ On Fri, 7 Apr 2023 at 08:05, Andrea Righi <andrea.righi@canonical.com> wrote:
 >
 > Link: https://lore.kernel.org/lkml/Y+p2xKIN6TJnQinK@righiandr-XPS-13-7390/
 > Signed-off-by: Andrea Righi <andrea.righi@canonical.com>
-
-Ran this in an Asahi Fedora build to be sure.
-
-Tested-by: Eric Curtin <ecurtin@redhat.com>
-Reviewed-by: Eric Curtin <ecurtin@redhat.com>
-
-Is mise le meas/Regards,
-
-Eric Curtin
-
 > ---
 >  rust/macros/module.rs     |  2 +-
 >  scripts/Makefile.modfinal |  2 --
@@ -171,3 +153,11 @@ Eric Curtin
 > 2.39.2
 >
 
+LGTM.
+
+Reviewed-by: Neal Gompa <neal@gompa.dev>
+
+
+
+--
+真実はいつも一つ！/ Always, there's only one truth!
