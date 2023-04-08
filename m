@@ -2,151 +2,172 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E551C6DB7FE
-	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Apr 2023 03:33:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61B9C6DBA10
+	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Apr 2023 12:26:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229479AbjDHBdE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Apr 2023 21:33:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43078 "EHLO
+        id S229798AbjDHK0x (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 8 Apr 2023 06:26:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229475AbjDHBdD (ORCPT
+        with ESMTP id S229614AbjDHK0x (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Apr 2023 21:33:03 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1755E04C;
-        Fri,  7 Apr 2023 18:33:02 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3CEEF60F28;
-        Sat,  8 Apr 2023 01:33:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95F4FC4339B;
-        Sat,  8 Apr 2023 01:33:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680917581;
-        bh=YM2f5mwIM0TVWbMMhe1fI12BEdYU6sF2tm35U8Rz+hk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=SjN4FEhnqQ2mKeqE1exy7ultHT5VB9Yuz78hegJEWyrqyJBooEQd5hctSzF3XES7W
-         xKtbAwc/yynKrfShJe0unKCHaN0R1d+QhxiMaQX+aCIKlG3k3Ezz/ngp9nJeaZAoqG
-         gpCEblkv49ZBmNMdujBqObqCCSkjXwH5qVpsaM7IHbbRNeKXjK5jr1puMskknP+dS7
-         Wz8wmVEbD6fnI99jCMwfZZw68VRbbRW5nngmQl82dHiHlvILsd5X58CAzDtnvFoGO9
-         BKZfAfAGqLij1zsMwR5+PdLVEcQLfgpkalobaPfmFCdCk9auYD2YWQSvmEH2yfpSl1
-         OBD3BqTqWLCgA==
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-1842df7cb53so206712fac.10;
-        Fri, 07 Apr 2023 18:33:01 -0700 (PDT)
-X-Gm-Message-State: AAQBX9cXln+q5xRCfjmh5e0591M+NaCADRh2YsI9eIxnGLyTUgHlBqbF
-        1OcSn/d83Ryg6050ru6LxNE/ZN2shEgntX+VM2I=
-X-Google-Smtp-Source: AKy350acjZOsvxzGuPvApW0r+s7Y/1ha/u4F2rDPcCqXUjABhcqDDrnQtDU3Crd2w9grsXxA8UlAXNzhke0tp7vsSqA=
-X-Received: by 2002:a05:6870:1258:b0:17f:84f8:1f44 with SMTP id
- 24-20020a056870125800b0017f84f81f44mr1875481oao.11.1680917580858; Fri, 07 Apr
- 2023 18:33:00 -0700 (PDT)
+        Sat, 8 Apr 2023 06:26:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 102B6E04A
+        for <linux-kbuild@vger.kernel.org>; Sat,  8 Apr 2023 03:25:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1680949499;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=b+B9to8j2Lzj7TcvjD6Ev0dSy316NI/IHJxCACF6SvY=;
+        b=fu/Ej+v+WRhPR9Yc92tRKm96J5z19InT4pqW0pIVds5Vxh00Gm4zT+VISpa2ra7ybO2XY+
+        Erz4LzapiwbM1t6ZL5Cuoqncre7Qik7453keWbe+QaA2ptfGXBhn1Nh+RsLQGLD8Qe74aS
+        5rQMSBo4nZlrhD/1STWZSEZHGP0UOSg=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-216-hJEGpH-vM9iwE2h0kTrmng-1; Sat, 08 Apr 2023 06:24:57 -0400
+X-MC-Unique: hJEGpH-vM9iwE2h0kTrmng-1
+Received: by mail-ua1-f72.google.com with SMTP id w27-20020ab055db000000b007710af6196dso371852uaa.9
+        for <linux-kbuild@vger.kernel.org>; Sat, 08 Apr 2023 03:24:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680949497;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b+B9to8j2Lzj7TcvjD6Ev0dSy316NI/IHJxCACF6SvY=;
+        b=Ry9UeiBreQrchhczfJ9lLl1j4Aqg8XXhD6nfZ4oKnRKe9hu3TmWRZxJYr0rkRnYwHu
+         TVR2I58/eJ8S0shBqAI0balls53BN5hS2PuC1DTvKRLXn7QZM8rDlOs5IpceixPxyi+3
+         i0roxhEc21Plcawywn2x3eZzV8zVmQmHMhVnw2Pk0l6hBn7plL0IpicL8lbb6C0tM43h
+         gGPZy1I2uqhkVb/gCCHF5JMIZucDLk6xQBCeWoUcfX+mhZeijw+sZ66xQ0fCqrVlN/Sw
+         iMnE1OUuhP3S3LYlhrI0Cg0obhnR1CdZdGtUwTfEKRgfzUAJTWQLwjgQkbXOQG9X5JSq
+         WhxQ==
+X-Gm-Message-State: AAQBX9f1eJ0C2Zco92br4UM1sAHhyNFud5UlyBZjwmav6g/2pLvpL/xK
+        P+e7TLmxVvsNOIaZbm4J887XYPYriIODg+XqQMmEku6eADxzk211no+rx+zu5HvSP7mycTxBApL
+        Fm/6lIFbNFcjgreSEs7UpIM4FhvoxIBThMlRGstuY
+X-Received: by 2002:a1f:2a4b:0:b0:43c:2acb:9a60 with SMTP id q72-20020a1f2a4b000000b0043c2acb9a60mr2566281vkq.3.1680949497398;
+        Sat, 08 Apr 2023 03:24:57 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bcRbIrqbYLXQvhgU1yB25jrUYi60umTA4Aj4dtEtmHkg2stdHgIeAeLt4yqtCa6AkG6OTgIuIzrtdJ+KnT83g=
+X-Received: by 2002:a1f:2a4b:0:b0:43c:2acb:9a60 with SMTP id
+ q72-20020a1f2a4b000000b0043c2acb9a60mr2566263vkq.3.1680949497089; Sat, 08 Apr
+ 2023 03:24:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230407101629.1298051-1-masahiroy@kernel.org>
- <20230407101629.1298051-2-masahiroy@kernel.org> <20230407181105.GC1018455@dev-arch.thelio-3990X>
-In-Reply-To: <20230407181105.GC1018455@dev-arch.thelio-3990X>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 8 Apr 2023 10:32:23 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATnmZRXH5E+oPfsDyf=YhUKPBVHG01bosUbtqEDSy+3tQ@mail.gmail.com>
-Message-ID: <CAK7LNATnmZRXH5E+oPfsDyf=YhUKPBVHG01bosUbtqEDSy+3tQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] kbuild: do not create intermediate *.tar for source tarballs
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+References: <20230407070517.204676-1-andrea.righi@canonical.com>
+In-Reply-To: <20230407070517.204676-1-andrea.righi@canonical.com>
+From:   Eric Curtin <ecurtin@redhat.com>
+Date:   Sat, 8 Apr 2023 11:24:41 +0100
+Message-ID: <CAOgh=FxE_Y3Chr3wCG5QkoPZW5-BjrVCM9moEZGy=xMkv2fKOA@mail.gmail.com>
+Subject: Re: [PATCH] scripts: rust: drop is_rust_module.sh
+To:     Andrea Righi <andrea.righi@canonical.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        Martin Rodriguez Reboredo <yakoyoku@gmail.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Neal Gompa <neal@gompa.dev>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>,
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        llvm@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Apr 8, 2023 at 3:11=E2=80=AFAM Nathan Chancellor <nathan@kernel.org=
-> wrote:
+On Fri, 7 Apr 2023 at 08:05, Andrea Righi <andrea.righi@canonical.com> wrote:
 >
-> On Fri, Apr 07, 2023 at 07:16:28PM +0900, Masahiro Yamada wrote:
-> > Since commit 05e96e96a315 ("kbuild: use git-archive for source package
-> > creation"), source tarballs are created in two steps; create *.tar file
-> > then compress it. I split the compression as a separate rule because I
-> > just thought 'git archive' supported only gzip for compression. I admit
-> > the unneeded *.tar file is annoying.
-> >
-> > For other compression algorithms, I could pipe the two commands:
-> >
-> >   $ git archive HEAD | xz > linux.tar.xz
-> >
-> > I read git-archive(1) carefully, and I realized GIT had provided a
-> > more elegant way:
+> Commit c1177979af9c ("btf, scripts: Exclude Rust CUs with pahole")
+> introduced the constraint "!DEBUG_INFO_BTF || PAHOLE_HAS_LANG_EXCLUDE"
+> to enable RUST.
 >
-> Hooray for documentation :)
+> With this constraint we don't need is_rust_module.sh anymore, because
+> 'pahole --lang_exclude=rust' already has the capability to exclude Rust
+> CUs. If pahole isn't recent enough (< 1.24) to support --lang_exclude,
+> then DEBUG_INFO_BTF can't be enabled with RUST and is_rust_module.sh
+> isn't used as well.
 >
-> >   $ git -c tar.tar.xz.command=3Dxz archive -o linux.tar.xz HEAD
-> >
-> > This commit uses 'tar.tar.*.command' configuration to specify the
-> > compression backend so we can create a compressed tarball directly.
-> >
-> > GIT commit 767cf4579f0e ("archive: implement configurable tar filters")
-> > is more than a decade old, so it should be available on almost all buil=
-d
-> > environments.
+> In any case is_rust_module.sh is obsolete and we can just drop it.
 >
-> git 1.7.7 it seems, certainly ancientware in my opinion. If people have
-> issues with this, they can just upgrade git; even RHEL7 has git 1.8.x.
->
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
->
-> > ---
-> >
-> >  scripts/Makefile.package | 24 +++++++++++++++++-------
-> >  1 file changed, 17 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-> > index a205617730c6..7707975f729b 100644
-> > --- a/scripts/Makefile.package
-> > +++ b/scripts/Makefile.package
-> > @@ -57,16 +57,23 @@ check-git:
-> >               false; \
-> >       fi
-> >
-> > +archive-config-tar.gz  =3D -c tar.tar.gz.command=3D"$(KGZIP)"
-> > +archive-config-tar.bz2 =3D -c tar.tar.bz2.command=3D"$(KBZIP2)"
-> > +archive-config-tar.xz  =3D -c tar.tar.xz.command=3D"$(XZ)"
-> > +archive-config-tar.zst =3D -c tar.tar.zst.command=3D"$(ZSTD)"
-> > +
-> >  quiet_cmd_archive =3D ARCHIVE $@
-> > -      cmd_archive =3D git -C $(srctree) archive \
-> > +      cmd_archive =3D git -C $(srctree) $(archive-config-tar$(suffix $=
-@)) archive \
-> >                      --output=3D$$(realpath $@) --prefix=3D$(basename $=
-@)/ $(archive-args)
-> >
-> >  # Linux source tarball
-> >  # --------------------------------------------------------------------=
--------
-> >
-> > -targets +=3D linux.tar
-> > -linux.tar: archive-args =3D $$(cat $<)
-> > -linux.tar: .tmp_HEAD FORCE
-> > +linux-tarballs :=3D $(addprefix linux, .tar.gz)
->
-> Is there any reason not to allow other compression formats for linux
-> like you do for perf?
+> Link: https://lore.kernel.org/lkml/Y+p2xKIN6TJnQinK@righiandr-XPS-13-7390/
+> Signed-off-by: Andrea Righi <andrea.righi@canonical.com>
 
+Ran this in an Asahi Fedora build to be sure.
 
-Currently, gzip is only allowed because there is no way to specify
-the compression algorithm.
-I already have a patch locally, but not submitted yet.
+Tested-by: Eric Curtin <ecurtin@redhat.com>
+Reviewed-by: Eric Curtin <ecurtin@redhat.com>
 
-I prioritize groundwork, then add new features later.
+Is mise le meas/Regards,
 
+Eric Curtin
 
+> ---
+>  rust/macros/module.rs     |  2 +-
+>  scripts/Makefile.modfinal |  2 --
+>  scripts/is_rust_module.sh | 16 ----------------
+>  3 files changed, 1 insertion(+), 19 deletions(-)
+>  delete mode 100755 scripts/is_rust_module.sh
+>
+> diff --git a/rust/macros/module.rs b/rust/macros/module.rs
+> index a7e363c2b044..608406f33a70 100644
+> --- a/rust/macros/module.rs
+> +++ b/rust/macros/module.rs
+> @@ -179,7 +179,7 @@ pub(crate) fn module(ts: TokenStream) -> TokenStream {
+>              /// Used by the printing macros, e.g. [`info!`].
+>              const __LOG_PREFIX: &[u8] = b\"{name}\\0\";
+>
+> -            /// The \"Rust loadable module\" mark, for `scripts/is_rust_module.sh`.
+> +            /// The \"Rust loadable module\" mark.
+>              //
+>              // This may be best done another way later on, e.g. as a new modinfo
+>              // key or a new section. For the moment, keep it simple.
+> diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+> index 4703f652c009..e6f8fa3c9b8d 100644
+> --- a/scripts/Makefile.modfinal
+> +++ b/scripts/Makefile.modfinal
+> @@ -41,8 +41,6 @@ quiet_cmd_btf_ko = BTF [M] $@
+>        cmd_btf_ko =                                                     \
+>         if [ ! -f vmlinux ]; then                                       \
+>                 printf "Skipping BTF generation for %s due to unavailability of vmlinux\n" $@ 1>&2; \
+> -       elif [ -n "$(CONFIG_RUST)" ] && $(srctree)/scripts/is_rust_module.sh $@; then           \
+> -               printf "Skipping BTF generation for %s because it's a Rust module\n" $@ 1>&2; \
+>         else                                                            \
+>                 LLVM_OBJCOPY="$(OBJCOPY)" $(PAHOLE) -J $(PAHOLE_FLAGS) --btf_base vmlinux $@; \
+>                 $(RESOLVE_BTFIDS) -b vmlinux $@;                        \
+> diff --git a/scripts/is_rust_module.sh b/scripts/is_rust_module.sh
+> deleted file mode 100755
+> index 28b3831a7593..000000000000
+> --- a/scripts/is_rust_module.sh
+> +++ /dev/null
+> @@ -1,16 +0,0 @@
+> -#!/bin/sh
+> -# SPDX-License-Identifier: GPL-2.0
+> -#
+> -# is_rust_module.sh module.ko
+> -#
+> -# Returns `0` if `module.ko` is a Rust module, `1` otherwise.
+> -
+> -set -e
+> -
+> -# Using the `16_` prefix ensures other symbols with the same substring
+> -# are not picked up (even if it would be unlikely). The last part is
+> -# used just in case LLVM decides to use the `.` suffix.
+> -#
+> -# In the future, checking for the `.comment` section may be another
+> -# option, see https://github.com/rust-lang/rust/pull/97550.
+> -${NM} "$*" | grep -qE '^[0-9a-fA-F]+ r _R[^[:space:]]+16___IS_RUST_MODULE[^[:space:]]*$'
+> --
+> 2.39.2
+>
 
-
---=20
-Best Regards
-Masahiro Yamada
