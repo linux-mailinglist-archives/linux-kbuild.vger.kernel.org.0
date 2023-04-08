@@ -2,99 +2,110 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 90CE06DBBB3
-	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Apr 2023 17:02:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D6456DBC70
+	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Apr 2023 20:25:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229588AbjDHPCJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 8 Apr 2023 11:02:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41628 "EHLO
+        id S229833AbjDHSZC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 8 Apr 2023 14:25:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229572AbjDHPCJ (ORCPT
+        with ESMTP id S229454AbjDHSZB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 8 Apr 2023 11:02:09 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48C8259DA;
-        Sat,  8 Apr 2023 08:02:08 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DA79160A73;
-        Sat,  8 Apr 2023 15:02:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4684FC4339B;
-        Sat,  8 Apr 2023 15:02:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680966127;
-        bh=KCF/0Tibfx4I4RExzaZxaJFHJNBnZehCKc6tyP06KRw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=M6THKPfqVZDC9QpvRC8LqgxR8nzLRHRO4WttJRKgM/0HUvFX2vJyHP5i25iuLcnNh
-         NPrYZ44btLmOCf0pZDE3WGNjUo8iuX8PfvWu1QMg3ygAVx/J8ZeGj5BDr8plUo3uoT
-         XLPhHre2Q3boRklRsQ7zRgtNeeJNPyKT8kg4q3EWHRxM+0zYci4RxRB9BPeAMOEcGL
-         lWgGKAuO0w6++/8oIJAqSLDuPludUB7cN4iH2hm16tEJS2gOnqDcxqEqMOSolFHuf/
-         ePW7PaIGQzBKZ+cB8+xzqgliLsyRT2h/foAOF3Cc4F6Ikk65sQpkVwbe6NUIbDhcnm
-         W7VKAoKEdPgPw==
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-1842df7cb53so1433157fac.10;
-        Sat, 08 Apr 2023 08:02:07 -0700 (PDT)
-X-Gm-Message-State: AAQBX9cygfb5L0yk6ezyETlMjsAnXUH/hzoiEPSDcUcdiI3+qNqoTFuQ
-        xUebFaZQz6hOU81F+G25vHOhkrpo8IDzXXTDR4Y=
-X-Google-Smtp-Source: AKy350ZAHzHq5Rd7ipsVmZUlTezDkSzOxsC2jCPqr4vxSd7oKwjEHB2UQk6O7FuJQ0ugd/jCEJD1g9DlVIYd3jcqQzM=
-X-Received: by 2002:a05:6870:1119:b0:17e:9b69:3ee5 with SMTP id
- 25-20020a056870111900b0017e9b693ee5mr2445651oaf.11.1680966126561; Sat, 08 Apr
- 2023 08:02:06 -0700 (PDT)
+        Sat, 8 Apr 2023 14:25:01 -0400
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com [IPv6:2607:f8b0:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4CEF8689;
+        Sat,  8 Apr 2023 11:25:00 -0700 (PDT)
+Received: by mail-ot1-x333.google.com with SMTP id 6-20020a9d0106000000b006a177038dfeso14205778otu.7;
+        Sat, 08 Apr 2023 11:25:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680978300;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Pwc/3AWMfEaAIvYsDnkVg0ci20u8p4CqXhM8i5egr5o=;
+        b=gzDts5q0CNK6aNvIaGy8bjFLBbnMG9p8cNk01Z5ybEt1Ac2fqxvhsL+ev7UKPbPgsQ
+         Ud6jJtmqURe2yNpIlyx5i7ytzeLnjRsRxAoogNyFZN5Rk7Mp/nO1uEB0tNS1wVlzX0qO
+         MSAPPQU2ywrrAxsUHgt0NzOG+8kN+U7NXJ1LhSPcEUk2z4ZiIIx4vyhmd9ZN0B/HOdKc
+         Dv+vfXs/joypJUkSpYTXTS4n4lm/YLiQY6OwIR1C6djuVRH9V6y9zoN1rQAQF8UqsF8i
+         j5gk6NCXXV4C0BI885dIhpKri6y36zMVWlaoR8H5D0QdYORnDnANC1oaRmGPxIxK96UQ
+         9o/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680978300;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Pwc/3AWMfEaAIvYsDnkVg0ci20u8p4CqXhM8i5egr5o=;
+        b=fO67P5NcQ9AKo2VyNSvXZ6gf8sbnKwF0lORvASERWaSV6NTQm35mOXk18j1Au6HMLT
+         hBB4rDfjgjX08ng2lA+0LsrrTEBhWtTPDgqqM1BFS3GXsx9UuH7QhaV22p+gQhaIJAGh
+         dSTi8TgQ3HnpsZBY1scCsQFRUWyNU6aEK3Lz0goRWXtyVy+XEjYxB2oDV/Am59LZ1uMg
+         NiFg82yfNCk8z825V66PD1emmi4Blag2B8kf2g2O0hrhq/OZEqphSpNWYMP4D8sZz2v2
+         F6uUJRXhFnrqNMYGNjhVUYtFWA67KfkURJzgxsOFMmBVUffEQiNOcBEFRzQwa+yvETcl
+         DP5Q==
+X-Gm-Message-State: AAQBX9fcqKot+vluElhTf1ft0q/dCqf5uMgUaBh0IOJOM/qNpOs1N4I0
+        Xcwlyc17BPAQ41sgqS5kCpk=
+X-Google-Smtp-Source: AKy350YVWWK5LVrcIXkGkfiCOeOtBJu5JBLuctbC9AAS/sN/aoOr5liabuPstmjtoZ5nP3Uz6zCHZg==
+X-Received: by 2002:a9d:7443:0:b0:6a1:21fc:653b with SMTP id p3-20020a9d7443000000b006a121fc653bmr2280347otk.14.1680978299895;
+        Sat, 08 Apr 2023 11:24:59 -0700 (PDT)
+Received: from [192.168.54.90] (static.220.238.itcsa.net. [190.15.220.238])
+        by smtp.gmail.com with ESMTPSA id b17-20020a9d7551000000b006a3bc285eeesm2670716otl.68.2023.04.08.11.24.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 08 Apr 2023 11:24:59 -0700 (PDT)
+Message-ID: <c0f47367-6352-e55d-1a87-fe2960a84838@gmail.com>
+Date:   Sat, 8 Apr 2023 15:24:53 -0300
 MIME-Version: 1.0
-References: <20230308115243.82592-1-masahiroy@kernel.org> <20230308115243.82592-3-masahiroy@kernel.org>
- <CAKwvOdnmiL_wDgzepYb+ZGgWt2xnsp48-awn0Cd0c4RDR43t_Q@mail.gmail.com> <CAKwvOdn1Sjj=t1XJ3K-etFnemMs7UkbyGmbHC4c2H4O=77sjHg@mail.gmail.com>
-In-Reply-To: <CAKwvOdn1Sjj=t1XJ3K-etFnemMs7UkbyGmbHC4c2H4O=77sjHg@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 9 Apr 2023 00:01:30 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARar5i7FxEHPH9M3OaU6wKxpXhc0Tj0iT32VPw0TNLR2g@mail.gmail.com>
-Message-ID: <CAK7LNARar5i7FxEHPH9M3OaU6wKxpXhc0Tj0iT32VPw0TNLR2g@mail.gmail.com>
-Subject: Re: [PATCH 3/8] scripts/mksysmap: use sed with in-line comments
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        Arnd Bergmann <arnd@arndb.de>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH] scripts: rust: drop is_rust_module.sh
+Content-Language: en-US
+To:     Andrea Righi <andrea.righi@canonical.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>
+Cc:     Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        Eric Curtin <ecurtin@redhat.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Neal Gompa <neal@gompa.dev>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>,
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        llvm@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20230407070517.204676-1-andrea.righi@canonical.com>
+From:   Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+In-Reply-To: <20230407070517.204676-1-andrea.righi@canonical.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.3 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Apr 8, 2023 at 4:01=E2=80=AFAM Nick Desaulniers <ndesaulniers@googl=
-e.com> wrote:
->
-> On Fri, Apr 7, 2023 at 11:59=E2=80=AFAM Nick Desaulniers
-> <ndesaulniers@google.com> wrote:
-> >
-> > On Wed, Mar 8, 2023 at 3:53=E2=80=AFAM Masahiro Yamada <masahiroy@kerne=
-l.org> wrote:
-> > >
-> > > Move comments close to the code.
-> >
-> > Consider adding to the commit message why you switch from grep to sed;
-> > that's currently unclear.
-> > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
->
-> Also, perhaps scripts/mksysmap could just be replaced with a sed
-> input-file? Then
-> scripts/link-vmlinux.sh would invoke nm and pipe it into that sed script?
+On 4/7/23 04:05, Andrea Righi wrote:
+> Commit c1177979af9c ("btf, scripts: Exclude Rust CUs with pahole")
+> introduced the constraint "!DEBUG_INFO_BTF || PAHOLE_HAS_LANG_EXCLUDE"
+> to enable RUST.
+> 
+> With this constraint we don't need is_rust_module.sh anymore, because
+> 'pahole --lang_exclude=rust' already has the capability to exclude Rust
+> CUs. If pahole isn't recent enough (< 1.24) to support --lang_exclude,
+> then DEBUG_INFO_BTF can't be enabled with RUST and is_rust_module.sh
+> isn't used as well.
+> 
+> In any case is_rust_module.sh is obsolete and we can just drop it.
+> 
+> Link: https://lore.kernel.org/lkml/Y+p2xKIN6TJnQinK@righiandr-XPS-13-7390/
+> Signed-off-by: Andrea Righi <andrea.righi@canonical.com>
+> ---
+>  [...]
 
+Go on
 
-
-I still need shell.
-
-
-The last line of the next commit 4/8 uses
-shell code.
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+Reviewed-by: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
