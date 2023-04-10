@@ -2,131 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D59C6DC14E
-	for <lists+linux-kbuild@lfdr.de>; Sun,  9 Apr 2023 22:09:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 461866DC2D1
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Apr 2023 04:54:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229515AbjDIUJr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 9 Apr 2023 16:09:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47640 "EHLO
+        id S229687AbjDJCyQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 9 Apr 2023 22:54:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229510AbjDIUJr (ORCPT
+        with ESMTP id S229686AbjDJCyP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 9 Apr 2023 16:09:47 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30DBE3A82;
-        Sun,  9 Apr 2023 13:09:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681070986; x=1712606986;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=u9paic4b5RjsQWDq/hcpmJe224A6CrKf/uF/sceXvKg=;
-  b=iwn10s3D98Bo5LrCkFb617CvT00Ax8wwMlZg/I4AXBdepp5P+ifMfF07
-   eRCcXwMLr5F5Gi5rCpdF0L2LzGzRm1mA+AdmhFUucsy3mpkHTiL/LoU0Q
-   60Me8G2q0CFlcxJ90HmfwIX96cyZcPRfGtONXVVnUUbhaOUuVRWmTNC1N
-   UmW2S5k3gzLyAiKlIWRGnesfIRUC9/6XVOsm1lI11Rz29JcpkNNvGv1nO
-   zO/PwweAOfFz+4dI0tspJkVw6A3+y5zo2EBwhuQ6/Swf++C+lXK8+YE0D
-   d7oJZiBmOgqUZJaop8PGuD1XpwJ2j4nh/iU+CVvsxFcd318AF1tRaUGZR
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10675"; a="322880739"
-X-IronPort-AV: E=Sophos;i="5.98,332,1673942400"; 
-   d="scan'208";a="322880739"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2023 13:09:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10675"; a="831728944"
-X-IronPort-AV: E=Sophos;i="5.98,332,1673942400"; 
-   d="scan'208";a="831728944"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 09 Apr 2023 13:09:43 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1plbM6-000Ujp-2Z;
-        Sun, 09 Apr 2023 20:09:42 +0000
-Date:   Mon, 10 Apr 2023 04:09:37 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linux-kernel@vger.kernel.org,
+        Sun, 9 Apr 2023 22:54:15 -0400
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E7EE2D5F;
+        Sun,  9 Apr 2023 19:54:14 -0700 (PDT)
+Received: by mail-yb1-xb2b.google.com with SMTP id q5so6248407ybk.7;
+        Sun, 09 Apr 2023 19:54:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1681095253; x=1683687253;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=68hFqK4w8HaSDUtj3lg9PKOMpgnSuCAOnFcquas933k=;
+        b=IjZnrt9C8yXtdC/ohkFj9vbfN0I5CrHdGt6RXZhkRTqVcM4PMjWP/8xUL9vbh8GGdo
+         v454lLMWWjhwjJ+VwzO4RTWzcsPINmuMQDfY6mX3OxL3T2JUR5wc/5FIZLCPAdV2aAV1
+         2nqWJ6HPIB8NtV7TS3pFPZtZQnmgfufw/AHgIz6Yzu5VN/QU1pp1FvkXrmUm+DXClkya
+         jatyStfza2n5Pf+HX832FAHLOmaxuJz5KC6QlcmgrizkjCKQByCyTfEjLGbUN1xSnDmZ
+         lhd2umXNlbGwYnA/By0TG4KlvBR25fY1c8TeMp/RFKkT3DtALIkJ9fKFGpKgBbmgsV/c
+         Yy7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681095253; x=1683687253;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=68hFqK4w8HaSDUtj3lg9PKOMpgnSuCAOnFcquas933k=;
+        b=R7OXyxqO6ZcYkIf+tB0Gyg2rQcL8GqdLzhfPX24PMaqRs2hj3H/qteQezXc5JkWWT3
+         kquHWDQVG3Ly0sWEzJ4PAqxQEFvpYG39Npdo5zJz/Ky8mDzkMIBJ1o+y+wz7SbmB3r1Y
+         Ncj5UA6xSFsevd/TjjuHqcXzad8u7PGIgzBHwag6/TsIcoLnDDGyV67SanMgWlXjUQFs
+         7Up8eo1sZRdThjrcUbPSlBE9oQFrR1h3kVsRKPu08BVsc8vjfZPMDRz7B4zZ2QqTNSoA
+         PwVsltxsc3DYrkIVcYaObXyayB0ZqzjGDKE1fsoyYQNAeSKOjGerYXbjPL1gXnsPVOKY
+         iVjw==
+X-Gm-Message-State: AAQBX9da0WJEh9j6YI8xxg159Zpy82xxkv8fbVm4xrpbXsQt7xSqLrbK
+        BdzeleiPQvMGpM0VAeMnpVfnkBnUxBCB8Yr1R1k=
+X-Google-Smtp-Source: AKy350Zt7Ncm7oRHxX7FoJD7gllamV44wOZFNwP7hZX6GC9TeqVGMSrkLhxzsHnsz947jvbOVKIpBCQsnTS1VTe26eY=
+X-Received: by 2002:a25:7781:0:b0:b8e:cad0:6e57 with SMTP id
+ s123-20020a257781000000b00b8ecad06e57mr3253999ybc.11.1681095253548; Sun, 09
+ Apr 2023 19:54:13 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230224-rust-new_uninit-v1-1-c951443d9e26@asahilina.net>
+In-Reply-To: <20230224-rust-new_uninit-v1-1-c951443d9e26@asahilina.net>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Mon, 10 Apr 2023 04:54:02 +0200
+Message-ID: <CANiq72ma7p9q8Usos6=Opv+YwzOXKgLXj6EEBUsfY2OY7KniGg@mail.gmail.com>
+Subject: Re: [PATCH] rust: Enable the new_uninit feature for kernel and driver crates
+To:     Asahi Lina <lina@asahilina.net>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Tom Rini <trini@konsulko.com>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>
-Subject: Re: [PATCH] kbuild: add $(CLANG_CFLAGS) to KBUILD_CPPFLAGS
-Message-ID: <202304100319.Wfcfuyqz-lkp@intel.com>
-References: <20230409145358.2538266-1-masahiroy@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230409145358.2538266-1-masahiroy@kernel.org>
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.6
+        Nicolas Schier <nicolas@fjasle.eu>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro,
+On Fri, Feb 24, 2023 at 9:10=E2=80=AFAM Asahi Lina <lina@asahilina.net> wro=
+te:
+>
+> The unstable new_uninit feature enables various library APIs to create
+> uninitialized containers, such as `Box::assume_init()`. This is
+> necessary to build abstractions that directly initialize memory at the
+> target location, instead of doing copies through the stack.
+>
+> Will be used by the DRM scheduler abstraction in the kernel crate, and
+> by field-wise initialization (e.g. using `place!()` or a future
+> replacement macro which may itself live in `kernel`) in driver crates.
+>
+> See [1] [2] [3] for background information.
+>
+> [1] https://github.com/Rust-for-Linux/linux/issues/879
+> [2] https://github.com/Rust-for-Linux/linux/issues/2
+> [3] https://github.com/rust-lang/rust/issues/63291
 
-kernel test robot noticed the following build warnings:
+Applied to `rust-next` (reworded to use `Link` tags). Thanks!
 
-[auto build test WARNING on masahiroy-kbuild/for-next]
-[also build test WARNING on masahiroy-kbuild/fixes linus/master v6.3-rc6 next-20230406]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/kbuild-add-CLANG_CFLAGS-to-KBUILD_CPPFLAGS/20230409-225441
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
-patch link:    https://lore.kernel.org/r/20230409145358.2538266-1-masahiroy%40kernel.org
-patch subject: [PATCH] kbuild: add $(CLANG_CFLAGS) to KBUILD_CPPFLAGS
-config: mips-ip22_defconfig (https://download.01.org/0day-ci/archive/20230410/202304100319.Wfcfuyqz-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 2c57868e2e877f73c339796c3374ae660bb77f0d)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/4a97e93c7f8c2aaf7bcca67a061264a1126d0e25
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Masahiro-Yamada/kbuild-add-CLANG_CFLAGS-to-KBUILD_CPPFLAGS/20230409-225441
-        git checkout 4a97e93c7f8c2aaf7bcca67a061264a1126d0e25
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips prepare
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304100319.Wfcfuyqz-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> clang: warning: argument unused during compilation: '-mno-check-zero-division' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-mabi=32' [-Wunused-command-line-argument]
->> clang: warning: argument unused during compilation: '-G 0' [-Wunused-command-line-argument]
->> clang: warning: argument unused during compilation: '-mno-abicalls' [-Wunused-command-line-argument]
-   error: unknown target CPU 'r5000'
-   note: valid target CPU values are: nocona, core2, penryn, bonnell, atom, silvermont, slm, goldmont, goldmont-plus, tremont, nehalem, corei7, westmere, sandybridge, corei7-avx, ivybridge, core-avx-i, haswell, core-avx2, broadwell, skylake, skylake-avx512, skx, cascadelake, cooperlake, cannonlake, icelake-client, rocketlake, icelake-server, tigerlake, sapphirerapids, alderlake, raptorlake, meteorlake, sierraforest, grandridge, graniterapids, emeraldrapids, knl, knm, k8, athlon64, athlon-fx, opteron, k8-sse3, athlon64-sse3, opteron-sse3, amdfam10, barcelona, btver1, btver2, bdver1, bdver2, bdver3, bdver4, znver1, znver2, znver3, znver4, x86-64, x86-64-v2, x86-64-v3, x86-64-v4
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-   error: unknown target CPU 'r5000'
-   note: valid target CPU values are: mips1, mips2, mips3, mips4, mips5, mips32, mips32r2, mips32r3, mips32r5, mips32r6, mips64, mips64r2, mips64r3, mips64r5, mips64r6, octeon, octeon+, p5600
-   make[2]: *** [scripts/Makefile.build:252: scripts/mod/empty.o] Error 1
-   error: unknown target CPU 'r5000'
-   note: valid target CPU values are: mips1, mips2, mips3, mips4, mips5, mips32, mips32r2, mips32r3, mips32r5, mips32r6, mips64, mips64r2, mips64r3, mips64r5, mips64r6, octeon, octeon+, p5600
-   make[2]: *** [scripts/Makefile.build:114: scripts/mod/devicetable-offsets.s] Error 1
-   make[2]: Target 'scripts/mod/' not remade because of errors.
-   make[1]: *** [Makefile:1285: prepare0] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:226: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Cheers,
+Miguel
