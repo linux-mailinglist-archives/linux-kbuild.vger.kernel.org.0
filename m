@@ -2,210 +2,134 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 091AC6DD778
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Apr 2023 12:07:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 442686DE0EE
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Apr 2023 18:25:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229546AbjDKKHL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 11 Apr 2023 06:07:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57206 "EHLO
+        id S229676AbjDKQZp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 11 Apr 2023 12:25:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229789AbjDKKGv (ORCPT
+        with ESMTP id S229480AbjDKQZo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 11 Apr 2023 06:06:51 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AB4E30EB;
-        Tue, 11 Apr 2023 03:06:46 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id B40D721A0D;
-        Tue, 11 Apr 2023 10:06:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1681207604; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=8n7ywmQ+awe973K1RiYMXZS6nrgeQ28SDo2b1f0miws=;
-        b=iQjAp5Plo1DxL4G3EAf2Uv9qUVPzx3RAeN44LQkAv7smbByu3MTFhOjI4+gHxLKJImd/eW
-        S+q3SjnKpG86/TkXPkfJJQON2FHhUmUzluJK5BeO6G8JIaB/UNyO9XZWIVe6hS3biBYtqJ
-        A15ah9wSpiteBOBddDbZl9Eqa0cncWI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1681207604;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=8n7ywmQ+awe973K1RiYMXZS6nrgeQ28SDo2b1f0miws=;
-        b=ZbKtL1u5soy8hRk0Kk3VLkq9oiIES7TTj0sDzvYEh/IS+4YlcKjBfPtemhYJw7VUkaPzg+
-        gsCuIFjGO5iLO5Ag==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6C57D13638;
-        Tue, 11 Apr 2023 10:06:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id fSZ3GDQxNWR0PwAAMHmgww
-        (envelope-from <nstange@suse.de>); Tue, 11 Apr 2023 10:06:44 +0000
-From:   Nicolai Stange <nstange@suse.de>
-To:     Josh Poimboeuf <jpoimboe@kernel.org>
-Cc:     Joe Lawrence <joe.lawrence@redhat.com>,
-        Marcos Paulo de Souza <mpdesouza@suse.de>,
-        live-patching@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, Miroslav Benes <mbenes@suse.cz>,
-        Petr Mladek <pmladek@suse.com>,
-        Marcos Paulo de Souza <mpdesouza@suse.com>,
-        Lukas Hruska <lhruska@suse.cz>
-Subject: Re: [PATCH v7 00/10] livepatch: klp-convert tool
-References: <20230306140824.3858543-1-joe.lawrence@redhat.com>
-        <20230314202356.kal22jracaw5442y@daedalus>
-        <ZBTNvEPrCcRj3F1C@redhat.com> <20230317232010.7uq6tt4ty35eo5hm@treble>
-Date:   Tue, 11 Apr 2023 12:06:43 +0200
-In-Reply-To: <20230317232010.7uq6tt4ty35eo5hm@treble> (Josh Poimboeuf's
-        message of "Fri, 17 Mar 2023 16:20:10 -0700")
-Message-ID: <873556ag24.fsf@suse.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+        Tue, 11 Apr 2023 12:25:44 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1E472D53
+        for <linux-kbuild@vger.kernel.org>; Tue, 11 Apr 2023 09:25:42 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-94a355d0dabso158923566b.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 11 Apr 2023 09:25:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1681230341;
+        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=n4pN0D9VuThWZUSG0wK1df2D171dEbvuMFuz0NllzvM=;
+        b=beBh2tRYUlndBBDBXrhqMnHvr8qHthO1QAZBaBNo+8s9qVG+FghzOXJ2G1pvHBG8Zj
+         27eAy6InpwvsEfnVkudVStHlpJipiZGtKrqK30NsyU24/DG9GOJStKCUl8UhcHEHYjap
+         LE34iMRiUXALFUDo3VKF348WPUHApfQH262EwSQUttp0rftaZ8MMC8VI8oKGMTFPLhie
+         Q/OPz+cYTxDL9XGk0v+AyJeoh2xskh0y6kGtJt7yLIselY+UPZ8BUF/jmtEE1Xno+Wia
+         8PJKXGRjtZf/fdjOux9t4emwLJkTTyTLIvrCjCB5pLEWcj03aL2/dUesD1b/GIWX6WKP
+         am9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681230341;
+        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=n4pN0D9VuThWZUSG0wK1df2D171dEbvuMFuz0NllzvM=;
+        b=O/6mlOFMOcgE+AlF2tZw3+oRDzHXrLZtE0aDz12B2Nz25bRSZGwve4g/fLR/zliuUD
+         VQOAE/5XCQZTxuTLakK9k39CaNVbxwVKoF1YVIvI/y0s2+Cro7Unk4j4nx+UvoYprMEO
+         BodZU9/E6nsMVsdeubU5hrz5pWW0eZvEV9vfHJZiUnfVeCDAYw9zK/MWHoc2QhKSgslJ
+         J86J1D1KEGKbkcwUtnc2jeFoGrrqc0Uh3pnd+4KpMAoTwze8mG6K04JS+xIp87n30lvG
+         OwXkFtZHnEl0PoMdUw8mywxKAuKk1Z2Cj5ZxBn8L/tL9yDnF/JawCeabjNL+NlEgpM53
+         LVpA==
+X-Gm-Message-State: AAQBX9cTx2lCkHs2+8ofkCdnd+cDD49qxrZU5nXRbr3Z3enmKZ6aVvYz
+        9q/bP+Qf+fAUDWi9htht0sWJEep09eit3ZLSwgo=
+X-Google-Smtp-Source: AKy350aqESOGF8H17ENQH7ojuh+bCJMAnBVBm9S6gRFFUTNY7b88sqEEL2AYinPb2G6eqSQeqn3mIkT90EEt/41h/CE=
+X-Received: by 2002:a50:9f24:0:b0:504:ca21:cc64 with SMTP id
+ b33-20020a509f24000000b00504ca21cc64mr458514edf.2.1681230341195; Tue, 11 Apr
+ 2023 09:25:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Sender: donnamcines@gmail.com
+Received: by 2002:a05:7208:112c:b0:66:70a4:2fd9 with HTTP; Tue, 11 Apr 2023
+ 09:25:40 -0700 (PDT)
+From:   Dina Mckenna <dinamckenna9@gmail.com>
+Date:   Tue, 11 Apr 2023 16:25:40 +0000
+X-Google-Sender-Auth: skAErOEVzbw0r_iqUvs0QJyW_8M
+Message-ID: <CADM2P8mEXLkYmA6VeUt9P9TSkdqEpTPgD3-Z8OwbnqX47gMo=Q@mail.gmail.com>
+Subject: Hello,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: Yes, score=5.9 required=5.0 tests=ADVANCE_FEE_5_NEW_MONEY,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        LOTS_OF_MONEY,MONEY_FRAUD_8,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        UNDISC_MONEY autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [donnamcines[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:62a listed in]
+        [list.dnswl.org]
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        *  0.0 MONEY_FRAUD_8 Lots of money and very many fraud phrases
+        *  3.0 ADVANCE_FEE_5_NEW_MONEY Advance Fee fraud and lots of money
+        *  3.1 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Josh Poimboeuf <jpoimboe@kernel.org> writes:
+Hello my dear.,
 
-> On Fri, Mar 17, 2023 at 04:29:48PM -0400, Joe Lawrence wrote:
->> Have you tried retrofitting klp-convert into any real-world livepatch?
->> I'm curious as to your observations on the overall experience, or
->> thoughts on the sympos annotation style noted above.
->
-> On a related note, the patch creation process (of which klp-convert
-> would be part of) needs to be documented.
->
-> If I remember correctly, the proper safe usage of klp-convert requires a
-> kernel built with -flive-patching, plus some scripting and/or manual
-> processes.
+ I sent this mail praying it will get to you in a good condition of
+health, since I myself are in a very critical health condition in
+which I sleep every night without knowing if I may be alive to see the
+next day. I bring peace and love to you. It is by the grace of God, I
+had no choice than to do what is lawful and right in the sight of God
+for eternal life and in the sight of man, for witness of God=E2=80=99s merc=
+y
+and glory upon my life. I am Mrs. Dina. mckenna. howley, a widow. I am
+suffering from a long time brain tumor, It has defiled all forms of
+medical treatment, and right now I have about a few months to leave,
+according to medical experts. The situation has gotten complicated
+recently with my inability to hear proper, am communicating with you
+with the help of the chief nurse herein the hospital, from all
+indication my conditions is really deteriorating and it is quite
+obvious that, according to my doctors they have advised me that I may
+not live too long, Because this illness has gotten to a very bad
+stage. I plead that you will not expose or betray this trust and
+confidence that I am about to repose on you for the mutual benefit of
+the orphans and the less privilege. I have some funds I inherited from
+my late husband, the sum of ( $11,000,000.00, Eleven Million Dollars
+).  Having known my condition, I decided to donate this fund to you
+believing that you will utilize it the way i am going to instruct
+herein. I need you to assist me and reclaim this money and use it for
+Charity works therein your country for orphanages and gives justice
+and help to the poor, needy and widows says The Lord." Jeremiah
+22:15-16.=E2=80=9C and also build schools for less privilege that will be
+named after my late husband if possible and to promote the word of God
+and the effort that the house of God is maintained. I do not want a
+situation where this money will be used in an ungodly manner. That's
+why I'm taking this decision. I'm not afraid of death, so I know where
+I'm going. I accept this decision because I do not have any child who
+will inherit this money after I die. Please I want your sincerely and
+urgent answer to know if you will be able to execute this project for
+the glory of God, and I will give you more information on how the fund
+will be transferred to your bank account. May the grace, peace, love
+and the truth in the Word of God be with you and all those that you
+love and care for..
+ .
+I'm waiting for your immediate reply..
 
-Not always, I think: -flive-patching or IPA optimizations in general
-aren't a concern in the context of data symbols. From a quick glance, it
-seems like the selftests introduced as part of this patchset are
-all restricted to this usecase.
-
-
-> If nobody knows how to safely use it then there wouldn't be much value
-> in merging it.
-
-I tend to agree, but would put it a bit differently: the current
-implementation of klp-convert features quite some convenience logic,
-which, until the question of a documented livepatch preparation process
-has been settled, is not known yet to ever be of any use.
-
-For example, from [3/10]:
-
-  "For automatic resolution of livepatch relocations, a file called
-   symbols.klp is used. This file maps symbols within every compiled kernel
-   object allowing the identification of symbols whose name is unique, thus
-   relocation can be automatically inferred, or providing information that
-   helps developers when code annotation is required for solving the
-   matter."
-
-For the source based approach to livepatch preparation we're using
-internally, this is not really needed: the entity generating the source
--- be it klp-ccp or the author doing it manually -- needs to examine the
-target objects long before link resp. klp-convert time for which symbols
-can be referenced from the livepatch and how (i.e. determine a potential
-sympos). I would expect it works similar for kpatch-build conceptually,
-albeit kpatch-build probably doesn't rely on any external utility like
-klp-convert for the .klp.* relas generation at all.
-
-So with that, I agree that merging the klp-convert patchset in its
-current form with those potentially unused convenience features,
-presumably born out of certain assumptions about a manual livepatch
-preparation process, indeed can be argued about, probably.
-
-
-However, OTOH, there's currently no means whatsoever to create those
-.klp.* relas (*) (**) and I would like to propose resorting to a more
-minimal utility doing only that single thing: to stubbornly create
-.klp.* relas out of certain "regular" ones using a very simple
-transformation rule and nothing else beyond that. The "stripped"
-klp-convert would have no knowledge of the symbols available in the
-livepatched target objects at all, i.e. there would be no symbols.klp
-file or alike anymore. Instead, it would simply walk through all of a
-livepatch object's SHN_UNDEF symbols of format
-".klp.sym.<loading-obj-name>.<foo-providing-mod>.some_foo,0" somewhen at
-modpost time and
-- rename the symbol to ".klp.sym.<foo-providing-mod>.some_foo,0" --
-  shortening the name should always be feasible as far as strtab is
-  concerned.
-- turn the symbol's SHN_UNDEF into SHN_LIVEPATCH
-- move any relocation (initially created by the compiler with source
-  based lp preparation approaches) against this symbol into a separate,
-  newly created rela section with flag SHF_RELA_LIVEPATCH set and whose
-  name is of format
-  .klp.rela.<loading-obj-name>.<livepatch-obj-dst-section-name>.
-  Furthermore, the new .klp.rela section's ->sh_info needs to be made to
-  refer to the destination section.
-
-So, the only thing which would depend on the yet unspecified details of
-the livepatch preparation process would be the creation of those
-intermediate
-".klp.sym.<loading-obj-name>.<foo-providing-mod>.some_foo,0" SHN_UNDEF
-symbols to be processed by klp-convert. For source based livepatch
-preparation approaches, counting in the selftests, this can be easily
-controlled by means of asm("...") alias specifications at the respective
-declarations like in e.g.  extern int foo
-asm("\".klp.sym.<loading-obj-name>.<foo-providing-mod>.some_foo,0\"");
-
-
-I imagine the first ones to benefit from having such a "stripped"
-klp-convert available in the kernel tree would be new upstream selftests
-for .klp.* rela coverage (like introduced with this here patchset
-already) and for those some means of creating .klp.* relas would be
-needed anyway. We (SUSE), and perhaps others as well, could integrate
-this "stripped" klp-convert into our source based, production livepatch
-preparation workflows right away, of course, and so we're obviously keen
-on having it. Such a tool providing only the bare minimum would be
-pretty much self-contained -- it would only need to hook into the
-modpost Kbuild stage one way or the other -- and we could certainly
-maintain it downstream out-of-tree, but that would potentially only
-contribute to the current fragmentation around the livepatch creation
-processes even more and there still wouldn't have a solution for the
-upstream selftests.
-
-What do you think, does it make sense to eventually have such a bare
-minimum klp-convert merged in-tree, independently of the ongoing
-discussion around the livepatch preparation processes, respectively (the
-lack of) documentation around it? If yes, Lukas, now on CC, is
-interested in this topic and would be willing to help out in any form
-desired: either by contributing to Joe's work here or, if deemed more
-feasible, to start out completely new from scratch -- dependent on your
-opinion on the proposed, more minimal approach as well as on Joe's plans
-around klp-convert.
-
-Looking forward to hearing your feedback!
-
-Thanks,
-
-Nicolai
-
-(*) We've been experimenting with building the relocation records
-    manually by various means, e.g. with GNU as' .reloc directive as an
-    example, but this all turned out impractical for various
-    reasons. Most noteworthy, because the records' offsets wouldn't get
-    adjusted properly when linking AFAIR.
-
-(**) by some other means than directly with kpatch-build
-
---=20
-SUSE Software Solutions Germany GmbH, Frankenstra=C3=9Fe 146, 90461 N=C3=BC=
-rnberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-(HRB 36809, AG N=C3=BCrnberg)
+May God Bless you,
+Mrs. Dina. Mckenna Howley.
