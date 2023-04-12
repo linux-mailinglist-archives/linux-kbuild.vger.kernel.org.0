@@ -2,128 +2,130 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6619A6DE697
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Apr 2023 23:39:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA3916DE86A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Apr 2023 02:12:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229732AbjDKVjx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 11 Apr 2023 17:39:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53686 "EHLO
+        id S229509AbjDLAMl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 11 Apr 2023 20:12:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbjDKVjw (ORCPT
+        with ESMTP id S229490AbjDLAMk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 11 Apr 2023 17:39:52 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA0235260;
-        Tue, 11 Apr 2023 14:39:49 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 5A4781FDCF;
-        Tue, 11 Apr 2023 21:39:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1681249188;
-        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=S82+xdE9OcmjrTBCsFkGp/8e3ifilP41Xw0NqCH/dlo=;
-        b=B9g1vj/sdRS1obYJIMmBH9jRI2ARZSjfpM2i/Em32p1zmjq9DRoB8rm60j6EZLbklyNoJK
-        1xffjtLPrYkzwh6JWwhfmIpzq8focrBVTMgddbEVhVaABdTr/NnwRe0kkOsZre4QpNary8
-        mmo2wq7vJliuQiQgzzv81ulCd83resg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1681249188;
-        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=S82+xdE9OcmjrTBCsFkGp/8e3ifilP41Xw0NqCH/dlo=;
-        b=98SsGC7lE/9SYfUzGB6VtVCDdFuhjg4KacawgM63zAFnIkl05Z98tEyp3MG+BO4tUh1PhR
-        8CUXnDT/5FrVB4Dg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2C6D513638;
-        Tue, 11 Apr 2023 21:39:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id yG0ICqTTNWSmLAAAMHmgww
-        (envelope-from <pvorel@suse.cz>); Tue, 11 Apr 2023 21:39:48 +0000
-Date:   Tue, 11 Apr 2023 23:39:46 +0200
-From:   Petr Vorel <pvorel@suse.cz>
-To:     Kevin Brodsky <kevin.brodsky@arm.com>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Petr Vorel <petr.vorel@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ruben Ayrapetyan <ruben.ayrapetyan@arm.com>
-Subject: Re: [PATCH RESEND] uapi/linux/const.h: Prefer ISO-friendly __typeof__
-Message-ID: <20230411213946.GA1803920@pevik>
-Reply-To: Petr Vorel <pvorel@suse.cz>
-References: <20230411092747.3759032-1-kevin.brodsky@arm.com>
- <20230411210537.GA1800481@pevik>
+        Tue, 11 Apr 2023 20:12:40 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C22F1468B
+        for <linux-kbuild@vger.kernel.org>; Tue, 11 Apr 2023 17:12:36 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id q15-20020a17090a2dcf00b0023efab0e3bfso12796271pjm.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 11 Apr 2023 17:12:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1681258356; x=1683850356;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EUfNHvgbMHbCxR7Z5ej0J4OW6YiW5Ee09V0uQZNWLuA=;
+        b=yRuWuTRhiWx3XwFpc57Ol2M1IPyVrYtxZC3LJYOl+z6YsIP1MVABRg2+I1SYgCvB5r
+         9ma9A/JibUHa8FeY439yp5Z1o59QK0Jr36B5oqQWOJiPUjdfX83Yl8tuXtbQFh6gLWR8
+         dwnI3QGeP/PgL/C7Bi7zDPqNmKSIwYahqjJxsklqdeVWzEfsf3VWL64TZmkx+pwkwv7a
+         gY7m98i6jaFqo3atHGNZpP8nwW4Vil4325RnsXUn1l8VDrF2qkisVY/7Id5ooJQIC4gk
+         6zn380pEKuZ0vlDDYZsLg2fIGhtIJ61YuSVuQnxwtUt/6ag6cQGbY825Ls8Jf7Edy4hD
+         ff9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681258356; x=1683850356;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EUfNHvgbMHbCxR7Z5ej0J4OW6YiW5Ee09V0uQZNWLuA=;
+        b=pPKEY3PXDl6mxmBKKZwPtaWo2RbmCi+KRcGNbYOjzbwSZPtdeaElpEkdkcYW2q0jkn
+         EZIVubkC128/eg3VJTV+7vesxXoG1H/3s0nIMeFILD9YBqo6m4JWKG+fpkUNaZAWwg50
+         e5xKyx/yotEsJ147efJrA6U3kNSU+ZW25obprKwe1cfP9BMjWOBrP9qg/P6a5OhMHhsl
+         /B0vq9PEsBQnACBUGg3H7a6CJ4dDiwlhNnXCeBnDzIIh43OWxReq3stVkODaCSd7a31g
+         U7VyjrzoCudApFHa+C2k9o73/dB19Ma+UPCKOQbGqidfIy8+glFawbGKXXoOuZzbAca/
+         XJag==
+X-Gm-Message-State: AAQBX9eAIfKCcB5Bzf97VqtTQbD9JCtyMSdnodsbbAyb00I2EMgCtpBS
+        fpAGNzbtCMnA/q0pk5IArXB++7ReWmrUMGq7TJ02Tw==
+X-Google-Smtp-Source: AKy350a6v0Bzy8uTYnPo43Z1a0p7U8LI2dM7an6ki1cKagG6JpglxhSHLcrBIVpCj5q+AYqQphGmoJQ/Nqm5Pnc108M=
+X-Received: by 2002:a17:90b:3641:b0:244:987c:a873 with SMTP id
+ nh1-20020a17090b364100b00244987ca873mr4635662pjb.7.1681258355815; Tue, 11 Apr
+ 2023 17:12:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230411210537.GA1800481@pevik>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230407215406.768464-1-ndesaulniers@google.com> <20230407215824.GA1524475@dev-arch.thelio-3990X>
+In-Reply-To: <20230407215824.GA1524475@dev-arch.thelio-3990X>
+From:   Fangrui Song <maskray@google.com>
+Date:   Tue, 11 Apr 2023 17:12:24 -0700
+Message-ID: <CAFP8O3+YzvwgeSS_GvU3oTtxunyUm8qMaAnV3Mt-ezTsxZ=Q0Q@mail.gmail.com>
+Subject: Re: [PATCH] ubsan: remove cc-option test for UBSAN_TRAP
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-hardening@vger.kernel.org, Tom Rix <trix@redhat.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Miroslav Benes <mbenes@suse.cz>, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-> Hi Kevin,
-
-> > typeof is (still) a GNU extension, which means that it cannot be
-> > used when building ISO C (e.g. -std=c99). It should therefore be
-> > avoided in uapi headers in favour of the ISO-friendly __typeof__.
-
-> IMHO UAPI are built with -std=c90 -Wall -Werror=implicit-function-declaration
-> (see usr/include/Makefile).
-> But one or the other, you're right both require __typeof__.
-
-> "If you are writing a header file that must work when included in ISO C
-> programs, write __typeof__ instead of typeof."
-> https://gcc.gnu.org/onlinedocs/gcc-12.2.0/gcc/Typeof.html
-
-> Reviewed-by: Petr Vorel <pvorel@suse.cz>
-> Tested-by: Petr Vorel <pvorel@suse.cz>
-
-IMHO problem was introduced when -std=c90 was added (back then the code was in
-include/uapi/linux/kernel.h).
-
-Fixes: d6fc9fcbaa65 ("kbuild: compile-test exported headers to ensure they are self-contained")
-
-Kind regards,
-Petr
-
-> Kind regards,
-> Petr
-
-> > Unfortunately this issue could not be detected by
-> > CONFIG_UAPI_HEADER_TEST=y as the __ALIGN_KERNEL() macro is not
-> > expanded in any uapi header.
-
-> > Reported-by: Ruben Ayrapetyan <ruben.ayrapetyan@arm.com>
-> > Tested-by: Ruben Ayrapetyan <ruben.ayrapetyan@arm.com>
-> > Signed-off-by: Kevin Brodsky <kevin.brodsky@arm.com>
+On Fri, Apr 7, 2023 at 2:58=E2=80=AFPM Nathan Chancellor <nathan@kernel.org=
+> wrote:
+>
+> On Fri, Apr 07, 2023 at 02:54:06PM -0700, Nick Desaulniers wrote:
+> > -fsanitize-undefined-trap-on-error has been supported since GCC 5.1 and
+> > Clang 3.2.  The minimum supported version of these according to
+> > Documentation/process/changes.rst is 5.1 and 11.0.0 respectively. Drop
+> > this cc-option check.
+> >
+> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+>
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+>
+> As an aside, we should really consider having some standard format of
+> comment around cc-option checks so that we can easily remove them when
+> they become stale...
+>
 > > ---
-> >  include/uapi/linux/const.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > Masahiro, Kees: get_maintainer.pl leaves much to be desired for this
+> > file. Can one of you please pick this up?
+> >
+> >  lib/Kconfig.ubsan | 1 -
+> >  1 file changed, 1 deletion(-)
+> >
+> > diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
+> > index fd15230a703b..0e7ad0782399 100644
+> > --- a/lib/Kconfig.ubsan
+> > +++ b/lib/Kconfig.ubsan
+> > @@ -15,7 +15,6 @@ if UBSAN
+> >  config UBSAN_TRAP
+> >       bool "On Sanitizer warnings, abort the running kernel code"
+> >       depends on !COMPILE_TEST
+> > -     depends on $(cc-option, -fsanitize-undefined-trap-on-error)
+> >       help
+> >         Building kernels with Sanitizer features enabled tends to grow
+> >         the kernel size by around 5%, due to adding all the debugging
+> > --
+> > 2.40.0.577.gac1e443424-goog
+> >
+>
 
-> > diff --git a/include/uapi/linux/const.h b/include/uapi/linux/const.h
-> > index af2a44c08683..a429381e7ca5 100644
-> > --- a/include/uapi/linux/const.h
-> > +++ b/include/uapi/linux/const.h
-> > @@ -28,7 +28,7 @@
-> >  #define _BITUL(x)	(_UL(1) << (x))
-> >  #define _BITULL(x)	(_ULL(1) << (x))
+-fsanitize-undefined-trap-on-error is a legacy option from 2013 when
+-fcatch-undefined-behavior instead of -fsanitize=3Dundefined enabled
+UBSan.
+On the Clang side, http://reviews.llvm.org/D10464 added
+-fsanitize-trap=3D in June 2015.
+It's best to use -fsanitize-trap=3Dundefined and avoid uses of
+-fsanitize-undefined-trap-on-error.
 
-> > -#define __ALIGN_KERNEL(x, a)		__ALIGN_KERNEL_MASK(x, (typeof(x))(a) - 1)
-> > +#define __ALIGN_KERNEL(x, a)		__ALIGN_KERNEL_MASK(x, (__typeof__(x))(a) - 1)
-> >  #define __ALIGN_KERNEL_MASK(x, mask)	(((x) + (mask)) & ~(mask))
 
-> >  #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
+
+--=20
+=E5=AE=8B=E6=96=B9=E7=9D=BF
