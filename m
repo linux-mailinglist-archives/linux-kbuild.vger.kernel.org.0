@@ -2,113 +2,161 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C2E76DFB92
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Apr 2023 18:43:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C9396DFD45
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Apr 2023 20:14:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230096AbjDLQn0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 12 Apr 2023 12:43:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41758 "EHLO
+        id S229932AbjDLSOL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 12 Apr 2023 14:14:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229916AbjDLQnZ (ORCPT
+        with ESMTP id S229794AbjDLSOK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 12 Apr 2023 12:43:25 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DC8665A1;
-        Wed, 12 Apr 2023 09:43:05 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3BC6463742;
-        Wed, 12 Apr 2023 16:43:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EE23C4339B;
-        Wed, 12 Apr 2023 16:43:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1681317784;
-        bh=tghXf6ZJNEtwzaF6Ct8z2O+2xY38x0zbM8ak45EK8/w=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JWsLHopw7Xr+qeJ+1ZM3O8jXOS/hjzlARh8LHzPdDwG+rLR9BrwuS67i5bgXb595o
-         Zkm9JuIY3OViS+6mKEPuJkhVGdxZ5evNBBJHYkhONELH9iKazSefoTp8nAbuJNciW+
-         LxCnpQVHdhrATPb5DwgdpfMTPm6sHCqKoGeDhzgw=
-Date:   Wed, 12 Apr 2023 18:43:01 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     John Moon <quic_johmoo@quicinc.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Todd Kjos <tkjos@google.com>,
-        Matthias Maennich <maennich@google.com>,
-        Giuliano Procida <gprocida@google.com>,
-        kernel-team@android.com, libabigail@sourceware.org,
-        Jordan Crouse <jorcrous@amazon.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Satya Durga Srinivasu Prabhala <quic_satyap@quicinc.com>,
-        Elliot Berman <quic_eberman@quicinc.com>,
-        Guru Das Srinagesh <quic_gurus@quicinc.com>
-Subject: Re: [PATCH v5 1/2] check-uapi: Introduce check-uapi.sh
-Message-ID: <2023041216-antitoxic-finch-dd14@gregkh>
-References: <20230407203456.27141-1-quic_johmoo@quicinc.com>
- <20230407203456.27141-2-quic_johmoo@quicinc.com>
- <CAK7LNAQQmoyUx+0Jk3c7iqY20KokrHEOPwHNb2doZOOA8RWBDA@mail.gmail.com>
- <2023041015-lunar-dandelion-1b4e@gregkh>
- <ae44540f-8947-8efb-fb8d-45a84bd3fef3@quicinc.com>
- <2023041136-donator-faceplate-5f91@gregkh>
- <bcdcee9b-f213-bc3c-d300-92a1e0138187@quicinc.com>
- <2023041209-armed-overlaid-3d3d@gregkh>
- <d34a6b09-8244-49e2-2d7a-eee5fd5ca5b7@quicinc.com>
+        Wed, 12 Apr 2023 14:14:10 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3851C468E
+        for <linux-kbuild@vger.kernel.org>; Wed, 12 Apr 2023 11:14:06 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id y63so6226644pgd.13
+        for <linux-kbuild@vger.kernel.org>; Wed, 12 Apr 2023 11:14:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1681323245; x=1683915245;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mQ31eEt6ZYO43YiugcfpSmhC+pVuzGTb6Zz9KcAavfM=;
+        b=vPofuZHIlhfX+z2SNgprxinQozpSZBivzLioAa02Vh4CbOQvKruyUSng5BJb3+2x6m
+         BWgKaeoklbSElYf8aVzcH7T7XATjsnAnebZHGs/LbFWCIR0Cn6Cer0rm8FPFWEY660wa
+         zuY0hdsRCAfsQ3DBNg3SgqDGqYOZn2LDXcS4sYotY+nLwd0en1CjaBkQZRzE4EsVQ52/
+         ku3rYsbfzwFQRMl/tbpEszdHABMWHU9/JG11CZcpTeDUeijH7s4u0GC/FuD+2X8zJZcr
+         j7PBAHmX0gHOCJXW85/xp9wxxzZTCJC7iFkrzB2JvrObM5tqpw06FagdVai3X2VRH/vZ
+         dXaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681323245; x=1683915245;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mQ31eEt6ZYO43YiugcfpSmhC+pVuzGTb6Zz9KcAavfM=;
+        b=VIoOTCwETSIsZuz1Qi0IzClVcQb3sGzyd8njCKBJxLClGqyGgOpbah9e/+AgwKBq9P
+         EiMc2m1wRWBu79F0xVjIxGerZZ4OXwZu7m5+n9UnPX09gJbITahIdtyHvUElw+MDktNf
+         K4EHfLOhp0871dHdQ0nBwqUB5Je054qeeflbNPqyBuYgN0IpgWoFgkVk/BlN0/bbFs/U
+         usCR9itW5sRYUoLptqeGGqa5+tNywZL8M1iuPdIkDepkmUR8RFKjBZ4oQzHkzY37Wyhy
+         i0yFYBInfdUAQgHjm96y2fyaHF5LvMREUaZSVh1dcLfdusiYdyTeaDRqGgymm2wbE1MD
+         vcJQ==
+X-Gm-Message-State: AAQBX9e7MYryWZgQeDjSdR7+Oe0nGK5HOp+9IJQbBzSjy4BDL4OQTV1p
+        5dUF/F4Ib/YbrzLUs3xeHXxCyF/bk/lTnwefyIi1Tw==
+X-Google-Smtp-Source: AKy350YqdV99jeX0kMzDXAbWTGOCcv8Rkwt8IAeySrgHWgkIMB5tfHY8Z+rwpBHb+G4KrRxgFc7ThZ7IXuy2tQXa+ro=
+X-Received: by 2002:a63:a47:0:b0:513:90eb:a37c with SMTP id
+ z7-20020a630a47000000b0051390eba37cmr840341pgk.11.1681323245458; Wed, 12 Apr
+ 2023 11:14:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d34a6b09-8244-49e2-2d7a-eee5fd5ca5b7@quicinc.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230407215406.768464-1-ndesaulniers@google.com>
+ <20230407215824.GA1524475@dev-arch.thelio-3990X> <CAFP8O3+YzvwgeSS_GvU3oTtxunyUm8qMaAnV3Mt-ezTsxZ=Q0Q@mail.gmail.com>
+ <6436ca47.a70a0220.e83cf.adf4@mx.google.com>
+In-Reply-To: <6436ca47.a70a0220.e83cf.adf4@mx.google.com>
+From:   Fangrui Song <maskray@google.com>
+Date:   Wed, 12 Apr 2023 11:13:53 -0700
+Message-ID: <CAFP8O3K2c-7wCeDrxPaFpNe-yV9M1g0BPQw7qA6JdpUD74dC1w@mail.gmail.com>
+Subject: Re: [PATCH] ubsan: remove cc-option test for UBSAN_TRAP
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-hardening@vger.kernel.org, Tom Rix <trix@redhat.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Miroslav Benes <mbenes@suse.cz>, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 12, 2023 at 09:37:16AM -0700, John Moon wrote:
-> On 4/11/2023 11:14 PM, Greg Kroah-Hartman wrote:
-> > > Would you find the tool more useful if it simply filtered out all instances
-> > > where the size of the type did not change? This would filter out the
-> > > following which the tool currently flags:
-> > > 
-> > > - enum expansions
-> > > - reserved field expansions
-> > > - expansions of a struct with a flex array at the end
-> > > - type changes
-> > > - re-ordering of existing members
-> > > - ...others?
-> > 
-> > Obviously not, as some of those are real breakages, and some are not at
-> > all.
-> > 
-> > Please understand what is an abi breakage.  Adding new enums is not.
-> > Using a reserved field is not.  Reording existing members IS.
-> > 
-> 
-> Yes, understood that method would miss certain classes of breakages. I was
-> suggesting it as a way to improve the signal-to-noise ratio of the tool
-> since we don't currently have an algorithm for determining breakages with
-> 100% accuracy.
+On Wed, Apr 12, 2023 at 8:12=E2=80=AFAM Kees Cook <keescook@chromium.org> w=
+rote:
+>
+> On Tue, Apr 11, 2023 at 05:12:24PM -0700, Fangrui Song wrote:
+> > On Fri, Apr 7, 2023 at 2:58=E2=80=AFPM Nathan Chancellor <nathan@kernel=
+.org> wrote:
+> > >
+> > > On Fri, Apr 07, 2023 at 02:54:06PM -0700, Nick Desaulniers wrote:
+> > > > -fsanitize-undefined-trap-on-error has been supported since GCC 5.1=
+ and
+> > > > Clang 3.2.  The minimum supported version of these according to
+> > > > Documentation/process/changes.rst is 5.1 and 11.0.0 respectively. D=
+rop
+> > > > this cc-option check.
+> > > >
+> > > > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> > >
+> > > Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> > >
+> > > As an aside, we should really consider having some standard format of
+> > > comment around cc-option checks so that we can easily remove them whe=
+n
+> > > they become stale...
+> > >
+> > > > ---
+> > > > Masahiro, Kees: get_maintainer.pl leaves much to be desired for thi=
+s
+> > > > file. Can one of you please pick this up?
+> > > >
+> > > >  lib/Kconfig.ubsan | 1 -
+> > > >  1 file changed, 1 deletion(-)
+> > > >
+> > > > diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
+> > > > index fd15230a703b..0e7ad0782399 100644
+> > > > --- a/lib/Kconfig.ubsan
+> > > > +++ b/lib/Kconfig.ubsan
+> > > > @@ -15,7 +15,6 @@ if UBSAN
+> > > >  config UBSAN_TRAP
+> > > >       bool "On Sanitizer warnings, abort the running kernel code"
+> > > >       depends on !COMPILE_TEST
+> > > > -     depends on $(cc-option, -fsanitize-undefined-trap-on-error)
+> > > >       help
+> > > >         Building kernels with Sanitizer features enabled tends to g=
+row
+> > > >         the kernel size by around 5%, due to adding all the debuggi=
+ng
+> > > > --
+> > > > 2.40.0.577.gac1e443424-goog
+> > > >
+> > >
+> >
+> > -fsanitize-undefined-trap-on-error is a legacy option from 2013 when
+> > -fcatch-undefined-behavior instead of -fsanitize=3Dundefined enabled
+> > UBSan.
+> > On the Clang side, http://reviews.llvm.org/D10464 added
+> > -fsanitize-trap=3D in June 2015.
+> > It's best to use -fsanitize-trap=3Dundefined and avoid uses of
+> > -fsanitize-undefined-trap-on-error.
+>
+> But that's Clang-only. -fsanitize-undefined-trap-on-error works for both
+> GCC and Clang.
+>
+> --
+> Kees Cook
 
-Why not?  You know the different types of things here based on the
-differences between the dwarf data, and they fall into different
-categories, and those different categories mean different things.
+Just filed a -fsanitize-trap=3D feature request for GCC:
+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D109489 :)
 
-If you have questions as to which type of change is allowed and which is
-not, just ask us, the rules are not complex, nor impossible to describe,
-otherwise we wouldn't have a stable api at all, right?
+https://reviews.llvm.org/D10464 (2015) does mention the state of the
+legacy option:
 
-thanks,
+  // https://clang.llvm.org/docs/UsersManual.html#cmdoption-fsanitize-undef=
+ined-trap-on-error
+  -fsanitize-undefined-trap-on-error
+  Deprecated alias for -fsanitize-trap=3Dundefined.
 
-greg k-h
+
+
+
+
+--=20
+=E5=AE=8B=E6=96=B9=E7=9D=BF
