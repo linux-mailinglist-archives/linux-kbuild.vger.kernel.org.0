@@ -2,134 +2,131 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 248DA6DF965
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Apr 2023 17:12:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 754576DFB7A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Apr 2023 18:37:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230502AbjDLPMO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 12 Apr 2023 11:12:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38938 "EHLO
+        id S229835AbjDLQhq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 12 Apr 2023 12:37:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231223AbjDLPMN (ORCPT
+        with ESMTP id S229529AbjDLQho (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 12 Apr 2023 11:12:13 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 817DC61B2
-        for <linux-kbuild@vger.kernel.org>; Wed, 12 Apr 2023 08:12:08 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id q15-20020a17090a2dcf00b0023efab0e3bfso14866975pjm.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 12 Apr 2023 08:12:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1681312328; x=1683904328;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:subject:cc:to:from:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=G+2dE/XzSoYgXLKmNcRjV06GDc4+0/b0Vl1y/hE9n7M=;
-        b=aeDFGpvbhptI26N7c0q6p8N0elzrhrH4jXsXeTNEjUyEmrYyXyguS0uqTeAQjP4Xiu
-         qdW1W55Dxz+ZLoGpJW6kOy66QNh2ekD+py7oe7R6tIR1j5Y/Cvcgeo8T0l2JKRmHvNLJ
-         j1WZnXp081ZVJbRr2ZvT1E4bX7MyYb2M8Ki3Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681312328; x=1683904328;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:subject:cc:to:from:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=G+2dE/XzSoYgXLKmNcRjV06GDc4+0/b0Vl1y/hE9n7M=;
-        b=ixxm/etWgOxFORd/Ug+rF2t9ADz6z8nB07R5qVDSB+BhBVF9Y/dcI1Z99I1STd+aXn
-         kp5q1a4y+js1cp1KXVK+i7MvEGPcxfnEguyZvUAfmuMz4dbUqZnGUs3rhppgIdZu/IJ0
-         Th0lk22QnNBYG0z2oaR8bhf7mf+WC5RiURAfSngHOmRBnlWXFqfWDK99aeDaEPJ65V7s
-         TzNq5ggB20DN+LpXNPjkFW60TkDbyjmVsF10nwczBr7mKJkEDLPDKczq2abaLD3+iO5Z
-         337TuzdQo6elwW7Nqpuzy9Xd8IvKOlAJ2A9A/P+ah+ef6Xly8JMps8v7hrapqiorOTsO
-         521A==
-X-Gm-Message-State: AAQBX9d5TrSA3vQpur+tfoYa5PNpmR6X+lLDib7/H+l1LPoqaKyEnm9Y
-        W4Ly1W3zx00O/V0jf+JRJyTjUA==
-X-Google-Smtp-Source: AKy350YBEJPE8oxKW+WKrzBNuJQ82N/lSby57TJKNApeGFAafpixV3EqtqR6r0kXgUhHbCjyxU4xFA==
-X-Received: by 2002:a05:6a20:b047:b0:db:6026:4393 with SMTP id dx7-20020a056a20b04700b000db60264393mr18616114pzb.59.1681312327946;
-        Wed, 12 Apr 2023 08:12:07 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id u20-20020aa78494000000b005a8bf239f5csm5518679pfn.193.2023.04.12.08.12.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Apr 2023 08:12:07 -0700 (PDT)
-Message-ID: <6436ca47.a70a0220.e83cf.adf4@mx.google.com>
-X-Google-Original-Message-ID: <202304120811.@keescook>
-Date:   Wed, 12 Apr 2023 08:12:06 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Fangrui Song <maskray@google.com>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-hardening@vger.kernel.org, Tom Rix <trix@redhat.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Miroslav Benes <mbenes@suse.cz>, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] ubsan: remove cc-option test for UBSAN_TRAP
-References: <20230407215406.768464-1-ndesaulniers@google.com>
- <20230407215824.GA1524475@dev-arch.thelio-3990X>
- <CAFP8O3+YzvwgeSS_GvU3oTtxunyUm8qMaAnV3Mt-ezTsxZ=Q0Q@mail.gmail.com>
+        Wed, 12 Apr 2023 12:37:44 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8531135BE;
+        Wed, 12 Apr 2023 09:37:42 -0700 (PDT)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33CDeJNg014881;
+        Wed, 12 Apr 2023 16:37:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=nUjuUXT2LfpQFIC3IgyPeCr2vhqDD5uMV2tFPA28YNI=;
+ b=dZk3zVj8VmEC8KXdlZSUPReD3EkT1M1T8JsEz+mHUwSdA37BMptaITo83QO9aQf58piB
+ oUiOe0Je9Ch9wWIY/NqbtKMW5f2WGD0ajHCZ5QuvS1SjymSCh/br/C9W/mszQIlJE40I
+ 0L62HyoMyB6BfuWhQY5KQYjVcgjX7ZyItiPQVMYBrGlDzWB/t18R1bGrKJaMwHcrnRn+
+ vALU0c1jFS4KVsbemyMvHhYrguY6jDJxq5uSnS6WPKxBqr5gAODUEmCSVFBwcXaoXznL
+ GcsuqbOAxxGLOjdiZEiL//aqGDpJ40hF+0eHrhM904tBANris8kyHMZuJIeDbc3X156x qQ== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pwe6m2acd-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 12 Apr 2023 16:37:20 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33CGbJoB016406
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 12 Apr 2023 16:37:19 GMT
+Received: from [10.110.32.64] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 12 Apr
+ 2023 09:37:17 -0700
+Message-ID: <d34a6b09-8244-49e2-2d7a-eee5fd5ca5b7@quicinc.com>
+Date:   Wed, 12 Apr 2023 09:37:16 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFP8O3+YzvwgeSS_GvU3oTtxunyUm8qMaAnV3Mt-ezTsxZ=Q0Q@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v5 1/2] check-uapi: Introduce check-uapi.sh
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        "Nicolas Schier" <nicolas@fjasle.eu>,
+        <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-arm-msm@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Arnd Bergmann" <arnd@arndb.de>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Todd Kjos <tkjos@google.com>,
+        Matthias Maennich <maennich@google.com>,
+        Giuliano Procida <gprocida@google.com>,
+        <kernel-team@android.com>, <libabigail@sourceware.org>,
+        Jordan Crouse <jorcrous@amazon.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Satya Durga Srinivasu Prabhala <quic_satyap@quicinc.com>,
+        Elliot Berman <quic_eberman@quicinc.com>,
+        "Guru Das Srinagesh" <quic_gurus@quicinc.com>
+References: <20230407203456.27141-1-quic_johmoo@quicinc.com>
+ <20230407203456.27141-2-quic_johmoo@quicinc.com>
+ <CAK7LNAQQmoyUx+0Jk3c7iqY20KokrHEOPwHNb2doZOOA8RWBDA@mail.gmail.com>
+ <2023041015-lunar-dandelion-1b4e@gregkh>
+ <ae44540f-8947-8efb-fb8d-45a84bd3fef3@quicinc.com>
+ <2023041136-donator-faceplate-5f91@gregkh>
+ <bcdcee9b-f213-bc3c-d300-92a1e0138187@quicinc.com>
+ <2023041209-armed-overlaid-3d3d@gregkh>
+Content-Language: en-US
+From:   John Moon <quic_johmoo@quicinc.com>
+In-Reply-To: <2023041209-armed-overlaid-3d3d@gregkh>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: P7YGYhDWoYAG8nQiV_dnGDHI4va2VI3K
+X-Proofpoint-ORIG-GUID: P7YGYhDWoYAG8nQiV_dnGDHI4va2VI3K
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-12_07,2023-04-12_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
+ lowpriorityscore=0 adultscore=0 clxscore=1015 malwarescore=0 bulkscore=0
+ priorityscore=1501 mlxlogscore=833 suspectscore=0 impostorscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304120144
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Apr 11, 2023 at 05:12:24PM -0700, Fangrui Song wrote:
-> On Fri, Apr 7, 2023 at 2:58 PM Nathan Chancellor <nathan@kernel.org> wrote:
-> >
-> > On Fri, Apr 07, 2023 at 02:54:06PM -0700, Nick Desaulniers wrote:
-> > > -fsanitize-undefined-trap-on-error has been supported since GCC 5.1 and
-> > > Clang 3.2.  The minimum supported version of these according to
-> > > Documentation/process/changes.rst is 5.1 and 11.0.0 respectively. Drop
-> > > this cc-option check.
-> > >
-> > > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> >
-> > Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-> >
-> > As an aside, we should really consider having some standard format of
-> > comment around cc-option checks so that we can easily remove them when
-> > they become stale...
-> >
-> > > ---
-> > > Masahiro, Kees: get_maintainer.pl leaves much to be desired for this
-> > > file. Can one of you please pick this up?
-> > >
-> > >  lib/Kconfig.ubsan | 1 -
-> > >  1 file changed, 1 deletion(-)
-> > >
-> > > diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
-> > > index fd15230a703b..0e7ad0782399 100644
-> > > --- a/lib/Kconfig.ubsan
-> > > +++ b/lib/Kconfig.ubsan
-> > > @@ -15,7 +15,6 @@ if UBSAN
-> > >  config UBSAN_TRAP
-> > >       bool "On Sanitizer warnings, abort the running kernel code"
-> > >       depends on !COMPILE_TEST
-> > > -     depends on $(cc-option, -fsanitize-undefined-trap-on-error)
-> > >       help
-> > >         Building kernels with Sanitizer features enabled tends to grow
-> > >         the kernel size by around 5%, due to adding all the debugging
-> > > --
-> > > 2.40.0.577.gac1e443424-goog
-> > >
-> >
+On 4/11/2023 11:14 PM, Greg Kroah-Hartman wrote:
+>> Would you find the tool more useful if it simply filtered out all instances
+>> where the size of the type did not change? This would filter out the
+>> following which the tool currently flags:
+>>
+>> - enum expansions
+>> - reserved field expansions
+>> - expansions of a struct with a flex array at the end
+>> - type changes
+>> - re-ordering of existing members
+>> - ...others?
 > 
-> -fsanitize-undefined-trap-on-error is a legacy option from 2013 when
-> -fcatch-undefined-behavior instead of -fsanitize=undefined enabled
-> UBSan.
-> On the Clang side, http://reviews.llvm.org/D10464 added
-> -fsanitize-trap= in June 2015.
-> It's best to use -fsanitize-trap=undefined and avoid uses of
-> -fsanitize-undefined-trap-on-error.
+> Obviously not, as some of those are real breakages, and some are not at
+> all.
+> 
+> Please understand what is an abi breakage.  Adding new enums is not.
+> Using a reserved field is not.  Reording existing members IS.
+> 
 
-But that's Clang-only. -fsanitize-undefined-trap-on-error works for both
-GCC and Clang.
+Yes, understood that method would miss certain classes of breakages. I 
+was suggesting it as a way to improve the signal-to-noise ratio of the 
+tool since we don't currently have an algorithm for determining 
+breakages with 100% accuracy.
 
--- 
-Kees Cook
+We'll work internally and with the libabigail team to improve the story 
+here and get back to you. Thanks for the discussion!
+
+- John
