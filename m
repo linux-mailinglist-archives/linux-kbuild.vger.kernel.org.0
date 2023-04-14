@@ -2,68 +2,110 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 390CD6E1E20
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Apr 2023 10:25:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76F7C6E1E48
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Apr 2023 10:30:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230259AbjDNIZ0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Apr 2023 04:25:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35774 "EHLO
+        id S230184AbjDNIaa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 14 Apr 2023 04:30:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230266AbjDNIZL (ORCPT
+        with ESMTP id S230203AbjDNIaG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Apr 2023 04:25:11 -0400
-Received: from mail.feshiecree.pl (mail.feshiecree.pl [89.40.114.103])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F7A68691
-        for <linux-kbuild@vger.kernel.org>; Fri, 14 Apr 2023 01:24:45 -0700 (PDT)
-Received: by mail.feshiecree.pl (Postfix, from userid 1001)
-        id BD93B8B0FC; Fri, 14 Apr 2023 09:19:54 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=feshiecree.pl;
-        s=mail; t=1681460429;
-        bh=hFxZwVw4rIL+JwfEOGI47p+fdoVOAeqVswP6NWoHSHQ=;
-        h=Date:From:To:Subject:From;
-        b=Cq96gPmj1Fc/ljF7G+kN4aMZ5HUUE5Z3DEG1C3NJSrn5x9RZAtPXHqTR8oLusiK9r
-         EiajKSUlC/vi5xyo1e15O04PuGey5IgqxV61J+U/+t11R6YXU0fkFak3EmUiXh7NaM
-         6MAs9vkob4Vs2bhIl01r03P15NxoESqix8DHWUoZY4ymgJ3hLjScLs0H8sr5WlpmeV
-         IE9FQduys7KvR7dSPUdfeMsKCvkilwS69083IyFBwt6QoZ8uB/mcKA/wwP+ensM9qC
-         6Dstof0ot3KutYtdx/BXePGnR6H6vnOxqNqwoEVMt0hydqJk5LzN/5ekxPVY0MvUK7
-         GCDSjZUdAWGbQ==
-Received: by mail.feshiecree.pl for <linux-kbuild@vger.kernel.org>; Fri, 14 Apr 2023 08:18:37 GMT
-Message-ID: <20230414085824-0.1.21.ag6p.0.r7oel0gevn@feshiecree.pl>
-Date:   Fri, 14 Apr 2023 08:18:37 GMT
-From:   "Krystian Wieczorek" <krystian.wieczorek@feshiecree.pl>
-To:     <linux-kbuild@vger.kernel.org>
-Subject: W sprawie samochodu
-X-Mailer: mail.feshiecree.pl
+        Fri, 14 Apr 2023 04:30:06 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88B6A6E9F;
+        Fri, 14 Apr 2023 01:29:58 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 16EE9644E4;
+        Fri, 14 Apr 2023 08:29:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48916C433EF;
+        Fri, 14 Apr 2023 08:29:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1681460997;
+        bh=ZTCTGs1pRDDeWJeFuWw6MUiRlW5oe3Xoqp/dtRXoY0o=;
+        h=From:To:Cc:Subject:Date:From;
+        b=MAc0WdvtaHTQOVtkR71fygSK181HZrRel+3IJliSMjR6cKg5dK5tzRhJDo1C1DnAE
+         hRdOVKQ2Ip5CbFSmSU84TD3LjP7ZdbPWd1iGEkvtwgrXmdrDrxZL24zdDQq+t+5R+e
+         aBVFLXTpI+fCGZ3onY6KnK+j5ZusS2MaxSB+PvBvc3oEf6H0ezQa+ujnG4ohFqS2/X
+         K3N4MPlM3l668EE6yYNPGiaLVybR+oBVjQjHPIMuXLoVCdfMrdS7JE3jrGlZiCg4Bn
+         INujmut/VQNgRi7hYKV5qlcf99alLjF5ILdUr25hqG42/inaD3nS1f2NgXnfW4/B0X
+         uMTHV4E9s7kmQ==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marco Elver <elver@google.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Nicolas Schier <nicolas@fjasle.eu>,
+        Alexander Potapenko <glider@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Tom Rix <trix@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        linux-kbuild@vger.kernel.org, kasan-dev@googlegroups.com,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: [PATCH] kasan: remove hwasan-kernel-mem-intrinsic-prefix=1 for clang-14
+Date:   Fri, 14 Apr 2023 10:29:27 +0200
+Message-Id: <20230414082943.1341757-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SORBS_DUL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Dzie=C5=84 dobry,
+From: Arnd Bergmann <arnd@arndb.de>
 
-chcieliby=C5=9Bmy zapewni=C4=87 Pa=C5=84stwu kompleksowe rozwi=C4=85zania=
-, je=C5=9Bli chodzi o system monitoringu GPS.
+Unknown -mllvm options don't cause an error to be returned by clang, so
+the cc-option helper adds the unknown hwasan-kernel-mem-intrinsic-prefix=1
+flag to CFLAGS with compilers that are new enough for hwasan but too
+old for this option. This causes a rather unreadable build failure:
 
-Precyzyjne monitorowanie pojazd=C3=B3w na mapach cyfrowych, =C5=9Bledzeni=
-e ich parametr=C3=B3w eksploatacyjnych w czasie rzeczywistym oraz kontrol=
-a paliwa to kluczowe funkcjonalno=C5=9Bci naszego systemu.=20
+fixdep: error opening file: scripts/mod/.empty.o.d: No such file or directory
+make[4]: *** [/home/arnd/arm-soc/scripts/Makefile.build:252: scripts/mod/empty.o] Error 2
+fixdep: error opening file: scripts/mod/.devicetable-offsets.s.d: No such file or directory
+make[4]: *** [/home/arnd/arm-soc/scripts/Makefile.build:114: scripts/mod/devicetable-offsets.s] Error 2
 
-Organizowanie pracy pracownik=C3=B3w jest dzi=C4=99ki temu prostsze i bar=
-dziej efektywne, a oszcz=C4=99dno=C5=9Bci i optymalizacja w zakresie pono=
-szonych koszt=C3=B3w, maj=C4=85 dla ka=C5=BCdego przedsi=C4=99biorcy ogro=
-mne znaczenie.
+Add a version check to only allow this option with clang-15, gcc-13
+or later versions.
 
-Dopasujemy nasz=C4=85 ofert=C4=99 do Pa=C5=84stwa oczekiwa=C5=84 i potrze=
-b organizacji. Czy mogliby=C5=9Bmy porozmawia=C4=87 o naszej propozycji?
+Fixes: 51287dcb00cc ("kasan: emit different calls for instrumentable memintrinsics")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+There is probably a better way to do this than to add version checks,
+but I could not figure it out.
+---
+ scripts/Makefile.kasan | 5 +++++
+ 1 file changed, 5 insertions(+)
 
+diff --git a/scripts/Makefile.kasan b/scripts/Makefile.kasan
+index c186110ffa20..2cea0592e343 100644
+--- a/scripts/Makefile.kasan
++++ b/scripts/Makefile.kasan
+@@ -69,7 +69,12 @@ CFLAGS_KASAN := -fsanitize=kernel-hwaddress \
+ 		$(instrumentation_flags)
+ 
+ # Instrument memcpy/memset/memmove calls by using instrumented __hwasan_mem*().
++ifeq ($(call clang-min-version, 150000),y)
+ CFLAGS_KASAN += $(call cc-param,hwasan-kernel-mem-intrinsic-prefix=1)
++endif
++ifeq ($(call gcc-min-version, 130000),y)
++CFLAGS_KASAN += $(call cc-param,hwasan-kernel-mem-intrinsic-prefix=1)
++endif
+ 
+ endif # CONFIG_KASAN_SW_TAGS
+ 
+-- 
+2.39.2
 
-Pozdrawiam
-Krystian Wieczorek
