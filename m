@@ -2,52 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A6EB6E3626
-	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Apr 2023 10:46:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 801D56E3629
+	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Apr 2023 10:47:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230205AbjDPIqj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 16 Apr 2023 04:46:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55284 "EHLO
+        id S229472AbjDPIrE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 16 Apr 2023 04:47:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbjDPIqi (ORCPT
+        with ESMTP id S230164AbjDPIrD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 16 Apr 2023 04:46:38 -0400
+        Sun, 16 Apr 2023 04:47:03 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1678CC;
-        Sun, 16 Apr 2023 01:46:37 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31DF319BB;
+        Sun, 16 Apr 2023 01:47:02 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3E76160B1B;
-        Sun, 16 Apr 2023 08:46:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A20DBC433D2;
-        Sun, 16 Apr 2023 08:46:36 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C444360917;
+        Sun, 16 Apr 2023 08:47:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3300BC433D2;
+        Sun, 16 Apr 2023 08:47:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681634796;
-        bh=Cz2IboxZAwC0INW1nTo5GwwwzRwKMpn2elK8ol7BpTw=;
+        s=k20201202; t=1681634821;
+        bh=ykTbrtCxaexjaWHwrikTbnMFcEtZrSTpBGKTGVgmWqU=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Jx1XSUUMm2hxZcDDmE3al8pYgobwzjN3uAxDE/pe1fkxazF2W/aiJkhzRrexfO6Au
-         RKlH3NdbKvr3Sm7LGUMHiWUuFffIXrzCrEn0GSmvAOle1JNFT5/Izy9aLbiikiJfKq
-         sX0Ak6Dg6sHLqeBCdPcmnJlrdEbD7IdfVeNHB1lTnvvv6Zx9FaHPl72oxv92G5d9bQ
-         TrgOzNxOcWlakTwDhOIM7u+hxCLonqlPfyaW5BW4c1tR8GOzvWybkif3h9g4IdSuZ+
-         3JtBx937lLy6A/i5lsTg63f7xIZo8IymrqE4IaZe1LSUg2yEMSmJABaKmXeQJIp9uD
-         +tbl443DcRz3w==
-Received: by mail-oo1-f51.google.com with SMTP id bv13-20020a0568201b0d00b0053e3ccf739cso2775145oob.10;
-        Sun, 16 Apr 2023 01:46:36 -0700 (PDT)
-X-Gm-Message-State: AAQBX9drOyYTqwNVf/W3CE60P/MIWKt8KsXfK6s3kQJChCYJHU2a9zyV
-        RUupAgxKiNa3uJaQwwxGEQOPFDzHl8C71OLXZBo=
-X-Google-Smtp-Source: AKy350acBA0ur9ls26nmcJikvelL4bOWFBVWl9xRLubZrOtMDm9a9sju3wd+HktZJLRFo8nCHlMwIuCBztiDRzXUWb4=
-X-Received: by 2002:a4a:be15:0:b0:546:34fb:da95 with SMTP id
- l21-20020a4abe15000000b0054634fbda95mr294073oop.1.1681634795909; Sun, 16 Apr
- 2023 01:46:35 -0700 (PDT)
+        b=db+XKWlUb6bzzDmWmgehxuEq3JTMcGcnnOxGJ00sx8h1Sz4oYXe+V7Z95ixzuHQtE
+         lGdAVH86jcvHedtNDiPuffeoFxL2n+ffP4RjZqEHroUxnmM3LcTdS4uFTadF9QzIPk
+         FuN2s5kApHo/azNEyWouzS+VQN+5A7nvvVKqTD/DfhMTCE2HXoPaZZnrKWxJgHPmVE
+         Gj0W1OugiwOuhhHm/tPPbIg0A8mXtjB0hmE6bLWg17M8CzEIIh0y3bVluNWo7zItXi
+         NR47/5FsRIIspRhKYk1QwlcZid9zA5y+z+vdBta/zO/lTu5uqkP1p7nO1Rui9aic36
+         pzVqrxCC725pw==
+Received: by mail-ot1-f48.google.com with SMTP id cg19-20020a056830631300b0069f922cd5ceso10832706otb.12;
+        Sun, 16 Apr 2023 01:47:01 -0700 (PDT)
+X-Gm-Message-State: AAQBX9dgaSjDQI55cAa48ombKaKCASvzBFZQED0dGjltdBtxaeesU7ZB
+        hneKN/tNDrVMFep3r+1irPlZIG4MoTJOXc/Gr5o=
+X-Google-Smtp-Source: AKy350aMaAn+2yfTFNWChZ8b48glK+PeYD9l9ZpU3zWgIO5LvdT5BfgPwzWZvpqZV/pNI41Ic73xfvFuCSV2vZNTfyQ=
+X-Received: by 2002:a05:6830:e85:b0:6a5:dfa8:ff8b with SMTP id
+ dp5-20020a0568300e8500b006a5dfa8ff8bmr258482otb.1.1681634820458; Sun, 16 Apr
+ 2023 01:47:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230320230534.50174-1-bgray@linux.ibm.com>
-In-Reply-To: <20230320230534.50174-1-bgray@linux.ibm.com>
+References: <20230320040839.660475-1-bgray@linux.ibm.com>
+In-Reply-To: <20230320040839.660475-1-bgray@linux.ibm.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 16 Apr 2023 17:45:59 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARH-xrxFz0Y8BZPa=xE9DFkUevWM3XZTN1DioCGJzeJcg@mail.gmail.com>
-Message-ID: <CAK7LNARH-xrxFz0Y8BZPa=xE9DFkUevWM3XZTN1DioCGJzeJcg@mail.gmail.com>
-Subject: Re: [PATCH] init/initramfs: Fix argument forwarding to panic() in panic_show_mem()
+Date:   Sun, 16 Apr 2023 17:46:24 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR8g246Zvy78mEFN5c_NLWSMNajF52tPLbtkLuiY_Xn7A@mail.gmail.com>
+Message-ID: <CAK7LNAR8g246Zvy78mEFN5c_NLWSMNajF52tPLbtkLuiY_Xn7A@mail.gmail.com>
+Subject: Re: [PATCH 1/2] initramfs: Check negative timestamp to prevent broken
+ cpio archive
 To:     Benjamin Gray <bgray@linux.ibm.com>
 Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
@@ -62,69 +63,78 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Mar 21, 2023 at 8:06=E2=80=AFAM Benjamin Gray <bgray@linux.ibm.com>=
+On Mon, Mar 20, 2023 at 1:09=E2=80=AFPM Benjamin Gray <bgray@linux.ibm.com>=
  wrote:
 >
-> Forwarding variadic argument lists can't be done by passing a va_list
-> to a function with signature foo(...) (as panic() has). It ends up
-> interpreting the va_list itself as a single argument instead of
-> iterating it. printf() happily accepts it of course, leading to corrupt
-> output.
+> Similar to commit 4c9d410f32b3 ("initramfs: Check timestamp to prevent
+> broken cpio archive"), except asserts that the timestamp is
+> non-negative. This can happen when the KBUILD_BUILD_TIMESTAMP is a value
+> before UNIX epoch, which may be set when making reproducible builds that
+> don't want to look like they use a valid date.
 >
-> Convert panic_show_mem() to a macro to allow forwarding the arguments.
-> The function is trivial enough that it's easier than trying to introduce
-> a vpanic() variant.
+> While support for dates before 1970 might not be supported, this is more
+> about preventing undetected CPIO corruption. The printf's use a minimum
+> length format specifier, and will happily make the field longer than 8
+> characters if they need to.
 >
 > Signed-off-by: Benjamin Gray <bgray@linux.ibm.com>
+>
+> ---
 
-
-Applied to linux-kbuild.
+Applied to linux-kbuild.   (only 1/2)
 Thanks.
 
 
 
 
 >
+> Ran into this when setting KBUILD_BUILD_TIMESTAMP=3D0000-01-01. The kerne=
+l
+> builds and boots to an initramfs just fine, but inexplicably failed to
+> load any root disks. It was a pain to debug, because the first sign of
+> an issue was so deep into the boot sequence.
 > ---
+>  usr/gen_init_cpio.c | 12 +++++++++---
+>  1 file changed, 9 insertions(+), 3 deletions(-)
 >
-> After sending these patches [1] I wondered why the kernel accepted a
-> corrupt archive. The streaming parser makes it difficult to see
-> where to add a completeness check (possibly can assert the state is
-> Start or Reset at the end?), but adding an error() to cover my issue
-> revealed that the error message was never printed.
+> diff --git a/usr/gen_init_cpio.c b/usr/gen_init_cpio.c
+> index ee01e40e8bc6..61230532fef1 100644
+> --- a/usr/gen_init_cpio.c
+> +++ b/usr/gen_init_cpio.c
+> @@ -353,6 +353,12 @@ static int cpio_mkfile(const char *name, const char =
+*location,
+>                 buf.st_mtime =3D 0xffffffff;
+>         }
 >
-> [1]: https://lore.kernel.org/all/20230320040839.660475-1-bgray@linux.ibm.=
-com/
-> ---
->  init/initramfs.c | 11 ++---------
->  1 file changed, 2 insertions(+), 9 deletions(-)
->
-> diff --git a/init/initramfs.c b/init/initramfs.c
-> index f6c112e30bd4..e7a01c2ccd1b 100644
-> --- a/init/initramfs.c
-> +++ b/init/initramfs.c
-> @@ -60,15 +60,8 @@ static void __init error(char *x)
->                 message =3D x;
->  }
->
-> -static void panic_show_mem(const char *fmt, ...)
-> -{
-> -       va_list args;
-> -
-> -       show_mem(0, NULL);
-> -       va_start(args, fmt);
-> -       panic(fmt, args);
-> -       va_end(args);
-> -}
-> +#define panic_show_mem(fmt, ...) \
-> +       ({ show_mem(0, NULL); panic(fmt, ##__VA_ARGS__); })
->
->  /* link hash */
+> +       if (buf.st_mtime < 0) {
+> +               fprintf(stderr, "%s: Timestamp negative, clipping.\n",
+> +                       location);
+> +               buf.st_mtime =3D 0;
+> +       }
+> +
+>         if (buf.st_size > 0xffffffff) {
+>                 fprintf(stderr, "%s: Size exceeds maximum cpio file size\=
+n",
+>                         location);
+> @@ -602,10 +608,10 @@ int main (int argc, char *argv[])
+>         /*
+>          * Timestamps after 2106-02-07 06:28:15 UTC have an ascii hex tim=
+e_t
+>          * representation that exceeds 8 chars and breaks the cpio header
+> -        * specification.
+> +        * specification. Negative timestamps similarly exceed 8 chars.
+>          */
+> -       if (default_mtime > 0xffffffff) {
+> -               fprintf(stderr, "ERROR: Timestamp too large for cpio form=
+at\n");
+> +       if (default_mtime > 0xffffffff || default_mtime < 0) {
+> +               fprintf(stderr, "ERROR: Timestamp out of range for cpio f=
+ormat\n");
+>                 exit(1);
+>         }
 >
 >
 > base-commit: 065ffaee73892e8a3629b4cfbe635697807a3c6f
-> prerequisite-patch-id: 6e3cfc6bf9c5686ad29c7feed8e283d30b1957fd
-> prerequisite-patch-id: 933a7bd2f29223dba7f2cac7e9aa72aae730292d
 > --
 > 2.39.2
 >
