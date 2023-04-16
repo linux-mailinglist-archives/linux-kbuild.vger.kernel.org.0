@@ -2,56 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 872C56E37C3
-	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Apr 2023 13:34:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 656166E3873
+	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Apr 2023 15:02:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229648AbjDPLev (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 16 Apr 2023 07:34:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56848 "EHLO
+        id S230211AbjDPNCw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 16 Apr 2023 09:02:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229532AbjDPLeu (ORCPT
+        with ESMTP id S230152AbjDPNCv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 16 Apr 2023 07:34:50 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 930172D4D;
-        Sun, 16 Apr 2023 04:34:48 -0700 (PDT)
+        Sun, 16 Apr 2023 09:02:51 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC07819B9;
+        Sun, 16 Apr 2023 06:02:50 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2E33160B01;
-        Sun, 16 Apr 2023 11:34:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9075BC433EF;
-        Sun, 16 Apr 2023 11:34:47 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4AD0460C95;
+        Sun, 16 Apr 2023 13:02:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F34CC433D2;
+        Sun, 16 Apr 2023 13:02:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681644887;
-        bh=zbg/JDCxdpl3fJ0egm+4wFFgvJH4g6+BGIBH23/YPPQ=;
-        h=From:Date:Subject:To:Cc:From;
-        b=c/JuRRfwrMn2xrERo/bdaLLjZNj5cq7onoKSq++O6wVSMGgBZ5TBfaPNTxL+TU/E3
-         SnrNNR8zaI4GLmuP5DECumj14cDFKaq2f+3tLkshXPPtbvfV4RjT7m25GyHhAUMcxE
-         vBDB8CRPIhqO02AwKRHyLz7l93tcaqWhB8alcVdEOhiNHbicDFZcssMDjvlFjR18fl
-         7g2IXaDWOsjv2I1q5m3CsvBkL6sDbDKvTl79h6QzQ7nFSZDefEww66nRJfRD4UQ75x
-         tl/3Zdiae0ugCta2Ka+R+U7r+q2HI3PdBIAeuato0LzrVgwzQpEk2MnrIlFtRGiCar
-         pZl0wKNe4fj8w==
-Received: by mail-ot1-f42.google.com with SMTP id ds7-20020a0568306c0700b006a5cea70c02so1278359otb.8;
-        Sun, 16 Apr 2023 04:34:47 -0700 (PDT)
-X-Gm-Message-State: AAQBX9eRHiSmgnKLyL09Wlu8nUWOm3STN3A6SUBQwgc129zuUTZSYBNi
-        PuYBvh/ksEiWLYobD9VhQiDmucEPmReVcSZIWwg=
-X-Google-Smtp-Source: AKy350biSFYUvDJOqvjDyo4OsP0kDhcRRGMGBSPNeufxynPmca/pTKyYmSAEBoJzQfa3MbxalRqRq1pAjIr60o7VgjM=
-X-Received: by 2002:a05:6830:310a:b0:6a5:e464:f0b7 with SMTP id
- b10-20020a056830310a00b006a5e464f0b7mr346991ots.3.1681644886854; Sun, 16 Apr
- 2023 04:34:46 -0700 (PDT)
+        s=k20201202; t=1681650169;
+        bh=D3wy4kwpYEcnvQj/DKBp/Hq76nY/CXZPNCXOrIibLCg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Un3l3D3xgYAMWSddL2GeWG8Y3LD4HC3NFNMrx1dRHGwOdznt7jdMJhKELlvIdxPyW
+         KBdJ1QPSPeB+4rxMyty4HsmSO9oYSoE9rXgB95yaghcgI4ZGMttCQyHPJF2NwZ/ymH
+         l4yhK7PE6SPHHoolR3MFWhWQtuXzm60ABVe6MPMsim9zPGgPmcBmA6h1XpTqipfmzm
+         ODwTfGXrMy/dzPmmnux4tBBpAh9CBHzX5muBLBY67UHn9A+ff75HpHvMMq4ae8NTfP
+         t3JZvIkUeLk0UdvWC7HrHbZ3i/XrOlJ/Qk0tEVCrg1Wd2gxyTfqA7l1QyXiTPs+3Cc
+         7921zRW5bxGPQ==
+Received: by mail-ot1-f51.google.com with SMTP id 39-20020a9d04aa000000b006a1370e214aso9245624otm.11;
+        Sun, 16 Apr 2023 06:02:49 -0700 (PDT)
+X-Gm-Message-State: AAQBX9egqWrnJdC0yEn4b4IEF+fWmoOoaBh/I7yp/z9Vb3Lai0vm3QSy
+        iI0Z8ok0Tqd77hvoKSIti2T5/a8A6L2kaBDRZaw=
+X-Google-Smtp-Source: AKy350asvMZybXnMTiMzrhCi04P+dV9lupbZkct2X70VIIPJHBHL6CfYbZrmmKagvzwZVMmz4lAwLL/CIw60sfCgFkE=
+X-Received: by 2002:a9d:77d1:0:b0:6a4:279d:aab5 with SMTP id
+ w17-20020a9d77d1000000b006a4279daab5mr2778407otl.1.1681650168906; Sun, 16 Apr
+ 2023 06:02:48 -0700 (PDT)
 MIME-Version: 1.0
+References: <20230401170117.1580840-1-masahiroy@kernel.org> <20230403144758.GA3460665@dev-arch.thelio-3990X>
+In-Reply-To: <20230403144758.GA3460665@dev-arch.thelio-3990X>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 16 Apr 2023 20:34:10 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATfEXPreAvHcLdzBrRX8ucYWM7t4_VxSLTLdcxPxVaU-Q@mail.gmail.com>
-Message-ID: <CAK7LNATfEXPreAvHcLdzBrRX8ucYWM7t4_VxSLTLdcxPxVaU-Q@mail.gmail.com>
-Subject: [GIT PULL] Kbuild fixes for v6.3-rc7
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Sun, 16 Apr 2023 22:02:12 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQsgB-SC2t+9ZpDwJbME+BVt+Gur1ydTnHfBfMAfn_y0w@mail.gmail.com>
+Message-ID: <CAK7LNAQsgB-SC2t+9ZpDwJbME+BVt+Gur1ydTnHfBfMAfn_y0w@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: clang: do not use CROSS_COMPILE for target triple
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
+        linux-kernel@vger.kernel.org, Fangrui Song <maskray@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -60,72 +66,108 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello Linus,
-
-Please pull some more Kbuild fixes.
-Thank you.
-
-
-
-The following changes since commit 7e364e56293bb98cae1b55fd835f5991c4e96e7d:
-
-  Linux 6.3-rc5 (2023-04-02 14:29:29 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-tags/kbuild-fixes-v6.3-3
-
-for you to fetch changes up to 3c65a2704cdd2a0cd0766352e587bae4a6268155:
-
-  kbuild: do not create intermediate *.tar for tar packages
-(2023-04-16 17:38:41 +0900)
-
-----------------------------------------------------------------
-Kbuild fixes for v6.3 (3rd)
-
- - Drop debug info from purgatory objects again
-
- - Document that kernel.org provides prebuilt LLVM toolchains
-
- - Give up handling untracked files for source package builds
-
- - Avoid creating corrupted cpio when KBUILD_BUILD_TIMESTAMP is given
-   with a pre-epoch data.
-
- - Change panic_show_mem() to a macro to handle variable-length argument
-
- - Compress tarballs on-the-fly again
-
-----------------------------------------------------------------
-Alyssa Ross (1):
-      purgatory: fix disabling debug info
-
-Benjamin Gray (2):
-      initramfs: Check negative timestamp to prevent broken cpio archive
-      init/initramfs: Fix argument forwarding to panic() in panic_show_mem()
-
-Masahiro Yamada (4):
-      kbuild: give up untracked files for source package builds
-      kbuild: merge cmd_archive_linux and cmd_archive_perf
-      kbuild: do not create intermediate *.tar for source tarballs
-      kbuild: do not create intermediate *.tar for tar packages
-
-Nathan Chancellor (1):
-      Documentation/llvm: Add a note about prebuilt kernel.org toolchains
-
- Documentation/kbuild/llvm.rst  |   4 ++
- arch/riscv/purgatory/Makefile  |   7 +--
- arch/x86/purgatory/Makefile    |   3 +-
- init/initramfs.c               |  11 +----
- scripts/Makefile.package       |  64 ++++++++++++-------------
- scripts/package/gen-diff-patch |  62 +++++++++++--------------
- scripts/package/mkdebian       | 103 +++++++++++++++++++++++------------------
- scripts/package/mkspec         |  11 +----
- usr/gen_init_cpio.c            |  12 +++--
- 9 files changed, 138 insertions(+), 139 deletions(-)
+On Mon, Apr 3, 2023 at 11:48=E2=80=AFPM Nathan Chancellor <nathan@kernel.or=
+g> wrote:
+>
+> On Sun, Apr 02, 2023 at 02:01:17AM +0900, Masahiro Yamada wrote:
+> > The target triple is overridden by the user-supplied CROSS_COMPILE,
+> > but I do not see a good reason to support it. Users can use a new
+> > architecture without adding CLANG_TARGET_FLAGS_*, but that would be
+> > a rare case.
+> >
+> > Use the hard-coded and deterministic target triple all the time.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+>
+> I know of one bug where the value of '--target' matters:
+>
+> https://github.com/ClangBuiltLinux/linux/issues/1244
 
 
--- 
+I did not look into it closely, but if we say
+"
+Using either CROSS_COMPILE=3Dpowerpc64-linux-gnu- or
+CROSS_COMPILE=3Dpowerpc-linux-gnu- fixes it.
+Using KCFLAGS=3D-v reveals that powerpc64le-linux-gnu-as is not getting
+the endianness information.
+", why didn't we fix it like the following?
+
+
+ diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
+ index 70b354fa1cb4..8dda7dc69c93 100644
+ --- a/scripts/Makefile.clang
+ +++ b/scripts/Makefile.clang
+ @@ -6,7 +6,7 @@ CLANG_TARGET_FLAGS_arm64        :=3D aarch64-linux-gnu
+  CLANG_TARGET_FLAGS_hexagon     :=3D hexagon-linux-musl
+  CLANG_TARGET_FLAGS_m68k                :=3D m68k-linux-gnu
+  CLANG_TARGET_FLAGS_mips                :=3D mipsel-linux-gnu
+ -CLANG_TARGET_FLAGS_powerpc     :=3D powerpc64le-linux-gnu
+ +CLANG_TARGET_FLAGS_powerpc     :=3D powerpc64-linux-gnu
+  CLANG_TARGET_FLAGS_riscv       :=3D riscv64-linux-gnu
+  CLANG_TARGET_FLAGS_s390                :=3D s390x-linux-gnu
+  CLANG_TARGET_FLAGS_x86         :=3D x86_64-linux-gnu
+
+
+
+We do not need to test all possible target triples.
+We can just use the one that is known to work.
+
+
+Anyway, I will apply this patch. Thanks.
+
+
+>
+> This was fixed in LLVM 12.0.0. We are not testing this in our CI though,
+> so we would not get bit by this (we could bump the minimum supported
+> version of LLVM to 12.0.0 for this, we have talked recently about doing
+> it for other reasons).
+>
+> I guess I cannot really think of a good reason not to do this aside from
+> that; the target triple should only affect code generation, rather than
+> tool selection (i.e., this does not take away the ability to use a
+> custom set of binutils with clang).
+>
+> However, Nick is currently OOO and I would like his opinion voiced
+> before we commit to this. Consider this a tentative:
+>
+> Acked-by: Nathan Chancellor <nathan@kernel.org>
+>
+> > ---
+> >
+> >  scripts/Makefile.clang | 8 ++------
+> >  1 file changed, 2 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
+> > index 70b354fa1cb4..9076cc939e87 100644
+> > --- a/scripts/Makefile.clang
+> > +++ b/scripts/Makefile.clang
+> > @@ -13,15 +13,11 @@ CLANG_TARGET_FLAGS_x86            :=3D x86_64-linux=
+-gnu
+> >  CLANG_TARGET_FLAGS_um                :=3D $(CLANG_TARGET_FLAGS_$(SUBAR=
+CH))
+> >  CLANG_TARGET_FLAGS           :=3D $(CLANG_TARGET_FLAGS_$(SRCARCH))
+> >
+> > -ifeq ($(CROSS_COMPILE),)
+> >  ifeq ($(CLANG_TARGET_FLAGS),)
+> > -$(error Specify CROSS_COMPILE or add '--target=3D' option to scripts/M=
+akefile.clang)
+> > +$(error add '--target=3D' option to scripts/Makefile.clang)
+> >  else
+> >  CLANG_FLAGS  +=3D --target=3D$(CLANG_TARGET_FLAGS)
+> > -endif # CLANG_TARGET_FLAGS
+> > -else
+> > -CLANG_FLAGS  +=3D --target=3D$(notdir $(CROSS_COMPILE:%-=3D%))
+> > -endif # CROSS_COMPILE
+> > +endif
+> >
+> >  ifeq ($(LLVM_IAS),0)
+> >  CLANG_FLAGS  +=3D -fno-integrated-as
+> > --
+> > 2.37.2
+> >
+
+
+
+--=20
 Best Regards
 Masahiro Yamada
