@@ -2,67 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 304486E3C05
-	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Apr 2023 23:07:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83C1A6E4B6F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Apr 2023 16:26:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229498AbjDPVHU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 16 Apr 2023 17:07:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51200 "EHLO
+        id S229585AbjDQO0C (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 17 Apr 2023 10:26:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbjDPVHT (ORCPT
+        with ESMTP id S229945AbjDQO0B (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 16 Apr 2023 17:07:19 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 524371BD0;
-        Sun, 16 Apr 2023 14:07:18 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        Mon, 17 Apr 2023 10:26:01 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC64B1B0;
+        Mon, 17 Apr 2023 07:25:56 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 542361F37C;
-        Sun, 16 Apr 2023 21:07:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1681679235; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=PKKU3+MS92/pmja6nMDu+YDwiC1/ZOfbxi9E0yvlW3g=;
-        b=kbw5pWLz5Nogbpr6IS3F36DDE3Cx+wEXt3Chyuvwj+oozDb8xVKRQuKWmXWonz3aWazDSh
-        0prdyjfSadg+tBJ3smFTZXZg1wpvo56cn4Ga1ALK58F06uph0zCbaWksCKwvPnTIovmvcY
-        2yqM9oeMgferYsU89bgK663v+Ncln+k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1681679235;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=PKKU3+MS92/pmja6nMDu+YDwiC1/ZOfbxi9E0yvlW3g=;
-        b=9Rb3VVyw2EuVYRTrIMIa5gha9dqIjwHfDFaTPaxjUJSRRYGFE0usAJAbkJVDZQLTA5ch41
-        DBr7LkPxgNGZ3qDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A619F13498;
-        Sun, 16 Apr 2023 21:07:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id WbBbJIFjPGSCUwAAMHmgww
-        (envelope-from <pvorel@suse.cz>); Sun, 16 Apr 2023 21:07:13 +0000
-From:   Petr Vorel <pvorel@suse.cz>
-To:     linux-kernel@vger.kernel.org
-Cc:     Petr Vorel <pvorel@suse.cz>,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0B382625FC;
+        Mon, 17 Apr 2023 14:25:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C926C433D2;
+        Mon, 17 Apr 2023 14:25:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1681741555;
+        bh=4VUfUFTzriUEayXF7DZGvDbUbjRc4fsFHIWx3dcJhYU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=N35E61l7MknlldPrCkwVeaAaOA6fbZtbhZ9Ulezets7P9AiwfKKszo9AyBjG2nwf8
+         Bs1F/UpANpgQWwaIdVGzW8XBGxVVQgl0It5JqM+U7R+5dFeYSmiZkd2D01LQJwtqwJ
+         HuYM/sO4vxIWKasOyts/2vkdqCkSyOihFg6JjI4GXQz2cRIHzlYsBfvIT+E0ozDNNH
+         vQDr9ZdKwMyi8VD5lu7P+DIGXmDZwSTJm97xWc78zsDMKr8cTpdNzvPg6y5W+HyuKn
+         79n8oh7RJ32NzvkS00l3s6sXZeyCw91D0qWXlDs7kUmLHui8zvs0XOwpEKeC+U6WnU
+         nh9gdyl3ocj8w==
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
+        Bastian Germann <bage@linutronix.de>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Ruben Ayrapetyan <ruben.ayrapetyan@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        linux-kbuild@vger.kernel.org
-Subject: [PATCH] uapi/netfilter: Prefer ISO-friendly __typeof__
-Date:   Sun, 16 Apr 2023 23:07:05 +0200
-Message-Id: <20230416210705.2300706-1-pvorel@suse.cz>
-X-Mailer: git-send-email 2.40.0
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Subject: [PATCH 1/2] kbuild: add srcdeb-pkg target
+Date:   Mon, 17 Apr 2023 23:25:47 +0900
+Message-Id: <20230417142548.249610-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,45 +56,80 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-typeof() is a GNU extension, UAPI requires ISO C, therefore __typeof__()
-should be used.  Similarly to b4bd35a19df5 ("uapi/linux/const.h: Prefer
-ISO-friendly __typeof__") use __typeof__() also in x_tables.h.
+This new target builds only the debian source package.
 
-Signed-off-by: Petr Vorel <pvorel@suse.cz>
+Unify the build rules of deb-pkg, srcdeb-pkg, bindeb-pkg to avoid
+code duplication.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 ---
-Based on [1] merged into linux-next as b4bd35a19df5.
-There should be the same Fixes: which we agree in discussion in [1]
-(likely a79ff731a1b2, or d6fc9fcbaa65).
 
-Kind regards,
-Petr
+ scripts/Makefile.package | 28 +++++++++++++++++++++-------
+ 1 file changed, 21 insertions(+), 7 deletions(-)
 
-[1] https://lore.kernel.org/lkml/20230411092747.3759032-1-kevin.brodsky@arm.com/
-
-
- include/uapi/linux/netfilter/x_tables.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/include/uapi/linux/netfilter/x_tables.h b/include/uapi/linux/netfilter/x_tables.h
-index 796af83a963a..d4eced07f2a2 100644
---- a/include/uapi/linux/netfilter/x_tables.h
-+++ b/include/uapi/linux/netfilter/x_tables.h
-@@ -172,11 +172,11 @@ struct xt_counters_info {
+diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+index 4d90691505b1..d8a36304b26e 100644
+--- a/scripts/Makefile.package
++++ b/scripts/Makefile.package
+@@ -5,7 +5,6 @@ include $(srctree)/scripts/Kbuild.include
+ include $(srctree)/scripts/Makefile.lib
  
- /* pos is normally a struct ipt_entry/ip6t_entry/etc. */
- #define xt_entry_foreach(pos, ehead, esize) \
--	for ((pos) = (typeof(pos))(ehead); \
--	     (pos) < (typeof(pos))((char *)(ehead) + (esize)); \
--	     (pos) = (typeof(pos))((char *)(pos) + (pos)->next_offset))
-+	for ((pos) = (__typeof__(pos))(ehead); \
-+	     (pos) < (__typeof__(pos))((char *)(ehead) + (esize)); \
-+	     (pos) = (__typeof__(pos))((char *)(pos) + (pos)->next_offset))
+ KERNELPATH := kernel-$(subst -,_,$(KERNELRELEASE))
+-KBUILD_PKG_ROOTCMD ?="fakeroot -u"
+ # Include only those top-level files that are needed by make, plus the GPL copy
+ TAR_CONTENT := Documentation LICENSES arch block certs crypto drivers fs \
+                include init io_uring ipc kernel lib mm net rust \
+@@ -86,6 +85,9 @@ binrpm-pkg:
+ 	+rpmbuild $(RPMOPTS) --define "_builddir $(objtree)" --target \
+ 		$(UTS_MACHINE)-linux -bb $(objtree)/binkernel.spec
  
--/* can only be xt_entry_match, so no use of typeof here */
-+/* can only be xt_entry_match, so no use of __typeof__ here */
- #define xt_ematch_foreach(pos, entry) \
- 	for ((pos) = (struct xt_entry_match *)entry->elems; \
- 	     (pos) < (struct xt_entry_match *)((char *)(entry) + \
++# deb-pkg srcdeb-pkg bindeb-pkg
++# ---------------------------------------------------------------------------
++
+ quiet_cmd_debianize = GEN     $@
+       cmd_debianize = $(srctree)/scripts/package/mkdebian $(mkdebian-opts)
+ 
+@@ -104,14 +106,25 @@ debian-orig: linux.tar.gz debian
+ 		cp $< ../$(orig-name); \
+ 	fi
+ 
+-PHONY += deb-pkg
+-deb-pkg: debian-orig
+-	+dpkg-buildpackage -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch) $(DPKG_FLAGS) \
+-		--build=source,binary -nc -us -uc
++KBUILD_PKG_ROOTCMD ?= 'fakeroot -u'
++
++PHONY += deb-pkg srcdeb-pkg bindeb-pkg
++
++deb-pkg:    private build-type := source,binary
++srcdeb-pkg: private build-type := source
++bindeb-pkg: private build-type := binary
+ 
+-PHONY += bindeb-pkg
++deb-pkg srcdeb-pkg: debian-orig
+ bindeb-pkg: debian
+-	+dpkg-buildpackage -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch) $(DPKG_FLAGS) -b -nc -uc
++deb-pkg srcdeb-pkg bindeb-pkg:
++	+$(strip dpkg-buildpackage \
++	--build=$(build-type) --no-pre-clean --unsigned-changes \
++	$(if $(findstring source, $(build-type)), \
++		--unsigned-source) \
++	$(if $(findstring binary, $(build-type)), \
++		-r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch), \
++		--no-check-builddeps) \
++	$(DPKG_FLAGS))
+ 
+ PHONY += intdeb-pkg
+ intdeb-pkg:
+@@ -208,6 +221,7 @@ help:
+ 	@echo '  srcrpm-pkg          - Build only the source kernel RPM package'
+ 	@echo '  binrpm-pkg          - Build only the binary kernel RPM package'
+ 	@echo '  deb-pkg             - Build both source and binary deb kernel packages'
++	@echo '  srcdeb-pkg          - Build only the source kernel deb package'
+ 	@echo '  bindeb-pkg          - Build only the binary kernel deb package'
+ 	@echo '  snap-pkg            - Build only the binary kernel snap package'
+ 	@echo '                        (will connect to external hosts)'
 -- 
-2.40.0
+2.37.2
 
