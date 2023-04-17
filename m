@@ -2,100 +2,116 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 976436E4B92
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Apr 2023 16:35:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA5916E4BE6
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Apr 2023 16:52:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229682AbjDQOfs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 17 Apr 2023 10:35:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59578 "EHLO
+        id S229876AbjDQOwz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 17 Apr 2023 10:52:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229602AbjDQOfr (ORCPT
+        with ESMTP id S229458AbjDQOwy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 17 Apr 2023 10:35:47 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA97AE8;
-        Mon, 17 Apr 2023 07:35:45 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 64B9E622DB;
-        Mon, 17 Apr 2023 14:35:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F738C433D2;
-        Mon, 17 Apr 2023 14:35:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681742144;
-        bh=xyEhykWo77jb6lqPEsWRugQUgBTPMFybp5iKWGmgYus=;
-        h=From:To:Cc:Subject:Date:From;
-        b=FBKobMNX9sTtTFjt3RRvAup6njpaxqMDmty+Jb5QANBd50/5jqfprbUQuwaB2zGrH
-         IG2oI0nK5ycGtiROdrUSorXa7O/Eg/QN/wMHxzy67zScMsfc83HFaasCNHqo58rX1P
-         SXaDhIUe4lneYOgDU721qCkyTFlVbGKLBIrtM+WLbUIzxJYYW14jNVVMVn1WWDYvOu
-         JNZ6FGlQx0aYNqdL1Jh/tRfwz4g648I0qS4kgBQN53JO917Ibrm2F/ggjGJX/UgDGj
-         EYPixZFCyIwxH2VJsMJjphOGUsZ+I80LbQFaJCd+vqGpr0H2+OTwlJAOw0DG0uQZrW
-         0AwK752o59Pgg==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        Mon, 17 Apr 2023 10:52:54 -0400
+Received: from maynard.decadent.org.uk (maynard.decadent.org.uk [95.217.213.242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EB236A7C;
+        Mon, 17 Apr 2023 07:52:53 -0700 (PDT)
+Received: from [213.219.167.32] (helo=deadeye)
+        by maynard with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ben@decadent.org.uk>)
+        id 1poQDo-0006yd-BB; Mon, 17 Apr 2023 16:52:48 +0200
+Received: from ben by deadeye with local (Exim 4.96)
+        (envelope-from <ben@decadent.org.uk>)
+        id 1poQDn-001hqR-2e;
+        Mon, 17 Apr 2023 16:52:47 +0200
+Message-ID: <3a857172b78f1bbd6427600bdd5afa81dd21c73f.camel@decadent.org.uk>
+Subject: Re: [PATCH 1/2] kbuild: add srcdeb-pkg target
+From:   Ben Hutchings <ben@decadent.org.uk>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Bastian Germann <bage@linutronix.de>,
+        Nicolas Schier <nicolas@fjasle.eu>,
         Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH] kbuild: rpm-pkg: remove kernel-drm PROVIDES
-Date:   Mon, 17 Apr 2023 23:35:35 +0900
-Message-Id: <20230417143535.250565-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.37.2
+        Nick Desaulniers <ndesaulniers@google.com>
+Date:   Mon, 17 Apr 2023 16:52:41 +0200
+In-Reply-To: <20230417142548.249610-1-masahiroy@kernel.org>
+References: <20230417142548.249610-1-masahiroy@kernel.org>
+Content-Type: multipart/signed; micalg="pgp-sha512";
+        protocol="application/pgp-signature"; boundary="=-nstfiAqeePdqAIEfaHxQ"
+User-Agent: Evolution 3.46.4-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-SA-Exim-Connect-IP: 213.219.167.32
+X-SA-Exim-Mail-From: ben@decadent.org.uk
+X-SA-Exim-Scanned: No (on maynard); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This code was added more than 20 years ago. [1]
 
-I checked the kernel spec files in Fedora and OpenSUSE, but did not
-see 'kernel-drm'. I do not know if there exists a distro that uses it
-in RPM dependency.
+--=-nstfiAqeePdqAIEfaHxQ
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Remove this, and let's see if somebody complains about it.
+On Mon, 2023-04-17 at 23:25 +0900, Masahiro Yamada wrote:
+> This new target builds only the debian source package.
+>=20
+> Unify the build rules of deb-pkg, srcdeb-pkg, bindeb-pkg to avoid
+> code duplication.
+>=20
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+> ---
+[...]
+>  bindeb-pkg: debian
+> -	+dpkg-buildpackage -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch) $(DPKG=
+_FLAGS) -b -nc -uc
+> +deb-pkg srcdeb-pkg bindeb-pkg:
+> +	+$(strip dpkg-buildpackage \
+> +	--build=3D$(build-type) --no-pre-clean --unsigned-changes \
+> +	$(if $(findstring source, $(build-type)), \
+> +		--unsigned-source) \
+> +	$(if $(findstring binary, $(build-type)), \
+> +		-r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch), \
+> +		--no-check-builddeps) \
+[...]
 
-[1]: https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/commit/?id=6d956df7d6b716b28c910c4f5b360c4d44d96c4d
+There is no need to make the use of --unsigned-source (-us) or -r
+conditional on the build type.  They will be ignored if not applicable.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+This is also adding --no-check-builddeps (-d), which is not explained
+in the commit message.  It might be valid to add this for srcdeb-pkg,
+but the build dependency check is valuable for bindeb-pkg and deb-pkg.
 
- scripts/package/mkspec | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+Ben.
 
-diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-index fc8ad3fbc0a9..8049f0e2c110 100755
---- a/scripts/package/mkspec
-+++ b/scripts/package/mkspec
-@@ -28,11 +28,6 @@ else
- 	M=DEL
- fi
- 
--if grep -q CONFIG_DRM=y include/config/auto.conf; then
--	PROVIDES=kernel-drm
--fi
--
--PROVIDES="$PROVIDES kernel-$KERNELRELEASE"
- __KERNELRELEASE=$(echo $KERNELRELEASE | sed -e "s/-/_/g")
- EXCLUDES="$RCS_TAR_IGNORE --exclude=*vmlinux* --exclude=*.mod \
- --exclude=*.o --exclude=*.ko --exclude=*.cmd --exclude=Documentation \
-@@ -55,7 +50,7 @@ sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
- $S	Source0: linux.tar.gz
- $S	Source1: config
- $S	Source2: diff.patch
--	Provides: $PROVIDES
-+	Provides: kernel-$KERNELRELEASE
- $S	BuildRequires: bc binutils bison dwarves
- $S	BuildRequires: (elfutils-libelf-devel or libelf-devel) flex
- $S	BuildRequires: gcc make openssl openssl-devel perl python3 rsync
--- 
-2.37.2
+--=20
+Ben Hutchings
+Sturgeon's Law: Ninety percent of everything is crap.
 
+--=-nstfiAqeePdqAIEfaHxQ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEErCspvTSmr92z9o8157/I7JWGEQkFAmQ9XTkACgkQ57/I7JWG
+EQm3tg//YIH/o965SlLladsBwHQezdYzMmPB3fAn76hctwemgizoIoj/cCj+bYGE
+hUUx9Sfv/QC79KOSaQdIBZ7UsyQenTh0nnkM91ZxlWnC5gLseE26Xrxdgl2aQoAt
+P1xsaqgGDNGGjGjoadxVzG8x8wD7H3LlU8f5RTxnIgcxWwzTuSDdIneLEZm9I+Lk
+mAF1xxn08ia/t5sFDSPWlfmoTRn2OehpkNXccIojyBgG445zce+tS3yGxQbbGLqe
+9ae1uTv4dUoZ/FOMPzz4mwM60anr3y7IMexChCOQL9wUnX6L19wdeu3Ae6Rfl010
+/uwKgyJHC7vser5RUda41SFXHrxoX8cZogxBFm2HMtQ7ZP2iUmukdxYmlumENSCF
+DesQ50R48J5AFqYVCsq+AKoOZnY7fBwiCL4bqVcc3dgqyAvIC8h0FUFOg32nRyER
+McDxKjEaYgesmMdXdPgyB/2TzMYIOl47extx6/EqIQLzVVv8xWakT7jBUgbWHs6p
+eRTHOFaMFO1N6Sc1r2v0hcijwotH7ZQ/GP74oXXe0DjwoLY6JInRHu7yI/0+c7AD
+p16JKcfPQhGI439r4OPyqwOq8eucT4MddLqxKUHnsV9nEnxNC9e1nPcMkMLczW4s
+tCEolNPKRg4VkjAITJv0c7k6By8pS8kVNGta9obI/aBiSnTPWus=
+=WjHm
+-----END PGP SIGNATURE-----
+
+--=-nstfiAqeePdqAIEfaHxQ--
