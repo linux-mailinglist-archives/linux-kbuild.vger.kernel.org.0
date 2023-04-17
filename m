@@ -2,50 +2,47 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF63F6E4B70
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Apr 2023 16:26:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 976436E4B92
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Apr 2023 16:35:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230085AbjDQO0C (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 17 Apr 2023 10:26:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52390 "EHLO
+        id S229682AbjDQOfs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 17 Apr 2023 10:35:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230002AbjDQO0C (ORCPT
+        with ESMTP id S229602AbjDQOfr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 17 Apr 2023 10:26:02 -0400
+        Mon, 17 Apr 2023 10:35:47 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 898F01721;
-        Mon, 17 Apr 2023 07:25:58 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA97AE8;
+        Mon, 17 Apr 2023 07:35:45 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0BE03625F9;
-        Mon, 17 Apr 2023 14:25:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6D8EC433EF;
-        Mon, 17 Apr 2023 14:25:55 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 64B9E622DB;
+        Mon, 17 Apr 2023 14:35:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F738C433D2;
+        Mon, 17 Apr 2023 14:35:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681741557;
-        bh=Ex/hrCKvMBExc7EXGij2hsZznnwJSrqrpsR18ZEHT+o=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Iqx7F+dNQlywiPvNJMhhLidXroLp28Wfni816BukuFUE5BTNAlSVDkKXVKTdpPeN/
-         hpGkRb+RycKc2iOmZKVNDADD+SCPDKmjVfb9dc+hpBzpx53fUi3d4oKJkQ2MjUSHEk
-         l4l1YXonDB3pr752oa1d7DvDzCw3w2WfpbIQ6lwDg4QsA1vatuZP4pLniym53iOM/x
-         O5+/SvCOAa53EZXzA+tgyJsmsQ4GO39kSJgUGhtJr4rjIGopI4ubRVZZPFZPrzsSb0
-         +od1Ca5NfE8HtkD6pH1uGnLDsQCIAkuhHAW7Kr/n0CLHaMUUW22guLG6kxFPgU1YU5
-         vx4+J/35Aazng==
+        s=k20201202; t=1681742144;
+        bh=xyEhykWo77jb6lqPEsWRugQUgBTPMFybp5iKWGmgYus=;
+        h=From:To:Cc:Subject:Date:From;
+        b=FBKobMNX9sTtTFjt3RRvAup6njpaxqMDmty+Jb5QANBd50/5jqfprbUQuwaB2zGrH
+         IG2oI0nK5ycGtiROdrUSorXa7O/Eg/QN/wMHxzy67zScMsfc83HFaasCNHqo58rX1P
+         SXaDhIUe4lneYOgDU721qCkyTFlVbGKLBIrtM+WLbUIzxJYYW14jNVVMVn1WWDYvOu
+         JNZ6FGlQx0aYNqdL1Jh/tRfwz4g648I0qS4kgBQN53JO917Ibrm2F/ggjGJX/UgDGj
+         EYPixZFCyIwxH2VJsMJjphOGUsZ+I80LbQFaJCd+vqGpr0H2+OTwlJAOw0DG0uQZrW
+         0AwK752o59Pgg==
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
-        Bastian Germann <bage@linutronix.de>,
+Cc:     linux-kernel@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH 2/2] kbuild: deb-pkg: add KDEB_SOURCE_COMPRESS to specify compression type
-Date:   Mon, 17 Apr 2023 23:25:48 +0900
-Message-Id: <20230417142548.249610-2-masahiroy@kernel.org>
+Subject: [PATCH] kbuild: rpm-pkg: remove kernel-drm PROVIDES
+Date:   Mon, 17 Apr 2023 23:35:35 +0900
+Message-Id: <20230417143535.250565-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230417142548.249610-1-masahiroy@kernel.org>
-References: <20230417142548.249610-1-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -58,91 +55,47 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Add KDEB_SOURCE_COMPRESS to specify the compression for the orig and
-debian tarballs. (The existing KDEB_COMPRESS is used to specify the
-compression for binary packages.)
+This code was added more than 20 years ago. [1]
 
-Supported algorithms are gzip, bzip2, lzma, and xz, all of which are
-supported by dpkg-source.
+I checked the kernel spec files in Fedora and OpenSUSE, but did not
+see 'kernel-drm'. I do not know if there exists a distro that uses it
+in RPM dependency.
+
+Remove this, and let's see if somebody complains about it.
+
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/commit/?id=6d956df7d6b716b28c910c4f5b360c4d44d96c4d
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/Makefile.package | 31 +++++++++++++++++++++++--------
- 1 file changed, 23 insertions(+), 8 deletions(-)
+ scripts/package/mkspec | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-index d8a36304b26e..ce3d8b4e9cb0 100644
---- a/scripts/Makefile.package
-+++ b/scripts/Makefile.package
-@@ -41,19 +41,25 @@ check-git:
- 		false; \
- 	fi
+diff --git a/scripts/package/mkspec b/scripts/package/mkspec
+index fc8ad3fbc0a9..8049f0e2c110 100755
+--- a/scripts/package/mkspec
++++ b/scripts/package/mkspec
+@@ -28,11 +28,6 @@ else
+ 	M=DEL
+ fi
  
--git-config-tar.gz  = -c tar.tar.gz.command="$(KGZIP)"
--git-config-tar.bz2 = -c tar.tar.bz2.command="$(KBZIP2)"
--git-config-tar.xz  = -c tar.tar.xz.command="$(XZ)"
--git-config-tar.zst = -c tar.tar.zst.command="$(ZSTD)"
-+git-config-tar.gz   = -c tar.tar.gz.command="$(KGZIP)"
-+git-config-tar.bz2  = -c tar.tar.bz2.command="$(KBZIP2)"
-+git-config-tar.lzma = -c tar.tar.lzma.command="$(LZMA)"
-+git-config-tar.xz   = -c tar.tar.xz.command="$(XZ)"
-+git-config-tar.zst  = -c tar.tar.zst.command="$(ZSTD)"
- 
- quiet_cmd_archive = ARCHIVE $@
-       cmd_archive = git -C $(srctree) $(git-config-tar$(suffix $@)) archive \
-                     --output=$$(realpath $@) --prefix=$(basename $@)/ $(archive-args)
- 
-+suffix-gzip  := .gz
-+suffix-bzip2 := .bz2
-+suffix-lzma  := .lzma
-+suffix-xz    := .xz
-+
- # Linux source tarball
- # ---------------------------------------------------------------------------
- 
--linux-tarballs := $(addprefix linux, .tar.gz)
-+linux-tarballs := $(addprefix linux, .tar.gz .tar.bz2 .tar.lzma .tar.xz)
- 
- targets += $(linux-tarballs)
- $(linux-tarballs): archive-args = $$(cat $<)
-@@ -88,6 +94,15 @@ binrpm-pkg:
- # deb-pkg srcdeb-pkg bindeb-pkg
- # ---------------------------------------------------------------------------
- 
-+KDEB_SOURCE_COMPRESS ?= gzip
-+
-+PHONY += linux.tar.unsupported_deb_compress
-+linux.tar.unsupported_deb_compress:
-+	@echo "error: $(KDEB_SOURCE_COMPRESS): unsupported debian source compression" >&2
-+	@false
-+
-+debian-orig-suffix := $(if $(filter gzip bzip2 lzma xz, $(KDEB_SOURCE_COMPRESS)),$(suffix-$(KDEB_SOURCE_COMPRESS)),.unsupported_deb_compress)
-+
- quiet_cmd_debianize = GEN     $@
-       cmd_debianize = $(srctree)/scripts/package/mkdebian $(mkdebian-opts)
- 
-@@ -97,9 +112,9 @@ debian: FORCE
- PHONY += debian-orig
- debian-orig: private source = $(shell dpkg-parsechangelog -S Source)
- debian-orig: private version = $(shell dpkg-parsechangelog -S Version | sed 's/-[^-]*$$//')
--debian-orig: private orig-name = $(source)_$(version).orig.tar.gz
-+debian-orig: private orig-name = $(source)_$(version).orig.tar$(debian-orig-suffix)
- debian-orig: mkdebian-opts = --need-source
--debian-orig: linux.tar.gz debian
-+debian-orig: linux.tar$(debian-orig-suffix) debian
- 	$(Q)if [ "$(df  --output=target .. 2>/dev/null)" = "$(df --output=target $< 2>/dev/null)" ]; then \
- 		ln -f $< ../$(orig-name); \
- 	else \
-@@ -120,7 +135,7 @@ deb-pkg srcdeb-pkg bindeb-pkg:
- 	+$(strip dpkg-buildpackage \
- 	--build=$(build-type) --no-pre-clean --unsigned-changes \
- 	$(if $(findstring source, $(build-type)), \
--		--unsigned-source) \
-+		--unsigned-source --compression=$(KDEB_SOURCE_COMPRESS)) \
- 	$(if $(findstring binary, $(build-type)), \
- 		-r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch), \
- 		--no-check-builddeps) \
+-if grep -q CONFIG_DRM=y include/config/auto.conf; then
+-	PROVIDES=kernel-drm
+-fi
+-
+-PROVIDES="$PROVIDES kernel-$KERNELRELEASE"
+ __KERNELRELEASE=$(echo $KERNELRELEASE | sed -e "s/-/_/g")
+ EXCLUDES="$RCS_TAR_IGNORE --exclude=*vmlinux* --exclude=*.mod \
+ --exclude=*.o --exclude=*.ko --exclude=*.cmd --exclude=Documentation \
+@@ -55,7 +50,7 @@ sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
+ $S	Source0: linux.tar.gz
+ $S	Source1: config
+ $S	Source2: diff.patch
+-	Provides: $PROVIDES
++	Provides: kernel-$KERNELRELEASE
+ $S	BuildRequires: bc binutils bison dwarves
+ $S	BuildRequires: (elfutils-libelf-devel or libelf-devel) flex
+ $S	BuildRequires: gcc make openssl openssl-devel perl python3 rsync
 -- 
 2.37.2
 
