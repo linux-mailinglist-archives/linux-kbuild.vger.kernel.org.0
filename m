@@ -2,116 +2,70 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA5916E4BE6
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Apr 2023 16:52:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 866726E58B5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Apr 2023 07:43:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229876AbjDQOwz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 17 Apr 2023 10:52:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44650 "EHLO
+        id S230076AbjDRFn6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 18 Apr 2023 01:43:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbjDQOwy (ORCPT
+        with ESMTP id S229454AbjDRFn5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 17 Apr 2023 10:52:54 -0400
-Received: from maynard.decadent.org.uk (maynard.decadent.org.uk [95.217.213.242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EB236A7C;
-        Mon, 17 Apr 2023 07:52:53 -0700 (PDT)
-Received: from [213.219.167.32] (helo=deadeye)
-        by maynard with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ben@decadent.org.uk>)
-        id 1poQDo-0006yd-BB; Mon, 17 Apr 2023 16:52:48 +0200
-Received: from ben by deadeye with local (Exim 4.96)
-        (envelope-from <ben@decadent.org.uk>)
-        id 1poQDn-001hqR-2e;
-        Mon, 17 Apr 2023 16:52:47 +0200
-Message-ID: <3a857172b78f1bbd6427600bdd5afa81dd21c73f.camel@decadent.org.uk>
-Subject: Re: [PATCH 1/2] kbuild: add srcdeb-pkg target
-From:   Ben Hutchings <ben@decadent.org.uk>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Bastian Germann <bage@linutronix.de>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 17 Apr 2023 16:52:41 +0200
-In-Reply-To: <20230417142548.249610-1-masahiroy@kernel.org>
-References: <20230417142548.249610-1-masahiroy@kernel.org>
-Content-Type: multipart/signed; micalg="pgp-sha512";
-        protocol="application/pgp-signature"; boundary="=-nstfiAqeePdqAIEfaHxQ"
-User-Agent: Evolution 3.46.4-1 
+        Tue, 18 Apr 2023 01:43:57 -0400
+X-Greylist: delayed 11861 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 17 Apr 2023 22:43:56 PDT
+Received: from mail.peterfykh.hu (mail.peterfykh.hu [84.206.67.96])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1604F423B;
+        Mon, 17 Apr 2023 22:43:56 -0700 (PDT)
+Received: from mail.peterfykh.hu (localhost [127.0.0.1])
+        by mail.peterfykh.hu (Postfix) with ESMTP id 84E041177;
+        Tue, 18 Apr 2023 01:57:45 +0200 (CEST)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 213.219.167.32
-X-SA-Exim-Mail-From: ben@decadent.org.uk
-X-SA-Exim-Scanned: No (on maynard); SAEximRunCond expanded to false
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Tue, 18 Apr 2023 01:57:45 +0200
+From:   MK <sebeszet@peterfykh.hu>
+To:     undisclosed-recipients:;
+Subject: Hello sunshine, how are you?
+Reply-To: marion.K08@bahnhof.se
+Mail-Reply-To: marion.K08@bahnhof.se
+Message-ID: <73f25765f6b58f5dbcf3a26ec7364a17@peterfykh.hu>
+X-Sender: sebeszet@peterfykh.hu
+User-Agent: Roundcube Webmail/1.2.3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=peterfykh.hu; s=mail; t=1681775879; bh=EK7FNzGPLm9pid/gmdFBrbarvHS9H0a48U7GgrEq6Uo=; h=MIME-Version:Content-Type:Content-Transfer-Encoding:Date:From:To:Subject:Reply-To:Message-ID; b=uC7WHjqTrFAg10SLXW8+MXT+Qur7exwfyWB2mmR6YGDcxtzadBldDX1N3UpRP30aojbveWRGeFTlU2peS9vUANH7zbFMs4qoDnNMBQzuzQsfWh5lww1DY8W5QfGUmuBFMeNVgffcdOjeQAMphdEqLaKEZ7SaH5Ij5Ylepqp/rYo=
+X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_00,DATE_IN_PAST_03_06,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+I am sorry to bother you and intrude your privacy. I am single,
+  lonely and in need of a caring, loving and romantic companion.
 
---=-nstfiAqeePdqAIEfaHxQ
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I am a secret admirer and would like to explore the opportunity to
+learn more about each other. I know it is strange to contact you
+this way and I hope you can forgive me. I am a shy person and
+this is the only way I know I could get your attention. I just want
+to know what you think and my intention is not to offend you.
+I hope we can be friends if that is what you want, although I wish
+to be more than just a friend. I know you have a few questions to
+ask and I hope I can satisfy some of your curiosity with a few
+answers.
 
-On Mon, 2023-04-17 at 23:25 +0900, Masahiro Yamada wrote:
-> This new target builds only the debian source package.
->=20
-> Unify the build rules of deb-pkg, srcdeb-pkg, bindeb-pkg to avoid
-> code duplication.
->=20
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
-> ---
-[...]
->  bindeb-pkg: debian
-> -	+dpkg-buildpackage -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch) $(DPKG=
-_FLAGS) -b -nc -uc
-> +deb-pkg srcdeb-pkg bindeb-pkg:
-> +	+$(strip dpkg-buildpackage \
-> +	--build=3D$(build-type) --no-pre-clean --unsigned-changes \
-> +	$(if $(findstring source, $(build-type)), \
-> +		--unsigned-source) \
-> +	$(if $(findstring binary, $(build-type)), \
-> +		-r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch), \
-> +		--no-check-builddeps) \
-[...]
+I believe in the saying that 'to the world you are just one person,
+but to someone special you are the world'. All I want is love,
+romantic care and attention from a special companion which I am
+hoping would be you.
 
-There is no need to make the use of --unsigned-source (-us) or -r
-conditional on the build type.  They will be ignored if not applicable.
+I hope this message will be the beginning of a long term
+communication between us, simply send a reply to this message, it
+will make me happy.
 
-This is also adding --no-check-builddeps (-d), which is not explained
-in the commit message.  It might be valid to add this for srcdeb-pkg,
-but the build dependency check is valuable for bindeb-pkg and deb-pkg.
 
-Ben.
+Hugs and kisses,
 
---=20
-Ben Hutchings
-Sturgeon's Law: Ninety percent of everything is crap.
-
---=-nstfiAqeePdqAIEfaHxQ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEErCspvTSmr92z9o8157/I7JWGEQkFAmQ9XTkACgkQ57/I7JWG
-EQm3tg//YIH/o965SlLladsBwHQezdYzMmPB3fAn76hctwemgizoIoj/cCj+bYGE
-hUUx9Sfv/QC79KOSaQdIBZ7UsyQenTh0nnkM91ZxlWnC5gLseE26Xrxdgl2aQoAt
-P1xsaqgGDNGGjGjoadxVzG8x8wD7H3LlU8f5RTxnIgcxWwzTuSDdIneLEZm9I+Lk
-mAF1xxn08ia/t5sFDSPWlfmoTRn2OehpkNXccIojyBgG445zce+tS3yGxQbbGLqe
-9ae1uTv4dUoZ/FOMPzz4mwM60anr3y7IMexChCOQL9wUnX6L19wdeu3Ae6Rfl010
-/uwKgyJHC7vser5RUda41SFXHrxoX8cZogxBFm2HMtQ7ZP2iUmukdxYmlumENSCF
-DesQ50R48J5AFqYVCsq+AKoOZnY7fBwiCL4bqVcc3dgqyAvIC8h0FUFOg32nRyER
-McDxKjEaYgesmMdXdPgyB/2TzMYIOl47extx6/EqIQLzVVv8xWakT7jBUgbWHs6p
-eRTHOFaMFO1N6Sc1r2v0hcijwotH7ZQ/GP74oXXe0DjwoLY6JInRHu7yI/0+c7AD
-p16JKcfPQhGI439r4OPyqwOq8eucT4MddLqxKUHnsV9nEnxNC9e1nPcMkMLczW4s
-tCEolNPKRg4VkjAITJv0c7k6By8pS8kVNGta9obI/aBiSnTPWus=
-=WjHm
------END PGP SIGNATURE-----
-
---=-nstfiAqeePdqAIEfaHxQ--
+Marion.
