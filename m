@@ -2,145 +2,134 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 23D736E621D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Apr 2023 14:30:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EAF96E656B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Apr 2023 15:07:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231582AbjDRMaV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 18 Apr 2023 08:30:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41474 "EHLO
+        id S231995AbjDRNHs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 18 Apr 2023 09:07:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231564AbjDRMaS (ORCPT
+        with ESMTP id S231815AbjDRNHr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 18 Apr 2023 08:30:18 -0400
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2D9C93D7;
-        Tue, 18 Apr 2023 05:29:51 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id 9C6495C00E8;
-        Tue, 18 Apr 2023 08:29:16 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Tue, 18 Apr 2023 08:29:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm2; t=1681820956; x=1681907356; bh=VM
-        wb91EjeaIIwMVJOlqozliVSEbH/Bchyh3fjPDYvkE=; b=fD2wHJI/bKnYdEKMvA
-        OFP1OMUFa/DcdiSvEeS3jyc3fs7pYGjj2nPSJWceSFkyzBgWuYkUp1kM6gzuHeiC
-        9ZIAxIZpZ6jMwkeMdWIPoht4kliqUH3+/QXsLdHCx8HsVa8PSNlCvAfOI2ndVMSm
-        ODRKuMzne3ljJTZv7uka0cz7mwApFi/2JEvh5oF8dt3ZZ3EN4BFhT4kr8KbWzdlJ
-        DuKPdGqHO+bmtVA0j93mpU0DDpPWhXPf0n4p6Kij+LAiVJhs7AzpKoDASbltxXfs
-        6BLCMsyBPhzjx4zag9KGu1Hqv5fb4U0qdwU7rez+twDyaalpKTDspjQHB+9enARb
-        8k4A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; t=1681820956; x=1681907356; bh=VMwb91EjeaIIw
-        MVJOlqozliVSEbH/Bchyh3fjPDYvkE=; b=fr585nbRin/G68HRrhwCE2ojOa/tv
-        1zDamuBIAlzPSNcntpQrIdXZdKBfOTs7ToTHbB4pKSkqO3nUs6PBb1ImutS/yxBM
-        2B4B5Uv7EnD+4OcebfIDM8WkEW91M8+0wiglGU5TGk07FiI9dPKIJjs2unCmyzgY
-        lO4fyf/jbo7HoOXPTQ1BAztviLrtGglfSP+qqLAVRcveQPzjYxvrARefG0V+CP+M
-        zlJD2N9wi+SZYY8AddLhOH0tEcSScD2tHUQoRnLHNHtkuo3i/eRBdmNAfLA/SqVj
-        2cKnspDuPfPeAkz84iYpN/LzyZSfyfQcqNaJYxClK1/ZwGBAl82+OZUvw==
-X-ME-Sender: <xms:G40-ZOECZtfLzU_dRwIEh_PFY0w4UQVr2KtuOtXeVZMJ48l5Uil3PA>
-    <xme:G40-ZPV7Z2oMUqoPDeSe0vuHqjtC0mhP7wZz96tkK9zTbmTJHq0bX-JV4RbimIrOz
-    eloZFjxTvpoONFCcd0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdelkedghedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:G40-ZII9qvrLW9EVD0ArNGrVCJfcHsQkE1vI1ulk9_FEwuyg7aPyTg>
-    <xmx:G40-ZIFoemLCyuhosrpjJst5IN9jbd8FSAV4OJ54ri-kWgradjVBLg>
-    <xmx:G40-ZEUpMllTfuXekGh_6pVCsNSv2cXoIj9asP96ZSLjiPVdvu_tWA>
-    <xmx:HI0-ZAn8YOLM7OFf3Tw8Ff7KmWXEQWEZ5sdyUmu5c62ZBUETdz2YoA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id B7D7BB60089; Tue, 18 Apr 2023 08:29:15 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-372-g43825cb665-fm-20230411.003-g43825cb6
-Mime-Version: 1.0
-Message-Id: <c28486a2-dc12-4613-abda-bdeace783d40@app.fastmail.com>
-In-Reply-To: <CANpmjNMwYosrvqh4ogDO8rgn+SeDHM2b-shD21wTypm_6MMe=g@mail.gmail.com>
-References: <20230414082943.1341757-1-arnd@kernel.org>
- <20230414162605.GA2161385@dev-arch.thelio-3990X>
- <CANpmjNMwYosrvqh4ogDO8rgn+SeDHM2b-shD21wTypm_6MMe=g@mail.gmail.com>
-Date:   Tue, 18 Apr 2023 14:28:55 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Marco Elver" <elver@google.com>,
-        "Nathan Chancellor" <nathan@kernel.org>
-Cc:     "Arnd Bergmann" <arnd@kernel.org>,
-        "Andrey Ryabinin" <ryabinin.a.a@gmail.com>,
-        "Masahiro Yamada" <masahiroy@kernel.org>,
-        "Nick Desaulniers" <ndesaulniers@google.com>,
-        "Nicolas Schier" <nicolas@fjasle.eu>,
-        "Alexander Potapenko" <glider@google.com>,
-        "Andrey Konovalov" <andreyknvl@gmail.com>,
-        "Dmitry Vyukov" <dvyukov@google.com>,
-        "Vincenzo Frascino" <vincenzo.frascino@arm.com>,
-        "Tom Rix" <trix@redhat.com>,
-        "Andrew Morton" <akpm@linux-foundation.org>,
-        "Michael Ellerman" <mpe@ellerman.id.au>,
-        "Peter Zijlstra" <peterz@infradead.org>,
-        linux-kbuild@vger.kernel.org, kasan-dev@googlegroups.com,
+        Tue, 18 Apr 2023 09:07:47 -0400
+Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEFAF132
+        for <linux-kbuild@vger.kernel.org>; Tue, 18 Apr 2023 06:07:46 -0700 (PDT)
+Received: by mail-il1-x135.google.com with SMTP id e9e14a558f8ab-32a7770f7d1so32429315ab.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 18 Apr 2023 06:07:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1681823266; x=1684415266;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=cXVmjV8MVgirfDn+CQoxVOKGwz3EOWGBSd7QdBjs3YU=;
+        b=FEhqIjfUFBdpSfQagkw9jonNAUAscLxrsIh1vsdZq1hGcKFvhmQ4TLtVZIvuD3ZYv9
+         /C8kcv4CIsY2w5UaWTjdhTDV+zNozyaypkg+d7+7uMrpetboBse7uVuWCaROwdkzspPV
+         2IWdEubu+rBVJuEGM1mIksIZwhi+mm8KM6yeenH98npp/oZQUeSdw8rbeyFyOe/oUbM0
+         XQoJybct5Ml8eLgf4JsmU0wbSs5FhU0ivKaAnx6QA1g0Jm0o+yjf7poWewPZMq3T4AG5
+         EN+69mfKvvmpZTfXeh4F2eCd/HdLgfGBsKO11F67NyazW3Evlxc5ut1mcYHqdUwjsC5u
+         EyTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681823266; x=1684415266;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cXVmjV8MVgirfDn+CQoxVOKGwz3EOWGBSd7QdBjs3YU=;
+        b=SRpiyyboUtK2rCBJ4501rntyGooElaQ1MPyWc14vLbsFMi0btkYcVg0m2Tp+lZ9ai8
+         N18ciCWDTe46XVgI0Zx1p3loKki1d/9kJyDVm8lCmTmIPCK3NWDPRjOYNvNNIp4ior5f
+         7ouhHunQKQraNdz6b7ztl7G4WOA9LAxFblIpJpaRcovvcNNI+cIlpSFD03+49tCO+s1z
+         W9KriHY8F4hRMzOlw8/snKozrylkR/MckJnsLjzbLxix3HT0dFyRHlA0FJesQsB9vP4R
+         C73RDCxqCcz40zerhijMwPsgbBO/Td7UFUzIcu5d+NJsvt1QK6iA7Q9V3DopaJDAD3+o
+         ZjmQ==
+X-Gm-Message-State: AAQBX9fLTHyB7wbr6ck1jEEoqZrN8x3+m94DNCdHRjXwmHtx/C7fdBiN
+        7K3ERkq4AD9gXFJd44r6tVMnteIr/sGa+cTeWendrw==
+X-Google-Smtp-Source: AKy350YY29Hcz4bDHqyw+MtMx0elQI8dDkrsoJtgWQJYOE4mHHXtRou3LfMvdZJd7dEUdkrM0A/U6XT+VqPnNMB0tjQ=
+X-Received: by 2002:a5e:8607:0:b0:753:989:ebb5 with SMTP id
+ z7-20020a5e8607000000b007530989ebb5mr1792769ioj.7.1681823265971; Tue, 18 Apr
+ 2023 06:07:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230418122350.1646391-1-arnd@kernel.org>
+In-Reply-To: <20230418122350.1646391-1-arnd@kernel.org>
+From:   Marco Elver <elver@google.com>
+Date:   Tue, 18 Apr 2023 15:07:09 +0200
+Message-ID: <CANpmjNOSi32aN54_=WH1xb4jqzso+-riMomLxoqebO=AdbpHVA@mail.gmail.com>
+Subject: Re: [PATCH] [v2] kasan: remove hwasan-kernel-mem-intrinsic-prefix=1
+ for clang-14
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        kasan-dev@googlegroups.com, linux-kbuild@vger.kernel.org,
         linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH] kasan: remove hwasan-kernel-mem-intrinsic-prefix=1 for clang-14
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Apr 18, 2023, at 14:06, Marco Elver wrote:
-> On Fri, 14 Apr 2023 at 18:26, Nathan Chancellor <nathan@kernel.org> wrote:
->> On Fri, Apr 14, 2023 at 10:29:27AM +0200, Arnd Bergmann wrote:
-> It errors as expected. But with:
+On Tue, 18 Apr 2023 at 14:24, Arnd Bergmann <arnd@kernel.org> wrote:
 >
->> clang -Werror -mllvm -hwasan-does-not-exist -c -x c /dev/null -o /dev/null
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> It ends up printing _help_ text, because anything "-h..." (if it
-> doesn't recognize it as a long-form argument), will make it produce
-> the help text.
-
-Ah, that explains a lot. I think I actually tried a few other options, but
-probably only edited part of the option name, and not the beginning, so
-I always saw the help text.
-
->> >  # Instrument memcpy/memset/memmove calls by using instrumented __hwasan_mem*().
->> > +ifeq ($(call clang-min-version, 150000),y)
->> >  CFLAGS_KASAN += $(call cc-param,hwasan-kernel-mem-intrinsic-prefix=1)
->> > +endif
->> > +ifeq ($(call gcc-min-version, 130000),y)
->> > +CFLAGS_KASAN += $(call cc-param,hwasan-kernel-mem-intrinsic-prefix=1)
->> > +endif
->>
->> I do not think you need to duplicate this block, I think
->>
->>   ifeq ($(call clang-min-version, 150000)$(call gcc-min-version, 130000),y)
->>   CFLAGS_KASAN += $(call cc-param,hwasan-kernel-mem-intrinsic-prefix=1)
->>   endif
+> Some unknown -mllvm options (i.e. those starting with the letter "h")
+> don't cause an error to be returned by clang, so the cc-option helper
+> adds the unknown hwasan-kernel-mem-intrinsic-prefix=1 flag to CFLAGS
+> with compilers that are new enough for hwasan but too old for this option.
 >
-> We just need the clang version check. If the compiler is gcc, it'll do
-> the "right thing" (i.e. not print help text). So at a minimum, we need
-> if "clang version >= 15 or gcc". Checking if gcc is 13 or later
-> doesn't hurt though, so I don't mind either way.
+> This causes a rather unreadable build failure:
+>
+> fixdep: error opening file: scripts/mod/.empty.o.d: No such file or directory
+> make[4]: *** [/home/arnd/arm-soc/scripts/Makefile.build:252: scripts/mod/empty.o] Error 2
+> fixdep: error opening file: scripts/mod/.devicetable-offsets.s.d: No such file or directory
+> make[4]: *** [/home/arnd/arm-soc/scripts/Makefile.build:114: scripts/mod/devicetable-offsets.s] Error 2
+>
+> Add a version check to only allow this option with clang-15, gcc-13
+> or later versions.
+>
+> Fixes: 51287dcb00cc ("kasan: emit different calls for instrumentable memintrinsics")
+> Link: https://lore.kernel.org/all/CANpmjNMwYosrvqh4ogDO8rgn+SeDHM2b-shD21wTypm_6MMe=g@mail.gmail.com/
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-I've sent a v2 now, with an updated help text and the simplified
-version check.
+Reviewed-by: Marco Elver <elver@google.com>
 
-It might be possible to change the cc-option check in a way that
-parses the output, this variant should do that, if we care:
+Thanks!
 
-echo "char *str = \"check that assembler works\";" | clang -Werror -mllvm -hwasan-does-not-exist  -S -x c - -o - | grep -q "check that assembler works"
-
-      Arnd
+> ---
+> v2: use one-line version check for both clang and gcc, clarify changelog text
+> ---
+>  scripts/Makefile.kasan | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/scripts/Makefile.kasan b/scripts/Makefile.kasan
+> index c186110ffa20..390658a2d5b7 100644
+> --- a/scripts/Makefile.kasan
+> +++ b/scripts/Makefile.kasan
+> @@ -69,7 +69,9 @@ CFLAGS_KASAN := -fsanitize=kernel-hwaddress \
+>                 $(instrumentation_flags)
+>
+>  # Instrument memcpy/memset/memmove calls by using instrumented __hwasan_mem*().
+> +ifeq ($(call clang-min-version, 150000)$(call gcc-min-version, 130000),y)
+>  CFLAGS_KASAN += $(call cc-param,hwasan-kernel-mem-intrinsic-prefix=1)
+> +endif
+>
+>  endif # CONFIG_KASAN_SW_TAGS
+>
+> --
+> 2.39.2
+>
+>
