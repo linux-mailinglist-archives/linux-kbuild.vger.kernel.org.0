@@ -2,61 +2,49 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A45166E691F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Apr 2023 18:14:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D9636E6C3E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Apr 2023 20:39:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229984AbjDRQOs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 18 Apr 2023 12:14:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56092 "EHLO
+        id S231352AbjDRSjB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 18 Apr 2023 14:39:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231753AbjDRQOr (ORCPT
+        with ESMTP id S230435AbjDRSjA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 18 Apr 2023 12:14:47 -0400
+        Tue, 18 Apr 2023 14:39:00 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B13A9031;
-        Tue, 18 Apr 2023 09:14:46 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 139428A78;
+        Tue, 18 Apr 2023 11:38:59 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DB46F6365C;
-        Tue, 18 Apr 2023 16:14:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24AD4C4339B;
-        Tue, 18 Apr 2023 16:14:44 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A207A6157C;
+        Tue, 18 Apr 2023 18:38:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC3B5C433D2;
+        Tue, 18 Apr 2023 18:38:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681834485;
-        bh=To4zhnQWoZRHmWZJbt0TTJY95MkOrmQlIsSpufdTGa8=;
+        s=k20201202; t=1681843138;
+        bh=yWZFzaHwyCv590iWQSNnSJIy2iMn1qsrmtyHHPDyNjk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XzDa6W5dfvmJFnwdXJnOmsZfqEWLHsBF3lHxEQWVlnE74nxJMcYivIzFmsWKRKuc0
-         /kU6uNPzHd1+Dj6dNBPCqdUUu/M2Ho/za7plITK1NoiFYEH2NJ8z7UaNuqWDUCvJ/C
-         4LFcxQJLci2GQY8OvWZaoKjR/2cDdNMyglnJLyDW+B5/yD8qDpPUJCODa48EbJT++m
-         bymeZz0LS0PQfxv86FLEHWza/ssDDdqM6FaspStcDd/78uWR/jGvyLOKNNpIkoTsC1
-         4jw3ncea/lR+HQF7xE+2R0bE5UY+IjP6aMrNKksv+QKbmWpZXmsEfL5cgvNn0HfYu1
-         x/6zmZqFfgDVg==
-Date:   Tue, 18 Apr 2023 09:14:42 -0700
+        b=tTBz5/THNY2r5Qonb0/k6KdIPTIHWgikjyDPzf+X1CICN1lxEdutltpVPJoGX9pjy
+         WqKOZpVRZY0q6nJQ3RYe7e/TfBBeAwCx/KAxR0U91xrWyi7lP9XovtLU+NONZAKO+d
+         ScD0DiySwUAOGwN6xys/QurCg2R7yD0S+jMz7uXB3EzHsC+hWIXrQxXXdwrh9KYZsb
+         hv8zIC7HPIQDTGQheaOg08pro71okyo8+t5cQAkm9ZZACzIDAombvSEk5qM+pAgezg
+         Eub6hOrIbap1qAU3ilp1OiP7eZP79jSejWKR3iEkc0RiULl6Fq6pjpvJX0heVd5dnB
+         +1GaFzUgj0nIQ==
+Date:   Tue, 18 Apr 2023 11:38:56 -0700
 From:   Nathan Chancellor <nathan@kernel.org>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Marco Elver <elver@google.com>, Arnd Bergmann <arnd@arndb.de>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        kasan-dev@googlegroups.com, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH] [v2] kasan: remove hwasan-kernel-mem-intrinsic-prefix=1
- for clang-14
-Message-ID: <20230418161442.GA3753@dev-arch.thelio-3990X>
-References: <20230418122350.1646391-1-arnd@kernel.org>
+        Nicolas Schier <nicolas@fjasle.eu>
+Subject: Re: [PATCH] kbuild: rpm-pkg: remove kernel-drm PROVIDES
+Message-ID: <20230418183856.GA2635379@dev-arch.thelio-3990X>
+References: <20230417143535.250565-1-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230418122350.1646391-1-arnd@kernel.org>
+In-Reply-To: <20230417143535.250565-1-masahiroy@kernel.org>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -67,53 +55,51 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Apr 18, 2023 at 02:23:35PM +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On Mon, Apr 17, 2023 at 11:35:35PM +0900, Masahiro Yamada wrote:
+> This code was added more than 20 years ago. [1]
 > 
-> Some unknown -mllvm options (i.e. those starting with the letter "h")
-> don't cause an error to be returned by clang, so the cc-option helper
-> adds the unknown hwasan-kernel-mem-intrinsic-prefix=1 flag to CFLAGS
-> with compilers that are new enough for hwasan but too old for this option.
+> I checked the kernel spec files in Fedora and OpenSUSE, but did not
+> see 'kernel-drm'. I do not know if there exists a distro that uses it
+> in RPM dependency.
 > 
-> This causes a rather unreadable build failure:
+> Remove this, and let's see if somebody complains about it.
 > 
-> fixdep: error opening file: scripts/mod/.empty.o.d: No such file or directory
-> make[4]: *** [/home/arnd/arm-soc/scripts/Makefile.build:252: scripts/mod/empty.o] Error 2
-> fixdep: error opening file: scripts/mod/.devicetable-offsets.s.d: No such file or directory
-> make[4]: *** [/home/arnd/arm-soc/scripts/Makefile.build:114: scripts/mod/devicetable-offsets.s] Error 2
+> [1]: https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/commit/?id=6d956df7d6b716b28c910c4f5b360c4d44d96c4d
 > 
-> Add a version check to only allow this option with clang-15, gcc-13
-> or later versions.
-> 
-> Fixes: 51287dcb00cc ("kasan: emit different calls for instrumentable memintrinsics")
-> Link: https://lore.kernel.org/all/CANpmjNMwYosrvqh4ogDO8rgn+SeDHM2b-shD21wTypm_6MMe=g@mail.gmail.com/
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
 Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-Kudos to Marco for figuring out the 'starting with the letter "h"' part
-of this issue :)
-
 > ---
-> v2: use one-line version check for both clang and gcc, clarify changelog text
-> ---
->  scripts/Makefile.kasan | 2 ++
->  1 file changed, 2 insertions(+)
 > 
-> diff --git a/scripts/Makefile.kasan b/scripts/Makefile.kasan
-> index c186110ffa20..390658a2d5b7 100644
-> --- a/scripts/Makefile.kasan
-> +++ b/scripts/Makefile.kasan
-> @@ -69,7 +69,9 @@ CFLAGS_KASAN := -fsanitize=kernel-hwaddress \
->  		$(instrumentation_flags)
+>  scripts/package/mkspec | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+> 
+> diff --git a/scripts/package/mkspec b/scripts/package/mkspec
+> index fc8ad3fbc0a9..8049f0e2c110 100755
+> --- a/scripts/package/mkspec
+> +++ b/scripts/package/mkspec
+> @@ -28,11 +28,6 @@ else
+>  	M=DEL
+>  fi
 >  
->  # Instrument memcpy/memset/memmove calls by using instrumented __hwasan_mem*().
-> +ifeq ($(call clang-min-version, 150000)$(call gcc-min-version, 130000),y)
->  CFLAGS_KASAN += $(call cc-param,hwasan-kernel-mem-intrinsic-prefix=1)
-> +endif
->  
->  endif # CONFIG_KASAN_SW_TAGS
->  
+> -if grep -q CONFIG_DRM=y include/config/auto.conf; then
+> -	PROVIDES=kernel-drm
+> -fi
+> -
+> -PROVIDES="$PROVIDES kernel-$KERNELRELEASE"
+>  __KERNELRELEASE=$(echo $KERNELRELEASE | sed -e "s/-/_/g")
+>  EXCLUDES="$RCS_TAR_IGNORE --exclude=*vmlinux* --exclude=*.mod \
+>  --exclude=*.o --exclude=*.ko --exclude=*.cmd --exclude=Documentation \
+> @@ -55,7 +50,7 @@ sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
+>  $S	Source0: linux.tar.gz
+>  $S	Source1: config
+>  $S	Source2: diff.patch
+> -	Provides: $PROVIDES
+> +	Provides: kernel-$KERNELRELEASE
+>  $S	BuildRequires: bc binutils bison dwarves
+>  $S	BuildRequires: (elfutils-libelf-devel or libelf-devel) flex
+>  $S	BuildRequires: gcc make openssl openssl-devel perl python3 rsync
 > -- 
-> 2.39.2
+> 2.37.2
 > 
