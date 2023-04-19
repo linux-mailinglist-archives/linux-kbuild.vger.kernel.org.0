@@ -2,58 +2,50 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D7DCC6E7ECD
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Apr 2023 17:45:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 712066E800A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Apr 2023 19:04:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233644AbjDSPp0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 19 Apr 2023 11:45:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35866 "EHLO
+        id S233293AbjDSREt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 19 Apr 2023 13:04:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233661AbjDSPpN (ORCPT
+        with ESMTP id S233528AbjDSREo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 19 Apr 2023 11:45:13 -0400
+        Wed, 19 Apr 2023 13:04:44 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C6CBA5D5;
-        Wed, 19 Apr 2023 08:45:08 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD0187AB7;
+        Wed, 19 Apr 2023 10:04:31 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 20BB963CB5;
-        Wed, 19 Apr 2023 15:45:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81BA0C433A0;
-        Wed, 19 Apr 2023 15:45:07 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 635D364108;
+        Wed, 19 Apr 2023 17:04:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52B50C433EF;
+        Wed, 19 Apr 2023 17:04:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681919107;
-        bh=90/tbLhV1ayXAjshEn/Ria2dF5WRQsSyCH03+eREOJc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=s8uo2ZzagsbAOEk23kn6eQh/sW+2gj9qRvXTVv7AyUQMn7PH9TO3+WnO09ss9M1yq
-         7PRwnTdQnwonVvkv2Wu30dwc42VxhDcCvlxDLC4n+c402I+KV0pkkC4QRwcXKldqEq
-         AiUU9UFgx7Jxx7INXCmH/PZ1La+SDfbLXNQ17I8Jrg4XQUDypid/gdbW5lBnU8xk43
-         UUlTQV85ThCyImKOPGWrHDBim9HgyjnZzppFdZYOkeVpzs+5OQVcARqOBxRBYkfNKT
-         As2gJoXlPx8NxE9IjrHKvS8wuUloziFo4NiNwi9rEGvsJxOSWjT2T1W0nyb24Otjlx
-         w55wiXN+Ure8w==
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6a5e7482961so895663a34.3;
-        Wed, 19 Apr 2023 08:45:07 -0700 (PDT)
-X-Gm-Message-State: AAQBX9fU/S7GZNPkyBh2FQQK/gkPE50K6lE/ipRGOlAOEGBbqKnUdgNX
-        bdOShRySdxlYbiLd2tMRzpofGpqFa0uXXZ/k/OM=
-X-Google-Smtp-Source: AKy350awxs0egxRonUq1BNIltf2oXCLUHFnYsxjk327cz2GTGYOHoUZge6aRtUP8EgIkT9l3f5KVzRj6W1Rs7wIFT3Q=
-X-Received: by 2002:a05:6870:1687:b0:184:af3:910d with SMTP id
- j7-20020a056870168700b001840af3910dmr80817oae.32.1681919106743; Wed, 19 Apr
- 2023 08:45:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <tencent_76F930F42F060E84C8BFA5440D0A35A17209@qq.com>
-In-Reply-To: <tencent_76F930F42F060E84C8BFA5440D0A35A17209@qq.com>
+        s=k20201202; t=1681923870;
+        bh=X+Eye6x1gsVpcrLllmf9tIi7ZkWaLRf+7UxNgxrfenE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=nGR83k9mmtu3T/+XoMr4NXQcI6+b/SjEQK32KUj3U+aIsmuueKOuxD1uOyz3dVlta
+         rs7jbsv3lH56Ccytu4Frqp+Sj6wTBUaf4t/6x/i5TvlIeQOxD2fc9IB4aaN8E976N0
+         xukd7gwoFiHbhoKzQ00AiIGROQl2Hdjh7gzxFsU9ffLVnHngYn1jsw7MjQm0+VhWeB
+         0KYxwOeieRRGprpyDYcl9qDp5tiXChd0ESwTm3370PdpvzQFK6zuU4CTo8cckVSaRU
+         EOtmdiDErw1w8gF5uQZwZrdYIy9SRscWBjY11obQm8UPOHOvqEnL7jbNrmdN/pwQCu
+         2Dv8nLn8Q2WEQ==
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 20 Apr 2023 00:44:30 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQys34ptXW+-OPnR22pDVvHZf0JEKy5-=ufFdOu0jBU-Q@mail.gmail.com>
-Message-ID: <CAK7LNAQys34ptXW+-OPnR22pDVvHZf0JEKy5-=ufFdOu0jBU-Q@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: rpm-pkg: fix rpm-pkg build error
-To:     29581992@qq.com
-Cc:     nathan@kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        sunjw10@lenovo.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jiwei Sun <sunjw10@lenovo.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>
+Subject: [PATCH] kbuild: use proper prefix for tarballs to fix rpm-pkg build error
+Date:   Thu, 20 Apr 2023 02:04:24 +0900
+Message-Id: <20230419170424.78688-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.37.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -64,99 +56,57 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 19, 2023 at 12:18=E2=80=AFPM <29581992@qq.com> wrote:
->
-> From: Jiwei Sun <sunjw10@lenovo.com>
->
-> The following error will trigger when building rpm-pkg
-> $ make rpm-pkg
->   SYNC    include/config/auto.conf.cmd
->   HOSTLD  scripts/kconfig/conf
->   UPD     include/config/kernel.release
->   UPD     .tmp_HEAD
->   ARCHIVE linux.tar.gz
-> sh ./scripts/package/mkspec >./kernel.spec
-> rpmbuild  --target x86_64-linux -bs kernel.spec \
-> --define=3D'_smp_mflags %{nil}' --define=3D'_sourcedir rpmbuild/SOURCES' =
---define=3D'_srcrpmdir .'
-> Building target platforms: x86_64-linux
-> Building for target x86_64-linux
-> Wrote: ./kernel-6.3.0_rc7-47.src.rpm
-> rpmbuild  --target x86_64-linux -rb kernel-6.3.0_rc7-47.src.rpm \
-> --define=3D'_smp_mflags %{nil}'
-> Installing kernel-6.3.0_rc7-47.src.rpm
-> Building target platforms: x86_64-linux
-> Building for target x86_64-linux
-> Executing(%prep): /bin/sh -e /var/tmp/rpm-tmp.QtGSXP
-> + umask 022
-> + cd /mnt/datapart/rpmbuild/BUILD
-> + cd /mnt/datapart/rpmbuild/BUILD
-> + rm -rf linux
-> + /usr/bin/gzip -dc /mnt/datapart/rpmbuild/SOURCES/linux.tar.gz
-> + /usr/bin/tar -xof -
-> + STATUS=3D0
-> + '[' 0 -ne 0 ']'
-> + cd linux
-> /var/tmp/rpm-tmp.QtGSXP: line 40: cd: linux: No such file or directory
-> error: Bad exit status from /var/tmp/rpm-tmp.QtGSXP (%prep)
->
-> There is linux.tar, not linux, and the linux.tar.gz is create by the foll=
-owing
->  quiet_cmd_archive =3D ARCHIVE $@
->        cmd_archive =3D git -C $(srctree) $(git-config-tar$(suffix $@)) ar=
-chive \
->                      --output=3D$$(realpath $@) --prefix=3D$(basename $@)=
-/ $(archive-args)
-> Here the $@ is linux.tar.gz, and $(basename $@) will be linux.tar,
-> The above fact is the cause, so use $(basename $(basename $@)) to get the=
- right directory name.
->
-> Signed-off-by: Jiwei Sun <sunjw10@lenovo.com>
-> ---
->  scripts/Makefile.package | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-> index 4d90691505b1..3718ecdf9edf 100644
-> --- a/scripts/Makefile.package
-> +++ b/scripts/Makefile.package
-> @@ -49,7 +49,7 @@ git-config-tar.zst =3D -c tar.tar.zst.command=3D"$(ZSTD=
-)"
->
->  quiet_cmd_archive =3D ARCHIVE $@
->        cmd_archive =3D git -C $(srctree) $(git-config-tar$(suffix $@)) ar=
-chive \
-> -                    --output=3D$$(realpath $@) --prefix=3D$(basename $@)=
-/ $(archive-args)
-> +                    --output=3D$$(realpath $@) --prefix=3D$(basename $(b=
-asename $@))/ $(archive-args)
+Since commit f8d94c4e403c ("kbuild: do not create intermediate *.tar
+for source tarballs"), 'make rpm-pkg' fails because the prefix of the
+source tarball is 'linux.tar/' instead of 'linux/'. $(basename $@)
+strips only '.gz' from the filename linux.tar.gz.
 
+You need to strip two suffixes from compressed tarballs and one suffix
+from uncompressed tarballs (for example 'perf-6.3.0.tar' generated by
+'make perf-tar-src-pkg').
 
-Thanks for the report and patch, but
-this would introduce another regression for
-'make perf-tar-src-pkg'.
+One tricky fix might be --prefix=$(firstword $(subst .tar, ,$@))/
+but I think it is better to hard-code the prefix.
 
-If you run it on the mainline
-the file name will be "perf-6.3.0-rc7.tar"
+Fixes: f8d94c4e403c ("kbuild: do not create intermediate *.tar for source tarballs")
+Reported-by: Jiwei Sun <sunjw10@lenovo.com>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-The inner $(basename ...) will strip ".tar",
-then the outer $(basename ...) will strip ".0-rc7".
+ scripts/Makefile.package | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-The resulting prefix will become "perf-6.3/"
-while the expected prefix is "pref-6.3.0-rc7/".
+diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+index 4d90691505b1..4000ad04c122 100644
+--- a/scripts/Makefile.package
++++ b/scripts/Makefile.package
+@@ -49,7 +49,7 @@ git-config-tar.zst = -c tar.tar.zst.command="$(ZSTD)"
+ 
+ quiet_cmd_archive = ARCHIVE $@
+       cmd_archive = git -C $(srctree) $(git-config-tar$(suffix $@)) archive \
+-                    --output=$$(realpath $@) --prefix=$(basename $@)/ $(archive-args)
++                    --output=$$(realpath $@) $(archive-args)
+ 
+ # Linux source tarball
+ # ---------------------------------------------------------------------------
+@@ -57,7 +57,7 @@ quiet_cmd_archive = ARCHIVE $@
+ linux-tarballs := $(addprefix linux, .tar.gz)
+ 
+ targets += $(linux-tarballs)
+-$(linux-tarballs): archive-args = $$(cat $<)
++$(linux-tarballs): archive-args = --prefix=linux/ $$(cat $<)
+ $(linux-tarballs): .tmp_HEAD FORCE
+ 	$(call if_changed,archive)
+ 
+@@ -189,7 +189,7 @@ perf-archive-args = --add-file=$$(realpath $(word 2, $^)) \
+ perf-tarballs := $(addprefix perf-$(KERNELVERSION), .tar .tar.gz .tar.bz2 .tar.xz .tar.zst)
+ 
+ targets += $(perf-tarballs)
+-$(perf-tarballs): archive-args = $(perf-archive-args)
++$(perf-tarballs): archive-args = --prefix=perf-$(KERNELVERSION)/ $(perf-archive-args)
+ $(perf-tarballs): tools/perf/MANIFEST .tmp_perf/HEAD .tmp_perf/PERF-VERSION-FILE FORCE
+ 	$(call if_changed,archive)
+ 
+-- 
+2.37.2
 
-
-
-
->
->  # Linux source tarball
->  # ----------------------------------------------------------------------=
------
-> --
-> 2.27.0
->
-
-
---=20
-Best Regards
-Masahiro Yamada
