@@ -2,52 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 712066E800A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Apr 2023 19:04:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5A336E81CE
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Apr 2023 21:24:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233293AbjDSREt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 19 Apr 2023 13:04:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58622 "EHLO
+        id S229636AbjDSTYv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 19 Apr 2023 15:24:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233528AbjDSREo (ORCPT
+        with ESMTP id S229562AbjDSTYu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 19 Apr 2023 13:04:44 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD0187AB7;
-        Wed, 19 Apr 2023 10:04:31 -0700 (PDT)
+        Wed, 19 Apr 2023 15:24:50 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 440B855B8;
+        Wed, 19 Apr 2023 12:24:49 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 635D364108;
-        Wed, 19 Apr 2023 17:04:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52B50C433EF;
-        Wed, 19 Apr 2023 17:04:29 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D50896400C;
+        Wed, 19 Apr 2023 19:24:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9815C433EF;
+        Wed, 19 Apr 2023 19:24:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681923870;
-        bh=X+Eye6x1gsVpcrLllmf9tIi7ZkWaLRf+7UxNgxrfenE=;
-        h=From:To:Cc:Subject:Date:From;
-        b=nGR83k9mmtu3T/+XoMr4NXQcI6+b/SjEQK32KUj3U+aIsmuueKOuxD1uOyz3dVlta
-         rs7jbsv3lH56Ccytu4Frqp+Sj6wTBUaf4t/6x/i5TvlIeQOxD2fc9IB4aaN8E976N0
-         xukd7gwoFiHbhoKzQ00AiIGROQl2Hdjh7gzxFsU9ffLVnHngYn1jsw7MjQm0+VhWeB
-         0KYxwOeieRRGprpyDYcl9qDp5tiXChd0ESwTm3370PdpvzQFK6zuU4CTo8cckVSaRU
-         EOtmdiDErw1w8gF5uQZwZrdYIy9SRscWBjY11obQm8UPOHOvqEnL7jbNrmdN/pwQCu
-         2Dv8nLn8Q2WEQ==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Jiwei Sun <sunjw10@lenovo.com>,
-        Nathan Chancellor <nathan@kernel.org>,
+        s=k20201202; t=1681932288;
+        bh=4QErbcQVxsef7nC4K+1UU0x1X8M2fq6cPeGxV75cTN0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SuHK5USY9RbVcHGs8P/Jm9pllERWr8UIcJKmp8Kk2DJX/Q7kyX/SRByuIIY77WwCd
+         x/QPz/ElO0Rutepw0fBcjIFc3aTKQ1UkkoVXjb5hJ5Na4Ak7KiNjshYERzYVe0823Y
+         viy4gkMNx+D/rZatBzW9A/912qVQZ7uNkeYbWRa10mrKedXcMlcQob5cbFHYWcxWNE
+         m7uD+m/Ys93+eXQ8P/db+GzXiQcm0ThOPi+t67u95UIEj7zS18UYZ2RUrkfVBMLMlk
+         sYdvwih2q2C3PLM0EwFERvoAXXZ6fMvG5Av7H8suKWR7Mdy5PmMwD9YA6rASwFN1WD
+         KIQk1pOHwMKTA==
+Date:   Wed, 19 Apr 2023 12:24:46 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org,
         Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
+        linux-kernel@vger.kernel.org, Fangrui Song <maskray@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH] kbuild: use proper prefix for tarballs to fix rpm-pkg build error
-Date:   Thu, 20 Apr 2023 02:04:24 +0900
-Message-Id: <20230419170424.78688-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.37.2
+Subject: Re: [PATCH] kbuild: clang: do not use CROSS_COMPILE for target triple
+Message-ID: <20230419192446.GA1993276@dev-arch.thelio-3990X>
+References: <20230401170117.1580840-1-masahiroy@kernel.org>
+ <20230403144758.GA3460665@dev-arch.thelio-3990X>
+ <CAK7LNAQsgB-SC2t+9ZpDwJbME+BVt+Gur1ydTnHfBfMAfn_y0w@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+In-Reply-To: <CAK7LNAQsgB-SC2t+9ZpDwJbME+BVt+Gur1ydTnHfBfMAfn_y0w@mail.gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -56,57 +60,124 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Since commit f8d94c4e403c ("kbuild: do not create intermediate *.tar
-for source tarballs"), 'make rpm-pkg' fails because the prefix of the
-source tarball is 'linux.tar/' instead of 'linux/'. $(basename $@)
-strips only '.gz' from the filename linux.tar.gz.
+On Sun, Apr 16, 2023 at 10:02:12PM +0900, Masahiro Yamada wrote:
+> On Mon, Apr 3, 2023 at 11:48 PM Nathan Chancellor <nathan@kernel.org> wrote:
+> >
+> > On Sun, Apr 02, 2023 at 02:01:17AM +0900, Masahiro Yamada wrote:
+> > > The target triple is overridden by the user-supplied CROSS_COMPILE,
+> > > but I do not see a good reason to support it. Users can use a new
+> > > architecture without adding CLANG_TARGET_FLAGS_*, but that would be
+> > > a rare case.
+> > >
+> > > Use the hard-coded and deterministic target triple all the time.
+> > >
+> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> >
+> > I know of one bug where the value of '--target' matters:
+> >
+> > https://github.com/ClangBuiltLinux/linux/issues/1244
+> 
+> 
+> I did not look into it closely, but if we say
 
-You need to strip two suffixes from compressed tarballs and one suffix
-from uncompressed tarballs (for example 'perf-6.3.0.tar' generated by
-'make perf-tar-src-pkg').
+Heh, neither did I when I wrote the initial response to this patch,
+because that issue turns out to be entirely irrelevant for this patch :)
 
-One tricky fix might be --prefix=$(firstword $(subst .tar, ,$@))/
-but I think it is better to hard-code the prefix.
+> "
+> Using either CROSS_COMPILE=powerpc64-linux-gnu- or
+> CROSS_COMPILE=powerpc-linux-gnu- fixes it.
+> Using KCFLAGS=-v reveals that powerpc64le-linux-gnu-as is not getting
+> the endianness information.
+> ", why didn't we fix it like the following?
 
-Fixes: f8d94c4e403c ("kbuild: do not create intermediate *.tar for source tarballs")
-Reported-by: Jiwei Sun <sunjw10@lenovo.com>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+It is because this already technically happens under the hood with
+clang. '--target=powerpc64le-linux-gnu -mbig-endian' is functionally
+equivalent to '--target=powerpc64-linux-gnu'. The issue is that
+'--target=powerpc64-linux-gnu' and '--target=powerpc-linux-gnu' were not
+passing along '-mbig-endian' to the assembler, so
+powerpc64le-linux-gnu-ld was expecting big endian object files due to
+'-EB' in LDFLAGS but was getting little endian object files, since the
+assembler's triple was little endian by default.
 
- scripts/Makefile.package | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+We could work around this in the kernel by explicitly passing
+'-Wa,-mlittle-endian' for these older versions of clang but I do not
+think it is worth it, especially since it will just get removed once we
+no longer support clang-11, which is our next uprev.
 
-diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-index 4d90691505b1..4000ad04c122 100644
---- a/scripts/Makefile.package
-+++ b/scripts/Makefile.package
-@@ -49,7 +49,7 @@ git-config-tar.zst = -c tar.tar.zst.command="$(ZSTD)"
- 
- quiet_cmd_archive = ARCHIVE $@
-       cmd_archive = git -C $(srctree) $(git-config-tar$(suffix $@)) archive \
--                    --output=$$(realpath $@) --prefix=$(basename $@)/ $(archive-args)
-+                    --output=$$(realpath $@) $(archive-args)
- 
- # Linux source tarball
- # ---------------------------------------------------------------------------
-@@ -57,7 +57,7 @@ quiet_cmd_archive = ARCHIVE $@
- linux-tarballs := $(addprefix linux, .tar.gz)
- 
- targets += $(linux-tarballs)
--$(linux-tarballs): archive-args = $$(cat $<)
-+$(linux-tarballs): archive-args = --prefix=linux/ $$(cat $<)
- $(linux-tarballs): .tmp_HEAD FORCE
- 	$(call if_changed,archive)
- 
-@@ -189,7 +189,7 @@ perf-archive-args = --add-file=$$(realpath $(word 2, $^)) \
- perf-tarballs := $(addprefix perf-$(KERNELVERSION), .tar .tar.gz .tar.bz2 .tar.xz .tar.zst)
- 
- targets += $(perf-tarballs)
--$(perf-tarballs): archive-args = $(perf-archive-args)
-+$(perf-tarballs): archive-args = --prefix=perf-$(KERNELVERSION)/ $(perf-archive-args)
- $(perf-tarballs): tools/perf/MANIFEST .tmp_perf/HEAD .tmp_perf/PERF-VERSION-FILE FORCE
- 	$(call if_changed,archive)
- 
--- 
-2.37.2
+TL;DR: Patch should be fine, issue is tangential.
 
+>  diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
+>  index 70b354fa1cb4..8dda7dc69c93 100644
+>  --- a/scripts/Makefile.clang
+>  +++ b/scripts/Makefile.clang
+>  @@ -6,7 +6,7 @@ CLANG_TARGET_FLAGS_arm64        := aarch64-linux-gnu
+>   CLANG_TARGET_FLAGS_hexagon     := hexagon-linux-musl
+>   CLANG_TARGET_FLAGS_m68k                := m68k-linux-gnu
+>   CLANG_TARGET_FLAGS_mips                := mipsel-linux-gnu
+>  -CLANG_TARGET_FLAGS_powerpc     := powerpc64le-linux-gnu
+>  +CLANG_TARGET_FLAGS_powerpc     := powerpc64-linux-gnu
+>   CLANG_TARGET_FLAGS_riscv       := riscv64-linux-gnu
+>   CLANG_TARGET_FLAGS_s390                := s390x-linux-gnu
+>   CLANG_TARGET_FLAGS_x86         := x86_64-linux-gnu
+> 
+> 
+> 
+> We do not need to test all possible target triples.
+> 
+> 
+> We can just use the one that is known to work.
+> Anyway, I will apply this patch. Thanks.
+> 
+> 
+> >
+> > This was fixed in LLVM 12.0.0. We are not testing this in our CI though,
+> > so we would not get bit by this (we could bump the minimum supported
+> > version of LLVM to 12.0.0 for this, we have talked recently about doing
+> > it for other reasons).
+> >
+> > I guess I cannot really think of a good reason not to do this aside from
+> > that; the target triple should only affect code generation, rather than
+> > tool selection (i.e., this does not take away the ability to use a
+> > custom set of binutils with clang).
+> >
+> > However, Nick is currently OOO and I would like his opinion voiced
+> > before we commit to this. Consider this a tentative:
+> >
+> > Acked-by: Nathan Chancellor <nathan@kernel.org>
+> >
+> > > ---
+> > >
+> > >  scripts/Makefile.clang | 8 ++------
+> > >  1 file changed, 2 insertions(+), 6 deletions(-)
+> > >
+> > > diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
+> > > index 70b354fa1cb4..9076cc939e87 100644
+> > > --- a/scripts/Makefile.clang
+> > > +++ b/scripts/Makefile.clang
+> > > @@ -13,15 +13,11 @@ CLANG_TARGET_FLAGS_x86            := x86_64-linux-gnu
+> > >  CLANG_TARGET_FLAGS_um                := $(CLANG_TARGET_FLAGS_$(SUBARCH))
+> > >  CLANG_TARGET_FLAGS           := $(CLANG_TARGET_FLAGS_$(SRCARCH))
+> > >
+> > > -ifeq ($(CROSS_COMPILE),)
+> > >  ifeq ($(CLANG_TARGET_FLAGS),)
+> > > -$(error Specify CROSS_COMPILE or add '--target=' option to scripts/Makefile.clang)
+> > > +$(error add '--target=' option to scripts/Makefile.clang)
+> > >  else
+> > >  CLANG_FLAGS  += --target=$(CLANG_TARGET_FLAGS)
+> > > -endif # CLANG_TARGET_FLAGS
+> > > -else
+> > > -CLANG_FLAGS  += --target=$(notdir $(CROSS_COMPILE:%-=%))
+> > > -endif # CROSS_COMPILE
+> > > +endif
+> > >
+> > >  ifeq ($(LLVM_IAS),0)
+> > >  CLANG_FLAGS  += -fno-integrated-as
+> > > --
+> > > 2.37.2
+> > >
+> 
+> 
+> 
+> -- 
+> Best Regards
+> Masahiro Yamada
