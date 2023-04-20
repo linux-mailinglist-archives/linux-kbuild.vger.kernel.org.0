@@ -2,68 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 04D436E946A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Apr 2023 14:32:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 612F26E9AF3
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Apr 2023 19:40:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234544AbjDTMcx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 20 Apr 2023 08:32:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53538 "EHLO
+        id S231246AbjDTRkY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 20 Apr 2023 13:40:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234406AbjDTMcv (ORCPT
+        with ESMTP id S230170AbjDTRkX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 20 Apr 2023 08:32:51 -0400
+        Thu, 20 Apr 2023 13:40:23 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF0B4524E;
-        Thu, 20 Apr 2023 05:32:36 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AE9E93;
+        Thu, 20 Apr 2023 10:40:23 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5A02C64894;
-        Thu, 20 Apr 2023 12:32:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9E6CC4339E;
-        Thu, 20 Apr 2023 12:32:35 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 987F364AFF;
+        Thu, 20 Apr 2023 17:40:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id F125BC433EF;
+        Thu, 20 Apr 2023 17:40:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681993955;
-        bh=tiIf8xShGMy5YmQneQeNGTSNOauc/Dske3qGt5FpTP8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Vzxxm55d5jmtbIy6WA0A45FLM7DahIZxqJBvueyagQFyvrLEV2pkEnZkxH35Y0fCo
-         6bHPbmmDQ/JD3oMAVf0gjV48M69Y7KcKjRiWFPkAywT/tnyrSx++XuWS/P52Qq5tVV
-         nAc2wnUglj++kKNQI1+RtpkF2RgE2FcTwb0WtkO9LdDrJRLNM+0OaUtSFOYaO8SOtu
-         OxCBGjKyNM6AK49yWhpYZusTkONaVNKRggUUdr1rLBKIbSu9DrgB7ZH6Bqvpwh5PTx
-         OSjIM3kaiE2rQeBiaJvEIB0WVaKYTOnrkoDm/m7nKNq6X7o8Ffy3UhjDdt7fNZ+ZGd
-         yNbUaR7Sq8LJg==
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-6a604259983so712856a34.2;
-        Thu, 20 Apr 2023 05:32:35 -0700 (PDT)
-X-Gm-Message-State: AAQBX9foOiH2nGld91bqQBbW6SLPGfDtyekWlQQGmqFuKToOYYMHuCDA
-        C7IEATYSsl48PzbwOCg99uIcmX31s1m8AaA+XdY=
-X-Google-Smtp-Source: AKy350YmKghsS0yBgOo82Vu1Oz3++Mi8rtvZaumgjDx5e1ruGJTyi3XPbgHEVjdnbntRElO8REkEnC63Dxf3eSBsN/0=
-X-Received: by 2002:a05:6870:e40b:b0:184:5608:eb2d with SMTP id
- n11-20020a056870e40b00b001845608eb2dmr860331oag.21.1681993955041; Thu, 20 Apr
- 2023 05:32:35 -0700 (PDT)
+        s=k20201202; t=1682012422;
+        bh=xx+vnuJ8fbBXHjt5KUhqykE72X3YbB4D+HrbBLN/fp0=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=swcqEAzzNfF4PbGtLC+Y1g8NIPrhqMOJudKRPHs5s2Csb72NKfNl3YFeGxGY/Zjug
+         mgDaBG1UiPHXP5gDhO5hZyyePMOqFVTrVQVAZtyXaaTobM+RSFX9sZMGuEAZzBK3/v
+         1jzJz7qSpleZTattS492X+EGgmP5uB7+UQs0GORMgqN2ZnP9tvicgu0W49TS9ELd5P
+         2SVRXYj2Ocu9C0rFm5WXUA+bzPprIweNTq5un4A4W8wRDrlJ7n41p+gmAmClYNyHiN
+         lPlV+xhImalzbHl1zYFi22w5s33BGoaaTU+sICbNfEDgu6SSxslrYCsLHK3zP0tG6F
+         msYaLIlP1PKhg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D2810E270E2;
+        Thu, 20 Apr 2023 17:40:21 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20230407101629.1298051-1-masahiroy@kernel.org>
- <20230407101629.1298051-3-masahiroy@kernel.org> <20230407181223.GD1018455@dev-arch.thelio-3990X>
- <a42a2dc4-bcbc-7a19-b036-8722606a5eaf@gmail.com> <ZEEAfkOGyVs1KD5Z@buildd.core.avm.de>
- <20230420091903.GB4423@unreal>
-In-Reply-To: <20230420091903.GB4423@unreal>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 20 Apr 2023 21:31:58 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQZ-V4Q8eh7_d-vU1_yXYZMkOTokQ-+S8P0g7xMaYfPnw@mail.gmail.com>
-Message-ID: <CAK7LNAQZ-V4Q8eh7_d-vU1_yXYZMkOTokQ-+S8P0g7xMaYfPnw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] kbuild: do not create intermediate *.tar for tar packages
-To:     Leon Romanovsky <leon@kernel.org>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <n.schier@avm.de>,
-        Tariq Toukan <ttoukan.linux@gmail.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nick Terrell <terrelln@fb.com>, dalevi@nvidia.com,
-        Gal Pressman <gal@nvidia.com>,
-        Saeed Mahameed <saeedm@nvidia.com>,
-        Tariq Toukan <tariqt@nvidia.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v9 0/6] Introduce 64b relocatable kernel
+From:   patchwork-bot+linux-riscv@kernel.org
+Message-Id: <168201242185.9373.5416270250289201005.git-patchwork-notify@kernel.org>
+Date:   Thu, 20 Apr 2023 17:40:21 +0000
+References: <20230329045329.64565-1-alexghiti@rivosinc.com>
+In-Reply-To: <20230329045329.64565-1-alexghiti@rivosinc.com>
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc:     linux-riscv@lists.infradead.org, ndesaulniers@google.com,
+        bjorn@kernel.org, mpe@ellerman.id.au, npiggin@gmail.com,
+        christophe.leroy@csgroup.eu, paul.walmsley@sifive.com,
+        palmer@dabbelt.com, aou@eecs.berkeley.edu,
+        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -74,94 +61,39 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Apr 20, 2023 at 6:19=E2=80=AFPM Leon Romanovsky <leon@kernel.org> w=
-rote:
->
-> On Thu, Apr 20, 2023 at 11:06:06AM +0200, Nicolas Schier wrote:
-> > On Thu, Apr 20, 2023 at 11:54:34AM +0300, Tariq Toukan wrote:
-> > >
-> > >
-> > > On 07/04/2023 21:12, Nathan Chancellor wrote:
-> > > > On Fri, Apr 07, 2023 at 07:16:29PM +0900, Masahiro Yamada wrote:
-> > > > > Commit 05e96e96a315 ("kbuild: use git-archive for source package
-> > > > > creation") split the compression as a separate step to factor out
-> > > > > the common build rules.
-> > > > >
-> > > > > With the previous commit, we got back to the situation where
-> > > > > compressed source tarballs are created by a single rule.
-> > > > > There is no reason to keep the separate compression rules.
-> > > > >
-> > > > > Generate the comressed tar packages directly.
-> > > > >
-> > > > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > >
-> > > > Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-> > > >
-> > >
-> > > Hi,
-> > >
-> > > We started seeing the failure below in rc7.
-> > > We narrowed it down to your patches:
-> > >
-> > > 3c65a2704cdd kbuild: do not create intermediate *.tar for tar package=
-s
-> > > f8d94c4e403c kbuild: do not create intermediate *.tar for source tarb=
-alls
-> > > f6d8283549bc kbuild: merge cmd_archive_linux and cmd_archive_perf
+Hello:
+
+This series was applied to riscv/linux.git (for-next)
+by Palmer Dabbelt <palmer@rivosinc.com>:
+
+On Wed, 29 Mar 2023 06:53:23 +0200 you wrote:
+> After multiple attempts, this patchset is now based on the fact that the
+> 64b kernel mapping was moved outside the linear mapping.
+> 
+> The first patch allows to build relocatable kernels but is not selected
+> by default. That patch is a requirement for KASLR.
+> The second and third patches take advantage of an already existing powerpc
+> script that checks relocations at compile-time, and uses it for riscv.
+> 
+> [...]
+
+Here is the summary with links:
+  - [v9,1/6] riscv: Prepare EFI header for relocatable kernels
+    https://git.kernel.org/riscv/c/55de1e4ad43b
+  - [v9,2/6] riscv: Move .rela.dyn outside of init to avoid empty relocations
+    https://git.kernel.org/riscv/c/69a90d2fe107
+  - [v9,3/6] riscv: Introduce CONFIG_RELOCATABLE
+    https://git.kernel.org/riscv/c/39b33072941f
+  - [v9,4/6] powerpc: Move script to check relocations at compile time in scripts/
+    https://git.kernel.org/riscv/c/47981b5cc687
+  - [v9,5/6] riscv: Check relocations at compile time
+    https://git.kernel.org/riscv/c/c2dea0bc5339
+  - [v9,6/6] riscv: Use --emit-relocs in order to move .rela.dyn in init
+    https://git.kernel.org/riscv/c/559d1e45a16d
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
-Strictly speaking, these are not bugs,
-but gave a bad user experience.
-(build slowness and extra disk space consumed).
-
-
-I got a complaint about the intermediate *.tar file.
-
-https://lore.kernel.org/linux-kbuild/20230406152540.8207-1-youling257@gmail=
-.com/
-
-
-
-I noticed fixing it was not difficult, so I merged.
-(but, apparently I introduced another regression, sorry about that)
-
-
-
-
-
-
-
-
-> > > aa7d233f45b4 kbuild: give up untracked files for source package build=
-s
->
-> <...>
->
-> > > RPM build errors:
-> > >     Bad exit status from /var/tmp/rpm-tmp.yDFEga (%prep)
-> > > make[1]: *** [scripts/Makefile.package:69: rpm-pkg] Error 1
-> > > make: *** [Makefile:1656: rpm-pkg] Error 2
-> >
-> > Thanks for the report.  It should/will be fixed with
-> > https://lore.kernel.org/linux-kbuild/20230419170424.78688-1-masahiroy@k=
-ernel.org/
->
-> Thanks for the prompt response.
->
-> I have a general question, why commits listed by Tariq were not delayed t=
-o merge window?
->
-> Only one of them has Fixes line, but even that patch doesn't talk about
-> error, but code refactoring "To simplify the code, ...".
->
-> Thanks
->
-> >
-> > Kind regards,
-> > Nicolas
-
-
-
---=20
-Best Regards
-Masahiro Yamada
