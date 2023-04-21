@@ -2,135 +2,146 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 504546E9C95
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Apr 2023 21:41:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7EF36EA8C6
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Apr 2023 13:03:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232081AbjDTTlZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 20 Apr 2023 15:41:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53556 "EHLO
+        id S230094AbjDULDo convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Fri, 21 Apr 2023 07:03:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232079AbjDTTlX (ORCPT
+        with ESMTP id S230507AbjDULDn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 20 Apr 2023 15:41:23 -0400
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 294412137;
-        Thu, 20 Apr 2023 12:41:22 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.west.internal (Postfix) with ESMTP id DBBC9320092B;
-        Thu, 20 Apr 2023 15:41:20 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Thu, 20 Apr 2023 15:41:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
-        cc:cc:content-transfer-encoding:content-type:content-type:date
-        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to; s=fm1; t=
-        1682019680; x=1682106080; bh=p6x8eK0ey2TKiUVWiknQNIvdPNRc+BGT+H/
-        HROCA6Oo=; b=TTAn4A46RYtXUH3OsO4vvM6J58QWBtcNlm1KWAIK2rBw6WQab8Y
-        eYK0r4XEqUm6Fi85exKZxmiZdNCWFUNrY/W6q1myzZsPU7mTEMXYeoPDxSZA+Jhu
-        SU4JYUS1r4ilX8TcRlGsYTCQQJ5aJxE+/y45m+fV+S+gDWK/PcXPSYb78/lTvCJA
-        fnVqqph2LB4ZbjDSTPN6TfQ/sxhwqS8EUeb2MueRRdjbcLZjjTf25XHZSH7yNVCP
-        WOh4CI6XEvqEdRso3Zsz7VGswWw+w7uobFVeHMbTiTVs6jiDtWXzFCBUaGVG+t6a
-        zEM0duYmTmdtmwfCfbHlN1N6G7xgaprhysA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:content-type:date:date:feedback-id:feedback-id
-        :from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-        1682019680; x=1682106080; bh=p6x8eK0ey2TKiUVWiknQNIvdPNRc+BGT+H/
-        HROCA6Oo=; b=LKkpd5Bt6pLMYruS67U9AxXd4uLDtlKlJeA/3CX0tRtbrMjCnAV
-        s5eazZx/ZbdJRa8I3JIbc4JexkxDIrqWIumKsm55m3x305/n1TQXcndwSmAEOsAU
-        F7L7gW6rz1s/BC+oFGnYioaV2KFoQt3fftp3oyyzjBCrN11is0mKkMz9HdF8vi+O
-        87PY2K85AO/cJRrc7M/m/Bm7Jiggy2CXh0WAJIeh964TiNe7ywM3Y2zJmn4COkOm
-        3419YQVnmJKqpqkZajJ6Qgxy94GMuoG1FECEgZPXGMfco7Z3NirlX65yl1BG2LpZ
-        bViXuA867to7u+m9aiN5I0eoEPspAadwViw==
-X-ME-Sender: <xms:X5VBZF1vBr8dUYHmdqUSp4X7yUAccjjQYwdQsGr7OtSDVc6cYYp-Dw>
-    <xme:X5VBZMEUfbWL1txPD-0iinlHCPbDBgXLG25WLV2W7SUbbmR5kqKbyZjeliHV_Cyyg
-    KHEQbBorkNWobKxQjw>
-X-ME-Received: <xmr:X5VBZF6UMx5GC__32E_VS930sJeKWHHNUKN3ORcf94hG6PQ3aMKHT4n6M7r2DGyUGw7k>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfedtvddgudeflecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpegtggfuhfgjffevgffkfhfvofesthhqmhdthhdtjeenucfhrhhomheplfhi
-    rgiguhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqe
-    enucggtffrrghtthgvrhhnpeekveeileevieeukeevjeegkeffhfffkeekieekjeffvdek
-    tdegveefjeeugfeggeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsth
-    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghn
-    ghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:X5VBZC0MzsIRlkedDetrHH2TlQlU7Bl7HuB2k_apgl6lrp7VP_PPpg>
-    <xmx:X5VBZIFha4xjZx0toZms1WvORNoCajZJ0l02wIHo3jHQOTedpw4RPw>
-    <xmx:X5VBZD8GJYVsH4HFJpV2lxIQo0tyYL5qChygm-hxdMQPfVqsQyn0rA>
-    <xmx:YJVBZN5lEo9uJQoio3_no0g-5iNOXOB8BJZBiDGe_t8yytRiiRnvwQ>
-Feedback-ID: ifd894703:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 20 Apr 2023 15:41:18 -0400 (EDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.500.231\))
-Subject: Re: [PATCH v2 2/7] MIPS: Add toolchain feature dependency for
- microMIPS smartMIPS
-From:   Jiaxun Yang <jiaxun.yang@flygoat.com>
-In-Reply-To: <CAKwvOd=ye9jA0-3QRpD76waZCSX=ayFeE2ZNAPPM-fLdyCq1FQ@mail.gmail.com>
-Date:   Thu, 20 Apr 2023 20:41:07 +0100
-Cc:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
-        llvm@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <77F56166-265A-4653-ADF4-B0057604A539@flygoat.com>
-References: <20230414080701.15503-1-jiaxun.yang@flygoat.com>
- <20230414080701.15503-3-jiaxun.yang@flygoat.com>
- <20230418130823.GA12456@alpha.franken.de>
- <CAKwvOd=ye9jA0-3QRpD76waZCSX=ayFeE2ZNAPPM-fLdyCq1FQ@mail.gmail.com>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-X-Mailer: Apple Mail (2.3731.500.231)
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Fri, 21 Apr 2023 07:03:43 -0400
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0291902A;
+        Fri, 21 Apr 2023 04:03:38 -0700 (PDT)
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.95)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1ppoY8-001WVG-R2; Fri, 21 Apr 2023 13:03:32 +0200
+Received: from p57bd9bea.dip0.t-ipconnect.de ([87.189.155.234] helo=[192.168.178.81])
+          by inpost2.zedat.fu-berlin.de (Exim 4.95)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1ppoY8-001DxP-Hy; Fri, 21 Apr 2023 13:03:32 +0200
+Message-ID: <434fe02c2c774ae4d1694ff222884bc5d5fc25e6.camel@physik.fu-berlin.de>
+Subject: Re: [PATCH v3] sh: Use generic GCC library routines
+From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>
+Cc:     Palmer Dabbelt <palmer@rivosinc.com>, linux-sh@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Fri, 21 Apr 2023 13:03:31 +0200
+In-Reply-To: <74dbe68dc8e2ffb6180092f73723fe21ab692c7a.1679566500.git.geert+renesas@glider.be>
+References: <74dbe68dc8e2ffb6180092f73723fe21ab692c7a.1679566500.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.48.0 
+MIME-Version: 1.0
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.155.234
+X-ZEDAT-Hint: PO
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Hi Geert!
 
+On Thu, 2023-03-23 at 11:18 +0100, Geert Uytterhoeven wrote:
+> The C implementations of __ashldi3(), __ashrdi3__(), and __lshrdi3() in
+> arch/sh/lib/ are identical to the generic C implementations in lib/.
+> Reduce duplication by switching SH to the generic versions.
+> 
+> Update the include path in arch/sh/boot/compressed accordingly.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
+> ---
+> v3:
+>   - Add Acked-by,
+> 
+> v2:
+>   - Fix silly typo in subject.
+> 
+> Tested on landisk and qemu/rts7751r2d.
+> 
+> Note that it also works without the change to arch/sh/boot/compressed/,
+> as lib/ashldi3.c can be reached via both include/uapi/../../lib/ashldi3.c
+> and arch/sh/boot/compressed/../../../../lib/ashldi3.c.
+> 
+> Palmer tried a similar thing before:
+> https://lore.kernel.org/linux-arch/20170523220546.16758-1-palmer@dabbelt.com/
+> but initially it broke the SH build due to a missing change to
+> arch/sh/boot/compressed/, and the later update never got picked up.
+> In the mean time, arch/sh/boot/compressed/ was changed, so his patch no
+> longer applies.
+> 
+> Similar for the other architectures, I guess?
+> ---
+>  arch/sh/Kconfig                   |  3 +++
+>  arch/sh/boot/compressed/ashldi3.c |  4 ++--
+>  arch/sh/lib/Makefile              |  4 +---
+>  arch/sh/lib/ashldi3.c             | 30 -----------------------------
+>  arch/sh/lib/ashrdi3.c             | 32 -------------------------------
+>  arch/sh/lib/lshrdi3.c             | 30 -----------------------------
+>  6 files changed, 6 insertions(+), 97 deletions(-)
+>  delete mode 100644 arch/sh/lib/ashldi3.c
+>  delete mode 100644 arch/sh/lib/ashrdi3.c
+>  delete mode 100644 arch/sh/lib/lshrdi3.c
+> 
+> diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
+> index ccb866750a884643..892903dc74990c36 100644
+> --- a/arch/sh/Kconfig
+> +++ b/arch/sh/Kconfig
+> @@ -20,6 +20,9 @@ config SUPERH
+>  	select GENERIC_CMOS_UPDATE if SH_SH03 || SH_DREAMCAST
+>  	select GENERIC_IDLE_POLL_SETUP
+>  	select GENERIC_IRQ_SHOW
+> +	select GENERIC_LIB_ASHLDI3
+> +	select GENERIC_LIB_ASHRDI3
+> +	select GENERIC_LIB_LSHRDI3
+>  	select GENERIC_PCI_IOMAP if PCI
+>  	select GENERIC_SCHED_CLOCK
+>  	select GENERIC_SMP_IDLE_THREAD
+> diff --git a/arch/sh/boot/compressed/ashldi3.c b/arch/sh/boot/compressed/ashldi3.c
+> index 7cebd646df839b48..7c12121702309e8c 100644
+> --- a/arch/sh/boot/compressed/ashldi3.c
+> +++ b/arch/sh/boot/compressed/ashldi3.c
+> @@ -1,2 +1,2 @@
+> -// SPDX-License-Identifier: GPL-2.0-only
+> -#include "../../lib/ashldi3.c"
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +#include "../../../../lib/ashldi3.c"
+> diff --git a/arch/sh/lib/Makefile b/arch/sh/lib/Makefile
+> index eb473d373ca43a4b..d20a0768b31fa2b6 100644
+> --- a/arch/sh/lib/Makefile
+> +++ b/arch/sh/lib/Makefile
+> @@ -7,9 +7,7 @@ lib-y  = delay.o memmove.o memchr.o \
+>  	 checksum.o strlen.o div64.o div64-generic.o
+>  
+>  # Extracted from libgcc
+> -obj-y += movmem.o ashldi3.o ashrdi3.o lshrdi3.o \
+> -	 ashlsi3.o ashrsi3.o ashiftrt.o lshrsi3.o \
+> -	 udiv_qrnnd.o
+> +obj-y += movmem.o ashlsi3.o ashrsi3.o ashiftrt.o lshrsi3.o udiv_qrnnd.o
 
-> 2023=E5=B9=B44=E6=9C=8820=E6=97=A5 00:01=EF=BC=8CNick Desaulniers =
-<ndesaulniers@google.com> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> On Tue, Apr 18, 2023 at 6:13=E2=80=AFAM Thomas Bogendoerfer
-> <tsbogend@alpha.franken.de> wrote:
->>=20
->> On Fri, Apr 14, 2023 at 09:06:56AM +0100, Jiaxun Yang wrote:
->>> microMIPS smartMIPS kernel can only be compiled if they are =
-supported
->>> by toolchain.
->>>=20
->>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->>> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
->=20
-> Question: won't the lack of this (patch and rest of the series) hurt
-> our ability to test randconfig builds of ARCH=3Dmips with clang? See
-> also the 0day report from Boris:
-> https://lore.kernel.org/llvm/202304170748.Fg9VIgGd-lkp@intel.com/
+Why are the single-precision (denoted as "si") variants not being replaced?
 
-Kconfig experts, Is there any way to generate warning based on Kconfig =
-options?
-So we can let users know there are something went wrong but still allow =
-build to happen.
+Don't we have generic versions for these?
 
-Thanks
-- Jiaxun=20
+Adrian
 
->=20
-> i.e. randconfig will continue to select options that can't be built =
-yet.
->=20
-> --=20
-> Thanks,
-> ~Nick Desaulniers
-
-
+-- 
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
