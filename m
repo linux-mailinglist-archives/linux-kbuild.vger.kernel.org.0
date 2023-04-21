@@ -2,109 +2,177 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E9D96EAD0B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Apr 2023 16:36:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B52346EB1EB
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Apr 2023 20:59:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231936AbjDUOgb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 21 Apr 2023 10:36:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43720 "EHLO
+        id S232901AbjDUS72 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 21 Apr 2023 14:59:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231728AbjDUOga (ORCPT
+        with ESMTP id S232311AbjDUS71 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 21 Apr 2023 10:36:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C74FE9030
-        for <linux-kbuild@vger.kernel.org>; Fri, 21 Apr 2023 07:35:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1682087745;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-        bh=UCQL2D9su8wjwOrs6IuTNGHSeQSL9lst6CDlj1GlHvQ=;
-        b=buTt6oDgOGd4WYtoL6XYovqfXZCxJk7TLFqwltZ5hVm6VpnPO24JuGq8xbNJnfH8T9bw9n
-        ximX/Ce50ICbF/wQxBPWAO+k4F35EJhlr8Frk/VnvUwV+9blpnQwwIwvkdeMlF5D1diH+Q
-        8fnvv8okgCabeEyF+Cv5vz8spBCRVbg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-380-HjtImQA4Nzy9mg_o0W6siw-1; Fri, 21 Apr 2023 10:35:41 -0400
-X-MC-Unique: HjtImQA4Nzy9mg_o0W6siw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 084BC101A54F;
-        Fri, 21 Apr 2023 14:35:41 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.42.28.158])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 0ACFC1121318;
-        Fri, 21 Apr 2023 14:35:39 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-To:     torvalds@linux-foundation.org
-cc:     dhowells@redhat.com, Ekaterina Orlova <vorobushek.ok@gmail.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>, keyrings@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <158286.1682087739.1@warthog.procyon.org.uk>
-Date:   Fri, 21 Apr 2023 15:35:39 +0100
-Message-ID: <158287.1682087739@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Fri, 21 Apr 2023 14:59:27 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED1652D67
+        for <linux-kbuild@vger.kernel.org>; Fri, 21 Apr 2023 11:59:22 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-1a9253d4551so21937755ad.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 21 Apr 2023 11:59:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20221208.gappssmtp.com; s=20221208; t=1682103562; x=1684695562;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FS3xd+GxAsAM22DtQ8EZILFt6ljQaMvOWy1hQtNJeRI=;
+        b=npcCe58zYvv1Q6YVOAIpfMxs/qcn/n3bq+Y2B/kyhgrQ2IwgNZsxdK9FrRF3J4dTgx
+         YPGdpqPIpEye6AlFSBOpIxJlceRyot6Lcc0IRC3dj1G7B6gr3MrPA/A1NElUGrVoY53Z
+         rnCogjjVEwKQgiuL7DG0+0Nqiz8lvWlf1/Y2Re++oGfgI6xYE8O0YibIDswxz1LljMWF
+         4pB7LSAEZDN/niJMqEiXAS+y/uGoEayNq18mhRc2gGbryI7zhJ/2vGks7sCE4FWq4h9R
+         dH7rr4jcpK2pwlb9XffOkm3s1hMe1cpIOFpPU5spiIgfag/16tCoJG3CXz3k5vOh+WFb
+         kX7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682103562; x=1684695562;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FS3xd+GxAsAM22DtQ8EZILFt6ljQaMvOWy1hQtNJeRI=;
+        b=IscsYoG6IkVKEByQJRPDlMRopkqvmBetm1p7IANIGs6bgJHc1bUlrs0/96tlneO9QH
+         wMPtEHDyS7Yqw0Rb12rFzfViA3sCNbvOJUX51u9kS2xUrLg50YvQ0zmQaJWBvQNmqxos
+         eC8yY8SglA1mKftV+Us24U6+2sOi7ODGLSpjzyyya4/ad/oYq87xPdeaJ7bmpt6ISQ11
+         rHH2IlNxZ4YazwOz3ym8DoIi0kS4OIRGHTxwcz5U0wOJQNIcvz7oHagvsRG1Eup03pZp
+         mi11oVKDUqUMpORzk1m1zUrc0W1QwxXBf/B9rZjbyClxCAa2I8WzOzcQCTO7g2G8P/9p
+         e5Zw==
+X-Gm-Message-State: AAQBX9dcTB565sPOjYp05iVdxqx3HkIg3c+YrjeUmI0Ca1zqAFdRL5pd
+        7w9kHYc5BhHFpW9SNFBLsNXF9g==
+X-Google-Smtp-Source: AKy350Zk9u1sIOJGf2PvJ1wX8lSj0Nf1O/kXAYgAfDfeDXmtve5mj6ldwrjQYrqdOoqd6Tcu0TGTlw==
+X-Received: by 2002:a17:903:188:b0:1a8:ce:afd1 with SMTP id z8-20020a170903018800b001a800ceafd1mr7743984plg.20.1682103562246;
+        Fri, 21 Apr 2023 11:59:22 -0700 (PDT)
+Received: from localhost ([135.180.227.0])
+        by smtp.gmail.com with ESMTPSA id bh7-20020a170902a98700b001a19cf1b37esm3057504plb.40.2023.04.21.11.59.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Apr 2023 11:59:21 -0700 (PDT)
+Date:   Fri, 21 Apr 2023 11:59:21 -0700 (PDT)
+X-Google-Original-Date: Wed, 19 Apr 2023 07:55:56 PDT (-0700)
+Subject:     Re: [PATCH v9 0/6] Introduce 64b relocatable kernel
+In-Reply-To: <20230329045329.64565-1-alexghiti@rivosinc.com>
+CC:     ndesaulniers@google.com, bjorn@kernel.org, mpe@ellerman.id.au,
+        npiggin@gmail.com, christophe.leroy@csgroup.eu,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        aou@eecs.berkeley.edu, linuxppc-dev@lists.ozlabs.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kbuild@vger.kernel.org, alexghiti@rivosinc.com
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     alexghiti@rivosinc.com
+Message-ID: <mhng-bb70f74f-2b5b-4880-b7bf-975e67dc554e@palmer-ri-x1c9>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Linus,
+On Tue, 28 Mar 2023 21:53:23 PDT (-0700), alexghiti@rivosinc.com wrote:
+> After multiple attempts, this patchset is now based on the fact that the
+> 64b kernel mapping was moved outside the linear mapping.
+>
+> The first patch allows to build relocatable kernels but is not selected
+> by default. That patch is a requirement for KASLR.
+> The second and third patches take advantage of an already existing powerpc
+> script that checks relocations at compile-time, and uses it for riscv.
+>
+> This patchset is rebased on top of:
+>
+> riscv: Use PUD/P4D/PGD pages for the linear mapping
+> (https://patchwork.kernel.org/project/linux-riscv/list/?series=733603)
+> base-commit-tag: v6.3-rc1
 
-Can you apply this, please?  It can probably wait for the merge window if you
-don't want to apply it now as it only affects building the kernel.
+The QEMU CI has some way to say "this depends on an un-merged patch set 
+sent as $MESSAGE_ID", not sure if that's a b4-ism but it's a bit less 
+confusing.
 
-Thanks,
-David
----
-From: Ekaterina Orlova <vorobushek.ok@gmail.com>
+I merged this on top of the pre-merge hugepage linear mapping changes, 
+it's on for-next.
 
-ASN.1: Fix check for strdup() success
-
-It seems there is a misprint in the check of strdup() return code
-that can lead to NULL pointer dereference.
-
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
-
-Fixes: 4520c6a49af8 ("X.509: Add simple ASN.1 grammar compiler")
-Signed-off-by: Ekaterina Orlova <vorobushek.ok@gmail.com>
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: David Woodhouse <dwmw2@infradead.org>
-cc: James Bottomley <jejb@linux.ibm.com>
-cc: Jarkko Sakkinen <jarkko@kernel.org>
-cc: keyrings@vger.kernel.org
-cc: linux-kbuild@vger.kernel.org
-Link: https://lore.kernel.org/r/20230315172130.140-1-vorobushek.ok@gmail.com/
----
- scripts/asn1_compiler.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/asn1_compiler.c b/scripts/asn1_compiler.c
-index 7b6756a8c15d..4c3f645065a4 100644
---- a/scripts/asn1_compiler.c
-+++ b/scripts/asn1_compiler.c
-@@ -625,7 +625,7 @@ int main(int argc, char **argv)
- 	p = strrchr(argv[1], '/');
- 	p = p ? p + 1 : argv[1];
- 	grammar_name = strdup(p);
--	if (!p) {
-+	if (!grammar_name) {
- 		perror(NULL);
- 		exit(1);
- 	}
-
+> Changes in v9:
+>   * Fix gcc/llvm compilation errors by adding patch 1, thanks to Bjorn
+>   * Move a patch to move rela.dyn outside of init (patch 2): it is a
+>     separate patch to clearly explain why
+>   * To effectively move rela.dyn to init, we need to add patch 6: separate patch since we may be
+>     able at some point to revert (along with patch 2).
+>   * Add a lot of orphan sections to the linker script
+>
+> Changes in v8:
+>   * Fix UEFI boot by moving rela.dyn section into the data so that PE/COFF
+>     loader actually copies the relocations too
+>   * Fix check that used PGDIR instead of PUD which was not correct
+>     for sv48 and sv57
+>   * Fix PE/COFF header data size definition as it led to size of 0
+>
+> Changes in v7:
+>   * Rebase on top of v5.15
+>   * Fix LDFLAGS_vmlinux which was overriden when CONFIG_DYNAMIC_FTRACE was
+>     set
+>   * Make relocate_kernel static
+>   * Add Ack from Michael
+>
+> Changes in v6:
+>   * Remove the kernel move to vmalloc zone
+>   * Rebased on top of for-next
+>   * Remove relocatable property from 32b kernel as the kernel is mapped in
+>     the linear mapping and would then need to be copied physically too
+>   * CONFIG_RELOCATABLE depends on !XIP_KERNEL
+>   * Remove Reviewed-by from first patch as it changed a bit
+>
+> Changes in v5:
+>   * Add "static __init" to create_kernel_page_table function as reported by
+>     Kbuild test robot
+>   * Add reviewed-by from Zong
+>   * Rebase onto v5.7
+>
+> Changes in v4:
+>   * Fix BPF region that overlapped with kernel's as suggested by Zong
+>   * Fix end of module region that could be larger than 2GB as suggested by Zong
+>   * Fix the size of the vm area reserved for the kernel as we could lose
+>     PMD_SIZE if the size was already aligned on PMD_SIZE
+>   * Split compile time relocations check patch into 2 patches as suggested by Anup
+>   * Applied Reviewed-by from Zong and Anup
+>
+> Changes in v3:
+>   * Move kernel mapping to vmalloc
+>
+> Changes in v2:
+>   * Make RELOCATABLE depend on MMU as suggested by Anup
+>   * Rename kernel_load_addr into kernel_virt_addr as suggested by Anup
+>   * Use __pa_symbol instead of __pa, as suggested by Zong
+>   * Rebased on top of v5.6-rc3
+>   * Tested with sv48 patchset
+>   * Add Reviewed/Tested-by from Zong and Anup
+>
+> Alexandre Ghiti (6):
+>   riscv: Prepare EFI header for relocatable kernels
+>   riscv: Move .rela.dyn outside of init to avoid empty relocations
+>   riscv: Introduce CONFIG_RELOCATABLE
+>   powerpc: Move script to check relocations at compile time in scripts/
+>   riscv: Check relocations at compile time
+>   riscv: Use --emit-relocs in order to move .rela.dyn in init
+>
+>  arch/powerpc/tools/relocs_check.sh  | 18 ++--------
+>  arch/riscv/Kconfig                  | 14 ++++++++
+>  arch/riscv/Makefile                 |  7 ++--
+>  arch/riscv/Makefile.postlink        | 49 ++++++++++++++++++++++++++
+>  arch/riscv/boot/Makefile            |  7 ++++
+>  arch/riscv/include/asm/set_memory.h |  3 ++
+>  arch/riscv/kernel/efi-header.S      | 19 ++++++++--
+>  arch/riscv/kernel/vmlinux.lds.S     | 26 ++++++++++----
+>  arch/riscv/mm/Makefile              |  4 +++
+>  arch/riscv/mm/init.c                | 54 ++++++++++++++++++++++++++++-
+>  arch/riscv/tools/relocs_check.sh    | 26 ++++++++++++++
+>  scripts/relocs_check.sh             | 20 +++++++++++
+>  12 files changed, 218 insertions(+), 29 deletions(-)
+>  create mode 100644 arch/riscv/Makefile.postlink
+>  create mode 100755 arch/riscv/tools/relocs_check.sh
+>  create mode 100755 scripts/relocs_check.sh
