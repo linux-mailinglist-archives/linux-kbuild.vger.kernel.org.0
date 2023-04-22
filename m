@@ -2,58 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE8D56EB23D
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Apr 2023 21:25:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC60F6EB8B7
+	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Apr 2023 13:02:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233519AbjDUTZH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 21 Apr 2023 15:25:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44702 "EHLO
+        id S229565AbjDVLC4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 22 Apr 2023 07:02:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229657AbjDUTZF (ORCPT
+        with ESMTP id S229451AbjDVLCz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 21 Apr 2023 15:25:05 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20DD02D67;
-        Fri, 21 Apr 2023 12:25:04 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9C4B461877;
-        Fri, 21 Apr 2023 19:25:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98362C433EF;
-        Fri, 21 Apr 2023 19:25:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682105103;
-        bh=W7uWtRhn74gI5DdykMl9Ygbat47KEyixL2s+R7CXf4Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=P1uQO+lQn46h8sPkUIDTeuuuaqYEuXAC5XrVOBAwjT+6B4j8NizF8+Bhcmg/SbXDx
-         R35KPmFskBNMwE2hWOlTsNitogRtztEI5E/BMcoea1Ygr0ah4ez9K+IKV/JXLH8xg+
-         2hSscDX7Y8/QQfQ0dNAJrbGWNpjH3G26G1l8YL3wv2N927leM1laIByU2Nknx0W5Lh
-         9qUiz7pT6ig8062P2j0qb4E+8nVCmlLsP5ZWFcalVG/T7mul1u92MUMzR6U/UeaO7S
-         IR77iLd+n3LXOoNWDfycqXuLnHTaBxVfi9wkSaVNIx9yoRUXcGRCx1vUEBj83/9xev
-         DJZslEGbLEeSw==
-Date:   Fri, 21 Apr 2023 20:24:58 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Konstantin Ryabitsev <konstantin.ryabitsev@linux.dev>
-Cc:     Palmer Dabbelt <palmer@dabbelt.com>, alexghiti@rivosinc.com,
-        aou@eecs.berkeley.edu, linux-kbuild@vger.kernel.org,
-        ndesaulniers@google.com, linux-kernel@vger.kernel.org,
-        bjorn@kernel.org, npiggin@gmail.com,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v9 0/6] Introduce 64b relocatable kernel
-Message-ID: <20230421-uneaten-obvious-250d95c86560@spud>
-References: <mhng-bb70f74f-2b5b-4880-b7bf-975e67dc554e@palmer-ri-x1c9>
- <ba235aa677a561ceb2dc776414403dc0@linux.dev>
+        Sat, 22 Apr 2023 07:02:55 -0400
+Received: from maynard.decadent.org.uk (maynard.decadent.org.uk [95.217.213.242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BB3C198D;
+        Sat, 22 Apr 2023 04:02:54 -0700 (PDT)
+Received: from [46.183.248.101] (helo=deadeye)
+        by maynard with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ben@decadent.org.uk>)
+        id 1pqB0z-0005WH-IA; Sat, 22 Apr 2023 13:02:49 +0200
+Received: from ben by deadeye with local (Exim 4.96)
+        (envelope-from <ben@decadent.org.uk>)
+        id 1pqB0y-001pC9-2K;
+        Sat, 22 Apr 2023 13:02:48 +0200
+Message-ID: <cfa5b431bc00405dba363dac46c52c30ffe4ebeb.camel@decadent.org.uk>
+Subject: Re: [PATCH 1/2] kbuild: add srcdeb-pkg target
+From:   Ben Hutchings <ben@decadent.org.uk>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Bastian Germann <bage@linutronix.de>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Date:   Sat, 22 Apr 2023 13:02:44 +0200
+In-Reply-To: <CAK7LNARnd=Jryg80NeRddYvHqHGTrzES0T5YNSAKShz3D_JGdw@mail.gmail.com>
+References: <20230417142548.249610-1-masahiroy@kernel.org>
+         <3a857172b78f1bbd6427600bdd5afa81dd21c73f.camel@decadent.org.uk>
+         <CAK7LNARnd=Jryg80NeRddYvHqHGTrzES0T5YNSAKShz3D_JGdw@mail.gmail.com>
+Content-Type: multipart/signed; micalg="pgp-sha512";
+        protocol="application/pgp-signature"; boundary="=-hn64AqEG9HbDOBrnAoTV"
+User-Agent: Evolution 3.46.4-1 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="cYLCWmWMPROB1qtr"
-Content-Disposition: inline
-In-Reply-To: <ba235aa677a561ceb2dc776414403dc0@linux.dev>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+X-SA-Exim-Connect-IP: 46.183.248.101
+X-SA-Exim-Mail-From: ben@decadent.org.uk
+X-SA-Exim-Scanned: No (on maynard); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -61,54 +55,50 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
---cYLCWmWMPROB1qtr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--=-hn64AqEG9HbDOBrnAoTV
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 21, 2023 at 07:10:14PM +0000, Konstantin Ryabitsev wrote:
-> April 21, 2023 2:59 PM, "Palmer Dabbelt" <palmer@dabbelt.com> wrote:
-> >> riscv: Use PUD/P4D/PGD pages for the linear mapping
-> >> (https://patchwork.kernel.org/project/linux-riscv/list/?series=3D73360=
-3)
-> >> base-commit-tag: v6.3-rc1
-> >=20
-> > The QEMU CI has some way to say "this depends on an un-merged patch set=
- sent as $MESSAGE_ID", not
-> > sure if that's a b4-ism but it's a bit less confusing.
+On Tue, 2023-04-18 at 10:17 +0900, Masahiro Yamada wrote:
+> On Mon, Apr 17, 2023 at 11:52=E2=80=AFPM Ben Hutchings <ben@decadent.org.=
+uk> wrote:
+[...]
+> > This is also adding --no-check-builddeps (-d), which is not explained
+> > in the commit message.  It might be valid to add this for srcdeb-pkg,
+> > but the build dependency check is valuable for bindeb-pkg and deb-pkg.
 >=20
-> I think it's patchwork-ism, actually. B4 will eventually learn to be
-> able to include dependent series info and automatically retrieve/apply
-> them in the proper order on "shazam", but it can't do that yet.
+>=20
+> Yes.
+> So, I added --no-check-builddeps to the else arm.
+[...]
 
-A patchwork-ism or a patchew-ism? Drew Jones was my source for this, but
-he had said the thing to do in QEMU-land was put a:
-Based-on: $message-id
-in your cover letter for each thing that you depend on. I'm not entirely
-sure if that meant each series or each patch. I think patchew picks that
-up and dumps in it on a patchew github account that the CI might pick up
-on. From the QEMU docs:
-<quote>
-It is also okay to base patches on top of other on-going work that is
-not yet part of the git master branch. To aid continuous integration
-tools, such as `patchew <http://patchew.org/QEMU/>`__, you should `add a
-tag <https://lists.gnu.org/archive/html/qemu-devel/2017-08/msg01288.html>`__
-line ``Based-on: $MESSAGE_ID`` to your cover letter to make the series
-dependency obvious.
-<\quote>
+Sorry, I read that wrongly.
 
-FWIW, my vote is for something with a message-id, rather than those
-patchwork series links that you can't dump into b4!
+Ben.
 
---cYLCWmWMPROB1qtr
+--=20
+Ben Hutchings
+Theory and practice are closer in theory than in practice - John Levine
+
+--=-hn64AqEG9HbDOBrnAoTV
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZELjCgAKCRB4tDGHoIJi
-0s1yAP9XTAhQrJD/xmNk2JTUsPIU6e0uJxU1rNaDElF8T2ioggD/RuvGZYpDeAT8
-rVM1QBn5DNrHVZWw5EILFxMXOgo1hA4=
-=0mnA
+iQIzBAABCgAdFiEErCspvTSmr92z9o8157/I7JWGEQkFAmRDvtQACgkQ57/I7JWG
+EQnlqRAAptvwcLtQeeG4/TsblP6uGCMc+wyYPYJhUP7a+ppGrb9dw7tdFtBv/KY1
+aCENZFs2hpjT2R51yeuf4z0Gqhv4JeBP2yZNouYSLLN6TXSxIQECB8t1YrAjsR1f
+U2rYMwUuV2XRJjen002HuCIZM/AMl3OeQ8HygF3l3IX5P+d/0R65nkLkpsJBIo8Q
+jgr7L0oVVt/XsX6hVlVH2qV2ADbHXNimh/Ikf4v9vLPRaaAApPS5yNGeew42XEuV
+b1XVxiomxJ4HEpZlIwS/Cje06rdb7heRNJyUM6Tj+I0rw7JUUy+D5r4fSa7h0kg8
+83djzo2jfWAXAuJoHAK+okkDzQZQCkYPB4oWQjgwkmF1sk2jWIWDMyD3x6rtcMN/
+eFk5M2ObzJHjJfWgHHLFAX72/iI7anoS6IFBCTdIP3CP1ftO2FULOl3brl7KuROk
+E4GUBPXofox16kZ+ndzyA+k7kSwtwI4eZxY87wEUPJ/v78PkSTIQ1ofygeOq/BU/
+hgYgvhd8I7lhcCONlUAiBAwcz6YhpNilQwll2sl6wbqh5O5iqrRyNAQpiQX+M1vX
+Gip2uinlB7K1nlvDWeNGy9TDEcOkiwpDWgyajxasL0VhFRBPc+BURNXXtJTV3Kys
+4C2h/51gTN9CZxzqVPBoPZaF4dUwGgiii9UiMcy1GVMZ7WYeSko=
+=25ge
 -----END PGP SIGNATURE-----
 
---cYLCWmWMPROB1qtr--
+--=-hn64AqEG9HbDOBrnAoTV--
