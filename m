@@ -2,56 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E1056EBF82
-	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Apr 2023 14:42:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B60C76EC0E1
+	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Apr 2023 17:50:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229996AbjDWMmB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 23 Apr 2023 08:42:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59600 "EHLO
+        id S229498AbjDWPuJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 23 Apr 2023 11:50:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229977AbjDWMmA (ORCPT
+        with ESMTP id S229881AbjDWPuH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 23 Apr 2023 08:42:00 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2051A1FDF;
-        Sun, 23 Apr 2023 05:41:53 -0700 (PDT)
+        Sun, 23 Apr 2023 11:50:07 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 357EB10E5;
+        Sun, 23 Apr 2023 08:50:07 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id ADD3F611D1;
-        Sun, 23 Apr 2023 12:41:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20ACDC4339B;
-        Sun, 23 Apr 2023 12:41:52 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C7E29614A5;
+        Sun, 23 Apr 2023 15:50:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 353E8C433EF;
+        Sun, 23 Apr 2023 15:50:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682253712;
-        bh=YnBrIbmb5UAV+e+e3Hlm9AwckTbkzxsLFA2JOnShUwE=;
-        h=From:Date:Subject:To:Cc:From;
-        b=oEojJ7fmHncgZL27QlTgIfa3JTeslpH08azlxzWgdkAifGIbGZxN0BM+B6H+PHA20
-         lnmqpdad+jT31fyKG7HQYTamjKdQY+/HvbyU28wgNHgOlOmAZHi9T8sMyljf0p4u55
-         2nZ6mIQi+EpMETNnTUhDxsU0V4CfJSX2YtHxdx34KL04xBPeETVOGFhF+u77qXLOhy
-         y1n0VKzl407w65sEKtoVs0rDkTXIJSbQAatObQAO1X12/qGhM9/i0bSsJYSYFHHU4R
-         sBC62UnsNYUFQkrYX5uyNo3FXNFYWl90yn5ZjDDE3rV2sSDi6ccS7+bpEmS4gKCS3C
-         wZgW+gthqfWNA==
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-187c78c6657so2416277fac.2;
-        Sun, 23 Apr 2023 05:41:52 -0700 (PDT)
-X-Gm-Message-State: AAQBX9cCo1ZBrFKZdMuhLp4DvWIrWO4N+IhtRk3WayPgZmAydW244dD7
-        nTxtewK3HwijZQxbzXTIWfobSrGYZ0+8FvfXyJ8=
-X-Google-Smtp-Source: AKy350ZOPr+vhVnt1HJRudMJBNy3fHh4/WsxEA9IPdL4IYrpX43bebFCE8g2R/R+ZgTS/qN74UMFulGei05hCxoRvHM=
-X-Received: by 2002:aca:1319:0:b0:38e:8d7f:c07e with SMTP id
- e25-20020aca1319000000b0038e8d7fc07emr3346503oii.52.1682253711392; Sun, 23
- Apr 2023 05:41:51 -0700 (PDT)
-MIME-Version: 1.0
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 23 Apr 2023 21:41:15 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASokmOqPSzuaAf-vTdNM7jKRW=9Y8S6pZzkEWf_6HLQeA@mail.gmail.com>
-Message-ID: <CAK7LNASokmOqPSzuaAf-vTdNM7jKRW=9Y8S6pZzkEWf_6HLQeA@mail.gmail.com>
-Subject: [GIT PULL] Kbuild fixes for v6.3(-rc8)
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        s=k20201202; t=1682265006;
+        bh=BQkeag8jG9z6sONsx1ebiY3m5AuTkbm/qnSV+IvhQVU=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=r0kNTs3z1sWRz/cQYr3JyqOKOBBeeJu2Fwkin5NHf8+6aKmFjb8ckajuz82kmYgrI
+         LowK49gSe4P2Q9MsW3clfZidwZH068TFtyb2A6Hm8ASyEZa7vsT1j6Yi0drFyWkq3N
+         Cnlpa5l3b9xqSDQtteiZ4GZDP2T8fD0udxSUUBy9HuhpxtzjTUNlIaC1uyDUgrB6fD
+         gUBox9l4iY+1pGTUtUnGv4LHy1l5LlC6M5OjHXZIpPW0CEkzDcnLStGUn0FyHoBIPR
+         lZE0oWNMQjGuMXjAfbou6dfSlncDHd+bOPgMOU6PLlMj55JQgqDqEbILSfdQ3uJrqO
+         toC2wsgHpeXDA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 194D0C395EA;
+        Sun, 23 Apr 2023 15:50:06 +0000 (UTC)
+Subject: Re: [GIT PULL] Kbuild fixes for v6.3(-rc8)
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <CAK7LNASokmOqPSzuaAf-vTdNM7jKRW=9Y8S6pZzkEWf_6HLQeA@mail.gmail.com>
+References: <CAK7LNASokmOqPSzuaAf-vTdNM7jKRW=9Y8S6pZzkEWf_6HLQeA@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kbuild.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAK7LNASokmOqPSzuaAf-vTdNM7jKRW=9Y8S6pZzkEWf_6HLQeA@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.3-4
+X-PR-Tracked-Commit-Id: 9cedc5e89a59da72bfecdb76bfaa5a28a273029d
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 8296ac9256aa1e9305033720de77ee5419a80f6f
+Message-Id: <168226500609.30883.6802184678254356051.pr-tracker-bot@kernel.org>
+Date:   Sun, 23 Apr 2023 15:50:06 +0000
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -60,48 +62,15 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello Linus,
+The pull request you sent on Sun, 23 Apr 2023 21:41:15 +0900:
 
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.3-4
 
-Please pull Kbuild fixes.
-Thank you.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/8296ac9256aa1e9305033720de77ee5419a80f6f
 
-
-
-The following changes since commit 6a8f57ae2eb07ab39a6f0ccad60c760743051026:
-
-  Linux 6.3-rc7 (2023-04-16 15:23:53 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-tags/kbuild-fixes-v6.3-4
-
-for you to fetch changes up to 9cedc5e89a59da72bfecdb76bfaa5a28a273029d:
-
-  kbuild: use proper prefix for tarballs to fix rpm-pkg build error
-(2023-04-23 21:23:10 +0900)
-
-----------------------------------------------------------------
-Kbuild fixes for v6.3 (4th)
-
- - Fix the prefix in the kernel source tarball
-
- - Fix a typo in the copyright file in Debian package
-
-----------------------------------------------------------------
-Masahiro Yamada (1):
-      kbuild: use proper prefix for tarballs to fix rpm-pkg build error
-
-Woody Suwalski (1):
-      kbuild: deb-pkg: Fix a spell typo in mkdebian script
-
- scripts/Makefile.package | 6 +++---
- scripts/package/mkdebian | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
-
-
+Thank you!
 
 -- 
-Best Regards
-Masahiro Yamada
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
