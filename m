@@ -2,115 +2,106 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9601B6EB8BB
-	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Apr 2023 13:04:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E1056EBF82
+	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Apr 2023 14:42:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229575AbjDVLEj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 22 Apr 2023 07:04:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58970 "EHLO
+        id S229996AbjDWMmB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 23 Apr 2023 08:42:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbjDVLEi (ORCPT
+        with ESMTP id S229977AbjDWMmA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 22 Apr 2023 07:04:38 -0400
-Received: from maynard.decadent.org.uk (maynard.decadent.org.uk [95.217.213.242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98AC5198D;
-        Sat, 22 Apr 2023 04:04:37 -0700 (PDT)
-Received: from [46.183.248.101] (helo=deadeye)
-        by maynard with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ben@decadent.org.uk>)
-        id 1pqB2f-0005XR-91; Sat, 22 Apr 2023 13:04:33 +0200
-Received: from ben by deadeye with local (Exim 4.96)
-        (envelope-from <ben@decadent.org.uk>)
-        id 1pqB2e-001pFG-1N;
-        Sat, 22 Apr 2023 13:04:32 +0200
-Message-ID: <3a5c0f51d120bb11cb5fdf9b7e2925d8a5c1dbe2.camel@decadent.org.uk>
-Subject: Re: [PATCH 2/2] kbuild: deb-pkg: add KDEB_SOURCE_COMPRESS to
- specify compression type
-From:   Ben Hutchings <ben@decadent.org.uk>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bastian Germann <bage@linutronix.de>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Date:   Sat, 22 Apr 2023 13:04:32 +0200
-In-Reply-To: <CAK7LNAQjXTZhObuZ6R159kaOcsjTnTHftqnZe6GMfk0ibCkOkw@mail.gmail.com>
-References: <20230417142548.249610-1-masahiroy@kernel.org>
-         <20230417142548.249610-2-masahiroy@kernel.org>
-         <ZEBQPeihAuP4jVYG@bergen.fjasle.eu>
-         <CAK7LNAQjXTZhObuZ6R159kaOcsjTnTHftqnZe6GMfk0ibCkOkw@mail.gmail.com>
-Content-Type: multipart/signed; micalg="pgp-sha512";
-        protocol="application/pgp-signature"; boundary="=-gRCz5fKy5ML0UmVBw4B5"
-User-Agent: Evolution 3.46.4-1 
+        Sun, 23 Apr 2023 08:42:00 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2051A1FDF;
+        Sun, 23 Apr 2023 05:41:53 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id ADD3F611D1;
+        Sun, 23 Apr 2023 12:41:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20ACDC4339B;
+        Sun, 23 Apr 2023 12:41:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1682253712;
+        bh=YnBrIbmb5UAV+e+e3Hlm9AwckTbkzxsLFA2JOnShUwE=;
+        h=From:Date:Subject:To:Cc:From;
+        b=oEojJ7fmHncgZL27QlTgIfa3JTeslpH08azlxzWgdkAifGIbGZxN0BM+B6H+PHA20
+         lnmqpdad+jT31fyKG7HQYTamjKdQY+/HvbyU28wgNHgOlOmAZHi9T8sMyljf0p4u55
+         2nZ6mIQi+EpMETNnTUhDxsU0V4CfJSX2YtHxdx34KL04xBPeETVOGFhF+u77qXLOhy
+         y1n0VKzl407w65sEKtoVs0rDkTXIJSbQAatObQAO1X12/qGhM9/i0bSsJYSYFHHU4R
+         sBC62UnsNYUFQkrYX5uyNo3FXNFYWl90yn5ZjDDE3rV2sSDi6ccS7+bpEmS4gKCS3C
+         wZgW+gthqfWNA==
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-187c78c6657so2416277fac.2;
+        Sun, 23 Apr 2023 05:41:52 -0700 (PDT)
+X-Gm-Message-State: AAQBX9cCo1ZBrFKZdMuhLp4DvWIrWO4N+IhtRk3WayPgZmAydW244dD7
+        nTxtewK3HwijZQxbzXTIWfobSrGYZ0+8FvfXyJ8=
+X-Google-Smtp-Source: AKy350ZOPr+vhVnt1HJRudMJBNy3fHh4/WsxEA9IPdL4IYrpX43bebFCE8g2R/R+ZgTS/qN74UMFulGei05hCxoRvHM=
+X-Received: by 2002:aca:1319:0:b0:38e:8d7f:c07e with SMTP id
+ e25-20020aca1319000000b0038e8d7fc07emr3346503oii.52.1682253711392; Sun, 23
+ Apr 2023 05:41:51 -0700 (PDT)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 46.183.248.101
-X-SA-Exim-Mail-From: ben@decadent.org.uk
-X-SA-Exim-Scanned: No (on maynard); SAEximRunCond expanded to false
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 23 Apr 2023 21:41:15 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASokmOqPSzuaAf-vTdNM7jKRW=9Y8S6pZzkEWf_6HLQeA@mail.gmail.com>
+Message-ID: <CAK7LNASokmOqPSzuaAf-vTdNM7jKRW=9Y8S6pZzkEWf_6HLQeA@mail.gmail.com>
+Subject: [GIT PULL] Kbuild fixes for v6.3(-rc8)
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Hello Linus,
 
---=-gRCz5fKy5ML0UmVBw4B5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2023-04-20 at 16:17 +0900, Masahiro Yamada wrote:
-> On Thu, Apr 20, 2023 at 5:34=E2=80=AFAM Nicolas Schier <nicolas@fjasle.eu=
-> wrote:
-[...]
-> > > +KDEB_SOURCE_COMPRESS ?=3D gzip
-> >=20
-> > According to dpkg-source(1), xz is the default compression for deb
-> > source format >=3D 2.  Shouldn't we use xz here by default as well?
->=20
->=20
-> Yes.
-> xz is the default because we switched to format 3.0 (quilt).
->=20
-> But, we used gzip for a long time, so I did not change it
-> in this commit.
->=20
->=20
-> I do not have a strong opinion.
->=20
-> Ben (debian kernel maintainer) is in the CC list,
-> perhaps he has some preference.
+Please pull Kbuild fixes.
+Thank you.
 
-I think it makes sense to keep source compression unchanged in this
-commit, but you could add another commit to change the default.
 
-Ben.
 
---=20
-Ben Hutchings
-Theory and practice are closer in theory than in practice - John Levine
+The following changes since commit 6a8f57ae2eb07ab39a6f0ccad60c760743051026:
 
---=-gRCz5fKy5ML0UmVBw4B5
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+  Linux 6.3-rc7 (2023-04-16 15:23:53 -0700)
 
------BEGIN PGP SIGNATURE-----
+are available in the Git repository at:
 
-iQIzBAABCgAdFiEErCspvTSmr92z9o8157/I7JWGEQkFAmRDv0AACgkQ57/I7JWG
-EQkGCxAA1cIcv2n+iNlzdNkD3TXplfCPY2IJ+MyDgJd7ZyzPBgiLzEQhFerPx/AN
-2no1/wPPJVANsbOSj+CLkW7pQjJPxbGseKf6NLIEEvNd3W+PAjbHGYEIWrF+rKeJ
-qGntjbnbL7cvtIkSFDWuxMgT5tw6MlJQqdjt3kiUM8xhYjc7rZORHxIO/0QlfbDq
-74YATuYBUaM4/S6C1seRfC1jLwKyySh+aikb0i5fxtyh2vlmnfuQkS7OI2dFrLtT
-nDHLKhxyt1Rq52ULRrcc6wPHNsOeXEe5QEgiaDZzbbTnPeFXRJm1zpQ2Vxk/TDfO
-9fbd8ohN5pNklVDvGzST0sjI+y905IhbiS7KlDq3il79SYEKlcC5PTop+8w2K1gf
-gqoV7MvhPysELXj69a4x7B7qkOP7w8MwYlowS7vccozSBoceAySW9LvAOc2Ybz5C
-jx+VWo1K9M2L2pvwrJPc1EM6DFQhsBclkV3ldATDPCzpA1/OC6Awh/iorRKWyAET
-Rk04jkZsCQHNa7qsrVm2odBqAAgC97xQEll2Uj1pXCiDG6cd82SwIfCtnGvgRAab
-zDbdacrqJ8cSKWwR6li50MrZwo2lumWSHb2j5hGnC7/5nHmZBieuHqUTCQTTo0UF
-jd9is0HyMpOfzXYiHrBGDOSyv82zeN4/HbPDfcXO/XrbIrjo9js=
-=rQFw
------END PGP SIGNATURE-----
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-fixes-v6.3-4
 
---=-gRCz5fKy5ML0UmVBw4B5--
+for you to fetch changes up to 9cedc5e89a59da72bfecdb76bfaa5a28a273029d:
+
+  kbuild: use proper prefix for tarballs to fix rpm-pkg build error
+(2023-04-23 21:23:10 +0900)
+
+----------------------------------------------------------------
+Kbuild fixes for v6.3 (4th)
+
+ - Fix the prefix in the kernel source tarball
+
+ - Fix a typo in the copyright file in Debian package
+
+----------------------------------------------------------------
+Masahiro Yamada (1):
+      kbuild: use proper prefix for tarballs to fix rpm-pkg build error
+
+Woody Suwalski (1):
+      kbuild: deb-pkg: Fix a spell typo in mkdebian script
+
+ scripts/Makefile.package | 6 +++---
+ scripts/package/mkdebian | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
