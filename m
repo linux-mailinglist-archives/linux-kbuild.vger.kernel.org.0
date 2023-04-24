@@ -2,97 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC67F6ECF43
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Apr 2023 15:39:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 622CB6ED1B2
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Apr 2023 17:47:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232683AbjDXNjX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 24 Apr 2023 09:39:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43416 "EHLO
+        id S231396AbjDXPrz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 24 Apr 2023 11:47:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232790AbjDXNjB (ORCPT
+        with ESMTP id S231364AbjDXPrz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 24 Apr 2023 09:39:01 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C886F93F6;
-        Mon, 24 Apr 2023 06:38:47 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 74B2661D16;
-        Mon, 24 Apr 2023 13:38:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 815A6C433D2;
-        Mon, 24 Apr 2023 13:38:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1682343526;
-        bh=VcLv8JN1TgLe7NYl2Ie7loJzukPT4oWuE1B8SrIq7+8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YUOzJ3WsJm/m1RvOjwLpjWYbx0Lx9Rqq0iz/PSHsldg5uhX5GBXHemoEUwHOM15GQ
-         FdzGMAYyhwXr8lEWxi71hbaxtWouO4rtEx+I4AwRrlfT2AH8rHHC3tUF6yNMwczX9k
-         kGr8byPNdvn2MZbv0T04BUHTnwTLuXRe+XmIJNmU=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     stable@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        patches@lists.linux.dev,
-        Ekaterina Orlova <vorobushek.ok@gmail.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>, keyrings@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [PATCH 4.19 29/29] ASN.1: Fix check for strdup() success
-Date:   Mon, 24 Apr 2023 15:18:56 +0200
-Message-Id: <20230424131122.114376465@linuxfoundation.org>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230424131121.155649464@linuxfoundation.org>
-References: <20230424131121.155649464@linuxfoundation.org>
-User-Agent: quilt/0.67
+        Mon, 24 Apr 2023 11:47:55 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 633937AAA;
+        Mon, 24 Apr 2023 08:47:48 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 057D74B3;
+        Mon, 24 Apr 2023 08:48:32 -0700 (PDT)
+Received: from [10.57.22.201] (unknown [10.57.22.201])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CD2503F64C;
+        Mon, 24 Apr 2023 08:47:46 -0700 (PDT)
+Message-ID: <f8bd4212-9cca-03ca-884a-c9dec63bb256@arm.com>
+Date:   Mon, 24 Apr 2023 17:47:45 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] uapi/netfilter: Prefer ISO-friendly __typeof__
+Content-Language: en-GB
+To:     Petr Vorel <pvorel@suse.cz>, linux-kernel@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Ruben Ayrapetyan <ruben.ayrapetyan@arm.com>,
+        linux-kbuild@vger.kernel.org
+References: <20230416210705.2300706-1-pvorel@suse.cz>
+From:   Kevin Brodsky <kevin.brodsky@arm.com>
+In-Reply-To: <20230416210705.2300706-1-pvorel@suse.cz>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Ekaterina Orlova <vorobushek.ok@gmail.com>
+On 16/04/2023 23:07, Petr Vorel wrote:
+> typeof() is a GNU extension, UAPI requires ISO C, therefore __typeof__()
+> should be used.  Similarly to b4bd35a19df5 ("uapi/linux/const.h: Prefer
+> ISO-friendly __typeof__") use __typeof__() also in x_tables.h.
 
-commit 5a43001c01691dcbd396541e6faa2c0077378f48 upstream.
+Thanks for finishing up the work!
 
-It seems there is a misprint in the check of strdup() return code that
-can lead to NULL pointer dereference.
+Minor thing, the hash for my commit in -next seems to be 31088f6f7906 at
+the moment. As to the Fixes: tag, it looks like it should be (assuming
+that commit already exported the macro):
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+Fixes: 72b2b1dd77e8 ("netfilter: xtables: replace XT_ENTRY_ITERATE macro")
 
-Fixes: 4520c6a49af8 ("X.509: Add simple ASN.1 grammar compiler")
-Signed-off-by: Ekaterina Orlova <vorobushek.ok@gmail.com>
-Cc: David Woodhouse <dwmw2@infradead.org>
-Cc: James Bottomley <jejb@linux.ibm.com>
-Cc: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: keyrings@vger.kernel.org
-Cc: linux-kbuild@vger.kernel.org
-Link: https://lore.kernel.org/r/20230315172130.140-1-vorobushek.ok@gmail.com/
-Signed-off-by: David Howells <dhowells@redhat.com>
-Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- scripts/asn1_compiler.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Aside from that, looks good to me, so:
 
---- a/scripts/asn1_compiler.c
-+++ b/scripts/asn1_compiler.c
-@@ -629,7 +629,7 @@ int main(int argc, char **argv)
- 	p = strrchr(argv[1], '/');
- 	p = p ? p + 1 : argv[1];
- 	grammar_name = strdup(p);
--	if (!p) {
-+	if (!grammar_name) {
- 		perror(NULL);
- 		exit(1);
- 	}
+Reviewed-by: Kevin Brodsky <kevin.brodsky@arm.com>
 
+Kevin
+
+> Signed-off-by: Petr Vorel <pvorel@suse.cz>
+> ---
+> Based on [1] merged into linux-next as b4bd35a19df5.
+> There should be the same Fixes: which we agree in discussion in [1]
+> (likely a79ff731a1b2, or d6fc9fcbaa65).
+>
+> Kind regards,
+> Petr
+>
+> [1] https://lore.kernel.org/lkml/20230411092747.3759032-1-kevin.brodsky@arm.com/
+>
+>
+>  include/uapi/linux/netfilter/x_tables.h | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/include/uapi/linux/netfilter/x_tables.h b/include/uapi/linux/netfilter/x_tables.h
+> index 796af83a963a..d4eced07f2a2 100644
+> --- a/include/uapi/linux/netfilter/x_tables.h
+> +++ b/include/uapi/linux/netfilter/x_tables.h
+> @@ -172,11 +172,11 @@ struct xt_counters_info {
+>  
+>  /* pos is normally a struct ipt_entry/ip6t_entry/etc. */
+>  #define xt_entry_foreach(pos, ehead, esize) \
+> -	for ((pos) = (typeof(pos))(ehead); \
+> -	     (pos) < (typeof(pos))((char *)(ehead) + (esize)); \
+> -	     (pos) = (typeof(pos))((char *)(pos) + (pos)->next_offset))
+> +	for ((pos) = (__typeof__(pos))(ehead); \
+> +	     (pos) < (__typeof__(pos))((char *)(ehead) + (esize)); \
+> +	     (pos) = (__typeof__(pos))((char *)(pos) + (pos)->next_offset))
+>  
+> -/* can only be xt_entry_match, so no use of typeof here */
+> +/* can only be xt_entry_match, so no use of __typeof__ here */
+>  #define xt_ematch_foreach(pos, entry) \
+>  	for ((pos) = (struct xt_entry_match *)entry->elems; \
+>  	     (pos) < (struct xt_entry_match *)((char *)(entry) + \
 
