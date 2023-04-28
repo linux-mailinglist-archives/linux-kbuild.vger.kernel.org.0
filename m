@@ -2,121 +2,137 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 120EF6EF60D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Apr 2023 16:13:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FD4E6F1326
+	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Apr 2023 10:19:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229889AbjDZONJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 26 Apr 2023 10:13:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52840 "EHLO
+        id S229484AbjD1ITW convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Fri, 28 Apr 2023 04:19:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241020AbjDZONI (ORCPT
+        with ESMTP id S230124AbjD1ITV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 26 Apr 2023 10:13:08 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E49E6A57;
-        Wed, 26 Apr 2023 07:13:07 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3A21660F13;
-        Wed, 26 Apr 2023 14:13:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1C51C433EF;
-        Wed, 26 Apr 2023 14:13:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682518386;
-        bh=x0IE+aictI7iBTlgwDbCKYRNktLIdJfBV50W/zzhHKg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=T8WxxuGPDIvZ2iwwGO02hUjUWqPfrh5APAdbg4eA8/VA0W5BFVsCG4jfjnltRJUKh
-         3tL8qAGFbx6Iw27yqAVOEgGFfMiGgHpYzg3FOgczi75hColg3SvG474GpiBWlcGVuY
-         Nl7vLsJapDZ48tQ4BV4JZXLijs/MZK/W/EQCC3j6gMYVRLegSU51IT5eERVxV3DnZd
-         ZsK3ferK4nIwi6lWUFWqHKQwDShVtS2KqovMPdzDlEIATi/+sV0JbunSlXl95HXwSs
-         hzgb6sZava+y5THWTGbzyAzDF2Ydu6st8Kdyqxo9ogKz6nIYbuhettmjxvZDWjn1Eb
-         V5KmkndQwIDJQ==
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-541b60e0a7fso3882148eaf.1;
-        Wed, 26 Apr 2023 07:13:06 -0700 (PDT)
-X-Gm-Message-State: AAQBX9cKxi4wgLtEFwkKSEdmgibs9QgsKary74cHjfg4TO8lgvMyPLBp
-        x0kKeLJ98VlCe1G6iW9BEZWZArPjiivUdx8TWJ0=
-X-Google-Smtp-Source: AKy350aqhP/aEkdht7qgL09oEeT4Iv7LEfU/bCvci2PM5b4mh70GxTqJapvFlKkB85aTp3T0WRG2r9BXXOcaa6Nw0+k=
-X-Received: by 2002:a05:6808:13cf:b0:38c:63d6:9e73 with SMTP id
- d15-20020a05680813cf00b0038c63d69e73mr10491166oiw.25.1682518386000; Wed, 26
- Apr 2023 07:13:06 -0700 (PDT)
+        Fri, 28 Apr 2023 04:19:21 -0400
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37DA12735;
+        Fri, 28 Apr 2023 01:19:17 -0700 (PDT)
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-1879fc89e67so6344115fac.0;
+        Fri, 28 Apr 2023 01:19:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682669956; x=1685261956;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=32SVb4nZWg5Zd5LVG7qY5JY+5EueYLDPSaxp0RwjSqo=;
+        b=UHxZ8MFZYYNZ5HMnZxspNcBkY4rP133r9OLXzTNJTH3JV2myttLWPUJwT6O7/SMR2A
+         R/jkyPo4Vk7BaiNCDC/POpk/cMQXofivd9zoSwlX+lUbUK0SCnFmv/nZslZBEuyB08Ln
+         xugGs8rCEx9G3hg6TIhnje9hFzKwm91kn2njS8EJ7PjOzZ3l5D66YdHGDW2FvRi+rUyU
+         lEh11LKcDYBWjRRW369iKX3nTcfFLaIGZlS81yuTM7sriW5ZDNK2PsL37fP8kbSxxbuT
+         oy9ZuT8xfXcDz3D+mzO2jC9z6A8qzx/vovCItbTkpegDX8ZW1TgiNCfoZuSl6x7HtDAH
+         TZOQ==
+X-Gm-Message-State: AC+VfDzJjkzgOToLcz9bNfh2zn3XdVoVXvKPvSePAYjQiI9EHW5zaZlE
+        Odk+Ymjjbxx1Wh/K+LrHT4vwmvaNUvBm9A==
+X-Google-Smtp-Source: ACHHUZ7r1zsC+B75tMcb50ctWzYr+gzclJMNRtrSr81i3DjuSXFiHcf9B8N3YM8uxesgFrg1s6waIw==
+X-Received: by 2002:a05:6870:c79d:b0:17a:b378:8e1d with SMTP id dy29-20020a056870c79d00b0017ab3788e1dmr2409417oab.0.1682669956251;
+        Fri, 28 Apr 2023 01:19:16 -0700 (PDT)
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com. [209.85.210.47])
+        by smtp.gmail.com with ESMTPSA id j11-20020a4a888b000000b00524fe20aee5sm9330680ooa.34.2023.04.28.01.19.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Apr 2023 01:19:16 -0700 (PDT)
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-6a5ef766282so7339571a34.0;
+        Fri, 28 Apr 2023 01:19:15 -0700 (PDT)
+X-Received: by 2002:a0d:d581:0:b0:545:81ff:a0bc with SMTP id
+ x123-20020a0dd581000000b0054581ffa0bcmr3280343ywd.13.1682669652892; Fri, 28
+ Apr 2023 01:14:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230425110859.1757001-1-masahiroy@kernel.org> <20230425180802.GA2881732@dev-arch.thelio-3990X>
-In-Reply-To: <20230425180802.GA2881732@dev-arch.thelio-3990X>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 26 Apr 2023 23:12:29 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARyW56E=RC_23NuEr7ZYi-iuxo6CvKfrPcCxJXcAF3ngg@mail.gmail.com>
-Message-ID: <CAK7LNARyW56E=RC_23NuEr7ZYi-iuxo6CvKfrPcCxJXcAF3ngg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: deb-pkg: specify targets in debian/rules as .PHONY
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
+References: <20230313132636.31850-1-nipun.gupta@amd.com> <20230313132636.31850-5-nipun.gupta@amd.com>
+In-Reply-To: <20230313132636.31850-5-nipun.gupta@amd.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 28 Apr 2023 10:13:57 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWTCdQagFFANygMgA8D0sWaoGxWv2AjibC3vwSd0UxuRw@mail.gmail.com>
+Message-ID: <CAMuHMdWTCdQagFFANygMgA8D0sWaoGxWv2AjibC3vwSd0UxuRw@mail.gmail.com>
+Subject: Re: [PATCH v10 4/7] cdx: add MCDI protocol interface for firmware interaction
+To:     Nipun Gupta <nipun.gupta@amd.com>
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        gregkh@linuxfoundation.org, rafael@kernel.org,
+        eric.auger@redhat.com, alex.williamson@redhat.com,
+        cohuck@redhat.com, song.bao.hua@hisilicon.com,
+        mchehab+huawei@kernel.org, maz@kernel.org, f.fainelli@gmail.com,
+        jeffrey.l.hugo@gmail.com, saravanak@google.com,
+        Michael.Srba@seznam.cz, mani@kernel.org, yishaih@nvidia.com,
+        jgg@ziepe.ca, jgg@nvidia.com, robin.murphy@arm.com,
+        will@kernel.org, joro@8bytes.org, masahiroy@kernel.org,
+        ndesaulniers@google.com, rdunlap@infradead.org,
+        baolu.lu@linux.intel.com, linux-arm-kernel@lists.infradead.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, okaya@kernel.org,
+        harpreet.anand@amd.com, nikhil.agarwal@amd.com,
+        michal.simek@amd.com, pieter.jansen-van-vuuren@amd.com,
+        pablo.cascon@amd.com, git@amd.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 26, 2023 at 3:08=E2=80=AFAM Nathan Chancellor <nathan@kernel.or=
-g> wrote:
+Hi Nipun,
+
+On Mon, Mar 13, 2023 at 2:28 PM Nipun Gupta <nipun.gupta@amd.com> wrote:
+> The MCDI (Management CPU Driver Interface) is used as a
+> protocol to communicate with the RPU firmware. It has
+> pre-defined set of messages for different message exchanges
+> between APU and RPU.
 >
-> On Tue, Apr 25, 2023 at 08:08:59PM +0900, Masahiro Yamada wrote:
-> > If a file with the same name exists, the target is not run.
-> >
-> > For example, the following command fails.
-> >
-> >   $ make O=3Dbuild-arch bindeb-pkg
-> >     [ snip ]
-> >   sed: can't read modules.order: No such file or directory
-> >   make[6]: *** [../Makefile:1577: __modinst_pre] Error 2
-> >   make[5]: *** [../scripts/Makefile.package:150: intdeb-pkg] Error 2
-> >   make[4]: *** [../Makefile:1657: intdeb-pkg] Error 2
-> >   make[3]: *** [debian/rules:14: binary-arch] Error 2
-> >   dpkg-buildpackage: error: debian/rules binary subprocess returned exi=
-t status 2
-> >   make[2]: *** [../scripts/Makefile.package:139: bindeb-pkg] Error 2
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> Signed-off-by: Puneet Gupta <puneet.gupta@amd.com>
+> Signed-off-by: Nipun Gupta <nipun.gupta@amd.com>
+> Signed-off-by: Tarak Reddy <tarak.reddy@amd.com>
+> Reviewed-by: Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>
+> Tested-by: Nikhil Agarwal <nikhil.agarwal@amd.com>
 
-Applied to linux-kbuild.
+Thanks for your patch, which is now commit eb96b740192b2a09 ("cdx:
+add MCDI protocol interface for firmware interaction") upstream.
 
+> --- /dev/null
+> +++ b/drivers/cdx/controller/Kconfig
+> @@ -0,0 +1,20 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +#
+> +# CDX controller configuration
+> +#
+> +# Copyright (C) 2022-2023, Advanced Micro Devices, Inc.
+> +#
+> +
+> +if CDX_BUS
+> +
+> +config MCDI_LOGGING
+> +       bool "MCDI Logging for the CDX controller"
+> +       depends on CDX_CONTROLLER
+> +       help
+> +         Enable MCDI Logging for
+> +         the CDX Controller for debug
+> +         purpose.
+> +
+> +         If unsure, say N.
+> +
+> +endif
 
+As there also exist config symbols SFC_MCDI_LOGGING and
+SFC_SIENA_MCDI_LOGGING, perhaps MCDI_LOGGING is too generic, and should
+be renamed to CDX_MCDI_LOGGING?
 
->
-> > ---
-> >
-> >  scripts/package/mkdebian | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-> > index a4c2c2276223..b6cb95473548 100755
-> > --- a/scripts/package/mkdebian
-> > +++ b/scripts/package/mkdebian
-> > @@ -269,6 +269,8 @@ cat <<EOF > debian/rules
-> >  srctree ?=3D .
-> >  KERNELRELEASE =3D ${KERNELRELEASE}
-> >
-> > +.PHONY: clean build build-arch build-indep binary binary-arch binary-i=
-ndep
-> > +
-> >  build-indep:
-> >  build-arch:
-> >       \$(MAKE) -f \$(srctree)/Makefile ARCH=3D${ARCH} \
-> > --
-> > 2.37.2
-> >
+Gr{oetje,eeting}s,
 
+                        Geert
 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---=20
-Best Regards
-Masahiro Yamada
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
