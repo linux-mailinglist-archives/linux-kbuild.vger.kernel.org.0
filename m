@@ -2,73 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AB6F6F16F3
-	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Apr 2023 13:44:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA68E6F22C2
+	for <lists+linux-kbuild@lfdr.de>; Sat, 29 Apr 2023 05:52:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345578AbjD1LoR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 28 Apr 2023 07:44:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38202 "EHLO
+        id S229563AbjD2Dwb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 28 Apr 2023 23:52:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230145AbjD1LoQ (ORCPT
+        with ESMTP id S229498AbjD2Dw3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 28 Apr 2023 07:44:16 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C43EB527E;
-        Fri, 28 Apr 2023 04:44:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=p3Oy8/XFssf434wpPuB8bKcFx8SHb9PcbiyecF6e45Q=; b=lOhHWODdlld7cJYyZV8Nq1qime
-        Z2CLZ0SsBONImZx92ZRCif2HiRNPBfCRPyjScGL+RJ5/5X74WFOvkN4/if0/oJlI6dfVDrR93EfdA
-        UYLsx21Jt8q+Lef+JkzV/UMoeaDx2xXVbc7nK/cPMnBcYwe3eiavEjKPVBgKaWqNqa/r5vgaJyHTk
-        jBYAnXsEMdYL6BgIZJtzuujR/c7dO9Pf4exKTMwgs5ycMiUIXp3e3TpiGrxYQfx9E+hl3MygA3xtN
-        RC4P+lEk0Cs/QY40D5XGgppLJRJGu9sbCLRKKbPP8RxKL+Wlagyz9HO6PEQ3LGM3n7tJ9a34Oc0xc
-        YLasnXPQ==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1psMVp-004XzS-Mq; Fri, 28 Apr 2023 11:43:41 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id E3E68300581;
-        Fri, 28 Apr 2023 13:43:38 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id BB13C3221A782; Fri, 28 Apr 2023 13:43:38 +0200 (CEST)
-Date:   Fri, 28 Apr 2023 13:43:38 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
+        Fri, 28 Apr 2023 23:52:29 -0400
+Received: from out0-194.mail.aliyun.com (out0-194.mail.aliyun.com [140.205.0.194])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07CFB10F9;
+        Fri, 28 Apr 2023 20:52:25 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018047194;MF=houwenlong.hwl@antgroup.com;NM=1;PH=DS;RN=20;SR=0;TI=SMTPD_---.STmyYgr_1682740338;
+Received: from localhost(mailfrom:houwenlong.hwl@antgroup.com fp:SMTPD_---.STmyYgr_1682740338)
+          by smtp.aliyun-inc.com;
+          Sat, 29 Apr 2023 11:52:19 +0800
+Date:   Sat, 29 Apr 2023 11:52:18 +0800
+From:   "Hou Wenlong" <houwenlong.hwl@antgroup.com>
 To:     Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc:     Hou Wenlong <houwenlong.hwl@antgroup.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Thomas Garnier <thgarnie@chromium.org>,
-        Lai Jiangshan <jiangshan.ljs@antgroup.com>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Thomas Garnier" <thgarnie@chromium.org>,
+        "Lai Jiangshan" <jiangshan.ljs@antgroup.com>,
+        "Kees Cook" <keescook@chromium.org>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
+        "Dave Hansen" <dave.hansen@linux.intel.com>,
         "x86@kernel.org" <x86@kernel.org>,
         "H. Peter Anvin" <hpa@zytor.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Sathvika Vasireddy <sv@linux.ibm.com>,
-        Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+        "Masahiro Yamada" <masahiroy@kernel.org>,
+        "Nathan Chancellor" <nathan@kernel.org>,
+        "Nick Desaulniers" <ndesaulniers@google.com>,
+        "Nicolas Schier" <nicolas@fjasle.eu>,
+        "Josh Poimboeuf" <jpoimboe@kernel.org>,
+        "Peter Zijlstra" <peterz@infradead.org>,
+        "Sathvika Vasireddy" <sv@linux.ibm.com>,
+        "Thomas =?iso-8859-1?Q?Wei=DFschuh?=" <linux@weissschuh.net>,
         "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
 Subject: Re: [PATCH RFC 33/43] objtool: Add validation for x86 PIE support
-Message-ID: <20230428114338.GB1449475@hirez.programming.kicks-ass.net>
+Message-ID: <20230429035218.GA126816@k08j02272.eu95sqa>
 References: <cover.1682673542.git.houwenlong.hwl@antgroup.com>
  <226af8c63c5bfa361763dd041a997ee84fe926cf.1682673543.git.houwenlong.hwl@antgroup.com>
  <461b3a8d-9ad4-7866-f3b2-369de75fd2e1@csgroup.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <461b3a8d-9ad4-7866-f3b2-369de75fd2e1@csgroup.eu>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,9 +60,75 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 28, 2023 at 10:28:19AM +0000, Christophe Leroy wrote:
-
-
+On Fri, Apr 28, 2023 at 06:28:19PM +0800, Christophe Leroy wrote:
+> 
+> 
+> Le 28/04/2023 à 11:51, Hou Wenlong a écrit :
+> > [Vous ne recevez pas souvent de courriers de houwenlong.hwl@antgroup.com. Découvrez pourquoi ceci est important à https://aka.ms/LearnAboutSenderIdentification ]
+> > 
+> > For x86 PIE binary, only RIP-relative addressing is allowed, however,
+> > there are still a little absolute references of R_X86_64_64 relocation
+> > type for data section and a little absolute references of R_X86_64_32S
+> > relocation type in pvh_start_xen() function.
+> > 
+> > Suggested-by: Lai Jiangshan <jiangshan.ljs@antgroup.com>
+> > Signed-off-by: Hou Wenlong <houwenlong.hwl@antgroup.com>
+> > Cc: Thomas Garnier <thgarnie@chromium.org>
+> > Cc: Kees Cook <keescook@chromium.org>
+> > ---
+> >   arch/x86/Kconfig                        |  1 +
+> >   scripts/Makefile.lib                    |  1 +
+> >   tools/objtool/builtin-check.c           |  4 +-
+> >   tools/objtool/check.c                   | 82 +++++++++++++++++++++++++
+> >   tools/objtool/include/objtool/builtin.h |  1 +
+> >   5 files changed, 88 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> > index 715f0734d065..b753a54e5ea7 100644
+> > --- a/arch/x86/Kconfig
+> > +++ b/arch/x86/Kconfig
+> > @@ -2224,6 +2224,7 @@ config RELOCATABLE
+> >   config X86_PIE
+> >          def_bool n
+> >          depends on X86_64
+> > +       select OBJTOOL if HAVE_OBJTOOL
+> > 
+> >   config RANDOMIZE_BASE
+> >          bool "Randomize the address of the kernel image (KASLR)"
+> > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> > index 100a386fcd71..e3c804fbc421 100644
+> > --- a/scripts/Makefile.lib
+> > +++ b/scripts/Makefile.lib
+> > @@ -270,6 +270,7 @@ objtool-args-$(CONFIG_HAVE_STATIC_CALL_INLINE)              += --static-call
+> >   objtool-args-$(CONFIG_HAVE_UACCESS_VALIDATION)         += --uaccess
+> >   objtool-args-$(CONFIG_GCOV_KERNEL)                     += --no-unreachable
+> >   objtool-args-$(CONFIG_PREFIX_SYMBOLS)                  += --prefix=$(CONFIG_FUNCTION_PADDING_BYTES)
+> > +objtool-args-$(CONFIG_X86_PIE)                         += --pie
+> > 
+> >   objtool-args = $(objtool-args-y)                                       \
+> >          $(if $(delay-objtool), --link)                                  \
+> > diff --git a/tools/objtool/builtin-check.c b/tools/objtool/builtin-check.c
+> > index 7c175198d09f..1cf1d00464e0 100644
+> > --- a/tools/objtool/builtin-check.c
+> > +++ b/tools/objtool/builtin-check.c
+> > @@ -81,6 +81,7 @@ static const struct option check_options[] = {
+> >          OPT_BOOLEAN('t', "static-call", &opts.static_call, "annotate static calls"),
+> >          OPT_BOOLEAN('u', "uaccess", &opts.uaccess, "validate uaccess rules for SMAP"),
+> >          OPT_BOOLEAN(0  , "cfi", &opts.cfi, "annotate kernel control flow integrity (kCFI) function preambles"),
+> > +       OPT_BOOLEAN(0, "pie", &opts.pie, "validate addressing rules for PIE"),
+> >          OPT_CALLBACK_OPTARG(0, "dump", NULL, NULL, "orc", "dump metadata", parse_dump),
+> > 
+> >          OPT_GROUP("Options:"),
+> > @@ -137,7 +138,8 @@ static bool opts_valid(void)
+> >              opts.sls                    ||
+> >              opts.stackval               ||
+> >              opts.static_call            ||
+> > -           opts.uaccess) {
+> > +           opts.uaccess                ||
+> > +           opts.pie) {
+> >                  if (opts.dump_orc) {
+> >                          ERROR("--dump can't be combined with other options");
+> >                          return false;
 > > diff --git a/tools/objtool/check.c b/tools/objtool/check.c
 > > index 5b600bbf2389..d67b80251eec 100644
 > > --- a/tools/objtool/check.c
@@ -106,37 +156,6 @@ On Fri, Apr 28, 2023 at 10:28:19AM +0000, Christophe Leroy wrote:
 > > +
 > > +       return NULL;
 > > +}
-
-Urgh, this is horrendous crap. Yes you're only using it in case of a
-warning, but adding a function like this makes it appear like it's
-actually sane to use.
-
-A far better implementation -- but still not stellar -- would be
-something like:
-
-	sym = find_symbol_containing(sec, offset);
-	if (!sym)
-		// fail
-	sym_for_each_insn(file, sym, insn) {
-		...
-	}
-
-But given insn_hash uses sec_offset_hash() you can do something similar
-to find_reloc_by_dest_range()
-
-	start = offset - (INSN_MAX_SIZE - 1);
-	for_offset_range(o, start, start + INSN_MAX_SIZE) {
-		hash_for_each_possible(file->insn_hash, insn, hash, sec_offset_hash(sec, o)) {
-			if (insn->sec != sec)
-				continue;
-
-			if (insn->offset <= offset &&
-			    insn->offset + inns->len > offset)
-				return insn;
-		}
-	}
-	return NULL;
-
 > > +
 > > +
 > >   static inline struct symbol *insn_call_dest(struct instruction *insn)
@@ -184,6 +203,62 @@ to find_reloc_by_dest_range()
 > like commit c1449735211d ("objtool: Use macros to define arch specific 
 > reloc types") then commit c984aef8c832 ("objtool/powerpc: Add --mcount 
 > specific implementation") ?
+>
+Get it, I'll refactor it and move code into X86 directory.
 
-Yes, this should be something like arch_PIE_reloc() or so. Similar to
-arch_pc_relative_reloc().
+Thanks. 
+> > +                               insn = find_insn_containing(file, sec, reloc->offset);
+> > +                               if (!insn) {
+> > +                                       WARN("can't find relocate insn near %s+0x%lx",
+> > +                                            sec->name, reloc->offset);
+> > +                               } else {
+> > +                                       if (is_in_pvh_code(insn))
+> > +                                               break;
+> > +                                       WARN("insn at %s+0x%lx is not compatible with PIE",
+> > +                                            sec->name, insn->offset);
+> > +                               }
+> > +                               warnings++;
+> > +                               break;
+> > +                       default:
+> > +                               WARN("unexpected relocation type %d at %s+0x%lx",
+> > +                                    reloc->type, sec->name, reloc->offset);
+> > +                               warnings++;
+> > +                               break;
+> > +                       }
+> > +               }
+> > +       }
+> > +
+> > +       return warnings;
+> > +}
+> > +
+> >   int check(struct objtool_file *file)
+> >   {
+> >          int ret, warnings = 0;
+> > @@ -4673,6 +4749,12 @@ int check(struct objtool_file *file)
+> >                  warnings += ret;
+> >          }
+> > 
+> > +       if (opts.pie) {
+> > +               ret = validate_pie(file);
+> > +               if (ret < 0)
+> > +                       return ret;
+> > +               warnings += ret;
+> > +       }
+> > 
+> >          if (opts.stats) {
+> >                  printf("nr_insns_visited: %ld\n", nr_insns_visited);
+> > diff --git a/tools/objtool/include/objtool/builtin.h b/tools/objtool/include/objtool/builtin.h
+> > index 2a108e648b7a..1151211a5cea 100644
+> > --- a/tools/objtool/include/objtool/builtin.h
+> > +++ b/tools/objtool/include/objtool/builtin.h
+> > @@ -26,6 +26,7 @@ struct opts {
+> >          bool uaccess;
+> >          int prefix;
+> >          bool cfi;
+> > +       bool pie;
+> > 
+> >          /* options: */
+> >          bool backtrace;
+> > --
+> > 2.31.1
+> > 
