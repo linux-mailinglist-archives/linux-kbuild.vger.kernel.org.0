@@ -2,175 +2,153 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 643606F22C9
-	for <lists+linux-kbuild@lfdr.de>; Sat, 29 Apr 2023 06:04:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3A106F24A1
+	for <lists+linux-kbuild@lfdr.de>; Sat, 29 Apr 2023 14:22:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229566AbjD2EEc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 29 Apr 2023 00:04:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50908 "EHLO
+        id S229894AbjD2MWZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 29 Apr 2023 08:22:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbjD2EE3 (ORCPT
+        with ESMTP id S229507AbjD2MWY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 29 Apr 2023 00:04:29 -0400
-Received: from out0-208.mail.aliyun.com (out0-208.mail.aliyun.com [140.205.0.208])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7286F2719;
-        Fri, 28 Apr 2023 21:04:27 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R591e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018047202;MF=houwenlong.hwl@antgroup.com;NM=1;PH=DS;RN=20;SR=0;TI=SMTPD_---.STnJpK0_1682741061;
-Received: from localhost(mailfrom:houwenlong.hwl@antgroup.com fp:SMTPD_---.STnJpK0_1682741061)
-          by smtp.aliyun-inc.com;
-          Sat, 29 Apr 2023 12:04:22 +0800
-Date:   Sat, 29 Apr 2023 12:04:21 +0800
-From:   "Hou Wenlong" <houwenlong.hwl@antgroup.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     "Christophe Leroy" <christophe.leroy@csgroup.eu>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Thomas Garnier" <thgarnie@chromium.org>,
-        "Lai Jiangshan" <jiangshan.ljs@antgroup.com>,
-        "Kees Cook" <keescook@chromium.org>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
-        "Dave Hansen" <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Masahiro Yamada" <masahiroy@kernel.org>,
-        "Nathan Chancellor" <nathan@kernel.org>,
-        "Nick Desaulniers" <ndesaulniers@google.com>,
-        "Nicolas Schier" <nicolas@fjasle.eu>,
-        "Josh Poimboeuf" <jpoimboe@kernel.org>,
-        "Sathvika Vasireddy" <sv@linux.ibm.com>,
-        "Thomas =?utf-8?B?V2Vp77+9c2NodWg=?=" <linux@weissschuh.net>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH RFC 33/43] objtool: Add validation for x86 PIE support
-Message-ID: <20230429040421.GB126816@k08j02272.eu95sqa>
-References: <cover.1682673542.git.houwenlong.hwl@antgroup.com>
- <226af8c63c5bfa361763dd041a997ee84fe926cf.1682673543.git.houwenlong.hwl@antgroup.com>
- <461b3a8d-9ad4-7866-f3b2-369de75fd2e1@csgroup.eu>
- <20230428114338.GB1449475@hirez.programming.kicks-ass.net>
+        Sat, 29 Apr 2023 08:22:24 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97A141999;
+        Sat, 29 Apr 2023 05:22:22 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1BE8860B2F;
+        Sat, 29 Apr 2023 12:22:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70B03C4339B;
+        Sat, 29 Apr 2023 12:22:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1682770941;
+        bh=W9MphV06cv153a0MFT+SS0DHww6j6lDa1wWHga3YdPs=;
+        h=From:Date:Subject:To:Cc:From;
+        b=njAQnjgglAcvLTg4U87q+tWf+vJKENvm3V0itRaeRclXX46CZKhB+JdDKZkbb9M4h
+         +ZgXy3FsA5PMVSKREaraBopBrWAQYHk5x6Yo7hgPWuT1AKb9kc/b27COt9l6JIqUvX
+         LTo50mSWN504XngDx+AdSKUsUaOj8qhhg1keT0IpWEcPqZzlok4OCe3wZC33HBPBrc
+         dlLK5jqLBLJHcZF5LIuZpeP9iX6VIX3/d4Tna6HEHeLhG9IJmyyu03Nl1aB+jparaW
+         6Au1+cQ43LD6ZAnEGVl9iTD2CsrK/xYNNxxl4NKEmJMt953eqWLAdpsqr1wCEcXOT5
+         dBwVL6N2ebepg==
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-38e9dfa543bso364271b6e.2;
+        Sat, 29 Apr 2023 05:22:21 -0700 (PDT)
+X-Gm-Message-State: AC+VfDxK9/Qowu+Udfg3OLZtK0IH1tkdwCpM/aDh6+bGALniNtbSJ9Gj
+        gIjZAGyz2TogeNBo/iO2owy5Jz9f6NpS4oldtDA=
+X-Google-Smtp-Source: ACHHUZ6cA41wYHVJ7L2Vf4u1CRVNe6QuRvx0aIyleYCvNVelfVwvwMUJaDQSMuGaWb+OleSuHTYT2IOEvswF+u0z5Jc=
+X-Received: by 2002:a05:6808:4288:b0:387:2e2e:7b2 with SMTP id
+ dq8-20020a056808428800b003872e2e07b2mr4002503oib.26.1682770940726; Sat, 29
+ Apr 2023 05:22:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230428114338.GB1449475@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 29 Apr 2023 21:21:44 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ-8VRCeFx64KvC7VTA8rm4ryK_PjQi=Cs+wvrer+q6QA@mail.gmail.com>
+Message-ID: <CAK7LNAQ-8VRCeFx64KvC7VTA8rm4ryK_PjQi=Cs+wvrer+q6QA@mail.gmail.com>
+Subject: [GIT PULL] Kbuild updates for v6.4-rc1
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 28, 2023 at 07:43:38PM +0800, Peter Zijlstra wrote:
-> On Fri, Apr 28, 2023 at 10:28:19AM +0000, Christophe Leroy wrote:
-> 
-> 
-> > > diff --git a/tools/objtool/check.c b/tools/objtool/check.c
-> > > index 5b600bbf2389..d67b80251eec 100644
-> > > --- a/tools/objtool/check.c
-> > > +++ b/tools/objtool/check.c
-> > > @@ -131,6 +131,27 @@ static struct instruction *prev_insn_same_sym(struct objtool_file *file,
-> > >          for (insn = next_insn_same_sec(file, insn); insn;               \
-> > >               insn = next_insn_same_sec(file, insn))
-> > > 
-> > > +static struct instruction *find_insn_containing(struct objtool_file *file,
-> > > +                                               struct section *sec,
-> > > +                                               unsigned long offset)
-> > > +{
-> > > +       struct instruction *insn;
-> > > +
-> > > +       insn = find_insn(file, sec, 0);
-> > > +       if (!insn)
-> > > +               return NULL;
-> > > +
-> > > +       sec_for_each_insn_from(file, insn) {
-> > > +               if (insn->offset > offset)
-> > > +                       return NULL;
-> > > +               if (insn->offset <= offset && (insn->offset + insn->len) > offset)
-> > > +                       return insn;
-> > > +       }
-> > > +
-> > > +       return NULL;
-> > > +}
-> 
-> Urgh, this is horrendous crap. Yes you're only using it in case of a
-> warning, but adding a function like this makes it appear like it's
-> actually sane to use.
-> 
-> A far better implementation -- but still not stellar -- would be
-> something like:
-> 
-> 	sym = find_symbol_containing(sec, offset);
-> 	if (!sym)
-> 		// fail
-> 	sym_for_each_insn(file, sym, insn) {
-> 		...
-> 	}
-> 
-> But given insn_hash uses sec_offset_hash() you can do something similar
-> to find_reloc_by_dest_range()
-> 
-> 	start = offset - (INSN_MAX_SIZE - 1);
-> 	for_offset_range(o, start, start + INSN_MAX_SIZE) {
-> 		hash_for_each_possible(file->insn_hash, insn, hash, sec_offset_hash(sec, o)) {
-> 			if (insn->sec != sec)
-> 				continue;
-> 
-> 			if (insn->offset <= offset &&
-> 			    insn->offset + inns->len > offset)
-> 				return insn;
-> 		}
-> 	}
-> 	return NULL;
->
-Thanks for your suggestion, I'll pick it in the next version.
- 
-> > > +
-> > > +
-> > >   static inline struct symbol *insn_call_dest(struct instruction *insn)
-> > >   {
-> > >          if (insn->type == INSN_JUMP_DYNAMIC ||
-> > > @@ -4529,6 +4550,61 @@ static int validate_reachable_instructions(struct objtool_file *file)
-> > >          return 0;
-> > >   }
-> > > 
-> > > +static int is_in_pvh_code(struct instruction *insn)
-> > > +{
-> > > +       struct symbol *sym = insn->sym;
-> > > +
-> > > +       return sym && !strcmp(sym->name, "pvh_start_xen");
-> > > +}
-> > > +
-> > > +static int validate_pie(struct objtool_file *file)
-> > > +{
-> > > +       struct section *sec;
-> > > +       struct reloc *reloc;
-> > > +       struct instruction *insn;
-> > > +       int warnings = 0;
-> > > +
-> > > +       for_each_sec(file, sec) {
-> > > +               if (!sec->reloc)
-> > > +                       continue;
-> > > +               if (!(sec->sh.sh_flags & SHF_ALLOC))
-> > > +                       continue;
-> > > +
-> > > +               list_for_each_entry(reloc, &sec->reloc->reloc_list, list) {
-> > > +                       switch (reloc->type) {
-> > > +                       case R_X86_64_NONE:
-> > > +                       case R_X86_64_PC32:
-> > > +                       case R_X86_64_PLT32:
-> > > +                       case R_X86_64_64:
-> > > +                       case R_X86_64_PC64:
-> > > +                       case R_X86_64_GOTPCREL:
-> > > +                               break;
-> > > +                       case R_X86_64_32:
-> > > +                       case R_X86_64_32S:
-> > 
-> > That looks very specific to X86, should it go at another place ?
-> > 
-> > If it can work for any architecture, can you add generic macros, just 
-> > like commit c1449735211d ("objtool: Use macros to define arch specific 
-> > reloc types") then commit c984aef8c832 ("objtool/powerpc: Add --mcount 
-> > specific implementation") ?
-> 
-> Yes, this should be something like arch_PIE_reloc() or so. Similar to
-> arch_pc_relative_reloc().
+Hello Linus,
+
+Please pull Kbuild updates for v6.4-rc1.
+Thank you.
+
+
+
+The following changes since commit 6a8f57ae2eb07ab39a6f0ccad60c760743051026:
+
+  Linux 6.3-rc7 (2023-04-16 15:23:53 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-v6.4
+
+for you to fetch changes up to 9892bd72efdc9daa7c07ca9f427ac7e5928c7704:
+
+  kbuild: deb-pkg: specify targets in debian/rules as .PHONY
+(2023-04-26 21:10:51 +0900)
+
+----------------------------------------------------------------
+Kbuild updates for v6.4
+
+ - Refactor scripts/kallsyms to make it faster and easier to maintain
+
+ - Clean up menuconfig
+
+ - Provide Clang with hard-coded target triple instead of CROSS_COMPILE
+
+ - Use -z pack-relative-relocs flags instead of --use-android-relr-tags
+   for arm64 CONFIG_RELR
+
+ - Add srcdeb-pkg target to build only a Debian source package
+
+ - Add KDEB_SOURCE_COMPRESS option to specify the compression for a
+   Debian source package
+
+ - Misc cleanups and fixes
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      kallsyms: expand symbol name into comment for debugging
+
+Bastian Germann (1):
+      kbuild: builddeb: Eliminate debian/arch use
+
+Fangrui Song (1):
+      Makefile: use -z pack-relative-relocs
+
+Masahiro Yamada (16):
+      scripts/kallsyms: remove redundant code for omitting U and N
+      scripts/mksysmap: remove comments described in nm(1)
+      scripts/mksysmap: use sed with in-line comments
+      scripts/kallsyms: exclude symbols generated by itself dynamically
+      scripts/kallsyms: move compiler-generated symbol patterns to mksysmap
+      scripts/kallsyms: change the output order
+      scripts/kallsyms: decrease expand_symbol() / cleanup_symbol_name() calls
+      scripts/kallsyms: update the usage in the comment block
+      kconfig: menuconfig: remove OLD_NCURSES macro
+      kconfig: menuconfig: remove unused M_EVENT macro
+      kconfig: menuconfig: reorder functions to remove forward declarations
+      kbuild: clang: do not use CROSS_COMPILE for target triple
+      kbuild: add srcdeb-pkg target
+      kbuild: deb-pkg: add KDEB_SOURCE_COMPRESS to specify source compression
+      kbuild: rpm-pkg: remove kernel-drm PROVIDES
+      kbuild: deb-pkg: specify targets in debian/rules as .PHONY
+
+Randy Dunlap (1):
+      sparc: unify sparc32/sparc64 archhelp
+
+ Makefile                           |   3 +-
+ arch/sparc/Makefile                |  15 +-
+ scripts/Makefile.clang             |   8 +-
+ scripts/Makefile.package           |  61 +++++--
+ scripts/kallsyms.c                 | 229 ++++++++----------------
+ scripts/kconfig/lxdialog/dialog.h  |  27 ---
+ scripts/kconfig/lxdialog/menubox.c |   8 -
+ scripts/kconfig/lxdialog/textbox.c | 267 +++++++++++++---------------
+ scripts/kconfig/mconf.c            | 314 ++++++++++++++++-----------------
+ scripts/link-vmlinux.sh            |   6 +-
+ scripts/mksysmap                   | 135 +++++++++-----
+ scripts/package/builddeb           |   2 +-
+ scripts/package/mkdebian           |   2 +
+ scripts/package/mkspec             |   7 +-
+ scripts/tools-support-relr.sh      |   8 +-
+ 15 files changed, 510 insertions(+), 582 deletions(-)
+
+
+--
+Best Regards
+Masahiro Yamada
