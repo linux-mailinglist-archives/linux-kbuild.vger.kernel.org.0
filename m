@@ -2,138 +2,137 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B6756F89FE
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 May 2023 22:07:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B93CC6F98A3
+	for <lists+linux-kbuild@lfdr.de>; Sun,  7 May 2023 15:29:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231328AbjEEUHy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 5 May 2023 16:07:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48078 "EHLO
+        id S230415AbjEGN33 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 7 May 2023 09:29:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230272AbjEEUHx (ORCPT
+        with ESMTP id S230399AbjEGN32 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 5 May 2023 16:07:53 -0400
-Received: from domac.alu.hr (domac.alu.unizg.hr [161.53.235.3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22C7C10B;
-        Fri,  5 May 2023 13:07:51 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by domac.alu.hr (Postfix) with ESMTP id 8D06460195;
-        Fri,  5 May 2023 22:07:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.hr; s=mail;
-        t=1683317268; bh=N2frngXGwrOsBgDp4weegB8fb4Qq8uDShefpmSs/2rk=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=ox5x4i/UJ8Z3q9BJyyjKHgqeCavQRBkSVxSbGqWo+HDs4MjZTZDuxjIfKzie8zKb8
-         fT74WtYoSOL59i61dVGJlRHkG7udDxugFY2ww+e91JBfPVpydoDTQW19UKpM6+U0wj
-         IJIBwJfHccfwnZzr7VrGKwK9P1ZFh0I9vQBdVn+eoP9H4Dg5c5iccimHATfbOnguBE
-         uRMTmPhmYWj8u9a/kLZSbT9mfIdH7tHWCLmgwYnfOVw4R6U6cg4/us+wNsIap5G7wy
-         +fyVrr9lhYccVDsDYbgprZxKaMBhk9Di8qhux97sQ+UOj622M8RqdEw9j/BjxNYEEN
-         wtg14JcsA3imA==
-X-Virus-Scanned: Debian amavisd-new at domac.alu.hr
-Received: from domac.alu.hr ([127.0.0.1])
-        by localhost (domac.alu.hr [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id k9UxgHmNaevl; Fri,  5 May 2023 22:07:46 +0200 (CEST)
-Received: from [192.168.1.6] (unknown [77.237.113.62])
-        by domac.alu.hr (Postfix) with ESMTPSA id 839C660133;
-        Fri,  5 May 2023 22:07:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
-        t=1683317266; bh=N2frngXGwrOsBgDp4weegB8fb4Qq8uDShefpmSs/2rk=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=ToBkSidbaTcQuZ02WJKZ8qF97kf/VDnWjmVENCqsAXQmxJaeY6at6Y24HztuBJvp0
-         uVH7zDNUkFuMa1zDpoVmR0s4pLo85Tlu5OBOKOxko/+OuOFRaalS3SpjxcQRJnxhgh
-         k+8KXeoxGx10Bp+fphHVnvA86s0o7PgYjyllLYhq2DjJddQPuCkJisYbkPTr8z2APG
-         BQufarTYr2oPkX92PqwZQA+ogD+CYBxj2j7NUDbmVwxjSb1MN5Lk7xO2un77GiCV/s
-         J8csAJQHMzaChyMzt9L2pvBWSUmGHyWoxMMVgxevNqeaYmSVO2AMog7VkrFJrBWOMk
-         6kxWLapi4qlrw==
-Message-ID: <54f2186f-41ac-cdd4-9ea0-85441b63665b@alu.unizg.hr>
-Date:   Fri, 5 May 2023 22:07:39 +0200
+        Sun, 7 May 2023 09:29:28 -0400
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F37121635F;
+        Sun,  7 May 2023 06:29:26 -0700 (PDT)
+Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1aaf21bb427so24794555ad.1;
+        Sun, 07 May 2023 06:29:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683466166; x=1686058166;
+        h=content-transfer-encoding:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yEE4rFRcXmS59YkgFdCPJqdlH6NtKCZ8BAGKDvTzowA=;
+        b=FHNzQR+I5eORzc0RHGXsRbCVlQW8SbqnyW8Z2xPFjiaz/gIMW+NGJ+WTRkWsMSMoEh
+         fGPoPW794d8jyDZsV9kbYufbYcR6HAMYUX3vFKav/HxCZLZVqIhW2DFQODYBMifrNMHe
+         EhZIpnXYFUcm4C6CnPJeYwNbGEK5RtFYX+r2yUAZcZf7n2pctqg0RC42hVK5tyxlg3iy
+         9iLH3uztwfSZy3PUt46KbGZ6+T0mMn3L/cx4MN0ulTnZD69OPUbqOLMqrdDuX1z9Ap6M
+         uhJJSAvFQym9/UrV4UrKBJqJR4WO/2/a1QNgmuvi2tbpg8KuYzVRxvijDJ/Be/Ck0QHn
+         gusA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683466166; x=1686058166;
+        h=content-transfer-encoding:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=yEE4rFRcXmS59YkgFdCPJqdlH6NtKCZ8BAGKDvTzowA=;
+        b=ObPYo3xAAM+T+Q5GCBtgkjIBzMImTDLB005RvoMR6W/WjPAwKTIFC6Gvk4xF0N3DIj
+         IIqsNmb1Sy74jmSLQ95gy9RvQ6/3+y47eIMucCq9byD3YrAicoe9d3yyM1ND9Gj3Iw/m
+         MzZduBisHMmdFZIomj/wxCGudOpkICgbk4jMO8wi/Fb82O7CwaBcywVvdKI/bAMuAyMQ
+         N1yOj7Ci8dbc/Er8SiWZakUJIYINxiJxGtr4spRs2w5TjGM1cMT2TTuOmF2dWofLfAnc
+         aLkzhkKwjIiXvpwAzVFRbQGLuiAPyNXiVRxnOC/TXBmdDODbzmg9ADG5n47pfEB5YfbV
+         nutQ==
+X-Gm-Message-State: AC+VfDyfsZebwzYicR1XDuuNVQkxom/cvEEU+VxKFE/GLxJQFXp+nwPb
+        ezg4fKmIksVBqEmcRidl2V5DwZQv+jk=
+X-Google-Smtp-Source: ACHHUZ7P+KwUoR20+BmPPshdJfqIyGfWEcEyV5Xmu+2O8TtoKUxE8hlBnrM0SKp43+3+eE0TALOEqg==
+X-Received: by 2002:a17:902:7881:b0:19e:6cb9:4c8f with SMTP id q1-20020a170902788100b0019e6cb94c8fmr6214043pll.41.1683466166140;
+        Sun, 07 May 2023 06:29:26 -0700 (PDT)
+Received: from [192.168.43.80] (subs28-116-206-12-59.three.co.id. [116.206.12.59])
+        by smtp.gmail.com with ESMTPSA id jw19-20020a170903279300b001a9ac65ca7csm5125038plb.309.2023.05.07.06.29.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 07 May 2023 06:29:25 -0700 (PDT)
+Message-ID: <db732251-b6fe-c2c5-a0db-bac77dc84314@gmail.com>
+Date:   Sun, 7 May 2023 20:29:22 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [BUILD] Unable to sign drivers on Ubuntu 22.04 LTS desktop
 Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Mirsad Goran Todorovac <mirsad.goran.todorovac@alu.hr>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Linux x86 Architecture <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Linux perf users <linux-perf-users@vger.kernel.org>,
+To:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Kernel Build System <linux-kbuild@vger.kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>
-References: <bb89a720-b1b2-18fc-7f89-44267885700d@alu.unizg.hr>
- <ZFUIuW58QjfTaRxt@debian.me>
-From:   Mirsad Goran Todorovac <mirsad.goran.todorovac@alu.hr>
-In-Reply-To: <ZFUIuW58QjfTaRxt@debian.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Fwd: syntax error in prepare target of main Makefile
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 05. 05. 2023. 15:46, Bagas Sanjaya wrote:
+Hi,
 
-> On Thu, May 04, 2023 at 07:02:57PM +0200, Mirsad Goran Todorovac wrote:
->> Hi Bagas,
->>
->> I seem to have run into a dead end with this.
->>
->> OpenSSL 3.0.2 refuses to cooperate, despite enabling legacy ciphers:
->>
->>    BTF [M] net/nsh/nsh.ko
->>    BTF [M] net/hsr/hsr.ko
->> make -f ./Makefile ARCH=x86     KERNELRELEASE=6.3.0+ intdeb-pkg
->> sh ./scripts/package/builddeb
->>    INSTALL debian/linux-image/lib/modules/6.3.0+/kernel/arch/x86/events/intel/intel-cstate.ko
->>    SIGN debian/linux-image/lib/modules/6.3.0+/kernel/arch/x86/events/intel/intel-cstate.ko
->> At main.c:170:
->> - SSL error:1E08010C:DECODER routines::unsupported:
->> ../crypto/encode_decode/decoder_lib.c:101
-> I didn't find any errors using self-compiled OpenSSL 3.1.0. I installed the
-> library to `/tmp/openssl` and specify
-> `KCFLAGS=-L/tmp/openssl/lib -I/tmp/openssl/include` when building bindeb-pkgs.
-> Am I missing something?
+I notice a year old bug in bugzilla [1]. As many developers don't
+take a look on it, I decided to forward the bug by mail. And
+to reach the reporter, you must log in to bugzilla.
 
-Dear Mr. Bagas,
+Quoting from the bug report:
 
-I have mistakenly deleted the
+>  Christian 2022-04-08 10:44:17 UTC
+> 
+> Symptom:
+> 
+> make[2]: Entering directory '/usr/src/kernels/5.17.1-1.el8.elrepo.x86_64'
+> Makefile:729: target 'include/config/auto.conf' does not exist
+> test -e include/generated/autoconf.h -a -e include/config/auto.conf || (                \
+> echo >&2;                                                       \
+> echo >&2 "  ERROR: Kernel configuration is invalid.";           \
+> echo >&2 "         include/generated/autoconf.h or include/config/auto.conf are missing.";\
+> echo >&2 "         Run 'make oldconfig && make prepare' on kernel src to fix it.";      \
+> echo >&2 ;                                                      \
+> /bin/false)
+> Makefile:1717: target 'prepare' does not exist
+> if [ "gcc (GCC) 8.5.0 20210514 (Red Hat 8.5.0-4)" != ""gcc (GCC) 8.5.0 20210514 (Red Hat 8.5.0-4)"" ]; then \
+>         echo >&2 "warning: the compiler differs from the one used to build the kernel"; \
+>         echo >&2 "  The kernel was built by: "gcc (GCC) 8.5.0 20210514 (Red Hat 8.5.0-4)""; \
+>         echo >&2 "  You are using:           gcc (GCC) 8.5.0 20210514 (Red Hat 8.5.0-4)"; \
+> fi
+> /bin/sh: -c: line 0: syntax error near unexpected token `('
+> /bin/sh: -c: line 0: `if [ "gcc (GCC) 8.5.0 20210514 (Red Hat 8.5.0-4)" != ""gcc (GCC) 8.5.0 20210514 (Red Hat 8.5.0-4)"" ]; then \'
+> make[2]: *** [Makefile:1717: prepare] Error 1
+> make[2]: Leaving directory '/usr/src/kernels/5.17.1-1.el8.elrepo.x86_64'
+> 
+> 
+> Note the double double-quotes in the GCC Version comparison !
+> 
+> This happens to me when I try to compile vmware kernel modules with mainline kernel from elrepo on AlamLinux8.
+> 
+> Since it is coming from the Makefile of the Kernel, I suppose this is the proper upstream tracker to be used. Please advise if not.
+> 
+> 
+> This is the potion of the Makefile that fails (line 1717..) : 
+> prepare:
+> 	@if [ "$(CC_VERSION_TEXT)" != "$(CONFIG_CC_VERSION_TEXT)" ]; then \
+> 		echo >&2 "warning: the compiler differs from the one used to build the kernel"; \
+> 		echo >&2 "  The kernel was built by: $(CONFIG_CC_VERSION_TEXT)"; \
+> 		echo >&2 "  You are using:           $(CC_VERSION_TEXT)"; \
+> 	fi
+> 
+> 
+> 
+> I don't know where CONFIG_CC_VERSION_TEXT is defined. Which apparently contains "...", but shouldn't.
+> 
+> 	
 
-CONFIG_MODULE_SIG_KEY="certs/signing_key.pem"
+To the reporter: It is helpful to try compiling your third-party modules
+against latest mainline kernel.
 
-to
+Thanks.
 
-CONFIG_MODULE_SIG_KEY=""
+[1]: https://bugzilla.kernel.org/show_bug.cgi?id=215820
 
-so I got these strange errors, which made me believe that OpenSSL 3.0.1 
-disabled some encryptions and hashes.
-
-I suspected it was the problem with the FIPS mode not installed in the 
-stock Ubuntu 22.04 LTS library, but I have to admit before so many 
-people that it was this stupid mistake which I found out by looking up 
-Debian config.
-
-IOW, false alarm.
-
-Ubuntu config with FIPS mode OpenSSL 3.1.0 works, however, I have 
-rebuilt with the default OpenSSL 3.0.1 and the error was bisected to the 
-missing .PEM.
-
-Best regards,
-Mirsad
-
-
+-- 
+An old man doll... just what I always wanted! - Clara
