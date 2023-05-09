@@ -2,118 +2,138 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 288EC6FB24C
-	for <lists+linux-kbuild@lfdr.de>; Mon,  8 May 2023 16:11:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C9596FBC74
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 May 2023 03:26:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234442AbjEHOLT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 8 May 2023 10:11:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49966 "EHLO
+        id S233057AbjEIB0l (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 8 May 2023 21:26:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234464AbjEHOLN (ORCPT
+        with ESMTP id S233664AbjEIB0j (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 8 May 2023 10:11:13 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46E4934121;
-        Mon,  8 May 2023 07:11:06 -0700 (PDT)
-Date:   Mon, 8 May 2023 16:11:03 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1683555064;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=0CW4Oxt6tgBDx4EZWBOZEPdQdc5GDnBQfLbNGBkiVv4=;
-        b=X4SNdbppA5MERKaBrIpNtP6vpEMhhILRycjTD77g5tgeTGfeUq8gk3n8GcFnOfc3TaMp4x
-        OBF4J95LWPZMjmkV+qx+Kud75BGmzBGiYqFAjU8WN2x8ppJSUKi2F28rj6yzOkiZgHoMB7
-        Zu9L1mZMxNa4i+vcyDTjm8J8vEF0NIoYwuoxnpLPwOaqfYmS62lvzYcsR7UtovX+6I7G0H
-        jEPqfpdqGfPW7/xWVpbfw93aaqvXfwohiestqGelxKED5stUt27vimkALJdcVSBozG1l52
-        zop1N3movPQNUhR8szByUnhTEENR+mpAPqw9Xwu2gKpOjopUDxrfdyFtlppqFg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1683555064;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=0CW4Oxt6tgBDx4EZWBOZEPdQdc5GDnBQfLbNGBkiVv4=;
-        b=WP4fSM2rpc6FWChlzYEDb/dSood2U58WPY53v2FJxIJQlgWNMJcbeagvKhIRS3X7bFIhPl
-        YPmltLBGNK/N3YCQ==
+        Mon, 8 May 2023 21:26:39 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C73083EE;
+        Mon,  8 May 2023 18:26:37 -0700 (PDT)
 From:   "Ahmed S. Darwish" <darwi@linutronix.de>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1683595595;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=EH7EJCy+zaOYirnoFTx4j8Sz/5+BcH8LizE4QJejMqI=;
+        b=zIbXZrgRQbJHKb8OzPbZ7vMxSTyfY46CvnA/s8gUORRkBMUxa1xGgYRVUF2F/P7zgg8maa
+        dxruFxMyxqU4pIXtnvtZalhqhgcp3P1Reuy3pwWGwsnxshkqBzxfosXC99eitBu4Q4V5ko
+        SE7twaUCtizq56kWDyhV4YKhKvw4EhF0uLBLu0gvmuJTBP/9u3al/taNNyKNshSItMgtuA
+        TuX2o1qOKGMMkJWv7UR2iiCWo29GjH6oO4DO1j/AArqZLlzzTnMrguHrqjPgtOkLFPaZLz
+        w0EEjLG8F1qN5B4uYM+MnprGMgpNgheGd4tzd88UBjQ+EfypLDKpw+cXuN+o7g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1683595595;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=EH7EJCy+zaOYirnoFTx4j8Sz/5+BcH8LizE4QJejMqI=;
+        b=LBDu6RpBg2cbJvicyJUcsmEvUlVyxh2w2toUNuTWgSsO2y9weEgLHVaa3qRxsL2iUrpEbL
+        MBZ8CeY5gdnzaoBw==
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kbuild@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1 1/1] scripts/tags.sh: Fix gtags generation for O=
- kernel builds
-Message-ID: <ZFkC9+rF6xYOlte3@lx-t490>
+        Nicolas Schier <nicolas@fjasle.eu>
+Cc:     Thomas Gleixner <tglx@linutronix.de>, linux-kbuild@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        "Ahmed S. Darwish" <darwi@linutronix.de>
+Subject: [PATCH v2 0/2] scripts: Resolve gtags empty index generation
+Date:   Tue,  9 May 2023 03:26:14 +0200
+Message-Id: <20230509012616.81579-1-darwi@linutronix.de>
+In-Reply-To: <20230504201833.202494-1-darwi@linutronix.de>
 References: <20230504201833.202494-1-darwi@linutronix.de>
- <20230504201833.202494-2-darwi@linutronix.de>
- <20230504213246.GB1666363@dev-arch.thelio-3990X>
- <ZFQrD3qKIMGjI9Zd@lx-t490>
- <CAK7LNAQO2dLL8G2BxK_NPD2YG35nh90_9VFeTi+OFHQrn0YHvg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNAQO2dLL8G2BxK_NPD2YG35nh90_9VFeTi+OFHQrn0YHvg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro,
+Hi,
 
-On Fri, 05 May 2023, Masahiro Yamada wrote:
->
-> It is wrong to check whether you are building out of the
-> source tree.  See line 159 of the Makefile.
->
+v2-changelog
+------------
 
-Oh, didn't think about that case. Thanks for the reference and the
-further clarification in reply.
+Handle review remarks from Masahiro Yamada:
 
-I'll remove the ${O} check then and use saner mechanisms.
+  - scripts/tags.sh: remove the O= language, and focus on the general
+    case of the build directory being different from the kernel source
+    tree, as specified in kernel Makefile L159.
 
-> BTW, this patch does not work for me.
-> It spits a ton of "not found" warnings, then generates
-> empty tags.
->
->
-> $ make O=build gtags
+  - Fix failure when build directory is a subdirectory of the kernel
+    source tree.
 
-Interesting...
+NEW:
 
-When doing:
+  - Update Documentation/process/changes.rst with new gtags (GNU GLOBAL)
+    requirements.
 
-  $ make O=../build gtags
+Thanks!
 
-  scripts/tags.sh "$tree" variable is set to the absolute path of the
-  kernel source tree. Thus all the paths fed to gtags are absolute and
-  this patch series works.
+Cover letter / v1
+-----------------
 
-When doing what you tested with:
+https://lkml.kernel.org/r/20230504201833.202494-1-darwi@linutronix.de
 
-  $ make O=build/ gtags
+make gtags for O= kernel builds is currently broken. For example, when doing:
 
-  scripts/tags.sh "$tree" variable is set to the path of the kernel
-  source tree *relative* to O=build/. So in that case kernel source
-  "$tree" equals ".."
+   make O=../build/ x86_64_defconfig
+   make O=../build/ gtags
 
-  With this series, the build will fail as gtags current working dir is
-  the kernel source tree, and all the fed paths are thus invalid as
-  they're relative to O=build/ instead.
+gtags generates a warning for each kernel source file to be indexed:
 
-  Without this series the build will still fail given the original
-  problem of having the files "outside the source tree", where gtags
-  thinks the source tree is "build/".
+   make[1]: Entering directory '/home/darwi/build'
+     GEN     gtags
+   Warning: '/home/darwi/linux/arch/x86/include/asm/qspinlock.h' is out of source tree. ignored.
+   Warning: '/home/darwi/linux/arch/x86/include/asm/hpet.h' is out of source tree. ignored.
+   ...
+   Warning: '/home/darwi/linux/virt/lib/irqbypass.c' is out of source tree. ignored.
+   make[1]: Leaving directory '/home/darwi/build/'
 
-I'll think of something that can cover the both cases.
+and then generates an empty index:
 
-Kind regards,
-Ahmed
+   $ du -hs ~/build/G*
+   16K	/home/darwi/build/GPATH
+   16K	/home/darwi/build/GRTAGS
+   16K	/home/darwi/build/GTAGS
 
+This series includes a proposed fix. After applying it:
+
+   $ make O=../build/ gtags
+   make[1]: Entering directory '/home/darwi/build'
+     GEN     gtags
+   make[1]: Leaving directory '/home/darwi/build'
+
+   $ du -hs ~/build/G*
+   9.1M	/home/darwi/build/GPATH
+   506M	/home/darwi/build/GRTAGS
+   696M	/home/darwi/build/GTAGS
+
+The generated files can then be integrated with editors or IDEs as
+usual.
+
+=>
+
+Ahmed S. Darwish (2):
+  scripts/tags.sh: Resolve gtags empty index generation
+  docs: Set minimal gtags / GNU GLOBAL version to 6.6.5
+
+ Documentation/process/changes.rst |  7 +++++++
+ scripts/tags.sh                   | 14 +++++++++++++-
+ 2 files changed, 20 insertions(+), 1 deletion(-)
+
+base-commit: ba0ad6ed89fd5dada3b7b65ef2b08e95d449d4ab
 --
-Linutronix GmbH
+2.40.0
