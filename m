@@ -2,134 +2,115 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE6356FCF90
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 May 2023 22:34:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88C756FDC19
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 May 2023 13:01:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230316AbjEIUez (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 9 May 2023 16:34:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60350 "EHLO
+        id S236367AbjEJLBF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 10 May 2023 07:01:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229543AbjEIUey (ORCPT
+        with ESMTP id S236558AbjEJLBA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 9 May 2023 16:34:54 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1239E10FE;
-        Tue,  9 May 2023 13:34:52 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 5E63D1F749;
-        Tue,  9 May 2023 20:34:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1683664491; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=K3D8zA2tmAmIa323+7ZF/XLPZJO7JogZ7ToR1HtZFDM=;
-        b=0I8DhwtC7cuSTVHblvvoG/OReiK2L4AFZRelRMvJ2uoQMIB6Y6qLnvBiA1jityK88b9W7/
-        h7xhozNFf4FOIfajQRz+QVXKWApqTdPwVPfg9A/5nxCu3yZuT9rU6qWMwOu7Tfz/qn+T56
-        4dC1H/0CFpmohCdjxv2KWKGuzuB2eZk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1683664491;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=K3D8zA2tmAmIa323+7ZF/XLPZJO7JogZ7ToR1HtZFDM=;
-        b=xmiFJQDxWV48mWyA1idnEfNYHFeEYTbFAwbSkQBSpdzajM01VvE6m4M5IVdWqdg3Ovmy/0
-        5vbHjx/sDNnVmlBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D55E5139B3;
-        Tue,  9 May 2023 20:34:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id Ai+bJmquWmQjRgAAMHmgww
-        (envelope-from <mpdesouza@suse.com>); Tue, 09 May 2023 20:34:50 +0000
-Date:   Tue, 9 May 2023 17:34:48 -0300
-From:   Marcos Paulo de Souza <mpdesouza@suse.de>
-To:     Joe Lawrence <joe.lawrence@redhat.com>
-Cc:     Nicolai Stange <nstange@suse.de>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        live-patching@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, Miroslav Benes <mbenes@suse.cz>,
-        Petr Mladek <pmladek@suse.com>,
-        Marcos Paulo de Souza <mpdesouza@suse.com>,
-        Lukas Hruska <lhruska@suse.cz>
-Subject: Re: [PATCH v7 00/10] livepatch: klp-convert tool
-Message-ID: <coxl6y2ivnp6tqxclpm54m4fpbf3ansil3abftbj4nv76vuheq@sxvagra4almd>
-References: <20230306140824.3858543-1-joe.lawrence@redhat.com>
- <20230314202356.kal22jracaw5442y@daedalus>
- <ZBTNvEPrCcRj3F1C@redhat.com>
- <20230317232010.7uq6tt4ty35eo5hm@treble>
- <873556ag24.fsf@suse.de>
- <e41b041a-6a9e-210a-bf09-14db2b637e79@redhat.com>
+        Wed, 10 May 2023 07:01:00 -0400
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDB9B2102;
+        Wed, 10 May 2023 04:00:57 -0700 (PDT)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-50bd2d7ba74so67654591a12.1;
+        Wed, 10 May 2023 04:00:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683716456; x=1686308456;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=jN8Aq5FPpTGT1iEz1Qibhge7nHg3W8S6IukcnA1rLJs=;
+        b=Ka21o6/aTnVF7QxoBAedmbFD/WSc64NQR+z+k0+hdpONgv5UDwY6REYffmS9LpV8o0
+         KfhKLwSUUjaTA6tv+mycvyGvYyn6tw4/Io2BLU54eqUTmNoIU68dR8hhVZ1gfzZfqmk5
+         BrASUKIqTa5ohPgrFrGtQB5dxUzi/6jEqjafoyCgG62xLp6ju2EmDeU9ClvCC3mBOMiG
+         ljADfyg7F/mXQ+agc4rGQFUTFfRDKa1pJZP2Rmd+m2LwgHT9YSHluPaf36p794voaWIp
+         J2S2BT+uitZxQs/xAYNdjUGcgIvgBycKfjlhNFWDL3H/t4i5FMw7ENWWqycYg/7uihzM
+         ZjZg==
+X-Gm-Message-State: AC+VfDyPYwAiJPM5u8+HcyYwvrbq1MXHaaq93IFtzpSfweOtNUEsK0IC
+        zBSJCTa+5ZEfYEyjMYpBQvg=
+X-Google-Smtp-Source: ACHHUZ4sTK7JZjZwEPcQNhZrPqaKoUvD88ysV1xqCI+I3ekCSPJGfAIEx3Xw8KISbPB6Vve4LqCuIA==
+X-Received: by 2002:aa7:cb11:0:b0:504:a3ec:eacc with SMTP id s17-20020aa7cb11000000b00504a3eceaccmr14624020edt.4.1683716456162;
+        Wed, 10 May 2023 04:00:56 -0700 (PDT)
+Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:59? ([2a0b:e7c0:0:107::aaaa:59])
+        by smtp.gmail.com with ESMTPSA id c4-20020a056402100400b0050bc41352d9sm1731271edu.46.2023.05.10.04.00.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 May 2023 04:00:55 -0700 (PDT)
+Message-ID: <4cb758c7-f4f5-820c-c7e7-5b900ccc2534@kernel.org>
+Date:   Wed, 10 May 2023 13:00:54 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e41b041a-6a9e-210a-bf09-14db2b637e79@redhat.com>
-X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Content-Language: en-US
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     andreas.noever@gmail.com, michael.jamet@intel.com,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        YehezkelShB@gmail.com, USB list <linux-usb@vger.kernel.org>,
+        Linux kernel mailing list <linux-kernel@vger.kernel.org>
+From:   Jiri Slaby <jirislaby@kernel.org>
+Subject: make localmodconfig doesn't work for thunderbolt
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, May 03, 2023 at 03:54:47PM -0400, Joe Lawrence wrote:
-> On 4/11/23 06:06, Nicolai Stange wrote:
-> > Josh Poimboeuf <jpoimboe@kernel.org> writes:
-> > 
-> >> On Fri, Mar 17, 2023 at 04:29:48PM -0400, Joe Lawrence wrote:
-> >>> Have you tried retrofitting klp-convert into any real-world livepatch?
-> >>> I'm curious as to your observations on the overall experience, or
-> >>> thoughts on the sympos annotation style noted above.
-> >>
-> >> On a related note, the patch creation process (of which klp-convert
-> >> would be part of) needs to be documented.
-> >>
-> >> If I remember correctly, the proper safe usage of klp-convert requires a
-> >> kernel built with -flive-patching, plus some scripting and/or manual
-> >> processes.
-> > 
-> > Not always, I think: -flive-patching or IPA optimizations in general
-> > aren't a concern in the context of data symbols. From a quick glance, it
-> > seems like the selftests introduced as part of this patchset are
-> > all restricted to this usecase.
-> > 
-> 
-> IIRC there is nothing currently stopping klp-convert from converting
-> function symbol relocations.  That may be dangerous when taking
-> optimizations like sibling functions (and their sharing of stack) into
-> consideration.  This is about the point I stopped to turn and see what
-> the real use cases may be.
-> 
-> >> If nobody knows how to safely use it then there wouldn't be much value
-> >> in merging it.
-> > 
-> > I tend to agree, but would put it a bit differently: the current
-> > implementation of klp-convert features quite some convenience logic,
-> > which, until the question of a documented livepatch preparation process
-> > has been settled, is not known yet to ever be of any use.
-> > 
-> 
-> Good observation and perhaps something that Marcos could elaborate on
-> (pros and cons of klp-convert in his experiments).
-> 
+Hi,
 
-In my tests, I took the exact code generated by klp-ccp, and adapted it to not
-rely on kallsyms anymore, removing the symbol lookups. For data symbols, I
-changed it to be a extern variable instead of a pointer to it. For the function
-symbols, also removed the pointer lookup, and left only the function prototype,
-and it worked as expected.
+if I use localmodconfig for example like this:
+mkdir /tmp/tb/
+echo thunderbolt >/tmp/tb/lsmod
+make O=/tmp/tb LSMOD=/tmp/tb/lsmod localmodconfig
 
-I was quite surprised that it worked quite well. But I agree with
-Nicolai that the tool itself could be shrunk into a smaller version. In our
-usage, klp-ccp knows all unexported functions and to which modules they belong,
-as it's currently used for the symbol lookup. I believe that kpatch-build also
-has similar information so all the symbols.klp and other Kbuild machinery could be
-avoided, making the tool responsible to only generate the klp relocations based
-on the undefined symbols, just as proposed by Nicolai.
+I get:
+using config: '.config'
+thunderbolt config not found!!
+
+$ grep 'USB4\>' /tmp/tb/.config
+# CONFIG_USB4 is not set
+
+I believe it's due to:
+   obj-${CONFIG_USB4} := thunderbolt.o
+in drivers/thunderbolt/Makefile. I.e. ${} used instead of more common $().
+
+But even if I change the parser:
+
+--- a/scripts/kconfig/streamline_config.pl
++++ b/scripts/kconfig/streamline_config.pl
+@@ -317,7 +317,7 @@ foreach my $makefile (@makefiles) {
+         $_ = convert_vars($_, %make_vars);
+
+         # collect objects after obj-$(CONFIG_FOO_BAR)
+-       if (/obj-\$\((CONFIG_[^\)]*)\)\s*[+:]?=\s*(.*)/) {
++       if (/obj-\$[({](CONFIG_[^})]*)[)}]\s*[+:]?=\s*(.*)/) {
+             $var = $1;
+             $objs = $2;
+
+
+I see:
+module thunderbolt did not have configs CONFIG_USB4
+
+and:
+$ grep 'USB4\>' /tmp/tb/.config
+# CONFIG_USB4 is not set
+
+So two questions:
+1) is ${} supported and should be the above change sent as a patch? Or 
+should be drivers/thunderbolt/Makefile fixed to use $(). (And maybe 
+other Makefiles too.)
+
+2) how to fix that 'thunderbolt did not have configs'?
+
+thanks,
+-- 
+js
+suse labs
