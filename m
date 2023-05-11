@@ -2,61 +2,49 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E4B4E6FF6E6
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 May 2023 18:16:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 778206FF71C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 May 2023 18:25:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238651AbjEKQQ3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 11 May 2023 12:16:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32838 "EHLO
+        id S238411AbjEKQZZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 May 2023 12:25:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238150AbjEKQQ3 (ORCPT
+        with ESMTP id S238130AbjEKQZY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 11 May 2023 12:16:29 -0400
+        Thu, 11 May 2023 12:25:24 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DC232681;
-        Thu, 11 May 2023 09:16:27 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4866FF1;
+        Thu, 11 May 2023 09:25:23 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id F15C5619A5;
-        Thu, 11 May 2023 16:16:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F355C4339E;
-        Thu, 11 May 2023 16:16:26 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DB6BB61A85;
+        Thu, 11 May 2023 16:25:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09390C433D2;
+        Thu, 11 May 2023 16:25:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683821786;
-        bh=37BLDMCQApsAYWkD2Fzkf9WBWnl8ntaXgQXEeNJfu6g=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=vFduNp+AFVlR1whHWfYkSSUXtqdrbdmkSvG29SAJ52Fo0fYb7Za4cEdoiqrLKFoYL
-         iSxEE9zmu3ljSqd/ykPAiKPbHFmZEAE1o8IX7Ej6ylyQIXFcaEUyThU73H1xSACKcl
-         C21nEWbeImzjsQ4YRDUrYy+Zko54/xhHj5BKauuFicWNrXtohDqx3uzj2zl5iPetw+
-         YIU3Rb8GqcklpcVqBigUvTcg4DWNkPz7YgxoDE114K1RL3FrUjyDCS+gxyYwoBVJHc
-         hCYVzN3MlxvSYrvIn07dnnqa3Kn+SrwUmJASt2EoZCRo3auEAQigxFq/XbVB5NVXsx
-         yTieR1wDilSVA==
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-192cfb46e75so4017367fac.3;
-        Thu, 11 May 2023 09:16:26 -0700 (PDT)
-X-Gm-Message-State: AC+VfDxQJoHFS3yu9RLiSqx35BMhtUMKgjelLHf5bmZczhHUpOsDgeJ1
-        c/2Ch3vtUdDgl1NyEExNNAuVuBkrVaoEj38uloI=
-X-Google-Smtp-Source: ACHHUZ4T2QkjrGxdQHl22Ge1T3nDuhIFk9OGTimOV7hj2Mp6VKkmVCr4clyp0D4xpw355k0a1jz+0o15ZxnnvtR6tlA=
-X-Received: by 2002:a05:6870:a455:b0:196:3004:cc07 with SMTP id
- n21-20020a056870a45500b001963004cc07mr4435471oal.39.1683821785529; Thu, 11
- May 2023 09:16:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <4cb758c7-f4f5-820c-c7e7-5b900ccc2534@kernel.org>
-In-Reply-To: <4cb758c7-f4f5-820c-c7e7-5b900ccc2534@kernel.org>
+        s=k20201202; t=1683822322;
+        bh=O0ddsVjQX2XqLZGXzSarzIeiDR/AJKke8DZiiaGgiso=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Vr38RPBFMq334MQhYb6E7bf93P39D7Tk5w0Qn8WmkdlCKfe5TW0cqr1Ou3feEJUQP
+         nrwe1amGLeGDVfpE0MFZaZbzmmsQu6Eyl59KTPbN1D3E3ZteDDmwTsGGG9+BvQn9I9
+         tCRj3h8NhV3BDlIxrA0/2TRL/s+g0cg1WF9FMxEKTKP46Crt26T/PSuEAgF3dGjhTd
+         1zGv/YN5wzi9EGf/xohpX53ZTXhdJ5tLILUcXqYv9cvPu52zGyyi1Al2pjl9AHXiLW
+         hBg0g3SqLUTl2a9UPgF6CETox1momsItbjb9fxEvi6GHJZJWIUn15lVqlMISWM9i6L
+         n+HwaeHTMjhNw==
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 12 May 2023 01:15:49 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATQeT8MaQr450x0SpHJV=QU7nrfWfDO1ZRKimppVZG4KA@mail.gmail.com>
-Message-ID: <CAK7LNATQeT8MaQr450x0SpHJV=QU7nrfWfDO1ZRKimppVZG4KA@mail.gmail.com>
-Subject: Re: make localmodconfig doesn't work for thunderbolt
-To:     Jiri Slaby <jirislaby@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        andreas.noever@gmail.com, michael.jamet@intel.com,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        YehezkelShB@gmail.com, USB list <linux-usb@vger.kernel.org>,
-        Linux kernel mailing list <linux-kernel@vger.kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>
+Subject: [PATCH] modpost: error out if addend_*_rel() is not implemented for REL arch
+Date:   Fri, 12 May 2023 01:24:22 +0900
+Message-Id: <20230511162423.1922133-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -67,113 +55,34 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-+CC Steven Rostedt, author of streamline_config.pl
+The section mismatch check relies on the relocation entries.
 
+For REL, the addend value is implicit, so we need some code to compute
+it. Currently, EM_386, EM_ARM, and EM_MIPS are supported. This commit
+makes sure we covered all the cases.
 
+I believe the other architectures use RELA, where the explicit r_addend
+field exists.
 
-On Wed, May 10, 2023 at 8:01=E2=80=AFPM Jiri Slaby <jirislaby@kernel.org> w=
-rote:
->
-> Hi,
->
-> if I use localmodconfig for example like this:
-> mkdir /tmp/tb/
-> echo thunderbolt >/tmp/tb/lsmod
-> make O=3D/tmp/tb LSMOD=3D/tmp/tb/lsmod localmodconfig
->
-> I get:
-> using config: '.config'
-> thunderbolt config not found!!
->
-> $ grep 'USB4\>' /tmp/tb/.config
-> # CONFIG_USB4 is not set
->
-> I believe it's due to:
->    obj-${CONFIG_USB4} :=3D thunderbolt.o
-> in drivers/thunderbolt/Makefile. I.e. ${} used instead of more common $()=
-.
->
-> But even if I change the parser:
->
-> --- a/scripts/kconfig/streamline_config.pl
-> +++ b/scripts/kconfig/streamline_config.pl
-> @@ -317,7 +317,7 @@ foreach my $makefile (@makefiles) {
->          $_ =3D convert_vars($_, %make_vars);
->
->          # collect objects after obj-$(CONFIG_FOO_BAR)
-> -       if (/obj-\$\((CONFIG_[^\)]*)\)\s*[+:]?=3D\s*(.*)/) {
-> +       if (/obj-\$[({](CONFIG_[^})]*)[)}]\s*[+:]?=3D\s*(.*)/) {
->              $var =3D $1;
->              $objs =3D $2;
->
->
-> I see:
-> module thunderbolt did not have configs CONFIG_USB4
->
-> and:
-> $ grep 'USB4\>' /tmp/tb/.config
-> # CONFIG_USB4 is not set
->
-> So two questions:
-> 1) is ${} supported and should be the above change sent as a patch? Or
-> should be drivers/thunderbolt/Makefile fixed to use $(). (And maybe
-> other Makefiles too.)
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ scripts/mod/modpost.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-I believe streamline_config.pl should be fixed.
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 95da374cc534..44309d463a49 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -1442,6 +1442,8 @@ static void section_rel(const char *modname, struct elf_info *elf,
+ 			if (addend_mips_rel(elf, sechdr, &r))
+ 				continue;
+ 			break;
++		default:
++			fatal("Please add code to calculate addend for this architecture\n");
+ 		}
+ 		sym = elf->symtab_start + r_sym;
+ 		/* Skip special sections */
+-- 
+2.39.2
 
-There is no good reason to support only $(), but not ${}.
-
-
-In fact, the comment line around line 395 of this script
-uses the curly brace style.
-
-  # a loaded module. This is a direct obj-${CONFIG_FOO} +=3D bar.o
-
-
-
-
-
-
-> 2) how to fix that 'thunderbolt did not have configs'?
-
-That warning is CONFIG_USB4 was unset in the resulting .config.
-
-Was CONFIG_USB4 enabled before running localmodconfig?
-
-In my understanding, the purpose of localmodconfig
-is to slim down the .config file.
-
-It disables unneeded CONFIG options, but
-it does not enable needed CONFIG options.
-
-
-
-
-If I start from allnoconfig (i.e. CONFIG_USB4 is unset), I see the warning.
-
-$ echo thunderbolt >/tmp/tb/lsmod
-$ make -s O=3D/tmp/tb allnoconfig
-$ make O=3D/tmp/tb LSMOD=3D/tmp/tb/lsmod  localmodconfig
-  GEN     Makefile
-using config: '.config'
-module thunderbolt did not have configs CONFIG_USB4
-
-
-
-If I start from allmodconfig (i.e. CONFIG_USB4 is m), I do not see the warn=
-ing.
-
-$ echo thunderbolt >/tmp/tb/lsmod
-$ make -s O=3D/tmp/tb allmodconfig
-$ make O=3D/tmp/tb LSMOD=3D/tmp/tb/lsmod  localmodconfig
-  GEN     Makefile
-using config: '.config'
-
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
