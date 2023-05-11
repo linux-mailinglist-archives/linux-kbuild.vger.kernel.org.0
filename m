@@ -2,61 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A9166FF7D7
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 May 2023 18:56:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D06436FF990
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 May 2023 20:52:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238666AbjEKQ4Y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 11 May 2023 12:56:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36070 "EHLO
+        id S238631AbjEKSw3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 May 2023 14:52:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238660AbjEKQ4R (ORCPT
+        with ESMTP id S238407AbjEKSw3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 11 May 2023 12:56:17 -0400
+        Thu, 11 May 2023 14:52:29 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C65E7DA2;
-        Thu, 11 May 2023 09:56:15 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3637C40E0;
+        Thu, 11 May 2023 11:52:28 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6861D64F66;
-        Thu, 11 May 2023 16:56:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF92BC4339E;
-        Thu, 11 May 2023 16:56:14 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BDB1960DBF;
+        Thu, 11 May 2023 18:52:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22092C4339B;
+        Thu, 11 May 2023 18:52:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683824174;
-        bh=NZQLRkpXPjDrV/tefkxQb8D2zb/ave42qpwXAWM3fyI=;
+        s=k20201202; t=1683831147;
+        bh=jEXwF+0RlkbCYQKQZTZb+wHdb2EimuH8kjGlzRTWiqg=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=SN/saX5/pXzqvrg3+YjPBjv1P2clQC94+8bNzYzcVA874LRMeOqDxUFbvGkWF9lYV
-         l8FB4HbhP9mGzUgQ1jnlrKzIZrOk2g4O51ENv+59DXyJF/npRKBH5oVuDS0GZCYnXL
-         FAmlW15Ueh0QyWxsN3GjiVvliPFahkk8iYS83QRSftK5QY1nM4dq96h4NT3fKFevVJ
-         P5fq8cqL4Tm9S36w6PAOy84/rrtStLsrKwweD8LGS3LWXfUXs0IZwM8Rhzw2DqWik5
-         0/kekym8PuRO9rGEPCaV5zUzxGZNDPDxgoNTkLujtKKWuSz5AkrEnI80mnEl6303ic
-         RbhaY6SQe9C5A==
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-54f846d251fso2331491eaf.3;
-        Thu, 11 May 2023 09:56:14 -0700 (PDT)
-X-Gm-Message-State: AC+VfDw+wscbmcggx2sZGx0tKPI+r1a3565lBxCy5SE71DtiE5VMIvw9
-        vh6B6QF/MZJPgxI51BfsJr7qpx6KmiI2ZjhAq1I=
-X-Google-Smtp-Source: ACHHUZ7IivoF9ANMjM/WWUxmVCzwp5Ug26/ne44DqjZkkhIM5GfmHPOgqkpE/ZfAc9yuUqBN0rzr6POviRlblz3w4EU=
-X-Received: by 2002:a4a:3042:0:b0:541:f986:637f with SMTP id
- z2-20020a4a3042000000b00541f986637fmr4566821ooz.8.1683824174123; Thu, 11 May
- 2023 09:56:14 -0700 (PDT)
+        b=BhheZ8GGX95ss0MBGeRAM2iHQIpKuBlxn4/65pyeTqQVRif5/l8aUb33IBAx+eeb1
+         ksSeWkeBWqM8CL/waUyR+fBbzKqvs6afHF4g0rSAf/yV/olFpvzWEDebTXWDfYdD8o
+         aTXGq90eyzg0l0U7rXeoBiDy7MwIoTe5g7XpaRvcIIegVm1NwVKpl/eYR4ewXGW8+k
+         23Sz7SkhQZwTA99jRgDjNfcagdTvG9K0NP1jwLhdIY4Um7Ir8alF2m0W+qa7dSU9t2
+         eaJKyE8VMgLsdK7BeZm7qmKkWJDatN0QH5YY3wgz6gQrtYfTTf1gYbr+Fn8zorfdqh
+         q6VoHM/9myVUg==
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-38e3228d120so4550322b6e.3;
+        Thu, 11 May 2023 11:52:27 -0700 (PDT)
+X-Gm-Message-State: AC+VfDyzEToMQkhfbcd473LY/RKkucxgybp5caAMLWWG28v154uSKrgc
+        KGzAZ3YUQebHcP8GZROccR2T/cgJiPUIVSBfCbI=
+X-Google-Smtp-Source: ACHHUZ4AlErlG0mANcR6HeOEX5m0MC4g1noIPko/YWj70R1V3reWEhd4d8yTtXcOovWDK3EwQvkD2uezuro4wiyqXAQ=
+X-Received: by 2002:a05:6808:3ab:b0:394:4870:5722 with SMTP id
+ n11-20020a05680803ab00b0039448705722mr2056191oie.53.1683831146340; Thu, 11
+ May 2023 11:52:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230511043852.25803-1-bagasdotme@gmail.com>
-In-Reply-To: <20230511043852.25803-1-bagasdotme@gmail.com>
+References: <20230504201833.202494-1-darwi@linutronix.de> <20230509012616.81579-1-darwi@linutronix.de>
+ <20230509012616.81579-2-darwi@linutronix.de>
+In-Reply-To: <20230509012616.81579-2-darwi@linutronix.de>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 12 May 2023 01:55:38 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATY7EEWy6krs+J-XzXDzmuKQ4Ae4RrxEH6mX=SmcWCiPA@mail.gmail.com>
-Message-ID: <CAK7LNATY7EEWy6krs+J-XzXDzmuKQ4Ae4RrxEH6mX=SmcWCiPA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: module-signing: Mention
- default_x509.genkey template
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Linux Keyrings <keyrings@vger.kernel.org>,
-        Linux Kernel Build System <linux-kbuild@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
+Date:   Fri, 12 May 2023 03:51:50 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARO6HOutPf2VZJMTR2Xmepj_3UiUgH-SLXhH57CNnGfOg@mail.gmail.com>
+Message-ID: <CAK7LNARO6HOutPf2VZJMTR2Xmepj_3UiUgH-SLXhH57CNnGfOg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] scripts/tags.sh: Resolve gtags empty index generation
+To:     "Ahmed S. Darwish" <darwi@linutronix.de>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kbuild@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -69,118 +67,109 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, May 11, 2023 at 1:39=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail.com=
-> wrote:
+On Tue, May 9, 2023 at 10:26=E2=80=AFAM Ahmed S. Darwish <darwi@linutronix.=
+de> wrote:
 >
-> Commit f3a2ba44e93e2c ("certs: check-in the default x509 config file")
-> adds default x509 keypair config file template, but forgets to mention
-> it in kernel module signing documentation.
+> gtags considers any file outside of its current working directory
+> "outside the source tree" and refuses to index it. For O=3D kernel builds=
+,
+> or when "make" is invoked from a directory other then the kernel source
+> tree, gtags ignores the entire kernel source and generates an empty
+> index.
+>
+> Force-set gtags current working directory to the kernel source tree.
+>
+> Due to commit 9da0763bdd82 ("kbuild: Use relative path when building in
+> a subdir of the source tree"), if the kernel build is done in a
+> sub-directory of the kernel source tree, the kernel Makefile will set
+> the kernel's $srctree to ".." for shorter compile-time and run-time
+> warnings. Consequently, the list of files to be indexed will be in the
+> "../*" form, rendering all such paths invalid once gtags switches to the
+> kernel source tree as its current working directory.
+>
+> If gtags indexing is requested and the build directory is not the kernel
+> source tree, index all files in absolute-path form.
+>
+> Note, indexing in absolute-path form will not affect the generated
+> index, as paths in gtags indices are always relative to the gtags "root
+> directory" (as evidenced by "gtags --dump").
 
-What did it forget?
+The code works as claimed, but I am just curious.
+If all the paths are relative, how can you use the tags files located
+in a separate directory?
 
-The current documentation looks fine to me.
+"make O=3Dfoo gtags" creates tags files in foo/.
+I want to use them from emacs.
+emacs cannot find the right file because
+it assumes the path is relative to 'foo' instead of the source tree.
+
+I set GTAGSROOT to the source tree, but I could not find a way
+to use it in a useful way.
 
 
 
-
-
-
-
-> Update the doc accordingly.
+> diff --git a/scripts/tags.sh b/scripts/tags.sh
+> index ea31640b2671..3de4b4ebd891 100755
+> --- a/scripts/tags.sh
+> +++ b/scripts/tags.sh
+> @@ -32,6 +32,14 @@ else
+>         tree=3D${srctree}/
+>  fi
 >
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  Documentation/admin-guide/module-signing.rst | 41 ++++++++------------
->  1 file changed, 17 insertions(+), 24 deletions(-)
->
-> diff --git a/Documentation/admin-guide/module-signing.rst b/Documentation=
-/admin-guide/module-signing.rst
-> index 7d7c7c8a545ca6..365d60a6245f17 100644
-> --- a/Documentation/admin-guide/module-signing.rst
-> +++ b/Documentation/admin-guide/module-signing.rst
-> @@ -133,46 +133,39 @@ kernel so that it can be used to check the signatur=
-es as the modules are
->  loaded.
->
->  Under normal conditions, when ``CONFIG_MODULE_SIG_KEY`` is unchanged fro=
-m its
-> -default, the kernel build will automatically generate a new keypair usin=
-g
-> -openssl if one does not exist in the file::
-> -
-> -       certs/signing_key.pem
-> -
-> +default, the kernel build will automatically generate a new keypair in
-> +``certs/signing_key.pem`` using openssl if it doesn't exist,
->  during the building of vmlinux (the public part of the key needs to be b=
-uilt
-> -into vmlinux) using parameters in the::
-> -
-> -       certs/x509.genkey
-> -
-> +into vmlinux) using parameters in the ``certs/x509.genkey`` configuratio=
-n
->  file (which is also generated if it does not already exist).
->
-> -It is strongly recommended that you provide your own x509.genkey file.
-> -
-> -Most notably, in the x509.genkey file, the req_distinguished_name sectio=
-n
-> -should be altered from the default::
-> +If you'd like to provide alternative configuration, copy
-> +``certs/default_x509.genkey`` to ``certs/x509.genkey`` and edit the copy
-> +instead. Most likely, you will want to edit the ``req_distinguished_name=
-``
-> +section, which identifies the resulting keypair. For example::
->
->         [ req_distinguished_name ]
-> -       #O =3D Unspecified company
-> -       CN =3D Build time autogenerated kernel key
-> -       #emailAddress =3D unspecified.user@unspecified.company
-> +       O =3D Example company
-> +       CN =3D Example kernel build
-> +       emailAddress =3D user@example.com
->
->  The generated RSA key size can also be set with::
->
->         [ req ]
->         default_bits =3D 4096
->
-> -
-> -It is also possible to manually generate the key private/public files us=
-ing the
-> -x509.genkey key generation configuration file in the root node of the Li=
-nux
-> -kernel sources tree and the openssl command.  The following is an exampl=
-e to
-> -generate the public/private key files::
-> +Optionally, you can also manually generate the keypair so that the same
-> +keypair can be used in multiple builds. To generate it::
->
->         openssl req -new -nodes -utf8 -sha256 -days 36500 -batch -x509 \
->            -config x509.genkey -outform PEM -out kernel_key.pem \
->            -keyout kernel_key.pem
->
-> -The full pathname for the resulting kernel_key.pem file can then be spec=
-ified
-> -in the ``CONFIG_MODULE_SIG_KEY`` option, and the certificate and key the=
-rein will
-> -be used instead of an autogenerated keypair.
-> +See :manpage:`openssl-req(1)` for the explanation.
 > +
-> +The full pathname for the resulting ``kernel_key.pem`` file can then be
-> +specified in the ``CONFIG_MODULE_SIG_KEY`` option, and the certificate a=
-nd key
-> +therein will be used instead of an autogenerated keypair.
+
+Unneeded empty line addition.
+
+
+> +# gtags(1) refuses to index any file outside of its current working dir.
+> +# If gtags indexing is requested and the build output directory is not
+> +# the kernel source tree, index all files in absolute-path form.
+> +if [ "$1" =3D "gtags" -a -n "${tree}" ]; then
+> +       tree=3D$(realpath $tree)/
+
+
+I decided to run shellcheck for new code.
+Please follow the suggestion from the tool.
+
+
+In scripts/tags.sh line 40:
+tree=3D$(realpath $tree)/
+                        ^---^ SC2086 (info): Double quote to prevent
+globbing and word splitting.
+
+Did you mean:
+tree=3D$(realpath "$tree")/
+
+
+
+(You do not need to fix the entire script.
+This is only for new code).
+
+
+
+> @@ -131,7 +139,11 @@ docscope()
 >
->
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
->
-> base-commit: ac9a78681b921877518763ba0e89202254349d1b
-> --
-> An old man doll... just what I always wanted! - Clara
->
+>  dogtags()
+>  {
+> -       all_target_sources | gtags -i -f -
+> +       local gtagsoutdir=3D"${PWD}"
+> +       local gtagsroot=3D"${tree}"
+> +
+> +       [ -z "${gtagsroot}" ] && gtagsroot=3D"."
+> +       all_target_sources | gtags -i -C $gtagsroot -f - $gtagsoutdir
+>  }
+
+
+You can write it in one line.
+
+
+dogtags()
+{
+    all_target_sources | gtags -i -C "${tree:-.}" -f - "${PWD}"
+}
+
+
+
 
 
 --
