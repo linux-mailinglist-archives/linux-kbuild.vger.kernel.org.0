@@ -2,101 +2,129 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83F4E6FFEFC
-	for <lists+linux-kbuild@lfdr.de>; Fri, 12 May 2023 04:36:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70EA46FFF40
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 May 2023 05:25:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239681AbjELCgd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 11 May 2023 22:36:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36210 "EHLO
+        id S239685AbjELDZy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 May 2023 23:25:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239158AbjELCgc (ORCPT
+        with ESMTP id S239158AbjELDZx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 11 May 2023 22:36:32 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3753659D4;
-        Thu, 11 May 2023 19:36:31 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-1a516fb6523so88099335ad.3;
-        Thu, 11 May 2023 19:36:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683858990; x=1686450990;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JLOnR+TZq7I0ACsVGp4QS0zHoJpqoYfqy4vPmKAWQdI=;
-        b=sB4gSnD9iXxiHEzCZ5632EilGI1/tk5kFTaJ+wlHXJc+sxwpTgaSN1Z8mCdj3VPC5/
-         sFPcLSrSDoD9Iblo9FyNo9D6HfkLeczZM23f0l2cTI3Fmrd0xL20DwYlD40F+q0bih/7
-         1WURb8MDTO0CZdR7j+8vYB/sWeobgEESxa0FOnUwSrmN1Vn+l8UUJr1D8OIQJhXU0mTd
-         Ky2IQvNxjqymrgcH8bbyPR84YU+Ew1ZKu8cleZ0uHh6Oa+9q/0WedjPqMVqvBlvhUcut
-         /q9Zht61gq31ydcyuKMeL4onDUgH+kIzEoI9FlfE4/Aed8w3+M7/Ix+CsARZrwxBDnGt
-         GHug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683858990; x=1686450990;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JLOnR+TZq7I0ACsVGp4QS0zHoJpqoYfqy4vPmKAWQdI=;
-        b=Ewq+nYOjxnCdXFMn/cfMeVbAxccz/8w+sNbCnbk78iATPSM58slzVibhtpz1h0PPVo
-         p24/SX3U9O9NGG7vxGRkpquWQFJoNB0N73Rwny8SZos8b43cBQpkFF2FCZwGCV6c4UnL
-         EyO1M3iZ/sOiMIqk+88+21KgDSVWyh532eL+rEf88Zl1CiLPbMYxbPdbWFdYAHb7RUEm
-         rWJwgwyL3mPKfod4Bj89ntf87wBzh3sX73KtOfJqFMwpaLvtW04Zxqn2tKlXlHYchlpO
-         WSF6DrK9j+ZkrNrEJe2c8iTCsgj/szr1lqVW44x3m4FggSp34jRpRv8xznSlIIr5NNoA
-         KflA==
-X-Gm-Message-State: AC+VfDyy67oBtVZavjEpPO/1nPzPe2Tf5DGo+u080kzMV4QwYmFvk+EN
-        ZxjhRcysPLbwXXtHp+9Ap4s=
-X-Google-Smtp-Source: ACHHUZ59m+n7obFadBYYqI+7nMSPeg1gXvLySTC5HjO3gnt4GQRdhhRs8CIjLkDV1Y0XFALcXuG+qg==
-X-Received: by 2002:a17:902:d2c2:b0:1ad:cef8:f916 with SMTP id n2-20020a170902d2c200b001adcef8f916mr3631543plc.1.1683858990577;
-        Thu, 11 May 2023 19:36:30 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-24.three.co.id. [180.214.232.24])
-        by smtp.gmail.com with ESMTPSA id y18-20020a17090322d200b001a1a82fc6d3sm6595884plg.268.2023.05.11.19.36.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 May 2023 19:36:30 -0700 (PDT)
-Message-ID: <f74a911c-82c5-b4d0-1406-0acb5a327312@gmail.com>
-Date:   Fri, 12 May 2023 09:36:22 +0700
+        Thu, 11 May 2023 23:25:53 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABFE51BC9;
+        Thu, 11 May 2023 20:25:51 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3608264DA2;
+        Fri, 12 May 2023 03:25:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95252C433D2;
+        Fri, 12 May 2023 03:25:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1683861950;
+        bh=cTBnLy3eQku5I3kq4VRmAiy3V6kmgt0B+3aiC8bEzrs=;
+        h=From:Date:Subject:To:Cc:From;
+        b=N0YskMbCr/s51e6Run2XBWc60UFbGTLquAPlTV1KT+TKezFxBUYwV+K1noDlWjukv
+         JjzxSGFF94c2t0IcYM0YPyu8cZYyF+AHNd5c7CBpSgemiJI/Kpqz9qH6WFnuzR4v2K
+         dh3Dopyxmyh4VsfExbTlSVCBGzSWtlVBf91NYJAO1d4j+rOT3tr4HkRpTBd1dEPPHT
+         ie6qoKQ6llzGrGtCH2dmNt6pQjTmYwTFWbWkg8486WtB3MPtk+Fzwug1FTzPF1bk3W
+         JTIUepOMDsFSdjkPK2E2WDOk1z5BtcaBN61ni/7t6MfRZpzpOLzdHrgQLobe0vowym
+         DcvMQWndQ6MGA==
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-394690088acso350527b6e.0;
+        Thu, 11 May 2023 20:25:50 -0700 (PDT)
+X-Gm-Message-State: AC+VfDy2kP0SjKDWGY89dAiND3ht0q8a/caEn9cRq0lHZzh7wIKY11UY
+        PPL6M2JnY5cxMlh7WMLC63wrk6j5xTlVG1rd51g=
+X-Google-Smtp-Source: ACHHUZ7FKGH/MsHNwX2k2oJZmwSIuQOC62sHk5vs1GTkT0CfeaKv4ffQvjUNa9A+b87YK+Txa9pnVkHv0iZu86Zh6gE=
+X-Received: by 2002:a05:6808:23c2:b0:394:65f4:f146 with SMTP id
+ bq2-20020a05680823c200b0039465f4f146mr1762400oib.5.1683861949904; Thu, 11 May
+ 2023 20:25:49 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] Documentation: module-signing: Mention
- default_x509.genkey template
-Content-Language: en-US
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Keyrings <keyrings@vger.kernel.org>,
-        Linux Kernel Build System <linux-kbuild@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
-References: <20230511043852.25803-1-bagasdotme@gmail.com>
- <CAK7LNATY7EEWy6krs+J-XzXDzmuKQ4Ae4RrxEH6mX=SmcWCiPA@mail.gmail.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <CAK7LNATY7EEWy6krs+J-XzXDzmuKQ4Ae4RrxEH6mX=SmcWCiPA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 12 May 2023 12:25:13 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATrFbr7kT9HEFgYO6ZstaSx1FB+Q4SQrAX+D8VwG5K0dQ@mail.gmail.com>
+Message-ID: <CAK7LNATrFbr7kT9HEFgYO6ZstaSx1FB+Q4SQrAX+D8VwG5K0dQ@mail.gmail.com>
+Subject: [RFC] [kbuild test robot] random-order parallel building
+To:     kernel test robot <lkp@intel.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 5/11/23 23:55, Masahiro Yamada wrote:
-> On Thu, May 11, 2023 at 1:39 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->>
->> Commit f3a2ba44e93e2c ("certs: check-in the default x509 config file")
->> adds default x509 keypair config file template, but forgets to mention
->> it in kernel module signing documentation.
-> 
-> What did it forget?
-> 
+Hello, maintainers of the kbuild test robot.
 
-I mean the phrase "provide your own x509.genkey" can means
-creating that config from scratch when there is already
-default_x509.genkey template which can be used as a base for
-adjusting certificate keypair.
+I have a proposal for the 0day tests.
 
--- 
-An old man doll... just what I always wanted! - Clara
 
+GNU Make traditionally processes the dependency from left to right.
+
+For example, if you have dependency like this:
+
+     all: foo bar baz
+
+GNU Make builds foo, bar, baz, in this order.
+
+
+Some projects that are not capable of parallel builds
+rely on that behavior implicitly.
+
+Kbuild, however, is intended to work well in parallel.
+(As the maintainer, I really care about it.)
+
+
+From time to time, people add "just worked for me" code,
+but apparently that lacks proper dependency.
+Sometimes it requires an expensive CPU to reproduce
+parallel build issues.
+
+
+For example, see this report,
+  https://lkml.org/lkml/2016/11/30/587
+
+The report says 'make -j112' reproduces the broken parallel build.
+Most people do not have such a build machine that comes with 112 cores.
+It is difficult to reproduce it (or even notice it).
+
+(Some time later, it was root-caused by 07a422bb213a)
+
+
+
+GNU Make 4.4 got this option.
+
+  --shuffle[={SEED|random|reverse|none}]
+       Perform shuffle of prerequisites and goals.
+
+
+
+'make --shuffle=reverse' will build in reverse order.
+In the example above, baz, bar, foo.
+
+'make --shuffle' will randomize the build order.
+
+
+If there exists a missing dependency among foo, bar, baz,
+it will fail to build.
+
+
+
+We already perform the randconfig daily basis.
+So, random-order parallel building is a similar idea.
+
+Perhaps, it makes sense to add the "--shuffle=SEED" option
+but it requires GNU Make 4.4.  (or GNU Make 4.4.1)
+Is this too new?
+
+
+
+--
+Best Regards
+Masahiro Yamada
