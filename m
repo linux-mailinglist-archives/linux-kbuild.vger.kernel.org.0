@@ -2,176 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D06436FF990
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 May 2023 20:52:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83F4E6FFEFC
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 May 2023 04:36:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238631AbjEKSw3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 11 May 2023 14:52:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56802 "EHLO
+        id S239681AbjELCgd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 May 2023 22:36:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238407AbjEKSw3 (ORCPT
+        with ESMTP id S239158AbjELCgc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 11 May 2023 14:52:29 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3637C40E0;
-        Thu, 11 May 2023 11:52:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BDB1960DBF;
-        Thu, 11 May 2023 18:52:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22092C4339B;
-        Thu, 11 May 2023 18:52:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683831147;
-        bh=jEXwF+0RlkbCYQKQZTZb+wHdb2EimuH8kjGlzRTWiqg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=BhheZ8GGX95ss0MBGeRAM2iHQIpKuBlxn4/65pyeTqQVRif5/l8aUb33IBAx+eeb1
-         ksSeWkeBWqM8CL/waUyR+fBbzKqvs6afHF4g0rSAf/yV/olFpvzWEDebTXWDfYdD8o
-         aTXGq90eyzg0l0U7rXeoBiDy7MwIoTe5g7XpaRvcIIegVm1NwVKpl/eYR4ewXGW8+k
-         23Sz7SkhQZwTA99jRgDjNfcagdTvG9K0NP1jwLhdIY4Um7Ir8alF2m0W+qa7dSU9t2
-         eaJKyE8VMgLsdK7BeZm7qmKkWJDatN0QH5YY3wgz6gQrtYfTTf1gYbr+Fn8zorfdqh
-         q6VoHM/9myVUg==
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-38e3228d120so4550322b6e.3;
-        Thu, 11 May 2023 11:52:27 -0700 (PDT)
-X-Gm-Message-State: AC+VfDyzEToMQkhfbcd473LY/RKkucxgybp5caAMLWWG28v154uSKrgc
-        KGzAZ3YUQebHcP8GZROccR2T/cgJiPUIVSBfCbI=
-X-Google-Smtp-Source: ACHHUZ4AlErlG0mANcR6HeOEX5m0MC4g1noIPko/YWj70R1V3reWEhd4d8yTtXcOovWDK3EwQvkD2uezuro4wiyqXAQ=
-X-Received: by 2002:a05:6808:3ab:b0:394:4870:5722 with SMTP id
- n11-20020a05680803ab00b0039448705722mr2056191oie.53.1683831146340; Thu, 11
- May 2023 11:52:26 -0700 (PDT)
+        Thu, 11 May 2023 22:36:32 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3753659D4;
+        Thu, 11 May 2023 19:36:31 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-1a516fb6523so88099335ad.3;
+        Thu, 11 May 2023 19:36:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683858990; x=1686450990;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JLOnR+TZq7I0ACsVGp4QS0zHoJpqoYfqy4vPmKAWQdI=;
+        b=sB4gSnD9iXxiHEzCZ5632EilGI1/tk5kFTaJ+wlHXJc+sxwpTgaSN1Z8mCdj3VPC5/
+         sFPcLSrSDoD9Iblo9FyNo9D6HfkLeczZM23f0l2cTI3Fmrd0xL20DwYlD40F+q0bih/7
+         1WURb8MDTO0CZdR7j+8vYB/sWeobgEESxa0FOnUwSrmN1Vn+l8UUJr1D8OIQJhXU0mTd
+         Ky2IQvNxjqymrgcH8bbyPR84YU+Ew1ZKu8cleZ0uHh6Oa+9q/0WedjPqMVqvBlvhUcut
+         /q9Zht61gq31ydcyuKMeL4onDUgH+kIzEoI9FlfE4/Aed8w3+M7/Ix+CsARZrwxBDnGt
+         GHug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683858990; x=1686450990;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JLOnR+TZq7I0ACsVGp4QS0zHoJpqoYfqy4vPmKAWQdI=;
+        b=Ewq+nYOjxnCdXFMn/cfMeVbAxccz/8w+sNbCnbk78iATPSM58slzVibhtpz1h0PPVo
+         p24/SX3U9O9NGG7vxGRkpquWQFJoNB0N73Rwny8SZos8b43cBQpkFF2FCZwGCV6c4UnL
+         EyO1M3iZ/sOiMIqk+88+21KgDSVWyh532eL+rEf88Zl1CiLPbMYxbPdbWFdYAHb7RUEm
+         rWJwgwyL3mPKfod4Bj89ntf87wBzh3sX73KtOfJqFMwpaLvtW04Zxqn2tKlXlHYchlpO
+         WSF6DrK9j+ZkrNrEJe2c8iTCsgj/szr1lqVW44x3m4FggSp34jRpRv8xznSlIIr5NNoA
+         KflA==
+X-Gm-Message-State: AC+VfDyy67oBtVZavjEpPO/1nPzPe2Tf5DGo+u080kzMV4QwYmFvk+EN
+        ZxjhRcysPLbwXXtHp+9Ap4s=
+X-Google-Smtp-Source: ACHHUZ59m+n7obFadBYYqI+7nMSPeg1gXvLySTC5HjO3gnt4GQRdhhRs8CIjLkDV1Y0XFALcXuG+qg==
+X-Received: by 2002:a17:902:d2c2:b0:1ad:cef8:f916 with SMTP id n2-20020a170902d2c200b001adcef8f916mr3631543plc.1.1683858990577;
+        Thu, 11 May 2023 19:36:30 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-24.three.co.id. [180.214.232.24])
+        by smtp.gmail.com with ESMTPSA id y18-20020a17090322d200b001a1a82fc6d3sm6595884plg.268.2023.05.11.19.36.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 May 2023 19:36:30 -0700 (PDT)
+Message-ID: <f74a911c-82c5-b4d0-1406-0acb5a327312@gmail.com>
+Date:   Fri, 12 May 2023 09:36:22 +0700
 MIME-Version: 1.0
-References: <20230504201833.202494-1-darwi@linutronix.de> <20230509012616.81579-1-darwi@linutronix.de>
- <20230509012616.81579-2-darwi@linutronix.de>
-In-Reply-To: <20230509012616.81579-2-darwi@linutronix.de>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 12 May 2023 03:51:50 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARO6HOutPf2VZJMTR2Xmepj_3UiUgH-SLXhH57CNnGfOg@mail.gmail.com>
-Message-ID: <CAK7LNARO6HOutPf2VZJMTR2Xmepj_3UiUgH-SLXhH57CNnGfOg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] scripts/tags.sh: Resolve gtags empty index generation
-To:     "Ahmed S. Darwish" <darwi@linutronix.de>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kbuild@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] Documentation: module-signing: Mention
+ default_x509.genkey template
+Content-Language: en-US
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Keyrings <keyrings@vger.kernel.org>,
+        Linux Kernel Build System <linux-kbuild@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <20230511043852.25803-1-bagasdotme@gmail.com>
+ <CAK7LNATY7EEWy6krs+J-XzXDzmuKQ4Ae4RrxEH6mX=SmcWCiPA@mail.gmail.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <CAK7LNATY7EEWy6krs+J-XzXDzmuKQ4Ae4RrxEH6mX=SmcWCiPA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, May 9, 2023 at 10:26=E2=80=AFAM Ahmed S. Darwish <darwi@linutronix.=
-de> wrote:
->
-> gtags considers any file outside of its current working directory
-> "outside the source tree" and refuses to index it. For O=3D kernel builds=
-,
-> or when "make" is invoked from a directory other then the kernel source
-> tree, gtags ignores the entire kernel source and generates an empty
-> index.
->
-> Force-set gtags current working directory to the kernel source tree.
->
-> Due to commit 9da0763bdd82 ("kbuild: Use relative path when building in
-> a subdir of the source tree"), if the kernel build is done in a
-> sub-directory of the kernel source tree, the kernel Makefile will set
-> the kernel's $srctree to ".." for shorter compile-time and run-time
-> warnings. Consequently, the list of files to be indexed will be in the
-> "../*" form, rendering all such paths invalid once gtags switches to the
-> kernel source tree as its current working directory.
->
-> If gtags indexing is requested and the build directory is not the kernel
-> source tree, index all files in absolute-path form.
->
-> Note, indexing in absolute-path form will not affect the generated
-> index, as paths in gtags indices are always relative to the gtags "root
-> directory" (as evidenced by "gtags --dump").
+On 5/11/23 23:55, Masahiro Yamada wrote:
+> On Thu, May 11, 2023 at 1:39 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>>
+>> Commit f3a2ba44e93e2c ("certs: check-in the default x509 config file")
+>> adds default x509 keypair config file template, but forgets to mention
+>> it in kernel module signing documentation.
+> 
+> What did it forget?
+> 
 
-The code works as claimed, but I am just curious.
-If all the paths are relative, how can you use the tags files located
-in a separate directory?
+I mean the phrase "provide your own x509.genkey" can means
+creating that config from scratch when there is already
+default_x509.genkey template which can be used as a base for
+adjusting certificate keypair.
 
-"make O=3Dfoo gtags" creates tags files in foo/.
-I want to use them from emacs.
-emacs cannot find the right file because
-it assumes the path is relative to 'foo' instead of the source tree.
+-- 
+An old man doll... just what I always wanted! - Clara
 
-I set GTAGSROOT to the source tree, but I could not find a way
-to use it in a useful way.
-
-
-
-> diff --git a/scripts/tags.sh b/scripts/tags.sh
-> index ea31640b2671..3de4b4ebd891 100755
-> --- a/scripts/tags.sh
-> +++ b/scripts/tags.sh
-> @@ -32,6 +32,14 @@ else
->         tree=3D${srctree}/
->  fi
->
-> +
-
-Unneeded empty line addition.
-
-
-> +# gtags(1) refuses to index any file outside of its current working dir.
-> +# If gtags indexing is requested and the build output directory is not
-> +# the kernel source tree, index all files in absolute-path form.
-> +if [ "$1" =3D "gtags" -a -n "${tree}" ]; then
-> +       tree=3D$(realpath $tree)/
-
-
-I decided to run shellcheck for new code.
-Please follow the suggestion from the tool.
-
-
-In scripts/tags.sh line 40:
-tree=3D$(realpath $tree)/
-                        ^---^ SC2086 (info): Double quote to prevent
-globbing and word splitting.
-
-Did you mean:
-tree=3D$(realpath "$tree")/
-
-
-
-(You do not need to fix the entire script.
-This is only for new code).
-
-
-
-> @@ -131,7 +139,11 @@ docscope()
->
->  dogtags()
->  {
-> -       all_target_sources | gtags -i -f -
-> +       local gtagsoutdir=3D"${PWD}"
-> +       local gtagsroot=3D"${tree}"
-> +
-> +       [ -z "${gtagsroot}" ] && gtagsroot=3D"."
-> +       all_target_sources | gtags -i -C $gtagsroot -f - $gtagsoutdir
->  }
-
-
-You can write it in one line.
-
-
-dogtags()
-{
-    all_target_sources | gtags -i -C "${tree:-.}" -f - "${PWD}"
-}
-
-
-
-
-
---
-Best Regards
-Masahiro Yamada
