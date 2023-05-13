@@ -2,552 +2,177 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F8617019DB
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 May 2023 22:47:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 093BC701AD2
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 May 2023 01:28:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230061AbjEMUq6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 13 May 2023 16:46:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35004 "EHLO
+        id S231278AbjEMX21 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Sat, 13 May 2023 19:28:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234322AbjEMUqb (ORCPT
+        with ESMTP id S229447AbjEMX20 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 13 May 2023 16:46:31 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C1B440D1;
-        Sat, 13 May 2023 13:46:02 -0700 (PDT)
+        Sat, 13 May 2023 19:28:26 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32C9D1FDE;
+        Sat, 13 May 2023 16:28:25 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 983C761558;
-        Sat, 13 May 2023 20:45:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B53FC433D2;
-        Sat, 13 May 2023 20:45:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684010758;
-        bh=EwZN3U3/2rCml/YtnBIQ1znO5pjexIvWP+wO2NdA8u0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=b/iitFoI3Dkmks1eI/ieehxh8KaCAiGd4/ILGHwJ0ssbZ6Tae2qHY/kj3JPX1sNDW
-         twiwtsDfR44JnG4J3d9wx/raefVHoX/tkCQpq6NTKJQ8CGDTYkVw4eBPm/7qTJ+pbJ
-         B4bQIJ6sIxuA9vvoAv38j7uccg4P4jVnAdxZeIVU+rlrdxsEYPGJ++dxWFrNYeVkcd
-         FDLlEkLv7TqHQ8+PUpYiBSG9QQDbTECzXDNSwCVttZrewSPqk3CEGGvGr9CMaG/naZ
-         6WxKlKSWYUFoBG4pkQRCDNH1XhZ/7fAeGkagEvcpPadA3kQyP0NZrN0qNO3Ykwqn0/
-         JBHMqp8+PuYXw==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Pitre <npitre@baylibre.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH v4 21/21] kbuild: implement CONFIG_TRIM_UNUSED_KSYMS without recursion
-Date:   Sun, 14 May 2023 05:45:02 +0900
-Message-Id: <20230513204502.1593923-22-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230513204502.1593923-1-masahiroy@kernel.org>
-References: <20230513204502.1593923-1-masahiroy@kernel.org>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C1B6F60C2B;
+        Sat, 13 May 2023 23:28:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AF2AC433D2;
+        Sat, 13 May 2023 23:28:23 +0000 (UTC)
+Date:   Sat, 13 May 2023 19:28:21 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Jiri Slaby <jirislaby@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        andreas.noever@gmail.com, michael.jamet@intel.com,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        YehezkelShB@gmail.com, USB list <linux-usb@vger.kernel.org>,
+        Linux kernel mailing list <linux-kernel@vger.kernel.org>
+Subject: Re: make localmodconfig doesn't work for thunderbolt
+Message-ID: <20230513192821.34ca93fd@rorschach.local.home>
+In-Reply-To: <CAK7LNATQeT8MaQr450x0SpHJV=QU7nrfWfDO1ZRKimppVZG4KA@mail.gmail.com>
+References: <4cb758c7-f4f5-820c-c7e7-5b900ccc2534@kernel.org>
+        <CAK7LNATQeT8MaQr450x0SpHJV=QU7nrfWfDO1ZRKimppVZG4KA@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-When CONFIG_TRIM_UNUSED_KSYMS is enabled, Kbuild recursively traverses
-the directory tree to determine which EXPORT_SYMBOL to trim. If an
-EXPORT_SYMBOL turns out to be unused by anyone, Kbuild begins the
-second traverse, where some source files are recompiled with their
-EXPORT_SYMBOL() tuned into a no-op.
+On Fri, 12 May 2023 01:15:49 +0900
+Masahiro Yamada <masahiroy@kernel.org> wrote:
 
-Linus stated negative opinions about this slowness in commits:
+> +CC Steven Rostedt, author of streamline_config.pl
 
- - 5cf0fd591f2e ("Kbuild: disable TRIM_UNUSED_KSYMS option")
- - a555bdd0c58c ("Kbuild: enable TRIM_UNUSED_KSYMS again, with some guarding")
+Thanks!
 
-We can do this better now. The final data structures of EXPORT_SYMBOL
-are generated by the modpost stage, so modpost can selectively emit
-KSYMTAB entries that are really used by modules.
+> 
+> 
+> 
+> On Wed, May 10, 2023 at 8:01 PM Jiri Slaby <jirislaby@kernel.org> wrote:
+> >
+> > Hi,
+> >
+> > if I use localmodconfig for example like this:
+> > mkdir /tmp/tb/
+> > echo thunderbolt >/tmp/tb/lsmod
+> > make O=/tmp/tb LSMOD=/tmp/tb/lsmod localmodconfig
+> >
+> > I get:
+> > using config: '.config'
+> > thunderbolt config not found!!
+> >
+> > $ grep 'USB4\>' /tmp/tb/.config
+> > # CONFIG_USB4 is not set
+> >
+> > I believe it's due to:
+> >    obj-${CONFIG_USB4} := thunderbolt.o
+> > in drivers/thunderbolt/Makefile. I.e. ${} used instead of more common $().
+> >
+> > But even if I change the parser:
+> >
+> > --- a/scripts/kconfig/streamline_config.pl
+> > +++ b/scripts/kconfig/streamline_config.pl
+> > @@ -317,7 +317,7 @@ foreach my $makefile (@makefiles) {
+> >          $_ = convert_vars($_, %make_vars);
+> >
+> >          # collect objects after obj-$(CONFIG_FOO_BAR)
+> > -       if (/obj-\$\((CONFIG_[^\)]*)\)\s*[+:]?=\s*(.*)/) {
+> > +       if (/obj-\$[({](CONFIG_[^})]*)[)}]\s*[+:]?=\s*(.*)/) {
+> >              $var = $1;
+> >              $objs = $2;
+> >
+> >
+> > I see:
+> > module thunderbolt did not have configs CONFIG_USB4
+> >
+> > and:
+> > $ grep 'USB4\>' /tmp/tb/.config
+> > # CONFIG_USB4 is not set
+> >
+> > So two questions:
+> > 1) is ${} supported and should be the above change sent as a patch? Or
+> > should be drivers/thunderbolt/Makefile fixed to use $(). (And maybe
+> > other Makefiles too.)  
+> 
+> 
+> I believe streamline_config.pl should be fixed.
 
-Commit 2cce989f8461 ("kbuild: unify two modpost invocations") is another
-ground-work to do this in a one-pass algorithm. With the list of modules,
-modpost sets sym->used if it is used by a module. modpost emits KSYMTAB
-only for symbols with sym->used==true.
+So do I.
 
-BTW, Nicolas explained why the trimming was implemented with recursion:
+> 
+> There is no good reason to support only $(), but not ${}.
 
-  https://lore.kernel.org/all/2o2rpn97-79nq-p7s2-nq5-8p83391473r@syhkavp.arg/
+Agreed.
 
-Actually, we never achieved that level of optimization where the chain
-reaction of trimming comes into play because:
+> 
+> 
+> In fact, the comment line around line 395 of this script
+> uses the curly brace style.
+> 
+>   # a loaded module. This is a direct obj-${CONFIG_FOO} += bar.o
+> 
+> 
+> 
+> 
+> 
+> 
+> > 2) how to fix that 'thunderbolt did not have configs'?  
+> 
+> That warning is CONFIG_USB4 was unset in the resulting .config.
+> 
+> Was CONFIG_USB4 enabled before running localmodconfig?
+> 
+> In my understanding, the purpose of localmodconfig
+> is to slim down the .config file.
 
- - CONFIG_LTO_CLANG cannot remove any unused symbols
- - CONFIG_LD_DEAD_CODE_DATA_ELIMINATION is enabled only for vmlinux,
-   but not modules
+Correct.
 
-If deeper trimming is required, we need to revisit this, but I guess
-that is unlikely to happen.
+> 
+> It disables unneeded CONFIG options, but
+> it does not enable needed CONFIG options.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+Also correct.
 
- .gitignore                  |  1 -
- Makefile                    | 19 +---------
- include/linux/export.h      | 41 ---------------------
- scripts/Makefile.build      |  7 ----
- scripts/Makefile.modpost    |  7 ++++
- scripts/adjust_autoksyms.sh | 73 -------------------------------------
- scripts/basic/fixdep.c      |  3 +-
- scripts/gen_ksymdeps.sh     | 30 ---------------
- scripts/mod/modpost.c       | 54 ++++++++++++++++++++++++---
- scripts/remove-stale-files  |  2 +
- 10 files changed, 61 insertions(+), 176 deletions(-)
- delete mode 100755 scripts/adjust_autoksyms.sh
- delete mode 100755 scripts/gen_ksymdeps.sh
+> 
+> 
+> 
+> 
+> If I start from allnoconfig (i.e. CONFIG_USB4 is unset), I see the warning.
+> 
+> $ echo thunderbolt >/tmp/tb/lsmod
+> $ make -s O=/tmp/tb allnoconfig
+> $ make O=/tmp/tb LSMOD=/tmp/tb/lsmod  localmodconfig
+>   GEN     Makefile
+> using config: '.config'
+> module thunderbolt did not have configs CONFIG_USB4
+> 
+> 
+> 
+> If I start from allmodconfig (i.e. CONFIG_USB4 is m), I do not see the warning.
+> 
+> $ echo thunderbolt >/tmp/tb/lsmod
+> $ make -s O=/tmp/tb allmodconfig
+> $ make O=/tmp/tb LSMOD=/tmp/tb/lsmod  localmodconfig
+>   GEN     Makefile
+> using config: '.config'
+> 
 
-diff --git a/.gitignore b/.gitignore
-index 7f86e0837909..172e3874adfd 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -112,7 +112,6 @@ modules.order
- #
- /include/config/
- /include/generated/
--/include/ksym/
- /arch/*/include/generated/
- 
- # stgit generated dirs
-diff --git a/Makefile b/Makefile
-index 9d765ebcccf1..2a081f2e9911 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1193,28 +1193,13 @@ endif
- export KBUILD_VMLINUX_LIBS
- export KBUILD_LDS          := arch/$(SRCARCH)/kernel/vmlinux.lds
- 
--# Recurse until adjust_autoksyms.sh is satisfied
--PHONY += autoksyms_recursive
- ifdef CONFIG_TRIM_UNUSED_KSYMS
- # For the kernel to actually contain only the needed exported symbols,
- # we have to build modules as well to determine what those symbols are.
- # (this can be evaluated only once include/config/auto.conf has been included)
- KBUILD_MODULES := 1
--
--autoksyms_recursive: $(build-dir) modules.order
--	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/adjust_autoksyms.sh \
--	  "$(MAKE) -f $(srctree)/Makefile autoksyms_recursive"
- endif
- 
--autoksyms_h := $(if $(CONFIG_TRIM_UNUSED_KSYMS), include/generated/autoksyms.h)
--
--quiet_cmd_autoksyms_h = GEN     $@
--      cmd_autoksyms_h = mkdir -p $(dir $@); \
--			$(CONFIG_SHELL) $(srctree)/scripts/gen_autoksyms.sh $@
--
--$(autoksyms_h):
--	$(call cmd,autoksyms_h)
--
- # '$(AR) mPi' needs 'T' to workaround the bug of llvm-ar <= 14
- quiet_cmd_ar_vmlinux.a = AR      $@
-       cmd_ar_vmlinux.a = \
-@@ -1223,7 +1208,7 @@ quiet_cmd_ar_vmlinux.a = AR      $@
- 	$(AR) mPiT $$($(AR) t $@ | sed -n 1p) $@ $$($(AR) t $@ | grep -F -f $(srctree)/scripts/head-object-list.txt)
- 
- targets += vmlinux.a
--vmlinux.a: $(KBUILD_VMLINUX_OBJS) scripts/head-object-list.txt autoksyms_recursive FORCE
-+vmlinux.a: $(KBUILD_VMLINUX_OBJS) scripts/head-object-list.txt FORCE
- 	$(call if_changed,ar_vmlinux.a)
- 
- PHONY += vmlinux_o
-@@ -1279,7 +1264,7 @@ scripts: scripts_basic scripts_dtc
- PHONY += prepare archprepare
- 
- archprepare: outputmakefile archheaders archscripts scripts include/config/kernel.release \
--	asm-generic $(version_h) $(autoksyms_h) include/generated/utsrelease.h \
-+	asm-generic $(version_h) include/generated/utsrelease.h \
- 	include/generated/compile.h include/generated/autoconf.h remove-stale-files
- 
- prepare0: archprepare
-diff --git a/include/linux/export.h b/include/linux/export.h
-index 4335a17a1ea7..0b9f85628fba 100644
---- a/include/linux/export.h
-+++ b/include/linux/export.h
-@@ -65,47 +65,6 @@ extern struct module __this_module;
-  */
- #define __EXPORT_SYMBOL(sym, sec, ns)
- 
--#elif defined(CONFIG_TRIM_UNUSED_KSYMS)
--
--#include <generated/autoksyms.h>
--
--/*
-- * For fine grained build dependencies, we want to tell the build system
-- * about each possible exported symbol even if they're not actually exported.
-- * We use a symbol pattern __ksym_marker_<symbol> that the build system filters
-- * from the $(NM) output (see scripts/gen_ksymdeps.sh). These symbols are
-- * discarded in the final link stage.
-- */
--
--#ifdef __ASSEMBLY__
--
--#define __ksym_marker(sym)					\
--	.section ".discard.ksym","a" ;				\
--__ksym_marker_##sym: ;						\
--	.previous
--
--#else
--
--#define __ksym_marker(sym)	\
--	static int __ksym_marker_##sym[0] __section(".discard.ksym") __used
--
--#endif
--
--#define __EXPORT_SYMBOL(sym, sec, ns)					\
--	__ksym_marker(sym);						\
--	__cond_export_sym(sym, sec, ns, __is_defined(__KSYM_##sym))
--#define __cond_export_sym(sym, sec, ns, conf)				\
--	___cond_export_sym(sym, sec, ns, conf)
--#define ___cond_export_sym(sym, sec, ns, enabled)			\
--	__cond_export_sym_##enabled(sym, sec, ns)
--#define __cond_export_sym_1(sym, sec, ns) ___EXPORT_SYMBOL(sym, sec, ns)
--
--#ifdef __GENKSYMS__
--#define __cond_export_sym_0(sym, sec, ns) __GENKSYMS_EXPORT_SYMBOL(sym)
--#else
--#define __cond_export_sym_0(sym, sec, ns) /* nothing */
--#endif
--
- #else
- 
- #define __EXPORT_SYMBOL(sym, sec, ns)	___EXPORT_SYMBOL(sym, sec, ns)
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 94b3323dcea7..dc0b27d1a500 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -215,18 +215,12 @@ is-standard-object = $(if $(filter-out y%, $(OBJECT_FILES_NON_STANDARD_$(basetar
- 
- $(obj)/%.o: objtool-enabled = $(if $(is-standard-object),$(if $(delay-objtool),$(is-single-obj-m),y))
- 
--ifdef CONFIG_TRIM_UNUSED_KSYMS
--cmd_gen_ksymdeps = \
--	$(CONFIG_SHELL) $(srctree)/scripts/gen_ksymdeps.sh $@ >> $(dot-target).cmd
--endif
--
- ifneq ($(findstring 1, $(KBUILD_EXTRA_WARN)),)
- cmd_warn_shared_object = $(if $(word 2, $(modname-multi)),$(warning $(kbuild-file): $*.o is added to multiple modules: $(modname-multi)))
- endif
- 
- define rule_cc_o_c
- 	$(call cmd_and_fixdep,cc_o_c)
--	$(call cmd,gen_ksymdeps)
- 	$(call cmd,checksrc)
- 	$(call cmd,checkdoc)
- 	$(call cmd,gen_objtooldep)
-@@ -237,7 +231,6 @@ endef
- 
- define rule_as_o_S
- 	$(call cmd_and_fixdep,as_o_S)
--	$(call cmd,gen_ksymdeps)
- 	$(call cmd,gen_objtooldep)
- 	$(call cmd,gen_symversions_S)
- 	$(call cmd,warn_shared_object)
-diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-index 0980c58d8afc..1e0b47cbabd9 100644
---- a/scripts/Makefile.modpost
-+++ b/scripts/Makefile.modpost
-@@ -90,6 +90,13 @@ targets += .vmlinux.objs
- .vmlinux.objs: vmlinux.a $(KBUILD_VMLINUX_LIBS) FORCE
- 	$(call if_changed,vmlinux_objs)
- 
-+ifdef CONFIG_TRIM_UNUSED_KSYMS
-+ksym-wl := $(CONFIG_UNUSED_KSYMS_WHITELIST)
-+ksym-wl := $(if $(filter-out /%, $(ksym-wl)),$(srctree)/)$(ksym-wl)
-+modpost-args += -t $(addprefix -W, $(ksym-wl))
-+modpost-deps += $(ksym-wl)
-+endif
-+
- ifeq ($(wildcard vmlinux.o),)
- missing-input := vmlinux.o
- output-symdump := modules-only.symvers
-diff --git a/scripts/adjust_autoksyms.sh b/scripts/adjust_autoksyms.sh
-deleted file mode 100755
-index f1b5ac818411..000000000000
---- a/scripts/adjust_autoksyms.sh
-+++ /dev/null
-@@ -1,73 +0,0 @@
--#!/bin/sh
--# SPDX-License-Identifier: GPL-2.0-only
--
--# Script to update include/generated/autoksyms.h and dependency files
--#
--# Copyright:	(C) 2016  Linaro Limited
--# Created by:	Nicolas Pitre, January 2016
--#
--
--# Update the include/generated/autoksyms.h file.
--#
--# For each symbol being added or removed, the corresponding dependency
--# file's timestamp is updated to force a rebuild of the affected source
--# file. All arguments passed to this script are assumed to be a command
--# to be exec'd to trigger a rebuild of those files.
--
--set -e
--
--cur_ksyms_file="include/generated/autoksyms.h"
--new_ksyms_file="include/generated/autoksyms.h.tmpnew"
--
--info() {
--	if [ "$quiet" != "silent_" ]; then
--		printf "  %-7s %s\n" "$1" "$2"
--	fi
--}
--
--info "CHK" "$cur_ksyms_file"
--
--# Use "make V=1" to debug this script.
--case "$KBUILD_VERBOSE" in
--*1*)
--	set -x
--	;;
--esac
--
--# Generate a new symbol list file
--$CONFIG_SHELL $srctree/scripts/gen_autoksyms.sh --modorder "$new_ksyms_file"
--
--# Extract changes between old and new list and touch corresponding
--# dependency files.
--changed=$(
--count=0
--sort "$cur_ksyms_file" "$new_ksyms_file" | uniq -u |
--sed -n 's/^#define __KSYM_\(.*\) 1/\1/p' |
--while read sympath; do
--	if [ -z "$sympath" ]; then continue; fi
--	depfile="include/ksym/${sympath}"
--	mkdir -p "$(dirname "$depfile")"
--	touch "$depfile"
--	# Filesystems with coarse time precision may create timestamps
--	# equal to the one from a file that was very recently built and that
--	# needs to be rebuild. Let's guard against that by making sure our
--	# dep files are always newer than the first file we created here.
--	while [ ! "$depfile" -nt "$new_ksyms_file" ]; do
--		touch "$depfile"
--	done
--	echo $((count += 1))
--done | tail -1 )
--changed=${changed:-0}
--
--if [ $changed -gt 0 ]; then
--	# Replace the old list with tne new one
--	old=$(grep -c "^#define __KSYM_" "$cur_ksyms_file" || true)
--	new=$(grep -c "^#define __KSYM_" "$new_ksyms_file" || true)
--	info "KSYMS" "symbols: before=$old, after=$new, changed=$changed"
--	info "UPD" "$cur_ksyms_file"
--	mv -f "$new_ksyms_file" "$cur_ksyms_file"
--	# Then trigger a rebuild of affected source files
--	exec $@
--else
--	rm -f "$new_ksyms_file"
--fi
-diff --git a/scripts/basic/fixdep.c b/scripts/basic/fixdep.c
-index fa562806c2be..84b6efa849f4 100644
---- a/scripts/basic/fixdep.c
-+++ b/scripts/basic/fixdep.c
-@@ -246,8 +246,7 @@ static void *read_file(const char *filename)
- /* Ignore certain dependencies */
- static int is_ignored_file(const char *s, int len)
- {
--	return str_ends_with(s, len, "include/generated/autoconf.h") ||
--	       str_ends_with(s, len, "include/generated/autoksyms.h");
-+	return str_ends_with(s, len, "include/generated/autoconf.h");
- }
- 
- /* Do not parse these files */
-diff --git a/scripts/gen_ksymdeps.sh b/scripts/gen_ksymdeps.sh
-deleted file mode 100755
-index 8ee533f33659..000000000000
---- a/scripts/gen_ksymdeps.sh
-+++ /dev/null
-@@ -1,30 +0,0 @@
--#!/bin/sh
--# SPDX-License-Identifier: GPL-2.0
--
--set -e
--
--# List of exported symbols
--#
--# If the object has no symbol, $NM warns 'no symbols'.
--# Suppress the stderr.
--# TODO:
--#   Use -q instead of 2>/dev/null when we upgrade the minimum version of
--#   binutils to 2.37, llvm to 13.0.0.
--ksyms=$($NM $1 2>/dev/null | sed -n 's/.*__ksym_marker_\(.*\)/\1/p')
--
--if [ -z "$ksyms" ]; then
--	exit 0
--fi
--
--echo
--echo "ksymdeps_$1 := \\"
--
--for s in $ksyms
--do
--	printf '    $(wildcard include/ksym/%s) \\\n' "$s"
--done
--
--echo
--echo "$1: \$(ksymdeps_$1)"
--echo
--echo "\$(ksymdeps_$1):"
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index bb9510f9645f..4d77b83b1338 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -35,6 +35,9 @@ static bool warn_unresolved;
- 
- static int sec_mismatch_count;
- static bool sec_mismatch_warn_only = true;
-+/* Trim EXPORT_SYMBOLs that are unused by in-tree modules */
-+static bool trim_unused_exports;
-+
- /* ignore missing files */
- static bool ignore_missing_files;
- /* If set to 1, only warn (instead of error) about missing ns imports */
-@@ -217,6 +220,7 @@ struct symbol {
- 	bool weak;
- 	bool is_func;
- 	bool is_gpl_only;	/* exported by EXPORT_SYMBOL_GPL */
-+	bool used;		/* there exists a user of this symbol */
- 	char name[];
- };
- 
-@@ -1758,6 +1762,7 @@ static void check_exports(struct module *mod)
- 			continue;
- 		}
- 
-+		exp->used = true;
- 		s->module = exp->module;
- 		s->crc_valid = exp->crc_valid;
- 		s->crc = exp->crc;
-@@ -1781,6 +1786,23 @@ static void check_exports(struct module *mod)
- 	}
- }
- 
-+static void handle_white_list_exports(const char *white_list)
-+{
-+	char *buf, *p, *name;
-+
-+	buf = read_text_file(white_list);
-+	p = buf;
-+
-+	while ((name = strsep(&p, "\n"))) {
-+		struct symbol *sym = find_symbol(name);
-+
-+		if (sym)
-+			sym->used = true;
-+	}
-+
-+	free(buf);
-+}
-+
- static void check_modname_len(struct module *mod)
- {
- 	const char *mod_name;
-@@ -1851,10 +1873,14 @@ static void add_exported_symbols(struct buffer *buf, struct module *mod)
- 
- 	/* generate struct for exported symbols */
- 	buf_printf(buf, "\n");
--	list_for_each_entry(sym, &mod->exported_symbols, list)
-+	list_for_each_entry(sym, &mod->exported_symbols, list) {
-+		if (trim_unused_exports && !sym->used)
-+			continue;
-+
- 		buf_printf(buf, "KSYMTAB_%s(%s, \"%s\", \"%s\");\n",
- 			   sym->is_func ? "FUNC" : "DATA", sym->name,
- 			   sym->is_gpl_only ? "_gpl" : "", sym->namespace);
-+	}
- 
- 	if (!modversions)
- 		return;
-@@ -1862,6 +1888,9 @@ static void add_exported_symbols(struct buffer *buf, struct module *mod)
- 	/* record CRCs for exported symbols */
- 	buf_printf(buf, "\n");
- 	list_for_each_entry(sym, &mod->exported_symbols, list) {
-+		if (trim_unused_exports && !sym->used)
-+			continue;
-+
- 		if (!sym->crc_valid)
- 			warn("EXPORT symbol \"%s\" [%s%s] version generation failed, symbol will not be versioned.\n"
- 			     "Is \"%s\" prototyped in <asm/asm-prototypes.h>?\n",
-@@ -2025,9 +2054,6 @@ static void write_mod_c_file(struct module *mod)
- 	char fname[PATH_MAX];
- 	int ret;
- 
--	check_modname_len(mod);
--	check_exports(mod);
--
- 	add_header(&buf, mod);
- 	add_exported_symbols(&buf, mod);
- 	add_versions(&buf, mod);
-@@ -2161,12 +2187,13 @@ int main(int argc, char **argv)
- {
- 	struct module *mod;
- 	char *missing_namespace_deps = NULL;
-+	char *unused_exports_white_list = NULL;
- 	char *dump_write = NULL, *files_source = NULL;
- 	int opt;
- 	LIST_HEAD(dump_lists);
- 	struct dump_list *dl, *dl2;
- 
--	while ((opt = getopt(argc, argv, "ei:mnT:o:awENd:")) != -1) {
-+	while ((opt = getopt(argc, argv, "ei:mntT:tW:o:awENd:")) != -1) {
- 		switch (opt) {
- 		case 'e':
- 			external_module = true;
-@@ -2191,6 +2218,12 @@ int main(int argc, char **argv)
- 		case 'T':
- 			files_source = optarg;
- 			break;
-+		case 't':
-+			trim_unused_exports = true;
-+			break;
-+		case 'W':
-+			unused_exports_white_list = optarg;
-+			break;
- 		case 'w':
- 			warn_unresolved = true;
- 			break;
-@@ -2220,6 +2253,17 @@ int main(int argc, char **argv)
- 	if (files_source)
- 		read_symbols_from_files(files_source);
- 
-+	list_for_each_entry(mod, &modules, list) {
-+		if (mod->from_dump || mod->is_vmlinux)
-+			continue;
-+
-+		check_modname_len(mod);
-+		check_exports(mod);
-+	}
-+
-+	if (unused_exports_white_list)
-+		handle_white_list_exports(unused_exports_white_list);
-+
- 	list_for_each_entry(mod, &modules, list) {
- 		if (mod->from_dump)
- 			continue;
-diff --git a/scripts/remove-stale-files b/scripts/remove-stale-files
-index 7f432900671a..8502a17d47df 100755
---- a/scripts/remove-stale-files
-+++ b/scripts/remove-stale-files
-@@ -33,3 +33,5 @@ rm -f rust/target.json
- rm -f scripts/bin2c
- 
- rm -f .scmversion
-+
-+rm -rf include/ksym
--- 
-2.39.2
+I hate the inconsistency in the Makefile, but localmodconfig should be
+able to adapt to it.
 
+Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+
+Thanks Jiri and Masamhiro!
+
+-- Steve
