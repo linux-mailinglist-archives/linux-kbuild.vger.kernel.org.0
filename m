@@ -2,94 +2,134 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6083C7004ED
-	for <lists+linux-kbuild@lfdr.de>; Fri, 12 May 2023 12:11:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E02F7019B7
+	for <lists+linux-kbuild@lfdr.de>; Sat, 13 May 2023 22:45:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229670AbjELKLf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 12 May 2023 06:11:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39182 "EHLO
+        id S230501AbjEMUpP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 13 May 2023 16:45:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240013AbjELKLe (ORCPT
+        with ESMTP id S229464AbjEMUpO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 12 May 2023 06:11:34 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F356106D3;
-        Fri, 12 May 2023 03:10:59 -0700 (PDT)
-Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.57])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4QHktL6xytz18LRW;
-        Fri, 12 May 2023 18:06:02 +0800 (CST)
-Received: from [10.67.108.26] (10.67.108.26) by dggpemm500016.china.huawei.com
- (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 12 May
- 2023 18:10:15 +0800
-Message-ID: <f7a58629-05ae-18f4-d047-a2592f501b45@huawei.com>
-Date:   Fri, 12 May 2023 18:10:15 +0800
+        Sat, 13 May 2023 16:45:14 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5071C2D51;
+        Sat, 13 May 2023 13:45:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E2E4861558;
+        Sat, 13 May 2023 20:45:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4DFCC433D2;
+        Sat, 13 May 2023 20:45:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1684010712;
+        bh=WefmwDbTlKZwMEUwatpKr0TGAhRypftwwE7L0w+8BHc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=hLsvgVoklhXVqXeRKMx+a/X53xPra7P2reL7r+xMoleA5sr+x5EaYEUthGmo6WbO+
+         Sl4APIkyztPGOBh+9fnOhqDOYvC2XLf321BwjyXCrMrILypIyVtPbNU+r6q+I9jGAu
+         tmw6rg2/94dh+mjNllhpyYVfZxufgyO5PWwUmkETgsleRZh/EKBIbDVEVC6G/T9uHX
+         afyGfKs9fhxdrRFw7geRc4SffhZGtqWrHK3/dhFF8Qasq7npX5QgZ1FOXWpqliZPmF
+         FKqKYJOY/aL85Dfgi12Z8TML4wu2raO7s+Y9k3nihwXyZO4pzFME45frUdtljpeLrh
+         PRX3odU897sFA==
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Pitre <npitre@baylibre.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH v4 00/21] Unify <linux/export.h> and <asm/export.h>, remove EXPORT_DATA_SYMBOL(), faster TRIM_UNUSED_KSYMS
+Date:   Sun, 14 May 2023 05:44:41 +0900
+Message-Id: <20230513204502.1593923-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-To:     <masahiroy@kernel.org>
-CC:     <aou@eecs.berkeley.edu>, <ardb@kernel.org>, <arnd@arndb.de>,
-        <catalin.marinas@arm.com>, <dennis@ausil.us>, <jszhang@kernel.org>,
-        <linux-arch@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>, <nicolas@fjasle.eu>,
-        <palmer@dabbelt.com>, <paul.walmsley@sifive.com>,
-        <regressions@leemhuis.info>, <will@kernel.org>
-References: <20221226184537.744960-1-masahiroy@kernel.org>
-Subject: Re: [PATCH v2] arch: fix broken BuildID for arm64 and riscv
-Content-Language: en-US
-From:   "chenjiahao (C)" <chenjiahao16@huawei.com>
-In-Reply-To: <20221226184537.744960-1-masahiroy@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.67.108.26]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500016.china.huawei.com (7.185.36.25)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-6.1 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi,
 
-It seems this patch introduces a compile error on powerpc 85xx platform with
-CONFIG_RELOCATABLE enabled.
+This patch set refactors modpost first to make it easier to
+add new code.
 
-To reproduce the problem, I compiled the mainline linux kernel with patch
-99cb0d917ffa ("arch: fix broken BuildID for arm64 and riscv"), using 
-configure
-file:
+Main goals:
 
-arch/powerpc/configs/85xx-32bit.config
+ - Refactors EXPORT_SYMBOL, <linux/export.h> and <asm/export.h>.
+   You can still put EXPORT_SYMBOL() in *.S file, very close to the definition,
+   but you do not need to care about whether it is a function or a data.
+   This removes EXPORT_DATA_SYMBOL().
 
-and enabled CONFIG_RELOCATABLE manually. Then the compile log with
-Segmentation fault appeared as below:
+ - Re-implement TRIM_UNUSED_KSYMS in one-pass.
+   This makes the building faster.
 
-   ...
-   AR      fs/proc/built-in.a
-   AR      fs/built-in.a
-   AR      built-in.a
-   AR      vmlinux.a
-   LD      vmlinux.o
-   OBJCOPY modules.builtin.modinfo
-   GEN     modules.builtin
-   MODPOST vmlinux.symvers
-   UPD     include/generated/utsversion.h
-   CC      init/version-timestamp.o
-   LD      .tmp_vmlinux.kallsyms1
-Segmentation fault (core dumped)
-scripts/Makefile.vmlinux:34: recipe for target 'vmlinux' failed
-make[1]: *** [vmlinux] Error 139
-Makefile:1252: recipe for target 'vmlinux' failed
-make: *** [vmlinux] Error 2
+ - Move the static EXPORT_SYMBOL check to modpost.
+   This also makes the building faster.
 
-Could anyone reproduce above error, or have I missed anything else?
+Previous version
+v3: https://lore.kernel.org/all/20220928063947.299333-1-masahiroy@kernel.org/
 
-Thanks,
-Jiahao
+
+
+Masahiro Yamada (21):
+  modpost: remove broken calculation of exception_table_entry size
+  modpost: remove fromsym info in __ex_table section mismatch warning
+  modpost: remove get_prettyname()
+  modpost: squash report_extable_warnings() into
+    extable_mismatch_handler()
+  modpost: squash report_sec_mismatch() into default_mismatch_handler()
+  modpost: clean up is_executable_section()
+  modpost: squash extable_mismatch_handler() into
+    default_mismatch_handler()
+  modpost: pass 'tosec' down to default_mismatch_handler()
+  modpost: pass section index to find_elf_symbol2()
+  modpost: simplify find_elf_symbol()
+  modpost: rename find_elf_symbol() and find_elf_symbol2()
+  modpost: unify 'sym' and 'to' in default_mismatch_handler()
+  modpost: replace r->r_offset, r->r_addend with faddr, taddr
+  modpost: remove is_shndx_special() check from section_rel(a)
+  modpost: pass struct module pointer to check_section_mismatch()
+  kbuild: generate KSYMTAB entries by modpost
+  ia64,export.h: replace EXPORT_DATA_SYMBOL* with EXPORT_SYMBOL*
+  modpost: check static EXPORT_SYMBOL* by modpost again
+  modpost: squash sym_update_namespace() into sym_add_exported()
+  modpost: use null string instead of NULL pointer for default namespace
+  kbuild: implement CONFIG_TRIM_UNUSED_KSYMS without recursion
+
+ .gitignore                        |   1 -
+ Makefile                          |  19 +-
+ arch/ia64/include/asm/Kbuild      |   1 +
+ arch/ia64/include/asm/export.h    |   3 -
+ arch/ia64/kernel/head.S           |   2 +-
+ arch/ia64/kernel/ivt.S            |   2 +-
+ include/asm-generic/export.h      |  83 +----
+ include/asm-generic/vmlinux.lds.h |   1 +
+ include/linux/export-internal.h   |  49 +++
+ include/linux/export.h            | 116 ++-----
+ include/linux/pm.h                |   8 +-
+ kernel/module/internal.h          |  12 +
+ scripts/Makefile.build            |  19 +-
+ scripts/Makefile.modpost          |   7 +
+ scripts/adjust_autoksyms.sh       |  73 ----
+ scripts/basic/fixdep.c            |   3 +-
+ scripts/check-local-export        |  70 ----
+ scripts/gen_ksymdeps.sh           |  30 --
+ scripts/mod/modpost.c             | 534 ++++++++++++------------------
+ scripts/mod/modpost.h             |   1 +
+ scripts/remove-stale-files        |   2 +
+ 21 files changed, 317 insertions(+), 719 deletions(-)
+ delete mode 100644 arch/ia64/include/asm/export.h
+ delete mode 100755 scripts/adjust_autoksyms.sh
+ delete mode 100755 scripts/check-local-export
+ delete mode 100755 scripts/gen_ksymdeps.sh
+
+-- 
+2.39.2
+
