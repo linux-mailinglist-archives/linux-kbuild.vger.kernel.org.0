@@ -2,59 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 43AE77038D9
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 May 2023 19:35:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C776F703FF0
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 May 2023 23:39:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243327AbjEORfh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 15 May 2023 13:35:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54022 "EHLO
+        id S245109AbjEOVjF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 15 May 2023 17:39:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243342AbjEORfN (ORCPT
+        with ESMTP id S245626AbjEOVi6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 15 May 2023 13:35:13 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ACB41560C;
-        Mon, 15 May 2023 10:33:08 -0700 (PDT)
-From:   "Ahmed S. Darwish" <darwi@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1684171987;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=rYa4NIoRwK77mO2jcboViBt+jqXZhNpE7ckEwsEc9Bc=;
-        b=Vqt01Sx+MgrLW7k3LIc6jc5YvFkISrk/2rBg9ogFTG/hd4A2PO6SBYi9Gx8TmjTVljEH5i
-        4n3KrEu5+L+S1YVDVfg4lp+d5XlSvphHZPOxKMuc6ecc7w2qvHOPWHRaU68qcskZqTIYlD
-        FpKwFHSFm9RGvaWLxcCvlKPZE0X3DZaiYqvepnkCEDxoLuZrCQaOv0Abngl+/xt9oKGKaP
-        cgv2ND0hPoHl2OHx5NV5ITw3eYSSYKoeQ+i+dX4fvBbc2X9ikpZa/Dq6SM3LE9MSDJquQx
-        Wa8ihw+DQ2GSTxsFVm9Pb8SCNhb14nA2/sxRx/jKpKJLxUSGEnI00HmMyAWVkQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1684171987;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=rYa4NIoRwK77mO2jcboViBt+jqXZhNpE7ckEwsEc9Bc=;
-        b=YPomW4tfQ86omjkiMiVy0O3HDWpJ1KA3stQ3WtxlxAtCtB/akzOUPTCE92zKHc1XEp04ba
-        bnaeCxQVBOuOX3CQ==
-To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Mon, 15 May 2023 17:38:58 -0400
+X-Greylist: delayed 299 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 15 May 2023 14:38:53 PDT
+Received: from pb-smtp20.pobox.com (pb-smtp20.pobox.com [173.228.157.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75FDA8A60;
+        Mon, 15 May 2023 14:38:52 -0700 (PDT)
+Received: from pb-smtp20.pobox.com (unknown [127.0.0.1])
+        by pb-smtp20.pobox.com (Postfix) with ESMTP id A63C41F76A7;
+        Mon, 15 May 2023 17:31:39 -0400 (EDT)
+        (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=date:from
+        :to:cc:subject:in-reply-to:message-id:references:mime-version
+        :content-type; s=sasl; bh=rNaiPjcXWQ3qBoY52ldgGlp1N5IWMpnSfHA6os
+        B0ZUU=; b=xB0dKRIuVQW58WQ/UKRSp9/y6obmt02YgdsOrB7D3Or8PXHeOeFI1h
+        aL+1pFwGexxJdxk0TWfb9+JSjBYR8xv2OTtoUt1SdbvBqMy4VC04I64y7lmt0/JQ
+        wGkEfJa4okAbwtEgKtj9ci3+f4jJgjCnNL2knvUvDwpqeQ0FMFKSk=
+Received: from pb-smtp20.sea.icgroup.com (unknown [127.0.0.1])
+        by pb-smtp20.pobox.com (Postfix) with ESMTP id 9E8611F76A5;
+        Mon, 15 May 2023 17:31:39 -0400 (EDT)
+        (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
+ h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=rNaiPjcXWQ3qBoY52ldgGlp1N5IWMpnSfHA6osB0ZUU=; b=HNhBoFKwDAK5NaE1NdE4e3QPRXSdcWrZN/jRWQKdm2YbsHCpvfbMD32G/0sQbmgbOTUAZ7XxEaBgSUP+Sg2ps3KR/jP+tMfSq7DNskyC6ohlxCZBVFOaeQBpwQ82m20jVIBu1g5j0rfJF1F15P1dhnpgEEBbhLf0surgyO+rxws=
+Received: from yoda.home (unknown [184.162.17.228])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by pb-smtp20.pobox.com (Postfix) with ESMTPSA id 4AB671F76A3;
+        Mon, 15 May 2023 17:31:36 -0400 (EDT)
+        (envelope-from nico@fluxnic.net)
+Received: from xanadu.home (xanadu [10.0.0.101])
+        by yoda.home (Postfix) with ESMTPSA id 3465976E96C;
+        Mon, 15 May 2023 17:31:34 -0400 (EDT)
+Date:   Mon, 15 May 2023 17:31:33 -0400 (EDT)
+From:   Nicolas Pitre <nico@fluxnic.net>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Thomas Gleixner <tglx@linutronix.de>, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        "Ahmed S. Darwish" <darwi@linutronix.de>
-Subject: [PATCH v3 2/2] docs: Set minimal gtags / GNU GLOBAL version to 6.6.5
-Date:   Mon, 15 May 2023 19:32:17 +0200
-Message-Id: <20230515173217.64864-3-darwi@linutronix.de>
-In-Reply-To: <20230515173217.64864-1-darwi@linutronix.de>
-References: <20230509012616.81579-1-darwi@linutronix.de>
- <20230515173217.64864-1-darwi@linutronix.de>
+        Nicolas Schier <nicolas@fjasle.eu>
+Subject: Re: [PATCH v5 21/21] kbuild: implement CONFIG_TRIM_UNUSED_KSYMS
+ without recursion
+In-Reply-To: <20230514152739.962109-22-masahiroy@kernel.org>
+Message-ID: <93s3n008-7oon-30rq-5219-5r244919r38q@syhkavp.arg>
+References: <20230514152739.962109-1-masahiroy@kernel.org> <20230514152739.962109-22-masahiroy@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+Content-Type: text/plain; charset=US-ASCII
+X-Pobox-Relay-ID: DEC884C0-F367-11ED-A8C9-C2DA088D43B2-78420484!pb-smtp20.pobox.com
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -63,41 +66,52 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Kernel build now uses the gtags "-C (--directory)" option, available
-since GNU GLOBAL v6.6.5.  Update the documentation accordingly.
+On Mon, 15 May 2023, Masahiro Yamada wrote:
 
-Signed-off-by: Ahmed S. Darwish <darwi@linutronix.de>
-Cc: <stable@vger.kernel.org>
-Link: https://lists.gnu.org/archive/html/info-global/2020-09/msg00000.html
----
- Documentation/process/changes.rst | 7 +++++++
- 1 file changed, 7 insertions(+)
+> When CONFIG_TRIM_UNUSED_KSYMS is enabled, Kbuild recursively traverses
+> the directory tree to determine which EXPORT_SYMBOL to trim. If an
+> EXPORT_SYMBOL turns out to be unused by anyone, Kbuild begins the
+> second traverse, where some source files are recompiled with their
+> EXPORT_SYMBOL() tuned into a no-op.
+> 
+> Linus stated negative opinions about this slowness in commits:
+> 
+>  - 5cf0fd591f2e ("Kbuild: disable TRIM_UNUSED_KSYMS option")
+>  - a555bdd0c58c ("Kbuild: enable TRIM_UNUSED_KSYMS again, with some guarding")
+> 
+> We can do this better now. The final data structures of EXPORT_SYMBOL
+> are generated by the modpost stage, so modpost can selectively emit
+> KSYMTAB entries that are really used by modules.
+> 
+> Commit 2cce989f8461 ("kbuild: unify two modpost invocations") is another
+> ground-work to do this in a one-pass algorithm. With the list of modules,
+> modpost sets sym->used if it is used by a module. modpost emits KSYMTAB
+> only for symbols with sym->used==true.
+> 
+> BTW, Nicolas explained why the trimming was implemented with recursion:
+> 
+>   https://lore.kernel.org/all/2o2rpn97-79nq-p7s2-nq5-8p83391473r@syhkavp.arg/
+> 
+> Actually, we never achieved that level of optimization where the chain
+> reaction of trimming comes into play because:
+> 
+>  - CONFIG_LTO_CLANG cannot remove any unused symbols
+>  - CONFIG_LD_DEAD_CODE_DATA_ELIMINATION is enabled only for vmlinux,
+>    but not modules
 
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index ef540865ad22..a9ef00509c9b 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -60,6 +60,7 @@ openssl & libcrypto    1.0.0            openssl version
- bc                     1.06.95          bc --version
- Sphinx\ [#f1]_         1.7              sphinx-build --version
- cpio                   any              cpio --version
-+gtags (optional)       6.6.5            gtags --version
- ====================== ===============  ========================================
- 
- .. [#f1] Sphinx is needed only to build the Kernel documentation
-@@ -174,6 +175,12 @@ You will need openssl to build kernels 3.7 and higher if module signing is
- enabled.  You will also need openssl development packages to build kernels 4.3
- and higher.
- 
-+gtags / GNU GLOBAL (optional)
-+-----------------------------
-+
-+The kernel build requires GNU GLOBAL version 6.6.5 or later to generate
-+tag files through ``make gtags``.  This is due to its use of the gtags
-+``-C (--directory)`` flag.
- 
- System utilities
- ****************
--- 
-2.30.2
+I did achieve it using LTO with gcc back then. See the section called 
+"The tree that hides the forest" of https://lwn.net/Articles/746780/ for 
+example results.
 
+> If deeper trimming is required, we need to revisit this, but I guess
+> that is unlikely to happen.
+
+Would have been nicer to keep this possibility as an option. The code is 
+already there and working as intended. The build cost is intrinsic to 
+the approach of course. The actual bug is to impose that cost onto 
+people who didn't explicitly ask for it.
+
+But I'm no longer fighting this battle.
+
+
+Nicolas
