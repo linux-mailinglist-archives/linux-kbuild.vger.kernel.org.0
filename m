@@ -2,127 +2,205 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 474B17020E1
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 May 2023 02:54:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C795B703177
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 May 2023 17:23:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234697AbjEOAyc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 14 May 2023 20:54:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59412 "EHLO
+        id S242308AbjEOPX4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 15 May 2023 11:23:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231829AbjEOAyc (ORCPT
+        with ESMTP id S242210AbjEOPX4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 14 May 2023 20:54:32 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B0FA10DF;
-        Sun, 14 May 2023 17:54:31 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AAE19618A8;
-        Mon, 15 May 2023 00:54:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CE70C433D2;
-        Mon, 15 May 2023 00:54:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684112070;
-        bh=dK+m8ExSLg1/Xdbg8Lkb6eK8yh4H4j645K0PpXqtwRk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=hf+Ww+p1WClDZHI/4UF0izLlInAGTiBLQg6t55k4T8s2QZU/eoHVGA59yJeUXjCyC
-         +VU33v2wcqQP4xAsit+Cp7iqbYNhiz8BIR+BFyVRTAhhTlvGJ9z1yzTi0eg3Cgv0Fy
-         uSjaOLP1RArGWfy7jBmkh2N6wD9zO1Fl5FhCH9e68fopxHysNjp3UEQ0uF15saOBk9
-         50wsr5/SmYp9dyIgH0UDRrfvvPWcuHMX9tkVzGZK6eA4FgmxzeA20RvkYX16uGifY/
-         MK2lpygFxAgoQoSGswijS26kqwXYrrV6rQqEyAaswRRrVGtXQWHqZ0a7eOm3pPuMAb
-         yIOfI5JPL0RDg==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Russell King <linux@armlinux.org.uk>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
+        Mon, 15 May 2023 11:23:56 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B32EAF;
+        Mon, 15 May 2023 08:23:54 -0700 (PDT)
+Date:   Mon, 15 May 2023 17:23:50 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1684164232;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Z0Yfh3NxQgNMgOMFGMNP1V605BZVqvLuCh2pQvBjFFM=;
+        b=NAUC94ahcxOjuc2bNlocmLdLRNTvEElhcKs8DE6m8zLU8Dqh7enlo9eZ2omq2eH0+e0PwA
+        iMKJpOKqvSaCUR+hjwheDx0ub1YrnjY084OpeWYpMYQuyJ/26PqTLakcZb5Cbzh8gvRnTz
+        mX2+Y5DomVS0TLC5+D2XZOYiUqyGX2VN6K/HmpxpimxOZa/vPAWH9gsgs+KIQRswm+EdXF
+        MyCwC6dGgy6VCvn+6CqjadnAeqKdcBX4IVvAQt6YG257PAr1UoGOvaMfmLe9Z66Uwn5X8R
+        WRgWUlWQ3Dk2UENBOaYevrrGZtEBtjTu1TLaUtthGIoE+MWo7tA2BY9TFuWdtA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1684164232;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Z0Yfh3NxQgNMgOMFGMNP1V605BZVqvLuCh2pQvBjFFM=;
+        b=wZQt75odboxL5DTQ2eTXyVWuRZ+wtqsFBO7FywTJQiQ8c/wb6+4I0ZJcz++EaUigkwOlFI
+        rOHVx2wr0RiO6DAA==
+From:   "Ahmed S. Darwish" <darwi@linutronix.de>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
-        Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH] modpost: fix section mismatch message for R_ARM_ABS32
-Date:   Mon, 15 May 2023 09:54:19 +0900
-Message-Id: <20230515005419.1293357-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.39.2
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kbuild@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 1/2] scripts/tags.sh: Resolve gtags empty index
+ generation
+Message-ID: <ZGJOht09HwRY7GK+@lx-t490>
+References: <20230504201833.202494-1-darwi@linutronix.de>
+ <20230509012616.81579-1-darwi@linutronix.de>
+ <20230509012616.81579-2-darwi@linutronix.de>
+ <CAK7LNARO6HOutPf2VZJMTR2Xmepj_3UiUgH-SLXhH57CNnGfOg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNARO6HOutPf2VZJMTR2Xmepj_3UiUgH-SLXhH57CNnGfOg@mail.gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The section mismatch check does not show proper warning messages for ARM.
+On Fri, 12 May 2023, Masahiro Yamada wrote:
+>
+> The code works as claimed, but I am just curious.
 
-Here, very simple test code.
+Thanks.
 
-    #include <linux/init.h>
+> If all the paths are relative, how can you use the tags files located
+> in a separate directory?
+>
+> "make O=foo gtags" creates tags files in foo/.
+> I want to use them from emacs.
+> emacs cannot find the right file because
+> it assumes the path is relative to 'foo' instead of the source tree.
+>
 
-    static int __initdata foo;
+Correct.
 
-    void set_foo(int x)
-    {
-            foo = x;
-    }
+In theory, since all the indexed linux source tree paths at the gtags
+generated files (GPATH/GRTAGS/GTAGS) are relative to the linux source
+tree root, opening such files from emacs ggtags-mode, *wherever* these
+files are, "should" work.
 
-    int get_foo(int x)
-    {
-            return foo;
-    }
+In practice, ggtags/global (and thus also emacs ggtags-mode) operate
+with a model of the world where all indexed files must be under the
+source "root directory". So, the GPATH/GRTAGS/GTAGS files are expected
+to be under the source tree (except in special GTAGSLIBPATH= cases).
 
-If I compile it for ARM, modpost does not show the symbol name.
+> I set GTAGSROOT to the source tree, but I could not find a way
+> to use it in a useful way.
 
-  WARNING: modpost: vmlinux.o: section mismatch in reference: set_foo (section: .text) -> (unknown) (section: .init.data)
-  WARNING: modpost: vmlinux.o: section mismatch in reference: get_foo (section: .text) -> (unknown) (section: .init.data)
+Yes, that won't work, as emacs will search for the G* database files
+under that folder instead.
 
-If I compile it for other architectures, modpost shows the correct symbol name.
+Meanwhile setting GTAGSROOT to the O= directory, or to a build directory
+that is different from the kernel source tree, as in:
 
-  WARNING: modpost: vmlinux.o: section mismatch in reference: set_foo (section: .text) -> foo (section: .init.data)
-  WARNING: modpost: vmlinux.o: section mismatch in reference: get_foo (section: .text) -> foo (section: .init.data)
+  cd ~/linux
+  O=~/build/build-linux-x86
+  make O=$O x86_64_defconfig
+  make O=$O gtags
+  GTAGSROOT=$O emacs init/main.c
 
-For R_ARM_ABS32, addend_arm_rel() sets r->r_addend to a wrong value.
+will "mostly" succeed (as you hinted at):
 
-arch/arm/kernel/module.c handles R_ARM_ABS32 as follows:
+  M-x ggtags-mode
 
-        case R_ARM_ABS32:
-        case R_ARM_TARGET1:
-                *(u32 *)loc += sym->st_value;
+  # emacs finds gtags files under ${GTAGSROOT} and sets ${GTAGSROOT} as
+  # the root of the project
 
-I just mimicked it in modpost.
+  M-x ggtags-find-definition
+  Definition: rcu_read_lock
 
-Fixes: 56a974fa2d59 ("kbuild: make better section mismatch reports on arm")
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+    -*- mode: ggtags-global; default-directory: "~/build/build-linux-x86/" -*-
+    Global started at Mon May 15 15:54:01
 
- scripts/mod/modpost.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+    global -v --result=grep --color=always --path-style=shorter -- rcu_read_lock
+    include/linux/rcupdate.h:769:static __always_inline void rcu_read_lock(void)
+    1 object located (using '/home/darwi/build/build-linux-x86/GTAGS').
 
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index d4531d09984d..c93780d93caf 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -1460,12 +1460,13 @@ static int addend_386_rel(struct elf_info *elf, Elf_Shdr *sechdr, Elf_Rela *r)
- static int addend_arm_rel(struct elf_info *elf, Elf_Shdr *sechdr, Elf_Rela *r)
- {
- 	unsigned int r_typ = ELF_R_TYPE(r->r_info);
-+	unsigned int *location = reloc_location(elf, sechdr, r);
-+	Elf_Sym *sym;
- 
- 	switch (r_typ) {
- 	case R_ARM_ABS32:
--		/* From ARM ABI: (S + A) | T */
--		r->r_addend = (int)(long)
--			      (elf->symtab_start + ELF_R_SYM(r->r_info));
-+		sym = elf->symtab_start + ELF_R_SYM(r->r_info);
-+		r->r_addend = TO_NATIVE(*location) + sym->st_value;
- 		break;
- 	case R_ARM_PC24:
- 	case R_ARM_CALL:
--- 
-2.39.2
+    Global found 1 definition at Mon May 15 15:54:01
 
+  # Prompt
+  Find this match in (default include/linux/rcupdate.h)?: ~/build/build-linux-x86/
+  ^^^
+
+But at the Prompt step above, things break.
+
+In a fully working setup, this prompt will not be shown and emacs just
+jumps to rcuupdate.h line 769.
+
+What I personally do to mitigate that problem is:
+
+    cd ~/linux
+    for f in GTAGS GRTAGS GPATH; do
+        ln -vsf ${O}/$f .
+    done
+
+and switch these symlinks through minor local shell plumbing whenever
+I'm switching kernel projects with different build directories.
+
+It is not ideal, but maybe we can discuss this with the global(1) people
+at a later step. At least with this patch series, "make O=xyz/ gtags"
+produces a valid index.
+
+>
+> > +# gtags(1) refuses to index any file outside of its current working dir.
+> > +# If gtags indexing is requested and the build output directory is not
+> > +# the kernel source tree, index all files in absolute-path form.
+> > +if [ "$1" = "gtags" -a -n "${tree}" ]; then
+> > +       tree=$(realpath $tree)/
+>
+> I decided to run shellcheck for new code.
+> Please follow the suggestion from the tool.
+>
+> In scripts/tags.sh line 40:
+> tree=$(realpath $tree)/
+>                         ^---^ SC2086 (info): Double quote to prevent
+> globbing and word splitting.
+>
+> Did you mean:
+> tree=$(realpath "$tree")/
+>
+> (You do not need to fix the entire script.
+> This is only for new code).
+>
+
+Yes, the reason was to following the existing coding pattern at
+scripts/tags.sh.  But, sure, will do.
+
+>
+> > @@ -131,7 +139,11 @@ docscope()
+> >
+> >  dogtags()
+> >  {
+> > -       all_target_sources | gtags -i -f -
+> > +       local gtagsoutdir="${PWD}"
+> > +       local gtagsroot="${tree}"
+> > +
+> > +       [ -z "${gtagsroot}" ] && gtagsroot="."
+> > +       all_target_sources | gtags -i -C $gtagsroot -f - $gtagsoutdir
+> >  }
+>
+> You can write it in one line.
+>
+> dogtags()
+> {
+>     all_target_sources | gtags -i -C "${tree:-.}" -f - "${PWD}"
+> }
+>
+
+Ditto. The script was almost-fully POSIX style (except the first line),
+so I avoided bash features on purpose.
+
+I personlly always prefer using Bash features though, so I'll definitely
+update the code.
+
+Thanks a lot for the review. I'll send a v3.
+
+--
+Ahmed S. Darwish
+Linutronix GmbH
