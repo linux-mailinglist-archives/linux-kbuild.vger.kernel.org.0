@@ -2,87 +2,127 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2403D70334B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 May 2023 18:35:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8A0570348D
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 May 2023 18:49:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242760AbjEOQf1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 15 May 2023 12:35:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38608 "EHLO
+        id S243063AbjEOQtx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 15 May 2023 12:49:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242650AbjEOQf0 (ORCPT
+        with ESMTP id S243064AbjEOQtb (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 15 May 2023 12:35:26 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF17C3AB2;
-        Mon, 15 May 2023 09:35:24 -0700 (PDT)
-Date:   Mon, 15 May 2023 18:35:21 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1684168523;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=lpZYBpEggjix2lXh0EkRGiWcWZ+gWNXWguy09L3ZWFo=;
-        b=idprkij9Ji8PZhPMWq6aoSzEH8+2jN/ETtFQT7ACe008pFjEE3aHS4sbSJagxHHgRmRs0L
-        46nzfKiXI0/774OYNChfbqckqFdW4PdR16yLIlVkHq+P1c1X4xTwpRw7LQa6OLdc28KkHa
-        +Xx84/qpSRh1YxTyPeh8k5Mqgw6cRiiYSuVTBjFada2oA5BfE/M+vsMw4gbs56H1yFWw3G
-        CGpuoanXr1CRv6x/vZOrpVdMaBZY8NbDN8T2B7JCNQSv9KBQDsdf/t1GdmvASAq3V9cGur
-        lXhej6RXhEzc9j6rDdHa6KUcZII3Ud/Z/RZxpWd9m4tMLr+cBGTCGx33jWzrcg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1684168523;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=lpZYBpEggjix2lXh0EkRGiWcWZ+gWNXWguy09L3ZWFo=;
-        b=BvkDLcSZCdcpH9bLqK0zNiYytt6B2Zni6b4vgZ+kdkgJ7V6xZ+X7YpHnKlHzfumRV4hzNm
-        VZy0UcjgFZbLG5Cw==
-From:   "Ahmed S. Darwish" <darwi@linutronix.de>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kbuild@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 1/2] scripts/tags.sh: Resolve gtags empty index
- generation
-Message-ID: <ZGJfSaIXbTiCzNWv@lx-t490>
-References: <20230504201833.202494-1-darwi@linutronix.de>
- <20230509012616.81579-1-darwi@linutronix.de>
- <20230509012616.81579-2-darwi@linutronix.de>
- <CAK7LNARO6HOutPf2VZJMTR2Xmepj_3UiUgH-SLXhH57CNnGfOg@mail.gmail.com>
- <ZGJOht09HwRY7GK+@lx-t490>
+        Mon, 15 May 2023 12:49:31 -0400
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22EB759F7;
+        Mon, 15 May 2023 09:49:30 -0700 (PDT)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 34FGmqCT058261;
+        Mon, 15 May 2023 11:48:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1684169332;
+        bh=WYd+HVrvnZqOOIEZzprHDBIRRRbxOwfly0aIcgGcCPA=;
+        h=Date:Subject:From:To:CC:References:In-Reply-To;
+        b=iiIiWjd7bc5jfMNHn2gZH4rUNBemTTyTqFNwW5TrplB4d93zNHJmg9L5XmOXrCSyB
+         NJM9CxisGQmSs98u5njB+dhQbgsMmfXUli6ppu4ekI/ToTedMgefrQg454VOhnzXJB
+         NlzUp9YAG6j2UzNXCS1p4gObu0QRHepNt121fSLk=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 34FGmq5t085842
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 15 May 2023 11:48:52 -0500
+Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 15
+ May 2023 11:48:52 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE101.ent.ti.com
+ (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Mon, 15 May 2023 11:48:52 -0500
+Received: from [10.250.35.77] (ileaxei01-snat.itg.ti.com [10.180.69.5])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 34FGmpJV101621;
+        Mon, 15 May 2023 11:48:51 -0500
+Message-ID: <1118291b-1137-6368-6202-e54151f01eb0@ti.com>
+Date:   Mon, 15 May 2023 11:48:51 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZGJOht09HwRY7GK+@lx-t490>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] kbuild: Disallow DTB overlays to built from .dts named
+ source files
+Content-Language: en-US
+From:   Andrew Davis <afd@ti.com>
+To:     Nicolas Schier <nicolas@fjasle.eu>
+CC:     Sascha Hauer <s.hauer@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        <devicetree@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20230306224752.8417-1-afd@ti.com> <ZAi+Qo1z2OkrqncP@fjasle.eu>
+ <b3820dd3-83dd-278e-e9ad-814be0bc8cfa@ti.com>
+In-Reply-To: <b3820dd3-83dd-278e-e9ad-814be0bc8cfa@ti.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Spam-Status: No, score=-8.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, 15 May 2023, Ahmed S. Darwish wrote:
-> On Fri, 12 May 2023, Masahiro Yamada wrote:
-> >
-> > You can write it in one line.
-> >
-> > dogtags()
-> > {
-> >     all_target_sources | gtags -i -C "${tree:-.}" -f - "${PWD}"
-> > }
-> >
->
-> Ditto. The script was almost-fully POSIX style (except the first line),
-> so I avoided bash features on purpose.
->
+On 3/8/23 9:01 AM, Andrew Davis wrote:
+> On 3/8/23 10:56 AM, Nicolas Schier wrote:
+>> On Mon, Mar 06, 2023 at 04:47:52PM -0600 Andrew Davis wrote:
+>>> As a follow up to the series allowing DTB overlays to built from .dtso
+>>> files. Now that all overlays have been renamed, remove the ability to
+>>> build from overlays from .dts files to prevent any files with the old
+>>          ^^^^
+>>
+>> The first "from" sounds superfluous to me.
+>>
+> 
+> It is a typo, feel free to drop it locally whoever takes this patch.
+> 
 
-Nitpick for correctness sake the "Use default values" parameter
-expansion is actually POSIX-ly correct:
+Seems no one took this last cycle.. Still valid and applies for this one.
 
-  https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02
+Andrew
 
-Thanks,
-Ahmed
+> Thanks,
+> Andrew
+> 
+>> Kind regards,
+>> Nicolas
+>>> name from accidental being added.
+>>>
+>>> Signed-off-by: Andrew Davis <afd@ti.com>
+>>> ---
+>>>   scripts/Makefile.lib | 3 ---
+>>>   1 file changed, 3 deletions(-)
+>>>
+>>> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+>>> index 100a386fcd71..68d0134bdbf9 100644
+>>> --- a/scripts/Makefile.lib
+>>> +++ b/scripts/Makefile.lib
+>>> @@ -418,9 +418,6 @@ endif
+>>>   $(obj)/%.dtb: $(src)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE
+>>>       $(call if_changed_dep,dtb)
+>>> -$(obj)/%.dtbo: $(src)/%.dts $(DTC) FORCE
+>>> -    $(call if_changed_dep,dtc)
+>>> -
+>>>   $(obj)/%.dtbo: $(src)/%.dtso $(DTC) FORCE
+>>>       $(call if_changed_dep,dtc)
+>>> -- 
+>>> 2.39.2
+>>
