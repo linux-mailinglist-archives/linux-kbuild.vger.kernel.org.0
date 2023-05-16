@@ -2,55 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C943C70434B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 May 2023 04:16:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 467C670513F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 May 2023 16:52:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229617AbjEPCQy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 15 May 2023 22:16:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42280 "EHLO
+        id S233241AbjEPOwK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 16 May 2023 10:52:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229575AbjEPCQy (ORCPT
+        with ESMTP id S232526AbjEPOwI (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 15 May 2023 22:16:54 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F5C04C24;
-        Mon, 15 May 2023 19:16:52 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2B649633EC;
-        Tue, 16 May 2023 02:16:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E0D8C433D2;
-        Tue, 16 May 2023 02:16:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684203411;
-        bh=VC0Lgt0I7EMYVJqPjsZ6wzgRD9QzgPlLiDwc/6s1x8E=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=TkkWzY+YZQUKVESw2wgzhKHKQ7Ky2aL+g4lv6hPQhq5I/XgITZV2j4gBSzuxM4BKI
-         1NGIQSCTSkNEMGzwkzoP7ZUT0y+6RP4DLPtuGlU2CSG13DZR01HYQ6COuURdDp685E
-         RCy+Zf5Qr/BZKyrM8k1Nf0E1QNNr0A7G9eTH7jHpOfcn9R/17JrUIEZIwi7WeEzo9l
-         2J/fwk7zwPwRqcH62TGKAHS89fiXd1yCiaQMA+cBOTaHHPex5jd9CGbDA5RZgPJCpR
-         TxMesfmpwhrln+xoBm3TnOYLuzVVgat46iCdEk8d7vaa+4sX3mb4uUrGlPQoe6VWLv
-         Hiem31flC3aPA==
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-546ee6030e5so6377268eaf.3;
-        Mon, 15 May 2023 19:16:51 -0700 (PDT)
-X-Gm-Message-State: AC+VfDyDSQtTKPjSag/2ooy8MIQK/q7MEf1LXcHxqixVoTb79QObevXH
-        YLVC3EYAaI7iBm42D5dv+HK+iYrti1lPOAqYx7A=
-X-Google-Smtp-Source: ACHHUZ7+RyqCGkwV4YXTr8F6RlzedtSBz4qNByRN560t7Q/ammZP0yd66uXBjMllfSJKlIbQnCpjRR9pPeDsJ/WnnlI=
-X-Received: by 2002:a4a:271a:0:b0:54c:b94b:bc2e with SMTP id
- l26-20020a4a271a000000b0054cb94bbc2emr9564438oof.0.1684203410721; Mon, 15 May
- 2023 19:16:50 -0700 (PDT)
+        Tue, 16 May 2023 10:52:08 -0400
+Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8CAC468B
+        for <linux-kbuild@vger.kernel.org>; Tue, 16 May 2023 07:52:05 -0700 (PDT)
+Received: by mail-qv1-xf33.google.com with SMTP id 6a1803df08f44-62382e9cb8dso1129666d6.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 16 May 2023 07:52:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1684248725; x=1686840725;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=X6zHo6bWXc/84vWZVuKR/6I8EjwUwKr00I4It6PliM0=;
+        b=WGthoJEw+t7ttdWbkPOLshmqOtTY3VzK2cL7/uzCVD+xXSxhHJ0Wn8mg9/DbEYAuo4
+         1G5k5vbe7N1/rsFV25W3nT90pCbpL8svBESkaWNRXxqzgsLIB0qfV1R7A4WTz1hOvohE
+         GWxNfh6MybmQ+gXds1pETj6pJZ6uBiITKJckEyH8TiKkAcLihvS+Yd9DesDQ/MpeXJEq
+         OD/YTIcO1PYVqwqzaYCb1588uNl427U+8W65u3tqv/WIzHc4Fnc9TNCQgI38JWYn+ULD
+         2c35iO23WgwkJNm/dnnz1qu8U8f8+LVXI54DUs6dc+pZ6jir8+GvB5VPJ8ukqJfiy8S6
+         Z7cQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684248725; x=1686840725;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=X6zHo6bWXc/84vWZVuKR/6I8EjwUwKr00I4It6PliM0=;
+        b=NdqqQbU3mcPao/DULwCK3m0PoZNGGfaCzl1yOY+xoIvUP7YTX0PYpr0WK/5L0bxXWI
+         50PnLf3f2wq3j6XknD5CLE1w9kPAr+CPdngknmg68M/SmfhgJ6oo/qd/NZ5CD6+/WrnE
+         cFujyl3HXeJdsaM3IpFPLP6a4B8oLRImtI1XsBiVmJtXFZ4nV8/34chcEVDYPR34q+9z
+         UmmQdt5fe/IulwRaCfUIZ0Mnv6CQValkl+/Ze09qRSTHLetuuMLTtyuon5NeUHPjdGe1
+         PBgtmzZi3ls4uKatuOssjzwMbLGA1EqSiFIXhrDWRUxHyPux2BKjx5TQx5HtlXHxsk/E
+         NyCw==
+X-Gm-Message-State: AC+VfDyiLUaS1CNYZc6PD6RwndfdPhxgiXrM5+vb648Ac5NOgMWpQHxt
+        JSTVAD1uMqeGvnJiQcamQ3Rftbyqf+Kz3/olsshRxCP8YKKj81Lmat+/Ww==
+X-Google-Smtp-Source: ACHHUZ40oD9cViZWTRMJZNhLFQIwCH35iwip2jSEtirhaBtc647aaHYUYXLxnKF7BFi2Nsd1eN7GBPk3bIOFB2Tbx8M=
+X-Received: by 2002:a05:6214:1c4b:b0:56e:bfda:a14f with SMTP id
+ if11-20020a0562141c4b00b0056ebfdaa14fmr71315780qvb.9.1684248724907; Tue, 16
+ May 2023 07:52:04 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230514152739.962109-1-masahiroy@kernel.org> <20230514152739.962109-22-masahiroy@kernel.org>
  <93s3n008-7oon-30rq-5219-5r244919r38q@syhkavp.arg> <CABCJKuf91O4OtBQ62CRuCYHWrENdvjnzHdyH135qCt24rX4Lsg@mail.gmail.com>
-In-Reply-To: <CABCJKuf91O4OtBQ62CRuCYHWrENdvjnzHdyH135qCt24rX4Lsg@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 16 May 2023 11:16:14 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT_MakkY3hMaCJE=iFFc27tM-Xjw1fC_SQX8WycQRmouw@mail.gmail.com>
-Message-ID: <CAK7LNAT_MakkY3hMaCJE=iFFc27tM-Xjw1fC_SQX8WycQRmouw@mail.gmail.com>
+ <CAK7LNAT_MakkY3hMaCJE=iFFc27tM-Xjw1fC_SQX8WycQRmouw@mail.gmail.com>
+In-Reply-To: <CAK7LNAT_MakkY3hMaCJE=iFFc27tM-Xjw1fC_SQX8WycQRmouw@mail.gmail.com>
+From:   Sami Tolvanen <samitolvanen@google.com>
+Date:   Tue, 16 May 2023 07:51:29 -0700
+Message-ID: <CABCJKueexnq=hE2L3uFQt5WeS2_mFckK9NHagFfU-peTnwMNeA@mail.gmail.com>
 Subject: Re: [PATCH v5 21/21] kbuild: implement CONFIG_TRIM_UNUSED_KSYMS
  without recursion
-To:     Sami Tolvanen <samitolvanen@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Nicolas Pitre <nico@fluxnic.net>, linux-kbuild@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
@@ -58,145 +65,39 @@ Cc:     Nicolas Pitre <nico@fluxnic.net>, linux-kbuild@vger.kernel.org,
         Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL,
+        USER_IN_DEF_SPF_WL autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, May 16, 2023 at 7:54=E2=80=AFAM Sami Tolvanen <samitolvanen@google.=
-com> wrote:
+On Mon, May 15, 2023 at 7:16=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
 >
-> On Mon, May 15, 2023 at 2:39=E2=80=AFPM Nicolas Pitre <nico@fluxnic.net> =
-wrote:
+> On Tue, May 16, 2023 at 7:54=E2=80=AFAM Sami Tolvanen <samitolvanen@googl=
+e.com> wrote:
+> > A while ago there
+> > was a suggestion of adding an option to LLD that allows one to pass a
+> > list of symbols to preserve in relocatable LTO links, which would
+> > allow us to better optimize vmlinux.o. However, I haven't had a chance
+> > to look into this deeper than this proof of concept:
 > >
-> > On Mon, 15 May 2023, Masahiro Yamada wrote:
-> >
-> > > When CONFIG_TRIM_UNUSED_KSYMS is enabled, Kbuild recursively traverse=
-s
-> > > the directory tree to determine which EXPORT_SYMBOL to trim. If an
-> > > EXPORT_SYMBOL turns out to be unused by anyone, Kbuild begins the
-> > > second traverse, where some source files are recompiled with their
-> > > EXPORT_SYMBOL() tuned into a no-op.
-> > >
-> > > Linus stated negative opinions about this slowness in commits:
-> > >
-> > >  - 5cf0fd591f2e ("Kbuild: disable TRIM_UNUSED_KSYMS option")
-> > >  - a555bdd0c58c ("Kbuild: enable TRIM_UNUSED_KSYMS again, with some g=
-uarding")
-> > >
-> > > We can do this better now. The final data structures of EXPORT_SYMBOL
-> > > are generated by the modpost stage, so modpost can selectively emit
-> > > KSYMTAB entries that are really used by modules.
-> > >
-> > > Commit 2cce989f8461 ("kbuild: unify two modpost invocations") is anot=
-her
-> > > ground-work to do this in a one-pass algorithm. With the list of modu=
-les,
-> > > modpost sets sym->used if it is used by a module. modpost emits KSYMT=
-AB
-> > > only for symbols with sym->used=3D=3Dtrue.
-> > >
-> > > BTW, Nicolas explained why the trimming was implemented with recursio=
-n:
-> > >
-> > >   https://lore.kernel.org/all/2o2rpn97-79nq-p7s2-nq5-8p83391473r@syhk=
-avp.arg/
-> > >
-> > > Actually, we never achieved that level of optimization where the chai=
-n
-> > > reaction of trimming comes into play because:
-> > >
-> > >  - CONFIG_LTO_CLANG cannot remove any unused symbols
-> > >  - CONFIG_LD_DEAD_CODE_DATA_ELIMINATION is enabled only for vmlinux,
-> > >    but not modules
-> >
-> > I did achieve it using LTO with gcc back then. See the section called
-> > "The tree that hides the forest" of https://lwn.net/Articles/746780/ fo=
-r
-> > example results.
+> > https://reviews.llvm.org/D142163
 >
-> Clang can do similar optimizations, but not in relocatable links where
-> the linker must obviously preserve all the globals.
-
-Yeah, the issue is not in the compiler itself
-but in the way CONFIG_LTO_CLANG was implemented.
-
-If it had been implemented in the final link stage,
-it would have required LTO running three times
-with CONFIG_KALLSYMS=3Dy.
-But scripts/generate_initcall_order.pl would
-have been unneeded. And, maybe we would get slightly
-better vmlinux.
-
-I think the help message of CONFIG_LTO_CLANG_FULL is
-a misleading advertisement.
-
-We did not achieve such deeper trimming
-that is described in this link:
-
-  https://llvm.org/docs/LinkTimeOptimization.html
-
-
-If I remember correctly, GCC LTO was implemented
-in the final link stage. So, trimming was depper
-but it ran three times.
-
-
-
-
-
-> A while ago there
-> was a suggestion of adding an option to LLD that allows one to pass a
-> list of symbols to preserve in relocatable LTO links, which would
-> allow us to better optimize vmlinux.o. However, I haven't had a chance
-> to look into this deeper than this proof of concept:
 >
-> https://reviews.llvm.org/D142163
-
-
-Interesting.
-
-But, scripts/generate_initcall_order.pl is still needed, right?
-
---lto-export-symbol-list is a list of symbols,
-but it does not specify the correct order?
-
-
-
-Nocolas explained the chain reaction of
-compiling modules with LTO, but I suspect it
-because modules are always relocatable ELF.
-
-
-The LWN article (https://lwn.net/Articles/746780/) is awesome
-but I think the benefit of LTO is for vmlinux,
-not for modules.
-
-
-
+> Interesting.
 >
-> > > If deeper trimming is required, we need to revisit this, but I guess
-> > > that is unlikely to happen.
-> >
-> > Would have been nicer to keep this possibility as an option. The code i=
-s
-> > already there and working as intended. The build cost is intrinsic to
-> > the approach of course. The actual bug is to impose that cost onto
-> > people who didn't explicitly ask for it.
-> >
-> > But I'm no longer fighting this battle.
+> But, scripts/generate_initcall_order.pl is still needed, right?
 >
-> I agree, this looks like a reasonable solution for now.
->
-> Sami
+> --lto-export-symbol-list is a list of symbols,
+> but it does not specify the correct order?
 
+Correct, the patch doesn't take the order of the list into account.
 
-
---=20
-Best Regards
-Masahiro Yamada
+Sami
