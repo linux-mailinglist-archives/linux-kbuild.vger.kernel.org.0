@@ -2,63 +2,65 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4ED7B707436
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 May 2023 23:27:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08D5A707475
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 May 2023 23:41:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229613AbjEQV1f (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 17 May 2023 17:27:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38854 "EHLO
+        id S229626AbjEQVld (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 17 May 2023 17:41:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229540AbjEQV1e (ORCPT
+        with ESMTP id S229502AbjEQVld (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 17 May 2023 17:27:34 -0400
-Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DA8249F4
-        for <linux-kbuild@vger.kernel.org>; Wed, 17 May 2023 14:27:14 -0700 (PDT)
-Received: by mail-qv1-xf2d.google.com with SMTP id 6a1803df08f44-6238ce8d8f9so2953126d6.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 17 May 2023 14:27:13 -0700 (PDT)
+        Wed, 17 May 2023 17:41:33 -0400
+Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B668B2D5A
+        for <linux-kbuild@vger.kernel.org>; Wed, 17 May 2023 14:41:29 -0700 (PDT)
+Received: by mail-qv1-xf32.google.com with SMTP id 6a1803df08f44-62382e9cb8dso5949956d6.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 17 May 2023 14:41:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1684358833; x=1686950833;
+        d=google.com; s=20221208; t=1684359689; x=1686951689;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lirS5BgNCncTUTh8FAM6PKxjij7fXFg47f/fXiGEh7o=;
-        b=c6DgAVlUuJ+r/1qZcduFGWMWEFL5kGetd7CyObirpFZziXiLYtWCZGy6rHlB5+rbjI
-         gxjyXKMB96uVbZgVrn0K97i8FCv8uD13XqzbYC+t/ynDqfokJdHD56UxovXFGXjHGMNH
-         hUHjDIGlJQJlWobLCeMXiDpSj/rkMu+3OdqxuC/Ee2ovJhqujEro7m9JUkigMT1vS8tu
-         KpbMW9+n0XFQTYsJFsm30uAbWduYJiOPtVJW3uC1Vw3FgL6YEXnPXHQyaffRkKt3n0lm
-         3CF1Pi0JySZ/OqZ6G1s7UGL3T3nyUS2idL5/SFwoy0UJcareCyraZa2Na83TCY24zTEh
-         Pqzw==
+        bh=bDq+b2ZfYYDFmAo9WgDly+IUe6hIbHfQ/RLSHSxP/78=;
+        b=O78miNZ1V/XTjemeCQCMyarMfE++byFmzniA7NwgMp2CBONkaU2iBWLTbM+Zz4GS25
+         LVMsWrD9H65jBdbIHt1sHivauDHvxci/eVgdGDHVog9i0VC1by156yVFqYaHWYBXKom1
+         ku9WVSgsumEjW1yVhEREq5SYY1hd9OwSRm9RYmUbYFXxtJd08FZwXqSUz73rEa8MuRBu
+         cNrR9TXHYnbnYOvmMX2kRLQZyn4Jyv12Tu3Uj3fL1JfZuf/CNZVSuZf/uQJsbUkpyAoK
+         Tq58blgqS0nqy0MTN0wNisYWzX8pSoP34ez+bok3iv6aB/JvAsvLffV1HDwM/BbIgEns
+         pC4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684358833; x=1686950833;
+        d=1e100.net; s=20221208; t=1684359689; x=1686951689;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lirS5BgNCncTUTh8FAM6PKxjij7fXFg47f/fXiGEh7o=;
-        b=kMnDRR8wiW+zoXAFmCgpGjalc4zLNdpuZHgoFYAl/ouNQMPjAAf9xR84jdn9YPKGvx
-         xdp3wHhSspE6ZPQuaUBSsfZuB4ZNfw39fgXsLhv5jwC6vVlM12oG1fo2UJntJzKblzp8
-         IHYAYURVbHVdJIFrCP8YvpmgqRZaQOAffZOZrwnxYPhfc39uJ0VHwSN3281Tf8wAJ1v1
-         xNxGuEDWg9VtObseQQuaWcNvlQgEPrfhNBoe15Gd7rKi/QwfHgIvNL7zGOw2+j5kVDtF
-         bIM6G9EwHj1KBRtG/5kkfFKDyTorUp414VNgGh2uc7/lYOfb5kRNJ1daFP9l0DL6zCvT
-         OZlg==
-X-Gm-Message-State: AC+VfDzrnykD/FixVFgRKpESLukpdKI+wWJLUoMGQCRX2ZL+oD2RR7ew
-        4U5HlyMTnxwVY3OmzAZwbw7JAIAbR7l64H7dUU7DdQ==
-X-Google-Smtp-Source: ACHHUZ6FCeZr6o1q4w+D9utGOYJrDTWuP81JZbwW5K2G4D2a3zeB5Ri/oH8y6QwIf0SkW4NqCfsi05tBZyUufjI0ug4=
-X-Received: by 2002:a05:6214:1bcb:b0:5ef:60a8:e795 with SMTP id
- m11-20020a0562141bcb00b005ef60a8e795mr2123896qvc.4.1684358833008; Wed, 17 May
- 2023 14:27:13 -0700 (PDT)
+        bh=bDq+b2ZfYYDFmAo9WgDly+IUe6hIbHfQ/RLSHSxP/78=;
+        b=Xo7om9ygja9v0HPCPvymPf/S9lCiWc69Mf+RBGHLggp+HfntWzFi4LeZSTzA8BDuke
+         cFDow3bXupCkD1Q35gIa6DpRkJ0MC/3DamHeRDvNoc3TIvVO6LDiBLq1cixPzzxzv+M9
+         5zbbCh+GZDjoDYrAlXMOwX15LDFi+DJathnlxIBPGsVQJE46+gvEkxsljMiBkLO1HU1j
+         sDM/zlNSDAPWpXLIsRt/bT4Y5bbwvCQqq+Na4OcsPIXYvoKxFbjEPvjsE0Amf4/v3vKB
+         otNE8wb8hfs8+QDUfVPYjtxn6iRu9v/tXOLjrH7mNkhEz+U3Jqa4EnkNYs00ny+obljv
+         4tqQ==
+X-Gm-Message-State: AC+VfDwdKBALaOXitJ1SjiVsalvpHTgb1mVytS+Iucio4C90KmeJsJU/
+        zhWixnSXI/8i1NGwvyf631wYBxUzigpusVi/3beryQ==
+X-Google-Smtp-Source: ACHHUZ5ttIRXBgugBrH6LyTmA9hxubwzkf0SzUaf5KfnQd9ndw5lPFwIl2BLSNkFdtpO6q592cwB7akX2DYN3VG2MHE=
+X-Received: by 2002:a05:6214:ca1:b0:616:4e24:ff28 with SMTP id
+ s1-20020a0562140ca100b006164e24ff28mr2773332qvs.0.1684359688719; Wed, 17 May
+ 2023 14:41:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230514152739.962109-1-masahiroy@kernel.org> <20230514152739.962109-5-masahiroy@kernel.org>
-In-Reply-To: <20230514152739.962109-5-masahiroy@kernel.org>
+References: <20230515005419.1293357-1-masahiroy@kernel.org>
+In-Reply-To: <20230515005419.1293357-1-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 17 May 2023 14:27:02 -0700
-Message-ID: <CAKwvOd=ntBEuLMyw55U3=mZmJ8=JY_NhiBL0nO9RtU8t6m+=VQ@mail.gmail.com>
-Subject: Re: [PATCH v5 04/21] modpost: squash report_extable_warnings() into extable_mismatch_handler()
+Date:   Wed, 17 May 2023 14:41:17 -0700
+Message-ID: <CAKwvOdkMYKhm1gaDGxqa=J136J1=+vSv=fEVYNJR430Px5Qy6A@mail.gmail.com>
+Subject: Re: [PATCH] modpost: fix section mismatch message for R_ARM_ABS32
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Russell King <linux@armlinux.org.uk>,
         Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Pitre <npitre@baylibre.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
@@ -72,109 +74,87 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, May 14, 2023 at 8:27=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+On Sun, May 14, 2023 at 5:54=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
 rg> wrote:
 >
-> Collect relevant code into one place to clarify all the cases are
-> covered by 'if () ... else if ... else ...'.
+> The section mismatch check does not show proper warning messages for ARM.
 >
+> Here, very simple test code.
+>
+>     #include <linux/init.h>
+>
+>     static int __initdata foo;
+>
+>     void set_foo(int x)
+>     {
+>             foo =3D x;
+>     }
+>
+>     int get_foo(int x)
+>     {
+>             return foo;
+>     }
+>
+> If I compile it for ARM, modpost does not show the symbol name.
+>
+>   WARNING: modpost: vmlinux.o: section mismatch in reference: set_foo (se=
+ction: .text) -> (unknown) (section: .init.data)
+>   WARNING: modpost: vmlinux.o: section mismatch in reference: get_foo (se=
+ction: .text) -> (unknown) (section: .init.data)
+>
+> If I compile it for other architectures, modpost shows the correct symbol=
+ name.
+>
+>   WARNING: modpost: vmlinux.o: section mismatch in reference: set_foo (se=
+ction: .text) -> foo (section: .init.data)
+>   WARNING: modpost: vmlinux.o: section mismatch in reference: get_foo (se=
+ction: .text) -> foo (section: .init.data)
+>
+> For R_ARM_ABS32, addend_arm_rel() sets r->r_addend to a wrong value.
+>
+> arch/arm/kernel/module.c handles R_ARM_ABS32 as follows:
+>
+>         case R_ARM_ABS32:
+>         case R_ARM_TARGET1:
+>                 *(u32 *)loc +=3D sym->st_value;
+>
+> I just mimicked it in modpost.
+>
+> Fixes: 56a974fa2d59 ("kbuild: make better section mismatch reports on arm=
+")
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-
-Thanks for the patch!
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-
 > ---
 >
->  scripts/mod/modpost.c | 40 ++++++++++++++--------------------------
->  1 file changed, 14 insertions(+), 26 deletions(-)
+>  scripts/mod/modpost.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 >
 > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 371891d67175..7a9a3ef8ca0d 100644
+> index d4531d09984d..c93780d93caf 100644
 > --- a/scripts/mod/modpost.c
 > +++ b/scripts/mod/modpost.c
-> @@ -1275,40 +1275,19 @@ static int is_executable_section(struct elf_info*=
- elf, unsigned int section_inde
->         return ((elf->sechdrs[section_index].sh_flags & SHF_EXECINSTR) =
-=3D=3D SHF_EXECINSTR);
->  }
->
-> -static void report_extable_warnings(const char* modname, struct elf_info=
-* elf,
-> -                                   const struct sectioncheck* const mism=
-atch,
-> -                                   Elf_Rela* r, Elf_Sym* sym,
-> -                                   const char* fromsec, const char* tose=
-c)
-> -{
-> -       Elf_Sym* tosym =3D find_elf_symbol(elf, r->r_addend, sym);
-> -       const char* tosym_name =3D sym_name(elf, tosym);
-> -
-> -       warn("%s(%s+0x%lx): Section mismatch in reference to the %s:%s\n"=
-,
-> -            modname, fromsec, (long)r->r_offset, tosec, tosym_name);
-> -
-> -       if (!match(tosec, mismatch->bad_tosec) &&
-> -           is_executable_section(elf, get_secindex(elf, sym)))
-> -               fprintf(stderr,
-> -                       "The relocation at %s+0x%lx references\n"
-> -                       "section \"%s\" which is not in the list of\n"
-> -                       "authorized sections.  If you're adding a new sec=
-tion\n"
-> -                       "and/or if this reference is valid, add \"%s\" to=
- the\n"
-> -                       "list of authorized sections to jump to on fault.=
-\n"
-> -                       "This can be achieved by adding \"%s\" to \n"
-> -                       "OTHER_TEXT_SECTIONS in scripts/mod/modpost.c.\n"=
-,
-> -                       fromsec, (long)r->r_offset, tosec, tosec, tosec);
-> -}
-> -
->  static void extable_mismatch_handler(const char* modname, struct elf_inf=
-o *elf,
->                                      const struct sectioncheck* const mis=
-match,
->                                      Elf_Rela* r, Elf_Sym* sym,
->                                      const char *fromsec)
+> @@ -1460,12 +1460,13 @@ static int addend_386_rel(struct elf_info *elf, E=
+lf_Shdr *sechdr, Elf_Rela *r)
+>  static int addend_arm_rel(struct elf_info *elf, Elf_Shdr *sechdr, Elf_Re=
+la *r)
 >  {
->         const char* tosec =3D sec_name(elf, get_secindex(elf, sym));
-> +       Elf_Sym *tosym =3D find_elf_symbol(elf, r->r_addend, sym);
-> +       const char *tosym_name =3D sym_name(elf, tosym);
+>         unsigned int r_typ =3D ELF_R_TYPE(r->r_info);
+> +       unsigned int *location =3D reloc_location(elf, sechdr, r);
+
+If `location` is only used in one case of the switch, consider
+computing `location` only in that case.
+
+> +       Elf_Sym *sym;
 >
->         sec_mismatch_count++;
->
-> -       report_extable_warnings(modname, elf, mismatch, r, sym, fromsec, =
-tosec);
-> +       warn("%s(%s+0x%lx): Section mismatch in reference to the %s:%s\n"=
-,
-> +            modname, fromsec, (long)r->r_offset, tosec, tosym_name);
->
->         if (match(tosec, mismatch->bad_tosec))
->                 fatal("The relocation at %s+0x%lx references\n"
-> @@ -1317,7 +1296,16 @@ static void extable_mismatch_handler(const char* m=
-odname, struct elf_info *elf,
->                       "You might get more information about where this is=
-\n"
->                       "coming from by using scripts/check_extable.sh %s\n=
-",
->                       fromsec, (long)r->r_offset, tosec, modname);
-> -       else if (!is_executable_section(elf, get_secindex(elf, sym)))
-> +       else if (is_executable_section(elf, get_secindex(elf, sym)))
-> +               warn("The relocation at %s+0x%lx references\n"
-> +                    "section \"%s\" which is not in the list of\n"
-> +                    "authorized sections.  If you're adding a new sectio=
-n\n"
-> +                    "and/or if this reference is valid, add \"%s\" to th=
-e\n"
-> +                    "list of authorized sections to jump to on fault.\n"
-> +                    "This can be achieved by adding \"%s\" to\n"
-> +                    "OTHER_TEXT_SECTIONS in scripts/mod/modpost.c.\n",
-> +                    fromsec, (long)r->r_offset, tosec, tosec, tosec);
-> +       else
->                 error("%s+0x%lx references non-executable section '%s'\n"=
-,
->                       fromsec, (long)r->r_offset, tosec);
->  }
+>         switch (r_typ) {
+>         case R_ARM_ABS32:
+> -               /* From ARM ABI: (S + A) | T */
+> -               r->r_addend =3D (int)(long)
+> -                             (elf->symtab_start + ELF_R_SYM(r->r_info));
+> +               sym =3D elf->symtab_start + ELF_R_SYM(r->r_info);
+> +               r->r_addend =3D TO_NATIVE(*location) + sym->st_value;
+>                 break;
+>         case R_ARM_PC24:
+>         case R_ARM_CALL:
 > --
 > 2.39.2
 >
