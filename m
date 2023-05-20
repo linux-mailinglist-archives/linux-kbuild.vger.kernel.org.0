@@ -2,54 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0494270A846
-	for <lists+linux-kbuild@lfdr.de>; Sat, 20 May 2023 15:12:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE24870A851
+	for <lists+linux-kbuild@lfdr.de>; Sat, 20 May 2023 15:20:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229464AbjETNMG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 20 May 2023 09:12:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37946 "EHLO
+        id S231265AbjETNUg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 20 May 2023 09:20:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230194AbjETNMF (ORCPT
+        with ESMTP id S230372AbjETNUf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 20 May 2023 09:12:05 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C255CE;
-        Sat, 20 May 2023 06:12:04 -0700 (PDT)
+        Sat, 20 May 2023 09:20:35 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E9EE185;
+        Sat, 20 May 2023 06:20:27 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9A5C560AFF;
-        Sat, 20 May 2023 13:12:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB10BC433D2;
-        Sat, 20 May 2023 13:12:02 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 34A1461202;
+        Sat, 20 May 2023 13:20:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96CC3C433EF;
+        Sat, 20 May 2023 13:20:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684588323;
-        bh=wjix5IqQaLwdfF1gkqB4SlaPuA5XKajeDY2XdF8xEis=;
+        s=k20201202; t=1684588826;
+        bh=dRRmQ6Y4HWULY62shVdUhCkQLcBFMPcWXifxi8UXuKA=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=VaTaFLQWahiMaN3qIIEpPfrR5WPwhLbS1GtBOWXye+zGtcdUWti1sMD4vM0GDdEEK
-         rKS/VefWb0vLCXUXBPM8SkY19nbFBO/95EHwnFtczqzDZVpD/rFoDv8CfoswmKPH4+
-         56cuqtZREWRH4wK0HOMvI7QruHgqm11ZgTb6Q6Ox9xVSmVP1mygszyj0jFTU+0zL/G
-         +YrBcuJv+TjQat9Mfp0DH06qGrqXU8Aofo5671s8VMvWo2VysYKaE9kJOzAYyeAivR
-         axOMhyhhCjcsuEGH8Qe4Mg1/R1RlW/kLMeb+/O62LwqKkCR+7KYjQAP00oMLR00PCo
-         0syARdjlHespQ==
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-5552a0a9557so79089eaf.0;
-        Sat, 20 May 2023 06:12:02 -0700 (PDT)
-X-Gm-Message-State: AC+VfDw8MOSZHkH4XtpF7XC/lSUH1fAlH8CaiunfZtAnVUCblu/jLfWp
-        tSZA3K4wTNShRkUpVHQw+r846tnLgvKJlUp1gqQ=
-X-Google-Smtp-Source: ACHHUZ4Lu7MTY72NW2ayPlKI7Kw9Tl3IQLt7fiY4AzyC6eo+BhtFymTkMaqpjADT55RPbNSuR0ellXcwVVStaPkF3rk=
-X-Received: by 2002:a4a:9c50:0:b0:54f:49ed:a88b with SMTP id
- c16-20020a4a9c50000000b0054f49eda88bmr3023968ook.2.1684588322191; Sat, 20 May
- 2023 06:12:02 -0700 (PDT)
+        b=gPWRiqmeFBMpBvHF5Oi/S0ORsVPNAgNnaS6YDMaS6HMnzhAJcMUBjEFkylhM3959+
+         RQ75jj7azcw0f0gMgDTA8JWld9o743zISUnqUGN859wsklORSE/zV9xK6cy29NL1hV
+         zw9LZ44z8Y7Ohdz5EDroQOIqpbtM9FFX4d78F2jIvuk12cQbi5OfO9q6K22KwD4Cym
+         C72rc/dLoNnMtYB2smfEI2CJCtb8GAbhsxeuYFCTUPK1juZoaandc1uH86IKFZ/xsf
+         +W13ZeqoJ/gphz7iYpd28QfHSyN/bUOs2lbJgANTNNxfWFB03n1ejMR8vqV6zwpLEh
+         rNQ1pkqtYop1A==
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3942cd86697so2415876b6e.0;
+        Sat, 20 May 2023 06:20:26 -0700 (PDT)
+X-Gm-Message-State: AC+VfDyeaT6qDq41tV66U7Q6Wir+KWNRjr25ABS3AGiI5lKa1yoW5SRs
+        oRHnCB668UEPQyq565QpyT3dRP6p2ZR1GzXRFVo=
+X-Google-Smtp-Source: ACHHUZ4OIynnymrUbFwL6tNR3IEfg0Y5SqGGWfkdSe2tNrwhBkwARi2+vEnIddmQPHt/Z3Gig4XqFZHTLGfJY0zZXUk=
+X-Received: by 2002:aca:1215:0:b0:38d:f794:26c with SMTP id
+ 21-20020aca1215000000b0038df794026cmr2992239ois.56.1684588825816; Sat, 20 May
+ 2023 06:20:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230514152739.962109-1-masahiroy@kernel.org> <20230514152739.962109-3-masahiroy@kernel.org>
- <CAKwvOd=2SJHNEQR1QHhLkA8V97o0BV90E346RT6-43SGnza9EQ@mail.gmail.com>
-In-Reply-To: <CAKwvOd=2SJHNEQR1QHhLkA8V97o0BV90E346RT6-43SGnza9EQ@mail.gmail.com>
+References: <20230514152739.962109-1-masahiroy@kernel.org> <20230514152739.962109-7-masahiroy@kernel.org>
+ <CAKwvOdkQex2H4iDLE-D=4_vFebhB86aya6zPEB8rhaQy-HwspQ@mail.gmail.com>
+In-Reply-To: <CAKwvOdkQex2H4iDLE-D=4_vFebhB86aya6zPEB8rhaQy-HwspQ@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 20 May 2023 22:11:26 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAREQ1Zs94YiV0vAnaQh43OBVUbMTpzFNxfenEPAG3z_=w@mail.gmail.com>
-Message-ID: <CAK7LNAREQ1Zs94YiV0vAnaQh43OBVUbMTpzFNxfenEPAG3z_=w@mail.gmail.com>
-Subject: Re: [PATCH v5 02/21] modpost: remove fromsym info in __ex_table
- section mismatch warning
+Date:   Sat, 20 May 2023 22:19:49 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAToX+G_9wkmSziU-YZeg9wc2mOGwD-1R-Txrinba4c8RQ@mail.gmail.com>
+Message-ID: <CAK7LNAToX+G_9wkmSziU-YZeg9wc2mOGwD-1R-Txrinba4c8RQ@mail.gmail.com>
+Subject: Re: [PATCH v5 06/21] modpost: clean up is_executable_section()
 To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
@@ -57,8 +56,8 @@ Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -67,76 +66,95 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, May 18, 2023 at 3:53=E2=80=AFAM Nick Desaulniers
+On Thu, May 18, 2023 at 6:10=E2=80=AFAM Nick Desaulniers
 <ndesaulniers@google.com> wrote:
 >
-> On Sun, May 14, 2023 at 8:27=E2=80=AFAM Masahiro Yamada <masahiroy@kernel=
+> On Sun, May 14, 2023 at 8:28=E2=80=AFAM Masahiro Yamada <masahiroy@kernel=
 .org> wrote:
 > >
-> > report_extable_warnings() prints "from" in a pretty form, but we know
-> > it is always located in the __ex_table section, i.e. a collection of
-> > struct exception_table_entry.
->
-> Would it still be helpful to have "from __ex_table" somewhere in the
-> error string that may be shown to developers?
-
-
-See the code.
-
-The variable, 'fromsec' (i.e. "__ex_table") is remaining.
-
-It prints a warning message as you wish.
-
-
-
-
+> > SHF_EXECINSTR is a bit flag (#define SHF_EXECINSTR 0x4).
+> > Compare the masked flag to '!=3D 0'.
 > >
-> > It is very likely to fail to get the symbol name and ends up with
-> > meaningless message:
+> > There is no good reason to stop modpost immediately even if a special
+> > section index is given. You will get a section mismatch error anyway.
 > >
-> >   ... in reference from the (unknown reference) (unknown) to ...
+> > Also, change the return type to bool.
 > >
 > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+>
+> Moving the definition and renaming the parameter seems very
+> unnecessary, but whatever. Thanks for the patch!
+
+
+Moving the definition _is_ necessary.
+
+See the next patch, which moves the call-site of
+is_executable_section().
+
+The definition must come before the caller.
+
+
+
+The current code exceeds 80-cols per line.
+
+I renamed the parameters so that the lines
+fit within 80-cols without wrapping.
+
+
+
+
+
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+>
 > > ---
 > >
-> >  scripts/mod/modpost.c | 11 ++---------
-> >  1 file changed, 2 insertions(+), 9 deletions(-)
+> >  scripts/mod/modpost.c | 16 ++++++++--------
+> >  1 file changed, 8 insertions(+), 8 deletions(-)
 > >
 > > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > index ba4577aa4f1d..bbe066f7adbc 100644
+> > index bb7d1d87bae7..0bda2f22c985 100644
 > > --- a/scripts/mod/modpost.c
 > > +++ b/scripts/mod/modpost.c
-> > @@ -1297,23 +1297,16 @@ static void report_extable_warnings(const char*=
- modname, struct elf_info* elf,
-> >                                     Elf_Rela* r, Elf_Sym* sym,
-> >                                     const char* fromsec, const char* to=
-sec)
-> >  {
-> > -       Elf_Sym* fromsym =3D find_elf_symbol2(elf, r->r_offset, fromsec=
-);
-> > -       const char* fromsym_name =3D sym_name(elf, fromsym);
-> >         Elf_Sym* tosym =3D find_elf_symbol(elf, r->r_addend, sym);
-> >         const char* tosym_name =3D sym_name(elf, tosym);
-> > -       const char* from_pretty_name;
-> > -       const char* from_pretty_name_p;
-> >         const char* to_pretty_name;
-> >         const char* to_pretty_name_p;
+> > @@ -1207,6 +1207,14 @@ static Elf_Sym *find_elf_symbol2(struct elf_info=
+ *elf, Elf_Addr addr,
+> >         return near;
+> >  }
 > >
-> > -       get_pretty_name(is_function(fromsym),
-> > -                       &from_pretty_name, &from_pretty_name_p);
-> >         get_pretty_name(is_function(tosym),
-> >                         &to_pretty_name, &to_pretty_name_p);
+> > +static bool is_executable_section(struct elf_info *elf, unsigned int s=
+ecndx)
+> > +{
+> > +       if (secndx > elf->num_sections)
+> > +               return false;
+> > +
+> > +       return (elf->sechdrs[secndx].sh_flags & SHF_EXECINSTR) !=3D 0;
+> > +}
+> > +
+> >  static void default_mismatch_handler(const char *modname, struct elf_i=
+nfo *elf,
+> >                                      const struct sectioncheck* const m=
+ismatch,
+> >                                      Elf_Rela *r, Elf_Sym *sym, const c=
+har *fromsec)
+> > @@ -1252,14 +1260,6 @@ static void default_mismatch_handler(const char =
+*modname, struct elf_info *elf,
+> >         }
+> >  }
 > >
-> > -       warn("%s(%s+0x%lx): Section mismatch in reference from the %s %=
-s%s to the %s %s:%s%s\n",
-> > -            modname, fromsec, (long)r->r_offset, from_pretty_name,
-> > -            fromsym_name, from_pretty_name_p,
-> > +       warn("%s(%s+0x%lx): Section mismatch in reference to the %s %s:=
-%s%s\n",
-> > +            modname, fromsec, (long)r->r_offset,
-> >              to_pretty_name, tosec, tosym_name, to_pretty_name_p);
-> >
-> >         if (!match(tosec, mismatch->bad_tosec) &&
+> > -static int is_executable_section(struct elf_info* elf, unsigned int se=
+ction_index)
+> > -{
+> > -       if (section_index > elf->num_sections)
+> > -               fatal("section_index is outside elf->num_sections!\n");
+> > -
+> > -       return ((elf->sechdrs[section_index].sh_flags & SHF_EXECINSTR) =
+=3D=3D SHF_EXECINSTR);
+> > -}
+> > -
+> >  static void extable_mismatch_handler(const char* modname, struct elf_i=
+nfo *elf,
+> >                                      const struct sectioncheck* const m=
+ismatch,
+> >                                      Elf_Rela* r, Elf_Sym* sym,
 > > --
 > > 2.39.2
 > >
