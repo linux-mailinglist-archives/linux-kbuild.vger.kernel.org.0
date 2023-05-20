@@ -2,121 +2,150 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF8F770A5A4
-	for <lists+linux-kbuild@lfdr.de>; Sat, 20 May 2023 07:21:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0494270A846
+	for <lists+linux-kbuild@lfdr.de>; Sat, 20 May 2023 15:12:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229526AbjETFVq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 20 May 2023 01:21:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35736 "EHLO
+        id S229464AbjETNMG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 20 May 2023 09:12:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229512AbjETFVp (ORCPT
+        with ESMTP id S230194AbjETNMF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 20 May 2023 01:21:45 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83D201B0
-        for <linux-kbuild@vger.kernel.org>; Fri, 19 May 2023 22:21:44 -0700 (PDT)
+        Sat, 20 May 2023 09:12:05 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C255CE;
+        Sat, 20 May 2023 06:12:04 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 153A5617A4
-        for <linux-kbuild@vger.kernel.org>; Sat, 20 May 2023 05:21:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F9B8C433EF
-        for <linux-kbuild@vger.kernel.org>; Sat, 20 May 2023 05:21:43 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9A5C560AFF;
+        Sat, 20 May 2023 13:12:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB10BC433D2;
+        Sat, 20 May 2023 13:12:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684560103;
-        bh=SvZXwAxSu5nwvgbSmYacv0D576gGEw6J/t5wsal5Xko=;
+        s=k20201202; t=1684588323;
+        bh=wjix5IqQaLwdfF1gkqB4SlaPuA5XKajeDY2XdF8xEis=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=YC8TgiIIpeRweuUBo1Wd2a0gJunUqjb+MiRJKhLVxFrPPyKMP/ThqMsXGgEAnoYp1
-         QM6mM1yGOlLduRwm/bwU1eMErsj1E7hNRAMw1mpH2STBCLSIGbHGnkbeilJXamuINa
-         Zhw6NPEt4IWHPOubg6VWZgvki+VNCqLER04K+IvPF/2LR/YUO4YaaXl31VMMLzxVaG
-         8eIZUcIGOvy7AM28MfflttJG8vA9d3mopMJ9pszJjevaORCICOpo3Npdn6B9SBpbfw
-         QvA4PuoSv46p+HSGCouB7DI51y0d2mgsJFS6VxvgLXxT78TbaDYliED5KOOVlxHHr/
-         Y6xnVJC3EnVMA==
-Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3943fdc59f9so2257557b6e.0
-        for <linux-kbuild@vger.kernel.org>; Fri, 19 May 2023 22:21:43 -0700 (PDT)
-X-Gm-Message-State: AC+VfDwssEU2exBH84Pof1bypwZAi6CF5Cn+89emJKHnQ/Y76RFgkLI8
-        57lX4VEO2VezWHT/T68ASxRoGwf0+rqULP6/3BY=
-X-Google-Smtp-Source: ACHHUZ7le24rziBquheHTI6tCUMDmbdvBcEAtyM2vFSg/ICuzyVVJCrNoY8hjdTz6uy+0QNTvv2pb5Xu/M0TTgeyUHo=
-X-Received: by 2002:a54:400c:0:b0:395:f7d3:d4b8 with SMTP id
- x12-20020a54400c000000b00395f7d3d4b8mr2262827oie.36.1684560102666; Fri, 19
- May 2023 22:21:42 -0700 (PDT)
+        b=VaTaFLQWahiMaN3qIIEpPfrR5WPwhLbS1GtBOWXye+zGtcdUWti1sMD4vM0GDdEEK
+         rKS/VefWb0vLCXUXBPM8SkY19nbFBO/95EHwnFtczqzDZVpD/rFoDv8CfoswmKPH4+
+         56cuqtZREWRH4wK0HOMvI7QruHgqm11ZgTb6Q6Ox9xVSmVP1mygszyj0jFTU+0zL/G
+         +YrBcuJv+TjQat9Mfp0DH06qGrqXU8Aofo5671s8VMvWo2VysYKaE9kJOzAYyeAivR
+         axOMhyhhCjcsuEGH8Qe4Mg1/R1RlW/kLMeb+/O62LwqKkCR+7KYjQAP00oMLR00PCo
+         0syARdjlHespQ==
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-5552a0a9557so79089eaf.0;
+        Sat, 20 May 2023 06:12:02 -0700 (PDT)
+X-Gm-Message-State: AC+VfDw8MOSZHkH4XtpF7XC/lSUH1fAlH8CaiunfZtAnVUCblu/jLfWp
+        tSZA3K4wTNShRkUpVHQw+r846tnLgvKJlUp1gqQ=
+X-Google-Smtp-Source: ACHHUZ4Lu7MTY72NW2ayPlKI7Kw9Tl3IQLt7fiY4AzyC6eo+BhtFymTkMaqpjADT55RPbNSuR0ellXcwVVStaPkF3rk=
+X-Received: by 2002:a4a:9c50:0:b0:54f:49ed:a88b with SMTP id
+ c16-20020a4a9c50000000b0054f49eda88bmr3023968ook.2.1684588322191; Sat, 20 May
+ 2023 06:12:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <729c71ad.51ce3.1882daddff7.Coremail.sunying@nj.iscas.ac.cn>
-In-Reply-To: <729c71ad.51ce3.1882daddff7.Coremail.sunying@nj.iscas.ac.cn>
+References: <20230514152739.962109-1-masahiroy@kernel.org> <20230514152739.962109-3-masahiroy@kernel.org>
+ <CAKwvOd=2SJHNEQR1QHhLkA8V97o0BV90E346RT6-43SGnza9EQ@mail.gmail.com>
+In-Reply-To: <CAKwvOd=2SJHNEQR1QHhLkA8V97o0BV90E346RT6-43SGnza9EQ@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 20 May 2023 14:21:06 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARtpBkT-SL5kGqnrSQQT+SRsU8xfqrC5iqZCwoQs=QnzQ@mail.gmail.com>
-Message-ID: <CAK7LNARtpBkT-SL5kGqnrSQQT+SRsU8xfqrC5iqZCwoQs=QnzQ@mail.gmail.com>
-Subject: Re: Suggestion: Improve the dependency information during Kconfig compilation
-To:     sunying@nj.iscas.ac.cn
-Cc:     linux-kbuild@vger.kernel.org
+Date:   Sat, 20 May 2023 22:11:26 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAREQ1Zs94YiV0vAnaQh43OBVUbMTpzFNxfenEPAG3z_=w@mail.gmail.com>
+Message-ID: <CAK7LNAREQ1Zs94YiV0vAnaQh43OBVUbMTpzFNxfenEPAG3z_=w@mail.gmail.com>
+Subject: Re: [PATCH v5 02/21] modpost: remove fromsym info in __ex_table
+ section mismatch warning
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Pitre <npitre@baylibre.com>,
+        Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, May 18, 2023 at 4:13=E2=80=AFPM <sunying@nj.iscas.ac.cn> wrote:
+On Thu, May 18, 2023 at 3:53=E2=80=AFAM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
 >
-> Hi,
+> On Sun, May 14, 2023 at 8:27=E2=80=AFAM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
+> >
+> > report_extable_warnings() prints "from" in a pretty form, but we know
+> > it is always located in the __ex_table section, i.e. a collection of
+> > struct exception_table_entry.
 >
->
-> We found that the Kconfig build system silently changes invalid values in=
- the. config file,
-> which may prevent users from getting their desired kernel, and also make =
-it hard to know
-> which configuration option caused the forced change based on the compilat=
-ion information.
->
-> There are similar questions on stack overflow, where people find it diffi=
-cult to get
-> the complete dependency chain and other information=EF=BC=9A
->
->   ex1. How can I disable CONFIG_PM when building Linux kernel for x86_64 =
-- Stack Overflow
->   https://stackoverflow.com/questions/64499221/how-can-i-disable-config-p=
-m-when-building-linux-kernel-for-x86-64/64501647#64501647
->
->   ex2. c - kernel symbol enabled but doesn't shows up in .config - Stack =
-Overflow
->   https://stackoverflow.com/questions/24074116/kernel-symbol-enabled-but-=
-doesnt-shows-up-in-config)
->
->   ex3. makefile - update menuconfig entries without recompiling all the k=
-ernel - Stack Overflow
->   https://stackoverflow.com/questions/71075113/update-menuconfig-entries-=
-without-recompiling-all-the-kernel
->
->   ex4. linux - disabling CONFIG_NET_DMA - Stack Overflow
->   https://stackoverflow.com/questions/30794576/disabling-config-net-dma/3=
-0796820#30796820
->
-> We plan to optimize the conf_read() function in /scripts/kconfig/confdata=
-.c,
-> and add information for the mismatched configuration options to help user=
-s get the desired Linux kernel.
-> Do you think it's necessary? Any suggestions?
->
+> Would it still be helpful to have "from __ex_table" somewhere in the
+> error string that may be shown to developers?
 
 
-It may be helpful.
-I do not know if such warnings should be turned on by default,
-or under some verbose mode, though.
+See the code.
+
+The variable, 'fromsec' (i.e. "__ex_table") is remaining.
+
+It prints a warning message as you wish.
 
 
 
 
-> Best regards,
-> Siyuan Guo
-> Ying Sun
+> >
+> > It is very likely to fail to get the symbol name and ends up with
+> > meaningless message:
+> >
+> >   ... in reference from the (unknown reference) (unknown) to ...
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  scripts/mod/modpost.c | 11 ++---------
+> >  1 file changed, 2 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> > index ba4577aa4f1d..bbe066f7adbc 100644
+> > --- a/scripts/mod/modpost.c
+> > +++ b/scripts/mod/modpost.c
+> > @@ -1297,23 +1297,16 @@ static void report_extable_warnings(const char*=
+ modname, struct elf_info* elf,
+> >                                     Elf_Rela* r, Elf_Sym* sym,
+> >                                     const char* fromsec, const char* to=
+sec)
+> >  {
+> > -       Elf_Sym* fromsym =3D find_elf_symbol2(elf, r->r_offset, fromsec=
+);
+> > -       const char* fromsym_name =3D sym_name(elf, fromsym);
+> >         Elf_Sym* tosym =3D find_elf_symbol(elf, r->r_addend, sym);
+> >         const char* tosym_name =3D sym_name(elf, tosym);
+> > -       const char* from_pretty_name;
+> > -       const char* from_pretty_name_p;
+> >         const char* to_pretty_name;
+> >         const char* to_pretty_name_p;
+> >
+> > -       get_pretty_name(is_function(fromsym),
+> > -                       &from_pretty_name, &from_pretty_name_p);
+> >         get_pretty_name(is_function(tosym),
+> >                         &to_pretty_name, &to_pretty_name_p);
+> >
+> > -       warn("%s(%s+0x%lx): Section mismatch in reference from the %s %=
+s%s to the %s %s:%s%s\n",
+> > -            modname, fromsec, (long)r->r_offset, from_pretty_name,
+> > -            fromsym_name, from_pretty_name_p,
+> > +       warn("%s(%s+0x%lx): Section mismatch in reference to the %s %s:=
+%s%s\n",
+> > +            modname, fromsec, (long)r->r_offset,
+> >              to_pretty_name, tosec, tosym_name, to_pretty_name_p);
+> >
+> >         if (!match(tosec, mismatch->bad_tosec) &&
+> > --
+> > 2.39.2
+> >
 >
 >
+> --
+> Thanks,
+> ~Nick Desaulniers
+
 
 
 --=20
