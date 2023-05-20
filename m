@@ -2,53 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE24870A851
-	for <lists+linux-kbuild@lfdr.de>; Sat, 20 May 2023 15:20:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52AEE70A853
+	for <lists+linux-kbuild@lfdr.de>; Sat, 20 May 2023 15:28:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231265AbjETNUg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 20 May 2023 09:20:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39410 "EHLO
+        id S229548AbjETN2Q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 20 May 2023 09:28:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230372AbjETNUf (ORCPT
+        with ESMTP id S229621AbjETN2P (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 20 May 2023 09:20:35 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E9EE185;
-        Sat, 20 May 2023 06:20:27 -0700 (PDT)
+        Sat, 20 May 2023 09:28:15 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2AE1128;
+        Sat, 20 May 2023 06:28:13 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 34A1461202;
-        Sat, 20 May 2023 13:20:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96CC3C433EF;
-        Sat, 20 May 2023 13:20:26 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5259B61202;
+        Sat, 20 May 2023 13:28:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD8C7C4339E;
+        Sat, 20 May 2023 13:28:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684588826;
-        bh=dRRmQ6Y4HWULY62shVdUhCkQLcBFMPcWXifxi8UXuKA=;
+        s=k20201202; t=1684589291;
+        bh=D1DRMMnBqO3s2bF0AUZ/SXa9AN919Eu79bFBS9fXRL4=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=gPWRiqmeFBMpBvHF5Oi/S0ORsVPNAgNnaS6YDMaS6HMnzhAJcMUBjEFkylhM3959+
-         RQ75jj7azcw0f0gMgDTA8JWld9o743zISUnqUGN859wsklORSE/zV9xK6cy29NL1hV
-         zw9LZ44z8Y7Ohdz5EDroQOIqpbtM9FFX4d78F2jIvuk12cQbi5OfO9q6K22KwD4Cym
-         C72rc/dLoNnMtYB2smfEI2CJCtb8GAbhsxeuYFCTUPK1juZoaandc1uH86IKFZ/xsf
-         +W13ZeqoJ/gphz7iYpd28QfHSyN/bUOs2lbJgANTNNxfWFB03n1ejMR8vqV6zwpLEh
-         rNQ1pkqtYop1A==
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3942cd86697so2415876b6e.0;
-        Sat, 20 May 2023 06:20:26 -0700 (PDT)
-X-Gm-Message-State: AC+VfDyeaT6qDq41tV66U7Q6Wir+KWNRjr25ABS3AGiI5lKa1yoW5SRs
-        oRHnCB668UEPQyq565QpyT3dRP6p2ZR1GzXRFVo=
-X-Google-Smtp-Source: ACHHUZ4OIynnymrUbFwL6tNR3IEfg0Y5SqGGWfkdSe2tNrwhBkwARi2+vEnIddmQPHt/Z3Gig4XqFZHTLGfJY0zZXUk=
-X-Received: by 2002:aca:1215:0:b0:38d:f794:26c with SMTP id
- 21-20020aca1215000000b0038df794026cmr2992239ois.56.1684588825816; Sat, 20 May
- 2023 06:20:25 -0700 (PDT)
+        b=fpkVru1/iK8sE1HPxW5HncmW8RJ0dTiRzmoq14gNXNRC0aajp435Nf6xzVtQXIaOn
+         v9FgKvYtr00WXrZgQRHS/U1OSKu7dnyVrlCaaEGwaSq/ON/K3mfi8LaVpl8u9mKLlj
+         dSqP0+n4R5L6OlcASrbYRbhdS1xitDllRtcBa9sjhiiH5KdBKbycC2/xR38GrSlUJm
+         /M8fs+pMxYM3eMbtl42Wcvgl4Fm17avuMsgldaZVPmYKVIN3Il8IsDBEpyZq94RNnK
+         XYsYAqAY55Q0JACy3zOyPyLp8KqEjGhaMfYT5g65DGGPWDniAtF2wz2wx90EryfrO3
+         5pAz2ms3bpTQQ==
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-6aaef8ca776so1635751a34.2;
+        Sat, 20 May 2023 06:28:11 -0700 (PDT)
+X-Gm-Message-State: AC+VfDzGpO3jB5yWr7em2XdghaUhIQdT5JjJEXqDsqMKniWeUpYY5l6B
+        Ll52KVxu7AKJ37tzhohoKZ8TI1Zu2iVUm3dN/+0=
+X-Google-Smtp-Source: ACHHUZ5vyYZ7PHmjUxElKYg/VjLRTndtq3XJw3Wit+H45s1Re2lSNN0CCE7ie9FIq5LsEG2R2LA0qpoTeJqABu8upJo=
+X-Received: by 2002:a05:6808:193:b0:394:4912:3367 with SMTP id
+ w19-20020a056808019300b0039449123367mr2694813oic.45.1684589290899; Sat, 20
+ May 2023 06:28:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230514152739.962109-1-masahiroy@kernel.org> <20230514152739.962109-7-masahiroy@kernel.org>
- <CAKwvOdkQex2H4iDLE-D=4_vFebhB86aya6zPEB8rhaQy-HwspQ@mail.gmail.com>
-In-Reply-To: <CAKwvOdkQex2H4iDLE-D=4_vFebhB86aya6zPEB8rhaQy-HwspQ@mail.gmail.com>
+References: <20230514152739.962109-1-masahiroy@kernel.org> <20230514152739.962109-11-masahiroy@kernel.org>
+ <CAKwvOdmA1q1ojTWq79VK4HJqKfMHA=8VB9q61xJoKyYsegv3tg@mail.gmail.com>
+In-Reply-To: <CAKwvOdmA1q1ojTWq79VK4HJqKfMHA=8VB9q61xJoKyYsegv3tg@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 20 May 2023 22:19:49 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAToX+G_9wkmSziU-YZeg9wc2mOGwD-1R-Txrinba4c8RQ@mail.gmail.com>
-Message-ID: <CAK7LNAToX+G_9wkmSziU-YZeg9wc2mOGwD-1R-Txrinba4c8RQ@mail.gmail.com>
-Subject: Re: [PATCH v5 06/21] modpost: clean up is_executable_section()
+Date:   Sat, 20 May 2023 22:27:34 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ3KO1BY5Nq6uhHQGm_eOVNvk206A-s5pSguTO3ykLUng@mail.gmail.com>
+Message-ID: <CAK7LNAQ3KO1BY5Nq6uhHQGm_eOVNvk206A-s5pSguTO3ykLUng@mail.gmail.com>
+Subject: Re: [PATCH v5 10/21] modpost: rename find_elf_symbol() and find_elf_symbol2()
 To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
@@ -56,8 +56,8 @@ Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -66,95 +66,85 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, May 18, 2023 at 6:10=E2=80=AFAM Nick Desaulniers
+On Thu, May 18, 2023 at 6:14=E2=80=AFAM Nick Desaulniers
 <ndesaulniers@google.com> wrote:
 >
 > On Sun, May 14, 2023 at 8:28=E2=80=AFAM Masahiro Yamada <masahiroy@kernel=
 .org> wrote:
 > >
-> > SHF_EXECINSTR is a bit flag (#define SHF_EXECINSTR 0x4).
-> > Compare the masked flag to '!=3D 0'.
+> > find_elf_symbol() and find_elf_symbol2() are not good names.
 > >
-> > There is no good reason to stop modpost immediately even if a special
-> > section index is given. You will get a section mismatch error anyway.
-> >
-> > Also, change the return type to bool.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > Rename them to find_tosym(), find_fromsym(), respectively.
 >
-> Moving the definition and renaming the parameter seems very
-> unnecessary, but whatever. Thanks for the patch!
+> The comments maybe could be updated, too. The end of the comment looks
+> wrong for both.
 
 
-Moving the definition _is_ necessary.
+What do you mean?
 
-See the next patch, which moves the call-site of
-is_executable_section().
-
-The definition must come before the caller.
-
-
-
-The current code exceeds 80-cols per line.
-
-I renamed the parameters so that the lines
-fit within 80-cols without wrapping.
+Please tell me which part should be changed, and how.
 
 
 
 
 
+
+> Thanks for the patch!
 > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 >
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > > ---
 > >
-> >  scripts/mod/modpost.c | 16 ++++++++--------
-> >  1 file changed, 8 insertions(+), 8 deletions(-)
+> > Changes in v5:
+> >   - Change the names
+> >
+> >  scripts/mod/modpost.c | 12 ++++++------
+> >  1 file changed, 6 insertions(+), 6 deletions(-)
 > >
 > > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > index bb7d1d87bae7..0bda2f22c985 100644
+> > index 3b7b78e69137..0d2c2aff2c03 100644
 > > --- a/scripts/mod/modpost.c
 > > +++ b/scripts/mod/modpost.c
-> > @@ -1207,6 +1207,14 @@ static Elf_Sym *find_elf_symbol2(struct elf_info=
- *elf, Elf_Addr addr,
-> >         return near;
-> >  }
+> > @@ -1124,8 +1124,8 @@ static inline int is_valid_name(struct elf_info *=
+elf, Elf_Sym *sym)
+> >   * In other cases the symbol needs to be looked up in the symbol table
+> >   * based on section and address.
+> >   *  **/
+> > -static Elf_Sym *find_elf_symbol(struct elf_info *elf, Elf64_Sword addr=
+,
+> > -                               Elf_Sym *relsym)
+> > +static Elf_Sym *find_tosym(struct elf_info *elf, Elf64_Sword addr,
+> > +                          Elf_Sym *relsym)
+> >  {
+> >         Elf_Sym *sym;
+> >         Elf_Sym *near =3D NULL;
+> > @@ -1168,8 +1168,8 @@ static Elf_Sym *find_elf_symbol(struct elf_info *=
+elf, Elf64_Sword addr,
+> >   * The ELF format may have a better way to detect what type of symbol
+> >   * it is, but this works for now.
+> >   **/
+> > -static Elf_Sym *find_elf_symbol2(struct elf_info *elf, Elf_Addr addr,
+> > -                                unsigned int secndx)
+> > +static Elf_Sym *find_fromsym(struct elf_info *elf, Elf_Addr addr,
+> > +                            unsigned int secndx)
+> >  {
+> >         Elf_Sym *sym;
+> >         Elf_Sym *near =3D NULL;
+> > @@ -1207,10 +1207,10 @@ static void default_mismatch_handler(const char=
+ *modname, struct elf_info *elf,
+> >         const char *tosym;
+> >         const char *fromsym;
 > >
-> > +static bool is_executable_section(struct elf_info *elf, unsigned int s=
-ecndx)
-> > +{
-> > +       if (secndx > elf->num_sections)
-> > +               return false;
-> > +
-> > +       return (elf->sechdrs[secndx].sh_flags & SHF_EXECINSTR) !=3D 0;
-> > +}
-> > +
-> >  static void default_mismatch_handler(const char *modname, struct elf_i=
-nfo *elf,
-> >                                      const struct sectioncheck* const m=
-ismatch,
-> >                                      Elf_Rela *r, Elf_Sym *sym, const c=
-har *fromsec)
-> > @@ -1252,14 +1260,6 @@ static void default_mismatch_handler(const char =
-*modname, struct elf_info *elf,
-> >         }
-> >  }
+> > -       from =3D find_elf_symbol2(elf, r->r_offset, fsecndx);
+> > +       from =3D find_fromsym(elf, r->r_offset, fsecndx);
+> >         fromsym =3D sym_name(elf, from);
 > >
-> > -static int is_executable_section(struct elf_info* elf, unsigned int se=
-ction_index)
-> > -{
-> > -       if (section_index > elf->num_sections)
-> > -               fatal("section_index is outside elf->num_sections!\n");
-> > -
-> > -       return ((elf->sechdrs[section_index].sh_flags & SHF_EXECINSTR) =
-=3D=3D SHF_EXECINSTR);
-> > -}
-> > -
-> >  static void extable_mismatch_handler(const char* modname, struct elf_i=
-nfo *elf,
-> >                                      const struct sectioncheck* const m=
-ismatch,
-> >                                      Elf_Rela* r, Elf_Sym* sym,
+> > -       to =3D find_elf_symbol(elf, r->r_addend, sym);
+> > +       to =3D find_tosym(elf, r->r_addend, sym);
+> >         tosym =3D sym_name(elf, to);
+> >
+> >         /* check whitelist - we may ignore it */
 > > --
 > > 2.39.2
 > >
