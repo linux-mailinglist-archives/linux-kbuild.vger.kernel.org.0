@@ -2,63 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B2CF270ADB3
-	for <lists+linux-kbuild@lfdr.de>; Sun, 21 May 2023 13:47:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB7D570AE2B
+	for <lists+linux-kbuild@lfdr.de>; Sun, 21 May 2023 15:12:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229794AbjEULrJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 21 May 2023 07:47:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43950 "EHLO
+        id S229497AbjEUNMj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 21 May 2023 09:12:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231898AbjEULqF (ORCPT
+        with ESMTP id S229481AbjEUNM1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 21 May 2023 07:46:05 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68BAE18F;
-        Sun, 21 May 2023 04:17:01 -0700 (PDT)
+        Sun, 21 May 2023 09:12:27 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF43CD2;
+        Sun, 21 May 2023 06:12:26 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E2C716147A;
-        Sun, 21 May 2023 11:17:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47639C4339B;
-        Sun, 21 May 2023 11:17:00 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5F99061213;
+        Sun, 21 May 2023 13:12:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9F21C433EF;
+        Sun, 21 May 2023 13:12:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684667820;
-        bh=oXwvhxYmXD40/yjCvSkTkZwbE0tn28YyZYrBXJtZc+0=;
+        s=k20201202; t=1684674745;
+        bh=5osWxdwPx60PnNZ3bXxJWoLfr3s7lo3UzwnKiZV/e98=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=bP5iPUJUmzbQpyH29R8A2+C7USZY/pXLu2hEf8jck6hUGECaTptPUwg+4JvzY/UXk
-         EiNJ6BrPzJV/S6PNiFG2YDei3T+5U6zT0RLK1RIrN59quiZxFCmrz9YW87Hckp/7ta
-         MF6vckvtDFcHCA4clSIRbihkNvL0vKvmFUtkW+GduHEioiNxObaPWB7Ax/WdHPBebD
-         GI8MaD7RQBBFFl4pmyNucYyNmRAVpFtJkVAsLVzQwbuwc2X0VWWKek4Yfnmbr23CE5
-         Y138AQY47kAtAteK0D72LuX1/nK5tupoECGK6M0KlzxsZoLG6g8dw2sYVg8sWYHHid
-         oIBToRCU8lvlw==
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5527456ede6so2390586eaf.3;
-        Sun, 21 May 2023 04:17:00 -0700 (PDT)
-X-Gm-Message-State: AC+VfDxKYz02kzbcdAzcNIen8+KxpTPrfep9DMX5O0WRPuGw9zQDZn1p
-        WZivM0jhxlDzNX3dbBJfZuI8bJ2zX2fR/jbcei8=
-X-Google-Smtp-Source: ACHHUZ6PGzg0eqaif3me5Nt1Fh731/EEV7EqAVTctdgV4bm+DhKI3Bsu0xT6KKyWaruU6wFpwMPs8uXL7sTmIIpzrMA=
-X-Received: by 2002:aca:1e17:0:b0:38d:f298:6cfc with SMTP id
- m23-20020aca1e17000000b0038df2986cfcmr4495096oic.0.1684667819560; Sun, 21 May
- 2023 04:16:59 -0700 (PDT)
+        b=sd53AVXzPB7VRwxDZr5f/H8KpE4s9copE2WxhdfezXQl+y3MrH1VxEessQIt3wqOA
+         S+eQGpBMFeiBQ7jSHxFDtf2FxXWFm0cM1kvDFjswwBNajLeOxgy/gX3GKHwPJor93B
+         7joYkPl6ELb7HA3on0wwhVXBsbVIvEhkS7QNVPBOYpPu+upD+ASPJtvL48cc3CPjeh
+         DA0Khf2Lm4+oyg8TTeud0bDpBpJ9re4+Xjt2ANCgMzL7F8ai7CrVn1lGIVtMwD83AP
+         ISdhLIC/qrEbUbgvavEzSV7pRmrnkpycjpm5HbqRohL34LMjUekmnLNnJxibI2mVuK
+         qOcmwja1KcZPA==
+Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-54fd177fbd4so2464034eaf.3;
+        Sun, 21 May 2023 06:12:25 -0700 (PDT)
+X-Gm-Message-State: AC+VfDxVY3M+pWRCcGKgw19q1CNfvs9dmjXi2UmGC3jzD7d6mvJ5lP1g
+        JT/nwim6w4l2lmWkhDi4XQ3enbgy3oItFBPcSqY=
+X-Google-Smtp-Source: ACHHUZ5dNnhg7fL/+DFlc6lUze5i8Y14NPnnmvFWkfYxGox9e9+TCvJL88+y2ASvH89eQUEP73xDQbhF5q6WHHQyvAw=
+X-Received: by 2002:a4a:9c50:0:b0:54f:b59c:256a with SMTP id
+ c16-20020a4a9c50000000b0054fb59c256amr3772159ook.4.1684674744986; Sun, 21 May
+ 2023 06:12:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230515005419.1293357-1-masahiroy@kernel.org> <CAKwvOdkMYKhm1gaDGxqa=J136J1=+vSv=fEVYNJR430Px5Qy6A@mail.gmail.com>
-In-Reply-To: <CAKwvOdkMYKhm1gaDGxqa=J136J1=+vSv=fEVYNJR430Px5Qy6A@mail.gmail.com>
+References: <20230511162423.1922133-1-masahiroy@kernel.org>
+In-Reply-To: <20230511162423.1922133-1-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 21 May 2023 20:16:23 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARvKhuWWTcvDj-TWw3yFG-kk_qLyfY44nTeP9bYVHNj-Q@mail.gmail.com>
-Message-ID: <CAK7LNARvKhuWWTcvDj-TWw3yFG-kk_qLyfY44nTeP9bYVHNj-Q@mail.gmail.com>
-Subject: Re: [PATCH] modpost: fix section mismatch message for R_ARM_ABS32
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Russell King <linux@armlinux.org.uk>,
+Date:   Sun, 21 May 2023 22:11:48 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARNVu_HMH7MRm5t2d+uMfpsYki7FWhZeF7+nDVtPEo_Yw@mail.gmail.com>
+Message-ID: <CAK7LNARNVu_HMH7MRm5t2d+uMfpsYki7FWhZeF7+nDVtPEo_Yw@mail.gmail.com>
+Subject: Re: [PATCH] modpost: error out if addend_*_rel() is not implemented
+ for REL arch
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Sam Ravnborg <sam@ravnborg.org>
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -67,122 +66,47 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, May 18, 2023 at 6:41=E2=80=AFAM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On Fri, May 12, 2023 at 1:25=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
 >
-> On Sun, May 14, 2023 at 5:54=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
-.org> wrote:
-> >
-> > The section mismatch check does not show proper warning messages for AR=
-M.
-> >
-> > Here, very simple test code.
-> >
-> >     #include <linux/init.h>
-> >
-> >     static int __initdata foo;
-> >
-> >     void set_foo(int x)
-> >     {
-> >             foo =3D x;
-> >     }
-> >
-> >     int get_foo(int x)
-> >     {
-> >             return foo;
-> >     }
-> >
-> > If I compile it for ARM, modpost does not show the symbol name.
-> >
-> >   WARNING: modpost: vmlinux.o: section mismatch in reference: set_foo (=
-section: .text) -> (unknown) (section: .init.data)
-> >   WARNING: modpost: vmlinux.o: section mismatch in reference: get_foo (=
-section: .text) -> (unknown) (section: .init.data)
-> >
-> > If I compile it for other architectures, modpost shows the correct symb=
-ol name.
-> >
-> >   WARNING: modpost: vmlinux.o: section mismatch in reference: set_foo (=
-section: .text) -> foo (section: .init.data)
-> >   WARNING: modpost: vmlinux.o: section mismatch in reference: get_foo (=
-section: .text) -> foo (section: .init.data)
-> >
-> > For R_ARM_ABS32, addend_arm_rel() sets r->r_addend to a wrong value.
-> >
-> > arch/arm/kernel/module.c handles R_ARM_ABS32 as follows:
-> >
-> >         case R_ARM_ABS32:
-> >         case R_ARM_TARGET1:
-> >                 *(u32 *)loc +=3D sym->st_value;
-> >
-> > I just mimicked it in modpost.
-> >
-> > Fixes: 56a974fa2d59 ("kbuild: make better section mismatch reports on a=
-rm")
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  scripts/mod/modpost.c | 7 ++++---
-> >  1 file changed, 4 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > index d4531d09984d..c93780d93caf 100644
-> > --- a/scripts/mod/modpost.c
-> > +++ b/scripts/mod/modpost.c
-> > @@ -1460,12 +1460,13 @@ static int addend_386_rel(struct elf_info *elf,=
- Elf_Shdr *sechdr, Elf_Rela *r)
-> >  static int addend_arm_rel(struct elf_info *elf, Elf_Shdr *sechdr, Elf_=
-Rela *r)
-> >  {
-> >         unsigned int r_typ =3D ELF_R_TYPE(r->r_info);
-> > +       unsigned int *location =3D reloc_location(elf, sechdr, r);
+> The section mismatch check relies on the relocation entries.
 >
-> If `location` is only used in one case of the switch, consider
-> computing `location` only in that case.
+> For REL, the addend value is implicit, so we need some code to compute
+> it. Currently, EM_386, EM_ARM, and EM_MIPS are supported. This commit
+> makes sure we covered all the cases.
+>
+> I believe the other architectures use RELA, where the explicit r_addend
+> field exists.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
 
-
-I really suspect the other case labels are also wrong.
-
-For example, see R_ARM_PC24 in arch/arm/kernel/module.c
-
-The offset is encoded in the instruction.
-If you can compute the addend without reading the instruction,
-I do not know how.
-
-Anyway, I will fix another breakage.
-It will need 'location' as well.
-
-
-
-
-
-
+Applied to linux-kbuild.
 
 
 
 >
-> > +       Elf_Sym *sym;
-> >
-> >         switch (r_typ) {
-> >         case R_ARM_ABS32:
-> > -               /* From ARM ABI: (S + A) | T */
-> > -               r->r_addend =3D (int)(long)
-> > -                             (elf->symtab_start + ELF_R_SYM(r->r_info)=
-);
-> > +               sym =3D elf->symtab_start + ELF_R_SYM(r->r_info);
-> > +               r->r_addend =3D TO_NATIVE(*location) + sym->st_value;
-> >                 break;
-> >         case R_ARM_PC24:
-> >         case R_ARM_CALL:
-> > --
-> > 2.39.2
-> >
+>  scripts/mod/modpost.c | 2 ++
+>  1 file changed, 2 insertions(+)
 >
->
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 95da374cc534..44309d463a49 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -1442,6 +1442,8 @@ static void section_rel(const char *modname, struct=
+ elf_info *elf,
+>                         if (addend_mips_rel(elf, sechdr, &r))
+>                                 continue;
+>                         break;
+> +               default:
+> +                       fatal("Please add code to calculate addend for th=
+is architecture\n");
+>                 }
+>                 sym =3D elf->symtab_start + r_sym;
+>                 /* Skip special sections */
 > --
-> Thanks,
-> ~Nick Desaulniers
-
+> 2.39.2
+>
 
 
 --=20
