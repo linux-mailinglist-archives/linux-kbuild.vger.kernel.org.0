@@ -2,57 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB7D570AE2B
-	for <lists+linux-kbuild@lfdr.de>; Sun, 21 May 2023 15:12:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46AE470AE34
+	for <lists+linux-kbuild@lfdr.de>; Sun, 21 May 2023 15:29:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229497AbjEUNMj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 21 May 2023 09:12:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35016 "EHLO
+        id S230340AbjEUN2J (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 21 May 2023 09:28:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229481AbjEUNM1 (ORCPT
+        with ESMTP id S231230AbjEUN2D (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 21 May 2023 09:12:27 -0400
+        Sun, 21 May 2023 09:28:03 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF43CD2;
-        Sun, 21 May 2023 06:12:26 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4443110D3;
+        Sun, 21 May 2023 06:15:40 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5F99061213;
-        Sun, 21 May 2023 13:12:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9F21C433EF;
-        Sun, 21 May 2023 13:12:25 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CBAC56112B;
+        Sun, 21 May 2023 13:15:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CF0BC433EF;
+        Sun, 21 May 2023 13:15:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684674745;
-        bh=5osWxdwPx60PnNZ3bXxJWoLfr3s7lo3UzwnKiZV/e98=;
+        s=k20201202; t=1684674939;
+        bh=ClMpGWn7trOjyJnYdLlaH16LRphJd8dVTqjlNt6sTkM=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=sd53AVXzPB7VRwxDZr5f/H8KpE4s9copE2WxhdfezXQl+y3MrH1VxEessQIt3wqOA
-         S+eQGpBMFeiBQ7jSHxFDtf2FxXWFm0cM1kvDFjswwBNajLeOxgy/gX3GKHwPJor93B
-         7joYkPl6ELb7HA3on0wwhVXBsbVIvEhkS7QNVPBOYpPu+upD+ASPJtvL48cc3CPjeh
-         DA0Khf2Lm4+oyg8TTeud0bDpBpJ9re4+Xjt2ANCgMzL7F8ai7CrVn1lGIVtMwD83AP
-         ISdhLIC/qrEbUbgvavEzSV7pRmrnkpycjpm5HbqRohL34LMjUekmnLNnJxibI2mVuK
-         qOcmwja1KcZPA==
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-54fd177fbd4so2464034eaf.3;
-        Sun, 21 May 2023 06:12:25 -0700 (PDT)
-X-Gm-Message-State: AC+VfDxVY3M+pWRCcGKgw19q1CNfvs9dmjXi2UmGC3jzD7d6mvJ5lP1g
-        JT/nwim6w4l2lmWkhDi4XQ3enbgy3oItFBPcSqY=
-X-Google-Smtp-Source: ACHHUZ5dNnhg7fL/+DFlc6lUze5i8Y14NPnnmvFWkfYxGox9e9+TCvJL88+y2ASvH89eQUEP73xDQbhF5q6WHHQyvAw=
-X-Received: by 2002:a4a:9c50:0:b0:54f:b59c:256a with SMTP id
- c16-20020a4a9c50000000b0054fb59c256amr3772159ook.4.1684674744986; Sun, 21 May
- 2023 06:12:24 -0700 (PDT)
+        b=Q0TA937RalbFAr+HiwKrhuEfYt9bx/pYrOXaZH6Cb8JHyDUDa0rYh82tiTJs+6Ozk
+         mV3608K/KMv7HktdwGu3JowzTwUMsgOuGtdLbFIJkz26ue+Ys/RRip2Ij9S30/D2UQ
+         4Pk9/wzU6W6DvGoNJ24FI6wK2OK/fVV33faOWw5OPDc48Y8r0YrDXTPhQFawP/0r7d
+         oB14+HhCn2b2xYrPluXbXYIH1oS+/uVY8d8ajUDntDxneRnLzPbHVexIvQL8iNP/sx
+         xPR8t3GVfe1LZ+FNcRNI6bcH8dAADzKKJO6nTBpwsE2wgxobmxJMA316dgYJDmbADW
+         9MWKnlr6vjduA==
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-6af6df840ffso528844a34.1;
+        Sun, 21 May 2023 06:15:39 -0700 (PDT)
+X-Gm-Message-State: AC+VfDyUUSTmHf04GPF5bdg22HAmqoJr1mFxiMHc578Ds4EKbL4Kp3Lz
+        by70n+hxB4Kuev3brw8CU1vLrhhCzwdwTDMjso4=
+X-Google-Smtp-Source: ACHHUZ6tnEh6kpdE1EV1jUGjruspnEfgKuBW9p4Wl9F3ecFIEHjOL9BuWDU+4mzCESA8DHClFFoPFqj60wqByfPP2DE=
+X-Received: by 2002:aca:1218:0:b0:397:f912:9299 with SMTP id
+ 24-20020aca1218000000b00397f9129299mr936663ois.25.1684674938459; Sun, 21 May
+ 2023 06:15:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230511162423.1922133-1-masahiroy@kernel.org>
-In-Reply-To: <20230511162423.1922133-1-masahiroy@kernel.org>
+References: <20230514152739.962109-1-masahiroy@kernel.org>
+In-Reply-To: <20230514152739.962109-1-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 21 May 2023 22:11:48 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARNVu_HMH7MRm5t2d+uMfpsYki7FWhZeF7+nDVtPEo_Yw@mail.gmail.com>
-Message-ID: <CAK7LNARNVu_HMH7MRm5t2d+uMfpsYki7FWhZeF7+nDVtPEo_Yw@mail.gmail.com>
-Subject: Re: [PATCH] modpost: error out if addend_*_rel() is not implemented
- for REL arch
+Date:   Sun, 21 May 2023 22:15:02 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARBiOywrMLbR=9N35sk19U0QM3xcPy7d1WqV-eyb4W23w@mail.gmail.com>
+Message-ID: <CAK7LNARBiOywrMLbR=9N35sk19U0QM3xcPy7d1WqV-eyb4W23w@mail.gmail.com>
+Subject: Re: [PATCH v5 00/21] Unify <linux/export.h> and <asm/export.h>,
+ remove EXPORT_DATA_SYMBOL(), faster TRIM_UNUSED_KSYMS
 To:     linux-kbuild@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Pitre <npitre@baylibre.com>,
         Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -66,44 +67,94 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, May 12, 2023 at 1:25=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
+On Mon, May 15, 2023 at 12:27=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.=
+org> wrote:
 >
-> The section mismatch check relies on the relocation entries.
 >
-> For REL, the addend value is implicit, so we need some code to compute
-> it. Currently, EM_386, EM_ARM, and EM_MIPS are supported. This commit
-> makes sure we covered all the cases.
+> This patch set refactors modpost first to make it easier to
+> add new code.
 >
-> I believe the other architectures use RELA, where the explicit r_addend
-> field exists.
+> My goals:
 >
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
+>  - Refactors EXPORT_SYMBOL, <linux/export.h> and <asm/export.h>.
+>    You can still put EXPORT_SYMBOL() in *.S file, very close to the defin=
+ition,
+>    but you do not need to care about whether it is a function or a data.
+>    This removes EXPORT_DATA_SYMBOL().
+>
+>  - Re-implement TRIM_UNUSED_KSYMS in one-pass.
+>    This makes the building faster.
+>
+>  - Move the static EXPORT_SYMBOL check to modpost.
+>    This also makes the building faster.
+>
+> Previous version
+> v4: https://lore.kernel.org/linux-kbuild/CAK7LNASDzy9RERN6+q6WgR4ROYZQue=
+=3DSBqgbcoYuVePByHtk6Q@mail.gmail.com/T/#t
+> v3: https://lore.kernel.org/all/20220928063947.299333-1-masahiroy@kernel.=
+org/
+>
 
-Applied to linux-kbuild.
+
+01-10 applied to linux-kbuild.
+
+I will send v6 for the rest.
 
 
 
 >
->  scripts/mod/modpost.c | 2 ++
->  1 file changed, 2 insertions(+)
+> Masahiro Yamada (21):
+>   modpost: remove broken calculation of exception_table_entry size
+>   modpost: remove fromsym info in __ex_table section mismatch warning
+>   modpost: remove get_prettyname()
+>   modpost: squash report_extable_warnings() into
+>     extable_mismatch_handler()
+>   modpost: squash report_sec_mismatch() into default_mismatch_handler()
+>   modpost: clean up is_executable_section()
+>   modpost: squash extable_mismatch_handler() into
+>     default_mismatch_handler()
+>   modpost: pass 'tosec' down to default_mismatch_handler()
+>   modpost: pass section index to find_elf_symbol2()
+>   modpost: rename find_elf_symbol() and find_elf_symbol2()
+>   modpost: modpost: refactor find_fromsym() and find_tosym()
+>   modpost: unify 'sym' and 'to' in default_mismatch_handler()
+>   modpost: replace r->r_offset, r->r_addend with faddr, taddr
+>   modpost: remove is_shndx_special() check from section_rel(a)
+>   modpost: pass struct module pointer to check_section_mismatch()
+>   kbuild: generate KSYMTAB entries by modpost
+>   ia64,export.h: replace EXPORT_DATA_SYMBOL* with EXPORT_SYMBOL*
+>   modpost: check static EXPORT_SYMBOL* by modpost again
+>   modpost: squash sym_update_namespace() into sym_add_exported()
+>   modpost: use null string instead of NULL pointer for default namespace
+>   kbuild: implement CONFIG_TRIM_UNUSED_KSYMS without recursion
 >
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 95da374cc534..44309d463a49 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -1442,6 +1442,8 @@ static void section_rel(const char *modname, struct=
- elf_info *elf,
->                         if (addend_mips_rel(elf, sechdr, &r))
->                                 continue;
->                         break;
-> +               default:
-> +                       fatal("Please add code to calculate addend for th=
-is architecture\n");
->                 }
->                 sym =3D elf->symtab_start + r_sym;
->                 /* Skip special sections */
+>  .gitignore                        |   1 -
+>  Makefile                          |  19 +-
+>  arch/ia64/include/asm/Kbuild      |   1 +
+>  arch/ia64/include/asm/export.h    |   3 -
+>  arch/ia64/kernel/head.S           |   2 +-
+>  arch/ia64/kernel/ivt.S            |   2 +-
+>  include/asm-generic/export.h      |  83 +----
+>  include/asm-generic/vmlinux.lds.h |   1 +
+>  include/linux/export-internal.h   |  49 +++
+>  include/linux/export.h            | 119 ++-----
+>  include/linux/pm.h                |   8 +-
+>  kernel/module/internal.h          |  12 +
+>  scripts/Makefile.build            |  19 +-
+>  scripts/Makefile.modpost          |   7 +
+>  scripts/adjust_autoksyms.sh       |  73 ----
+>  scripts/basic/fixdep.c            |   3 +-
+>  scripts/check-local-export        |  70 ----
+>  scripts/gen_ksymdeps.sh           |  30 --
+>  scripts/mod/modpost.c             | 561 ++++++++++++------------------
+>  scripts/mod/modpost.h             |   1 +
+>  scripts/remove-stale-files        |   2 +
+>  21 files changed, 343 insertions(+), 723 deletions(-)
+>  delete mode 100644 arch/ia64/include/asm/export.h
+>  delete mode 100755 scripts/adjust_autoksyms.sh
+>  delete mode 100755 scripts/check-local-export
+>  delete mode 100755 scripts/gen_ksymdeps.sh
+>
 > --
 > 2.39.2
 >
