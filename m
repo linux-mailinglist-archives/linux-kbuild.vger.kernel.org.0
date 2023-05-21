@@ -2,179 +2,186 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E4D1270AB99
-	for <lists+linux-kbuild@lfdr.de>; Sun, 21 May 2023 00:41:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2CF270ADB3
+	for <lists+linux-kbuild@lfdr.de>; Sun, 21 May 2023 13:47:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230039AbjETWlw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 20 May 2023 18:41:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58124 "EHLO
+        id S229794AbjEULrJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 21 May 2023 07:47:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229621AbjETWlv (ORCPT
+        with ESMTP id S231898AbjEULqF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 20 May 2023 18:41:51 -0400
+        Sun, 21 May 2023 07:46:05 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B02ACDE;
-        Sat, 20 May 2023 15:41:50 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68BAE18F;
+        Sun, 21 May 2023 04:17:01 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4B73560C3C;
-        Sat, 20 May 2023 22:41:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5CE2C433EF;
-        Sat, 20 May 2023 22:41:49 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E2C716147A;
+        Sun, 21 May 2023 11:17:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47639C4339B;
+        Sun, 21 May 2023 11:17:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684622509;
-        bh=uoMxow7xFBBRRvshKvrIaPvVPMHtBi6h9O2RJF+yIQA=;
+        s=k20201202; t=1684667820;
+        bh=oXwvhxYmXD40/yjCvSkTkZwbE0tn28YyZYrBXJtZc+0=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=UNLYWE6OrxkNb/F3fYYUELjZEWqr71e65cwbS36XIMBrM/El6pHDcXTRCYttbaeTN
-         Wz/+b3JevKDHS424vwjctXtpOgxNdLj/a3cPVdySMrBr9cgl7LJoTkWIFQdCZ/Yf/f
-         Vu9sYuemDxosbs7c45T70Kfrl0IWdIFqN3RnQP+BwhneTpPu+wX6ckowcPzdWGwCa3
-         lliab0u+W1dU0quQAmAKlu880cqaJwptvEopyqgiP51Dk6ojwyQH6a4pPyyaSoVzoq
-         /5r/8sWCQB8jfUcmRgEmYQiNwOk6HITbw0vse1zLWrjI2+va1vY3HYq7UL3IqJ7fHs
-         vqfkoWUC7z/dg==
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-19a08412723so3785445fac.0;
-        Sat, 20 May 2023 15:41:49 -0700 (PDT)
-X-Gm-Message-State: AC+VfDzztbbH/9vMQIHoWe+7wo8MlNo2bXHPwDAZU0I6jjJZeRtZLr/R
-        pk2ER89dNuO7IRKDa7Is3sXi5vUBU/QlPiG2fl8=
-X-Google-Smtp-Source: ACHHUZ7UPfw2OIS0jUpr+b1VZVpyh0jql89BYNScfEw2Su3I8HM3zYJ3+zXIiIUkPBuEdQ+6zIUAlJSuxDuOSL6ZyZc=
-X-Received: by 2002:a05:6870:90c2:b0:18e:b6d5:7451 with SMTP id
- s2-20020a05687090c200b0018eb6d57451mr3979310oab.13.1684622508953; Sat, 20 May
- 2023 15:41:48 -0700 (PDT)
+        b=bP5iPUJUmzbQpyH29R8A2+C7USZY/pXLu2hEf8jck6hUGECaTptPUwg+4JvzY/UXk
+         EiNJ6BrPzJV/S6PNiFG2YDei3T+5U6zT0RLK1RIrN59quiZxFCmrz9YW87Hckp/7ta
+         MF6vckvtDFcHCA4clSIRbihkNvL0vKvmFUtkW+GduHEioiNxObaPWB7Ax/WdHPBebD
+         GI8MaD7RQBBFFl4pmyNucYyNmRAVpFtJkVAsLVzQwbuwc2X0VWWKek4Yfnmbr23CE5
+         Y138AQY47kAtAteK0D72LuX1/nK5tupoECGK6M0KlzxsZoLG6g8dw2sYVg8sWYHHid
+         oIBToRCU8lvlw==
+Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5527456ede6so2390586eaf.3;
+        Sun, 21 May 2023 04:17:00 -0700 (PDT)
+X-Gm-Message-State: AC+VfDxKYz02kzbcdAzcNIen8+KxpTPrfep9DMX5O0WRPuGw9zQDZn1p
+        WZivM0jhxlDzNX3dbBJfZuI8bJ2zX2fR/jbcei8=
+X-Google-Smtp-Source: ACHHUZ6PGzg0eqaif3me5Nt1Fh731/EEV7EqAVTctdgV4bm+DhKI3Bsu0xT6KKyWaruU6wFpwMPs8uXL7sTmIIpzrMA=
+X-Received: by 2002:aca:1e17:0:b0:38d:f298:6cfc with SMTP id
+ m23-20020aca1e17000000b0038df2986cfcmr4495096oic.0.1684667819560; Sun, 21 May
+ 2023 04:16:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230509012616.81579-1-darwi@linutronix.de> <20230515173217.64864-1-darwi@linutronix.de>
-In-Reply-To: <20230515173217.64864-1-darwi@linutronix.de>
+References: <20230515005419.1293357-1-masahiroy@kernel.org> <CAKwvOdkMYKhm1gaDGxqa=J136J1=+vSv=fEVYNJR430Px5Qy6A@mail.gmail.com>
+In-Reply-To: <CAKwvOdkMYKhm1gaDGxqa=J136J1=+vSv=fEVYNJR430Px5Qy6A@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 21 May 2023 07:41:12 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASPnxnoUmzg43YDcCGP4uor=VO96bmZu3gh3av2BO9wOg@mail.gmail.com>
-Message-ID: <CAK7LNASPnxnoUmzg43YDcCGP4uor=VO96bmZu3gh3av2BO9wOg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/2] scripts: Resolve gtags empty index generation
-To:     "Ahmed S. Darwish" <darwi@linutronix.de>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
+Date:   Sun, 21 May 2023 20:16:23 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARvKhuWWTcvDj-TWw3yFG-kk_qLyfY44nTeP9bYVHNj-Q@mail.gmail.com>
+Message-ID: <CAK7LNARvKhuWWTcvDj-TWw3yFG-kk_qLyfY44nTeP9bYVHNj-Q@mail.gmail.com>
+Subject: Re: [PATCH] modpost: fix section mismatch message for R_ARM_ABS32
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Russell King <linux@armlinux.org.uk>,
+        Nathan Chancellor <nathan@kernel.org>,
         Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>
+        Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, May 16, 2023 at 2:33=E2=80=AFAM Ahmed S. Darwish <darwi@linutronix.=
-de> wrote:
+On Thu, May 18, 2023 at 6:41=E2=80=AFAM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
 >
-> Hi,
+> On Sun, May 14, 2023 at 5:54=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
+> >
+> > The section mismatch check does not show proper warning messages for AR=
+M.
+> >
+> > Here, very simple test code.
+> >
+> >     #include <linux/init.h>
+> >
+> >     static int __initdata foo;
+> >
+> >     void set_foo(int x)
+> >     {
+> >             foo =3D x;
+> >     }
+> >
+> >     int get_foo(int x)
+> >     {
+> >             return foo;
+> >     }
+> >
+> > If I compile it for ARM, modpost does not show the symbol name.
+> >
+> >   WARNING: modpost: vmlinux.o: section mismatch in reference: set_foo (=
+section: .text) -> (unknown) (section: .init.data)
+> >   WARNING: modpost: vmlinux.o: section mismatch in reference: get_foo (=
+section: .text) -> (unknown) (section: .init.data)
+> >
+> > If I compile it for other architectures, modpost shows the correct symb=
+ol name.
+> >
+> >   WARNING: modpost: vmlinux.o: section mismatch in reference: set_foo (=
+section: .text) -> foo (section: .init.data)
+> >   WARNING: modpost: vmlinux.o: section mismatch in reference: get_foo (=
+section: .text) -> foo (section: .init.data)
+> >
+> > For R_ARM_ABS32, addend_arm_rel() sets r->r_addend to a wrong value.
+> >
+> > arch/arm/kernel/module.c handles R_ARM_ABS32 as follows:
+> >
+> >         case R_ARM_ABS32:
+> >         case R_ARM_TARGET1:
+> >                 *(u32 *)loc +=3D sym->st_value;
+> >
+> > I just mimicked it in modpost.
+> >
+> > Fixes: 56a974fa2d59 ("kbuild: make better section mismatch reports on a=
+rm")
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  scripts/mod/modpost.c | 7 ++++---
+> >  1 file changed, 4 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> > index d4531d09984d..c93780d93caf 100644
+> > --- a/scripts/mod/modpost.c
+> > +++ b/scripts/mod/modpost.c
+> > @@ -1460,12 +1460,13 @@ static int addend_386_rel(struct elf_info *elf,=
+ Elf_Shdr *sechdr, Elf_Rela *r)
+> >  static int addend_arm_rel(struct elf_info *elf, Elf_Shdr *sechdr, Elf_=
+Rela *r)
+> >  {
+> >         unsigned int r_typ =3D ELF_R_TYPE(r->r_info);
+> > +       unsigned int *location =3D reloc_location(elf, sechdr, r);
 >
-> v3-changelog
-> ------------
->
-> Handle review remarks from Masahiro Yamada:
->
->   - Apply shellcheck on new "scripts/tags.sh" code.
->
->   - Shorten code through shell's "default value" parameter expansion.
->
-> NEW:
->
->   - Cc docs maintainer (Documentation/process/changes.rst change).
->
-> Thanks!
->
-> v2-changelog
-> ------------
->
-> https://lkml.kernel.org/r/20230509012616.81579-1-darwi@linutronix.de
->
-> Handle review remarks from Masahiro Yamada:
->
->   - scripts/tags.sh: remove the O=3D language, and focus on the general
->     case of the build directory being different from the kernel source
->     tree, as specified in kernel Makefile L159.
->
->   - Fix failure when build directory is a subdirectory of the kernel
->     source tree.
->
-> NEW:
->
->   - Update Documentation/process/changes.rst with new gtags (GNU GLOBAL)
->     requirements.
->
-> Thanks!
->
-> Cover letter / v1
-> -----------------
->
-> https://lkml.kernel.org/r/20230504201833.202494-1-darwi@linutronix.de
->
-> make gtags for O=3D kernel builds is currently broken. For example, when =
-doing:
->
->    make O=3D../build/ x86_64_defconfig
->    make O=3D../build/ gtags
->
-> gtags generates a warning for each kernel source file to be indexed:
->
->    make[1]: Entering directory '/home/darwi/build'
->      GEN     gtags
->    Warning: '/home/darwi/linux/arch/x86/include/asm/qspinlock.h' is out o=
-f source tree. ignored.
->    Warning: '/home/darwi/linux/arch/x86/include/asm/hpet.h' is out of sou=
-rce tree. ignored.
->    ...
->    Warning: '/home/darwi/linux/virt/lib/irqbypass.c' is out of source tre=
-e. ignored.
->    make[1]: Leaving directory '/home/darwi/build/'
->
-> and then generates an empty index:
->
->    $ du -hs ~/build/G*
->    16K  /home/darwi/build/GPATH
->    16K  /home/darwi/build/GRTAGS
->    16K  /home/darwi/build/GTAGS
->
-> This series includes a proposed fix. After applying it:
->
->    $ make O=3D../build/ gtags
->    make[1]: Entering directory '/home/darwi/build'
->      GEN     gtags
->    make[1]: Leaving directory '/home/darwi/build'
->
->    $ du -hs ~/build/G*
->    9.1M /home/darwi/build/GPATH
->    506M /home/darwi/build/GRTAGS
->    696M /home/darwi/build/GTAGS
->
-> The generated files can then be integrated with editors or IDEs as
-> usual.
->
-> =3D>
->
-> Ahmed S. Darwish (2):
->   scripts/tags.sh: Resolve gtags empty index generation
->   docs: Set minimal gtags / GNU GLOBAL version to 6.6.5
+> If `location` is only used in one case of the switch, consider
+> computing `location` only in that case.
 
 
-Both applied. Thanks.
+I really suspect the other case labels are also wrong.
+
+For example, see R_ARM_PC24 in arch/arm/kernel/module.c
+
+The offset is encoded in the instruction.
+If you can compute the addend without reading the instruction,
+I do not know how.
+
+Anyway, I will fix another breakage.
+It will need 'location' as well.
+
+
+
+
+
 
 
 
 
 >
->  Documentation/process/changes.rst | 7 +++++++
->  scripts/tags.sh                   | 9 ++++++++-
->  2 files changed, 15 insertions(+), 1 deletion(-)
+> > +       Elf_Sym *sym;
+> >
+> >         switch (r_typ) {
+> >         case R_ARM_ABS32:
+> > -               /* From ARM ABI: (S + A) | T */
+> > -               r->r_addend =3D (int)(long)
+> > -                             (elf->symtab_start + ELF_R_SYM(r->r_info)=
+);
+> > +               sym =3D elf->symtab_start + ELF_R_SYM(r->r_info);
+> > +               r->r_addend =3D TO_NATIVE(*location) + sym->st_value;
+> >                 break;
+> >         case R_ARM_PC24:
+> >         case R_ARM_CALL:
+> > --
+> > 2.39.2
+> >
 >
-> base-commit: f1fcbaa18b28dec10281551dfe6ed3a3ed80e3d6
+>
 > --
-> 2.30.2
+> Thanks,
+> ~Nick Desaulniers
 
 
 
