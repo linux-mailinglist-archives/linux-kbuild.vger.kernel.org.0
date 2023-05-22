@@ -2,272 +2,232 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 00D1A70C534
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 May 2023 20:31:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 453CF70CC95
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 May 2023 23:36:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233022AbjEVSbt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 22 May 2023 14:31:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44294 "EHLO
+        id S230062AbjEVVgL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 22 May 2023 17:36:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230173AbjEVSbs (ORCPT
+        with ESMTP id S229576AbjEVVgK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 22 May 2023 14:31:48 -0400
-Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2CCD95
-        for <linux-kbuild@vger.kernel.org>; Mon, 22 May 2023 11:31:46 -0700 (PDT)
-Received: by mail-qv1-xf2b.google.com with SMTP id 6a1803df08f44-623a6c15aacso27147586d6.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 22 May 2023 11:31:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1684780306; x=1687372306;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R2ePywhxddrmGkoVQNp8eKUSoyJ0B6HoMDE+8yYxha4=;
-        b=MmWyskyzTT43BPxqcPEfyDJ+eoeCV4JL1ubuSmB5fq6M8J/mjqK6AA9lB8HNLNC8Qm
-         CQ9FKYEutoJx25Py/XqgxjzCfEd9RsM1HDM2SVRfXnOEr+CXc02bIboTVeIeMnvvHy++
-         tk51lcdvVniNufq6ifqYVGxuwqMb/8cM/EoAgiZ8pwhnCTFpF9gRTUrire98vP7cB4TM
-         tEmysSr81JLoTSvJwBO++Az9+tUx09bg5G+X8bGlG68E64Zf97cqQ2efLtc03rjrF6TH
-         RlyKk5wNZUrbDnBl4nAevN/hqDyzQ7SVBV6Vp95+7Yb1PTED1DbCG/a8l5VKBbOOISNe
-         wFpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684780306; x=1687372306;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R2ePywhxddrmGkoVQNp8eKUSoyJ0B6HoMDE+8yYxha4=;
-        b=Tr1XtfBzPr/VdiOBcO6OYW/sqQXez3lbGAKSbaXkSAITPdNE/sHxAnFRKLbXehDPKF
-         07TnYBxa/ihKAkX6GqXbhjAKz3bDjWi658A7kxO3ZVK56KRjLIj3+IsIlhwwyrDRp+Ca
-         xUTIzelcThYLAsh9lmO90wzQ/itm6oDaZUJE8vPm2VFWwP5LLGtGxDQ/xi7BWkl9uauc
-         1uqoXv4AM6YJxGqCuI2bGSlZccKMPTb9qmDdAEf0gj9CsMAaWDrMTky4bJGgdU67Sbjz
-         KOza13ljjdYc2avsDnaztoNxbsJkmTvy7e7IbvtDTX5oPxbWAtmPnkbumrU109+VFyEJ
-         zREA==
-X-Gm-Message-State: AC+VfDzCDpqdBnWium6dBtC8h7Np8vpNUo9hf4Ro6dvvET8GZUIhhk8D
-        EZOh93MrQz9t4no+F17N38LnZD+2FEbbMpV/7Z6ciA==
-X-Google-Smtp-Source: ACHHUZ7NmQDjwE7vLXaFibglhxBUgur25eZyr+zh4oJc7IxqXfsG83P36hQ0Fmove4N0Z0thmX5az082DLGfPgQwQyI=
-X-Received: by 2002:a05:6214:c4e:b0:5ef:6eb6:e26e with SMTP id
- r14-20020a0562140c4e00b005ef6eb6e26emr19398983qvj.6.1684780305960; Mon, 22
- May 2023 11:31:45 -0700 (PDT)
+        Mon, 22 May 2023 17:36:10 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00677A7;
+        Mon, 22 May 2023 14:36:08 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 88A0B62A5A;
+        Mon, 22 May 2023 21:36:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8B38C4339C;
+        Mon, 22 May 2023 21:36:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1684791367;
+        bh=i0l5o5pfr7+hmOunK0MO3ExMQQJ2u2MgDt54T+EjxjA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=drtfnRszWDVpJ+tOK7F6GtOC1nsARB4mApAVld5et6zjpTn3+gcgUrwyxyB9j1olb
+         bOJv7MJhIO6eUNaZ/GVdAaaocjgJvv7T3ekIMw4GatuzyqfnRSaO8CPYu6rOM1RbUW
+         iJffkN7/USx/LdV/Z2kLpim6Je8ONEiwDTEcIYqF1MrKLm+gMwngLI+b91TAPVK/ib
+         ZcDV6KjyPYJQRbpNevdbM3oUCVyjWIYg9eV8iZEh+aJcJ9sMY6z9sQ8hvNOIu5eKjJ
+         tWy+YWb4Th7mUgHiNdJgYN80TRQmjUNPbzYUzg2Qv/ROBF/2ZmqGfAE643gp1XcnKo
+         tHkJhE0JJoHQg==
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2af29e51722so40866141fa.1;
+        Mon, 22 May 2023 14:36:07 -0700 (PDT)
+X-Gm-Message-State: AC+VfDzf3DSyBnp8hiZygQW+CIXjncKNxFZ7uoHOPZyO8ErY4Pw8YtP7
+        8Iei409JX3xCMhrSnLdKEU68M+g8a3jYq+wVAHY=
+X-Google-Smtp-Source: ACHHUZ5cVVFzaDoPp3qHJJ+S8cugosBnuG9dSVQs8Sdhh1V/e5uFdGgK3IxPNtjm4w9Ah/32do79AcFNzsCrNSOo7ME=
+X-Received: by 2002:a2e:b1c4:0:b0:2af:22a0:81fd with SMTP id
+ e4-20020a2eb1c4000000b002af22a081fdmr4023555lja.11.1684791365795; Mon, 22 May
+ 2023 14:36:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230521160426.1881124-1-masahiroy@kernel.org> <20230521160426.1881124-8-masahiroy@kernel.org>
-In-Reply-To: <20230521160426.1881124-8-masahiroy@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 22 May 2023 11:31:35 -0700
-Message-ID: <CAKwvOdkTW_uYqpEUODzL7Qyavo2LeOGVb6Mg3Lofdu12mjN1rA@mail.gmail.com>
-Subject: Re: [PATCH v6 07/20] modpost: replace r->r_offset, r->r_addend with
- faddr, taddr
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+References: <20230521160426.1881124-1-masahiroy@kernel.org>
+ <20230521160426.1881124-3-masahiroy@kernel.org> <CAKwvOd=B+dKWjxD-K-8btROvywp_Nei=CREeYZdCvKSGuHHJOA@mail.gmail.com>
+In-Reply-To: <CAKwvOd=B+dKWjxD-K-8btROvywp_Nei=CREeYZdCvKSGuHHJOA@mail.gmail.com>
+From:   Ard Biesheuvel <ardb@kernel.org>
+Date:   Mon, 22 May 2023 23:35:54 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXEYZdsE8A2izGbb4HWYT3a8HN9Ocw=pb3d64Zu0441RgA@mail.gmail.com>
+Message-ID: <CAMj1kXEYZdsE8A2izGbb4HWYT3a8HN9Ocw=pb3d64Zu0441RgA@mail.gmail.com>
+Subject: Re: [PATCH v6 02/20] modpost: fix section mismatch message for R_ARM_ABS32
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Fangrui Song <maskray@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, May 21, 2023 at 9:05=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
+On Mon, 22 May 2023 at 19:56, Nick Desaulniers <ndesaulniers@google.com> wr=
+ote:
 >
-> r_offset/r_addend holds the offset address from/to which a symbol is
-> referenced. It is unclear unless you are familiar with ELF.
+> + linux-arm-kernel and some folks who might know another idea.
 >
-> Rename them to faddr, taddr, respectively. The prefix 'f' means 'from',
-> 't' means 'to'.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> On Sun, May 21, 2023 at 9:05=E2=80=AFAM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
+> >
+> > addend_arm_rel() processes R_ARM_ABS32 in a wrong way.
+> >
+> > Here, simple test code.
+> >
+> >   [test code 1]
+> >
+> >     #include <linux/init.h>
+> >
+> >     int __initdata foo;
+> >     int get_foo(int x) { return foo; }
+> >
+> > If you compile it with ARM versatile_defconfig, modpost will show the
+> > symbol name, (unknown).
+> >
+> >   WARNING: modpost: vmlinux.o: section mismatch in reference: get_foo (=
+section: .text) -> (unknown) (section: .init.data)
+> >
+> > If you compile it for other architectures, modpost will show the correc=
+t
+> > symbol name.
+> >
+> >   WARNING: modpost: vmlinux.o: section mismatch in reference: get_foo (=
+section: .text) -> foo (section: .init.data)
+> >
+> > For R_ARM_ABS32, addend_arm_rel() sets r->r_addend to a wrong value.
+> >
+> > I just mimicked the code in arch/arm/kernel/module.c.
+> >
+> > However, there is more difficulty for ARM.
+> >
+> > Here, test code.
+> >
+> >   [test code 2]
+> >
+> >     #include <linux/init.h>
+> >
+> >     int __initdata foo;
+> >     int get_foo(int x) { return foo; }
+> >
+> >     int __initdata bar;
+> >     int get_bar(int x) { return bar; }
+> >
+> > With this commit applied, modpost will show the following messages
+> > for ARM versatile_defconfig:
+> >
+> >   WARNING: modpost: vmlinux.o: section mismatch in reference: get_foo (=
+section: .text) -> foo (section: .init.data)
+> >   WARNING: modpost: vmlinux.o: section mismatch in reference: get_bar (=
+section: .text) -> foo (section: .init.data)
+> >
+> > The reference from 'get_bar' to 'foo' seems wrong.
+> >
+> > I have no solution for this because it is true in assembly level.
+> >
+> > In the following output, relocation at 0x1c is no longer associated
+> > with 'bar'. The two relocation entries point to the same symbol, and
+> > the offset to 'bar' is encoded in the instruction 'r0, [r3, #4]'.
+> >
 
+These are section relative relocations - this is unusual but not
+incorrect. Normally, you only see this if the symbols in question have
+static linkage.
 
-Do you care to rewrap the parameter lists?
-```
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 4da96746a03b..8a787521963d 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -1115,8 +1115,8 @@ static bool is_executable_section(struct
-elf_info *elf, unsigned int secndx)
+It does mean that the symbol is not preemptible, which is what makes
+this somewhat surprising.
 
- static void default_mismatch_handler(const char *modname, struct elf_info =
-*elf,
-                                     const struct sectioncheck* const misma=
-tch,
--                                    Elf_Sym *tsym,
--                                    unsigned int fsecndx, const char
-*fromsec, Elf_Addr faddr,
-+                                    Elf_Sym *tsym, unsigned int fsecndx,
-+                                    const char *fromsec, Elf_Addr faddr,
-                                     const char *tosec, Elf_Addr taddr)
- {
-        Elf_Sym *from;
-@@ -1217,9 +1217,9 @@ static void check_export_symbol(struct module
-*mod, struct elf_info *elf,
- }
+Generally, you cannot resolve a relocation to a symbol without taking
+the addend into account, so looking up the address of .init.data in
+the symbol table is not quite the right approach here. If anything,
+the symbol should be reported as [.init.data+0x4] in the second case.
 
- static void check_section_mismatch(struct module *mod, struct elf_info *el=
-f,
--                                  Elf_Sym *sym,
--                                  unsigned int fsecndx, const char *fromse=
-c,
--                                  Elf_Addr faddr, Elf_Addr taddr)
-+                                  Elf_Sym *sym, unsigned int fsecndx,
-+                                  const char *fromsec, Elf_Addr faddr,
-+                                  Elf_Addr taddr)
- {
-        const char *tosec =3D sec_name(elf, get_secindex(elf, sym));
-        const struct sectioncheck *mismatch;
-```
-Either way:
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-
-
-> ---
+> >   Disassembly of section .text:
+> >
+> >   00000000 <get_foo>:
+> >      0: e59f3004          ldr     r3, [pc, #4]   @ c <get_foo+0xc>
+> >      4: e5930000          ldr     r0, [r3]
+> >      8: e12fff1e          bx      lr
+> >      c: 00000000          .word   0x00000000
+> >
+> >   00000010 <get_bar>:
+> >     10: e59f3004          ldr     r3, [pc, #4]   @ 1c <get_bar+0xc>
+> >     14: e5930004          ldr     r0, [r3, #4]
+> >     18: e12fff1e          bx      lr
+> >     1c: 00000000          .word   0x00000000
+> >
+> >   Relocation section '.rel.text' at offset 0x244 contains 2 entries:
+> >    Offset     Info    Type            Sym.Value  Sym. Name
+> >   0000000c  00000c02 R_ARM_ABS32       00000000   .init.data
+> >   0000001c  00000c02 R_ARM_ABS32       00000000   .init.data
+> >
+> > When find_elf_symbol() gets into a situation where relsym->st_name is
+> > zero, there is no guarantee to get the symbol name as written in C.
+> >
+> > I am keeping the current logic because it is useful in many architectur=
+es,
+> > but the symbol name is not always correct depending on the optimization
+> > of the relocation. I left some comments in find_tosym().
+> >
+> > Fixes: 56a974fa2d59 ("kbuild: make better section mismatch reports on a=
+rm")
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> > Changes in v6:
+> >  - More detailed commit log
+> >
+> >  scripts/mod/modpost.c | 10 +++++++---
+> >  1 file changed, 7 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> > index 71de14544432..34fbbd85bfde 100644
+> > --- a/scripts/mod/modpost.c
+> > +++ b/scripts/mod/modpost.c
+> > @@ -1124,6 +1124,10 @@ static Elf_Sym *find_tosym(struct elf_info *elf,=
+ Elf64_Sword addr,
+> >         if (relsym->st_name !=3D 0)
+> >                 return relsym;
+> >
+> > +       /*
+> > +        * Strive to find a better symbol name, but the resulting name =
+does not
+> > +        * always match the symbol referenced in the original code.
+> > +        */
+> >         relsym_secindex =3D get_secindex(elf, relsym);
+> >         for (sym =3D elf->symtab_start; sym < elf->symtab_stop; sym++) =
+{
+> >                 if (get_secindex(elf, sym) !=3D relsym_secindex)
+> > @@ -1306,12 +1310,12 @@ static int addend_386_rel(struct elf_info *elf,=
+ Elf_Shdr *sechdr, Elf_Rela *r)
+> >  static int addend_arm_rel(struct elf_info *elf, Elf_Shdr *sechdr, Elf_=
+Rela *r)
+> >  {
+> >         unsigned int r_typ =3D ELF_R_TYPE(r->r_info);
+> > +       Elf_Sym *sym =3D elf->symtab_start + ELF_R_SYM(r->r_info);
+> > +       unsigned int inst =3D TO_NATIVE(*reloc_location(elf, sechdr, r)=
+);
+> >
+> >         switch (r_typ) {
+> >         case R_ARM_ABS32:
+> > -               /* From ARM ABI: (S + A) | T */
+> > -               r->r_addend =3D (int)(long)
+> > -                             (elf->symtab_start + ELF_R_SYM(r->r_info)=
+);
+> > +               r->r_addend =3D inst + sym->st_value;
+> >                 break;
+> >         case R_ARM_PC24:
+> >         case R_ARM_CALL:
+> > --
+> > 2.39.2
+> >
 >
->  scripts/mod/modpost.c | 34 +++++++++++++++++++---------------
->  1 file changed, 19 insertions(+), 15 deletions(-)
->
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 7848bacd4b42..f364738a236e 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -1166,18 +1166,18 @@ static bool is_executable_section(struct elf_info=
- *elf, unsigned int secndx)
->
->  static void default_mismatch_handler(const char *modname, struct elf_inf=
-o *elf,
->                                      const struct sectioncheck* const mis=
-match,
-> -                                    Elf_Rela *r, Elf_Sym *tsym,
-> -                                    unsigned int fsecndx, const char *fr=
-omsec,
-> -                                    const char *tosec)
-> +                                    Elf_Sym *tsym,
-> +                                    unsigned int fsecndx, const char *fr=
-omsec, Elf_Addr faddr,
-> +                                    const char *tosec, Elf_Addr taddr)
->  {
->         Elf_Sym *from;
->         const char *tosym;
->         const char *fromsym;
->
-> -       from =3D find_fromsym(elf, r->r_offset, fsecndx);
-> +       from =3D find_fromsym(elf, faddr, fsecndx);
->         fromsym =3D sym_name(elf, from);
->
-> -       tsym =3D find_tosym(elf, r->r_addend, tsym);
-> +       tsym =3D find_tosym(elf, taddr, tsym);
->         tosym =3D sym_name(elf, tsym);
->
->         /* check whitelist - we may ignore it */
-> @@ -1204,7 +1204,7 @@ static void default_mismatch_handler(const char *mo=
-dname, struct elf_info *elf,
->                 break;
->         case EXTABLE_TO_NON_TEXT:
->                 warn("%s(%s+0x%lx): Section mismatch in reference to the =
-%s:%s\n",
-> -                    modname, fromsec, (long)r->r_offset, tosec, tosym);
-> +                    modname, fromsec, (long)faddr, tosec, tosym);
->
->                 if (match(tosec, mismatch->bad_tosec))
->                         fatal("The relocation at %s+0x%lx references\n"
-> @@ -1212,7 +1212,7 @@ static void default_mismatch_handler(const char *mo=
-dname, struct elf_info *elf,
->                               "Something is seriously wrong and should be=
- fixed.\n"
->                               "You might get more information about where=
- this is\n"
->                               "coming from by using scripts/check_extable=
-.sh %s\n",
-> -                             fromsec, (long)r->r_offset, tosec, modname)=
-;
-> +                             fromsec, (long)faddr, tosec, modname);
->                 else if (is_executable_section(elf, get_secindex(elf, tsy=
-m)))
->                         warn("The relocation at %s+0x%lx references\n"
->                              "section \"%s\" which is not in the list of\=
-n"
-> @@ -1221,17 +1221,18 @@ static void default_mismatch_handler(const char *=
-modname, struct elf_info *elf,
->                              "list of authorized sections to jump to on f=
-ault.\n"
->                              "This can be achieved by adding \"%s\" to\n"
->                              "OTHER_TEXT_SECTIONS in scripts/mod/modpost.=
-c.\n",
-> -                            fromsec, (long)r->r_offset, tosec, tosec, to=
-sec);
-> +                            fromsec, (long)faddr, tosec, tosec, tosec);
->                 else
->                         error("%s+0x%lx references non-executable section=
- '%s'\n",
-> -                             fromsec, (long)r->r_offset, tosec);
-> +                             fromsec, (long)faddr, tosec);
->                 break;
->         }
->  }
->
->  static void check_section_mismatch(const char *modname, struct elf_info =
-*elf,
-> -                                  Elf_Rela *r, Elf_Sym *sym,
-> -                                  unsigned int fsecndx, const char *from=
-sec)
-> +                                  Elf_Sym *sym,
-> +                                  unsigned int fsecndx, const char *from=
-sec,
-> +                                  Elf_Addr faddr, Elf_Addr taddr)
->  {
->         const char *tosec =3D sec_name(elf, get_secindex(elf, sym));
->         const struct sectioncheck *mismatch =3D section_mismatch(fromsec,=
- tosec);
-> @@ -1239,8 +1240,9 @@ static void check_section_mismatch(const char *modn=
-ame, struct elf_info *elf,
->         if (!mismatch)
->                 return;
->
-> -       default_mismatch_handler(modname, elf, mismatch, r, sym, fsecndx,=
- fromsec,
-> -                                tosec);
-> +       default_mismatch_handler(modname, elf, mismatch, sym,
-> +                                fsecndx, fromsec, faddr,
-> +                                tosec, taddr);
->  }
->
->  static unsigned int *reloc_location(struct elf_info *elf,
-> @@ -1406,7 +1408,8 @@ static void section_rela(const char *modname, struc=
-t elf_info *elf,
->                 /* Skip special sections */
->                 if (is_shndx_special(sym->st_shndx))
->                         continue;
-> -               check_section_mismatch(modname, elf, &r, sym, fsecndx, fr=
-omsec);
-> +               check_section_mismatch(modname, elf, sym,
-> +                                      fsecndx, fromsec, r.r_offset, r.r_=
-addend);
->         }
->  }
->
-> @@ -1464,7 +1467,8 @@ static void section_rel(const char *modname, struct=
- elf_info *elf,
->                 /* Skip special sections */
->                 if (is_shndx_special(sym->st_shndx))
->                         continue;
-> -               check_section_mismatch(modname, elf, &r, sym, fsecndx, fr=
-omsec);
-> +               check_section_mismatch(modname, elf, sym,
-> +                                      fsecndx, fromsec, r.r_offset, r.r_=
-addend);
->         }
->  }
 >
 > --
-> 2.39.2
->
-
-
---=20
-Thanks,
-~Nick Desaulniers
+> Thanks,
+> ~Nick Desaulniers
