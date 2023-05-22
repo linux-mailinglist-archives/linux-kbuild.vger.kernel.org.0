@@ -2,53 +2,54 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 453CF70CC95
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 May 2023 23:36:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC0D370CCE2
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 May 2023 23:50:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230062AbjEVVgL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 22 May 2023 17:36:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46036 "EHLO
+        id S231556AbjEVVuf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 22 May 2023 17:50:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229576AbjEVVgK (ORCPT
+        with ESMTP id S229734AbjEVVue (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 22 May 2023 17:36:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00677A7;
-        Mon, 22 May 2023 14:36:08 -0700 (PDT)
+        Mon, 22 May 2023 17:50:34 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 970A4E9;
+        Mon, 22 May 2023 14:50:33 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 88A0B62A5A;
-        Mon, 22 May 2023 21:36:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8B38C4339C;
-        Mon, 22 May 2023 21:36:07 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 33EF962420;
+        Mon, 22 May 2023 21:50:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B7B8C4339B;
+        Mon, 22 May 2023 21:50:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684791367;
-        bh=i0l5o5pfr7+hmOunK0MO3ExMQQJ2u2MgDt54T+EjxjA=;
+        s=k20201202; t=1684792232;
+        bh=w9LBRRyqm5803GlEmQJZqgi6Hi543bH+GSEVI71mr4U=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=drtfnRszWDVpJ+tOK7F6GtOC1nsARB4mApAVld5et6zjpTn3+gcgUrwyxyB9j1olb
-         bOJv7MJhIO6eUNaZ/GVdAaaocjgJvv7T3ekIMw4GatuzyqfnRSaO8CPYu6rOM1RbUW
-         iJffkN7/USx/LdV/Z2kLpim6Je8ONEiwDTEcIYqF1MrKLm+gMwngLI+b91TAPVK/ib
-         ZcDV6KjyPYJQRbpNevdbM3oUCVyjWIYg9eV8iZEh+aJcJ9sMY6z9sQ8hvNOIu5eKjJ
-         tWy+YWb4Th7mUgHiNdJgYN80TRQmjUNPbzYUzg2Qv/ROBF/2ZmqGfAE643gp1XcnKo
-         tHkJhE0JJoHQg==
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2af29e51722so40866141fa.1;
-        Mon, 22 May 2023 14:36:07 -0700 (PDT)
-X-Gm-Message-State: AC+VfDzf3DSyBnp8hiZygQW+CIXjncKNxFZ7uoHOPZyO8ErY4Pw8YtP7
-        8Iei409JX3xCMhrSnLdKEU68M+g8a3jYq+wVAHY=
-X-Google-Smtp-Source: ACHHUZ5cVVFzaDoPp3qHJJ+S8cugosBnuG9dSVQs8Sdhh1V/e5uFdGgK3IxPNtjm4w9Ah/32do79AcFNzsCrNSOo7ME=
-X-Received: by 2002:a2e:b1c4:0:b0:2af:22a0:81fd with SMTP id
- e4-20020a2eb1c4000000b002af22a081fdmr4023555lja.11.1684791365795; Mon, 22 May
- 2023 14:36:05 -0700 (PDT)
+        b=I/ontW20EvDbJnLq6xU5ShiaD22MGoctonKdCZgJ8gdqcX72r119hzIeZAh0/zSex
+         suWbalsmVxpagJITEksC5QDQdQMuZj6/1Nqw2wB392BrnmgEB+WTUv+De1sojJeeWv
+         rx09Wex8VG7mLJY3XZRYlevH/v8IhVOQiORX13FmcXbgRfVq1p2TH6HlxgtuKJC3eh
+         OY5ncdQW1Cz9CvScLvWLZjH/ByafHUPKSJ9vmDB42vMJ7VY9cPlZ3rnKQBAVjsID3o
+         elw5AKO5B7HrPXsiPpuOBbs94GEe60VeKv7JoP2+i5QONa3kcH/EPA7g+j+bmWN+RR
+         RHeuYfzIBqLbg==
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2af2602848aso45471211fa.2;
+        Mon, 22 May 2023 14:50:32 -0700 (PDT)
+X-Gm-Message-State: AC+VfDyu9//3H0RNtWWHukCmYs4QTpmzeofehXWQaNtmmG2NjEqUOMKx
+        MwUApKjgUOeyIzriX4tNig5/S4+vsfKT7VtI+hA=
+X-Google-Smtp-Source: ACHHUZ7FchTNICuptLDm84N5BY9TxQGeCVjWIPYByI/t/mb7wnhfP/8Wo2cawp25N0HDhoKLpZsG6wakqtavDnBCxYI=
+X-Received: by 2002:a2e:9cce:0:b0:29c:3f18:57a7 with SMTP id
+ g14-20020a2e9cce000000b0029c3f1857a7mr4510593ljj.35.1684792230596; Mon, 22
+ May 2023 14:50:30 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230521160426.1881124-1-masahiroy@kernel.org>
- <20230521160426.1881124-3-masahiroy@kernel.org> <CAKwvOd=B+dKWjxD-K-8btROvywp_Nei=CREeYZdCvKSGuHHJOA@mail.gmail.com>
-In-Reply-To: <CAKwvOd=B+dKWjxD-K-8btROvywp_Nei=CREeYZdCvKSGuHHJOA@mail.gmail.com>
+ <20230521160426.1881124-4-masahiroy@kernel.org> <CAKwvOdmxLrE8VksbsSGirfTqnuhEFT__FuCG53ri3V42UbH5aw@mail.gmail.com>
+In-Reply-To: <CAKwvOdmxLrE8VksbsSGirfTqnuhEFT__FuCG53ri3V42UbH5aw@mail.gmail.com>
 From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Mon, 22 May 2023 23:35:54 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXEYZdsE8A2izGbb4HWYT3a8HN9Ocw=pb3d64Zu0441RgA@mail.gmail.com>
-Message-ID: <CAMj1kXEYZdsE8A2izGbb4HWYT3a8HN9Ocw=pb3d64Zu0441RgA@mail.gmail.com>
-Subject: Re: [PATCH v6 02/20] modpost: fix section mismatch message for R_ARM_ABS32
+Date:   Mon, 22 May 2023 23:50:19 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXGZLn37bchQ8NZy6zPgsMNT=CE7pZ0voTsnu=ytSf2i7g@mail.gmail.com>
+Message-ID: <CAMj1kXGZLn37bchQ8NZy6zPgsMNT=CE7pZ0voTsnu=ytSf2i7g@mail.gmail.com>
+Subject: Re: [PATCH v6 03/20] modpost: detect section mismatch for
+ R_ARM_MOVW_ABS_NC and R_ARM_MOVT_ABS
 To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -58,8 +59,8 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Fangrui Song <maskray@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -68,161 +69,121 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, 22 May 2023 at 19:56, Nick Desaulniers <ndesaulniers@google.com> wr=
+On Mon, 22 May 2023 at 20:03, Nick Desaulniers <ndesaulniers@google.com> wr=
 ote:
 >
-> + linux-arm-kernel and some folks who might know another idea.
+> + linux-arm-kernel
 >
 > On Sun, May 21, 2023 at 9:05=E2=80=AFAM Masahiro Yamada <masahiroy@kernel=
 .org> wrote:
 > >
-> > addend_arm_rel() processes R_ARM_ABS32 in a wrong way.
+> > ARM defconfig misses to detect some section mismatches.
 > >
-> > Here, simple test code.
-> >
-> >   [test code 1]
+> >   [test code]
 > >
 > >     #include <linux/init.h>
 > >
 > >     int __initdata foo;
 > >     int get_foo(int x) { return foo; }
 > >
-> > If you compile it with ARM versatile_defconfig, modpost will show the
-> > symbol name, (unknown).
+> > It is apparently a bad reference, but modpost does not report anything
+> > for ARM defconfig (i.e. multi_v7_defconfig).
 > >
-> >   WARNING: modpost: vmlinux.o: section mismatch in reference: get_foo (=
-section: .text) -> (unknown) (section: .init.data)
+> > The test code above produces the following relocations.
 > >
-> > If you compile it for other architectures, modpost will show the correc=
-t
-> > symbol name.
-> >
-> >   WARNING: modpost: vmlinux.o: section mismatch in reference: get_foo (=
-section: .text) -> foo (section: .init.data)
-> >
-> > For R_ARM_ABS32, addend_arm_rel() sets r->r_addend to a wrong value.
-> >
-> > I just mimicked the code in arch/arm/kernel/module.c.
-> >
-> > However, there is more difficulty for ARM.
-> >
-> > Here, test code.
-> >
-> >   [test code 2]
-> >
-> >     #include <linux/init.h>
-> >
-> >     int __initdata foo;
-> >     int get_foo(int x) { return foo; }
-> >
-> >     int __initdata bar;
-> >     int get_bar(int x) { return bar; }
-> >
-> > With this commit applied, modpost will show the following messages
-> > for ARM versatile_defconfig:
-> >
-> >   WARNING: modpost: vmlinux.o: section mismatch in reference: get_foo (=
-section: .text) -> foo (section: .init.data)
-> >   WARNING: modpost: vmlinux.o: section mismatch in reference: get_bar (=
-section: .text) -> foo (section: .init.data)
-> >
-> > The reference from 'get_bar' to 'foo' seems wrong.
-> >
-> > I have no solution for this because it is true in assembly level.
-> >
-> > In the following output, relocation at 0x1c is no longer associated
-> > with 'bar'. The two relocation entries point to the same symbol, and
-> > the offset to 'bar' is encoded in the instruction 'r0, [r3, #4]'.
-> >
-
-These are section relative relocations - this is unusual but not
-incorrect. Normally, you only see this if the symbols in question have
-static linkage.
-
-It does mean that the symbol is not preemptible, which is what makes
-this somewhat surprising.
-
-Generally, you cannot resolve a relocation to a symbol without taking
-the addend into account, so looking up the address of .init.data in
-the symbol table is not quite the right approach here. If anything,
-the symbol should be reported as [.init.data+0x4] in the second case.
-
-> >   Disassembly of section .text:
-> >
-> >   00000000 <get_foo>:
-> >      0: e59f3004          ldr     r3, [pc, #4]   @ c <get_foo+0xc>
-> >      4: e5930000          ldr     r0, [r3]
-> >      8: e12fff1e          bx      lr
-> >      c: 00000000          .word   0x00000000
-> >
-> >   00000010 <get_bar>:
-> >     10: e59f3004          ldr     r3, [pc, #4]   @ 1c <get_bar+0xc>
-> >     14: e5930004          ldr     r0, [r3, #4]
-> >     18: e12fff1e          bx      lr
-> >     1c: 00000000          .word   0x00000000
-> >
-> >   Relocation section '.rel.text' at offset 0x244 contains 2 entries:
+> >   Relocation section '.rel.text' at offset 0x200 contains 2 entries:
 > >    Offset     Info    Type            Sym.Value  Sym. Name
-> >   0000000c  00000c02 R_ARM_ABS32       00000000   .init.data
-> >   0000001c  00000c02 R_ARM_ABS32       00000000   .init.data
+> >   00000000  0000062b R_ARM_MOVW_ABS_NC 00000000   .LANCHOR0
+> >   00000004  0000062c R_ARM_MOVT_ABS    00000000   .LANCHOR0
 > >
-> > When find_elf_symbol() gets into a situation where relsym->st_name is
-> > zero, there is no guarantee to get the symbol name as written in C.
+> >   Relocation section '.rel.ARM.exidx' at offset 0x210 contains 2 entrie=
+s:
+> >    Offset     Info    Type            Sym.Value  Sym. Name
+> >   00000000  0000022a R_ARM_PREL31      00000000   .text
+> >   00000000  00001000 R_ARM_NONE        00000000   __aeabi_unwind_cpp_pr=
+0
 > >
-> > I am keeping the current logic because it is useful in many architectur=
-es,
-> > but the symbol name is not always correct depending on the optimization
-> > of the relocation. I left some comments in find_tosym().
+> > Currently, R_ARM_MOVW_ABS_NC and R_ARM_MOVT_ABS are just skipped.
 > >
-> > Fixes: 56a974fa2d59 ("kbuild: make better section mismatch reports on a=
-rm")
+> > Add code to handle them. I checked arch/arm/kernel/module.c to learn
+> > how the offset is encoded in the instruction.
+> >
+> > The referenced symbol in relocation might be a local anchor.
+> > If is_valid_name() returns false, let's search for a better symbol name=
+.
+> >
 > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > > ---
 > >
-> > Changes in v6:
-> >  - More detailed commit log
-> >
-> >  scripts/mod/modpost.c | 10 +++++++---
-> >  1 file changed, 7 insertions(+), 3 deletions(-)
+> >  scripts/mod/modpost.c | 12 ++++++++++--
+> >  1 file changed, 10 insertions(+), 2 deletions(-)
 > >
 > > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > index 71de14544432..34fbbd85bfde 100644
+> > index 34fbbd85bfde..ed2301e951a9 100644
 > > --- a/scripts/mod/modpost.c
 > > +++ b/scripts/mod/modpost.c
-> > @@ -1124,6 +1124,10 @@ static Elf_Sym *find_tosym(struct elf_info *elf,=
- Elf64_Sword addr,
-> >         if (relsym->st_name !=3D 0)
+> > @@ -1108,7 +1108,7 @@ static inline int is_valid_name(struct elf_info *=
+elf, Elf_Sym *sym)
+> >  /**
+> >   * Find symbol based on relocation record info.
+> >   * In some cases the symbol supplied is a valid symbol so
+> > - * return refsym. If st_name !=3D 0 we assume this is a valid symbol.
+> > + * return refsym. If is_valid_name() =3D=3D true, we assume this is a =
+valid symbol.
+> >   * In other cases the symbol needs to be looked up in the symbol table
+> >   * based on section and address.
+> >   *  **/
+> > @@ -1121,7 +1121,7 @@ static Elf_Sym *find_tosym(struct elf_info *elf, =
+Elf64_Sword addr,
+> >         Elf64_Sword d;
+> >         unsigned int relsym_secindex;
+> >
+> > -       if (relsym->st_name !=3D 0)
+> > +       if (is_valid_name(elf, relsym))
 > >                 return relsym;
 > >
-> > +       /*
-> > +        * Strive to find a better symbol name, but the resulting name =
-does not
-> > +        * always match the symbol referenced in the original code.
-> > +        */
-> >         relsym_secindex =3D get_secindex(elf, relsym);
-> >         for (sym =3D elf->symtab_start; sym < elf->symtab_stop; sym++) =
-{
-> >                 if (get_secindex(elf, sym) !=3D relsym_secindex)
-> > @@ -1306,12 +1310,12 @@ static int addend_386_rel(struct elf_info *elf,=
+> >         /*
+> > @@ -1312,11 +1312,19 @@ static int addend_arm_rel(struct elf_info *elf,=
  Elf_Shdr *sechdr, Elf_Rela *r)
-> >  static int addend_arm_rel(struct elf_info *elf, Elf_Shdr *sechdr, Elf_=
-Rela *r)
-> >  {
 > >         unsigned int r_typ =3D ELF_R_TYPE(r->r_info);
-> > +       Elf_Sym *sym =3D elf->symtab_start + ELF_R_SYM(r->r_info);
-> > +       unsigned int inst =3D TO_NATIVE(*reloc_location(elf, sechdr, r)=
+> >         Elf_Sym *sym =3D elf->symtab_start + ELF_R_SYM(r->r_info);
+> >         unsigned int inst =3D TO_NATIVE(*reloc_location(elf, sechdr, r)=
 );
+> > +       int offset;
 > >
 > >         switch (r_typ) {
 > >         case R_ARM_ABS32:
-> > -               /* From ARM ABI: (S + A) | T */
-> > -               r->r_addend =3D (int)(long)
-> > -                             (elf->symtab_start + ELF_R_SYM(r->r_info)=
-);
-> > +               r->r_addend =3D inst + sym->st_value;
+> >                 r->r_addend =3D inst + sym->st_value;
 > >                 break;
+> > +       case R_ARM_MOVW_ABS_NC:
+> > +       case R_ARM_MOVT_ABS:
+> > +               offset =3D ((inst & 0xf0000) >> 4) | (inst & 0xfff);
+> > +               offset =3D (offset ^ 0x8000) - 0x8000;
+>
+> The code in arch/arm/kernel/module.c then right shifts the offset by
+> 16 for R_ARM_MOVT_ABS. Is that necessary?
+>
+
+MOVW/MOVT pairs are limited to an addend of -/+ 32 KiB, and the same
+value must be encoded in both instructions.
+
+When constructing the actual immediate value from the symbol value and
+the addend, only the top 16 bits are used in MOVT and the bottom 16
+bits in MOVW.
+
+However, this code seems to borrow the Elf_Rela::addend field (which
+ARM does not use natively) to record the intermediate value, which
+would need to be split if it is used to fix up instruction opcodes.
+
+Btw the Thumb2 encodings of MOVT and MOVW seem to be missing here.
+
+
+> > +               offset +=3D sym->st_value;
+> > +               r->r_addend =3D offset;
+> > +               break;
 > >         case R_ARM_PC24:
 > >         case R_ARM_CALL:
+> >         case R_ARM_JUMP24:
 > > --
 > > 2.39.2
 > >
