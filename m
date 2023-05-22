@@ -2,214 +2,155 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 446C470C3C9
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 May 2023 18:59:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFC7C70C482
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 May 2023 19:42:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232835AbjEVQ7R (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 22 May 2023 12:59:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54390 "EHLO
+        id S230168AbjEVRmm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 22 May 2023 13:42:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229714AbjEVQ7Q (ORCPT
+        with ESMTP id S229835AbjEVRmk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 22 May 2023 12:59:16 -0400
-Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62505109
-        for <linux-kbuild@vger.kernel.org>; Mon, 22 May 2023 09:59:13 -0700 (PDT)
-Received: by mail-qv1-xf33.google.com with SMTP id 6a1803df08f44-62385a3106dso27958966d6.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 22 May 2023 09:59:13 -0700 (PDT)
+        Mon, 22 May 2023 13:42:40 -0400
+Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com [IPv6:2607:f8b0:4864:20::f31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BBF9FF
+        for <linux-kbuild@vger.kernel.org>; Mon, 22 May 2023 10:42:39 -0700 (PDT)
+Received: by mail-qv1-xf31.google.com with SMTP id 6a1803df08f44-623feecfa42so12177286d6.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 22 May 2023 10:42:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1684774752; x=1687366752;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zvg1bzTjvO/d9K3oVfrmdmjH+Quxi+XWSLBnFHmrSNo=;
-        b=Iobi8TxPNPd07ii6AcbBDoMEVYMNpSHMm6f70MnK3FFRP1TF3RK/nNMQw1qi/IHPqp
-         X4iQlVWdhFLmOiuxPCIRqIgiUPN6G+Qf/q4riX4r918oL8xhToyW+TaL2ZoxlhLMBWqm
-         4WMNSsfr8JglswirwLULtwWTYZto9gzU1iKfy5aPgnOQoqe6GpI0gFb6dZYsPhCKQ62F
-         TQCnH4zukIhbIVZBJIOaOrrySUnXC9LJbp9/nstQ1QHeubSTX+gMCZpTlHKyYV9WXuf9
-         eO+cb4NgCKsa6HSmTled3wydzrV7B50wOrJKo9ueDe7h8gRdwxuK7mzTWtIReN5l8PBk
-         PWJQ==
+        d=google.com; s=20221208; t=1684777358; x=1687369358;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Zdzk2mLaYweHny4kbgA1ybBxwb1zKecZUEGKs5h+c5w=;
+        b=ii0zfTBjzE33bSPWSg94a4FvOHVwWsMhE0h2TKZBBjZgkqM7A4TlGuPiMjc/pI9MtF
+         2Hn08s4x87iUhyksZfb4PpVLEraNJ2GCObBaEsQVcIRed5TWZmS8UbCoT6tXJa8EImYv
+         6Ma9U2qpc4M3yeoTBkuUBqRdIIuZnUPQ75peqA4XUCvKy5o82VmmVBKcKB70grN4o54z
+         NH/PfyTrl0r2WSGy0EsBkO1YrVBgsEIO8e8MglXMej9f0msBJq+SQHBRZ6/RkhbVVPDY
+         /H+8oU2dw9f2V9zX2a+cwAug5K0knOk5RQHAjzlJ3Bb/mWKUlDb/AA78R51eMeOmPx3U
+         4eBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684774752; x=1687366752;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Zvg1bzTjvO/d9K3oVfrmdmjH+Quxi+XWSLBnFHmrSNo=;
-        b=KXKILnzTpOikO/rP9u0o/WguAYBa043dstLYhtkHrgSC0D++m2n75KwyDftgmeShJ+
-         cIexEPk8CCMihB86m+lXRtuJJB+AjsKcmO4bVLiVPcajJdgccgz5jeQhyEVAnlntzbTi
-         XRzLLw3/kDN29If3qc1F6f/S1EQsPkV45I/emePt9GVTgKBB6JoN9BVdEfnB8tZzvHxC
-         aTlAsUZ/DqOPzrKq3xTq+NvlDX8syDjSmzxpn3gcs7sC5HW/SFE7FCsYKmU1/KQVYUQY
-         uEnWfXaP4aIhlwNM5mM8doenqqI2oyoCAb+LxWDBBMeVhXxbcty+ENXFP819yPxoFOpN
-         8NoA==
-X-Gm-Message-State: AC+VfDxJfplaUCrbiFj+bZwgJstdZoXtzmZpEOacfipfzX5Q50/+NI8O
-        1T0UZP5CZwCwTOiXH0fI8LDWwzVmUzkOPGhqh2A1mQ==
-X-Google-Smtp-Source: ACHHUZ77Op0sSUXmoOrooVIGmURs26OvAxqgk9f/luYOhU1KPvhqv0r13WVQbGKr0Fyo/PWZX5kg6LXCrSSVcEET6Go=
-X-Received: by 2002:a05:6214:1d0d:b0:61b:79ab:7129 with SMTP id
- e13-20020a0562141d0d00b0061b79ab7129mr22137744qvd.37.1684774752320; Mon, 22
- May 2023 09:59:12 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1684777358; x=1687369358;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Zdzk2mLaYweHny4kbgA1ybBxwb1zKecZUEGKs5h+c5w=;
+        b=UR42n0aoZObxNaw3ttP+PTP4DVVJJgr6tG7AKRnlCm+09j4Y7w8UW3IS0QLVx9JIRJ
+         W0+SzxJ8qND4YB/1IYnrYjzb+nfsnD9G98MkyIS7272cihPkv5f7x7xxea/F2eEo4tgt
+         z4OkkYEulhmRFOj1gUdsEHupaQlU5krDMntAEPGMENdRjbFCjw5SsJ0qpT/IyzLI6oOm
+         Ni705L1GtKfPefSWkzXGFCcppiCqEPzWxMAYaC9P8Qxk+5Jz/A1rp1DRxvvOi85d53/j
+         EsHHk43xyubTj8WB94PXq2eufK44N0jiu7CnicCFO5SgDrun9WQss20ROOCGVRUaUM4k
+         9OPA==
+X-Gm-Message-State: AC+VfDyBUscVgmwmYJODbCN5rijupy5swassJMz3yWPvXbAcJyQXGTH5
+        7E2+pY/hmCOCf2HpdpV+YHcyvHSkIcOIoBgX+jPpWw==
+X-Google-Smtp-Source: ACHHUZ67oRnbqx/ITVOD6VZp8CKV27v4/PAiFpvBnvcsO98ZSCjqS5aj+O53L8RqtQHU5uY3DL7N9rzX/BZJumMSXmU=
+X-Received: by 2002:a05:6214:d0c:b0:625:536f:4f01 with SMTP id
+ 12-20020a0562140d0c00b00625536f4f01mr11238353qvh.11.1684777358321; Mon, 22
+ May 2023 10:42:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230514152739.962109-1-masahiroy@kernel.org> <20230514152739.962109-11-masahiroy@kernel.org>
- <CAKwvOdmA1q1ojTWq79VK4HJqKfMHA=8VB9q61xJoKyYsegv3tg@mail.gmail.com> <CAK7LNAQ3KO1BY5Nq6uhHQGm_eOVNvk206A-s5pSguTO3ykLUng@mail.gmail.com>
-In-Reply-To: <CAK7LNAQ3KO1BY5Nq6uhHQGm_eOVNvk206A-s5pSguTO3ykLUng@mail.gmail.com>
+References: <20230521160426.1881124-1-masahiroy@kernel.org> <20230521160426.1881124-2-masahiroy@kernel.org>
+In-Reply-To: <20230521160426.1881124-2-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 22 May 2023 09:59:01 -0700
-Message-ID: <CAKwvOdmrLTfX4sjgs+6n0SEr6GC-z0v4EQTJ7nCyy5LhvPi91Q@mail.gmail.com>
-Subject: Re: [PATCH v5 10/21] modpost: rename find_elf_symbol() and find_elf_symbol2()
+Date:   Mon, 22 May 2023 10:42:27 -0700
+Message-ID: <CAKwvOd=Bq2j4-t9VXvNLodcZEM3P_m=z-NSkegR-gbHSr1=qnA@mail.gmail.com>
+Subject: Re: [PATCH v6 01/20] Revert "modpost: skip ELF local symbols during
+ section mismatch check"
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Pitre <npitre@baylibre.com>,
         Nicolas Schier <nicolas@fjasle.eu>
-Content-Type: multipart/mixed; boundary="000000000000a4019605fc4b30d0"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
---000000000000a4019605fc4b30d0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, May 20, 2023 at 6:28=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+On Sun, May 21, 2023 at 9:05=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
 rg> wrote:
 >
-> On Thu, May 18, 2023 at 6:14=E2=80=AFAM Nick Desaulniers
-> <ndesaulniers@google.com> wrote:
-> >
-> > On Sun, May 14, 2023 at 8:28=E2=80=AFAM Masahiro Yamada <masahiroy@kern=
-el.org> wrote:
-> > >
-> > > find_elf_symbol() and find_elf_symbol2() are not good names.
-> > >
-> > > Rename them to find_tosym(), find_fromsym(), respectively.
-> >
-> > The comments maybe could be updated, too. The end of the comment looks
-> > wrong for both.
->
->
-> What do you mean?
->
-> Please tell me which part should be changed, and how.
+> This reverts commit a4d26f1a0958bb1c2b60c6f1e67c6f5d43e2647b.
 
-Attached the comment style changes.  I didn't have precise wording in
-mind for the comments; I was suggesting to see if the comments could
-be updated to clarify what the functions are doing.
+a4d26f1a0958 mentions -fsection-anchors which I see used in:
+arch/arc/Makefile
+41:cflags-y +=3D -fsection-anchors
+
+Though based on the below, it looks like is_mapping_symbol() will
+catch this case.
+
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
 >
+> The variable 'fromsym' never starts with ".L" since commit 87e5b1e8f257
+> ("module: Sync code of is_arm_mapping_symbol()").
 >
+> In other words, Pattern 6 is now dead code.
 >
+> Previously, the .LANCHOR1 hid the symbols listed in Pattern 2, but
+> a4d26f1a0958 was a cheesy workaround.
 >
+> 87e5b1e8f257 addressed the issue in a much better way.
+
+is_arm_mapping_symbol is gone from scripts/mod/modpost.c. It was moved
+then renamed to is_mapping_symbol.  Maybe not relevant for the commit
+message, but maybe helpful to other reviewers.
+
+commit 987d2e0aaa55 ("module: Move is_arm_mapping_symbol() to module_symbol=
+.h")
+commit 0a3bf86092c3 ("module: Ignore L0 and rename is_arm_mapping_symbol()"=
+)
+
+
 >
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
 >
-> > Thanks for the patch!
-> > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-> >
-> > >
-> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > ---
-> > >
-> > > Changes in v5:
-> > >   - Change the names
-> > >
-> > >  scripts/mod/modpost.c | 12 ++++++------
-> > >  1 file changed, 6 insertions(+), 6 deletions(-)
-> > >
-> > > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > > index 3b7b78e69137..0d2c2aff2c03 100644
-> > > --- a/scripts/mod/modpost.c
-> > > +++ b/scripts/mod/modpost.c
-> > > @@ -1124,8 +1124,8 @@ static inline int is_valid_name(struct elf_info=
- *elf, Elf_Sym *sym)
-> > >   * In other cases the symbol needs to be looked up in the symbol tab=
-le
-> > >   * based on section and address.
-> > >   *  **/
-> > > -static Elf_Sym *find_elf_symbol(struct elf_info *elf, Elf64_Sword ad=
-dr,
-> > > -                               Elf_Sym *relsym)
-> > > +static Elf_Sym *find_tosym(struct elf_info *elf, Elf64_Sword addr,
-> > > +                          Elf_Sym *relsym)
-> > >  {
-> > >         Elf_Sym *sym;
-> > >         Elf_Sym *near =3D NULL;
-> > > @@ -1168,8 +1168,8 @@ static Elf_Sym *find_elf_symbol(struct elf_info=
- *elf, Elf64_Sword addr,
-> > >   * The ELF format may have a better way to detect what type of symbo=
-l
-> > >   * it is, but this works for now.
-> > >   **/
-> > > -static Elf_Sym *find_elf_symbol2(struct elf_info *elf, Elf_Addr addr=
-,
-> > > -                                unsigned int secndx)
-> > > +static Elf_Sym *find_fromsym(struct elf_info *elf, Elf_Addr addr,
-> > > +                            unsigned int secndx)
-> > >  {
-> > >         Elf_Sym *sym;
-> > >         Elf_Sym *near =3D NULL;
-> > > @@ -1207,10 +1207,10 @@ static void default_mismatch_handler(const ch=
-ar *modname, struct elf_info *elf,
-> > >         const char *tosym;
-> > >         const char *fromsym;
-> > >
-> > > -       from =3D find_elf_symbol2(elf, r->r_offset, fsecndx);
-> > > +       from =3D find_fromsym(elf, r->r_offset, fsecndx);
-> > >         fromsym =3D sym_name(elf, from);
-> > >
-> > > -       to =3D find_elf_symbol(elf, r->r_addend, sym);
-> > > +       to =3D find_tosym(elf, r->r_addend, sym);
-> > >         tosym =3D sym_name(elf, to);
-> > >
-> > >         /* check whitelist - we may ignore it */
-> > > --
-> > > 2.39.2
-> > >
-> >
-> >
-> > --
-> > Thanks,
-> > ~Nick Desaulniers
+>  scripts/mod/modpost.c | 12 ------------
+>  1 file changed, 12 deletions(-)
 >
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 0d2c2aff2c03..71de14544432 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -1034,14 +1034,6 @@ static const struct sectioncheck *section_mismatch=
+(
+>   *   fromsec =3D text section
+>   *   refsymname =3D *.constprop.*
+>   *
+> - * Pattern 6:
+> - *   Hide section mismatch warnings for ELF local symbols.  The goal
+> - *   is to eliminate false positive modpost warnings caused by
+> - *   compiler-generated ELF local symbol names such as ".LANCHOR1".
+> - *   Autogenerated symbol names bypass modpost's "Pattern 2"
+> - *   whitelisting, which relies on pattern-matching against symbol
+> - *   names to work.  (One situation where gcc can autogenerate ELF
+> - *   local symbols is when "-fsection-anchors" is used.)
+>   **/
+>  static int secref_whitelist(const struct sectioncheck *mismatch,
+>                             const char *fromsec, const char *fromsym,
+> @@ -1092,10 +1084,6 @@ static int secref_whitelist(const struct sectionch=
+eck *mismatch,
+>             match(fromsym, optim_symbols))
+>                 return 0;
 >
+> -       /* Check for pattern 6 */
+> -       if (strstarts(fromsym, ".L"))
+> -               return 0;
+> -
+>         return 1;
+>  }
 >
 > --
-> Best Regards
-> Masahiro Yamada
-
+> 2.39.2
+>
 
 
 --=20
 Thanks,
 ~Nick Desaulniers
-
---000000000000a4019605fc4b30d0
-Content-Type: text/plain; charset="US-ASCII"; name="patch.txt"
-Content-Disposition: attachment; filename="patch.txt"
-Content-Transfer-Encoding: base64
-Content-ID: <f_lhz3c4un0>
-X-Attachment-Id: f_lhz3c4un0
-
-ZGlmZiAtLWdpdCBhL3NjcmlwdHMvbW9kL21vZHBvc3QuYyBiL3NjcmlwdHMvbW9kL21vZHBvc3Qu
-YwppbmRleCBkNDUzMWQwOTk4NGQuLjE5MjZlNTAzYjBkNiAxMDA2NDQKLS0tIGEvc2NyaXB0cy9t
-b2QvbW9kcG9zdC5jCisrKyBiL3NjcmlwdHMvbW9kL21vZHBvc3QuYwpAQCAtMTEzMSwxMyArMTEz
-MSwxMyBAQCBzdGF0aWMgaW5saW5lIGludCBpc192YWxpZF9uYW1lKHN0cnVjdCBlbGZfaW5mbyAq
-ZWxmLCBFbGZfU3ltICpzeW0pCiAJcmV0dXJuICFpc19tYXBwaW5nX3N5bWJvbChuYW1lKTsKIH0K
-IAotLyoqCisvKgogICogRmluZCBzeW1ib2wgYmFzZWQgb24gcmVsb2NhdGlvbiByZWNvcmQgaW5m
-by4KICAqIEluIHNvbWUgY2FzZXMgdGhlIHN5bWJvbCBzdXBwbGllZCBpcyBhIHZhbGlkIHN5bWJv
-bCBzbwogICogcmV0dXJuIHJlZnN5bS4gSWYgc3RfbmFtZSAhPSAwIHdlIGFzc3VtZSB0aGlzIGlz
-IGEgdmFsaWQgc3ltYm9sLgogICogSW4gb3RoZXIgY2FzZXMgdGhlIHN5bWJvbCBuZWVkcyB0byBi
-ZSBsb29rZWQgdXAgaW4gdGhlIHN5bWJvbCB0YWJsZQogICogYmFzZWQgb24gc2VjdGlvbiBhbmQg
-YWRkcmVzcy4KLSAqICAqKi8KKyAqLwogc3RhdGljIEVsZl9TeW0gKmZpbmRfZWxmX3N5bWJvbChz
-dHJ1Y3QgZWxmX2luZm8gKmVsZiwgRWxmNjRfU3dvcmQgYWRkciwKIAkJCQlFbGZfU3ltICpyZWxz
-eW0pCiB7CkBAIC0xMTgxLDcgKzExODEsNyBAQCBzdGF0aWMgRWxmX1N5bSAqZmluZF9lbGZfc3lt
-Ym9sKHN0cnVjdCBlbGZfaW5mbyAqZWxmLCBFbGY2NF9Td29yZCBhZGRyLAogICogSWYgd2UgZmlu
-ZCB0d28gc3ltYm9scyB3aXRoIGVxdWFsIG9mZnNldCBwcmVmZXIgb25lIHdpdGggYSB2YWxpZCBu
-YW1lLgogICogVGhlIEVMRiBmb3JtYXQgbWF5IGhhdmUgYSBiZXR0ZXIgd2F5IHRvIGRldGVjdCB3
-aGF0IHR5cGUgb2Ygc3ltYm9sCiAgKiBpdCBpcywgYnV0IHRoaXMgd29ya3MgZm9yIG5vdy4KLSAq
-Ki8KKyAqLwogc3RhdGljIEVsZl9TeW0gKmZpbmRfZWxmX3N5bWJvbDIoc3RydWN0IGVsZl9pbmZv
-ICplbGYsIEVsZl9BZGRyIGFkZHIsCiAJCQkJIGNvbnN0IGNoYXIgKnNlYykKIHsK
---000000000000a4019605fc4b30d0--
