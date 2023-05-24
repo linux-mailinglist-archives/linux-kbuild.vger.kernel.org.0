@@ -2,142 +2,149 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A66E670FE48
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 May 2023 21:10:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E98C70FEFE
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 May 2023 22:11:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234373AbjEXTKx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 24 May 2023 15:10:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40678 "EHLO
+        id S229696AbjEXULU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 24 May 2023 16:11:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234365AbjEXTKn (ORCPT
+        with ESMTP id S229542AbjEXULT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 24 May 2023 15:10:43 -0400
-Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5151419C
-        for <linux-kbuild@vger.kernel.org>; Wed, 24 May 2023 12:10:41 -0700 (PDT)
-Received: by mail-qv1-xf2b.google.com with SMTP id 6a1803df08f44-623802d9bfdso839906d6.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 24 May 2023 12:10:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1684955440; x=1687547440;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h81XEzBPwR4bI9NqqVxiHNHCxTZ8a1gTVYdXg+UM5xQ=;
-        b=BCkFJNEfqgC5o4MydkQjO1+VvUNTJJxl/2jIOyYf3Q031h+Jh/cKOcO4HR1pCebfEU
-         XqOr+bjRo4im00dAadyUH54RrVp3c76JL2bj2MME1R4FLTIvYT5Bhlp30AWmGVfECOHt
-         /9WZbU2YlqPbW9fAq1duV5Ho4uVvRKeGXfKsZ7mpjUJ1e1VAwCCzOBMmNlJevsaxrwVn
-         LC5HiTiC/yu/oFTpdddUnMxd1Xahz8yUKj0OYw+ySZkCP5RhMVWYfH0y4Ikrqdj4NYhj
-         fnJd7JzdWHY9Uty+/+fFX6Cj7Dj7kez55LA8qXBUeLTeAiWIaW8sGsXI+ADdBBniPjDP
-         0sjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684955440; x=1687547440;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h81XEzBPwR4bI9NqqVxiHNHCxTZ8a1gTVYdXg+UM5xQ=;
-        b=L3b04H2+VOuw1Up+16GFa/K6GH6vtu+4jsnq426tq+4DBV6ndsH10kWhhozsFBjxro
-         +wOqTzwsppKZvmbhq4ZHL/bfcJWoptfBsxtHUONDaTnSbOuOgUqHN8VooRlZsa1yogac
-         ru9xW99vaq8GQkcrHMP6+nXsyLIeRK4WiXoOviDrNDXSHUVKBiBZQV1/algtTLfjVYNO
-         4USmUjMjT6JYKU5a9BRFh0AYeDlwf7pxYenbb0fTMi95omZOC14nVizQDnBXBYVy3wxu
-         2g3YKKJMNZqf8mt+baZH7ADsT20kjkgroTwFtUH4WsNW4iOZ2SWO0Qb+siZhzC3uTlFr
-         nRCg==
-X-Gm-Message-State: AC+VfDx49efc015wKhxDZv7gHfs8lCyADJejSzghj1e9wWB/EHy6ugIC
-        houk+gIY/e8TBx0VDzxUMT5+C7cxRkGt4DU560JSfkkVbZpLkU9uza27ig==
-X-Google-Smtp-Source: ACHHUZ4PZykgO+qAt/GfVYRFXAXR9glmVwU0iD12ZrZiZ030lBrpghOBZTNusAA1GBGj9IHhm9gGjwRb0C2xhmLxQWg=
-X-Received: by 2002:ad4:5f0b:0:b0:625:88f5:7c5f with SMTP id
- fo11-20020ad45f0b000000b0062588f57c5fmr14530999qvb.31.1684955440288; Wed, 24
- May 2023 12:10:40 -0700 (PDT)
+        Wed, 24 May 2023 16:11:19 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFB5913A;
+        Wed, 24 May 2023 13:11:08 -0700 (PDT)
+Received: from leknes.fjasle.eu ([46.142.48.113]) by mrelayeu.kundenserver.de
+ (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MWiYi-1pdceH1TbM-00X0aU; Wed, 24 May 2023 22:10:49 +0200
+Received: from localhost.fjasle.eu (kirkenes.fjasle.eu [10.10.0.5])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (Client did not present a certificate)
+        by leknes.fjasle.eu (Postfix) with ESMTPS id 2F5543E718;
+        Wed, 24 May 2023 22:10:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
+        t=1684959048; bh=NEnzPrnR4uCWFs5+0u/hAF23Csd9DpkegHKFPhmi5nI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nP0mp5LnadS79bKA4L3f46NyX2VsyOtgTS6WuxhpjungYgIcln3beD/SbsWZtaWZk
+         XIUKFPhnI2n0jmDTGC6pNRbQ8mvZ5X30xCgCMs9Kh02zFxMKU0tyRmAESqB/hmn4Va
+         3h4Gf8mSDJDz2V1XGlGFOVucfC+FXsCPI9jK+zgE=
+Received: by localhost.fjasle.eu (Postfix, from userid 1000)
+        id E4300F85; Wed, 24 May 2023 22:10:47 +0200 (CEST)
+Date:   Wed, 24 May 2023 22:10:47 +0200
+From:   Nicolas Schier <nicolas@fjasle.eu>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] Revert "kheaders: substituting --sort in archive
+ creation"
+Message-ID: <ZG5vR6ZWa+J0fVLA@bergen.fjasle.eu>
+References: <20230521132336.1279523-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-References: <TYCP286MB2066DEF0E1810E8BC36F533EC07B9@TYCP286MB2066.JPNP286.PROD.OUTLOOK.COM>
-In-Reply-To: <TYCP286MB2066DEF0E1810E8BC36F533EC07B9@TYCP286MB2066.JPNP286.PROD.OUTLOOK.COM>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 24 May 2023 12:10:29 -0700
-Message-ID: <CAKwvOdm6diEmc+utBNxQ4ftx3Ai2SD8q32TxRgeZ-rpGoL2Bjg@mail.gmail.com>
-Subject: Re: [PATCH] gen_compile_commands: include targets not end with .o
-To:     Hu Weiwen <huww98@outlook.com>
-Cc:     llvm@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>,
-        Tom Rix <trix@redhat.com>, Hu Weiwen <sehuww@mail.scut.edu.cn>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="3+NM5pJFDRZYr9k4"
+Content-Disposition: inline
+In-Reply-To: <20230521132336.1279523-1-masahiroy@kernel.org>
+X-Operating-System: Debian GNU/Linux 12.0
+Jabber-ID: nicolas@jabber.no
+X-Provags-ID: V03:K1:4WXS4PSLY5uzQo9usKP7ejEcycIBzTzuj086sD9jjGoxnrGgGG8
+ yuiF8EHct95ROxU7AUd4WJUjmje5VFo4GOrkoEJQJD9+O0yZlnsfycDPvlXriq3PRVALnNP
+ znqfuOkJhETok7+D086eyKXMDGJxj11jzXvICdKx5EHmT0zgHBqZu1KcOuJ+rJ7VyCVkeSV
+ szCMlpzoqveZIFlAgsoVQ==
+UI-OutboundReport: notjunk:1;M01:P0:/iiGzhFs4D0=;mn3FGmt7jgOlYcFgGwV2Ha/He7x
+ ugFzUaLn1Jv1ynESz5wiP7p7eA7FRmkLG5/YQatdZ2mCktWr3Vdi2UJClI6+cYMxDE8v/JxQl
+ jxUbPZuCe+YAC4EXn5433LH8SZCL16FRHyrATvW1RgMfLPVqhACr6J08SeHR5Utpgbqxl7tLu
+ ZSz5GiQAFobR8lCs/fNlPzjzR1112HwZc+zuHIM54qubWaUs23qeYkfq9zSDF7rAPXhP5OBm/
+ rhK/GJ1/aaVfvWP+tZXh6VxRwOuzxp+8LDOnT3LE2jLSwvnVokDsysvAbbB71mGcjK4ouQSSo
+ +a+fU/uRFiTyXjXUiN4zXypvaWu+HbWE8WXEdFo3XsY0DaiUkZK9KnatG3PKMKR3EXIn4jjwi
+ 6fDFY3l2zKqIBihP4Q1dl7kYVV6svXZPQX+ss3AEgSIhroY4QZPQG+/jSxPDuxkTGelkEGC5E
+ deoR4Yfd8NZur48nBMcDLuSgct0FpbYHbxeuBJx5AnTsQrYxLHFdJ5wK2/Y3XRXU3kurzA5PN
+ ugZ10ifpsOs9Y7S5k9gq8Cl4OGGCJrvFxvLTDkZwMuUYWPDl2SKdvSpz2rlsWQxZTBGKguX1+
+ /SqCAMl27U3NHmGdVu9D7H+MNkZ8rJF4+n4CTqj9vmjQoLNuliTfA9tgZuUqkL8RZZDZSKbvh
+ CUEj2RsrNtwynmYd8kZlsom9DvMH802Nffym76FlDA==
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,
+        T_SPF_TEMPERROR autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, May 14, 2023 at 3:19=E2=80=AFAM Hu Weiwen <huww98@outlook.com> wrot=
-e:
->
-> From: Hu Weiwen <sehuww@mail.scut.edu.cn>
 
-Hi Hu,
-Sorry, for the delay. I'm usually faster to respond to patches. It was
-my mistake this fell through the cracks, and thank you for the patch.
+--3+NM5pJFDRZYr9k4
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I received this email from <huww98@outlook.com>. Do you mind resending
-with your signed off by tag set to the email address from which you
-are sending patches?  This patch looks benign to me, but it makes me a
-little uneasy when author !=3D sender.
-
-Please also cc
-- Masahiro Yamada <masahiroy@kernel.org>
-- linux-kbuild@vger.kernel.org
-
-As this would go in via the kbuild tree.
-
->
-> Currently, we only extract commands for targets end with '.o'. But we
-
-s/end/ending/
-
-
-With this patch applies\d, I get the same word count for
-compile_commands.json when running:
-$ make LLVM=3D1 -j128 defconfig compile_commands.json
-
-on my x86_64 host. Is that expected?  Is there a specific arch or set
-of configs for which such .c files produce executables directly?
-
-> also have many standalone executables built in-tree.
->
-> Remove this restriction. And to avoid some false matching, exclude
-> targets end with '.c' or '.h' when directly walking the directory.
->
-> Signed-off-by: Hu Weiwen <sehuww@mail.scut.edu.cn>
+On Sun 21 May 2023 22:23:35 GMT, Masahiro Yamada wrote:
+> This reverts commit 700dea5a0bea9f64eba89fae7cb2540326fdfdc1.
+>=20
+> The reason for that commit was --sort=3DORDER introduced in
+> tar 1.28 (2014). More than 3 years have passed since then.
+>=20
+> Requiring GNU tar 1.28 should be fine now because we require
+> GCC 5.1 (2015).
+>=20
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
->  scripts/clang-tools/gen_compile_commands.py | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clang-=
-tools/gen_compile_commands.py
-> index 15ba56527acd..6e88c7e166fc 100755
-> --- a/scripts/clang-tools/gen_compile_commands.py
-> +++ b/scripts/clang-tools/gen_compile_commands.py
-> @@ -18,8 +18,8 @@ import sys
->  _DEFAULT_OUTPUT =3D 'compile_commands.json'
->  _DEFAULT_LOG_LEVEL =3D 'WARNING'
->
-> -_FILENAME_PATTERN =3D r'^\..*\.cmd$'
-> -_LINE_PATTERN =3D r'^savedcmd_[^ ]*\.o :=3D (.* )([^ ]*\.c) *(;|$)'
-> +_FILENAME_PATTERN =3D r'^\..*(?<!\.(c|h))\.cmd$'
-> +_LINE_PATTERN =3D r'^savedcmd_[^ ]* :=3D (.* )([^ ]*\.c) *(;|$)'
->  _VALID_LOG_LEVELS =3D ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
->  # The tools/ directory adopts a different build system, and produces .cm=
-d
->  # files in a different format. Do not support it.
-> --
-> 2.25.1
->
->
 
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+
+
+>=20
+>  kernel/gen_kheaders.sh | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/kernel/gen_kheaders.sh b/kernel/gen_kheaders.sh
+> index 1ef9a87511f5..6d443ea22bb7 100755
+> --- a/kernel/gen_kheaders.sh
+> +++ b/kernel/gen_kheaders.sh
+> @@ -83,12 +83,9 @@ find $cpio_dir -type f -print0 |
+>  	xargs -0 -P8 -n1 perl -pi -e 'BEGIN {undef $/;}; s/\/\*((?!SPDX).)*?\*\=
+///smg;'
+> =20
+>  # Create archive and try to normalize metadata for reproducibility.
+> -# For compatibility with older versions of tar, files are fed to tar
+> -# pre-sorted, as --sort=3Dname might not be available.
+> -find $cpio_dir -printf "./%P\n" | LC_ALL=3DC sort | \
+> -    tar "${KBUILD_BUILD_TIMESTAMP:+--mtime=3D$KBUILD_BUILD_TIMESTAMP}" \
+> -    --owner=3D0 --group=3D0 --numeric-owner --no-recursion \
+> -    -I $XZ -cf $tarfile -C $cpio_dir/ -T - > /dev/null
+> +tar "${KBUILD_BUILD_TIMESTAMP:+--mtime=3D$KBUILD_BUILD_TIMESTAMP}" \
+> +    --owner=3D0 --group=3D0 --sort=3Dname --numeric-owner \
+> +    -I $XZ -cf $tarfile -C $cpio_dir/ . > /dev/null
+> =20
+>  echo $headers_md5 > kernel/kheaders.md5
+>  echo "$this_file_md5" >> kernel/kheaders.md5
+> --=20
+> 2.39.2
 
 --=20
-Thanks,
-~Nick Desaulniers
+Nicolas Schier
+=20
+epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
+=E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
+     -- frykten for herren er opphav til kunnskap --
+
+--3+NM5pJFDRZYr9k4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmRub0IACgkQB1IKcBYm
+Emmegw//ZPS0pesaF4rgNSTunDOe/fMbQ1/bobbJQX1IxgoRSF4GNWbhTVLeSN6L
+ZqGdKkkhc4RbrsBT9o3tHjEHaO44orUvrb1fqpTcVl9NTZtsI2qLjC8hPCzO0bTI
+IuQl6yinPSDElO+ZE7zZFalk0BFykxezgtYzZeEyajFVJsPJVb7cIb8RHf8chEud
+MLNDWqIk63/85LRVaO4bTRPeGFGP+wpM1DvBz1k3tVFGVz4kVcB+0PdEyuMtiykS
+Z0R4aXcyEJodY6rlIvp23AIzTA/1XoxIWd/Eg44yvvC11J3oUzwOXTh480FuABDQ
+TzRMlRJdLLkyUz5q4u+zus4QfguVTJGEnXKdms4oJdW0EIOOeIugQob+ZmH3Ds+A
+sSTqD89dRe1ga4QjnqhNHRb+CleraLj911oKm6dKAJIq153Kr7TTA5vxmXcdHJ1U
+t/4idQvY5SV2wezcr//BKb6pRUOemcB1mRmSCrTO0iY5S1gZYw6O0m071oPG9uY9
+mGIoN04dUvOVRfsY5IfGsEL3hJFemnAkyviWG49s5ZyWlq0/QmoeurQykHzQ6iFy
+PbD3wQxbpPYyfU14fT1Rx71Wx5AaLvR8ny27vdAH0RSayC3IhzPCqjewjc1m4NYc
+e64tPr/T49SFk7Ar2FGlLVDrV/kgDuX0HPZxZv8hHX/IKhQuh1o=
+=OYQM
+-----END PGP SIGNATURE-----
+
+--3+NM5pJFDRZYr9k4--
