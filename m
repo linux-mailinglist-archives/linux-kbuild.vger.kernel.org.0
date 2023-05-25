@@ -2,58 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CBB9F7111EB
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 May 2023 19:20:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AD2E711213
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 May 2023 19:24:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233178AbjEYRUz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 25 May 2023 13:20:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36498 "EHLO
+        id S232800AbjEYRYU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 25 May 2023 13:24:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233042AbjEYRUy (ORCPT
+        with ESMTP id S230502AbjEYRYT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 25 May 2023 13:20:54 -0400
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3984018D
-        for <linux-kbuild@vger.kernel.org>; Thu, 25 May 2023 10:20:48 -0700 (PDT)
-Received: by mail-qk1-x733.google.com with SMTP id af79cd13be357-75b0830e2eeso61225885a.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 25 May 2023 10:20:48 -0700 (PDT)
+        Thu, 25 May 2023 13:24:19 -0400
+Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com [IPv6:2607:f8b0:4864:20::f31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DD6C1BB
+        for <linux-kbuild@vger.kernel.org>; Thu, 25 May 2023 10:23:53 -0700 (PDT)
+Received: by mail-qv1-xf31.google.com with SMTP id 6a1803df08f44-625bf433abfso3902036d6.2
+        for <linux-kbuild@vger.kernel.org>; Thu, 25 May 2023 10:23:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1685035247; x=1687627247;
+        d=google.com; s=20221208; t=1685035432; x=1687627432;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=idVvh3Hi/Oxhf6eEX+oF6Y39sENzliovz45uq92Jgac=;
-        b=dXoLpKXqaoar+9J5WZ565irtkP9mp/Z9ejfauR9coLH2R8X9wD90CHTWYApPU+rDUz
-         KUwcmYAWzSlHMJeSlCR5GOtS+2V6LGwpwHdn067k72imWd3U1CwMREAbP6cWyNTV6TyA
-         /TDD4M0CAbLsVMvcZTjq35F1QoJS638ojjuiHzKSlhy6LJw8rVnpA4nRBbiRyrfB6gGO
-         lDy6bbUftSNHWTitNtQWpaal380n+vrX8lNcTfiYCu4jpne0FhNRfyMpuquQ+re0eYmg
-         Z5dYOCeYHB4Vt3zA71kGptKnRd13QaI5hIDK0uhfq03NRvgk+AmOI5wQqbmfXOEPEXTl
-         U6EQ==
+        bh=VC9d8VClaITWEwUqcZuECdjYIAHc9o2yDDJtZ/g64PQ=;
+        b=2N4wtctLmAyqgk6QelqOPqcr11aEX0XTiLh40tSKsZu79Sy4COrVl2Z8K24JocwdoW
+         dYrKrwaD8bN2bpiI4Nj8B8J4QwFK0synUuMU+eXYSC7SVFXmh6xLIxPgyRADyiXO08qx
+         XyqvzzB8Dlo3mUzMgMDiq69NcrW8vZIPXnVsTbx5a5ptd2l4gwXbTlCim583CyqVBudU
+         nhQukbeip9nqQca6/H9rHUZnTOcIB12CDWbVikX1CXeKx1z5ztrqgpo/9/JWZ/0M1u1Q
+         FbEXGOMuolY08JM1UdQRy7aokre5tRBznwdrNNHpmlM/GI3wUxk8x85j7+WvWasJ3M1f
+         BcHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685035247; x=1687627247;
+        d=1e100.net; s=20221208; t=1685035432; x=1687627432;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=idVvh3Hi/Oxhf6eEX+oF6Y39sENzliovz45uq92Jgac=;
-        b=CmI20o+BoBff7IjhAgnvhw24ZA+pBgaGjH5LcnOz50eMlBzT5K3FM7GrnAKuEnXb6s
-         y8VN5KDimCvUteDqRLdIoUucdBN+z0ErtZzmuZFSJyXnKJVZIDJAgH9EaEa9c9XShIjX
-         6Q+WRN0wBj0uOQJptZbUZY7MP1c1Vra9pYjx8tjFH8QbHgReps3ApHNqilsWIYzisu/z
-         sbEymG4Up5wbM+KsOCV2sKncb1n1MNXFHjaSFdGfN3pY1vy1+BEnb8hoBgWKibH2GPUL
-         j+mMR/yqpsTWY9+8ALr6+w4x9X4xh/kllQWgbqYKrjjm2gReqPAVf48uapMiSfIjp5lV
-         WVCg==
-X-Gm-Message-State: AC+VfDwOgpwoXpMWRx6Fnt/1unO0E7iaIiUog9SWdl7TVdwkFs7/AiZL
-        RvGEM0WJk1NIiIu2GeEccnn+2q+FVX9v6Wwadr+DuQ==
-X-Google-Smtp-Source: ACHHUZ6YN2OHVzq5lblbEVFVyuZYsf5PZl90I1LnhIBj0jt0olmiCSdaWhPh+5nnkil1lWiIUdAbGsFocTvFIUehI4g=
-X-Received: by 2002:a05:620a:439c:b0:75b:23a1:d858 with SMTP id
- a28-20020a05620a439c00b0075b23a1d858mr3626403qkp.26.1685035247090; Thu, 25
- May 2023 10:20:47 -0700 (PDT)
+        bh=VC9d8VClaITWEwUqcZuECdjYIAHc9o2yDDJtZ/g64PQ=;
+        b=WeJ5lE5NnGGdCro7Lzf+8/HsDGx8mcaZFKNHp5TjVAc1PI8XcyrKtdiPdPN9ZTv/+l
+         brzKczTotewsDcMheWJW7LKyUMCEAGXxkv4W5hWEnsjBEHxrDshXkIxESUyVMHow0n6W
+         SoRrcC+a13ckncxi2JmEQ6TZ3WKVvqaRIcGTgOzJfnWbvBXl+1/GK5soO06sdas8aAfU
+         8LVxW73/5oAgj2khizQLsHLaoEqcT2wodCi/L/X059DNsNGJ5QFM4RPK39bv+LrXFd80
+         zf+tQvm2kQR6e4mkgGvvwsifSBxILGZ7hC1cZq/ThdxQc+xgNYlL9jiYNBOEWiTavRso
+         JAkw==
+X-Gm-Message-State: AC+VfDwoegKou/dshK/+wmdDB9sRYQ5Pk+rj0NKYAjNSthq/EQ5PObWV
+        bNz4gmf/QdQXLPBDp7zy+koIj+pKQMoBZ7pqR8f4+g==
+X-Google-Smtp-Source: ACHHUZ4qe1nrt/7Y3nnUpJTssvtLZ9Ax5aXY+A9hbBKo1yMUqtOd2FwROyCyhdET7piu/JRXMZMAooTYMsxLsncG8LQ=
+X-Received: by 2002:ad4:5bcf:0:b0:5ed:d3d:405 with SMTP id t15-20020ad45bcf000000b005ed0d3d0405mr1730001qvt.34.1685035431606;
+ Thu, 25 May 2023 10:23:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230521160426.1881124-1-masahiroy@kernel.org> <20230521160426.1881124-9-masahiroy@kernel.org>
-In-Reply-To: <20230521160426.1881124-9-masahiroy@kernel.org>
+References: <20230521160426.1881124-1-masahiroy@kernel.org> <20230521160426.1881124-10-masahiroy@kernel.org>
+In-Reply-To: <20230521160426.1881124-10-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 25 May 2023 10:20:36 -0700
-Message-ID: <CAKwvOdmDRNXQd0oDCjV1XdCk4coEd4_=V_idpObc9ibuVwOWgw@mail.gmail.com>
-Subject: Re: [PATCH v6 08/20] modpost: remove is_shndx_special() check from section_rel(a)
+Date:   Thu, 25 May 2023 10:23:40 -0700
+Message-ID: <CAKwvOdnjAM9tVe9M0+Gz4gsrHDUvjKuDdKZ_VpLiQEFk1=BnTw@mail.gmail.com>
+Subject: Re: [PATCH v6 09/20] modpost: pass struct module pointer to check_section_mismatch()
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
@@ -74,10 +73,7 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 On Sun, May 21, 2023 at 9:05=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
 rg> wrote:
 >
-> This check is unneeded. Without it, sec_name() will returns the null
-> string "", then section_mismatch() will return immediately.
->
-> Anyway, special section indices rarely appear in these loops.
+> The next commit will use it.
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
@@ -86,87 +82,115 @@ Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
 > ---
 >
-> Changes in v6:
->   - Remove is_shndx_special() definition
->
->  scripts/mod/modpost.c | 16 ++++------------
->  scripts/mod/modpost.h |  5 -----
->  2 files changed, 4 insertions(+), 17 deletions(-)
+>  scripts/mod/modpost.c | 22 +++++++++++-----------
+>  1 file changed, 11 insertions(+), 11 deletions(-)
 >
 > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index f364738a236e..40fac4f64fcd 100644
+> index 40fac4f64fcd..378fb9649545 100644
 > --- a/scripts/mod/modpost.c
 > +++ b/scripts/mod/modpost.c
-> @@ -1361,7 +1361,6 @@ static int addend_mips_rel(struct elf_info *elf, El=
+> @@ -1229,7 +1229,7 @@ static void default_mismatch_handler(const char *mo=
+dname, struct elf_info *elf,
+>         }
+>  }
+>
+> -static void check_section_mismatch(const char *modname, struct elf_info =
+*elf,
+> +static void check_section_mismatch(struct module *mod, struct elf_info *=
+elf,
+>                                    Elf_Sym *sym,
+>                                    unsigned int fsecndx, const char *from=
+sec,
+>                                    Elf_Addr faddr, Elf_Addr taddr)
+> @@ -1240,7 +1240,7 @@ static void check_section_mismatch(const char *modn=
+ame, struct elf_info *elf,
+>         if (!mismatch)
+>                 return;
+>
+> -       default_mismatch_handler(modname, elf, mismatch, sym,
+> +       default_mismatch_handler(mod->name, elf, mismatch, sym,
+>                                  fsecndx, fromsec, faddr,
+>                                  tosec, taddr);
+>  }
+> @@ -1358,7 +1358,7 @@ static int addend_mips_rel(struct elf_info *elf, El=
 f_Shdr *sechdr, Elf_Rela *r)
->  static void section_rela(const char *modname, struct elf_info *elf,
+>  #define R_LARCH_SUB32          55
+>  #endif
+>
+> -static void section_rela(const char *modname, struct elf_info *elf,
+> +static void section_rela(struct module *mod, struct elf_info *elf,
 >                          Elf_Shdr *sechdr)
 >  {
-> -       Elf_Sym  *sym;
 >         Elf_Rela *rela;
->         Elf_Rela r;
->         unsigned int r_sym;
-> @@ -1404,11 +1403,8 @@ static void section_rela(const char *modname, stru=
-ct elf_info *elf,
->                                 continue;
+> @@ -1404,12 +1404,12 @@ static void section_rela(const char *modname, str=
+uct elf_info *elf,
 >                         break;
 >                 }
-> -               sym =3D elf->symtab_start + r_sym;
-> -               /* Skip special sections */
-> -               if (is_shndx_special(sym->st_shndx))
-> -                       continue;
-> -               check_section_mismatch(modname, elf, sym,
-> +
-> +               check_section_mismatch(modname, elf, elf->symtab_start + =
+>
+> -               check_section_mismatch(modname, elf, elf->symtab_start + =
 r_sym,
+> +               check_section_mismatch(mod, elf, elf->symtab_start + r_sy=
+m,
 >                                        fsecndx, fromsec, r.r_offset, r.r_=
 addend);
 >         }
 >  }
-> @@ -1416,7 +1412,6 @@ static void section_rela(const char *modname, struc=
-t elf_info *elf,
->  static void section_rel(const char *modname, struct elf_info *elf,
+>
+> -static void section_rel(const char *modname, struct elf_info *elf,
+> +static void section_rel(struct module *mod, struct elf_info *elf,
 >                         Elf_Shdr *sechdr)
 >  {
-> -       Elf_Sym *sym;
 >         Elf_Rel *rel;
->         Elf_Rela r;
->         unsigned int r_sym;
-> @@ -1463,11 +1458,8 @@ static void section_rel(const char *modname, struc=
-t elf_info *elf,
->                 default:
+> @@ -1459,7 +1459,7 @@ static void section_rel(const char *modname, struct=
+ elf_info *elf,
 >                         fatal("Please add code to calculate addend for th=
 is architecture\n");
 >                 }
-> -               sym =3D elf->symtab_start + r_sym;
-> -               /* Skip special sections */
-> -               if (is_shndx_special(sym->st_shndx))
-> -                       continue;
-> -               check_section_mismatch(modname, elf, sym,
-> +
-> +               check_section_mismatch(modname, elf, elf->symtab_start + =
+>
+> -               check_section_mismatch(modname, elf, elf->symtab_start + =
 r_sym,
+> +               check_section_mismatch(mod, elf, elf->symtab_start + r_sy=
+m,
 >                                        fsecndx, fromsec, r.r_offset, r.r_=
 addend);
 >         }
 >  }
-> diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
-> index 1178f40a73f3..b1e2d95f8047 100644
-> --- a/scripts/mod/modpost.h
-> +++ b/scripts/mod/modpost.h
-> @@ -151,11 +151,6 @@ struct elf_info {
->         Elf32_Word   *symtab_shndx_stop;
->  };
+> @@ -1476,19 +1476,19 @@ static void section_rel(const char *modname, stru=
+ct elf_info *elf,
+>   * to find all references to a section that reference a section that wil=
+l
+>   * be discarded and warns about it.
+>   **/
+> -static void check_sec_ref(const char *modname, struct elf_info *elf)
+> +static void check_sec_ref(struct module *mod, struct elf_info *elf)
+>  {
+>         int i;
+>         Elf_Shdr *sechdrs =3D elf->sechdrs;
 >
-> -static inline int is_shndx_special(unsigned int i)
-> -{
-> -       return i !=3D SHN_XINDEX && i >=3D SHN_LORESERVE && i <=3D SHN_HI=
-RESERVE;
-> -}
-> -
->  /* Accessor for sym->st_shndx, hides ugliness of "64k sections" */
->  static inline unsigned int get_secindex(const struct elf_info *info,
->                                         const Elf_Sym *sym)
+>         /* Walk through all sections */
+>         for (i =3D 0; i < elf->num_sections; i++) {
+> -               check_section(modname, elf, &elf->sechdrs[i]);
+> +               check_section(mod->name, elf, &elf->sechdrs[i]);
+>                 /* We want to process only relocation sections and not .i=
+nit */
+>                 if (sechdrs[i].sh_type =3D=3D SHT_RELA)
+> -                       section_rela(modname, elf, &elf->sechdrs[i]);
+> +                       section_rela(mod, elf, &elf->sechdrs[i]);
+>                 else if (sechdrs[i].sh_type =3D=3D SHT_REL)
+> -                       section_rel(modname, elf, &elf->sechdrs[i]);
+> +                       section_rel(mod, elf, &elf->sechdrs[i]);
+>         }
+>  }
+>
+> @@ -1659,7 +1659,7 @@ static void read_symbols(const char *modname)
+>                                              sym_get_data(&info, sym));
+>         }
+>
+> -       check_sec_ref(modname, &info);
+> +       check_sec_ref(mod, &info);
+>
+>         if (!mod->is_vmlinux) {
+>                 version =3D get_modinfo(&info, "version");
 > --
 > 2.39.2
 >
