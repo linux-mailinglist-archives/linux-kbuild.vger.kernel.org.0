@@ -2,58 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 284B7711395
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 May 2023 20:20:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 861827113A9
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 May 2023 20:27:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233677AbjEYSUc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 25 May 2023 14:20:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45640 "EHLO
+        id S235058AbjEYS1J (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 25 May 2023 14:27:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232918AbjEYSUb (ORCPT
+        with ESMTP id S239117AbjEYS1D (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 25 May 2023 14:20:31 -0400
-Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AB6EE2
-        for <linux-kbuild@vger.kernel.org>; Thu, 25 May 2023 11:20:29 -0700 (PDT)
-Received: by mail-qk1-x732.google.com with SMTP id af79cd13be357-75b0830e2eeso759185a.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 25 May 2023 11:20:29 -0700 (PDT)
+        Thu, 25 May 2023 14:27:03 -0400
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFA6F135
+        for <linux-kbuild@vger.kernel.org>; Thu, 25 May 2023 11:27:01 -0700 (PDT)
+Received: by mail-qv1-xf35.google.com with SMTP id 6a1803df08f44-623f24b7ec9so537776d6.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 25 May 2023 11:27:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1685038828; x=1687630828;
+        d=google.com; s=20221208; t=1685039221; x=1687631221;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kCFwna0ZpFAdGQRWMH6jYRvTC2leLI59IYmfIfFBrQo=;
-        b=i2L79myoQlGuU9HZiujoADn1olZFfTlcKzr4sK8xIyDMtXtfZcOC1phgq3QrIZefe4
-         84XxfmasQhy0QiSFwg+TvcTx0bW0/KzDH2fbjI46cHHao9tC1y3pXWi0COrDoIAGqf8f
-         Nytu7TY3MICsmo/SbpqQXB5qRigW0fc18QTNHgL0AajoD8v4hnshMDA2kPpTdr+jeUby
-         8Ex9A2uty8LM2VfibYrZVCIDbSNl5Ag5AHjsqdJgI/xLDT+EaLnb5rdbB1lA+e9o1c8v
-         XPfuL4pnpJ/zM2RL0k7CvEX2JV2WaVZ0Btrq3BGf6c4KWPx6dUrBz1ypqOX7lF5yZnZF
-         pn/w==
+        bh=6L1Ik6ysKjKmDTpM+2CKI8WkvvucU0bE1QXFD6+Kpvg=;
+        b=hgcZOYkTB7IYsQHOFQevRURtgaXyzvg96iN/UkZaSZxOIeIQTUrthn6c3NgApqRqAd
+         /OvpP5lmpTqco1BPvQn7Fh3ZF3iL0KrsAjDLAwUuEHQuflgVPmsUGoVhaewPChRai6Qz
+         IiLW47sRNjhgkhbuIhH/YyJLRkzvqcAiRs8Dmsg9XRrqBv6eTUuQ1dn3frcZxNO7B1Bi
+         rQSN7gldrhf7xUzfgGlBTmYUbG9H5QlRI/OWb4loCsRGnT6DgK5kq3ZgYQ9fEyf77mXn
+         nfu0YnNEjY5ZpkP6Ymo1SAAzOZJO9Fxkjg1/2KEadeu0tTHH1jvkmR2qSmx0eBMztzzD
+         iFGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685038828; x=1687630828;
+        d=1e100.net; s=20221208; t=1685039221; x=1687631221;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kCFwna0ZpFAdGQRWMH6jYRvTC2leLI59IYmfIfFBrQo=;
-        b=EYbimXzOqvxMaZZ8azFUmdJkeCST2O6dFTQ/En6XgYGLgiJP9/oxdqDt3yilAnuSOn
-         FFvNhLdNSWn6BNd10kqMBg9zWMlSbO16NNHCFyvw3Grlx3jfPfasbPibaMJkuQOA/XNr
-         FRuFj1dbewTykdgiSRva6GaEA7zCCU51DivBvc9rKgdVBd00+rwPUI8VHBFGuHsnLcPo
-         FbNmPIjUob4f71Qo8QFNnf5E6/DwK4f2wGE964JLWcOSa0SDzgpSa7dmG7TL8f2fPTPo
-         3EFcC43vmHFytUtykathe0skmjglVvG/RTHzGqP0PnJP0C0dIWk2yK8uCgjxl6EfqfYj
-         cFgA==
-X-Gm-Message-State: AC+VfDx9B+9n7nXBTFad9JxeeAwFjb2RMNiWF6cHzW4QZ1SzbW8saxJ0
-        oANadz8TmhR2Et8gU3vqUHJxiGNAcQE0Q4rLPUSO3Q==
-X-Google-Smtp-Source: ACHHUZ4sKrG3vHBSbytFDQA5PU48D9Zc3ltGjkwSmz07UsEQIQKqY16gba14KrfP3Tr6I8ThqsdZrtDsylHMeki5bZ0=
-X-Received: by 2002:a05:620a:8c84:b0:75b:23a1:d85d with SMTP id
- ra4-20020a05620a8c8400b0075b23a1d85dmr3021511qkn.31.1685038828513; Thu, 25
- May 2023 11:20:28 -0700 (PDT)
+        bh=6L1Ik6ysKjKmDTpM+2CKI8WkvvucU0bE1QXFD6+Kpvg=;
+        b=Lh8JG8kBW0NwM6hiUsShNyyI9gNYW8xSxFTomKzAynSKEYcLODNAUbeycAbKZFhUfT
+         jEUzmcJQ5RR5F9iO77lKnM6X1lZMJknmyEtbFvmZIp8Dvm+fx47DTPNkVizaO5DrcZTG
+         GAa+YSjTIxJB3gOYSFUCH/wd0NYjiYkfvdL6kQM2dF/Rc2vzGIh4j8CKsnCpODKjz2ju
+         t0cr8LE3RPdjSXjcM7CgjlOZyEEfWzSSECp7Ae64HX3mIhV+k4CPWc/XDz6K7JlXPE9e
+         9zxz5G22FGiO1Oc2UdKshsYBl0zA6MLPDZmgcvTsst3LxVZPWEaDioqP5kS4yMtsZg87
+         y1TA==
+X-Gm-Message-State: AC+VfDzlb4ETxrFqfmuzkmgzpfbHNFMhwygIjvr0RmEAPNeN7OPxfz0x
+        oKoTwDF+D36yu+WG44XWYAiKCyzdAo/DD6HidRwN+w==
+X-Google-Smtp-Source: ACHHUZ7hJ00+0392yVoaCOem32BJI0ayvlTB53ftHuich+eItb13C3VrKbIyK+a8MaLhm5HT2MTCscrnj+GygrTqrso=
+X-Received: by 2002:a05:6214:2124:b0:625:aa49:9ab3 with SMTP id
+ r4-20020a056214212400b00625aa499ab3mr3273504qvc.55.1685039220753; Thu, 25 May
+ 2023 11:27:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230521160426.1881124-1-masahiroy@kernel.org> <20230521160426.1881124-20-masahiroy@kernel.org>
-In-Reply-To: <20230521160426.1881124-20-masahiroy@kernel.org>
+References: <20230521160426.1881124-1-masahiroy@kernel.org> <20230521160426.1881124-21-masahiroy@kernel.org>
+In-Reply-To: <20230521160426.1881124-21-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 25 May 2023 11:20:17 -0700
-Message-ID: <CAKwvOd=O9E1RBhk-hUYNX=EuhP4qQoH0M-wQjpyEZM5QG6+==A@mail.gmail.com>
-Subject: Re: [PATCH v6 19/20] modpost: merge two similar section mismatch warnings
+Date:   Thu, 25 May 2023 11:26:49 -0700
+Message-ID: <CAKwvOdmwb3a-YvA4qN6=ed1YeQY_yG0qJnboX23CjCMOH8HmMQ@mail.gmail.com>
+Subject: Re: [PATCH v6 20/20] modpost: show offset from symbol for section
+ mismatch warnings
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
@@ -74,72 +75,40 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 On Sun, May 21, 2023 at 9:05=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
 rg> wrote:
 >
-> In case of section mismatch, modpost shows slightly different messages.
+> Currently, modpost only shows the symbol names and section names, so it
+> repeats the same message if there are multiple relocations in the same
+> symbol. It is common the relocation spans across multiple instructions.
 >
-> For extable section mismatch:
->
->  "%s(%s+0x%lx): Section mismatch in reference to the %s:%s\n"
->
-> For the other cases:
->
->  "%s: section mismatch in reference: %s (section: %s) -> %s (section: %s)=
-\n"
->
-> They are similar. Merge them.
+> It is better to show the offset from the symbol.
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-
-Thanks for the patch!
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-
 > ---
 >
->  scripts/mod/modpost.c | 18 +++---------------
->  1 file changed, 3 insertions(+), 15 deletions(-)
+>  scripts/mod/modpost.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
 > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 852cc164c77e..e7561fa57478 100644
+> index e7561fa57478..4da96746a03b 100644
 > --- a/scripts/mod/modpost.c
 > +++ b/scripts/mod/modpost.c
-> @@ -1135,21 +1135,10 @@ static void default_mismatch_handler(const char *=
-modname, struct elf_info *elf,
+> @@ -1135,8 +1135,8 @@ static void default_mismatch_handler(const char *mo=
+dname, struct elf_info *elf,
 >
 >         sec_mismatch_count++;
 >
-> -       switch (mismatch->mismatch) {
-> -       case TEXT_TO_ANY_INIT:
-> -       case DATA_TO_ANY_INIT:
-> -       case TEXTDATA_TO_ANY_EXIT:
-> -       case XXXINIT_TO_SOME_INIT:
-> -       case XXXEXIT_TO_SOME_EXIT:
-> -       case ANY_INIT_TO_ANY_EXIT:
-> -       case ANY_EXIT_TO_ANY_INIT:
-> -               warn("%s: section mismatch in reference: %s (section: %s)=
- -> %s (section: %s)\n",
-> -                    modname, fromsym, fromsec, tosym, tosec);
-> -               break;
-> -       case EXTABLE_TO_NON_TEXT:
-> -               warn("%s(%s+0x%lx): Section mismatch in reference to the =
-%s:%s\n",
-> -                    modname, fromsec, (long)faddr, tosec, tosym);
-> +       warn("%s: section mismatch in reference: %s (section: %s) -> %s (=
+> -       warn("%s: section mismatch in reference: %s (section: %s) -> %s (=
 section: %s)\n",
-> +            modname, fromsym, fromsec, tosym, tosec);
+> -            modname, fromsym, fromsec, tosym, tosec);
+> +       warn("%s: section mismatch in reference: %s+0x%x (section: %s) ->=
+ %s (section: %s)\n",
+> +            modname, fromsym, (unsigned int)(faddr - from->st_value), fr=
+omsec, tosym, tosec);
+
+Is the cast necessary if you use the %p format specifier instead of 0x%x?
+
 >
-> +       if (mismatch->mismatch =3D=3D EXTABLE_TO_NON_TEXT) {
+>         if (mismatch->mismatch =3D=3D EXTABLE_TO_NON_TEXT) {
 >                 if (match(tosec, mismatch->bad_tosec))
->                         fatal("The relocation at %s+0x%lx references\n"
->                               "section \"%s\" which is black-listed.\n"
-> @@ -1169,7 +1158,6 @@ static void default_mismatch_handler(const char *mo=
-dname, struct elf_info *elf,
->                 else
->                         error("%s+0x%lx references non-executable section=
- '%s'\n",
->                               fromsec, (long)faddr, tosec);
-> -               break;
->         }
->  }
->
 > --
 > 2.39.2
 >
