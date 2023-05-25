@@ -2,161 +2,200 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 69C1270FF00
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 May 2023 22:13:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CFDB710940
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 May 2023 11:53:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234830AbjEXUNp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 24 May 2023 16:13:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34198 "EHLO
+        id S240246AbjEYJxH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 25 May 2023 05:53:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbjEXUNo (ORCPT
+        with ESMTP id S231934AbjEYJxF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 24 May 2023 16:13:44 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 541B3113;
-        Wed, 24 May 2023 13:13:38 -0700 (PDT)
-Received: from leknes.fjasle.eu ([46.142.48.113]) by mrelayeu.kundenserver.de
- (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MacWq-1qYUSV2cSw-00c7GA; Wed, 24 May 2023 22:13:25 +0200
-Received: from localhost.fjasle.eu (kirkenes.fjasle.eu [10.10.0.5])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (Client did not present a certificate)
-        by leknes.fjasle.eu (Postfix) with ESMTPS id BA7753E718;
-        Wed, 24 May 2023 22:13:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1684959199; bh=/MFr3bImtpK5ZWvW7aTLdtc20FkkQYF+XKdCkR9NU0g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fFnO8BjHMEJcx+fc1bAufl3sz10WgZ9OreXDLscGsXAh6r7VL4SrtfdSdnifcG/H/
-         S3va77G7m6seO9HTp5IrJXAYFOBkMs/T8XcH3WR80SS1dccNsC2cmBDVNQvwXyVb7o
-         9DKeO0TWbyA9PNtR0+LsbXFLTlou5wUxjlP0YOhA=
-Received: by localhost.fjasle.eu (Postfix, from userid 1000)
-        id 0D8A7F85; Wed, 24 May 2023 22:12:46 +0200 (CEST)
-Date:   Wed, 24 May 2023 22:12:45 +0200
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/2] doc: Add tar requirement to changes.rst
-Message-ID: <ZG5vvdlO8sTbqP4U@bergen.fjasle.eu>
-References: <20230521132336.1279523-1-masahiroy@kernel.org>
- <20230521132336.1279523-2-masahiroy@kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="sVIsU6HI+ukWJun4"
+        Thu, 25 May 2023 05:53:05 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01olkn2084.outbound.protection.outlook.com [40.92.98.84])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37BC912E
+        for <linux-kbuild@vger.kernel.org>; Thu, 25 May 2023 02:53:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AXpnHxSatRGY3pMGyhNNCk9F7aVRfHyon9arfcEdF76vPWUKpVprAeR7Gqt0OG1xPcuFD71RqrEReqnh02SbLep4AqGAG780NetIWvDv0ZJVHS3x2Hy6mzHJP/M9ifGhHhP5Z8xg/X7CaJ40pXkMmtHWeCg4lXFUQ1QEwHYuAkLQ8Pg7JTPnOguOm6TiiTQAcZVdASTfjSgl57KRolTBJPqbJ7ZtJk+QikYX+cMfgfRBC4Uc8EbzYMYDP/McBqAWqYuSghzUUnPUyJraaEmk/T2r5GrXH8kFQYBBLzWp86bAZLMu5chubR6BDwFTuSjv61BXRWH2op7OdbIClYdHCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GXWeq+3PRNEweWV5pj4ZGdRSsBh8+KMBzCtRcVkFEhc=;
+ b=kXblrx6UvKuXbR4AO0TfJZe0xACNRRgAmmPQl2iZdEAl3/MqBabOUiIhCtg1wWzYnmFtMCpz5GqY5fUVaWiSU5RqJgq9dGsZQCbb9KXlwIq3n235SOKO3dI14HbTCwEBxArnlfW9pyJ/z5nj64D+l+JSTZkYHxRKHdj8m4ghgESf4rGhE6yGjLHxRVTvR/ExZVn65UzVZJN6GWKlJAT5FCqeRxQSYifltw8k3dxo0XvTXwAasI3dGAMSBH08fcjjY0UVRWlKTGeI67to1hRmORRAdU26i+JuWs/KhAx3ldmZH88hR4oEzPjr1MqM9tE1Eat6HGplQ/2o6qECUmSeBA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GXWeq+3PRNEweWV5pj4ZGdRSsBh8+KMBzCtRcVkFEhc=;
+ b=A/R8yr6o8MY0D+GnyNXBy4Yi2brW0k42Sp1OiX2V9i/Cx48IGh4jMtGLeSGU0KpAcZzQwcTJe+W4LzLoiCigNGUk8WkfauwT3r3QwoI851P3woRlY7kZRHqwuoLCgvJrxJ20wO3sfi/6gfnuO6A1XAdPbMUlAH3PxzNK3Q6bT6y17NZP2fv+gK1dwoFHuPZHGiEbIutALrNANP4lP90cPfHk+wS+llX+DsoY5hXzAktkhtTVfH57cXYtJq4AaGZ0CQsAkRBqO0sthXeyTaw5qxGVeQUuQ3moVmBn46XinlANizIwEsHkvYtSeAfN8ZeoC82S/Ogouk29Hx7T6FvOXg==
+Received: from TYCP286MB2066.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:152::14)
+ by TYWP286MB3509.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:393::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.16; Thu, 25 May
+ 2023 09:53:00 +0000
+Received: from TYCP286MB2066.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::d9fd:1e8f:2bf4:e44]) by TYCP286MB2066.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::d9fd:1e8f:2bf4:e44%7]) with mapi id 15.20.6433.016; Thu, 25 May 2023
+ 09:53:00 +0000
+Date:   Thu, 25 May 2023 17:52:50 +0800
+From:   =?utf-8?B?6IOh546u5paH?= <huww98@outlook.com>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     llvm@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>,
+        Tom Rix <trix@redhat.com>, Hu Weiwen <sehuww@mail.scut.edu.cn>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH] gen_compile_commands: include targets not end with .o
+Message-ID: <TYCP286MB206691CCB2017E03B2AA7567C0469@TYCP286MB2066.JPNP286.PROD.OUTLOOK.COM>
+References: <TYCP286MB2066DEF0E1810E8BC36F533EC07B9@TYCP286MB2066.JPNP286.PROD.OUTLOOK.COM>
+ <CAKwvOdm6diEmc+utBNxQ4ftx3Ai2SD8q32TxRgeZ-rpGoL2Bjg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230521132336.1279523-2-masahiroy@kernel.org>
-X-Operating-System: Debian GNU/Linux 12.0
-Jabber-ID: nicolas@jabber.no
-X-Provags-ID: V03:K1:7bK9ot6Szyc4kejDoWezEWAINlVGEUK4MlmwscefbR0JH8RQaI9
- z1LadGpJr7MWuuJh6sQcQ/HElY42wQHdViYcvwhv5PTZXmphpoXGf9Fbkdl+X3UrI/1tFlu
- CX388bj9douYKJeGVGKXrZSNGicJz1jwX133wi4EQj+RiWhHBdJvo6viUclOIo0HnwvnOK6
- yHbLbyLMW0gjIzc+w9pJg==
-UI-OutboundReport: notjunk:1;M01:P0:2Zjj4yuuM3M=;hL7UkHIZJqH40sXgJ1aMC+uloB8
- VjiJrDlv635s9xDBNHol10zoin8bVpBIt+gqMqD+BHUPX41mYLFq24VBJGUm1Iv9ET8MZ+kJf
- ng8lnzYPJ3ZcYIJ3XEEtiSLoMU1+BU6WWCQiPXctTYOzqnDAVIoOwDmrNIWQtJAH+/ztRUfyH
- jRvqx7D8Pz/VHOhH8a1a9LLGw48UaQb+Aa1FGZ5X/rpeT6UChJ2kXPsA24qG6nzNSqmAz7Sgx
- NSf0nQNEgttj0j+lcDW95nDuu4RCPBXkEuAk50tAGQmts6Yjr1siMXkJvgKbNmI3V3ZIhRCwR
- gyIvatrEpNh4RQ08CRt955aw2VvIbUmqWNdoOR4/2B9XEO/C/K5SE1E18M3S7/iARTPkYHcuI
- Oi58ubveCQOLKbsLI+tkk7i08gNQWWxnzT4DASPRa2ktQT2Cynvh3vEhSJcsIH1O3M4F9a05m
- d3/GGCluhm7OiVRoAitlOHdVS7ztz/jtGfic0KO2KdEAMAvEcPk5ThnRVsas81owE2bDxedI2
- hewmpZh8DmgysZIKQGHSNpLOupjT8geNXRBq3rP/+svtx+vZHAdyElQS7p8GR61ZkU5j0/vnI
- 7qT5pUC/AF/69lxRocLj9xZIV8ml/QwY9CO/S1XYVq5xSbSqr6z928vOwvcgVTUxrhRPNMQQk
- sxohGr5ZHVicvgwtp13RhVCeiQUvOvWty4+ndo0/VQ==
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKwvOdm6diEmc+utBNxQ4ftx3Ai2SD8q32TxRgeZ-rpGoL2Bjg@mail.gmail.com>
+X-TMN:  [XXFNkomudNLA2XNYAazoF50FxlG0xLkw]
+X-ClientProxiedBy: BY5PR17CA0001.namprd17.prod.outlook.com
+ (2603:10b6:a03:1b8::14) To TYCP286MB2066.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:152::14)
+X-Microsoft-Original-Message-ID: <ZG8v8o6LqyqDKujd@outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCP286MB2066:EE_|TYWP286MB3509:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8caa5ecf-2433-4b3f-cffa-08db5d05d2fa
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9t6PUwZLznmnrNijmRP7z92gDUN+sHkcNDaEFgPWX7r606m018j/uKdu/XBj9BSexxtz0/ApwdL/bcQs1zihJohACPgyly85tgH5M8eVp8r+vmBCQM2vIOwyLh65Id3uU1LQij080ZqXPRCe4Q/gOmyaC8ET2swV3prMPXJrhQ5BPUG8gwHB7YflyX5uiZGbGetIGQAyfJNdYTcyUEaijtnDYVb5dUNG64Brdt8/SBV8dBNYe44VmTm1C9+qkh+h572pvKtKettx2zYESX2hYgFkVzxSquuHwbYBi+MCpTytoNarE8+3/vVPMjLWqHLZ0GmsSdWgwsmGg0fPXK3jnOHpXCa6eB0E4QECoMRk60HSqz/aqQTuKBjFpc6XExSul8DHpgl76AOt2ZVVC00FOYXXBiMDnM5EOSW0JiJkNNkijp6EDV/vwKnvIzY2BXl9LTPiAUq1jHGVtB5RJP04ZcLM7fhPmxAeTk7y587mJwQOtZh5PlP3+C9RLoGUFBuYD6ayFkWbubU95fbbHAuq2U5QXsn3K1g6WfWd9EVnqSFmkfO02Wf4mOYlT3T7kw+7IsXaMQq0ubGCNKdZWz5aJscKS20hBut1UB0p/rFzvuY=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NGxaWFdxNEVocE9ZU2RJS2ZxalpXTGRSUkdFZ01DZXlabVh4OVlKNU94MGFa?=
+ =?utf-8?B?WTdPKzB1REEvZllmUSttSmR0TEZxcHpWbDFRMUdEZGRlK3ZDZHVlL0E1MGRs?=
+ =?utf-8?B?NWpDdW9Id1VWRDk3SGd0SlJPN09jd1RLcUxVWmVUTCtSbGdQYmo5cmVzQXFw?=
+ =?utf-8?B?THFldjdyaGdiRk5BMVRmQUVvK25BVGRrQTlHWTdxTW55QjJrWHAxWG01UzE3?=
+ =?utf-8?B?UmFlV3Axc1VxRTVaOFJPeXFnVCtzemp4U2hqMEdHS1ZRR2VXbGFQcmRidWtU?=
+ =?utf-8?B?R0NQNUNzWWZYZFA2Nm05Y0d5QnBLWm9BUjBNTXVZampNRWFGanQ2a21Sdmcw?=
+ =?utf-8?B?K1o0Z1JYaUwyQi8vRnduL041Y09aTCszUFp1aHZlNEpqUG01bHNycnE5eUhF?=
+ =?utf-8?B?Y3JjTUJDUFNRbTdEVUNoTmxWaVFxYXZDZzJPc0pmOTM3Q3NTVGg3SmJBWVEx?=
+ =?utf-8?B?QTRoMmFGRERZeTlFWFpMbUd1RTBsekorem5HZXVSZFpyMXhpRGNJWVE1aEdx?=
+ =?utf-8?B?dUFCL1d4L3Q5TDZKOVg4N1laNFdUb2lISHNvNDVRb3BZNFo0NDhqc1JlVnlj?=
+ =?utf-8?B?dmtuZXRBMWRsL09tUFFWbGdiRVJ6MW5YbHpDeHMzOC9YVWpyT3UwUGJGTlRO?=
+ =?utf-8?B?VmxVb1ZpNXlzb2xramc5WW4rNnBsU3UzMUg4eUVud3p0RWo4K3FvSnVaVWJq?=
+ =?utf-8?B?MmkwSnFEZlBrUzJHTVRxS0lTS0FUT0xxb1oxbW5LWXpkRi9zcjhPYUdHQVlt?=
+ =?utf-8?B?Y1RrSVRGNVZNSktmditycmQ5S2xjS0dpcUNmSkljU21BMURWU2F6Um1FY1Jt?=
+ =?utf-8?B?dEtaaExuZFk3cEZWLzh1a01RT1lUTlJobjQ3UDducDJMNms3VncwK1p3aTR0?=
+ =?utf-8?B?NVFDYU1yZHNFUnQxU0lMVGVxY3MxRjJ4TXFkdkhxVTFPdUpRUStuczNqdnJz?=
+ =?utf-8?B?NHgzM2VzbE52VlJKSmhHSVBJc2dCU1JGWWp5MCtPNjNwVWJhL3hFYlJVYStX?=
+ =?utf-8?B?bndsV2R6UFF0dWZvQUQyMnEzb293emZjb3NYVFUyUS8rS0p6cnA1aWpQYXlH?=
+ =?utf-8?B?blRhOTg4M2lCMVJDa0crTTE2cm9IODY2QjJnVlVNakhTTGlhcHJlMHNiR2g3?=
+ =?utf-8?B?TTdNUFNDWUpkdVMxZTJiTEJkR0VqYXBNK2JSbWZqYXFxRGdJUzk0YjVPY3d4?=
+ =?utf-8?B?TkFZUUtiMnBZcmJ2WjVlcTRpT3Jyek53MUROcUNrSjVXMFAxZmxIZGF0cDYw?=
+ =?utf-8?B?ZUxMZHdleFJrMzV5VmN4RXAyZThINjkwZHpNQjdtTUZRV0RZSWxEOUYzQThk?=
+ =?utf-8?B?cFB4a0hQeVJWTUNJMUF2b3MwSnRuWjZ5Q1A4Nmw2OElUbjJFaHVSNXkvZWFV?=
+ =?utf-8?B?alZsVWI1eVVFaVFHMjNrSmlTZmJtUnlpYlB3dW80ZjlpQktucHJ2anpjOTM5?=
+ =?utf-8?B?ZEpIbS8rNWxSRjk4T3lSQkR5cW5DMzhhc1V5bkgyU2dScTZtVUlGTm1oWlJX?=
+ =?utf-8?B?amllQWUvWUxQL2xrTllIOTBGbjFtdzdwc2dQcDdtb2tWZEZMUjh6amUrQVpX?=
+ =?utf-8?B?ZVY0S0w2NFRzc3RRVnJTME1CcW9INEl3OW9hc3lMWlVldUVkNFdGWjkwVUYw?=
+ =?utf-8?B?czRrc0VOcVI3QkhQa1kvc2hSZnRxL0E9PQ==?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8caa5ecf-2433-4b3f-cffa-08db5d05d2fa
+X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB2066.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2023 09:53:00.6476
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWP286MB3509
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Wed, May 24, 2023 at 12:10:29PM -0700, Nick Desaulniers wrote:
+> On Sun, May 14, 2023 at 3:19 AM Hu Weiwen <huww98@outlook.com> wrote:
+> >
+> > From: Hu Weiwen <sehuww@mail.scut.edu.cn>
+> 
+> Hi Hu,
+> Sorry, for the delay. I'm usually faster to respond to patches. It was
+> my mistake this fell through the cracks, and thank you for the patch.
+> 
+> I received this email from <huww98@outlook.com>. Do you mind resending
+> with your signed off by tag set to the email address from which you
+> are sending patches?  This patch looks benign to me, but it makes me a
+> little uneasy when author != sender.
+> 
+> Please also cc
+> - Masahiro Yamada <masahiroy@kernel.org>
+> - linux-kbuild@vger.kernel.org
+> 
+> As this would go in via the kbuild tree.
 
---sVIsU6HI+ukWJun4
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+OK, will resend.
 
-On Sun 21 May 2023 22:23:36 GMT, Masahiro Yamada wrote:
-> tar is used to build the kernel with CONFIG_IKHEADERS.
->=20
-> GNU tar 1.28 or later is required.
->=20
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->=20
->  Documentation/process/changes.rst | 7 +++++++
->  1 file changed, 7 insertions(+)
->=20
-> diff --git a/Documentation/process/changes.rst b/Documentation/process/ch=
-anges.rst
-> index a9ef00509c9b..3c0074214d75 100644
-> --- a/Documentation/process/changes.rst
-> +++ b/Documentation/process/changes.rst
-> @@ -60,6 +60,7 @@ openssl & libcrypto    1.0.0            openssl version
->  bc                     1.06.95          bc --version
->  Sphinx\ [#f1]_         1.7              sphinx-build --version
->  cpio                   any              cpio --version
-> +GNU tar                1.28             tar --version
->  gtags (optional)       6.6.5            gtags --version
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-> =20
-> @@ -175,6 +176,12 @@ You will need openssl to build kernels 3.7 and highe=
-r if module signing is
->  enabled.  You will also need openssl development packages to build kerne=
-ls 4.3
->  and higher.
-> =20
-> +Tar
-> +---
-> +
-> +GNU tar is needed if you want to enable access to the kernel headers via=
- sysfs
-> +(CONFIG_IKHEADERS).
+> >
+> > Currently, we only extract commands for targets end with '.o'. But we
+> 
+> s/end/ending/
+> 
+> 
+> With this patch applies\d, I get the same word count for
+> compile_commands.json when running:
+> $ make LLVM=1 -j128 defconfig compile_commands.json
+> 
+> on my x86_64 host. Is that expected?  Is there a specific arch or set
+> of configs for which such .c files produce executables directly?
 
-CONFIG_IKHEADERS does also require 'xz' (cp. kernel/gen_kheaders.sh),=20
-should it be mentioned in changes.rst as well?
+`make compile_commands.json' will invoke this script as 
+`gen_compile_commands.py ... vmlinux.a modules.order'. So only '.o'
+targets are included.  To include .c files that produce executable, run
+the script directly after a successful build:
+$ python3 scripts/clang-tools/gen_compile_commands.py
 
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+Some examples of such file:
+* scripts/unifdef.c
+* scripts/asn1_compiler.c
+* scripts/kallsyms.c
+* scripts/basic/fixdep.c
+* samples/connector/ucon.c
 
+Thanks,
+Hu Weiwen
 
-> +
->  gtags / GNU GLOBAL (optional)
->  -----------------------------
-> =20
-> --=20
-> 2.39.2
-
---=20
-Nicolas Schier
-=20
-epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
-=E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
-     -- frykten for herren er opphav til kunnskap --
-
---sVIsU6HI+ukWJun4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmRub70ACgkQB1IKcBYm
-EmkKthAAzwOVNbOhXlGRoY0fa6DrBiLINTlnHzIIudXULP/e10UMlobTee+VIiJ9
-D+ECN0pnKWXD77Vs/kmMCu++ncoULNkOkRdIgcyqgyrSSqsHpjCvWnrGW2j9f5Vl
-hoEHS3KHm8/l64eh97Lg0+n4qc8rMG6jdASNc3mB1+yTmuAumWrJipJ6BXIWCyPo
-WaDUr+2PRlslE3SkHDllXJ8e2uAJjoYdqt7fZOfYuBrlK9sR4BYJ0hCBzTe4clWk
-owU/tYPRiuT8ZXBFyPliRuGSYc9y2q7nAoLI4S8Ns9JFKKG9MfPnstAt/CQF0Uf0
-WHC6e2sL9IKgT5HCIMF+rzEze+Oc7cfHYlH8hfSZD5gDingzkVaYImbHW7kFC3LI
-4pjhSLjc6RMfD+8XtHVVxyOWa0uleIP4NbrA6eklgU9x/LyXJgeN5z75P4lCaB/8
-rX7tYWUaYxJqpCK/wcvpRqN1Ngu7Ku/cnTAH3W3s2u6t5G0jJB5qiCxWdpo0/hmq
-vAKA7nEvwGxYZiv/D+Lt5RiYB35Kb2VftIDR5nl9iqEzpTv3S53LdxycaNQ25fv1
-v3XfislZMS5bIk2rBFoI2O18QSHThOncwgt9ZCq+C5KJ+bvHJirReNypPE60cUuY
-yr0qkMjW4gG+8IgfCS8VPhs7/Y7PS6uRVe0xn8BoJmUi4ldcXmc=
-=yCBT
------END PGP SIGNATURE-----
-
---sVIsU6HI+ukWJun4--
+> > also have many standalone executables built in-tree.
+> >
+> > Remove this restriction. And to avoid some false matching, exclude
+> > targets end with '.c' or '.h' when directly walking the directory.
+> >
+> > Signed-off-by: Hu Weiwen <sehuww@mail.scut.edu.cn>
+> > ---
+> >  scripts/clang-tools/gen_compile_commands.py | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
+> > index 15ba56527acd..6e88c7e166fc 100755
+> > --- a/scripts/clang-tools/gen_compile_commands.py
+> > +++ b/scripts/clang-tools/gen_compile_commands.py
+> > @@ -18,8 +18,8 @@ import sys
+> >  _DEFAULT_OUTPUT = 'compile_commands.json'
+> >  _DEFAULT_LOG_LEVEL = 'WARNING'
+> >
+> > -_FILENAME_PATTERN = r'^\..*\.cmd$'
+> > -_LINE_PATTERN = r'^savedcmd_[^ ]*\.o := (.* )([^ ]*\.c) *(;|$)'
+> > +_FILENAME_PATTERN = r'^\..*(?<!\.(c|h))\.cmd$'
+> > +_LINE_PATTERN = r'^savedcmd_[^ ]* := (.* )([^ ]*\.c) *(;|$)'
+> >  _VALID_LOG_LEVELS = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
+> >  # The tools/ directory adopts a different build system, and produces .cmd
+> >  # files in a different format. Do not support it.
+> > --
+> > 2.25.1
+> >
+> >
+> 
+> 
+> -- 
+> Thanks,
+> ~Nick Desaulniers
