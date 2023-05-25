@@ -2,58 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE2527112CF
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 May 2023 19:51:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA1DF7112E1
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 May 2023 19:53:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231791AbjEYRvC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 25 May 2023 13:51:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55394 "EHLO
+        id S234713AbjEYRxG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 25 May 2023 13:53:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229944AbjEYRvB (ORCPT
+        with ESMTP id S230396AbjEYRxF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 25 May 2023 13:51:01 -0400
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 327F8194
-        for <linux-kbuild@vger.kernel.org>; Thu, 25 May 2023 10:51:00 -0700 (PDT)
-Received: by mail-qk1-x72e.google.com with SMTP id af79cd13be357-75b0b2d0341so123844985a.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 25 May 2023 10:51:00 -0700 (PDT)
+        Thu, 25 May 2023 13:53:05 -0400
+Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com [IPv6:2607:f8b0:4864:20::f31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87B0B97
+        for <linux-kbuild@vger.kernel.org>; Thu, 25 May 2023 10:53:04 -0700 (PDT)
+Received: by mail-qv1-xf31.google.com with SMTP id 6a1803df08f44-62576fa52b4so196146d6.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 25 May 2023 10:53:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1685037059; x=1687629059;
+        d=google.com; s=20221208; t=1685037183; x=1687629183;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=APQzClxOrkiKwIaJfNBMCzDJwzDQYkEl3LkeYVXz6OE=;
-        b=ypuCtnKJJb9+dUuovuBEL9ReJOpJk1Ci8EfJeimiDv0YHTx2OvbydH6SIy3NBRGKlb
-         KTmTcVjY3LKWXqoXvRHOQkxPC9N/Oiz/0Fmkb8st3SXn4yRcMjjjxlGWFDHEvI3c/T8N
-         JEi8IE9dg20MFjanwby4K1NSqgA4/+RzaRncx8t5lHG5u++j/x0qlnnxGNyoyYVuxHlT
-         xpCM0Sp19eRYXrIzA1ZFYCRbvijoWJKYlQ5HSVAvC51lVzxPERIzhhtHHz2gMd3FJ5+t
-         YbjF3xrlzrM9mirkyhk+GBoG4bGJf9Z6W5b53afB8Ftc5L16pM7rglv4czUVYf+oqM4B
-         pogQ==
+        bh=jdra5C26nmtDmbzfhsM6rsW7kbk3HhU5ZzpoiqFVz8s=;
+        b=w7hPwYO2CnizHI6SW0dJYSPpTISVmg+j9Ov661VPQR+oFjFxWBozvgP7KQi4U9soUA
+         BjVZxUuBuT9C+no73livcBJoR3Q7TFdN3XGcIbWEZrw0a6ChLEsagL/ziA1ZSB6FrDkg
+         AEQcKXQ+MFal57d6QZkizu/w+AYRZ+z70vjQx3FwlZA9oT/D6zx1V251J/rJxsBMmDy3
+         Z5sO92H6R/UTSq6vZwaLsYktCHCBEjkTZpNIrPk+hwCnYpz7x+daoE5FwwKkiiNNk+Zn
+         ZSOwdM9caAO36XEpKoTx8xUWw18ZPH1cZ1PRSYTa9SSJ5F839qALqD74Rif+m0B+Cozt
+         ALOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685037059; x=1687629059;
+        d=1e100.net; s=20221208; t=1685037183; x=1687629183;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=APQzClxOrkiKwIaJfNBMCzDJwzDQYkEl3LkeYVXz6OE=;
-        b=H6Srne1INEgJMuIcXQUP7G6zYT8SjqQEtzHoS7YftblDCzyj/5ZGjsEK5XtqgX4ot5
-         dAIsDM1yDB4N0jJg3N1LhYCCvZr7yk8dzlsqvc2C9AZiDzkF2Z4sHhMj89dvjjjNPa5X
-         u+tqZ3Js708AUCcO/CpSWHJoIWOHmv0VPdyNWFfwUqLH+rN9A7KSc9y1uC7Fq5V2nfRx
-         l0jzBfvSi/VE0ggIpH8Jva/bSl6MrssFWCabTEc+ipHSsKa58+MthxXNksbK4mXjI4y5
-         Lac8r80JT/mxXBdNuYvmapHrCoKPhUbNEfyLBOjDzbJN6FW8c0SRskr51Z32zohgxQnt
-         ZeOQ==
-X-Gm-Message-State: AC+VfDxxEwmBwaWrHMDAhAqDNCJL6yi+E2ooX0JP1gqt5vTKNd73j8Fr
-        cPgAteGP7GfpMBw8LRo82m27kxg+iQ3vlNkmhpZe0Q==
-X-Google-Smtp-Source: ACHHUZ6cUlmb1Ba3ueZ/KpfpZaeOkyokK2YB4I45LYrfaNQwcVv/iOgRs/xtsRO9ZtVq2t8erNXx0FR0uEnu9Z6HX9k=
-X-Received: by 2002:a05:6214:2a4a:b0:625:88f5:7c5f with SMTP id
- jf10-20020a0562142a4a00b0062588f57c5fmr2416414qvb.31.1685037059091; Thu, 25
- May 2023 10:50:59 -0700 (PDT)
+        bh=jdra5C26nmtDmbzfhsM6rsW7kbk3HhU5ZzpoiqFVz8s=;
+        b=AM+4xpwRmqYLvjsBVlT8k3aGR2PjDcohCuRBH4wD/dEYkhaGGMgRrudlxJP7dO8vyL
+         uaFQo8gyGS/aAk3PZdAdYlJzKsOUbFTFgDZ3+uE2MiD1xvkZ964w0DPb2FDKWMdkn4zj
+         TJroF38sj3mqUuzJEEbI1/ycz5KI16/xbOh+tBZtJHVi5Az+CY/64/TlKK4CmdoYHE5T
+         zXOxGlu5Jl/KXi4pWUPCeCmJnjG3hQ/ub0XEZTGcwVjOyHgjPQjqDg56c2gzw1MnsHeB
+         dUHhWXTnW/1lBaY7us51077NKh2M4VFb6EUbinfFczjHdsCaf1u8YRkbt5KIgCawKl1k
+         FaCg==
+X-Gm-Message-State: AC+VfDz2Bb3Zibc9D9l25ji5OWyJYproPIvtIRHDZzq5vHpUHc2fBcYa
+        d4fLIwCFbZGPe0PyE4R9O0kGAd8fKpkqqMYrL7OQJYDY9TP2iYzfoVU=
+X-Google-Smtp-Source: ACHHUZ4qcagdmfRsxcWn5TiqMIBPASOWq16vMcMs4dVE7HQDdzGrzKGTg1QlIOmHPXm6cidIpLiK73gs6qEko+tI5M0=
+X-Received: by 2002:ad4:5def:0:b0:5f1:606b:a9ca with SMTP id
+ jn15-20020ad45def000000b005f1606ba9camr1595236qvb.37.1685037183488; Thu, 25
+ May 2023 10:53:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230521160426.1881124-1-masahiroy@kernel.org> <20230521160426.1881124-11-masahiroy@kernel.org>
-In-Reply-To: <20230521160426.1881124-11-masahiroy@kernel.org>
+References: <20230521160426.1881124-1-masahiroy@kernel.org> <20230521160426.1881124-12-masahiroy@kernel.org>
+In-Reply-To: <20230521160426.1881124-12-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 25 May 2023 10:50:48 -0700
-Message-ID: <CAKwvOdmZmtu4j11s3VKgcoK7riu=+QmXpcw1GuvG9vf-A=EWrQ@mail.gmail.com>
-Subject: Re: [PATCH v6 10/20] kbuild: generate KSYMTAB entries by modpost
+Date:   Thu, 25 May 2023 10:52:52 -0700
+Message-ID: <CAKwvOdnni+fQzk51YpnqWwLOo_ZKqwNdj0POkfVB6oRcLufHGQ@mail.gmail.com>
+Subject: Re: [PATCH v6 11/20] ia64,export.h: replace EXPORT_DATA_SYMBOL* with EXPORT_SYMBOL*
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
@@ -64,7 +64,7 @@ X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -74,43 +74,65 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 On Sun, May 21, 2023 at 9:05=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
 rg> wrote:
 >
-> Commit 7b4537199a4a ("kbuild: link symbol CRCs at final link, removing
-> CONFIG_MODULE_REL_CRCS") made modpost output CRCs in the same way
-> whether the EXPORT_SYMBOL() is placed in *.c or *.S.
+> With the previous refactoring, you can always use EXPORT_SYMBOL*.
+>
+> Replace two instances in ia64, then remove EXPORT_DATA_SYMBOL*.
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Patch LGTM, but two questions, below.
+Thanks for the patch!
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-> diff --git a/arch/um/os-Linux/user_syms.c b/arch/um/os-Linux/user_syms.c
-> index 9b62a9d352b3..0b3a82aedbfa 100644
-> --- a/arch/um/os-Linux/user_syms.c
-> +++ b/arch/um/os-Linux/user_syms.c
-> @@ -38,10 +38,15 @@ EXPORT_SYMBOL(vsyscall_end);
->  #endif
+> ---
 >
->  /* Export symbols used by GCC for the stack protector. */
-> -extern void __stack_smash_handler(void *) __attribute__((weak));
-> +/*
-> + * REVISIT:
-> + *   ARCH=3Dum cannot enable CONFIG_STACKPROTECTOR because
-> + *   'select HAVE_STACKPROTECTOR' is missing. Is this already broken?
-
-^ Is there something better we can do here?
-
-Maybe this code should be deleted first?
-
+>  arch/ia64/kernel/head.S      | 2 +-
+>  arch/ia64/kernel/ivt.S       | 2 +-
+>  include/asm-generic/export.h | 3 ---
+>  3 files changed, 2 insertions(+), 5 deletions(-)
+>
+> diff --git a/arch/ia64/kernel/head.S b/arch/ia64/kernel/head.S
+> index f22469f1c1fc..c096500590e9 100644
+> --- a/arch/ia64/kernel/head.S
+> +++ b/arch/ia64/kernel/head.S
+> @@ -170,7 +170,7 @@ RestRR:                                              =
+                                       \
+>         __PAGE_ALIGNED_DATA
+>
+>         .global empty_zero_page
+> -EXPORT_DATA_SYMBOL_GPL(empty_zero_page)
+> +EXPORT_SYMBOL_GPL(empty_zero_page)
+>  empty_zero_page:
+>         .skip PAGE_SIZE
+>
+> diff --git a/arch/ia64/kernel/ivt.S b/arch/ia64/kernel/ivt.S
+> index d6d4229b28db..7a418e324d30 100644
+> --- a/arch/ia64/kernel/ivt.S
+> +++ b/arch/ia64/kernel/ivt.S
+> @@ -87,7 +87,7 @@
+>
+>         .align 32768    // align on 32KB boundary
+>         .global ia64_ivt
+> -       EXPORT_DATA_SYMBOL(ia64_ivt)
+> +       EXPORT_SYMBOL(ia64_ivt)
+>  ia64_ivt:
+>  ////////////////////////////////////////////////////////////////////////=
+/////////////////
+>  // 0x0000 Entry 0 (size 64 bundles) VHPT Translation (8,20,47)
 > diff --git a/include/asm-generic/export.h b/include/asm-generic/export.h
-> index 5e4b1f2369d2..0ae9f38a904c 100644
+> index 0ae9f38a904c..570cd4da7210 100644
 > --- a/include/asm-generic/export.h
 > +++ b/include/asm-generic/export.h
-> @@ -3,86 +3,12 @@
->  #define __ASM_GENERIC_EXPORT_H
+> @@ -8,7 +8,4 @@
+>   */
+>  #include <linux/export.h>
 >
->  /*
-> - * This comment block is used by fixdep. Please do not remove.
-
-^ Sounds ominous. What are the implications of removing this comment block?
+> -#define EXPORT_DATA_SYMBOL(name)       EXPORT_SYMBOL(name)
+> -#define EXPORT_DATA_SYMBOL_GPL(name)   EXPORT_SYMBOL_GPL(name)
+> -
+>  #endif
+> --
+> 2.39.2
+>
 
 
 --=20
