@@ -2,69 +2,69 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EBD2071138B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 May 2023 20:18:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 284B7711395
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 May 2023 20:20:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241255AbjEYSSv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 25 May 2023 14:18:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44374 "EHLO
+        id S233677AbjEYSUc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 25 May 2023 14:20:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241524AbjEYSSr (ORCPT
+        with ESMTP id S232918AbjEYSUb (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 25 May 2023 14:18:47 -0400
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1DD91A7
-        for <linux-kbuild@vger.kernel.org>; Thu, 25 May 2023 11:18:45 -0700 (PDT)
-Received: by mail-qk1-x733.google.com with SMTP id af79cd13be357-757942bd912so72609885a.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 25 May 2023 11:18:45 -0700 (PDT)
+        Thu, 25 May 2023 14:20:31 -0400
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AB6EE2
+        for <linux-kbuild@vger.kernel.org>; Thu, 25 May 2023 11:20:29 -0700 (PDT)
+Received: by mail-qk1-x732.google.com with SMTP id af79cd13be357-75b0830e2eeso759185a.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 25 May 2023 11:20:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1685038725; x=1687630725;
+        d=google.com; s=20221208; t=1685038828; x=1687630828;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2bghzY/gD0I0tJYxUqAr+ROA5ANmhi9sosFaTZpTtDk=;
-        b=tlzTdrMSoWH+tBUoR5gUJNarlbdfLRwYhIE4I95T9dQzWGe7+2E6W6serpilShQ5Jl
-         trz4nI5fWZl31eT6urED4iGqC75EszchBeq1eOSQAZhNAHm2j3T4poVbvK5XgGy5/MYa
-         E5ZHsL/z4fuYb/AAX3AQQNYK11QrK1baxwD1U4Bm/pZIYtbCMCOHZgCq/b5PrLDzy88K
-         npIqJI/bkm+LV/sgwpHnGIswHajs2n6tEt82yucdOYqr3ThFs9QQyamCBH9gfngWSRkf
-         ghsrsCk+2r5FSwBX7OZ6zkMRp0djUOdEVltkUwdLA9JZGrsAKuQyfPMq7Gor4xQ+q+6M
-         YhEw==
+        bh=kCFwna0ZpFAdGQRWMH6jYRvTC2leLI59IYmfIfFBrQo=;
+        b=i2L79myoQlGuU9HZiujoADn1olZFfTlcKzr4sK8xIyDMtXtfZcOC1phgq3QrIZefe4
+         84XxfmasQhy0QiSFwg+TvcTx0bW0/KzDH2fbjI46cHHao9tC1y3pXWi0COrDoIAGqf8f
+         Nytu7TY3MICsmo/SbpqQXB5qRigW0fc18QTNHgL0AajoD8v4hnshMDA2kPpTdr+jeUby
+         8Ex9A2uty8LM2VfibYrZVCIDbSNl5Ag5AHjsqdJgI/xLDT+EaLnb5rdbB1lA+e9o1c8v
+         XPfuL4pnpJ/zM2RL0k7CvEX2JV2WaVZ0Btrq3BGf6c4KWPx6dUrBz1ypqOX7lF5yZnZF
+         pn/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685038725; x=1687630725;
+        d=1e100.net; s=20221208; t=1685038828; x=1687630828;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2bghzY/gD0I0tJYxUqAr+ROA5ANmhi9sosFaTZpTtDk=;
-        b=cU6kGuPMl4erTfxQIsIWxjrVG7/s/uVq2I0Vqd95xgu8QdniMYtOHw+pGr1NfK7+pB
-         oCbubuhnBpKSdh+4LvKf6XfHHZ4m+OrmheX5MoREFcfHyDKZdrjaMvDTCyVdcKzq4GOo
-         16RrYHJsub1ma0mb0N/B00oHcW+w6MCXYDKvnb6xHeQyHgn6qkwEjf8ewLQZ6iGm1WbF
-         OwaKgxj1qUmfCXKhqIqeMlftEiuSfRLF+kSbhjJ3snbl4nF0ZlVyKsX7nfAifjgw4Op6
-         amgQEQTT3XxhYcA/u5rkt8JNB+4oFALoyM3tRBtshbVXDHjZS7FpZN+gr04FDH87vVWj
-         glgw==
-X-Gm-Message-State: AC+VfDyxNdhexFE70pB1L9RFmuyqbQSDSWhVXUojOrwEuFY76O+DXZrj
-        9yNArZtIg5Q61IVA17dKWb3iTl3r9cROncJZjraIOw==
-X-Google-Smtp-Source: ACHHUZ4+PsQgVq7ilhtxop/0H/Wup78sLuFKI7UE7s+3kJg7IY4zWaioosxIowG2hMJ9jlcmqlNXzLyhxpaFPrENuXk=
-X-Received: by 2002:a05:6214:2486:b0:623:5dc2:883b with SMTP id
- gi6-20020a056214248600b006235dc2883bmr2582445qvb.24.1685038724605; Thu, 25
- May 2023 11:18:44 -0700 (PDT)
+        bh=kCFwna0ZpFAdGQRWMH6jYRvTC2leLI59IYmfIfFBrQo=;
+        b=EYbimXzOqvxMaZZ8azFUmdJkeCST2O6dFTQ/En6XgYGLgiJP9/oxdqDt3yilAnuSOn
+         FFvNhLdNSWn6BNd10kqMBg9zWMlSbO16NNHCFyvw3Grlx3jfPfasbPibaMJkuQOA/XNr
+         FRuFj1dbewTykdgiSRva6GaEA7zCCU51DivBvc9rKgdVBd00+rwPUI8VHBFGuHsnLcPo
+         FbNmPIjUob4f71Qo8QFNnf5E6/DwK4f2wGE964JLWcOSa0SDzgpSa7dmG7TL8f2fPTPo
+         3EFcC43vmHFytUtykathe0skmjglVvG/RTHzGqP0PnJP0C0dIWk2yK8uCgjxl6EfqfYj
+         cFgA==
+X-Gm-Message-State: AC+VfDx9B+9n7nXBTFad9JxeeAwFjb2RMNiWF6cHzW4QZ1SzbW8saxJ0
+        oANadz8TmhR2Et8gU3vqUHJxiGNAcQE0Q4rLPUSO3Q==
+X-Google-Smtp-Source: ACHHUZ4sKrG3vHBSbytFDQA5PU48D9Zc3ltGjkwSmz07UsEQIQKqY16gba14KrfP3Tr6I8ThqsdZrtDsylHMeki5bZ0=
+X-Received: by 2002:a05:620a:8c84:b0:75b:23a1:d85d with SMTP id
+ ra4-20020a05620a8c8400b0075b23a1d85dmr3021511qkn.31.1685038828513; Thu, 25
+ May 2023 11:20:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230521160426.1881124-1-masahiroy@kernel.org> <20230521160426.1881124-13-masahiroy@kernel.org>
-In-Reply-To: <20230521160426.1881124-13-masahiroy@kernel.org>
+References: <20230521160426.1881124-1-masahiroy@kernel.org> <20230521160426.1881124-20-masahiroy@kernel.org>
+In-Reply-To: <20230521160426.1881124-20-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 25 May 2023 11:18:33 -0700
-Message-ID: <CAKwvOdms2g_qDCavMyPT5fVmoygXxEoutTYaB=P0t=wLag8DpA@mail.gmail.com>
-Subject: Re: [PATCH v6 12/20] modpost: check static EXPORT_SYMBOL* by modpost again
+Date:   Thu, 25 May 2023 11:20:17 -0700
+Message-ID: <CAKwvOd=O9E1RBhk-hUYNX=EuhP4qQoH0M-wQjpyEZM5QG6+==A@mail.gmail.com>
+Subject: Re: [PATCH v6 19/20] modpost: merge two similar section mismatch warnings
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>, owen@owenrafferty.com
+        Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL,
-        USER_IN_DEF_SPF_WL autolearn=ham autolearn_force=no version=3.4.6
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -74,36 +74,18 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 On Sun, May 21, 2023 at 9:05=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
 rg> wrote:
 >
-> Commit 31cb50b5590f ("kbuild: check static EXPORT_SYMBOL* by script
-> instead of modpost") moved the static EXPORT_SYMBOL* check from the
-> mostpost to a shell script because I thought it must be checked per
-> compilation unit to avoid false negatives.
+> In case of section mismatch, modpost shows slightly different messages.
 >
-> I came up with an idea to do this in modpost, against combined ELF
-> files. The relocation entries in ELF will find the correct exported
-> symbol even if there exist symbols with the same name in different
-> compilation units.
+> For extable section mismatch:
 >
-> Again, the same sample code.
+>  "%s(%s+0x%lx): Section mismatch in reference to the %s:%s\n"
 >
->   Makefile:
+> For the other cases:
 >
->     obj-y +=3D foo1.o foo2.o
+>  "%s: section mismatch in reference: %s (section: %s) -> %s (section: %s)=
+\n"
 >
->   foo1.c:
->
->     #include <linux/export.h>
->     static void foo(void) {}
->     EXPORT_SYMBOL(foo);
->
->   foo2.c:
->
->     void foo(void) {}
->
-> Then, modpost can catch it correctly.
->
->     MODPOST Module.symvers
->   ERROR: modpost: vmlinux: local symbol 'foo' was exported
+> They are similar. Merge them.
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
@@ -112,148 +94,52 @@ Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
 > ---
 >
-> Changes in v6:
->   - Make the symbol name in the warning more precise
+>  scripts/mod/modpost.c | 18 +++---------------
+>  1 file changed, 3 insertions(+), 15 deletions(-)
 >
->  scripts/Makefile.build     |  4 ---
->  scripts/check-local-export | 70 --------------------------------------
->  scripts/mod/modpost.c      |  7 ++++
->  3 files changed, 7 insertions(+), 74 deletions(-)
->  delete mode 100755 scripts/check-local-export
->
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 6bf026a304e4..bd4123795299 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -220,8 +220,6 @@ cmd_gen_ksymdeps =3D \
->         $(CONFIG_SHELL) $(srctree)/scripts/gen_ksymdeps.sh $@ >> $(dot-ta=
-rget).cmd
->  endif
->
-> -cmd_check_local_export =3D $(srctree)/scripts/check-local-export $@
-> -
->  ifneq ($(findstring 1, $(KBUILD_EXTRA_WARN)),)
->  cmd_warn_shared_object =3D $(if $(word 2, $(modname-multi)),$(warning $(=
-kbuild-file): $*.o is added to multiple modules: $(modname-multi)))
->  endif
-> @@ -229,7 +227,6 @@ endif
->  define rule_cc_o_c
->         $(call cmd_and_fixdep,cc_o_c)
->         $(call cmd,gen_ksymdeps)
-> -       $(call cmd,check_local_export)
->         $(call cmd,checksrc)
->         $(call cmd,checkdoc)
->         $(call cmd,gen_objtooldep)
-> @@ -241,7 +238,6 @@ endef
->  define rule_as_o_S
->         $(call cmd_and_fixdep,as_o_S)
->         $(call cmd,gen_ksymdeps)
-> -       $(call cmd,check_local_export)
->         $(call cmd,gen_objtooldep)
->         $(call cmd,gen_symversions_S)
->         $(call cmd,warn_shared_object)
-> diff --git a/scripts/check-local-export b/scripts/check-local-export
-> deleted file mode 100755
-> index 969a313b9299..000000000000
-> --- a/scripts/check-local-export
-> +++ /dev/null
-> @@ -1,70 +0,0 @@
-> -#!/bin/sh
-> -# SPDX-License-Identifier: GPL-2.0-only
-> -#
-> -# Copyright (C) 2022 Masahiro Yamada <masahiroy@kernel.org>
-> -# Copyright (C) 2022 Owen Rafferty <owen@owenrafferty.com>
-> -#
-> -# Exit with error if a local exported symbol is found.
-> -# EXPORT_SYMBOL should be used for global symbols.
-> -
-> -set -e
-> -pid=3D$$
-> -
-> -# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) s=
-hows
-> -# 'no symbols' diagnostic (but exits with 0). It is harmless and hidden =
-by
-> -# '2>/dev/null'. However, it suppresses real error messages as well. Add=
- a
-> -# hand-crafted error message here.
-> -#
-> -# TODO:
-> -# Use --quiet instead of 2>/dev/null when we upgrade the minimum version=
- of
-> -# binutils to 2.37, llvm to 13.0.0.
-> -# Then, the following line will be simpler:
-> -#   { ${NM} --quiet ${1} || kill 0; } |
-> -
-> -{ ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; kill $pid; =
-} } |
-> -${AWK} -v "file=3D${1}" '
-> -BEGIN {
-> -       i =3D 0
-> -}
-> -
-> -# Skip the line if the number of fields is less than 3.
-> -#
-> -# case 1)
-> -#   For undefined symbols, the first field (value) is empty.
-> -#   The outout looks like this:
-> -#     "                 U _printk"
-> -#   It is unneeded to record undefined symbols.
-> -#
-> -# case 2)
-> -#   For Clang LTO, llvm-nm outputs a line with type t but empty name:
-> -#     "---------------- t"
-> -!length($3) {
-> -       next
-> -}
-> -
-> -# save (name, type) in the associative array
-> -{ symbol_types[$3]=3D$2 }
-> -
-> -# append the exported symbol to the array
-> -($3 ~ /^__export_symbol_(gpl)?_.*/) {
-> -       export_symbols[i] =3D $3
-> -       sub(/^__export_symbol_(gpl)?_/, "", export_symbols[i])
-> -       i++
-> -}
-> -
-> -END {
-> -       exit_code =3D 0
-> -       for (j =3D 0; j < i; ++j) {
-> -               name =3D export_symbols[j]
-> -               # nm(3) says "If lowercase, the symbol is usually local"
-> -               if (symbol_types[name] ~ /[a-z]/) {
-> -                       printf "%s: error: local symbol %s was exported\n=
-",
-> -                               file, name | "cat 1>&2"
-> -                       exit_code =3D 1
-> -               }
-> -       }
-> -
-> -       exit exit_code
-> -}'
-> -
-> -exit $?
 > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 8b94090d0743..dd1d066f1214 100644
+> index 852cc164c77e..e7561fa57478 100644
 > --- a/scripts/mod/modpost.c
 > +++ b/scripts/mod/modpost.c
-> @@ -1235,6 +1235,13 @@ static void check_export_symbol(struct module *mod=
-, struct elf_info *elf,
->                 return;
->         }
+> @@ -1135,21 +1135,10 @@ static void default_mismatch_handler(const char *=
+modname, struct elf_info *elf,
 >
-> +       if (ELF_ST_BIND(sym->st_info) !=3D STB_GLOBAL &&
-> +           ELF_ST_BIND(sym->st_info) !=3D STB_WEAK) {
-> +               error("%s: local symbol '%s' was exported\n", mod->name,
-> +                     label_name + strlen(prefix));
-> +               return;
-> +       }
-> +
->         if (strcmp(label_name + strlen(prefix), name)) {
->                 error("%s: .export_symbol section references '%s', but it=
- does not seem to be an export symbol\n",
->                       mod->name, name);
+>         sec_mismatch_count++;
+>
+> -       switch (mismatch->mismatch) {
+> -       case TEXT_TO_ANY_INIT:
+> -       case DATA_TO_ANY_INIT:
+> -       case TEXTDATA_TO_ANY_EXIT:
+> -       case XXXINIT_TO_SOME_INIT:
+> -       case XXXEXIT_TO_SOME_EXIT:
+> -       case ANY_INIT_TO_ANY_EXIT:
+> -       case ANY_EXIT_TO_ANY_INIT:
+> -               warn("%s: section mismatch in reference: %s (section: %s)=
+ -> %s (section: %s)\n",
+> -                    modname, fromsym, fromsec, tosym, tosec);
+> -               break;
+> -       case EXTABLE_TO_NON_TEXT:
+> -               warn("%s(%s+0x%lx): Section mismatch in reference to the =
+%s:%s\n",
+> -                    modname, fromsec, (long)faddr, tosec, tosym);
+> +       warn("%s: section mismatch in reference: %s (section: %s) -> %s (=
+section: %s)\n",
+> +            modname, fromsym, fromsec, tosym, tosec);
+>
+> +       if (mismatch->mismatch =3D=3D EXTABLE_TO_NON_TEXT) {
+>                 if (match(tosec, mismatch->bad_tosec))
+>                         fatal("The relocation at %s+0x%lx references\n"
+>                               "section \"%s\" which is black-listed.\n"
+> @@ -1169,7 +1158,6 @@ static void default_mismatch_handler(const char *mo=
+dname, struct elf_info *elf,
+>                 else
+>                         error("%s+0x%lx references non-executable section=
+ '%s'\n",
+>                               fromsec, (long)faddr, tosec);
+> -               break;
+>         }
+>  }
+>
 > --
 > 2.39.2
 >
