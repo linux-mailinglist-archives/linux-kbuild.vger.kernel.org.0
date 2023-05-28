@@ -2,55 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1284D713834
-	for <lists+linux-kbuild@lfdr.de>; Sun, 28 May 2023 09:01:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDEAD713846
+	for <lists+linux-kbuild@lfdr.de>; Sun, 28 May 2023 09:15:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229569AbjE1HBn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 28 May 2023 03:01:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56394 "EHLO
+        id S229488AbjE1HPn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 28 May 2023 03:15:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbjE1HBm (ORCPT
+        with ESMTP id S229441AbjE1HPl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 28 May 2023 03:01:42 -0400
+        Sun, 28 May 2023 03:15:41 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17E2FDC
-        for <linux-kbuild@vger.kernel.org>; Sun, 28 May 2023 00:01:41 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF82BBE;
+        Sun, 28 May 2023 00:15:40 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A240E60BA6
-        for <linux-kbuild@vger.kernel.org>; Sun, 28 May 2023 07:01:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13E8DC4339B
-        for <linux-kbuild@vger.kernel.org>; Sun, 28 May 2023 07:01:40 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 717E260B80;
+        Sun, 28 May 2023 07:15:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8BF1C433EF;
+        Sun, 28 May 2023 07:15:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685257300;
-        bh=nFRvjgEJI8wYrO4y08Sgf1E7M+ZWKLOFf99mFgOiFow=;
+        s=k20201202; t=1685258139;
+        bh=5qI998XzfgTHQuwlw+Bc+sZsqM645GVdIQVNWS3s+Kg=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ZRg4ni0KCtsWnzsm4cD+qCveP30kgPelE/wpWpnABMQ+E/sUCPQlvY9G0kzTQxdQ4
-         G+k3K1T/Fs9gp8CH3YjhpBB77EhVTlQo8ixb+pw4hafMxBjcLt7UpF0tSkv/ZWbmGf
-         gtIVvwev/XyHRHaQ36I8DcwUhyodezTTU6pfiaO6tQlQ92QonlFi9Jd+mpLp8Bf4pG
-         5KGLPw8G7a5gQrXpbegBpjpZM0T+fOW7xUeKdoPXkDwjhQToVX01JoazVrtxx9MVJc
-         DRyMGFF5Bx5FRXSw248K6X9gweS0igFjjupqJT1aJeZMofsBv3UOUohZolHpAn4NZo
-         Axn/NWnsByD6g==
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-199dd37f0e4so1975349fac.2
-        for <linux-kbuild@vger.kernel.org>; Sun, 28 May 2023 00:01:40 -0700 (PDT)
-X-Gm-Message-State: AC+VfDy/DcrUw9+8m4M88R+e4DoaJHBLCYbeJGP3scv6Cz1SOR6HmyGu
-        gKr1O5WjygoDUxQI+ymebMktQh1QLBAtNaMPp4M=
-X-Google-Smtp-Source: ACHHUZ7E9CRDv4PQTFKd9LASDLqdg9llXmCCe6W4BdyoCyE1Z5j5SPPYEuZtuUtXfCrcOCNKrFi9pkuVc9/XEGqBd4k=
-X-Received: by 2002:a05:6870:172c:b0:196:8dc3:4e21 with SMTP id
- h44-20020a056870172c00b001968dc34e21mr2576337oae.41.1685257299300; Sun, 28
- May 2023 00:01:39 -0700 (PDT)
+        b=MOt7u3n7lct+f1RJfh7qpbhvPBvjFRDo+6jfXv9SIdVi2+pQCE0XQyz7CQD9/qUmu
+         RQDpflFT6xVmavMIws7MoU/L3tB48eXBbrmIf1Ow2vTlaiI4ysNhP+ukGySfpPKVUj
+         3yURSNrtJesgZPKgop5GiuONmerzb4d3z4nvsDVjKuuISG1N1pPNINd052rIt8I4jT
+         oMRdgn+8YwzBwvH1fR6/2p1jWQevyCZFX+opFfWRodas4kKamvfsNjL+i17Ae7VgpV
+         aKDp/wWLh+p5Nt/JJ1e9wA2WKDyPEjz6ZVfGwvbqFI25tkMlNAGJg3vj2KgyVhRSYQ
+         SHgOCjO76b8Eg==
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-546ee6030e5so1172775eaf.3;
+        Sun, 28 May 2023 00:15:39 -0700 (PDT)
+X-Gm-Message-State: AC+VfDz8allxTYD3s5CWGSSXh/2HxHCedNHuHmQ8UfLIMT726/p258sK
+        cCerzPPNx1+5myjf+DPVDs2UqnfqM/VMFtSz8hU=
+X-Google-Smtp-Source: ACHHUZ5KtZXJGwpV3hx7dCR9Pb9YWmLd7EEyuntC+aXh5sdiNWNkE/AgxVa/c4QG+BYI6uDh/5yoMfe9w3h43qGpaBE=
+X-Received: by 2002:a4a:3342:0:b0:54c:723b:36a8 with SMTP id
+ q63-20020a4a3342000000b0054c723b36a8mr1785502ooq.4.1685258139095; Sun, 28 May
+ 2023 00:15:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <202305280830.Rj5ltc9M-lkp@intel.com>
-In-Reply-To: <202305280830.Rj5ltc9M-lkp@intel.com>
+References: <20230521132336.1279523-1-masahiroy@kernel.org>
+ <20230521132336.1279523-2-masahiroy@kernel.org> <ZG5vvdlO8sTbqP4U@bergen.fjasle.eu>
+In-Reply-To: <ZG5vvdlO8sTbqP4U@bergen.fjasle.eu>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 28 May 2023 16:01:02 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQZ6E7N485L=YtKaE9nGuO609i_fgMbXMPdxfW6dfR1qA@mail.gmail.com>
-Message-ID: <CAK7LNAQZ6E7N485L=YtKaE9nGuO609i_fgMbXMPdxfW6dfR1qA@mail.gmail.com>
-Subject: Re: [masahiroy-kbuild:modpost-v5 23/23] arch/x86/kernel/callthunks.c:45:1:
- sparse: sparse: cast removes address space '__percpu' of expression
-To:     kernel test robot <lkp@intel.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org
+Date:   Sun, 28 May 2023 16:15:02 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASmJrWnV3+z-RE4W57M9tVrd6EwsyA2T07CF8jT3ePS5w@mail.gmail.com>
+Message-ID: <CAK7LNASmJrWnV3+z-RE4W57M9tVrd6EwsyA2T07CF8jT3ePS5w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] doc: Add tar requirement to changes.rst
+To:     Nicolas Schier <nicolas@fjasle.eu>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -63,124 +64,89 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, May 28, 2023 at 9:40=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
+On Thu, May 25, 2023 at 5:13=E2=80=AFAM Nicolas Schier <nicolas@fjasle.eu> =
+wrote:
 >
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-k=
-build.git modpost-v5
-> head:   952d644bb57db01d034e1faf94519473fbb1a0a1
-> commit: 952d644bb57db01d034e1faf94519473fbb1a0a1 [23/23] kbuild: implemen=
-t CONFIG_TRIM_UNUSED_KSYMS without recursion
-> config: x86_64-randconfig-s053-20230528 (https://download.01.org/0day-ci/=
-archive/20230528/202305280830.Rj5ltc9M-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-> reproduce:
->         # apt-get install sparse
->         # sparse version: v0.6.4-39-gce1a6720-dirty
->         # https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux=
--kbuild.git/commit/?id=3D952d644bb57db01d034e1faf94519473fbb1a0a1
->         git remote add masahiroy-kbuild https://git.kernel.org/pub/scm/li=
-nux/kernel/git/masahiroy/linux-kbuild.git
->         git fetch --no-tags masahiroy-kbuild modpost-v5
->         git checkout 952d644bb57db01d034e1faf94519473fbb1a0a1
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=
-=3Dbuild_dir ARCH=3Dx86_64 olddefconfig
->         make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=
-=3Dbuild_dir ARCH=3Dx86_64 SHELL=3D/bin/bash arch/x86/kernel/ kernel/trace/=
- lib/
+> On Sun 21 May 2023 22:23:36 GMT, Masahiro Yamada wrote:
+> > tar is used to build the kernel with CONFIG_IKHEADERS.
+> >
+> > GNU tar 1.28 or later is required.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  Documentation/process/changes.rst | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> >
+> > diff --git a/Documentation/process/changes.rst b/Documentation/process/=
+changes.rst
+> > index a9ef00509c9b..3c0074214d75 100644
+> > --- a/Documentation/process/changes.rst
+> > +++ b/Documentation/process/changes.rst
+> > @@ -60,6 +60,7 @@ openssl & libcrypto    1.0.0            openssl versi=
+on
+> >  bc                     1.06.95          bc --version
+> >  Sphinx\ [#f1]_         1.7              sphinx-build --version
+> >  cpio                   any              cpio --version
+> > +GNU tar                1.28             tar --version
+> >  gtags (optional)       6.6.5            gtags --version
+> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+> >
+> > @@ -175,6 +176,12 @@ You will need openssl to build kernels 3.7 and hig=
+her if module signing is
+> >  enabled.  You will also need openssl development packages to build ker=
+nels 4.3
+> >  and higher.
+> >
+> > +Tar
+> > +---
+> > +
+> > +GNU tar is needed if you want to enable access to the kernel headers v=
+ia sysfs
+> > +(CONFIG_IKHEADERS).
 >
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202305280830.Rj5ltc9M-lkp=
-@intel.com/
+> CONFIG_IKHEADERS does also require 'xz' (cp. kernel/gen_kheaders.sh),
+> should it be mentioned in changes.rst as well?
+
+
+It is true, bue 'xz' is required in other situations too.
+
+For example,
+CONFIG_KERNEL_XZ
+CONFIG_MODULE_COMPRESS_XZ
+CONFIG_INITRAMFS_COMPRESSION_XZ
+
+
+If we document the requirement for 'xz',
+we need to document the requirement for
+'gzip', 'zstd', 'lzma', etc. for the same reason.
+
+So, I want to go only with 'tar' in this series.
+
+
+
+
+
+
+> Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 >
-> sparse warnings: (new ones prefixed by >>)
-> >> arch/x86/kernel/callthunks.c:45:1: sparse: sparse: cast removes addres=
-s space '__percpu' of expression
->    arch/x86/kernel/callthunks.c:46:1: sparse: sparse: cast removes addres=
-s space '__percpu' of expression
-
-
-
-
-
-Thanks.
-
-This commit is unrelated.
-
-This seems to be a regression of
-https://patchwork.kernel.org/project/linux-kbuild/patch/20230521160426.1881=
-124-11-masahiroy@kernel.org/
-
-I will squash the following fix-up.
-
-
-diff --git a/include/linux/export.h b/include/linux/export.h
-index 32461a01608c..245ecd342772 100644
---- a/include/linux/export.h
-+++ b/include/linux/export.h
-@@ -56,6 +56,7 @@ extern struct module __this_module;
- #else
-
- #define ___EXPORT_SYMBOL(sym, license, ns)                     \
-+       extern typeof(sym) sym;                                 \
-        __ADDRESSABLE(sym)                                      \
-        asm(__stringify(____EXPORT_SYMBOL(sym, license, ns)))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-> vim +/__percpu +45 arch/x86/kernel/callthunks.c
 >
-> e81dc127ef6988 Thomas Gleixner 2022-09-15  39
-> f5c1bb2afe9339 Thomas Gleixner 2022-09-15  40  #ifdef CONFIG_CALL_THUNKS_=
-DEBUG
-> f5c1bb2afe9339 Thomas Gleixner 2022-09-15  41  DEFINE_PER_CPU(u64, __x86_=
-call_count);
-> f5c1bb2afe9339 Thomas Gleixner 2022-09-15  42  DEFINE_PER_CPU(u64, __x86_=
-ret_count);
-> f5c1bb2afe9339 Thomas Gleixner 2022-09-15  43  DEFINE_PER_CPU(u64, __x86_=
-stuffs_count);
-> f5c1bb2afe9339 Thomas Gleixner 2022-09-15  44  DEFINE_PER_CPU(u64, __x86_=
-ctxsw_count);
-> f5c1bb2afe9339 Thomas Gleixner 2022-09-15 @45  EXPORT_SYMBOL_GPL(__x86_ct=
-xsw_count);
-> f5c1bb2afe9339 Thomas Gleixner 2022-09-15  46  EXPORT_SYMBOL_GPL(__x86_ca=
-ll_count);
-> f5c1bb2afe9339 Thomas Gleixner 2022-09-15  47  #endif
-> f5c1bb2afe9339 Thomas Gleixner 2022-09-15  48
->
-> :::::: The code at line 45 was first introduced by commit
-> :::::: f5c1bb2afe93396d41c5cbdcb909b08a75b8dde4 x86/calldepth: Add ret/ca=
-ll counting for debug
->
-> :::::: TO: Thomas Gleixner <tglx@linutronix.de>
-> :::::: CC: Peter Zijlstra <peterz@infradead.org>
+> > +
+> >  gtags / GNU GLOBAL (optional)
+> >  -----------------------------
+> >
+> > --
+> > 2.39.2
 >
 > --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+> Nicolas Schier
+>
+> epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
+> =E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
+>      -- frykten for herren er opphav til kunnskap --
 
 
 
