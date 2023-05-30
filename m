@@ -2,190 +2,172 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7EEF715957
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 May 2023 11:04:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62E8C716CFD
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 May 2023 21:01:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229582AbjE3JE4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 30 May 2023 05:04:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60182 "EHLO
+        id S233252AbjE3TBb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 30 May 2023 15:01:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230314AbjE3JEs (ORCPT
+        with ESMTP id S233304AbjE3TB0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 30 May 2023 05:04:48 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01olkn2021.outbound.protection.outlook.com [40.92.98.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00D07CD
-        for <linux-kbuild@vger.kernel.org>; Tue, 30 May 2023 02:04:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iR8SI2TyRa5x1rhk5zfeUPGXUpwnwCu9XFxin0SFYC2fkAk//G6bTufoQgYH2dg6HhNfkIwE32pu8qRZZQM3ulyyMExHKK634jR9nLffNezPUjRxwsB55utyCwz4/qGC48NwT+NGft/dxksuyT+cUp61hJqLZqCvPyPHbO73tvu+o/re9sZAdTTxcMZrqZQe6RiXL5wUjbwv3G1SW3OP3sndo14IyESbvpmCgCoQ9SJUG2P/zjSvTgFdctfLiTKBQeEvJIW0APmSO0WTop8J3JG0tZHud3Hpd8HAMP0XOtRxQy87t3YyPqSC9ZkKiZqPQpSufX4qYbd1M+ZzOKwGHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NOGUqrctGZhDKefy2Wl5F+dCrMWvOeTjlYW2Ekx9Sdo=;
- b=A0ZMV39vqWX1xmCeR6d3lCqwzmQQQAJ5SxLT5aWxbjkzliAHz2tsaUl05Y5Hlrh5E3Es21SP7qNrxvOS72O6w8eyHNJsxI6hjnAIFU+5KEttIWhG5C3d5gC+cwTC59qAoAqc+IvDy0wY38XqD7UutbLTHuup8dbaJ1goEnTqm2ll7rvoggpihlRg3QfOpCYcY0tzVOzJizalLRaAqHkAx1hqZpGSupkqX+gS4Tisb9HpVamIlqVYSILQVtTb5W5OdCUPHTrLVwjAg3bQn4aksDCYv6K/X/nhIJxELorM+v/hAETLRBrV7MSjMoejW0ybH40IWd2PZDACj19xR4YEOg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NOGUqrctGZhDKefy2Wl5F+dCrMWvOeTjlYW2Ekx9Sdo=;
- b=LYB+RarHHWYRGxEVs1mFhIe0rZxceJ/G9npCgZD8mWkM97VUC2R9jZU3InIJdls6/7RL0NmHRMcRWJFZRw6yrYWYu9ijqyBxvBvRkiLzQeHriy5m2pd8H+B5fs4bnm4dRRXZeSZ2TB5aNE4vVALfhDbuY+wfJND/M4B7vSuxdJkl7VOuxpU2pfE4wd2NpN76txG9Mk5PjCDnMdGKfN/ouRrFTckVeZUCoG0GCPbuNpuUX0gnJYx7Lp1stiTCYTVC6Jy0lXOpIgW6aCWB9Vh9tuNn+Ar7ItBsdHaFX6WQPSSWTd9Ch262zy+r4tb0fQU+Qzzd/zxtD4dWjQAkxuELXw==
-Received: from TYCP286MB2066.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:152::14)
- by OS3P286MB2539.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:1e9::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.23; Tue, 30 May
- 2023 09:04:43 +0000
-Received: from TYCP286MB2066.JPNP286.PROD.OUTLOOK.COM
- ([fe80::d9fd:1e8f:2bf4:e44]) by TYCP286MB2066.JPNP286.PROD.OUTLOOK.COM
- ([fe80::d9fd:1e8f:2bf4:e44%7]) with mapi id 15.20.6433.022; Tue, 30 May 2023
- 09:04:42 +0000
-Date:   Tue, 30 May 2023 17:04:34 +0800
-From:   =?utf-8?B?6IOh546u5paH?= <huww98@outlook.com>
+        Tue, 30 May 2023 15:01:26 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E13F10D;
+        Tue, 30 May 2023 12:00:48 -0700 (PDT)
+Received: from leknes.fjasle.eu ([46.142.48.138]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MWjQU-1pbSuN1bWi-00X0pn; Tue, 30 May 2023 20:55:03 +0200
+Received: from localhost.fjasle.eu (kirkenes.fjasle.eu [10.10.0.5])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by leknes.fjasle.eu (Postfix) with ESMTPS id 40D453E741;
+        Tue, 30 May 2023 20:54:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
+        t=1685472899; bh=7+tTLj7ZkkpypDR/yXXSvzEo0hl/cf47+VdmIcrlz/E=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XhSGT3OT8oL/LejA0JHeojZXUI5QUe1hnidspSFisSpbkkq3IAPR5ZCNxtRiIFn+z
+         Tvjwk9E7GSq7XBDe4NSmYF+fb1JK3Pe2RGt7rir1jGJ9T3pSvJvnGm2rSmv+ZmyzKy
+         kwH0GkM6jya3EUQg9q1chwX6xkdqzhZMDKpfg7A4=
+Received: by localhost.fjasle.eu (Postfix, from userid 1000)
+        id E6816179; Tue, 30 May 2023 20:54:58 +0200 (CEST)
+Date:   Tue, 30 May 2023 20:54:58 +0200
+From:   Nicolas Schier <nicolas@fjasle.eu>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>, llvm@lists.linux.dev,
-        Nathan Chancellor <nathan@kernel.org>,
-        Tom Rix <trix@redhat.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH v2] gen_compile_commands: include targets not ending with
- .o
-Message-ID: <TYCP286MB2066563135B12E064AA59976C04B9@TYCP286MB2066.JPNP286.PROD.OUTLOOK.COM>
-References: <TYCP286MB2066DEF0E1810E8BC36F533EC07B9@TYCP286MB2066.JPNP286.PROD.OUTLOOK.COM>
- <OSZP286MB20611C35BF36F4EB69FD3DF6C0469@OSZP286MB2061.JPNP286.PROD.OUTLOOK.COM>
- <CAK7LNATz8xDmf5SuApGnrbkxvWPJNG1HTuQSrw2v_Ox5sXQO2A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNATz8xDmf5SuApGnrbkxvWPJNG1HTuQSrw2v_Ox5sXQO2A@mail.gmail.com>
-X-TMN:  [8Wrp9o0ZpBkzRq038aliWObrTUiOlSmS]
-X-ClientProxiedBy: SJ0PR03CA0015.namprd03.prod.outlook.com
- (2603:10b6:a03:33a::20) To TYCP286MB2066.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:152::14)
-X-Microsoft-Original-Message-ID: <ZHW8Inu3JOnEgeW3@outlook.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/2] doc: Add tar requirement to changes.rst
+Message-ID: <ZHZGgvbTGGeYQXGE@bergen.fjasle.eu>
+References: <20230521132336.1279523-1-masahiroy@kernel.org>
+ <20230521132336.1279523-2-masahiroy@kernel.org>
+ <ZG5vvdlO8sTbqP4U@bergen.fjasle.eu>
+ <CAK7LNASmJrWnV3+z-RE4W57M9tVrd6EwsyA2T07CF8jT3ePS5w@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCP286MB2066:EE_|OS3P286MB2539:EE_
-X-MS-Office365-Filtering-Correlation-Id: b4bfd797-9e81-4b69-dbf2-08db60ece7a6
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: S62FtHwUGhst1USQuuPjRLm4Y/jr/dNZmQ+NEZSD4Dw8KqrPv2a3Gv/QDlVpDYmF7uTJ6kgSknzUYFuwrPRGxkEzKSSkQ5L/8/qZb0lQA3q0hosU9S0ZZ5FR0jwPAW5/2ShoEt4wU7GtrCATsuFdfSUy2rFZUv1ehHCxABjpt4iV0HcMssU3CO0wH6Wmol580n2n3F07wCtCD5yLa4FpKm/AeK9FXw9JOqZCqzEL9S2+lVJ+ngVBhlfXVJdyG32SsPYYujSdC64s59bCHAyHZHWDh2c0K0UctppLUh7DCthZyFSjkIqSabqPfO8+GwLDhKZMYt+YiMYnXB6/jHAoG4drR+JsPktKU+F8jWgWTJRFRGoIAXVqbN7jPWO/BPjNofO4YMHpswDWQbrcM3JuxzL9xhcOoJpgja18BGmgLWCEvWdixt0ieXFokHS3dmlvmz3hXB5YK5NXFG7FAfacJSgD598xNkSCdu0RXg60XgIPyH+oFCtBVqRnYPeDkxQrQkNsRZ2lYAWDX3ozI5Rx1yuZQkbKKdk6uL+L0z0duBPOrQFgbAST6N7Y/IHgVaG/ENNhO1b9rmx+bQ7RGKpBuonHJIXNiUOSTVi3ItKiZoETwE0aEDrTHod6gx99PNr0
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cUovK1pQeXJVM0JmQTA0R2hQaG1EbE5xTVdQaDkrQXZPbGk1N3drMGJ1U25B?=
- =?utf-8?B?ay8wa2JTYWx6MlBCSU5YTmRSSHQ1UG5EbUtKTjhWRjVyVFNtdDY1N3AyMFI0?=
- =?utf-8?B?N2pobThnd3pYV1NRaUNZc2libGl0cURoNFNYeklTTzRscW1aNTJwd1ViaTVy?=
- =?utf-8?B?c283RUd5cDJWWE1SQ0l2QnhlVzhpZElVNXNtUWE5RkVVNnJDNDViNmE0WEhX?=
- =?utf-8?B?YVFzTlhva3VvZ1k1WS9EcTN0YXIyaitnK3hyTTcrN24rbXR0QU5SdUpOL2kx?=
- =?utf-8?B?U0ZJK01LYkxSNlE0NHV3VTBWTld1cENaaHNlUHVUaXN6amZsR0xQRjRObVFq?=
- =?utf-8?B?Vk9DS05oNERCeG5CQkEvYS8wV3NNVUhXVnNNU05wMHg2T1dyVU0yby9CckxL?=
- =?utf-8?B?aCt1ak1aYkNTZDhySGw1Z2hrSDNuZXIyUks1MitjTUJjbWxNVytMVFNPK1Av?=
- =?utf-8?B?MHQ3ME9aSnVuRDNvdmM4SDc5MW9ieHNDQVBQNHQyTDA5VGYwRm5jakpveDdR?=
- =?utf-8?B?K3dPWi9WNVRUYXFESUV2OHNrbWJ5Uy9YZFA5bG9JcTI2ZzAweUpmTWVRbmNB?=
- =?utf-8?B?T3E3UGNNL1g1b25hL0trS3dtNU5IbnV3d25yOUlobjVXVVVuT2NRcC81QzR1?=
- =?utf-8?B?bTFGVEgyaGNMS3dpWEl3VjBPaVc4anJJOUkyNlNOTWZwN3hHOUkyUXZ5NkZJ?=
- =?utf-8?B?ek9ueEx3bUxVQWNZaTFwY25RM3VkRWwzNjVFcll5aWhWMjF5OVBRaEp6bXNr?=
- =?utf-8?B?b1ZGL2pjUG44bGc4dTZsajdheVpEbmVHWi9DeElHQnE2TWFQQVNLZnNUazlY?=
- =?utf-8?B?QWhoNHM0MFBTVFVQVTZpMmRMNERjOXA4QzVTbGswOEs0WUZJaUtyY1N6THRr?=
- =?utf-8?B?NXZKS1Bjdkc4SXEyNFpmaUJzejZPVDNmaTV1MWcvWDhVaC9vamlyYTVBL2Mx?=
- =?utf-8?B?VjdaZytkYnNuS3p6UHcxMVAvRHBMMm02S2tRL1JQUFd5dFZTTmhTSWlHR04v?=
- =?utf-8?B?ZzNKbmtZUTN2T3hRYmZZUVRsZ0dKRkhJZWk4clJqRFJKaU9Vdno0TW8rbXFs?=
- =?utf-8?B?Ui9UcFRncFFEYVN6TkRsbm9DQ0UwaVdNRDJrbmZPUkNVYjZYaTF3REZaTVp1?=
- =?utf-8?B?QU03RmFNWUNuUUZROSs0QnI0MEhWaGJyVmg2WEZmWjhGMEJQc01jbitKem9F?=
- =?utf-8?B?ZCt2clNzNVZjZE02T2M3Y1IvVXIrMjJxbHA3RzFuWVFSUXlmTFJXR09sYVVL?=
- =?utf-8?B?a21JbmFqLy9ZU3dncjR2TFFCNHFkNGUvays3LzltOWVKSDNtVHU4WkU0TmFt?=
- =?utf-8?B?TnVsY1lMdGFWS1A3cFRaOHZZUzFlV0ExMDBuS2VkZk9YZC9ya2NJZ2kvUzJU?=
- =?utf-8?B?WVI2eUdhT0FNOHR6QmkrZmtCQTA0ZlBoTCs1eTgxUFMzbHlFQ3ozRWFRM0hQ?=
- =?utf-8?B?L3VpS3N4MmhBRGdsWnF2RG5jTDBVMUo3SC9RMHU5eCtRWjR1Yi9DNCtOUCtl?=
- =?utf-8?B?UkM0REJEdlBlTHJxOGRoVjR3OFFoMTZ1THdvOFE1REUyRkdLYVhPaFpsTUxX?=
- =?utf-8?B?ZU01Qk1xazBGQVlQV2ZQWHh4ZVdqdkdiaDRQbjY0L1BUVU9sbEZ3QklIdGlT?=
- =?utf-8?B?c2NGNldNLzZCUzBHK2hmOHNVQU1mZ2c9PQ==?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b4bfd797-9e81-4b69-dbf2-08db60ece7a6
-X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB2066.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2023 09:04:42.9641
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3P286MB2539
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="2sZq/OllSjUtaAk3"
+Content-Disposition: inline
+In-Reply-To: <CAK7LNASmJrWnV3+z-RE4W57M9tVrd6EwsyA2T07CF8jT3ePS5w@mail.gmail.com>
+X-Operating-System: Debian GNU/Linux 12.0
+Jabber-ID: nicolas@jabber.no
+X-Provags-ID: V03:K1:SJYsVbZBKo0C1AVlFP4cTMUa7SxYGJHTftG/AN3wJWN++5uBrqA
+ PTksSibSFLQyHRYqrN34vM9fg+95nzA3LXCU/3PqOAHrzb640loeuTbvx/14HTHXrYrvr0M
+ wQqJA7hB7loZBdL8ep9dRfxWJnenVpr6fbj4Sg2b9wtWjgrkxBlygUK25P7J6XDYjtguvB3
+ D9N60+OU9evh7Yrk+t7GA==
+UI-OutboundReport: notjunk:1;M01:P0:yomuKxuFQNQ=;xcRH99lm28Z4nzrPxIGXBOaRxwa
+ fYk26KMdNlWL/0UUwLCPkCMKCxL93nRkG8m5hAzBgdysxldGbxPlzJYunnCMG8qdq4b3XuOBz
+ crFhjckPK/0qLymOWw3IfagtWnNCGbDYtBgRld+gnuyDiQ82OPC1UqKkPxdxlZHv9o2I3+wro
+ Rih1n1usGtBUH7tGx+Vp9G6Ocrs0fsqaJKVU7jN1nHkLM+zvGH8zEIq7cClMP7VobwOZgf4fy
+ bP8ai8HWqLXzhLr2/QiPAb0ZFdpZHy2lVS7T1eZnvEUMi8dr9rpolormIwmob9E0wa8kpOGO+
+ xz7PlxoPdoMxadBOZSzg7DtCEVKVHquu+D//1HpT7+2WML7UAWE8SsbHTG5kgnLM9Bx2J+D8s
+ 6PHJ6RARDnNbxs2N1aKSfwHlcGbmsgPZR/z4PBcXNS9ypQhS6bBCbs+NSfemxgKp8/f/cjPZn
+ 2VH0HpQ83wm7ILBd8xUmNb+0xKNX2Id9bLTssxWCfH01GNCLhHE2PSqo1V+z1SW5Lw7q0AXk3
+ 9vlqBzI69jjzLlOhrQ/0N5/eAogPLoDV9d8VTLWqlcBqRXhdAcFWcIns+2x1kHEZWAhJubKku
+ EOQVWFqZQC4u41mTk6NlIcuzn0Ny2djiwopWL7YRsZDG4A71IfJCJOiIAqDG/nmILUcLpr38W
+ G+Wk344iWyDalZ7d+NJZCuWss3NiK46k/8BzDDD5Ow==
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, May 29, 2023 at 07:13:46PM +0900, Masahiro Yamada wrote:
-> On Thu, May 25, 2023 at 9:21 PM Hu Weiwen <huww98@outlook.com> wrote:
-> >
-> > Currently, we only extract commands for targets ending with '.o'. But we
-> > also have many standalone executables built in-tree.
-> >
-> > Remove this restriction. And to avoid some false matching, exclude
-> > targets end with '.c' or '.h' when directly walking the directory.
-> 
-> 
-> Can you give me some examples of false matching?
 
-Examples:
-- drivers/scsi/scsi_devinfo_tbl.c: generated by
-  sed -n 's/.*define *BLIST_\\([A-Z0-9_]*\\) *.*/BLIST_FLAG_NAME(\\1),/p' include/scsi/scsi_devinfo.h > drivers/scsi/scsi_devinfo_tbl.c
+--2sZq/OllSjUtaAk3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-- arch/x86/entry/vdso/vdso-image-32.c: generated by
-  arch/x86/entry/vdso/vdso2c arch/x86/entry/vdso/vdso32.so.dbg arch/x86/entry/vdso/vdso32.so arch/x86/entry/vdso/vdso-image-32.c
+On Sun 28 May 2023 16:15:02 GMT, Masahiro Yamada wrote:
+> On Thu, May 25, 2023 at 5:13=E2=80=AFAM Nicolas Schier <nicolas@fjasle.eu=
+>=20
+> wrote:
+> >
+> > On Sun 21 May 2023 22:23:36 GMT, Masahiro Yamada wrote:
+> > > tar is used to build the kernel with CONFIG_IKHEADERS.
+> > >
+> > > GNU tar 1.28 or later is required.
+> > >
+> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > > ---
+> > >
+> > >  Documentation/process/changes.rst | 7 +++++++
+> > >  1 file changed, 7 insertions(+)
+> > >
+> > > diff --git a/Documentation/process/changes.rst b/Documentation/proces=
+s/changes.rst
+> > > index a9ef00509c9b..3c0074214d75 100644
+> > > --- a/Documentation/process/changes.rst
+> > > +++ b/Documentation/process/changes.rst
+> > > @@ -60,6 +60,7 @@ openssl & libcrypto    1.0.0            openssl ver=
+sion
+> > >  bc                     1.06.95          bc --version
+> > >  Sphinx\ [#f1]_         1.7              sphinx-build --version
+> > >  cpio                   any              cpio --version
+> > > +GNU tar                1.28             tar --version
+> > >  gtags (optional)       6.6.5            gtags --version
+> > >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> > >
+> > > @@ -175,6 +176,12 @@ You will need openssl to build kernels 3.7 and h=
+igher if module signing is
+> > >  enabled.  You will also need openssl development packages to build k=
+ernels 4.3
+> > >  and higher.
+> > >
+> > > +Tar
+> > > +---
+> > > +
+> > > +GNU tar is needed if you want to enable access to the kernel headers=
+ via sysfs
+> > > +(CONFIG_IKHEADERS).
+> >
+> > CONFIG_IKHEADERS does also require 'xz' (cp. kernel/gen_kheaders.sh),
+> > should it be mentioned in changes.rst as well?
+>=20
+>=20
+> It is true, bue 'xz' is required in other situations too.
+>=20
+> For example,
+> CONFIG_KERNEL_XZ
+> CONFIG_MODULE_COMPRESS_XZ
+> CONFIG_INITRAMFS_COMPRESSION_XZ
+>=20
+>=20
+> If we document the requirement for 'xz',
+> we need to document the requirement for
+> 'gzip', 'zstd', 'lzma', etc. for the same reason.
+>=20
+> So, I want to go only with 'tar' in this series.
 
-I think only .c file targets would have false matching, because the cmd
-must ends with '.c' to be matched.
+yes, sounds reasonable.
 
-> 
-> Also, this patch would pick up *.i, *.s, *.lst, etc.
-> 
-> Does it make sense to parse cmd files for those?
-> I guess the answer is no.
+Kind regards,
+Nicolas
 
-We are already parsing cmd files for those before this patch. I use more
-strict `_FILENAME_PATTERN'. But it may be hard to exclude all of these
-by filename.
+--2sZq/OllSjUtaAk3
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Should we use a more strict `_LINE_PATTERN'? e.g., require the cmd to
-begin with a compiler, not `sed' or something else. But we don't know
-the compiler name, adding a parameter for compiler name may break the
-existing usage.
+-----BEGIN PGP SIGNATURE-----
 
-> >
-> > To really generate compile_commands.json that includes such target, call
-> > this script directly with no arguments.  `make compile_commands.json`
-> > will not include them.
-> >
-> > Signed-off-by: Hu Weiwen <huww98@outlook.com>
-> > ---
-> > Since V1: Only commit message is updated.
-> >
-> >  scripts/clang-tools/gen_compile_commands.py | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
-> > index 15ba56527acd..6e88c7e166fc 100755
-> > --- a/scripts/clang-tools/gen_compile_commands.py
-> > +++ b/scripts/clang-tools/gen_compile_commands.py
-> > @@ -18,8 +18,8 @@ import sys
-> >  _DEFAULT_OUTPUT = 'compile_commands.json'
-> >  _DEFAULT_LOG_LEVEL = 'WARNING'
-> >
-> > -_FILENAME_PATTERN = r'^\..*\.cmd$'
-> > -_LINE_PATTERN = r'^savedcmd_[^ ]*\.o := (.* )([^ ]*\.c) *(;|$)'
-> > +_FILENAME_PATTERN = r'^\..*(?<!\.(c|h))\.cmd$'
-> > +_LINE_PATTERN = r'^savedcmd_[^ ]* := (.* )([^ ]*\.c) *(;|$)'
-> >  _VALID_LOG_LEVELS = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
-> >  # The tools/ directory adopts a different build system, and produces .cmd
-> >  # files in a different format. Do not support it.
-> > --
-> > 2.25.1
-> >
-> 
-> 
-> -- 
-> Best Regards
-> Masahiro Yamada
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmR2RnoACgkQB1IKcBYm
+Emm88g//VqDBnVK3E88ObcPSlVWeotqPiFEgB3D0C5nO6R78W17Xbm4AacqwX0W2
+J34f4r2MAMa5Qx4d903ReJ/XhSPfn67d4NqtUg/FPcwU6XquYkVA+ZA4SzyjNpsP
+jUD43JJ/CevePo4gi2PlvBDfE0WOl8b54hkyHyS3mU+bHLck8Kq6bzZYKtddBpwO
+hRMPzEhW/wKhCa714nSX0C/oAz9r0pohOZuGuXt44kKZm+wXyZJ+wpEqbL0ZXa20
+KGQc6Dh5NwkK5W+MO2+KhmjBxayBzhtu65BNG0cLJRgbV/MWX/vrSUeuKHVo7agT
+nA6VQntt8bZb3dM01bLI24mm2/3zWuiLLt80ooxVjpRjlTgJW4HirzKWI9OsM0ME
+iqVa1ZSInhuK3Hw8DCu9U1UD1350apwa6AV4bUSDry8RHOqaHK/ItjI2bsKQY1KR
+Io+dtZCqsO0Yer9d5CtGzdEpbr/5HtcNvvSP8orBrpG7apZzZvpoApx9rkvkrZp6
+FisTytNo3bIcgk9tH890t14wm9BY1RY83L4CUnOWROESNwbADH5DCC8ISoPp3Yxa
+bpGEVY3IxcrRnP+/aaU7n/HTnAY3nrmIl4u3LOL64i1cgc/yvRQMuzqh19OdSq5Z
+pOA/nwwyMWTpl9AuEH7aJO1MDocy2EBYWojVNYJaaqAZdH3FLGs=
+=L/i3
+-----END PGP SIGNATURE-----
+
+--2sZq/OllSjUtaAk3--
