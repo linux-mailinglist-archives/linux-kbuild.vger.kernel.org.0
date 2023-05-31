@@ -2,172 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62E8C716CFD
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 May 2023 21:01:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CAEF7179AC
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 May 2023 10:11:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233252AbjE3TBb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 30 May 2023 15:01:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44820 "EHLO
+        id S234869AbjEaILg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 31 May 2023 04:11:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233304AbjE3TB0 (ORCPT
+        with ESMTP id S234370AbjEaILf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 30 May 2023 15:01:26 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E13F10D;
-        Tue, 30 May 2023 12:00:48 -0700 (PDT)
-Received: from leknes.fjasle.eu ([46.142.48.138]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MWjQU-1pbSuN1bWi-00X0pn; Tue, 30 May 2023 20:55:03 +0200
-Received: from localhost.fjasle.eu (kirkenes.fjasle.eu [10.10.0.5])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by leknes.fjasle.eu (Postfix) with ESMTPS id 40D453E741;
-        Tue, 30 May 2023 20:54:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1685472899; bh=7+tTLj7ZkkpypDR/yXXSvzEo0hl/cf47+VdmIcrlz/E=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XhSGT3OT8oL/LejA0JHeojZXUI5QUe1hnidspSFisSpbkkq3IAPR5ZCNxtRiIFn+z
-         Tvjwk9E7GSq7XBDe4NSmYF+fb1JK3Pe2RGt7rir1jGJ9T3pSvJvnGm2rSmv+ZmyzKy
-         kwH0GkM6jya3EUQg9q1chwX6xkdqzhZMDKpfg7A4=
-Received: by localhost.fjasle.eu (Postfix, from userid 1000)
-        id E6816179; Tue, 30 May 2023 20:54:58 +0200 (CEST)
-Date:   Tue, 30 May 2023 20:54:58 +0200
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/2] doc: Add tar requirement to changes.rst
-Message-ID: <ZHZGgvbTGGeYQXGE@bergen.fjasle.eu>
-References: <20230521132336.1279523-1-masahiroy@kernel.org>
- <20230521132336.1279523-2-masahiroy@kernel.org>
- <ZG5vvdlO8sTbqP4U@bergen.fjasle.eu>
- <CAK7LNASmJrWnV3+z-RE4W57M9tVrd6EwsyA2T07CF8jT3ePS5w@mail.gmail.com>
+        Wed, 31 May 2023 04:11:35 -0400
+Received: from cstnet.cn (smtp83.cstnet.cn [159.226.251.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C010EC5
+        for <linux-kbuild@vger.kernel.org>; Wed, 31 May 2023 01:11:32 -0700 (PDT)
+Received: from sunying$nj.iscas.ac.cn ( [180.111.102.60] ) by
+ ajax-webmail-APP-09 (Coremail) ; Wed, 31 May 2023 16:11:29 +0800
+ (GMT+08:00)
+X-Originating-IP: [180.111.102.60]
+Date:   Wed, 31 May 2023 16:11:29 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From:   sunying@nj.iscas.ac.cn
+To:     "Masahiro Yamada" <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org
+Subject: Re: Re: Suggestion: Improve the dependency information during
+ Kconfig compilation
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.15 build 20230321(1bf45b10)
+ Copyright (c) 2002-2023 www.mailtech.cn cnic.cn
+In-Reply-To: <CAK7LNARtpBkT-SL5kGqnrSQQT+SRsU8xfqrC5iqZCwoQs=QnzQ@mail.gmail.com>
+References: <729c71ad.51ce3.1882daddff7.Coremail.sunying@nj.iscas.ac.cn>
+ <CAK7LNARtpBkT-SL5kGqnrSQQT+SRsU8xfqrC5iqZCwoQs=QnzQ@mail.gmail.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="2sZq/OllSjUtaAk3"
-Content-Disposition: inline
-In-Reply-To: <CAK7LNASmJrWnV3+z-RE4W57M9tVrd6EwsyA2T07CF8jT3ePS5w@mail.gmail.com>
-X-Operating-System: Debian GNU/Linux 12.0
-Jabber-ID: nicolas@jabber.no
-X-Provags-ID: V03:K1:SJYsVbZBKo0C1AVlFP4cTMUa7SxYGJHTftG/AN3wJWN++5uBrqA
- PTksSibSFLQyHRYqrN34vM9fg+95nzA3LXCU/3PqOAHrzb640loeuTbvx/14HTHXrYrvr0M
- wQqJA7hB7loZBdL8ep9dRfxWJnenVpr6fbj4Sg2b9wtWjgrkxBlygUK25P7J6XDYjtguvB3
- D9N60+OU9evh7Yrk+t7GA==
-UI-OutboundReport: notjunk:1;M01:P0:yomuKxuFQNQ=;xcRH99lm28Z4nzrPxIGXBOaRxwa
- fYk26KMdNlWL/0UUwLCPkCMKCxL93nRkG8m5hAzBgdysxldGbxPlzJYunnCMG8qdq4b3XuOBz
- crFhjckPK/0qLymOWw3IfagtWnNCGbDYtBgRld+gnuyDiQ82OPC1UqKkPxdxlZHv9o2I3+wro
- Rih1n1usGtBUH7tGx+Vp9G6Ocrs0fsqaJKVU7jN1nHkLM+zvGH8zEIq7cClMP7VobwOZgf4fy
- bP8ai8HWqLXzhLr2/QiPAb0ZFdpZHy2lVS7T1eZnvEUMi8dr9rpolormIwmob9E0wa8kpOGO+
- xz7PlxoPdoMxadBOZSzg7DtCEVKVHquu+D//1HpT7+2WML7UAWE8SsbHTG5kgnLM9Bx2J+D8s
- 6PHJ6RARDnNbxs2N1aKSfwHlcGbmsgPZR/z4PBcXNS9ypQhS6bBCbs+NSfemxgKp8/f/cjPZn
- 2VH0HpQ83wm7ILBd8xUmNb+0xKNX2Id9bLTssxWCfH01GNCLhHE2PSqo1V+z1SW5Lw7q0AXk3
- 9vlqBzI69jjzLlOhrQ/0N5/eAogPLoDV9d8VTLWqlcBqRXhdAcFWcIns+2x1kHEZWAhJubKku
- EOQVWFqZQC4u41mTk6NlIcuzn0Ny2djiwopWL7YRsZDG4A71IfJCJOiIAqDG/nmILUcLpr38W
- G+Wk344iWyDalZ7d+NJZCuWss3NiK46k/8BzDDD5Ow==
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Message-ID: <3865ca44.2742b.18870dca8df.Coremail.sunying@nj.iscas.ac.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: swCowAAH_1UxAXdkcbMeAA--.11496W
+X-CM-SenderInfo: 5vxq5xdqj60y4olvutnvoduhdfq/1tbiCgcIAWR28ZY7zAABsH
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+        daVFxhVjvjDU=
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
---2sZq/OllSjUtaAk3
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sun 28 May 2023 16:15:02 GMT, Masahiro Yamada wrote:
-> On Thu, May 25, 2023 at 5:13=E2=80=AFAM Nicolas Schier <nicolas@fjasle.eu=
->=20
-> wrote:
-> >
-> > On Sun 21 May 2023 22:23:36 GMT, Masahiro Yamada wrote:
-> > > tar is used to build the kernel with CONFIG_IKHEADERS.
-> > >
-> > > GNU tar 1.28 or later is required.
-> > >
-> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > ---
-> > >
-> > >  Documentation/process/changes.rst | 7 +++++++
-> > >  1 file changed, 7 insertions(+)
-> > >
-> > > diff --git a/Documentation/process/changes.rst b/Documentation/proces=
-s/changes.rst
-> > > index a9ef00509c9b..3c0074214d75 100644
-> > > --- a/Documentation/process/changes.rst
-> > > +++ b/Documentation/process/changes.rst
-> > > @@ -60,6 +60,7 @@ openssl & libcrypto    1.0.0            openssl ver=
-sion
-> > >  bc                     1.06.95          bc --version
-> > >  Sphinx\ [#f1]_         1.7              sphinx-build --version
-> > >  cpio                   any              cpio --version
-> > > +GNU tar                1.28             tar --version
-> > >  gtags (optional)       6.6.5            gtags --version
-> > >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-> > >
-> > > @@ -175,6 +176,12 @@ You will need openssl to build kernels 3.7 and h=
-igher if module signing is
-> > >  enabled.  You will also need openssl development packages to build k=
-ernels 4.3
-> > >  and higher.
-> > >
-> > > +Tar
-> > > +---
-> > > +
-> > > +GNU tar is needed if you want to enable access to the kernel headers=
- via sysfs
-> > > +(CONFIG_IKHEADERS).
-> >
-> > CONFIG_IKHEADERS does also require 'xz' (cp. kernel/gen_kheaders.sh),
-> > should it be mentioned in changes.rst as well?
->=20
->=20
-> It is true, bue 'xz' is required in other situations too.
->=20
-> For example,
-> CONFIG_KERNEL_XZ
-> CONFIG_MODULE_COMPRESS_XZ
-> CONFIG_INITRAMFS_COMPRESSION_XZ
->=20
->=20
-> If we document the requirement for 'xz',
-> we need to document the requirement for
-> 'gzip', 'zstd', 'lzma', etc. for the same reason.
->=20
-> So, I want to go only with 'tar' in this series.
-
-yes, sounds reasonable.
-
-Kind regards,
-Nicolas
-
---2sZq/OllSjUtaAk3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmR2RnoACgkQB1IKcBYm
-Emm88g//VqDBnVK3E88ObcPSlVWeotqPiFEgB3D0C5nO6R78W17Xbm4AacqwX0W2
-J34f4r2MAMa5Qx4d903ReJ/XhSPfn67d4NqtUg/FPcwU6XquYkVA+ZA4SzyjNpsP
-jUD43JJ/CevePo4gi2PlvBDfE0WOl8b54hkyHyS3mU+bHLck8Kq6bzZYKtddBpwO
-hRMPzEhW/wKhCa714nSX0C/oAz9r0pohOZuGuXt44kKZm+wXyZJ+wpEqbL0ZXa20
-KGQc6Dh5NwkK5W+MO2+KhmjBxayBzhtu65BNG0cLJRgbV/MWX/vrSUeuKHVo7agT
-nA6VQntt8bZb3dM01bLI24mm2/3zWuiLLt80ooxVjpRjlTgJW4HirzKWI9OsM0ME
-iqVa1ZSInhuK3Hw8DCu9U1UD1350apwa6AV4bUSDry8RHOqaHK/ItjI2bsKQY1KR
-Io+dtZCqsO0Yer9d5CtGzdEpbr/5HtcNvvSP8orBrpG7apZzZvpoApx9rkvkrZp6
-FisTytNo3bIcgk9tH890t14wm9BY1RY83L4CUnOWROESNwbADH5DCC8ISoPp3Yxa
-bpGEVY3IxcrRnP+/aaU7n/HTnAY3nrmIl4u3LOL64i1cgc/yvRQMuzqh19OdSq5Z
-pOA/nwwyMWTpl9AuEH7aJO1MDocy2EBYWojVNYJaaqAZdH3FLGs=
-=L/i3
------END PGP SIGNATURE-----
-
---2sZq/OllSjUtaAk3--
+T24gU2F0LCBNYXkgMjAsIDIwMjMgYXQgMToyMeKAr1BNIDxtYXNhaGlyb3lAa2VybmVsLm9yZz4g
+d3JvdGU6CiZndDsgCiZndDsgT24gVGh1LCBNYXkgMTgsIDIwMjMgYXQgNDoxM+KAr1BNIDxzdW55
+aW5nQG5qLmlzY2FzLmFjLmNuPiB3cm90ZToKJmd0OyAmZ3Q7CiZndDsgJmd0OyBIaSwKJmd0OyAm
+Z3Q7CiZndDsgJmd0OwomZ3Q7ICZndDsgV2UgZm91bmQgdGhhdCB0aGUgS2NvbmZpZyBidWlsZCBz
+eXN0ZW0gc2lsZW50bHkgY2hhbmdlcyBpbnZhbGlkIHZhbHVlcyBpbiB0aGUuIGNvbmZpZyBmaWxl
+LAomZ3Q7ICZndDsgd2hpY2ggbWF5IHByZXZlbnQgdXNlcnMgZnJvbSBnZXR0aW5nIHRoZWlyIGRl
+c2lyZWQga2VybmVsLCBhbmQgYWxzbyBtYWtlIGl0IGhhcmQgdG8ga25vdwomZ3Q7ICZndDsgd2hp
+Y2ggY29uZmlndXJhdGlvbiBvcHRpb24gY2F1c2VkIHRoZSBmb3JjZWQgY2hhbmdlIGJhc2VkIG9u
+IHRoZSBjb21waWxhdGlvbiBpbmZvcm1hdGlvbi4KJmd0OyAmZ3Q7CiZndDsgJmd0OyBUaGVyZSBh
+cmUgc2ltaWxhciBxdWVzdGlvbnMgb24gc3RhY2sgb3ZlcmZsb3csIHdoZXJlIHBlb3BsZSBmaW5k
+IGl0IGRpZmZpY3VsdCB0byBnZXQKJmd0OyAmZ3Q7IHRoZSBjb21wbGV0ZSBkZXBlbmRlbmN5IGNo
+YWluIGFuZCBvdGhlciBpbmZvcm1hdGlvbu+8mgomZ3Q7ICZndDsKJmd0OyAmZ3Q7ICAgZXgxLiBI
+b3cgY2FuIEkgZGlzYWJsZSBDT05GSUdfUE0gd2hlbiBidWlsZGluZyBMaW51eCBrZXJuZWwgZm9y
+IHg4Nl82NCAtIFN0YWNrIE92ZXJmbG93CiZndDsgJmd0OyAgIGh0dHBzOi8vc3RhY2tvdmVyZmxv
+dy5jb20vcXVlc3Rpb25zLzY0NDk5MjIxL2hvdy1jYW4taS1kaXNhYmxlLWNvbmZpZy1wbS13aGVu
+LWJ1aWxkaW5nLWxpbnV4LWtlcm5lbC1mb3IteDg2LTY0LzY0NTAxNjQ3IzY0NTAxNjQ3CiZndDsg
+Jmd0OwomZ3Q7ICZndDsgICBleDIuIGMgLSBrZXJuZWwgc3ltYm9sIGVuYWJsZWQgYnV0IGRvZXNu
+J3Qgc2hvd3MgdXAgaW4gLmNvbmZpZyAtIFN0YWNrIE92ZXJmbG93CiZndDsgJmd0OyAgIGh0dHBz
+Oi8vc3RhY2tvdmVyZmxvdy5jb20vcXVlc3Rpb25zLzI0MDc0MTE2L2tlcm5lbC1zeW1ib2wtZW5h
+YmxlZC1idXQtZG9lc250LXNob3dzLXVwLWluLWNvbmZpZykKJmd0OyAmZ3Q7CiZndDsgJmd0OyAg
+IGV4My4gbWFrZWZpbGUgLSB1cGRhdGUgbWVudWNvbmZpZyBlbnRyaWVzIHdpdGhvdXQgcmVjb21w
+aWxpbmcgYWxsIHRoZSBrZXJuZWwgLSBTdGFjayBPdmVyZmxvdwomZ3Q7ICZndDsgICBodHRwczov
+L3N0YWNrb3ZlcmZsb3cuY29tL3F1ZXN0aW9ucy83MTA3NTExMy91cGRhdGUtbWVudWNvbmZpZy1l
+bnRyaWVzLXdpdGhvdXQtcmVjb21waWxpbmctYWxsLXRoZS1rZXJuZWwKJmd0OyAmZ3Q7CiZndDsg
+Jmd0OyAgIGV4NC4gbGludXggLSBkaXNhYmxpbmcgQ09ORklHX05FVF9ETUEgLSBTdGFjayBPdmVy
+ZmxvdwomZ3Q7ICZndDsgICBodHRwczovL3N0YWNrb3ZlcmZsb3cuY29tL3F1ZXN0aW9ucy8zMDc5
+NDU3Ni9kaXNhYmxpbmctY29uZmlnLW5ldC1kbWEvMzA3OTY4MjAjMzA3OTY4MjAKJmd0OyAmZ3Q7
+CiZndDsgJmd0OyBXZSBwbGFuIHRvIG9wdGltaXplIHRoZSBjb25mX3JlYWQoKSBmdW5jdGlvbiBp
+biAvc2NyaXB0cy9rY29uZmlnL2NvbmZkYXRhLmMsCiZndDsgJmd0OyBhbmQgYWRkIGluZm9ybWF0
+aW9uIGZvciB0aGUgbWlzbWF0Y2hlZCBjb25maWd1cmF0aW9uIG9wdGlvbnMgdG8gaGVscCB1c2Vy
+cyBnZXQgdGhlIGRlc2lyZWQgTGludXgga2VybmVsLgomZ3Q7ICZndDsgRG8geW91IHRoaW5rIGl0
+J3MgbmVjZXNzYXJ5PyBBbnkgc3VnZ2VzdGlvbnM/CiZndDsgJmd0OwomZ3Q7IAomZ3Q7IAomZ3Q7
+IEl0IG1heSBiZSBoZWxwZnVsLgomZ3Q7IEkgZG8gbm90IGtub3cgaWYgc3VjaCB3YXJuaW5ncyBz
+aG91bGQgYmUgdHVybmVkIG9uIGJ5IGRlZmF1bHQsCiZndDsgb3IgdW5kZXIgc29tZSB2ZXJib3Nl
+IG1vZGUsIHRob3VnaC4KJmd0OyAKCgpDYW4gd2UgcmV1c2UgIktCVUlMRF9WRVJCT1NFIiBzd2l0
+Y2ggdG8gcHJpbnQgbW9yZSB3YXJuaW5nPwoKQnkgZGVmYXVsdCwgYSBtZXNzYWdlIGlzIGFkZGVk
+IGFzIGZvbGxvd3Mgb25seSB3aGVuIGludmFsaWQgdmFsdWVzIGluIC5jb25maWcgYXJlIGRldGVj
+dGVkOgogICAgIndhcm5pbmc6IHZhbHVlcyBpbiAuY29uZmlnIGFyZSBmb3JjaWJseSBtb2RpZmll
+ZCB0byBtZWV0IHRoZSBrY29uZmlnIGRlcGVuZGVuY3kgY29uc3RyYWludHMuCkZvciBtb3JlIGlu
+Zm9ybWF0aW9uLCBlbmFibGUgdGhlIGVudmlyb25tZW50IHZhcmlhYmxlICdleHBvcnQgS0JVSUxE
+X1ZFUkJPU0U9MScuIgoKSW4gdmVyYm9zZSBtb2RlLCBwcmludCBpbnZhbGlkIGNvbmZpZ3VyYXRp
+b24gb3B0aW9ucyBvbmUgYnkgb25lLCBpbmNsdWRpbmcgZXJyb3IgY2F1c2VzIGFuZCBjdXJyZW50
+IHZhbHVlcywgCnRvIGhlbHAgdXNlcnMgY29ycmVjdCB0aGVtLiBGb3IgZXhhbXBsZSwgaW4gdGhl
+IGNhc2Ugb2YgZXgxLiBhYm92ZSwgd2UgY2FuIHByb21wdCB3aXRoIHRoZSBmb2xsb3dpbmcgbWVz
+c2FnZToKICAgICJmaWxlOmxpbmU6IHdhcm5pbmc6ICdDT05GSUdfUE0nIHJldmVyc2Ugc2VsZWN0
+IGVycm9yLCBkdWUgdG8gJ0NPTkZJR19QTV9TTEVFTycgaXMgc2V0IHRvICd5Jy4iCgpEbyB5b3Ug
+dGhpbmsgdGhpcyB3b3VsZCB3b3JrPyBDYW4gd2UgbW9kaWZ5IGl0IGluIHRoaXMgd2F5PwoKCgom
+Z3Q7ICZndDsgQmVzdCByZWdhcmRzLAomZ3Q7ICZndDsgU2l5dWFuIEd1bwomZ3Q7ICZndDsgWWlu
+ZyBTdW4KJmd0OyAmZ3Q7CiZndDsgJmd0OwomZ3Q7IAomZ3Q7IAomZ3Q7IC0tIAomZ3Q7IEJlc3Qg
+UmVnYXJkcwomZ3Q7IE1hc2FoaXJvIFlhbWFkYQoKCi0tCkJlc3QgcmVnYXJkcywKU2l5dWFuIEd1
+bwpZaW5nIFN1bgo8L3N1bnlpbmdAbmouaXNjYXMuYWMuY24+PC9tYXNhaGlyb3lAa2VybmVsLm9y
+Zz4=
