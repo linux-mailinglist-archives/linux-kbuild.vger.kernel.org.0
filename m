@@ -2,53 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A8304719FFD
-	for <lists+linux-kbuild@lfdr.de>; Thu,  1 Jun 2023 16:29:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1AB171A05E
+	for <lists+linux-kbuild@lfdr.de>; Thu,  1 Jun 2023 16:37:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233573AbjFAO3b (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 1 Jun 2023 10:29:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47216 "EHLO
+        id S233470AbjFAOhT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 1 Jun 2023 10:37:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233318AbjFAO33 (ORCPT
+        with ESMTP id S233793AbjFAOg6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 1 Jun 2023 10:29:29 -0400
+        Thu, 1 Jun 2023 10:36:58 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1564D1;
-        Thu,  1 Jun 2023 07:29:28 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FBDCE7A;
+        Thu,  1 Jun 2023 07:36:34 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 628CF645CF;
-        Thu,  1 Jun 2023 14:29:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C56DAC433A1;
-        Thu,  1 Jun 2023 14:29:27 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 12BDE645AE;
+        Thu,  1 Jun 2023 14:36:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 766AFC433D2;
+        Thu,  1 Jun 2023 14:36:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685629767;
-        bh=dXPOGovjhXXNulmQVmOLqKWZVJpHZBGaZoBNkXJHjNs=;
+        s=k20201202; t=1685630184;
+        bh=q1nm3XJmvtIncOu+ub6wBefta37W073Fq2RfF3BrwDA=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=kwB67JDljFbZkEqLxS3CTSXPrQclIovsRV2WQgEIvDovey/G0F6aFb4nkADSd0QXr
-         pLCvMX85eavx8Bfc8gALeT9yCSgR/D0okBH4dzvR5VcA3igFmdcHaII3VnRszANClG
-         mvzOTa78oBgrSJwnqLpI0YbUK27h/joZM+2w4wNNiSqi4Tyv6mQe0LdeXCECM6mac/
-         Aas7LL87+hMJvEMP+cZOcLBSy5Mgz7MBhhEfmeNS4vaZ9jNW2Knz9ULi5m9o8iiD0t
-         2WYKlC7EVRAs9e47+Ku2FAu7HEDoiKvpD1O/pgURBUs9kl76aeapGq+PAQU3Nepnut
-         E75KJtRX5nejA==
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3985f70cf1bso497458b6e.3;
-        Thu, 01 Jun 2023 07:29:27 -0700 (PDT)
-X-Gm-Message-State: AC+VfDza4P9ixmCavTz8SJqQYS9u4h7/6dUAJS+8cEqS3cS3JSiPvMhz
-        +tMWJ2V+Botn8ATNLNw6DfKLxSMPy+I4bz+IR/Y=
-X-Google-Smtp-Source: ACHHUZ7H8TcRfs0381/8uo4SSlTOH8IlU6miGe+4HNiGxCYx030CPyFk3wPCZ7jy+RJd7Wx3FlUSy9Yuid6wj8XTH9s=
-X-Received: by 2002:aca:f254:0:b0:384:27f0:bd1c with SMTP id
- q81-20020acaf254000000b0038427f0bd1cmr5368030oih.51.1685629766892; Thu, 01
- Jun 2023 07:29:26 -0700 (PDT)
+        b=LE40csoZczJkWldp40THH+Zdkrug4V3qCiiGTMCHovAP5L53U7rCfGoH7brYaYPLu
+         pTRgmznANKlibPSIjoOc3ePcv+AkSLvEVMmo/FOFoTuvkABUbt2wzvU0LhJbaTpyjR
+         8wdfk6GFIFQhzdvOJa3Kxwwzz22Y316Quw8oQpqbw4ipd4wfm+yNJNVFZe/eUIX0gO
+         pr/hpnjSsK5wCd5ECoe4WviYL0qA9D2kItgny4/NOxbl1/lWlM93zGuQq/LBndfqsS
+         1ZyYaOW92/x4Rs5pHszq/9XGftSXTnv/h47DPhD34prD2ih8aUE6eWeHZZ9F2FPiaz
+         x7d/oDSVI0SJA==
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-39810ce3e13so736485b6e.2;
+        Thu, 01 Jun 2023 07:36:24 -0700 (PDT)
+X-Gm-Message-State: AC+VfDzfHNJzVLMjQ+LMGQIq6X4beW5hEeZ6V0uf/WBwxqydozoBhkNE
+        T91+Jm2LN3bt35J8WBs5EK7KpqxhJvCjoTohFEo=
+X-Google-Smtp-Source: ACHHUZ5pUe+/Kf89/ly7ZacrZOuVJ/6VUnojFj9HTrAI35BR4gk4B4HGEQvavxSygBDSsGq2RMFOP/CbSCp/LJOlihI=
+X-Received: by 2002:a05:6808:150a:b0:398:34b9:5200 with SMTP id
+ u10-20020a056808150a00b0039834b95200mr9477506oiw.51.1685630183791; Thu, 01
+ Jun 2023 07:36:23 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230601121001.1071533-1-masahiroy@kernel.org>
- <20230601121001.1071533-6-masahiroy@kernel.org> <CAMj1kXHuasyDeAvs6ZX3wR155uiVOZUO0-VbVpTQq9+v=WE5Sw@mail.gmail.com>
-In-Reply-To: <CAMj1kXHuasyDeAvs6ZX3wR155uiVOZUO0-VbVpTQq9+v=WE5Sw@mail.gmail.com>
+ <20230601121001.1071533-8-masahiroy@kernel.org> <CAMj1kXFJOHsgopUOR7+jvC8s6bvSCZ3XAkQM1FbnZ8Qj6azvQA@mail.gmail.com>
+In-Reply-To: <CAMj1kXFJOHsgopUOR7+jvC8s6bvSCZ3XAkQM1FbnZ8Qj6azvQA@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 1 Jun 2023 23:28:48 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQk4nHzEK_W=Q-8MADW2WpdKKk2eCQuF5SboT71J4DFiw@mail.gmail.com>
-Message-ID: <CAK7LNAQk4nHzEK_W=Q-8MADW2WpdKKk2eCQuF5SboT71J4DFiw@mail.gmail.com>
-Subject: Re: [PATCH 5/7] modpost: detect section mismatch for R_ARM_THM_{MOVW_ABS_NC,MOVT_ABS}
+Date:   Thu, 1 Jun 2023 23:35:47 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATDJmh1aas86YW4yrG_8Rqgz7r82NwaPj1x5c7tg-d-jg@mail.gmail.com>
+Message-ID: <CAK7LNATDJmh1aas86YW4yrG_8Rqgz7r82NwaPj1x5c7tg-d-jg@mail.gmail.com>
+Subject: Re: [PATCH 7/7] modpost: detect section mismatch for R_ARM_REL32
 To:     Ard Biesheuvel <ardb@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
@@ -68,112 +68,59 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jun 1, 2023 at 9:23=E2=80=AFPM Ard Biesheuvel <ardb@kernel.org> wro=
+On Thu, Jun 1, 2023 at 9:40=E2=80=AFPM Ard Biesheuvel <ardb@kernel.org> wro=
 te:
 >
 > On Thu, 1 Jun 2023 at 14:10, Masahiro Yamada <masahiroy@kernel.org> wrote=
 :
 > >
-> > When CONFIG_THUMB2_KERNEL is enabled, modpost fails to detect some
-> > types of section mismatches.
+> > For ARM, modpost fails to detect some types of section mismatches.
 > >
 > >   [test code]
 > >
-> >     #include <linux/init.h>
+> >     .section .init.data,"aw"
+> >     bar:
+> >             .long 0
 > >
-> >     int __initdata foo;
-> >     int get_foo(void) { return foo; }
+> >     .section .data,"aw"
+> >     .globl foo
+> >     foo:
+> >             .long bar - .
 > >
 > > It is apparently a bad reference, but modpost does not report anything.
 > >
 > > The test code above produces the following relocations.
 > >
-> >   Relocation section '.rel.text' at offset 0x1e8 contains 2 entries:
+> >   Relocation section '.rel.data' at offset 0xe8 contains 1 entry:
 > >    Offset     Info    Type            Sym.Value  Sym. Name
-> >   00000000  0000052f R_ARM_THM_MOVW_AB 00000000   .LANCHOR0
-> >   00000004  00000530 R_ARM_THM_MOVT_AB 00000000   .LANCHOR0
+> >   00000000  00000403 R_ARM_REL32       00000000   .init.data
 > >
-> > Currently, R_ARM_THM_MOVW_ABS_NC and R_ARM_THM_MOVT_ABS are just skippe=
-d.
+> > Currently, R_ARM_REL32 is just skipped.
 > >
-> > Add code to handle them. I checked arch/arm/kernel/module.c to learn
-> > how the offset is encoded in the instruction.
-> >
-> > One more thing to note for Thumb instructions - the st_value is an odd
-> > value, so you need to mask the bit 0 to get the offset. Otherwise, you
-> > will get an off-by-one error in the nearest symbol look-up.
-> >
-> > It is documented in "ELF for the ARM Architecture" [1]:
-> >
-> >   * If the symbol addresses a Thumb instruction, its value is the addre=
-ss
-> >     of the instruction with bit zero set (in a relocatable object, the
-> >     section offset with bit zero set).
-> >
-> >   * For the purposes of relocation the value used shall be the address
-> >     of the instruction (st_value & ~1).
-> >
-> > [1]: https://github.com/ARM-software/abi-aa/blob/main/aaelf32/aaelf32.r=
-st
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  scripts/mod/modpost.c | 31 ++++++++++++++++++++++++++-----
-> >  1 file changed, 26 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > index 32d56efe3f3b..528aa9175e84 100644
-> > --- a/scripts/mod/modpost.c
-> > +++ b/scripts/mod/modpost.c
-> > @@ -1082,7 +1082,8 @@ static Elf_Sym *find_nearest_sym(struct elf_info =
-*elf, Elf_Addr addr,
-> >  {
-> >         Elf_Sym *sym;
-> >         Elf_Sym *near =3D NULL;
-> > -       Elf_Addr distance;
-> > +       Elf_Addr sym_addr, distance;
-> > +       bool is_arm =3D (elf->hdr->e_machine =3D=3D EM_ARM);
-> >
-> >         for (sym =3D elf->symtab_start; sym < elf->symtab_stop; sym++) =
-{
-> >                 if (get_secindex(elf, sym) !=3D secndx)
-> > @@ -1090,10 +1091,19 @@ static Elf_Sym *find_nearest_sym(struct elf_inf=
-o *elf, Elf_Addr addr,
-> >                 if (!is_valid_name(elf, sym))
-> >                         continue;
-> >
-> > -               if (addr >=3D sym->st_value)
-> > -                       distance =3D addr - sym->st_value;
-> > +               sym_addr =3D sym->st_value;
-> > +
-> > +               /*
-> > +                * For ARM Thumb instruction, the bit 0 of st_value is =
-set.
-> > +                * Mask it to get the address.
-> > +                */
-> > +               if (is_arm)
-> > +                        sym_addr &=3D ~1;
-> > +
+> > Handle it like R_ARM_ABS32.
 >
-> This is only appropriate for STT_FUNC symbols. If this is a data
-> reference, bit 0 could be a valid address bit.
+> OK, so the reason we can handle these in the same way is because we
+> never calculate the resulting value, right? Because that value would
+> be different for these cases.
+
+Right.
+
+'- loc' is unnecessary here because modpost never calculates the
+resulting instruction.
+
+modpost wants to know the location of the referenced symbol.
+(the offset from the start of the section).
+
+For the same reason, I omitted '- loc' for
+PC-relative ones such as R_ARM_CALL, R_ARM_JUMP24, etc.
 
 
-Thanks for catching it.
-
-I will fix it as follows:
-
-    /*
-     * For ARM Thumb instruction, the bit 0 of st_value is set if
-     * the symbol is STT_FUNC type. Mask it to get the address.
-     */
-    if (is_arm && ELF_ST_TYPE(sym->st_info) =3D=3D STT_FUNC)
-            sym_addr &=3D ~1;
 
 
 
 
---=20
+
+--
 Best Regards
+
 Masahiro Yamada
