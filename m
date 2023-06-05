@@ -2,107 +2,77 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 82DF17220CE
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Jun 2023 10:19:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EC6D72252F
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Jun 2023 14:04:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229634AbjFEITF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 5 Jun 2023 04:19:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54662 "EHLO
+        id S230374AbjFEMEM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 5 Jun 2023 08:04:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229604AbjFEITF (ORCPT
+        with ESMTP id S229806AbjFEMEM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 5 Jun 2023 04:19:05 -0400
-Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57126A9;
-        Mon,  5 Jun 2023 01:19:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
-        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
-        Resent-Cc:Resent-Message-ID; bh=KubJxH4hHn+hbxhkRtiPesgcbwDHTIqMMOrkNxFfH1E=;
-        t=1685953143; x=1687162743; b=pyEhq2QG0FePUqaQGbC7yp2AdpfYcVDkYjRxPOUdY5FC50P
-        SBqwzkgCerym621cSzFmJe1qznUf9w5Dzzg26UFT3JiFQJjFmM6L42VHQwMbUjnJ2xyPbwMaz7FT7
-        HXo3dhpgQ2+/Z/+AZTD1vJgl28YGPYjyQ0Vmi0Ty8zAKfES65oKD1FaQ4u3KFzy88WCybLdAsOm/o
-        Puy02TXWrSnEtLtM++DI2wrzu3RyMJ9twq7i47MJNuWsFcTRkU/Jwj1RRVAIGpc32BCHtQwSFNwUQ
-        VGLr2pFWGIXOM0h8Rv2elBfQCItakm1XcnlzScO4YETAdzV8iVEJw8mbHYSaA03g==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-        (Exim 4.96)
-        (envelope-from <johannes@sipsolutions.net>)
-        id 1q65Qa-00ELtr-2S;
-        Mon, 05 Jun 2023 10:19:00 +0200
-Message-ID: <70071209bfa07b38df576c59341b935b9b95ae28.camel@sipsolutions.net>
-Subject: Re: [PATCH 1/2] kernel-doc: don't let V=1 change outcome
-From:   Johannes Berg <johannes@sipsolutions.net>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Date:   Mon, 05 Jun 2023 10:18:59 +0200
-In-Reply-To: <CAK7LNAQ87U202fgqkd5T9G82h4F6sNOMW2=vH1HmgAoVA48CMw@mail.gmail.com>
-References: <20230602230014.a435aab03cee.I21ab3b54eeebd638676bead3b2f87417944e44f3@changeid>
-         <CAK7LNAQ87U202fgqkd5T9G82h4F6sNOMW2=vH1HmgAoVA48CMw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.2 (3.48.2-1.fc38) 
+        Mon, 5 Jun 2023 08:04:12 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4950092;
+        Mon,  5 Jun 2023 05:04:11 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D94EF61055;
+        Mon,  5 Jun 2023 12:04:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DC6EC433D2;
+        Mon,  5 Jun 2023 12:04:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685966650;
+        bh=t39CyyE0D2EnrOjORk99IjUdoYtwCiKI3TASVRvTc7k=;
+        h=From:To:Cc:Subject:Date:From;
+        b=pUFyhTiGLGmoIe0Ge69XFzRwyz+cCXrIS73bq/rkn6j72RiNMK3Jp+ZATnhmBcMjX
+         bL/tNP02gWtqzLfcpXkv0SBNXm1yiQMkHafrTeJOVj3MdCVphIal9fl8X2+AzfkZC0
+         iGRZuw6jivSTzrrBCYTFKnvy2bigQnIPmAXFFuf2dDG/1nqUQ86Py7IGO38Lz5LmgQ
+         KpySn/6iIxHNzuQzD6RFTmBr6CZqWr4Q4H39ooUah3jfmm9gKqIrjgGrXnnhdyXFmi
+         tkH0608inGXHs5tnzw5ALCEIyhhyz2hiAGm+KF6WGchWeR1C3BoYzKRB55MwXCPOkO
+         QCxlIsCRd5h/w==
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH] scripts/kallsyms: constify long_options
+Date:   Mon,  5 Jun 2023 21:04:00 +0900
+Message-Id: <20230605120400.1775196-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-X-malware-bazaar: not-scanned
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, 2023-06-05 at 09:36 +0900, Masahiro Yamada wrote:
+getopt_long() does not modify this.
 
-> > +if (defined($ENV{'KDOC_WRETURN'})) {
-> > +       $Wreturn =3D "$ENV{'KDOC_WRETURN'}";
-> > +}
-> > +
-> > +if (defined($ENV{'KDOC_WSHORT_DESC'})) {
-> > +       $Wshort_desc =3D "$ENV{'KDOC_WSHORT_DESC'}";
-> > +}
-> > +
-> > +if (defined($ENV{'KDOC_WCONTENTS_BEFORE_SECTION'})) {
-> > +       $Wcontents_before_sections =3D "$ENV{'KDOC_WCONTENTS_BEFORE_SEC=
-TION'}";
-> > +}
-> > +
-> > +if (defined($ENV{'KDOC_WALL'})) {
-> > +       $Wreturn =3D "$ENV{'KDOC_WALL'}";
-> > +       $Wshort_desc =3D "$ENV{'KDOC_WALL'}";
-> > +       $Wcontents_before_sections =3D "$ENV{'KDOC_WALL'}";
-> > +}
->=20
->=20
->=20
-> Adding an environment variable to each of them is tedious.
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-Agree. And adding one for -Wall is especially tedious because you have
-to spell out the list of affected warnings in two places :)
+ scripts/kallsyms.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> If you enable -Wall via the command line option,
-> these lines are unneeded?
->=20
-> For example,
->=20
-> ifneq ($(KBUILD_EXTRA_WARN),)
->   cmd_checkdoc =3D $(srctree)/scripts/kernel-doc -none \
->          $(if $(findstring 2, $(KBUILD_EXTRA_WARN)), -Wall) $<
-> endif
->=20
+diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
+index 0d2db41177b2..8e97ac7b38a6 100644
+--- a/scripts/kallsyms.c
++++ b/scripts/kallsyms.c
+@@ -806,7 +806,7 @@ static void record_relative_base(void)
+ int main(int argc, char **argv)
+ {
+ 	while (1) {
+-		static struct option long_options[] = {
++		static const struct option long_options[] = {
+ 			{"all-symbols",     no_argument, &all_symbols,     1},
+ 			{"absolute-percpu", no_argument, &absolute_percpu, 1},
+ 			{"base-relative",   no_argument, &base_relative,   1},
+-- 
+2.39.2
 
-Yes, that should be possible.
-
-I feel like maybe we should still have individual settings for the three
-different classes, because you might want to have -Wshort-desc without
-the extra -Wcontents-before-sections (which I thought about removing
-entirely, kernel-doc seems to parse just fine that way, what's the point
-of it?)
-
-But we could even move the env var handling _completely_ to the Makefile
-if you don't mind, and then we don't have to have two places in the
-script that need to be aligned all the time.
-
-johannes
