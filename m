@@ -2,209 +2,160 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9846B72113C
-	for <lists+linux-kbuild@lfdr.de>; Sat,  3 Jun 2023 18:33:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 145FB721B45
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Jun 2023 02:37:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229452AbjFCQdB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 3 Jun 2023 12:33:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48316 "EHLO
+        id S232449AbjFEAhK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 4 Jun 2023 20:37:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbjFCQdA (ORCPT
+        with ESMTP id S230218AbjFEAhJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 3 Jun 2023 12:33:00 -0400
+        Sun, 4 Jun 2023 20:37:09 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D670D8;
-        Sat,  3 Jun 2023 09:32:59 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9EA1CD;
+        Sun,  4 Jun 2023 17:37:08 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 06E6160A5C;
-        Sat,  3 Jun 2023 16:32:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56C00C4339B;
-        Sat,  3 Jun 2023 16:32:58 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 75B3D61CB8;
+        Mon,  5 Jun 2023 00:37:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA34AC433EF;
+        Mon,  5 Jun 2023 00:37:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685809978;
-        bh=lzSQzFxj4VGogLWnYC/NLk/1q4dN8KT5Vbju2mrt8xU=;
+        s=k20201202; t=1685925427;
+        bh=8ViOZ/67sFC1dwMBsTpVWnyzKQ+Cxx+t5f/lBwak1P0=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=saXSm5U+tqlIi9dS1AT89Fl9WLXQWQEE3FAyQ16Cshg2licdOkqIPvn/4d0A2e9iO
-         SjqcCuCKhdc1YoTlqyyjF+QOMso6I5CAiovZ8rrdkgkdQerlIaX4wNNSUhQjevXgZ1
-         eEe5Dzit7Uo9reJ7Apch2+4DzModSusDGdDqtWzEly9U5nmDeoe+LDFDYmFjxNPz4d
-         FW8gZwQcLRMuiDIpTkypIjYxSwANTUA0QeYLof7k3LnqX1gsJouRbNk/uTs9hsFZRX
-         krL73DKJxymgm02iRTLeUN0PPUCv/Zn735DYwWsdBKOsPDSb7P5OSwF7sUwL8WuoVb
-         M4ESGOQ66/sqQ==
-Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-555536b85a0so1644455eaf.2;
-        Sat, 03 Jun 2023 09:32:58 -0700 (PDT)
-X-Gm-Message-State: AC+VfDw/WvwZWN9jEyIoBS4JrlcFb50Ldv9hHxC8P749ZzsaElubg5RF
-        b79nbWFEiVcTm0lvc6gVgIfY4JKyFmrKNYxX+q0=
-X-Google-Smtp-Source: ACHHUZ7WRBNkYowA0BQL72/N3gA0JGFZGoM1RblEidD4LI73bpyH2rKQa4d7822bNeuqws/XwXKtqPFsRR/RT7wYu8U=
-X-Received: by 2002:a4a:374c:0:b0:547:5593:d6 with SMTP id r73-20020a4a374c000000b00547559300d6mr7501367oor.5.1685809977529;
- Sat, 03 Jun 2023 09:32:57 -0700 (PDT)
+        b=VuknoifnPM3Ny8uuPvhWMe3iKC6lE+/ud3dTUXPfJKlxcw4v2UEumVfUd9jW7w/bS
+         XNPBYMbEOkU8x57jN72rmSTW15i++Wte5y5W6MiCp9E/1/QlPTEHx/H9anIn0o7UCL
+         NICepO4JqRrXVkRPvIu3Fba39mWJMpsHNdP+UxNeiL8xmxa/6z5S/U6sX7Qg6AY0gt
+         MYITBJLuL6GjitrIYz6L6ADIkD81sI3GoL5VKvtKsbuFORWmFnh9Cf64ViBvhwsVxy
+         SOVU87WTtXLV0n5wt5LnOlq0HBNwEcF8hnTuUH2rDyn4ER/ruYlKdVOJz7bNJoWPnT
+         JEt5j/czJTwIg==
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-558c8a109bdso372805eaf.1;
+        Sun, 04 Jun 2023 17:37:07 -0700 (PDT)
+X-Gm-Message-State: AC+VfDyZgiIrfLbjztRSAGL+SwgtnzCBFoILhCuqdZyES/7UWP9oshu1
+        wq3Jo0u4bszernGO2oHsnMK+JRn/ZBm/x7jFBg4=
+X-Google-Smtp-Source: ACHHUZ7Jm7elrU5npuF1QxqdtBRteBO0IRNznr6jV6ddUwArpX9BkikZ+hfd26MESp8Llek/+jq5zcQT/c7HnabSCGQ=
+X-Received: by 2002:a4a:b3cb:0:b0:54f:4e01:7fc9 with SMTP id
+ q11-20020a4ab3cb000000b0054f4e017fc9mr5073688ooo.3.1685925427055; Sun, 04 Jun
+ 2023 17:37:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230409145358.2538266-1-masahiroy@kernel.org>
- <20230531213319.GA2201875@dev-arch.thelio-3990X> <20230602152519.GA3007575@dev-arch.thelio-3990X>
-In-Reply-To: <20230602152519.GA3007575@dev-arch.thelio-3990X>
+References: <20230602230014.a435aab03cee.I21ab3b54eeebd638676bead3b2f87417944e44f3@changeid>
+In-Reply-To: <20230602230014.a435aab03cee.I21ab3b54eeebd638676bead3b2f87417944e44f3@changeid>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 4 Jun 2023 01:32:21 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARjB8vgk-hsZmGqB0mwz=OBgyDtqBKJ2cueE+yQ02CQiA@mail.gmail.com>
-Message-ID: <CAK7LNARjB8vgk-hsZmGqB0mwz=OBgyDtqBKJ2cueE+yQ02CQiA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: add $(CLANG_CFLAGS) to KBUILD_CPPFLAGS
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tom Rini <trini@konsulko.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
-        llvm@lists.linux.dev
+Date:   Mon, 5 Jun 2023 09:36:30 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ87U202fgqkd5T9G82h4F6sNOMW2=vH1HmgAoVA48CMw@mail.gmail.com>
+Message-ID: <CAK7LNAQ87U202fgqkd5T9G82h4F6sNOMW2=vH1HmgAoVA48CMw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kernel-doc: don't let V=1 change outcome
+To:     Johannes Berg <johannes@sipsolutions.net>
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, Johannes Berg <johannes.berg@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jun 3, 2023 at 12:25=E2=80=AFAM Nathan Chancellor <nathan@kernel.or=
-g> wrote:
+On Sat, Jun 3, 2023 at 6:00=E2=80=AFAM Johannes Berg <johannes@sipsolutions=
+.net> wrote:
 >
-> On Wed, May 31, 2023 at 02:33:23PM -0700, Nathan Chancellor wrote:
-> > Hi Masahiro,
-> >
-> > On Sun, Apr 09, 2023 at 11:53:57PM +0900, Masahiro Yamada wrote:
-> > > When preprocessing arch/*/kernel/vmlinux.lds.S, the target triple is
-> > > not passed to $(CPP) because we add it only to KBUILD_{C,A}FLAGS.
-> > >
-> > > As a result, the linker script is preprocessed with predefined macros
-> > > for the build host instead of the target.
-> > >
-> > > Assuming you use an x86 build machine, compare the following:
-> > >
-> > >  $ clang -dM -E -x c /dev/null
-> > >  $ clang -dM -E -x c /dev/null -target aarch64-linux-gnu
-> > >
-> > > There is no actual problem presumably because our linker scripts do n=
-ot
-> > > rely on such predefined macros, but it is better to define correct on=
-es.
-> > >
-> > > Move $(CFLAGS_CFLAGS) to KBUILD_CPPFLAGS, so that all *.c, *.S, *.lds=
-.S
-> > > will be processed with the proper target triple.
-> > >
-> > > Reported-by: Tom Rini <trini@konsulko.com>
-> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > ---
-> > >
-> > >  scripts/Makefile.clang | 3 +--
-> > >  1 file changed, 1 insertion(+), 2 deletions(-)
-> > >
-> > > diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
-> > > index 70b354fa1cb4..93ca059cc3b8 100644
-> > > --- a/scripts/Makefile.clang
-> > > +++ b/scripts/Makefile.clang
-> > > @@ -38,6 +38,5 @@ CLANG_FLAGS       +=3D -Werror=3Dunknown-warning-op=
-tion
-> > >  CLANG_FLAGS        +=3D -Werror=3Dignored-optimization-argument
-> > >  CLANG_FLAGS        +=3D -Werror=3Doption-ignored
-> > >  CLANG_FLAGS        +=3D -Werror=3Dunused-command-line-argument
-> > > -KBUILD_CFLAGS      +=3D $(CLANG_FLAGS)
-> > > -KBUILD_AFLAGS      +=3D $(CLANG_FLAGS)
-> > > +KBUILD_CPPFLAGS    +=3D $(CLANG_FLAGS)
-> > >  export CLANG_FLAGS
-> > > --
-> > > 2.37.2
-> > >
-> >
-> > I am doubling back to this change, as the lack of '--target' in
-> > KBUILD_CPPFLAGS is now an active bug with clang-17 due to a new change
-> > that rejects '-mbig-endian' and '-mlittle-endian' when not supported by
-> > the target, which breaks the arm64 vDSO build when preprocessing its
-> > linker script:
-> >
-> >   # Turn on CONFIG_CPU_BIG_ENDIAN in menuconfig
-> >   $ make -skj"$(nproc)" ARCH=3Darm64 LLVM=3D1 O=3Dbuild mrproper virtco=
-nfig menuconfig arch/arm64/kernel/vdso/
-> >   ...
-> >   clang: error: unsupported option '-mbig-endian' for target 'x86_64-pc=
--linux-gnu'
-> >   make[3]: *** [.../scripts/Makefile.build:387: arch/arm64/kernel/vdso/=
-vdso.lds] Error 1
-> >   ...
-> >
-> >   https://github.com/llvm/llvm-project/commit/d81ce04587c006b6731198956=
-c522c93d0df1050
-> >   https://github.com/ClangBuiltLinux/linux/issues/1859
-> >
-> > This change resolves that issue. I was able to figure out why those new
-> > warnings appeared for ARCH=3Dmips, it is the shell invocation for
-> > CHECKFLAGS. The following diff resolves it for me:
-> >
-> > diff --git a/arch/mips/Makefile b/arch/mips/Makefile
-> > index a7a4ee66a9d3..ef7b05ae92ce 100644
-> > --- a/arch/mips/Makefile
-> > +++ b/arch/mips/Makefile
-> > @@ -346,7 +346,7 @@ KBUILD_CFLAGS +=3D -fno-asynchronous-unwind-tables
-> >  KBUILD_LDFLAGS               +=3D -m $(ld-emul)
-> >
-> >  ifdef CONFIG_MIPS
-> > -CHECKFLAGS +=3D $(shell $(CC) $(KBUILD_CFLAGS) -dM -E -x c /dev/null |=
- \
-> > +CHECKFLAGS +=3D $(shell $(CC) $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS) -dM =
--E -x c /dev/null | \
-> >       grep -E -vw '__GNUC_(MINOR_|PATCHLEVEL_)?_' | \
-> >       sed -e "s/^\#define /-D'/" -e "s/ /'=3D'/" -e "s/$$/'/" -e 's/\$$=
-/&&/g')
-> >  endif
-> >
-> > I will run this change plus that diff through my build matrix to see if
-> > any other issues pop up. If not, I will respond with some tags and
-> > perhaps this could be taken as a fix for 6.4 so that it could
-> > potentially be backported?
+> From: Johannes Berg <johannes.berg@intel.com>
 >
-> I found two more issues lurking in PowerPC. I have attached suggested
-> patches for all the issues I have uncovered to this email, please feel
-> free to use them or do something different if you feel there is a better
-> fix. With those issues resolved in one way or another, consider the
-> original change:
+> The kernel-doc script currently reports a number of issues
+> only in "verbose" mode, but that's initialized from V=3D1
+> (via KBUILD_VERBOSE), so if you use KDOC_WERROR=3D1 then
+> adding V=3D1 might actually break the build. This is rather
+> unexpected.
+
+Agree.
+
+
 >
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-> Tested-by: Nathan Chancellor <nathan@kernel.org>
+> Change kernel-doc to not change its behaviour wrt. errors
+> (or warnings) when verbose mode is enabled, but rather add
+> separate warning flags (and -Wall) for it.
 >
-> If it would work better for you, I am more than happy to take over this
-> series as well.
+> Signed-off-by: Johannes Berg <johannes.berg@intel.com>
+> ---
+>  scripts/kernel-doc | 41 ++++++++++++++++++++++++++++++++++++-----
+>  1 file changed, 36 insertions(+), 5 deletions(-)
 >
-> Cheers,
-> Nathan
+> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+> index 2486689ffc7b..1eb1819fbe13 100755
+> --- a/scripts/kernel-doc
+> +++ b/scripts/kernel-doc
+> @@ -23,7 +23,7 @@ kernel-doc - Print formatted kernel documentation to st=
+dout
+>
+>  =3Dhead1 SYNOPSIS
+>
+> - kernel-doc [-h] [-v] [-Werror]
+> + kernel-doc [-h] [-v] [-Werror] [-Wreturn] [-Wshort-description] [-Wcont=
+ents-before-sections] [-Wall]
+>     [ -man |
+>       -rst [-sphinx-version VERSION] [-enable-lineno] |
+>       -none
+> @@ -133,6 +133,9 @@ my $dohighlight =3D "";
+>
+>  my $verbose =3D 0;
+>  my $Werror =3D 0;
+> +my $Wreturn =3D 0;
+> +my $Wshort_desc =3D 0;
+> +my $Wcontents_before_sections =3D 0;
+>  my $output_mode =3D "rst";
+>  my $output_preformatted =3D 0;
+>  my $no_doc_sections =3D 0;
+> @@ -191,6 +194,24 @@ if (defined($ENV{'KDOC_WERROR'})) {
+>         $Werror =3D "$ENV{'KDOC_WERROR'}";
+>  }
+>
+> +if (defined($ENV{'KDOC_WRETURN'})) {
+> +       $Wreturn =3D "$ENV{'KDOC_WRETURN'}";
+> +}
+> +
+> +if (defined($ENV{'KDOC_WSHORT_DESC'})) {
+> +       $Wshort_desc =3D "$ENV{'KDOC_WSHORT_DESC'}";
+> +}
+> +
+> +if (defined($ENV{'KDOC_WCONTENTS_BEFORE_SECTION'})) {
+> +       $Wcontents_before_sections =3D "$ENV{'KDOC_WCONTENTS_BEFORE_SECTI=
+ON'}";
+> +}
+> +
+> +if (defined($ENV{'KDOC_WALL'})) {
+> +       $Wreturn =3D "$ENV{'KDOC_WALL'}";
+> +       $Wshort_desc =3D "$ENV{'KDOC_WALL'}";
+> +       $Wcontents_before_sections =3D "$ENV{'KDOC_WALL'}";
+> +}
 
-Thanks. All the three patches look good to me.
-
-I will apply them, then mine on top.
 
 
+Adding an environment variable to each of them is tedious.
 
 
-A nit:
+If you enable -Wall via the command line option,
+these lines are unneeded?
 
-The first patch for mips will introduce the warning
-as $(KBUILD_CPPFLAGS) does not contain $(CLANG_FLAGS)
-at this point.
-Then, it will be fixed again when my patch is applied.
+For example,
 
-The two must be squashed together to avoid the regression,
-but I think it is OK as-is.
+ifneq ($(KBUILD_EXTRA_WARN),)
+  cmd_checkdoc =3D $(srctree)/scripts/kernel-doc -none \
+         $(if $(findstring 2, $(KBUILD_EXTRA_WARN)), -Wall) $<
+endif
 
 
 
 
-The second patch for powerpc reminded me of
-converting $(CC) to $(LD) for linking vDSO.
-I do not remember why powerpc vDSO still uses $(CC).
 
 
 
-
---
+--=20
 Best Regards
 Masahiro Yamada
