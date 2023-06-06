@@ -2,62 +2,51 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D6E0723CD9
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Jun 2023 11:17:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DCDA723E07
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Jun 2023 11:43:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236092AbjFFJRF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 6 Jun 2023 05:17:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58226 "EHLO
+        id S236535AbjFFJnE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 6 Jun 2023 05:43:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236069AbjFFJRC (ORCPT
+        with ESMTP id S237103AbjFFJmu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 6 Jun 2023 05:17:02 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF57CE51
-        for <linux-kbuild@vger.kernel.org>; Tue,  6 Jun 2023 02:16:53 -0700 (PDT)
+        Tue, 6 Jun 2023 05:42:50 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 819A710E5;
+        Tue,  6 Jun 2023 02:42:49 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 79F5862F81
-        for <linux-kbuild@vger.kernel.org>; Tue,  6 Jun 2023 09:16:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE37FC433D2
-        for <linux-kbuild@vger.kernel.org>; Tue,  6 Jun 2023 09:16:52 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 015636264C;
+        Tue,  6 Jun 2023 09:42:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32F31C4339B;
+        Tue,  6 Jun 2023 09:42:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686043012;
-        bh=fnwNAebMwuEjn+2lKhDY20cum9QmvWsokY0mDHSMffI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=DQMHI5JZ96cIbGbgmkr/LaLcM2WkMVmmoG8RACz+eH9L7LiXe/rlqTAuMMOxGDP5V
-         wEmlOulSsqM6oX1yRAw//ZDFiVI1c39hVYyLXdy2JDfoZvspeecm3vRTnLVjvmddPY
-         iU5NLDbwUsKoLCTDzjBpHAc4RwaFZyZ+QotjTXHwri8MrfDZK2BDy6WmRC5tmLiMOv
-         UxM5/7kQ/PG7Uhh9OGNyMMsewSJ3aN0j1O0f4jGwRSXd8x2IhxzIpwqyXZ0eFSjQyg
-         Eu0I05K1UgnqfECrZcEOGxj/VAjeTfI/En+HxwfattbQzIsXWaXJ+NKcI8E2wW37HV
-         VqxjRz3RaYwHA==
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-1a2ad8f4075so4494538fac.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 06 Jun 2023 02:16:52 -0700 (PDT)
-X-Gm-Message-State: AC+VfDwMUC0wbguTB7ZjFltzhNtT2wbuUW+b6GL3VRpRt6dm2Cz6rjk1
-        TUFFpR+HZ29w+BDHD54dJ/ECKCZVsSYklICI4Ho=
-X-Google-Smtp-Source: ACHHUZ7Mlbe4oXQfgHZSOIQolgi5gfyYq4lZD3PKKtkhAaxh/WNqihdsgbMzGYDx419Zr5c/SWeCXc1NAh6HQPHUMSU=
-X-Received: by 2002:a05:6870:7f07:b0:19f:2346:b59d with SMTP id
- xa7-20020a0568707f0700b0019f2346b59dmr2789669oab.55.1686043012221; Tue, 06
- Jun 2023 02:16:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <ZH7uxFaLhjul0jp1@moroto>
-In-Reply-To: <ZH7uxFaLhjul0jp1@moroto>
+        s=k20201202; t=1686044568;
+        bh=veE+fl10BprFYlWZLZVVUUJiYrObzEPENxfuVNrEcOQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=GBNobWZy7SwC/cebnMZSenZBwru9FKLP8XS5e4rq87U4wSZBeSXh2EVetUVt2A3gs
+         W9arwvDlhlSEPwyW+l/9aineUDMqr7j+t9AiCFlKb6X0NrKJ8VfbqX5xnZukq5j03x
+         vn8Mq+8qAwr6Sj6pBvycfG2luJx1/M3UG0MbEHD76QMjUm8ykMo6WlOd82qRt+vgP0
+         /1d+02nzwUd1uqEXi/7Wgr8H9XRYv1fBudnjf5Dssfak6+ipF0oxODLuzDOSIQv0ix
+         Jl+ZbWiZRFEHL16A7j4Ujk7nTHYQYNQts9qd07uYlQyufhn15jb+XpzI/7nlDKAxMG
+         xRXrcQ3MFitJw==
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 6 Jun 2023 18:16:15 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS_40O2VohUraVP--PVj2ZrX6SbNhLR99a_WYMXhHU4ng@mail.gmail.com>
-Message-ID: <CAK7LNAS_40O2VohUraVP--PVj2ZrX6SbNhLR99a_WYMXhHU4ng@mail.gmail.com>
-Subject: Re: [bug report] modpost: handle relocations mismatch in __ex_table.
-To:     Dan Carpenter <dan.carpenter@linaro.org>
-Cc:     quentin.casasnovas@oracle.com,
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        Nicolas Schier <nicolas@fjasle.eu>
+Subject: [PATCH] modpost: propagate W=1 build option to modpost
+Date:   Tue,  6 Jun 2023 18:41:59 +0900
+Message-Id: <20230606094159.1910369-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -66,53 +55,66 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jun 6, 2023 at 5:31=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro.=
-org> wrote:
->
-> [ Ancient code warning. - dan ]
->
-> Hello Quentin Casasnovas,
->
-> The patch 52dc0595d540: "modpost: handle relocations mismatch in
-> __ex_table." from Apr 13, 2015, leads to the following Smatch static
-> checker warning:
->
->         ./scripts/mod/modpost.c:1154 is_executable_section()
->         warn: array off by one? 'elf->sechdrs[secndx]'
->
-> ./scripts/mod/modpost.c
->     1149 static bool is_executable_section(struct elf_info *elf, unsigned=
- int secndx)
->     1150 {
->     1151         if (secndx > elf->num_sections)
->                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
-> I'm not positive, but I think this should be >=3D.
+"No build warning" is a strong requirement these days, so you must fix
+all issues before enabling a new warning flag.
 
+We often add a new warning to W=1 first so that the kbuild test robot
+blocks new breakages.
 
-Ah, right. This is a bug, and your fix is correct.
+This commit allows modpost to show extra warnings only when W=1
+(or KBUILD_EXTRA_WARN=1) is given.
 
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ scripts/Makefile.modpost | 1 +
+ scripts/mod/modpost.c    | 7 ++++++-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
+diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+index 0980c58d8afc..074e27c0c140 100644
+--- a/scripts/Makefile.modpost
++++ b/scripts/Makefile.modpost
+@@ -47,6 +47,7 @@ modpost-args =										\
+ 	$(if $(KBUILD_MODPOST_WARN),-w)							\
+ 	$(if $(KBUILD_NSDEPS),-d $(MODULES_NSDEPS))					\
+ 	$(if $(CONFIG_MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS)$(KBUILD_NSDEPS),-N)	\
++	$(if $(findstring 1, $(KBUILD_EXTRA_WARN)),-W)					\
+ 	-o $@
+ 
+ modpost-deps := $(MODPOST)
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index d10f5bdcb753..3ea5eb2b1029 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -42,6 +42,8 @@ static bool allow_missing_ns_imports;
+ 
+ static bool error_occurred;
+ 
++static bool extra_warn;
++
+ /*
+  * Cut off the warnings when there are too many. This typically occurs when
+  * vmlinux is missing. ('make modules' without building vmlinux.)
+@@ -2199,7 +2201,7 @@ int main(int argc, char **argv)
+ 	LIST_HEAD(dump_lists);
+ 	struct dump_list *dl, *dl2;
+ 
+-	while ((opt = getopt(argc, argv, "ei:mnT:o:awENd:")) != -1) {
++	while ((opt = getopt(argc, argv, "ei:mnT:o:aWwENd:")) != -1) {
+ 		switch (opt) {
+ 		case 'e':
+ 			external_module = true;
+@@ -2224,6 +2226,9 @@ int main(int argc, char **argv)
+ 		case 'T':
+ 			files_source = optarg;
+ 			break;
++		case 'W':
++			extra_warn = true;
++			break;
+ 		case 'w':
+ 			warn_unresolved = true;
+ 			break;
+-- 
+2.39.2
 
-
->
->     1152                 return false;
->     1153
-> --> 1154         return (elf->sechdrs[secndx].sh_flags & SHF_EXECINSTR) !=
-=3D 0;
->                                       ^^^^^^
-> out of bounds read.
->
->     1155 }
->
-> regards,
-> dan carpenter
-
-
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
