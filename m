@@ -2,164 +2,127 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D8138724A17
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Jun 2023 19:21:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1335724A61
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Jun 2023 19:36:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233683AbjFFRVx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 6 Jun 2023 13:21:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33002 "EHLO
+        id S234850AbjFFRg2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 6 Jun 2023 13:36:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238105AbjFFRVw (ORCPT
+        with ESMTP id S237936AbjFFRgB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 6 Jun 2023 13:21:52 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D299E42;
-        Tue,  6 Jun 2023 10:21:51 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D8DC0633A1;
-        Tue,  6 Jun 2023 17:21:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 399F7C433D2;
-        Tue,  6 Jun 2023 17:21:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686072110;
-        bh=egf9nd46GWUqIZBqWwqTFmUpZW1v4tp/pYaaWrdTSN4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=k+DQTULTFjnGotsh6m4MW/H7OIbQUmL6g8PafBa/cFWWFgjEz2R9+NaKu6aKrIQOZ
-         4xp46jvCOyMLddd8hEyev8dwX8N9IGoTee0aCav16X65u2c+5ho2RisTbV9bZoOqCR
-         72VAZ2a6ql1ARX5+QNDYHCvJm0MwF6UPh+Kfqu9qTCsqpyAUBRvVe813jdTsJMItOD
-         bpXx8bKlALXipO12pwtlJnk0jmn6nIlIKMwOql31H0CCQx9foDB+Nu12wQq661LJgV
-         S3X8oU9cA1PjuWGKDOB3ociBbiUvTQO/fPTCjLrfU38tnHmbiTM5lJc58fWXYlKZ6+
-         BkfL3rP8uY66Q==
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-19f31d6b661so7002519fac.0;
-        Tue, 06 Jun 2023 10:21:50 -0700 (PDT)
-X-Gm-Message-State: AC+VfDyiU+fcmwomfbA5AVQy+wMHOxImv1j2yyMsLB6GKZHWcfiBHzAe
-        Lt8axV5fBbTZu47EGZRKacvz7679vSlqu8SK6Q8=
-X-Google-Smtp-Source: ACHHUZ7NxGNfFIJN+FbaGIZ7b3rk+jlcRXhyKCOY5mOiZf5LiCfG/XmjbvrjuNDmgWrsLj4iUV3GUZDwdvYkDILVjKI=
-X-Received: by 2002:a05:6870:9c87:b0:19e:8f6a:84c1 with SMTP id
- pq7-20020a0568709c8700b0019e8f6a84c1mr3653127oab.52.1686072109501; Tue, 06
- Jun 2023 10:21:49 -0700 (PDT)
+        Tue, 6 Jun 2023 13:36:01 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 811A010F8
+        for <linux-kbuild@vger.kernel.org>; Tue,  6 Jun 2023 10:36:00 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-9741caaf9d4so943536166b.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 06 Jun 2023 10:36:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1686072959; x=1688664959;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Gdp4S+eQxFiKfHwPNqSR2VRP1nv6P0cgdm1YgiXygNM=;
+        b=qv3VIrKhNKnucoSAPFfAY4WLFvoX/zmB8m5YAtYgIqiMEARlXzH0vymd3w5taAOkq+
+         DJOjFLm+pejV48XapvBeVsWRTXiYjrqWgTA7cKIvZF/A5mEihzkmT76NUh7lYiaCMi44
+         3Y2CK1C1R3wInwkt9549rDlm5Wzw0AKCA42jnPrldNTtCI+e6iAfYfWBQE6Hla2+ri06
+         mN/98oyNQJxaHGVlN8ajpAacok/RfWzk5XRElQaGw/r2RXpvVPBC9PWWxU9kSh9PkpZe
+         r5Td6BNj2F79nF1Q/rzA3A6PQlYKCLUT+nWB9zFdIaamnrGh5QMIbYDNKQDgIaZ12VCx
+         H63Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686072959; x=1688664959;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Gdp4S+eQxFiKfHwPNqSR2VRP1nv6P0cgdm1YgiXygNM=;
+        b=G2qPIcRRcvl3hE2CZR2sN90S9Syz+G/NNCendNiC7/LsrT1UUVU8/OEGUyLjhXL4Hk
+         eUdYTRqYC4epJVZsEZw63o5zQWW4u3RR+LbM+aDfOLr6YLmfrOJ/XFDfcUAScGWRVdu5
+         Ai3yFVN2aDmk9QUZlefheAAPLvJY3p2mbKr+JunYjSQeKXv1Vy1rrPC5p5VUXdYnpxzY
+         JBsyU3DUu64hFFQcOL3YMeyxKqo2RPxJVmcDqSi9tCJmj5AkE4CVfcxyVJ57OqF4P0ZH
+         jyI9Uaw2Ajt1fTkyekxk9JmtctgpW1myWcWYYsykom1KHRv/ZQWue8xfWIOCBkHc+SlK
+         aLpg==
+X-Gm-Message-State: AC+VfDzYIZIV1vjVX9xJc/Nk+y902ir6IEsEfYfHMb4CWfPM8s8PaXv8
+        IxUGHTih0i3rcWMRKHgoMxFDNnsDd6VEPDqYjtke3g==
+X-Google-Smtp-Source: ACHHUZ7vstHVKqnFMMNz3kMOqA1kekutTy0W0KKYUfBfFo6ZAN1i4100uVJ9oGNA1xTiupBy8ntWSw==
+X-Received: by 2002:a17:907:1606:b0:973:ff4d:d01e with SMTP id hb6-20020a170907160600b00973ff4dd01emr4238978ejc.31.1686072958732;
+        Tue, 06 Jun 2023 10:35:58 -0700 (PDT)
+Received: from google.com (30.171.91.34.bc.googleusercontent.com. [34.91.171.30])
+        by smtp.gmail.com with ESMTPSA id rl15-20020a170907216f00b00974638e4a98sm5685962ejb.24.2023.06.06.10.35.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jun 2023 10:35:58 -0700 (PDT)
+Date:   Tue, 6 Jun 2023 17:35:53 +0000
+From:   =?utf-8?Q?Pierre-Cl=C3=A9ment?= Tosi <ptosi@google.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>, ptosi@google.com
+Subject: [PATCH] scripts/mksysmap: Fix badly escaped '$'
+Message-ID: <20230606173553.v7lckyxrcsotanm5@google.com>
 MIME-Version: 1.0
-References: <20230606094159.1910369-1-masahiroy@kernel.org> <CAKwvOdkfQiu-Y29xiOMERxnSy9aqN851AoogGYrnqdc4dcaHOA@mail.gmail.com>
-In-Reply-To: <CAKwvOdkfQiu-Y29xiOMERxnSy9aqN851AoogGYrnqdc4dcaHOA@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 7 Jun 2023 02:21:13 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASheifemHTT-cNputbMv7th+NT8XUBu2a9ZMcu5jZMe3g@mail.gmail.com>
-Message-ID: <CAK7LNASheifemHTT-cNputbMv7th+NT8XUBu2a9ZMcu5jZMe3g@mail.gmail.com>
-Subject: Re: [PATCH] modpost: propagate W=1 build option to modpost
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,FSL_HELO_FAKE,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jun 7, 2023 at 1:56=E2=80=AFAM Nick Desaulniers <ndesaulniers@googl=
-e.com> wrote:
->
-> On Tue, Jun 6, 2023 at 2:42=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.=
-org> wrote:
-> >
-> > "No build warning" is a strong requirement these days, so you must fix
-> > all issues before enabling a new warning flag.
-> >
-> > We often add a new warning to W=3D1 first so that the kbuild test robot
-> > blocks new breakages.
-> >
-> > This commit allows modpost to show extra warnings only when W=3D1
-> > (or KBUILD_EXTRA_WARN=3D1) is given.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->
-> Patch seems fine, but without anyone reading extra_warn, I'm curious
-> what new extra warnings you had in mind were?
+The backslash characters escaping '$' in the command to sed (intended to
+prevent it from interpreting '$' as "end-of-line") are currently being
+consumed by the Shell (where they mean that sh should not evaluate what
+follows '$' as a variable name). This means that
+
+    sed -e "/ \$/d"
+
+executes the script
+
+    / $/d
+
+instead of the intended
+
+    / \$/d
+
+So escape twice in mksysmap any '$' that actually needs to reach sed
+escaped so that the backslash survives the Shell.
+
+Fixes: c4802044a0a7 ("scripts/mksysmap: use sed with in-line comments")
+Fixes: 320e7c9d4494 ("scripts/kallsyms: move compiler-generated symbol patterns to mksysmap")
+Signed-off-by: Pierre-Clément Tosi <ptosi@google.com>
+---
+ scripts/mksysmap | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/mksysmap b/scripts/mksysmap
+index cb3b1fff3eee..ec3338526102 100755
+--- a/scripts/mksysmap
++++ b/scripts/mksysmap
+@@ -32,7 +32,7 @@ ${NM} -n ${1} | sed >${2} -e "
+ #  (do not forget a space before each pattern)
+ 
+ # local symbols for ARM, MIPS, etc.
+-/ \$/d
++/ \\$/d
+ 
+ # local labels, .LBB, .Ltmpxxx, .L__unnamed_xx, .LASANPC, etc.
+ / \.L/d
+@@ -41,7 +41,7 @@ ${NM} -n ${1} | sed >${2} -e "
+ / __efistub_/d
+ 
+ # arm64 local symbols in non-VHE KVM namespace
+-/ __kvm_nvhe_\$/d
++/ __kvm_nvhe_\\$/d
+ / __kvm_nvhe_\.L/d
+ 
+ # arm64 lld
+-- 
+2.41.0.rc0.172.g3f132b7071-goog
 
 
-This one.
-
-https://lore.kernel.org/linux-kbuild/CAK7LNAR0uMvf+k7LPXtMjigKFPeNu5m5EhAkv=
-k2RVRHkdjdbdg@mail.gmail.com/T/#m0f41f2c8fe843133ce8100088443491a51d496af
-
-
-> > ---
-> >
-> >  scripts/Makefile.modpost | 1 +
-> >  scripts/mod/modpost.c    | 7 ++++++-
-> >  2 files changed, 7 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-> > index 0980c58d8afc..074e27c0c140 100644
-> > --- a/scripts/Makefile.modpost
-> > +++ b/scripts/Makefile.modpost
-> > @@ -47,6 +47,7 @@ modpost-args =3D                                     =
-                                           \
-> >         $(if $(KBUILD_MODPOST_WARN),-w)                                =
-                 \
-> >         $(if $(KBUILD_NSDEPS),-d $(MODULES_NSDEPS))                    =
-                 \
-> >         $(if $(CONFIG_MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS)$(KBUILD_N=
-SDEPS),-N)       \
-> > +       $(if $(findstring 1, $(KBUILD_EXTRA_WARN)),-W)                 =
-                 \
-> >         -o $@
-> >
-> >  modpost-deps :=3D $(MODPOST)
-> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > index d10f5bdcb753..3ea5eb2b1029 100644
-> > --- a/scripts/mod/modpost.c
-> > +++ b/scripts/mod/modpost.c
-> > @@ -42,6 +42,8 @@ static bool allow_missing_ns_imports;
-> >
-> >  static bool error_occurred;
-> >
-> > +static bool extra_warn;
-> > +
-> >  /*
-> >   * Cut off the warnings when there are too many. This typically occurs=
- when
-> >   * vmlinux is missing. ('make modules' without building vmlinux.)
-> > @@ -2199,7 +2201,7 @@ int main(int argc, char **argv)
-> >         LIST_HEAD(dump_lists);
-> >         struct dump_list *dl, *dl2;
-> >
-> > -       while ((opt =3D getopt(argc, argv, "ei:mnT:o:awENd:")) !=3D -1)=
- {
-> > +       while ((opt =3D getopt(argc, argv, "ei:mnT:o:aWwENd:")) !=3D -1=
-) {
-> >                 switch (opt) {
-> >                 case 'e':
-> >                         external_module =3D true;
-> > @@ -2224,6 +2226,9 @@ int main(int argc, char **argv)
-> >                 case 'T':
-> >                         files_source =3D optarg;
-> >                         break;
-> > +               case 'W':
-> > +                       extra_warn =3D true;
-> > +                       break;
-> >                 case 'w':
-> >                         warn_unresolved =3D true;
-> >                         break;
-> > --
-> > 2.39.2
-> >
->
->
-> --
-> Thanks,
-> ~Nick Desaulniers
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+-- 
+Pierre
