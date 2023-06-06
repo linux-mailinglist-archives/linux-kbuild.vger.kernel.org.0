@@ -2,100 +2,184 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C00BC723BD7
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Jun 2023 10:32:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 157C8723C58
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Jun 2023 10:57:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236857AbjFFIcw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 6 Jun 2023 04:32:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57986 "EHLO
+        id S237042AbjFFI50 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 6 Jun 2023 04:57:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237163AbjFFIch (ORCPT
+        with ESMTP id S237243AbjFFI5U (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 6 Jun 2023 04:32:37 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48C0BE40
-        for <linux-kbuild@vger.kernel.org>; Tue,  6 Jun 2023 01:32:05 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-3f7ebb2b82cso2355155e9.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 06 Jun 2023 01:32:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686040265; x=1688632265;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kB++PhHlerDXWQ/upgQj5fVd7+7YAMSRF3/D45QphIk=;
-        b=qyt8XAnvqzgOoe4GWc3YHCvZtjgueXkXEc47dHbwtd9A4Pq0tNN2XHHTafOwPKIh0q
-         11pLxLYKRs/i+zdmMP0kR/8Od+s4wMdlpZM7l1O9Yru3EAusOoxaH6LTtnF0YGwVJV2Q
-         giDqzOqt9i6rY3QF1m1H/za0PtYGn8irCH0VPsqN7wIpQnfYNWdMtW1iOgrZ+Uns9QHL
-         R1QOIwrAW7KN0TS6HKTf/mqXE8buAT83QzUJYcd8IboExI3F0V5Cr/4N92CqMwXdS5kw
-         jxFxBvcJLnADl78FEg2/wTdU6ywVoHCAonOCQc5/xSADXbTJOiXddQqhhgmDpwo1dXKA
-         +Z/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686040265; x=1688632265;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kB++PhHlerDXWQ/upgQj5fVd7+7YAMSRF3/D45QphIk=;
-        b=NpLhUsUVdgEx7AU6QzbAk9SNkvOWu2DVpntMnYAGQfonzntISYTiJpshlVky3b4viA
-         DH/68ccI+Jhli/HHriqYvnKSB3P+d7WO360dmHi6wWRUPyD/IalFFSH9PJUKsKlcY+Hr
-         ODVkriOi9o/EMX2FHf5KJZR2CiNzIPNhixqq82Vy6F5CayomRDhShiFgAxcFe41tSKZt
-         GFJN2tcIuA9lV6c6JAgwlYlpOH7WGoUxXPOXqlu6U1mqTvPwOFPSszP9RCB3B6MhXQU2
-         /AGx28XZOcStDw2UWIkE10GRvkWB72MxDLsoSkPl2eF4gje3onADbNj+rQjSKccpQ3P1
-         vgsQ==
-X-Gm-Message-State: AC+VfDy1LDW1Yb1rlAfMpv41DJPC4bVq7nH2GdybjrQn3e7NMNRA3rOU
-        LlBts7d2t8RlBWE20Y/vi4oKtQ==
-X-Google-Smtp-Source: ACHHUZ4NlpXlQjDG3vonaG397ZoF+3XBpsdDBCxC/knGwmklMP29bEZKDB3TvdPBLOo1PAFPJRt7jw==
-X-Received: by 2002:a1c:7203:0:b0:3f7:371a:ec8f with SMTP id n3-20020a1c7203000000b003f7371aec8fmr1336728wmc.15.1686040264934;
-        Tue, 06 Jun 2023 01:31:04 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id y20-20020a05600c365400b003f60a446fe5sm13321870wmq.29.2023.06.06.01.31.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jun 2023 01:31:03 -0700 (PDT)
-Date:   Tue, 6 Jun 2023 11:31:00 +0300
-From:   Dan Carpenter <dan.carpenter@linaro.org>
-To:     quentin.casasnovas@oracle.com,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org
-Subject: [bug report] modpost: handle relocations mismatch in __ex_table.
-Message-ID: <ZH7uxFaLhjul0jp1@moroto>
+        Tue, 6 Jun 2023 04:57:20 -0400
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 915A010D7;
+        Tue,  6 Jun 2023 01:57:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Content-Type:Sender:Reply-To:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-To:Resent-Cc:
+        Resent-Message-ID:In-Reply-To:References;
+        bh=iAvSNf9q5H7Fglw+xBqescyQX0+5g18cx1WVw0mtFJM=; t=1686041835; x=1687251435; 
+        b=ucRmKruXVABKqw2i94E4yzYRB+HPv6sk4wqVlkVlVrE8DzJ2ED+brrSIvomsBO86XjbreHH9M0u
+        R+Zg/MA3j5afqmXG0NYBtMBTRUx7bn8zOdURnWRuenCXTjpanDUBROnN6TFv+1W2B8r225g80HK7L
+        St/kPH7gza2FGS87PNxP4zQhFlty+YGgZMioa4BKM23jkI6n+QHkHZVlx04bONT44oRBtddiGgCMm
+        t4JDSz5PqmByALNoxitFcrwxi3BzWLeN273avf2s9Nty+Q9xzHnDvtCG5wI9nTdUlXAB572fDoX45
+        qrULDZr6h/CszuZdr8zJDfWrqzxaKZ2FXh1A==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.96)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1q6SV6-00FTy6-35;
+        Tue, 06 Jun 2023 10:57:13 +0200
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Johannes Berg <johannes.berg@intel.com>
+Subject: [PATCH v2 1/2] kernel-doc: don't let V=1 change outcome
+Date:   Tue,  6 Jun 2023 10:57:05 +0200
+Message-Id: <20230606105706.60807b85ff79.I21ab3b54eeebd638676bead3b2f87417944e44f3@changeid>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-[ Ancient code warning. - dan ]
+From: Johannes Berg <johannes.berg@intel.com>
 
-Hello Quentin Casasnovas,
+The kernel-doc script currently reports a number of issues
+only in "verbose" mode, but that's initialized from V=1
+(via KBUILD_VERBOSE), so if you use KDOC_WERROR=1 then
+adding V=1 might actually break the build. This is rather
+unexpected.
 
-The patch 52dc0595d540: "modpost: handle relocations mismatch in
-__ex_table." from Apr 13, 2015, leads to the following Smatch static
-checker warning:
+Change kernel-doc to not change its behaviour wrt. errors
+(or warnings) when verbose mode is enabled, but rather add
+separate warning flags (and -Wall) for it. Allow enabling
+those flags via environment/make variables in the kernel's
+build system for easier user use, but to not have to parse
+them in the script itself.
 
-	./scripts/mod/modpost.c:1154 is_executable_section()
-	warn: array off by one? 'elf->sechdrs[secndx]'
+Signed-off-by: Johannes Berg <johannes.berg@intel.com>
+---
+v2: - parse environment variables in build system rather than
+      the script itself, as suggested by Masahiro Yamada
+    - fix indentation
+---
+ scripts/Makefile.build |  7 ++++++-
+ scripts/kernel-doc     | 28 +++++++++++++++++++++++-----
+ 2 files changed, 29 insertions(+), 6 deletions(-)
 
-./scripts/mod/modpost.c
-    1149 static bool is_executable_section(struct elf_info *elf, unsigned int secndx)
-    1150 {
-    1151         if (secndx > elf->num_sections)
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
-I'm not positive, but I think this should be >=.
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 9f94fc83f086..90bb5badb0e9 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -101,7 +101,12 @@ else ifeq ($(KBUILD_CHECKSRC),2)
+ endif
+ 
+ ifneq ($(KBUILD_EXTRA_WARN),)
+-  cmd_checkdoc = $(srctree)/scripts/kernel-doc -none $<
++  cmd_checkdoc = $(srctree)/scripts/kernel-doc -none \
++        $(if $(KDOC_WALL), -Wall) \
++        $(if $(KDOC_WRETURN), -Wreturn) \
++        $(if $(KDOC_WSHORT_DESC), -Wshort-desc) \
++        $(if $(KDOC_WSHORT_DESC), -Wcontents-before-sections) \
++        $<
+ endif
+ 
+ # Compile C sources (.c)
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 2486689ffc7b..8f8440870a0f 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -23,7 +23,7 @@ kernel-doc - Print formatted kernel documentation to stdout
+ 
+ =head1 SYNOPSIS
+ 
+- kernel-doc [-h] [-v] [-Werror]
++ kernel-doc [-h] [-v] [-Werror] [-Wall] [-Wreturn] [-Wshort-description] [-Wcontents-before-sections]
+    [ -man |
+      -rst [-sphinx-version VERSION] [-enable-lineno] |
+      -none
+@@ -133,6 +133,9 @@ my $dohighlight = "";
+ 
+ my $verbose = 0;
+ my $Werror = 0;
++my $Wreturn = 0;
++my $Wshort_desc = 0;
++my $Wcontents_before_sections = 0;
+ my $output_mode = "rst";
+ my $output_preformatted = 0;
+ my $no_doc_sections = 0;
+@@ -187,9 +190,14 @@ if (defined($ENV{'KCFLAGS'})) {
+ 	}
+ }
+ 
++# reading this variable is for backwards compat just in case
++# someone was calling it with the variable from outside the
++# kernel's build system
+ if (defined($ENV{'KDOC_WERROR'})) {
+ 	$Werror = "$ENV{'KDOC_WERROR'}";
+ }
++# other environment variables are converted to command-line
++# arguments in cmd_checkdoc in the build system
+ 
+ # Generated docbook code is inserted in a template at a point where
+ # docbook v3.1 requires a non-zero sequence of RefEntry's; see:
+@@ -318,6 +326,16 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
+ 	$verbose = 1;
+     } elsif ($cmd eq "Werror") {
+ 	$Werror = 1;
++    } elsif ($cmd eq "Wreturn") {
++	$Wreturn = 1;
++    } elsif ($cmd eq "Wshort-desc") {
++	$Wshort_desc = 1;
++    } elsif ($cmd eq "Wcontents-before-sections") {
++	$Wcontents_before_sections = 1;
++    } elsif ($cmd eq "Wall") {
++        $Wreturn = 1;
++        $Wshort_desc = 1;
++        $Wcontents_before_sections = 1;
+     } elsif (($cmd eq "h") || ($cmd eq "help")) {
+ 		pod2usage(-exitval => 0, -verbose => 2);
+     } elsif ($cmd eq 'no-doc-sections') {
+@@ -1748,9 +1766,9 @@ sub dump_function($$) {
+     # This check emits a lot of warnings at the moment, because many
+     # functions don't have a 'Return' doc section. So until the number
+     # of warnings goes sufficiently down, the check is only performed in
+-    # verbose mode.
++    # -Wreturn mode.
+     # TODO: always perform the check.
+-    if ($verbose && !$noret) {
++    if ($Wreturn && !$noret) {
+ 	    check_return_section($file, $declaration_name, $return_type);
+     }
+ 
+@@ -2054,7 +2072,7 @@ sub process_name($$) {
+ 	    $state = STATE_NORMAL;
+ 	}
+ 
+-	if (($declaration_purpose eq "") && $verbose) {
++	if (($declaration_purpose eq "") && $Wshort_desc) {
+ 	    emit_warning("${file}:$.", "missing initial short description on line:\n$_");
+ 	}
+ 
+@@ -2103,7 +2121,7 @@ sub process_body($$) {
+ 	}
+ 
+ 	if (($contents ne "") && ($contents ne "\n")) {
+-	    if (!$in_doc_sect && $verbose) {
++	    if (!$in_doc_sect && $Wcontents_before_sections) {
+ 		emit_warning("${file}:$.", "contents before sections\n");
+ 	    }
+ 	    dump_section($file, $section, $contents);
+-- 
+2.40.1
 
-    1152                 return false;
-    1153 
---> 1154         return (elf->sechdrs[secndx].sh_flags & SHF_EXECINSTR) != 0;
-                                      ^^^^^^
-out of bounds read.
-
-    1155 }
-
-regards,
-dan carpenter
