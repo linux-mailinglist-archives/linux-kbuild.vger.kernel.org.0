@@ -2,188 +2,94 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB309724B8B
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Jun 2023 20:38:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40146724E75
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Jun 2023 23:07:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237728AbjFFSiu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 6 Jun 2023 14:38:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52124 "EHLO
+        id S237576AbjFFVHo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 6 Jun 2023 17:07:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238890AbjFFSit (ORCPT
+        with ESMTP id S230504AbjFFVHm (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 6 Jun 2023 14:38:49 -0400
-Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66849E42
-        for <linux-kbuild@vger.kernel.org>; Tue,  6 Jun 2023 11:38:48 -0700 (PDT)
-Received: by mail-qv1-xf33.google.com with SMTP id 6a1803df08f44-6261cb1208eso43647146d6.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 06 Jun 2023 11:38:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1686076727; x=1688668727;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HwU+xSGrFSXiCAK1q09i+t8bSjZOmkBqLsisZ5TunnI=;
-        b=iZ2ce1/x6sLmBVEP7zPE9JWAO2ql1Bo6I3zbANCh2FpDSORTt81z928cOZYTL6RIA5
-         b39UL+xoL517/lYYY6twJudobbS2535ZyCpfuAe2OIGgfN6+ifmmDF8RLaY7eRKgs0EY
-         Qtit84Q/a0Dt/XXR23g1kOK3MZ16fttmFbEavZGUJNRGp/+5Sog4EzaEobfrG6gjblwe
-         h88BoglEyp3ocdaDpAaFprdDiTNd61coqFub6jYdREY043/gKKQpqZb6ufbk5/uCv0D/
-         wIKy8VgFmEd3qA9/7jM19CQujCT/UrHML2VaAhKPEnF6OoQH8HENBCLMKOPZGqhXr3MJ
-         cSTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686076727; x=1688668727;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HwU+xSGrFSXiCAK1q09i+t8bSjZOmkBqLsisZ5TunnI=;
-        b=cRgyYQ8vZj5khSRYQH6maeWgXtsJlNGfqyxLdoxtiJS5dv6+GACE84XxRN8aKmZW0g
-         mNIVInVheESqFL0kMAR3Joul6q6/IXUUIsK0sUbyzPcvvsPYFrJgbdO9SD6lTlfMfUDQ
-         qbJwIUpHPzzyxpl8Fg3xk68POmli7TJIUND7vUrUiEd2V6PJ7weFgxauZT8PGNV5S3j1
-         eOCvG6za9YMm7GY3hW0yKmRJ50vkxkH5bb8Iy5qN6ioS1T7na04QL7ycdXiJOoaT0b6q
-         ApoTlvzEis42giTA3bX+xxBfgoVR2staQJVKQCVt4Yl6HKBp3YFVhYEE0OBfWa/KZlVO
-         ZpCw==
-X-Gm-Message-State: AC+VfDygHKBzp0z7n0BowXKlKnqO3mrlr22NYC/4DQdyIZptvJJeDz0M
-        FW3G5elSVSZodznpKc62u8l9oq+vji36HScuESzO3bqj3Xbe9ChLsW0=
-X-Google-Smtp-Source: ACHHUZ6nzLPGnzZPboyCjfZB6dkHgwQ8o7cnJBZBAjEhvEwyZ8lAukKjmhYaxco0zZ6KKZvhESQvDxTx5qHEWEA7bLo=
-X-Received: by 2002:a05:6214:27c7:b0:621:54d:23e1 with SMTP id
- ge7-20020a05621427c700b00621054d23e1mr512241qvb.14.1686076727359; Tue, 06 Jun
- 2023 11:38:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230606094159.1910369-1-masahiroy@kernel.org>
- <CAKwvOdkfQiu-Y29xiOMERxnSy9aqN851AoogGYrnqdc4dcaHOA@mail.gmail.com> <CAK7LNASheifemHTT-cNputbMv7th+NT8XUBu2a9ZMcu5jZMe3g@mail.gmail.com>
-In-Reply-To: <CAK7LNASheifemHTT-cNputbMv7th+NT8XUBu2a9ZMcu5jZMe3g@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 6 Jun 2023 11:38:36 -0700
-Message-ID: <CAKwvOdmxCQbgKoTZXFLNFmq6MCdJGcJaiWp0mrXHQS46tQ8uvA@mail.gmail.com>
-Subject: Re: [PATCH] modpost: propagate W=1 build option to modpost
+        Tue, 6 Jun 2023 17:07:42 -0400
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F12B1720;
+        Tue,  6 Jun 2023 14:07:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+        Resent-Cc:Resent-Message-ID; bh=8h2wUeDvnp3Fch8Oa8+slI7py/Nq++3cO7nSIOkvMXk=;
+        t=1686085661; x=1687295261; b=cK7jGkz8aVA6JL5+3CqLENz+cjeEEGdMeCrRUF3nxZacPF4
+        C5j7CQHnOM3szVCvqrLQ1aXcuGVuYDGZVz+d+mf5v8AMq2ds/UyaLic/NJmKDrGeQ+dagvyUKeaxf
+        FnYYIr3xl8h1TFXrbMbraD9uzsr20vVZGiV2gP63Gmc7ALID6dud83mofT3xD6UJJ+NWBqTAUEsgP
+        pt8z8VETij7bnV5isT6dVATGx1ffPyGo87s9fFtrXRGWDtiS7DGZfZh5Pg36MRUcZ7qSUYfkiJK7F
+        k1/26tvHhr3IaYzHk00Liouz4HxnLCmWeGchRm/IqLn6nSkbMGMuGDfqVNWTyw0g==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.96)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1q6dtz-00Fl1n-0j;
+        Tue, 06 Jun 2023 23:07:39 +0200
+Message-ID: <2017a6dba12cc7cd05aec33e8066cb7038a89a31.camel@sipsolutions.net>
+Subject: Re: [PATCH v2 1/2] kernel-doc: don't let V=1 change outcome
+From:   Johannes Berg <johannes@sipsolutions.net>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Date:   Tue, 06 Jun 2023 23:07:38 +0200
+In-Reply-To: <CAK7LNASe+HWuufyANGJJ0dajzSC4LFy=x2N6erGis0+ZQkAAXA@mail.gmail.com>
+References: <20230606105706.60807b85ff79.I21ab3b54eeebd638676bead3b2f87417944e44f3@changeid>
+         <CAK7LNASe+HWuufyANGJJ0dajzSC4LFy=x2N6erGis0+ZQkAAXA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Evolution 3.48.2 (3.48.2-1.fc38) 
+MIME-Version: 1.0
+X-malware-bazaar: not-scanned
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jun 6, 2023 at 10:21=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> On Wed, Jun 7, 2023 at 1:56=E2=80=AFAM Nick Desaulniers <ndesaulniers@goo=
-gle.com> wrote:
-> >
-> > On Tue, Jun 6, 2023 at 2:42=E2=80=AFAM Masahiro Yamada <masahiroy@kerne=
-l.org> wrote:
-> > >
-> > > "No build warning" is a strong requirement these days, so you must fi=
-x
-> > > all issues before enabling a new warning flag.
-> > >
-> > > We often add a new warning to W=3D1 first so that the kbuild test rob=
-ot
-> > > blocks new breakages.
-> > >
-> > > This commit allows modpost to show extra warnings only when W=3D1
-> > > (or KBUILD_EXTRA_WARN=3D1) is given.
-> > >
-> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> >
-> > Patch seems fine, but without anyone reading extra_warn, I'm curious
-> > what new extra warnings you had in mind were?
->
->
-> This one.
->
-> https://lore.kernel.org/linux-kbuild/CAK7LNAR0uMvf+k7LPXtMjigKFPeNu5m5EhA=
-kvk2RVRHkdjdbdg@mail.gmail.com/T/#m0f41f2c8fe843133ce8100088443491a51d496af
+On Tue, 2023-06-06 at 20:15 +0900, Masahiro Yamada wrote:
+> >=20
+> >  ifneq ($(KBUILD_EXTRA_WARN),)
+> > -  cmd_checkdoc =3D $(srctree)/scripts/kernel-doc -none $<
+> > +  cmd_checkdoc =3D $(srctree)/scripts/kernel-doc -none \
+> > +        $(if $(KDOC_WALL), -Wall) \
+> > +        $(if $(KDOC_WRETURN), -Wreturn) \
+> > +        $(if $(KDOC_WSHORT_DESC), -Wshort-desc) \
+> > +        $(if $(KDOC_WSHORT_DESC), -Wcontents-before-sections) \
+>=20
+>=20
+>=20
+> Sorry, I misunderstood your intention.
+> (I just thought existing env variables would be moved to Makefile)
+>=20
+>=20
+> I do not want to proliferate env variables any more.
 
-Yeah, ok so we'll guard that warning on this extra_warn then? Seems fine.
+Oh, ok, sure.
 
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> If you need per-flag control, maybe we can do like this?
 
->
->
-> > > ---
-> > >
-> > >  scripts/Makefile.modpost | 1 +
-> > >  scripts/mod/modpost.c    | 7 ++++++-
-> > >  2 files changed, 7 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-> > > index 0980c58d8afc..074e27c0c140 100644
-> > > --- a/scripts/Makefile.modpost
-> > > +++ b/scripts/Makefile.modpost
-> > > @@ -47,6 +47,7 @@ modpost-args =3D                                   =
-                                             \
-> > >         $(if $(KBUILD_MODPOST_WARN),-w)                              =
-                   \
-> > >         $(if $(KBUILD_NSDEPS),-d $(MODULES_NSDEPS))                  =
-                   \
-> > >         $(if $(CONFIG_MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS)$(KBUILD=
-_NSDEPS),-N)       \
-> > > +       $(if $(findstring 1, $(KBUILD_EXTRA_WARN)),-W)               =
-                   \
-> > >         -o $@
-> > >
-> > >  modpost-deps :=3D $(MODPOST)
-> > > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > > index d10f5bdcb753..3ea5eb2b1029 100644
-> > > --- a/scripts/mod/modpost.c
-> > > +++ b/scripts/mod/modpost.c
-> > > @@ -42,6 +42,8 @@ static bool allow_missing_ns_imports;
-> > >
-> > >  static bool error_occurred;
-> > >
-> > > +static bool extra_warn;
-> > > +
-> > >  /*
-> > >   * Cut off the warnings when there are too many. This typically occu=
-rs when
-> > >   * vmlinux is missing. ('make modules' without building vmlinux.)
-> > > @@ -2199,7 +2201,7 @@ int main(int argc, char **argv)
-> > >         LIST_HEAD(dump_lists);
-> > >         struct dump_list *dl, *dl2;
-> > >
-> > > -       while ((opt =3D getopt(argc, argv, "ei:mnT:o:awENd:")) !=3D -=
-1) {
-> > > +       while ((opt =3D getopt(argc, argv, "ei:mnT:o:aWwENd:")) !=3D =
--1) {
-> > >                 switch (opt) {
-> > >                 case 'e':
-> > >                         external_module =3D true;
-> > > @@ -2224,6 +2226,9 @@ int main(int argc, char **argv)
-> > >                 case 'T':
-> > >                         files_source =3D optarg;
-> > >                         break;
-> > > +               case 'W':
-> > > +                       extra_warn =3D true;
-> > > +                       break;
-> > >                 case 'w':
-> > >                         warn_unresolved =3D true;
-> > >                         break;
-> > > --
-> > > 2.39.2
-> > >
-> >
-> >
-> > --
-> > Thanks,
-> > ~Nick Desaulniers
->
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+Well honestly, I myself just want to pass -Wall, but not necessarily W=3D2
+since that adds more stuff from the C compiler.
 
+> cmd_checkdoc =3D $(srctree)/scripts/kernel-doc -none \
+>               $(KDOCFLAGS)
+>=20
+>=20
+> Then, users can do
+>=20
+>   $ make KDOCFLAGS=3D-Wall
+>   $ make KDOCFLAGS=3D-Wreturn
 
+I'd rather call it KDOC_FLAGS if you don't mind to align with
+KDOC_WERROR which we have already, but sure, can do.
 
---=20
-Thanks,
-~Nick Desaulniers
+johannes
