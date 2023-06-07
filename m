@@ -2,54 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D724C725D1C
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Jun 2023 13:30:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5246F725F23
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Jun 2023 14:23:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239263AbjFGLaY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 7 Jun 2023 07:30:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60716 "EHLO
+        id S240776AbjFGMXb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 7 Jun 2023 08:23:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238532AbjFGLaY (ORCPT
+        with ESMTP id S240731AbjFGMX1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 7 Jun 2023 07:30:24 -0400
+        Wed, 7 Jun 2023 08:23:27 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 245541707;
-        Wed,  7 Jun 2023 04:30:23 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12F76AA;
+        Wed,  7 Jun 2023 05:23:26 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B231163DE4;
-        Wed,  7 Jun 2023 11:30:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EEFD4C433A4;
-        Wed,  7 Jun 2023 11:30:21 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A423463E9C;
+        Wed,  7 Jun 2023 12:23:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18BA1C433A0;
+        Wed,  7 Jun 2023 12:23:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686137422;
-        bh=02ohk6uho+wdZeYJ3NbWDHfzlrRx7UjDJg/ozOIJ858=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=aJPzAKAWNoHnrRlCFfkwyFZkdKwr/8sC1yDwDvNni0dIaGnb9sZO1hMaTXWKP2/L6
-         cK6GToNOnBKU0X6ZV+QCuoRM63kpYqVP0k3FxdpDt6BKo4C4qiH8qf28kdTiNhnYWn
-         ZWvSYv3uIpRyPVBntWG6sgmS3+FgekjkNjHLeKWNFcKCn/hUrryq9uOk+7GxlhIqhK
-         urtW2UTZPuJMEPN31EoS6YMqxE/uKJTY8W/doJxNhXaa4mzDGKJHGNMKLNKjArSNRk
-         Gxcf+mCIb0PPeX2GmQkD2D0hO5FezHBxz6CP9kJz+Pis/HrsmA89wJigD4KVqEYjgs
-         6braM724ICC0w==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D6B06E4F13A;
-        Wed,  7 Jun 2023 11:30:21 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        s=k20201202; t=1686140605;
+        bh=wQ2PthgiSFSOfoeNAKPOnBXd5R0adG06am8FVzxfcJw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Ud3ksMoEq/FBB5EuoUaiBccr8CZyRR/z3n7H6ok6I3EPowgCgAZ3keeUbin8q5D1K
+         XU/pA+9KhZ+QVNgzOQjvnHt/DBu0qLOuRQGmmdRQgaxW6VEog6S3+Z34K/4QioLbT+
+         3ueE4qMum4G+LS9kqqnaXV8C1Oe4awHivIJLX7By8EP6hLL1Gb2TzDezDfgWxx+Sdi
+         kqm6hDp9PnZT7wncc4AZUGGz2FCyY7o5Xm81jZ36IcoQakLBR6YTSy66CpcawIFKcL
+         75I0GWOdwz5EErHVhbUfYTUSIBs1aXFV9kfvVMZN5zFwE/nkNwMeuftR9PWOlQFkCv
+         jDNUqMVktFhtA==
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-39a505b901dso6370144b6e.0;
+        Wed, 07 Jun 2023 05:23:25 -0700 (PDT)
+X-Gm-Message-State: AC+VfDxLVRjBotA1qSrJAG+VqH13U1JjXaf/W2NApd3VNuqsPmb+ccCv
+        g0AJk7spOLI4CsQ4YszShE97RCwDJrCQHbnVmrk=
+X-Google-Smtp-Source: ACHHUZ4V2qShsZwg8uGrWwqg+PFp2SDpEctQMURgTG6Q7SjWwq6hI9v7HmsEd05fxytwd0m5Foyh3rNQtwEK/l6JxWE=
+X-Received: by 2002:aca:6546:0:b0:39b:3491:c5b8 with SMTP id
+ j6-20020aca6546000000b0039b3491c5b8mr5323539oiw.52.1686140604279; Wed, 07 Jun
+ 2023 05:23:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v2] net: liquidio: fix mixed module-builtin object
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <168613742187.29815.12409173950657122077.git-patchwork-notify@kernel.org>
-Date:   Wed, 07 Jun 2023 11:30:21 +0000
-References: <20230606171849.2025648-1-masahiroy@kernel.org>
-In-Reply-To: <20230606171849.2025648-1-masahiroy@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, netdev@vger.kernel.org,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, linux-kernel@vger.kernel.org,
-        dchickles@marvell.com, sburla@marvell.com, fmanlunas@marvell.com,
-        simon.horman@corigine.com, terrelln@fb.com
+References: <20230607061417.13636-1-jirislaby@kernel.org>
+In-Reply-To: <20230607061417.13636-1-jirislaby@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 7 Jun 2023 21:22:47 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQsBBKPpHUdqcQmTcoU-CSqmWC2cV+uz+xWuqgBm7Wq=Q@mail.gmail.com>
+Message-ID: <CAK7LNAQsBBKPpHUdqcQmTcoU-CSqmWC2cV+uz+xWuqgBm7Wq=Q@mail.gmail.com>
+Subject: Re: [PATCH] streamline_config.pl: handle also ${CONFIG_FOO}
+To:     "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, Jiri Slaby <jslaby@suse.cz>,
+        andreas.noever@gmail.com, michael.jamet@intel.com,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        YehezkelShB@gmail.com, Steven Rostedt <rostedt@goodmis.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -60,28 +66,34 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello:
+On Wed, Jun 7, 2023 at 3:14=E2=80=AFPM Jiri Slaby (SUSE) <jirislaby@kernel.=
+org> wrote:
+>
+> From: Jiri Slaby <jslaby@suse.cz>
+>
+> streamline_config.pl currently searches for CONFIG options in Kconfig
+> files as $(CONFIG_FOO). But some Kconfigs (e.g. thunderbolt) use
+> ${CONFIG_FOO}. So fix up the regex to accept both.
+>
+> This fixes:
+> $ make LSMOD=3D`pwd/`/lsmod localmodconfig
+> using config: '.config'
+> thunderbolt config not found!!
+>
+> Signed-off-by: Jiri Slaby <jslaby@suse.cz>
+> Cc: andreas.noever@gmail.com
+> Cc: michael.jamet@intel.com
+> Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
+> Cc: YehezkelShB@gmail.com
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+> ---
 
-This patch was applied to netdev/net-next.git (main)
-by David S. Miller <davem@davemloft.net>:
 
-On Wed,  7 Jun 2023 02:18:49 +0900 you wrote:
-> With CONFIG_LIQUIDIO=m and CONFIG_LIQUIDIO_VF=y (or vice versa),
-> $(common-objs) are linked to a module and also to vmlinux even though
-> the expected CFLAGS are different between builtins and modules.
-> 
-> This is the same situation as fixed by commit 637a642f5ca5 ("zstd:
-> Fixing mixed module-builtin objects").
-> 
-> [...]
-
-Here is the summary with links:
-  - [net-next,v2] net: liquidio: fix mixed module-builtin object
-    https://git.kernel.org/netdev/net-next/c/f71be9d084c9
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Applied to linux-kbuild.
+Thanks.
 
 
+--=20
+Best Regards
+Masahiro Yamada
