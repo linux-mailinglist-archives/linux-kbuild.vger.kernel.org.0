@@ -2,64 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7E0B72500B
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Jun 2023 00:40:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6678725367
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Jun 2023 07:35:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234115AbjFFWkw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 6 Jun 2023 18:40:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35984 "EHLO
+        id S233894AbjFGFfc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 7 Jun 2023 01:35:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234076AbjFFWkv (ORCPT
+        with ESMTP id S232123AbjFGFfb (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 6 Jun 2023 18:40:51 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC6029E;
-        Tue,  6 Jun 2023 15:40:50 -0700 (PDT)
+        Wed, 7 Jun 2023 01:35:31 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFEE419AA;
+        Tue,  6 Jun 2023 22:35:30 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5086C63500;
-        Tue,  6 Jun 2023 22:40:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AC8DC433D2;
-        Tue,  6 Jun 2023 22:40:49 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 587E263A7E;
+        Wed,  7 Jun 2023 05:35:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE690C4339B;
+        Wed,  7 Jun 2023 05:35:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686091249;
-        bh=7ULdjUkdkkr+vu+/oiYN5S/oKq5p52x/BGvXGSKtQA8=;
-        h=From:Date:Subject:To:Cc:From;
-        b=CUso6cj4sWCjd3IHr9SOnT1MzY0q52hnzeOgY8b/Wam8mw1Xizs7ob1Z5kPstvvzi
-         4kxZBFIkml3VaoGrimFZMqGJ/kEYDFrzerXemdYyDLVfcUEI9gUq4X1fg4PSWKJjQ0
-         E7UAqrfcwU6q9up0ZF37rzOQB8dOIJORgyQ3hVugmQuDEsWvlt56zaO1ssrc/FKRcU
-         r9RAULcvNQfJmnQL8JDh+7foByANVLItqgYZOTOZtrg+cFN/D8QQ7FmNKVEnshV/q7
-         M2F8cmZUiuXNP0lFkPzyyogkfMGwRG2Sh4nqjjFY8kdZUIpuXgoHATGOgBtfpgJTdu
-         GInV+uJmiL19Q==
-From:   Nathan Chancellor <nathan@kernel.org>
-Date:   Tue, 06 Jun 2023 15:40:35 -0700
-Subject: [PATCH] kbuild: Add KBUILD_CPPFLAGS to as-option invocation
+        s=k20201202; t=1686116129;
+        bh=Cz6SN9RqMOYGdXRwEOaCy8og6z2MAlsLW1X6BHhj7Po=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=iffVS97yvnPbpmyAy2RM3CWZxmNLo5G5w7pGFJoMEIPUZ4w1sDhoRUWWm5HsJXkle
+         zGKMDj6pIxJfjTEcrMWpxDAPv5EJhI4ORo3ExYPEWrTDRmSRZIgazHvYbGPcncOsO1
+         PcFFovHEi0Enmp939K2vAM6FiIMq5RkeWTX0IeUClxCGpLi9PEs6SZpi0vQktcLD/T
+         UejWv9HwtAAup/9nv2w7Ce5eNovL3RvmYiyn5qI6qcvccObKsy5whOlE0PBKy1X6j5
+         1F10RgviaA2FkHYyVSyV6EE/+yfW5/oybYuyVLLLaHqTcbc03pAKSQ2t2neTcCI0q6
+         0+IsyN7K0EyFA==
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-3f6b2f1a04bso76112911cf.3;
+        Tue, 06 Jun 2023 22:35:29 -0700 (PDT)
+X-Gm-Message-State: AC+VfDxYIGtwEEeIxfIEOpBtT67vFANZ/hZNuuu7rCWUaZeEnPiEYYGP
+        LLJZZArHKSt04QYaVJc4TFqSbtsuYyHQ7C6WDTs=
+X-Google-Smtp-Source: ACHHUZ5N2NVlLFhA5RdZQejj9p52u6cl/vh/nT4XCbBGO87ObfbjU9pCUSlzISB0RpYz/z2MwfFGkPthnYo9SUe1s2w=
+X-Received: by 2002:a05:622a:1355:b0:3f5:c9f:1b27 with SMTP id
+ w21-20020a05622a135500b003f50c9f1b27mr2533009qtk.1.1686116128847; Tue, 06 Jun
+ 2023 22:35:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230606-fix-as-option-after-clang_flags-move-v1-1-a7f7b23a35e3@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAOK1f2QC/1WOwQqDMBBEf0Vy7tJUi2h/pUjZpJsYsIlsghTEf
- ++aW48zvHnMrjJxoKweza6YtpBDihJul0bZGaMnCG/JqtVtp3vdgwtfwAxpLUICukIMdhHy5Rb
- 0GT5pIzA0DDSOnTWISlQGs5SM0c6nzNyv/5oqgILsqVTDOVqZhKrfntNx/ACaqV1RqwAAAA==
-To:     masahiroy@kernel.org
-Cc:     naresh.kamboju@linaro.org, ndesaulniers@google.com,
-        nicolas@fjasle.eu, trix@redhat.com, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-        patches@lists.linux.dev,
-        Linux Kernel Functional Testing <lkft@linaro.org>,
-        Nathan Chancellor <nathan@kernel.org>
-X-Mailer: b4 0.13-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2639; i=nathan@kernel.org;
- h=from:subject:message-id; bh=7ULdjUkdkkr+vu+/oiYN5S/oKq5p52x/BGvXGSKtQA8=;
- b=owGbwMvMwCEmm602sfCA1DTG02pJDCn1Wz8ccKgqU+TL4JT3k1OXmKLxJub2x5UmLzd+c7mma
- ZAgMnl+RykLgxgHg6yYIkv1Y9XjhoZzzjLeODUJZg4rE8gQBi5OAZhIETcjw4xnpyL+NfFJcu37
- +Flsc35yup/q9b2vVn1OCGabIfdR9grDP3W3YDMH8Xnbf2b8Or5q49J5KWkl259vubpb4zZ3/Kc
- 785kB
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+References: <20230606061741.69755-1-bgray@linux.ibm.com>
+In-Reply-To: <20230606061741.69755-1-bgray@linux.ibm.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 7 Jun 2023 14:34:52 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQfLO5tueB2d6WsyWC=cLwiONo13+MLKFO0sSt57aTw-A@mail.gmail.com>
+Message-ID: <CAK7LNAQfLO5tueB2d6WsyWC=cLwiONo13+MLKFO0sSt57aTw-A@mail.gmail.com>
+Subject: Re: [PATCH v2] initramfs: Encode dependency on KBUILD_BUILD_TIMESTAMP
+To:     Benjamin Gray <bgray@linux.ibm.com>
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Andrew Donnellan <ajd@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -68,59 +63,107 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-After commit feb843a469fb ("kbuild: add $(CLANG_FLAGS) to
-KBUILD_CPPFLAGS"), there is an error while building certain PowerPC
-assembly files with clang:
+On Tue, Jun 6, 2023 at 3:18=E2=80=AFPM Benjamin Gray <bgray@linux.ibm.com> =
+wrote:
+>
+> gen_initramfs.sh has an internal dependency on KBUILD_BUILD_TIMESTAMP
+> for generating file mtimes that is not exposed to make, so changing
+> KBUILD_BUILD_TIMESTAMP will not trigger a rebuild of the archive.
+>
+> Declare the mtime date as a new parameter to gen_initramfs.sh to encode
+> KBUILD_BUILD_TIMESTAMP in the shell command, thereby making make aware
+> of the dependency.
+>
+> It will rebuild if KBUILD_BUILD_TIMESTAMP changes or is newly set/unset.
+> It will _not_ rebuild if KBUILD_BUILD_TIMESTAMP is unset before and
+> after. This should be fine for anyone who doesn't care about setting
+> specific build times in the first place.
+>
+> Reviewed-by: Andrew Donnellan <ajd@linux.ibm.com>
+> Tested-by: Andrew Donnellan <ajd@linux.ibm.com>
+> Signed-off-by: Benjamin Gray <bgray@linux.ibm.com>
+>
+> ---
 
-  arch/powerpc/lib/copypage_power7.S: Assembler messages:
-  arch/powerpc/lib/copypage_power7.S:34: Error: junk at end of line: `0b01000'
-  arch/powerpc/lib/copypage_power7.S:35: Error: junk at end of line: `0b01010'
-  arch/powerpc/lib/copypage_power7.S:37: Error: junk at end of line: `0b01000'
-  arch/powerpc/lib/copypage_power7.S:38: Error: junk at end of line: `0b01010'
-  arch/powerpc/lib/copypage_power7.S:40: Error: junk at end of line: `0b01010'
-  clang: error: assembler command failed with exit code 1 (use -v to see invocation)
 
-as-option only uses KBUILD_AFLAGS, so after removing CLANG_FLAGS from
-KBUILD_AFLAGS, there is no more '--target=' or '--prefix=' flags. As a
-result of those missing flags, the host target
-will be tested during as-option calls and likely fail, meaning necessary
-flags may not get added when building assembly files, resulting in
-errors like seen above.
+Applied to linux-kbuild. Thanks.
 
-Add KBUILD_CPPFLAGS to as-option invocations to clear up the errors.
-This should have been done in commit d5c8d6e0fa61 ("kbuild: Update
-assembler calls to use proper flags and language target"), which
-switched from using the assembler target to the assembler-with-cpp
-target, so flags that affect preprocessing are passed along in all
-relevant tests. as-option now mirrors cc-option.
 
-Fixes: feb843a469fb ("kbuild: add $(CLANG_FLAGS) to KBUILD_CPPFLAGS")
-Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
-Closes: https://lore.kernel.org/CA+G9fYs=koW9WardsTtora+nMgLR3raHz-LSLr58tgX4T5Mxag@mail.gmail.com/
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
- scripts/Makefile.compiler | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
-index 437013f8def3..e31f18625fcf 100644
---- a/scripts/Makefile.compiler
-+++ b/scripts/Makefile.compiler
-@@ -32,7 +32,7 @@ try-run = $(shell set -e;		\
- # Usage: aflags-y += $(call as-option,-Wa$(comma)-isa=foo,)
- 
- as-option = $(call try-run,\
--	$(CC) -Werror $(KBUILD_AFLAGS) $(1) -c -x assembler-with-cpp /dev/null -o "$$TMP",$(1),$(2))
-+	$(CC) -Werror $(KBUILD_CPPFLAGS) $(KBUILD_AFLAGS) $(1) -c -x assembler-with-cpp /dev/null -o "$$TMP",$(1),$(2))
- 
- # as-instr
- # Usage: aflags-y += $(call as-instr,instr,option1,option2)
 
----
-base-commit: feb843a469fb0ab00d2d23cfb9bcc379791011bb
-change-id: 20230606-fix-as-option-after-clang_flags-move-be88e993cbaa
+> v2: Remove redundant comment, quote argument to shell script
+> ---
+>  usr/Makefile         |  1 +
+>  usr/gen_initramfs.sh | 16 +++++++++-------
+>  2 files changed, 10 insertions(+), 7 deletions(-)
+>
+> diff --git a/usr/Makefile b/usr/Makefile
+> index 59d9e8b07a01..f8e1ad19e05c 100644
+> --- a/usr/Makefile
+> +++ b/usr/Makefile
+> @@ -64,6 +64,7 @@ quiet_cmd_initfs =3D GEN     $@
+>         $(CONFIG_SHELL) $< -o $@ -l $(obj)/.initramfs_data.cpio.d \
+>         $(if $(CONFIG_INITRAMFS_ROOT_UID), -u $(CONFIG_INITRAMFS_ROOT_UID=
+)) \
+>         $(if $(CONFIG_INITRAMFS_ROOT_GID), -g $(CONFIG_INITRAMFS_ROOT_GID=
+)) \
+> +       $(if $(KBUILD_BUILD_TIMESTAMP), -d "$(KBUILD_BUILD_TIMESTAMP)") \
+>         $(ramfs-input)
+>
+>  # We rebuild initramfs_data.cpio if:
+> diff --git a/usr/gen_initramfs.sh b/usr/gen_initramfs.sh
+> index 63476bb70b41..14b5782f961a 100755
+> --- a/usr/gen_initramfs.sh
+> +++ b/usr/gen_initramfs.sh
+> @@ -23,6 +23,7 @@ $0 [-o <file>] [-l <dep_list>] [-u <uid>] [-g <gid>] {-=
+d | <cpio_source>} ...
+>         -g <gid>       Group ID to map to group ID 0 (root).
+>                        <gid> is only meaningful if <cpio_source> is a
+>                        directory.  "squash" forces all files to gid 0.
+> +       -d <date>      Use date for all file mtime values
+>         <cpio_source>  File list or directory for cpio archive.
+>                        If <cpio_source> is a .cpio file it will be used
+>                        as direct input to initramfs.
+> @@ -190,6 +191,7 @@ prog=3D$0
+>  root_uid=3D0
+>  root_gid=3D0
+>  dep_list=3D
+> +timestamp=3D
+>  cpio_list=3D$(mktemp ${TMPDIR:-/tmp}/cpiolist.XXXXXX)
+>  output=3D"/dev/stdout"
+>
+> @@ -218,6 +220,13 @@ while [ $# -gt 0 ]; do
+>                         [ "$root_gid" =3D "-1" ] && root_gid=3D$(id -g ||=
+ echo 0)
+>                         shift
+>                         ;;
+> +               "-d")   # date for file mtimes
+> +                       timestamp=3D"$(date -d"$1" +%s || :)"
+> +                       if test -n "$timestamp"; then
+> +                               timestamp=3D"-t $timestamp"
+> +                       fi
+> +                       shift
+> +                       ;;
+>                 "-h")
+>                         usage
+>                         exit 0
+> @@ -237,11 +246,4 @@ done
+>
+>  # If output_file is set we will generate cpio archive
+>  # we are careful to delete tmp files
+> -timestamp=3D
+> -if test -n "$KBUILD_BUILD_TIMESTAMP"; then
+> -       timestamp=3D"$(date -d"$KBUILD_BUILD_TIMESTAMP" +%s || :)"
+> -       if test -n "$timestamp"; then
+> -               timestamp=3D"-t $timestamp"
+> -       fi
+> -fi
+>  usr/gen_init_cpio $timestamp $cpio_list > $output
+> --
+> 2.40.1
+>
 
-Best regards,
--- 
-Nathan Chancellor <nathan@kernel.org>
 
+--=20
+Best Regards
+Masahiro Yamada
