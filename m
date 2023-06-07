@@ -2,58 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5246F725F23
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Jun 2023 14:23:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09902725F52
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Jun 2023 14:27:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240776AbjFGMXb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 7 Jun 2023 08:23:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37040 "EHLO
+        id S240834AbjFGM1b (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 7 Jun 2023 08:27:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240731AbjFGMX1 (ORCPT
+        with ESMTP id S240688AbjFGM1a (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 7 Jun 2023 08:23:27 -0400
+        Wed, 7 Jun 2023 08:27:30 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12F76AA;
-        Wed,  7 Jun 2023 05:23:26 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D76CBE65;
+        Wed,  7 Jun 2023 05:27:29 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A423463E9C;
-        Wed,  7 Jun 2023 12:23:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18BA1C433A0;
-        Wed,  7 Jun 2023 12:23:25 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7283B6365F;
+        Wed,  7 Jun 2023 12:27:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4F4DC433EF;
+        Wed,  7 Jun 2023 12:27:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686140605;
-        bh=wQ2PthgiSFSOfoeNAKPOnBXd5R0adG06am8FVzxfcJw=;
+        s=k20201202; t=1686140848;
+        bh=rYNeihmRmo69wMB7UeZnTSVlzTtJvq708KV1rnsqrnc=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Ud3ksMoEq/FBB5EuoUaiBccr8CZyRR/z3n7H6ok6I3EPowgCgAZ3keeUbin8q5D1K
-         XU/pA+9KhZ+QVNgzOQjvnHt/DBu0qLOuRQGmmdRQgaxW6VEog6S3+Z34K/4QioLbT+
-         3ueE4qMum4G+LS9kqqnaXV8C1Oe4awHivIJLX7By8EP6hLL1Gb2TzDezDfgWxx+Sdi
-         kqm6hDp9PnZT7wncc4AZUGGz2FCyY7o5Xm81jZ36IcoQakLBR6YTSy66CpcawIFKcL
-         75I0GWOdwz5EErHVhbUfYTUSIBs1aXFV9kfvVMZN5zFwE/nkNwMeuftR9PWOlQFkCv
-         jDNUqMVktFhtA==
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-39a505b901dso6370144b6e.0;
-        Wed, 07 Jun 2023 05:23:25 -0700 (PDT)
-X-Gm-Message-State: AC+VfDxLVRjBotA1qSrJAG+VqH13U1JjXaf/W2NApd3VNuqsPmb+ccCv
-        g0AJk7spOLI4CsQ4YszShE97RCwDJrCQHbnVmrk=
-X-Google-Smtp-Source: ACHHUZ4V2qShsZwg8uGrWwqg+PFp2SDpEctQMURgTG6Q7SjWwq6hI9v7HmsEd05fxytwd0m5Foyh3rNQtwEK/l6JxWE=
-X-Received: by 2002:aca:6546:0:b0:39b:3491:c5b8 with SMTP id
- j6-20020aca6546000000b0039b3491c5b8mr5323539oiw.52.1686140604279; Wed, 07 Jun
- 2023 05:23:24 -0700 (PDT)
+        b=oXpCoGGid7jdVikkcxY8xeJ8jiCYaQZLC7F9dsWF6CpSKh0F7QkkurvIXSzvs6cul
+         ajTuYf4R+Hy09iqgG1QfHkpqa5RklWs2dPYutlVgtD4hS2rBGQvG4uo5LooDFRMeR6
+         zQUEy0g1iqn5m/VMFXqpm6AWwBmMLnAXAHaEc93S/KaQYfyyKxWclSmu/C8eNB4vC8
+         M6da9LjJVcSg+xKXw/apxsw3Uq0omXvpsmBLARrKXv6/Ro8EVTJq4kmOZE/x9q9UJ6
+         Gj+W4mYpvMbF4/MCcSqaX4xpnPIyYRIs2Qag2qPmuG7dX5ObIODB2qu8SYZTw2i6AQ
+         CXvNcs0oBoxmg==
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-39aa825c299so354669b6e.0;
+        Wed, 07 Jun 2023 05:27:28 -0700 (PDT)
+X-Gm-Message-State: AC+VfDzk7Emxm5L2xoTlU1sKAgSTS9CtewTOeU21+xIkSb6sbP5UL5ox
+        I47gtiBbZ9dWTwF3O5YQfwh05cmcu6D0n5LGbSk=
+X-Google-Smtp-Source: ACHHUZ6rwcFeBDf7wzuX6Rk34HUD7lebnW50R4mMJFC7FCEH4jrP3g0mg5xOjnQsBRZfttj9cIIuHhpDyRmkQHNWrxs=
+X-Received: by 2002:aca:b5c2:0:b0:39a:1ceb:3ec4 with SMTP id
+ e185-20020acab5c2000000b0039a1ceb3ec4mr7264308oif.29.1686140848154; Wed, 07
+ Jun 2023 05:27:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230607061417.13636-1-jirislaby@kernel.org>
-In-Reply-To: <20230607061417.13636-1-jirislaby@kernel.org>
+References: <20230606173553.v7lckyxrcsotanm5@google.com>
+In-Reply-To: <20230606173553.v7lckyxrcsotanm5@google.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 7 Jun 2023 21:22:47 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQsBBKPpHUdqcQmTcoU-CSqmWC2cV+uz+xWuqgBm7Wq=Q@mail.gmail.com>
-Message-ID: <CAK7LNAQsBBKPpHUdqcQmTcoU-CSqmWC2cV+uz+xWuqgBm7Wq=Q@mail.gmail.com>
-Subject: Re: [PATCH] streamline_config.pl: handle also ${CONFIG_FOO}
-To:     "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Jiri Slaby <jslaby@suse.cz>,
-        andreas.noever@gmail.com, michael.jamet@intel.com,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        YehezkelShB@gmail.com, Steven Rostedt <rostedt@goodmis.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Date:   Wed, 7 Jun 2023 21:26:52 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQNTaTA8x-nNAGSOnYhZZUks_QY2VVNB-W1LJ2EnjUDDg@mail.gmail.com>
+Message-ID: <CAK7LNAQNTaTA8x-nNAGSOnYhZZUks_QY2VVNB-W1LJ2EnjUDDg@mail.gmail.com>
+Subject: Re: [PATCH] scripts/mksysmap: Fix badly escaped '$'
+To:     =?UTF-8?Q?Pierre=2DCl=C3=A9ment_Tosi?= <ptosi@google.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -66,32 +63,74 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jun 7, 2023 at 3:14=E2=80=AFPM Jiri Slaby (SUSE) <jirislaby@kernel.=
-org> wrote:
+On Wed, Jun 7, 2023 at 2:36=E2=80=AFAM Pierre-Cl=C3=A9ment Tosi <ptosi@goog=
+le.com> wrote:
 >
-> From: Jiri Slaby <jslaby@suse.cz>
+> The backslash characters escaping '$' in the command to sed (intended to
+> prevent it from interpreting '$' as "end-of-line") are currently being
+> consumed by the Shell (where they mean that sh should not evaluate what
+> follows '$' as a variable name). This means that
 >
-> streamline_config.pl currently searches for CONFIG options in Kconfig
-> files as $(CONFIG_FOO). But some Kconfigs (e.g. thunderbolt) use
-> ${CONFIG_FOO}. So fix up the regex to accept both.
+>     sed -e "/ \$/d"
 >
-> This fixes:
-> $ make LSMOD=3D`pwd/`/lsmod localmodconfig
-> using config: '.config'
-> thunderbolt config not found!!
+> executes the script
 >
-> Signed-off-by: Jiri Slaby <jslaby@suse.cz>
-> Cc: andreas.noever@gmail.com
-> Cc: michael.jamet@intel.com
-> Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
-> Cc: YehezkelShB@gmail.com
-> Cc: Steven Rostedt <rostedt@goodmis.org>
-> Cc: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+>     / $/d
+>
+> instead of the intended
+>
+>     / \$/d
+>
+> So escape twice in mksysmap any '$' that actually needs to reach sed
+> escaped so that the backslash survives the Shell.
+
+
+
+You are right. Thanks for catching this bug.
+
+Applied to linux-kbuild. Thanks.
+
+
+
+
+>
+> Fixes: c4802044a0a7 ("scripts/mksysmap: use sed with in-line comments")
+> Fixes: 320e7c9d4494 ("scripts/kallsyms: move compiler-generated symbol pa=
+tterns to mksysmap")
+> Signed-off-by: Pierre-Cl=C3=A9ment Tosi <ptosi@google.com>
 > ---
+>  scripts/mksysmap | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/scripts/mksysmap b/scripts/mksysmap
+> index cb3b1fff3eee..ec3338526102 100755
+> --- a/scripts/mksysmap
+> +++ b/scripts/mksysmap
+> @@ -32,7 +32,7 @@ ${NM} -n ${1} | sed >${2} -e "
+>  #  (do not forget a space before each pattern)
+>
+>  # local symbols for ARM, MIPS, etc.
+> -/ \$/d
+> +/ \\$/d
+>
+>  # local labels, .LBB, .Ltmpxxx, .L__unnamed_xx, .LASANPC, etc.
+>  / \.L/d
+> @@ -41,7 +41,7 @@ ${NM} -n ${1} | sed >${2} -e "
+>  / __efistub_/d
+>
+>  # arm64 local symbols in non-VHE KVM namespace
+> -/ __kvm_nvhe_\$/d
+> +/ __kvm_nvhe_\\$/d
+>  / __kvm_nvhe_\.L/d
+>
+>  # arm64 lld
+> --
+> 2.41.0.rc0.172.g3f132b7071-goog
+>
+>
+> --
+> Pierre
 
-
-Applied to linux-kbuild.
-Thanks.
 
 
 --=20
