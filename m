@@ -2,61 +2,71 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 262E37273D2
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Jun 2023 02:43:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78915727AFE
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Jun 2023 11:15:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229499AbjFHAng (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 7 Jun 2023 20:43:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36274 "EHLO
+        id S235124AbjFHJPj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 8 Jun 2023 05:15:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229646AbjFHAnf (ORCPT
+        with ESMTP id S234380AbjFHJPj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 7 Jun 2023 20:43:35 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A19626A0
-        for <linux-kbuild@vger.kernel.org>; Wed,  7 Jun 2023 17:43:31 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E8B64642B1
-        for <linux-kbuild@vger.kernel.org>; Thu,  8 Jun 2023 00:43:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C3BBC433D2
-        for <linux-kbuild@vger.kernel.org>; Thu,  8 Jun 2023 00:43:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686185010;
-        bh=UaDBi+gNXBWdRed5gVt2069d+4kESBsCRW8V7h6Gs9o=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=LN0ayjP8FW1nTukqMdzejiYAKhuBeCXE43C/Zp0ksm9AjfNNDajg2zAisuYCHrNG7
-         tPaE6Tm8GxXUnh2z1JdcXCc99P6/LxWgqL3i3DuvvVx9itHOZMJ6iXNsUr5TSD/gnX
-         ovoV7ZcdhknxL7XLuzOaZFtjGr4Vs8WNrteAuPt9WfC7Zf6nnD4KIHMm9VX6lyG7D1
-         AkOU6sYeiwB2Q5E9qDaAW3EfroRGCXKgUQIpnLu1JzywimXjn2utQioWUoeZVbEVwn
-         AaG19j+RgtOkJ66glwPHdakI7QSF7209dhAs6/uuRyUqV/yreimnAMMH4qQmkPvpou
-         uBHUSZmMXGRdA==
-Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-55b171c1e16so38605eaf.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 07 Jun 2023 17:43:30 -0700 (PDT)
-X-Gm-Message-State: AC+VfDzxyhh9mYIiqgE+td8ou4hsg9TE8ixJnv3WqQRqh+pSJMrK7+p1
-        OtEFUpOwgrJnrdcLSr9eMMRwAYWvcsNltIJTFpo=
-X-Google-Smtp-Source: ACHHUZ5qyIUsHK1GN1aYppMEHQFxgPwt1ADhTQKC2ySJqauaEa+rGb9cPkFCUJ7qjB12Xl36nX66tcxM5BaQk8ceulE=
-X-Received: by 2002:a4a:ea89:0:b0:558:aaa4:baf6 with SMTP id
- r9-20020a4aea89000000b00558aaa4baf6mr5308997ooh.3.1686185009572; Wed, 07 Jun
- 2023 17:43:29 -0700 (PDT)
+        Thu, 8 Jun 2023 05:15:39 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49394E46
+        for <linux-kbuild@vger.kernel.org>; Thu,  8 Jun 2023 02:15:37 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-3f732d37d7bso2063475e9.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 08 Jun 2023 02:15:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686215736; x=1688807736;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YcEISIDNto7bVB3X4uewYDXy4Y2gVCqbmdu4ZLZezEY=;
+        b=yGnq8ftGesQWNAnnk6kFmQScY6bmN/aZzan9A1PY6jRYtaYT/ZytO29S37reDaPbuh
+         hDRm157Qvw8g3ohSUDZmE4bGwZQ+5sHLo6yimfNYQevzbeQBZZbPF/ND6HNS3zSDXx1U
+         90kHHHns1cf2PIpDAsZr9t3C9X3Guy0GFVFq89zPBUB4NC3t8kC0my27FvUQXT67uyIo
+         m0cxDG8yW0Y1NwArq4Nt9LHaA+rWo6ccFWfH+bUxYRpJJ3LP5nS9C27WVwjX1ybsdiDp
+         +Sa04NXDHcOq90LxaHtCUVZMIhyT27vD2xfkqL1svxUM9Yey1QAiIZ7xgHg1lIxXu2Rz
+         LS1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686215736; x=1688807736;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YcEISIDNto7bVB3X4uewYDXy4Y2gVCqbmdu4ZLZezEY=;
+        b=B2JwU4fJoppgUUl86n9bSUUx8nSDl6PAd3J/DV6nr/IVq0Vjge1WpqALhVtkCxRHDQ
+         3+FDefmOtJWcW6nngvWUSzqurkYjY08cMFlZOYVWIA8WR+oakD9Tk5/BEWMgXv+YzP7O
+         Ct0G3KHmdwGk7v+QO2mBgZIGOxmBkFknhigFjNxPiHWUEZxnZa9tvUE0lfZ6eTvJYexF
+         dfJRXMgFN0oSAqVo9EzwpNQz3LKMjcRPQ9VKO+ccNdEVMADVUvDcMdoMQzhpqiCyvVso
+         t+xBOArZv0TTL33SZ5qv/k6HJLByES3WSBycU1/uuiIg/L2O4n1upquI5LklIsh+6qlY
+         F50A==
+X-Gm-Message-State: AC+VfDxJ3TQwu7SLWbc8WA5tfODSApfnvQbRblB55nV8qvyA9JFP9ZsT
+        XpGIdn1VEFmYiGxh1jw+iPvRXQ==
+X-Google-Smtp-Source: ACHHUZ684p2cvPfl7jo1XVe+oO2AU0Brj8qUl1HKEa+c4vNwYuLVVz5CkBN3R0mQZGRJ5nBuPk5MZg==
+X-Received: by 2002:a7b:ce16:0:b0:3f6:3da:1603 with SMTP id m22-20020a7bce16000000b003f603da1603mr920932wmc.26.1686215735734;
+        Thu, 08 Jun 2023 02:15:35 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id c23-20020a7bc017000000b003f1958eeadcsm4599680wmb.17.2023.06.08.02.15.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Jun 2023 02:15:34 -0700 (PDT)
+Date:   Thu, 8 Jun 2023 11:23:40 +0300
+From:   Dan Carpenter <dan.carpenter@linaro.org>
+To:     Quentin Casasnovas <quentin.casasnovas@oracle.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Rusty Russell <rusty@rustcorp.com.au>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: [PATCH] modpost: fix off by one in is_executable_section()
+Message-ID: <9ef94ec4-bbb0-43e6-866f-40f68128cd78@moroto.mountain>
 MIME-Version: 1.0
-References: <20230309120103.61108-1-vincenzopalazzodev@gmail.com>
- <CAK7LNAR0uMvf+k7LPXtMjigKFPeNu5m5EhAkvk2RVRHkdjdbdg@mail.gmail.com> <CT6OSU5FVKQH.2JBA7PNTYRA23@vincent-arch>
-In-Reply-To: <CT6OSU5FVKQH.2JBA7PNTYRA23@vincent-arch>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 8 Jun 2023 09:42:53 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQOznJ8cz6kMi2=X2Atp=PdB6EH1E0Hf=N2xH9suvsySw@mail.gmail.com>
-Message-ID: <CAK7LNAQOznJ8cz6kMi2=X2Atp=PdB6EH1E0Hf=N2xH9suvsySw@mail.gmail.com>
-Subject: Re: [PATCH v2] script: modpost: emit a warning when the description
- is missing
-To:     Vincenzo Palazzo <vincenzopalazzodev@gmail.com>
-Cc:     linux-kbuild@vger.kernel.org, Roland Kletzing <devzero@web.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,70 +74,28 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jun 8, 2023 at 5:06=E2=80=AFAM Vincenzo Palazzo
-<vincenzopalazzodev@gmail.com> wrote:
->
-> > On Thu, Mar 9, 2023 at 9:01=E2=80=AFPM Vincenzo Palazzo
-> > <vincenzopalazzodev@gmail.com> wrote:
-> > >
-> > > Emit a warning when the mod description is missed and only
-> > > when the W=3D1 is enabled.
-> > >
-> > > Reported-by: Roland Kletzing <devzero@web.de>
-> > > Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D10770
-> > > Signed-off-by: Vincenzo Palazzo <vincenzopalazzodev@gmail.com>
-> > > ---
-> > >  scripts/mod/modpost.c | 4 ++++
-> > >  1 file changed, 4 insertions(+)
-> > >
-> > > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > > index efff8078e395..433518dfc472 100644
-> > > --- a/scripts/mod/modpost.c
-> > > +++ b/scripts/mod/modpost.c
-> > > @@ -1824,6 +1824,10 @@ static void read_symbols(const char *modname)
-> > >                 }
-> > >         }
-> > >
-> > > +#ifdef WARN
-> > > +       if (!get_modinfo(&info, "description"))
-> > > +               warn("missing MODULE_DESCRIPTION() in %s\n", modname)=
-;
-> > > +#endif
-> > >         for (sym =3D info.symtab_start; sym < info.symtab_stop; sym++=
-) {
-> > >                 symname =3D remove_dot(info.strtab + sym->st_name);
-> >
-> >
-> > Sorry for the delay.
-> >
-> > Users need to do "make HOSTCFLAGS=3D-DWARN" to make it work,
-> > but nobody would do it.
-> >
-> >
-> > I did a ground work:
-> > https://patchwork.kernel.org/project/linux-kbuild/patch/20230606094159.=
-1910369-1-masahiroy@kernel.org/
-> >
->
-> Uh, thanks for doing this!
->
-> >
-> >
-> > Then, you can do like this:
-> >
-> >   if (extra_warn && !get_modinfo(&info, "description"))
-> >            warn("missing MODULE_DESCRIPTION() in %s\n", modname);
-> >
->
-> Do you preferer that I rebase on top of your patch? or just waiting that
-> your patch will be in next?
+The > comparison should be >= to prevent an out of bounds array
+access.
 
+Fixes: 52dc0595d540 ("modpost: handle relocations mismatch in __ex_table.")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ scripts/mod/modpost.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Whichever. Your patch changes a different hunk,
-so no merge conflict would happen anyway.
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index d10f5bdcb753..c3cb69c276ae 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -1139,7 +1139,7 @@ static Elf_Sym *find_tosym(struct elf_info *elf, Elf_Addr addr, Elf_Sym *sym)
+ 
+ static bool is_executable_section(struct elf_info *elf, unsigned int secndx)
+ {
+-	if (secndx > elf->num_sections)
++	if (secndx >= elf->num_sections)
+ 		return false;
+ 
+ 	return (elf->sechdrs[secndx].sh_flags & SHF_EXECINSTR) != 0;
+-- 
+2.39.2
 
-
-
---=20
-Best Regards
-Masahiro Yamada
