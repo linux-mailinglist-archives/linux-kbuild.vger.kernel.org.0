@@ -2,112 +2,150 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E2A1F72831E
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Jun 2023 16:56:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 552EF72836A
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Jun 2023 17:16:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236449AbjFHO4g (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 8 Jun 2023 10:56:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42164 "EHLO
+        id S236822AbjFHPQB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 8 Jun 2023 11:16:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235886AbjFHO4e (ORCPT
+        with ESMTP id S236750AbjFHPQA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 8 Jun 2023 10:56:34 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 166A610FB;
-        Thu,  8 Jun 2023 07:56:34 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Thu, 8 Jun 2023 11:16:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAC98E2
+        for <linux-kbuild@vger.kernel.org>; Thu,  8 Jun 2023 08:15:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686237312;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=/3w9oyHcHeuXmqT1TkLSNVHo+F4uoLMw3KpXpP7tVL8=;
+        b=eJz9M6jp0IVFHpA//yyLi2K98+f1zJf2Hu1i+n8AFwn4q7DD9er3GiRPzRc5Ul7sq3OYJZ
+        vUZrjv/YLpAapZMjs7hD0pxw6XEPUBhQJoCtmp+iqCSlaOvtWnpLrsXBfbCy4YBgSD/4wp
+        N+Ql+UNHDST28OT0mxLSoY/6HVd9ePU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-398-1LtaMsEfNDKBOh9S0kPYgA-1; Thu, 08 Jun 2023 11:15:03 -0400
+X-MC-Unique: 1LtaMsEfNDKBOh9S0kPYgA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A152464E20;
-        Thu,  8 Jun 2023 14:56:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 087F9C433A1;
-        Thu,  8 Jun 2023 14:56:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686236193;
-        bh=CZiUnQSwCCU7tqgCmEoGvcv16/6kTQcWTKR0ljqRc8w=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Z8Nc9E40ALbkPxgFM+7K4XpUq4Kmj+P3FjQFcyAmG/9oyak52S0/q5NS1HWOowhph
-         BCkSGRzVhSB1T87cDOK5Ev9yO1V7BJms0d45UjUvGGRmBS46p0H7gmQ08O5hJpurG1
-         ViuZ2/ly25Pnh4I37yQKoNkt+tpYmvXraEdLuT9ISu5kbaf1t6Sn1UYajt/iP8MdcP
-         iJrLVcR4f/1drgO/iiMGQ51Ttm361EcsQIyzViGAiYpzxDfem77viijdI28uyPGM8w
-         4CMTpySPlmn+ErlmdDk2RrwPfQ9K1py2n6705nJq65NgpBa9hxbeF6rV95S6zlL21F
-         KkQud8md2pDAA==
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6b2b6910facso401391a34.1;
-        Thu, 08 Jun 2023 07:56:32 -0700 (PDT)
-X-Gm-Message-State: AC+VfDwwQMLEIEYBQXx9ggFv9yxVTdjABt3zb6ovmsExOhWfpxwOa9i8
-        +Z3yONyzjmdiuRlUWZZ1hVjbTxGjI5/5ncMPAWo=
-X-Google-Smtp-Source: ACHHUZ4b52LAMGrIJorPjZd8HZx5+JEzc5yIVrJ1Zf1u1Z8pwwtZAHBpxKd3KizdMa4n9bFBDXIpiXF8e0EA+zYsMOs=
-X-Received: by 2002:a05:6870:2181:b0:196:7f51:1bc7 with SMTP id
- l1-20020a056870218100b001967f511bc7mr7964179oae.17.1686236192230; Thu, 08 Jun
- 2023 07:56:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <9ef94ec4-bbb0-43e6-866f-40f68128cd78@moroto.mountain>
-In-Reply-To: <9ef94ec4-bbb0-43e6-866f-40f68128cd78@moroto.mountain>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 8 Jun 2023 23:55:55 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATWmtiQdtvGLYL5b0Pyg4Bnmj0_Hn8xtWLzMJ_1oxkThA@mail.gmail.com>
-Message-ID: <CAK7LNATWmtiQdtvGLYL5b0Pyg4Bnmj0_Hn8xtWLzMJ_1oxkThA@mail.gmail.com>
-Subject: Re: [PATCH] modpost: fix off by one in is_executable_section()
-To:     Dan Carpenter <dan.carpenter@linaro.org>
-Cc:     Quentin Casasnovas <quentin.casasnovas@oracle.com>,
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4282C3C0F424;
+        Thu,  8 Jun 2023 15:15:00 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.42.28.182])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 36EF0492B00;
+        Thu,  8 Jun 2023 15:14:59 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Rusty Russell <rusty@rustcorp.com.au>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Nicolas Schier <nicolas@fjasle.eu>
+cc:     dhowells@redhat.com, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [RFC][PATCH] build: Deal with change in "make --no-print-directory" behaviour change
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <2427603.1686237298.1@warthog.procyon.org.uk>
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Date:   Thu, 08 Jun 2023 16:14:58 +0100
+Message-ID: <2427604.1686237298@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jun 8, 2023 at 6:15=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro.=
-org> wrote:
->
-> The > comparison should be >=3D to prevent an out of bounds array
-> access.
->
-> Fixes: 52dc0595d540 ("modpost: handle relocations mismatch in __ex_table.=
-")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
+Hi Masahiro & the kbuild crew,
 
+Here's a patch to fix a change in make behaviour in make-4.4.  It's almost
+certainly the wrong solution, but it works for me for now.
 
-Applied to linux-kbuild.
-Thanks.
+Note that I tried just adding "--print-directory" to the $(MAKE) line afte=
+r
+the line I added, and that does seem to work - but it then prints a lot of
+additional "entering directory" lines (though they all seem to be the same=
+).
 
+David
+---
+Emacs (and probably other IDEs) parse the "make: Entering directory" lines
+in the build output so that they can correctly resolve relative pathnames
+in messages from the compiler.  However, a change in make has broken this.
+I think it might be:
 
+        [/usr/share/doc/make/NEWS]
+        ...
+        Version 4.4 (31 Oct 2022)
+        ...
+        * WARNING: Backward-incompatibility!
+          Previously if --no-print-directory was seen anywhere in the envi=
+ronment or
+          command line it would take precedence over any --print-directory=
+.  Now, the
+          last setting of directory printing options seen will be used, so=
+ a command
+          line such as "--no-print-directory -w" _will_ show directory ent=
+ry/exits.
 
->  scripts/mod/modpost.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index d10f5bdcb753..c3cb69c276ae 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -1139,7 +1139,7 @@ static Elf_Sym *find_tosym(struct elf_info *elf, El=
-f_Addr addr, Elf_Sym *sym)
->
->  static bool is_executable_section(struct elf_info *elf, unsigned int sec=
-ndx)
->  {
-> -       if (secndx > elf->num_sections)
-> +       if (secndx >=3D elf->num_sections)
->                 return false;
->
->         return (elf->sechdrs[secndx].sh_flags & SHF_EXECINSTR) !=3D 0;
-> --
-> 2.39.2
->
+Doing a kernel build now only prints the directory passed to the "-C" flag
+if present and no other directories.  This includes any build directory
+indicated with "O=3D".  So if I do:
 
+        make -C /my/data/linux O=3Dbuild
 
---=20
-Best Regards
-Masahiro Yamada
+I see:
+
+        make: Entering directory '/my/data/linux'
+
+and all the path in messages emitted by the compiler are prefixed with "..=
+"
+- but then doing "M-x next-error" in emacs will prompt emacs to ask where
+the file is rather than jumping to it because it can't find it.
+
+On the previous version of Fedora with make-4.3, an extra line is emitted
+by make:
+
+        make[1]: Entering directory '/my/data/linux/build'
+
+and that was sufficient for emacs to be able to resolve paths.
+
+Fix this by manually printing the missing line.
+
+Signed-off-by: David Howells <dhowells@redhat.com>
+cc: Masahiro Yamada <masahiroy@kernel.org>
+cc: Nathan Chancellor <nathan@kernel.org>
+cc: Nick Desaulniers <ndesaulniers@google.com>
+cc: Nicolas Schier <nicolas@fjasle.eu>
+cc: linux-kbuild@vger.kernel.org
+---
+ Makefile |    1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Makefile b/Makefile
+index 836643eaefee..7f7c75087626 100644
+--- a/Makefile
++++ b/Makefile
+@@ -223,6 +223,7 @@ $(filter-out $(this-makefile), $(MAKECMDGOALS)) __all:=
+ __sub-make
+ =
+
+ # Invoke a second make in the output directory, passing relevant variable=
+s
+ __sub-make:
++	@echo "make[1]: Entering directory '$(abs_objtree)'"
+ 	$(Q)$(MAKE) -C $(abs_objtree) -f $(abs_srctree)/Makefile $(MAKECMDGOALS)
+ =
+
+ endif # need-sub-make
+
