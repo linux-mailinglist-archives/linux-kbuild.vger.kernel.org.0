@@ -2,56 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 73498727357
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Jun 2023 01:52:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 262E37273D2
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Jun 2023 02:43:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232908AbjFGXwd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 7 Jun 2023 19:52:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52630 "EHLO
+        id S229499AbjFHAng (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 7 Jun 2023 20:43:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230445AbjFGXwc (ORCPT
+        with ESMTP id S229646AbjFHAnf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 7 Jun 2023 19:52:32 -0400
+        Wed, 7 Jun 2023 20:43:35 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EAD19E;
-        Wed,  7 Jun 2023 16:52:31 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A19626A0
+        for <linux-kbuild@vger.kernel.org>; Wed,  7 Jun 2023 17:43:31 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 05D4F61040;
-        Wed,  7 Jun 2023 23:52:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63BAEC433D2;
-        Wed,  7 Jun 2023 23:52:30 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E8B64642B1
+        for <linux-kbuild@vger.kernel.org>; Thu,  8 Jun 2023 00:43:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C3BBC433D2
+        for <linux-kbuild@vger.kernel.org>; Thu,  8 Jun 2023 00:43:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686181950;
-        bh=6pgSFYsSsLqInvahVHsx2DhcY3kpo+fzL3XqW2yw6j8=;
+        s=k20201202; t=1686185010;
+        bh=UaDBi+gNXBWdRed5gVt2069d+4kESBsCRW8V7h6Gs9o=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=nuRuke7/uPMCJV6aj03GtBWYipIk9M7+oW9yOzrdF7+2jgSt39/Cxr8LJdQHkWmvZ
-         Evl73mMzWgH2VXonZIMiy34RpqyjWXfg6Gymry2ujKervcNXiQAxfNtyj+iYWz+/s+
-         mbZHMZEMlkxuustlp4DHyN8g+9GQAn5U/FpHel5xaUK9njsLD0vrF+N/8DSx7iR5xa
-         kRyMOunz0KztNjuVK5l+oIFJRoGE1bzTw1EW3gDKKWlOzy6w/QSFkl7tTJxe25USpx
-         /kZ6dVeIhlItdtzq0i5jC4WZQZ2ECwRUpcfLZFU/2GDyM1JbUqY2RnhFEIFdI15Ayp
-         VTH56dyhUV7dw==
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-38e04d1b2b4so43569b6e.3;
-        Wed, 07 Jun 2023 16:52:30 -0700 (PDT)
-X-Gm-Message-State: AC+VfDyKuVC2+2y9aasumhfDhXmCY+S0fCBL8pVkpAnJxxPlQDh1I5T5
-        hU2sEFn52oEGZDIjZ0OQR/0Ote+aBHgsVkhpcFU=
-X-Google-Smtp-Source: ACHHUZ49oZDE1kdugK2Y4GVA+zcXnkkevQUVWzQxvY3efR8O0jyI3gzgf7XgmvnqirHK93KhjHG4CuLJOwPw7uY+vgs=
-X-Received: by 2002:a05:6808:5ca:b0:39a:ba7e:33bd with SMTP id
- d10-20020a05680805ca00b0039aba7e33bdmr7513928oij.0.1686181949609; Wed, 07 Jun
- 2023 16:52:29 -0700 (PDT)
+        b=LN0ayjP8FW1nTukqMdzejiYAKhuBeCXE43C/Zp0ksm9AjfNNDajg2zAisuYCHrNG7
+         tPaE6Tm8GxXUnh2z1JdcXCc99P6/LxWgqL3i3DuvvVx9itHOZMJ6iXNsUr5TSD/gnX
+         ovoV7ZcdhknxL7XLuzOaZFtjGr4Vs8WNrteAuPt9WfC7Zf6nnD4KIHMm9VX6lyG7D1
+         AkOU6sYeiwB2Q5E9qDaAW3EfroRGCXKgUQIpnLu1JzywimXjn2utQioWUoeZVbEVwn
+         AaG19j+RgtOkJ66glwPHdakI7QSF7209dhAs6/uuRyUqV/yreimnAMMH4qQmkPvpou
+         uBHUSZmMXGRdA==
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-55b171c1e16so38605eaf.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 07 Jun 2023 17:43:30 -0700 (PDT)
+X-Gm-Message-State: AC+VfDzxyhh9mYIiqgE+td8ou4hsg9TE8ixJnv3WqQRqh+pSJMrK7+p1
+        OtEFUpOwgrJnrdcLSr9eMMRwAYWvcsNltIJTFpo=
+X-Google-Smtp-Source: ACHHUZ5qyIUsHK1GN1aYppMEHQFxgPwt1ADhTQKC2ySJqauaEa+rGb9cPkFCUJ7qjB12Xl36nX66tcxM5BaQk8ceulE=
+X-Received: by 2002:a4a:ea89:0:b0:558:aaa4:baf6 with SMTP id
+ r9-20020a4aea89000000b00558aaa4baf6mr5308997ooh.3.1686185009572; Wed, 07 Jun
+ 2023 17:43:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230606105706.60807b85ff79.I21ab3b54eeebd638676bead3b2f87417944e44f3@changeid>
- <CAK7LNASe+HWuufyANGJJ0dajzSC4LFy=x2N6erGis0+ZQkAAXA@mail.gmail.com> <2017a6dba12cc7cd05aec33e8066cb7038a89a31.camel@sipsolutions.net>
-In-Reply-To: <2017a6dba12cc7cd05aec33e8066cb7038a89a31.camel@sipsolutions.net>
+References: <20230309120103.61108-1-vincenzopalazzodev@gmail.com>
+ <CAK7LNAR0uMvf+k7LPXtMjigKFPeNu5m5EhAkvk2RVRHkdjdbdg@mail.gmail.com> <CT6OSU5FVKQH.2JBA7PNTYRA23@vincent-arch>
+In-Reply-To: <CT6OSU5FVKQH.2JBA7PNTYRA23@vincent-arch>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 8 Jun 2023 08:51:53 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAROju1ob-5VKEsu_UOfCNoMRE-QU27JE3Ndh-M7pBraSw@mail.gmail.com>
-Message-ID: <CAK7LNAROju1ob-5VKEsu_UOfCNoMRE-QU27JE3Ndh-M7pBraSw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] kernel-doc: don't let V=1 change outcome
-To:     Johannes Berg <johannes@sipsolutions.net>
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org
+Date:   Thu, 8 Jun 2023 09:42:53 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQOznJ8cz6kMi2=X2Atp=PdB6EH1E0Hf=N2xH9suvsySw@mail.gmail.com>
+Message-ID: <CAK7LNAQOznJ8cz6kMi2=X2Atp=PdB6EH1E0Hf=N2xH9suvsySw@mail.gmail.com>
+Subject: Re: [PATCH v2] script: modpost: emit a warning when the description
+ is missing
+To:     Vincenzo Palazzo <vincenzopalazzodev@gmail.com>
+Cc:     linux-kbuild@vger.kernel.org, Roland Kletzing <devzero@web.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -64,68 +64,70 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jun 7, 2023 at 6:07=E2=80=AFAM Johannes Berg <johannes@sipsolutions=
-.net> wrote:
+On Thu, Jun 8, 2023 at 5:06=E2=80=AFAM Vincenzo Palazzo
+<vincenzopalazzodev@gmail.com> wrote:
 >
-> On Tue, 2023-06-06 at 20:15 +0900, Masahiro Yamada wrote:
+> > On Thu, Mar 9, 2023 at 9:01=E2=80=AFPM Vincenzo Palazzo
+> > <vincenzopalazzodev@gmail.com> wrote:
 > > >
-> > >  ifneq ($(KBUILD_EXTRA_WARN),)
-> > > -  cmd_checkdoc =3D $(srctree)/scripts/kernel-doc -none $<
-> > > +  cmd_checkdoc =3D $(srctree)/scripts/kernel-doc -none \
-> > > +        $(if $(KDOC_WALL), -Wall) \
-> > > +        $(if $(KDOC_WRETURN), -Wreturn) \
-> > > +        $(if $(KDOC_WSHORT_DESC), -Wshort-desc) \
-> > > +        $(if $(KDOC_WSHORT_DESC), -Wcontents-before-sections) \
+> > > Emit a warning when the mod description is missed and only
+> > > when the W=3D1 is enabled.
+> > >
+> > > Reported-by: Roland Kletzing <devzero@web.de>
+> > > Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D10770
+> > > Signed-off-by: Vincenzo Palazzo <vincenzopalazzodev@gmail.com>
+> > > ---
+> > >  scripts/mod/modpost.c | 4 ++++
+> > >  1 file changed, 4 insertions(+)
+> > >
+> > > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> > > index efff8078e395..433518dfc472 100644
+> > > --- a/scripts/mod/modpost.c
+> > > +++ b/scripts/mod/modpost.c
+> > > @@ -1824,6 +1824,10 @@ static void read_symbols(const char *modname)
+> > >                 }
+> > >         }
+> > >
+> > > +#ifdef WARN
+> > > +       if (!get_modinfo(&info, "description"))
+> > > +               warn("missing MODULE_DESCRIPTION() in %s\n", modname)=
+;
+> > > +#endif
+> > >         for (sym =3D info.symtab_start; sym < info.symtab_stop; sym++=
+) {
+> > >                 symname =3D remove_dot(info.strtab + sym->st_name);
 > >
 > >
+> > Sorry for the delay.
 > >
-> > Sorry, I misunderstood your intention.
-> > (I just thought existing env variables would be moved to Makefile)
+> > Users need to do "make HOSTCFLAGS=3D-DWARN" to make it work,
+> > but nobody would do it.
 > >
 > >
-> > I do not want to proliferate env variables any more.
+> > I did a ground work:
+> > https://patchwork.kernel.org/project/linux-kbuild/patch/20230606094159.=
+1910369-1-masahiroy@kernel.org/
+> >
 >
-> Oh, ok, sure.
+> Uh, thanks for doing this!
 >
-> > If you need per-flag control, maybe we can do like this?
->
-> Well honestly, I myself just want to pass -Wall, but not necessarily W=3D=
-2
-> since that adds more stuff from the C compiler.
->
-> > cmd_checkdoc =3D $(srctree)/scripts/kernel-doc -none \
-> >               $(KDOCFLAGS)
 > >
 > >
-> > Then, users can do
+> > Then, you can do like this:
 > >
-> >   $ make KDOCFLAGS=3D-Wall
-> >   $ make KDOCFLAGS=3D-Wreturn
+> >   if (extra_warn && !get_modinfo(&info, "description"))
+> >            warn("missing MODULE_DESCRIPTION() in %s\n", modname);
+> >
 >
-> I'd rather call it KDOC_FLAGS if you don't mind to align with
-> KDOC_WERROR which we have already, but sure, can do.
+> Do you preferer that I rebase on top of your patch? or just waiting that
+> your patch will be in next?
 
 
-I just tried to be consistent with
-CPPFLAGS, CFLAGS, AFLAGS, CHECKFLAGS etc.
-(CHECKFLAGS is for sparse) because
-you apparently mimick compiler flags in kernel-doc.
-
-
-
-BTW, kernel-doc is invoked from Documentation/Makefile too.
-
-Do we need to pass the same flags to both of them?
+Whichever. Your patch changes a different hunk,
+so no merge conflict would happen anyway.
 
 
 
-> johannes
-
-
-
-
-
-
---
+--=20
 Best Regards
 Masahiro Yamada
