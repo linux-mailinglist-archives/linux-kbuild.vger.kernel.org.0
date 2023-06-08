@@ -2,52 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 787A57282AA
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Jun 2023 16:25:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2A1F72831E
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Jun 2023 16:56:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237197AbjFHOZZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 8 Jun 2023 10:25:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56324 "EHLO
+        id S236449AbjFHO4g (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 8 Jun 2023 10:56:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237112AbjFHOZT (ORCPT
+        with ESMTP id S235886AbjFHO4e (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 8 Jun 2023 10:25:19 -0400
+        Thu, 8 Jun 2023 10:56:34 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 056112D59;
-        Thu,  8 Jun 2023 07:25:00 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 166A610FB;
+        Thu,  8 Jun 2023 07:56:34 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0E30B64E2A;
-        Thu,  8 Jun 2023 14:24:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32260C433D2;
-        Thu,  8 Jun 2023 14:24:54 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A152464E20;
+        Thu,  8 Jun 2023 14:56:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 087F9C433A1;
+        Thu,  8 Jun 2023 14:56:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686234295;
-        bh=W7P3iG4O3YjGApyRwNtiWKX5Kq+VmGX8uTvW8Ums99c=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ntFv6gYKlgbdRwOlDg1ZciYIhnPhN2Yth0zSMBh1rlXZK4/QWKEvGYg1VqYJU7Q7Y
-         7kPowQgOC8uSdSuIVTPw8oBH0M1YSfJjTwNZPmE3GP7hQP++wMeo+yIOFshXSfOxWM
-         kmEdw4koner4TpL3XNp9u65JUDy2+93IeydEtbqQ6qHjVK+wsFMWA8O6UX3h4NtYdx
-         NHVPrlm87C9dMQoa0JsB8wSfS0xHgoDuGdYQKSt4dq7x2V5PMg5WMimbx42hWDuqHX
-         ibVrSlp+cCQLo4yDl8Ecy3T+AR9+MhywHQsT3hKNrWQiJ0Gz/6hniiRPANFG6WcLxk
-         Fh0DE3EZ2xB+Q==
+        s=k20201202; t=1686236193;
+        bh=CZiUnQSwCCU7tqgCmEoGvcv16/6kTQcWTKR0ljqRc8w=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Z8Nc9E40ALbkPxgFM+7K4XpUq4Kmj+P3FjQFcyAmG/9oyak52S0/q5NS1HWOowhph
+         BCkSGRzVhSB1T87cDOK5Ev9yO1V7BJms0d45UjUvGGRmBS46p0H7gmQ08O5hJpurG1
+         ViuZ2/ly25Pnh4I37yQKoNkt+tpYmvXraEdLuT9ISu5kbaf1t6Sn1UYajt/iP8MdcP
+         iJrLVcR4f/1drgO/iiMGQ51Ttm361EcsQIyzViGAiYpzxDfem77viijdI28uyPGM8w
+         4CMTpySPlmn+ErlmdDk2RrwPfQ9K1py2n6705nJq65NgpBa9hxbeF6rV95S6zlL21F
+         KkQud8md2pDAA==
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6b2b6910facso401391a34.1;
+        Thu, 08 Jun 2023 07:56:32 -0700 (PDT)
+X-Gm-Message-State: AC+VfDwwQMLEIEYBQXx9ggFv9yxVTdjABt3zb6ovmsExOhWfpxwOa9i8
+        +Z3yONyzjmdiuRlUWZZ1hVjbTxGjI5/5ncMPAWo=
+X-Google-Smtp-Source: ACHHUZ4b52LAMGrIJorPjZd8HZx5+JEzc5yIVrJ1Zf1u1Z8pwwtZAHBpxKd3KizdMa4n9bFBDXIpiXF8e0EA+zYsMOs=
+X-Received: by 2002:a05:6870:2181:b0:196:7f51:1bc7 with SMTP id
+ l1-20020a056870218100b001967f511bc7mr7964179oae.17.1686236192230; Thu, 08 Jun
+ 2023 07:56:32 -0700 (PDT)
+MIME-Version: 1.0
+References: <9ef94ec4-bbb0-43e6-866f-40f68128cd78@moroto.mountain>
+In-Reply-To: <9ef94ec4-bbb0-43e6-866f-40f68128cd78@moroto.mountain>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
+Date:   Thu, 8 Jun 2023 23:55:55 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATWmtiQdtvGLYL5b0Pyg4Bnmj0_Hn8xtWLzMJ_1oxkThA@mail.gmail.com>
+Message-ID: <CAK7LNATWmtiQdtvGLYL5b0Pyg4Bnmj0_Hn8xtWLzMJ_1oxkThA@mail.gmail.com>
+Subject: Re: [PATCH] modpost: fix off by one in is_executable_section()
+To:     Dan Carpenter <dan.carpenter@linaro.org>
+Cc:     Quentin Casasnovas <quentin.casasnovas@oracle.com>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
-        linux-um@lists.infradead.org,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH v7 11/11] linux/export.h: rename 'sec' argument to 'license'
-Date:   Thu,  8 Jun 2023 23:24:28 +0900
-Message-Id: <20230608142428.256985-12-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230608142428.256985-1-masahiroy@kernel.org>
-References: <20230608142428.256985-1-masahiroy@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Rusty Russell <rusty@rustcorp.com.au>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -58,74 +68,46 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Now, EXPORT_SYMBOL() is populated in two stages. In the first stage,
-all of EXPORT_SYMBOL/EXPORT_SYMBOL_GPL go into the same section,
-.export_symbol.
+On Thu, Jun 8, 2023 at 6:15=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro.=
+org> wrote:
+>
+> The > comparison should be >=3D to prevent an out of bounds array
+> access.
+>
+> Fixes: 52dc0595d540 ("modpost: handle relocations mismatch in __ex_table.=
+")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
 
-'sec' does not make sense any more. Rename it to 'license'.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+Applied to linux-kbuild.
+Thanks.
 
-Changes in v7:
- - New patch
 
- include/linux/export.h | 8 ++++----
- include/linux/pm.h     | 6 +++---
- 2 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/include/linux/export.h b/include/linux/export.h
-index fed2e5717461..b411fdb88720 100644
---- a/include/linux/export.h
-+++ b/include/linux/export.h
-@@ -46,11 +46,11 @@ extern struct module __this_module;
-  * be reused in other execution contexts such as the UEFI stub or the
-  * decompressor.
-  */
--#define __EXPORT_SYMBOL(sym, sec, ns)
-+#define __EXPORT_SYMBOL(sym, license, ns)
- 
- #elif defined(__GENKSYMS__)
- 
--#define __EXPORT_SYMBOL(sym, sec, ns)	__GENKSYMS_EXPORT_SYMBOL(sym)
-+#define __EXPORT_SYMBOL(sym, license, ns)	__GENKSYMS_EXPORT_SYMBOL(sym)
- 
- #elif defined(__ASSEMBLY__)
- 
-@@ -67,9 +67,9 @@ extern struct module __this_module;
- #endif /* CONFIG_MODULES */
- 
- #ifdef DEFAULT_SYMBOL_NAMESPACE
--#define _EXPORT_SYMBOL(sym, sec)	__EXPORT_SYMBOL(sym, sec, __stringify(DEFAULT_SYMBOL_NAMESPACE))
-+#define _EXPORT_SYMBOL(sym, license)	__EXPORT_SYMBOL(sym, license, __stringify(DEFAULT_SYMBOL_NAMESPACE))
- #else
--#define _EXPORT_SYMBOL(sym, sec)	__EXPORT_SYMBOL(sym, sec, "")
-+#define _EXPORT_SYMBOL(sym, license)	__EXPORT_SYMBOL(sym, license, "")
- #endif
- 
- #define EXPORT_SYMBOL(sym)		_EXPORT_SYMBOL(sym,)
-diff --git a/include/linux/pm.h b/include/linux/pm.h
-index aabb6bd8f89e..1810d776e84a 100644
---- a/include/linux/pm.h
-+++ b/include/linux/pm.h
-@@ -375,14 +375,14 @@ const struct dev_pm_ops name = { \
- }
- 
- #ifdef CONFIG_PM
--#define _EXPORT_DEV_PM_OPS(name, sec, ns)				\
-+#define _EXPORT_DEV_PM_OPS(name, license, ns)				\
- 	const struct dev_pm_ops name;					\
--	__EXPORT_SYMBOL(name, sec, ns);					\
-+	__EXPORT_SYMBOL(name, license, ns);				\
- 	const struct dev_pm_ops name
- #define EXPORT_PM_FN_GPL(name)		EXPORT_SYMBOL_GPL(name)
- #define EXPORT_PM_FN_NS_GPL(name, ns)	EXPORT_SYMBOL_NS_GPL(name, ns)
- #else
--#define _EXPORT_DEV_PM_OPS(name, sec, ns)				\
-+#define _EXPORT_DEV_PM_OPS(name, license, ns)				\
- 	static __maybe_unused const struct dev_pm_ops __static_##name
- #define EXPORT_PM_FN_GPL(name)
- #define EXPORT_PM_FN_NS_GPL(name, ns)
--- 
-2.39.2
+>  scripts/mod/modpost.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index d10f5bdcb753..c3cb69c276ae 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -1139,7 +1139,7 @@ static Elf_Sym *find_tosym(struct elf_info *elf, El=
+f_Addr addr, Elf_Sym *sym)
+>
+>  static bool is_executable_section(struct elf_info *elf, unsigned int sec=
+ndx)
+>  {
+> -       if (secndx > elf->num_sections)
+> +       if (secndx >=3D elf->num_sections)
+>                 return false;
+>
+>         return (elf->sechdrs[secndx].sh_flags & SHF_EXECINSTR) !=3D 0;
+> --
+> 2.39.2
+>
 
+
+--=20
+Best Regards
+Masahiro Yamada
