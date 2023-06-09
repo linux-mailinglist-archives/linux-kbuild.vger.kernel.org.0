@@ -2,58 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EBB572A54F
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Jun 2023 23:24:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5C7772A556
+	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Jun 2023 23:27:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229827AbjFIVYY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 9 Jun 2023 17:24:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55268 "EHLO
+        id S230413AbjFIV12 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 9 Jun 2023 17:27:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232145AbjFIVYX (ORCPT
+        with ESMTP id S229471AbjFIV12 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 9 Jun 2023 17:24:23 -0400
-Received: from mail-ua1-x935.google.com (mail-ua1-x935.google.com [IPv6:2607:f8b0:4864:20::935])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A87B33A82
-        for <linux-kbuild@vger.kernel.org>; Fri,  9 Jun 2023 14:24:21 -0700 (PDT)
-Received: by mail-ua1-x935.google.com with SMTP id a1e0cc1a2514c-789d36c830cso879448241.2
-        for <linux-kbuild@vger.kernel.org>; Fri, 09 Jun 2023 14:24:21 -0700 (PDT)
+        Fri, 9 Jun 2023 17:27:28 -0400
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 416FC35BE
+        for <linux-kbuild@vger.kernel.org>; Fri,  9 Jun 2023 14:27:27 -0700 (PDT)
+Received: by mail-oi1-x235.google.com with SMTP id 5614622812f47-39c68a3c5b9so966151b6e.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 09 Jun 2023 14:27:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1686345861; x=1688937861;
+        d=google.com; s=20221208; t=1686346046; x=1688938046;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sdR22/Dn+oev7vk8t/Tr492RL20kdJqWTXPUPVdb0hc=;
-        b=h9Pl7EDgw/Oko95ySXm+jEVrLDh6BI0Mz9RBRez1O17wSPKof+RGRKEuBxXijTHsg9
-         KbHURV/X4usXW336ls6rI03yl5Gc2aTSGqpfR9M9Y1x7U5PTAYccFxxjJ5zWkyumLRC8
-         v4N0cdigRRSgQ/IPnouF2x/UBBUAwqW+tiQBYnhdMZKFdJq5Us8bO7PPLc7MFSnALLHM
-         JC3BOyAjeeVzIn8IhXT7T4u4iBer+G9UyvUmTv9NPNfTHbNuV2QiBz7PB9tEbAWLya/8
-         fzCqkdlTl12uaUIc0GRwrtb4URRNgDEHw5cHmE/msKYWYcK+rRt4azPCdoQzZC0cHRvo
-         U7uA==
+        bh=79ZPKjidrQgRLDsSa7QpphQvIoGIPOgBv8OBV9Mr61s=;
+        b=OmL+6fhI7tyv31jaIEJF48y0gvfk2e7g/YcVV/TchHMCLdNaYV2CzWK8kQuzD/dv/9
+         rTU/i+ZudaE16UswrcKoUpeeGi0HUwFPVBnaSmKQJJOgVa3Eq8V+n13qwOa752MnSl2G
+         nxSEwD1NWrt7mf//t+SmSBmJgTuVeV4gMU1migsjs0jZD+MD/nkUl4208EAkmiOfnr0o
+         Pdk+OX2fGo1y9OhDkE4XlcZQatI4VjvMhgKaQB1qeRRUCtJwzQdeRdjYq8AuTXidJNg7
+         oCxH6RjrmVM9T2O6vCylxuSqnorPvIGwyHfKmEZm3JLiWuPEakfE+DbsSrv+OlhDMV7Z
+         9diA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686345861; x=1688937861;
+        d=1e100.net; s=20221208; t=1686346046; x=1688938046;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sdR22/Dn+oev7vk8t/Tr492RL20kdJqWTXPUPVdb0hc=;
-        b=VoaTRnXWuV8ZdwGeWd3YiD7NFcGCysl2SCQoJnY25MnJB8hpr8rQs0u1FqZVxow+Pi
-         kQx34ifTEKxLEaivaDWd7qFsa1W+xmJXn2er+T0eV0eFG2b/8hbihhVTGGj36rs5pCLu
-         YjE/v0/wFILupRN0yTZn+un9eU7cFiBNJwkbIiw7hnvjQ/6SGfLFmAg0wWJaCSSLO/c+
-         LMfDrmtauY0MEXqUyeftBhAOi1gquHmKIHvWuhv9396XCV+30AbxQWwFAMtmbxURmAm2
-         n/DcriGK7F+dH7IqeOrFaaCOG1OyL7BAmmWxVMr+OUMUZsIDgt2eXV7e8Dml1Y1BI5de
-         dIDg==
-X-Gm-Message-State: AC+VfDyXCeh31vngNTJa3mV4PmK0Io9ma41E+6swN+2Mnc3r0I7pe9Dv
-        C+fYzGKP0fbkwzz8uZ1KfHJsYj9IdwdtCXlnjIVfX+XsiHilw6BfzYM=
-X-Google-Smtp-Source: ACHHUZ5OXoFL30kGabu8C3ICNTZRa+j1RaV03HiGdItV9KOMMZLD5Lt7ZJOLWtozoUcQeacTby9geMSyvFoSBzASxqk=
-X-Received: by 2002:a67:efd4:0:b0:43b:131f:1b50 with SMTP id
- s20-20020a67efd4000000b0043b131f1b50mr2184071vsp.24.1686345860593; Fri, 09
- Jun 2023 14:24:20 -0700 (PDT)
+        bh=79ZPKjidrQgRLDsSa7QpphQvIoGIPOgBv8OBV9Mr61s=;
+        b=QK3TWES0kLwHDvTau7C6Zluca9bLFiVeXAHwzAhC91k77QuPAcYaCpsgRMCAr1y1nK
+         IBDU+/ve4WOE/WQjVwzBQYMa7GrQNstrZgcFsKb6txIAAKb7fXeJ8ZRnwd7uvSAVtd0j
+         C2SoW3xhD3gjNp0Xs3JbQlk9act1/cqzs4POUdkcYXWaPiWpkRMPX9K1dEQASuVGPEfQ
+         cb2zgyQgMWylZGSesCnifey4w5wR6lG4sb/jPqvnLW8lv37zuYPEwGJUVNcdZoL7XCNf
+         9SSTISEsEyqUGtTx6gg1JyMJY43Dq/rkYYqKP/knpmfqOOM8UA4n7igxqCznZb99DORb
+         9jaA==
+X-Gm-Message-State: AC+VfDxBOk0LcL4C/BgUmkJkAgGwvqfCwciJe7V247hO/ZpHeE0Qk6CW
+        YWmVbiKCO2xaXo8CWOSse5ch5l0nPgTZkhDh7fNQ6MNhFzfazW1KF8c=
+X-Google-Smtp-Source: ACHHUZ50Fx2ISvtOB/iuSEZqXAVM8l4sckFy6gt9/EnvPJel+X8zQgM7yZZYCTQwM1yl0Jrlq/5lb1VPEjdiLi0n0ec=
+X-Received: by 2002:a05:6358:c519:b0:129:c7b0:27fb with SMTP id
+ fb25-20020a056358c51900b00129c7b027fbmr2233226rwb.26.1686346046206; Fri, 09
+ Jun 2023 14:27:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230608142428.256985-1-masahiroy@kernel.org> <20230608142428.256985-2-masahiroy@kernel.org>
-In-Reply-To: <20230608142428.256985-2-masahiroy@kernel.org>
+References: <20230608142428.256985-1-masahiroy@kernel.org> <20230608142428.256985-11-masahiroy@kernel.org>
+In-Reply-To: <20230608142428.256985-11-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 9 Jun 2023 14:23:02 -0700
-Message-ID: <CAKwvOdnvxxPFbJ3bPu9-WqrQD4nS2vd2X-5=mgeruTrgTPm=zw@mail.gmail.com>
-Subject: Re: [PATCH v7 01/11] Revert "[PATCH] uml: export symbols added by GCC hardened"
+Date:   Fri, 9 Jun 2023 14:26:57 -0700
+Message-ID: <CAKwvOdny3yGugmEUUK_Zm7WNUeKHZrCk+9j-svGi9URHZVpDng@mail.gmail.com>
+Subject: Re: [PATCH v7 10/11] modpost: show offset from symbol for section
+ mismatch warnings
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
@@ -65,7 +66,7 @@ X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -75,62 +76,11 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 On Thu, Jun 8, 2023 at 7:24=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.or=
 g> wrote:
 >
-> This reverts commit cead61a6717a9873426b08d73a34a325e3546f5d.
+> Currently, modpost only shows the symbol names and section names, so it
+> repeats the same message if there are multiple relocations in the same
+> symbol. It is common the relocation spans across multiple instructions.
 >
-> It exported __stack_smash_handler and __guard, while they may not be
-> defined by anyone.
->
-> The code *declares* __stack_smash_handler and __guard. It does not
-> create weak symbols. When the stack-protector is disabled, they are
-> left undefined, but yet exported.
->
-> If a loadable module tries to access non-existing symbols, bad things
-> (a page fault, NULL pointer dereference, etc.) will happen. So, the
-> current code is wrong.
->
-> If the code were written as follows, it would *define* them as weak
-> symbols so modules would be able to get access to them.
->
->   void (*__stack_smash_handler)(void *) __attribute__((weak));
->   EXPORT_SYMBOL(__stack_smash_handler);
->
->   long __guard __attribute__((weak));
->   EXPORT_SYMBOL(__guard);
->
-> In fact, modpost forbids exporting undefined symbols. It shows an error
-> message if it detects such a mistake.
->
->   ERROR: modpost: "..." [...] was exported without definition
->
-> Unfortunately, it is checked only when the code is built as modular.
-> The problem described above has been unnoticed for a long time because
-> arch/um/os-Linux/user_syms.c is always built-in.
->
-> With a planned change in Kbuild, exporting undefined symbols will always
-> result in a build error instead of a run-time error. It is a good thing,
-> but we need to fix the breakage in advance.
->
-> One fix is to *define* weak symbols as shown above. An alternative is
-> to export them conditionally as follows:
->
->   #ifdef CONFIG_STACKPROTECTOR
->   extern void __stack_smash_handler(void *);
->   EXPORT_SYMBOL(__stack_smash_handler);
->
->   external long __guard;
->   EXPORT_SYMBOL(__guard);
->   #endif
->
-> This is what other architectures do; EXPORT_SYMBOL(__stack_chk_guard)
-> is guarded by #ifdef CONFIG_STACKPROTECTOR.
->
-> However, adding the #ifdef guard is not sensible because UML cannot
-> enable the stack-protector in the first place! (Please note UML does
-> not select HAVE_STACKPROTECTOR in Kconfig.)
->
-> So, the code is already broken (and unused) in multiple ways.
->
-> Just remove.
+> It is better to show the offset from the symbol.
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
@@ -139,31 +89,28 @@ Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
 > ---
 >
-> Changes in v7:
->   - New patch
+>  scripts/mod/modpost.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
->  arch/um/os-Linux/user_syms.c | 7 -------
->  1 file changed, 7 deletions(-)
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 85df3f3ba9ee..40967ed816df 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -1147,8 +1147,8 @@ static void default_mismatch_handler(const char *mo=
+dname, struct elf_info *elf,
 >
-> diff --git a/arch/um/os-Linux/user_syms.c b/arch/um/os-Linux/user_syms.c
-> index 9b62a9d352b3..a310ae27b479 100644
-> --- a/arch/um/os-Linux/user_syms.c
-> +++ b/arch/um/os-Linux/user_syms.c
-> @@ -37,13 +37,6 @@ EXPORT_SYMBOL(vsyscall_ehdr);
->  EXPORT_SYMBOL(vsyscall_end);
->  #endif
+>         sec_mismatch_count++;
 >
-> -/* Export symbols used by GCC for the stack protector. */
-> -extern void __stack_smash_handler(void *) __attribute__((weak));
-> -EXPORT_SYMBOL(__stack_smash_handler);
-> -
-> -extern long __guard __attribute__((weak));
-> -EXPORT_SYMBOL(__guard);
-> -
->  #ifdef _FORTIFY_SOURCE
->  extern int __sprintf_chk(char *str, int flag, size_t len, const char *fo=
-rmat);
->  EXPORT_SYMBOL(__sprintf_chk);
+> -       warn("%s: section mismatch in reference: %s (section: %s) -> %s (=
+section: %s)\n",
+> -            modname, fromsym, fromsec, tosym, tosec);
+> +       warn("%s: section mismatch in reference: %s+0x%x (section: %s) ->=
+ %s (section: %s)\n",
+> +            modname, fromsym, (unsigned int)(faddr - from->st_value), fr=
+omsec, tosym, tosec);
+>
+>         if (mismatch->mismatch =3D=3D EXTABLE_TO_NON_TEXT) {
+>                 if (match(tosec, mismatch->bad_tosec))
 > --
 > 2.39.2
 >
