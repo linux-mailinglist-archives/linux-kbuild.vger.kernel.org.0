@@ -2,132 +2,173 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3593C72A43E
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Jun 2023 22:18:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EBB572A54F
+	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Jun 2023 23:24:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229692AbjFIUR7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 9 Jun 2023 16:17:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60016 "EHLO
+        id S229827AbjFIVYY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 9 Jun 2023 17:24:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229541AbjFIUR7 (ORCPT
+        with ESMTP id S232145AbjFIVYX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 9 Jun 2023 16:17:59 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ED4130D8;
-        Fri,  9 Jun 2023 13:17:58 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A43FE65BBC;
-        Fri,  9 Jun 2023 20:17:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DA29C433EF;
-        Fri,  9 Jun 2023 20:17:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686341877;
-        bh=wj1b0dkXJQwh8KMgUAauXapvZkooYQVM2RHawbET22c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Yx0U0eJO0CUaPux7M5d3t1fAX/XQAC6XJPEKv41+P1S5TuYz/eR7ndXpb/MA5RZQ+
-         dfsvWeEsSEskKTqT4ld9+HAOdG4ju7tNmcQ0efY+KW5YndCVI7T6hD8qi2pEmOD+QH
-         5a227Dm9DcH7zDPWw+Jy1XIq4PDChFe+n0k3ZM6ZwxNGyLchzfoXOhhU9M6zdbUEkc
-         mePEsy73rzGSYrdibBmerLvba9AvRmvTkUcEZ6KlHo+t0O7KtlIbSVkLfL0/V4jbxE
-         Vdg3Fg1BNVnrWvclOTfKrB7YI4GMALh6o7bOYuOtv90f1rw2JT8w8dRrh3LJWXO34c
-         8E+fmtTSLan7Q==
-Date:   Fri, 9 Jun 2023 13:17:54 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Hamza Mahfooz <hamza.mahfooz@amd.com>
-Cc:     amd-gfx@lists.freedesktop.org,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Hawking Zhang <Hawking.Zhang@amd.com>, Le Ma <le.ma@amd.com>,
-        Tao Zhou <tao.zhou1@amd.com>,
-        YiPeng Chai <YiPeng.Chai@amd.com>,
-        James Zhu <James.Zhu@amd.com>,
-        Xiaojian Du <Xiaojian.Du@amd.com>,
-        Lijo Lazar <lijo.lazar@amd.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] drm/amd/amdgpu: enable W=1 for amdgpu
-Message-ID: <20230609201754.GA3961359@dev-arch.thelio-3990X>
-References: <20230609164207.430377-1-hamza.mahfooz@amd.com>
+        Fri, 9 Jun 2023 17:24:23 -0400
+Received: from mail-ua1-x935.google.com (mail-ua1-x935.google.com [IPv6:2607:f8b0:4864:20::935])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A87B33A82
+        for <linux-kbuild@vger.kernel.org>; Fri,  9 Jun 2023 14:24:21 -0700 (PDT)
+Received: by mail-ua1-x935.google.com with SMTP id a1e0cc1a2514c-789d36c830cso879448241.2
+        for <linux-kbuild@vger.kernel.org>; Fri, 09 Jun 2023 14:24:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1686345861; x=1688937861;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sdR22/Dn+oev7vk8t/Tr492RL20kdJqWTXPUPVdb0hc=;
+        b=h9Pl7EDgw/Oko95ySXm+jEVrLDh6BI0Mz9RBRez1O17wSPKof+RGRKEuBxXijTHsg9
+         KbHURV/X4usXW336ls6rI03yl5Gc2aTSGqpfR9M9Y1x7U5PTAYccFxxjJ5zWkyumLRC8
+         v4N0cdigRRSgQ/IPnouF2x/UBBUAwqW+tiQBYnhdMZKFdJq5Us8bO7PPLc7MFSnALLHM
+         JC3BOyAjeeVzIn8IhXT7T4u4iBer+G9UyvUmTv9NPNfTHbNuV2QiBz7PB9tEbAWLya/8
+         fzCqkdlTl12uaUIc0GRwrtb4URRNgDEHw5cHmE/msKYWYcK+rRt4azPCdoQzZC0cHRvo
+         U7uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686345861; x=1688937861;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sdR22/Dn+oev7vk8t/Tr492RL20kdJqWTXPUPVdb0hc=;
+        b=VoaTRnXWuV8ZdwGeWd3YiD7NFcGCysl2SCQoJnY25MnJB8hpr8rQs0u1FqZVxow+Pi
+         kQx34ifTEKxLEaivaDWd7qFsa1W+xmJXn2er+T0eV0eFG2b/8hbihhVTGGj36rs5pCLu
+         YjE/v0/wFILupRN0yTZn+un9eU7cFiBNJwkbIiw7hnvjQ/6SGfLFmAg0wWJaCSSLO/c+
+         LMfDrmtauY0MEXqUyeftBhAOi1gquHmKIHvWuhv9396XCV+30AbxQWwFAMtmbxURmAm2
+         n/DcriGK7F+dH7IqeOrFaaCOG1OyL7BAmmWxVMr+OUMUZsIDgt2eXV7e8Dml1Y1BI5de
+         dIDg==
+X-Gm-Message-State: AC+VfDyXCeh31vngNTJa3mV4PmK0Io9ma41E+6swN+2Mnc3r0I7pe9Dv
+        C+fYzGKP0fbkwzz8uZ1KfHJsYj9IdwdtCXlnjIVfX+XsiHilw6BfzYM=
+X-Google-Smtp-Source: ACHHUZ5OXoFL30kGabu8C3ICNTZRa+j1RaV03HiGdItV9KOMMZLD5Lt7ZJOLWtozoUcQeacTby9geMSyvFoSBzASxqk=
+X-Received: by 2002:a67:efd4:0:b0:43b:131f:1b50 with SMTP id
+ s20-20020a67efd4000000b0043b131f1b50mr2184071vsp.24.1686345860593; Fri, 09
+ Jun 2023 14:24:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230609164207.430377-1-hamza.mahfooz@amd.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230608142428.256985-1-masahiroy@kernel.org> <20230608142428.256985-2-masahiroy@kernel.org>
+In-Reply-To: <20230608142428.256985-2-masahiroy@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Fri, 9 Jun 2023 14:23:02 -0700
+Message-ID: <CAKwvOdnvxxPFbJ3bPu9-WqrQD4nS2vd2X-5=mgeruTrgTPm=zw@mail.gmail.com>
+Subject: Re: [PATCH v7 01/11] Revert "[PATCH] uml: export symbols added by GCC hardened"
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-um@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-+ Masahiro and linux-kbuild
+On Thu, Jun 8, 2023 at 7:24=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.or=
+g> wrote:
+>
+> This reverts commit cead61a6717a9873426b08d73a34a325e3546f5d.
+>
+> It exported __stack_smash_handler and __guard, while they may not be
+> defined by anyone.
+>
+> The code *declares* __stack_smash_handler and __guard. It does not
+> create weak symbols. When the stack-protector is disabled, they are
+> left undefined, but yet exported.
+>
+> If a loadable module tries to access non-existing symbols, bad things
+> (a page fault, NULL pointer dereference, etc.) will happen. So, the
+> current code is wrong.
+>
+> If the code were written as follows, it would *define* them as weak
+> symbols so modules would be able to get access to them.
+>
+>   void (*__stack_smash_handler)(void *) __attribute__((weak));
+>   EXPORT_SYMBOL(__stack_smash_handler);
+>
+>   long __guard __attribute__((weak));
+>   EXPORT_SYMBOL(__guard);
+>
+> In fact, modpost forbids exporting undefined symbols. It shows an error
+> message if it detects such a mistake.
+>
+>   ERROR: modpost: "..." [...] was exported without definition
+>
+> Unfortunately, it is checked only when the code is built as modular.
+> The problem described above has been unnoticed for a long time because
+> arch/um/os-Linux/user_syms.c is always built-in.
+>
+> With a planned change in Kbuild, exporting undefined symbols will always
+> result in a build error instead of a run-time error. It is a good thing,
+> but we need to fix the breakage in advance.
+>
+> One fix is to *define* weak symbols as shown above. An alternative is
+> to export them conditionally as follows:
+>
+>   #ifdef CONFIG_STACKPROTECTOR
+>   extern void __stack_smash_handler(void *);
+>   EXPORT_SYMBOL(__stack_smash_handler);
+>
+>   external long __guard;
+>   EXPORT_SYMBOL(__guard);
+>   #endif
+>
+> This is what other architectures do; EXPORT_SYMBOL(__stack_chk_guard)
+> is guarded by #ifdef CONFIG_STACKPROTECTOR.
+>
+> However, adding the #ifdef guard is not sensible because UML cannot
+> enable the stack-protector in the first place! (Please note UML does
+> not select HAVE_STACKPROTECTOR in Kconfig.)
+>
+> So, the code is already broken (and unused) in multiple ways.
+>
+> Just remove.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-On Fri, Jun 09, 2023 at 12:42:06PM -0400, Hamza Mahfooz wrote:
-> We have a clean build with W=1 as of
-> commit 12a15dd589ac ("drm/amd/display/amdgpu_dm/amdgpu_dm_helpers: Move
-> SYNAPTICS_DEVICE_ID into CONFIG_DRM_AMD_DC_DCN ifdef"). So, let's enable
-> these checks unconditionally for the entire module to catch these errors
-> during development.
-> 
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Nathan Chancellor <nathan@kernel.org>
-> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
-
-I think this is fine, especially since it will help catch issues in
-amdgpu quickly and hopefully encourage developers to fix their problems
-before they make it to a tree with wider impact lika -next.
-
-However, this is now the third place that W=1 has been effectively
-enabled (i915 and btrfs are the other two I know of) and it would be
-nice if this was a little more unified, especially since it is not
-uncommon for the warnings under W=1 to shift around and keeping them
-unified will make maintainence over the longer term a little easier. I
-am not sure if this has been brought up in the past and I don't want to
-hold up this change but I suspect this sentiment of wanting to enable
-W=1 on a per-subsystem basis is going to continue to grow.
-
-Regardless, for clang 11.1.0 to 16.0.5, I see no warnings when building
-drivers/gpu/drm/amd/amdgpu/ with Arch Linux's configuration or
-allmodconfig.
-
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Tested-by: Nathan Chancellor <nathan@kernel.org>
+Thanks for the patch!
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
 > ---
->  drivers/gpu/drm/amd/amdgpu/Makefile | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/Makefile b/drivers/gpu/drm/amd/amdgpu/Makefile
-> index 86b833085f19..8d16f280b695 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/Makefile
-> +++ b/drivers/gpu/drm/amd/amdgpu/Makefile
-> @@ -40,7 +40,18 @@ ccflags-y := -I$(FULL_AMD_PATH)/include/asic_reg \
->  	-I$(FULL_AMD_PATH)/amdkfd
->  
->  subdir-ccflags-y := -Wextra
-> -subdir-ccflags-y += $(call cc-option, -Wunused-but-set-variable)
-> +subdir-ccflags-y += -Wunused
-> +subdir-ccflags-y += -Wmissing-prototypes
-> +subdir-ccflags-y += -Wmissing-declarations
-> +subdir-ccflags-y += -Wmissing-include-dirs
-> +subdir-ccflags-y += -Wold-style-definition
-> +subdir-ccflags-y += -Wmissing-format-attribute
-> +# Need this to avoid recursive variable evaluation issues
-> +cond-flags := $(call cc-option, -Wunused-but-set-variable) \
-> +	$(call cc-option, -Wunused-const-variable) \
-> +	$(call cc-option, -Wstringop-truncation) \
-> +	$(call cc-option, -Wpacked-not-aligned)
-> +subdir-ccflags-y += $(cond-flags)
->  subdir-ccflags-y += -Wno-unused-parameter
->  subdir-ccflags-y += -Wno-type-limits
->  subdir-ccflags-y += -Wno-sign-compare
-> -- 
-> 2.40.1
-> 
+>
+> Changes in v7:
+>   - New patch
+>
+>  arch/um/os-Linux/user_syms.c | 7 -------
+>  1 file changed, 7 deletions(-)
+>
+> diff --git a/arch/um/os-Linux/user_syms.c b/arch/um/os-Linux/user_syms.c
+> index 9b62a9d352b3..a310ae27b479 100644
+> --- a/arch/um/os-Linux/user_syms.c
+> +++ b/arch/um/os-Linux/user_syms.c
+> @@ -37,13 +37,6 @@ EXPORT_SYMBOL(vsyscall_ehdr);
+>  EXPORT_SYMBOL(vsyscall_end);
+>  #endif
+>
+> -/* Export symbols used by GCC for the stack protector. */
+> -extern void __stack_smash_handler(void *) __attribute__((weak));
+> -EXPORT_SYMBOL(__stack_smash_handler);
+> -
+> -extern long __guard __attribute__((weak));
+> -EXPORT_SYMBOL(__guard);
+> -
+>  #ifdef _FORTIFY_SOURCE
+>  extern int __sprintf_chk(char *str, int flag, size_t len, const char *fo=
+rmat);
+>  EXPORT_SYMBOL(__sprintf_chk);
+> --
+> 2.39.2
+>
+
+
+--=20
+Thanks,
+~Nick Desaulniers
