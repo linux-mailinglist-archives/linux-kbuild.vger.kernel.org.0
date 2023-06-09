@@ -2,253 +2,132 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ADA48729F7D
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Jun 2023 18:00:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3593C72A43E
+	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Jun 2023 22:18:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240065AbjFIQAU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 9 Jun 2023 12:00:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51096 "EHLO
+        id S229692AbjFIUR7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 9 Jun 2023 16:17:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241486AbjFIQAQ (ORCPT
+        with ESMTP id S229541AbjFIUR7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 9 Jun 2023 12:00:16 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDCDE213C;
-        Fri,  9 Jun 2023 09:00:14 -0700 (PDT)
+        Fri, 9 Jun 2023 16:17:59 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ED4130D8;
+        Fri,  9 Jun 2023 13:17:58 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6417565983;
-        Fri,  9 Jun 2023 16:00:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C48A1C433D2;
-        Fri,  9 Jun 2023 16:00:13 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A43FE65BBC;
+        Fri,  9 Jun 2023 20:17:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DA29C433EF;
+        Fri,  9 Jun 2023 20:17:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686326413;
-        bh=ufWLuxradDqeh+nb+oWhUGNPyT4gY9LfBxEpIG/6q7I=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=WxLREPkI+MD3rNK4kzrcuQrMNKX44bUUVsThkroaAXthDt47qSH78p91AwJGloN6L
-         2Llgnxt0GEG+t4gRDZj3vLFZv0cPVEvBfkdkZv6+RfToDdRUYwkV1zF8jPbikL8wFz
-         LjbCo7Gn0GH1sO9wqLjDR0ke7oRXBb6gE5FFR7DN36vK1b5D572kNiwjrVCizGboVi
-         x0K7948fhhj4+kNdY2RFSWfNO1aS+X0n0JBJZCt6tsBlydw5trQeaIyncaWIKz/tFv
-         oAsMaqRMdQ9Ydq8pJlcVn9RoQS41gjXguvFTBVAwyOqeMIrn6ox99aw9KqGFuz0f15
-         hRw8TaJY1ABcA==
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-6b2a4655352so778920a34.3;
-        Fri, 09 Jun 2023 09:00:13 -0700 (PDT)
-X-Gm-Message-State: AC+VfDxBM499ZEYrV4RuCbzYYupr15gVD656rg7uMleyzFEOD1DSo1yE
-        8UVrq8eJW1S7SXyZx0aMMVvpJ6goC3daahSTKOI=
-X-Google-Smtp-Source: ACHHUZ6vFR7cEo58bSZWX/smGXr8E/b40Pt5HZuAt1V+prL9tCT60CkHQ2GpGpiMr4rIjGXRX6P8VzZL0tBrBLq8GZo=
-X-Received: by 2002:a05:6871:345:b0:192:7320:ce with SMTP id
- c5-20020a056871034500b00192732000cemr1512317oag.40.1686326412964; Fri, 09 Jun
- 2023 09:00:12 -0700 (PDT)
+        s=k20201202; t=1686341877;
+        bh=wj1b0dkXJQwh8KMgUAauXapvZkooYQVM2RHawbET22c=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Yx0U0eJO0CUaPux7M5d3t1fAX/XQAC6XJPEKv41+P1S5TuYz/eR7ndXpb/MA5RZQ+
+         dfsvWeEsSEskKTqT4ld9+HAOdG4ju7tNmcQ0efY+KW5YndCVI7T6hD8qi2pEmOD+QH
+         5a227Dm9DcH7zDPWw+Jy1XIq4PDChFe+n0k3ZM6ZwxNGyLchzfoXOhhU9M6zdbUEkc
+         mePEsy73rzGSYrdibBmerLvba9AvRmvTkUcEZ6KlHo+t0O7KtlIbSVkLfL0/V4jbxE
+         Vdg3Fg1BNVnrWvclOTfKrB7YI4GMALh6o7bOYuOtv90f1rw2JT8w8dRrh3LJWXO34c
+         8E+fmtTSLan7Q==
+Date:   Fri, 9 Jun 2023 13:17:54 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Hamza Mahfooz <hamza.mahfooz@amd.com>
+Cc:     amd-gfx@lists.freedesktop.org,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Hawking Zhang <Hawking.Zhang@amd.com>, Le Ma <le.ma@amd.com>,
+        Tao Zhou <tao.zhou1@amd.com>,
+        YiPeng Chai <YiPeng.Chai@amd.com>,
+        James Zhu <James.Zhu@amd.com>,
+        Xiaojian Du <Xiaojian.Du@amd.com>,
+        Lijo Lazar <lijo.lazar@amd.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH] drm/amd/amdgpu: enable W=1 for amdgpu
+Message-ID: <20230609201754.GA3961359@dev-arch.thelio-3990X>
+References: <20230609164207.430377-1-hamza.mahfooz@amd.com>
 MIME-Version: 1.0
-References: <CAK7LNATrFbr7kT9HEFgYO6ZstaSx1FB+Q4SQrAX+D8VwG5K0dQ@mail.gmail.com>
- <ZF3mJlMuH2HbNxWp@rli9-mobl> <7403dd164cff7d9217999cddb66135db47564c4b.camel@intel.com>
-In-Reply-To: <7403dd164cff7d9217999cddb66135db47564c4b.camel@intel.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 10 Jun 2023 00:59:36 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT5+NkRa6LyXmFR=Dibfn4G98oBv4MAeQ6m=kP8vcTCeg@mail.gmail.com>
-Message-ID: <CAK7LNAT5+NkRa6LyXmFR=Dibfn4G98oBv4MAeQ6m=kP8vcTCeg@mail.gmail.com>
-Subject: Re: [RFC] [kbuild test robot] random-order parallel building
-To:     "Liu, Yujie" <yujie.liu@intel.com>
-Cc:     "Li, Philip" <philip.li@intel.com>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        lkp <lkp@intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230609164207.430377-1-hamza.mahfooz@amd.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jun 9, 2023 at 5:41=E2=80=AFPM Liu, Yujie <yujie.liu@intel.com> wro=
-te:
->
-> Hi Masahiro,
->
-> On Fri, 2023-05-12 at 15:09 +0800, Philip Li wrote:
-> > On Fri, May 12, 2023 at 12:25:13PM +0900, Masahiro Yamada wrote:
-> > > Hello, maintainers of the kbuild test robot.
-> > >
-> > > I have a proposal for the 0day tests.
-> >
-> > Thanks a lot for the proposal for the shuffle make, we will do some
-> > investigation to try this random order parallel build. The gnu make
-> > we currently use is 4.3, we will try the 4.4 to see any problem.
-> >
-> > For the timeline, we may provide update later this month.
->
-> We've upgraded to make v4.4.1 in kernel test robot and enabled random-
-> order parallel compiling in our randconfig build tests. The shuffle
-> seed is generated by hashing the randconfig, so it changes overtime and
-> can cover various random orders. We are still doing some internal
-> testing and will put it online once everything is done.
->
-> > >
-> > >
-> > > GNU Make traditionally processes the dependency from left to right.
-> > >
-> > > For example, if you have dependency like this:
-> > >
-> > >      all: foo bar baz
-> > >
-> > > GNU Make builds foo, bar, baz, in this order.
-> > >
-> > >
-> > > Some projects that are not capable of parallel builds
-> > > rely on that behavior implicitly.
-> > >
-> > > Kbuild, however, is intended to work well in parallel.
-> > > (As the maintainer, I really care about it.)
-> > >
-> > >
-> > > From time to time, people add "just worked for me" code,
-> > > but apparently that lacks proper dependency.
-> > > Sometimes it requires an expensive CPU to reproduce
-> > > parallel build issues.
-> > >
-> > >
-> > > For example, see this report,
-> > >   https://lkml.org/lkml/2016/11/30/587
-> > >
-> > > The report says 'make -j112' reproduces the broken parallel build.
-> > > Most people do not have such a build machine that comes with 112
-> > > cores.
-> > > It is difficult to reproduce it (or even notice it).
-> > >
-> > > (Some time later, it was root-caused by 07a422bb213a)
->
-> Thanks a lot for sharing this case. We tried to reproduce it, but looks
-> it dates back to v4.9-rc7 and throws some other errors when compiling
-> in our kbuild env, so we are not able to reproduce it yet. Not sure if
-> it is related with toolchain/compiler version or the kernel config.
->
-> This case mentioned that 'make -j112' can reproduce the breakage. We
-> assume this is under traditional serial order build. Does it imply that
-> it is likely to take much less parallel jobs to reproduce the breakage
-> when shuffle is set, say 'make --shuffle=3DSEED -j32', so developers are
-> able to reproduce it on an ordinary CPU with less cores?
++ Masahiro and linux-kbuild
 
+On Fri, Jun 09, 2023 at 12:42:06PM -0400, Hamza Mahfooz wrote:
+> We have a clean build with W=1 as of
+> commit 12a15dd589ac ("drm/amd/display/amdgpu_dm/amdgpu_dm_helpers: Move
+> SYNAPTICS_DEVICE_ID into CONFIG_DRM_AMD_DC_DCN ifdef"). So, let's enable
+> these checks unconditionally for the entire module to catch these errors
+> during development.
+> 
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
 
-I think --shuffle will help a build machine with fewer cores
-catch issues, but it is not a full randomization.
+I think this is fine, especially since it will help catch issues in
+amdgpu quickly and hopefully encourage developers to fix their problems
+before they make it to a tree with wider impact lika -next.
 
-In my understanding, --shuffle still traverses depth-first.
+However, this is now the third place that W=1 has been effectively
+enabled (i915 and btrfs are the other two I know of) and it would be
+nice if this was a little more unified, especially since it is not
+uncommon for the warnings under W=1 to shift around and keeping them
+unified will make maintainence over the longer term a little easier. I
+am not sure if this has been brought up in the past and I don't want to
+hold up this change but I suspect this sentiment of wanting to enable
+W=1 on a per-subsystem basis is going to continue to grow.
 
+Regardless, for clang 11.1.0 to 16.0.5, I see no warnings when building
+drivers/gpu/drm/amd/amdgpu/ with Arch Linux's configuration or
+allmodconfig.
 
-Consider this example.
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Tested-by: Nathan Chancellor <nathan@kernel.org>
 
-
-all: foo bar
-
-foo: foo-sub
-
-bar: bar-sub
-
-
-Only either [1] or [2] happens.
-
-[1] foo-sub -> foo -> bar-sub -> bar -> all
-[2] bar-sub -> bar -> foo-sub -> foo -> all
-
-
-
-foo-sub -> bar-sub -> bar -> foo -> all
-
-is a possible order, but --shuffle never schedules like that.
-
-
-
-
-
-
-> Not sure if there are other known cases of parallel build breakage
-> (especially in recent kernels). If any, it would be very kind if you
-> could also share them. We can first try reproducing them in the bot to
-> confirm our test flow works well.
-
-I do not remember any other real breakage.
-
->
-> Another question is about bisection. Say the bot catches a breakage on
-> commit1 which root-caused to a previous commit2. If we keep the options
-> "--shuffle=3D<seed> -j<jobs>" consistent during the whole process of
-> bisection, will the breakage 100% show up on all the commits between
-> commit2 and commit1, or it is kind of possible to reproduce the
-> breakage, but not 100% reproducible on every commit during bisection?
-
-
-I am not sure, but I _guess_ git-bisect may not point to commit 2
-if there is a Makefile change in between.
-
-
-
-commit2 (root cause)
- -> commitA (add Makefile change)
-   -> commit1 (0 day bot noticed an issue here)
-
-
-Even if the same --shuffle=3DSEED is given, the issue may not be
-reproducible on commit2..commitA if commitA changes a Makefile.
-
-
-Thanks for considering this.
-
-
-
-
-> Thanks a lot for this parallel building proposal, and we will keep
-> updating the status.
->
-> --
-> Best Regards,
-> Yujie Liu
->
-> > >
-> > >
-> > > GNU Make 4.4 got this option.
-> > >
-> > >   --shuffle[=3D{SEED|random|reverse|none}]
-> > >        Perform shuffle of prerequisites and goals.
-> > >
-> > >
-> > >
-> > > 'make --shuffle=3Dreverse' will build in reverse order.
-> > > In the example above, baz, bar, foo.
-> > >
-> > > 'make --shuffle' will randomize the build order.
-> > >
-> > >
-> > > If there exists a missing dependency among foo, bar, baz,
-> > > it will fail to build.
-> > >
-> > >
-> > >
-> > > We already perform the randconfig daily basis.
-> > > So, random-order parallel building is a similar idea.
-> > >
-> > > Perhaps, it makes sense to add the "--shuffle=3DSEED" option
-> > > but it requires GNU Make 4.4.  (or GNU Make 4.4.1)
-> > > Is this too new?
-> >
-> > Our production environment is 4.3 right now. It will take extra
-> > time for us to upgrade the environment but it's doable for us.
-> >
-> > >
-> > >
-> > >
-> > > --
-> > > Best Regards
-> > > Masahiro Yamada
-> >
->
-
-
---=20
-Best Regards
-Masahiro Yamada
+> ---
+>  drivers/gpu/drm/amd/amdgpu/Makefile | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/Makefile b/drivers/gpu/drm/amd/amdgpu/Makefile
+> index 86b833085f19..8d16f280b695 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/Makefile
+> +++ b/drivers/gpu/drm/amd/amdgpu/Makefile
+> @@ -40,7 +40,18 @@ ccflags-y := -I$(FULL_AMD_PATH)/include/asic_reg \
+>  	-I$(FULL_AMD_PATH)/amdkfd
+>  
+>  subdir-ccflags-y := -Wextra
+> -subdir-ccflags-y += $(call cc-option, -Wunused-but-set-variable)
+> +subdir-ccflags-y += -Wunused
+> +subdir-ccflags-y += -Wmissing-prototypes
+> +subdir-ccflags-y += -Wmissing-declarations
+> +subdir-ccflags-y += -Wmissing-include-dirs
+> +subdir-ccflags-y += -Wold-style-definition
+> +subdir-ccflags-y += -Wmissing-format-attribute
+> +# Need this to avoid recursive variable evaluation issues
+> +cond-flags := $(call cc-option, -Wunused-but-set-variable) \
+> +	$(call cc-option, -Wunused-const-variable) \
+> +	$(call cc-option, -Wstringop-truncation) \
+> +	$(call cc-option, -Wpacked-not-aligned)
+> +subdir-ccflags-y += $(cond-flags)
+>  subdir-ccflags-y += -Wno-unused-parameter
+>  subdir-ccflags-y += -Wno-type-limits
+>  subdir-ccflags-y += -Wno-sign-compare
+> -- 
+> 2.40.1
+> 
