@@ -2,96 +2,118 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA78672A6D6
-	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Jun 2023 01:45:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0239572A704
+	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Jun 2023 02:28:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233088AbjFIXpi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 9 Jun 2023 19:45:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39098 "EHLO
+        id S232349AbjFJA2R (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 9 Jun 2023 20:28:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231618AbjFIXp2 (ORCPT
+        with ESMTP id S232076AbjFJA2Q (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 9 Jun 2023 19:45:28 -0400
-X-Greylist: delayed 496 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 09 Jun 2023 16:45:19 PDT
-Received: from out-7.mta1.migadu.com (out-7.mta1.migadu.com [95.215.58.7])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B744135B0
-        for <linux-kbuild@vger.kernel.org>; Fri,  9 Jun 2023 16:45:19 -0700 (PDT)
-Date:   Fri, 9 Jun 2023 19:36:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1686353819;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=bzaU8vcxYu0k4jCP90Cpt22w+lR/7oe8G7S9ZtZnmEs=;
-        b=eyrZX5BE7XaXqboYgTM8hU6mJDX3j6zFSBotzYwj7f6ZIUtAQVeVIkJ2ld7GFPLZx2hhwa
-        xBxf/2x5vaVzg6V0p2BVn/Fqd8MhU28EN86bikv2CJwOMrlFDLllxUheDhmA3HKXwyxrDn
-        8WBNuZGy1feedpOegSJa5jw2X/beq30=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Kent Overstreet <kent.overstreet@linux.dev>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Fri, 9 Jun 2023 20:28:16 -0400
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B59EF3A81;
+        Fri,  9 Jun 2023 17:28:15 -0700 (PDT)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailout.west.internal (Postfix) with ESMTP id 5EA8D320098A;
+        Fri,  9 Jun 2023 20:28:12 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Fri, 09 Jun 2023 20:28:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        joshtriplett.org; h=cc:content-type:content-type:date:date:from
+        :from:in-reply-to:message-id:mime-version:reply-to:sender
+        :subject:subject:to:to; s=fm3; t=1686356891; x=1686443291; bh=Mm
+        xYjjMkckIeR2YerMD4Iu5F7+IlL0Yr7ofr4yjvAcg=; b=lokKzEX7D56w8/Dpbe
+        I7aJaADgN3uDvIqcEMC0j6ZOfWdY2sXGvnk4SY6/o4D/Apn2kbYwMyNmhJaOnL4f
+        WhJEbc/C2OiNJ2vCIpB7rrFfPVONA3QkNVEraFtkZIgZXW3tcrMz0TWI1yhtVZ8t
+        V1hVUJXHNs1CJGu+KI1TRVTCxXQYMQlQE39zE30+vfYHATjwimuomfnbYxltUPgg
+        uZ/u5FX5nw95+kIJ2lqXRxIdWYktkcaoU/sPTfRMCWJw9hLENBM0hwArtzmQ00jR
+        igdF2cBAwlgthNb2CCdqmYRdmBhSctD/cChy77PN7HFFLDHmqbi9mfTV2fTpGRFA
+        SL2Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:message-id
+        :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+        1686356891; x=1686443291; bh=MmxYjjMkckIeR2YerMD4Iu5F7+IlL0Yr7of
+        r4yjvAcg=; b=L+z2PXoALAnUzFAatwQyd8AOEyG6BTxEkRsH/1aSEM3ixT9mGYs
+        8inBfwMPkCKM0+v0RCdgKJbJpJh+EjMlp9K3bon2EItpvFXtSkE8p8VSCKl8va8b
+        jmfZbk73bbZfrQk/FQVpkQE6wt8hWyO5OeqN/Gb9D1MteNV1kxk57n4v2J/WWgRC
+        +IMQTFwmqKApeGAIP3FN1NTpXCF/6KJ9CxgesEfxMJw8ZUIAtnm9qyuo/h1uYCau
+        9we5yqOIIuF7VySyPnb5XuY0DXe3Q27SDePJxiixfZVP9OH6BAELoNRAInQPZ3s+
+        AjVzXfj+P4BGwH6nZ8LCscpsx7a5BK28H6A==
+X-ME-Sender: <xms:m8ODZMzpl3Pj6x2DjzKDXN-IxjAhCWVXMMXhd1z9FaBR2aUtBa9h7g>
+    <xme:m8ODZATwwWuarKe8Nt6GqcuP2ATF7OdYwbdmKEQIs3zOgoT06l8lCOvlAtB4jEGES
+    Sb9L11QrUJIHSMZyJc>
+X-ME-Received: <xmr:m8ODZOUhR9K9UUvTH5588xA4tdq0gA2u0zDtW9pJeCI4d2lfCvrdAdV7OA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgedtledgfeegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfggtggusehttdertddttddvnecuhfhrohhmpeflohhshhcuvfhr
+    ihhplhgvthhtuceojhhoshhhsehjohhshhhtrhhiphhlvghtthdrohhrgheqnecuggftrf
+    grthhtvghrnhepleelgeegtdejjeefuedvudefgefgkedtfeekheevueevvddvhfegfffg
+    vdfgffeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epjhhoshhhsehjohhshhhtrhhiphhlvghtthdrohhrgh
+X-ME-Proxy: <xmx:m8ODZKiYvIrF0iobGY7goVzeU2cIK9geLYL7afLqSOoer7i2UmvxyQ>
+    <xmx:m8ODZOCzlyqu6ZOQeEZBc1cU-6Vs6WeM7QcTnqFoeg13dr1_Jl6G_g>
+    <xmx:m8ODZLJymQFH6J3WqjHiGiM2ykwxnXgUbXKC0SdSCi8SiaSCOhI6gg>
+    <xmx:m8ODZB_8QWV8g3JTboAfgGlq3uxuXrMeO4twQxn0vTu2uLOuZ1Fewg>
+Feedback-ID: i83e94755:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 9 Jun 2023 20:28:10 -0400 (EDT)
+Date:   Fri, 9 Jun 2023 17:28:09 -0700
+From:   Josh Triplett <josh@joshtriplett.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
-        linux-kbuild@vger.kernel.org,
-        Peter Oberparleiter <oberpar@linux.ibm.com>
-Subject: Re: Specifying CFLAGS for a directory on the command line
-Message-ID: <ZIO3leNyqOeJw6u3@moria.home.lan>
-References: <ZIOmUkXlegycIExQ@moria.home.lan>
- <CAKwvOdneu4Fzy+x1KTd_ugLzt4iyUpE+fGXwXeNCWW12Jtj1GA@mail.gmail.com>
- <CAKwvOdnuPYKahsgAA=n6MD+byxujaEW82FEUWd2Ay4Tx9VAiDw@mail.gmail.com>
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: deb-pkg: Include modules.builtin* even if non-modular
+Message-ID: <36a4014c73a52af27d930d3ca31d362b60f4461c.1686356364.git.josh@joshtriplett.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKwvOdnuPYKahsgAA=n6MD+byxujaEW82FEUWd2Ay4Tx9VAiDw@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Adding Peter to the cc, because I just realized gcov has a maintainer :)
+Even for a non-modular kernel, the kernel builds modules.builtin and
+modules.builtin.modinfo, with information about the built-in modules.
+Tools such as initramfs-tools need these files to build a working
+initramfs on some systems, such as those requiring firmware.
 
-On Fri, Jun 09, 2023 at 04:12:56PM -0700, Nick Desaulniers wrote:
-> On Fri, Jun 9, 2023 at 4:11 PM Nick Desaulniers <ndesaulniers@google.com> wrote:
-> >
-> > On Fri, Jun 9, 2023 at 3:23 PM Kent Overstreet
-> > <kent.overstreet@linux.dev> wrote:
-> > >
-> > > Hello kbuild maintainers & list,
-> > >
-> > > Years ago I used to be able to specify additional CFLAGS for a specific
-> >
-> > Probably cause it's KCFLAGS ;)
-> >
-> > I used this yesterday, it works.
-> >
-> > > subdirectory on the command line, which I used for enabling gcov
-> 
-> Ah, for a specific subdir? No I've not seen that, at least from the
-> command line.  Such flags can be specified via Makefile
-> `subdir-ccflags-y`.
+Install modules.builtin and modules.builtin.modinfo into the linux-image
+package even for a non-modular kernel.
 
-Sorry, not CFLAGS, I misread my old code - it's just a make variable.
+Signed-off-by: Josh Triplett <josh@joshtriplett.org>
+---
+ scripts/package/builddeb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-From Documentation/dev-tools/gcov.rst, you enable gcov on a specific
-subdirectory by editing that directory's makefile, and adding
+diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+index 252faaa5561c..91261529f2c7 100755
+--- a/scripts/package/builddeb
++++ b/scripts/package/builddeb
+@@ -70,6 +70,12 @@ install_linux_image () {
+ 			mkdir -p "${pdir}/usr/lib/uml/modules"
+ 			mv "${pdir}/lib/modules/${KERNELRELEASE}" "${pdir}/usr/lib/uml/modules/${KERNELRELEASE}"
+ 		fi
++	elif [ -f modules.builtin ]; then
++		mkdir -p "${pdir}/lib/modules/${KERNELRELEASE}"
++		cp modules.builtin "${pdir}/lib/modules/${KERNELRELEASE}/modules.builtin"
++		if [ -f modules.builtin.modinfo ]; then
++			cp modules.builtin.modinfo "${pdir}/lib/modules/${KERNELRELEASE}/modules.builtin.modinfo"
++		fi
+ 	fi
+ 
+ 	# Install the kernel
+-- 
+2.40.1
 
-GCOV_PROFILE := y
-
-or, for a specific file within that directory,
-
-GCOV_PROFILE_main.o := y
-
-So, if appending a file to GCOV_PROFILE works, why not a path?
-
-This used to work - my old code would pass GCOV_PROFILE_fs_bcachefs=y on
-the make command line, but doesn't anymore.
-
-Alas I have nowhere near the make-fu to debug this, and I believe I
-tried to bisect this back in the day but got nowhere... :)
