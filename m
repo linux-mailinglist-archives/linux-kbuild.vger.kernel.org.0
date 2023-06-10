@@ -2,81 +2,73 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0239572A704
-	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Jun 2023 02:28:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94F7072A766
+	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Jun 2023 03:21:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232349AbjFJA2R (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 9 Jun 2023 20:28:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48970 "EHLO
+        id S229821AbjFJBVJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 9 Jun 2023 21:21:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232076AbjFJA2Q (ORCPT
+        with ESMTP id S232735AbjFJBVI (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 9 Jun 2023 20:28:16 -0400
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B59EF3A81;
-        Fri,  9 Jun 2023 17:28:15 -0700 (PDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailout.west.internal (Postfix) with ESMTP id 5EA8D320098A;
-        Fri,  9 Jun 2023 20:28:12 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Fri, 09 Jun 2023 20:28:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        joshtriplett.org; h=cc:content-type:content-type:date:date:from
-        :from:in-reply-to:message-id:mime-version:reply-to:sender
-        :subject:subject:to:to; s=fm3; t=1686356891; x=1686443291; bh=Mm
-        xYjjMkckIeR2YerMD4Iu5F7+IlL0Yr7ofr4yjvAcg=; b=lokKzEX7D56w8/Dpbe
-        I7aJaADgN3uDvIqcEMC0j6ZOfWdY2sXGvnk4SY6/o4D/Apn2kbYwMyNmhJaOnL4f
-        WhJEbc/C2OiNJ2vCIpB7rrFfPVONA3QkNVEraFtkZIgZXW3tcrMz0TWI1yhtVZ8t
-        V1hVUJXHNs1CJGu+KI1TRVTCxXQYMQlQE39zE30+vfYHATjwimuomfnbYxltUPgg
-        uZ/u5FX5nw95+kIJ2lqXRxIdWYktkcaoU/sPTfRMCWJw9hLENBM0hwArtzmQ00jR
-        igdF2cBAwlgthNb2CCdqmYRdmBhSctD/cChy77PN7HFFLDHmqbi9mfTV2fTpGRFA
-        SL2Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:message-id
-        :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-        1686356891; x=1686443291; bh=MmxYjjMkckIeR2YerMD4Iu5F7+IlL0Yr7of
-        r4yjvAcg=; b=L+z2PXoALAnUzFAatwQyd8AOEyG6BTxEkRsH/1aSEM3ixT9mGYs
-        8inBfwMPkCKM0+v0RCdgKJbJpJh+EjMlp9K3bon2EItpvFXtSkE8p8VSCKl8va8b
-        jmfZbk73bbZfrQk/FQVpkQE6wt8hWyO5OeqN/Gb9D1MteNV1kxk57n4v2J/WWgRC
-        +IMQTFwmqKApeGAIP3FN1NTpXCF/6KJ9CxgesEfxMJw8ZUIAtnm9qyuo/h1uYCau
-        9we5yqOIIuF7VySyPnb5XuY0DXe3Q27SDePJxiixfZVP9OH6BAELoNRAInQPZ3s+
-        AjVzXfj+P4BGwH6nZ8LCscpsx7a5BK28H6A==
-X-ME-Sender: <xms:m8ODZMzpl3Pj6x2DjzKDXN-IxjAhCWVXMMXhd1z9FaBR2aUtBa9h7g>
-    <xme:m8ODZATwwWuarKe8Nt6GqcuP2ATF7OdYwbdmKEQIs3zOgoT06l8lCOvlAtB4jEGES
-    Sb9L11QrUJIHSMZyJc>
-X-ME-Received: <xmr:m8ODZOUhR9K9UUvTH5588xA4tdq0gA2u0zDtW9pJeCI4d2lfCvrdAdV7OA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgedtledgfeegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfggtggusehttdertddttddvnecuhfhrohhmpeflohhshhcuvfhr
-    ihhplhgvthhtuceojhhoshhhsehjohhshhhtrhhiphhlvghtthdrohhrgheqnecuggftrf
-    grthhtvghrnhepleelgeegtdejjeefuedvudefgefgkedtfeekheevueevvddvhfegfffg
-    vdfgffeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epjhhoshhhsehjohhshhhtrhhiphhlvghtthdrohhrgh
-X-ME-Proxy: <xmx:m8ODZKiYvIrF0iobGY7goVzeU2cIK9geLYL7afLqSOoer7i2UmvxyQ>
-    <xmx:m8ODZOCzlyqu6ZOQeEZBc1cU-6Vs6WeM7QcTnqFoeg13dr1_Jl6G_g>
-    <xmx:m8ODZLJymQFH6J3WqjHiGiM2ykwxnXgUbXKC0SdSCi8SiaSCOhI6gg>
-    <xmx:m8ODZB_8QWV8g3JTboAfgGlq3uxuXrMeO4twQxn0vTu2uLOuZ1Fewg>
-Feedback-ID: i83e94755:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 9 Jun 2023 20:28:10 -0400 (EDT)
-Date:   Fri, 9 Jun 2023 17:28:09 -0700
-From:   Josh Triplett <josh@joshtriplett.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: deb-pkg: Include modules.builtin* even if non-modular
-Message-ID: <36a4014c73a52af27d930d3ca31d362b60f4461c.1686356364.git.josh@joshtriplett.org>
+        Fri, 9 Jun 2023 21:21:08 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95C9435B0;
+        Fri,  9 Jun 2023 18:21:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2565865649;
+        Sat, 10 Jun 2023 01:21:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8664AC433EF;
+        Sat, 10 Jun 2023 01:21:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686360064;
+        bh=4EzQQBfR3Y6IMMwcv3Ml6mE37bE59PBewIq+eKeDgdw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=SVCbP7shTsCtyucgEUhJnBhSnUxvBOjDELgNu69+AsuWIZ3gpRvWR7D7QCyYRY02B
+         ceeaBjl2Nog+iYzFvfFd7fpI3hZW23YsU00wLf1hFtNpcqXhpZ78mQEm4mNqHeBQTk
+         XYoGUsL+R/E96G+DRJ/xKx04jPEcQxjNAxOZ5zC/0Gv4ZMMHdoXV6iWetZv7MEIOEI
+         kpKbdcT+v7CbBqaJW4tm+v4aeUPtj0C0jy+jiOMAaJOxhnQK3fbLyg711CLsne9yiw
+         MFKSSLlLM5GLkkTEIgHPbVUXIva8iMpbuWeoTpMX7RO2oaw8WH9/WG9LYAkIYUXk+v
+         FO0Bbdi/roSUQ==
+Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-55ab0f7778cso1597751eaf.1;
+        Fri, 09 Jun 2023 18:21:04 -0700 (PDT)
+X-Gm-Message-State: AC+VfDxMkhOSZHeLxn4JJ7a5en4p/PxOwV70iEE8S1oUS/XKVFowoNuW
+        qAtkO+Dt1btCyvfXprxzTwdh/ynC56GQqwvuR00=
+X-Google-Smtp-Source: ACHHUZ6P8QQ65VhsV/Qfo9dv4MOBcLQ5tp1vntMJnnm4lvvGL2lDtm3He7qaum/8UKsyci+znd6MrY++SYH1GIDnYFM=
+X-Received: by 2002:a4a:a746:0:b0:55a:f44b:43cd with SMTP id
+ h6-20020a4aa746000000b0055af44b43cdmr1980800oom.7.1686360063739; Fri, 09 Jun
+ 2023 18:21:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+References: <20230609164207.430377-1-hamza.mahfooz@amd.com> <20230609201754.GA3961359@dev-arch.thelio-3990X>
+In-Reply-To: <20230609201754.GA3961359@dev-arch.thelio-3990X>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 10 Jun 2023 10:20:27 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQArK=+Qy+yQU2qB-0pCKyWugsQ=VGXUzLUf+tPow5M_w@mail.gmail.com>
+Message-ID: <CAK7LNAQArK=+Qy+yQU2qB-0pCKyWugsQ=VGXUzLUf+tPow5M_w@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/amdgpu: enable W=1 for amdgpu
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Hamza Mahfooz <hamza.mahfooz@amd.com>,
+        amd-gfx@lists.freedesktop.org,
+        Alex Deucher <alexander.deucher@amd.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Hawking Zhang <Hawking.Zhang@amd.com>, Le Ma <le.ma@amd.com>,
+        Tao Zhou <tao.zhou1@amd.com>,
+        YiPeng Chai <YiPeng.Chai@amd.com>,
+        James Zhu <James.Zhu@amd.com>,
+        Xiaojian Du <Xiaojian.Du@amd.com>,
+        Lijo Lazar <lijo.lazar@amd.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -84,36 +76,115 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Even for a non-modular kernel, the kernel builds modules.builtin and
-modules.builtin.modinfo, with information about the built-in modules.
-Tools such as initramfs-tools need these files to build a working
-initramfs on some systems, such as those requiring firmware.
+On Sat, Jun 10, 2023 at 5:17=E2=80=AFAM Nathan Chancellor <nathan@kernel.or=
+g> wrote:
+>
+> + Masahiro and linux-kbuild
+>
+> On Fri, Jun 09, 2023 at 12:42:06PM -0400, Hamza Mahfooz wrote:
+> > We have a clean build with W=3D1 as of
+> > commit 12a15dd589ac ("drm/amd/display/amdgpu_dm/amdgpu_dm_helpers: Move
+> > SYNAPTICS_DEVICE_ID into CONFIG_DRM_AMD_DC_DCN ifdef"). So, let's enabl=
+e
+> > these checks unconditionally for the entire module to catch these error=
+s
+> > during development.
+> >
+> > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > Cc: Nathan Chancellor <nathan@kernel.org>
+> > Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+>
+> I think this is fine, especially since it will help catch issues in
+> amdgpu quickly and hopefully encourage developers to fix their problems
+> before they make it to a tree with wider impact lika -next.
+>
+> However, this is now the third place that W=3D1 has been effectively
+> enabled (i915 and btrfs are the other two I know of) and it would be
+> nice if this was a little more unified, especially since it is not
+> uncommon for the warnings under W=3D1 to shift around and keeping them
+> unified will make maintainence over the longer term a little easier. I
+> am not sure if this has been brought up in the past and I don't want to
+> hold up this change but I suspect this sentiment of wanting to enable
+> W=3D1 on a per-subsystem basis is going to continue to grow.
 
-Install modules.builtin and modules.builtin.modinfo into the linux-image
-package even for a non-modular kernel.
 
-Signed-off-by: Josh Triplett <josh@joshtriplett.org>
----
- scripts/package/builddeb | 6 ++++++
- 1 file changed, 6 insertions(+)
 
-diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-index 252faaa5561c..91261529f2c7 100755
---- a/scripts/package/builddeb
-+++ b/scripts/package/builddeb
-@@ -70,6 +70,12 @@ install_linux_image () {
- 			mkdir -p "${pdir}/usr/lib/uml/modules"
- 			mv "${pdir}/lib/modules/${KERNELRELEASE}" "${pdir}/usr/lib/uml/modules/${KERNELRELEASE}"
- 		fi
-+	elif [ -f modules.builtin ]; then
-+		mkdir -p "${pdir}/lib/modules/${KERNELRELEASE}"
-+		cp modules.builtin "${pdir}/lib/modules/${KERNELRELEASE}/modules.builtin"
-+		if [ -f modules.builtin.modinfo ]; then
-+			cp modules.builtin.modinfo "${pdir}/lib/modules/${KERNELRELEASE}/modules.builtin.modinfo"
-+		fi
- 	fi
- 
- 	# Install the kernel
--- 
-2.40.1
+I believe this patch is the right way because
+we will be able to add a new warning option to
+scripts/Makefile.extrawarn without fixing any code.
 
+I remember somebody argued that drivers should be
+able to do
+  subdir-ccflags-y +=3D $(W1_FLAGS)
+
+However, if a new flag, -Wfoo, emits warnings
+for drivers/gpu/drm/{i915,amd},
+you cannot add it to W=3D1 until fixing the code.
+
+If many drivers start to do likewise,
+W=3D1 warning will not be W=3D1 any more.
+
+
+
+Another good thing for hard-coding warning options
+is you can lift up a warning flag one by one.
+
+
+Let's say you fixed the entire DRM subsystem so
+it is -Wunused free now.
+
+Then, you can move -Wunused to drivers/gpu/drm/Makefile,
+while other warning options stay in drivers Makefiles.
+
+
+
+
+
+
+
+>
+> Regardless, for clang 11.1.0 to 16.0.5, I see no warnings when building
+> drivers/gpu/drm/amd/amdgpu/ with Arch Linux's configuration or
+> allmodconfig.
+>
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> Tested-by: Nathan Chancellor <nathan@kernel.org>
+>
+> > ---
+> >  drivers/gpu/drm/amd/amdgpu/Makefile | 13 ++++++++++++-
+> >  1 file changed, 12 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/Makefile b/drivers/gpu/drm/amd/=
+amdgpu/Makefile
+> > index 86b833085f19..8d16f280b695 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/Makefile
+> > +++ b/drivers/gpu/drm/amd/amdgpu/Makefile
+> > @@ -40,7 +40,18 @@ ccflags-y :=3D -I$(FULL_AMD_PATH)/include/asic_reg \
+> >       -I$(FULL_AMD_PATH)/amdkfd
+> >
+> >  subdir-ccflags-y :=3D -Wextra
+> > -subdir-ccflags-y +=3D $(call cc-option, -Wunused-but-set-variable)
+> > +subdir-ccflags-y +=3D -Wunused
+> > +subdir-ccflags-y +=3D -Wmissing-prototypes
+> > +subdir-ccflags-y +=3D -Wmissing-declarations
+> > +subdir-ccflags-y +=3D -Wmissing-include-dirs
+> > +subdir-ccflags-y +=3D -Wold-style-definition
+> > +subdir-ccflags-y +=3D -Wmissing-format-attribute
+> > +# Need this to avoid recursive variable evaluation issues
+> > +cond-flags :=3D $(call cc-option, -Wunused-but-set-variable) \
+> > +     $(call cc-option, -Wunused-const-variable) \
+> > +     $(call cc-option, -Wstringop-truncation) \
+> > +     $(call cc-option, -Wpacked-not-aligned)
+> > +subdir-ccflags-y +=3D $(cond-flags)
+> >  subdir-ccflags-y +=3D -Wno-unused-parameter
+> >  subdir-ccflags-y +=3D -Wno-type-limits
+> >  subdir-ccflags-y +=3D -Wno-sign-compare
+> > --
+> > 2.40.1
+> >
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
