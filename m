@@ -2,55 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E7EE972A9FB
-	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Jun 2023 09:43:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EDF372AA6E
+	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Jun 2023 10:57:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229526AbjFJHni (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 10 Jun 2023 03:43:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42102 "EHLO
+        id S234055AbjFJI5C (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 10 Jun 2023 04:57:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229470AbjFJHnh (ORCPT
+        with ESMTP id S229652AbjFJI5B (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 10 Jun 2023 03:43:37 -0400
+        Sat, 10 Jun 2023 04:57:01 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2173735B0
-        for <linux-kbuild@vger.kernel.org>; Sat, 10 Jun 2023 00:43:37 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59C2D30E3;
+        Sat, 10 Jun 2023 01:57:00 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A7D6660C48
-        for <linux-kbuild@vger.kernel.org>; Sat, 10 Jun 2023 07:43:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05048C433D2
-        for <linux-kbuild@vger.kernel.org>; Sat, 10 Jun 2023 07:43:36 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E00A361191;
+        Sat, 10 Jun 2023 08:56:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3981BC4339B;
+        Sat, 10 Jun 2023 08:56:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686383016;
-        bh=jRowYUxngOD3EZp8k3CU4Tp7JEssc8FM+K/rOCqPsuM=;
+        s=k20201202; t=1686387419;
+        bh=Iee+wypTexQUR8K2T7uMz0+4RhthbX1msBu1bBQDFD4=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=tFucJiHysaYciEnk5WP3hzmBFqCKbr/3k5uslbVxc+2rc2WmkR4CQVFyE5HOZp1hj
-         LAVi+8iuKHhYzmfPiLtMI4z7L3/UCAN9oBnUrkPzq+jyH+uacAcctnde755PeCFdcn
-         pwRLGwfUzGG+EQ/5cpFPe3tzt4R4Gqm33caRzkUbijzpfVDNOFfXEMTPch6UXLA7Ru
-         ISFBEgSjw9H5rVx8FMAxWTOBhNOxYvOLc4TES0u+Q/HS5s20CtTFrHbs3q+FgNrgAu
-         XkXaOT6E3v6Bh0Y7wbjyGcLrYWEDWqm0mbya4D+s3fmY6prxrHQ+Gah6mf9zCn3et3
-         v5mEq341zWYPA==
-Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-55afa2472d9so1679461eaf.0
-        for <linux-kbuild@vger.kernel.org>; Sat, 10 Jun 2023 00:43:35 -0700 (PDT)
-X-Gm-Message-State: AC+VfDx9+wF9Qvv3HF+hcDPOM0fMv+SmWyMI6AbvPzgpUrEthlEOY0CD
-        fzQm/5xN9AxzUi9WvDROKtfR19T/R6kcIMGRRGQ=
-X-Google-Smtp-Source: ACHHUZ79rTf9UXsrE4th6ZKLrgu50hmhwikmXx/fsjY7tO5lxzkWRh3hAFmwd4s0rHPeNtzXPI+lTCb9SYi8ULb2oR8=
-X-Received: by 2002:a4a:a3c6:0:b0:55b:b54:781c with SMTP id
- t6-20020a4aa3c6000000b0055b0b54781cmr2136520ool.1.1686383015313; Sat, 10 Jun
- 2023 00:43:35 -0700 (PDT)
+        b=tmI+uD684n12jhr1gJvdv1lzVx+1kzV9/wjIrBYQYAhNHNhnFSWhuStvVoqawNSE2
+         Pu7/jDE/P8YbbaUVHhESPG5uJvfDmAyCh+dmgL5LeuMjjistVEaDbJQWbXeNEafxbl
+         d4uDmqf9vM6QQeR1TirlavuXcbpV9fORi4PwFolfm1MWEYp8FR9ii3DP+WIsYeSJX9
+         5J7/NvKro6ada38cS3UbKICBkQuUmYWM7EYDOuz7p/Evp5+Abh01aqavNgPpNBze7N
+         FLSJk94PV2A4kezMAZwIqweP9+S3bYvue3rboJcMug6p3DkeQkSs/vJkS0d5vL+QDE
+         iDMqSDkIDY4Sg==
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-39a97058691so1173303b6e.2;
+        Sat, 10 Jun 2023 01:56:59 -0700 (PDT)
+X-Gm-Message-State: AC+VfDxxTyRvjI2M3BuzvbzuBa22xmPNia+BR77WvOpF45hjbWwPXRhY
+        eoL5pxQieBdlWv+jnQMP/yOlLhBn74pQAMOWKbk=
+X-Google-Smtp-Source: ACHHUZ45B9+vJu0Lfsj9S9kDUxsN76ThLC0nxg1vRtcpilnc8du/wMOz5B2KLxi2xKZM6nJKmyX/LNJ2HwyK2ORMZ9U=
+X-Received: by 2002:a05:6808:1b1f:b0:398:9fa:655e with SMTP id
+ bx31-20020a0568081b1f00b0039809fa655emr729889oib.31.1686387418474; Sat, 10
+ Jun 2023 01:56:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <1912422946.266461.1686045667325.ref@mail.yahoo.com>
- <1912422946.266461.1686045667325@mail.yahoo.com> <1289987364.1419400.1686304232810@mail.yahoo.com>
-In-Reply-To: <1289987364.1419400.1686304232810@mail.yahoo.com>
+References: <20230608142428.256985-1-masahiroy@kernel.org> <20230608142428.256985-4-masahiroy@kernel.org>
+In-Reply-To: <20230608142428.256985-4-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 10 Jun 2023 16:42:59 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQJh98XhY_hSaojM6mwF3Cvk9o+dLvd0FurYyNV=v2AsA@mail.gmail.com>
-Message-ID: <CAK7LNAQJh98XhY_hSaojM6mwF3Cvk9o+dLvd0FurYyNV=v2AsA@mail.gmail.com>
-Subject: Re: About Kconfig tree
-To:     P J P <pj.pandit@yahoo.co.in>
-Cc:     "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
+Date:   Sat, 10 Jun 2023 17:56:22 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQfqXU+MFucqsaQmKALgz1f909G0+6ycEUd6+kgeiv2ww@mail.gmail.com>
+Message-ID: <CAK7LNAQfqXU+MFucqsaQmKALgz1f909G0+6ycEUd6+kgeiv2ww@mail.gmail.com>
+Subject: Re: [PATCH v7 03/11] kbuild: generate KSYMTAB entries by modpost
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-um@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -63,39 +66,44 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jun 9, 2023 at 6:50=E2=80=AFPM P J P <pjp@fedoraproject.org> wrote:
+On Thu, Jun 8, 2023 at 11:24=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
 >
-> Hello Masahiro,
+> Commit 7b4537199a4a ("kbuild: link symbol CRCs at final link, removing
+> CONFIG_MODULE_REL_CRCS") made modpost output CRCs in the same way
+> whether the EXPORT_SYMBOL() is placed in *.c or *.S.
 >
+> For further cleanups, this commit applies a similar approach to the
+> entire data structure of EXPORT_SYMBOL().
 >
-> * I've been reading linux/scripts/kconfig sources and trying to understan=
-d how it works. I'm wondering if we can read Kconfig sources and build a tr=
-ee/graph structure in memory, which can then be traversed by a user.
+> The EXPORT_SYMBOL() compilation is split into two stages.
 >
+> When a source file is compiled, EXPORT_SYMBOL() is converted into a
+> dummy symbol in the .export_symbol section.
 >
-> * Is there any code/library under scripts/kconfig/ directory which create=
-s such tree/graph data-structure from kconfig source files? Which can be re=
-used? OR we'll have to write such a code from scratch?
+> For example,
 >
+>     EXPORT_SYMBOL(foo);
+>     EXPORT_SYMBOL_NS_GPL(bar, BAR_NAMESPACE);
 >
-> * I'd appreciate your inputs/comments to confirm the same? And any guidan=
-ce if we have to write code to create such data-structure.
-
-
-
-'common-objs' in scripts/kconfig/Makefile is the core code.
-
-It is not written in a separate library with user APIs.
-
-
-
-
-
-
+> will be encoded into the following assembly code:
 >
-> Thank you.
-> ---
->   -Prasad
+>     .section ".export_symbol","a"
+>     __export_symbol__foo:
+>             .asciz ""
+>             .balign 4
+>             .long foo - .
+
+
+I hope this will work for all arches, but
+unfortunately, the 0day bot reported breakages
+on xtensa.
+
+I will restore the code in v6.
+
+
+
+
 
 
 
