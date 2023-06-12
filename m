@@ -2,79 +2,75 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E55B72CBAB
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jun 2023 18:38:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C00D572CC1B
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jun 2023 19:11:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233565AbjFLQih (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 12 Jun 2023 12:38:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39652 "EHLO
+        id S236771AbjFLRL4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 12 Jun 2023 13:11:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbjFLQig (ORCPT
+        with ESMTP id S231273AbjFLRLz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 12 Jun 2023 12:38:36 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 598B9183
-        for <linux-kbuild@vger.kernel.org>; Mon, 12 Jun 2023 09:38:35 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-4f654d713c0so4946861e87.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 12 Jun 2023 09:38:35 -0700 (PDT)
+        Mon, 12 Jun 2023 13:11:55 -0400
+Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55576113
+        for <linux-kbuild@vger.kernel.org>; Mon, 12 Jun 2023 10:11:54 -0700 (PDT)
+Received: by mail-pl1-x64a.google.com with SMTP id d9443c01a7336-1b3b3c69969so18387565ad.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 12 Jun 2023 10:11:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1686587913; x=1689179913;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZkQkCR0zK+G1VvzG47ybOhl6nFuB5nGWY9v59LgjCEc=;
-        b=TFz7syu073g1TLL4KeZsNwWe7UtqoiPAh7S+IiXwa07W3+rqjKn/Enyh/XB3TkuP4S
-         TqB2x8FBNEMLQj1VpMYL5A0l0usDika4psdZfJU7OzYWtTARLtsTHtsmy1KIWkni4ZRV
-         AZVkJOdwOkptzTXP/yS253RHdR8qjkwoAwBik=
+        d=google.com; s=20221208; t=1686589914; x=1689181914;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w/I8oU5lBx7O0AVCpvbGtKKitom6tdJ7McWrPGypDC4=;
+        b=wVF0xEYGM/V+zCU80xvyq4qwV0yj1hOdLFRqOeBG6rNq1mZS9axHGYBLeBI0WMdRIv
+         hkzXG+DQqyxUG3ZNJwhk4nvHa7dTDdVmUbtUbv0KonjLnpMhwIR++Zn+JYGYF4qpACy0
+         TBguC9jF/7RXSTOZFdVTFwDFoUFeZKO/TxKQvxwyOSfFBR1hlTDCsLQF3gJGrQKh0dM1
+         dnbBs1N9sWbWV7gnyAH3EvCgPH/tTgIbVrgHLUeG6DI/qTktPkH3U4iZQSPo6hQIH+Hn
+         C7b43aUeXSO/Vmzkm31QiJeIjfT3Lil1qVykh5WcPDzbPCKU8j1R2gFpw17raF0Nay2u
+         ptyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686587913; x=1689179913;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZkQkCR0zK+G1VvzG47ybOhl6nFuB5nGWY9v59LgjCEc=;
-        b=PA8UT2gk9mLzS8mjmLg30GPKCZ1R6xQ9ymGVSK7b+sA2kuhmyT7aHTu5HBhWrsdZpS
-         UV+wLkDi+y9E/rBS1sKtAKTiKQSbOnP+06IH8LSy1J0860iCfVbMu3rAn3JiHGxyWDIr
-         6eAt4IJPfXc2ItoR7IaKkPh/N7hSpVmOnUqOwB/hk1qULxQQHBCjaaNh8L7Lx9fAGWHG
-         CMryxh3Yx9rDQsmD2C929NXjVjjokI67EdDB+wCJ0S3dDlbrMAm5amH1Xq6oMhRuDetW
-         TOSLYmZM+X6rV0oBFY+ugx7YJZkukkRpd85wErKlfq8oChly0Qg18DzOo14VkHNDBBmR
-         APAw==
-X-Gm-Message-State: AC+VfDxVJ0ipDo7zrUmxZjYTqi+UtnbW9inN/rcg6+TGrFtJwbE76WbC
-        rht0P+fGA3Je1/QEAfXneqUMmiDEPTi3bomMXDZOEkuS
-X-Google-Smtp-Source: ACHHUZ5W5wa0xy1ncskMTUIBxs2QEXqoT84vERcXZNytgog/C5q4+0Uzj9FGnBC4CU0oQqQdpdGD5Q==
-X-Received: by 2002:a19:2d01:0:b0:4ec:844e:7b85 with SMTP id k1-20020a192d01000000b004ec844e7b85mr4216471lfj.25.1686587913370;
-        Mon, 12 Jun 2023 09:38:33 -0700 (PDT)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
-        by smtp.gmail.com with ESMTPSA id y12-20020ac2446c000000b004f388c5f25dsm1469371lfl.257.2023.06.12.09.38.32
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Jun 2023 09:38:33 -0700 (PDT)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2b1a66e71f9so54275711fa.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 12 Jun 2023 09:38:32 -0700 (PDT)
-X-Received: by 2002:a19:e30c:0:b0:4f6:1779:b1c1 with SMTP id
- a12-20020a19e30c000000b004f61779b1c1mr5015246lfh.48.1686587892415; Mon, 12
- Jun 2023 09:38:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230612090713.652690195@infradead.org>
-In-Reply-To: <20230612090713.652690195@infradead.org>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Mon, 12 Jun 2023 09:37:55 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wj3jV+v63RA30eVpjHVyrGmmTF7d3ajdV=1wBU=5OHa=A@mail.gmail.com>
-Message-ID: <CAHk-=wj3jV+v63RA30eVpjHVyrGmmTF7d3ajdV=1wBU=5OHa=A@mail.gmail.com>
-Subject: Re: [PATCH v3 00/57] Scope-based Resource Management
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     keescook@chromium.org, gregkh@linuxfoundation.org,
-        pbonzini@redhat.com, masahiroy@kernel.org, nathan@kernel.org,
-        ndesaulniers@google.com, nicolas@fjasle.eu,
-        catalin.marinas@arm.com, will@kernel.org, vkoul@kernel.org,
-        trix@redhat.com, ojeda@kernel.org, mingo@redhat.com,
-        longman@redhat.com, boqun.feng@gmail.com, dennis@kernel.org,
-        tj@kernel.org, cl@linux.com, acme@kernel.org, mark.rutland@arm.com,
-        alexander.shishkin@linux.intel.com, jolsa@kernel.org,
-        namhyung@kernel.org, irogers@google.com, adrian.hunter@intel.com,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com,
-        paulmck@kernel.org, frederic@kernel.org, quic_neeraju@quicinc.com,
+        d=1e100.net; s=20221208; t=1686589914; x=1689181914;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=w/I8oU5lBx7O0AVCpvbGtKKitom6tdJ7McWrPGypDC4=;
+        b=fzcL4I/LkZUrCVs2ewoL/LfyyiCjy2jUHuvjFI9udwm0toTlEqbhE8F4n6u9TMz0Er
+         0Dp5Cft1ADEhUVQ49vj8ssbwRiCm694cnM2mt1Xl/lSXVNUyaen7F1ijaMu3SaVfZK/K
+         2FqonKNuBZOJBN7GZIQUfB5EkEw5ZZTC9sADmg6LNhoLJYgSsd78sMOtGoKU9j/ggq2e
+         FUPc3MPwYrWi9JEHmplkk4paYQ8VtBNKCfrS7w9m6vfVWUovN5Mn+rk0QL4vkAfCE4kR
+         mv2+XOe4mn5DgFi3RF2+Ty/MBMck+tUHxuphEnfhX5dw+pKmOQdyiN9QSS6/6ljE/cNt
+         OMCw==
+X-Gm-Message-State: AC+VfDxP5o9GoB6VuHHrDPRvWmq2OE8dCAciEcN+Sz8Z/AIAyS0w6bFt
+        P8xvkZQCQgJ1JXPMiq4pbhXMz5IhdYg=
+X-Google-Smtp-Source: ACHHUZ5v1c+CqyBwYivhK+DSqau5kQVmVjEZH0nAYmDaNR5inKzg30hD4xw/4ZnGEEzgZLpMXuBMN4uPSsY=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:902:8d81:b0:1b3:95a9:3fc3 with SMTP id
+ v1-20020a1709028d8100b001b395a93fc3mr1303122plo.10.1686589913639; Mon, 12 Jun
+ 2023 10:11:53 -0700 (PDT)
+Date:   Mon, 12 Jun 2023 10:11:51 -0700
+In-Reply-To: <CAHk-=wh6JEk7wYECcMdbXHf5ST8PAkOyUXhE8x2kqT6to+Gn9Q@mail.gmail.com>
+Mime-Version: 1.0
+References: <20230612090713.652690195@infradead.org> <20230612093541.598260416@infradead.org>
+ <CAHk-=wh6JEk7wYECcMdbXHf5ST8PAkOyUXhE8x2kqT6to+Gn9Q@mail.gmail.com>
+Message-ID: <ZIdR18xG1jy8WdEp@google.com>
+Subject: Re: [PATCH v3 56/57] perf: Simplify perf_pmu_output_stop()
+From:   Sean Christopherson <seanjc@google.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>, keescook@chromium.org,
+        gregkh@linuxfoundation.org, pbonzini@redhat.com,
+        masahiroy@kernel.org, nathan@kernel.org, ndesaulniers@google.com,
+        nicolas@fjasle.eu, catalin.marinas@arm.com, will@kernel.org,
+        vkoul@kernel.org, trix@redhat.com, ojeda@kernel.org,
+        mingo@redhat.com, longman@redhat.com, boqun.feng@gmail.com,
+        dennis@kernel.org, tj@kernel.org, cl@linux.com, acme@kernel.org,
+        mark.rutland@arm.com, alexander.shishkin@linux.intel.com,
+        jolsa@kernel.org, namhyung@kernel.org, irogers@google.com,
+        adrian.hunter@intel.com, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+        bristot@redhat.com, vschneid@redhat.com, paulmck@kernel.org,
+        frederic@kernel.org, quic_neeraju@quicinc.com,
         joel@joelfernandes.org, josh@joshtriplett.org,
         mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
         rientjes@google.com, vbabka@suse.cz, roman.gushchin@linux.dev,
@@ -87,42 +83,89 @@ Cc:     keescook@chromium.org, gregkh@linuxfoundation.org,
         rcu@vger.kernel.org, linux-security-module@vger.kernel.org,
         tglx@linutronix.de, ravi.bangoria@amd.com, error27@gmail.com,
         luc.vanoostenryck@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jun 12, 2023 at 2:39=E2=80=AFAM Peter Zijlstra <peterz@infradead.or=
-g> wrote:
->
-> These are by no means 'complete' convertions, I've mostly focussed on fun=
-ctions
-> that had 'goto' in them. Since that's a large part of why I started on al=
-l this.
+On Mon, Jun 12, 2023, Linus Torvalds wrote:
+> This patch looks completely broken to me.
+>=20
+> You now do
+>=20
+>                 if (err =3D=3D -EAGAIN)
+>                         goto restart;
+>=20
+> *within* the RCU-guarded section, and the "goto restart" will guard it ag=
+ain.
 
-So I found what looks like two patches being completely broken because
-the conversion was fundamentally misguided.
+What if we require that all guarded sections have explicit scoping?  E.g. d=
+rop
+the current version of guard() and rename scoped_guard() =3D> guard().  And=
+ then
+figure out macro magic to guard an entire function?  E.g. something like
 
-And honestly, by the end of walking through the patches I was just
-scanning so quickly that I might have missed some.
+  static void perf_pmu_output_stop(struct perf_event *event) fn_guard(rcu)
+  {
+	...
+  }
 
-Let's make the rule be that
+or just "guard(rcu)" if possible.  IIUC, function scopes like that will be =
+possible
+once -Wdeclaration-after-statement goes away.
 
- - max 10 patches in the series so that I think they were actually
-thought about, and people can actually review them
+Bugs aside, IMO guards that are buried in the middle of a function and impl=
+icitly
+scoped to the function are all too easy to overlook.  Requiring explicit sc=
+oping
+would make bugs like this easier to spot since the goto would jump out of s=
+cope
+(and I assume prematurely release the resource/lock?).  As a bonus, annotat=
+ing
+the function itself would also serve as documentation.
 
- - only clear "goto out of scope" conversions. When you see a
-"continue" or a "goto repeat", you TAKE A BIG STEP BACK.
+The only downside is that the code for function-scoped locks that are acqui=
+red
+partway through the function would be more verbose and/or cumbersome to wri=
+te,
+but that can be mitigated to some extent, e.g. by moving the locked portion=
+ to a
+separate helper.
 
-Because this is all clever, and I am now happy with the syntax, but I
-am *not* happy with that 60-patch monster series with what looks like
-horrible bugs.
-
-             Linus
+> On Mon, Jun 12, 2023 at 2:39=E2=80=AFAM Peter Zijlstra <peterz@infradead.=
+org> wrote:
+> >
+> > --- a/kernel/events/core.c
+> > +++ b/kernel/events/core.c
+> > @@ -7977,7 +7977,8 @@ static void perf_pmu_output_stop(struct
+> >         int err, cpu;
+> >
+> >  restart:
+> > -       rcu_read_lock();
+> > +       /* cannot have a label in front of a decl */;
+> > +       guard(rcu)();
+> >         list_for_each_entry_rcu(iter, &event->rb->event_list, rb_entry)=
+ {
+> >                 /*
+> >                  * For per-CPU events, we need to make sure that neithe=
+r they
+> > @@ -7993,12 +7994,9 @@ static void perf_pmu_output_stop(struct
+> >                         continue;
+> >
+> >                 err =3D cpu_function_call(cpu, __perf_pmu_output_stop, =
+event);
+> > -               if (err =3D=3D -EAGAIN) {
+> > -                       rcu_read_unlock();
+> > +               if (err =3D=3D -EAGAIN)
+> >                         goto restart;
+> > -               }
+> >         }
+> > -       rcu_read_unlock();
+> >  }
