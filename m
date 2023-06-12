@@ -2,172 +2,146 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EADC172CB5C
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jun 2023 18:20:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B74972CB73
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jun 2023 18:27:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235346AbjFLQUT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 12 Jun 2023 12:20:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57362 "EHLO
+        id S233283AbjFLQ07 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 12 Jun 2023 12:26:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236137AbjFLQTt (ORCPT
+        with ESMTP id S233277AbjFLQ06 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 12 Jun 2023 12:19:49 -0400
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73396173C
-        for <linux-kbuild@vger.kernel.org>; Mon, 12 Jun 2023 09:19:31 -0700 (PDT)
-Received: from pps.filterd (m0353724.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35CGFpwZ029811;
-        Mon, 12 Jun 2023 16:19:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=8xFmw/39N6IcNnrv8IU8IEPFi2wXMq7/ST7Nq1i97uU=;
- b=lcVjMpCTHFobWtBGSHVgI2Fd6e9HpFPwuOHM+1nAhPs72goGghGP0Dduz2YIDa4lcKyI
- nZbX4zXW/wh14AEb/qIR2KGwVnHZ1H8keBqpPzll5iQB/X9xMvp33cabVsPoY1E1KOdu
- rzHsPWQTZg8hqev+/kxE7BlJTr04McTj/ofHoCaTclE6huF0DW0ygiacIQ7qev8PQk7h
- E85sPI0FCEeoRA95wCv2eNrDP04IeogUUa/c2HsBo5X5R6iTVOUOVXzX09nW4JBoFCdv
- AqFdhl84Or8liZi0P9G1TKLzBRqeCIU50P8dKnAg0q91ZILu43+8eZ/ivDcVsifbFFSj ww== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3r65v91h6m-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 12 Jun 2023 16:19:24 +0000
-Received: from m0353724.ppops.net (m0353724.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 35CG7VUG002301;
-        Mon, 12 Jun 2023 16:19:24 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3r65v91h5t-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 12 Jun 2023 16:19:24 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
-        by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 35C4xjw7014687;
-        Mon, 12 Jun 2023 16:19:22 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-        by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3r4gt51kcj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 12 Jun 2023 16:19:22 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-        by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 35CGJK2957737576
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 12 Jun 2023 16:19:20 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 24C6B20049;
-        Mon, 12 Jun 2023 16:19:20 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0252A20040;
-        Mon, 12 Jun 2023 16:19:20 +0000 (GMT)
-Received: from [9.171.161.156] (unknown [9.171.161.156])
-        by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Mon, 12 Jun 2023 16:19:19 +0000 (GMT)
-Message-ID: <bddaf556-6417-ffaf-2301-9caf47089b21@linux.ibm.com>
-Date:   Mon, 12 Jun 2023 18:18:35 +0200
+        Mon, 12 Jun 2023 12:26:58 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B222698
+        for <linux-kbuild@vger.kernel.org>; Mon, 12 Jun 2023 09:26:57 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-977d6aa3758so828200266b.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 12 Jun 2023 09:26:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1686587216; x=1689179216;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=q/KCMaMkVpL2TvKmUhvddPCRbVA7+Ro9TFJ9/0bVSYQ=;
+        b=En1Z9aFdRK+DAiE9++5CHKMSpUeJtsSa53cKt5NfXBbX5KzcF35oSK4j89anRdipmA
+         tUbdtzQA5U32z6kRAvYbl8dswRDHDzqXkTMINRZpfkLhrn359zdez/CHBd/kHoHl9n0B
+         TCZLnJY1s+N+fZ3jutbmkOXEHaMXOGuLZFQPQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686587216; x=1689179216;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=q/KCMaMkVpL2TvKmUhvddPCRbVA7+Ro9TFJ9/0bVSYQ=;
+        b=e0cu+pkxy7UB2U1b2h+ybUTi6Tswr3iMxQtJPq1MCvOlnDGj5/DmJyHYHNHJUQKRXa
+         pS7rywKBIOTcKaBQdBEliVFC6npFiSibUfdRHRLOAfrWZLcytKUg5UzAtriPSTQ9NnFr
+         T1sWkF6K7lYoqHUJzcq22neDG415EzwienpGMotwsNl7zYTlh0SLPj/VDyhZ4f10t7jR
+         sTZqjTFbWa3s/m4ts9sefw0j1nUuZd2YRKffncajDhgRnEaJcNEGFW2eCKYjh27rAOkr
+         +1DaEpfsYekgb+l1UPT0OBFkTVqYPBwMY5LDoBANRn1vlwSCzsDrIa/QGMPKwPjoqWzY
+         lm0w==
+X-Gm-Message-State: AC+VfDxu9d+PY8i/6eZMMSrX24pGZkXGdOyNTvSuyDyb0LNbR/FcH5aW
+        g4Tia9xSXEUkGUfkJiXLcli5F73NYQK/96obwxDhE7c9
+X-Google-Smtp-Source: ACHHUZ7iHhSEAh+DYBsuXi6T9gz/IL83aM6ATCR+OtpJI1Ogf4RR1VSZzukx2O+O3Yyd1+I4OR5MbA==
+X-Received: by 2002:a17:906:fe4d:b0:974:1e0e:91ee with SMTP id wz13-20020a170906fe4d00b009741e0e91eemr11420096ejb.13.1686587216028;
+        Mon, 12 Jun 2023 09:26:56 -0700 (PDT)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com. [209.85.221.52])
+        by smtp.gmail.com with ESMTPSA id b7-20020a170906038700b009787b18c253sm5456448eja.181.2023.06.12.09.26.55
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Jun 2023 09:26:55 -0700 (PDT)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-30fa23e106bso2116213f8f.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 12 Jun 2023 09:26:55 -0700 (PDT)
+X-Received: by 2002:aa7:d14e:0:b0:50b:c3f0:fb9d with SMTP id
+ r14-20020aa7d14e000000b0050bc3f0fb9dmr5534541edo.41.1686586776585; Mon, 12
+ Jun 2023 09:19:36 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: Specifying CFLAGS for a directory on the command line
-To:     Kent Overstreet <kent.overstreet@linux.dev>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        linux-kbuild@vger.kernel.org
-References: <ZIOmUkXlegycIExQ@moria.home.lan>
- <CAKwvOdneu4Fzy+x1KTd_ugLzt4iyUpE+fGXwXeNCWW12Jtj1GA@mail.gmail.com>
- <CAKwvOdnuPYKahsgAA=n6MD+byxujaEW82FEUWd2Ay4Tx9VAiDw@mail.gmail.com>
- <ZIO3leNyqOeJw6u3@moria.home.lan>
-Content-Language: en-US
-From:   Peter Oberparleiter <oberpar@linux.ibm.com>
-In-Reply-To: <ZIO3leNyqOeJw6u3@moria.home.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: sKzQD_yXEufslw33tYOdkeCPmOeDgPjn
-X-Proofpoint-GUID: 25rPnYaAFb1VE1PKFdKRnI6p8Yg99HRo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-12_06,2023-06-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
- priorityscore=1501 suspectscore=0 clxscore=1011 lowpriorityscore=0
- adultscore=0 mlxscore=0 bulkscore=0 mlxlogscore=898 malwarescore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306120138
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230612090713.652690195@infradead.org> <20230612093541.598260416@infradead.org>
+In-Reply-To: <20230612093541.598260416@infradead.org>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Mon, 12 Jun 2023 09:19:19 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wh6JEk7wYECcMdbXHf5ST8PAkOyUXhE8x2kqT6to+Gn9Q@mail.gmail.com>
+Message-ID: <CAHk-=wh6JEk7wYECcMdbXHf5ST8PAkOyUXhE8x2kqT6to+Gn9Q@mail.gmail.com>
+Subject: Re: [PATCH v3 56/57] perf: Simplify perf_pmu_output_stop()
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     keescook@chromium.org, gregkh@linuxfoundation.org,
+        pbonzini@redhat.com, masahiroy@kernel.org, nathan@kernel.org,
+        ndesaulniers@google.com, nicolas@fjasle.eu,
+        catalin.marinas@arm.com, will@kernel.org, vkoul@kernel.org,
+        trix@redhat.com, ojeda@kernel.org, mingo@redhat.com,
+        longman@redhat.com, boqun.feng@gmail.com, dennis@kernel.org,
+        tj@kernel.org, cl@linux.com, acme@kernel.org, mark.rutland@arm.com,
+        alexander.shishkin@linux.intel.com, jolsa@kernel.org,
+        namhyung@kernel.org, irogers@google.com, adrian.hunter@intel.com,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com,
+        paulmck@kernel.org, frederic@kernel.org, quic_neeraju@quicinc.com,
+        joel@joelfernandes.org, josh@joshtriplett.org,
+        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+        rientjes@google.com, vbabka@suse.cz, roman.gushchin@linux.dev,
+        42.hyeyoo@gmail.com, apw@canonical.com, joe@perches.com,
+        dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com,
+        john.johansen@canonical.com, paul@paul-moore.com,
+        jmorris@namei.org, serge@hallyn.com, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
+        llvm@lists.linux.dev, linux-perf-users@vger.kernel.org,
+        rcu@vger.kernel.org, linux-security-module@vger.kernel.org,
+        tglx@linutronix.de, ravi.bangoria@amd.com, error27@gmail.com,
+        luc.vanoostenryck@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 10.06.2023 01:36, Kent Overstreet wrote:
-> Adding Peter to the cc, because I just realized gcov has a maintainer :)
-> 
-> On Fri, Jun 09, 2023 at 04:12:56PM -0700, Nick Desaulniers wrote:
->> On Fri, Jun 9, 2023 at 4:11 PM Nick Desaulniers <ndesaulniers@google.com> wrote:
->>>
->>> On Fri, Jun 9, 2023 at 3:23 PM Kent Overstreet
->>> <kent.overstreet@linux.dev> wrote:
->>>>
->>>> Hello kbuild maintainers & list,
->>>>
->>>> Years ago I used to be able to specify additional CFLAGS for a specific
->>>
->>> Probably cause it's KCFLAGS ;)
->>>
->>> I used this yesterday, it works.
->>>
->>>> subdirectory on the command line, which I used for enabling gcov
->>
->> Ah, for a specific subdir? No I've not seen that, at least from the
->> command line.  Such flags can be specified via Makefile
->> `subdir-ccflags-y`.
-> 
-> Sorry, not CFLAGS, I misread my old code - it's just a make variable.
-> 
-> From Documentation/dev-tools/gcov.rst, you enable gcov on a specific
-> subdirectory by editing that directory's makefile, and adding
-> 
-> GCOV_PROFILE := y
-> 
-> or, for a specific file within that directory,
-> 
-> GCOV_PROFILE_main.o := y
-> 
-> So, if appending a file to GCOV_PROFILE works, why not a path?
-> 
-> This used to work - my old code would pass GCOV_PROFILE_fs_bcachefs=y on
-> the make command line, but doesn't anymore.
+This patch looks completely broken to me.
 
-I'm unaware of any kbuild support for setting GCOV_PROFILE for a
-specific sub-directory from the command line, only from within the
-associated Makefile. I'm not sure how this could have worked in the past
-with the provide sample command line.
+You now do
 
-Here's how GCOV_PROFILE evaluation works (from scripts/Makefile.lib):
+                if (err =3D=3D -EAGAIN)
+                        goto restart;
 
-ifeq ($(CONFIG_GCOV_KERNEL),y)
-_c_flags += $(if $(patsubst n%,, \
-$(GCOV_PROFILE_$(basetarget).o)$(GCOV_PROFILE)$(CONFIG_GCOV_PROFILE_ALL)),\
-$(CFLAGS_GCOV))
-endif
+*within* the RCU-guarded section, and the "goto restart" will guard it agai=
+n.
 
-This bit of Makefile code determines whether to add the flags needed to
-enabled gcov profiling (CFLAGS_GCOV) to the compiler flags for the
-current compilation unit (_c_flags) by looking at the concatenation of
-the following variables:
+So no. Sending out a series of 57 patches that can have these kinds of
+bugs in it is not ok. By patch 56 (which just happened to come in
+fairly early for me), all sane peoples eyes have glazed over and they
+don't react to this kind of breakage any more.
 
-- GCOV_PROFILE_<target base name>.o
-- GCOV_PROFILE
-- CONFIG_GCOV_PROFILE_ALL
+                Linus
 
-gcov flags are only added if this concatenation does not start with an
-"n", and at least one of these variables is set to a non-empty value
-other than "n" ("y" typically). The "starts with" part is required to
-enable precedence for the more specific variable, e.g. an "n" in
-GCOV_PROFILE_filename.o overwrites a "y" in GCOV_PROFILE.
-
-As you can see, there is no reference to a GCOV_PROFILE variable that is
-named after the sub-directory for which profiling should be enabled.
-
--- 
-Peter Oberparleiter
-Linux on IBM Z Development - IBM Germany R&D
-
+On Mon, Jun 12, 2023 at 2:39=E2=80=AFAM Peter Zijlstra <peterz@infradead.or=
+g> wrote:
+>
+> --- a/kernel/events/core.c
+> +++ b/kernel/events/core.c
+> @@ -7977,7 +7977,8 @@ static void perf_pmu_output_stop(struct
+>         int err, cpu;
+>
+>  restart:
+> -       rcu_read_lock();
+> +       /* cannot have a label in front of a decl */;
+> +       guard(rcu)();
+>         list_for_each_entry_rcu(iter, &event->rb->event_list, rb_entry) {
+>                 /*
+>                  * For per-CPU events, we need to make sure that neither =
+they
+> @@ -7993,12 +7994,9 @@ static void perf_pmu_output_stop(struct
+>                         continue;
+>
+>                 err =3D cpu_function_call(cpu, __perf_pmu_output_stop, ev=
+ent);
+> -               if (err =3D=3D -EAGAIN) {
+> -                       rcu_read_unlock();
+> +               if (err =3D=3D -EAGAIN)
+>                         goto restart;
+> -               }
+>         }
+> -       rcu_read_unlock();
+>  }
