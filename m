@@ -2,133 +2,88 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC70F72B2A2
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Jun 2023 17:52:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A72172BA01
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jun 2023 10:15:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229630AbjFKPwP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 11 Jun 2023 11:52:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57308 "EHLO
+        id S230025AbjFLIPX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 12 Jun 2023 04:15:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233961AbjFKPwE (ORCPT
+        with ESMTP id S232300AbjFLIPC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 11 Jun 2023 11:52:04 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0A9CE7F;
-        Sun, 11 Jun 2023 08:51:36 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0D0B861C41;
-        Sun, 11 Jun 2023 15:51:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE34CC4339B;
-        Sun, 11 Jun 2023 15:51:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686498689;
-        bh=ovLMPnCEsSYRr1mwopc41Atwj/r73CD3/FzXYmBBh0M=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sqCXqjDg6c4koH1V3VgawzmG7Rwa5xYqrFiUf4Sod4aNEr8JdhvTtZa/CpmUivZAG
-         2Oy+M3PHBf++zZZYhrQVrrgfH0f4JPq04xDYRLzxbyj8t15NFBAjEQrSz7g7RMZ5BT
-         kjPjEJRQWLrjyIq6+9WoXLQC3LoKeYsBd7iq5GyNaG4aCvY6dP5+qqZ1hMs04Z2tkL
-         E3ERngfrg3GpXy+IrS9HvyA7vBy/qKZq4+2xzBvZZ/uKtejg5vwMEo9GG7eLdIvjEg
-         B8btF8qfHtGVgONjFbMh1ZE3z8rg3hfqIJNbt9GHXyIkCtzFGdvAitqBX4qtBWeXFp
-         vwYYOl+YPk10Q==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-snps-arc@lists.infradead.org,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH v9 11/11] linux/export.h: rename 'sec' argument to 'license'
-Date:   Mon, 12 Jun 2023 00:51:00 +0900
-Message-Id: <20230611155100.2553804-12-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230611155100.2553804-1-masahiroy@kernel.org>
-References: <20230611155100.2553804-1-masahiroy@kernel.org>
+        Mon, 12 Jun 2023 04:15:02 -0400
+Received: from sonic308-19.consmr.mail.sg3.yahoo.com (sonic308-19.consmr.mail.sg3.yahoo.com [106.10.241.209])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD6631BC6
+        for <linux-kbuild@vger.kernel.org>; Mon, 12 Jun 2023 01:14:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1686557661; bh=oykZWX4LsH+hbI3j3e8fsJdv+iYunj+d5g5mPcpdehI=; h=Date:From:Reply-To:To:Cc:In-Reply-To:References:Subject:From:Subject:Reply-To; b=PmdkYlUWIXssymQzwu79vircHPKqUt+LXP/Thp03TMw1UJrftoZZLSfLdpGZbn49H7UqBkDjKDXfG510bLKMdW/yl/Ys+SzAbDcR6tZNiRwFj+mM6NKgCn7+v2Rr1TP9ejvsD1hZQGXqFiSudUjJJcSuvdYa+1KOR/X45ELABndQIxx/MGtcjh5mC6dKKvEgVm6AQCGfIoBju2aF66ZxEtpwZEQc9gSOgQOCBTpAjWAwgt7e5vEHJK57yirVj1rhDkmwYtttxQeSXOBw7q+u/kqTpXk+DIG0fg7L/b5qTVP4HGAh3RIgvABu2iiufzlQci/4g+ZaYU94WydvbrVpvg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1686557661; bh=cbkkmxKPfgXAcz0oyaHEz8DQBXXyePpYUfGCOpqXG4d=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=T/3AEYSFvintcShMolHQ4A9W255EChb/2/FcOxF7xTUtfaIux7jAufmuDKo9ItWUkwsdas1gsuxenYK3Bj5hHdd69atyWAvJ/Y4qlDmOTY0CKfTbn13loPhLEWTUbvi3tnzWAmJLzt61YWiDY+nZh+zVQHpJCuKnBFClSl1VlKnSMDERYgsiq/uXEZdvaAz7VpkDdBjKURUu+K4ToS/rvwkOi6TAg97Dl4HqkUj41lPN6WKLQXdygBPxvjgC54NRGW7+/Nh9iHBRzrrS5PJxRnsDnjS22BNqGVe78D2VRW3B53YuOB9ZvmxHo503BuF8cgXs6k0OT7MN8d93IffGQQ==
+X-YMail-OSG: rDoqn1sVM1noEe0iNLF2TDPj.jDijwLIAf6Ez7qV.OtL213oOwQrfZ4YuPeIbMp
+ j94BMXEIuUeoh3l95JOBSzDi9wwU4FOSca5zaIUVuBhpDzlpiBYz65EN3fM0T6_jsOgJ86E.4pU3
+ BjYgR1TO8fjzMkbMCfyQnNcGPFOS7jHVN8w4DVUAGBq4Ji4EwGbz2ROX3o7pQPyKVn4VDM.DvC0N
+ rCDO4glnkAKUf6zWh_aDmuLaZW_5RmV6N6hP2JIyU_BFgPhDye4a6hD0s1aYI5T9t10Fz_aCBtyq
+ IM1XOrOOTyww.XtSiT4X8qaMgMZl81xwZ3K2pn0n4w8.ZpRSBjADafnh7lx0IAUAm8RE2XC96Px.
+ 6zwVQ3JQNmCXBenpQfdQYhznY5_Pu40192i2xxPrqsTWdJs0sTXghBB4IQmHPRMRR75Meng2F1C0
+ fYamPhn.erSYl9C.xPuhvpEeCCc826Dp9Qb9MjvFD4N6zwl0_qQ7ysg_vTXV5KD4H2lKIzjR8NkX
+ 1U65onQ1KXfBKC2CWxmJyH5GxPoIKNA.FqndckTs5_7BAE8NynPCh1_ifOAgtET5XF6jJpJ4nDBk
+ 3sUwXy1VbsxKymxvLq5FVid7bp_yaUwVQ6vK7JPNc0NuGB.p5J6TshjHMhY6q2dcUk1ml.vje43S
+ aHlbelNBMTFAD9D8fQSsNIUkfPf1ZhR7Vep90cN6.A75L50oazn9miQrPkVntLKqx52p5F_JzloV
+ 0FCQhbUOmDJ5zrKzP0lnlpgwf78LwrPw.6kmMFeE3lLOn3VEpYfl_KqzJUAy3GB2W1pVpxlRxheK
+ FauEfBnrMaxX7psf2dMHr3_sdr2gUgW2vqFvv721KhVZIXdj0FCGGSW6Nv9jajRB7d.wuTU5XhbN
+ 2zuWnOgBQC_mv4MfaGN9lY7uB3OEyLY1cPbKANb8pEZyUiaqpAUgdK0zppK1Rqt2joEf3eYAqByp
+ SqSq8CsvbnV9XakLpkfAfFBeSn2D3qRKbUpX2HsQYpDx7NDqKLUxGbICAoDjjcJLUCzyKOEm1loZ
+ iz9030aOP3RCZiyrtWY8nrLrIq7KBkIWWsRXwN.1wtWgYe_v7I8u5_A1P7Qn.yk209MT4FtwcUkS
+ LUZadFoyHCU3NTK3C0MCBj4zx_8WtiqNPy_8Gw6TZYKEJxfiwXVp5bXTFX2xZ1zTa093HLJidJ8Q
+ Fg7rgDFTVQYkX4NxUrj0FJuBdDFJ7HI7UWomrdSFv5fsG1y0tmjAsxDQCZ2By6zjmDsaJLgfR_dQ
+ MDwRJygpoIlunuZagsnWWQo5YiCf.I1wHxHcPzCNI_6aKw.UVvUd_gcgXcNKHqyV8K4gG_23L3Nl
+ jOXNCObR3O7Ianykux0Hb2zPsiZASDhthuaqnHXFmokUlRycHJUbizsj2hlQp00stSNCgOT5Aut9
+ DSbPcGIfkOGqwkbX9uQtVo4NlmrCR5rz.MNAZLlv6sVITwYbi9s3b6DQ0tynCnXn.chOHS2jtThN
+ RKf4VTS2.PdwwRCVrmRzyQOgSQtoGP_UdoTKi_4aXYtH9_cKwUjaTWCj50Ia3ZC5_5xCCvbAnxKE
+ iMXXCmqQraTVPIF4_QUgdmSVuwqou0dqTWPEQCQy6rHhmpTCcXJYIJBmUYyyNqZrKi3d5_XaDvjq
+ FsEFg9YrgSYyfM9RBlm8WjAzQPAT.VBVspU.HOtkqb064Q5jz5MPqWdkA9rmjpFuAMUV7CTm3mrZ
+ 2TLl7K4YJ5fXboditeoSJMGmtCZRf.W6XsCX8Wz9yhn3P05O4.NrBW5WB40oSzFF_b6Ob63XlWIR
+ Z3wta3PZ6tMIl40.lWPDvOgh0u_sxdxymjVR38nolboHrWtc112sYTJdnmqfpLMOflKolVJwZ4Gz
+ nFX1fZ1YM4hp8xa_dN5tNxvsLw8NJkydRUjuXfdsxDVKiJqHOZRwbT.12CKF5MjrkwnWUQEa3SHp
+ gLZYc5t_Ob1ibnYLCz44pMzdbJ6gNdF48TWknQs1BfNx0fj5wcyzUqrBCTNcOdjwdTzqNG1cTGw0
+ AhZHdfAbztTZYD7zJbbMiJ_vDs3FxFApW4qntip.iPPOOiX63SHaxnza0VpMdKfq1TRpZptuaG5Q
+ yJdWkWyeVhBqoW8kQiyQBy68ybSZvp_QYAIAP_CwKotL5UK6REPA6yvFilHoUAwHm6FLyrlk6ldk
+ em9awVWZsOMsSVWor.cNNhT17zJL._PATdr98UQ8wxxjpQzR1.odLv3IYAIjLU14Ku8U.D.qLPoc
+ PZb9uZr9I5z3kNZ7tHTqFuBcxD9TALpMxBlw9Lsx4WmfJ.qDK6UI2AujNCY7sgd7cesWarqidLDy
+ VWExHe81AcJ2_FKtGLy5wTg--
+X-Sonic-MF: <pjp@fedoraproject.org>
+X-Sonic-ID: a3c238c2-f9ab-444d-ad17-2b4470f6de92
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic308.consmr.mail.sg3.yahoo.com with HTTP; Mon, 12 Jun 2023 08:14:21 +0000
+Date:   Mon, 12 Jun 2023 08:03:48 +0000 (UTC)
+From:   P J P <pjp@fedoraproject.org>
+Reply-To: P J P <pj.pandit@yahoo.co.in>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
+Message-ID: <909309952.1964856.1686557028397@mail.yahoo.com>
+In-Reply-To: <CAK7LNAQJh98XhY_hSaojM6mwF3Cvk9o+dLvd0FurYyNV=v2AsA@mail.gmail.com>
+References: <1912422946.266461.1686045667325.ref@mail.yahoo.com> <1912422946.266461.1686045667325@mail.yahoo.com> <1289987364.1419400.1686304232810@mail.yahoo.com> <CAK7LNAQJh98XhY_hSaojM6mwF3Cvk9o+dLvd0FurYyNV=v2AsA@mail.gmail.com>
+Subject: Re: About Kconfig tree
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: WebService/1.1.21516 YMailNorrin
+X-Spam-Status: No, score=1.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,FREEMAIL_FORGED_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_NEUTRAL,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Now, EXPORT_SYMBOL() is populated in two stages. In the first stage,
-all of EXPORT_SYMBOL/EXPORT_SYMBOL_GPL go into the same section,
-'.export_symbol'.
+Hello Masahiro,
 
-'sec' does not make sense any more. Rename it to 'license'.
+On Saturday, 10 June, 2023 at 01:13:38 pm IST, Masahiro Yamada <masahiroy@k=
+ernel.org> wrote:
+>'common-objs' in scripts/kconfig/Makefile is the core code.
+>It is not written in a separate library with user APIs.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+* I see, okay, will check common-objs.
+
+Thank you.
 ---
-
-(no changes since v7)
-
-Changes in v7:
- - New patch
-
- include/linux/export.h | 8 ++++----
- include/linux/pm.h     | 6 +++---
- 2 files changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/include/linux/export.h b/include/linux/export.h
-index 1de600734071..beed8387e0a4 100644
---- a/include/linux/export.h
-+++ b/include/linux/export.h
-@@ -57,11 +57,11 @@ extern struct module __this_module;
-  * be reused in other execution contexts such as the UEFI stub or the
-  * decompressor.
-  */
--#define __EXPORT_SYMBOL(sym, sec, ns)
-+#define __EXPORT_SYMBOL(sym, license, ns)
- 
- #elif defined(__GENKSYMS__)
- 
--#define __EXPORT_SYMBOL(sym, sec, ns)	__GENKSYMS_EXPORT_SYMBOL(sym)
-+#define __EXPORT_SYMBOL(sym, license, ns)	__GENKSYMS_EXPORT_SYMBOL(sym)
- 
- #elif defined(__ASSEMBLY__)
- 
-@@ -78,9 +78,9 @@ extern struct module __this_module;
- #endif /* CONFIG_MODULES */
- 
- #ifdef DEFAULT_SYMBOL_NAMESPACE
--#define _EXPORT_SYMBOL(sym, sec)	__EXPORT_SYMBOL(sym, sec, __stringify(DEFAULT_SYMBOL_NAMESPACE))
-+#define _EXPORT_SYMBOL(sym, license)	__EXPORT_SYMBOL(sym, license, __stringify(DEFAULT_SYMBOL_NAMESPACE))
- #else
--#define _EXPORT_SYMBOL(sym, sec)	__EXPORT_SYMBOL(sym, sec, "")
-+#define _EXPORT_SYMBOL(sym, license)	__EXPORT_SYMBOL(sym, license, "")
- #endif
- 
- #define EXPORT_SYMBOL(sym)		_EXPORT_SYMBOL(sym, "")
-diff --git a/include/linux/pm.h b/include/linux/pm.h
-index f615193587d2..badad7d11f4f 100644
---- a/include/linux/pm.h
-+++ b/include/linux/pm.h
-@@ -375,14 +375,14 @@ const struct dev_pm_ops name = { \
- }
- 
- #ifdef CONFIG_PM
--#define _EXPORT_DEV_PM_OPS(name, sec, ns)				\
-+#define _EXPORT_DEV_PM_OPS(name, license, ns)				\
- 	const struct dev_pm_ops name;					\
--	__EXPORT_SYMBOL(name, sec, ns);					\
-+	__EXPORT_SYMBOL(name, license, ns);				\
- 	const struct dev_pm_ops name
- #define EXPORT_PM_FN_GPL(name)		EXPORT_SYMBOL_GPL(name)
- #define EXPORT_PM_FN_NS_GPL(name, ns)	EXPORT_SYMBOL_NS_GPL(name, ns)
- #else
--#define _EXPORT_DEV_PM_OPS(name, sec, ns)				\
-+#define _EXPORT_DEV_PM_OPS(name, license, ns)				\
- 	static __maybe_unused const struct dev_pm_ops __static_##name
- #define EXPORT_PM_FN_GPL(name)
- #define EXPORT_PM_FN_NS_GPL(name, ns)
--- 
-2.39.2
-
+=C2=A0 -Prasad
