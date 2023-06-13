@@ -2,86 +2,70 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CCBA572EC3C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Jun 2023 21:48:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03F4D72ED46
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Jun 2023 22:47:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232613AbjFMTrb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 13 Jun 2023 15:47:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44654 "EHLO
+        id S229529AbjFMUq7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 13 Jun 2023 16:46:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229895AbjFMTr3 (ORCPT
+        with ESMTP id S231848AbjFMUq6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 13 Jun 2023 15:47:29 -0400
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79F30170E
-        for <linux-kbuild@vger.kernel.org>; Tue, 13 Jun 2023 12:47:28 -0700 (PDT)
-Received: by mail-ot1-x336.google.com with SMTP id 46e09a7af769-6b2bdca0884so4088338a34.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 13 Jun 2023 12:47:28 -0700 (PDT)
+        Tue, 13 Jun 2023 16:46:58 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72351170C
+        for <linux-kbuild@vger.kernel.org>; Tue, 13 Jun 2023 13:46:56 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1b3cc77ccbfso17233515ad.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 13 Jun 2023 13:46:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1686685648; x=1689277648;
+        d=chromium.org; s=google; t=1686689216; x=1689281216;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/WhOeElaMsiD9GyeVbS/Kz/uOr4hArVsc6evONFkFnM=;
-        b=aeMNEMT7mnAhLHospPJ5V6vIYNCAcophNZar1VJgpYHxyFURQMMgUNDfiKxbq31qUx
-         /ntMLDU6dIgcpzP5jt5szoYlfgJOQ930p726r6qPC78stOnaYjfEWHjjMU58XMpu3dyx
-         I1eRXxTLecm0sTZY+o9wNW2LEqaDO5EnnyJcs=
+        bh=UU2W1Yd3b/N1bxttJwHZMPKGDdWn1+63RfP3dSCBBR4=;
+        b=bAZ8pdO/DxdY6zDe8daGd9jbKgSBR2wTKN+h+1X22YogYqUPNT4I78n15bPFBQ2Qie
+         d8nBcepCW8TdqSPQS6v8H+pYQYNqVZS0r2ubI4BOzwLN+126Je4Yi1tKtAWaAcy8vmrq
+         XmgdpIH/9XO5lgOlOBMZPJT8W/gNTxR1kXJYU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686685648; x=1689277648;
+        d=1e100.net; s=20221208; t=1686689216; x=1689281216;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/WhOeElaMsiD9GyeVbS/Kz/uOr4hArVsc6evONFkFnM=;
-        b=U1TNhTHR+DhBAFnGpPAxeEi1p0LlSV8NXHU8UukiiPrx5GqZgflDGiefXiKSElulRp
-         AaTTDQs5m1cQNqc6563KEcpSE9PgGcwOBbTf6U2KcKe/QKiWcmW4wk2N1tnh+58e9hSk
-         nzNEJippqqsJq0Xwwfsb6jGqVOwbFltb7NG2hFEUn6fRHVlpqJeVjA57kCFE5F+inyFo
-         uWwOx87EWi+JsMS728i1FtP5yGiJ4Az8rtHAta2DQ8HyXd/1Q/tioDqwGifBCbiEHmvQ
-         v7G9NPTAgqBkf1dS/rmW77nI3CQiujL1rky6Janp8onb8Hdvv+J1Bs9jdvudAV20FkzA
-         +mgg==
-X-Gm-Message-State: AC+VfDwVaCICjyq4qLWFwWxvHAzZ9g02mtli4Ap4ZCDAFWEZzFefNm81
-        +PbRcpV0LZpbe7BWBA6EoFz1Cg==
-X-Google-Smtp-Source: ACHHUZ4U6UYeRfCrOKo1DH+SSAGfrV+G9PiakEqQJES8KDmPF0FcGGIFWyujt3k8m3pdnsxYnXqlng==
-X-Received: by 2002:aca:d0c:0:b0:398:c4ec:63bc with SMTP id 12-20020aca0d0c000000b00398c4ec63bcmr7585125oin.43.1686685647840;
-        Tue, 13 Jun 2023 12:47:27 -0700 (PDT)
+        bh=UU2W1Yd3b/N1bxttJwHZMPKGDdWn1+63RfP3dSCBBR4=;
+        b=OUojarblJ143dDia/Q1+2NXAxRGqETNWOxKB+NRieUSASlxZE+ivIft4ghKLueOw0s
+         +60DK0XIrQMv5TUBCy8IDf7A/h/TRbnPK/Eeqr8eFvButGsuvvN50bhAszZgJeg0GT68
+         ojgFqV83RjDZMYKvGg9eA2ngE48NRKA4PxXhbpeby5keTBoE1Yg5TC7eJSZhNvgUk6Gd
+         4T9r289DFE9/+MXOOzVCcZPkqSV1yTh6dwLhsGtL9LDUTu26r/tx8Nu9lzpXR6aavHpd
+         vdVUwub2fSkyQqZsH8+NatHvyhetvZozTE1hm9J2l5t/LtBiesUO60/Alm70RXQgGp0b
+         2JkQ==
+X-Gm-Message-State: AC+VfDzvEJkMZtHwWMbU/S2u03bqIRPPyAqda6jn1o8zDG4EWwv9sD9p
+        nL21vQuav7OnzHwxXpdKtm+pdg==
+X-Google-Smtp-Source: ACHHUZ6fFOMFh+FwU12YfRQVUNKzL4Zw50Ovq3PP5212pZBhNw4LQmUj8O7Bv6Fc9zyeJpMSdFalcg==
+X-Received: by 2002:a17:903:11d2:b0:1ae:7631:7fa9 with SMTP id q18-20020a17090311d200b001ae76317fa9mr11703605plh.37.1686689215857;
+        Tue, 13 Jun 2023 13:46:55 -0700 (PDT)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id k67-20020a632446000000b005439aaf0301sm9683107pgk.64.2023.06.13.12.47.27
+        by smtp.gmail.com with ESMTPSA id j11-20020a170902690b00b001b03842ab78sm10672486plk.89.2023.06.13.13.46.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jun 2023 12:47:27 -0700 (PDT)
-Date:   Tue, 13 Jun 2023 12:47:26 -0700
+        Tue, 13 Jun 2023 13:46:55 -0700 (PDT)
+Date:   Tue, 13 Jun 2023 13:46:54 -0700
 From:   Kees Cook <keescook@chromium.org>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     torvalds@linux-foundation.org, gregkh@linuxfoundation.org,
-        pbonzini@redhat.com, masahiroy@kernel.org, nathan@kernel.org,
-        ndesaulniers@google.com, nicolas@fjasle.eu,
-        catalin.marinas@arm.com, will@kernel.org, vkoul@kernel.org,
-        trix@redhat.com, ojeda@kernel.org, mingo@redhat.com,
-        longman@redhat.com, boqun.feng@gmail.com, dennis@kernel.org,
-        tj@kernel.org, cl@linux.com, acme@kernel.org, mark.rutland@arm.com,
-        alexander.shishkin@linux.intel.com, jolsa@kernel.org,
-        namhyung@kernel.org, irogers@google.com, adrian.hunter@intel.com,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com,
-        paulmck@kernel.org, frederic@kernel.org, quic_neeraju@quicinc.com,
-        joel@joelfernandes.org, josh@joshtriplett.org,
-        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-        rientjes@google.com, vbabka@suse.cz, roman.gushchin@linux.dev,
-        42.hyeyoo@gmail.com, apw@canonical.com, joe@perches.com,
-        dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com,
-        john.johansen@canonical.com, paul@paul-moore.com,
-        jmorris@namei.org, serge@hallyn.com, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
-        llvm@lists.linux.dev, linux-perf-users@vger.kernel.org,
-        rcu@vger.kernel.org, linux-security-module@vger.kernel.org,
-        tglx@linutronix.de, ravi.bangoria@amd.com, error27@gmail.com,
-        luc.vanoostenryck@gmail.com
-Subject: Re: [PATCH v3 45/57] perf: Simplify perf_event_parse_addr_filter()
-Message-ID: <202306131247.3E617931@keescook>
-References: <20230612090713.652690195@infradead.org>
- <20230612093540.779825032@infradead.org>
+To:     kernel test robot <oliver.sang@intel.com>
+Cc:     oe-lkp@lists.linux.dev, lkp@intel.com,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
+        linux-hardening@vger.kernel.org
+Subject: Re: [linux-next:master] [kbuild]  df8fc4e934:
+ BUG:unable_to_handle_page_fault_for_address
+Message-ID: <202306131342.51A51F651C@keescook>
+References: <202306102333.8f5a7443-oliver.sang@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230612093540.779825032@infradead.org>
+In-Reply-To: <202306102333.8f5a7443-oliver.sang@intel.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
@@ -92,46 +76,38 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jun 12, 2023 at 11:07:58AM +0200, Peter Zijlstra wrote:
-> XXX this code needs a cleanup
+On Sun, Jun 11, 2023 at 09:41:30PM +0800, kernel test robot wrote:
+> the issue we found below is by clang-15, but we confirmed clang-15 we use is
+> commit 8dfdcc7b7b in llvm-project. it supports the flag already.
 
-:)
+Interesting! Thanks for the report.
 
-> 
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> ---
->  kernel/events/core.c |   56 ++++++++++++++++++++-------------------------------
->  1 file changed, 22 insertions(+), 34 deletions(-)
-> 
-> --- a/kernel/events/core.c
-> +++ b/kernel/events/core.c
-> @@ -10495,6 +10495,8 @@ static void free_filters_list(struct lis
->  	}
->  }
->  
-> +DEFINE_FREE(filter_list, struct list_head *, if (_T) free_filters_list(_T))
-> +
->  /*
->   * Free existing address filters and optionally install new ones
->   */
-> @@ -10658,13 +10660,15 @@ perf_event_parse_addr_filter(struct perf
->  			     struct list_head *filters)
->  {
->  	struct perf_addr_filter *filter = NULL;
-> -	char *start, *orig, *filename = NULL;
->  	substring_t args[MAX_OPT_ARGS];
->  	int state = IF_STATE_ACTION, token;
->  	unsigned int kernel = 0;
-> -	int ret = -EINVAL;
-> +	char *start;
-> +	int ret;
->  
-> -	orig = fstr = kstrdup(fstr, GFP_KERNEL);
-> +	struct list_head *fguard __free(filter_list) = filters;
-> +	char *filename __free(kfree) = NULL;
-> +	char *orig __free(kfree) = fstr = kstrdup(fstr, GFP_KERNEL);
+> [  228.605608][    C1] BUG: unable to handle page fault for address: 04090300
+> [...]
+> [ 228.608262][ C1] EIP: string (lib/vsprintf.c:644 lib/vsprintf.c:726) 
+> [...]
+> [ 228.608262][ C1] Call Trace:
+> [ 228.608262][ C1]  <SOFTIRQ>
+> [ 228.608262][ C1] vsnprintf (lib/vsprintf.c:2817) 
+> [ 228.608262][ C1] vprintk_store (kernel/printk/printk.c:2191) 
+> [ 228.608262][ C1] vprintk_emit (kernel/printk/printk.c:2288) 
+> [ 228.608262][ C1] vprintk_default (kernel/printk/printk.c:2318) 
+> [ 228.608262][ C1] vprintk (kernel/printk/printk_safe.c:50) 
+> [ 228.608262][ C1] _printk (kernel/printk/printk.c:2331) 
+> [ 228.608262][ C1] __ubsan_handle_out_of_bounds (lib/ubsan.c:209 lib/ubsan.c:343) 
 
-Ah! I see a kfree users. Sorry for the noise. :)
+This is a crash within the UBSAN handler! That's very unexpected.
+
+> [ 228.608262][ C1] get_string (drivers/usb/gadget/composite.c:1314) 
+> [ 228.608262][ C1] composite_setup (drivers/usb/gadget/composite.c:1871) 
+> [ 228.608262][ C1] dummy_timer (drivers/usb/gadget/udc/dummy_hcd.c:?) 
+
+And the out-of-bounds condition got triggered in dummy_hcd.
+
+I also see this is happening in SOFTIRQ context. I wonder if there is a
+problem with UBSAN vs SOFTIRQ. Again, I'd find that surprising...
+
+I'll see what I can find...
 
 -- 
 Kees Cook
