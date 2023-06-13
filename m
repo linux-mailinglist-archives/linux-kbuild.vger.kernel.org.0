@@ -2,38 +2,38 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 61C5C72DCBD
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Jun 2023 10:39:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F096872DF6B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Jun 2023 12:28:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241418AbjFMIjR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 13 Jun 2023 04:39:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47944 "EHLO
+        id S238790AbjFMK2v (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 13 Jun 2023 06:28:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241452AbjFMIjG (ORCPT
+        with ESMTP id S239319AbjFMK2s (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 13 Jun 2023 04:39:06 -0400
+        Tue, 13 Jun 2023 06:28:48 -0400
 Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A482FF1;
-        Tue, 13 Jun 2023 01:39:03 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CAA113A;
+        Tue, 13 Jun 2023 03:28:47 -0700 (PDT)
 Received: from [192.168.192.83] (unknown [50.47.134.245])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 2F2DA3F2A3;
-        Tue, 13 Jun 2023 08:38:28 +0000 (UTC)
+        by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 4DFF73F29E;
+        Tue, 13 Jun 2023 10:28:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1686645520;
-        bh=wkJrNjdFfolCoIC9MEjZjIPiwFCl2xf4UGf4VNAWiMI=;
+        s=20210705; t=1686652118;
+        bh=yuUVupheiX+fA0yIsT77K8SHvi7G/28fKE1KdCvB4EI=;
         h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
          In-Reply-To:Content-Type;
-        b=LVLJUlToyVjIZMeYTDHbVcedRUNFjvJM1V+s+13q6UgbQn0ASwvp0X4yc7bGkfHtw
-         VhjqVjTOR9is3Ge0hzhB4Zg7Gdt/Ji2LB4CHd2TmO8A+20qjPGQ1SsqW2dpw77Oog6
-         i1VUCugdQ3+3WpD1GKO1V0IqzAoLoosOlosE+w8UO0fWfPLtb8Y1deCbbgbLbJqktw
-         0VhCYzdECJJAm9CmWrs/VncJuzS/7DZg7NHI4jNg3y0/a3HPCVSnTZY3oTb8Igo5rw
-         c4AhpeqpDwxRf2Bcv84SyRnSXSaVYwXc7dBF90QmO7l1VZTUcPBRFU3V55OC8KCJo1
-         C+U+iiL51Pcig==
-Message-ID: <4ec84aaa-b1f4-4cd1-bafc-2873dee1bdb8@canonical.com>
-Date:   Tue, 13 Jun 2023 01:38:25 -0700
+        b=kIFXkXLwTi8Vhwl0B3KgUjKplp+GFiivWWmc+2H0HmoQR0YefI3BYzum4LwGZzC77
+         QmPA++ao2gD5e+Gir8KMpheXayrFbjQbgvhTgIvEoMCqaAWLOHfZYYR+Vy0TFf21HB
+         paNpbj3orVkN8mM8UJlHzWQX37Anoe4WSQiBJgkcE98XU4QnJ5VG5EfPehu/YN+Sv2
+         wbW9cmWYhBIbVqk37fU+RG9eItXgqNmPixJRU5jkTamWtfae/OnFI0AgDxdoQydsBe
+         18OhuzXboVgUDhTR109MkQ86KaVZllNbA6C9EbYYfLJ8+T7fXrIeCM1PZH+aSkOuZ5
+         caCW3j5bzB3uA==
+Message-ID: <dc7f6674-6bc4-00a5-c273-e0f61a385949@canonical.com>
+Date:   Tue, 13 Jun 2023 03:28:23 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
@@ -88,7 +88,9 @@ On 6/12/23 02:07, Peter Zijlstra wrote:
 > name must not be used for anything else. Avoid the conflict.
 > 
 > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Acked-by: John Johansen <john.johansen@canonical.com>
+
+if you want, I can just pull this small change into the apparmor
+tree so you don't have to carry it anymore as part of the series.
 
 > ---
 >   security/apparmor/include/lib.h |    6 +++---
