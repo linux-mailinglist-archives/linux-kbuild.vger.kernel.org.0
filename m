@@ -2,56 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CD7C672E02E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Jun 2023 12:55:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57A4A72E26D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Jun 2023 14:05:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242067AbjFMKzl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 13 Jun 2023 06:55:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42896 "EHLO
+        id S239026AbjFMMFL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 13 Jun 2023 08:05:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238726AbjFMKzb (ORCPT
+        with ESMTP id S235323AbjFMMFK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 13 Jun 2023 06:55:31 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4C10E55;
-        Tue, 13 Jun 2023 03:55:29 -0700 (PDT)
+        Tue, 13 Jun 2023 08:05:10 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA5EEC6;
+        Tue, 13 Jun 2023 05:05:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=GMlksJ5muipLr0Ufss/WSswgj2qownE6HhlJFXhcXlg=; b=a9KFFt6X10FXGv2kIkzGTnsIDj
-        S2hxVxvC8y8yY6vRCgKbQfTumoiC2Oi7IJwPadzTHPYYf03jUD8rOFcDArJSDmBaTe6ch7rcWPyXk
-        AsuHe3FVpF/zX4yh2hTjPst2Z10wtAhlIFHZXwxwG+eOnp7l7eF7LHqUA5i/bqDVB9ymIzf2gcUeI
-        kujQ8iw8VK2/CQuvfEZRuamzJFGghTqyOI/u4HLE/P+lv1uloNQuptF94XXv6GyVyvIm+QV/aBRZ/
-        LAViy+/LWhi/rAzC8CXHv7awdkWevYiOY17Nv7Zy4O020FOryv2Bfghhni3m1pZ8hc7XXPmwM2VfD
-        5Ece5izQ==;
+        bh=We450CvfOCP5c59KwNDZJAffsENowhZJ2YopwZtAM4U=; b=Jxuk4kbSPlYysuEXYwfqgZpIKY
+        2esqqWM2vPb/NR4S3/3h3PHrQNP1yhoWzfZQiQ5k4mzI+0L2rrX8QJXjeU07kXZofj0Bs2tcF7nOf
+        u9oVVlB0zcYqxpFYnALo2jah9gsThJH3osCk8TKX8CCm+NgukCW5X32WzTyt+CiZEU9wZ6h4xZWXE
+        3+6GILn6Up9tmfFZ65BUr/YifpIB8+Ic1e+8b1VKV1GaFV2eBvySCEsvi8vRwjhe0sujXdjYSEzat
+        eJxHoTMCuryayK5b7Sw18BWPtZifEGOFNAQbvy0WK0r2z6w/KLIn0kin1I3zzfj+tJQn8MN04QTRq
+        zMiiBHFw==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1q91gJ-003oTx-3o; Tue, 13 Jun 2023 10:55:23 +0000
+        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1q92lk-009M6P-1o;
+        Tue, 13 Jun 2023 12:05:04 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id AA072300322;
-        Tue, 13 Jun 2023 12:55:22 +0200 (CEST)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 573C3300322;
+        Tue, 13 Jun 2023 14:05:03 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 8D05424556032; Tue, 13 Jun 2023 12:55:22 +0200 (CEST)
-Date:   Tue, 13 Jun 2023 12:55:22 +0200
+        id 30EB0245C29F5; Tue, 13 Jun 2023 14:05:03 +0200 (CEST)
+Date:   Tue, 13 Jun 2023 14:05:03 +0200
 From:   Peter Zijlstra <peterz@infradead.org>
-To:     torvalds@linux-foundation.org, keescook@chromium.org,
-        gregkh@linuxfoundation.org, pbonzini@redhat.com
-Cc:     masahiroy@kernel.org, nathan@kernel.org, ndesaulniers@google.com,
-        nicolas@fjasle.eu, catalin.marinas@arm.com, will@kernel.org,
-        vkoul@kernel.org, trix@redhat.com, ojeda@kernel.org,
-        mingo@redhat.com, longman@redhat.com, boqun.feng@gmail.com,
-        dennis@kernel.org, tj@kernel.org, cl@linux.com, acme@kernel.org,
-        mark.rutland@arm.com, alexander.shishkin@linux.intel.com,
-        jolsa@kernel.org, namhyung@kernel.org, irogers@google.com,
-        adrian.hunter@intel.com, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com, vschneid@redhat.com, paulmck@kernel.org,
-        frederic@kernel.org, quic_neeraju@quicinc.com,
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     keescook@chromium.org, gregkh@linuxfoundation.org,
+        pbonzini@redhat.com, masahiroy@kernel.org, nathan@kernel.org,
+        ndesaulniers@google.com, nicolas@fjasle.eu,
+        catalin.marinas@arm.com, will@kernel.org, vkoul@kernel.org,
+        trix@redhat.com, ojeda@kernel.org, mingo@redhat.com,
+        longman@redhat.com, boqun.feng@gmail.com, dennis@kernel.org,
+        tj@kernel.org, cl@linux.com, acme@kernel.org, mark.rutland@arm.com,
+        alexander.shishkin@linux.intel.com, jolsa@kernel.org,
+        namhyung@kernel.org, irogers@google.com, adrian.hunter@intel.com,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com,
+        paulmck@kernel.org, frederic@kernel.org, quic_neeraju@quicinc.com,
         joel@joelfernandes.org, josh@joshtriplett.org,
         mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
         rientjes@google.com, vbabka@suse.cz, roman.gushchin@linux.dev,
@@ -64,15 +65,17 @@ Cc:     masahiroy@kernel.org, nathan@kernel.org, ndesaulniers@google.com,
         rcu@vger.kernel.org, linux-security-module@vger.kernel.org,
         tglx@linutronix.de, ravi.bangoria@amd.com, error27@gmail.com,
         luc.vanoostenryck@gmail.com
-Subject: Re: [PATCH v3 03/57] locking: Introduce __cleanup() based
- infrastructure
-Message-ID: <20230613105522.GU4253@hirez.programming.kicks-ass.net>
+Subject: Re: [PATCH v3 33/57] perf: Simplify perf_adjust_freq_unthr_context()
+Message-ID: <20230613120503.GV4253@hirez.programming.kicks-ass.net>
 References: <20230612090713.652690195@infradead.org>
- <20230612093537.614161713@infradead.org>
+ <20230612093539.895253662@infradead.org>
+ <CAHk-=wgPtj9Y+nkMe+s20sntBPoadKL7GLxTr=mhfdONMR=iZg@mail.gmail.com>
+ <20230612184403.GE83892@hirez.programming.kicks-ass.net>
+ <CAHk-=wgaSkM4fjdP9dcdXQpLLjxW43ykgLA=FgzyHpyHayz8ww@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230612093537.614161713@infradead.org>
+In-Reply-To: <CAHk-=wgaSkM4fjdP9dcdXQpLLjxW43ykgLA=FgzyHpyHayz8ww@mail.gmail.com>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
@@ -83,60 +86,89 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jun 12, 2023 at 11:07:16AM +0200, Peter Zijlstra wrote:
+On Mon, Jun 12, 2023 at 11:55:57AM -0700, Linus Torvalds wrote:
 
-> --- /dev/null
-> +++ b/include/linux/cleanup.h
-> @@ -0,0 +1,167 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef __LINUX_GUARDS_H
-> +#define __LINUX_GUARDS_H
-> +
-> +#include <linux/compiler.h>
-> +
-> +/*
-> + * DEFINE_FREE(name, type, free):
-> + *	simple helper macro that defines the required wrapper for a __free()
-> + *	based cleanup function. @free is an expression using '_T' to access
-> + *	the variable.
-> + *
-> + * __free(name):
-> + *	variable attribute to add a scoped based cleanup to the variable.
-> + *
+> But thinking about it, it's not just that the value doesn't survive,
+> it's also that the "continue" will exit the scope in order to go back
+> to the "for()" loop.
 
-	no_free_ptr(var):
-	  like a non-atomic xchg(var, NULL), such that the cleanup
-	  function will be inhibited -- provided it sanely deals with a
-	  NULL value.
+So if you still feel the continue is a step too far; the alternative
+isn't horrible either..
 
-> + * return_ptr(p):
-> + *	returns p while inhibiting the __free().
-> + *
-> + * Ex.
-> + *
-> + * DEFINE_FREE(kfree, void *, if (_T) kfree(_T))
-> + *
-> + *	struct obj *p = kmalloc(...);
-
-That should obviously have been:
-
-	struct obj *p __free(kfree) = kmalloc(...);
-
-> + *	if (!p)
-> + *		return NULL;
-> + *
-> + *	if (!init_obj(p))
-> + *		return NULL;
-> + *
-> + *	return_ptr(p);
-> + */
-> +
-> +#define DEFINE_FREE(name, type, free) \
-> +	static inline void __free_##name(void *p) { type _T = *(type *)p; free; }
-> +
-> +#define __free(name)	__cleanup(__free_##name)
-> +
-> +#define no_free_ptr(p) \
-> +	({ __auto_type __ptr = (p); (p) = NULL; __ptr; })
-> +
-> +#define return_ptr(p)	return no_free_ptr(p)
+---
+--- a/kernel/events/core.c
++++ b/kernel/events/core.c
+@@ -4090,7 +4090,7 @@ perf_adjust_freq_unthr_context(struct pe
+ 	if (!(ctx->nr_freq || unthrottle))
+ 		return;
+ 
+-	raw_spin_lock(&ctx->lock);
++	guard(raw_spinlock)(&ctx->lock);
+ 
+ 	list_for_each_entry_rcu(event, &ctx->event_list, event_entry) {
+ 		if (event->state != PERF_EVENT_STATE_ACTIVE)
+@@ -4100,7 +4100,7 @@ perf_adjust_freq_unthr_context(struct pe
+ 		if (!event_filter_match(event))
+ 			continue;
+ 
+-		perf_pmu_disable(event->pmu);
++		guard(perf_pmu_disable)(event->pmu);
+ 
+ 		hwc = &event->hw;
+ 
+@@ -4110,34 +4110,29 @@ perf_adjust_freq_unthr_context(struct pe
+ 			event->pmu->start(event, 0);
+ 		}
+ 
+-		if (!event->attr.freq || !event->attr.sample_freq)
+-			goto next;
++		if (event->attr.freq && event->attr.sample_freq) {
++			/*
++			 * stop the event and update event->count
++			 */
++			event->pmu->stop(event, PERF_EF_UPDATE);
++
++			now = local64_read(&event->count);
++			delta = now - hwc->freq_count_stamp;
++			hwc->freq_count_stamp = now;
++
++			/*
++			 * restart the event
++			 * reload only if value has changed
++			 * we have stopped the event so tell that
++			 * to perf_adjust_period() to avoid stopping it
++			 * twice.
++			 */
++			if (delta > 0)
++				perf_adjust_period(event, period, delta, false);
+ 
+-		/*
+-		 * stop the event and update event->count
+-		 */
+-		event->pmu->stop(event, PERF_EF_UPDATE);
+-
+-		now = local64_read(&event->count);
+-		delta = now - hwc->freq_count_stamp;
+-		hwc->freq_count_stamp = now;
+-
+-		/*
+-		 * restart the event
+-		 * reload only if value has changed
+-		 * we have stopped the event so tell that
+-		 * to perf_adjust_period() to avoid stopping it
+-		 * twice.
+-		 */
+-		if (delta > 0)
+-			perf_adjust_period(event, period, delta, false);
+-
+-		event->pmu->start(event, delta > 0 ? PERF_EF_RELOAD : 0);
+-	next:
+-		perf_pmu_enable(event->pmu);
++			event->pmu->start(event, delta > 0 ? PERF_EF_RELOAD : 0);
++		}
+ 	}
+-
+-	raw_spin_unlock(&ctx->lock);
+ }
+ 
+ /*
