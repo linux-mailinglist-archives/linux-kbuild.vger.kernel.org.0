@@ -2,149 +2,127 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EEE472DB80
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Jun 2023 09:50:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61C5C72DCBD
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Jun 2023 10:39:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239788AbjFMHul (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 13 Jun 2023 03:50:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46516 "EHLO
+        id S241418AbjFMIjR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 13 Jun 2023 04:39:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240365AbjFMHuj (ORCPT
+        with ESMTP id S241452AbjFMIjG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 13 Jun 2023 03:50:39 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2556510E9;
-        Tue, 13 Jun 2023 00:50:33 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Tue, 13 Jun 2023 04:39:06 -0400
+Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A482FF1;
+        Tue, 13 Jun 2023 01:39:03 -0700 (PDT)
+Received: from [192.168.192.83] (unknown [50.47.134.245])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9324D61EF0;
-        Tue, 13 Jun 2023 07:50:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E75BC433D2;
-        Tue, 13 Jun 2023 07:50:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1686642631;
-        bh=goV8gP/KHbMbiDcM/4DeoeQ71fS5d2keb4GB/l1HI1s=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pjHMiqIgYrYF+L+Wjiij+dvaTaGD/brRW3tDy2aXuD04wH0r41aqKdSqN9sOvWh0x
-         xCel0co6I2RgxXNs6fdhwx5nIhmSUNB0GyCSE0HhYV6XJ6/wB0c1ff9QBlPhyR7hpv
-         jdIDB9/uE7u61z8T2RC3V6WuiqbKWjqnT8t7+CYg=
-Date:   Tue, 13 Jun 2023 09:50:28 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     torvalds@linux-foundation.org, keescook@chromium.org,
-        pbonzini@redhat.com, masahiroy@kernel.org, nathan@kernel.org,
-        ndesaulniers@google.com, nicolas@fjasle.eu,
-        catalin.marinas@arm.com, will@kernel.org, vkoul@kernel.org,
-        trix@redhat.com, ojeda@kernel.org, mingo@redhat.com,
-        longman@redhat.com, boqun.feng@gmail.com, dennis@kernel.org,
-        tj@kernel.org, cl@linux.com, acme@kernel.org, mark.rutland@arm.com,
-        alexander.shishkin@linux.intel.com, jolsa@kernel.org,
-        namhyung@kernel.org, irogers@google.com, adrian.hunter@intel.com,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com,
-        paulmck@kernel.org, frederic@kernel.org, quic_neeraju@quicinc.com,
+        by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 2F2DA3F2A3;
+        Tue, 13 Jun 2023 08:38:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1686645520;
+        bh=wkJrNjdFfolCoIC9MEjZjIPiwFCl2xf4UGf4VNAWiMI=;
+        h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+         In-Reply-To:Content-Type;
+        b=LVLJUlToyVjIZMeYTDHbVcedRUNFjvJM1V+s+13q6UgbQn0ASwvp0X4yc7bGkfHtw
+         VhjqVjTOR9is3Ge0hzhB4Zg7Gdt/Ji2LB4CHd2TmO8A+20qjPGQ1SsqW2dpw77Oog6
+         i1VUCugdQ3+3WpD1GKO1V0IqzAoLoosOlosE+w8UO0fWfPLtb8Y1deCbbgbLbJqktw
+         0VhCYzdECJJAm9CmWrs/VncJuzS/7DZg7NHI4jNg3y0/a3HPCVSnTZY3oTb8Igo5rw
+         c4AhpeqpDwxRf2Bcv84SyRnSXSaVYwXc7dBF90QmO7l1VZTUcPBRFU3V55OC8KCJo1
+         C+U+iiL51Pcig==
+Message-ID: <4ec84aaa-b1f4-4cd1-bafc-2873dee1bdb8@canonical.com>
+Date:   Tue, 13 Jun 2023 01:38:25 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v3 02/57] apparmor: Free up __cleanup() name
+Content-Language: en-US
+To:     Peter Zijlstra <peterz@infradead.org>,
+        torvalds@linux-foundation.org, keescook@chromium.org,
+        gregkh@linuxfoundation.org, pbonzini@redhat.com
+Cc:     masahiroy@kernel.org, nathan@kernel.org, ndesaulniers@google.com,
+        nicolas@fjasle.eu, catalin.marinas@arm.com, will@kernel.org,
+        vkoul@kernel.org, trix@redhat.com, ojeda@kernel.org,
+        mingo@redhat.com, longman@redhat.com, boqun.feng@gmail.com,
+        dennis@kernel.org, tj@kernel.org, cl@linux.com, acme@kernel.org,
+        mark.rutland@arm.com, alexander.shishkin@linux.intel.com,
+        jolsa@kernel.org, namhyung@kernel.org, irogers@google.com,
+        adrian.hunter@intel.com, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+        bristot@redhat.com, vschneid@redhat.com, paulmck@kernel.org,
+        frederic@kernel.org, quic_neeraju@quicinc.com,
         joel@joelfernandes.org, josh@joshtriplett.org,
         mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
         rientjes@google.com, vbabka@suse.cz, roman.gushchin@linux.dev,
         42.hyeyoo@gmail.com, apw@canonical.com, joe@perches.com,
         dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com,
-        john.johansen@canonical.com, paul@paul-moore.com,
-        jmorris@namei.org, serge@hallyn.com, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
-        llvm@lists.linux.dev, linux-perf-users@vger.kernel.org,
-        rcu@vger.kernel.org, linux-security-module@vger.kernel.org,
-        tglx@linutronix.de, ravi.bangoria@amd.com, error27@gmail.com,
+        paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dmaengine@vger.kernel.org, llvm@lists.linux.dev,
+        linux-perf-users@vger.kernel.org, rcu@vger.kernel.org,
+        linux-security-module@vger.kernel.org, tglx@linutronix.de,
+        ravi.bangoria@amd.com, error27@gmail.com,
         luc.vanoostenryck@gmail.com
-Subject: Re: [PATCH v3 46/57] perf: Simplify pmu_dev_alloc()
-Message-ID: <2023061333-imposing-shortly-6803@gregkh>
 References: <20230612090713.652690195@infradead.org>
- <20230612093540.850386350@infradead.org>
- <20230612094400.GG4253@hirez.programming.kicks-ass.net>
- <2023061226-grumpily-entire-f06a@gregkh>
- <20230612141322.GA83892@hirez.programming.kicks-ass.net>
- <2023061217-mutable-curry-c2ac@gregkh>
- <20230613073415.GP4253@hirez.programming.kicks-ass.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230613073415.GP4253@hirez.programming.kicks-ass.net>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+ <20230612093537.536441207@infradead.org>
+From:   John Johansen <john.johansen@canonical.com>
+Organization: Canonical
+In-Reply-To: <20230612093537.536441207@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jun 13, 2023 at 09:34:15AM +0200, Peter Zijlstra wrote:
-> On Mon, Jun 12, 2023 at 05:44:59PM +0200, Greg KH wrote:
-> > To be fair the end-result of misc_init() is much nicer and cleaner and
-> > "obviously correct", which is good, even with the crazy proc file mess
-> > in it.  So I like the idea overall, need to figure out when to use
-> > DEFINE_CLASS() vs. DEFINE_FREE(), that isn't obvious to me.
+On 6/12/23 02:07, Peter Zijlstra wrote:
+> In order to use __cleanup for __attribute__((__cleanup__(func))) the
+> name must not be used for anything else. Avoid the conflict.
 > 
-> CLASS is meant for things that have an obvious contructor as well as a
-> destructor, that always go together. Like for example the lock things,
-> they always pair a lock and unlock. But also things like:
-> fdget()+fdput(), these can also always be paired, and if you want the
-> file to escape you simply take yet another reference to prevent the
-> fdput() from being the final.
+> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Acked-by: John Johansen <john.johansen@canonical.com>
 
-Ok, so then the class_destroy stuff down below here should be
-DEFINE_CLASS()?
-
-> > @@ -280,29 +268,24 @@ static char *misc_devnode(const struct device *dev, umode_t *mode)
-> >  	return NULL;
-> >  }
-> >  
-> > +DEFINE_FREE(class_destroy, struct class *, if (_T) class_destroy(_T));
+> ---
+>   security/apparmor/include/lib.h |    6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> Documentation for class_create() says it will return ERR_PTR(), so then
-> this should be something like:
+> --- a/security/apparmor/include/lib.h
+> +++ b/security/apparmor/include/lib.h
+> @@ -232,7 +232,7 @@ void aa_policy_destroy(struct aa_policy
+>    */
+>   #define fn_label_build(L, P, GFP, FN)					\
+>   ({									\
+> -	__label__ __cleanup, __done;					\
+> +	__label__ __do_cleanup, __done;					\
+>   	struct aa_label *__new_;					\
+>   									\
+>   	if ((L)->size > 1) {						\
+> @@ -250,7 +250,7 @@ void aa_policy_destroy(struct aa_policy
+>   			__new_ = (FN);					\
+>   			AA_BUG(!__new_);				\
+>   			if (IS_ERR(__new_))				\
+> -				goto __cleanup;				\
+> +				goto __do_cleanup;			\
+>   			__lvec[__j++] = __new_;				\
+>   		}							\
+>   		for (__j = __count = 0; __j < (L)->size; __j++)		\
+> @@ -272,7 +272,7 @@ void aa_policy_destroy(struct aa_policy
+>   			vec_cleanup(profile, __pvec, __count);		\
+>   		} else							\
+>   			__new_ = NULL;					\
+> -__cleanup:								\
+> +__do_cleanup:								\
+>   		vec_cleanup(label, __lvec, (L)->size);			\
+>   	} else {							\
+>   		(P) = labels_profile(L);				\
 > 
-> DEFINE_FRERE(class_destroy, struct class *, if (!IS_ERR_OR_NULL(_T)) class_destroy(_T))
-
-Nit, as class_destroy() handles this type of check within it, it can be
-even simpler:
-	DEFINE_FREE(class_destroy, struct class *, class_destroy(_T));
-or would that be:
-	DEFINE_CLASS(class_destroy, struct class *, class_destroy(_T));
-?
-
-> > +DEFINE_FREE(remove_proc, struct proc_dir_entry *, if (_T) remove_proc_entry("misc", NULL));
-> >  static int __init misc_init(void)
-> >  {
-> > +	struct proc_dir_entry *ret __free(remove_proc) = proc_create_seq("misc", 0, NULL, &misc_seq_ops);
-> > +	struct class *c __free(class_destroy) = class_create("misc");
-> >  
-> > +	if (IS_ERR(c))
-> > +		return PTR_ERR(c);
-> >  
-> >  	if (register_chrdev(MISC_MAJOR, "misc", &misc_fops))
-> > +		return -EIO;
-> >  
-> > +	c->devnode = misc_devnode;
-> > +
-> > +	misc_class = no_free_ptr(c);
-> > +	no_free_ptr(ret);
-> > +
-> > +	return 0;
-> >  }
 > 
-> And yes, this does look nicer.
 
-I have a ton of future patches coming that does a bunch of
-class_create/destroy changes that would be made a LOT simpler with this
-patchset, and I really don't want to have to hit the same codepaths
-twice if at all possible.
-
-So what's the odds this can be reasonable enough to get into 6.5-rc1 so
-we can rely on it there?
-
-thanks,
-
-greg k-h
