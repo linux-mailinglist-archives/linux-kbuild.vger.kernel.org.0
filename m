@@ -2,130 +2,69 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0139731672
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Jun 2023 13:23:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35F547319D7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Jun 2023 15:25:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240382AbjFOLXV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 15 Jun 2023 07:23:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46030 "EHLO
+        id S1344005AbjFONZC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 15 Jun 2023 09:25:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241642AbjFOLXT (ORCPT
+        with ESMTP id S240465AbjFONYp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 15 Jun 2023 07:23:19 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1C232942;
-        Thu, 15 Jun 2023 04:23:17 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4A0EA62509;
-        Thu, 15 Jun 2023 11:23:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5A1EC433D9;
-        Thu, 15 Jun 2023 11:23:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686828196;
-        bh=k9fADbgKvV/Qn+j8XbAwaXlplLxpRignwQzXVFHSWt8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=OTx+Sljx6YMQKFA95oZuH+C2Hn73d40eLzW/LKTTMBs0Sd6WTjoQxZLaLmGyVPLSJ
-         HDY7E7zr98cBAinzGe9Cj90fBEO6GO7097NmHzIKXVsiEaO11HgomXE6DOGgWlGc/6
-         ffMhLjXMvXIZWMYZStNgT/vyxXqnV1D5mjcYoOGeg9NJXkpfzRmzPhAfmV/ScbCH0k
-         F0XeDNCw17CV6SHazA0445KkgYVRhslR6yy3uv1Po++S0AyTbz8dC5N0sUo4p3v/Fy
-         A4SB3e05LrW7/8NJJsY6N6sCMgT4adCqhXqZq4ij+genFaIheBYTuVChg34TDY1MaA
-         mqa6L8HX7g04A==
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-1a99f39a387so453319fac.2;
-        Thu, 15 Jun 2023 04:23:16 -0700 (PDT)
-X-Gm-Message-State: AC+VfDyTywZqXZX9Yg5wqLXLf7LDdpkNeGAYyvmtG+ZJ0uFOMvxG8T1n
-        hULEla6vCkC4voqoG3FoyeIlKmPyEGUue98NYCA=
-X-Google-Smtp-Source: ACHHUZ5hWhXAn/m8+l5Ml0NG1WlcoD7isYO4jpODDCwDXsdjNjcNp5pTXujRUFqfd7DKuvK26A3NKOM/rVbr74vYLjw=
-X-Received: by 2002:a05:6870:3e4:b0:19f:45a1:b59d with SMTP id
- h36-20020a05687003e400b0019f45a1b59dmr14233174oaf.12.1686828195942; Thu, 15
- Jun 2023 04:23:15 -0700 (PDT)
+        Thu, 15 Jun 2023 09:24:45 -0400
+Received: from mail.sitirkam.com (mail.aurorateknoglobal.com [103.126.10.58])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A043A270A;
+        Thu, 15 Jun 2023 06:24:44 -0700 (PDT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.sitirkam.com (Postfix) with ESMTP id E95E84E7BE85;
+        Thu, 15 Jun 2023 08:32:08 +0700 (WIB)
+Received: from mail.sitirkam.com ([127.0.0.1])
+        by localhost (mail.sitirkam.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id vCWv5wv-e4bs; Thu, 15 Jun 2023 08:32:08 +0700 (WIB)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.sitirkam.com (Postfix) with ESMTP id EBCB74E7B17E;
+        Thu, 15 Jun 2023 08:32:00 +0700 (WIB)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.sitirkam.com EBCB74E7B17E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sitirkam.com;
+        s=B8AB377C-ED3B-11EA-8736-9248CAEF674E; t=1686792721;
+        bh=q7vDHy+gLAr4GKZUDI+hjt8I93kvW09nNmGJORUTyfg=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=Tf7FWIxmdKqazaA50P1tzZyaij5Ra09whYpkGOTGYx+leNni4csixyNmnwapzLMY2
+         +SOpRTJcX2lJnWiyFTPPI52jdJFLC3Gxr0naX/qVoa40FXnTKMGLRrGytzuhmkrmVM
+         k02AK/m4j2GD7DBUtHZE2HAZ+7UeAeKuRJ1AWMmjaihfUvhOIW8sdcNMkWbliDVDE7
+         eBGbm0b+95+pUEgOc4ZUN2bi4mz0Wl5JgtWaG6la0EW/TSHLPcdc3Jrt7NdhMutJXj
+         EIdh2qJ3eZonpgVb2xu68Wd7xlr6RojQtmjH+Aqe5kBFTbiCRiRMxjMeXTn+KenIDo
+         Ipp2GuTzEJTPQ==
+X-Virus-Scanned: amavisd-new at mail.sitirkam.com
+Received: from mail.sitirkam.com ([127.0.0.1])
+        by localhost (mail.sitirkam.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id eMG2ZXjSIsZl; Thu, 15 Jun 2023 08:32:00 +0700 (WIB)
+Received: from [185.169.4.111] (unknown [185.169.4.111])
+        by mail.sitirkam.com (Postfix) with ESMTPSA id 230F94E7B17F;
+        Thu, 15 Jun 2023 08:31:55 +0700 (WIB)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <36a4014c73a52af27d930d3ca31d362b60f4461c.1686356364.git.josh@joshtriplett.org>
-In-Reply-To: <36a4014c73a52af27d930d3ca31d362b60f4461c.1686356364.git.josh@joshtriplett.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 15 Jun 2023 20:22:39 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ1bfc_rEX-Wyi6az0KSse11ws-farvxkYwfGKXrueduw@mail.gmail.com>
-Message-ID: <CAK7LNAQ1bfc_rEX-Wyi6az0KSse11ws-farvxkYwfGKXrueduw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: deb-pkg: Include modules.builtin* even if non-modular
-To:     Josh Triplett <josh@joshtriplett.org>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Description: Mail message body
+Subject: Spende
+To:     Recipients <admin@sitirkam.com>
+From:   "Maria-Elisabeth Schaeffler" <admin@sitirkam.com>
+Date:   Wed, 14 Jun 2023 18:34:03 -0700
+Reply-To: schaefflermariaelisabeth1941@gmail.com
+Message-Id: <20230615013156.230F94E7B17F@mail.sitirkam.com>
+X-Spam-Status: No, score=2.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jun 10, 2023 at 9:28=E2=80=AFAM Josh Triplett <josh@joshtriplett.or=
-g> wrote:
->
-> Even for a non-modular kernel, the kernel builds modules.builtin and
-> modules.builtin.modinfo, with information about the built-in modules.
-> Tools such as initramfs-tools need these files to build a working
-> initramfs on some systems, such as those requiring firmware.
->
-> Install modules.builtin and modules.builtin.modinfo into the linux-image
-> package even for a non-modular kernel.
->
-> Signed-off-by: Josh Triplett <josh@joshtriplett.org>
+Your email account has been selected for a donation of =E2=82=AC1,700,000. =
+Please contact me for more information.
 
-
-
-OK, I understood.
-But, this patch only aids Debian in an ad-hoc file copy.
-
-I think chaning modules_install would be a more
-general solution.
-
-Can you use this patch as a prerequisite?
-https://patchwork.kernel.org/project/linux-kbuild/patch/20230615111743.8838=
-91-1-masahiroy@kernel.org/
-
-Then, you can simply remove
-"if is_enabled CONFIG_MODULES; then"
-so you can install the files unconditionally.
-
-
-
-> ---
->  scripts/package/builddeb | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-> index 252faaa5561c..91261529f2c7 100755
-> --- a/scripts/package/builddeb
-> +++ b/scripts/package/builddeb
-> @@ -70,6 +70,12 @@ install_linux_image () {
->                         mkdir -p "${pdir}/usr/lib/uml/modules"
->                         mv "${pdir}/lib/modules/${KERNELRELEASE}" "${pdir=
-}/usr/lib/uml/modules/${KERNELRELEASE}"
->                 fi
-> +       elif [ -f modules.builtin ]; then
-> +               mkdir -p "${pdir}/lib/modules/${KERNELRELEASE}"
-> +               cp modules.builtin "${pdir}/lib/modules/${KERNELRELEASE}/=
-modules.builtin"
-> +               if [ -f modules.builtin.modinfo ]; then
-> +                       cp modules.builtin.modinfo "${pdir}/lib/modules/$=
-{KERNELRELEASE}/modules.builtin.modinfo"
-> +               fi
->         fi
->
->         # Install the kernel
-> --
-> 2.40.1
->
-
-
---=20
-Best Regards
-Masahiro Yamada
+Mrs Maria Elisabeth Schaeffler
+CEO SCHAEFFLER.
