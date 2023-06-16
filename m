@@ -2,61 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D19373341D
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jun 2023 17:01:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DF2E733420
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jun 2023 17:02:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345841AbjFPPBz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 16 Jun 2023 11:01:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57476 "EHLO
+        id S1345785AbjFPPB7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 16 Jun 2023 11:01:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345795AbjFPPBi (ORCPT
+        with ESMTP id S1345819AbjFPPBp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 16 Jun 2023 11:01:38 -0400
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com [IPv6:2001:4860:4864:20::29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE42B359F;
-        Fri, 16 Jun 2023 08:01:30 -0700 (PDT)
-Received: by mail-oa1-x29.google.com with SMTP id 586e51a60fabf-1a9d57f8f9fso582841fac.3;
-        Fri, 16 Jun 2023 08:01:30 -0700 (PDT)
+        Fri, 16 Jun 2023 11:01:45 -0400
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F59835BE;
+        Fri, 16 Jun 2023 08:01:37 -0700 (PDT)
+Received: by mail-ot1-x32f.google.com with SMTP id 46e09a7af769-6b16c53a85aso679891a34.2;
+        Fri, 16 Jun 2023 08:01:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686927690; x=1689519690;
+        d=gmail.com; s=20221208; t=1686927696; x=1689519696;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=I2cPag5aN0MWJAFLWvbMyNtH5T6S8+Vc3THjxE3SzjY=;
-        b=W+p57BBqvE6vEIGynnEcGkcirKwbw1ptyeFjMPbtqTG3SGjnb3uYqiiHozshYO/6HJ
-         1qSdqohr+yo7gI4nd9qLBvMJ+sCLfTeO4sEHGFm6vjR2Igrno7VnujIyGduO8yi/JUtm
-         1XO3aFy44jOZJ5sC/rYkqm6LvdNuq+IwlAaE2Xu6DsyAbRLk2BPyG+avwAQStzkAaNoI
-         ue4XvfU12TU28nWnesTeSGBXxVM4JREiOvCQCHrVrhh9mJAU25z8Z3+Wb5VZ8q0DaH1O
-         R7ukxlytxBaetNWVGMm3fzaLe2x5VDh63rlk8HCdM1Ul8lFqd+lOoOHaN6UGbe3rrpCs
-         9T7g==
+        bh=OH4rIpmkTlQj1zVd/tpnXTRPRkAWVctrbRLNUrBxQLk=;
+        b=pTHG6+yHehe+0dMBs8hYzxcGi9TMf96HLVOrjYSXaxJTAzZMN3nB1I9KrpkIzHQIW8
+         hTdWWtbFywiY4YCXTnp6W3/6Vzw6yJlsCNLk7xNvHkEn7P9YYYByVCRtvi20Tif6X3wN
+         SZe7LRLK4BWxEx0WLq252TyaC37nRYgn+uoGy20/FxSB0SNHXTGFD7Gw4tJYiAHqv8ym
+         li0Klguo/FgcBFFd2xj9jPUUqD/GPTvfVfp1UHxn01raybpXXxC82gMJ4a8Q58rggkut
+         /3ecAdMze/55Lsv7NDcWIUAMljYsAv7zS5Ykr8CsKZPgy+2BNy+Dw+R7r3tl9Fo/TyPs
+         m0+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686927690; x=1689519690;
+        d=1e100.net; s=20221208; t=1686927696; x=1689519696;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=I2cPag5aN0MWJAFLWvbMyNtH5T6S8+Vc3THjxE3SzjY=;
-        b=aH83Ll5zD04ujGmthLkNhEcYRM7F+6XhARa+tUVdeYsItuvU1AurjLj5MAIQ0gQcXc
-         0Zz7LpCKnFhZoK8DtTb73pk6uGLR5yB+cRNQfODasARm3WN3cm3RMENQzlU0L/k3nu0R
-         W7xlR6M86dh8q4l8/reGEh/FVt5OvSTIfGjWvVsoNIMOrmdjOG7cLm/tliS/hJWPy35M
-         IBQiwz9K/VS8RXSmcMiVsGYVXA+DZJr6ww+4Q+h9Hjh3TIpioAPif2rdQiScMUMRkeD1
-         gbMUH8QbkkrzaNud/TXjq+efoI/TafifCtTXZ9TPZVPAQZhg0RLT7h1H/8aM+dkUS8Dc
-         yoNQ==
-X-Gm-Message-State: AC+VfDyra9UOkHQtpa2ZnbBBBCtyJ1KhbeajbH7sOdYKvtTJS96LUDBR
-        bXZvUZ2QBxBOivTJS/FhCh0=
-X-Google-Smtp-Source: ACHHUZ5tmQXBdCH0Bmja7Xhdz4f/k6mMEDWuBdBMFjqEXJnnkwS+GUUn2WO6K4oJIq+FLAWB2rDn4g==
-X-Received: by 2002:a05:6870:1a93:b0:1a2:f7ca:61af with SMTP id ef19-20020a0568701a9300b001a2f7ca61afmr2446890oab.2.1686927688697;
-        Fri, 16 Jun 2023 08:01:28 -0700 (PDT)
+        bh=OH4rIpmkTlQj1zVd/tpnXTRPRkAWVctrbRLNUrBxQLk=;
+        b=R2ZSgyIUB4f54l+GiQS8KKwcJ0iatvijS909jPgyTcWONRRK/9OVI5rPH7YE+UPxE9
+         DqsMVOJoHi1KQafdai57dyQnqyXDkumhvRzPPJbBGcedXmqkULxqWXJlPCjc9ncza1PO
+         WH1SRTlaWLWur7he/swgBhMM6VjVI7mH9xhO3JggS76ZtX4/LEzpUG/FSMq9yeCoiiuK
+         eBTkvBjZ7nKLUmNMoTZI/bYqco5kb8pw5S+iZ2UUHM/587j1KkrHfea9NL4eN8MZWeRo
+         9WWVWKZW+TAg8U7YiNKn3VY3UJ3N7q9hmAebbnoyhchUN6/i+c17QDzRgDffhuICOFla
+         WMug==
+X-Gm-Message-State: AC+VfDzGc2eA84XTi+NEIKV3sAWQBTpCZh8zfN25HRBNgUOyZby/bsoy
+        KDKj5bcjV+8ezHOraozM9io=
+X-Google-Smtp-Source: ACHHUZ5CZbY0+TIWlwiPELU/neFEnCMSAx7G5qnMowKHGtqEhUDVZpQPfFxLdTTuh/WOejw3V1eEmQ==
+X-Received: by 2002:a05:6830:1e72:b0:6af:8e73:786b with SMTP id m18-20020a0568301e7200b006af8e73786bmr2461138otr.5.1686927696604;
+        Fri, 16 Jun 2023 08:01:36 -0700 (PDT)
 Received: from [192.168.54.90] (static.220.238.itcsa.net. [190.15.220.238])
-        by smtp.gmail.com with ESMTPSA id l1-20020a05687040c100b001a2d569558dsm4155233oal.35.2023.06.16.08.01.24
+        by smtp.gmail.com with ESMTPSA id u11-20020a9d4d8b000000b006af78565d64sm7890159otk.46.2023.06.16.08.01.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Jun 2023 08:01:28 -0700 (PDT)
-Message-ID: <f278ea82-e949-f4d2-a48e-e615fa5491f6@gmail.com>
-Date:   Fri, 16 Jun 2023 11:08:52 -0300
+        Fri, 16 Jun 2023 08:01:36 -0700 (PDT)
+Message-ID: <181163f9-49fb-f75f-38bd-92766d1a2982@gmail.com>
+Date:   Fri, 16 Jun 2023 11:10:49 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH v2 06/11] kbuild: rust_is_available: check that
- environment variables are set
+Subject: Re: [PATCH v2 07/11] kbuild: rust_is_available: fix confusion when a
+ version appears in the path
 Content-Language: en-US
 To:     Miguel Ojeda <ojeda@kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
@@ -71,11 +71,14 @@ Cc:     Nathan Chancellor <nathan@kernel.org>,
         Alice Ryhl <aliceryhl@google.com>,
         Andreas Hindborg <nmi@metaspace.dk>,
         linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org,
-        linux-kernel@vger.kernel.org, patches@lists.linux.dev
+        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        Jordan Isaacs <mail@jdisaacs.com>,
+        "Ethan D . Twardy" <ethan.twardy@gmail.com>,
+        Tiago Lam <tiagolam@gmail.com>
 References: <20230616001631.463536-1-ojeda@kernel.org>
- <20230616001631.463536-7-ojeda@kernel.org>
+ <20230616001631.463536-8-ojeda@kernel.org>
 From:   Martin Rodriguez Reboredo <yakoyoku@gmail.com>
-In-Reply-To: <20230616001631.463536-7-ojeda@kernel.org>
+In-Reply-To: <20230616001631.463536-8-ojeda@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -89,23 +92,27 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On 6/15/23 21:16, Miguel Ojeda wrote:
-> Sometimes [1] users may attempt to setup the Rust support by
-> checking what Kbuild does and they end up finding out about
-> `scripts/rust_is_available.sh`. Inevitably, they run the script
-> directly, but unless they setup the required variables,
-> the result of the script is not meaningful.
+> `bindgen`'s output for `libclang`'s version check contains paths, which
+> in turn may contain strings that look like version numbers [1][2]:
 > 
-> We could add some defaults to the variables, but that could be
-> confusing for those that may override the defaults (compared
-> to their kernel builds), and `$CC` would not be a simple default
-> in any case.
+>      .../6.1.0-dev/.../rust_is_available_bindgen_libclang.h:2:9: warning: clang version 11.1.0  [-W#pragma-messages], err: false
 > 
-> Therefore, instead, explicitly check whether the expected variables
-> are set (`$RUSTC`, `$BINDGEN` and `$CC`). If not, print an explanation
-> about the fact that the script is meant to be called from Kbuild,
-> since that is the most likely cause for the variables not being set.
+> which the script will pick up as the version instead of the latter.
 > 
-> Link: https://lore.kernel.org/oe-kbuild-all/Y6r4mXz5NS0+HVXo@zn.tnic/ [1]
+> It is also the case that versions may appear after the actual version
+> (e.g. distribution's version text), which was the reason behind `head` [3]:
+> 
+>      .../rust-is-available-bindgen-libclang.h:2:9: warning: clang version 13.0.0 (Fedora 13.0.0-3.fc35) [-W#pragma-messages], err: false
+> 
+> Thus instead ask for a match after the `clang version` string.
+> 
+> Reported-by: Jordan Isaacs <mail@jdisaacs.com>
+> Closes: https://github.com/Rust-for-Linux/linux/issues/942 [1]
+> Reported-by: Ethan D. Twardy <ethan.twardy@gmail.com>
+> Closes: https://lore.kernel.org/rust-for-linux/20230528131802.6390-2-ethan.twardy@gmail.com/ [2]
+> Reported-by: Tiago Lam <tiagolam@gmail.com>
+> Closes: https://github.com/Rust-for-Linux/linux/pull/789 [3]
+> Fixes: 78521f3399ab ("scripts: add `rust_is_available.sh`")
 > Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 > ---
 > [...]
