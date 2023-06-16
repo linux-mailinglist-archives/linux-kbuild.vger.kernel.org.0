@@ -2,38 +2,38 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E990733723
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jun 2023 19:07:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6964733729
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jun 2023 19:07:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244952AbjFPRHG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 16 Jun 2023 13:07:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50398 "EHLO
+        id S230022AbjFPRHm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 16 Jun 2023 13:07:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229912AbjFPRHF (ORCPT
+        with ESMTP id S229912AbjFPRHk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 16 Jun 2023 13:07:05 -0400
+        Fri, 16 Jun 2023 13:07:40 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C2A81BC3;
-        Fri, 16 Jun 2023 10:07:04 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13E571BE3;
+        Fri, 16 Jun 2023 10:07:40 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 10A8761EFB;
-        Fri, 16 Jun 2023 17:07:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A4DDC433C0;
-        Fri, 16 Jun 2023 17:07:02 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 98E0263F10;
+        Fri, 16 Jun 2023 17:07:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16526C433C0;
+        Fri, 16 Jun 2023 17:07:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686935223;
-        bh=ANYkmBJGUK3gxGc6i6+SY4srcN3mW7UlL+HWDMqvql4=;
+        s=k20201202; t=1686935259;
+        bh=gmKQ0AURAJf8qyf6k8o+TXk5I0Kft2zeZCsgp/H5lno=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tkwlJyy+ithOeGX55qP22gsPP8xYfhBsmhhjjzi1BAu26df1sHKyOdzmQJjopZEts
-         Ke16g5xnhJ95uYc8EGRdG0h5R7jrEPkAx1lseksGYwRWCSK6WAV0KwtRrkrwC+C8dl
-         8SMzwnGIy5+5eRx/FIydAdNDT7ea13hzI0KSyObCzhfGwswwloAqYTRcr96YRWDasI
-         DXy23rokJ31kdc4/TkBwUkLoYePPfABueB8t3/QWAeZah9URjt6wx5Owy6LbJgDDRJ
-         YSxUA4CGAqOTwW3tBb82tYKws6ZXeCsh2HT0ZZFPzxGT5iflr+eQly5iwGip0E6J68
-         f4UmAd8oVJWgw==
-Date:   Fri, 16 Jun 2023 10:07:00 -0700
+        b=nx/Yo4ox0Jdf1B1O9v1eEYjSe1cMbRXurqE8t2Ulm+hIGL3/hJDTZ0E7JcrA0LmEG
+         UI5YLgBWIcxCbtgVQzXyGIWUgXF7BiuQuTQTdGiyXQccDnSf6mzGfKItLmm/LreT2h
+         6Qc/DhWSksf3S6U6xP2sJZV1Gkw1y+qFuEeZVVt/8VfqKGSqHo+uhXfv6UQb4vIoEZ
+         SoZPWMhVl60br4GrYepYeALYVq0xQPbXP4uWyvqI1hei1IMYJh8SxWnixTYuucCdOU
+         y31whtpfWAgv4kaEGTUTCv4jWuUvj1cSoK6u8ym4F9u8EbM+ElY25rYufICs09ph1a
+         Mc5aWZYnqdjtQ==
+Date:   Fri, 16 Jun 2023 10:07:36 -0700
 From:   Nathan Chancellor <nathan@kernel.org>
 To:     Miguel Ojeda <ojeda@kernel.org>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
@@ -47,71 +47,105 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Alice Ryhl <aliceryhl@google.com>,
         Andreas Hindborg <nmi@metaspace.dk>,
         linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org,
-        linux-kernel@vger.kernel.org, patches@lists.linux.dev
-Subject: Re: [PATCH v2 03/11] docs: rust: add paragraph about finding a
- suitable `libclang`
-Message-ID: <20230616170700.GB3474164@dev-arch.thelio-3990X>
+        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        Finn Behrens <fin@nyantec.com>
+Subject: Re: [PATCH v2 04/11] kbuild: rust_is_available: print docs reference
+Message-ID: <20230616170736.GC3474164@dev-arch.thelio-3990X>
 References: <20230616001631.463536-1-ojeda@kernel.org>
- <20230616001631.463536-4-ojeda@kernel.org>
+ <20230616001631.463536-5-ojeda@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230616001631.463536-4-ojeda@kernel.org>
+In-Reply-To: <20230616001631.463536-5-ojeda@kernel.org>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jun 16, 2023 at 02:16:23AM +0200, Miguel Ojeda wrote:
-> Sometimes users need to tweak the finding process of `libclang`
-> for `bindgen` via the `clang-sys`-provided environment variables.
+On Fri, Jun 16, 2023 at 02:16:24AM +0200, Miguel Ojeda wrote:
+> People trying out the Rust support in the kernel may get
+> warnings and errors from `scripts/rust_is_available.sh`
+> from the `rustavailable` target or the build step.
 > 
-> Thus add a paragraph to the setting up guide, including a reference
-> to `clang-sys`'s relevant documentation.
+> Some of those users may be following the Quick Start guide,
+> but others may not (likely those getting warnings from
+> the build step instead of the target).
 > 
-> Link: https://lore.kernel.org/rust-for-linux/CAKwvOdm5JT4wbdQQYuW+RT07rCi6whGBM2iUAyg8A1CmLXG6Nw@mail.gmail.com/
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> While the messages are fairly clear on what the problem is,
+> it may not be clear how to solve the particular issue,
+> especially for those not aware of the documentation.
+> 
+> We could add all sorts of details on the script for each one,
+> but it is better to point users to the documentation instead,
+> where it is easily readable in different formats. It also
+> avoids duplication.
+> 
+> Thus add a reference to the documentation whenever the script
+> fails or there is at least a warning.
+> 
+> Reviewed-by: Finn Behrens <fin@nyantec.com>
 > Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
 Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
 > ---
->  Documentation/rust/quick-start.rst | 17 +++++++++++++++++
+>  scripts/rust_is_available.sh | 17 +++++++++++++++++
 >  1 file changed, 17 insertions(+)
 > 
-> diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quick-start.rst
-> index 13b7744b1e27..a635be69e062 100644
-> --- a/Documentation/rust/quick-start.rst
-> +++ b/Documentation/rust/quick-start.rst
-> @@ -100,6 +100,23 @@ Install it via (note that this will download and build the tool from source)::
+> diff --git a/scripts/rust_is_available.sh b/scripts/rust_is_available.sh
+> index 0c9be438e4cd..6b8131d5b547 100755
+> --- a/scripts/rust_is_available.sh
+> +++ b/scripts/rust_is_available.sh
+> @@ -19,6 +19,20 @@ get_canonical_version()
+>  	echo $((100000 * $1 + 100 * $2 + $3))
+>  }
 >  
->  	cargo install --locked --version $(scripts/min-tool-version.sh bindgen) bindgen
+> +# Print a reference to the Quick Start guide in the documentation.
+> +print_docs_reference()
+> +{
+> +	echo >&2 "***"
+> +	echo >&2 "*** Please see Documentation/rust/quick-start.rst for details"
+> +	echo >&2 "*** on how to set up the Rust support."
+> +	echo >&2 "***"
+> +}
+> +
+> +# If the script fails for any reason, or if there was any warning, then
+> +# print a reference to the documentation on exit.
+> +warning=0
+> +trap 'if [ $? -ne 0 ] || [ $warning -ne 0 ]; then print_docs_reference; fi' EXIT
+> +
+>  # Check that the Rust compiler exists.
+>  if ! command -v "$RUSTC" >/dev/null; then
+>  	echo >&2 "***"
+> @@ -60,6 +74,7 @@ if [ "$rust_compiler_cversion" -gt "$rust_compiler_min_cversion" ]; then
+>  	echo >&2 "***   Your version:     $rust_compiler_version"
+>  	echo >&2 "***   Expected version: $rust_compiler_min_version"
+>  	echo >&2 "***"
+> +	warning=1
+>  fi
 >  
-> +``bindgen`` needs to find a suitable ``libclang`` in order to work. If it is
-> +not found (or a different ``libclang`` than the one found should be used),
-> +the process can be tweaked using the environment variables understood by
-> +``clang-sys`` (the Rust bindings crate that ``bindgen`` uses to access
-> +``libclang``):
-> +
-> +* ``LLVM_CONFIG_PATH`` can be pointed to an ``llvm-config`` executable.
-> +
-> +* Or ``LIBCLANG_PATH`` can be pointed to a ``libclang`` shared library
-> +  or to the directory containing it.
-> +
-> +* Or ``CLANG_PATH`` can be pointed to a ``clang`` executable.
-> +
-> +For details, please see ``clang-sys``'s documentation at:
-> +
-> +	https://github.com/KyleMayes/clang-sys#environment-variables
-> +
+>  # Check that the Rust bindings generator is suitable.
+> @@ -87,6 +102,7 @@ if [ "$rust_bindings_generator_cversion" -gt "$rust_bindings_generator_min_cvers
+>  	echo >&2 "***   Your version:     $rust_bindings_generator_version"
+>  	echo >&2 "***   Expected version: $rust_bindings_generator_min_version"
+>  	echo >&2 "***"
+> +	warning=1
+>  fi
 >  
->  Requirements: Developing
->  ------------------------
+>  # Check that the `libclang` used by the Rust bindings generator is suitable.
+> @@ -126,6 +142,7 @@ if [ "$cc_name" = Clang ]; then
+>  		echo >&2 "***   libclang version: $bindgen_libclang_version"
+>  		echo >&2 "***   Clang version:    $clang_version"
+>  		echo >&2 "***"
+> +		warning=1
+>  	fi
+>  fi
+>  
 > -- 
 > 2.41.0
 > 
