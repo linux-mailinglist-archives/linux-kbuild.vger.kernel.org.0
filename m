@@ -2,72 +2,114 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B68407336FE
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jun 2023 19:01:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 580FB733721
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jun 2023 19:06:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242470AbjFPRB1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 16 Jun 2023 13:01:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43812 "EHLO
+        id S232420AbjFPRGl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 16 Jun 2023 13:06:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244204AbjFPRAl (ORCPT
+        with ESMTP id S229547AbjFPRGl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 16 Jun 2023 13:00:41 -0400
-Received: from out-33.mta0.migadu.com (out-33.mta0.migadu.com [IPv6:2001:41d0:1004:224b::21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EBBEB5
-        for <linux-kbuild@vger.kernel.org>; Fri, 16 Jun 2023 10:00:29 -0700 (PDT)
-Date:   Fri, 16 Jun 2023 13:00:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1686934827;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=UpEzonWWYg7jSvyYhQNh8mY4km+28it6D+EFpiWRWkQ=;
-        b=rryMa/o2/FTM0HCe1qaimzRUzZKZ7wSFLRELkLEpHgLKdLQuzlMwot9VuvPrMzP9wfGUTg
-        OPdsVHDdLQ/gEn0n3kda1TpijPMsbnS62Q4GPW5WTNRM8W2cldyofwvRG1t9JJoPs0hGbt
-        gH8pVFKWxiK2scQtML3s+0JnfkFf6G8=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Kent Overstreet <kent.overstreet@linux.dev>
-To:     Peter Oberparleiter <oberpar@linux.ibm.com>
+        Fri, 16 Jun 2023 13:06:41 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 976DC12B;
+        Fri, 16 Jun 2023 10:06:39 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0ADE761197;
+        Fri, 16 Jun 2023 17:06:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B20FC433C8;
+        Fri, 16 Jun 2023 17:06:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686935198;
+        bh=oYugvKskX3ycARRns+Q3JNVdPtAXrA9xWAu5PokkPE8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hMUJcv2t/x02kV/m7nNOUJwHVJEaLLhow/G6fH/doP3rZh9yEnsv183P8uXt+ehz8
+         UYhI7Z4DnuH0mIJAHievM0a/l+qNYLsN3ceKcYWAOZIDNw7Ah46pdKhpzQ77dJ41bG
+         RPX58IoAqk8r2i3lGq/uVkQcZY8l5Qe+iQNiMMqWKeiQdffGGyL/ZyfurOw6WW0OsG
+         44igd7J8EPxrurdFwKyv87foQPddzTzExiWyYPH5k/cZHpQ/7Y2lQmp6ErxQIYDxkx
+         Drgy5pTTUusBjL7wOoqBck4/8Nd2EMqlFoenuVByatGkzKWfRuQBsb8JAhp6dK8dhQ
+         x986XhM85j/fw==
+Date:   Fri, 16 Jun 2023 10:06:35 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Miguel Ojeda <ojeda@kernel.org>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Subject: Re: Specifying CFLAGS for a directory on the command line
-Message-ID: <ZIyVKQOIek9gglbs@moria.home.lan>
-References: <ZIOmUkXlegycIExQ@moria.home.lan>
- <CAKwvOdneu4Fzy+x1KTd_ugLzt4iyUpE+fGXwXeNCWW12Jtj1GA@mail.gmail.com>
- <CAKwvOdnuPYKahsgAA=n6MD+byxujaEW82FEUWd2Ay4Tx9VAiDw@mail.gmail.com>
- <ZIO3leNyqOeJw6u3@moria.home.lan>
- <bddaf556-6417-ffaf-2301-9caf47089b21@linux.ibm.com>
- <ZIiz4WjIB6r8Gz4l@moria.home.lan>
- <a077ce91-1cfc-5c15-aa0e-1cf90f71e719@linux.ibm.com>
- <CAK7LNASjy5Gb31rNx4aqLzqmR01b8YYkOFDwD8L93uYmQnzrKw@mail.gmail.com>
- <625f2720-9664-4cab-a4c6-b30c4b902c54@linux.ibm.com>
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+        Benno Lossin <benno.lossin@proton.me>,
+        Alice Ryhl <aliceryhl@google.com>,
+        Andreas Hindborg <nmi@metaspace.dk>,
+        linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org,
+        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        Russell Currey <ruscur@russell.cc>
+Subject: Re: [PATCH v2 02/11] kbuild: rust_is_available: fix version check
+ when CC has multiple arguments
+Message-ID: <20230616170635.GA3474164@dev-arch.thelio-3990X>
+References: <20230616001631.463536-1-ojeda@kernel.org>
+ <20230616001631.463536-3-ojeda@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <625f2720-9664-4cab-a4c6-b30c4b902c54@linux.ibm.com>
-X-Migadu-Flow: FLOW_OUT
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20230616001631.463536-3-ojeda@kernel.org>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jun 16, 2023 at 06:45:46PM +0200, Peter Oberparleiter wrote:
-> I don't feel very strongly about this specific feature - it seemed to me
-> that it could be implemented in a non-intrusive way and it provides
-> value to at least one developer.
+On Fri, Jun 16, 2023 at 02:16:22AM +0200, Miguel Ojeda wrote:
+> From: Russell Currey <ruscur@russell.cc>
+> 
+> rust_is_available.sh uses cc-version.sh to identify which C compiler is
+> in use, as scripts/Kconfig.include does.  cc-version.sh isn't designed to
+> be able to handle multiple arguments in one variable, i.e. "ccache clang".
+> Its invocation in rust_is_available.sh quotes "$CC", which makes
+> $1 == "ccache clang" instead of the intended $1 == ccache & $2 == clang.
+> 
+> cc-version.sh could also be changed to handle having "ccache clang" as one
+> argument, but it only has the one consumer upstream, making it simpler to
+> fix the caller here.
+> 
+> Signed-off-by: Russell Currey <ruscur@russell.cc>
+> Fixes: 78521f3399ab ("scripts: add `rust_is_available.sh`")
+> Link: https://github.com/Rust-for-Linux/linux/pull/873
+> [ Reworded title prefix and reflow line to 75 columns. ]
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-And it'll get us better tooling integration.
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-I'm the author of ktest [1], which does interactive and automated kernel
-testing. With this feature I'll be able to generate gcov/lcov output
-with a single argument to build-test-kernel, and hopefully with a bit of
-extra work get code coverage analysis as part of CI runs.
-
-[1] https://evilpiepirate.org/git/ktest.git
+> ---
+>  scripts/rust_is_available.sh | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/scripts/rust_is_available.sh b/scripts/rust_is_available.sh
+> index f43a010eaf30..0c9be438e4cd 100755
+> --- a/scripts/rust_is_available.sh
+> +++ b/scripts/rust_is_available.sh
+> @@ -113,10 +113,10 @@ fi
+>  #
+>  # In the future, we might be able to perform a full version check, see
+>  # https://github.com/rust-lang/rust-bindgen/issues/2138.
+> -cc_name=$($(dirname $0)/cc-version.sh "$CC" | cut -f1 -d' ')
+> +cc_name=$($(dirname $0)/cc-version.sh $CC | cut -f1 -d' ')
+>  if [ "$cc_name" = Clang ]; then
+>  	clang_version=$( \
+> -		LC_ALL=C "$CC" --version 2>/dev/null \
+> +		LC_ALL=C $CC --version 2>/dev/null \
+>  			| sed -nE '1s:.*version ([0-9]+\.[0-9]+\.[0-9]+).*:\1:p'
+>  	)
+>  	if [ "$clang_version" != "$bindgen_libclang_version" ]; then
+> -- 
+> 2.41.0
+> 
