@@ -2,46 +2,46 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB69473500A
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Jun 2023 11:28:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48F61735066
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Jun 2023 11:35:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231649AbjFSJ2y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 19 Jun 2023 05:28:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51174 "EHLO
+        id S230110AbjFSJes (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 19 Jun 2023 05:34:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231468AbjFSJ2n (ORCPT
+        with ESMTP id S231377AbjFSJd6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 19 Jun 2023 05:28:43 -0400
+        Mon, 19 Jun 2023 05:33:58 -0400
 Received: from hi1smtp01.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B0D03595;
-        Mon, 19 Jun 2023 02:27:39 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6240183;
+        Mon, 19 Jun 2023 02:32:35 -0700 (PDT)
 Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
-        by hi1smtp01.de.adit-jv.com (Postfix) with ESMTP id 9030A5202D7;
-        Mon, 19 Jun 2023 11:27:26 +0200 (CEST)
+        by hi1smtp01.de.adit-jv.com (Postfix) with ESMTP id 183155202EC;
+        Mon, 19 Jun 2023 11:32:34 +0200 (CEST)
 Received: from lxhi-065 (10.72.94.24) by hi2exch02.adit-jv.com (10.72.92.28)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.23; Mon, 19 Jun
- 2023 11:27:26 +0200
-Date:   Mon, 19 Jun 2023 11:27:21 +0200
+ 2023 11:32:33 +0200
+Date:   Mon, 19 Jun 2023 11:32:33 +0200
 From:   Eugeniu Rosca <erosca@de.adit-jv.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>
 CC:     Eugeniu Rosca <erosca@de.adit-jv.com>,
-        <linux-kbuild@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        <devicetree@vger.kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <Matthias.Thomae@de.bosch.com>, <yyankovskyi@de.adit-jv.com>,
+        <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
         Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH 1/4] dt-bindings: fix error in 'make clean' after 'make
- dt_binding_check'
-Message-ID: <20230619092721.GA20014@lxhi-065>
-References: <20200625170434.635114-1-masahiroy@kernel.org>
- <20200625170434.635114-2-masahiroy@kernel.org>
- <20230616194505.GA27753@lxhi-065>
- <CAK7LNAR8G1PxsdUi6dnbrDcbCKixkARgbHm94xskgNgWJ7aMTQ@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: make clean rule robust against too long argument
+ error
+Message-ID: <20230619093233.GB20014@lxhi-065>
+References: <20230617153025.1653851-1-masahiroy@kernel.org>
+ <20230617200700.GA31221@lxhi-065>
+ <CAK7LNATbrP4Re+-9rY9d0=Dsk-O4DasZZtV0wM7SWg3Y5eLKmQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <CAK7LNAR8G1PxsdUi6dnbrDcbCKixkARgbHm94xskgNgWJ7aMTQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNATbrP4Re+-9rY9d0=Dsk-O4DasZZtV0wM7SWg3Y5eLKmQ@mail.gmail.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Originating-IP: [10.72.94.24]
 X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
@@ -57,14 +57,32 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 Hello Yamada-san,
 
-On Sun, Jun 18, 2023 at 03:09:56AM +0900, Masahiro Yamada wrote:
+On Mon, Jun 19, 2023 at 12:50:48AM +0900, Masahiro Yamada wrote:
+> On Sun, Jun 18, 2023 at 5:07 AM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
 
 [snip]
 
-> I sumitted a patch
-> https://urldefense.proofpoint.com/v2/url?u=https-3A__patchwork.kernel.org_project_linux-2Dkbuild_patch_20230617153025.1653851-2D1-2Dmasahiroy-40kernel.org_&d=DwIFaQ&c=euGZstcaTDllvimEN8b7jXrwqOf-v5A_CdpgnVfiiMM&r=SAhjP5GOmrADp1v_EE5jWoSuMlYCIt9gKduw-DCBPLs&m=_gWZwnUVw05obX2g0v2G-rIQlozQoBMXSi-pktMqVpo&s=L4Kw5qaiY1cU27bKrjQce8uJhLXdeiQ96IyX7l6Ki3o&e=
+> > Please, correct me if I am wrong, but it looks like the magic/brilliance
+> > is in the 'patsubst' function, since below version also fails for me:
+> >
+> > NOK: cmd_clean = printf '%s ' $(__clean-files) | xargs rm -rf
+> 
+> Right.
+> Now, 'printf' (instead of 'rm') failed with the too long argument list.
+> 
+> GNU Make does not have the length limit, but shell does.
+> So, the full-path list must be passed via stdout
+> instead of the command line.
+> 
+> 
+> The comment might be confusing.
+> 
+> I will repeat the same comment written in scripts/Makefile.build:
+> 
+>   # To make this rule robust against "Argument list too long" error,
+>   # remove $(obj)/ prefix, and restore it by a shell command.
 
-Thank you very much. Provided my comments in the new thread.
+Sounds good to me. No open questions from my end :)
 
 -- 
 Best regards,
