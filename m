@@ -2,55 +2,51 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 43522735759
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Jun 2023 14:52:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 740E47359C3
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Jun 2023 16:37:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231293AbjFSMwM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 19 Jun 2023 08:52:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36554 "EHLO
+        id S231546AbjFSOhg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 19 Jun 2023 10:37:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231345AbjFSMwE (ORCPT
+        with ESMTP id S231701AbjFSOhe (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 19 Jun 2023 08:52:04 -0400
-Received: from mail.avm.de (mail.avm.de [212.42.244.119])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2140710C6;
-        Mon, 19 Jun 2023 05:51:39 -0700 (PDT)
-Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
-        by mail.avm.de (Postfix) with ESMTPS;
-        Mon, 19 Jun 2023 14:51:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-        t=1687179061; bh=F9qbwFu08/cDlUcRp5xRazMlWpEcmmgXT90TjPKR7Dc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AAz7d5NyIoPLTcatKRIy3Gu/U4ZnoL3/QGnvps7Spt/jjvqj62ET3smeeZEPWPPzF
-         KUw7jBzmpcgLaLHuYAU/xMMZ295bV3W+1GyKKKwyNyhs86FujuMo1cZk+S5KKkBJxz
-         /HMK/xxnltfeuE94xNBElFt5fq+cGILghZb1K/6U=
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-        by mail-auth.avm.de (Postfix) with ESMTPA id DDA2581ECE;
-        Mon, 19 Jun 2023 14:51:00 +0200 (CEST)
-Received: by buildd.core.avm.de (Postfix, from userid 1000)
-        id D8F7F18207E; Mon, 19 Jun 2023 14:51:00 +0200 (CEST)
-Date:   Mon, 19 Jun 2023 14:51:00 +0200
-From:   Nicolas Schier <n.schier@avm.de>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH v2 2/2] kbuild: respect GNU Make -w flag
-Message-ID: <ZJBPNBrLSX+M2e4l@buildd.core.avm.de>
-References: <20230616145751.945864-1-masahiroy@kernel.org>
- <20230616145751.945864-2-masahiroy@kernel.org>
+        Mon, 19 Jun 2023 10:37:34 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E376E68;
+        Mon, 19 Jun 2023 07:37:32 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9DC3360CA5;
+        Mon, 19 Jun 2023 14:37:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54BD1C433C0;
+        Mon, 19 Jun 2023 14:37:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687185451;
+        bh=cKXZj60yRSK1IRgf3ZaAN3xJcXaOIkypoexKrxHMOhs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=QH0bwh7t/Urer7GKMlsBQid+Lf8kVUaQTAtIDH76W4UJYv1gGjxTg2yNqLDo4zKnz
+         ToVQqgo1qSFzOkQNm5YHLgf/0lrDc1nZdm/XZ7NNiFHck64gJC98ol21RnDSTu2I7k
+         9Fw3L5OVAk68dKIr1AB5nxJEB+/70lbS9KUQdz+MpacjJz0uZ1WKiHVt2vsv/p1hwF
+         S0IM1Pbh+CgIaC0SupzbmqAHH6pz5mhSZ7B/+snZsvIdSTdSnvlKz36n31ILHDk4GS
+         2ZoY5kBKGu5kpL6ANlRpeJ1V48gghKpjehS27GNYhxmgp/rx3dPYqNPP1blHJjeUrM
+         wtpYhJa6QQk8w==
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        Russell King <linux@armlinux.org.uk>
+Cc:     linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH] ARM: change link order of $(mmy-y) to avoid veneers
+Date:   Mon, 19 Jun 2023 23:37:25 +0900
+Message-Id: <20230619143725.57967-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230616145751.945864-2-masahiroy@kernel.org>
-X-purgate-ID: 149429::1687179060-27DFF3F9-02FD9815/0/0
-X-purgate-type: clean
-X-purgate-size: 2303
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
-X-purgate: clean
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -59,81 +55,71 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jun 16, 2023 at 11:57:51PM +0900, Masahiro Yamada wrote:
-> Currently, -w (--print-directory) option is ignored, but it is better
-> to respect the user's choice.
-> 
-> This commit changes the behavior of "Entering directory ..." logging.
-> 
-> If -w (or --print-directory) is given via the command line or the
-> MAKEFLAGS environment variable, print "Entering directory ..." for every
-> sub make.
-> 
-> If --no-print-directory is given via the command line or the MAKEFLAGS
-> environment variable, suppress "Entering directory ..." completely.
-> 
-> If none of them is given, print "Entering directory ..." only when Kbuild
-> changes the working directory. (default)
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
+The kernel compiled with multi_v7_defconfig + CONFIG_KASAN=y +
+CONFIG_KASAN_INLINE=y does not boot.
 
-Tested-by: Nicolas Schier <n.schier@avm.de>
+I do not think KASAN is the direct reason of the boot failure.
+CONFIG_KASAN_INLINE is just one example configuration that grows the
+image size significantly and makes a big distance between function
+callers and callees.
 
-> 
-> Changes in v2:
->   - new patch
-> 
->  Makefile | 16 ++++++++++------
->  1 file changed, 10 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index 916c1a7984b0..3867cdc3de5d 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -38,6 +38,12 @@ __all:
->  # descending is started. They are now explicitly listed as the
->  # prepare rule.
->  
-> +ifeq ($(filter 3.%,$(MAKE_VERSION)),)
-> +short-opts := $(firstword -$(MAKEFLAGS))
-> +else
-> +short-opts := $(filter-out --%,$(MAKEFLAGS))
-> +endif
-> +
->  ifneq ($(sub_make_done),1)
->  
->  # Do not use make's built-in rules and variables
-> @@ -91,12 +97,6 @@ endif
->  # commands
->  # make-4.0 (and later) keep single letter options in the 1st word of MAKEFLAGS.
->  
-> -ifeq ($(filter 3.%,$(MAKE_VERSION)),)
-> -short-opts := $(firstword -$(MAKEFLAGS))
-> -else
-> -short-opts := $(filter-out --%,$(MAKEFLAGS))
-> -endif
-> -
->  ifneq ($(findstring s,$(short-opts)),)
->  quiet=silent_
->  override KBUILD_VERBOSE :=
-> @@ -217,12 +217,16 @@ else
->  need-sub-make := 1
->  endif
->  
-> +ifeq ($(findstring w, $(short-opts)),)
->  ifeq ($(filter --no-print-directory, $(MAKEFLAGS)),)
->  # If --no-print-directory is unset, recurse once again to set it.
->  # You may end up with recursing into __sub-make twice. This is due to the
->  # behavior change for GNU Make 4.4.1.
->  need-sub-make := 1
->  endif
-> +else
-> +no-print-directory :=
-> +endif
->  
->  ifeq ($(need-sub-make),1)
->  
-> -- 
-> 2.39.2
-> 
+I see some veneers for __get_user_* in the bad kernel image. I am
+not perfectly clear, but __get_user_* may not work with veneers for
+some reasons.
+
+If I move the link order of arch/arm/lib/getuser.S, the veneers are
+gone, and the kernel gets working again.
+
+I do not see a good reason that $(mmu-y) must be added to lib-y because
+all the code in $(mmu-y) is mandatory. Add it to obj-y to move the code
+to lower address.
+
+[1] multi_v7_defconfig (works)
+
+ $ arm-linux-gnueabihf-nm vmlinux | grep __get_user_1
+ c072a450 T __get_user_1
+ c17ea033 r __kstrtab___get_user_1
+ c18119fe r __kstrtabns___get_user_1
+ c17c4878 r __ksymtab___get_user_1
+
+[2] multi_v7_defconfig + CONFIG_KASAN_INLINE (does not work)
+
+ $ arm-linux-gnueabihf-nm vmlinux | grep __get_user_1
+ c341ec2c T __get_user_1
+ c06e3580 t ____get_user_1_veneer
+ c0adc6c0 t ____get_user_1_veneer
+ c12cf054 t ____get_user_1_veneer
+ c43f42cc r __kstrtab___get_user_1
+ c441c128 r __kstrtabns___get_user_1
+ c43cead8 r __ksymtab___get_user_1
+
+[3] multi_v7_defconfig + CONFIG_KASAN_INLINE + this patch (works)
+
+ $ arm-linux-gnueabihf-nm vmlinux | grep __get_user_1
+ c10975b0 T __get_user_1
+ c43f42cc r __kstrtab___get_user_1
+ c441c128 r __kstrtabns___get_user_1
+ c43cead8 r __ksymtab___get_user_1
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ arch/arm/lib/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm/lib/Makefile b/arch/arm/lib/Makefile
+index 650404be6768..4d092ef87a1d 100644
+--- a/arch/arm/lib/Makefile
++++ b/arch/arm/lib/Makefile
+@@ -28,7 +28,7 @@ endif
+ # using lib_ here won't override already available weak symbols
+ obj-$(CONFIG_UACCESS_WITH_MEMCPY) += uaccess_with_memcpy.o
+ 
+-lib-$(CONFIG_MMU) += $(mmu-y)
++obj-$(CONFIG_MMU) += $(mmu-y)
+ 
+ ifeq ($(CONFIG_CPU_32v3),y)
+   lib-y	+= io-readsw-armv3.o io-writesw-armv3.o
+-- 
+2.39.2
+
