@@ -2,61 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A4EE7367B3
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jun 2023 11:28:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3AE3736B86
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jun 2023 14:05:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232322AbjFTJ2L (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 20 Jun 2023 05:28:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48008 "EHLO
+        id S232566AbjFTMFg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 20 Jun 2023 08:05:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232323AbjFTJ12 (ORCPT
+        with ESMTP id S232574AbjFTMF3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 20 Jun 2023 05:27:28 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E62C199
-        for <linux-kbuild@vger.kernel.org>; Tue, 20 Jun 2023 02:26:58 -0700 (PDT)
+        Tue, 20 Jun 2023 08:05:29 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39DFE170C;
+        Tue, 20 Jun 2023 05:05:28 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D85ED610A2
-        for <linux-kbuild@vger.kernel.org>; Tue, 20 Jun 2023 09:26:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AD00C433C8
-        for <linux-kbuild@vger.kernel.org>; Tue, 20 Jun 2023 09:26:57 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C1F1C611EA;
+        Tue, 20 Jun 2023 12:05:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C678FC433C8;
+        Tue, 20 Jun 2023 12:05:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687253217;
-        bh=qhrRbmxAtwc4R26hREfKuPSB6zNwFUyMSbBaEhCNUg8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Ajv3bVk7Re1ZgkUKMUl1hbibPtE3P9e6mbGCG28uq/R5M8DiwBn8oCZqwBhASNIdn
-         srAwQn/P76UsrVArVHV4owCt1hIzn6JPFOvsh1EFVxShnQ6005HPOXJapQ0yvMo5/u
-         gGQ6KLXKA0gVzN2GVo5LXaU3tmeIgTgneOP7nu+eOzPfzoSrQb18qpJBxa+D1nFWzF
-         TyQMUxi+HzFYPL85bm9YtmSwyCEwO3/Og58an2dmM3NIabJ3DPAgpL4XEEgbqFh67v
-         DA9tOJG/rhy2GL4spRk7jZkF4Q+7EpLVtsyWwdq/Soh7INYsg9Db7uRdDP7NoysOgW
-         HEQ8XNU2SBClg==
-Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3a034e628fcso686817b6e.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 20 Jun 2023 02:26:57 -0700 (PDT)
-X-Gm-Message-State: AC+VfDxqgjb6shPQeTlzswiZ2VinSqk8eVydheL/X01QjEXwuB8pZ9w2
-        1e/Ah6wVeN6Es3zMEv+SivXfU2U/h/gDDo+yWEo=
-X-Google-Smtp-Source: ACHHUZ4ds8695YflvbPqM5PiC/sZci7eYsdXoZW+PCBijMCWWyenfMiASLL5sWeM87ZAJRvl4LbgWA55jVkyRTGFRt0=
-X-Received: by 2002:a05:6808:4c5:b0:39a:28ba:9431 with SMTP id
- a5-20020a05680804c500b0039a28ba9431mr6179435oie.12.1687253216551; Tue, 20 Jun
- 2023 02:26:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230615234037.244446-1-vincenzopalazzodev@gmail.com> <ZJBOQy0d+V0qLZns@buildd.core.avm.de>
-In-Reply-To: <ZJBOQy0d+V0qLZns@buildd.core.avm.de>
+        s=k20201202; t=1687262727;
+        bh=fo/HY+4/U2YoL8+5myRX8J+xt11fEMJWxO7l4IEHPH8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=BdJBhZ2pi6yfDXYGE1RXqL+cmvlCGxYZJ3/FD0mqpEWoHOfavsABlo5ii6L5HoPvl
+         GeQsxNRHs3NimIw8hB438iHjwAHWncN5XGRiyYI0iourWuzGJEGmlwXSskFvi4ncGe
+         +Q6fqMMSS5Bc/DgF/2wElaJuuBTg5WUfyt2kUp6LRKFXGT/ruYPee1WJ0JWdzY6xh9
+         kWzscZNA0+18nP8SJedpsX83oTz+CRHvV1V9Iha53KJSKjMQAudIZTNEIN+VlQejgB
+         7e1MDtVirm4VgCZJNHTkVkb7noEd794QJ+GcEe2P78q8TsQWtB/BmJFRHSahjTQ6kz
+         B4gaoRVlkLHqQ==
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 20 Jun 2023 18:26:18 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASYGGqjNmJtVrkNr-k+mbH09LMyfRQoosmvdvobP1_CEQ@mail.gmail.com>
-Message-ID: <CAK7LNASYGGqjNmJtVrkNr-k+mbH09LMyfRQoosmvdvobP1_CEQ@mail.gmail.com>
-Subject: Re: [PATCH v4] script: modpost: emit a warning when the description
- is missing
-To:     Nicolas Schier <n.schier@avm.de>,
-        Vincenzo Palazzo <vincenzopalazzodev@gmail.com>
-Cc:     linux-kbuild@vger.kernel.org, devzero@web.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>
+Subject: [PATCH 1/3] modpost: factor out inst location calculation to section_rel()
+Date:   Tue, 20 Jun 2023 21:05:19 +0900
+Message-Id: <20230620120521.688124-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -65,66 +56,99 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jun 19, 2023 at 9:47=E2=80=AFPM Nicolas Schier <n.schier@avm.de> wr=
-ote:
->
-> On Fri, Jun 16, 2023 at 01:40:37AM +0200, Vincenzo Palazzo wrote:
-> > Emit a warning when the mod description is missed and only
-> > when the W=3D1 is enabled.
-> >
-> > Based on top: https://patchwork.kernel.org/project/linux-kbuild/patch/2=
-0230606094159.1910369-1-masahiroy@kernel.org/
-> >
-> > Sorry the version 3 is wrong, there is no reason
-> > to wrap the if under the `W`.
->
-> You probably wanted to put this paragraph below the trailer block
-> (separated by another '---').
+All the addend_*_rel() functions calculate the instruction location in
+the same way.
 
+Factor out the similar code to the caller. Squash reloc_location() too.
 
-I removed this paragraph and applied to linux-kbuild.
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-Thanks.
+ scripts/mod/modpost.c | 28 ++++++++++++----------------
+ 1 file changed, 12 insertions(+), 16 deletions(-)
 
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 6e0b8be32648..2551ac9d5bd3 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -1256,16 +1256,9 @@ static void check_section_mismatch(struct module *mod, struct elf_info *elf,
+ 				 tosec, taddr);
+ }
+ 
+-static unsigned int *reloc_location(struct elf_info *elf,
+-				    Elf_Shdr *sechdr, Elf_Rela *r)
+-{
+-	return sym_get_data_by_offset(elf, sechdr->sh_info, r->r_offset);
+-}
+-
+-static int addend_386_rel(struct elf_info *elf, Elf_Shdr *sechdr, Elf_Rela *r)
++static int addend_386_rel(uint32_t *location, Elf_Rela *r)
+ {
+ 	unsigned int r_typ = ELF_R_TYPE(r->r_info);
+-	unsigned int *location = reloc_location(elf, sechdr, r);
+ 
+ 	switch (r_typ) {
+ 	case R_386_32:
+@@ -1302,11 +1295,10 @@ static int32_t sign_extend32(int32_t value, int index)
+ 	return (int32_t)(value << shift) >> shift;
+ }
+ 
+-static int addend_arm_rel(struct elf_info *elf, Elf_Shdr *sechdr, Elf_Rela *r)
++static int addend_arm_rel(void *loc, struct elf_info *elf, Elf_Rela *r)
+ {
+ 	unsigned int r_typ = ELF_R_TYPE(r->r_info);
+ 	Elf_Sym *sym = elf->symtab_start + ELF_R_SYM(r->r_info);
+-	void *loc = reloc_location(elf, sechdr, r);
+ 	uint32_t inst, upper, lower, sign, j1, j2;
+ 	int32_t offset;
+ 
+@@ -1396,11 +1388,10 @@ static int addend_arm_rel(struct elf_info *elf, Elf_Shdr *sechdr, Elf_Rela *r)
+ 	return 0;
+ }
+ 
+-static int addend_mips_rel(struct elf_info *elf, Elf_Shdr *sechdr, Elf_Rela *r)
++static int addend_mips_rel(uint32_t *location, Elf_Rela *r)
+ {
+ 	unsigned int r_typ = ELF_R_TYPE(r->r_info);
+-	unsigned int *location = reloc_location(elf, sechdr, r);
+-	unsigned int inst;
++	uint32_t inst;
+ 
+ 	if (r_typ == R_MIPS_HI16)
+ 		return 1;	/* skip this */
+@@ -1502,6 +1493,8 @@ static void section_rel(struct module *mod, struct elf_info *elf,
+ 		return;
+ 
+ 	for (rel = start; rel < stop; rel++) {
++		void *loc;
++
+ 		r.r_offset = TO_NATIVE(rel->r_offset);
+ #if KERNEL_ELFCLASS == ELFCLASS64
+ 		if (elf->hdr->e_machine == EM_MIPS) {
+@@ -1519,17 +1512,20 @@ static void section_rel(struct module *mod, struct elf_info *elf,
+ 		r_sym = ELF_R_SYM(r.r_info);
+ #endif
+ 		r.r_addend = 0;
++
++		loc = sym_get_data_by_offset(elf, fsecndx, r.r_offset);
++
+ 		switch (elf->hdr->e_machine) {
+ 		case EM_386:
+-			if (addend_386_rel(elf, sechdr, &r))
++			if (addend_386_rel(loc, &r))
+ 				continue;
+ 			break;
+ 		case EM_ARM:
+-			if (addend_arm_rel(elf, sechdr, &r))
++			if (addend_arm_rel(loc, elf, &r))
+ 				continue;
+ 			break;
+ 		case EM_MIPS:
+-			if (addend_mips_rel(elf, sechdr, &r))
++			if (addend_mips_rel(loc, &r))
+ 				continue;
+ 			break;
+ 		default:
+-- 
+2.39.2
 
-
-
-
-
-
-
-
-> >
-> > Reported-by: Roland Kletzing <devzero@web.de>
-> > Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D10770
-> > Signed-off-by: Vincenzo Palazzo <vincenzopalazzodev@gmail.com>
-> > ---
->
-> Tested-by: Nicolas Schier <n.schier@avm.de>
->
->
-> >  scripts/mod/modpost.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > index d4531d09984d..0cdf8d655bd3 100644
-> > --- a/scripts/mod/modpost.c
-> > +++ b/scripts/mod/modpost.c
-> > @@ -1818,6 +1818,8 @@ static void read_symbols(const char *modname)
-> >               }
-> >       }
-> >
-> > +     if (extra_warn && !get_modinfo(&info, "description"))
-> > +             warn("missing MODULE_DESCRIPTION() in %s\n", modname);
-> >       for (sym =3D info.symtab_start; sym < info.symtab_stop; sym++) {
-> >               symname =3D remove_dot(info.strtab + sym->st_name);
-> >
-> > --
-> > 2.41.0
-> >
-
-
-
---=20
-Best Regards
-Masahiro Yamada
