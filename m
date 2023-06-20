@@ -2,53 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 81C3D736310
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jun 2023 07:16:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8ABED736326
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jun 2023 07:27:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230236AbjFTFQo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 20 Jun 2023 01:16:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53234 "EHLO
+        id S230190AbjFTF1P (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 20 Jun 2023 01:27:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229932AbjFTFQo (ORCPT
+        with ESMTP id S230129AbjFTF1M (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 20 Jun 2023 01:16:44 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD08110D7;
-        Mon, 19 Jun 2023 22:16:42 -0700 (PDT)
+        Tue, 20 Jun 2023 01:27:12 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC2EA185;
+        Mon, 19 Jun 2023 22:27:11 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7121960FBB;
-        Tue, 20 Jun 2023 05:16:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBC1EC433C0;
-        Tue, 20 Jun 2023 05:16:41 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 47FD260F38;
+        Tue, 20 Jun 2023 05:27:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E00FC433D9;
+        Tue, 20 Jun 2023 05:27:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687238201;
-        bh=hzpaa3iGkGe9xtkcsnYk+Um0tqxkVjDTyjZm8EOU0Os=;
+        s=k20201202; t=1687238830;
+        bh=tiI3VGfsL8gKc/bRU3EleHUPx2M61lfNJEcBUuB9vq0=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=OQx/8INO9GEPdUH3BI8erf6zQ9q4FihvaiEzWpSyC6i//qpAbEAYcW5jze8qcuSIo
-         cReVt2JMp8KbSAlKMT7vzYzat8HB61aqay4Ei4Ft4o++q9oIyaIEt0mCeGC1LlmXCL
-         g9AqkfPJdpGqYQcUJEPMJD8RTn6py4/BOr6bwPSh0YF28we0KZWAODkuEmQSNjMUhS
-         VohJkux7BF2mEpBj8yK71BVkGdZ1vbObE2jy/pI51DNkUMJpkaAl+UOsfG7teYJJuh
-         OlYa3/aIPSNurQ3eurJezaMmkkeofnLbxhnpiuo4wtNx/LFpm3WEweIQ+/6RyQn9kf
-         Hudmn8djwc6Sg==
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-5607a462bb7so849930eaf.3;
-        Mon, 19 Jun 2023 22:16:41 -0700 (PDT)
-X-Gm-Message-State: AC+VfDzmKuQanDWECRyfrF8JcAi/pA/qu87u9mNfE2ceWMsPn6za0ckc
-        SGrU6rc+9yPvnAy6q+5jm7jiqvkPHRCcAOkntb4=
-X-Google-Smtp-Source: ACHHUZ5UPUAVUe7wK3MR/2HPSQYplZtvZ60obrm6pHMoETfd92DeaSbpzYdzMWQq9rjcCHB8xH4OWgnaU9Y2B/o5NoM=
-X-Received: by 2002:a4a:ba1a:0:b0:560:8d95:55f4 with SMTP id
- b26-20020a4aba1a000000b005608d9555f4mr790814oop.4.1687238201141; Mon, 19 Jun
- 2023 22:16:41 -0700 (PDT)
+        b=Jo5XT1eH8P9E1q9rMYFPNxTTfxBO4FO181LfsG6wKE2KIzeB7qiTR0zzqL9Y5aZZm
+         HA0uqEnlC1U/j8swQtMPARhkivxwBykY1b3ee5cv4tkgZFaZK9Rve2CSGuXNtCcc4g
+         WmP+TaGYaI2kF2ZsWJNfzMvgUKo3mcCeK6rxRVAisO5tL+wrQI3oH4SYTG+0mToZkl
+         jx7yZIYQpHlhjn3rZuTrBiP2b4fOUK4KXNQ0Se+GAar/zA5TXDlPt6FQyC4kQrt41F
+         lgwwpT9CTp+PsZHgolTIDizdyVv5FuHjy7eMZzBSzWdQu2qoaVjVVHygE+jGaQ+SeY
+         bRxVyTL3iYOiQ==
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-558a79941c6so2874463eaf.3;
+        Mon, 19 Jun 2023 22:27:10 -0700 (PDT)
+X-Gm-Message-State: AC+VfDwgFS0n1na18gAvvg+ha1EYlAU4bc/nMejaDkVicyEmKDIpxDkw
+        NQP/VID3HAUwypsBzsXkcbRpcTAjQmVHsFuNlTg=
+X-Google-Smtp-Source: ACHHUZ4kT05bFp2F2OhC5RWNtAb18rJ72zRh1SDV2eWBsz3V+QuG9vxyaYsjeed4LIGpthO6PGccOVOyynF8Mx3pv5Y=
+X-Received: by 2002:a4a:a7cd:0:b0:55e:54db:c453 with SMTP id
+ n13-20020a4aa7cd000000b0055e54dbc453mr3955562oom.7.1687238829822; Mon, 19 Jun
+ 2023 22:27:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230616001631.463536-1-ojeda@kernel.org> <20230616001631.463536-9-ojeda@kernel.org>
-In-Reply-To: <20230616001631.463536-9-ojeda@kernel.org>
+References: <20230616001631.463536-1-ojeda@kernel.org> <20230616001631.463536-5-ojeda@kernel.org>
+In-Reply-To: <20230616001631.463536-5-ojeda@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 20 Jun 2023 14:16:05 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASOsLzYMOU90JXSfEjsMaxCq8pOOsVzDfq2nSS_B8K9qQ@mail.gmail.com>
-Message-ID: <CAK7LNASOsLzYMOU90JXSfEjsMaxCq8pOOsVzDfq2nSS_B8K9qQ@mail.gmail.com>
-Subject: Re: [PATCH v2 08/11] kbuild: rust_is_available: normalize version matching
+Date:   Tue, 20 Jun 2023 14:26:33 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARWkqKNGKNWJpzFLxSLjE5NhJ0rzbbM3QGTahfsrF2ccQ@mail.gmail.com>
+Message-ID: <CAK7LNARWkqKNGKNWJpzFLxSLjE5NhJ0rzbbM3QGTahfsrF2ccQ@mail.gmail.com>
+Subject: Re: [PATCH v2 04/11] kbuild: rust_is_available: print docs reference
 To:     Miguel Ojeda <ojeda@kernel.org>
 Cc:     Wedson Almeida Filho <wedsonaf@gmail.com>,
         Alex Gaynor <alex.gaynor@gmail.com>,
@@ -61,11 +61,12 @@ Cc:     Wedson Almeida Filho <wedsonaf@gmail.com>,
         Alice Ryhl <aliceryhl@google.com>,
         Andreas Hindborg <nmi@metaspace.dk>,
         linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org,
-        linux-kernel@vger.kernel.org, patches@lists.linux.dev
+        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        Finn Behrens <fin@nyantec.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -77,23 +78,65 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 On Fri, Jun 16, 2023 at 9:17=E2=80=AFAM Miguel Ojeda <ojeda@kernel.org> wro=
 te:
 >
-> In order to match the version string, `sed` is used in a couple
-> cases, and `grep` and `head` in a couple others.
+> People trying out the Rust support in the kernel may get
+> warnings and errors from `scripts/rust_is_available.sh`
+> from the `rustavailable` target or the build step.
 >
-> Make the script more consistent and easier to understand by
-> using the same method, `sed`, for all of them.
+> Some of those users may be following the Quick Start guide,
+> but others may not (likely those getting warnings from
+> the build step instead of the target).
 >
-> This makes the version matching also a bit more strict for
-> the changed cases, since the strings `rustc ` and `bindgen `
-> will now be required, which should be fine since `rustc`
-> complains if one attempts to call it with another program
-> name, and `bindgen` uses a hardcoded string.
+> While the messages are fairly clear on what the problem is,
+> it may not be clear how to solve the particular issue,
+> especially for those not aware of the documentation.
 >
-> In addition, clarify why one of the existing `sed` commands
-> does not provide an address like the others.
+> We could add all sorts of details on the script for each one,
+> but it is better to point users to the documentation instead,
+> where it is easily readable in different formats. It also
+> avoids duplication.
 >
+> Thus add a reference to the documentation whenever the script
+> fails or there is at least a warning.
+>
+> Reviewed-by: Finn Behrens <fin@nyantec.com>
 > Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+> ---
+>  scripts/rust_is_available.sh | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+>
+> diff --git a/scripts/rust_is_available.sh b/scripts/rust_is_available.sh
+> index 0c9be438e4cd..6b8131d5b547 100755
+> --- a/scripts/rust_is_available.sh
+> +++ b/scripts/rust_is_available.sh
+> @@ -19,6 +19,20 @@ get_canonical_version()
+>         echo $((100000 * $1 + 100 * $2 + $3))
+>  }
+>
+> +# Print a reference to the Quick Start guide in the documentation.
+> +print_docs_reference()
+> +{
+> +       echo >&2 "***"
+> +       echo >&2 "*** Please see Documentation/rust/quick-start.rst for d=
+etails"
+> +       echo >&2 "*** on how to set up the Rust support."
+> +       echo >&2 "***"
+> +}
+> +
+> +# If the script fails for any reason, or if there was any warning, then
+> +# print a reference to the documentation on exit.
+> +warning=3D0
+> +trap 'if [ $? -ne 0 ] || [ $warning -ne 0 ]; then print_docs_reference; =
+fi' EXIT
 
+
+I confirmed that
+pressing Ctrl-C while rust_is_available.sh is running
+does not invoke print_docs_reference().
+(and I believe that is the right behavior).
+
+I also checked bash and dash work in the same way.
+(I usually test both because the POSIX does not define the exact
+condition when the EXIT handler is invoked.)
 
 
 Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
@@ -101,55 +144,53 @@ Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
 
 
 
-> ---
->  scripts/rust_is_available.sh | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
+
+
+
+
+
+
+
+
+> +
+>  # Check that the Rust compiler exists.
+>  if ! command -v "$RUSTC" >/dev/null; then
+>         echo >&2 "***"
+> @@ -60,6 +74,7 @@ if [ "$rust_compiler_cversion" -gt "$rust_compiler_min_=
+cversion" ]; then
+>         echo >&2 "***   Your version:     $rust_compiler_version"
+>         echo >&2 "***   Expected version: $rust_compiler_min_version"
+>         echo >&2 "***"
+> +       warning=3D1
+>  fi
 >
-> diff --git a/scripts/rust_is_available.sh b/scripts/rust_is_available.sh
-> index 810691af66eb..b7e0781fdea9 100755
-> --- a/scripts/rust_is_available.sh
-> +++ b/scripts/rust_is_available.sh
-> @@ -83,8 +83,7 @@ fi
->  # Non-stable and distributions' versions may have a version suffix, e.g.=
- `-dev`.
->  rust_compiler_version=3D$( \
->         LC_ALL=3DC "$RUSTC" --version 2>/dev/null \
-> -               | head -n 1 \
-> -               | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' \
-> +               | sed -nE '1s:.*rustc ([0-9]+\.[0-9]+\.[0-9]+).*:\1:p'
->  )
->  rust_compiler_min_version=3D$($min_tool_version rustc)
->  rust_compiler_cversion=3D$(get_canonical_version $rust_compiler_version)
-> @@ -111,8 +110,7 @@ fi
->  # Non-stable and distributions' versions may have a version suffix, e.g.=
- `-dev`.
->  rust_bindings_generator_version=3D$( \
->         LC_ALL=3DC "$BINDGEN" --version 2>/dev/null \
-> -               | head -n 1 \
-> -               | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' \
-> +               | sed -nE '1s:.*bindgen ([0-9]+\.[0-9]+\.[0-9]+).*:\1:p'
->  )
->  rust_bindings_generator_min_version=3D$($min_tool_version bindgen)
->  rust_bindings_generator_cversion=3D$(get_canonical_version $rust_binding=
-s_generator_version)
-> @@ -155,6 +153,9 @@ fi
+>  # Check that the Rust bindings generator is suitable.
+> @@ -87,6 +102,7 @@ if [ "$rust_bindings_generator_cversion" -gt "$rust_bi=
+ndings_generator_min_cvers
+>         echo >&2 "***   Your version:     $rust_bindings_generator_versio=
+n"
+>         echo >&2 "***   Expected version: $rust_bindings_generator_min_ve=
+rsion"
+>         echo >&2 "***"
+> +       warning=3D1
+>  fi
 >
->  # `bindgen` returned successfully, thus use the output to check that the=
- version
->  # of the `libclang` found by the Rust bindings generator is suitable.
-> +#
-> +# Unlike other version checks, note that this one does not necessarily a=
-ppear
-> +# in the first line of the output, thus no `sed` address is provided.
->  bindgen_libclang_version=3D$( \
->         echo "$bindgen_libclang_output" \
->                 | sed -nE 's:.*clang version ([0-9]+\.[0-9]+\.[0-9]+).*:\=
-1:p'
+>  # Check that the `libclang` used by the Rust bindings generator is suita=
+ble.
+> @@ -126,6 +142,7 @@ if [ "$cc_name" =3D Clang ]; then
+>                 echo >&2 "***   libclang version: $bindgen_libclang_versi=
+on"
+>                 echo >&2 "***   Clang version:    $clang_version"
+>                 echo >&2 "***"
+> +               warning=3D1
+>         fi
+>  fi
+>
 > --
 > 2.41.0
 >
 
 
---=20
+--
 Best Regards
 Masahiro Yamada
