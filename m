@@ -2,130 +2,197 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 20EEE73628F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jun 2023 06:14:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 755BE7362B2
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jun 2023 06:41:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229677AbjFTEOQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 20 Jun 2023 00:14:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41270 "EHLO
+        id S230188AbjFTElb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 20 Jun 2023 00:41:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229651AbjFTEOP (ORCPT
+        with ESMTP id S229506AbjFTEla (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 20 Jun 2023 00:14:15 -0400
-Received: from mail.avm.de (mail.avm.de [IPv6:2001:bf0:244:244::94])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C506810D2;
-        Mon, 19 Jun 2023 21:14:11 -0700 (PDT)
-Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
-        by mail.avm.de (Postfix) with ESMTPS;
-        Tue, 20 Jun 2023 06:14:03 +0200 (CEST)
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-        by mail-auth.avm.de (Postfix) with ESMTPA id 7211380C47;
-        Tue, 20 Jun 2023 06:14:03 +0200 (CEST)
-Received: by buildd.core.avm.de (Postfix, from userid 1000)
-        id 5F279182086; Tue, 20 Jun 2023 06:14:03 +0200 (CEST)
-Date:   Tue, 20 Jun 2023 06:14:03 +0200
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
-        Russell King <linux@armlinux.org.uk>,
-        linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH] ARM: change link order of $(mmy-y) to avoid veneers
-Message-ID: <ZJEni98knMMkU/cl@buildd.core.avm.de>
-References: <20230619143725.57967-1-masahiroy@kernel.org>
+        Tue, 20 Jun 2023 00:41:30 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0001D10C8;
+        Mon, 19 Jun 2023 21:41:28 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8811E60FB6;
+        Tue, 20 Jun 2023 04:41:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCDC0C433C9;
+        Tue, 20 Jun 2023 04:41:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687236087;
+        bh=/tNS/QGR44nW36zshBiU7IiaxE+ykcQcF4Z0lFSXucQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=fhi4PMPDDVROsI6GO5TEwBwwIkMegERJHu37VzUaipq80PVe1amXKO3e3warDe5yV
+         3rh7xLu+Y8XM3zAVaepeathtsIfDavAcGr2Noh+C3XTdaoEwyZzERrBEgBPHPKUB8V
+         tmw3T2YsLKN/nLV+cqDcLiTFUb5SxYFhiXaiaM5qzBLcTbDqg+fj42Fv+IxQ9rx+YK
+         kGrBzKpb8Vg+JTL46TNfldBk0fpsCy5p0G86aKdKHsuOY/fDUx6xM4gZkwQtr8d0Bl
+         851yPqrqsw3pVmkoz+Lfj/9KmeEw1vfRUM96dc3pZ5PY6NqHtx+MZ4jDC5+TX4KM2i
+         t0jUjyoIJPckg==
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-55e4b840858so1209618eaf.1;
+        Mon, 19 Jun 2023 21:41:27 -0700 (PDT)
+X-Gm-Message-State: AC+VfDzqUzMM7FXTNAVBFZmJglLMGkoqjtBjnz8u+PTOcOaIlY+m4Sjp
+        JVQKuSTCA0R8pMqnUVDoqLaYX7PWa4/TOwnj9o8=
+X-Google-Smtp-Source: ACHHUZ4rhVjsVwtS8VJ2pgphBj1N7Hrk6R8ryMDWtFyaVPm2XkqPwXT+sLBvZ7vqc6fXhEfeqob/iRQyPzJfD2JPpc4=
+X-Received: by 2002:a05:6808:1524:b0:39e:c806:5889 with SMTP id
+ u36-20020a056808152400b0039ec8065889mr8808160oiw.28.1687236087177; Mon, 19
+ Jun 2023 21:41:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230619143725.57967-1-masahiroy@kernel.org>
-X-purgate-ID: 149429::1687234443-9D4ED0AE-9095512A/0/0
-X-purgate-type: clean
-X-purgate-size: 2587
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
-X-purgate: clean
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20230616001631.463536-1-ojeda@kernel.org> <20230616001631.463536-6-ojeda@kernel.org>
+In-Reply-To: <20230616001631.463536-6-ojeda@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 20 Jun 2023 13:40:50 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQc0oSA5wtb3J2PYXPy2WsL1ZDBE6vip1qXhDOS+-QjMA@mail.gmail.com>
+Message-ID: <CAK7LNAQc0oSA5wtb3J2PYXPy2WsL1ZDBE6vip1qXhDOS+-QjMA@mail.gmail.com>
+Subject: Re: [PATCH v2 05/11] kbuild: rust_is_available: add check for
+ `bindgen` invocation
+To:     Miguel Ojeda <ojeda@kernel.org>
+Cc:     Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Benno Lossin <benno.lossin@proton.me>,
+        Alice Ryhl <aliceryhl@google.com>,
+        Andreas Hindborg <nmi@metaspace.dk>,
+        linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org,
+        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        =?UTF-8?Q?Fran=C3=A7ois_Valenduc?= <francoisvalenduc@gmail.com>,
+        Alexandru Radovici <msg4alex@gmail.com>,
+        Matthew Leach <dev@mattleach.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Subject: [PATCH] ARM: change link order of $(mmy-y) to avoid veneers
-
-There is a typo in the subject (mmy-y -> mmu-y).
-
-Kind regards,
-Nicolas
-
-
-On Mon, Jun 19, 2023 at 11:37:25PM +0900, Masahiro Yamada wrote:
-> The kernel compiled with multi_v7_defconfig + CONFIG_KASAN=y +
-> CONFIG_KASAN_INLINE=y does not boot.
-> 
-> I do not think KASAN is the direct reason of the boot failure.
-> CONFIG_KASAN_INLINE is just one example configuration that grows the
-> image size significantly and makes a big distance between function
-> callers and callees.
-> 
-> I see some veneers for __get_user_* in the bad kernel image. I am
-> not perfectly clear, but __get_user_* may not work with veneers for
-> some reasons.
-> 
-> If I move the link order of arch/arm/lib/getuser.S, the veneers are
-> gone, and the kernel gets working again.
-> 
-> I do not see a good reason that $(mmu-y) must be added to lib-y because
-> all the code in $(mmu-y) is mandatory. Add it to obj-y to move the code
-> to lower address.
-> 
-> [1] multi_v7_defconfig (works)
-> 
->  $ arm-linux-gnueabihf-nm vmlinux | grep __get_user_1
->  c072a450 T __get_user_1
->  c17ea033 r __kstrtab___get_user_1
->  c18119fe r __kstrtabns___get_user_1
->  c17c4878 r __ksymtab___get_user_1
-> 
-> [2] multi_v7_defconfig + CONFIG_KASAN_INLINE (does not work)
-> 
->  $ arm-linux-gnueabihf-nm vmlinux | grep __get_user_1
->  c341ec2c T __get_user_1
->  c06e3580 t ____get_user_1_veneer
->  c0adc6c0 t ____get_user_1_veneer
->  c12cf054 t ____get_user_1_veneer
->  c43f42cc r __kstrtab___get_user_1
->  c441c128 r __kstrtabns___get_user_1
->  c43cead8 r __ksymtab___get_user_1
-> 
-> [3] multi_v7_defconfig + CONFIG_KASAN_INLINE + this patch (works)
-> 
->  $ arm-linux-gnueabihf-nm vmlinux | grep __get_user_1
->  c10975b0 T __get_user_1
->  c43f42cc r __kstrtab___get_user_1
->  c441c128 r __kstrtabns___get_user_1
->  c43cead8 r __ksymtab___get_user_1
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+On Fri, Jun 16, 2023 at 9:17=E2=80=AFAM Miguel Ojeda <ojeda@kernel.org> wro=
+te:
+>
+> `scripts/rust_is_available.sh` calls `bindgen` with a special
+> header in order to check whether the `libclang` version in use
+> is suitable.
+>
+> However, the invocation itself may fail if, for instance, `bindgen`
+> cannot locate `libclang`. This is fine for Kconfig (since the
+> script will still fail and therefore disable Rust as it should),
+> but it is pretty confusing for users of the `rustavailable` target
+> given the error will be unrelated:
+>
+>     ./scripts/rust_is_available.sh: 21: arithmetic expression: expecting =
+primary: "100000 *  + 100 *  + "
+>     make: *** [Makefile:1816: rustavailable] Error 2
+>
+> Instead, run the `bindgen` invocation independently in a previous
+> step, saving its output and return code. If it fails, then show
+> the user a proper error message. Otherwise, continue as usual
+> with the saved output.
+>
+> Since the previous patch we show a reference to the docs, and
+> the docs now explain how `bindgen` looks for `libclang`,
+> thus the error message can leverage the documentation, avoiding
+> duplication here (and making users aware of the setup guide in
+> the documentation).
+>
+> Reported-by: Nick Desaulniers <ndesaulniers@google.com>
+> Link: https://lore.kernel.org/rust-for-linux/CAKwvOdm5JT4wbdQQYuW+RT07rCi=
+6whGBM2iUAyg8A1CmLXG6Nw@mail.gmail.com/
+> Reported-by: Fran=C3=A7ois Valenduc <francoisvalenduc@gmail.com>
+> Closes: https://github.com/Rust-for-Linux/linux/issues/934
+> Reported-by: Alexandru Radovici <msg4alex@gmail.com>
+> Closes: https://github.com/Rust-for-Linux/linux/pull/921
+> Reported-by: Matthew Leach <dev@mattleach.net>
+> Closes: https://lore.kernel.org/rust-for-linux/20230507084116.1099067-1-d=
+ev@mattleach.net/
+> Fixes: 78521f3399ab ("scripts: add `rust_is_available.sh`")
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 > ---
-> 
->  arch/arm/lib/Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm/lib/Makefile b/arch/arm/lib/Makefile
-> index 650404be6768..4d092ef87a1d 100644
-> --- a/arch/arm/lib/Makefile
-> +++ b/arch/arm/lib/Makefile
-> @@ -28,7 +28,7 @@ endif
->  # using lib_ here won't override already available weak symbols
->  obj-$(CONFIG_UACCESS_WITH_MEMCPY) += uaccess_with_memcpy.o
->  
-> -lib-$(CONFIG_MMU) += $(mmu-y)
-> +obj-$(CONFIG_MMU) += $(mmu-y)
->  
->  ifeq ($(CONFIG_CPU_32v3),y)
->    lib-y	+= io-readsw-armv3.o io-writesw-armv3.o
-> -- 
-> 2.39.2
-> 
+
+
+Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
+
+
+
+
+>  scripts/rust_is_available.sh | 22 +++++++++++++++++++++-
+>  1 file changed, 21 insertions(+), 1 deletion(-)
+>
+> diff --git a/scripts/rust_is_available.sh b/scripts/rust_is_available.sh
+> index 6b8131d5b547..1bdff4472cbe 100755
+> --- a/scripts/rust_is_available.sh
+> +++ b/scripts/rust_is_available.sh
+> @@ -106,8 +106,28 @@ if [ "$rust_bindings_generator_cversion" -gt "$rust_=
+bindings_generator_min_cvers
+>  fi
+>
+>  # Check that the `libclang` used by the Rust bindings generator is suita=
+ble.
+> +#
+> +# In order to do that, first invoke `bindgen` to get the `libclang` vers=
+ion
+> +# found by `bindgen`. This step may already fail if, for instance, `libc=
+lang`
+> +# is not found, thus inform the user in such a case.
+> +bindgen_libclang_output=3D$( \
+> +       LC_ALL=3DC "$BINDGEN" $(dirname $0)/rust_is_available_bindgen_lib=
+clang.h 2>&1 >/dev/null
+
+
+Nit.
+
+To avoid shellcheck warnings, you can quote as follows:
+
+"$(dirname "$0")/rust_is_available_bindgen_libclang.h"
+
+
+You can do shellcheck scanning to avoid new warnings.
+
+(Of course, 02/11 intentionally unquote $CC, though)
+
+
+
+> +) || bindgen_libclang_code=3D$?
+> +if [ -n "$bindgen_libclang_code" ]; then
+> +       echo >&2 "***"
+> +       echo >&2 "*** Running '$BINDGEN' to check the libclang version (u=
+sed by the Rust"
+> +       echo >&2 "*** bindings generator) failed with code $bindgen_libcl=
+ang_code. This may be caused by"
+> +       echo >&2 "*** a failure to locate libclang. See output and docs b=
+elow for details:"
+> +       echo >&2 "***"
+> +       echo >&2 "$bindgen_libclang_output"
+> +       echo >&2 "***"
+> +       exit 1
+> +fi
+> +
+> +# `bindgen` returned successfully, thus use the output to check that the=
+ version
+> +# of the `libclang` found by the Rust bindings generator is suitable.
+>  bindgen_libclang_version=3D$( \
+> -       LC_ALL=3DC "$BINDGEN" $(dirname $0)/rust_is_available_bindgen_lib=
+clang.h 2>&1 >/dev/null \
+> +       echo "$bindgen_libclang_output" \
+>                 | grep -F 'clang version ' \
+>                 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' \
+>                 | head -n 1 \
+> --
+> 2.41.0
+>
+
+
+--=20
+Best Regards
+Masahiro Yamada
