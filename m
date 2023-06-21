@@ -2,163 +2,184 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 260887374EF
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jun 2023 21:13:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5998737E7F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jun 2023 11:17:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230376AbjFTTNV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 20 Jun 2023 15:13:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54048 "EHLO
+        id S230440AbjFUI4y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 21 Jun 2023 04:56:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229748AbjFTTNU (ORCPT
+        with ESMTP id S230470AbjFUI4X (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 20 Jun 2023 15:13:20 -0400
-Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EB12122
-        for <linux-kbuild@vger.kernel.org>; Tue, 20 Jun 2023 12:13:19 -0700 (PDT)
-Received: by mail-qv1-xf2c.google.com with SMTP id 6a1803df08f44-62ff1cdf079so39958616d6.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 20 Jun 2023 12:13:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1687288398; x=1689880398;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3kUloHMpKPl3I/kTERvQHtZG7RFGaCO4HmKGMBk+KKQ=;
-        b=A0HYjhvugScSa3knhYTG7rhIjQObez8K1qq1G0AtXnV79V5m5IS1o76BvHfV8ZdcMw
-         Oz/t8xN/A9VCSvACpWBzMKR5VB4fiSIIABKQaPCoXEUi03i1ulvCCDzNV4CVWLYvh/AF
-         IUvHIxPU/tUt0uE6yX68pyoRiYT+b1CHaqnB1bsYxnTusTZWfiXQ9TH8+11uRemnLxoh
-         vfuVslSJodu0SHi+IvOqMBgGYECKkS6SBc7IQQUuKQpd9cEG1p2VzKKxhRMuzz6vL5Vy
-         TCvD7K1ZsP5DA9TdItw3zzyfiJTWYK+bji8NrZR6xlJafiphmEYAgf0L60mkeucaTf3I
-         7ORw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687288398; x=1689880398;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3kUloHMpKPl3I/kTERvQHtZG7RFGaCO4HmKGMBk+KKQ=;
-        b=OgAKTvJBYbnqKV8ICvw+A8KuRe+jIZcA/fquKwOHo/0OAvUiLQYUqxaqEub1C2g1B1
-         kA+IfMAyc8IhuC19yvmgdK8g1+D+qDCy6l/8YNgfaD34fKrHBZEtVBrxq3+SVMDXU26U
-         6K/KLBV+JD1i4sxd92m1yog4AvWm3nhx3/7iCRtja723K6RlfW9MATyrF6ypgkgYINkK
-         2ImEIu6rxX+JMihM//o82xBCutJ8R8psugBlWJGSkrE32SWQfu84NMDCuAtu0Bp+DqI0
-         22hf76OP/qtARHeliB8/VFxD+NXNrRKLEHoCDS8GkHni+pPrda69QZYQKrsjcTJ/JvI7
-         YR8A==
-X-Gm-Message-State: AC+VfDxYxrHyirVmpie8E/jy2L/vfFoZLfOK2YU6npJ767I1sTP2WU1t
-        I/E27cNGI0jMj8pr7gHjI1lz877M0Q6p3kYmDKOlPg==
-X-Google-Smtp-Source: ACHHUZ4f93lS9fAyCW0th4pVT6EEMEJoKBxqQtIQrPiuVU2P3u22aqPHDokFIKYPJ9ZclFi0j1mjAlZH66OuKr6hi50=
-X-Received: by 2002:a05:6214:5098:b0:630:1faa:a404 with SMTP id
- kk24-20020a056214509800b006301faaa404mr6575734qvb.39.1687288398288; Tue, 20
- Jun 2023 12:13:18 -0700 (PDT)
+        Wed, 21 Jun 2023 04:56:23 -0400
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE0951BFC
+        for <linux-kbuild@vger.kernel.org>; Wed, 21 Jun 2023 01:54:58 -0700 (PDT)
+Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35L8fdsW028430;
+        Wed, 21 Jun 2023 08:54:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=Z11CUdLpSzVObfmKPg9geiitQPgbVE2r44/Z3KZQBXc=;
+ b=d+R1IED183dsV/y5wpT1o29sf0W4uqkFxfRixDTU3fltmCENowxvK36UIBXBMKlD9mEu
+ ds4e3nXuJbb1v2rFIWKyoLXVc+daqlyqJggly69Z85Mf8TZHNUzHpBow19tCQsE89y51
+ jClgHzOjQqf+6g6KB/ywol1O9hzK/riF2NyGtbsqoodQ7XqKJzFFTd/n/rssVdAIXdKr
+ giwIamlMMO/s3ALybkxHB++tvjqnVTATMZ5HrvxaW7vUNx1i3u8rj00wTOsVZhinXIDU
+ N/gxcDvmrXgqlzVIRJPwsqZ3N/ONmzm+hKoNTEPXW1lqZLUnQa38LjzblIqvDHX7ZTu+ Hg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rbwgnh0a7-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 21 Jun 2023 08:54:24 +0000
+Received: from m0353722.ppops.net (m0353722.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 35L8flOn031130;
+        Wed, 21 Jun 2023 08:54:24 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rbwgnh097-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 21 Jun 2023 08:54:24 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+        by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 35KNkmrB026253;
+        Wed, 21 Jun 2023 08:54:22 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+        by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3r943e2n2n-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 21 Jun 2023 08:54:22 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+        by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 35L8sKTV63832506
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 21 Jun 2023 08:54:20 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 4BA4C20040;
+        Wed, 21 Jun 2023 08:54:20 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 20EFF2004D;
+        Wed, 21 Jun 2023 08:54:20 +0000 (GMT)
+Received: from [9.152.212.241] (unknown [9.152.212.241])
+        by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+        Wed, 21 Jun 2023 08:54:20 +0000 (GMT)
+Message-ID: <e773effa-29a0-0e57-36e8-9b4cba1a494f@linux.ibm.com>
+Date:   Wed, 21 Jun 2023 10:54:10 +0200
 MIME-Version: 1.0
-References: <20230619143725.57967-1-masahiroy@kernel.org>
-In-Reply-To: <20230619143725.57967-1-masahiroy@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 20 Jun 2023 15:13:06 -0400
-Message-ID: <CAKwvOdkX993kCaGVj5jd9-xeUwU5w9XmP4gUoSjOndfG-DhWHg@mail.gmail.com>
-Subject: Re: [PATCH] ARM: change link order of $(mmy-y) to avoid veneers
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
-        Russell King <linux@armlinux.org.uk>,
-        linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Subject: Re: Specifying CFLAGS for a directory on the command line
+To:     Kent Overstreet <kent.overstreet@linux.dev>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        linux-kbuild@vger.kernel.org
+References: <ZIOmUkXlegycIExQ@moria.home.lan>
+ <CAKwvOdneu4Fzy+x1KTd_ugLzt4iyUpE+fGXwXeNCWW12Jtj1GA@mail.gmail.com>
+ <CAKwvOdnuPYKahsgAA=n6MD+byxujaEW82FEUWd2Ay4Tx9VAiDw@mail.gmail.com>
+ <ZIO3leNyqOeJw6u3@moria.home.lan>
+ <bddaf556-6417-ffaf-2301-9caf47089b21@linux.ibm.com>
+ <ZIiz4WjIB6r8Gz4l@moria.home.lan>
+ <a077ce91-1cfc-5c15-aa0e-1cf90f71e719@linux.ibm.com>
+ <ZIwDIOxq3rE/8QUV@moria.home.lan>
+ <c45f6e75-da4e-e496-e3c4-4fdfea29104a@linux.ibm.com>
+ <ZIz+NFzAnyAKmV9u@moria.home.lan>
+Content-Language: en-US
+From:   Peter Oberparleiter <oberpar@linux.ibm.com>
+In-Reply-To: <ZIz+NFzAnyAKmV9u@moria.home.lan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 7y1ci-_y92qIgVcXThbhve_CkUFSXggK
+X-Proofpoint-GUID: nC8jiQTB7n3cqaibM3ZW7wME45OJ8SPY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-21_06,2023-06-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
+ spamscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015 mlxlogscore=999
+ priorityscore=1501 impostorscore=0 suspectscore=0 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306210071
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jun 19, 2023 at 10:37=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.=
-org> wrote:
->
-> The kernel compiled with multi_v7_defconfig + CONFIG_KASAN=3Dy +
-> CONFIG_KASAN_INLINE=3Dy does not boot.
->
-> I do not think KASAN is the direct reason of the boot failure.
-> CONFIG_KASAN_INLINE is just one example configuration that grows the
-> image size significantly and makes a big distance between function
-> callers and callees.
->
-> I see some veneers for __get_user_* in the bad kernel image. I am
-> not perfectly clear, but __get_user_* may not work with veneers for
-> some reasons.
+On 17.06.2023 02:28, Kent Overstreet wrote:
+> On Fri, Jun 16, 2023 at 08:10:44PM +0200, Peter Oberparleiter wrote:
+>> Not that I know of. Here's how it could be made to work using Makefile
+>> magic alone (as a pure programming exercise :)
+>>
+>> This will expand a directory to a list of all parent directories:
+>>
+>> # expand_parents(a/b/c) = a/b/c a/b a
+>> expand_parents2 = $(if $(subst .,,$(1)),$(call expand_parents,$(1)),)
+>> expand_parents  = $(1) $(call expand_parents2,$(patsubst %/,%,$(dir $(1))))
+>>
+>> This list could then be turned into variable suffixes:
+>>
+>> # flatten_dirs(a/b/c) = a_b_c a_b a
+>> flatten_dirs = $(subst /,_,$(call expand_parents,$(1)))
+>>
+>> And finally the resulting list of suffixed variables could be evaluated:
+>>
+>> # eval_vars(X_,a/b/c) = $(X_a_b_c) $(X_a_b) $(X_a)
+>> eval_vars = $(foreach var,$(call flatten_dirs,$(2)),$($(1)$(var)))
+>>
+>> So a call like this
+>>
+>> $(call eval_vars,GCOV_PROFILE_,a/b/c)
+> 
+> I just hooked it up and it works perfectly - I owe you a beer :)
 
-I'm kind of curious to know more about this.  Has there been other
-instances in the ARCH=3Darm port where "there must not be a veneer from
-X to Y for reason Z?"
+Glad to be of help!
 
-I thought the linker inserted veneers were meant to be transparent
-here.  If you disassemble ____get_user_1_veneer, do they themselves
-branch to different symbols, or the same symbol? (Perhaps they
-trampoline to each other then the final one is the "call" to the
-original symbol).  But perhaps the symbol at the end of the chain
-gives us more clues. I'd bet it's the KASAN callback, though does
-KASAN_INLINE inline those?  Perhaps the veneer is corrupting a
-register?  Maybe inline asm in the caller is missing a clobber for
-that register...
+>> would evaluate to the concatenation of the contents of the following
+>> variables:
+>>
+>> GCOV_PROFILE_a_b_c
+>> GCOV_PROFILE_a_b
+>> GCOV_PROFILE_a
+>>
+>> The first non-empty variable would then determine whether profiling
+>> should be enabled for the associated source file or not. This would even
+>> implement the correct order of precedence (specific to generic)
+>>
+>> Not sure if this amount of magic is suitable for kbuild though. An
+>> alternative, less complex approach would be to move this decision logic
+>> to a helper script.
+> 
+> Now that I've spent a couple days starting to wrap my head more around
+> make, it doesn't look terribly magic to me. I'd hate to have to spawn
+> off a subshell for this.
 
->
-> If I move the link order of arch/arm/lib/getuser.S, the veneers are
-> gone, and the kernel gets working again.
->
-> I do not see a good reason that $(mmu-y) must be added to lib-y because
-> all the code in $(mmu-y) is mandatory. Add it to obj-y to move the code
-> to lower address.
->
-> [1] multi_v7_defconfig (works)
->
->  $ arm-linux-gnueabihf-nm vmlinux | grep __get_user_1
->  c072a450 T __get_user_1
->  c17ea033 r __kstrtab___get_user_1
->  c18119fe r __kstrtabns___get_user_1
->  c17c4878 r __ksymtab___get_user_1
->
-> [2] multi_v7_defconfig + CONFIG_KASAN_INLINE (does not work)
->
->  $ arm-linux-gnueabihf-nm vmlinux | grep __get_user_1
->  c341ec2c T __get_user_1
->  c06e3580 t ____get_user_1_veneer
->  c0adc6c0 t ____get_user_1_veneer
->  c12cf054 t ____get_user_1_veneer
->  c43f42cc r __kstrtab___get_user_1
->  c441c128 r __kstrtabns___get_user_1
->  c43cead8 r __ksymtab___get_user_1
->
-> [3] multi_v7_defconfig + CONFIG_KASAN_INLINE + this patch (works)
->
->  $ arm-linux-gnueabihf-nm vmlinux | grep __get_user_1
->  c10975b0 T __get_user_1
->  c43f42cc r __kstrtab___get_user_1
->  c441c128 r __kstrtabns___get_user_1
->  c43cead8 r __ksymtab___get_user_1
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->  arch/arm/lib/Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/arch/arm/lib/Makefile b/arch/arm/lib/Makefile
-> index 650404be6768..4d092ef87a1d 100644
-> --- a/arch/arm/lib/Makefile
-> +++ b/arch/arm/lib/Makefile
-> @@ -28,7 +28,7 @@ endif
->  # using lib_ here won't override already available weak symbols
->  obj-$(CONFIG_UACCESS_WITH_MEMCPY) +=3D uaccess_with_memcpy.o
->
-> -lib-$(CONFIG_MMU) +=3D $(mmu-y)
-> +obj-$(CONFIG_MMU) +=3D $(mmu-y)
->
->  ifeq ($(CONFIG_CPU_32v3),y)
->    lib-y        +=3D io-readsw-armv3.o io-writesw-armv3.o
-> --
-> 2.39.2
->
+Leaving the method of how this input data is processed inside kbuild
+aside for a moment, I'm wondering if specifying the list of directories
+via a CONFIG symbol instead of make parameters would work equally well.
 
+Initially I thought this would be too complex to process using Makefile
+functions alone, but with the logic shown above this could be relatively
+simple to achieve. Also having given this some more thought, a CONFIG
+symbol indeed seems like a better fit considering aspects such as
+reproducibility of builds and config symbol documentation.
 
---=20
-Thanks,
-~Nick Desaulniers
+The CONFIG symbols could look something like:
+
+- CONFIG_GCOV_PROFILE_INCLUDE: list of directories to include in
+  profiling
+- CONFIG_GCOV_PROFILE_EXCLUDE: list of directories to exclude from
+  profiling
+
+where the precedence would be: exclude list > include list >
+GCOV_PROFILE_* specified in Makefiles > CONFIG_GCOV_PROFILE_ALL
+
+Sub-directory handling could work similar to how you described it for
+the make parameter, i.e. an include/exclude statement for a parent
+directory would also apply to sub-directories.
+
+What this approach work for your use case? Note that I'm not asking you
+to implement this - I just want to get a better picture of how a generic
+solution could look like.
+
+-- 
+Peter Oberparleiter
+Linux on IBM Z Development - IBM Germany R&D
+
