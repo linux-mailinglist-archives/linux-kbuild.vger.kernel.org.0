@@ -2,184 +2,139 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E5998737E7F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jun 2023 11:17:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C561738AA7
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jun 2023 18:16:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230440AbjFUI4y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 21 Jun 2023 04:56:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42108 "EHLO
+        id S230098AbjFUQQR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 21 Jun 2023 12:16:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230470AbjFUI4X (ORCPT
+        with ESMTP id S232178AbjFUQQA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 21 Jun 2023 04:56:23 -0400
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE0951BFC
-        for <linux-kbuild@vger.kernel.org>; Wed, 21 Jun 2023 01:54:58 -0700 (PDT)
-Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35L8fdsW028430;
-        Wed, 21 Jun 2023 08:54:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=Z11CUdLpSzVObfmKPg9geiitQPgbVE2r44/Z3KZQBXc=;
- b=d+R1IED183dsV/y5wpT1o29sf0W4uqkFxfRixDTU3fltmCENowxvK36UIBXBMKlD9mEu
- ds4e3nXuJbb1v2rFIWKyoLXVc+daqlyqJggly69Z85Mf8TZHNUzHpBow19tCQsE89y51
- jClgHzOjQqf+6g6KB/ywol1O9hzK/riF2NyGtbsqoodQ7XqKJzFFTd/n/rssVdAIXdKr
- giwIamlMMO/s3ALybkxHB++tvjqnVTATMZ5HrvxaW7vUNx1i3u8rj00wTOsVZhinXIDU
- N/gxcDvmrXgqlzVIRJPwsqZ3N/ONmzm+hKoNTEPXW1lqZLUnQa38LjzblIqvDHX7ZTu+ Hg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rbwgnh0a7-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 21 Jun 2023 08:54:24 +0000
-Received: from m0353722.ppops.net (m0353722.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 35L8flOn031130;
-        Wed, 21 Jun 2023 08:54:24 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rbwgnh097-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 21 Jun 2023 08:54:24 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
-        by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 35KNkmrB026253;
-        Wed, 21 Jun 2023 08:54:22 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-        by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3r943e2n2n-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 21 Jun 2023 08:54:22 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-        by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 35L8sKTV63832506
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 21 Jun 2023 08:54:20 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 4BA4C20040;
-        Wed, 21 Jun 2023 08:54:20 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 20EFF2004D;
-        Wed, 21 Jun 2023 08:54:20 +0000 (GMT)
-Received: from [9.152.212.241] (unknown [9.152.212.241])
-        by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
-        Wed, 21 Jun 2023 08:54:20 +0000 (GMT)
-Message-ID: <e773effa-29a0-0e57-36e8-9b4cba1a494f@linux.ibm.com>
-Date:   Wed, 21 Jun 2023 10:54:10 +0200
-MIME-Version: 1.0
-Subject: Re: Specifying CFLAGS for a directory on the command line
-To:     Kent Overstreet <kent.overstreet@linux.dev>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        Wed, 21 Jun 2023 12:16:00 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57C14199D;
+        Wed, 21 Jun 2023 09:15:48 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1b52bf6e669so48023495ad.2;
+        Wed, 21 Jun 2023 09:15:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687364148; x=1689956148;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nJGYiZSmAz4f7DWqK5EepnnOfjeHuHz97IlICgAbfpM=;
+        b=rXvFFwpBMa5FmYnwQKryzn7/pRIxWbxqUbuDWOxQy5R5fuAZg6H/lCYrcytisckb9V
+         JOpaxzgqsRWoqC9YWvhZwVl2z2eplFB28DwpD7fd5PD2IuLiLmFrxexRL/I4e3IPwnFZ
+         iEZXzUZBM6F6NV0AdfajGy9BoRkUWB56UG/XWMsL1z2z5F1i77CAhHoR2lCRMndf//kw
+         VLBGg1mE8ZdmAsGaFgqJ8P7IfxuDy4/LtblSTRPIpMYlrG/4m4AoKKE6WkZWZ4gAW4v7
+         z+7l0xfPc+roMttREcfno6LCCh2x6ZH9JJFipd+v5VxGB8FWEUlGQgCTP85PKZIuSBj6
+         CWLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687364148; x=1689956148;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nJGYiZSmAz4f7DWqK5EepnnOfjeHuHz97IlICgAbfpM=;
+        b=drRed/jrkKgL0Dmnw7oBbOh3j1M/qh1DTBH5XIlYcdx7eY9YSUvwuXhiubPmwdEcF0
+         whZIUwpJvPWApVfjXqJ1ZW3SsNqCsFIwN05w691jBbLnD6wRgmmPsejrhXam6IIf+/Z9
+         qUe8r22JEOncOoSyABBs/vTZcwoblxG3zl+4Z0KF06ElhZcO0w0tjjj8Z0idn8diBiu9
+         cScp2bqOhb2UATUe1DAvEVyCSSZlEtpBw5yKtCm/tKw51DfOSovEw6c+mgRPSLhAxLFK
+         +mKZA+PJ2ZAnO2piKKefOy5oDYRyz01c34OKwq3QUebS3W9BLSkX4bKmJWr8y55KDwpk
+         gsbg==
+X-Gm-Message-State: AC+VfDy6fboYFxw3KRhUypUmTMmgjwAy181qyKki5siVZG2+qjLw8TRu
+        DQ/LbgPzIlFvfOPy3x6zZz+gKDjFAqk=
+X-Google-Smtp-Source: ACHHUZ5w5C/Ax/llbxeWIVIzqLnv+V2hnXxpwlzgpEcMzA+Yr9rTk5qAvHYFGctAC+AfLAN0h7E8Dg==
+X-Received: by 2002:a17:902:bc85:b0:1b5:54cc:fcb8 with SMTP id bb5-20020a170902bc8500b001b554ccfcb8mr10779557plb.19.1687364147732;
+        Wed, 21 Jun 2023 09:15:47 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id w15-20020a170902e88f00b001b53d3d911dsm3712465plg.69.2023.06.21.09.15.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jun 2023 09:15:46 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Wed, 21 Jun 2023 09:15:45 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
-        linux-kbuild@vger.kernel.org
-References: <ZIOmUkXlegycIExQ@moria.home.lan>
- <CAKwvOdneu4Fzy+x1KTd_ugLzt4iyUpE+fGXwXeNCWW12Jtj1GA@mail.gmail.com>
- <CAKwvOdnuPYKahsgAA=n6MD+byxujaEW82FEUWd2Ay4Tx9VAiDw@mail.gmail.com>
- <ZIO3leNyqOeJw6u3@moria.home.lan>
- <bddaf556-6417-ffaf-2301-9caf47089b21@linux.ibm.com>
- <ZIiz4WjIB6r8Gz4l@moria.home.lan>
- <a077ce91-1cfc-5c15-aa0e-1cf90f71e719@linux.ibm.com>
- <ZIwDIOxq3rE/8QUV@moria.home.lan>
- <c45f6e75-da4e-e496-e3c4-4fdfea29104a@linux.ibm.com>
- <ZIz+NFzAnyAKmV9u@moria.home.lan>
-Content-Language: en-US
-From:   Peter Oberparleiter <oberpar@linux.ibm.com>
-In-Reply-To: <ZIz+NFzAnyAKmV9u@moria.home.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 7y1ci-_y92qIgVcXThbhve_CkUFSXggK
-X-Proofpoint-GUID: nC8jiQTB7n3cqaibM3ZW7wME45OJ8SPY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-21_06,2023-06-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
- spamscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015 mlxlogscore=999
- priorityscore=1501 impostorscore=0 suspectscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306210071
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-um@lists.infradead.org
+Subject: Re: [PATCH v7 03/11] kbuild: generate KSYMTAB entries by modpost
+Message-ID: <bb5048e7-5e8f-4391-a9a0-ff15b5384186@roeck-us.net>
+References: <20230608142428.256985-1-masahiroy@kernel.org>
+ <20230608142428.256985-4-masahiroy@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230608142428.256985-4-masahiroy@kernel.org>
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 17.06.2023 02:28, Kent Overstreet wrote:
-> On Fri, Jun 16, 2023 at 08:10:44PM +0200, Peter Oberparleiter wrote:
->> Not that I know of. Here's how it could be made to work using Makefile
->> magic alone (as a pure programming exercise :)
->>
->> This will expand a directory to a list of all parent directories:
->>
->> # expand_parents(a/b/c) = a/b/c a/b a
->> expand_parents2 = $(if $(subst .,,$(1)),$(call expand_parents,$(1)),)
->> expand_parents  = $(1) $(call expand_parents2,$(patsubst %/,%,$(dir $(1))))
->>
->> This list could then be turned into variable suffixes:
->>
->> # flatten_dirs(a/b/c) = a_b_c a_b a
->> flatten_dirs = $(subst /,_,$(call expand_parents,$(1)))
->>
->> And finally the resulting list of suffixed variables could be evaluated:
->>
->> # eval_vars(X_,a/b/c) = $(X_a_b_c) $(X_a_b) $(X_a)
->> eval_vars = $(foreach var,$(call flatten_dirs,$(2)),$($(1)$(var)))
->>
->> So a call like this
->>
->> $(call eval_vars,GCOV_PROFILE_,a/b/c)
+On Thu, Jun 08, 2023 at 11:24:20PM +0900, Masahiro Yamada wrote:
+> Commit 7b4537199a4a ("kbuild: link symbol CRCs at final link, removing
+> CONFIG_MODULE_REL_CRCS") made modpost output CRCs in the same way
+> whether the EXPORT_SYMBOL() is placed in *.c or *.S.
 > 
-> I just hooked it up and it works perfectly - I owe you a beer :)
+...
 
-Glad to be of help!
-
->> would evaluate to the concatenation of the contents of the following
->> variables:
->>
->> GCOV_PROFILE_a_b_c
->> GCOV_PROFILE_a_b
->> GCOV_PROFILE_a
->>
->> The first non-empty variable would then determine whether profiling
->> should be enabled for the associated source file or not. This would even
->> implement the correct order of precedence (specific to generic)
->>
->> Not sure if this amount of magic is suitable for kbuild though. An
->> alternative, less complex approach would be to move this decision logic
->> to a helper script.
+> We can do this better now; modpost can selectively emit KSYMTAB entries
+> that are really used by modules.
 > 
-> Now that I've spent a couple days starting to wrap my head more around
-> make, it doesn't look terribly magic to me. I'd hate to have to spawn
-> off a subshell for this.
 
-Leaving the method of how this input data is processed inside kbuild
-aside for a moment, I'm wondering if specifying the list of directories
-via a CONFIG symbol instead of make parameters would work equally well.
+This patch results in
 
-Initially I thought this would be too complex to process using Makefile
-functions alone, but with the logic shown above this could be relatively
-simple to achieve. Also having given this some more thought, a CONFIG
-symbol indeed seems like a better fit considering aspects such as
-reproducibility of builds and config symbol documentation.
+Building alpha:defconfig ... failed
+--------------
+Error log:
+<stdin>:1519:2: warning: #warning syscall clone3 not implemented [-Wcpp]
+WARNING: modpost: "saved_config" [vmlinux] is COMMON symbol
+ERROR: modpost: vmlinux: page_is_ram: EXPORT_SYMBOL used for init symbol. Remove __init or EXPORT_SYMBOL.
 
-The CONFIG symbols could look something like:
+I don't know if other architectures are affected - linux-next is so broken
+that it is difficult to find root causes for all the breakages.
 
-- CONFIG_GCOV_PROFILE_INCLUDE: list of directories to include in
-  profiling
-- CONFIG_GCOV_PROFILE_EXCLUDE: list of directories to exclude from
-  profiling
+Guenter
 
-where the precedence would be: exclude list > include list >
-GCOV_PROFILE_* specified in Makefiles > CONFIG_GCOV_PROFILE_ALL
+---
+Bisect log:
 
-Sub-directory handling could work similar to how you described it for
-the make parameter, i.e. an include/exclude statement for a parent
-directory would also apply to sub-directories.
-
-What this approach work for your use case? Note that I'm not asking you
-to implement this - I just want to get a better picture of how a generic
-solution could look like.
-
--- 
-Peter Oberparleiter
-Linux on IBM Z Development - IBM Germany R&D
-
+# bad: [15e71592dbae49a674429c618a10401d7f992ac3] Add linux-next specific files for 20230621
+# good: [45a3e24f65e90a047bef86f927ebdc4c710edaa1] Linux 6.4-rc7
+git bisect start 'HEAD' 'v6.4-rc7'
+# bad: [e867e67cd55ae460c860ffd896c7fc96add2821c] Merge branch 'master' of git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git
+git bisect bad e867e67cd55ae460c860ffd896c7fc96add2821c
+# bad: [57b289d5b1005a9c39d6d6567e0ef6115bd59cea] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git
+git bisect bad 57b289d5b1005a9c39d6d6567e0ef6115bd59cea
+# bad: [dc6399fc9ae6d2530fc38fb3ae96bcc8393bd66f] Merge branch 'for-next/perf' of git://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git
+git bisect bad dc6399fc9ae6d2530fc38fb3ae96bcc8393bd66f
+# good: [6d366ba598334a0457d917a7bf38efd118c5b7be] Merge branch 'mm-stable' of git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
+git bisect good 6d366ba598334a0457d917a7bf38efd118c5b7be
+# good: [82fe2e45cdb00de4fa648050ae33bdadf9b3294a] perf pmus: Check if we can encode the PMU number in perf_event_attr.type
+git bisect good 82fe2e45cdb00de4fa648050ae33bdadf9b3294a
+# bad: [d2fa756910f88c2f5871775483744407cbf67933] Merge branch 'for-next' of git://git.infradead.org/users/hch/dma-mapping.git
+git bisect bad d2fa756910f88c2f5871775483744407cbf67933
+# good: [1b990bc8edc396a37a3ff1a43f7c329c361ee07c] Merge branch 'mm-nonmm-unstable' into mm-everything
+git bisect good 1b990bc8edc396a37a3ff1a43f7c329c361ee07c
+# good: [cff6e7f50bd315e5b39c4e46c704ac587ceb965f] kbuild: Add CLANG_FLAGS to as-instr
+git bisect good cff6e7f50bd315e5b39c4e46c704ac587ceb965f
+# bad: [8f3847e175a0044e2212fef772e7fa912270cd6d] ia64,export.h: replace EXPORT_DATA_SYMBOL* with EXPORT_SYMBOL*
+git bisect bad 8f3847e175a0044e2212fef772e7fa912270cd6d
+# good: [3a3f1e573a105328a2cca45a7cfbebabbf5e3192] modpost: fix off by one in is_executable_section()
+git bisect good 3a3f1e573a105328a2cca45a7cfbebabbf5e3192
+# good: [92e74fb6e6196d642505ae2b74a8e327202afef9] scripts/kallsyms: constify long_options
+git bisect good 92e74fb6e6196d642505ae2b74a8e327202afef9
+# good: [92e2921eeafdfca9acd9b83f07d2b7ca099bac24] ARC: define ASM_NL and __ALIGN(_STR) outside #ifdef __ASSEMBLY__ guard
+git bisect good 92e2921eeafdfca9acd9b83f07d2b7ca099bac24
+# bad: [bb2aa9a94b41b883037a56709d995c269204ade0] kbuild: generate KSYMTAB entries by modpost
+git bisect bad bb2aa9a94b41b883037a56709d995c269204ade0
+# good: [94d6cb68124b7a63f24fcc345795ba5f9a27e694] modpost: pass struct module pointer to check_section_mismatch()
+git bisect good 94d6cb68124b7a63f24fcc345795ba5f9a27e694
+# first bad commit: [bb2aa9a94b41b883037a56709d995c269204ade0] kbuild: generate KSYMTAB entries by modpost
