@@ -2,71 +2,75 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C561738AA7
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jun 2023 18:16:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05248738BC8
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jun 2023 18:42:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230098AbjFUQQR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 21 Jun 2023 12:16:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43608 "EHLO
+        id S231594AbjFUQmf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 21 Jun 2023 12:42:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232178AbjFUQQA (ORCPT
+        with ESMTP id S232166AbjFUQmS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 21 Jun 2023 12:16:00 -0400
+        Wed, 21 Jun 2023 12:42:18 -0400
 Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57C14199D;
-        Wed, 21 Jun 2023 09:15:48 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1b52bf6e669so48023495ad.2;
-        Wed, 21 Jun 2023 09:15:48 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A9481FFC;
+        Wed, 21 Jun 2023 09:42:04 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1b50d7b4aaaso27704785ad.3;
+        Wed, 21 Jun 2023 09:42:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687364148; x=1689956148;
+        d=gmail.com; s=20221208; t=1687365724; x=1689957724;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nJGYiZSmAz4f7DWqK5EepnnOfjeHuHz97IlICgAbfpM=;
-        b=rXvFFwpBMa5FmYnwQKryzn7/pRIxWbxqUbuDWOxQy5R5fuAZg6H/lCYrcytisckb9V
-         JOpaxzgqsRWoqC9YWvhZwVl2z2eplFB28DwpD7fd5PD2IuLiLmFrxexRL/I4e3IPwnFZ
-         iEZXzUZBM6F6NV0AdfajGy9BoRkUWB56UG/XWMsL1z2z5F1i77CAhHoR2lCRMndf//kw
-         VLBGg1mE8ZdmAsGaFgqJ8P7IfxuDy4/LtblSTRPIpMYlrG/4m4AoKKE6WkZWZ4gAW4v7
-         z+7l0xfPc+roMttREcfno6LCCh2x6ZH9JJFipd+v5VxGB8FWEUlGQgCTP85PKZIuSBj6
-         CWLQ==
+        bh=pZeysVMxLr4V+mtdvRA0frrYDzh/8CDiDj5/Ledzf8A=;
+        b=bQJ6bOWQGKdsl9spwn87pEoV4njOCTfT+23Efi4pw7BInh8dGPzR+q2+IY0HwHp4oz
+         sdB65Ay702xN0sDc7ieTiRZ16ZJNsqnX6h5TCbFM0/IOL7ncNWDFfyqAFONlcNUunt4i
+         PVoqr1Vy0/m3mH1FHzxaymLGgUdVBOfq43ZwKRMzj69HwWZTtwFbguFuEMzZRDOPBoiU
+         T6jsJ7rg7fPs/FoAUDu+8La+j20luJ6TpClQLudLgZFR774UjJf4L3Fg5RwXvQgtIRFT
+         1/nPRA80kf6KO21z7oCj/P7V77dwqcB6u8ATGvesiWPG//mFKSleIPdVeKMRr8D9sLwv
+         47cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687364148; x=1689956148;
+        d=1e100.net; s=20221208; t=1687365724; x=1689957724;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nJGYiZSmAz4f7DWqK5EepnnOfjeHuHz97IlICgAbfpM=;
-        b=drRed/jrkKgL0Dmnw7oBbOh3j1M/qh1DTBH5XIlYcdx7eY9YSUvwuXhiubPmwdEcF0
-         whZIUwpJvPWApVfjXqJ1ZW3SsNqCsFIwN05w691jBbLnD6wRgmmPsejrhXam6IIf+/Z9
-         qUe8r22JEOncOoSyABBs/vTZcwoblxG3zl+4Z0KF06ElhZcO0w0tjjj8Z0idn8diBiu9
-         cScp2bqOhb2UATUe1DAvEVyCSSZlEtpBw5yKtCm/tKw51DfOSovEw6c+mgRPSLhAxLFK
-         +mKZA+PJ2ZAnO2piKKefOy5oDYRyz01c34OKwq3QUebS3W9BLSkX4bKmJWr8y55KDwpk
-         gsbg==
-X-Gm-Message-State: AC+VfDy6fboYFxw3KRhUypUmTMmgjwAy181qyKki5siVZG2+qjLw8TRu
-        DQ/LbgPzIlFvfOPy3x6zZz+gKDjFAqk=
-X-Google-Smtp-Source: ACHHUZ5w5C/Ax/llbxeWIVIzqLnv+V2hnXxpwlzgpEcMzA+Yr9rTk5qAvHYFGctAC+AfLAN0h7E8Dg==
-X-Received: by 2002:a17:902:bc85:b0:1b5:54cc:fcb8 with SMTP id bb5-20020a170902bc8500b001b554ccfcb8mr10779557plb.19.1687364147732;
-        Wed, 21 Jun 2023 09:15:47 -0700 (PDT)
+        bh=pZeysVMxLr4V+mtdvRA0frrYDzh/8CDiDj5/Ledzf8A=;
+        b=QnLcJM3hXwq21BHcRSaGVrWKxTxAJF1eVMTdhUHgs/E9yKBDiWi79+UGkz6n9jnNjT
+         7iF1ZjubL6Zaq79MzZ3V8qRbQiNz4JwtPYSaANG3FJEwYoJy/s8JsPdWG+miWRx1NvCS
+         4vlmO1a9LRtRRAuqJ7KOsdxQi9ao5Hgouh6rlPheQCpzXgcNqmuxKfuZoI8pRmXtSp4n
+         ri6H7+jonf5ocO7bbUntF86RSblWuOhsXz0zzImnY3TDLcUZaHEgz4mz+WspmaJoWVwU
+         Mg6xZf1bw9zUAvV1W2dr+0pcHXllz6VWO3LzMVEK0AYfDaFcQSzX+I02PYhkwAOid6x0
+         a/pQ==
+X-Gm-Message-State: AC+VfDyqthIW6NIc93PCYFjoTJMTxNTDAJqgqakAIMBmgQJKzrxh2/H1
+        Tiqfx/MXD9c1yJzBZejKLhI=
+X-Google-Smtp-Source: ACHHUZ6wjy33jCOordhGlER/jnFO55zfxhPkZeTwr+8ezi8uYHYbzmDJrgs5j9sgURuC5Hbp7PYOlA==
+X-Received: by 2002:a17:902:fa8d:b0:1b0:7739:657a with SMTP id lc13-20020a170902fa8d00b001b07739657amr8509709plb.50.1687365723865;
+        Wed, 21 Jun 2023 09:42:03 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id w15-20020a170902e88f00b001b53d3d911dsm3712465plg.69.2023.06.21.09.15.46
+        by smtp.gmail.com with ESMTPSA id e17-20020a17090301d100b001ae365072ccsm3755503plh.122.2023.06.21.09.42.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jun 2023 09:15:46 -0700 (PDT)
+        Wed, 21 Jun 2023 09:42:03 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Wed, 21 Jun 2023 09:15:45 -0700
+Date:   Wed, 21 Jun 2023 09:42:01 -0700
 From:   Guenter Roeck <linux@roeck-us.net>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Marco Elver <elver@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-um@lists.infradead.org
-Subject: Re: [PATCH v7 03/11] kbuild: generate KSYMTAB entries by modpost
-Message-ID: <bb5048e7-5e8f-4391-a9a0-ff15b5384186@roeck-us.net>
-References: <20230608142428.256985-1-masahiroy@kernel.org>
- <20230608142428.256985-4-masahiroy@kernel.org>
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Miroslav Benes <mbenes@suse.cz>, linux-kbuild@vger.kernel.org,
+        llvm@lists.linux.dev, Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2] ubsan: Tighten UBSAN_BOUNDS on GCC
+Message-ID: <07dea91f-9b93-4227-9fec-728a9e7a0d55@roeck-us.net>
+References: <20230405022356.gonna.338-kees@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230608142428.256985-4-masahiroy@kernel.org>
+In-Reply-To: <20230405022356.gonna.338-kees@kernel.org>
 X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -78,63 +82,87 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jun 08, 2023 at 11:24:20PM +0900, Masahiro Yamada wrote:
-> Commit 7b4537199a4a ("kbuild: link symbol CRCs at final link, removing
-> CONFIG_MODULE_REL_CRCS") made modpost output CRCs in the same way
-> whether the EXPORT_SYMBOL() is placed in *.c or *.S.
+Hi,
+
+On Tue, Apr 04, 2023 at 07:23:59PM -0700, Kees Cook wrote:
+> The use of -fsanitize=bounds on GCC will ignore some trailing arrays,
+> leaving a gap in coverage. Switch to using -fsanitize=bounds-strict to
+> match Clang's stricter behavior.
 > 
-...
+> Cc: Marco Elver <elver@google.com>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Cc: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: Nicolas Schier <nicolas@fjasle.eu>
+> Cc: Tom Rix <trix@redhat.com>
+> Cc: Josh Poimboeuf <jpoimboe@kernel.org>
+> Cc: Miroslav Benes <mbenes@suse.cz>
+> Cc: linux-kbuild@vger.kernel.org
+> Cc: llvm@lists.linux.dev
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
 
-> We can do this better now; modpost can selectively emit KSYMTAB entries
-> that are really used by modules.
-> 
+This patch, presumably as side effect, enables CONFIG_ARCH_STM32
+for arm64:allmodconfig. As consequence, CONFIG_STM32_RPROC is enabled
+as well. This in turn results in the following build error.
 
-This patch results in
-
-Building alpha:defconfig ... failed
+Building arm64:allmodconfig ... failed
 --------------
 Error log:
-<stdin>:1519:2: warning: #warning syscall clone3 not implemented [-Wcpp]
-WARNING: modpost: "saved_config" [vmlinux] is COMMON symbol
-ERROR: modpost: vmlinux: page_is_ram: EXPORT_SYMBOL used for init symbol. Remove __init or EXPORT_SYMBOL.
+In file included from include/linux/printk.h:564,
+                 from include/asm-generic/bug.h:22,
+                 from arch/arm64/include/asm/bug.h:26,
+                 from include/linux/bug.h:5,
+                 from include/linux/fortify-string.h:5,
+                 from include/linux/string.h:254,
+                 from include/linux/dma-mapping.h:7,
+                 from drivers/remoteproc/stm32_rproc.c:9:
+drivers/remoteproc/stm32_rproc.c: In function 'stm32_rproc_mem_alloc':
+drivers/remoteproc/stm32_rproc.c:122:22: error: format '%x' expects argument of type 'unsigned int', but argument 5 has type 'size_t'
 
-I don't know if other architectures are affected - linux-next is so broken
-that it is difficult to find root causes for all the breakages.
-
-Guenter
+I did not try to understand what is going on, but reverting this
+patch fixes the problem.
 
 ---
-Bisect log:
+bisect script:
 
+rm .config
+make-arm64 mrproper
+make-arm64 -j allmodconfig
+if ! grep -q CONFIG_ARCH_STM32 .config; then
+    exit 1
+fi
+exit 0
+
+---
+bisect log:
 # bad: [15e71592dbae49a674429c618a10401d7f992ac3] Add linux-next specific files for 20230621
 # good: [45a3e24f65e90a047bef86f927ebdc4c710edaa1] Linux 6.4-rc7
 git bisect start 'HEAD' 'v6.4-rc7'
-# bad: [e867e67cd55ae460c860ffd896c7fc96add2821c] Merge branch 'master' of git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git
-git bisect bad e867e67cd55ae460c860ffd896c7fc96add2821c
-# bad: [57b289d5b1005a9c39d6d6567e0ef6115bd59cea] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git
-git bisect bad 57b289d5b1005a9c39d6d6567e0ef6115bd59cea
-# bad: [dc6399fc9ae6d2530fc38fb3ae96bcc8393bd66f] Merge branch 'for-next/perf' of git://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git
-git bisect bad dc6399fc9ae6d2530fc38fb3ae96bcc8393bd66f
-# good: [6d366ba598334a0457d917a7bf38efd118c5b7be] Merge branch 'mm-stable' of git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
-git bisect good 6d366ba598334a0457d917a7bf38efd118c5b7be
-# good: [82fe2e45cdb00de4fa648050ae33bdadf9b3294a] perf pmus: Check if we can encode the PMU number in perf_event_attr.type
-git bisect good 82fe2e45cdb00de4fa648050ae33bdadf9b3294a
-# bad: [d2fa756910f88c2f5871775483744407cbf67933] Merge branch 'for-next' of git://git.infradead.org/users/hch/dma-mapping.git
-git bisect bad d2fa756910f88c2f5871775483744407cbf67933
-# good: [1b990bc8edc396a37a3ff1a43f7c329c361ee07c] Merge branch 'mm-nonmm-unstable' into mm-everything
-git bisect good 1b990bc8edc396a37a3ff1a43f7c329c361ee07c
-# good: [cff6e7f50bd315e5b39c4e46c704ac587ceb965f] kbuild: Add CLANG_FLAGS to as-instr
-git bisect good cff6e7f50bd315e5b39c4e46c704ac587ceb965f
-# bad: [8f3847e175a0044e2212fef772e7fa912270cd6d] ia64,export.h: replace EXPORT_DATA_SYMBOL* with EXPORT_SYMBOL*
-git bisect bad 8f3847e175a0044e2212fef772e7fa912270cd6d
-# good: [3a3f1e573a105328a2cca45a7cfbebabbf5e3192] modpost: fix off by one in is_executable_section()
-git bisect good 3a3f1e573a105328a2cca45a7cfbebabbf5e3192
-# good: [92e74fb6e6196d642505ae2b74a8e327202afef9] scripts/kallsyms: constify long_options
-git bisect good 92e74fb6e6196d642505ae2b74a8e327202afef9
-# good: [92e2921eeafdfca9acd9b83f07d2b7ca099bac24] ARC: define ASM_NL and __ALIGN(_STR) outside #ifdef __ASSEMBLY__ guard
-git bisect good 92e2921eeafdfca9acd9b83f07d2b7ca099bac24
-# bad: [bb2aa9a94b41b883037a56709d995c269204ade0] kbuild: generate KSYMTAB entries by modpost
-git bisect bad bb2aa9a94b41b883037a56709d995c269204ade0
-# good: [94d6cb68124b7a63f24fcc345795ba5f9a27e694] modpost: pass struct module pointer to check_section_mismatch()
-git bisect good 94d6cb68124b7a63f24fcc345795ba5f9a27e694
-# first bad commit: [bb2aa9a94b41b883037a56709d995c269204ade0] kbuild: generate KSYMTAB entries by modpost
+# good: [e867e67cd55ae460c860ffd896c7fc96add2821c] Merge branch 'master' of git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git
+git bisect good e867e67cd55ae460c860ffd896c7fc96add2821c
+# good: [0ab4015a11182e2a19c3dd52db85418f370cef39] Merge branch 'for-next' of git://git.kernel.dk/linux-block.git
+git bisect good 0ab4015a11182e2a19c3dd52db85418f370cef39
+# good: [50b29407850776d7c61461f883e5896dcea596a4] Merge branch 'driver-core-next' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git
+git bisect good 50b29407850776d7c61461f883e5896dcea596a4
+# good: [04d46f23e86112fc9d6469fc0155ce19faabc181] Merge branch 'staging-next' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
+git bisect good 04d46f23e86112fc9d6469fc0155ce19faabc181
+# good: [bdd44289ba061dab3863ff80a5999d4c6160b93d] Merge branch 'gpio/for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git
+git bisect good bdd44289ba061dab3863ff80a5999d4c6160b93d
+# good: [c7d13e64a19b0bbed1a6eb18e9b4fd55f7530e5d] Merge branch 'at24/for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git
+git bisect good c7d13e64a19b0bbed1a6eb18e9b4fd55f7530e5d
+# good: [6477d1cebd3339658f8421e05380576ed535677c] Merge branch 'rust-next' of https://github.com/Rust-for-Linux/linux.git
+git bisect good 6477d1cebd3339658f8421e05380576ed535677c
+# bad: [d01a77afd6bef1b3a2ed15e8ca6887ca7da0cddc] lib/string_helpers: Change returned value of the strreplace()
+git bisect bad d01a77afd6bef1b3a2ed15e8ca6887ca7da0cddc
+# bad: [d67790ddf0219aa0ad3e13b53ae0a7619b3425a2] overflow: Add struct_size_t() helper
+git bisect bad d67790ddf0219aa0ad3e13b53ae0a7619b3425a2
+# bad: [30ad0627f169f56180e668e7223eaa43aa190a75] dlm: Replace all non-returning strlcpy with strscpy
+git bisect bad 30ad0627f169f56180e668e7223eaa43aa190a75
+# bad: [3bf301e1ab85e18ed0e337ce124dc71d6d7b5fd7] string: Add Kunit tests for strcat() family
+git bisect bad 3bf301e1ab85e18ed0e337ce124dc71d6d7b5fd7
+# bad: [ead62aa370a81c4fb42a44c4edeafe13e0a3a703] fortify: strscpy: Fix flipped q and p docstring typo
+git bisect bad ead62aa370a81c4fb42a44c4edeafe13e0a3a703
+# bad: [2d47c6956ab3c8b580a59d7704aab3e2a4882b6c] ubsan: Tighten UBSAN_BOUNDS on GCC
+git bisect bad 2d47c6956ab3c8b580a59d7704aab3e2a4882b6c
+# first bad commit: [2d47c6956ab3c8b580a59d7704aab3e2a4882b6c] ubsan: Tighten UBSAN_BOUNDS on GCC
