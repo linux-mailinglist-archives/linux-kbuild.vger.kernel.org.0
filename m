@@ -2,133 +2,99 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A4667395BC
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jun 2023 05:11:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E302B739E9C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jun 2023 12:35:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229637AbjFVDLX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 21 Jun 2023 23:11:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48060 "EHLO
+        id S231145AbjFVKfL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 22 Jun 2023 06:35:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229960AbjFVDLX (ORCPT
+        with ESMTP id S229851AbjFVKfJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 21 Jun 2023 23:11:23 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 341F91BD6
-        for <linux-kbuild@vger.kernel.org>; Wed, 21 Jun 2023 20:11:19 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id 41be03b00d2f7-543ae674f37so3710182a12.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 21 Jun 2023 20:11:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1687403478; x=1689995478;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VAqfKy9L7gl2qfZmHwhpMjSx7czuoKau/UFIXqH952U=;
-        b=Ux9IDPHbFSScf+uqQMasT6bNz9Ff2jg/GwkYrg0QL2Hg6USun6agaDett+qxyqxyat
-         pMIF6usSBX6lKywrdZJZdb/n/R+LVUewkhGsf35GPCsRXGSvg7X/XlPbGvdUUHLNQPE3
-         Bb8sMkFiWTcFd/SfMYOAGAkbmRMJBt97skYLA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687403478; x=1689995478;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VAqfKy9L7gl2qfZmHwhpMjSx7czuoKau/UFIXqH952U=;
-        b=Nx8juTF1jpNd+TRXt0dmBwpjmUnGma7jpagpYyXHqS+P1F93t+MsN1Ix+1nkNHqDux
-         qay2SOwjnAGjm0FfvMq/nKeONxomS/l0NwhzgDAjvu5F1WN89tl4VoF8xvJehV77fLkr
-         wKnEz66yimBwgSLmAJijfDcFWi67JjUDBcDaky5dMPkPpqMQJYVA/2lhn3eDpyh3gWHu
-         +59UR+DifotjAYZHRhAZ1rVg6OEYoQ4ottn69fprAV32j4Et/fMoQyQmyT19tDZ9mv2u
-         j82cPZWx2bKlqYd01gFTLmOLsQbxHUDo/e+GAMmvhijbPajFsvg3MFzDO1V6eW+BLWzt
-         ++NA==
-X-Gm-Message-State: AC+VfDzm+EIo7rEYLlumgbLpCgJZIwRkNWbByonuYI8QTTihHgZ1WpNU
-        kxVjgDfwgH0Z4cmNPw8rDsI/C5Mx4dwn8sa74Dw=
-X-Google-Smtp-Source: ACHHUZ4vMlPLBOvhTnJarXHJcpoo4MCFhQd8JrGzTMgDccm3BRjpYcAhpJYvO9CJvJ4TSIFEuQmTgw==
-X-Received: by 2002:a17:90a:974c:b0:25e:c420:6a71 with SMTP id i12-20020a17090a974c00b0025ec4206a71mr12453181pjw.32.1687403478670;
-        Wed, 21 Jun 2023 20:11:18 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id b17-20020a170902d51100b001aaef9d0102sm4161321plg.197.2023.06.21.20.11.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jun 2023 20:11:17 -0700 (PDT)
-Date:   Wed, 21 Jun 2023 20:11:17 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Marco Elver <elver@google.com>,
+        Thu, 22 Jun 2023 06:35:09 -0400
+Received: from out-4.mta0.migadu.com (out-4.mta0.migadu.com [IPv6:2001:41d0:1004:224b::4])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4C641738
+        for <linux-kbuild@vger.kernel.org>; Thu, 22 Jun 2023 03:35:07 -0700 (PDT)
+Date:   Thu, 22 Jun 2023 06:35:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1687430105;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=mh4iWn2T15kkCOfNaYuJWklAiUL6krtTYiQX5HwjesE=;
+        b=sGNYWFvlJ7d8tVGSpGGotQOBpzTtQbbECphPmDuVfnhcm1lBhfHyRFuuyKA6N8LwEIkx3N
+        hRrNlYEUoTFChj6ftXesnQLdGtUhckyqYhgDdmpU9NnMdddYnqFLM+EJ/R8XPdO4mm291t
+        QP7FV5ShO9aE1NrvOCH7FuPUi/+UxeQ=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Kent Overstreet <kent.overstreet@linux.dev>
+To:     Peter Oberparleiter <oberpar@linux.ibm.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Miroslav Benes <mbenes@suse.cz>, linux-kbuild@vger.kernel.org,
-        llvm@lists.linux.dev, Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2] ubsan: Tighten UBSAN_BOUNDS on GCC
-Message-ID: <202306212011.435B7C8ED@keescook>
-References: <20230405022356.gonna.338-kees@kernel.org>
- <07dea91f-9b93-4227-9fec-728a9e7a0d55@roeck-us.net>
- <202306211051.1D4038323@keescook>
- <5fbe4977-c56d-2d97-bea3-28148807b5d9@roeck-us.net>
+        linux-kbuild@vger.kernel.org
+Subject: Re: Specifying CFLAGS for a directory on the command line
+Message-ID: <20230622103501.bptpkkb4hpjejprh@moria.home.lan>
+References: <CAKwvOdneu4Fzy+x1KTd_ugLzt4iyUpE+fGXwXeNCWW12Jtj1GA@mail.gmail.com>
+ <CAKwvOdnuPYKahsgAA=n6MD+byxujaEW82FEUWd2Ay4Tx9VAiDw@mail.gmail.com>
+ <ZIO3leNyqOeJw6u3@moria.home.lan>
+ <bddaf556-6417-ffaf-2301-9caf47089b21@linux.ibm.com>
+ <ZIiz4WjIB6r8Gz4l@moria.home.lan>
+ <a077ce91-1cfc-5c15-aa0e-1cf90f71e719@linux.ibm.com>
+ <ZIwDIOxq3rE/8QUV@moria.home.lan>
+ <c45f6e75-da4e-e496-e3c4-4fdfea29104a@linux.ibm.com>
+ <ZIz+NFzAnyAKmV9u@moria.home.lan>
+ <e773effa-29a0-0e57-36e8-9b4cba1a494f@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5fbe4977-c56d-2d97-bea3-28148807b5d9@roeck-us.net>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <e773effa-29a0-0e57-36e8-9b4cba1a494f@linux.ibm.com>
+X-Migadu-Flow: FLOW_OUT
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jun 21, 2023 at 05:50:53PM -0700, Guenter Roeck wrote:
-> On 6/21/23 10:52, Kees Cook wrote:
-> > On Wed, Jun 21, 2023 at 09:42:01AM -0700, Guenter Roeck wrote:
-> > > Hi,
-> > > 
-> > > On Tue, Apr 04, 2023 at 07:23:59PM -0700, Kees Cook wrote:
-> > > > The use of -fsanitize=bounds on GCC will ignore some trailing arrays,
-> > > > leaving a gap in coverage. Switch to using -fsanitize=bounds-strict to
-> > > > match Clang's stricter behavior.
-> > > > 
-> > > > Cc: Marco Elver <elver@google.com>
-> > > > Cc: Masahiro Yamada <masahiroy@kernel.org>
-> > > > Cc: Nathan Chancellor <nathan@kernel.org>
-> > > > Cc: Nick Desaulniers <ndesaulniers@google.com>
-> > > > Cc: Nicolas Schier <nicolas@fjasle.eu>
-> > > > Cc: Tom Rix <trix@redhat.com>
-> > > > Cc: Josh Poimboeuf <jpoimboe@kernel.org>
-> > > > Cc: Miroslav Benes <mbenes@suse.cz>
-> > > > Cc: linux-kbuild@vger.kernel.org
-> > > > Cc: llvm@lists.linux.dev
-> > > > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > > > ---
-> > > 
-> > > This patch, presumably as side effect, enables CONFIG_ARCH_STM32
-> > > for arm64:allmodconfig. As consequence, CONFIG_STM32_RPROC is enabled
-> > > as well. This in turn results in the following build error.
-> > > 
-> > > Building arm64:allmodconfig ... failed
-> > > --------------
-> > > Error log:
-> > > In file included from include/linux/printk.h:564,
-> > >                   from include/asm-generic/bug.h:22,
-> > >                   from arch/arm64/include/asm/bug.h:26,
-> > >                   from include/linux/bug.h:5,
-> > >                   from include/linux/fortify-string.h:5,
-> > >                   from include/linux/string.h:254,
-> > >                   from include/linux/dma-mapping.h:7,
-> > >                   from drivers/remoteproc/stm32_rproc.c:9:
-> > > drivers/remoteproc/stm32_rproc.c: In function 'stm32_rproc_mem_alloc':
-> > > drivers/remoteproc/stm32_rproc.c:122:22: error: format '%x' expects argument of type 'unsigned int', but argument 5 has type 'size_t'
-> > > 
-> > > I did not try to understand what is going on, but reverting this
-> > > patch fixes the problem.
-> > 
-> > Well that is really weird! I will investigate... this patch should be
-> > pretty self-contained...
-> > 
-> Meh, it is. Sorry for the noise. My bisect script was wrong.
+On Wed, Jun 21, 2023 at 10:54:10AM +0200, Peter Oberparleiter wrote:
+> Leaving the method of how this input data is processed inside kbuild
+> aside for a moment, I'm wondering if specifying the list of directories
+> via a CONFIG symbol instead of make parameters would work equally well.
+> 
+> Initially I thought this would be too complex to process using Makefile
+> functions alone, but with the logic shown above this could be relatively
+> simple to achieve. Also having given this some more thought, a CONFIG
+> symbol indeed seems like a better fit considering aspects such as
+> reproducibility of builds and config symbol documentation.
+> 
+> The CONFIG symbols could look something like:
+> 
+> - CONFIG_GCOV_PROFILE_INCLUDE: list of directories to include in
+>   profiling
+> - CONFIG_GCOV_PROFILE_EXCLUDE: list of directories to exclude from
+>   profiling
+> 
+> where the precedence would be: exclude list > include list >
+> GCOV_PROFILE_* specified in Makefiles > CONFIG_GCOV_PROFILE_ALL
+> 
+> Sub-directory handling could work similar to how you described it for
+> the make parameter, i.e. an include/exclude statement for a parent
+> directory would also apply to sub-directories.
+> 
+> What this approach work for your use case? Note that I'm not asking you
+> to implement this - I just want to get a better picture of how a generic
+> solution could look like.
 
-Oh, okay; whew! I was really scratching my head. :)
+Yeah, that would work fine. I'm assuming the config option list would
+just be a comma separated string?
 
--- 
-Kees Cook
+btw, here's the results - fully automated code coverage analysis
+integrated into the CI:
+https://evilpiepirate.org/~testdashboard/ci?branch=bcachefs&commit=eac40840098bfbb5fa1711f6bbce71b27bbccb89
+https://evilpiepirate.org/~testdashboard/c/eac40840098bfbb5fa1711f6bbce71b27bbccb89/lcov/
+
+And the result of the makefile work is that adding a gcov variant of an
+existing test is as easy as:
+https://evilpiepirate.org/git/ktest.git/tree/tests/bcachefs/gcov-xfstests.ktest
