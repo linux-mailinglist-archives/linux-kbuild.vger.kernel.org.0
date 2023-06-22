@@ -2,154 +2,118 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FEBC73A8BB
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jun 2023 21:01:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2E2173A8D2
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jun 2023 21:11:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231214AbjFVTBx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 22 Jun 2023 15:01:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44118 "EHLO
+        id S229765AbjFVTL2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 22 Jun 2023 15:11:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229944AbjFVTBw (ORCPT
+        with ESMTP id S229549AbjFVTL1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 22 Jun 2023 15:01:52 -0400
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88B639B
-        for <linux-kbuild@vger.kernel.org>; Thu, 22 Jun 2023 12:01:51 -0700 (PDT)
-Received: by mail-qk1-x735.google.com with SMTP id af79cd13be357-763e1a22a68so156838085a.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 22 Jun 2023 12:01:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1687460510; x=1690052510;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4qsg1RqLEPdlYVYZT9sFftBXtwp261XsDqIoUJonI4s=;
-        b=Oi8wiXY4ddFjysagRcHGHlOMMjiG+hAmmEXjDGXNjZxztkm1QSgAWy5PgF0ixA1iw+
-         2izk782YhO+lvIJIvDOHLTFlOhjV1BI9bcWtiUsM8UZzNDwq1DbIBN25V8tvt5xJxI7X
-         QXBzCV6RBQF6Oj/4iEYeJYV68KMEEbtOQ3Ea+kuhBPh+RdAiyyu92KBcZbx1dzqY5/qX
-         c7uiEXlB2mRu5p3c3L3UX8dFm50HJCIAmnYnb9mBMh9Hzt+iSakLDxsDaQbo+Y4bUQ+H
-         MV3tFVAHb6NU879Rw0T/6v1lJDi+Bo00ergwhJCoCfT/0KiN6iHmxFV/Th0G2SM6Bcpq
-         de4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687460510; x=1690052510;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4qsg1RqLEPdlYVYZT9sFftBXtwp261XsDqIoUJonI4s=;
-        b=egV7+9/3Ggkxcp2W4dJA9+kq3384MG828wVRHXqL/FxCtsPtbKw05aWAtJ2TAows3z
-         64EZDtOEFNdSZ94PTtfZF+XUAMjSP2VMqO6b2hVrqrIim2OamV42vEH2lyLKMulNyO/I
-         G0TQcaap7aXgmXjkmWNJLu8TnfxDkRomzHk+Jg6Hzfj8rnR7VFgdKrfU6r+UMRtcxsFQ
-         zWxkcK0fkQ1u0LZtySBxSUV38Qsqr5lqQPZ3gIsFNbN5B3mfZF5rY1KNJRsqVmND9LxR
-         WGU/3wtUKfUwqfQ/OiHLsjyEkwqqbZj/+UDSMuwVSyt8Zl2GxvijCchYf2Ey55IFZX3C
-         ECeQ==
-X-Gm-Message-State: AC+VfDxSSZRQ6PJZ1cckeIRgcr1PyATfKA06nPoiaqK3wWQcRbWQH28g
-        Z5lJJ96gXfKCJxz5S82smi2Drtq5EUdx8xIkZVfKEw==
-X-Google-Smtp-Source: ACHHUZ7gJZgU33kEAEEraVJxbs1L3PgvLGOZGKq0NrHlnNt51Km5xcWPc/m4RLy9Ld8IpRrDpPg5xbPGx8DMX9yf+uI=
-X-Received: by 2002:ad4:4ea6:0:b0:62f:fd5d:4ff with SMTP id
- ed6-20020ad44ea6000000b0062ffd5d04ffmr14151653qvb.21.1687460510566; Thu, 22
- Jun 2023 12:01:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230620120521.688124-1-masahiroy@kernel.org> <20230620120521.688124-2-masahiroy@kernel.org>
-In-Reply-To: <20230620120521.688124-2-masahiroy@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 22 Jun 2023 12:01:39 -0700
-Message-ID: <CAKwvOdnuXJOiDrdGjux6JMb8akYQTi1ohPZtH1i_ZhYuJpshbQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] modpost: factor out Elf_Sym pointer calculation to section_rel()
+        Thu, 22 Jun 2023 15:11:27 -0400
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4EBAA2;
+        Thu, 22 Jun 2023 12:11:26 -0700 (PDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.west.internal (Postfix) with ESMTP id 838203200583;
+        Thu, 22 Jun 2023 15:11:25 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Thu, 22 Jun 2023 15:11:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        joshtriplett.org; h=cc:cc:content-type:content-type:date:date
+        :from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to; s=fm1; t=
+        1687461085; x=1687547485; bh=yyY/dDd3tvUCahRRqoC7g6pyVZrYiHcN7zY
+        pSqNwxsw=; b=CCLGmyLWdac+LsnQUf9Qqh1h3zTLhsgQiZmaaqOeysEf0xZDsMW
+        u0k9GiqGFJtFW73vHY/cQnHmDHnex6t2v57f6//jd2ICOFco7zinccAvvXziqr89
+        NoWptFjJdvo6k/WhKj50xo/mGLocg2jBPot9Uj1tolFlPi2zwwYrjz3ojkUVcmHa
+        f3NB4//YtMkG6BiIN12bHN6rayVxb9Z8vN3kJXzgoFFnOBiivcKyFO1CdbCJA8qV
+        Sc/WKkxKbceTf1RQNOFHmDGfLWB7zgdNIuZh2VPdLcxAK14LLpo9EFTfFhCDjCQf
+        /umvgxCDNyVsz9hHr+lH/mDV+1labBriXaQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; t=1687461085; x=1687547485; bh=yyY/dDd3tvUCa
+        hRRqoC7g6pyVZrYiHcN7zYpSqNwxsw=; b=BysV2FBqN+cX2CP3/Hdt8+oU+aQMW
+        cpxrjDIxwLTX2J2JgYl1dmDqXNONwqyLssVK7KLdJY5mb9pQ5m0aZKVJfEhf6nBe
+        eP0u7WxUh5GY7y6QSrjpxr+74vE5SUfK1lP7yaUcql1QxocGAhwHu1fYP8BrhB8s
+        hS5hVbL9pOME5gmTcM6Gl/nyAeVLGC1uXd6hufq/jRKy5KcFjbVuo68YqTlOXEMG
+        vV8ySil/4jeDVCD+qUmHRM9rBevfcc7UuZYXQcF2Y5EvnY+ULg6rGOM258Ycwetc
+        qdIv5+XX8ec8D+skmsr3uRQN73NkCDQipQ1G1feEvv2BsbnaICXr4O5Pw==
+X-ME-Sender: <xms:25yUZMjefGgtO263i2ESiGguwkf4hdN7ApztZqyf2ae04LfCZ5CEfQ>
+    <xme:25yUZFCnqMUokSDuEQX9buwfAbOROtbk4Aacmq5su6h0AYWJAXqxxeTSeWPAy_9po
+    bv6rbUF5x3k_vpu2S4>
+X-ME-Received: <xmr:25yUZEF1QUT2_OJQQMmtNWCAUfaDYShHwav1jsbWLKsaY1nCMfJEVPtsQg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeeguddgudefgecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeflohhs
+    hhcuvfhrihhplhgvthhtuceojhhoshhhsehjohhshhhtrhhiphhlvghtthdrohhrgheqne
+    cuggftrfgrthhtvghrnhepvdekleffgfetfeeijedtieehtdeuhfegueejkeevueeileff
+    gfduleffjeffuddvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjohhshhesjhhoshhhthhr
+    ihhplhgvthhtrdhorhhg
+X-ME-Proxy: <xmx:25yUZNS-BprHtfLibC1L6fPHPIxvdS63woeikjb0QkVdH499v5KfSQ>
+    <xmx:25yUZJx8BaQ4duPXkGxilgm_nLcws4PuGQxPLyQuYB2wCyAP1TS-4Q>
+    <xmx:25yUZL7SAG1c4VWGamr8pJwklFBWASxYwAm10nECwGQB-VIe_Qyzlw>
+    <xmx:3ZyUZAmGfx9pivW41mbNoGe3NJDVQWDWg6i20c0LHfYi4fCgsbSBZA>
+Feedback-ID: i83e94755:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 22 Jun 2023 15:11:22 -0400 (EDT)
+Date:   Thu, 22 Jun 2023 12:11:21 -0700
+From:   Josh Triplett <josh@joshtriplett.org>
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Ben Hutchings <ben@decadent.org.uk>,
+        linux-snps-arc@lists.infradead.org
+Subject: Re: [PATCH] kbuild: make modules_install copy
+ modules.builtin(.modinfo)
+Message-ID: <ZJSc2QFJq+KIUR+E@localhost>
+References: <20230615111743.883891-1-masahiroy@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230615111743.883891-1-masahiroy@kernel.org>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jun 20, 2023 at 5:05=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> Pass the Elf_Sym pointer to addend_arm_rel() as well as to
-> check_section_mismatch().
->
+On Thu, Jun 15, 2023 at 08:17:43PM +0900, Masahiro Yamada wrote:
+> Josh Triplett reports that initramfs-tools needs modules.builtin and
+> modules.builtin.modinfo to create a working initramfs for a non-modular
+> kernel.
+> 
+> If this is a general tooling issue not limited to Debian, I think it
+> makes sense to change modules_install.
+> 
+> This commit changes the targets as follows when CONFIG_MODULES=n.
+> 
+> In-tree builds:
+>   make modules          -> no-op
+>   make modules_install  -> install modules.builtin(.modinfo)
+> 
+> External module builds:
+>   make modules          -> show error message like before
+>   make modules_install  -> show error message like before
+> 
+> Link: https://lore.kernel.org/lkml/36a4014c73a52af27d930d3ca31d362b60f4461c.1686356364.git.josh@joshtriplett.org/
+> Reported-by: Josh Triplett <josh@joshtriplett.org>
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Thanks for the patch!
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Reviewed-by: Josh Triplett <josh@joshtriplett.org>
+Tested-by: Josh Triplett <josh@joshtriplett.org>
 
-> ---
->
->  scripts/mod/modpost.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
->
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 2551ac9d5bd3..ffe45c54f024 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -1295,10 +1295,9 @@ static int32_t sign_extend32(int32_t value, int in=
-dex)
->         return (int32_t)(value << shift) >> shift;
->  }
->
-> -static int addend_arm_rel(void *loc, struct elf_info *elf, Elf_Rela *r)
-> +static int addend_arm_rel(void *loc, Elf_Sym *sym, Elf_Rela *r)
->  {
->         unsigned int r_typ =3D ELF_R_TYPE(r->r_info);
-> -       Elf_Sym *sym =3D elf->symtab_start + ELF_R_SYM(r->r_info);
->         uint32_t inst, upper, lower, sign, j1, j2;
->         int32_t offset;
->
-> @@ -1493,6 +1492,7 @@ static void section_rel(struct module *mod, struct =
-elf_info *elf,
->                 return;
->
->         for (rel =3D start; rel < stop; rel++) {
-> +               Elf_Sym *tsym;
->                 void *loc;
->
->                 r.r_offset =3D TO_NATIVE(rel->r_offset);
-> @@ -1514,6 +1514,7 @@ static void section_rel(struct module *mod, struct =
-elf_info *elf,
->                 r.r_addend =3D 0;
->
->                 loc =3D sym_get_data_by_offset(elf, fsecndx, r.r_offset);
-> +               tsym =3D elf->symtab_start + ELF_R_SYM(r.r_info);
->
->                 switch (elf->hdr->e_machine) {
->                 case EM_386:
-> @@ -1521,7 +1522,7 @@ static void section_rel(struct module *mod, struct =
-elf_info *elf,
->                                 continue;
->                         break;
->                 case EM_ARM:
-> -                       if (addend_arm_rel(loc, elf, &r))
-> +                       if (addend_arm_rel(loc, tsym, &r))
->                                 continue;
->                         break;
->                 case EM_MIPS:
-> @@ -1532,7 +1533,7 @@ static void section_rel(struct module *mod, struct =
-elf_info *elf,
->                         fatal("Please add code to calculate addend for th=
-is architecture\n");
->                 }
->
-> -               check_section_mismatch(mod, elf, elf->symtab_start + r_sy=
-m,
-> +               check_section_mismatch(mod, elf, tsym,
->                                        fsecndx, fromsec, r.r_offset, r.r_=
-addend);
->         }
->  }
-> --
-> 2.39.2
->
-
-
---=20
-Thanks,
-~Nick Desaulniers
+I'll send a followup patch that makes the Debian packaging script use
+`make modules_install` unconditionally.
