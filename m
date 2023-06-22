@@ -2,58 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD42C73A827
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jun 2023 20:25:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FEBC73A8BB
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jun 2023 21:01:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229851AbjFVSZS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 22 Jun 2023 14:25:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55336 "EHLO
+        id S231214AbjFVTBx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 22 Jun 2023 15:01:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229647AbjFVSZR (ORCPT
+        with ESMTP id S229944AbjFVTBw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 22 Jun 2023 14:25:17 -0400
-Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8692E1FF6
-        for <linux-kbuild@vger.kernel.org>; Thu, 22 Jun 2023 11:25:16 -0700 (PDT)
-Received: by mail-qv1-xf2e.google.com with SMTP id 6a1803df08f44-62ff6cf5af0so65169086d6.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 22 Jun 2023 11:25:16 -0700 (PDT)
+        Thu, 22 Jun 2023 15:01:52 -0400
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88B639B
+        for <linux-kbuild@vger.kernel.org>; Thu, 22 Jun 2023 12:01:51 -0700 (PDT)
+Received: by mail-qk1-x735.google.com with SMTP id af79cd13be357-763e1a22a68so156838085a.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 22 Jun 2023 12:01:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1687458315; x=1690050315;
+        d=google.com; s=20221208; t=1687460510; x=1690052510;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JpCY0TF2cLx96N/IyHACrfjpAnXPyxrzLRydMAh063w=;
-        b=LoCvzzDLFrPjEegwplNV98rfiCBa2fLDn5ZUgLH0vtLT7K994v9F+U61cS06HLkXMo
-         GpLyvfbGHFmIN4K837Jlry+7DKakBC2UjQwDBsgkQnkXoYV0bb14uUMe08wS7SvoIjZM
-         uVxVTa25bsc1VxjuIc6ZULbyGaMBZ1h7E/z12EpslZuuurFCMNJMsvR5EbCblPwx2KV1
-         q1E6o4ws6nKipCPOoSLK3w+e+a+5T1vGyVtFTZjzdePSXc2yXqoJIPcVn1mIKkQ8B6mL
-         0IlY8zdsUjtzHBuq/b0DHCDKJWrRbKOoHkN8cfaHJEbF46GZPKsdm9M3eVChNYDiy9Zn
-         vFAw==
+        bh=4qsg1RqLEPdlYVYZT9sFftBXtwp261XsDqIoUJonI4s=;
+        b=Oi8wiXY4ddFjysagRcHGHlOMMjiG+hAmmEXjDGXNjZxztkm1QSgAWy5PgF0ixA1iw+
+         2izk782YhO+lvIJIvDOHLTFlOhjV1BI9bcWtiUsM8UZzNDwq1DbIBN25V8tvt5xJxI7X
+         QXBzCV6RBQF6Oj/4iEYeJYV68KMEEbtOQ3Ea+kuhBPh+RdAiyyu92KBcZbx1dzqY5/qX
+         c7uiEXlB2mRu5p3c3L3UX8dFm50HJCIAmnYnb9mBMh9Hzt+iSakLDxsDaQbo+Y4bUQ+H
+         MV3tFVAHb6NU879Rw0T/6v1lJDi+Bo00ergwhJCoCfT/0KiN6iHmxFV/Th0G2SM6Bcpq
+         de4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687458315; x=1690050315;
+        d=1e100.net; s=20221208; t=1687460510; x=1690052510;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JpCY0TF2cLx96N/IyHACrfjpAnXPyxrzLRydMAh063w=;
-        b=cby4IVftRSyGZ8MTPIO7i7mTtVto3bE2bNsfSOP4F6oW9gmGuEjoLFuJrxaLGcfQnk
-         nmLgClQ0YFqfzj6pcH0if7xNg4wLBd9flPmL/6aKdvfmhVYxvE6zNg5HqyGEavIj48Ri
-         Muy1jVnI12sDrIuWfab6q07vsTRgPsQKtiu8x5KwGkoBWWxhUgzEFj2Md0imCD1GETlC
-         ftS17Vu/ZroGw8j/8UpB3/nkkfo/+bheLvZfUcqEaDgJl6VmuXY+YDQlcjQF4iW6brYL
-         9hMqjLimUelVMmPAFuwE27n/GgOlzQB0+0jn7dvFOrsBw4vhyaS8YJOn0RjlLZ9ETN4y
-         e/vg==
-X-Gm-Message-State: AC+VfDx2ayvPhZcVjP8VKO268Evfry/iLEfD+tMI/iAXDq4XlDCpxg8z
-        or8sk13hs5FvCBQBSloWzW221jvyEdD3f12PPyBLP8C6fubQLhs0db4=
-X-Google-Smtp-Source: ACHHUZ4vBUYD+mow6n0TLXiHFM9GLNwgLvyOX/L8uL7ECQ3XGv6mlSTCgtn/a6Pj1paR6IhZWwU+TayLfzHR8jW1Vx4=
-X-Received: by 2002:a05:6214:518f:b0:630:228d:6d38 with SMTP id
- kl15-20020a056214518f00b00630228d6d38mr13398621qvb.46.1687458315462; Thu, 22
- Jun 2023 11:25:15 -0700 (PDT)
+        bh=4qsg1RqLEPdlYVYZT9sFftBXtwp261XsDqIoUJonI4s=;
+        b=egV7+9/3Ggkxcp2W4dJA9+kq3384MG828wVRHXqL/FxCtsPtbKw05aWAtJ2TAows3z
+         64EZDtOEFNdSZ94PTtfZF+XUAMjSP2VMqO6b2hVrqrIim2OamV42vEH2lyLKMulNyO/I
+         G0TQcaap7aXgmXjkmWNJLu8TnfxDkRomzHk+Jg6Hzfj8rnR7VFgdKrfU6r+UMRtcxsFQ
+         zWxkcK0fkQ1u0LZtySBxSUV38Qsqr5lqQPZ3gIsFNbN5B3mfZF5rY1KNJRsqVmND9LxR
+         WGU/3wtUKfUwqfQ/OiHLsjyEkwqqbZj/+UDSMuwVSyt8Zl2GxvijCchYf2Ey55IFZX3C
+         ECeQ==
+X-Gm-Message-State: AC+VfDxSSZRQ6PJZ1cckeIRgcr1PyATfKA06nPoiaqK3wWQcRbWQH28g
+        Z5lJJ96gXfKCJxz5S82smi2Drtq5EUdx8xIkZVfKEw==
+X-Google-Smtp-Source: ACHHUZ7gJZgU33kEAEEraVJxbs1L3PgvLGOZGKq0NrHlnNt51Km5xcWPc/m4RLy9Ld8IpRrDpPg5xbPGx8DMX9yf+uI=
+X-Received: by 2002:ad4:4ea6:0:b0:62f:fd5d:4ff with SMTP id
+ ed6-20020ad44ea6000000b0062ffd5d04ffmr14151653qvb.21.1687460510566; Thu, 22
+ Jun 2023 12:01:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230620120521.688124-1-masahiroy@kernel.org>
-In-Reply-To: <20230620120521.688124-1-masahiroy@kernel.org>
+References: <20230620120521.688124-1-masahiroy@kernel.org> <20230620120521.688124-2-masahiroy@kernel.org>
+In-Reply-To: <20230620120521.688124-2-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 22 Jun 2023 11:25:04 -0700
-Message-ID: <CAKwvOdmSUkyb_fwDJ-_bKxo65MRWUShc25L5itWt4m4MTYi=yQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] modpost: factor out inst location calculation to section_rel()
+Date:   Thu, 22 Jun 2023 12:01:39 -0700
+Message-ID: <CAKwvOdnuXJOiDrdGjux6JMb8akYQTi1ohPZtH1i_ZhYuJpshbQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] modpost: factor out Elf_Sym pointer calculation to section_rel()
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
@@ -74,110 +74,77 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 On Tue, Jun 20, 2023 at 5:05=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
 rg> wrote:
 >
-> All the addend_*_rel() functions calculate the instruction location in
-> the same way.
->
-> Factor out the similar code to the caller. Squash reloc_location() too.
+> Pass the Elf_Sym pointer to addend_arm_rel() as well as to
+> check_section_mismatch().
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+
+Thanks for the patch!
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
 > ---
 >
->  scripts/mod/modpost.c | 28 ++++++++++++----------------
->  1 file changed, 12 insertions(+), 16 deletions(-)
+>  scripts/mod/modpost.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
 >
 > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 6e0b8be32648..2551ac9d5bd3 100644
+> index 2551ac9d5bd3..ffe45c54f024 100644
 > --- a/scripts/mod/modpost.c
 > +++ b/scripts/mod/modpost.c
-> @@ -1256,16 +1256,9 @@ static void check_section_mismatch(struct module *=
-mod, struct elf_info *elf,
->                                  tosec, taddr);
->  }
->
-> -static unsigned int *reloc_location(struct elf_info *elf,
-> -                                   Elf_Shdr *sechdr, Elf_Rela *r)
-> -{
-> -       return sym_get_data_by_offset(elf, sechdr->sh_info, r->r_offset);
-> -}
-> -
-> -static int addend_386_rel(struct elf_info *elf, Elf_Shdr *sechdr, Elf_Re=
-la *r)
-> +static int addend_386_rel(uint32_t *location, Elf_Rela *r)
->  {
->         unsigned int r_typ =3D ELF_R_TYPE(r->r_info);
-> -       unsigned int *location =3D reloc_location(elf, sechdr, r);
->
->         switch (r_typ) {
->         case R_386_32:
-> @@ -1302,11 +1295,10 @@ static int32_t sign_extend32(int32_t value, int i=
-ndex)
+> @@ -1295,10 +1295,9 @@ static int32_t sign_extend32(int32_t value, int in=
+dex)
 >         return (int32_t)(value << shift) >> shift;
 >  }
 >
-> -static int addend_arm_rel(struct elf_info *elf, Elf_Shdr *sechdr, Elf_Re=
-la *r)
-> +static int addend_arm_rel(void *loc, struct elf_info *elf, Elf_Rela *r)
+> -static int addend_arm_rel(void *loc, struct elf_info *elf, Elf_Rela *r)
+> +static int addend_arm_rel(void *loc, Elf_Sym *sym, Elf_Rela *r)
 >  {
 >         unsigned int r_typ =3D ELF_R_TYPE(r->r_info);
->         Elf_Sym *sym =3D elf->symtab_start + ELF_R_SYM(r->r_info);
-> -       void *loc =3D reloc_location(elf, sechdr, r);
+> -       Elf_Sym *sym =3D elf->symtab_start + ELF_R_SYM(r->r_info);
 >         uint32_t inst, upper, lower, sign, j1, j2;
 >         int32_t offset;
 >
-> @@ -1396,11 +1388,10 @@ static int addend_arm_rel(struct elf_info *elf, E=
-lf_Shdr *sechdr, Elf_Rela *r)
->         return 0;
->  }
->
-> -static int addend_mips_rel(struct elf_info *elf, Elf_Shdr *sechdr, Elf_R=
-ela *r)
-> +static int addend_mips_rel(uint32_t *location, Elf_Rela *r)
->  {
->         unsigned int r_typ =3D ELF_R_TYPE(r->r_info);
-> -       unsigned int *location =3D reloc_location(elf, sechdr, r);
-> -       unsigned int inst;
-> +       uint32_t inst;
->
->         if (r_typ =3D=3D R_MIPS_HI16)
->                 return 1;       /* skip this */
-> @@ -1502,6 +1493,8 @@ static void section_rel(struct module *mod, struct =
+> @@ -1493,6 +1492,7 @@ static void section_rel(struct module *mod, struct =
 elf_info *elf,
 >                 return;
 >
 >         for (rel =3D start; rel < stop; rel++) {
-> +               void *loc;
-> +
+> +               Elf_Sym *tsym;
+>                 void *loc;
+>
 >                 r.r_offset =3D TO_NATIVE(rel->r_offset);
->  #if KERNEL_ELFCLASS =3D=3D ELFCLASS64
->                 if (elf->hdr->e_machine =3D=3D EM_MIPS) {
-> @@ -1519,17 +1512,20 @@ static void section_rel(struct module *mod, struc=
-t elf_info *elf,
->                 r_sym =3D ELF_R_SYM(r.r_info);
->  #endif
+> @@ -1514,6 +1514,7 @@ static void section_rel(struct module *mod, struct =
+elf_info *elf,
 >                 r.r_addend =3D 0;
-> +
-> +               loc =3D sym_get_data_by_offset(elf, fsecndx, r.r_offset);
-
-Can we compute `loc` only for the three machine types?
-
-> +
+>
+>                 loc =3D sym_get_data_by_offset(elf, fsecndx, r.r_offset);
+> +               tsym =3D elf->symtab_start + ELF_R_SYM(r.r_info);
+>
 >                 switch (elf->hdr->e_machine) {
 >                 case EM_386:
-> -                       if (addend_386_rel(elf, sechdr, &r))
-> +                       if (addend_386_rel(loc, &r))
+> @@ -1521,7 +1522,7 @@ static void section_rel(struct module *mod, struct =
+elf_info *elf,
 >                                 continue;
 >                         break;
 >                 case EM_ARM:
-> -                       if (addend_arm_rel(elf, sechdr, &r))
-> +                       if (addend_arm_rel(loc, elf, &r))
+> -                       if (addend_arm_rel(loc, elf, &r))
+> +                       if (addend_arm_rel(loc, tsym, &r))
 >                                 continue;
 >                         break;
 >                 case EM_MIPS:
-> -                       if (addend_mips_rel(elf, sechdr, &r))
-> +                       if (addend_mips_rel(loc, &r))
->                                 continue;
->                         break;
->                 default:
+> @@ -1532,7 +1533,7 @@ static void section_rel(struct module *mod, struct =
+elf_info *elf,
+>                         fatal("Please add code to calculate addend for th=
+is architecture\n");
+>                 }
+>
+> -               check_section_mismatch(mod, elf, elf->symtab_start + r_sy=
+m,
+> +               check_section_mismatch(mod, elf, tsym,
+>                                        fsecndx, fromsec, r.r_offset, r.r_=
+addend);
+>         }
+>  }
 > --
 > 2.39.2
 >
