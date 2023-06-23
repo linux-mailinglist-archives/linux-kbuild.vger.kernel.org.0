@@ -2,101 +2,194 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BC8673BC99
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Jun 2023 18:32:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E300B73BCC8
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Jun 2023 18:39:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231236AbjFWQco (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 23 Jun 2023 12:32:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44198 "EHLO
+        id S231421AbjFWQjn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 23 Jun 2023 12:39:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbjFWQcn (ORCPT
+        with ESMTP id S231467AbjFWQjj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 23 Jun 2023 12:32:43 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A47BF2100
-        for <linux-kbuild@vger.kernel.org>; Fri, 23 Jun 2023 09:32:42 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1b4fef08cfdso4826595ad.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 23 Jun 2023 09:32:42 -0700 (PDT)
+        Fri, 23 Jun 2023 12:39:39 -0400
+Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAB1D2738
+        for <linux-kbuild@vger.kernel.org>; Fri, 23 Jun 2023 09:39:14 -0700 (PDT)
+Received: by mail-qv1-xf2c.google.com with SMTP id 6a1803df08f44-6300f31c3ecso6973546d6.3
+        for <linux-kbuild@vger.kernel.org>; Fri, 23 Jun 2023 09:39:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1687537962; x=1690129962;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=A/ctcywp7aSY6bqn8fc8UYikW0ADqbI6njwx/CrZFMU=;
-        b=QrcLfKebeRTWvt4YKw8UFWfYt25NNrQQfX99Oy6r+vCqro5wELxb3cYBNFN16R3mZE
-         wFm8qKDe+LeIdcpuYKHxWJTLSCg/HePLqdZerEDwZRLgp62N7xiQGzLXsd3i5aFoj3Jt
-         e+GfvgP5S9iBaVw76byCwgEpHcics5pmXMa7E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687537962; x=1690129962;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20221208; t=1687538354; x=1690130354;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=A/ctcywp7aSY6bqn8fc8UYikW0ADqbI6njwx/CrZFMU=;
-        b=adiAbrKFOmwaXvRyIRqlcfKNOlItfDtmICH2SSIL5AYzBcgwNeyU5FGNB8OVpL7tiQ
-         2Qo0g+1MI0IJbgW9f9gAwiNVhQGUC6QyJ9lrNHq3usMAd6IV7Abi+DRShEIbLeBHzgpg
-         6LnngiiPeMsU6haH4QPCjAV4MsBe8Ixq0bF3dAqCo3C+Lcdz7au/9EHST/BphO/I+ii9
-         8nni/y6O8OppljL5yuqe5ekQ8oEwm4FLG+9unrxkvEUai3uKdwKu2jWGXWtCZFLFoPn6
-         jQDu+NlYgc2pAL2Fqv4W0K+a/R9/XHTWgsjUsqhoNZJVdPMfR9nV8pjmmv1vAhQ/IQ9c
-         7AEA==
-X-Gm-Message-State: AC+VfDy/bRL8O7nEwGumEbibMrV//ZTdpukdYNqFqYd3Gtzx+n/fYeg9
-        ZzOfxRSAKJP/Rs2h6o8yWVd0mw==
-X-Google-Smtp-Source: ACHHUZ7y3G0c/1K1ZxsQD1CmVObEWMkld+khXvdLHXCeF0xmvtbL20p/dlmeD6u4oVOhycyAEXH/Og==
-X-Received: by 2002:a17:902:aa0a:b0:1b5:4679:568f with SMTP id be10-20020a170902aa0a00b001b54679568fmr10746105plb.45.1687537962012;
-        Fri, 23 Jun 2023 09:32:42 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id iw13-20020a170903044d00b001aaf536b1e3sm7442562plb.123.2023.06.23.09.32.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Jun 2023 09:32:41 -0700 (PDT)
-Date:   Fri, 23 Jun 2023 09:32:40 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Sami Tolvanen <samitolvanen@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
-        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] Fix CFI failures with GCOV_PROFILE_ALL
-Message-ID: <202306230932.539C9DC0@keescook>
-References: <20230623001140.1111494-4-samitolvanen@google.com>
+        bh=8LECLQNnPYl0y9r0xDtUgl5E87ZKIYJNhvoef1Dor0g=;
+        b=dkKxv2jKnBQqAajzGXBmpV6B0eM8pL9kPs6CIVf+ThG9Iahm2kU+vQ0Fjnzn7i9vHT
+         GjUC5pNMkIyqj9rtWJMxzb91fel2sBJjFqzEVLiKyVhIYA6jE5UH/dZYxxYO/A2PtIv2
+         Hxp+jcSKewNrf5iuF5bOpEyTkxC3xH18HAChCnG98UD6p7dVREWfhjA/O7Ec3L8BiJDu
+         vRWYe+zjzPZ0+SU/QJXJ+Lg23sFoeHdWLozBEe5gMg8s0vgYl31aoKkfmib29RE8/OL/
+         9vrHrUCHluh78Smr69+sWBr0lNEnv64ao2hB5EIHKCE+asWMYAXE+cLz5VZr9CFy9CuS
+         xVaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687538354; x=1690130354;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8LECLQNnPYl0y9r0xDtUgl5E87ZKIYJNhvoef1Dor0g=;
+        b=S3pmio9bVzppMlF6XQRqZ8XyeSt7nY8SwW3C2+OAfI0NitwG2fPg5JCBhEMXmYi2QP
+         +nz4mTszmgP3N3o8+Fb0X5XMeDqM/pwYDd0FZBTkB7MbqVRKbv8nnSN0pxes0A6yEL3F
+         d/4Yq8yVsIxCfHSC9gCWRvoslHjJAIdQrU+AoS/0qJKzezbpSR5ZcZKElBKe69IWfhwU
+         7sIFhn8goW0uuMRxqcVGI49AmJtetcpZUR885m0SaKTnPip3rsykej1k1bHODG+YwuIm
+         bX9Agt+9Rdzkr6DtawbHlmuDWAB2hM4xHfTFaYPy/P88YCn8PU/2UwQ1YToEd4US9d5e
+         jO7Q==
+X-Gm-Message-State: AC+VfDxYTmOy9cNlNXtyYh/0Efh81PJ8/PZkLnEYfW1lM0rDhU9yp/Mw
+        eqgceMYuT4n7L3enu6sgALAacxCFQ0TkaL42VdD3Rg==
+X-Google-Smtp-Source: ACHHUZ4nTMiMdzxcp5Dyr7rUsaaeYLVLKDx8ob6RuR0oNVQa3WXS6lje+VJiQNjFDZvvFpcBUUKXRlNvWTJhRtRJ3RU=
+X-Received: by 2002:ad4:5be4:0:b0:634:20f:471c with SMTP id
+ k4-20020ad45be4000000b00634020f471cmr1044805qvc.14.1687538353806; Fri, 23 Jun
+ 2023 09:39:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230623001140.1111494-4-samitolvanen@google.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+References: <20230623134351.1898379-1-kernel@xen0n.name> <20230623134351.1898379-8-kernel@xen0n.name>
+In-Reply-To: <20230623134351.1898379-8-kernel@xen0n.name>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Fri, 23 Jun 2023 09:39:03 -0700
+Message-ID: <CAKwvOdn5e+BzhGzDPnZYEjCuanABJmu5ZZo5x2uwHj4L44m5nA@mail.gmail.com>
+Subject: Re: [PATCH 7/9] LoongArch: Tweak CFLAGS for Clang compatibility
+To:     WANG Xuerui <kernel@xen0n.name>
+Cc:     Huacai Chen <chenhuacai@kernel.org>,
+        WANG Rui <wangrui@loongson.cn>, Xi Ruoyao <xry111@xry111.site>,
+        loongarch@lists.linux.dev, linux-kbuild@vger.kernel.org,
+        llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+        WANG Xuerui <git@xen0n.name>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jun 23, 2023 at 12:11:41AM +0000, Sami Tolvanen wrote:
-> Hi folks,
-> 
-> The following two patches fix CFI failures with GCOV_PROFILE_ALL,
-> where the compiler injects indirectly called functions to object
-> files that otherwise contain no executable code, and are not
-> processed by objtool or don't have CFI enabled. This results in
-> missing or incorrect type hashes during boot and when modules are
-> loaded.
-> 
-> Sami Tolvanen (2):
->   kbuild: Fix CFI failures with GCOV
->   kbuild: Disable GCOV for *.mod.o
-> 
->  init/Makefile             | 1 +
->  scripts/Makefile.modfinal | 2 +-
->  scripts/Makefile.vmlinux  | 1 +
->  3 files changed, 3 insertions(+), 1 deletion(-)
+On Fri, Jun 23, 2023 at 6:44=E2=80=AFAM WANG Xuerui <kernel@xen0n.name> wro=
+te:
+>
+> From: WANG Xuerui <git@xen0n.name>
+>
+> Now the arch code is mostly ready for LLVM/Clang consumption, it is time
+> to re-organize the CFLAGS a little to actually enable the LLVM build.
+>
+> A build with !RELOCATABLE && !MODULE is confirmed working within a QEMU
+> environment; support for the two features are currently blocked by
+> LLVM/Clang, and will come later.
+>
+> Signed-off-by: WANG Xuerui <git@xen0n.name>
+> ---
+>  arch/loongarch/Makefile      | 14 +++++++++++---
+>  arch/loongarch/vdso/Makefile |  6 +++++-
+>  2 files changed, 16 insertions(+), 4 deletions(-)
+>
+> diff --git a/arch/loongarch/Makefile b/arch/loongarch/Makefile
+> index a27e264bdaa5..efe9b50bd829 100644
+> --- a/arch/loongarch/Makefile
+> +++ b/arch/loongarch/Makefile
+> @@ -46,12 +46,18 @@ ld-emul                     =3D $(64bit-emul)
+>  cflags-y               +=3D -mabi=3Dlp64s
+>  endif
+>
+> -cflags-y                       +=3D -G0 -pipe -msoft-float
 
-Nice hunting!
+This seems to drop -msoft-float for GCC. Intentional?
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+> -LDFLAGS_vmlinux                        +=3D -G0 -static -n -nostdlib
+> +ifndef CONFIG_CC_IS_CLANG
+> +cflags-y                       +=3D -G0
+> +LDFLAGS_vmlinux                        +=3D -G0
 
-Should these get Cc: stable tags maybe?
+Thanks for the patch!
 
--- 
-Kees Cook
+I can understand not passing -G0 to clang if clang doesn't understand
+it, but should you be using CONFIG_LD_IS_LLD for LDFLAGS?
+
+What does -G0 do?
+
+Is there a plan to support it in clang and lld?
+
+If so, please file a bug in LLVM's issue tracker
+https://github.com/llvm/llvm-project/issues
+then link to it in a comment in this Makefile above the relevant condition.
+
+> +endif
+> +cflags-y                       +=3D -pipe
+> +LDFLAGS_vmlinux                        +=3D -static -n -nostdlib
+>
+>  # When the assembler supports explicit relocation hint, we must use it.
+>  # GCC may have -mexplicit-relocs off by default if it was built with an =
+old
+> -# assembler, so we force it via an option.
+> +# assembler, so we force it via an option. For LLVM/Clang the desired be=
+havior
+> +# is the default, and the flag is not supported, so don't pass it if Cla=
+ng is
+> +# being used.
+>  #
+>  # When the assembler does not supports explicit relocation hint, we can'=
+t use
+>  # it.  Disable it if the compiler supports it.
+> @@ -61,8 +67,10 @@ LDFLAGS_vmlinux                      +=3D -G0 -static =
+-n -nostdlib
+>  # combination of a "new" assembler and "old" compiler is not supported. =
+ Either
+>  # upgrade the compiler or downgrade the assembler.
+>  ifdef CONFIG_AS_HAS_EXPLICIT_RELOCS
+> +ifndef CONFIG_CC_IS_CLANG
+>  cflags-y                       +=3D -mexplicit-relocs
+>  KBUILD_CFLAGS_KERNEL           +=3D -mdirect-extern-access
+> +endif
+
+Why would AS_HAS_EXPLICIT_RELOCS be set if -mexplicit-relocs isn't
+supported? Is the kconfig for that broken?
+
+Does AS_HAS_EXPLICIT_RELOCS also need to test for the support for
+-mdirect-extern-access or should there be a new config for that?
+CC_SUPPORTS_DIRECT_EXTERN_ACCESS
+
+>  else
+>  cflags-y                       +=3D $(call cc-option,-mno-explicit-reloc=
+s)
+>  KBUILD_AFLAGS_KERNEL           +=3D -Wa,-mla-global-with-pcrel
+> diff --git a/arch/loongarch/vdso/Makefile b/arch/loongarch/vdso/Makefile
+> index 4c859a0e4754..19f6c75a1106 100644
+> --- a/arch/loongarch/vdso/Makefile
+> +++ b/arch/loongarch/vdso/Makefile
+> @@ -25,13 +25,17 @@ endif
+>  cflags-vdso :=3D $(ccflags-vdso) \
+>         -isystem $(shell $(CC) -print-file-name=3Dinclude) \
+>         $(filter -W%,$(filter-out -Wa$(comma)%,$(KBUILD_CFLAGS))) \
+> -       -O2 -g -fno-strict-aliasing -fno-common -fno-builtin -G0 \
+> +       -O2 -g -fno-strict-aliasing -fno-common -fno-builtin \
+>         -fno-stack-protector -fno-jump-tables -DDISABLE_BRANCH_PROFILING =
+\
+>         $(call cc-option, -fno-asynchronous-unwind-tables) \
+>         $(call cc-option, -fno-stack-protector)
+>  aflags-vdso :=3D $(ccflags-vdso) \
+>         -D__ASSEMBLY__ -Wa,-gdwarf-2
+>
+> +ifndef CONFIG_CC_IS_CLANG
+> +cflags-vdso +=3D -G0
+> +endif
+> +
+>  ifneq ($(c-gettimeofday-y),)
+>    CFLAGS_vgettimeofday.o +=3D -include $(c-gettimeofday-y)
+>  endif
+> --
+> 2.40.0
+>
+>
+
+
+--=20
+Thanks,
+~Nick Desaulniers
