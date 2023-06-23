@@ -2,141 +2,122 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C90D73BC46
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Jun 2023 18:03:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90D1A73BC96
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Jun 2023 18:32:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232073AbjFWQDg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 23 Jun 2023 12:03:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33398 "EHLO
+        id S232147AbjFWQcE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 23 Jun 2023 12:32:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232043AbjFWQDc (ORCPT
+        with ESMTP id S229531AbjFWQcC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 23 Jun 2023 12:03:32 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D01D1270D;
-        Fri, 23 Jun 2023 09:03:31 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 58F8C61A9F;
-        Fri, 23 Jun 2023 16:03:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCA79C433CB;
-        Fri, 23 Jun 2023 16:03:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687536210;
-        bh=rJAiY7DvRusfqKQ/9tX+7NJbcDf3hYdW67SlVu6b8Ps=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=GUX+/5uQvg6Bg8M8YCLrvmARyhXRLswbU8k3dv9nbRrPpFW661aFVon7eaBwwbbPA
-         z1CnV7sztvuCj19ZOEE/A0zElh24Lts+gtFjNjmrRDG+Jc0jOWdiVdyPsBjPIk7h3f
-         Yz21LOC+pJXIDgGrP/xRVYkMFq3RO0Dhr/5XXfNPus1nej7ow5xt8gBeuYB0ZkcnbC
-         GxMtQrTXFWMOw3O5Dehd0Qgziy24xTMRGPBQvtjdJTIIFWfI+T3cj0uNqofHSuQaMD
-         kL5LGaHq1dAjehM2A1Jy8bIQMwpulI3vU+2hr2JuYy3bZZ+Fn/lwC+9YuaXOlhYTv8
-         ntCp/57bxACEQ==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-4f96da99965so1036935e87.1;
-        Fri, 23 Jun 2023 09:03:30 -0700 (PDT)
-X-Gm-Message-State: AC+VfDxydiPehohwm8wXTafxqWF0fn3yy3EGGo+Ay80FDKqmIZhZYgE4
-        iOUJyIsRgvKw4QxGAdtsyZJIUlnQL0lu66pEvQg=
-X-Google-Smtp-Source: ACHHUZ7PLoQP8phTP8/WxALdhKuPT/UQWgdoR/LtQuoyLK6qpHOlqVvniIj8rDnEDu9b7l837IWIHuIOelrRoml6wU4=
-X-Received: by 2002:ac2:499e:0:b0:4f8:6f40:4776 with SMTP id
- f30-20020ac2499e000000b004f86f404776mr10070198lfl.46.1687536208757; Fri, 23
- Jun 2023 09:03:28 -0700 (PDT)
+        Fri, 23 Jun 2023 12:32:02 -0400
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CED3A271E
+        for <linux-kbuild@vger.kernel.org>; Fri, 23 Jun 2023 09:32:00 -0700 (PDT)
+Received: by mail-qv1-xf35.google.com with SMTP id 6a1803df08f44-630066deb1dso7340026d6.3
+        for <linux-kbuild@vger.kernel.org>; Fri, 23 Jun 2023 09:32:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1687537920; x=1690129920;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yjZj3NJ6tNL43fD8olUI2ckbffSX6NxYGeL5Kbsd15w=;
+        b=R1isnHBBwVrgX9qa7AlsKhyGqLKNWhaxQDytnzIrvagW7RrRJJd/7E4Jv7J5xW37fN
+         ZJiwLTMzva5iBTSQRN1jHnvm4kJDixA4gECanSgwBdUDVFzAZjwVMSUrMribVOeO1dbj
+         TOYp58RsjRx4zs5ztbwLxPDHKfGhf0vTGXUAWId9gmOVFHxaMvnIPglVs+EVJ/o8OQoT
+         Q/H747d/lPF0u1HAY7OhMjerSUExP5JUZAm/zKMTRZqruSemOEYyLG3YUxumw03PcXVp
+         bsn/lCwZMelCPLy8OoCoeyE14XDebACrCq2aNBWvsLUxah47fqSMBXe7gKKlKjwTvjtv
+         EUYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687537920; x=1690129920;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yjZj3NJ6tNL43fD8olUI2ckbffSX6NxYGeL5Kbsd15w=;
+        b=HfqczRdYOtKvSOYap9wi1rnQn0QSfUUfL8SERIuvWr8NzZg4Ws55TbZ8F1jRA23hsh
+         scqua61PVp91cgycQVAJjDMtemXT8LXO3LQQPaJwdZdZstz0z9ewuyGvTi4UrUTQ2bV8
+         5Jip8dkNvvZABSIT7BySPVU/rc/A7Jz0NxZ7GjNUp9JnHO2jZ+EOkI7bmZLKVZj38Yy5
+         xWWjg0+KkL994b0tUjGiXrn/J69i15wyeTVefL4FwtNdCw3mgQQ/qH0GiEDr5TZGdBoL
+         q+kttFuV/QoZMt+aCGzpk/cHZagMU5JwEijHK1X+eN3p6h9H4G6aJwZziOEoYtz4Quzz
+         uMMg==
+X-Gm-Message-State: AC+VfDxYU8AGSPQluQzqU1czRAxQKW0Af5qCizGXsQPJR+vpamj4+0O8
+        4W70szUlk1NNzTOXqG9HG0iAE0wKT23Qu7vU4XCL0A==
+X-Google-Smtp-Source: ACHHUZ44biYyPh1FafPEljQhdi4AermpdroWBXD6UfAZJZCAYGcnGRDXk1RfO12+Wn89bZ+YwJ3JJ2rnwlhgyM4rHQA=
+X-Received: by 2002:a05:6214:2a8e:b0:626:3dee:6091 with SMTP id
+ jr14-20020a0562142a8e00b006263dee6091mr26135505qvb.49.1687537919844; Fri, 23
+ Jun 2023 09:31:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230623134351.1898379-1-kernel@xen0n.name> <20230623134351.1898379-5-kernel@xen0n.name>
-In-Reply-To: <20230623134351.1898379-5-kernel@xen0n.name>
-From:   Huacai Chen <chenhuacai@kernel.org>
-Date:   Sat, 24 Jun 2023 00:03:16 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H6=yLvVdyOCdjFWrUe_MbG6PymTn5=o2rQOrpXLzcvhdQ@mail.gmail.com>
-Message-ID: <CAAhV-H6=yLvVdyOCdjFWrUe_MbG6PymTn5=o2rQOrpXLzcvhdQ@mail.gmail.com>
-Subject: Re: [PATCH 4/9] LoongArch: Make {read,write}_fcsr compatible with LLVM/Clang
+References: <20230623134351.1898379-1-kernel@xen0n.name> <20230623134351.1898379-9-kernel@xen0n.name>
+In-Reply-To: <20230623134351.1898379-9-kernel@xen0n.name>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Fri, 23 Jun 2023 09:31:49 -0700
+Message-ID: <CAKwvOdnimxv8oJ4mVY74zqtt1x7KTMrWvn2_T9x22SFDbU6rHQ@mail.gmail.com>
+Subject: Re: [PATCH 8/9] Makefile: Add loongarch target flag for Clang compilation
 To:     WANG Xuerui <kernel@xen0n.name>
-Cc:     WANG Rui <wangrui@loongson.cn>, Xi Ruoyao <xry111@xry111.site>,
+Cc:     Huacai Chen <chenhuacai@kernel.org>,
+        WANG Rui <wangrui@loongson.cn>, Xi Ruoyao <xry111@xry111.site>,
         loongarch@lists.linux.dev, linux-kbuild@vger.kernel.org,
         llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
         WANG Xuerui <git@xen0n.name>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi, Xuerui,
-
-On Fri, Jun 23, 2023 at 9:44=E2=80=AFPM WANG Xuerui <kernel@xen0n.name> wro=
+On Fri, Jun 23, 2023 at 6:44=E2=80=AFAM WANG Xuerui <kernel@xen0n.name> wro=
 te:
 >
 > From: WANG Xuerui <git@xen0n.name>
 >
-> LLVM/Clang does not see FCSRs as GPRs, so make use of compiler
-> built-ins instead for better maintainability with less code.
->
-> The existing version cannot be wholly removed though, because the
-> built-ins, while available on GCC too, is predicated TARGET_HARD_FLOAT,
-> which means soft-float code cannot make use of them.
+> The LoongArch kernel is 64-bit and built with the soft-float ABI,
+> hence the loongarch64-linux-gnusf target. (The "libc" part doesn't
+> matter.)
+
+Technically, IIRC llvm may make different decisions on libcall
+optimizations based on the libc part of the target triple.  For
+instance, is bcmp defined in that libc or not?  That's why we specify
+-gnu or -musl (I forgot we did that for hexagon) explicitly rather
+than leave that part of the triple blank.  Minutia that doesn't need
+to be in this commit message, but now it's explicitly documented on
+LKML and linkable-to.
+
 >
 > Signed-off-by: WANG Xuerui <git@xen0n.name>
+
+Thanks for the patch!
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
 > ---
->  arch/loongarch/include/asm/loongarch.h | 19 +++++++++++++------
->  1 file changed, 13 insertions(+), 6 deletions(-)
+>  scripts/Makefile.clang | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/arch/loongarch/include/asm/loongarch.h b/arch/loongarch/incl=
-ude/asm/loongarch.h
-> index ac83e60c60d1..eedc313b5241 100644
-> --- a/arch/loongarch/include/asm/loongarch.h
-> +++ b/arch/loongarch/include/asm/loongarch.h
-> @@ -1445,12 +1445,6 @@ __BUILD_CSR_OP(tlbidx)
->  #define EXCCODE_INT_START      64
->  #define EXCCODE_INT_END                (EXCCODE_INT_START + EXCCODE_INT_=
-NUM - 1)
->
-> -/* FPU register names */
-> -#define LOONGARCH_FCSR0        $r0
-> -#define LOONGARCH_FCSR1        $r1
-> -#define LOONGARCH_FCSR2        $r2
-> -#define LOONGARCH_FCSR3        $r3
-> -
->  /* FPU Status Register Values */
->  #define FPU_CSR_RSVD   0xe0e0fce0
->
-> @@ -1487,6 +1481,18 @@ __BUILD_CSR_OP(tlbidx)
->  #define FPU_CSR_RU     0x200   /* towards +Infinity */
->  #define FPU_CSR_RD     0x300   /* towards -Infinity */
->
-> +#ifdef CONFIG_CC_IS_CLANG
-> +#define LOONGARCH_FCSR0        0
-> +#define LOONGARCH_FCSR1        1
-> +#define LOONGARCH_FCSR2        2
-> +#define LOONGARCH_FCSR3        3
-> +#define read_fcsr(source)      __movfcsr2gr(source)
-> +#define write_fcsr(dest, val)  __movgr2fcsr(dest, val)
-> +#else /* CONFIG_CC_IS_CLANG */
-> +#define LOONGARCH_FCSR0        $r0
-> +#define LOONGARCH_FCSR1        $r1
-> +#define LOONGARCH_FCSR2        $r2
-> +#define LOONGARCH_FCSR3        $r3
->  #define read_fcsr(source)      \
->  ({     \
->         unsigned int __res;     \
-Now the latest binutils also supports $fcsr, so I suggest to always
-use inline asm, and change CONFIG_CC_IS_CLANG to
-CONFIG_AS_HAS_FCSR_CLASS. And of course, Patch3 and Patch4 can be
-merged then.
-
-Huacai
-
-> @@ -1503,5 +1509,6 @@ do {      \
->         "       movgr2fcsr      "__stringify(dest)", %0 \n"     \
->         : : "r" (val)); \
->  } while (0)
-> +#endif /* CONFIG_CC_IS_CLANG */
->
->  #endif /* _ASM_LOONGARCH_H */
+> diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
+> index 058a4c0f864e..6c23c6af797f 100644
+> --- a/scripts/Makefile.clang
+> +++ b/scripts/Makefile.clang
+> @@ -4,6 +4,7 @@
+>  CLANG_TARGET_FLAGS_arm         :=3D arm-linux-gnueabi
+>  CLANG_TARGET_FLAGS_arm64       :=3D aarch64-linux-gnu
+>  CLANG_TARGET_FLAGS_hexagon     :=3D hexagon-linux-musl
+> +CLANG_TARGET_FLAGS_loongarch   :=3D loongarch64-linux-gnusf
+>  CLANG_TARGET_FLAGS_m68k                :=3D m68k-linux-gnu
+>  CLANG_TARGET_FLAGS_mips                :=3D mipsel-linux-gnu
+>  CLANG_TARGET_FLAGS_powerpc     :=3D powerpc64le-linux-gnu
 > --
 > 2.40.0
 >
+>
+
+
+--=20
+Thanks,
+~Nick Desaulniers
