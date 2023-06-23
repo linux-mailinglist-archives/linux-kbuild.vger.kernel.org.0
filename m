@@ -2,113 +2,135 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAB6C73BD37
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Jun 2023 18:52:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60DCC73BD42
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Jun 2023 18:54:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232554AbjFWQww (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 23 Jun 2023 12:52:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59374 "EHLO
+        id S232120AbjFWQyC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 23 Jun 2023 12:54:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232627AbjFWQwl (ORCPT
+        with ESMTP id S232560AbjFWQxx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 23 Jun 2023 12:52:41 -0400
-Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 302FE2969
-        for <linux-kbuild@vger.kernel.org>; Fri, 23 Jun 2023 09:52:40 -0700 (PDT)
-Received: by mail-qv1-xf2b.google.com with SMTP id 6a1803df08f44-62f2b068ba4so7051996d6.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 23 Jun 2023 09:52:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1687539159; x=1690131159;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zvDD70EfgKKb2T0PMEOiIeKl/5XEghNuRS0dwmrmHco=;
-        b=Qy05BsLfj+WBYkdgrGWb9VBYQ5m+HxVaLFz5WcI7qfgagHahWVymgtmku3jMvC371S
-         G53c+YlybCdhISIN+SdNRPQbH++Jov39YcYFhTAYyiO1JO4+PMeGo6ldpnmLjTfGo5VC
-         ToBbbeP/7GUeZMPSGH3nQ9OsOGnB+PMZCYuKaCJ6RyT3qCHAEu17/cWtJq5rlYxc8n0Z
-         yXRg8OMaHKL6QaD4oHE67UIKbkdhqcrDvFNVYmZvNvKHbw/hVVltyGJsWGRYH21eCUrU
-         O+93tGccodGvME6XhBZkgoTOeyWL0zBu+JklecNtMzlx1MHYRq19+yLFmCxknN/bYHCw
-         FgOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687539159; x=1690131159;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zvDD70EfgKKb2T0PMEOiIeKl/5XEghNuRS0dwmrmHco=;
-        b=bvoePD/kRCLbFfW9SLZYAZ5dXLR7XPXZKlyHagQ7mydA+DoNuKq3fhYgWAEUJjhIB3
-         RHGomp55YqDLlFxsJv60zqC+QL5oeKsToMNJWnXETmTd3yI/eUWnBnQTnmXOnVfOj5/I
-         kmhFZW8s+q9O0w5wbjuDKJsCLnxDxTJpAog1R2Cgq7F5dW2DdKjrBpVgSN+9Xv5glsfS
-         ExTmnewEM7esRscvuWPEPWVqthvG+pBtl9+LO9+MGG45rfQdEIMh9igKz1T8kAIR/3iP
-         FsbneOrG0qodPXv7npyJRJjySawVQEhXnnOGJau7CK0GOhYYS+aM0rzjQ2Srdmb6KNTh
-         fs2A==
-X-Gm-Message-State: AC+VfDw2ITmag/tC4rqCeuvrjycQQsvC6ihyOKrOmNzNh3z6DCDV7NYV
-        xwFifMLFpceFvZXxW4ceLSSNC+qn/CMaUGSnxvuhLw==
-X-Google-Smtp-Source: ACHHUZ6s9WIYCreCT4T/wFXItf/JVraCr7eKtgc0c1aKOM7YNwMs2IdQ9w5aaTr8eYo53MeSlCH4fj5aI4/NFDzrSS0=
-X-Received: by 2002:a05:6214:23ca:b0:625:83ab:8a42 with SMTP id
- hr10-20020a05621423ca00b0062583ab8a42mr24076302qvb.46.1687539159150; Fri, 23
- Jun 2023 09:52:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230623134351.1898379-1-kernel@xen0n.name> <20230623134351.1898379-10-kernel@xen0n.name>
-In-Reply-To: <20230623134351.1898379-10-kernel@xen0n.name>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 23 Jun 2023 09:52:28 -0700
-Message-ID: <CAKwvOdmJmdB3sCviTFyjdN8DWe_C0ncspEhJsXs8dzY+OdA8HQ@mail.gmail.com>
-Subject: Re: [PATCH 9/9] LoongArch: Mark Clang LTO as working
-To:     WANG Xuerui <kernel@xen0n.name>
+        Fri, 23 Jun 2023 12:53:53 -0400
+Received: from xry111.site (xry111.site [89.208.246.23])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34938270E;
+        Fri, 23 Jun 2023 09:53:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xry111.site;
+        s=default; t=1687539230;
+        bh=1+Q3s9+4hIOQJxus01vWM8frh+OlMBNzr2yk8GZvJP8=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=m/qvk+H1fM1W6DOe/lEURh0RkeDXaG+/ORWCTn/N1dgVW0f+7LlHYMHS11rWW4m6Q
+         clyJpEfABALQMfuAws2j5YeGMw+Y8Zb+3t5FnIuqLPnHtvH2ASNTr9Bzy3X4w2VBpB
+         uazawT9ZLZjRoouWe2YqSJDzakE8sTHMraXosIOw=
+Received: from localhost.localdomain (xry111.site [IPv6:2001:470:683e::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature ECDSA (P-384) server-digest SHA384)
+        (Client did not present a certificate)
+        (Authenticated sender: xry111@xry111.site)
+        by xry111.site (Postfix) with ESMTPSA id 38C3865A9C;
+        Fri, 23 Jun 2023 12:53:49 -0400 (EDT)
+Message-ID: <7502003f530ca03548bad513b70401939eac7f6e.camel@xry111.site>
+Subject: Re: [PATCH 7/9] LoongArch: Tweak CFLAGS for Clang compatibility
+From:   Xi Ruoyao <xry111@xry111.site>
+To:     Nick Desaulniers <ndesaulniers@google.com>,
+        WANG Xuerui <kernel@xen0n.name>
 Cc:     Huacai Chen <chenhuacai@kernel.org>,
-        WANG Rui <wangrui@loongson.cn>, Xi Ruoyao <xry111@xry111.site>,
-        loongarch@lists.linux.dev, linux-kbuild@vger.kernel.org,
-        llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
-        WANG Xuerui <git@xen0n.name>
+        WANG Rui <wangrui@loongson.cn>, loongarch@lists.linux.dev,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
+        linux-kernel@vger.kernel.org, WANG Xuerui <git@xen0n.name>
+Date:   Sat, 24 Jun 2023 00:53:47 +0800
+In-Reply-To: <CAKwvOdn5e+BzhGzDPnZYEjCuanABJmu5ZZo5x2uwHj4L44m5nA@mail.gmail.com>
+References: <20230623134351.1898379-1-kernel@xen0n.name>
+         <20230623134351.1898379-8-kernel@xen0n.name>
+         <CAKwvOdn5e+BzhGzDPnZYEjCuanABJmu5ZZo5x2uwHj4L44m5nA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Evolution 3.48.3 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jun 23, 2023 at 6:44=E2=80=AFAM WANG Xuerui <kernel@xen0n.name> wro=
-te:
->
-> From: WANG Xuerui <git@xen0n.name>
->
-> Confirmed working with QEMU system emulation.
->
-> Signed-off-by: WANG Xuerui <git@xen0n.name>
+On Fri, 2023-06-23 at 09:39 -0700, Nick Desaulniers wrote:
+> On Fri, Jun 23, 2023 at 6:44=E2=80=AFAM WANG Xuerui <kernel@xen0n.name> w=
+rote:
+> >=20
+> > From: WANG Xuerui <git@xen0n.name>
+> >=20
+> > Now the arch code is mostly ready for LLVM/Clang consumption, it is tim=
+e
+> > to re-organize the CFLAGS a little to actually enable the LLVM build.
+> >=20
+> > A build with !RELOCATABLE && !MODULE is confirmed working within a QEMU
+> > environment; support for the two features are currently blocked by
+> > LLVM/Clang, and will come later.
+> >=20
+> > Signed-off-by: WANG Xuerui <git@xen0n.name>
+> > ---
+> > =C2=A0arch/loongarch/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 14 ++++++=
++++++---
+> > =C2=A0arch/loongarch/vdso/Makefile |=C2=A0 6 +++++-
+> > =C2=A02 files changed, 16 insertions(+), 4 deletions(-)
+> >=20
+> > diff --git a/arch/loongarch/Makefile b/arch/loongarch/Makefile
+> > index a27e264bdaa5..efe9b50bd829 100644
+> > --- a/arch/loongarch/Makefile
+> > +++ b/arch/loongarch/Makefile
+> > @@ -46,12 +46,18 @@ ld-emul=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 =3D $(64bit-emul)
+> > =C2=A0cflags-y=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=3D -mabi=3Dlp64s
+> > =C2=A0endif
+> >=20
+> > -cflags-y=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=
+=3D -G0 -pipe -msoft-float
+>=20
+> This seems to drop -msoft-float for GCC. Intentional?
+>=20
+> > -LDFLAGS_vmlinux=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 +=3D -G0 -static -n -nostdlib
+> > +ifndef CONFIG_CC_IS_CLANG
+> > +cflags-y=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +=
+=3D -G0
+> > +LDFLAGS_vmlinux=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 +=3D -G0
+>=20
+> Thanks for the patch!
+>=20
+> I can understand not passing -G0 to clang if clang doesn't understand
+> it, but should you be using CONFIG_LD_IS_LLD for LDFLAGS?
+>=20
+> What does -G0 do?
 
-Acked-by: Nick Desaulniers <ndesaulniers@google.com>
+-G0 is a no-op for now because there is no small bss/data optimization
+implemented for LoongArch yet.
 
-Untested though.
+/* snip */
 
-> ---
->  arch/loongarch/Kconfig | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
-> index c8e4f8b03c55..7c5d562b2623 100644
-> --- a/arch/loongarch/Kconfig
-> +++ b/arch/loongarch/Kconfig
-> @@ -51,6 +51,8 @@ config LOONGARCH
->         select ARCH_SUPPORTS_ACPI
->         select ARCH_SUPPORTS_ATOMIC_RMW
->         select ARCH_SUPPORTS_HUGETLBFS
-> +       select ARCH_SUPPORTS_LTO_CLANG
-> +       select ARCH_SUPPORTS_LTO_CLANG_THIN
->         select ARCH_SUPPORTS_NUMA_BALANCING
->         select ARCH_USE_BUILTIN_BSWAP
->         select ARCH_USE_CMPXCHG_LOCKREF
-> --
-> 2.40.0
->
->
+> Why would AS_HAS_EXPLICIT_RELOCS be set if -mexplicit-relocs isn't
+> supported? Is the kconfig for that broken?
 
+Using GCC 12 (w/o -mexplicit-relocs support) together with Binutils >=3D
+2.39 (with explicit relocs support) will cause kernel modules fail to be
+loaded (because there will be R_LARCH_ABS_* relocations in the modules
+and the module loader does not support them), so we deliberately reject
+such a combination at compile time.
+
+I could add R_LARCH_ABS_* implementation into the module loader to make
+it work, but Huacai suggested to just declare the combination of GCC 12
+and Binutils >=3D 2.39 unsupported.
 
 --=20
-Thanks,
-~Nick Desaulniers
+Xi Ruoyao <xry111@xry111.site>
+School of Aerospace Science and Technology, Xidian University
