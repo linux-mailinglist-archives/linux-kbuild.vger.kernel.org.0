@@ -2,123 +2,187 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 61C1473AD9E
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Jun 2023 02:11:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51B9673B023
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Jun 2023 07:38:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231445AbjFWALw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 22 Jun 2023 20:11:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39636 "EHLO
+        id S230502AbjFWFiB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 23 Jun 2023 01:38:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231777AbjFWALt (ORCPT
+        with ESMTP id S229921AbjFWFh7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 22 Jun 2023 20:11:49 -0400
-Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com [IPv6:2607:f8b0:4864:20::649])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87E9AC6
-        for <linux-kbuild@vger.kernel.org>; Thu, 22 Jun 2023 17:11:48 -0700 (PDT)
-Received: by mail-pl1-x649.google.com with SMTP id d9443c01a7336-1b51ba96cb4so142245ad.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 22 Jun 2023 17:11:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1687479108; x=1690071108;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vo1O88LBn12GePGGmuhdEP/k87jpAuHnXHVbobu4PRQ=;
-        b=QksAuYQ4h9HkiWUUDuUJe286BNS/KxSd9WfVtRDqdPoNN9R3SdorrFx4XiozyaaNG7
-         Rb8GIkwqVwR0lMbldf+pOEFtxPakHz9Zizvom7UKdoWLLi5HCtAoIBcbLhEu3x7JI0EF
-         q8YmN9W2MVTs0f/67FbgxFfm1i6YOJ+ynwnLsu8VEVI+ARdpUGz0vXwxmVY/DdPJyU4j
-         CXoSh0ehZHdwKxkNmjS0wQ/6y+KuhZsG0uXdbaVwWahEY/HgR6pc23egaX89uG1CExlM
-         CV0acJV5vk2D9HpYijnsHbuCykfCGu6WCWzCrk7XS0hUlZAy85YXtaRPg8jD8qGp6BRs
-         OCiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687479108; x=1690071108;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vo1O88LBn12GePGGmuhdEP/k87jpAuHnXHVbobu4PRQ=;
-        b=N5GPlaGsM2INmXUKk/cNouq954JnGFxYk+KtRvL91Qf8pgWPfnX2xoQ6IJpSLN4Hac
-         /+xHu+Xx/aNxXRPsA5QKLobMAJGtu1wMq7V2EpuTrh7KkzjNx02a3jmmZWXeVp+bifuC
-         hsUkRk7s9d8M/ZkmhRU3L4/8ye7tjM+SmA2Vsdk6bJVfxWSQvjHszdfzmaP3xTwsDmgO
-         4ZLku/0q9MMl+KaQ0OFt1354vOM+HCo9V5NDaqH30p5tExguFyZU7FRjIiUxOuI3M8yB
-         Zk4wyfqYdYcUXRFrdwAEEemXIfF3Qu0754UGquq4fQrbMXBCkgAPolPaiNhnjfvxDCGw
-         tt1g==
-X-Gm-Message-State: AC+VfDy+QqZDft70rxMmW3HW411uLnN1oAReKBM/xUYZ8rQfQkvgdbU9
-        xZHaOTtV9GFa4TDPOHGcNYVzGHtAPMy0DAp2dY0=
-X-Google-Smtp-Source: ACHHUZ4OnEboURrAFGT5NncSVmStBjl8m7dSDlpD9av6g2qjlhgFEguEOrde8Lesqms2juJvliUkzAJKrOlFaDLLv14=
-X-Received: from samitolvanen.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4f92])
- (user=samitolvanen job=sendgmr) by 2002:a17:902:f811:b0:1a2:3436:4119 with
- SMTP id ix17-20020a170902f81100b001a234364119mr2901699plb.8.1687479108018;
- Thu, 22 Jun 2023 17:11:48 -0700 (PDT)
-Date:   Fri, 23 Jun 2023 00:11:43 +0000
-In-Reply-To: <20230623001140.1111494-4-samitolvanen@google.com>
-Mime-Version: 1.0
-References: <20230623001140.1111494-4-samitolvanen@google.com>
-X-Developer-Key: i=samitolvanen@google.com; a=openpgp; fpr=35CCFB63B283D6D3AEB783944CB5F6848BBC56EE
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1491; i=samitolvanen@google.com;
- h=from:subject; bh=vz8JtYFBMZ6JrswVYldeog2RjlQc50BCAyUkbrZYc88=;
- b=owEB7QES/pANAwAKAUy19oSLvFbuAcsmYgBklOM9pyZClW2Hp8UbFrWSquBEPCjWlPQquZ198
- cauUcsQF4CJAbMEAAEKAB0WIQQ1zPtjsoPW0663g5RMtfaEi7xW7gUCZJTjPQAKCRBMtfaEi7xW
- 7vh7C/42zRx8PHZksPRLtj/W3ew78/fa4rX9uyohW/fQWdFjU353MF0DOlLvB+HMwvd2ScZzNJc
- A2Q59WjNYMQI66abJdyKo53NSJaFpKE9jUguxSMEbg94h+97MmLb+I783T1xWnA9/s5XAyXy2CG
- 6vTmjFnSter4GgvRm/1L2a/Xr4xfsfpr2cQSe5moZKEN5w6z2SjKp/xUuvFkd6b+3Uj7t5jf7U9
- Eg/3aV4wP3Ear17oOZ/56pcr7tuFb7RSWTyBcFkaoE6OUSfkk4k40eI1kwyqGaQCMdWB3YxWxjd
- Koe2LaCPMhC+vSRPiwMoRwSntCi02YciGfW+S7XXKUt/CazCfkNcSPcjqtOUt1Jah73z/j8PkSY
- ODqPGiSGUHMVQuUcKK+LHaZkpr+EKJok+pFYvu2LlREZVJeiCL0fg2q6Vro/M2AX1t2XtJH869U +eOKmEGBoBmH2K5IGBMFShQFH5V+Xtj0bo6fwZ45aW3fGOdeffsUXqNzzrS9lRYwBcIzo=
-X-Mailer: git-send-email 2.41.0.162.gfafddb0af9-goog
-Message-ID: <20230623001140.1111494-6-samitolvanen@google.com>
-Subject: [PATCH 2/2] kbuild: Disable GCOV for *.mod.o
-From:   Sami Tolvanen <samitolvanen@google.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Kees Cook <keescook@chromium.org>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
-        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
-        linux-kernel@vger.kernel.org,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Joe Fradley <joefradley@google.com>
+        Fri, 23 Jun 2023 01:37:59 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 809F81A4;
+        Thu, 22 Jun 2023 22:37:58 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 06F0161984;
+        Fri, 23 Jun 2023 05:37:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F94BC433C0;
+        Fri, 23 Jun 2023 05:37:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687498677;
+        bh=Lwdspte5kmMg5dEPLnvcn7KMfrhxlxBZ4Z+Dy3zqjjc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Zc3F01Yc3bg4EpcR3iux9ivHi4jLG9MpMuJbdM/+rjSb3OWxNDPkgKLBSEehZDnWT
+         QclblmYFfIWS/RUBTh2CLvzRJqMHd1PrhNNs4/8fyu8WpPe+wtoJMqRVr2qA0hIVKm
+         RyyyWfpen2NxwSS8fLdujGfAAGlF8KZsBBkjRDvwFAGCUtw4cuOv0CisHCTAihI9sS
+         xph0vBKyxUAFONh+ysP7cLMWUhAhRK2sJ9/bNuuVFvwULw4hwPey/6wcEZO1v8P8zb
+         7uWhKc4hwvu0Ez1DM0DDoES/m3HHdz7XYPTwA8mSk3KLEXWAgqaP4IplOTp9o0951W
+         PJJQtcUsU+wqA==
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-1a9a42edfc9so185774fac.0;
+        Thu, 22 Jun 2023 22:37:57 -0700 (PDT)
+X-Gm-Message-State: AC+VfDzyfs/7BBFnNrHnlGgeNbC8A7dNSSfnAG91aMpShImJL7dDGweG
+        neRUZ/mG4sTfFtO6YgCyBUYKLAWaXZWgMoAqDe0=
+X-Google-Smtp-Source: ACHHUZ6ncWhvrZPy43tSDmHA/gPCfjSdYrrEbpQBGr+KsSaA8U4uwdQmFRySwuKHztbRTlkohgNBciuoY1lw8qct2X8=
+X-Received: by 2002:a05:6870:b285:b0:1a9:71c3:b7c2 with SMTP id
+ c5-20020a056870b28500b001a971c3b7c2mr11812001oao.50.1687498676800; Thu, 22
+ Jun 2023 22:37:56 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230620120521.688124-1-masahiroy@kernel.org> <CAKwvOdmSUkyb_fwDJ-_bKxo65MRWUShc25L5itWt4m4MTYi=yQ@mail.gmail.com>
+In-Reply-To: <CAKwvOdmSUkyb_fwDJ-_bKxo65MRWUShc25L5itWt4m4MTYi=yQ@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 23 Jun 2023 14:37:20 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATX+_kr+zKskV7NahpasZBV0P+Ke3g_nW=+vRwcsFL1+g@mail.gmail.com>
+Message-ID: <CAK7LNATX+_kr+zKskV7NahpasZBV0P+Ke3g_nW=+vRwcsFL1+g@mail.gmail.com>
+Subject: Re: [PATCH 1/3] modpost: factor out inst location calculation to section_rel()
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-With GCOV_PROFILE_ALL, Clang injects __llvm_gcov_* functions to each
-object file, including the *.mod.o. As we filter out CC_FLAGS_CFI
-for *.mod.o, the compiler won't generate type hashes for the
-injected functions, and therefore indirectly calling them during
-module loading trips indirect call checking.
+On Fri, Jun 23, 2023 at 3:25=E2=80=AFAM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> On Tue, Jun 20, 2023 at 5:05=E2=80=AFAM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
+> >
+> > All the addend_*_rel() functions calculate the instruction location in
+> > the same way.
+> >
+> > Factor out the similar code to the caller. Squash reloc_location() too.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  scripts/mod/modpost.c | 28 ++++++++++++----------------
+> >  1 file changed, 12 insertions(+), 16 deletions(-)
+> >
+> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> > index 6e0b8be32648..2551ac9d5bd3 100644
+> > --- a/scripts/mod/modpost.c
+> > +++ b/scripts/mod/modpost.c
+> > @@ -1256,16 +1256,9 @@ static void check_section_mismatch(struct module=
+ *mod, struct elf_info *elf,
+> >                                  tosec, taddr);
+> >  }
+> >
+> > -static unsigned int *reloc_location(struct elf_info *elf,
+> > -                                   Elf_Shdr *sechdr, Elf_Rela *r)
+> > -{
+> > -       return sym_get_data_by_offset(elf, sechdr->sh_info, r->r_offset=
+);
+> > -}
+> > -
+> > -static int addend_386_rel(struct elf_info *elf, Elf_Shdr *sechdr, Elf_=
+Rela *r)
+> > +static int addend_386_rel(uint32_t *location, Elf_Rela *r)
+> >  {
+> >         unsigned int r_typ =3D ELF_R_TYPE(r->r_info);
+> > -       unsigned int *location =3D reloc_location(elf, sechdr, r);
+> >
+> >         switch (r_typ) {
+> >         case R_386_32:
+> > @@ -1302,11 +1295,10 @@ static int32_t sign_extend32(int32_t value, int=
+ index)
+> >         return (int32_t)(value << shift) >> shift;
+> >  }
+> >
+> > -static int addend_arm_rel(struct elf_info *elf, Elf_Shdr *sechdr, Elf_=
+Rela *r)
+> > +static int addend_arm_rel(void *loc, struct elf_info *elf, Elf_Rela *r=
+)
+> >  {
+> >         unsigned int r_typ =3D ELF_R_TYPE(r->r_info);
+> >         Elf_Sym *sym =3D elf->symtab_start + ELF_R_SYM(r->r_info);
+> > -       void *loc =3D reloc_location(elf, sechdr, r);
+> >         uint32_t inst, upper, lower, sign, j1, j2;
+> >         int32_t offset;
+> >
+> > @@ -1396,11 +1388,10 @@ static int addend_arm_rel(struct elf_info *elf,=
+ Elf_Shdr *sechdr, Elf_Rela *r)
+> >         return 0;
+> >  }
+> >
+> > -static int addend_mips_rel(struct elf_info *elf, Elf_Shdr *sechdr, Elf=
+_Rela *r)
+> > +static int addend_mips_rel(uint32_t *location, Elf_Rela *r)
+> >  {
+> >         unsigned int r_typ =3D ELF_R_TYPE(r->r_info);
+> > -       unsigned int *location =3D reloc_location(elf, sechdr, r);
+> > -       unsigned int inst;
+> > +       uint32_t inst;
+> >
+> >         if (r_typ =3D=3D R_MIPS_HI16)
+> >                 return 1;       /* skip this */
+> > @@ -1502,6 +1493,8 @@ static void section_rel(struct module *mod, struc=
+t elf_info *elf,
+> >                 return;
+> >
+> >         for (rel =3D start; rel < stop; rel++) {
+> > +               void *loc;
+> > +
+> >                 r.r_offset =3D TO_NATIVE(rel->r_offset);
+> >  #if KERNEL_ELFCLASS =3D=3D ELFCLASS64
+> >                 if (elf->hdr->e_machine =3D=3D EM_MIPS) {
+> > @@ -1519,17 +1512,20 @@ static void section_rel(struct module *mod, str=
+uct elf_info *elf,
+> >                 r_sym =3D ELF_R_SYM(r.r_info);
+> >  #endif
+> >                 r.r_addend =3D 0;
+> > +
+> > +               loc =3D sym_get_data_by_offset(elf, fsecndx, r.r_offset=
+);
+>
+> Can we compute `loc` only for the three machine types?
 
-Enabling CFI for *.mod.o isn't sufficient to fix this issue after
-commit 0c3e806ec0f9 ("x86/cfi: Add boot time hash randomization"),
-as *.mod.o aren't processed by objtool, which means any hashes
-emitted there won't be randomized. Therefore, in addition to
-disabling CFI for *.mod.o, also disable GCOV, as the object files
-don't otherwise contain any executable code.
 
-Fixes: cf68fffb66d6 ("add support for Clang CFI")
-Reported-by: Joe Fradley <joefradley@google.com>
-Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
----
- scripts/Makefile.modfinal | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-index 4703f652c009..fc19f67039bd 100644
---- a/scripts/Makefile.modfinal
-+++ b/scripts/Makefile.modfinal
-@@ -23,7 +23,7 @@ modname = $(notdir $(@:.mod.o=))
- part-of-module = y
- 
- quiet_cmd_cc_o_c = CC [M]  $@
--      cmd_cc_o_c = $(CC) $(filter-out $(CC_FLAGS_CFI), $(c_flags)) -c -o $@ $<
-+      cmd_cc_o_c = $(CC) $(filter-out $(CC_FLAGS_CFI) $(CFLAGS_GCOV), $(c_flags)) -c -o $@ $<
- 
- %.mod.o: %.mod.c FORCE
- 	$(call if_changed_dep,cc_o_c)
--- 
-2.41.0.162.gfafddb0af9-goog
+I believe you can compute the location in the same way for any architecture
+because it is mentioned in ELF spec.
 
+https://refspecs.linuxfoundation.org/elf/elf.pdf
+
+Page 36.
+
+
+r_offset
+  This member gives the location at which to apply the relocation action. F=
+or
+  a relocatable file, the value is the byte offset from the beginning of th=
+e
+  section to the storage unit affected by the relocation.
+
+
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
