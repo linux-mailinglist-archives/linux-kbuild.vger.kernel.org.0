@@ -2,52 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A4A373BAD6
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Jun 2023 16:55:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E558F73BC32
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Jun 2023 17:58:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230407AbjFWOy6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 23 Jun 2023 10:54:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47468 "EHLO
+        id S232019AbjFWP56 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 23 Jun 2023 11:57:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232073AbjFWOy2 (ORCPT
+        with ESMTP id S229673AbjFWP5w (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 23 Jun 2023 10:54:28 -0400
-X-Greylist: delayed 508 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 23 Jun 2023 07:54:20 PDT
-Received: from hi1smtp01.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 570E52D50;
-        Fri, 23 Jun 2023 07:54:20 -0700 (PDT)
-Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
-        by hi1smtp01.de.adit-jv.com (Postfix) with ESMTP id 4A26B5200CE;
-        Fri, 23 Jun 2023 16:45:50 +0200 (CEST)
-Received: from lxhi-065 (10.72.94.1) by hi2exch02.adit-jv.com (10.72.92.28)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.23; Fri, 23 Jun
- 2023 16:45:50 +0200
-Date:   Fri, 23 Jun 2023 16:45:44 +0200
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nicolas Schier <n.schier@avm.de>,
-        SzuWei Lin <szuweilin@google.com>
-CC:     <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arch@vger.kernel.org>, <Matthias.Thomae@de.bosch.com>,
-        <yyankovskyi@de.adit-jv.com>, <Dirk.Behme@de.bosch.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH 3/5] kbuild: rename cmd_{bzip2,lzma,lzo,lz4,xzkern,zstd22}
-Message-ID: <20230623144544.GA24871@lxhi-065>
-References: <20220109181529.351420-1-masahiroy@kernel.org>
- <20220109181529.351420-3-masahiroy@kernel.org>
- <YdwZe9DHJZUaa6aO@buildd.core.avm.de>
+        Fri, 23 Jun 2023 11:57:52 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92D76210A;
+        Fri, 23 Jun 2023 08:57:51 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2FB8261AAF;
+        Fri, 23 Jun 2023 15:57:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 927A5C433CB;
+        Fri, 23 Jun 2023 15:57:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687535870;
+        bh=ZvtKMCreuF1Bw/8sl4ZAqqcyo/nUFlKwy8MW1+OOcB4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=RU1wFpQChxqltgI2/fn0idKJrwTwaKrQ6DJe07WIvQkhY/HLAobnXiibjNGk0L20B
+         cyD5JrJtvZNqmuXvWXUPzic0Z66Jqo5aAHGqxvRh86vtVdX5hCh2lTDj0AtM8U2793
+         r6rkBLs/fkvS0DoOX5Ph53qdxWAxhaRm7OtH7EMX4C0ohrvWbdJSgX0BVEHdtPfE7m
+         STYOrTi+uxPcWl1MR6lAKHJDwbWEjqIHNahhMdvMMxX82/AIJ/kGEMq0VQ8jQfwlIX
+         Vz97qsZJVcrnJWSiREaiE2A4RxnIU+0kExQeg5wxzeMJ9aNhLGPvkufK5LE0dEYIrb
+         ivjHjJ8yXw8wg==
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-51a2de3385fso902902a12.0;
+        Fri, 23 Jun 2023 08:57:50 -0700 (PDT)
+X-Gm-Message-State: AC+VfDzUw84IAu2f7B9bBvHC3go8Czg+Hziy1MZmkDUwwbMl9Kmnzyan
+        W5fVtag+f1EWpy0C9wu9Z0euXWsMJ/OPVG9tojI=
+X-Google-Smtp-Source: ACHHUZ4vLTrY+IQbjpeH3EXz6L1njzyeJ3LKDD7Th7B/S0PKNiDHdkM33OPA8SSOU+8Zm6TrONplCoN9bihldu0f0oc=
+X-Received: by 2002:aa7:d498:0:b0:51b:cd07:d0f8 with SMTP id
+ b24-20020aa7d498000000b0051bcd07d0f8mr7013316edr.6.1687535868798; Fri, 23 Jun
+ 2023 08:57:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <YdwZe9DHJZUaa6aO@buildd.core.avm.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [10.72.94.1]
-X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
- hi2exch02.adit-jv.com (10.72.92.28)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+References: <20230623134351.1898379-1-kernel@xen0n.name> <20230623134351.1898379-7-kernel@xen0n.name>
+In-Reply-To: <20230623134351.1898379-7-kernel@xen0n.name>
+From:   Huacai Chen <chenhuacai@kernel.org>
+Date:   Fri, 23 Jun 2023 23:57:36 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H4FGF-WTjUB+-Yxmk_kuXkgjsT6_2g2dCUpfYjggz7NMw@mail.gmail.com>
+Message-ID: <CAAhV-H4FGF-WTjUB+-Yxmk_kuXkgjsT6_2g2dCUpfYjggz7NMw@mail.gmail.com>
+Subject: Re: [PATCH 6/9] LoongArch: Simplify the invtlb wrappers
+To:     WANG Xuerui <kernel@xen0n.name>
+Cc:     WANG Rui <wangrui@loongson.cn>, Xi Ruoyao <xry111@xry111.site>,
+        loongarch@lists.linux.dev, linux-kbuild@vger.kernel.org,
+        llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+        WANG Xuerui <git@xen0n.name>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,111 +66,160 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello Yamada-san,
-Hello Nicolas,
-Cc: SzuWei Lin (committer of the patch in AOSP [1])
-Cc: Kbuild
+Hi, Xuerui,
 
-On Mon, Jan 10, 2022 at 12:33:15PM +0100, Nicolas Schier wrote:
-> On Mon, Jan 10, 2022 at 03:15:27AM +0900, Masahiro Yamada wrote:
-> > GZIP-compressed files end with 4 byte data that represents the size
-> > of the original input. The decompressors (the self-extracting kernel)
-> > exploit it to know the vmlinux size beforehand. To mimic the GZIP's
-> > trailer, Kbuild provides cmd_{bzip2,lzma,lzo,lz4,xzkern,zstd22}.
-> > Unfortunately these macros are used everywhere despite the appended
-> > size data is only useful for the decompressors.
-> > 
-> > There is no guarantee that such hand-crafted trailers are safely ignored.
-> > In fact, the kernel refuses compressed initramdisks with the garbage
-> > data. That is why usr/Makefile overrides size_append to make it no-op.
-> > 
-> > To limit the use of such broken compressed files, this commit renames
-> > the existing macros as follows:
-> > 
-> >   cmd_bzip2   --> cmd_bzip2_with_size
-> >   cmd_lzma    --> cmd_lzma_with_size
-> >   cmd_lzo     --> cmd_lzo_with_size
-> >   cmd_lz4     --> cmd_lz4_with_size
-> >   cmd_xzkern  --> cmd_xzkern_with_size
-> >   cmd_zstd22  --> cmd_zstd22_with_size
-> > 
-> > To keep the decompressors working, I updated the following Makefiles
-> > accordingly:
-> > 
-> >   arch/arm/boot/compressed/Makefile
-> >   arch/h8300/boot/compressed/Makefile
-> >   arch/mips/boot/compressed/Makefile
-> >   arch/parisc/boot/compressed/Makefile
-> >   arch/s390/boot/compressed/Makefile
-> >   arch/sh/boot/compressed/Makefile
-> >   arch/x86/boot/compressed/Makefile
-> > 
-> > I reused the current macro names for the normal usecases; they produce
-> > the compressed data in the proper format.
-> > 
-> > I did not touch the following:
-> > 
-> >   arch/arc/boot/Makefile
-> >   arch/arm64/boot/Makefile
-> >   arch/csky/boot/Makefile
-> >   arch/mips/boot/Makefile
-> >   arch/riscv/boot/Makefile
-> >   arch/sh/boot/Makefile
-> >   kernel/Makefile
-> > 
-> > This means those Makefiles will stop appending the size data.
-> > 
-> > I dropped the 'override size_append' hack from usr/Makefile.
-> > 
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> 
-> Reviewed-by: Nicolas Schier <n.schier@avm.de>
+To minimize modifications, and be more convenient to rebase, please
+only modify the implementation of these functions, don't remove
+functions and parameters. Thank you.
 
-If you don't mind, I would like to report another instance of
-"/bin/sh: Argument list too long" while building some out-of-tree *ko
-in a number of downstream v5.15.78+ kernels containing [1].
+Huacai
 
-For some time now, we've been living with ugly hacks to overcome it.
-
-Fortunately, recent git bisecting efforts apparently reveal that
-current v5.17-rc1 commit (and its backports in downstream) look to
-act as the culprit (confirmed on several host machines). So, I
-started to have some hopes of a long-term solution and hence
-sharing the findings as a first step.
-
-I am not entirely clear how to properly trace this behavior, since no
-amount of "make V=1/V=2" uncovers more details. Purely by accident, I
-looked into the top/htop output (while running the repro) and
-noticed several processes doing:
-
-/bin/sh -c dec_size=0; for F in <humongous list of filenames>; do \
-  fsize=$(sh /abs/path/to/scripts/file-size.sh $F); \
-  dec_size=$(expr $dec_size + $fsize); done; printf "%08x\n" $dec_size \
-  | sed 's/\(..\)/\1 /g' | { read ch0 ch1 ch2 ch3; for ch in \
-  $ch3 $ch2 $ch1 $ch0; do printf '%s%03o' '\\' $((0x$ch)); done; }
-
-As it was the case in the recent report [2], the above command seems
-to require/assume generous amount of space for the shell arguments.
-
-I still haven't compared the exact traces before and after this commit,
-to quantify by how much the shell argument list is increased (TODO).
-
-Another aspect is that current commit seems to introduce the
-regression in a multi-threaded make only. The issue is apparently
-masked by 'make -j1' (TBC), which adds another level of complexity.
-
-Unfortunately, the build use-case is highly tailored to downstream
-and is not repeatable against vanilla out of the box.
-
-I will continue to increase my understanding behind what's happening.
-In case there are already any suggestions, would appreciate those.
-
-[1] https://android.googlesource.com/kernel/common/+/bc6d3d83539512
-    ("UPSTREAM: kbuild: rename cmd_{bzip2,lzma,lzo,lz4,xzkern,zstd22}")
-
-[2] https://lore.kernel.org/linux-kbuild/20230616194505.GA27753@lxhi-065/
-
--- 
-Best regards,
-Eugeniu Rosca
+On Fri, Jun 23, 2023 at 9:44=E2=80=AFPM WANG Xuerui <kernel@xen0n.name> wro=
+te:
+>
+> From: WANG Xuerui <git@xen0n.name>
+>
+> Of the 3 existing invtlb wrappers, invtlb_info is not used at all,
+> so it is removed; invtlb_all and invtlb_addr have their unused
+> argument(s) removed from their signatures.
+>
+> Also, the invtlb instruction has been supported by upstream LoongArch
+> toolchains from day one, so ditch the raw opcode trickery and just use
+> plain inline asm for it.
+>
+> Signed-off-by: WANG Xuerui <git@xen0n.name>
+> ---
+>  arch/loongarch/include/asm/tlb.h | 45 ++++++++++++--------------------
+>  arch/loongarch/mm/tlb.c          | 10 +++----
+>  2 files changed, 21 insertions(+), 34 deletions(-)
+>
+> diff --git a/arch/loongarch/include/asm/tlb.h b/arch/loongarch/include/as=
+m/tlb.h
+> index 0dc9ee2b05d2..5e6ee9a15f0f 100644
+> --- a/arch/loongarch/include/asm/tlb.h
+> +++ b/arch/loongarch/include/asm/tlb.h
+> @@ -88,52 +88,39 @@ enum invtlb_ops {
+>         INVTLB_GID_ADDR =3D 0x16,
+>  };
+>
+> -/*
+> - * invtlb op info addr
+> - * (0x1 << 26) | (0x24 << 20) | (0x13 << 15) |
+> - * (addr << 10) | (info << 5) | op
+> - */
+>  static inline void invtlb(u32 op, u32 info, u64 addr)
+>  {
+>         __asm__ __volatile__(
+> -               "parse_r addr,%0\n\t"
+> -               "parse_r info,%1\n\t"
+> -               ".word ((0x6498000) | (addr << 10) | (info << 5) | %2)\n\=
+t"
+> -               :
+> -               : "r"(addr), "r"(info), "i"(op)
+> -               :
+> -               );
+> -}
+> -
+> -static inline void invtlb_addr(u32 op, u32 info, u64 addr)
+> -{
+> -       __asm__ __volatile__(
+> -               "parse_r addr,%0\n\t"
+> -               ".word ((0x6498000) | (addr << 10) | (0 << 5) | %1)\n\t"
+> -               :
+> -               : "r"(addr), "i"(op)
+> +               "invtlb %0, %1, %2\n\t"
+>                 :
+> +               : "i"(op), "r"(info), "r"(addr)
+> +               : "memory"
+>                 );
+>  }
+>
+> -static inline void invtlb_info(u32 op, u32 info, u64 addr)
+> +static inline void invtlb_addr(u32 op, u64 addr)
+>  {
+> +       /*
+> +        * The ISA manual says $zero shall be used in case a particular o=
+p
+> +        * does not take the respective argument, hence the invtlb helper=
+ is
+> +        * not re-used to make sure this is the case.
+> +        */
+>         __asm__ __volatile__(
+> -               "parse_r info,%0\n\t"
+> -               ".word ((0x6498000) | (0 << 10) | (info << 5) | %1)\n\t"
+> -               :
+> -               : "r"(info), "i"(op)
+> +               "invtlb %0, $zero, %1\n\t"
+>                 :
+> +               : "i"(op), "r"(addr)
+> +               : "memory"
+>                 );
+>  }
+>
+> -static inline void invtlb_all(u32 op, u32 info, u64 addr)
+> +static inline void invtlb_all(u32 op)
+>  {
+> +       /* Similar to invtlb_addr, ensure the operands are actually $zero=
+. */
+>         __asm__ __volatile__(
+> -               ".word ((0x6498000) | (0 << 10) | (0 << 5) | %0)\n\t"
+> +               "invtlb %0, $zero, $zero\n\t"
+>                 :
+>                 : "i"(op)
+> -               :
+> +               : "memory"
+>                 );
+>  }
+>
+> diff --git a/arch/loongarch/mm/tlb.c b/arch/loongarch/mm/tlb.c
+> index 00bb563e3c89..de04d2624ef4 100644
+> --- a/arch/loongarch/mm/tlb.c
+> +++ b/arch/loongarch/mm/tlb.c
+> @@ -17,19 +17,19 @@
+>
+>  void local_flush_tlb_all(void)
+>  {
+> -       invtlb_all(INVTLB_CURRENT_ALL, 0, 0);
+> +       invtlb_all(INVTLB_CURRENT_ALL);
+>  }
+>  EXPORT_SYMBOL(local_flush_tlb_all);
+>
+>  void local_flush_tlb_user(void)
+>  {
+> -       invtlb_all(INVTLB_CURRENT_GFALSE, 0, 0);
+> +       invtlb_all(INVTLB_CURRENT_GFALSE);
+>  }
+>  EXPORT_SYMBOL(local_flush_tlb_user);
+>
+>  void local_flush_tlb_kernel(void)
+>  {
+> -       invtlb_all(INVTLB_CURRENT_GTRUE, 0, 0);
+> +       invtlb_all(INVTLB_CURRENT_GTRUE);
+>  }
+>  EXPORT_SYMBOL(local_flush_tlb_kernel);
+>
+> @@ -100,7 +100,7 @@ void local_flush_tlb_kernel_range(unsigned long start=
+, unsigned long end)
+>                 end &=3D (PAGE_MASK << 1);
+>
+>                 while (start < end) {
+> -                       invtlb_addr(INVTLB_ADDR_GTRUE_OR_ASID, 0, start);
+> +                       invtlb_addr(INVTLB_ADDR_GTRUE_OR_ASID, start);
+>                         start +=3D (PAGE_SIZE << 1);
+>                 }
+>         } else {
+> @@ -131,7 +131,7 @@ void local_flush_tlb_page(struct vm_area_struct *vma,=
+ unsigned long page)
+>  void local_flush_tlb_one(unsigned long page)
+>  {
+>         page &=3D (PAGE_MASK << 1);
+> -       invtlb_addr(INVTLB_ADDR_GTRUE_OR_ASID, 0, page);
+> +       invtlb_addr(INVTLB_ADDR_GTRUE_OR_ASID, page);
+>  }
+>
+>  static void __update_hugetlb(struct vm_area_struct *vma, unsigned long a=
+ddress, pte_t *ptep)
+> --
+> 2.40.0
+>
+>
