@@ -2,75 +2,112 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A052173BD62
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Jun 2023 19:07:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80E6F73BE09
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Jun 2023 19:47:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231869AbjFWRHV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 23 Jun 2023 13:07:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37976 "EHLO
+        id S231129AbjFWRrp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 23 Jun 2023 13:47:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231228AbjFWRHR (ORCPT
+        with ESMTP id S229801AbjFWRro (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 23 Jun 2023 13:07:17 -0400
-Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA719C7;
-        Fri, 23 Jun 2023 10:07:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
-        t=1687540020; bh=kjKd/MMfTv+/haFGlQ1tj3Dy+jsmWNlUJXETIqambKY=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=grz78a/jWVbCtEPL2kmt6niKVZO1tfgCOiy/8eI1pw17B1+cMMsWYrtjaZHsmiHpm
-         Rv1exG6vZ153foM5WNMfVr2qgBjnqfk6oXVIBH9oIA5JWdx2rheyKZ2SZM25DYukQH
-         DosCLAAzTMhln6xLeChZVychPMi2FwpVJR6eBOVo=
-Received: from [192.168.9.172] (unknown [101.88.25.181])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 0E467600A9;
-        Sat, 24 Jun 2023 01:07:00 +0800 (CST)
-Message-ID: <64955942-274c-047d-aab3-308fbbe6dfbc@xen0n.name>
-Date:   Sat, 24 Jun 2023 01:06:59 +0800
+        Fri, 23 Jun 2023 13:47:44 -0400
+Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0A87197
+        for <linux-kbuild@vger.kernel.org>; Fri, 23 Jun 2023 10:47:43 -0700 (PDT)
+Received: by mail-qt1-x835.google.com with SMTP id d75a77b69052e-3f9b4a656deso9655861cf.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 23 Jun 2023 10:47:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1687542463; x=1690134463;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0qEXPbdvOITtF78jwrTXORqWaGEAtN/sfBgbj8S0W5w=;
+        b=O6ASrmx+PfXHgCskz1yP04s3WLd6KJdj6j0igWHXefGLr6bwoNZBmFGB2jmEKCEG0D
+         P9VkBpcy3HQIc+Qm4HlQb6HupIZuyxqmSK6YYj+Gb16/lVqTcAcPALKzHFi1ubJuZrsM
+         cNaDVhKmHms6PjAbWoJ0As6JtWQpURWIX+XKkKpDM8qh+hIZfivcn7sIYmkRaeJY2kbS
+         rRn+G21GikGG7445s7v8zeWJNNbQ36EN4O4jHr0PETlSXtt4hnOF4gh7qN4l8lgKaEdn
+         4QjS2NyA8frDsQ3j0AYHdcjAAjvQiEhP1atwUcXZvqpc9bDTr8uUNRNNmgV3KgwYzbh8
+         o9Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687542463; x=1690134463;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0qEXPbdvOITtF78jwrTXORqWaGEAtN/sfBgbj8S0W5w=;
+        b=gXkN56pp1nqWEaQRg9RLZ5Mqt39K/Jp8a3ctXKn/hToqPoP2SGKqEq+fxVCct5jd5k
+         db0A8QKn0cnq1zomYXkOJvzFDYAahukR6RtB2F9Lt6k4ZuDFbvmEmZlG9k97AAnwclCB
+         8qGPprca5/v/T7tPoccHenlgnAQI0klUolprwkaBi7e9OO2fvoJARFNuiDET2TJ/PXN9
+         5q9q7YSCDpmFowiaS/HIeCbEABlvKMlfnn0Sz+SqQnnbVMd1PmvCYqMbnRmalBgysSFL
+         IH9TA28+y9sHisMMkoTo/4WQVYEDYsitZDQmqQcWTYgpTz1EYWmF7ryKYXMR59tUoJu6
+         DKJw==
+X-Gm-Message-State: AC+VfDx8JKcc6YkdGVrfNIsSK3vOGIkYhRsJkV77X4AjrsM5DAIu2Rc3
+        D7c2V+AeY2qP9gaxF21y+Rsg+mlYk4FaR5BZNJdpcw==
+X-Google-Smtp-Source: ACHHUZ49Lngv6h7bS98lDoHYzgXRiJrDLyQL+764lfL6TFT3JL4w/mg9E39Nqha7JyAQW1pR97F1nbLXTXwKqUdIQwA=
+X-Received: by 2002:a05:6214:226b:b0:62f:f276:7a39 with SMTP id
+ gs11-20020a056214226b00b0062ff2767a39mr30296315qvb.11.1687542463036; Fri, 23
+ Jun 2023 10:47:43 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 7/9] LoongArch: Tweak CFLAGS for Clang compatibility
-Content-Language: en-US
-To:     Xi Ruoyao <xry111@xry111.site>, Huacai Chen <chenhuacai@kernel.org>
-Cc:     WANG Rui <wangrui@loongson.cn>, loongarch@lists.linux.dev,
+References: <20230623001140.1111494-4-samitolvanen@google.com>
+In-Reply-To: <20230623001140.1111494-4-samitolvanen@google.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Fri, 23 Jun 2023 10:47:32 -0700
+Message-ID: <CAKwvOdkMkXYKUKmMdGG8B+afHWEcJ=SBZAZBsu2b8ojGZw86=Q@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Fix CFI failures with GCOV_PROFILE_ALL
+To:     Sami Tolvanen <samitolvanen@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Kees Cook <keescook@chromium.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
         linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
-        linux-kernel@vger.kernel.org, WANG Xuerui <git@xen0n.name>
-References: <20230623134351.1898379-1-kernel@xen0n.name>
- <20230623134351.1898379-8-kernel@xen0n.name>
- <22d794613f70b04544e39e8861737af09365ae8a.camel@xry111.site>
-From:   WANG Xuerui <kernel@xen0n.name>
-In-Reply-To: <22d794613f70b04544e39e8861737af09365ae8a.camel@xry111.site>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+        linux-kernel@vger.kernel.org, Joe Fradley <joefradley@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 6/24/23 01:00, Xi Ruoyao wrote:
-> On Fri, 2023-06-23 at 21:43 +0800, WANG Xuerui wrote:
+On Thu, Jun 22, 2023 at 5:11=E2=80=AFPM Sami Tolvanen <samitolvanen@google.=
+com> wrote:
 >
->> -cflags-y                       += -G0 -pipe -msoft-float
-> -msoft-float should not be removed.  Our consensus (made when I was
-> developing https://gcc.gnu.org/r13-6500) is -mabi=lp64s does *not*
-> disable floating point instructions, but only disable FPRs for passing
-> arguments and return values.  So w/o -msoft-float (or -mfpu=none) GCC is
-> allowed to generate FP instructions everywhere in kernel and it may
-> cause kernel FPD exception in the future.
-Hmm, now I remember (still vaguely) about the discussion... I'll have to 
-check how to minimize churn around FPU-touching code though if 
--msoft-float is to be kept.
+> Hi folks,
+>
+> The following two patches fix CFI failures with GCOV_PROFILE_ALL,
+> where the compiler injects indirectly called functions to object
+> files that otherwise contain no executable code, and are not
+> processed by objtool or don't have CFI enabled. This results in
+> missing or incorrect type hashes during boot and when modules are
+> loaded.
+>
+> Sami Tolvanen (2):
+>   kbuild: Fix CFI failures with GCOV
+>   kbuild: Disable GCOV for *.mod.o
+>
+>  init/Makefile             | 1 +
+>  scripts/Makefile.modfinal | 2 +-
+>  scripts/Makefile.vmlinux  | 1 +
+>  3 files changed, 3 insertions(+), 1 deletion(-)
 
--- 
-WANG "xen0n" Xuerui
+Thanks for the patches!
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-Linux/LoongArch mailing list: https://lore.kernel.org/loongarch/
+>
+>
+> base-commit: 007034977130b49b618a5206aad54f634d9f169c
+> --
+> 2.41.0.162.gfafddb0af9-goog
+>
+>
 
+
+--=20
+Thanks,
+~Nick Desaulniers
