@@ -2,61 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 51B9673B023
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Jun 2023 07:38:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A333273B02C
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Jun 2023 07:41:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230502AbjFWFiB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 23 Jun 2023 01:38:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57490 "EHLO
+        id S229657AbjFWFlS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 23 Jun 2023 01:41:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229921AbjFWFh7 (ORCPT
+        with ESMTP id S229445AbjFWFlO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 23 Jun 2023 01:37:59 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 809F81A4;
-        Thu, 22 Jun 2023 22:37:58 -0700 (PDT)
+        Fri, 23 Jun 2023 01:41:14 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB0771A4;
+        Thu, 22 Jun 2023 22:41:12 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 06F0161984;
-        Fri, 23 Jun 2023 05:37:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F94BC433C0;
-        Fri, 23 Jun 2023 05:37:57 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6001B6198B;
+        Fri, 23 Jun 2023 05:41:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8786C433CC;
+        Fri, 23 Jun 2023 05:41:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687498677;
-        bh=Lwdspte5kmMg5dEPLnvcn7KMfrhxlxBZ4Z+Dy3zqjjc=;
+        s=k20201202; t=1687498871;
+        bh=qPapvU2ug5XUbs86vSozf1HW7Fb3vlj9IaJ8Cc/jUhc=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Zc3F01Yc3bg4EpcR3iux9ivHi4jLG9MpMuJbdM/+rjSb3OWxNDPkgKLBSEehZDnWT
-         QclblmYFfIWS/RUBTh2CLvzRJqMHd1PrhNNs4/8fyu8WpPe+wtoJMqRVr2qA0hIVKm
-         RyyyWfpen2NxwSS8fLdujGfAAGlF8KZsBBkjRDvwFAGCUtw4cuOv0CisHCTAihI9sS
-         xph0vBKyxUAFONh+ysP7cLMWUhAhRK2sJ9/bNuuVFvwULw4hwPey/6wcEZO1v8P8zb
-         7uWhKc4hwvu0Ez1DM0DDoES/m3HHdz7XYPTwA8mSk3KLEXWAgqaP4IplOTp9o0951W
-         PJJQtcUsU+wqA==
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-1a9a42edfc9so185774fac.0;
-        Thu, 22 Jun 2023 22:37:57 -0700 (PDT)
-X-Gm-Message-State: AC+VfDzyfs/7BBFnNrHnlGgeNbC8A7dNSSfnAG91aMpShImJL7dDGweG
-        neRUZ/mG4sTfFtO6YgCyBUYKLAWaXZWgMoAqDe0=
-X-Google-Smtp-Source: ACHHUZ6ncWhvrZPy43tSDmHA/gPCfjSdYrrEbpQBGr+KsSaA8U4uwdQmFRySwuKHztbRTlkohgNBciuoY1lw8qct2X8=
-X-Received: by 2002:a05:6870:b285:b0:1a9:71c3:b7c2 with SMTP id
- c5-20020a056870b28500b001a971c3b7c2mr11812001oao.50.1687498676800; Thu, 22
- Jun 2023 22:37:56 -0700 (PDT)
+        b=nc6tMgv5HOQX4XZ9WiULPUOvoFoQr1wOklN1Ab/DKOFOR1LR/VPo6fglicjtk6nQL
+         7bVs+K3n1Om48IszfVTJzdmt95vDF3BJ5Al5CXjce8zVZdF6qix6H9GdjnK2VA102z
+         J/86+fiwxg0uUj3IDhln0JWz+sIJbKakfNjmgc70IlepZwLrPZuIFgknJYptlfgwWb
+         IXmHDWFKkSZOOeCbUhT+VEoL58A5djkE7LxWdfejRtdKZP36sg4kPw6IbH0hb8GnAQ
+         Yvg3Q+LFIYX8Cy1J0DOJKdLSZWGkDivSNYSuCUw1Cc5Hf8XmASjR/4GA1eA0SbBzud
+         Ug1f50gFCOaRQ==
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-1a9a42edfc9so187059fac.0;
+        Thu, 22 Jun 2023 22:41:11 -0700 (PDT)
+X-Gm-Message-State: AC+VfDxIevFXfO3gn/NErQ5d1srMadBFygS/4AD71hCwmCwDv3+Xf9Ac
+        3zhPysUZgi7QK9vJRDiA5rIUhm6HcjrzDzFsq3g=
+X-Google-Smtp-Source: ACHHUZ7cMLVT4f0AnUJoGvZXjHjFR76NxU3gpI2Rf4Fsv/8GBKrljZEFaW5o+/iwXTDhjTp30q16bid6On7xomQ1uyE=
+X-Received: by 2002:a05:6871:288:b0:1a6:c3d3:969c with SMTP id
+ i8-20020a056871028800b001a6c3d3969cmr19108557oae.45.1687498870905; Thu, 22
+ Jun 2023 22:41:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230620120521.688124-1-masahiroy@kernel.org> <CAKwvOdmSUkyb_fwDJ-_bKxo65MRWUShc25L5itWt4m4MTYi=yQ@mail.gmail.com>
-In-Reply-To: <CAKwvOdmSUkyb_fwDJ-_bKxo65MRWUShc25L5itWt4m4MTYi=yQ@mail.gmail.com>
+References: <20230409145358.2538266-1-masahiroy@kernel.org>
+ <20230531213319.GA2201875@dev-arch.thelio-3990X> <20230602152519.GA3007575@dev-arch.thelio-3990X>
+ <CAK7LNARjB8vgk-hsZmGqB0mwz=OBgyDtqBKJ2cueE+yQ02CQiA@mail.gmail.com> <CAFP8O3J1aiAgKzZ82erJseb_wwU7F2=+T0xCZ0BbcFKJOAQfUg@mail.gmail.com>
+In-Reply-To: <CAFP8O3J1aiAgKzZ82erJseb_wwU7F2=+T0xCZ0BbcFKJOAQfUg@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 23 Jun 2023 14:37:20 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATX+_kr+zKskV7NahpasZBV0P+Ke3g_nW=+vRwcsFL1+g@mail.gmail.com>
-Message-ID: <CAK7LNATX+_kr+zKskV7NahpasZBV0P+Ke3g_nW=+vRwcsFL1+g@mail.gmail.com>
-Subject: Re: [PATCH 1/3] modpost: factor out inst location calculation to section_rel()
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>
+Date:   Fri, 23 Jun 2023 14:40:34 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT+zj7fpE_-QewdCVFzz3smZq7V6XART+yOqKcAZCiTFA@mail.gmail.com>
+Message-ID: <CAK7LNAT+zj7fpE_-QewdCVFzz3smZq7V6XART+yOqKcAZCiTFA@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: add $(CLANG_CFLAGS) to KBUILD_CPPFLAGS
+To:     Fangrui Song <maskray@google.com>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tom Rini <trini@konsulko.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -65,121 +70,160 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jun 23, 2023 at 3:25=E2=80=AFAM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On Fri, Jun 23, 2023 at 2:07=E2=80=AFAM Fangrui Song <maskray@google.com> w=
+rote:
 >
-> On Tue, Jun 20, 2023 at 5:05=E2=80=AFAM Masahiro Yamada <masahiroy@kernel=
-.org> wrote:
+> On Sat, Jun 3, 2023 at 9:33=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.=
+org> wrote:
 > >
-> > All the addend_*_rel() functions calculate the instruction location in
-> > the same way.
+> > On Sat, Jun 3, 2023 at 12:25=E2=80=AFAM Nathan Chancellor <nathan@kerne=
+l.org> wrote:
+> > >
+> > > On Wed, May 31, 2023 at 02:33:23PM -0700, Nathan Chancellor wrote:
+> > > > Hi Masahiro,
+> > > >
+> > > > On Sun, Apr 09, 2023 at 11:53:57PM +0900, Masahiro Yamada wrote:
+> > > > > When preprocessing arch/*/kernel/vmlinux.lds.S, the target triple=
+ is
+> > > > > not passed to $(CPP) because we add it only to KBUILD_{C,A}FLAGS.
+> > > > >
+> > > > > As a result, the linker script is preprocessed with predefined ma=
+cros
+> > > > > for the build host instead of the target.
+> > > > >
+> > > > > Assuming you use an x86 build machine, compare the following:
+> > > > >
+> > > > >  $ clang -dM -E -x c /dev/null
+> > > > >  $ clang -dM -E -x c /dev/null -target aarch64-linux-gnu
+> > > > >
+> > > > > There is no actual problem presumably because our linker scripts =
+do not
+> > > > > rely on such predefined macros, but it is better to define correc=
+t ones.
+> > > > >
+> > > > > Move $(CFLAGS_CFLAGS) to KBUILD_CPPFLAGS, so that all *.c, *.S, *=
+.lds.S
+> > > > > will be processed with the proper target triple.
+> > > > >
+> > > > > Reported-by: Tom Rini <trini@konsulko.com>
+> > > > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > > > > ---
+> > > > >
+> > > > >  scripts/Makefile.clang | 3 +--
+> > > > >  1 file changed, 1 insertion(+), 2 deletions(-)
+> > > > >
+> > > > > diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
+> > > > > index 70b354fa1cb4..93ca059cc3b8 100644
+> > > > > --- a/scripts/Makefile.clang
+> > > > > +++ b/scripts/Makefile.clang
+> > > > > @@ -38,6 +38,5 @@ CLANG_FLAGS       +=3D -Werror=3Dunknown-warnin=
+g-option
+> > > > >  CLANG_FLAGS        +=3D -Werror=3Dignored-optimization-argument
+> > > > >  CLANG_FLAGS        +=3D -Werror=3Doption-ignored
+> > > > >  CLANG_FLAGS        +=3D -Werror=3Dunused-command-line-argument
+> > > > > -KBUILD_CFLAGS      +=3D $(CLANG_FLAGS)
+> > > > > -KBUILD_AFLAGS      +=3D $(CLANG_FLAGS)
+> > > > > +KBUILD_CPPFLAGS    +=3D $(CLANG_FLAGS)
+> > > > >  export CLANG_FLAGS
+> > > > > --
+> > > > > 2.37.2
+> > > > >
+> > > >
+> > > > I am doubling back to this change, as the lack of '--target' in
+> > > > KBUILD_CPPFLAGS is now an active bug with clang-17 due to a new cha=
+nge
+> > > > that rejects '-mbig-endian' and '-mlittle-endian' when not supporte=
+d by
+> > > > the target, which breaks the arm64 vDSO build when preprocessing it=
+s
+> > > > linker script:
+> > > >
+> > > >   # Turn on CONFIG_CPU_BIG_ENDIAN in menuconfig
+> > > >   $ make -skj"$(nproc)" ARCH=3Darm64 LLVM=3D1 O=3Dbuild mrproper vi=
+rtconfig menuconfig arch/arm64/kernel/vdso/
+> > > >   ...
+> > > >   clang: error: unsupported option '-mbig-endian' for target 'x86_6=
+4-pc-linux-gnu'
+> > > >   make[3]: *** [.../scripts/Makefile.build:387: arch/arm64/kernel/v=
+dso/vdso.lds] Error 1
+> > > >   ...
+> > > >
+> > > >   https://github.com/llvm/llvm-project/commit/d81ce04587c006b673119=
+8956c522c93d0df1050
+> > > >   https://github.com/ClangBuiltLinux/linux/issues/1859
+> > > >
+> > > > This change resolves that issue. I was able to figure out why those=
+ new
+> > > > warnings appeared for ARCH=3Dmips, it is the shell invocation for
+> > > > CHECKFLAGS. The following diff resolves it for me:
+> > > >
+> > > > diff --git a/arch/mips/Makefile b/arch/mips/Makefile
+> > > > index a7a4ee66a9d3..ef7b05ae92ce 100644
+> > > > --- a/arch/mips/Makefile
+> > > > +++ b/arch/mips/Makefile
+> > > > @@ -346,7 +346,7 @@ KBUILD_CFLAGS +=3D -fno-asynchronous-unwind-tab=
+les
+> > > >  KBUILD_LDFLAGS               +=3D -m $(ld-emul)
+> > > >
+> > > >  ifdef CONFIG_MIPS
+> > > > -CHECKFLAGS +=3D $(shell $(CC) $(KBUILD_CFLAGS) -dM -E -x c /dev/nu=
+ll | \
+> > > > +CHECKFLAGS +=3D $(shell $(CC) $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS) =
+-dM -E -x c /dev/null | \
+> > > >       grep -E -vw '__GNUC_(MINOR_|PATCHLEVEL_)?_' | \
+> > > >       sed -e "s/^\#define /-D'/" -e "s/ /'=3D'/" -e "s/$$/'/" -e 's=
+/\$$/&&/g')
+> > > >  endif
+> > > >
+> > > > I will run this change plus that diff through my build matrix to se=
+e if
+> > > > any other issues pop up. If not, I will respond with some tags and
+> > > > perhaps this could be taken as a fix for 6.4 so that it could
+> > > > potentially be backported?
+> > >
+> > > I found two more issues lurking in PowerPC. I have attached suggested
+> > > patches for all the issues I have uncovered to this email, please fee=
+l
+> > > free to use them or do something different if you feel there is a bet=
+ter
+> > > fix. With those issues resolved in one way or another, consider the
+> > > original change:
+> > >
+> > > Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> > > Tested-by: Nathan Chancellor <nathan@kernel.org>
+> > >
+> > > If it would work better for you, I am more than happy to take over th=
+is
+> > > series as well.
+> > >
+> > > Cheers,
+> > > Nathan
 > >
-> > Factor out the similar code to the caller. Squash reloc_location() too.
+> > Thanks. All the three patches look good to me.
 > >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  scripts/mod/modpost.c | 28 ++++++++++++----------------
-> >  1 file changed, 12 insertions(+), 16 deletions(-)
-> >
-> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > index 6e0b8be32648..2551ac9d5bd3 100644
-> > --- a/scripts/mod/modpost.c
-> > +++ b/scripts/mod/modpost.c
-> > @@ -1256,16 +1256,9 @@ static void check_section_mismatch(struct module=
- *mod, struct elf_info *elf,
-> >                                  tosec, taddr);
-> >  }
-> >
-> > -static unsigned int *reloc_location(struct elf_info *elf,
-> > -                                   Elf_Shdr *sechdr, Elf_Rela *r)
-> > -{
-> > -       return sym_get_data_by_offset(elf, sechdr->sh_info, r->r_offset=
-);
-> > -}
-> > -
-> > -static int addend_386_rel(struct elf_info *elf, Elf_Shdr *sechdr, Elf_=
-Rela *r)
-> > +static int addend_386_rel(uint32_t *location, Elf_Rela *r)
-> >  {
-> >         unsigned int r_typ =3D ELF_R_TYPE(r->r_info);
-> > -       unsigned int *location =3D reloc_location(elf, sechdr, r);
-> >
-> >         switch (r_typ) {
-> >         case R_386_32:
-> > @@ -1302,11 +1295,10 @@ static int32_t sign_extend32(int32_t value, int=
- index)
-> >         return (int32_t)(value << shift) >> shift;
-> >  }
-> >
-> > -static int addend_arm_rel(struct elf_info *elf, Elf_Shdr *sechdr, Elf_=
-Rela *r)
-> > +static int addend_arm_rel(void *loc, struct elf_info *elf, Elf_Rela *r=
-)
-> >  {
-> >         unsigned int r_typ =3D ELF_R_TYPE(r->r_info);
-> >         Elf_Sym *sym =3D elf->symtab_start + ELF_R_SYM(r->r_info);
-> > -       void *loc =3D reloc_location(elf, sechdr, r);
-> >         uint32_t inst, upper, lower, sign, j1, j2;
-> >         int32_t offset;
-> >
-> > @@ -1396,11 +1388,10 @@ static int addend_arm_rel(struct elf_info *elf,=
- Elf_Shdr *sechdr, Elf_Rela *r)
-> >         return 0;
-> >  }
-> >
-> > -static int addend_mips_rel(struct elf_info *elf, Elf_Shdr *sechdr, Elf=
-_Rela *r)
-> > +static int addend_mips_rel(uint32_t *location, Elf_Rela *r)
-> >  {
-> >         unsigned int r_typ =3D ELF_R_TYPE(r->r_info);
-> > -       unsigned int *location =3D reloc_location(elf, sechdr, r);
-> > -       unsigned int inst;
-> > +       uint32_t inst;
-> >
-> >         if (r_typ =3D=3D R_MIPS_HI16)
-> >                 return 1;       /* skip this */
-> > @@ -1502,6 +1493,8 @@ static void section_rel(struct module *mod, struc=
-t elf_info *elf,
-> >                 return;
-> >
-> >         for (rel =3D start; rel < stop; rel++) {
-> > +               void *loc;
-> > +
-> >                 r.r_offset =3D TO_NATIVE(rel->r_offset);
-> >  #if KERNEL_ELFCLASS =3D=3D ELFCLASS64
-> >                 if (elf->hdr->e_machine =3D=3D EM_MIPS) {
-> > @@ -1519,17 +1512,20 @@ static void section_rel(struct module *mod, str=
-uct elf_info *elf,
-> >                 r_sym =3D ELF_R_SYM(r.r_info);
-> >  #endif
-> >                 r.r_addend =3D 0;
-> > +
-> > +               loc =3D sym_get_data_by_offset(elf, fsecndx, r.r_offset=
-);
+> > I will apply them, then mine on top.
 >
-> Can we compute `loc` only for the three machine types?
+> Drive-by reply from
+> https://github.com/ClangBuiltLinux/continuous-integration2/pull/585
+>
+> Hi Masahiro, one nit:) If the patch still has time to adjust the
+> commit message, perhaps consider replacing
+>
+> -target aarch64-linux-gnu with --target=3Daarch64-linux-gnu
+>
+> as the former is a deprecated driver option since Clang 3.x (long time ag=
+o).
+>
+> > Assuming you use an x86 build machine, compare the following:
+>
+> You may drop "Assuming you use an x86 build machine" and add
+> --target=3Dx86_64-linux-gnu to the `clang -dM -E -x c /dev/null` command
+> :)
 
+Thanks for the suggestion, but I do not want to change the commit ID
+unless there is something terribly wrong.
 
-
-I believe you can compute the location in the same way for any architecture
-because it is mentioned in ELF spec.
-
-https://refspecs.linuxfoundation.org/elf/elf.pdf
-
-Page 36.
-
-
-r_offset
-  This member gives the location at which to apply the relocation action. F=
-or
-  a relocatable file, the value is the byte offset from the beginning of th=
-e
-  section to the storage unit affected by the relocation.
-
-
-
-
+Nathan recorded the commit ID in the CBL bug tracker.
 
 
 
