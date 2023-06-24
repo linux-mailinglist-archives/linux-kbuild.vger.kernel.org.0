@@ -2,62 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71A8173C9C6
-	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Jun 2023 10:56:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3546573C9CF
+	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Jun 2023 11:03:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231210AbjFXI4a (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 24 Jun 2023 04:56:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45674 "EHLO
+        id S232882AbjFXJDS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 24 Jun 2023 05:03:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231202AbjFXI4a (ORCPT
+        with ESMTP id S232865AbjFXJDS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 24 Jun 2023 04:56:30 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E4A01B4;
-        Sat, 24 Jun 2023 01:56:29 -0700 (PDT)
+        Sat, 24 Jun 2023 05:03:18 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3A3818B
+        for <linux-kbuild@vger.kernel.org>; Sat, 24 Jun 2023 02:03:16 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EAA8760C26;
-        Sat, 24 Jun 2023 08:56:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57210C433C8;
-        Sat, 24 Jun 2023 08:56:28 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6B7AB60C3B
+        for <linux-kbuild@vger.kernel.org>; Sat, 24 Jun 2023 09:03:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2D4FC433C8
+        for <linux-kbuild@vger.kernel.org>; Sat, 24 Jun 2023 09:03:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687596988;
-        bh=fkL6o9zl3IO9B+Poh7aiIAOqjv3N+PZZFjiW5ZLnhtM=;
+        s=k20201202; t=1687597395;
+        bh=0uIWPHBGx9IWfz8izPWgZv9cKbN+FpwxXMznQZitz2g=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Ps5kDxngVdR9s+/DY7KzB2Ino2c8W6L10uc3gr+bDRH5tbAtbtqBdr4NHdVrYRj99
-         tw2yHZEx7VXa/pMgEU8W+oFyKG9G40aDbPzjAQvGOsQPoihZPcVd5WyCDOsKydSJQd
-         sRAMf8K+mWKMQ+u3B5FvA4GOIdaVlXuZtwHa7Z/SXaMVTsJ9ticRS20Q1nYvK4INBj
-         tw9ktIJ+fGSCv/dYqr57B/TGEfDB7ULN+DqSf4n3B6vkZhFUWANNxll+HH/BZmqB2I
-         hriHPrjhcAF8vr1q4+wPbym9AAN+95X9MkuQZ5PT5CkwwRNtivNlFojLRJk43eZUWv
-         dXtnMa/NiKU6g==
-Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-560b56b638eso1073976eaf.0;
-        Sat, 24 Jun 2023 01:56:28 -0700 (PDT)
-X-Gm-Message-State: AC+VfDzQ121anAxmAznt36Z83DRkfcki9wt9BRtlwnceFhec7oChkMli
-        XB797cAY6HTEtromoKE0KfkZAS3Gd8kxt+2OEro=
-X-Google-Smtp-Source: ACHHUZ6Rxjlw09B9AfcMdOk4yVBiCEexdU6PBvftzJi50R/sPwM9QeVgj4w4x7W5kY9EweutnRdKKUI8aU9ch83mAHc=
-X-Received: by 2002:a4a:b6c2:0:b0:560:cb1c:1534 with SMTP id
- w2-20020a4ab6c2000000b00560cb1c1534mr4274616ooo.2.1687596987662; Sat, 24 Jun
- 2023 01:56:27 -0700 (PDT)
+        b=NXJH9Kp6NpUIPMQ8r3qSeMo8Irt8Fvg21Zrmek8MzGaNLpoA4voSBgJbm4ROY4ep9
+         x9+ZjqBVfC63580SJWlqZwFLlQt7RM5vEI7o7bk2I8vjIDmB2GI22+HSpzI2dK3I54
+         4U9nzDVCIhrYGYc9BalvirRuLeaZXwkE1VuUEASkGCx8M8bppitHHqbsLzA6iKzUGc
+         ccxgXInJ2wTd/PzKW2IEE1wG0kreuNgvGyuIxmGgK+59plT9gt4ovj0uz7PYiyDivx
+         uTmn/DJUfFhEt5GuzrxoRGN99pkSpQeF+el/Xj1b9+5nBlDH6tYAMYbwR6deVpxFV9
+         HXMXDyK57o7gA==
+Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-39ed35dfa91so1068925b6e.3
+        for <linux-kbuild@vger.kernel.org>; Sat, 24 Jun 2023 02:03:15 -0700 (PDT)
+X-Gm-Message-State: AC+VfDzI1OY1qlhfjM9MDSP65FM0YilsICf3jNDyy3mmJ3n2J+fqyNFC
+        fhRo3zy0toBAKNcRcq2O3DELXE2QSW0eQzdXusw=
+X-Google-Smtp-Source: ACHHUZ4f9fNOeF4VT8zdFE3Gviv/kX3DqUaiuEgmJxp3pt2VKaO8YN5kpOMlfXTEi+IBPE0JIvkCoOdqMutGldGoZxo=
+X-Received: by 2002:a05:6808:181c:b0:39e:dfd2:e128 with SMTP id
+ bh28-20020a056808181c00b0039edfd2e128mr18858992oib.31.1687597395086; Sat, 24
+ Jun 2023 02:03:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230620120521.688124-1-masahiroy@kernel.org> <CAKwvOdmSUkyb_fwDJ-_bKxo65MRWUShc25L5itWt4m4MTYi=yQ@mail.gmail.com>
- <CAK7LNATX+_kr+zKskV7NahpasZBV0P+Ke3g_nW=+vRwcsFL1+g@mail.gmail.com> <CAKwvOdma76CqngFvrstMX0rBkS6XhHwep3V8dj6==LTGhoXxfw@mail.gmail.com>
-In-Reply-To: <CAKwvOdma76CqngFvrstMX0rBkS6XhHwep3V8dj6==LTGhoXxfw@mail.gmail.com>
+References: <20230623140825.ehqk5ndl7uftstwy@google.com> <CABCJKuceiLRs=LEKYM41q-V4SMwrhZw=wf0GS-x21TPaEUMaiw@mail.gmail.com>
+In-Reply-To: <CABCJKuceiLRs=LEKYM41q-V4SMwrhZw=wf0GS-x21TPaEUMaiw@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 24 Jun 2023 17:55:51 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAST13Ju4XNH6YDiy_QbfV_2wSGzv6-axLhTPwC54qUvfA@mail.gmail.com>
-Message-ID: <CAK7LNAST13Ju4XNH6YDiy_QbfV_2wSGzv6-axLhTPwC54qUvfA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] modpost: factor out inst location calculation to section_rel()
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>
+Date:   Sat, 24 Jun 2023 18:02:38 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR-QN8gjy1wPkVHjD49sacv2czhbN=qM38KC7+jvPGpTw@mail.gmail.com>
+Message-ID: <CAK7LNAR-QN8gjy1wPkVHjD49sacv2czhbN=qM38KC7+jvPGpTw@mail.gmail.com>
+Subject: Re: [PATCH] scripts/mksysmap: Ignore prefixed KCFI symbols
+To:     Sami Tolvanen <samitolvanen@google.com>
+Cc:     =?UTF-8?Q?Pierre=2DCl=C3=A9ment_Tosi?= <ptosi@google.com>,
+        linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -66,70 +65,67 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jun 24, 2023 at 2:01=E2=80=AFAM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On Sat, Jun 24, 2023 at 5:45=E2=80=AFAM Sami Tolvanen <samitolvanen@google.=
+com> wrote:
 >
-> On Thu, Jun 22, 2023 at 10:38=E2=80=AFPM Masahiro Yamada <masahiroy@kerne=
-l.org> wrote:
-> >
-> > On Fri, Jun 23, 2023 at 3:25=E2=80=AFAM Nick Desaulniers
-> > <ndesaulniers@google.com> wrote:
-> > >
-> > > On Tue, Jun 20, 2023 at 5:05=E2=80=AFAM Masahiro Yamada <masahiroy@ke=
-rnel.org> wrote:
-> > > >
-> > > > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > > > index 6e0b8be32648..2551ac9d5bd3 100644
-> > > > --- a/scripts/mod/modpost.c
-> > > > +++ b/scripts/mod/modpost.c
-> > > > @@ -1519,17 +1512,20 @@ static void section_rel(struct module *mod,=
- struct elf_info *elf,
-> > > >                 r_sym =3D ELF_R_SYM(r.r_info);
-> > > >  #endif
-> > > >                 r.r_addend =3D 0;
-> > > > +
-> > > > +               loc =3D sym_get_data_by_offset(elf, fsecndx, r.r_of=
-fset);
-> > >
-> > > Can we compute `loc` only for the three machine types?
-> >
-> >
-> >
-> > I believe you can compute the location in the same way for any architec=
-ture
-> > because it is mentioned in ELF spec.
+> Hi Pierre-Cl=C3=A9ment,
 >
-> Sure, but perhaps it's wasted work for other machine types?
+> On Fri, Jun 23, 2023 at 7:08=E2=80=AFAM Pierre-Cl=C3=A9ment Tosi <ptosi@g=
+oogle.com> wrote:
+> >
+> > The (relatively) new KCFI feature in LLVM/Clang encodes type informatio=
+n
+> > for C functions by generating symbols named __kcfi_typeid_<fname>, whic=
+h
+> > can then be referenced from assembly. However, some custom build rules
+> > (e.g. EFI, nVHE, or early PIE on arm64) use objcopy to add a prefix to
+> > all the symbols in their object files, making mksysmap's ignore filter
+> > miss those KCFI symbols.
+> >
+> > Therefore, explicitly list those twice-prefixed KCFI symbols as ignored=
+.
+> >
+> > Alternatively, this could also be achieved in a less verbose way by
+> > ignoring any symbol containing the string "__kcfi_typeid_". However,
+> > listing the combined prefixes explicitly saves us from running the smal=
+l
+> > risk of ignoring symbols that should be kept.
+> >
+> > Signed-off-by: Pierre-Cl=C3=A9ment Tosi <ptosi@google.com>
+> > ---
+> >  scripts/mksysmap | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/scripts/mksysmap b/scripts/mksysmap
+> > index 26f39772f7a5..17cf4292e26b 100755
+> > --- a/scripts/mksysmap
+> > +++ b/scripts/mksysmap
+> > @@ -61,7 +61,10 @@ ${NM} -n ${1} | sed >${2} -e "
+> >  / __microLA25Thunk_/d
+> >
+> >  # CFI type identifiers
+> > +/ __efistub___kcfi_typeid_/d
+>
+> Does the existing __efistub_/d rule not catch this?
+
+
+Agree with Sami.
+
+This line looks redundant to me.
 
 
 
-I guess you missed the following code:
 
-
-switch (elf->hdr->e_machine) {
-case EM_386:
-        ...
-        break;
-case EM_ARM:
-        ...
-        break;
-case EM_MIPS:
-        ...
-        break;
-default:
-        fatal("Please add code to calculate addend for this architecture\n"=
-);
-}
-
-
-
-
-I believe other machines never call this function.
-If it occurred, fatal() would immediately errors out,
-but I have not heard such a breakage for far.
-
-I believe only i386, mips and arm use REL.
-The other architectures are RELA.
+>
+> >  / __kcfi_typeid_/d
+> > +/ __kvm_nvhe___kcfi_typeid_/d
+> > +/ __pi___kcfi_typeid_/d
+>
+> Either way, otherwise this looks reasonable to me. Thanks for the patch!
+>
+> Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
+>
+> Sami
 
 
 
