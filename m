@@ -2,51 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4345173D2E6
-	for <lists+linux-kbuild@lfdr.de>; Sun, 25 Jun 2023 20:16:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3523373D2F7
+	for <lists+linux-kbuild@lfdr.de>; Sun, 25 Jun 2023 20:25:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229559AbjFYSQf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 25 Jun 2023 14:16:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60062 "EHLO
+        id S229728AbjFYSZQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 25 Jun 2023 14:25:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229454AbjFYSQe (ORCPT
+        with ESMTP id S229820AbjFYSZN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 25 Jun 2023 14:16:34 -0400
+        Sun, 25 Jun 2023 14:25:13 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A2C91B9;
-        Sun, 25 Jun 2023 11:16:34 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CF6EE5B;
+        Sun, 25 Jun 2023 11:25:11 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 893AD60BFC;
-        Sun, 25 Jun 2023 18:16:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20F47C433C0;
-        Sun, 25 Jun 2023 18:16:30 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EB7F760C05;
+        Sun, 25 Jun 2023 18:25:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FF24C433CC;
+        Sun, 25 Jun 2023 18:25:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687716993;
-        bh=n9VaGSVflGs2NZDQUV1xewtUL+wrQ9Xx5IQp2n1jwAY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=ABISlHKjVWp6QGmiA4Utc6/kxfr7dMWP5j68xqZXgOQTOfKr7XY95IT4OWBXyHFYG
-         D6eZVM6E2mj82/0mwhMPz9oErzt+CIctzSLCX74LSgSuoQt91ZWiF6pJEE4IUF2YMC
-         oG8XBBXfY/Z5PEiI78ni/5D/U5Gsby+dwOfh3tXkeQgOFiJHFdFMjScOb/yl99SM22
-         CsuLs3OL1dZcDrvGXY249cfQayG1Tg9s+/qqWquKONlTUYmeiJ1aXvqaPDDkbc3bQq
-         ANWhMuhKIaZFRoN9iarg2pN1lWmGHQtoAactpS6DbrYsp3f15RNpj8Ujkh/lkspDpW
-         Un6Aq9leNNeCA==
+        s=k20201202; t=1687717510;
+        bh=lptCDt96ilGC/OpMciopJy0C4Ydb0tBjW5sqv48x0yI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=CeMe1IYvKi0//tHqDJz4UNqUgfOPgj7AYbqJvgjPCN3rAyYeLDIgfgkRHg692DUxO
+         ro4TJRdCtCTTN4yh3DAogZlpn6V5lgmjrIxyllncClGuFYjHolKpJoHa+7OOo9fWBJ
+         DAj4zIRHcc2Ean4pFspdOQug/ybALtUqSQtlfusjgVsGAC6gqOdx+erxxsMGIJYwCn
+         d/mi0m/YvnKSTxbpjSnmpeqSjz9h0G9gtll4PvqldYYPD2iMBZytZUXuCUWuFGsEiC
+         m46ZpkOzYjC2BK8ePYqiBupZAnFC4DpZgmQspiYcJq9nQ9EJgurXllS0eU0gH5Jax2
+         nt2JZ7Eqs/3sg==
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-39cc64e4a44so1264031b6e.0;
+        Sun, 25 Jun 2023 11:25:10 -0700 (PDT)
+X-Gm-Message-State: AC+VfDwKy23XMyOkJ4+3zB3+tQ0ak05sjVUHe1CfteOZ/hYjV9fJxQWb
+        vWVGJZLm42pZyIpHHOe6ZG6fxUgVay6yzF4WMek=
+X-Google-Smtp-Source: ACHHUZ7ExvMJ0YdgLqIGnfb3fbsDX2rWow9AjMUqHU0+MJx/o9Et46IPBdZvVw/dSRRx08ycUEfVtMrSDl1Gm9EeOnk=
+X-Received: by 2002:a05:6808:191f:b0:3a1:dc0d:f31f with SMTP id
+ bf31-20020a056808191f00b003a1dc0df31fmr719402oib.3.1687717509553; Sun, 25 Jun
+ 2023 11:25:09 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230615111743.883891-1-masahiroy@kernel.org> <f7e9220aad3d98bd174f7dcbd68031e1e15ea968.1687461492.git.josh@joshtriplett.org>
+In-Reply-To: <f7e9220aad3d98bd174f7dcbd68031e1e15ea968.1687461492.git.josh@joshtriplett.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Josh Triplett <josh@joshtriplett.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+Date:   Mon, 26 Jun 2023 03:24:33 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARLti=Cp1WRAzMufXpXLvM=X1WHLN1RT=-ZAc1q06pPcw@mail.gmail.com>
+Message-ID: <CAK7LNARLti=Cp1WRAzMufXpXLvM=X1WHLN1RT=-ZAc1q06pPcw@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: builddeb: always make modules_install, to install modules.builtin*
+To:     Josh Triplett <josh@joshtriplett.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH] kbuild: deb-pkg: remove the CONFIG_MODULES check in buildeb
-Date:   Mon, 26 Jun 2023 03:16:23 +0900
-Message-Id: <20230625181623.2473308-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.39.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Ben Hutchings <ben@decadent.org.uk>,
+        linux-snps-arc@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -57,47 +68,36 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-When CONFIG_MODULES is disabled for ARCH=um, 'make (bin)deb-pkg' fails
-with an error like follows:
+On Fri, Jun 23, 2023 at 4:20=E2=80=AFAM Josh Triplett <josh@joshtriplett.or=
+g> wrote:
+>
+> Even for a non-modular kernel, the kernel builds modules.builtin and
+> modules.builtin.modinfo, with information about the built-in modules.
+> Tools such as initramfs-tools need these files to build a working
+> initramfs on some systems, such as those requiring firmware.
+>
+> Now that `make modules_install` works even in non-modular kernels and
+> installs these files, unconditionally invoke it when building a Debian
+> package.
+>
+> Signed-off-by: Josh Triplett <josh@joshtriplett.org>
+> ---
 
-  cp: cannot create regular file 'debian/linux-image/usr/lib/uml/modules/6.4.0-rc2+/System.map': No such file or directory
 
-Remove the CONFIG_MODULES check completely to always create the directory
-${pdir}/usr/lib/uml/modules for ARCH=um.
+Applied to linux-kbuild. Thanks.
 
-Fixes: b611daae5efc ("kbuild: deb-pkg: split image and debug objects staging out into functions")
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+What I meant in my previous reply was
+to remove "if is_enabled CONFIG_MODULES; then"
 
- scripts/package/builddeb | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+Anyway, I did it by myself in a follow-up patch.
 
-diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-index e3109e67c33e..bf3f8561aa68 100755
---- a/scripts/package/builddeb
-+++ b/scripts/package/builddeb
-@@ -63,17 +63,13 @@ install_linux_image () {
- 	fi
- 
- 	${MAKE} -f ${srctree}/Makefile INSTALL_MOD_PATH="${pdir}" modules_install
--	if is_enabled CONFIG_MODULES; then
--		rm -f "${pdir}/lib/modules/${KERNELRELEASE}/build"
--		rm -f "${pdir}/lib/modules/${KERNELRELEASE}/source"
--		if [ "${SRCARCH}" = um ] ; then
--			mkdir -p "${pdir}/usr/lib/uml/modules"
--			mv "${pdir}/lib/modules/${KERNELRELEASE}" "${pdir}/usr/lib/uml/modules/${KERNELRELEASE}"
--		fi
--	fi
-+	rm -f "${pdir}/lib/modules/${KERNELRELEASE}/build"
-+	rm -f "${pdir}/lib/modules/${KERNELRELEASE}/source"
- 
- 	# Install the kernel
- 	if [ "${ARCH}" = um ] ; then
-+		mkdir -p "${pdir}/usr/lib/uml/modules"
-+		mv "${pdir}/lib/modules/${KERNELRELEASE}" "${pdir}/usr/lib/uml/modules/${KERNELRELEASE}"
- 		mkdir -p "${pdir}/usr/bin" "${pdir}/usr/share/doc/${pname}"
- 		cp System.map "${pdir}/usr/lib/uml/modules/${KERNELRELEASE}/System.map"
- 		cp ${KCONFIG_CONFIG} "${pdir}/usr/share/doc/${pname}/config"
--- 
-2.39.2
+https://lore.kernel.org/linux-kbuild/20230625181623.2473308-1-masahiroy@ker=
+nel.org/T/#u
 
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
