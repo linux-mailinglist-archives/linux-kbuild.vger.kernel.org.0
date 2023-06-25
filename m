@@ -2,133 +2,140 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF93D73CCAC
-	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Jun 2023 22:36:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1547773CDF5
+	for <lists+linux-kbuild@lfdr.de>; Sun, 25 Jun 2023 04:13:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229461AbjFXUgW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 24 Jun 2023 16:36:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33732 "EHLO
+        id S230503AbjFYCNi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 24 Jun 2023 22:13:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbjFXUgV (ORCPT
+        with ESMTP id S229560AbjFYCNi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 24 Jun 2023 16:36:21 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 142C7E0
-        for <linux-kbuild@vger.kernel.org>; Sat, 24 Jun 2023 13:36:20 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id 98e67ed59e1d1-25eee11a9f1so903080a91.1
-        for <linux-kbuild@vger.kernel.org>; Sat, 24 Jun 2023 13:36:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687638979; x=1690230979;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ul7EroSEXmDVAzlRaDn6kl7vTeP1JJnUM4Tp9d1UPPE=;
-        b=OEHRfAgUuBMWaV//sbNn9DcgUIsvg2TmqZOeGo42PugVa+8kb1gFwVfAenC6yEvzlj
-         28hPSN5twax9mQ8v7x632N8CAMNBtBsll3RxMASsUuX4HVDr2oOr2uvN9GZIPkqxFEgJ
-         GAaH3guf/MviANCieY2ivp3C5mtFqlEq0tjCFx3ZBafFJVh2wwCyL8KvGxRT63mttF0v
-         g8OE87Us248GdF5Hik5BB9vWQjTrmH3pzOcoT0K4Tz2HlBBFGOu0dZXLMGzpPZrcDnjk
-         Tfsyz/AftDXBST6bjmDQr4BmGqmNrFw12QUcef2sQ2UW6vZuSbeFmFbnINWBfPrYaj/8
-         EW4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687638979; x=1690230979;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ul7EroSEXmDVAzlRaDn6kl7vTeP1JJnUM4Tp9d1UPPE=;
-        b=XiXQa4UKdHNiot+Q0PTGFAxEFmxPcZGMZxn8vzowp2VhWqrLdLzSlpABET+xn1a7kS
-         XfvvuQ9MnlsbE7tjv1BKEkVhWtvG8zM526rx5aIN33XBoNNA4Q7DmP4iuu9YTGyAAXoG
-         RvdFkQGeVaXThjBd0dJQopNguprJb2tue16uvLiYEah3fqf8oFdN+uA6WY2iif8kCYhi
-         fnoDmooMETptt0+MC5moFS9w4gimIWvbRZap6rKEqXOgZWhwpdBlrVg4/GbFEfWPCICS
-         QXXM3j5xWlEbWcTJ3AnN5vm7P3j1SKA6XLzt4o/9o3u90VobaJePq55jdiqHftkM54lM
-         LC2Q==
-X-Gm-Message-State: AC+VfDxoA/yHhqwl1A1FGHx7ZOwzlA9igzDSbslomUGEm/TM7Y7o6ZG7
-        4tNB3ukM2FBLbgiBP84XPwE5RhaIyCyg+JOZKOFdlhXD5RA=
-X-Google-Smtp-Source: ACHHUZ5tzDIfSNFY1z8Er4X+kUOPpwelOTMWSFc9puNL4MGYE6T05AccMPpGrxueM+BKN7HU3oZLp2fS88ry2C5fHHc=
-X-Received: by 2002:a17:90a:7102:b0:262:ded7:63d with SMTP id
- h2-20020a17090a710200b00262ded7063dmr738665pjk.17.1687638979350; Sat, 24 Jun
- 2023 13:36:19 -0700 (PDT)
+        Sat, 24 Jun 2023 22:13:38 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36F7B10A;
+        Sat, 24 Jun 2023 19:13:37 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9D3BF606DC;
+        Sun, 25 Jun 2023 02:13:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09A31C433C8;
+        Sun, 25 Jun 2023 02:13:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687659216;
+        bh=tO8ygIBNQgDG09IQJY8tRBeB8/twzooSyi/a2iRZmPU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=DJSJvVSnJxdBSrlwsxs04gMyVeUDOC7H0y9BM7ozxTP8SmX5s6EYRpQjgtqA9EkPT
+         x8B6f7hZPd8zd0PU7/P80D2Fjg7///2oJp7TKxhDR3997mz/Oy+p2OK7pbjEiWGCC1
+         tcvBKjCWATgBYtwdSdpQe8q41uJhIU8n6WhCvFyhfInooMZH7Pq0Mxm1nf1816+HCR
+         9Zf7DOgKIW5/KERl3dxloK87us+Lq7e2+IrjsF1sJnOcH28rHK8SbtGmk6sTKhoyv9
+         XkGA3PpXqkKIiTP6H4vruwDzWuBaTT24lzf6u8Dek3AgyEiHjyC0oPvgH44WvjJ19Z
+         1Zih4s+D970jA==
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-98de21518fbso130365466b.0;
+        Sat, 24 Jun 2023 19:13:35 -0700 (PDT)
+X-Gm-Message-State: AC+VfDwaA4dXUxRhCVoKNyUYuwfNbIaopSyiRRVPzr38s/QgRa+7nxyX
+        b9vUtacu+gRt9J1RHMFXreRPQ+oh243hBDOSEN0=
+X-Google-Smtp-Source: ACHHUZ7e7ZGxx17j1nJTkWVwVj2OgSY6k/JVOZOyZm7hb2/sSdTOvJSRHjCeW++9haXDHPqDDAMFjsqdjN7hU/an2lk=
+X-Received: by 2002:a17:906:30c1:b0:98d:63c5:d132 with SMTP id
+ b1-20020a17090630c100b0098d63c5d132mr4946746ejb.72.1687659214276; Sat, 24 Jun
+ 2023 19:13:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230618001646.1228521-1-Mr.Bossman075@gmail.com> <CAK7LNAT=jKNFcQmrrZsF5Lis_fmex+1KZe0U-VpsxeekH7aZYw@mail.gmail.com>
-In-Reply-To: <CAK7LNAT=jKNFcQmrrZsF5Lis_fmex+1KZe0U-VpsxeekH7aZYw@mail.gmail.com>
-From:   Jesse T <mr.bossman075@gmail.com>
-Date:   Sat, 24 Jun 2023 16:36:08 -0400
-Message-ID: <CAJFTR8QexS3wyWTv+9_9=Z3OMnwyJtysBucwqLizDsczLW8Vjg@mail.gmail.com>
-Subject: Re: [PATCH v1] scripts: kconfig: nconf: Add search jump feature
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Boyd <sboyd@kernel.org>
+References: <20230624184055.3000636-1-kernel@xen0n.name> <20230624184055.3000636-8-kernel@xen0n.name>
+In-Reply-To: <20230624184055.3000636-8-kernel@xen0n.name>
+From:   Huacai Chen <chenhuacai@kernel.org>
+Date:   Sun, 25 Jun 2023 10:13:21 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H54bZ5_OSXtcq3B3d4bZj4GBTOf7Z8aA6Jm7uGdKTj_ug@mail.gmail.com>
+Message-ID: <CAAhV-H54bZ5_OSXtcq3B3d4bZj4GBTOf7Z8aA6Jm7uGdKTj_ug@mail.gmail.com>
+Subject: Re: [PATCH v2 7/9] LoongArch: Tweak CFLAGS for Clang compatibility
+To:     WANG Xuerui <kernel@xen0n.name>
+Cc:     WANG Rui <wangrui@loongson.cn>, Xi Ruoyao <xry111@xry111.site>,
+        loongarch@lists.linux.dev, linux-kbuild@vger.kernel.org,
+        llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+        WANG Xuerui <git@xen0n.name>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jun 24, 2023 at 4:11=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> On Sun, Jun 18, 2023 at 9:16=E2=80=AFAM Jesse Taube <mr.bossman075@gmail.=
-com> wrote:
-> >
-> > Menuconfig has a feature where you can "press the key in the (#) prefix
-> > to jump directly to that location. You will be returned to the current
-> > search results after exiting this new menu."
-> >
-> > This commit adds this feature to nconfig, with almost identical code.
-> >
-> > Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
->
->
-> Setting the code duplication aside,
+Hi, Ruoyao,
 
+On Sun, Jun 25, 2023 at 2:42=E2=80=AFAM WANG Xuerui <kernel@xen0n.name> wro=
+te:
+>
+> From: WANG Xuerui <git@xen0n.name>
+>
+> Now the arch code is mostly ready for LLVM/Clang consumption, it is time
+> to re-organize the CFLAGS a little to actually enable the LLVM build.
+>
+> In particular, -mexplicit-relocs and -mdirect-extern-access are not
+> necessary nor supported on Clang; feature detection via cc-option would
+> not work, because that way the broken combo of "new GNU as + old GCC"
+> would seem to get "fixed", but actually produce broken kernels.
+> Explicitly depending on CONFIG_CC_IS_CLANG is thus necessary to not
+> regress UX for those building their own kernels.
+>
+> A build with !RELOCATABLE && !MODULE is confirmed working within a QEMU
+> environment; support for the two features are currently blocked on
+> LLVM/Clang, and will come later.
+>
+> Signed-off-by: WANG Xuerui <git@xen0n.name>
+> ---
+>  arch/loongarch/Makefile | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/arch/loongarch/Makefile b/arch/loongarch/Makefile
+> index 366771016b99..82c619791a63 100644
+> --- a/arch/loongarch/Makefile
+> +++ b/arch/loongarch/Makefile
+> @@ -51,7 +51,9 @@ LDFLAGS_vmlinux                       +=3D -static -n -=
+nostdlib
+>
+>  # When the assembler supports explicit relocation hint, we must use it.
+>  # GCC may have -mexplicit-relocs off by default if it was built with an =
+old
+> -# assembler, so we force it via an option.
+> +# assembler, so we force it via an option. For LLVM/Clang the desired be=
+havior
+> +# is the default, and the flag is not supported, so don't pass it if Cla=
+ng is
+> +# being used.
+>  #
+>  # When the assembler does not supports explicit relocation hint, we can'=
+t use
+>  # it.  Disable it if the compiler supports it.
+> @@ -61,8 +63,10 @@ LDFLAGS_vmlinux                      +=3D -static -n -=
+nostdlib
+>  # combination of a "new" assembler and "old" compiler is not supported. =
+ Either
+>  # upgrade the compiler or downgrade the assembler.
+>  ifdef CONFIG_AS_HAS_EXPLICIT_RELOCS
+> +ifndef CONFIG_CC_IS_CLANG
+>  cflags-y                       +=3D -mexplicit-relocs
+>  KBUILD_CFLAGS_KERNEL           +=3D -mdirect-extern-access
+> +endif
+I prefer to drop CONFIG_CC_IS_CLANG and use
+cflags-y                       +=3D $(call cc-option,-mexplicit-relocs)
+KBUILD_CFLAGS_KERNEL           +=3D $(call cc-option,-mdirect-extern-access=
+)
 
-If it does function as expected will you accept the patch?
-Should I mark the copied codes'  original location?
+Then Patch-6 can be merged in this.
 
-> does this patch work correctly?
->
->
->
->
-> $ make defconfig
-> $ make nconfig
->
-> Press F8
->
-> Input "MODULES" in the search box.
->
-> You will see:
->
-> (1) -> Enable loadable module support
->
-> Press the "1" key.
->
->
-> It will navigate to "General setup"
-> instead of "Enable loadable module support".
+What's your opinion?
 
-
-Hmm, this is a confusing issue.
-It will take you to the parent menu of the option, it should move you
-to the parent option and
-move the cursor to the option location. I will see if I can resolve
-this oversight.
-
-Thanks,
-Jesse Taube
-
->
->
->
->
->
->
->
+Huacai
+>  else
+>  cflags-y                       +=3D $(call cc-option,-mno-explicit-reloc=
+s)
+>  KBUILD_AFLAGS_KERNEL           +=3D -Wa,-mla-global-with-pcrel
 > --
-> Best Regards
-> Masahiro Yamada
+> 2.40.0
+>
