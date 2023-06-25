@@ -2,108 +2,184 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C50073CF38
-	for <lists+linux-kbuild@lfdr.de>; Sun, 25 Jun 2023 10:11:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D362173CF3C
+	for <lists+linux-kbuild@lfdr.de>; Sun, 25 Jun 2023 10:13:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231561AbjFYIL3 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Sun, 25 Jun 2023 04:11:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54292 "EHLO
+        id S231236AbjFYINw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 25 Jun 2023 04:13:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230459AbjFYIL1 (ORCPT
+        with ESMTP id S230459AbjFYINv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 25 Jun 2023 04:11:27 -0400
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 927C2E53;
-        Sun, 25 Jun 2023 01:11:25 -0700 (PDT)
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.95)
-          with esmtps (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1qDKq8-0012ki-HS; Sun, 25 Jun 2023 10:11:20 +0200
-Received: from tmo-087-130.customers.d1-online.com ([80.187.87.130] helo=smtpclient.apple)
-          by inpost2.zedat.fu-berlin.de (Exim 4.95)
-          with esmtpsa (TLS1.3)
-          tls TLS_AES_128_GCM_SHA256
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1qDKq8-002gaQ-6u; Sun, 25 Jun 2023 10:11:20 +0200
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH 1/4] sh: fix -Wmissing-include-dirs warnings for various platforms
-Date:   Sun, 25 Jun 2023 10:11:09 +0200
-Message-Id: <D124BC54-1F49-478B-997C-87A3B89A58F8@physik.fu-berlin.de>
-References: <CAK7LNAQFc8pGD4y=pNePxWyiVRM+xHGFF_x6SkAuDcA01dB3cA@mail.gmail.com>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        kernel test robot <lkp@intel.com>,
-        Rich Felker <dalias@libc.org>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        linux-sh@vger.kernel.org
-In-Reply-To: <CAK7LNAQFc8pGD4y=pNePxWyiVRM+xHGFF_x6SkAuDcA01dB3cA@mail.gmail.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-X-Mailer: iPhone Mail (20F75)
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 80.187.87.130
-X-ZEDAT-Hint: PO
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Sun, 25 Jun 2023 04:13:51 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B08E10C9;
+        Sun, 25 Jun 2023 01:13:46 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9BF1460B6E;
+        Sun, 25 Jun 2023 08:13:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 035FFC433C8;
+        Sun, 25 Jun 2023 08:13:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687680825;
+        bh=A6eLoSF/3c9MwdZ73/LDRUS0KBbUtVOgEQo1SNVN0vY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=SMNiC13gJnhftwCGlx3d+/qnKa958AbLokVoVK7Bfl2io6pcfM2Oxevrpm6LPhaSN
+         YNVkINkYcks+8LGX7ytgTfOtAtsfyKIo2EA4POdffxfxoBX8nKW58NBkKzz6/lW1wX
+         zgcEApLiHK1xhmMXnm22aXj+KaepyyUrmwJaAlMp8AQZoTm9XVz+sRdAQCTxEn94O2
+         muel+R0184GpAYEKawpeC6shDbPC/5i6lH9wmx2e4X7AZCpYTrkRYqoCPeb64KEMDK
+         B8y3L6xjPHETTlvy/3nNXnMWqBeL7Dq9K26UXdN2aRa4Yu5aCDhfh4BC8ICmyAS7Yf
+         AMIL5G7LdqRFQ==
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5149aafef44so2437758a12.0;
+        Sun, 25 Jun 2023 01:13:44 -0700 (PDT)
+X-Gm-Message-State: AC+VfDyKKPHweS7nyST8QgekqMvovc78pkl4uTg2TImItocbMp+2txw4
+        68V23IHI0v05cJUmfY1ikVsxKJPmAEixuFyTwUM=
+X-Google-Smtp-Source: ACHHUZ6tZAjsjOuGF42BTonLvZw/MNdZ/ki6HUzFD7w8sca/HlOnCwNTPffBK9UWiVacTzDdRe71RKDem/p0WWv0WTo=
+X-Received: by 2002:a05:6402:1641:b0:51d:80a1:7b1e with SMTP id
+ s1-20020a056402164100b0051d80a17b1emr1964597edx.9.1687680823171; Sun, 25 Jun
+ 2023 01:13:43 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230624184055.3000636-1-kernel@xen0n.name> <20230624184055.3000636-8-kernel@xen0n.name>
+ <CAAhV-H54bZ5_OSXtcq3B3d4bZj4GBTOf7Z8aA6Jm7uGdKTj_ug@mail.gmail.com>
+ <cc8c2f2d-b242-7488-3b5a-33828ee38b36@xen0n.name> <5154e8141e2b022b477f2d2658279e94f6b02149.camel@xry111.site>
+ <12e9a417-e655-b85b-1213-231fd68b0977@xen0n.name>
+In-Reply-To: <12e9a417-e655-b85b-1213-231fd68b0977@xen0n.name>
+From:   Huacai Chen <chenhuacai@kernel.org>
+Date:   Sun, 25 Jun 2023 16:13:27 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H5Xn51y4Vd1DgtVCRtkAAvVT5DtmQ7EZ+NwF2M9xRiRcw@mail.gmail.com>
+Message-ID: <CAAhV-H5Xn51y4Vd1DgtVCRtkAAvVT5DtmQ7EZ+NwF2M9xRiRcw@mail.gmail.com>
+Subject: Re: [PATCH v2 7/9] LoongArch: Tweak CFLAGS for Clang compatibility
+To:     WANG Xuerui <kernel@xen0n.name>
+Cc:     Xi Ruoyao <xry111@xry111.site>, WANG Rui <wangrui@loongson.cn>,
+        loongarch@lists.linux.dev, linux-kbuild@vger.kernel.org,
+        llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+        WANG Xuerui <git@xen0n.name>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Sun, Jun 25, 2023 at 3:48=E2=80=AFPM WANG Xuerui <kernel@xen0n.name> wro=
+te:
+>
+> On 2023/6/25 15:36, Xi Ruoyao wrote:
+> > On Sun, 2023-06-25 at 15:16 +0800, WANG Xuerui wrote:
+> >> On 2023/6/25 10:13, Huacai Chen wrote:
+> >>> Hi, Ruoyao,
+> >>>
+> >>> On Sun, Jun 25, 2023 at 2:42=E2=80=AFAM WANG Xuerui <kernel@xen0n.nam=
+e> wrote:
+> >>>>
+> >>>> From: WANG Xuerui <git@xen0n.name>
+> >>>>
+> >>>> Now the arch code is mostly ready for LLVM/Clang consumption, it is =
+time
+> >>>> to re-organize the CFLAGS a little to actually enable the LLVM build=
+.
+> >>>>
+> >>>> In particular, -mexplicit-relocs and -mdirect-extern-access are not
+> >>>> necessary nor supported on Clang; feature detection via cc-option wo=
+uld
+> >>>> not work, because that way the broken combo of "new GNU as + old GCC=
+"
+> >>>> would seem to get "fixed", but actually produce broken kernels.
+> >>>> Explicitly depending on CONFIG_CC_IS_CLANG is thus necessary to not
+> >>>> regress UX for those building their own kernels.
+> >>>>
+> >>>> A build with !RELOCATABLE && !MODULE is confirmed working within a Q=
+EMU
+> >>>> environment; support for the two features are currently blocked on
+> >>>> LLVM/Clang, and will come later.
+> >>>>
+> >>>> Signed-off-by: WANG Xuerui <git@xen0n.name>
+> >>>> ---
+> >>>>    arch/loongarch/Makefile | 6 +++++-
+> >>>>    1 file changed, 5 insertions(+), 1 deletion(-)
+> >>>>
+> >>>> diff --git a/arch/loongarch/Makefile b/arch/loongarch/Makefile
+> >>>> index 366771016b99..82c619791a63 100644
+> >>>> --- a/arch/loongarch/Makefile
+> >>>> +++ b/arch/loongarch/Makefile
+> >>>> @@ -51,7 +51,9 @@ LDFLAGS_vmlinux                       +=3D -static=
+ -n -nostdlib
+> >>>>
+> >>>>    # When the assembler supports explicit relocation hint, we must u=
+se it.
+> >>>>    # GCC may have -mexplicit-relocs off by default if it was built w=
+ith an old
+> >>>> -# assembler, so we force it via an option.
+> >>>> +# assembler, so we force it via an option. For LLVM/Clang the desir=
+ed behavior
+> >>>> +# is the default, and the flag is not supported, so don't pass it i=
+f Clang is
+> >>>> +# being used.
+> >>>>    #
+> >>>>    # When the assembler does not supports explicit relocation hint, =
+we can't use
+> >>>>    # it.  Disable it if the compiler supports it.
+> >>>> @@ -61,8 +63,10 @@ LDFLAGS_vmlinux                      +=3D -static=
+ -n -nostdlib
+> >>>>    # combination of a "new" assembler and "old" compiler is not supp=
+orted.  Either
+> >>>>    # upgrade the compiler or downgrade the assembler.
+> >>>>    ifdef CONFIG_AS_HAS_EXPLICIT_RELOCS
+> >>>> +ifndef CONFIG_CC_IS_CLANG
+> >>>>    cflags-y                       +=3D -mexplicit-relocs
+> >>>>    KBUILD_CFLAGS_KERNEL           +=3D -mdirect-extern-access
+> >>>> +endif
+> >>> I prefer to drop CONFIG_CC_IS_CLANG and use
+> >>> cflags-y                       +=3D $(call cc-option,-mexplicit-reloc=
+s)
+> >>> KBUILD_CFLAGS_KERNEL           +=3D $(call cc-option,-mdirect-extern-=
+access)
+> >>>
+> >>> Then Patch-6 can be merged in this.
+> >>>
+> >>> What's your opinion?
+> >>
+> >> FYI: with this approach the build no longer instantly dies with binuti=
+ls
+> >> 2.40 + gcc 12.3, but there are also tons of warnings that say the mode=
+l
+> >> attribute is being ignored. I checked earlier discussions and this mea=
+ns
+> >> modules are silently broken at runtime, which is not particularly good=
+ UX.
+> >
+> > We can add
+> >
+> > #if defined(MODULE) && !__has_attribute(model)
+> > #  error some fancy error message
+> > #endif
+> >
+> > into percpu.h to error out in this case.  It had been in my earlier
+> > drafts of explicit relocs patches, but we dropped it because there was
+> > no such configuration (unless a snapshot of development GCC is used, an=
+d
+> > using such a snapshot is never supported IIUC).
+>
+> Ah I've seen that. So in this case we simply wrap -mexplicit-relocs with
+> cc-option and error out in case of CONFIG_MODULE but no model attribute,
+> which nicely prevents broken configurations (MODULE && ((old_gcc &&
+> new_binutils) || clang)) with feature detection alone.
+>
+> This seems elegant and better to me; Huacai, WDYT?
+OK, perfect.
 
-
-> On Jun 25, 2023, at 9:57 AM, Masahiro Yamada <masahiroy@kernel.org> wrote:
-> 
-> ﻿On Sun, Feb 19, 2023 at 11:40 PM John Paul Adrian Glaubitz
-> <glaubitz@physik.fu-berlin.de> wrote:
->> 
->> Hi Masahiro!
->> 
->>> On Sun, 2023-02-19 at 23:15 +0900, Masahiro Yamada wrote:
->>> The 0day bot reports a lot of warnings (or errors due to CONFIG_WERROR)
->>> like this:
->>> 
->>>  cc1: error: arch/sh/include/mach-hp6xx: No such file or directory [-Werror=missing-include-dirs]
->>> 
->>> Indeed, arch/sh/include/mach-hp6xx does not exist.
->>> 
->>> -Wmissing-include-dirs is W=1 warning, but it may be annoying
->>> when CONFIG_BTRFS_FS is enabled because fs/btrfs/Makefile
->>> unconditionally adds this warning option.
->>> 
->>> arch/sh/Makefile defines machdir-y for two purposes:
->>> 
->>> - Build platform code in arch/sh/boards/mach-*/
->>> - Add arch/sh/include/mach-*/ to the header search path
->>> 
->>> For the latter, some platforms use arch/sh/include/mach-common/ instead
->>> of having its own arch/sh/include/mach-*/.
->>> 
->>> Drop unneeded machdir-y to not include non-existing include directory.
->>> 
->>> To build arch/sh/boards/mach-*/, use the standard obj-y syntax in
->>> arch/sh/boards/Makefile.
->>> 
->>> Reported-by: kernel test robot <lkp@intel.com>
->>> Link: https://lore.kernel.org/oe-kbuild-all/202302190641.30VVXnPb-lkp@intel.com/
->>> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->>> ---
->> 
->> Thanks for your patches! I'm still waiting for my kernel.org account to be created,
->> so I can set up my own linux-sh tree. I hope that happens next week. There are already
->> some patches piling up.
-> 
-> 
-> So, what has happened since then?
-
-Sorry, these somehow went off my radar.
-
-I’ll have a look later today.
-
-Adrian
+Huacai
+>
+> --
+> WANG "xen0n" Xuerui
+>
+> Linux/LoongArch mailing list: https://lore.kernel.org/loongarch/
+>
