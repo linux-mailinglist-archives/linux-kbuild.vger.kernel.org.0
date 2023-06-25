@@ -2,82 +2,117 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A235173CFF0
-	for <lists+linux-kbuild@lfdr.de>; Sun, 25 Jun 2023 11:58:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9131073D144
+	for <lists+linux-kbuild@lfdr.de>; Sun, 25 Jun 2023 16:06:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231998AbjFYJ6N (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 25 Jun 2023 05:58:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49300 "EHLO
+        id S229456AbjFYOGm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 25 Jun 2023 10:06:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232048AbjFYJ6L (ORCPT
+        with ESMTP id S229447AbjFYOGl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 25 Jun 2023 05:58:11 -0400
-Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3075E78;
-        Sun, 25 Jun 2023 02:58:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
-        t=1687687079; bh=H4NWls1bUMGdPdN2OveQqxUMkhksKubc1e0oOz7s4Zo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sHDre7+MIxe4WQ9QS0lzPx9Dumw9urre45a1mvqRpkjtJDoLDxkzHMPjfE2HZVtFf
-         D42CXGxQnJjuBmQwADvU4RY2meRUwyzlTkSahMQ7vkFUu+mEA0m/eFxMh77v/zMZdY
-         uYXa4Y64sAkFaB33r0rvJAsQ818oKanHu7sbiNeA=
-Received: from ld50.lan (unknown [101.88.25.181])
+        Sun, 25 Jun 2023 10:06:41 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD11A1B1;
+        Sun, 25 Jun 2023 07:06:40 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 44E61605E5;
-        Sun, 25 Jun 2023 17:57:59 +0800 (CST)
-From:   WANG Xuerui <kernel@xen0n.name>
-To:     Huacai Chen <chenhuacai@kernel.org>
-Cc:     WANG Rui <wangrui@loongson.cn>, Xi Ruoyao <xry111@xry111.site>,
-        loongarch@lists.linux.dev, linux-kbuild@vger.kernel.org,
-        llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
-        WANG Xuerui <git@xen0n.name>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: [PATCH v3 8/8] Makefile: Add loongarch target flag for Clang compilation
-Date:   Sun, 25 Jun 2023 17:56:44 +0800
-Message-Id: <20230625095644.3156349-9-kernel@xen0n.name>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230625095644.3156349-1-kernel@xen0n.name>
-References: <20230625095644.3156349-1-kernel@xen0n.name>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 03F1E602E2;
+        Sun, 25 Jun 2023 14:06:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2F87C433C0;
+        Sun, 25 Jun 2023 14:06:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687701999;
+        bh=S3NHgH5zR4/XnZv9Sf+BiVy8WcLky1GXrScxBb3Sw4o=;
+        h=From:To:Cc:Subject:Date:From;
+        b=hR+Wy0YVxhHo8php6titEefdXjx1gFvxWnuNQ2CDek9qP7xqcXDn37IlecsY2msYL
+         jkXNhtz9OlfCckR2GvVk86VSaIwzBturcRYHT8arRZpD0C/0z6PMmgKtZIEhDjdVQQ
+         LhfU8lnolLSy30nXxUoBTbZP2jB4FjNhQrnrrl45tVEWSW66ZaUULokO9D/5U48oJT
+         1BwlFtlc9IGSLPBdqLpdRwWB2+x8OpEdm4wDG7Xv1Yy9rq6MnUsfG9NOKJtgTS6b+u
+         QISLl0aNzk+1KyyrMDpOuU6Ei6NUAHSn6mBIDdUa6tcqbQJpOEknnnlw+tN3BP4xXG
+         6A5BBFwRKwUYQ==
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>
+Subject: [PATCH v3 1/3] kbuild: unexport abs_srctree and abs_objtree
+Date:   Sun, 25 Jun 2023 23:06:28 +0900
+Message-Id: <20230625140630.2134298-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: WANG Xuerui <git@xen0n.name>
+'make rpm-pkg' builds the kernel in rpmbuild/BUILD, but $(abs_srctree)
+and $(abs_objtree) point to the directory path where make was started,
+not the kernel is actually being built. Fix it.
 
-The LoongArch kernel is 64-bit and built with the soft-float ABI,
-hence the loongarch64-linux-gnusf target. (The "libc" part can affect
-the codegen of libcalls: other arches do not use a bare-metal target,
-and currently the only fully supported libc on LoongArch is glibc
-anyway.)
+In hindsight, there was no need to export abs_srctree and abs_objtree.
 
-See: https://lore.kernel.org/loongarch/CAKwvOdnimxv8oJ4mVY74zqtt1x7KTMrWvn2_T9x22SFDbU6rHQ@mail.gmail.com/
-Signed-off-by: WANG Xuerui <git@xen0n.name>
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
- scripts/Makefile.clang | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
-index 058a4c0f864e..6c23c6af797f 100644
---- a/scripts/Makefile.clang
-+++ b/scripts/Makefile.clang
-@@ -4,6 +4,7 @@
- CLANG_TARGET_FLAGS_arm		:= arm-linux-gnueabi
- CLANG_TARGET_FLAGS_arm64	:= aarch64-linux-gnu
- CLANG_TARGET_FLAGS_hexagon	:= hexagon-linux-musl
-+CLANG_TARGET_FLAGS_loongarch	:= loongarch64-linux-gnusf
- CLANG_TARGET_FLAGS_m68k		:= m68k-linux-gnu
- CLANG_TARGET_FLAGS_mips		:= mipsel-linux-gnu
- CLANG_TARGET_FLAGS_powerpc	:= powerpc64le-linux-gnu
+Changes in v3:
+ - New patch
+
+ Makefile | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index f18d59c81241..6f9bbb0d9172 100644
+--- a/Makefile
++++ b/Makefile
+@@ -38,6 +38,10 @@ __all:
+ # descending is started. They are now explicitly listed as the
+ # prepare rule.
+ 
++this-makefile := $(lastword $(MAKEFILE_LIST))
++abs_srctree := $(realpath $(dir $(this-makefile)))
++abs_objtree := $(CURDIR)
++
+ ifneq ($(sub_make_done),1)
+ 
+ # Do not use make's built-in rules and variables
+@@ -185,8 +189,6 @@ $(if $(abs_objtree),, \
+ 
+ # $(realpath ...) resolves symlinks
+ abs_objtree := $(realpath $(abs_objtree))
+-else
+-abs_objtree := $(CURDIR)
+ endif # ifneq ($(KBUILD_OUTPUT),)
+ 
+ ifeq ($(abs_objtree),$(CURDIR))
+@@ -196,9 +198,6 @@ else
+ need-sub-make := 1
+ endif
+ 
+-this-makefile := $(lastword $(MAKEFILE_LIST))
+-abs_srctree := $(realpath $(dir $(this-makefile)))
+-
+ ifneq ($(words $(subst :, ,$(abs_srctree))), 1)
+ $(error source directory cannot contain spaces or colons)
+ endif
+@@ -211,7 +210,6 @@ need-sub-make := 1
+ $(this-makefile): ;
+ endif
+ 
+-export abs_srctree abs_objtree
+ export sub_make_done := 1
+ 
+ ifeq ($(need-sub-make),1)
 -- 
-2.40.0
+2.39.2
 
