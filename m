@@ -2,125 +2,228 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 94D1D73D517
-	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Jun 2023 00:48:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 025F073D5A8
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Jun 2023 03:58:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229529AbjFYWr7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 25 Jun 2023 18:47:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56346 "EHLO
+        id S229556AbjFZB6R (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 25 Jun 2023 21:58:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbjFYWr6 (ORCPT
+        with ESMTP id S229454AbjFZB6Q (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 25 Jun 2023 18:47:58 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C3B7193
-        for <linux-kbuild@vger.kernel.org>; Sun, 25 Jun 2023 15:47:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687733277; x=1719269277;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=l2Rds53clA/kX4JvW6ikULRTVhSqHxiFKC6JARQFmyA=;
-  b=RQurJwGZ2PTqxsDIc9Nz0QQwUds4kH5gHM8Tg8z+Aimub+An/udSqBRN
-   1+cE4p/LD03ob25ApGuBaVtmvIAN19cC/yvxJiW0lxujBmB0vkA9DqSwe
-   YrksFKiyJVj3xBx9O43W3QwFhjh72I4uWRweQ9PudPPihHtY+E9BKzSb+
-   Akr8d3Nkbh+Q9dMwKIPtvdw/lKRyNmwmL8gRZel32iW9usNdzHSUmtzGd
-   qKpiek0jvOmYfjtXB6pvUOWDMc2L+S1m5/6mcTxlOvUaH4EpVj6D8Mth5
-   RQgOoqBdTInuQoGPSjsa/Nao8WRo6on7Mi6RyITkux3pDhpq4BIqRJx8V
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="350898119"
-X-IronPort-AV: E=Sophos;i="6.01,158,1684825200"; 
-   d="scan'208";a="350898119"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2023 15:47:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="805808598"
-X-IronPort-AV: E=Sophos;i="6.01,158,1684825200"; 
-   d="scan'208";a="805808598"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 25 Jun 2023 15:47:55 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qDYWQ-000AKv-12;
-        Sun, 25 Jun 2023 22:47:54 +0000
-Date:   Mon, 26 Jun 2023 06:47:37 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org
-Subject: [masahiroy-kbuild:kbuild 67/71] Makefile:36:
- /tools/scripts/Makefile.arch: No such file or directory
-Message-ID: <202306260604.jAB4uQed-lkp@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
-        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Sun, 25 Jun 2023 21:58:16 -0400
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3327F135;
+        Sun, 25 Jun 2023 18:58:15 -0700 (PDT)
+Received: by mail-oi1-x236.google.com with SMTP id 5614622812f47-38e04d1b2b4so2099186b6e.3;
+        Sun, 25 Jun 2023 18:58:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687744694; x=1690336694;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sIi3FkwCk5HG64ANT+PN0JameuFfw1WbglMg15jyrTQ=;
+        b=DGmwX3l/5bkd6oo8XKGuxduVBE1isYcG0BSNBXdo60CHGPwIdJI0SK1bob1tVFBi4Q
+         WkkwPiTAUIVN2HKL8p/l5mNkEylwL49oZY0MApytICxYKc33dZzEI3lK7E1zP7Wjg/68
+         Bu73LM/XkHzSN8PuNYh3o1p9HCzCVYUbho1gqSyDBsjKnI8gm0vGx/Gx8H2cw1EVBcmP
+         Ng3S9CqDov70r4jNpfME0G0BzxPJuwat9i2USToRbYjdMn7T0f3KZ/FYq8A/FB7nCJw2
+         loAt4Az2UHBl0E97jwJIsoCGnRLkJoYFDjj8IRVrgKZzDGvGsK/F3kB8XakoW1Hhi99q
+         X60Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687744694; x=1690336694;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=sIi3FkwCk5HG64ANT+PN0JameuFfw1WbglMg15jyrTQ=;
+        b=kHJxitwii+cE94QdoiIRVMSy+Ar/LxG0CH/kqZ7B54TeXxT8jtlvcUuWi1lndbkk7s
+         Bvmv2ylyII1LxVha42UYceN52EXz78qU+2MPgCmZoU3T2oWG3MLLD+Ws0PmjBm+3nZHV
+         Ow9ZJ72LvG40ATh/8Cnbc6LIMYTLomO3Zmi6Cs3WVbnRHK9+bLxxH+m0BIw0dqxJ1BFN
+         BEwZjq7WenCPXvHeFSUbNeWrOGihFP+vtf3V3OxD7Rr8zcIP5uhtkE9TzH9SH2l8PNp8
+         S8sWURW0TVE5wnQtpS6WGibJe7+lrSZv21sehjb6/iTTy2kQE7UHVROh70/+u6+eYPDd
+         NjdA==
+X-Gm-Message-State: AC+VfDxHbKcj/ai6IR0efTJMAcCEJ2QqAaEO1X72gqWlJoqMzaw7D9Lm
+        Wk25WRNCSBcDB/h9P8afPIk=
+X-Google-Smtp-Source: ACHHUZ78En8oF4JQ4eCiuIXy53tCVU5GcaiDLfFNv6yo542ZIo9IsB/sdnjGu01B5GIrNjswpTqH2w==
+X-Received: by 2002:a05:6808:1981:b0:3a1:cdba:e4e0 with SMTP id bj1-20020a056808198100b003a1cdbae4e0mr3634854oib.50.1687744694384;
+        Sun, 25 Jun 2023 18:58:14 -0700 (PDT)
+Received: from localhost (193-116-198-102.tpgi.com.au. [193.116.198.102])
+        by smtp.gmail.com with ESMTPSA id az12-20020a170902a58c00b001b0034557afsm2992916plb.15.2023.06.25.18.58.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 25 Jun 2023 18:58:13 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date:   Mon, 26 Jun 2023 11:58:06 +1000
+Message-Id: <CTM7K580U3T2.261RJKV58M653@wheely>
+To:     "Masahiro Yamada" <masahiroy@kernel.org>,
+        "Joel Stanley" <joel@jms.id.au>,
+        "Michael Ellerman" <mpe@ellerman.id.au>,
+        <linuxppc-dev@lists.ozlabs.org>
+Cc:     <linux-kbuild@vger.kernel.org>,
+        "Christophe Leroy" <christophe.leroy@csgroup.eu>,
+        "Nathan Chancellor" <nathan@kernel.org>,
+        "Nick Desaulniers" <ndesaulniers@google.com>,
+        <linux-kernel@vger.kernel.org>,
+        "Nicolas Schier" <nicolas@fjasle.eu>
+Subject: Re: [PATCH] powerpc: remove checks for binutils older than 2.25
+From:   "Nicholas Piggin" <npiggin@gmail.com>
+X-Mailer: aerc 0.15.2
+References: <20230119082250.151485-1-masahiroy@kernel.org>
+ <CACPK8XeGsWN+2L57=dfQWOTSo8df7_qrxhwvV4Ho0rkhV=0vSw@mail.gmail.com>
+ <CAK7LNAQWtDHOs=K+qznt5U1WiDv86tChkj4zOer4wtVRB974OA@mail.gmail.com>
+ <CAK7LNAS=UCo_o-B0mgsR+SDb0sYwvQo90uag5sJ1UmB+8NqLjQ@mail.gmail.com>
+In-Reply-To: <CAK7LNAS=UCo_o-B0mgsR+SDb0sYwvQo90uag5sJ1UmB+8NqLjQ@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
-head:   2b3951b65a1e13aa15d30a803510be08075cae40
-commit: f48e05d84f217ec1e7e379f184af119fc75a45e8 [67/71] kbuild: unexport abs_srctree and abs_objtree
-config: microblaze-randconfig-r026-20230626 (https://download.01.org/0day-ci/archive/20230626/202306260604.jAB4uQed-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230626/202306260604.jAB4uQed-lkp@intel.com/reproduce)
+On Sun Jun 25, 2023 at 6:02 PM AEST, Masahiro Yamada wrote:
+> On Thu, Jan 19, 2023 at 9:37=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
+> >
+> > On Thu, Jan 19, 2023 at 9:12 PM Joel Stanley <joel@jms.id.au> wrote:
+> > >
+> > > On Thu, 19 Jan 2023 at 08:24, Masahiro Yamada <masahiroy@kernel.org> =
+wrote:
+> > > >
+> > > > Commit e4412739472b ("Documentation: raise minimum supported versio=
+n of
+> > > > binutils to 2.25") allows us to remove the checks for old binutils.
+> > > >
+> > > > There is no more user for ld-ifversion. Remove it as well.
+> > >
+> > > ppc kernels fail to link with 2.27 under some configurations:
+> > >
+> > >  https://github.com/linuxppc/issues/issues/388
+> > >
+> > > We may want to use ld-ifversion to exclude that version.
+> >
+> >
+>
+>
+> Ping?
+>
+>
+>
+>
+> >
+> > For LLD, CONFIG option is directly checked.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306260604.jAB4uQed-lkp@intel.com/
+Yeah, doesn't seem too difficult to add new linker version tests if needed.
 
-All errors (new ones prefixed by >>):
+> >
+> >
+> > masahiro@zoe:~/ref/linux(master)$ git grep  CONFIG_LLD_VERSION
+> > Makefile:ifeq ($(call test-lt, $(CONFIG_LLD_VERSION), 130000),y)
+> > arch/riscv/Makefile:ifeq ($(call test-lt, $(CONFIG_LLD_VERSION), 150000=
+),y)
+> > arch/x86/Makefile:ifeq ($(call test-lt, $(CONFIG_LLD_VERSION), 130000),=
+y)
+> > scripts/Kbuild.include:# Usage: $(call test-lt, $(CONFIG_LLD_VERSION), =
+150000)
+> >
+> >
+> >
+> >
+> >
+> >
+> >
+> >
+> >
+> >
+> >
+> > > >
+> > > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > > > ---
+> > > >
+> > > >  arch/powerpc/Makefile     | 22 +---------------------
+> > > >  arch/powerpc/lib/Makefile |  2 +-
+> > > >  scripts/Makefile.compiler |  4 ----
+> > > >  3 files changed, 2 insertions(+), 26 deletions(-)
+> > > >
+> > > > diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
+> > > > index dc4cbf0a5ca9..3d265b16c0ae 100644
+> > > > --- a/arch/powerpc/Makefile
+> > > > +++ b/arch/powerpc/Makefile
+> > > > @@ -42,18 +42,13 @@ machine-$(CONFIG_PPC64) +=3D 64
+> > > >  machine-$(CONFIG_CPU_LITTLE_ENDIAN) +=3D le
+> > > >  UTS_MACHINE :=3D $(subst $(space),,$(machine-y))
+> > > >
+> > > > -# XXX This needs to be before we override LD below
+> > > > -ifdef CONFIG_PPC32
+> > > > -KBUILD_LDFLAGS_MODULE +=3D arch/powerpc/lib/crtsavres.o
+> > > > -else
+> > > > -ifeq ($(call ld-ifversion, -ge, 22500, y),y)
+> > > > +ifeq ($(CONFIG_PPC64)$(CONFIG_LD_IS_BFD),yy)
+> > > >  # Have the linker provide sfpr if possible.
+> > > >  # There is a corresponding test in arch/powerpc/lib/Makefile
+> > > >  KBUILD_LDFLAGS_MODULE +=3D --save-restore-funcs
+> > > >  else
+> > > >  KBUILD_LDFLAGS_MODULE +=3D arch/powerpc/lib/crtsavres.o
+> > > >  endif
+> > > > -endif
+> > > >
+> > > >  ifdef CONFIG_CPU_LITTLE_ENDIAN
+> > > >  KBUILD_CFLAGS  +=3D -mlittle-endian
+> > > > @@ -389,8 +384,6 @@ vdso_prepare: prepare0
+> > > >                 $(build)=3Darch/powerpc/kernel/vdso include/generat=
+ed/vdso64-offsets.h)
+> > > >  endif
+> > > >
+> > > > -archprepare: checkbin
+> > > > -
+> > > >  archheaders:
+> > > >         $(Q)$(MAKE) $(build)=3Darch/powerpc/kernel/syscalls all
+> > > >
+> > > > @@ -405,16 +398,3 @@ else
+> > > >         $(eval KBUILD_CFLAGS +=3D -mstack-protector-guard-offset=3D=
+$(shell awk '{if ($$2 =3D=3D "TASK_CANARY") print $$3;}' include/generated/=
+asm-offsets.h))
+> > > >  endif
+> > > >  endif
+> > > > -
+> > > > -PHONY +=3D checkbin
+> > > > -# Check toolchain versions:
+> > > > -# - gcc-4.6 is the minimum kernel-wide version so nothing required=
+.
+> > > > -checkbin:
+> > > > -       @if test "x${CONFIG_LD_IS_LLD}" !=3D "xy" -a \
+> > > > -               "x$(call ld-ifversion, -le, 22400, y)" =3D "xy" ; t=
+hen \
+> > > > -               echo -n '*** binutils 2.24 miscompiles weak symbols=
+ ' ; \
+> > > > -               echo 'in some circumstances.' ; \
+> > > > -               echo    '*** binutils 2.23 do not define the TOC sy=
+mbol ' ; \
+> > > > -               echo -n '*** Please use a different binutils versio=
+n.' ; \
+> > > > -               false ; \
+> > > > -       fi
+> > > > diff --git a/arch/powerpc/lib/Makefile b/arch/powerpc/lib/Makefile
+> > > > index 4de71cbf6e8e..c53618c34b70 100644
+> > > > --- a/arch/powerpc/lib/Makefile
+> > > > +++ b/arch/powerpc/lib/Makefile
+> > > > @@ -42,7 +42,7 @@ obj-$(CONFIG_FUNCTION_ERROR_INJECTION)        +=
+=3D error-inject.o
+> > > >  # 64-bit linker creates .sfpr on demand for final link (vmlinux),
+> > > >  # so it is only needed for modules, and only for older linkers whi=
+ch
+> > > >  # do not support --save-restore-funcs
+> > > > -ifeq ($(call ld-ifversion, -lt, 22500, y),y)
+> > > > +ifndef CONFIG_LD_IS_BFD
+> > > >  extra-$(CONFIG_PPC64)  +=3D crtsavres.o
+> > > >  endif
 
->> Makefile:36: /tools/scripts/Makefile.arch: No such file or directory
->> make[4]: *** No rule to make target '/tools/scripts/Makefile.arch'.  Stop.
-   make[3]: *** [Makefile:63: tools/bpf/resolve_btfids//libbpf/libbpf.a] Error 2
-   make[3]: *** Waiting for unfinished jobs....
-   make[2]: *** [Makefile:76: bpf/resolve_btfids] Error 2 shuffle=1513993084
-   make[1]: *** [Makefile:1422: tools/bpf/resolve_btfids] Error 2 shuffle=1513993084
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:224: __sub-make] Error 2 shuffle=1513993084
-   make: Target 'prepare' not remade because of errors.
+This test got inverted for LLD now AFAIKS?
 
+Does LLVM support --save-restore-funcs and supply .sfpr already I
+wonder? We could remove this stuff entirely.
 
-vim +36 Makefile
-
-87d599fc3955e5 Masahiro Yamada 2022-12-13  17  
-121c2a137767df Masahiro Yamada 2020-05-11  18  $(if $(filter __%, $(MAKECMDGOALS)), \
-121c2a137767df Masahiro Yamada 2020-05-11  19  	$(error targets prefixed with '__' are only for internal use))
-121c2a137767df Masahiro Yamada 2020-05-11  20  
-ba634eceb535d9 Masahiro Yamada 2017-10-04  21  # That's our default target when none is given on the command line
-121c2a137767df Masahiro Yamada 2020-05-11  22  PHONY := __all
-121c2a137767df Masahiro Yamada 2020-05-11  23  __all:
-ba634eceb535d9 Masahiro Yamada 2017-10-04  24  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  25  # We are using a recursive build, so we need to do a little thinking
-^1da177e4c3f41 Linus Torvalds  2005-04-16  26  # to get the ordering right.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  27  #
-^1da177e4c3f41 Linus Torvalds  2005-04-16  28  # Most importantly: sub-Makefiles should only ever modify files in
-^1da177e4c3f41 Linus Torvalds  2005-04-16  29  # their own directory. If in some directory we have a dependency on
-^1da177e4c3f41 Linus Torvalds  2005-04-16  30  # a file in another dir (which doesn't happen often, but it's often
-f49821ee32b76b Nicholas Piggin 2018-02-11  31  # unavoidable when linking the built-in.a targets which finally
-^1da177e4c3f41 Linus Torvalds  2005-04-16  32  # turn into vmlinux), we will call a sub make in that other dir, and
-^1da177e4c3f41 Linus Torvalds  2005-04-16  33  # after that we are sure that everything which is in that other dir
-^1da177e4c3f41 Linus Torvalds  2005-04-16  34  # is now up to date.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  35  #
-^1da177e4c3f41 Linus Torvalds  2005-04-16 @36  # The only cases where we need to modify files which have global
-^1da177e4c3f41 Linus Torvalds  2005-04-16  37  # effects are thus separated out and done before the recursive
-^1da177e4c3f41 Linus Torvalds  2005-04-16  38  # descending is started. They are now explicitly listed as the
-^1da177e4c3f41 Linus Torvalds  2005-04-16  39  # prepare rule.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  40  
-
-:::::: The code at line 36 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Nick
