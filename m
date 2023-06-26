@@ -2,81 +2,73 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AE0A73D6EA
-	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Jun 2023 06:41:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DCCE73DF38
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Jun 2023 14:30:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231627AbjFZElc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 26 Jun 2023 00:41:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46838 "EHLO
+        id S231484AbjFZMaV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 26 Jun 2023 08:30:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230171AbjFZElb (ORCPT
+        with ESMTP id S231164AbjFZM3z (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 26 Jun 2023 00:41:31 -0400
-Received: from mail-oo1-xc2a.google.com (mail-oo1-xc2a.google.com [IPv6:2607:f8b0:4864:20::c2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1121CAF;
-        Sun, 25 Jun 2023 21:41:30 -0700 (PDT)
-Received: by mail-oo1-xc2a.google.com with SMTP id 006d021491bc7-56314bd1c34so1868295eaf.1;
-        Sun, 25 Jun 2023 21:41:30 -0700 (PDT)
+        Mon, 26 Jun 2023 08:29:55 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0250EAC
+        for <linux-kbuild@vger.kernel.org>; Mon, 26 Jun 2023 05:29:53 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-98e109525d6so324408966b.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 26 Jun 2023 05:29:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687754489; x=1690346489;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IjIjSBtwF6o7woy6Npq28vEiTf2tiatJf1eyfceP8+M=;
-        b=TnLYX9fF5KeprRW3Kz4HAa5iaGoitIq1SE9Gi6/kpv3H2WwGmka5UYGfZDRIHiA9aB
-         29aJ+EQLJMBw+FO55dCtwEoJy2eBpqZxij9V4hxSBz8wLHE+xpKhFwal4Jq/ovItuNZQ
-         eC5rPYkQtQiuMI6H4bLib3AmBW7i1G2LIuh2gNmuoV3SsPbTq5qXcevkQaOTXSMA89PQ
-         8wrjZgY1XDcImhYkYKN0S6WlJ7YqPG4DNp00CNjNtex/B8iQRJWK+QyRuunyqAXWsFe/
-         DmHGtlbMVioKAUCmEaaTosr45t8j5etMfv1eCat0hvqRu3pbeQAkY8QYnh8Skg/zH1PO
-         6Wkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687754489; x=1690346489;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+        d=google.com; s=20221208; t=1687782591; x=1690374591;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=IjIjSBtwF6o7woy6Npq28vEiTf2tiatJf1eyfceP8+M=;
-        b=JeqRn5fFOiURI36b74Y1odCo7QnTd0/ClNBysfeSFkwYvrwuYlPdISePjOTJHF4lb3
-         EeyynTMo2bBjPgfne9M4er4U65FAsV3PUycT8gQ8vxH9vtDyaGjWISmpRQpfe9vbeOGq
-         NSx48hozlpzsnL1UihkOtNnkVzcHHILeQybrJYjGCWWnlzguu9lFOSVmpulhV3A0SQNW
-         Cbe6PWX8nDlX2KC9EmwYlO4zogOHugTwg3o793MuvqpcrlPs9xf/nYSDhtHYOk8MB2ru
-         oGVVvHkh6ADfmIMa+dBymyKj2K1vm6OsINVt7AEg6h+8nn4Nc+DJgJIcVadOyv4vyL9x
-         Bz3A==
-X-Gm-Message-State: AC+VfDyNwODF5WxFPe2rqdtcGm8j+39jk5q+FLTZ2SwVSF93YJ6KRP/M
-        9l4PjO8P6JN6IScdsSFPm5A=
-X-Google-Smtp-Source: ACHHUZ4AB8+akzOG9NaJ7kF9YsaDyO733dStDUCkMDQ4+Chv0ieZyhsPU7l9BhtpBVSHOQm0SzYGGg==
-X-Received: by 2002:a05:6808:168e:b0:39e:d559:61fc with SMTP id bb14-20020a056808168e00b0039ed55961fcmr27544563oib.30.1687754489238;
-        Sun, 25 Jun 2023 21:41:29 -0700 (PDT)
-Received: from localhost ([1.146.50.103])
-        by smtp.gmail.com with ESMTPSA id rm8-20020a17090b3ec800b00259e553f59bsm5022722pjb.20.2023.06.25.21.41.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 25 Jun 2023 21:41:28 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date:   Mon, 26 Jun 2023 14:41:21 +1000
-Message-Id: <CTMB151SAX64.1FMUHTKTUKWWE@wheely>
-To:     "Masahiro Yamada" <masahiroy@kernel.org>
-Cc:     "Joel Stanley" <joel@jms.id.au>,
-        "Michael Ellerman" <mpe@ellerman.id.au>,
-        <linuxppc-dev@lists.ozlabs.org>, <linux-kbuild@vger.kernel.org>,
-        "Christophe Leroy" <christophe.leroy@csgroup.eu>,
-        "Nathan Chancellor" <nathan@kernel.org>,
-        "Nick Desaulniers" <ndesaulniers@google.com>,
-        <linux-kernel@vger.kernel.org>,
-        "Nicolas Schier" <nicolas@fjasle.eu>
-Subject: Re: [PATCH] powerpc: remove checks for binutils older than 2.25
-From:   "Nicholas Piggin" <npiggin@gmail.com>
-X-Mailer: aerc 0.15.2
-References: <20230119082250.151485-1-masahiroy@kernel.org>
- <CACPK8XeGsWN+2L57=dfQWOTSo8df7_qrxhwvV4Ho0rkhV=0vSw@mail.gmail.com>
- <CAK7LNAQWtDHOs=K+qznt5U1WiDv86tChkj4zOer4wtVRB974OA@mail.gmail.com>
- <CAK7LNAS=UCo_o-B0mgsR+SDb0sYwvQo90uag5sJ1UmB+8NqLjQ@mail.gmail.com>
- <CTM7K580U3T2.261RJKV58M653@wheely>
- <CAK7LNARx4exTpkCeR47T+XdF5-a7nLZ19p0R4tvnqyOT5y92XQ@mail.gmail.com>
-In-Reply-To: <CAK7LNARx4exTpkCeR47T+XdF5-a7nLZ19p0R4tvnqyOT5y92XQ@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        bh=Ju0+ODcrZBnx1oAV+anDlQpNUvILiyay90aLSEjgwJc=;
+        b=7godlZtbdCgPV4XK+c3rB9RW+Pd4Xa922Suz4nuNwvbI66de4/UWMwMup2y9KvNwdn
+         9+IYapsintYFZbmK94b5YwjmDzoI/bo6vEvXDitTpvWNJHTC3VoLFkWJt2Zyt7n+GsYt
+         V/uvBgll90F3jj+o1Wf+LRl6O8SXxlIbKtfa4Sp2hsKwrQi0HQ7KhbocdHLHQ8QuByae
+         yiuXesrrw3bw1RbLAaT/WSQQrCG4peFziPwv6ycvMBT8sRfx+HoudCXzk5doxdpCsrpv
+         FRztjBZm9Q5837VMUYjyaZonBn7UejGdmn4X/4hdBUZMHNeIY3fHNj61eCGnXTN5udBw
+         1Pew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687782591; x=1690374591;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ju0+ODcrZBnx1oAV+anDlQpNUvILiyay90aLSEjgwJc=;
+        b=Eim9xMT36CwWovsreRkswHuPcP6LaS7z0ancoCfSSVAcZdrlLHxxrEPTKs9A/WbyL+
+         Z3W956pzngXMmKUqrlFvGjzMIpY3ObzF+2r+ZcuAgB47KbPMkHXHNZGY6gs2yz8fhueK
+         FzYkIv1c/J8pimCjLvfmDez1jLEslcXma6LhxevFmJTMFyaaNv7RfM9uBbFuOxiZovgU
+         QmvJJhid3nqYCkPXevzSjgrLw7cC8HSym7M0IYjVi5bfJ3+hXr8maQWZr8R4V9usuUm9
+         TnrnU0NL5J2ujB9a9T6L/xQpHGgNMalhTyX9AXz86vWHCSdY7E19yVJ/nEhUjOCdx9lD
+         jkhw==
+X-Gm-Message-State: AC+VfDzBNhsje1E760equhgxpSicQrNgnxmtJrx6GN4OVI9lsq+BEBrf
+        exMIlv7KEiEAtSGazXC2mfS4IAgSdczqmG9m7iXyKQ==
+X-Google-Smtp-Source: ACHHUZ5mKDu+BL9nZQgugaCEe7wQ0unI7Y1bpVR6/JMZZu1o8OrHcrP3i1HeyzkZeRFqGV+LmXtA6Q==
+X-Received: by 2002:a17:907:3f87:b0:977:d660:c5aa with SMTP id hr7-20020a1709073f8700b00977d660c5aamr26882906ejc.31.1687782591220;
+        Mon, 26 Jun 2023 05:29:51 -0700 (PDT)
+Received: from google.com (30.171.91.34.bc.googleusercontent.com. [34.91.171.30])
+        by smtp.gmail.com with ESMTPSA id kt19-20020a170906aad300b00989828a42e8sm3194387ejb.154.2023.06.26.05.29.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Jun 2023 05:29:50 -0700 (PDT)
+Date:   Mon, 26 Jun 2023 12:29:46 +0000
+From:   =?utf-8?Q?Pierre-Cl=C3=A9ment?= Tosi <ptosi@google.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>
+Subject: [PATCH v2] scripts/mksysmap: Ignore prefixed KCFI symbols
+Message-ID: <20230626122946.lspu73k24cinwobd@google.com>
+References: <20230623140825.ehqk5ndl7uftstwy@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230623140825.ehqk5ndl7uftstwy@google.com>
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -84,187 +76,44 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon Jun 26, 2023 at 1:11 PM AEST, Masahiro Yamada wrote:
-> On Mon, Jun 26, 2023 at 10:58=E2=80=AFAM Nicholas Piggin <npiggin@gmail.c=
-om> wrote:
-> >
-> > On Sun Jun 25, 2023 at 6:02 PM AEST, Masahiro Yamada wrote:
-> > > On Thu, Jan 19, 2023 at 9:37=E2=80=AFPM Masahiro Yamada <masahiroy@ke=
-rnel.org> wrote:
-> > > >
-> > > > On Thu, Jan 19, 2023 at 9:12 PM Joel Stanley <joel@jms.id.au> wrote=
-:
-> > > > >
-> > > > > On Thu, 19 Jan 2023 at 08:24, Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
-> > > > > >
-> > > > > > Commit e4412739472b ("Documentation: raise minimum supported ve=
-rsion of
-> > > > > > binutils to 2.25") allows us to remove the checks for old binut=
-ils.
-> > > > > >
-> > > > > > There is no more user for ld-ifversion. Remove it as well.
-> > > > >
-> > > > > ppc kernels fail to link with 2.27 under some configurations:
-> > > > >
-> > > > >  https://github.com/linuxppc/issues/issues/388
-> > > > >
-> > > > > We may want to use ld-ifversion to exclude that version.
-> > > >
-> > > >
-> > >
-> > >
-> > > Ping?
-> > >
-> > >
-> > >
-> > >
-> > > >
-> > > > For LLD, CONFIG option is directly checked.
-> >
-> > Yeah, doesn't seem too difficult to add new linker version tests if nee=
-ded.
-> >
-> > > >
-> > > >
-> > > > masahiro@zoe:~/ref/linux(master)$ git grep  CONFIG_LLD_VERSION
-> > > > Makefile:ifeq ($(call test-lt, $(CONFIG_LLD_VERSION), 130000),y)
-> > > > arch/riscv/Makefile:ifeq ($(call test-lt, $(CONFIG_LLD_VERSION), 15=
-0000),y)
-> > > > arch/x86/Makefile:ifeq ($(call test-lt, $(CONFIG_LLD_VERSION), 1300=
-00),y)
-> > > > scripts/Kbuild.include:# Usage: $(call test-lt, $(CONFIG_LLD_VERSIO=
-N), 150000)
-> > > >
-> > > >
-> > > >
-> > > >
-> > > >
-> > > >
-> > > >
-> > > >
-> > > >
-> > > >
-> > > >
-> > > > > >
-> > > > > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > > > > ---
-> > > > > >
-> > > > > >  arch/powerpc/Makefile     | 22 +---------------------
-> > > > > >  arch/powerpc/lib/Makefile |  2 +-
-> > > > > >  scripts/Makefile.compiler |  4 ----
-> > > > > >  3 files changed, 2 insertions(+), 26 deletions(-)
-> > > > > >
-> > > > > > diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
-> > > > > > index dc4cbf0a5ca9..3d265b16c0ae 100644
-> > > > > > --- a/arch/powerpc/Makefile
-> > > > > > +++ b/arch/powerpc/Makefile
-> > > > > > @@ -42,18 +42,13 @@ machine-$(CONFIG_PPC64) +=3D 64
-> > > > > >  machine-$(CONFIG_CPU_LITTLE_ENDIAN) +=3D le
-> > > > > >  UTS_MACHINE :=3D $(subst $(space),,$(machine-y))
-> > > > > >
-> > > > > > -# XXX This needs to be before we override LD below
-> > > > > > -ifdef CONFIG_PPC32
-> > > > > > -KBUILD_LDFLAGS_MODULE +=3D arch/powerpc/lib/crtsavres.o
-> > > > > > -else
-> > > > > > -ifeq ($(call ld-ifversion, -ge, 22500, y),y)
-> > > > > > +ifeq ($(CONFIG_PPC64)$(CONFIG_LD_IS_BFD),yy)
-> > > > > >  # Have the linker provide sfpr if possible.
-> > > > > >  # There is a corresponding test in arch/powerpc/lib/Makefile
-> > > > > >  KBUILD_LDFLAGS_MODULE +=3D --save-restore-funcs
-> > > > > >  else
-> > > > > >  KBUILD_LDFLAGS_MODULE +=3D arch/powerpc/lib/crtsavres.o
-> > > > > >  endif
-> > > > > > -endif
-> > > > > >
-> > > > > >  ifdef CONFIG_CPU_LITTLE_ENDIAN
-> > > > > >  KBUILD_CFLAGS  +=3D -mlittle-endian
-> > > > > > @@ -389,8 +384,6 @@ vdso_prepare: prepare0
-> > > > > >                 $(build)=3Darch/powerpc/kernel/vdso include/gen=
-erated/vdso64-offsets.h)
-> > > > > >  endif
-> > > > > >
-> > > > > > -archprepare: checkbin
-> > > > > > -
-> > > > > >  archheaders:
-> > > > > >         $(Q)$(MAKE) $(build)=3Darch/powerpc/kernel/syscalls all
-> > > > > >
-> > > > > > @@ -405,16 +398,3 @@ else
-> > > > > >         $(eval KBUILD_CFLAGS +=3D -mstack-protector-guard-offse=
-t=3D$(shell awk '{if ($$2 =3D=3D "TASK_CANARY") print $$3;}' include/genera=
-ted/asm-offsets.h))
-> > > > > >  endif
-> > > > > >  endif
-> > > > > > -
-> > > > > > -PHONY +=3D checkbin
-> > > > > > -# Check toolchain versions:
-> > > > > > -# - gcc-4.6 is the minimum kernel-wide version so nothing requ=
-ired.
-> > > > > > -checkbin:
-> > > > > > -       @if test "x${CONFIG_LD_IS_LLD}" !=3D "xy" -a \
-> > > > > > -               "x$(call ld-ifversion, -le, 22400, y)" =3D "xy"=
- ; then \
-> > > > > > -               echo -n '*** binutils 2.24 miscompiles weak sym=
-bols ' ; \
-> > > > > > -               echo 'in some circumstances.' ; \
-> > > > > > -               echo    '*** binutils 2.23 do not define the TO=
-C symbol ' ; \
-> > > > > > -               echo -n '*** Please use a different binutils ve=
-rsion.' ; \
-> > > > > > -               false ; \
-> > > > > > -       fi
-> > > > > > diff --git a/arch/powerpc/lib/Makefile b/arch/powerpc/lib/Makef=
-ile
-> > > > > > index 4de71cbf6e8e..c53618c34b70 100644
-> > > > > > --- a/arch/powerpc/lib/Makefile
-> > > > > > +++ b/arch/powerpc/lib/Makefile
-> > > > > > @@ -42,7 +42,7 @@ obj-$(CONFIG_FUNCTION_ERROR_INJECTION)       =
- +=3D error-inject.o
-> > > > > >  # 64-bit linker creates .sfpr on demand for final link (vmlinu=
-x),
-> > > > > >  # so it is only needed for modules, and only for older linkers=
- which
-> > > > > >  # do not support --save-restore-funcs
-> > > > > > -ifeq ($(call ld-ifversion, -lt, 22500, y),y)
-> > > > > > +ifndef CONFIG_LD_IS_BFD
-> > > > > >  extra-$(CONFIG_PPC64)  +=3D crtsavres.o
-> > > > > >  endif
-> >
-> > This test got inverted for LLD now AFAIKS?
->
->
-> In my understanding,
-> For a BFD linker, use --save-restore-funcs.
-> Otherwise (i.e. CONFIG_LD_IS_BFD is unset), link crtsavres.o to modules.
->
-> I hope I did not change the logic.
+The (relatively) new KCFI feature in LLVM/Clang encodes type information
+for C functions by generating symbols named __kcfi_typeid_<fname>, which
+can then be referenced from assembly. However, some custom build rules
+(e.g. nVHE or early PIE on arm64) use objcopy to add a prefix to all the
+symbols in their object files, making mksysmap's ignore filter miss
+those KCFI symbols.
 
-I think I misread it, ignore me.
->
->
->
-> >
-> > Does LLVM support --save-restore-funcs and supply .sfpr already I
-> > wonder? We could remove this stuff entirely.
->
-> I don't know.
->
-> If LLVM 11.0.0  (the minimum supported LLVM version) supports
-> --save-restore-funcs, you can remove this check entirely.
-> Even so, it should be done in a follow-up patch.
+Therefore, explicitly list those twice-prefixed KCFI symbols as ignored.
 
-True. I don't have an lld < 14 to test, but 14 does accept the option
-and emits the functions if needed. But my clang 14 does not even
-generate calls to them so I assume earlier ones do not either. So we
-might be able to get rid of this stuff. I'll open an issue for it.
+Alternatively, this could also be achieved in a less verbose way by
+ignoring any symbol containing the string "__kcfi_typeid_". However,
+listing the combined prefixes explicitly saves us from running the small
+risk of ignoring symbols that should be kept.
 
-> This patch is just dropping dead code for BFD linker < 2.25,
-> which is now unsupported. Nothing else has changed (I believe).
+Signed-off-by: Pierre-Clément Tosi <ptosi@google.com>
+---
+Changes in v2:
+    Removed redundant filter for EFI KCFI symbol names.
 
-Seems okay then.
+ scripts/mksysmap | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Reviewed-by: Nicholas Piggin <npiggin@gmail.com>
+diff --git a/scripts/mksysmap b/scripts/mksysmap
+index 26f39772f7a5..9ba1c9da0a40 100755
+--- a/scripts/mksysmap
++++ b/scripts/mksysmap
+@@ -62,6 +62,8 @@ ${NM} -n ${1} | sed >${2} -e "
+ 
+ # CFI type identifiers
+ / __kcfi_typeid_/d
++/ __kvm_nvhe___kcfi_typeid_/d
++/ __pi___kcfi_typeid_/d
+ 
+ # CRC from modversions
+ / __crc_/d
+-- 
+2.41.0.162.gfafddb0af9-goog
 
-Thanks,
-Nick
 
+-- 
+Pierre
