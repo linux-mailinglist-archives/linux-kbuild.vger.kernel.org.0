@@ -2,54 +2,51 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 194DB740101
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Jun 2023 18:26:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45CDE740145
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Jun 2023 18:33:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232434AbjF0QZ2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 27 Jun 2023 12:25:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46838 "EHLO
+        id S232596AbjF0Qct (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 27 Jun 2023 12:32:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232470AbjF0QZQ (ORCPT
+        with ESMTP id S232474AbjF0QcP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 27 Jun 2023 12:25:16 -0400
+        Tue, 27 Jun 2023 12:32:15 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE0482115;
-        Tue, 27 Jun 2023 09:25:15 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F7DB30F1;
+        Tue, 27 Jun 2023 09:32:12 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5A592611D1;
-        Tue, 27 Jun 2023 16:25:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36845C433C0;
-        Tue, 27 Jun 2023 16:25:14 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 34FAB611DD;
+        Tue, 27 Jun 2023 16:32:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53554C433C8;
+        Tue, 27 Jun 2023 16:32:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687883114;
-        bh=abXpFTTuUCBmcbnkpnmJtVpSKqQCH7MmcQizSI+8UwQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bf+1nHmWvUr3kRD0ZuwmHSoep1vIrh0qJZgvsk8nlnHqA5vuW61Onv1xwnq27FNZn
-         DTxsQPAr9qLEegeAaZOBj5tuT89gXMkQacVqnbuxJ6bamy3FsSqu1zcNCe2pQoxJ7q
-         JoCiI78enrsBgw6ZeUlOEB5XKdk3itmXLTshpMceWLZVhyaIqmbPLi7QZXQIFTQUwL
-         xgf1ASuRdFn+dLX5KDIhHNWcoItUX2H6WDl3M6Jfud3oz3LVi1AqVGwsN9Ni1UE3aL
-         C07SEc1ObwLcp3NdFrRGZX1iOdq2HbiKW2++8KS0njjlnP4H6tFM25d968N1BZE7ro
-         CrFo3eXRWzW0g==
-Date:   Tue, 27 Jun 2023 09:25:12 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     WANG Xuerui <kernel@xen0n.name>
-Cc:     Huacai Chen <chenhuacai@kernel.org>,
-        WANG Rui <wangrui@loongson.cn>, Xi Ruoyao <xry111@xry111.site>,
-        loongarch@lists.linux.dev, linux-kbuild@vger.kernel.org,
-        llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
-        WANG Xuerui <git@xen0n.name>
-Subject: Re: [PATCH 2/2] LoongArch: Include KBUILD_CPPFLAGS in CHECKFLAGS
- invocation
-Message-ID: <20230627162512.GB223742@dev-arch.thelio-3990X>
-References: <20230627130122.1491765-1-kernel@xen0n.name>
- <20230627130122.1491765-3-kernel@xen0n.name>
+        s=k20201202; t=1687883531;
+        bh=2XOJKw8mrpi06UFry4/LUM2tzNn7wRfcGUBNgfFSFmI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=VqSjMt23XiELwozolSyczKHov0K7Jjhf10PnhFijN89uhd6LQZUFTqFf/tw814fs4
+         6YuK7UbYt253RSOE3lxE1cRK4UBw/VK1PM0XENiDn8tts6IK3cQbbKG1OV1Ot1mJWo
+         TtYusktLdpz9/N2zLAtdhfA3KAHUM0ZO+4UYSFt/CMzU8TX11XOlbQONG/RNrlI90u
+         3P58NqaqyyH9/MLe1mgH52sxlQ1HDdM/OPdnOHt4aSAqGtoEJPiZDIXaf05QiMgAQl
+         VUWWjF52RHicN5LWP55utWNGoTzPTcTylO0vE/Apn7oN9j/u7obGDaG0e53awAhayZ
+         ph33Yz8qCRMXw==
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>
+Subject: [PATCH] modpost: define more R_ARM_* for old distributions
+Date:   Wed, 28 Jun 2023 01:32:05 +0900
+Message-Id: <20230627163205.2082246-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230627130122.1491765-3-kernel@xen0n.name>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -60,40 +57,64 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jun 27, 2023 at 09:01:22PM +0800, WANG Xuerui wrote:
-> From: WANG Xuerui <git@xen0n.name>
-> 
-> This is a port of commit 08f6554ff90e ("mips: Include KBUILD_CPPFLAGS
-> in CHECKFLAGS invocation") to arch/loongarch, for fixing
-> cross-compilation of Linux/LoongArch with Clang, where previously the
-> `--target` flag would no longer be present for the CHECKFLAGS cc
-> invocation leading to build failure.
-> 
-> Reported-by: Nathan Chancellor <nathan@kernel.org>
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1787#issuecomment-1608306002
-> Signed-off-by: WANG Xuerui <git@xen0n.name>
+On CentOS 7, the following build error occurs.
 
-Thanks for the patch!
+scripts/mod/modpost.c: In function 'addend_arm_rel':
+scripts/mod/modpost.c:1312:7: error: 'R_ARM_MOVW_ABS_NC' undeclared (first use in this function); did you mean 'R_ARM_THM_ABS5'?
+  case R_ARM_MOVW_ABS_NC:
+       ^~~~~~~~~~~~~~~~~
+       R_ARM_THM_ABS5
+scripts/mod/modpost.c:1312:7: note: each undeclared identifier is reported only once for each function it appears in
+scripts/mod/modpost.c:1313:7: error: 'R_ARM_MOVT_ABS' undeclared (first use in this function); did you mean 'R_ARM_THM_ABS5'?
+  case R_ARM_MOVT_ABS:
+       ^~~~~~~~~~~~~~
+       R_ARM_THM_ABS5
+scripts/mod/modpost.c:1326:7: error: 'R_ARM_THM_MOVW_ABS_NC' undeclared (first use in this function); did you mean 'R_ARM_THM_ABS5'?
+  case R_ARM_THM_MOVW_ABS_NC:
+       ^~~~~~~~~~~~~~~~~~~~~
+       R_ARM_THM_ABS5
+scripts/mod/modpost.c:1327:7: error: 'R_ARM_THM_MOVT_ABS' undeclared (first use in this function); did you mean 'R_ARM_THM_ABS5'?
+  case R_ARM_THM_MOVT_ABS:
+       ^~~~~~~~~~~~~~~~~~
+       R_ARM_THM_ABS5
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Fixes: 12ca2c67d742 ("modpost: detect section mismatch for R_ARM_{MOVW_ABS_NC,MOVT_ABS}")
+Fixes: cd1824fb7a37 ("modpost: detect section mismatch for R_ARM_THM_{MOVW_ABS_NC,MOVT_ABS}")
+Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-> ---
->  arch/loongarch/Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/loongarch/Makefile b/arch/loongarch/Makefile
-> index a63683da3bcf..09ba338a64de 100644
-> --- a/arch/loongarch/Makefile
-> +++ b/arch/loongarch/Makefile
-> @@ -112,7 +112,7 @@ KBUILD_CFLAGS += -isystem $(shell $(CC) -print-file-name=include)
->  KBUILD_LDFLAGS	+= -m $(ld-emul)
->  
->  ifdef CONFIG_LOONGARCH
-> -CHECKFLAGS += $(shell $(CC) $(KBUILD_CFLAGS) -dM -E -x c /dev/null | \
-> +CHECKFLAGS += $(shell $(CC) $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS) -dM -E -x c /dev/null | \
->  	grep -E -vw '__GNUC_(MINOR_|PATCHLEVEL_)?_' | \
->  	sed -e "s/^\#define /-D'/" -e "s/ /'='/" -e "s/$$/'/" -e 's/\$$/&&/g')
->  endif
-> -- 
-> 2.40.0
-> 
+ scripts/mod/modpost.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 73f4f5588b67..603a4f9587a4 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -1286,6 +1286,23 @@ static int addend_386_rel(uint32_t *location, Elf_Rela *r)
+ #ifndef	R_ARM_THM_JUMP24
+ #define	R_ARM_THM_JUMP24	30
+ #endif
++
++#ifndef R_ARM_MOVW_ABS_NC
++#define R_ARM_MOVW_ABS_NC	43
++#endif
++
++#ifndef R_ARM_MOVT_ABS
++#define R_ARM_MOVT_ABS		44
++#endif
++
++#ifndef R_ARM_THM_MOVW_ABS_NC
++#define R_ARM_THM_MOVW_ABS_NC	47
++#endif
++
++#ifndef R_ARM_THM_MOVT_ABS
++#define R_ARM_THM_MOVT_ABS	48
++#endif
++
+ #ifndef	R_ARM_THM_JUMP19
+ #define	R_ARM_THM_JUMP19	51
+ #endif
+-- 
+2.39.2
+
