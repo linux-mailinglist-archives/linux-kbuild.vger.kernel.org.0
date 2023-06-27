@@ -2,65 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 501F573F8BF
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Jun 2023 11:29:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C78A73FB85
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Jun 2023 13:58:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229986AbjF0J3f (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 27 Jun 2023 05:29:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44556 "EHLO
+        id S231200AbjF0L6y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 27 Jun 2023 07:58:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229568AbjF0J3e (ORCPT
+        with ESMTP id S231246AbjF0L6v (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 27 Jun 2023 05:29:34 -0400
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8F6931734;
-        Tue, 27 Jun 2023 02:29:32 -0700 (PDT)
-Received: from loongson.cn (unknown [10.20.42.170])
-        by gateway (Coremail) with SMTP id _____8BxlfD6q5pkWgUDAA--.4775S3;
-        Tue, 27 Jun 2023 17:29:30 +0800 (CST)
-Received: from [10.20.42.170] (unknown [10.20.42.170])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8BxniP5q5pkwcULAA--.7400S3;
-        Tue, 27 Jun 2023 17:29:29 +0800 (CST)
-Message-ID: <b0a6db96-1062-ce90-f8da-b9866b3c8166@loongson.cn>
-Date:   Tue, 27 Jun 2023 17:29:29 +0800
+        Tue, 27 Jun 2023 07:58:51 -0400
+Received: from gandalf.ozlabs.org (mail.ozlabs.org [IPv6:2404:9400:2221:ea00::3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D66C1722;
+        Tue, 27 Jun 2023 04:58:50 -0700 (PDT)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 4Qr3C80dbtz4w2B;
+        Tue, 27 Jun 2023 21:58:44 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+        s=201909; t=1687867125;
+        bh=DMI9usNvrSNruiGgU2vzUgMO0263STXJtbXbh2Pjm34=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=ZRT/Gwxnf/muFUzbV5/CYYrQkOzC8ev8SYk0jjQnrKFoNQvUIPLqlVZszNK6wFfo1
+         aOSj5NXpgg9OX0qwloCURm8hXaV+bvKXM+P0qawrSdIjYxNv2kNkE4wgHN65sXnPZJ
+         dF4nTWdJ22meg+mIX7/z05PKjhqPk5jfhVkoZ5ga283XvhPBB+SMPd83TnBYNczzOh
+         jytqtVXtg6sACDOUbPkxVhvfVJeeTP7IGqjYvGEGAsKMRDu1RNiG59P8UzS3YeKdnx
+         sEvH9GCQTLzuQixXGRjHEpRch8QrT6HiQ7UM44Jr2zMAWNQN9Gnhdh8peSJXfB1DpS
+         I0e+PZzSc8WKQ==
+From:   Michael Ellerman <mpe@ellerman.id.au>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Joel Stanley <joel@jms.id.au>, linuxppc-dev@lists.ozlabs.org
+Cc:     linux-kbuild@vger.kernel.org, Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kernel@vger.kernel.org, Nicolas Schier <nicolas@fjasle.eu>
+Subject: Re: [PATCH] powerpc: remove checks for binutils older than 2.25
+In-Reply-To: <CAK7LNAS=UCo_o-B0mgsR+SDb0sYwvQo90uag5sJ1UmB+8NqLjQ@mail.gmail.com>
+References: <20230119082250.151485-1-masahiroy@kernel.org>
+ <CACPK8XeGsWN+2L57=dfQWOTSo8df7_qrxhwvV4Ho0rkhV=0vSw@mail.gmail.com>
+ <CAK7LNAQWtDHOs=K+qznt5U1WiDv86tChkj4zOer4wtVRB974OA@mail.gmail.com>
+ <CAK7LNAS=UCo_o-B0mgsR+SDb0sYwvQo90uag5sJ1UmB+8NqLjQ@mail.gmail.com>
+Date:   Tue, 27 Jun 2023 21:58:39 +1000
+Message-ID: <87h6qtglqo.fsf@mail.lhotse>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v3 5/8] LoongArch: Simplify the invtlb wrappers
-Content-Language: en-US
-To:     WANG Xuerui <kernel@xen0n.name>,
-        Huacai Chen <chenhuacai@kernel.org>
-Cc:     WANG Rui <wangrui@loongson.cn>, Xi Ruoyao <xry111@xry111.site>,
-        loongarch@lists.linux.dev, linux-kbuild@vger.kernel.org,
-        llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
-        WANG Xuerui <git@xen0n.name>
-References: <20230625095644.3156349-1-kernel@xen0n.name>
- <20230625095644.3156349-6-kernel@xen0n.name>
-From:   bibo mao <maobibo@loongson.cn>
-In-Reply-To: <20230625095644.3156349-6-kernel@xen0n.name>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxniP5q5pkwcULAA--.7400S3
-X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBj93XoWxZr1UCr1xCw17JF4xCr17Arc_yoW5tw4fpF
-        y3CF47KFs7tF1fWa97Jr1vvr43Jrn8G34SvF9IgFnYkF1DX340grs8Ar4qyry5Ja9YyrW7
-        ZF4Yyry5uFsYv3gCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
-        sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-        0xBIdaVrnRJUUUvIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-        IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-        e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-        0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
-        xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
-        1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv
-        67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07
-        AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
-        F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GF
-        ylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
-        xVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
-        4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jn
-        UUUUUUUU=
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,115 +60,34 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Masahiro Yamada <masahiroy@kernel.org> writes:
+> On Thu, Jan 19, 2023 at 9:37=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
+>>
+>> On Thu, Jan 19, 2023 at 9:12 PM Joel Stanley <joel@jms.id.au> wrote:
+>> >
+>> > On Thu, 19 Jan 2023 at 08:24, Masahiro Yamada <masahiroy@kernel.org> w=
+rote:
+>> > >
+>> > > Commit e4412739472b ("Documentation: raise minimum supported version=
+ of
+>> > > binutils to 2.25") allows us to remove the checks for old binutils.
+>> > >
+>> > > There is no more user for ld-ifversion. Remove it as well.
+>> >
+>> > ppc kernels fail to link with 2.27 under some configurations:
+>> >
+>> >  https://github.com/linuxppc/issues/issues/388
+>> >
+>> > We may want to use ld-ifversion to exclude that version.
+>>
+>
+> Ping?
 
+Sorry. I've now applied the binutils 2.27 patch from Naveen, and this on
+top with minor tweaks to make it apply. The result is in my next branch.
 
-在 2023/6/25 17:56, WANG Xuerui 写道:
-> From: WANG Xuerui <git@xen0n.name>
-> 
-> The invtlb instruction has been supported by upstream LoongArch
-> toolchains from day one, so ditch the raw opcode trickery and just use
-> plain inline asm for it.
-> 
-> While at it, also make the invtlb asm statements barriers, for proper
-> modeling of the side effects. The functions are also marked as
-> __always_inline instead of just "inline", because they cannot work at
-> all if not inlined: the op argument will not be compile-time const in
-> that case, thus failing to satisfy the "i" constraint.
-> 
-> The signature of the other more specific invtlb wrappers contain unused
-> arguments right now, but these are not removed right away in order for
-> the patch to be focused. In the meantime, assertions are added to ensure
-> no accidental misuse happens before the refactor. (The more specific
-> wrappers cannot re-use the generic invtlb wrapper, because the ISA
-> manual says $zero shall be used in case a particular op does not take
-> the respective argument: re-using the generic wrapper would mean losing
-> control over the register usage.)
-> 
-> Signed-off-by: WANG Xuerui <git@xen0n.name>
-> ---
->  arch/loongarch/include/asm/tlb.h | 43 ++++++++++++++------------------
->  1 file changed, 19 insertions(+), 24 deletions(-)
-> 
-> diff --git a/arch/loongarch/include/asm/tlb.h b/arch/loongarch/include/asm/tlb.h
-> index 0dc9ee2b05d2..da7a3b5b9374 100644
-> --- a/arch/loongarch/include/asm/tlb.h
-> +++ b/arch/loongarch/include/asm/tlb.h
-> @@ -88,52 +88,47 @@ enum invtlb_ops {
->  	INVTLB_GID_ADDR = 0x16,
->  };
->  
-> -/*
-> - * invtlb op info addr
-> - * (0x1 << 26) | (0x24 << 20) | (0x13 << 15) |
-> - * (addr << 10) | (info << 5) | op
-> - */
-> -static inline void invtlb(u32 op, u32 info, u64 addr)
-> +static __always_inline void invtlb(u32 op, u32 info, u64 addr)
->  {
->  	__asm__ __volatile__(
-> -		"parse_r addr,%0\n\t"
-> -		"parse_r info,%1\n\t"
-> -		".word ((0x6498000) | (addr << 10) | (info << 5) | %2)\n\t"
-> -		:
-> -		: "r"(addr), "r"(info), "i"(op)
-> +		"invtlb %0, %1, %2\n\t"
->  		:
-> +		: "i"(op), "r"(info), "r"(addr)
-> +		: "memory"
->  		);
->  }
->  
-> -static inline void invtlb_addr(u32 op, u32 info, u64 addr)
-> +static __always_inline void invtlb_addr(u32 op, u32 info, u64 addr)
->  {
-> +	BUILD_BUG_ON(!__builtin_constant_p(info) || info != 0);
->  	__asm__ __volatile__(
-> -		"parse_r addr,%0\n\t"
-> -		".word ((0x6498000) | (addr << 10) | (0 << 5) | %1)\n\t"
-> -		:
-> -		: "r"(addr), "i"(op)
-> +		"invtlb %0, $zero, %1\n\t"
->  		:
-> +		: "i"(op), "r"(addr)
-> +		: "memory"
->  		);
->  }
->  
-> -static inline void invtlb_info(u32 op, u32 info, u64 addr)
-> +static __always_inline void invtlb_info(u32 op, u32 info, u64 addr)
->  {
-> +	BUILD_BUG_ON(!__builtin_constant_p(addr) || addr != 0);
->  	__asm__ __volatile__(
-> -		"parse_r info,%0\n\t"
-> -		".word ((0x6498000) | (0 << 10) | (info << 5) | %1)\n\t"
-> -		:
-> -		: "r"(info), "i"(op)
-> +		"invtlb %0, %1, $zero\n\t"
->  		:
-> +		: "i"(op), "r"(info)
-> +		: "memory"
->  		);
->  }
-macro parse_r is not used here, and it is not used any more.
-Can you remove definition of this macro also?
+https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git/commit/?h=
+=3Dnext
 
-Regards
-Bibo Mao
-
->  
-> -static inline void invtlb_all(u32 op, u32 info, u64 addr)
-> +static __always_inline void invtlb_all(u32 op, u32 info, u64 addr)
->  {
-> +	BUILD_BUG_ON(!__builtin_constant_p(info) || info != 0);
-> +	BUILD_BUG_ON(!__builtin_constant_p(addr) || addr != 0);
->  	__asm__ __volatile__(
-> -		".word ((0x6498000) | (0 << 10) | (0 << 5) | %0)\n\t"
-> +		"invtlb %0, $zero, $zero\n\t"
->  		:
->  		: "i"(op)
-> -		:
-> +		: "memory"
->  		);
->  }
->  
-
+cheers
