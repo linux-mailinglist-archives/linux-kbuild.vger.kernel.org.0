@@ -2,176 +2,164 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 418F173F12B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Jun 2023 05:08:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 298F273F315
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Jun 2023 05:59:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229681AbjF0DIc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 26 Jun 2023 23:08:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34810 "EHLO
+        id S229567AbjF0D7B (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 26 Jun 2023 23:59:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229670AbjF0DIa (ORCPT
+        with ESMTP id S229527AbjF0D7A (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 26 Jun 2023 23:08:30 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED6C1BB
-        for <linux-kbuild@vger.kernel.org>; Mon, 26 Jun 2023 20:08:29 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id 98e67ed59e1d1-262e66481c4so794504a91.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 26 Jun 2023 20:08:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687835309; x=1690427309;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Kfj6b7bMFszR7gws8VEivHN95+uDnkqyG3o+LVVgG6s=;
-        b=p/GXfUYp0ALy3KiNTWVY2/+3AxB51AKwHmGJRtzZBFmQzAjIKNAB2HIzgEDeHyrF8h
-         Ff3LBOhI0FkvrX7bJYnq8s+P4w6QRMByAiCqPDVdyjPLi/09Yo91UXpv7KzUhfHwWDuu
-         8I7LkM3XaranKMIxthfkfXlHWoqLctUUnkJbOl14bJeBDXWnC2eW9FSX22zqvjOWFl9m
-         K7s0jzmkb3dkNIA3NnNLtfcvwTuhSQlPDhsK/9OFgli0nRySzh+zvOHZbnL5Mbe/bp99
-         JQrtxEi2nG13lmaJAQ/PL1w+fLwYcYLzWu86Bz8WEYlNGCKvW8qqRm0S/BB2CbodB/Tm
-         eavw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687835309; x=1690427309;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Kfj6b7bMFszR7gws8VEivHN95+uDnkqyG3o+LVVgG6s=;
-        b=Y/MnOCqnu/CVL29S9ekDgfrkRSVE+h79NP6h/AmJfQVkHi1UmOkHfJMiJY6fdPIKkn
-         URFSQH+xriAa3kTCpJd+prD/jjbaZFEgGJVMMXSjRoY7DmshKyE67tNFwPg15zyPnbfj
-         JZME6S8xtBnDjivJXGHyp1nWXNCM8hx9qBVyfuKmSoyJifXteyI9u5v+cdtNzWtPfZb4
-         V90eiGaMfiZUvjZEdcb/+UhUkQEjj4V/n5IKf0ptc+DW6WbJJHeMm3q0W6eJ8AxYuv54
-         r0fN0LF6Y23nEO9kKiLEKCU4mzSoPoYZ39zEu0ezqYTXdvNFo9ArsnK6k9LiEabJJDCC
-         SXag==
-X-Gm-Message-State: AC+VfDzsIj+LSLMfmam3+nt9Dcok9P0teSJNRa6kOz+R5FcVbLQ5WDWu
-        N+8gYsq0BES1rYVKpM2uiXJKop09/PqGdbqNlPY=
-X-Google-Smtp-Source: ACHHUZ4d+1BzAfOaNHRSTs+rKKpccU89AqSF7O/CBotEvhjHA5FQh83ehafaxghgkhSaYDRv6cMTPUq5poxnvY87BaI=
-X-Received: by 2002:a17:90b:1050:b0:263:129e:80ac with SMTP id
- gq16-20020a17090b105000b00263129e80acmr1020509pjb.38.1687835308744; Mon, 26
- Jun 2023 20:08:28 -0700 (PDT)
+        Mon, 26 Jun 2023 23:59:00 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 694F3E44;
+        Mon, 26 Jun 2023 20:58:50 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B861D60FF6;
+        Tue, 27 Jun 2023 03:58:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DF10C433C9;
+        Tue, 27 Jun 2023 03:58:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687838329;
+        bh=Qvg53iRHK677atEVAfDalv5RAzv8yxt+yIoZTClXuY8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=SF0vkCa1a31Vq4A/OdZ+O4laiaX5mr0pUi8pz2j9qgoXbGHg4R++lAPbCF9DW+bnw
+         sB2u3mU6ypCcM27MU+rsx+YSC+zq/hAjRX2XDiJ2ESbhOtGgRazGxZ9zWN91PtqGOr
+         kiYW9RxTf5d3apEiGJFqB8gzTYyddRyYznUg+mFasbtO2Mhf/7n9YHN7p2uMctxjn0
+         hDJkVVYvpE7o/JKHe4zJkxQZYO6xw0xwKxIq1TiwFWvbRhByuoiZ4dCwAqkZi2Gil/
+         ZNtScuSHpRRzGjf6Sl8RswtkDoj1VfYjUdysrv6Ual1cTY0kQs1WfdDDpzcRDTFr2m
+         1WZvSdTsGnEJQ==
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-51d884a22e7so3836589a12.3;
+        Mon, 26 Jun 2023 20:58:49 -0700 (PDT)
+X-Gm-Message-State: AC+VfDyIriIsuJXA8Ot2KgZqhATlaklcbv/sZ5zKHe9EiUnxCx2ZVvJw
+        7gL6+5inlM9+McvN1qwSoJOKZplZ0bIXqi5nD48=
+X-Google-Smtp-Source: ACHHUZ6tFhxjDYOjpMONuDPjp8EaEMUNfw9lHyngn1nJim3MfmSBZsxsLl+tideo5TKawOXHoVggNqnOqH3qpMWyJtA=
+X-Received: by 2002:aa7:c50b:0:b0:51d:91cc:32e8 with SMTP id
+ o11-20020aa7c50b000000b0051d91cc32e8mr4864827edq.29.1687838327264; Mon, 26
+ Jun 2023 20:58:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230618001646.1228521-1-Mr.Bossman075@gmail.com>
- <CAK7LNAT=jKNFcQmrrZsF5Lis_fmex+1KZe0U-VpsxeekH7aZYw@mail.gmail.com>
- <CAJFTR8QexS3wyWTv+9_9=Z3OMnwyJtysBucwqLizDsczLW8Vjg@mail.gmail.com> <CAK7LNARG+m8RPJWKyOXHB=deF+yRN-2soXWO-ohBEc3nLDYF5A@mail.gmail.com>
-In-Reply-To: <CAK7LNARG+m8RPJWKyOXHB=deF+yRN-2soXWO-ohBEc3nLDYF5A@mail.gmail.com>
-From:   Jesse T <mr.bossman075@gmail.com>
-Date:   Mon, 26 Jun 2023 23:08:17 -0400
-Message-ID: <CAJFTR8STYYmcqJNr2sLCfsWAHBkzLuDUnLLr5Ke-JfbUoKefBA@mail.gmail.com>
-Subject: Re: [PATCH v1] scripts: kconfig: nconf: Add search jump feature
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Boyd <sboyd@kernel.org>
+References: <20230625095644.3156349-1-kernel@xen0n.name>
+In-Reply-To: <20230625095644.3156349-1-kernel@xen0n.name>
+From:   Huacai Chen <chenhuacai@kernel.org>
+Date:   Tue, 27 Jun 2023 11:58:33 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H6Z0oF9wZnYxwHS=fHDD_nY8wyzx3m8GEGi-PgMtkU1NA@mail.gmail.com>
+Message-ID: <CAAhV-H6Z0oF9wZnYxwHS=fHDD_nY8wyzx3m8GEGi-PgMtkU1NA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/8] LoongArch: Preliminary ClangBuiltLinux enablement
+To:     WANG Xuerui <kernel@xen0n.name>
+Cc:     WANG Rui <wangrui@loongson.cn>, Xi Ruoyao <xry111@xry111.site>,
+        loongarch@lists.linux.dev, linux-kbuild@vger.kernel.org,
+        llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+        WANG Xuerui <git@xen0n.name>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jun 26, 2023 at 8:38=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> On Sun, Jun 25, 2023 at 5:36=E2=80=AFAM Jesse T <mr.bossman075@gmail.com>=
- wrote:
-> >
-> > On Sat, Jun 24, 2023 at 4:11=E2=80=AFAM Masahiro Yamada <masahiroy@kern=
-el.org> wrote:
-> > >
-> > > On Sun, Jun 18, 2023 at 9:16=E2=80=AFAM Jesse Taube <mr.bossman075@gm=
-ail.com> wrote:
-> > > >
-> > > > Menuconfig has a feature where you can "press the key in the (#) pr=
-efix
-> > > > to jump directly to that location. You will be returned to the curr=
-ent
-> > > > search results after exiting this new menu."
-> > > >
-> > > > This commit adds this feature to nconfig, with almost identical cod=
-e.
-> > > >
-> > > > Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
-> > >
-> > >
-> > > Setting the code duplication aside,
-> >
-> >
-> > If it does function as expected will you accept the patch?
->
->
-> Probably.
->
-> The menuconfig code you copied is really ugly.
+Queued for loongarch-next, thanks.
 
-Yes, I saw and was surprised it was allowed, grandfathered in I guess.
+Huacai
 
-> Actually, I was refactoring the search jump code a few
-> months ago, but I did not get around to completing it.
-
-This isn't on git.kernel.org, would you mind sharing it?
-If you have any ideas on the best way to implement this,
-I would love suggestions.
-
-Thanks,
-Jesse T
-
+On Sun, Jun 25, 2023 at 5:56=E2=80=AFPM WANG Xuerui <kernel@xen0n.name> wro=
+te:
 >
+> From: WANG Xuerui <git@xen0n.name>
 >
+> Hi,
 >
+> It's been a long time since the LoongArch port was upstreamed to LLVM,
+> and there seems to be evidence that Linux was successfully built with
+> Clang inside Loongson roughly around that time; however, a lot has
+> changed since then, and the Linux/LoongArch codebase now makes use of
+> more novel features that necessitate further work. (The enablement work
+> is tracked at [1].)
 >
+> With this patch series and a patched LLVM/Clang/LLD ([2][3][4][5]), a
+> working kernel can be built with `make LLVM=3D1`. Although currently
+> support for CONFIG_RELOCATABLE and CONFIG_MODULE is still TODO, we've
+> decided to post the series early to hopefully reduce the rebase
+> burden. The series contains several useful cleanups anyway.
 >
+> Regarding how to merge this: because only Patch 8 is outside
+> arch/loongarch, I'd prefer the series to get merged through Huacai's
+> tree. The series applies cleanly on top of next-20230622.
 >
+> Thanks go to the ClangBuiltLinux team, and LoongArch toolchain
+> maintainers from Loongson and the community alike; without your help
+> this would come much later, if at all (my free time has been steadily
+> dwindling this year already).
 >
+> Your comments are welcome!
 >
-> > Should I mark the copied codes'  original location?
-> >
-> > > does this patch work correctly?
-> > >
-> > >
-> > >
-> > >
-> > > $ make defconfig
-> > > $ make nconfig
-> > >
-> > > Press F8
-> > >
-> > > Input "MODULES" in the search box.
-> > >
-> > > You will see:
-> > >
-> > > (1) -> Enable loadable module support
-> > >
-> > > Press the "1" key.
-> > >
-> > >
-> > > It will navigate to "General setup"
-> > > instead of "Enable loadable module support".
-> >
-> >
-> > Hmm, this is a confusing issue.
-> > It will take you to the parent menu of the option, it should move you
-> > to the parent option and
-> > move the cursor to the option location. I will see if I can resolve
-> > this oversight.
-> >
-> > Thanks,
-> > Jesse Taube
-> >
-> > >
-> > >
-> > >
-> > >
-> > >
-> > >
-> > >
-> > > --
-> > > Best Regards
-> > > Masahiro Yamada
+> [1]: https://github.com/ClangBuiltLinux/linux/issues/1787
+> [2]: https://reviews.llvm.org/D153609
+> [3]: https://reviews.llvm.org/D138135
+> [4]: https://reviews.llvm.org/D150196
+> [5]: https://reviews.llvm.org/D153707
 >
+> Changes in v3:
 >
+> - Squashed the two CFLAGS patches into one, and removed the CC_IS_CLANG
+>   check in favor of a feature detection approach (Huacai and Ruoyao)
+> - Removed unnecessary BUILD_BUG_ONs in the invtlb wrappers, and made
+>   them __always_inline (Ruoyao and Bibo)
+> - Linked to the explanation regarding the Clang triple's "libc" part
+>   (Nick)
+> - Fixed a wrong punctuation in commit message of Patch 4
+>
+> Changes in v2:
+>
+> - Merged the two FCSR-related patches, now using the same approach for
+>   assembly and C (given that the inline asm codepath cannot be removed
+>   right away), also change terminology: register "class" instead of
+>   "bank"
+> - Restored signatures of invtlb wrappers for ease of rebase (potentially
+>   downstream product kernels?)
+> - Removed -G0 switches altogether (turned out it's useless upon closer
+>   look)
+> - Fix -mabi and -msoft-float handling in the CFLAGS patch; two more LLVM
+>   patches are now necessary (the [4] and [5] links above) but the
+>   original and correct CFLAGS arrangement now works
+>
+> WANG Rui (2):
+>   LoongArch: Calculate various sizes in the linker script
+>   LoongArch: extable: Also recognize ABI names of registers
+>
+> WANG Xuerui (6):
+>   LoongArch: Prepare for assemblers with proper FCSR class support
+>   LoongArch: Make the CPUCFG and CSR ops simple aliases of compiler
+>     built-ins
+>   LoongArch: Simplify the invtlb wrappers
+>   LoongArch: Tweak CFLAGS for Clang compatibility
+>   LoongArch: Mark Clang LTO as working
+>   Makefile: Add loongarch target flag for Clang compilation
+>
+>  arch/loongarch/Kconfig                 |  5 ++
+>  arch/loongarch/Makefile                | 21 +++++---
+>  arch/loongarch/include/asm/fpregdef.h  |  7 +++
+>  arch/loongarch/include/asm/gpr-num.h   | 30 +++++++++++
+>  arch/loongarch/include/asm/loongarch.h | 72 +++++++-------------------
+>  arch/loongarch/include/asm/percpu.h    |  6 ++-
+>  arch/loongarch/include/asm/tlb.h       | 43 +++++++--------
+>  arch/loongarch/kernel/efi-header.S     |  6 +--
+>  arch/loongarch/kernel/head.S           |  8 +--
+>  arch/loongarch/kernel/traps.c          |  2 +-
+>  arch/loongarch/kernel/vmlinux.lds.S    |  7 +++
+>  arch/loongarch/lib/dump_tlb.c          |  6 +--
+>  arch/loongarch/vdso/Makefile           |  2 +-
+>  scripts/Makefile.clang                 |  1 +
+>  14 files changed, 118 insertions(+), 98 deletions(-)
 >
 > --
-> Best Regards
-> Masahiro Yamada
+> 2.40.0
+>
