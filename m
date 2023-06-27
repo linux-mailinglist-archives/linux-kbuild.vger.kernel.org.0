@@ -2,92 +2,74 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C78A73FB85
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Jun 2023 13:58:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06F4373FC50
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Jun 2023 15:01:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231200AbjF0L6y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 27 Jun 2023 07:58:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58328 "EHLO
+        id S229710AbjF0NBh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 27 Jun 2023 09:01:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231246AbjF0L6v (ORCPT
+        with ESMTP id S229468AbjF0NBg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 27 Jun 2023 07:58:51 -0400
-Received: from gandalf.ozlabs.org (mail.ozlabs.org [IPv6:2404:9400:2221:ea00::3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D66C1722;
-        Tue, 27 Jun 2023 04:58:50 -0700 (PDT)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        Tue, 27 Jun 2023 09:01:36 -0400
+Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B500E1;
+        Tue, 27 Jun 2023 06:01:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
+        t=1687870890; bh=LCFUho+x/i+9Jjg3s4a/kFQNBnAevgmTIXokYnqx08A=;
+        h=From:To:Cc:Subject:Date:From;
+        b=FGuCdZzgneemCBuX3vcnoudOfAQ2lUs1Kk8uaY3IccA/1ikmcBcxiFiPe3Fb+NoTo
+         bKaz7iCkg/iSqaR+ha7qDlHQyf/HCSghBRZL9QAqj9lVGFViWnzRE162cVBz0uTSMW
+         puxo8Vhb0RExNoCodLyHcxDCHzIu9O4NRpyRiXeU=
+Received: from ld50.lan (unknown [101.88.25.181])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4Qr3C80dbtz4w2B;
-        Tue, 27 Jun 2023 21:58:44 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-        s=201909; t=1687867125;
-        bh=DMI9usNvrSNruiGgU2vzUgMO0263STXJtbXbh2Pjm34=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=ZRT/Gwxnf/muFUzbV5/CYYrQkOzC8ev8SYk0jjQnrKFoNQvUIPLqlVZszNK6wFfo1
-         aOSj5NXpgg9OX0qwloCURm8hXaV+bvKXM+P0qawrSdIjYxNv2kNkE4wgHN65sXnPZJ
-         dF4nTWdJ22meg+mIX7/z05PKjhqPk5jfhVkoZ5ga283XvhPBB+SMPd83TnBYNczzOh
-         jytqtVXtg6sACDOUbPkxVhvfVJeeTP7IGqjYvGEGAsKMRDu1RNiG59P8UzS3YeKdnx
-         sEvH9GCQTLzuQixXGRjHEpRch8QrT6HiQ7UM44Jr2zMAWNQN9Gnhdh8peSJXfB1DpS
-         I0e+PZzSc8WKQ==
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Joel Stanley <joel@jms.id.au>, linuxppc-dev@lists.ozlabs.org
-Cc:     linux-kbuild@vger.kernel.org, Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        by mailbox.box.xen0n.name (Postfix) with ESMTPSA id E9BCD6011B;
+        Tue, 27 Jun 2023 21:01:28 +0800 (CST)
+From:   WANG Xuerui <kernel@xen0n.name>
+To:     Huacai Chen <chenhuacai@kernel.org>
+Cc:     WANG Rui <wangrui@loongson.cn>,
         Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org, Nicolas Schier <nicolas@fjasle.eu>
-Subject: Re: [PATCH] powerpc: remove checks for binutils older than 2.25
-In-Reply-To: <CAK7LNAS=UCo_o-B0mgsR+SDb0sYwvQo90uag5sJ1UmB+8NqLjQ@mail.gmail.com>
-References: <20230119082250.151485-1-masahiroy@kernel.org>
- <CACPK8XeGsWN+2L57=dfQWOTSo8df7_qrxhwvV4Ho0rkhV=0vSw@mail.gmail.com>
- <CAK7LNAQWtDHOs=K+qznt5U1WiDv86tChkj4zOer4wtVRB974OA@mail.gmail.com>
- <CAK7LNAS=UCo_o-B0mgsR+SDb0sYwvQo90uag5sJ1UmB+8NqLjQ@mail.gmail.com>
-Date:   Tue, 27 Jun 2023 21:58:39 +1000
-Message-ID: <87h6qtglqo.fsf@mail.lhotse>
+        Xi Ruoyao <xry111@xry111.site>, loongarch@lists.linux.dev,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
+        linux-kernel@vger.kernel.org, WANG Xuerui <git@xen0n.name>
+Subject: [PATCH 0/2] Fix cross-compilation issues with Clang
+Date:   Tue, 27 Jun 2023 21:01:20 +0800
+Message-Id: <20230627130122.1491765-1-kernel@xen0n.name>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Masahiro Yamada <masahiroy@kernel.org> writes:
-> On Thu, Jan 19, 2023 at 9:37=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
-.org> wrote:
->>
->> On Thu, Jan 19, 2023 at 9:12 PM Joel Stanley <joel@jms.id.au> wrote:
->> >
->> > On Thu, 19 Jan 2023 at 08:24, Masahiro Yamada <masahiroy@kernel.org> w=
-rote:
->> > >
->> > > Commit e4412739472b ("Documentation: raise minimum supported version=
- of
->> > > binutils to 2.25") allows us to remove the checks for old binutils.
->> > >
->> > > There is no more user for ld-ifversion. Remove it as well.
->> >
->> > ppc kernels fail to link with 2.27 under some configurations:
->> >
->> >  https://github.com/linuxppc/issues/issues/388
->> >
->> > We may want to use ld-ifversion to exclude that version.
->>
->
-> Ping?
+From: WANG Xuerui <git@xen0n.name>
 
-Sorry. I've now applied the binutils 2.27 patch from Naveen, and this on
-top with minor tweaks to make it apply. The result is in my next branch.
+Hi,
 
-https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git/commit/?h=
-=3Dnext
+Just some quick fixes to the recently accepted Clang patches, thanks to
+Nathan's followup testing. (I test-compiled natively so didn't notice
+that cross-compilation was broken, and by chance the LLVM snapshot I
+used didn't contain the breaking commit either.)
 
-cheers
+With an additional LLVM patch https://reviews.llvm.org/D153865 the Clang
+builds should now get fixed.
+
+WANG Xuerui (2):
+  LoongArch: vDSO: Use CLANG_FLAGS instead of filtering out '--target='
+  LoongArch: Include KBUILD_CPPFLAGS in CHECKFLAGS invocation
+
+ arch/loongarch/Makefile      | 2 +-
+ arch/loongarch/vdso/Makefile | 5 +----
+ 2 files changed, 2 insertions(+), 5 deletions(-)
+
+-- 
+2.40.0
+
