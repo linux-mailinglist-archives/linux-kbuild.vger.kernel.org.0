@@ -2,165 +2,166 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 12E33740BD7
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Jun 2023 10:52:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9D4D740D7D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Jun 2023 11:48:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232345AbjF1Iwa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 28 Jun 2023 04:52:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42926 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234419AbjF1IjA (ORCPT
+        id S231310AbjF1JsG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Jun 2023 05:48:06 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217]:54886 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235072AbjF1Jdq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 28 Jun 2023 04:39:00 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE1C0358A;
-        Wed, 28 Jun 2023 01:29:50 -0700 (PDT)
+        Wed, 28 Jun 2023 05:33:46 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8CF2E6131F;
-        Wed, 28 Jun 2023 07:10:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7459C433CC;
-        Wed, 28 Jun 2023 07:10:22 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AD7E561262;
+        Wed, 28 Jun 2023 09:33:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFD18C433CC;
+        Wed, 28 Jun 2023 09:33:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687936222;
-        bh=anrABNLH1B5VmYnoNV4fxFNHWXz9Qs7iNp8YB+h3NDc=;
+        s=k20201202; t=1687944824;
+        bh=CrYGMFVkuZ18bbqqXmjfHXjWhRbYeT+J+BKK1daGGTM=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=SVGhRdHc7voHRN7iPtu1K0UNzNEpyXh+VA44LNjfLfDbV1iW+9/Kf4od9Cbwhe59O
-         yOuOzknF3g0Mx2pCfFhsttHmmGD34pzMCB2s9Y4JEDDX+deWPwSvTVK1Zq0EEVVG7U
-         a6nnBdl5RtU1RXDA8UKZMz80mw3RHUHU4gH+uSvrt7qf0MZIivHlxYygFgYrVe2807
-         bHWvbMaMXh7WipkXvLsIEEgfRx3++riD9RHQhV3xqNopNCtv4X5AiwYdIL+6lOE0x8
-         /ERGKkjmbl5WQrkFM+qYBWteqxdHl6KoFHhS+G30PD33NM7bpcQFIDu/ZehyYqiWpd
-         GoMAq3CDZJocw==
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-39eab4bbe8aso3903697b6e.1;
-        Wed, 28 Jun 2023 00:10:22 -0700 (PDT)
-X-Gm-Message-State: AC+VfDzVLtzdZtaeovf3coL8w8KQ/D7NehjO2NIT2mSYYT2t6zLaGS+k
-        M7p4P78IMCtsx+BuyVhnakOps5yuST8GIO6L1YE=
-X-Google-Smtp-Source: ACHHUZ4NupDIdxy4l7CGyjCTJaoOVdc4PpoS++lnjD56J+LwueuzJxCVgOU0PYXIaPH4Hhr4mxylAGJEn9GYJImoJnE=
-X-Received: by 2002:a05:6808:1141:b0:3a3:69de:d385 with SMTP id
- u1-20020a056808114100b003a369ded385mr249269oiu.6.1687936222114; Wed, 28 Jun
- 2023 00:10:22 -0700 (PDT)
+        b=kOuXnRg1BENhX68oF4wUvOmW/QKYKiFbeB0wy5Ut2FxM4NX35vw0HSBU3KmtU25Oc
+         dD2GnXVvObPqkTvkdH7Sm4c9s0P8eZa2vrfUMQlMnJr5eD1rOrOq5Se46/4/K4o6NH
+         9UJlVx63Axich432Zg3l3EzUS3KMKanaVvVm3MzNM3uHSJBqv9YnS3FJuQTZWk0b4H
+         MHT1zgheuTxilkJYVIJEkC2eKTdTkqy0Wv0g7hLWKSbB63HFEiy+Q2BmVACbpRl7CZ
+         SLTLNlty4b8+YHM2M9KQVJxy8R9ZhO+Eqi+ESZ7RRwEDZljTsvl2/JZ/gZn0NZg/Qt
+         kVGUOaZzCtibQ==
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-51d9865b7bdso3522204a12.1;
+        Wed, 28 Jun 2023 02:33:44 -0700 (PDT)
+X-Gm-Message-State: AC+VfDzxyxtMBYm5YPkf6KF/9WDRLbGTCxMv+6oaTLuYQzdCJACGIZwi
+        aVszGzVDwjDYymf6O8X4TCRKRUxH/htqq8NsXLQ=
+X-Google-Smtp-Source: ACHHUZ7bRzRsDllhNLipd/qefy1r65bKvlwuhhM1+DNN01yuN/J3IxfKXTbbm1Hh31Dk7m5G6zYrn7LxlzhxhZiIySE=
+X-Received: by 2002:a05:6402:755:b0:51a:4842:ecdc with SMTP id
+ p21-20020a056402075500b0051a4842ecdcmr23379907edy.1.1687944823012; Wed, 28
+ Jun 2023 02:33:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230626233014.66549-1-masahiroy@kernel.org> <20230626233014.66549-3-masahiroy@kernel.org>
-In-Reply-To: <20230626233014.66549-3-masahiroy@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 28 Jun 2023 16:09:44 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATtUBZo0bczb=bQyQ6UrXbK7V4Bp058+wzZQp3QREfniQ@mail.gmail.com>
-Message-ID: <CAK7LNATtUBZo0bczb=bQyQ6UrXbK7V4Bp058+wzZQp3QREfniQ@mail.gmail.com>
-Subject: Re: [PATCH v4 3/3] kbuild: respect GNU Make -w flag
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Nicolas Schier <n.schier@avm.de>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
+References: <20230625095644.3156349-1-kernel@xen0n.name> <20230625095644.3156349-2-kernel@xen0n.name>
+In-Reply-To: <20230625095644.3156349-2-kernel@xen0n.name>
+From:   Huacai Chen <chenhuacai@kernel.org>
+Date:   Wed, 28 Jun 2023 17:33:31 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H5hBes5R30mFBW7asX8wPWeSQ+J-=GypnoMoO=-CR3cNg@mail.gmail.com>
+Message-ID: <CAAhV-H5hBes5R30mFBW7asX8wPWeSQ+J-=GypnoMoO=-CR3cNg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/8] LoongArch: Calculate various sizes in the linker script
+To:     WANG Xuerui <kernel@xen0n.name>
+Cc:     WANG Rui <wangrui@loongson.cn>, Xi Ruoyao <xry111@xry111.site>,
+        loongarch@lists.linux.dev, linux-kbuild@vger.kernel.org,
+        llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+        WANG Xuerui <git@xen0n.name>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jun 27, 2023 at 8:30=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
+On Sun, Jun 25, 2023 at 5:57=E2=80=AFPM WANG Xuerui <kernel@xen0n.name> wro=
+te:
 >
-> Currently, -w (--print-directory) option is ignored, but it is better
-> to respect the user's choice.
+> From: WANG Rui <wangrui@loongson.cn>
 >
-> This commit changes the behavior of "Entering directory ..." logging.
+> Taking the address delta between symbols in different sections is not
+> supported by the LLVM IAS. Instead, do this in the linker script, so
+> the same data can be properly referenced in assembly.
 >
-> If -w (or --print-directory) is given via the command line or the
-> MAKEFLAGS environment variable, print "Entering directory ..." for every
-> sub make.
->
-> If --no-print-directory is given via the command line or the MAKEFLAGS
-> environment variable, suppress "Entering directory ..." completely.
->
-> If none of them is given, print "Entering directory ..." when Kbuild
-> changes the working directory at the start of building. (default)
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> Tested-by: Nicolas Schier <n.schier@avm.de>
+> Signed-off-by: WANG Rui <wangrui@loongson.cn>
+> Signed-off-by: WANG Xuerui <git@xen0n.name>
 > ---
-
-
-As it turns out, this patch does not work for GNU Make <=3D 4.3
-
-I will drop (and give up) this patch.
-
-
-
-
-
-
+>  arch/loongarch/kernel/efi-header.S  | 6 +++---
+>  arch/loongarch/kernel/head.S        | 8 ++++----
+>  arch/loongarch/kernel/vmlinux.lds.S | 7 +++++++
+>  3 files changed, 14 insertions(+), 7 deletions(-)
 >
-> (no changes since v2)
+> diff --git a/arch/loongarch/kernel/efi-header.S b/arch/loongarch/kernel/e=
+fi-header.S
+> index 8c1d229a2afa..5f23b85d78ca 100644
+> --- a/arch/loongarch/kernel/efi-header.S
+> +++ b/arch/loongarch/kernel/efi-header.S
+> @@ -24,7 +24,7 @@
+>         .byte   0x02                                    /* MajorLinkerVer=
+sion */
+>         .byte   0x14                                    /* MinorLinkerVer=
+sion */
+>         .long   __inittext_end - .Lefi_header_end       /* SizeOfCode */
+> -       .long   _end - __initdata_begin                 /* SizeOfInitiali=
+zedData */
+> +       .long   _kernel_vsize                           /* SizeOfInitiali=
+zedData */
+>         .long   0                                       /* SizeOfUninitia=
+lizedData */
+>         .long   __efistub_efi_pe_entry - _head          /* AddressOfEntry=
+Point */
+>         .long   .Lefi_header_end - _head                /* BaseOfCode */
+> @@ -79,9 +79,9 @@
+>                 IMAGE_SCN_MEM_EXECUTE                   /* Characteristic=
+s */
 >
-> Changes in v2:
->   - new patch
+>         .ascii  ".data\0\0\0"
+> -       .long   _end - __initdata_begin                 /* VirtualSize */
+> +       .long   _kernel_vsize                           /* VirtualSize */
+>         .long   __initdata_begin - _head                /* VirtualAddress=
+ */
+> -       .long   _edata - __initdata_begin               /* SizeOfRawData =
+*/
+> +       .long   _kernel_rsize                           /* SizeOfRawData =
+*/
+>         .long   __initdata_begin - _head                /* PointerToRawDa=
+ta */
 >
->  Makefile | 16 ++++++++++------
->  1 file changed, 10 insertions(+), 6 deletions(-)
+>         .long   0                                       /* PointerToReloc=
+ations */
+> diff --git a/arch/loongarch/kernel/head.S b/arch/loongarch/kernel/head.S
+> index 0d8180153ec0..53b883db0786 100644
+> --- a/arch/loongarch/kernel/head.S
+> +++ b/arch/loongarch/kernel/head.S
+> @@ -23,7 +23,7 @@ _head:
+>         .word   MZ_MAGIC                /* "MZ", MS-DOS header */
+>         .org    0x8
+>         .dword  kernel_entry            /* Kernel entry point */
+> -       .dword  _end - _text            /* Kernel image effective size */
+> +       .dword  _kernel_asize           /* Kernel image effective size */
+>         .quad   PHYS_LINK_KADDR         /* Kernel image load offset from =
+start of RAM */
+>         .org    0x38                    /* 0x20 ~ 0x37 reserved */
+>         .long   LINUX_PE_MAGIC
+> @@ -32,9 +32,9 @@ _head:
+>  pe_header:
+>         __EFI_PE_HEADER
 >
-> diff --git a/Makefile b/Makefile
-> index 7edb00603b7e..c9864f83a3d2 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -38,6 +38,12 @@ __all:
->  # descending is started. They are now explicitly listed as the
->  # prepare rule.
+> -SYM_DATA(kernel_asize, .long _end - _text);
+> -SYM_DATA(kernel_fsize, .long _edata - _text);
+> -SYM_DATA(kernel_offset, .long kernel_offset - _text);
+> +SYM_DATA(kernel_asize, .long _kernel_asize);
+> +SYM_DATA(kernel_fsize, .long _kernel_fsize);
+> +SYM_DATA(kernel_offset, .long _kernel_offset);
 >
-> +ifeq ($(filter 3.%,$(MAKE_VERSION)),)
-> +short-opts :=3D $(firstword -$(MAKEFLAGS))
-> +else
-> +short-opts :=3D $(filter-out --%,$(MAKEFLAGS))
-> +endif
+>  #endif
+>
+> diff --git a/arch/loongarch/kernel/vmlinux.lds.S b/arch/loongarch/kernel/=
+vmlinux.lds.S
+> index 0c7b041be9d8..79f238df029e 100644
+> --- a/arch/loongarch/kernel/vmlinux.lds.S
+> +++ b/arch/loongarch/kernel/vmlinux.lds.S
+> @@ -136,6 +136,13 @@ SECTIONS
+>         DWARF_DEBUG
+>         ELF_DETAILS
+>
+> +       /* header symbols */
+> +       _kernel_asize =3D _end - _text;
+> +       _kernel_fsize =3D _edata - _text;
+> +       _kernel_offset =3D kernel_offset - _text;
+When !CONFIG_EFI_STUB there is a build error, I fixed it when I applied.
+
+Huacai
+> +       _kernel_vsize =3D _end - __initdata_begin;
+> +       _kernel_rsize =3D _edata - __initdata_begin;
 > +
->  this-makefile :=3D $(lastword $(MAKEFILE_LIST))
->  export abs_srctree :=3D $(realpath $(dir $(this-makefile)))
->  export abs_objtree :=3D $(CURDIR)
-> @@ -95,12 +101,6 @@ endif
->  # commands
->  # make-4.0 (and later) keep single letter options in the 1st word of MAK=
-EFLAGS.
->
-> -ifeq ($(filter 3.%,$(MAKE_VERSION)),)
-> -short-opts :=3D $(firstword -$(MAKEFLAGS))
-> -else
-> -short-opts :=3D $(filter-out --%,$(MAKEFLAGS))
-> -endif
-> -
->  ifneq ($(findstring s,$(short-opts)),)
->  quiet=3Dsilent_
->  override KBUILD_VERBOSE :=3D
-> @@ -215,12 +215,16 @@ else
->  need-sub-make :=3D 1
->  endif
->
-> +ifeq ($(findstring w, $(short-opts)),)
->  ifeq ($(filter --no-print-directory, $(MAKEFLAGS)),)
->  # If --no-print-directory is unset, recurse once again to set it.
->  # You may end up recursing into __sub-make twice. This is needed due to =
-the
->  # behavior change in GNU Make 4.4.1.
->  need-sub-make :=3D 1
->  endif
-> +else
-> +no-print-directory :=3D
-> +endif
->
->  ifeq ($(need-sub-make),1)
->
+>         .gptab.sdata : {
+>                 *(.gptab.data)
+>                 *(.gptab.sdata)
 > --
-> 2.39.2
+> 2.40.0
 >
-
-
---=20
-Best Regards
-Masahiro Yamada
+>
