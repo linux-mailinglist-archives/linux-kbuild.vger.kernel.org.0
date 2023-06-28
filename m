@@ -2,95 +2,109 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D386740141
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Jun 2023 18:33:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF02C740A4C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Jun 2023 10:01:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232470AbjF0Qct (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 27 Jun 2023 12:32:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52978 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232548AbjF0QcS (ORCPT
+        id S232288AbjF1IBw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Jun 2023 04:01:52 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217]:44620 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232770AbjF1H7t (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 27 Jun 2023 12:32:18 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABC523595;
-        Tue, 27 Jun 2023 09:32:17 -0700 (PDT)
+        Wed, 28 Jun 2023 03:59:49 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3B36D611D8;
-        Tue, 27 Jun 2023 16:32:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DA8FC433C0;
-        Tue, 27 Jun 2023 16:32:15 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DBD2761227;
+        Wed, 28 Jun 2023 04:22:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4181EC433CA;
+        Wed, 28 Jun 2023 04:22:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687883536;
-        bh=p3EvKGU59+hD5m9qSyESw/ZXbFaiyZSKzEhNI6ZWGL8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gWLGnVhWDBHvyqAfkgUtlAd3ilHkpkaHbBFmRiVOjFf3qmweZDmdzxz6NYrfyRdhh
-         1gpGzcqDNeWx0ulFx+9eDzml0CN7Bs0imCY52jKXfeD9lJvyjUXnphHkWR/41PLKmJ
-         Mr3+DjDcM9varbMfJmFJgUk/z7dMC/Wqs5Fs04h7UJhP+4+L8uzxOCw5OO66V98u3H
-         mPXSfnZECFE1/rpHOkTFcN8MFYqG7B1OQTayVz3hM9lrp6hGn2rnEgxTfOjspQb4XG
-         56bWfIDMAWbtrsfGwwsAltwW6CYb8UfFhTQ8CsfvsRPAoozWh7J7EOFPFPO11rLdIQ
-         1dXWqFuaVH5aw==
-Date:   Tue, 27 Jun 2023 09:32:14 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     WANG Xuerui <kernel@xen0n.name>
-Cc:     Huacai Chen <chenhuacai@kernel.org>,
-        WANG Rui <wangrui@loongson.cn>, Xi Ruoyao <xry111@xry111.site>,
-        loongarch@lists.linux.dev, linux-kbuild@vger.kernel.org,
-        llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
-        WANG Xuerui <git@xen0n.name>
-Subject: Re: [PATCH 0/2] Fix cross-compilation issues with Clang
-Message-ID: <20230627163214.GA665894@dev-arch.thelio-3990X>
-References: <20230627130122.1491765-1-kernel@xen0n.name>
+        s=k20201202; t=1687926150;
+        bh=E3cMC1OQGi1J1pe3NYVGtGoJHPH7rhJK8+ImhoRtZnM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=blRrkp5fGfDYZjME7oxp79y1t4UBgdiSTArjFD9e0VObw8M2NnRSWAVZ07eqnO6Zb
+         BWNDzpydl1KBnMBI7oxdWEb3kIx6Uajkrdhe7n7YYiYrmpFrcXwDaAVEJfUYZFhkza
+         GAhshZngBARHXJvRCCNUvbAeVr27B8dfQwdWCzIhBIkhMoXXRKotWhfDBq1ZXvkv1R
+         R8656hY7K9DcrLOglckLAhRS+8tmxUv1xoNKnVAm4xngmm30VSfH7IFHfp0XDK3AV1
+         QzgSFflZno0YbV7f4aEJ7mia9DtOUsdXRpUq0lz4NFh9zHICVq7ifRdhSJJh8O6hW8
+         BcnOEaGDX8IQg==
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-51d80d81d6eso4671150a12.1;
+        Tue, 27 Jun 2023 21:22:30 -0700 (PDT)
+X-Gm-Message-State: AC+VfDxJTXbNwH52VIjkQ936dHN5CcSHen01jGMtfciqbfsomdeTCg92
+        noq4ks6kWICcvcxSdU9j8+cUSAQsvKA275pwzTg=
+X-Google-Smtp-Source: ACHHUZ4uzjpla0PpOSz7jN5NaYu5agLcovOE+HYx95odgKreDQRpg1KAvz2GEMXy5EMzysJilLMiKt2x2E5aG/OwbKs=
+X-Received: by 2002:a05:6402:12d3:b0:51d:988d:5ed8 with SMTP id
+ k19-20020a05640212d300b0051d988d5ed8mr5576748edx.29.1687926148447; Tue, 27
+ Jun 2023 21:22:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230627130122.1491765-1-kernel@xen0n.name>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-        lindbergh.monkeyblade.net
+References: <20230627130122.1491765-1-kernel@xen0n.name> <20230627130122.1491765-2-kernel@xen0n.name>
+ <20230627162456.GA223742@dev-arch.thelio-3990X>
+In-Reply-To: <20230627162456.GA223742@dev-arch.thelio-3990X>
+From:   Huacai Chen <chenhuacai@kernel.org>
+Date:   Wed, 28 Jun 2023 12:22:15 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H5P1+hToeNFO2Np5v2EorPK4B9Fmh5U4n+aHRDsaOnYcw@mail.gmail.com>
+Message-ID: <CAAhV-H5P1+hToeNFO2Np5v2EorPK4B9Fmh5U4n+aHRDsaOnYcw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] LoongArch: vDSO: Use CLANG_FLAGS instead of filtering
+ out '--target='
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     WANG Xuerui <kernel@xen0n.name>, WANG Rui <wangrui@loongson.cn>,
+        Xi Ruoyao <xry111@xry111.site>, loongarch@lists.linux.dev,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
+        linux-kernel@vger.kernel.org, WANG Xuerui <git@xen0n.name>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jun 27, 2023 at 09:01:20PM +0800, WANG Xuerui wrote:
-> From: WANG Xuerui <git@xen0n.name>
-> 
-> Hi,
-> 
-> Just some quick fixes to the recently accepted Clang patches, thanks to
-> Nathan's followup testing. (I test-compiled natively so didn't notice
+Queued for loongarch-next, thanks.
 
-It is good to hear that everything works natively as well :)
+Huacai
 
-> that cross-compilation was broken, and by chance the LLVM snapshot I
-> used didn't contain the breaking commit either.)
-
-And we can already see this effort making the compiler better! The
-problematic LLVM patch is only a week old so we were able to catch it
-before it made it into a released version. Thanks again for the work you
-have done getting this working so far.
-
-Cheers,
-Nathan
-
-> 
-> With an additional LLVM patch https://reviews.llvm.org/D153865 the Clang
-> builds should now get fixed.
-> 
-> WANG Xuerui (2):
->   LoongArch: vDSO: Use CLANG_FLAGS instead of filtering out '--target='
->   LoongArch: Include KBUILD_CPPFLAGS in CHECKFLAGS invocation
-> 
->  arch/loongarch/Makefile      | 2 +-
->  arch/loongarch/vdso/Makefile | 5 +----
->  2 files changed, 2 insertions(+), 5 deletions(-)
-> 
-> -- 
-> 2.40.0
-> 
+On Wed, Jun 28, 2023 at 12:24=E2=80=AFAM Nathan Chancellor <nathan@kernel.o=
+rg> wrote:
+>
+> On Tue, Jun 27, 2023 at 09:01:21PM +0800, WANG Xuerui wrote:
+> > From: WANG Xuerui <git@xen0n.name>
+> >
+> > This is a port of commit 76d7fff22be3e ("MIPS: VDSO: Use CLANG_FLAGS
+> > instead of filtering out '--target=3D'") to arch/loongarch, for fixing
+> > cross-compilation with Clang.
+> >
+> > Reported-by: Nathan Chancellor <nathan@kernel.org>
+> > Link: https://github.com/ClangBuiltLinux/linux/issues/1787#issuecomment=
+-1608306002
+> > Signed-off-by: WANG Xuerui <git@xen0n.name>
+>
+> Thanks for the patch!
+>
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+>
+> > ---
+> >  arch/loongarch/vdso/Makefile | 5 +----
+> >  1 file changed, 1 insertion(+), 4 deletions(-)
+> >
+> > diff --git a/arch/loongarch/vdso/Makefile b/arch/loongarch/vdso/Makefil=
+e
+> > index 3f9df4d9930f..a50308b6fc25 100644
+> > --- a/arch/loongarch/vdso/Makefile
+> > +++ b/arch/loongarch/vdso/Makefile
+> > @@ -12,12 +12,9 @@ ccflags-vdso :=3D \
+> >       $(filter -E%,$(KBUILD_CFLAGS)) \
+> >       $(filter -march=3D%,$(KBUILD_CFLAGS)) \
+> >       $(filter -m%-float,$(KBUILD_CFLAGS)) \
+> > +     $(CLANG_FLAGS) \
+> >       -D__VDSO__
+> >
+> > -ifeq ($(cc-name),clang)
+> > -ccflags-vdso +=3D $(filter --target=3D%,$(KBUILD_CFLAGS))
+> > -endif
+> > -
+> >  cflags-vdso :=3D $(ccflags-vdso) \
+> >       -isystem $(shell $(CC) -print-file-name=3Dinclude) \
+> >       $(filter -W%,$(filter-out -Wa$(comma)%,$(KBUILD_CFLAGS))) \
+> > --
+> > 2.40.0
+> >
