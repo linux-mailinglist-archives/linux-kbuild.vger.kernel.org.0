@@ -2,47 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 744977429C2
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Jun 2023 17:36:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DBCF7429E7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Jun 2023 17:51:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230284AbjF2Pg5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 29 Jun 2023 11:36:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56462 "EHLO
+        id S230036AbjF2PvE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 29 Jun 2023 11:51:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229575AbjF2Pg4 (ORCPT
+        with ESMTP id S229991AbjF2PvD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 29 Jun 2023 11:36:56 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16043E49;
-        Thu, 29 Jun 2023 08:36:55 -0700 (PDT)
+        Thu, 29 Jun 2023 11:51:03 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2A9130D1
+        for <linux-kbuild@vger.kernel.org>; Thu, 29 Jun 2023 08:51:02 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A84E96157B;
-        Thu, 29 Jun 2023 15:36:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F8BCC433C8;
-        Thu, 29 Jun 2023 15:36:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1688053014;
-        bh=kSpwvCZSrV4ZbYU3Q5FvpCaAemmPCQQhwe8ZxmoemxI=;
-        h=Date:From:To:Cc:Subject:From;
-        b=KVC28lW5yxngXLh5CccM8D8GYCbNrX2qHUHcnIIazRGP+JOx0zBuezE5LJR1VYZUD
-         h5XRSfxiyXKlFyLAge4GsKqyWVi4IZtqkqV/Xfsxap2UKkUdYmcIdEs3QR0Y0qGNwr
-         8PyTNSfEyEyrAh0Zwitxg0LlDGXYaXbrxejHBWLU=
-Date:   Thu, 29 Jun 2023 17:36:51 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     llvm@lists.linux.dev, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        Borislav Petkov <bp@alien8.de>, linux-usb@vger.kernel.org
-Subject: UBSAN spat in valid xhci code in Linus's current tree (6.4+)
-Message-ID: <2023062945-fencing-pebble-0411@gregkh>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 33A796150E
+        for <linux-kbuild@vger.kernel.org>; Thu, 29 Jun 2023 15:51:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 968CAC433C8
+        for <linux-kbuild@vger.kernel.org>; Thu, 29 Jun 2023 15:51:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1688053861;
+        bh=Jtgw3odh+GLq+lUTPEqZS0iPo1sMbAGB2ih16Wmske4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=MJQyqQ/oZDquI08zzso7L4/ROTAq94jmB2YNQlsdDQfDfN+9W6h/EIDRoooDvnFsd
+         vZhPSCcm3Qh491zlpc7RuFkIb9GFmMErODkRdv11Q/vJPxcJNqfM1k0b2noJS45ZP4
+         MNppBtQooqkfD/eOGs66zIIamD8ZuPfo2Bl0JOLadCCo4UdOQ+81e5H1gCephIRzqI
+         roVrcS3wBeL5bRKa2KhL3D/yT9zM4v6PkJ0tRrlCgOcE8O33NstSItd+AFsIn/0wr0
+         VRf2ST/wvIx3cugA8A4FT/pusFFGkqZ3bwUmRj3BUI9KPdamt/dQ0xLXwa+ok0H/sd
+         GdAqwaKVbL8cg==
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-1b0156a1c4bso591841fac.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 29 Jun 2023 08:51:01 -0700 (PDT)
+X-Gm-Message-State: AC+VfDywKdmr+U+Af2zjmUKJVQvvgAWe8ByVCDa+rPWqI/AlOpptSfn1
+        xTgtHR0B0FH8fw4ZFZTQByZlq9th/5e+BL3C3cI=
+X-Google-Smtp-Source: APBJJlE2X8KYP9eByL1Vjfcsd91PxRRoduq+LkQjHMdFZYyj6vXAwB6Jv24GYfr5zPcUFLv/wASIxq+p7zaOxRRg8+Y=
+X-Received: by 2002:a05:6870:c8a8:b0:1ad:4a74:9d63 with SMTP id
+ er40-20020a056870c8a800b001ad4a749d63mr216064oab.53.1688053860900; Thu, 29
+ Jun 2023 08:51:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+References: <20230618001646.1228521-1-Mr.Bossman075@gmail.com>
+ <CAK7LNAT=jKNFcQmrrZsF5Lis_fmex+1KZe0U-VpsxeekH7aZYw@mail.gmail.com>
+ <CAJFTR8QexS3wyWTv+9_9=Z3OMnwyJtysBucwqLizDsczLW8Vjg@mail.gmail.com>
+ <CAK7LNARG+m8RPJWKyOXHB=deF+yRN-2soXWO-ohBEc3nLDYF5A@mail.gmail.com> <CAJFTR8STYYmcqJNr2sLCfsWAHBkzLuDUnLLr5Ke-JfbUoKefBA@mail.gmail.com>
+In-Reply-To: <CAJFTR8STYYmcqJNr2sLCfsWAHBkzLuDUnLLr5Ke-JfbUoKefBA@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 30 Jun 2023 00:50:23 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR2jO8cdHLVx1+qW9N+PQuiofu8Kf0Z1AN2caDUSOSJcQ@mail.gmail.com>
+Message-ID: <CAK7LNAR2jO8cdHLVx1+qW9N+PQuiofu8Kf0Z1AN2caDUSOSJcQ@mail.gmail.com>
+Subject: Re: [PATCH v1] scripts: kconfig: nconf: Add search jump feature
+To:     Jesse T <mr.bossman075@gmail.com>
+Cc:     linux-kbuild@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Boyd <sboyd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -51,36 +67,138 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Kees.
+On Tue, Jun 27, 2023 at 12:08=E2=80=AFPM Jesse T <mr.bossman075@gmail.com> =
+wrote:
+>
+> On Mon, Jun 26, 2023 at 8:38=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
+> >
+> > On Sun, Jun 25, 2023 at 5:36=E2=80=AFAM Jesse T <mr.bossman075@gmail.co=
+m> wrote:
+> > >
+> > > On Sat, Jun 24, 2023 at 4:11=E2=80=AFAM Masahiro Yamada <masahiroy@ke=
+rnel.org> wrote:
+> > > >
+> > > > On Sun, Jun 18, 2023 at 9:16=E2=80=AFAM Jesse Taube <mr.bossman075@=
+gmail.com> wrote:
+> > > > >
+> > > > > Menuconfig has a feature where you can "press the key in the (#) =
+prefix
+> > > > > to jump directly to that location. You will be returned to the cu=
+rrent
+> > > > > search results after exiting this new menu."
+> > > > >
+> > > > > This commit adds this feature to nconfig, with almost identical c=
+ode.
+> > > > >
+> > > > > Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
+> > > >
+> > > >
+> > > > Setting the code duplication aside,
+> > >
+> > >
+> > > If it does function as expected will you accept the patch?
+> >
+> >
+> > Probably.
+> >
+> > The menuconfig code you copied is really ugly.
+>
+> Yes, I saw and was surprised it was allowed, grandfathered in I guess.
 
-Boris just reported to me a UBSAN splat in the USB xhci driver in
-Linus's tree that wasn't present in 6.4-final, and given that no USB
-changes are merged yet there, I was confused.
 
-Turns out, I think you all missed a "variable length" structure in the
-xhci driver, which UBSAN is calling out a being an overrun, when really
-it isn't (it's just written that way...)
+Yes, you are grandfathered in.
 
-The splat is:
-
-UBSAN: array-index-out-of-bounds in drivers/usb/host/xhci-hub.c:231:31
-index 1 is out of range for type '__le32 [1]'
-CPU: 0 PID: 1556 Comm: kworker/0:2 Not tainted 6.4.0+ #7
+Code refactoring is one of maintainer's jobs.
 
 
-And yes, the code there:
-	ssp_cap->bmSublinkSpeedAttr[offset++] = cpu_to_le32(attr);
 
-is accessing the ssp_cap->bmSublinkSpeedAttr field with is declared as:
-	_le32 bmSublinkSpeedAttr[1]; /* list of sublink speed attrib entries */
 
-in include/uapi/linux/usb/ch9.h
+>
+> > Actually, I was refactoring the search jump code a few
+> > months ago, but I did not get around to completing it.
+>
+> This isn't on git.kernel.org, would you mind sharing it?
+> If you have any ideas on the best way to implement this,
+> I would love suggestions.
 
-So perhaps 2d47c6956ab3 ("ubsan: Tighten UBSAN_BOUNDS on GCC") should be
-reverted for now?  Or this field fixed up to properly be marked as a
-variable length array of at least one entry?
 
-thanks,
+Digging into my local repository, it looks like
+I had written up functional code already.
 
-greg k-h
+I just filled in the commit description.
 
+I will post it.
+
+
+
+
+
+
+> Thanks,
+> Jesse T
+>
+> >
+> >
+> >
+> >
+> >
+> >
+> >
+> >
+> > > Should I mark the copied codes'  original location?
+> > >
+> > > > does this patch work correctly?
+> > > >
+> > > >
+> > > >
+> > > >
+> > > > $ make defconfig
+> > > > $ make nconfig
+> > > >
+> > > > Press F8
+> > > >
+> > > > Input "MODULES" in the search box.
+> > > >
+> > > > You will see:
+> > > >
+> > > > (1) -> Enable loadable module support
+> > > >
+> > > > Press the "1" key.
+> > > >
+> > > >
+> > > > It will navigate to "General setup"
+> > > > instead of "Enable loadable module support".
+> > >
+> > >
+> > > Hmm, this is a confusing issue.
+> > > It will take you to the parent menu of the option, it should move you
+> > > to the parent option and
+> > > move the cursor to the option location. I will see if I can resolve
+> > > this oversight.
+> > >
+> > > Thanks,
+> > > Jesse Taube
+> > >
+> > > >
+> > > >
+> > > >
+> > > >
+> > > >
+> > > >
+> > > >
+> > > > --
+> > > > Best Regards
+> > > > Masahiro Yamada
+> >
+> >
+> >
+> > --
+> > Best Regards
+> > Masahiro Yamada
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
