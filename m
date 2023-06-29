@@ -2,160 +2,121 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE3F47413C1
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Jun 2023 16:22:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A3677427BF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Jun 2023 15:53:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231428AbjF1OVp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 28 Jun 2023 10:21:45 -0400
-Received: from mail.avm.de ([212.42.244.120]:57488 "EHLO mail.avm.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231929AbjF1OU1 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 28 Jun 2023 10:20:27 -0400
-Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
-        by mail.avm.de (Postfix) with ESMTPS;
-        Wed, 28 Jun 2023 16:20:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-        t=1687962025; bh=bPDxZSX5AGRWE//qyJ05XWKBdUJXjjjaprO229FFQE0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=X1xMyfo0ASe/oBNmPwaajR3/PUBuBdKuHuN7p10YbZQAudOlDJg+MH4WFE4Z9uyr9
-         MQDVx1TyUQVwvclTmkQnd+sPkN0VIO8IFAfp9b32hTN2D6uDazwic757HGgt81pFa6
-         pegcpxY6Gs+e1LDc3THwpYIJF1g5HFS5/tTbjw4k=
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-        by mail-auth.avm.de (Postfix) with ESMTPA id 4FF3B80AC0;
-        Wed, 28 Jun 2023 16:20:25 +0200 (CEST)
-Received: by buildd.core.avm.de (Postfix, from userid 1000)
-        id 45038181EF4; Wed, 28 Jun 2023 16:20:25 +0200 (CEST)
-Date:   Wed, 28 Jun 2023 16:20:25 +0200
-From:   Nicolas Schier <n.schier@avm.de>
-To:     Masahiro Yamada <masahiroy@kernel.org>
+        id S231950AbjF2Nxp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 29 Jun 2023 09:53:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49898 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231132AbjF2Nxo (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 29 Jun 2023 09:53:44 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B44C3584;
+        Thu, 29 Jun 2023 06:53:43 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-3fbc060a2caso4183695e9.3;
+        Thu, 29 Jun 2023 06:53:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688046821; x=1690638821;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=alU2vE7E5YcqPkC5rsJXW36Umh03YyH3gOVJxNpCon0=;
+        b=WlEgudpri+3HRNwJ6FJrJoAMGoTYRecoYSyYLdazejBdaJHj7QVVl05z7gNaJUPjrX
+         wO7qtHceRUzwz5P6s/F8SfCfyk/LOwJAD9IpV5bsJZylmwm6yhxgEmh7SH04FQSbVn8q
+         KVqzKC172l1h6WJGbCU1JsIvzd+hmKmj+lwYUaJci42QhYA/u9q3TIo6Y6jTJtwGmAp9
+         SYJxS7KF+5TikbDJR7EzTceuz+cX5VUs8CQSD00liWofd7/mBxLMJqosOUsvYB/LP0sd
+         Ne3j2ajpQhhWDthEdc35xAK6JM4gt157FjuqnaW0qcR1EX9O8+OJYBpiONpLLMVDLTjU
+         npSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688046821; x=1690638821;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=alU2vE7E5YcqPkC5rsJXW36Umh03YyH3gOVJxNpCon0=;
+        b=DvKB+7ZqY6omOl7e30ctx2fYVTrC+tZHvO6hLMedcTZZG3raSl47Tu1LqkVM22wDVX
+         b8NGTDDFXbikup/RrXa3b4848GqQlm67xiw/JAGglHfJYdISXHTJZbN8mjoQ/uwwJQDk
+         rxOkIh9jnWuzsHeXGCxmRot7UCFVE0AaF9UrXd7ffp4JsBc+bfKCg/E2UqYB3daHtS+q
+         rYUWQJNZ6VCxudv9LmhwdUJYVUefKOoKPeWC02qzJOyNGXALNtjGQwFLYpJkJ8KkWqlH
+         /J3saTptG17Gk9sIJmd62/0ZCdhejBe7GlO7Hi5ZIkZbvO8+3ZkGmgJYwTHfmcFQ6NJQ
+         8n5A==
+X-Gm-Message-State: AC+VfDx0yCxeNGeBZEcDstQViLs9GsLRph4JJ5JI7QKrl7XMx77VxDQA
+        g45iPOoIR2v9oz/eOdcs4lI=
+X-Google-Smtp-Source: ACHHUZ7XqEUHn8sUzc0DdfbdvI1n0ttiO/0b28yCyF000ead28/etK3oa2M32Hk0Sw9xjC1jZuvYYQ==
+X-Received: by 2002:a7b:c8d0:0:b0:3fb:404c:15e2 with SMTP id f16-20020a7bc8d0000000b003fb404c15e2mr8106377wml.41.1688046821378;
+        Thu, 29 Jun 2023 06:53:41 -0700 (PDT)
+Received: from debian ([167.98.27.226])
+        by smtp.gmail.com with ESMTPSA id s6-20020a5d4ec6000000b0030ae849c70csm15884736wrv.37.2023.06.29.06.53.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Jun 2023 06:53:41 -0700 (PDT)
+Date:   Thu, 29 Jun 2023 14:53:39 +0100
+From:   "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>
+To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Kees Cook <keescook@chromium.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH v4 3/3] kbuild: respect GNU Make -w flag
-Message-ID: <ZJxBqYdSxWknb/+v@buildd.core.avm.de>
-Mail-Followup-To: Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-References: <20230626233014.66549-1-masahiroy@kernel.org>
- <20230626233014.66549-3-masahiroy@kernel.org>
- <CAK7LNATtUBZo0bczb=bQyQ6UrXbK7V4Bp058+wzZQp3QREfniQ@mail.gmail.com>
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        regressions@lists.linux.dev
+Subject: mainline build failure due to df8fc4e934c1 ("kbuild: Enable
+ -fstrict-flex-arrays=3")
+Message-ID: <ZJ2M4yqnOCqqGWH0@debian>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNATtUBZo0bczb=bQyQ6UrXbK7V4Bp058+wzZQp3QREfniQ@mail.gmail.com>
-X-purgate-ID: 149429::1687962024-5C6A3FC0-470BA280/0/0
-X-purgate-type: clean
-X-purgate-size: 2939
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
-X-purgate: clean
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jun 28, 2023 at 04:09:44PM +0900, Masahiro Yamada wrote:
-> On Tue, Jun 27, 2023 at 8:30 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > Currently, -w (--print-directory) option is ignored, but it is better
-> > to respect the user's choice.
-> >
-> > This commit changes the behavior of "Entering directory ..." logging.
-> >
-> > If -w (or --print-directory) is given via the command line or the
-> > MAKEFLAGS environment variable, print "Entering directory ..." for every
-> > sub make.
-> >
-> > If --no-print-directory is given via the command line or the MAKEFLAGS
-> > environment variable, suppress "Entering directory ..." completely.
-> >
-> > If none of them is given, print "Entering directory ..." when Kbuild
-> > changes the working directory at the start of building. (default)
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > Tested-by: Nicolas Schier <n.schier@avm.de>
-> > ---
-> 
-> 
-> As it turns out, this patch does not work for GNU Make <= 4.3
+Hi All,
 
-Ups, I'm sorry.  I was pretty sure I tested it with make-4.3, but
-obviously not...
-
-Kind regards,
-Nicolas
+The latest mainline kernel branch fails to build with clang (version 16.0.1), and the errors are like:
 
 
+drivers/scsi/aacraid/commsup.c:1170:17: error: array index 1 is past the end of the array (that has type 'u8[1]' (aka 'unsigned char[1]'), cast to '__le32 *' (aka 'unsigned int *')) [-Werror,-Warray-bounds]
+                                (((__le32 *)aifcmd->data)[1] == cpu_to_le32(3));
+                                            ^             ~
+drivers/scsi/aacraid/aacraid.h:2621:2: note: array 'data' declared here
+        u8 data[1];             /* Undefined length (from kernel viewpoint) */
+        ^
+drivers/scsi/aacraid/commsup.c:1290:20: error: array index 3 is past the end of the array (that has type 'u8[1]' (aka 'unsigned char[1]'), cast to '__le32 *' (aka 'unsigned int *')) [-Werror,-Warray-bounds]
+                                  ((((__le32 *)aifcmd->data)[3]
+                                               ^
 
-> I will drop (and give up) this patch.
-> 
-> 
-> 
-> 
-> 
-> 
-> >
-> > (no changes since v2)
-> >
-> > Changes in v2:
-> >   - new patch
-> >
-> >  Makefile | 16 ++++++++++------
-> >  1 file changed, 10 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/Makefile b/Makefile
-> > index 7edb00603b7e..c9864f83a3d2 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -38,6 +38,12 @@ __all:
-> >  # descending is started. They are now explicitly listed as the
-> >  # prepare rule.
-> >
-> > +ifeq ($(filter 3.%,$(MAKE_VERSION)),)
-> > +short-opts := $(firstword -$(MAKEFLAGS))
-> > +else
-> > +short-opts := $(filter-out --%,$(MAKEFLAGS))
-> > +endif
-> > +
-> >  this-makefile := $(lastword $(MAKEFILE_LIST))
-> >  export abs_srctree := $(realpath $(dir $(this-makefile)))
-> >  export abs_objtree := $(CURDIR)
-> > @@ -95,12 +101,6 @@ endif
-> >  # commands
-> >  # make-4.0 (and later) keep single letter options in the 1st word of MAKEFLAGS.
-> >
-> > -ifeq ($(filter 3.%,$(MAKE_VERSION)),)
-> > -short-opts := $(firstword -$(MAKEFLAGS))
-> > -else
-> > -short-opts := $(filter-out --%,$(MAKEFLAGS))
-> > -endif
-> > -
-> >  ifneq ($(findstring s,$(short-opts)),)
-> >  quiet=silent_
-> >  override KBUILD_VERBOSE :=
-> > @@ -215,12 +215,16 @@ else
-> >  need-sub-make := 1
-> >  endif
-> >
-> > +ifeq ($(findstring w, $(short-opts)),)
-> >  ifeq ($(filter --no-print-directory, $(MAKEFLAGS)),)
-> >  # If --no-print-directory is unset, recurse once again to set it.
-> >  # You may end up recursing into __sub-make twice. This is needed due to the
-> >  # behavior change in GNU Make 4.4.1.
-> >  need-sub-make := 1
-> >  endif
-> > +else
-> > +no-print-directory :=
-> > +endif
-> >
-> >  ifeq ($(need-sub-make),1)
-> >
-> > --
-> > 2.39.2
-> >
-> 
-> 
-> -- 
-> Best Regards
-> Masahiro Yamada
+_______________________________________________________________________
+
+
+drivers/staging/ks7010/ks_wlan_net.c:1600:34: error: array index 16 is past the end of the array (that has type '__u8[0]' (aka 'unsigned char[0]')) [-Werror,-Warray-bounds]
+                                memcpy(&key->tx_mic_key[0], &enc->key[16], 8);
+                                                             ^        ~~
+./include/linux/fortify-string.h:694:35: note: expanded from macro 'memcpy'
+                __struct_size(p), __struct_size(q),                     \
+                                                ^
+./include/linux/fortify-string.h:96:56: note: expanded from macro '__struct_size'
+#define __struct_size(p)        __builtin_dynamic_object_size(p, 0)
+                                                              ^
+./include/linux/fortify-string.h:638:27: note: expanded from macro '__fortify_memcpy_chk'
+        const size_t __q_size = (q_size);                               \
+                                 ^~~~~~
+./include/uapi/linux/wireless.h:838:2: note: array 'key' declared here
+        __u8            key[0];
+        ^
+
+_______________________________________________________________________
+
+
+git bisect pointed to df8fc4e934c1 ("kbuild: Enable -fstrict-flex-arrays=3").
+
+Reverting the commit has fixed the build failure.
+
+I will be happy to test any patch or provide any extra log if needed.
+
+#regzbot introduced: df8fc4e934c12b906d08050d7779f292b9c5c6b5
+
+
+-- 
+Regards
+Sudip
