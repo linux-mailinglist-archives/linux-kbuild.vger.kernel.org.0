@@ -2,135 +2,118 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AD83747A0F
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Jul 2023 00:14:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E75C3747A1B
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Jul 2023 00:20:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231296AbjGDWOd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 4 Jul 2023 18:14:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39288 "EHLO
+        id S230432AbjGDWU0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 4 Jul 2023 18:20:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231137AbjGDWOc (ORCPT
+        with ESMTP id S231407AbjGDWUW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 4 Jul 2023 18:14:32 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4008AE7B
-        for <linux-kbuild@vger.kernel.org>; Tue,  4 Jul 2023 15:14:31 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-9891c73e0fbso19325166b.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 04 Jul 2023 15:14:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1688508869; x=1691100869;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=IcGCOea3YEKw3Z0BdC3JX6yVfvpjQ2aXU5gSorSGoSk=;
-        b=KkPcn2HAvJTcRtU26+KnV1CBWodWaWyh0/vwH5oFdhFfhAzIhWqwDGo3NFmFU5eW0+
-         C8LHUKpZOaB34xjDX+a4TmO3/N7YdgzpaaoOBj0gDv8jsMGbPwPhM/TCAQKANnQfUqMn
-         47ZmBJVRctATktYDZoFSloiVwijwjc3BR/GDE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688508869; x=1691100869;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IcGCOea3YEKw3Z0BdC3JX6yVfvpjQ2aXU5gSorSGoSk=;
-        b=kx8IxkXociS/O1KatdP22WYfoKDh+AQisbnknJF1nZHLXThoxY98jCilpyTYHWiQrW
-         VjKEC4S1KCrQgL2UTsExLXfC25hbH8zD6gw4YMO9B48aUOaYGJFmJtmEkUA+263aRI61
-         KZUahXjTqZLYi8LwOS9RBFdmHIjdhUnIkfvjZGxaEDMElDslT8g+Tu85Y9OrkOunqHR1
-         xW1NerB0Zon1TdWvWlTK+1R1Tam1T+eROXU08X/UzmSdNu2Ywwa8lihRqed31lvpThnk
-         ay1LEBLTZ/xPDlOOU+YiD5maqqLr7lCd/DXs4HkRhdKGXCBAIWiLNvRO4XH0XtJ/YEJs
-         KENA==
-X-Gm-Message-State: ABy/qLbL/x0DmxTES7qvplYajHRK6yp3qQJ0ksgWkZSTIajMKVeVqNhu
-        Zu8daqeWijPWfwSgoPoM86RecwXy1NlfuSn38E3936oU
-X-Google-Smtp-Source: APBJJlFr5dlN1jtoPigzLQCCfPyIFZHoaRcnR5uipBVbfIIt1JFsBdQit2OZg7sakUc3X4bZXEbTyQ==
-X-Received: by 2002:a17:906:5308:b0:988:b61e:4219 with SMTP id h8-20020a170906530800b00988b61e4219mr438784ejo.29.1688508869566;
-        Tue, 04 Jul 2023 15:14:29 -0700 (PDT)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com. [209.85.208.52])
-        by smtp.gmail.com with ESMTPSA id rn20-20020a170906d93400b00993004239a4sm5853854ejb.215.2023.07.04.15.14.28
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Jul 2023 15:14:28 -0700 (PDT)
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-51a52a7d859so200330a12.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 04 Jul 2023 15:14:28 -0700 (PDT)
-X-Received: by 2002:a05:6402:2547:b0:51a:4039:b9e with SMTP id
- l7-20020a056402254700b0051a40390b9emr468288edb.9.1688508868151; Tue, 04 Jul
- 2023 15:14:28 -0700 (PDT)
+        Tue, 4 Jul 2023 18:20:22 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BF38E7B;
+        Tue,  4 Jul 2023 15:20:21 -0700 (PDT)
+Received: from mail.alien8.de (mail.alien8.de [IPv6:2a01:4f9:3051:3f93::2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 170DB1EC0411;
+        Wed,  5 Jul 2023 00:20:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1688509220;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:
+         content-transfer-encoding:content-transfer-encoding:in-reply-to:
+         references; bh=DYR9hAz3rDQalm/RdUseeoijBoiPmBCuez9RUze2Jmk=;
+        b=AewNkijxRaoyWaJPvJF6Ea7RnZQQJR6BRKs3onT1XCjy1rT3+X1c1ALSb9wr7uBOsqVMO6
+        2naHj7OP/QR6suQkt2yzk5/722T6s+7Rdvk+AETUoUfMGXOhWgcV5KbO7zVOYsfPZBXZZr
+        GzN2e3PlVoObTOEUUGyhNODLkQdE8lI=
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=fail (4096-bit key)
+        reason="fail (body has been altered)" header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+        by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id yi7bw3IKtw5u; Tue,  4 Jul 2023 22:20:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+        t=1688509216; bh=jL6uSfBqNDPocAax2P6VBh9QZjlwPpa5/eC7tTGcSuA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=dSJxX6hP6I0eMV+X+3UTunv3irjEQIEhRES5RMR4pbbBhhbrBznYTqc1I02a/zVNx
+         9cyEksmAQDLRBS1mdChoqBaQSNvINxSek6zN8n9JAKXjfD5tzU6UItPy4wf0tuW4ju
+         npX3sUQEcTPmNG0qbLkLawVcdayzsoVV3OyC9Nf0LuKULlfS8/+acFFE8zTasvBg//
+         YEFF3ml50yFLcNh8R2MlcowGfNtH+iUjTk5DW2HZaW67Rd38qw7jPzwY0ksZSqZL5d
+         W/PakyDt0ZuoAvudhXtuzUCWub8voioD4P90k34h8YFWrYGb8n+1GHLVI2BUr7H4Jv
+         dNU+uTqm5pp5EP1ARXV8h+yZGdJsL1j4qbOv8iXjuYitWbsSBo9vIdPOSADnIpwECF
+         NQnT1ZB7JaMbn3HMFJZS3Q6EftC0e0u+fyPfBeju9NecP+iVtNWsFmy0iM0nkDm29W
+         1fGRcOX+CBj9sj20F+oQEtIyPlQvIV95AsynatRvjufV7HjBQ2xjwtyYJEvRegRgJV
+         AxRF2nEAryYywo5mFZG22eAiQWXnAqt1v751rqbBG16cIJBfedhpW7H8tV7MzvPJ2g
+         RhgYRIQ4wcIJbjhM3d0I1rGm3IEorDQCVsyui7RI4kmcrIGWbvVxJS0Glakmtyb3HQ
+         kGyZO+UqZ1vux1osFZM41JJ8=
+Received: from zn.tnic (pd9530d32.dip0.t-ipconnect.de [217.83.13.50])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+        (No client certificate requested)
+        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 34E0B40E0191;
+        Tue,  4 Jul 2023 22:20:14 +0000 (UTC)
+From:   Borislav Petkov <bp@alien8.de>
+To:     linux-kbuild@vger.kernel.org
+Cc:     LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH] kbuild: Enable -Wenum-conversion by default
+Date:   Wed,  5 Jul 2023 00:19:51 +0200
+Message-ID: <20230704221951.7396-1-bp@alien8.de>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <CAHk-=wiJHMje8cpiTajqrLrM23wZK0SWetuK1Bd67c0OGM_BzQ@mail.gmail.com>
- <20230704211509.GA21834@1wt.eu> <CAHk-=wjH4O6v_EwVB=t_6Haky2jOiejHbCkCTvgNQWo1ghy8-w@mail.gmail.com>
- <20230704213415.GA21872@1wt.eu> <CAHk-=wjPEjrB7eCukREhWu-0qfjbFD-K8sk1TYYRgeHzYr1tuQ@mail.gmail.com>
- <20230704215600.GA22271@1wt.eu>
-In-Reply-To: <20230704215600.GA22271@1wt.eu>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Tue, 4 Jul 2023 15:14:11 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whMytacPBHfKKi8GYdgfadNy5LA-1TDHrTtz22eJr2B1Q@mail.gmail.com>
-Message-ID: <CAHk-=whMytacPBHfKKi8GYdgfadNy5LA-1TDHrTtz22eJr2B1Q@mail.gmail.com>
-Subject: Re: Overly aggressive .gitignore file?
-To:     Willy Tarreau <w@1wt.eu>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, 4 Jul 2023 at 14:56, Willy Tarreau <w@1wt.eu> wrote:
->
-> This point I perfectly understand, but there's also this "ls" command
-> that lists file names starting with 2023-* if required.
+From: "Borislav Petkov (AMD)" <bp@alien8.de>
 
-You know what? I'm done arguing with you.
+This diagnostic checks whether there is a type mismatch when
+converting enums (assign an enum of type A to an enum of type B, for
+example) and it caught a legit issue recently. The reason it didn't show
+is because that warning is enabled only with -Wextra with GCC. Clang,
+however, enables it by default.
 
-Sure. I could also do "echo * | grep 2023" or something.
+GCC folks were considering enabling it by default but it was too noisy
+back then:
 
-Or I could just remember every single mbx file I ever used.
+  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D78736
 
-Or maybe I could remember to just delete them immediately after using.
+Now that due to clang all those warnings have been fixed, enable it with
+GCC too.
 
-Or I could do any number of other things.
+allmodconfig tests done with: x86, arm{,64}, powerpc{,64}, riscv
+crossbuilds.
 
-But what do you think "git status" is supposed to do?
+Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+---
+ Makefile | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Here's a theory - it's supposed to tell me about the status of my git tree.
+diff --git a/Makefile b/Makefile
+index 7a5a175f708f..428132b3d6dd 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1082,6 +1082,9 @@ KBUILD_CFLAGS   +=3D $(call cc-option,-Werror=3Dinc=
+ompatible-pointer-types)
+ # Require designated initializers for all marked structures
+ KBUILD_CFLAGS   +=3D $(call cc-option,-Werror=3Ddesignated-init)
+=20
++# Warn if there is an enum types mismatch
++KBUILD_CFLAGS	+=3D $(call cc-option,-Wenum-conversion)
++
+ # change __FILE__ to the relative path from the srctree
+ KBUILD_CPPFLAGS +=3D $(call cc-option,-fmacro-prefix-map=3D$(srctree)/=3D=
+)
+=20
+--=20
+2.41.0
 
-Maybe it's supposed to tell me about extra files that maybe I should
-be aware of. Maybe I should delete them. Maybe I should commit them.
-Who knows?
-
-Or maybe it's supposed to tell me that I've forgotten to push, or that
-I have diffs I haven't committed.
-
-All those things that are specific to having a git tree, that tools
-like 'ls' simply don't know to do.
-
-It's a crazy theory, I know. But just go with it, ok.
-
-And  *if* we pretend for a moment that this is what "git status" is
-supposed to do, then maybe it should have reminded me about stale
-random files in that directory that ACTIVELY BREAK MY WORKFLOW.
-
-Maybe that isn't your workflow.
-
-Maybe you're perfectly fine not getting a unique auto-complete,
-because you *want* your git directory filled with irrelevant crap.
-
-Or maybe you just always do "ls" religiously and look for random files
-in general, because  you are bored and it fills up that dead time.
-
-But how about you just accept the fact that for some of us, the whole
-point of 'git status" is to tell about these kinds of things, ok?
-
-I'm now done. I have reverted that commit in my tree and pushed it
-out, because while I was interested in hearing about any possible
-other use for that overly aggressive gitignore entry, I'm not in the
-least interested in you trying to teach me about esoteric tools like
-'ls', or telling me that "unsuccessful auto-complete is still an
-auto-complete".
-
-              Linus
