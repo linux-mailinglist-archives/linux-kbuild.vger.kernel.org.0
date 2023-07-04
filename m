@@ -2,34 +2,33 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A1DD7468F1
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Jul 2023 07:28:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E6ED7468F9
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Jul 2023 07:30:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229662AbjGDF2b convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Tue, 4 Jul 2023 01:28:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34494 "EHLO
+        id S229722AbjGDFaU convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Tue, 4 Jul 2023 01:30:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229505AbjGDF2a (ORCPT
+        with ESMTP id S229534AbjGDF34 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 4 Jul 2023 01:28:30 -0400
+        Tue, 4 Jul 2023 01:29:56 -0400
 Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E758FBD;
-        Mon,  3 Jul 2023 22:28:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DC75BD;
+        Mon,  3 Jul 2023 22:29:55 -0700 (PDT)
 Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
           by outpost.zedat.fu-berlin.de (Exim 4.95)
           with esmtps (TLS1.3)
           tls TLS_AES_256_GCM_SHA384
           (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1qGYaS-000KEh-Iy; Tue, 04 Jul 2023 07:28:28 +0200
+          id 1qGYbp-000KjL-Qa; Tue, 04 Jul 2023 07:29:53 +0200
 Received: from p57bd997f.dip0.t-ipconnect.de ([87.189.153.127] helo=suse-laptop.fritz.box)
           by inpost2.zedat.fu-berlin.de (Exim 4.95)
           with esmtpsa (TLS1.3)
           tls TLS_AES_256_GCM_SHA384
           (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1qGYaS-000dCz-BX; Tue, 04 Jul 2023 07:28:28 +0200
-Message-ID: <898f6befcbeef9d685773143355088f38fe6e6e4.camel@physik.fu-berlin.de>
-Subject: Re: [PATCH 2/4] sh: move build rule of cchips/hd6446x/ to
- arch/sh/Kbuild
+          id 1qGYbp-000dKf-JP; Tue, 04 Jul 2023 07:29:53 +0200
+Message-ID: <4cd47aa1baed1ba9d2d995fdd96d4a9756c8cc17.camel@physik.fu-berlin.de>
+Subject: Re: [PATCH 3/4] sh: refactor header include path addition
 From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 To:     Masahiro Yamada <masahiroy@kernel.org>,
         linux-kbuild@vger.kernel.org
@@ -37,10 +36,10 @@ Cc:     linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
         Rich Felker <dalias@libc.org>,
         Yoshinori Sato <ysato@users.sourceforge.jp>,
         linux-sh@vger.kernel.org
-Date:   Tue, 04 Jul 2023 07:28:27 +0200
-In-Reply-To: <20230219141555.2308306-2-masahiroy@kernel.org>
+Date:   Tue, 04 Jul 2023 07:29:52 +0200
+In-Reply-To: <20230219141555.2308306-3-masahiroy@kernel.org>
 References: <20230219141555.2308306-1-masahiroy@kernel.org>
-         <20230219141555.2308306-2-masahiroy@kernel.org>
+         <20230219141555.2308306-3-masahiroy@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 User-Agent: Evolution 3.48.3 
@@ -57,46 +56,29 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro!
-
 On Sun, 2023-02-19 at 23:15 +0900, Masahiro Yamada wrote:
-> This is the last user of core-y in ARCH=sh.
-> 
-> Use the standard obj-y syntax.
+> Shorten the code. No functional change intended.
 > 
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
 > 
->  arch/sh/Kbuild   | 2 ++
->  arch/sh/Makefile | 3 ---
->  2 files changed, 2 insertions(+), 3 deletions(-)
+>  arch/sh/Makefile | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> diff --git a/arch/sh/Kbuild b/arch/sh/Kbuild
-> index be171880977e..056efec72c2a 100644
-> --- a/arch/sh/Kbuild
-> +++ b/arch/sh/Kbuild
-> @@ -3,5 +3,7 @@ obj-y				+= kernel/ mm/ boards/
->  obj-$(CONFIG_SH_FPU_EMU)	+= math-emu/
->  obj-$(CONFIG_USE_BUILTIN_DTB)	+= boot/dts/
->  
-> +obj-$(CONFIG_HD6446X_SERIES)	+= cchips/hd6446x/
-> +
->  # for cleaning
->  subdir- += boot
 > diff --git a/arch/sh/Makefile b/arch/sh/Makefile
-> index a9cad5137f92..0625796cfe7f 100644
+> index 0625796cfe7f..f1c6aace8acb 100644
 > --- a/arch/sh/Makefile
 > +++ b/arch/sh/Makefile
-> @@ -126,9 +126,6 @@ machdir-$(CONFIG_SH_X3PROTO)			+= mach-x3proto
->  machdir-$(CONFIG_SH_LANDISK)			+= mach-landisk
->  machdir-y					+= mach-common
+> @@ -145,8 +145,7 @@ cpuincdir-y			+= cpu-common	# Must be last
 >  
-> -# Companion chips
-> -core-$(CONFIG_HD6446X_SERIES)	+= arch/sh/cchips/hd6446x/
-> -
->  #
->  # CPU header paths
->  #
+>  drivers-y			+= arch/sh/drivers/
+>  
+> -cflags-y	+= $(foreach d, $(cpuincdir-y), -I $(srctree)/arch/sh/include/$(d)) \
+> -		   $(foreach d, $(machdir-y), -I $(srctree)/arch/sh/include/$(d))
+> +cflags-y	+= $(addprefix -I $(srctree)/arch/sh/include/, $(cpuincdir-y) $(machdir-y))
+>  
+>  KBUILD_CFLAGS		+= -pipe $(cflags-y)
+>  KBUILD_CPPFLAGS		+= $(cflags-y)
 
 Reviewed-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 
