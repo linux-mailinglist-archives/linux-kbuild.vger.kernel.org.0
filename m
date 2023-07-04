@@ -2,85 +2,110 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78BB7746938
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Jul 2023 07:52:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D01C7472BD
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Jul 2023 15:29:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229938AbjGDFwt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 4 Jul 2023 01:52:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40970 "EHLO
+        id S231312AbjGDN3i (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 4 Jul 2023 09:29:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230028AbjGDFws (ORCPT
+        with ESMTP id S229779AbjGDN3h (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 4 Jul 2023 01:52:48 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B762E49;
-        Mon,  3 Jul 2023 22:52:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=ZT+Waq4/7CDQDwKeT5ati3iaCZkS+/uXn2hrAuUP5S0=; b=IvzxZFWh1WJNnhjNy2NfNHIS09
-        vup5sGYDgOMT2cY5oQES/EI+Z/+RWEcdlXJGmyjlCtSwbqKe5Cv5ZshucXYXYNoJW80U3ObJ+Nzd7
-        WJiEdvkRlTAXVhwsWE0dNBgX/rgGOT9wYVvWbO25Sh7LCzp7phHM3Rynty3zod/rYCphSKKA6VjNT
-        qkJx5KDio0okE/wS3zLa65P9ADIGR5fydEg/6jAA0uPiP79brSprKJTBWsVI0CqGFVjfV5yraPegY
-        iqp3cdkTCdm9///dPYISZ1GC4YFH6oTN8Pjb40Ctld5OBEfim88u2xvWryU3eVJo6Xhpy4v6CWpiA
-        XEX/tRGw==;
-Received: from [2601:1c2:980:9ec0::2764] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qGYxz-00CFBO-0U;
-        Tue, 04 Jul 2023 05:52:47 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Subject: [PATCH] kconfig: tell the kconfig symbol of the restart reason
-Date:   Mon,  3 Jul 2023 22:52:46 -0700
-Message-ID: <20230704055246.22893-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.41.0
+        Tue, 4 Jul 2023 09:29:37 -0400
+Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com [IPv6:2607:f8b0:4864:20::e34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52DAE99;
+        Tue,  4 Jul 2023 06:29:36 -0700 (PDT)
+Received: by mail-vs1-xe34.google.com with SMTP id ada2fe7eead31-440c5960b58so1708419137.3;
+        Tue, 04 Jul 2023 06:29:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688477375; x=1691069375;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XmB7Lt1kdBVFrZQRN7GBaRqYcNVkYfgU/8oYqlFezt4=;
+        b=ajJ4UiuFndj1QghyWQgPkL/JxKC3j1CBoSonKOyfUJJL7j07mh4qPoGIsk56/chegt
+         xpzBz4hA+2qF8Iyg+suTKjFLkDI9hiAyA43m8+N0/78KMweoPyissSbRCxDPlEZlbe9B
+         QQq2iQaIM63wFhEmEq36Es23XFItAVroZiyNHk0nsjNxChQS4gcw5rx0S+jPQJsKNUDF
+         qgt/yD4FKjpTxS/+okX250KkIfpcfwON3oS8NF1OyVkfF/+c6WS0nNI/C+dSZIpBKbWs
+         v+0j+vAEGllmImrMMhN+l6gMWa+85tjTmTlkC8lX6fitTHJJ5jx3Q8ckwwVni/moruf8
+         7wBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688477375; x=1691069375;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XmB7Lt1kdBVFrZQRN7GBaRqYcNVkYfgU/8oYqlFezt4=;
+        b=e+Koq5aAylfI7xnJ926pmdLcIdmzAJSjU4xzn7pr7q1l+Epx1cHbeWCO+C5BFcQQkm
+         F4n2PfUrcgBhXBXbpa1IhSIbuaKqZWMtuNJ7EbEIpElATRrWJWNNt3AxyU73B65lftVa
+         nSGfpx/kVFewdX+1DimJPJ2+83JIFC4KA6eietr8dTof8aflqckPhKaOJA1I/zt0ATGm
+         8I46Yvlfm6EwBHint1mIGWUDVV87UlayCl4Lwr/EyhKoQ+NzSBHQSBGNWZxl9sa56iNU
+         rv/1ekCYnfabx/uSev+nKCZSoDcxToynaepV7LoefeWJ3G0++vI7FA9OwJCIsTxITCRk
+         Kw9A==
+X-Gm-Message-State: ABy/qLaRKz+3vMgrZgtwIvMAN/F3etnBz24wKOmZ1m8rI1BYCiDJbPMH
+        b+mD/BA40cSJLSvC5LdmcDA=
+X-Google-Smtp-Source: APBJJlG6UXeTK7QCoVEmWgU5r0gDS1LYzy0V2HuWLufr6jmxSy6vhodnImbYXmBhc6oWC5DcwYECTg==
+X-Received: by 2002:a05:6102:50d:b0:443:92af:a851 with SMTP id l13-20020a056102050d00b0044392afa851mr5784886vsa.32.1688477375412;
+        Tue, 04 Jul 2023 06:29:35 -0700 (PDT)
+Received: from [192.168.54.90] (static.220.238.itcsa.net. [190.15.220.238])
+        by smtp.gmail.com with ESMTPSA id v13-20020a67ac0d000000b00440978082a6sm3673732vse.8.2023.07.04.06.29.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Jul 2023 06:29:34 -0700 (PDT)
+Message-ID: <5164d21e-1ceb-35cf-1d1d-6c32fcdcc4c5@gmail.com>
+Date:   Tue, 4 Jul 2023 10:29:29 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] btf, scripts: rust: drop is_rust_module.sh
+To:     Andrea Righi <andrea.righi@canonical.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>
+Cc:     Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Benno Lossin <benno.lossin@proton.me>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+References: <20230704052136.155445-1-andrea.righi@canonical.com>
+Content-Language: en-US
+From:   Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+In-Reply-To: <20230704052136.155445-1-andrea.righi@canonical.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-When running 'make oldconfig' or 'make olddefconfig' without waiting
-for prompts, it can be useful to know the restart reason so that it
-can be fixed manually.
+On 7/4/23 02:21, Andrea Righi wrote:
+> With commit c1177979af9c ("btf, scripts: Exclude Rust CUs with pahole")
+> we are now able to use pahole directly to identify Rust compilation
+> units (CUs) and exclude them from generating BTF debugging information
+> (when DEBUG_INFO_BTF is enabled).
+> 
+> And if pahole doesn't support the --lang-exclude flag, we can't enable
+> both RUST and DEBUG_INFO_BTF at the same time.
+> 
+> So, in any case, the script is_rust_module.sh is just redundant and we
+> can drop it.
+> 
+> NOTE: we may also be able to drop the "Rust loadable module" mark
+> inside Rust modules, but it seems safer to keep it for now to make sure
+> we are not breaking any external tool that may potentially rely on it.
 
-This is usually when the prompt value is a number or a string,
-i.e., something other than y/m/n.
+Keep it, I think it can be useful with tooling like kmod.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org
----
-Can the test for sym->name be omitted?
+> 
+> Signed-off-by: Andrea Righi <andrea.righi@canonical.com>
+> ---
+> [...]
 
- scripts/kconfig/conf.c |    8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff -- a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
---- a/scripts/kconfig/conf.c
-+++ b/scripts/kconfig/conf.c
-@@ -652,8 +652,12 @@ static void check_conf(struct menu *menu
- 			printf("-----\n");
- 			break;
- 		default:
--			if (!conf_cnt++)
--				printf("*\n* Restart config...\n*\n");
-+			if (!conf_cnt++) {
-+				printf("*\n* Restart config...\n");
-+				if (sym->name)
-+					printf("* due to symbol: %s\n", sym->name);
-+				printf("*\n");
-+			}
- 			rootEntry = menu_get_parent_menu(menu);
- 			conf(rootEntry);
- 			break;
+Reviewed-by: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
