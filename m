@@ -2,49 +2,45 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91C5E74664B
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Jul 2023 02:01:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E663A74664F
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Jul 2023 02:04:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230218AbjGDAB1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 3 Jul 2023 20:01:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55362 "EHLO
+        id S229703AbjGDAEb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 3 Jul 2023 20:04:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229504AbjGDAB0 (ORCPT
+        with ESMTP id S229504AbjGDAEa (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 3 Jul 2023 20:01:26 -0400
+        Mon, 3 Jul 2023 20:04:30 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D86A13D;
-        Mon,  3 Jul 2023 17:01:26 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4554E187
+        for <linux-kbuild@vger.kernel.org>; Mon,  3 Jul 2023 17:04:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-Type:Subject:From:To:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
         Content-ID:Content-Description:In-Reply-To:References;
-        bh=HbJg5hLS9q/X87uwXxElmYl7j0ghasP04sbxBMsSOUU=; b=fxjqXZZArozClmaJ0kLcYEsfIq
-        Xxc/cNDmD6YpWdiPxOVQIglziSD8wDkBMOFJTvrhLH8+2qHm9k2U8JCeQMr91GB3Fe6C5pz+YOeOx
-        kWMRWwoiaMIh6KTpk/RWJ0YMeZkuxA8eHwj60sDV6LL3G+pyKF5obF4Cb+rF1ZgJyb35EmAG0hJON
-        A3HjZFVbAXgx6OQqBuKKipVCTmU8ZBZLrcHEwo1wPsbVzj6LIWk44d/0eV/YlE4X4RZZD0EyjBdWY
-        YtEdNmOScx/5+bTDUPUn8le65pMq5P7jWsJD0jQzH9peR2DCZ2zQzmintLlAJWG9qtwiJb7QgAZO9
-        Cq4tpi+Q==;
-Received: from [2601:1c2:980:9ec0::2764] (helo=bombadil.infradead.org)
+        bh=KI4yq88RuElMmswgsTHpHasA6zbAezSWtmo7IvqqJ14=; b=K8hQSHHLAihjmkLHXI5jryg/BB
+        hrsRRifGTWurdJVKXWmoeabCvwMAE6rokYl5IS9LWRCBEzzPSrQ5s9GVIJjaiUU1pvAXkurrLIdVX
+        TSQLmKBHl7Li3UjnfoJnKZVS4H2Xaw531P/LO/4oAPXVOpBMA4uHqSoEenawPt1Ona0ZO+y/dVrSy
+        hUDOCzud6y04d4ZgYazSCxBqFKj5J4BZWqQEue4ZqY0sHdV7Ir9XPlu2A3/lLML/ihqc1w+Cma28Q
+        fr/AxxEQ7/HT4R/+ib5feixxSXdyHCwc8rlw0iu4IIXqJfIaZfkukEXL4NkyT6n7Nhfesnv6wypAv
+        mIAIcsbg==;
+Received: from [2601:1c2:980:9ec0::2764]
         by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qGTTu-00BgsX-0J;
-        Tue, 04 Jul 2023 00:01:22 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jesse Taube <mr.bossman075@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH] kconfig: docs: mention gconfig at top of kconfig.rst
-Date:   Mon,  3 Jul 2023 17:01:20 -0700
-Message-ID: <20230704000120.8098-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.41.0
+        id 1qGTWw-00Bh3o-0K;
+        Tue, 04 Jul 2023 00:04:30 +0000
+Message-ID: <c7b1cb3d-801b-b78f-d203-edd840c9e98a@infradead.org>
+Date:   Mon, 3 Jul 2023 17:04:29 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Content-Language: en-US
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: gconfig help text quesion
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
@@ -55,32 +51,20 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Jesse mentioned that gconfig is missing from the top of the
-kconfig.rst file, so add it for completeness.
+Hi,
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Link: lore.kernel.org/r/CAJFTR8QgYykuEq_AkODEWPUYXncKgRBHOncxT=ypZTQODkyarw@mail.gmail.com
-Cc: Jesse Taube <mr.bossman075@gmail.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org
-Cc: Nathan Chancellor <nathan@kernel.org>
-Cc: Nick Desaulniers <ndesaulniers@google.com>
-Cc: Nicolas Schier <nicolas@fjasle.eu>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/kbuild/kconfig.rst |    2 ++
- 1 file changed, 2 insertions(+)
+The gconfig help text says:
 
-diff -- a/Documentation/kbuild/kconfig.rst b/Documentation/kbuild/kconfig.rst
---- a/Documentation/kbuild/kconfig.rst
-+++ b/Documentation/kbuild/kconfig.rst
-@@ -10,6 +10,8 @@ The xconfig ('qconf'), menuconfig ('mcon
- programs also have embedded help text.  Be sure to check that for
- navigation, search, and other general help text.
- 
-+The gconfig ('gconf') program has limited help text.
-+
- General
- -------
- 
+Toggling Show Debug Info under the Options menu will show 
+the dependencies, which you can then match by examining other options.
+
+This is at the end of the intro_text string.
+
+I don't see any way to toggle the Show Debug Info flag,
+or even any such flag.
+
+Is it hidden somewhere or should this text be removed?
+
+thanks.
+-- 
+~Randy
