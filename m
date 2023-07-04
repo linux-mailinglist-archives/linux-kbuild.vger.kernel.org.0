@@ -2,71 +2,83 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21A04746835
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Jul 2023 06:03:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6607F7468D9
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Jul 2023 07:21:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231160AbjGDEC7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 4 Jul 2023 00:02:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50232 "EHLO
+        id S230048AbjGDFVr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 4 Jul 2023 01:21:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230464AbjGDECd (ORCPT
+        with ESMTP id S229732AbjGDFVq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 4 Jul 2023 00:02:33 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE346E7A;
-        Mon,  3 Jul 2023 21:02:04 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id 41be03b00d2f7-557790487feso3620416a12.0;
-        Mon, 03 Jul 2023 21:02:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688443324; x=1691035324;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FXPJYPo99iw+nT4G16KHkVbpbdJ+upvLJqGBpDeZzeY=;
-        b=k9MUwBajjYbdCeb7GTBmEic31Qz1nDFqbmSe/SPRV0WR9lS3G4wTU4ilP/flo9Q2n/
-         NVfspHFdGhh5YKwuWJnav1XJqhbkMgfowoeH0utnhCoIPGDLnY7hy2PzDmqx6fYXBpUD
-         IlY+Pe8UjHobAWhWkAkMsE+mtmJhrc/7X2CjXdEqm3uO1aVlVe+vCdJ7/BF1BDrea261
-         jvuE56hETGIawpsptYxgO0vtkINKdxhzC8kWqcb428s+u9MyJIGAepWQLMGgImf9KrvA
-         Sx57uafxbK+8/3TrS2CMaIl6fhUdJqj3E87NdUbfxwPMAS01kjFuPKtTGkF14GqlvEDH
-         Oh5g==
+        Tue, 4 Jul 2023 01:21:46 -0400
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4E46E49
+        for <linux-kbuild@vger.kernel.org>; Mon,  3 Jul 2023 22:21:41 -0700 (PDT)
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com [209.85.218.70])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 408043F738
+        for <linux-kbuild@vger.kernel.org>; Tue,  4 Jul 2023 05:21:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1688448100;
+        bh=1v+am1Z8ymQUGghyM5chvEt9+BuF/dKqLqYQx56m9zI=;
+        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+        b=HH5d6PAm+DXC8UAN2s9KGOGqSwwXINBKbxFBMC/C6bc9YGa4MaUmB2PcJroRqMaOr
+         bgF2m/rteXeN0MAIVNfiB7TWXMUmTQXndgWvoE4sUWAMykeGBZBjOK8y7TW1NflUt0
+         WCbHfYC1ElaNAJ8gbaWJVtwUWa/FvBtXpjjxTYlX1FZ7/hDUEHlC0wubKX8IODxw07
+         25HdL5dOWRktySYFMSCgjaxsNMlvaJbfH9rR7wweVKkHVzK1d9LY0s20zL3AAzSvm8
+         C6ZrOuGu70zrfsu+GSIGGDx+tTtekD2nQUIyse5cEQbHhW8/EAIVC+iM0qpImT3aNi
+         921i68wMW5tJw==
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-98df34aa83aso570249866b.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 03 Jul 2023 22:21:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688443324; x=1691035324;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FXPJYPo99iw+nT4G16KHkVbpbdJ+upvLJqGBpDeZzeY=;
-        b=JaCt7vkAuJ7tfDcfUbnAHWWCxOs5V2+AmUppumubnCLitH3AbQh4TEAsgJ9/3bZcUN
-         g226ofilsU9fkrbmP9jV9EYXUSpRMo2wMQL2Vrvl4wqw/T0/QkC7QYsdBkL7TPMcH06j
-         YSc4sAh8HtNnwl5NL5WMLv5ZpBspnatSVZ01ZEf1PAw/wT6sk6dJSwv1CIbWyxqe20xx
-         z5caEyczJDi9y/9GpBAKMYH5XZENUO6FS8ecVdzRV77l7WZufuqUJchFMxFPaGxveCYP
-         WFFJ8o3WcpIDscYHF01or4p8JDiAw18pKuCCcdpDJBmfwbhTln+n7owYdJs36VefHGo6
-         HsLQ==
-X-Gm-Message-State: AC+VfDzwHrnjAv4zqZonUeHfBzLyr4nTikMTjhzXYXYy94X9kSqLuj0R
-        4P86Bcd7ZhNDigdgO0zG7SViYlI786dr+qnO
-X-Google-Smtp-Source: ACHHUZ5JBnTieP65izFYRX51YsPqO3oGyFrnqmLSE5VxExVpG5DyR0FjCV4dCWLVv4lfYLYAyh4q8Q==
-X-Received: by 2002:a05:6a20:734e:b0:110:9210:f6b8 with SMTP id v14-20020a056a20734e00b001109210f6b8mr16071464pzc.35.1688443324144;
-        Mon, 03 Jul 2023 21:02:04 -0700 (PDT)
-Received: from debian.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id c20-20020a170902c1d400b001b7f95fbec1sm14393093plc.78.2023.07.03.21.02.02
+        d=1e100.net; s=20221208; t=1688448098; x=1691040098;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1v+am1Z8ymQUGghyM5chvEt9+BuF/dKqLqYQx56m9zI=;
+        b=Nh8rCAKMY7WcUzNiRTaCbn1sguK2H/RNzUuYVphMmYvNxnGl3TnpEdoFBDRH+wpE2A
+         axN0vH0NywDKeNdgCCXsnrQeRVEwYWH96j6T9dv6t6wEA4+Ai/IjF6wIsupygelCm3Qw
+         SHbnSMJmK+VUvsCsbwHF31Ldy3kAO+W937ZhojW/vDbWrYFpYA1kY6+aZXsEi7BIYzbU
+         UR1VRPSSrSXEsy+seQeabEqxK6Yugjut+3sIYmRI51CQ1I1PtUksiXzdmHyQl77IZbgY
+         UbDZL6vltS2pXVRX2dG7ImP69weKRwo05NBYca779q0lRZpRnN2UqIxVaM2QYJL7SBg7
+         hk9g==
+X-Gm-Message-State: AC+VfDwfTgFboCfsqAo2SIldCx53AHIPFyqdIb8a67urWq3cxjiSVNo1
+        JWVC0aXzOF7a2111+3Xb1Y2PMTUIlN8zH4hbwKKADOuD8Cg9ifXoNykbldbk2IEbDoceyn36PL7
+        1p5u3J9w3Zn+WZtfpY5FuvHSbu2tw09xu0wDOW420sA==
+X-Received: by 2002:a17:907:6e1b:b0:98e:1c4b:10e2 with SMTP id sd27-20020a1709076e1b00b0098e1c4b10e2mr13287220ejc.20.1688448098175;
+        Mon, 03 Jul 2023 22:21:38 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6KaBtBsknIGzT43R9yW1TZOTc6kL/88ouJOfFvTX2qde5kXfxpEFdhmAwOmJNRYKLkFyB6Sg==
+X-Received: by 2002:a17:907:6e1b:b0:98e:1c4b:10e2 with SMTP id sd27-20020a1709076e1b00b0098e1c4b10e2mr13287209ejc.20.1688448097892;
+        Mon, 03 Jul 2023 22:21:37 -0700 (PDT)
+Received: from righiandr-XPS-13-7390.homenet.telecomitalia.it (host-95-234-206-203.retail.telecomitalia.it. [95.234.206.203])
+        by smtp.gmail.com with ESMTPSA id a10-20020a17090640ca00b0098e025cda3bsm12706377ejk.141.2023.07.03.22.21.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jul 2023 21:02:02 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 09B70819702B; Tue,  4 Jul 2023 11:01:56 +0700 (WIB)
-Date:   Tue, 4 Jul 2023 11:01:56 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Budi <budikusasi@gmail.com>, linux-kernel@vger.kernel.org
-Cc:     Linux Kernel Build System <linux-kbuild@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: Anyone please do big favor, help
-Message-ID: <ZKOZtP72vmF8d6yi@debian.me>
-References: <CAH0GyZDWhSo+otkEPRDwvHyE29N5ZjhpFT5m4jRnt6buV8gEpA@mail.gmail.com>
+        Mon, 03 Jul 2023 22:21:37 -0700 (PDT)
+From:   Andrea Righi <andrea.righi@canonical.com>
+To:     Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>
+Cc:     Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+        Benno Lossin <benno.lossin@proton.me>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+Subject: [PATCH] btf, scripts: rust: drop is_rust_module.sh
+Date:   Tue,  4 Jul 2023 07:21:36 +0200
+Message-Id: <20230704052136.155445-1-andrea.righi@canonical.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="bTRtgpGUIlP+T0Rn"
-Content-Disposition: inline
-In-Reply-To: <CAH0GyZDWhSo+otkEPRDwvHyE29N5ZjhpFT5m4jRnt6buV8gEpA@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,51 +86,77 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+With commit c1177979af9c ("btf, scripts: Exclude Rust CUs with pahole")
+we are now able to use pahole directly to identify Rust compilation
+units (CUs) and exclude them from generating BTF debugging information
+(when DEBUG_INFO_BTF is enabled).
 
---bTRtgpGUIlP+T0Rn
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+And if pahole doesn't support the --lang-exclude flag, we can't enable
+both RUST and DEBUG_INFO_BTF at the same time.
 
-On Tue, Jul 04, 2023 at 07:46:23AM +0700, Budi wrote:
-> Please one sincerely help, I need huge help
->=20
-> I build kernel but there's few absolute interrupted compilations
-> resulting in few .o files are defect, cannot be recognized
->=20
-> In 'make' and 'make modules' this'd be no problem at all as  is
-> capable of resuming whole the process
-> it's solved by deleting those .o files and then redo the build again
-> which will complie those  particular files only
+So, in any case, the script is_rust_module.sh is just redundant and we
+can drop it.
 
-In that case, you should `make clean` first.
+NOTE: we may also be able to drop the "Rust loadable module" mark
+inside Rust modules, but it seems safer to keep it for now to make sure
+we are not breaking any external tool that may potentially rely on it.
 
->=20
-> but in 'make modules_install, it won't be
-> real case is within Kernel 6.3.9 package
->=20
-> So how to modify the makefile in order to be able to copy/install the
-> just built modules in pause-resume fashion so after few particular .o
-> files of modules deleted and rebuilt with pause-resume, then the
-> modules copy/install is performed on those only, not the entire
-> modules
+Signed-off-by: Andrea Righi <andrea.righi@canonical.com>
+---
+ rust/macros/module.rs     |  2 +-
+ scripts/Makefile.modfinal |  2 --
+ scripts/is_rust_module.sh | 16 ----------------
+ 3 files changed, 1 insertion(+), 19 deletions(-)
+ delete mode 100755 scripts/is_rust_module.sh
 
-IMO, again `make clean` first then rebuild the whole world (just `make`).
+diff --git a/rust/macros/module.rs b/rust/macros/module.rs
+index fb1244f8c2e6..d62d8710d77a 100644
+--- a/rust/macros/module.rs
++++ b/rust/macros/module.rs
+@@ -199,7 +199,7 @@ pub(crate) fn module(ts: TokenStream) -> TokenStream {
+             /// Used by the printing macros, e.g. [`info!`].
+             const __LOG_PREFIX: &[u8] = b\"{name}\\0\";
+ 
+-            /// The \"Rust loadable module\" mark, for `scripts/is_rust_module.sh`.
++            /// The \"Rust loadable module\" mark.
+             //
+             // This may be best done another way later on, e.g. as a new modinfo
+             // key or a new section. For the moment, keep it simple.
+diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+index fc19f67039bd..b3a6aa8fbe8c 100644
+--- a/scripts/Makefile.modfinal
++++ b/scripts/Makefile.modfinal
+@@ -41,8 +41,6 @@ quiet_cmd_btf_ko = BTF [M] $@
+       cmd_btf_ko = 							\
+ 	if [ ! -f vmlinux ]; then					\
+ 		printf "Skipping BTF generation for %s due to unavailability of vmlinux\n" $@ 1>&2; \
+-	elif [ -n "$(CONFIG_RUST)" ] && $(srctree)/scripts/is_rust_module.sh $@; then 		\
+-		printf "Skipping BTF generation for %s because it's a Rust module\n" $@ 1>&2; \
+ 	else								\
+ 		LLVM_OBJCOPY="$(OBJCOPY)" $(PAHOLE) -J $(PAHOLE_FLAGS) --btf_base vmlinux $@; \
+ 		$(RESOLVE_BTFIDS) -b vmlinux $@; 			\
+diff --git a/scripts/is_rust_module.sh b/scripts/is_rust_module.sh
+deleted file mode 100755
+index 464761a7cf7f..000000000000
+--- a/scripts/is_rust_module.sh
++++ /dev/null
+@@ -1,16 +0,0 @@
+-#!/bin/sh
+-# SPDX-License-Identifier: GPL-2.0
+-#
+-# is_rust_module.sh module.ko
+-#
+-# Returns `0` if `module.ko` is a Rust module, `1` otherwise.
+-
+-set -e
+-
+-# Using the `16_` prefix ensures other symbols with the same substring
+-# are not picked up (even if it would be unlikely). The last part is
+-# used just in case LLVM decides to use the `.` suffix.
+-#
+-# In the future, checking for the `.comment` section may be another
+-# option, see https://github.com/rust-lang/rust/pull/97550.
+-${NM} "$*" | grep -qE '^[0-9a-fA-F]+ [Rr] _R[^[:space:]]+16___IS_RUST_MODULE[^[:space:]]*$'
+-- 
+2.40.1
 
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---bTRtgpGUIlP+T0Rn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZKOZsQAKCRD2uYlJVVFO
-o3pQAP9L5cfMbC4TPPaRsv+7jpoRoCwaDfhhGU8tqZlHdA8UcgEAxQKepM5oA3Dx
-ocO6vghV6C552Qoxes36OpGQ6Zpcpwc=
-=Htzl
------END PGP SIGNATURE-----
-
---bTRtgpGUIlP+T0Rn--
