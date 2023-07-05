@@ -2,87 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DDFB174881C
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Jul 2023 17:34:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF693748917
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Jul 2023 18:20:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232197AbjGEPe2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 5 Jul 2023 11:34:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54644 "EHLO
+        id S232258AbjGEQUb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 5 Jul 2023 12:20:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230495AbjGEPe2 (ORCPT
+        with ESMTP id S229455AbjGEQUb (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 5 Jul 2023 11:34:28 -0400
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A547C170B
-        for <linux-kbuild@vger.kernel.org>; Wed,  5 Jul 2023 08:34:26 -0700 (PDT)
-Received: from cwcc.thunk.org (pool-173-48-102-5.bstnma.fios.verizon.net [173.48.102.5])
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 365FY5s4025721
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 5 Jul 2023 11:34:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-        t=1688571251; bh=PxGfltF6c2E6Vt1/VG/UEQXjz/2rYU3qwRGE/kZ15tA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=R7BeBsCH1h0L32dAtFswGvJD4QioXcZgo9EBmkJn6JkhNgjmsuLJb71GkLoRwFfHI
-         2tm0WOuxakbWjCsSYmWkcNGJ9UZPmndS6lUaCS2FbEnWImLxIxBXOpPtpjCt7APfO0
-         8J8LevpZDepGqdOBp1Ox5sZzjk1nHAVOrHuHcdYssRFnz/2LTCuLXb22mEJh50xHbU
-         4nmggvdsORDckBL6wmhHLlOD6pCMpGP0BEYWN4L7SXLxiO+Zia1biDi9VqVQUycJ7o
-         dIHAYV6CS6bYvRycSDOf4K3YqGJv7fRuM/PmEQ3na5V2KccNshnLHh6CI0B3rF451l
-         7QQwYqRHpyz9w==
-Received: by cwcc.thunk.org (Postfix, from userid 15806)
-        id 6979C15C0294; Wed,  5 Jul 2023 11:34:05 -0400 (EDT)
-Date:   Wed, 5 Jul 2023 11:34:05 -0400
-From:   "Theodore Ts'o" <tytso@mit.edu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: Overly aggressive .gitignore file?
-Message-ID: <20230705153405.GA1382903@mit.edu>
-References: <CAHk-=wiJHMje8cpiTajqrLrM23wZK0SWetuK1Bd67c0OGM_BzQ@mail.gmail.com>
- <CAK7LNAQas0cK7pgi72tYC3yU=ZkQxnr41YYW1mXd-sWiHtG+UA@mail.gmail.com>
+        Wed, 5 Jul 2023 12:20:31 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBE221703;
+        Wed,  5 Jul 2023 09:20:29 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7F414614CB;
+        Wed,  5 Jul 2023 16:20:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A62C5C433C8;
+        Wed,  5 Jul 2023 16:20:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1688574028;
+        bh=G7AHsttbExuu7iAPGPc7tUyss2l3OZIYar6Xamqq4x0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bNbX5gJWlwKzmQM0I/oXUZ+R7essa/oB6vnimg9rh+m3t66g+SYMclgzVs2MDvEj3
+         VmVOHYNMYPgkJJyC0vDP6+wpc6n8wNHz7lmjrE61vSP9/I7IV+gJkWF3KFmbEqernD
+         dOe87ihG9SvM7Uu3I8Qss7XOMOl1djcULa9yG3nlFcTUWsD4x/zKXI7bTCSBHqjiPH
+         6nNWRIhgpzwlMuOX+4eYRkLhusbzmdFHkQRh0/7cGuJx0/J3RaXKMoJZtBecMk1vPS
+         sYfFSHI3+Xyytd7Lx0D9tD1VaNAjMYLrGHaVh7hK1L00yScCdbkJ0V7BD7rJNdT4se
+         SzfodwUwkSLog==
+Date:   Wed, 5 Jul 2023 09:20:26 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     linux-kbuild@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] kbuild: Enable -Wenum-conversion by default
+Message-ID: <20230705162026.GA2951@dev-arch.thelio-3990X>
+References: <20230704221951.7396-1-bp@alien8.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK7LNAQas0cK7pgi72tYC3yU=ZkQxnr41YYW1mXd-sWiHtG+UA@mail.gmail.com>
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230704221951.7396-1-bp@alien8.de>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 05, 2023 at 10:59:28AM +0900, Masahiro Yamada wrote:
-> Perhaps, a slightly similar case is *.patch.
-> (We do ignore *.patch)
+On Wed, Jul 05, 2023 at 12:19:51AM +0200, Borislav Petkov wrote:
+> From: "Borislav Petkov (AMD)" <bp@alien8.de>
 > 
-> People quite often run 'git format-patch'.
-> And, the generated patches have similar prefixes.
-> (0001-, 0002-, 0003-, ..., for good reasons)
+> This diagnostic checks whether there is a type mismatch when
+> converting enums (assign an enum of type A to an enum of type B, for
+> example) and it caught a legit issue recently. The reason it didn't show
+> is because that warning is enabled only with -Wextra with GCC. Clang,
+> however, enables it by default.
 > 
-> The autocomplete does not work if 000* files
-> exist from the previous time I ran 'git format-patch'.
-> I repeatedly run 'rm -f 00*' even if 'git status' does not show them.
+> GCC folks were considering enabling it by default but it was too noisy
+> back then:
+> 
+>   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=78736
+> 
+> Now that due to clang all those warnings have been fixed, enable it with
+> GCC too.
+> 
+> allmodconfig tests done with: x86, arm{,64}, powerpc{,64}, riscv
+> crossbuilds.
+> 
+> Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
 
-Autocomplete "works", in so far that if you type 0<TAB>, it will
-autocomplete up to 000 and then ring the terminal bell, at which point
-I'll type say, 1<TAB>, and then if there are previous *.patch files,
-it will ring the terminal bell again, and then if you type <TAB> a
-second time, it will list the possible autocompletes.
+Yes please :)
 
-I will also say that since of "rm -f <pattern includes a '*'>" is too
-easy to accidentally screwup and delete something I would care about,
-my solution is "git format-patch -o /tmp/p ...", since then I can
-clear out the files by typing "rm -r /tmp/p".
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-Cheers,
-
-					- Ted
-
-P.S.  Also note that "git format-patch" will automatically create
-/tmp/p if it doesn't exist, unlike how b4 works with the -o option.
+> ---
+>  Makefile | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/Makefile b/Makefile
+> index 7a5a175f708f..428132b3d6dd 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1082,6 +1082,9 @@ KBUILD_CFLAGS   += $(call cc-option,-Werror=incompatible-pointer-types)
+>  # Require designated initializers for all marked structures
+>  KBUILD_CFLAGS   += $(call cc-option,-Werror=designated-init)
+>  
+> +# Warn if there is an enum types mismatch
+> +KBUILD_CFLAGS	+= $(call cc-option,-Wenum-conversion)
+> +
+>  # change __FILE__ to the relative path from the srctree
+>  KBUILD_CPPFLAGS += $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
+>  
+> -- 
+> 2.41.0
+> 
