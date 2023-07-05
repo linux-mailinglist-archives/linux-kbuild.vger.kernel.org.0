@@ -2,86 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FA5B7480CA
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Jul 2023 11:28:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B168748188
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Jul 2023 11:54:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230100AbjGEJ2U (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 5 Jul 2023 05:28:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49318 "EHLO
+        id S232082AbjGEJys (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 5 Jul 2023 05:54:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229871AbjGEJ2S (ORCPT
+        with ESMTP id S232045AbjGEJyn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 5 Jul 2023 05:28:18 -0400
-X-Greylist: delayed 3349 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 05 Jul 2023 02:28:13 PDT
-Received: from esgaroth.petrovitsch.at (unknown [IPv6:2a01:4f8:120:527b:6876:2a4f:a044:62ad])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17B6B1725;
-        Wed,  5 Jul 2023 02:28:12 -0700 (PDT)
-Received: from [172.16.0.14] (84-115-216-135.cable.dynamic.surfer.at [84.115.216.135])
-        (authenticated bits=0)
-        by esgaroth.petrovitsch.at (8.17.1/8.17.1) with ESMTPSA id 3658Ve1G3043130
-        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT);
-        Wed, 5 Jul 2023 10:31:42 +0200
-DKIM-Filter: OpenDKIM Filter v2.11.0 esgaroth.petrovitsch.at 3658Ve1G3043130
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=petrovitsch.priv.at;
-        s=default; t=1688545904;
-        bh=hF/IfiEBnsCLKhouXrFQ8MKHzlbIFna5M39DjQ6ZLlA=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=jzUminHNuFWP5fjiaOwsgLdcy5whhnNgh1Ri8niAmL5GqGWM8+2QkUUp83mhSbH5z
-         3MLcFu7YMlEBOnVneMMu5QWzkTxt9C25lZ55XdN7OCXhBPARTEK9mh3fGJRmH1EkU9
-         2Q/oaYTOrYTZ19oDW12SAazfnbd5G0+mlYz53i0A=
-X-Info-sendmail: I was here
-Message-ID: <98724f26-8a88-8775-d92b-2b7941e96cd8@petrovitsch.priv.at>
-Date:   Wed, 5 Jul 2023 10:31:35 +0200
+        Wed, 5 Jul 2023 05:54:43 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D68521731;
+        Wed,  5 Jul 2023 02:54:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688550881; x=1720086881;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=gZs5puT8XIu8UqezpunPVtrS+rhk5K8cygXvP7LrZZk=;
+  b=KzkIdcMsKq9qUmvu0CKLJtUTtGPRo1+lbyeXzFojPjyjBKupy/oaWXl2
+   NrMUW0ZEHZGLI2zU+e22stONqKof3dG2x11v7qNVeOLkqji5DJwLwjQXB
+   nthWsNfHEmWgE+dMNxsVG3OKfYfo+qYJiEZfziNxPXXrRJJLcZJ/LniMK
+   3vrrbxeGXo353pDgMAyb6CADod6SDldKJlUq1P8wnCZ2uT4uBLwyjzFEE
+   1BivjxZ3KVJLvsjD0X43lSLhGo1vDIl54yUOIR6K5dhKpBSLWsri1oU5F
+   jGR2oY4mvsidaV34OPeYuAtPcJFzlMxcNiw7358dvTs9zf/dNFN7UmRou
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="360774836"
+X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
+   d="scan'208";a="360774836"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2023 02:54:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="719166445"
+X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
+   d="scan'208";a="719166445"
+Received: from unisar-mobl.ger.corp.intel.com (HELO localhost) ([10.252.49.23])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2023 02:54:37 -0700
+From:   Jani Nikula <jani.nikula@intel.com>
+To:     linux-kernel@vger.kernel.org, workflows@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, intel-gfx@lists.freedesktop.org
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: __diag_ignore_all(), GCC < 8, extra warnings, and -Werror
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Date:   Wed, 05 Jul 2023 12:54:35 +0300
+Message-ID: <87wmzezns4.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: Overly aggressive .gitignore file?
-Content-Language: en-US, de-AT, en-IE
-To:     Willy Tarreau <w@1wt.eu>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-References: <CAHk-=wiJHMje8cpiTajqrLrM23wZK0SWetuK1Bd67c0OGM_BzQ@mail.gmail.com>
- <20230704211509.GA21834@1wt.eu>
- <CAHk-=wjH4O6v_EwVB=t_6Haky2jOiejHbCkCTvgNQWo1ghy8-w@mail.gmail.com>
- <20230704213415.GA21872@1wt.eu>
-From:   Bernd Petrovitsch <bernd@petrovitsch.priv.at>
-BIMI-Selector: v=BIMI1; s=default
-In-Reply-To: <20230704213415.GA21872@1wt.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-DCC-sonic-Metrics: esgaroth.petrovitsch.priv.at 1254; Body=7 Fuz1=7 Fuz2=7
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 04/07/2023 23:34, Willy Tarreau wrote:
-[...]
-> I did and for me on this machine I don't have the problem:
->>    willy@pcw:~/linux$ git status
->    On branch 20230702-nolibc-series1+2_2
->    Your branch is up to date with 'origin/20230702-nolibc-series1+2_2'.
->    
->    nothing to commit, working tree clean
->    willy@pcw:~/linux$ echo blah > 2023-new-patch.mbx
 
-Create 10k files instead of only one and you will have the above described
-problem (filename completion takes ages because of untracked files not
-shown by `git status`).
+For a long time now, i915 has enabled a bunch of W=1 style warnings
+locally, and we try hard to keep i915 warning free.
 
-Kind regards,
-	Bernd
+One of the warnings is -Woverride-init from -Wextra. We need to bypass
+that in a few cases, and used to do this for the relevant files:
+
+	CFLAGS_file.o = $(call cc-disable-warning, override-init)
+
+Recently, we switched from the above to a more localized version in each
+file.c:
+
+	__diag_push();
+	__diag_ignore_all("-Woverride-init", "Allow overriding inherited members");
+	...
+        __diag_pop();
+
+We now got a report that this fails the build with CONFIG_WERROR=y or
+W=e when using GCC version < 8. Indeed, __diag_ignore_all() requires GCC
+version 8 or later.
+
+Should we now revert back to disabling -Woverride-init on a file
+granularity? Should we consider breaking the build for CONFIG_WERROR=y
+or W=e on older compilers a regression?
+
+I'll note that with the current usage of __diag_ignore_all() elsewhere
+in kernel, CONFIG_WERROR=y or W=e with W=1 will never pass on older
+compilers. But then again, it has never passed on any compiler, so it
+can't be a regression.
+
+
+BR,
+Jani.
+
+
 -- 
-Bernd Petrovitsch                  Email : bernd@petrovitsch.priv.at
-      There is NO CLOUD, just other people's computers. - FSFE
-                      LUGA : http://www.luga.at
-
+Jani Nikula, Intel Open Source Graphics Center
