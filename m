@@ -2,62 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F376747B66
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Jul 2023 04:10:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD1BE747BEC
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Jul 2023 05:52:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230232AbjGECKH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 4 Jul 2023 22:10:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52612 "EHLO
+        id S229645AbjGEDwX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 4 Jul 2023 23:52:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230126AbjGECKG (ORCPT
+        with ESMTP id S230035AbjGEDwV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 4 Jul 2023 22:10:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B94F410FE;
-        Tue,  4 Jul 2023 19:10:02 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        Tue, 4 Jul 2023 23:52:21 -0400
+X-Greylist: delayed 317 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 04 Jul 2023 20:52:12 PDT
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB583E6E;
+        Tue,  4 Jul 2023 20:52:12 -0700 (PDT)
+Received: from leknes.fjasle.eu ([46.142.98.200]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1M1q8m-1qJ6Oi1S6i-002CcA; Wed, 05 Jul 2023 05:46:28 +0200
+Received: from localhost.fjasle.eu (kirkenes.fjasle.eu [10.10.0.5])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3D5BF61403;
-        Wed,  5 Jul 2023 02:10:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82D19C433C7;
-        Wed,  5 Jul 2023 02:10:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688523001;
-        bh=0RXVtrB0FoWlqLqj3GuhEFh6R++jmGgbW8HINllGCLs=;
-        h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-        b=AWcU1MY/jciOkKbUW/JRZsw5KyS6LeKrA+n7+Rx00yg2dG+WiCeWWW9e1hc/71tfx
-         mBPikkYNoPJk/rk8+lHymdIdntDzO+a+a2eO+WOHg8amuVOV1+226aserM+xWUWj5A
-         DzcsBp65+mzNJZX9tMGMDYumDKtfPGvjTO/xVCXmruTaArK4Az02J4byAB9860OLVE
-         6Jd8/TdJz9DLx6im/khwNm9XeyiwlZNT6oRIJM5cvMo8GReR36++l+4OJvL7eJ5NT2
-         WFTffhL162vEGWKaOkVmvlwkDETQfGmM3bQjUNKckjTNPs+SB6+BiShMpAkr61J5OX
-         PCO3MBPj7bpfg==
-Date:   Tue, 04 Jul 2023 19:09:59 -0700
-From:   Kees Cook <kees@kernel.org>
-To:     Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>,
-        Kees Cook <keescook@chromium.org>
-CC:     Guenter Roeck <linux@roeck-us.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux LLVM <llvm@lists.linux.dev>,
-        linux-kbuild@vger.kernel.org,
-        Linux Regressions <regressions@lists.linux.dev>,
-        Nathan Chancellor <nathan@kernel.org>,
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by leknes.fjasle.eu (Postfix) with ESMTPS id 9A6FD3E77A;
+        Wed,  5 Jul 2023 05:46:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
+        t=1688528786; bh=HnkD9VZba8t7ggYP/ui8iR+F9w6/BbeJgf9U4jNoFts=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bACWThQ0STjRLlGa7U+gBKRTJWhMqgAmwoqdoekaINqID8B20JgF/YkCRMIIFp4DJ
+         LcQY7l0w3AD1OgJp6jbRZ/a8rNqOT2ArnLR7+74wH+Jh3zsmyZlBVpqvo2+GAmmThg
+         PzELgw3ErXm52hghxWYuMYvvLjLyILNgc8vjT5Dk=
+Received: by localhost.fjasle.eu (Postfix, from userid 1000)
+        id F02BF7E6A; Wed,  5 Jul 2023 05:45:52 +0200 (CEST)
+Date:   Wed, 5 Jul 2023 05:45:52 +0200
+From:   Nicolas Schier <nicolas@fjasle.eu>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        linux-hardening@vger.kernel.org
-Subject: Re: [CRASH][BISECTED] 6.4.1 crash in boot
-User-Agent: K-9 Mail for Android
-In-Reply-To: <19d0e63c-db47-8f02-2f79-0923f675898c@alu.unizg.hr>
-References: <9a8e34ad-8a8b-3830-4878-3c2c82e69dd9@alu.unizg.hr> <ZKIoBVzrjZ+Ybxy9@debian.me> <202307022018.B26F5795@keescook> <625e951e-9922-d15d-5520-e8cd5eba1995@roeck-us.net> <4fa56264-f188-46f9-cc77-117b469b3328@roeck-us.net> <2b1a4f49-ba18-0246-af09-4e4133814411@alu.unizg.hr> <202307022230.6121D6896@keescook> <ed3e4315-b149-2f9e-70d4-45d7f83b9922@alu.unizg.hr> <202307031149.823F9A3@keescook> <202307031606.3FD9D0D@keescook> <fbf4103b-6471-1f06-34a8-4aa227f5e091@alu.unizg.hr> <3CDD1188-7B2A-4D53-9B8F-C07BC39844E9@kernel.org> <19d0e63c-db47-8f02-2f79-0923f675898c@alu.unizg.hr>
-Message-ID: <DA3FEB08-DF39-406B-89CC-9076CFCF597A@kernel.org>
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: Overly aggressive .gitignore file?
+Message-ID: <ZKTncHqLwgbZbRVl@bergen.fjasle.eu>
+References: <CAHk-=wiJHMje8cpiTajqrLrM23wZK0SWetuK1Bd67c0OGM_BzQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="kOBcq0CHJ88AHU5w"
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wiJHMje8cpiTajqrLrM23wZK0SWetuK1Bd67c0OGM_BzQ@mail.gmail.com>
+X-Operating-System: Debian GNU/Linux trixie/sid
+Jabber-ID: nicolas@jabber.no
+X-Provags-ID: V03:K1:pp5kItlLWfUuVEBBrxw4/Cj8PfzSumI1Wv52tVY0+OwNMVQpY0P
+ zIVrKPiCWLd1XKNg3xbkcxTZClV5vxqKNv+XoCdIEBagCCsggFhH4TpcaTf4/ItNU+yQ9jG
+ p4dPbZ6XYExTqX/0gRgVinshkuU4uy6EKACrY9CRqQRBA/ZX3h9cNzt+zKWedGMsmrG6sU5
+ e3FGF+Hz3BBesI8jc90zg==
+UI-OutboundReport: notjunk:1;M01:P0:JJCqAKtmOok=;L67Tq7CyphbVRDX9R06hxzDiipa
+ MSE6/ROEPnQ3yNP1b3ZzaCkazmJfOaKP4QGzTreG4VmMo6SSOtXrEo+dHrH3cwvTxcCzT+yLv
+ fwE6YGKJQC/6RMNdBq2h7DFvKnbeL8nely/PTaX1w1lyjuY0AKVYDKt9zVJ6wvu0ANdsQnGsB
+ fcsLGyREcrFGKtS8Qg+LA40HQnyQoir0bdcjerX3HTRprHw9GKgYypWoy9wnUPLWD8e4WxtY5
+ ZJdiitgV44IwkULuI/IYtJ+wRq4WCfwHW4WmkaEBWPrlxFV1Dnpf8PWx1KgJTdqKaV5cohLix
+ yubSEfzJ0B+tUcrqXm9knai8WgrEPw609F6bIbeAFTBdsYvC58+Ht5L99r7ereCUCN9aos7S0
+ 6+Q3UlG66udl1MMdJRw6E3dXLQu+L2JAvs02jNBiIoqHuMNJv7YyGAM9w16N9wq+3ZRlul5c0
+ zf4KNWW0wHLn2bXrEklDs/NsfFFjPTc866uc0iMcPQ+xQcCtfdwtRQ3/JrrTu7pkfiaYZuas0
+ f17EIngueX6YCv2d/PXBXkqGXEIbyFjP1woX4Ib/d16hzCtMekIsHbuENCTmcvbP/d0MCo9UE
+ bsSZUX8VTh0ANfm3WkAHYsg6FdEdfraVoJemtxO9BH0a2cRvJ9rpGuli1U6IzsXiL5vaSRflk
+ M7Oq7LiKSQ8JeeTbFxpS8RpCbeAtgDGlcrnMjYalyA==
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H4,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,197 +75,114 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On July 4, 2023 4:15:20 PM PDT, Mirsad Todorovac <mirsad=2Etodorovac@alu=2E=
-unizg=2Ehr> wrote:
->On 7/4/23 23:36, Kees Cook wrote:
->> On July 4, 2023 10:20:11 AM PDT, Mirsad Todorovac <mirsad=2Etodorovac@a=
-lu=2Eunizg=2Ehr> wrote:
->>> On 7/4/23 01:09, Kees Cook wrote:> On Mon, Jul 03, 2023 at 12:03:23PM =
--0700, Kees Cook wrote:
->>>>> Cool=2E xhci-hub is in your backtrace, and the above patch was made =
-for
->>>>> something very similar (though, again, I don't see why you're gettin=
-g a
->>>>> _crash_, it should _warn_ and continue normally)=2E And, actually, a=
-lso
->>>>> include this patch:
->>>>> https://lore=2Ekernel=2Eorg/lkml/20230614181307=2Egonna=2E256-kees@k=
-ernel=2Eorg/
->>>>=20
->>>> This is now in Linus's tree:
->>>> 09b69dd4378b ("usb: ch9: Replace 1-element array with flexible array"=
-)
->>>>=20
->>>> Please also still try with the first patch I mentioned, which is very=
- similar:
->>>> https://lore=2Ekernel=2Eorg/lkml/20230629190900=2Enever=2E787-kees@ke=
-rnel=2Eorg/
->>>=20
->>> Hi,
->>>=20
->>> I have finally built w both patches (and recommended PSTORE settings w=
-ere
->>> default already)=2E
->>=20
->> Were you able to find the crashes saved by pstore?
->
->No, only lktdm and invalid opcode crashes =2E=2E=2E
->
->P=2ES=2E
->
->Actually, I have recovered some pstore records=2E Please find them in the=
- attachment:
->
->>> This second patch fixes the booting problem, but alas there is still a=
- problem -
->>=20
->> Ah! That's great! They're is still an unexpected crash source, but the =
-trigger is fixed=2E
->
->Glad I could be of help=2E
->
->>> all Wayland and X11=2Eorg GUI applications fail to start, with errors =
-like this one:
->>>=20
->>> Jul  4 19:09:07 defiant kernel: [   40=2E529719] invalid opcode: 0000 =
-[#1] PREEMPT SMP NOPTI
->>=20
->> Hmm, is CONFIG_UBSAN_TRAP set?
->
->marvin@defiant:~/linux/kernel/linux_torvalds$ grep CONFIG_UBSAN_TRAP =2Ec=
-onfig
->CONFIG_UBSAN_TRAP=3Dy
 
-Ah-ha! Turn that off please=2E With it off you will get much more useful r=
-eports from USBAN=2E
+--kOBcq0CHJ88AHU5w
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->marvin@defiant:~/linux/kernel/linux_torvalds$
->
->>> Jul  4 19:09:07 defiant kernel: [   40=2E529726] RIP: 0010:alloc_pid+0=
-x46c/0x480
->>=20
->> Hmm, is this patch in your kernel?
->> https://git=2Ekernel=2Eorg/linus/b69f0aeb068980af983d399deafc7477cec8bc=
-04
->
->No, it wasn't=2E I had only these:
->
->marvin@defiant:~/linux/kernel/linux_torvalds$ more =2E=2E/kees-[12]=2Epat=
-ch
->::::::::::::::
->=2E=2E/kees-1=2Epatch
->::::::::::::::
->diff --git a/include/uapi/linux/usb/ch9=2Eh b/include/uapi/linux/usb/ch9=
-=2Eh
->index b17e3a21b15f=2E=2E82ec6af71a1d 100644
->--- a/include/uapi/linux/usb/ch9=2Eh
->+++ b/include/uapi/linux/usb/ch9=2Eh
->@@ -376,7 +376,10 @@ struct usb_string_descriptor {
-> 	__u8  bLength;
-> 	__u8  bDescriptorType;
-> -	__le16 wData[1];		/* UTF-16LE encoded */
->+	union {
->+		__le16 legacy_padding;
->+		__DECLARE_FLEX_ARRAY(__le16, wData);	/* UTF-16LE encoded */
->+	};
-> } __attribute__ ((packed));
->  /* note that "string" zero is special, it holds language codes that
->::::::::::::::
->=2E=2E/kees-2=2Epatch
->::::::::::::::
->diff --git a/include/uapi/linux/usb/ch9=2Eh b/include/uapi/linux/usb/ch9=
-=2Eh
->index b17e3a21b15f=2E=2E3ff98c7ba7e3 100644
->--- a/include/uapi/linux/usb/ch9=2Eh
->+++ b/include/uapi/linux/usb/ch9=2Eh
->@@ -981,7 +981,11 @@ struct usb_ssp_cap_descriptor {
-> #define USB_SSP_MIN_RX_LANE_COUNT		(0xf << 8)
-> #define USB_SSP_MIN_TX_LANE_COUNT		(0xf << 12)
-> 	__le16 wReserved;
->-	__le32 bmSublinkSpeedAttr[1]; /* list of sublink speed attrib entries *=
-/
->+	union {
->+		__le32 legacy_padding;
->+		/* list of sublink speed attrib entries */
->+		__DECLARE_FLEX_ARRAY(__le32, bmSublinkSpeedAttr);
->+	};
-> #define USB_SSP_SUBLINK_SPEED_SSID	(0xf)		/* sublink speed ID */
-> #define USB_SSP_SUBLINK_SPEED_LSE	(0x3 << 4)	/* Lanespeed exponent */
-> #define USB_SSP_SUBLINK_SPEED_LSE_BPS		0
->marvin@defiant:~/linux/kernel/linux_torvalds$
->
->---------------------------------------------------------
->
->Now it works=2E Succeeded boot and running of X apps with the new git pul=
-l
->torvalds tree and the kees-2=2Epatch=2E
+On Tue 04 Jul 2023 12:49:01 GMT, Linus Torvalds wrote:
+> So this keeps happening to me - I go to apply a patch I just
+> downloaded with 'b4', and I do my regular
+>=20
+>      git am -s --whitespace 2023<tab>
+>=20
+> and the dang thing doesn't autocomplete.,
+>=20
+> The reason it doesn't auto-complete ends up being that my kernel tree
+> contains some other random stale mbx file from the _previous_ time I
+> did that, because they effectively get hidden from "git status" etc by
+> our .gitignore file.
+>=20
+> So then those stale files end up staying around much too long and not
+> showing up on my radar even though they are just old garbage by the
+> time I have actually applied them.
+>=20
+> And I always use auto-complete, because those filenames that 'b4'
+> generate are ridiculously long (for good reason).
+>=20
+> And the auto-complete always fails, because b4 just uses a common
+> prefix pattern too (again, for a perfectly good reason - I'm not
+> complaining about b4 here).
+>=20
+> This has been a slight annoyance for a while, but the last time it
+> happened just a moment ago when I applied David Howells' afs patch
+> (commit 03275585cabd: "afs: Fix accidental truncation when storing
+> data" - not that the particular commit matters, I'm just pointing out
+> how it just happened _again_).
+>=20
+> So I'm really inclined to just revert the commit that added this
+> pattern: 534066a983df (".gitignore: ignore *.cover and *.mbx"). It's
+> actively detrimental to my workflow.
+>=20
+> I'm not sure why that pattern was added, though. These are not
+> auto-generated files from our build.  So before I go off and revert
+> it, let's ask the people mentioned in that commit.
+>=20
+> I *suspect* the thing that triggered this wasn't that people actually
+> wanted to ignore these files, but that it was related to the misguided
+> "let's use .gitignore to build source packages" project.
+>=20
+> But at least for me, it's a real problem when .gitignore contains
+> other files than the ones we actually generate.
+>=20
+> The only one that actually commonly affects me is the *.mbx file,
+> although I could certainly see the same being true of the *.cover
+> thing.
+>=20
+> And there might certainly be other patterns like this that I just
+> don't react to, because they don't have the same detrimental effects
+> on how I work.
+>=20
+> Comments?
+>=20
+>                Linus
 
-Perfect! Okay, so it looks like all the issues are known and fixed=2E I'll=
- work with Greg to get the other ch9 patch landed=2E
+Thanks for sharing some details of your concrete workflow.  I think,=20
+having this in mind, it is quite a fair point to criticise the handling=20
+(or ignoring, respectively) of files that are are not generated or used=20
+during kernel builds.  But in general, I don't find it that easy to=20
+draw the line; should we also remove
 
->
->Praise God!
->
->This is the git log --oneline:
->
->d528014517f2 (HEAD, origin/master, origin/HEAD) Revert "=2Egitignore: ign=
-ore *=2Ecover and *=2Embx"
->04f2933d375e Merge tag 'core_guards_for_6=2E5_rc1' of git://git=2Ekernel=
-=2Eorg/pub/scm/linux/kernel/git/peterz/queue
->03275585cabd afs: Fix accidental truncation when storing data
->538140ca602b Merge tag 'ovl-update-6=2E5-2' of git://git=2Ekernel=2Eorg/p=
-ub/scm/linux/kernel/git/overlayfs/vfs
->94c76955e86a Merge tag 'gfs2-v6=2E4-rc5-fixes' of git://git=2Ekernel=2Eor=
-g/pub/scm/linux/kernel/git/gfs2/linux-gfs2
->ccf46d853183 Merge tag 'pm-6=2E5-rc1-2' of git://git=2Ekernel=2Eorg/pub/s=
-cm/linux/kernel/git/rafael/linux-pm
->b869e9f49964 Merge tag 'clk-for-linus' of git://git=2Ekernel=2Eorg/pub/sc=
-m/linux/kernel/git/clk/linux
->406fb9eb198a Merge tag 'firewire-6=2E5-rc1' of git://git=2Ekernel=2Eorg/p=
-ub/scm/linux/kernel/git/ieee1394/linux1394
->f1962207150c module: fix init_module_from_file() error handling
->40c565a429d7 Merge branches 'pm-cpufreq' and 'pm-cpuidle'
->f679e89acdd3 clk: tegra: Avoid calling an uninitialized function
->
->So, the included patch is:
->
->marvin@defiant:~/linux/kernel/linux_torvalds$ git diff
->diff --git a/include/uapi/linux/usb/ch9=2Eh b/include/uapi/linux/usb/ch9=
-=2Eh
->index 82ec6af71a1d=2E=2E62d318377379 100644
->--- a/include/uapi/linux/usb/ch9=2Eh
->+++ b/include/uapi/linux/usb/ch9=2Eh
->@@ -984,7 +984,11 @@ struct usb_ssp_cap_descriptor {
-> #define USB_SSP_MIN_RX_LANE_COUNT              (0xf << 8)
-> #define USB_SSP_MIN_TX_LANE_COUNT              (0xf << 12)
->        __le16 wReserved;
->-       __le32 bmSublinkSpeedAttr[1]; /* list of sublink speed attrib ent=
-ries */
->+       union {
->+               __le32 legacy_padding;
->+               /* list of sublink speed attrib entries */
->+               __DECLARE_FLEX_ARRAY(__le32, bmSublinkSpeedAttr);
->+       };
-> #define USB_SSP_SUBLINK_SPEED_SSID     (0xf)           /* sublink speed =
-ID */
-> #define USB_SSP_SUBLINK_SPEED_LSE      (0x3 << 4)      /* Lanespeed expo=
-nent */
-> #define USB_SSP_SUBLINK_SPEED_LSE_BPS          0
->marvin@defiant:~/linux/kernel/linux_torvalds$
->
->This means vanilla torvalds tree + https://lore=2Ekernel=2Eorg/lkml/20230=
-629190900=2Enever=2E787-kees@kernel=2Eorg/
->works, but vanilla torvalds tree w/o patch still crashes=2E
+   *.kdev4
+   *.orig
+   *.patch
+   *~
+   \#*#
+   patches
+   series
 
-Great, thanks again for testing it all!
+=66rom .gitignore?   I don't think so, even though they (partially) fall=20
+into the same category.
 
--Keed
+=46rom my point of view, this is a decision of personal preference.
+I do like the ignoring of *.mbx and *.cover, as I tend to have those=20
+files around for some time by intention.  But a revert would not cause=20
+any trouble to me and optimisation of your workflow is magnitudes more=20
+important, so I am perfectly fine with it, if you want to have the=20
+commit reverted.
 
->
->I am still rather new to the utilisation of the PSTORE subsystem=2E
->
->Best regards,
->Mirsad Todorovac
+Kind regards,
+Nicolas
 
---=20
-Kees Cook
+--kOBcq0CHJ88AHU5w
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmSk52oACgkQB1IKcBYm
+Emn36xAApwKAOGE3Kyrg5laz1NIiZ3UJi2bbR5vBRUdRTv4XiYpNJGuEuFvTugcO
+VcKbHcbVcL5s2Uau1Mau33eTbcxHKPn/mLrcqeOZICLv9XqeOgZbTMVD3nByhVwd
+kJAqpSfJplElzs1O6r7duqaKRr6oXELHMtTxzl7Rn7ZcxqnJWV5MIG/YSjrjRNe6
+rua6akR6k0i8I2Z78C2yN2wFnWMuLoMwJaCzPDkSqNg0H25wzr3Ge4fj63KuGpLm
+IL7X/Eu30FbVMgcR9nev8ud0yb2FrAWenxwBfQDTEkSLiCKa+zLuax5uEFWI70zs
+PCikiUAdhrm5vVzPaLQwQdi0d6EcWa2MgiO5IUWEPqk4iBYpV8G2JNb5JqJF9siV
+650RFrrk9D1P8YH6aFH9byVivN4H/5Ay30by5xEyf2m/LeURPt0cQ4E3n3IMj5y6
+p6xL7Znmd5vpbnVnbetnYQRlbmpa5jb8A3YP7rovMuIzRoWc52oFqdVcy4kxfQnH
+v0B3+oKf4oMef1SQk9M5XGLI+p74IlYbKaFTf1C8DhEKgEPEBNvebD3viheDhPfA
+Ms0odI0SeKQgf0mSy84aio7aO9zmYLS3M/IgRNFOoLoPE+mdJkwfRhCmbY3x6Sz9
+BSJxB0mBb6T/lw3cZBNh+vAVddUkbpUtpkMU6CswWIIgt0BtHYk=
+=Tr0v
+-----END PGP SIGNATURE-----
+
+--kOBcq0CHJ88AHU5w--
