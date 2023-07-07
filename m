@@ -2,106 +2,97 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA3017494D1
-	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Jul 2023 07:03:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB5BB74B14D
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Jul 2023 14:52:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229842AbjGFFCv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 6 Jul 2023 01:02:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48838 "EHLO
+        id S230104AbjGGMwe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 Jul 2023 08:52:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229793AbjGFFCu (ORCPT
+        with ESMTP id S229872AbjGGMwd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 6 Jul 2023 01:02:50 -0400
-Received: from domac.alu.hr (domac.alu.unizg.hr [IPv6:2001:b68:2:2800::3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 774991BD9;
-        Wed,  5 Jul 2023 22:02:48 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by domac.alu.hr (Postfix) with ESMTP id 2D58C60171;
-        Thu,  6 Jul 2023 07:02:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
-        t=1688619755; bh=x+TliPLqS2k/24Fs2irqgh/j+t+Qk21Wb7pLn+QCGj4=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=1tscRhauMmSuk4ljitKrOhDn1XJXmMU4sdOn4Heu8jYvATLNW1n29UvEsuDduYMLr
-         rMuLAjWisOVw/9dx+p4+aQZ628rxU4dBBx39MNPDJ87XG/lH3kFtVzJjU+WDxXSXjr
-         fBaGOKWqk31dgt21db5jAG8Lbs2/MlAUtP++1ZCrKghqQf1U9WAe/EkxdfcoyRTaR1
-         TBtfXuTl6vhiU1pLGi/xawCxCV9H30NmW4CdgSagkmE93N7OfI22SHq7i7+IVTTF+h
-         1ZDqZ6XGbdSh4uOWjZIOY8y92btNGTwQTBAw7S5rLVPyAiFCP6A9aYZuUHuG9z5Ur9
-         QKZlBA8EVQK1w==
-X-Virus-Scanned: Debian amavisd-new at domac.alu.hr
-Received: from domac.alu.hr ([127.0.0.1])
-        by localhost (domac.alu.hr [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 9kGYQNc82_0p; Thu,  6 Jul 2023 07:02:33 +0200 (CEST)
-Received: from [192.168.1.6] (unknown [94.250.191.183])
-        by domac.alu.hr (Postfix) with ESMTPSA id E61326016E;
-        Thu,  6 Jul 2023 07:02:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
-        t=1688619753; bh=x+TliPLqS2k/24Fs2irqgh/j+t+Qk21Wb7pLn+QCGj4=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=B9/8kyiw6ezkyKM+F9IPFO898PSbHHlSWE0n2B6RqWo1Ot/OZvqcKrwyR4yriMElg
-         UbrYZRCeOBz+bQ+1qiZ2juhWI+AI5CA2AaxcvsXm01kJU09iRF2X2NnRv2wVkwJ6KX
-         wYNUiBlhXF6z25hrmAbYEoEA5yDsGCbYaYWPoPXrDgK9YVS9+jFZqTLAolJZ5DNJbC
-         Vq4ssmnysgU9mb1wH15pLKWO1Wo+G+51KOT9demKQQxk5zVjGIwAI57G4SsKbPtpnL
-         vlaQMrcBEB4IgE1c8qYdjW5yL0pc2zrRMlxiASuzxFRDv+DMP2aa1amIiSxXviT6ky
-         682ZxRHfegnrw==
-Message-ID: <f189719f-c7b9-e247-9251-8a336e41141d@alu.unizg.hr>
-Date:   Thu, 6 Jul 2023 07:02:11 +0200
+        Fri, 7 Jul 2023 08:52:33 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64A031BF4;
+        Fri,  7 Jul 2023 05:52:32 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1qHkwm-0006RT-L1; Fri, 07 Jul 2023 14:52:28 +0200
+Message-ID: <423a78fe-ac40-9983-ff44-90b1759fc0b5@leemhuis.info>
+Date:   Fri, 7 Jul 2023 14:52:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [CRASH][BISECTED] 6.4.1 crash in boot
-To:     Kees Cook <kees@kernel.org>, Kees Cook <keescook@chromium.org>
-Cc:     Guenter Roeck <linux@roeck-us.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux LLVM <llvm@lists.linux.dev>,
-        linux-kbuild@vger.kernel.org,
-        Linux Regressions <regressions@lists.linux.dev>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-hardening@vger.kernel.org
-References: <9a8e34ad-8a8b-3830-4878-3c2c82e69dd9@alu.unizg.hr>
- <ZKIoBVzrjZ+Ybxy9@debian.me> <202307022018.B26F5795@keescook>
- <625e951e-9922-d15d-5520-e8cd5eba1995@roeck-us.net>
- <4fa56264-f188-46f9-cc77-117b469b3328@roeck-us.net>
- <2b1a4f49-ba18-0246-af09-4e4133814411@alu.unizg.hr>
- <202307022230.6121D6896@keescook>
- <ed3e4315-b149-2f9e-70d4-45d7f83b9922@alu.unizg.hr>
- <202307031149.823F9A3@keescook> <202307031606.3FD9D0D@keescook>
- <fbf4103b-6471-1f06-34a8-4aa227f5e091@alu.unizg.hr>
- <3CDD1188-7B2A-4D53-9B8F-C07BC39844E9@kernel.org>
- <19d0e63c-db47-8f02-2f79-0923f675898c@alu.unizg.hr>
- <DA3FEB08-DF39-406B-89CC-9076CFCF597A@kernel.org>
-Content-Language: en-US
-From:   Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
-In-Reply-To: <DA3FEB08-DF39-406B-89CC-9076CFCF597A@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+ Thunderbird/102.12.0
+Subject: Re: mainline build failure due to df8fc4e934c1 ("kbuild: Enable
+ -fstrict-flex-arrays=3")
+Content-Language: en-US, de-DE
+To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Kees Cook <keescook@chromium.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        regressions@lists.linux.dev
+References: <ZJ2M4yqnOCqqGWH0@debian>
+ <c0db4c48-6090-5c72-b597-9d4146dbc26c@embeddedor.com>
+From:   "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+In-Reply-To: <c0db4c48-6090-5c72-b597-9d4146dbc26c@embeddedor.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1688734352;d5c41fdb;
+X-HE-SMSGID: 1qHkwm-0006RT-L1
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 7/5/23 04:09, Kees Cook wrote:
->>>
->>> Hmm, is CONFIG_UBSAN_TRAP set?
->>
->> marvin@defiant:~/linux/kernel/linux_torvalds$ grep CONFIG_UBSAN_TRAP .config
->> CONFIG_UBSAN_TRAP=y
+On 29.06.23 16:09, Gustavo A. R. Silva wrote:
 > 
-> Ah-ha! Turn that off please. With it off you will get much more useful reports from USBAN.
+> Thanks for the report. See my comments below.
 
-Done that. And it appears to work.
+Thx for your reply.
 
-Great job.
+> On 6/29/23 07:53, Sudip Mukherjee (Codethink) wrote:
+>>
+>> The latest mainline kernel branch fails to build with clang (version
+>> 16.0.1), and the errors are like:
+>>
+>> drivers/scsi/aacraid/commsup.c:1170:17: error: array index 1 is past
+>> the end of the array (that has type 'u8[1]' (aka 'unsigned char[1]'),
+>> cast to '__le32 *' (aka 'unsigned int *')) [-Werror,-Warray-bounds]
+>>                                  (((__le32 *)aifcmd->data)[1] ==
+>> cpu_to_le32(3));
+>>                                              ^             ~
+> [...]
+> These are addressed by this patch:
+> https://lore.kernel.org/linux-hardening/65907ee4083de62fbaadc5c2e6512e3828912d1b.1687974498.git.gustavoars@kernel.org/
+> 
+> in this series (for which I'll send v2 shortly):
+> https://lore.kernel.org/linux-hardening/62386518-4123-db1f-4656-6b4ea509f5b1@embeddedor.com/T/
 
-There should be a way to store the earliest kernel messages while in the initrd phase, but
-I can't think of any either ...
+Are those fixes still on track? Looks like there was not much progress
+since then, so I suspect this won't be fixed before -rc1? Or did miss
+something?
 
-Have a nice day!
+Ciao, Thorsten
 
-Best regards,
-Mirsad Todorovac
+> [...]
+>>
+>> git bisect pointed to df8fc4e934c1 ("kbuild: Enable
+>> -fstrict-flex-arrays=3").
+>>
+>> Reverting the commit has fixed the build failure.
+>>
+>> I will be happy to test any patch or provide any extra log if needed.
+>>
+>> #regzbot introduced: df8fc4e934c12b906d08050d7779f292b9c5c6b5
+>>
+>>
+> 
+> 
