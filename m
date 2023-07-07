@@ -2,58 +2,32 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 56B0A74B508
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Jul 2023 18:17:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C6CD74B520
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Jul 2023 18:31:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229796AbjGGQR4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Jul 2023 12:17:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49778 "EHLO
+        id S230516AbjGGQbm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 Jul 2023 12:31:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231565AbjGGQRv (ORCPT
+        with ESMTP id S229600AbjGGQbl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Jul 2023 12:17:51 -0400
-X-Greylist: delayed 90 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 07 Jul 2023 09:17:50 PDT
-Received: from omta40.uswest2.a.cloudfilter.net (omta40.uswest2.a.cloudfilter.net [35.89.44.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 605D19E
-        for <linux-kbuild@vger.kernel.org>; Fri,  7 Jul 2023 09:17:50 -0700 (PDT)
-Received: from eig-obgw-5009a.ext.cloudfilter.net ([10.0.29.176])
-        by cmsmtp with ESMTP
-        id Hllaq0G7ibK1VHo83qlkBH; Fri, 07 Jul 2023 16:16:20 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-        by cmsmtp with ESMTPS
-        id Ho82qW5jPeQQzHo83qLHGG; Fri, 07 Jul 2023 16:16:19 +0000
-X-Authority-Analysis: v=2.4 cv=VaXkgXl9 c=1 sm=1 tr=0 ts=64a83a53
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=WzbPXH4gqzPVN0x6HrNMNA==:17
- a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
- a=IkcTkHD0fZMA:10 a=ws7JD89P4LkA:10 a=wYkD_t78qR0A:10 a=VwQbUJbxAAAA:8
- a=hRA6dbrf6ar1ToGhP8sA:9 a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=i0RIjplkv8YMTvjY+KkgMdjkmPutWbywcnCQfTBbR4Y=; b=oY0RcCTaOAZ4kucMLnrx0pgLTr
-        pMJjxOZkMhUDKUuYUSit3JPJnp5fLVHeOaE46TQ4SEySnUguxsQumkq88jLQCO/fnCAOVcomVGZIS
-        fWQFn6eLKCKI6xqWjOt8kG6ToJloTygEdY72dpksbLsWQBNfNsNBLgTMoE0g4hcq8H1G7T3lpnub1
-        tUDkv7WUa87oYqMNhOjnwRFmZiuHbHcRfqcFExf8Lmpbs53tY4BhDm5RJWNQgow9/+Ct4QmWOfX/v
-        D2nVN1Yu9YMNzcH5HHpUuSDrYDg/QBoLRfJSArnDNQBBISY9Gwt85dqx1/OQFtw4OP8kJwlcSUymO
-        WsvSo5mQ==;
-Received: from 187-162-21-192.static.axtel.net ([187.162.21.192]:58802 helo=[192.168.15.8])
-        by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.96)
-        (envelope-from <gustavo@embeddedor.com>)
-        id 1qHo82-002XfG-0s;
-        Fri, 07 Jul 2023 11:16:18 -0500
-Message-ID: <1fb40135-2a4c-5d54-c5a1-db36244128aa@embeddedor.com>
-Date:   Fri, 7 Jul 2023 10:17:01 -0600
+        Fri, 7 Jul 2023 12:31:41 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E29A8AA;
+        Fri,  7 Jul 2023 09:31:40 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1qHoMq-0000EY-1y; Fri, 07 Jul 2023 18:31:36 +0200
+Message-ID: <7493c624-431c-a67d-3cbd-10f29a8c33dd@leemhuis.info>
+Date:   Fri, 7 Jul 2023 18:31:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
+ Thunderbird/102.12.0
 Subject: Re: mainline build failure due to df8fc4e934c1 ("kbuild: Enable
  -fstrict-flex-arrays=3")
-Content-Language: en-US
-To:     Linux regressions mailing list <regressions@lists.linux.dev>,
+Content-Language: en-US, de-DE
+To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Linux regressions mailing list <regressions@lists.linux.dev>,
         "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>,
         "Gustavo A. R. Silva" <gustavoars@kernel.org>,
         Kees Cook <keescook@chromium.org>
@@ -62,51 +36,46 @@ Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
 References: <ZJ2M4yqnOCqqGWH0@debian>
  <c0db4c48-6090-5c72-b597-9d4146dbc26c@embeddedor.com>
  <423a78fe-ac40-9983-ff44-90b1759fc0b5@leemhuis.info>
-From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <423a78fe-ac40-9983-ff44-90b1759fc0b5@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <1fb40135-2a4c-5d54-c5a1-db36244128aa@embeddedor.com>
+From:   "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+In-Reply-To: <1fb40135-2a4c-5d54-c5a1-db36244128aa@embeddedor.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.162.21.192
-X-Source-L: No
-X-Exim-ID: 1qHo82-002XfG-0s
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 187-162-21-192.static.axtel.net ([192.168.15.8]) [187.162.21.192]:58802
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 3
-X-Org:  HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfG/yroYrpkjpMbeG1dNLPcosoBtC0ccY8dJzd8jZLAhLtANBx69DZ7gQqwe8Al2yfPS3E7KryBcjZk/6pCxfyC3pj02wnj8OJoY+0FZCbq+kHk/TfpS6
- UwQH46LECdZB3yRDEq7ZHDV6NlELrZ0rW7lG1tf46BQN2O0QmJKOPsz9nOdi3sd7IBkLuKi+UlAPTQl3A1ekFFF/Ud2SyqBj/48jIGq9OZZclxUcbI7sLr+2
-X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1688747501;6e956fb4;
+X-HE-SMSGID: 1qHoMq-0000EY-1y
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On 07.07.23 18:17, Gustavo A. R. Silva wrote:
+> On 7/7/23 06:52, Linux regression tracking (Thorsten Leemhuis) wrote:
+> 
+>> Are those fixes still on track? Looks like there was not much progress
+>> since then, so I suspect this won't be fixed before -rc1? Or did miss
+>> something?
+> 
+> The change is already in SCSI for them to send it to mainline when they
+> see fit:
+> https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git/commit/?h=6.5/scsi-staging&id=47699a2b63caaa0de4841d4402627c2fdf3452a6
 
+Ahh, great. I had checked -next before writing my mail, but somehow
+missed this one. Sorry. And thanks for your help.
 
-On 7/7/23 06:52, Linux regression tracking (Thorsten Leemhuis) wrote:
+This afaics was the last remaining issue of those reported in the
+initial mail of this thread, hence telling regzbot to mark this as
+resolved by that commit.
 
-> Are those fixes still on track? Looks like there was not much progress
-> since then, so I suspect this won't be fixed before -rc1? Or did miss
-> something?
+#regzbot fix: scsi: aacraid: Avoid -Warray-bounds warning
 
-The change is already in SCSI for them to send it to mainline when they
-see fit:
-https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git/commit/?h=6.5/scsi-staging&id=47699a2b63caaa0de4841d4402627c2fdf3452a6
-
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
 --
-Gustavo
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
