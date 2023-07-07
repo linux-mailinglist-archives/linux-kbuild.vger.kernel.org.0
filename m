@@ -2,97 +2,111 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB5BB74B14D
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Jul 2023 14:52:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56B0A74B508
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Jul 2023 18:17:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230104AbjGGMwe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Jul 2023 08:52:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38768 "EHLO
+        id S229796AbjGGQR4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 Jul 2023 12:17:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229872AbjGGMwd (ORCPT
+        with ESMTP id S231565AbjGGQRv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Jul 2023 08:52:33 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64A031BF4;
-        Fri,  7 Jul 2023 05:52:32 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1qHkwm-0006RT-L1; Fri, 07 Jul 2023 14:52:28 +0200
-Message-ID: <423a78fe-ac40-9983-ff44-90b1759fc0b5@leemhuis.info>
-Date:   Fri, 7 Jul 2023 14:52:28 +0200
+        Fri, 7 Jul 2023 12:17:51 -0400
+X-Greylist: delayed 90 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 07 Jul 2023 09:17:50 PDT
+Received: from omta40.uswest2.a.cloudfilter.net (omta40.uswest2.a.cloudfilter.net [35.89.44.39])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 605D19E
+        for <linux-kbuild@vger.kernel.org>; Fri,  7 Jul 2023 09:17:50 -0700 (PDT)
+Received: from eig-obgw-5009a.ext.cloudfilter.net ([10.0.29.176])
+        by cmsmtp with ESMTP
+        id Hllaq0G7ibK1VHo83qlkBH; Fri, 07 Jul 2023 16:16:20 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22])
+        by cmsmtp with ESMTPS
+        id Ho82qW5jPeQQzHo83qLHGG; Fri, 07 Jul 2023 16:16:19 +0000
+X-Authority-Analysis: v=2.4 cv=VaXkgXl9 c=1 sm=1 tr=0 ts=64a83a53
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=WzbPXH4gqzPVN0x6HrNMNA==:17
+ a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
+ a=IkcTkHD0fZMA:10 a=ws7JD89P4LkA:10 a=wYkD_t78qR0A:10 a=VwQbUJbxAAAA:8
+ a=hRA6dbrf6ar1ToGhP8sA:9 a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=i0RIjplkv8YMTvjY+KkgMdjkmPutWbywcnCQfTBbR4Y=; b=oY0RcCTaOAZ4kucMLnrx0pgLTr
+        pMJjxOZkMhUDKUuYUSit3JPJnp5fLVHeOaE46TQ4SEySnUguxsQumkq88jLQCO/fnCAOVcomVGZIS
+        fWQFn6eLKCKI6xqWjOt8kG6ToJloTygEdY72dpksbLsWQBNfNsNBLgTMoE0g4hcq8H1G7T3lpnub1
+        tUDkv7WUa87oYqMNhOjnwRFmZiuHbHcRfqcFExf8Lmpbs53tY4BhDm5RJWNQgow9/+Ct4QmWOfX/v
+        D2nVN1Yu9YMNzcH5HHpUuSDrYDg/QBoLRfJSArnDNQBBISY9Gwt85dqx1/OQFtw4OP8kJwlcSUymO
+        WsvSo5mQ==;
+Received: from 187-162-21-192.static.axtel.net ([187.162.21.192]:58802 helo=[192.168.15.8])
+        by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.96)
+        (envelope-from <gustavo@embeddedor.com>)
+        id 1qHo82-002XfG-0s;
+        Fri, 07 Jul 2023 11:16:18 -0500
+Message-ID: <1fb40135-2a4c-5d54-c5a1-db36244128aa@embeddedor.com>
+Date:   Fri, 7 Jul 2023 10:17:01 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
+ Thunderbird/102.11.0
 Subject: Re: mainline build failure due to df8fc4e934c1 ("kbuild: Enable
  -fstrict-flex-arrays=3")
-Content-Language: en-US, de-DE
-To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+Content-Language: en-US
+To:     Linux regressions mailing list <regressions@lists.linux.dev>,
         "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>,
         "Gustavo A. R. Silva" <gustavoars@kernel.org>,
         Kees Cook <keescook@chromium.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        regressions@lists.linux.dev
+        Linus Torvalds <torvalds@linux-foundation.org>
 References: <ZJ2M4yqnOCqqGWH0@debian>
  <c0db4c48-6090-5c72-b597-9d4146dbc26c@embeddedor.com>
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <c0db4c48-6090-5c72-b597-9d4146dbc26c@embeddedor.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1688734352;d5c41fdb;
-X-HE-SMSGID: 1qHkwm-0006RT-L1
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+ <423a78fe-ac40-9983-ff44-90b1759fc0b5@leemhuis.info>
+From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <423a78fe-ac40-9983-ff44-90b1759fc0b5@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 187.162.21.192
+X-Source-L: No
+X-Exim-ID: 1qHo82-002XfG-0s
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 187-162-21-192.static.axtel.net ([192.168.15.8]) [187.162.21.192]:58802
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 3
+X-Org:  HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfG/yroYrpkjpMbeG1dNLPcosoBtC0ccY8dJzd8jZLAhLtANBx69DZ7gQqwe8Al2yfPS3E7KryBcjZk/6pCxfyC3pj02wnj8OJoY+0FZCbq+kHk/TfpS6
+ UwQH46LECdZB3yRDEq7ZHDV6NlELrZ0rW7lG1tf46BQN2O0QmJKOPsz9nOdi3sd7IBkLuKi+UlAPTQl3A1ekFFF/Ud2SyqBj/48jIGq9OZZclxUcbI7sLr+2
+X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 29.06.23 16:09, Gustavo A. R. Silva wrote:
-> 
-> Thanks for the report. See my comments below.
 
-Thx for your reply.
 
-> On 6/29/23 07:53, Sudip Mukherjee (Codethink) wrote:
->>
->> The latest mainline kernel branch fails to build with clang (version
->> 16.0.1), and the errors are like:
->>
->> drivers/scsi/aacraid/commsup.c:1170:17: error: array index 1 is past
->> the end of the array (that has type 'u8[1]' (aka 'unsigned char[1]'),
->> cast to '__le32 *' (aka 'unsigned int *')) [-Werror,-Warray-bounds]
->>                                  (((__le32 *)aifcmd->data)[1] ==
->> cpu_to_le32(3));
->>                                              ^             ~
-> [...]
-> These are addressed by this patch:
-> https://lore.kernel.org/linux-hardening/65907ee4083de62fbaadc5c2e6512e3828912d1b.1687974498.git.gustavoars@kernel.org/
-> 
-> in this series (for which I'll send v2 shortly):
-> https://lore.kernel.org/linux-hardening/62386518-4123-db1f-4656-6b4ea509f5b1@embeddedor.com/T/
+On 7/7/23 06:52, Linux regression tracking (Thorsten Leemhuis) wrote:
 
-Are those fixes still on track? Looks like there was not much progress
-since then, so I suspect this won't be fixed before -rc1? Or did miss
-something?
+> Are those fixes still on track? Looks like there was not much progress
+> since then, so I suspect this won't be fixed before -rc1? Or did miss
+> something?
 
-Ciao, Thorsten
+The change is already in SCSI for them to send it to mainline when they
+see fit:
+https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git/commit/?h=6.5/scsi-staging&id=47699a2b63caaa0de4841d4402627c2fdf3452a6
 
-> [...]
->>
->> git bisect pointed to df8fc4e934c1 ("kbuild: Enable
->> -fstrict-flex-arrays=3").
->>
->> Reverting the commit has fixed the build failure.
->>
->> I will be happy to test any patch or provide any extra log if needed.
->>
->> #regzbot introduced: df8fc4e934c12b906d08050d7779f292b9c5c6b5
->>
->>
-> 
-> 
+--
+Gustavo
