@@ -2,62 +2,103 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6780974CEEA
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Jul 2023 09:48:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2627F74E56D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jul 2023 05:43:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231508AbjGJHsI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 10 Jul 2023 03:48:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50312 "EHLO
+        id S230120AbjGKDnP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 10 Jul 2023 23:43:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232105AbjGJHsB (ORCPT
+        with ESMTP id S229468AbjGKDnO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 10 Jul 2023 03:48:01 -0400
-Received: from mail.lokoho.com (mail.lokoho.com [217.61.105.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED1CA92
-        for <linux-kbuild@vger.kernel.org>; Mon, 10 Jul 2023 00:47:52 -0700 (PDT)
-Received: by mail.lokoho.com (Postfix, from userid 1002)
-        id D774A859E1; Mon, 10 Jul 2023 09:46:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
-        t=1688975219; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
-        h=Date:From:To:Subject:From;
-        b=jZfQd6XFyM992HA/AXcsAwJp0BIPeE5qO7PpHNl7t2/9iWX/eudcvPwGDnIBHZwdr
-         87yyX52Zklt6NB8+jze+u5R4SfxZlpJrVZi/PaD2aiJi6E4iiwLcY0Rw03noQF6Cs/
-         HcPaEtg5e0urgh5TWjFj2C/Spc/dI8JjhR1mh+uh2Hv6v3lHxYxMYFGKVkaW3hSbM/
-         Og9gWiIYvmu47How6dwevfHz1+hEmiCskpWQ3znuai0+KdqEsToddCYQYOxYFmTIWq
-         Gg3xCIqeUDjZEHcSw5k8f2wrhZesDZ2IT4gUARHq/+QTY+gum/LPhwnIK8yqjCoEH+
-         3kVEXg4S88COQ==
-Received: by mail.lokoho.com for <linux-kbuild@vger.kernel.org>; Mon, 10 Jul 2023 07:45:30 GMT
-Message-ID: <20230710083021-0.1.7.x9a.0.9g59tzh7u1@lokoho.com>
-Date:   Mon, 10 Jul 2023 07:45:30 GMT
-From:   "Adam Charachuta" <adam.charachuta@lokoho.com>
-To:     <linux-kbuild@vger.kernel.org>
-Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
-X-Mailer: mail.lokoho.com
+        Mon, 10 Jul 2023 23:43:14 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37415E5
+        for <linux-kbuild@vger.kernel.org>; Mon, 10 Jul 2023 20:43:14 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CA768612EC
+        for <linux-kbuild@vger.kernel.org>; Tue, 11 Jul 2023 03:43:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34014C433C7
+        for <linux-kbuild@vger.kernel.org>; Tue, 11 Jul 2023 03:43:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689046993;
+        bh=8W8t1Nr2oSw4znJ/A3c/Fnmkkn3GKHnELnuueXoZcdc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=J+0OmktsKJd9VIWhpInH623Q/CQVBaKCNWGYP/izBaHw0tmCwSFHz244H3p2ujsNi
+         QmIbYv3ty02L5zmKwOESe4RNED6Q8u0IT0siJ43SfUmTZa5vsTN+LPN26nhue1O1fh
+         wrQ0uocQJjXJi5Z1XqehRXD2h87VccSoWEk3K6PInASXa7FpawB1eqm/y0nU9DhMUL
+         l1MBMhG0gxUj0GGNM2PqX+hRtTsDdJry9Jk1kUaX+UTytEHcIHLpX+4fYXNbm952xp
+         IbK1I881bBznRhkvu0dy4JnGoe/rjkvEG0KQDmUzdf9NUyDYsolpUrA4iJfcoKUB3J
+         WbY7HNgeEJ7MQ==
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-565a8d74daeso3253089eaf.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 10 Jul 2023 20:43:13 -0700 (PDT)
+X-Gm-Message-State: ABy/qLb68a71CgrvmF/URZ99313bJsIJQxYJGQzCZsLMdif0igsIYND9
+        GKq3oTMDvVz/f4M/d0k0Rnq0KQTvn2ICvdaKeOo=
+X-Google-Smtp-Source: APBJJlFaPtxhyUYUMkVPgI/RNspa61slHwXMJgfQGv1pk+jOi8yxv6Ol1rIxar4ruQ3ax+/aljcDUe08lNnZwj8UI9E=
+X-Received: by 2002:a05:6820:1501:b0:560:c558:b6f9 with SMTP id
+ ay1-20020a056820150100b00560c558b6f9mr10739878oob.2.1689046992417; Mon, 10
+ Jul 2023 20:43:12 -0700 (PDT)
 MIME-Version: 1.0
+References: <c7b1cb3d-801b-b78f-d203-edd840c9e98a@infradead.org>
+In-Reply-To: <c7b1cb3d-801b-b78f-d203-edd840c9e98a@infradead.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 11 Jul 2023 12:42:36 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS53G=c+nsVGT66GXZsTOJqwzLyWtNbXY_FaBcXcG2Vtg@mail.gmail.com>
+Message-ID: <CAK7LNAS53G=c+nsVGT66GXZsTOJqwzLyWtNbXY_FaBcXcG2Vtg@mail.gmail.com>
+Subject: Re: gconfig help text quesion
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Dzie=C5=84 dobry,
+On Tue, Jul 4, 2023 at 9:04=E2=80=AFAM Randy Dunlap <rdunlap@infradead.org>=
+ wrote:
+>
+> Hi,
+>
+> The gconfig help text says:
+>
+> Toggling Show Debug Info under the Options menu will show
+> the dependencies, which you can then match by examining other options.
+>
+> This is at the end of the intro_text string.
+>
+> I don't see any way to toggle the Show Debug Info flag,
+> or even any such flag.
 
-zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
-=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
-o dalszych rozm=C3=B3w.=20
 
-Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
-=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
-=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
-strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
-
-Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
+I guess this comment is left-over after
+7b5d87215b38 ("gconfig: remove show_debug option")
 
 
-Pozdrawiam
-Adam Charachuta
+
+
+> Is it hidden somewhere or should this text be removed?
+
+I think it should be removed.
+
+
+
+
+>
+> thanks.
+> --
+> ~Randy
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
