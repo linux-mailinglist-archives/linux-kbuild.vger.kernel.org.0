@@ -2,91 +2,129 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1189774E5DA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jul 2023 06:29:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C408674F274
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jul 2023 16:39:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230013AbjGKE3R (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 11 Jul 2023 00:29:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42740 "EHLO
+        id S230352AbjGKOjm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 11 Jul 2023 10:39:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230052AbjGKE3Q (ORCPT
+        with ESMTP id S229742AbjGKOjk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 11 Jul 2023 00:29:16 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9617E51;
-        Mon, 10 Jul 2023 21:29:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=tEziXguEN5L4lHowsECMtwVynpESmDBqF0VPw7VUfqE=; b=YkXh957pJcOHQt+u8K6tk3Ljmc
-        Uel26+f3o4MAGeqSoiMmqdx33ija6wyJqY+o48U45RtSIC6KY8WCu6BnhwjNcnMq+Pg1lb1Rox5DK
-        1LIlaU32Gf2i4QP7IEitaitwLgYzTXScUk5tZH+VVH6jLLbbku62BYRdzPGIfTFPCD6INsPmYieoY
-        BRdb0mxKRJe84OiAh+ZsSFH7KqQk8A9aeOpCKQn8gS7TSi9RObndD/lnx0YYJCHuWsVi4cp9iYLUm
-        eURCGgA06IjmschhQp6LwA6LiZXL8c4FvG1LLwTGy6Y+InIdPRXwR5mEN2esqnnyBBwE9bkmMkhZO
-        pp5OYp2A==;
-Received: from [2601:1c2:980:9ec0::2764] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qJ4zy-00Dcnq-2D;
-        Tue, 11 Jul 2023 04:29:14 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Subject: [PATCH 2/2] kconfig: gconfig: correct program name in help text
-Date:   Mon, 10 Jul 2023 21:29:13 -0700
-Message-ID: <20230711042913.21977-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.41.0
+        Tue, 11 Jul 2023 10:39:40 -0400
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ADFB9C;
+        Tue, 11 Jul 2023 07:39:40 -0700 (PDT)
+Received: by mail-yb1-xb2e.google.com with SMTP id 3f1490d57ef6-c2cf4e61bc6so6926405276.3;
+        Tue, 11 Jul 2023 07:39:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689086379; x=1691678379;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KtTSHdQg0YCAtxJ0hEuqKRNYfw6pZc0XMvsle82y98s=;
+        b=TLY7AgKRbyH6OnSPJ9DlYOyb0tY23mdMyNZyMPVQJwFRFxmkYyuycEFFv+r/0Cvlfb
+         cXnx3pUDbdhdB7JFCxLw/wc6DL1DOGuRiVXpgQnfv4YwuUYgXrKKu7bP/wCEWApMmnKP
+         363lfl8o7ZY/Kuwm48ioU2u57auUY5mW0De/lS9s7niiohlZMXlpdHCiMJjD3Ap5VleT
+         eOeLUp6uGt9gg36d7ytKY/RoctpWa4iTtqdAY8AW2AOin6OdgNJYcg85NLtjI7XwOcG8
+         MEsChbAT2uHZoPFSIR9QSVpHTXER9HL7JpuF7BEMOXCxmsASFZwQY4L9YnZlomyeRaQx
+         8K0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689086379; x=1691678379;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KtTSHdQg0YCAtxJ0hEuqKRNYfw6pZc0XMvsle82y98s=;
+        b=W2cPojTkSNbduliA6dsOUVSgAockwugoWP5RWndjEqL07DSbFK09dmooqVk1JDrXZu
+         08tMQLQkBc+724eQPM0MzSyBIvfyfpJcQ8P8NpJXQ28bwpJ3hj/oKjMdvwP8fzKi3DRt
+         oNd3M5wQWhfUhKAZ7xDJRXYWVtmFYNbwUESVkaj/LLBcBKBFMTnECQqr8qE0PqqrsjNb
+         EAtKGg9ak9ivxHMqjMXPUapVh2s6lTP13CV7NHHjnRRWKJb0mXIygaEzYpCjs+Fvndz/
+         mlc9HVjqPj9fvNZHZe7YIstnf+UUSMJ7/XWii9CbIb/B+7dKbxq7VQNefVw0flkh4TqR
+         ugiQ==
+X-Gm-Message-State: ABy/qLbvxJ2aOHdmRfU5r94RCBrpQg2o6THlttsWlBTFUe3q1Vh6sjYa
+        PZQCyyzEYxMU2zYM8lrNu3wks3J1PQlGNppb04p7jTn0pcM=
+X-Google-Smtp-Source: APBJJlHt7LkksBX4dKb9ZjFQYZ4KsGxHurwvB30A58g+4iZVeHoPPXjmuXGg/AHzUHUgF9d+bkWo55Sr+FzdfGbqS+g=
+X-Received: by 2002:a0d:fb03:0:b0:565:cf47:7331 with SMTP id
+ l3-20020a0dfb03000000b00565cf477331mr19036939ywf.2.1689086379216; Tue, 11 Jul
+ 2023 07:39:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230704052136.155445-1-andrea.righi@canonical.com>
+In-Reply-To: <20230704052136.155445-1-andrea.righi@canonical.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Tue, 11 Jul 2023 16:39:27 +0200
+Message-ID: <CANiq72k6um58AAydgkzhkmAdd8t1quzeGaPsR7-pS_ZXYf0-YQ@mail.gmail.com>
+Subject: Re: [PATCH] btf, scripts: rust: drop is_rust_module.sh
+To:     Andrea Righi <andrea.righi@canonical.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Benno Lossin <benno.lossin@proton.me>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
+        bpf <bpf@vger.kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Change "gkc" to "gconfig" in 3 places since it is called "gconfig" and
-not "gkc". Add a period at the end of one sentence.
+On Tue, Jul 4, 2023 at 7:21=E2=80=AFAM Andrea Righi <andrea.righi@canonical=
+.com> wrote:
+>
+> With commit c1177979af9c ("btf, scripts: Exclude Rust CUs with pahole")
+> we are now able to use pahole directly to identify Rust compilation
+> units (CUs) and exclude them from generating BTF debugging information
+> (when DEBUG_INFO_BTF is enabled).
+>
+> And if pahole doesn't support the --lang-exclude flag, we can't enable
+> both RUST and DEBUG_INFO_BTF at the same time.
+>
+> So, in any case, the script is_rust_module.sh is just redundant and we
+> can drop it.
+>
+> NOTE: we may also be able to drop the "Rust loadable module" mark
+> inside Rust modules, but it seems safer to keep it for now to make sure
+> we are not breaking any external tool that may potentially rely on it.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org
----
- scripts/kconfig/gconf.c |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Just to recall the history of these changes:
 
-diff -- a/scripts/kconfig/gconf.c b/scripts/kconfig/gconf.c
---- a/scripts/kconfig/gconf.c
-+++ b/scripts/kconfig/gconf.c
-@@ -636,7 +636,7 @@ void on_introduction1_activate(GtkMenuIt
- {
- 	GtkWidget *dialog;
- 	const gchar *intro_text =
--	    "Welcome to gkc, the GTK+ graphical configuration tool\n"
-+	    "Welcome to gconfig, the GTK+ graphical configuration tool.\n"
- 	    "For each option, a blank box indicates the feature is disabled, a\n"
- 	    "check indicates it is enabled, and a dot indicates that it is to\n"
- 	    "be compiled as a module.  Clicking on the box will cycle through the three states.\n"
-@@ -664,7 +664,7 @@ void on_about1_activate(GtkMenuItem * me
- {
- 	GtkWidget *dialog;
- 	const gchar *about_text =
--	    "gkc is copyright (c) 2002 Romain Lievin <roms@lpg.ticalc.org>.\n"
-+	    "gconfig is copyright (c) 2002 Romain Lievin <roms@lpg.ticalc.org>.\n"
- 	      "Based on the source code from Roman Zippel.\n";
- 
- 	dialog = gtk_message_dialog_new(GTK_WINDOW(main_wnd),
-@@ -682,7 +682,7 @@ void on_license1_activate(GtkMenuItem *
- {
- 	GtkWidget *dialog;
- 	const gchar *license_text =
--	    "gkc is released under the terms of the GNU GPL v2.\n"
-+	    "gconfig is released under the terms of the GNU GPL v2.\n"
- 	      "For more information, please see the source code or\n"
- 	      "visit http://www.fsf.org/licenses/licenses.html\n";
- 
+  - The script got added in order to skip the BTF generation in the
+`BTF [M]` step (under `DEBUG_INFO_BTF_MODULES`, which depends on
+`DEBUG_INFO_BTF`).
+
+  - A few months later, it was noticed that C modules couldn't be
+loaded if Rust was enabled, due to the base BTF info in `vmlinux`.
+That triggered the eventual addition of `--lang_exclude=3D` to `pahole`,
+but meanwhile, we made `DEBUG_INFO_BTF` and `RUST` exclusive.
+
+  - Now, this patch removes the script because having a newer `pahole`
+also correctly skips the Rust CUs in the `BTF [M]` steps (i.e. and not
+just the `vmlinux` one), since we pass `--lang_exclude=3D` to both cases
+(`link-vmlinux.sh` and `Makefile.modfinal`), if I understand correctly
+(the script could, in principle, have been removed even before
+`pahole` got the new feature, given the exclusivity of the options).
+
+If this is all correct, then the patch looks good to me. I am Cc'ing
+Arnaldo, Martin and the BPF list.
+
+If this goes through the Rust tree, I will also pick the older `Reviewed-by=
+`s.
+
+Thanks!
+
+Cheers,
+Miguel
