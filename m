@@ -2,155 +2,121 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B062974F32F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jul 2023 17:18:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7008574F37C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jul 2023 17:32:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231664AbjGKPSh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 11 Jul 2023 11:18:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37910 "EHLO
+        id S232376AbjGKPcS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 11 Jul 2023 11:32:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231834AbjGKPSQ (ORCPT
+        with ESMTP id S232243AbjGKPcR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 11 Jul 2023 11:18:16 -0400
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BCE110F1
-        for <linux-kbuild@vger.kernel.org>; Tue, 11 Jul 2023 08:18:14 -0700 (PDT)
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com [209.85.208.69])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 99F033F84E
-        for <linux-kbuild@vger.kernel.org>; Tue, 11 Jul 2023 15:18:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1689088689;
-        bh=zBS1kUVYnl4zbNq8VpIr8q1zCpc4ruBaI0DcQqmBCzU=;
-        h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-         Content-Type:In-Reply-To;
-        b=FTAwV1cvwS6sg0EXKFhDUBYS65rw+UH4Blhj9A0XgqmSms3YQ3Qolxs89At0eF7eJ
-         uPnHNIj2kHA2Woi6ec9HWuMY+SUNUO9ZzwAUiMHdul7FAFXtYqn2kLuACpDnDFoSMM
-         bf8qBHB1XyR4r0xkJzZmkg7zqijVnV164uMp8v0m4VBsepW7sHEWpfyvaYoCOv5HVz
-         JOrJgVaajKqXAq2Jg0iwq/XebMLlmwTEW10MoAUZ3RjzAfingcJgyruhC5MAgl95Kl
-         wDSZsDgfggM8LDBDbH7X+Ykz/MsgPU/QRaBBhQYrNkDPvAO/x+ds9FkI0pFTXL+ykh
-         al7Ou1YjHzHRw==
-Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-513f337d478so3446719a12.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 11 Jul 2023 08:18:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689088688; x=1691680688;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zBS1kUVYnl4zbNq8VpIr8q1zCpc4ruBaI0DcQqmBCzU=;
-        b=aRf6Z97Mmq6o2JKXsSVe8l5Mqa92L2HZjuqPKT7xeRPX7IiqpBEdkrLBJreSDhN9C+
-         ZWHBbHA2671ab2kiCOTCX+Omw/lNaU+YSR6FcG5OPXPktbPLHwevnZcbVuNhvooJRu68
-         srFJMHPSGOYgyaRoqMVdKgSCJYH/k5czSoc7/Z+jTqUcBixlmhtjGBWwSo9txztQkSne
-         jj+1mmtvASmGDb/W/Wfmv6lFVzk/N74SZwNdkjSCUYQ97gmg+FBcotlOZqz6eyI9V9XX
-         vN2Amnx+oJ1AmbK8veZ5YzlgsuQLjBNEEjXKq1f3x8Zzleh0lUMQ0p30PAqz+Jn2iMlh
-         L0hg==
-X-Gm-Message-State: ABy/qLbEGeTUl3xLSHt6vGcmCnLu8GZbxFHMHtS1ag5goH2CpFsOhN2y
-        ifDGa6bMzRkXoqMHGckA9ybdV5/t+/d4oXiG75zYIKqxiWtjx3W/IfFMEtQh8v2iW1/rrzcZYD0
-        9jrxdgGRkQDKikbY5ch2BiIEoZPlpIGZfvZf5/TFJpg==
-X-Received: by 2002:a05:6402:6cf:b0:51d:d37f:ab49 with SMTP id n15-20020a05640206cf00b0051dd37fab49mr13026179edy.6.1689088688227;
-        Tue, 11 Jul 2023 08:18:08 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlFrzVDe3+LYEvMRbxBjBYXswRZCflXQSVNYVfPRk1Q58g/TNPggflnSjsvw6h4y21B4GQhANg==
-X-Received: by 2002:a05:6402:6cf:b0:51d:d37f:ab49 with SMTP id n15-20020a05640206cf00b0051dd37fab49mr13026148edy.6.1689088687917;
-        Tue, 11 Jul 2023 08:18:07 -0700 (PDT)
-Received: from localhost (host-95-234-206-203.retail.telecomitalia.it. [95.234.206.203])
-        by smtp.gmail.com with ESMTPSA id o4-20020a056402038400b0051dd1c10c13sm1400778edv.29.2023.07.11.08.18.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jul 2023 08:18:07 -0700 (PDT)
-Date:   Tue, 11 Jul 2023 17:18:06 +0200
-From:   Andrea Righi <andrea.righi@canonical.com>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-        Benno Lossin <benno.lossin@proton.me>,
+        Tue, 11 Jul 2023 11:32:17 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CD88ED;
+        Tue, 11 Jul 2023 08:32:16 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 17BB722724;
+        Tue, 11 Jul 2023 15:32:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1689089535; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=WhVOBmTkvX5Yn7jpRUVGFl+hIu6p2Hs/7XqxlXkfIA8=;
+        b=MZjChiLgNZKvQmv0tVIAliYRwhstqe1f31P9kGY8cEew/jlNbN8HnnpLQHWoI4NdfC+UwC
+        e+CdRjvv0zaDMQ1db94BfGFxdGiDDw+HpU43XGI+edaGkzvWaNhE8vrw6CuobRm2EaoiUu
+        k1kqepReQsITyhpEj9gv4EmkCiqXikc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1689089535;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=WhVOBmTkvX5Yn7jpRUVGFl+hIu6p2Hs/7XqxlXkfIA8=;
+        b=7GTOZt4Ni28BiPz+U5RqpkWF8v/p3k1Gq6bQhtzx6gsFk1MjJmd/XxXpV12PIG2JbICQ7f
+        ZfT7YxEHFNz28ZAw==
+Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
+        by relay2.suse.de (Postfix) with ESMTP id AE0312C142;
+        Tue, 11 Jul 2023 15:32:14 +0000 (UTC)
+From:   Michal Suchanek <msuchanek@suse.de>
+To:     linux-modules@vger.kernel.org
+Cc:     Michal Suchanek <msuchanek@suse.de>, Takashi Iwai <tiwai@suse.com>,
+        Lucas De Marchi <lucas.de.marchi@gmail.com>,
+        =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+        Jiri Slaby <jslaby@suse.com>, Jan Engelhardt <jengelh@inai.de>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
-        linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
-        bpf <bpf@vger.kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>
-Subject: Re: [PATCH] btf, scripts: rust: drop is_rust_module.sh
-Message-ID: <ZK1yrqmOPjS8grso@righiandr-XPS-13-7390>
-References: <20230704052136.155445-1-andrea.righi@canonical.com>
- <CANiq72k6um58AAydgkzhkmAdd8t1quzeGaPsR7-pS_ZXYf0-YQ@mail.gmail.com>
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] kmod /usr support
+Date:   Tue, 11 Jul 2023 17:31:15 +0200
+Message-ID: <20230711153126.28876-1-msuchanek@suse.de>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiq72k6um58AAydgkzhkmAdd8t1quzeGaPsR7-pS_ZXYf0-YQ@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jul 11, 2023 at 04:39:27PM +0200, Miguel Ojeda wrote:
-> On Tue, Jul 4, 2023 at 7:21 AM Andrea Righi <andrea.righi@canonical.com> wrote:
-> >
-> > With commit c1177979af9c ("btf, scripts: Exclude Rust CUs with pahole")
-> > we are now able to use pahole directly to identify Rust compilation
-> > units (CUs) and exclude them from generating BTF debugging information
-> > (when DEBUG_INFO_BTF is enabled).
-> >
-> > And if pahole doesn't support the --lang-exclude flag, we can't enable
-> > both RUST and DEBUG_INFO_BTF at the same time.
-> >
-> > So, in any case, the script is_rust_module.sh is just redundant and we
-> > can drop it.
-> >
-> > NOTE: we may also be able to drop the "Rust loadable module" mark
-> > inside Rust modules, but it seems safer to keep it for now to make sure
-> > we are not breaking any external tool that may potentially rely on it.
-> 
-> Just to recall the history of these changes:
-> 
->   - The script got added in order to skip the BTF generation in the
-> `BTF [M]` step (under `DEBUG_INFO_BTF_MODULES`, which depends on
-> `DEBUG_INFO_BTF`).
-> 
->   - A few months later, it was noticed that C modules couldn't be
-> loaded if Rust was enabled, due to the base BTF info in `vmlinux`.
-> That triggered the eventual addition of `--lang_exclude=` to `pahole`,
-> but meanwhile, we made `DEBUG_INFO_BTF` and `RUST` exclusive.
-> 
->   - Now, this patch removes the script because having a newer `pahole`
-> also correctly skips the Rust CUs in the `BTF [M]` steps (i.e. and not
-> just the `vmlinux` one), since we pass `--lang_exclude=` to both cases
-> (`link-vmlinux.sh` and `Makefile.modfinal`), if I understand correctly
-> (the script could, in principle, have been removed even before
-> `pahole` got the new feature, given the exclusivity of the options).
+Hello,
 
-The history looks correct to me.
+with these patches it is possible to install kernel modules under an
+arbitrary prefix - eg. moving the /lib/modules to /usr/lib/modules with
+/usr prefix.
 
-Also, note that, if pahole doesn't support the new `--lang-exclude=`, we
-have `RUST` depending on `!DEBUG_INFO_BTF`, so we fallback the old
-"exclusivity" mode between BTF and Rust and, again, the script is not
-needed.
+While the modprobe.d and depmod.d search which already includes multiple
+paths is expanded to also include $(prefix) the module directory still
+supports only one location, only a different one under $(module_prefix).
 
-As you correctly say, in principle, we could have removed the script
-even before the new `pahole`.
+Having kmod search multiple module locations while only one is supported
+now might break some assumption about relative modulke path
+corresponding to a specific file, would require more invasive changes to
+implement, and is not supportive of the goal of moving the modules away
+from /lib.
 
-> 
-> If this is all correct, then the patch looks good to me. I am Cc'ing
-> Arnaldo, Martin and the BPF list.
-> 
-> If this goes through the Rust tree, I will also pick the older `Reviewed-by`s.
-> 
-> Thanks!
-> 
-> Cheers,
-> Miguel
+Both kmod and the kernel need to be patched to make use of this feature.
+Patched kernel is backwards compatible with older kmod.  Patched kmod
+with empty $(module_prefix) is equivalent to unpatched kmod.
 
-Thanks,
--Andrea
+Thanks
+
+Michal
+
+Link: https://lore.kernel.org/linux-modules/20210112160211.5614-1-msuchanek@suse.de/
+
+Michal Suchanek (4):
+  man/depmod.d: Fix incorrect /usr/lib search path
+  libkmod, depmod: Load modprobe.d, depmod.d from $prefix/lib.
+  kmod: Add config command to show compile time configuration as JSON
+  libkmod, depmod, modprobe: Search for kernel modules under
+    ${module_prefix}
+
+ Makefile.am                          |   4 +-
+ configure.ac                         |   7 ++
+ libkmod/libkmod.c                    |   7 +-
+ man/Makefile.am                      |  10 ++-
+ man/depmod.d.xml                     |   9 ++-
+ man/depmod.xml                       |   4 +-
+ man/kmod.xml                         |   6 ++
+ man/modinfo.xml                      |   2 +-
+ man/modprobe.d.xml                   |   1 +
+ man/modprobe.xml                     |   2 +-
+ man/modules.dep.xml                  |   6 +-
+ testsuite/module-playground/Makefile |   2 +-
+ testsuite/setup-rootfs.sh            | 109 +++++++++++++++------------
+ testsuite/test-depmod.c              |  16 ++--
+ testsuite/test-testsuite.c           |   8 +-
+ tools/depmod.c                       |   7 +-
+ tools/kmod.c                         |  40 ++++++++++
+ tools/modinfo.c                      |   4 +-
+ tools/modprobe.c                     |   4 +-
+ tools/static-nodes.c                 |   6 +-
+ 20 files changed, 166 insertions(+), 88 deletions(-)
+
+-- 
+2.41.0
+
