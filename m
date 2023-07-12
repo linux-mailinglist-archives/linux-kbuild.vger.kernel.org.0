@@ -2,166 +2,177 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1206A750A90
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jul 2023 16:15:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62632750CA5
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jul 2023 17:36:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230086AbjGLOPN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 12 Jul 2023 10:15:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51170 "EHLO
+        id S231651AbjGLPgR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 12 Jul 2023 11:36:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233144AbjGLOPM (ORCPT
+        with ESMTP id S232717AbjGLPgP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 12 Jul 2023 10:15:12 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EE561995;
-        Wed, 12 Jul 2023 07:15:11 -0700 (PDT)
+        Wed, 12 Jul 2023 11:36:15 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA5B91BD7;
+        Wed, 12 Jul 2023 08:36:14 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E4C95617E5;
-        Wed, 12 Jul 2023 14:15:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 564E3C433CC;
-        Wed, 12 Jul 2023 14:15:10 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 77FC061866;
+        Wed, 12 Jul 2023 15:36:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6086C433C9;
+        Wed, 12 Jul 2023 15:36:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689171310;
-        bh=by9pgSs091khOfV5UGPr4u/YkRYsIghGJCqG/Dm2vrU=;
+        s=k20201202; t=1689176173;
+        bh=PbujtPfodhCW0MYV6O63M6+F36QFLvoD3ngwcw7WrFg=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=r4SsVzTITyewNYb8iF71bwHYlSJ1zjHEbUWtlSbzqTJmXbSkA1NM9ZzV6yIYDVH5j
-         W5qTGQ44E6vLu/E0CbnMQAv9kb7fIjXjUjGsME+bCgF99NbM0oXcKLbGF83fcig63C
-         t5RI6I3APWoDsRznA+AFEYZvtXqGNplFCD7yFmbOlP1B5sb2jv5x2E0TIsJcb+LxRh
-         HXLln6oTb6zqN789pXnhmKwZZw1L+tYUtuib32FuYqxK4JdDGEJD5zH6I0XsHMSQgS
-         e5aYTFx5rFXIFSa3NIcH/8+ToWEdoUzVkEPJYlVeC0HM/Y4kVYaqz+I5UYwZR9J6vS
-         abPfNss5BAa4g==
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-1b730eb017bso2603073fac.1;
-        Wed, 12 Jul 2023 07:15:10 -0700 (PDT)
-X-Gm-Message-State: ABy/qLbwd6eWrn+8dA6UGkGmNZlr1zhetYfnKBb6mRg2IAW/xPA91um2
-        5Uc+Xgl+bhK5LIgxdRIspOCkWWWeEGW9Q3ewMuE=
-X-Google-Smtp-Source: APBJJlHqSuREpplzuUnq/e0Cwp3ptkilbznNXoHaJD9YLmWY5rVy+KcNBAlzSuPTI0zvei6I6nzzkIEy8Oqpzj+AxCQ=
-X-Received: by 2002:a05:6870:fba7:b0:1b0:3075:2f9d with SMTP id
- kv39-20020a056870fba700b001b030752f9dmr19101840oab.34.1689171309578; Wed, 12
- Jul 2023 07:15:09 -0700 (PDT)
+        b=cIFQ1OFr8yslaCWLonyOhCB0w5DknRmqEe6BJ1LKgE98CEVO03mXlJLOMcYVFn7yA
+         50DAOvcTnYgRd0DLOgM1IctIUDNKcaRWrG2GwWIxIIR3XAPZ7ag6MrjWT3j0t6urjX
+         zA8SN76X2sQIggBgBY+rhYVbFvwYhCDKCtzMx2K9NpX28ZkrYYg7cAM6n7rJ7JOq6V
+         y007Ewu5XN5/jwUMzWiwuMXqnaaUgxIKYSPCvQVvcyfOnOeb/1HgV5iCEU/+SzmP+u
+         aaUQlg96QEXrRoHk9JaDmimJ4aqSZ8n489ekQGwqxmwDn3i+QQFfvzCUVa++465Maj
+         vFvDvGzMykt7A==
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-5661e8f4c45so5345821eaf.1;
+        Wed, 12 Jul 2023 08:36:13 -0700 (PDT)
+X-Gm-Message-State: ABy/qLaEiglq9vw+uaDJY6bZQSYaYbRimnWM4aFhf9kusVU++NSdfyQY
+        eKlixfz06Jiiy+QAeW14WwSFJ+bUikG5o7oJw+w=
+X-Google-Smtp-Source: APBJJlFbM0VFa3OxwRC/aO/EMh8klZvvhHtzg90Srpdh1IYyak39lWyIU46Nut5Aj6jmqYKwGhBDHK6WP3EWzz6upEo=
+X-Received: by 2002:a4a:b045:0:b0:560:ac0f:b87c with SMTP id
+ g5-20020a4ab045000000b00560ac0fb87cmr14241977oon.8.1689176173111; Wed, 12 Jul
+ 2023 08:36:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <da2fdd15-fae1-2bf6-04e7-568c715372ce@kernel.org> <20230712134533.4419-1-msuchanek@suse.de>
-In-Reply-To: <20230712134533.4419-1-msuchanek@suse.de>
+References: <20230704055246.22893-1-rdunlap@infradead.org>
+In-Reply-To: <20230704055246.22893-1-rdunlap@infradead.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 12 Jul 2023 23:14:33 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATRikmr5bO9WvWAvqHFmkv1sqAPY_WouXb4+6HCTj56MQ@mail.gmail.com>
-Message-ID: <CAK7LNATRikmr5bO9WvWAvqHFmkv1sqAPY_WouXb4+6HCTj56MQ@mail.gmail.com>
-Subject: Re: [PATCH v2--to=linux-modules@vger.kernel.org] depmod: Handle
- installing modules under a prefix
-To:     Michal Suchanek <msuchanek@suse.de>
-Cc:     Takashi Iwai <tiwai@suse.com>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>,
-        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
-        Jiri Slaby <jslaby@suse.com>, Jan Engelhardt <jengelh@inai.de>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Thu, 13 Jul 2023 00:35:36 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASAvkNTwTfVZm29Q=oGGc3-oHwW4FSm=8NSROp5V1A-tw@mail.gmail.com>
+Message-ID: <CAK7LNASAvkNTwTfVZm29Q=oGGc3-oHwW4FSm=8NSROp5V1A-tw@mail.gmail.com>
+Subject: Re: [PATCH] kconfig: tell the kconfig symbol of the restart reason
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 12, 2023 at 10:45=E2=80=AFPM Michal Suchanek <msuchanek@suse.de=
-> wrote:
+On Tue, Jul 4, 2023 at 2:52=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org>=
+ wrote:
 >
-> Some distributions aim at not shipping any files in / ustside of usr.
+> When running 'make oldconfig' or 'make olddefconfig' without waiting
+
+olddefconfig is not interactive in the first place.
+
+'make config', 'make oldconfig', 'make syncconfig' are affected.
+
+
+> for prompts, it can be useful to know the restart reason so that it
+> can be fixed manually.
 >
-> The path under which kernel modules are instaleld is hardcoded to /lib
-> which conflicts with this goal.
+> This is usually when the prompt value is a number or a string,
+> i.e., something other than y/m/n.
+
+
+
+I do not understand what you mean.
+
+Please give me some examples to see why this is useful.
+
+
+BTW, "due to symbol ..." is not the reason for the restart.
+It shows the first CONFIG option shown after the restart.
+
+
+
 >
-> When kmod provides the config command use it to determine the correct
-> module installation prefix.
->
-> On kmod that does not provide the command / is used as before.
->
-> Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: linux-kbuild@vger.kernel.org
 > ---
-> v2: Avoid error on systems with kmod that does not support config
-> command
-> ---
->  Makefile          | 4 +++-
->  scripts/depmod.sh | 8 ++++----
->  2 files changed, 7 insertions(+), 5 deletions(-)
+> Can the test for sym->name be omitted?
+
+Not all symbols have a name.
+For example, 'choice' may not have a name.
+
+[test code]
+
+choice
+       prompt "A or B"
+       depends on FOO
+
+config A
+       bool "A"
+
+config B
+       bool "B"
+
+endchoice
+
+config FOO
+       bool "foo"
+
+
+
+If you omit, sym->name test,
+"due to symbol: (null)" will be displayed.
+Not a crash, but users will be misguided.
+
+
+
+
+foo (FOO) [N/y/?] (NEW) y
+*
+* Restart config...
+* due to symbol: (null)
+*
+*
+* Linux/x86 6.5.0-rc1 Kernel Configuration
+*
+A or B
+> 1. A (A) (NEW)
+  2. B (B) (NEW)
+
+
+
+
+
+
+
+
+
+
+
+
+>  scripts/kconfig/conf.c |    8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
 >
-> diff --git a/Makefile b/Makefile
-> index 47690c28456a..b1fea135bdec 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1165,7 +1165,9 @@ export INSTALL_DTBS_PATH ?=3D $(INSTALL_PATH)/dtbs/=
-$(KERNELRELEASE)
->  # makefile but the argument can be passed to make if needed.
->  #
->
-> -MODLIB =3D $(INSTALL_MOD_PATH)/lib/modules/$(KERNELRELEASE)
-> +export KERNEL_MODULE_PREFIX :=3D $(shell kmod config &> /dev/null && kmo=
-d config | jq -r .module_prefix)
-> +
-> +MODLIB =3D $(INSTALL_MOD_PATH)$(KERNEL_MODULE_PREFIX)/lib/modules/$(KERN=
-ELRELEASE)
+> diff -- a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
+> --- a/scripts/kconfig/conf.c
+> +++ b/scripts/kconfig/conf.c
+> @@ -652,8 +652,12 @@ static void check_conf(struct menu *menu
+>                         printf("-----\n");
+>                         break;
+>                 default:
+> -                       if (!conf_cnt++)
+> -                               printf("*\n* Restart config...\n*\n");
+> +                       if (!conf_cnt++) {
+> +                               printf("*\n* Restart config...\n");
+> +                               if (sym->name)
+> +                                       printf("* due to symbol: %s\n", s=
+ym->name);
+> +                               printf("*\n");
+> +                       }
+>                         rootEntry =3D menu_get_parent_menu(menu);
+>                         conf(rootEntry);
+>                         break;
 
-
-
-You can do "make modules_install INSTALL_MOD_PATH=3D/usr/what/ever/prefix"
-
-
-This patch is unneeded.
-
-
-
-
-
-
-
-
-
-
-
-
->  export MODLIB
->
->  PHONY +=3D prepare0
-> diff --git a/scripts/depmod.sh b/scripts/depmod.sh
-> index 3643b4f896ed..88ac79056153 100755
-> --- a/scripts/depmod.sh
-> +++ b/scripts/depmod.sh
-> @@ -27,16 +27,16 @@ fi
->  # numbers, so we cheat with a symlink here
->  depmod_hack_needed=3Dtrue
->  tmp_dir=3D$(mktemp -d ${TMPDIR:-/tmp}/depmod.XXXXXX)
-> -mkdir -p "$tmp_dir/lib/modules/$KERNELRELEASE"
-> +mkdir -p "$tmp_dir$KERNEL_MODULE_PREFIX/lib/modules/$KERNELRELEASE"
->  if "$DEPMOD" -b "$tmp_dir" $KERNELRELEASE 2>/dev/null; then
-> -       if test -e "$tmp_dir/lib/modules/$KERNELRELEASE/modules.dep" -o \
-> -               -e "$tmp_dir/lib/modules/$KERNELRELEASE/modules.dep.bin";=
- then
-> +       if test -e "$tmp_dir$KERNEL_MODULE_PREFIX/lib/modules/$KERNELRELE=
-ASE/modules.dep" -o \
-> +               -e "$tmp_dir$KERNEL_MODULE_PREFIX/lib/modules/$KERNELRELE=
-ASE/modules.dep.bin"; then
->                 depmod_hack_needed=3Dfalse
->         fi
->  fi
->  rm -rf "$tmp_dir"
->  if $depmod_hack_needed; then
-> -       symlink=3D"$INSTALL_MOD_PATH/lib/modules/99.98.$KERNELRELEASE"
-> +       symlink=3D"$INSTALL_MOD_PATH$KERNEL_MODULE_PREFIX/lib/modules/99.=
-98.$KERNELRELEASE"
->         ln -s "$KERNELRELEASE" "$symlink"
->         KERNELRELEASE=3D99.98.$KERNELRELEASE
->  fi
-> --
-> 2.41.0
->
 
 
 --=20
