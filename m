@@ -2,59 +2,64 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62632750CA5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jul 2023 17:36:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5178750D3D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jul 2023 17:56:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231651AbjGLPgR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 12 Jul 2023 11:36:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51664 "EHLO
+        id S231281AbjGLP4D (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 12 Jul 2023 11:56:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232717AbjGLPgP (ORCPT
+        with ESMTP id S231237AbjGLP4C (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 12 Jul 2023 11:36:15 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA5B91BD7;
-        Wed, 12 Jul 2023 08:36:14 -0700 (PDT)
+        Wed, 12 Jul 2023 11:56:02 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7878FFB;
+        Wed, 12 Jul 2023 08:56:01 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 77FC061866;
-        Wed, 12 Jul 2023 15:36:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6086C433C9;
-        Wed, 12 Jul 2023 15:36:13 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 03E79618B4;
+        Wed, 12 Jul 2023 15:56:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D2A5C433CB;
+        Wed, 12 Jul 2023 15:56:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689176173;
-        bh=PbujtPfodhCW0MYV6O63M6+F36QFLvoD3ngwcw7WrFg=;
+        s=k20201202; t=1689177360;
+        bh=55xXchfz5zqRVrYF22tGshm6/d7zVQT3PRBBNpXtvDM=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=cIFQ1OFr8yslaCWLonyOhCB0w5DknRmqEe6BJ1LKgE98CEVO03mXlJLOMcYVFn7yA
-         50DAOvcTnYgRd0DLOgM1IctIUDNKcaRWrG2GwWIxIIR3XAPZ7ag6MrjWT3j0t6urjX
-         zA8SN76X2sQIggBgBY+rhYVbFvwYhCDKCtzMx2K9NpX28ZkrYYg7cAM6n7rJ7JOq6V
-         y007Ewu5XN5/jwUMzWiwuMXqnaaUgxIKYSPCvQVvcyfOnOeb/1HgV5iCEU/+SzmP+u
-         aaUQlg96QEXrRoHk9JaDmimJ4aqSZ8n489ekQGwqxmwDn3i+QQFfvzCUVa++465Maj
-         vFvDvGzMykt7A==
-Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-5661e8f4c45so5345821eaf.1;
-        Wed, 12 Jul 2023 08:36:13 -0700 (PDT)
-X-Gm-Message-State: ABy/qLaEiglq9vw+uaDJY6bZQSYaYbRimnWM4aFhf9kusVU++NSdfyQY
-        eKlixfz06Jiiy+QAeW14WwSFJ+bUikG5o7oJw+w=
-X-Google-Smtp-Source: APBJJlFbM0VFa3OxwRC/aO/EMh8klZvvhHtzg90Srpdh1IYyak39lWyIU46Nut5Aj6jmqYKwGhBDHK6WP3EWzz6upEo=
-X-Received: by 2002:a4a:b045:0:b0:560:ac0f:b87c with SMTP id
- g5-20020a4ab045000000b00560ac0fb87cmr14241977oon.8.1689176173111; Wed, 12 Jul
- 2023 08:36:13 -0700 (PDT)
+        b=Tqptt6ApYtfCJe/nxteJurpshJjhaKw185zUVmhyK0xlkbGM5NNHq/baZykp497XC
+         6WQEiFR+UAAAZlGlGn7+7ECxsdVKQ5CTElF6ozEqEcThWPVGVMKSUo34o8/6XwE+vj
+         upAGYitiw9vjOOXeGB61B3E1+9q9vCxgPLRp8oWAfuWf52tHAlEnISUqc9JxbIqhCY
+         T/vR/roWUfICQssbKIi6GCGAiAAtm+iHjZoOFs+swiUvs0h9sOSmBrn4Plo0VdJ7Db
+         5qjcH0fMLf4nyYwn6OkzeuqFqubkcMDMGJA5Q/YYMm/pQ1m2fuQ0I3GfS5TuPidfg2
+         1FXDZNbez/W7w==
+Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3a37909a64eso5115615b6e.1;
+        Wed, 12 Jul 2023 08:56:00 -0700 (PDT)
+X-Gm-Message-State: ABy/qLb4zV8jBmJGWMRn+x8a1GAE7mJ04BBJSDw9GYUtN+P8TWo13UP4
+        70j5EWcumYzFhzg738I84bCD0/Bwav7ZyYXZEDo=
+X-Google-Smtp-Source: APBJJlHUMAdockn4z7g4kk03gWerZuidBv27BqOiOXiFc+A7HlNRd3zVR+ycNVo+9U9EnA6IFpLknXnHUtDDQCwGbQI=
+X-Received: by 2002:a05:6870:e307:b0:1b0:189c:87a0 with SMTP id
+ z7-20020a056870e30700b001b0189c87a0mr20726096oad.41.1689177359663; Wed, 12
+ Jul 2023 08:55:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230704055246.22893-1-rdunlap@infradead.org>
-In-Reply-To: <20230704055246.22893-1-rdunlap@infradead.org>
+References: <20230712015747.77263-1-wangkefeng.wang@huawei.com>
+In-Reply-To: <20230712015747.77263-1-wangkefeng.wang@huawei.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 13 Jul 2023 00:35:36 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASAvkNTwTfVZm29Q=oGGc3-oHwW4FSm=8NSROp5V1A-tw@mail.gmail.com>
-Message-ID: <CAK7LNASAvkNTwTfVZm29Q=oGGc3-oHwW4FSm=8NSROp5V1A-tw@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: tell the kconfig symbol of the restart reason
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Date:   Thu, 13 Jul 2023 00:55:23 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARuR5cturyngN31Oy=PwMG_-p5iOek2BuDSKHSyZg44Xg@mail.gmail.com>
+Message-ID: <CAK7LNARuR5cturyngN31Oy=PwMG_-p5iOek2BuDSKHSyZg44Xg@mail.gmail.com>
+Subject: Re: [PATCH -next] modpost: move some defines to the file head
+To:     Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Palmer Dabbelt <palmer@rivosinc.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -63,118 +68,108 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jul 4, 2023 at 2:52=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org>=
- wrote:
++To: Luis Chamberlain, the commiter of the breakage
+
+
+
+On Wed, Jul 12, 2023 at 10:44=E2=80=AFAM Kefeng Wang <wangkefeng.wang@huawe=
+i.com> wrote:
 >
-> When running 'make oldconfig' or 'make olddefconfig' without waiting
-
-olddefconfig is not interactive in the first place.
-
-'make config', 'make oldconfig', 'make syncconfig' are affected.
-
-
-> for prompts, it can be useful to know the restart reason so that it
-> can be fixed manually.
+> with "module: Ignore RISC-V mapping symbols too", build error occurs,
 >
-> This is usually when the prompt value is a number or a string,
-> i.e., something other than y/m/n.
+> scripts/mod/modpost.c: In function =E2=80=98is_valid_name=E2=80=99:
+> scripts/mod/modpost.c:1055:57: error: =E2=80=98EM_RISCV=E2=80=99 undeclar=
+ed (first use in this function)
+>   return !is_mapping_symbol(name, elf->hdr->e_machine =3D=3D EM_RISCV);
+>
+> Fix it by moving the EM_RISCV to the file head, also some other
+> defines in case of similar problem in the future.
 
 
 
-I do not understand what you mean.
-
-Please give me some examples to see why this is useful.
+BTW, why is the flag 'is_riscv' needed?
 
 
-BTW, "due to symbol ..." is not the reason for the restart.
-It shows the first CONFIG option shown after the restart.
+All symbols starting with '$' look special to me.
+
+
+
+Why not like this?
+
+
+       if (str[0] =3D=3D '$')
+                 return true;
+
+       return false;
+
+
+
 
 
 
 >
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: linux-kbuild@vger.kernel.org
+> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
 > ---
-> Can the test for sym->name be omitted?
-
-Not all symbols have a name.
-For example, 'choice' may not have a name.
-
-[test code]
-
-choice
-       prompt "A or B"
-       depends on FOO
-
-config A
-       bool "A"
-
-config B
-       bool "B"
-
-endchoice
-
-config FOO
-       bool "foo"
-
-
-
-If you omit, sym->name test,
-"due to symbol: (null)" will be displayed.
-Not a crash, but users will be misguided.
-
-
-
-
-foo (FOO) [N/y/?] (NEW) y
-*
-* Restart config...
-* due to symbol: (null)
-*
-*
-* Linux/x86 6.5.0-rc1 Kernel Configuration
-*
-A or B
-> 1. A (A) (NEW)
-  2. B (B) (NEW)
-
-
-
-
-
-
-
-
-
-
-
-
->  scripts/kconfig/conf.c |    8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+>  scripts/mod/modpost.c | 32 ++++++++++++++++----------------
+>  1 file changed, 16 insertions(+), 16 deletions(-)
 >
-> diff -- a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
-> --- a/scripts/kconfig/conf.c
-> +++ b/scripts/kconfig/conf.c
-> @@ -652,8 +652,12 @@ static void check_conf(struct menu *menu
->                         printf("-----\n");
->                         break;
->                 default:
-> -                       if (!conf_cnt++)
-> -                               printf("*\n* Restart config...\n*\n");
-> +                       if (!conf_cnt++) {
-> +                               printf("*\n* Restart config...\n");
-> +                               if (sym->name)
-> +                                       printf("* due to symbol: %s\n", s=
-ym->name);
-> +                               printf("*\n");
-> +                       }
->                         rootEntry =3D menu_get_parent_menu(menu);
->                         conf(rootEntry);
->                         break;
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 7c71429d6502..885cca272eb8 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -60,6 +60,22 @@ static unsigned int nr_unresolved;
+>
+>  #define MODULE_NAME_LEN (64 - sizeof(Elf_Addr))
+>
+> +#ifndef EM_RISCV
+> +#define EM_RISCV               243
+> +#endif
+> +
+> +#ifndef R_RISCV_SUB32
+> +#define R_RISCV_SUB32          39
+> +#endif
+> +
+> +#ifndef EM_LOONGARCH
+> +#define EM_LOONGARCH           258
+> +#endif
+> +
+> +#ifndef R_LARCH_SUB32
+> +#define R_LARCH_SUB32          55
+> +#endif
+> +
+>  void __attribute__((format(printf, 2, 3)))
+>  modpost_log(enum loglevel loglevel, const char *fmt, ...)
+>  {
+> @@ -1428,22 +1444,6 @@ static int addend_mips_rel(uint32_t *location, Elf=
+_Rela *r)
+>         return 0;
+>  }
+>
+> -#ifndef EM_RISCV
+> -#define EM_RISCV               243
+> -#endif
+> -
+> -#ifndef R_RISCV_SUB32
+> -#define R_RISCV_SUB32          39
+> -#endif
+> -
+> -#ifndef EM_LOONGARCH
+> -#define EM_LOONGARCH           258
+> -#endif
+> -
+> -#ifndef R_LARCH_SUB32
+> -#define R_LARCH_SUB32          55
+> -#endif
+> -
+>  static void section_rela(struct module *mod, struct elf_info *elf,
+>                          Elf_Shdr *sechdr)
+>  {
+> --
+> 2.41.0
+>
 
 
-
---=20
+--
 Best Regards
+
 Masahiro Yamada
