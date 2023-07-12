@@ -2,44 +2,44 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 877F775001A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jul 2023 09:35:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 899F9750030
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jul 2023 09:38:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231693AbjGLHfN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 12 Jul 2023 03:35:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57568 "EHLO
+        id S232126AbjGLHie (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 12 Jul 2023 03:38:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229551AbjGLHfM (ORCPT
+        with ESMTP id S232062AbjGLHiY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 12 Jul 2023 03:35:12 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D2FEE49;
-        Wed, 12 Jul 2023 00:35:11 -0700 (PDT)
+        Wed, 12 Jul 2023 03:38:24 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C2B01987;
+        Wed, 12 Jul 2023 00:38:20 -0700 (PDT)
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id CB0AD22594;
-        Wed, 12 Jul 2023 07:35:09 +0000 (UTC)
+        by smtp-out1.suse.de (Postfix) with ESMTP id F3DDE225A4;
+        Wed, 12 Jul 2023 07:38:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1689147309; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1689147499; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=PZ2bZ81Z3Yq2Og22w7MZ8KBK5/vLlKpOWbCzlQnvBgo=;
-        b=fUOt+kc2pNRTHvtm9KJCQ9R4oVlVfMT8pBGzbpqaYVp4jKE5uBcl4jsooYLuez6Vi2zh2Y
-        0PYKDmJwf86IyvqbIkPksI8zHIratqswd5Lo4uwBeLJQ5gMFYB/9pFWMvORxUDNFkcaJ6m
-        9rN2/7iqiNzguwe703AczFWY/RtttYk=
+        bh=haszkyxt6U9I4qJOD2FSTDPcnP+kRqUlAiag7JbTgA4=;
+        b=RNE4FWJrak2AX66RAbfeLRsBsvGzBpfea8WKV8QtEDBxTN8T53olIOb9pWNQnDqunOBiav
+        xy4dJwUY9IZ+BBsvWHGSQ4uzaSgTPFbICqAprflcrBigmSzHN3D9VPC55te7UI9hZm6Pee
+        n+O+EORlSB26dU6cL30IFpNWnsIkaYs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1689147309;
+        s=susede2_ed25519; t=1689147499;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=PZ2bZ81Z3Yq2Og22w7MZ8KBK5/vLlKpOWbCzlQnvBgo=;
-        b=5kufGYXVf+Fg36xCOYKENxSaWoxVEIdSlp4TAO9rISt2g8vzs97fzLXWpGQOXyZSQkEW00
-        hP+/G5l9WqvU0iBw==
+        bh=haszkyxt6U9I4qJOD2FSTDPcnP+kRqUlAiag7JbTgA4=;
+        b=Rc5UN3qAe5VIs3n2Nq5Sctxt/v0pLuAjXYc5vKvTT1HRZGn6Twvn1jGdlJxO0unupY3ebK
+        ivcfaZRjLpX+IHAg==
 Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 59CBE2C142;
-        Wed, 12 Jul 2023 07:35:09 +0000 (UTC)
-Date:   Wed, 12 Jul 2023 09:35:08 +0200
+        by relay2.suse.de (Postfix) with ESMTPS id A59EA2C142;
+        Wed, 12 Jul 2023 07:38:18 +0000 (UTC)
+Date:   Wed, 12 Jul 2023 09:38:17 +0200
 From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
 To:     Jiri Slaby <jirislaby@kernel.org>
 Cc:     linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
@@ -51,16 +51,15 @@ Cc:     linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
         linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/4] libkmod, depmod: Load modprobe.d, depmod.d from
- $prefix/lib.
-Message-ID: <20230712073508.GD9196@kitsune.suse.cz>
+Subject: Re: [PATCH] depmod: Handle installing modules under a prefix
+Message-ID: <20230712073817.GE9196@kitsune.suse.cz>
 References: <20230711153126.28876-1-msuchanek@suse.de>
- <20230711153126.28876-3-msuchanek@suse.de>
- <23779aa4-e1c1-c311-5f6b-8be652826cc7@kernel.org>
+ <20230711153457.29497-1-msuchanek@suse.de>
+ <da2fdd15-fae1-2bf6-04e7-568c715372ce@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <23779aa4-e1c1-c311-5f6b-8be652826cc7@kernel.org>
+In-Reply-To: <da2fdd15-fae1-2bf6-04e7-568c715372ce@kernel.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
@@ -72,49 +71,49 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello,
-
-On Wed, Jul 12, 2023 at 08:47:20AM +0200, Jiri Slaby wrote:
-> On 11. 07. 23, 17:31, Michal Suchanek wrote:
-> > There is an ongoing effort to limit use of files outside of /usr (or
-> > $prefix on general). Currently all modprobe.d paths are hardcoded to
-> > outside of $prefix. Teach kmod to load modprobe.d from $prefix/lib.
+On Wed, Jul 12, 2023 at 07:47:13AM +0200, Jiri Slaby wrote:
+> On 11. 07. 23, 17:34, Michal Suchanek wrote:
+> > Some distributions aim at not shipping any files in / ustside of usr.
 > > 
-> > On some distributions /usr/lib and /lib are the same directory because
-> > of a compatibility symlink, and it is possible to craft configuration
-> > files with sideeffects that would behave differently when loaded twice.
-> > However, the override semantic ensures that one 'overrides' the other,
-> > and only one configuration file of the same name is loaded from any of
-> > the seach directories.
+> > The path under which kernel modules are instaleld is hardcoded to /lib
+> > which conflicts with this goal.
+> > 
+> > When kmod provides the config command use it to determine the correct
+> > module installation prefix.
+> > 
+> > On kmod that does not provide the command / is used as before.
+> > 
+> > Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+> > ---
+> >   Makefile          | 4 +++-
+> >   scripts/depmod.sh | 8 ++++----
+> >   2 files changed, 7 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/Makefile b/Makefile
+> > index 47690c28456a..b05d696f06bd 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -1165,7 +1165,9 @@ export INSTALL_DTBS_PATH ?= $(INSTALL_PATH)/dtbs/$(KERNELRELEASE)
+> >   # makefile but the argument can be passed to make if needed.
+> >   #
+> > -MODLIB	= $(INSTALL_MOD_PATH)/lib/modules/$(KERNELRELEASE)
+> > +export KERNEL_MODULE_PREFIX := $(shell kmod config | jq -r .module_prefix)
 > 
-> search
+> echo -e 'KERNEL_MODULE_PREFIX := $(shell kmod config | jq -r
+> .module_prefix)\nall:'|make -f -
+> invalid command 'config'
+> parse error: Invalid numeric literal at line 1, column 5
 > 
-> ...
-> > --- a/man/Makefile.am
-> > +++ b/man/Makefile.am
-> > @@ -17,9 +17,14 @@ EXTRA_DIST = $(MAN5:%.5=%.xml) $(MAN8:%.8=%.xml)
-> >   CLEANFILES = $(dist_man_MANS)
-> >   %.5 %.8: %.xml
-> > -	$(AM_V_XSLT)$(XSLT) \
-> > +	$(AM_V_XSLT)if [ -n '$(prefix)' ] ; then \
-> > +		sed -e 's|@PREFIX@|$(prefix)|g' $< ; \
+> I think you should pipe kmod's 2> /dev/null to support older kmod. Ah, but
+> you'd need 2> /dev/null for jq too. That would not be good as jq might not
+> be installed and a user wouldn't see the error. So instead, I would do:
 > 
-> Hmm, if prefix is empty, this will remove @PREFIX@. So why you need this
-> 'if' at all?
+> $(shell kmod config &> /dev/null && kmod config | jq -r .module_prefix)
 
-It removes the whole duplicate line.
+Yes, that sounds reasonable. Also would cover the potential problem of
+kmod changing the error output into something that is a valid JSON in
+the future.
 
 Thanks
 
 Michal
-
-> 
-> > +	else \
-> > +		sed -e '/@PREFIX@/d' $< ; \
-> > +	fi | \
-> 
-> 
-> -- 
-> js
-> suse labs
-> 
