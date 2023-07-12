@@ -2,131 +2,124 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 66C227509E0
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jul 2023 15:45:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 203F8750A3B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jul 2023 15:59:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233080AbjGLNpl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 12 Jul 2023 09:45:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60512 "EHLO
+        id S231522AbjGLN7p (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 12 Jul 2023 09:59:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232952AbjGLNpl (ORCPT
+        with ESMTP id S231364AbjGLN7o (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 12 Jul 2023 09:45:41 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D3D4E4D;
-        Wed, 12 Jul 2023 06:45:40 -0700 (PDT)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id F41E31F893;
-        Wed, 12 Jul 2023 13:45:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1689169539; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
+        Wed, 12 Jul 2023 09:59:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8235A1BD7
+        for <linux-kbuild@vger.kernel.org>; Wed, 12 Jul 2023 06:58:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1689170328;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=G+kzlCw/SCEEe9a86Jj/6fxE8wGtEPp1cF0uqUxJXbY=;
-        b=WIilWt8PA4uZmrnmW+mk+UJaoE5N7LsZBv14GAXDJamGClORjV6AaedgU+81krZ/Dl6yXg
-        3JWG4czVlAyz5nyQTq7d95HQ5pbybQEVj+uj0SxbedPzkA/yfx0VwZm2S96J65PmkRkDF2
-        63FhZ77cJ0ffor6VgDjx3zaVTSWF6ho=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1689169539;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=G+kzlCw/SCEEe9a86Jj/6fxE8wGtEPp1cF0uqUxJXbY=;
-        b=umhHv+grXQ8dOfv81wH9k9xTDQjcnRVnp74XMx8ajHLPBEmlUJNyEbOTOR+WfgsG3umNc5
-        AUWEfD0cN2OK2aAg==
-Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
-        by relay2.suse.de (Postfix) with ESMTP id 9BC152C142;
-        Wed, 12 Jul 2023 13:45:38 +0000 (UTC)
-From:   Michal Suchanek <msuchanek@suse.de>
-Cc:     Michal Suchanek <msuchanek@suse.de>, Takashi Iwai <tiwai@suse.com>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>,
-        =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-        Jiri Slaby <jslaby@suse.com>, Jan Engelhardt <jengelh@inai.de>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2--to=linux-modules@vger.kernel.org] depmod: Handle installing modules under a prefix
-Date:   Wed, 12 Jul 2023 15:45:31 +0200
-Message-ID: <20230712134533.4419-1-msuchanek@suse.de>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <da2fdd15-fae1-2bf6-04e7-568c715372ce@kernel.org>
-References: <da2fdd15-fae1-2bf6-04e7-568c715372ce@kernel.org>
+        bh=kdw8uAxHlNPXNGahE+KfJjl2Q6GUtgS/21+dy53UJBA=;
+        b=BEM6Ul2WttyeHmRXZ1GsZEU5qTLo3jV87CD/46uehmh5LC46EYtFMdUskvngGIQBobYNgp
+        VP5ZOPbEtAGXXtBheSaeTy7fDipoyvZbpJ6/MWptGcbAz44+h4xBxJ5BoCz5cYLziVxQv9
+        83ZJqmP5lnl3m4t4AnqxQj2++H2OAoo=
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
+ [209.85.167.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-542-oAJHEQChOz62ktle_ZoCGw-1; Wed, 12 Jul 2023 09:58:47 -0400
+X-MC-Unique: oAJHEQChOz62ktle_ZoCGw-1
+Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-3a426e7058cso918274b6e.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 12 Jul 2023 06:58:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689170326; x=1691762326;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kdw8uAxHlNPXNGahE+KfJjl2Q6GUtgS/21+dy53UJBA=;
+        b=jJni7BZC1MZolqtnCDni8pEqx1FszgnxBRt1n2CUPE4bnDKkQPYGrnINosIIxMjGpu
+         Wp8dH5encolIIZnwtfes4/XZcM93E+gOp9FUhd6qfDnQIE3z4oTd9CM+Z5n5z6tbdeKZ
+         Gc24s7zCpmhAatyaxrTd4thD4Jf4CsYUjiHnoMwu8Wizjvzy8+eJ9evyz3B6dsX1Ubal
+         jA8p1HpJSsx5EUcerTvhuAMnv2GN0K3PY8IGSewSytSGbbXQbYrq0vLE6SP0AxCMKKbd
+         6xVTFdqoi4UGn6OUaXRqqC0+J7yw7h0crQ/NnYGI+OOPqVLl09rgWhtNiCsZbDi6aCDi
+         ul0w==
+X-Gm-Message-State: ABy/qLaKxcf/N2G/1PXRRWyBtgwCftRiU0o/jPw2pFrn6tfNtPcD3pdn
+        a5vXG1eEu7oY0OQuKvT7mowx6sNzdIKi0TyKcbivNhEkX7VW7wyNsXsPUIVHm4jHOTSDoj52AAd
+        U2S/SSxFOD5G7QQY131YMmXOu8hQdEaULkGcq4SXI
+X-Received: by 2002:a05:6808:14d3:b0:3a3:67cb:61e3 with SMTP id f19-20020a05680814d300b003a367cb61e3mr20971072oiw.25.1689170326739;
+        Wed, 12 Jul 2023 06:58:46 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlHzvlFZ++qJUEwu1gqyN1kSKaU5kZ42u9NYIWco6QD9pz8UTV9DG9szFx5i2iCh3yXJptd2FCc9ShbH1RT7y5M=
+X-Received: by 2002:a05:6808:14d3:b0:3a3:67cb:61e3 with SMTP id
+ f19-20020a05680814d300b003a367cb61e3mr20971056oiw.25.1689170326524; Wed, 12
+ Jul 2023 06:58:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <CAK18DXagdLgwFG-ed97vVzMXC1BTCVbQrNQKXPwyH9HYy4TeJw@mail.gmail.com>
+In-Reply-To: <CAK18DXagdLgwFG-ed97vVzMXC1BTCVbQrNQKXPwyH9HYy4TeJw@mail.gmail.com>
+From:   Donald Zickus <dzickus@redhat.com>
+Date:   Wed, 12 Jul 2023 09:58:35 -0400
+Message-ID: <CAK18DXZHn28mZ-Sr5x_Lwn0SSisgcGqcBdt5MQNRXuNVYbnKZw@mail.gmail.com>
+Subject: [RESEND] Looking for a hack to remove auto-selected items from
+ .config output
+To:     masahiroy@kernel.org
+Cc:     linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Some distributions aim at not shipping any files in / ustside of usr.
+Resending without the html cruft to pass through the linux-kbuild mail daem=
+on
 
-The path under which kernel modules are instaleld is hardcoded to /lib
-which conflicts with this goal.
+---------- Forwarded message ---------
+From: Donald Zickus <dzickus@redhat.com>
+Date: Tue, Jul 11, 2023 at 6:27=E2=80=AFPM
+Subject: Looking for a hack to remove auto-selected items from .config outp=
+ut
+To: <masahiroy@kernel.org>
+Cc: <linux-kbuild@vger.kernel.org>
 
-When kmod provides the config command use it to determine the correct
-module installation prefix.
 
-On kmod that does not provide the command / is used as before.
+Hi Masahiro,
 
-Signed-off-by: Michal Suchanek <msuchanek@suse.de>
----
-v2: Avoid error on systems with kmod that does not support config
-command
----
- Makefile          | 4 +++-
- scripts/depmod.sh | 8 ++++----
- 2 files changed, 7 insertions(+), 5 deletions(-)
+I am trying to cleanup some stale config data with some of the Red Hat
+configs.  Like most distros, Red Hat sets a bunch of 'menu choice'
+configs and then merges them together then runs something like 'make
+olddefconfig' to autoselect the rest of the configs.  Been working
+great for many years.
 
-diff --git a/Makefile b/Makefile
-index 47690c28456a..b1fea135bdec 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1165,7 +1165,9 @@ export INSTALL_DTBS_PATH ?= $(INSTALL_PATH)/dtbs/$(KERNELRELEASE)
- # makefile but the argument can be passed to make if needed.
- #
- 
--MODLIB	= $(INSTALL_MOD_PATH)/lib/modules/$(KERNELRELEASE)
-+export KERNEL_MODULE_PREFIX := $(shell kmod config &> /dev/null && kmod config | jq -r .module_prefix)
-+
-+MODLIB	= $(INSTALL_MOD_PATH)$(KERNEL_MODULE_PREFIX)/lib/modules/$(KERNELRELEASE)
- export MODLIB
- 
- PHONY += prepare0
-diff --git a/scripts/depmod.sh b/scripts/depmod.sh
-index 3643b4f896ed..88ac79056153 100755
---- a/scripts/depmod.sh
-+++ b/scripts/depmod.sh
-@@ -27,16 +27,16 @@ fi
- # numbers, so we cheat with a symlink here
- depmod_hack_needed=true
- tmp_dir=$(mktemp -d ${TMPDIR:-/tmp}/depmod.XXXXXX)
--mkdir -p "$tmp_dir/lib/modules/$KERNELRELEASE"
-+mkdir -p "$tmp_dir$KERNEL_MODULE_PREFIX/lib/modules/$KERNELRELEASE"
- if "$DEPMOD" -b "$tmp_dir" $KERNELRELEASE 2>/dev/null; then
--	if test -e "$tmp_dir/lib/modules/$KERNELRELEASE/modules.dep" -o \
--		-e "$tmp_dir/lib/modules/$KERNELRELEASE/modules.dep.bin"; then
-+	if test -e "$tmp_dir$KERNEL_MODULE_PREFIX/lib/modules/$KERNELRELEASE/modules.dep" -o \
-+		-e "$tmp_dir$KERNEL_MODULE_PREFIX/lib/modules/$KERNELRELEASE/modules.dep.bin"; then
- 		depmod_hack_needed=false
- 	fi
- fi
- rm -rf "$tmp_dir"
- if $depmod_hack_needed; then
--	symlink="$INSTALL_MOD_PATH/lib/modules/99.98.$KERNELRELEASE"
-+	symlink="$INSTALL_MOD_PATH$KERNEL_MODULE_PREFIX/lib/modules/99.98.$KERNELRELEASE"
- 	ln -s "$KERNELRELEASE" "$symlink"
- 	KERNELRELEASE=99.98.$KERNELRELEASE
- fi
--- 
-2.41.0
+Lately, we are trying to audit the configs and ran into many stale Red
+Hat set configs that no longer exist upstream (removed, renamed,
+whatever).  Ok, running a script detects these and we can remove them
+by hand.
+
+One corner case we ran into is dropping configs.  Like upstream we try
+and match the merged configs with the final setting from 'make
+olddefconfig' and fail if there is a mismatch.  However, not every
+config is applicable to every arch, so those configs are dropped and
+we were always ok with it.  But now those dropped configs are
+confusing folks who think configs are set but they are really dropped.
+Yes, a Red Hat problem.
+
+I am trying to untangle this.  Is there a hack I can use that takes a
+generated .config file and removes all the 'selected' and 'implied'
+options out?  Leaving me with just the minimum configs that need to be
+set?  Then I can de-merge it and re-create our original set config
+options.  Basically reversing the normal config generating process, I
+think.
+
+Not looking for anything complicated, just something simple I can quickly a=
+pply.
+
+Thoughts?
+
+Cheers,
+Don
 
