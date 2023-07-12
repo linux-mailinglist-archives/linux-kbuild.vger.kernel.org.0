@@ -2,174 +2,164 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5178750D3D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jul 2023 17:56:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7AFE750DCB
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jul 2023 18:15:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231281AbjGLP4D (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 12 Jul 2023 11:56:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36652 "EHLO
+        id S230229AbjGLQP3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 12 Jul 2023 12:15:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231237AbjGLP4C (ORCPT
+        with ESMTP id S232674AbjGLQPW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 12 Jul 2023 11:56:02 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7878FFB;
-        Wed, 12 Jul 2023 08:56:01 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        Wed, 12 Jul 2023 12:15:22 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46E292113;
+        Wed, 12 Jul 2023 09:15:18 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id A69BA21BF6;
+        Wed, 12 Jul 2023 16:15:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1689178516; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=f+VBw2m9h9l7vvxNuxZsgOqUhypJ0WlLLP87GhZA5AE=;
+        b=YSLsdtwZOTkfjqynfuSJKj0gvd2emXLtxf244R7bExDlFjBODop+V8pZdCoMtk800ot5y1
+        IGAvjy7xx0LDVfROul9MHc86uhCeGeOVSAjpJXts4n94xNKWkujab22FoWM4Ca8MYoluC9
+        Ef0qK/McyteLSd3OpzeyQQ3kNOnMbQ0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1689178516;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=f+VBw2m9h9l7vvxNuxZsgOqUhypJ0WlLLP87GhZA5AE=;
+        b=AcDoY21OwDC41DctUXzxwi968x4MBiI1tUbqoCeoJ+0xifX83UAemuQdYknb8NdNbQLf4n
+        wR+GMtS7/uRYYCBw==
+Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 03E79618B4;
-        Wed, 12 Jul 2023 15:56:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D2A5C433CB;
-        Wed, 12 Jul 2023 15:56:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689177360;
-        bh=55xXchfz5zqRVrYF22tGshm6/d7zVQT3PRBBNpXtvDM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Tqptt6ApYtfCJe/nxteJurpshJjhaKw185zUVmhyK0xlkbGM5NNHq/baZykp497XC
-         6WQEiFR+UAAAZlGlGn7+7ECxsdVKQ5CTElF6ozEqEcThWPVGVMKSUo34o8/6XwE+vj
-         upAGYitiw9vjOOXeGB61B3E1+9q9vCxgPLRp8oWAfuWf52tHAlEnISUqc9JxbIqhCY
-         T/vR/roWUfICQssbKIi6GCGAiAAtm+iHjZoOFs+swiUvs0h9sOSmBrn4Plo0VdJ7Db
-         5qjcH0fMLf4nyYwn6OkzeuqFqubkcMDMGJA5Q/YYMm/pQ1m2fuQ0I3GfS5TuPidfg2
-         1FXDZNbez/W7w==
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3a37909a64eso5115615b6e.1;
-        Wed, 12 Jul 2023 08:56:00 -0700 (PDT)
-X-Gm-Message-State: ABy/qLb4zV8jBmJGWMRn+x8a1GAE7mJ04BBJSDw9GYUtN+P8TWo13UP4
-        70j5EWcumYzFhzg738I84bCD0/Bwav7ZyYXZEDo=
-X-Google-Smtp-Source: APBJJlHUMAdockn4z7g4kk03gWerZuidBv27BqOiOXiFc+A7HlNRd3zVR+ycNVo+9U9EnA6IFpLknXnHUtDDQCwGbQI=
-X-Received: by 2002:a05:6870:e307:b0:1b0:189c:87a0 with SMTP id
- z7-20020a056870e30700b001b0189c87a0mr20726096oad.41.1689177359663; Wed, 12
- Jul 2023 08:55:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230712015747.77263-1-wangkefeng.wang@huawei.com>
-In-Reply-To: <20230712015747.77263-1-wangkefeng.wang@huawei.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 13 Jul 2023 00:55:23 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARuR5cturyngN31Oy=PwMG_-p5iOek2BuDSKHSyZg44Xg@mail.gmail.com>
-Message-ID: <CAK7LNARuR5cturyngN31Oy=PwMG_-p5iOek2BuDSKHSyZg44Xg@mail.gmail.com>
-Subject: Re: [PATCH -next] modpost: move some defines to the file head
-To:     Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
+        by relay2.suse.de (Postfix) with ESMTPS id 37BFD2C142;
+        Wed, 12 Jul 2023 16:15:16 +0000 (UTC)
+Date:   Wed, 12 Jul 2023 18:15:15 +0200
+From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Takashi Iwai <tiwai@suse.com>,
+        Lucas De Marchi <lucas.de.marchi@gmail.com>,
+        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+        Jiri Slaby <jslaby@suse.com>, Jan Engelhardt <jengelh@inai.de>,
+        Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Palmer Dabbelt <palmer@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2--to=linux-modules@vger.kernel.org] depmod: Handle
+ installing modules under a prefix
+Message-ID: <20230712161515.GH9196@kitsune.suse.cz>
+References: <da2fdd15-fae1-2bf6-04e7-568c715372ce@kernel.org>
+ <20230712134533.4419-1-msuchanek@suse.de>
+ <CAK7LNATRikmr5bO9WvWAvqHFmkv1sqAPY_WouXb4+6HCTj56MQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNATRikmr5bO9WvWAvqHFmkv1sqAPY_WouXb4+6HCTj56MQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-+To: Luis Chamberlain, the commiter of the breakage
+On Wed, Jul 12, 2023 at 11:14:33PM +0900, Masahiro Yamada wrote:
+> On Wed, Jul 12, 2023 at 10:45 PM Michal Suchanek <msuchanek@suse.de> wrote:
+> >
+> > Some distributions aim at not shipping any files in / ustside of usr.
+> >
+> > The path under which kernel modules are instaleld is hardcoded to /lib
+> > which conflicts with this goal.
+> >
+> > When kmod provides the config command use it to determine the correct
+> > module installation prefix.
+> >
+> > On kmod that does not provide the command / is used as before.
+> >
+> > Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+> > ---
+> > v2: Avoid error on systems with kmod that does not support config
+> > command
+> > ---
+> >  Makefile          | 4 +++-
+> >  scripts/depmod.sh | 8 ++++----
+> >  2 files changed, 7 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/Makefile b/Makefile
+> > index 47690c28456a..b1fea135bdec 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -1165,7 +1165,9 @@ export INSTALL_DTBS_PATH ?= $(INSTALL_PATH)/dtbs/$(KERNELRELEASE)
+> >  # makefile but the argument can be passed to make if needed.
+> >  #
+> >
+> > -MODLIB = $(INSTALL_MOD_PATH)/lib/modules/$(KERNELRELEASE)
+> > +export KERNEL_MODULE_PREFIX := $(shell kmod config &> /dev/null && kmod config | jq -r .module_prefix)
+> > +
+> > +MODLIB = $(INSTALL_MOD_PATH)$(KERNEL_MODULE_PREFIX)/lib/modules/$(KERNELRELEASE)
+> 
+> You can do "make modules_install INSTALL_MOD_PATH=/usr/what/ever/prefix"
+> 
+> This patch is unneeded.
 
+It's very much needed.
 
+INSTALL_MOD_PATH is temporary staging location, KERNEL_MODULE_PREFIX is
+permanent prefix under which modules are searched.
 
-On Wed, Jul 12, 2023 at 10:44=E2=80=AFAM Kefeng Wang <wangkefeng.wang@huawe=
-i.com> wrote:
->
-> with "module: Ignore RISC-V mapping symbols too", build error occurs,
->
-> scripts/mod/modpost.c: In function =E2=80=98is_valid_name=E2=80=99:
-> scripts/mod/modpost.c:1055:57: error: =E2=80=98EM_RISCV=E2=80=99 undeclar=
-ed (first use in this function)
->   return !is_mapping_symbol(name, elf->hdr->e_machine =3D=3D EM_RISCV);
->
-> Fix it by moving the EM_RISCV to the file head, also some other
-> defines in case of similar problem in the future.
+Note that depmod.sh does not use INSTALL_MOD_PATH but uses
+KERNEL_MODULE_PREFIX.
 
+Support for this is added by the corresponding kmod patchset.
 
+Thanks
 
-BTW, why is the flag 'is_riscv' needed?
+Michal
 
-
-All symbols starting with '$' look special to me.
-
-
-
-Why not like this?
-
-
-       if (str[0] =3D=3D '$')
-                 return true;
-
-       return false;
-
-
-
-
-
-
->
-> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
-> ---
->  scripts/mod/modpost.c | 32 ++++++++++++++++----------------
->  1 file changed, 16 insertions(+), 16 deletions(-)
->
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 7c71429d6502..885cca272eb8 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -60,6 +60,22 @@ static unsigned int nr_unresolved;
->
->  #define MODULE_NAME_LEN (64 - sizeof(Elf_Addr))
->
-> +#ifndef EM_RISCV
-> +#define EM_RISCV               243
-> +#endif
-> +
-> +#ifndef R_RISCV_SUB32
-> +#define R_RISCV_SUB32          39
-> +#endif
-> +
-> +#ifndef EM_LOONGARCH
-> +#define EM_LOONGARCH           258
-> +#endif
-> +
-> +#ifndef R_LARCH_SUB32
-> +#define R_LARCH_SUB32          55
-> +#endif
-> +
->  void __attribute__((format(printf, 2, 3)))
->  modpost_log(enum loglevel loglevel, const char *fmt, ...)
->  {
-> @@ -1428,22 +1444,6 @@ static int addend_mips_rel(uint32_t *location, Elf=
-_Rela *r)
->         return 0;
->  }
->
-> -#ifndef EM_RISCV
-> -#define EM_RISCV               243
-> -#endif
-> -
-> -#ifndef R_RISCV_SUB32
-> -#define R_RISCV_SUB32          39
-> -#endif
-> -
-> -#ifndef EM_LOONGARCH
-> -#define EM_LOONGARCH           258
-> -#endif
-> -
-> -#ifndef R_LARCH_SUB32
-> -#define R_LARCH_SUB32          55
-> -#endif
-> -
->  static void section_rela(struct module *mod, struct elf_info *elf,
->                          Elf_Shdr *sechdr)
->  {
-> --
-> 2.41.0
->
-
-
---
-Best Regards
-
-Masahiro Yamada
+> >  export MODLIB
+> >
+> >  PHONY += prepare0
+> > diff --git a/scripts/depmod.sh b/scripts/depmod.sh
+> > index 3643b4f896ed..88ac79056153 100755
+> > --- a/scripts/depmod.sh
+> > +++ b/scripts/depmod.sh
+> > @@ -27,16 +27,16 @@ fi
+> >  # numbers, so we cheat with a symlink here
+> >  depmod_hack_needed=true
+> >  tmp_dir=$(mktemp -d ${TMPDIR:-/tmp}/depmod.XXXXXX)
+> > -mkdir -p "$tmp_dir/lib/modules/$KERNELRELEASE"
+> > +mkdir -p "$tmp_dir$KERNEL_MODULE_PREFIX/lib/modules/$KERNELRELEASE"
+> >  if "$DEPMOD" -b "$tmp_dir" $KERNELRELEASE 2>/dev/null; then
+> > -       if test -e "$tmp_dir/lib/modules/$KERNELRELEASE/modules.dep" -o \
+> > -               -e "$tmp_dir/lib/modules/$KERNELRELEASE/modules.dep.bin"; then
+> > +       if test -e "$tmp_dir$KERNEL_MODULE_PREFIX/lib/modules/$KERNELRELEASE/modules.dep" -o \
+> > +               -e "$tmp_dir$KERNEL_MODULE_PREFIX/lib/modules/$KERNELRELEASE/modules.dep.bin"; then
+> >                 depmod_hack_needed=false
+> >         fi
+> >  fi
+> >  rm -rf "$tmp_dir"
+> >  if $depmod_hack_needed; then
+> > -       symlink="$INSTALL_MOD_PATH/lib/modules/99.98.$KERNELRELEASE"
+> > +       symlink="$INSTALL_MOD_PATH$KERNEL_MODULE_PREFIX/lib/modules/99.98.$KERNELRELEASE"
+> >         ln -s "$KERNELRELEASE" "$symlink"
+> >         KERNELRELEASE=99.98.$KERNELRELEASE
+> >  fi
+> > --
+> > 2.41.0
+> >
+> 
+> 
+> -- 
+> Best Regards
+> Masahiro Yamada
