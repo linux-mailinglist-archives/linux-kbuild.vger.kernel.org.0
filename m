@@ -2,118 +2,131 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2005A74FEDC
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jul 2023 07:47:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA29974FF87
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jul 2023 08:42:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230344AbjGLFrT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 12 Jul 2023 01:47:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44594 "EHLO
+        id S230393AbjGLGmb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 12 Jul 2023 02:42:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229742AbjGLFrS (ORCPT
+        with ESMTP id S230308AbjGLGmX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 12 Jul 2023 01:47:18 -0400
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 119C8135;
-        Tue, 11 Jul 2023 22:47:17 -0700 (PDT)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3fbc0609cd6so66203475e9.1;
-        Tue, 11 Jul 2023 22:47:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689140835; x=1691732835;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7KhU5Ez9+mJlZdemSaBOe5QuCdwTYr99cQtnBoKdbfQ=;
-        b=PaYe/Jjm9G+Wj+w1Flh2fimxxBZocpUxwhoBzJk6H7yaJGsboZsqhWSl+t4LVyE0Xb
-         G3lm4L3faOTS9Y6AAIQo6/Am6ROEtCHRGcafiVBtQ+w2+i9TUpgEo9hB1MIm8gKhwrea
-         UiKiNA4xoKcutEQgFZvtYY1UMELTnZ1QUIT4PC3chCb628ZCm+AIa21ROB0WHdr9AAye
-         qaOMEismcViepCtgTqDgKT3U/OoO6BeAxeoLe0iYCszEzO1gGwmo/RXvM2fMGpCGDIqV
-         NG/9z5K4Wz71I9USbmeDdwAeYoJXn1FyfM84LUm1M0xkZTd1W/b/cQmBHoWP8k+GHllC
-         yrKQ==
-X-Gm-Message-State: ABy/qLZZI9jIhEsMHPUw5stzIiyWYYSJAbeV2aYXaV6/wdwcw5ErDc7z
-        JYBCNiAWkT7Q+0AcMCcZYuSowG1aUXfNCg==
-X-Google-Smtp-Source: APBJJlGv2XsuPzLypp+ZJLBe+5DhRe1oSQlYjrlgxRLpONLrWAgxIn3TsbyxIaW+JqRPV32PGJqcvA==
-X-Received: by 2002:a7b:c44c:0:b0:3fc:4:a5b5 with SMTP id l12-20020a7bc44c000000b003fc0004a5b5mr13760957wmi.29.1689140835231;
-        Tue, 11 Jul 2023 22:47:15 -0700 (PDT)
-Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:59? ([2a0b:e7c0:0:107::aaaa:59])
-        by smtp.gmail.com with ESMTPSA id a25-20020a1cf019000000b003fbb346279dsm4122031wmb.38.2023.07.11.22.47.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jul 2023 22:47:14 -0700 (PDT)
-Message-ID: <da2fdd15-fae1-2bf6-04e7-568c715372ce@kernel.org>
-Date:   Wed, 12 Jul 2023 07:47:13 +0200
+        Wed, 12 Jul 2023 02:42:23 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBB8719B;
+        Tue, 11 Jul 2023 23:42:22 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6A530616E3;
+        Wed, 12 Jul 2023 06:42:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BE665C433CB;
+        Wed, 12 Jul 2023 06:42:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689144141;
+        bh=Lts7Ttry/DWypJyUuGIPywZ4oz1JjOWCv4NgY2hLjS8=;
+        h=From:Date:Subject:To:Cc:Reply-To:From;
+        b=UPjhm3r0ruTcSU8J/DisQuvVFubBpmkrQiRG66SNPMUZWT3Z/wPH1lRv6QTCidhPT
+         4p5mM4KYSLep6ITrOE6dfkpqT+13PI1ojUBBLOyYhbjDudjaoCW+y7Qg4GpOAu4S1O
+         c32vGGvFK9tdXdAp46iIDy2sgLv0uDvsT41U6eYcsIxXzfDlbj1j2RpqpS0VvjHCmZ
+         do69/LbC//53GfcfddojTfRaK2mkDRg8Y+0BFwBKEpkG+DMf0DrNZTx0DiTLM5q8QT
+         sMOe9EO3iIqDyPBYXfmUpj8waqwj6l5w6m0IipXUkEy2LqSnZ1AA2TIb0k6dGUNyvB
+         4DAa+sSNLWlNQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by smtp.lore.kernel.org (Postfix) with ESMTP id A56FFEB64DA;
+        Wed, 12 Jul 2023 06:42:21 +0000 (UTC)
+From:   Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
+Date:   Wed, 12 Jul 2023 08:42:20 +0200
+Subject: [PATCH] kbuild: rpm-pkg: Add dtbs support
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Content-Language: en-US
-To:     Michal Suchanek <msuchanek@suse.de>, linux-modules@vger.kernel.org
-Cc:     Takashi Iwai <tiwai@suse.com>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>,
-        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
-        Jan Engelhardt <jengelh@inai.de>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230712-kbuild_rpm_dtbs-v1-1-99693e8faaaf@jannau.net>
+X-B4-Tracking: v=1; b=H4sIAEtLrmQC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI2MDc0Mj3eyk0syclPiigtz4lJKkYt0UA1PTRGNzC4OkpFQloK6CotS0zAq
+ widGxtbUAJFQ7cGEAAAA=
+To:     Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230711153126.28876-1-msuchanek@suse.de>
- <20230711153457.29497-1-msuchanek@suse.de>
-From:   Jiri Slaby <jirislaby@kernel.org>
-Subject: Re: [PATCH] depmod: Handle installing modules under a prefix
-In-Reply-To: <20230711153457.29497-1-msuchanek@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
-        autolearn_force=no version=3.4.6
+        Nicolas Schier <nicolas@fjasle.eu>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2064; i=j@jannau.net;
+ h=from:subject:message-id; bh=pqGGqDq9keUrENGYOALz/M+BMKf1FbSWOisiewqrdWw=;
+ b=owJ4nJvAy8zAJbZQ2uZ2r35qGuNptSSGlHXePilL8v9Nb7kXvHy/hEax8s0vUYeldk7jW13n1
+ KO9OHr5Mo2OUhYGMS4GWTFFliTtlx0Mq2sUY2ofhMHMYWUCGcLAxSkAEzknx8jw4oDAK1Hh2vur
+ 3s03twqYv7793qWJ7fafPl+ut0lvVmo1YPgrx3zOoOFWRt/0e78kL5m05J+Yc/s9/yHTrvka6ks
+ WqacxAwBrX0jq
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+X-Endpoint-Received: by B4 Relay for j@jannau.net/default with auth_id=62
+X-Original-From: Janne Grunau <j@jannau.net>
+Reply-To: <j@jannau.net>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 11. 07. 23, 17:34, Michal Suchanek wrote:
-> Some distributions aim at not shipping any files in / ustside of usr.
-> 
-> The path under which kernel modules are instaleld is hardcoded to /lib
-> which conflicts with this goal.
-> 
-> When kmod provides the config command use it to determine the correct
-> module installation prefix.
-> 
-> On kmod that does not provide the command / is used as before.
-> 
-> Signed-off-by: Michal Suchanek <msuchanek@suse.de>
-> ---
->   Makefile          | 4 +++-
->   scripts/depmod.sh | 8 ++++----
->   2 files changed, 7 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index 47690c28456a..b05d696f06bd 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1165,7 +1165,9 @@ export INSTALL_DTBS_PATH ?= $(INSTALL_PATH)/dtbs/$(KERNELRELEASE)
->   # makefile but the argument can be passed to make if needed.
->   #
->   
-> -MODLIB	= $(INSTALL_MOD_PATH)/lib/modules/$(KERNELRELEASE)
-> +export KERNEL_MODULE_PREFIX := $(shell kmod config | jq -r .module_prefix)
+From: Janne Grunau <j@jannau.net>
 
-echo -e 'KERNEL_MODULE_PREFIX := $(shell kmod config | jq -r 
-.module_prefix)\nall:'|make -f -
-invalid command 'config'
-parse error: Invalid numeric literal at line 1, column 5
+Based on the dtbs support in builddeb. Both Fedora and openSUSE kernel
+rpm install their dtbs in "/boot/dtb-${KERNELRELEASE}". There seems no
+other popular rpm based distributions which would benefit from dtbs
+support and are not derived from those two.
 
-I think you should pipe kmod's 2> /dev/null to support older kmod. Ah, 
-but you'd need 2> /dev/null for jq too. That would not be good as jq 
-might not be installed and a user wouldn't see the error. So instead, I 
-would do:
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+ scripts/package/mkspec | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-$(shell kmod config &> /dev/null && kmod config | jq -r .module_prefix)
+diff --git a/scripts/package/mkspec b/scripts/package/mkspec
+index 8049f0e2c110..a170b0c0a93f 100755
+--- a/scripts/package/mkspec
++++ b/scripts/package/mkspec
+@@ -28,6 +28,14 @@ else
+ 	M=DEL
+ fi
+ 
++# Only some architectures with OF support have the dtbs_install target
++if grep -q CONFIG_OF_EARLY_FLATTREE=y include/config/auto.conf && \
++   [ -d "${srctree}/arch/${SRCARCH}/boot/dts" ]; then
++	D=
++else
++	D=DEL
++fi
++
+ __KERNELRELEASE=$(echo $KERNELRELEASE | sed -e "s/-/_/g")
+ EXCLUDES="$RCS_TAR_IGNORE --exclude=*vmlinux* --exclude=*.mod \
+ --exclude=*.o --exclude=*.ko --exclude=*.cmd --exclude=Documentation \
+@@ -38,6 +46,8 @@ EXCLUDES="$RCS_TAR_IGNORE --exclude=*vmlinux* --exclude=*.mod \
+ # Labels:
+ #  $S: this line is enabled only when building source package
+ #  $M: this line is enabled only when CONFIG_MODULES is enabled
++#  $D: this line is enabled only when CONFIG_OF_EARLY_FLATTREE is enabled and
++#      the arch has a dts directory
+ sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
+ 	Name: kernel
+ 	Summary: The Linux Kernel
+@@ -103,6 +113,7 @@ $S
+ 	%endif
+ $M	$MAKE %{?_smp_mflags} INSTALL_MOD_PATH=%{buildroot} modules_install
+ 	$MAKE %{?_smp_mflags} INSTALL_HDR_PATH=%{buildroot}/usr headers_install
++$D	$MAKE %{?_smp_mflags} INSTALL_DTBS_PATH=%{buildroot}/boot/dtb-${KERNELRELEASE} dtbs_install
+ 	cp System.map %{buildroot}/boot/System.map-$KERNELRELEASE
+ 	cp .config %{buildroot}/boot/config-$KERNELRELEASE
+ $S$M	rm -f %{buildroot}/lib/modules/$KERNELRELEASE/build
 
-thanks,
+---
+base-commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
+change-id: 20230712-kbuild_rpm_dtbs-d055a3780bbe
+
+Best regards,
 -- 
-js
-suse labs
+Janne Grunau <j@jannau.net>
 
