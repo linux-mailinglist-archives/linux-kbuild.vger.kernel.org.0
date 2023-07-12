@@ -2,69 +2,73 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1348E750E87
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jul 2023 18:28:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52014750FAD
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jul 2023 19:33:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231786AbjGLQ23 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 12 Jul 2023 12:28:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33566 "EHLO
+        id S232444AbjGLRc7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 12 Jul 2023 13:32:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231475AbjGLQ22 (ORCPT
+        with ESMTP id S233215AbjGLRcx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 12 Jul 2023 12:28:28 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26505CF
-        for <linux-kbuild@vger.kernel.org>; Wed, 12 Jul 2023 09:28:27 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1b8bbce9980so47536055ad.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 12 Jul 2023 09:28:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1689179306; x=1691771306;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sMR0yJDEi84nCI/TrP6aGjhAtZGDlFpByViEAFnqtS4=;
-        b=g4y71GV/w9702oToZMObTpkTa+u3aSPHjm81eprOMwI3dwJYuaT7Dh9psOzaUbme9j
-         jNSqEhQi4lwGcXir+Pon6+/KBfx7XK/azvv/DTZULucyLTWtr4JWLHznyac+JUhNREsO
-         lc7zY4wvNGb4kurRlxpc2CiegCghd8sG9hMh4B6jQ1tZfEq3C9LVs50O+QifU9IG/7DI
-         3rRX6WPt0emKmBHe5SfItsUuFW3/Te2HdpgzoS8txP6p4JS46eRv5CSGTIKAo2z63ioc
-         oLG8frkob1QWB7RDIPPpaH9VShaG0u5oVnZd6imK9evAy0iXu4p+lSFsG2cZAQ8ycN1d
-         LIeQ==
+        Wed, 12 Jul 2023 13:32:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2A031BD
+        for <linux-kbuild@vger.kernel.org>; Wed, 12 Jul 2023 10:32:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1689183123;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=qzLHaOUPiBIKfrMeX2derolpKqiXBhXG2VPutoTiNt8=;
+        b=W1ALDIy9LcCL/Hh7at8fJVhDfF/v7vzCYUjxUYeKqFz3qSxTVRvkRGPfDIflKcx1v0snCQ
+        7DUM39NUN2soy4VjrPjLSjVoDJYC9TaZkHcC7QXzALlTJmNtJaJ66EJIALc6hNjc6b6uxv
+        M3extCLGg02pY+KSmIJIZE08I72Dh5c=
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
+ [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-589-wiDKGtGOMXunejbteokSnw-1; Wed, 12 Jul 2023 13:32:02 -0400
+X-MC-Unique: wiDKGtGOMXunejbteokSnw-1
+Received: by mail-yw1-f200.google.com with SMTP id 00721157ae682-573cacf4804so70503907b3.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 12 Jul 2023 10:32:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689179306; x=1691771306;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sMR0yJDEi84nCI/TrP6aGjhAtZGDlFpByViEAFnqtS4=;
-        b=UDjjDX12GXpoS0XLBVGI083XDmLd0k02DMwNJgkhCj7hzuqI8/ZF7uFZuvC54NynDh
-         Nb9TBVF7J6UEVEEbMb/Le/xCCyqUEzDwkV776vtNXyjE5MWDt+H1d3VjW3di0at4IPYT
-         cCCkfcsRl7ezBon06cgumKBEd8JmMhrNrHEIDeuT9H44Y5xui4tZeUodVnLWhAJFTvvh
-         wqVO0tNPNBjPvYvZ9uD3iSaSwLD/s/d/Hy/rloMy50LFL4jtMA/Zya2+cjVW+4PoTcW7
-         LZbJY15T0peTAkhvPVRL55rvweyUrRM4lUsRo5G+pZmE2crqiGZB3I5+sHf2zxvaDA0C
-         AJXw==
-X-Gm-Message-State: ABy/qLYHOolauULgwUwW23b0Lbjj6uGNk4ZC9E06ExRJnNTdaJ7tEz15
-        IB4mUAFaIiFCemilqQjcxHx2yg==
-X-Google-Smtp-Source: APBJJlFZBFgsQ8+gVT48gyjSGqBTtcpSTxd7btoVW0hsGdrnpDWgka9sHLPNjH6khg5W3o+SikMBFw==
-X-Received: by 2002:a17:902:eccb:b0:1b9:e9b2:1288 with SMTP id a11-20020a170902eccb00b001b9e9b21288mr6666980plh.38.1689179306545;
-        Wed, 12 Jul 2023 09:28:26 -0700 (PDT)
-Received: from localhost ([50.38.6.230])
-        by smtp.gmail.com with ESMTPSA id g13-20020a170902cd0d00b001ae5d21f760sm4191786ply.146.2023.07.12.09.28.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jul 2023 09:28:25 -0700 (PDT)
-Date:   Wed, 12 Jul 2023 09:28:25 -0700 (PDT)
-X-Google-Original-Date: Wed, 12 Jul 2023 09:27:38 PDT (-0700)
-Subject:     Re: [PATCH -next] modpost: move some defines to the file head
-In-Reply-To: <CAK7LNARuR5cturyngN31Oy=PwMG_-p5iOek2BuDSKHSyZg44Xg@mail.gmail.com>
-CC:     wangkefeng.wang@huawei.com, mcgrof@kernel.org, nathan@kernel.org,
-        ndesaulniers@google.com, nicolas@fjasle.eu,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-From:   Palmer Dabbelt <palmer@rivosinc.com>
-To:     masahiroy@kernel.org
-Message-ID: <mhng-7876bf10-0477-4ca6-af22-e3479e8ad123@palmer-ri-x1c9a>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        d=1e100.net; s=20221208; t=1689183121; x=1691775121;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qzLHaOUPiBIKfrMeX2derolpKqiXBhXG2VPutoTiNt8=;
+        b=GfFiJ+59HMRdvU62rKrhU0cMJxKLBKMTQHGDow6HSIfUbmbBVNtQH4Goxh0VPnaOZb
+         9I+LBjTOwLaiyG2HI/W68PPxU8GZxHwfF0t5L+DY8UX9Z9r3TzL/mj6y0EENq6TNToLS
+         98E8c7b7iEJnfr6IJUvZKYiygfPsQaygxifI4emTFuBmG4Zg1uR+IoqolTvDnec7fg09
+         YoL04IpeIU7/E0Yy2bvBlJBKCjBOxpItXWszra+X/dLv7hOTjE2X9SNBffuy6QB1rQhC
+         IHu/x3nkpewbv1/jtJIYBXi9DPLZqV7E9nCE1dHFcwoc4Mm3gksLXUj18hdV4Zv8MBuP
+         YfgQ==
+X-Gm-Message-State: ABy/qLbxx8MRo+A13hZ9JMar7XB5ahSCtZlSuRdd3maxPKddWtCGDf1l
+        UneMAhkfLuXZ+2m62/KKvimZx4O1xY/7Mvz6P6dtyO2fymyYVv0p7yOPzsvaJmZnNpNV+LsuOqJ
+        NRKpq6E3xDks4lsmPwWnOmp1zCcipNOG9YZgup3x1mo5MdZj0
+X-Received: by 2002:a25:40c5:0:b0:c6f:b2de:21ba with SMTP id n188-20020a2540c5000000b00c6fb2de21bamr12826073yba.17.1689183121217;
+        Wed, 12 Jul 2023 10:32:01 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlHZ6hbXHLanSFHeeqS4XAVElzwLOqxTrCkDU6/JrN90B7fKz81eVOqDmGcZtwI+vKGbGsPTMnqvplkv+h0Kpsw=
+X-Received: by 2002:a25:40c5:0:b0:c6f:b2de:21ba with SMTP id
+ n188-20020a2540c5000000b00c6fb2de21bamr12826064yba.17.1689183120900; Wed, 12
+ Jul 2023 10:32:00 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAK18DXagdLgwFG-ed97vVzMXC1BTCVbQrNQKXPwyH9HYy4TeJw@mail.gmail.com>
+ <CAK18DXZHn28mZ-Sr5x_Lwn0SSisgcGqcBdt5MQNRXuNVYbnKZw@mail.gmail.com> <52f2cfab-4a5e-3331-424e-181860e4df66@intel.com>
+In-Reply-To: <52f2cfab-4a5e-3331-424e-181860e4df66@intel.com>
+From:   Donald Zickus <dzickus@redhat.com>
+Date:   Wed, 12 Jul 2023 13:31:49 -0400
+Message-ID: <CAK18DXafQ=ofjMyBxa+TCjvrxk183p79H-UwNBpo33L4yar8rw@mail.gmail.com>
+Subject: Re: [RESEND] Looking for a hack to remove auto-selected items from
+ .config output
+To:     Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc:     masahiroy@kernel.org, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,108 +76,82 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, 12 Jul 2023 08:55:23 PDT (-0700), masahiroy@kernel.org wrote:
-> +To: Luis Chamberlain, the commiter of the breakage
->
->
->
-> On Wed, Jul 12, 2023 at 10:44 AM Kefeng Wang <wangkefeng.wang@huawei.com> wrote:
->>
->> with "module: Ignore RISC-V mapping symbols too", build error occurs,
->>
->> scripts/mod/modpost.c: In function ‘is_valid_name’:
->> scripts/mod/modpost.c:1055:57: error: ‘EM_RISCV’ undeclared (first use in this function)
->>   return !is_mapping_symbol(name, elf->hdr->e_machine == EM_RISCV);
->>
->> Fix it by moving the EM_RISCV to the file head, also some other
->> defines in case of similar problem in the future.
->
->
->
-> BTW, why is the flag 'is_riscv' needed?
->
->
-> All symbols starting with '$' look special to me.
->
->
->
-> Why not like this?
->
->
->        if (str[0] == '$')
->                  return true;
->
->        return false;
+Hi Alexander,
 
-There's a bit of commentary in the v1 
-<https://lore.kernel.org/all/20230707054007.32591-1-palmer@rivosinc.com/>, 
-but essentially it's not necessary.  I just wanted to play things safe 
-and avoid changing the mapping symbol detection elsewhere in order to 
-deal with RISC-V.
+On Wed, Jul 12, 2023 at 10:17=E2=80=AFAM Alexander Lobakin
+<aleksander.lobakin@intel.com> wrote:
+>
+> From: Donald Zickus <dzickus@redhat.com>
+> Date: Wed, 12 Jul 2023 09:58:35 -0400
+>
+> > Resending without the html cruft to pass through the linux-kbuild mail =
+daemon
+> >
+> > ---------- Forwarded message ---------
+> > From: Donald Zickus <dzickus@redhat.com>
+> > Date: Tue, Jul 11, 2023 at 6:27=E2=80=AFPM
+> > Subject: Looking for a hack to remove auto-selected items from .config =
+output
+> > To: <masahiroy@kernel.org>
+> > Cc: <linux-kbuild@vger.kernel.org>
+> >
+> >
+> > Hi Masahiro,
+> >
+> > I am trying to cleanup some stale config data with some of the Red Hat
+> > configs.  Like most distros, Red Hat sets a bunch of 'menu choice'
+> > configs and then merges them together then runs something like 'make
+> > olddefconfig' to autoselect the rest of the configs.  Been working
+> > great for many years.
+> >
+> > Lately, we are trying to audit the configs and ran into many stale Red
+> > Hat set configs that no longer exist upstream (removed, renamed,
+> > whatever).  Ok, running a script detects these and we can remove them
+> > by hand.
+> >
+> > One corner case we ran into is dropping configs.  Like upstream we try
+> > and match the merged configs with the final setting from 'make
+> > olddefconfig' and fail if there is a mismatch.  However, not every
+> > config is applicable to every arch, so those configs are dropped and
+> > we were always ok with it.  But now those dropped configs are
+> > confusing folks who think configs are set but they are really dropped.
+> > Yes, a Red Hat problem.
+> >
+> > I am trying to untangle this.  Is there a hack I can use that takes a
+> > generated .config file and removes all the 'selected' and 'implied'
+> > options out?  Leaving me with just the minimum configs that need to be
+> > set?  Then I can de-merge it and re-create our original set config
+>
+> `make savedefconfig`? It saves a very minimal config with only manually
+> selectable entries, which differ from the default config. IOW, if you
+> take the default config and then change only CONFIG_FOO, your config
+> saved via this command will contain 1 entry, even if _FOO also
+> automatically selects _BAR.
 
-IIRC we decided $ was special in RISC-V because there were some other 
-ports that behaved that way, but it wasn't universal.  If folks are OK 
-treating $-prefixed symbols as special everywhere that's fine with me, I 
-just wasn't sure what the right answer was.  
+Oh neat!  Yes, when I combine the output of savedefconfig with the
+output of listnewconfig, it appears I am able to create the minimal
+config layout which exposes all the unnecessary cruft.
 
-There's also some similar arch-specific-ness with the labels and such in 
-here.
+Thank you!!
 
->> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
->> ---
->>  scripts/mod/modpost.c | 32 ++++++++++++++++----------------
->>  1 file changed, 16 insertions(+), 16 deletions(-)
->>
->> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
->> index 7c71429d6502..885cca272eb8 100644
->> --- a/scripts/mod/modpost.c
->> +++ b/scripts/mod/modpost.c
->> @@ -60,6 +60,22 @@ static unsigned int nr_unresolved;
->>
->>  #define MODULE_NAME_LEN (64 - sizeof(Elf_Addr))
->>
->> +#ifndef EM_RISCV
->> +#define EM_RISCV               243
->> +#endif
->> +
->> +#ifndef R_RISCV_SUB32
->> +#define R_RISCV_SUB32          39
->> +#endif
->> +
->> +#ifndef EM_LOONGARCH
->> +#define EM_LOONGARCH           258
->> +#endif
->> +
->> +#ifndef R_LARCH_SUB32
->> +#define R_LARCH_SUB32          55
->> +#endif
->> +
->>  void __attribute__((format(printf, 2, 3)))
->>  modpost_log(enum loglevel loglevel, const char *fmt, ...)
->>  {
->> @@ -1428,22 +1444,6 @@ static int addend_mips_rel(uint32_t *location, Elf_Rela *r)
->>         return 0;
->>  }
->>
->> -#ifndef EM_RISCV
->> -#define EM_RISCV               243
->> -#endif
->> -
->> -#ifndef R_RISCV_SUB32
->> -#define R_RISCV_SUB32          39
->> -#endif
->> -
->> -#ifndef EM_LOONGARCH
->> -#define EM_LOONGARCH           258
->> -#endif
->> -
->> -#ifndef R_LARCH_SUB32
->> -#define R_LARCH_SUB32          55
->> -#endif
->> -
->>  static void section_rela(struct module *mod, struct elf_info *elf,
->>                          Elf_Shdr *sechdr)
->>  {
->> --
->> 2.41.0
->>
+Cheers,
+Don
+
+>
+> > options.  Basically reversing the normal config generating process, I
+> > think.
+> >
+> > Not looking for anything complicated, just something simple I can quick=
+ly apply.
+> >
+> > Thoughts?
+> >
+> > Cheers,
+> > Don
+> >
+> >
+>
+> Thanks,
+> Olek
+>
+
