@@ -2,54 +2,65 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38E56751339
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Jul 2023 00:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A7C7752A80
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Jul 2023 20:52:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231461AbjGLWIh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 12 Jul 2023 18:08:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58648 "EHLO
+        id S231627AbjGMSwf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 13 Jul 2023 14:52:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229572AbjGLWIg (ORCPT
+        with ESMTP id S229620AbjGMSwe (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 12 Jul 2023 18:08:36 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48014A2;
-        Wed, 12 Jul 2023 15:08:35 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D89E56194D;
-        Wed, 12 Jul 2023 22:08:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB1F9C433C8;
-        Wed, 12 Jul 2023 22:08:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689199714;
-        bh=n1sLIZMWC53t14JryI8HLSMlrC0CKeIy7qfgbIH/v5w=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kpbE/4043LTfs6VPKcXbvySW9/Tyr/KIdeXibYO3ElLPe/e83KPC/JbmUWWfgtUAM
-         TnHdpJBvbAbXRwqmzAS+O77QBsCw9pwOwHi37lTcZcGH+ennzbP5G2kIbCFVvhJi0G
-         Rg7Gdz1hqQ8MmdkOY+tuzb+nYdOLJbR8VZthvh9A4xa2gbnlY22irQxgKvJBDS2DFx
-         wD4c3UBY8t8br+drO7yXstNENqgqivPyFfINJgtRdn1G6s9trTzSkY5cWl2C5iXkIJ
-         YZRAT53p8p7f8RljUefxQ7DAmkSU2NOA/ox6CpYmwzDNk0gBlVcqNrcmNppZGSfDoj
-         LTkFMWqLPmqYg==
-Date:   Wed, 12 Jul 2023 15:08:32 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     j@jannau.net
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: rpm-pkg: Add dtbs support
-Message-ID: <20230712220832.GA669032@dev-arch.thelio-3990X>
-References: <20230712-kbuild_rpm_dtbs-v1-1-99693e8faaaf@jannau.net>
+        Thu, 13 Jul 2023 14:52:34 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6186106;
+        Thu, 13 Jul 2023 11:52:32 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-992b27e1c55so147024566b.2;
+        Thu, 13 Jul 2023 11:52:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689274351; x=1691866351;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Sl0k0wYjl3hwJsFNeGh8bb0d9ZjKonMo+8kUL+KQzvg=;
+        b=UBpllUJ3BxDsNMj+bBPaYGhpjiOyMrQmX1paFEo4geKQVFKE5LvI/M/hYhSCoX1e4I
+         PBP+/zQfzlPEhDcskeChtfb3yImCw0FiomXFN0+2DsuoSkwKC5dTZmt9QohTq9UHsmYr
+         i0WzOAeG+x6UCBD1Y4kNnAOKrQ3SVCxI+GTmFMm5vGWAIYYrTrivn+S7WaLAZU27kKba
+         2WhqmLMn0wJAz/8OdDJWspOA6bmkYDuMR8qvAKNVmJ9Ox+WjoP3IJJkDBKFjug2RZLjL
+         Za515Ipvu39QLXVtFCxAteTrEG46CcL/HzgsbpH8kbAUT8JGb1uYOb9YDPzaL8p0cGEL
+         GM1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689274351; x=1691866351;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Sl0k0wYjl3hwJsFNeGh8bb0d9ZjKonMo+8kUL+KQzvg=;
+        b=Qee10YmIGGmgh8xRjJBNu94s5FaWg0mFKft9/SfsyCyEqIbZJNGtWpckV229wFRR8m
+         lvWe5g3gULzmbPFim57Whjhb+QVAIKeVc1768+Q4uwKCSfJ94tVptGeE2GwrFo2gYQfk
+         LAFlMGmu8wKIdYVRDERzeeyoKugMzKVi6ne9X/X38Ui8jkyOhQ6AOH0MA13dM6uEl+Ec
+         nzivVgKADjGUAnvJyiVsuK2hPYFYid7/yAOnAKhJfWvG93wmxn3eVcQN2wkEDnwx8BzX
+         c3qQRyHOUOUh7JfjFHGFqiUfoKnWiZO7uvpwzPe0/nJ7tb5vARN6MoAm5ah3aIiZd4rq
+         AwQw==
+X-Gm-Message-State: ABy/qLbsKaMlVwHz1jKvDQxikmmEjTdiwgGounzvUmc1RfhVdoZNG3wA
+        2g2oX1b7Oh9vR6BWrHPL5AzSI0AkvA==
+X-Google-Smtp-Source: APBJJlHQxgOEKJ5YQIngpD9uNx7NfD+JRH9Y1qEVbmYZf6w6i6XfkdyT2z0IQ96vgH1UQzkg9Qr2vA==
+X-Received: by 2002:a17:906:d965:b0:992:b020:ce4 with SMTP id rp5-20020a170906d96500b00992b0200ce4mr1974119ejb.51.1689274350804;
+        Thu, 13 Jul 2023 11:52:30 -0700 (PDT)
+Received: from p183 ([46.53.251.182])
+        by smtp.gmail.com with ESMTPSA id x8-20020a170906298800b0098df7d0e096sm4336800eje.54.2023.07.13.11.52.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Jul 2023 11:52:30 -0700 (PDT)
+Date:   Thu, 13 Jul 2023 21:52:28 +0300
+From:   Alexey Dobriyan <adobriyan@gmail.com>
+To:     akpm@linux-foundation.org, masahiroy@kernel.org, nathan@kernel.org,
+        ndesaulniers@google.com, nicolas@fjasle.eu
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: [PATCH] kbuild: flatten KBUILD_CFLAGS
+Message-ID: <4f414a87-0c54-44bd-b218-f6f0b22c57ef@p183>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230712-kbuild_rpm_dtbs-v1-1-99693e8faaaf@jannau.net>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -57,76 +68,43 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 12, 2023 at 08:42:20AM +0200, Janne Grunau via B4 Relay wrote:
-> From: Janne Grunau <j@jannau.net>
-> 
-> Based on the dtbs support in builddeb. Both Fedora and openSUSE kernel
-> rpm install their dtbs in "/boot/dtb-${KERNELRELEASE}". There seems no
-> other popular rpm based distributions which would benefit from dtbs
-> support and are not derived from those two.
-> 
-> Signed-off-by: Janne Grunau <j@jannau.net>
+Make it slightly easier to see which compiler options are added and
+removed (and not worry about column limit too!).
 
-Seems reasonable to me. I verified this works for at least arm64 and
-x86_64.
+Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+---
 
-$ rpm -qlp rpmbuild/RPMS/aarch64/kernel-6.5.0_rc1_next_20230712_00001_g5899d64b0f1b-1.aarch64.rpm | grep -q '^/boot/dtb'
-/boot/dtb-6.5.0-rc1-next-20230712-00001-g5899d64b0f1b
-/boot/dtb-6.5.0-rc1-next-20230712-00001-g5899d64b0f1b/allwinner
-/boot/dtb-6.5.0-rc1-next-20230712-00001-g5899d64b0f1b/allwinner/sun50i-a100-allwinner-perf1.dtb
-...
+ Makefile |   22 +++++++++++++++++-----
+ 1 file changed, 17 insertions(+), 5 deletions(-)
 
-$ rpm -qlp rpmbuild/RPMS/x86_64/kernel-6.5.0_rc1_next_20230712_00001_g5899d64b0f1b-1.x86_64.rpm | grep -q '^/boot/dtb'
-
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Tested-by: Nathan Chancellor <nathan@kernel.org>
-
-> ---
->  scripts/package/mkspec | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-> index 8049f0e2c110..a170b0c0a93f 100755
-> --- a/scripts/package/mkspec
-> +++ b/scripts/package/mkspec
-> @@ -28,6 +28,14 @@ else
->  	M=DEL
->  fi
->  
-> +# Only some architectures with OF support have the dtbs_install target
-> +if grep -q CONFIG_OF_EARLY_FLATTREE=y include/config/auto.conf && \
-> +   [ -d "${srctree}/arch/${SRCARCH}/boot/dts" ]; then
-> +	D=
-> +else
-> +	D=DEL
-> +fi
-> +
->  __KERNELRELEASE=$(echo $KERNELRELEASE | sed -e "s/-/_/g")
->  EXCLUDES="$RCS_TAR_IGNORE --exclude=*vmlinux* --exclude=*.mod \
->  --exclude=*.o --exclude=*.ko --exclude=*.cmd --exclude=Documentation \
-> @@ -38,6 +46,8 @@ EXCLUDES="$RCS_TAR_IGNORE --exclude=*vmlinux* --exclude=*.mod \
->  # Labels:
->  #  $S: this line is enabled only when building source package
->  #  $M: this line is enabled only when CONFIG_MODULES is enabled
-> +#  $D: this line is enabled only when CONFIG_OF_EARLY_FLATTREE is enabled and
-> +#      the arch has a dts directory
->  sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
->  	Name: kernel
->  	Summary: The Linux Kernel
-> @@ -103,6 +113,7 @@ $S
->  	%endif
->  $M	$MAKE %{?_smp_mflags} INSTALL_MOD_PATH=%{buildroot} modules_install
->  	$MAKE %{?_smp_mflags} INSTALL_HDR_PATH=%{buildroot}/usr headers_install
-> +$D	$MAKE %{?_smp_mflags} INSTALL_DTBS_PATH=%{buildroot}/boot/dtb-${KERNELRELEASE} dtbs_install
->  	cp System.map %{buildroot}/boot/System.map-$KERNELRELEASE
->  	cp .config %{buildroot}/boot/config-$KERNELRELEASE
->  $S$M	rm -f %{buildroot}/lib/modules/$KERNELRELEASE/build
-> 
-> ---
-> base-commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
-> change-id: 20230712-kbuild_rpm_dtbs-d055a3780bbe
-> 
-> Best regards,
-> -- 
-> Janne Grunau <j@jannau.net>
-> 
+--- a/Makefile
++++ b/Makefile
+@@ -555,11 +555,23 @@ LINUXINCLUDE    := \
+ 		$(USERINCLUDE)
+ 
+ KBUILD_AFLAGS   := -D__ASSEMBLY__ -fno-PIE
+-KBUILD_CFLAGS   := -Wall -Wundef -Werror=strict-prototypes -Wno-trigraphs \
+-		   -fno-strict-aliasing -fno-common -fshort-wchar -fno-PIE \
+-		   -Werror=implicit-function-declaration -Werror=implicit-int \
+-		   -Werror=return-type -Wno-format-security -funsigned-char \
+-		   -std=gnu11
++
++KBUILD_CFLAGS :=
++KBUILD_CFLAGS += -std=gnu11
++KBUILD_CFLAGS += -fshort-wchar
++KBUILD_CFLAGS += -funsigned-char
++KBUILD_CFLAGS += -fno-common
++KBUILD_CFLAGS += -fno-PIE
++KBUILD_CFLAGS += -fno-strict-aliasing
++KBUILD_CFLAGS += -Wall
++KBUILD_CFLAGS += -Wundef
++KBUILD_CFLAGS += -Werror=implicit-function-declaration
++KBUILD_CFLAGS += -Werror=implicit-int
++KBUILD_CFLAGS += -Werror=return-type
++KBUILD_CFLAGS += -Werror=strict-prototypes
++KBUILD_CFLAGS += -Wno-format-security
++KBUILD_CFLAGS += -Wno-trigraphs
++
+ KBUILD_CPPFLAGS := -D__KERNEL__
+ KBUILD_RUSTFLAGS := $(rust_common_flags) \
+ 		    --target=$(objtree)/scripts/target.json \
