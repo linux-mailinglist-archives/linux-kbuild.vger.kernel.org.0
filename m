@@ -2,313 +2,128 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA92275368F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jul 2023 11:31:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB6D475379A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jul 2023 12:13:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235713AbjGNJbp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Jul 2023 05:31:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55858 "EHLO
+        id S236056AbjGNKNm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 14 Jul 2023 06:13:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235830AbjGNJbn (ORCPT
+        with ESMTP id S235938AbjGNKNl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Jul 2023 05:31:43 -0400
-X-Greylist: delayed 1026 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 14 Jul 2023 02:31:14 PDT
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A72C3590;
-        Fri, 14 Jul 2023 02:31:14 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: linasend@asahilina.net)
-        by mail.marcansoft.com (Postfix) with ESMTPSA id 108575BC98;
-        Fri, 14 Jul 2023 09:15:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-        s=default; t=1689326113;
-        bh=xFmFsNBqZRVhSlLGxOxfGwL4iDHemYFsL2oqYKGuVP4=;
-        h=From:Date:Subject:References:In-Reply-To:To:Cc;
-        b=wK0ljBsFst8i0xkuxG7oq39DkGfVspC5HFRt2W633aBvgSzpi5qluTbuFVsPce9jh
-         Mz2KmGoO56pQOvijBOMvAvifknWm2Ih/gfYXfMLVXmVpCWD89rpIgri0/ifWxcr4Z7
-         SpRm+Kn6lAiSJ6vTsMixyc/5gju+Z0DGxC89fi2ItnTFRPCTDVbZRmLZvRXFloKrcF
-         x53U4//VdgjZEhd5eidAQ/cBG3uv2Xu5W6FujgBOhBpLifHVZB20r6qcgry7uADMF6
-         IQEsXiZSnf7CCF945+uZrOvtSyzFfBhb6ZQ4Y/0LZX/BCdmjCEsVnE0hC/lHiZ9kur
-         9BYxeA68EVMlQ==
-From:   Asahi Lina <lina@asahilina.net>
-Date:   Fri, 14 Jul 2023 18:14:03 +0900
-Subject: [PATCH RFC 11/11] rust: sync: arc: Add lockdep integration
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230714-classless_lockdep-v1-11-229b9671ce31@asahilina.net>
-References: <20230714-classless_lockdep-v1-0-229b9671ce31@asahilina.net>
+        Fri, 14 Jul 2023 06:13:41 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5740C1989
+        for <linux-kbuild@vger.kernel.org>; Fri, 14 Jul 2023 03:13:40 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-c5a479bc2d4so1454663276.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 14 Jul 2023 03:13:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1689329619; x=1691921619;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wxNp02bNCTAVyLPRZ82mLPkwbAN62CIGC9HHKgWokDk=;
+        b=2F4xNUdVveqN+R5EKr8RvDc7bTWM+gLKOemIBdfkq0xCOm+Cr4UcTnXi7Ex+Z93qzm
+         0Jr5cpq2w11H+0Cg6FN9ZTSvdb5obWOs5j0cgJ0bcrvXiE2RRrlmIoxST4HoWSBwgOK2
+         8JD3CugG730wX57wEfvKkXfRliM7CBRRje7zXW9Eh8XpC3vlQcb8g9lC3f7RU2/c+xih
+         zeerj13DLEEgAOKU8aDV2UeFmV+9cbL73eRaQL//xH4DpiXrl7+msaF7IidwNkSYAvxL
+         rZh7VEifal0tY7Lt6YJ1DvF9fWQNWkiFiAlRb1vLaDscgIZXzMzIrbT3QjcbJLDqu6o/
+         RHvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689329619; x=1691921619;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wxNp02bNCTAVyLPRZ82mLPkwbAN62CIGC9HHKgWokDk=;
+        b=eUgHv6ojNDZW2Neae+V0ZEEEahaeHDOP69ksga6IEOdjy5BadCj19ruUDR0IzV+ifb
+         Bv+syCbfqinatsMeRTFEO2Xi6w5SumdYjwws+AvmPrgHE0vS3xaMs03bBudTC6JbppPY
+         qiY0HQ3IMaiSsm5gSFyNWZt2zg503k7GOoPe32WvYcBes5Yee0mGJlqYkF3FUlq1rbjU
+         p36ZiWXBtfCpWaLm8PmQYog6ZtlD+QE6pkfIpBekJLwP1JL7c0xVCfLXA6QIM2NzYYn9
+         gpNrtA0mbwAvlraCgADmtCatibKKmShawvdT51PJ/0L8bTFMglcVKQf8psmrC/nOMlHI
+         /q5Q==
+X-Gm-Message-State: ABy/qLZpHlpIbp2SqRPFtbKwk/CH8Kx6n436wLBWG2n5H4oA/D+wY9Xi
+        FE9KpdZhasFEj8eSoeAwNF/z2F1EXA2hK0Q=
+X-Google-Smtp-Source: APBJJlFQrE4sbqNmMgiT0tYYLjApKeHUUY+9Z7jWQry23roqS1du7n+Bvn1DHckLfj2QgRK2ut1rlpfSA3O9848=
+X-Received: from aliceryhl.c.googlers.com ([fda3:e722:ac3:cc00:31:98fb:c0a8:6c8])
+ (user=aliceryhl job=sendgmr) by 2002:a25:9cc8:0:b0:bac:5d2c:844b with SMTP id
+ z8-20020a259cc8000000b00bac5d2c844bmr22156ybo.8.1689329619648; Fri, 14 Jul
+ 2023 03:13:39 -0700 (PDT)
+Date:   Fri, 14 Jul 2023 10:13:37 +0000
 In-Reply-To: <20230714-classless_lockdep-v1-0-229b9671ce31@asahilina.net>
-To:     Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Benno Lossin <benno.lossin@proton.me>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
-        Daniel Vetter <daniel@ffwll.ch>
-Cc:     Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        asahi@lists.linux.dev, rust-for-linux@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        llvm@lists.linux.dev, Asahi Lina <lina@asahilina.net>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1689326040; l=9475;
- i=lina@asahilina.net; s=20230221; h=from:subject:message-id;
- bh=xFmFsNBqZRVhSlLGxOxfGwL4iDHemYFsL2oqYKGuVP4=;
- b=8TCIgQoDOtdlDTOQ1KYaZ8W1ZUNnhtcHdIS+D+qL5Te5R/4lrDe6FQbsX1YbKI9BxQYDYrMAb
- aKYIHM43XL5AVkNA2yxwidTkvKcj/2NQd8zidbM7/YKf3qfwueVPIE+
-X-Developer-Key: i=lina@asahilina.net; a=ed25519;
- pk=Qn8jZuOtR1m5GaiDfTrAoQ4NE1XoYVZ/wmt5YtXWFC4=
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Mime-Version: 1.0
+References: <20230714-classless_lockdep-v1-0-229b9671ce31@asahilina.net>
+X-Mailer: git-send-email 2.41.0.255.g8b1d071c50-goog
+Message-ID: <20230714101337.2193665-1-aliceryhl@google.com>
+Subject: Re: [PATCH RFC 00/11] rust: Implicit lock class creation & Arc
+ Lockdep integration
+From:   Alice Ryhl <aliceryhl@google.com>
+To:     lina@asahilina.net
+Cc:     alex.gaynor@gmail.com, alyssa@rosenzweig.io, asahi@lists.linux.dev,
+        benno.lossin@proton.me, bjorn3_gh@protonmail.com,
+        boqun.feng@gmail.com, daniel@ffwll.ch, gary@garyguo.net,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev, marcan@marcan.st, masahiroy@kernel.org,
+        nathan@kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu,
+        ojeda@kernel.org, rust-for-linux@vger.kernel.org,
+        sven@svenpeter.dev, trix@redhat.com, wedsonaf@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Now that we have magic lock class support and a LockdepMap that can be
-hooked up into arbitrary Rust types, we can integrate lockdep support
-directly into the Rust Arc<T> type. This means we can catch potential
-Drop codepaths that could result in a locking error, even if those
-codepaths never actually execute due to the reference count being
-nonzero at that point.
+Asahi Lina <lina@asahilina.net> writes:
+> Begone, lock classes!
+> 
+> As discussed in meetings/etc, we would really like to support implicit
+> lock class creation for Rust code. Right now, lock classes are created
+> using macros and passed around (similar to C). Unfortunately, Rust
+> macros don't look like Rust functions, which means adding lockdep to a
+> type is a breaking API change. This makes Rust mutex creation rather
+> ugly, with the new_mutex!() macro and friends.
+> 
+> Implicit lock classes have to be unique per instantiation code site.
+> Notably, with Rust generics and monomorphization, this is not the same
+> as unique per generated code instance. If this weren't the case, we
+> could use inline functions and asm!() magic to try to create lock
+> classes that have the right uniqueness semantics. But that doesn't work,
+> since it would create too many lock classes for the same actual lock
+> creation in the source code.
+> 
+> But Rust does have one trick we can use: it can track the caller
+> location (as file:line:column), across multiple functions. This works
+> using an implicit argument that gets passed around, which is exactly the
+> thing we do for lock classes. The tricky bit is that, while the value of
+> these Location objects has the semantics we want (unique value per
+> source code location), there is no guarantee that they are deduplicated
+> in memory.
+> 
+> So we use a hash table, and map Location values to lock classes. Et
+> voila, implicit lock class support!
+>
+> This lets us clean up the Mutex & co APIs and make them look a lot more
+> Rust-like, but it also means we can now throw Lockdep into more APIs
+> without breaking the API. And so we can pull a neat trick: adding
+> Lockdep support into Arc<T>. This catches cases where the Arc Drop
+> implementation could create a locking correctness violation only when
+> the reference count drops to 0 at that particular drop site, which is
+> otherwise not detectable unless that condition actually happens at
+> runtime. Since Drop is "magic" in Rust and Drop codepaths very difficult
+> to audit, this helps a lot.
+> 
+> For the initial RFC, this implements the new API only for Mutex. If this
+> looks good, I can extend it to CondVar & friends in the next version.
+> This series also folds in a few related minor dependencies / changes
+> (like the pin_init mutex stuff).
 
-Signed-off-by: Asahi Lina <lina@asahilina.net>
----
- lib/Kconfig.debug       |  8 ++++++
- rust/kernel/init.rs     |  6 +++++
- rust/kernel/sync/arc.rs | 71 ++++++++++++++++++++++++++++++++++++++++++++++---
- 3 files changed, 82 insertions(+), 3 deletions(-)
+I'm not convinced that this is the right compromise. Moving lockdep
+class creation to runtime sounds unfortunate, especially since this
+makes them fallible due to memory allocations (I think?).
 
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index fbc89baf7de6..ff4f06df88ee 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -3010,6 +3010,14 @@ config RUST_BUILD_ASSERT_ALLOW
- 
- 	  If unsure, say N.
- 
-+config RUST_EXTRA_LOCKDEP
-+	bool "Extra lockdep checking"
-+	depends on RUST && PROVE_LOCKING
-+	help
-+	  Enabled additional lockdep integration with certain Rust types.
-+
-+	  If unsure, say N.
-+
- endmenu # "Rust"
- 
- endmenu # Kernel hacking
-diff --git a/rust/kernel/init.rs b/rust/kernel/init.rs
-index f190bbd0bab1..b64a507f0a34 100644
---- a/rust/kernel/init.rs
-+++ b/rust/kernel/init.rs
-@@ -1208,6 +1208,7 @@ pub trait InPlaceInit<T>: Sized {
-     /// type.
-     ///
-     /// If `T: !Unpin` it will not be able to move afterwards.
-+    #[track_caller]
-     fn try_pin_init<E>(init: impl PinInit<T, E>) -> Result<Pin<Self>, E>
-     where
-         E: From<AllocError>;
-@@ -1216,6 +1217,7 @@ fn try_pin_init<E>(init: impl PinInit<T, E>) -> Result<Pin<Self>, E>
-     /// type.
-     ///
-     /// If `T: !Unpin` it will not be able to move afterwards.
-+    #[track_caller]
-     fn pin_init<E>(init: impl PinInit<T, E>) -> error::Result<Pin<Self>>
-     where
-         Error: From<E>,
-@@ -1228,11 +1230,13 @@ fn pin_init<E>(init: impl PinInit<T, E>) -> error::Result<Pin<Self>>
-     }
- 
-     /// Use the given initializer to in-place initialize a `T`.
-+    #[track_caller]
-     fn try_init<E>(init: impl Init<T, E>) -> Result<Self, E>
-     where
-         E: From<AllocError>;
- 
-     /// Use the given initializer to in-place initialize a `T`.
-+    #[track_caller]
-     fn init<E>(init: impl Init<T, E>) -> error::Result<Self>
-     where
-         Error: From<E>,
-@@ -1277,6 +1281,7 @@ fn try_init<E>(init: impl Init<T, E>) -> Result<Self, E>
- 
- impl<T> InPlaceInit<T> for UniqueArc<T> {
-     #[inline]
-+    #[track_caller]
-     fn try_pin_init<E>(init: impl PinInit<T, E>) -> Result<Pin<Self>, E>
-     where
-         E: From<AllocError>,
-@@ -1291,6 +1296,7 @@ fn try_pin_init<E>(init: impl PinInit<T, E>) -> Result<Pin<Self>, E>
-     }
- 
-     #[inline]
-+    #[track_caller]
-     fn try_init<E>(init: impl Init<T, E>) -> Result<Self, E>
-     where
-         E: From<AllocError>,
-diff --git a/rust/kernel/sync/arc.rs b/rust/kernel/sync/arc.rs
-index a89843cacaad..3bb73b614fd1 100644
---- a/rust/kernel/sync/arc.rs
-+++ b/rust/kernel/sync/arc.rs
-@@ -34,6 +34,9 @@
- };
- use macros::pin_data;
- 
-+#[cfg(CONFIG_RUST_EXTRA_LOCKDEP)]
-+use crate::sync::lockdep::LockdepMap;
-+
- mod std_vendor;
- 
- /// A reference-counted pointer to an instance of `T`.
-@@ -127,6 +130,17 @@ pub struct Arc<T: ?Sized> {
-     _p: PhantomData<ArcInner<T>>,
- }
- 
-+#[cfg(CONFIG_RUST_EXTRA_LOCKDEP)]
-+#[pin_data]
-+#[repr(C)]
-+struct ArcInner<T: ?Sized> {
-+    refcount: Opaque<bindings::refcount_t>,
-+    lockdep_map: LockdepMap,
-+    data: T,
-+}
-+
-+// FIXME: pin_data does not work well with cfg attributes within the struct definition.
-+#[cfg(not(CONFIG_RUST_EXTRA_LOCKDEP))]
- #[pin_data]
- #[repr(C)]
- struct ArcInner<T: ?Sized> {
-@@ -159,11 +173,14 @@ unsafe impl<T: ?Sized + Sync + Send> Sync for Arc<T> {}
- 
- impl<T> Arc<T> {
-     /// Constructs a new reference counted instance of `T`.
-+    #[track_caller]
-     pub fn try_new(contents: T) -> Result<Self, AllocError> {
-         // INVARIANT: The refcount is initialised to a non-zero value.
-         let value = ArcInner {
-             // SAFETY: There are no safety requirements for this FFI call.
-             refcount: Opaque::new(unsafe { bindings::REFCOUNT_INIT(1) }),
-+            #[cfg(CONFIG_RUST_EXTRA_LOCKDEP)]
-+            lockdep_map: LockdepMap::new(),
-             data: contents,
-         };
- 
-@@ -178,6 +195,7 @@ pub fn try_new(contents: T) -> Result<Self, AllocError> {
-     ///
-     /// If `T: !Unpin` it will not be able to move afterwards.
-     #[inline]
-+    #[track_caller]
-     pub fn pin_init<E>(init: impl PinInit<T, E>) -> error::Result<Self>
-     where
-         Error: From<E>,
-@@ -189,6 +207,7 @@ pub fn pin_init<E>(init: impl PinInit<T, E>) -> error::Result<Self>
-     ///
-     /// This is equivalent to [`Arc<T>::pin_init`], since an [`Arc`] is always pinned.
-     #[inline]
-+    #[track_caller]
-     pub fn init<E>(init: impl Init<T, E>) -> error::Result<Self>
-     where
-         Error: From<E>,
-@@ -292,15 +311,46 @@ fn drop(&mut self) {
-         // freed/invalid memory as long as it is never dereferenced.
-         let refcount = unsafe { self.ptr.as_ref() }.refcount.get();
- 
-+        // SAFETY: By the type invariant, there is necessarily a reference to the object.
-+        // We cannot hold the map lock across the reference decrement, as we might race
-+        // another thread. Therefore, we lock and immediately drop the guard here. This
-+        // only serves to inform lockdep of the dependency up the call stack.
-+        #[cfg(CONFIG_RUST_EXTRA_LOCKDEP)]
-+        unsafe { self.ptr.as_ref() }.lockdep_map.lock();
-+
-         // INVARIANT: If the refcount reaches zero, there are no other instances of `Arc`, and
-         // this instance is being dropped, so the broken invariant is not observable.
-         // SAFETY: Also by the type invariant, we are allowed to decrement the refcount.
-         let is_zero = unsafe { bindings::refcount_dec_and_test(refcount) };
-+
-         if is_zero {
-             // The count reached zero, we must free the memory.
--            //
--            // SAFETY: The pointer was initialised from the result of `Box::leak`.
--            unsafe { Box::from_raw(self.ptr.as_ptr()) };
-+
-+            // SAFETY: If we get this far, we had the last reference to the object.
-+            // That means we are responsible for freeing it, so we can safely lock
-+            // the fake lock again. This wraps dropping the inner object, which
-+            // informs lockdep of the dependencies down the call stack.
-+            #[cfg(CONFIG_RUST_EXTRA_LOCKDEP)]
-+            let guard = unsafe { self.ptr.as_ref() }.lockdep_map.lock();
-+
-+            // SAFETY: The pointer was initialised from the result of `Box::leak`,
-+            // and the value is valid.
-+            unsafe { core::ptr::drop_in_place(&mut self.ptr.as_mut().data) };
-+
-+            // We need to drop the lock guard before freeing the LockdepMap itself
-+            #[cfg(CONFIG_RUST_EXTRA_LOCKDEP)]
-+            core::mem::drop(guard);
-+
-+            // SAFETY: The pointer was initialised from the result of `Box::leak`,
-+            // and the lockdep map is valid.
-+            #[cfg(CONFIG_RUST_EXTRA_LOCKDEP)]
-+            unsafe {
-+                core::ptr::drop_in_place(&mut self.ptr.as_mut().lockdep_map)
-+            };
-+
-+            // SAFETY: The pointer was initialised from the result of `Box::leak`, and
-+            // a ManuallyDrop<T> is compatible. We already dropped the contents above.
-+            unsafe { Box::from_raw(self.ptr.as_ptr() as *mut ManuallyDrop<ArcInner<T>>) };
-         }
-     }
- }
-@@ -512,6 +562,7 @@ pub struct UniqueArc<T: ?Sized> {
- 
- impl<T> UniqueArc<T> {
-     /// Tries to allocate a new [`UniqueArc`] instance.
-+    #[track_caller]
-     pub fn try_new(value: T) -> Result<Self, AllocError> {
-         Ok(Self {
-             // INVARIANT: The newly-created object has a ref-count of 1.
-@@ -520,13 +571,27 @@ pub fn try_new(value: T) -> Result<Self, AllocError> {
-     }
- 
-     /// Tries to allocate a new [`UniqueArc`] instance whose contents are not initialised yet.
-+    #[track_caller]
-     pub fn try_new_uninit() -> Result<UniqueArc<MaybeUninit<T>>, AllocError> {
-         // INVARIANT: The refcount is initialised to a non-zero value.
-+        #[cfg(CONFIG_RUST_EXTRA_LOCKDEP)]
-+        let inner = {
-+            let map = LockdepMap::new();
-+            Box::try_init::<AllocError>(try_init!(ArcInner {
-+                // SAFETY: There are no safety requirements for this FFI call.
-+                refcount: Opaque::new(unsafe { bindings::REFCOUNT_INIT(1) }),
-+                lockdep_map: map,
-+                data <- init::uninit::<T, AllocError>(),
-+            }? AllocError))?
-+        };
-+        // FIXME: try_init!() does not work with cfg attributes.
-+        #[cfg(not(CONFIG_RUST_EXTRA_LOCKDEP))]
-         let inner = Box::try_init::<AllocError>(try_init!(ArcInner {
-             // SAFETY: There are no safety requirements for this FFI call.
-             refcount: Opaque::new(unsafe { bindings::REFCOUNT_INIT(1) }),
-             data <- init::uninit::<T, AllocError>(),
-         }? AllocError))?;
-+
-         Ok(UniqueArc {
-             // INVARIANT: The newly-created object has a ref-count of 1.
-             // SAFETY: The pointer from the `Box` is valid.
+I would be inclined to keep using macros for this.
 
--- 
-2.40.1
+Alice
 
