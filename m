@@ -2,25 +2,25 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 08DA5753BE6
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jul 2023 15:38:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9B22753C2A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jul 2023 15:52:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235526AbjGNNiW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Jul 2023 09:38:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41712 "EHLO
+        id S235977AbjGNNwi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 14 Jul 2023 09:52:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235219AbjGNNiW (ORCPT
+        with ESMTP id S235918AbjGNNwW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Jul 2023 09:38:22 -0400
+        Fri, 14 Jul 2023 09:52:22 -0400
 Received: from a3.inai.de (a3.inai.de [IPv6:2a01:4f8:10b:45d8::f5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2480A2D73;
-        Fri, 14 Jul 2023 06:38:20 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 563C53C32;
+        Fri, 14 Jul 2023 06:52:07 -0700 (PDT)
 Received: by a3.inai.de (Postfix, from userid 25121)
-        id 673AC58ECE726; Fri, 14 Jul 2023 15:38:18 +0200 (CEST)
+        id CE86B58750830; Fri, 14 Jul 2023 15:52:05 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-        by a3.inai.de (Postfix) with ESMTP id 66987619D0BB2;
-        Fri, 14 Jul 2023 15:38:18 +0200 (CEST)
-Date:   Fri, 14 Jul 2023 15:38:18 +0200 (CEST)
+        by a3.inai.de (Postfix) with ESMTP id CC4E960C22668;
+        Fri, 14 Jul 2023 15:52:05 +0200 (CEST)
+Date:   Fri, 14 Jul 2023 15:52:05 +0200 (CEST)
 From:   Jan Engelhardt <jengelh@inai.de>
 To:     Michal Suchanek <msuchanek@suse.de>
 cc:     linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
@@ -32,10 +32,11 @@ cc:     linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
         linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] depmod: Handle installing modules under a prefix
-In-Reply-To: <20230714122111.7528-1-msuchanek@suse.de>
-Message-ID: <s4sr75q4-5120-5sp5-7751-noqs9q67904q@vanv.qr>
-References: <30d8c675-e769-e567-a81f-c1b59c66ad67@suse.com> <20230714122111.7528-1-msuchanek@suse.de>
+Subject: Re: [PATCH kmod v2 3/4] kmod: Add config command to show compile
+ time configuration as JSON
+In-Reply-To: <20230712140103.5468-3-msuchanek@suse.de>
+Message-ID: <429o975-ro63-o94r-qs96-76ro6o28on5@vanv.qr>
+References: <20230711153126.28876-1-msuchanek@suse.de> <20230712140103.5468-3-msuchanek@suse.de>
 User-Agent: Alpine 2.25 (LSU 592 2021-09-18)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -49,16 +50,13 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
-On Friday 2023-07-14 14:21, Michal Suchanek wrote:
+On Wednesday 2023-07-12 16:00, Michal Suchanek wrote:
 
->Some distributions aim at not shipping any files in / outside of usr.
->
->The path under which kernel modules are installed is hardcoded to /lib
->which conflicts with this goal.
->
->+MODLIB	= $(INSTALL_MOD_PATH)$(KERNEL_MODULE_PREFIX)/lib/modules/$(KERNELRELEASE)
+>Show prefix (where configuration files are searched/to be installed),
+>module compressions, and module signatures supported.
 
-Ok, so if the problem statement is that hardcoded paths are bad, then why
-continue to hardcode the "/lib/modules" fragment? Just make it so that
-KERNEL_MODULE_PREFIX can be set to the exact string "/usr/lib/modules" and not
-just "/usr".
+What about doing it like systemd and generate a .pc file instead 
+that can then be queried like so, e.g.:
+
+$ pkg-config kmod --variable=modulesdir
+/usr/lib/modules
