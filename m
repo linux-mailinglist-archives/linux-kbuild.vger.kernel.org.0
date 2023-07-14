@@ -2,68 +2,70 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A16EA754010
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jul 2023 18:58:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AA937540DE
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jul 2023 19:46:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235395AbjGNQ6F (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Jul 2023 12:58:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35960 "EHLO
+        id S236269AbjGNRpr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 14 Jul 2023 13:45:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229706AbjGNQ6E (ORCPT
+        with ESMTP id S236281AbjGNRpo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Jul 2023 12:58:04 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FCE8358E;
-        Fri, 14 Jul 2023 09:58:03 -0700 (PDT)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 9EC031F750;
-        Fri, 14 Jul 2023 16:58:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1689353881; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=3GpL3SAU4UYjxuI87qVTDXsPz5t7JNfto7bmoN8MBNc=;
-        b=P94IF4rvbaGL6Y0u4KZ1FyLbRjYenZq9wdX/Bo35qp5GuZ6sSXskRyjJSrmYmJQwfaqUs+
-        sXQedZsnImNBOwJfLUqAzzKoOUdQ1keZ7FStY96P+A+Gmmi/WAAgmJrO1VwYlZ9dMmDKe/
-        M+5LxT0odIOqOgYb+Y+Ag6zSldSGMH4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1689353881;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=3GpL3SAU4UYjxuI87qVTDXsPz5t7JNfto7bmoN8MBNc=;
-        b=pHz0RJu4wxUdHnoFijoc/IefLA59NKobliL7o5TvzftLGlLdx6+5M0ytBWkubqUFRsRNF4
-        dKSx/mdTS4awYDCA==
-Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 55D8A2C142;
-        Fri, 14 Jul 2023 16:58:01 +0000 (UTC)
-Date:   Fri, 14 Jul 2023 18:58:00 +0200
-From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+        Fri, 14 Jul 2023 13:45:44 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C6DB3A87;
+        Fri, 14 Jul 2023 10:45:12 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-307d58b3efbso2319908f8f.0;
+        Fri, 14 Jul 2023 10:45:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689356703; x=1691948703;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pZ8IZ8lNs4pM9mPhnJiJ66il3qOi6HFdQct21c/MdmM=;
+        b=BIT/8Qw4WSsENwEntqu8li1JhIeyfnGuk4INah5C2gJZRATQi/5hWatMBpoCH//TLx
+         NrsCIiuUzg/ENxdptrTeyvRYCGrNtSO68fTFtp6mLxUOkqZ2vB/1mxps+QwY58xvR7g5
+         kDzSAmOl2/epOon9ZqgBinIOHNqeXEiEtQxbkWqahFtkXlSuGXY1Bok3Ix0NL6uFbtnr
+         7LHwprgle081B5el7N0aYu4jrnNCgLYcNO3sSifjOeQlBqj1MdymdRRdjXL4aHrKDUSL
+         KDcMJmL4Arp9nanj9FbxJwGHWqRmesIngi2bRnyrqLa/42wSxLB+w3rnkys9C0Y9sgxU
+         bYzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689356703; x=1691948703;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pZ8IZ8lNs4pM9mPhnJiJ66il3qOi6HFdQct21c/MdmM=;
+        b=beqP2QnwuBlvmyfqJm7xqDHaDUBse8krZjfV2DmN+Ml7GtTV/77pVZhcUy55DB13K5
+         bDgcRlq1gHnxLU9sarYFeYQDksLYAauYGtJoBq6DTpxKPZPUxvSn6DarF7y94+4eUwfe
+         0IROGWDIioY4ISAUHrW3pqbLCiw3SnRcTBgVxt1WbMun+uObOZSzCaFfMInSXAkdegMw
+         tZGLSs1FVS50oTu36e7PgxMyCJLbK8VgDZr097h1FQwHSveMRQg54vjQh/ZQkfGYdsao
+         2OhOviC8jgwEm3GEP6s1479TQDPCOSRH3uIULsvlJ8IglVQqtdwdAXaWEmqtWv2tl4rw
+         Jpzg==
+X-Gm-Message-State: ABy/qLbJIzDzce3fwbVL2+HY4dnXuOHs3I7O5MuZaHlGt24UNlwDhrog
+        sCUz5rz/IPJRHIgU5cwgf9OZlx1Vdw==
+X-Google-Smtp-Source: APBJJlHPR0EHXofkrCZdaso3z451jhgkwG0CPlBxQBlyX/lq+JyTD9+Pro49H67ErbelTVw4A5KdUg==
+X-Received: by 2002:adf:de12:0:b0:315:8a13:ef16 with SMTP id b18-20020adfde12000000b003158a13ef16mr5056464wrm.69.1689356703273;
+        Fri, 14 Jul 2023 10:45:03 -0700 (PDT)
+Received: from p183 ([46.53.248.195])
+        by smtp.gmail.com with ESMTPSA id f10-20020adff98a000000b003159d2dabbasm11423415wrr.94.2023.07.14.10.45.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Jul 2023 10:45:02 -0700 (PDT)
+Date:   Fri, 14 Jul 2023 20:45:00 +0300
+From:   Alexey Dobriyan <adobriyan@gmail.com>
 To:     Nicolas Schier <nicolas@fjasle.eu>
-Cc:     linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>,
-        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-        Jiri Slaby <jslaby@suse.com>, Jan Engelhardt <jengelh@inai.de>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH kmod v2 3/4] kmod: Add config command to show compile
- time configuration as JSON
-Message-ID: <20230714165800.GO9196@kitsune.suse.cz>
-References: <20230711153126.28876-1-msuchanek@suse.de>
- <20230712140103.5468-3-msuchanek@suse.de>
- <ZLFpM+H2bfkJx65S@fjasle.eu>
+Cc:     akpm@linux-foundation.org, masahiroy@kernel.org, nathan@kernel.org,
+        ndesaulniers@google.com, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH] kbuild: flatten KBUILD_CFLAGS
+Message-ID: <4dc7e56c-6692-4d4c-a8d2-05abe4501e66@p183>
+References: <4f414a87-0c54-44bd-b218-f6f0b22c57ef@p183>
+ <ZLEmgxm73zzmffWD@fjasle.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ZLFpM+H2bfkJx65S@fjasle.eu>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <ZLEmgxm73zzmffWD@fjasle.eu>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,120 +73,48 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jul 14, 2023 at 05:26:43PM +0200, Nicolas Schier wrote:
-> On Wed, Jul 12, 2023 at 04:00:47PM +0200 Michal Suchanek wrote:
-> > Show prefix (where configuration files are searched/to be installed),
-> > module compressions, and module signatures supported.
+On Fri, Jul 14, 2023 at 12:42:11PM +0200, Nicolas Schier wrote:
+> On Thu, Jul 13, 2023 at 09:52:28PM +0300, Alexey Dobriyan wrote:
+> > Make it slightly easier to see which compiler options are added and
+> > removed (and not worry about column limit too!).
 > > 
-> > Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+> > Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
 > > ---
-> > v2: mention module signature in commit message
-> > ---
-> >  man/kmod.xml |  6 ++++++
-> >  tools/kmod.c | 39 +++++++++++++++++++++++++++++++++++++++
-> >  2 files changed, 45 insertions(+)
 > > 
-> > diff --git a/man/kmod.xml b/man/kmod.xml
-> > index 0706ad58c2cc..f992a500f836 100644
-> > --- a/man/kmod.xml
-> > +++ b/man/kmod.xml
-> > @@ -71,6 +71,12 @@
-> >            <para>Show the help message.</para>
-> >          </listitem>
-> >        </varlistentry>
-> > +      <varlistentry>
-> > +        <term><command>config</command></term>
-> > +        <listitem>
-> > +          <para>Show compile time options in JSON.</para>
-> > +        </listitem>
-> > +      </varlistentry>
-> >        <varlistentry>
-> >          <term><command>list</command></term>
-> >          <listitem>
-> > diff --git a/tools/kmod.c b/tools/kmod.c
-> > index 55689c075ab1..5a13716955c1 100644
-> > --- a/tools/kmod.c
-> > +++ b/tools/kmod.c
-> > @@ -37,9 +37,11 @@ static const struct option options[] = {
-> >  };
+> >  Makefile |   22 +++++++++++++++++-----
+> >  1 file changed, 17 insertions(+), 5 deletions(-)
+> > 
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -555,11 +555,23 @@ LINUXINCLUDE    := \
+> >  		$(USERINCLUDE)
 > >  
-> >  static const struct kmod_cmd kmod_cmd_help;
-> > +static const struct kmod_cmd kmod_cmd_config;
-> >  
-> >  static const struct kmod_cmd *kmod_cmds[] = {
-> >  	&kmod_cmd_help,
-> > +	&kmod_cmd_config,
-> >  	&kmod_cmd_list,
-> >  	&kmod_cmd_static_nodes,
-> >  
-> > @@ -95,6 +97,43 @@ static const struct kmod_cmd kmod_cmd_help = {
-> >  	.help = "Show help message",
-> >  };
-> >  
-> > +static const char *compressions[] = {
-> > +#ifdef ENABLE_ZSTD
-> > +			"zstd",
-> > +#endif
-> > +#ifdef ENABLE_XZ
-> > +			"xz",
-> > +#endif
-> > +#ifdef ENABLE_ZLIB
-> > +			"gz",
-> > +#endif
-> > +			NULL
-> > +};
+> >  KBUILD_AFLAGS   := -D__ASSEMBLY__ -fno-PIE
+> > -KBUILD_CFLAGS   := -Wall -Wundef -Werror=strict-prototypes -Wno-trigraphs \
+> > -		   -fno-strict-aliasing -fno-common -fshort-wchar -fno-PIE \
+> > -		   -Werror=implicit-function-declaration -Werror=implicit-int \
+> > -		   -Werror=return-type -Wno-format-security -funsigned-char \
+> > -		   -std=gnu11
 > > +
-> > +static int kmod_config(int argc, char *argv[])
-> > +{
-> > +	unsigned i;
-> > +	printf("{\"prefix\":\"" PREFIX "\""
-> > +			",\"module_signature\":["
-> > +#ifdef ENABLE_OPENSSL
-> > +			"\"PKCS#7\","
-> > +#endif
-> > +			"\"legacy\"]"
-> > +			",\"module_compression\":[");
-> > +	for(i = 0; compressions[i]; i++) {
-> > +		printf("%s\"%s\"", i ? "," : "", compressions[i]);
-> > +	}
-> > +	printf("]}\n");
-> > +
-> > +	return EXIT_SUCCESS;
-> > +}
-> > +
-> > +static const struct kmod_cmd kmod_cmd_config = {
-> > +	.name = "config",
-> > +	.cmd = kmod_config,
-> > +	.help = "Show compile time options in JSON",
-> > +};
-> > +
-> >  static int handle_kmod_commands(int argc, char *argv[])
-> >  {
-> >  	const char *cmd;
-> > -- 
-> > 2.41.0
+> > +KBUILD_CFLAGS :=
+> > +KBUILD_CFLAGS += -std=gnu11
 > 
-> If kmod could show selected configs without some (JSON) syntax
-> around, it could simplify its proposed use in kbuild. E.g.:
-> 
->     kmod config prefix 2>/dev/null
-> 
-> instead of
-> 
->     kmod config &>/dev/null && kmod config | jq -r .prefix
+> If you want to put -std at top, on contrast to the sorted options below,
+> you could also merge the two lines above.
 
-Which would no longer hold for whole module directory:
+I don't know. Standard choice is arguably the most important option
+so I put it first.
 
-      kmod config &>/dev/null && kmod config | jq -r .module_directory || echo /lib/modules
-
-      vs
-
-      kmod config module_directory &>/dev/null && kmod config module_directory || echo /lib/modules
-
-Also JSON has standardized syntax for lists and users that can parse
-JSON directly can load the whole configuration at once without several
-calls to kmod config or pkg-config.
-
-Thanks
-
-Michal
+> > +KBUILD_CFLAGS += -fshort-wchar
+> > +KBUILD_CFLAGS += -funsigned-char
+> > +KBUILD_CFLAGS += -fno-common
+> > +KBUILD_CFLAGS += -fno-PIE
+> > +KBUILD_CFLAGS += -fno-strict-aliasing
+> > +KBUILD_CFLAGS += -Wall
+> > +KBUILD_CFLAGS += -Wundef
+> > +KBUILD_CFLAGS += -Werror=implicit-function-declaration
+> > +KBUILD_CFLAGS += -Werror=implicit-int
+> > +KBUILD_CFLAGS += -Werror=return-type
+> > +KBUILD_CFLAGS += -Werror=strict-prototypes
+> > +KBUILD_CFLAGS += -Wno-format-security
+> > +KBUILD_CFLAGS += -Wno-trigraphs
