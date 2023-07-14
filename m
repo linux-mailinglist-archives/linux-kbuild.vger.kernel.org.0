@@ -2,210 +2,207 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 52597753EAD
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jul 2023 17:21:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 865AE753ED4
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jul 2023 17:27:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236248AbjGNPVS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Jul 2023 11:21:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47692 "EHLO
+        id S236078AbjGNP13 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 14 Jul 2023 11:27:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235850AbjGNPVR (ORCPT
+        with ESMTP id S235457AbjGNP12 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Jul 2023 11:21:17 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28DA3270A;
-        Fri, 14 Jul 2023 08:21:15 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-98e011f45ffso252717466b.3;
-        Fri, 14 Jul 2023 08:21:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689348073; x=1691940073;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B6EWyZrZTRUnDLqfmzBc9BCzhKd7v1QVcOcDm6JSV+s=;
-        b=EMWTX/o66jAYPaLdDO9WokfvxmdzqLwCazsDOLmdp91IiV+2HgwyPKHHC212eXc1MR
-         0QdQIvkUuqhgoKmymajEDGbm0RRrzlVgmv1JX0Ei8ZgN9Pv7vFg5PDxX9gP2ZDre6rg2
-         gMuFKULYyp0MnJFq0BJNAda3kAXZUYGYRs6c8RYd5cZ2tZuVY98zwWFNpjtwZCZUtKA+
-         He29roOFPku2r/nywCj0eNHS1CSQAZp/77qXGwB7HnkheRyUdi5M3VW+dSl2jxrMgRVQ
-         toKJQd8pEnMQqamb6Zqp8Pg9i63/xoXHgWE+KJkjOep2eCACpZNSPwXthxmBSkXmt3qg
-         v0rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689348073; x=1691940073;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=B6EWyZrZTRUnDLqfmzBc9BCzhKd7v1QVcOcDm6JSV+s=;
-        b=iF54VBD0ZqMqAPUn5hU/oZt12P8peC56itV1ubl+ntq+itD7VYN+6s4DovvcwZ9RIM
-         ljldVSrmBhrY4A2vHYkx5LrxZPRxkyCyWnkiwN8djU5E9bJPIVx6nIeMeAV2g4r+BukP
-         p0nyOCwghzIBCOCatbGljro6G5aAntZl9+HEjHkKyVFzMq+sm6ljmaKwifyP/6adcYf4
-         6OsIHRfNT1gGWWAnAnd+AhLMpekLGjbOJozy0DSh9Ky8qjwmMnACxkDwuO2XwMZQ8Ydq
-         Oq953hZBZEzmICP7fxijhye5xqGYFa5G8y8nr86AHql5sG8TobBmLXOuCVKfg/q7+Bc2
-         pltA==
-X-Gm-Message-State: ABy/qLauEpEobS2mQVXr4LowSME8n9r3Om2oM6gqvE2YC0GH+CFueIiV
-        KlV5AnNtaV7+06K1NRZ03M8=
-X-Google-Smtp-Source: APBJJlGsjormWvTRUCS9mKkmz2zcSCRmFetdfRsijk7Xv2zqTZvKLFQk2WTTGK3htj/KSCVnQZTghg==
-X-Received: by 2002:a17:906:7496:b0:993:d617:bdc8 with SMTP id e22-20020a170906749600b00993d617bdc8mr4727852ejl.7.1689348073313;
-        Fri, 14 Jul 2023 08:21:13 -0700 (PDT)
-Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
-        by smtp.gmail.com with ESMTPSA id kb9-20020a1709070f8900b009894b476310sm5521816ejc.163.2023.07.14.08.21.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jul 2023 08:21:12 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailauth.nyi.internal (Postfix) with ESMTP id 9581C27C0054;
-        Fri, 14 Jul 2023 11:21:09 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Fri, 14 Jul 2023 11:21:09 -0400
-X-ME-Sender: <xms:42exZHFPnmnsqSlvpoTzDYBO-Hgb1dxQChEn4pHv5LtIRI_JIBw5gw>
-    <xme:42exZEV16bWU57L3_42vg1gVIj_P_ukRuOBXUAbHI_nCEM3-cCZiTNZ9_SC3NzdBz
-    mVpiVTbUGPxgCU9tA>
-X-ME-Received: <xmr:42exZJJEvxzBMTzqlWg1PUUEuQdYZq-Z6yIrk7yWWHGoynDmKcAULvYRyog>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrfeeigdekjecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeeuohhquhhn
-    ucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrfgrth
-    htvghrnhephedugfduffffteeutddvheeuveelvdfhleelieevtdeguefhgeeuveeiudff
-    iedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsg
-    hoqhhunhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqieelvdeghedtieeg
-    qddujeejkeehheehvddqsghoqhhunhdrfhgvnhhgpeepghhmrghilhdrtghomhesfhhigi
-    hmvgdrnhgrmhgv
-X-ME-Proxy: <xmx:42exZFHKhiwCooNTRUdv0BNUxOhJ-iXXTsePesVzkInkwuGCP1PXnA>
-    <xmx:42exZNWuGAydsuDWN5_PvTJAlx5RLryDzSAuAuvBEltQ0D-LOHAlOw>
-    <xmx:42exZANr2LZxAbKe3uN9CvOfrsgE4fDZrQJq0wtWod9uchSb5K82sw>
-    <xmx:5WexZCep91DeCSedF65Yb2bAlc2T5_cCSWJlQJ5oHdPwWWnp1JYc6g>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 14 Jul 2023 11:21:07 -0400 (EDT)
-Date:   Fri, 14 Jul 2023 08:21:05 -0700
-From:   Boqun Feng <boqun.feng@gmail.com>
-To:     Alice Ryhl <aliceryhl@google.com>
-Cc:     lina@asahilina.net, alex.gaynor@gmail.com, alyssa@rosenzweig.io,
-        asahi@lists.linux.dev, benno.lossin@proton.me,
-        bjorn3_gh@protonmail.com, daniel@ffwll.ch, gary@garyguo.net,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev, marcan@marcan.st, masahiroy@kernel.org,
-        nathan@kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu,
-        ojeda@kernel.org, rust-for-linux@vger.kernel.org,
-        sven@svenpeter.dev, trix@redhat.com, wedsonaf@gmail.com
-Subject: Re: [PATCH RFC 00/11] rust: Implicit lock class creation & Arc
- Lockdep integration
-Message-ID: <ZLFn4RPiK3ig9I5M@Boquns-Mac-mini.home>
-References: <f974e5a4-1211-5ad7-4864-f3e210499e5e@asahilina.net>
- <20230714135926.382695-1-aliceryhl@google.com>
+        Fri, 14 Jul 2023 11:27:28 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B7C22D68;
+        Fri, 14 Jul 2023 08:27:19 -0700 (PDT)
+Received: from leknes.fjasle.eu ([46.142.49.15]) by mrelayeu.kundenserver.de
+ (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1N79ly-1psslm0QVI-017Yy8; Fri, 14 Jul 2023 17:26:46 +0200
+Received: by leknes.fjasle.eu (Postfix, from userid 1000)
+        id 13BD13E8B8; Fri, 14 Jul 2023 17:26:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
+        t=1689348404; bh=w4fRc/ie8uyI+ju21eroczebVyv8KrZnltwBlvcBpv4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=1C+qX0vJ10rrMR1HGgPXWjwv2z1KxZt5xutHcYJSsXmjCh0ncrUpREzoisIjP1L81
+         dOA62e++7/8yPos9yD1RzKk3KSXqlR3bgomvrTq/5pFAiA7kzwBfPDLgmADvgA7X7/
+         EQ3WsG6+hibtB0kJ9CerUpYPegrq7fEiJKSExvDk=
+Date:   Fri, 14 Jul 2023 17:26:43 +0200
+From:   Nicolas Schier <nicolas@fjasle.eu>
+To:     Michal Suchanek <msuchanek@suse.de>
+Cc:     linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
+        Lucas De Marchi <lucas.de.marchi@gmail.com>,
+        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+        Jiri Slaby <jslaby@suse.com>, Jan Engelhardt <jengelh@inai.de>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH kmod v2 3/4] kmod: Add config command to show compile
+ time configuration as JSON
+Message-ID: <ZLFpM+H2bfkJx65S@fjasle.eu>
+References: <20230711153126.28876-1-msuchanek@suse.de>
+ <20230712140103.5468-3-msuchanek@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="fJQQMulXf8UyxTpY"
 Content-Disposition: inline
-In-Reply-To: <20230714135926.382695-1-aliceryhl@google.com>
+In-Reply-To: <20230712140103.5468-3-msuchanek@suse.de>
+X-Provags-ID: V03:K1:PGXsAgTlLd3IPcf8lVHUJ+OD1BksbcdYQmYDdQSSKktdepbPWZ4
+ rjvBCtMpqp1ip0eP9UERtt8mAp6mv0C6aAeOhqCT2J0EB/JNzbIZHhBvjmnTs5XMPmPzdiu
+ fmjnjMEe1Iv1Cb6KLoHq0dch7I4FAgGfJn1rSQnE7XMlYTGtft1jqIlA7zwvc6q+VcINyz3
+ 1Kei9tCds5L16Yt6leq2w==
+UI-OutboundReport: notjunk:1;M01:P0:rxmSj38tAwQ=;kTw1vgYOjLXLYwfJYOfRJMk9dUy
+ cfHsqZQM5+em12BcYG6GLMa+Ut81myYD26f63c34qREjDh9GkePrGSed/8xGjN0q+f49LJafd
+ jkMlJHBhIC6OIOL/AwSU70bBsTPhsOl60C7R0bVJ50vJchGeO/SJKsyWdlmkI++M9t4oBKtsH
+ wmir+Q620M1LQZihfXE3+95pIhrXxROM5kst8fNKvMpjbeX4XYH3MKKQhfQqwSYGfx/qaGCUV
+ lRvsIe3mTeHrm4Xdu7loAv2su0DWE7zilYnYGmuVeCJ6cj9kDdZ1UI/Mkp5p/KqA8OludvziU
+ nWJ28rVQ17lEtRuxv5VHXUTL3FChS3wi7IVh4K50BGVC8g7R3RQ3gXiqXhv011ddDjEZYkcZJ
+ 6LitFw+0XS8gnecMWBDQHooGUEacEenX84K6WG0YSpKMDaQFASJbIPQBHFpz5P3JBeKpgqJSS
+ dPXwthEljMtYC8SEjQuKTGDBRwJBI6HoAQTGC+C2jG+jJ3InQGOp8srm1spc+h5eR9Y+24e2R
+ VKQlXf+29S1mLZpp2qST28QXSF/5ZWdzBxz6L2oGz6wlNpI4VAUlTLNbT9mMN3IA1UVfOg8kj
+ Et09iduhcWUcXkSnHQKEf3t1Hn8VTh4wyeeEcQOHoyf2NIbIl9oS0dqfkMIA1vtiUttAmty5K
+ JL8i0QElmfUrTpyXZwplVt1NTQpemyyowL/yL9X1rw==
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jul 14, 2023 at 01:59:26PM +0000, Alice Ryhl wrote:
-> Asahi Lina <lina@asahilina.net> writes:
-> > On 14/07/2023 19.13, Alice Ryhl wrote:
-> > > Asahi Lina <lina@asahilina.net> writes:
-> > >> Begone, lock classes!
-> > >>
-> > >> As discussed in meetings/etc, we would really like to support implicit
-> > >> lock class creation for Rust code. Right now, lock classes are created
 
-Thanks for looking into this! Could you also copy locking maintainers in
-the next version?
+--fJQQMulXf8UyxTpY
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > >> using macros and passed around (similar to C). Unfortunately, Rust
-> > >> macros don't look like Rust functions, which means adding lockdep to a
-> > >> type is a breaking API change. This makes Rust mutex creation rather
-> > >> ugly, with the new_mutex!() macro and friends.
-> > >>
-> > >> Implicit lock classes have to be unique per instantiation code site.
-> > >> Notably, with Rust generics and monomorphization, this is not the same
-> > >> as unique per generated code instance. If this weren't the case, we
-> > >> could use inline functions and asm!() magic to try to create lock
-> > >> classes that have the right uniqueness semantics. But that doesn't work,
-> > >> since it would create too many lock classes for the same actual lock
-> > >> creation in the source code.
-> > >>
-> > >> But Rust does have one trick we can use: it can track the caller
-> > >> location (as file:line:column), across multiple functions. This works
-> > >> using an implicit argument that gets passed around, which is exactly the
-> > >> thing we do for lock classes. The tricky bit is that, while the value of
-> > >> these Location objects has the semantics we want (unique value per
-> > >> source code location), there is no guarantee that they are deduplicated
-> > >> in memory.
-> > >>
-> > >> So we use a hash table, and map Location values to lock classes. Et
-> > >> voila, implicit lock class support!
-> > >>
-> > >> This lets us clean up the Mutex & co APIs and make them look a lot more
-> > >> Rust-like, but it also means we can now throw Lockdep into more APIs
-> > >> without breaking the API. And so we can pull a neat trick: adding
-> > >> Lockdep support into Arc<T>. This catches cases where the Arc Drop
-> > >> implementation could create a locking correctness violation only when
-> > >> the reference count drops to 0 at that particular drop site, which is
-> > >> otherwise not detectable unless that condition actually happens at
-> > >> runtime. Since Drop is "magic" in Rust and Drop codepaths very difficult
-> > >> to audit, this helps a lot.
-> > >>
-> > >> For the initial RFC, this implements the new API only for Mutex. If this
-> > >> looks good, I can extend it to CondVar & friends in the next version.
-> > >> This series also folds in a few related minor dependencies / changes
-> > >> (like the pin_init mutex stuff).
-> > > 
-> > > I'm not convinced that this is the right compromise. Moving lockdep
-> > > class creation to runtime sounds unfortunate, especially since this
-> > > makes them fallible due to memory allocations (I think?).
-> > > 
-> > > I would be inclined to keep using macros for this.
-> > 
-> > Most people were very enthusiastic about this change in the meetings... 
-> > it wasn't even my own idea ^^
-> 
-> I don't think I was in that meeting. Anyway,
->  
-> > I don't think the fallibility is an issue. Lockdep is a debugging tool, 
-> > and it doesn't have to handle all possible circumstances perfectly. If 
-> > you are debugging normal lock issues you probably shouldn't be running 
-> > out of RAM, and if you are debugging OOM situations the lock keys would 
-> > normally have been created long before you reach an OOM situation, since 
-> > they would be created the first time a relevant lock class is used. More 
-> > objects of the same class don't cause any more allocations. And the code 
-> > has a fallback for the OOM case, where it just uses the Location object 
-> > as a static lock class. That's not ideal and degrades the quality of the 
-> > lockdep results, but it shouldn't completely break anything.
-> 
-> If you have a fallback when the allocation fails, that helps ...
-> 
-> You say that Location objects are not necessarily unique per file
-> location. In practice, how often are they not unique? Always just using
-> the Location object as a static lock class seems like it would
-> significantly simplify this proposal.
-> 
+On Wed, Jul 12, 2023 at 04:00:47PM +0200 Michal Suchanek wrote:
+> Show prefix (where configuration files are searched/to be installed),
+> module compressions, and module signatures supported.
+>=20
+> Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+> ---
+> v2: mention module signature in commit message
+> ---
+>  man/kmod.xml |  6 ++++++
+>  tools/kmod.c | 39 +++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 45 insertions(+)
+>=20
+> diff --git a/man/kmod.xml b/man/kmod.xml
+> index 0706ad58c2cc..f992a500f836 100644
+> --- a/man/kmod.xml
+> +++ b/man/kmod.xml
+> @@ -71,6 +71,12 @@
+>            <para>Show the help message.</para>
+>          </listitem>
+>        </varlistentry>
+> +      <varlistentry>
+> +        <term><command>config</command></term>
+> +        <listitem>
+> +          <para>Show compile time options in JSON.</para>
+> +        </listitem>
+> +      </varlistentry>
+>        <varlistentry>
+>          <term><command>list</command></term>
+>          <listitem>
+> diff --git a/tools/kmod.c b/tools/kmod.c
+> index 55689c075ab1..5a13716955c1 100644
+> --- a/tools/kmod.c
+> +++ b/tools/kmod.c
+> @@ -37,9 +37,11 @@ static const struct option options[] =3D {
+>  };
+> =20
+>  static const struct kmod_cmd kmod_cmd_help;
+> +static const struct kmod_cmd kmod_cmd_config;
+> =20
+>  static const struct kmod_cmd *kmod_cmds[] =3D {
+>  	&kmod_cmd_help,
+> +	&kmod_cmd_config,
+>  	&kmod_cmd_list,
+>  	&kmod_cmd_static_nodes,
+> =20
+> @@ -95,6 +97,43 @@ static const struct kmod_cmd kmod_cmd_help =3D {
+>  	.help =3D "Show help message",
+>  };
+> =20
+> +static const char *compressions[] =3D {
+> +#ifdef ENABLE_ZSTD
+> +			"zstd",
+> +#endif
+> +#ifdef ENABLE_XZ
+> +			"xz",
+> +#endif
+> +#ifdef ENABLE_ZLIB
+> +			"gz",
+> +#endif
+> +			NULL
+> +};
+> +
+> +static int kmod_config(int argc, char *argv[])
+> +{
+> +	unsigned i;
+> +	printf("{\"prefix\":\"" PREFIX "\""
+> +			",\"module_signature\":["
+> +#ifdef ENABLE_OPENSSL
+> +			"\"PKCS#7\","
+> +#endif
+> +			"\"legacy\"]"
+> +			",\"module_compression\":[");
+> +	for(i =3D 0; compressions[i]; i++) {
+> +		printf("%s\"%s\"", i ? "," : "", compressions[i]);
+> +	}
+> +	printf("]}\n");
+> +
+> +	return EXIT_SUCCESS;
+> +}
+> +
+> +static const struct kmod_cmd kmod_cmd_config =3D {
+> +	.name =3D "config",
+> +	.cmd =3D kmod_config,
+> +	.help =3D "Show compile time options in JSON",
+> +};
+> +
+>  static int handle_kmod_commands(int argc, char *argv[])
+>  {
+>  	const char *cmd;
+> --=20
+> 2.41.0
 
-Agreed. For example, `caller_lock_class_inner` has a Mutex critical
-section in it (for the hash table synchronization), that makes it
-impossible to be called in preemption disabled contexts, which limits
-the usage.
+If kmod could show selected configs without some (JSON) syntax
+around, it could simplify its proposed use in kbuild. E.g.:
 
-Regards,
-Boqun
+    kmod config prefix 2>/dev/null
 
-> > The advantages of being able to throw lockdep checking into arbitrary 
-> > types, like the Arc<T> thing, are pretty significant. It closes a major 
-> > correctness checking issue we have with Rust and its automagic Drop 
-> > implementations that are almost impossible to properly audit for 
-> > potential locking issues. I think that alone makes this worth it, even 
-> > if you don't use it for normal mutex creation...
-> 
-> I do agree that there is value in being able to more easily detect
-> potential deadlocks involving destructors of ref-counted values. I once
-> had a case of that myself, though lockdep was able to catch it without
-> this change because it saw the refcount hit zero in the right place.
-> 
-> Alice
-> 
+instead of
+
+    kmod config &>/dev/null && kmod config | jq -r .prefix
+=2E
+
+--=20
+epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
+=E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
+     -- frykten for herren er opphav til kunnskap --
+
+--fJQQMulXf8UyxTpY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmSxaTMACgkQB1IKcBYm
+EmlX1g/9Fjx7AiAkqXg4PZl98829BBzPlnBaGjiGGM6tKnKhws312/R4+BdmXTis
+Bp2JFS2Gv2WxbsYnQq389e+xqXNKrvVAGw7E/T3XFyOb58UxrJMr92xNROGS4dq1
++Y/AySkiSzkqyZB/dffLYQ1yz102OC+okrN6XpQ3AWOr9f/sfji+Ldd32L0jhHRW
+k/Q0yIMOx+LqhpnsTf1TuYKrIrs6iP7+NEPKlYXQGvi5lObH8XGWWMYKAV8skgE/
+A2au3hIxMUwuwuuT+vIMixbPGL95Sws7ZcYWz6CI8p8ATpg76/ODinOSo4+9GBfu
+pb3ni8Bk382vcQnxAnpSqkFdiG9D7WLId2D5Ri61B9ZzVco30Qqdc82Jf3z4U7PU
+3z8gmYf8EcqKBA0BjTTQ+OzM2rRGPgAoWuCcKy5VbFCFznUQ5Yn6pq7K2hKgGW0h
+7l6AspmNRKuxvk3uneuSmoUeXo/Wnl1nyL0ZZR86n5CU5/PkUQZfFtXLwnTvsLR3
+wqmCCD4y7Odpkwz4aSLiSRMEdtoQ244qhIUf6TjsxChbgpaAG5DEDCRe7UNHFYJq
+aKQbf994BZnsNr/qlH9WWGAeKOVBTTZxuNvrZDBTkXUzyauwM+u4dLxziQfag8Yg
+FkVefUWTabrmo9a+WiDyiN+5Ta9N1CmDk0M8o3MXnI3W0EqiBsg=
+=WJb2
+-----END PGP SIGNATURE-----
+
+--fJQQMulXf8UyxTpY--
