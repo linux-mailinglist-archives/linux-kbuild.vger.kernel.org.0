@@ -2,102 +2,126 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C549675438B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jul 2023 22:02:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECD5B7543D4
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jul 2023 22:37:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233193AbjGNUCN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Jul 2023 16:02:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51780 "EHLO
+        id S236249AbjGNUhj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 14 Jul 2023 16:37:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235873AbjGNUCM (ORCPT
+        with ESMTP id S236254AbjGNUhi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Jul 2023 16:02:12 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD68926B7
-        for <linux-kbuild@vger.kernel.org>; Fri, 14 Jul 2023 13:02:02 -0700 (PDT)
-Received: from leknes.fjasle.eu ([46.142.49.15]) by mrelayeu.kundenserver.de
- (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MiJdI-1piL992lza-00fOwG; Fri, 14 Jul 2023 22:01:49 +0200
-Received: by leknes.fjasle.eu (Postfix, from userid 1000)
-        id 30D403E8B2; Fri, 14 Jul 2023 22:01:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1689364908; bh=xyc8fC9vZQ81HzZlZTY6/awnBVcCEiA9TYAhcIsM2bM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=w0KXmgkZvrBwJvIKI0YEw776YMU0IbRlj3YqL+Fx7PzpwNhMAZeJRKHB6Go5KKiA8
-         jXPtpRO2ejRF1tgkPZlaq5HjX7xAslP92jx96J4ciOLJhRNb1V2I/iQdqFz3+tfrd3
-         KcVcN4WdHSyWSizGHMokMuQ/kHqVaEsHLGIxi7Go=
-Date:   Fri, 14 Jul 2023 22:01:48 +0200
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Jiri Slaby <jirislaby@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Fri, 14 Jul 2023 16:37:38 -0400
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9747035B0;
+        Fri, 14 Jul 2023 13:37:37 -0700 (PDT)
+Received: by mail-oi1-x22d.google.com with SMTP id 5614622812f47-3a36b30aa7bso1796383b6e.3;
+        Fri, 14 Jul 2023 13:37:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689367057; x=1691959057;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mY5r74EsToyg15WyPiWjX1ZroHWYpVw9giMGrKp5JHA=;
+        b=AJN5/qxg8i0gT7b4C7JV8YxHIbBH13eMOg2DhSZgcyeTwVmINt+uIR1UC7cffKvHa3
+         3/bfbVb6OaoeS+/kSx4ONT1rQ/JADd8D03xutMFZu50rbkjCAOBm3ChncdDakkAjvCFR
+         ZTMcUD0KglBQXRLgl0tkuw3bitTlQsJPYbqMNdxy5iNvBK2Lj1VgPfzPX4jgEu5V0fhN
+         TbV2oVtYFJfwHCp9DGcH6P7H8JzVT5Q4lnmDf7b6cnveNHDh+oOz/kVQ4T61RQyMn+WY
+         f7JBbUX7nXRprPIfE5Y1dCdU39NH5n5LQ18IzlSkyVG6yThBm+YX6MPtt9t+zXi3amdh
+         a0bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689367057; x=1691959057;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mY5r74EsToyg15WyPiWjX1ZroHWYpVw9giMGrKp5JHA=;
+        b=H7x2884KuYQ1AtyKgnGxhCW7BPHq0LSSSstIq3Kp/Kyj5duI807B/RnUuHSvXswsRE
+         r6Ti69Fp9EG0BeEYrVQVbbxDSCVv9R+L7E/n2dwoqnffPZbxgMLlEDv+TC1QKSCd5VIu
+         kbbBzSQ9pL9rcfWre89GOHhj009iFLALvdk+Xcf6lQECASXgGjpJuem9QslaLnvu73XQ
+         ZSNimcfRCgh7O3YZA1MBNoxEg+NNvSPAfywuuYiso/w0dWHtUoupOXGvj/nr2dpgQqSg
+         wwXDj8psWd5OLS5ArpGwO0OhVXcVgH568S5gAU5ys6mmaVIttXXH7R6xDmKyj4yFLoIU
+         ZPFQ==
+X-Gm-Message-State: ABy/qLZdv69vWES69S3hknf8LK06A9FzSgLN5lyiMA6y+KxwhycXR5e5
+        6rAq0/h7n4OmPjHWwBFhqtI=
+X-Google-Smtp-Source: APBJJlFBrF1UdrLk9k1UzyB21a0BPI2S3IPzkt81x9e58ufSqkaA21DfyAMl9+w9uwHwKMk7wMrhDA==
+X-Received: by 2002:a05:6808:d47:b0:396:e3a:9f2f with SMTP id w7-20020a0568080d4700b003960e3a9f2fmr6910430oik.5.1689367056789;
+        Fri, 14 Jul 2023 13:37:36 -0700 (PDT)
+Received: from [192.168.54.90] (static.220.238.itcsa.net. [190.15.220.238])
+        by smtp.gmail.com with ESMTPSA id bk12-20020a0568081a0c00b003a44b425c18sm293034oib.43.2023.07.14.13.37.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Jul 2023 13:37:36 -0700 (PDT)
+Message-ID: <72aca706-c2ff-b363-717c-323ea24d3908@gmail.com>
+Date:   Fri, 14 Jul 2023 11:28:37 -0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH RFC 04/11] rust: siphash: Add a simple siphash abstraction
+Content-Language: en-US
+To:     Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Benno Lossin <benno.lossin@proton.me>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: con3270.o is built twice, leading to errors
-Message-ID: <ZLGprFmL8iDz0jbH@fjasle.eu>
-References: <7b663b86-4df0-c3df-18a7-e4f47f900be4@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7b663b86-4df0-c3df-18a7-e4f47f900be4@kernel.org>
-X-Provags-ID: V03:K1:pV5V3DLpwyD98Ho5U1CFxCZBiqVXLxk358xk5YsnB6WDdFl4dJY
- tccSnRDPoRxgww9xdRb7f7UfmZFLi9fkJbHZIYzOC9Wkc8pSwXKKIRQ75HIQg/E73wrivUm
- kCkXBDIauRwJicmyr4Kq+qpky1BttcDE1npb0o/+BrrWnM5gaV5+Lq+rPBNKBjYr1/VP0fz
- T8rYEWyskPZh1gNlt7TuA==
-UI-OutboundReport: notjunk:1;M01:P0:zSlO4bpPGKI=;bMMJq6X8G5DvivsVCwZOoUAmLdn
- Z9GujcvodC1n1ZVscscnx37cRNDk5npKRhsrgayxH7IXY769ySvp4yW37AdFi6LcWyfyNXHUN
- y1YPpr1cVPB6qhJsx9iNXGLSBY1Gi5FXJOPq1oNPPsWrWFzNKF0gkL0PR9AlWEqiET13W51ZY
- TUsFqs5Dtgaad0v46c4e4ebdXZ9HKwpxHw7dvZq59RNn6+mNkQHSeFeDgv+9Syktmvt08oaoh
- j1v8jlTk37mwX/MGy6JPr53LkvZtWFiIBcqv6Cazf6Ci9PiHU7AGVkSAXylZvJ1OvY/0ylrQP
- PFNfrXrpSyp+LLHdeonPDyepJX8agE/fE4XlNgpUKda8L3fBus0YJwsG85wSVW2d5ARqgs3JD
- VzJ4DU+Hjr/eetoytkHCTj8HESOuOdpSYkjI/Quw6vLnahaOHj1e7OsN97EJVLQ+wE7CIKiTt
- ef9Wuwfwmtm8paznwNpge/hTQ7hQ0eEYIE680PfUxniu/KK6CkyUcKbOOCrI8j4atYLWe4esX
- U8puoQ0a+iX01xKN2q84yt5bqgNnL4h7UpYHbIEHmsSqVdG8qk3r3s98r7QFHuuJ+WVZKVzAi
- 9U92dQBdGhun5QrqVzsr2Gne3VpiItCxxGkVkUJUemgm3VldxOe4HUveu+8RIvYvtzbitP0Nt
- Ke66HXEenaAi/pfaMlxW7Uv+l4Ofmjq3bZ9xxWmQKw==
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,URIBL_BLOCKED
-        autolearn=no autolearn_force=no version=3.4.6
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        Daniel Vetter <daniel@ffwll.ch>
+Cc:     Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        asahi@lists.linux.dev, rust-for-linux@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        llvm@lists.linux.dev
+References: <20230714-classless_lockdep-v1-0-229b9671ce31@asahilina.net>
+ <20230714-classless_lockdep-v1-4-229b9671ce31@asahilina.net>
+From:   Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+In-Reply-To: <20230714-classless_lockdep-v1-4-229b9671ce31@asahilina.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.7 required=5.0 tests=BAYES_00,DATE_IN_PAST_06_12,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jul 14, 2023 at 08:33:46AM +0200 Jiri Slaby wrote:
-> Hi,
+On 7/14/23 06:13, Asahi Lina wrote:
+> This simple wrapper allows Rust code to use the Hasher interface with
+> the kernel siphash implementation. No fancy features supported for now,
+> just basic bag-of-bytes hashing. No guarantee that hash outputs will
+> remain stable in the future either.
 > 
-> if I create an s390 defconfig:
-> mkdir /tmp/s390/
-> make O=/tmp/s390/ ARCH=s390 CROSS_COMPILE=s390x-suse-linux- defconfig
-> 
-> And then if I try for a couple times:
-> make O=/tmp/s390/ -j17 ARCH=s390 CROSS_COMPILE=s390x-suse-linux-
-> drivers/s390/char/con3270.o
-> 
-> Most of the time, I get:
-> make[1]: Entering directory '/tmp/s390'
->   GEN     Makefile
->   CALL    /home/latest/linux/scripts/checksyscalls.sh
->   CC      drivers/s390/char/con3270.o
->   CC      drivers/s390/char/con3270.o
-> 
-> I.e. it is built twice.
-> 
-> Sometimes, I also get an error:
-> fixdep: error opening file: drivers/s390/char/.con3270.o.d: No such file or
-> directory
-> make[4]: *** [/home/latest/linux/scripts/Makefile.build:243:
-> drivers/s390/char/con3270.o] Error 2
-> make[4]: *** Deleting file 'drivers/s390/char/con3270.o'
-> make[3]: *** [/home/latest/linux/scripts/Makefile.build:477: drivers]
-> 
-> Obviously due to some race.
-> 
-> Any ideas what is going on?
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
+> ---
+> [...]
+> --- /dev/null
+> +++ b/rust/kernel/siphash.rs
+> @@ -0,0 +1,39 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +//! A core::hash::Hasher wrapper for the kernel siphash implementation.
+> +//!
+> +//! This module allows Rust code to use the kernel's siphash implementation
+> +//! to hash Rust objects.
+> +
+> +use core::hash::Hasher;
+> +
+> +/// A Hasher implementation that uses the kernel siphash implementation.
+> +#[derive(Default)]
+> +pub struct SipHasher {
+> +    // SipHash state is 4xu64, but the Linux implementation
+> +    // doesn't expose incremental hashing so let's just chain
+> +    // individual SipHash calls for now, which return a u64
+> +    // hash.
 
-Which reason does compiling with V=2 reveal?
+Isn't this detail relevant to mention in the doc comment? At least to
+explain the difference between them.
 
-Kind regards,
-Nicolas
+> +    state: u64,
+> +}
+> [...]
