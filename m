@@ -2,69 +2,162 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 865AE753ED4
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jul 2023 17:27:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58DC4753F41
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jul 2023 17:47:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236078AbjGNP13 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Jul 2023 11:27:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50924 "EHLO
+        id S235825AbjGNPr5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 14 Jul 2023 11:47:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235457AbjGNP12 (ORCPT
+        with ESMTP id S236142AbjGNPrz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Jul 2023 11:27:28 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B7C22D68;
-        Fri, 14 Jul 2023 08:27:19 -0700 (PDT)
-Received: from leknes.fjasle.eu ([46.142.49.15]) by mrelayeu.kundenserver.de
- (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1N79ly-1psslm0QVI-017Yy8; Fri, 14 Jul 2023 17:26:46 +0200
-Received: by leknes.fjasle.eu (Postfix, from userid 1000)
-        id 13BD13E8B8; Fri, 14 Jul 2023 17:26:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1689348404; bh=w4fRc/ie8uyI+ju21eroczebVyv8KrZnltwBlvcBpv4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=1C+qX0vJ10rrMR1HGgPXWjwv2z1KxZt5xutHcYJSsXmjCh0ncrUpREzoisIjP1L81
-         dOA62e++7/8yPos9yD1RzKk3KSXqlR3bgomvrTq/5pFAiA7kzwBfPDLgmADvgA7X7/
-         EQ3WsG6+hibtB0kJ9CerUpYPegrq7fEiJKSExvDk=
-Date:   Fri, 14 Jul 2023 17:26:43 +0200
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Michal Suchanek <msuchanek@suse.de>
-Cc:     linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>,
-        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-        Jiri Slaby <jslaby@suse.com>, Jan Engelhardt <jengelh@inai.de>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH kmod v2 3/4] kmod: Add config command to show compile
- time configuration as JSON
-Message-ID: <ZLFpM+H2bfkJx65S@fjasle.eu>
-References: <20230711153126.28876-1-msuchanek@suse.de>
- <20230712140103.5468-3-msuchanek@suse.de>
+        Fri, 14 Jul 2023 11:47:55 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1E963595
+        for <linux-kbuild@vger.kernel.org>; Fri, 14 Jul 2023 08:47:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689349672; x=1720885672;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=WV3u+NAwjiUDXYF6LHzMfic8WzjsEJjyZyQJn5GFU6I=;
+  b=mVl11LgBMAHQMgjBJ213q4vrNgiEYUtWdm/v4QdvyBoIxOhOnW//ydtH
+   x+gd9nzWnRLQpiHXnKI0PuMY6JcjvXsvGwowmj63quM2ZHFdMC+ODLMHT
+   r2rHOBKUwavhAXkdNzBYmNJj6IDxcmRs/6sWeWTIn6aeRMNZwcnlsmkNh
+   OKiIWe+98Z5sk7NMXIY+YOmLjvTNRQ8DgjTA6/zE/l0jUMdcVokUusqEM
+   abtdlRbVDkInEJ/AMCTYlPrkeHUZL1YtHYD2HK12TJWMFwZcNaM9WLbkQ
+   9T27f74K0Eyd2DDJFeweZrMqcUUKS2vK6c6fCA5Q6tLAq5lyRLrkdHHuW
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="350372688"
+X-IronPort-AV: E=Sophos;i="6.01,205,1684825200"; 
+   d="scan'208";a="350372688"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2023 08:47:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="699716119"
+X-IronPort-AV: E=Sophos;i="6.01,205,1684825200"; 
+   d="scan'208";a="699716119"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orsmga006.jf.intel.com with ESMTP; 14 Jul 2023 08:47:53 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Fri, 14 Jul 2023 08:47:52 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Fri, 14 Jul 2023 08:47:52 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Fri, 14 Jul 2023 08:47:52 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.46) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Fri, 14 Jul 2023 08:47:31 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lR0DbW2RkqoRO54PA63AuyO51YZJJ+M9dVXeWOa2/r7bSKXbqQKEAIwJh5WRCawxNG9N+dtfDsEpEnS4ffhohY4xKr3Wjpz+0iiARe5ttl5iwBuz9qW6tAHqV4Ju/Knc8juXRMq80ImaDO1t/VT/pKCbql1NegM8y+a4KVHKW1vS7lDRt5FjADf38Ic/eVpb8lOkJzq4eAxXtbuDXWDkejI3gWMDwJeZ73u1Nu6fV3BD/wFkl+jRbj2U9MDeCVEbdIzLKEhCv6JiZEbatYlfk3eWNihh0hPUWaOVV/5gP/c8CnwiCV3f82PAGw35s4ioxzYf1p5LJMR6kXIfoOksjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zKnF4btI+45YpkEwozG7D/2ZHDFpR2hYSDIDz2f87HM=;
+ b=V3UGNBP8Tvnq0I8fMx48fsiK3h15opvRJQO1BSlKop7v9K3y/GxaQORO+ow6Sq3Hk8qtMdRxlKOIBeZCYhOnkStjbgxg9Jngj+DoX6BQVOTvzN3Z83mDi2VVADKT8JkIKyXf+0X0YasuJ7f8nRXv6w3CSI7wMEOiyG92KQqWg3gmvwohwWdKFpjTmOqTb0EkfHD18GlPyrArq6j+Ulz4uXG6oIF88iKmVum5PgGgLtMzYBhTUJ/jiW0vga1Y7KRa2ZuPUu8HF5Vn6Q3/eLEtuSg+Ge5TDCmPGH72eSKyZ/F+zEyRSaGeiuRQbxbU52TNOg7e0eAsbw8+EMZAiYcgJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM6PR11MB3625.namprd11.prod.outlook.com (2603:10b6:5:13a::21)
+ by PH7PR11MB8478.namprd11.prod.outlook.com (2603:10b6:510:308::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.27; Fri, 14 Jul
+ 2023 15:47:29 +0000
+Received: from DM6PR11MB3625.namprd11.prod.outlook.com
+ ([fe80::1ecd:561c:902a:7130]) by DM6PR11MB3625.namprd11.prod.outlook.com
+ ([fe80::1ecd:561c:902a:7130%5]) with mapi id 15.20.6588.027; Fri, 14 Jul 2023
+ 15:47:28 +0000
+Message-ID: <b67be77a-9c2e-4e61-91dc-9517d6bc41ae@intel.com>
+Date:   Fri, 14 Jul 2023 17:46:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [RESEND] Looking for a hack to remove auto-selected items from
+ .config output
+Content-Language: en-US
+To:     Donald Zickus <dzickus@redhat.com>
+CC:     <masahiroy@kernel.org>, <linux-kbuild@vger.kernel.org>
+References: <CAK18DXagdLgwFG-ed97vVzMXC1BTCVbQrNQKXPwyH9HYy4TeJw@mail.gmail.com>
+ <CAK18DXZHn28mZ-Sr5x_Lwn0SSisgcGqcBdt5MQNRXuNVYbnKZw@mail.gmail.com>
+ <52f2cfab-4a5e-3331-424e-181860e4df66@intel.com>
+ <CAK18DXafQ=ofjMyBxa+TCjvrxk183p79H-UwNBpo33L4yar8rw@mail.gmail.com>
+ <CAK18DXZHATtbJ_zWaPpkW5OfU3XpYCs6U+Lznvi+zFkfUQYGxA@mail.gmail.com>
+From:   Alexander Lobakin <aleksander.lobakin@intel.com>
+In-Reply-To: <CAK18DXZHATtbJ_zWaPpkW5OfU3XpYCs6U+Lznvi+zFkfUQYGxA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0078.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9a::20) To DM6PR11MB3625.namprd11.prod.outlook.com
+ (2603:10b6:5:13a::21)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="fJQQMulXf8UyxTpY"
-Content-Disposition: inline
-In-Reply-To: <20230712140103.5468-3-msuchanek@suse.de>
-X-Provags-ID: V03:K1:PGXsAgTlLd3IPcf8lVHUJ+OD1BksbcdYQmYDdQSSKktdepbPWZ4
- rjvBCtMpqp1ip0eP9UERtt8mAp6mv0C6aAeOhqCT2J0EB/JNzbIZHhBvjmnTs5XMPmPzdiu
- fmjnjMEe1Iv1Cb6KLoHq0dch7I4FAgGfJn1rSQnE7XMlYTGtft1jqIlA7zwvc6q+VcINyz3
- 1Kei9tCds5L16Yt6leq2w==
-UI-OutboundReport: notjunk:1;M01:P0:rxmSj38tAwQ=;kTw1vgYOjLXLYwfJYOfRJMk9dUy
- cfHsqZQM5+em12BcYG6GLMa+Ut81myYD26f63c34qREjDh9GkePrGSed/8xGjN0q+f49LJafd
- jkMlJHBhIC6OIOL/AwSU70bBsTPhsOl60C7R0bVJ50vJchGeO/SJKsyWdlmkI++M9t4oBKtsH
- wmir+Q620M1LQZihfXE3+95pIhrXxROM5kst8fNKvMpjbeX4XYH3MKKQhfQqwSYGfx/qaGCUV
- lRvsIe3mTeHrm4Xdu7loAv2su0DWE7zilYnYGmuVeCJ6cj9kDdZ1UI/Mkp5p/KqA8OludvziU
- nWJ28rVQ17lEtRuxv5VHXUTL3FChS3wi7IVh4K50BGVC8g7R3RQ3gXiqXhv011ddDjEZYkcZJ
- 6LitFw+0XS8gnecMWBDQHooGUEacEenX84K6WG0YSpKMDaQFASJbIPQBHFpz5P3JBeKpgqJSS
- dPXwthEljMtYC8SEjQuKTGDBRwJBI6HoAQTGC+C2jG+jJ3InQGOp8srm1spc+h5eR9Y+24e2R
- VKQlXf+29S1mLZpp2qST28QXSF/5ZWdzBxz6L2oGz6wlNpI4VAUlTLNbT9mMN3IA1UVfOg8kj
- Et09iduhcWUcXkSnHQKEf3t1Hn8VTh4wyeeEcQOHoyf2NIbIl9oS0dqfkMIA1vtiUttAmty5K
- JL8i0QElmfUrTpyXZwplVt1NTQpemyyowL/yL9X1rw==
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR11MB3625:EE_|PH7PR11MB8478:EE_
+X-MS-Office365-Filtering-Correlation-Id: b1df4dce-0dfc-416b-0a5b-08db8481a070
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Tl4isyH+ms8L2ixZbBxESpJOOYNdCkYQ1Myk8GT2WExj+j6AyHZ1G9KYXBeLFnrSJL1KSPM4y6KNV7vImHaw+u0EIUhAZfVzs4M4g2nMifpq42AdaEgvTqHpsaG0F9xDAUSouEkmxvAHub7KgS4NWHzLd1+4jjK4Mm8M5uFMjw4onau0IvUVXBMpz8YxxaVmewnskHJR1BCeOW7XV6sztDLNGxnx83+JLmpLoPxZtWnneAgWUx20PiOCK8orKnT3xXgwZ9mdu15pCDa+7Uu0zZ0pminXtLWATB45zsUjg8WOVnX1+QKV83jo4qu31sB05B4rAla6EfsftkzoxqOzgJ9Fmv+fScIVR0vKvZq5i6yOcQ8qXxUMfM7rjnCWUi+FHKFRHot8nkFdsjJxJSmTAGm9vuS/R8pl8gL1KIwEcFHJQQ8SnqNBZo7iQj6CCfAIKRKFpkr0PFM9Ow5L0b+7ybv+M6foDXA9DcTNJ3KipYYPO/VK8cg8zG7np9dBzAVzy+9WknHH8F9ZBIvXHUI3xMlQ7jLw0lIv00KBlp00av7qtDzzMbS0EN6fUoaZsZTdYMed8Fy8IU88R77lZdTC7wO4conmhQBkYhfWWjY2WfZ/pecksRThTmD2jq1ZJG1k0DrhS8DbNjCX81aLzOdQYdSHhqg0n7Fgmt4NgSg1ArA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3625.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(39860400002)(396003)(366004)(346002)(136003)(451199021)(6486002)(6512007)(6666004)(6506007)(186003)(2616005)(53546011)(83380400001)(36756003)(31696002)(86362001)(38100700002)(82960400001)(26005)(4326008)(6916009)(66556008)(66946007)(66476007)(41300700001)(2906002)(316002)(31686004)(5660300002)(8676002)(8936002)(478600001)(142923001)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q1Z4RW5aYmc2MjNPdzdaUlZJdnY3bHZBay9pRFhUWnR5d2Ixd1Z4T2xXYnNB?=
+ =?utf-8?B?UjVNczBQUkxlbE1MTFp0VUpNZ2FDcEx0cUxxZ2M5UDhQMGJ1Y0kvbnAzOFpE?=
+ =?utf-8?B?SEJ4QXBueFp4L25IcmdRZFVjMTFNMmFGejNmMVVZVk5saFdrdSthc3ljWGQ2?=
+ =?utf-8?B?RDZjZUpXZnk5eWVCdmlYdlNrU0toME1mZEpHMmtZS3JZSVNZQnFvZ1dHYzlK?=
+ =?utf-8?B?TnVjbitSd0tUQ3hsanFWV1ZKNXBldVlJY3c1cVcvdWR3K0g2bjlGNU9makVL?=
+ =?utf-8?B?eWFMWERkNUd3bVpvamlLc25FZ2I0UTVkeHFTNFM4UmxoTEVUakdRcVQ1c0Q3?=
+ =?utf-8?B?S2hQeGFwZG1LRlRrMnpiaU9mSk9DVkJxb21ZdjRlUUpaM3B3SE9NY2xpc0Z0?=
+ =?utf-8?B?d0MwRWFIc2JmWmpHN1ViK0szdWhqM2tuTVQvTzl0Q2pHMk5zVHJrbHgzTlhS?=
+ =?utf-8?B?aEpwdEVEVmhpUG04TTlYRnMwOEhzYWFPT2V5VmhlQTJHbjVHM1I5ZVJOT1hm?=
+ =?utf-8?B?QXVRS0Y2RTQ2dElGVTZBR09SWUhQWWxSRlZTQWVmN3RFNDJFK09CZlFSL2I5?=
+ =?utf-8?B?Y2VFd0ppeHEvdjljNkFpWDlDTXFoK2h0d2hkSjhWRzNoZlExVGtNMExrVjVn?=
+ =?utf-8?B?TWNjSEtlYlV6aHlra1VvY1VTV3NERXFILzhQKzhHR2lJbCs2SEJBTG5oSTZq?=
+ =?utf-8?B?S1VaWU9kWElzSjlmSkFHVmtmZGhva201Q0NYUDd2dXVKckhVaWJ2OW4yOEpr?=
+ =?utf-8?B?aG5WeGZDM3hjVjgwZ3dZRVhRTVRER29nM0NmS0xMemN3TXpMeGhOdTltY1B5?=
+ =?utf-8?B?RmhkamYySFRrWWRSdGpsbzRJcmlkNW1SM21Ud0NVeWdrNGU1ankyMERGYVE5?=
+ =?utf-8?B?OGpPYUljT1MvKzg1OGVtVHNvQVdkQjRQdUpJY3J0YnRXczRwWk5HVUpnWDN6?=
+ =?utf-8?B?ZENZZjM0TGp1dHlmbDN4OG1kZmdaWG1rZTRvbnFRV3RCRGdrcDF4MTZpc1cv?=
+ =?utf-8?B?QmUvMWh4QWljWjJnaTJBZXJ3dFJ6Q1gybmtuc3RpT3YzYjEyMW9IZC93WCtM?=
+ =?utf-8?B?MU5SSkxwQzZzLzVtd3RIOGpDVDlUbXBHc3o4Ly9Rc2RUK2M2cXgzQnArQWEr?=
+ =?utf-8?B?TkhBNWMyNms1SUs5TGZ5MnkxTlN0S2szT0V2d256K0ZxMFUyeHh0a3hpSHVQ?=
+ =?utf-8?B?QXkwMTBtYzRLaS8yMGVtRUkwUGNsSUN3OHdGcmhBOHR1UFJGNmFaRERYbHZY?=
+ =?utf-8?B?OGRtUXpnZ2x4SG5nWExFc2lZSW80SSt0dFI5akFHQnFXK0pvbURGdlArQWpo?=
+ =?utf-8?B?VW1WNE1BZWVrdXNodDM0S3NrdjJIZHFVNjRiWGpMVkNMSWNxSFFibG1WVmtK?=
+ =?utf-8?B?WjA3VEJ6VVU0MkFwb1dtZitVQmo5akRrLzdlZGV5aS8wVjcyc3d4Uy9zZS9U?=
+ =?utf-8?B?WVR3OWxPd2lmWWRlUGI4c0FGT1hVSnM1TFR0RWtSNnRhZmU0RUdUa0NkYVhj?=
+ =?utf-8?B?NlhEWHBKWHp4VzdTMk5lRWZlWHdLZkROMFZidnZ6TmRINlg4VGNWbDBDZmJm?=
+ =?utf-8?B?azUwT25MK0EwNjQyOUE0dzJXQ3Q2dUhNTnNqZVhhQk4wTlNGL1BLRDhGZmxT?=
+ =?utf-8?B?Z1pyd2hRQXVwb3M4WVhmaHRiZ0puWU4wdkZjWDhseTF2N0hsYW9kL0JiNXlp?=
+ =?utf-8?B?ZWhGRVdLazduckF0VXJrQWNqcFAxRGpNQzV3RHRkS2tZZVF2aloySmRJQlFo?=
+ =?utf-8?B?M011MzMwRllTbjAvTDl3aU5DNXZERmczYWtKeVd6Q1I3REFUMURPcVlkL0VL?=
+ =?utf-8?B?V2FzaU9hbTMzTzVnV1ZBRmFadW9HdEJPMGs1VmZPY1hzelR5V1NIT1hMdDVz?=
+ =?utf-8?B?NGNDV2ZEdFBBQTNMRFRDWllDMHVhZ2ZqQkxsRCtpUHVDU1YxRGMzMmU5anlL?=
+ =?utf-8?B?dy94MUhWeFBDRWRZZnpCN2JNdkpwbnM3eGtJcVZiamRoc0svZFNHV09Dc3BK?=
+ =?utf-8?B?dm5Uc29PaXl0a0VXSGRGTWo0aEV5Tlo0NkRNdCs0ZFEzK2U0R0dvaHdiNTNp?=
+ =?utf-8?B?ekp5MFY5Y2Vub1JLT3NaOUJKMUJIeXhxWFZZanpJNnNWQlZqYWl4N21LNVJM?=
+ =?utf-8?B?ZFhNUHlWSVV6Y1FnMFhiYk5kMmdPZHdyMkptV3JpT0lBZHVOMWpMNXoxbW1a?=
+ =?utf-8?B?aEE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b1df4dce-0dfc-416b-0a5b-08db8481a070
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3625.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2023 15:47:28.2729
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: plCGiYaWwH8HdeD8P2DD87V8T8sZPh1YYfLx6UP+Eo6KcUXjxbL1O+4LemE8Itqt0G6+6h1zw6s8Gt2/F1XqWPu+vdmnUKb90OUNQLHpNVg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB8478
+X-OriginatorOrg: intel.com
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,
         URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,137 +165,98 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+From: Donald Zickus <dzickus@redhat.com>
+Date: Wed, 12 Jul 2023 13:32:43 -0400
 
---fJQQMulXf8UyxTpY
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Wed, Jul 12, 2023 at 1:31 PM Donald Zickus <dzickus@redhat.com> wrote:
+>>
+>> Hi Alexander,
+> 
+> Oops.  Hi Olek,
+> 
+> (sorry about that!)
 
-On Wed, Jul 12, 2023 at 04:00:47PM +0200 Michal Suchanek wrote:
-> Show prefix (where configuration files are searched/to be installed),
-> module compressions, and module signatures supported.
->=20
-> Signed-off-by: Michal Suchanek <msuchanek@suse.de>
-> ---
-> v2: mention module signature in commit message
-> ---
->  man/kmod.xml |  6 ++++++
->  tools/kmod.c | 39 +++++++++++++++++++++++++++++++++++++++
->  2 files changed, 45 insertions(+)
->=20
-> diff --git a/man/kmod.xml b/man/kmod.xml
-> index 0706ad58c2cc..f992a500f836 100644
-> --- a/man/kmod.xml
-> +++ b/man/kmod.xml
-> @@ -71,6 +71,12 @@
->            <para>Show the help message.</para>
->          </listitem>
->        </varlistentry>
-> +      <varlistentry>
-> +        <term><command>config</command></term>
-> +        <listitem>
-> +          <para>Show compile time options in JSON.</para>
-> +        </listitem>
-> +      </varlistentry>
->        <varlistentry>
->          <term><command>list</command></term>
->          <listitem>
-> diff --git a/tools/kmod.c b/tools/kmod.c
-> index 55689c075ab1..5a13716955c1 100644
-> --- a/tools/kmod.c
-> +++ b/tools/kmod.c
-> @@ -37,9 +37,11 @@ static const struct option options[] =3D {
->  };
-> =20
->  static const struct kmod_cmd kmod_cmd_help;
-> +static const struct kmod_cmd kmod_cmd_config;
-> =20
->  static const struct kmod_cmd *kmod_cmds[] =3D {
->  	&kmod_cmd_help,
-> +	&kmod_cmd_config,
->  	&kmod_cmd_list,
->  	&kmod_cmd_static_nodes,
-> =20
-> @@ -95,6 +97,43 @@ static const struct kmod_cmd kmod_cmd_help =3D {
->  	.help =3D "Show help message",
->  };
-> =20
-> +static const char *compressions[] =3D {
-> +#ifdef ENABLE_ZSTD
-> +			"zstd",
-> +#endif
-> +#ifdef ENABLE_XZ
-> +			"xz",
-> +#endif
-> +#ifdef ENABLE_ZLIB
-> +			"gz",
-> +#endif
-> +			NULL
-> +};
-> +
-> +static int kmod_config(int argc, char *argv[])
-> +{
-> +	unsigned i;
-> +	printf("{\"prefix\":\"" PREFIX "\""
-> +			",\"module_signature\":["
-> +#ifdef ENABLE_OPENSSL
-> +			"\"PKCS#7\","
-> +#endif
-> +			"\"legacy\"]"
-> +			",\"module_compression\":[");
-> +	for(i =3D 0; compressions[i]; i++) {
-> +		printf("%s\"%s\"", i ? "," : "", compressions[i]);
-> +	}
-> +	printf("]}\n");
-> +
-> +	return EXIT_SUCCESS;
-> +}
-> +
-> +static const struct kmod_cmd kmod_cmd_config =3D {
-> +	.name =3D "config",
-> +	.cmd =3D kmod_config,
-> +	.help =3D "Show compile time options in JSON",
-> +};
-> +
->  static int handle_kmod_commands(int argc, char *argv[])
->  {
->  	const char *cmd;
-> --=20
-> 2.41.0
+No problem, both of them work just fine :D
 
-If kmod could show selected configs without some (JSON) syntax
-around, it could simplify its proposed use in kbuild. E.g.:
+> 
+>>
+>> On Wed, Jul 12, 2023 at 10:17 AM Alexander Lobakin
+>> <aleksander.lobakin@intel.com> wrote:
+>>>
+>>> From: Donald Zickus <dzickus@redhat.com>
+>>> Date: Wed, 12 Jul 2023 09:58:35 -0400
+>>>
+>>>> Resending without the html cruft to pass through the linux-kbuild mail daemon
+>>>>
+>>>> ---------- Forwarded message ---------
+>>>> From: Donald Zickus <dzickus@redhat.com>
+>>>> Date: Tue, Jul 11, 2023 at 6:27 PM
+>>>> Subject: Looking for a hack to remove auto-selected items from .config output
+>>>> To: <masahiroy@kernel.org>
+>>>> Cc: <linux-kbuild@vger.kernel.org>
+>>>>
+>>>>
+>>>> Hi Masahiro,
+>>>>
+>>>> I am trying to cleanup some stale config data with some of the Red Hat
+>>>> configs.  Like most distros, Red Hat sets a bunch of 'menu choice'
+>>>> configs and then merges them together then runs something like 'make
+>>>> olddefconfig' to autoselect the rest of the configs.  Been working
+>>>> great for many years.
+>>>>
+>>>> Lately, we are trying to audit the configs and ran into many stale Red
+>>>> Hat set configs that no longer exist upstream (removed, renamed,
+>>>> whatever).  Ok, running a script detects these and we can remove them
+>>>> by hand.
+>>>>
+>>>> One corner case we ran into is dropping configs.  Like upstream we try
+>>>> and match the merged configs with the final setting from 'make
+>>>> olddefconfig' and fail if there is a mismatch.  However, not every
+>>>> config is applicable to every arch, so those configs are dropped and
+>>>> we were always ok with it.  But now those dropped configs are
+>>>> confusing folks who think configs are set but they are really dropped.
+>>>> Yes, a Red Hat problem.
+>>>>
+>>>> I am trying to untangle this.  Is there a hack I can use that takes a
+>>>> generated .config file and removes all the 'selected' and 'implied'
+>>>> options out?  Leaving me with just the minimum configs that need to be
+>>>> set?  Then I can de-merge it and re-create our original set config
+>>>
+>>> `make savedefconfig`? It saves a very minimal config with only manually
+>>> selectable entries, which differ from the default config. IOW, if you
+>>> take the default config and then change only CONFIG_FOO, your config
+>>> saved via this command will contain 1 entry, even if _FOO also
+>>> automatically selects _BAR.
+>>
+>> Oh neat!  Yes, when I combine the output of savedefconfig with the
+>> output of listnewconfig, it appears I am able to create the minimal
+>> config layout which exposes all the unnecessary cruft.
 
-    kmod config prefix 2>/dev/null
+Nice!
 
-instead of
+>>
+>> Thank you!!
+>>
+>> Cheers,
+>> Don
+>>
+>>>
+>>>> options.  Basically reversing the normal config generating process, I
+>>>> think.
+>>>>
+>>>> Not looking for anything complicated, just something simple I can quickly apply.
+>>>>
+>>>> Thoughts?
+>>>>
+>>>> Cheers,
+>>>> Don
+>>>>
+>>>>
+>>>
+>>> Thanks,
+>>> Olek
+>>>
+> 
 
-    kmod config &>/dev/null && kmod config | jq -r .prefix
-=2E
-
---=20
-epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
-=E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
-     -- frykten for herren er opphav til kunnskap --
-
---fJQQMulXf8UyxTpY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmSxaTMACgkQB1IKcBYm
-EmlX1g/9Fjx7AiAkqXg4PZl98829BBzPlnBaGjiGGM6tKnKhws312/R4+BdmXTis
-Bp2JFS2Gv2WxbsYnQq389e+xqXNKrvVAGw7E/T3XFyOb58UxrJMr92xNROGS4dq1
-+Y/AySkiSzkqyZB/dffLYQ1yz102OC+okrN6XpQ3AWOr9f/sfji+Ldd32L0jhHRW
-k/Q0yIMOx+LqhpnsTf1TuYKrIrs6iP7+NEPKlYXQGvi5lObH8XGWWMYKAV8skgE/
-A2au3hIxMUwuwuuT+vIMixbPGL95Sws7ZcYWz6CI8p8ATpg76/ODinOSo4+9GBfu
-pb3ni8Bk382vcQnxAnpSqkFdiG9D7WLId2D5Ri61B9ZzVco30Qqdc82Jf3z4U7PU
-3z8gmYf8EcqKBA0BjTTQ+OzM2rRGPgAoWuCcKy5VbFCFznUQ5Yn6pq7K2hKgGW0h
-7l6AspmNRKuxvk3uneuSmoUeXo/Wnl1nyL0ZZR86n5CU5/PkUQZfFtXLwnTvsLR3
-wqmCCD4y7Odpkwz4aSLiSRMEdtoQ244qhIUf6TjsxChbgpaAG5DEDCRe7UNHFYJq
-aKQbf994BZnsNr/qlH9WWGAeKOVBTTZxuNvrZDBTkXUzyauwM+u4dLxziQfag8Yg
-FkVefUWTabrmo9a+WiDyiN+5Ta9N1CmDk0M8o3MXnI3W0EqiBsg=
-=WJb2
------END PGP SIGNATURE-----
-
---fJQQMulXf8UyxTpY--
+Thanks,
+Olek
