@@ -2,25 +2,25 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D9B22753C2A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jul 2023 15:52:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E20D1753C3A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jul 2023 15:54:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235977AbjGNNwi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Jul 2023 09:52:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48112 "EHLO
+        id S235599AbjGNNy6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 14 Jul 2023 09:54:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235918AbjGNNwW (ORCPT
+        with ESMTP id S235510AbjGNNy5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Jul 2023 09:52:22 -0400
+        Fri, 14 Jul 2023 09:54:57 -0400
 Received: from a3.inai.de (a3.inai.de [IPv6:2a01:4f8:10b:45d8::f5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 563C53C32;
-        Fri, 14 Jul 2023 06:52:07 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B19226B2;
+        Fri, 14 Jul 2023 06:54:55 -0700 (PDT)
 Received: by a3.inai.de (Postfix, from userid 25121)
-        id CE86B58750830; Fri, 14 Jul 2023 15:52:05 +0200 (CEST)
+        id A5FC258750830; Fri, 14 Jul 2023 15:54:53 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-        by a3.inai.de (Postfix) with ESMTP id CC4E960C22668;
-        Fri, 14 Jul 2023 15:52:05 +0200 (CEST)
-Date:   Fri, 14 Jul 2023 15:52:05 +0200 (CEST)
+        by a3.inai.de (Postfix) with ESMTP id A3CC360C22668;
+        Fri, 14 Jul 2023 15:54:53 +0200 (CEST)
+Date:   Fri, 14 Jul 2023 15:54:53 +0200 (CEST)
 From:   Jan Engelhardt <jengelh@inai.de>
 To:     Michal Suchanek <msuchanek@suse.de>
 cc:     linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
@@ -32,11 +32,11 @@ cc:     linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
         linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH kmod v2 3/4] kmod: Add config command to show compile
- time configuration as JSON
-In-Reply-To: <20230712140103.5468-3-msuchanek@suse.de>
-Message-ID: <429o975-ro63-o94r-qs96-76ro6o28on5@vanv.qr>
-References: <20230711153126.28876-1-msuchanek@suse.de> <20230712140103.5468-3-msuchanek@suse.de>
+Subject: Re: [PATCH kmod v2 4/4] libkmod, depmod, modprobe: Search for kernel
+ modules under ${module_prefix}
+In-Reply-To: <20230712140103.5468-4-msuchanek@suse.de>
+Message-ID: <r9ponpq-6o2o-2252-r5nq-5090192nn05q@vanv.qr>
+References: <20230711153126.28876-1-msuchanek@suse.de> <20230712140103.5468-4-msuchanek@suse.de>
 User-Agent: Alpine 2.25 (LSU 592 2021-09-18)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -52,11 +52,21 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Wednesday 2023-07-12 16:00, Michal Suchanek wrote:
 
->Show prefix (where configuration files are searched/to be installed),
->module compressions, and module signatures supported.
+>modprobe.d is now searched under ${prefix}/lib, add ${module_prefix} to
+>specify the directory where to search for kernel modules.
+>
+>With this distributions that do not want to ship files in /lib can also
+>move kernel modules to /usr while others can keep them in /lib.
 
-What about doing it like systemd and generate a .pc file instead 
-that can then be queried like so, e.g.:
+>+# Ideally this would be $prefix but default to empty for compatibility with earlier versions
+>+AC_ARG_WITH([module_prefix],
+>+        AS_HELP_STRING([--with-module-prefix=DIR], [directory in which to look for /lib/modules directory with kernel modules - typically '' or ${prefix}]),
+>+        [], [with_module_prefix=])
+>+AC_SUBST([module_prefix], [$with_module_prefix])
 
-$ pkg-config kmod --variable=modulesdir
-/usr/lib/modules
+Why stop there, let's make it fully configurable such that
+
+ ./configure --with-module-prefix=/usr/lib/modules
+
+works. Then one can specify arbitrary paths without fearing of getting a
+/lib/modules tacked on anywhere down the line.
