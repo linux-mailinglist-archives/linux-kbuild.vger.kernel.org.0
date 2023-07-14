@@ -2,161 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D92FB7531E5
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jul 2023 08:25:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A882575320B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jul 2023 08:34:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235154AbjGNGZf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Jul 2023 02:25:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53588 "EHLO
+        id S235172AbjGNGel (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 14 Jul 2023 02:34:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234868AbjGNGZf (ORCPT
+        with ESMTP id S235194AbjGNGeS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Jul 2023 02:25:35 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AE432D63;
-        Thu, 13 Jul 2023 23:25:33 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id BE3611F8B5;
-        Fri, 14 Jul 2023 06:25:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1689315931; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=B3nAJuGCjw43YPM8SKsPn8dm0PlKgr4q3ZnmQ4SFZgM=;
-        b=ZYSxeZB7aB06jUg/vb9HeZAuoK+2JDnT8etNz8sz0/fxvK5GUxhQ7m74iKeqWJaJQ9yCD/
-        /pEaWr/8ttDMVvKD98JNE5y+voF52RwnY2u+zZtZddni43J9grW+uq4thMofOKO0KlnG3O
-        wfpFUHahHJ5XMb9yPxGl1z4mjOOt/08=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 79514138F8;
-        Fri, 14 Jul 2023 06:25:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id QAmTHFvqsGTWGQAAMHmgww
-        (envelope-from <jslaby@suse.com>); Fri, 14 Jul 2023 06:25:31 +0000
-Message-ID: <30d8c675-e769-e567-a81f-c1b59c66ad67@suse.com>
-Date:   Fri, 14 Jul 2023 08:25:31 +0200
+        Fri, 14 Jul 2023 02:34:18 -0400
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE47C30E9
+        for <linux-kbuild@vger.kernel.org>; Thu, 13 Jul 2023 23:33:49 -0700 (PDT)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-52162b2f18cso197251a12.2
+        for <linux-kbuild@vger.kernel.org>; Thu, 13 Jul 2023 23:33:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689316428; x=1691908428;
+        h=content-transfer-encoding:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=YmFcJkiBwPQ/COWzvSWc7QMWXtETyPlJ3qMCELjrLyc=;
+        b=k/lac4CZR5bszLyRpKWeP7ZyhSwJKRzADQ08CIiN4COajNSIp1jVJY/96svrW5H7YB
+         WPa9rbvpXoo2oa7eyHnN+3Ve29OedELwEE2nRL9WZ6HEXd3PbM97HY95sH2rfnaOVQE8
+         +oiuPlLGgYrOqdO3Ogb5j6uf+lcZgiHlS2d+H9uihMdV7+J+HOJGim5QpurvGqt79UzR
+         fndzUI4ji2UFwat9zXNTn69oRKEoHHh6eheieyoPXRJAhO5OfqAeoLIAqz8a1NnFABt3
+         IeFbOGUngXkxb/63DmowiX/1pr5hz7bub7Z9zaZG8feLFkAtAsCJpwy+8qRMsoa4/C/8
+         PGnQ==
+X-Gm-Message-State: ABy/qLZWdZhOJVyLVL2m5ZBQWBwLY3S1/K7VoPyG2ZwmpITfyf+Wpona
+        rNvMLWmyYDbDz1q7XhYrn+JvDMZKIlw=
+X-Google-Smtp-Source: APBJJlH+nzs96G7o3Kjz9zbDkXhGVy50K2oMaGzSto/uZdIVeRhq75PwxChc4V2KICK1ysJIp1DHGg==
+X-Received: by 2002:aa7:d7c7:0:b0:51e:1932:db07 with SMTP id e7-20020aa7d7c7000000b0051e1932db07mr3872657eds.34.1689316427954;
+        Thu, 13 Jul 2023 23:33:47 -0700 (PDT)
+Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:59? ([2a0b:e7c0:0:107::aaaa:59])
+        by smtp.gmail.com with ESMTPSA id e3-20020a50ec83000000b0051e0ea53eaasm5290894edr.97.2023.07.13.23.33.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Jul 2023 23:33:47 -0700 (PDT)
+Message-ID: <7b663b86-4df0-c3df-18a7-e4f47f900be4@kernel.org>
+Date:   Fri, 14 Jul 2023 08:33:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v2] depmod: Handle installing modules under a prefix
 Content-Language: en-US
-To:     Michal Suchanek <msuchanek@suse.de>
-Cc:     Takashi Iwai <tiwai@suse.com>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>,
-        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
-        Jan Engelhardt <jengelh@inai.de>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+To:     Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-modules@vger.kernel.org
-References: <da2fdd15-fae1-2bf6-04e7-568c715372ce@kernel.org>
- <20230712134533.4419-1-msuchanek@suse.de>
-From:   Jiri Slaby <jslaby@suse.com>
-In-Reply-To: <20230712134533.4419-1-msuchanek@suse.de>
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+From:   Jiri Slaby <jirislaby@kernel.org>
+Subject: con3270.o is built twice, leading to errors
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 12. 07. 23, 15:45, Michal Suchanek wrote:
-> Some distributions aim at not shipping any files in / ustside of usr.
+Hi,
 
-"outside".
+if I create an s390 defconfig:
+mkdir /tmp/s390/
+make O=/tmp/s390/ ARCH=s390 CROSS_COMPILE=s390x-suse-linux- defconfig
 
-> The path under which kernel modules are instaleld is hardcoded to /lib
+And then if I try for a couple times:
+make O=/tmp/s390/ -j17 ARCH=s390 CROSS_COMPILE=s390x-suse-linux- 
+drivers/s390/char/con3270.o
 
-"installed"
+Most of the time, I get:
+make[1]: Entering directory '/tmp/s390'
+   GEN     Makefile
+   CALL    /home/latest/linux/scripts/checksyscalls.sh
+   CC      drivers/s390/char/con3270.o
+   CC      drivers/s390/char/con3270.o
 
-> which conflicts with this goal.
-> 
-> When kmod provides the config command use it to determine the correct
-> module installation prefix.
-> 
-> On kmod that does not provide the command / is used as before.
+I.e. it is built twice.
 
-Can you spice it with more commas? While the text is understandable 
-after a while of staring, it's hard to parse.
+Sometimes, I also get an error:
+fixdep: error opening file: drivers/s390/char/.con3270.o.d: No such file 
+or directory
+make[4]: *** [/home/latest/linux/scripts/Makefile.build:243: 
+drivers/s390/char/con3270.o] Error 2
+make[4]: *** Deleting file 'drivers/s390/char/con3270.o'
+make[3]: *** [/home/latest/linux/scripts/Makefile.build:477: drivers]
 
-Like:
-When kmod provides the config command, use it to determine the correct 
-module installation prefix.
+Obviously due to some race.
 
-On kmod that does not provide the command, / is used as before.
+Any ideas what is going on?
 
-
-
-
-
-I would also argue here in the commit log on what Masahiro already 
-pointed out. I.e. that INSTALL_MOD_PATH is useless in this case and why.
-
-> Signed-off-by: Michal Suchanek <msuchanek@suse.de>
-> ---
-> v2: Avoid error on systems with kmod that does not support config
-> command
-> ---
->   Makefile          | 4 +++-
->   scripts/depmod.sh | 8 ++++----
->   2 files changed, 7 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index 47690c28456a..b1fea135bdec 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1165,7 +1165,9 @@ export INSTALL_DTBS_PATH ?= $(INSTALL_PATH)/dtbs/$(KERNELRELEASE)
->   # makefile but the argument can be passed to make if needed.
->   #
->   
-> -MODLIB	= $(INSTALL_MOD_PATH)/lib/modules/$(KERNELRELEASE)
-> +export KERNEL_MODULE_PREFIX := $(shell kmod config &> /dev/null && kmod config | jq -r .module_prefix)
-> +
-> +MODLIB	= $(INSTALL_MOD_PATH)$(KERNEL_MODULE_PREFIX)/lib/modules/$(KERNELRELEASE)
->   export MODLIB
->   
->   PHONY += prepare0
-> diff --git a/scripts/depmod.sh b/scripts/depmod.sh
-> index 3643b4f896ed..88ac79056153 100755
-> --- a/scripts/depmod.sh
-> +++ b/scripts/depmod.sh
-> @@ -27,16 +27,16 @@ fi
->   # numbers, so we cheat with a symlink here
->   depmod_hack_needed=true
->   tmp_dir=$(mktemp -d ${TMPDIR:-/tmp}/depmod.XXXXXX)
-> -mkdir -p "$tmp_dir/lib/modules/$KERNELRELEASE"
-> +mkdir -p "$tmp_dir$KERNEL_MODULE_PREFIX/lib/modules/$KERNELRELEASE"
->   if "$DEPMOD" -b "$tmp_dir" $KERNELRELEASE 2>/dev/null; then
-> -	if test -e "$tmp_dir/lib/modules/$KERNELRELEASE/modules.dep" -o \
-> -		-e "$tmp_dir/lib/modules/$KERNELRELEASE/modules.dep.bin"; then
-> +	if test -e "$tmp_dir$KERNEL_MODULE_PREFIX/lib/modules/$KERNELRELEASE/modules.dep" -o \
-> +		-e "$tmp_dir$KERNEL_MODULE_PREFIX/lib/modules/$KERNELRELEASE/modules.dep.bin"; then
->   		depmod_hack_needed=false
->   	fi
->   fi
->   rm -rf "$tmp_dir"
->   if $depmod_hack_needed; then
-> -	symlink="$INSTALL_MOD_PATH/lib/modules/99.98.$KERNELRELEASE"
-> +	symlink="$INSTALL_MOD_PATH$KERNEL_MODULE_PREFIX/lib/modules/99.98.$KERNELRELEASE"
->   	ln -s "$KERNELRELEASE" "$symlink"
->   	KERNELRELEASE=99.98.$KERNELRELEASE
->   fi
-
+thanks,
 -- 
 js
 suse labs
-
