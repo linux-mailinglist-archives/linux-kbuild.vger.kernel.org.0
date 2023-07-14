@@ -2,88 +2,148 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF7F67537D8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jul 2023 12:21:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8414575387E
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jul 2023 12:43:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235467AbjGNKVC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Jul 2023 06:21:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35250 "EHLO
+        id S235279AbjGNKnD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 14 Jul 2023 06:43:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236082AbjGNKVB (ORCPT
+        with ESMTP id S234953AbjGNKnC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Jul 2023 06:21:01 -0400
-Received: from mail-ej1-x64a.google.com (mail-ej1-x64a.google.com [IPv6:2a00:1450:4864:20::64a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55F3F2702
-        for <linux-kbuild@vger.kernel.org>; Fri, 14 Jul 2023 03:20:59 -0700 (PDT)
-Received: by mail-ej1-x64a.google.com with SMTP id a640c23a62f3a-993d500699fso96699466b.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 14 Jul 2023 03:20:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1689330058; x=1691922058;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ake/2lNPSYG4Kup6Znr90jxcuDjnCQa+kK9QxHmxIwE=;
-        b=FdFgSbE9EX08KPCV3DFRa0KauNWmUSSKQuD9KCfK4mOB1MOb00hUTblNSomfgkxhXE
-         lktUE68J2GJstAUj/3c+jsVLoFGKsyNmD+spCDoSEq9pliOoU/eTeGKuECVOQJrW96JW
-         0DVOb7zMv+7uYhP2k11Kxl4mudnbg+7chPKt8ON/beLgn35QBKRpxoMgV1d5B1uNfFG3
-         AgxMMV52IQLUcoM3lpUr88qrhOm889EDxsbpie2PXgMV/VEPfl+Rvtil+sLok6f8e1nb
-         hqEwDY8sB3TJuxoDWtQB6lvtOAXTfuQNn+0jvX40UPp1Eoy/88cODPzkhRG3lBSO3Q1c
-         ul/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689330058; x=1691922058;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ake/2lNPSYG4Kup6Znr90jxcuDjnCQa+kK9QxHmxIwE=;
-        b=GUDc4Hg0PSccuLSDcf5jOBFeUMu1ZQcF6ud1E6m3LvCLVGhrXOj5maD80Lcnt1gp/+
-         8G3q/KUyD/y4uJMaF8fGR7GnPTdfss7mI1qpws7BPYQQlf+NoS5AfhfGj3EjwOoTnic5
-         3X+Dcnih5wiQTfYkaezWK1EnGY+8Gm+iohQx5K6McVi7LUsy62PXy9lN5MYa+iGv0Me/
-         9eWc1M7WVrcS8lP5t2jmhmArsBGJwjvRHW4g7WtAql++Op/Q6SBzPfPlEtEj1SO9WIuG
-         ASxePZzfNj0gjw6dENIZX5PNjhcLowS5byEywROo3zNncxPreiSj9ilMdLnQnL34Qihc
-         35RA==
-X-Gm-Message-State: ABy/qLZS73p/38w6fX8XcjzBOK/VHpSohshpKLN3KJpIZQzha52eL5ow
-        tmDJeqD2DIy8NUzxDJjUuxvldS8M9bAK7/A=
-X-Google-Smtp-Source: APBJJlFUTjwiYHQXGcSMMNCtJzQc7XCp95jN1C2fnAoH9M2eakhZaTVLYzm8MTgye2tlwRUOsp8FX+gnfVMrb1M=
-X-Received: from aliceryhl.c.googlers.com ([fda3:e722:ac3:cc00:31:98fb:c0a8:6c8])
- (user=aliceryhl job=sendgmr) by 2002:a17:906:8a62:b0:978:67a2:f503 with SMTP
- id hy2-20020a1709068a6200b0097867a2f503mr8783ejc.12.1689330057916; Fri, 14
- Jul 2023 03:20:57 -0700 (PDT)
-Date:   Fri, 14 Jul 2023 10:15:01 +0000
-In-Reply-To: <20230714-classless_lockdep-v1-1-229b9671ce31@asahilina.net>
-Mime-Version: 1.0
-References: <20230714-classless_lockdep-v1-1-229b9671ce31@asahilina.net>
-X-Mailer: git-send-email 2.41.0.255.g8b1d071c50-goog
-Message-ID: <20230714101501.2194205-1-aliceryhl@google.com>
-Subject: Re: [PATCH RFC 01/11] rust: types: Add Opaque::zeroed()
-From:   Alice Ryhl <aliceryhl@google.com>
-To:     lina@asahilina.net
-Cc:     alex.gaynor@gmail.com, alyssa@rosenzweig.io, asahi@lists.linux.dev,
-        benno.lossin@proton.me, bjorn3_gh@protonmail.com,
-        boqun.feng@gmail.com, daniel@ffwll.ch, gary@garyguo.net,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev, marcan@marcan.st, masahiroy@kernel.org,
-        nathan@kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu,
-        ojeda@kernel.org, rust-for-linux@vger.kernel.org,
-        sven@svenpeter.dev, trix@redhat.com, wedsonaf@gmail.com,
-        Alice Ryhl <aliceryhl@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Fri, 14 Jul 2023 06:43:02 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 481A72D7D;
+        Fri, 14 Jul 2023 03:42:53 -0700 (PDT)
+Received: from leknes.fjasle.eu ([46.142.49.15]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1N5lvf-1ps8Ok2epH-017CtL; Fri, 14 Jul 2023 12:42:13 +0200
+Received: by leknes.fjasle.eu (Postfix, from userid 1000)
+        id D561D3E8B6; Fri, 14 Jul 2023 12:42:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
+        t=1689331332; bh=VbtTiOb3pj67buXnCTmEAlGgzMMxWUTXwxnvZuk4Xp4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=d3/gxwudV53G2YvmCI65zt4LtGzb9FXtZXtieUiGSHZk5qU58I1WZiQNlyh0XJG2m
+         UMQrTV8h9Eu/Bx17sfKcntheRBLqnjovLaQzWmV2c0273qt0RJ2R70PCxRps2I4trW
+         VpWavTKE35DqWLzdQuGxjCV20s+lBPlGgQcQQsJk=
+Date:   Fri, 14 Jul 2023 12:42:11 +0200
+From:   Nicolas Schier <nicolas@fjasle.eu>
+To:     Alexey Dobriyan <adobriyan@gmail.com>
+Cc:     akpm@linux-foundation.org, masahiroy@kernel.org, nathan@kernel.org,
+        ndesaulniers@google.com, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH] kbuild: flatten KBUILD_CFLAGS
+Message-ID: <ZLEmgxm73zzmffWD@fjasle.eu>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="0Cqt7gF9l+Mxlu9M"
+Content-Disposition: inline
+In-Reply-To: <4f414a87-0c54-44bd-b218-f6f0b22c57ef@p183>
+X-Provags-ID: V03:K1:pXlRpCei6t48Xe832x9jG0u+dF34XzEwMra9E3u68U7X4sJ1nZL
+ E8WgYvFA0Z/Ai6uJsuHLXgUHBMZnAE+AegVRoFnk3A/YFOPN54RviliNMOm4/jR9UU4wPRg
+ IRHaH+HAWQcPe15etQSE24X7V5CcHiQqO1PV1Ter0mIHx8A+y1nqeBYQgzbedH8t9SszLp/
+ d9PMLrUVJwSPWRBetY/lA==
+UI-OutboundReport: notjunk:1;M01:P0:iiBMgfWDDUg=;BvGKpF2FEwM6xE6lGgOv+mD2TER
+ R27VwYXzkvrcAcxMksWWxp+hHczreaVtafh0F0BdvuI0RisWXMzZ4mDqLAt1WRTX5NQwaZ96l
+ eM27sLrb7/gB+X1//ZXm7j8mS0xNKs/mz853VnfwVfwHnaSe869bsmWp+mBQCWv01avfFT1Lk
+ leleFY/4izgNpZks+5mRm3KnjERo1Y8FFjiDrpHwX2YFXHOWLRxmKJtdXAmaPIBllluOOgLHz
+ hE+xwhMBUhzU9RWtPszy9sJdoXzV81rPooLPEUzZFCxz0+1QPbK0Ijx9XBbsz1tLNS8hcGCHk
+ 1ThAXjWfj65rkRwEfxYK/LHZieMR66jk+aV8WprTxWTw+G1L6nzQYOQaK1vBMBIeqGje9ikoV
+ tuRj1xebbP4If1exXGat4LeJy4e6NE/Azq0IZofnwhhidie/s41ex+YS7HZGQv4cpNZ/A8vwX
+ WLMExJYax5cVtpY6912nfMm9LI4Duae9suB7ovbs8/rcg9dL8SjumuzTPbPbaAcpMqDrAbInB
+ 8tcOB/N4LYTM3oO3kDf4rpJlqcJcaH2XfRQaFRSnjrNmYlGQopywuYP1/cIz3TcxOJALHJZUL
+ HSwCgDXOaAnUx/AmDcEn3YjyKyR2q4Pxa2VGL9MTyxLscrUIdUk0p3abh7tiTSRFLvzjlNy7g
+ B8roXL388xSPw9blrX3gC4F+4FjDZ80ZgyVmH1SdNQ==
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,URIBL_BLOCKED
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Asahi Lina <lina@asahilina.net> writes:
-> Opaque types are internally MaybeUninit, so it's safe to actually
-> zero-initialize them as long as we don't claim they are initialized.
-> This is useful for many FFI types that are expected to be zero-inited by
-> the user.
-> 
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
 
-LGTM. This is useful on its own.
+--0Cqt7gF9l+Mxlu9M
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+On Thu, Jul 13, 2023 at 09:52:28PM +0300, Alexey Dobriyan wrote:
+> Make it slightly easier to see which compiler options are added and
+> removed (and not worry about column limit too!).
+>=20
+> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+> ---
+>=20
+>  Makefile |   22 +++++++++++++++++-----
+>  1 file changed, 17 insertions(+), 5 deletions(-)
+>=20
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -555,11 +555,23 @@ LINUXINCLUDE    :=3D \
+>  		$(USERINCLUDE)
+> =20
+>  KBUILD_AFLAGS   :=3D -D__ASSEMBLY__ -fno-PIE
+> -KBUILD_CFLAGS   :=3D -Wall -Wundef -Werror=3Dstrict-prototypes -Wno-trig=
+raphs \
+> -		   -fno-strict-aliasing -fno-common -fshort-wchar -fno-PIE \
+> -		   -Werror=3Dimplicit-function-declaration -Werror=3Dimplicit-int \
+> -		   -Werror=3Dreturn-type -Wno-format-security -funsigned-char \
+> -		   -std=3Dgnu11
+> +
+> +KBUILD_CFLAGS :=3D
+> +KBUILD_CFLAGS +=3D -std=3Dgnu11
 
+If you want to put -std at top, on contrast to the sorted options below,
+you could also merge the two lines above.
+
+> +KBUILD_CFLAGS +=3D -fshort-wchar
+> +KBUILD_CFLAGS +=3D -funsigned-char
+> +KBUILD_CFLAGS +=3D -fno-common
+> +KBUILD_CFLAGS +=3D -fno-PIE
+> +KBUILD_CFLAGS +=3D -fno-strict-aliasing
+> +KBUILD_CFLAGS +=3D -Wall
+> +KBUILD_CFLAGS +=3D -Wundef
+> +KBUILD_CFLAGS +=3D -Werror=3Dimplicit-function-declaration
+> +KBUILD_CFLAGS +=3D -Werror=3Dimplicit-int
+> +KBUILD_CFLAGS +=3D -Werror=3Dreturn-type
+> +KBUILD_CFLAGS +=3D -Werror=3Dstrict-prototypes
+> +KBUILD_CFLAGS +=3D -Wno-format-security
+> +KBUILD_CFLAGS +=3D -Wno-trigraphs
+> +
+>  KBUILD_CPPFLAGS :=3D -D__KERNEL__
+>  KBUILD_RUSTFLAGS :=3D $(rust_common_flags) \
+>  		    --target=3D$(objtree)/scripts/target.json \
+
+Thanks for the patch.
+
+Reviewed-by: Nicolas Schier <n.schier@avm.de>
+
+--=20
+epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
+=E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
+     -- frykten for herren er opphav til kunnskap --
+
+--0Cqt7gF9l+Mxlu9M
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmSxJoMACgkQB1IKcBYm
+EmlvNQ//cAJl2yEh6GztQ9N5MczsTK+goBJfyZT930kb7ogIqrUu2mL7WzbPEMou
+fcb+DIWEwoc+WSmRawUf2k9aGEkuiGzY4sVWFfDIxbJyfHaQEnIdQbFpP7Wg4iFW
+DAtlH8H2bi3sQgzPXDJHPbL+GmzppQHO/iEqUX8sco8Ti0N0vBt5foYSH8pgU3rZ
+V6g5sTxZ4potPKgA9T/686AkEGDwLgFz8OgdEz01lzOZ+Gwh+nXSDZRhjvachVGr
+C5d/cSno7DPDFmYK+JVkdXFi/waobG9agHW7YoqPMGBjCBvTH2Ojnm0mzIk5V5mf
+DsP2ZME0Hjn9mncuYDJCnb2CTPn6wG4qqlMz4I6S52Hfy7Y39YUpDdAilu/bWruE
+avCR2jQAtM7aOrRjuou1E8KzXJpPLAB+8OB8Lae6gadRPqRral3LdUcW9rJnXHOw
+nQUZaQmgtYgMyeMgPf3jYVpnWbKh2wze5O7aYiYG3ERs+S0vReW/u5KPXUxDhmHy
+s/Vy0FqgSHjyWimy/ie8cxl9gpkjuYYhKEn973/GtOl6IcA3VdA5kuwYGXXixiyV
+C3ofKI3HbCs02chIpTdlzIgoEVzq/FtKvXa9Fby15zzWt4ySCtv939r5P7OIzpbL
+dpMo9jhN8bEB/wpswoTRuscEHpP5AhAm2obe1A4NY6OJoONCKsw=
+=QTTE
+-----END PGP SIGNATURE-----
+
+--0Cqt7gF9l+Mxlu9M--
