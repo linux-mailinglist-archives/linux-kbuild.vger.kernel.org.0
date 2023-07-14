@@ -2,119 +2,79 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AA937540DE
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jul 2023 19:46:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 567F475431E
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jul 2023 21:16:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236269AbjGNRpr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Jul 2023 13:45:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60998 "EHLO
+        id S236226AbjGNTQS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 14 Jul 2023 15:16:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236281AbjGNRpo (ORCPT
+        with ESMTP id S232966AbjGNTQR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Jul 2023 13:45:44 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C6DB3A87;
-        Fri, 14 Jul 2023 10:45:12 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-307d58b3efbso2319908f8f.0;
-        Fri, 14 Jul 2023 10:45:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689356703; x=1691948703;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pZ8IZ8lNs4pM9mPhnJiJ66il3qOi6HFdQct21c/MdmM=;
-        b=BIT/8Qw4WSsENwEntqu8li1JhIeyfnGuk4INah5C2gJZRATQi/5hWatMBpoCH//TLx
-         NrsCIiuUzg/ENxdptrTeyvRYCGrNtSO68fTFtp6mLxUOkqZ2vB/1mxps+QwY58xvR7g5
-         kDzSAmOl2/epOon9ZqgBinIOHNqeXEiEtQxbkWqahFtkXlSuGXY1Bok3Ix0NL6uFbtnr
-         7LHwprgle081B5el7N0aYu4jrnNCgLYcNO3sSifjOeQlBqj1MdymdRRdjXL4aHrKDUSL
-         KDcMJmL4Arp9nanj9FbxJwGHWqRmesIngi2bRnyrqLa/42wSxLB+w3rnkys9C0Y9sgxU
-         bYzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689356703; x=1691948703;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pZ8IZ8lNs4pM9mPhnJiJ66il3qOi6HFdQct21c/MdmM=;
-        b=beqP2QnwuBlvmyfqJm7xqDHaDUBse8krZjfV2DmN+Ml7GtTV/77pVZhcUy55DB13K5
-         bDgcRlq1gHnxLU9sarYFeYQDksLYAauYGtJoBq6DTpxKPZPUxvSn6DarF7y94+4eUwfe
-         0IROGWDIioY4ISAUHrW3pqbLCiw3SnRcTBgVxt1WbMun+uObOZSzCaFfMInSXAkdegMw
-         tZGLSs1FVS50oTu36e7PgxMyCJLbK8VgDZr097h1FQwHSveMRQg54vjQh/ZQkfGYdsao
-         2OhOviC8jgwEm3GEP6s1479TQDPCOSRH3uIULsvlJ8IglVQqtdwdAXaWEmqtWv2tl4rw
-         Jpzg==
-X-Gm-Message-State: ABy/qLbJIzDzce3fwbVL2+HY4dnXuOHs3I7O5MuZaHlGt24UNlwDhrog
-        sCUz5rz/IPJRHIgU5cwgf9OZlx1Vdw==
-X-Google-Smtp-Source: APBJJlHPR0EHXofkrCZdaso3z451jhgkwG0CPlBxQBlyX/lq+JyTD9+Pro49H67ErbelTVw4A5KdUg==
-X-Received: by 2002:adf:de12:0:b0:315:8a13:ef16 with SMTP id b18-20020adfde12000000b003158a13ef16mr5056464wrm.69.1689356703273;
-        Fri, 14 Jul 2023 10:45:03 -0700 (PDT)
-Received: from p183 ([46.53.248.195])
-        by smtp.gmail.com with ESMTPSA id f10-20020adff98a000000b003159d2dabbasm11423415wrr.94.2023.07.14.10.45.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jul 2023 10:45:02 -0700 (PDT)
-Date:   Fri, 14 Jul 2023 20:45:00 +0300
-From:   Alexey Dobriyan <adobriyan@gmail.com>
-To:     Nicolas Schier <nicolas@fjasle.eu>
-Cc:     akpm@linux-foundation.org, masahiroy@kernel.org, nathan@kernel.org,
-        ndesaulniers@google.com, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] kbuild: flatten KBUILD_CFLAGS
-Message-ID: <4dc7e56c-6692-4d4c-a8d2-05abe4501e66@p183>
-References: <4f414a87-0c54-44bd-b218-f6f0b22c57ef@p183>
- <ZLEmgxm73zzmffWD@fjasle.eu>
+        Fri, 14 Jul 2023 15:16:17 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0160635AC
+        for <linux-kbuild@vger.kernel.org>; Fri, 14 Jul 2023 12:16:17 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id D11B02DC;
+        Fri, 14 Jul 2023 19:16:15 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D11B02DC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1689362176; bh=9+KAduSppuO0HKOQyBqeDDZ71UMKFOK16uTR3b+q4Oc=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=ca0mlRY4IZyNuy+qg8P2/TH5v2y8/gdue0t4DkL61MERD8blmiYf+4nTR7mCqJHQY
+         LQA3gOp7/gkFUt56kbkOkDyxbu5Xxlxm81ky7JBPdPZAJu8WlqLN1tj9wr6rsInlfC
+         Vkvyr9Pe28WRwEuGIMqCTGrMye6ktH3eqkf0RfaJgGJqVeewdsDSJWmPAXiBx1Gfix
+         3KNl0CgaupABUf8V6whvs9g3XZunfUVYOxoaoYhOUDdyVtpUrijGQHRxFRty5iPAxt
+         SoUSbfe1cjWM82J6TDqE5utCUn+kSmPQPv8O0dV8ZgRAE3fG5TE0TfszdTnGxcg+y6
+         wSuSijBvyiC/Q==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Jesse Taube <mr.bossman075@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] kconfig: docs: mention gconfig at top of kconfig.rst
+In-Reply-To: <20230704000120.8098-1-rdunlap@infradead.org>
+References: <20230704000120.8098-1-rdunlap@infradead.org>
+Date:   Fri, 14 Jul 2023 13:16:15 -0600
+Message-ID: <87mszyz4lc.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZLEmgxm73zzmffWD@fjasle.eu>
+Content-Type: text/plain
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jul 14, 2023 at 12:42:11PM +0200, Nicolas Schier wrote:
-> On Thu, Jul 13, 2023 at 09:52:28PM +0300, Alexey Dobriyan wrote:
-> > Make it slightly easier to see which compiler options are added and
-> > removed (and not worry about column limit too!).
-> > 
-> > Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
-> > ---
-> > 
-> >  Makefile |   22 +++++++++++++++++-----
-> >  1 file changed, 17 insertions(+), 5 deletions(-)
-> > 
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -555,11 +555,23 @@ LINUXINCLUDE    := \
-> >  		$(USERINCLUDE)
-> >  
-> >  KBUILD_AFLAGS   := -D__ASSEMBLY__ -fno-PIE
-> > -KBUILD_CFLAGS   := -Wall -Wundef -Werror=strict-prototypes -Wno-trigraphs \
-> > -		   -fno-strict-aliasing -fno-common -fshort-wchar -fno-PIE \
-> > -		   -Werror=implicit-function-declaration -Werror=implicit-int \
-> > -		   -Werror=return-type -Wno-format-security -funsigned-char \
-> > -		   -std=gnu11
-> > +
-> > +KBUILD_CFLAGS :=
-> > +KBUILD_CFLAGS += -std=gnu11
-> 
-> If you want to put -std at top, on contrast to the sorted options below,
-> you could also merge the two lines above.
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-I don't know. Standard choice is arguably the most important option
-so I put it first.
+> Jesse mentioned that gconfig is missing from the top of the
+> kconfig.rst file, so add it for completeness.
+>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Link: lore.kernel.org/r/CAJFTR8QgYykuEq_AkODEWPUYXncKgRBHOncxT=ypZTQODkyarw@mail.gmail.com
+> Cc: Jesse Taube <mr.bossman075@gmail.com>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: linux-kbuild@vger.kernel.org
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Cc: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: Nicolas Schier <nicolas@fjasle.eu>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  Documentation/kbuild/kconfig.rst |    2 ++
+>  1 file changed, 2 insertions(+)
 
-> > +KBUILD_CFLAGS += -fshort-wchar
-> > +KBUILD_CFLAGS += -funsigned-char
-> > +KBUILD_CFLAGS += -fno-common
-> > +KBUILD_CFLAGS += -fno-PIE
-> > +KBUILD_CFLAGS += -fno-strict-aliasing
-> > +KBUILD_CFLAGS += -Wall
-> > +KBUILD_CFLAGS += -Wundef
-> > +KBUILD_CFLAGS += -Werror=implicit-function-declaration
-> > +KBUILD_CFLAGS += -Werror=implicit-int
-> > +KBUILD_CFLAGS += -Werror=return-type
-> > +KBUILD_CFLAGS += -Werror=strict-prototypes
-> > +KBUILD_CFLAGS += -Wno-format-security
-> > +KBUILD_CFLAGS += -Wno-trigraphs
+Applied, thanks.
+
+jon
