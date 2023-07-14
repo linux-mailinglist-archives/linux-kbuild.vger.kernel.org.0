@@ -2,65 +2,45 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 59622753AA4
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jul 2023 14:21:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08DA5753BE6
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jul 2023 15:38:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235759AbjGNMVb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Jul 2023 08:21:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34422 "EHLO
+        id S235526AbjGNNiW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 14 Jul 2023 09:38:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235408AbjGNMVb (ORCPT
+        with ESMTP id S235219AbjGNNiW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Jul 2023 08:21:31 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45ED11FD6;
-        Fri, 14 Jul 2023 05:21:29 -0700 (PDT)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id EE2E522103;
-        Fri, 14 Jul 2023 12:21:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1689337287; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=lNe8idGh8AhD5+hHQZpsPL59psm6FR8/RCbKm61pH2E=;
-        b=vXsRp0tcRJfFimJyLjP1QbJiQYuZM44d0JGuYNbqmsTbljBQfa8L/PCC9IsL9jmQrY2Q7/
-        WHdQfKyuREK5Ip3zI2vJrQUYX79dx1PVCtMeNkL/lznHyrVp9GKIgLfl7dokv6HZmPM7os
-        bP/dWnmewq+L0YEO2NsOz45co+RXEIc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1689337287;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=lNe8idGh8AhD5+hHQZpsPL59psm6FR8/RCbKm61pH2E=;
-        b=CjXy6UpXkH0Qcw/+xNiDCQzr5EuOWwWs5h20kXpoN74P429a0cZptMvcu/5Zc265vTdbNo
-        7CW9sEC7RpW9iPAQ==
-Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
-        by relay2.suse.de (Postfix) with ESMTP id 91DC02C142;
-        Fri, 14 Jul 2023 12:21:27 +0000 (UTC)
-From:   Michal Suchanek <msuchanek@suse.de>
-To:     linux-modules@vger.kernel.org
-Cc:     Michal Suchanek <msuchanek@suse.de>, Takashi Iwai <tiwai@suse.com>,
+        Fri, 14 Jul 2023 09:38:22 -0400
+Received: from a3.inai.de (a3.inai.de [IPv6:2a01:4f8:10b:45d8::f5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2480A2D73;
+        Fri, 14 Jul 2023 06:38:20 -0700 (PDT)
+Received: by a3.inai.de (Postfix, from userid 25121)
+        id 673AC58ECE726; Fri, 14 Jul 2023 15:38:18 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by a3.inai.de (Postfix) with ESMTP id 66987619D0BB2;
+        Fri, 14 Jul 2023 15:38:18 +0200 (CEST)
+Date:   Fri, 14 Jul 2023 15:38:18 +0200 (CEST)
+From:   Jan Engelhardt <jengelh@inai.de>
+To:     Michal Suchanek <msuchanek@suse.de>
+cc:     linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
         Lucas De Marchi <lucas.de.marchi@gmail.com>,
-        =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-        Jiri Slaby <jslaby@suse.com>, Jan Engelhardt <jengelh@inai.de>,
+        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+        Jiri Slaby <jslaby@suse.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
         linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] depmod: Handle installing modules under a prefix
-Date:   Fri, 14 Jul 2023 14:21:08 +0200
-Message-ID: <20230714122111.7528-1-msuchanek@suse.de>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <30d8c675-e769-e567-a81f-c1b59c66ad67@suse.com>
-References: <30d8c675-e769-e567-a81f-c1b59c66ad67@suse.com>
+Subject: Re: [PATCH v3] depmod: Handle installing modules under a prefix
+In-Reply-To: <20230714122111.7528-1-msuchanek@suse.de>
+Message-ID: <s4sr75q4-5120-5sp5-7751-noqs9q67904q@vanv.qr>
+References: <30d8c675-e769-e567-a81f-c1b59c66ad67@suse.com> <20230714122111.7528-1-msuchanek@suse.de>
+User-Agent: Alpine 2.25 (LSU 592 2021-09-18)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,71 +48,17 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Some distributions aim at not shipping any files in / outside of usr.
 
-The path under which kernel modules are installed is hardcoded to /lib
-which conflicts with this goal.
+On Friday 2023-07-14 14:21, Michal Suchanek wrote:
 
-When kmod provides the config command, use it to determine the correct
-module installation prefix.
+>Some distributions aim at not shipping any files in / outside of usr.
+>
+>The path under which kernel modules are installed is hardcoded to /lib
+>which conflicts with this goal.
+>
+>+MODLIB	= $(INSTALL_MOD_PATH)$(KERNEL_MODULE_PREFIX)/lib/modules/$(KERNELRELEASE)
 
-This is a prefix under which the modules are searched by kmod on the
-system, and is separate from the temporary staging location already
-supported by INSTALL_MOD_PATH.
-
-With kmod that does not provide the config command empty prefix is used
-as before.
-
-Signed-off-by: Michal Suchanek <msuchanek@suse.de>
----
-v2: Avoid error on systems with kmod that does not support config
-command
-v3: More verbose commit message
----
- Makefile          | 4 +++-
- scripts/depmod.sh | 8 ++++----
- 2 files changed, 7 insertions(+), 5 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index 47690c28456a..b1fea135bdec 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1165,7 +1165,9 @@ export INSTALL_DTBS_PATH ?= $(INSTALL_PATH)/dtbs/$(KERNELRELEASE)
- # makefile but the argument can be passed to make if needed.
- #
- 
--MODLIB	= $(INSTALL_MOD_PATH)/lib/modules/$(KERNELRELEASE)
-+export KERNEL_MODULE_PREFIX := $(shell kmod config &> /dev/null && kmod config | jq -r .module_prefix)
-+
-+MODLIB	= $(INSTALL_MOD_PATH)$(KERNEL_MODULE_PREFIX)/lib/modules/$(KERNELRELEASE)
- export MODLIB
- 
- PHONY += prepare0
-diff --git a/scripts/depmod.sh b/scripts/depmod.sh
-index 3643b4f896ed..88ac79056153 100755
---- a/scripts/depmod.sh
-+++ b/scripts/depmod.sh
-@@ -27,16 +27,16 @@ fi
- # numbers, so we cheat with a symlink here
- depmod_hack_needed=true
- tmp_dir=$(mktemp -d ${TMPDIR:-/tmp}/depmod.XXXXXX)
--mkdir -p "$tmp_dir/lib/modules/$KERNELRELEASE"
-+mkdir -p "$tmp_dir$KERNEL_MODULE_PREFIX/lib/modules/$KERNELRELEASE"
- if "$DEPMOD" -b "$tmp_dir" $KERNELRELEASE 2>/dev/null; then
--	if test -e "$tmp_dir/lib/modules/$KERNELRELEASE/modules.dep" -o \
--		-e "$tmp_dir/lib/modules/$KERNELRELEASE/modules.dep.bin"; then
-+	if test -e "$tmp_dir$KERNEL_MODULE_PREFIX/lib/modules/$KERNELRELEASE/modules.dep" -o \
-+		-e "$tmp_dir$KERNEL_MODULE_PREFIX/lib/modules/$KERNELRELEASE/modules.dep.bin"; then
- 		depmod_hack_needed=false
- 	fi
- fi
- rm -rf "$tmp_dir"
- if $depmod_hack_needed; then
--	symlink="$INSTALL_MOD_PATH/lib/modules/99.98.$KERNELRELEASE"
-+	symlink="$INSTALL_MOD_PATH$KERNEL_MODULE_PREFIX/lib/modules/99.98.$KERNELRELEASE"
- 	ln -s "$KERNELRELEASE" "$symlink"
- 	KERNELRELEASE=99.98.$KERNELRELEASE
- fi
--- 
-2.41.0
-
+Ok, so if the problem statement is that hardcoded paths are bad, then why
+continue to hardcode the "/lib/modules" fragment? Just make it so that
+KERNEL_MODULE_PREFIX can be set to the exact string "/usr/lib/modules" and not
+just "/usr".
