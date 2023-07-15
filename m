@@ -2,46 +2,46 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A28CA75495E
-	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Jul 2023 16:35:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5908754980
+	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Jul 2023 16:52:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230014AbjGOOfR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 15 Jul 2023 10:35:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47568 "EHLO
+        id S229824AbjGOOwh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 15 Jul 2023 10:52:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229567AbjGOOfP (ORCPT
+        with ESMTP id S229812AbjGOOwf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 15 Jul 2023 10:35:15 -0400
-Received: from GBR01-LO2-obe.outbound.protection.outlook.com (mail-lo2gbr01on2135.outbound.protection.outlook.com [40.107.10.135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BA2530D8;
-        Sat, 15 Jul 2023 07:35:13 -0700 (PDT)
+        Sat, 15 Jul 2023 10:52:35 -0400
+Received: from GBR01-CWL-obe.outbound.protection.outlook.com (mail-cwlgbr01on2098.outbound.protection.outlook.com [40.107.11.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F15F72D40;
+        Sat, 15 Jul 2023 07:52:33 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z7iM0mlmyfYI1s9XvQgWQOwDoaor3edQcgW9nAppX5oP9BEGslsxNvGwthv6fznBi9IdTMhzKjMKBaOx2qlqpE3+ol8QVcNmUnhGPmIE45mVs71gjQmUuk8MPhMa1l5BHmfdj9pQP1MHngcPx2+ccVFwc4DtKC/zrtm7K1TvhQFycgkg6rb659sjCTWuU3h+UWs1tJhbqK9xqwWml2uY70WDwoipr7Vq0sFxr4MfZtzMu09N3uq2R6n1gqBjGVo7BgdqamR+cMS6cCXufn0JzRqZB042JCUHu0RA0MK2MOF+JWN4KbMlvkmbkNM2xq5SLhP1fUIc4C0BZZUs59bfiw==
+ b=dNvS4zEtyG8zaXI23VmKjTUTl86kuWKrLs1UmHuJn3wfMzOi5CHtTgctmCvLVBdmp1QxVd7ZKAKJwrfHRZaGUf1lerEOTGE8f4Vg1c7AsqQ1l+/2nrZapgKxIeFbL7XtY0IfzKN/f0yXDmZNz9534Lg0U8KNhTA+KWi+fahmY+8M9nxFv50/Ub9wQ9SPziDb4cF7KkuKY3k86nZ0NaMKNtM0gMBgkwLfLLLS0tNpRdoCWtln3ccBCIoh4PI/raZdTbGiIqw1Fl2J88HjKJkdxLZY5Kkw888F1rD4DI3YJF/MzdsjCBhClZeeRRgDNTptIHqkqCzr2H2le31l07HVAQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P/YU58dVboyHe/jGXIbLrQut4hMLj8oZ6yTH3zIOtXw=;
- b=I2sTVLGlHDesuDQs72mNoz/1qfTapoW7pLvZPEzf8HyK/20L/czlar2ie0tWotxxJqnuLUqQHCYg+QMgIRX442SFyfOlp9rDDIb+ql9RXpBgAS6p/iXS+qWal6MHrx0gLIzFSKReUywQ7nGwhKrIrOTgmsiWj65h3NuARauNR5wdWnGxjDmttdVovE42AWkPDcGQHzGYtnyID1cXDcgsJB+u2OgBBlfFM/zxxznrr7FlQZjq+5e2fqCuyC1aWfGEzyg4NnZ0s1E95rKHjXoK9zaiTac4Odq1lT2rQQDpVz8PEw5kzhpUGp6s2ySLuI/ZgkxBunfXrlX5+PydvOdE9A==
+ bh=WPWATc+9D19MzC4IbUaWB1fhVmvN6k2Zas2FyV/Sn2M=;
+ b=oWMM4nSwITZUfpgpOYtLAPBWjo1cB36aVtvlOLwjr6OOxJq8CZn3vptA3Z30VjFPDxhXjeh/k5UhcyYvT487Uij5OBktHOxo3Ok5F+b7ttJUJAXODAf6swJQOuIHo50gs6CYDnMW0/Uv5IPC1++QA7ZL7/oX2MAdyCudBllnjR/Ievf1VWRENTwv4iqeFlxjZLa0l8v9bovkLm974ezSVlpJrdVHKLRqpxs+cO8arF8ikwMyzwrIddjNZa1rnfeKtEmEKCvbzpb42fQAEhZXlctrjGod8Htl3rB+kfu9Bje25z6skDW3aa+THyizLmxwRX1B88xic7CyHPel9ZK5uQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
  dkim=pass header.d=garyguo.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P/YU58dVboyHe/jGXIbLrQut4hMLj8oZ6yTH3zIOtXw=;
- b=UBPi3rC7EUYZQvju5VBpLVtYE+8VghpvXlc6cT0aE+ZfVfLt5mDRGPNRvYHrrVBt9WXPSjcwaHEp6lUtYjH8GgxLMJMEgxpqC1GWaDUoAP72KQK3cVy38ihdD6QE6JjZNrKc0dbm0qd//MG6M2WiUNewLOO6DShMAEgnLe8jhl4=
+ bh=WPWATc+9D19MzC4IbUaWB1fhVmvN6k2Zas2FyV/Sn2M=;
+ b=xM+fLaH0dFxbNUR/crDrJvauZKOYkCoMteIMpLmYrHtA0WreXUfkFaIz9N1Ib7cEiiNSvyKCT7WFZ6jw4W3fNUjA5bH584KiAac5WAXc4wkfnZ3UlqoKKB/z1UfBPX6GblFS7YlErATVAnstv+KPDiLhx7alNGy1hU3MCCdS0lM=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=garyguo.net;
 Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:253::10)
- by LO0P265MB5842.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:1fe::8) with
+ by CWLP265MB7180.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1f6::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.28; Sat, 15 Jul
- 2023 14:35:11 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.31; Sat, 15 Jul
+ 2023 14:52:31 +0000
 Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
  ([fe80::25e2:a08b:cd9c:c3c9]) by LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
  ([fe80::25e2:a08b:cd9c:c3c9%3]) with mapi id 15.20.6588.028; Sat, 15 Jul 2023
- 14:35:11 +0000
-Date:   Sat, 15 Jul 2023 15:35:09 +0100
+ 14:52:31 +0000
+Date:   Sat, 15 Jul 2023 15:52:29 +0100
 From:   Gary Guo <gary@garyguo.net>
 To:     Asahi Lina <lina@asahilina.net>
 Cc:     Miguel Ojeda <ojeda@kernel.org>,
@@ -61,66 +61,66 @@ Cc:     Miguel Ojeda <ojeda@kernel.org>,
         asahi@lists.linux.dev, rust-for-linux@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
         llvm@lists.linux.dev
-Subject: Re: [PATCH RFC 03/11] rust: Use absolute paths to build Rust
- objects
-Message-ID: <20230715153509.64a7ac38.gary@garyguo.net>
-In-Reply-To: <20230714-classless_lockdep-v1-3-229b9671ce31@asahilina.net>
+Subject: Re: [PATCH RFC 04/11] rust: siphash: Add a simple siphash
+ abstraction
+Message-ID: <20230715155229.6cb338dd.gary@garyguo.net>
+In-Reply-To: <20230714-classless_lockdep-v1-4-229b9671ce31@asahilina.net>
 References: <20230714-classless_lockdep-v1-0-229b9671ce31@asahilina.net>
-        <20230714-classless_lockdep-v1-3-229b9671ce31@asahilina.net>
+        <20230714-classless_lockdep-v1-4-229b9671ce31@asahilina.net>
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO2P265CA0171.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:a::15) To LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO2P123CA0079.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:138::12) To LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
  (2603:10a6:600:253::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LO2P265MB5183:EE_|LO0P265MB5842:EE_
-X-MS-Office365-Filtering-Correlation-Id: f53e94cc-63fe-4d0a-8343-08db8540b1e4
+X-MS-TrafficTypeDiagnostic: LO2P265MB5183:EE_|CWLP265MB7180:EE_
+X-MS-Office365-Filtering-Correlation-Id: ac078316-7ac2-438f-111b-08db85431ddf
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iTJZDqSaN9yX2sU6PXHA8BqywBBp0YoPZq0Re6GpUS1AJAAAQy++UYrkVwkUMhT3IeP2tO8Hi7XG+2jZRbQBHt6W/b/Qt+AKhDAbPk4IivnNMLXx5Su0pPQB2g7leHwpCnFK7AvrZHqb/m7fYcoTkUI+zkGPt59pGbC9jyQkLVW/HaWvhpfL77jVHvPh19x6TQAFeYtsGouu/jwSa3h+QEzIJ+D8CfLRBGUxiawaTYc7kmo9K0R84zmnEI6ifJ4ONrzHjKuduj0Ka1DiA0Ts4Ah23GBp2QVWwS2gGYZXReZXGIdGNUrZvOw6Egr7KtfhO4znDrzgJgFm751vny0hITR5oZadrvRkHlCy5VP3VlvmxJcejslRhmk4SBzGg+VbOELUBVUQeYbC0Bq9268iQ6N69g5GXjZ3H38haMrHhwIULjjKncUeJDE3TGbdayxJMQ1CbAJZgLScXg6hbEdvZdBeRszAfZQCZ0Z8y9ywRZh85JigHOySpNugkznfDWx9Mbc0YHkao2TKHAIuwmpQe/vPJp/SigAvwR1lwAOomn/jmkB3Rn2nnSRw/WLRFBmM
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(366004)(136003)(376002)(396003)(39830400003)(346002)(451199021)(26005)(6506007)(38100700002)(1076003)(54906003)(478600001)(7416002)(5660300002)(8676002)(8936002)(4326008)(66946007)(66476007)(6916009)(66556008)(6486002)(6512007)(86362001)(41300700001)(316002)(2616005)(186003)(36756003)(2906002)(83380400001);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: rf+NcnqU/xtsXZmbLd6sBiHUNuoMVcSMIZ3jd88obzdn50noNQMA49mjrvhpAo5Q5FbAkKxbuI7HxGJi9sPsuNK9fyMqdCHFAOEVPwdzKwvaYAUdH733C423LUTf7dgCzp2ZN0sV6zlhod2dziLxyTLiOUbKKfTtTUQkWi5NZzJRRNj+Sja02FpSjWQuXqrFX7T4yGthR3mQtB18lNC0ea4ZDKbD+ZZJkHF3xPCDhRpzTUt5og2QeEBPHi4l4H7fUYQjGt6TexeljbeOxyvZELlAkedEgZ4BoV6xW78K9Z9q9pr5BvrvMmwSDc7eg5BOMUhxva3Iyog7ERt3Yb7hZUwSsWtLUJeO+dOxttR9eijBFVyndxVMrMidKY7pg1nT5bflTxOCVa4TJGcVTIke5OujuRkM7V3Xh+c/GUa702bAN7YNG58fY2wNRI2Z36O5tdRxzlUwFx3d6ZmjQYXVwqNsRD+jCKVCO6qeuM2G28hCOWio9Pd/jIVkrcuPwCl38+7WPH/eWirnVv+SuKQE/Nj6sR2aH2VibXL5XbagJQMaXGAlfG1UoUFSCo4nE7Qv
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(396003)(39830400003)(346002)(376002)(366004)(136003)(451199021)(54906003)(38100700002)(6486002)(478600001)(41300700001)(8676002)(5660300002)(8936002)(66946007)(66556008)(66476007)(6916009)(4326008)(316002)(2616005)(186003)(83380400001)(6512007)(6506007)(1076003)(26005)(86362001)(36756003)(7416002)(2906002);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?t+NJB46rFLuZ/TPxksnVNgs1DL6DXOCKdc5XrxNFjmdSL+LWgZlZdpYFSDEg?=
- =?us-ascii?Q?7C/BOGo8hSzkTXMeCptunTDH9AZgUB2w7mk0cDHkwkW9x3ip9h+vWBWEBuzd?=
- =?us-ascii?Q?fzr2P5o0b8A7IZZARPzHs3OoitWeQtJo/da0nfZDjmBXP4Pa8T2F6wFkFXq0?=
- =?us-ascii?Q?pEDgWDnftJZfX6UdxdFM+Xl9qR239PZ9P3vgdgGyEeFlA1Th359whiZo5Yf5?=
- =?us-ascii?Q?mENJZkLiZPi/3tBaRs7rYykbHl6Ar5EVb27HOm8sQ35O8mPceMThOgFBiNmB?=
- =?us-ascii?Q?XUr2ssfbBlYr+TsXJFY/gfUubweLAr/fVpZnA7J3Q2v2DbZ7hPQ8XJR8TqX+?=
- =?us-ascii?Q?eqYO5nD2/zlAE18uAdkX89DzIoMbW5dzwIBB9C/rqaHLk++m3GkjXLlTaPVD?=
- =?us-ascii?Q?aTSdvs8pFQxL6GTP+tThbnKK2EetLZ29hxqhxD4keHunVsbBTITbjj+e29jE?=
- =?us-ascii?Q?593vdgmyMvE+bQAExgFzek4gITMiDLFXw4JlXWtKuDpbUf9PGW8JNXE1KZz3?=
- =?us-ascii?Q?wkKJYxNwNl9PEV02MPjhgQ6ygxeDshKTNLyXreSmUE/JLokQGuEmtN4gjyOi?=
- =?us-ascii?Q?YVheH7dGcnmgT0Qg7QTGckyy1Qxug0SvhCBMyZt1Or5bN8wx2oYmsoh/W+FM?=
- =?us-ascii?Q?Q+TMq6JWk1Bm/YtNYNlzR10qLdYmooOjREUrnDmddxthYMngr8Iqjl2K5bIw?=
- =?us-ascii?Q?/nFL9yct/qrRQKdDcpnGdrIEmzbD6ZcW9mHxm+qFhCtisOSBVllwT57bjcQx?=
- =?us-ascii?Q?Ab4ccdugXcKrmz9uJsdpZ9VaaDqsWEsctHNmA157Ycw4V245Na05oWGKTHzZ?=
- =?us-ascii?Q?jZKVQ8C5LZsFN+wXni5ylVKrobj0K5smmEWHsquLFUDF1dxPsHC+qV8fq/AN?=
- =?us-ascii?Q?8t4D1HPWJFNKEC6UcjFXQcs9E9zfJYdvwqusK+qKpcOBX1DX9ixCT+v/VNy6?=
- =?us-ascii?Q?vTiDKE1wpjJhzYCxOCmxpynr9cTdjs2TegiDdRKXpIHvCzNePnmwter5QIBE?=
- =?us-ascii?Q?If0eFWjB9xOdhyIAf23fEFPC5+pwynbr8WaC3FiaeXh4T914Dqa5VYbBll7J?=
- =?us-ascii?Q?kTpfsvZlvqn18V4F3cFSWaxxWaOoANfi/L5bxQxCJG9c1iMfdtj+TbYnshIr?=
- =?us-ascii?Q?bqUGpR25AWgJx6T0L67EsKUSVKjaqY0FUCrgQOYIT/Xx1sCxdWhDajJqkX+x?=
- =?us-ascii?Q?sPJAIkrgPiFvTeO0TXr/ywDz7r6OjaBw51rJ67HgQ9E+XOk6PV5PzE9YhbMF?=
- =?us-ascii?Q?cuSNiLa35kfWRZjdJvh9F+HsPojsvsXhDXuSSoD7zp1f6OHZSsGariGVTi5g?=
- =?us-ascii?Q?JjogQL8OR5WKUQSrGiboiQ+4YxGSk6/xsHbYU0N8mxguNG6kxPA4tt5h6bHa?=
- =?us-ascii?Q?qf1yU8Bpw8igCWYZIEdEmrej8ht3ZpeiaqHdKu9wgju8v0bgtD48vg9nM+Od?=
- =?us-ascii?Q?C0ujE04LtBv+clHI3i98289CUXEtyoiHaG/61GOxtGiDPVO38gIc4QgpVZ3V?=
- =?us-ascii?Q?a0a8/PXpC1lMxYE9Gt04bDcs087yeNArS+PznA7GQHF3q6JWad2X6WWKIK1L?=
- =?us-ascii?Q?EbczJNB9BW2el+pWje5eRHuI2LsQZYr1wKyf58Nj?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YSCalzzJpv1RyWdfFhyFcaTtzEm2L3AvLHW8RIhJhs95j9DnQst9CO1kw7/k?=
+ =?us-ascii?Q?ZNbzZ0CwX2dCsRInWLc0JAXgxZK3+3Fb49b/I+69M+hhFDMx5ARiBt2WDyDy?=
+ =?us-ascii?Q?/NAbCviG0OG0pFwAOeU0gtNSj63VIXiQo7p/li/QEMPTE31kOm+73U2KUn7O?=
+ =?us-ascii?Q?1ikIftc2WxHWcOtKfnM46Kl05+xFVhPRF6FFReB+Q/3z8DfswITMH0GkiYPs?=
+ =?us-ascii?Q?+FaGAGJ8VDJhqzXs1MF6THI39sf6HwSQfePsITXDT/1Va0gjll2luscUo+H1?=
+ =?us-ascii?Q?HSaiZIOhv53LSaxF6Om11MDhxio+GU4pzl/9W8/Twr0rHGXEAEJ3zkL9eRe3?=
+ =?us-ascii?Q?I9Rq6///bYT6hfKnLvgR+yjBTk0ye/yvRZz8lzBxeyeCVR++jWzgfDEfeMMe?=
+ =?us-ascii?Q?rCaj5tlf8hLzYucokawM77i1RZAcGnz6dIkArolXNVN4ztq9OGGGoUGljXtK?=
+ =?us-ascii?Q?0b9lCOiprz0VvThxanR/5zGB7v5MuP4qpsG7ASNlZrwhuTJMEVGmcz2l8efO?=
+ =?us-ascii?Q?Cj1VUz8pIDg692cydkM2F6od1mcEeB9oEKof2CzowwWP1mZsubRmSdrbrhzl?=
+ =?us-ascii?Q?KgP5oReZafec1PD6evP8VgtYQKFLaPrHmonwHJGit6KSqgll8I7nCH45cVch?=
+ =?us-ascii?Q?5ch0ZdLEipPVm4X/ZgXtUB0PeBB40NShPQpoV4d0scewWaScWerRIm2nHNfZ?=
+ =?us-ascii?Q?JvJM9j/tpjNyRX05+o7KjmMzLq6FKSzQTghD+DSf5Q2ypK2F9lKLKB5SumXx?=
+ =?us-ascii?Q?ajzukKLXaZFJz53TmvrUMsup2ZnNgPpF5DWRQrnxeBRw5uEr9yPpXtv8qfMR?=
+ =?us-ascii?Q?MA+VRMUiFoyNKE8MhTkKusQo8K36ppgAjQgLK4DKfs43ICHvETeNNNADJTo8?=
+ =?us-ascii?Q?URC23f0fwPXIvH3ftGOr1McaV8jfnnYaV2ArV23p/AJbEQ/CFblewK+6xyAY?=
+ =?us-ascii?Q?r2u3f+2g1171GIEvfg2RrxPQK1F62uqCZG97kqz5qjeJc3YeFq7j7Bob3rFB?=
+ =?us-ascii?Q?TY/y25apZKvJJsVy1exp/kKVeOq7q4iOULLOOAV1ayVHUwbYk7BQH8/7ccHB?=
+ =?us-ascii?Q?Hx/mAOruQG+ZMOOi8bOdRYzSnqVFqV8otCPNH9JwvIWHZvbBesDSFlt9dxFm?=
+ =?us-ascii?Q?keCZC53mfQqFqlDP7kmWiGVY3ISlu16R1Ze/IYApRIqd4DV9zXK/l3kJGOrA?=
+ =?us-ascii?Q?qIgm1f7U0IWAfsBR8Rfq2yj3Wy3pPeJErLNYkasfRlndvxO7zYAT5wOfKk6a?=
+ =?us-ascii?Q?y5OtEvfSpvP3QiCEUX6qOlmZM0q0foYRC+10CoEceK2hRTi1iVqo0IISO/Gl?=
+ =?us-ascii?Q?GyLXA0/PgXRXg7t3uElYKycvYuEcNJVS2xzSXwIulY1icR3Q1XmmUW8PaCf4?=
+ =?us-ascii?Q?YF1F6NJH/tPiaMk9tGS1TmNfCBTBfAy0EQqbFSPUa5MnMWgSsxLzeBTg/hMF?=
+ =?us-ascii?Q?9TDgI2oF7OziVwjZhq4D1NHNOfKVNg3mvNzv4Ws8LvkRVvFZHMYz1Ke9VoCT?=
+ =?us-ascii?Q?oHWczmzw9kLkRErHX+7T2RSStrwCn5FL9zOpVa1D8xtUrKJbyexFdB0h2vPp?=
+ =?us-ascii?Q?Yghyrjqji8dV1W0caQAG3aJx9IwntL70h11qAc+T?=
 X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: f53e94cc-63fe-4d0a-8343-08db8540b1e4
+X-MS-Exchange-CrossTenant-Network-Message-Id: ac078316-7ac2-438f-111b-08db85431ddf
 X-MS-Exchange-CrossTenant-AuthSource: LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2023 14:35:11.3205
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2023 14:52:31.4935
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Y01ISNgsZ2JbwHNKsu7OEflRkBejkGY2FXy12/xDwpz1Dnj2fOWiz3QiZlTWixeEWSqYkZLyrQRiiFrEF4EWzg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB5842
+X-MS-Exchange-CrossTenant-UserPrincipalName: qEYOyXIpBFpdZzeU4yclYKLyCq+6/lj9Rx6I0/MyRkGe8lxxjHzweyCNtbPi7eD4FAN2M9mak6CK8UFxkx5e9w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB7180
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
@@ -131,77 +131,125 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, 14 Jul 2023 18:13:55 +0900
+On Fri, 14 Jul 2023 18:13:56 +0900
 Asahi Lina <lina@asahilina.net> wrote:
 
-> We want to use caller_location to uniquely identify callsites, to
-> automatically create lockdep classes without macros. The location
-> filename in local code uses the relative path passed to the compiler,
-> but if that code is generic and instantiated from another crate, the
-> path becomes absolute.
-> 
-> To make this work and keep the paths consistent, always pass an absolute
-> path to the compiler. Then the Location path is always identical
-> regardless of how the code is being compiled.
-
-I wonder if this can have some reproducible build implications. We
-probably also need to use remap-path-prefix?
-
+> This simple wrapper allows Rust code to use the Hasher interface with
+> the kernel siphash implementation. No fancy features supported for now,
+> just basic bag-of-bytes hashing. No guarantee that hash outputs will
+> remain stable in the future either.
 > 
 > Signed-off-by: Asahi Lina <lina@asahilina.net>
 > ---
->  rust/Makefile          | 2 +-
->  scripts/Makefile.build | 8 ++++----
->  2 files changed, 5 insertions(+), 5 deletions(-)
+>  rust/bindings/bindings_helper.h |  1 +
+>  rust/helpers.c                  |  8 ++++++++
+>  rust/kernel/lib.rs              |  1 +
+>  rust/kernel/siphash.rs          | 39 +++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 49 insertions(+)
 > 
-> diff --git a/rust/Makefile b/rust/Makefile
-> index 7c9d9f11aec5..552f023099c8 100644
-> --- a/rust/Makefile
-> +++ b/rust/Makefile
-> @@ -369,7 +369,7 @@ quiet_cmd_rustc_library = $(if $(skip_clippy),RUSTC,$(RUSTC_OR_CLIPPY_QUIET)) L
->  		--emit=dep-info=$(depfile) --emit=obj=$@ \
->  		--emit=metadata=$(dir $@)$(patsubst %.o,lib%.rmeta,$(notdir $@)) \
->  		--crate-type rlib -L$(objtree)/$(obj) \
-> -		--crate-name $(patsubst %.o,%,$(notdir $@)) $< \
-> +		--crate-name $(patsubst %.o,%,$(notdir $@)) $(abspath $<) \
->  	$(if $(rustc_objcopy),;$(OBJCOPY) $(rustc_objcopy) $@)
+> diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
+> index 3e601ce2548d..52f32e423b04 100644
+> --- a/rust/bindings/bindings_helper.h
+> +++ b/rust/bindings/bindings_helper.h
+> @@ -10,6 +10,7 @@
+>  #include <linux/slab.h>
+>  #include <linux/refcount.h>
+>  #include <linux/wait.h>
+> +#include <linux/siphash.h>
+>  #include <linux/sched.h>
 >  
->  rust-analyzer:
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 6413342a03f4..c925b90ebd80 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -283,27 +283,27 @@ rust_common_cmd = \
->  # would not match each other.
+>  /* `bindgen` gets confused at certain things. */
+> diff --git a/rust/helpers.c b/rust/helpers.c
+> index bb594da56137..1ed71315d1eb 100644
+> --- a/rust/helpers.c
+> +++ b/rust/helpers.c
+> @@ -24,6 +24,7 @@
+>  #include <linux/errname.h>
+>  #include <linux/refcount.h>
+>  #include <linux/mutex.h>
+> +#include <linux/siphash.h>
+>  #include <linux/spinlock.h>
+>  #include <linux/sched/signal.h>
+>  #include <linux/wait.h>
+> @@ -135,6 +136,13 @@ void rust_helper_put_task_struct(struct task_struct *t)
+>  }
+>  EXPORT_SYMBOL_GPL(rust_helper_put_task_struct);
 >  
->  quiet_cmd_rustc_o_rs = $(RUSTC_OR_CLIPPY_QUIET) $(quiet_modtag) $@
-> -      cmd_rustc_o_rs = $(rust_common_cmd) --emit=obj=$@ $<
-> +      cmd_rustc_o_rs = $(rust_common_cmd) --emit=obj=$@ $(abspath $<)
->  
->  $(obj)/%.o: $(src)/%.rs FORCE
->  	$(call if_changed_dep,rustc_o_rs)
->  
->  quiet_cmd_rustc_rsi_rs = $(RUSTC_OR_CLIPPY_QUIET) $(quiet_modtag) $@
->        cmd_rustc_rsi_rs = \
-> -	$(rust_common_cmd) -Zunpretty=expanded $< >$@; \
-> +	$(rust_common_cmd) -Zunpretty=expanded $(abspath $<) >$@; \
->  	command -v $(RUSTFMT) >/dev/null && $(RUSTFMT) $@
->  
->  $(obj)/%.rsi: $(src)/%.rs FORCE
->  	$(call if_changed_dep,rustc_rsi_rs)
->  
->  quiet_cmd_rustc_s_rs = $(RUSTC_OR_CLIPPY_QUIET) $(quiet_modtag) $@
-> -      cmd_rustc_s_rs = $(rust_common_cmd) --emit=asm=$@ $<
-> +      cmd_rustc_s_rs = $(rust_common_cmd) --emit=asm=$@ $(abspath $<)
->  
->  $(obj)/%.s: $(src)/%.rs FORCE
->  	$(call if_changed_dep,rustc_s_rs)
->  
->  quiet_cmd_rustc_ll_rs = $(RUSTC_OR_CLIPPY_QUIET) $(quiet_modtag) $@
-> -      cmd_rustc_ll_rs = $(rust_common_cmd) --emit=llvm-ir=$@ $<
-> +      cmd_rustc_ll_rs = $(rust_common_cmd) --emit=llvm-ir=$@ $(abspath $<)
->  
->  $(obj)/%.ll: $(src)/%.rs FORCE
->  	$(call if_changed_dep,rustc_ll_rs)
+> +u64 rust_helper_siphash(const void *data, size_t len,
+> +			const siphash_key_t *key)
+> +{
+> +	return siphash(data, len, key);
+> +}
+> +EXPORT_SYMBOL_GPL(rust_helper_siphash);
+> +
+>  /*
+>   * We use `bindgen`'s `--size_t-is-usize` option to bind the C `size_t` type
+>   * as the Rust `usize` type, so we can use it in contexts where Rust
+> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+> index 85b261209977..8fb39078b85c 100644
+> --- a/rust/kernel/lib.rs
+> +++ b/rust/kernel/lib.rs
+> @@ -36,6 +36,7 @@
+>  pub mod ioctl;
+>  pub mod prelude;
+>  pub mod print;
+> +pub mod siphash;
+>  mod static_assert;
+>  #[doc(hidden)]
+>  pub mod std_vendor;
+> diff --git a/rust/kernel/siphash.rs b/rust/kernel/siphash.rs
+> new file mode 100644
+> index 000000000000..e13a17cd5a93
+> --- /dev/null
+> +++ b/rust/kernel/siphash.rs
+> @@ -0,0 +1,39 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +//! A core::hash::Hasher wrapper for the kernel siphash implementation.
+> +//!
+> +//! This module allows Rust code to use the kernel's siphash implementation
+> +//! to hash Rust objects.
+> +
+> +use core::hash::Hasher;
+> +
+> +/// A Hasher implementation that uses the kernel siphash implementation.
+> +#[derive(Default)]
+> +pub struct SipHasher {
+> +    // SipHash state is 4xu64, but the Linux implementation
+> +    // doesn't expose incremental hashing so let's just chain
+> +    // individual SipHash calls for now, which return a u64
+> +    // hash.
+
+This is actually quite a big difference, which makes me think that this
+hasher probably shouldn't be called `SipHasher`.
+
+Actually, do we need a strong hash? Given that lock dep is only for
+debugging purposes, I think we can use fnv, or even just fx hash?
+They're all simple enough to be implemented in a couple of lines in
+Rust and wouldn't need to call into FFI.
+
+> +    state: u64,
+> +}
+> +
+> +impl SipHasher {
+> +    /// Create a new SipHasher with zeroed state.
+> +    pub fn new() -> Self {
+> +        SipHasher { state: 0 }
+> +    }
+> +}
+> +
+> +impl Hasher for SipHasher {
+> +    fn finish(&self) -> u64 {
+> +        self.state
+> +    }
+> +
+> +    fn write(&mut self, bytes: &[u8]) {
+> +        let key = bindings::siphash_key_t {
+> +            key: [self.state, 0],
+> +        };
+> +
+> +        self.state = unsafe { bindings::siphash(bytes.as_ptr() as *const _, bytes.len(), &key) };
+> +    }
+> +}
 > 
 
