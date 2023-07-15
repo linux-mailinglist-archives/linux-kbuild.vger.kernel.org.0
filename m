@@ -2,46 +2,46 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 68849754959
-	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Jul 2023 16:30:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A28CA75495E
+	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Jul 2023 16:35:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229809AbjGOOaG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 15 Jul 2023 10:30:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46780 "EHLO
+        id S230014AbjGOOfR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 15 Jul 2023 10:35:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229534AbjGOOaF (ORCPT
+        with ESMTP id S229567AbjGOOfP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 15 Jul 2023 10:30:05 -0400
-Received: from GBR01-LO2-obe.outbound.protection.outlook.com (mail-lo2gbr01on2138.outbound.protection.outlook.com [40.107.10.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27384E4E;
-        Sat, 15 Jul 2023 07:30:03 -0700 (PDT)
+        Sat, 15 Jul 2023 10:35:15 -0400
+Received: from GBR01-LO2-obe.outbound.protection.outlook.com (mail-lo2gbr01on2135.outbound.protection.outlook.com [40.107.10.135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BA2530D8;
+        Sat, 15 Jul 2023 07:35:13 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BftPUfT4Chz0cGK1R9CGXByrUpSlywApAHxitvOsPLmNINkFfogRyfwXRw8doCwWRythmCVk9gDRxw2Q5Uz4m3ecBgT2L6xv0M4pswsqJux5Dm4bZ4k+cm5CpDsDkOVWTYhhvORb0KYyn5feo39m9ojpbYVA5Fgh2RWuJ3mdPU/YAxTCqdKn7sv26AMpT0YlURtkU7Eg7pJGijxlgs7XEQPDJpP5/9LjA0InyfSNPq3lY/Ljf9HnsO6jgzQxkQSFcZYM9wCze/JYwbmn9KHLlDLbR1XQ+EntJjhK//gsmt01F+xYWFonnepfnZI9q5CyuyCIPD5kMmpM/5d3GXb/Yg==
+ b=Z7iM0mlmyfYI1s9XvQgWQOwDoaor3edQcgW9nAppX5oP9BEGslsxNvGwthv6fznBi9IdTMhzKjMKBaOx2qlqpE3+ol8QVcNmUnhGPmIE45mVs71gjQmUuk8MPhMa1l5BHmfdj9pQP1MHngcPx2+ccVFwc4DtKC/zrtm7K1TvhQFycgkg6rb659sjCTWuU3h+UWs1tJhbqK9xqwWml2uY70WDwoipr7Vq0sFxr4MfZtzMu09N3uq2R6n1gqBjGVo7BgdqamR+cMS6cCXufn0JzRqZB042JCUHu0RA0MK2MOF+JWN4KbMlvkmbkNM2xq5SLhP1fUIc4C0BZZUs59bfiw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eSni92YchIqmk0kjLLtMpnJkPgkBEOUB/GKKTpy8Etk=;
- b=f0UKZqJGeBjvxmJkGh/q5hGRYyfONiLZ9u0B8j5XsuSkpVopIsLLJuifWrUBoEu9jtw5ujmXnqWymk4Jalj+8TqmiQDccUnQdwk30tj+4FpuDPuEtkqhz9TgMHdzVHRhPBOUAOAW3P4MEaysWCFoYFGcELCaJhdRmSYjHRfg0ZFpzXmF9J46t2XE752klLXhzJxR+xbpJYpQfPS5KSehooJeNbKjJBjn8fpL7QMWPFsN6e7YZlzVgmSlLaljnfFA3H5RbK1jufJhcxLIsez6I4MhDT7txTjBT7PWN5LmzW03KExAuKxSets7UTutNZisKkLHaPyunOADBLEz1YJI6A==
+ bh=P/YU58dVboyHe/jGXIbLrQut4hMLj8oZ6yTH3zIOtXw=;
+ b=I2sTVLGlHDesuDQs72mNoz/1qfTapoW7pLvZPEzf8HyK/20L/czlar2ie0tWotxxJqnuLUqQHCYg+QMgIRX442SFyfOlp9rDDIb+ql9RXpBgAS6p/iXS+qWal6MHrx0gLIzFSKReUywQ7nGwhKrIrOTgmsiWj65h3NuARauNR5wdWnGxjDmttdVovE42AWkPDcGQHzGYtnyID1cXDcgsJB+u2OgBBlfFM/zxxznrr7FlQZjq+5e2fqCuyC1aWfGEzyg4NnZ0s1E95rKHjXoK9zaiTac4Odq1lT2rQQDpVz8PEw5kzhpUGp6s2ySLuI/ZgkxBunfXrlX5+PydvOdE9A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
  dkim=pass header.d=garyguo.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eSni92YchIqmk0kjLLtMpnJkPgkBEOUB/GKKTpy8Etk=;
- b=fq/LslKBIBPeiOW50wCmJxJEyUuKqWcGv553ezEK8F1duT1zx2JYgQNxS9rIKj+uj9KNDWZbzGDp+jwAt15O/WjqIhSxE9TKAXp1LtDRpoD9S9BcdpEkosB99QY02ki+Yw9HcQ63+RSKBLnPupwcN5pRiOK06y4wehBYmceY8Us=
+ bh=P/YU58dVboyHe/jGXIbLrQut4hMLj8oZ6yTH3zIOtXw=;
+ b=UBPi3rC7EUYZQvju5VBpLVtYE+8VghpvXlc6cT0aE+ZfVfLt5mDRGPNRvYHrrVBt9WXPSjcwaHEp6lUtYjH8GgxLMJMEgxpqC1GWaDUoAP72KQK3cVy38ihdD6QE6JjZNrKc0dbm0qd//MG6M2WiUNewLOO6DShMAEgnLe8jhl4=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=garyguo.net;
 Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:253::10)
  by LO0P265MB5842.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:1fe::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.28; Sat, 15 Jul
- 2023 14:30:00 +0000
+ 2023 14:35:11 +0000
 Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
  ([fe80::25e2:a08b:cd9c:c3c9]) by LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
  ([fe80::25e2:a08b:cd9c:c3c9%3]) with mapi id 15.20.6588.028; Sat, 15 Jul 2023
- 14:30:00 +0000
-Date:   Sat, 15 Jul 2023 15:29:58 +0100
+ 14:35:11 +0000
+Date:   Sat, 15 Jul 2023 15:35:09 +0100
 From:   Gary Guo <gary@garyguo.net>
 To:     Asahi Lina <lina@asahilina.net>
 Cc:     Miguel Ojeda <ojeda@kernel.org>,
@@ -61,64 +61,65 @@ Cc:     Miguel Ojeda <ojeda@kernel.org>,
         asahi@lists.linux.dev, rust-for-linux@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
         llvm@lists.linux.dev
-Subject: Re: [PATCH RFC 02/11] rust: lock: Add Lock::pin_init()
-Message-ID: <20230715152958.527fba87.gary@garyguo.net>
-In-Reply-To: <20230714-classless_lockdep-v1-2-229b9671ce31@asahilina.net>
+Subject: Re: [PATCH RFC 03/11] rust: Use absolute paths to build Rust
+ objects
+Message-ID: <20230715153509.64a7ac38.gary@garyguo.net>
+In-Reply-To: <20230714-classless_lockdep-v1-3-229b9671ce31@asahilina.net>
 References: <20230714-classless_lockdep-v1-0-229b9671ce31@asahilina.net>
-        <20230714-classless_lockdep-v1-2-229b9671ce31@asahilina.net>
+        <20230714-classless_lockdep-v1-3-229b9671ce31@asahilina.net>
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P265CA0242.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:350::16) To LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO2P265CA0171.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:a::15) To LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
  (2603:10a6:600:253::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: LO2P265MB5183:EE_|LO0P265MB5842:EE_
-X-MS-Office365-Filtering-Correlation-Id: 450a2488-4dad-430d-783f-08db853ff857
+X-MS-Office365-Filtering-Correlation-Id: f53e94cc-63fe-4d0a-8343-08db8540b1e4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hFTylMusHX2ET9butq3JH+mO0WUjL1K9gSEPCinphvOQxqwsXnrispWcJLr3ptIZ3dPUrh2K1+DGAV3P0DxJbn7Jt6Ck9q0/fIwBb2XjwVJpAmpxQqYpuCOtUY5LfTEdFDO83EQ+lNOuaz9veOyi9ugzxykHjGyhpUg4CndQ8W3N05J50OjXXFKlQdPBkmOJbKrxF9fCo64KJJ2T+SUaKh5azD4H9gudi/f0/jn8uJPGLMSWPV07pmY949t1wsjj/tf4I4tOxLefwfdlP/DDUlep3/lVXC1d1WMg5TGcS3uM7N8U9sqS/G+oEC/+YtnBTa5Kx5xKaD4H+yhN0JcT23EV5hx18C2cAanlCBPMdxDppWDoUW7YWPhvLeD/PfDqVWX3TmGIl1P+dsLQahICXz/5LuiLMyi96QH9hUBG36tXHaTxJXpSdq3SWrUXtv1z/p+BFnDMp9nYysCHWASSLFl6wgF8AZMh4nPfs40LE169mTMBWvairRG+qw/lwdjhDOzebFx0AMZNj7j9q00/K9p3aEm0X+iYI4gcjic3N104NKS5LIJHNz8NtTD7pqwQ
+X-Microsoft-Antispam-Message-Info: iTJZDqSaN9yX2sU6PXHA8BqywBBp0YoPZq0Re6GpUS1AJAAAQy++UYrkVwkUMhT3IeP2tO8Hi7XG+2jZRbQBHt6W/b/Qt+AKhDAbPk4IivnNMLXx5Su0pPQB2g7leHwpCnFK7AvrZHqb/m7fYcoTkUI+zkGPt59pGbC9jyQkLVW/HaWvhpfL77jVHvPh19x6TQAFeYtsGouu/jwSa3h+QEzIJ+D8CfLRBGUxiawaTYc7kmo9K0R84zmnEI6ifJ4ONrzHjKuduj0Ka1DiA0Ts4Ah23GBp2QVWwS2gGYZXReZXGIdGNUrZvOw6Egr7KtfhO4znDrzgJgFm751vny0hITR5oZadrvRkHlCy5VP3VlvmxJcejslRhmk4SBzGg+VbOELUBVUQeYbC0Bq9268iQ6N69g5GXjZ3H38haMrHhwIULjjKncUeJDE3TGbdayxJMQ1CbAJZgLScXg6hbEdvZdBeRszAfZQCZ0Z8y9ywRZh85JigHOySpNugkznfDWx9Mbc0YHkao2TKHAIuwmpQe/vPJp/SigAvwR1lwAOomn/jmkB3Rn2nnSRw/WLRFBmM
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(366004)(136003)(376002)(396003)(39830400003)(346002)(451199021)(26005)(6506007)(38100700002)(1076003)(54906003)(478600001)(7416002)(5660300002)(8676002)(8936002)(4326008)(66946007)(66476007)(6916009)(66556008)(6486002)(6512007)(86362001)(41300700001)(316002)(2616005)(186003)(36756003)(2906002)(83380400001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?OeF0YcZnZ0v7Q5d3KX49OOEWPlWv96luqwJkOO/41NY1vsRQbY09GlBG3guy?=
- =?us-ascii?Q?+6Sq4JuUeZXmAEyMEzB6NhB3Z3Uxp8plka47sLVq+eqpVIwQKf6laUl2/P0a?=
- =?us-ascii?Q?chNZnwuaR4T5rAQ2Y6uJqi/u6Qv5njbk8/jv+9go80VhK0+VVIVybFRJfZ4I?=
- =?us-ascii?Q?epWB/n7UB3pdy6Q/K6pi5uKMUNR9N9SIKoLy4G0rAc1xc2BLFC9B38WA7CR6?=
- =?us-ascii?Q?HuLozasJowJAE5OR6vQTmFdZF/8hzaz3ySw/F1e5Orkwzt+3F/fZOYTN/37y?=
- =?us-ascii?Q?FPIToSBQ92XnsAPP8MMFy3veXucAwv1zJzArX3JY0DdXEClEbjHPyF3gEdNC?=
- =?us-ascii?Q?I3yqzny0RRVuutiGFn8cOx7gIfatqL2wn9BpuCMs1HI0yXdAF3miDVq3gxpS?=
- =?us-ascii?Q?EdINaUWxSoGUYl9y3v27NdWPRUb5XUSh+LaBb9tMEkL0V8JyWsOwb3NHyg8f?=
- =?us-ascii?Q?qlQo1WkruZU8htNvNe1tkoqFYIQC5h5RjVi7z1JEKrBhu+yCC+RwC/DFwic4?=
- =?us-ascii?Q?NjgDzeI6ML5ecTOuKIOiSM8v6RcVlNjZChRVF7bce7bx0BCtIJujFrvpcRCW?=
- =?us-ascii?Q?daMqBFIAqwV8V+MrtXFapgRJLFgWBXADgPuHczpMBhqdQiKQ4YfYR2vlXe+V?=
- =?us-ascii?Q?8eX3uEjF15+lnxlTzojUf501w2bZLPgxo/2ZGZS2R205FRbentDpH74u3fa7?=
- =?us-ascii?Q?xUzbJtk2vH82jWdZGEVFOyWwd0jbj9QHcbDBDb40ipEI0q8QJjk5samkBvGj?=
- =?us-ascii?Q?dqtEwZZo1q+2/KUoiDTSX51bTR5GS7W4WF0LVsuylW+oGZnNBvLJrZ4F0SMd?=
- =?us-ascii?Q?uthwjSR+rsxCnE9Ngp6xHHDr0yIeWI9wPvmSCWw8h0jZaGEHztXG6hsqV7ze?=
- =?us-ascii?Q?W8XRW1R0H55FkM4QFZ81gVUP6fA3aN0uqCRZ+JjWixxv0tRWrQF3gSmiax++?=
- =?us-ascii?Q?vZ7PE4j1QHIn6B9TQtxazbMut+YgnRqBjyM78LeFevBgjyaMBG/ToQA4IrfL?=
- =?us-ascii?Q?8Y24TmYetxctxUHYg25JuBtYsmdcm2RLFeIW0Kw55EbHVANIpzwa2ZTGJDg4?=
- =?us-ascii?Q?ZRUtYDugqGhyP/qizXs9YmwxElf8/uH9HkK5HzeLqi42w6AJl41pyD5qNDj0?=
- =?us-ascii?Q?OV601s5NnmoyYwH4aVCv7oWqCaYkXTb18LZ64s8kQXgMKuWneVCUnEl+B5sS?=
- =?us-ascii?Q?NGy+IdcEec9GavQEuLnK5sgMDUoDlys6KFR9O4lgTchloMPsJu9ndB/f563J?=
- =?us-ascii?Q?1jpZ3gNWamI3+k4CIcTcK+NKYHknIIOL2z54WAjzXL3804MNqnR8HJ4+BWjR?=
- =?us-ascii?Q?jBdYQqTCMs9ovFnFLLg189xo0A1p7qWkLQHUL6Rsmiy0OCOEndogVyOsfE4i?=
- =?us-ascii?Q?dhflJtT2Mi7YnaAo61h/PKbUTEXl+uue/0oSG14LRKGDWQxnuZFGHccP/RJb?=
- =?us-ascii?Q?M2ptifn/Tj64XmPaiwtlTD0PHXzPzE74FCdEm8AftK7n1fdaSoH2u+NclxZu?=
- =?us-ascii?Q?gglsoe1vgUvbm9EM5mjqBR4qoa+rgXjE8N2TnA0KM6+zYjoHrdH9BVgYfkGm?=
- =?us-ascii?Q?qGkMDkbvJqA77oxmopFuEDuAXj+SjplCLZExTUp2?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?t+NJB46rFLuZ/TPxksnVNgs1DL6DXOCKdc5XrxNFjmdSL+LWgZlZdpYFSDEg?=
+ =?us-ascii?Q?7C/BOGo8hSzkTXMeCptunTDH9AZgUB2w7mk0cDHkwkW9x3ip9h+vWBWEBuzd?=
+ =?us-ascii?Q?fzr2P5o0b8A7IZZARPzHs3OoitWeQtJo/da0nfZDjmBXP4Pa8T2F6wFkFXq0?=
+ =?us-ascii?Q?pEDgWDnftJZfX6UdxdFM+Xl9qR239PZ9P3vgdgGyEeFlA1Th359whiZo5Yf5?=
+ =?us-ascii?Q?mENJZkLiZPi/3tBaRs7rYykbHl6Ar5EVb27HOm8sQ35O8mPceMThOgFBiNmB?=
+ =?us-ascii?Q?XUr2ssfbBlYr+TsXJFY/gfUubweLAr/fVpZnA7J3Q2v2DbZ7hPQ8XJR8TqX+?=
+ =?us-ascii?Q?eqYO5nD2/zlAE18uAdkX89DzIoMbW5dzwIBB9C/rqaHLk++m3GkjXLlTaPVD?=
+ =?us-ascii?Q?aTSdvs8pFQxL6GTP+tThbnKK2EetLZ29hxqhxD4keHunVsbBTITbjj+e29jE?=
+ =?us-ascii?Q?593vdgmyMvE+bQAExgFzek4gITMiDLFXw4JlXWtKuDpbUf9PGW8JNXE1KZz3?=
+ =?us-ascii?Q?wkKJYxNwNl9PEV02MPjhgQ6ygxeDshKTNLyXreSmUE/JLokQGuEmtN4gjyOi?=
+ =?us-ascii?Q?YVheH7dGcnmgT0Qg7QTGckyy1Qxug0SvhCBMyZt1Or5bN8wx2oYmsoh/W+FM?=
+ =?us-ascii?Q?Q+TMq6JWk1Bm/YtNYNlzR10qLdYmooOjREUrnDmddxthYMngr8Iqjl2K5bIw?=
+ =?us-ascii?Q?/nFL9yct/qrRQKdDcpnGdrIEmzbD6ZcW9mHxm+qFhCtisOSBVllwT57bjcQx?=
+ =?us-ascii?Q?Ab4ccdugXcKrmz9uJsdpZ9VaaDqsWEsctHNmA157Ycw4V245Na05oWGKTHzZ?=
+ =?us-ascii?Q?jZKVQ8C5LZsFN+wXni5ylVKrobj0K5smmEWHsquLFUDF1dxPsHC+qV8fq/AN?=
+ =?us-ascii?Q?8t4D1HPWJFNKEC6UcjFXQcs9E9zfJYdvwqusK+qKpcOBX1DX9ixCT+v/VNy6?=
+ =?us-ascii?Q?vTiDKE1wpjJhzYCxOCmxpynr9cTdjs2TegiDdRKXpIHvCzNePnmwter5QIBE?=
+ =?us-ascii?Q?If0eFWjB9xOdhyIAf23fEFPC5+pwynbr8WaC3FiaeXh4T914Dqa5VYbBll7J?=
+ =?us-ascii?Q?kTpfsvZlvqn18V4F3cFSWaxxWaOoANfi/L5bxQxCJG9c1iMfdtj+TbYnshIr?=
+ =?us-ascii?Q?bqUGpR25AWgJx6T0L67EsKUSVKjaqY0FUCrgQOYIT/Xx1sCxdWhDajJqkX+x?=
+ =?us-ascii?Q?sPJAIkrgPiFvTeO0TXr/ywDz7r6OjaBw51rJ67HgQ9E+XOk6PV5PzE9YhbMF?=
+ =?us-ascii?Q?cuSNiLa35kfWRZjdJvh9F+HsPojsvsXhDXuSSoD7zp1f6OHZSsGariGVTi5g?=
+ =?us-ascii?Q?JjogQL8OR5WKUQSrGiboiQ+4YxGSk6/xsHbYU0N8mxguNG6kxPA4tt5h6bHa?=
+ =?us-ascii?Q?qf1yU8Bpw8igCWYZIEdEmrej8ht3ZpeiaqHdKu9wgju8v0bgtD48vg9nM+Od?=
+ =?us-ascii?Q?C0ujE04LtBv+clHI3i98289CUXEtyoiHaG/61GOxtGiDPVO38gIc4QgpVZ3V?=
+ =?us-ascii?Q?a0a8/PXpC1lMxYE9Gt04bDcs087yeNArS+PznA7GQHF3q6JWad2X6WWKIK1L?=
+ =?us-ascii?Q?EbczJNB9BW2el+pWje5eRHuI2LsQZYr1wKyf58Nj?=
 X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 450a2488-4dad-430d-783f-08db853ff857
+X-MS-Exchange-CrossTenant-Network-Message-Id: f53e94cc-63fe-4d0a-8343-08db8540b1e4
 X-MS-Exchange-CrossTenant-AuthSource: LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2023 14:30:00.0284
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2023 14:35:11.3205
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YFtxAxNNqyAsBxxg+qKhs9mm5L11LNadjHJFom6e3k8KhdZTAI+JRzxtlLD8Iv6fcgiILI3B63AGbxNEjH9GWw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Y01ISNgsZ2JbwHNKsu7OEflRkBejkGY2FXy12/xDwpz1Dnj2fOWiz3QiZlTWixeEWSqYkZLyrQRiiFrEF4EWzg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB5842
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
@@ -130,104 +131,77 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, 14 Jul 2023 18:13:54 +0900
+On Fri, 14 Jul 2023 18:13:55 +0900
 Asahi Lina <lina@asahilina.net> wrote:
 
-> Allow initializing a lock using pin_init!(), instead of requiring
-> the inner data to be passed through the stack.
+> We want to use caller_location to uniquely identify callsites, to
+> automatically create lockdep classes without macros. The location
+> filename in local code uses the relative path passed to the compiler,
+> but if that code is generic and instantiated from another crate, the
+> path becomes absolute.
+> 
+> To make this work and keep the paths consistent, always pass an absolute
+> path to the compiler. Then the Location path is always identical
+> regardless of how the code is being compiled.
+
+I wonder if this can have some reproducible build implications. We
+probably also need to use remap-path-prefix?
+
 > 
 > Signed-off-by: Asahi Lina <lina@asahilina.net>
 > ---
->  rust/kernel/sync/lock.rs       | 30 +++++++++++++++++++++++++++++-
->  rust/kernel/sync/lock/mutex.rs | 13 +++++++++++++
->  2 files changed, 42 insertions(+), 1 deletion(-)
+>  rust/Makefile          | 2 +-
+>  scripts/Makefile.build | 8 ++++----
+>  2 files changed, 5 insertions(+), 5 deletions(-)
 > 
-> diff --git a/rust/kernel/sync/lock.rs b/rust/kernel/sync/lock.rs
-> index a2216325632d..d493c5d19104 100644
-> --- a/rust/kernel/sync/lock.rs
-> +++ b/rust/kernel/sync/lock.rs
-> @@ -6,7 +6,9 @@
->  //! spinlocks, raw spinlocks) to be provided with minimal effort.
+> diff --git a/rust/Makefile b/rust/Makefile
+> index 7c9d9f11aec5..552f023099c8 100644
+> --- a/rust/Makefile
+> +++ b/rust/Makefile
+> @@ -369,7 +369,7 @@ quiet_cmd_rustc_library = $(if $(skip_clippy),RUSTC,$(RUSTC_OR_CLIPPY_QUIET)) L
+>  		--emit=dep-info=$(depfile) --emit=obj=$@ \
+>  		--emit=metadata=$(dir $@)$(patsubst %.o,lib%.rmeta,$(notdir $@)) \
+>  		--crate-type rlib -L$(objtree)/$(obj) \
+> -		--crate-name $(patsubst %.o,%,$(notdir $@)) $< \
+> +		--crate-name $(patsubst %.o,%,$(notdir $@)) $(abspath $<) \
+>  	$(if $(rustc_objcopy),;$(OBJCOPY) $(rustc_objcopy) $@)
 >  
->  use super::LockClassKey;
-> -use crate::{bindings, init::PinInit, pin_init, str::CStr, types::Opaque, types::ScopeGuard};
-> +use crate::{
-> +    bindings, init::PinInit, pin_init, str::CStr, try_pin_init, types::Opaque, types::ScopeGuard,
-> +};
->  use core::{cell::UnsafeCell, marker::PhantomData, marker::PhantomPinned};
->  use macros::pin_data;
+>  rust-analyzer:
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index 6413342a03f4..c925b90ebd80 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -283,27 +283,27 @@ rust_common_cmd = \
+>  # would not match each other.
 >  
-> @@ -87,6 +89,7 @@ pub struct Lock<T: ?Sized, B: Backend> {
->      _pin: PhantomPinned,
+>  quiet_cmd_rustc_o_rs = $(RUSTC_OR_CLIPPY_QUIET) $(quiet_modtag) $@
+> -      cmd_rustc_o_rs = $(rust_common_cmd) --emit=obj=$@ $<
+> +      cmd_rustc_o_rs = $(rust_common_cmd) --emit=obj=$@ $(abspath $<)
 >  
->      /// The data protected by the lock.
-> +    #[pin]
->      pub(crate) data: UnsafeCell<T>,
->  }
+>  $(obj)/%.o: $(src)/%.rs FORCE
+>  	$(call if_changed_dep,rustc_o_rs)
 >  
-> @@ -111,6 +114,31 @@ pub fn new(t: T, name: &'static CStr, key: &'static LockClassKey) -> impl PinIni
->              }),
->          })
->      }
-> +
-> +    /// Constructs a new lock initialiser taking an initialiser.
-> +    pub fn pin_init<E>(
-> +        t: impl PinInit<T, E>,
-> +        name: &'static CStr,
-> +        key: &'static LockClassKey,
-> +    ) -> impl PinInit<Self, E>
-> +    where
-> +        E: core::convert::From<core::convert::Infallible>,
-> +    {
-> +        try_pin_init!(Self {
-> +            // SAFETY: We are just forwarding the initialization across a
-> +            // cast away from UnsafeCell, so the pin_init_from_closure and
-> +            // __pinned_init() requirements are in sync.
-> +            data <- unsafe { crate::init::pin_init_from_closure(move |slot: *mut UnsafeCell<T>| {
-> +                t.__pinned_init(slot as *mut T)
-> +            })},
-> +            _pin: PhantomPinned,
-> +            // SAFETY: `slot` is valid while the closure is called and both `name` and `key` have
-> +            // static lifetimes so they live indefinitely.
-> +            state <- Opaque::ffi_init(|slot| unsafe {
-> +                B::init(slot, name.as_char_ptr(), key.as_ptr())
-> +            }),
-> +        }? E)
-> +    }
-
-I think you might be able to just modify the `new` function? We have a
-blanket implementation
-
-	impl<T> Init<T, Infallible> for T
-
-which makes any `T` also `impl PinInit`.
-
->  }
+>  quiet_cmd_rustc_rsi_rs = $(RUSTC_OR_CLIPPY_QUIET) $(quiet_modtag) $@
+>        cmd_rustc_rsi_rs = \
+> -	$(rust_common_cmd) -Zunpretty=expanded $< >$@; \
+> +	$(rust_common_cmd) -Zunpretty=expanded $(abspath $<) >$@; \
+>  	command -v $(RUSTFMT) >/dev/null && $(RUSTFMT) $@
 >  
->  impl<T: ?Sized, B: Backend> Lock<T, B> {
-> diff --git a/rust/kernel/sync/lock/mutex.rs b/rust/kernel/sync/lock/mutex.rs
-> index 923472f04af4..06fe685501b4 100644
-> --- a/rust/kernel/sync/lock/mutex.rs
-> +++ b/rust/kernel/sync/lock/mutex.rs
-> @@ -18,6 +18,19 @@ macro_rules! new_mutex {
->      };
->  }
+>  $(obj)/%.rsi: $(src)/%.rs FORCE
+>  	$(call if_changed_dep,rustc_rsi_rs)
 >  
-> +/// Creates a [`Mutex`] initialiser with the given name and a newly-created lock class,
-> +/// given an initialiser for the inner type.
-> +///
-> +/// It uses the name if one is given, otherwise it generates one based on the file name and line
-> +/// number.
-> +#[macro_export]
-> +macro_rules! new_mutex_pinned {
-> +    ($inner:expr $(, $name:literal)? $(,)?) => {
-> +        $crate::sync::Mutex::pin_init(
-> +            $inner, $crate::optional_name!($($name)?), $crate::static_lock_class!())
-> +    };
-> +}
-> +
->  /// A mutual exclusion primitive.
->  ///
->  /// Exposes the kernel's [`struct mutex`]. When multiple threads attempt to lock the same mutex,
+>  quiet_cmd_rustc_s_rs = $(RUSTC_OR_CLIPPY_QUIET) $(quiet_modtag) $@
+> -      cmd_rustc_s_rs = $(rust_common_cmd) --emit=asm=$@ $<
+> +      cmd_rustc_s_rs = $(rust_common_cmd) --emit=asm=$@ $(abspath $<)
+>  
+>  $(obj)/%.s: $(src)/%.rs FORCE
+>  	$(call if_changed_dep,rustc_s_rs)
+>  
+>  quiet_cmd_rustc_ll_rs = $(RUSTC_OR_CLIPPY_QUIET) $(quiet_modtag) $@
+> -      cmd_rustc_ll_rs = $(rust_common_cmd) --emit=llvm-ir=$@ $<
+> +      cmd_rustc_ll_rs = $(rust_common_cmd) --emit=llvm-ir=$@ $(abspath $<)
+>  
+>  $(obj)/%.ll: $(src)/%.rs FORCE
+>  	$(call if_changed_dep,rustc_ll_rs)
 > 
 
