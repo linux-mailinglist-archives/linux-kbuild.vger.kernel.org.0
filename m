@@ -2,46 +2,46 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 295767549E3
-	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Jul 2023 17:47:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38C7D7549F7
+	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Jul 2023 18:00:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230109AbjGOPry (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 15 Jul 2023 11:47:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37762 "EHLO
+        id S229549AbjGOQAZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 15 Jul 2023 12:00:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbjGOPrx (ORCPT
+        with ESMTP id S229502AbjGOQAY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 15 Jul 2023 11:47:53 -0400
-Received: from GBR01-CWL-obe.outbound.protection.outlook.com (mail-cwlgbr01on2109.outbound.protection.outlook.com [40.107.11.109])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C14902691;
-        Sat, 15 Jul 2023 08:47:51 -0700 (PDT)
+        Sat, 15 Jul 2023 12:00:24 -0400
+Received: from GBR01-CWL-obe.outbound.protection.outlook.com (mail-cwlgbr01on2107.outbound.protection.outlook.com [40.107.11.107])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6206B2729;
+        Sat, 15 Jul 2023 09:00:22 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cHPswnRb9tuAUBLULj5rrTID2UbevJ6v8pAEk0creS8jIYvKheRMXY+wv/mEvCm4Rzcb/wqQcvxJJh8YFxJrqshAs1aHGdQyi+K38xdKY4D/rowtbnV9JDTWIv3M1VGWv/4X40VICQwhblQa0eH69cUQtFtaOu+vcz2JONhqYk42I+GOxrnkn4SbUneXCJhLNG3AEOAnB2yIeRqHXHl7lpnTVrxLulF/dFutU0mP8oxGSOvjchLxzf8D3W0zqwgUA+hF8Fk8kswSSMI/3gN1GtWszHj2JVNEDXIaeYCGnyyB+dR++Fe0y/kew1SmH3V+7pDDTkwo4imj24tjvyxVjA==
+ b=aegxS62Lg7pxfwCmx8xWGJF9mRFciQWf2gGBd9mTEwWMtfmS80uksn171cc8Tqxf5FlNpIZFBLBMee7VB8eyv/2+rG1dz3TrkmG/wTSNLpl55HJrmSna/FTWU4eKFi8cm5szV1sgPFMt+yLQx38UVFcdhQPowv5MMyUM5Diyl5K0fHKh+cWpKHFrakzrX6x9Xfr03QU1REmKLKmYj4cUSLz66TW8CemPhTlTuhY/4GvM3xLDctmOnbiUSoNj2j4U0/U2lQMgNa9v864eu5yaktujDeaD21sy6zbSaibMzU2hLvVW5fow8e8O5iqggwhmBOF8wcy27F7po4Mfp0TkXQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vd092fvSDWydGFLfQuY9jxv3QRB3jCUMnL7OD944cnI=;
- b=ndFBkiIpjUHiDHrNjNAgHpnGbZzgyak161SwSca6KrYOm6nH3iKRLlaAwunvW+s7rmSTGhUjIKLXKo/NT3sYXXhmW2tv3AK55SgGeRjhXg7ere4ig06ekimzM4Q8fQyD4yu+4SMdF6guamLnNQ7q5qrkjSGw4xSsx0blUydhAh+I2iSfXTXthxrDVpkHD3UUJGSnz4e5VjijufduS9cEv9FgO9OuUAq4extMhOHjVO7D/oMXoccmy5gd7atE9Tc7Yab+E2CBLUD01XJD5valJ5EUSUli6USmOF4ZLoOhtjtjA1QNOKEMqIMuImMSJRC4NCpvxmBI8WFxL2nxIz8MGg==
+ bh=eXYCgRWFE+ouQ9u5azI7i4FWpw16uegd4+p2bQXtBkg=;
+ b=ffAt9M+NbAmoGawMwTHgVIhvziZca6o8qS96i3ZqO22IODTxuCphbPyjh+LweaVkXOvf7IMFaL0FQ2pdmWthC6stuiKBpAkM87wtW6xKyr4lQJlJ6M87RP+bgzCswUEAfevDvADLxPXj16xgQ9hoiMRBWAkL9SqfyZMUInTk9/xDzx7w1qKnaVQJJYQcKzuHIAFa5wUKzM2iWnmVsQ3ga3T5YuHpZc3F/2q44oeIG0ULokRky6C8Q5/E97if3hNCtl+uvyDruBJB95vpMKccB6mJzcTMjlDS3v34xvjuFYnzfeAlLzP7hwdgEtOj5xb862noep1d32HD763z5tRJIg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
  dkim=pass header.d=garyguo.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vd092fvSDWydGFLfQuY9jxv3QRB3jCUMnL7OD944cnI=;
- b=jMrA9dCNdCkNHfQAdrC7XYwVJ26Eywx8ATi0ToWlL73njN/EZOpcZljcaElj/Pcswj5GKCzG3eMxBWNgheE5PMs7rN0RpOIYQn8Vy/uYwIEnDysJ5CBcj1QKIYXKt1ziYRHJD7vmJW3AtH6KKL4lMJ9R+VYTAFsGtXKssdnXTR0=
+ bh=eXYCgRWFE+ouQ9u5azI7i4FWpw16uegd4+p2bQXtBkg=;
+ b=iwQOvRbLPxMsgWPGPCgg/jIGm32fDeg8F6APskHYFR8td0zjN6KlK1FmvP3FZefeVZZkz2ty9iNk8RrqqDt5cEwVrXYVoeMmFgvJDMK0ooGgGs1o643V1OlWsCdmfZp9d6cR6+IeHq7pwqe21OL6rYzrKxa6fEXZq/mbgfcqDuo=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=garyguo.net;
 Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:253::10)
- by LO4P265MB7284.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2f0::13) with
+ by LO4P265MB6635.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2f6::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.28; Sat, 15 Jul
- 2023 15:47:49 +0000
+ 2023 16:00:20 +0000
 Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
  ([fe80::25e2:a08b:cd9c:c3c9]) by LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
  ([fe80::25e2:a08b:cd9c:c3c9%3]) with mapi id 15.20.6588.028; Sat, 15 Jul 2023
- 15:47:49 +0000
-Date:   Sat, 15 Jul 2023 16:47:47 +0100
+ 16:00:19 +0000
+Date:   Sat, 15 Jul 2023 17:00:18 +0100
 From:   Gary Guo <gary@garyguo.net>
 To:     Asahi Lina <lina@asahilina.net>
 Cc:     Miguel Ojeda <ojeda@kernel.org>,
@@ -61,66 +61,65 @@ Cc:     Miguel Ojeda <ojeda@kernel.org>,
         asahi@lists.linux.dev, rust-for-linux@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
         llvm@lists.linux.dev
-Subject: Re: [PATCH RFC 07/11] rust: sync: Implement dynamic lockdep class
- creation
-Message-ID: <20230715164747.7ba23b36.gary@garyguo.net>
-In-Reply-To: <20230714-classless_lockdep-v1-7-229b9671ce31@asahilina.net>
+Subject: Re: [PATCH RFC 11/11] rust: sync: arc: Add lockdep integration
+Message-ID: <20230715170018.4c58d854.gary@garyguo.net>
+In-Reply-To: <20230714-classless_lockdep-v1-11-229b9671ce31@asahilina.net>
 References: <20230714-classless_lockdep-v1-0-229b9671ce31@asahilina.net>
-        <20230714-classless_lockdep-v1-7-229b9671ce31@asahilina.net>
+        <20230714-classless_lockdep-v1-11-229b9671ce31@asahilina.net>
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0052.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:152::21) To LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO4P265CA0316.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:390::20) To LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
  (2603:10a6:600:253::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LO2P265MB5183:EE_|LO4P265MB7284:EE_
-X-MS-Office365-Filtering-Correlation-Id: d9ed79ed-77ba-4d4c-1b22-08db854ad77a
+X-MS-TrafficTypeDiagnostic: LO2P265MB5183:EE_|LO4P265MB6635:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2e9c38a2-d6ee-46ed-5103-08db854c96cd
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kSjYL7ByM2X4MniQJujwm+ArcgKZl/zuuN7BXtKr5yFds4t6jcSw6KRHzZ9CmzaJ/8QGdRU+YTopSiOMyXeRH8rwUhhOwK9QBEnVTp33TaJVs0R3yuygV7VjZdimwyFFwU8zXAZD30yTy8MncAk/+QIMpUjJm0T5CRIK+8ILiPl9lUxr/jCdLKAJe/LK07ZGRSZp9y+kr5xz4t023SFdOhCqYcyRM6qx1IMa2KUZx7ESlh+uSy1Y0xAtg9ucvOMm6sjPxHrns5iZefGxdTPcy3v3HeZPWzyNdGxc46WlDz10HWHZZBqP9L+STaFpWA5lihBwtz6IqfjQhpEzRXgw+YzX7YorulBwL4Ioe1NPs20FEOMMrT5AyFDXh7Y7MB/X3+1KjDEO14UXqBNir8uP97HPiwa7Y50HoDiFXZsXNCiHuRboQCoIHUhQ82Ay+eSQcMlA8oOGLP/2J7yNZSkCG8uzCLKjB5gwdfsoq4f7Sfe9CR7zw8rui98R8ESzzKA+DLV+381pYner2HF0Z+Ae78oh0m79eEoB+rhRBxCvScjuUIAYHaqm/oQCmwsxMV1L
+X-Microsoft-Antispam-Message-Info: uxuT7ZiILzBsn80hY7go4j0mmdgqKV2jAEAo5uiygPDH3kA9cFbEJptf2nrvEeHjFZZB1PdtXFoCnlVqUT+eUsRdQphmyRBOC8jyXHxWQjrMu/nToxHOundalnsu0JHmsLD82fnCSgW0/6Dv6oXWiiDu9bniaAJP+wFgFYOGDV8MSp7iX+avZJ3yQR11lBQu7NKM4gRT7zPrRzjqWM0dTmRe660N6jfqFZqCBtrOksPhTYhu7pgTi9q9pemeIrKQ+gCQyESOP6wXhH10egWdw0HYPSNH2cF5s6wULjJDV6yggkRTHYQPcj7kbGbXZjI3HlK8lc3oU1HWYzpsjQDBz9oAizg9zFZv/Cq5IQK9v6zbDMHreQVBkJSX/KNgVGyxvGMUTlPDJueTmWQ/dGTfXdkECbdvXdUvu2wjWie1nk/jyWs1YaS892szg7v+EusQ6MGX6rVsXm/O60gGEylLEMCWYz2v4CTkOD42CHw8RPt4NZm83EeeTA6IggVa7AaHpehR4XrurEzV2SC5pJxDalPOMtXVDIN0elbUY/NO3AyeMHifruS9ks4shVcM/H22
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(376002)(346002)(396003)(136003)(366004)(39840400004)(451199021)(1076003)(38100700002)(26005)(6506007)(186003)(2616005)(83380400001)(2906002)(36756003)(5660300002)(7416002)(478600001)(54906003)(86362001)(316002)(41300700001)(6486002)(8676002)(6512007)(4326008)(66946007)(66556008)(66476007)(6916009)(8936002);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?atS8ngO67Ev7qhqaCRkzo6/ZnsMn70wmkWZ0Wc5SOVGeANAxeUJ+XCPCzHhL?=
- =?us-ascii?Q?bEHFX2XN4MyjiZcY3UY8q+B+eQzXDT/kYx8JMLpoiKXhqPi4AXJopgtLtk6x?=
- =?us-ascii?Q?ug7oIV3MIySGbvHzOePMztXI025KfizOyMUaeAHRZL1u9SbyHwt9wyEaC9tU?=
- =?us-ascii?Q?Q/I56O7cU1/q40JXqkyfH5L48/0D6LcZMvEsEPYuWDtdIWJ66WvhWjjB38gT?=
- =?us-ascii?Q?nKmxv35wPr5v7srUwQ2hCcTg3I0XrXBkpEcNzTXZrWEd9XqHimbu59aKgU+C?=
- =?us-ascii?Q?vYuxGaVpXmw9fgiSL1fLg6VPTKle+jREl+RZ/Pt91unPY7Vbp780q5lW2E3S?=
- =?us-ascii?Q?BnXh9mExElLnsI+CAg8x+zqcsC6YscwVkGCnoo5lvEZCA5j6+O+4RMparHLb?=
- =?us-ascii?Q?kli3nVSqMAkFY2eqCtNM9g7esWIDJWnVRAzkKwwgGppbtI2qq2YKzis1UyAv?=
- =?us-ascii?Q?hkpcHxki6DoYOy+LjjEDq5vHcRau+4THxDSeGVLW1yX9MQh70hgTGd0dnpeY?=
- =?us-ascii?Q?ItDgBqw93PQPn4vu7VVM9cwHF3sW3b+edlQoFFwa1pxToinRfTcX3F1wbgmJ?=
- =?us-ascii?Q?0NNILgxNt/tu9Xne27baHxJFIx9pbMFHJ/ORqRTt+8besOFrMWK7rfnvDFXe?=
- =?us-ascii?Q?czRWl/xI9Qugb18LKtvGYVJzXbkZrhg4VWtHfD+II6Nxom9EQPgYPCqSZy3p?=
- =?us-ascii?Q?crYbRAnieQIKVlDOScx2Q7420QD/jD2p0HTkiQ6qWgx0NckuuF3Cuq7JS5TH?=
- =?us-ascii?Q?Lnd+aljP1KEouikfW/8Wu/Qx/iSjW2XxxAWl44e+ac7g294BBprslwwVkMiL?=
- =?us-ascii?Q?nhhsp91bO0ygePJYP2dtNz4i3t5W6A5B8PPSF6ZOs0xqXt5FvO5UIPJm+X7x?=
- =?us-ascii?Q?Xh2Z0PrWYg0YZMlUVF5w1wFwBKsgXDj4XzeT27MJI5YROrCsQBuTlQK177R5?=
- =?us-ascii?Q?yuADlNBqhUY2lNq+RZ/zB+o5wfXSKG0WJnAczhGUYxwd7uIJcia/ZFTxxISm?=
- =?us-ascii?Q?wi4MXZz8P+JH146SG4+3jtDSbOoJKz77G8MkxVvr7XSuvBl5BHe98wikjd2Q?=
- =?us-ascii?Q?KhMAgYZVhXavujEXM2OtnU5icln5wn0Nb1mDgMjNb/PZQnwIip/ckp7kyoq3?=
- =?us-ascii?Q?XOb95BayxolL7ePw90tmespcbK58Io1vgygUxeTEgFiBP0M7v9Khtl1o0PUa?=
- =?us-ascii?Q?qrfUB4hsRgwEYeffOrbG5jfmFG50nfjzbHRRDUEIeN/yvfk2C1RDkXkBm0To?=
- =?us-ascii?Q?XwwucqIITKEyie5h/Lj+nqT8Dy+lH9Ievqi4B8CZ4Pm1/J5SYyEpUIctNtnL?=
- =?us-ascii?Q?JbkMOADIzx7Bp+OKlB8rdvbJXdB5jfkXj86hoAXbJVX+2T2NPpXidye5AGYr?=
- =?us-ascii?Q?MA2ZMfdpgqAcHjigBy+EGQz3XSeXw94NytjP4qTEJGGdYQIn4gB7vOTOFBJi?=
- =?us-ascii?Q?83C/tW+eB/6IISQf6SUu1p7WOzsWuoET/UNVVojOP9uSLqWqLR0i+4ly86OM?=
- =?us-ascii?Q?Pm9TpdfmK9zvNTSggljJuQPm6nht4E4CsvM+/mrMKEjarnQCS7Jk6d3/PhM2?=
- =?us-ascii?Q?LVQ6huG4a/7OCFOn8h38x6z2ljuE0Xzl7mAbKpsQ?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?CnlsEnfyAitMFRh1RIaKbsIWJ33786nRdXTdJfc9zKBFLs2GTKbzPIsATXET?=
+ =?us-ascii?Q?a0efEpcvxh97qxJBtVTwRAgbgXxA3KcUT1iCQs7A3Hk7BJXpoBjT0VBqqalk?=
+ =?us-ascii?Q?f6yEl/2E9TFikRshML5LMAyq4IxXDrGigcz6LvEKIIHF/8gBDyrcmR1PgIp0?=
+ =?us-ascii?Q?CVmNqy2oVh/D6GvCgp+1KgHE3jcqA9B5iCfgB+GDS4ynMXkfasGeObsbrTbL?=
+ =?us-ascii?Q?pq1WEX7dZDflzJP8KlvQiTBH+taYaMAcnmgkSDm5hBfBNe1koWujpJ0rkF1N?=
+ =?us-ascii?Q?lx8K5H5sliSGk+rFpjf6IXmtlYB5odkmbqNW3Blzs4UVKMF7wMLr3XxqEOor?=
+ =?us-ascii?Q?prvVnOvswz/ANPR5Rx7S7cUtaTE9nHTH1FevhH3Rp3kkD8eCTqs0aKNOwo36?=
+ =?us-ascii?Q?37ZYZBJItbf3+miENapW1GP1F8wjZ9q6qvfR29e0izG0fk0OvcFJZDq7ukya?=
+ =?us-ascii?Q?wXv+OWcBlRUuKrF6C46rj7QwVThRs8gKFEZs9To4KSxvoP3nn+hq+pdZIkAY?=
+ =?us-ascii?Q?pUiZi/u5ApXeWUDJto9WAoUpVVAIC4GeRAfBF2Cc4bYPlwKE3CwwhDINZeb4?=
+ =?us-ascii?Q?1vCT1BIryFu/CLuq4n6IO+dLvtgVGsvcclA044R3DlqM5Vq8o1K4MCEzYwFu?=
+ =?us-ascii?Q?WwecgB7+tuBx4BdxAtoAH3lHrmBPrD5zLKCiARtcDh6FuV3anwNLHERgtdDo?=
+ =?us-ascii?Q?yP6n+308ELSEZBbHHR30+W919X4jd5LvFpk+s8DunC1bXic3A3Ulv4u6q1la?=
+ =?us-ascii?Q?gBNIrUuGYsODnHZhKLhFPVzFtAqGtoqp9DcN8QCeM6QxD2iq9WQ4kqs+PH5Z?=
+ =?us-ascii?Q?qwI4LAw6dbnT+KTtUiQIVnC2Wwd8hN/CIulCj2zWg1IhgBL4qTSuI9LYTiSZ?=
+ =?us-ascii?Q?4hqePlAerxiM+DPf/STWRWuZSJ58vj3PH/aB6KJnBeox7wzGyHdZjhxgOIEF?=
+ =?us-ascii?Q?raHTxi4cO/BBhai0SZWrZZHNhn/LQf6qnGBJFT3znVoXQt+X3wWko+X/6SWq?=
+ =?us-ascii?Q?CxQ7rTy6i6kkUxp4bWzZAJ1s9VaNGBbPY1xo0OInTpzcLJPRaV4qtU7Tvsq7?=
+ =?us-ascii?Q?7i/yw/BD/fWuba74sk2vcJUYjeIMDjCyDcGo65rXUZrVamZuvKJo3y5Z47G2?=
+ =?us-ascii?Q?az/GfqIhgZaUXESeTOvgKB2gB20P8EZy83XnfIWma1QD5aWGjwwFtHJkMZVk?=
+ =?us-ascii?Q?kDzYvPHiQqIt5T5mwNJ6FDcDtV3TtyT0Xlv5fbeoOnGeJdfb5WtcaIOI54Xh?=
+ =?us-ascii?Q?0tQj9xBjpoGASol8tnfYN/tZMaag2NlrLf6QOGMiwCmxLBYW7zaOlDQQ4CFt?=
+ =?us-ascii?Q?rG8FtyoW3Idw75M3G02hs5FgTZHE0AdmOgy4DalTd8EyWI2DJjEw4560+Gqr?=
+ =?us-ascii?Q?yqCrfpPz1/tQ+awQ0mtHHx6l8YteDiwsnSl5jk/EsB8rea+50TiOoaXUv4Ek?=
+ =?us-ascii?Q?KclB1mSOYj1ickReyJE0T9LzLY72H8v4PsmCdlfpe5ATQaHBqcnSSHAG/xJi?=
+ =?us-ascii?Q?GK3BX81jeNmz55VdzJWAiSQhsvOJKAp8hVmpZdLkH74VsY0RS6VkvAFBP8Gr?=
+ =?us-ascii?Q?DWc4TPEtuWixhquGIeVNQ0Tw4AfX83DYolwAraBV?=
 X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: d9ed79ed-77ba-4d4c-1b22-08db854ad77a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e9c38a2-d6ee-46ed-5103-08db854c96cd
 X-MS-Exchange-CrossTenant-AuthSource: LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2023 15:47:49.3616
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2023 16:00:19.8549
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: V6AWZCfaN0Ea7Hez9RNuVmwM26UuitHpwyonwJLpZ3/aaCTMmgBHsfQnQ4yq7ZF1gATbfeUyVceVe5+SBDjzgQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO4P265MB7284
+X-MS-Exchange-CrossTenant-UserPrincipalName: KCqUeH/VuldLzWkkZCjctlDieN6tPlORrvXKUiTuFzysHjyJXT2nTc1k8MWgYGjjy5uIJD8NILMdkLJHfjJ2nw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO4P265MB6635
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
@@ -131,219 +130,252 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, 14 Jul 2023 18:13:59 +0900
+On Fri, 14 Jul 2023 18:14:03 +0900
 Asahi Lina <lina@asahilina.net> wrote:
 
-> Using macros to create lock classes all over the place is unergonomic,
-> and makes it impossible to add new features that require lock classes to
-> code such as Arc<> without changing all callers.
-> 
-> Rust has the ability to track the caller's identity by file/line/column
-> number, and we can use that to dynamically generate lock classes
-> instead.
+> Now that we have magic lock class support and a LockdepMap that can be
+> hooked up into arbitrary Rust types, we can integrate lockdep support
+> directly into the Rust Arc<T> type. This means we can catch potential
+> Drop codepaths that could result in a locking error, even if those
+> codepaths never actually execute due to the reference count being
+> nonzero at that point.
 > 
 > Signed-off-by: Asahi Lina <lina@asahilina.net>
 > ---
->  rust/kernel/sync/lockdep.rs    | 147 ++++++++++++++++++++++++++++++++++++++++-
->  rust/kernel/sync/no_lockdep.rs |   8 +++
->  2 files changed, 154 insertions(+), 1 deletion(-)
+>  lib/Kconfig.debug       |  8 ++++++
+>  rust/kernel/init.rs     |  6 +++++
+>  rust/kernel/sync/arc.rs | 71 ++++++++++++++++++++++++++++++++++++++++++++++---
+>  3 files changed, 82 insertions(+), 3 deletions(-)
 > 
-> diff --git a/rust/kernel/sync/lockdep.rs b/rust/kernel/sync/lockdep.rs
-> index d8328f4275fb..fbf9f6ed403d 100644
-> --- a/rust/kernel/sync/lockdep.rs
-> +++ b/rust/kernel/sync/lockdep.rs
-> @@ -5,7 +5,19 @@
->  //! This module abstracts the parts of the kernel lockdep API relevant to Rust
->  //! modules, including lock classes.
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index fbc89baf7de6..ff4f06df88ee 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -3010,6 +3010,14 @@ config RUST_BUILD_ASSERT_ALLOW
 >  
-> -use crate::types::Opaque;
-> +use crate::{
-> +    c_str, fmt,
-> +    init::InPlaceInit,
-> +    new_mutex,
-> +    prelude::{Box, Result, Vec},
-> +    str::{CStr, CString},
-> +    sync::Mutex,
-> +    types::Opaque,
-> +};
-> +
-> +use core::hash::{Hash, Hasher};
-> +use core::pin::Pin;
-> +use core::sync::atomic::{AtomicPtr, Ordering};
+>  	  If unsure, say N.
 >  
->  /// Represents a lockdep class. It's a wrapper around C's `lock_class_key`.
->  #[repr(transparent)]
-> @@ -42,3 +54,136 @@ pub(crate) fn as_ptr(&self) -> *mut bindings::lock_class_key {
->  // actually dereferenced.
->  unsafe impl Send for LockClassKey {}
->  unsafe impl Sync for LockClassKey {}
+> +config RUST_EXTRA_LOCKDEP
+> +	bool "Extra lockdep checking"
+> +	depends on RUST && PROVE_LOCKING
+> +	help
+> +	  Enabled additional lockdep integration with certain Rust types.
 > +
-> +// Location is 'static but not really, since module unloads will
-> +// invalidate existing static Locations within that module.
-> +// To avoid breakage, we maintain our own location struct which is
-> +// dynamically allocated on first reference. We store a hash of the
-> +// whole location (including the filename string), as well as the
-> +// line and column separately. The assumption is that this whole
-> +// struct is highly unlikely to ever collide with a reasonable
-> +// hash (this saves us from having to check the filename string
-> +// itself).
-> +#[derive(PartialEq, Debug)]
-> +struct LocationKey {
-> +    hash: u64,
-> +    line: u32,
-> +    column: u32,
-> +}
+> +	  If unsure, say N.
 > +
-> +struct DynLockClassKey {
-> +    key: Opaque<bindings::lock_class_key>,
-> +    loc: LocationKey,
-> +    name: CString,
-> +}
-> +
-> +impl LocationKey {
-> +    fn new(loc: &'static core::panic::Location<'static>) -> Self {
-> +        let mut hasher = crate::siphash::SipHasher::new();
-> +        loc.hash(&mut hasher);
-> +
-> +        LocationKey {
-> +            hash: hasher.finish(),
-> +            line: loc.line(),
-> +            column: loc.column(),
-> +        }
-> +    }
-> +}
-> +
-> +impl DynLockClassKey {
-> +    fn key(&'static self) -> LockClassKey {
-> +        LockClassKey(self.key.get())
-> +    }
-
-I don't understand why PATCH 06 is needed. If we keep the current
-`LockClassKey` definition this could just be returning `'static
-LockClassKey`, which is a simple `&self.key`.
-
-> +
-> +    fn name(&'static self) -> &CStr {
-> +        &self.name
-> +    }
-> +}
-> +
-> +const LOCK_CLASS_BUCKETS: usize = 1024;
-> +
-> +#[track_caller]
-> +fn caller_lock_class_inner() -> Result<&'static DynLockClassKey> {
-> +    // This is just a hack to make the below static array initialization work.
-> +    #[allow(clippy::declare_interior_mutable_const)]
-> +    const ATOMIC_PTR: AtomicPtr<Mutex<Vec<&'static DynLockClassKey>>> =
-> +        AtomicPtr::new(core::ptr::null_mut());
-> +
-> +    #[allow(clippy::complexity)]
-> +    static LOCK_CLASSES: [AtomicPtr<Mutex<Vec<&'static DynLockClassKey>>>; LOCK_CLASS_BUCKETS] =
-> +        [ATOMIC_PTR; LOCK_CLASS_BUCKETS];
-> +
-> +    let loc = core::panic::Location::caller();
-> +    let loc_key = LocationKey::new(loc);
-> +
-> +    let index = (loc_key.hash % (LOCK_CLASS_BUCKETS as u64)) as usize;
-> +    let slot = &LOCK_CLASSES[index];
-> +
-> +    let mut ptr = slot.load(Ordering::Relaxed);
-> +    if ptr.is_null() {
-> +        let new_element = Box::pin_init(new_mutex!(Vec::new()))?;
-> +
-> +        if let Err(e) = slot.compare_exchange(
-> +            core::ptr::null_mut(),
-> +            // SAFETY: We never move out of this Box
-> +            Box::into_raw(unsafe { Pin::into_inner_unchecked(new_element) }),
-> +            Ordering::Relaxed,
-> +            Ordering::Relaxed,
-> +        ) {
-> +            // SAFETY: We just got this pointer from `into_raw()`
-> +            unsafe { Box::from_raw(e) };
-> +        }
-> +
-> +        ptr = slot.load(Ordering::Relaxed);
-> +        assert!(!ptr.is_null());
-> +    }
-> +
-> +    // SAFETY: This mutex was either just created above or previously allocated,
-> +    // and we never free these objects so the pointer is guaranteed to be valid.
-> +    let mut guard = unsafe { (*ptr).lock() };
-> +
-> +    for i in guard.iter() {
-> +        if i.loc == loc_key {
-> +            return Ok(i);
-> +        }
-> +    }
-> +
-> +    // We immediately leak the class, so it becomes 'static
-> +    let new_class = Box::leak(Box::try_new(DynLockClassKey {
-> +        key: Opaque::zeroed(),
-> +        loc: loc_key,
-> +        name: CString::try_from_fmt(fmt!("{}:{}:{}", loc.file(), loc.line(), loc.column()))?,
-> +    })?);
-> +
-> +    // SAFETY: This is safe to call with a pointer to a dynamically allocated lockdep key,
-> +    // and we never free the objects so it is safe to never unregister the key.
-> +    unsafe { bindings::lockdep_register_key(new_class.key.get()) };
-> +
-> +    guard.try_push(new_class)?;
-> +
-> +    Ok(new_class)
-> +}
-> +
-> +#[track_caller]
-> +pub(crate) fn caller_lock_class() -> (LockClassKey, &'static CStr) {
-> +    match caller_lock_class_inner() {
-> +        Ok(a) => (a.key(), a.name()),
-> +        Err(_) => {
-> +            crate::pr_err!(
-> +                "Failed to dynamically allocate lock class, lockdep may be unreliable.\n"
-> +            );
-> +
-> +            let loc = core::panic::Location::caller();
-> +            // SAFETY: LockClassKey is opaque and the lockdep implementation only needs
-> +            // unique addresses for statically allocated keys, so it is safe to just cast
-> +            // the Location reference directly into a LockClassKey. However, this will
-> +            // result in multiple keys for the same callsite due to monomorphization,
-> +            // as well as spuriously destroyed keys when the static key is allocated in
-> +            // the wrong module, which is what makes this unreliable.
-
-If the only purpose of introducing `StaticLockClassKey` and change
-`LockClassKey` is to make this fallback path work, then I don't think
-that change is worth it. I don't really see an issue with forging a
-`'static LockClassKey' from a `'static Location`, especially since you
-can't really do any memory access with `LockClassKey`.
-
-> +            (
-> +                LockClassKey(loc as *const _ as *mut _),
-> +                c_str!("fallback_lock_class"),
-> +            )
-> +        }
-> +    }
-> +}
-> diff --git a/rust/kernel/sync/no_lockdep.rs b/rust/kernel/sync/no_lockdep.rs
-> index 518ec0bf9a7d..de53c4de7fbe 100644
-> --- a/rust/kernel/sync/no_lockdep.rs
-> +++ b/rust/kernel/sync/no_lockdep.rs
-> @@ -4,6 +4,8 @@
->  //!
->  //! Takes the place of the `lockdep` module when lockdep is disabled.
+>  endmenu # "Rust"
 >  
-> +use crate::{c_str, str::CStr};
-> +
->  /// A dummy, zero-sized lock class.
->  pub struct StaticLockClassKey();
+>  endmenu # Kernel hacking
+> diff --git a/rust/kernel/init.rs b/rust/kernel/init.rs
+> index f190bbd0bab1..b64a507f0a34 100644
+> --- a/rust/kernel/init.rs
+> +++ b/rust/kernel/init.rs
+> @@ -1208,6 +1208,7 @@ pub trait InPlaceInit<T>: Sized {
+>      /// type.
+>      ///
+>      /// If `T: !Unpin` it will not be able to move afterwards.
+> +    #[track_caller]
+>      fn try_pin_init<E>(init: impl PinInit<T, E>) -> Result<Pin<Self>, E>
+>      where
+>          E: From<AllocError>;
+> @@ -1216,6 +1217,7 @@ fn try_pin_init<E>(init: impl PinInit<T, E>) -> Result<Pin<Self>, E>
+>      /// type.
+>      ///
+>      /// If `T: !Unpin` it will not be able to move afterwards.
+> +    #[track_caller]
+>      fn pin_init<E>(init: impl PinInit<T, E>) -> error::Result<Pin<Self>>
+>      where
+>          Error: From<E>,
+> @@ -1228,11 +1230,13 @@ fn pin_init<E>(init: impl PinInit<T, E>) -> error::Result<Pin<Self>>
+>      }
 >  
-> @@ -28,3 +30,9 @@ pub(crate) fn as_ptr(&self) -> *mut bindings::lock_class_key {
->          core::ptr::null_mut()
+>      /// Use the given initializer to in-place initialize a `T`.
+> +    #[track_caller]
+>      fn try_init<E>(init: impl Init<T, E>) -> Result<Self, E>
+>      where
+>          E: From<AllocError>;
+>  
+>      /// Use the given initializer to in-place initialize a `T`.
+> +    #[track_caller]
+>      fn init<E>(init: impl Init<T, E>) -> error::Result<Self>
+>      where
+>          Error: From<E>,
+> @@ -1277,6 +1281,7 @@ fn try_init<E>(init: impl Init<T, E>) -> Result<Self, E>
+>  
+>  impl<T> InPlaceInit<T> for UniqueArc<T> {
+>      #[inline]
+> +    #[track_caller]
+>      fn try_pin_init<E>(init: impl PinInit<T, E>) -> Result<Pin<Self>, E>
+>      where
+>          E: From<AllocError>,
+> @@ -1291,6 +1296,7 @@ fn try_pin_init<E>(init: impl PinInit<T, E>) -> Result<Pin<Self>, E>
+>      }
+>  
+>      #[inline]
+> +    #[track_caller]
+>      fn try_init<E>(init: impl Init<T, E>) -> Result<Self, E>
+>      where
+>          E: From<AllocError>,
+> diff --git a/rust/kernel/sync/arc.rs b/rust/kernel/sync/arc.rs
+> index a89843cacaad..3bb73b614fd1 100644
+> --- a/rust/kernel/sync/arc.rs
+> +++ b/rust/kernel/sync/arc.rs
+> @@ -34,6 +34,9 @@
+>  };
+>  use macros::pin_data;
+>  
+> +#[cfg(CONFIG_RUST_EXTRA_LOCKDEP)]
+> +use crate::sync::lockdep::LockdepMap;
+> +
+>  mod std_vendor;
+>  
+>  /// A reference-counted pointer to an instance of `T`.
+> @@ -127,6 +130,17 @@ pub struct Arc<T: ?Sized> {
+>      _p: PhantomData<ArcInner<T>>,
+>  }
+>  
+> +#[cfg(CONFIG_RUST_EXTRA_LOCKDEP)]
+> +#[pin_data]
+> +#[repr(C)]
+> +struct ArcInner<T: ?Sized> {
+> +    refcount: Opaque<bindings::refcount_t>,
+> +    lockdep_map: LockdepMap,
+> +    data: T,
+> +}
+> +
+> +// FIXME: pin_data does not work well with cfg attributes within the struct definition.
+> +#[cfg(not(CONFIG_RUST_EXTRA_LOCKDEP))]
+>  #[pin_data]
+>  #[repr(C)]
+>  struct ArcInner<T: ?Sized> {
+> @@ -159,11 +173,14 @@ unsafe impl<T: ?Sized + Sync + Send> Sync for Arc<T> {}
+>  
+>  impl<T> Arc<T> {
+>      /// Constructs a new reference counted instance of `T`.
+> +    #[track_caller]
+>      pub fn try_new(contents: T) -> Result<Self, AllocError> {
+>          // INVARIANT: The refcount is initialised to a non-zero value.
+>          let value = ArcInner {
+>              // SAFETY: There are no safety requirements for this FFI call.
+>              refcount: Opaque::new(unsafe { bindings::REFCOUNT_INIT(1) }),
+> +            #[cfg(CONFIG_RUST_EXTRA_LOCKDEP)]
+> +            lockdep_map: LockdepMap::new(),
+>              data: contents,
+>          };
+>  
+> @@ -178,6 +195,7 @@ pub fn try_new(contents: T) -> Result<Self, AllocError> {
+>      ///
+>      /// If `T: !Unpin` it will not be able to move afterwards.
+>      #[inline]
+> +    #[track_caller]
+>      pub fn pin_init<E>(init: impl PinInit<T, E>) -> error::Result<Self>
+>      where
+>          Error: From<E>,
+> @@ -189,6 +207,7 @@ pub fn pin_init<E>(init: impl PinInit<T, E>) -> error::Result<Self>
+>      ///
+>      /// This is equivalent to [`Arc<T>::pin_init`], since an [`Arc`] is always pinned.
+>      #[inline]
+> +    #[track_caller]
+>      pub fn init<E>(init: impl Init<T, E>) -> error::Result<Self>
+>      where
+>          Error: From<E>,
+> @@ -292,15 +311,46 @@ fn drop(&mut self) {
+>          // freed/invalid memory as long as it is never dereferenced.
+>          let refcount = unsafe { self.ptr.as_ref() }.refcount.get();
+>  
+> +        // SAFETY: By the type invariant, there is necessarily a reference to the object.
+> +        // We cannot hold the map lock across the reference decrement, as we might race
+> +        // another thread. Therefore, we lock and immediately drop the guard here. This
+> +        // only serves to inform lockdep of the dependency up the call stack.
+> +        #[cfg(CONFIG_RUST_EXTRA_LOCKDEP)]
+> +        unsafe { self.ptr.as_ref() }.lockdep_map.lock();
+
+Make the intention explicit by
+
+	drop(unsafe { self.ptr.as_ref() }.lockdep_map.lock());
+
+and make `lock` function `must_use`.
+
+> +
+>          // INVARIANT: If the refcount reaches zero, there are no other instances of `Arc`, and
+>          // this instance is being dropped, so the broken invariant is not observable.
+>          // SAFETY: Also by the type invariant, we are allowed to decrement the refcount.
+>          let is_zero = unsafe { bindings::refcount_dec_and_test(refcount) };
+> +
+>          if is_zero {
+>              // The count reached zero, we must free the memory.
+> -            //
+> -            // SAFETY: The pointer was initialised from the result of `Box::leak`.
+> -            unsafe { Box::from_raw(self.ptr.as_ptr()) };
+> +
+> +            // SAFETY: If we get this far, we had the last reference to the object.
+> +            // That means we are responsible for freeing it, so we can safely lock
+> +            // the fake lock again. This wraps dropping the inner object, which
+> +            // informs lockdep of the dependencies down the call stack.
+> +            #[cfg(CONFIG_RUST_EXTRA_LOCKDEP)]
+> +            let guard = unsafe { self.ptr.as_ref() }.lockdep_map.lock();
+> +
+> +            // SAFETY: The pointer was initialised from the result of `Box::leak`,
+> +            // and the value is valid.
+> +            unsafe { core::ptr::drop_in_place(&mut self.ptr.as_mut().data) };
+> +
+> +            // We need to drop the lock guard before freeing the LockdepMap itself
+> +            #[cfg(CONFIG_RUST_EXTRA_LOCKDEP)]
+> +            core::mem::drop(guard);
+> +
+> +            // SAFETY: The pointer was initialised from the result of `Box::leak`,
+> +            // and the lockdep map is valid.
+> +            #[cfg(CONFIG_RUST_EXTRA_LOCKDEP)]
+> +            unsafe {
+> +                core::ptr::drop_in_place(&mut self.ptr.as_mut().lockdep_map)
+> +            };
+> +
+> +            // SAFETY: The pointer was initialised from the result of `Box::leak`, and
+> +            // a ManuallyDrop<T> is compatible. We already dropped the contents above.
+> +            unsafe { Box::from_raw(self.ptr.as_ptr() as *mut ManuallyDrop<ArcInner<T>>) };
+
+I feel there are a lot more `as_ref/as_mut` calls than it could be.
+Could you refactor the code to make a single `as_ref()` call for the
+non-zero path and a single `as_mut()` call for the zero path?
+
+>          }
 >      }
 >  }
+> @@ -512,6 +562,7 @@ pub struct UniqueArc<T: ?Sized> {
+>  
+>  impl<T> UniqueArc<T> {
+>      /// Tries to allocate a new [`UniqueArc`] instance.
+> +    #[track_caller]
+>      pub fn try_new(value: T) -> Result<Self, AllocError> {
+>          Ok(Self {
+>              // INVARIANT: The newly-created object has a ref-count of 1.
+> @@ -520,13 +571,27 @@ pub fn try_new(value: T) -> Result<Self, AllocError> {
+>      }
+>  
+>      /// Tries to allocate a new [`UniqueArc`] instance whose contents are not initialised yet.
+> +    #[track_caller]
+>      pub fn try_new_uninit() -> Result<UniqueArc<MaybeUninit<T>>, AllocError> {
+>          // INVARIANT: The refcount is initialised to a non-zero value.
+> +        #[cfg(CONFIG_RUST_EXTRA_LOCKDEP)]
+> +        let inner = {
+> +            let map = LockdepMap::new();
+> +            Box::try_init::<AllocError>(try_init!(ArcInner {
+> +                // SAFETY: There are no safety requirements for this FFI call.
+> +                refcount: Opaque::new(unsafe { bindings::REFCOUNT_INIT(1) }),
+> +                lockdep_map: map,
+> +                data <- init::uninit::<T, AllocError>(),
+> +            }? AllocError))?
+> +        };
+> +        // FIXME: try_init!() does not work with cfg attributes.
+> +        #[cfg(not(CONFIG_RUST_EXTRA_LOCKDEP))]
+>          let inner = Box::try_init::<AllocError>(try_init!(ArcInner {
+>              // SAFETY: There are no safety requirements for this FFI call.
+>              refcount: Opaque::new(unsafe { bindings::REFCOUNT_INIT(1) }),
+>              data <- init::uninit::<T, AllocError>(),
+>          }? AllocError))?;
 > +
-> +pub(crate) fn caller_lock_class() -> (LockClassKey, &'static CStr) {
-> +    static DUMMY_LOCK_CLASS: StaticLockClassKey = StaticLockClassKey::new();
-> +
-> +    (DUMMY_LOCK_CLASS.key(), c_str!("dummy"))
-> +}
+>          Ok(UniqueArc {
+>              // INVARIANT: The newly-created object has a ref-count of 1.
+>              // SAFETY: The pointer from the `Box` is valid.
 > 
 
