@@ -2,87 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 482FA7543DA
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jul 2023 22:38:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF7F67546E1
+	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Jul 2023 07:05:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236488AbjGNUiU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Jul 2023 16:38:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34616 "EHLO
+        id S229584AbjGOFF3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 15 Jul 2023 01:05:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236402AbjGNUiO (ORCPT
+        with ESMTP id S229487AbjGOFF2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Jul 2023 16:38:14 -0400
-Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12FAA3AB3;
-        Fri, 14 Jul 2023 13:38:03 -0700 (PDT)
-Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-1b055510c9dso1562322fac.0;
-        Fri, 14 Jul 2023 13:38:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689367081; x=1691959081;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=W89cgNy1eNMzHOiNr0LRyucV1brLsczr4weQChBoiQg=;
-        b=f9kMHGWeKmTB6HbLltAi4/fyW22V2tWlSzB4grilg1liYKvNB8vtXLS/OKa836RCJf
-         GL8qyoT1a7m1v2QJ5czSZdtD7UHD/GUhIZFP+If6GRN2F9EQdHLnAHDp2kLFylDtzT9u
-         +ynfreEUnSLmwbOqDSIVdrCly8rnqnHjdSHv/Ko5yNlvGfhmXEzjUHl8ErcY6IwgVxiC
-         ekIR3UirrbE48novxPQLRwYTPnoioKjFo5y5rysdA0nmuwyN2HaX117MllsThEcBw2G8
-         VSSqFEc6N5zsDUzBYGNlweI5B4GQwnO1Qpofnu/Prx0YpndEP0Yh4WWC/40Zn8BcKFVE
-         0fTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689367081; x=1691959081;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=W89cgNy1eNMzHOiNr0LRyucV1brLsczr4weQChBoiQg=;
-        b=QDLJnZHvq7CGB7lt7DzKReAASWpbkLfjgwAfiDDmrpOyZBPGdeY1Q5N/jIvOquUctE
-         53u3tzoYgVSBDTTT86hgcJkQL3xrf8/ROhmrO+7jt9AOMfvOKiDg1cQBckLO6JDHXQbX
-         EUZQPmawksOIsNkcXzQfx8AHOG/XYCcHI1s3bMq6SkRrMC0bio+bg1acEcVDGZNV/7Dk
-         uA/YURxxnwt80771EFHdiUahA+NhWmCqowIwQ9Ad+sxtjFWcan0yPDZ8zvmsgHdcmgKh
-         bWjMESdNJQu+zBYtZe/x5H92C/bA6ghqvwbM5kQhoToOjYBNpvY8Fe9D8hnTE3opElLt
-         x0aA==
-X-Gm-Message-State: ABy/qLZ57Ad5Fex3QHm8D3BmeRB/lG0Cri6FBX+RxpCt00Pg9XZRh6iE
-        BppXDhXY92U/2ene5zPYhSo=
-X-Google-Smtp-Source: APBJJlHVyCp5IxFJ6qO/h2cfiutewACkZl9hi48ptZGNOKVH0KtFwusHVfRsonFsvr6QR1es6WjUVQ==
-X-Received: by 2002:a05:6870:934a:b0:1a2:c181:5c85 with SMTP id j10-20020a056870934a00b001a2c1815c85mr6561375oak.9.1689367081191;
-        Fri, 14 Jul 2023 13:38:01 -0700 (PDT)
-Received: from [192.168.54.90] (static.220.238.itcsa.net. [190.15.220.238])
-        by smtp.gmail.com with ESMTPSA id ee23-20020a056870c81700b001a69e7efd13sm4403908oab.5.2023.07.14.13.37.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Jul 2023 13:38:00 -0700 (PDT)
-Message-ID: <28a747bb-2d14-61b6-b5b5-54f8a162155a@gmail.com>
-Date:   Fri, 14 Jul 2023 16:56:17 -0300
+        Sat, 15 Jul 2023 01:05:28 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F3E33A9D
+        for <linux-kbuild@vger.kernel.org>; Fri, 14 Jul 2023 22:05:27 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B6287602E2
+        for <linux-kbuild@vger.kernel.org>; Sat, 15 Jul 2023 05:05:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A284C433C7
+        for <linux-kbuild@vger.kernel.org>; Sat, 15 Jul 2023 05:05:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689397526;
+        bh=blpreD30rA+t3XbmyEcGZCtr8pUN6nt3D+T40+SmrXg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=J51VCw5VD2v0LM1TsmvV7PTZVuwE9+4SaIj42NbET/Fya8TXjpJTY+CI44WXKDV9v
+         HoRrD8OblFvunl/edpNxpqRrjs+CMk74Q6f84vSSrQog7la0vw1hnMyaL/0MjfHVWh
+         iINovZUxdouMKrvfBVIPwmNT1uB1DtnT9x7J25tLdxuSayuIJOc3pofj1d+ErYEaPB
+         rC91Mg0FcGnNR0FzkfC1MXY/JbVKszEwcczd65agG64iGi3bnzFWb5YHM9vPnXsb/H
+         HYcBO6icusarDjeCo040qzT2UGYSiKrcCE0X0gP7WGYbWAHM7LAaZlECi9fTomNiEd
+         mzeK6in770ZGg==
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-560b56b638eso1643391eaf.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 14 Jul 2023 22:05:25 -0700 (PDT)
+X-Gm-Message-State: ABy/qLa5vHJ+KsjfhsSQ9EchV5EwnOg5wvCK4jHkJuY42NX/QjVb8ilJ
+        0TgtTGN9L50SgEen4qC1qROgrsKb9MzBiDw6EYI=
+X-Google-Smtp-Source: APBJJlEkMD9QcRJyH75LuuvDvsxMvAEGuEgwcKx/2Fp2o5a0sZKm5vYi7poKNw3Oe1Ps3iTd/3KJrRwDtU42yFvtgOk=
+X-Received: by 2002:a4a:304a:0:b0:564:e465:5d5c with SMTP id
+ z10-20020a4a304a000000b00564e4655d5cmr703033ooz.2.1689397525343; Fri, 14 Jul
+ 2023 22:05:25 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH RFC 07/11] rust: sync: Implement dynamic lockdep class
- creation
-Content-Language: en-US
-To:     Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Benno Lossin <benno.lossin@proton.me>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
+References: <7b663b86-4df0-c3df-18a7-e4f47f900be4@kernel.org>
+In-Reply-To: <7b663b86-4df0-c3df-18a7-e4f47f900be4@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 15 Jul 2023 14:04:49 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQhORSPEuB=XFa_i5EcQfsJ6uXy0MM5YWo_84eLGcoxNQ@mail.gmail.com>
+Message-ID: <CAK7LNAQhORSPEuB=XFa_i5EcQfsJ6uXy0MM5YWo_84eLGcoxNQ@mail.gmail.com>
+Subject: Re: con3270.o is built twice, leading to errors
+To:     Jiri Slaby <jirislaby@kernel.org>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
-        Daniel Vetter <daniel@ffwll.ch>
-Cc:     Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        asahi@lists.linux.dev, rust-for-linux@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        llvm@lists.linux.dev
-References: <20230714-classless_lockdep-v1-0-229b9671ce31@asahilina.net>
- <20230714-classless_lockdep-v1-7-229b9671ce31@asahilina.net>
-From:   Martin Rodriguez Reboredo <yakoyoku@gmail.com>
-In-Reply-To: <20230714-classless_lockdep-v1-7-229b9671ce31@asahilina.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -90,83 +66,96 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 7/14/23 06:13, Asahi Lina wrote:
-> Using macros to create lock classes all over the place is unergonomic,
-> and makes it impossible to add new features that require lock classes to
-> code such as Arc<> without changing all callers.
-> 
-> Rust has the ability to track the caller's identity by file/line/column
-> number, and we can use that to dynamically generate lock classes
-> instead.
-> 
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> ---
-> [...]
-> +
-> +const LOCK_CLASS_BUCKETS: usize = 1024;
-> +
-> +#[track_caller]
-> +fn caller_lock_class_inner() -> Result<&'static DynLockClassKey> {
-> +    // This is just a hack to make the below static array initialization work.
-> +    #[allow(clippy::declare_interior_mutable_const)]
-> +    const ATOMIC_PTR: AtomicPtr<Mutex<Vec<&'static DynLockClassKey>>> =
-> +        AtomicPtr::new(core::ptr::null_mut());
-> +
-> +    #[allow(clippy::complexity)]
-> +    static LOCK_CLASSES: [AtomicPtr<Mutex<Vec<&'static DynLockClassKey>>>; LOCK_CLASS_BUCKETS] =
-> +        [ATOMIC_PTR; LOCK_CLASS_BUCKETS];
-> +
-> +    let loc = core::panic::Location::caller();
-> +    let loc_key = LocationKey::new(loc);
-> +
-> +    let index = (loc_key.hash % (LOCK_CLASS_BUCKETS as u64)) as usize;
-> +    let slot = &LOCK_CLASSES[index];
-> +
-> +    let mut ptr = slot.load(Ordering::Relaxed);
-> +    if ptr.is_null() {
-> +        let new_element = Box::pin_init(new_mutex!(Vec::new()))?;
-> +
-> +        if let Err(e) = slot.compare_exchange(
-> +            core::ptr::null_mut(),
-> +            // SAFETY: We never move out of this Box
-> +            Box::into_raw(unsafe { Pin::into_inner_unchecked(new_element) }),
-> +            Ordering::Relaxed,
-> +            Ordering::Relaxed,
-> +        ) {
-> +            // SAFETY: We just got this pointer from `into_raw()`
-> +            unsafe { Box::from_raw(e) };
-> +        }
-> +
-> +        ptr = slot.load(Ordering::Relaxed);
-> +        assert!(!ptr.is_null());
-> +    }
-> +
-> +    // SAFETY: This mutex was either just created above or previously allocated,
-> +    // and we never free these objects so the pointer is guaranteed to be valid.
-> +    let mut guard = unsafe { (*ptr).lock() };
-> +
-> +    for i in guard.iter() {
-> +        if i.loc == loc_key {
-> +            return Ok(i);
-> +        }
-> +    }
-> +
-> +    // We immediately leak the class, so it becomes 'static
-> +    let new_class = Box::leak(Box::try_new(DynLockClassKey {
-> +        key: Opaque::zeroed(),
-> +        loc: loc_key,
-> +        name: CString::try_from_fmt(fmt!("{}:{}:{}", loc.file(), loc.line(), loc.column()))?,
-> +    })?);
-> +
-> +    // SAFETY: This is safe to call with a pointer to a dynamically allocated lockdep key,
-> +    // and we never free the objects so it is safe to never unregister the key.
-> +    unsafe { bindings::lockdep_register_key(new_class.key.get()) };
-> +
-> +    guard.try_push(new_class)?;
-> +
-> +    Ok(new_class)
-> +}
-> +
-> [...]
+On Fri, Jul 14, 2023 at 3:33=E2=80=AFPM Jiri Slaby <jirislaby@kernel.org> w=
+rote:
+>
+> Hi,
+>
+> if I create an s390 defconfig:
+> mkdir /tmp/s390/
+> make O=3D/tmp/s390/ ARCH=3Ds390 CROSS_COMPILE=3Ds390x-suse-linux- defconf=
+ig
+>
+> And then if I try for a couple times:
+> make O=3D/tmp/s390/ -j17 ARCH=3Ds390 CROSS_COMPILE=3Ds390x-suse-linux-
+> drivers/s390/char/con3270.o
+>
+> Most of the time, I get:
+> make[1]: Entering directory '/tmp/s390'
+>    GEN     Makefile
+>    CALL    /home/latest/linux/scripts/checksyscalls.sh
+>    CC      drivers/s390/char/con3270.o
+>    CC      drivers/s390/char/con3270.o
+>
+> I.e. it is built twice.
+>
+> Sometimes, I also get an error:
+> fixdep: error opening file: drivers/s390/char/.con3270.o.d: No such file
+> or directory
+> make[4]: *** [/home/latest/linux/scripts/Makefile.build:243:
+> drivers/s390/char/con3270.o] Error 2
+> make[4]: *** Deleting file 'drivers/s390/char/con3270.o'
+> make[3]: *** [/home/latest/linux/scripts/Makefile.build:477: drivers]
+>
+> Obviously due to some race.
+>
+> Any ideas what is going on?
 
-Is there any problem if we have many `DynLockClassKey`s leaked or not?
+
+
+The reason is because ARCH=3Ds390 descends into
+drivers/s390/ in a non-standard way.
+
+See arch/s390/Makefile line 122.
+
+
+
+This is a corner case in single builds, and I
+do not know how to make it work.
+
+
+
+I really hope arch maintainers will follow the standard
+obj-y syntax unless there is a strong reason to opt out.
+
+
+The following patch will fix the issue.
+
+
+
+
+
+
+
+
+diff --git a/arch/s390/Makefile b/arch/s390/Makefile
+index 5ed242897b0d..a53a36ee0731 100644
+--- a/arch/s390/Makefile
++++ b/arch/s390/Makefile
+@@ -119,7 +119,6 @@ export KBUILD_CFLAGS_DECOMPRESSOR
+ OBJCOPYFLAGS   :=3D -O binary
+
+ libs-y         +=3D arch/s390/lib/
+-drivers-y      +=3D drivers/s390/
+
+ boot           :=3D arch/s390/boot
+ syscalls       :=3D arch/s390/kernel/syscalls
+diff --git a/drivers/Makefile b/drivers/Makefile
+index 7241d80a7b29..a7459e77df37 100644
+--- a/drivers/Makefile
++++ b/drivers/Makefile
+@@ -195,3 +195,5 @@ obj-$(CONFIG_PECI)          +=3D peci/
+ obj-$(CONFIG_HTE)              +=3D hte/
+ obj-$(CONFIG_DRM_ACCEL)                +=3D accel/
+ obj-$(CONFIG_CDX_BUS)          +=3D cdx/
++
++obj-$(CONFIG_S390)             +=3D s390/
+
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
