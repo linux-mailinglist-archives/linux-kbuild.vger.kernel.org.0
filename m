@@ -2,152 +2,155 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A452754E3F
-	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Jul 2023 12:16:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 793C1755E7B
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Jul 2023 10:31:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229539AbjGPKQD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 16 Jul 2023 06:16:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38196 "EHLO
+        id S230040AbjGQIa6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 17 Jul 2023 04:30:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbjGPKQC (ORCPT
+        with ESMTP id S231350AbjGQIa5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 16 Jul 2023 06:16:02 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34A66E46;
-        Sun, 16 Jul 2023 03:16:01 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AE5A260C7A;
-        Sun, 16 Jul 2023 10:16:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 039A4C433C9;
-        Sun, 16 Jul 2023 10:15:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689502560;
-        bh=kZiZwupK7ZTvaNFmw9c7bI3Xs05CRVxQyM0wat98hY8=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Jnz3Xb5ebL5hyrxDUpKQUIVBc98hhExEcAKUTlazWPnCAykwOiZIfO4ygGOLFhv7p
-         x2n5TgzOpy/LtI2zYXI7NqVA/zG7/tnSwYoZ6D8XrSb7BPTeFHrzqVXfd6fZBTz3YO
-         MhSPK2JwL4cWdAWszWe/BQJX1oTtllFzXT8iC94MI9tuNQSUiJgqN1U8j+YNE0e2fM
-         km7J2o21sYgVxJUkGkfG+e5obh3ScOq6rcV0gLUEo6W3Xsab3vs9itm8I0OIJ9b+i8
-         +HoLWTxSgM7sQve0C/4TWVMyRlVp/kmiLLfpMjHm87vHaPaeL0xbp4ImVaCdBk9VYK
-         nKUjn82K15BRg==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH] linux/export.h: make <linux/export.h> independent of CONFIG_MODULES
-Date:   Sun, 16 Jul 2023 19:15:54 +0900
-Message-Id: <20230716101554.920701-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.39.2
+        Mon, 17 Jul 2023 04:30:57 -0400
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DF0218B
+        for <linux-kbuild@vger.kernel.org>; Mon, 17 Jul 2023 01:30:56 -0700 (PDT)
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-51a52a7d859so11313831a12.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 17 Jul 2023 01:30:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689582654; x=1692174654;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ey5FUIL8tx7tACde1gSmtq+Q4hBVFmA7zgp6XNTNhdM=;
+        b=Sq3TPotHdcE0zaSaRr1BX+S1fc6p20dCTTtx7xBF7B479CP6kr/7E+ex7o7IDscb4O
+         xISxikbAEvB83WyH/DRPInZANQhf9oTKnziY19CLgCG8jrKkr2c3qpqHihLyNML/HG3Y
+         H+taNk4WI9DJpmSny6SHHwncr2QGaoeX2+ZAP/dnkEZOEX2FJweQzqy3Ch7dMooshW7K
+         LNiMMZVvU8DyYnAsory3opIHLttk5WifEyjqkKyYrqQAwK1oqiliXyGpCQwVOWfL7/hn
+         8qPJqmjbnWyXJRSLdNenfnPr1Mne51u1G/gn0uKMar9eURgNNJ4ExTnj+kQqeanC9xZY
+         UgYg==
+X-Gm-Message-State: ABy/qLZuoLC3xOna5Jv5ND/48VdyIOhr0RhGSIxx8z9s15XNmBn9aSCN
+        NE2wcesh6Rj8EHhZD9TJQmI=
+X-Google-Smtp-Source: APBJJlF1tEcrQdf6ek0y5ycObNL+BrXFMalFBrNktGy0qhN3Cr7tYp8yS5z6x/p9vExlxida/GjurQ==
+X-Received: by 2002:a17:907:62a8:b0:98d:f2c9:a1eb with SMTP id nd40-20020a17090762a800b0098df2c9a1ebmr9864647ejc.24.1689582654245;
+        Mon, 17 Jul 2023 01:30:54 -0700 (PDT)
+Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:59? ([2a0b:e7c0:0:107::aaaa:59])
+        by smtp.gmail.com with ESMTPSA id jw23-20020a17090776b700b009935aba3a9dsm8840192ejc.48.2023.07.17.01.30.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Jul 2023 01:30:53 -0700 (PDT)
+Message-ID: <d57ba55f-20a3-b836-783d-b49c8a161b6e@kernel.org>
+Date:   Mon, 17 Jul 2023 10:30:52 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: con3270.o is built twice, leading to errors
+Content-Language: en-US
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+References: <7b663b86-4df0-c3df-18a7-e4f47f900be4@kernel.org>
+ <CAK7LNAQhORSPEuB=XFa_i5EcQfsJ6uXy0MM5YWo_84eLGcoxNQ@mail.gmail.com>
+From:   Jiri Slaby <jirislaby@kernel.org>
+In-Reply-To: <CAK7LNAQhORSPEuB=XFa_i5EcQfsJ6uXy0MM5YWo_84eLGcoxNQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Currently, all files with EXPORT_SYMBOL() are rebuilt when CONFIG_MODULES
-is flipped due to <linux/export.h> depending on CONFIG_MODULES.
+On 15. 07. 23, 7:04, Masahiro Yamada wrote:
+> On Fri, Jul 14, 2023 at 3:33 PM Jiri Slaby <jirislaby@kernel.org> wrote:
+>>
+>> Hi,
+>>
+>> if I create an s390 defconfig:
+>> mkdir /tmp/s390/
+>> make O=/tmp/s390/ ARCH=s390 CROSS_COMPILE=s390x-suse-linux- defconfig
+>>
+>> And then if I try for a couple times:
+>> make O=/tmp/s390/ -j17 ARCH=s390 CROSS_COMPILE=s390x-suse-linux-
+>> drivers/s390/char/con3270.o
+>>
+>> Most of the time, I get:
+>> make[1]: Entering directory '/tmp/s390'
+>>     GEN     Makefile
+>>     CALL    /home/latest/linux/scripts/checksyscalls.sh
+>>     CC      drivers/s390/char/con3270.o
+>>     CC      drivers/s390/char/con3270.o
+>>
+>> I.e. it is built twice.
+>>
+>> Sometimes, I also get an error:
+>> fixdep: error opening file: drivers/s390/char/.con3270.o.d: No such file
+>> or directory
+>> make[4]: *** [/home/latest/linux/scripts/Makefile.build:243:
+>> drivers/s390/char/con3270.o] Error 2
+>> make[4]: *** Deleting file 'drivers/s390/char/con3270.o'
+>> make[3]: *** [/home/latest/linux/scripts/Makefile.build:477: drivers]
+>>
+>> Obviously due to some race.
+>>
+>> Any ideas what is going on?
+> 
+> 
+> 
+> The reason is because ARCH=s390 descends into
+> drivers/s390/ in a non-standard way.
+> 
+> See arch/s390/Makefile line 122.
+> 
+> 
+> 
+> This is a corner case in single builds, and I
+> do not know how to make it work.
+> 
+> 
+> 
+> I really hope arch maintainers will follow the standard
+> obj-y syntax unless there is a strong reason to opt out.
+> 
+> 
+> The following patch will fix the issue.
 
-Now that modpost can make a final decision about export symbols,
-<linux/export.h> does not need to make EXPORT_SYMBOL() no-op.
-Instead, modpost can skip emitting KSYMTAB when CONFIG_MODULES is unset.
+Tested-by: Jiri Slaby <jirislaby@kernel.org>
 
-This commit will reduce the number of recompilation when CONFIG_MODULES
-is toggled.
+Will you send it as a patch?
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+> diff --git a/arch/s390/Makefile b/arch/s390/Makefile
+> index 5ed242897b0d..a53a36ee0731 100644
+> --- a/arch/s390/Makefile
+> +++ b/arch/s390/Makefile
+> @@ -119,7 +119,6 @@ export KBUILD_CFLAGS_DECOMPRESSOR
+>   OBJCOPYFLAGS   := -O binary
+> 
+>   libs-y         += arch/s390/lib/
+> -drivers-y      += drivers/s390/
+> 
+>   boot           := arch/s390/boot
+>   syscalls       := arch/s390/kernel/syscalls
+> diff --git a/drivers/Makefile b/drivers/Makefile
+> index 7241d80a7b29..a7459e77df37 100644
+> --- a/drivers/Makefile
+> +++ b/drivers/Makefile
+> @@ -195,3 +195,5 @@ obj-$(CONFIG_PECI)          += peci/
+>   obj-$(CONFIG_HTE)              += hte/
+>   obj-$(CONFIG_DRM_ACCEL)                += accel/
+>   obj-$(CONFIG_CDX_BUS)          += cdx/
+> +
+> +obj-$(CONFIG_S390)             += s390/
 
- include/linux/export.h   | 4 ++--
- scripts/Makefile.modpost | 1 +
- scripts/mod/modpost.c    | 8 ++++++--
- 3 files changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/include/linux/export.h b/include/linux/export.h
-index beed8387e0a4..9911508a9604 100644
---- a/include/linux/export.h
-+++ b/include/linux/export.h
-@@ -50,7 +50,7 @@ extern struct module __this_module;
- 		__EXPORT_SYMBOL_REF(sym)	ASM_NL	\
- 	.previous
- 
--#if !defined(CONFIG_MODULES) || defined(__DISABLE_EXPORTS)
-+#if defined(__DISABLE_EXPORTS)
- 
- /*
-  * Allow symbol exports to be disabled completely so that C code may
-@@ -75,7 +75,7 @@ extern struct module __this_module;
- 	__ADDRESSABLE(sym)					\
- 	asm(__stringify(___EXPORT_SYMBOL(sym, license, ns)))
- 
--#endif /* CONFIG_MODULES */
-+#endif
- 
- #ifdef DEFAULT_SYMBOL_NAMESPACE
- #define _EXPORT_SYMBOL(sym, license)	__EXPORT_SYMBOL(sym, license, __stringify(DEFAULT_SYMBOL_NAMESPACE))
-diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-index 39472e834b63..739402f45509 100644
---- a/scripts/Makefile.modpost
-+++ b/scripts/Makefile.modpost
-@@ -41,6 +41,7 @@ include $(srctree)/scripts/Kbuild.include
- MODPOST = scripts/mod/modpost
- 
- modpost-args =										\
-+	$(if $(CONFIG_MODULES),-M)							\
- 	$(if $(CONFIG_MODVERSIONS),-m)							\
- 	$(if $(CONFIG_MODULE_SRCVERSION_ALL),-a)					\
- 	$(if $(CONFIG_SECTION_MISMATCH_WARN_ONLY),,-E)					\
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index b29b29707f10..8227641dd087 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -24,6 +24,7 @@
- #include "../../include/linux/license.h"
- #include "../../include/linux/module_symbol.h"
- 
-+static bool module_enabled;
- /* Are we using CONFIG_MODVERSIONS? */
- static bool modversions;
- /* Is CONFIG_MODULE_SRCVERSION_ALL set? */
-@@ -1242,7 +1243,7 @@ static void check_section_mismatch(struct module *mod, struct elf_info *elf,
- 	const char *tosec = sec_name(elf, get_secindex(elf, sym));
- 	const struct sectioncheck *mismatch;
- 
--	if (elf->export_symbol_secndx == fsecndx) {
-+	if (module_enabled && elf->export_symbol_secndx == fsecndx) {
- 		check_export_symbol(mod, elf, faddr, tosec, sym);
- 		return;
- 	}
-@@ -2272,7 +2273,7 @@ int main(int argc, char **argv)
- 	LIST_HEAD(dump_lists);
- 	struct dump_list *dl, *dl2;
- 
--	while ((opt = getopt(argc, argv, "ei:mnT:to:au:WwENd:")) != -1) {
-+	while ((opt = getopt(argc, argv, "ei:MmnT:to:au:WwENd:")) != -1) {
- 		switch (opt) {
- 		case 'e':
- 			external_module = true;
-@@ -2282,6 +2283,9 @@ int main(int argc, char **argv)
- 			dl->file = optarg;
- 			list_add_tail(&dl->list, &dump_lists);
- 			break;
-+		case 'M':
-+			module_enabled = true;
-+			break;
- 		case 'm':
- 			modversions = true;
- 			break;
+thanks,
 -- 
-2.39.2
+js
+suse labs
 
