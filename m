@@ -2,66 +2,67 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD7667576E8
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Jul 2023 10:43:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2D22757716
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Jul 2023 10:53:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232006AbjGRInQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 18 Jul 2023 04:43:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60030 "EHLO
+        id S230358AbjGRIxB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 18 Jul 2023 04:53:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232053AbjGRInE (ORCPT
+        with ESMTP id S232055AbjGRIww (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 18 Jul 2023 04:43:04 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64969FA;
-        Tue, 18 Jul 2023 01:43:03 -0700 (PDT)
+        Tue, 18 Jul 2023 04:52:52 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D712197;
+        Tue, 18 Jul 2023 01:52:48 -0700 (PDT)
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 1C586218BB;
-        Tue, 18 Jul 2023 08:43:02 +0000 (UTC)
+        by smtp-out2.suse.de (Postfix) with ESMTP id DC2701F461;
+        Tue, 18 Jul 2023 08:52:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1689669782; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1689670366; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=UmZNxaOE9WdI5cQjddt15xDrk872x/oU18U9Nk98KSg=;
-        b=f+dFVOm/4QVXMzGLzXUb4eQQ1GKgTuZP0EVzy7/BdVoUrgrMqRcEPRXWAp7MNXc7UVCx60
-        2a0s5O4NVE5FN/BbyEq1lY0SH53IOPmqJQKiLfWCEpkSr1TKE0SWI8AyTKyAy/2aDSAGH4
-        jiOoPHonJLUHTkka6BvPm/7P45+jMe8=
+        bh=ladtk5EE7xRCj17lvWHXEp8fgnBWJpGnYxeuLN9hPjM=;
+        b=LmNBB5YyrA0gpuG0ODqpGxferTBaxhkt7fLmQ7S6mESFryW4biY9KDmXCAW9Um/iePoHRH
+        GA8A47/HU+WVu6WBnVJ0nN0WgJc6CSSBVo3JkFG39KGt/C3ePg2pxL8AMQ/SlHoOkiAU2c
+        zeF3Lgf/ED1fek9cRCZydlzJYJqcS70=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1689669782;
+        s=susede2_ed25519; t=1689670366;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=UmZNxaOE9WdI5cQjddt15xDrk872x/oU18U9Nk98KSg=;
-        b=36fhTgkkcWOWVytO88TXvO1ozHe2+5oc8tMrzpz8PezOjZhO8mLekp/NYSnmtAPRY7jmNJ
-        Xhh5EFUZkYrJE5BQ==
+        bh=ladtk5EE7xRCj17lvWHXEp8fgnBWJpGnYxeuLN9hPjM=;
+        b=/xYjdUy6nd7+GJ00/UNG3qwwXIn/F4NZ7vhgXxhqfqVJAptcLhBbcKxk6iQ4iZzsVl5Qow
+        oMqh5qQkjcH4UzCA==
 Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id BA2DB2C142;
-        Tue, 18 Jul 2023 08:43:01 +0000 (UTC)
-Date:   Tue, 18 Jul 2023 10:43:00 +0200
+        by relay2.suse.de (Postfix) with ESMTPS id 8793C2C142;
+        Tue, 18 Jul 2023 08:52:46 +0000 (UTC)
+Date:   Tue, 18 Jul 2023 10:52:45 +0200
 From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To:     Jan Engelhardt <jengelh@inai.de>
-Cc:     linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Nicolas Schier <nicolas@fjasle.eu>, linux-modules@vger.kernel.org,
+        Takashi Iwai <tiwai@suse.com>,
         Lucas De Marchi <lucas.de.marchi@gmail.com>,
-        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-        Jiri Slaby <jslaby@suse.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal =?utf-8?B?S291dG7vv70=?= <mkoutny@suse.com>,
+        Jiri Slaby <jslaby@suse.com>, Jan Engelhardt <jengelh@inai.de>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
         linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH kmod v4 4/4] libkmod, depmod, modprobe: Make directory
- for kernel modules configurable
-Message-ID: <20230718084300.GU9196@kitsune.suse.cz>
-References: <20230711153126.28876-1-msuchanek@suse.de>
- <cover.1689589902.git.msuchanek@suse.de>
- <cc04472084dc016679598fcffafc788bbb6d9c0f.1689589902.git.msuchanek@suse.de>
- <76o21q7n-8qo8-37p6-oqno-q08nqpos471@vanv.qr>
+Subject: Re: [PATCH v3] depmod: Handle installing modules under a prefix
+Message-ID: <20230718085245.GV9196@kitsune.suse.cz>
+References: <20230714143002.GL9196@kitsune.suse.cz>
+ <ZLFhuf95srX2wvJc@fjasle.eu>
+ <20230714151042.GN9196@kitsune.suse.cz>
+ <CAK7LNAT6mQ0EpwmKUCBhv9Acaf_qyGq4hu=XvSWRuZ-pNAFWVw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <76o21q7n-8qo8-37p6-oqno-q08nqpos471@vanv.qr>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNAT6mQ0EpwmKUCBhv9Acaf_qyGq4hu=XvSWRuZ-pNAFWVw@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
@@ -73,44 +74,173 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello,
-
-On Mon, Jul 17, 2023 at 09:28:30PM +0200, Jan Engelhardt wrote:
-> 
-> On Monday 2023-07-17 12:39, Michal Suchanek wrote:
-> 
-> >modprobe.d is now searched under ${prefix}/lib, add ${module_directory} to
-> >specify the directory where to search for kernel modules.
+On Tue, Jul 18, 2023 at 04:14:11AM +0900, Masahiro Yamada wrote:
+> On Sat, Jul 15, 2023 at 12:10 AM Michal Suchánek <msuchanek@suse.de> wrote:
 > >
-> >With this distributions that do not want to ship files in /lib can also
-> >move kernel modules to /usr while others can keep them in /lib.
+> > On Fri, Jul 14, 2023 at 04:54:49PM +0200, Nicolas Schier wrote:
+> > > On Fri, Jul 14, 2023 at 04:30:02PM +0200, Michal Such�nek wrote:
+> > > > Hello,
+> > > >
+> > > > On Fri, Jul 14, 2023 at 04:05:10PM +0200, Nicolas Schier wrote:
+> > > > > On Fri, Jul 14, 2023 at 02:21:08PM +0200 Michal Suchanek wrote:
+> > > > > > Some distributions aim at not shipping any files in / outside of usr.
+> > > > >
+> > > > > For me, preventing negation often makes things easier, e.g.: "... aim at
+> > > > > shipping files only below /usr".
+> > > > >
+> > > > > >
+> > > > > > The path under which kernel modules are installed is hardcoded to /lib
+> > > > > > which conflicts with this goal.
+> > > > > >
+> > > > > > When kmod provides the config command, use it to determine the correct
+> > > > > > module installation prefix.
+> > > > > >
+> > > > > > This is a prefix under which the modules are searched by kmod on the
+> > > > > > system, and is separate from the temporary staging location already
+> > > > > > supported by INSTALL_MOD_PATH.
+> > > > > >
+> > > > > > With kmod that does not provide the config command empty prefix is used
+> > > > > > as before.
+> > > > > >
+> > > > > > Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+> > > > > > ---
+> > > > > > v2: Avoid error on systems with kmod that does not support config
+> > > > > > command
+> > > > > > v3: More verbose commit message
+> > > > > > ---
+> > > > > >  Makefile          | 4 +++-
+> > > > > >  scripts/depmod.sh | 8 ++++----
+> > > > > >  2 files changed, 7 insertions(+), 5 deletions(-)
+> > > > > >
+> > > > > > diff --git a/Makefile b/Makefile
+> > > > > > index 47690c28456a..b1fea135bdec 100644
+> > > > > > --- a/Makefile
+> > > > > > +++ b/Makefile
+> > > > > > @@ -1165,7 +1165,9 @@ export INSTALL_DTBS_PATH ?= $(INSTALL_PATH)/dtbs/$(KERNELRELEASE)
+> > > > > >  # makefile but the argument can be passed to make if needed.
+> > > > > >  #
+> > > > > >
+> > > > > > -MODLIB = $(INSTALL_MOD_PATH)/lib/modules/$(KERNELRELEASE)
+> > > > > > +export KERNEL_MODULE_PREFIX := $(shell kmod config &> /dev/null && kmod config | jq -r .module_prefix)
+> > > > >
+> > > > > All other calls of `jq` that I could find are located at tools/; as this here
+> > > > > is evaluated on each invocation, this should probably be documented in
+> > > > > Documentation/process/changes.rst?
+> > > > >
+> > > > > (Absence of `jq` will cause error messages, even with CONFIG_MODULES=n.)
+> > > >
+> > > > That's a good point.
+> > > >
+> > > > >
+> > > > > > +
+> > > > > > +MODLIB = $(INSTALL_MOD_PATH)$(KERNEL_MODULE_PREFIX)/lib/modules/$(KERNELRELEASE)
+> > > > > >  export MODLIB
+> > > > > >
+> > > > > >  PHONY += prepare0
+> > > > > > diff --git a/scripts/depmod.sh b/scripts/depmod.sh
+> > > > > > index 3643b4f896ed..88ac79056153 100755
+> > > > > > --- a/scripts/depmod.sh
+> > > > > > +++ b/scripts/depmod.sh
+> > > > > > @@ -27,16 +27,16 @@ fi
+> > > > > >  # numbers, so we cheat with a symlink here
+> > > > > >  depmod_hack_needed=true
+> > > > > >  tmp_dir=$(mktemp -d ${TMPDIR:-/tmp}/depmod.XXXXXX)
+> > > > > > -mkdir -p "$tmp_dir/lib/modules/$KERNELRELEASE"
+> > > > > > +mkdir -p "$tmp_dir$KERNEL_MODULE_PREFIX/lib/modules/$KERNELRELEASE"
+> > > > > >  if "$DEPMOD" -b "$tmp_dir" $KERNELRELEASE 2>/dev/null; then
+> > > > > > -       if test -e "$tmp_dir/lib/modules/$KERNELRELEASE/modules.dep" -o \
+> > > > > > -               -e "$tmp_dir/lib/modules/$KERNELRELEASE/modules.dep.bin"; then
+> > > > > > +       if test -e "$tmp_dir$KERNEL_MODULE_PREFIX/lib/modules/$KERNELRELEASE/modules.dep" -o \
+> > > > > > +               -e "$tmp_dir$KERNEL_MODULE_PREFIX/lib/modules/$KERNELRELEASE/modules.dep.bin"; then
+> > > > > >                 depmod_hack_needed=false
+> > > > > >         fi
+> > > > > >  fi
+> > > > >
+> > > > > I'd like to come back to the statement from Masahiro: Is the check above,
+> > > > > against some very old versions of depmod [1], the only reason for this patch?
+> > > > >
+> > > > > If we could remove that, would
+> > > > >
+> > > > >     make INSTALL_MOD_PATH="$(kmod config | jq -r .module_prefix)" modules_install
+> > > > >
+> > > > > be sufficient?
+> > > >
+> > > > No, the INSTALL_MOD_PATH is passed as the -b argument to depmod while
+> > > > the newly added part is not because it's integral part of where the
+> > > > modules are installed on the system, and not the staging area path.
+> > >
+> > > Ah, thanks.  So just for my understanding, could this be a (non-gentle)
+> > > alternative version of your patch, w/o modifying top-level Makefile?
+> > >
+> > > diff --git a/scripts/depmod.sh b/scripts/depmod.sh
+> > > index 3643b4f896ed..72c819de0669 100755
+> > > --- a/scripts/depmod.sh
+> > > +++ b/scripts/depmod.sh
+> > > @@ -1,4 +1,4 @@
+> > > -#!/bin/sh
+> > > +#!/bin/bash
+> > >  # SPDX-License-Identifier: GPL-2.0
+> > >  #
+> > >  # A depmod wrapper used by the toplevel Makefile
+> > > @@ -23,6 +23,8 @@ if [ -z $(command -v $DEPMOD) ]; then
+> > >         exit 0
+> > >  fi
+> > >
+> > > +kmod_version=$(( $(kmod --version | sed -rne 's/^kmod version ([0-9]+).*$/\1/p') ))
+> > > +
+> > >  # older versions of depmod require the version string to start with three
+> > >  # numbers, so we cheat with a symlink here
+> > >  depmod_hack_needed=true
+> > > @@ -35,6 +37,13 @@ if "$DEPMOD" -b "$tmp_dir" $KERNELRELEASE 2>/dev/null; then
+> > >         fi
+> > >  fi
+> > >  rm -rf "$tmp_dir"
+> > > +
+> > > +if [ "${kmod_version}" -gt 32 ]; then
+> > > +       kmod_prefix="$(kmod config | jq -r .module_prefix)"
+> > > +       INSTALL_MOD_PATH="${INSTALL_MOD_PATH#${kmod_prefix}"
+> > > +       depmod_hack_needed=false
+> > > +fi
+> > > +
+> > >  if $depmod_hack_needed; then
+> > >         symlink="$INSTALL_MOD_PATH/lib/modules/99.98.$KERNELRELEASE"
+> > >         ln -s "$KERNELRELEASE" "$symlink"
+> > >
+> > > (untested, and assuming that kmod module prefix is in kmod >= 32)
+> >
+> > It can be detected by running the 'kmod config' command first and
+> > ignoring the output when it fails which the above patch already did.
+> > The version check does not sound very reliable.
+> >
+> > > Or are I am still missing something?
+> >
+> > MODLIB still needs to include the extra prefix so that files are
+> > installed in the correct location. And that's defined in the toplevel
+> > Makefile.
+> >
+> > Thanks
+> >
+> > Michal
 > 
-> This patch breaks kernel builds/installation.
 > 
->  * assume $distro has given me a kmod that has your submission included,
->    and such kmod was ./configure'd --with-module-directory=/usr/lib/modules
 > 
-> With such a kmod, the module installation of current and past kernels
-> is not possible, in other words, ** bisecting kernels ** is broken:
+> As Documentation/kbuild/kbuild.rst mentions,
+> you can override MODLIB.
+> 
+> Kbuild already provides the maximum flexibility.
+> 
+> 
+> $ make modules_install \
+>   INSTALL_MOD_PATH=/path/to/whatever/staging/dir \
+>   MODLIB=/path/to/whatever/real/install/destination
 
-It might be nice to provide backwads compatibility with earlier
-configurations.
+That's great that we have another workaround for the case when the
+kernel build system and kmod do not agree on the location of the kernel
+modules.
 
-However, if it comes at the cost of making the implementation more
-complex and future maintenance more difficult it might not be such a
-great idea. So far I have not seen a proposal how to do it nicely.
-
-You can use any of the number of workarounds that have been used for
-installing kernels on usrmerged distributions up until now.
-
-sed -i -e s,/lib/modules,/usr/lib/modules, Makefile scripts/depmod.sh is
-one.
-
-Failing depmod is not critical, you can fix it up after the fact once
-the modules are deployed on the test system.
-
-You can also build a differently configured kmod for the purpose and
-pass it with DEPMOD= to the kernel build.
+However, they should by default agree, and if this feature is merged
+into kmod the kernel should also adapt to make sure the modules are
+installed where kmod expects them.
 
 Thanks
 
