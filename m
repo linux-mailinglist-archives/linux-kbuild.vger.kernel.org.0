@@ -2,63 +2,98 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 527FC759049
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Jul 2023 10:30:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B836759078
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Jul 2023 10:41:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230242AbjGSIao (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 19 Jul 2023 04:30:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34940 "EHLO
+        id S229651AbjGSIlz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 19 Jul 2023 04:41:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229687AbjGSIan (ORCPT
+        with ESMTP id S229558AbjGSIly (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 19 Jul 2023 04:30:43 -0400
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED0BF1723
-        for <linux-kbuild@vger.kernel.org>; Wed, 19 Jul 2023 01:30:41 -0700 (PDT)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-4fbc0314a7bso10932434e87.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 19 Jul 2023 01:30:41 -0700 (PDT)
+        Wed, 19 Jul 2023 04:41:54 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DC19FC;
+        Wed, 19 Jul 2023 01:41:53 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-3fc0aecf15bso66209835e9.1;
+        Wed, 19 Jul 2023 01:41:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689756111; x=1692348111;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=bLmQ24YixAEZPKW7aPylZWyBEWNRZEvazunJcAkAC9w=;
+        b=DmO8zd8ktLDrYIG3mwVdbuRtG8SjqJgfGiwwFu9X1zxvFTTeEtO0gcSImcbz8889Ch
+         KSFk49EIQM/VtA1jh8+7KzlMGdarcgf+cD4PN+QpWaahUcd8/grTGnXj6/KfVZGjA6lB
+         SVuQgHQDK8Ep1lSufFbOzBeft4aXLOnbkNdqJvatSGcLksVe6ioFzpECU4bMB0KuohP/
+         u9SpjYO5IqR345jj2wDGQzPoXvvNf4pjymNngx+bu5uqFdDILZwhGbSpa2DXTTM7dMj7
+         S0JnmmytUKXIvnCK4JOIwHpT7wSxqYlu1+oADnfLFeghGnX2HMwHgmfmZyjJNdRc8JEc
+         /h1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689755440; x=1690360240;
-        h=content-transfer-encoding:in-reply-to:references:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=caQlTg4az06JYBekgEfWh3DUl4GUhfjGVvWUW1G5+34=;
-        b=LPpF2lnZjNL1OKSf+iQ6B3tZRSHcaIGxizif0mSUKVKZv9zWGd+XEhRlq1CbnX7j1f
-         hRGKfOxOmd0iUHbBF/1vaGSSu/FlaKp6Byf8Etd6gkeiM8m4z6whu3O7Z5mww519o/Ub
-         Wmf4Z8h/y8iVDdlstzHQ3ISrS0jLsoTAJvS8X+PcNQ0iF4QmUzGmSGp57X5OfuTdr28n
-         QtRA4r/u5iLCLmtko/ptlC5oIv4OqjqPo+KhVs1V2NVt5PxYFfOIVfjdFjhUX1sE3hub
-         nwwszlUNX0atVqc7a8xQBNin86qS+xFUsVrVDQwKh3tRWxxncLT/El7W+e0QSy4fLgnC
-         awCA==
-X-Gm-Message-State: ABy/qLblsLTxvtF3+XSvTdVBvqJvbRd+y4WRK0TG7gzTV8alyg7iSXG1
-        rUYg4ABH97O53CB97lKFT8VSWXilI3I=
-X-Google-Smtp-Source: APBJJlGQwJqzJ6DS2GmxJHHRW1IGbki07Er/1MaksykgcLgE9mlU6NiAt2OcxPR89Npa/FAJ01ssew==
-X-Received: by 2002:a05:6512:234a:b0:4fb:8b2a:5e09 with SMTP id p10-20020a056512234a00b004fb8b2a5e09mr13149373lfu.43.1689755439854;
-        Wed, 19 Jul 2023 01:30:39 -0700 (PDT)
-Received: from [192.168.1.58] (185-219-167-24-static.vivo.cz. [185.219.167.24])
-        by smtp.gmail.com with ESMTPSA id l2-20020aa7cac2000000b0051e22660835sm2360365edt.46.2023.07.19.01.30.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Jul 2023 01:30:39 -0700 (PDT)
-Message-ID: <92f4dfe9-eb87-766b-271a-e57ada3a7dbd@kernel.org>
-Date:   Wed, 19 Jul 2023 10:30:38 +0200
+        d=1e100.net; s=20221208; t=1689756111; x=1692348111;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bLmQ24YixAEZPKW7aPylZWyBEWNRZEvazunJcAkAC9w=;
+        b=bhFzh/EPUrov6XdyK9tJYRGcoce9HwYd4tSX3+I81Cox98L981MzS2PmQtN1AJVmYU
+         5FebkfxC8ZLbj6LI4hWvPiwpbr5sSGoxlLwB96Tc3AVRkApU90nW7kjHjvD/G2s2FZEi
+         4YE1NxdPNYqGIi4xAMyvW12SlU8Kni7zWP1uCCQNcvhYcrvVbxPo9CNsRBOHAgSOcF2y
+         JrWXlitQdAD6Knt489aUBLoLNDc5WROdLR8M+1f5drglV2rwaZxPFIjaO39KXyAvRsad
+         z74zAb53dtpS70dm9Y2H69c4O2iCPLFRfT4OPu8Fa88tOR7aAsz2LKFM3Tkn25xKjK4X
+         BoeQ==
+X-Gm-Message-State: ABy/qLayyca1Ao9p99ShVn09ozf/FFUCmGnTxPkSSBOuKCGEHoRBetSD
+        qjkYFDVv2rbp+gYGwFm6Hfu5uBCPzuGam7LFSVw=
+X-Google-Smtp-Source: APBJJlH5+woZbgzbveFUzX2WYljqawmBN/szdxtw/UazZM1DUFHtUpv5VgubshMErax9SxbXJZaM5C4Sb9ubQeIY+4Q=
+X-Received: by 2002:a7b:cd0d:0:b0:3fb:e643:1225 with SMTP id
+ f13-20020a7bcd0d000000b003fbe6431225mr1534391wmj.13.1689756111466; Wed, 19
+ Jul 2023 01:41:51 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: arch/um's ssl.o [was: con3270.o] is built twice, leading to errors
-Content-Language: en-US
-From:   Jiri Slaby <jirislaby@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
+References: <20221219055431.22596-1-ashimida.1990@gmail.com> <20230325081117.93245-1-ashimida.1990@gmail.com>
+In-Reply-To: <20230325081117.93245-1-ashimida.1990@gmail.com>
+From:   Dan Li <ashimida.1990@gmail.com>
+Date:   Wed, 19 Jul 2023 16:41:39 +0800
+Message-ID: <CAE+Z0PEJ_Nidzz6kY5uJrKtFSQGDdBTae_8+A1pTKW6HSV3veQ@mail.gmail.com>
+Subject: Re: [RFC/RFT,V2 0/3] Add compiler support for Kernel Control Flow Integrity
+To:     gcc-patches@gcc.gnu.org,
+        Richard Sandiford <richard.sandiford@arm.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-References: <7b663b86-4df0-c3df-18a7-e4f47f900be4@kernel.org>
-In-Reply-To: <7b663b86-4df0-c3df-18a7-e4f47f900be4@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Tom Rix <trix@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Dan Li <ashimida.1990@gmail.com>,
+        Marco Elver <elver@google.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Song Liu <song@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Uros Bizjak <ubizjak@gmail.com>,
+        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+        Juergen Gross <jgross@suse.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Borislav Petkov <bp@suse.de>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Aaron Tomlin <atomlin@redhat.com>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Yuntao Wang <ytcoode@gmail.com>,
+        Changbin Du <changbin.du@intel.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, llvm@lists.linux.dev,
+        linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,56 +101,79 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 14. 07. 23, 8:33, Jiri Slaby wrote:
-> Hi,
-> 
-> if I create an s390 defconfig:
-> mkdir /tmp/s390/
-> make O=/tmp/s390/ ARCH=s390 CROSS_COMPILE=s390x-suse-linux- defconfig
-> 
-> And then if I try for a couple times:
-> make O=/tmp/s390/ -j17 ARCH=s390 CROSS_COMPILE=s390x-suse-linux- 
-> drivers/s390/char/con3270.o
-> 
-> Most of the time, I get:
-> make[1]: Entering directory '/tmp/s390'
->    GEN     Makefile
->    CALL    /home/latest/linux/scripts/checksyscalls.sh
->    CC      drivers/s390/char/con3270.o
->    CC      drivers/s390/char/con3270.o
-> 
-> I.e. it is built twice.
+Hi All,
 
-Similarly, another tty driver, another arch (um):
+Embarrassingly, due to personal reasons, I may not be able to complete
+the series of patches on the forward side of GCC CFI for the time being.
 
-$ make O=../a/arch/um/ -j17 ARCH=um arch/um/drivers/ssl.o V=2
-   GEN     Makefile - due to target is PHONY
-   CALL    scripts/checksyscalls.sh - due to target is PHONY
-   CC      arch/um/drivers/ssl.o - due to: arch/um/drivers/ssl.c
-   CC      arch/um/drivers/ssl.o - due to: arch/um/drivers/ssl.c
+Please forgive me for not realizing that I should have sent this help
+email a long time ago :(
 
-This leads often to corrupted arch/um/arch/um/drivers/.ssl.o.cmd.
+This topic has been delayed for a long time, and I would be very grateful
+if someone can help complete this series of patches.
 
-But in this case, I see:
-obj-$(CONFIG_SSL) += ssl.o
+BTW, please let me know if there are more groups I can cc for help.
 
-So is this has this a different root cause?
+Thanks!
+Dan.
 
-> Sometimes, I also get an error:
-> fixdep: error opening file: drivers/s390/char/.con3270.o.d: No such file 
-> or directory
-> make[4]: *** [/home/latest/linux/scripts/Makefile.build:243: 
-> drivers/s390/char/con3270.o] Error 2
-> make[4]: *** Deleting file 'drivers/s390/char/con3270.o'
-> make[3]: *** [/home/latest/linux/scripts/Makefile.build:477: drivers]
-> 
-> Obviously due to some race.
-> 
-> Any ideas what is going on?
-> 
-> thanks,
-
--- 
-js
-suse labs
-
+On Sat, 25 Mar 2023 at 16:11, Dan Li <ashimida.1990@gmail.com> wrote:
+>
+> This series of patches is mainly used to support the control flow
+> integrity protection of the linux kernel [1], which is similar to
+> -fsanitize=kcfi in clang 16.0 [2,3].
+>
+> Any suggestion please let me know :).
+>
+> Thanks, Dan.
+>
+> [1] https://lore.kernel.org/all/20220908215504.3686827-1-samitolvanen@google.com/
+> [2] https://clang.llvm.org/docs/ControlFlowIntegrity.html
+> [3] https://reviews.llvm.org/D119296
+>
+> Signed-off-by: Dan Li <ashimida.1990@gmail.com>
+>
+> ---
+> Dan Li (3):
+>   [PR102768] flag-types.h (enum sanitize_code): Extend sanitize_code to
+>     64 bits to support more features
+>   [PR102768] Support CFI: Add basic support for Kernel Control Flow
+>     Integrity
+>   [PR102768] aarch64: Add support for Kernel Control Flow Integrity
+>
+>  gcc/asan.h                    |   4 +-
+>  gcc/c-family/c-attribs.cc     |  10 +-
+>  gcc/c-family/c-common.h       |   2 +-
+>  gcc/c/c-parser.cc             |   4 +-
+>  gcc/cfgexpand.cc              |  26 ++++++
+>  gcc/cgraphunit.cc             |  34 +++++++
+>  gcc/combine.cc                |   1 +
+>  gcc/common.opt                |   4 +-
+>  gcc/config/aarch64/aarch64.cc | 166 ++++++++++++++++++++++++++++++++++
+>  gcc/cp/typeck.cc              |   2 +-
+>  gcc/doc/invoke.texi           |  36 ++++++++
+>  gcc/doc/tm.texi               |  27 ++++++
+>  gcc/doc/tm.texi.in            |   8 ++
+>  gcc/dwarf2asm.cc              |   2 +-
+>  gcc/emit-rtl.cc               |   1 +
+>  gcc/emit-rtl.h                |   4 +
+>  gcc/final.cc                  |  24 ++++-
+>  gcc/flag-types.h              |  67 +++++++-------
+>  gcc/gimple.cc                 |  11 +++
+>  gcc/gimple.h                  |   5 +-
+>  gcc/opt-suggestions.cc        |   2 +-
+>  gcc/opts.cc                   |  26 +++---
+>  gcc/opts.h                    |   8 +-
+>  gcc/output.h                  |   3 +
+>  gcc/reg-notes.def             |   1 +
+>  gcc/target.def                |  38 ++++++++
+>  gcc/toplev.cc                 |   4 +
+>  gcc/tree-cfg.cc               |   2 +-
+>  gcc/tree.cc                   | 144 +++++++++++++++++++++++++++++
+>  gcc/tree.h                    |   1 +
+>  gcc/varasm.cc                 |  26 ++++++
+>  31 files changed, 627 insertions(+), 66 deletions(-)
+>
+> --
+> 2.17.1
+>
