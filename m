@@ -2,98 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 51D7975901C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Jul 2023 10:21:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 527FC759049
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Jul 2023 10:30:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229687AbjGSIVL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 19 Jul 2023 04:21:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59090 "EHLO
+        id S230242AbjGSIao (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 19 Jul 2023 04:30:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229535AbjGSIVK (ORCPT
+        with ESMTP id S229687AbjGSIan (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 19 Jul 2023 04:21:10 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EDA21B6;
-        Wed, 19 Jul 2023 01:21:09 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3fbc59de009so60998365e9.3;
-        Wed, 19 Jul 2023 01:21:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689754867; x=1692346867;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=siK4OSk/ePA2geNjaLPDhLD4PkEcMUYKPlRGf5Gu9SM=;
-        b=BKVgWb2uTivagtIl+FbELcI5E/MTncxi8pqlBhFtF/9csNkVmuoMb0rnZ5OEj2Suv7
-         fmeS7yn4+/aJv+tbiejfkqG82O4mHod1S1A+DXRggkS+b/vBev0xe007qJQJDf84kjI5
-         yWelJpVqdYm1ci/HKnRD50nWmWg1Wopxc/1c/GMW4jK5w8mms7vz753YKjassWGcLgzy
-         a4zmZUBQasd7Or/b+ZFoncsWuYdyY2mGqV36rkI4FjZygXmR+QcD0oOUebX7t4FXVJ9z
-         98IoYu9UvIz/3OY21LYrOK0cxC7eoXo/lo7Uloia1cx/XhqhCjMoaAUc1Sw3OxGkO9zz
-         Zdag==
+        Wed, 19 Jul 2023 04:30:43 -0400
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED0BF1723
+        for <linux-kbuild@vger.kernel.org>; Wed, 19 Jul 2023 01:30:41 -0700 (PDT)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-4fbc0314a7bso10932434e87.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 19 Jul 2023 01:30:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689754867; x=1692346867;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=siK4OSk/ePA2geNjaLPDhLD4PkEcMUYKPlRGf5Gu9SM=;
-        b=ZoO8bBZh2nRBCx2AIwAyURiROeFas/keab7/gvIz+DZyS1SVwaj32bv6q8yG1JKxkO
-         0wbrt9Y1SPqZZeYW+f6OpRUWsOYIiTIFtUNDC8L7Urccn32jmXr1bdsi61bNLfHW1sh5
-         bRZEP98VA3dSZpTDnKzd6gWjwlZu+JoOSwWQWFbjvDOMwqwv/j4UW5ogpAM6rOilqYIC
-         z5GtHM8pfWrMH8UAYV+aXQVGyVhrinpJD9lAgWf4B9+jIzx8mvITaG0dVpP5AORPqHjo
-         IXOVSJAEZEUg7XExLuLNZvHlCIqPWy7ry85UEAF3fKIpjw5m7uFnK9PbLu1KbC4j21Dq
-         nevw==
-X-Gm-Message-State: ABy/qLYfatuFrhuRx/zVtxDyxRVQgGiTJALzKWDHw1EuP/kOrYyXX904
-        auACXejCyuNjGdo0lwZoRnH3KlGzQrOFk79hI/gjxh7KrygTEA==
-X-Google-Smtp-Source: APBJJlEMYzsVW7aXyNVPWHwTQFSclAxIY+S7U96tWP5PKGFiKi68A1ED1/ehLtPDMuN0aGAqqr00Tl7Ee1vgyAtcKSM=
-X-Received: by 2002:a05:600c:224b:b0:3fa:d160:fc6d with SMTP id
- a11-20020a05600c224b00b003fad160fc6dmr1302292wmm.30.1689754867235; Wed, 19
- Jul 2023 01:21:07 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1689755440; x=1690360240;
+        h=content-transfer-encoding:in-reply-to:references:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=caQlTg4az06JYBekgEfWh3DUl4GUhfjGVvWUW1G5+34=;
+        b=LPpF2lnZjNL1OKSf+iQ6B3tZRSHcaIGxizif0mSUKVKZv9zWGd+XEhRlq1CbnX7j1f
+         hRGKfOxOmd0iUHbBF/1vaGSSu/FlaKp6Byf8Etd6gkeiM8m4z6whu3O7Z5mww519o/Ub
+         Wmf4Z8h/y8iVDdlstzHQ3ISrS0jLsoTAJvS8X+PcNQ0iF4QmUzGmSGp57X5OfuTdr28n
+         QtRA4r/u5iLCLmtko/ptlC5oIv4OqjqPo+KhVs1V2NVt5PxYFfOIVfjdFjhUX1sE3hub
+         nwwszlUNX0atVqc7a8xQBNin86qS+xFUsVrVDQwKh3tRWxxncLT/El7W+e0QSy4fLgnC
+         awCA==
+X-Gm-Message-State: ABy/qLblsLTxvtF3+XSvTdVBvqJvbRd+y4WRK0TG7gzTV8alyg7iSXG1
+        rUYg4ABH97O53CB97lKFT8VSWXilI3I=
+X-Google-Smtp-Source: APBJJlGQwJqzJ6DS2GmxJHHRW1IGbki07Er/1MaksykgcLgE9mlU6NiAt2OcxPR89Npa/FAJ01ssew==
+X-Received: by 2002:a05:6512:234a:b0:4fb:8b2a:5e09 with SMTP id p10-20020a056512234a00b004fb8b2a5e09mr13149373lfu.43.1689755439854;
+        Wed, 19 Jul 2023 01:30:39 -0700 (PDT)
+Received: from [192.168.1.58] (185-219-167-24-static.vivo.cz. [185.219.167.24])
+        by smtp.gmail.com with ESMTPSA id l2-20020aa7cac2000000b0051e22660835sm2360365edt.46.2023.07.19.01.30.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Jul 2023 01:30:39 -0700 (PDT)
+Message-ID: <92f4dfe9-eb87-766b-271a-e57ada3a7dbd@kernel.org>
+Date:   Wed, 19 Jul 2023 10:30:38 +0200
 MIME-Version: 1.0
-References: <20221219055431.22596-1-ashimida.1990@gmail.com>
- <20230325081117.93245-1-ashimida.1990@gmail.com> <202306211451.CB0A34563@keescook>
-In-Reply-To: <202306211451.CB0A34563@keescook>
-From:   Dan Li <ashimida.1990@gmail.com>
-Date:   Wed, 19 Jul 2023 16:20:55 +0800
-Message-ID: <CAE+Z0PFtqKf9EM+u8V87TPo87jbGXz20VQvx0JvDHTdT8Xp+Pw@mail.gmail.com>
-Subject: Re: [RFC/RFT,V2 0/3] Add compiler support for Kernel Control Flow Integrity
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Qing Zhao <qing.zhao@oracle.com>, gcc-patches@gcc.gnu.org,
-        Richard Sandiford <richard.sandiford@arm.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: arch/um's ssl.o [was: con3270.o] is built twice, leading to errors
+Content-Language: en-US
+From:   Jiri Slaby <jirislaby@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
-        Tom Rix <trix@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Marco Elver <elver@google.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Song Liu <song@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Uros Bizjak <ubizjak@gmail.com>,
-        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-        Juergen Gross <jgross@suse.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Aaron Tomlin <atomlin@redhat.com>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        Yuntao Wang <ytcoode@gmail.com>,
-        Changbin Du <changbin.du@intel.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, llvm@lists.linux.dev,
-        linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+References: <7b663b86-4df0-c3df-18a7-e4f47f900be4@kernel.org>
+In-Reply-To: <7b663b86-4df0-c3df-18a7-e4f47f900be4@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -101,43 +66,56 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Kees,
+On 14. 07. 23, 8:33, Jiri Slaby wrote:
+> Hi,
+> 
+> if I create an s390 defconfig:
+> mkdir /tmp/s390/
+> make O=/tmp/s390/ ARCH=s390 CROSS_COMPILE=s390x-suse-linux- defconfig
+> 
+> And then if I try for a couple times:
+> make O=/tmp/s390/ -j17 ARCH=s390 CROSS_COMPILE=s390x-suse-linux- 
+> drivers/s390/char/con3270.o
+> 
+> Most of the time, I get:
+> make[1]: Entering directory '/tmp/s390'
+>    GEN     Makefile
+>    CALL    /home/latest/linux/scripts/checksyscalls.sh
+>    CC      drivers/s390/char/con3270.o
+>    CC      drivers/s390/char/con3270.o
+> 
+> I.e. it is built twice.
 
-Sincerely sorry, I just saw this email.
-Embarrassingly, due to another job change, my plan was postponed again :(.
+Similarly, another tty driver, another arch (um):
 
-I may not be able to attend this year's GCC meeting. Is there any other
-way to let this get some traction in GCC? I really hope someone can help
-with this topic.
+$ make O=../a/arch/um/ -j17 ARCH=um arch/um/drivers/ssl.o V=2
+   GEN     Makefile - due to target is PHONY
+   CALL    scripts/checksyscalls.sh - due to target is PHONY
+   CC      arch/um/drivers/ssl.o - due to: arch/um/drivers/ssl.c
+   CC      arch/um/drivers/ssl.o - due to: arch/um/drivers/ssl.c
 
-BTW, I'm still looking at this and plan to finish it by the end of this
-year, but it's taking too long and there's a lot of uncertainty, so
-please just consider this only as a backup option.
+This leads often to corrupted arch/um/arch/um/drivers/.ssl.o.cmd.
 
-Thanks,
-Dan.
+But in this case, I see:
+obj-$(CONFIG_SSL) += ssl.o
 
-On Thu, 22 Jun 2023 at 05:54, Kees Cook <keescook@chromium.org> wrote:
->
-> On Sat, Mar 25, 2023 at 01:11:14AM -0700, Dan Li wrote:
-> > This series of patches is mainly used to support the control flow
-> > integrity protection of the linux kernel [1], which is similar to
-> > -fsanitize=kcfi in clang 16.0 [2,3].
-> >
-> > Any suggestion please let me know :).
->
-> Hi Dan,
->
-> It's been a couple months, and I didn't see any other feedback on this
-> proposal. I was curious what the status of this work is. Are you able to
-> attend GNU Cauldron[1] this year? I'd love to see this get some traction
-> in GCC.
->
-> Thanks!
->
-> -Kees
->
-> [1] https://gcc.gnu.org/wiki/cauldron2023
->
-> --
-> Kees Cook
+So is this has this a different root cause?
+
+> Sometimes, I also get an error:
+> fixdep: error opening file: drivers/s390/char/.con3270.o.d: No such file 
+> or directory
+> make[4]: *** [/home/latest/linux/scripts/Makefile.build:243: 
+> drivers/s390/char/con3270.o] Error 2
+> make[4]: *** Deleting file 'drivers/s390/char/con3270.o'
+> make[3]: *** [/home/latest/linux/scripts/Makefile.build:477: drivers]
+> 
+> Obviously due to some race.
+> 
+> Any ideas what is going on?
+> 
+> thanks,
+
+-- 
+js
+suse labs
+
