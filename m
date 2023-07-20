@@ -2,73 +2,169 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C70CA75B3E3
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Jul 2023 18:11:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D86A75B52C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Jul 2023 19:04:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229632AbjGTQLI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 20 Jul 2023 12:11:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43176 "EHLO
+        id S230319AbjGTREs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 20 Jul 2023 13:04:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229566AbjGTQLH (ORCPT
+        with ESMTP id S229691AbjGTREr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 20 Jul 2023 12:11:07 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33C9ACE
-        for <linux-kbuild@vger.kernel.org>; Thu, 20 Jul 2023 09:11:06 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-c926075a50cso3516688276.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 20 Jul 2023 09:11:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1689869465; x=1690474265;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qp196USLnAy4LTAkpGzxnXfWsR6U5xBzW1Ke9Zcywm4=;
-        b=0xJVu/W/3xHLwIgQt4AdT6cR/YUtiNdLdmQJXkVP0EBEOh0s1C8pMSYPVmVX56g0qL
-         iY14aVUZXceX1+sSx47/A3Oz42zFfT6/iI72X+dHAkxW9xroRWzw6ItifadoKfASJ3u8
-         hBpU/RpuzpltTY33o0ZEKscU+ZkWmBRLI+L2oSSkqem1In1o/8kvyeLQtZwigN3E10vS
-         NgK9xlM5rN/Z00gvjRghEprD9TdNy5Vmx8iwjIOd4Y+GZ8uG8ZEDfW1U7NXUAb9hO2fz
-         tMytb0jSh5n09x1tTZWMd313KeCvKYZeX3DaeKAhaFjFGLwW9FuzHttvsRB6eaajnMdp
-         HzOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689869465; x=1690474265;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qp196USLnAy4LTAkpGzxnXfWsR6U5xBzW1Ke9Zcywm4=;
-        b=kQ3Ll4Qo98X1LYfwQBkOCUdbT+rzRor2/wRB9dpVJvr7qmGphRnTeqJpB0NtY26JLo
-         y6U1oppfqQ0/rt5wfQB3CaSnf+B/1w7+c8XVjBwFBjXH8M9Koy/9V1mexg9R6zVxZ9SV
-         GWj8eLX19rlW6Fn9fhk/j3vAU7RQPrm9eP6J21wTdS7mKISx8TjIn/biocF7B+NtbQq3
-         wj/8+2GNpljHwYv7pyrh+9zoISQgAi7+jyr3PFpH5NDvhf0LwnWEnRhJZyhejTQggRqd
-         Me7ba0Wvql9qPCViec1dP02ldFCS81A6QJ3O9PEHw3KZg8rGgX5/fsRG4dHFEKRValXj
-         I9fw==
-X-Gm-Message-State: ABy/qLZ4Nxz/xpCrC030tiqeL/rmACHvRNF0yECO5aTKZjWurw0NeGjY
-        q1RatzE+Ldme6JXQbo6EWrKuGtOiPPRqYw==
-X-Google-Smtp-Source: APBJJlEiVEmuesw68z+x28qFD4ReuJRNuf+WB6wQmhi/bG4Ofb/elfxoE7pV67Grv8RRZAJJig+fwLf/UqbQFQ==
-X-Received: from tef.lon.corp.google.com ([2a00:79e0:d:209:c4c4:9486:83f9:4510])
- (user=gprocida job=sendgmr) by 2002:a5b:349:0:b0:ceb:324c:ba8e with SMTP id
- q9-20020a5b0349000000b00ceb324cba8emr77473ybp.4.1689869465517; Thu, 20 Jul
- 2023 09:11:05 -0700 (PDT)
-Date:   Thu, 20 Jul 2023 17:10:53 +0100
-In-Reply-To: <20230407203456.27141-2-quic_johmoo@quicinc.com>
-Mime-Version: 1.0
-References: <20230407203456.27141-2-quic_johmoo@quicinc.com>
-X-Mailer: git-send-email 2.41.0.255.g8b1d071c50-goog
-Message-ID: <20230720161053.1213680-1-gprocida@google.com>
-Subject: [PATCH] scripts/check-uapi.sh: add stgdiff support
-From:   Giuliano Procida <gprocida@google.com>
-To:     quic_johmoo@quicinc.com
-Cc:     masahiroy@kernel.org, nathan@kernel.org, ndesaulniers@google.com,
-        nicolas@fjasle.eu, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, gregkh@linuxfoundation.org,
-        rdunlap@infradead.org, arnd@arndb.de, andersson@kernel.org,
-        tkjos@google.com, maennich@google.com, gprocida@google.com,
-        kernel-team@android.com, libabigail@sourceware.org,
-        jorcrous@amazon.com, quic_tsoni@quicinc.com,
-        quic_satyap@quicinc.com, quic_eberman@quicinc.com,
-        quic_gurus@quicinc.com
+        Thu, 20 Jul 2023 13:04:47 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76D0EAA;
+        Thu, 20 Jul 2023 10:04:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689872686; x=1721408686;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=E9VOofOYYBHS59HWM3o0JzLekLLQhhgpLfKyJb/Db1k=;
+  b=UzOam4z9WFesSZiMcPqq2euxeybOQP5FMmdIqWM+dlXq10PDc9WDiPop
+   uhCMXOOSMT39/A1tgP9SJFNplhtmdy3q9kTxsvmGPXErVnL9hppFwDCSt
+   ygLtvSehyiiyWKHU6laD95E8hwbGGoyUeEgduZhHD89HCKMlBGGzE81FI
+   myF2MF5E6G2lx2NrIFNYyt1/CtNs6H+Ble1Tz93UyBFlrFFO0gaKWaG5h
+   t+/CpN8ppdxy4yxbLdOALh5K3NghB/veqTMUB1aitY0g69mSYIvRoSSl/
+   nFki4YXwz+NYRqUJVDW06CPxOI3sQpGORs8FGfmWQr6HSUnTqbRKIUQpB
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="365698248"
+X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; 
+   d="scan'208";a="365698248"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 10:02:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="724486048"
+X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; 
+   d="scan'208";a="724486048"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by orsmga002.jf.intel.com with ESMTP; 20 Jul 2023 10:02:24 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Thu, 20 Jul 2023 10:02:23 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Thu, 20 Jul 2023 10:02:23 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.46) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Thu, 20 Jul 2023 10:02:23 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jbR3zdoh99lfGzLFe3O9EcI4GNs912mJEV9R8M0Bx67vS4LCAofNMTYlNmPmlYcxsEKirkMSfBN+sx5B7RdmtRHMd9Mvw6l8Ra5qdwAmp6bU6fqh5MauFwOJOqoqe9c2TGzfPHj5b8h+q2JZP8CE50Vf0JGMmIzDZ5coI2+vD1sNU8VpXoJfxABu6qSsJOIMuJdNIGmtF+IEpEmEIjF4Q5GKXbuhFDYtE7K4aZs0c+vWszZ3HYov7HL4omIIxRz7bN8xpUZR5jKlZ1z3UsgEc0nzbTR1jx76mXMgezHqVkIbPxu0doxWijUG93DSi8LMov8u6Dxnv88LNoUH4uSiXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FyKjCUeNMfC1ZRmPVaJktNld53W4sc/MOeWFeDR7RMY=;
+ b=SOf2IUbNoiRzf202/oU2Zww3SDSJvEiAfhOiBND064KLiiGcJdah9tKKRXCEamRMIw0aRAWiylOYFweqkYrqePd/VFplvk87yPiwUpcI+UDfpTuto+jJ36e3tBE9GRwNfOgdLQcp3rxsaOk2aDFWgip6Mx4vOt9/ALVGexsgbv8Rm1hE85wwJEma9DN41+3bhXjOs9PXdPqsfq5H9DG2NMptN59tAhBCF6bWAfjdM2BPsYF3F9VoVJpbj0jo7E2EwdioTDyY09RzjEoaIkmL0dikAsaByxT/O5zsNsMEYvaHI+uiBSEple7cSwX/x7DhJ19wt+Fz2KlkowhjVo12tA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM6PR11MB3625.namprd11.prod.outlook.com (2603:10b6:5:13a::21)
+ by MW4PR11MB6957.namprd11.prod.outlook.com (2603:10b6:303:22a::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.25; Thu, 20 Jul
+ 2023 17:02:22 +0000
+Received: from DM6PR11MB3625.namprd11.prod.outlook.com
+ ([fe80::44ff:6a5:9aa4:124a]) by DM6PR11MB3625.namprd11.prod.outlook.com
+ ([fe80::44ff:6a5:9aa4:124a%7]) with mapi id 15.20.6609.024; Thu, 20 Jul 2023
+ 17:02:22 +0000
+Message-ID: <ad01ae6c-5c9c-8183-078c-fffabb2e00d6@intel.com>
+Date:   Thu, 20 Jul 2023 19:00:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v2] scripts/link-vmlinux.sh: Add alias to duplicate
+ symbols for kallsyms
+Content-Language: en-US
+To:     Nick Alcock <nick.alcock@oracle.com>
+CC:     Alessandro Carminati <alessandro.carminati@gmail.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        "Nathan Chancellor" <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Viktor Malik <vmalik@redhat.com>,
+        <linux-kernel@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
+        <linux-trace-kernel@vger.kernel.org>, <eugene.loh@oracle.com>,
+        <kris.van.hees@oracle.com>, <live-patching@vger.kernel.org>
+References: <ZLVxUQiC5iF+xTPQ@bombadil.infradead.org>
+ <20230714150326.1152359-1-alessandro.carminati@gmail.com>
+ <20230717105240.3d986331@gandalf.local.home> <874jm088ah.fsf@esperi.org.uk>
+ <6edbfe7b-aec4-2b3c-2f85-42e418ab3d99@intel.com>
+ <87wmyu7n5t.fsf@esperi.org.uk>
+From:   Alexander Lobakin <aleksander.lobakin@intel.com>
+In-Reply-To: <87wmyu7n5t.fsf@esperi.org.uk>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BE1P281CA0356.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:82::10) To DM6PR11MB3625.namprd11.prod.outlook.com
+ (2603:10b6:5:13a::21)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR11MB3625:EE_|MW4PR11MB6957:EE_
+X-MS-Office365-Filtering-Correlation-Id: b11eedc0-ee7f-49ab-b424-08db8943155b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: yf7rjjGtq8H8Yx8OxhB1X8VX/d4kmSEhM801gsQ+isBx+JXn4EYbHCAUElc9o5rsBZsGvbwqXQb3yldeNroZhtPLrBv6WlY8+xrUU9BURV9mW1KWIRPX0YxDEEF5wz7DJG9Z5RsdvK8jdAt5bceuvc/tri4YpZIBePeNjgzsfbB02x7eDY6UAx6OXA9QOMFpH10u616PNkqytnjMtXYkdYgWjDhkga1egmGE3ULROXh52zQufFETQTrMYp7a7MVA293FXX/Y1LIbpExT6FvQgFYzpnUL0Y0iv1s0g/ytP2TnibDFjAqHPtg3rpGQbcraBvlOIz7kZKCcL+qITKxe1+nS4TLAVEscBDCIaIQTG6KpVl3WRD7PGk/LUodZ4k2XD7oFmWjkYarroRYMPHPaaiwA/KjAKplUrD81+smPZkIWEXVPyu+JcujAPGdZ4InH5VTXaEedpn+1NvxSl+pktCpvAXmoATxu5JtxfeM/ZQPGXMQ0h3hVpYdWqW+ZNtnwCdjX60t6TN6wugIqe3EfvJ9bgDn90UQ7P59ZhEu6rF7Yj36bRSrzXrmg50oRcOrMm1ve37gJcmirI3rl/Xbhsg7IWoWLgQafgORDruuuq94hKGM9S62xwvwVCWzvSrCdSFSjXAzIVwVKMQbrsRB7Yw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3625.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(366004)(396003)(136003)(346002)(39860400002)(376002)(451199021)(31686004)(36756003)(38100700002)(86362001)(31696002)(6486002)(54906003)(478600001)(82960400001)(7416002)(83380400001)(186003)(2616005)(6506007)(26005)(6512007)(66946007)(5660300002)(6916009)(45080400002)(8936002)(8676002)(316002)(2906002)(41300700001)(66556008)(66476007)(4326008)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dVEwZm5Vb0xUNWR6Tm5uMmF3dFo1c1h2dDhjcW4yQ2VjNkZIZk51eTN1V2dp?=
+ =?utf-8?B?TUsyeTRoTDQwSm1za1dmZEs2dE92VTRTRHFMdXpDdmEvVTVsYjNWdzJWRG5j?=
+ =?utf-8?B?ZFdjQjZHTmorYVIvTXNRdTFJbklKaC9xcUIrNjZIc2NsVG40VkpuYVNPZ3Fx?=
+ =?utf-8?B?dk5vbWdtQklScWJuamlxNU81WmJ2MHJHZU1TL2dNVHZXdVFHSWxibHZkN0Zj?=
+ =?utf-8?B?T1hkWXhjbEZpK2V4K2hCYlpFSG1uTzU3a0pwZktEcVdyM0J4QVV1QTlnTncw?=
+ =?utf-8?B?WGgrZGtEZnpHT0NTdEcwVW9mZW1nb0xxUW1hTFdJUXRKRURKb3RETlVXZnpy?=
+ =?utf-8?B?Q0R6cDN5L3FyRitEYXBlNFZHbTVIVTlVUldXWHVxeWcvN29lbURrUnNrQ3RQ?=
+ =?utf-8?B?R3IveVBkUXQwUTB6MjJkRzB2VlhVZ0dVM0tPWlVmbm9RVjJ5TnA2aGY2RDIw?=
+ =?utf-8?B?eEU4bDZOS0JaREV3cmNKWFZKQ0w0bjNKUkZycEp5Rm1VY1d1SjRZaUdaZFJj?=
+ =?utf-8?B?ZGZMMk5xbXRSTUpVT21FOXNqRXBLemVFeHN2d1RQTlAxcU9jY3N3TXNjUTdY?=
+ =?utf-8?B?eXdVWlFPdCtRMjJUTnhzaC9FbUVTdGFPZTA4Z2NUeWlxakUyUkx3dHRWNitl?=
+ =?utf-8?B?bW83TDZZUWR2SnlSb2liUDRtU3FHMGZrYm5xclJRazJZQzJ3NG5wNGJacmd2?=
+ =?utf-8?B?bmo1WURHUVZ3Mk8rVTY5UXVVY0Faelozc3d3dGhVSVhsU1dDSkJISVl2bCtk?=
+ =?utf-8?B?SXcrcE1STktTWUdTcGJvVlZHTWpHdm5UYUVBdEQ3dlRUVU1SdDg0S041K2oy?=
+ =?utf-8?B?N25rQzNlV2l5UG1MREU5MWphYnBwNE1PSGdJeHpnYkQ4VWtiSitZSHZXbzlI?=
+ =?utf-8?B?U3NjQVNoNmNycitqcjV4aGFBZXJvNVp3ckdyTnNpNnBJcHp3NkxRMzFiRTJP?=
+ =?utf-8?B?ZUtSVUMxQTdrTU1mVDhsQ0QxWC95K1ZtMG04V29KNXdQN09Jb2Z6Rmt1RlVY?=
+ =?utf-8?B?T2FyQzZ0bkxmSzV2YUxaTGJwUmJ2NG5reGE3WUpjSzIzMGc1QmhXRGhXSEZK?=
+ =?utf-8?B?TDhZT3F0ZjVLaE9wdVNHZ1NuYjVITGhld0VGK0QyWkpYTStEc1VQZUpPdmVp?=
+ =?utf-8?B?MWMyUld5azR5bmpzT1VRNlRVYzdZakZnUDlZR1dKczhwMENpRlBRVjNESTdt?=
+ =?utf-8?B?TXF4bUkvY0JsZ1NSR3gwc0NtZWRYMllyUFdxcjJpeTlCYytqSkVHc3RMeUpj?=
+ =?utf-8?B?RzJvT1BQb241ZW9OYnZMVmF5UDcwK3NzQVJ4STdpNWFBdTA2VlJCY3FZeUlv?=
+ =?utf-8?B?aVVIeDB0WGV6REFuREt3L1ErWlMzVDZFbHVuWlFDNGlXNERvU1pSbHBmYklO?=
+ =?utf-8?B?aExvY2xnejU3cXZsNzRrYzdkdEx2YlJaRnloOEJqRTZIZllnTnVqQy9hMU52?=
+ =?utf-8?B?VjRRa0lyNlY2S1FNK05NMUJkZ200bjgrMTVKTVFkL3JUSG1rckV4K0JHcFRo?=
+ =?utf-8?B?elRpZ3ZzbW9PZDcwclEzOVhBQmFNOE9ONUxRaVE5S2kxbU5kK2NrTG9pNUNX?=
+ =?utf-8?B?dGRSeUErTm81NU1ITkhBOUNlQytoTzQ0KzFPWm9DVXhpZThON1pjUjZvZVdS?=
+ =?utf-8?B?L1F4SytFbW1ITU5SdnZBc2RsWWllckFMN2lYUFNMUkczTjRyOTgvL0J1ejdU?=
+ =?utf-8?B?Wm5YRGk1M3pIekpvRVZSdFdFSjRvVHZJM2NtRUcvQXVLa2I1ei92YWVtRGdX?=
+ =?utf-8?B?L0xmSjc0aFJaN000RUFiTmo0cHpoUWhwSXZPSnF4QzdxY244dlZMZ3ZEN2c1?=
+ =?utf-8?B?cUpnMHQ2S2JSS2lzVFZ1SHNxRSt1MHJaOGRLTmtGYnYxTktrekNaMnZLY0d0?=
+ =?utf-8?B?VjFMNldQeVhsaFRkV0o1V3RUTWNsYVJ2WVpSS3RNKzdrc3dTclkxT2R1VzdJ?=
+ =?utf-8?B?RjZ0bTl4eEtZNTR0VldTK3JaZUxFKzBKNDQ2VXBIbXk5SDZYWE9jajRjLzNy?=
+ =?utf-8?B?OUNRYkdUbXgwMDVIV3VkVFZsMmtiamFxODM0V2pNR1ZMY0ZSaVdlVjZnME9n?=
+ =?utf-8?B?V3h1ZWdGeVVCVjUyRXduWUNmYzNGdTJUZ1lKTWhWOTQ1WG84U3JtbnRwZS83?=
+ =?utf-8?B?ajlpUGIya0w5SDNYYU9BREVWL01qNm1kbHYvUmhRZUpmOENnYUFIcEJNRUR2?=
+ =?utf-8?B?SXc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b11eedc0-ee7f-49ab-b424-08db8943155b
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3625.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2023 17:02:21.9624
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RghtLqP9FY1SNdN/dyUoQirnSVP52Xh02Td3ACOHKQiBeaTyyt6nTOUd7yhQ4OOIUO50moTUL/nyP5bKfRWerMRuBQdeTGt0ZgZtQQEDPTM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6957
+X-OriginatorOrg: intel.com
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,163 +172,85 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi John.
+From: Nick Alcock <nick.alcock@oracle.com>
+Date: Thu, 20 Jul 2023 14:00:46 +0100
 
-I spent a few minutes adding stgdiff support to the script. It's
-really just for illustration purposes.
+> On 19 Jul 2023, Alexander Lobakin verbalised:
 
-As I think you know, STG doesn't yet exist as a project outside of
-AOSP. Nevertheless, this may be useful to you as-is.
+"verbalised", I like that one :D
 
-STG has quite a different philosophy to libabigil in terms of
-filtering out certain kinds of differences. Some of the things (like
-enum enumerator additions) are not considered harmless. The reasoning
-behind this is basically...
-https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)
+> 
+>> From: Nick Alcock <nick.alcock@oracle.com>
+>> Date: Wed, 19 Jul 2023 12:12:06 +0100
+>>>> Yes, please coordinate with Nick and review each other's work, now we
+>>>> have two separate efforts with different reasons but hopefully we'll
+>>
+>> Three efforts[0] :D Mine went unnoticed unfortunately, so I switched to
+>> other projects then.
+> 
+> It's odd, nobody seems to have noticed these until recently and now
+> suddenly people are crawling out of the woodwork wanting unique
+> addresses :) maybe the ambiguous ones are just getting commonplace
+> enough that they're biting people more often?
 
-However, it does have --ignore interface_addition (and the related
---ignore type_definition_addition) which can be used to detect whether
-one ABI is a subset of another.
+I read kbuild, modules and livepatching lists time to time. That means,
+some small patch with no discussion can be easily missed by me, but not
+some big series or when there's a lot of comments.
 
-I am looking at adding support for macro definitions (gcc -g3) to STG
-which will then let us cover significantly more of the UAPI surface.
+But it was strange and funny back then, in the FG-KASLR thread some devs
+asked me to implement unique kallsyms before moving forward ("symbol
+position" means nothing when this "position" is random each boot), I
+posted that RFC I linked in the previous reply and then... silence. "We
+want it so much so that we don't care" :D
 
-Unfortunately, there are some headers which use anonymous enums to
-define constants (e.g. and ironically BTF). ABI tracking these types
-would require something a bit hacky. Or we could just name them.
+> 
+>> My idea was to give relative path from the kernel root to the objfile,
+>> as we have a good bunch of non-unique "filename + symbol name" pairs.
+> 
+> I considered that, but unfortunately that has two problems to a raging
+> perfectionist like me:
+> 
+>  - the objfile probably won't exist except if you're actually doing
+>    kernel development, since kernel build trees are big enough that a
+>    lot of people delete them after building or ship kernels to other
+>    machines: if someone else built your kernel (overwhelmingly common
+>    among non-kernel-devs) the objfiles are sure to be absent. (But an
+>    option to not truncate the names when you know they won't be absent
+>    might be a good idea, though this pushes space requirements up by
+>    hundreds of kilobytes so it should probably be off by default.)
+> 
+>  - even giving a path to the kernel module on disk (much lower
+>    resolution and vulnerable to ambiguity again) is unreliable because
+>    there's absolutely no guarantee that any given process can see any of
+>    them: they might be in a different fs namespace or the modules might
+>    only be present in an initramfs (hell, I even know setups which
+>    *compile* the modules needed for rootfs mounting in the initramfs!
+>    Yes this is borderline insane, yes it happens). More commonly, they
+>    might be compressed using any of a number of compressors, changing
+>    the name, and the kernel has no idea which compressor might have been
+>    used (not unless you want it to go and look, and, well, wandering
+>    around over the fs hunting down .ko.* files from kernelspace to get
+>    their names right is *not* my idea of a good time! It's hard enough
+>    to get that right from userspace, honestly, even with kmod helping.)
+> 
+>    The most you could do would be to provide a key you could use with
+>    kmod to dig the real modules out from userspace. Partial names are as
+>    good as anything for that :)
+> 
+> So all the objfile names are, when it comes down to it, is names with no
+> intrinsic meaning: even if they're filenames of some kind, tools can't
+> rely on being able to access those files. (For my most common use case,
+> using a tracer on an enterprise-built production kernel, they'd almost
+> never be able to.)
+> 
+> So you might as well treat the objfile names as arbitrary string keys
+> that might be a memory-jogger for humans, which means you can chop
+> boring bits off them to save space :)
 
-Regards,
-Giuliano.
+Oh, maybe I phrased it badly, I was saving C source file path actually,
+not objfile :D Like:
 
-Signed-off-by: Giuliano Procida <gprocida@google.com>
----
- scripts/check-uapi.sh | 102 ++++++++++++++++++++++++++++--------------
- 1 file changed, 69 insertions(+), 33 deletions(-)
+0xdeadbeef net/core/dev.c:napi_complete_done
 
-diff --git a/scripts/check-uapi.sh b/scripts/check-uapi.sh
-index 755187f27be5..982666b48f3b 100755
---- a/scripts/check-uapi.sh
-+++ b/scripts/check-uapi.sh
-@@ -32,6 +32,7 @@ Options:
-     -v             Verbose operation (print more information about each header being checked).
- 
- Environmental args:
-+    STGDIFF  Custom path to stgdiff binary - use stgdiff instead of abidiff
-     ABIDIFF  Custom path to abidiff binary
-     CC       C compiler (default is "gcc")
-     ARCH     Target architecture of C compiler (default is host arch)
-@@ -270,43 +271,78 @@ compare_abi() {
- 		exit "$FAIL_COMPILE"
- 	fi
- 
--	local ret=0
--	"$ABIDIFF" --non-reachable-types "${past_header}.bin" "${base_header}.bin" > "$log" || ret="$?"
--	if [ "$ret" -eq 0 ]; then
--		if [ "$VERBOSE" = "true" ]; then
--			printf "No ABI differences detected in %s from %s -> %s\n" "$file" "$past_ref" "${base_ref:-dirty tree}"
-+	if [ "$STGDIFF" ]; then
-+		local ret=0
-+		"$STGDIFF" --types --ignore interface_addition --elf "${past_header}.bin" "${base_header}.bin" --format small --output "$log" || ret="$?"
-+		if [ "$ret" -eq 0 ]; then
-+			if [ "$VERBOSE" = "true" ]; then
-+				printf "No ABI differences detected in %s from %s -> %s\n" "$file" "$past_ref" "${base_ref:-dirty tree}"
-+			fi
-+		else
-+			# stgdiff's return code can be used to determine the type of error
-+			if [ $((ret & 0x1)) -gt 0 ]; then
-+				eprintf "error - stgdiff failed\n"
-+				exit 1
-+			fi
-+
-+			{
-+				printf "!!! ABI differences detected in %s from %s -> %s !!!\n\n" "$file" "$past_ref" "${base_ref:-dirty tree}"
-+				sed  -e 's/^/  /g' "$log"
-+
-+				if ! cmp "$past_header" "$base_header" > /dev/null 2>&1; then
-+					printf "\nHeader file diff (after headers_install):\n"
-+					diff -Naur "$past_header" "$base_header" \
-+						| sed -e "s|${past_header}|${past_ref}/${file}|g" \
-+						      -e "s|${base_header}|${base_ref:-dirty}/${file}|g"
-+					printf "\n"
-+				else
-+					printf "\n%s did not change between %s and %s...\n" "$file" "$past_ref" "${base_ref:-dirty tree}"
-+					printf "It's possible a change to one of the headers it includes caused this error:\n"
-+					grep '^#include' "$base_header"
-+					printf "\n"
-+				fi
-+			} | tee "${base_header}.error" >&2
-+			return 1
- 		fi
- 	else
--		# Bits in abidiff's return code can be used to determine the type of error
--		if [ $((ret & 0x1)) -gt 0 ]; then
--			eprintf "error - abidiff did not run properly\n"
--			exit 1
--		fi
-+		local ret=0
-+		"$ABIDIFF" --non-reachable-types "${past_header}.bin" "${base_header}.bin" > "$log" || ret="$?"
-+		if [ "$ret" -eq 0 ]; then
-+			if [ "$VERBOSE" = "true" ]; then
-+				printf "No ABI differences detected in %s from %s -> %s\n" "$file" "$past_ref" "${base_ref:-dirty tree}"
-+			fi
-+		else
-+			# Bits in abidiff's return code can be used to determine the type of error
-+			if [ $((ret & 0x1)) -gt 0 ]; then
-+				eprintf "error - abidiff did not run properly\n"
-+				exit 1
-+			fi
- 
--		# If the only changes were additions (not modifications to existing APIs), then
--		# there's no problem. Ignore these diffs.
--		if grep "Unreachable types summary" "$log" | grep -q "0 removed" &&
--		   grep "Unreachable types summary" "$log" | grep -q "0 changed"; then
--			return 0
--		fi
--		{
--			printf "!!! ABI differences detected in %s from %s -> %s !!!\n\n" "$file" "$past_ref" "${base_ref:-dirty tree}"
--			sed  -e '/summary:/d' -e '/changed type/d' -e '/^$/d' -e 's/^/  /g' "$log"
--
--			if ! cmp "$past_header" "$base_header" > /dev/null 2>&1; then
--				printf "\nHeader file diff (after headers_install):\n"
--				diff -Naur "$past_header" "$base_header" \
--					| sed -e "s|${past_header}|${past_ref}/${file}|g" \
--					      -e "s|${base_header}|${base_ref:-dirty}/${file}|g"
--				printf "\n"
--			else
--				printf "\n%s did not change between %s and %s...\n" "$file" "$past_ref" "${base_ref:-dirty tree}"
--				printf "It's possible a change to one of the headers it includes caused this error:\n"
--				grep '^#include' "$base_header"
--				printf "\n"
-+			# If the only changes were additions (not modifications to existing APIs), then
-+			# there's no problem. Ignore these diffs.
-+			if grep "Unreachable types summary" "$log" | grep -q "0 removed" &&
-+			   grep "Unreachable types summary" "$log" | grep -q "0 changed"; then
-+				return 0
- 			fi
--		} | tee "${base_header}.error" >&2
--		return 1
-+			{
-+				printf "!!! ABI differences detected in %s from %s -> %s !!!\n\n" "$file" "$past_ref" "${base_ref:-dirty tree}"
-+				sed  -e '/summary:/d' -e '/changed type/d' -e '/^$/d' -e 's/^/  /g' "$log"
-+
-+				if ! cmp "$past_header" "$base_header" > /dev/null 2>&1; then
-+					printf "\nHeader file diff (after headers_install):\n"
-+					diff -Naur "$past_header" "$base_header" \
-+						| sed -e "s|${past_header}|${past_ref}/${file}|g" \
-+						      -e "s|${base_header}|${base_ref:-dirty}/${file}|g"
-+					printf "\n"
-+				else
-+					printf "\n%s did not change between %s and %s...\n" "$file" "$past_ref" "${base_ref:-dirty tree}"
-+					printf "It's possible a change to one of the headers it includes caused this error:\n"
-+					grep '^#include' "$base_header"
-+					printf "\n"
-+				fi
-+			} | tee "${base_header}.error" >&2
-+			return 1
-+		fi
- 	fi
- }
- 
--- 
-2.41.0.255.g8b1d071c50-goog
-
+Thanks,
+Olek
