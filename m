@@ -2,55 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3096A75B56C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Jul 2023 19:18:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B306775B5A0
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Jul 2023 19:30:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229531AbjGTRSf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 20 Jul 2023 13:18:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55744 "EHLO
+        id S229601AbjGTRaJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 20 Jul 2023 13:30:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229526AbjGTRSe (ORCPT
+        with ESMTP id S229823AbjGTRaH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 20 Jul 2023 13:18:34 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0457CC;
-        Thu, 20 Jul 2023 10:18:33 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4FE9F61BA7;
-        Thu, 20 Jul 2023 17:18:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEE71C43397;
-        Thu, 20 Jul 2023 17:18:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689873512;
-        bh=F/C+gSA5qZQ2B3LD6hPsWWKc+LdUI/ORd3hYIi+2pCk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=G/aM/MIVcGavKF4lp/Kw/NvJHOYMkWcPmqmnfq2tTt4jUPEyUOqXto8dOZeP+Kmz4
-         jH9qq3XHoJhEIQqvmC91ylyW+5FNi3VT70Xb3Zn9eAVdiPdOzf8HTdjjy4JNTXOmW3
-         w6qIiXQnCzDYjOWHgZB+kSa60j+gYbHNoeIiA2zA/0pX+HuYmgPQ3ubl04UMDWM2fn
-         96JpcgohHgYDHdgG0sbjWO6GZy6BNpoWIZ+fKAXb4A0OoY7EtjtRc28JH0UxNvP4qc
-         VzQL3libBcNrfP7AcOUbYSEmpHgT2WdfhQ0pba5M3olycbtAVB8Sk8aTE2vIBO8NBN
-         PfztX40rKq2wQ==
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-5634808e16eso727417eaf.2;
-        Thu, 20 Jul 2023 10:18:32 -0700 (PDT)
-X-Gm-Message-State: ABy/qLaUf4PgHtmhGJMx106rt4nOeVa5pA3NVtQjzUnjJ100twXgRJwi
-        NE3RdGhU65lTqaoYhBPSZQiIvjGKXtnoQS0Z8P0=
-X-Google-Smtp-Source: APBJJlEcVFHNbYhoO24bj9DeyyO+DlNSschkMud5gv9dgwfJtxiGAo0mniIt2fy3hzGZOCnveB++u9BFc+HyVXcQPbQ=
-X-Received: by 2002:a4a:5541:0:b0:566:efc4:e4fb with SMTP id
- e62-20020a4a5541000000b00566efc4e4fbmr554052oob.4.1689873511842; Thu, 20 Jul
- 2023 10:18:31 -0700 (PDT)
+        Thu, 20 Jul 2023 13:30:07 -0400
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6E811BF7;
+        Thu, 20 Jul 2023 10:30:06 -0700 (PDT)
+Received: by mail-yb1-xb2c.google.com with SMTP id 3f1490d57ef6-bd61dd9a346so957017276.2;
+        Thu, 20 Jul 2023 10:30:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689874206; x=1690479006;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SCJQ65+7aQZac8L3veadNqaoOqxg9236xCtIGRaxWKA=;
+        b=Vy0VLb8pBIRmkm/OCgFwCyVIHkdJkylVc+Hzceus7ZHA7wAZiPd1yx84YA+isdig02
+         n9d9fo6a3ztiX81rtlbE20h6PR9YIXVXeKpFms6fadk9pnq9odSijinC8O/JL+qCQSfR
+         GbXl9Jh2DBWBEY55CWGUmif9q5enGEF9UAZTNBxb43g2mc6d5RHI96pDNXMsBClswwcF
+         gOxagc+I8oyWGwbWwVm7aPra4KhexdMQ+m4We2YQOKcTOuQD3JPKt9EsLzSa5hmW6mZh
+         jetcV+WhXoikm5YfxU5IUZOjB0KTBO4K9rCS0l+KV/TWbY4eENQVyaYl7r7yjZpuOK+X
+         TbwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689874206; x=1690479006;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SCJQ65+7aQZac8L3veadNqaoOqxg9236xCtIGRaxWKA=;
+        b=cPA5ihzVn2vHp3YOR/HYxQiuycmtFAEVMgRip4YYR4HNqQGb5URVJDQXkkwBwgFqgu
+         rj4mR3wKoOVFssfgWMqsNLERx7+UMM/6JU6IeSQ8Ueh43j8jno3eeXYHL1iaD6vBK8oz
+         HucoploVfgo6RQNMDThH4QTotijJgMnl3F3mHsMsYgf63YVHwuSMafeNKBfSGd4icZkg
+         DMxSNXS1/MnGKA70cfrxpIM0P2eX4K7RQocQvoTJiUuxmbfEZ+IotWdlyPjM8t/5lJRk
+         z6nxbgnWh8rAl/hGvwQt8MW+uNd7/gAON9jVT2SiRwfc3hBcn+jQwxLHhN15sonz6EGE
+         7/Kw==
+X-Gm-Message-State: ABy/qLbqP8542K+xSq6kFKh04apLd6WI6I1ShsW3oU59OX1H58PHW0h/
+        1M22Ad/JxR5c9W6BfCnvra2ROdrah+Fh/dfkJCE=
+X-Google-Smtp-Source: APBJJlHbTOValRmB/GshYtHb4Ajg/BgY2O7fJVdJ6AqgyDWmi+wB4sVPiYYN+prjLl1boydok0lSDcaStxx1GIZ4igs=
+X-Received: by 2002:a25:910:0:b0:ce7:ee46:debd with SMTP id
+ 16-20020a250910000000b00ce7ee46debdmr2953145ybj.16.1689874206039; Thu, 20 Jul
+ 2023 10:30:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230718055235.1050223-1-ojeda@kernel.org>
-In-Reply-To: <20230718055235.1050223-1-ojeda@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 21 Jul 2023 02:17:55 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ-hjW_19fjA+E-bQCrXcVPdN4-GvzAnEnYzna5KRVXew@mail.gmail.com>
-Message-ID: <CAK7LNAQ-hjW_19fjA+E-bQCrXcVPdN4-GvzAnEnYzna5KRVXew@mail.gmail.com>
+References: <20230718055235.1050223-1-ojeda@kernel.org> <CAK7LNAQ-hjW_19fjA+E-bQCrXcVPdN4-GvzAnEnYzna5KRVXew@mail.gmail.com>
+In-Reply-To: <CAK7LNAQ-hjW_19fjA+E-bQCrXcVPdN4-GvzAnEnYzna5KRVXew@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Thu, 20 Jul 2023 19:29:55 +0200
+Message-ID: <CANiq72kZjOGvRKoRxtgG=2DhJnMJK9TCQtTmeef_B=nLcLQD6g@mail.gmail.com>
 Subject: Re: [PATCH] kbuild: rust: avoid creating temporary files
-To:     Miguel Ojeda <ojeda@kernel.org>
-Cc:     Wedson Almeida Filho <wedsonaf@gmail.com>,
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
         Alex Gaynor <alex.gaynor@gmail.com>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
@@ -67,88 +73,32 @@ Cc:     Wedson Almeida Filho <wedsonaf@gmail.com>,
         stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jul 18, 2023 at 2:52=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wro=
-te:
+On Thu, Jul 20, 2023 at 7:18=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
 >
-> `rustc` outputs by default the temporary files (i.e. the ones saved
-> by `-Csave-temps`, such as `*.rcgu*` files) in the current working
-> directory when `-o` and `--out-dir` are not given (even if
-> `--emit=3Dx=3Dpath` is given, i.e. it does not use those for temporaries)=
-.
+> Applied to linux-kbuild/fixes. Thanks.
 >
-> Since out-of-tree modules are compiled from the `linux` tree,
-> `rustc` then tries to create them there, which may not be accessible.
->
-> Thus pass `--out-dir` explicitly, even if it is just for the temporary
-> files.
->
-> Reported-by: Raphael Nestler <raphael.nestler@gmail.com>
-> Closes: https://github.com/Rust-for-Linux/linux/issues/1015
-> Reported-by: Andrea Righi <andrea.righi@canonical.com>
-> Tested-by: Raphael Nestler <raphael.nestler@gmail.com>
-> Tested-by: Andrea Righi <andrea.righi@canonical.com>
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
-> ---
+> I believe this is a fix, so I will include it
+> in my next pull request.
 
+Thanks Masahiro! Yeah, it can be considered a fix. By the way, in case you =
+want:
 
+    Fixes: 2f7ab1267dc9 ("Kbuild: add Rust support")
 
-Applied to linux-kbuild/fixes. Thanks.
+I guess it can be also considered a feature (e.g. "supporting more
+setups"), but having the temporaries created where they were was
+unintentional.
 
-I believe this is a fix, so I will include it
-in my next pull request.
-
-
-
-
-
->  scripts/Makefile.build | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 6413342a03f4..82e3fb19fdaf 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -264,6 +264,9 @@ $(obj)/%.lst: $(src)/%.c FORCE
->
->  rust_allowed_features :=3D new_uninit
->
-> +# `--out-dir` is required to avoid temporaries being created by `rustc` =
-in the
-> +# current working directory, which may be not accessible in the out-of-t=
-ree
-> +# modules case.
->  rust_common_cmd =3D \
->         RUST_MODFILE=3D$(modfile) $(RUSTC_OR_CLIPPY) $(rust_flags) \
->         -Zallow-features=3D$(rust_allowed_features) \
-> @@ -272,7 +275,7 @@ rust_common_cmd =3D \
->         --extern alloc --extern kernel \
->         --crate-type rlib -L $(objtree)/rust/ \
->         --crate-name $(basename $(notdir $@)) \
-> -       --emit=3Ddep-info=3D$(depfile)
-> +       --out-dir $(dir $@) --emit=3Ddep-info=3D$(depfile)
->
->  # `--emit=3Dobj`, `--emit=3Dasm` and `--emit=3Dllvm-ir` imply a single c=
-odegen unit
->  # will be used. We explicitly request `-Ccodegen-units=3D1` in any case,=
- and
->
-> base-commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
-> --
-> 2.41.0
->
-
-
---=20
-Best Regards
-Masahiro Yamada
+Cheers,
+Miguel
