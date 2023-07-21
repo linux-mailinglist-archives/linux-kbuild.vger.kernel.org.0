@@ -2,102 +2,73 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7648375D085
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Jul 2023 19:19:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED1C575D51B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Jul 2023 21:36:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230457AbjGURTP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 21 Jul 2023 13:19:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35366 "EHLO
+        id S229614AbjGUTg3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 21 Jul 2023 15:36:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230451AbjGURTO (ORCPT
+        with ESMTP id S229575AbjGUTg3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 21 Jul 2023 13:19:14 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0989F113;
-        Fri, 21 Jul 2023 10:19:13 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9086461D2F;
-        Fri, 21 Jul 2023 17:19:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9483CC433C9;
-        Fri, 21 Jul 2023 17:19:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689959952;
-        bh=ZR06M3d0gZKRb4qFO1k4EYXqLJ5GJPGsvI0z3w1cJFs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rvNmnzl1Nwu+J/6xOdGaUdPqmOhwTHqfFaC3Xk7KzAE4rMXToL7/R3DzDEgIEkiyo
-         dortXv3BM//zgrIWSD06NieLEU6/Y6fYZ7qT1yqPpIqEgPeqF4NsGop3fc+INGGQCs
-         Y4gp+mQLcdjuI+ap/hA+6Is0i7ARKR2QuICuuoTZ0JuJTbqdwbkoXS94rGeihsiblC
-         b3nnNopcsvLnmco09z4Lw0nobnNtlC4yXVxtwv1ngJtdx4EDkgU0EP55zt/l/BrRiK
-         GzdA82oPy0L/zobquahYfr/Cn6YtJsm0JV+glig0tVHHxC3BSRNj5HcR9Dt2dmyDUY
-         RyMakPBm5ZESw==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        linux-um@lists.infradead.org
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH v2 2/2] UML: use obj-y to descend into arch/um/*/
-Date:   Sat, 22 Jul 2023 02:18:57 +0900
-Message-Id: <20230721171857.3612639-2-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230721171857.3612639-1-masahiroy@kernel.org>
-References: <20230721171857.3612639-1-masahiroy@kernel.org>
+        Fri, 21 Jul 2023 15:36:29 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AFE71715;
+        Fri, 21 Jul 2023 12:36:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:
+        Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+        Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description;
+        bh=aHk9rd9AUE2gc3/xbDzbaMmyUHyYtCgU4AX8wh2Umso=; b=F+D/QjKe6pPtGBvURNrxNRYDUB
+        wjOpFUEleMgjf9lgxcn46aTbZjSbgTkfFBU2i3ve1wv+MHjXM25GNt9rhqcugEpLcNm27NBuKQEdO
+        QG1mWP+Wxi1N9+HgYsPy+k+jv/DsZ+F5jsYo9ooq7CDNS62LcaNmu2uMRHyp5uyR0nlV/fyvFXb0s
+        iq84uJdVW+fkQgIyQD5GF+YPLNPwIuVB53f/UcHthholS+lz0aDC0MUGUKwZ1tLlWpxTVGGXF+B2x
+        ilHxWHrQBn5ZV4HdxaR42aZI4mPRe151Mc0ehfxwo6qObQ9d+pZx4fXN5GsUnlYcPqrAjED1UfCgk
+        MKXJi2bg==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+        id 1qMvvD-00EyBM-2T;
+        Fri, 21 Jul 2023 19:36:15 +0000
+Date:   Fri, 21 Jul 2023 12:36:15 -0700
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Palmer Dabbelt <palmer@rivosinc.com>, wangkefeng.wang@huawei.com,
+        nathan@kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH] modpost, kallsyms: Treat add '$'-prefixed symbols as
+ mapping symbols
+Message-ID: <ZLreL/9W28qSbhB3@bombadil.infradead.org>
+References: <20230721150147.11720-2-palmer@rivosinc.com>
+ <CAK7LNATF9pxJc0nU3NPnX_PFJr7gF6Baras548ULkO8XE98_VQ@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <CAK7LNATF9pxJc0nU3NPnX_PFJr7gF6Baras548ULkO8XE98_VQ@mail.gmail.com>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The single build rule does not work with the core-y syntax. [1]
+On Sat, Jul 22, 2023 at 02:02:56AM +0900, Masahiro Yamada wrote:
+> On Sat, Jul 22, 2023 at 12:20 AM Palmer Dabbelt <palmer@rivosinc.com> wrote:
+> >
+> > Trying to restrict the '$'-prefix change to RISC-V caused some fallout,
+> > so let's just treat all those symbols as special.
+> >
+> > Fixes: c05780ef3c1 ("module: Ignore RISC-V mapping symbols too")
+> > Link: https://lore.kernel.org/all/20230712015747.77263-1-wangkefeng.wang@huawei.com/
+> > Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+> 
+> 
+> Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Use the standard obj-y syntax.
+Patch applied and pushed, thanks!
 
-[1]: https://lore.kernel.org/linux-kbuild/d57ba55f-20a3-b836-783d-b49c8a161b6e@kernel.org/T/#m7bc402e1e038f00ebcf2e92ed7fcb8a52fc1ea44
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
-Changes in v2:
-  - Rephase the commit log
-
- arch/um/Kbuild   | 2 ++
- arch/um/Makefile | 4 ----
- 2 files changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/arch/um/Kbuild b/arch/um/Kbuild
-index a4e40e534e6a..6cf0c1e5927b 100644
---- a/arch/um/Kbuild
-+++ b/arch/um/Kbuild
-@@ -1 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+
-+obj-y += kernel/ drivers/ os-Linux/
-diff --git a/arch/um/Makefile b/arch/um/Makefile
-index 1735a562453d..82f05f250634 100644
---- a/arch/um/Makefile
-+++ b/arch/um/Makefile
-@@ -22,10 +22,6 @@ ARCH_DIR := arch/um
- # features.
- SHELL := /bin/bash
- 
--core-y			+= $(ARCH_DIR)/kernel/		\
--			   $(ARCH_DIR)/drivers/		\
--			   $(ARCH_DIR)/os-Linux/
--
- MODE_INCLUDE	+= -I$(srctree)/$(ARCH_DIR)/include/shared/skas
- 
- HEADER_ARCH 	:= $(SUBARCH)
--- 
-2.39.2
-
+  Luis
