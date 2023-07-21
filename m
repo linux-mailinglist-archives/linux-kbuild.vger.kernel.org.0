@@ -2,88 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB0D375BF03
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Jul 2023 08:38:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64EA575C061
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Jul 2023 09:50:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231138AbjGUGis (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 21 Jul 2023 02:38:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35426 "EHLO
+        id S230088AbjGUHt7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 21 Jul 2023 03:49:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231209AbjGUGi1 (ORCPT
+        with ESMTP id S229829AbjGUHt6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 21 Jul 2023 02:38:27 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 871AE1BF7;
-        Thu, 20 Jul 2023 23:38:10 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 137F8612DC;
-        Fri, 21 Jul 2023 06:38:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E9E1C433C9;
-        Fri, 21 Jul 2023 06:38:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689921489;
-        bh=lryGXV4qukqPvZOw3q1o5gPb4Cucaex0+yNNmyeBp50=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=AhzhJXyR60ORK3ahnF5MuyIbQgu9//kITF0ffM9vT6sSRmkV70zPXOyWJ3VFnTOpU
-         mezxB5IDQtnGBETpeyioLpL/8BzYtdmRDOZxkJCo+rZuzlNzn3Wf6Cf78nTpCI/C6N
-         3qkFFvSb+9GpvY0HYb/RNCeevY1KQ77OFZIFCaTA94eEY56Az1FjyuDbCy2p2PHNxZ
-         ilFLszam5xWVR0mFElC9dKVXVDi9HY584ild5Tob8rQcO3sp9S6CXFt4ud4h0pRdCV
-         NLfvCRvdPS77Sb1e9VFLAbxZDQY7rGBUbTU0tEF1X2hYuLF9ilddlkcvLIuwTeIoW9
-         y+3EBWFnCCTbw==
-Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-56584266c41so1091351eaf.2;
-        Thu, 20 Jul 2023 23:38:09 -0700 (PDT)
-X-Gm-Message-State: ABy/qLYRNXadGlTopidsrD/f/DdhjJSiBSnNyeEf6rBfULADGOBaviWt
-        gLx9Yh3RpWzMiqHzQTS8MlWu5cqsbAOLrxpios0=
-X-Google-Smtp-Source: APBJJlHg3TdiQ2vDqsbZGPmyi7IEIOlxl/z9KgZxYUQqQSLjnMK+nXliBPDkYpxB5vphECx11cxumtRaGt0aw1aUKwQ=
-X-Received: by 2002:a4a:2401:0:b0:566:f94f:cd28 with SMTP id
- m1-20020a4a2401000000b00566f94fcd28mr1075903oof.3.1689921488673; Thu, 20 Jul
- 2023 23:38:08 -0700 (PDT)
+        Fri, 21 Jul 2023 03:49:58 -0400
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D4B119AD;
+        Fri, 21 Jul 2023 00:49:54 -0700 (PDT)
+X-UUID: ff14eda7f0934741a23db9006c625495-20230721
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.28,REQID:089c6898-c99c-4694-97ea-33c64382b269,IP:15,
+        URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+        ON:release,TS:0
+X-CID-INFO: VERSION:1.1.28,REQID:089c6898-c99c-4694-97ea-33c64382b269,IP:15,UR
+        L:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+        :release,TS:0
+X-CID-META: VersionHash:176cd25,CLOUDID:2e61e187-44fb-401c-8de7-6a5572f1f5d5,B
+        ulkID:2307211549211PU76SGO,BulkQuantity:1,Recheck:0,SF:38|24|17|19|44|102,
+        TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:40,QS:nil,BEC:nil,COL:0,
+        OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI
+X-UUID: ff14eda7f0934741a23db9006c625495-20230721
+X-User: guodongtai@kylinos.cn
+Received: from localhost.localdomain [(39.156.73.12)] by mailgw
+        (envelope-from <guodongtai@kylinos.cn>)
+        (Generic MTA)
+        with ESMTP id 1614632383; Fri, 21 Jul 2023 15:49:40 +0800
+From:   George Guo <guodongtai@kylinos.cn>
+To:     masahiroy@kernel.org, nathan@kernel.org, martin.lau@linux.dev,
+        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Subject: [PATCH] btf: Remove unnecessary header file inclusions
+Date:   Fri, 21 Jul 2023 15:50:07 +0800
+Message-Id: <20230721075007.4100863-1-guodongtai@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <boris.20230717111132@codesynthesis.com> <CAK7LNATAYqG+Y-XubnU9EJqc3R9QhWCn1nfiGMLU63W7k0vpxQ@mail.gmail.com>
- <boris.20230718060325@codesynthesis.com>
-In-Reply-To: <boris.20230718060325@codesynthesis.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 21 Jul 2023 15:37:32 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARt3do8BR2eUp4JscgCwsHy9Kz=KHHnAvrB7v7yO1FJrA@mail.gmail.com>
-Message-ID: <CAK7LNARt3do8BR2eUp4JscgCwsHy9Kz=KHHnAvrB7v7yO1FJrA@mail.gmail.com>
-Subject: Re: Qt6 port of kconfig qconf
-To:     Boris Kolpackov <boris@codesynthesis.com>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jul 18, 2023 at 1:12=E2=80=AFPM Boris Kolpackov <boris@codesynthesi=
-s.com> wrote:
->
-> Masahiro Yamada <masahiroy@kernel.org> writes:
->
-> > I like 1 or 2, depending on the size of #if soup.
->
-> Looks like it won't be too dense if we are willing to only care about
-> the latest version of Qt5 (i.e., 5.15.0 or later) since most of the
-> changes appear to also work in the latest Qt5 (they may also work in
-> earlier versions, but I don't have easy access to those to check).
->
-> Should we go with support for "latest Qt5" and Qt6?
+Remove unnecessary header file inclusions in btf.c
 
+Signed-off-by: George Guo <guodongtai@kylinos.cn>
+---
+ kernel/bpf/btf.c | 16 ----------------
+ 1 file changed, 16 deletions(-)
 
-Yeah, I think so.
+diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
+index 817204d53372..e5ea729ba6b8 100644
+--- a/kernel/bpf/btf.c
++++ b/kernel/bpf/btf.c
+@@ -1,20 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /* Copyright (c) 2018 Facebook */
+ 
+-#include <uapi/linux/btf.h>
+-#include <uapi/linux/bpf.h>
+-#include <uapi/linux/bpf_perf_event.h>
+-#include <uapi/linux/types.h>
+-#include <linux/seq_file.h>
+-#include <linux/compiler.h>
+-#include <linux/ctype.h>
+-#include <linux/errno.h>
+-#include <linux/slab.h>
+ #include <linux/anon_inodes.h>
+-#include <linux/file.h>
+-#include <linux/uaccess.h>
+-#include <linux/kernel.h>
+-#include <linux/idr.h>
+ #include <linux/sort.h>
+ #include <linux/bpf_verifier.h>
+ #include <linux/btf.h>
+@@ -22,9 +9,6 @@
+ #include <linux/bpf_lsm.h>
+ #include <linux/skmsg.h>
+ #include <linux/perf_event.h>
+-#include <linux/bsearch.h>
+-#include <linux/kobject.h>
+-#include <linux/sysfs.h>
+ 
+ #include <net/netfilter/nf_bpf_link.h>
+ 
+-- 
+2.34.1
 
-
-
-
---=20
-Best Regards
-Masahiro Yamada
