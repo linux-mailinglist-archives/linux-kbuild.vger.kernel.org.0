@@ -2,200 +2,122 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DC8775BBE0
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Jul 2023 03:40:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83E9175BCB8
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Jul 2023 05:19:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229749AbjGUBkO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 20 Jul 2023 21:40:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49642 "EHLO
+        id S229640AbjGUDTG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 20 Jul 2023 23:19:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229560AbjGUBkN (ORCPT
+        with ESMTP id S229557AbjGUDTF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 20 Jul 2023 21:40:13 -0400
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C94691FED;
-        Thu, 20 Jul 2023 18:40:12 -0700 (PDT)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36KLMV1c001984;
-        Fri, 21 Jul 2023 01:39:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2023-03-30;
- bh=BZtX119c1YAIW4RFyhUCK+LylpeHQwScyIa+t9kt638=;
- b=Ic87I25sg9XBPQmhQWzwVBvT2W32kjiLfCI+Nh+KBGq+nmiDlPqrSXw4eA2N95h3AVY1
- V2MJzLBD1kjfHfLu7+OybiDl/u+XPaRcfgvhFJHmq0MV/Tvb9910uWc1Zb8TYnbjyq2N
- lytLuAz33MwVVgQkc69qK+ARDLr0Tc+MKxvdzHa9Qq1w01XJscNX19naOj1einDqNPdP
- FZ31ncrV78JR8R7jIdRpuEcNVv9v3odwFEzBWlOJOF+xzLQszfCP7A8Ecz6UwQwlcgsy
- hbId5HXdezZB6CHnnbmLqj6XEb6YvD4kw90LRI92IeEFdqlxxX8k2iDvTj7ndZs6RErs gQ== 
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3run7731an-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 21 Jul 2023 01:39:59 +0000
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 36KN7Prx019211;
-        Fri, 21 Jul 2023 01:39:58 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3ruhw9vyr3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Fri, 21 Jul 2023 01:39:58 +0000
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 36L1dwwc040835;
-        Fri, 21 Jul 2023 01:39:58 GMT
-Received: from oracle.com (dhcp-10-154-141-208.vpn.oracle.com [10.154.141.208])
-        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3ruhw9vyq3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Fri, 21 Jul 2023 01:39:57 +0000
-Date:   Thu, 20 Jul 2023 21:39:54 -0400
-From:   Kris Van Hees <kris.van.hees@oracle.com>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Nick Alcock <nick.alcock@oracle.com>,
-        Alexander Lobakin <aleksander.lobakin@intel.com>,
-        Alessandro Carminati <alessandro.carminati@gmail.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Viktor Malik <vmalik@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        eugene.loh@oracle.com, kris.van.hees@oracle.com,
-        live-patching@vger.kernel.org
-Subject: Re: [PATCH v2] scripts/link-vmlinux.sh: Add alias to duplicate
- symbols for kallsyms
-Message-ID: <ZLnh3bxQCRZ7564w@oracle.com>
-References: <ZLVxUQiC5iF+xTPQ@bombadil.infradead.org>
- <20230714150326.1152359-1-alessandro.carminati@gmail.com>
- <20230717105240.3d986331@gandalf.local.home>
- <874jm088ah.fsf@esperi.org.uk>
- <6edbfe7b-aec4-2b3c-2f85-42e418ab3d99@intel.com>
- <87wmyu7n5t.fsf@esperi.org.uk>
- <20230721100931.b366ecfbeb09cba01c73d47a@kernel.org>
+        Thu, 20 Jul 2023 23:19:05 -0400
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A135A272A;
+        Thu, 20 Jul 2023 20:19:04 -0700 (PDT)
+Received: by mail-pg1-x52f.google.com with SMTP id 41be03b00d2f7-55b5a3915f5so835565a12.0;
+        Thu, 20 Jul 2023 20:19:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689909544; x=1690514344;
+        h=content-transfer-encoding:subject:cc:from:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JnZZLXKopoPDJZvlIe8Qkn79tGnv8EjnYImRJi/CMeQ=;
+        b=OKJCRsLgzRojvIEOd+G+WO6qOOPYlbEGMnAA3etxOJ15TH8pVpZ91Uj+HLI/eEZM9N
+         rsHdmVRWR+lyRyX0XgGoDL5M1HzdfQu2QDsny/+w5kPr/w4UjuSLdt6dFEhYHH4vKRbd
+         jeXA62nQZc/vierDW5+n+WlSEswqA76E6yILexTMvg/h/qimCtJA5xlqJFOqm4CBCDrB
+         vW7zS5AFR+Han2K8UuYA68AQX/RY7WDkWGaXjcGRjfEE2A+KTQlmBfGU00CLGQ/Ac6KT
+         4cWf4FNF8v1MkoryWoTEHDT8Imh5EICCkKl8QfGy01M5V+Bc9+5H3uW/IwOhVJ1VS94D
+         HBhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689909544; x=1690514344;
+        h=content-transfer-encoding:subject:cc:from:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=JnZZLXKopoPDJZvlIe8Qkn79tGnv8EjnYImRJi/CMeQ=;
+        b=Pj4uQqVpDrS7Hmb5IBJQQCvrN4A0/qU6n0ZR8+H0XOSKctHoYnQpTkBNpxiDB72k5e
+         M7fsI9IlrugIpqh6It5X8v45amRwq1nvcvq+B3kBxj1laixIPw3JIF/UKLYTK8adT/ic
+         ziQ/iED22ICjCaIE5U7sVw2nJdDu1YxyNHjeudn3CI7VV8YYe0/tFiDC3l/niey4o8h8
+         sH1XNF2A2XokeKqNMk8FDyjpR3sLYwZnUdaqE1yt/5uNmpMEM1xxWwy5G4mGzUiWwD7S
+         UyEZrWTDtm36eXURF+IEFq2Q5AgR+7VlipAtl20UgU0nWTXpCR9avtOF6AruEgJFwD5E
+         j9MQ==
+X-Gm-Message-State: ABy/qLZ1SwmuKG1BXBAsXsbwg6Yw8gA490mFK3EtAcqWxF9C3EDLaYd3
+        xtFPn+T9afhn79vgG8+3f+w=
+X-Google-Smtp-Source: APBJJlFSH473ZQlUiP9jUwhRDcbaBihfrQY+6GdViIe2H0d4aBUC/ywhBHN9DLxYCIocDhOIlYvVcg==
+X-Received: by 2002:a05:6a20:748b:b0:134:e14c:851b with SMTP id p11-20020a056a20748b00b00134e14c851bmr695853pzd.23.1689909543853;
+        Thu, 20 Jul 2023 20:19:03 -0700 (PDT)
+Received: from [192.168.0.104] ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id c7-20020a170902d48700b001b80b342f61sm2134066plg.268.2023.07.20.20.19.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Jul 2023 20:19:03 -0700 (PDT)
+Message-ID: <e7292802-e517-6469-6fbd-a4d30887c99b@gmail.com>
+Date:   Fri, 21 Jul 2023 10:18:56 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230721100931.b366ecfbeb09cba01c73d47a@kernel.org>
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-20_12,2023-07-20_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- mlxscore=0 adultscore=0 spamscore=0 phishscore=0 bulkscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2307210014
-X-Proofpoint-GUID: foimvApiqjguQfiOtuStkh9xqDh9tkq-
-X-Proofpoint-ORIG-GUID: foimvApiqjguQfiOtuStkh9xqDh9tkq-
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Content-Language: en-US
+To:     Josh Triplett <josh@joshtriplett.org>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Sasha Levin <sashal@kernel.org>,
+        Brian Lindholm <brian_lindholm@users.sourceforge.net>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Regressions <regressions@lists.linux.dev>,
+        Linux Stable <stable@vger.kernel.org>,
+        Linux Kernel Build System <linux-kbuild@vger.kernel.org>
+Subject: Fwd: 6.4.4 breaks module-free builds of Debian kernel packages
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jul 21, 2023 at 10:09:31AM +0900, Masami Hiramatsu wrote:
-> On Thu, 20 Jul 2023 14:00:46 +0100
-> Nick Alcock <nick.alcock@oracle.com> wrote:
-> 
-> > On 19 Jul 2023, Alexander Lobakin verbalised:
-> > 
-> > > From: Nick Alcock <nick.alcock@oracle.com>
-> > > Date: Wed, 19 Jul 2023 12:12:06 +0100
-> > >>> Yes, please coordinate with Nick and review each other's work, now we
-> > >>> have two separate efforts with different reasons but hopefully we'll
-> > >
-> > > Three efforts[0] :D Mine went unnoticed unfortunately, so I switched to
-> > > other projects then.
-> > 
-> > It's odd, nobody seems to have noticed these until recently and now
-> > suddenly people are crawling out of the woodwork wanting unique
-> > addresses :) maybe the ambiguous ones are just getting commonplace
-> > enough that they're biting people more often?
-> 
-> Usually, the ambiguous symbols are used as internal functions and
-> are easily changed by kernel update. Thus it is only used for debugging.
-> On the other hand, exposed symbols are considered as more stable (It's
-> not really that stable.) so users tend to use that.
+Hi,
 
-In the use case of DTrace, tracing internal functions is certainly something
-that is used, be it for debugging/performance analysis, for gaining better
-understanding what internal operations are triggerd by userspace actions, etc.
+I notice a regression report on Bugzilla [1]. Quoting from it:
 
-> BTW, note that `perf probe` and kprobe-events already supported that by
-> '_text+OFFSET' style to point those functions (`perf probe` convert the
-> given 'function@file-path' place to '_text+OFFSET' using DWARF and ELF).
-> BPF doesn't because it only supports "function name". (I'm not sure how
-> Dtrace support it)
+> I'm on AMD64 with Debian testing (trixie), where I build my own kernels (with CONFIG_MODULES unset) using "make bindeb-pkg". The build proceeds through 99% of the process, but fails here:
+> 
+> Kernel: arch/x86/boot/bzImage is ready  (#2)
+> make -f ./Makefile ARCH=x86     KERNELRELEASE=6.4.4-i5 intdeb-pkg
+> sh ./scripts/package/builddeb
+> ***
+> *** The present kernel configuration has modules disabled.
+> *** To use the module feature, please run "make menuconfig" etc.
+> *** to enable CONFIG_MODULES.
+> ***
+> make[5]: *** [Makefile:1969: modules_install] Error 1
+> make[4]: *** [scripts/Makefile.package:150: intdeb-pkg] Error 2
+> make[3]: *** [Makefile:1657: intdeb-pkg] Error 2
+> make[2]: *** [debian/rules:16: binary-arch] Error 2
+> dpkg-buildpackage: error: debian/rules binary subprocess returned exit status 2
+> make[1]: *** [scripts/Makefile.package:139: bindeb-pkg] Error 2
+> make: *** [Makefile:1657: bindeb-pkg] Error 2
+> 
+> 6.3.13 contained the same error, but I "fixed" that by moving to 6.4.3.  But alas, 6.4.4 now has the same issue.
+> 
+> I worked around the issue by changing "exit 1" to "exit 0" in the main Makefile (at "modules module_install", per the attached patch), but I don't know if this is a true fix or something that simply happens to work for my particular configuration.
 
-DTrace supports arbitrary address probing based on an offset from a symbol.
+See Bugzilla for the full thread and attached patch that ignores the error.
 
-> If we really consider to improve BPF trace to trace such internal functions,
-> I think you should consider to reuse perf-probe's code to find actual
-> address and convert it to '_text+OFFSET' style to specify the probe point.
-> 
-> I think this still useful if user can identify the traced symbol from the
-> source code line, easily without DWARF analysis. And BPF also need to
-> support "SYMBOL+OFFSET" style probe points.
+Josh: It looks like this regression is caused by a commit of yours
+(and also 1240dabe8d58b4). Would you like to take a look on it?
 
-While identifying a traced symbol is important, the use cases I am seeing are
-the other way around... being able to specify a symbol name (with whatever
-additional elements needed to make it unique) as target for placing a probe.
-And doing so without needing to depend on DWARF data or other rather large
-collection of debug data.  Especially on production systems, requiring the
-typically very large debuginfo style data to be installed is not acceptable
-for the use cases I encounter.
+Anyway, I'm adding this regression to be tracked by regzbot:
 
-> > > My idea was to give relative path from the kernel root to the objfile,
-> > > as we have a good bunch of non-unique "filename + symbol name" pairs.
-> > 
-> > I considered that, but unfortunately that has two problems to a raging
-> > perfectionist like me:
-> > 
-> >  - the objfile probably won't exist except if you're actually doing
-> >    kernel development, since kernel build trees are big enough that a
-> >    lot of people delete them after building or ship kernels to other
-> >    machines: if someone else built your kernel (overwhelmingly common
-> >    among non-kernel-devs) the objfiles are sure to be absent. (But an
-> >    option to not truncate the names when you know they won't be absent
-> >    might be a good idea, though this pushes space requirements up by
-> >    hundreds of kilobytes so it should probably be off by default.)
-> 
-> As I said, these internal symbol tracing is usually only for debugging
-> the kernel. So I think this is not so problematic.
-> 
-> Thank you,
-> 
-> > 
-> >  - even giving a path to the kernel module on disk (much lower
-> >    resolution and vulnerable to ambiguity again) is unreliable because
-> >    there's absolutely no guarantee that any given process can see any of
-> >    them: they might be in a different fs namespace or the modules might
-> >    only be present in an initramfs (hell, I even know setups which
-> >    *compile* the modules needed for rootfs mounting in the initramfs!
-> >    Yes this is borderline insane, yes it happens). More commonly, they
-> >    might be compressed using any of a number of compressors, changing
-> >    the name, and the kernel has no idea which compressor might have been
-> >    used (not unless you want it to go and look, and, well, wandering
-> >    around over the fs hunting down .ko.* files from kernelspace to get
-> >    their names right is *not* my idea of a good time! It's hard enough
-> >    to get that right from userspace, honestly, even with kmod helping.)
-> > 
-> >    The most you could do would be to provide a key you could use with
-> >    kmod to dig the real modules out from userspace. Partial names are as
-> >    good as anything for that :)
-> > 
-> > So all the objfile names are, when it comes down to it, is names with no
-> > intrinsic meaning: even if they're filenames of some kind, tools can't
-> > rely on being able to access those files. (For my most common use case,
-> > using a tracer on an enterprise-built production kernel, they'd almost
-> > never be able to.)
-> > 
-> > So you might as well treat the objfile names as arbitrary string keys
-> > that might be a memory-jogger for humans, which means you can chop
-> > boring bits off them to save space :)
-> 
-> 
-> -- 
-> Masami Hiramatsu (Google) <mhiramat@kernel.org>
+#regzbot introduced: 4243afdb932677 https://bugzilla.kernel.org/show_bug.cgi?id=217689
+#regzbot title: always doing modules_install breaks CONFIG_MODULES=n builds
+
+Thanks.
+
+[1]: https://bugzilla.kernel.org/show_bug.cgi?id=217689
+
+-- 
+An old man doll... just what I always wanted! - Clara
