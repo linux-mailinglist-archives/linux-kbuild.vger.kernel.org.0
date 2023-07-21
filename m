@@ -2,61 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CA1975D04C
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Jul 2023 19:03:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA2F375D06B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Jul 2023 19:14:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230200AbjGURDg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 21 Jul 2023 13:03:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56880 "EHLO
+        id S229872AbjGUROK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 21 Jul 2023 13:14:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230107AbjGURDg (ORCPT
+        with ESMTP id S229864AbjGUROJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 21 Jul 2023 13:03:36 -0400
+        Fri, 21 Jul 2023 13:14:09 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C72B72D58;
-        Fri, 21 Jul 2023 10:03:34 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE9B42D56;
+        Fri, 21 Jul 2023 10:14:07 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6458461D62;
-        Fri, 21 Jul 2023 17:03:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0AF7C433CD;
-        Fri, 21 Jul 2023 17:03:33 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5B64761D54;
+        Fri, 21 Jul 2023 17:14:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12DC1C433C7;
+        Fri, 21 Jul 2023 17:14:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689959013;
-        bh=5JLpzCIcP8GrNwfhf6Q72RzlXws33EqGiwwug49sJZY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=LNfbQodAtZzeDkyOfQdMDBi50Gyas+DIpOQ7sDqTE9htpf+PdR+tg8C5psq8brz2Q
-         ZuE5TLeIX5LqqVmKYiW5E15BKgUXKzMKtGnrN1vm0dhwDIDEOzo4MskCU1OIQ1u1c6
-         pjQFiz8VBbChK6sZR+/VOjLmX9+0w0zGSwW7VhJ0iS9URHUB+ePLikv4AhAhvvMfQs
-         mtA0o2O+S2/xYsqzqk1xXSnHMuX/4/1b12Q04/g2C0DhxlNesWeEMYniTspe+4c4kU
-         epDK9hUG7br2gkaesFngSq0KFEyhuUbAFfqKcMY+dKSURwZ50Z3psEMlry4k/dVlsB
-         KvgFHNUFAACOw==
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-56347da4a50so1361597eaf.2;
-        Fri, 21 Jul 2023 10:03:33 -0700 (PDT)
-X-Gm-Message-State: ABy/qLZMH+RCyZU4J+EpI3zOC2+EJbAQUpOxPRUj8AJ4Cy4+UEOPDt0S
-        Lozv1AVjlM4xNpDFvqW+1cCAAK8hNjU8/0j1H6c=
-X-Google-Smtp-Source: APBJJlHkxE2hRMjRtwdE1wEe7yvoUrAsmGMiIkRnfMseS4U8D4zRxUXkhZI4fB5CzBs8Cs+kWawoSCgf4omuzIkWWv4=
-X-Received: by 2002:a4a:7544:0:b0:563:625b:e02e with SMTP id
- g4-20020a4a7544000000b00563625be02emr1873643oof.9.1689959013011; Fri, 21 Jul
- 2023 10:03:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230721150147.11720-2-palmer@rivosinc.com>
-In-Reply-To: <20230721150147.11720-2-palmer@rivosinc.com>
+        s=k20201202; t=1689959646;
+        bh=TWLsMOZBMuHm+TWiIT8Y8l38aCgqHDrC5aBJ2bThEJE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=aGdEfb2ftH8E/i0vC/ZB1JqEeUziZ7c42TRxjtFD5diiLKG0ju1uMBvh0lzrmhXDr
+         gHxr5rr5Quk35JiXsbBao2/5FiclQao7RNibu6eA1qA+VdstG+sL3/4Hpav5gJaEvz
+         8Lv0uQ7IqUumTxpDW7UxjH9xbA/l4eAbEVUlkGu+XhrGPpXIMGzDlTSdyIL4dBbChc
+         pmhav658j19fW0DX6bNMNBvrLVFOk2EHYXJOmX70K0z9BJe+8KQy3uNZemtsJaOv6T
+         U5fnajLJgrnvxyZY+EaEfkZnY6LCiTlCvjUX2qeTTifseIsLFzyASbhDOZKspLYax4
+         RpG1delajcQnA==
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 22 Jul 2023 02:02:56 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATF9pxJc0nU3NPnX_PFJr7gF6Baras548ULkO8XE98_VQ@mail.gmail.com>
-Message-ID: <CAK7LNATF9pxJc0nU3NPnX_PFJr7gF6Baras548ULkO8XE98_VQ@mail.gmail.com>
-Subject: Re: [PATCH] modpost, kallsyms: Treat add '$'-prefixed symbols as
- mapping symbols
-To:     Palmer Dabbelt <palmer@rivosinc.com>
-Cc:     wangkefeng.wang@huawei.com, mcgrof@kernel.org, nathan@kernel.org,
-        ndesaulniers@google.com, nicolas@fjasle.eu,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To:     Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH v2] s390: use obj-y to descend into drivers/s390/
+Date:   Sat, 22 Jul 2023 02:13:58 +0900
+Message-Id: <20230721171358.3612099-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -67,106 +58,46 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jul 22, 2023 at 12:20=E2=80=AFAM Palmer Dabbelt <palmer@rivosinc.co=
-m> wrote:
->
-> Trying to restrict the '$'-prefix change to RISC-V caused some fallout,
-> so let's just treat all those symbols as special.
->
-> Fixes: c05780ef3c1 ("module: Ignore RISC-V mapping symbols too")
-> Link: https://lore.kernel.org/all/20230712015747.77263-1-wangkefeng.wang@=
-huawei.com/
-> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+The single build rule does not work with the drivers-y syntax. [1]
 
+Use the standard obj-y syntax. It moves the objects from drivers/s390/
+to slightly lower address, but fixes the reported issue.
 
-Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
+[1]: https://lore.kernel.org/linux-kbuild/d57ba55f-20a3-b836-783d-b49c8a161b6e@kernel.org/T/#m27f781ab60acadfed8a9e9642f30d5414a5e2df3
 
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Tested-by: Jiri Slaby <jirislaby@kernel.org>
+---
 
-> ---
-> It wasn't clear if we should just revert the original patch and spin a
-> new one, but looks like this is in at least some trees so I sent a
-> follow-on patch -- at least this way I can make coffee before forgetting
-> to send it ;)
-> ---
->  include/linux/module_symbol.h | 16 ++--------------
->  kernel/module/kallsyms.c      |  2 +-
->  scripts/mod/modpost.c         |  2 +-
->  3 files changed, 4 insertions(+), 16 deletions(-)
->
-> diff --git a/include/linux/module_symbol.h b/include/linux/module_symbol.=
-h
-> index 5b799942b243..1269543d0634 100644
-> --- a/include/linux/module_symbol.h
-> +++ b/include/linux/module_symbol.h
-> @@ -3,25 +3,13 @@
->  #define _LINUX_MODULE_SYMBOL_H
->
->  /* This ignores the intensely annoying "mapping symbols" found in ELF fi=
-les. */
-> -static inline int is_mapping_symbol(const char *str, int is_riscv)
-> +static inline int is_mapping_symbol(const char *str)
->  {
->         if (str[0] =3D=3D '.' && str[1] =3D=3D 'L')
->                 return true;
->         if (str[0] =3D=3D 'L' && str[1] =3D=3D '0')
->                 return true;
-> -       /*
-> -        * RISC-V defines various special symbols that start with "$".  T=
-he
-> -        * mapping symbols, which exist to differentiate between incompat=
-ible
-> -        * instruction encodings when disassembling, show up all over the=
- place
-> -        * and are generally not meant to be treated like other symbols. =
- So
-> -        * just ignore any of the special symbols.
-> -        */
-> -       if (is_riscv)
-> -               return str[0] =3D=3D '$';
-> -
-> -       return str[0] =3D=3D '$' &&
-> -              (str[1] =3D=3D 'a' || str[1] =3D=3D 'd' || str[1] =3D=3D '=
-t' || str[1] =3D=3D 'x')
-> -              && (str[2] =3D=3D '\0' || str[2] =3D=3D '.');
-> +       return str[0] =3D=3D '$';
->  }
->
->  #endif /* _LINUX_MODULE_SYMBOL_H */
-> diff --git a/kernel/module/kallsyms.c b/kernel/module/kallsyms.c
-> index 78a1ffc399d9..ef73ae7c8909 100644
-> --- a/kernel/module/kallsyms.c
-> +++ b/kernel/module/kallsyms.c
-> @@ -289,7 +289,7 @@ static const char *find_kallsyms_symbol(struct module=
- *mod,
->                  * and inserted at a whim.
->                  */
->                 if (*kallsyms_symbol_name(kallsyms, i) =3D=3D '\0' ||
-> -                   is_mapping_symbol(kallsyms_symbol_name(kallsyms, i), =
-IS_ENABLED(CONFIG_RISCV)))
-> +                   is_mapping_symbol(kallsyms_symbol_name(kallsyms, i)))
->                         continue;
->
->                 if (thisval <=3D addr && thisval > bestval) {
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 7c71429d6502..b29b29707f10 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -1052,7 +1052,7 @@ static inline int is_valid_name(struct elf_info *el=
-f, Elf_Sym *sym)
->
->         if (!name || !strlen(name))
->                 return 0;
-> -       return !is_mapping_symbol(name, elf->hdr->e_machine =3D=3D EM_RIS=
-CV);
-> +       return !is_mapping_symbol(name);
->  }
->
->  /* Look up the nearest symbol based on the section and the address */
-> --
-> 2.41.0
->
+Changes in v2:
+  - rephase the commit log
 
+ arch/s390/Makefile | 1 -
+ drivers/Makefile   | 2 ++
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
---=20
-Best Regards
-Masahiro Yamada
+diff --git a/arch/s390/Makefile b/arch/s390/Makefile
+index 5ed242897b0d..a53a36ee0731 100644
+--- a/arch/s390/Makefile
++++ b/arch/s390/Makefile
+@@ -119,7 +119,6 @@ export KBUILD_CFLAGS_DECOMPRESSOR
+ OBJCOPYFLAGS	:= -O binary
+ 
+ libs-y		+= arch/s390/lib/
+-drivers-y	+= drivers/s390/
+ 
+ boot		:= arch/s390/boot
+ syscalls	:= arch/s390/kernel/syscalls
+diff --git a/drivers/Makefile b/drivers/Makefile
+index 7241d80a7b29..a7459e77df37 100644
+--- a/drivers/Makefile
++++ b/drivers/Makefile
+@@ -195,3 +195,5 @@ obj-$(CONFIG_PECI)		+= peci/
+ obj-$(CONFIG_HTE)		+= hte/
+ obj-$(CONFIG_DRM_ACCEL)		+= accel/
+ obj-$(CONFIG_CDX_BUS)		+= cdx/
++
++obj-$(CONFIG_S390)		+= s390/
+-- 
+2.39.2
+
