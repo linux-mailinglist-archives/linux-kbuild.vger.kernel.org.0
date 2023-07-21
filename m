@@ -2,63 +2,89 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DD3A75CA02
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Jul 2023 16:28:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E269E75CA1E
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Jul 2023 16:36:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229730AbjGUO2Y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 21 Jul 2023 10:28:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48440 "EHLO
+        id S231452AbjGUOgO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 21 Jul 2023 10:36:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229487AbjGUO2Y (ORCPT
+        with ESMTP id S229836AbjGUOgM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 21 Jul 2023 10:28:24 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E9CFE68;
-        Fri, 21 Jul 2023 07:28:23 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D85EC61CB8;
-        Fri, 21 Jul 2023 14:28:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FB84C433CA;
-        Fri, 21 Jul 2023 14:28:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689949702;
-        bh=jFC4uO+SoEFg6fMBatOpafybt9O/eA/aXgnox0sXwsg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=giZqR0dckrxJGrv0GAeSdqNtZ0FjShQdmze5IXx/8ChwNzW/enjsdlFafn6eKxXkp
-         USO2VBT/XZw4KwpqMzzykxi6+xU6NLz1eQCvOTTUs3s2GxSswC6RZGUfP7FtAfHqBx
-         YjapxDBohJ/MIprTfVp6CPCSZW7Fdu74T3LkYmBRFmRTGo1ciPZBPyu3CKCy/1+OGO
-         RXeQk2QnHusDN82dq9lp24CCU7dt3M1XaiA9cSUNAqpCzZ7gMV7M40GXX7TyNsBlC2
-         Gpbul5C+6WPOy9fL44LNbRgpsaIdEtWGeg5ZsV7Bn1RZMEXz8ZkAboJ1jM1yRqKdLX
-         KG9fCysowgCEw==
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-1b3c503af99so1487602fac.0;
-        Fri, 21 Jul 2023 07:28:22 -0700 (PDT)
-X-Gm-Message-State: ABy/qLalqhCYA242ZZVYfkw8LuYPF23CP5LB9n3/urFyK/RcpDNOkcVy
-        cLJCB/vWtEaZY4RPVG+ezggiFLGkpONw2K/5EBY=
-X-Google-Smtp-Source: APBJJlF+sVhobbUf9rz2ZFy72uhXOOKvl7kQX4yfqoYx14HS05Fs+/XRHKh1ky00HF9rgc6k03Gavm9OHVnwr17/Pf4=
-X-Received: by 2002:a05:6870:65ac:b0:1b8:5d9e:638b with SMTP id
- fp44-20020a05687065ac00b001b85d9e638bmr2405624oab.43.1689949701604; Fri, 21
- Jul 2023 07:28:21 -0700 (PDT)
+        Fri, 21 Jul 2023 10:36:12 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 685BB10C3;
+        Fri, 21 Jul 2023 07:36:11 -0700 (PDT)
+Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36LEBkBC000790;
+        Fri, 21 Jul 2023 14:36:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=R9SDwpgxPts0/H86y/f+yVGHJboXJpEl9wullCar0P8=;
+ b=sfHKnbSRnaZazX5082lSBMmbcfVuz483MxOWaf18SrJVky2pU+I5McipGo6Z/7AW/wRl
+ ucNCiEv3m3m0Q2kabQZ24OFFxGX+wivF6eCx3f033lFu1StE0WY1ej+Eq7edizkPeyym
+ zlHuzTtNeIM60eHD5ksx/fAT2nA6GK94nj5Ut07tKFa8s1pQAxz27tCWazFhGzcCZ/2H
+ 7Slgotl+VdNvl8ZY30JKEr5fvZ9KhW8CAIXofqHJKwuDgr7zAvMaRoWPQXu4vWDCAbfY
+ Ifl15BDadYn7HE8Nicj+4SJWw2CmfKZyPJDumNDxtqugRscQlEPzg37J2U+/fGjtwOZR ew== 
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rye3fubjb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 21 Jul 2023 14:36:08 +0000
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+        by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 36LCnjpF004510;
+        Fri, 21 Jul 2023 14:36:07 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+        by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3rv80jmvej-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 21 Jul 2023 14:36:07 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+        by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 36LEa4Yc25952778
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 21 Jul 2023 14:36:04 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id A280020043;
+        Fri, 21 Jul 2023 14:36:04 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 1B8E820040;
+        Fri, 21 Jul 2023 14:36:04 +0000 (GMT)
+Received: from [9.171.55.243] (unknown [9.171.55.243])
+        by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+        Fri, 21 Jul 2023 14:36:04 +0000 (GMT)
+Message-ID: <01972a94-fc21-709e-29ac-847b8e60ee23@linux.ibm.com>
+Date:   Fri, 21 Jul 2023 16:36:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] s390: use obj-y to descend into drivers/s390/
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Jiri Slaby <jirislaby@kernel.org>
+References: <20230721134107.3437947-1-masahiroy@kernel.org>
+Content-Language: en-US
+From:   Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <20230721134107.3437947-1-masahiroy@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Q-IGwVdz1fxPtzVtYZogGfmjA2GXR9VN
+X-Proofpoint-ORIG-GUID: Q-IGwVdz1fxPtzVtYZogGfmjA2GXR9VN
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <4f414a87-0c54-44bd-b218-f6f0b22c57ef@p183> <ZLEmgxm73zzmffWD@fjasle.eu>
- <4dc7e56c-6692-4d4c-a8d2-05abe4501e66@p183>
-In-Reply-To: <4dc7e56c-6692-4d4c-a8d2-05abe4501e66@p183>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 21 Jul 2023 23:27:44 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATPM=NhVnHnoyKv=kUEmNru7-Z9oNKMe7MChidRJfECvQ@mail.gmail.com>
-Message-ID: <CAK7LNATPM=NhVnHnoyKv=kUEmNru7-Z9oNKMe7MChidRJfECvQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: flatten KBUILD_CFLAGS
-To:     Alexey Dobriyan <adobriyan@gmail.com>
-Cc:     Nicolas Schier <nicolas@fjasle.eu>, akpm@linux-foundation.org,
-        nathan@kernel.org, ndesaulniers@google.com,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-21_09,2023-07-20_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 spamscore=0
+ mlxscore=0 priorityscore=1501 adultscore=0 suspectscore=0 phishscore=0
+ mlxlogscore=859 malwarescore=0 impostorscore=0 bulkscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307210131
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_MSPIKE_H5,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,65 +92,46 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jul 15, 2023 at 2:45=E2=80=AFAM Alexey Dobriyan <adobriyan@gmail.co=
-m> wrote:
->
-> On Fri, Jul 14, 2023 at 12:42:11PM +0200, Nicolas Schier wrote:
-> > On Thu, Jul 13, 2023 at 09:52:28PM +0300, Alexey Dobriyan wrote:
-> > > Make it slightly easier to see which compiler options are added and
-> > > removed (and not worry about column limit too!).
-> > >
-> > > Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
-> > > ---
-> > >
-> > >  Makefile |   22 +++++++++++++++++-----
-> > >  1 file changed, 17 insertions(+), 5 deletions(-)
-> > >
-> > > --- a/Makefile
-> > > +++ b/Makefile
-> > > @@ -555,11 +555,23 @@ LINUXINCLUDE    :=3D \
-> > >             $(USERINCLUDE)
-> > >
-> > >  KBUILD_AFLAGS   :=3D -D__ASSEMBLY__ -fno-PIE
-> > > -KBUILD_CFLAGS   :=3D -Wall -Wundef -Werror=3Dstrict-prototypes -Wno-=
-trigraphs \
-> > > -              -fno-strict-aliasing -fno-common -fshort-wchar -fno-PI=
-E \
-> > > -              -Werror=3Dimplicit-function-declaration -Werror=3Dimpl=
-icit-int \
-> > > -              -Werror=3Dreturn-type -Wno-format-security -funsigned-=
-char \
-> > > -              -std=3Dgnu11
-> > > +
-> > > +KBUILD_CFLAGS :=3D
-> > > +KBUILD_CFLAGS +=3D -std=3Dgnu11
-> >
-> > If you want to put -std at top, on contrast to the sorted options below=
-,
-> > you could also merge the two lines above.
->
-> I don't know. Standard choice is arguably the most important option
-> so I put it first.
->
-> > > +KBUILD_CFLAGS +=3D -fshort-wchar
-> > > +KBUILD_CFLAGS +=3D -funsigned-char
-> > > +KBUILD_CFLAGS +=3D -fno-common
-> > > +KBUILD_CFLAGS +=3D -fno-PIE
-> > > +KBUILD_CFLAGS +=3D -fno-strict-aliasing
-> > > +KBUILD_CFLAGS +=3D -Wall
-> > > +KBUILD_CFLAGS +=3D -Wundef
-> > > +KBUILD_CFLAGS +=3D -Werror=3Dimplicit-function-declaration
-> > > +KBUILD_CFLAGS +=3D -Werror=3Dimplicit-int
-> > > +KBUILD_CFLAGS +=3D -Werror=3Dreturn-type
-> > > +KBUILD_CFLAGS +=3D -Werror=3Dstrict-prototypes
-> > > +KBUILD_CFLAGS +=3D -Wno-format-security
-> > > +KBUILD_CFLAGS +=3D -Wno-trigraphs
+Am 21.07.23 um 15:41 schrieb Masahiro Yamada:
+> I like to use obj-y in as many places as possible.
 
+Please do not use "I like". That is just too polite.
 
-Applied to linux-kbuild.
-Thanks.
-
-
---=20
-Best Regards
-Masahiro Yamada
+This fixes a bug as outlined below and maybe make it a clear statement that the current use is
+non-standard and needs to be fixed - I think.
+> 
+> Change the drivers-y to obj-y. It moves the objects from drivers/s390/
+> to slightly lower address, but fixes the single build issue. [1]
+> 
+> [1]: https://lore.kernel.org/linux-kbuild/d57ba55f-20a3-b836-783d-b49c8a161b6e@kernel.org/T/#m27f781ab60acadfed8a9e9642f30d5414a5e2df3
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Tested-by: Jiri Slaby <jirislaby@kernel.org>
+> ---
+> 
+>   arch/s390/Makefile | 1 -
+>   drivers/Makefile   | 2 ++
+>   2 files changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/s390/Makefile b/arch/s390/Makefile
+> index 5ed242897b0d..a53a36ee0731 100644
+> --- a/arch/s390/Makefile
+> +++ b/arch/s390/Makefile
+> @@ -119,7 +119,6 @@ export KBUILD_CFLAGS_DECOMPRESSOR
+>   OBJCOPYFLAGS	:= -O binary
+>   
+>   libs-y		+= arch/s390/lib/
+> -drivers-y	+= drivers/s390/
+>   
+>   boot		:= arch/s390/boot
+>   syscalls	:= arch/s390/kernel/syscalls
+> diff --git a/drivers/Makefile b/drivers/Makefile
+> index 7241d80a7b29..a7459e77df37 100644
+> --- a/drivers/Makefile
+> +++ b/drivers/Makefile
+> @@ -195,3 +195,5 @@ obj-$(CONFIG_PECI)		+= peci/
+>   obj-$(CONFIG_HTE)		+= hte/
+>   obj-$(CONFIG_DRM_ACCEL)		+= accel/
+>   obj-$(CONFIG_CDX_BUS)		+= cdx/
+> +
+> +obj-$(CONFIG_S390)		+= s390/
