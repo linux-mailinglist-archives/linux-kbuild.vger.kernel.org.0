@@ -2,49 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 620EE75C809
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Jul 2023 15:41:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A47775C819
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Jul 2023 15:46:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230388AbjGUNlU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 21 Jul 2023 09:41:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43086 "EHLO
+        id S229926AbjGUNqC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 21 Jul 2023 09:46:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229898AbjGUNlT (ORCPT
+        with ESMTP id S229642AbjGUNqB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 21 Jul 2023 09:41:19 -0400
+        Fri, 21 Jul 2023 09:46:01 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1FEB1722;
-        Fri, 21 Jul 2023 06:41:18 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23E961731;
+        Fri, 21 Jul 2023 06:46:00 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5658F61B18;
-        Fri, 21 Jul 2023 13:41:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C25DC433C7;
-        Fri, 21 Jul 2023 13:41:15 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8EB0161B2A;
+        Fri, 21 Jul 2023 13:45:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0543C433C7;
+        Fri, 21 Jul 2023 13:45:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689946877;
-        bh=hsP9Oos0WjKR1Uc0WBZ0FXpKTzVBPfutUi/3ykfZOgk=;
+        s=k20201202; t=1689947159;
+        bh=Y+KzTs8+PzyDlj+I4KwGMIMgwXWbHAbN6snUeh5qmNk=;
         h=From:To:Cc:Subject:Date:From;
-        b=V9wiwFcd2muWD1xxfOwWvTMgOYs6Pk8wrzrYta8Zn2tGwJKcVb7W+XVZ3jT696ZlQ
-         zzjIFkJU5V3ADCW0E95NQ8agicseWIFXngaWXFcVPoRK2hvGOYcgI+ovck7nq9RzK0
-         /2r8hFknL9bvJ9/UWrZE3UNquo7AXvfLsEtbA2ZL+SZfKcABjjjciYBlSOib03ELGt
-         Bzq0a2X6D1PNZEHW1nzOxvateb6LksWKmM+yXvwUTARW4GFk6fQ3VVm773oBJsAPmO
-         tjC1GQLPSBGDfY+gq6D7+TEN2hroF182Fi5oBLVCA2RI7eQ2XR1BKScb+bpASSEJOz
-         Cxl2WzDbVgMJw==
+        b=L67onQyS74Pnfx6UGTk/eusNu4C0c3ZMB7dzcL7H6aH+EVteGl0lC4CtSQf2HwlAD
+         uYFTBSIZLHDmSuIhmTyG4X/KJ2SeHzUOzt1BpFTnckdLLUrhuFaKVgxeVuZjDzz1Yt
+         8GEzbIOpuGO0iDL5Q8LMMJDDsDJj6l3YJKscOl4vUWoaVBEZgYtZLHor3zWpaQIDIA
+         umxkNhBUuECZ5M8wnVguwZEEtTk4G/TvQyjFgYxxYqdbdVA35T75Dd90x3d2LOTeta
+         eyxwL8AwKtwyxcmwl6BSbqK8gqN4ZyX2ARGuvQZ3exThwtgm5S6W/uyIcMiykB02xK
+         8fsn32/MXR5Sg==
 From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org
+To:     Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        linux-um@lists.infradead.org
 Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
         Jiri Slaby <jirislaby@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH] s390: use obj-y to descend into drivers/s390/
-Date:   Fri, 21 Jul 2023 22:41:07 +0900
-Message-Id: <20230721134107.3437947-1-masahiroy@kernel.org>
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>, x86@kernel.org
+Subject: [PATCH 1/2] UML: hard-code the result of 'uname -s'
+Date:   Fri, 21 Jul 2023 22:45:47 +0900
+Message-Id: <20230721134548.3438376-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -58,43 +61,68 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-I like to use obj-y in as many places as possible.
+We rely on 'uname -s' returning 'Linux' as there are arch/um/os-Linux/
+and arch/x86/um/os-Linux/, but no other os-*/ directories.
 
-Change the drivers-y to obj-y. It moves the objects from drivers/s390/
-to slightly lower address, but fixes the single build issue. [1]
+Supporting a non-Linux host is unlikely to happen.
 
-[1]: https://lore.kernel.org/linux-kbuild/d57ba55f-20a3-b836-783d-b49c8a161b6e@kernel.org/T/#m27f781ab60acadfed8a9e9642f30d5414a5e2df3
+Let's hard-code 'Linux'.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Tested-by: Jiri Slaby <jirislaby@kernel.org>
 ---
 
- arch/s390/Makefile | 1 -
- drivers/Makefile   | 2 ++
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ arch/um/Makefile     | 7 +++----
+ arch/x86/um/Makefile | 2 +-
+ 2 files changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/arch/s390/Makefile b/arch/s390/Makefile
-index 5ed242897b0d..a53a36ee0731 100644
---- a/arch/s390/Makefile
-+++ b/arch/s390/Makefile
-@@ -119,7 +119,6 @@ export KBUILD_CFLAGS_DECOMPRESSOR
- OBJCOPYFLAGS	:= -O binary
+diff --git a/arch/um/Makefile b/arch/um/Makefile
+index da4d5256af2f..1735a562453d 100644
+--- a/arch/um/Makefile
++++ b/arch/um/Makefile
+@@ -18,14 +18,13 @@ else
+ endif
  
- libs-y		+= arch/s390/lib/
--drivers-y	+= drivers/s390/
+ ARCH_DIR := arch/um
+-OS := $(shell uname -s)
+ # We require bash because the vmlinux link and loader script cpp use bash
+ # features.
+ SHELL := /bin/bash
  
- boot		:= arch/s390/boot
- syscalls	:= arch/s390/kernel/syscalls
-diff --git a/drivers/Makefile b/drivers/Makefile
-index 7241d80a7b29..a7459e77df37 100644
---- a/drivers/Makefile
-+++ b/drivers/Makefile
-@@ -195,3 +195,5 @@ obj-$(CONFIG_PECI)		+= peci/
- obj-$(CONFIG_HTE)		+= hte/
- obj-$(CONFIG_DRM_ACCEL)		+= accel/
- obj-$(CONFIG_CDX_BUS)		+= cdx/
-+
-+obj-$(CONFIG_S390)		+= s390/
+ core-y			+= $(ARCH_DIR)/kernel/		\
+ 			   $(ARCH_DIR)/drivers/		\
+-			   $(ARCH_DIR)/os-$(OS)/
++			   $(ARCH_DIR)/os-Linux/
+ 
+ MODE_INCLUDE	+= -I$(srctree)/$(ARCH_DIR)/include/shared/skas
+ 
+@@ -78,7 +77,7 @@ USER_CFLAGS = $(patsubst $(KERNEL_DEFINES),,$(patsubst -I%,,$(KBUILD_CFLAGS))) \
+ 		-idirafter $(objtree)/include -D__KERNEL__ -D__UM_HOST__
+ 
+ #This will adjust *FLAGS accordingly to the platform.
+-include $(srctree)/$(ARCH_DIR)/Makefile-os-$(OS)
++include $(srctree)/$(ARCH_DIR)/Makefile-os-Linux
+ 
+ KBUILD_CPPFLAGS += -I$(srctree)/$(HOST_DIR)/include \
+ 		   -I$(srctree)/$(HOST_DIR)/include/uapi \
+@@ -155,4 +154,4 @@ archclean:
+ 	@find . \( -name '*.bb' -o -name '*.bbg' -o -name '*.da' \
+ 		-o -name '*.gcov' \) -type f -print | xargs rm -f
+ 
+-export HEADER_ARCH SUBARCH USER_CFLAGS CFLAGS_NO_HARDENING OS DEV_NULL_PATH
++export HEADER_ARCH SUBARCH USER_CFLAGS CFLAGS_NO_HARDENING DEV_NULL_PATH
+diff --git a/arch/x86/um/Makefile b/arch/x86/um/Makefile
+index ee89f6bb9242..e207e6748aa2 100644
+--- a/arch/x86/um/Makefile
++++ b/arch/x86/um/Makefile
+@@ -13,7 +13,7 @@ obj-y = bugs_$(BITS).o delay.o fault.o ldt.o \
+ 	ptrace_$(BITS).o ptrace_user.o setjmp_$(BITS).o signal.o \
+ 	stub_$(BITS).o stub_segv.o \
+ 	sys_call_table_$(BITS).o sysrq_$(BITS).o tls_$(BITS).o \
+-	mem_$(BITS).o subarch.o os-$(OS)/
++	mem_$(BITS).o subarch.o os-Linux/
+ 
+ ifeq ($(CONFIG_X86_32),y)
+ 
 -- 
 2.39.2
 
