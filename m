@@ -2,41 +2,31 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1483075BD26
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Jul 2023 06:13:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC09275BE94
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Jul 2023 08:16:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230040AbjGUENp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 21 Jul 2023 00:13:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41054 "EHLO
+        id S230519AbjGUGP7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 21 Jul 2023 02:15:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbjGUENf (ORCPT
+        with ESMTP id S229786AbjGUGPf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 21 Jul 2023 00:13:35 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9E602729;
-        Thu, 20 Jul 2023 21:13:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=2F/PvH5rU8feN3Ho3myXK2A3ABweq+g65TCLK6TYKDE=; b=mhFljn3OHXTptF+4QQrQhkLabL
-        J1AEPolOQJ/AFHluiQ24FPJSbQdHQGeNS1+fTOkLpkMM/f7ulFigcCt0kJ3GBsBsFfSTH4AKWjp3r
-        XknHz+R0WZJHXf/mUaEi55TC+7Y2jR08Ny28I4lgbLCqbDkYPmmgbl/ylrqkGTooAemvgpMqBKR8H
-        Mf9WFmluoUTxDXNSxt9lJJoRvOMAU9Zpwg9mwCrcqmumHxyeb5x6vc86MMUvGLKYHohGZFfYYZRKY
-        7kd9U5/WdHAD4dIrACt9k/Gvp7VeiFt4fefu4jTWx4QxT+CtH4eq6fs07MKbZLbXBiUP3Bhnvhxyw
-        iCucOs2g==;
-Received: from c-71-59-149-187.hsd1.or.comcast.net ([71.59.149.187] helo=[10.0.0.152])
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qMhW8-00CnxD-0o;
-        Fri, 21 Jul 2023 04:13:24 +0000
-Message-ID: <63a46a4e-53d4-6d18-7f6e-fee1c9890c79@infradead.org>
-Date:   Thu, 20 Jul 2023 21:13:21 -0700
+        Fri, 21 Jul 2023 02:15:35 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7A0749E2;
+        Thu, 20 Jul 2023 23:13:15 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1qMjM0-0000FE-Vr; Fri, 21 Jul 2023 08:11:05 +0200
+Message-ID: <421602e6-0fe0-34c4-12bb-d805f2a282f4@leemhuis.info>
+Date:   Fri, 21 Jul 2023 08:11:02 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
 Subject: Re: Fwd: 6.4.4 breaks module-free builds of Debian kernel packages
-Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+Content-Language: en-US, de-DE
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
         Josh Triplett <josh@joshtriplett.org>,
         Nicolas Schier <nicolas@fjasle.eu>,
         Masahiro Yamada <masahiroy@kernel.org>,
@@ -47,67 +37,72 @@ Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Stable <stable@vger.kernel.org>,
         Linux Kernel Build System <linux-kbuild@vger.kernel.org>
 References: <e7292802-e517-6469-6fbd-a4d30887c99b@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <e7292802-e517-6469-6fbd-a4d30887c99b@gmail.com>
+ <63a46a4e-53d4-6d18-7f6e-fee1c9890c79@infradead.org>
+From:   "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+In-Reply-To: <63a46a4e-53d4-6d18-7f6e-fee1c9890c79@infradead.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1689919995;b90addbf;
+X-HE-SMSGID: 1qMjM0-0000FE-Vr
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Bagas,
-
-On 7/20/23 20:18, Bagas Sanjaya wrote:
-> Hi,
-> 
-> I notice a regression report on Bugzilla [1]. Quoting from it:
-> 
->> I'm on AMD64 with Debian testing (trixie), where I build my own kernels (with CONFIG_MODULES unset) using "make bindeb-pkg". The build proceeds through 99% of the process, but fails here:
+On 21.07.23 06:13, Randy Dunlap wrote:
+> On 7/20/23 20:18, Bagas Sanjaya wrote:
 >>
->> Kernel: arch/x86/boot/bzImage is ready  (#2)
->> make -f ./Makefile ARCH=x86     KERNELRELEASE=6.4.4-i5 intdeb-pkg
->> sh ./scripts/package/builddeb
->> ***
->> *** The present kernel configuration has modules disabled.
->> *** To use the module feature, please run "make menuconfig" etc.
->> *** to enable CONFIG_MODULES.
->> ***
->> make[5]: *** [Makefile:1969: modules_install] Error 1
->> make[4]: *** [scripts/Makefile.package:150: intdeb-pkg] Error 2
->> make[3]: *** [Makefile:1657: intdeb-pkg] Error 2
->> make[2]: *** [debian/rules:16: binary-arch] Error 2
->> dpkg-buildpackage: error: debian/rules binary subprocess returned exit status 2
->> make[1]: *** [scripts/Makefile.package:139: bindeb-pkg] Error 2
->> make: *** [Makefile:1657: bindeb-pkg] Error 2
+>>> I'm on AMD64 with Debian testing (trixie), where I build my own kernels (with CONFIG_MODULES unset) using "make bindeb-pkg". The build proceeds through 99% of the process, but fails here:
+>>>
+> [...]
+>>>
+>>> 6.3.13 contained the same error, but I "fixed" that by moving to 6.4.3.  But alas, 6.4.4 now has the same issue.
+>>>
+>>> I worked around the issue by changing "exit 1" to "exit 0" in the main Makefile (at "modules module_install", per the attached patch), but I don't know if this is a true fix or something that simply happens to work for my particular configuration.
 >>
->> 6.3.13 contained the same error, but I "fixed" that by moving to 6.4.3.  But alas, 6.4.4 now has the same issue.
+>> See Bugzilla for the full thread and attached patch that ignores the error.
 >>
->> I worked around the issue by changing "exit 1" to "exit 0" in the main Makefile (at "modules module_install", per the attached patch), but I don't know if this is a true fix or something that simply happens to work for my particular configuration.
-> 
-> See Bugzilla for the full thread and attached patch that ignores the error.
-> 
-> Josh: It looks like this regression is caused by a commit of yours
-> (and also 1240dabe8d58b4). Would you like to take a look on it?
-> 
-> Anyway, I'm adding this regression to be tracked by regzbot:
-> 
-> #regzbot introduced: 4243afdb932677 https://bugzilla.kernel.org/show_bug.cgi?id=217689
-> #regzbot title: always doing modules_install breaks CONFIG_MODULES=n builds
-> 
-> Thanks.
-> 
-> [1]: https://bugzilla.kernel.org/show_bug.cgi?id=217689
+>> Josh: It looks like this regression is caused by a commit of yours
+>> (and also 1240dabe8d58b4). Would you like to take a look on it?
+>>
+>> Anyway, I'm adding this regression to be tracked by regzbot:
+>>
+>> #regzbot introduced: 4243afdb932677 https://bugzilla.kernel.org/show_bug.cgi?id=217689
+>> #regzbot title: always doing modules_install breaks CONFIG_MODULES=n builds
 
+Masahiro Yamada: thx for taking care of this and Greg for picking the
+fix up.
 
-Do you also take care of marking the bugzilla entries as completed/fixed/solved
-etc.?
+BTW, Bagas, this apparently is a regression that only affected stable.
+In that case please tell rezbot about the stable commit-id of the
+change, as otherwise it will consider the problem a regression in
+mainline (and there it's was never a problem or already solved [didn't
+look]).
 
-thanks.
--- 
-~Randy
+Let me fix this up and tell regzbot about the incoming fix while at it:
+
+#regzbot introduced: 6061ac50f1e04
+#regzbot fix: kbuild: make modules_install copy modules.builtin(.modinfo)
+
+>> [1]: https://bugzilla.kernel.org/show_bug.cgi?id=217689
+> 
+> Do you also take care of marking the bugzilla entries as completed/fixed/solved
+> etc.?
+
+I don't known if Bagas does, but I do not and have no plans to do so.
+
+I consider my work on looking at bugzilla for regressions a courtesy I
+perform in the interest of the "no regressions" rule, as some or many of
+those report otherwise will be ignored. And that's bad for our reputation.
+
+But that is where my courtesy stops. Those that think having a bugzilla
+around should take care of maintaining the state. Bugbot might soon
+solve part of the problem. But I guess it won't handle this case.
+
+Ciao, Thorsten
