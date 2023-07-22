@@ -2,128 +2,125 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CC8375DE5C
-	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Jul 2023 21:41:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E27275DE80
+	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Jul 2023 22:25:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229617AbjGVTl4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 22 Jul 2023 15:41:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59234 "EHLO
+        id S229628AbjGVUZ5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 22 Jul 2023 16:25:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229614AbjGVTl4 (ORCPT
+        with ESMTP id S229491AbjGVUZ4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 22 Jul 2023 15:41:56 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 342662707;
-        Sat, 22 Jul 2023 12:41:37 -0700 (PDT)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36MJUTwu020067;
-        Sat, 22 Jul 2023 19:40:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=lTyqRrAz0M+mSVTdCULJfxi4Kvp6m47KIN1XFC6azao=;
- b=Tulg/cMYBdauh+BmOtTSWVDCXPZaY9nVDjB6ixukET0D/mLLVXAJZDfAVtQXKe0SsV/g
- Eib272VpV2/In7yOGxQKyQZ2LCXClaCiyK+oxTxkgtFMd6Cj6gfbwz/7mYzjbG6f1XQz
- IpQ9oAXzqw6SLnDMLHcWG9pd3xqBh/coGJsOse/OqGMIqGociC29aPSUPuMpayCFdkBs
- iBbyOuywsUk4AYwMltlpa+cme1zYES4WaL321ftlGxk8gBKHYla/xGGh8v7c5PjjDGTp
- +jKHXuiZJhVu2ABPZ3c5v+otttx9QcZdfNbvBnMaO92SsqgGjrxbIFzXJ1xoDFTGDLaE Zg== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s064dgw8r-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 22 Jul 2023 19:40:58 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36MJetTj001500
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 22 Jul 2023 19:40:55 GMT
-Received: from [10.110.24.156] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Sat, 22 Jul
- 2023 12:40:52 -0700
-Message-ID: <a19818a4-3457-7362-4deb-b981fdc9ba84@quicinc.com>
-Date:   Sat, 22 Jul 2023 12:40:51 -0700
+        Sat, 22 Jul 2023 16:25:56 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ECA3E53;
+        Sat, 22 Jul 2023 13:25:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=ckF5uzEFufQEKYVxqbdce/JxmD3mK6cI1pFBk6E9mkc=; b=Lwb7lND9giJ52mvXwwt1fOz/5u
+        7pit70GJJg6Djs/am+jNOkek/6mxF5Plf+wEd+XfpYt9bsupz2NZU/hmAE52Qc01lYx5JHlFwbdQF
+        ixBJefX2FNqG+7R8cmgdNmxNgsQnD5DNaIK2VQvBavQoTNLWcR4g3jiNkVh16XUe/4w+yipCZwwvj
+        1guRxGeGE35iMYOUrutFCryB5WUL7/Zpav53dLbLqBjuI4aPjzkKVVW80urfmsoIQ8rJn1X1UkSlV
+        iueSmXOeP6+wojXukF6ZgaKxImif7YfdXMnA7pyFfX9MI4xJj7TU197ui3eX454iC/az2Yiq16RD5
+        Zm07eHMg==;
+Received: from [2601:1c2:980:9ec0::2764] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qNJAj-00HFUy-20;
+        Sat, 22 Jul 2023 20:25:49 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        kernel test robot <lkp@intel.com>,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        linux-um@lists.infradead.org, Tejun Heo <tj@kernel.org>,
+        Takashi Iwai <tiwai@suse.de>, Jaroslav Kysela <perex@perex.cz>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-kbuild@vger.kernel.org
+Subject: [PATCH] um/drivers: Kconfig: fix hostaudio build errors
+Date:   Sat, 22 Jul 2023 13:25:48 -0700
+Message-ID: <20230722202548.24746-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] scripts/check-uapi.sh: add stgdiff support
-Content-Language: en-US
-To:     Giuliano Procida <gprocida@google.com>, <quic_johmoo@quicinc.com>
-CC:     <masahiroy@kernel.org>, <nathan@kernel.org>,
-        <ndesaulniers@google.com>, <nicolas@fjasle.eu>,
-        <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>, <gregkh@linuxfoundation.org>,
-        <rdunlap@infradead.org>, <arnd@arndb.de>, <andersson@kernel.org>,
-        <tkjos@google.com>, <maennich@google.com>,
-        <kernel-team@android.com>, <libabigail@sourceware.org>,
-        <jorcrous@amazon.com>, <quic_satyap@quicinc.com>,
-        <quic_eberman@quicinc.com>, <quic_gurus@quicinc.com>
-References: <20230407203456.27141-2-quic_johmoo@quicinc.com>
- <20230720161053.1213680-1-gprocida@google.com>
-From:   Trilok Soni <quic_tsoni@quicinc.com>
-In-Reply-To: <20230720161053.1213680-1-gprocida@google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: X7PsJVrYMn_-7N-VhobBVNHwA6iB6cqa
-X-Proofpoint-ORIG-GUID: X7PsJVrYMn_-7N-VhobBVNHwA6iB6cqa
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-22_08,2023-07-20_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 clxscore=1011
- phishscore=0 mlxscore=0 spamscore=0 adultscore=0 bulkscore=0
- lowpriorityscore=0 malwarescore=0 priorityscore=1501 impostorscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2307220180
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 7/20/2023 9:10 AM, Giuliano Procida wrote:
-> Hi John.
-> 
-> I spent a few minutes adding stgdiff support to the script. It's
-> really just for illustration purposes.
-> 
-> As I think you know, STG doesn't yet exist as a project outside of
-> AOSP. Nevertheless, this may be useful to you as-is.
-> 
-> STG has quite a different philosophy to libabigil in terms of
-> filtering out certain kinds of differences. Some of the things (like
-> enum enumerator additions) are not considered harmless. The reasoning
-> behind this is basically...
-> https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)
-> 
-> However, it does have --ignore interface_addition (and the related
-> --ignore type_definition_addition) which can be used to detect whether
-> one ABI is a subset of another.
-> 
-> I am looking at adding support for macro definitions (gcc -g3) to STG
-> which will then let us cover significantly more of the UAPI surface.
-> 
-> Unfortunately, there are some headers which use anonymous enums to
-> define constants (e.g. and ironically BTF). ABI tracking these types
-> would require something a bit hacky. Or we could just name them.
+Use "select"s to ensure that the required kconfig symbols are set
+as expected.
 
-Thank you Giuliano for trying the script w/ stg. We will review the 
-modifications below.
+This fixes build errors when CONFIG_SOUND is not set.
 
-Just to update everyone here that John is looking into the libabigail 
-changes to reduce the false positives as discussed earlier in the email 
-thread. There is some progress on the libabigail mailing list. Once we 
-have enough changes made in the libabigail, John will update here with 
-his results.
+ld: arch/um/drivers/hostaudio_kern.o: in function `hostaudio_cleanup_module':
+hostaudio_kern.c:(.exit.text+0xa): undefined reference to `unregister_sound_mixer'
+ld: hostaudio_kern.c:(.exit.text+0x15): undefined reference to `unregister_sound_dsp'
+ld: arch/um/drivers/hostaudio_kern.o: in function `hostaudio_init_module':
+hostaudio_kern.c:(.init.text+0x19): undefined reference to `register_sound_dsp'
+ld: hostaudio_kern.c:(.init.text+0x31): undefined reference to `register_sound_mixer'
+ld: hostaudio_kern.c:(.init.text+0x49): undefined reference to `unregister_sound_dsp'
 
-We have also submitted abstract in LPC 2023 Android MC as well about the 
-UAPI checker. We hope to make a good progress before LPC.
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Fixes: d886e87cb82b ("sound: make OSS sound core optional")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Reported-by: kernel test robot <lkp@intel.com>
+Link: lore.kernel.org/r/202307141416.vxuRVpFv-lkp@intel.com
+Cc: Richard Weinberger <richard@nod.at>
+Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+Cc: Johannes Berg <johannes@sipsolutions.net>
+Cc: linux-um@lists.infradead.org
+Cc: Tejun Heo <tj@kernel.org>
+Cc: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Nick Desaulniers <ndesaulniers@google.com>
+Cc: Nicolas Schier <nicolas@fjasle.eu>
+Cc: linux-kbuild@vger.kernel.org
+---
+ arch/um/drivers/Kconfig |   15 +++------------
+ 1 file changed, 3 insertions(+), 12 deletions(-)
 
----Trilok Soni
+diff -- a/arch/um/drivers/Kconfig b/arch/um/drivers/Kconfig
+--- a/arch/um/drivers/Kconfig
++++ b/arch/um/drivers/Kconfig
+@@ -111,24 +111,15 @@ config SSL_CHAN
+ 
+ config UML_SOUND
+ 	tristate "Sound support"
++	select SOUND
++	select SOUND_OSS_CORE
++	select HOSTAUDIO
+ 	help
+ 	  This option enables UML sound support.  If enabled, it will pull in
+ 	  soundcore and the UML hostaudio relay, which acts as a intermediary
+ 	  between the host's dsp and mixer devices and the UML sound system.
+ 	  It is safe to say 'Y' here.
+ 
+-config SOUND
+-	tristate
+-	default UML_SOUND
+-
+-config SOUND_OSS_CORE
+-	bool
+-	default UML_SOUND
+-
+-config HOSTAUDIO
+-	tristate
+-	default UML_SOUND
+-
+ endmenu
+ 
+ menu "UML Network Devices"
