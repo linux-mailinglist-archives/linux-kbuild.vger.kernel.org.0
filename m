@@ -2,114 +2,114 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C32A675E2AE
-	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Jul 2023 16:35:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0E0A75E438
+	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Jul 2023 20:51:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229771AbjGWOfE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 23 Jul 2023 10:35:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48034 "EHLO
+        id S229775AbjGWSvj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 23 Jul 2023 14:51:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229775AbjGWOfD (ORCPT
+        with ESMTP id S229477AbjGWSvi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 23 Jul 2023 10:35:03 -0400
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71C4610F4;
-        Sun, 23 Jul 2023 07:35:01 -0700 (PDT)
-Received: by mail-oi1-x22c.google.com with SMTP id 5614622812f47-3a4062577c0so2959337b6e.0;
-        Sun, 23 Jul 2023 07:35:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690122900; x=1690727700;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6hVbV6PPK4bQ78C5FPPLzZso3da8dxH89LJc/QzUTSs=;
-        b=JWkEpKntYVBuB6E1XatdkZtXVt73rBdbJGE0d5xAPFTEdSwmf1jYbPKEAkJ5idN9vp
-         rOMBT5zkC+hVmjV9TjJgbwKTmp7UDHFUI9lUvYfO8lUVBuSiayofy8aYl37TXi8X0EKL
-         WLVmd+C8Vq99HWrh5qX7sEBbThTiQQLhrJ8fOvojX0WBR9DtDnHa4oNpR8oEphZg0/eL
-         7TrkmgyrCmaPcgunASu/NKKyV12TUOHmbv+BsHvMg04fCAFCuO8TwyeDa+6nlZwYsQ5s
-         zIXUVVwuEAAdsfPyuHZgq/A6XSg6O9ht63J+4nZY0QH6J+Lz3kbDsbecxAbpRXECwaxR
-         8sgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690122900; x=1690727700;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6hVbV6PPK4bQ78C5FPPLzZso3da8dxH89LJc/QzUTSs=;
-        b=LlMt0f8h5m0M5N9x2FO0ltG9CDdK55AMIZz9sWCJjD8+LwQmleBD/3YZ48jWuo7DfE
-         xMH9NKdaTj8lE24Ln/Dw37C83iLZguh+UnTxEmOOokGKH0zWs/V3glp8+9vIPLKi2hFx
-         3SNZecBcL4eagBXtUs57t5QLb7jIPaM6ITLX/jNZdzv+pbQfZ4vdqnWnM6LHrI5el18P
-         hTb435xUkyWkKbFr1qwSRjf4YImWRAG9blcE181Z4wfiFwGTxqfYsiDDVuSAJg5VenWl
-         4p1FQFtzHr3z8mNMiqDjp0qPTcmSB+cq/fq+RdZKtQGWoRPX6FTtGSD82q7CA6FO1ppF
-         K4qg==
-X-Gm-Message-State: ABy/qLZLpprOVOP6BzbOkhEjzmtK6DWkwDPgt+DZGCP1+AmXm16YDwzx
-        hGTRRbcDTuwVhP0Qo83D7RQ=
-X-Google-Smtp-Source: APBJJlG0yD0GorNtcgbwNsnxx1O75lYChESB8+iiUX9xQbMDeKstYsQPW1OQLn7V8L5A70F1wbfuAg==
-X-Received: by 2002:a05:6808:1310:b0:3a1:f18d:2fe8 with SMTP id y16-20020a056808131000b003a1f18d2fe8mr6198281oiv.10.1690122900514;
-        Sun, 23 Jul 2023 07:35:00 -0700 (PDT)
-Received: from [192.168.54.90] (static.220.238.itcsa.net. [190.15.220.238])
-        by smtp.gmail.com with ESMTPSA id o204-20020a4a2cd5000000b0055e3dd89c12sm3508157ooo.1.2023.07.23.07.34.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 23 Jul 2023 07:35:00 -0700 (PDT)
-Message-ID: <01d23a2c-1e30-b660-7997-6d9c29b9dcf1@gmail.com>
-Date:   Sun, 23 Jul 2023 11:34:54 -0300
+        Sun, 23 Jul 2023 14:51:38 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2687DF3;
+        Sun, 23 Jul 2023 11:51:38 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AC88860E26;
+        Sun, 23 Jul 2023 18:51:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15784C433C9;
+        Sun, 23 Jul 2023 18:51:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690138297;
+        bh=K5MA7Fk2+ObXwZvLoreYo8Ex71NIZz1A6wUqpOMZEEU=;
+        h=From:Date:Subject:To:Cc:From;
+        b=TB2mRwAzlmivy4jn5yj90bWCFhOGclyyOwZgONcchrUCR45TQX2RddqvYM1kO2mjt
+         DyTM/9x3uacipR4mdHpXUQEqyXG0Y1bKqfJ3RnrEafFZrvE2qRxEQbSuxfvb7kT52M
+         x3R9Z/A4bsgSz1+CbTVZ3r88jxRL+UPvO7a7XKDlztpSf7RfgZMUurJuWaDnCS539B
+         JmDu/eUut3kwcbUbx1XTcSKBc11jTFj8ka+36GkJJL9vTEmoTHZU0EdD+QZNH0tpDX
+         vdD04R20CTJNSw0IgyaLV78OXI7NVAcFmdd5KFh7aZmzJAZMEduw1E34onqOJ1rMMk
+         GWX+aU7Om07XQ==
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5675add2980so2277535eaf.3;
+        Sun, 23 Jul 2023 11:51:37 -0700 (PDT)
+X-Gm-Message-State: ABy/qLa0pKNvArA5po+PeiVRAGZN9X/dHwEis8m56z9Nom5hN3uLB1an
+        LnsorYAE04ajDf/ez0XZ/mbusHozjbB5uj1RrCU=
+X-Google-Smtp-Source: APBJJlGn4yxFMpSTSfuvmgu0fHAaNp9KaNvlPrFnP/okeYVBQ02AP5Dw4xZzo/MXiCv0xfbjy3/RwCc/+9e4pkKuiAU=
+X-Received: by 2002:a4a:d2cd:0:b0:567:95:a0e5 with SMTP id j13-20020a4ad2cd000000b005670095a0e5mr6244951oos.0.1690138296328;
+ Sun, 23 Jul 2023 11:51:36 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] kbuild: rust: avoid creating temporary files
-Content-Language: en-US
-To:     Miguel Ojeda <ojeda@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Alex Gaynor <alex.gaynor@gmail.com>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Benno Lossin <benno.lossin@proton.me>,
-        Alice Ryhl <aliceryhl@google.com>,
-        Andreas Hindborg <a.hindborg@samsung.com>,
-        linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org,
-        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        Raphael Nestler <raphael.nestler@gmail.com>,
-        Andrea Righi <andrea.righi@canonical.com>,
-        stable@vger.kernel.org
-References: <20230723142128.194339-1-ojeda@kernel.org>
-From:   Martin Rodriguez Reboredo <yakoyoku@gmail.com>
-In-Reply-To: <20230723142128.194339-1-ojeda@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 24 Jul 2023 03:51:00 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS7+XWY8Vy4Hfst7DnpOwx3tnGpAbPTAojjzzH40+gDgQ@mail.gmail.com>
+Message-ID: <CAK7LNAS7+XWY8Vy4Hfst7DnpOwx3tnGpAbPTAojjzzH40+gDgQ@mail.gmail.com>
+Subject: [GIT PULL] Kbuild fixes for v6.5-rc3
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 7/23/23 11:21, Miguel Ojeda wrote:
-> `rustc` outputs by default the temporary files (i.e. the ones saved
-> by `-Csave-temps`, such as `*.rcgu*` files) in the current working
-> directory when `-o` and `--out-dir` are not given (even if
-> `--emit=x=path` is given, i.e. it does not use those for temporaries).
-> 
-> Since out-of-tree modules are compiled from the `linux` tree,
-> `rustc` then tries to create them there, which may not be accessible.
-> 
-> Thus pass `--out-dir` explicitly, even if it is just for the temporary
-> files.
-> 
-> Similarly, do so for Rust host programs too.
-> 
-> Reported-by: Raphael Nestler <raphael.nestler@gmail.com>
-> Closes: https://github.com/Rust-for-Linux/linux/issues/1015
-> Reported-by: Andrea Righi <andrea.righi@canonical.com>
-> Tested-by: Raphael Nestler <raphael.nestler@gmail.com> # non-hostprogs
-> Tested-by: Andrea Righi <andrea.righi@canonical.com> # non-hostprogs
-> Fixes: 295d8398c67e ("kbuild: specify output names separately for each emission type from rustc")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
-> ---
-> [...]
-Tested-by: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+Hello Linus,
+
+Please pull some Kbuild fixes.
+
+Thank you.
+
+
+
+The following changes since commit 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5:
+
+  Linux 6.5-rc1 (2023-07-09 13:53:13 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-fixes-v6.5
+
+for you to fetch changes up to df01b7cfcef08bf3fdcac2909d0e1910781d6bfd:
+
+  kbuild: rust: avoid creating temporary files (2023-07-24 03:15:31 +0900)
+
+----------------------------------------------------------------
+Kbuild fixes for v6.5
+
+ - Fix stale help text in gconfig
+
+ - Support *.S files in compile_commands.json
+
+ - Flatten KBUILD_CFLAGS
+
+ - Fix external module builds with Rust so that temporary files are
+   created in the modules directories instead of the kernel tree
+
+----------------------------------------------------------------
+Alexey Dobriyan (1):
+      kbuild: flatten KBUILD_CFLAGS
+
+Benjamin Gray (1):
+      gen_compile_commands: add assembly files to compilation database
+
+Miguel Ojeda (1):
+      kbuild: rust: avoid creating temporary files
+
+Randy Dunlap (2):
+      kconfig: gconfig: drop the Show Debug Info help text
+      kconfig: gconfig: correct program name in help text
+
+ Makefile                                    | 22 +++++++++++++++++-----
+ scripts/Makefile.build                      |  5 ++++-
+ scripts/Makefile.host                       |  6 +++++-
+ scripts/clang-tools/gen_compile_commands.py |  2 +-
+ scripts/kconfig/gconf.c                     | 11 ++++-------
+ 5 files changed, 31 insertions(+), 15 deletions(-)
