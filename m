@@ -2,56 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA49B75E514
-	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Jul 2023 23:58:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEE6A75E585
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Jul 2023 00:28:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229974AbjGWV6P (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 23 Jul 2023 17:58:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47054 "EHLO
+        id S229470AbjGWW2j (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 23 Jul 2023 18:28:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229945AbjGWV6O (ORCPT
+        with ESMTP id S229456AbjGWW2i (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 23 Jul 2023 17:58:14 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C557DE68;
-        Sun, 23 Jul 2023 14:58:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=IYAlUHXkzs4yHGq9o8cV2GDjIUpEiwbm5rCfp1MO9CY=; b=H7pT1KY2nNjOJxm+3FLxBoZTuq
-        M4unC/y5wJ79+7lp/MAakzdv9FgQUejejwmYMwKsqOQdN51fhz3G5a9kIdkV/rMAK6ME3tg9YDj6W
-        U1cePP4udbvYqfoHwVbh2aqRQWbmWZqBnMzZ1+0gmcfnmZlghz4LnbXVyFhRZHQb1XIZokcVmiFPn
-        IfTw5Wup2MsHZEeSIdSwn/zZRWAM2PU5M9xkqAO+pd/YBgs7VfQc2xF4voF4U9lVMWI4UIcmSWgS6
-        SbECgD+Jx30OLJoMtth4vj3M7y5JJFppm8ZxAZ6YXGWVcGG1JWOXGfWKETrRkMco7Vh4cUeaIs0hO
-        MXApPjCQ==;
-Received: from [2601:1c2:980:9ec0::2764] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qNh5U-001xyd-1P;
-        Sun, 23 Jul 2023 21:58:00 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        kernel test robot <lkp@intel.com>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        linux-um@lists.infradead.org, Tejun Heo <tj@kernel.org>,
-        Takashi Iwai <tiwai@suse.de>, Jaroslav Kysela <perex@perex.cz>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org
-Subject: [PATCH v2] um/drivers: Kconfig: fix hostaudio build errors
-Date:   Sun, 23 Jul 2023 14:57:56 -0700
-Message-ID: <20230723215756.18307-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.41.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        Sun, 23 Jul 2023 18:28:38 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 169251B0;
+        Sun, 23 Jul 2023 15:28:37 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 906DC60EBB;
+        Sun, 23 Jul 2023 22:28:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E3CBBC433C8;
+        Sun, 23 Jul 2023 22:28:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690151315;
+        bh=rbPuOZxYphIFzQLuxb23r2hchrvZ2ZBS2QSLJSHVM+Q=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=LeTXgpChPatMmRKY0Qxqw4DQ+JyCYpbDrndGq7n78aoaQBu8RErdA2LMmulkkXbpb
+         QVxtkxnmRcKDy8OY4GIYsd9EYv7Of5qGm8nobusNdQl5bjG+6SQWbkjWY2RVvHnH0n
+         yJRuIHMzMEpMqPZPkrZbUvHcU7Fqb+FUAvEGCVBP2wER9pIXqGUbgAl0LV1Pirk3iu
+         37/QuelxBZPSGAj8i83cYRZ34K27W3EyqP784vtDJCjxAXG7CL5OpiaPuVXwi5qENF
+         nvo/KdZDq6YcqKxrAIoUuXj1NiL9i5YScbv6R/e/uqVgULlgFgTOLKhkGBi32EaALW
+         K059X+s+Kbcmg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id BF9A1C595C2;
+        Sun, 23 Jul 2023 22:28:35 +0000 (UTC)
+Subject: Re: [GIT PULL] Kbuild fixes for v6.5-rc3
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <CAK7LNAS7+XWY8Vy4Hfst7DnpOwx3tnGpAbPTAojjzzH40+gDgQ@mail.gmail.com>
+References: <CAK7LNAS7+XWY8Vy4Hfst7DnpOwx3tnGpAbPTAojjzzH40+gDgQ@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kbuild.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAK7LNAS7+XWY8Vy4Hfst7DnpOwx3tnGpAbPTAojjzzH40+gDgQ@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.5
+X-PR-Tracked-Commit-Id: df01b7cfcef08bf3fdcac2909d0e1910781d6bfd
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 12a5336ca384b295093c18e0c66ca60b4518d9b9
+Message-Id: <169015131574.21688.16909216222685156816.pr-tracker-bot@kernel.org>
+Date:   Sun, 23 Jul 2023 22:28:35 +0000
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -59,65 +63,15 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Use "select"s to ensure that the required kconfig symbols are set
-as expected.
+The pull request you sent on Mon, 24 Jul 2023 03:51:00 +0900:
 
-This fixes build errors when CONFIG_SOUND is not set.
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.5
 
-ld: arch/um/drivers/hostaudio_kern.o: in function `hostaudio_cleanup_module':
-hostaudio_kern.c:(.exit.text+0xa): undefined reference to `unregister_sound_mixer'
-ld: hostaudio_kern.c:(.exit.text+0x15): undefined reference to `unregister_sound_dsp'
-ld: arch/um/drivers/hostaudio_kern.o: in function `hostaudio_init_module':
-hostaudio_kern.c:(.init.text+0x19): undefined reference to `register_sound_dsp'
-ld: hostaudio_kern.c:(.init.text+0x31): undefined reference to `register_sound_mixer'
-ld: hostaudio_kern.c:(.init.text+0x49): undefined reference to `unregister_sound_dsp'
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/12a5336ca384b295093c18e0c66ca60b4518d9b9
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Fixes: d886e87cb82b ("sound: make OSS sound core optional")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reported-by: kernel test robot <lkp@intel.com>
-Link: lore.kernel.org/r/202307141416.vxuRVpFv-lkp@intel.com
-Cc: Richard Weinberger <richard@nod.at>
-Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
-Cc: Johannes Berg <johannes@sipsolutions.net>
-Cc: linux-um@lists.infradead.org
-Cc: Tejun Heo <tj@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>
-Cc: Nick Desaulniers <ndesaulniers@google.com>
-Cc: Nicolas Schier <nicolas@fjasle.eu>
-Cc: linux-kbuild@vger.kernel.org
----
-v2: don't delete the HOSTAUDIO Kconfig entry (Masahiro)
+Thank you!
 
- arch/um/drivers/Kconfig |   10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
-
-diff -- a/arch/um/drivers/Kconfig b/arch/um/drivers/Kconfig
---- a/arch/um/drivers/Kconfig
-+++ b/arch/um/drivers/Kconfig
-@@ -111,20 +111,14 @@ config SSL_CHAN
- 
- config UML_SOUND
- 	tristate "Sound support"
-+	select SOUND
-+	select SOUND_OSS_CORE
- 	help
- 	  This option enables UML sound support.  If enabled, it will pull in
- 	  soundcore and the UML hostaudio relay, which acts as a intermediary
- 	  between the host's dsp and mixer devices and the UML sound system.
- 	  It is safe to say 'Y' here.
- 
--config SOUND
--	tristate
--	default UML_SOUND
--
--config SOUND_OSS_CORE
--	bool
--	default UML_SOUND
--
- config HOSTAUDIO
- 	tristate
- 	default UML_SOUND
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
