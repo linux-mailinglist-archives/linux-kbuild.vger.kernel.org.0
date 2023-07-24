@@ -2,85 +2,67 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 84A3B75EC07
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Jul 2023 08:54:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBAA775ECB5
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Jul 2023 09:46:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229593AbjGXGyD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 24 Jul 2023 02:54:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45968 "EHLO
+        id S229954AbjGXHq0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 24 Jul 2023 03:46:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230141AbjGXGxy (ORCPT
+        with ESMTP id S229532AbjGXHqZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 24 Jul 2023 02:53:54 -0400
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35E3FE70;
-        Sun, 23 Jul 2023 23:53:38 -0700 (PDT)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-4fba8f2197bso5904778e87.3;
-        Sun, 23 Jul 2023 23:53:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690181616; x=1690786416;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=z2MRbPLz8TFpHcgcbByErm3/k9uRtAlDJrHvhV7eK88=;
-        b=hoI2EvT8VK9u5bn+VRh1413hW+3XU0i53lEyjQNgrOeQNi91zqul8/lp48ZCM+UTFn
-         7+ue9qvyweY0Od8uC2/eh78ZUaqnI8QpX4tbmcHlrOZk176TfzAR0nnDXMRRzqB+U+wN
-         4MvyUY9clN3lsh0E9sk9T16F6uctRWs9YBfMQxwEry+LtWHvpGU/3xfdxheJQzALhUpM
-         cxSy6Vj5LGKWaeBlft1LznhsMeqBcvi6bjtwMdcDSTw/HX1VmRdBegOIu0pD+TsYwZFw
-         yNJ+Oq80x+2qW7qnXO0HIwtxKQ8KsakdMFTlJhsofe6xRs0xrYsiEu+VVtqAgKcTu8+2
-         QJ7w==
-X-Gm-Message-State: ABy/qLayeKAEVH5+hWmvM87SSS8SYkFQnpw1eadD+imOLaGoTY2Xazb0
-        4En9HxQxLBZv8pHk9PEwD8HwzIAeWF4=
-X-Google-Smtp-Source: APBJJlHyUL8SddevDRp86zp9skRrtCY7ZxytlhvfUbcIGbAhM4p3M8xaCWlyhsPCCkHzHbWT0iLlng==
-X-Received: by 2002:ac2:58db:0:b0:4f8:7513:8cac with SMTP id u27-20020ac258db000000b004f875138cacmr4008530lfo.48.1690181616114;
-        Sun, 23 Jul 2023 23:53:36 -0700 (PDT)
-Received: from [192.168.1.58] (185-219-167-24-static.vivo.cz. [185.219.167.24])
-        by smtp.gmail.com with ESMTPSA id m14-20020a7bcb8e000000b003fbc9371193sm9467366wmi.13.2023.07.23.23.53.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 23 Jul 2023 23:53:35 -0700 (PDT)
-Message-ID: <1e4fb878-a7a5-f8cf-a4c7-cc221b02f3c2@kernel.org>
-Date:   Mon, 24 Jul 2023 08:53:34 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 2/2] UML: use obj-y to descend into arch/um/*/
-Content-Language: en-US
+        Mon, 24 Jul 2023 03:46:25 -0400
+Received: from codesynthesis.com (codesynthesis.com [188.40.148.39])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E3BB1A1;
+        Mon, 24 Jul 2023 00:46:23 -0700 (PDT)
+Received: from brak.codesynthesis.com (unknown [105.186.254.141])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by codesynthesis.com (Postfix) with ESMTPSA id E81D960C3E;
+        Mon, 24 Jul 2023 07:46:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codesynthesis.com;
+        s=mail1; t=1690184781;
+        bh=4cU059ydZOLnzVOI8ThUTxWFlG61H8gBw++F2PtMlps=;
+        h=From:To:Subject:Date:Message-Id:MIME-Version:From;
+        b=mFzxorf3wT7KIkZN4yKEBeFYdN0VSCeMjFIQmLJvkRzGTnEfDrHU9AFGRgooGFVNV
+         25iSlA707AOES4ft4uSitffkbIwToN1F8l+nks0xNKAyGLwluA7uRuCse1W9b2oF9S
+         JVzmj3vhM7e3rJMRCQds51puqr2kKOv1VbDT377E6y4cm39TcnA5NJSxozlMvfAlE2
+         MRdjM6XkHD04/iSVmwnJdZDYstwBglCKHVcWnZzcWCGZ4+HSBtzj0p6EAUkZLCwRFu
+         DYFAEbQAAjhDboH97KU1GByllNxx6Q2TemcGnD7miirlujmVZhQKXeCZ2ZkagdvEJa
+         r9cCFDGGID8SQ==
+Received: by brak.codesynthesis.com (Postfix, from userid 1000)
+        id 07A7E142D4E; Mon, 24 Jul 2023 09:46:46 +0200 (SAST)
+From:   Boris Kolpackov <boris@codesynthesis.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        linux-um@lists.infradead.org
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-References: <20230721171857.3612639-1-masahiroy@kernel.org>
- <20230721171857.3612639-2-masahiroy@kernel.org>
-From:   Jiri Slaby <jirislaby@kernel.org>
-In-Reply-To: <20230721171857.3612639-2-masahiroy@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+        linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Boris Kolpackov <boris@codesynthesis.com>
+Subject: [PATCH 0/1] kconfig: port qconf to work with Qt6 in addition to Qt5
+Date:   Mon, 24 Jul 2023 09:46:24 +0200
+Message-Id: <20230724074625.458456-1-boris@codesynthesis.com>
+X-Mailer: git-send-email 2.40.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 21. 07. 23, 19:18, Masahiro Yamada wrote:
-> The single build rule does not work with the core-y syntax. [1]
-> 
-> Use the standard obj-y syntax.
-> 
-> [1]: https://lore.kernel.org/linux-kbuild/d57ba55f-20a3-b836-783d-b49c8a161b6e@kernel.org/T/#m7bc402e1e038f00ebcf2e92ed7fcb8a52fc1ea44
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+This patch ports qconf to work with Qt6 in addition to latest Qt5. Tested
+with Qt5 5.15 and Qt6 6.4. Note that earlier versions of Qt5 are no longer
+guaranteed to work.
 
-Tested-by: Jiri Slaby <jirislaby@kernel.org>
+Signed-off-by: Boris Kolpackov <boris@codesynthesis.com>
 
-thanks,
--- 
-js
-suse labs
+Boris Kolpackov (1):
+  kconfig: port qconf to work with Qt6 in addition to Qt5
 
+ scripts/kconfig/qconf.cc | 40 ++++++++++++++++++++++++++--------------
+ 1 file changed, 26 insertions(+), 14 deletions(-)
+
+--
+2.40.1
