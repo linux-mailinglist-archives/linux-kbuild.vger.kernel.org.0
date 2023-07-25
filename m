@@ -2,47 +2,50 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 634047624C0
-	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Jul 2023 23:48:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C355376276B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Jul 2023 01:35:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229448AbjGYVsa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 25 Jul 2023 17:48:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40316 "EHLO
+        id S232174AbjGYXfX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 25 Jul 2023 19:35:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbjGYVs3 (ORCPT
+        with ESMTP id S231408AbjGYXfT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 25 Jul 2023 17:48:29 -0400
-X-Greylist: delayed 488 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 25 Jul 2023 14:48:28 PDT
-Received: from out-35.mta0.migadu.com (out-35.mta0.migadu.com [IPv6:2001:41d0:1004:224b::23])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F11210D1
-        for <linux-kbuild@vger.kernel.org>; Tue, 25 Jul 2023 14:48:28 -0700 (PDT)
-Message-ID: <f71b9d6e-e608-0c8d-1efd-201e8002db42@linux.dev>
+        Tue, 25 Jul 2023 19:35:19 -0400
+X-Greylist: delayed 345 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 25 Jul 2023 16:35:17 PDT
+Received: from out-23.mta1.migadu.com (out-23.mta1.migadu.com [95.215.58.23])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12FA9212D
+        for <linux-kbuild@vger.kernel.org>; Tue, 25 Jul 2023 16:35:16 -0700 (PDT)
+Message-ID: <d5bce711-cef0-2929-2126-50105b6d807e@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1690321219;
+        t=1690327768;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
         bh=vOEjSRPghqZUXU6a9KIFU0/2bAuZPx1SXHj+MlsTBQk=;
-        b=EbhqHnGncvrmlFFcR8t7lSlhxV5gWQn3lgR+yruJb6yVwSor0UZkbfyCFQntKjS0z9iIoP
-        M+IXsJgb29Gy3Uwug0g4baC0PBz24poaWOIPHDPxsEMOcK4tv95xaTsmY7XuIhLzIK7wVI
-        8S1uKewp3Ru+5tqCMxxkHy508WhV9ns=
-Date:   Tue, 25 Jul 2023 14:40:16 -0700
+        b=GJ9xevCEq1sj4q4o69h/sQv1iIDXDIAysRTshJHIo4iErGxicFq8ZauC/jMaNJ6wA6Q8Uo
+        wpa1DKrj/9QkQiuc1N67YRt7AyxByTMojBAGQQj8QPMHvkiZV6fXq6xfxY7Z4Cd3LjuyVl
+        +8TNH+5uypaT3rame/2Q5+oBXwZuwiM=
+Date:   Tue, 25 Jul 2023 16:29:21 -0700
 MIME-Version: 1.0
 Subject: Re: [PATCH] btf: Remove unnecessary header file inclusions
 Content-Language: en-US
 To:     George Guo <guodongtai@kylinos.cn>
 References: <20230721075007.4100863-1-guodongtai@kylinos.cn>
+Cc:     masahiroy@kernel.org, nathan@kernel.org, bpf@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From:   Martin KaFai Lau <martin.lau@linux.dev>
 In-Reply-To: <20230721075007.4100863-1-guodongtai@kylinos.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
+X-Spam-Status: No, score=1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
