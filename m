@@ -2,53 +2,74 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F20B760E90
-	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Jul 2023 11:24:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C6347610E8
+	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Jul 2023 12:32:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231533AbjGYJYr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 25 Jul 2023 05:24:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32900 "EHLO
+        id S233217AbjGYKcA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 25 Jul 2023 06:32:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231765AbjGYJYo (ORCPT
+        with ESMTP id S232900AbjGYKb7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 25 Jul 2023 05:24:44 -0400
-Received: from hi1smtp01.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96D5E1B3;
-        Tue, 25 Jul 2023 02:24:40 -0700 (PDT)
-Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
-        by hi1smtp01.de.adit-jv.com (Postfix) with ESMTP id 8E019520275;
-        Tue, 25 Jul 2023 11:24:38 +0200 (CEST)
-Received: from lxhi-064.domain (10.72.94.5) by hi2exch02.adit-jv.com
- (10.72.92.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.27; Tue, 25 Jul
- 2023 11:24:38 +0200
-Date:   Tue, 25 Jul 2023 11:24:33 +0200
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-CC:     Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Nicolas Schier <n.schier@avm.de>,
-        SzuWei Lin <szuweilin@google.com>,
-        <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arch@vger.kernel.org>, <Matthias.Thomae@de.bosch.com>,
-        <yyankovskyi@de.adit-jv.com>, <Dirk.Behme@de.bosch.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH 3/5] kbuild: rename cmd_{bzip2,lzma,lzo,lz4,xzkern,zstd22}
-Message-ID: <20230725092433.GA57787@lxhi-064.domain>
-References: <20220109181529.351420-1-masahiroy@kernel.org>
- <20220109181529.351420-3-masahiroy@kernel.org>
- <YdwZe9DHJZUaa6aO@buildd.core.avm.de>
- <20230623144544.GA24871@lxhi-065>
- <20230719190902.GA11207@lxhi-064.domain>
- <CAK7LNAQhn28Wbb97+U_3n0EwoKnonjFoY3OnKcE7aqnSgRc4ow@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNAQhn28Wbb97+U_3n0EwoKnonjFoY3OnKcE7aqnSgRc4ow@mail.gmail.com>
-X-Originating-IP: [10.72.94.5]
-X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
- hi2exch02.adit-jv.com (10.72.92.28)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        Tue, 25 Jul 2023 06:31:59 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A915CE3;
+        Tue, 25 Jul 2023 03:31:53 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 58CE421B1C;
+        Tue, 25 Jul 2023 10:31:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1690281112; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=dWo+Jm7Z/J00Cbkyh5PNtARF9DrmPfMqCwl8nGx+z2U=;
+        b=2E6InrqrO0fh9B/S8gCc7r8uaPULJu6d9QonzUOqig3Tqrg4zeuY7l+cD/cGOGgu88lcey
+        kUZHfG0/hn2fk6JKmcGosYlMVJIXwaP4rfbm23nDR7NT/7KFN5PzLM9BcVMAHyXpdWqysR
+        i4TEyyaFCwk2DSFjE7z58B7T3maCk9w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1690281112;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=dWo+Jm7Z/J00Cbkyh5PNtARF9DrmPfMqCwl8nGx+z2U=;
+        b=jpSzcBP8X5BN69Mp94riZKXN5aC0pds9VC0lrxN/V8rtzZVJiy0Dtxf8WjhHqm3IXjnDpd
+        73t15FnLNugR6sDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F02A613342;
+        Tue, 25 Jul 2023 10:31:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id U4WHOZekv2ScfQAAMHmgww
+        (envelope-from <tiwai@suse.de>); Tue, 25 Jul 2023 10:31:51 +0000
+Date:   Tue, 25 Jul 2023 12:31:51 +0200
+Message-ID: <87jzuoth7s.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        linux-um@lists.infradead.org, Tejun Heo <tj@kernel.org>,
+        Takashi Iwai <tiwai@suse.de>, Jaroslav Kysela <perex@perex.cz>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v2] um/drivers: Kconfig: fix hostaudio build errors
+In-Reply-To: <20230723215756.18307-1-rdunlap@infradead.org>
+References: <20230723215756.18307-1-rdunlap@infradead.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -57,63 +78,78 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello Yamada-san,
+On Sun, 23 Jul 2023 23:57:56 +0200,
+Randy Dunlap wrote:
+> 
+> Use "select"s to ensure that the required kconfig symbols are set
+> as expected.
+> 
+> This fixes build errors when CONFIG_SOUND is not set.
+> 
+> ld: arch/um/drivers/hostaudio_kern.o: in function `hostaudio_cleanup_module':
+> hostaudio_kern.c:(.exit.text+0xa): undefined reference to `unregister_sound_mixer'
+> ld: hostaudio_kern.c:(.exit.text+0x15): undefined reference to `unregister_sound_dsp'
+> ld: arch/um/drivers/hostaudio_kern.o: in function `hostaudio_init_module':
+> hostaudio_kern.c:(.init.text+0x19): undefined reference to `register_sound_dsp'
+> ld: hostaudio_kern.c:(.init.text+0x31): undefined reference to `register_sound_mixer'
+> ld: hostaudio_kern.c:(.init.text+0x49): undefined reference to `unregister_sound_dsp'
+> 
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Fixes: d886e87cb82b ("sound: make OSS sound core optional")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Link: lore.kernel.org/r/202307141416.vxuRVpFv-lkp@intel.com
+> Cc: Richard Weinberger <richard@nod.at>
+> Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+> Cc: Johannes Berg <johannes@sipsolutions.net>
+> Cc: linux-um@lists.infradead.org
+> Cc: Tejun Heo <tj@kernel.org>
+> Cc: Takashi Iwai <tiwai@suse.de>
+> Cc: Jaroslav Kysela <perex@perex.cz>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Cc: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: Nicolas Schier <nicolas@fjasle.eu>
+> Cc: linux-kbuild@vger.kernel.org
+> ---
+> v2: don't delete the HOSTAUDIO Kconfig entry (Masahiro)
+> 
+>  arch/um/drivers/Kconfig |   10 ++--------
+>  1 file changed, 2 insertions(+), 8 deletions(-)
+> 
+> diff -- a/arch/um/drivers/Kconfig b/arch/um/drivers/Kconfig
+> --- a/arch/um/drivers/Kconfig
+> +++ b/arch/um/drivers/Kconfig
+> @@ -111,20 +111,14 @@ config SSL_CHAN
+>  
+>  config UML_SOUND
+>  	tristate "Sound support"
+> +	select SOUND
+> +	select SOUND_OSS_CORE
+>  	help
+>  	  This option enables UML sound support.  If enabled, it will pull in
+>  	  soundcore and the UML hostaudio relay, which acts as a intermediary
+>  	  between the host's dsp and mixer devices and the UML sound system.
+>  	  It is safe to say 'Y' here.
+>  
+> -config SOUND
+> -	tristate
+> -	default UML_SOUND
+> -
+> -config SOUND_OSS_CORE
+> -	bool
+> -	default UML_SOUND
+> -
+>  config HOSTAUDIO
+>  	tristate
+>  	default UML_SOUND
 
-Appreciate your willingness to support. Some findings below.
+And now essentially CONFIG_HOSTAUDIO is equal with CONFIG_UML_SOUND.
+Then isn't it better to replace CONFIG_HOSTAUDIO in
+arch/um/drivers/Makefile with CONFIG_UML_SOUND, so that you can drop
+CONFIG_HOSTAUDIO as well?
 
-On Sun, Jul 23, 2023 at 01:08:46AM +0900, Masahiro Yamada wrote:
-> On Thu, Jul 20, 2023 at 4:09 AM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
-> > On Fri, Jun 23, 2023 at 04:45:44PM +0200, Eugeniu Rosca wrote:
 
-[..]
+thanks,
 
-> > > I will continue to increase my understanding behind what's happening.
-> > > In case there are already any suggestions, would appreciate those.
-> >
-> > JFYI, we've got confirmation from Qualcomm Customer Support interface
-> > that reverting [1] heals the issue on QC end as well. However, it looks
-> > like none of us has clear understanding how to properly
-> > troubleshoot/trace/compare the behavior before and after the commit.
-> >
-> > I would happily follow any suggestions.
-> >
-> > > [1] https://android.googlesource.com/kernel/common/+/bc6d3d83539512
-> > >     ("UPSTREAM: kbuild: rename cmd_{bzip2,lzma,lzo,lz4,xzkern,zstd22}")
-> > >
-> > > [2] https://lore.kernel.org/linux-kbuild/20230616194505.GA27753@lxhi-065/
-
-[..]
-
-> Please backport 64d8aaa4ef388b22372de4dc9ce3b9b3e5f45b6c
-> and see if the problem goes away.
-
-Unfortunately, the problem remains after backporting the above commit.
-
-After some more bisecting and some more trial-and-error, I finally came
-up with a reproduction scenario against vanilla. It also shows that
-after reverting 7ce7e984ab2b21 ("kbuild: rename
-cmd_{bzip2,lzma,lzo,lz4,xzkern,zstd22}"), the problem goes away.
-
-It takes <30 seconds to reproduce the issue on my machine (on 2nd run).
-
-In order to make the test self-sufficient, it also clones the Linux
-sources (only during 1st run, with --depth 1, for minimal footprint),
-hence ~1.8 GB free space is required in /tmp .
-
-The repro.sh script:
- => https://gist.github.com/erosca/1372fdc24126dc98031444613450c494
-
-Output against vanilla on 1st run (always OK, matches real-life case):
- => https://gist.github.com/erosca/0f5b8e0a00a256d80f0c8a6364d81568
-
-Output against vanilla on 2nd/Nth run (NOK: Argument list too long):
- => https://gist.github.com/erosca/e5c2c6479cc32244cc38d308deea4cf5
-
-Output against vanilla + revert_of_7ce7e984ab2b2 on Nth run (always OK):
- => https://gist.github.com/erosca/57e114f92ea20132e19fc7f5a46e7c65
-
-Would it be possible to get your thoughts on the above?
-
--- 
-Best regards,
-Eugeniu Rosca
+Takashi
