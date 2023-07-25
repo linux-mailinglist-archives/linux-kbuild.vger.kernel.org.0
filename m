@@ -2,82 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BBB4762493
-	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Jul 2023 23:38:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 634047624C0
+	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Jul 2023 23:48:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230197AbjGYViL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 25 Jul 2023 17:38:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35552 "EHLO
+        id S229448AbjGYVsa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 25 Jul 2023 17:48:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229664AbjGYViK (ORCPT
+        with ESMTP id S229445AbjGYVs3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 25 Jul 2023 17:38:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EA251FCF;
-        Tue, 25 Jul 2023 14:38:09 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E94606186A;
-        Tue, 25 Jul 2023 21:38:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F2CFC433C7;
-        Tue, 25 Jul 2023 21:38:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690321088;
-        bh=iQnUOYEDM9zbdSaZI5cBSuRGjGkw1hFUZD3jQXC38sI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SBzM7oer0Pi+VHosBQgnmCuPvCgtkPbWja2/R+y7xn62/LlA/msmhfYSD+N4+OyP6
-         pLWfX+zMKhhwfRLHVzl89QjvzeQNbx1Y6in6ALH4epBp/CcP2j0/p3hbV96bL9okf8
-         /opJOMb391x2aairp78OOjEg2h5UoPIIeCKbxHQKey1FWcoSfeCNHM/LZtpzr3w6Lf
-         4ZNH2w4wnR5KZaECabTSp7KfBhF67ne9tgx5p1TDG5cWcBcYzrFPdWn7wcH0dRa5qE
-         mIEisYZPEvEpJ+O8HPsvjlI2Q2L+CekAnyGyrRXyTcnoqmbaUrjNrsGp44bNgRbLS+
-         StlCS/6giwZjA==
-Date:   Tue, 25 Jul 2023 14:38:05 -0700
-From:   Josh Poimboeuf <jpoimboe@kernel.org>
-To:     Will Deacon <will@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        John Stultz <jstultz@google.com>, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] scripts/faddr2line: Constrain readelf output to
- symbols from System.map
-Message-ID: <20230725213805.g6osfswz5o6cxusy@treble>
-References: <20230725211157.17031-1-will@kernel.org>
- <20230725211157.17031-3-will@kernel.org>
+        Tue, 25 Jul 2023 17:48:29 -0400
+X-Greylist: delayed 488 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 25 Jul 2023 14:48:28 PDT
+Received: from out-35.mta0.migadu.com (out-35.mta0.migadu.com [IPv6:2001:41d0:1004:224b::23])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F11210D1
+        for <linux-kbuild@vger.kernel.org>; Tue, 25 Jul 2023 14:48:28 -0700 (PDT)
+Message-ID: <f71b9d6e-e608-0c8d-1efd-201e8002db42@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1690321219;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=vOEjSRPghqZUXU6a9KIFU0/2bAuZPx1SXHj+MlsTBQk=;
+        b=EbhqHnGncvrmlFFcR8t7lSlhxV5gWQn3lgR+yruJb6yVwSor0UZkbfyCFQntKjS0z9iIoP
+        M+IXsJgb29Gy3Uwug0g4baC0PBz24poaWOIPHDPxsEMOcK4tv95xaTsmY7XuIhLzIK7wVI
+        8S1uKewp3Ru+5tqCMxxkHy508WhV9ns=
+Date:   Tue, 25 Jul 2023 14:40:16 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230725211157.17031-3-will@kernel.org>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Subject: Re: [PATCH] btf: Remove unnecessary header file inclusions
+Content-Language: en-US
+To:     George Guo <guodongtai@kylinos.cn>
+References: <20230721075007.4100863-1-guodongtai@kylinos.cn>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Martin KaFai Lau <martin.lau@linux.dev>
+In-Reply-To: <20230721075007.4100863-1-guodongtai@kylinos.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jul 25, 2023 at 10:11:57PM +0100, Will Deacon wrote:
-> @@ -185,7 +186,7 @@ __faddr2line() {
->  				found=2
->  				break
->  			fi
-> -		done < <(${READELF} --symbols --wide $objfile | sed 's/\[.*\]//' | ${AWK} -v sec=$sym_sec '$7 == sec' | sort --key=2)
-> +		done < <(${READELF} --symbols --wide $objfile | sed -f ${IGNORED_SYMS} -e 's/\[.*\]//' | ${AWK} -v sec=$sym_sec '$7 == sec' | sort --key=2)
->  
->  		if [[ $found = 0 ]]; then
->  			warn "can't find symbol: sym_name: $sym_name sym_sec: $sym_sec sym_addr: $sym_addr sym_elf_size: $sym_elf_size"
+On 7/21/23 12:50 AM, George Guo wrote:
+> Remove unnecessary header file inclusions in btf.c
+> 
+> Signed-off-by: George Guo <guodongtai@kylinos.cn>
+> ---
+>   kernel/bpf/btf.c | 16 ----------------
+>   1 file changed, 16 deletions(-)
+> 
+> diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
+> index 817204d53372..e5ea729ba6b8 100644
+> --- a/kernel/bpf/btf.c
+> +++ b/kernel/bpf/btf.c
+> @@ -1,20 +1,7 @@
+>   // SPDX-License-Identifier: GPL-2.0
+>   /* Copyright (c) 2018 Facebook */
+>   
+> -#include <uapi/linux/btf.h>
+> -#include <uapi/linux/bpf.h>
+> -#include <uapi/linux/bpf_perf_event.h>
+> -#include <uapi/linux/types.h>
+> -#include <linux/seq_file.h>
+> -#include <linux/compiler.h>
+> -#include <linux/ctype.h>
+> -#include <linux/errno.h>
+> -#include <linux/slab.h>
+>   #include <linux/anon_inodes.h>
+> -#include <linux/file.h>
+> -#include <linux/uaccess.h>
+> -#include <linux/kernel.h>
+> -#include <linux/idr.h>
+>   #include <linux/sort.h>
+>   #include <linux/bpf_verifier.h>
+>   #include <linux/btf.h>
+> @@ -22,9 +9,6 @@
+>   #include <linux/bpf_lsm.h>
+>   #include <linux/skmsg.h>
+>   #include <linux/perf_event.h>
+> -#include <linux/bsearch.h>
+> -#include <linux/kobject.h>
+> -#include <linux/sysfs.h>
 
-Looks good, though the outer loop has another readelf incantation:
+What is the reason that needs this change and only to this file? There are other 
+files that can do this kind of removal. Are you planning to make all the changes 
+also?
 
-	done < <(${READELF} --symbols --wide $objfile | sed 's/\[.*\]//' | ${AWK} -v fn=$sym_name '$4 == "FUNC" && $8 == fn')
+afaict, they are here because this file is using something defined in them. Now 
+it is depending on other header files implicitly including the removed headers.
 
-It should probably have the same sed options?  Also it looks like it's
-wrongly checking for FUNC.
+>   
+>   #include <net/netfilter/nf_bpf_link.h>
+>   
 
--- 
-Josh
