@@ -2,72 +2,54 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4659276042D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Jul 2023 02:42:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A517C760669
+	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Jul 2023 05:10:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229566AbjGYAmR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 24 Jul 2023 20:42:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34944 "EHLO
+        id S229974AbjGYDKa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 24 Jul 2023 23:10:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229705AbjGYAmP (ORCPT
+        with ESMTP id S231482AbjGYDKU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 24 Jul 2023 20:42:15 -0400
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C3751FC7;
-        Mon, 24 Jul 2023 17:41:40 -0700 (PDT)
-Received: by mail-yb1-xb2a.google.com with SMTP id 3f1490d57ef6-d074da73c7dso3389054276.1;
-        Mon, 24 Jul 2023 17:41:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690245688; x=1690850488;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ck2gPt/GWb2IT8kwdAXJEumr0Z41D+yrr47h4Niis78=;
-        b=GS9RiTPG9gjUu8M0FDtBhpWkvhtG6ytNbZ7RlLTMFiENwwbRBp5SzRYu4MvyH3/t1S
-         fm4HSqcdHTDmOaR9+x0CdJ7GRcsPoa58LOBc7jEhu3LaWq/kYXdQ/ZTEroEnrLKdmnCq
-         qE5ae1KBa0CYKT8ekV07CDGVYqec+DW1bU02Orpcdajm4XbDNyyHkf5xf6b5HTvjJhty
-         AZ6TYwNRNYS+UHW/eaM+pK2OvEUPxzOGH1bv2SkleUB7jKU/5D4krTEbMgTYG3i9ytYR
-         7ZFHbfYNMDf9X5sBQRUKnCEBrXuYIk3hu/+U/4uPVaTIpUWzGkAyKP35SLpSp5xInreN
-         rVCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690245688; x=1690850488;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ck2gPt/GWb2IT8kwdAXJEumr0Z41D+yrr47h4Niis78=;
-        b=NkBh3Sx7VEHtyhc/Ph2KpKAv6QbABkE2x4jLTA4eFbLIAK3KBYa5VLB7CXgaSkvtGH
-         9odHwtUz0dcAsoJ4wGKMJnlDqObX/IXAPUvX1P7uxARoNmgpg9jQup+aUkSKWAxWW4BI
-         F2aCcdIfaMgk53YyhtU5t63us38HihO6a8j5YnzdkLF/pfKIb9sYb88YcxhZY9zO46nl
-         bkvoe6tN2WlxsrIrhKFT6IxiS6qL4wvOSdDYYoRBlpqn0J1krT81qEIp/j2vH7nwup2U
-         pwBdUQAt6sV8XRcCaNEELnX5gy0qErcRjAqFHpQRLkLMf4KZ4qitDuPFaEjJzprOvSVU
-         t2EA==
-X-Gm-Message-State: ABy/qLZWTy6Fqw7vggHJpEiyGUjtA+scfasjmkF8Ab8mpMZ/4CFtrB5a
-        9CiXmdIVU3MW7JWN8ANMxUiXk+XGuHIkXmdjq7k=
-X-Google-Smtp-Source: APBJJlEz6zgI2H6UG/ubA5eG0+QEmJmxv3HNhm2B2AsFJ80tiVCMMYGL8Z6P6hNoWmdi+WWj4onGcQfMZCzTw6CpP48=
-X-Received: by 2002:a25:500b:0:b0:d09:3ad7:a090 with SMTP id
- e11-20020a25500b000000b00d093ad7a090mr7961791ybb.56.1690245688165; Mon, 24
- Jul 2023 17:41:28 -0700 (PDT)
+        Mon, 24 Jul 2023 23:10:20 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A612110E4;
+        Mon, 24 Jul 2023 20:10:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=2BZ1mkxRsZ5oPo0ZGgsAL/9N8fGxAaKjK1Iw/ywtEs4=; b=wmvMbu6WPwbv4pbGfPOscP3q+f
+        7CLvSnqBemJ8dma9HKHKEq7866mI76iISMAjsHR1YhQuzIhJNHeK0IrvmpwRtKletQV8SZz/Evnvo
+        Xjr+vBvv9E38DjsxgMEahRVWTrWNgRz18nV0qYkvO/8wb3biU8w4joKDu2u2UGlZuzIM+kL9MrNii
+        o918gd58+X7hiZp9bpPrNPJ39k/Y83GpNBAoe6WTPpT7AvNSCuT7VHykNcXtdEzhTX/q6IEs7zRm7
+        xp2Pv4eibOpirhxcb5NtfeHHuGsKYTXZAYrQvvQKHb7mui2BqLeQMs0FG7fXzB71NRWzUddZgWmvk
+        Ht9YlaDg==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qO8R7-0060Kt-2h;
+        Tue, 25 Jul 2023 03:10:09 +0000
+Message-ID: <e11e6287-9b27-90d7-da95-1dc88348b8b0@infradead.org>
+Date:   Mon, 24 Jul 2023 20:10:09 -0700
 MIME-Version: 1.0
-References: <20230724131741.954624-1-james.clark@arm.com>
-In-Reply-To: <20230724131741.954624-1-james.clark@arm.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 25 Jul 2023 02:41:16 +0200
-Message-ID: <CANiq72nJP+i10CZysua0QU=V=Cn=jdnLuV8KOqm6_NNFdg9S3w@mail.gmail.com>
-Subject: Re: [PATCH] scripts/kallsyms: Fix build failure by setting errno
- before calling getline()
-To:     James Clark <james.clark@arm.com>
-Cc:     linux-kbuild@vger.kernel.org, masahiroy@kernel.org,
-        linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>, Nicolas Schier <n.schier@avm.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 1/1] kconfig: port qconf to work with Qt6 in addition to
+ Qt5
+Content-Language: en-US
+To:     Boris Kolpackov <boris@codesynthesis.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org
+References: <20230724074625.458456-1-boris@codesynthesis.com>
+ <20230724074625.458456-2-boris@codesynthesis.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230724074625.458456-2-boris@codesynthesis.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,14 +57,24 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jul 24, 2023 at 3:18=E2=80=AFPM James Clark <james.clark@arm.com> w=
-rote:
->
-> This fixes the following build failure if scripts/kallsyms launches with
-> a non-zero errno value:
 
-The code change sounds good to me, but could you please describe the
-situation where you found the build failure?
 
-Cheers,
-Miguel
+On 7/24/23 00:46, Boris Kolpackov wrote:
+> Tested with Qt5 5.15 and Qt6 6.4. Note that earlier versions of Qt5
+> are no longer guaranteed to work.
+
+Was there such a guarantee somewhere?
+
+> 
+> Signed-off-by: Boris Kolpackov <boris@codesynthesis.com>
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+> ---
+>  scripts/kconfig/qconf.cc | 40 ++++++++++++++++++++++++++--------------
+>  1 file changed, 26 insertions(+), 14 deletions(-)
+
+Thanks.
+-- 
+~Randy
