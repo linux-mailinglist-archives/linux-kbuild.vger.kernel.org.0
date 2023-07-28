@@ -2,162 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 410B07667DF
-	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Jul 2023 10:53:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91BEA766BD9
+	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Jul 2023 13:34:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235230AbjG1Ixn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 28 Jul 2023 04:53:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47786 "EHLO
+        id S233801AbjG1LeY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 28 Jul 2023 07:34:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235373AbjG1IxN (ORCPT
+        with ESMTP id S233792AbjG1LeX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 28 Jul 2023 04:53:13 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D22A44BD;
-        Fri, 28 Jul 2023 01:52:06 -0700 (PDT)
+        Fri, 28 Jul 2023 07:34:23 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10DCD19A1;
+        Fri, 28 Jul 2023 04:34:23 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0862762066;
-        Fri, 28 Jul 2023 08:52:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6129DC433D9;
-        Fri, 28 Jul 2023 08:52:05 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 99C8C6210F;
+        Fri, 28 Jul 2023 11:34:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21AEFC433C8;
+        Fri, 28 Jul 2023 11:34:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690534325;
-        bh=vlJpUCrv2ALxslQErLAhvVvaZrwz4OsGjEvmf2Y+iu0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=CBi6cn4Lj2WE+3ndu8ojTuLCbCpK7Pkmx9A6xtinX0HCBOZXhEZF98ugJzTOeLFAu
-         +0XMAZNEYpti4YI8V6nchFBp+xpcfTWTHZps6mKo9/8VGwdADXksAATF9qh3LJsTTB
-         /h1qfr19Z4W4JEDvguLAMduLZRTpPYOcqcmk0arqtOaHQwE4cvmDthraAt5bzOw9M1
-         aVv1xh2gTuR7awDFF4SXPauublFBaHAFoLy+vhYC3DRRLSTVPs3IJz2RFLX2+HnKdc
-         qKaF7MGOAQHIF057Hd7Wa1bbsBT16hXTF2FulnhU0N3iOGJXgPcvq03ROV6GFoLYK6
-         tIfGzXbc2MbVA==
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3a412653335so1461556b6e.1;
-        Fri, 28 Jul 2023 01:52:05 -0700 (PDT)
-X-Gm-Message-State: ABy/qLZ64PSMxY91tVYIaDyhEm1HO01BrSBrR5J5KwrtXD/eyQ5qzMr4
-        csBqHukhW9Fib/Z/EzuNXjHJF+xlRaunCNcTGg0=
-X-Google-Smtp-Source: APBJJlHDe8hfWrxF/nfBaQSGuEQ6bNQXuA7hrJmGUDKgzOxljYyC1ls87OOK7YRy0OrT3TlhYCmy7eRtQ7kYiLbq06Q=
-X-Received: by 2002:a54:400b:0:b0:3a3:ed22:6b51 with SMTP id
- x11-20020a54400b000000b003a3ed226b51mr2282641oie.50.1690534324598; Fri, 28
- Jul 2023 01:52:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230728043013.27776-1-rdunlap@infradead.org>
-In-Reply-To: <20230728043013.27776-1-rdunlap@infradead.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 28 Jul 2023 17:51:27 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR4BkAKhZZ8+Zybed3Jm3omxzzdgus-Nqj-9MjWAeSmiA@mail.gmail.com>
-Message-ID: <CAK7LNAR4BkAKhZZ8+Zybed3Jm3omxzzdgus-Nqj-9MjWAeSmiA@mail.gmail.com>
-Subject: Re: [PATCH v3] um/drivers: fix hostaudio build errors
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        linux-um@lists.infradead.org, Tejun Heo <tj@kernel.org>,
-        Takashi Iwai <tiwai@suse.de>, Jaroslav Kysela <perex@perex.cz>,
+        s=k20201202; t=1690544062;
+        bh=lt7VqNcO/DMxewMKvB7u1wGlWbj/6ig8fJ1HtNw/4Gk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=rJ+s2cwTRi1Ui++NMq1A65zCB5udu6EUXrx1tDOD93TGHMosTBUzZKyWBvgPrqZpV
+         3hTG51FxLZfuSKCdUbifo8Z3bB7OQ7Iq3/VQmkk0CgFeMpAk7BPyybbMJueQ37xje6
+         G9Encj5y5NHyN3huS6tjVObCvk7mEajJaMwcYj1s2rMN7FgCxdOZ+xu6LnF9gGnyPn
+         6nBh7aOqZ0EnxBLJHRfKoLEgRWAR5nhQV9XXYz98GuT2nasDsKeN++RcQg+eHmqL0U
+         woaSw8ru7y5iQexxYfnvdoR9MdVll8Ky3Qr64ZRQOP00EdShrmcN2wCxplw3ku+uIN
+         4k7mbIS1RA58Q==
+From:   Will Deacon <will@kernel.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     kernel-team@android.com, Will Deacon <will@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, alsa-devel@alsa-project.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        John Stultz <jstultz@google.com>, linux-kbuild@vger.kernel.org
+Subject: [PATCH v3 0/4] Fix 'faddr2line' for LLVM arm64 builds
+Date:   Fri, 28 Jul 2023 12:34:11 +0100
+Message-Id: <20230728113415.21067-1-will@kernel.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jul 28, 2023 at 1:30=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org=
-> wrote:
->
-> Use "select"s to ensure that the required kconfig symbols are set
-> as expected.
-> Drop HOSTAUDIO since it is now equivalent to UML_SOUND.
->
-> Allow SOUND with UML regardless of HAS_IOMEM. Otherwise there is a
-> kconfig warning for unmet dependencies. (This was not an issue when
-> SOUND was defined in arch/um/drivers/Kconfig. I have done 50 randconfig
-> builds and didn't find any issues.)
->
-> This fixes build errors when CONFIG_SOUND is not set:
->
-> ld: arch/um/drivers/hostaudio_kern.o: in function `hostaudio_cleanup_modu=
-le':
-> hostaudio_kern.c:(.exit.text+0xa): undefined reference to `unregister_sou=
-nd_mixer'
-> ld: hostaudio_kern.c:(.exit.text+0x15): undefined reference to `unregiste=
-r_sound_dsp'
-> ld: arch/um/drivers/hostaudio_kern.o: in function `hostaudio_init_module'=
-:
-> hostaudio_kern.c:(.init.text+0x19): undefined reference to `register_soun=
-d_dsp'
-> ld: hostaudio_kern.c:(.init.text+0x31): undefined reference to `register_=
-sound_mixer'
-> ld: hostaudio_kern.c:(.init.text+0x49): undefined reference to `unregiste=
-r_sound_dsp'
->
-> and this kconfig warning:
-> WARNING: unmet direct dependencies detected for SOUND
->
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Fixes: d886e87cb82b ("sound: make OSS sound core optional")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Link: lore.kernel.org/r/202307141416.vxuRVpFv-lkp@intel.com
-> Cc: Richard Weinberger <richard@nod.at>
-> Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
-> Cc: Johannes Berg <johannes@sipsolutions.net>
-> Cc: linux-um@lists.infradead.org
-> Cc: Tejun Heo <tj@kernel.org>
-> Cc: Takashi Iwai <tiwai@suse.de>
-> Cc: Jaroslav Kysela <perex@perex.cz>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: Nathan Chancellor <nathan@kernel.org>
-> Cc: Nick Desaulniers <ndesaulniers@google.com>
-> Cc: Nicolas Schier <nicolas@fjasle.eu>
-> Cc: linux-kbuild@vger.kernel.org
-> Cc: alsa-devel@alsa-project.org
-> ---
-> v2: don't delete the HOSTAUDIO Kconfig entry (Masahiro)
-> v3: drop HOSTAUDIO and use CONFIG_UML_SOUND for it in Makefile (Takashi);
->     add SOUND depends on "|| UML" to HAS_IOMEM
->
->  arch/um/drivers/Kconfig  |   14 ++------------
->  arch/um/drivers/Makefile |    2 +-
->  sound/Kconfig            |    2 +-
->  3 files changed, 4 insertions(+), 14 deletions(-)
->
-> diff -- a/arch/um/drivers/Kconfig b/arch/um/drivers/Kconfig
-> --- a/arch/um/drivers/Kconfig
-> +++ b/arch/um/drivers/Kconfig
-> @@ -111,24 +111,14 @@ config SSL_CHAN
->
->  config UML_SOUND
->         tristate "Sound support"
-> +       select SOUND
+Hi all,
 
+Here's version three of my faddr2line fixes previously posted here:
 
-This would be the only instance that select's SOUND.
-Perhaps, this could be 'depends on SOUND'.
-(in that case, arch/um/configs/*_defconfig needs modification).
+v1: https://lore.kernel.org/r/20230724174517.15736-1-will@kernel.org
+v2: https://lore.kernel.org/r/20230725211157.17031-1-will@kernel.org
 
-Just my two cents.
+Changes since v2 include:
+  * Brought back the (unchanged) patch introducing LLVM=1 so that all
+    the patches are in one place and don't end up conflicting with each
+    other.
+  * Added a new patch to drop the strict "FUNC" symbol type match in
+    the outer loop
 
+Cheers,
 
-Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
+Will
 
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Nick Desaulniers <ndesaulniers@google.com>
+Cc: Nicolas Schier <nicolas@fjasle.eu>
+Cc: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: John Stultz <jstultz@google.com>
+Cc: linux-kbuild@vger.kernel.org
 
+--->8
 
+Will Deacon (4):
+  scripts/faddr2line: Use LLVM addr2line and readelf if LLVM=1
+  scripts/mksysmap: Factor out sed ignored symbols expression into
+    script
+  scripts/faddr2line: Constrain readelf output to symbols from
+    System.map
+  scripts/faddr2line: Don't filter out non-function symbols from readelf
 
+ scripts/faddr2line              | 15 +++++--
+ scripts/mksysmap                | 77 +--------------------------------
+ scripts/sysmap-ignored-syms.sed | 74 +++++++++++++++++++++++++++++++
+ 3 files changed, 86 insertions(+), 80 deletions(-)
+ create mode 100644 scripts/sysmap-ignored-syms.sed
 
+-- 
+2.41.0.487.g6d72f3e995-goog
 
-
-
---=20
-Best Regards
-Masahiro Yamada
