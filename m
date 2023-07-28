@@ -2,96 +2,105 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FDBB766BE1
-	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Jul 2023 13:34:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 591A4767070
+	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Jul 2023 17:23:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236303AbjG1Lex (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 28 Jul 2023 07:34:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39728 "EHLO
+        id S236449AbjG1PXb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 28 Jul 2023 11:23:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236280AbjG1Leu (ORCPT
+        with ESMTP id S236522AbjG1PX3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 28 Jul 2023 07:34:50 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D259E3ABD;
-        Fri, 28 Jul 2023 04:34:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D18F062113;
-        Fri, 28 Jul 2023 11:34:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64DDAC433CA;
-        Fri, 28 Jul 2023 11:34:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690544071;
-        bh=GJfONZ1HCDvgFwQvE4AFHIvTONGQNDF8BXh10wDQUnc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mPn9okbatt3a+j1vX38yIOJxpJjENOWB/nhMO9o9C6D4CeK1tYFlhJ5M2irJfplak
-         nkqDoTzt3Y+Y6B9kzZ1FYVG+JHz6r2i53skj63N0xJIra8JlxOC97zF76nNlUzLSZ4
-         guIqS9ji9t6IwEh8PPWMK3rtPHmpqB/1YNxMoR87Okk94Y/ImwviIrnPR9UB4uq36W
-         KelocNjmH/aRI8O62O7LR/yCe6/A8IwF/c2hoTTzTHb+8VpHDg/m5lpZollb3lKECz
-         3CwTmWFn0y9JKZ9RkAt11CG7ZjZhYz2J8yrHTO4jG8V1cHJqo+4u8XOlz4Xh+KF72V
-         MmVOacDXx+7GA==
-From:   Will Deacon <will@kernel.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     kernel-team@android.com, Will Deacon <will@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        John Stultz <jstultz@google.com>, linux-kbuild@vger.kernel.org
-Subject: [PATCH v3 4/4] scripts/faddr2line: Don't filter out non-function symbols from readelf
-Date:   Fri, 28 Jul 2023 12:34:15 +0100
-Message-Id: <20230728113415.21067-5-will@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20230728113415.21067-1-will@kernel.org>
-References: <20230728113415.21067-1-will@kernel.org>
+        Fri, 28 Jul 2023 11:23:29 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C80D735A6
+        for <linux-kbuild@vger.kernel.org>; Fri, 28 Jul 2023 08:23:26 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3fbfa811667so23870795e9.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 28 Jul 2023 08:23:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile-fr.20221208.gappssmtp.com; s=20221208; t=1690557805; x=1691162605;
+        h=content-transfer-encoding:organization:subject:from:to
+         :content-language:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RwVPaqqk2JRul54BzeAHw/LOC+TyX+TEc2VdFsQtI6w=;
+        b=0M5cZ37cYppZf5ReweyBSkgpyRdmzJJUg6Rk13e9WdxDjqh6iehv45/v7MpYZT5Skg
+         m0rGWp4Fdgf6N5rkb0NxaDTshaYLr3ZbQ4ieNoZO65+WEJ/BJrhcS/3lCWDzNbxu23Jj
+         94IramNN5EG8Aj73BdWcXRIkhEYSXU8LtFNPOWs2T0YUtoMQVuzPMe9jFM0Zc5pyL5R9
+         PdeyGOYupkJCgkUczVXp+gw390u1E83DdJACegSptlSE5/FgVxWveCu3ua8gpqlKMN75
+         Y/GJIJO3EEoBJEKy6gqB4tudjLMlhsHkktYocZUkk57mVrfeXsWHM1S27ayDK8do3spy
+         s+qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690557805; x=1691162605;
+        h=content-transfer-encoding:organization:subject:from:to
+         :content-language:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RwVPaqqk2JRul54BzeAHw/LOC+TyX+TEc2VdFsQtI6w=;
+        b=X5XnNDIkpVcQoFX1TBIyx12X/pIR0ibtrGVD4/cse6uMT9zyXm44Hrabfi+MahnLd3
+         /3ebimw2I6lFsooyC2mY6UXSCA1tcmYFz7NIUE1x7LUmgWzQBvAIyRm+8Rg9M4KkNR5q
+         ZZspifQf3gGqXji7zGmTuQPx4iMQkK6LGOHOaz+dvhcHRdIZM2EcgwmhAkkfx7KVBNpE
+         MPwkBxHfxRTKR7Z+w4TtOoMjDXfFLGPt0x+61B7I/lo9lzGSQQiujaYK+I1e0EvaZcFl
+         BzkKDCRmKpv3x0ICouPCBuiqVeccnsGn8mcI3TcqL/Zcc1O/sN6CgASDW6qUhsD8Jz2i
+         Fl5g==
+X-Gm-Message-State: ABy/qLZBySFBUu38dwDZhlMexKHlAuzfbzS6WjMwcic81uKaLOprj5N9
+        m0t3BXv4tBapCa+XTowaxYo2vSzRimGrPJ4G+7U=
+X-Google-Smtp-Source: APBJJlGGJcUPqqL+yXMpZnpLGaeXzHpTjHE9mU5184vBYQ8hGnQcsbEO6KWHWmcNl47AUszeD7CUyw==
+X-Received: by 2002:a05:600c:3d13:b0:3fb:e1d0:6417 with SMTP id bh19-20020a05600c3d1300b003fbe1d06417mr4836930wmb.19.1690557804699;
+        Fri, 28 Jul 2023 08:23:24 -0700 (PDT)
+Received: from [192.168.0.27] ([89.159.1.53])
+        by smtp.gmail.com with ESMTPSA id u22-20020a05600c211600b003fbcdba1a63sm4453467wml.12.2023.07.28.08.23.24
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Jul 2023 08:23:24 -0700 (PDT)
+Message-ID: <387d7f82-aa8e-759f-7e12-08dfc329c47f@smile.fr>
+Date:   Fri, 28 Jul 2023 17:23:24 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Content-Language: en-US
+To:     linux-kbuild@vger.kernel.org
+From:   Yoann Congal <yoann.congal@smile.fr>
+Subject: oldconfig loop infinitely with a hex/int config without valid default
+ and a closed stdin
+Organization: Smile ECS
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-As Josh points out in 20230724234734.zy67gm674vl3p3wv@treble:
 
-> Problem is, I think the kernel's symbol printing code prints the
-> nearest kallsyms symbol, and there are some valid non-FUNC code
-> symbols.  For example, syscall_return_via_sysret.
+Hi,
 
-so we shouldn't be considering only 'FUNC'-type symbols in the output
-from readelf.
+While analyzing a Yocto bug[0] I think I've identified a problem in kconfig.
+The problem happens if you have a hex or int type config without a default value.
+Like this :
+  config TEST_KCONFIG
+  	hex "Test kconfig"
+  	# No default value
+... and try to start oldconfig with a closed stdin (like we have in Yocto):
+  echo -n "" | make oldconfig
 
-Drop the function symbol type filtering from the faddr2line outer loop.
+When this happens, oldconfig prompts for the value of TEST_KCONFIG but stdin is closed it get the global default value : an empty string. This is not a valid hex/int value so it prompts again, hence the infinite loop.
 
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: John Stultz <jstultz@google.com>
-Link: https://lore.kernel.org/r/20230724234734.zy67gm674vl3p3wv@treble
-Signed-off-by: Will Deacon <will@kernel.org>
----
- scripts/faddr2line | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'm having trouble pointing where the bug is exactly :
+* Should the global default value for hex/int be valid in their context? (like the minimal value of the range or 0/0x0)
+* Must all int/hex config provide a valid default value? (This is the case for hex config in the kernel). This would have to be documented somewhere (Some other KConfig implementation did [1])
+* Should all oldconfig/syncconfig/... exit with an error when trying to prompt on a closed stdin? (I might be able to send a patch for this one)
 
-diff --git a/scripts/faddr2line b/scripts/faddr2line
-index da734af90036..47a010615903 100755
---- a/scripts/faddr2line
-+++ b/scripts/faddr2line
-@@ -267,7 +267,7 @@ __faddr2line() {
- 
- 		DONE=1
- 
--	done < <(${READELF} --symbols --wide $objfile | sed 's/\[.*\]//' | ${AWK} -v fn=$sym_name '$4 == "FUNC" && $8 == fn')
-+	done < <(${READELF} --symbols --wide $objfile | sed 's/\[.*\]//' | ${AWK} -v fn=$sym_name '$8 == fn')
- }
- 
- [[ $# -lt 2 ]] && usage
+NB: I know of olddefconfig but in the case of U-boot, syncconfig is used at a later stage and the problem appears again.
+
+What do you think?
+
+Regards,
+
+[0]: https://bugzilla.yoctoproject.org/show_bug.cgi?id=14136
+[1]: https://docs.zephyrproject.org/1.14.0/guides/kconfig/index.html#redundant-defaults
 -- 
-2.41.0.487.g6d72f3e995-goog
-
+Yoann Congal
+Smile ECS - Tech Expert
