@@ -2,145 +2,137 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E0657681E0
-	for <lists+linux-kbuild@lfdr.de>; Sat, 29 Jul 2023 22:48:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C1467681FA
+	for <lists+linux-kbuild@lfdr.de>; Sat, 29 Jul 2023 23:42:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229481AbjG2UsZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 29 Jul 2023 16:48:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34392 "EHLO
+        id S229539AbjG2VmC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 29 Jul 2023 17:42:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229469AbjG2UsY (ORCPT
+        with ESMTP id S229504AbjG2VmB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 29 Jul 2023 16:48:24 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A802F2134;
-        Sat, 29 Jul 2023 13:48:23 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3984660A37;
-        Sat, 29 Jul 2023 20:48:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94348C433CB;
-        Sat, 29 Jul 2023 20:48:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690663702;
-        bh=cCImiBweLwK3He7S6NoHP/buQLDFJWlbAluCSmMxegc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=kE6TtH69i7ArrR5GRJMpMNo8c6HzpUETP8195c7kWqTa+O7I5OrVmMKMV1reVkOOX
-         FMGUMNffR1hK3aulV60o1xnsXnSe02hDUM+3cxQ5LvYZ8LIbN2pQydtcXqn1nIf92J
-         DFlNrpcXSvQXO1U6+qBzKQ0/7PDvaI4LLtYlq5eWiG5kSxrMPjZFIWcFpOGY9YdN0I
-         WMOX7bnzppAYhqrNZuSxHPZMjgur007dNqlAS4fMNRadjHrHjLV9BZ8XUtM3V7NDdu
-         wPTKpQxT0SfkK+KSwyQPLVGhXGttHAMEotrgwZUmUjo+4/nb9pqMRwx7FiZrRCy2jw
-         P17DE509D2GxA==
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5636425bf98so1635021eaf.1;
-        Sat, 29 Jul 2023 13:48:22 -0700 (PDT)
-X-Gm-Message-State: ABy/qLaNqE/a0YWFH5x7qw28PuGkzXy1i/QyLHc4PkNdA+ev2cWlovMp
-        n4gsSZdjgmNoe63nz94JRXDxWt4zXzYlJdDHYOI=
-X-Google-Smtp-Source: APBJJlH/wR8cw2PjjQFAtuXhJWNtF/7mA0Bbp2UCXBxT/p90DEgeClBiw12X7Tn4wSr7eXegJi4w/4zFoeu4Ijx+Qas=
-X-Received: by 2002:a4a:6c1b:0:b0:566:fc91:857d with SMTP id
- q27-20020a4a6c1b000000b00566fc91857dmr4808971ooc.5.1690663701837; Sat, 29 Jul
- 2023 13:48:21 -0700 (PDT)
+        Sat, 29 Jul 2023 17:42:01 -0400
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DB6093
+        for <linux-kbuild@vger.kernel.org>; Sat, 29 Jul 2023 14:41:58 -0700 (PDT)
+Date:   Sat, 29 Jul 2023 21:41:51 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail3; t=1690666916; x=1690926116;
+        bh=ayP6Lyd6vT/OxN20N2dQ1W7dWvfMQN5QQ+y6w2FEL6Q=;
+        h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+         Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+        b=G60o1xdPn+JjOOgIzmI861dk2YeVZJ39YNneJhBKhlRLWSzwZgCKj9wgED7B0RKMA
+         z1OxEZW+259UrII6jmqU7DG1xbnjdpl90TFCKkOEfluj2IzBDi8W+9jCqQnezkhNYt
+         F9TCQHKjDpkQqU/2fj/e9t2Fh9uEuRJLI4MJVy0R23N2ZTWEDrk2WxgRjlEIab9H5/
+         Dnv9lNP7L8wPYpKmTg3QsDLyvNHTEKw78suejQklUbY/aMi3plT824ZAdui9A8HWYl
+         KzDVr3RzDGFY6f01jhCmtY1iYITdVZojIt0BBz/0Ls56/nD2LE1XYFfEpr8jcpamL4
+         RAcyE3JxhJFvA==
+To:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+From:   Rahul Rameshbabu <sergeantsagara@protonmail.com>
+Cc:     Rahul Rameshbabu <sergeantsagara@protonmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH] scripts: merge_config: Add flag to prevent unsetting config option
+Message-ID: <20230729214138.79902-1-sergeantsagara@protonmail.com>
+Feedback-ID: 26003777:user:proton
 MIME-Version: 1.0
-References: <20230728113415.21067-1-will@kernel.org> <20230728113415.21067-2-will@kernel.org>
-In-Reply-To: <20230728113415.21067-2-will@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 30 Jul 2023 05:47:45 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATaXbGb7w=5xHtpVdPwcpm3iMPfzooABpftah1Sdw7ooQ@mail.gmail.com>
-Message-ID: <CAK7LNATaXbGb7w=5xHtpVdPwcpm3iMPfzooABpftah1Sdw7ooQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] scripts/faddr2line: Use LLVM addr2line and readelf
- if LLVM=1
-To:     Will Deacon <will@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        John Stultz <jstultz@google.com>, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_MSPIKE_H5,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jul 28, 2023 at 8:34=E2=80=AFPM Will Deacon <will@kernel.org> wrote=
-:
->
-> GNU utilities cannot necessarily parse objects built by LLVM, which can
-> result in confusing errors when using 'faddr2line':
->
-> $ CROSS_COMPILE=3Daarch64-linux-gnu- ./scripts/faddr2line vmlinux do_one_=
-initcall+0xf4/0x260
-> aarch64-linux-gnu-addr2line: vmlinux: unknown type [0x13] section `.relr.=
-dyn'
-> aarch64-linux-gnu-addr2line: DWARF error: invalid or unhandled FORM value=
-: 0x25
-> do_one_initcall+0xf4/0x260:
-> aarch64-linux-gnu-addr2line: vmlinux: unknown type [0x13] section `.relr.=
-dyn'
-> aarch64-linux-gnu-addr2line: DWARF error: invalid or unhandled FORM value=
-: 0x25
-> $x.73 at main.c:?
->
-> Although this can be worked around by setting CROSS_COMPILE to "llvm=3D-"=
-,
-> it's cleaner to follow the same syntax as the top-level Makefile and
-> accept LLVM=3D1 as an indication to use the llvm- tools.
+Overriding a previously defined entry for a config option with 'is not set'
+may be undesirable in some fragment configuration setups. Provide a flag to
+change the behavior, so 'is not set' is not overridden when a previous
+value for the same config option already exists.
 
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Signed-off-by: Rahul Rameshbabu <sergeantsagara@protonmail.com>
+---
+ scripts/kconfig/merge_config.sh | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
 
-Just a note.
-The top Makefile accepts not only LLVM=3D1
-but also LLVM=3D/usr/lib/llvm-16/bin/.
-The latter is useful when you want to use
-a particular version or a custom one.
-
-Another idea might be to use a generic '${prefix}'
-as this is not hooked to the Makefile,
-but I do not have a strong opinion.
-
-
-
-
->
-> Cc: Josh Poimboeuf <jpoimboe@kernel.org>
-> Cc: John Stultz <jstultz@google.com>
-> Signed-off-by: Will Deacon <will@kernel.org>
-> ---
->  scripts/faddr2line | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/faddr2line b/scripts/faddr2line
-> index 0e73aca4f908..62a3fa6f6f59 100755
-> --- a/scripts/faddr2line
-> +++ b/scripts/faddr2line
-> @@ -58,8 +58,14 @@ die() {
->         exit 1
->  }
->
-> -READELF=3D"${CROSS_COMPILE:-}readelf"
-> -ADDR2LINE=3D"${CROSS_COMPILE:-}addr2line"
-> +if [ "${LLVM:-}" =3D=3D "1" ]; then
-> +       UTIL_PREFIX=3Dllvm-
-> +else
-> +       UTIL_PREFIX=3D${CROSS_COMPILE:-}
-> +fi
-> +
-> +READELF=3D"${UTIL_PREFIX}readelf"
-> +ADDR2LINE=3D"${UTIL_PREFIX}addr2line"
->  AWK=3D"awk"
->  GREP=3D"grep"
->
-> --
-> 2.41.0.487.g6d72f3e995-goog
->
-
-
+diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_config=
+.sh
+index 902eb429b9db..bbe235f2df70 100755
+--- a/scripts/kconfig/merge_config.sh
++++ b/scripts/kconfig/merge_config.sh
+@@ -30,6 +30,7 @@ usage() {
+ =09echo "  -O    dir to put generated output files.  Consider setting \$KC=
+ONFIG_CONFIG instead."
+ =09echo "  -s    strict mode. Fail if the fragment redefines any value."
+ =09echo "  -Q    disable warning messages for overridden options."
++=09echo "  -N    not set entries in fragments will not override options."
+ =09echo
+ =09echo "Used prefix: '$CONFIG_PREFIX'. You can redefine it with \$CONFIG_=
+ environment variable."
+ }
+@@ -42,6 +43,7 @@ OUTPUT=3D.
+ STRICT=3Dfalse
+ CONFIG_PREFIX=3D${CONFIG_-CONFIG_}
+ WARNOVERRIDE=3Decho
++OVERRIDENOTSET=3Dtrue
+=20
+ while true; do
+ =09case $1 in
+@@ -89,6 +91,11 @@ while true; do
+ =09=09shift
+ =09=09continue
+ =09=09;;
++=09"-N")
++=09=09OVERRIDENOTSET=3Dfalse
++=09=09shift
++=09=09continue
++=09=09;;
+ =09*)
+ =09=09break
+ =09=09;;
+@@ -143,13 +150,20 @@ for ORIG_MERGE_FILE in $MERGE_LIST ; do
+ =09=09grep -q -w $CFG $TMP_FILE || continue
+ =09=09PREV_VAL=3D$(grep -w $CFG $TMP_FILE)
+ =09=09NEW_VAL=3D$(grep -w $CFG $MERGE_FILE)
+-=09=09BUILTIN_FLAG=3Dfalse
+-=09=09if [ "$BUILTIN" =3D "true" ] && [ "${NEW_VAL#CONFIG_*=3D}" =3D "m" ]=
+ && [ "${PREV_VAL#CONFIG_*=3D}" =3D "y" ]; then
++=09=09NO_OVERRIDE_FLAG=3Dfalse
++=09=09if [ "$OVERRIDENOTSET" =3D "false" ] && [ "${NEW_VAL#\# CONFIG_* }" =
+=3D "is not set" ] &&
++=09=09=09   [ "$PREV_VAL" !=3D "" ] && [ "${PREV_VAL#\# CONFIG_* }" !=3D "=
+is not set" ]; then
++=09=09=09${WARNOVERRIDE} Previous  value: $PREV_VAL
++=09=09=09${WARNOVERRIDE} New value:       $NEW_VAL
++=09=09=09${WARNOVERRIDE} -N passed, will not unset option
++=09=09=09${WARNOVERRIDE}
++=09=09=09NO_OVERRIDE_FLAG=3Dtrue
++=09=09elif [ "$BUILTIN" =3D "true" ] && [ "${NEW_VAL#CONFIG_*=3D}" =3D "m"=
+ ] && [ "${PREV_VAL#CONFIG_*=3D}" =3D "y" ]; then
+ =09=09=09${WARNOVERRIDE} Previous  value: $PREV_VAL
+ =09=09=09${WARNOVERRIDE} New value:       $NEW_VAL
+ =09=09=09${WARNOVERRIDE} -y passed, will not demote y to m
+ =09=09=09${WARNOVERRIDE}
+-=09=09=09BUILTIN_FLAG=3Dtrue
++=09=09=09NO_OVERRIDE_FLAG=3Dtrue
+ =09=09elif [ "x$PREV_VAL" !=3D "x$NEW_VAL" ] ; then
+ =09=09=09${WARNOVERRIDE} Value of $CFG is redefined by fragment $ORIG_MERG=
+E_FILE:
+ =09=09=09${WARNOVERRIDE} Previous  value: $PREV_VAL
+@@ -161,7 +175,7 @@ for ORIG_MERGE_FILE in $MERGE_LIST ; do
+ =09=09elif [ "$WARNREDUN" =3D "true" ]; then
+ =09=09=09${WARNOVERRIDE} Value of $CFG is redundant by fragment $ORIG_MERG=
+E_FILE:
+ =09=09fi
+-=09=09if [ "$BUILTIN_FLAG" =3D "false" ]; then
++=09=09if [ "$NO_OVERRIDE_FLAG" =3D "false" ]; then
+ =09=09=09sed -i "/$CFG[ =3D]/d" $TMP_FILE
+ =09=09else
+ =09=09=09sed -i "/$CFG[ =3D]/d" $MERGE_FILE
 --=20
-Best Regards
-Masahiro Yamada
+2.40.1
+
+
