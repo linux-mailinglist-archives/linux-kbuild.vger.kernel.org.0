@@ -2,105 +2,132 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 591A4767070
-	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Jul 2023 17:23:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EDE3767CAD
+	for <lists+linux-kbuild@lfdr.de>; Sat, 29 Jul 2023 08:59:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236449AbjG1PXb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 28 Jul 2023 11:23:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50900 "EHLO
+        id S236535AbjG2G7T (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 29 Jul 2023 02:59:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236522AbjG1PX3 (ORCPT
+        with ESMTP id S229685AbjG2G7S (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 28 Jul 2023 11:23:29 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C80D735A6
-        for <linux-kbuild@vger.kernel.org>; Fri, 28 Jul 2023 08:23:26 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3fbfa811667so23870795e9.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 28 Jul 2023 08:23:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20221208.gappssmtp.com; s=20221208; t=1690557805; x=1691162605;
-        h=content-transfer-encoding:organization:subject:from:to
-         :content-language:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RwVPaqqk2JRul54BzeAHw/LOC+TyX+TEc2VdFsQtI6w=;
-        b=0M5cZ37cYppZf5ReweyBSkgpyRdmzJJUg6Rk13e9WdxDjqh6iehv45/v7MpYZT5Skg
-         m0rGWp4Fdgf6N5rkb0NxaDTshaYLr3ZbQ4ieNoZO65+WEJ/BJrhcS/3lCWDzNbxu23Jj
-         94IramNN5EG8Aj73BdWcXRIkhEYSXU8LtFNPOWs2T0YUtoMQVuzPMe9jFM0Zc5pyL5R9
-         PdeyGOYupkJCgkUczVXp+gw390u1E83DdJACegSptlSE5/FgVxWveCu3ua8gpqlKMN75
-         Y/GJIJO3EEoBJEKy6gqB4tudjLMlhsHkktYocZUkk57mVrfeXsWHM1S27ayDK8do3spy
-         s+qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690557805; x=1691162605;
-        h=content-transfer-encoding:organization:subject:from:to
-         :content-language:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RwVPaqqk2JRul54BzeAHw/LOC+TyX+TEc2VdFsQtI6w=;
-        b=X5XnNDIkpVcQoFX1TBIyx12X/pIR0ibtrGVD4/cse6uMT9zyXm44Hrabfi+MahnLd3
-         /3ebimw2I6lFsooyC2mY6UXSCA1tcmYFz7NIUE1x7LUmgWzQBvAIyRm+8Rg9M4KkNR5q
-         ZZspifQf3gGqXji7zGmTuQPx4iMQkK6LGOHOaz+dvhcHRdIZM2EcgwmhAkkfx7KVBNpE
-         MPwkBxHfxRTKR7Z+w4TtOoMjDXfFLGPt0x+61B7I/lo9lzGSQQiujaYK+I1e0EvaZcFl
-         BzkKDCRmKpv3x0ICouPCBuiqVeccnsGn8mcI3TcqL/Zcc1O/sN6CgASDW6qUhsD8Jz2i
-         Fl5g==
-X-Gm-Message-State: ABy/qLZBySFBUu38dwDZhlMexKHlAuzfbzS6WjMwcic81uKaLOprj5N9
-        m0t3BXv4tBapCa+XTowaxYo2vSzRimGrPJ4G+7U=
-X-Google-Smtp-Source: APBJJlGGJcUPqqL+yXMpZnpLGaeXzHpTjHE9mU5184vBYQ8hGnQcsbEO6KWHWmcNl47AUszeD7CUyw==
-X-Received: by 2002:a05:600c:3d13:b0:3fb:e1d0:6417 with SMTP id bh19-20020a05600c3d1300b003fbe1d06417mr4836930wmb.19.1690557804699;
-        Fri, 28 Jul 2023 08:23:24 -0700 (PDT)
-Received: from [192.168.0.27] ([89.159.1.53])
-        by smtp.gmail.com with ESMTPSA id u22-20020a05600c211600b003fbcdba1a63sm4453467wml.12.2023.07.28.08.23.24
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Jul 2023 08:23:24 -0700 (PDT)
-Message-ID: <387d7f82-aa8e-759f-7e12-08dfc329c47f@smile.fr>
-Date:   Fri, 28 Jul 2023 17:23:24 +0200
+        Sat, 29 Jul 2023 02:59:18 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD18649EB;
+        Fri, 28 Jul 2023 23:59:15 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1CA1660766;
+        Sat, 29 Jul 2023 06:59:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 829E0C433C7;
+        Sat, 29 Jul 2023 06:59:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690613954;
+        bh=pH61JHyCnyY9RStw/F9+va8ZXuOwbbiiebLPqill1n0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=az+FzhTyIRfsDg6cCIJSp5wA/lSM6MNsVviNmMELnJGq4g+euILuU+o86NPIcamuy
+         GOR2GFFlvzrKdj5Mv/aDJMCJ3eAz2oNEnDcYyNiM37j/SoSSSAy0nRZTBCJ4EGUQWu
+         H0CURCOOE3VGyn2RYQip0d3Aip0Tik53a7SAB/nbxS8EiicwGFs1ctbOAM28pqCYTJ
+         xVPpRzJ4Nr7kA/+4Blu+nF8k6W+2WZkHfK19fdlgn7liQ5oeCAQa45YOhagx9Ou1dW
+         +BYz/RC3nbbW/wJRrNTS47epuws2A+b6rxYeNWUa5SYiSlEaqPLUctkPI9lWD5ilYg
+         81tvVHsrIURiQ==
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-56368c40e8eso1962291eaf.0;
+        Fri, 28 Jul 2023 23:59:14 -0700 (PDT)
+X-Gm-Message-State: ABy/qLYiShmAZU+PBo/wBeprX3I6jX7aDRQrbdrI8ZVoyiPbtxwYZq+f
+        0PcjYau5qXWbMNl87P7eLX8Ef5oMWRRopygk1SU=
+X-Google-Smtp-Source: APBJJlGvd3PMN7Ht1B42qUs98OQA9vQ7tJHewBRhzNp/XTPhiOuUuzFjYheFXXnNgKJ47UruW+IkvVmpvqrXwb4qvRs=
+X-Received: by 2002:a4a:3457:0:b0:566:f9ff:57f with SMTP id
+ n23-20020a4a3457000000b00566f9ff057fmr4447885oof.8.1690613953808; Fri, 28 Jul
+ 2023 23:59:13 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Content-Language: en-US
-To:     linux-kbuild@vger.kernel.org
-From:   Yoann Congal <yoann.congal@smile.fr>
-Subject: oldconfig loop infinitely with a hex/int config without valid default
- and a closed stdin
-Organization: Smile ECS
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230725105827.1119167-1-james.clark@arm.com>
+In-Reply-To: <20230725105827.1119167-1-james.clark@arm.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 29 Jul 2023 15:58:37 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAST1bq=oLT9spUJ3tH+f1RKjG0N_hXh+K7juaS1XgpCRQ@mail.gmail.com>
+Message-ID: <CAK7LNAST1bq=oLT9spUJ3tH+f1RKjG0N_hXh+K7juaS1XgpCRQ@mail.gmail.com>
+Subject: Re: [PATCH v2] scripts/kallsyms: Fix build failure by setting errno
+ before calling getline()
+To:     James Clark <james.clark@arm.com>
+Cc:     linux-kbuild@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
+        linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Zhen Lei <thunder.leizhen@huawei.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicolas Schier <n.schier@avm.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Tue, Jul 25, 2023 at 7:58=E2=80=AFPM James Clark <james.clark@arm.com> w=
+rote:
+>
+> getline() returns -1 at EOF as well as on error. It also doesn't set
+> errno to 0 on success, so initialize it to 0 before using errno to check
+> for an error condition. See the paragraph here [1]:
+>
+>   For some system calls and library functions (e.g., getpriority(2)),
+>   -1 is a valid return on success. In such cases, a successful return
+>   can be distinguished from an error return by setting errno to zero
+>   before the call, and then, if the call returns a status that indicates
+>   that an error may have occurred, checking to see if errno has a
+>   nonzero value.
+>
+> Bear has a bug [2] that launches processes with errno set and causes the
+> following build failure:
+>
+>  $ bear -- make LLVM=3D1
+>  ...
+>   LD      .tmp_vmlinux.kallsyms1
+>   NM      .tmp_vmlinux.kallsyms1.syms
+>   KSYMS   .tmp_vmlinux.kallsyms1.S
+>  read_symbol: Invalid argument
+>
+> [1]: https://linux.die.net/man/3/errno
+> [2]: https://github.com/rizsotto/Bear/issues/469
+>
+> Fixes: 1c975da56a6f ("scripts/kallsyms: remove KSYM_NAME_LEN_BUFFER")
+> Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
+> Signed-off-by: James Clark <james.clark@arm.com>
 
-Hi,
+Applied to linux-kbuild/fixes.
+Thanks.
 
-While analyzing a Yocto bug[0] I think I've identified a problem in kconfig.
-The problem happens if you have a hex or int type config without a default value.
-Like this :
-  config TEST_KCONFIG
-  	hex "Test kconfig"
-  	# No default value
-... and try to start oldconfig with a closed stdin (like we have in Yocto):
-  echo -n "" | make oldconfig
 
-When this happens, oldconfig prompts for the value of TEST_KCONFIG but stdin is closed it get the global default value : an empty string. This is not a valid hex/int value so it prompts again, hence the infinite loop.
+> ---
+>  scripts/kallsyms.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
+> index 16c87938b316..653b92f6d4c8 100644
+> --- a/scripts/kallsyms.c
+> +++ b/scripts/kallsyms.c
+> @@ -129,6 +129,7 @@ static struct sym_entry *read_symbol(FILE *in, char *=
+*buf, size_t *buf_len)
+>         ssize_t readlen;
+>         struct sym_entry *sym;
+>
+> +       errno =3D 0;
+>         readlen =3D getline(buf, buf_len, in);
+>         if (readlen < 0) {
+>                 if (errno) {
+> --
+> 2.34.1
+>
 
-I'm having trouble pointing where the bug is exactly :
-* Should the global default value for hex/int be valid in their context? (like the minimal value of the range or 0/0x0)
-* Must all int/hex config provide a valid default value? (This is the case for hex config in the kernel). This would have to be documented somewhere (Some other KConfig implementation did [1])
-* Should all oldconfig/syncconfig/... exit with an error when trying to prompt on a closed stdin? (I might be able to send a patch for this one)
 
-NB: I know of olddefconfig but in the case of U-boot, syncconfig is used at a later stage and the problem appears again.
-
-What do you think?
-
-Regards,
-
-[0]: https://bugzilla.yoctoproject.org/show_bug.cgi?id=14136
-[1]: https://docs.zephyrproject.org/1.14.0/guides/kconfig/index.html#redundant-defaults
--- 
-Yoann Congal
-Smile ECS - Tech Expert
+--=20
+Best Regards
+Masahiro Yamada
