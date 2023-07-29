@@ -2,72 +2,75 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E0E9D7680EE
-	for <lists+linux-kbuild@lfdr.de>; Sat, 29 Jul 2023 20:24:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D8D476810B
+	for <lists+linux-kbuild@lfdr.de>; Sat, 29 Jul 2023 20:39:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229572AbjG2SYC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 29 Jul 2023 14:24:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41676 "EHLO
+        id S229502AbjG2Sj4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 29 Jul 2023 14:39:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbjG2SYB (ORCPT
+        with ESMTP id S229454AbjG2Sjz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 29 Jul 2023 14:24:01 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C69D30CA;
-        Sat, 29 Jul 2023 11:23:56 -0700 (PDT)
+        Sat, 29 Jul 2023 14:39:55 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BA10E4E;
+        Sat, 29 Jul 2023 11:39:50 -0700 (PDT)
 Received: from leknes.fjasle.eu ([46.142.97.66]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1M1JJC-1qSYgk1Hv0-002ma7; Sat, 29 Jul 2023 20:23:36 +0200
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MDygG-1qXY5E3dEy-00A07c; Sat, 29 Jul 2023 20:38:57 +0200
 Received: from localhost.fjasle.eu (kirkenes.fjasle.eu [10.10.0.5])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (Client did not present a certificate)
-        by leknes.fjasle.eu (Postfix) with ESMTPS id 261943E9EF;
-        Sat, 29 Jul 2023 20:16:16 +0200 (CEST)
+        by leknes.fjasle.eu (Postfix) with ESMTPS id 46E063E9EF;
+        Sat, 29 Jul 2023 20:38:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1690654582; bh=+v3QdKmyefi0qzTtxni1WBFP+x34Cq9eGnlfi4jJDDg=;
+        t=1690655932; bh=QwynynEmRUGdimf9sBFUFDIzzp27aFLDEwfNY3NpIJY=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hQVrsGW2Xt3aXfuZrjjekAHRzKOUs8T/LpmmrICUAdIWA/ZEVI9bh7rwGLAJs5btB
-         Eb8b3Hs9DL3x7kbyznqG4MrynbHHplP+51UuGVvpLYOGItD1KVAv75iQBYD+maBlY5
-         xHh/EzfPN5MDVdxacUExdzv8gZBj0n6cPvD2n03I=
+        b=AjgHMEAyq4o9+afSwluICI/L6+3NjRKSggklRT3qGzEN+BykcvMD6bnTLpf3S0kCC
+         0mPqkLDAkFHDGn2ggHX9vr9yEaCfxGidr2D24yhDcADDvaaEGj26hVNOUVGSA54mAm
+         5+Txnqnnpy+l2vhMBUrkbWklVwz+L7Poz/ARyt1k=
 Received: by localhost.fjasle.eu (Postfix, from userid 1000)
-        id E8E086091; Sat, 29 Jul 2023 20:16:15 +0200 (CEST)
-Date:   Sat, 29 Jul 2023 20:16:15 +0200
+        id DA14C6087; Sat, 29 Jul 2023 20:38:12 +0200 (CEST)
+Date:   Sat, 29 Jul 2023 20:38:12 +0200
 From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ben Hutchings <ben@decadent.org.uk>,
+To:     Will Deacon <will@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH 2/2] kbuild: deb-pkg: split debian/rules
-Message-ID: <ZMVXb008ULiyHLie@bergen.fjasle.eu>
-References: <20230729143814.1509196-1-masahiroy@kernel.org>
- <20230729143814.1509196-2-masahiroy@kernel.org>
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        John Stultz <jstultz@google.com>, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v3 2/4] scripts/mksysmap: Factor out sed ignored symbols
+ expression into script
+Message-ID: <ZMVclGCbEK33g+2g@bergen.fjasle.eu>
+References: <20230728113415.21067-1-will@kernel.org>
+ <20230728113415.21067-3-will@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="QkuvX0QpVWqifrVt"
+        protocol="application/pgp-signature"; boundary="uEI2BuDe0NhIfEtZ"
 Content-Disposition: inline
-In-Reply-To: <20230729143814.1509196-2-masahiroy@kernel.org>
+In-Reply-To: <20230728113415.21067-3-will@kernel.org>
 X-Operating-System: Debian GNU/Linux trixie/sid
 Jabber-ID: nicolas@jabber.no
-X-Provags-ID: V03:K1:NpAcQjnOf6hIU6Bq1hbktzopMtDqPrppk9MlWnloh9ZKm53c5Vb
- 6cnfLaDboLz1qKayzfP1HCyhzbJz6Z8SQePiUPgAm1fiNiUEUzJ5lqcNSycXAcoBUYsekNT
- sQdwEJsq3iijh2DG/G6zCj2CGfEy+G9c94lo11vEkf6dE/B9/a/Q/TBDc7dAtw0QnPQ5cq9
- Yn8tiEHbTVl6pSl/waaWQ==
-UI-OutboundReport: notjunk:1;M01:P0:lW9JgpqhVO4=;GythiiaKa6AJV6XjLu+wbqOSZLL
- wSz/AsOv4OFMLq3ul6PJmw5a51kYqQI7R4b6q16PHNBy+o5mPPtcIN8uwzF63eOtjw51K99Nm
- 56QKeNGpGS9u8amGePpkW9WugqKW3l5mxIoZ7r676/2kdvxKz+bOTDx3/WKfhASgKg2AcImnM
- oGlEnMXV5+jTZHr7zOlXodLc8w/QONbyRKQPsPoalUjME6MLlOjnG7oFSBhVeGZmXjhykmvkS
- /zVlRecwyoRlfK4nhetLgEoTJcCW7EBzqHwE+wXTu7v2LwAdWxjOfKGQ+IuUrGhY4hgPnWGfB
- ZjFuitrZAygkxshAHIKvU7AYcLQuqdtiixawmsBm2v+hAxS6/hIJqv33D0bs4EkibsjHau1Re
- xI00dALpivDLE41I9CoKRsjMu0RayrQueLE4muHw8an+CmgHh0w5nByQBEDhe3svgJoWNeahn
- W+DyLnIAk/GmDFUL132ennQk550sXp1LJ1s1BMjpqoj5yaaNMVHAZxfUHMUEIPBmZo5roPNaZ
- Qn1cLsUJI4NQsITSJRKKlplwHy49f6pZz/z1GWL/8LWj1uPUf7f8TK7Q7zlvhdJ4TLQVE2qsh
- zhErq8JpHBSNAQXDITuaQf1h1wvec1ZLBJOA84wiCTenfmdBQVrzbOeRTBG/NgDxBmFvmtARt
- jSjvM2DMiveo8XkhYzmkhAzAnk+fKPDWiESrbqqR9QXV9GJ51rlT2qqbfCS98yU5ufUwrSGr8
- CH7T2nKTSqCB1CUizRqA3twkesytshPZ8mKCLqro6rSTycQk3y7izhEfFPjecBR5u+7sdUydP
- f0UALtpoks/uFje2tsH1pl6tvq2f6z6MPWfh8I0Z0TohtF0DYOqtYwt1F8JfwVdm31LMtIOQx
- +23v94pNBUa1P+g==
+X-Provags-ID: V03:K1:sn1ot5ai8XeaL/89KCler/Rs3uJrE0PR1g724o0RdXoxIXUPrsX
+ MJ/WAmVaPS6kpwaZZwvZbMt91nqaNpXiDH2oMKDhFUV7Qi9X1twj5fE8P+lxxaSnZVAA2hf
+ dfz3gh2Rr/FblitVeKQRrAmxd0KRI5PoNzVMqINZ7x1Xv1KZV+GWpPq21UAdIVi6cH/VfpB
+ TGbL5luNi3EIkd3zne5aQ==
+UI-OutboundReport: notjunk:1;M01:P0:fEpoDGgtNBU=;+bZwjM/frwCqtBmHOcPYSQe61pO
+ NDS6ZDqvVmqUreyBolHdUnDDgS8pJUxv+Ztphpg9adfSHWu/3f/QELTT1mbLwswf/Zg41Yju0
+ yE6nWn4vwUoyNgDtXuOKc0U6Waz49FzCAb8ioZ0vr5n+Z2G7ijyT8PRJG7Q92+IY+TI7hc8Xs
+ /WH0sulU2QOL1i6MgnnR+YK0GppmAULEcGyVSUL6XGhWnV2L9hgtippkjgHzUA5o+1DNY5rD6
+ W7hG0F4l4PfIUu77mc/RgiaMXnsDg/i95UtcP35Hq0MD/KjCZrQV0hGIHV/BgwlDlAQ49HiVe
+ alIjbGzokjpf9bhSD/ETRDd7G8xwmAnPnFjBTQU421t6nHqfQxqN2f+BsQBpDK/3VIFCvWgw4
+ LPHoKJ0EFWNbXDFrhih4WC/fSeUToFm2GQ0zv7Den0R4cLw0dlFGRB1Qf6KsGjGsJI1XyqJCm
+ jMcYHxoCW5czCoRSaYshfeq9t0jhsCE9S0DqcOVmif2EzsWfkiwMo0892ioRW1IYqpvqyRxlT
+ ZA5L7mI/OAx34I+pQGJBrZgAVE8adogYhT+YEbFAFG+V+Vwn8aY40/55NOqOWJgmZDwHjcXW6
+ nilVKl06UZ+5G6l2oZ8pXScjLnAPvgs1RfROvd8tC/a0t7BAgUQAiNNtOF1Zy3O65EuGSd+50
+ KbaSghzHRlMiWaMb7/v+Q+a71MBOwEVwFhAiatnDB5JKUJ+w4PayOi3zrGPN1qx/OWgqqlCYT
+ MTKRUUxc9dNfyx2E3x6h2V98wyNr5VEoGXfHIjjMH1wl7tJ/5soGaTYWcLBAW3UBwJakDtMqX
+ cIV1FPufV7eVGxLDAwUYyU58N2+VrcBPqpbj18u0ZQN+vi5Xxsgi2KOT+NMzeRvcw2nWCqEYX
+ dGwP1JZv5Hw3R/A==
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
@@ -79,117 +82,224 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
---QkuvX0QpVWqifrVt
+--uEI2BuDe0NhIfEtZ
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat 29 Jul 2023 23:38:14 GMT, Masahiro Yamada wrote:
-> debian/rules is generated by shell scripting, but the escape sequence
-> (\$) is unreadable.
+On Fri 28 Jul 2023 12:34:13 GMT, Will Deacon wrote:
+> To prepare for 'faddr2line' reusing the same ignored symbols list as
+> 'mksysmap', factor out the relevant sed expression into its own script,
+> removing the double-escapes for '$' symbols as they are no longer
+> required.
 >=20
-> debian/rules embeds only two variables (ARCH and KERNELRELEASE).
->=20
-> Split them out to debian/rules.vars, and check-in the rest of Makefile
-> code to scripts/package/debian/rules.
->=20
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Cc: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: Nicolas Schier <nicolas@fjasle.eu>
+> Cc: Josh Poimboeuf <jpoimboe@kernel.org>
+> Cc: John Stultz <jstultz@google.com>
+> Cc: linux-kbuild@vger.kernel.org
+> Signed-off-by: Will Deacon <will@kernel.org>
 > ---
->=20
->  scripts/package/debian/rules | 28 ++++++++++++++++++++++++++++
->  scripts/package/mkdebian     | 32 ++++----------------------------
->  2 files changed, 32 insertions(+), 28 deletions(-)
->  create mode 100755 scripts/package/debian/rules
->=20
-> diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
-> new file mode 100755
-> index 000000000000..a4e5ab5abdd9
-> --- /dev/null
-> +++ b/scripts/package/debian/rules
-> @@ -0,0 +1,28 @@
-> +#!/usr/bin/make -f
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +srctree ?=3D .
-> +
-> +include debian/rules.vars
-> +
-> +.PHONY: binary binary-indep binary-arch
-> +binary: binary-arch binary-indep
-> +binary-indep: build-indep
-> +binary-arch: build-arch
-> +	$(MAKE) -f $(srctree)/Makefile ARCH=3D$(ARCH) \
-> +	KERNELRELEASE=3D$(KERNELRELEASE) \
-> +	run-command KBUILD_RUN_COMMAND=3D+$(srctree)/scripts/package/builddeb
-> +
-> +.PHONY: build build-indep build-arch
-> +build: build-arch build-indep
-> +build-indep:
-> +build-arch:
-> +	$(MAKE) -f $(srctree)/Makefile ARCH=3D$(ARCH) \
-> +	KERNELRELEASE=3D$(KERNELRELEASE) \
-> +	$(shell $(srctree)/scripts/package/deb-build-option) \
-> +	olddefconfig all
-> +
-> +.PHONY: clean
-> +clean:
-> +	rm -rf debian/files debian/linux-*
-> +	$(MAKE) -f $(srctree)/Makefile ARCH=3D${ARCH} clean
 
-possibly use '$(ARCH)' instead of '${ARCH}' here, too?
+Thanks!
 
-
-Tested-by: Nicolas Schier <nicolas@fjasle.eu>
 Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
-> diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-> index 2829f5b8aea6..498b579c6320 100755
-> --- a/scripts/package/mkdebian
-> +++ b/scripts/package/mkdebian
-> @@ -263,35 +263,11 @@ Description: Linux kernel debugging symbols for $ve=
-rsion
->  EOF
->  fi
+>  scripts/mksysmap                | 77 +--------------------------------
+>  scripts/sysmap-ignored-syms.sed | 74 +++++++++++++++++++++++++++++++
+>  2 files changed, 75 insertions(+), 76 deletions(-)
+>  create mode 100644 scripts/sysmap-ignored-syms.sed
+>=20
+> diff --git a/scripts/mksysmap b/scripts/mksysmap
+> index 9ba1c9da0a40..a98b34363258 100755
+> --- a/scripts/mksysmap
+> +++ b/scripts/mksysmap
+> @@ -16,7 +16,7 @@
+>  # 'W' or 'w'.
+>  #
 > =20
-> -cat <<EOF > debian/rules
-> -#!/usr/bin/make -f
+> -${NM} -n ${1} | sed >${2} -e "
+> +${NM} -n ${1} | sed >${2} -f $(dirname $0)/sysmap-ignored-syms.sed -e "
+>  # ----------------------------------------------------------------------=
+-----
+>  # Ignored symbol types
+>  #
+> @@ -27,81 +27,6 @@ ${NM} -n ${1} | sed >${2} -e "
+>  # w: local weak symbols
+>  / [aNUw] /d
+> =20
+> -# ----------------------------------------------------------------------=
+-----
+> -# Ignored prefixes
+> -#  (do not forget a space before each pattern)
 > -
-> -srctree ?=3D .
-> +cat <<EOF > debian/rules.vars
-> +ARCH =3D ${ARCH}
->  KERNELRELEASE =3D ${KERNELRELEASE}
+> -# local symbols for ARM, MIPS, etc.
+> -/ \\$/d
 > -
-> -.PHONY: clean build build-arch build-indep binary binary-arch binary-ind=
-ep
+> -# local labels, .LBB, .Ltmpxxx, .L__unnamed_xx, .LASANPC, etc.
+> -/ \.L/d
 > -
-> -build-indep:
-> -build-arch:
-> -	\$(MAKE) -f \$(srctree)/Makefile ARCH=3D${ARCH} \
-> -	KERNELRELEASE=3D\$(KERNELRELEASE) \
-> -	\$(shell \$(srctree)/scripts/package/deb-build-option) \
-> -	olddefconfig all
+> -# arm64 EFI stub namespace
+> -/ __efistub_/d
 > -
-> -build: build-arch
+> -# arm64 local symbols in PIE namespace
+> -/ __pi_\\$/d
+> -/ __pi_\.L/d
 > -
-> -binary-indep:
-> -binary-arch: build-arch
-> -	\$(MAKE) -f \$(srctree)/Makefile ARCH=3D${ARCH} \
-> -	KERNELRELEASE=3D\$(KERNELRELEASE) \
-> -	run-command KBUILD_RUN_COMMAND=3D+\$(srctree)/scripts/package/builddeb
+> -# arm64 local symbols in non-VHE KVM namespace
+> -/ __kvm_nvhe_\\$/d
+> -/ __kvm_nvhe_\.L/d
 > -
-> -clean:
-> -	rm -rf debian/files debian/linux-*
-> -	\$(MAKE) -f \$(srctree)/Makefile ARCH=3D${ARCH} clean
+> -# arm64 lld
+> -/ __AArch64ADRPThunk_/d
 > -
-> -binary: binary-arch
->  EOF
-> -chmod +x debian/rules
+> -# arm lld
+> -/ __ARMV5PILongThunk_/d
+> -/ __ARMV7PILongThunk_/d
+> -/ __ThumbV7PILongThunk_/d
+> -
+> -# mips lld
+> -/ __LA25Thunk_/d
+> -/ __microLA25Thunk_/d
+> -
+> -# CFI type identifiers
+> -/ __kcfi_typeid_/d
+> -/ __kvm_nvhe___kcfi_typeid_/d
+> -/ __pi___kcfi_typeid_/d
+> -
+> -# CRC from modversions
+> -/ __crc_/d
+> -
+> -# EXPORT_SYMBOL (symbol name)
+> -/ __kstrtab_/d
+> -
+> -# EXPORT_SYMBOL (namespace)
+> -/ __kstrtabns_/d
+> -
+> -# ----------------------------------------------------------------------=
+-----
+> -# Ignored suffixes
+> -#  (do not forget '$' after each pattern)
+> -
+> -# arm
+> -/_from_arm$/d
+> -/_from_thumb$/d
+> -/_veneer$/d
+> -
+> -# ----------------------------------------------------------------------=
+-----
+> -# Ignored symbols (exact match)
+> -#  (do not forget a space before and '$' after each pattern)
+> -
+> -# for LoongArch?
+> -/ L0$/d
+> -
+> -# ppc
+> -/ _SDA_BASE_$/d
+> -/ _SDA2_BASE_$/d
+> -
+> -# ----------------------------------------------------------------------=
+-----
+> -# Ignored patterns
+> -#  (symbols that contain the pattern are ignored)
+> -
+> -# ppc stub
+> -/\.long_branch\./d
+> -/\.plt_branch\./d
+> -
+>  # ----------------------------------------------------------------------=
+-----
+>  # Ignored kallsyms symbols
+>  #
+> diff --git a/scripts/sysmap-ignored-syms.sed b/scripts/sysmap-ignored-sym=
+s.sed
+> new file mode 100644
+> index 000000000000..14b9eb2c9ed9
+> --- /dev/null
+> +++ b/scripts/sysmap-ignored-syms.sed
+> @@ -0,0 +1,74 @@
+> +# ----------------------------------------------------------------------=
+-----
+> +# Ignored prefixes
+> +#  (do not forget a space before each pattern)
 > +
-> +cp ${srctree}/scripts/package/debian/rules debian/
-> =20
->  exit 0
+> +# local symbols for ARM, MIPS, etc.
+> +/ \$/d
+> +
+> +# local labels, .LBB, .Ltmpxxx, .L__unnamed_xx, .LASANPC, etc.
+> +/ \.L/d
+> +
+> +# arm64 EFI stub namespace
+> +/ __efistub_/d
+> +
+> +# arm64 local symbols in PIE namespace
+> +/ __pi_\$/d
+> +/ __pi_\.L/d
+> +
+> +# arm64 local symbols in non-VHE KVM namespace
+> +/ __kvm_nvhe_\$/d
+> +/ __kvm_nvhe_\.L/d
+> +
+> +# arm64 lld
+> +/ __AArch64ADRPThunk_/d
+> +
+> +# arm lld
+> +/ __ARMV5PILongThunk_/d
+> +/ __ARMV7PILongThunk_/d
+> +/ __ThumbV7PILongThunk_/d
+> +
+> +# mips lld
+> +/ __LA25Thunk_/d
+> +/ __microLA25Thunk_/d
+> +
+> +# CFI type identifiers
+> +/ __kcfi_typeid_/d
+> +/ __kvm_nvhe___kcfi_typeid_/d
+> +/ __pi___kcfi_typeid_/d
+> +
+> +# CRC from modversions
+> +/ __crc_/d
+> +
+> +# EXPORT_SYMBOL (symbol name)
+> +/ __kstrtab_/d
+> +
+> +# EXPORT_SYMBOL (namespace)
+> +/ __kstrtabns_/d
+> +
+> +# ----------------------------------------------------------------------=
+-----
+> +# Ignored suffixes
+> +#  (do not forget '$' after each pattern)
+> +
+> +# arm
+> +/_from_arm$/d
+> +/_from_thumb$/d
+> +/_veneer$/d
+> +
+> +# ----------------------------------------------------------------------=
+-----
+> +# Ignored symbols (exact match)
+> +#  (do not forget a space before and '$' after each pattern)
+> +
+> +# for LoongArch?
+> +/ L0$/d
+> +
+> +# ppc
+> +/ _SDA_BASE_$/d
+> +/ _SDA2_BASE_$/d
+> +
+> +# ----------------------------------------------------------------------=
+-----
+> +# Ignored patterns
+> +#  (symbols that contain the pattern are ignored)
+> +
+> +# ppc stub
+> +/\.long_branch\./d
+> +/\.plt_branch\./d
 > --=20
-> 2.39.2
+> 2.41.0.487.g6d72f3e995-goog
 
 --=20
 Nicolas Schier
@@ -198,24 +308,24 @@ epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
 =E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
      -- frykten for herren er opphav til kunnskap --
 
---QkuvX0QpVWqifrVt
+--uEI2BuDe0NhIfEtZ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmTFV28ACgkQB1IKcBYm
-EmnIkQ/7BduSX3gN7+L0G7MMt4WSSRThiZNV5uUKKOVuukNYBppdXBer4Y0/VCTa
-LD1D3lvCkvl5rTUlR9lp/J2wJKMb9zsHnV7BNPnTWxTJgHm0+dA8/5+yEIfevIqw
-t2TMlEr7zxUvRwPokZP2QtmbFLFf6wqvLZP9rC3QbPaZagdyk4eOhsg7pXH9QJsO
-O5C+4yn2hMlhbspASdDc3yOLOZlzdJr+sGXs563qBc4DtjzXUXgCknC47Cl24fH/
-ySUq8jPOQZoAD+T8kYBIZe23yIJV7usLhmRm4NC4obwlLOZ+NoRUikCPwW3jYXuc
-iMDqg67Y4fgDd2QtqHfRGmiU2SG4TRpTS4oJYsXrXGulhKRcEymqqJs6tvSVA5Kz
-qdHOy43AiEg5c6rf3WaUBocxYUNqitG+SX3Bfxrj99WJleLNtWkNcQkPmSiI0Bnp
-JnRqA80XQhFJowtA+xkMrYeNNJ8FC3HeIr/8hdDMPlKiN/S1XxylVHOcQaLDzMct
-z2tQcby3jhdtIS/axMUn4Y+WfIiQIYa1VecOMF5vuB/s35N12JMBBng9dBU7JBIc
-Vi9PvGdvLD4PG2c/dS+55hgJEFtkQIUf73UujOd6tTYvePpwqoimmdw3RR6eUyww
-zaBNk+YpDkwP42Skb2n10O5lHHttraT3kio3Z/5I/tbrzKZaWUk=
-=Ohj/
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmTFXJQACgkQB1IKcBYm
+Emk1Gw/9EYXfT0XE/B7XsUjGx3hzto6hXf9K+guZgs9r8kwPtnUqOEM1mAXmcvXS
+0bTKEAG5+m9rpv6qC8by/BJUsErQpECczjleG5g/gPMe3yiOR7UwFquVNArkO/zt
+uVaSeuHUghum6GINfk4zuhLTY7E8D2BYA/OAyHiWVN55NKU0Y6Y0TlQwydH395eo
+51vtrGOUEFvdVWpwsHBYF3FThGYN1QSSSGOQHJ4T4vramFvJ6wtjKmJksWdfs7ro
+EOA1iOriiKAI6g5DvuEZv+M7G6KG/+5VaaGVuUwgXKMHhccbJ9xXiaaNK9HkG3px
+aPDs3/UkhRAv0am99kh2e2XqrMDRqTdCfWbjcKitcFFjT9Vb49r2tiG1sQWLlSt0
+w737xFGUB0GE+GnpuFQ/DJeH61OapiznM25W6MqxhAlk/jMvGH2z27z0R4fTYymR
+FbCrMo12pIT7lAkU9mOj1WUlefXiZQev7nXlTKchCsRB4RkqnaLoyoa+GKh2itN2
+h21K785HAIMvfCVh2kYUM2OcG83JWA1Ec7+XiivfGMs/J3dhKJ/B8UPL4k/tH+SD
+X3+3PLAiS/FtedgfezCfk8jmz+6z2MwogyBgSQJx9YIkjdQGhjLoaRn/jA5rOgik
+bcZheNABglL1d8MBULMpFTsu9RbuC3rBhFLklouEPdzTEh9HPGs=
+=u62f
 -----END PGP SIGNATURE-----
 
---QkuvX0QpVWqifrVt--
+--uEI2BuDe0NhIfEtZ--
