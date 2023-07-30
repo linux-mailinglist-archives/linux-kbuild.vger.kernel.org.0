@@ -2,137 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C1467681FA
-	for <lists+linux-kbuild@lfdr.de>; Sat, 29 Jul 2023 23:42:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2008E768362
+	for <lists+linux-kbuild@lfdr.de>; Sun, 30 Jul 2023 03:50:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229539AbjG2VmC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 29 Jul 2023 17:42:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37786 "EHLO
+        id S229483AbjG3BuG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 29 Jul 2023 21:50:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229504AbjG2VmB (ORCPT
+        with ESMTP id S229448AbjG3BuG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 29 Jul 2023 17:42:01 -0400
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DB6093
-        for <linux-kbuild@vger.kernel.org>; Sat, 29 Jul 2023 14:41:58 -0700 (PDT)
-Date:   Sat, 29 Jul 2023 21:41:51 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail3; t=1690666916; x=1690926116;
-        bh=ayP6Lyd6vT/OxN20N2dQ1W7dWvfMQN5QQ+y6w2FEL6Q=;
-        h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-         Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-        b=G60o1xdPn+JjOOgIzmI861dk2YeVZJ39YNneJhBKhlRLWSzwZgCKj9wgED7B0RKMA
-         z1OxEZW+259UrII6jmqU7DG1xbnjdpl90TFCKkOEfluj2IzBDi8W+9jCqQnezkhNYt
-         F9TCQHKjDpkQqU/2fj/e9t2Fh9uEuRJLI4MJVy0R23N2ZTWEDrk2WxgRjlEIab9H5/
-         Dnv9lNP7L8wPYpKmTg3QsDLyvNHTEKw78suejQklUbY/aMi3plT824ZAdui9A8HWYl
-         KzDVr3RzDGFY6f01jhCmtY1iYITdVZojIt0BBz/0Ls56/nD2LE1XYFfEpr8jcpamL4
-         RAcyE3JxhJFvA==
-To:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-From:   Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Cc:     Rahul Rameshbabu <sergeantsagara@protonmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH] scripts: merge_config: Add flag to prevent unsetting config option
-Message-ID: <20230729214138.79902-1-sergeantsagara@protonmail.com>
-Feedback-ID: 26003777:user:proton
+        Sat, 29 Jul 2023 21:50:06 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BA6A2134;
+        Sat, 29 Jul 2023 18:50:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=NbwbCQT8KMNRIPvq+q9lapcQ2h0sWsXj0fj9zqMOVKI=; b=O3JWKw4XNWjyAbDPQmLJilCOgX
+        eCSDsaDMyaSYoP1ehB6ebHPhygQWZsuv/uXlyeuu2uLa1dyCtL/nWtdlrNuKUsRDkW+fNQoWxYLPB
+        eyEmWr94Eqj5+vKictOKFtZM40gWI9jyNgbrEZY0WUnck1Z9MVyhmT8mmqNT0u7Ay+MGs9boK7eV5
+        +U885x4QsoQ9LaKaL36Al+sdqfhHvpSWDx+nHrfc+1BlHXcPvW7hRD0sAq0tfXC2n2A/05KKzF+Ee
+        9ZzZpNYDBYq95yoP+VGJPBQAflx5UPkEJ1L+zv35zRvS73LPNF6DRK2Qrd8fY2CwSJT+B1SUCtPOy
+        rcVDzpmQ==;
+Received: from [2601:1c2:980:9ec0:e65e:37ff:febd:ee53]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qPvZI-009Xez-06;
+        Sun, 30 Jul 2023 01:50:00 +0000
+Message-ID: <1c4b9496-2ac3-d271-0ef9-0c0979da55ae@infradead.org>
+Date:   Sat, 29 Jul 2023 18:49:58 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_MSPIKE_H5,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] alpha: remove __init annotation from exported
+ page_is_ram()
+Content-Language: en-US
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Chen Gong <gong.chen@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>
+References: <20230729074223.1457109-1-masahiroy@kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230729074223.1457109-1-masahiroy@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Overriding a previously defined entry for a config option with 'is not set'
-may be undesirable in some fragment configuration setups. Provide a flag to
-change the behavior, so 'is not set' is not overridden when a previous
-value for the same config option already exists.
-
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Rahul Rameshbabu <sergeantsagara@protonmail.com>
----
- scripts/kconfig/merge_config.sh | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
-
-diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_config=
-.sh
-index 902eb429b9db..bbe235f2df70 100755
---- a/scripts/kconfig/merge_config.sh
-+++ b/scripts/kconfig/merge_config.sh
-@@ -30,6 +30,7 @@ usage() {
- =09echo "  -O    dir to put generated output files.  Consider setting \$KC=
-ONFIG_CONFIG instead."
- =09echo "  -s    strict mode. Fail if the fragment redefines any value."
- =09echo "  -Q    disable warning messages for overridden options."
-+=09echo "  -N    not set entries in fragments will not override options."
- =09echo
- =09echo "Used prefix: '$CONFIG_PREFIX'. You can redefine it with \$CONFIG_=
- environment variable."
- }
-@@ -42,6 +43,7 @@ OUTPUT=3D.
- STRICT=3Dfalse
- CONFIG_PREFIX=3D${CONFIG_-CONFIG_}
- WARNOVERRIDE=3Decho
-+OVERRIDENOTSET=3Dtrue
-=20
- while true; do
- =09case $1 in
-@@ -89,6 +91,11 @@ while true; do
- =09=09shift
- =09=09continue
- =09=09;;
-+=09"-N")
-+=09=09OVERRIDENOTSET=3Dfalse
-+=09=09shift
-+=09=09continue
-+=09=09;;
- =09*)
- =09=09break
- =09=09;;
-@@ -143,13 +150,20 @@ for ORIG_MERGE_FILE in $MERGE_LIST ; do
- =09=09grep -q -w $CFG $TMP_FILE || continue
- =09=09PREV_VAL=3D$(grep -w $CFG $TMP_FILE)
- =09=09NEW_VAL=3D$(grep -w $CFG $MERGE_FILE)
--=09=09BUILTIN_FLAG=3Dfalse
--=09=09if [ "$BUILTIN" =3D "true" ] && [ "${NEW_VAL#CONFIG_*=3D}" =3D "m" ]=
- && [ "${PREV_VAL#CONFIG_*=3D}" =3D "y" ]; then
-+=09=09NO_OVERRIDE_FLAG=3Dfalse
-+=09=09if [ "$OVERRIDENOTSET" =3D "false" ] && [ "${NEW_VAL#\# CONFIG_* }" =
-=3D "is not set" ] &&
-+=09=09=09   [ "$PREV_VAL" !=3D "" ] && [ "${PREV_VAL#\# CONFIG_* }" !=3D "=
-is not set" ]; then
-+=09=09=09${WARNOVERRIDE} Previous  value: $PREV_VAL
-+=09=09=09${WARNOVERRIDE} New value:       $NEW_VAL
-+=09=09=09${WARNOVERRIDE} -N passed, will not unset option
-+=09=09=09${WARNOVERRIDE}
-+=09=09=09NO_OVERRIDE_FLAG=3Dtrue
-+=09=09elif [ "$BUILTIN" =3D "true" ] && [ "${NEW_VAL#CONFIG_*=3D}" =3D "m"=
- ] && [ "${PREV_VAL#CONFIG_*=3D}" =3D "y" ]; then
- =09=09=09${WARNOVERRIDE} Previous  value: $PREV_VAL
- =09=09=09${WARNOVERRIDE} New value:       $NEW_VAL
- =09=09=09${WARNOVERRIDE} -y passed, will not demote y to m
- =09=09=09${WARNOVERRIDE}
--=09=09=09BUILTIN_FLAG=3Dtrue
-+=09=09=09NO_OVERRIDE_FLAG=3Dtrue
- =09=09elif [ "x$PREV_VAL" !=3D "x$NEW_VAL" ] ; then
- =09=09=09${WARNOVERRIDE} Value of $CFG is redefined by fragment $ORIG_MERG=
-E_FILE:
- =09=09=09${WARNOVERRIDE} Previous  value: $PREV_VAL
-@@ -161,7 +175,7 @@ for ORIG_MERGE_FILE in $MERGE_LIST ; do
- =09=09elif [ "$WARNREDUN" =3D "true" ]; then
- =09=09=09${WARNOVERRIDE} Value of $CFG is redundant by fragment $ORIG_MERG=
-E_FILE:
- =09=09fi
--=09=09if [ "$BUILTIN_FLAG" =3D "false" ]; then
-+=09=09if [ "$NO_OVERRIDE_FLAG" =3D "false" ]; then
- =09=09=09sed -i "/$CFG[ =3D]/d" $TMP_FILE
- =09=09else
- =09=09=09sed -i "/$CFG[ =3D]/d" $MERGE_FILE
---=20
-2.40.1
 
 
+On 7/29/23 00:42, Masahiro Yamada wrote:
+> EXPORT_SYMBOL and __init is a bad combination because the .init.text
+> section is freed up after the initialization.
+> 
+> Commit c5a130325f13 ("ACPI/APEI: Add parameter check before error
+> injection") exported page_is_ram(), hence the __init annotation should
+> be removed.
+> 
+> This fixes the modpost warning in ARCH=alpha builds:
+> 
+>   WARNING: modpost: vmlinux: page_is_ram: EXPORT_SYMBOL used for init symbol. Remove __init or EXPORT_SYMBOL.
+> 
+> Fixes: c5a130325f13 ("ACPI/APEI: Add parameter check before error injection")
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+> 
+>  arch/alpha/kernel/setup.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/arch/alpha/kernel/setup.c b/arch/alpha/kernel/setup.c
+> index b650ff1cb022..3d7473531ab1 100644
+> --- a/arch/alpha/kernel/setup.c
+> +++ b/arch/alpha/kernel/setup.c
+> @@ -385,8 +385,7 @@ setup_memory(void *kernel_end)
+>  #endif /* CONFIG_BLK_DEV_INITRD */
+>  }
+>  
+> -int __init
+> -page_is_ram(unsigned long pfn)
+> +int page_is_ram(unsigned long pfn)
+>  {
+>  	struct memclust_struct * cluster;
+>  	struct memdesc_struct * memdesc;
+
+-- 
+~Randy
