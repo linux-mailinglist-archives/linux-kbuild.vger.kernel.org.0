@@ -2,161 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37E9B76B49D
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Aug 2023 14:19:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E603E76B6CC
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Aug 2023 16:07:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231883AbjHAMTf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Aug 2023 08:19:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35408 "EHLO
+        id S234491AbjHAOHf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 1 Aug 2023 10:07:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231861AbjHAMTe (ORCPT
+        with ESMTP id S234492AbjHAOHQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Aug 2023 08:19:34 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70B9E10C7;
-        Tue,  1 Aug 2023 05:19:33 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        Tue, 1 Aug 2023 10:07:16 -0400
+Received: from codesynthesis.com (codesynthesis.com [188.40.148.39])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D48C02737;
+        Tue,  1 Aug 2023 07:06:53 -0700 (PDT)
+Received: from brak.codesynthesis.com (unknown [105.186.254.141])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0D69F6156E;
-        Tue,  1 Aug 2023 12:19:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31E18C433CB;
-        Tue,  1 Aug 2023 12:19:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690892372;
-        bh=LQfUhgeCTIA1TBt0YiYgR0RGh/RTGs1s07+mMDc0Zjo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ea2xTEDtDivpFGYTa8gdTKR1KB3yVZ+DO0nEvgQLt1MR+wReXyiLVLz6O7+smjYip
-         BmJlP/YXccsWA1/EfjlybCt7Uw7nlmEvoq74UBVrt/Pt0NvGYEbyW3aVM2OWcT5rZ+
-         KgkGdcbnl9sAjw3zubcMaLG6uqVfBkhKa/+jLmxfNQmLg+Q2L+5wOHjDElI2a7R/PG
-         uHabW6qhAxcLsTk8lo+/6yMlEY/oWgPW7P00YhQOE2SYACIwtYdqlSNVsT7x9QOHmf
-         7BjLZBY/5cHlYKJwjpQKUvXbYdp6q467EtcXFJz678B/2THwpZKwg2TweEurGsV60N
-         gDmFHsWqKL02Q==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH v2 2/2] kbuild: deb-pkg: split debian/rules
-Date:   Tue,  1 Aug 2023 21:19:26 +0900
-Message-Id: <20230801121926.1677205-2-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230801121926.1677205-1-masahiroy@kernel.org>
-References: <20230801121926.1677205-1-masahiroy@kernel.org>
+        by codesynthesis.com (Postfix) with ESMTPSA id A3B2260C40;
+        Tue,  1 Aug 2023 14:06:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codesynthesis.com;
+        s=mail1; t=1690898811;
+        bh=xVggXhNc2Ajzm0Bx4WEAG+Q+rNDr2mVgRoC0ifaCs3Q=;
+        h=From:To:Subject:Date:Message-Id:MIME-Version:From;
+        b=VpM5oZhfBevNTsP9Z287jSlUnVjOwM9iGNK57odLd0kA51rFYP3jDCb+5fZ+XEeD/
+         833sqLqFZAGZA1oKVmrhoK/ovBLyq6q9q4/zymPmEPtEBApNIhzD8v3UPojQ6AOUvz
+         UsIw0VvnWL5Vjy06h0/X0vd6N0zjh9Min331ocC9WIxO4q1Bn9xdMie3+Aab0R2AxN
+         aWRSzozZhJqUNJODHxlkDwSPVpFskMdgKSbtYe5Qcftn/JZyI4VtpwvD9cp7nVPw3H
+         8f0Pa4ersG5YyISDodq9Ez9HpsXnEeNY6xs1clyaAjp/pfmhNlQhYzYtj5ATKd1LNq
+         tAT8Hdr2zwxtA==
+Received: by brak.codesynthesis.com (Postfix, from userid 1000)
+        id C5EED1457E0; Tue,  1 Aug 2023 16:07:19 +0200 (SAST)
+From:   Boris Kolpackov <boris@codesynthesis.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Boris Kolpackov <boris@codesynthesis.com>
+Subject: [PATCH v2 0/1] kconfig: port qconf to work with Qt6 in addition to Qt5
+Date:   Tue,  1 Aug 2023 16:06:56 +0200
+Message-Id: <20230801140657.1324086-1-boris@codesynthesis.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-debian/rules is generated by shell, but the escape sequence (\$) is
-unreadable.
+This patch ports qconf to work with Qt6 in addition to latest Qt5. Tested
+with Qt5 5.15 and Qt6 6.4. Note that earlier versions of Qt5 are no longer
+guaranteed to work.
 
-debian/rules embeds only two variables (ARCH and KERNELRELEASE).
+Compared to the v1 patch version, v2 also changes qconf-cfg.sh to first look
+for Qt6 and fallback to Qt5.
 
-Split them out to debian/rules.vars, and check-in the rest of Makefile
-code to scripts/package/debian/rules.
+Signed-off-by: Boris Kolpackov <boris@codesynthesis.com>
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+Boris Kolpackov (1):
+  kconfig: port qconf to work with Qt6 in addition to Qt5
 
-Changes in v2:
-  - Change ${MAKE} to $(MAKE) for consistency
-  - Fix shellcheck warning
+ scripts/kconfig/qconf-cfg.sh | 23 ++++++++++++++-------
+ scripts/kconfig/qconf.cc     | 40 +++++++++++++++++++++++-------------
+ 2 files changed, 42 insertions(+), 21 deletions(-)
 
- scripts/package/debian/rules | 28 ++++++++++++++++++++++++++++
- scripts/package/mkdebian     | 34 +++++-----------------------------
- 2 files changed, 33 insertions(+), 29 deletions(-)
- create mode 100755 scripts/package/debian/rules
-
-diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
-new file mode 100755
-index 000000000000..226e127efd63
---- /dev/null
-+++ b/scripts/package/debian/rules
-@@ -0,0 +1,28 @@
-+#!/usr/bin/make -f
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+include debian/rules.vars
-+
-+srctree ?= .
-+
-+.PHONY: binary binary-indep binary-arch
-+binary: binary-arch binary-indep
-+binary-indep: build-indep
-+binary-arch: build-arch
-+	$(MAKE) -f $(srctree)/Makefile ARCH=$(ARCH) \
-+	KERNELRELEASE=$(KERNELRELEASE) \
-+	run-command KBUILD_RUN_COMMAND=+$(srctree)/scripts/package/builddeb
-+
-+.PHONY: build build-indep build-arch
-+build: build-arch build-indep
-+build-indep:
-+build-arch:
-+	$(MAKE) -f $(srctree)/Makefile ARCH=$(ARCH) \
-+	KERNELRELEASE=$(KERNELRELEASE) \
-+	$(shell $(srctree)/scripts/package/deb-build-option) \
-+	olddefconfig all
-+
-+.PHONY: clean
-+clean:
-+	rm -rf debian/files debian/linux-*
-+	$(MAKE) -f $(srctree)/Makefile ARCH=$(ARCH) clean
-diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-index 2829f5b8aea6..5044224cf671 100755
---- a/scripts/package/mkdebian
-+++ b/scripts/package/mkdebian
-@@ -263,35 +263,11 @@ Description: Linux kernel debugging symbols for $version
- EOF
- fi
- 
--cat <<EOF > debian/rules
--#!/usr/bin/make -f
--
--srctree ?= .
--KERNELRELEASE = ${KERNELRELEASE}
--
--.PHONY: clean build build-arch build-indep binary binary-arch binary-indep
--
--build-indep:
--build-arch:
--	\$(MAKE) -f \$(srctree)/Makefile ARCH=${ARCH} \
--	KERNELRELEASE=\$(KERNELRELEASE) \
--	\$(shell \$(srctree)/scripts/package/deb-build-option) \
--	olddefconfig all
--
--build: build-arch
--
--binary-indep:
--binary-arch: build-arch
--	\$(MAKE) -f \$(srctree)/Makefile ARCH=${ARCH} \
--	KERNELRELEASE=\$(KERNELRELEASE) \
--	run-command KBUILD_RUN_COMMAND=+\$(srctree)/scripts/package/builddeb
--
--clean:
--	rm -rf debian/files debian/linux-*
--	\$(MAKE) -f \$(srctree)/Makefile ARCH=${ARCH} clean
--
--binary: binary-arch
-+cat <<EOF > debian/rules.vars
-+ARCH := ${ARCH}
-+KERNELRELEASE := ${KERNELRELEASE}
- EOF
--chmod +x debian/rules
-+
-+cp "${srctree}/scripts/package/debian/rules" debian/
- 
- exit 0
--- 
-2.39.2
-
+--
+2.40.1
