@@ -2,161 +2,176 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7D5B76B9D6
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Aug 2023 18:42:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2CF276B9EF
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Aug 2023 18:51:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231862AbjHAQm1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Aug 2023 12:42:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34876 "EHLO
+        id S231674AbjHAQvN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 1 Aug 2023 12:51:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231899AbjHAQmZ (ORCPT
+        with ESMTP id S232050AbjHAQvM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Aug 2023 12:42:25 -0400
-Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B9D42108
-        for <linux-kbuild@vger.kernel.org>; Tue,  1 Aug 2023 09:42:23 -0700 (PDT)
-Received: by mail-qv1-xf32.google.com with SMTP id 6a1803df08f44-63cf4827630so26629166d6.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 01 Aug 2023 09:42:22 -0700 (PDT)
+        Tue, 1 Aug 2023 12:51:12 -0400
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B20882114
+        for <linux-kbuild@vger.kernel.org>; Tue,  1 Aug 2023 09:51:10 -0700 (PDT)
+Received: by mail-qk1-x730.google.com with SMTP id af79cd13be357-76cab6fe9c0so248500385a.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 01 Aug 2023 09:51:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1690908142; x=1691512942;
+        d=google.com; s=20221208; t=1690908670; x=1691513470;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7AXRcxN4X2nbD5LSU083hpEJi9dyUxKKAP9wUCW8Yqo=;
-        b=IFLycd+YUlQ7e7S9s6lp9S6XDT8KWx7Edj009JPHpiAomCCtUiVeD4c9cmYqdeWanD
-         s2IOab9PnwUwD4L6PdlvT4VMjnAIKuIuU5LGs+9FWS4V8u/qIl8HYzoTPIP2AErE79u/
-         FSDBM1tIUQg5EDNMR5YZwZmEzD1Ph/7u7+nL6KwReM8VYooWM+Hkp4Dh7sZO4qKGyiYZ
-         xsrNOnxyeV2yEJufXa626hq0XSlopUXzW6PLkDvLltPybskIoDb3N4fkeYnzIWRgZITW
-         NlxuF3ekD5VvqnNTGBPeF3Zo5gPb7ouJQcYvRCdNV/lt+W859Vk/ffOZxucwPZx6ztmo
-         p7AA==
+        bh=SzryMjySR1ilIQJogkpEiq4/HKuChL2WRfawPAgdQ7I=;
+        b=Ay6+nlDYEoqMNTybOc0KFFJlHBad2YSerfhdGyk+P162oTlZ4rSIxgYECnAFdPYfZC
+         QjG9FYti6+ZPqeC6KTIB9NN1mRHYa/iKXOjEaMPTqUHcxrKqTpCW564dIxBmXL//A8HB
+         MYYLwahJ9g/qa4y6sqbcgZzqyjvhy3P3TwvoWIiI/u6RAak/bqUI1YQutMdJSyEwSGZZ
+         3m53lbPQUWxVPY2WtnTQvN0setYnWeBP/AdbOKatEHphdtAPQYOU4yIEt+Dvw4fJbN4M
+         9SUWlcnv+BDLm5rqjYq9EzG4hsyBuRwioBV71s0xh0jrGkJ2LJLhD7KLn2h/XOJCN6Nc
+         apeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690908142; x=1691512942;
+        d=1e100.net; s=20221208; t=1690908670; x=1691513470;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7AXRcxN4X2nbD5LSU083hpEJi9dyUxKKAP9wUCW8Yqo=;
-        b=kHIHBatRSLAT/wDmklRIiMHnJ3gZqacxm39+sv7pz3UgArVGbdj84w8idL1gOsAo74
-         qzuiMJYzrKwoirelIRu0aLQK8OR859jLXNRIVN+EZg3y4gBHoz/6Rrf3XkoVAiXVjIL3
-         CWkCASoQCM39Th/iSApYss+GVyjFEmmk4HRKtUZzQNQkjGKTvw0iFw6dDPS3J+X+p+u+
-         U57snFLacHH0/WKTD+JSEYvmRGiRQ0TRNWXLY32rEI1IEOpI0L5/3ydDGKjVekWyQHzH
-         evwy8jnyzXMk/pux82F9afG7QxnZoTDbuwngRxeUwytqziocwD9vdcC3IFX3EgPMFmnE
-         4dLQ==
-X-Gm-Message-State: ABy/qLbUvbY0wCy7GEMaxkw6L3o0YhmqKh8oB0IZBd4zUvLsDL3ARqjY
-        t+fIjAObfPUr/mJzWgHsGNGj3saQxY+eM8RP3sNxTZPtM51HW9qRhTFZ9Q==
-X-Google-Smtp-Source: APBJJlFimWkkB+UHcacql4MfY2gMzddAHFvsKdoaX4FE0t3+ibG/83drylyfPYFBK598WQtUQzj3WppduOZn349kPCg=
-X-Received: by 2002:ad4:4382:0:b0:63c:f325:5aac with SMTP id
- s2-20020ad44382000000b0063cf3255aacmr9358248qvr.19.1690908141896; Tue, 01 Aug
- 2023 09:42:21 -0700 (PDT)
+        bh=SzryMjySR1ilIQJogkpEiq4/HKuChL2WRfawPAgdQ7I=;
+        b=eSYyCGidhKCdD3VSB2vZ9vJmU0op4iSE36EouRV1F9zYG7VTRnD8ER7rJWdIG9AuWD
+         lvuPcoxGmYwBeZL2lZAGTQy7msnq82Oll7/XMg+NFH/vYjD3bj2jrPUByYP5l9YaQdjX
+         opHImVLwXTGPVMYLGm0NKTF5ydB8kjEQTI64xo8uoMciGOACRLvygUoNM8cvQGKJjK8p
+         xrg22SXwFVKoNHTgqqV9b4XzRlVdwjM/S3Knv1/zOtmDco8c0noZEgwa5WJfCm94x2nP
+         jO6yHiqoIB88FZKgk0dkW5XjoChGhSZSkHyjQGyx/NhMYkPfICQSJqAeauaaXU8H4tbI
+         TXvQ==
+X-Gm-Message-State: ABy/qLZWPec773zUpYSEHKBO71foUBYDXCvg0t0DC0qPbDbEakTDFtFr
+        u1GGtAIt4DxVM8gyPv+nywza2kKniD1NZJFLbgxNLw==
+X-Google-Smtp-Source: APBJJlFz/6BADrSwtiTVvMZa6M/4XOaJ8DJhEWR8hoAe1oALta5l1GpWPAUhN9QLDVEAM35A+giuSxBF3BNpkqI8xCs=
+X-Received: by 2002:a05:6214:57cb:b0:63d:1aed:72ee with SMTP id
+ lw11-20020a05621457cb00b0063d1aed72eemr13837966qvb.64.1690908669745; Tue, 01
+ Aug 2023 09:51:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230728113415.21067-1-will@kernel.org> <20230728113415.21067-4-will@kernel.org>
-In-Reply-To: <20230728113415.21067-4-will@kernel.org>
+References: <20230728113415.21067-1-will@kernel.org> <20230728113415.21067-2-will@kernel.org>
+ <CAK7LNATaXbGb7w=5xHtpVdPwcpm3iMPfzooABpftah1Sdw7ooQ@mail.gmail.com>
+In-Reply-To: <CAK7LNATaXbGb7w=5xHtpVdPwcpm3iMPfzooABpftah1Sdw7ooQ@mail.gmail.com>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 1 Aug 2023 09:42:11 -0700
-Message-ID: <CAKwvOdnPWL7ts0PC_NxqxZZRgaT=WLZGQQ-3cVii-jG5GCNjfw@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] scripts/faddr2line: Constrain readelf output to
- symbols from System.map
-To:     Sami Tolvanen <samitolvanen@google.com>
+Date:   Tue, 1 Aug 2023 09:50:58 -0700
+Message-ID: <CAKwvOd=BPCoib2zcMnnuw-S9T52CGXvJ3MXyTawurV7x2P_XqQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] scripts/faddr2line: Use LLVM addr2line and readelf
+ if LLVM=1
+To:     Will Deacon <will@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
-        Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nicolas Schier <nicolas@fjasle.eu>,
         Josh Poimboeuf <jpoimboe@kernel.org>,
         John Stultz <jstultz@google.com>, linux-kbuild@vger.kernel.org,
-        Will Deacon <will@kernel.org>,
-        Fangrui Song <maskray@google.com>
+        clang-built-linux <llvm@lists.linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL,
-        USER_IN_DEF_SPF_WL autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        USER_IN_DEF_SPF_WL autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jul 28, 2023 at 4:34=E2=80=AFAM Will Deacon <will@kernel.org> wrote=
-:
+On Sat, Jul 29, 2023 at 1:48=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
 >
-> Some symbols emitted in the readelf output but filtered from System.map
-> can confuse the 'faddr2line' symbol size calculation, resulting in the
-> erroneous rejection of valid offsets. This is especially prevalent when
-> building an arm64 kernel with CONFIG_CFI_CLANG=3Dy, where most functions
-> are prefixed with a 32-bit data value in a '$d.n' section. For example:
->
-> 447538: ffff800080014b80   548 FUNC    GLOBAL DEFAULT    2 do_one_initcal=
-l
->    104: ffff800080014c74     0 NOTYPE  LOCAL  DEFAULT    2 $x.73
->    106: ffff800080014d30     0 NOTYPE  LOCAL  DEFAULT    2 $x.75
->    111: ffff800080014da4     0 NOTYPE  LOCAL  DEFAULT    2 $d.78
->    112: ffff800080014da8     0 NOTYPE  LOCAL  DEFAULT    2 $x.79
->     36: ffff800080014de0   200 FUNC    LOCAL  DEFAULT    2 run_init_proce=
-ss
+> On Fri, Jul 28, 2023 at 8:34=E2=80=AFPM Will Deacon <will@kernel.org> wro=
+te:
+> >
+> > GNU utilities cannot necessarily parse objects built by LLVM, which can
+> > result in confusing errors when using 'faddr2line':
+> >
+> > $ CROSS_COMPILE=3Daarch64-linux-gnu- ./scripts/faddr2line vmlinux do_on=
+e_initcall+0xf4/0x260
+> > aarch64-linux-gnu-addr2line: vmlinux: unknown type [0x13] section `.rel=
+r.dyn'
 
-Sami,
-Should we change the llvm-ir linkage type for these symbols from
-`internal` to `private`?
-https://llvm.org/docs/LangRef.html#linkage-types
+^ old GNU binutils missing support for RELR relocation format.
+https://maskray.me/blog/2021-10-31-relative-relocations-and-relr
 
-Then they would not appear in the symbol table.
+> > aarch64-linux-gnu-addr2line: DWARF error: invalid or unhandled FORM val=
+ue: 0x25
 
-At first, I thought other modules might need to directly reference
-this data, but with the local binding, I don't think they can.
+^ old GNU binutils missing support for DWARFv5
+
+I suppose if someone used a new GCC with an old binutils, they could
+observe the exact same errors.
+
+> > do_one_initcall+0xf4/0x260:
+> > aarch64-linux-gnu-addr2line: vmlinux: unknown type [0x13] section `.rel=
+r.dyn'
+> > aarch64-linux-gnu-addr2line: DWARF error: invalid or unhandled FORM val=
+ue: 0x25
+> > $x.73 at main.c:?
+> >
+> > Although this can be worked around by setting CROSS_COMPILE to "llvm=3D=
+-",
+> > it's cleaner to follow the same syntax as the top-level Makefile and
+> > accept LLVM=3D1 as an indication to use the llvm- tools.
+>
+>
+> Just a note.
+> The top Makefile accepts not only LLVM=3D1
+> but also LLVM=3D/usr/lib/llvm-16/bin/.
+> The latter is useful when you want to use
+> a particular version or a custom one.
+
+Ah, like LLVM_PREFIX/LLVM_SUFFIX a la
+commit e9c281928c24 ("kbuild: Make $(LLVM) more flexible")
+
+Then we could have both UTIL_PREFIX+UTIL_SUFFIX.
 
 >
-> Adding a warning to do_one_initcall() results in:
+> Another idea might be to use a generic '${prefix}'
+> as this is not hooked to the Makefile,
+> but I do not have a strong opinion.
 >
->   | WARNING: CPU: 0 PID: 1 at init/main.c:1236 do_one_initcall+0xf4/0x260
 >
-> Which 'faddr2line' refuses to accept:
 >
-> $ ./scripts/faddr2line vmlinux do_one_initcall+0xf4/0x260
-> skipping do_one_initcall address at 0xffff800080014c74 due to size mismat=
-ch (0x260 !=3D 0x224)
-> no match for do_one_initcall+0xf4/0x260
 >
-> Filter out entries from readelf using the 'sysmap-ignored-syms.sed'
-> script used to construct System.map, so that the size of a symbol is
-> calculated as a delta to the next symbol present in ksymtab.
+> >
+> > Cc: Josh Poimboeuf <jpoimboe@kernel.org>
+> > Cc: John Stultz <jstultz@google.com>
+> > Signed-off-by: Will Deacon <will@kernel.org>
+> > ---
+> >  scripts/faddr2line | 10 ++++++++--
+> >  1 file changed, 8 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/scripts/faddr2line b/scripts/faddr2line
+> > index 0e73aca4f908..62a3fa6f6f59 100755
+> > --- a/scripts/faddr2line
+> > +++ b/scripts/faddr2line
+> > @@ -58,8 +58,14 @@ die() {
+> >         exit 1
+> >  }
+> >
+> > -READELF=3D"${CROSS_COMPILE:-}readelf"
+> > -ADDR2LINE=3D"${CROSS_COMPILE:-}addr2line"
+> > +if [ "${LLVM:-}" =3D=3D "1" ]; then
+> > +       UTIL_PREFIX=3Dllvm-
+> > +else
+> > +       UTIL_PREFIX=3D${CROSS_COMPILE:-}
+> > +fi
+> > +
+> > +READELF=3D"${UTIL_PREFIX}readelf"
+> > +ADDR2LINE=3D"${UTIL_PREFIX}addr2line"
+> >  AWK=3D"awk"
+> >  GREP=3D"grep"
+> >
+> > --
+> > 2.41.0.487.g6d72f3e995-goog
+> >
 >
-> Cc: Josh Poimboeuf <jpoimboe@kernel.org>
-> Cc: John Stultz <jstultz@google.com>
-> Signed-off-by: Will Deacon <will@kernel.org>
-> ---
->  scripts/faddr2line | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/scripts/faddr2line b/scripts/faddr2line
-> index 62a3fa6f6f59..da734af90036 100755
-> --- a/scripts/faddr2line
-> +++ b/scripts/faddr2line
-> @@ -64,6 +64,7 @@ else
->         UTIL_PREFIX=3D${CROSS_COMPILE:-}
->  fi
->
-> +IGNORED_SYMS=3D$(dirname $0)/sysmap-ignored-syms.sed
->  READELF=3D"${UTIL_PREFIX}readelf"
->  ADDR2LINE=3D"${UTIL_PREFIX}addr2line"
->  AWK=3D"awk"
-> @@ -185,7 +186,7 @@ __faddr2line() {
->                                 found=3D2
->                                 break
->                         fi
-> -               done < <(${READELF} --symbols --wide $objfile | sed 's/\[=
-.*\]//' | ${AWK} -v sec=3D$sym_sec '$7 =3D=3D sec' | sort --key=3D2)
-> +               done < <(${READELF} --symbols --wide $objfile | sed -f ${=
-IGNORED_SYMS} -e 's/\[.*\]//' | ${AWK} -v sec=3D$sym_sec '$7 =3D=3D sec' | =
-sort --key=3D2)
->
->                 if [[ $found =3D 0 ]]; then
->                         warn "can't find symbol: sym_name: $sym_name sym_=
-sec: $sym_sec sym_addr: $sym_addr sym_elf_size: $sym_elf_size"
 > --
-> 2.41.0.487.g6d72f3e995-goog
->
+> Best Regards
+> Masahiro Yamada
+
 
 
 --=20
