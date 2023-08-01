@@ -2,75 +2,67 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8C5476BBAC
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Aug 2023 19:50:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4875776BE2A
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Aug 2023 21:55:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231985AbjHARuk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Aug 2023 13:50:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48380 "EHLO
+        id S229719AbjHATzz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 1 Aug 2023 15:55:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231970AbjHARuf (ORCPT
+        with ESMTP id S229628AbjHATzy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Aug 2023 13:50:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 393ECE61
-        for <linux-kbuild@vger.kernel.org>; Tue,  1 Aug 2023 10:49:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1690912183;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=c9F/mZ8r3UfV+OIZ7ILNLdJAv9iDV2O+GTrVi9NsxDI=;
-        b=NmgGgBtTkEwQLV9xU/+IAs41LEO9M4WR70DHDbgyIjVKvaZWSSURYhuiLeNGPuMJrx8DNU
-        qNcM5yC4sbeZSFCOzP4N5OhSL+QRlzuaJokm/lNENZDHxjY5h7GqaneyU1mIFWqIYil6VL
-        V4aLyJMmsaKwVAi3yfGLfuyPrDo2n+U=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-548-lJ4QiS8gMKOBahLBywOQgw-1; Tue, 01 Aug 2023 13:49:39 -0400
-X-MC-Unique: lJ4QiS8gMKOBahLBywOQgw-1
-Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-583a89cccf6so54274007b3.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 01 Aug 2023 10:49:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690912179; x=1691516979;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=c9F/mZ8r3UfV+OIZ7ILNLdJAv9iDV2O+GTrVi9NsxDI=;
-        b=dSnL+Md2Wz+kYVcC1f3Rk3Ls0fROfsGGgbueFyi2IWmxGifDs2hZQo5az8sfX83V/c
-         aKojanT0xHEYobpVlGVmqHWAm3eUzrKr03VIl7A4rGmZP58eWpMy/0ejj3Bo81LOHGSq
-         UKlzA2WUJ5nO0q8JgMDs/q0WhHlWiRTDyYHH/4QA2r39eoibRzkgBdIsNjgAEXZWVl2R
-         ZFNpaI+IwD4ZGIgpP6i7UTBZcvHl5AXLtpgPtjInpVfOazZNvs79qOKXnZsMabXfXGqv
-         mrEqsYcNVk92BHRpzr6u1im0pkU++094SZSSPbMuSPPY/8754UZBU3OLyjFPnPQ0pOmR
-         hcUw==
-X-Gm-Message-State: ABy/qLbNSQUkAx2XD3H+Ud4PUm1uByqIZyml/KO/WcWerQPP5VBdqke9
-        nqEVyZBQnJ7npOFpLSB2jm/fWw/haPoxsDDSic9DAAXSDHw9PExtsjvIJrbG10+vBa8SB4IDmMx
-        RfLbCBpWqufxZMLXlboh+Iv5Y
-X-Received: by 2002:a81:6c92:0:b0:583:d722:9ae9 with SMTP id h140-20020a816c92000000b00583d7229ae9mr11884617ywc.41.1690912179345;
-        Tue, 01 Aug 2023 10:49:39 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGKuCd2ijiy8jn5tU9B4qxUFyex8KCYNiPvYKYYRM54/JwQpKLWyFpWCyqJn+yuNOiafcQkBw==
-X-Received: by 2002:a81:6c92:0:b0:583:d722:9ae9 with SMTP id h140-20020a816c92000000b00583d7229ae9mr11884609ywc.41.1690912179086;
-        Tue, 01 Aug 2023 10:49:39 -0700 (PDT)
-Received: from brian-x1.. ([2600:381:222b:e67:295d:9324:c84:3382])
-        by smtp.gmail.com with ESMTPSA id k187-20020a0dc8c4000000b005773afca47bsm3881728ywd.27.2023.08.01.10.49.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Aug 2023 10:49:38 -0700 (PDT)
-From:   Brian Masney <bmasney@redhat.com>
-To:     masahiroy@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: [PATCH 2/2] scripts: add kconfig lookup script
-Date:   Tue,  1 Aug 2023 13:49:22 -0400
-Message-ID: <20230801174922.333700-3-bmasney@redhat.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230801174922.333700-1-bmasney@redhat.com>
-References: <20230801174922.333700-1-bmasney@redhat.com>
+        Tue, 1 Aug 2023 15:55:54 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48820E67;
+        Tue,  1 Aug 2023 12:55:44 -0700 (PDT)
+Received: from leknes.fjasle.eu ([46.142.48.66]) by mrelayeu.kundenserver.de
+ (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1M6ltQ-1qUnrs0c2A-008G8u; Tue, 01 Aug 2023 21:55:10 +0200
+Received: by leknes.fjasle.eu (Postfix, from userid 1000)
+        id 93AB33F721; Tue,  1 Aug 2023 21:55:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
+        t=1690919704; bh=BT1hm3et5GymMONcBYkUUy5AjpfOPZg77sIrTzibPuE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=eu3nuPxOQVnkHeuDmjn+t1veLWaDARXgspqGbr70cy3c29+SvFA1NEOM6SbZ61JDL
+         8qEYnZG3yEnmyMenhdJFfdFI6DK9htC1oM6gwkgRvDJ5wR2kwJA+ntkQHOrelCxR2H
+         yb+6arM42eY+EOQM70zI2j7qw8kBp+Adf3+Cnldw=
+Date:   Tue, 1 Aug 2023 21:55:03 +0200
+From:   Nicolas Schier <nicolas@fjasle.eu>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ben Hutchings <ben@decadent.org.uk>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Subject: Re: [PATCH v2 1/2] kbuild: deb-pkg: use Debian compliant shebang for
+ debian/rules
+Message-ID: <ZMljFyrNaH2HFXSU@fjasle.eu>
+References: <20230801121926.1677205-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="XvHK78VNyfppXqPR"
+Content-Disposition: inline
+In-Reply-To: <20230801121926.1677205-1-masahiroy@kernel.org>
+X-Provags-ID: V03:K1:rBN+XNUh2m2BqvCcVo2Nm18l+zIR5/7SjMVXPxMKI2CH0JJ7MVO
+ ZdwtMUFtIItR8JPbIaNnwPF4P662ihYoTAgityZ1Pu6UxprdRQXaXeodCeyH5TaadGYfw5L
+ ugdSOsvmcWoEffqb6WPDnab4HBNIkYyTrWZtTQPFhHSxMCsedLOCMuw6N902J2GE+4SVq8+
+ tqchUd+s2oQ2YGDAkz4aQ==
+UI-OutboundReport: notjunk:1;M01:P0:MjUxifUBGQg=;5VnuFQp460+h0x1S3V38cEZhRBT
+ /QtwPKLkGQN7+ZBQT6y536yQv/244+qCTxCOrlxboDgmdGTJvR+sqouj0W0oucpsVpgkgM4qz
+ BCv4Gpl29FWOk8/YfqP/CRKRy6MnjL/J85U+uPVLfJFOfVrirLnjfwRy8rsg17nowq4S5AI0M
+ f3zxEBvRe7AZwNwsMELFDZ0NecamMC8/mArgD4aIlM5UawU7WTyVutHzpOtjTmRI7tq+0bYCW
+ inRTzbk3qTUuB0wNxf3uRWuO0C2Oe2BgYzzqcdEetA+WTZSURKW0WECRM2PzhDd/ejHXlVt2o
+ DbtJvB7eDy59cG1vYIOG1iNtCyM1FbnYFpCKhU3MNP9znGmrz378a7Zv3dtKxS+XPBoHCpASV
+ /9Buzt7/LMRjpcE4BoE6/BpSnhBZ15eb/gQb7o65GHKsuLGSH07yVr1zCcsDsHCn8WMUWSCim
+ l7/rVDFVNwHxIdHUkeNOJ02MtU+8wl/pgVp75ut+y2RNjBJU7p+0jpvl4QgzfvBMUzVbaJnFB
+ JmKss/uni9MWvX6U6urxWlMDwivMgwEfa7WI+P/ocGUBCIaXwCtnSpA8+IyaJpFBE/IYfcICl
+ mv6O77zW+D2gnL+Z+HiaDin4oPiDKINnOoZc8dAGbSePKbNjJmqziRCiC+ZKJyFvI9GwC6k/s
+ BRd/mvt5lHdAVq88NMLzH4D/ZFpPk98du6O/66UZ1dajbXz+ToCawBrJfk2zcbiPfrKhLM922
+ O12q8fen86hTRdLeCR08UE4xrvxyOxfaTMWAuZW3wRhno2kKR/LeYorF9b7fSCtp/rF6VqQzD
+ TxImFebMh9JhhE5wY47NbuoCEfTouZI5bWKTOJ/zDURfQ0IXC44ocGqb5gB/sj2hPeRgZYAKZ
+ r7HHhwDy8DeIG6w==
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -79,99 +71,74 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Add a script that allows looking up the full Kconfig entry based on
-the symbol name. Documentation and example usage is found at the top
-of the script itself.
 
-Signed-off-by: Brian Masney <bmasney@redhat.com>
----
- scripts/kconfig/lookup.sh | 77 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 77 insertions(+)
- create mode 100755 scripts/kconfig/lookup.sh
+--XvHK78VNyfppXqPR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/scripts/kconfig/lookup.sh b/scripts/kconfig/lookup.sh
-new file mode 100755
-index 000000000000..d1ff52b23835
---- /dev/null
-+++ b/scripts/kconfig/lookup.sh
-@@ -0,0 +1,77 @@
-+#!/usr/bin/env bash
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+# Copyright (C) 2023 Red Hat, Inc. All Rights Reserved.
-+# Written by Brian Masney <bmasney@redhat.com>
-+#
-+# This script takes as input one or more Kconfig symbols and outputs the full
-+# entry from the Kconfig file. It can be invoked by reading a list of symbol
-+# names from either stdin or as command line arguments. Example output:
-+#
-+#   x1:~/src/linux$ ./scripts/kconfig/lookup.sh TSL2772 SOUND
-+#   # drivers/iio/light/Kconfig
-+#   config TSL2772
-+#     tristate "TAOS TSL/TMD2x71 and TSL/TMD2x72 Family of light and proximity sensors"
-+#     depends on I2C
-+#     help
-+#       Support for: tsl2571, tsl2671, tmd2671, tsl2771, tmd2771, tsl2572, tsl2672,
-+#       tmd2672, tsl2772, tmd2772 devices.
-+#       Provides iio_events and direct access via sysfs.
-+#
-+#   # arch/um/drivers/Kconfig
-+#   config SOUND
-+#     tristate
-+#     default UML_SOUND
-+#
-+#   # sound/Kconfig
-+#   menuconfig SOUND
-+#     tristate "Sound card support"
-+#     depends on HAS_IOMEM
-+#     help
-+#       If you have a sound card in your computer, i.e. if it can say more
-+#       than an occasional beep, say Y.
-+
-+
-+process_kconfig()
-+{
-+	KCONFIG="${1/CONFIG_/}"
-+
-+	FOUND=0
-+	for KCONFIG_FILE in $(git grep -E "^(config|menuconfig) ${KCONFIG}$" | \
-+	                      awk -F: '{print $1}') ; do
-+		echo "# ${KCONFIG_FILE}"
-+		awk "/^(config|menuconfig) ${KCONFIG}$/{ m=1; print; next; } \
-+		     /^(choice|comment|config|end|if|menuconfig|source)/ { m=0; } m" \
-+		    "${KCONFIG_FILE}"
-+		FOUND=1
-+	done
-+
-+	if [[ "${FOUND}" = "0" ]] ; then
-+		echo "Skipping ${KCONFIG} since Kconfig symbol is not found" >&2
-+		return 1
-+	fi
-+
-+}
-+
-+# Run this script from the toplevel kernel source directory.
-+SCRIPT_PATH=$(readlink -f "$0")
-+cd "$(dirname "${SCRIPT_PATH}")/../.." || exit 1
-+
-+RET=0
-+if [[ $# == 0 ]] ; then
-+	# Read Kconfig names from stdin
-+	while read -r KCONFIG ; do
-+		if ! process_kconfig "${KCONFIG}" ; then
-+			RET=1
-+		fi
-+	done
-+else
-+	# Read Kconfig names from the command line arguments
-+	for NUM in $(seq 1 "$#") ; do
-+		if ! process_kconfig "${!NUM}" ; then
-+			RET=1
-+		fi
-+	done
-+fi
-+
-+exit "${RET}"
--- 
-2.41.0
+On Tue, Aug 01, 2023 at 09:19:25PM +0900 Masahiro Yamada wrote:
+> Debian Policy "4.9. Main building script: debian/rules" requires
+> "debian/rules must start with the line #!/usr/bin/make -f". [1]
+>=20
+> Currently, Kbuild does not follow this policy.
+>=20
+> When Kbuild generates debian/rules, "#!$(command -v $MAKE) -f" is
+> expanded by shell. The resuling string may not be "#!/usr/bin/make -f".
+>=20
+> There was a reason to opt out the Debian policy.
+>=20
+> If you run '/path/to/my/custom/make deb-pkg', debian/rules must also be
+> invoked by the same Make program. If #!/usr/bin/make were hard-coded in
+> debian/rules, the sub-make would be executed by a possibly different
+> Make version.
+>=20
+> This is problematic due to the MAKEFLAGS incompatibility, especially the
+> job server flag. Old Make versions used --jobserver-fds to propagate job
+> server file descriptors, but Make >=3D 4.2 uses --jobserver-auth. The flag
+> disagreement between the parent/child Makes would result in a process
+> fork explosion.
+>=20
+> However, having a non-standard path in the shebang causes another issue;
+> the generated source package is not portable as such a path does not
+> exist in other build environments.
+>=20
+> This commit solves those conflicting demands.
+>=20
+> Hard-code '#!/usr/bin/make -f' in debian/rules to create a portable and
+> Debian-compliant source package.
+>=20
+> Pass '--rules-file=3D$(MAKE) -f debian/rules' when dpkg-buildpackage is
+> invoked from Makefile so that debian/rules is executed by the same Make
+> program as used to start Kbuild.
+>=20
+> [1] https://www.debian.org/doc/debian-policy/ch-source.html#main-building=
+-script-debian-rules
+>=20
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
 
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+
+
+--XvHK78VNyfppXqPR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmTJYxYACgkQB1IKcBYm
+Emnw6BAAx1BI66MtzwMSqvDYKDHqiNP6RVUbqqE+8dgAUjINHp1uKM6jjyDjjxAc
+NpDGFDxHBNsnh6kZkRDuulayMKwRjCboRk4w0FGDJKk9xKrWFMPdL3eqLg3Csjiv
+KsbgVWUeH8bDc/vlNPO+w2vyay8pEUiaE35/FyW+GibjaH4P7kZ7zziuYQZly49x
+Wcot1PcJuOfYk6veaiRDYYrAmlMdVC458Xl/HT/NxaNZnPxFR35DwH7mqQiX9mVR
+0cEawnWckHPbusXIpQbJFB2Mdf8iJgYng6qzAmj9Yn/nCn55HmnKuHfx6dbO+mFF
+fHvqKDqHmo6wzsLq5owXjs7dCY40K25w9ojfgAtlx+p1TZgDWvq3nVut/J/evfPu
+9dkH0KQnjDli5pZ6aw08yKYOEvfdaSO/m1+SrC3LHrIsV6hnTqu+KQNlHChzvnhu
+5rho1Gc0+F4zj3q7WFqUiYFio9t/17Im1btr7a2HMLcnfnVnUzzo5N1keA7hX3e7
+JuESHGQsAk+zRKi3SUSZlb2ZewPZEELLBwMDKbC7fT3uSCeQro16Wq6xeQd/9bqs
+5yY0DTa34Ccrg/VtohldjLBZ2k/0sfR7qRI3JBAGzPsOkvxtj1hgMsAzSn2p84DW
+/H0lgCCdDR/xGTny8k5RRz54t31Qr6UYE3AFOZ8sjN3xUydIcd8=
+=61wu
+-----END PGP SIGNATURE-----
+
+--XvHK78VNyfppXqPR--
