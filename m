@@ -2,76 +2,73 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F373B76BAF6
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Aug 2023 19:18:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD8B776BBAB
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Aug 2023 19:50:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231336AbjHARSS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Aug 2023 13:18:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58274 "EHLO
+        id S232246AbjHARuj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 1 Aug 2023 13:50:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232155AbjHARSR (ORCPT
+        with ESMTP id S231593AbjHARuc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Aug 2023 13:18:17 -0400
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 903FC211E
-        for <linux-kbuild@vger.kernel.org>; Tue,  1 Aug 2023 10:18:16 -0700 (PDT)
-Received: by mail-ot1-x334.google.com with SMTP id 46e09a7af769-6bca7d82d54so1666085a34.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 01 Aug 2023 10:18:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1690910296; x=1691515096;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+lVeKq7FzrA8zpaWVb8WBRY41fSXAU8sM5RKZuACP/E=;
-        b=oZV13r92MVDAp5Le6pcqZhs+Cx194TWvATG0jqNsJiWAlOebdfvMW8qY7WqsSVUKhr
-         bA5iwvXzaO3M0RJIoREZKCqGpaebvOWUoqXgGtNmOFLRfXv4TYpdt6IEdO+ooAZgHa8R
-         +Rh+R5OLgya8ckaTfj3i5Y+SzJybZJ/XCa6CR+s2h/j9VzgSmyLdrFlFc59pjjXIRrbB
-         LtE6gt3NgxzXXP9KYKML+RjAoJ383eDOO/K6bb1m9V0oP01UduJjkdnxIlzm/8hQr5jG
-         ok1TFOOrzIbCqXwi8/XPZFg1d5LbDGWh+ZhWeHN/HINI5Xsm4lq+WX8POytOFQ9/3Obp
-         P5gg==
+        Tue, 1 Aug 2023 13:50:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D3CA1BF6
+        for <linux-kbuild@vger.kernel.org>; Tue,  1 Aug 2023 10:49:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1690912177;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=WCyW2xPGvGn2KArLxMejeAbnztOOe9Ja2AC5dTRufnw=;
+        b=JOaHBXQzLcTmSgvViOjkVIQxhBcpmV72JAu7W3TiUH1+AJwFPscUXiwN9jBS+6w4MqtSjB
+        uuPKwGA7bg1KGpE8/8mcMjDopCYSxY2Ta2kklPXGfalofimtTj2viYd/AGqqoRv3ozgm0M
+        Yi+396ugqlnRtTerYtaRA9qkZz4x2L8=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-93-mzBcYWxjPWixzUp5mO_ujg-1; Tue, 01 Aug 2023 13:49:36 -0400
+X-MC-Unique: mzBcYWxjPWixzUp5mO_ujg-1
+Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-583da2ac09fso70049927b3.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 01 Aug 2023 10:49:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690910296; x=1691515096;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+lVeKq7FzrA8zpaWVb8WBRY41fSXAU8sM5RKZuACP/E=;
-        b=BU3Rl8FEqI+pcrRdYDE1Gfw0xEeRHBojARv7wmQja7thuRgUrft8xCXLGh7XRoW7av
-         M/1p4Z3fHMOGRRc5xqYxaLKICGL7pPNTRWAfxO+UzJKVBoZVPVCeFqPs/eQjOoW6O7Ak
-         zSGI4QbNnkff2JnTADYhCSw2UrmFTd/mWKgYxsKVkEv25QtBQQdttB0DW1ahvATEMche
-         BSiyizJbHbTR9/UQ9ShsG6cZgawXve/alND+CmSbCW8XpUI0t5grDtC6ntmq0oJZjVoh
-         W5d5Fsz+DiSvU/4VcPFom2h5GuGAkClxgQfIa+DYFgU0I/OCQc883XAiRCLeV3PRABSE
-         4Zhg==
-X-Gm-Message-State: ABy/qLZc0JybwSadBQzU03Oi2ZO6psPt3Uq6beUI/NGMlfDcvoFc6N1z
-        u2I8alfEQtmb+INmePHvzYbcrTK9G3h8oUWpRNu7lQ==
-X-Google-Smtp-Source: APBJJlH28E/XfL7JZrm7ZeIynJrP1Sh3tHyJVBOaUxj3H5FfAq1biNm4w1Wy+tLu2K6GHIXmKjv3/UZtWZDl1raA7Yg=
-X-Received: by 2002:a05:6358:60c7:b0:139:d5d5:7a8f with SMTP id
- i7-20020a05635860c700b00139d5d57a8fmr3371801rwi.30.1690910295394; Tue, 01 Aug
- 2023 10:18:15 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1690912175; x=1691516975;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WCyW2xPGvGn2KArLxMejeAbnztOOe9Ja2AC5dTRufnw=;
+        b=KBWi1u4DOvcXQxrAVIZCUHGAyDDLFkylzpTTBlg3F6gMqHXnXIhkVoUPwQoqnY83+S
+         3cSr1FxVF/L7bP846NyhQrQZ1q+coj9qPFqpGV2t8YhiOnJ7rhhrZs2OVnItYmW1YV01
+         aufRrrDPuxV4btCmnNANRJTW897MAx8hFBg6I08+xrDgHldRKDsQ/3IyZioCjgLnn+Y5
+         9BluCYSQNmskJv4Cqs+AvuOAQ7kWSt+sEO++ik+3DNImqUHB9D8el+WoF4TE6sfumguc
+         xf8EbLDTZMbBSNDDGMvhw1TDJ9veWHTaeSLaqYSpAF115ZMZNpv5JOchfHB9hczJeVAf
+         mEbQ==
+X-Gm-Message-State: ABy/qLYV74F37/a2q7l4vR/UHMt1UD10Nmpigr4ac+MnI7HWNUSE2eXj
+        QP7uqC3V0O0vVFFJ0Ri6E8QZmC/2MToyH7Ohg56oqENp6ZuH5KVBqY7HXPDMjuEuCWe1cSHyCSg
+        DaJZam4w5cZnvqHM6CBVdLTczCgeZnTpz
+X-Received: by 2002:a81:7545:0:b0:56d:2189:d87a with SMTP id q66-20020a817545000000b0056d2189d87amr10919471ywc.15.1690912175524;
+        Tue, 01 Aug 2023 10:49:35 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlE8Hw8Au5SbYBh3YUWTcg3E0mgPPknqhWJLpoxWy4nSR/rPLCcPgcfXi6Si9PBB/67pWc1+jA==
+X-Received: by 2002:a81:7545:0:b0:56d:2189:d87a with SMTP id q66-20020a817545000000b0056d2189d87amr10919458ywc.15.1690912175223;
+        Tue, 01 Aug 2023 10:49:35 -0700 (PDT)
+Received: from brian-x1.. ([2600:381:222b:e67:295d:9324:c84:3382])
+        by smtp.gmail.com with ESMTPSA id k187-20020a0dc8c4000000b005773afca47bsm3881728ywd.27.2023.08.01.10.49.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Aug 2023 10:49:34 -0700 (PDT)
+From:   Brian Masney <bmasney@redhat.com>
+To:     masahiroy@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: [PATCH 0/2] scripts: add two new scripts to look up Kconfigs
+Date:   Tue,  1 Aug 2023 13:49:20 -0400
+Message-ID: <20230801174922.333700-1-bmasney@redhat.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <20230728113415.21067-1-will@kernel.org> <20230728113415.21067-4-will@kernel.org>
- <CAKwvOdnPWL7ts0PC_NxqxZZRgaT=WLZGQQ-3cVii-jG5GCNjfw@mail.gmail.com>
-In-Reply-To: <CAKwvOdnPWL7ts0PC_NxqxZZRgaT=WLZGQQ-3cVii-jG5GCNjfw@mail.gmail.com>
-From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Tue, 1 Aug 2023 10:17:38 -0700
-Message-ID: <CABCJKueCWThVG9sBhWppHTUiuxinXf0MO6-MsMnmMTG6tv_j0Q@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] scripts/faddr2line: Constrain readelf output to
- symbols from System.map
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        John Stultz <jstultz@google.com>, linux-kbuild@vger.kernel.org,
-        Will Deacon <will@kernel.org>,
-        Fangrui Song <maskray@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL,
-        USER_IN_DEF_SPF_WL autolearn=unavailable autolearn_force=no
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,46 +76,20 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 1, 2023 at 9:42=E2=80=AFAM Nick Desaulniers <ndesaulniers@googl=
-e.com> wrote:
->
-> On Fri, Jul 28, 2023 at 4:34=E2=80=AFAM Will Deacon <will@kernel.org> wro=
-te:
-> >
-> > Some symbols emitted in the readelf output but filtered from System.map
-> > can confuse the 'faddr2line' symbol size calculation, resulting in the
-> > erroneous rejection of valid offsets. This is especially prevalent when
-> > building an arm64 kernel with CONFIG_CFI_CLANG=3Dy, where most function=
-s
-> > are prefixed with a 32-bit data value in a '$d.n' section. For example:
-> >
-> > 447538: ffff800080014b80   548 FUNC    GLOBAL DEFAULT    2 do_one_initc=
-all
-> >    104: ffff800080014c74     0 NOTYPE  LOCAL  DEFAULT    2 $x.73
-> >    106: ffff800080014d30     0 NOTYPE  LOCAL  DEFAULT    2 $x.75
-> >    111: ffff800080014da4     0 NOTYPE  LOCAL  DEFAULT    2 $d.78
-> >    112: ffff800080014da8     0 NOTYPE  LOCAL  DEFAULT    2 $x.79
-> >     36: ffff800080014de0   200 FUNC    LOCAL  DEFAULT    2 run_init_pro=
-cess
->
-> Sami,
-> Should we change the llvm-ir linkage type for these symbols from
-> `internal` to `private`?
-> https://llvm.org/docs/LangRef.html#linkage-types
->
-> Then they would not appear in the symbol table.
->
-> At first, I thought other modules might need to directly reference
-> this data, but with the local binding, I don't think they can.
+Here's two new scripts that I think that other people will find useful.
+One is to look up a Kconfig name based on the module path and the second
+script looks up the full Kconfig information based on the symbol name.
 
-For arm64, we don't explicitly emit symbols for type prefixes (see
-AsmPrinter::emitKCFITypeId). These mapping symbols are emitted by
-AArch64ELFStreamer to mark data and code regions. According to the
-AArch64 ELF specification, "All mapping symbols have type STT_NOTYPE
-and binding STB_LOCAL," so I assume changing the linkage type isn't an
-option:
+Brian Masney (2):
+  scripts: add mod-to-kconfig.sh
+  scripts: add kconfig lookup script
 
-https://github.com/ARM-software/abi-aa/blob/main/aaelf64/aaelf64.rst#mappin=
-g-symbols
+ scripts/kconfig/lookup.sh         | 77 +++++++++++++++++++++++++
+ scripts/kconfig/mod-to-kconfig.sh | 93 +++++++++++++++++++++++++++++++
+ 2 files changed, 170 insertions(+)
+ create mode 100755 scripts/kconfig/lookup.sh
+ create mode 100755 scripts/kconfig/mod-to-kconfig.sh
 
-Sami
+-- 
+2.41.0
+
