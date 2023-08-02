@@ -2,219 +2,135 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CC4C76C95F
-	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Aug 2023 11:22:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2A3376CBC6
+	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Aug 2023 13:29:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232422AbjHBJV6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 2 Aug 2023 05:21:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39114 "EHLO
+        id S231641AbjHBL3X (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 2 Aug 2023 07:29:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230396AbjHBJVz (ORCPT
+        with ESMTP id S231171AbjHBL3X (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 2 Aug 2023 05:21:55 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49060AC;
-        Wed,  2 Aug 2023 02:21:53 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B10CD618BF;
-        Wed,  2 Aug 2023 09:21:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 249FEC433C8;
-        Wed,  2 Aug 2023 09:21:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690968112;
-        bh=J2tG/ScQRlNnbtP1aLVjnAnya21Uxa58M8ute6dFW0c=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=a0SxWMrQPIaK7W+vyl8W74wM/RpUfkJYTI89L0qS0ZML7dpEglRtG5r+jcxC1IT2e
-         Z+fEknXE4N0Ip+NFG8Qly4pBAHpAlhJ6R2j48D9MjdcD43qrSWgNNn7nM6kGqZ1/zS
-         yNyB4NH7rRIo6BSWKP2Vud3xznCRi3WhspWPVAsDYasVkqLtXKugQToGQahuVIaq+M
-         tHuiuIlsX1U85iahLWnXmSiCLnvepittiz3axvYsvqFiiFhDDTvfxxo/kYNTguwus3
-         wpN1WPf0b3A64En2R534kwhsysetABQ47XPJW1SLQLThyVQQXoQKcv7hvvOdT6hCby
-         efjqgYxjs2keQ==
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-6b9e478e122so5787814a34.1;
-        Wed, 02 Aug 2023 02:21:52 -0700 (PDT)
-X-Gm-Message-State: ABy/qLZI3KvFmJc5bfMzFrpSOnRwNdtiDvR1jkxSQJe/7imEayZTmEyf
-        YoHJgBi0/OdZYtpxHuC4KTU312lTJVpXcxEAUpg=
-X-Google-Smtp-Source: APBJJlH3c324ht1eos/YhELsl6hmz9tCdWDPwW3/3TMSZ1rYLOZtuFOITsxrCpyDvWQqeVRKE0+zOSsUjG3zFVlE0yg=
-X-Received: by 2002:a05:6870:9107:b0:1bb:7f9f:2fc5 with SMTP id
- o7-20020a056870910700b001bb7f9f2fc5mr17842152oae.17.1690968111305; Wed, 02
- Aug 2023 02:21:51 -0700 (PDT)
+        Wed, 2 Aug 2023 07:29:23 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18AAE211B
+        for <linux-kbuild@vger.kernel.org>; Wed,  2 Aug 2023 04:29:21 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-3fb4146e8deso72949285e9.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 02 Aug 2023 04:29:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile-fr.20221208.gappssmtp.com; s=20221208; t=1690975759; x=1691580559;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=TPoTZ0AnEw7CjsD9elrDwBW8XI74dER/7QSknN4eufA=;
+        b=nZbKdMiyIN7mkxzb1Bxh/FuyxijHi5GZ9Mb5CDwki5kVcl3oyKWyA1t4I5sXfHdfq1
+         FrBGuwBgqC6lPPI4soa0OvOmkjheEx/S6JTfcg3sx56D9/ViiJxkicVVzLOHhv+AAjb8
+         +kXc5Gu+qtUNNxjkgMlGxjPNLLQRFgULXWrdA6OESgAT01SfrJOPfn18u8jCnflurJpO
+         TrO1M4nJaWqxmfhtm1P48qeAGKZ4nSt55VS7xHh16Aujzo3IocOrJ6RyZrzZaMeLw3IS
+         8xc6HPSufnnu1zfdMtjsglNI0z48ZQ+CYHDcSwyRou+/EJhBw3FqY8xDmizVR4U0UnM2
+         3D9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690975759; x=1691580559;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TPoTZ0AnEw7CjsD9elrDwBW8XI74dER/7QSknN4eufA=;
+        b=UFnU0auxC7H9jp3L7LfjMKY+CdcgVqbWuTH/REamdU7SH2XyVRK5egptXLZEIQQc+g
+         XgiX812MgvejYiSQpslB4plC+ff89nwcGsvLl08KYB2tXkpsmze+8oD4myR/gvXSfWcD
+         W5NYrumT2+D5++ykaijgKpIN97neSsTOxRj0byLE+Xq+S3pSFeS+xwOrHUC6ddn4GiDX
+         GHLLICRPnR3sdRBg04tCkwNuYGTXNzyJquLeIdJJk6Rar/1Xk4C7TPEjVCSXtqPwybu4
+         lDY9UToSs8RtlXuQBUTLYWM0y65N5MydLZ2yWfpS2suubz+D9cOIkowBgYaP4c2eCOlh
+         VeIg==
+X-Gm-Message-State: ABy/qLbCgL4PpZhGt6hZ9MLIUZ3QF9jsmWnaEcWRQS5oBTV2vTjOZ0Xz
+        bHHier/bINc7Cml46+TyhtBuf9ztgQdzU9cQJa4=
+X-Google-Smtp-Source: APBJJlEChp3ZHvzNH+wmgQIDXlJTbbCz6dq8ybnmdMwkuOUOKBrbx5ydqPSfWaib7fWgbld+tS0CFQ==
+X-Received: by 2002:a7b:c392:0:b0:3fb:feb0:6f40 with SMTP id s18-20020a7bc392000000b003fbfeb06f40mr5008992wmj.11.1690975759503;
+        Wed, 02 Aug 2023 04:29:19 -0700 (PDT)
+Received: from [10.1.11.159] (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id t25-20020a1c7719000000b003fe2b6d64c8sm1446989wmi.21.2023.08.02.04.29.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Aug 2023 04:29:18 -0700 (PDT)
+Message-ID: <e14f2645-f8a4-fb48-9e29-d6886b22711b@smile.fr>
+Date:   Wed, 2 Aug 2023 13:29:18 +0200
 MIME-Version: 1.0
-References: <20220109181529.351420-1-masahiroy@kernel.org> <20220109181529.351420-3-masahiroy@kernel.org>
- <YdwZe9DHJZUaa6aO@buildd.core.avm.de> <20230623144544.GA24871@lxhi-065>
- <20230719190902.GA11207@lxhi-064.domain> <CAK7LNAQhn28Wbb97+U_3n0EwoKnonjFoY3OnKcE7aqnSgRc4ow@mail.gmail.com>
- <20230725092433.GA57787@lxhi-064.domain>
-In-Reply-To: <20230725092433.GA57787@lxhi-064.domain>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 2 Aug 2023 18:21:14 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR4rJwrT2KLjLw-AbBvhO38xCZigC9C+DUVkn_5JM-KyQ@mail.gmail.com>
-Message-ID: <CAK7LNAR4rJwrT2KLjLw-AbBvhO38xCZigC9C+DUVkn_5JM-KyQ@mail.gmail.com>
-Subject: Re: [PATCH 3/5] kbuild: rename cmd_{bzip2,lzma,lzo,lz4,xzkern,zstd22}
-To:     Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     Nicolas Schier <n.schier@avm.de>,
-        SzuWei Lin <szuweilin@google.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, Matthias.Thomae@de.bosch.com,
-        yyankovskyi@de.adit-jv.com, Dirk.Behme@de.bosch.com,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Content-Type: multipart/mixed; boundary="0000000000009b1ced0601ed3171"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: oldconfig loop infinitely with a hex/int config without valid
+ default and a closed stdin
+Content-Language: en-US
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org
+References: <387d7f82-aa8e-759f-7e12-08dfc329c47f@smile.fr>
+ <CAK7LNAQHP5B0bSaqdgjD+q5nET-hA=RD+b0t=zZBmnpOV9NvRg@mail.gmail.com>
+From:   Yoann Congal <yoann.congal@smile.fr>
+Organization: Smile ECS
+In-Reply-To: <CAK7LNAQHP5B0bSaqdgjD+q5nET-hA=RD+b0t=zZBmnpOV9NvRg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
---0000000000009b1ced0601ed3171
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 7/30/23 10:59, Masahiro Yamada wrote:
+> On Sat, Jul 29, 2023 at 12:23 AM Yoann Congal <yoann.congal@smile.fr> wrote:
+>> Hi,
 
-On Tue, Jul 25, 2023 at 6:24=E2=80=AFPM Eugeniu Rosca <erosca@de.adit-jv.co=
-m> wrote:
->
-> Hello Yamada-san,
->
-> Appreciate your willingness to support. Some findings below.
->
-> On Sun, Jul 23, 2023 at 01:08:46AM +0900, Masahiro Yamada wrote:
-> > On Thu, Jul 20, 2023 at 4:09=E2=80=AFAM Eugeniu Rosca <erosca@de.adit-j=
-v.com> wrote:
-> > > On Fri, Jun 23, 2023 at 04:45:44PM +0200, Eugeniu Rosca wrote:
->
-> [..]
->
-> > > > I will continue to increase my understanding behind what's happenin=
-g.
-> > > > In case there are already any suggestions, would appreciate those.
-> > >
-> > > JFYI, we've got confirmation from Qualcomm Customer Support interface
-> > > that reverting [1] heals the issue on QC end as well. However, it loo=
-ks
-> > > like none of us has clear understanding how to properly
-> > > troubleshoot/trace/compare the behavior before and after the commit.
-> > >
-> > > I would happily follow any suggestions.
-> > >
-> > > > [1] https://android.googlesource.com/kernel/common/+/bc6d3d83539512
-> > > >     ("UPSTREAM: kbuild: rename cmd_{bzip2,lzma,lzo,lz4,xzkern,zstd2=
-2}")
-> > > >
-> > > > [2] https://lore.kernel.org/linux-kbuild/20230616194505.GA27753@lxh=
-i-065/
->
-> [..]
->
-> > Please backport 64d8aaa4ef388b22372de4dc9ce3b9b3e5f45b6c
-> > and see if the problem goes away.
->
-> Unfortunately, the problem remains after backporting the above commit.
->
-> After some more bisecting and some more trial-and-error, I finally came
-> up with a reproduction scenario against vanilla. It also shows that
-> after reverting 7ce7e984ab2b21 ("kbuild: rename
-> cmd_{bzip2,lzma,lzo,lz4,xzkern,zstd22}"), the problem goes away.
->
-> It takes <30 seconds to reproduce the issue on my machine (on 2nd run).
->
-> In order to make the test self-sufficient, it also clones the Linux
-> sources (only during 1st run, with --depth 1, for minimal footprint),
-> hence ~1.8 GB free space is required in /tmp .
->
-> The repro.sh script:
->  =3D> https://gist.github.com/erosca/1372fdc24126dc98031444613450c494
->
-> Output against vanilla on 1st run (always OK, matches real-life case):
->  =3D> https://gist.github.com/erosca/0f5b8e0a00a256d80f0c8a6364d81568
->
-> Output against vanilla on 2nd/Nth run (NOK: Argument list too long):
->  =3D> https://gist.github.com/erosca/e5c2c6479cc32244cc38d308deea4cf5
->
-> Output against vanilla + revert_of_7ce7e984ab2b2 on Nth run (always OK):
->  =3D> https://gist.github.com/erosca/57e114f92ea20132e19fc7f5a46e7c65
->
-> Would it be possible to get your thoughts on the above?
->
-> --
-> Best regards,
-> Eugeniu Rosca
+Hi,
+
+>> While analyzing a Yocto bug[0] I think I've identified a problem in kconfig.
+>> The problem happens if you have a hex or int type config without a default value.
+>> Like this :
+>>   config TEST_KCONFIG
+>>         hex "Test kconfig"
+>>         # No default value
+>> ... and try to start oldconfig with a closed stdin (like we have in Yocto):
+>>   echo -n "" | make oldconfig
+>>
+>> When this happens, oldconfig prompts for the value of TEST_KCONFIG but stdin is closed it get the global default value : an empty string. This is not a valid hex/int value so it prompts again, hence the infinite loop.
+>>
+>> I'm having trouble pointing where the bug is exactly :
+>> * Should the global default value for hex/int be valid in their context? (like the minimal value of the range or 0/0x0)
+>> * Must all int/hex config provide a valid default value? (This is the case for hex config in the kernel). This would have to be documented somewhere (Some other KConfig implementation did [1])
+> 
+> Presumably, it is reasonable to require explicit 'default' for int/hex.
+> 
+> Most of the int/hex entries in Linux are already doing it.
+
+Shouldn't this be documented somewhere? (Sorry if it already is, I could not find it)
+
+>> * Should all oldconfig/syncconfig/... exit with an error when trying to prompt on a closed stdin? (I might be able to send a patch for this one)
+> 
+> No.
+> I have seen multiple scripts piping the 'yes' command to Kconfig.
+> There is no reason to prohibit pipe or redirection.
+
+I agree, I would not want to prohibit pipe or redirection.
+
+I'm specifically talking about a *closed* stdin. A closed stdin is a case were we're 100% sure that we'll never get a valid value. This is why I propose the following check :
+- closed stdin
+- default value is not valid (eg "" for a hex or int)
+If these two conditions are true when prompting, then exit with an error instead of what happens currently : starting an infinite loop.
+
+Would you accept something like this?
 
 
+> I think the fastest fix is to send a patch to U-Boot
+> to add a default for CONFIG_DEBUG_UART_BASE
+> (and more patches if there are other similar cases).
 
+Ok, I will try to do that.
 
+>> [0]: https://bugzilla.yoctoproject.org/show_bug.cgi?id=14136
+>> [1]: https://docs.zephyrproject.org/1.14.0/guides/kconfig/index.html#redundant-defaults
 
-Indeed, reverting 7ce7e984ab2b218d6e92d5165629022fe2daf9ee
-makes qcom's external module build successfully
-(but rebuilding is super slow).
-
-Interestingly, revert 7ce7e984ab2b218d6e92d5165629022fe2daf9ee
-then apply the attached patch, then
-'Argument list too long' will come back.
-
-So, this is unrelated to the actual build commands.
-
-
-
-
-I suspect bare 'export', which expands all variables
-while apparently most of them are not meant exported.
-
-
-
-Insert the following in your reproducer, then it will work.
-
-
-# qcom's audio-kernel sprinkles 'export' everywhere.
-# Remove bare use of 'export'
-find "$ABS_KMOD" -name Kbuild | xargs sed -i '/export$/d'
-
-
-
-
---
-Best Regards
-Masahiro Yamada
-
---0000000000009b1ced0601ed3171
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0001-Add-dummy-commands-to-make-qcom-s-external-module-fa.patch"
-Content-Disposition: attachment; 
-	filename="0001-Add-dummy-commands-to-make-qcom-s-external-module-fa.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_lktimmix0>
-X-Attachment-Id: f_lktimmix0
-
-RnJvbSBhMWQ2NDEyMzg4NTFkYmRlMDBhMzdiN2IyMDNiMTEwZTc4NmVkZDFkIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBNYXNhaGlybyBZYW1hZGEgPG1hc2FoaXJveUBrZXJuZWwub3Jn
-PgpEYXRlOiBXZWQsIDIgQXVnIDIwMjMgMTg6MTE6MzIgKzA5MDAKU3ViamVjdDogW1BBVENIXSBB
-ZGQgZHVtbXkgY29tbWFuZHMgdG8gbWFrZSBxY29tJ3MgZXh0ZXJuYWwgbW9kdWxlIGZhaWwKClJl
-dmVydCA3Y2U3ZTk4NGFiMmIyMThkNmU5MmQ1MTY1NjI5MDIyZmUyZGFmOWVlIGFuZAphcHBseSB0
-aGlzIGluc3RlYWQuCgpJIHNlZQoKL2Jpbi9zaDogQXJndW1lbnQgbGlzdCB0b28gbG9uZwoKU2ln
-bmVkLW9mZi1ieTogTWFzYWhpcm8gWWFtYWRhIDxtYXNhaGlyb3lAa2VybmVsLm9yZz4KLS0tCiBz
-Y3JpcHRzL01ha2VmaWxlLmxpYiB8IDMzICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KwogMSBmaWxlIGNoYW5nZWQsIDMzIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9zY3JpcHRz
-L01ha2VmaWxlLmxpYiBiL3NjcmlwdHMvTWFrZWZpbGUubGliCmluZGV4IDIyNzBlZDgxOWEyOS4u
-YzQ4MTAxOGQxYjVmIDEwMDY0NAotLS0gYS9zY3JpcHRzL01ha2VmaWxlLmxpYgorKysgYi9zY3Jp
-cHRzL01ha2VmaWxlLmxpYgpAQCAtNTU5LDMgKzU1OSwzNiBAQCBkZWZpbmUgZmlsZWNoa19vZmZz
-ZXRzCiAJIGVjaG8gIiI7IFwKIAkgZWNobyAiI2VuZGlmIgogZW5kZWYKKworCisjIFRoZXNlIGR1
-bW15IGNvbW1hbmRzIGFyZSBub3QgdXNlZCBhbnl3aGVyZSwgYnV0CisjIG1ha2UgcWNvbSdzIGV4
-dGVybmFsIG1vZHVsZSBmYWlsIHRvIGJ1aWxkLgorIyBxY29tJ3MgTWFrZWZpbGUgdXNlIGJhcmUg
-J2V4cG9ydCcuCisjIEhhdmluZyBtb3JlIGFuZCBtb3JlIHNoZWxsIGNvbW1hbmRzIG1heSBmbG9v
-ZCB2YXJpYWJsZSBleHBhbnNpb25zLgorCitxdWlldF9jbWRfZHVtbXkxID0gRk9PICAgICRACisg
-ICAgICBjbWRfZHVtbXkxID0gY2F0ICQocmVhbC1wcmVyZXFzKSA+ICRACisKK3F1aWV0X2NtZF9k
-dW1teTIgPSBGT08gICAgJEAKKyAgICAgIGNtZF9kdW1teTIgPSBjYXQgJChyZWFsLXByZXJlcXMp
-ID4gJEAKKworcXVpZXRfY21kX2R1bW15MyA9IEZPTyAgICAkQAorICAgICAgY21kX2R1bW15MyA9
-IGNhdCAkKHJlYWwtcHJlcmVxcykgPiAkQAorCitxdWlldF9jbWRfZHVtbXk0ID0gRk9PICAgICRA
-CisgICAgICBjbWRfZHVtbXk0ID0gY2F0ICQocmVhbC1wcmVyZXFzKSA+ICRACisKK3F1aWV0X2Nt
-ZF9kdW1teTUgPSBGT08gICAgJEAKKyAgICAgIGNtZF9kdW1teTUgPSBjYXQgJChyZWFsLXByZXJl
-cXMpID4gJEAKKworcXVpZXRfY21kX2R1bW15NiA9IEZPTyAgICAkQAorICAgICAgY21kX2R1bW15
-NiA9IGNhdCAkKHJlYWwtcHJlcmVxcykgPiAkQAorCitxdWlldF9jbWRfZHVtbXk3ID0gRk9PICAg
-ICRACisgICAgICBjbWRfZHVtbXk3ID0gY2F0ICQocmVhbC1wcmVyZXFzKSA+ICRACisKK3F1aWV0
-X2NtZF9kdW1teTggPSBGT08gICAgJEAKKyAgICAgIGNtZF9kdW1teTggPSBjYXQgJChyZWFsLXBy
-ZXJlcXMpID4gJEAKKworcXVpZXRfY21kX2R1bW15OSA9IEZPTyAgICAkQAorICAgICAgY21kX2R1
-bW15OSA9IGNhdCAkKHJlYWwtcHJlcmVxcykgPiAkQAotLSAKMi4zOS4yCgo=
---0000000000009b1ced0601ed3171--
+Thanks!
+-- 
+Yoann Congal
+Smile ECS - Tech Expert
