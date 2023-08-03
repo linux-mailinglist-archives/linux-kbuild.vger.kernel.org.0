@@ -2,241 +2,143 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F87B76E023
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Aug 2023 08:24:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 342E576E559
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Aug 2023 12:16:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233053AbjHCGYP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 3 Aug 2023 02:24:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40672 "EHLO
+        id S235365AbjHCKQa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 3 Aug 2023 06:16:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233201AbjHCGYE (ORCPT
+        with ESMTP id S235315AbjHCKPz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 3 Aug 2023 02:24:04 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD8C0272C;
-        Wed,  2 Aug 2023 23:23:54 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6B04A61BCB;
-        Thu,  3 Aug 2023 06:23:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7002C433C7;
-        Thu,  3 Aug 2023 06:23:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691043833;
-        bh=c0JHcFWSrvgrEKbKHMqRatXBy4xurhcTfvhzOa3/rMA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=LhJ4s0mBnqlUpKTpz/ZfiLWMAjkBfJivhO78YYpjvpp98K/7XaxMJ22R5MjmUxYiY
-         DnF7xEnVJ5JgVMMSDmPTwgljaEs0+Fm7gfXFUWsft+g60DivdUP2JdCYomlhxFQ7ku
-         hbtzC2txmSbDwvz2x1eaHIfPE14coONsAPoPgS/W7cDYmjow6py2tn5E2i1ajDM7gG
-         XQvW6Y2e0miNnZ4zGuXmSSzUlecDaXKwCQDfruoTosK2GYmRFoBSBPWb0eovodb4Nm
-         U6MFoAkDJUsi4pN7PkcsVLMMPD07P4csc0kr5mbE9OdamDbZacBOe+yQgmViU0hAB9
-         /F6ir3ZcA37VA==
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-1bbaa549bcbso408017fac.3;
-        Wed, 02 Aug 2023 23:23:53 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yy/g9OIKeiqX4GbX5dAiI7bK1sE8KM2HI5T2J3PPQvZifb1OjLg
-        RPyZX2bSAeAIMCgvxoDd7xJ1jI4cRUO4bT0oDhw=
-X-Google-Smtp-Source: APBJJlHZISAIW58S4+F0CHFF+rfZwlOud1fMZQMIsCAoK6tWr6hhNrVRwg0zBE6v1lrQ2I6RwEDqVDogSJMiuviPelI=
-X-Received: by 2002:a05:6871:89f:b0:1bf:61d1:a4d4 with SMTP id
- r31-20020a056871089f00b001bf61d1a4d4mr3405692oaq.6.1691043833000; Wed, 02 Aug
- 2023 23:23:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230801174922.333700-1-bmasney@redhat.com> <20230801174922.333700-3-bmasney@redhat.com>
-In-Reply-To: <20230801174922.333700-3-bmasney@redhat.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 3 Aug 2023 15:23:16 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ-nhy1_xFYiwuvOKvfUVSjvnEb4ZnJ8EMWo7uJun89Zg@mail.gmail.com>
-Message-ID: <CAK7LNAQ-nhy1_xFYiwuvOKvfUVSjvnEb4ZnJ8EMWo7uJun89Zg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] scripts: add kconfig lookup script
-To:     Brian Masney <bmasney@redhat.com>
+        Thu, 3 Aug 2023 06:15:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4A1B4493
+        for <linux-kbuild@vger.kernel.org>; Thu,  3 Aug 2023 03:14:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1691057680;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=nbDG2XLgsFKEHrq3JdTfOdsEgiqhe9GVbea4Q7TpxDw=;
+        b=cOVqo6WHwe65UBlQmWfvnUVFxrEbuR+LTfGUy9X/TMMwn4rO8HDaBBRpIZxsP594Ak/Jny
+        e076Vl/T7rg7eMuHuIxAXavOZS5eIHolhU33t6WvaJwopmzEHl6CdvqBuOj++6jAztFcOf
+        /+gxnrqFBW4vZgn9CtxvnEISX9rOsng=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-42-hPHJ6rclOiW8tsPVMXzBMw-1; Thu, 03 Aug 2023 06:14:39 -0400
+X-MC-Unique: hPHJ6rclOiW8tsPVMXzBMw-1
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-63cf9d48006so8867136d6.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 03 Aug 2023 03:14:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691057678; x=1691662478;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nbDG2XLgsFKEHrq3JdTfOdsEgiqhe9GVbea4Q7TpxDw=;
+        b=WYLGeNr//TgQuwLCurY1LiI53U669PKenYKMl3pGDAOrNsh9tW/I7JbCkIy19OuBnC
+         TAsazuIoYEqXvGUh3a4IddfAoqUuvnjG2oJPnSXbDshA1gNAUiFGRBpQNwswEgp0VZfn
+         /j3Ryefmuj+3Xr6LGeWXlgqYSuHh0ZgCJPMvG2pNQHUukNRjW3dYQQy7KBulyDhF64Ra
+         1C3eifkcX8vZ/GKGGJ1k++YWvp1OjUpoe//1Sv8zHZjPkL8ouLJMYZQyiWaeikAJFCrG
+         BSQJzCrWUshLwRnZZdADxnngAahXHY9r5Y4g4Om7zQX3kx9MY3xFrkjJuPHugygj/W41
+         8ZHA==
+X-Gm-Message-State: ABy/qLbYKjb9r9V23Wis4tGMWU9O6zv5GzWsDDVZRixSq3pLRXoAfpA0
+        OHASbMl/k9ykhGCQX2nTX+6DW1HiRFXG6ur0mKLrygEVZaQFDNVNFfyiTcfQg7ErqlN3xN892XX
+        qADYaBGKiONoJTg6VIhQqysTHmpRimSK0
+X-Received: by 2002:a05:622a:302:b0:403:ae9e:2a6d with SMTP id q2-20020a05622a030200b00403ae9e2a6dmr27780966qtw.43.1691057678193;
+        Thu, 03 Aug 2023 03:14:38 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlGKX5dQObhExOhtEMNJ2gYmlrfS6JE+5CLYIjzbNPAGvPIi5bQuZXDpfCcp9FZFRaqTM4SH4A==
+X-Received: by 2002:a05:622a:302:b0:403:ae9e:2a6d with SMTP id q2-20020a05622a030200b00403ae9e2a6dmr27780951qtw.43.1691057677952;
+        Thu, 03 Aug 2023 03:14:37 -0700 (PDT)
+Received: from brian-x1 (c-73-214-169-22.hsd1.pa.comcast.net. [73.214.169.22])
+        by smtp.gmail.com with ESMTPSA id n2-20020ac81e02000000b00403f0e47dd6sm6093367qtl.67.2023.08.03.03.14.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Aug 2023 03:14:37 -0700 (PDT)
+Date:   Thu, 3 Aug 2023 06:14:36 -0400
+From:   Brian Masney <bmasney@redhat.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 2/2] scripts: add kconfig lookup script
+Message-ID: <ZMt+DGRQIZ52miGF@brian-x1>
+References: <20230801174922.333700-1-bmasney@redhat.com>
+ <20230801174922.333700-3-bmasney@redhat.com>
+ <CAK7LNAQ-nhy1_xFYiwuvOKvfUVSjvnEb4ZnJ8EMWo7uJun89Zg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNAQ-nhy1_xFYiwuvOKvfUVSjvnEb4ZnJ8EMWo7uJun89Zg@mail.gmail.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Aug 2, 2023 at 2:49=E2=80=AFAM Brian Masney <bmasney@redhat.com> wr=
-ote:
->
-> Add a script that allows looking up the full Kconfig entry based on
-> the symbol name. Documentation and example usage is found at the top
-> of the script itself.
->
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
-> ---
->  scripts/kconfig/lookup.sh | 77 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 77 insertions(+)
->  create mode 100755 scripts/kconfig/lookup.sh
+On Thu, Aug 03, 2023 at 03:23:16PM +0900, Masahiro Yamada wrote:
+> Everyone tends to have their own utility scripts
+> on their machines.
+> 
+> I think this patch set falls into that category
+> as "create a wrapper script of grep" is what everyone
+> does to reduce typing.
+> 
+> 
+> 
+> 
+> FWIW, I have the following scripts in my ~/bin directory.
+> 
+> 
+> 
+> $ cat ~/bin/kgrep
+> #!/bin/sh
+> 
+> exec find . -name .repo -prune -o -name .git -prune -o -type f \
+> \( -name 'Kconfig*' -o -name 'Config.in' \) \
+> -print0 | xargs -0 grep --color -n "$@"
+> 
+> 
+> $ cat ~/bin/mgrep
+> #!/bin/sh
+> 
+> exec find . -name .repo -prune -o -name .git -prune -o -type f \
+> \( -name 'Makefile*' -o -name 'Kbuild*' -o -name "*.mk" \) \
+> -print0 | xargs -0 grep --color -n "$@"
+> 
+> 
+> 
+> 
+> masahiro@zoe:~/ref/linux(master)$ kgrep -A5 TSL2772
+> ./drivers/iio/light/Kconfig:564:config TSL2772
+> ./drivers/iio/light/Kconfig-565- tristate "TAOS TSL/TMD2x71 and
+> TSL/TMD2x72 Family of light and proximity sensors"
+> ./drivers/iio/light/Kconfig-566- depends on I2C
+> ./drivers/iio/light/Kconfig-567- help
+> ./drivers/iio/light/Kconfig-568-   Support for: tsl2571, tsl2671,
+> tmd2671, tsl2771, tmd2771, tsl2572, tsl2672,
+> ./drivers/iio/light/Kconfig-569-   tmd2672, tsl2772, tmd2772 devices.
+> 
+> masahiro@zoe:~/ref/linux(master)$ mgrep efivarfs.o
+> ./fs/efivarfs/Makefile:6:obj-$(CONFIG_EFIVAR_FS) += efivarfs.o
+> ./fs/efivarfs/Makefile:8:efivarfs-objs := inode.o file.o super.o vars.o
+> 
+> 
+> 
+> That's my local way to satisfy my demand.
+> I do not intend to force my way or merge it in the upstream.
 
+OK, fair enough.
 
+Those are useful little utilities and simpler than what I posted. If
+something like these had been in the scripts/ directory, then I
+wouldn't have spent the time to write yet another script that does
+basically the same thing. I get what you are saying, however having
+a script to lookup a Kconfig by name or module will be useful to other
+people.
 
-Everyone tends to have their own utility scripts
-on their machines.
+Brian
 
-I think this patch set falls into that category
-as "create a wrapper script of grep" is what everyone
-does to reduce typing.
-
-
-
-
-FWIW, I have the following scripts in my ~/bin directory.
-
-
-
-$ cat ~/bin/kgrep
-#!/bin/sh
-
-exec find . -name .repo -prune -o -name .git -prune -o -type f \
-\( -name 'Kconfig*' -o -name 'Config.in' \) \
--print0 | xargs -0 grep --color -n "$@"
-
-
-$ cat ~/bin/mgrep
-#!/bin/sh
-
-exec find . -name .repo -prune -o -name .git -prune -o -type f \
-\( -name 'Makefile*' -o -name 'Kbuild*' -o -name "*.mk" \) \
--print0 | xargs -0 grep --color -n "$@"
-
-
-
-
-masahiro@zoe:~/ref/linux(master)$ kgrep -A5 TSL2772
-./drivers/iio/light/Kconfig:564:config TSL2772
-./drivers/iio/light/Kconfig-565- tristate "TAOS TSL/TMD2x71 and
-TSL/TMD2x72 Family of light and proximity sensors"
-./drivers/iio/light/Kconfig-566- depends on I2C
-./drivers/iio/light/Kconfig-567- help
-./drivers/iio/light/Kconfig-568-   Support for: tsl2571, tsl2671,
-tmd2671, tsl2771, tmd2771, tsl2572, tsl2672,
-./drivers/iio/light/Kconfig-569-   tmd2672, tsl2772, tmd2772 devices.
-
-masahiro@zoe:~/ref/linux(master)$ mgrep efivarfs.o
-./fs/efivarfs/Makefile:6:obj-$(CONFIG_EFIVAR_FS) +=3D efivarfs.o
-./fs/efivarfs/Makefile:8:efivarfs-objs :=3D inode.o file.o super.o vars.o
-
-
-
-That's my local way to satisfy my demand.
-I do not intend to force my way or merge it in the upstream.
-
-
-
-
-
-
-
-
-
-
->
-> diff --git a/scripts/kconfig/lookup.sh b/scripts/kconfig/lookup.sh
-> new file mode 100755
-> index 000000000000..d1ff52b23835
-> --- /dev/null
-> +++ b/scripts/kconfig/lookup.sh
-> @@ -0,0 +1,77 @@
-> +#!/usr/bin/env bash
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +#
-> +# Copyright (C) 2023 Red Hat, Inc. All Rights Reserved.
-> +# Written by Brian Masney <bmasney@redhat.com>
-> +#
-> +# This script takes as input one or more Kconfig symbols and outputs the=
- full
-> +# entry from the Kconfig file. It can be invoked by reading a list of sy=
-mbol
-> +# names from either stdin or as command line arguments. Example output:
-> +#
-> +#   x1:~/src/linux$ ./scripts/kconfig/lookup.sh TSL2772 SOUND
-> +#   # drivers/iio/light/Kconfig
-> +#   config TSL2772
-> +#     tristate "TAOS TSL/TMD2x71 and TSL/TMD2x72 Family of light and pro=
-ximity sensors"
-> +#     depends on I2C
-> +#     help
-> +#       Support for: tsl2571, tsl2671, tmd2671, tsl2771, tmd2771, tsl257=
-2, tsl2672,
-> +#       tmd2672, tsl2772, tmd2772 devices.
-> +#       Provides iio_events and direct access via sysfs.
-> +#
-> +#   # arch/um/drivers/Kconfig
-> +#   config SOUND
-> +#     tristate
-> +#     default UML_SOUND
-> +#
-> +#   # sound/Kconfig
-> +#   menuconfig SOUND
-> +#     tristate "Sound card support"
-> +#     depends on HAS_IOMEM
-> +#     help
-> +#       If you have a sound card in your computer, i.e. if it can say mo=
-re
-> +#       than an occasional beep, say Y.
-> +
-> +
-> +process_kconfig()
-> +{
-> +       KCONFIG=3D"${1/CONFIG_/}"
-> +
-> +       FOUND=3D0
-> +       for KCONFIG_FILE in $(git grep -E "^(config|menuconfig) ${KCONFIG=
-}$" | \
-> +                             awk -F: '{print $1}') ; do
-> +               echo "# ${KCONFIG_FILE}"
-> +               awk "/^(config|menuconfig) ${KCONFIG}$/{ m=3D1; print; ne=
-xt; } \
-> +                    /^(choice|comment|config|end|if|menuconfig|source)/ =
-{ m=3D0; } m" \
-> +                   "${KCONFIG_FILE}"
-> +               FOUND=3D1
-> +       done
-> +
-> +       if [[ "${FOUND}" =3D "0" ]] ; then
-> +               echo "Skipping ${KCONFIG} since Kconfig symbol is not fou=
-nd" >&2
-> +               return 1
-> +       fi
-> +
-> +}
-> +
-> +# Run this script from the toplevel kernel source directory.
-> +SCRIPT_PATH=3D$(readlink -f "$0")
-> +cd "$(dirname "${SCRIPT_PATH}")/../.." || exit 1
-> +
-> +RET=3D0
-> +if [[ $# =3D=3D 0 ]] ; then
-> +       # Read Kconfig names from stdin
-> +       while read -r KCONFIG ; do
-> +               if ! process_kconfig "${KCONFIG}" ; then
-> +                       RET=3D1
-> +               fi
-> +       done
-> +else
-> +       # Read Kconfig names from the command line arguments
-> +       for NUM in $(seq 1 "$#") ; do
-> +               if ! process_kconfig "${!NUM}" ; then
-> +                       RET=3D1
-> +               fi
-> +       done
-> +fi
-> +
-> +exit "${RET}"
-> --
-> 2.41.0
->
-
-
---
-Best Regards
-
-Masahiro Yamada
