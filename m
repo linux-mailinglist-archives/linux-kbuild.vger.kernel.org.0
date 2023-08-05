@@ -2,74 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EDF46770D94
-	for <lists+linux-kbuild@lfdr.de>; Sat,  5 Aug 2023 05:44:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47B29770D9A
+	for <lists+linux-kbuild@lfdr.de>; Sat,  5 Aug 2023 05:54:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229379AbjHEDou (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 4 Aug 2023 23:44:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44644 "EHLO
+        id S229479AbjHEDyl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 4 Aug 2023 23:54:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbjHEDot (ORCPT
+        with ESMTP id S229449AbjHEDyj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 4 Aug 2023 23:44:49 -0400
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 226BA4ED9;
-        Fri,  4 Aug 2023 20:44:48 -0700 (PDT)
-Received: by mail-qk1-x72b.google.com with SMTP id af79cd13be357-76ca8921c6cso132580985a.1;
-        Fri, 04 Aug 2023 20:44:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691207087; x=1691811887;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QpHHyKgMCAEgEusoeicTAqPG0cXTb8asI9xABZxDWHo=;
-        b=qACxiPtonrqUWRm2eFHLdHRg0tXll5Y3Dy1wSYZsz/o4AmiJNWP06R7NUzJo6SLPph
-         ztaWMGjI2ut+4B0ScqPcUiYnricFCvmNwuTWQxSVD8fxjquWv4eYdocaW1Vdr50I9Xwc
-         4hYo6Ia74P4FvAqoN3HwE/i62DYHeCHVGrhLvbARWDGjb/5X6fN+ipBUxajAcEps8jbt
-         eOIOKhkBz9F/pPHG6zHBni1BgxkZWI2f0QtBCzjfMj5G00MXchQDKYL9EGyGXrGJGbG0
-         aSMBrwt81dnlKZI2+v2joAaCYSDSKddrDRZvbzJEy4X26nYAgqcYhR5klzJVMxJ/k2g+
-         VlJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691207087; x=1691811887;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QpHHyKgMCAEgEusoeicTAqPG0cXTb8asI9xABZxDWHo=;
-        b=k5dNiI6RdoQ+C5LrjaT+QMm/AuwZxp2opJI6Zq3NIGEAP87EzfrpuZzn8GO1gR1Vjm
-         lkOI3DSPlXRxNhBru4dkzOI92K20UWfcLFjQ9gtg6pspvGaVcDItcfH9ndZQ+uCflEU6
-         F8EIQ6T6it+4XododmvP2pc4mCqORQaNKTP5R6oiPD9Oh/j70mu/eeUliTqneaOEK9XF
-         yLXsRaU6vZ39RJD2tOPaHU4Kw596EnwJTU+8AGQQemothMCM2GWDQdAbqw7tVRU5Ijyw
-         raNwL9tcGPpO8Xxmlt++aN5bXNImsK+JPqefqWluBViNI3IGAgh9H48RMcowYqebysNc
-         u3kQ==
-X-Gm-Message-State: AOJu0Yxx06gVaBypMWoAay6eGAjki22xytrRGJ2bt/3T8uItOakihTAH
-        1h5Vpf2fHQL4PfK+SOj+uSiI3MauhQNezg==
-X-Google-Smtp-Source: AGHT+IGPkHbx3nmG3dd9vPBM+EilSDI68f1EFftX6p6thmL2pTWLOPo9c+ythEznFMcYkAQinsmFMw==
-X-Received: by 2002:a05:620a:2a16:b0:768:3dd2:b6f2 with SMTP id o22-20020a05620a2a1600b007683dd2b6f2mr2188871qkp.8.1691207086955;
-        Fri, 04 Aug 2023 20:44:46 -0700 (PDT)
-Received: from jesse-desktop.jtp-bos.lab ([2600:4040:57a3:100:7ccd:e816:6b54:140a])
-        by smtp.gmail.com with ESMTPSA id j23-20020ac84f97000000b004033c3948f9sm1099686qtw.42.2023.08.04.20.44.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Aug 2023 20:44:46 -0700 (PDT)
-From:   Jesse Taube <mr.bossman075@gmail.com>
-X-Google-Original-From: Jesse Taube <Mr.Bossman075@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     linux-kbuild@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Jesse Taube <Mr.Bossman075@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v1] docs: kbuild: Document search jump feature
-Date:   Fri,  4 Aug 2023 23:44:45 -0400
-Message-Id: <20230805034445.2508362-1-Mr.Bossman075@gmail.com>
-X-Mailer: git-send-email 2.40.0
+        Fri, 4 Aug 2023 23:54:39 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9116813E
+        for <linux-kbuild@vger.kernel.org>; Fri,  4 Aug 2023 20:54:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=HeQBKBZEgIiPDqFfpP9r8+RR+4OnEJ3n4KP4EScTbcI=; b=jA6ghfSRhyzRJgO5DeKBVKH4M8
+        i3zXlxwCZE0Z4fi2tbAqAEs8qvi2tnfB2zuTovzThmCtRrkGEzStgoNTAVaBz4gedEiVW0KyFIULh
+        WtZfmLCfVhOYphWXA8J6Ipy5KBM8nnhHJkSI76iXvyQEv3351bJqyLgIh0b5VSd/TbJveU1D26vVN
+        Zv9aXELB6cFC6GEn9IOSAm4KbL8JbLj07apti4VwhNwnmFgD811hIX1qe4KGuXZucxC8U13ljedhj
+        OesdhoNcPxfPfYbfQ6LiKj0zJ8E4lSZdixb66abW7MqjiPzIGYH+lS4oNQMIlwZhPCHq/ODaMOkBv
+        Kv8PbebQ==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qS8NC-00Dex1-0W;
+        Sat, 05 Aug 2023 03:54:38 +0000
+Message-ID: <1df1527b-6929-eca1-9e6d-8a4d9a2f8b1e@infradead.org>
+Date:   Fri, 4 Aug 2023 20:54:37 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v1] kconfig: Alias mconfig to menuconfig, qconfig to
+ xconfig
+Content-Language: en-US
+To:     Jesse Taube <mr.bossman075@gmail.com>, linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>
+References: <20230805034256.2478162-1-Mr.Bossman075@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230805034256.2478162-1-Mr.Bossman075@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,44 +55,46 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Menuconfig has a feature where you can "press the key in the (#) prefix
-to jump directly to that location. You will be returned to the current
-search results after exiting this new menu."
+Hi,
 
-This feature is poorly documented,
-so add it to the kconfig.rst documentation.
+On 8/4/23 20:42, Jesse Taube wrote:
+> All the other menu-based config tools have a one-letter prefix, and
+> are named the same as their respective file,
+> except for mconfig and qconfig. This commit adds an alias for mconfig
+> to menuconfig and qconfig to xconfig.
+> 
+> Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
+> ---
+>  scripts/kconfig/Makefile | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
+> index af1c96198f49..319cd623acb9 100644
+> --- a/scripts/kconfig/Makefile
+> +++ b/scripts/kconfig/Makefile
 
-Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
----
- Documentation/kbuild/kconfig.rst | 8 ++++++++
- 1 file changed, 8 insertions(+)
+> @@ -45,7 +47,7 @@ PHONY += build_$(1)
+>  build_$(1): $(obj)/$($(1)-prog)
+>  endef
+>  
+> -$(foreach c, config menuconfig nconfig gconfig xconfig, $(eval $(call config_rule,$(c))))
+> +$(foreach c, config menuconfig mconfig nconfig gconfig xconfig qconfig, $(eval $(call config_rule,$(c))))
+>  
+>  PHONY += localmodconfig localyesconfig
+>  localyesconfig localmodconfig: $(obj)/conf
+> @@ -118,7 +120,9 @@ help:
+>  	@echo  '  config	  - Update current config utilising a line-oriented program'
+>  	@echo  '  nconfig         - Update current config utilising a ncurses menu based program'
+>  	@echo  '  menuconfig	  - Update current config utilising a menu based program'
+> +	@echo  '  mconfig	  - Alias to menuconfig'
+>  	@echo  '  xconfig	  - Update current config utilising a Qt based front-end'
+> +	@echo  '  qconfig         - Alias to xconfig
 
-diff --git a/Documentation/kbuild/kconfig.rst b/Documentation/kbuild/kconfig.rst
-index 5967c79c3baa..463914a7fdec 100644
---- a/Documentation/kbuild/kconfig.rst
-+++ b/Documentation/kbuild/kconfig.rst
-@@ -210,6 +210,10 @@ Searching in menuconfig:
- 	first (and in alphabetical order), then come all other symbols,
- 	sorted in alphabetical order.
- 
-+	In this menu, pressing the key in the (#) prefix will jump
-+	directly to that location. You will be returned to the current
-+	search results after exiting this new menu.
-+
- ----------------------------------------------------------------------
- 
- User interface options for 'menuconfig'
-@@ -262,6 +266,10 @@ Searching in nconfig:
- 	F8 (SymSearch) searches the configuration symbols for the
- 	given string or regular expression (regex).
- 
-+	In the SymSearch, pressing the key in the (#) prefix will
-+	jump directly to that location. You will be returned to the
-+	current search results after exiting this new menu.
-+
- NCONFIG_MODE
- ------------
- This mode shows all sub-menus in one large tree.
+Seems to be missing an ending ' mark above... if we need this.
+
+>  	@echo  '  gconfig	  - Update current config utilising a GTK+ based front-end'
+>  	@echo  '  oldconfig	  - Update current config utilising a provided .config as base'
+>  	@echo  '  localmodconfig  - Update current config disabling modules not loaded'
+
 -- 
-2.40.0
-
+~Randy
