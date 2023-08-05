@@ -2,126 +2,121 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02E17770F24
-	for <lists+linux-kbuild@lfdr.de>; Sat,  5 Aug 2023 11:57:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32BA67711A2
+	for <lists+linux-kbuild@lfdr.de>; Sat,  5 Aug 2023 21:00:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229731AbjHEJ50 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 5 Aug 2023 05:57:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41722 "EHLO
+        id S229498AbjHETAa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 5 Aug 2023 15:00:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbjHEJ5Z (ORCPT
+        with ESMTP id S229445AbjHETA3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 5 Aug 2023 05:57:25 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3FEC3AB2
-        for <linux-kbuild@vger.kernel.org>; Sat,  5 Aug 2023 02:57:21 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id 2adb3069b0e04-4fe1344b707so4633827e87.1
-        for <linux-kbuild@vger.kernel.org>; Sat, 05 Aug 2023 02:57:21 -0700 (PDT)
+        Sat, 5 Aug 2023 15:00:29 -0400
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31C7A128;
+        Sat,  5 Aug 2023 12:00:28 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-1b8b2b60731so19927935ad.2;
+        Sat, 05 Aug 2023 12:00:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20221208.gappssmtp.com; s=20221208; t=1691229440; x=1691834240;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WCaScbYEgtnjR1GCfvq7Z8PNNCiGxQnN+NbG1fq6FPE=;
-        b=I77rfBvKy87ih9s65g5GRJGXFBYxUgGm2YbA5OMVa8D77epIecTEufL8z9LN1pFlho
-         YHFHvWmMvGPRUhGCrHPOnrOSb80cFFcCJ81Xc1e3T7FDErZoQP0YUJ3ey4dRjtkfLrN6
-         559JJInm0vT9+dwtUGpIUUPctmWAUpr7hDDiZJZzCP2EgK+xWMNqFjilNCAw5Zgwm+K7
-         IGa2jHJp3N4XlxGB3lmIpT5+yNg15tyMgUPfmncKMnwRC0lACC1TfHY/YOvDRQleLjcE
-         DvIZOh9ry+7OwYIT/kemwSvu/gYr8RWV1zHKl+N48XEnSViNp59h2Hf306Jcm2oSIvx4
-         kCuA==
+        d=gmail.com; s=20221208; t=1691262027; x=1691866827;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5i+3GUOehI1kx9icGwBFn2H2FxOQ/JAgsfd8DRO3ekM=;
+        b=FuKfTAejBPNyESnw/w1ERYDc1mKWNtVPBXxsV9WqJT4A9EqT98imtSOnOdnn+EKUZZ
+         C+6UwHI5Qb8b6rNbWQjNE+e/ErPNW95/i/d7NMk7B8hymuNp4BcdCeVeMz0J6kKwO/bO
+         80gNlrZaD2phyJ5VyelYKTQL7VEZSzrAOHs4N4B561flTLxPwVdTKoiuWmTw1zACIMuB
+         3xesniE581tA8LxOiB3TDmoN1OQ4g5ZZHJjKnUTXe1j7wPL0XXjwTrq/0UpOGe6od9wE
+         L4ahV7LP0aFR0ap9pquv1hfBkdsN+T2VgbcA/r6QaoSVGqUci7c/ObcHsBtC6iTM4LAk
+         +/Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691229440; x=1691834240;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WCaScbYEgtnjR1GCfvq7Z8PNNCiGxQnN+NbG1fq6FPE=;
-        b=gpUel4FJYul4bpF55sPnAV1fdaVdpYf+Kt8iBMI7a+8UKX9REcB5h+P07WonyknYd5
-         Yc1bfYqmGpCEyQZmsP8Y1UfKJu9/zphjQfKSwtC92gVzrTRKNq0+0DXYAVH8YSxME+Px
-         iNmGgrbVlSeUt7QUW8gekLVumlV7BGPD2Jm2nK866uC1lDSc9IToOumr+SYLI8JHVp2k
-         ElB3yGsVBiMz6buQ5ahRDQ7XHS6OqFYBHW/2EJzUFMo6yd1bR7Kx3tZ/34x637zN2ww3
-         op+5OGleuzzngxNaen0/hESXcKsk/3veM7DbU4fgC/tumljOp6aZqmJUBown+TYmTl3M
-         OBZQ==
-X-Gm-Message-State: AOJu0YyX2NDMQH4ubi5nrrRRRjArYkwwXlMg4vBIFH5H8k9FOuo3vBlB
-        4BGmOE26DvchZ4383fHVF9Ywc6rdx7m8v8orolqNHocs
-X-Google-Smtp-Source: AGHT+IErPU4Ozl17Gl5tDc1p7f7iQOXYlrFzyiYjM0U248Pg6C4cbxf0ns77tv8rKXE5beamGWCeOA==
-X-Received: by 2002:ac2:465d:0:b0:4fd:8976:5fc9 with SMTP id s29-20020ac2465d000000b004fd89765fc9mr2712016lfo.23.1691229439480;
-        Sat, 05 Aug 2023 02:57:19 -0700 (PDT)
-Received: from P-ASN-ECS-830T8C3.local ([89.159.1.53])
-        by smtp.gmail.com with ESMTPSA id z13-20020a5d640d000000b003176053506fsm4752078wru.99.2023.08.05.02.57.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Aug 2023 02:57:19 -0700 (PDT)
-From:   Yoann Congal <yoann.congal@smile.fr>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Yoann Congal <yoann.congal@smile.fr>
-Subject: [PATCH v2] kconfig: avoid an infinite loop in oldconfig/syncconfig
-Date:   Sat,  5 Aug 2023 11:57:09 +0200
-Message-Id: <20230805095709.6717-1-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.30.2
+        d=1e100.net; s=20221208; t=1691262027; x=1691866827;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5i+3GUOehI1kx9icGwBFn2H2FxOQ/JAgsfd8DRO3ekM=;
+        b=OO4p1nlQ2UHHjGN7zTnE4JTdB7/GGSYHWJfB+WLStd+qzlMtloE9Ok9NAE+i1Zsv8T
+         W2w52bPxwgSuDM52LnqUMMCmbRQiiGCuY0hnsrhk43OpzLxAuRwnzPnWmPFfTAskFE3j
+         DQQoMZxYo87jZZZC3I00OGTlw+mVvJRzl2GgnDoqnGCKGs+Z6ACuwxkrCi4V4YD+XGoI
+         7AcDXkgoe0tbtM0Y9xzLcbNWDhxE40NfKYOquyLuwkDO6OFTBGXFmyYP9Pp166OjtPDT
+         sLRbk6xbfwHK/bROGVlJ9aHWyePwNgT1Qdftmz0DWIvFW+77sHtUZ3YytEJ9ch7WETYO
+         mSCw==
+X-Gm-Message-State: AOJu0Ywh19ooRDXzybXbeSPpYBKk/fpWU7C6KU6GjZOoPheSTejn3Y6S
+        xZusbJjcsYMKD5KsHGDKK18=
+X-Google-Smtp-Source: AGHT+IEdsQP1z4KFkNarF886E/9q/EQ15BmwF6o/5gDAFHiZchqSAJQSKz0AVuU7ELIXMFcsU7qRYg==
+X-Received: by 2002:a17:903:2352:b0:1b8:b433:7fa with SMTP id c18-20020a170903235200b001b8b43307famr4323159plh.13.1691262027243;
+        Sat, 05 Aug 2023 12:00:27 -0700 (PDT)
+Received: from [192.168.0.101] ([49.207.241.198])
+        by smtp.gmail.com with ESMTPSA id kg14-20020a170903060e00b001b9ff5aa2e7sm3816215plb.239.2023.08.05.12.00.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 05 Aug 2023 12:00:26 -0700 (PDT)
+Message-ID: <9ff945e6-c963-41d2-9df2-542d83ada519@gmail.com>
+Date:   Sun, 6 Aug 2023 00:30:22 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 8/8] kbuild: modinst: do modules_install step by step
+Content-Language: en-US
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     dhowells@redhat.com, dwmw2@infradead.org, masahiroy@kernel.org,
+        nathan@kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu,
+        linux-kernel@vger.kernel.org, sshedi@vmware.com,
+        linux-kbuild@vger.kernel.org
+References: <20230623145358.568971-1-yesshedi@gmail.com>
+ <20230623145358.568971-9-yesshedi@gmail.com>
+ <2023080434-verbose-value-1200@gregkh>
+From:   Shreenidhi Shedi <yesshedi@gmail.com>
+In-Reply-To: <2023080434-verbose-value-1200@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Exit on error when asking for value that has an invalid default value
-and stdin has reached EOF. This happens in particular for hex/int
-configs without an explicit default value.
+On 04/08/23 19:36, Greg KH wrote:
+> On Fri, Jun 23, 2023 at 08:23:58PM +0530, Shreenidhi Shedi wrote:
+>> Currently Makefile.modinst does three tasks on each module built:
+>> - Install modules
+>> - Sign modules
+>> - Compress modules
+>>
+>> All the above tasks happen from a single place.
+>>
+>> This patch divides this task further and uses a different makefile for
+>> each task.
+>> Signing module logic is completely refactored and everything happens
+>> from a shell script now.
+>>
+>> Signed-off-by: Shreenidhi Shedi <yesshedi@gmail.com>
+>> ---
+>>   scripts/Makefile.compress |  53 ++++++++++++++++++
+>>   scripts/Makefile.install  |  66 +++++++++++++++++++++++
+>>   scripts/Makefile.modinst  | 111 +++-----------------------------------
+>>   scripts/Makefile.sign     |  37 +++++++++++++
+>>   scripts/signfile.sh       |  24 +++++++++
+>>   5 files changed, 186 insertions(+), 105 deletions(-)
+>>   create mode 100644 scripts/Makefile.compress
+>>   create mode 100644 scripts/Makefile.install
+>>   create mode 100644 scripts/Makefile.sign
+>>   create mode 100755 scripts/signfile.sh
+> 
+> As you are touching the build process, you should always cc: the proper
+> mailing list, and the KBUILD maintainer.  Please do so for this series,
+> as that is the proper tree for this to go through.
+> 
+> thanks,
+> 
+> greg k-h
 
-Previously, this case would loop:
-* oldconfig prompts for the value but stdin has reached EOF
-* It gets the global default value : an empty string
-* This is not a valid hex/int value so it prompts again, hence the infinite loop.
+Thanks for the inputs Greg.
 
-This case happens with a configuration like this (a hex config without a
-valid default value):
-  config TEST_KCONFIG
-       hex "Test KConfig"
-       # default 0x0
+CC-ing linux-kbuild@vger.kernel.org as suggested.
 
-And using:
-  make oldconfig < /dev/null
-
-This was discovered when working on Yocto bug[0] on a downstream
-kconfig user (U-boot)
-
-[0]: https://bugzilla.yoctoproject.org/show_bug.cgi?id=14136
-
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
----
-v1->v2:
- * Improve coding style
- * Put more info in the commit message 
-
- scripts/kconfig/conf.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
-index 7cf63261d951c..8f32cbbce4805 100644
---- a/scripts/kconfig/conf.c
-+++ b/scripts/kconfig/conf.c
-@@ -377,8 +377,16 @@ static int conf_string(struct menu *menu)
- 			line[strlen(line)-1] = 0;
- 			def = line;
- 		}
--		if (def && sym_set_string_value(sym, def))
-+		if (def && sym_set_string_value(sym, def)) {
- 			return 0;
-+		} else {
-+			if (feof(stdin) && !sym_string_valid(sym, sym_get_string_value(sym))) {
-+				fprintf(stderr,
-+					"Symbol %s has invalid default value and stdin reached EOF\n",
-+					sym->name);
-+				exit(1);
-+			}
-+		}
- 	}
- }
- 
 -- 
-2.30.2
+Shedi
 
