@@ -2,122 +2,80 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 220A1771572
-	for <lists+linux-kbuild@lfdr.de>; Sun,  6 Aug 2023 15:49:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 99532771593
+	for <lists+linux-kbuild@lfdr.de>; Sun,  6 Aug 2023 16:20:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229786AbjHFNtI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 6 Aug 2023 09:49:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46590 "EHLO
+        id S230358AbjHFOUf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 6 Aug 2023 10:20:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229498AbjHFNtH (ORCPT
+        with ESMTP id S229468AbjHFOUe (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 6 Aug 2023 09:49:07 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9CA3F4;
-        Sun,  6 Aug 2023 06:49:05 -0700 (PDT)
+        Sun, 6 Aug 2023 10:20:34 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0328E49;
+        Sun,  6 Aug 2023 07:20:33 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6668661153;
-        Sun,  6 Aug 2023 13:49:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4A0CC433C8;
-        Sun,  6 Aug 2023 13:49:04 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 32E0B60AC3;
+        Sun,  6 Aug 2023 14:20:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92CB7C433C7;
+        Sun,  6 Aug 2023 14:20:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691329744;
-        bh=2MiTIyRYpvZ0qKbA5ZLbhbcYcbSW27jN3rhzL/cNYUM=;
+        s=k20201202; t=1691331632;
+        bh=B0FK+oQvOD3NtQzSbjnb2FmtF6XR6WtO36dN0ZCh4k0=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=SeC+gKMleNswHd5DWRuVdEG7A2C9RZ74EtCFglqeckD91dQvMATCs9889hJc4XGC0
-         oHRBE+8K8pkJSOEFusdxWdFPZ2jaXo1GD7uk8W0LcCbB8SnFjrNs0d9ilbY0jfnBzy
-         V0FA2wmY/Etyr50YxGgdMI8D88rjXfy7e024Z6Hfc0uSpecbyOq+XflOiLzOo9thd8
-         8H+NkEhyAEjt1BknxH86aAieOHvG50Scst5ret3cWW5ODWXpRqJc0celMbNCVqT9e4
-         TiP9XNIQjnyUy0YT65eYxE5Rc6jT2p6Hcv00gGxxfpLnqL35i2mlUKM1EYHoPYsISk
-         INS1w+3ffAC2w==
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-56ce1bd7fc4so2572465eaf.2;
-        Sun, 06 Aug 2023 06:49:04 -0700 (PDT)
-X-Gm-Message-State: AOJu0YwiLmDz8FRWSAX0/KY0nfle7/BKLisReYGC8g3aaLufR67XPHeu
-        xNbBbgHYJsxU85xVUtq3KEM7SkCuA+8WPimfBg8=
-X-Google-Smtp-Source: AGHT+IFWAuVOQzvsC9iij/iNYZqPid4o62oHAwo9RoTsh7/6PvGQIKbdama6HA3dAufLsxKyDQ+itPYx718wfEyuF5Y=
-X-Received: by 2002:a4a:2a05:0:b0:56c:ea3f:42fd with SMTP id
- k5-20020a4a2a05000000b0056cea3f42fdmr5943343oof.6.1691329744084; Sun, 06 Aug
- 2023 06:49:04 -0700 (PDT)
+        b=rAlDjaHGYMJE7Itjk3GW9WUjboVkFjxVW/SWAa1DQL4eIkle3b9qFZ3X3qcXrFxhx
+         QsLsD0ZbJyC+11sUo7DIq77pCOvFLJXnCRNuv/DBav0Q1Jtmp6Oe/JgOpBLzGPyvLk
+         s4UiMfa0jHl9h3qTnyl1qvnv0FqwgYFieJQdnzyeL1eFFghOA1G9CRxxCiMlJJh+nq
+         nkj+KjXLIOSXOvLvCiYLLxB3DuwXnHMlE5MXrPHzzlB8mpvbvjovdNmNAH1NymUMAU
+         mgcqtJIHd6xIUnatyhbdF9ifYvlJfR3do6VUOUyheFT/5Y49q+OBkSHkQ+9gN8ur4r
+         BV41cBk42oLNg==
+Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-56c96982829so2606462eaf.0;
+        Sun, 06 Aug 2023 07:20:32 -0700 (PDT)
+X-Gm-Message-State: AOJu0YyiuXlGRvKfNXfE54/qaLIzgVhdd5p/onuZ76dIyZoenshJTdp5
+        DU9bcZzCrUrVs87Pg16Rt5OH9k08M6e4QvSOAKQ=
+X-Google-Smtp-Source: AGHT+IHFbQjzWBWvGY43yozN242H1+mT3jaZoo2g4jLOqYeI9JWsz5vOGIEtLltEEpfjLYNa221LklVLZ8m8po5t7/8=
+X-Received: by 2002:a4a:6801:0:b0:565:cf26:5a10 with SMTP id
+ p1-20020a4a6801000000b00565cf265a10mr6807000ooc.0.1691331631880; Sun, 06 Aug
+ 2023 07:20:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230805034445.2508362-1-Mr.Bossman075@gmail.com>
-In-Reply-To: <20230805034445.2508362-1-Mr.Bossman075@gmail.com>
+References: <20230729214138.79902-1-sergeantsagara@protonmail.com>
+In-Reply-To: <20230729214138.79902-1-sergeantsagara@protonmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 6 Aug 2023 22:48:27 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQnMOhzX27c4kPe7_3rQRRWO1CXp+Q5xDn3=qpVcv3t1Q@mail.gmail.com>
-Message-ID: <CAK7LNAQnMOhzX27c4kPe7_3rQRRWO1CXp+Q5xDn3=qpVcv3t1Q@mail.gmail.com>
-Subject: Re: [PATCH v1] docs: kbuild: Document search jump feature
-To:     Jesse Taube <mr.bossman075@gmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>
+Date:   Sun, 6 Aug 2023 23:19:55 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR_Egr+G9_HmGfrmFAEQ0Tznmbff0w9cJ=1biV5P4PmNQ@mail.gmail.com>
+Message-ID: <CAK7LNAR_Egr+G9_HmGfrmFAEQ0Tznmbff0w9cJ=1biV5P4PmNQ@mail.gmail.com>
+Subject: Re: [PATCH] scripts: merge_config: Add flag to prevent unsetting
+ config option
+To:     Rahul Rameshbabu <sergeantsagara@protonmail.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Aug 5, 2023 at 12:44=E2=80=AFPM Jesse Taube <mr.bossman075@gmail.co=
-m> wrote:
+On Sun, Jul 30, 2023 at 6:42=E2=80=AFAM Rahul Rameshbabu
+<sergeantsagara@protonmail.com> wrote:
 >
-> Menuconfig has a feature where you can "press the key in the (#) prefix
-> to jump directly to that location. You will be returned to the current
-> search results after exiting this new menu."
->
-> This feature is poorly documented,
-> so add it to the kconfig.rst documentation.
->
-> Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
-> ---
->  Documentation/kbuild/kconfig.rst | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/Documentation/kbuild/kconfig.rst b/Documentation/kbuild/kcon=
-fig.rst
-> index 5967c79c3baa..463914a7fdec 100644
-> --- a/Documentation/kbuild/kconfig.rst
-> +++ b/Documentation/kbuild/kconfig.rst
-> @@ -210,6 +210,10 @@ Searching in menuconfig:
->         first (and in alphabetical order), then come all other symbols,
->         sorted in alphabetical order.
->
-> +       In this menu, pressing the key in the (#) prefix will jump
-> +       directly to that location. You will be returned to the current
-> +       search results after exiting this new menu.
-> +
->  ----------------------------------------------------------------------
->
->  User interface options for 'menuconfig'
-> @@ -262,6 +266,10 @@ Searching in nconfig:
->         F8 (SymSearch) searches the configuration symbols for the
->         given string or regular expression (regex).
->
-> +       In the SymSearch, pressing the key in the (#) prefix will
-> +       jump directly to that location. You will be returned to the
-> +       current search results after exiting this new menu.
-> +
->  NCONFIG_MODE
->  ------------
->  This mode shows all sub-menus in one large tree.
-> --
-> 2.40.0
->
+> Overriding a previously defined entry for a config option with 'is not se=
+t'
+> may be undesirable in some fragment configuration setups.
+
+Then, you should remove the 'is not set' entry from the fragment.
 
 
-Applied to linux-kbuild.
-Thanks.
+
+
+
 
 --=20
 Best Regards
