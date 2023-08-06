@@ -2,51 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 171A07713CC
-	for <lists+linux-kbuild@lfdr.de>; Sun,  6 Aug 2023 08:45:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD879771511
+	for <lists+linux-kbuild@lfdr.de>; Sun,  6 Aug 2023 14:41:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229521AbjHFGpM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 6 Aug 2023 02:45:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46644 "EHLO
+        id S229530AbjHFMk6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 6 Aug 2023 08:40:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbjHFGpL (ORCPT
+        with ESMTP id S229528AbjHFMk5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 6 Aug 2023 02:45:11 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9BCF1FD4;
-        Sat,  5 Aug 2023 23:45:09 -0700 (PDT)
+        Sun, 6 Aug 2023 08:40:57 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3D48124;
+        Sun,  6 Aug 2023 05:40:56 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 54B9360F87;
-        Sun,  6 Aug 2023 06:45:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AC09C433C8;
-        Sun,  6 Aug 2023 06:45:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1691304308;
-        bh=uNG7eW59DkHR03SvfUijrRfJtqldDdsoJpdtu0H745E=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nD15+Jappd81Lbgw48rpkDz0SZ71w7vol38DHWguz7ueABSgNuRtGfhWXafG8aSF3
-         lTrOEfpO25dyE7S2O6ktVGA5jtT5V/ipKdFCQAGD4UNDqKRtBrj70XVRUkt/k0N7gw
-         rEhP9o7O8xmA4GX026uVgp6jFzJRjz86jJwKH89U=
-Date:   Sun, 6 Aug 2023 08:45:04 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Shreenidhi Shedi <yesshedi@gmail.com>
-Cc:     dhowells@redhat.com, dwmw2@infradead.org, masahiroy@kernel.org,
-        nathan@kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu,
-        linux-kernel@vger.kernel.org, sshedi@vmware.com,
-        linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v7 8/8] kbuild: modinst: do modules_install step by step
-Message-ID: <2023080630-entomb-ogle-3da8@gregkh>
-References: <20230623145358.568971-1-yesshedi@gmail.com>
- <20230623145358.568971-9-yesshedi@gmail.com>
- <2023080434-verbose-value-1200@gregkh>
- <9ff945e6-c963-41d2-9df2-542d83ada519@gmail.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 600B4610D5;
+        Sun,  6 Aug 2023 12:40:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE092C4339A;
+        Sun,  6 Aug 2023 12:40:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691325655;
+        bh=nFD7z3c13NvSK1tSfJL2f3eMNutGbhDjiU3cgo+Y5oo=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=IO2oJBX6fwJLrc50nMXI++iSmix7tqD7GnAj/m5VTrgOPixrlMJ5x7QcwUZ6jv6Xs
+         3PLe/6+v6ZNgyWvsePCWSWz2Vxvg9EggO/zhSG0RDe/MO49p3j7gBo5zNHmiBR+8MU
+         zNlNer4aEoN7XIhMQ2szELQwzPNhHTcM3BCSTpAMLReY4s9NejkErQxYWyF74MCfjJ
+         ZDSjNhl3wAAVsvQ12HJEu85C5RDbCczFO0LZ5/rZo4WaFoFCrHaPQ9LDiQoJ3miHBp
+         BFR2JfDM7C4s/2s4i7y0n4iNfvzg/AyIeTtO0yLaudYYzEDSbDrL/gn0fiFD7gacnG
+         V0IIykJB0rk8g==
+Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3a3df1ee4a3so2006184b6e.3;
+        Sun, 06 Aug 2023 05:40:55 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwDRIPfwO4JwdSPlKgse48eFUM2E7kKa4KsBOr8rZJ82wAsCQ3o
+        QNN+OhmPhzVcBhsqVtioCYNaeM0X7G+o5hC2tZo=
+X-Google-Smtp-Source: AGHT+IGECC3WwLCbh/4btLngvNb293Va8WRKjDpuT4+YY474LsINtVefC2rYRorCpFghi2Glsk6bb5FbAtTZ9/M3pq4=
+X-Received: by 2002:a05:6808:918:b0:3a7:4161:44ee with SMTP id
+ w24-20020a056808091800b003a7416144eemr5064315oih.6.1691325654832; Sun, 06 Aug
+ 2023 05:40:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9ff945e6-c963-41d2-9df2-542d83ada519@gmail.com>
+References: <20230802051500.13271-1-rdunlap@infradead.org>
+In-Reply-To: <20230802051500.13271-1-rdunlap@infradead.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 6 Aug 2023 21:40:18 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARV8va+4JeYHOxZFh_dLgXAfP1wRVoEqUJ_Uuhj=SKnGg@mail.gmail.com>
+Message-ID: <CAK7LNARV8va+4JeYHOxZFh_dLgXAfP1wRVoEqUJ_Uuhj=SKnGg@mail.gmail.com>
+Subject: Re: [PATCH v5] um/drivers: fix hostaudio build errors
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        linux-um@lists.infradead.org, Tejun Heo <tj@kernel.org>,
+        Takashi Iwai <tiwai@suse.de>, Jaroslav Kysela <perex@perex.cz>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-kbuild@vger.kernel.org, alsa-devel@alsa-project.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -57,49 +72,60 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Aug 06, 2023 at 12:30:22AM +0530, Shreenidhi Shedi wrote:
-> On 04/08/23 19:36, Greg KH wrote:
-> > On Fri, Jun 23, 2023 at 08:23:58PM +0530, Shreenidhi Shedi wrote:
-> > > Currently Makefile.modinst does three tasks on each module built:
-> > > - Install modules
-> > > - Sign modules
-> > > - Compress modules
-> > > 
-> > > All the above tasks happen from a single place.
-> > > 
-> > > This patch divides this task further and uses a different makefile for
-> > > each task.
-> > > Signing module logic is completely refactored and everything happens
-> > > from a shell script now.
-> > > 
-> > > Signed-off-by: Shreenidhi Shedi <yesshedi@gmail.com>
-> > > ---
-> > >   scripts/Makefile.compress |  53 ++++++++++++++++++
-> > >   scripts/Makefile.install  |  66 +++++++++++++++++++++++
-> > >   scripts/Makefile.modinst  | 111 +++-----------------------------------
-> > >   scripts/Makefile.sign     |  37 +++++++++++++
-> > >   scripts/signfile.sh       |  24 +++++++++
-> > >   5 files changed, 186 insertions(+), 105 deletions(-)
-> > >   create mode 100644 scripts/Makefile.compress
-> > >   create mode 100644 scripts/Makefile.install
-> > >   create mode 100644 scripts/Makefile.sign
-> > >   create mode 100755 scripts/signfile.sh
-> > 
-> > As you are touching the build process, you should always cc: the proper
-> > mailing list, and the KBUILD maintainer.  Please do so for this series,
-> > as that is the proper tree for this to go through.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> Thanks for the inputs Greg.
-> 
-> CC-ing linux-kbuild@vger.kernel.org as suggested.
+On Wed, Aug 2, 2023 at 2:15=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org>=
+ wrote:
+>
+> Use "select" to ensure that the required kconfig symbols are set
+> as expected.
+> Drop HOSTAUDIO since it is now equivalent to UML_SOUND.
+>
+> Set CONFIG_SOUND=3Dm in ARCH=3Dum defconfig files to maintain the
+> status quo of the default configs.
+>
+> Allow SOUND with UML regardless of HAS_IOMEM. Otherwise there is a
+> kconfig warning for unmet dependencies. (This was not an issue when
+> SOUND was defined in arch/um/drivers/Kconfig. I have done 50 randconfig
+> builds and didn't find any issues.)
+>
+> This fixes build errors when CONFIG_SOUND is not set:
+>
+> ld: arch/um/drivers/hostaudio_kern.o: in function `hostaudio_cleanup_modu=
+le':
+> hostaudio_kern.c:(.exit.text+0xa): undefined reference to `unregister_sou=
+nd_mixer'
+> ld: hostaudio_kern.c:(.exit.text+0x15): undefined reference to `unregiste=
+r_sound_dsp'
+> ld: arch/um/drivers/hostaudio_kern.o: in function `hostaudio_init_module'=
+:
+> hostaudio_kern.c:(.init.text+0x19): undefined reference to `register_soun=
+d_dsp'
+> ld: hostaudio_kern.c:(.init.text+0x31): undefined reference to `register_=
+sound_mixer'
+> ld: hostaudio_kern.c:(.init.text+0x49): undefined reference to `unregiste=
+r_sound_dsp'
+>
+> and this kconfig warning:
+> WARNING: unmet direct dependencies detected for SOUND
+>
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Fixes: d886e87cb82b ("sound: make OSS sound core optional")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: lore.kernel.org/r/202307141416.vxuRVpFv-lkp@intel.com
+> Cc: Richard Weinberger <richard@nod.at>
+> Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+> Cc: Johannes Berg <johannes@sipsolutions.net>
+> Cc: linux-um@lists.infradead.org
+> Cc: Tejun Heo <tj@kernel.org>
+> Cc: Takashi Iwai <tiwai@suse.de>
+> Cc: Jaroslav Kysela <perex@perex.cz>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
 
-This doesn't actually do anything, sorry.  Please resend the whole
-patchset again and add the proper people and list.
 
-thanks,
 
-greg k-h
+Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
+
+
+--=20
+Best Regards
+Masahiro Yamada
