@@ -2,77 +2,73 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AD8F77216A
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Aug 2023 13:22:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE294772B79
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Aug 2023 18:51:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232370AbjHGLWF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 7 Aug 2023 07:22:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58078 "EHLO
+        id S229748AbjHGQvB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 7 Aug 2023 12:51:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231925AbjHGLVZ (ORCPT
+        with ESMTP id S229643AbjHGQvA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 7 Aug 2023 07:21:25 -0400
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A147E198E;
-        Mon,  7 Aug 2023 04:19:35 -0700 (PDT)
-Received: by mail-pg1-x529.google.com with SMTP id 41be03b00d2f7-564ef63a010so753776a12.0;
-        Mon, 07 Aug 2023 04:19:35 -0700 (PDT)
+        Mon, 7 Aug 2023 12:51:00 -0400
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADA1499
+        for <linux-kbuild@vger.kernel.org>; Mon,  7 Aug 2023 09:50:59 -0700 (PDT)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-583fe0f84a5so56516947b3.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 07 Aug 2023 09:50:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691407110; x=1692011910;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=10WRxgCd1Ra/UwnCOO5Le6ouxzvPUSQ7L4DRj9cnhvQ=;
-        b=BbMhxrRT3BQWilMzDO0kOG53k1csR55VFCEWxQmgnHXytaruemu6eCXJr3tW4oX8cb
-         ps9wcx2EfT2UO4gVdTD1Z35xkQJkbrMjIIJhxGqVksl+fHRl4dVYQj3OSAYRYrv5lgWz
-         FQM0OmbqLpQ/JVy8hWw33TuEEsjYrmWj4lqikbkwCS0G9xHgKYPMgtKXGYatRPxSrLlB
-         DgvVuIWp+kqP8qE1xHndtrxPi032sCLlXe8vzDzLGCHsJglemI0Tpolog0azU/FOgEgt
-         IAPEY5BzdA0bb2y0TUKhhaVrDcPhNVINC7+oUKhl4yGTjwh8p5igAolQb7Stab2Q8k8/
-         LCnA==
+        d=google.com; s=20221208; t=1691427059; x=1692031859;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=+DH1RGsmuAo7vrM49oUA1O8QELPBtiixKmknDzKlrMs=;
+        b=UcHqa2R41JL5C38LwWIBt1mJ8uByZE/Xlbtryhjq0yCeZ6PnmszUdnIGGJIDIeCLi8
+         izw5ctPRXAuigX+MwUivoQlyykmafMQntoahk+xwngh3F3EGGkXCPyGtgs7pDJHUztcc
+         KgP4bdF8yo/CXbiMEgD74mER7n9AKk1iGRVqBEq7wfXQoeiJ+xiH7ifIbrHM4f5b2k4l
+         IOoba3EUMrJutY0FqS3n3c6i49D0hNSdz7Q+U3XzX3L9+0JhBUN87PvlQGHGV67XrqX6
+         aqL2eFZEpykmK3Mg3eJCmPZlMl3hQE0z+z7JMNgBk1YUtISVT/vwtxVMll1SH7S/k/41
+         l7ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691407110; x=1692011910;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=10WRxgCd1Ra/UwnCOO5Le6ouxzvPUSQ7L4DRj9cnhvQ=;
-        b=l+gvHGLBIapKGvcmMEPnBF6SG/iwp7cY0HDryicuiX2UVDSUg9jhi0zElu6RTiIIuS
-         jOwKSSV4eEBp8k/hfMhRe6yzRq0S3I4E88XBVf0B9tBidHH+fTB7wnm3i/Yt+/FRIJoN
-         yRrRe3rdYbMn17R70of9helRi9W6RhKhcQkcBI5Jy2VLk5a8C93pPq8f/GcbnMKgUlaH
-         JmXiVtC88GEGnAAn7EZ9Tf7+f3WTFBz6rwZA8T7RFA8weCT6KfTHabuxhdkg6XbPFRTF
-         4CrxefP+49tqgMbCq9huuGU9Ik2OF5J011hmnYIg9Xkl8/t0boRxBc6XC9cILCR0Kp/h
-         QHFg==
-X-Gm-Message-State: AOJu0Yzt9niVB7YRlv4y3D8C31gfPfSP4XSDc/PXRx/4utCvqAf93sPI
-        CixZ3P/5mgEImfsOzNKS9VU=
-X-Google-Smtp-Source: AGHT+IFb1tkA18QJP9FlaWRYGpLo1HYosfByYwLhOuZichV4jLkKO6rer96PRSVBpGX4H+kokZLFPg==
-X-Received: by 2002:a17:90b:283:b0:262:e589:678f with SMTP id az3-20020a17090b028300b00262e589678fmr8403115pjb.10.1691407110138;
-        Mon, 07 Aug 2023 04:18:30 -0700 (PDT)
-Received: from [192.168.0.101] ([49.207.242.210])
-        by smtp.gmail.com with ESMTPSA id 16-20020a17090a019000b00263cca08d95sm9078876pjc.55.2023.08.07.04.18.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Aug 2023 04:18:29 -0700 (PDT)
-Message-ID: <80bd4203-471a-4e47-8799-e6c0e70c9c24@gmail.com>
-Date:   Mon, 7 Aug 2023 16:48:24 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 8/8] kbuild: modinst: do modules_install step by step
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     dhowells@redhat.com, dwmw2@infradead.org, masahiroy@kernel.org,
-        nathan@kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu,
-        linux-kernel@vger.kernel.org, sshedi@vmware.com,
-        linux-kbuild@vger.kernel.org
-References: <20230623145358.568971-1-yesshedi@gmail.com>
- <20230623145358.568971-9-yesshedi@gmail.com>
- <2023080434-verbose-value-1200@gregkh>
- <9ff945e6-c963-41d2-9df2-542d83ada519@gmail.com>
- <2023080630-entomb-ogle-3da8@gregkh>
-Content-Language: en-US
-From:   Shreenidhi Shedi <yesshedi@gmail.com>
-In-Reply-To: <2023080630-entomb-ogle-3da8@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        d=1e100.net; s=20221208; t=1691427059; x=1692031859;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+DH1RGsmuAo7vrM49oUA1O8QELPBtiixKmknDzKlrMs=;
+        b=VNOxqj8mnTZ5EqbTotAi9KpAZ5siCpE0JygfzoDtCtgjEelua95I5PQu3906ENmylr
+         JJtj6icDFkWQs7NVrGv//MweAXqwnjOwldOHzoUOcwnTVUFUeHRhiFr2uNGS8z51HLwK
+         Is2kTBTZ5dqebAEJNknPfnXpgpU650k2LccViMBHqgnvBBaVT3wWJudrfbd1JxT94sv6
+         q6xI5WyR+F1RL1JqadV2PGPEr0BsmO2VZG8c3sz4/Rj4H7nx4s6wqaRSTHwpoeWF2Oeb
+         y8GF0Xo01M7B/5Hsh+ldQsFvy8Hi5M9rG9NssxfmE36crCXO+wHqW3159LCGLub9cwmL
+         Yl5g==
+X-Gm-Message-State: AOJu0Yx4J5EjmZenSs84fWfRht1foJ2+bzSwH1Hn3lOEwZjGpMxuNDMA
+        sLmKI4tt1wLz/dezqG/YgW8sF3Wu0WC6aMk77BA=
+X-Google-Smtp-Source: AGHT+IGuAP8rnQ8ZbxkJ9M/ve9RTC6jY6Usa6MkjZJQMxI+QRocRxszMBKkMFRYH6dyg+LQrAT7iExlQ5heullsOMDA=
+X-Received: from ndesaulniers-desktop.svl.corp.google.com ([2620:15c:2d1:203:4746:957d:1a28:5104])
+ (user=ndesaulniers job=sendgmr) by 2002:a81:b144:0:b0:56f:f77c:3c7d with SMTP
+ id p65-20020a81b144000000b0056ff77c3c7dmr77675ywh.3.1691427058981; Mon, 07
+ Aug 2023 09:50:58 -0700 (PDT)
+Date:   Mon, 07 Aug 2023 09:50:32 -0700
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIANcg0WQC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI2MDCwNz3dzM4uLMvPT4gqL8knxdg+QkS4PUZDMTU5NkJaCegqLUtMwKsHn RsbW1AANxIeRfAAAA
+X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=UIrHvErwpgNbhCkRZAYSX0CFd/XFEwqX3D0xqtqjNug=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1691427057; l=1415;
+ i=ndesaulniers@google.com; s=20220923; h=from:subject:message-id;
+ bh=3s6B3WRHZwONDqr660gEy+YqAcQ7kOQd/SC/ue2x6Kc=; b=o9mPOXezO1m1peqnQnJ9Xh9NmpG6OGUleGqyCPai/FHu3L5j1iHQdxfIhbIC4aYIa1C1emYrj
+ fT1jBNQi6XgDsLGtvc8W9xWd9BF1MF+sBN52XQfIibvFQNPns+iYt/y
+X-Mailer: b4 0.12.3
+Message-ID: <20230807-missing_proto-v1-1-7f566b7ba5ca@google.com>
+Subject: [PATCH] Makefile.extrawarn: enable -Wmissing-variable-declarations
+ for W=1
+From:   Nick Desaulniers <ndesaulniers@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>
+Content-Type: text/plain; charset="utf-8"
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -80,57 +76,40 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 06/08/23 12:15, Greg KH wrote:
-> On Sun, Aug 06, 2023 at 12:30:22AM +0530, Shreenidhi Shedi wrote:
->> On 04/08/23 19:36, Greg KH wrote:
->>> On Fri, Jun 23, 2023 at 08:23:58PM +0530, Shreenidhi Shedi wrote:
->>>> Currently Makefile.modinst does three tasks on each module built:
->>>> - Install modules
->>>> - Sign modules
->>>> - Compress modules
->>>>
->>>> All the above tasks happen from a single place.
->>>>
->>>> This patch divides this task further and uses a different makefile for
->>>> each task.
->>>> Signing module logic is completely refactored and everything happens
->>>> from a shell script now.
->>>>
->>>> Signed-off-by: Shreenidhi Shedi <yesshedi@gmail.com>
->>>> ---
->>>>    scripts/Makefile.compress |  53 ++++++++++++++++++
->>>>    scripts/Makefile.install  |  66 +++++++++++++++++++++++
->>>>    scripts/Makefile.modinst  | 111 +++-----------------------------------
->>>>    scripts/Makefile.sign     |  37 +++++++++++++
->>>>    scripts/signfile.sh       |  24 +++++++++
->>>>    5 files changed, 186 insertions(+), 105 deletions(-)
->>>>    create mode 100644 scripts/Makefile.compress
->>>>    create mode 100644 scripts/Makefile.install
->>>>    create mode 100644 scripts/Makefile.sign
->>>>    create mode 100755 scripts/signfile.sh
->>>
->>> As you are touching the build process, you should always cc: the proper
->>> mailing list, and the KBUILD maintainer.  Please do so for this series,
->>> as that is the proper tree for this to go through.
->>>
->>> thanks,
->>>
->>> greg k-h
->>
->> Thanks for the inputs Greg.
->>
->> CC-ing linux-kbuild@vger.kernel.org as suggested.
-> 
-> This doesn't actually do anything, sorry.  Please resend the whole
-> patchset again and add the proper people and list.
-> 
-> thanks,
-> 
-> greg k-h
+I noticed Tom was sending patches where smatch was recommending
+annotating functions as static when no previous declaration existed.
+Surely the compiler could make such recommendations as well, I thought.
 
-Done. Addressed comments from Masahiro Yamada and sent a new patch 
-series, hopefully I have added everyone this time :) Thanks.
+Looks like -Wmissing-variable-declarations can make such
+recommendations.
 
+GCC just added support for this warning (gcc 14.1.0 will ship with
+support), and all versions of clang relevant to building the kernel
+support this flag.
+
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+---
+ scripts/Makefile.extrawarn | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+index 40cd13eca82e..617739eb84e2 100644
+--- a/scripts/Makefile.extrawarn
++++ b/scripts/Makefile.extrawarn
+@@ -32,6 +32,7 @@ KBUILD_CFLAGS += $(call cc-option, -Wunused-but-set-variable)
+ KBUILD_CFLAGS += $(call cc-option, -Wunused-const-variable)
+ KBUILD_CFLAGS += $(call cc-option, -Wpacked-not-aligned)
+ KBUILD_CFLAGS += $(call cc-option, -Wstringop-truncation)
++KBUILD_CFLAGS += $(call cc-option, -Wmissing-varibale-declarations)
+ # The following turn off the warnings enabled by -Wextra
+ KBUILD_CFLAGS += -Wno-missing-field-initializers
+ KBUILD_CFLAGS += -Wno-sign-compare
+
+---
+base-commit: 52a93d39b17dc7eb98b6aa3edb93943248e03b2f
+change-id: 20230807-missing_proto-0cb90ec6454c
+
+Best regards,
 -- 
-Shedi
+Nick Desaulniers <ndesaulniers@google.com>
 
