@@ -2,50 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED81077304B
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Aug 2023 22:23:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F367477304E
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Aug 2023 22:25:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229494AbjHGUXU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 7 Aug 2023 16:23:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58972 "EHLO
+        id S229509AbjHGUZK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 7 Aug 2023 16:25:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229590AbjHGUXT (ORCPT
+        with ESMTP id S229503AbjHGUZJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 7 Aug 2023 16:23:19 -0400
+        Mon, 7 Aug 2023 16:25:09 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE96610DE
-        for <linux-kbuild@vger.kernel.org>; Mon,  7 Aug 2023 13:23:03 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8064010D8;
+        Mon,  7 Aug 2023 13:25:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
         Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
         Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=WGPknOt4lz6nTkr5L6kiCqmWkw4thW8uK4nOZgJU70g=; b=uwg6WtsIo6sak9VVmQHPEPrWpS
-        0K4ND8BHshTBYdwMyhCPvWK+GUvl95H8ihE0tCEEkLIrVw27qOMgJ3zgcbbYgXfnAQUY2r214MqaM
-        XFXXa+Juxl8S8TFbSl5/jODJVYSKVTdqsWhHGSuEmHdpmxd9rEAzSb8Jebn1sS8O3rdOA+frjbERD
-        AqGGzVP+kW3k09Mdr6lqitZgx6QSJArtL3DE57fP1G34iU6nzlVd8YfJHgfOAGg/T+wcIh+D8Xttl
-        LjkGP/ZWjeTkAKZlL+DKg9T0uJiqPxrtd4T4cRhBbFsv8GoP4q+/1hry6Mpnty47iZqkctaLR375G
-        hM2V9ptw==;
+        bh=Cme/GFrer/cjxKzEvlIyzG4iYJKaLUpEkQryrM6h73A=; b=ewsICs8kkBG84aBu/hw8tCEMZR
+        BaT/Ta9Bv0JfAlb+EA2tlNx+WcCbCBWi6BpruMGOnGrcVUWs635Q/bJ758/tAShjJZvWDriMg9pGX
+        9mKs/s5d8PHjVb8YwUK505R+BFFJI64cME6N8v5vDfHPN/e89sjd6OfP61RgP5ZrBcNU+/yd0UnvI
+        hh8jpTMutiXq8YtNPF0kRA/I9Tn1I/k0gv9xA+7G+XuLSiAw4zsKd3GgynwAUTCW2sqrGVPHgaerR
+        yQGptH/Vd+ups0aaf9KUfyWFNXBEK86slW4uWCrZXkrL5ZQCM5LjuOTXAK4BEs5cAH9WTn6cC1Rpo
+        4cFxlPqg==;
 Received: from [2601:1c2:980:9ec0::2764]
         by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qT6ko-000dwF-0k;
-        Mon, 07 Aug 2023 20:23:02 +0000
-Message-ID: <549dffa3-4899-c8db-d716-db12d613749e@infradead.org>
-Date:   Mon, 7 Aug 2023 13:23:00 -0700
+        id 1qT6mp-000eBX-1o;
+        Mon, 07 Aug 2023 20:25:07 +0000
+Message-ID: <a3990928-b239-9939-5b40-8937d9301674@infradead.org>
+Date:   Mon, 7 Aug 2023 13:25:07 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.14.0
-Subject: Re: oldconfig loop infinitely with a hex/int config without valid
- default and a closed stdin
+Subject: Re: [PATCH v2] kconfig: avoid an infinite loop in
+ oldconfig/syncconfig
 Content-Language: en-US
 To:     Masahiro Yamada <masahiroy@kernel.org>,
         Yoann Congal <yoann.congal@smile.fr>
-Cc:     linux-kbuild@vger.kernel.org
-References: <387d7f82-aa8e-759f-7e12-08dfc329c47f@smile.fr>
- <CAK7LNAQHP5B0bSaqdgjD+q5nET-hA=RD+b0t=zZBmnpOV9NvRg@mail.gmail.com>
- <e14f2645-f8a4-fb48-9e29-d6886b22711b@smile.fr>
- <CAK7LNAQDo+oDhf7zr5mCvaVLrBczBqkvQzcTF=nH7nUSrHUgWg@mail.gmail.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230805095709.6717-1-yoann.congal@smile.fr>
+ <CAK7LNAS8a=8n9r7kQrLTPpKwqXG1d1sd0WjJ8PQhOXHXxnSyNQ@mail.gmail.com>
 From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CAK7LNAQDo+oDhf7zr5mCvaVLrBczBqkvQzcTF=nH7nUSrHUgWg@mail.gmail.com>
+In-Reply-To: <CAK7LNAS8a=8n9r7kQrLTPpKwqXG1d1sd0WjJ8PQhOXHXxnSyNQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -60,44 +58,119 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
 
-On 8/7/23 12:27, Masahiro Yamada wrote:
-> On Wed, Aug 2, 2023 at 8:29 PM Yoann Congal <yoann.congal@smile.fr> wrote:
+On 8/7/23 12:25, Masahiro Yamada wrote:
+> On Sat, Aug 5, 2023 at 6:57 PM Yoann Congal <yoann.congal@smile.fr> wrote:
 >>
->> On 7/30/23 10:59, Masahiro Yamada wrote:
->>> On Sat, Jul 29, 2023 at 12:23 AM Yoann Congal <yoann.congal@smile.fr> wrote:
->>>> Hi,
+>> Exit on error when asking for value that has an invalid default value
+>> and stdin has reached EOF. This happens in particular for hex/int
+>> configs without an explicit default value.
 >>
->> Hi,
+>> Previously, this case would loop:
+>> * oldconfig prompts for the value but stdin has reached EOF
+>> * It gets the global default value : an empty string
+>> * This is not a valid hex/int value so it prompts again, hence the infinite loop.
 >>
->>>> While analyzing a Yocto bug[0] I think I've identified a problem in kconfig.
->>>> The problem happens if you have a hex or int type config without a default value.
->>>> Like this :
->>>>   config TEST_KCONFIG
->>>>         hex "Test kconfig"
->>>>         # No default value
->>>> ... and try to start oldconfig with a closed stdin (like we have in Yocto):
->>>>   echo -n "" | make oldconfig
->>>>
->>>> When this happens, oldconfig prompts for the value of TEST_KCONFIG but stdin is closed it get the global default value : an empty string. This is not a valid hex/int value so it prompts again, hence the infinite loop.
->>>>
->>>> I'm having trouble pointing where the bug is exactly :
->>>> * Should the global default value for hex/int be valid in their context? (like the minimal value of the range or 0/0x0)
->>>> * Must all int/hex config provide a valid default value? (This is the case for hex config in the kernel). This would have to be documented somewhere (Some other KConfig implementation did [1])
->>>
->>> Presumably, it is reasonable to require explicit 'default' for int/hex.
->>>
-
-I have made patches for a few of these in the past. A few have been accepted.
-In at least one case the maintainer did not want a default value (I don't recall
-the details of this one).
-
->>> Most of the int/hex entries in Linux are already doing it.
+>> This case happens with a configuration like this (a hex config without a
+>> valid default value):
+>>   config TEST_KCONFIG
+>>        hex "Test KConfig"
+>>        # default 0x0
 >>
->> Shouldn't this be documented somewhere? (Sorry if it already is, I could not find it)
+>> And using:
+>>   make oldconfig < /dev/null
+>>
+>> This was discovered when working on Yocto bug[0] on a downstream
+>> kconfig user (U-boot)
+>>
+>> [0]: https://bugzilla.yoctoproject.org/show_bug.cgi?id=14136
+>>
+>> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+>> ---
+>> v1->v2:
+>>  * Improve coding style
+>>  * Put more info in the commit message
+>>
+>>  scripts/kconfig/conf.c | 10 +++++++++-
+>>  1 file changed, 9 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
+>> index 7cf63261d951c..8f32cbbce4805 100644
+>> --- a/scripts/kconfig/conf.c
+>> +++ b/scripts/kconfig/conf.c
+>> @@ -377,8 +377,16 @@ static int conf_string(struct menu *menu)
+>>                         line[strlen(line)-1] = 0;
+>>                         def = line;
+>>                 }
+>> -               if (def && sym_set_string_value(sym, def))
+>> +               if (def && sym_set_string_value(sym, def)) {
+>>                         return 0;
+>> +               } else {
+>> +                       if (feof(stdin) && !sym_string_valid(sym, sym_get_string_value(sym))) {
+>> +                               fprintf(stderr,
+>> +                                       "Symbol %s has invalid default value and stdin reached EOF\n",
+>> +                                       sym->name);
+>> +                               exit(1);
+>> +                       }
+>> +               }
+>>         }
+>>  }
+>>
+>> --
+>> 2.30.2
+>>
 > 
 > 
-> I am more interested in showing a warning
-> as not all people read the document.
+> It is strange (and consistent) to bail out
+> only for particular types.
+> 
+
+It's still very helpful to know the symbol name that is causing
+the issue.
+
+> 
+> I would change the code simply as follows:
+> 
+> 
+> 
+> --- a/scripts/kconfig/conf.c
+> +++ b/scripts/kconfig/conf.c
+> @@ -76,8 +76,10 @@ static void strip(char *str)
+>  /* Helper function to facilitate fgets() by Jean Sacren. */
+>  static void xfgets(char *str, int size, FILE *in)
+>  {
+> -       if (!fgets(str, size, in))
+> +       if (!fgets(str, size, in)) {
+>                 fprintf(stderr, "\nError in reading or end of file.\n");
+> +               exit(1);
+> +       }
+> 
+>         if (!tty_stdio)
+>                 printf("%s", str);
+> 
+> 
+> 
+> 
+> 
+> 
+> yes "" | make config
+> 
+> will succeed.
+> 
+> 
+> 
+> make config < /dev/null
+> 
+> will fail.
+> 
+> 
+> 
+> 
+> 
+> People expecting the closed stdin to succeed
+> may start complaining, but I believe
+> they must fix their wrong scripts.
+> 
+> 
 
 -- 
 ~Randy
