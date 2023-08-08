@@ -2,48 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38C7B773677
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Aug 2023 04:23:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDB1D773704
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Aug 2023 04:45:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229864AbjHHCXv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 7 Aug 2023 22:23:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48208 "EHLO
+        id S231215AbjHHCpp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 7 Aug 2023 22:45:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229809AbjHHCXu (ORCPT
+        with ESMTP id S229901AbjHHCpn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 7 Aug 2023 22:23:50 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D47021711;
-        Mon,  7 Aug 2023 19:23:47 -0700 (PDT)
+        Mon, 7 Aug 2023 22:45:43 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBCE319AF;
+        Mon,  7 Aug 2023 19:45:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691461427; x=1722997427;
+  t=1691462737; x=1722998737;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Q7npmpsHRBPQceHeeiMRXcb5INCBFSr1nYwKql1PF7I=;
-  b=hNUqbTV+E0B2uD2wQonu+8jR7ghVXuQBnz7xKMs4cV3+J4dUqGGtcULu
-   yJv7S/o+1Xq4b2AZMzrnB3VKIIca7Mm1TZXF9GQrrLHVl4bGjd6Sn98JU
-   SsgywGHobPP43ZvISRL3mZYcw+McAVb47YO6seT51vb1H/Hdfdy7cNsbs
-   MIAYs+yaNj5QB1igYGgQtLlGudu+bppfZ5I5HCSP68K45kiIDxcTMgAHl
-   9yKO7XobND3DgROS7a/vs7e+82YnvcV8tax0BEUgSD75DWA9PrrsbFeU2
-   iQPACFugHrEyulFe7yoqFyl1iDQj0wB4uCVq85f7JKGHdm2ij7gkBbN1U
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="360788176"
+  bh=0z+zOqNkDGFTtr7pqf9PD+lHQCQkE8xsKx0TOsjhCnE=;
+  b=dN7d4Driet/zNAa0rVoK8rf+5tCMXymYV3yxnqaevjEAeu2eU9HOREee
+   u4U5JSiGONRxti2+fbeuc7iLTaNMxtNFbNCDefJ7rKZTms4KPENcmE8lI
+   G45UGFAs4oULrui8mj5/rq5FzqHfvsV1rtdxYLdcDa3m3rCs9EJF0iYRP
+   fsrPDMAG9C+JAcMP9AhOWFJfbqZyt2M7jRgCqsd/maYWwkxEciKHZygZz
+   ngAevmH9bX6a3gXH/MCU5kflqMYjARfty/yzlVHacJ0A3f3b/rH2QBqSa
+   lKcZcRBKh+0O0yqJ/530AgaC4zvY6u5Qz/QCM8EXQ9fpa+Fwn1KejfWX8
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="370695214"
 X-IronPort-AV: E=Sophos;i="6.01,263,1684825200"; 
-   d="scan'208";a="360788176"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2023 19:23:36 -0700
+   d="scan'208";a="370695214"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2023 19:45:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="731196850"
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="801170047"
 X-IronPort-AV: E=Sophos;i="6.01,263,1684825200"; 
-   d="scan'208";a="731196850"
+   d="scan'208";a="801170047"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 07 Aug 2023 19:23:33 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 07 Aug 2023 19:45:34 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1qTCNg-00051R-1Y;
-        Tue, 08 Aug 2023 02:23:32 +0000
-Date:   Tue, 8 Aug 2023 10:23:27 +0800
+        id 1qTCiz-00051t-0x;
+        Tue, 08 Aug 2023 02:45:33 +0000
+Date:   Tue, 8 Aug 2023 10:44:56 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Nick Desaulniers <ndesaulniers@google.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
@@ -54,7 +54,7 @@ Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
         Nick Desaulniers <ndesaulniers@google.com>
 Subject: Re: [PATCH v2] Makefile.extrawarn: enable
  -Wmissing-variable-declarations for W=1
-Message-ID: <202308081000.tTL1ElTr-lkp@intel.com>
+Message-ID: <202308081050.sZEw4cQ5-lkp@intel.com>
 References: <20230807-missing_proto-v2-1-3ae2e188bb0c@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -62,9 +62,8 @@ Content-Disposition: inline
 In-Reply-To: <20230807-missing_proto-v2-1-3ae2e188bb0c@google.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -81,324 +80,371 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Nick-Desaulniers/Makefile
 base:   52a93d39b17dc7eb98b6aa3edb93943248e03b2f
 patch link:    https://lore.kernel.org/r/20230807-missing_proto-v2-1-3ae2e188bb0c%40google.com
 patch subject: [PATCH v2] Makefile.extrawarn: enable -Wmissing-variable-declarations for W=1
-config: riscv-randconfig-r014-20230807 (https://download.01.org/0day-ci/archive/20230808/202308081000.tTL1ElTr-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230808/202308081000.tTL1ElTr-lkp@intel.com/reproduce)
+config: um-randconfig-r031-20230807 (https://download.01.org/0day-ci/archive/20230808/202308081050.sZEw4cQ5-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20230808/202308081050.sZEw4cQ5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308081000.tTL1ElTr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308081050.sZEw4cQ5-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/riscv/kernel/asm-offsets.c:10:
-   In file included from include/linux/mm.h:7:
-   In file included from include/linux/gfp.h:7:
-   In file included from include/linux/mmzone.h:8:
-   In file included from include/linux/spinlock.h:56:
-   In file included from include/linux/preempt.h:79:
-   In file included from ./arch/riscv/include/generated/asm/preempt.h:1:
-   In file included from include/asm-generic/preempt.h:5:
-   In file included from include/linux/thread_info.h:23:
->> arch/riscv/include/asm/current.h:20:30: warning: no previous extern declaration for non-static variable 'riscv_current_is_tp' [-Wmissing-variable-declarations]
-      20 | register struct task_struct *riscv_current_is_tp __asm__("tp");
-         |                              ^
-   arch/riscv/include/asm/current.h:20:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      20 | register struct task_struct *riscv_current_is_tp __asm__("tp");
-         |          ^
->> arch/riscv/include/asm/current.h:36:24: warning: no previous extern declaration for non-static variable 'current_stack_pointer' [-Wmissing-variable-declarations]
-      36 | register unsigned long current_stack_pointer __asm__("sp");
-         |                        ^
-   arch/riscv/include/asm/current.h:36:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      36 | register unsigned long current_stack_pointer __asm__("sp");
-         |          ^
+   In file included from scripts/mod/devicetable-offsets.c:3:
+   In file included from include/linux/mod_devicetable.h:14:
+   In file included from include/linux/uuid.h:11:
+   In file included from include/linux/string.h:20:
+   In file included from arch/x86/include/asm/string.h:5:
+   In file included from arch/x86/include/asm/string_64.h:6:
+   In file included from include/linux/jump_label.h:255:
+   In file included from include/linux/atomic.h:7:
+   In file included from arch/x86/include/asm/atomic.h:7:
+   In file included from arch/x86/include/asm/alternative.h:7:
+>> arch/x86/include/asm/asm.h:208:24: warning: no previous extern declaration for non-static variable 'current_stack_pointer' [-Wmissing-variable-declarations]
+   register unsigned long current_stack_pointer asm(_ASM_SP);
+                          ^
+   arch/x86/include/asm/asm.h:208:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
+   register unsigned long current_stack_pointer asm(_ASM_SP);
+            ^
+   1 warning generated.
+--
+   In file included from arch/um/kernel/asm-offsets.c:1:
+   arch/x86/um/shared/sysdep/kernel-offsets.h:9:6: warning: no previous prototype for function 'foo' [-Wmissing-prototypes]
+   void foo(void)
+        ^
+   arch/x86/um/shared/sysdep/kernel-offsets.h:9:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void foo(void)
+   ^
+   static 
+   In file included from arch/um/kernel/asm-offsets.c:1:
+   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:3:
+   In file included from include/linux/sched.h:12:
+   In file included from ./arch/um/include/generated/asm/current.h:1:
+   In file included from include/asm-generic/current.h:5:
+   In file included from include/linux/thread_info.h:27:
+   In file included from include/linux/bitops.h:34:
+   In file included from include/asm-generic/bitops/generic-non-atomic.h:7:
+   In file included from arch/x86/um/asm/barrier.h:6:
+   In file included from arch/x86/include/asm/alternative.h:7:
+>> arch/x86/include/asm/asm.h:208:24: warning: no previous extern declaration for non-static variable 'current_stack_pointer' [-Wmissing-variable-declarations]
+   register unsigned long current_stack_pointer asm(_ASM_SP);
+                          ^
+   arch/x86/include/asm/asm.h:208:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
+   register unsigned long current_stack_pointer asm(_ASM_SP);
+            ^
    2 warnings generated.
 --
-   In file included from arch/riscv/kernel/process.c:10:
-   In file included from include/linux/cpu.h:17:
-   In file included from include/linux/node.h:18:
-   In file included from include/linux/device.h:15:
-   In file included from include/linux/dev_printk.h:16:
-   In file included from include/linux/ratelimit.h:6:
-   In file included from include/linux/sched.h:12:
->> arch/riscv/include/asm/current.h:20:30: warning: no previous extern declaration for non-static variable 'riscv_current_is_tp' [-Wmissing-variable-declarations]
-      20 | register struct task_struct *riscv_current_is_tp __asm__("tp");
-         |                              ^
-   arch/riscv/include/asm/current.h:20:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      20 | register struct task_struct *riscv_current_is_tp __asm__("tp");
-         |          ^
->> arch/riscv/include/asm/current.h:36:24: warning: no previous extern declaration for non-static variable 'current_stack_pointer' [-Wmissing-variable-declarations]
-      36 | register unsigned long current_stack_pointer __asm__("sp");
-         |                        ^
-   arch/riscv/include/asm/current.h:36:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      36 | register unsigned long current_stack_pointer __asm__("sp");
-         |          ^
->> arch/riscv/kernel/process.c:29:24: warning: no previous extern declaration for non-static variable 'gp_in_global' [-Wmissing-variable-declarations]
-      29 | register unsigned long gp_in_global __asm__("gp");
-         |                        ^
-   arch/riscv/kernel/process.c:29:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      29 | register unsigned long gp_in_global __asm__("gp");
-         |          ^
-   3 warnings generated.
+   In file included from arch/um/drivers/hostaudio_kern.c:6:
+   In file included from include/linux/fs.h:6:
+   In file included from include/linux/wait_bit.h:8:
+   In file included from include/linux/wait.h:7:
+   In file included from include/linux/list.h:11:
+   In file included from arch/x86/um/asm/barrier.h:6:
+   In file included from arch/x86/include/asm/alternative.h:7:
+>> arch/x86/include/asm/asm.h:208:24: warning: no previous extern declaration for non-static variable 'current_stack_pointer' [-Wmissing-variable-declarations]
+   register unsigned long current_stack_pointer asm(_ASM_SP);
+                          ^
+   arch/x86/include/asm/asm.h:208:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
+   register unsigned long current_stack_pointer asm(_ASM_SP);
+            ^
+>> arch/um/drivers/hostaudio_kern.c:316:3: warning: no previous extern declaration for non-static variable 'module_data' [-Wmissing-variable-declarations]
+   } module_data;
+     ^
+   arch/um/drivers/hostaudio_kern.c:313:1: note: declare 'static' if the variable is not intended to be used outside of this translation unit
+   struct {
+   ^
+   2 warnings generated.
 --
-   In file included from arch/riscv/mm/init.c:10:
-   In file included from include/linux/mm.h:7:
-   In file included from include/linux/gfp.h:7:
-   In file included from include/linux/mmzone.h:8:
-   In file included from include/linux/spinlock.h:56:
-   In file included from include/linux/preempt.h:79:
-   In file included from ./arch/riscv/include/generated/asm/preempt.h:1:
-   In file included from include/asm-generic/preempt.h:5:
-   In file included from include/linux/thread_info.h:23:
->> arch/riscv/include/asm/current.h:20:30: warning: no previous extern declaration for non-static variable 'riscv_current_is_tp' [-Wmissing-variable-declarations]
-      20 | register struct task_struct *riscv_current_is_tp __asm__("tp");
-         |                              ^
-   arch/riscv/include/asm/current.h:20:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      20 | register struct task_struct *riscv_current_is_tp __asm__("tp");
-         |          ^
->> arch/riscv/include/asm/current.h:36:24: warning: no previous extern declaration for non-static variable 'current_stack_pointer' [-Wmissing-variable-declarations]
-      36 | register unsigned long current_stack_pointer __asm__("sp");
-         |                        ^
-   arch/riscv/include/asm/current.h:36:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      36 | register unsigned long current_stack_pointer __asm__("sp");
-         |          ^
->> arch/riscv/mm/init.c:276:7: warning: no previous extern declaration for non-static variable 'trampoline_pg_dir' [-Wmissing-variable-declarations]
-     276 | pgd_t trampoline_pg_dir[PTRS_PER_PGD] __page_aligned_bss;
-         |       ^
-   arch/riscv/mm/init.c:276:1: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-     276 | pgd_t trampoline_pg_dir[PTRS_PER_PGD] __page_aligned_bss;
-         | ^
->> arch/riscv/mm/init.c:279:7: warning: no previous extern declaration for non-static variable 'early_pg_dir' [-Wmissing-variable-declarations]
-     279 | pgd_t early_pg_dir[PTRS_PER_PGD] __initdata __aligned(PAGE_SIZE);
-         |       ^
-   arch/riscv/mm/init.c:279:1: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-     279 | pgd_t early_pg_dir[PTRS_PER_PGD] __initdata __aligned(PAGE_SIZE);
-         | ^
-   4 warnings generated.
+   In file included from arch/um/drivers/daemon_kern.c:10:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from arch/um/drivers/daemon_kern.c:10:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from arch/um/drivers/daemon_kern.c:10:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   In file included from arch/um/drivers/daemon_kern.c:10:
+   In file included from include/linux/netdevice.h:24:
+   In file included from include/linux/timer.h:5:
+   In file included from include/linux/list.h:11:
+   In file included from arch/x86/um/asm/barrier.h:6:
+   In file included from arch/x86/include/asm/alternative.h:7:
+>> arch/x86/include/asm/asm.h:208:24: warning: no previous extern declaration for non-static variable 'current_stack_pointer' [-Wmissing-variable-declarations]
+   register unsigned long current_stack_pointer asm(_ASM_SP);
+                          ^
+   arch/x86/include/asm/asm.h:208:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
+   register unsigned long current_stack_pointer asm(_ASM_SP);
+            ^
+   13 warnings generated.
 --
-   drivers/char/ipmi/ipmi_si_platform.c:272:15: warning: cast to smaller integer type 'enum si_type' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-     272 |         io.si_type      = (enum si_type) match->data;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/char/ipmi/ipmi_si_platform.c:13:
-   In file included from include/linux/module.h:14:
-   In file included from include/linux/buildid.h:5:
-   In file included from include/linux/mm_types.h:8:
-   In file included from include/linux/kref.h:16:
-   In file included from include/linux/spinlock.h:56:
-   In file included from include/linux/preempt.h:79:
-   In file included from ./arch/riscv/include/generated/asm/preempt.h:1:
-   In file included from include/asm-generic/preempt.h:5:
-   In file included from include/linux/thread_info.h:23:
->> arch/riscv/include/asm/current.h:20:30: warning: no previous extern declaration for non-static variable 'riscv_current_is_tp' [-Wmissing-variable-declarations]
-      20 | register struct task_struct *riscv_current_is_tp __asm__("tp");
-         |                              ^
-   arch/riscv/include/asm/current.h:20:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      20 | register struct task_struct *riscv_current_is_tp __asm__("tp");
-         |          ^
->> arch/riscv/include/asm/current.h:36:24: warning: no previous extern declaration for non-static variable 'current_stack_pointer' [-Wmissing-variable-declarations]
-      36 | register unsigned long current_stack_pointer __asm__("sp");
-         |                        ^
-   arch/riscv/include/asm/current.h:36:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      36 | register unsigned long current_stack_pointer __asm__("sp");
-         |          ^
-   3 warnings generated.
+   In file included from arch/um/drivers/port_kern.c:7:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from arch/um/drivers/port_kern.c:7:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from arch/um/drivers/port_kern.c:7:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> arch/um/drivers/port_kern.c:147:14: warning: no previous extern declaration for non-static variable 'port_work' [-Wmissing-variable-declarations]
+   DECLARE_WORK(port_work, port_work_proc);
+                ^
+   arch/um/drivers/port_kern.c:147:1: note: declare 'static' if the variable is not intended to be used outside of this translation unit
+   DECLARE_WORK(port_work, port_work_proc);
+   ^
+   include/linux/workqueue.h:194:2: note: expanded from macro 'DECLARE_WORK'
+           struct work_struct n = __WORK_INITIALIZER(n, f)
+           ^
+   In file included from arch/um/drivers/port_kern.c:6:
+   In file included from include/linux/completion.h:12:
+   In file included from include/linux/swait.h:5:
+   In file included from include/linux/list.h:11:
+   In file included from arch/x86/um/asm/barrier.h:6:
+   In file included from arch/x86/include/asm/alternative.h:7:
+>> arch/x86/include/asm/asm.h:208:24: warning: no previous extern declaration for non-static variable 'current_stack_pointer' [-Wmissing-variable-declarations]
+   register unsigned long current_stack_pointer asm(_ASM_SP);
+                          ^
+   arch/x86/include/asm/asm.h:208:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
+   register unsigned long current_stack_pointer asm(_ASM_SP);
+            ^
+   14 warnings generated.
 --
->> net/atm/mpc.c:123:21: warning: no previous extern declaration for non-static variable 'mpcs' [-Wmissing-variable-declarations]
-     123 | struct mpoa_client *mpcs = NULL; /* FIXME */
-         |                     ^
-   net/atm/mpc.c:123:1: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-     123 | struct mpoa_client *mpcs = NULL; /* FIXME */
-         | ^
-   In file included from net/atm/mpc.c:6:
+   In file included from arch/um/drivers/xterm_kern.c:10:
+   In file included from arch/um/include/shared/irq_kern.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from arch/um/drivers/xterm_kern.c:10:
+   In file included from arch/um/include/shared/irq_kern.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from arch/um/drivers/xterm_kern.c:10:
+   In file included from arch/um/include/shared/irq_kern.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   arch/um/drivers/xterm_kern.c:35:5: warning: no previous prototype for function 'xterm_fd' [-Wmissing-prototypes]
+   int xterm_fd(int socket, int *pid_out)
+       ^
+   arch/um/drivers/xterm_kern.c:35:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int xterm_fd(int socket, int *pid_out)
+   ^
+   static 
+   In file included from arch/um/drivers/xterm_kern.c:6:
    In file included from include/linux/slab.h:16:
    In file included from include/linux/gfp.h:7:
    In file included from include/linux/mmzone.h:8:
    In file included from include/linux/spinlock.h:56:
-   In file included from include/linux/preempt.h:79:
-   In file included from ./arch/riscv/include/generated/asm/preempt.h:1:
-   In file included from include/asm-generic/preempt.h:5:
-   In file included from include/linux/thread_info.h:23:
->> arch/riscv/include/asm/current.h:20:30: warning: no previous extern declaration for non-static variable 'riscv_current_is_tp' [-Wmissing-variable-declarations]
-      20 | register struct task_struct *riscv_current_is_tp __asm__("tp");
-         |                              ^
-   arch/riscv/include/asm/current.h:20:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      20 | register struct task_struct *riscv_current_is_tp __asm__("tp");
-         |          ^
->> arch/riscv/include/asm/current.h:36:24: warning: no previous extern declaration for non-static variable 'current_stack_pointer' [-Wmissing-variable-declarations]
-      36 | register unsigned long current_stack_pointer __asm__("sp");
-         |                        ^
-   arch/riscv/include/asm/current.h:36:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      36 | register unsigned long current_stack_pointer __asm__("sp");
-         |          ^
-   3 warnings generated.
---
->> net/llc/llc_conn.c:44:5: warning: no previous extern declaration for non-static variable 'sysctl_llc2_ack_timeout' [-Wmissing-variable-declarations]
-      44 | int sysctl_llc2_ack_timeout = LLC2_ACK_TIME * HZ;
-         |     ^
-   net/llc/llc_conn.c:44:1: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      44 | int sysctl_llc2_ack_timeout = LLC2_ACK_TIME * HZ;
-         | ^
->> net/llc/llc_conn.c:45:5: warning: no previous extern declaration for non-static variable 'sysctl_llc2_p_timeout' [-Wmissing-variable-declarations]
-      45 | int sysctl_llc2_p_timeout = LLC2_P_TIME * HZ;
-         |     ^
-   net/llc/llc_conn.c:45:1: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      45 | int sysctl_llc2_p_timeout = LLC2_P_TIME * HZ;
-         | ^
->> net/llc/llc_conn.c:46:5: warning: no previous extern declaration for non-static variable 'sysctl_llc2_rej_timeout' [-Wmissing-variable-declarations]
-      46 | int sysctl_llc2_rej_timeout = LLC2_REJ_TIME * HZ;
-         |     ^
-   net/llc/llc_conn.c:46:1: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      46 | int sysctl_llc2_rej_timeout = LLC2_REJ_TIME * HZ;
-         | ^
->> net/llc/llc_conn.c:47:5: warning: no previous extern declaration for non-static variable 'sysctl_llc2_busy_timeout' [-Wmissing-variable-declarations]
-      47 | int sysctl_llc2_busy_timeout = LLC2_BUSY_TIME * HZ;
-         |     ^
-   net/llc/llc_conn.c:47:1: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      47 | int sysctl_llc2_busy_timeout = LLC2_BUSY_TIME * HZ;
-         | ^
-   In file included from net/llc/llc_conn.c:16:
-   In file included from include/linux/slab.h:16:
-   In file included from include/linux/gfp.h:7:
-   In file included from include/linux/mmzone.h:8:
-   In file included from include/linux/spinlock.h:56:
-   In file included from include/linux/preempt.h:79:
-   In file included from ./arch/riscv/include/generated/asm/preempt.h:1:
-   In file included from include/asm-generic/preempt.h:5:
-   In file included from include/linux/thread_info.h:23:
->> arch/riscv/include/asm/current.h:20:30: warning: no previous extern declaration for non-static variable 'riscv_current_is_tp' [-Wmissing-variable-declarations]
-      20 | register struct task_struct *riscv_current_is_tp __asm__("tp");
-         |                              ^
-   arch/riscv/include/asm/current.h:20:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      20 | register struct task_struct *riscv_current_is_tp __asm__("tp");
-         |          ^
->> arch/riscv/include/asm/current.h:36:24: warning: no previous extern declaration for non-static variable 'current_stack_pointer' [-Wmissing-variable-declarations]
-      36 | register unsigned long current_stack_pointer __asm__("sp");
-         |                        ^
-   arch/riscv/include/asm/current.h:36:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      36 | register unsigned long current_stack_pointer __asm__("sp");
-         |          ^
-   6 warnings generated.
---
-   drivers/i2c/busses/i2c-bcm-iproc.c:1039:3: warning: cast to smaller integer type 'enum bcm_iproc_i2c_type' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-    1039 |                 (enum bcm_iproc_i2c_type)of_device_get_match_data(&pdev->dev);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/i2c/busses/i2c-bcm-iproc.c:4:
-   In file included from include/linux/delay.h:23:
-   In file included from include/linux/sched.h:12:
->> arch/riscv/include/asm/current.h:20:30: warning: no previous extern declaration for non-static variable 'riscv_current_is_tp' [-Wmissing-variable-declarations]
-      20 | register struct task_struct *riscv_current_is_tp __asm__("tp");
-         |                              ^
-   arch/riscv/include/asm/current.h:20:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      20 | register struct task_struct *riscv_current_is_tp __asm__("tp");
-         |          ^
->> arch/riscv/include/asm/current.h:36:24: warning: no previous extern declaration for non-static variable 'current_stack_pointer' [-Wmissing-variable-declarations]
-      36 | register unsigned long current_stack_pointer __asm__("sp");
-         |                        ^
-   arch/riscv/include/asm/current.h:36:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      36 | register unsigned long current_stack_pointer __asm__("sp");
-         |          ^
-   3 warnings generated.
---
->> drivers/i2c/busses/i2c-amd756.c:286:20: warning: no previous extern declaration for non-static variable 'amd756_smbus' [-Wmissing-variable-declarations]
-     286 | struct i2c_adapter amd756_smbus = {
-         |                    ^
-   drivers/i2c/busses/i2c-amd756.c:286:1: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-     286 | struct i2c_adapter amd756_smbus = {
-         | ^
-   In file included from drivers/i2c/busses/i2c-amd756.c:25:
-   In file included from include/linux/module.h:14:
-   In file included from include/linux/buildid.h:5:
-   In file included from include/linux/mm_types.h:8:
-   In file included from include/linux/kref.h:16:
-   In file included from include/linux/spinlock.h:56:
-   In file included from include/linux/preempt.h:79:
-   In file included from ./arch/riscv/include/generated/asm/preempt.h:1:
-   In file included from include/asm-generic/preempt.h:5:
-   In file included from include/linux/thread_info.h:23:
->> arch/riscv/include/asm/current.h:20:30: warning: no previous extern declaration for non-static variable 'riscv_current_is_tp' [-Wmissing-variable-declarations]
-      20 | register struct task_struct *riscv_current_is_tp __asm__("tp");
-         |                              ^
-   arch/riscv/include/asm/current.h:20:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      20 | register struct task_struct *riscv_current_is_tp __asm__("tp");
-         |          ^
->> arch/riscv/include/asm/current.h:36:24: warning: no previous extern declaration for non-static variable 'current_stack_pointer' [-Wmissing-variable-declarations]
-      36 | register unsigned long current_stack_pointer __asm__("sp");
-         |                        ^
-   arch/riscv/include/asm/current.h:36:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      36 | register unsigned long current_stack_pointer __asm__("sp");
-         |          ^
-   3 warnings generated.
---
-   drivers/i2c/busses/i2c-rcar.c:1066:18: warning: cast to smaller integer type 'enum rcar_i2c_type' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-    1066 |         priv->devtype = (enum rcar_i2c_type)of_device_get_match_data(dev);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/i2c/busses/i2c-rcar.c:15:
-   In file included from include/linux/clk.h:14:
-   In file included from include/linux/notifier.h:14:
-   In file included from include/linux/mutex.h:14:
->> arch/riscv/include/asm/current.h:20:30: warning: no previous extern declaration for non-static variable 'riscv_current_is_tp' [-Wmissing-variable-declarations]
-      20 | register struct task_struct *riscv_current_is_tp __asm__("tp");
-         |                              ^
-   arch/riscv/include/asm/current.h:20:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      20 | register struct task_struct *riscv_current_is_tp __asm__("tp");
-         |          ^
->> arch/riscv/include/asm/current.h:36:24: warning: no previous extern declaration for non-static variable 'current_stack_pointer' [-Wmissing-variable-declarations]
-      36 | register unsigned long current_stack_pointer __asm__("sp");
-         |                        ^
-   arch/riscv/include/asm/current.h:36:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      36 | register unsigned long current_stack_pointer __asm__("sp");
-         |          ^
-   3 warnings generated.
---
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-   In file included from arch/riscv/kernel/asm-offsets.c:10:
-   In file included from include/linux/mm.h:7:
-   In file included from include/linux/gfp.h:7:
-   In file included from include/linux/mmzone.h:8:
-   In file included from include/linux/spinlock.h:56:
-   In file included from include/linux/preempt.h:79:
-   In file included from ./arch/riscv/include/generated/asm/preempt.h:1:
-   In file included from include/asm-generic/preempt.h:5:
-   In file included from include/linux/thread_info.h:23:
->> arch/riscv/include/asm/current.h:20:30: warning: no previous extern declaration for non-static variable 'riscv_current_is_tp' [-Wmissing-variable-declarations]
-      20 | register struct task_struct *riscv_current_is_tp __asm__("tp");
-         |                              ^
-   arch/riscv/include/asm/current.h:20:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      20 | register struct task_struct *riscv_current_is_tp __asm__("tp");
-         |          ^
->> arch/riscv/include/asm/current.h:36:24: warning: no previous extern declaration for non-static variable 'current_stack_pointer' [-Wmissing-variable-declarations]
-      36 | register unsigned long current_stack_pointer __asm__("sp");
-         |                        ^
-   arch/riscv/include/asm/current.h:36:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-      36 | register unsigned long current_stack_pointer __asm__("sp");
-         |          ^
-   2 warnings generated.
+   In file included from include/linux/preempt.h:12:
+   In file included from include/linux/list.h:11:
+   In file included from arch/x86/um/asm/barrier.h:6:
+   In file included from arch/x86/include/asm/alternative.h:7:
+>> arch/x86/include/asm/asm.h:208:24: warning: no previous extern declaration for non-static variable 'current_stack_pointer' [-Wmissing-variable-declarations]
+   register unsigned long current_stack_pointer asm(_ASM_SP);
+                          ^
+   arch/x86/include/asm/asm.h:208:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
+   register unsigned long current_stack_pointer asm(_ASM_SP);
+            ^
+   14 warnings generated.
+..
 
 
-vim +/riscv_current_is_tp +20 arch/riscv/include/asm/current.h
+vim +/current_stack_pointer +208 arch/x86/include/asm/asm.h
 
-7db91e57a0acde Palmer Dabbelt 2017-07-10  19  
-52e7c52d2ded59 Palmer Dabbelt 2020-02-27 @20  register struct task_struct *riscv_current_is_tp __asm__("tp");
-52e7c52d2ded59 Palmer Dabbelt 2020-02-27  21  
-7db91e57a0acde Palmer Dabbelt 2017-07-10  22  /*
-7db91e57a0acde Palmer Dabbelt 2017-07-10  23   * This only works because "struct thread_info" is at offset 0 from "struct
-7db91e57a0acde Palmer Dabbelt 2017-07-10  24   * task_struct".  This constraint seems to be necessary on other architectures
-7db91e57a0acde Palmer Dabbelt 2017-07-10  25   * as well, but __switch_to enforces it.  We can't check TASK_TI here because
-7db91e57a0acde Palmer Dabbelt 2017-07-10  26   * <asm/asm-offsets.h> includes this, and I can't get the definition of "struct
-7db91e57a0acde Palmer Dabbelt 2017-07-10  27   * task_struct" here due to some header ordering problems.
-7db91e57a0acde Palmer Dabbelt 2017-07-10  28   */
-7db91e57a0acde Palmer Dabbelt 2017-07-10  29  static __always_inline struct task_struct *get_current(void)
-7db91e57a0acde Palmer Dabbelt 2017-07-10  30  {
-52e7c52d2ded59 Palmer Dabbelt 2020-02-27  31  	return riscv_current_is_tp;
-7db91e57a0acde Palmer Dabbelt 2017-07-10  32  }
-7db91e57a0acde Palmer Dabbelt 2017-07-10  33  
-7db91e57a0acde Palmer Dabbelt 2017-07-10  34  #define current get_current()
-7db91e57a0acde Palmer Dabbelt 2017-07-10  35  
-fdecfea09328b3 Kees Cook      2022-02-23 @36  register unsigned long current_stack_pointer __asm__("sp");
-fdecfea09328b3 Kees Cook      2022-02-23  37  
+a34746bc43eb63 include/asm-x86/asm.h      H. Peter Anvin  2008-02-04  201  
+f5caf621ee3572 arch/x86/include/asm/asm.h Josh Poimboeuf  2017-09-20  202  /*
+f5caf621ee3572 arch/x86/include/asm/asm.h Josh Poimboeuf  2017-09-20  203   * This output constraint should be used for any inline asm which has a "call"
+f5caf621ee3572 arch/x86/include/asm/asm.h Josh Poimboeuf  2017-09-20  204   * instruction.  Otherwise the asm may be inserted before the frame pointer
+f5caf621ee3572 arch/x86/include/asm/asm.h Josh Poimboeuf  2017-09-20  205   * gets set up by the containing function.  If you forget to do this, objtool
+f5caf621ee3572 arch/x86/include/asm/asm.h Josh Poimboeuf  2017-09-20  206   * may print a "call without frame pointer save/setup" warning.
+f5caf621ee3572 arch/x86/include/asm/asm.h Josh Poimboeuf  2017-09-20  207   */
+196bd485ee4f03 arch/x86/include/asm/asm.h Andrey Ryabinin 2017-09-29 @208  register unsigned long current_stack_pointer asm(_ASM_SP);
+196bd485ee4f03 arch/x86/include/asm/asm.h Andrey Ryabinin 2017-09-29  209  #define ASM_CALL_CONSTRAINT "+r" (current_stack_pointer)
+28b60197b573cd arch/x86/include/asm/asm.h Borislav Petkov 2020-06-04  210  #endif /* __ASSEMBLY__ */
+f5caf621ee3572 arch/x86/include/asm/asm.h Josh Poimboeuf  2017-09-20  211  
 
 -- 
 0-DAY CI Kernel Test Service
