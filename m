@@ -2,215 +2,108 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F40F67748FE
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Aug 2023 21:46:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79E20774975
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Aug 2023 21:56:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236431AbjHHTqZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 8 Aug 2023 15:46:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52708 "EHLO
+        id S233795AbjHHT4D (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 8 Aug 2023 15:56:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235635AbjHHTqG (ORCPT
+        with ESMTP id S229517AbjHHTzp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 8 Aug 2023 15:46:06 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38DBF4A044;
-        Tue,  8 Aug 2023 09:50:23 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-686e0213c0bso4253024b3a.1;
-        Tue, 08 Aug 2023 09:50:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691513422; x=1692118222;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=m86pfXXuQMAMRz51pUxOAytG4Ja5agUvJe7SSaobTsg=;
-        b=lbfB0HwgDOICfiD5Jx2dkcibdBn+BBpeqM+H7RPgRY7cOdP26E6zPQQ/VzPdtli3Rs
-         H8w9FmyUeXjNXMVSuBwJhXEMVH/hWu8C6ivoumSXYOcEdxCGtQri1jpZhcf3PVCoMEI1
-         8fWiHdHnnrduzt9GRtvZTs/6VicmpvNtp03t+a463gRi33+3jnBMaJPoxjAFxMaBT7/L
-         aFhfeDd/ISRwUsDu8gnfocajpdroNsI0ihXQDqjN7bRi9SpbQdtuVmDjPt6W5L1kygFe
-         oc2wap/sNggfuHJSdB8rVwlThAl5+6mQ64Of3dAhYaiA/Z2+P3VEtDXZtKZnUnvTdUMV
-         t1Lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691513422; x=1692118222;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=m86pfXXuQMAMRz51pUxOAytG4Ja5agUvJe7SSaobTsg=;
-        b=fwXTYNG1VgDfihfZO3Ho76o+VaHB4UIbHDujYrTtk0fjr0hevs+w3vxOLkPH5Ec4Bw
-         JuQ4thAQ+S1YqAPY7vMfDPwzhFc0L49UnM/hjdOmsagxPm7CjDRzg0o989XMnMJbRrhb
-         38AO8nam7jUN4NGRdKBpEtkT2ZAZRjdsXjfrlucm0LKSCExVaEj6gnWDbC5x8RgHg6nt
-         JRfvF2FLyGjt9UdkAYj7IgQoQZuuzPB9XFg+EB8OeRbWNOjpXZ8PE+U83k5BBH+3mwRN
-         f7Tk0/Xp2bExh7+koM6/lDHz0+fc1GtkouZFCrp/wrnZrHRTV9xWBnnLLSFqg3OKJFkH
-         KtIA==
-X-Gm-Message-State: AOJu0Yx/Bd6IzmwhgTbHrU+5P1DnzP1BBXpSeosVg1JZNJqRMlqVsQ0R
-        FJDajfO+E+g2nrbHH/DQr/O4ndMRgG8=
-X-Google-Smtp-Source: AGHT+IExw3PsoAFt7iUN1CtlVmtBWxSm6CiZ27g8sCTwbosvnsXuzLew22DanAUYdLPQltuAGYVbjQ==
-X-Received: by 2002:a17:902:c409:b0:1bc:5b36:a2df with SMTP id k9-20020a170902c40900b001bc5b36a2dfmr8343835plk.1.1691502291367;
-        Tue, 08 Aug 2023 06:44:51 -0700 (PDT)
-Received: from [192.168.0.105] ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id z11-20020a170902ee0b00b001bb7a736b4csm9066071plb.77.2023.08.08.06.44.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Aug 2023 06:44:50 -0700 (PDT)
-Message-ID: <97224321-c839-c0a7-52dd-3fb6e52fc15e@gmail.com>
-Date:   Tue, 8 Aug 2023 20:44:36 +0700
+        Tue, 8 Aug 2023 15:55:45 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B8CC67693
+        for <linux-kbuild@vger.kernel.org>; Tue,  8 Aug 2023 11:10:10 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CD2B062992
+        for <linux-kbuild@vger.kernel.org>; Tue,  8 Aug 2023 18:02:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3364BC433C8
+        for <linux-kbuild@vger.kernel.org>; Tue,  8 Aug 2023 18:02:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691517759;
+        bh=y+bRzZEI+/uaEjLsFPrnsVbMgwvQeO3bTp1RLft5tGY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=dtKuGOV7HSKyDqCTTPb96i2G+koap94M+5AoHF/oAPDTUUgQHD9IinFm8XxUgl3lg
+         3zBbHBF/kDoyyvozr4b2d0psryFnoAJkR1XgpWq/XwHVCD0fTNiU86ZDA6iFy0lHuk
+         opg46wMkEvGY5r6ikHOXhxX3Pe0RVQGF3Z08l23evthpx+3gacch79+HmQZWq/qpW+
+         3GA9pgvQ5lpcjXgfmbQUPu6glMsyN64Vwxka1tTVdDUAch833+w6ADupcqHjuPsxPu
+         4pfcNQ1VeBKu1oss1+hcsskY+tR6YM8Wm3jEMMIcAGQaZmWht8zAKjZHjBAy6+I/OS
+         /JuZXbJL4GpUA==
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-56cca35d8c3so3225264eaf.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 08 Aug 2023 11:02:39 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yxo8jUpd6qBk4r30U9zN1KreQb1rxwA0UOcZj0foBmdM4VJTVO8
+        2bECMuhktFM/Z1MOM5o4+vVAgUosu1dsv4cshGE=
+X-Google-Smtp-Source: AGHT+IEZIdJw3D/wjNYKCyyj16WHw2TZ5efp/pHvCarVG6Vpo8X10HNFeHZB/qcqtQ06Vh/NRIMirTG9lHYTpsvX0ZU=
+X-Received: by 2002:a4a:6d4a:0:b0:56d:2adf:80db with SMTP id
+ w10-20020a4a6d4a000000b0056d2adf80dbmr570998oof.3.1691517758517; Tue, 08 Aug
+ 2023 11:02:38 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Content-Language: en-US
-To:     Marcel Holtmann <marcel@holtmann.org>,
-        Johan Hedberg <johan.hedberg@gmail.com>,
-        Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-        TatriX <tatrics@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Regressions <regressions@lists.linux.dev>,
-        Linux Bluetooth <linux-bluetooth@vger.kernel.org>,
-        Linux Kernel Build System <linux-kbuild@vger.kernel.org>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Fwd: Bluetooth LE scan doesn't show device name
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <CAKwvOd=KCT-aqcWctRPVhEoOjkjP+y5TpNK1hV9mq6PuZDvApQ@mail.gmail.com>
+In-Reply-To: <CAKwvOd=KCT-aqcWctRPVhEoOjkjP+y5TpNK1hV9mq6PuZDvApQ@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 9 Aug 2023 03:02:02 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASVZLYh1PZ_0QqVEfopGHUKq8fCVDmpKDZfODzgspPXEQ@mail.gmail.com>
+Message-ID: <CAK7LNASVZLYh1PZ_0QqVEfopGHUKq8fCVDmpKDZfODzgspPXEQ@mail.gmail.com>
+Subject: Re: missing separator. Stop. after rebuild
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Nathan Chancellor <nathan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi,
+On Wed, Aug 9, 2023 at 2:31=E2=80=AFAM Nick Desaulniers <ndesaulniers@googl=
+e.com> wrote:
+>
+> $ wget https://download.01.org/0day-ci/archive/20230808/202308081050.sZEw=
+4cQ5-lkp@intel.com/config
+> -O .config
+> $ make LLVM=3D1 ARCH=3Dum -j128 arch/um/drivers/port_kern.o
+> $ make LLVM=3D1 ARCH=3Dum -j128 arch/um/drivers/port_kern.o
+> arch/um/drivers/.hostaudio_kern.o.cmd:843: *** missing separator.  Stop.
+> $ sed -n -e 842p -e 843p arch/um/drivers/.hostaudio_kern.o.cmd
+> $(deps_arch/um/drivers/hostaudio_kern.o):
+> o)
+>
+> Any idea if this is some form of malformed Makefile rule, or actually
+> a compiler bug generating these .cmd files?
 
-I notice a regression report on Bugzilla [1]. Quoting from it:
 
-> Hi!
-> At some point after kernel 5.9 I started having issues with LE device scanning.
-> Here's how it used to work:
-> 
->     $ bluetoothctl
->     # power on
->     # scan on
->      ...
->     [NEW] Device 68:71:DD:73:97:D5 Playfinity-2
-> 
-> It successfully finds my device and it's name.
-> On a newer kernel instead I'm getting no name:
-> 
->     [NEW] Device 4D:18:19:A8:63:B5 4D-18-19-A8-63-B5
-> 
-> Here's corresponding btmon logs. First from kernel 5.9.12 that can see device's name:
-> 
-> ```5.9.12
->> HCI Event: LE Meta Event (0x3e) plen 33                  #118 [hci0] 5.607028
->       LE Extended Advertising Report (0x0d)
->         Num reports: 1
->         Entry 0
->           Event type: 0x0013
->             Props: 0x0013
->               Connectable
->               Scannable
->               Use legacy advertising PDUs
->             Data status:  [0;32mComplete [0m
->           Legacy PDU Type: ADV_IND (0x0013)
->           Address type: Random (0x01)
->           Address: 68:71:DD:73:97:D5 (Resolvable)
->           Primary PHY: LE 1M
->           Secondary PHY: No packets
->           SID: no ADI field (0xff)
->           TX power: 127 dBm
->           RSSI: -54 dBm (0xca)
->           Periodic advertising interval: 0.00 msec (0x0000)
->           Direct address type: Public (0x00)
->           Direct address: 00:00:00:00:00:00 (OUI 00-00-00)
->           Data length: 0x07
->         02 01 06 03 02 f0 ff                             .......
->         Flags: 0x06
->           LE General Discoverable Mode
->           BR/EDR Not Supported
->         16-bit Service UUIDs (partial): 1 entry
->           Unknown (0xfff0)
->> HCI Event: LE Meta Event (0x3e) plen 49                  #119 [hci0] 5.608029
->       LE Extended Advertising Report (0x0d)
->         Num reports: 1
->         Entry 0
->           Event type: 0x001b
->             Props: 0x001b
->               Connectable
->               Scannable
->               Scan response
->               Use legacy advertising PDUs
->             Data status:  [0;32mComplete [0m
->           Legacy PDU Type: SCAN_RSP to an ADV_SCAN_IND (0x001b)
->           Address type: Random (0x01)
->           Address: 68:71:DD:73:97:D5 (Resolvable)
->           Primary PHY: LE 1M
->           Secondary PHY: No packets
->           SID: no ADI field (0xff)
->           TX power: 127 dBm
->           RSSI: -54 dBm (0xca)
->           Periodic advertising interval: 0.00 msec (0x0000)
->           Direct address type: Public (0x00)
->           Direct address: 00:00:00:00:00:00 (OUI 00-00-00)
->           Data length: 0x17
->         0d 09 50 6c 61 79 66 69 6e 69 74 79 2d 32 02 0a  ..Playfinity-2..
->         00 05 12 50 00 68 00                             ...P.h.
->         Name (complete): Playfinity-2
->         TX power: 0 dBm
->         Peripheral Conn. Interval: 0x0050 - 0x0068
-> ```
-> 
-> And from 6.4.8:
-> 
-> ```6.4.8
->> HCI Event: LE Meta Event (0x3e) plen 33                  #130 [hci0] 9.180207
->       LE Extended Advertising Report (0x0d)
->         Num reports: 1
->         Entry 0
->           Event type: 0x0013
->             Props: 0x0013
->               Connectable
->               Scannable
->               Use legacy advertising PDUs
->             Data status: �[0;32mComplete�[0m
->           Legacy PDU Type: ADV_IND (0x0013)
->           Address type: Random (0x01)
->           Address: 4D:18:19:A8:63:B5 (Resolvable)
->           Primary PHY: LE 1M
->           Secondary PHY: No packets
->           SID: no ADI field (0xff)
->           TX power: 127 dBm
->           RSSI: -53 dBm (0xcb)
->           Periodic advertising interval: 0.00 msec (0x0000)
->           Direct address type: Public (0x00)
->           Direct address: 00:00:00:00:00:00 (OUI 00-00-00)
->           Data length: 0x07
->         02 01 06 03 02 f0 ff                             .......
->         Flags: 0x06
->           LE General Discoverable Mode
->           BR/EDR Not Supported
->         16-bit Service UUIDs (partial): 1 entry
->           Unknown (0xfff0)
-> ```
-> 
-> I've tried compiling 5.9.12 to see if I can bissect, but it fails to compile with gcc12..
-> 
-> Is it expected that newer kernels can't get device name? Perhaps some additional action is needed fetch it?
->  
-> Thanks!
+Presumably, this is the same symptom as Jiri Slaby reported
+some time ago.
 
-See Bugzilla for the full thread.
+If you run a single build for arch/um/drivers/*, bad things may happen.
 
-TatriX: Can you also attach dmesg output to your Bugzilla report?
-Since you also have kernel build problem, can you also attach build
-log (``make 2>&1 | tee build.log``)?
+He reported.
+  This leads often to corrupted arch/um/arch/um/drivers/.ssl.o.cmd.
 
-Anyway, I'm adding this regression to be tracked by regzbot:
+https://lore.kernel.org/linux-kbuild/92f4dfe9-eb87-766b-271a-e57ada3a7dbd@k=
+ernel.org/
 
-#regzbot introduced: v5.9..v6.4 https://bugzilla.kernel.org/show_bug.cgi?id=217773
 
-Thanks.
+A patch exists in ML.
 
-[1]: https://bugzilla.kernel.org/show_bug.cgi?id=217773
+https://lore.kernel.org/all/20230721171857.3612639-2-masahiroy@kernel.org/
 
--- 
-An old man doll... just what I always wanted! - Clara
+
+
+I really want to stop using core-y or drivers-y in arch/*/Makefile.
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
