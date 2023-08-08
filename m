@@ -2,134 +2,182 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 424717749D2
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Aug 2023 22:04:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED0157749F5
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Aug 2023 22:08:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232905AbjHHUE4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 8 Aug 2023 16:04:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44482 "EHLO
+        id S232997AbjHHUIc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 8 Aug 2023 16:08:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232997AbjHHUEo (ORCPT
+        with ESMTP id S233195AbjHHUIO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 8 Aug 2023 16:04:44 -0400
-Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4557C7EEF
-        for <linux-kbuild@vger.kernel.org>; Tue,  8 Aug 2023 11:24:02 -0700 (PDT)
-Received: by mail-qv1-xf2e.google.com with SMTP id 6a1803df08f44-63d23473ed5so34480476d6.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 08 Aug 2023 11:24:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1691519041; x=1692123841;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SuHu2aaGBtXDGm6ZbqKeYvS7JNps7v7hBHb8nXUWyCA=;
-        b=Szm+Vlx1Tmywbd71ISdGfvHzo0S11pvxk8Zu8eH5AWgDVpVmjOfx9T2c/S7v9DhvRs
-         SVXeLVpS4LFejNPELELQsdXNFG3tqCy5u/IcY9VGm7ltFF/7Vgp3uc2y+dHfwx/XqGQ2
-         nyFbRp7LsFY2cYdWXCCJcG3UzplEGvdj86LimvE/TFAArOnUMZuFlGfKs9voq3fxRew/
-         Cdvbw0HwOsexbyJuW8dj4gf1S6ae8FY/Hqq3t7A18oz8ltfyxp32MHDoFE1gaHt7upqZ
-         cy2N5fqsx68LfVRUZCJX9Gf/hivW5Y17MUJ9aRcSEnxmHGAmt6kXHSftBagzVSxwEP4t
-         O8gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691519041; x=1692123841;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SuHu2aaGBtXDGm6ZbqKeYvS7JNps7v7hBHb8nXUWyCA=;
-        b=KkxOonpw0pztZZZ/Ab7dSudeG1NibbmJfDzRRw+RdM2P2zngjE43mXcTmMQt0NuvE4
-         IWgHET5xKL6CSqixyadR8YRd+PBjVT84hBy1DPkKNRmVaW4SwSe/1TKwLR6cnnCTrvmY
-         RV5IMLhmRajbYA5FLeTGfp3i0CB8M6EJeqdkE19ZDi8E7KPw57nmKwjuO/82mNCdFfg5
-         nehMRbR23okgTRj3zGUDW9MOrtBxhGqW6cSUop7NwgXDQyAAQ7l8HEv8qcX5yjRcPWVS
-         D6FLAt0I/wi7m1F9KZ8yv31f6jPhslGQlOHsiANANVS3UGSVouCHFhfrIInhrDvu+wmH
-         olaA==
-X-Gm-Message-State: AOJu0YwqnLlCV/EEISKzUb0reig0mGx4ktLUY3V8U4w4CrHLVIYn7Wth
-        Jo7Xowh/frJ0fK6+k8ucl7BVhO4lBxQZ7CGzezQwNg==
-X-Google-Smtp-Source: AGHT+IEuGYfM7Ti1gjPOBrG90iQRTcKJFDV2Zy0ZEcRXgZXpwwv/qmU8lNj+mqkZvmlZCUr5ZljsFeJuq0iBxNf/iao=
-X-Received: by 2002:a0c:aa94:0:b0:636:14d4:445b with SMTP id
- f20-20020a0caa94000000b0063614d4445bmr215145qvb.9.1691519041270; Tue, 08 Aug
- 2023 11:24:01 -0700 (PDT)
+        Tue, 8 Aug 2023 16:08:14 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9B1265B7;
+        Tue,  8 Aug 2023 11:42:32 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 405B362A29;
+        Tue,  8 Aug 2023 18:42:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3427C433CC;
+        Tue,  8 Aug 2023 18:42:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691520151;
+        bh=V6GroEZc1Lu3vGnXokTIyovbvq0wBDOW55yP+hahU6A=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=q4m2RHbU6fAbgWmSdoAWbgQEoaDcaUQGChAFTP4SADAbV47uhHRot6kzc1dz/e0LN
+         mCwEAgUUlUdLTwP87Q2rLRcc9OnD+nnDUN8NGN6sFwKEJdw4ZVEbIOv4vYGYl/u4vG
+         rzNxTEPoPspUDXBitPV3uv5C0xRx2aeNcNnYd07ulDsx9+12PlToIQJXo0gZqnmOrT
+         0H5ai6W+um/YAMCaY6IuPa2H+IFJQOTvOZkLaYH6gjYssDXr2mroiLlgrNhKQLyFyi
+         +7BhobP6j6FJ716VBNHWtSdO4zjAVVuYH4A4parGctxuEa4ywID2iYEM5Gy5mbKnhM
+         MaugWFmdqVoWg==
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-6bd0c953fd9so376887a34.3;
+        Tue, 08 Aug 2023 11:42:31 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxkjRQau+gz96eVR9LD/hmiHCFn7cGnt7sKy81dsrWbVBFzVbpZ
+        4faApCIViaPgj65WD6SsOXGaDPzWnj4rU1If57Q=
+X-Google-Smtp-Source: AGHT+IE1kMeMgxlH7/iv9E5yoRpEJ5vphNEnh/q42PUxCdJKK/TnVq6TRswiiGhcSR90D+t3Qb4t+irdcQz0aPNdZ74=
+X-Received: by 2002:a05:6870:9a19:b0:1ad:4a74:9d63 with SMTP id
+ fo25-20020a0568709a1900b001ad4a749d63mr553799oab.53.1691520150864; Tue, 08
+ Aug 2023 11:42:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAKwvOd=KCT-aqcWctRPVhEoOjkjP+y5TpNK1hV9mq6PuZDvApQ@mail.gmail.com>
- <CAK7LNASVZLYh1PZ_0QqVEfopGHUKq8fCVDmpKDZfODzgspPXEQ@mail.gmail.com>
-In-Reply-To: <CAK7LNASVZLYh1PZ_0QqVEfopGHUKq8fCVDmpKDZfODzgspPXEQ@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 8 Aug 2023 11:23:50 -0700
-Message-ID: <CAKwvOdno6=XZsAfDpUMgoBtE2kOM+fiO_KOEbkfYMPi1hg+2HA@mail.gmail.com>
-Subject: Re: missing separator. Stop. after rebuild
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        linux-um@lists.infradead.org
+References: <20230807-missing_proto-v2-1-3ae2e188bb0c@google.com>
+ <202308081508.EI3CRzQo-lkp@intel.com> <CAKwvOdnDEaZt-mD2PvMDmCY1WyaqtrH+oM3M5JgZaiOOWA_0YQ@mail.gmail.com>
+ <20230808161707.GA2171444@dev-arch.thelio-3990X>
+In-Reply-To: <20230808161707.GA2171444@dev-arch.thelio-3990X>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 9 Aug 2023 03:41:54 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS8NqjZTWz_Yhp=pzv2rRLjiwk1eYFc_BB+ptYKO7pc+A@mail.gmail.com>
+Message-ID: <CAK7LNAS8NqjZTWz_Yhp=pzv2rRLjiwk1eYFc_BB+ptYKO7pc+A@mail.gmail.com>
+Subject: Re: [PATCH v2] Makefile.extrawarn: enable -Wmissing-variable-declarations
+ for W=1
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        kernel test robot <lkp@intel.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Arnd Bergmann <arnd@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLOCKED,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 8, 2023 at 11:02=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
+On Wed, Aug 9, 2023 at 1:17=E2=80=AFAM Nathan Chancellor <nathan@kernel.org=
+> wrote:
 >
-> On Wed, Aug 9, 2023 at 2:31=E2=80=AFAM Nick Desaulniers <ndesaulniers@goo=
-gle.com> wrote:
+> On Tue, Aug 08, 2023 at 09:01:38AM -0700, Nick Desaulniers wrote:
+> > On Tue, Aug 8, 2023 at 1:03=E2=80=AFAM kernel test robot <lkp@intel.com=
+> wrote:
+> > >
+> > > Hi Nick,
+> > >
+> > > kernel test robot noticed the following build errors:
+> > >
+> > > [auto build test ERROR on 52a93d39b17dc7eb98b6aa3edb93943248e03b2f]
+> > >
+> > > url:    https://github.com/intel-lab-lkp/linux/commits/Nick-Desaulnie=
+rs/Makefile-extrawarn-enable-Wmissing-variable-declarations-for-W-1/2023080=
+8-005859
+> > > base:   52a93d39b17dc7eb98b6aa3edb93943248e03b2f
+> > > patch link:    https://lore.kernel.org/r/20230807-missing_proto-v2-1-=
+3ae2e188bb0c%40google.com
+> > > patch subject: [PATCH v2] Makefile.extrawarn: enable -Wmissing-variab=
+le-declarations for W=3D1
+> > > config: arm64-randconfig-r013-20230807 (https://download.01.org/0day-=
+ci/archive/20230808/202308081508.EI3CRzQo-lkp@intel.com/config)
+> > > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.=
+git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+> > > reproduce: (https://download.01.org/0day-ci/archive/20230808/20230808=
+1508.EI3CRzQo-lkp@intel.com/reproduce)
+> > >
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new =
+version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202308081508.EI3CRzQo=
+-lkp@intel.com/
+> > >
+> > > All errors (new ones prefixed by >>):
+> > >
+> > >    In file included from lib/test_bitops.c:9:
+> > >    In file included from include/linux/module.h:13:
+> > >    In file included from include/linux/stat.h:19:
+> > >    In file included from include/linux/time.h:60:
+> > >    In file included from include/linux/time32.h:13:
+> > >    In file included from include/linux/timex.h:67:
+> > >    In file included from arch/arm64/include/asm/timex.h:8:
+> > >    In file included from arch/arm64/include/asm/arch_timer.h:18:
+> > >    In file included from include/linux/smp.h:110:
+> > >    In file included from include/linux/preempt.h:79:
+> > >    In file included from arch/arm64/include/asm/preempt.h:6:
+> > >    In file included from include/linux/thread_info.h:60:
+> > >    In file included from arch/arm64/include/asm/thread_info.h:18:
+> > > >> arch/arm64/include/asm/stack_pointer.h:8:24: error: no previous ex=
+tern declaration for non-static variable 'current_stack_pointer' [-Werror,-=
+Wmissing-variable-declarations]
+> > >        8 | register unsigned long current_stack_pointer asm ("sp");
+> > >          |                        ^
+> > >    arch/arm64/include/asm/stack_pointer.h:8:10: note: declare 'static=
+' if the variable is not intended to be used outside of this translation un=
+it
+> > >        8 | register unsigned long current_stack_pointer asm ("sp");
+> > >          |          ^
 > >
-> > $ wget https://download.01.org/0day-ci/archive/20230808/202308081050.sZ=
-Ew4cQ5-lkp@intel.com/config
-> > -O .config
-> > $ make LLVM=3D1 ARCH=3Dum -j128 arch/um/drivers/port_kern.o
-> > $ make LLVM=3D1 ARCH=3Dum -j128 arch/um/drivers/port_kern.o
-> > arch/um/drivers/.hostaudio_kern.o.cmd:843: *** missing separator.  Stop=
-.
-> > $ sed -n -e 842p -e 843p arch/um/drivers/.hostaudio_kern.o.cmd
-> > $(deps_arch/um/drivers/hostaudio_kern.o):
-> > o)
+> > I actually don't think that either compiler should warn for variables
+> > with register storage.  I spoke briefly with some GCC folks on IRC and
+> > the initial assesment was agreed.  I've filed
+> > - https://github.com/llvm/llvm-project/issues/64509
+> > - https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D110947
 > >
-> > Any idea if this is some form of malformed Makefile rule, or actually
-> > a compiler bug generating these .cmd files?
+> > Also, I've received 3 emails from zero day; this is expected as the
+> > tree is not W=3D1 clean (actually, I think Arnd has been a lot of
+> > cleanup around these groups of warnings, so I take that back).  What's
+> > more curious to me is that none are GCC builds. I wonder if 0day bot
+> > team is only testing W=3D1 with clang and not GCC?  That would seem lik=
+e
+> > perhaps the bar is higher for LLVM?
 >
+> As far as I am aware, the 0day bot tests both compilers with W=3D1. I
+> think the more likely explanation is that the robot is not testing with
+> prerelease versions of GCC, which is currently 14.x, which is the only
+> version of GCC that has this warning implemented.
 >
-> Presumably, this is the same symptom as Jiri Slaby reported
-> some time ago.
+> > Masahiro, Nathan,
+> > What are your thoughts on how to proceed here? Do we need the tree to
+> > be free of warnings before it can be added to W=3D1? Hopefully not; I
 >
-> If you run a single build for arch/um/drivers/*, bad things may happen.
+> No, otherwise we wouldn't be adding it to W=3D1 ;)
 >
-> He reported.
->   This leads often to corrupted arch/um/arch/um/drivers/.ssl.o.cmd.
+> > would think that's the criteria for promoting a warning from being
+> > hidden behind W=3D1 to being on by default in the top level Makefile.
+> > What are your thoughts?
 >
-> https://lore.kernel.org/linux-kbuild/92f4dfe9-eb87-766b-271a-e57ada3a7dbd=
-@kernel.org/
->
->
-> A patch exists in ML.
->
-> https://lore.kernel.org/all/20230721171857.3612639-2-masahiroy@kernel.org=
-/
+> I think the register storage issue should be resolved in at least clang
+> before this patch is accepted, as that seems to be where the majority of
+> warnings are coming from so far. Like we talked about, I'll take a shot
+> at fixing that. Once that is fixed, I'll build mainline with
+> -Wmissing-variable-declarations to see how many instances there are and
+> if there are any other interesting edge cases that should be fixed in
+> the compiler. After that, I think this should be good to go in. Does
+> that sound reasonable?
 
-Thanks. That resolves the issue for me. Can you pick it up if the UML
-folks don't?  It's been nearly 3 weeks.
 
->
->
->
-> I really want to stop using core-y or drivers-y in arch/*/Makefile.
->
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+Sounds reasonable!
+Thank you.
+
+
 
 
 
 --=20
-Thanks,
-~Nick Desaulniers
+Best Regards
+Masahiro Yamada
