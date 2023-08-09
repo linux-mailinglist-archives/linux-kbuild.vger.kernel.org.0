@@ -2,224 +2,80 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A26F775DEC
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Aug 2023 13:42:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9DAA77643D
+	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Aug 2023 17:42:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234257AbjHILm2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 9 Aug 2023 07:42:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54532 "EHLO
+        id S233605AbjHIPmt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 9 Aug 2023 11:42:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234268AbjHILm1 (ORCPT
+        with ESMTP id S230389AbjHIPmt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 9 Aug 2023 07:42:27 -0400
-Received: from codesynthesis.com (codesynthesis.com [188.40.148.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2DF71FDE;
-        Wed,  9 Aug 2023 04:42:26 -0700 (PDT)
-Received: from brak.codesynthesis.com (unknown [105.186.254.141])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Wed, 9 Aug 2023 11:42:49 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E836B2111;
+        Wed,  9 Aug 2023 08:42:48 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by codesynthesis.com (Postfix) with ESMTPSA id 305C760C77;
-        Wed,  9 Aug 2023 11:42:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codesynthesis.com;
-        s=mail1; t=1691581345;
-        bh=GDaLVaPXx2Q25V9NYICBLSe0SlI0oGLlwVqyrK2CsnY=;
-        h=From:To:Subject:Date:Message-Id:MIME-Version:From;
-        b=L+Mkpu5mALetfMQBMe4EWq+5Nem8m5z0geBer9lwAF0d7xlir1FrBZW7eLNw90lVa
-         esHAUQIAdyFQ9htUftScpywcG/lMahiiP8h9XQG6tN2OkSg1lMLlV42/3rAbLH2Ec4
-         1PCX7WDGBJyV3M/Spi3azkmia9w2be+SKY3Pk4pjYy8Trzl0tIpf+PvQTS3znIiU1T
-         ZiEvpMPj6GD92YazKMy5rGvcd0AC58/A5C3i009seJGcOyqRQGuLJNH17FLKm9ZVnw
-         r64d+NUxjGqV3aM+48PiE8n63bt85Hs3D9riDlFK1nTuE57LBpY8S1IZiBv9Q6psMO
-         ymVP5r9Um/tNA==
-Received: by brak.codesynthesis.com (Postfix, from userid 1000)
-        id 2B369145D38; Wed,  9 Aug 2023 13:42:57 +0200 (SAST)
-From:   Boris Kolpackov <boris@codesynthesis.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Boris Kolpackov <boris@codesynthesis.com>
-Subject: [PATCH v3 1/1] kconfig: port qconf to work with Qt6 in addition to Qt5
-Date:   Wed,  9 Aug 2023 13:42:31 +0200
-Message-Id: <20230809114231.2533523-2-boris@codesynthesis.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230809114231.2533523-1-boris@codesynthesis.com>
-References: <20230809114231.2533523-1-boris@codesynthesis.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 75B6E63F21;
+        Wed,  9 Aug 2023 15:42:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4347CC433C7;
+        Wed,  9 Aug 2023 15:42:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691595767;
+        bh=tPmCD3hLfEfuWygG5x8Az6XzX5lGDP9qkbyRMrIY9mY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=iEzcSNNGnjgubucOpEHZfT0qtx6wcxq6bPjiSSPTFYhvT+GY4ORnpgg+BC/vLX1u5
+         KQEH6K+CzpitQiFM54CHLCkurgJI4W/BN/2biVuRJaMIYVQQD98TXkDu83jPAwooC4
+         znMjKysEhOO5FcTKLY08NQzWYNaKvO5qscfqohp1Y6fPsNgCa66QuDvkygKVsN1x9+
+         rZGX+ZYxx6UvmGfh6p1DatA8F4GmP2u0r5/qTbFamOMqBB9X2fzTpO0hUqv4AdcyWO
+         AOPiIigMlXIIW7myvelKpsZ5JUPafCs9CmgXtBEhK5afBAXFK3hQUNLYwLii/lPwx2
+         BY0v9jubrNsFw==
+Date:   Wed, 9 Aug 2023 08:42:45 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        kernel test robot <lkp@intel.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [PATCH v2] Makefile.extrawarn: enable
+ -Wmissing-variable-declarations for W=1
+Message-ID: <20230809154245.GB832145@dev-arch.thelio-3990X>
+References: <20230807-missing_proto-v2-1-3ae2e188bb0c@google.com>
+ <202308081508.EI3CRzQo-lkp@intel.com>
+ <CAKwvOdnDEaZt-mD2PvMDmCY1WyaqtrH+oM3M5JgZaiOOWA_0YQ@mail.gmail.com>
+ <20230808161707.GA2171444@dev-arch.thelio-3990X>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230808161707.GA2171444@dev-arch.thelio-3990X>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Tested with Qt5 5.15 and Qt6 6.4. Note that earlier versions of Qt5
-are no longer guaranteed to work.
+On Tue, Aug 08, 2023 at 09:17:07AM -0700, Nathan Chancellor wrote:
+> I think the register storage issue should be resolved in at least clang
+> before this patch is accepted, as that seems to be where the majority of
+> warnings are coming from so far. Like we talked about, I'll take a shot
+> at fixing that. Once that is fixed, I'll build mainline with
+> -Wmissing-variable-declarations to see how many instances there are and
+> if there are any other interesting edge cases that should be fixed in
+> the compiler. After that, I think this should be good to go in. Does
+> that sound reasonable?
 
-Signed-off-by: Boris Kolpackov <boris@codesynthesis.com>
----
- scripts/kconfig/qconf-cfg.sh | 25 +++++++++++++++-------
- scripts/kconfig/qconf.cc     | 40 +++++++++++++++++++++++-------------
- 2 files changed, 44 insertions(+), 21 deletions(-)
+I don't think there are any other edge cases from the brief glance I
+gave my build logs but my matrix counts 700+ unique instances of this
+(give or take some, due to interleaving issues). Quite a few but I see
+several in certain files so it might not actually be too bad.
 
-diff --git a/scripts/kconfig/qconf-cfg.sh b/scripts/kconfig/qconf-cfg.sh
-index 117f36e56..0e113b0f2 100755
---- a/scripts/kconfig/qconf-cfg.sh
-+++ b/scripts/kconfig/qconf-cfg.sh
-@@ -5,7 +5,8 @@ cflags=$1
- libs=$2
- bin=$3
- 
--PKG="Qt5Core Qt5Gui Qt5Widgets"
-+PKG5="Qt5Core Qt5Gui Qt5Widgets"
-+PKG6="Qt6Core Qt6Gui Qt6Widgets"
- 
- if [ -z "$(command -v ${HOSTPKG_CONFIG})" ]; then
- 	echo >&2 "*"
-@@ -14,16 +15,26 @@ if [ -z "$(command -v ${HOSTPKG_CONFIG})" ]; then
- 	exit 1
- fi
- 
--if ${HOSTPKG_CONFIG} --exists $PKG; then
--	${HOSTPKG_CONFIG} --cflags ${PKG} > ${cflags}
--	${HOSTPKG_CONFIG} --libs ${PKG} > ${libs}
-+if ${HOSTPKG_CONFIG} --exists $PKG6; then
-+	${HOSTPKG_CONFIG} --cflags ${PKG6} > ${cflags}
-+	# Qt6 requires C++17.
-+	echo -std=c++17 >> ${cflags}
-+	${HOSTPKG_CONFIG} --libs ${PKG6} > ${libs}
-+	${HOSTPKG_CONFIG} --variable=libexecdir Qt6Core > ${bin}
-+	exit 0
-+fi
-+
-+if ${HOSTPKG_CONFIG} --exists $PKG5; then
-+	${HOSTPKG_CONFIG} --cflags ${PKG5} > ${cflags}
-+	${HOSTPKG_CONFIG} --libs ${PKG5} > ${libs}
- 	${HOSTPKG_CONFIG} --variable=host_bins Qt5Core > ${bin}
- 	exit 0
- fi
- 
- echo >&2 "*"
--echo >&2 "* Could not find Qt5 via ${HOSTPKG_CONFIG}."
--echo >&2 "* Please install Qt5 and make sure it's in PKG_CONFIG_PATH"
--echo >&2 "* You need $PKG"
-+echo >&2 "* Could not find Qt6 or Qt5 via ${HOSTPKG_CONFIG}."
-+echo >&2 "* Please install Qt6 or Qt5 and make sure it's in PKG_CONFIG_PATH"
-+echo >&2 "* You need $PKG6 for Qt6"
-+echo >&2 "* You need $PKG5 for Qt5"
- echo >&2 "*"
- exit 1
-diff --git a/scripts/kconfig/qconf.cc b/scripts/kconfig/qconf.cc
-index 78087b2d9..3a4d7a19e 100644
---- a/scripts/kconfig/qconf.cc
-+++ b/scripts/kconfig/qconf.cc
-@@ -5,10 +5,11 @@
-  */
- 
- #include <QAction>
-+#include <QActionGroup>
- #include <QApplication>
- #include <QCloseEvent>
- #include <QDebug>
--#include <QDesktopWidget>
-+#include <QScreen>
- #include <QFileDialog>
- #include <QLabel>
- #include <QLayout>
-@@ -17,6 +18,7 @@
- #include <QMenuBar>
- #include <QMessageBox>
- #include <QToolBar>
-+#include <QRegularExpression>
- 
- #include <stdlib.h>
- 
-@@ -1126,7 +1128,7 @@ QString ConfigInfoView::debug_info(struct symbol *sym)
- 
- QString ConfigInfoView::print_filter(const QString &str)
- {
--	QRegExp re("[<>&\"\\n]");
-+	QRegularExpression re("[<>&\"\\n]");
- 	QString res = str;
- 	for (int i = 0; (i = res.indexOf(re, i)) >= 0;) {
- 		switch (res[i].toLatin1()) {
-@@ -1322,15 +1324,15 @@ ConfigMainWindow::ConfigMainWindow(void)
- 	int width, height;
- 	char title[256];
- 
--	QDesktopWidget *d = configApp->desktop();
- 	snprintf(title, sizeof(title), "%s%s",
- 		rootmenu.prompt->text,
- 		""
- 		);
- 	setWindowTitle(title);
- 
--	width = configSettings->value("/window width", d->width() - 64).toInt();
--	height = configSettings->value("/window height", d->height() - 64).toInt();
-+	QRect g = configApp->primaryScreen()->geometry();
-+	width = configSettings->value("/window width", g.width() - 64).toInt();
-+	height = configSettings->value("/window height", g.height() - 64).toInt();
- 	resize(width, height);
- 	x = configSettings->value("/window x");
- 	y = configSettings->value("/window y");
-@@ -1379,17 +1381,17 @@ ConfigMainWindow::ConfigMainWindow(void)
- 		this, &ConfigMainWindow::goBack);
- 
- 	QAction *quitAction = new QAction("&Quit", this);
--	quitAction->setShortcut(Qt::CTRL + Qt::Key_Q);
-+	quitAction->setShortcut(Qt::CTRL | Qt::Key_Q);
- 	connect(quitAction, &QAction::triggered,
- 		this, &ConfigMainWindow::close);
- 
- 	QAction *loadAction = new QAction(QPixmap(xpm_load), "&Load", this);
--	loadAction->setShortcut(Qt::CTRL + Qt::Key_L);
-+	loadAction->setShortcut(Qt::CTRL | Qt::Key_L);
- 	connect(loadAction, &QAction::triggered,
- 		this, &ConfigMainWindow::loadConfig);
- 
- 	saveAction = new QAction(QPixmap(xpm_save), "&Save", this);
--	saveAction->setShortcut(Qt::CTRL + Qt::Key_S);
-+	saveAction->setShortcut(Qt::CTRL | Qt::Key_S);
- 	connect(saveAction, &QAction::triggered,
- 		this, &ConfigMainWindow::saveConfig);
- 
-@@ -1403,7 +1405,7 @@ ConfigMainWindow::ConfigMainWindow(void)
- 	connect(saveAsAction, &QAction::triggered,
- 		this, &ConfigMainWindow::saveConfigAs);
- 	QAction *searchAction = new QAction("&Find", this);
--	searchAction->setShortcut(Qt::CTRL + Qt::Key_F);
-+	searchAction->setShortcut(Qt::CTRL | Qt::Key_F);
- 	connect(searchAction, &QAction::triggered,
- 		this, &ConfigMainWindow::searchConfig);
- 	singleViewAction = new QAction(QPixmap(xpm_single_view), "Single View", this);
-@@ -1750,11 +1752,21 @@ void ConfigMainWindow::closeEvent(QCloseEvent* e)
- 		e->accept();
- 		return;
- 	}
--	QMessageBox mb("qconf", "Save configuration?", QMessageBox::Warning,
--			QMessageBox::Yes | QMessageBox::Default, QMessageBox::No, QMessageBox::Cancel | QMessageBox::Escape);
--	mb.setButtonText(QMessageBox::Yes, "&Save Changes");
--	mb.setButtonText(QMessageBox::No, "&Discard Changes");
--	mb.setButtonText(QMessageBox::Cancel, "Cancel Exit");
-+
-+	QMessageBox mb(QMessageBox::Icon::Warning, "qconf",
-+		       "Save configuration?");
-+
-+	QPushButton *yb = mb.addButton(QMessageBox::Yes);
-+	QPushButton *db = mb.addButton(QMessageBox::No);
-+	QPushButton *cb = mb.addButton(QMessageBox::Cancel);
-+
-+	yb->setText("&Save Changes");
-+	db->setText("&Discard Changes");
-+	cb->setText("Cancel Exit");
-+
-+	mb.setDefaultButton(yb);
-+	mb.setEscapeButton(cb);
-+
- 	switch (mb.exec()) {
- 	case QMessageBox::Yes:
- 		if (saveConfig())
--- 
-2.40.1
-
+Cheers,
+Nathan
