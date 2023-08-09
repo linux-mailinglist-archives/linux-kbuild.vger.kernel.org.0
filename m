@@ -2,52 +2,70 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2F09774FDB
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Aug 2023 02:32:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 212B9774FEF
+	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Aug 2023 02:42:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230194AbjHIAcC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 8 Aug 2023 20:32:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39132 "EHLO
+        id S230112AbjHIAmY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 8 Aug 2023 20:42:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231445AbjHIAb7 (ORCPT
+        with ESMTP id S229970AbjHIAmY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 8 Aug 2023 20:31:59 -0400
-X-Greylist: delayed 421 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 08 Aug 2023 17:31:53 PDT
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A9AF1BCF;
-        Tue,  8 Aug 2023 17:31:53 -0700 (PDT)
-Received: from localhost.localdomain (unknown [124.16.141.245])
-        by APP-01 (Coremail) with SMTP id qwCowACXngbI3NJkKH5NAg--.27121S2;
-        Wed, 09 Aug 2023 08:24:41 +0800 (CST)
-From:   sunying@nj.iscas.ac.cn
-To:     masahiroy@kernel.org
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ying Sun <sunying@nj.iscas.ac.cn>,
-        Siyuan Guo <zy21df106@buaa.edu.cn>
-Subject: [PATCH] kconfig: add dependency warning print about invalid values in verbose mode
-Date:   Wed,  9 Aug 2023 08:24:36 +0800
-Message-Id: <20230809002436.18079-1-sunying@nj.iscas.ac.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: qwCowACXngbI3NJkKH5NAg--.27121S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3Jr4DJw1UWry5Ww4kCryrtFb_yoWDJr1fpa
-        yUCay7ArsrZF1ayasrKF48Cw1rGas2vr40krs3Cw4UAFy3tws7XrWxGr15tw45Cry8Aw15
-        Ca1Y9FWrCFs7GaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUkI14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
-        6r4UM28EF7xvwVC2z280aVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r1j6r
-        4UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-        jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
-        1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4kE6xkIj40Ew7xC0wCF
-        04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
-        18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vI
-        r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
-        1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
-        x4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUjRVbDUUUUU==
-X-Originating-IP: [124.16.141.245]
-X-CM-SenderInfo: 5vxq5xdqj60y4olvutnvoduhdfq/
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        Tue, 8 Aug 2023 20:42:24 -0400
+Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51D021995
+        for <linux-kbuild@vger.kernel.org>; Tue,  8 Aug 2023 17:42:23 -0700 (PDT)
+Received: by mail-qv1-xf2f.google.com with SMTP id 6a1803df08f44-63f7f16553fso19935676d6.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 08 Aug 2023 17:42:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691541742; x=1692146542;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=r64CGrQGDsN4d4R4HC6B7Gh+uQexkUjo7lJaP3ITkss=;
+        b=PbilY6J+HsYbWGqN4HphV/lX5U67EsloGH+FCDBDfAA6oUdF5O5dYfLfA1oxHKL1pO
+         4mlOTWtdb1OHbYsYt+Qiwebc7DjZEfhmCUDK7/JUhqEsA5Q6IvkEvBWdzb+G2XNl5Hwh
+         t156VxR/I0Owlqsf6sGSqbcoJ0etg2at/YjevF3B5EMwEHN/wH+PfFPvj07fwQOjD32w
+         PNLHuWRqbKiQUlTlFPgri+32zXr2NouaKIUVncnmmIGWzc5d31MOSzXCcqchW/Ttl812
+         6mexoztSVzso689tGhf14uQ2Ylwixk2bUM10RqzEuz8GS2uAF5MWEGDnlmEkg8r6EGDd
+         tRKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691541742; x=1692146542;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r64CGrQGDsN4d4R4HC6B7Gh+uQexkUjo7lJaP3ITkss=;
+        b=GiFSzHUj7cVHLAYGfBSrsVJE+QJUD8mh9jEqXk0i7PRJFU8bqt/dDQGZceYidkNep5
+         OeQO8Dd8W3Ae1LEpxweG7Mz/7iA3k62Jn4Hl+G87YCW8Eg62HzIybFHYlCcPMB3qN4Up
+         5b2IIs7GwdIoI42vwX1pSmyUCXgwS+S1HNKTFkcplinTSJnm5cmrAQ0KG7rliG4WARku
+         vdUE6q2G3VONOKy/5F7NQUHxzQInoHWiWclu0Oc9fJBSOWxmN5DYA1mPxGardAnXd2Oa
+         Ya+S0QJODvAO0Wr++p7euF/O3CL7I/HTpKjOXZcEQd5UBV2A9rGqReArQaL78V6mcdje
+         wXJA==
+X-Gm-Message-State: AOJu0YwoAPcEmaqsmFfi9Cc4ml3vAOr9qHkEAgLkUk4bMElW0qQiuG2z
+        bfHTwetwHm3iMBqUksg90ikC6zfydOKH7A==
+X-Google-Smtp-Source: AGHT+IE9DK0H+AQrXH6VSs/+oRHOJvGIocS0/ELBHV+kVYXmFWUNJtsvMAoIiA9oTYiBx3O6IuFb+A==
+X-Received: by 2002:a0c:f28a:0:b0:636:eff5:f335 with SMTP id k10-20020a0cf28a000000b00636eff5f335mr931150qvl.12.1691541742028;
+        Tue, 08 Aug 2023 17:42:22 -0700 (PDT)
+Received: from jesse-desktop.jtp-bos.lab ([2600:4040:57a3:100:de4f:42:8e69:eb60])
+        by smtp.gmail.com with ESMTPSA id b12-20020a0cf04c000000b00631f02c2279sm4030285qvl.90.2023.08.08.17.42.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Aug 2023 17:42:21 -0700 (PDT)
+From:   Jesse Taube <mr.bossman075@gmail.com>
+X-Google-Original-From: Jesse Taube <Mr.Bossman075@gmail.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Jesse Taube <Mr.Bossman075@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jesse Taube <mr.bossman075@gmail.com>
+Subject: [PATCH v4] kconfig: nconf: Add search jump feature
+Date:   Tue,  8 Aug 2023 20:42:20 -0400
+Message-Id: <20230809004220.1884118-1-Mr.Bossman075@gmail.com>
+X-Mailer: git-send-email 2.40.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,327 +73,315 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Ying Sun <sunying@nj.iscas.ac.cn>
+From: Jesse Taube <mr.bossman075@gmail.com>
 
-Add warning about the configuration option's invalid value in verbose mode,
- including error causes, mismatch dependency, old and new values,
- to help users correct them.
+Menuconfig has a feature where you can "press the key in the (#) prefix
+to jump directly to that location. You will be returned to the current
+search results after exiting this new menu."
 
-Detailed error messages are printed only when the environment variable
- is set like "KCONFIG_VERBOSE=1".
-By default, the current behavior is not changed.
+This commit adds this feature to nconfig, with almost identical code.
 
-Signed-off-by: Siyuan Guo <zy21df106@buaa.edu.cn>
-Signed-off-by: Ying Sun <sunying@nj.iscas.ac.cn>
+Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
 ---
- scripts/kconfig/confdata.c | 121 +++++++++++++++++++++++++++++++++++--
- scripts/kconfig/lkc.h      |   3 +
- scripts/kconfig/symbol.c   |  82 +++++++++++++++++++++++--
- 3 files changed, 195 insertions(+), 11 deletions(-)
+v1->v2:
+ Add selected_conf to go to menu and select a specific option.
+ Use get_line instead of creating new function.
+ Use Masahiro Yamada's new jump search implementation.
+v2->v3:
+ Change `start, end` to size_t and move scope to if
+ Removed redundant assignment of `again` to false.
+v3->v4:
+ Remove unnecessary size_t cast
+ Use ncurses to find line index in selected_conf
+---
+ scripts/kconfig/nconf.c     | 113 ++++++++++++++++++++++++++++++++----
+ scripts/kconfig/nconf.gui.c |  37 ++++++++++--
+ scripts/kconfig/nconf.h     |   5 ++
+ 3 files changed, 140 insertions(+), 15 deletions(-)
 
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 992575f1e976..fa2ae6f63352 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -154,6 +154,7 @@ static void conf_message(const char *fmt, ...)
+diff --git a/scripts/kconfig/nconf.c b/scripts/kconfig/nconf.c
+index 3ba8b1af390f..143a2c351d57 100644
+--- a/scripts/kconfig/nconf.c
++++ b/scripts/kconfig/nconf.c
+@@ -220,7 +220,7 @@ search_help[] =
+ "Location:\n"
+ "  -> Bus options (PCI, PCMCIA, EISA, ISA)\n"
+ "    -> PCI support (PCI [ = y])\n"
+-"      -> PCI access mode (<choice> [ = y])\n"
++"(1)   -> PCI access mode (<choice> [ = y])\n"
+ "Selects: LIBCRC32\n"
+ "Selected by: BAR\n"
+ "-----------------------------------------------------------------\n"
+@@ -231,9 +231,13 @@ search_help[] =
+ "o  The 'Depends on:' line lists symbols that need to be defined for\n"
+ "   this symbol to be visible and selectable in the menu.\n"
+ "o  The 'Location:' lines tell, where in the menu structure this symbol\n"
+-"   is located.  A location followed by a [ = y] indicates that this is\n"
+-"   a selectable menu item, and the current value is displayed inside\n"
+-"   brackets.\n"
++"   is located.\n"
++"     A location followed by a [ = y] indicates that this is\n"
++"     a selectable menu item, and the current value is displayed inside\n"
++"     brackets.\n"
++"     Press the key in the (#) prefix to jump directly to that\n"
++"     location. You will be returned to the current search results\n"
++"     after exiting this new menu.\n"
+ "o  The 'Selects:' line tells, what symbol will be automatically selected\n"
+ "   if this symbol is selected (y or m).\n"
+ "o  The 'Selected by' line tells what symbol has selected this symbol.\n"
+@@ -275,7 +279,9 @@ static const char *current_instructions = menu_instructions;
  
- static const char *conf_filename;
- static int conf_lineno, conf_warnings;
-+const char *verbose;
+ static char *dialog_input_result;
+ static int dialog_input_result_len;
++static int jump_key_char;
  
- static void conf_warning(const char *fmt, ...)
- {
-@@ -226,7 +227,7 @@ static const char *conf_get_rustccfg_name(void)
- static int conf_set_sym_val(struct symbol *sym, int def, int def_flags, char *p)
- {
- 	char *p2;
--
-+	static const char * const type[] = {"unknown", "bool", "tristate", "int", "hex", "string"};
- 	switch (sym->type) {
- 	case S_TRISTATE:
- 		if (p[0] == 'm') {
-@@ -246,9 +247,14 @@ static int conf_set_sym_val(struct symbol *sym, int def, int def_flags, char *p)
- 			sym->flags |= def_flags;
- 			break;
- 		}
--		if (def != S_DEF_AUTO)
--			conf_warning("symbol value '%s' invalid for %s",
-+		if (def != S_DEF_AUTO) {
-+			if (verbose)
-+				conf_warning("symbol value '%s' invalid for %s\n due to its type is %s",
-+				     p, sym->name, type[sym->type]);
-+			else
-+				conf_warning("symbol value '%s' invalid for %s",
- 				     p, sym->name);
-+		}
- 		return 1;
- 	case S_STRING:
- 		/* No escaping for S_DEF_AUTO (include/config/auto.conf) */
-@@ -274,9 +280,14 @@ static int conf_set_sym_val(struct symbol *sym, int def, int def_flags, char *p)
- 			sym->def[def].val = xstrdup(p);
- 			sym->flags |= def_flags;
- 		} else {
--			if (def != S_DEF_AUTO)
--				conf_warning("symbol value '%s' invalid for %s",
--					     p, sym->name);
-+			if (def != S_DEF_AUTO) {
-+				if (verbose)
-+					conf_warning("symbol value '%s' invalid for %s\n due to its type is %s",
-+						p, sym->name, type[sym->type]);
-+				else
-+					conf_warning("symbol value '%s' invalid for %s",
-+						p, sym->name);
-+			}
- 			return 1;
- 		}
- 		break;
-@@ -528,6 +539,7 @@ int conf_read(const char *name)
- 	int conf_unsaved = 0;
- 	int i;
- 
-+	verbose = getenv("KCONFIG_VERBOSE");
- 	conf_set_changed(false);
- 
- 	if (conf_read_simple(name, S_DEF_USER)) {
-@@ -559,6 +571,103 @@ int conf_read(const char *name)
- 			continue;
- 		conf_unsaved++;
- 		/* maybe print value in verbose mode... */
-+		if (verbose) {
-+			if (sym_is_choice_value(sym)) {
-+				struct property *prop = sym_get_choice_prop(sym);
-+				struct symbol *defsym = prop_get_symbol(prop)->curr.val;
-+
-+				if (defsym && defsym != sym) {
-+					struct gstr gs = str_new();
-+
-+					str_printf(&gs,
-+						"\nERROR : %s[%c => %c] value is invalid\n",
-+						sym->name,
-+						tristate2char[sym->def[S_DEF_USER].tri],
-+						tristate2char[sym->curr.tri]);
-+					str_printf(&gs,
-+						" due to its not the choice default symbol\n");
-+					str_printf(&gs,
-+						" the default symbol is %s\n",
-+						defsym->name);
-+					fputs(str_get(&gs), stderr);
-+				}
-+			} else {
-+				switch (sym->type) {
-+				case S_BOOLEAN:
-+				case S_TRISTATE:
-+					if (sym->dir_dep.tri == no &&
-+						sym->def[S_DEF_USER].tri != no) {
-+						struct gstr gs = str_new();
-+
-+						str_printf(&gs,
-+							"\nERROR: unmet direct dependencies detected for %s[%c => %c]\n",
-+							sym->name,
-+							tristate2char[sym->def[S_DEF_USER].tri],
-+							tristate2char[sym->curr.tri]);
-+						str_printf(&gs,
-+							"  Depends on [%c]: ",
-+							sym->dir_dep.tri == mod ? 'm' : 'n');
-+						expr_gstr_print(sym->dir_dep.expr, &gs);
-+						str_printf(&gs, "\n");
-+						fputs(str_get(&gs), stderr);
-+					} else if (sym->rev_dep.tri != no) {
-+						struct gstr gs = str_new();
-+
-+						str_printf(&gs,
-+							"\nERROR : %s[%c => %c] value is invalid\n",
-+							sym->name,
-+							tristate2char[sym->def[S_DEF_USER].tri],
-+							tristate2char[sym->curr.tri]);
-+						str_printf(&gs,
-+							" due to its invisible and it is selected\n");
-+						expr_gstr_print_revdep(sym->rev_dep.expr, &gs, yes,
-+									"  Selected by [y]:\n");
-+						expr_gstr_print_revdep(sym->rev_dep.expr, &gs, mod,
-+									"  Selected by [m]:\n");
-+						fputs(str_get(&gs), stderr);
-+					} else {
-+						sym_validate_default(sym);
-+					}
-+					break;
-+				case S_INT:
-+				case S_HEX:
-+					if (sym->dir_dep.tri == no &&
-+					strcmp((char *)(sym->def[S_DEF_USER].val), "") != 0) {
-+						struct gstr gs = str_new();
-+
-+						str_printf(&gs,
-+							"\nERROR: unmet direct dependencies detected for %s\n",
-+							sym->name);
-+						str_printf(&gs,
-+							"  Depends on [%c]: ",
-+							sym->dir_dep.tri == mod ? 'm' : 'n');
-+						expr_gstr_print(sym->dir_dep.expr, &gs);
-+						str_printf(&gs, "\n");
-+						fputs(str_get(&gs), stderr);
-+					} else {
-+						sym_validate_default(sym);
-+					}
-+					break;
-+				case S_STRING:
-+					if (sym->dir_dep.tri == no &&
-+					strcmp((char *)(sym->def[S_DEF_USER].val), "") != 0) {
-+						struct gstr gs = str_new();
-+
-+						str_printf(&gs,
-+							"\nERROR: unmet direct dependencies detected for %s\n",
-+							sym->name);
-+						str_printf(&gs,
-+							"  Depends on [%c]: ",
-+							sym->dir_dep.tri == mod ? 'm' : 'n');
-+						expr_gstr_print(sym->dir_dep.expr, &gs);
-+						str_printf(&gs, "\n");
-+						fputs(str_get(&gs), stderr);
-+					}
-+				default:
-+					break;
-+				}
-+			}
-+		}
- 	}
- 
- 	for_all_symbols(i, sym) {
-diff --git a/scripts/kconfig/lkc.h b/scripts/kconfig/lkc.h
-index 471a59acecec..820a47fb4968 100644
---- a/scripts/kconfig/lkc.h
-+++ b/scripts/kconfig/lkc.h
-@@ -38,6 +38,8 @@ void zconf_initscan(const char *name);
- void zconf_nextfile(const char *name);
- int zconf_lineno(void);
- const char *zconf_curname(void);
-+extern const char *verbose;
-+static const char tristate2char[3] = {'n', 'm', 'y'};
- 
- /* confdata.c */
- const char *conf_get_configname(void);
-@@ -112,6 +114,7 @@ struct property *sym_get_range_prop(struct symbol *sym);
- const char *sym_get_string_default(struct symbol *sym);
- struct symbol *sym_check_deps(struct symbol *sym);
- struct symbol *prop_get_symbol(struct property *prop);
-+void sym_validate_default(struct symbol *sym);
- 
- static inline tristate sym_get_tristate_value(struct symbol *sym)
- {
-diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-index 0572330bf8a7..8b11d6ea1d30 100644
---- a/scripts/kconfig/symbol.c
-+++ b/scripts/kconfig/symbol.c
-@@ -91,6 +91,53 @@ static struct property *sym_get_default_prop(struct symbol *sym)
- 	return NULL;
++static void selected_conf(struct menu *menu, struct menu *active_menu);
+ static void conf(struct menu *menu);
+ static void conf_choice(struct menu *menu);
+ static void conf_string(struct menu *menu);
+@@ -685,6 +691,57 @@ static int do_exit(void)
+ 	return 0;
  }
  
-+void sym_validate_default(struct symbol *sym)
-+{
-+	if (sym->visible == no) {
-+		struct gstr gs = str_new();
-+		const char *value = sym_get_string_default(sym);
++struct search_data {
++	struct list_head *head;
++	struct menu *target;
++};
 +
-+		switch (sym->type) {
-+		case S_BOOLEAN:
-+		case S_TRISTATE:
-+			if (strcmp(value, "n") != 0) {
-+				str_printf(&gs,
-+					"\nERROR : %s[%c => %c] value is invalid\n due to it has default value\n",
-+					sym->name,
-+					tristate2char[sym->def[S_DEF_USER].tri],
-+					tristate2char[sym->curr.tri]);
-+			} else if (sym->implied.tri != no) {
-+				str_printf(&gs,
-+					"\nERROR : %s[%c => %c] value is invalid\n due to its invisible and has imply value\n",
-+					sym->name,
-+					tristate2char[sym->def[S_DEF_USER].tri],
-+					tristate2char[sym->curr.tri]);
-+				str_printf(&gs,
-+					" Imply : ");
-+				expr_gstr_print(sym->implied.expr, &gs);
-+				str_printf(&gs, "\n");
-+			}
-+			break;
-+		case S_STRING:
-+		case S_INT:
-+		case S_HEX:
-+			if (strcmp(value, "") != 0) {
-+				str_printf(&gs,
-+					"\nERROR : %s[%s => %s] value is invalid\n",
-+					sym->name,
-+					(char *)(sym->def[S_DEF_USER].val),
-+					(char *)(sym->curr.val));
-+				str_printf(&gs,
-+					" due to it has default value\n");
-+			}
-+			break;
-+		default:
-+			break;
-+		}
-+		fputs(str_get(&gs), stderr);
-+	}
++static int next_jump_key(int key)
++{
++	if (key < '1' || key > '9')
++		return '1';
++
++	key++;
++
++	if (key > '9')
++		key = '1';
++
++	return key;
 +}
 +
- struct property *sym_get_range_prop(struct symbol *sym)
- {
- 	struct property *prop;
-@@ -600,7 +647,8 @@ bool sym_string_valid(struct symbol *sym, const char *str)
- bool sym_string_within_range(struct symbol *sym, const char *str)
- {
- 	struct property *prop;
--	long long val;
-+	long long val, left, right;
-+	struct gstr gs = str_new();
++static int handle_search_keys(int key, size_t start, size_t end, void *_data)
++{
++	struct search_data *data = _data;
++	struct jump_key *pos;
++	int index = 0;
++
++	if (key < '1' || key > '9')
++		return 0;
++
++	list_for_each_entry(pos, data->head, entries) {
++		index = next_jump_key(index);
++
++		if (pos->offset < start)
++			continue;
++
++		if (pos->offset >= end)
++			break;
++
++		if (key == index) {
++			data->target = pos->target;
++			return 1;
++		}
++	}
++
++	return 0;
++}
++
++int get_jump_key_char(void)
++{
++	jump_key_char = next_jump_key(jump_key_char);
++
++	return jump_key_char;
++}
  
- 	switch (sym->type) {
- 	case S_STRING:
-@@ -612,8 +660,20 @@ bool sym_string_within_range(struct symbol *sym, const char *str)
- 		if (!prop)
- 			return true;
- 		val = strtoll(str, NULL, 10);
--		return val >= sym_get_range_val(prop->expr->left.sym, 10) &&
--		       val <= sym_get_range_val(prop->expr->right.sym, 10);
-+		left = sym_get_range_val(prop->expr->left.sym, 10);
-+		right = sym_get_range_val(prop->expr->right.sym, 10);
-+		if (val >= left && val <= right)
-+			return true;
-+		if (verbose) {
-+			str_printf(&gs,
-+				"\nERROR: unmet range detected for %s\n",
-+				sym->name);
-+			str_printf(&gs,
-+				" symbol value is %lld, the range is (%lld %lld)\n",
-+				val, left, right);
-+			fputs(str_get(&gs), stderr);
+ static void search_conf(void)
+ {
+@@ -692,7 +749,8 @@ static void search_conf(void)
+ 	struct gstr res;
+ 	struct gstr title;
+ 	char *dialog_input;
+-	int dres;
++	int dres, vscroll = 0, hscroll = 0;
++	bool again;
+ 
+ 	title = str_new();
+ 	str_printf( &title, "Enter (sub)string or regexp to search for "
+@@ -721,11 +779,28 @@ static void search_conf(void)
+ 		dialog_input += strlen(CONFIG_);
+ 
+ 	sym_arr = sym_re_search(dialog_input);
+-	res = get_relations_str(sym_arr, NULL);
++
++	do {
++		LIST_HEAD(head);
++		struct search_data data = {
++			.head = &head,
++			.target = NULL,
++		};
++		jump_key_char = 0;
++		res = get_relations_str(sym_arr, &head);
++		dres = show_scroll_win_ext(main_window,
++				"Search Results", str_get(&res),
++				&vscroll, &hscroll,
++				handle_search_keys, &data);
++		again = false;
++		if (dres >= '1' && dres <= '9') {
++			assert(data.target != NULL);
++			selected_conf(data.target->parent, data.target);
++			again = true;
 +		}
-+		return false;
- 	case S_HEX:
- 		if (!sym_string_valid(sym, str))
- 			return false;
-@@ -621,8 +681,20 @@ bool sym_string_within_range(struct symbol *sym, const char *str)
- 		if (!prop)
- 			return true;
- 		val = strtoll(str, NULL, 16);
--		return val >= sym_get_range_val(prop->expr->left.sym, 16) &&
--		       val <= sym_get_range_val(prop->expr->right.sym, 16);
-+		left = sym_get_range_val(prop->expr->left.sym, 16);
-+		right = sym_get_range_val(prop->expr->right.sym, 16);
-+		if (val >= left && val <= right)
-+			return true;
-+		if (verbose) {
-+			str_printf(&gs,
-+				"\nERROR: unmet range detected for %s\n",
-+				sym->name);
-+			str_printf(&gs,
-+				" symbol value is 0x%llx, the range is (0x%llx 0x%llx)\n",
-+				val, left, right);
-+			fputs(str_get(&gs), stderr);
++		str_free(&res);
++	} while (again);
+ 	free(sym_arr);
+-	show_scroll_win(main_window,
+-			"Search Results", str_get(&res));
+-	str_free(&res);
+ 	str_free(&title);
+ }
+ 
+@@ -1062,10 +1137,15 @@ static int do_match(int key, struct match_state *state, int *ans)
+ }
+ 
+ static void conf(struct menu *menu)
++{
++	selected_conf(menu, NULL);
++}
++
++static void selected_conf(struct menu *menu, struct menu *active_menu)
+ {
+ 	struct menu *submenu = NULL;
+ 	struct symbol *sym;
+-	int res;
++	int i, res;
+ 	int current_index = 0;
+ 	int last_top_row = 0;
+ 	struct match_state match_state = {
+@@ -1081,6 +1161,19 @@ static void conf(struct menu *menu)
+ 		if (!child_count)
+ 			break;
+ 
++		if (active_menu != NULL) {
++			for (i = 0; i < items_num; i++) {
++				struct mitem *mcur;
++
++				mcur = (struct mitem *) item_userptr(curses_menu_items[i]);
++				if ((struct menu *) mcur->usrptr == active_menu) {
++					current_index = i;
++					break;
++				}
++			}
++			active_menu = NULL;
 +		}
-+		return false;
- 	case S_BOOLEAN:
- 	case S_TRISTATE:
- 		switch (str[0]) {
++
+ 		show_menu(menu_get_prompt(menu), menu_instructions,
+ 			  current_index, &last_top_row);
+ 		keypad((menu_win(curses_menu)), TRUE);
+diff --git a/scripts/kconfig/nconf.gui.c b/scripts/kconfig/nconf.gui.c
+index 9aedf40f1dc0..25a7263ef3c8 100644
+--- a/scripts/kconfig/nconf.gui.c
++++ b/scripts/kconfig/nconf.gui.c
+@@ -497,10 +497,17 @@ void refresh_all_windows(WINDOW *main_window)
+ 	refresh();
+ }
+ 
+-/* layman's scrollable window... */
+ void show_scroll_win(WINDOW *main_window,
+ 		const char *title,
+ 		const char *text)
++{
++	(void)show_scroll_win_ext(main_window, title, (char *)text, NULL, NULL, NULL, NULL);
++}
++
++/* layman's scrollable window... */
++int show_scroll_win_ext(WINDOW *main_window, const char *title, char *text,
++			int *vscroll, int *hscroll,
++			extra_key_cb_fn extra_key_cb, void *data)
+ {
+ 	int res;
+ 	int total_lines = get_line_no(text);
+@@ -514,6 +521,12 @@ void show_scroll_win(WINDOW *main_window,
+ 	WINDOW *win;
+ 	WINDOW *pad;
+ 	PANEL *panel;
++	bool done = false;
++
++	if (hscroll)
++		start_x = *hscroll;
++	if (vscroll)
++		start_y = *vscroll;
+ 
+ 	getmaxyx(stdscr, lines, columns);
+ 
+@@ -549,8 +562,7 @@ void show_scroll_win(WINDOW *main_window,
+ 	panel = new_panel(win);
+ 
+ 	/* handle scrolling */
+-	do {
+-
++	while (!done) {
+ 		copywin(pad, win, start_y, start_x, 2, 2, text_lines,
+ 				text_cols, 0);
+ 		print_in_middle(win,
+@@ -593,8 +605,18 @@ void show_scroll_win(WINDOW *main_window,
+ 		case 'l':
+ 			start_x++;
+ 			break;
++		default:
++			if (extra_key_cb) {
++				size_t start = (get_line(text, start_y) - text);
++				size_t end = (get_line(text, start_y + text_lines) - text);
++
++				if (extra_key_cb(res, start, end, data)) {
++					done = true;
++					break;
++				}
++			}
+ 		}
+-		if (res == 10 || res == 27 || res == 'q' ||
++		if (res == 0 || res == 10 || res == 27 || res == 'q' ||
+ 			res == KEY_F(F_HELP) || res == KEY_F(F_BACK) ||
+ 			res == KEY_F(F_EXIT))
+ 			break;
+@@ -606,9 +628,14 @@ void show_scroll_win(WINDOW *main_window,
+ 			start_x = 0;
+ 		if (start_x >= total_cols-text_cols)
+ 			start_x = total_cols-text_cols;
+-	} while (res);
++	}
+ 
++	if (hscroll)
++		*hscroll = start_x;
++	if (vscroll)
++		*vscroll = start_y;
+ 	del_panel(panel);
+ 	delwin(win);
+ 	refresh_all_windows(main_window);
++	return res;
+ }
+diff --git a/scripts/kconfig/nconf.h b/scripts/kconfig/nconf.h
+index 6f925bc74eb3..ab836d582664 100644
+--- a/scripts/kconfig/nconf.h
++++ b/scripts/kconfig/nconf.h
+@@ -67,6 +67,8 @@ typedef enum {
+ 
+ void set_colors(void);
+ 
++typedef int (*extra_key_cb_fn)(int, size_t, size_t, void *);
++
+ /* this changes the windows attributes !!! */
+ void print_in_middle(WINDOW *win, int y, int width, const char *str, int attrs);
+ int get_line_length(const char *line);
+@@ -78,6 +80,9 @@ int dialog_inputbox(WINDOW *main_window,
+ 		const char *title, const char *prompt,
+ 		const char *init, char **resultp, int *result_len);
+ void refresh_all_windows(WINDOW *main_window);
++int show_scroll_win_ext(WINDOW *main_window, const char *title, char *text,
++			int *vscroll, int *hscroll,
++			extra_key_cb_fn extra_key_cb, void *data);
+ void show_scroll_win(WINDOW *main_window,
+ 		const char *title,
+ 		const char *text);
 -- 
-2.17.1
+2.40.0
 
