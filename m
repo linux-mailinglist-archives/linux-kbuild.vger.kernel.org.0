@@ -2,129 +2,110 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A898077A01B
-	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Aug 2023 15:20:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60EE677A123
+	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Aug 2023 18:44:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231639AbjHLNUr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 12 Aug 2023 09:20:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53928 "EHLO
+        id S229708AbjHLQop (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 12 Aug 2023 12:44:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229555AbjHLNUq (ORCPT
+        with ESMTP id S229937AbjHLQoo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 12 Aug 2023 09:20:46 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F3F212D;
-        Sat, 12 Aug 2023 06:20:50 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E1E146224B;
-        Sat, 12 Aug 2023 13:20:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B962C433CD;
-        Sat, 12 Aug 2023 13:20:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691846449;
-        bh=KiVWzwXffBabZj7CaC7L9spu8MLm1nLoW46GmfuHr5s=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=uDsgi91R7OO5cmIqME2rfwo/u+9X6sdMXifhh2eW56E/9QHFZ8buOri1KRG/jt+G6
-         8+QbJCClsDsl3SoV9tFc3Cv07ACdjrY43V6J82KYjrWN+j6Nf+o+1DHSXdav+UwH1b
-         E+t2eL3o1+i4HI/sIEy9aEkaFfJgpFUSov1mjkfsF83aZ9Xb4xsf+zKCUrl9rUczuk
-         Ub5O998ndmWR0lS73BW0Vomw1cq5n4wuCpFET9oJiIGfU+8QHRsYlttxiuA2VZ4WTG
-         eFMh4mR28MXXv0+6rLeMYOU4RhwNWOVHLA4EdU/EZAbMHFhuutweNHmeeOqOq+ERdx
-         yfGLLBpOGB3PA==
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-1c4c5375329so357371fac.2;
-        Sat, 12 Aug 2023 06:20:49 -0700 (PDT)
-X-Gm-Message-State: AOJu0YzYEmw7cioUmP6HTh82tOjmN81rFcJ6L6QauRrDywCGQFsltOcc
-        pty4a71jH17E46qGwTPBxE7ievGzy2FYtF2g+Go=
-X-Google-Smtp-Source: AGHT+IHoxEQlqrIU4O3r11MseHpu1yyRFBIkG9En7CKCXXTtmG0Q429l28yOXSom5BW0J5S5cdaQyIGpzfnCB8QYgXk=
-X-Received: by 2002:a05:6870:b4ac:b0:1bf:8c9a:9a2c with SMTP id
- y44-20020a056870b4ac00b001bf8c9a9a2cmr4873526oap.15.1691846448497; Sat, 12
- Aug 2023 06:20:48 -0700 (PDT)
+        Sat, 12 Aug 2023 12:44:44 -0400
+Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A93210CE
+        for <linux-kbuild@vger.kernel.org>; Sat, 12 Aug 2023 09:44:47 -0700 (PDT)
+Date:   Sat, 12 Aug 2023 16:44:40 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail3; t=1691858683; x=1692117883;
+        bh=bTzoFxrlHH2cDQUfoco5sqOK11g/mVuswhnPAsuj0oQ=;
+        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+         Message-ID:BIMI-Selector;
+        b=AZ3N9Y/W5RIhHwGLCvse6MWN59N03msJseYBuHcW63piDR+ebPzOe3Cs4WcOLaImg
+         T2jnz1WtNEKnHIXbY5JuV/tjvhSSAzn+uPlMPevvBxLAmyjt+yabI9rDHJEM1it8gV
+         87Rrjh3TWSSaA1ySxCBGG6cN0OJ4hSDFJGZQ15+z2TuIzkN5oEJ6QC3Nr69ROt0sed
+         IV0Gh3v0JyNkVW2bYrB8KmCU7nlLnYwIRZP7qo2Vti1sp8O+N/MqPiBzWpDx6wdjat
+         JuHWIMHrxhnSUKiFO1cmXzUcmUFmuZ/ZrzEw3dMtVhfJiYwZiARxH2UeppLVMnDHRK
+         XyZIRiiQcF/Lw==
+To:     Masahiro Yamada <masahiroy@kernel.org>
+From:   Rahul Rameshbabu <sergeantsagara@protonmail.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] scripts: merge_config: Add flag to prevent unsetting config option
+Message-ID: <871qg8cirv.fsf@protonmail.com>
+In-Reply-To: <CAK7LNAS2XKRisvMkB+dw3ZnExYuy9U8xB9BXnXy2FvqZWrRk-g@mail.gmail.com>
+References: <20230729214138.79902-1-sergeantsagara@protonmail.com> <CAK7LNAR_Egr+G9_HmGfrmFAEQ0Tznmbff0w9cJ=1biV5P4PmNQ@mail.gmail.com> <875y5rsd6c.fsf@protonmail.com> <CAK7LNAS2XKRisvMkB+dw3ZnExYuy9U8xB9BXnXy2FvqZWrRk-g@mail.gmail.com>
+Feedback-ID: 26003777:user:proton
 MIME-Version: 1.0
-References: <20230811140327.3754597-1-arnd@kernel.org> <20230811140327.3754597-7-arnd@kernel.org>
-In-Reply-To: <20230811140327.3754597-7-arnd@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 12 Aug 2023 22:20:12 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARmwOE0YD0BGKTgbqwiMWjX-b=f8WwyFCnv-b9hi9SmXA@mail.gmail.com>
-Message-ID: <CAK7LNARmwOE0YD0BGKTgbqwiMWjX-b=f8WwyFCnv-b9hi9SmXA@mail.gmail.com>
-Subject: Re: [PATCH 6/9] extrawarn: move -Wrestrict into W=1 warnings
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Guenter Roeck <linux@roeck-us.net>, Lee Jones <lee@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Aug 12, 2023 at 4:40=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wro=
-te:
+
+On Tue, 08 Aug, 2023 04:04:37 +0900 "Masahiro Yamada" <masahiroy@kernel.org=
+> wrote:
+> On Mon, Aug 7, 2023 at 1:13=E2=80=AFPM Rahul Rameshbabu
+> <sergeantsagara@protonmail.com> wrote:
+>>
+>>
+>> On Sun, 06 Aug, 2023 23:19:55 +0900 "Masahiro Yamada" <masahiroy@kernel.=
+org> wrote:
+>> > On Sun, Jul 30, 2023 at 6:42=E2=80=AFAM Rahul Rameshbabu
+>> > <sergeantsagara@protonmail.com> wrote:
+>> >>
+>> >> Overriding a previously defined entry for a config option with 'is no=
+t set'
+>> >> may be undesirable in some fragment configuration setups.
+>> >
+>> > Then, you should remove the 'is not set' entry from the fragment.
+>>
+>> I had a feeling that was the expectation. Just for reference, my flow
+>> for generating fragments looks like the following.
+>>
+>>   1. make allnoconfig
+>>   2. make menuconfig   # select the options that I desire for the fragme=
+nt
 >
-> From: Arnd Bergmann <arnd@arndb.de>
 >
-> There are few of these, so enable them whenever W=3D1 is enabled.
+> Sorry, I could not understand
+> how these steps generate a fragment file.
 >
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  scripts/Makefile.extrawarn | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+> You will get a full .config file
+> after 'make menuconfig'.
+
+Yep, this is right. I am not really generating a fragment this way but
+rather full configs with minimal options that I end up wanting to merge
+together. What's your process for generating fragments you need? Just
+dumping the options you want in fragment files and letting make properly
+select the dependencies?
+
 >
-> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-> index ec528972371fa..8abe90270b335 100644
-> --- a/scripts/Makefile.extrawarn
-> +++ b/scripts/Makefile.extrawarn
-> @@ -54,9 +54,6 @@ KBUILD_CFLAGS +=3D -Wno-pointer-sign
->  # globally built with -Wcast-function-type.
->  KBUILD_CFLAGS +=3D $(call cc-option, -Wcast-function-type)
 >
-> -# Another good warning that we'll want to enable eventually
-> -KBUILD_CFLAGS +=3D $(call cc-disable-warning, restrict)
-> -
->  # The allocators already balk at large sizes, so silence the compiler
->  # warnings for bounds checks involving those possible values. While
->  # -Wno-alloc-size-larger-than would normally be used here, earlier versi=
-ons
-> @@ -99,6 +96,7 @@ ifneq ($(findstring 1, $(KBUILD_EXTRA_WARN)),)
 >
->  KBUILD_CFLAGS +=3D -Wextra -Wunused -Wno-unused-parameter
->  KBUILD_CFLAGS +=3D -Wmissing-declarations
-> +KBUILD_CFLAGS +=3D $(call cc-option, -Wrestrict)
-
-
-Like the previous patch, -Wall implies -Wrestrict.
-
-I'd like to remove it as we can save cc-option call.
-
-
-
-
->  KBUILD_CFLAGS +=3D -Wmissing-format-attribute
->  KBUILD_CFLAGS +=3D -Wmissing-prototypes
->  KBUILD_CFLAGS +=3D -Wold-style-definition
-> @@ -120,6 +118,7 @@ else
->  # Suppress them by using -Wno... except for W=3D1.
->  KBUILD_CFLAGS +=3D $(call cc-disable-warning, unused-but-set-variable)
->  KBUILD_CFLAGS +=3D $(call cc-disable-warning, unused-const-variable)
-> +KBUILD_CFLAGS +=3D $(call cc-disable-warning, restrict)
->  KBUILD_CFLAGS +=3D $(call cc-disable-warning, packed-not-aligned)
->  KBUILD_CFLAGS +=3D $(call cc-disable-warning, format-overflow)
->  KBUILD_CFLAGS +=3D $(call cc-disable-warning, format-truncation)
-> --
-> 2.39.2
 >
+>
+>> We can drop this patch if this is the expected developer flow. I
+>> realized that overriding with 'is not set' entries in a fragment is
+>> likely desirable, so I made this behavior change as part of a flag that
+>> can be set by the user.
+>>
+>> --
+>> Thanks,
+>>
+>> Rahul Rameshbabu
+>>
 
 
---=20
-Best Regards
-Masahiro Yamada
+--
+Thanks,
+
+Rahul Rameshbabu
+
