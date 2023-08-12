@@ -2,130 +2,139 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D77D6779E8C
-	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Aug 2023 11:29:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3101779FE2
+	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Aug 2023 14:05:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236294AbjHLJ3O (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 12 Aug 2023 05:29:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35990 "EHLO
+        id S232417AbjHLMFL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 12 Aug 2023 08:05:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231649AbjHLJ3N (ORCPT
+        with ESMTP id S232345AbjHLMFK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 12 Aug 2023 05:29:13 -0400
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D233DA;
-        Sat, 12 Aug 2023 02:29:16 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id D61135C00D7;
-        Sat, 12 Aug 2023 05:29:13 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Sat, 12 Aug 2023 05:29:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-transfer-encoding:content-type:content-type:date
-        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to; s=fm3; t=
-        1691832553; x=1691918953; bh=ycCh0iRFEDX650t2q02zbosoMHwrgpHymlC
-        M61ZT6eQ=; b=Ixm/SqIUOckP/MxJJGfoqvNc+XcPAmKsv48ABv5RshTYQ23HkfE
-        Y8N95y1f2774roeBDPb7JmQvsdNZgk6OheIVPpi9dc2NXu7/Da5w7lFRmXK9EjpK
-        7qvGUqcMw/K7NY7a53f7WJVvk/4hBed9plRmUfA4K7jUTcUhUvlE9VhGDbgq/Auq
-        5MhRPfx3dB1LQwEjpG4XPCkDr24OWPvgmyVKpRzQEDBP1Zg7HcIX5ggnP1Mk2zGj
-        8H0PsoIcRXA0vwO/TdQnlSd4YOpUUkekVZqGlx7S8jgKHHriVX26FRO2taCpnDOu
-        tQt9eLZdlseaz2WEOSMdCTtraHwgznYRrxA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:content-type:date:date:feedback-id:feedback-id
-        :from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-        1691832553; x=1691918953; bh=ycCh0iRFEDX650t2q02zbosoMHwrgpHymlC
-        M61ZT6eQ=; b=hHCRU9i6T4vg06KHMwPR74hLYeYBlL7+aZHkKcm5+4WqmoA6Cam
-        fzzPTZckcs8IumnH5j46kpwpaSY/kWuFyMx7fRJTzKWzhSnpFLe336wDkG6t2stU
-        PixVUAioMqrDrTlfAHxk6iODmq7RVGj6aTSJl4TFla+sG/N1rZRh3JY3GkfBXNBL
-        6EOaVsVql8WPIY+9QmsQt1EemWRudJ66KJuE56YcViaIw9O7GzOlSMhQPiskpgr7
-        GlN5BEZLGRwIA4fn4zhgt4PevQut7IQLulBUSksM9TNqQ0uVlmOjKS8rrWjOMOzF
-        5hCErpTFgPKM0FnH+3a/tu58dLHxz3CDXPA==
-X-ME-Sender: <xms:6FDXZJJzkuxGXtCTh7MvqRlKbPMQ2wbF_sPoV3SMtSBtrjbYdgBMvQ>
-    <xme:6FDXZFJ9vrwKnDejiOjVrikXOsGxq96alqgAx2bvlP_phUBMoHEtQqUX39y7xawBf
-    Y7N_tooTeILqmiWVcY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedruddttddgudehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
-    gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:6FDXZBtgqxyY8c9ZcGBq-ZZxvDa1SytbixWrjUlIxa5b_ZbrOyqeTA>
-    <xmx:6FDXZKaZF3X5DSyl24w_LNOVwa6JK0O0Z-6ZB-LRP1bewXNBhNUJUQ>
-    <xmx:6FDXZAZUY-QQEvHX-jeiXLuqIiR2PO8ssZK0cML_nTGCULUGbBSLIQ>
-    <xmx:6VDXZA4A6uQ3Rd-5A73JjMw9hzy6TZ58R4pvPOt4q-VlX5LAiYKndg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 3A579B60089; Sat, 12 Aug 2023 05:29:12 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-624-g7714e4406d-fm-20230801.001-g7714e440
-Mime-Version: 1.0
-Message-Id: <6574626d-3853-4ef5-a481-5c03894e4ba2@app.fastmail.com>
-In-Reply-To: <CAK7LNAT0BZ107ngRNQvVO4DjOKj8AOrD2860rOgQ84WP9QfaFw@mail.gmail.com>
-References: <20230811140327.3754597-1-arnd@kernel.org>
- <20230811140327.3754597-4-arnd@kernel.org>
- <CAK7LNAT0BZ107ngRNQvVO4DjOKj8AOrD2860rOgQ84WP9QfaFw@mail.gmail.com>
-Date:   Sat, 12 Aug 2023 11:28:51 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Masahiro Yamada" <masahiroy@kernel.org>,
-        "Arnd Bergmann" <arnd@kernel.org>
-Cc:     "Nathan Chancellor" <nathan@kernel.org>,
-        "Nick Desaulniers" <ndesaulniers@google.com>,
-        "Nicolas Schier" <nicolas@fjasle.eu>,
-        "Guenter Roeck" <linux@roeck-us.net>, "Lee Jones" <lee@kernel.org>,
-        "Stephen Rothwell" <sfr@canb.auug.org.au>,
-        linux-kbuild@vger.kernel.org,
-        Linux-Arch <linux-arch@vger.kernel.org>
-Subject: Re: [PATCH 3/9] Kbuild: avoid duplicate warning options
-Content-Type: text/plain;charset=utf-8
+        Sat, 12 Aug 2023 08:05:10 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9BCA93;
+        Sat, 12 Aug 2023 05:05:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4C003618D1;
+        Sat, 12 Aug 2023 12:05:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADA47C433CD;
+        Sat, 12 Aug 2023 12:05:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691841912;
+        bh=SMUP+MK3xtF3YXZGKSEMQ9XcM9KfyYtk/JTYo544pNk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=WdiqiSbOqwaWwxPVdKynTNX3Y7LlJ9IhVJPvZATGIgywQmbKfRIZgVoHKIXG9hJzV
+         316nqsifbqUMl21fwHiAwMLFJ9ecp54CIynOQw1OssslzGrpRKUeS8YQqWbwZPsh86
+         MFM2lRd9hApnlR0wH9n4q6/C6sH6TY9mayCBCvGq1FwTtvdaZ6Q/+skb3XFldF5AEY
+         IeDSpx42ucuz1JooE/GbXRWUS2hBCW7toYPN12VkIVra5lGzIAnvEfzdGSprBgq9Qw
+         QZYlxCBukv1A18Z5qSt9pBXYyIaI40Mx3mXjYyWbPkJsW+Ej8FCMUi5vnfO943jaCd
+         0gXX8sP0AemEQ==
+Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-56ce936f7c0so2195329eaf.3;
+        Sat, 12 Aug 2023 05:05:12 -0700 (PDT)
+X-Gm-Message-State: AOJu0YzT5hAPA66+hoSkOb6xtu+vXc9Ror8FwqzBhwvRnHJ6GGfiYw5m
+        /394MdJL3Qt84gUIdRvHnyt4AFEpxtIBU0OuEmg=
+X-Google-Smtp-Source: AGHT+IGol+2y7f9YRu4c0bvYKKhR7ejSYGRxgORzf+/fWofgkROAxCPQxiOQ8o35BBnOMung8rhmeveaQl/+f1qtE1U=
+X-Received: by 2002:a4a:275b:0:b0:56d:2d49:13c2 with SMTP id
+ w27-20020a4a275b000000b0056d2d4913c2mr3100452oow.4.1691841911971; Sat, 12 Aug
+ 2023 05:05:11 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230811140327.3754597-1-arnd@kernel.org> <20230811140327.3754597-5-arnd@kernel.org>
+In-Reply-To: <20230811140327.3754597-5-arnd@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 12 Aug 2023 21:04:35 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASfNM9D=U_SjG5FoOy-=rrGKCRUJS_RB-XFa7oTpEuy-g@mail.gmail.com>
+Message-ID: <CAK7LNASfNM9D=U_SjG5FoOy-=rrGKCRUJS_RB-XFa7oTpEuy-g@mail.gmail.com>
+Subject: Re: [PATCH 4/9] extrawarn: don't turn off -Wshift-negative-value for gcc-9
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Guenter Roeck <linux@roeck-us.net>, Lee Jones <lee@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Aug 12, 2023, at 11:21, Masahiro Yamada wrote:
-> On Sat, Aug 12, 2023 at 5:50=E2=80=AFPM Arnd Bergmann <arnd@kernel.org=
-> wrote:
+On Sat, Aug 12, 2023 at 5:00=E2=80=AFAM Arnd Bergmann <arnd@kernel.org> wro=
+te:
 >
-> GCC manual says -Wall implies -Wmaybe-uninitialized.
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> If you move -Wno-maybe-uninitialize to the "W !=3D 2" part,
-> -Wmaybe-uninitialized is unneeded in the 'W =3D=3D 2" part.
+> The warning does nothing for newer versions of gcc since -fno-strict-over=
+flow
+> is used, on old versions it warns about lines that would be undefined
+> otherwise:
 >
-> Maybe, the same applies to -Wunused-but-set-parameter.
+> fs/isofs/util.c: In function 'iso_date':
+> fs/isofs/util.c:40:14: error: left shift of negative value [-Werror=3Dshi=
+ft-negative-value]
+>     tz |=3D (-1 << 8);
+>               ^~
+> drivers/video/fbdev/tdfxfb.c: In function 'tdfxfb_probe':
+> drivers/video/fbdev/tdfxfb.c:1482:17: error: left shift of negative value=
+ [-Werror=3Dshift-negative-value]
+>       (PAGE_MASK << 1);
+>                  ^~
+> drivers/tty/serial/8250/8250_core.c: In function 'serial8250_request_rsa_=
+resource':
+> drivers/tty/serial/8250/8250_core.c:350:38: error: left shift of negative=
+ value [-Werror=3Dshift-negative-value]
+>   unsigned long start =3D UART_RSA_BASE << up->port.regshift;
+>                                       ^~
+> drivers/tty/serial/8250/8250_core.c: In function 'serial8250_release_rsa_=
+resource':
+> drivers/tty/serial/8250/8250_core.c:371:39: error: left shift of negative=
+ value [-Werror=3Dshift-negative-value]
+>   unsigned long offset =3D UART_RSA_BASE << up->port.regshift;
+>                                        ^~
+> drivers/clk/mvebu/dove-divider.c: In function 'dove_set_clock':
+> drivers/clk/mvebu/dove-divider.c:145:14: error: left shift of negative va=
+lue [-Werror=3Dshift-negative-value]
+>   mask =3D ~(~0 << dc->div_bit_size) << dc->div_bit_start;
+>               ^~
+> drivers/block/drbd/drbd_main.c: In function 'dcbp_set_pad_bits':
+> drivers/block/drbd/drbd_main.c:1098:37: error: left shift of negative val=
+ue [-Werror=3Dshift-negative-value]
+>   p->encoding =3D (p->encoding & (~0x7 << 4)) | (n << 4);
 >
-> Shall we drop warnings implied by another, or
-> is it clearer to explicitly add either -Wfoo or -Wno-foo?
->
-> If desired, we can do such a clean-up later, though.
+> Disable these conditionally to keep the command line a little shorter.
 
-Right, we can probably drop that, I've gone back and forth
-on this how to handle these. Some of the warnings are
-handled differently between gcc and clang, or differently
-between compiler versions, where they are sometimes
-implied and sometimes need to be specified explicitly.
 
-What I've tried to do here is to do the change in the least
-invasive way to ensure that this larger patch does not
-change the behavior. My preference would be for you
-to merge it like this unless you see a bug, and then
-do another cleanup pass where we remove the ones implied
-by either -Wall or -Wextra on all known versions.
 
-I'll be on vacation the next few weeks starting on
-Tuesday and will be able to reply to emails, but won't
-have a chance to sufficiently test any significant
-reworks of my series before the merge window.
+Just a nit for the commit subject and description.
 
-    Arnd
+It mentions only gcc, but also affects clang.
+
+
+
+
+Is the following a better subject?
+
+  extrawarn: don't turn off -Wshift-negative-value for gcc-9+ or clang
+
+or
+
+  extrawarn: turn off -Wshift-negative-value only for gcc < 9
+
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
