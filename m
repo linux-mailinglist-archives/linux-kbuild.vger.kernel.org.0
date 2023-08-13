@@ -2,58 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 975B577A658
-	for <lists+linux-kbuild@lfdr.de>; Sun, 13 Aug 2023 14:28:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D56ED77AA38
+	for <lists+linux-kbuild@lfdr.de>; Sun, 13 Aug 2023 19:08:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229764AbjHMM2V (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 13 Aug 2023 08:28:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54664 "EHLO
+        id S229451AbjHMRIS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 13 Aug 2023 13:08:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbjHMM2U (ORCPT
+        with ESMTP id S231565AbjHMRIQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 13 Aug 2023 08:28:20 -0400
+        Sun, 13 Aug 2023 13:08:16 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 860189B
-        for <linux-kbuild@vger.kernel.org>; Sun, 13 Aug 2023 05:28:22 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70913E6C;
+        Sun, 13 Aug 2023 10:08:19 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0FC2B61CE8
-        for <linux-kbuild@vger.kernel.org>; Sun, 13 Aug 2023 12:28:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 748BBC433C9
-        for <linux-kbuild@vger.kernel.org>; Sun, 13 Aug 2023 12:28:21 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0E50E6122F;
+        Sun, 13 Aug 2023 17:08:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6D928C433C9;
+        Sun, 13 Aug 2023 17:08:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691929701;
-        bh=DoNNiJ96rcDMO3qK6s2NumMWv0E6fEvUceedIDKG+7g=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=MBhkBLN1M40CLXxZOkYbkQfWSzAMF/yAlc4gyS8exP8hOFynD5tlhT6kig7ugDBPB
-         7lNa3RzFENAVOLeZ3n5IHBWenBJhh0JG4o+LDuhjtZelCvFnZ0jkH7zGhqXU2vtS4T
-         U0w4XWeSgaLhzoEONoyocoirr0d7r3EEbRii0UAA7z4W2ekXFOYYH9BZ5IfzQFtTh9
-         uIFxSX9LxV9jVusp4RN/vZnEFhEnT+gGvEFwa0RDRV7maeY9bC87x09GLDGu2yhcMQ
-         cuh+TYNyJ/xIfSumAs4DAP1/hnY/fPH1SIKy3MeoQQ4uaNpaEf37yYvmr4HWVNh13I
-         wzYr5hLu006Gw==
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3a78a29bccbso3412163b6e.0
-        for <linux-kbuild@vger.kernel.org>; Sun, 13 Aug 2023 05:28:21 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yx7eX8AWQAMHDMcnxvRAQ6dcXZ/ZIm63AK3NOMQ4GGm+dpOsKf/
-        rknYB2eQ5v3XyOkyv9zHWqFIgNL+VWfkO9I9C7g=
-X-Google-Smtp-Source: AGHT+IFxSZCVz82egmV2yUHQRSnogkjRNk3QWMfMOsfbVol7b34HGLWmd3XxLdpooa0PyA0/I5i+TPUqBVYVzKExgPY=
-X-Received: by 2002:aca:1c05:0:b0:3a7:b011:8960 with SMTP id
- c5-20020aca1c05000000b003a7b0118960mr6503324oic.40.1691929700691; Sun, 13 Aug
- 2023 05:28:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230809004220.1884118-1-Mr.Bossman075@gmail.com>
-In-Reply-To: <20230809004220.1884118-1-Mr.Bossman075@gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 13 Aug 2023 21:27:44 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARkhbpNRVFEYXmUGQHBpa4+RpHBaKDHvAjvRUTynZEKWQ@mail.gmail.com>
-Message-ID: <CAK7LNARkhbpNRVFEYXmUGQHBpa4+RpHBaKDHvAjvRUTynZEKWQ@mail.gmail.com>
-Subject: Re: [PATCH v4] kconfig: nconf: Add search jump feature
-To:     Jesse Taube <mr.bossman075@gmail.com>
-Cc:     linux-kbuild@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Boyd <sboyd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        s=k20201202; t=1691946498;
+        bh=SqU9dI9BD0GGaVfLh8OdK7S4mq+lK0mFlhVOaHfKzas=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=WtUmgOPdevxO1WAQm5HMeuoa5HNHfCDXWXzml8EsFI2BdSVWEieCArAKfFRvmM5Rg
+         L5SNrCFQArIaweM1M53medEqiMtOmcytazY8thNql2xYa5esGnklcr6nw9Et6klXf3
+         JUg51xZdaF8PoogFU86gzLM6WBe9CP/Kos+BhoEq5Gzi+It7M/WVPRTr8RRZlQtfII
+         xjRqr/ug9ekKOmjw5fDgD2YHRqn1DetNd+VjY+FBf800XxHLd2LbNGJMCW/6Rkzpuo
+         SaBKtCKdL4ktDDVaQoR3IZKT5sODU3YFfohCAcbtDYz5ReBL5EjxuJ0x8gHEJ+obkR
+         LbrP3BGa8cZZw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4B0A5C3274B;
+        Sun, 13 Aug 2023 17:08:18 +0000 (UTC)
+Subject: Re: [GIT PULL] Kbuild fixes for v6.5-rc6
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <CAK7LNARMSv2B8WJ+rZZXeHCCWtcREn_XZuH5qgZNr8wavWR3cg@mail.gmail.com>
+References: <CAK7LNARMSv2B8WJ+rZZXeHCCWtcREn_XZuH5qgZNr8wavWR3cg@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAK7LNARMSv2B8WJ+rZZXeHCCWtcREn_XZuH5qgZNr8wavWR3cg@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.5-2
+X-PR-Tracked-Commit-Id: 6ccbd7fd474674654019a20177c943359469103a
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 4c75bf7e4a0e5472bd8f0bf0a4a418ac717a9b70
+Message-Id: <169194649830.27578.10864976613900096013.pr-tracker-bot@kernel.org>
+Date:   Sun, 13 Aug 2023 17:08:18 +0000
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -64,349 +63,15 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Aug 9, 2023 at 9:42=E2=80=AFAM Jesse Taube <mr.bossman075@gmail.com=
-> wrote:
->
-> From: Jesse Taube <mr.bossman075@gmail.com>
->
-> Menuconfig has a feature where you can "press the key in the (#) prefix
-> to jump directly to that location. You will be returned to the current
-> search results after exiting this new menu."
->
-> This commit adds this feature to nconfig, with almost identical code.
->
-> Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
-> ---
-> v1->v2:
->  Add selected_conf to go to menu and select a specific option.
->  Use get_line instead of creating new function.
->  Use Masahiro Yamada's new jump search implementation.
-> v2->v3:
->  Change `start, end` to size_t and move scope to if
->  Removed redundant assignment of `again` to false.
-> v3->v4:
->  Remove unnecessary size_t cast
->  Use ncurses to find line index in selected_conf
+The pull request you sent on Sun, 13 Aug 2023 19:16:31 +0900:
 
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.5-2
 
-Applied to linux-kbuild.
-Thanks.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/4c75bf7e4a0e5472bd8f0bf0a4a418ac717a9b70
 
+Thank you!
 
-
-> ---
->  scripts/kconfig/nconf.c     | 113 ++++++++++++++++++++++++++++++++----
->  scripts/kconfig/nconf.gui.c |  37 ++++++++++--
->  scripts/kconfig/nconf.h     |   5 ++
->  3 files changed, 140 insertions(+), 15 deletions(-)
->
-> diff --git a/scripts/kconfig/nconf.c b/scripts/kconfig/nconf.c
-> index 3ba8b1af390f..143a2c351d57 100644
-> --- a/scripts/kconfig/nconf.c
-> +++ b/scripts/kconfig/nconf.c
-> @@ -220,7 +220,7 @@ search_help[] =3D
->  "Location:\n"
->  "  -> Bus options (PCI, PCMCIA, EISA, ISA)\n"
->  "    -> PCI support (PCI [ =3D y])\n"
-> -"      -> PCI access mode (<choice> [ =3D y])\n"
-> +"(1)   -> PCI access mode (<choice> [ =3D y])\n"
->  "Selects: LIBCRC32\n"
->  "Selected by: BAR\n"
->  "-----------------------------------------------------------------\n"
-> @@ -231,9 +231,13 @@ search_help[] =3D
->  "o  The 'Depends on:' line lists symbols that need to be defined for\n"
->  "   this symbol to be visible and selectable in the menu.\n"
->  "o  The 'Location:' lines tell, where in the menu structure this symbol\=
-n"
-> -"   is located.  A location followed by a [ =3D y] indicates that this i=
-s\n"
-> -"   a selectable menu item, and the current value is displayed inside\n"
-> -"   brackets.\n"
-> +"   is located.\n"
-> +"     A location followed by a [ =3D y] indicates that this is\n"
-> +"     a selectable menu item, and the current value is displayed inside\=
-n"
-> +"     brackets.\n"
-> +"     Press the key in the (#) prefix to jump directly to that\n"
-> +"     location. You will be returned to the current search results\n"
-> +"     after exiting this new menu.\n"
->  "o  The 'Selects:' line tells, what symbol will be automatically selecte=
-d\n"
->  "   if this symbol is selected (y or m).\n"
->  "o  The 'Selected by' line tells what symbol has selected this symbol.\n=
-"
-> @@ -275,7 +279,9 @@ static const char *current_instructions =3D menu_inst=
-ructions;
->
->  static char *dialog_input_result;
->  static int dialog_input_result_len;
-> +static int jump_key_char;
->
-> +static void selected_conf(struct menu *menu, struct menu *active_menu);
->  static void conf(struct menu *menu);
->  static void conf_choice(struct menu *menu);
->  static void conf_string(struct menu *menu);
-> @@ -685,6 +691,57 @@ static int do_exit(void)
->         return 0;
->  }
->
-> +struct search_data {
-> +       struct list_head *head;
-> +       struct menu *target;
-> +};
-> +
-> +static int next_jump_key(int key)
-> +{
-> +       if (key < '1' || key > '9')
-> +               return '1';
-> +
-> +       key++;
-> +
-> +       if (key > '9')
-> +               key =3D '1';
-> +
-> +       return key;
-> +}
-> +
-> +static int handle_search_keys(int key, size_t start, size_t end, void *_=
-data)
-> +{
-> +       struct search_data *data =3D _data;
-> +       struct jump_key *pos;
-> +       int index =3D 0;
-> +
-> +       if (key < '1' || key > '9')
-> +               return 0;
-> +
-> +       list_for_each_entry(pos, data->head, entries) {
-> +               index =3D next_jump_key(index);
-> +
-> +               if (pos->offset < start)
-> +                       continue;
-> +
-> +               if (pos->offset >=3D end)
-> +                       break;
-> +
-> +               if (key =3D=3D index) {
-> +                       data->target =3D pos->target;
-> +                       return 1;
-> +               }
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +int get_jump_key_char(void)
-> +{
-> +       jump_key_char =3D next_jump_key(jump_key_char);
-> +
-> +       return jump_key_char;
-> +}
->
->  static void search_conf(void)
->  {
-> @@ -692,7 +749,8 @@ static void search_conf(void)
->         struct gstr res;
->         struct gstr title;
->         char *dialog_input;
-> -       int dres;
-> +       int dres, vscroll =3D 0, hscroll =3D 0;
-> +       bool again;
->
->         title =3D str_new();
->         str_printf( &title, "Enter (sub)string or regexp to search for "
-> @@ -721,11 +779,28 @@ static void search_conf(void)
->                 dialog_input +=3D strlen(CONFIG_);
->
->         sym_arr =3D sym_re_search(dialog_input);
-> -       res =3D get_relations_str(sym_arr, NULL);
-> +
-> +       do {
-> +               LIST_HEAD(head);
-> +               struct search_data data =3D {
-> +                       .head =3D &head,
-> +                       .target =3D NULL,
-> +               };
-> +               jump_key_char =3D 0;
-> +               res =3D get_relations_str(sym_arr, &head);
-> +               dres =3D show_scroll_win_ext(main_window,
-> +                               "Search Results", str_get(&res),
-> +                               &vscroll, &hscroll,
-> +                               handle_search_keys, &data);
-> +               again =3D false;
-> +               if (dres >=3D '1' && dres <=3D '9') {
-> +                       assert(data.target !=3D NULL);
-> +                       selected_conf(data.target->parent, data.target);
-> +                       again =3D true;
-> +               }
-> +               str_free(&res);
-> +       } while (again);
->         free(sym_arr);
-> -       show_scroll_win(main_window,
-> -                       "Search Results", str_get(&res));
-> -       str_free(&res);
->         str_free(&title);
->  }
->
-> @@ -1062,10 +1137,15 @@ static int do_match(int key, struct match_state *=
-state, int *ans)
->  }
->
->  static void conf(struct menu *menu)
-> +{
-> +       selected_conf(menu, NULL);
-> +}
-> +
-> +static void selected_conf(struct menu *menu, struct menu *active_menu)
->  {
->         struct menu *submenu =3D NULL;
->         struct symbol *sym;
-> -       int res;
-> +       int i, res;
->         int current_index =3D 0;
->         int last_top_row =3D 0;
->         struct match_state match_state =3D {
-> @@ -1081,6 +1161,19 @@ static void conf(struct menu *menu)
->                 if (!child_count)
->                         break;
->
-> +               if (active_menu !=3D NULL) {
-> +                       for (i =3D 0; i < items_num; i++) {
-> +                               struct mitem *mcur;
-> +
-> +                               mcur =3D (struct mitem *) item_userptr(cu=
-rses_menu_items[i]);
-> +                               if ((struct menu *) mcur->usrptr =3D=3D a=
-ctive_menu) {
-> +                                       current_index =3D i;
-> +                                       break;
-> +                               }
-> +                       }
-> +                       active_menu =3D NULL;
-> +               }
-> +
->                 show_menu(menu_get_prompt(menu), menu_instructions,
->                           current_index, &last_top_row);
->                 keypad((menu_win(curses_menu)), TRUE);
-> diff --git a/scripts/kconfig/nconf.gui.c b/scripts/kconfig/nconf.gui.c
-> index 9aedf40f1dc0..25a7263ef3c8 100644
-> --- a/scripts/kconfig/nconf.gui.c
-> +++ b/scripts/kconfig/nconf.gui.c
-> @@ -497,10 +497,17 @@ void refresh_all_windows(WINDOW *main_window)
->         refresh();
->  }
->
-> -/* layman's scrollable window... */
->  void show_scroll_win(WINDOW *main_window,
->                 const char *title,
->                 const char *text)
-> +{
-> +       (void)show_scroll_win_ext(main_window, title, (char *)text, NULL,=
- NULL, NULL, NULL);
-> +}
-> +
-> +/* layman's scrollable window... */
-> +int show_scroll_win_ext(WINDOW *main_window, const char *title, char *te=
-xt,
-> +                       int *vscroll, int *hscroll,
-> +                       extra_key_cb_fn extra_key_cb, void *data)
->  {
->         int res;
->         int total_lines =3D get_line_no(text);
-> @@ -514,6 +521,12 @@ void show_scroll_win(WINDOW *main_window,
->         WINDOW *win;
->         WINDOW *pad;
->         PANEL *panel;
-> +       bool done =3D false;
-> +
-> +       if (hscroll)
-> +               start_x =3D *hscroll;
-> +       if (vscroll)
-> +               start_y =3D *vscroll;
->
->         getmaxyx(stdscr, lines, columns);
->
-> @@ -549,8 +562,7 @@ void show_scroll_win(WINDOW *main_window,
->         panel =3D new_panel(win);
->
->         /* handle scrolling */
-> -       do {
-> -
-> +       while (!done) {
->                 copywin(pad, win, start_y, start_x, 2, 2, text_lines,
->                                 text_cols, 0);
->                 print_in_middle(win,
-> @@ -593,8 +605,18 @@ void show_scroll_win(WINDOW *main_window,
->                 case 'l':
->                         start_x++;
->                         break;
-> +               default:
-> +                       if (extra_key_cb) {
-> +                               size_t start =3D (get_line(text, start_y)=
- - text);
-> +                               size_t end =3D (get_line(text, start_y + =
-text_lines) - text);
-> +
-> +                               if (extra_key_cb(res, start, end, data)) =
-{
-> +                                       done =3D true;
-> +                                       break;
-> +                               }
-> +                       }
->                 }
-> -               if (res =3D=3D 10 || res =3D=3D 27 || res =3D=3D 'q' ||
-> +               if (res =3D=3D 0 || res =3D=3D 10 || res =3D=3D 27 || res=
- =3D=3D 'q' ||
->                         res =3D=3D KEY_F(F_HELP) || res =3D=3D KEY_F(F_BA=
-CK) ||
->                         res =3D=3D KEY_F(F_EXIT))
->                         break;
-> @@ -606,9 +628,14 @@ void show_scroll_win(WINDOW *main_window,
->                         start_x =3D 0;
->                 if (start_x >=3D total_cols-text_cols)
->                         start_x =3D total_cols-text_cols;
-> -       } while (res);
-> +       }
->
-> +       if (hscroll)
-> +               *hscroll =3D start_x;
-> +       if (vscroll)
-> +               *vscroll =3D start_y;
->         del_panel(panel);
->         delwin(win);
->         refresh_all_windows(main_window);
-> +       return res;
->  }
-> diff --git a/scripts/kconfig/nconf.h b/scripts/kconfig/nconf.h
-> index 6f925bc74eb3..ab836d582664 100644
-> --- a/scripts/kconfig/nconf.h
-> +++ b/scripts/kconfig/nconf.h
-> @@ -67,6 +67,8 @@ typedef enum {
->
->  void set_colors(void);
->
-> +typedef int (*extra_key_cb_fn)(int, size_t, size_t, void *);
-> +
->  /* this changes the windows attributes !!! */
->  void print_in_middle(WINDOW *win, int y, int width, const char *str, int=
- attrs);
->  int get_line_length(const char *line);
-> @@ -78,6 +80,9 @@ int dialog_inputbox(WINDOW *main_window,
->                 const char *title, const char *prompt,
->                 const char *init, char **resultp, int *result_len);
->  void refresh_all_windows(WINDOW *main_window);
-> +int show_scroll_win_ext(WINDOW *main_window, const char *title, char *te=
-xt,
-> +                       int *vscroll, int *hscroll,
-> +                       extra_key_cb_fn extra_key_cb, void *data);
->  void show_scroll_win(WINDOW *main_window,
->                 const char *title,
->                 const char *text);
-> --
-> 2.40.0
->
-
-
---=20
-Best Regards
-Masahiro Yamada
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
