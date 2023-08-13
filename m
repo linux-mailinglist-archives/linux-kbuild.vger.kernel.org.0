@@ -2,110 +2,106 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60EE677A123
-	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Aug 2023 18:44:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5635077A5F5
+	for <lists+linux-kbuild@lfdr.de>; Sun, 13 Aug 2023 12:17:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229708AbjHLQop (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 12 Aug 2023 12:44:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48360 "EHLO
+        id S229612AbjHMKRH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 13 Aug 2023 06:17:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229937AbjHLQoo (ORCPT
+        with ESMTP id S229480AbjHMKRG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 12 Aug 2023 12:44:44 -0400
-Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A93210CE
-        for <linux-kbuild@vger.kernel.org>; Sat, 12 Aug 2023 09:44:47 -0700 (PDT)
-Date:   Sat, 12 Aug 2023 16:44:40 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail3; t=1691858683; x=1692117883;
-        bh=bTzoFxrlHH2cDQUfoco5sqOK11g/mVuswhnPAsuj0oQ=;
-        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-         Message-ID:BIMI-Selector;
-        b=AZ3N9Y/W5RIhHwGLCvse6MWN59N03msJseYBuHcW63piDR+ebPzOe3Cs4WcOLaImg
-         T2jnz1WtNEKnHIXbY5JuV/tjvhSSAzn+uPlMPevvBxLAmyjt+yabI9rDHJEM1it8gV
-         87Rrjh3TWSSaA1ySxCBGG6cN0OJ4hSDFJGZQ15+z2TuIzkN5oEJ6QC3Nr69ROt0sed
-         IV0Gh3v0JyNkVW2bYrB8KmCU7nlLnYwIRZP7qo2Vti1sp8O+N/MqPiBzWpDx6wdjat
-         JuHWIMHrxhnSUKiFO1cmXzUcmUFmuZ/ZrzEw3dMtVhfJiYwZiARxH2UeppLVMnDHRK
-         XyZIRiiQcF/Lw==
-To:     Masahiro Yamada <masahiroy@kernel.org>
-From:   Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] scripts: merge_config: Add flag to prevent unsetting config option
-Message-ID: <871qg8cirv.fsf@protonmail.com>
-In-Reply-To: <CAK7LNAS2XKRisvMkB+dw3ZnExYuy9U8xB9BXnXy2FvqZWrRk-g@mail.gmail.com>
-References: <20230729214138.79902-1-sergeantsagara@protonmail.com> <CAK7LNAR_Egr+G9_HmGfrmFAEQ0Tznmbff0w9cJ=1biV5P4PmNQ@mail.gmail.com> <875y5rsd6c.fsf@protonmail.com> <CAK7LNAS2XKRisvMkB+dw3ZnExYuy9U8xB9BXnXy2FvqZWrRk-g@mail.gmail.com>
-Feedback-ID: 26003777:user:proton
+        Sun, 13 Aug 2023 06:17:06 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F689170A;
+        Sun, 13 Aug 2023 03:17:09 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A85516227F;
+        Sun, 13 Aug 2023 10:17:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 127BDC433C7;
+        Sun, 13 Aug 2023 10:17:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691921828;
+        bh=8oA71DqvMO3aszAWCCGwfO+pbJIuGxTjTwftxEV1LDo=;
+        h=From:Date:Subject:To:Cc:From;
+        b=lsUZHZOik2WEQDjUtdrdIFYKdzjXBJeHR77FEEDWBsr/27gSw4hzzw89xOvtMo7YK
+         SOn9SY/VJqeyF4eqxAH0hDMbPVkTnFPO7lq+k0EMr7eAfLs6V0i9Oao4AzqjOInZYF
+         0wj5twDGL2LYLZMfopfugloLBVHOzbYy55HZq5VfqR5I4u9sRDxXY8ncZWShr+Ev5U
+         Q5hdEuhm2q7bSAM7RKpJQtPvzVenl8L59+yKacL7Hfol9MXRVocX8kd8JIjtXQxx9q
+         wHM8P/agDZd+Yi8HarwTP9hwZZ2pXJwpAbUFrJW+9o68dTtbPtZ59mTI99aV+Anau+
+         ngipLWLgeATMw==
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-56ca1eebcd7so2596767eaf.0;
+        Sun, 13 Aug 2023 03:17:08 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yyiep/xOsU/DNzGiHnkKlp2KgrEYxv0gdUTqbBzxcQRst2Xz2Fy
+        PMwMwMcieCi+ikH3wTUTsUO3RIkPcCQ7eQChv00=
+X-Google-Smtp-Source: AGHT+IGaojI37y1ku1P6BuJTuqH5LsFBn91KBDwFPBjTISfIIkdhdoiU5ORyJi+fRFLaY1rh8g6KpyguemkxKwq30/E=
+X-Received: by 2002:a05:6870:9629:b0:1bb:bcc3:c96 with SMTP id
+ d41-20020a056870962900b001bbbcc30c96mr7182130oaq.33.1691921827249; Sun, 13
+ Aug 2023 03:17:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 13 Aug 2023 19:16:31 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARMSv2B8WJ+rZZXeHCCWtcREn_XZuH5qgZNr8wavWR3cg@mail.gmail.com>
+Message-ID: <CAK7LNARMSv2B8WJ+rZZXeHCCWtcREn_XZuH5qgZNr8wavWR3cg@mail.gmail.com>
+Subject: [GIT PULL] Kbuild fixes for v6.5-rc6
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Hello Linus,
 
-On Tue, 08 Aug, 2023 04:04:37 +0900 "Masahiro Yamada" <masahiroy@kernel.org=
-> wrote:
-> On Mon, Aug 7, 2023 at 1:13=E2=80=AFPM Rahul Rameshbabu
-> <sergeantsagara@protonmail.com> wrote:
->>
->>
->> On Sun, 06 Aug, 2023 23:19:55 +0900 "Masahiro Yamada" <masahiroy@kernel.=
-org> wrote:
->> > On Sun, Jul 30, 2023 at 6:42=E2=80=AFAM Rahul Rameshbabu
->> > <sergeantsagara@protonmail.com> wrote:
->> >>
->> >> Overriding a previously defined entry for a config option with 'is no=
-t set'
->> >> may be undesirable in some fragment configuration setups.
->> >
->> > Then, you should remove the 'is not set' entry from the fragment.
->>
->> I had a feeling that was the expectation. Just for reference, my flow
->> for generating fragments looks like the following.
->>
->>   1. make allnoconfig
->>   2. make menuconfig   # select the options that I desire for the fragme=
-nt
->
->
-> Sorry, I could not understand
-> how these steps generate a fragment file.
->
-> You will get a full .config file
-> after 'make menuconfig'.
+Please pull some Kbuild fixes.
 
-Yep, this is right. I am not really generating a fragment this way but
-rather full configs with minimal options that I end up wanting to merge
-together. What's your process for generating fragments you need? Just
-dumping the options you want in fragment files and letting make properly
-select the dependencies?
+Thank you.
 
->
->
->
->
->
->> We can drop this patch if this is the expected developer flow. I
->> realized that overriding with 'is not set' entries in a fragment is
->> likely desirable, so I made this behavior change as part of a flag that
->> can be set by the user.
->>
->> --
->> Thanks,
->>
->> Rahul Rameshbabu
->>
+
+The following changes since commit 6eaae198076080886b9e7d57f4ae06fa782f90ef:
+
+  Linux 6.5-rc3 (2023-07-23 15:24:10 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-fixes-v6.5-2
+
+for you to fetch changes up to 6ccbd7fd474674654019a20177c943359469103a:
+
+  alpha: remove __init annotation from exported page_is_ram()
+(2023-08-10 03:06:14 +0900)
+
+----------------------------------------------------------------
+Kbuild fixes for v6.5 (2nd)
+
+ - Clear errno before calling getline().
+
+ - Fix a modpost warning for ARCH=alpha
+
+----------------------------------------------------------------
+James Clark (1):
+      scripts/kallsyms: Fix build failure by setting errno before
+calling getline()
+
+Masahiro Yamada (1):
+      alpha: remove __init annotation from exported page_is_ram()
+
+ arch/alpha/kernel/setup.c | 3 +--
+ scripts/kallsyms.c        | 1 +
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
 
 
 --
-Thanks,
-
-Rahul Rameshbabu
-
+Best Regards
+Masahiro Yamada
