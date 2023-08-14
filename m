@@ -2,89 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB9A777B252
-	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Aug 2023 09:25:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5767077C116
+	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Aug 2023 21:53:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234054AbjHNHY6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 14 Aug 2023 03:24:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50004 "EHLO
+        id S231911AbjHNTxE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 14 Aug 2023 15:53:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234082AbjHNHY5 (ORCPT
+        with ESMTP id S232262AbjHNTwp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 14 Aug 2023 03:24:57 -0400
-Received: from mail-oo1-xc36.google.com (mail-oo1-xc36.google.com [IPv6:2607:f8b0:4864:20::c36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75F4FE73
-        for <linux-kbuild@vger.kernel.org>; Mon, 14 Aug 2023 00:24:56 -0700 (PDT)
-Received: by mail-oo1-xc36.google.com with SMTP id 006d021491bc7-56d6dfa8b52so2830769eaf.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 14 Aug 2023 00:24:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20221208.gappssmtp.com; s=20221208; t=1691997896; x=1692602696;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1NIpvt4nCqADNh0cqss2ffGGeYbGFw7fYt1kJmUbwbI=;
-        b=31OXeIf+mXMuFZp/BWOkz0flJ8KejbkRr6wUM0EaIWFsfCQ2zCsPBGNavW2kDotoRb
-         PsdgpoQL2gpaZ0ZXxpoLZllweTv3kJLm8VfWRPUbTrVZoBYG74ey9ou+i5DldGUtrvZj
-         jJo8ZTlGZFQdNoXY5rUkd1Dtmfa47V/md6csocIKsbUStnghTAD3XIMWY0LbcOKZVL8R
-         UKwErhue2XmH1yGzmSeWKwazVzfwuPeeEndpbu30PPUYDm1PkiRqb4L1jL+MuiOLySre
-         zsaUYQ2DFJEH6D56bGkqsrwwi4rw9bkrOJfrBGOe8CCOsCJd8M3TTqTmLu7vsFb8lZhj
-         caow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691997896; x=1692602696;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1NIpvt4nCqADNh0cqss2ffGGeYbGFw7fYt1kJmUbwbI=;
-        b=OMe+bxzXkp4TqFu7ibDn6xWfwS0LvOTm9e5x75yi/3Tr4FVtVvg5aREFxb1JTskoQL
-         v8UsQZC7Kq96wD0BJKmHQ9p+33aQ2rJjERixvCss0zpi82CoX581j7n76IkSeoJzctNB
-         ZuT4OKp0T3nCuvOfozPq9ENjcQIdgEK45BmkJgObQ/SG9m5X7m2I6jhtKbTDx53T088J
-         XQ/wUQyJwSLOaSnXQJ5smngF1JgCOZlGA58iHmosS+6dRXTgedmQB8oM5V6KJmizAc0b
-         tzWs0KGaz9v5FQjKEIpTimruvuUBOE8Qnx5y/miY4y6CGExeaXzaAXl/BTavjqrPvZ+r
-         lZiA==
-X-Gm-Message-State: AOJu0YyNM2gvRndO2PsC3pFbt9P+VFZeRKa5m3U2/ggiymB0SrqlN8My
-        LqZa/9tyvHpcsFrVmx9X9l3WlNQX1aOxQQvCy0Cfkw==
-X-Google-Smtp-Source: AGHT+IGt7CaB2ILiQcKO7hsqp/eT61SdPAyp3n2bOb0VW67EKt7879WD8gVGObg51YEytXyya1GU1zsdE1LQEwcxEjQ=
-X-Received: by 2002:a05:6358:5906:b0:134:c37f:4b5c with SMTP id
- g6-20020a056358590600b00134c37f4b5cmr6968498rwf.22.1691997895708; Mon, 14 Aug
- 2023 00:24:55 -0700 (PDT)
+        Mon, 14 Aug 2023 15:52:45 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3644B120;
+        Mon, 14 Aug 2023 12:52:44 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C964263000;
+        Mon, 14 Aug 2023 19:52:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B9F1C433C8;
+        Mon, 14 Aug 2023 19:52:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692042763;
+        bh=lcz8SXMrvxLPwawIXo2qAouwG8tznPnDE2Oo0Ma25GE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rntjU4wKabKCG9vCSYTEAbGAOxHYY53ttCovv8mvF19G+Z+Y6H+17PkF/nRDt4bhU
+         MRxA5kfv5pmEV5xRW5qULA+AUJ1xxXBbO5pPay4/ssiETLXv0BqiuaC5acP0pGJhfk
+         M9rZJhyFnjFjOz9dWhAUpMMp47GAy0redIpThGPamh1rIt24HQcma8E8WvEmEkJGb8
+         HrbQeB6D9GVtIocc+3DunUH9BYwmX9ioZ2r6V7YsWPWSjB6Cw75iPD7Jgt8Pe+f7ia
+         TZzGqhJ26loLAgwwnT+PJPh5x+13ana6PFgXOk/waCav6ChRm56w415lRRfUNdjp+6
+         oPJcPS2ZW39Cw==
+Date:   Mon, 14 Aug 2023 12:52:40 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Arnd Bergmann <arnd@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Guenter Roeck <linux@roeck-us.net>, Lee Jones <lee@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        linux-kbuild@vger.kernel.org,
+        Linux-Arch <linux-arch@vger.kernel.org>
+Subject: Re: [PATCH 9/9] [RFC] extrawarn: enable more W=1 warnings by default
+Message-ID: <20230814195240.GA1060032@dev-arch.thelio-3990X>
+References: <20230811140327.3754597-1-arnd@kernel.org>
+ <20230811140327.3754597-10-arnd@kernel.org>
+ <20230811160939.GA426470@dev-arch.thelio-3990X>
+ <defc2883-659b-4805-a279-783fbd3357cc@app.fastmail.com>
 MIME-Version: 1.0
-References: <20230612090713.652690195@infradead.org> <20230612093537.614161713@infradead.org>
-In-Reply-To: <20230612093537.614161713@infradead.org>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Mon, 14 Aug 2023 09:24:44 +0200
-Message-ID: <CAMRc=MegBEQ1Anfh5UJe=OH0U_VX9ijMeh_hoWKxDyB511stsA@mail.gmail.com>
-Subject: Re: [PATCH v3 03/57] locking: Introduce __cleanup() based infrastructure
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     torvalds@linux-foundation.org, keescook@chromium.org,
-        gregkh@linuxfoundation.org, pbonzini@redhat.com,
-        masahiroy@kernel.org, nathan@kernel.org, ndesaulniers@google.com,
-        nicolas@fjasle.eu, catalin.marinas@arm.com, will@kernel.org,
-        vkoul@kernel.org, trix@redhat.com, ojeda@kernel.org,
-        mingo@redhat.com, longman@redhat.com, boqun.feng@gmail.com,
-        dennis@kernel.org, tj@kernel.org, cl@linux.com, acme@kernel.org,
-        mark.rutland@arm.com, alexander.shishkin@linux.intel.com,
-        jolsa@kernel.org, namhyung@kernel.org, irogers@google.com,
-        adrian.hunter@intel.com, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com, vschneid@redhat.com, paulmck@kernel.org,
-        frederic@kernel.org, quic_neeraju@quicinc.com,
-        joel@joelfernandes.org, josh@joshtriplett.org,
-        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-        rientjes@google.com, vbabka@suse.cz, roman.gushchin@linux.dev,
-        42.hyeyoo@gmail.com, apw@canonical.com, joe@perches.com,
-        dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com,
-        john.johansen@canonical.com, paul@paul-moore.com,
-        jmorris@namei.org, serge@hallyn.com, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
-        llvm@lists.linux.dev, linux-perf-users@vger.kernel.org,
-        rcu@vger.kernel.org, linux-security-module@vger.kernel.org,
-        tglx@linutronix.de, ravi.bangoria@amd.com, error27@gmail.com,
-        luc.vanoostenryck@gmail.com, Yury Norov <yury.norov@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <defc2883-659b-4805-a279-783fbd3357cc@app.fastmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -92,37 +64,54 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jun 12, 2023 at 11:56=E2=80=AFAM Peter Zijlstra <peterz@infradead.o=
-rg> wrote:
->
+On Fri, Aug 11, 2023 at 08:23:45PM +0200, Arnd Bergmann wrote:
+> On Fri, Aug 11, 2023, at 18:09, Nathan Chancellor wrote:
+> > On Fri, Aug 11, 2023 at 04:03:27PM +0200, Arnd Bergmann wrote:
+> >> From: Arnd Bergmann <arnd@arndb.de>
+> >> 
+> >> A number of warning options from the W=1 set are completely clean in current
+> >> kernels, so we should just enable them by default, including a lot of warnings
+> >> that are part of -Wextra, so just turn on -Wextra by default.
+> >> 
+> >> The -Woverride-init, -Wvoid-pointer-to-enum-cast and
+> >> -Wmissing-format-attribute warnings are part of -Wextra but still produce
+> >> some legitimate warnings that need to be fixed, so leave them at the
+> >> W=1 level but turn them off otherwise.
+> >> 
+> >> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> > ...
+> >> -KBUILD_CFLAGS += -Wno-tautological-constant-out-of-range-compare
+> >> -KBUILD_CFLAGS += $(call cc-disable-warning, unaligned-access)
+> >> -KBUILD_CFLAGS += $(call cc-disable-warning, cast-function-type-strict)
+> >
+> > I am still running through my builds but I don't think that dropping
+> > these three is acceptable at the moment. I see a good number of all of
+> > these warnings in -next still. I see some patches that I have picked up
+> > to address a couple of the really noisy ones but some others that I
+> > looked at are not fixed. I'll have a list eventually.
+> 
+> Ok, thanks. I have a backlog of warning fixes in my randconfig
+> tree, which is currently clean with these warnings addressed, at
+> least on arm/arm64/x86 and it looks like there are a couple that
+> I've never sent out so far. I'll drop the above for now, as I
+> won't have time to send all the fixes before my vacation.
 
-[snip]
+Thanks, that takes care of the vast majority of extra warnings that this
+series produces. I have included all my build logs at [1].
 
-> --- a/include/linux/slab.h
-> +++ b/include/linux/slab.h
-> @@ -17,6 +17,7 @@
->  #include <linux/types.h>
->  #include <linux/workqueue.h>
->  #include <linux/percpu-refcount.h>
-> +#include <linux/cleanup.h>
->
->
->  /*
-> @@ -211,6 +212,8 @@ void kfree(const void *objp);
->  void kfree_sensitive(const void *objp);
->  size_t __ksize(const void *objp);
->
-> +DEFINE_FREE(kfree, void *, if (_T) kfree(_T))
-> +
+The slightly-filtered-warnings file is the result of searching for all
+warnings in the log files and passing them through 'sort | uniq -c',
+additionally ignoring the instances of -Wnull-pointer-arithmetic that
+are present in certain configurations, as those are pretty well known at
+this point.
 
-Peter,
+The more-filtered-warnings file does the same thing but also ignores
+instances of the three warnings above, which just reveals some instances
+of -Wunused-but-set-parameter, which I am pretty sure I have seen you
+sent fixes for recently, so I think with those three warnings left as
+disabled, this series should be safe.
 
-Yuri Norov pointed out to me (under a different cleanup patch) that
-kfree() handles NULL-pointers and there's no reason to check it again
-in DEFINE_FREE() macros. It seems right to me but I wanted to run it
-by you and check if there is maybe some reason I'm not seeing to doing
-it?
+[1]: https://github.com/nathanchance/bug-files/tree/9100c6a21cbdce3c03fbca1bd00a7c34f316a137/enable-more-W%3D1-warnings-by-default
 
-Bartosz
-
-[snip]
+Cheers,
+Nathan
