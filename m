@@ -2,57 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B8FA877CC4F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Aug 2023 14:07:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8645277CC62
+	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Aug 2023 14:11:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236023AbjHOMGx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 15 Aug 2023 08:06:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56068 "EHLO
+        id S237045AbjHOMKl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 15 Aug 2023 08:10:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237018AbjHOMGt (ORCPT
+        with ESMTP id S237077AbjHOMKZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 15 Aug 2023 08:06:49 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9834110F4;
-        Tue, 15 Aug 2023 05:06:48 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id 3f1490d57ef6-d656d5e8265so4735597276.1;
-        Tue, 15 Aug 2023 05:06:48 -0700 (PDT)
+        Tue, 15 Aug 2023 08:10:25 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93C9C173F;
+        Tue, 15 Aug 2023 05:10:24 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id 3f1490d57ef6-d4364cf8be3so5374280276.1;
+        Tue, 15 Aug 2023 05:10:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692101208; x=1692706008;
+        d=gmail.com; s=20221208; t=1692101423; x=1692706223;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AQ4g8mr+OyTMsYEbUpF2F3Qa/C/YAL314bAhtTbEOlY=;
-        b=OAHzoWjL+C9zwVAswXVDoqKL9lpTLe+5ddIl+npVRABzpRN5QvCvJ0ccIAcFJAnUaV
-         KwsRRW9CIK3wD2G12006DqxR3xUeiZH+9yGZHL6JP9qHGy1GwZWoG0307Ty8Ryaa/dQH
-         daYwEmtzk9kIM/NVKxEC9Ic5YUE/styx0Jaf4n9caZbtlTjTQIp+9YcxGbDi4kEziTqg
-         YkmsWA/875Z2C/a7bD7qlOzmzZYtE3lMmgXTFiXA92Xnf1JIykjKFHpvQr40eeZio+6N
-         HAapYNoQ3CoaerrUizqKW/MEe89hsie65ohbuRhB3Ni5xwI2uLdZ5uKuB0lyIyUjx6KA
-         ImDA==
+        bh=cHvKp/Ntb2IbR8H/HtEVaiWwAh0UlzB39M1mc57UxB8=;
+        b=iZR2nRgyvebmsWdjaynHkQjYCuWd5o1VBuOTvo2H0xc1Hl4hKcSx4Y0n22HxBRHhqg
+         uXxZrj/TNq/LRdyiwGde4Y2IU2Q3ZKDhpaGvyCyeYI6IfWLwhl37HwhEVBWcBuSyeL3+
+         GlCKD3XRFkGalJsdGSI+p6W/GBddfF9HhB2AGMFDa0SkQwZmfxhJwcybkvnl6pr/R8A9
+         2gr2euPG8/pwRjv8PR6bQSq6tdrqrm0taTngWJoV8YczhJU6Do4vbUo79cSA34ISGJJi
+         O7mXfwpcHQ8BAJfKyhljx3+mpVH18unMtJ/+BnOh+Trvw0nmk8qqbsjEB2vrdC4Y7fko
+         hJug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692101208; x=1692706008;
+        d=1e100.net; s=20221208; t=1692101423; x=1692706223;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AQ4g8mr+OyTMsYEbUpF2F3Qa/C/YAL314bAhtTbEOlY=;
-        b=AEfTU04tcATQcPpVHMmpCksU0yApNJCA454TqOHcUq1b3SgFTTmftSx6cnaToV0EaW
-         1hH5O8zccwAgNMwjzPOF5MR2Vl4ShkqwD2ILyX3NCp7ZYuSfJlOEsMKNB1SwVlXjygEM
-         eQpl1g7GLUNOeYLcVkl793UYdlfah6U4EvvhRkwYc6cUJcX+3esDwu7Dpw/CtatE0Onq
-         qhCP6nBNVEFnyT3TXM9NVQkUHYGNh7UQesg8x/F1v2ZRi/JZmYsZoVuYkvURy3J1v/a5
-         k9FUl9bOlcDF0fWXsj5s89r916lnyJDTlRASuPUGYMe+0omn0A/aivJmWEpZvcZlJ93q
-         oCmQ==
-X-Gm-Message-State: AOJu0YzSjiBJQ5xDpS+KvxiGiN3uHCuPdsaclaisgugC11HewnIt7ei3
-        gHRKwBRoddEy7YLBMXIYhfhhuZ6SjAvpUrHaZrk=
-X-Google-Smtp-Source: AGHT+IFV/KtnWW8PqUFv2mqz9nKSPx3B+6R9TqjaXgibwlqERzUWNdKocN5ShYYtweR3BeWY+TjH34ZkF/ch7idsGcs=
-X-Received: by 2002:a25:ab46:0:b0:d0e:5521:5f02 with SMTP id
- u64-20020a25ab46000000b00d0e55215f02mr12814244ybi.11.1692101207776; Tue, 15
- Aug 2023 05:06:47 -0700 (PDT)
+        bh=cHvKp/Ntb2IbR8H/HtEVaiWwAh0UlzB39M1mc57UxB8=;
+        b=VSxR2ezc9V9QLhQFR88vVhEFhk5Lv3r3fS/CsoNG0R7V3Argh0WkRYeH22JvhFvoE1
+         Uvdl8YdbMV86Spzhn4MpY6/M5ghTFTlKilk7zaltwduht5ZKwmop4B+2e7QNeTSjcB/C
+         Sx58a5Rs/GMMRrpXbYX76mvTMmiGM9QiNgnuNb/OZJKnxA4PlziC6MtNAl6Av3+3lnve
+         syZwkezKUyTStVEMejWE8hrDWxW9MJodFU1Up85xpkKIgV4XNesWig7+YJbWTV0xCWyv
+         hQGKsvKzHjBwPKqoaSSKVBkPD437A+xjcA2OdIsTwMX67QkPUny6fwj6b0cca7IINOec
+         WHxA==
+X-Gm-Message-State: AOJu0Yx2ijVIt4xM6g5EUBHZ0zMFbLWwjkdDEMptN8CxAK1GpTVuCtH6
+        kKYewszm0kbrqFePy65cdp5aYiPv39dSf2uEp0I=
+X-Google-Smtp-Source: AGHT+IEuRW1UZIjVahCtg71WtvpEfMj20fiN1t4gAXGytbwu90fBowWuExOKrWmJflJTOSH4toD3fff5V2aexR+hSRM=
+X-Received: by 2002:a25:103:0:b0:d67:7aec:54fd with SMTP id
+ 3-20020a250103000000b00d677aec54fdmr11728829ybb.62.1692101423200; Tue, 15 Aug
+ 2023 05:10:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230815065346.131387-1-andrea.righi@canonical.com>
-In-Reply-To: <20230815065346.131387-1-andrea.righi@canonical.com>
+References: <20230815065346.131387-1-andrea.righi@canonical.com> <CANiq72kv4DwGLSGTwXYh3-b9h08Erd2RH7wXvVAUAEx2x+q_BA@mail.gmail.com>
+In-Reply-To: <CANiq72kv4DwGLSGTwXYh3-b9h08Erd2RH7wXvVAUAEx2x+q_BA@mail.gmail.com>
 From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 15 Aug 2023 14:06:36 +0200
-Message-ID: <CANiq72kv4DwGLSGTwXYh3-b9h08Erd2RH7wXvVAUAEx2x+q_BA@mail.gmail.com>
+Date:   Tue, 15 Aug 2023 14:10:12 +0200
+Message-ID: <CANiq72nqTfJJb9oQZGpAn2KZwDXwp6StVKKETWF-m3fLpnsiPQ@mail.gmail.com>
 Subject: Re: [PATCH] rust: fix bindgen build error with fstrict-flex-arrays
 To:     Andrea Righi <andrea.righi@canonical.com>
 Cc:     Miguel Ojeda <ojeda@kernel.org>,
@@ -72,63 +72,26 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 15, 2023 at 8:54=E2=80=AFAM Andrea Righi <andrea.righi@canonica=
-l.com> wrote:
+On Tue, Aug 15, 2023 at 2:06=E2=80=AFPM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
 >
-> Commit df8fc4e934c1 ("kbuild: Enable -fstrict-flex-arrays=3D3") enabled
-> '-fstrict-flex-arrays=3D3' globally, but bindgen does not recognized this
+> to make GCC and Clang (as well as Clang `=3D3` vs. Clang without the
+> flag) to compile but disagree on the size:
 
-It may be more accurate to say libclang here (bindgen forwards the options)=
-.
+To be clear: Clang `=3D3` vs. Clang without the flag should not be a
+problem for us because under `CC_IS_CLANG` we pass the flags unaltered
+to bindgen.
 
-Also, df8fc4e934c1 did it so only conditionally (if the C compiler
-supports it). This explains what you are seeing: if I am right, you
-are compiling with a modern enough GCC, which enables the option, but
-with an old enough Clang.
-
-> compiler option, triggering the following build error:
->
->  error: unknown argument: '-fstrict-flex-arrays=3D3', err: true
-
-This should only be true with libclang < 16, since Clang 16
-implemented the option, right?
-
-In fact, Clang 15 seems to work too -- it seems the compiler does not
-error if the option is not within [0,3] (unlike GCC).
-
-Kees: this should only affect `__builtin_object_size` and not `sizeof`, rig=
-ht?
-
-From a quick test across Clang 14/15/16 and different levels for the
-flag (0/1/2/3/4 and no flag), bindgen seems to generate the same
-output in all cases: `__IncompleteArrayField` is always generated for
-`[]` and `[0]`; and never for `[1]`, i.e. regardless of the flag. The
-`sizeof`s agree with the C side, and they are all the same (as
-expected because this only changes BOS).
-
-So I think the patch contents (i.e. ignoring the flag for bindgen)
-should be fine. Except we could have somewhere a
-`__builtin_object_size` influencing a layout. Since GCC seems to
-always treat it as not a constexpr (unlike Clang), I assume nobody is
-using it like that (since we compile the kernel with and without the
-flag). But it is still possible in theory -- it would require
-something like:
-
-    struct X {
-        int x[__is_constexpr(__builtin_object_size(s->c, 1)) ? 1 : 2];
-    };
-
-to make GCC and Clang (as well as Clang `=3D3` vs. Clang without the
-flag) to compile but disagree on the size:
-https://godbolt.org/z/6TqPjGK3d
+But for GCC-built kernels with Rust enabled, the disagreement above
+could be a problem.
 
 Cheers,
 Miguel
