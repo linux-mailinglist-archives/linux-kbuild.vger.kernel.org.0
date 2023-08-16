@@ -2,88 +2,79 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 41AE577DBD9
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Aug 2023 10:12:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C0FD77E1CC
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Aug 2023 14:43:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242794AbjHPIME (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Aug 2023 04:12:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34848 "EHLO
+        id S242670AbjHPMm7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Aug 2023 08:42:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242685AbjHPILd (ORCPT
+        with ESMTP id S234592AbjHPMm2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Aug 2023 04:11:33 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83023AB;
-        Wed, 16 Aug 2023 01:11:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 177826345F;
-        Wed, 16 Aug 2023 08:11:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 552FFC433C7;
-        Wed, 16 Aug 2023 08:11:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692173491;
-        bh=Vaj4jf6XLcsiRxLxN7vFGefZkgbs6uwB9LPt3hNn17k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WEzohTfbauIWJLpGGasVcvpqjbQio9vmTLRIqqxc1ESh1HoWRnBgljFF9Ibuu+3Rb
-         B9TTxjHL97V6ANBb5SwwTXoQs37cqfAeAN/v2ozcDAKtNLps1bhBY86LVHunYplTNP
-         3bregalJtbOUEcDu6nxnZ4Tb8lgDTNv+6/B1cnqRD74xZcNv5Nu6TIZaq6R/xM1nC0
-         yKbBNCGAt/p1eCtvoylCpDU9SquxB542zRG3IheqIxaXDsZhZXaBGLgvyso77512fL
-         p0QBGwloTX8grMsVga6hMOU3ZwmD01an3QypD/BWiZGL11JhvhLFuBwkJU3jJF8VU3
-         hwoJVSYsbMEDA==
-Date:   Wed, 16 Aug 2023 10:11:26 +0200
-From:   Christian Brauner <brauner@kernel.org>
-To:     Stephen Rothwell <sfr@canb.auug.org.au>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
-        linux-next@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-s390@vger.kernel.org, Stefan Haberland <sth@linux.ibm.com>,
-        Jan Hoeppner <hoeppner@linux.ibm.com>,
-        Christoph Hellwig <hch@lst.de>
-Subject: Re: linux-next-2023-0815: s390/block/dasd: build error
-Message-ID: <20230816-substantiell-ansporn-5db2e3d0c877@brauner>
-References: <95b176a2-3670-1e89-c8f6-86b094eebc4c@infradead.org>
- <20230816170934.71a5e306@oak.ozlabs.ibm.com>
+        Wed, 16 Aug 2023 08:42:28 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C18F1FF9
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Aug 2023 05:42:26 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-68842ebdcf7so2236360b3a.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Aug 2023 05:42:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1692189746; x=1692794546;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lAJXx3zuvSUSvm1+zrkqCECfcvDo+O7F4875vOACYRk=;
+        b=j7Ox/IcgLbYiNCnKkA5P1aW1n6BF0hnr145B3ZN4i/TepbcJL0fIK1M54uaBORNhZy
+         P9SLJn0HlXa5Lp7YmOigzV4PtiOVuN+XIrZyatwAJaOjlpN96THrEcau9Og5I1so3N1s
+         Eg9xmL3aHJqrWT8Cf+t2sIDwVyH1SowSHBj4s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692189746; x=1692794546;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lAJXx3zuvSUSvm1+zrkqCECfcvDo+O7F4875vOACYRk=;
+        b=XWM74thW3hKdOv3WFaqJeoJxmMgRMdDF2rWPaMYUkmG7wJuCVMQBsJMgaFtiTxwEvf
+         rFuGuqrD8kCZRFHZX5xZ4h5f2sQJd1m8mXOqnvaGluIF8nVt5DmnCYeNDGs7rL6bWAhM
+         8sZGxbavILPHNDTb93i2CFiIykRS1iY4YaiVFuRHhfPo+FS+fW4ro5nfWpwe0O3if7f5
+         5dr0+zcmjJ+5e1WK7saENtHO9FM9QxAX7GpJQU6WPuwNzKsQxkk+KYdAqIgOBTuJgDoP
+         g7npCEs17Y+6PBgr7E5o6iE2I2uPqVbQQQxtVy4BWEagzldnVFkvgv8/ZCfUJjOhC5J1
+         XOaA==
+X-Gm-Message-State: AOJu0YxM2a1g/AA2Y5yacgj2UlTZczmD0XMXjNMfuSz8ud+CUqmx7js+
+        gfzUQQC3hQRVs/MYq0kIfmSAiQ==
+X-Google-Smtp-Source: AGHT+IFskuvVotxrDIdmeP91Bzepe2AtmyMh5/G4MEmMxSOTDyx2oIRxeNV0PaPKOnRnkSqNq1kLHg==
+X-Received: by 2002:a17:90a:9f85:b0:268:34b1:a5a9 with SMTP id o5-20020a17090a9f8500b0026834b1a5a9mr1463552pjp.8.1692189745793;
+        Wed, 16 Aug 2023 05:42:25 -0700 (PDT)
+Received: from google.com (KD124209188001.ppp-bb.dion.ne.jp. [124.209.188.1])
+        by smtp.gmail.com with ESMTPSA id bk18-20020a17090b081200b002680f0f2886sm930591pjb.12.2023.08.16.05.42.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Aug 2023 05:42:25 -0700 (PDT)
+Date:   Wed, 16 Aug 2023 21:42:21 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Tomasz Figa <tfiga@chromium.org>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: kconfig: list unknown symbols in the old .config
+Message-ID: <20230816124221.GH907732@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230816170934.71a5e306@oak.ozlabs.ibm.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FSL_HELO_FAKE,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Aug 16, 2023 at 05:14:39PM +1000, Stephen Rothwell wrote:
-> Hi Randy,
-> 
-> On Tue, 15 Aug 2023 22:34:19 -0700 Randy Dunlap <rdunlap@infradead.org> wrote:
-> >
-> > I have spent some time on this but I don't see where the problem is.
-> > 
-> > ERROR: modpost: "bdev_mark_dead" [drivers/s390/block/dasd_mod.ko] undefined!
-> > 
-> > CONFIG_BLOCK=y, bdev.o is built and contains the missing symbol.
-> > 
-> > Full randconfig file is attached.
-> > 
-> > Hopefully I'm just overlooking something.
-> 
-> In your config, CONFIG_DASD=m which means "#ifdef CONFIG_DASD" will
-> fail since CONFIG_DASD_MODULE is defined instead ... so maybe it should
-> be "#if IS_ENABLED(CONFIG_DASD)" in block/bdev.c.  This also fails an
-> s390 allmodconfig build (obviously).
-> 
-> So this is caused by commit
-> 
->   381f678306ce ("block: consolidate __invalidate_device and fsync_bdev")
-> 
-> from the vfs-brauner branch in linux-next.
+Hi,
 
-Thanks for reporting this everyone. Fixed in-tree.
+We recently were hit (unnecessarily hard) when after kernel uprev we
+figured that something wasn't working. The root cause was a rename of
+the CONFIG_FOO option between kernel releases, which make oldconfig
+doesn't warn/notify about.
+
+Would it be possible to add either a new --listunknown mode to conf or
+to somehow make it conf_warning("unknown symbol: %s\n", line) when it
+reads a line from oldconf that it cannot sym_find()?
+
+That would save a ton of time.
