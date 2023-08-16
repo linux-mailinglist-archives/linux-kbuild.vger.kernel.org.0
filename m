@@ -2,65 +2,86 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8823D77DA6B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Aug 2023 08:23:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5962877DADF
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Aug 2023 09:05:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242094AbjHPGXK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Aug 2023 02:23:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59406 "EHLO
+        id S242283AbjHPHEk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Aug 2023 03:04:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242148AbjHPGW6 (ORCPT
+        with ESMTP id S242261AbjHPHEL (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Aug 2023 02:22:58 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14B9126BA;
-        Tue, 15 Aug 2023 23:22:49 -0700 (PDT)
-Received: from leknes.fjasle.eu ([46.142.99.55]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1McZfZ-1pu4Lu1i3h-00cwFg; Wed, 16 Aug 2023 08:22:27 +0200
-Received: from fjasle.eu (localhost [IPv6:::1])
-        by leknes.fjasle.eu (Postfix) with ESMTP id DD8153F75F;
-        Wed, 16 Aug 2023 08:22:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1692166944; bh=0X0b4/DNHjk0hc/ShiDY9InFUbbXZZ3LbjU8MO8jZ5A=;
-        h=From:To:Cc:Subject:Date:From;
-        b=QOPTqsSROZj4VGRL5WnpejEyrzXdUV7IwZILPADlgqv24nVvdMgRyqWxwacpMUEL4
-         DoTBGbPnxA2es/w4sXCo3Cn+wacswVnOjp3Uv9Vofb9nAFUqRrPko+BcEXP2MdroCw
-         4BykCy9FsT5PdzoxuldSURVcVa/35jHoFQnBpbVI=
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kernel@vger.kernel.org, Nicolas Schier <n.schier@avm.de>
-Subject: [PATCH] MAINTAINERS: Add usr/ (initramfs generation) to KBUILD
-Date:   Wed, 16 Aug 2023 08:22:19 +0200
-Message-Id: <20230816062219.1086685-1-nicolas@fjasle.eu>
-X-Mailer: git-send-email 2.30.2
+        Wed, 16 Aug 2023 03:04:11 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6340F1FCE;
+        Wed, 16 Aug 2023 00:04:09 -0700 (PDT)
+Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37G6wH5g018435;
+        Wed, 16 Aug 2023 07:03:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : references : date : in-reply-to : message-id : content-type :
+ mime-version; s=pp1; bh=JRiEwG7CGAIwUuGxv6cswmnrQS0AldAPoI7yGXpgWgY=;
+ b=O3aDDuYqblqU2ow4KXHkowrbrKcpbFLAIEDT7DzfJtDf7OrzA3/f1/0927eO8jdgbBg/
+ inigcHl7nc5bFh3AQMtv/3kLaqp2u414YiQJtdr/tZIZqETkRnoLq/HPO+33N7a54CL4
+ EQvWs7I9ZIbPJcRccVCBwTXeDgzoPYqoj7tlPUO+cZFWsROJvvoIdWPMKWD79hORmFVd
+ JQx324Oyy5j57ZD3DKP3MdPuMDLoa4JvxkSL2y80b0s2uSXCoYr7a+6DDSNMAn5/KWlm
+ fMPmIYKEOC+aD5RwZILE1rfksPIUKMiD+jY9r5U4s5eofcHl5CkeaV2xIoEnBrCWstNJ YQ== 
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3sgsn984kx-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 16 Aug 2023 07:03:58 +0000
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+        by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 37G40GHT013425;
+        Wed, 16 Aug 2023 07:03:58 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+        by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3sepmjt3vy-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 16 Aug 2023 07:03:57 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+        by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 37G73t6d62587154
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 16 Aug 2023 07:03:55 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id ED10E2004B;
+        Wed, 16 Aug 2023 07:03:54 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id A71FD20040;
+        Wed, 16 Aug 2023 07:03:54 +0000 (GMT)
+Received: from tuxmaker.linux.ibm.com (unknown [9.152.85.9])
+        by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+        Wed, 16 Aug 2023 07:03:54 +0000 (GMT)
+From:   Sven Schnelle <svens@linux.ibm.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, linux-next@vger.kernel.org,
+        linux-kbuild@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-s390@vger.kernel.org, Stefan Haberland <sth@linux.ibm.com>,
+        Jan Hoeppner <hoeppner@linux.ibm.com>,
+        Christoph Hellwig <hch@lst.de>
+Subject: Re: linux-next-2023-0815: s390/block/dasd: build error
+References: <95b176a2-3670-1e89-c8f6-86b094eebc4c@infradead.org>
+Date:   Wed, 16 Aug 2023 09:03:54 +0200
+In-Reply-To: <95b176a2-3670-1e89-c8f6-86b094eebc4c@infradead.org> (Randy
+        Dunlap's message of "Tue, 15 Aug 2023 22:34:19 -0700")
+Message-ID: <yt9d350jbh9h.fsf@linux.ibm.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: cjURwvIYWuHXhR9BbhXBbvstXJsiOinV
+X-Proofpoint-ORIG-GUID: cjURwvIYWuHXhR9BbhXBbvstXJsiOinV
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:5efYKn7F2za0bzOch2sK3zAAJMCZclTVtXWsbnQ1krjrYI1HvjA
- ItpwXZOHlEH7CZKWOeyHJVNXxBVRuGjaFobL2njp/+kaTNB9f2eSvLPAjiq5uRfBJdTGf1B
- QKqY8+S7hZMJEAv8QLxl1DDjt6j9jAc42EW5o3hFEO1mm8UCex1Q1b11scmJZdEASrjV8AF
- 2X0ttwuG1ZEIeMPE4GxyA==
-UI-OutboundReport: notjunk:1;M01:P0:l5/JpwWrnlE=;97cEQn4stRO/L91iAFV+/X+orNW
- D3vUIRxtDaDi5yV959b6EbJ6DgCY1SjUzdk3g3Jcl8MGGJlD6gHARipyobENz+0P7t3Czi/KO
- DeigjkcMx6ocVOCOmSVAOzw7ZdN5q/eDuiTa6fCFkugSmLx/3VgODm1ypL6h2A5SZ+cUI2QAo
- N3j1k4mb3sQ/MQXcSYaNzv5MyoYToxmucZ5MuE8hjaIUMetB7aDPpCAgQpG9/fWyxiwjQAVE+
- Prp5EMuMYST9xtzaY3HjcFgCuhAl0g9so6qc/XKxFYKoTBrXFb/FcIQ2x73MjTtg9t7BkiLP4
- tn8onQ7tTZBbxCUONXa91jCYHLrZFtXz9G3LJ2/L6ctcFAbIeQfdLt2IslMG+LQ20nCAETFpi
- zo9ilHDvZRu+C3sTBPRRYoAhiC55V4J4lgAbjEL/rzpZlNZT3F7DIXC+DK6HEWPsCPw4A1kyZ
- O0rS9gg71vGHlctXWQjo+8roiFX8sgLjXrlt4j/wFqp6CWK6aJ7xgvbqwjw3hl7HyhcwdVGXW
- okVCEyqdVxUL2Ka1DpQU6pf+G/yO7Sych3hztnURM4Lw1UwxocAUiZXcNW1LUJKyIraMuhWi2
- hrgQZKQh4TgW9851PAvMlLUf6h+JbYn4Fj8XFzNZeeMaOsSdbJiQ3WrO9zqBLxmHhC4tYaPzX
- REHMjNJy/NHqKu0vYx+iPhwSC/SAbjiCcX3WE23tAb4yJOJlG5XinDrVixPqdmUGTkzlOZLd+
- QaRus/u/lVBp2G2GNwtPtN/DCttyy23bQl8E1PuRrdApOArBCUZV0oAXyRgPbC0RgVh3FFVvO
- GglQsC3u8Du9vF+0Gl8ZMB5iaA8u2x4n1iNIK50psRjeq615kbaAw9HBopJXk+cjv15sCCGPC
- 2ZvjP26QHOSI4Hw==
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
-        T_SPF_TEMPERROR,URIBL_BLOCKED autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-16_04,2023-08-15_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=994
+ mlxscore=0 impostorscore=0 clxscore=1011 lowpriorityscore=0 suspectscore=0
+ priorityscore=1501 bulkscore=0 spamscore=0 adultscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2308160063
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,28 +89,26 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Nicolas Schier <n.schier@avm.de>
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-Add scripts for generating initramfs to KBUILD, to prevent idling of
-patches for usr/.
+> I have spent some time on this but I don't see where the problem is.
+>
+> ERROR: modpost: "bdev_mark_dead" [drivers/s390/block/dasd_mod.ko] undefined!
+>
+> CONFIG_BLOCK=y, bdev.o is built and contains the missing symbol.
+>
+> Full randconfig file is attached.
+>
+> Hopefully I'm just overlooking something.
 
-Signed-off-by: Nicolas Schier <n.schier@avm.de>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+The EXPORT_SYMBOL_GPL is surrounded by #ifdef CONFIG_DASD, but i think
+it should be '#ifdef CONFIG_DASD_MODULE'. This was introduced by
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d516295978a4..eff293e8d3bf 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11296,6 +11296,7 @@ F:	scripts/dummy-tools/
- F:	scripts/mk*
- F:	scripts/mod/
- F:	scripts/package/
-+F:	usr/
- 
- KERNEL HARDENING (not covered by other areas)
- M:	Kees Cook <keescook@chromium.org>
--- 
-2.39.2
+381f678306ce ("block: consolidate __invalidate_device and fsync_bdev")
 
+There was already a thread about this:
+
+https://www.spinics.net/lists/linux-btrfs/msg138633.html
+
+regards,
+Sven
