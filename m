@@ -2,308 +2,126 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 39FC377E225
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Aug 2023 15:07:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 542D577E249
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Aug 2023 15:13:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244967AbjHPNGj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Aug 2023 09:06:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57464 "EHLO
+        id S235419AbjHPNMg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Aug 2023 09:12:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245435AbjHPNGf (ORCPT
+        with ESMTP id S245448AbjHPNMV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Aug 2023 09:06:35 -0400
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3F2E271D
-        for <linux-kbuild@vger.kernel.org>; Wed, 16 Aug 2023 06:06:28 -0700 (PDT)
-Received: by mail-pg1-x536.google.com with SMTP id 41be03b00d2f7-5656a5b83e4so3405901a12.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 16 Aug 2023 06:06:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1692191188; x=1692795988;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=y8LN8kLzzLczsPbdJAMvHHgeSuXAc6gkdKeWAaN4L44=;
-        b=Ktdl2pgaHZptGepBHvj9uBh+Ex2svm7kOQy0oPCJUlhZJogSdmIUlJz5mlGxjF06jn
-         yh9iP8z2++tuthp+kMS+42ig6DtlNijgRJ8srGolUb1ueoSmWLz5HdgxLWlMj/3qNsV4
-         ThYqkRmCXnApKgNz634RGW8kdPG0IxSlUNrtA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692191188; x=1692795988;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y8LN8kLzzLczsPbdJAMvHHgeSuXAc6gkdKeWAaN4L44=;
-        b=N4MZEIQVcEVVhXvIsvft5o0OmkvbZiW68ImqrDOimGfmkffS4SBvjBJXJtjO5wyTbs
-         PC2CjE4TiUne4BeT9WkBka5vVQ3DoLf7VlSoCAkGWsW7YYl5vW+1gzcZ0fqsDMojI5va
-         mLmKosvn0k6k9ES362j/XCbG0JVcZ8coH4xRJTC/VUV+eG7V7HHuXhE82n+VkbCNNuFs
-         gWk41hQdINlLks38+ypFm/CURXnVepnNtjeqaDOFcBP4/tFGuTehQr+yHYn0m3/CGMnJ
-         ZVeqvhM12J7MmqoMr30etCE7MU1RGJVBJX5Z206OIRViQq88bKpEaWvo8AdcZPljagPD
-         t5wA==
-X-Gm-Message-State: AOJu0YxYYTRgXsdaWHcUS4HxGJjiiEgxk3EFNfVt0ShOcbDoUd/AHWAb
-        8iqZplztyN3QT73YPAsirIl5vg==
-X-Google-Smtp-Source: AGHT+IHt1aDr1VoKfxePkEnb6zzzgPARwvGN/v1bEnHZCx6EPswEzl0KK3MUVtKBqWM4wh9HYw4Mrg==
-X-Received: by 2002:a17:90b:3741:b0:25e:d727:6fb4 with SMTP id ne1-20020a17090b374100b0025ed7276fb4mr1198090pjb.2.1692191188228;
-        Wed, 16 Aug 2023 06:06:28 -0700 (PDT)
-Received: from google.com (KD124209188001.ppp-bb.dion.ne.jp. [124.209.188.1])
-        by smtp.gmail.com with ESMTPSA id y11-20020a170902700b00b001b89b7e208fsm13106575plk.88.2023.08.16.06.06.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Aug 2023 06:06:27 -0700 (PDT)
-Date:   Wed, 16 Aug 2023 22:06:23 +0900
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Tomasz Figa <tfiga@chromium.org>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: Re: kconfig: list unknown symbols in the old .config
-Message-ID: <20230816130623.GI907732@google.com>
-References: <20230816124221.GH907732@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230816124221.GH907732@google.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FSL_HELO_FAKE,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Wed, 16 Aug 2023 09:12:21 -0400
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E29A82712;
+        Wed, 16 Aug 2023 06:12:18 -0700 (PDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.west.internal (Postfix) with ESMTP id 1C83A3200941;
+        Wed, 16 Aug 2023 09:12:15 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Wed, 16 Aug 2023 09:12:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm3; t=1692191534; x=1692277934; bh=ZR
+        T106v0hiqgMDmrCmS6eySFqP6+naQFmpKPfl1LC4A=; b=vnOGsLEBWf6iRqdcGe
+        aKN5BWG0fJGAVU6JVIXw2r5trEbi4U8HGAkyD0+6xPYUebCuLdj/BgvHcLXQ3VWz
+        DM86GEBHF5q/32OBTSQ1jAmNdTLIKRxKeTpDjT17bQgiqwms96qRRheqtFVNxibZ
+        hwb68kNFhtdjc0mMi067Ltuik7Sz8Ub0DzdHrBDczZvPLkmNw72p43WeSwcA6Uhd
+        jlAAKWZ6Al07ksUMdho4dSrDxHjxQNY7apoz3xCtR88uxRhkG9xkFDGscnnRTo5l
+        WiGl5SfVo9TNOcr+c7G2H0chHBT3ePUGo7ZEdPXRmkEqRq9XFAWEkvI8BxCAowqC
+        qylw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm1; t=1692191534; x=1692277934; bh=ZRT106v0hiqgM
+        DmrCmS6eySFqP6+naQFmpKPfl1LC4A=; b=J253saPLCyaYpeIDlShp7YvjJgenV
+        Ht1wUlTeHrAp+sMBGixfNZyUOs+v29RrlwC/Ff32lR6rR8Ptf/e2eCzpS7zg4WOK
+        JYImEvkjD5EcWi13FT1qPlKSW+lxLDrtzkAe+SPR9zQ5OXHVI5o5ZavoAdaJjrvF
+        mYs/WGtCNnfkuosVJ63bXDJlTIEuUUTya6gHAHWER0NlUHQA4H1Y/6SUWW5k7VGX
+        CgelTXP6IMV844RF/eUDrOP+e8y9sL3KhWck/HUsbwg8VPAFec37UpcjQLZf4mWh
+        uldSfe9YCl3AXDW8zsfBvdpTuUvrJa25ROBLezhFUT/OIhB48LEBQcZnA==
+X-ME-Sender: <xms:K8vcZHO8GGtKsWaqQcWz1qpw7lABKKHBkhe_YqZz2EzFfnfT05ISiA>
+    <xme:K8vcZB-r0Y6dBNf9v4cUL_7yF6uQAKk9sv7-_V3dOoxP_cvdsp3JLUt2S3lonyhXT
+    Ls1v4Sr_SabhXlhEhc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedruddtledgieduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:K8vcZGQO-MgdXr5jJldoDAQTHH6Ovgm0uSHlTvzKqKADkMryTvW66g>
+    <xmx:K8vcZLtkn6_JnzcwFpD1vZfMnl9JtfeWnWAVnzNARqjEiksaIcRtOg>
+    <xmx:K8vcZPepBT5Oy2rf3fQLmMFTs8XTCaO1eXozKuHr43Q9B1oPLmqWGA>
+    <xmx:LsvcZBc7lnjA2S24fyGf-1Kbi-eqlGDcVFzJeOS9w2dwF53-Geo3HA>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id C1305B60089; Wed, 16 Aug 2023 09:12:11 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-624-g7714e4406d-fm-20230801.001-g7714e440
+Mime-Version: 1.0
+Message-Id: <0681968f-743d-4b55-bb1e-dbd665ea8783@app.fastmail.com>
+In-Reply-To: <20230816055010.31534-1-rdunlap@infradead.org>
+References: <20230816055010.31534-1-rdunlap@infradead.org>
+Date:   Wed, 16 Aug 2023 15:11:35 +0200
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Randy Dunlap" <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org
+Cc:     "Russell King" <linux@armlinux.org.uk>,
+        linux-arm-kernel@lists.infradead.org,
+        "Jason A . Donenfeld" <Jason@zx2c4.com>, wireguard@lists.zx2c4.com,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        linux-snps-arc@lists.infradead.org,
+        "Vineet Gupta" <vgupta@kernel.org>,
+        "Brian Cain" <bcain@quicinc.com>, linux-hexagon@vger.kernel.org,
+        "Greg Ungerer" <gerg@linux-m68k.org>,
+        "Geert Uytterhoeven" <geert@linux-m68k.org>,
+        linux-m68k@lists.linux-m68k.org, "Michal Simek" <monstr@monstr.eu>,
+        "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
+        "Dinh Nguyen" <dinguyen@kernel.org>,
+        "Jonas Bonn" <jonas@southpole.se>,
+        "Stefan Kristiansson" <stefan.kristiansson@saunalahti.fi>,
+        "Stafford Horne" <shorne@gmail.com>,
+        "linux-openrisc@vger.kernel.org" <linux-openrisc@vger.kernel.org>,
+        linux-mips@vger.kernel.org,
+        "Michael Ellerman" <mpe@ellerman.id.au>,
+        "Nicholas Piggin" <npiggin@gmail.com>,
+        "Christophe Leroy" <christophe.leroy@csgroup.eu>,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        "Paul Walmsley" <paul.walmsley@sifive.com>,
+        "Palmer Dabbelt" <palmer@dabbelt.com>,
+        "Albert Ou" <aou@eecs.berkeley.edu>,
+        "Yoshinori Sato" <ysato@users.sourceforge.jp>,
+        "Rich Felker" <dalias@libc.org>,
+        "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
+        linux-sh@vger.kernel.org, "Max Filippov" <jcmvbkbc@gmail.com>,
+        "Josh Triplett" <josh@joshtriplett.org>,
+        "Masahiro Yamada" <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org,
+        "Andrew Morton" <akpm@linux-foundation.org>
+Subject: Re: [PATCH] treewide: drop CONFIG_EMBEDDED
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On (23/08/16 21:42), Sergey Senozhatsky wrote:
-> Hi,
-> 
-> We recently were hit (unnecessarily hard) when after kernel uprev we
-> figured that something wasn't working. The root cause was a rename of
-> the CONFIG_FOO option between kernel releases, which make oldconfig
-> doesn't warn/notify about.
-> 
-> Would it be possible to add either a new --listunknown mode to conf or
-> to somehow make it conf_warning("unknown symbol: %s\n", line) when it
-> reads a line from oldconf that it cannot sym_find()?
-> 
-> That would save a ton of time.
+On Wed, Aug 16, 2023, at 07:50, Randy Dunlap wrote:
+> There is only one Kconfig user of CONFIG_EMBEDDED and it can be
+> switched to EXPERT or "if !ARCH_MULTIPLATFORM" (suggested by Arnd).
+>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Russell King <linux@armlinux.org.uk>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Jason A. Donenfeld <Jason@zx2c4.com>
 
-So I have this simple (quick-n-dirty) patch, that seem to be doing
-the trick. Just to show the idea.
-
-Running `make listunknown` produces the following (on a hand-crafted
-.config):
-
-.config:6:warning: unknown symbol: CONFIG_DISABLE_BUGS
-.config:7:warning: unknown symbol: CONFIG_COMPILE_GOOD_CODE_ONLY
-make[2]: *** [scripts/kconfig/Makefile:77: listunknown] Error 1
-...
-
----
-
-diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
-index 33d19e419908..37b777a0848c 100644
---- a/scripts/kconfig/conf.c
-+++ b/scripts/kconfig/conf.c
-@@ -36,6 +36,7 @@ enum input_mode {
- 	yes2modconfig,
- 	mod2yesconfig,
- 	mod2noconfig,
-+	listunknown,
- };
- static enum input_mode input_mode = oldaskconfig;
- static int input_mode_opt;
-@@ -683,6 +684,7 @@ static const struct option long_opts[] = {
- 	{"yes2modconfig", no_argument,       &input_mode_opt, yes2modconfig},
- 	{"mod2yesconfig", no_argument,       &input_mode_opt, mod2yesconfig},
- 	{"mod2noconfig",  no_argument,       &input_mode_opt, mod2noconfig},
-+	{"listunknown",  no_argument,       &input_mode_opt, listunknown},
- 	{NULL, 0, NULL, 0}
- };
- 
-@@ -712,6 +714,7 @@ static void conf_usage(const char *progname)
- 	printf("  --yes2modconfig         Change answers from yes to mod if possible\n");
- 	printf("  --mod2yesconfig         Change answers from mod to yes if possible\n");
- 	printf("  --mod2noconfig          Change answers from mod to no if possible\n");
-+	printf("  --listunknown           List symbols that are not recognized anymore\n");
- 	printf("  (If none of the above is given, --oldaskconfig is the default)\n");
- }
- 
-@@ -823,6 +826,12 @@ int main(int ac, char **av)
- 			exit(1);
- 		}
- 		break;
-+	case listunknown:
-+		if (conf_read_listunknown())
-+			exit(1);
-+		else
-+			exit(0);
-+		break;
- 	default:
- 		break;
- 	}
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 992575f1e976..d70cd3b034e1 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -341,64 +341,113 @@ static ssize_t compat_getline(char **lineptr, size_t *n, FILE *stream)
- 	return -1;
- }
- 
--int conf_read_simple(const char *name, int def)
-+static FILE *open_conf_file(const char *name)
- {
--	FILE *in = NULL;
--	char   *line = NULL;
--	size_t  line_asize = 0;
--	char *p, *p2;
--	struct symbol *sym;
--	int i, def_flags;
-+	char *env, *p;
-+	FILE *in;
- 
--	if (name) {
--		in = zconf_fopen(name);
--	} else {
--		char *env;
-+	if (name)
-+		return zconf_fopen(name);
- 
--		name = conf_get_configname();
--		in = zconf_fopen(name);
--		if (in)
--			goto load;
--		conf_set_changed(true);
-+	name = conf_get_configname();
-+	in = zconf_fopen(name);
-+	if (in)
-+		return in;
- 
--		env = getenv("KCONFIG_DEFCONFIG_LIST");
--		if (!env)
--			return 1;
-+	conf_set_changed(true);
- 
--		while (1) {
--			bool is_last;
-+	env = getenv("KCONFIG_DEFCONFIG_LIST");
-+	if (!env)
-+		return NULL;
- 
--			while (isspace(*env))
--				env++;
-+	while (1) {
-+		bool is_last;
- 
--			if (!*env)
--				break;
-+		while (isspace(*env))
-+			env++;
- 
--			p = env;
--			while (*p && !isspace(*p))
--				p++;
-+		if (!*env)
-+			break;
- 
--			is_last = (*p == '\0');
-+		p = env;
-+		while (*p && !isspace(*p))
-+			p++;
- 
--			*p = '\0';
-+		is_last = (*p == '\0');
- 
--			in = zconf_fopen(env);
--			if (in) {
--				conf_message("using defaults found in %s",
--					     env);
--				goto load;
--			}
-+		*p = '\0';
- 
--			if (is_last)
--				break;
-+		in = zconf_fopen(env);
-+		if (in) {
-+			conf_message("using defaults found in %s",
-+				     env);
-+			return in;
-+		}
-+
-+		if (is_last)
-+			break;
-+		env = p + 1;
-+	}
-+
-+	return NULL;
-+}
-+
-+int conf_read_listunknown(void)
-+{
-+	FILE *in = NULL;
-+	char *line = NULL;
-+	size_t line_asize = 0;
-+	char *p, *p2;
-+	struct symbol *sym;
- 
--			env = p + 1;
-+	conf_filename = conf_get_configname();
-+	in = open_conf_file(conf_filename);
-+	if (!in)
-+		return 1;
-+
-+	conf_warnings = 0;
-+	while (compat_getline(&line, &line_asize, in) != -1) {
-+		conf_lineno++;
-+		sym = NULL;
-+		if (line[0] == '#')
-+			continue;
-+
-+		if (memcmp(line, CONFIG_, strlen(CONFIG_)) == 0) {
-+			p = strchr(line + strlen(CONFIG_), '=');
-+			if (!p)
-+				continue;
-+			*p++ = 0;
-+			p2 = strchr(p, '\n');
-+			if (p2) {
-+				*p2-- = 0;
-+				if (*p2 == '\r')
-+					*p2 = 0;
-+			}
-+
-+			sym = sym_find(line + strlen(CONFIG_));
-+			if (!sym)
-+				conf_warning("unknown symbol: %s", line);
- 		}
- 	}
-+
-+	free(line);
-+	fclose(in);
-+	return conf_warnings;
-+}
-+
-+int conf_read_simple(const char *name, int def)
-+{
-+	FILE *in = NULL;
-+	char   *line = NULL;
-+	size_t  line_asize = 0;
-+	char *p, *p2;
-+	struct symbol *sym;
-+	int i, def_flags;
-+
-+	in = open_conf_file(name);
- 	if (!in)
- 		return 1;
- 
--load:
- 	conf_filename = name;
- 	conf_lineno = 0;
- 	conf_warnings = 0;
-diff --git a/scripts/kconfig/lkc_proto.h b/scripts/kconfig/lkc_proto.h
-index edd1e617b25c..d76faaec120a 100644
---- a/scripts/kconfig/lkc_proto.h
-+++ b/scripts/kconfig/lkc_proto.h
-@@ -5,6 +5,7 @@
- void conf_parse(const char *name);
- int conf_read(const char *name);
- int conf_read_simple(const char *name, int);
-+int conf_read_listunknown(void);
- int conf_write_defconfig(const char *name);
- int conf_write(const char *name);
- int conf_write_autoconf(int overwrite);
+Acked-by: Arnd Bergmann <arnd@arndb.de>
