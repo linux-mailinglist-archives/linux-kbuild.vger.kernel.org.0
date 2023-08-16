@@ -2,117 +2,88 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E51A77DB4D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Aug 2023 09:42:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41AE577DBD9
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Aug 2023 10:12:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242472AbjHPHlu convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Wed, 16 Aug 2023 03:41:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50536 "EHLO
+        id S242794AbjHPIME (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Aug 2023 04:12:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242506AbjHPHld (ORCPT
+        with ESMTP id S242685AbjHPILd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Aug 2023 03:41:33 -0400
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F8A92684;
-        Wed, 16 Aug 2023 00:41:31 -0700 (PDT)
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-645181e1eaeso23771586d6.1;
-        Wed, 16 Aug 2023 00:41:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692171690; x=1692776490;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HkTNstwI73s4YFo3/SQhtE6/OXSa9yBSjbdY7mJiIyI=;
-        b=ZWCc9ScPiCC2xQyiN64sCepltSBLSmwB2j6GdgGlYkZ/L5skdvQ8mlv6OxJjZRkOIl
-         LQEmjzqQV4iG4/N1fR2gI60Xm5B7khwigOAvKcAZjKk5qPLoMdK6uVUl6A4coaAZ2vug
-         teo0vPrNe3qIp0vX2FA5mvVAsUJigWldcBojXeEyDg+Ok4+beC2zkqWNaG6TsDdhNL16
-         o9KjKA4Eefb5/6BnOR6rbV7Eha2ups0Yz/1WFK4UuJUhvOBgufPCJiJ24/M1O4rHfoXl
-         dbKbfeD3Cg4TSpUBJ/m7OflrTD4efP6XMic4kWKdcui+so21hGebk9BXPSdg5g0tgeky
-         xGuA==
-X-Gm-Message-State: AOJu0Ywl03oNue8j2JOGoehXptd714RTa2adC8zXvVvb+lg5tvi2h4wO
-        DNJwWubeAZ8X2knwP5L3B/ackTrzVMXtgQ==
-X-Google-Smtp-Source: AGHT+IHsLPuRqSkelDdJbL57KS+jFzD5VBtQSK0+r7VuMrg8naBsJnbZ0+fipciPzWuvba87SGrfBw==
-X-Received: by 2002:a0c:f2c4:0:b0:628:74d6:ba89 with SMTP id c4-20020a0cf2c4000000b0062874d6ba89mr1000338qvm.60.1692171690515;
-        Wed, 16 Aug 2023 00:41:30 -0700 (PDT)
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com. [209.85.222.169])
-        by smtp.gmail.com with ESMTPSA id o20-20020a0ccb14000000b0063c6c7f4b92sm4698938qvk.1.2023.08.16.00.41.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Aug 2023 00:41:28 -0700 (PDT)
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-76cb0d2fc9cso423004885a.2;
-        Wed, 16 Aug 2023 00:41:28 -0700 (PDT)
-X-Received: by 2002:a05:620a:3711:b0:76c:5715:b4a3 with SMTP id
- de17-20020a05620a371100b0076c5715b4a3mr1484328qkb.13.1692171688197; Wed, 16
- Aug 2023 00:41:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230816055010.31534-1-rdunlap@infradead.org>
-In-Reply-To: <20230816055010.31534-1-rdunlap@infradead.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 16 Aug 2023 09:41:15 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWF0LseSGK6=aodXaoK9D16mxok4DDRs=gKoGox8k6zjg@mail.gmail.com>
-Message-ID: <CAMuHMdWF0LseSGK6=aodXaoK9D16mxok4DDRs=gKoGox8k6zjg@mail.gmail.com>
-Subject: Re: [PATCH] treewide: drop CONFIG_EMBEDDED
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-        linux-arm-kernel@lists.infradead.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Jason A . Donenfeld" <Jason@zx2c4.com>, wireguard@lists.zx2c4.com,
-        linux-arch@vger.kernel.org, linux-snps-arc@lists.infradead.org,
-        Vineet Gupta <vgupta@kernel.org>,
-        Brian Cain <bcain@quicinc.com>, linux-hexagon@vger.kernel.org,
-        Greg Ungerer <gerg@linux-m68k.org>,
-        linux-m68k@lists.linux-m68k.org, Michal Simek <monstr@monstr.eu>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Jonas Bonn <jonas@southpole.se>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Stafford Horne <shorne@gmail.com>,
-        linux-openrisc@vger.kernel.org, linux-mips@vger.kernel.org,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        linux-sh@vger.kernel.org, Max Filippov <jcmvbkbc@gmail.com>,
-        Josh Triplett <josh@joshtriplett.org>,
+        Wed, 16 Aug 2023 04:11:33 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83023AB;
+        Wed, 16 Aug 2023 01:11:32 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 177826345F;
+        Wed, 16 Aug 2023 08:11:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 552FFC433C7;
+        Wed, 16 Aug 2023 08:11:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692173491;
+        bh=Vaj4jf6XLcsiRxLxN7vFGefZkgbs6uwB9LPt3hNn17k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WEzohTfbauIWJLpGGasVcvpqjbQio9vmTLRIqqxc1ESh1HoWRnBgljFF9Ibuu+3Rb
+         B9TTxjHL97V6ANBb5SwwTXoQs37cqfAeAN/v2ozcDAKtNLps1bhBY86LVHunYplTNP
+         3bregalJtbOUEcDu6nxnZ4Tb8lgDTNv+6/B1cnqRD74xZcNv5Nu6TIZaq6R/xM1nC0
+         yKbBNCGAt/p1eCtvoylCpDU9SquxB542zRG3IheqIxaXDsZhZXaBGLgvyso77512fL
+         p0QBGwloTX8grMsVga6hMOU3ZwmD01an3QypD/BWiZGL11JhvhLFuBwkJU3jJF8VU3
+         hwoJVSYsbMEDA==
+Date:   Wed, 16 Aug 2023 10:11:26 +0200
+From:   Christian Brauner <brauner@kernel.org>
+To:     Stephen Rothwell <sfr@canb.auug.org.au>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+        linux-next@vger.kernel.org, linux-kbuild@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        linux-s390@vger.kernel.org, Stefan Haberland <sth@linux.ibm.com>,
+        Jan Hoeppner <hoeppner@linux.ibm.com>,
+        Christoph Hellwig <hch@lst.de>
+Subject: Re: linux-next-2023-0815: s390/block/dasd: build error
+Message-ID: <20230816-substantiell-ansporn-5db2e3d0c877@brauner>
+References: <95b176a2-3670-1e89-c8f6-86b094eebc4c@infradead.org>
+ <20230816170934.71a5e306@oak.ozlabs.ibm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230816170934.71a5e306@oak.ozlabs.ibm.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Randy,
+On Wed, Aug 16, 2023 at 05:14:39PM +1000, Stephen Rothwell wrote:
+> Hi Randy,
+> 
+> On Tue, 15 Aug 2023 22:34:19 -0700 Randy Dunlap <rdunlap@infradead.org> wrote:
+> >
+> > I have spent some time on this but I don't see where the problem is.
+> > 
+> > ERROR: modpost: "bdev_mark_dead" [drivers/s390/block/dasd_mod.ko] undefined!
+> > 
+> > CONFIG_BLOCK=y, bdev.o is built and contains the missing symbol.
+> > 
+> > Full randconfig file is attached.
+> > 
+> > Hopefully I'm just overlooking something.
+> 
+> In your config, CONFIG_DASD=m which means "#ifdef CONFIG_DASD" will
+> fail since CONFIG_DASD_MODULE is defined instead ... so maybe it should
+> be "#if IS_ENABLED(CONFIG_DASD)" in block/bdev.c.  This also fails an
+> s390 allmodconfig build (obviously).
+> 
+> So this is caused by commit
+> 
+>   381f678306ce ("block: consolidate __invalidate_device and fsync_bdev")
+> 
+> from the vfs-brauner branch in linux-next.
 
-On Wed, Aug 16, 2023 at 7:50 AM Randy Dunlap <rdunlap@infradead.org> wrote:
-> There is only one Kconfig user of CONFIG_EMBEDDED and it can be
-> switched to EXPERT or "if !ARCH_MULTIPLATFORM" (suggested by Arnd).
->
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-
-Makes perfect sense to me.
-
-Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks for reporting this everyone. Fixed in-tree.
