@@ -2,266 +2,131 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5208377EEA6
-	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Aug 2023 03:21:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6C8677EF6B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Aug 2023 05:16:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347478AbjHQBUu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Aug 2023 21:20:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41184 "EHLO
+        id S1347806AbjHQDPj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Aug 2023 23:15:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347514AbjHQBUc (ORCPT
+        with ESMTP id S1347825AbjHQDPc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Aug 2023 21:20:32 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A2362D61
-        for <linux-kbuild@vger.kernel.org>; Wed, 16 Aug 2023 18:20:25 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-6889288a31fso308674b3a.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 16 Aug 2023 18:20:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1692235224; x=1692840024;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FvyxeUS9fq0mQZuA1GzyXjv4L0y4/K/wnguyQj7Xykk=;
-        b=ZqhzWxk7QJkOCT6R4F8pbFod5NEa31t3jfoj9cyNhZbDZlSWjNzEZNkZP91pJtdKZz
-         DJ8iGvN+jqVUjpYFYGkugedlVfuVXGy20ThwkUrrGFC0alkvId7W7ueXvwrgFt5aUfIg
-         zS8xWHv2v4/NdB2IlV1tuEiArplP9y41mKTZk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692235224; x=1692840024;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FvyxeUS9fq0mQZuA1GzyXjv4L0y4/K/wnguyQj7Xykk=;
-        b=BJrjSotzBQTUPbL2P7tU7omFhgCBJDxKsaCG61Kj8IHRMvYKw9sD8Q+Um3n9RaTWQu
-         m00Maspyohi4yVKV5v7361hhFghkbvffEXS46kQ0Pxhx6+rFeL91eC1A3kdx+CwPzzHz
-         NYv4UuvxDnErhGLBVC/UFppmPKI0ei+yiJVSQ/0mDeB1EqsOA5T3npZay+cuWzL/2Lrt
-         MdyQz10EP5G8kVIPlDluIE8vFXtVNEKZSlqQ5KivOsOMKwgO2XrxPE3j3kEOslMnGqoa
-         E1nKaTe3c3c+lG8T6xRWMGA+3LJzIq4WiNPEVMUe++lQCk3lHhuCzfhkeH5Upnk9iqHc
-         gU2w==
-X-Gm-Message-State: AOJu0YwgOD+SPXpoiEzwkpS9wfRoHOQH/3Sc6KW8L+6H4wF3e7itzQT1
-        ocuNxuI60AMRqKApDdXj48UNHw==
-X-Google-Smtp-Source: AGHT+IH2q4lepA7YmeqrxG50qPCrrMNlYPYTXjfU9Hysz7Q9VTKdqFH6EII6oO0fteuDCQNZi3P8/Q==
-X-Received: by 2002:a05:6a20:1448:b0:134:3a9b:4cd7 with SMTP id a8-20020a056a20144800b001343a9b4cd7mr1546893pzi.23.1692235224554;
-        Wed, 16 Aug 2023 18:20:24 -0700 (PDT)
-Received: from tigerii.tok.corp.google.com ([2401:fa00:8f:203:1601:f73d:719a:8de1])
-        by smtp.gmail.com with ESMTPSA id n7-20020a62e507000000b00686b649cdd0sm11593737pff.86.2023.08.16.18.20.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Aug 2023 18:20:24 -0700 (PDT)
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Tomasz Figa <tfiga@chromium.org>, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: [RFC][PATCH] kconfig: introduce listunknownconfig
-Date:   Thu, 17 Aug 2023 10:19:58 +0900
-Message-ID: <20230817012007.131868-1-senozhatsky@chromium.org>
-X-Mailer: git-send-email 2.41.0.694.ge786442a9b-goog
+        Wed, 16 Aug 2023 23:15:32 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20BBB1724;
+        Wed, 16 Aug 2023 20:15:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=P/kFyzCr/eSDaJkbY0OlCILEe1j9xWTLXn/yJLAYIu4=; b=A9+ZOyBLxgvkefgcCG3G+GbFOc
+        t3Q4LPTtkkpyh0LBpbAFdc+3lhG3pcvB3Tuy2cTe9/M//iW+Sx1QS7+tpwHS9HCucIDpD/RDGCGIr
+        FphyIapebkE7eEjeEnFtOi+9dwumQAvsQRYGjE0GEiZ5WBo53AxtXkFjlluHJQQSFYe1ZQ0mwCfpK
+        6X/okD9sKE4Z8iWegd56l1SCJXl6wUSJ5Uk04klLzVcTy3SNTh8mgr2aL00kPfkoj1Td2N2/Azxck
+        21ORjXTS2+GmCUfbeyQtLCC4mizooGziW6L1eBdD4Ta+hfKURTJGkPtTMCT5Ht16ny8Gi1C8JbRXm
+        mdreectQ==;
+Received: from [2601:1c2:980:9ec0::1a0b]
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1qWTTi-000tOI-Mm; Thu, 17 Aug 2023 03:15:18 +0000
+Message-ID: <86e329b1-c8d7-47bf-8be8-3326daf74eb5@infradead.org>
+Date:   Wed, 16 Aug 2023 20:15:09 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH] treewide: drop CONFIG_EMBEDDED
+To:     20230816055010.31534-1-rdunlap@infradead.org
+Cc:     linux-kernel@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+        linux-arm-kernel@lists.infradead.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Jason A . Donenfeld" <Jason@zx2c4.com>, wireguard@lists.zx2c4.com,
+        linux-arch@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+        Vineet Gupta <vgupta@kernel.org>,
+        Brian Cain <bcain@quicinc.com>, linux-hexagon@vger.kernel.org,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        linux-m68k@lists.linux-m68k.org, Michal Simek <monstr@monstr.eu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Jonas Bonn <jonas@southpole.se>,
+        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+        Stafford Horne <shorne@gmail.com>,
+        linux-openrisc@vger.kernel.org, linux-mips@vger.kernel.org,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        linux-sh@vger.kernel.org, Max Filippov <jcmvbkbc@gmail.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>
+References: <38e1a01b-1e8b-7c66-bafc-fc5861f08da9@gmail.com>
+Content-Language: en-US
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <38e1a01b-1e8b-7c66-bafc-fc5861f08da9@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The listunknownconfig option reads old .config and lists
-all unrecognized symbols. This is especially useful for
-continuous kernel uprevs when some symbols can be either
-removed or renamed between kernel releases (which can go
-unnoticed otherwise).
+Hi Jesse,
 
-A recent real-life example of such a symbol rename
-that quietly disabled some drivers after kernel uprev
-is MFD_RK808 rename.
+On 8/16/23 15:45, Jesse Taube wrote:
+> Hi, Randy
+> 
+>> diff -- a/init/Kconfig b/init/Kconfig
+>> --- a/init/Kconfig
+>> +++ b/init/Kconfig
+>> @@ -1790,14 +1790,6 @@ config DEBUG_RSEQ
+>>
+>>        If unsure, say N.
+>>
+>> -config EMBEDDED
+>> -    bool "Embedded system"
+>> -    select EXPERT
+>> -    help
+>> -      This option should be enabled if compiling the kernel for
+>> -      an embedded system so certain expert options are available
+>> -      for configuration.
+> 
+> Wouldn't removing this break many out of tree configs?
 
-Example:
-Suppose old .config has the following two options which
-were removed from the recent kernel:
+I'm not familiar with out-of-tree configs.
+Do you have some examples of some that use CONFIG_EMBEDDED?
+(not distros)
 
-$ cat .config
-CONFIG_DISABLE_BUGS=y
+> Should there be a warning here to update change it instead of removal?
 
-Running `make listunknownconfig` produces the following
-list of unrecognized symbols:
+kconfig doesn't have a warning mechanism AFAIK.
+Do you have an idea of how this would work?
 
-.config:6:warning: unknown symbol: DISABLE_BUGS
-.config:7:warning: unknown unset symbol: ENABLE_WINAPI
+We could make a smaller change to init/Kconfig, like so:
 
-Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+ config EMBEDDED
+-	bool "Embedded system"
++	bool "Embedded system (DEPRECATED)"
+ 	select EXPERT
+ 	help
+-	  This option should be enabled if compiling the kernel for
+-	  an embedded system so certain expert options are available
+-	  for configuration.
++	  This option is being removed after Linux 6.6.
++	  Use EXPERT instead of EMBEDDED.
+
+but there is no way to produce a warning message. I.e., even with this
+change, the message will probably be overlooked.
+
 ---
- Documentation/kbuild/kconfig.rst |  8 +++++
- scripts/kconfig/Makefile         |  4 ++-
- scripts/kconfig/conf.c           |  8 +++++
- scripts/kconfig/confdata.c       | 55 ++++++++++++++++++++++++++++++++
- scripts/kconfig/lkc_proto.h      |  1 +
- 5 files changed, 75 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/kbuild/kconfig.rst b/Documentation/kbuild/kconfig.rst
-index 6530ecd99da3..445c438dc741 100644
---- a/Documentation/kbuild/kconfig.rst
-+++ b/Documentation/kbuild/kconfig.rst
-@@ -29,6 +29,14 @@ To see a list of new config symbols, use::
- 
- and the config program will list any new symbols, one per line.
- 
-+To see a list of config symbols that are not recognized anymore (e.g.
-+removed or renamed), use::
-+
-+	cp user/some/old.config .config
-+	make listunknownconfig
-+
-+and the config program will list any unrecognized symbols, one per line.
-+
- Alternatively, you can use the brute force method::
- 
- 	make oldconfig
-diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-index af1c96198f49..942316ddebd9 100644
---- a/scripts/kconfig/Makefile
-+++ b/scripts/kconfig/Makefile
-@@ -69,7 +69,8 @@ localyesconfig localmodconfig: $(obj)/conf
- #  deprecated for external use
- simple-targets := oldconfig allnoconfig allyesconfig allmodconfig \
- 	alldefconfig randconfig listnewconfig olddefconfig syncconfig \
--	helpnewconfig yes2modconfig mod2yesconfig mod2noconfig
-+	helpnewconfig yes2modconfig mod2yesconfig mod2noconfig \
-+	listunknownconfig
- 
- PHONY += $(simple-targets)
- 
-@@ -141,6 +142,7 @@ help:
- 	@echo  '                    default value without prompting'
- 	@echo  '  tinyconfig	  - Configure the tiniest possible kernel'
- 	@echo  '  testconfig	  - Run Kconfig unit tests (requires python3 and pytest)'
-+	@echo  '  listunknownconfig	- List unrecognized options'
- 
- # ===========================================================================
- # object files used by all kconfig flavours
-diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
-index 33d19e419908..e26aa491be00 100644
---- a/scripts/kconfig/conf.c
-+++ b/scripts/kconfig/conf.c
-@@ -36,6 +36,7 @@ enum input_mode {
- 	yes2modconfig,
- 	mod2yesconfig,
- 	mod2noconfig,
-+	listunknownconfig,
- };
- static enum input_mode input_mode = oldaskconfig;
- static int input_mode_opt;
-@@ -683,6 +684,7 @@ static const struct option long_opts[] = {
- 	{"yes2modconfig", no_argument,       &input_mode_opt, yes2modconfig},
- 	{"mod2yesconfig", no_argument,       &input_mode_opt, mod2yesconfig},
- 	{"mod2noconfig",  no_argument,       &input_mode_opt, mod2noconfig},
-+	{"listunknownconfig", no_argument,   &input_mode_opt, listunknownconfig},
- 	{NULL, 0, NULL, 0}
- };
- 
-@@ -712,6 +714,7 @@ static void conf_usage(const char *progname)
- 	printf("  --yes2modconfig         Change answers from yes to mod if possible\n");
- 	printf("  --mod2yesconfig         Change answers from mod to yes if possible\n");
- 	printf("  --mod2noconfig          Change answers from mod to no if possible\n");
-+	printf("  --listunknownconfig     List config options that do not exist anymore\n");
- 	printf("  (If none of the above is given, --oldaskconfig is the default)\n");
- }
- 
-@@ -823,6 +826,11 @@ int main(int ac, char **av)
- 			exit(1);
- 		}
- 		break;
-+	case listunknownconfig:
-+		if (conf_read_list_unknown())
-+			exit(1);
-+		exit(0);
-+		break;
- 	default:
- 		break;
- 	}
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 992575f1e976..d387a4f08cef 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -341,6 +341,61 @@ static ssize_t compat_getline(char **lineptr, size_t *n, FILE *stream)
- 	return -1;
- }
- 
-+int conf_read_list_unknown(void)
-+{
-+	FILE *in = NULL;
-+	size_t line_asize = 0;
-+	char *line = NULL;
-+	char *p, *p2;
-+	struct symbol *sym;
-+
-+	conf_filename = conf_get_configname();
-+	in = zconf_fopen(conf_filename);
-+	if (!in)
-+		return -1;
-+
-+	while (compat_getline(&line, &line_asize, in) != -1) {
-+		conf_lineno++;
-+		sym = NULL;
-+		if (line[0] == '#') {
-+			if (memcmp(line + 2, CONFIG_, strlen(CONFIG_)))
-+				continue;
-+			p = strchr(line + 2 + strlen(CONFIG_), ' ');
-+			if (!p)
-+				continue;
-+			*p++ = 0;
-+			sym = sym_find(line + 2 + strlen(CONFIG_));
-+			if (!sym) {
-+				conf_warning("unknown unset symbol: %s",
-+					     line + 2 + strlen(CONFIG_));
-+				continue;
-+			}
-+		} else if (memcmp(line, CONFIG_, strlen(CONFIG_)) == 0) {
-+			p = strchr(line + strlen(CONFIG_), '=');
-+			if (!p)
-+				continue;
-+			*p++ = 0;
-+			p2 = strchr(p, '\n');
-+			if (p2) {
-+				*p2-- = 0;
-+				if (*p2 == '\r')
-+					*p2 = 0;
-+			}
-+
-+			sym = sym_find(line + strlen(CONFIG_));
-+			if (!sym) {
-+				conf_warning("unknown symbol: %s",
-+					     line + strlen(CONFIG_));
-+				continue;
-+			}
-+		}
-+	}
-+
-+	free(line);
-+	fclose(in);
-+	return conf_warnings;
-+}
-+
- int conf_read_simple(const char *name, int def)
- {
- 	FILE *in = NULL;
-diff --git a/scripts/kconfig/lkc_proto.h b/scripts/kconfig/lkc_proto.h
-index edd1e617b25c..bb60b1669750 100644
---- a/scripts/kconfig/lkc_proto.h
-+++ b/scripts/kconfig/lkc_proto.h
-@@ -5,6 +5,7 @@
- void conf_parse(const char *name);
- int conf_read(const char *name);
- int conf_read_simple(const char *name, int);
-+int conf_read_list_unknown(void);
- int conf_write_defconfig(const char *name);
- int conf_write(const char *name);
- int conf_write_autoconf(int overwrite);
--- 
-2.41.0.694.ge786442a9b-goog
+~Randy
 
