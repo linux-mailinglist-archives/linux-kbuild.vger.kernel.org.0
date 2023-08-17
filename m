@@ -2,131 +2,97 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D6C8677EF6B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Aug 2023 05:16:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD6FA77EF9E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Aug 2023 05:46:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347806AbjHQDPj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Aug 2023 23:15:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37334 "EHLO
+        id S1347875AbjHQDpa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Aug 2023 23:45:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347825AbjHQDPc (ORCPT
+        with ESMTP id S1347891AbjHQDou (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Aug 2023 23:15:32 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20BBB1724;
-        Wed, 16 Aug 2023 20:15:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=P/kFyzCr/eSDaJkbY0OlCILEe1j9xWTLXn/yJLAYIu4=; b=A9+ZOyBLxgvkefgcCG3G+GbFOc
-        t3Q4LPTtkkpyh0LBpbAFdc+3lhG3pcvB3Tuy2cTe9/M//iW+Sx1QS7+tpwHS9HCucIDpD/RDGCGIr
-        FphyIapebkE7eEjeEnFtOi+9dwumQAvsQRYGjE0GEiZ5WBo53AxtXkFjlluHJQQSFYe1ZQ0mwCfpK
-        6X/okD9sKE4Z8iWegd56l1SCJXl6wUSJ5Uk04klLzVcTy3SNTh8mgr2aL00kPfkoj1Td2N2/Azxck
-        21ORjXTS2+GmCUfbeyQtLCC4mizooGziW6L1eBdD4Ta+hfKURTJGkPtTMCT5Ht16ny8Gi1C8JbRXm
-        mdreectQ==;
-Received: from [2601:1c2:980:9ec0::1a0b]
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1qWTTi-000tOI-Mm; Thu, 17 Aug 2023 03:15:18 +0000
-Message-ID: <86e329b1-c8d7-47bf-8be8-3326daf74eb5@infradead.org>
-Date:   Wed, 16 Aug 2023 20:15:09 -0700
+        Wed, 16 Aug 2023 23:44:50 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F060126A8
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Aug 2023 20:44:48 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-68879fc4871so1429190b3a.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Aug 2023 20:44:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1692243888; x=1692848688;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZoxuOOOPCYR3t9kZOgenEGYkSAziR5agcDn1+0l1D/g=;
+        b=B/J9fB4fcigGxOQotv7KYzsjvjQMoeIpTwIjWuQQw8P+/Pi98sK76cvGOJKHp5e2Og
+         V+z1uc1hGBTK+1pcOvLpkka95uzRAaf8vQROOzfk+q7bnbYSrBi6U61Gm+y1eTe0epDW
+         8gfx29U3+I++WkX3n6Zs6dGWrvxcS0KFDh3no=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692243888; x=1692848688;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZoxuOOOPCYR3t9kZOgenEGYkSAziR5agcDn1+0l1D/g=;
+        b=hNqPUUTfZv2wYanlezQ7ZrnhQ1t8ONlHr5b7kRI2CYLJjGyLfAVjc+d/na32MqXmtJ
+         IsAqa7q4JFQGm6FhUbo/TbOX8iiX2U7wNVBgkowdKezMAoyBGkLY0XGjxPbtAwe6YebM
+         ARmHNG0Blh8AGz0U3MGCYawkQf5kQZv4ISQgmaLlNImGMuKr+azY5k5eM9IyjnGq0rDC
+         Xmys9DxAVy9NZlUMHH1Y0opMOJAOJARTO6QDVPDgO6jS5026C8mHyn4RNcTqVJh9qmW+
+         EBqAH7U2y2zCKL2oOgWz1lzwDQxMLslc9kj9i2miXP82CakiOM/2IdiTBwrbzH4zdX+4
+         xDmw==
+X-Gm-Message-State: AOJu0Yw7VhpLh/Zaj1j60HpEEjpRMCKhs88LyKwB3CiGZILxJtSqNOCW
+        ghZ/qBc7+3eA2WUtd6me3XWNFQ==
+X-Google-Smtp-Source: AGHT+IEDbX0HaCKbcWjeHvsVDLzdj7CvE3sivY202/QqGMIWkgUJKlySIY0cLQQcGqu8OZ+N0vPa6w==
+X-Received: by 2002:a05:6300:808c:b0:133:b3a9:90d with SMTP id ap12-20020a056300808c00b00133b3a9090dmr3767651pzc.36.1692243888390;
+        Wed, 16 Aug 2023 20:44:48 -0700 (PDT)
+Received: from google.com ([2401:fa00:8f:203:fba0:de48:e2d6:bcf2])
+        by smtp.gmail.com with ESMTPSA id c23-20020aa78e17000000b006883561b421sm6191564pfr.162.2023.08.16.20.44.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Aug 2023 20:44:47 -0700 (PDT)
+Date:   Thu, 17 Aug 2023 12:44:43 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Tomasz Figa <tfiga@chromium.org>, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC][PATCH] kconfig: introduce listunknownconfig
+Message-ID: <20230817034443.GF681074@google.com>
+References: <20230817012007.131868-1-senozhatsky@chromium.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH] treewide: drop CONFIG_EMBEDDED
-To:     20230816055010.31534-1-rdunlap@infradead.org
-Cc:     linux-kernel@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-        linux-arm-kernel@lists.infradead.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Jason A . Donenfeld" <Jason@zx2c4.com>, wireguard@lists.zx2c4.com,
-        linux-arch@vger.kernel.org, linux-snps-arc@lists.infradead.org,
-        Vineet Gupta <vgupta@kernel.org>,
-        Brian Cain <bcain@quicinc.com>, linux-hexagon@vger.kernel.org,
-        Greg Ungerer <gerg@linux-m68k.org>,
-        linux-m68k@lists.linux-m68k.org, Michal Simek <monstr@monstr.eu>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Jonas Bonn <jonas@southpole.se>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Stafford Horne <shorne@gmail.com>,
-        linux-openrisc@vger.kernel.org, linux-mips@vger.kernel.org,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        linux-sh@vger.kernel.org, Max Filippov <jcmvbkbc@gmail.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>
-References: <38e1a01b-1e8b-7c66-bafc-fc5861f08da9@gmail.com>
-Content-Language: en-US
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <38e1a01b-1e8b-7c66-bafc-fc5861f08da9@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230817012007.131868-1-senozhatsky@chromium.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FSL_HELO_FAKE,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Jesse,
-
-On 8/16/23 15:45, Jesse Taube wrote:
-> Hi, Randy
+On (23/08/17 10:19), Sergey Senozhatsky wrote:
+> The listunknownconfig option reads old .config and lists
+> all unrecognized symbols. This is especially useful for
+> continuous kernel uprevs when some symbols can be either
+> removed or renamed between kernel releases (which can go
+> unnoticed otherwise).
 > 
->> diff -- a/init/Kconfig b/init/Kconfig
->> --- a/init/Kconfig
->> +++ b/init/Kconfig
->> @@ -1790,14 +1790,6 @@ config DEBUG_RSEQ
->>
->>        If unsure, say N.
->>
->> -config EMBEDDED
->> -    bool "Embedded system"
->> -    select EXPERT
->> -    help
->> -      This option should be enabled if compiling the kernel for
->> -      an embedded system so certain expert options are available
->> -      for configuration.
+> A recent real-life example of such a symbol rename
+> that quietly disabled some drivers after kernel uprev
+> is MFD_RK808 rename.
 > 
-> Wouldn't removing this break many out of tree configs?
+> Example:
+> Suppose old .config has the following two options which
+> were removed from the recent kernel:
+> 
+> $ cat .config
+> CONFIG_DISABLE_BUGS=y
 
-I'm not familiar with out-of-tree configs.
-Do you have some examples of some that use CONFIG_EMBEDDED?
-(not distros)
+Uh, I see what happened there. The correct output is
 
-> Should there be a warning here to update change it instead of removal?
-
-kconfig doesn't have a warning mechanism AFAIK.
-Do you have an idea of how this would work?
-
-We could make a smaller change to init/Kconfig, like so:
-
- config EMBEDDED
--	bool "Embedded system"
-+	bool "Embedded system (DEPRECATED)"
- 	select EXPERT
- 	help
--	  This option should be enabled if compiling the kernel for
--	  an embedded system so certain expert options are available
--	  for configuration.
-+	  This option is being removed after Linux 6.6.
-+	  Use EXPERT instead of EMBEDDED.
-
-but there is no way to produce a warning message. I.e., even with this
-change, the message will probably be overlooked.
-
----
-~Randy
-
+    $ cat .config
+     CONFIG_DISABLE_BUGS=y
+     # CONFIG_ENABLE_WINAPI is not set
