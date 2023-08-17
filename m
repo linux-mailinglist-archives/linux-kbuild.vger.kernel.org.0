@@ -2,97 +2,113 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD6FA77EF9E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Aug 2023 05:46:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D182C77EFA1
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Aug 2023 05:46:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347875AbjHQDpa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Aug 2023 23:45:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60306 "EHLO
+        id S1347916AbjHQDpb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Aug 2023 23:45:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347891AbjHQDou (ORCPT
+        with ESMTP id S1347900AbjHQDp0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Aug 2023 23:44:50 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F060126A8
-        for <linux-kbuild@vger.kernel.org>; Wed, 16 Aug 2023 20:44:48 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-68879fc4871so1429190b3a.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 16 Aug 2023 20:44:48 -0700 (PDT)
+        Wed, 16 Aug 2023 23:45:26 -0400
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1CF726AB
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Aug 2023 20:45:14 -0700 (PDT)
+Received: by mail-pg1-x536.google.com with SMTP id 41be03b00d2f7-565334377d0so5404310a12.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Aug 2023 20:45:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1692243888; x=1692848688;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZoxuOOOPCYR3t9kZOgenEGYkSAziR5agcDn1+0l1D/g=;
-        b=B/J9fB4fcigGxOQotv7KYzsjvjQMoeIpTwIjWuQQw8P+/Pi98sK76cvGOJKHp5e2Og
-         V+z1uc1hGBTK+1pcOvLpkka95uzRAaf8vQROOzfk+q7bnbYSrBi6U61Gm+y1eTe0epDW
-         8gfx29U3+I++WkX3n6Zs6dGWrvxcS0KFDh3no=
+        d=chromium.org; s=google; t=1692243914; x=1692848714;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=l1BgjUd4XeLDjePWLEkR6YV2AiwpHk7vLupAQf6XJLQ=;
+        b=TvgxcjKypMfJeopGsUNlMXTiUHcfuLHQ/y2jvog9XzAJ3arUvziwgeymTbDVDXJFON
+         0zVyTwy7OJQhGWjYkMs5oK6URxYhyfHYxv+HkNPWZiNeTZm59BxVAP0jhM/FrkTRO/gh
+         g0uGDl27dEWbKesbWcwe80Fu9ixMwAbcyLO7Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692243888; x=1692848688;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZoxuOOOPCYR3t9kZOgenEGYkSAziR5agcDn1+0l1D/g=;
-        b=hNqPUUTfZv2wYanlezQ7ZrnhQ1t8ONlHr5b7kRI2CYLJjGyLfAVjc+d/na32MqXmtJ
-         IsAqa7q4JFQGm6FhUbo/TbOX8iiX2U7wNVBgkowdKezMAoyBGkLY0XGjxPbtAwe6YebM
-         ARmHNG0Blh8AGz0U3MGCYawkQf5kQZv4ISQgmaLlNImGMuKr+azY5k5eM9IyjnGq0rDC
-         Xmys9DxAVy9NZlUMHH1Y0opMOJAOJARTO6QDVPDgO6jS5026C8mHyn4RNcTqVJh9qmW+
-         EBqAH7U2y2zCKL2oOgWz1lzwDQxMLslc9kj9i2miXP82CakiOM/2IdiTBwrbzH4zdX+4
-         xDmw==
-X-Gm-Message-State: AOJu0Yw7VhpLh/Zaj1j60HpEEjpRMCKhs88LyKwB3CiGZILxJtSqNOCW
-        ghZ/qBc7+3eA2WUtd6me3XWNFQ==
-X-Google-Smtp-Source: AGHT+IEDbX0HaCKbcWjeHvsVDLzdj7CvE3sivY202/QqGMIWkgUJKlySIY0cLQQcGqu8OZ+N0vPa6w==
-X-Received: by 2002:a05:6300:808c:b0:133:b3a9:90d with SMTP id ap12-20020a056300808c00b00133b3a9090dmr3767651pzc.36.1692243888390;
-        Wed, 16 Aug 2023 20:44:48 -0700 (PDT)
-Received: from google.com ([2401:fa00:8f:203:fba0:de48:e2d6:bcf2])
-        by smtp.gmail.com with ESMTPSA id c23-20020aa78e17000000b006883561b421sm6191564pfr.162.2023.08.16.20.44.45
+        d=1e100.net; s=20221208; t=1692243914; x=1692848714;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=l1BgjUd4XeLDjePWLEkR6YV2AiwpHk7vLupAQf6XJLQ=;
+        b=Dj4KM8YwwftfA41TXrthumApaQqmihGY8Kurh6Pz32CuKpYRCi9vprPQW7sjazAeaq
+         NELiyIdpUTETZKhtVTK/7nldYh7dVn6IxDXqrUEQI2+uvCtvigWihysn0PD+oFqqE9Sx
+         33pB2+34Gi0fzXFHtUS/4t552ANkKnDrIOEHDeFWSnefZ/DrFQb2xr2DC4U+TP3jPOXm
+         zcFVkJ19MzB/fmkjd4wkJqq7Gti18zwlp6hVNSSaKfy6rGaGeA2kmLn6J31xs5yk8sqW
+         R4k6HdDbBXRL2DY+HX4dRM6al9DXKQGzyDpSTRdn6DQBH0OofPoIuKdrVm5X0ct26101
+         SLpA==
+X-Gm-Message-State: AOJu0YyGzEAfrw3TvCSxPbpy2QoxIbPb8wcF2dBlZKKZjzUXHbKnbtxk
+        9yd1o0q712wxRPxNsWlGSunD3A==
+X-Google-Smtp-Source: AGHT+IH8lolk4W+WcKJ1Kxtt09L5YGzywK1Nuph+YXsBY0VuP/2D2X85rls5K/9b24WwiohRWWW+PQ==
+X-Received: by 2002:a05:6a20:748b:b0:133:6219:15e2 with SMTP id p11-20020a056a20748b00b00133621915e2mr5072261pzd.21.1692243914250;
+        Wed, 16 Aug 2023 20:45:14 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id s22-20020aa78d56000000b006765cb32558sm4292519pfe.139.2023.08.16.20.45.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Aug 2023 20:44:47 -0700 (PDT)
-Date:   Thu, 17 Aug 2023 12:44:43 +0900
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
+        Wed, 16 Aug 2023 20:45:13 -0700 (PDT)
+Date:   Wed, 16 Aug 2023 20:45:12 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Andrea Righi <andrea.righi@canonical.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+        Benno Lossin <benno.lossin@proton.me>,
+        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Tomasz Figa <tfiga@chromium.org>, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC][PATCH] kconfig: introduce listunknownconfig
-Message-ID: <20230817034443.GF681074@google.com>
-References: <20230817012007.131868-1-senozhatsky@chromium.org>
+        Nathan Chancellor <nathan@kernel.org>
+Subject: Re: [PATCH] rust: fix bindgen build error with fstrict-flex-arrays
+Message-ID: <202308162043.3D267E19D2@keescook>
+References: <20230815065346.131387-1-andrea.righi@canonical.com>
+ <CANiq72kv4DwGLSGTwXYh3-b9h08Erd2RH7wXvVAUAEx2x+q_BA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230817012007.131868-1-senozhatsky@chromium.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANiq72kv4DwGLSGTwXYh3-b9h08Erd2RH7wXvVAUAEx2x+q_BA@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FSL_HELO_FAKE,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On (23/08/17 10:19), Sergey Senozhatsky wrote:
-> The listunknownconfig option reads old .config and lists
-> all unrecognized symbols. This is especially useful for
-> continuous kernel uprevs when some symbols can be either
-> removed or renamed between kernel releases (which can go
-> unnoticed otherwise).
+On Tue, Aug 15, 2023 at 02:06:36PM +0200, Miguel Ojeda wrote:
+> On Tue, Aug 15, 2023 at 8:54 AM Andrea Righi <andrea.righi@canonical.com> wrote:
+> >
+> > Commit df8fc4e934c1 ("kbuild: Enable -fstrict-flex-arrays=3") enabled
+> > '-fstrict-flex-arrays=3' globally, but bindgen does not recognized this
 > 
-> A recent real-life example of such a symbol rename
-> that quietly disabled some drivers after kernel uprev
-> is MFD_RK808 rename.
+> It may be more accurate to say libclang here (bindgen forwards the options).
 > 
-> Example:
-> Suppose old .config has the following two options which
-> were removed from the recent kernel:
+> Also, df8fc4e934c1 did it so only conditionally (if the C compiler
+> supports it). This explains what you are seeing: if I am right, you
+> are compiling with a modern enough GCC, which enables the option, but
+> with an old enough Clang.
 > 
-> $ cat .config
-> CONFIG_DISABLE_BUGS=y
+> > compiler option, triggering the following build error:
+> >
+> >  error: unknown argument: '-fstrict-flex-arrays=3', err: true
+> 
+> This should only be true with libclang < 16, since Clang 16
+> implemented the option, right?
+> 
+> In fact, Clang 15 seems to work too -- it seems the compiler does not
+> error if the option is not within [0,3] (unlike GCC).
+> 
+> Kees: this should only affect `__builtin_object_size` and not `sizeof`, right?
 
-Uh, I see what happened there. The correct output is
+That's correct. It would affect __builtin_object_size,
+__builtin_dynamic_object_size, and -fsantize=bounds instrumentation.
 
-    $ cat .config
-     CONFIG_DISABLE_BUGS=y
-     # CONFIG_ENABLE_WINAPI is not set
+-- 
+Kees Cook
