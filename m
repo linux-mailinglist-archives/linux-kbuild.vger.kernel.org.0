@@ -2,94 +2,77 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 735CD781B66
-	for <lists+linux-kbuild@lfdr.de>; Sun, 20 Aug 2023 02:10:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BA83781B9D
+	for <lists+linux-kbuild@lfdr.de>; Sun, 20 Aug 2023 02:19:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229472AbjHTAJ7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 19 Aug 2023 20:09:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42126 "EHLO
+        id S229991AbjHTASb convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Sat, 19 Aug 2023 20:18:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229615AbjHTAJz (ORCPT
+        with ESMTP id S229694AbjHTAR6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 19 Aug 2023 20:09:55 -0400
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A071D64BC5;
-        Sat, 19 Aug 2023 12:54:49 -0700 (PDT)
-Received: by mail-ot1-x32e.google.com with SMTP id 46e09a7af769-6bca6c06e56so1683072a34.1;
-        Sat, 19 Aug 2023 12:54:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692474889; x=1693079689;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AZjE8kZgNc/2peCEGxpGthGspSepgouXUpBqBmqmTiQ=;
-        b=kjAOR3MFoCfhUIxPdWOTChXNrwaU7m/4RueDc+xLic2kVYntr1USabXfkApme14YOY
-         VLa25RTDTM5NopiwDkqDFSthvL2OsnBU2Yh8t7xlMlvoooF4aMNqy9Edc0Zgw8+3THSm
-         LhVLEj+PDhG9v8MSYmAaR4HR0wy77Vc8458Rro2kzk15mtsO4OX4cjZb78aZJgsP9Q81
-         9s6l/ujyRxcLBCbbsNPbM2f9x6WXr93mlzLaQs4hD4v70bWQ1dX0nHnD4Ro39vIarVDh
-         3PTyUgYf7SQYQsXuBgVN3ByZJqOryovy6biQnVn3yn4xlBdpmpmq+PfXEX9ye9/x913O
-         6pbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692474889; x=1693079689;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AZjE8kZgNc/2peCEGxpGthGspSepgouXUpBqBmqmTiQ=;
-        b=Iig0Fra1ZtcI8uh4YJfKmyMcSJfvsDgRZ93TPrZ12nUM11okKGQDOxO9Zcv2Z7hnIG
-         Zz5FjgwM/vmFgnbz2p5cOVm+R4cIdZC8mQkce7dsNi83azBF9kW8d04eUo5EcLNM2tsa
-         lWT0Ep5HS/ReDafs08bZUkYk/7ptmMEUJ6pfnyuaOG08CHDu39zARQiTY85XqgbWQtfN
-         KT/NwtyMkLqe9prebWpt2GJzEThYeGNk/VdQBUjZ2jR1W56JtsQrjny+1d4y0gcX8OQ0
-         L5VrPJ3RFmO1XmFpRF58VEut8NRWeXPmeeS9vvxuLFsHUJfqWESQk8PAYL3sX6o/21oO
-         0avw==
-X-Gm-Message-State: AOJu0YxPqmF0/rnV6uOlN/vAx4hyIg4W6DWWBGFgfEaoOUZs1tZVOrud
-        nh/6nOdbJR5AhVXxX2TWgElyzVVxmT+Re1hzrLg=
-X-Google-Smtp-Source: AGHT+IHzRDOAfCLKzSWZcp0ZIYH7cietFB0BwXPWVyn7DtQOBhvWAZayzusN4aeGpNSgtbzEklyE2PVQFqsTTOmUQtQ=
-X-Received: by 2002:a05:6870:819e:b0:1bf:acf:c1bf with SMTP id
- k30-20020a056870819e00b001bf0acfc1bfmr3963862oae.38.1692474888896; Sat, 19
- Aug 2023 12:54:48 -0700 (PDT)
+        Sat, 19 Aug 2023 20:17:58 -0400
+Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E63CC9B0B;
+        Sat, 19 Aug 2023 14:08:13 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by lithops.sigma-star.at (Postfix) with ESMTP id D724463DB803;
+        Sat, 19 Aug 2023 23:08:11 +0200 (CEST)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+        by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id kHl1OPWAh-P7; Sat, 19 Aug 2023 23:08:11 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by lithops.sigma-star.at (Postfix) with ESMTP id 7AB6963DB801;
+        Sat, 19 Aug 2023 23:08:11 +0200 (CEST)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+        by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 5W9G0FvcbqQr; Sat, 19 Aug 2023 23:08:11 +0200 (CEST)
+Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
+        by lithops.sigma-star.at (Postfix) with ESMTP id 3B78E63DB7E5;
+        Sat, 19 Aug 2023 23:08:11 +0200 (CEST)
+Date:   Sat, 19 Aug 2023 23:08:11 +0200 (CEST)
+From:   Richard Weinberger <richard@nod.at>
+To:     masahiroy <masahiroy@kernel.org>
+Cc:     anton ivanov <anton.ivanov@cambridgegreys.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        linux-um <linux-um@lists.infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>, bp <bp@alien8.de>,
+        dave hansen <dave.hansen@linux.intel.com>, hpa <hpa@zytor.com>,
+        mingo <mingo@redhat.com>, tglx <tglx@linutronix.de>,
+        x86 <x86@kernel.org>
+Message-ID: <707999896.6490583.1692479291135.JavaMail.zimbra@nod.at>
+In-Reply-To: <20230721171857.3612639-1-masahiroy@kernel.org>
+References: <20230721171857.3612639-1-masahiroy@kernel.org>
+Subject: Re: [PATCH v2 1/2] UML: hard-code the result of 'uname -s'
 MIME-Version: 1.0
-References: <20230816124221.GH907732@google.com>
-In-Reply-To: <20230816124221.GH907732@google.com>
-From:   Jesse T <mr.bossman075@gmail.com>
-Date:   Sat, 19 Aug 2023 15:54:12 -0400
-Message-ID: <CAJFTR8SW=csT9o6iFdaVn7L8P38xYwcf2oU0Qd762=kOtrcs7w@mail.gmail.com>
-Subject: Re: kconfig: list unknown symbols in the old .config
-To:     Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+X-Originating-IP: [195.201.40.130]
+X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF97 (Linux)/8.8.12_GA_3809)
+Thread-Topic: hard-code the result of 'uname -s'
+Thread-Index: QAVkLQ/mIgPHvNavgfzggSVolfSknw==
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        T_SPF_PERMERROR autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Aug 19, 2023 at 3:37=E2=80=AFPM Sergey Senozhatsky
-<senozhatsky@chromium.org> wrote:
->
-> Hi,
->
-> We recently were hit (unnecessarily hard) when after kernel uprev we
-> figured that something wasn't working. The root cause was a rename of
-> the CONFIG_FOO option between kernel releases, which make oldconfig
-> doesn't warn/notify about.
->
-> Would it be possible to add either a new --listunknown mode to conf or
-> to somehow make it conf_warning("unknown symbol: %s\n", line) when it
-> reads a line from oldconf that it cannot sym_find()?
+----- Ursprüngliche Mail -----
+> Von: "masahiroy" <masahiroy@kernel.org>
+> We rely on 'uname -s' returning 'Linux' because there are os-Linux/
+> directories, but no other os-*/.
+> 
+> Supporting a non-Linux host is unlikely to happen.
+> 
+> Let's hard-code 'Linux'.
 
-This makes sense and I brought up this scenario a couple of days ago
-on a recent patch.
-I can make a patch for this if needed.
+While I agree that a non-Linux version is unlikely I'd like to
+know why we can't keep the uname -s check?
+I guess to avoid unnecessary command execution?
 
 Thanks,
-Jesse Taube
-
->
-> That would save a ton of time.
+//richard
