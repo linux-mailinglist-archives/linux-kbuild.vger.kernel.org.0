@@ -2,72 +2,169 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 74F52781CEE
-	for <lists+linux-kbuild@lfdr.de>; Sun, 20 Aug 2023 10:25:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A92A7781D10
+	for <lists+linux-kbuild@lfdr.de>; Sun, 20 Aug 2023 11:16:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230173AbjHTIZw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 20 Aug 2023 04:25:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43288 "EHLO
+        id S230189AbjHTJQS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 20 Aug 2023 05:16:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230134AbjHTIZv (ORCPT
+        with ESMTP id S230177AbjHTJQS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 20 Aug 2023 04:25:51 -0400
-X-Greylist: delayed 963 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 20 Aug 2023 01:24:52 PDT
-Received: from mailrelay5-1.pub.mailoutpod2-cph3.one.com (mailrelay5-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:404::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A414126
-        for <linux-kbuild@vger.kernel.org>; Sun, 20 Aug 2023 01:24:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ravnborg.org; s=rsa1;
-        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-         from:date:from;
-        bh=mo2YDv+ovlF2nVfFfdhR2ZsisZkCOXFJRfLQgf7gU70=;
-        b=oPDj7eeTLZNat7oFWPgKtTlMaBtxAnihJfGaFqy8/7POyvhIIpuxiuPK9LRia9YhnMGfQRR+JENET
-         QE0UwABhiJjGbdtwzNx/UqJVVTkU3BrWmyZueq03p37h12EswRO1gUiu4g0znhUgKpZFF/6qf0ESpQ
-         21Uyg3TZzOx+5I0gYoYPwmUCtEfJJ8gjeawklXY/rlmL1JddnLpyP7Aaye8J7ahomMjorUlpg+E+zN
-         1r2nLBin26IeqO0KG/R+JIrE04L4RD0mw/yWGhsnd62br+Frl9XRLg00NDSMUfNKmUsJTuyPGGrEBU
-         5d2C0EwF0N6ZRQMd6/k6X9Ukqgbjs/A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-        d=ravnborg.org; s=ed1;
-        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-         from:date:from;
-        bh=mo2YDv+ovlF2nVfFfdhR2ZsisZkCOXFJRfLQgf7gU70=;
-        b=/P6fOU74/HqLKgyCkv/nwwB3RvY4shUENoqwAlAiMzHMus3tPNyeNgFlaJLVWKlSr2juyBb2l7Z8t
-         ZOAek51Dw==
-X-HalOne-ID: c8a2bf8f-3f30-11ee-9473-55333ba73462
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-        by mailrelay5 (Halon) with ESMTPSA
-        id c8a2bf8f-3f30-11ee-9473-55333ba73462;
-        Sun, 20 Aug 2023 08:08:46 +0000 (UTC)
-Date:   Sun, 20 Aug 2023 10:08:45 +0200
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-kernel@vger.kernel.org, sparclinux@vger.kernel.org
-Subject: Re: [PATCH 2/6] sparc: remove <asm/export.h>
-Message-ID: <20230820080845.GB206827@ravnborg.org>
-References: <20230819233353.3683813-1-masahiroy@kernel.org>
- <20230819233353.3683813-2-masahiroy@kernel.org>
+        Sun, 20 Aug 2023 05:16:18 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CCA8D2;
+        Sun, 20 Aug 2023 02:15:11 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0BEB261ADA;
+        Sun, 20 Aug 2023 09:15:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F64EC433C8;
+        Sun, 20 Aug 2023 09:15:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692522910;
+        bh=dQwixiJ5YSja69keHsNUxrA+cKlDQpjYQOOiI8zPpAU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Vw6QHABYQrdSMRQPg3c3OiWjHAd3i8J3q82VfqlEQ5jBlW4NszWlHPa/AozGs6K2D
+         kR7pnB4pS4BEycLcyAbG5u7u+KBWD3d14ni7jsltiaWf6p/p2EYffga/sng9LgKeOY
+         D/3T3m8J9MX2y1G1l57jtPjmxdreaBJLSL06enklVLmuhqJlkomdvI0qGUcwO4dRIE
+         X/4Ywt8o0gcniyW0hfNZscT6BIzHG99qS9lcgrnH2CipJVAAPOtjaLwwumHCjVooHV
+         4IwKzoPEDT8TPfQzbzdEbvEt++Ph7rt71NchZuan52GXvlUc5eTsTYJ8rFsHsEysov
+         6nPem4qNO8O3Q==
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Bastian Germann <bage@linutronix.de>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>
+Subject: [PATCH] kbuild: deb-pkg: support DEB_BUILD_OPTIONS=parallel=N in debian/rules
+Date:   Sun, 20 Aug 2023 18:15:05 +0900
+Message-Id: <20230820091505.3812160-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230819233353.3683813-2-masahiroy@kernel.org>
-X-Spam-Status: No, score=2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_NONE,URIBL_BLACK autolearn=no
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
-X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Aug 20, 2023 at 08:33:49AM +0900, Masahiro Yamada wrote:
-> All *.S files under arch/sparc/ have been converted to include
-> <linux/export.h> instead of <asm/export.h>.
-> 
-> Remove <asm/export.h>.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+'make srcdeb-pkg' generates a source package, which you can build
+later by using dpkg-buildpackage.
+
+In older dpkg versions, 'dpkg-buildpackage -j N' sets not only
+DEB_BUILD_OPTIONS but also MAKEFLAGS. Hence, passing -j (--jobs)
+to dpkg-buildpackage was enough to run parallel building.
+
+The behavior was changed by commit 1d0ea9b2ba3f ("dpkg-buildpackage:
+Change -j, --jobs semantics to non-force mode") of dpkg project. [1]
+
+Since then, 'dpkg-buildpackage -j N' sets only DEB_BUILD_OPTIONS,
+which is not parsed by the current debian/rules. You cannot build it
+in parallel unless you pass --jobs-force instead or set the MAKEFLAGS
+environment variable.
+
+Debian policy [2] suggests the following code snippet for debian/rules.
+
+  ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+      NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+      MAKEFLAGS += -j$(NUMJOBS)
+  endif
+
+I added slightly different code to debian/rules so 'make -j N deb-pkg'
+works as before. In this case, the '-j N' should not be specified in
+debian/rules again. 'make deb-pkg' without the -j option must explicitly
+pass -j1 to dpkb-buildpackage because otherwise DEB_BUILD_OPTIONS
+contains parallel=<nproc> by default.
+
+This should work with almost all Make versions Kbuild supports.
+
+Only the corner case I found not working is 'make-3.82 -j deb-pkg',
+which results in single thread building. It is not a big deal because
+-j without an argument, which does not limit the number of jobs, is
+rarely used.
+
+As far as I tested, the MAKEFLAGS format varies by Make versions.
+
+                 command line option         $(MAKEFLAGS) in recipe
+ Make 3.82            -j                            j
+                      -j1                         <none>
+                      -j2                          -j
+ Make 4.0/4.1         -j                           -j
+                      -j1                         <none>
+                      -j2                          -j
+ Make 4.2+            -j                           -j
+                      -j1                          -j1
+                      -j2                          -j2
+
+[1] https://salsa.debian.org/dpkg-team/dpkg/-/commit/1d0ea9b2ba3f6a2de5b1a6ff55f3df7b71f73db6
+[2] https://www.debian.org/doc/debian-policy/ch-source.html#s-debianrules-options
+
+Reported-by: Bastian Germann <bage@linutronix.de>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ scripts/Makefile.package     | 4 +++-
+ scripts/package/debian/rules | 8 +++++---
+ 2 files changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+index f8a948ec2c6b..f8b9ba4705c8 100644
+--- a/scripts/Makefile.package
++++ b/scripts/Makefile.package
+@@ -148,7 +148,9 @@ deb-pkg srcdeb-pkg bindeb-pkg:
+ 	$(if $(findstring source, $(build-type)), \
+ 		--unsigned-source --compression=$(KDEB_SOURCE_COMPRESS)) \
+ 	$(if $(findstring binary, $(build-type)), \
+-		--rules-file='$(MAKE) -f debian/rules' -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch), \
++		--rules-file='$(MAKE) -f debian/rules' \
++		$(if $(filter-out -j1,$(filter -j%,$(MAKEFLAGS))),,--jobs=1) \
++		-r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch), \
+ 		--no-check-builddeps) \
+ 	$(DPKG_FLAGS))
+ 
+diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
+index 226e127efd63..4753173daaae 100755
+--- a/scripts/package/debian/rules
++++ b/scripts/package/debian/rules
+@@ -5,11 +5,13 @@ include debian/rules.vars
+ 
+ srctree ?= .
+ 
++JOBS = $(if $(filter -j%,$(MAKEFLAGS)),,$(patsubst parallel=%,-j%,$(filter parallel=%,$(DEB_BUILD_OPTIONS))))
++
+ .PHONY: binary binary-indep binary-arch
+ binary: binary-arch binary-indep
+ binary-indep: build-indep
+ binary-arch: build-arch
+-	$(MAKE) -f $(srctree)/Makefile ARCH=$(ARCH) \
++	$(MAKE) $(JOBS) -f $(srctree)/Makefile ARCH=$(ARCH) \
+ 	KERNELRELEASE=$(KERNELRELEASE) \
+ 	run-command KBUILD_RUN_COMMAND=+$(srctree)/scripts/package/builddeb
+ 
+@@ -17,7 +19,7 @@ binary-arch: build-arch
+ build: build-arch build-indep
+ build-indep:
+ build-arch:
+-	$(MAKE) -f $(srctree)/Makefile ARCH=$(ARCH) \
++	$(MAKE) $(JOBS) -f $(srctree)/Makefile ARCH=$(ARCH) \
+ 	KERNELRELEASE=$(KERNELRELEASE) \
+ 	$(shell $(srctree)/scripts/package/deb-build-option) \
+ 	olddefconfig all
+@@ -25,4 +27,4 @@ build-arch:
+ .PHONY: clean
+ clean:
+ 	rm -rf debian/files debian/linux-*
+-	$(MAKE) -f $(srctree)/Makefile ARCH=$(ARCH) clean
++	$(MAKE) $(JOBS) -f $(srctree)/Makefile ARCH=$(ARCH) clean
+-- 
+2.39.2
+
