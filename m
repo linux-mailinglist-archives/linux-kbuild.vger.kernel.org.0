@@ -2,52 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5043781C06
-	for <lists+linux-kbuild@lfdr.de>; Sun, 20 Aug 2023 04:33:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69283781C1E
+	for <lists+linux-kbuild@lfdr.de>; Sun, 20 Aug 2023 04:42:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229837AbjHTCdu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 19 Aug 2023 22:33:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56264 "EHLO
+        id S229764AbjHTCma (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 19 Aug 2023 22:42:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229838AbjHTCdk (ORCPT
+        with ESMTP id S229823AbjHTCmU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 19 Aug 2023 22:33:40 -0400
+        Sat, 19 Aug 2023 22:42:20 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1939D88CFB;
-        Sat, 19 Aug 2023 16:34:08 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0CFE6F6B6;
+        Sat, 19 Aug 2023 18:27:35 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A056061A77;
-        Sat, 19 Aug 2023 23:34:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8378FC433C8;
-        Sat, 19 Aug 2023 23:34:05 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 70B12610FB;
+        Sun, 20 Aug 2023 01:27:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0BF9C433C8;
+        Sun, 20 Aug 2023 01:27:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692488047;
-        bh=94swkMMWtMWXwlQ0MRgkdCnBJXEwx0etvzk4fEwCRDY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JsMv3/rggBxUAEy32zChNAPBOEk124vJgtFdFlqmhzojWGUfnGlmH6Dv0D7biSBGU
-         MfhY7jR5WQoXC7RaHkedup9FAPC3Yp/FcJYsRDRtWZhGUxs6VKkJA0GulpwgYdTqt1
-         glqQGzkihFlP0v7PsYiLUsEts+9sl2NbYYXwox5Gkjfd3G5Yig9l6GhGhUegCmEEIM
-         lULmSruHs4a9z5EMqm8m6WOK94P5TolXC9oIFJewviheEF6XiezAxgZtoNjWlVB8nh
-         NjOk2dED6IoyJT748l7aOqXD7gaTRXbi95OD0Lzq5QdJERcYSkX3l4JMndODHH/SBt
-         hs5iKuiYFfJPw==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-arch@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 6/6] alpha: remove <asm/export.h>
-Date:   Sun, 20 Aug 2023 08:33:53 +0900
-Message-Id: <20230819233353.3683813-6-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230819233353.3683813-1-masahiroy@kernel.org>
-References: <20230819233353.3683813-1-masahiroy@kernel.org>
+        s=k20201202; t=1692494854;
+        bh=rGHXKl7d7hc+MScJBmR93+78PNaEoYTZ7ZZkoFXRR74=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Ps0ShGPt5Hb/g/plKJczhVZhCQE6haTIRM4vRSroaIToQcaRuPfnQfxLKxzyjd33t
+         YLaI5HhFcM8UEcRbKL030iBwjD1IqY0BGUeoGRw4g0ZrjahP7wqjpRSOzVBY+B3KlM
+         Bqv90T+4awHAimXSIlTF5Sswu8h5gycwgAPOCTBavdNprmLamTsafvyuGRLrl2u98Z
+         dOwI3PNp9YvCUDa3iNk124h1Vv6BSgHToReCXQezj7bwELY2fg2esoFchz77EYgPTc
+         zOVi1aff2aoZ48MOf7SKAGXCs/tcl0U1qJI5ePnEbNyZpC3YOaHLJALf8//Qg411nL
+         WDrHmPtQqBOcQ==
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-1c52dbc300bso1312957fac.2;
+        Sat, 19 Aug 2023 18:27:34 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yz2VPIkszpbjLSh4+HwaU1GPUyb4m60R97eHOkWOTgINF6sy39g
+        7ads49t2D0PzLL1KwQPv88sKHlNMCH05JgYKUSI=
+X-Google-Smtp-Source: AGHT+IHsTFKullMv6NpUecq6ISPm/F8b5FxJ+gAG5fHYEV8j3VuY8VfPsa2Adt/9YY/pJO6tpk47BamZEiVhCA+GzrQ=
+X-Received: by 2002:a05:6870:d250:b0:1bb:753d:e6db with SMTP id
+ h16-20020a056870d25000b001bb753de6dbmr4341954oac.3.1692494853990; Sat, 19 Aug
+ 2023 18:27:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230816062219.1086685-1-nicolas@fjasle.eu>
+In-Reply-To: <20230816062219.1086685-1-nicolas@fjasle.eu>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 20 Aug 2023 10:26:57 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATa6gf9FP9=Yh9YyBb+5Gf+Y3skLP5+8DXXbDSB-2Khng@mail.gmail.com>
+Message-ID: <CAK7LNATa6gf9FP9=Yh9YyBb+5Gf+Y3skLP5+8DXXbDSB-2Khng@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: Add usr/ (initramfs generation) to KBUILD
+To:     Nicolas Schier <nicolas@fjasle.eu>
+Cc:     linux-kbuild@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kernel@vger.kernel.org, Nicolas Schier <n.schier@avm.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -57,28 +65,42 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-All *.S files under arch/alpha/ have been converted to include
-<linux/export.h> instead of <asm/export.h>.
+On Fri, Aug 18, 2023 at 10:40=E2=80=AFAM Nicolas Schier <nicolas@fjasle.eu>=
+ wrote:
+>
+> From: Nicolas Schier <n.schier@avm.de>
+>
+> Add scripts for generating initramfs to KBUILD, to prevent idling of
+> patches for usr/.
+>
+> Signed-off-by: Nicolas Schier <n.schier@avm.de>
+> ---
+>  MAINTAINERS | 1 +
 
-Remove <asm/export.h>.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+Applied to linux-kbuild.
+Thanks.
 
- arch/alpha/include/asm/Kbuild | 1 -
- 1 file changed, 1 deletion(-)
 
-diff --git a/arch/alpha/include/asm/Kbuild b/arch/alpha/include/asm/Kbuild
-index dd31e97edae8..396caece6d6d 100644
---- a/arch/alpha/include/asm/Kbuild
-+++ b/arch/alpha/include/asm/Kbuild
-@@ -3,6 +3,5 @@
- generated-y += syscall_table.h
- generic-y += agp.h
- generic-y += asm-offsets.h
--generic-y += export.h
- generic-y += kvm_para.h
- generic-y += mcs_spinlock.h
--- 
-2.39.2
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index d516295978a4..eff293e8d3bf 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -11296,6 +11296,7 @@ F:      scripts/dummy-tools/
+>  F:     scripts/mk*
+>  F:     scripts/mod/
+>  F:     scripts/package/
+> +F:     usr/
+>
+>  KERNEL HARDENING (not covered by other areas)
+>  M:     Kees Cook <keescook@chromium.org>
+> --
+> 2.39.2
+>
 
+
+--=20
+Best Regards
+Masahiro Yamada
