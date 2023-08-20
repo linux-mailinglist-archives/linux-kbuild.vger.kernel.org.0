@@ -2,48 +2,47 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BAC3782097
-	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Aug 2023 00:18:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA5257820A0
+	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Aug 2023 00:48:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229516AbjHTWST (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 20 Aug 2023 18:18:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32916 "EHLO
+        id S231221AbjHTWsI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 20 Aug 2023 18:48:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230225AbjHTWSS (ORCPT
+        with ESMTP id S230506AbjHTWsH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 20 Aug 2023 18:18:18 -0400
+        Sun, 20 Aug 2023 18:48:07 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3DB69F;
-        Sun, 20 Aug 2023 15:18:16 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DB389D;
+        Sun, 20 Aug 2023 15:48:06 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8978B60B58;
-        Sun, 20 Aug 2023 22:18:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89C44C433C8;
-        Sun, 20 Aug 2023 22:18:14 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A7D6960AF2;
+        Sun, 20 Aug 2023 22:48:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF7F0C433C7;
+        Sun, 20 Aug 2023 22:48:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692569895;
-        bh=tG9mOM2phpCGnVoXIGzMICupAugSnUVLKJ2nHQ7Yyfg=;
+        s=k20201202; t=1692571685;
+        bh=JN73pTS3ZRKgTEIXsF+IbODrn07EawwkrFb8emYRdrA=;
         h=From:To:Cc:Subject:Date:From;
-        b=m4yiuHIWfY/k4mABE1vQnHDP5EeFvFLV4Dz4fWC7ULoZDWfNBP2zJnv18qbR8/4e/
-         Fp9BAu/zM7SfdkxdZmSrSI5NtQaFLEYzsDKo/26qAwZoV7b6VKVU/ykPGDCWVZNPGG
-         KsaRxOwGVxxmwxNnWwOgqShZHaMyaZHZh4NjaMTgpTPwUV4LA+/c5rT7YA51hu42aN
-         mhNOufh9180n+DlcJ5M54OWLmp88vmwlbiuqciK6xLbzJs4uczfgC190IgSl5KUB1z
-         cO5RlR6U52o+4KoMytUaRChz/xCnURa8+wEq8a7zM1THfNnLR/LZr4br/TbeywOnIF
-         7BQM2X6m+EdpQ==
+        b=AzSnGIZmmkbQrOAXXHRqm4C+jft4uCeqWQr/R0PAn8gfxGvjmvrztg4/YFxFMkaX8
+         sp5n2CVE4+4hmTF69WpCE3adbfxAa/RGqDoutRLWgZ2WcRQYlc57um4lim4iyLv4Wt
+         P+VqVxwRBPNKZ2vSVmgTCksdZT3YQpHIZDVf4gVl9uiVJAJNGTXM0JNjUX0NaQYvT4
+         Un9arLhGUvYUXMwi+ajXSb2fT7AGudGlOwPftugV5D8gMV/rU2twRUAPQRYIuNgPwm
+         BerTeAIMf/j9N2PvegbV0Qtaw0FOMhxz8tgXHg8LznVWK+K+VYdkPfaYVKwW5UqCj6
+         yi/s36qbPpYBw==
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Bastian Germann <bage@linutronix.de>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH v2] kbuild: deb-pkg: support DEB_BUILD_OPTIONS=parallel=N in debian/rules
-Date:   Mon, 21 Aug 2023 07:18:02 +0900
-Message-Id: <20230820221802.3902935-1-masahiroy@kernel.org>
+Subject: [PATCH] kbuild: merge list.h in modpost and kconfig
+Date:   Mon, 21 Aug 2023 07:48:00 +0900
+Message-Id: <20230820224800.3905291-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -56,81 +55,222 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-'make srcdeb-pkg' generates a source package, which you can build
-later by using dpkg-buildpackage.
+Move scripts/mod/list.h to scripts/include/list.h and remove
+scripts/kconfig/list.h. This removes the code duplication between
+scripts/mod/list.h and scripts/kconfig/list.h.
 
-In older dpkg versions, 'dpkg-buildpackage --jobs=N' sets not only
-DEB_BUILD_OPTIONS but also MAKEFLAGS. Hence, passing -j or --jobs
-to dpkg-buildpackage was enough for parallel execution.
-
-The behavior was changed by commit 1d0ea9b2ba3f ("dpkg-buildpackage:
-Change -j, --jobs semantics to non-force mode") of dpkg project. [1]
-
-Since then, 'dpkg-buildpackage --jobs=N' sets only DEB_BUILD_OPTIONS,
-which is not parsed by the current debian/rules. You cannot parallelly
-build the generated source package unless you pass the alternative
---jobs-force option or set the MAKEFLAGS environment variable.
-
-Debian policy [2] suggests the following code snippet for debian/rules.
-
-  ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
-      NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
-      MAKEFLAGS += -j$(NUMJOBS)
-  endif
-
-I tweaked the code snippet to filter out parallel=1 and pass --jobs=1
-to dpkg-buildpackage from scripts/Makefile.package. It is needed to keep
-'make deb-pkg' without the -j option running in serial. Please note that
-dpkg-buildpackage sets parallel=<nproc> in DEB_BUILD_OPTIONS by default
-(that is, --jobs=auto is the default) and --jobs=1 is needed to restore
-the serial execution. When dpkg-buildpackage is invoked from Kbuild,
-the number of jobs is inherited from the top level Makefile. Passing
---jobs=1 to dpkg-buildpackage allows debian/rules to skip parsing
-DEB_BUILD_OPTIONS.
-
-[1] https://salsa.debian.org/dpkg-team/dpkg/-/commit/1d0ea9b2ba3f6a2de5b1a6ff55f3df7b71f73db6
-[2] https://www.debian.org/doc/debian-policy/ch-source.html#s-debianrules-options
-
-Reported-by: Bastian Germann <bage@linutronix.de>
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
-Changes in v2:
-  - Simplify the code and make it work with all Make versions.
+ Makefile                        |   2 +-
+ scripts/{mod => include}/list.h |   0
+ scripts/kconfig/expr.h          |   3 +-
+ scripts/kconfig/list.h          | 132 --------------------------------
+ scripts/kconfig/preprocess.c    |   2 +-
+ scripts/mod/modpost.h           |   2 +-
+ 6 files changed, 5 insertions(+), 136 deletions(-)
+ rename scripts/{mod => include}/list.h (100%)
+ delete mode 100644 scripts/kconfig/list.h
 
- scripts/Makefile.package     | 2 +-
- scripts/package/debian/rules | 5 +++++
- 2 files changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-index f8a948ec2c6b..2bcab02da965 100644
---- a/scripts/Makefile.package
-+++ b/scripts/Makefile.package
-@@ -148,7 +148,7 @@ deb-pkg srcdeb-pkg bindeb-pkg:
- 	$(if $(findstring source, $(build-type)), \
- 		--unsigned-source --compression=$(KDEB_SOURCE_COMPRESS)) \
- 	$(if $(findstring binary, $(build-type)), \
--		--rules-file='$(MAKE) -f debian/rules' -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch), \
-+		--rules-file='$(MAKE) -f debian/rules' --jobs=1 -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch), \
- 		--no-check-builddeps) \
- 	$(DPKG_FLAGS))
+diff --git a/Makefile b/Makefile
+index 4382cdb38fba..5434e093d086 100644
+--- a/Makefile
++++ b/Makefile
+@@ -469,7 +469,7 @@ export rust_common_flags := --edition=2021 \
+ 			    -Dclippy::needless_continue \
+ 			    -Wclippy::dbg_macro
  
-diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
-index 226e127efd63..3dafa9496c63 100755
---- a/scripts/package/debian/rules
-+++ b/scripts/package/debian/rules
-@@ -5,6 +5,11 @@ include debian/rules.vars
+-KBUILD_HOSTCFLAGS   := $(KBUILD_USERHOSTCFLAGS) $(HOST_LFS_CFLAGS) $(HOSTCFLAGS)
++KBUILD_HOSTCFLAGS   := $(KBUILD_USERHOSTCFLAGS) $(HOST_LFS_CFLAGS) $(HOSTCFLAGS) -I $(srctree)/scripts/include
+ KBUILD_HOSTCXXFLAGS := -Wall -O2 $(HOST_LFS_CFLAGS) $(HOSTCXXFLAGS)
+ KBUILD_HOSTRUSTFLAGS := $(rust_common_flags) -O -Cstrip=debuginfo \
+ 			-Zallow-features= $(HOSTRUSTFLAGS)
+diff --git a/scripts/mod/list.h b/scripts/include/list.h
+similarity index 100%
+rename from scripts/mod/list.h
+rename to scripts/include/list.h
+diff --git a/scripts/kconfig/expr.h b/scripts/kconfig/expr.h
+index 4a9a23b1b7e1..8f46c079fa98 100644
+--- a/scripts/kconfig/expr.h
++++ b/scripts/kconfig/expr.h
+@@ -12,11 +12,12 @@ extern "C" {
  
- srctree ?= .
+ #include <assert.h>
+ #include <stdio.h>
+-#include "list.h"
+ #ifndef __cplusplus
+ #include <stdbool.h>
+ #endif
  
-+ifneq (,$(filter-out parallel=1,$(filter parallel=%,$(DEB_BUILD_OPTIONS))))
-+    NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
-+    MAKEFLAGS += -j$(NUMJOBS)
-+endif
++#include <list.h>
 +
- .PHONY: binary binary-indep binary-arch
- binary: binary-arch binary-indep
- binary-indep: build-indep
+ struct file {
+ 	struct file *next;
+ 	struct file *parent;
+diff --git a/scripts/kconfig/list.h b/scripts/kconfig/list.h
+deleted file mode 100644
+index 45cb237ab7ef..000000000000
+--- a/scripts/kconfig/list.h
++++ /dev/null
+@@ -1,132 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-#ifndef LIST_H
+-#define LIST_H
+-
+-/*
+- * Copied from include/linux/...
+- */
+-
+-#undef offsetof
+-#define offsetof(TYPE, MEMBER) ((size_t) &((TYPE *)0)->MEMBER)
+-
+-/**
+- * container_of - cast a member of a structure out to the containing structure
+- * @ptr:        the pointer to the member.
+- * @type:       the type of the container struct this is embedded in.
+- * @member:     the name of the member within the struct.
+- *
+- */
+-#define container_of(ptr, type, member) ({                      \
+-	const typeof( ((type *)0)->member ) *__mptr = (ptr);    \
+-	(type *)( (char *)__mptr - offsetof(type,member) );})
+-
+-
+-struct list_head {
+-	struct list_head *next, *prev;
+-};
+-
+-
+-#define LIST_HEAD_INIT(name) { &(name), &(name) }
+-
+-#define LIST_HEAD(name) \
+-	struct list_head name = LIST_HEAD_INIT(name)
+-
+-/**
+- * list_entry - get the struct for this entry
+- * @ptr:	the &struct list_head pointer.
+- * @type:	the type of the struct this is embedded in.
+- * @member:	the name of the list_head within the struct.
+- */
+-#define list_entry(ptr, type, member) \
+-	container_of(ptr, type, member)
+-
+-/**
+- * list_for_each_entry	-	iterate over list of given type
+- * @pos:	the type * to use as a loop cursor.
+- * @head:	the head for your list.
+- * @member:	the name of the list_head within the struct.
+- */
+-#define list_for_each_entry(pos, head, member)				\
+-	for (pos = list_entry((head)->next, typeof(*pos), member);	\
+-	     &pos->member != (head); 	\
+-	     pos = list_entry(pos->member.next, typeof(*pos), member))
+-
+-/**
+- * list_for_each_entry_safe - iterate over list of given type safe against removal of list entry
+- * @pos:	the type * to use as a loop cursor.
+- * @n:		another type * to use as temporary storage
+- * @head:	the head for your list.
+- * @member:	the name of the list_head within the struct.
+- */
+-#define list_for_each_entry_safe(pos, n, head, member)			\
+-	for (pos = list_entry((head)->next, typeof(*pos), member),	\
+-		n = list_entry(pos->member.next, typeof(*pos), member);	\
+-	     &pos->member != (head);					\
+-	     pos = n, n = list_entry(n->member.next, typeof(*n), member))
+-
+-/**
+- * list_empty - tests whether a list is empty
+- * @head: the list to test.
+- */
+-static inline int list_empty(const struct list_head *head)
+-{
+-	return head->next == head;
+-}
+-
+-/*
+- * Insert a new entry between two known consecutive entries.
+- *
+- * This is only for internal list manipulation where we know
+- * the prev/next entries already!
+- */
+-static inline void __list_add(struct list_head *_new,
+-			      struct list_head *prev,
+-			      struct list_head *next)
+-{
+-	next->prev = _new;
+-	_new->next = next;
+-	_new->prev = prev;
+-	prev->next = _new;
+-}
+-
+-/**
+- * list_add_tail - add a new entry
+- * @new: new entry to be added
+- * @head: list head to add it before
+- *
+- * Insert a new entry before the specified head.
+- * This is useful for implementing queues.
+- */
+-static inline void list_add_tail(struct list_head *_new, struct list_head *head)
+-{
+-	__list_add(_new, head->prev, head);
+-}
+-
+-/*
+- * Delete a list entry by making the prev/next entries
+- * point to each other.
+- *
+- * This is only for internal list manipulation where we know
+- * the prev/next entries already!
+- */
+-static inline void __list_del(struct list_head *prev, struct list_head *next)
+-{
+-	next->prev = prev;
+-	prev->next = next;
+-}
+-
+-#define LIST_POISON1  ((void *) 0x00100100)
+-#define LIST_POISON2  ((void *) 0x00200200)
+-/**
+- * list_del - deletes entry from list.
+- * @entry: the element to delete from the list.
+- * Note: list_empty() on entry does not return true after this, the entry is
+- * in an undefined state.
+- */
+-static inline void list_del(struct list_head *entry)
+-{
+-	__list_del(entry->prev, entry->next);
+-	entry->next = (struct list_head*)LIST_POISON1;
+-	entry->prev = (struct list_head*)LIST_POISON2;
+-}
+-#endif
+diff --git a/scripts/kconfig/preprocess.c b/scripts/kconfig/preprocess.c
+index 748da578b418..cc2d5d26185d 100644
+--- a/scripts/kconfig/preprocess.c
++++ b/scripts/kconfig/preprocess.c
+@@ -9,7 +9,7 @@
+ #include <stdlib.h>
+ #include <string.h>
+ 
+-#include "list.h"
++#include <list.h>
+ #include "lkc.h"
+ 
+ #define ARRAY_SIZE(arr)		(sizeof(arr) / sizeof((arr)[0]))
+diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+index 5f94c2c9f2d9..4ebc053cc68f 100644
+--- a/scripts/mod/modpost.h
++++ b/scripts/mod/modpost.h
+@@ -11,7 +11,7 @@
+ #include <unistd.h>
+ #include <elf.h>
+ 
+-#include "list.h"
++#include <list.h>
+ #include "elfconfig.h"
+ 
+ /* On BSD-alike OSes elf.h defines these according to host's word size */
 -- 
 2.39.2
 
