@@ -2,52 +2,70 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA5257820A0
-	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Aug 2023 00:48:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FCF47823A9
+	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Aug 2023 08:23:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231221AbjHTWsI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 20 Aug 2023 18:48:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43130 "EHLO
+        id S233460AbjHUGXG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 21 Aug 2023 02:23:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230506AbjHTWsH (ORCPT
+        with ESMTP id S233412AbjHUGXA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 20 Aug 2023 18:48:07 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DB389D;
-        Sun, 20 Aug 2023 15:48:06 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        Mon, 21 Aug 2023 02:23:00 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F2F2D3;
+        Sun, 20 Aug 2023 23:22:56 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 1DFD222574;
+        Mon, 21 Aug 2023 06:22:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1692598975; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=/YrpeDEETVnHXfTqeVfb9lfB9FXNdbEh0fq+0q4dbLg=;
+        b=st6FSY+YuQ+hI2sNx3kAg2syieeUC0UtQnFLXt/TIE8qVfh+q8h9AqExo5OYrwyeLn+F2o
+        YRT+dQWhMvI1t9EQrdgnffJyJ9eVI8BfzCnjyZD/LmycbDh1kMFtqEfrbRYp/MVUdABDjV
+        zb5oNGS+aauCrUBck1YYX3px0eSfvTs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1692598975;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=/YrpeDEETVnHXfTqeVfb9lfB9FXNdbEh0fq+0q4dbLg=;
+        b=ye3OaHAF9I6Wl5zZ+8FuQTBwsSvYFJHdG2jgx+6WgNjOv+KJqnNpPIQmToCYC6aFUi2gcZ
+        p2wZKRHyRZtunJAw==
+Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A7D6960AF2;
-        Sun, 20 Aug 2023 22:48:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF7F0C433C7;
-        Sun, 20 Aug 2023 22:48:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692571685;
-        bh=JN73pTS3ZRKgTEIXsF+IbODrn07EawwkrFb8emYRdrA=;
-        h=From:To:Cc:Subject:Date:From;
-        b=AzSnGIZmmkbQrOAXXHRqm4C+jft4uCeqWQr/R0PAn8gfxGvjmvrztg4/YFxFMkaX8
-         sp5n2CVE4+4hmTF69WpCE3adbfxAa/RGqDoutRLWgZ2WcRQYlc57um4lim4iyLv4Wt
-         P+VqVxwRBPNKZ2vSVmgTCksdZT3YQpHIZDVf4gVl9uiVJAJNGTXM0JNjUX0NaQYvT4
-         Un9arLhGUvYUXMwi+ajXSb2fT7AGudGlOwPftugV5D8gMV/rU2twRUAPQRYIuNgPwm
-         BerTeAIMf/j9N2PvegbV0Qtaw0FOMhxz8tgXHg8LznVWK+K+VYdkPfaYVKwW5UqCj6
-         yi/s36qbPpYBw==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        by relay2.suse.de (Postfix) with ESMTPS id 2BED02C143;
+        Mon, 21 Aug 2023 06:22:54 +0000 (UTC)
+Date:   Mon, 21 Aug 2023 08:22:52 +0200
+From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
+        Lucas De Marchi <lucas.de.marchi@gmail.com>,
+        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+        Jiri Slaby <jslaby@suse.com>, Jan Engelhardt <jengelh@inai.de>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH] kbuild: merge list.h in modpost and kconfig
-Date:   Mon, 21 Aug 2023 07:48:00 +0900
-Message-Id: <20230820224800.3905291-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.39.2
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH kmod v5 0/5] kmod /usr support
+Message-ID: <20230821062252.GF8826@kitsune.suse.cz>
+References: <cover.1689589902.git.msuchanek@suse.de>
+ <cover.1689681454.git.msuchanek@suse.de>
+ <20230817163744.GD8826@kitsune.suse.cz>
+ <CAK7LNAQy79ZHS0d000XQzC-trRPhOUBFnWsGm03yG0cQAs-rXA@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+In-Reply-To: <CAK7LNAQy79ZHS0d000XQzC-trRPhOUBFnWsGm03yG0cQAs-rXA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,222 +73,90 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Move scripts/mod/list.h to scripts/include/list.h and remove
-scripts/kconfig/list.h. This removes the code duplication between
-scripts/mod/list.h and scripts/kconfig/list.h.
+On Sat, Aug 19, 2023 at 08:25:52PM +0900, Masahiro Yamada wrote:
+> On Fri, Aug 18, 2023 at 12:15 PM Michal Suchánek <msuchanek@suse.de> wrote:
+> >
+> > Hello,
+> >
+> > On Tue, Jul 18, 2023 at 02:01:51PM +0200, Michal Suchanek wrote:
+> > > Hello,
+> > >
+> > > with these patches it is possible to install kernel modules in an arbitrary
+> > > directory - eg. moving the /lib/modules to /usr/lib/modules or /opt/linux.
+> > >
+> > > While the modprobe.d and depmod.d search which already includes multiple
+> > > paths is expanded to also include $(prefix) the module directory still
+> > > supports only one location, only a different one under $(module_directory).
+> > >
+> > > Having kmod search multiple module locations while only one is supported now
+> > > might break some assumption about relative module path corresponding to a
+> > > specific file, would require more invasive changes to implement, and is not
+> > > supportive of the goal of moving the modules away from /lib.
+> > >
+> > > Both kmod and the kernel need to be patched to make use of this feature.
+> > > Patched kernel is backwards compatible with older kmod.  Patched kmod
+> > > with $(module_directory) set to /lib/modules is equivalent to unpatched kmod.
+> >
+> > The patch to kernel to support autodetection of module directory is
+> > rejected. However, a workaround like
+> >
+> > make MODLIB='$(INSTALL_MOD_PATH)/usr/lib/modules/$(KERNELRELEASE)'
+> >
+> > is suggested.
+> >
+> > Can you consider inluding the kmod changes?
+> 
+> 
+> Hi.
+> 
+> I have a question about your original patch
+> for the Kbuild change.
+> 
+> In your patch, Kbuild runs 'kmod config' or
+> 'pkg-config --variable=module_directory kmod',
+> then sets the returned string to MODLIB.
+> 
+> 
+> If kmod is configured to use /usr/lib/modules,
+> /opt/modules, or whatever,
+> should we change the installation path of the debug
+> vdso accordingly?
+> 
+> Currently, the debug vdso is always installed
+> to /lib/modules/$(KERNELRELEASE)/vdso/.
+> 
+> However, modules and vdso are unrelated to each other.
+> kmod does not care about vdso.
+> 
+> 
+> The following commits started to install debug vdso.
+> 
+> Commit 8150caad0226 ("[POWERPC] powerpc vDSO: install unstripped
+> copies on disk")
+> Commit f79eb83b3af4 ("x86: Install unstripped copy of 64bit vdso to disk")
+> 
+> 
+> I do not know why they chose $(MODLIB)/vdso as the install destination.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+It's the only directory that exists per-kernel-release.
 
- Makefile                        |   2 +-
- scripts/{mod => include}/list.h |   0
- scripts/kconfig/expr.h          |   3 +-
- scripts/kconfig/list.h          | 132 --------------------------------
- scripts/kconfig/preprocess.c    |   2 +-
- scripts/mod/modpost.h           |   2 +-
- 6 files changed, 5 insertions(+), 136 deletions(-)
- rename scripts/{mod => include}/list.h (100%)
- delete mode 100644 scripts/kconfig/list.h
+While technically vdso has nothing to do with modules there is no other
+place where it can be stored where it would not conflict between kernel
+releases so far.
 
-diff --git a/Makefile b/Makefile
-index 4382cdb38fba..5434e093d086 100644
---- a/Makefile
-+++ b/Makefile
-@@ -469,7 +469,7 @@ export rust_common_flags := --edition=2021 \
- 			    -Dclippy::needless_continue \
- 			    -Wclippy::dbg_macro
- 
--KBUILD_HOSTCFLAGS   := $(KBUILD_USERHOSTCFLAGS) $(HOST_LFS_CFLAGS) $(HOSTCFLAGS)
-+KBUILD_HOSTCFLAGS   := $(KBUILD_USERHOSTCFLAGS) $(HOST_LFS_CFLAGS) $(HOSTCFLAGS) -I $(srctree)/scripts/include
- KBUILD_HOSTCXXFLAGS := -Wall -O2 $(HOST_LFS_CFLAGS) $(HOSTCXXFLAGS)
- KBUILD_HOSTRUSTFLAGS := $(rust_common_flags) -O -Cstrip=debuginfo \
- 			-Zallow-features= $(HOSTRUSTFLAGS)
-diff --git a/scripts/mod/list.h b/scripts/include/list.h
-similarity index 100%
-rename from scripts/mod/list.h
-rename to scripts/include/list.h
-diff --git a/scripts/kconfig/expr.h b/scripts/kconfig/expr.h
-index 4a9a23b1b7e1..8f46c079fa98 100644
---- a/scripts/kconfig/expr.h
-+++ b/scripts/kconfig/expr.h
-@@ -12,11 +12,12 @@ extern "C" {
- 
- #include <assert.h>
- #include <stdio.h>
--#include "list.h"
- #ifndef __cplusplus
- #include <stdbool.h>
- #endif
- 
-+#include <list.h>
-+
- struct file {
- 	struct file *next;
- 	struct file *parent;
-diff --git a/scripts/kconfig/list.h b/scripts/kconfig/list.h
-deleted file mode 100644
-index 45cb237ab7ef..000000000000
---- a/scripts/kconfig/list.h
-+++ /dev/null
-@@ -1,132 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--#ifndef LIST_H
--#define LIST_H
--
--/*
-- * Copied from include/linux/...
-- */
--
--#undef offsetof
--#define offsetof(TYPE, MEMBER) ((size_t) &((TYPE *)0)->MEMBER)
--
--/**
-- * container_of - cast a member of a structure out to the containing structure
-- * @ptr:        the pointer to the member.
-- * @type:       the type of the container struct this is embedded in.
-- * @member:     the name of the member within the struct.
-- *
-- */
--#define container_of(ptr, type, member) ({                      \
--	const typeof( ((type *)0)->member ) *__mptr = (ptr);    \
--	(type *)( (char *)__mptr - offsetof(type,member) );})
--
--
--struct list_head {
--	struct list_head *next, *prev;
--};
--
--
--#define LIST_HEAD_INIT(name) { &(name), &(name) }
--
--#define LIST_HEAD(name) \
--	struct list_head name = LIST_HEAD_INIT(name)
--
--/**
-- * list_entry - get the struct for this entry
-- * @ptr:	the &struct list_head pointer.
-- * @type:	the type of the struct this is embedded in.
-- * @member:	the name of the list_head within the struct.
-- */
--#define list_entry(ptr, type, member) \
--	container_of(ptr, type, member)
--
--/**
-- * list_for_each_entry	-	iterate over list of given type
-- * @pos:	the type * to use as a loop cursor.
-- * @head:	the head for your list.
-- * @member:	the name of the list_head within the struct.
-- */
--#define list_for_each_entry(pos, head, member)				\
--	for (pos = list_entry((head)->next, typeof(*pos), member);	\
--	     &pos->member != (head); 	\
--	     pos = list_entry(pos->member.next, typeof(*pos), member))
--
--/**
-- * list_for_each_entry_safe - iterate over list of given type safe against removal of list entry
-- * @pos:	the type * to use as a loop cursor.
-- * @n:		another type * to use as temporary storage
-- * @head:	the head for your list.
-- * @member:	the name of the list_head within the struct.
-- */
--#define list_for_each_entry_safe(pos, n, head, member)			\
--	for (pos = list_entry((head)->next, typeof(*pos), member),	\
--		n = list_entry(pos->member.next, typeof(*pos), member);	\
--	     &pos->member != (head);					\
--	     pos = n, n = list_entry(n->member.next, typeof(*n), member))
--
--/**
-- * list_empty - tests whether a list is empty
-- * @head: the list to test.
-- */
--static inline int list_empty(const struct list_head *head)
--{
--	return head->next == head;
--}
--
--/*
-- * Insert a new entry between two known consecutive entries.
-- *
-- * This is only for internal list manipulation where we know
-- * the prev/next entries already!
-- */
--static inline void __list_add(struct list_head *_new,
--			      struct list_head *prev,
--			      struct list_head *next)
--{
--	next->prev = _new;
--	_new->next = next;
--	_new->prev = prev;
--	prev->next = _new;
--}
--
--/**
-- * list_add_tail - add a new entry
-- * @new: new entry to be added
-- * @head: list head to add it before
-- *
-- * Insert a new entry before the specified head.
-- * This is useful for implementing queues.
-- */
--static inline void list_add_tail(struct list_head *_new, struct list_head *head)
--{
--	__list_add(_new, head->prev, head);
--}
--
--/*
-- * Delete a list entry by making the prev/next entries
-- * point to each other.
-- *
-- * This is only for internal list manipulation where we know
-- * the prev/next entries already!
-- */
--static inline void __list_del(struct list_head *prev, struct list_head *next)
--{
--	next->prev = prev;
--	prev->next = next;
--}
--
--#define LIST_POISON1  ((void *) 0x00100100)
--#define LIST_POISON2  ((void *) 0x00200200)
--/**
-- * list_del - deletes entry from list.
-- * @entry: the element to delete from the list.
-- * Note: list_empty() on entry does not return true after this, the entry is
-- * in an undefined state.
-- */
--static inline void list_del(struct list_head *entry)
--{
--	__list_del(entry->prev, entry->next);
--	entry->next = (struct list_head*)LIST_POISON1;
--	entry->prev = (struct list_head*)LIST_POISON2;
--}
--#endif
-diff --git a/scripts/kconfig/preprocess.c b/scripts/kconfig/preprocess.c
-index 748da578b418..cc2d5d26185d 100644
---- a/scripts/kconfig/preprocess.c
-+++ b/scripts/kconfig/preprocess.c
-@@ -9,7 +9,7 @@
- #include <stdlib.h>
- #include <string.h>
- 
--#include "list.h"
-+#include <list.h>
- #include "lkc.h"
- 
- #define ARRAY_SIZE(arr)		(sizeof(arr) / sizeof((arr)[0]))
-diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
-index 5f94c2c9f2d9..4ebc053cc68f 100644
---- a/scripts/mod/modpost.h
-+++ b/scripts/mod/modpost.h
-@@ -11,7 +11,7 @@
- #include <unistd.h>
- #include <elf.h>
- 
--#include "list.h"
-+#include <list.h>
- #include "elfconfig.h"
- 
- /* On BSD-alike OSes elf.h defines these according to host's word size */
--- 
-2.39.2
+In fact the distro followed the pattern and started dumping other things
+not related to kernel modules into $(MODLIB) for this very reason. Also
+from the distribution point of view $(MODLIB) is listed as owned by the
+kernel package, and additional files that might be there sometimes need
+not be specially handled.
 
+Finally any tools that can find vdso today will search for it in
+$(MODLIB), and consequently moving it elsewhere is not practical.
+
+If the makefiles grow a VDSOLIB it should default to MODLIB. It may be
+useful for somebody to have this flexibility in the future but I am not
+interested for my use case.
+
+Thanks
+
+Michal
