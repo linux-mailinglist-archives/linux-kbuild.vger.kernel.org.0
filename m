@@ -2,76 +2,74 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CEB19782DE1
-	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Aug 2023 18:09:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 461EF78303B
+	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Aug 2023 20:26:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235719AbjHUQJD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 21 Aug 2023 12:09:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55154 "EHLO
+        id S237116AbjHUS0i (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 21 Aug 2023 14:26:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235595AbjHUQJC (ORCPT
+        with ESMTP id S231279AbjHUS0i (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 21 Aug 2023 12:09:02 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A8B6107
-        for <linux-kbuild@vger.kernel.org>; Mon, 21 Aug 2023 09:08:59 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-68a3e943762so1372457b3a.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 21 Aug 2023 09:08:59 -0700 (PDT)
+        Mon, 21 Aug 2023 14:26:38 -0400
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA758A1
+        for <linux-kbuild@vger.kernel.org>; Mon, 21 Aug 2023 11:26:36 -0700 (PDT)
+Received: by mail-qk1-x72b.google.com with SMTP id af79cd13be357-76ce59842c1so202727685a.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 21 Aug 2023 11:26:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1692634139; x=1693238939;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yaHdRkYkPRI69aZ/lmvZ478sSBPpifQtYAZYN/ChpUk=;
-        b=BfhKszstxVugd4QaXKP6AKbVdheAmpXmwLBTkJkrEwF1b9tdmdhyJQ1wCjiHwI2uJh
-         2cx+mg75Wn7zmMvD+fACBuuJktjZRPWKtGdCxWDjXEQ0BHRCcLR3p7uPKpxsf7tTPi4Z
-         4o9xjU5MXBWcKouKHQqe+4hhOhZ3Kl9uQT44k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692634139; x=1693238939;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20221208; t=1692642396; x=1693247196;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yaHdRkYkPRI69aZ/lmvZ478sSBPpifQtYAZYN/ChpUk=;
-        b=KCs31LleVKXFAA22Qiha2vQswLQtlUHz5oHwbKUq7LiICBhOmK70RVu3XkkQB1TPFh
-         RXXJSvjS6J7Dac8uAMdoPvOP4aWj4ZuNwQ8c3zsjD7cWvksR5ofpu+vEP59O5iKMlW4O
-         F6gcpoxJ9OjZ6xMmJkZc6H9ZGqeYcleW1r0eMDWHWfWxa5iX0oUNx9r0JvgNabKKCaFL
-         KGpvWt07ATZiFD2rX93PatFHP6hemLHcALERxbaq9T4a2koy9t0TdeuPiHg3p31RdVWH
-         oXuDMcGz5JpTQow8TDb84w8S6nExjjEjHFLMkDVCQfTW89ePoIrVyxms+AQDlEwlceXL
-         FVEg==
-X-Gm-Message-State: AOJu0YyxydDBDXYy/Cn/h2YNen5CMSg48Y+Y/6oQEV/kzzuXTPc50W9R
-        1RvvDnwfZsmG+N68aZSMx9Wqig==
-X-Google-Smtp-Source: AGHT+IEOgTyR4jaB6XtqhahHvy0ziUqApkFMs3XvCv9+1wdEIAaSHh7YR1f9BPyQSwl9uXmMQ9DBEw==
-X-Received: by 2002:a05:6a00:234a:b0:688:11cc:ed88 with SMTP id j10-20020a056a00234a00b0068811cced88mr9337228pfj.33.1692634138793;
-        Mon, 21 Aug 2023 09:08:58 -0700 (PDT)
-Received: from google.com (KD124209188001.ppp-bb.dion.ne.jp. [124.209.188.1])
-        by smtp.gmail.com with ESMTPSA id v24-20020aa78098000000b006877a17b578sm6359010pff.40.2023.08.21.09.08.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Aug 2023 09:08:58 -0700 (PDT)
-Date:   Tue, 22 Aug 2023 01:08:53 +0900
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Tomasz Figa <tfiga@chromium.org>, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC][PATCH] kconfig: introduce listunknownconfig
-Message-ID: <20230821160853.GA3913@google.com>
-References: <20230817012007.131868-1-senozhatsky@chromium.org>
- <CAK7LNASJWKSsdzn5ccgWaC35-XvHGU7pnE6C=eZFDbqrrghtdQ@mail.gmail.com>
- <20230820024519.GK907732@google.com>
- <CAK7LNAS9KC1GjPgadMEivSpy4TMYU8mQ+BrtfJpNs2kvhK18yA@mail.gmail.com>
- <20230820072119.GM907732@google.com>
- <20230820073332.GN907732@google.com>
- <CAK7LNARTZXvWD8PrA3bC+Ok7LK85qO=pkMs4kOPGn90OBooL6w@mail.gmail.com>
+        bh=y/YqDlNw5F1+rz9QXavoHkrghYGlNNsfuAy+jwFR/+c=;
+        b=Cn+E3s9l83bpTkhkBFoDwWI1REgs//74bQ30HcY1zP2uPoC2+vqvnDzu2LrQKdyczK
+         8Ug7uh64s/ghAlPfCHxqZxrkpjNGn9J5nygKGsM7LZRDsd7m/6+eP70u2yAPthIYjFW8
+         0Hdid6xF0CrdZUwrEWItO/2JnDZ39zq0vCYLWgCBN4OA3Pa6oVJ9UB3T7hpBgj+2ClEB
+         PU9RsebMdfIKugiHBGt10o61MPJRQJ9H4gvHmCfOAaD2myHdytV02AGjM4sXFV1dfNEc
+         tD21GLGFAljhm80XJPOq2xAQdCKhhpBwg849VbGFBTUJXI2iiylrUyt7R0UkBTVI3wd+
+         P8nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692642396; x=1693247196;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=y/YqDlNw5F1+rz9QXavoHkrghYGlNNsfuAy+jwFR/+c=;
+        b=SDvve5eDcuKiyRzJEvpcqAsflrUhbzdajb/7sNy4i6Qses+CfXkjvG9CeZERnl0n5G
+         hde2N9Jv3zrSI7PxJsvXpc4336FvPcifW1JF3vCPRHQuEl9Tw2EiRdXifUFoDzo+y3Ti
+         m1Gyv8+YG5NBRXLmT1aujePJ/QFy9610ydxOrgPoNbL9C5xEyDjSMisVWb0CNST08rzu
+         h/fMgixpkKhSCLQEM8zu7PwUiyODeWedXVlRjKW1MWXbQ5AHSeUKhKj8xEOr3cCchJX5
+         Iceq+e72UJounj0pXwz3sIr/CmzguqQoSJiZhzHai43bfEYemIDbJzUOgBpbfg0kH7Dd
+         Y5iA==
+X-Gm-Message-State: AOJu0YzFo5Y/B+WTpm63r+9uYYljFPBNsQJdC+mVezdfYVReYp/fmk6P
+        /+cEyJMKLgve8O4GLYsgwfqqASKgl0fHcj6tA8J5yQ==
+X-Google-Smtp-Source: AGHT+IHXtZwGvbFEutjrNJHqOIEErZqxeqIeGAh97FrMelK9DNT79hfeLwYEmYOGkf7p3JeTnORDflFl0PbPdil/8mI=
+X-Received: by 2002:a05:6214:513:b0:647:1ff2:b2f3 with SMTP id
+ px19-20020a056214051300b006471ff2b2f3mr6096818qvb.62.1692642395713; Mon, 21
+ Aug 2023 11:26:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNARTZXvWD8PrA3bC+Ok7LK85qO=pkMs4kOPGn90OBooL6w@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+References: <20230811140327.3754597-1-arnd@kernel.org> <20230811140327.3754597-6-arnd@kernel.org>
+ <CAK7LNASuTOwHA0zz8MqxPdt5snMstpSY7==0o6kmU-RML3nioQ@mail.gmail.com>
+In-Reply-To: <CAK7LNASuTOwHA0zz8MqxPdt5snMstpSY7==0o6kmU-RML3nioQ@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Mon, 21 Aug 2023 11:26:24 -0700
+Message-ID: <CAKwvOd=7HedYtAN3fTdTwxQbS7eYPxsxuX9wxxvNQ0BRFG0AbQ@mail.gmail.com>
+Subject: Re: [PATCH 5/9] extrawarn: enable format and stringop overflow
+ warnings in W=1
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Arnd Bergmann <arnd@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Guenter Roeck <linux@roeck-us.net>, Lee Jones <lee@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org,
+        clang-built-linux <llvm@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,69 +77,24 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On (23/08/21 21:27), Masahiro Yamada wrote:
-> > +       const char *list_missing;
-> >
-> > +       list_missing = getenv("KCONFIG_LIST_MISSING");
-> 
-> 
-> My (original) hope was to add a single switch, KCONFIG_VERBOSE, to address both:
-> 
->   - A CONFIG option is hidden by unmet dependency (Ying Sun's case)
->   - A CONFIG option no longer exists  (your case)
->   - Anything else we need to be careful
+On Sat, Aug 12, 2023 at 6:11=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
+>
+> These are redundant because -Wall implies
+> -Wformat-overflow and -Wformat-truncation
+> according to the GCC manual.
 
-So I see a "no longer existing option" as a terminal condition. In
-general there is no point in continuing the build because the build
-will not include some driver/functionality that is still expected to
-be there. (This has actually happened to us).
+To triple check this grouping behavior in clang, there's a utility
+called `diagtool`.
 
-[..]
-> > @@ -482,6 +490,12 @@ int conf_read_simple(const char *name, int def)
-> >
-> >                         sym = sym_find(line + strlen(CONFIG_));
-> >                         if (!sym) {
-> > +                               if (list_missing) {
-> > +                                       conf_warning("unknown symbol: %s",
-> > +                                                    line + strlen(CONFIG_));
-> > +                                       continue;
-> > +                               }
-> > +
-> 
-> 
-> This should be warned only if (def != S_DEF_AUTO),
-> otherwise the same warning will be displayed twice.
+$ diagtool tree
 
-Good point.
+will print the hierarchy of diagnostics and color code them to explain
+whether they're on/off by default or not-implemented-but-recognized.
 
-> > @@ -530,6 +544,13 @@ int conf_read_simple(const char *name, int def)
-> >         }
-> >         free(line);
-> >         fclose(in);
-> > +
-> > +       if (list_missing) {
-> > +               if (conf_warnings)
-> > +                       exit(1);
-> > +               exit(0);
-> > +       }
-> > +
-> 
-> This is something different because you are making these
-> errors instead of warnings.
-
-Right. So "verbose" and "list missing" probably have slightly different
-requirements.
-
-When "verbose" complaints about a downgraded option, for instance, then
-you can regenerate the config and continue, because the symbol is still
-there.
-
-When "list missing" complaints about an option then we should stop and
-investigate. That option, for example, can be added by build infra based
-on some USE flags switch, etc. So there can be multiple parties that
-needs to be fixed. Apart from that we need to figure out what option
-(if any) replaces the gone symbol. "list missing" is basically "missed
-expectations", we need to do some work before we can build the kernel.
-
-I can "list missing" under KCONFIG_VERBOSE. It probably still better
-error exit if missing symbols are found. Thoughts?
+For the above two -Wformat-* warnings, note that clang does not yet
+implement those.  I've filed
+https://github.com/llvm/llvm-project/issues/64871 to track that.
+--=20
+Thanks,
+~Nick Desaulniers
