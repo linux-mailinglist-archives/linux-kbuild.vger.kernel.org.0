@@ -2,70 +2,67 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FCF47823A9
-	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Aug 2023 08:23:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC2197828F7
+	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Aug 2023 14:27:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233460AbjHUGXG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 21 Aug 2023 02:23:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33540 "EHLO
+        id S234871AbjHUM1x (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 21 Aug 2023 08:27:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233412AbjHUGXA (ORCPT
+        with ESMTP id S230526AbjHUM1w (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 21 Aug 2023 02:23:00 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F2F2D3;
-        Sun, 20 Aug 2023 23:22:56 -0700 (PDT)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 1DFD222574;
-        Mon, 21 Aug 2023 06:22:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1692598975; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=/YrpeDEETVnHXfTqeVfb9lfB9FXNdbEh0fq+0q4dbLg=;
-        b=st6FSY+YuQ+hI2sNx3kAg2syieeUC0UtQnFLXt/TIE8qVfh+q8h9AqExo5OYrwyeLn+F2o
-        YRT+dQWhMvI1t9EQrdgnffJyJ9eVI8BfzCnjyZD/LmycbDh1kMFtqEfrbRYp/MVUdABDjV
-        zb5oNGS+aauCrUBck1YYX3px0eSfvTs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1692598975;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=/YrpeDEETVnHXfTqeVfb9lfB9FXNdbEh0fq+0q4dbLg=;
-        b=ye3OaHAF9I6Wl5zZ+8FuQTBwsSvYFJHdG2jgx+6WgNjOv+KJqnNpPIQmToCYC6aFUi2gcZ
-        p2wZKRHyRZtunJAw==
-Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Mon, 21 Aug 2023 08:27:52 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B7F2BE;
+        Mon, 21 Aug 2023 05:27:51 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 2BED02C143;
-        Mon, 21 Aug 2023 06:22:54 +0000 (UTC)
-Date:   Mon, 21 Aug 2023 08:22:52 +0200
-From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>,
-        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-        Jiri Slaby <jslaby@suse.com>, Jan Engelhardt <jengelh@inai.de>,
-        Nathan Chancellor <nathan@kernel.org>,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E06436335D;
+        Mon, 21 Aug 2023 12:27:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26FADC433CA;
+        Mon, 21 Aug 2023 12:27:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692620870;
+        bh=tbL0rgNINgnFM+21Cr7ROc1vB8u0WzHBDcLBlKN2Xas=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Pa/cCXmzkF5b4lgOV1T8d3dOBgbLm/tQUFdcQJovhm1eNZ7MyG3Ajjk8Jjt8B0lFF
+         Es2Y12/LC6GP121b353cqK7bWtpic9j/SYZW6kCo/Vzk9vbG2Y2Wk7ArW8ROKr7Px9
+         uxYLWPXoJ12UbY9Dm/eEbyFuIeXP91zvlTpfCiAn5Wf4587IhLGsX/Voe0evzzUJGM
+         EQPtNExCxYHDVrGantHeCfDmB2iVhLHxbombof16sPJAzV2fOu/9/2I7F6n5EXJ7Ik
+         VAPvRoKcKpLzh3UHQ6JBmubspB9DCASUXpXSxLc8VhrHIQZiTrXh+N5buadyk5efl0
+         RPY8b08kGlT7g==
+Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-570deae2594so344692eaf.1;
+        Mon, 21 Aug 2023 05:27:50 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yx322nX3PnbDSYLCzoip/rItF8Plc9RiNTbv2bK5ePycAq6s0qE
+        qm3e4q+9k+/8r1xhELumSPpD2WEGvvlHNmJ3pgo=
+X-Google-Smtp-Source: AGHT+IE6XjPn48mGxrxXnaksaonAPDuCUCrfZEp9+ax3SsHUoqu0FpoAm8qqkg2pkOWmmyJDTOSv010TV0Gs/BOI+Yc=
+X-Received: by 2002:a4a:7510:0:b0:56e:9ce3:8d56 with SMTP id
+ j16-20020a4a7510000000b0056e9ce38d56mr5655509ooc.6.1692620869335; Mon, 21 Aug
+ 2023 05:27:49 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230817012007.131868-1-senozhatsky@chromium.org>
+ <CAK7LNASJWKSsdzn5ccgWaC35-XvHGU7pnE6C=eZFDbqrrghtdQ@mail.gmail.com>
+ <20230820024519.GK907732@google.com> <CAK7LNAS9KC1GjPgadMEivSpy4TMYU8mQ+BrtfJpNs2kvhK18yA@mail.gmail.com>
+ <20230820072119.GM907732@google.com> <20230820073332.GN907732@google.com>
+In-Reply-To: <20230820073332.GN907732@google.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 21 Aug 2023 21:27:12 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARTZXvWD8PrA3bC+Ok7LK85qO=pkMs4kOPGn90OBooL6w@mail.gmail.com>
+Message-ID: <CAK7LNARTZXvWD8PrA3bC+Ok7LK85qO=pkMs4kOPGn90OBooL6w@mail.gmail.com>
+Subject: Re: [RFC][PATCH] kconfig: introduce listunknownconfig
+To:     Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH kmod v5 0/5] kmod /usr support
-Message-ID: <20230821062252.GF8826@kitsune.suse.cz>
-References: <cover.1689589902.git.msuchanek@suse.de>
- <cover.1689681454.git.msuchanek@suse.de>
- <20230817163744.GD8826@kitsune.suse.cz>
- <CAK7LNAQy79ZHS0d000XQzC-trRPhOUBFnWsGm03yG0cQAs-rXA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNAQy79ZHS0d000XQzC-trRPhOUBFnWsGm03yG0cQAs-rXA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        Jonathan Corbet <corbet@lwn.net>,
+        Tomasz Figa <tfiga@chromium.org>, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,90 +70,123 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Aug 19, 2023 at 08:25:52PM +0900, Masahiro Yamada wrote:
-> On Fri, Aug 18, 2023 at 12:15 PM Michal Suchánek <msuchanek@suse.de> wrote:
+On Sun, Aug 20, 2023 at 5:15=E2=80=AFPM Sergey Senozhatsky
+<senozhatsky@chromium.org> wrote:
+>
+> On (23/08/20 16:21), Sergey Senozhatsky wrote:
+> > What the preferred approach would be? Do we want a new KCONFIG_FOO env
+> > variable that changes behaviour of one of the targets? E.g.
 > >
-> > Hello,
+> >       KCONFIG_LIST_MISSING=3D1 make oldconfig
 > >
-> > On Tue, Jul 18, 2023 at 02:01:51PM +0200, Michal Suchanek wrote:
-> > > Hello,
-> > >
-> > > with these patches it is possible to install kernel modules in an arbitrary
-> > > directory - eg. moving the /lib/modules to /usr/lib/modules or /opt/linux.
-> > >
-> > > While the modprobe.d and depmod.d search which already includes multiple
-> > > paths is expanded to also include $(prefix) the module directory still
-> > > supports only one location, only a different one under $(module_directory).
-> > >
-> > > Having kmod search multiple module locations while only one is supported now
-> > > might break some assumption about relative module path corresponding to a
-> > > specific file, would require more invasive changes to implement, and is not
-> > > supportive of the goal of moving the modules away from /lib.
-> > >
-> > > Both kmod and the kernel need to be patched to make use of this feature.
-> > > Patched kernel is backwards compatible with older kmod.  Patched kmod
-> > > with $(module_directory) set to /lib/modules is equivalent to unpatched kmod.
-> >
-> > The patch to kernel to support autodetection of module directory is
-> > rejected. However, a workaround like
-> >
-> > make MODLIB='$(INSTALL_MOD_PATH)/usr/lib/modules/$(KERNELRELEASE)'
-> >
-> > is suggested.
-> >
-> > Can you consider inluding the kmod changes?
-> 
-> 
-> Hi.
-> 
-> I have a question about your original patch
-> for the Kbuild change.
-> 
-> In your patch, Kbuild runs 'kmod config' or
-> 'pkg-config --variable=module_directory kmod',
-> then sets the returned string to MODLIB.
-> 
-> 
-> If kmod is configured to use /usr/lib/modules,
-> /opt/modules, or whatever,
-> should we change the installation path of the debug
-> vdso accordingly?
-> 
-> Currently, the debug vdso is always installed
-> to /lib/modules/$(KERNELRELEASE)/vdso/.
-> 
-> However, modules and vdso are unrelated to each other.
-> kmod does not care about vdso.
-> 
-> 
-> The following commits started to install debug vdso.
-> 
-> Commit 8150caad0226 ("[POWERPC] powerpc vDSO: install unstripped
-> copies on disk")
-> Commit f79eb83b3af4 ("x86: Install unstripped copy of 64bit vdso to disk")
-> 
-> 
-> I do not know why they chose $(MODLIB)/vdso as the install destination.
+> > and then have conf list symbols and terminate with exit(1) if there are
+> > some unrecognized symbols?
+>
+>
+> Will something like this be OK with you?
+>
+>
+>  KCONFIG_LIST_MISSING=3D1 make oldconfig
+>
+> .config:6:warning: unknown symbol: DISABLE_BUGS
+> .config:7:warning: unknown unset symbol: ENABLE_WINAPI
+>
+> make[2]: *** [scripts/kconfig/Makefile:77: oldconfig] Error 1
+>
 
-It's the only directory that exists per-kernel-release.
 
-While technically vdso has nothing to do with modules there is no other
-place where it can be stored where it would not conflict between kernel
-releases so far.
+Yup, much better than adding a new target.
 
-In fact the distro followed the pattern and started dumping other things
-not related to kernel modules into $(MODLIB) for this very reason. Also
-from the distribution point of view $(MODLIB) is listed as owned by the
-kernel package, and additional files that might be there sometimes need
-not be specially handled.
 
-Finally any tools that can find vdso today will search for it in
-$(MODLIB), and consequently moving it elsewhere is not practical.
 
-If the makefiles grow a VDSOLIB it should default to MODLIB. It may be
-useful for somebody to have this flexibility in the future but I am not
-interested for my use case.
+> ---
+>
+> diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+> index fa2ae6f63352..b2c0bcf0e5c1 100644
+> --- a/scripts/kconfig/confdata.c
+> +++ b/scripts/kconfig/confdata.c
+> @@ -360,7 +360,9 @@ int conf_read_simple(const char *name, int def)
+>         char *p, *p2;
+>         struct symbol *sym;
+>         int i, def_flags;
+> +       const char *list_missing;
+>
+> +       list_missing =3D getenv("KCONFIG_LIST_MISSING");
 
-Thanks
 
-Michal
+My (original) hope was to add a single switch, KCONFIG_VERBOSE, to address =
+both:
+
+  - A CONFIG option is hidden by unmet dependency (Ying Sun's case)
+  - A CONFIG option no longer exists  (your case)
+  - Anything else we need to be careful
+
+
+
+>         if (name) {
+>                 in =3D zconf_fopen(name);
+>         } else {
+> @@ -448,6 +450,12 @@ int conf_read_simple(const char *name, int def)
+>                         if (def =3D=3D S_DEF_USER) {
+>                                 sym =3D sym_find(line + 2 + strlen(CONFIG=
+_));
+>                                 if (!sym) {
+> +                                       if (list_missing) {
+> +                                               conf_warning("unknown uns=
+et symbol: %s",
+> +                                                            line + 2 + s=
+trlen(CONFIG_));
+> +                                               continue;
+> +                                       }
+> +
+>                                         conf_set_changed(true);
+>                                         continue;
+>                                 }
+> @@ -482,6 +490,12 @@ int conf_read_simple(const char *name, int def)
+>
+>                         sym =3D sym_find(line + strlen(CONFIG_));
+>                         if (!sym) {
+> +                               if (list_missing) {
+> +                                       conf_warning("unknown symbol: %s"=
+,
+> +                                                    line + strlen(CONFIG=
+_));
+> +                                       continue;
+> +                               }
+> +
+
+
+This should be warned only if (def !=3D S_DEF_AUTO),
+otherwise the same warning will be displayed twice.
+
+
+
+>                                 if (def =3D=3D S_DEF_AUTO)
+>                                         /*
+>                                          * Reading from include/config/au=
+to.conf
+> @@ -530,6 +544,13 @@ int conf_read_simple(const char *name, int def)
+>         }
+>         free(line);
+>         fclose(in);
+> +
+> +       if (list_missing) {
+> +               if (conf_warnings)
+> +                       exit(1);
+> +               exit(0);
+> +       }
+> +
+
+This is something different because you are making these
+errors instead of warnings.
+
+
+
+>         return 0;
+>  }
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
