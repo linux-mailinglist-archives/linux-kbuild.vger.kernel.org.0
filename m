@@ -2,118 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7142978460E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Aug 2023 17:47:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 918C678484F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Aug 2023 19:18:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237294AbjHVPrQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 22 Aug 2023 11:47:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39692 "EHLO
+        id S229937AbjHVRSG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 22 Aug 2023 13:18:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233844AbjHVPrQ (ORCPT
+        with ESMTP id S229633AbjHVRSF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 22 Aug 2023 11:47:16 -0400
-Received: from mail-ua1-x934.google.com (mail-ua1-x934.google.com [IPv6:2607:f8b0:4864:20::934])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CD6ECCB
-        for <linux-kbuild@vger.kernel.org>; Tue, 22 Aug 2023 08:47:14 -0700 (PDT)
-Received: by mail-ua1-x934.google.com with SMTP id a1e0cc1a2514c-7a257fabae5so952797241.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 22 Aug 2023 08:47:14 -0700 (PDT)
+        Tue, 22 Aug 2023 13:18:05 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD1BF7D87
+        for <linux-kbuild@vger.kernel.org>; Tue, 22 Aug 2023 10:17:57 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-3fee87dd251so29089535e9.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 22 Aug 2023 10:17:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1692719233; x=1693324033;
+        d=chromium.org; s=google; t=1692724676; x=1693329476;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HYNvV23/sQh2KUeEtBQywg5ma3vCxQAqr4Fitqyx0c4=;
-        b=UN77YUOelf5sJQMuE+614A5Z84E2e6FM84c3z6tTCr6fuXnbnqGlC4ndp0jdFNAtHk
-         MqVEHFAGNEBE57eFoVnRrvGC6tw1cyDaceDUw2Q5XzhsWU3I75Nz+p/HgJaJUnDj0oLj
-         C0ouC1ra3gvDQ5hhAmIA9MmPYICUNSJgL+Wl2xt7Mt/zFVJ4E5wJnlUnkdVL8lU+RlFM
-         MSWyZXsKWxc9ossbSLXVPY/mGxsQEe3/Cq1O02zt/qxIoDoJ5HGP9axj+xvWuJCYdJBi
-         PTE3Eq8dg0BPPpZ8BSjUtqxRPTT8iI/ZA9muVe8V3uEVr5t1Bjqo8voB435c6gsuRh7N
-         YMOA==
+        bh=PVxH8gZtgJYxnVhZVMJiqe8tMcZ7bLjPOLe18Ze4lL0=;
+        b=lPJQqMMDcohJF2JdOsK63KunlvjahCqtIQcc/RYTdukta+Dp6uZ20GNq+fQnzNPrtx
+         zE0Yw1wuqLQtgpFziCB01PGnkAqotVgacE8aIY6L/jfvH6QhkaZiVdVxc81h7wZJjoz/
+         gN96ucsushvA81Ntq2eWLfTdDwwZWk0ZyQN54=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692719233; x=1693324033;
+        d=1e100.net; s=20221208; t=1692724676; x=1693329476;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HYNvV23/sQh2KUeEtBQywg5ma3vCxQAqr4Fitqyx0c4=;
-        b=g+Kl5VujjfFK3H7rS/7wDyAr6U+xcE7pFGZblWvhiCBAA9g/z75Kyd47wefU+d6wLa
-         OdHAFnlaymj1aCwJZ7tOYI5AGG0WzZ0/H7/e/yj7kxbff2OYZUfwx8PEED0jRP0wW0ge
-         cm0WXt163eA5vBXLqYllOlbRHVqBsWpRD8+rt6Zd02OVoS/Mz7qRW90VWbegWXrv3X7W
-         mtZxIAmLzS43FTaHLfW6zf4EX+yYElByKgz8ea8YA+rIWmDgv+Wfo6KaBZSYXWpjo5Z+
-         ndZiG/ncgE/UdBzaD6vL/jp1J/np40I1qmW9ghIL+Nx9Xbu31/jaCUwjWjF9ni3jIY9G
-         L8YQ==
-X-Gm-Message-State: AOJu0YxBL+ksYsi1Myg25JOfCa9JO1j6KruJXZd9YiDvHS5d76toAvPj
-        lLQixDX0GjmPbOkeggbuy8p//XyWZGfAF8uDGFO8kg==
-X-Google-Smtp-Source: AGHT+IGObL+V0/ELRu9qQaqOGv9Tp3eKDjtfRuftO2ZQwK2jpACBoKq2mdTSjTDQSxxhDvDhAGyMDcJJCgF8fGBxxk0=
-X-Received: by 2002:a67:b34b:0:b0:440:b7df:767b with SMTP id
- b11-20020a67b34b000000b00440b7df767bmr8953767vsm.11.1692719233347; Tue, 22
- Aug 2023 08:47:13 -0700 (PDT)
+        bh=PVxH8gZtgJYxnVhZVMJiqe8tMcZ7bLjPOLe18Ze4lL0=;
+        b=EqnTDqOm05aLwBoPE9HPcBwwm03G0fXHYP64yoGVqRa8zfUJY6vMmMGafnNJt1DJSK
+         z3Ipq2+lmFOklzcXaxHL/0Vm5KVqDY0QQyrvnamOPJDiCbY1Z49bKgnw0R4YeTQygpaZ
+         bTQJnp8V1Ub3l3AnSDRo4n3d9wEtwG2l6hhVi+btJpAJ0tEpKEGjhIhempgy0VrjczY/
+         3ImQlGz3lFRw+gsj9B9crgUs0oNVImiO23VW/0GKc+WlH/UqLenBjw8IpN5tMvgZfgwU
+         68qVdYbsJsWt903qtm6Ke3GEh/zHfSxQz6DqzlNovP1hYt9ZChrhJ8k3jDk/udKrFGlh
+         /H5g==
+X-Gm-Message-State: AOJu0Yw38U8q/OT8EogJNeHtEe3Tv2YWjH+GjoJH6a1SB6kj07OiWKNo
+        QdP9cxLYtZG5Pj2gDpBnq5P3l+0aaw0R8NHgQTBwnQKJnELqO3hftt0=
+X-Google-Smtp-Source: AGHT+IEQzodyd9vz4B621/6cy5AO6Fbt3D8H/LzvFpY5S44hM1nSd7SCg1qWjxx8fR3UGrUZPBRPQY8eS6S5g0RbKIg=
+X-Received: by 2002:adf:f70c:0:b0:317:5af3:caa4 with SMTP id
+ r12-20020adff70c000000b003175af3caa4mr7859759wrp.38.1692724676163; Tue, 22
+ Aug 2023 10:17:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230822065256.163660-1-denik@chromium.org>
-In-Reply-To: <20230822065256.163660-1-denik@chromium.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 22 Aug 2023 08:47:02 -0700
-Message-ID: <CAKwvOdmvUCKDk0kU0DVywRRPS9qT09PsQ435GzzuinHkBcRZ0w@mail.gmail.com>
+References: <20230822065256.163660-1-denik@chromium.org> <CAFP8O3J2pUddEfL+W2j=tpjdj1ufsQMJqjcARbYvY3+khtBPig@mail.gmail.com>
+In-Reply-To: <CAFP8O3J2pUddEfL+W2j=tpjdj1ufsQMJqjcARbYvY3+khtBPig@mail.gmail.com>
+From:   Denis Nikitin <denik@chromium.org>
+Date:   Tue, 22 Aug 2023 10:17:45 -0700
+Message-ID: <CADDJ8CWon2yh=vW73W-88pSaU+J1UfPwhJ7++iAWwnUXvTJD9g@mail.gmail.com>
 Subject: Re: [PATCH] modpost: Skip .llvm.call-graph-profile section check
-To:     Denis Nikitin <denik@chromium.org>
+To:     Fangrui Song <maskray@google.com>
 Cc:     linux-kbuild@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
         linux-kernel@vger.kernel.org, llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Aug 21, 2023 at 11:54=E2=80=AFPM Denis Nikitin <denik@chromium.org>=
- wrote:
->
-> .llvm.call-graph-profile section is added when the kernel is built with
-> profiles (e.g. -fprofile-sample-use=3D<llvm.profile>). The section holds
-> metadata for symbols beloning to other sections and hence doesn't need
-> modpost checks.
->
-> This change fixes the kernel build with sample profiles which fails
-> with:
-> "FATAL: modpost: Please add code to calculate addend for this architectur=
-e"
->
-> Signed-off-by: Denis Nikitin <denik@chromium.org>
+Thanks for the prompt review!
 
-Thanks for the patch. If you send a v2 with Fangrui's suggested
-changes+additions, feel free to carry forward my reviewed by tag.
-
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-
-> ---
->  scripts/mod/modpost.c | 1 +
->  1 file changed, 1 insertion(+)
+On Tue, Aug 22, 2023 at 12:06=E2=80=AFAM Fangrui Song <maskray@google.com> =
+wrote:
 >
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index b29b29707f10..64bd13f7199c 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -761,6 +761,7 @@ static const char *const section_white_list[] =3D
->         ".fmt_slot*",                   /* EZchip */
->         ".gnu.lto*",
->         ".discard.*",
-> +       ".llvm.call-graph-profile",     /* call graph */
->         NULL
->  };
+> On Mon, Aug 21, 2023 at 11:54=E2=80=AFPM Denis Nikitin <denik@chromium.or=
+g> wrote:
+> >
+> > .llvm.call-graph-profile section is added when the kernel is built with
+> > profiles (e.g. -fprofile-sample-use=3D<llvm.profile>).
 >
-> --
-> 2.42.0.rc1.204.g551eb34607-goog
+> Right. .llvm.call-graph-profile may also be added when the kernel is
+> built with clang -fprofile-use=3D (though instrumentation-based PGO
+> support is not upstreamed yet).
+
+OK, I will add -fprofile-use.
+
+> > The section holds
+> > metadata for symbols beloning to other sections and hence doesn't need
+> > modpost checks.
 >
+> Typo: belonging.
+>
+> .llvm.call-graph-profile contains edge information derived from text
+> sections, so .llvm.call-graph-profile itself doesn't need more
+> analysis as the text sections have been analyzed.
 
+Ack.
 
---=20
 Thanks,
-~Nick Desaulniers
+Denis
