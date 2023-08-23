@@ -2,121 +2,90 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E0BA7848AF
-	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Aug 2023 19:51:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2717C784E71
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Aug 2023 03:56:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229459AbjHVRvR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 22 Aug 2023 13:51:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33922 "EHLO
+        id S232119AbjHWB4B (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 22 Aug 2023 21:56:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229513AbjHVRvQ (ORCPT
+        with ESMTP id S231995AbjHWB4A (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 22 Aug 2023 13:51:16 -0400
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B057CF1
-        for <linux-kbuild@vger.kernel.org>; Tue, 22 Aug 2023 10:51:15 -0700 (PDT)
-Received: by mail-qt1-x82c.google.com with SMTP id d75a77b69052e-407db3e9669so35121cf.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 22 Aug 2023 10:51:15 -0700 (PDT)
+        Tue, 22 Aug 2023 21:56:00 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01842E4A
+        for <linux-kbuild@vger.kernel.org>; Tue, 22 Aug 2023 18:55:57 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-68a3582c04fso2113313b3a.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 22 Aug 2023 18:55:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1692726674; x=1693331474;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HTQHxKG2D5LbRoD1UXRmuUXHuB7AJbXnzw+23CsotMg=;
-        b=BFKbjhidrHsnQIwzb82AQGRT2a0QCnLlD78C+BChYGJ+4KywPdEVN7H9NkYWTSENtV
-         PpQiOiKA8vCLtQb26ZmoX+9N9ba6VlbEiLIMpiesyYZhYW6svghc0Yv/cTEWeln8Ux3H
-         0Gn3QFi6JvwghAXDJlLQSSN3D4ZhK1t4U1VYIlxAXsTMGM0UEbjimlZQA+q03aWZJih9
-         8Aws/YLO8+VCX06ywZAWCT86oEomaGyX9RTa/72fz+I1TSEzyaovPUArABUmTXyV5UKA
-         aPiO45OACjhSujvGPthBRtFfQtAXiiGxjVWhFoFpWgbGuuLas9TF1FWxPzuKdkYlt7Nf
-         TE3Q==
+        d=chromium.org; s=google; t=1692755756; x=1693360556;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fRkiScFMOgu2DA/fAKYSlm8Q7j2pyGv/X1yC33C77yw=;
+        b=HAGOCxI6iSypFKwhotPIf5nC833CPY2kkuxhaLKQ5oJYz/hNBnAJ5WfPzvubuIYCJH
+         GgwWnGqiDJG4ZhLw4gmuXLZsWebzsCvpxs7ffjZkH5Mhl8FkhubgtJBYvHAKgVdoyH/d
+         5hXDGREcRSxo0nlATiixeAn1ZjUlOzv8VGpPU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692726674; x=1693331474;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HTQHxKG2D5LbRoD1UXRmuUXHuB7AJbXnzw+23CsotMg=;
-        b=gWlnO9n5R/r1wkeK7IIdsd3Bqcx576iFgWP6oNxDv24r4KMSLlWTvOELjvep/ElPIg
-         pmFiyEBPtgcvnzduSBlKKf9Kjw39+uaOGOMD5YZxD8CHpFelun4OWgYDNhjCvpsfJGru
-         lJD5fBaq2isgqRLkyh2u9xNsKrUgkJ+6BSfbtowOB3XXOwP+3viKW6GqtMjkfpsVOdgQ
-         keY0q0YXTskARXc2l9figEh1YlcrYqBLIkaljk8QYwQI+FTJZ6lIAuRcxbMimWWq2NKM
-         kovnXmd1/kOBvgxMdiIstV/CQlUHQi227KzSbZdZ0W4c3Wuj1qMxjNnTYq8pkasCFgFW
-         VQyg==
-X-Gm-Message-State: AOJu0YygvXGF4ng52bfSdmOCUVs+tVJYu0alIGi8HqEgVgb4kqCndz3e
-        VAQhseFrOrQzwSwsQIv+dvAYHIkQYKcbeihS71V8eg==
-X-Google-Smtp-Source: AGHT+IH8CcGn1FXMoAKRlf73hzf0gvM8a+jzi/t6hcmvWwSTQP9yOtL9F6zEdJuVNx2nfT4ZMWZ+QL4DMpachfRO/Rw=
-X-Received: by 2002:a05:622a:1a90:b0:3ef:302c:319e with SMTP id
- s16-20020a05622a1a9000b003ef302c319emr347014qtc.8.1692726674341; Tue, 22 Aug
- 2023 10:51:14 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1692755756; x=1693360556;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fRkiScFMOgu2DA/fAKYSlm8Q7j2pyGv/X1yC33C77yw=;
+        b=HCIFxZZ0G/lQgvJGbQTTnUeGbPictaRaARV17RCRZd3aspIM8S/3E7Rr51QkJitAOM
+         KlqtryhHBE7R/hTR69eRB7WGzzogE2Dkhb9u46A7jahLeWiI46XrujmdwGtjv8MT1SUH
+         Hs5hq7PZiBuFzWs/q8T53HtO5VULwVKFlYg13eZYosy2LknaUGfM7aOBjBntmpEsfmFb
+         YhOiTF2epuAOgiGGera0jKUt8Qtp92MsNpHZthgQNcnz3aCWf1LxLzES4+WKerkgDHSq
+         kMwozGFWfmjwsJxUJjnyXpNHHjgz2QOP/6W0vKSXw+lPprfdE47BpQXeJ42/c/rJEkQA
+         UkfA==
+X-Gm-Message-State: AOJu0Yy7coEnOa1LmVsn+I4XpVVzQqF5CVmdDX+3ck77CWxAYpSjL/eT
+        Hwdg6iZzG2kTqlO4+EyTON2DsA==
+X-Google-Smtp-Source: AGHT+IF9DYgiYQneYQNwX7Ayy+tzBw9tZVdJ5vCPBzs3OK5K5JOJFUBVa2o7P+C2g86YTNuREqWVUQ==
+X-Received: by 2002:a05:6a20:72a4:b0:133:bbe0:2ff1 with SMTP id o36-20020a056a2072a400b00133bbe02ff1mr11542589pzk.44.1692755756380;
+        Tue, 22 Aug 2023 18:55:56 -0700 (PDT)
+Received: from google.com (KD124209188001.ppp-bb.dion.ne.jp. [124.209.188.1])
+        by smtp.gmail.com with ESMTPSA id h9-20020a170902f7c900b001bbb598b8bbsm9684771plw.41.2023.08.22.18.55.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Aug 2023 18:55:55 -0700 (PDT)
+Date:   Wed, 23 Aug 2023 10:55:51 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Ying Sun <sunying@nj.iscas.ac.cn>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>, sunying@nj.iscas.ac.cn,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Siyuan Guo <zy21df106@buaa.edu.cn>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jesse T <mr.bossman075@gmail.com>
+Subject: Re: [PATCH] kconfig: add dependency warning print about invalid
+ values in verbose mode
+Message-ID: <20230823015551.GB3913@google.com>
+References: <20230809002436.18079-1-sunying@nj.iscas.ac.cn>
+ <CAK7LNARH-ziDD8=+90y5Zzo0cqqnc5qaiVWW0YQzdZ=nO9+e8w@mail.gmail.com>
+ <CAJFTR8SajdzT2kKscEpPon9faUa8tHrvYPC_+awG3VeHVS8sSg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230822065256.163660-1-denik@chromium.org> <20230822174835.253469-1-denik@chromium.org>
-In-Reply-To: <20230822174835.253469-1-denik@chromium.org>
-From:   Fangrui Song <maskray@google.com>
-Date:   Tue, 22 Aug 2023 10:51:03 -0700
-Message-ID: <CAFP8O3KunP9CzT_U2cj1_oysojTxCNJRWX_kvvu_wOx4tbYHug@mail.gmail.com>
-Subject: Re: [PATCH v2] modpost: Skip .llvm.call-graph-profile section check
-To:     Denis Nikitin <denik@chromium.org>
-Cc:     linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJFTR8SajdzT2kKscEpPon9faUa8tHrvYPC_+awG3VeHVS8sSg@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 22, 2023 at 10:49=E2=80=AFAM Denis Nikitin <denik@chromium.org>=
- wrote:
->
-> .llvm.call-graph-profile section is added by clang when the kernel is
-> built with profiles (e.g. -fprofile-sample-use=3D or -fprofile-use=3D).
->
-> The section contains edge information derived from text sections,
-> so .llvm.call-graph-profile itself doesn't need more analysis as
-> the text sections have been analyzed.
->
-> This change fixes the kernel build with clang and a sample profile
-> which currently fails with:
->
-> "FATAL: modpost: Please add code to calculate addend for this architectur=
-e"
->
-> Signed-off-by: Denis Nikitin <denik@chromium.org>
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+On (23/08/19 22:40), Jesse T wrote:
+> > > From: Ying Sun <sunying@nj.iscas.ac.cn>
+> > >
+> > > Add warning about the configuration option's invalid value in verbose mode,
+> > >  including error causes, mismatch dependency, old and new values,
+> > >  to help users correct them.
 
-Thanks. The new commit message looks good to me.
+Are those really errors?
 
-Reviewed-by: Fangrui Song <maskray@google.com>
+ERROR : CLANG_VERSION[140006 => 0] value is invalid  due to it has default value
+ERROR : CC_IS_GCC[n => y] value is invalid  due to it has default value
+ERROR : GCC_VERSION[0 => 120200] value is invalid  due to it has default value
 
-> ---
->  scripts/mod/modpost.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index b29b29707f10..64bd13f7199c 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -761,6 +761,7 @@ static const char *const section_white_list[] =3D
->         ".fmt_slot*",                   /* EZchip */
->         ".gnu.lto*",
->         ".discard.*",
-> +       ".llvm.call-graph-profile",     /* call graph */
->         NULL
->  };
->
-> --
-> 2.42.0.rc1.204.g551eb34607-goog
->
-
-
---=20
-=E5=AE=8B=E6=96=B9=E7=9D=BF
+I'm using clang, so corresponding options are set accordingly in my .config
