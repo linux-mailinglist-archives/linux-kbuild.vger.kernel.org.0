@@ -2,169 +2,168 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 570EC786427
-	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Aug 2023 01:55:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B914786452
+	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Aug 2023 02:51:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238880AbjHWXye (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 23 Aug 2023 19:54:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44422 "EHLO
+        id S234545AbjHXAsR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 23 Aug 2023 20:48:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238860AbjHWXyY (ORCPT
+        with ESMTP id S238920AbjHXAry (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 23 Aug 2023 19:54:24 -0400
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 532F010E4
-        for <linux-kbuild@vger.kernel.org>; Wed, 23 Aug 2023 16:54:21 -0700 (PDT)
-Received: by mail-qt1-x836.google.com with SMTP id d75a77b69052e-407db3e9669so79441cf.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 23 Aug 2023 16:54:21 -0700 (PDT)
+        Wed, 23 Aug 2023 20:47:54 -0400
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C58FE78
+        for <linux-kbuild@vger.kernel.org>; Wed, 23 Aug 2023 17:47:53 -0700 (PDT)
+Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-68bec4c6b22so376583b3a.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 23 Aug 2023 17:47:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1692834860; x=1693439660;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0rb211/84XCj5s3qEzxk41sOs/W0hEXnv4lzDGpZ7/s=;
-        b=plbFCExLt7v0bXnBw3cmP4n1wGJJqGxlyRSmARMOdqM05KwnEmugCrxnLnjuFilEfI
-         aprcBHJICWxmjszuyFDlJjN2LTyCvLa5BFaA+vKzTStDt5+Bl5Ye8jWrC+/IEZXap8g/
-         z37xQNdBT2QOwsEl5W5fqMY+8ncpLqDSWscJqKavU2MGCnVdy3fI5WsphXKOrKhMzpgr
-         v+o+e/4Lixge/lNpsz3cCpwSPh4jlmdvn0POb/dT82goAx/MntTe2pxQjh1mjJmttUKQ
-         YEnKjg7SlkkkOr27Z5hssaRFyIYl0kC+CVpCcH2PWI08W+Sin00Jr+4NoNK2glP3T71f
-         JerQ==
+        d=chromium.org; s=google; t=1692838072; x=1693442872;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=mqmqQz32jBcW9BevzM5t/zeWptvSYdEFNatyBEm47Vs=;
+        b=bCMBaZ+BXhH5KQKBdOAO9bRl6+m9EFy7XxlE2DpJUVSXCkrKK/lXy+QbD2jPLqp9vt
+         GuwSVAbqKsmEgFYo9Es5U3dSiRu7+tYw7JKGcpeDMT+hy/acPcL2KdcmiB+tsejsrFkN
+         QIUBWW2nFa2r8YqCXGC+e4ub2bYzbKKkI2Gmg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692834860; x=1693439660;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0rb211/84XCj5s3qEzxk41sOs/W0hEXnv4lzDGpZ7/s=;
-        b=I0FWSawajhYHwee/K+jFgln5YfXGoRXeLfz+upnDBkbStLhwj7FV1rrKzESyk+7hjL
-         OL/54jSazUmUcW+1uvtMuAnnUgYkpsORlW0bM1D3PreFfOQ5RyWyhfqO/rdnOBqDuhxL
-         ScffBJgtG9F0O6x0W80AzIghLO77gv8B+V/ky12Ks5Wt/y7v8YHJ4pq0dUsb54WAKCWD
-         7vD5MHBao5czIYLC7AynwJAqAMey2ZYcXl61JH40/ZDaRbh3vRM2RsHlcc7YvZS3d1gh
-         UIQ57VJCsj0fPHGv+p+UAoZkYpYG4po21UkteG01zgg6YnqygSyzZKh46IW5GW1CIaST
-         L/lA==
-X-Gm-Message-State: AOJu0YwQoGpMJgCdyz+R8/4YqKwDhwNuMNViH7Z/EPsQarAryze3PQDh
-        06k/auftUuIov5/ezaU9pbL8uLfm05l9H+cHOSw6/w==
-X-Google-Smtp-Source: AGHT+IFdBZ4akZ1jbijZBu76p8cAnEURgS1ppfDWsN/o5PqPBeHSAZ6IvKEh2bsJ9rSoshR8QaEDOtbQee7NLvkpkWQ=
-X-Received: by 2002:a05:622a:19a0:b0:3f8:8c06:c53b with SMTP id
- u32-20020a05622a19a000b003f88c06c53bmr761620qtc.0.1692834860332; Wed, 23 Aug
- 2023 16:54:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230822065256.163660-1-denik@chromium.org> <20230822174835.253469-1-denik@chromium.org>
- <CAFP8O3KunP9CzT_U2cj1_oysojTxCNJRWX_kvvu_wOx4tbYHug@mail.gmail.com>
- <CAK7LNASstNj2HEfJHcRzqt7hay65T-yEgzaAuXbEQPuCS+yC6w@mail.gmail.com> <CADDJ8CWdm+cWt4UBTae0sCQ8ZDWhbMuozqqq59R+EtvMHere0g@mail.gmail.com>
-In-Reply-To: <CADDJ8CWdm+cWt4UBTae0sCQ8ZDWhbMuozqqq59R+EtvMHere0g@mail.gmail.com>
-From:   Fangrui Song <maskray@google.com>
-Date:   Wed, 23 Aug 2023 16:54:10 -0700
-Message-ID: <CAFP8O3+3++awDi9uZueFC_xi+KAud0Ds3k3vdd_ruVngOEOKiw@mail.gmail.com>
-Subject: Re: [PATCH v2] modpost: Skip .llvm.call-graph-profile section check
+        d=1e100.net; s=20221208; t=1692838072; x=1693442872;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mqmqQz32jBcW9BevzM5t/zeWptvSYdEFNatyBEm47Vs=;
+        b=Bv1aNZ9DCe20ARhKptwb2k0ushl/h+DsAkeaJkUH3zzM84iBsGhkA9YbsJvRBQvGIQ
+         10YeoYZVPHipKBIYcEWmANQfICzJgiFgnpoWLv2ja3N9H5vh1qJ6qrUExdVefc+CVg1u
+         SPqp4y7qXXEWHD/Za7CVfAbbSeyJtmvoAE6eszvZJJkg0/LYyASNw/e0Dt7OBiOup2kH
+         1Kr2QNri8DgCNzwWgnGj3ue1+a/x70rftyLS53lcHda3YVUdPw4TOQi7Q24tR0bgSRvL
+         PyWlEXQrojTWz7YwaV0X4uLrcsySfNtgDs37mUCWgaw2mW25Z+VS932gk3p/y4p5jUAB
+         Gp6g==
+X-Gm-Message-State: AOJu0YwYDraERntVAzMJeRHV+hxxisnxJ0VG1FHQWZ23xcwhC+1pmW9+
+        ur7HZ0a0IqOz21XHp+lCJKM+oQs2eiXWG7jRDwE=
+X-Google-Smtp-Source: AGHT+IF2pUCFtH2+SpnHTH/g5ciVoWAYzING55WBLUuNjl1Hy4m9cFG8aGTmEZRpb71c17WJ0Me8WQ==
+X-Received: by 2002:a05:6a20:a11f:b0:140:3aa:e2ce with SMTP id q31-20020a056a20a11f00b0014003aae2cemr17743934pzk.42.1692838072501;
+        Wed, 23 Aug 2023 17:47:52 -0700 (PDT)
+Received: from google.com (KD124209188001.ppp-bb.dion.ne.jp. [124.209.188.1])
+        by smtp.gmail.com with ESMTPSA id jc19-20020a17090325d300b001b8b73da7b1sm11457406plb.227.2023.08.23.17.47.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Aug 2023 17:47:52 -0700 (PDT)
+Date:   Thu, 24 Aug 2023 09:47:47 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Denis Nikitin <denik@chromium.org>, linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-        Douglas Anderson <dianders@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Ying Sun <sunying@nj.iscas.ac.cn>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Siyuan Guo <zy21df106@buaa.edu.cn>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jesse T <mr.bossman075@gmail.com>
+Subject: Re: [PATCH] kconfig: add dependency warning print about invalid
+ values in verbose mode
+Message-ID: <20230824004747.GC3913@google.com>
+References: <20230809002436.18079-1-sunying@nj.iscas.ac.cn>
+ <CAK7LNARH-ziDD8=+90y5Zzo0cqqnc5qaiVWW0YQzdZ=nO9+e8w@mail.gmail.com>
+ <CAJFTR8SajdzT2kKscEpPon9faUa8tHrvYPC_+awG3VeHVS8sSg@mail.gmail.com>
+ <20230823015551.GB3913@google.com>
+ <CAK7LNAQNk2MU=M5Q6GXtm34VyFcNOhVgw3UQ7Mdn4hoqQ_636A@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNAQNk2MU=M5Q6GXtm34VyFcNOhVgw3UQ7Mdn4hoqQ_636A@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Aug 23, 2023 at 4:13=E2=80=AFPM Denis Nikitin <denik@chromium.org> =
-wrote:
->
-> On Wed, Aug 23, 2023 at 4:02=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
-.org> wrote:
+On (23/08/24 06:52), Masahiro Yamada wrote:
+> On Wed, Aug 23, 2023 at 10:56 AM Sergey Senozhatsky
+> <senozhatsky@chromium.org> wrote:
 > >
-> > On Wed, Aug 23, 2023 at 3:00=E2=80=AFAM Fangrui Song <maskray@google.co=
-m> wrote:
-> > >
-> > > On Tue, Aug 22, 2023 at 10:49=E2=80=AFAM Denis Nikitin <denik@chromiu=
-m.org> wrote:
-> > > >
-> > > > .llvm.call-graph-profile section is added by clang when the kernel =
-is
-> > > > built with profiles (e.g. -fprofile-sample-use=3D or -fprofile-use=
-=3D).
-> > > >
-> > > > The section contains edge information derived from text sections,
-> > > > so .llvm.call-graph-profile itself doesn't need more analysis as
-> > > > the text sections have been analyzed.
-> > > >
-> > > > This change fixes the kernel build with clang and a sample profile
-> > > > which currently fails with:
-> > > >
-> > > > "FATAL: modpost: Please add code to calculate addend for this archi=
-tecture"
+> > On (23/08/19 22:40), Jesse T wrote:
+> > > > > From: Ying Sun <sunying@nj.iscas.ac.cn>
+> > > > >
+> > > > > Add warning about the configuration option's invalid value in verbose mode,
+> > > > >  including error causes, mismatch dependency, old and new values,
+> > > > >  to help users correct them.
 > >
+> > Are those really errors?
 > >
-> > Curious.
+> > ERROR : CLANG_VERSION[140006 => 0] value is invalid  due to it has default value
+> > ERROR : CC_IS_GCC[n => y] value is invalid  due to it has default value
+> > ERROR : GCC_VERSION[0 => 120200] value is invalid  due to it has default value
 > >
-> > This message is only displayed for REL.
-> >
-> > (Please not it is located in section_rel() function)
-> >
-> >
-> > I think modern architectures use RELA instead of REL.
-> > Which architecture are we talking about?
->
-> Aarch64. There was also a report on x86-64 but the error message could be
-> different there.
+> > I'm using clang, so corresponding options are set accordingly in my .config
+> 
+> 
+> I think not errors, but warnings.
 
-Regarding REL:
+I agree.
 
-The original format of .llvm.call-graph-profile
-(SHT_LLVM_CALL_GRAPH_PROFILE=3D0x6fff4c02) used symbol indices without
-relocations and could be corrupted by symbol table change.
-https://github.com/llvm/llvm-project/commit/a224c5199b327ed0efcdcd87b6dbf95=
-0cf4d9ee1
-(2021) changed the format to represent call edge information with
-R_*_NONE and changed SHT_LLVM_CALL_GRAPH_PROFILE to 0x6fff4c09.
-
-We don't use the addend field of R_*_NONE relocations, so I proposed
-that we use REL for all targets.
-My https://github.com/llvm/llvm-project/commit/ca3bdb57fa1ac98b711a735de048=
-c12b5fdd8086
-selected REL for .llvm.call-graph-profile
-
-aaelf64 says:
-
-> A binary file may use ``REL`` or ``RELA`` relocations or a mixture of the=
- two (but multiple relocations of the same place must use only one type).
-
-Other psABI documents may be more vague on how REL is used, but as
-long as the tool that needs to process it (currently just lld and
-readelf like tools) supports it, it's fine.
-binutils seems to support REL for all ELF targets, even if its
-objcopy/strip may unintentionally convert REL to RELA. lld can consume
-RELA SHT_LLVM_CALL_GRAPH_PROFILE.
-
-> >
-> >
-> > What does the output of this command look like?
-> >
-> > $ llvm-readelf -S vmlinux.o | grep  .llvm.call-graph-profile
-> >
-> >
-> > Is it REL?
-> >
->
->   [119] .llvm.call-graph-profile LLVM_CALL_GRAPH_PROFILE 0000000000000000
-> 1c74a458 0104c8 08   E  0   0  1
->   [120] .rel.llvm.call-graph-profile REL 0000000000000000 1c75a920 041320=
- 10
-> I 26090 119  8
->
-> Thanks,
-> Denis
+Masahiro, do we really need "list missing" to be blocked on this?
+This patch has been posted on Aug 8 and there was not much progress
+since then. Can we, perhaps, move "list missing" forward?
 
 
+---
+ scripts/kconfig/confdata.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
---=20
-=E5=AE=8B=E6=96=B9=E7=9D=BF
+diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+index fa2ae6f63352..bf6d473755aa 100644
+--- a/scripts/kconfig/confdata.c
++++ b/scripts/kconfig/confdata.c
+@@ -360,7 +360,10 @@ int conf_read_simple(const char *name, int def)
+        char *p, *p2;
+        struct symbol *sym;
+        int i, def_flags;
++       bool missing = false;
++       const char *sanity_checks;
+ 
++       sanity_checks = getenv("KCONFIG_SANITY_CHECKS");
+        if (name) {
+                in = zconf_fopen(name);
+        } else {
+@@ -448,6 +451,13 @@ int conf_read_simple(const char *name, int def)
+                        if (def == S_DEF_USER) {
+                                sym = sym_find(line + 2 + strlen(CONFIG_));
+                                if (!sym) {
++                                       if (sanity_checks) {
++                                               conf_warning("unknown symbol: %s",
++                                                            line + 2 + strlen(CONFIG_));
++                                               missing = true;
++                                               continue;
++                                       }
++
+                                        conf_set_changed(true);
+                                        continue;
+                                }
+@@ -482,6 +492,13 @@ int conf_read_simple(const char *name, int def)
+ 
+                        sym = sym_find(line + strlen(CONFIG_));
+                        if (!sym) {
++                               if (sanity_checks && def != S_DEF_AUTO) {
++                                       conf_warning("unknown symbol: %s",
++                                                    line + strlen(CONFIG_));
++                                       missing = true;
++                                       continue;
++                               }
++
+                                if (def == S_DEF_AUTO)
+                                        /*
+                                         * Reading from include/config/auto.conf
+@@ -530,6 +547,10 @@ int conf_read_simple(const char *name, int def)
+        }
+        free(line);
+        fclose(in);
++
++       if (missing)
++               exit(1);
++
+        return 0;
+ }
+ 
+-- 
+2.42.0.rc1.204.g551eb34607-goog
