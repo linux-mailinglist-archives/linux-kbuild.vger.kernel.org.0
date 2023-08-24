@@ -2,117 +2,229 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 03AF478784E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Aug 2023 21:00:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FE7578795E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Aug 2023 22:33:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230165AbjHXS7n (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 24 Aug 2023 14:59:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55074 "EHLO
+        id S233733AbjHXUdI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 24 Aug 2023 16:33:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243170AbjHXS7g (ORCPT
+        with ESMTP id S232088AbjHXUc4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 24 Aug 2023 14:59:36 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A5FE1BE9;
-        Thu, 24 Aug 2023 11:59:33 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 20D436453A;
-        Thu, 24 Aug 2023 18:59:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3098AC433C8;
-        Thu, 24 Aug 2023 18:59:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692903572;
-        bh=tDc6KZfrRI2QPNEn3yvTRshL5wqKtC4JJ7mmZOARMZw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qcQk8pNFSflZQejLZ8htmq0gKxvnx2wkybB144Wn1rPdnIZEvhIsbiRjdg5A/ZTDJ
-         wVunYywEhWyawr/Cnq78ae+j9JhnHGfEIktYCkfySij7WmMujM7mRnDMQcwueAI+Y5
-         EDqzld8m36EoQjoo42d7S1eFra6VwOLcoih1skmSffQo80St5r6V2N9ONG4L+losHr
-         uQpYjPgvibGjxV7Qc4jNI976V1yuWilcBu0N0ahbE2S+A6FuspjjnUxUsFwZzq018x
-         gc0BqmJjTs1H+vSuM1U5fKTi2LBbxNibrtBoM9LXSi5asgd3KBZW6mCdt5MgdxB8WD
-         CG6fEX9FLV7cg==
-Date:   Thu, 24 Aug 2023 11:59:30 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Subject: Re: [PATCH] kbuild: get lib-y objects back to static library
-Message-ID: <20230824185930.GA2025001@dev-arch.thelio-3990X>
-References: <20230823120816.824352-1-masahiroy@kernel.org>
- <20230823202040.GA2236267@dev-arch.thelio-3990X>
+        Thu, 24 Aug 2023 16:32:56 -0400
+Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com [IPv6:2607:f8b0:4864:20::e29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC84AE5E
+        for <linux-kbuild@vger.kernel.org>; Thu, 24 Aug 2023 13:32:54 -0700 (PDT)
+Received: by mail-vs1-xe29.google.com with SMTP id ada2fe7eead31-44d4c3fa5beso111418137.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 24 Aug 2023 13:32:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1692909174; x=1693513974;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tHgc3WP+Nh6Vx2D3nfsqbnX7Tv1DqoV0JUg0NhhaZj0=;
+        b=yUSsrWXewLlVITH1WXfUdKTdRJucx44NluTkLK1hKUN7MOAOoeNAxg0GbiBkppLBqw
+         2SSw7fRty8PZ4jahXDUgvCq6mHGME3/pusrnlWgJBQyOLKpyGrwtNZ76eo8bzd4gEbps
+         yRsgzQ8KQjJ/SYrfq4tsGNfmnB+XT/f61OeeP2a91WwQmxDzHRf5reDG0dTf5yreKwOP
+         YkPC563nZqNgtMUZ6rDBIU3zgrCfc4DRcSVZJC+mjhLctJcnN6fh+yCgPrn8OqJW//CO
+         J1fTP929LHNCV/PLeEV0dYOaVChPytLLrG7ZW53zcO8+NggVhA0Ci2pCr05ZYWWLt7Gj
+         Y3pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692909174; x=1693513974;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tHgc3WP+Nh6Vx2D3nfsqbnX7Tv1DqoV0JUg0NhhaZj0=;
+        b=J5UPATPj5Z7GEMTw1nPYeImldqB/qJmOPEsdCKffXleC6OPjUqLMo5e/sV3WgSlIfV
+         KUe+uNrcxsgtLUZgwd9ewcwYYqGL7weN3a+4dLJeRXU/r9RwTXkTzM628Ut69ByQzYF6
+         4gONct1IlS3TWJT9TFGX3YpVqrQ4WogUGcqqXCS8VspWsHl/fkg+cps4fTwSj+RP4Su4
+         58pzwgA3drFmInIk9SVWriXCsNFSqRZUsLA7NZMUoPTfIEz8ZaaL8EChbKQEaytqqrp9
+         0Hje6m3u42g2QWU02PK0wHUTpOSQnD5Yp1Z+rj0xH7FVBxFJUXYPCoA242UFyKg6vDCZ
+         nurQ==
+X-Gm-Message-State: AOJu0YynT8RXd2sFg3PSNa/UB3PIoYiMHvdn0PamWNOVQgtwD6kquhKl
+        hFn+SQknZtUHuij9CgkDrGg5MhR+bhtGbWtmHXA6uA==
+X-Google-Smtp-Source: AGHT+IHx+HdR8IQ8OXZN+MAUVyWyXJ/kKMpdKNVgDgofuFkKOBodmgQtn3uFU6QlecscjQN2j2BzMPtDM26C8djqy14=
+X-Received: by 2002:a05:6102:2d3:b0:44d:3f58:c42f with SMTP id
+ h19-20020a05610202d300b0044d3f58c42fmr13443054vsh.11.1692909173739; Thu, 24
+ Aug 2023 13:32:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230823202040.GA2236267@dev-arch.thelio-3990X>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230824-docs-v1-1-67e061278b8f@google.com> <20230824184910.GA2015748@dev-arch.thelio-3990X>
+In-Reply-To: <20230824184910.GA2015748@dev-arch.thelio-3990X>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Thu, 24 Aug 2023 13:32:42 -0700
+Message-ID: <CAKwvOdkdb=dDggNNPHb08AiZNp5V-H9utgm0H+2hJmZJdO-biA@mail.gmail.com>
+Subject: Re: [PATCH] Documentation/llvm: refresh docs
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>, Tom Rix <trix@redhat.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, llvm@lists.linux.dev,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Aug 23, 2023 at 01:20:42PM -0700, Nathan Chancellor wrote:
-> Hi Masahiro,
-> 
-> On Wed, Aug 23, 2023 at 09:08:16PM +0900, Masahiro Yamada wrote:
-> > Revert the following two commits:
-> > 
-> >  - 7273ad2b08f8 ("kbuild: link lib-y objects to vmlinux forcibly when CONFIG_MODULES=y")
-> >  - 7f2084fa55e6 ("[kbuild] handle exports in lib-y objects reliably")
-> > 
-> > Now, lib-y is back to static library again, and the link order is
-> > consistent w/wo CONFIG_MODULES.
-> > 
-> > Since commit ddb5cdbafaaa ("kbuild: generate KSYMTAB entries by
-> > modpost"), .vmlinux.export.c contains references to exported symbols.
-> > If a symbol in a lib-y object is exported, that object is always linked
-> > even without any explicit user in vmlinux.
-> > 
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+On Thu, Aug 24, 2023 at 11:49=E2=80=AFAM Nathan Chancellor <nathan@kernel.o=
+rg> wrote:
+>
+> On Thu, Aug 24, 2023 at 11:03:17AM -0700, ndesaulniers@google.com wrote:
+> > Link: https://github.com/ClangBuiltLinux/linux/issues/1907 [0]
 > > ---
-> > 
-> >  Makefile | 5 -----
-> >  1 file changed, 5 deletions(-)
-> > 
-> > diff --git a/Makefile b/Makefile
-> > index 87a9eef3fb4b..71e9c65d9eae 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -1113,12 +1113,7 @@ export ARCH_DRIVERS	:= $(drivers-y) $(drivers-m)
-> >  # Externally visible symbols (used by link-vmlinux.sh)
-> >  
-> >  KBUILD_VMLINUX_OBJS := ./built-in.a
-> > -ifdef CONFIG_MODULES
-> > -KBUILD_VMLINUX_OBJS += $(patsubst %/, %/lib.a, $(filter %/, $(libs-y)))
-> > -KBUILD_VMLINUX_LIBS := $(filter-out %/, $(libs-y))
-> > -else
-> >  KBUILD_VMLINUX_LIBS := $(patsubst %/,%/lib.a, $(libs-y))
-> > -endif
-> >  
-> >  export KBUILD_VMLINUX_LIBS
-> >  export KBUILD_LDS          := arch/$(SRCARCH)/kernel/vmlinux.lds
-> > -- 
-> > 2.39.2
-> > 
-> 
-> The build error that prompted 7273ad2b08f8 from [1] appears to return
-> with this patch, for example:
-> 
-> $ make -skj"$(nproc)" ARCH=arm64 LLVM=1 O=build mrproper virtconfig all
-> ...
-> ERROR: modpost: "__memcat_p" [drivers/hwtracing/stm/stm_core.ko] undefined!
-> ...
-> 
-> [1]: https://github.com/ClangBuiltLinux/linux/issues/515
+> >
+> >
+> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+>
+> Nit: Your signed-off-by ended up below the fold, was it in your cover
+> letter commit rather than your actual commit?
 
-One thing I forgot to note with this is this occurs when targeting arm,
-arm64, hexagon, i386, powerpc, s390, and x86_64 with various in-tree
-configurations (I can provide a list if necessary).
+Heh, no. I'm restoring a machine after suffering drive corruption last
+week. I just got patatt and friends re-set up, but I forgot to `git
+commit --amend -s` for this patch once everything was working again.
+Thanks for catching this!
 
-Cheers,
-Nathan
+>
+> Aside from the relatively minor comments below, this looks like a really
+> good improvement to the documentation to me. It feels like it is more
+> targeting users or non-kbuild folks now, which I think is great.
+>
+> I trust you to address my comments as you see fit, so please carry
+> forward:
+>
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+
+Thanks for the review!
+
+> I see a few new kernel-doc warnings from not adjusting the underlines to
+> match the new length of the title:
+>
+>   Documentation/kbuild/llvm.rst:40: WARNING: Title underline too short.
+>
+>   The LLVM=3D argument
+>   --------------
+>   Documentation/kbuild/llvm.rst:40: WARNING: Title underline too short.
+>
+>   The LLVM=3D argument
+>   --------------
+>   Documentation/kbuild/llvm.rst:102: WARNING: Title underline too short.
+>
+>   The LLVM_IAS=3D argument
+>   -----------------
+>   Documentation/kbuild/llvm.rst:102: WARNING: Title underline too short.
+>
+>   The LLVM_IAS=3D argument
+>   -----------------
+
+oops! remind me of the make target to observe these?
+
+> > -For example, to cross-compile the arm64 kernel::
+> > +     make LLVM=3D1 LD=3Dld.bfd CROSS_COMPILE=3Ds390x-linux-gnu-
+>
+> This should probably have ARCH=3Ds390?
+
+Oops! Good catch!
+
+>
+> > -     make ARCH=3Darm64 LLVM=3D1
+> > +``CROSS_COMPILE`` is not used to prefix the Clang compiler binary (or
+> > +corresponding LLVM utilities), but it will be for any GNU toolchain ut=
+ilities.
+> > +This example will invoke ``s390x-linux-gnu-ld.bfd`` as the linker, so =
+ensure
+> > +that is reachable in your ``$PATH``.
+>
+> I like the example as I feel like it addresses some of the fear I have ha=
+d
+> around recommending LLVM=3D1 as the initial build suggestion but 'LLVM=3D=
+1
+> LD=3Dld.bfd CROSS_COMPILE=3Ds390x-linux-gnu-' does not compose as you des=
+cribe here
+> because $(LD) is not prefixed with $(CROSS_COMPILE) anywhere in Makefile.=
+ The
+> non-$(LLVM) default assignment of $(LD) is '$(CROSS_COMPILE)ld' and that =
+is
+> overridden by 'LD=3Dld.bfd' on the command line.
+>
+> In other words, this should be
+>
+>   make ARCH=3Ds390 LLVM=3D1 LD=3Ds390x-linux-gnu-ld.bfd
+>
+> and have the note about CROSS_COMPILE prefixing any GNU toolchain utiliti=
+es
+> removed. It should problably have OBJCOPY and OBJDUMP too, as those are
+> required due to https://github.com/ClangBuiltLinux/linux/issues/859 and
+> https://github.com/ClangBuiltLinux/linux/issues/1530.
+
+Ah right; I'm no longer able to repro the build failure with OBJDUMP,
+though I still see warnings.
+
+I kind of feel like we should bring back CROSS_COMPILE in some form;
+having to respecify the triple is still sub-optimal.
+
+i.e. today:
+$ make LLVM=3D1 ARCH=3Ds390 LD=3Ds390x-linux-gnu-ld.bfd
+OBJCOPY=3Ds390x-linux-gnu-objcopy OBJDUMP=3Ds390x-linux-gnu-objdump
+
+vs
+
+$ make LLVM=3D1 ARCH=3Ds390 CROSS_COMPILE=3Ds390x-linux-gnu- LD=3Dld.bfd
+OBJCOPY=3Dobjcopy OBJDUMP=3Dobjdump
+
+but perhaps that's a change for another day.
+
+>
+> > -If ``LLVM_IAS=3D0`` is specified, ``CROSS_COMPILE`` is also used to de=
+rive
+> > -``--prefix=3D<path>`` to search for the GNU assembler and linker. ::
+> > +The LLVM_IAS=3D argument
+> > +-----------------
+> >
+> > -     make ARCH=3Darm64 LLVM=3D1 LLVM_IAS=3D0 CROSS_COMPILE=3Daarch64-l=
+inux-gnu-
+> > +Clang can assemble assembler code. You can pass ``LLVM_IAS=3D0`` to di=
+sable this
+> > +behavior and have Clang invoke the system assembler instead (or the as=
+sembler
+> > +based on ``CROSS_COMPILE``). ``CROSS_COMPILE`` is necessary when ``LLV=
+M_IAS=3D0``
+> > +is set when cross compiling in order to set ``--prefix=3D`` for the co=
+mpiler to
+> > +find the corresponding non-integrated assembler.
+>
+> Thanks a lot for documenting this behavior, it is one of the most common
+> issues I run into myself (adding LLVM_IAS=3D0 without CROSS_COMPILE) and
+> maybe this note will be what I need in order to remember :)
+
+Ah right, I'll make that clearer.
+
+> >
+> > -We provide prebuilt stable versions of LLVM on `kernel.org <https://ke=
+rnel.org/pub/tools/llvm/>`_.
+> > -Below are links that may be useful for building LLVM from source or pr=
+ocuring
+> > -it through a distribution's package manager.
+> > +We provide prebuilt stable versions of LLVM on `kernel.org
+> > +<https://kernel.org/pub/tools/llvm/>`_. These have been optimized with=
+ profile
+> > +data for building Linux kernels. Below are links that may be useful fo=
+r
+>
+> Maybe make a note of why this matters? ", which should lower kernel
+> build times compared to non-optimized LLVM toolchains."?
+
+Ack
+
+--=20
+Thanks,
+~Nick Desaulniers
