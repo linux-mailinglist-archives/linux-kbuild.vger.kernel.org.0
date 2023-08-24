@@ -2,98 +2,140 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8330478648F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Aug 2023 03:21:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F1A078649A
+	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Aug 2023 03:36:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239015AbjHXBUj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 23 Aug 2023 21:20:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39270 "EHLO
+        id S239033AbjHXBfJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 23 Aug 2023 21:35:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239069AbjHXBUg (ORCPT
+        with ESMTP id S239042AbjHXBe5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 23 Aug 2023 21:20:36 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7E9BEC
-        for <linux-kbuild@vger.kernel.org>; Wed, 23 Aug 2023 18:20:32 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-68a410316a2so2946409b3a.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 23 Aug 2023 18:20:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1692840032; x=1693444832;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=s+YJjfTJ2CkuC+9NB6jQl7KJU8EcbLSznIZ1SQdS0Ww=;
-        b=RZICqqKsIMzwKfA2Ueox9ribDm0pr/+dwRryfn2hU2S8m0nmU3aNn4IO0ZhX0BXLDJ
-         yr8F+ynlshV+pedCIvdzukN4AwNiUuomEvmtbqILCrEKgOqVrVz7CmUbuizI4z0aY/Gu
-         PVdS/6daQkW5nw603RNSDx+U0plzgmEtdmrDI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692840032; x=1693444832;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s+YJjfTJ2CkuC+9NB6jQl7KJU8EcbLSznIZ1SQdS0Ww=;
-        b=E6nj9L4j79DeHC1j+/aVLlyi2slriyzW2gDEs1MOeuv0VwHjP4ZQ9GljIu4bKRmzoh
-         xdqXfKOgcibTbIHb1570uBNovEeSLUwlE7YaEQlu+z35rblhiZAbVNxfQOCz99sxlE8A
-         XTnyXmKDiZuAIAoxCCfXAEdO0bt10Zmpcch5Ij0N/azp3ENTQuA6Kh/GXM4f2XdKSvJX
-         2xTphpHShzxMftThtRG8RoREupbKFp76i3Y/cG8OLZCcOtVuiBMxrI3ypUdj1QVp9ikb
-         REfyh6blT3yFVQBn3v7ur/AaJQIqDYWaorBb2NK4x6tDdtRC4xXCCt67LiVuAtswCpWo
-         nccw==
-X-Gm-Message-State: AOJu0Yyv8jRlWyi9vvOlt5zxej2sQFg+uPdUIHW+mzv2g2hMxGCH1n3X
-        SNPw8hHBzodIaTYK3EpcODFvJA==
-X-Google-Smtp-Source: AGHT+IHAcjLDuiJWXzPmDLQ/QUBMiQMCiXx6OhH0ZfSbdOPcNx64pyF/2QMK8CXZTvIfo5LYo/kDYQ==
-X-Received: by 2002:a05:6a20:1046:b0:137:a9d7:de12 with SMTP id gt6-20020a056a20104600b00137a9d7de12mr11688917pzc.59.1692840032202;
-        Wed, 23 Aug 2023 18:20:32 -0700 (PDT)
-Received: from google.com (KD124209188001.ppp-bb.dion.ne.jp. [124.209.188.1])
-        by smtp.gmail.com with ESMTPSA id g12-20020a1709026b4c00b001bdb167f6ebsm11504470plt.94.2023.08.23.18.20.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Aug 2023 18:20:31 -0700 (PDT)
-Date:   Thu, 24 Aug 2023 10:20:27 +0900
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Ying Sun <sunying@nj.iscas.ac.cn>,
-        Jesse T <mr.bossman075@gmail.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Tomasz Figa <tfiga@chromium.org>, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC][PATCH] kconfig: introduce listunknownconfig
-Message-ID: <20230824012027.GD3913@google.com>
-References: <20230817012007.131868-1-senozhatsky@chromium.org>
- <CAK7LNASJWKSsdzn5ccgWaC35-XvHGU7pnE6C=eZFDbqrrghtdQ@mail.gmail.com>
- <20230820024519.GK907732@google.com>
- <CAK7LNAS9KC1GjPgadMEivSpy4TMYU8mQ+BrtfJpNs2kvhK18yA@mail.gmail.com>
- <20230820072119.GM907732@google.com>
- <20230820073332.GN907732@google.com>
- <CAK7LNARTZXvWD8PrA3bC+Ok7LK85qO=pkMs4kOPGn90OBooL6w@mail.gmail.com>
- <20230822061203.GA610023@google.com>
- <CAK7LNAS0qEZk+xAq84=7SuJSQz5F3dNBjYKPoeKTd_caq-QMKg@mail.gmail.com>
+        Wed, 23 Aug 2023 21:34:57 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9C8AE59;
+        Wed, 23 Aug 2023 18:34:55 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 42B44633F6;
+        Thu, 24 Aug 2023 01:34:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB050C433CA;
+        Thu, 24 Aug 2023 01:34:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692840894;
+        bh=/7o006Upl47rb2ZEQ0QeuFtlAN/y5ODL6RhQnYZ35vo=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=F/wMwFv5sYBYPw5bb5L+8g0AsM90/CrCK/1zqMa2sVUuHd6YmqB5TZxVIuexeK5Uf
+         AEem6KyYMkLlfpgAy3bs5xcR3gEOGBVLMS+ihy+pJ27Wes0b+h0ceJNXAIva46Yb1U
+         FOmbkbAzKQXs+PmdLAa4oLDC8jFiZ7KxxCUyLfvE6p/Dj23rmn1zpR4NoCMh+ssTXs
+         3raK4EwFhelhjul5Dd73id6ZN70imxh52HVEErwCQRsvFCT/3oE1pfHGabGy9OYTs/
+         kF3ezcBHQ+GERvl09NCW2uxzk+tcBEuQQnKLD+AZ+PUy/a37Lun0zQ556a1f7ERgX3
+         JKINSmBoAA4/A==
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-6bdcbde9676so775082a34.3;
+        Wed, 23 Aug 2023 18:34:54 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwT1O0DVBMcNLCR+RRv8RWE34cAfUfO96n9SL+tKROLpVsytX2S
+        Kj6b8+prpgql31bLSMGsbnuNMTZVf41Po2f6TRw=
+X-Google-Smtp-Source: AGHT+IFhmF48+4FXAZTlFEpl1xwHwPMg6ABKZFmJchKVs5n7tqnKJG/XvppyKz4lWum7mjEURERigTMJXnux1oIYJEo=
+X-Received: by 2002:a05:6870:ac0c:b0:1bf:4f5e:55e2 with SMTP id
+ kw12-20020a056870ac0c00b001bf4f5e55e2mr18447012oab.53.1692840893819; Wed, 23
+ Aug 2023 18:34:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNAS0qEZk+xAq84=7SuJSQz5F3dNBjYKPoeKTd_caq-QMKg@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <20230822065256.163660-1-denik@chromium.org> <20230822174835.253469-1-denik@chromium.org>
+ <CAFP8O3KunP9CzT_U2cj1_oysojTxCNJRWX_kvvu_wOx4tbYHug@mail.gmail.com>
+ <CAK7LNASstNj2HEfJHcRzqt7hay65T-yEgzaAuXbEQPuCS+yC6w@mail.gmail.com> <CADDJ8CWdm+cWt4UBTae0sCQ8ZDWhbMuozqqq59R+EtvMHere0g@mail.gmail.com>
+In-Reply-To: <CADDJ8CWdm+cWt4UBTae0sCQ8ZDWhbMuozqqq59R+EtvMHere0g@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 24 Aug 2023 10:34:17 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARVi1sfBjv5a5OoQWPEeM-6bFuwPJE+i32NC=wdum-AKw@mail.gmail.com>
+Message-ID: <CAK7LNARVi1sfBjv5a5OoQWPEeM-6bFuwPJE+i32NC=wdum-AKw@mail.gmail.com>
+Subject: Re: [PATCH v2] modpost: Skip .llvm.call-graph-profile section check
+To:     Denis Nikitin <denik@chromium.org>,
+        Fangrui Song <maskray@google.com>
+Cc:     linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+        Douglas Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On (23/08/24 10:00), Masahiro Yamada wrote:
+On Thu, Aug 24, 2023 at 8:30=E2=80=AFAM Denis Nikitin <denik@chromium.org> =
+wrote:
+>
+> On Wed, Aug 23, 2023 at 4:02=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
+> >
+> > On Wed, Aug 23, 2023 at 3:00=E2=80=AFAM Fangrui Song <maskray@google.co=
+m> wrote:
+> > >
+> > > On Tue, Aug 22, 2023 at 10:49=E2=80=AFAM Denis Nikitin <denik@chromiu=
+m.org> wrote:
+> > > >
+> > > > .llvm.call-graph-profile section is added by clang when the kernel =
+is
+> > > > built with profiles (e.g. -fprofile-sample-use=3D or -fprofile-use=
+=3D).
+> > > >
+> > > > The section contains edge information derived from text sections,
+> > > > so .llvm.call-graph-profile itself doesn't need more analysis as
+> > > > the text sections have been analyzed.
+> > > >
+> > > > This change fixes the kernel build with clang and a sample profile
+> > > > which currently fails with:
+> > > >
+> > > > "FATAL: modpost: Please add code to calculate addend for this archi=
+tecture"
+> >
+> >
+> > Curious.
+> >
+> > This message is only displayed for REL.
+> >
+> > (Please not it is located in section_rel() function)
+> >
+> >
+> > I think modern architectures use RELA instead of REL.
+> > Which architecture are we talking about?
+>
+> Aarch64. There was also a report on x86-64 but the error message could be
+> different there.
+>
+> >
+> >
+> > What does the output of this command look like?
+> >
+> > $ llvm-readelf -S vmlinux.o | grep  .llvm.call-graph-profile
+> >
+> >
+> > Is it REL?
+> >
+>
+>   [119] .llvm.call-graph-profile LLVM_CALL_GRAPH_PROFILE 0000000000000000
+> 1c74a458 0104c8 08   E  0   0  1
+>   [120] .rel.llvm.call-graph-profile REL 0000000000000000 1c75a920 041320=
+ 10
+> I 26090 119  8
 
-> For the MFD_RK808 case particularly,
-> I believe Kconfig showed MFD_RK8XX_I2C
-> as a new option.
 
-I think there were some other unmet dependencies for MFD_RK8XX_I2C and
-I don't think the new config was shown. But even if it was, we still
-would have no idea that this meant "MFD_RK808 is not available anymore
-and the corresponding code won't get compiled". So the "this is not
-recognized anymore" is still needed and is quite helpful.
+Fangrui,
 
-Would you be OK with "list missing" being a warning (not a terminal
-condition)?
+Aarch64 uses RELA for other sections, but REL for this one.
+
+I'd like to confirm if this is an expectation, not a toolchain bug.
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
